@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>WoW Forever: гид Gabella Team</title>
 <meta name="description" content="Гид по WoW Forever для компании друзей: классы, расы, комбинации, Legacy, лагерь, подземелья, рейды и подбор состава группы. Данные на 22.10.2026.">
-<meta name="theme-color" content="#c9a54a">
+<meta name="theme-color" content="#121417">
 <link rel="alternate" hreflang="ru" href="https://raiganja.github.io/wow/">
 <link rel="alternate" hreflang="en" href="https://raiganja.github.io/wow/en/">
 <link rel="alternate" hreflang="uk" href="https://raiganja.github.io/wow/uk/">
@@ -23,271 +23,397 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="WoW Forever: гид Gabella Team">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230c0c0d'/%3E%3Ctext x='32' y='33' text-anchor='middle' dominant-baseline='central' font-family='Georgia,serif' font-size='44' font-weight='700' fill='%23c9a54a'%3EG%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23121417'/%3E%3Ctext x='32' y='34' text-anchor='middle' dominant-baseline='central' font-family='Georgia,serif' font-size='44' font-weight='700' fill='%23c9a54a'%3EG%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600&family=Golos+Text:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
 <style>
-/* Layout: header, sticky nav, dates, picker (filters, matrix, panel, cards), reference sections, sources. Two themes: dark (gold on black) and light. */
+/* Reference layout: top bar, masthead (countdown rail + tool launcher), sidebar TOC, sections (tools first, then reference). Dark graphite + gold, light paper. */
 :root {
-  --bg: #0c0c0d;
-  --surface: #141416;
-  --surface-2: #1c1c1f;
-  --fg: #ece6d6;
-  --muted: #a8a290;
-  --line: #2d2b26;
+  --bg: #121417;
+  --rail: #0e1012;
+  --surface: #171a1e;
+  --surface-2: #1e2227;
+  --line: #2a2e35;
+  --line-2: #3a3f47;
+  --fg: #ebe6da;
+  --muted: #a1a6ae;
   --gold: #c9a54a;
-  --gold-ink: #14100a;
+  --gold-2: #e0c27a;
+  --gold-ink: #15110a;
+  --sapphire: #7e9fdc;
   --alliance: #86a6d8;
-  --horde: #d4807b;
-  --new: #92c4a0;
-  --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
-  --font-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --horde: #d98a84;
+  --new: #93c7a2;
+  --font-display: "EB Garamond", Georgia, "Times New Roman", serif;
+  --font-body: "Golos Text", "Segoe UI", system-ui, sans-serif;
+  --top: 56px;
   color-scheme: dark;
 }
 :root[data-theme="light"] {
-  --bg: #faf7f0;
+  --bg: #f3f4f5;
+  --rail: #e9ebee;
   --surface: #ffffff;
-  --surface-2: #f1ece0;
-  --fg: #1d1b16;
-  --muted: #5d5849;
-  --line: #ddd5c2;
-  --gold: #8a6414;
+  --surface-2: #eef0f2;
+  --line: #d9dce1;
+  --line-2: #c3c8cf;
+  --fg: #15181c;
+  --muted: #555b64;
+  --gold: #7d5c12;
+  --gold-2: #7d5c12;
   --gold-ink: #ffffff;
+  --sapphire: #24427a;
   --alliance: #2a5ba8;
   --horde: #b03a34;
   --new: #2d7a45;
   color-scheme: light;
 }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 64px; }
-body {
-  margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 16px; line-height: 1.55;
-  padding-left: max(16px, env(safe-area-inset-left, 0px));
-  padding-right: max(16px, env(safe-area-inset-right, 0px));
-  padding-bottom: 56px;
-}
-.wrap { max-width: 1080px; margin: 0 auto; }
-h1, h2, h3 { font-family: var(--font-display); font-weight: 700; margin: 0; text-wrap: balance; line-height: 1.12; }
-h1 { font-size: clamp(2.2rem, 7vw, 3.6rem); letter-spacing: .01em; }
-h2 { font-size: clamp(1.6rem, 4vw, 2.1rem); color: var(--gold); }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--top) + 16px); -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 16px; line-height: 1.6; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; line-height: 1.12; text-wrap: balance; }
+h2 { font-size: clamp(1.75rem, 3.4vw, 2.2rem); }
 h3 { font-size: 1.3rem; }
 p { margin: 0; }
-a { color: var(--gold); text-underline-offset: 3px; }
+a { color: var(--gold-2); text-underline-offset: 3px; }
+:root[data-theme="light"] a { color: var(--gold); }
 button { font: inherit; color: inherit; cursor: pointer; }
-:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
-.eyebrow { font-size: .78rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+:focus-visible { outline: 2px solid var(--gold-2); outline-offset: 2px; }
+code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-radius: 3px; }
+.num, .tab { font-variant-numeric: tabular-nums lining-nums; }
 .small { color: var(--muted); font-size: .92rem; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.ico { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.ri { width: 1.05em; height: 1.05em; vertical-align: -.17em; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; margin-right: 4px; }
 
-header.top { padding-block: 40px 28px; display: grid; gap: 16px; border-bottom: 1px solid var(--gold); }
-.brand { display: flex; align-items: center; gap: 14px; }
-.mark { width: 52px; height: 52px; flex: none; }
-.lead { color: var(--muted); max-width: 64ch; font-size: 1.05rem; }
-.stamp { display: inline-flex; flex-wrap: wrap; gap: 6px 16px; font-size: .88rem; color: var(--muted); }
-.stamp b { color: var(--fg); }
+/* Top bar */
+.topbar { position: sticky; top: 0; z-index: 30; height: var(--top); background: var(--rail); border-bottom: 1px solid var(--line); }
+.topbar .in { max-width: 1320px; height: 100%; margin: 0 auto; padding: 0 max(16px, env(safe-area-inset-left, 0px)); display: flex; align-items: center; gap: 14px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--fg); min-width: 0; }
+.mark { width: 32px; height: 32px; flex: none; display: grid; place-items: center; border: 1px solid var(--gold); color: var(--gold-2); font-family: var(--font-display); font-weight: 600; font-size: 22px; line-height: 1; padding-top: 2px; }
+:root[data-theme="light"] .mark { color: var(--gold); }
+.brand b { font-family: var(--font-display); font-weight: 600; font-size: 1.2rem; white-space: nowrap; }
+.brand span { color: var(--muted); font-size: .9rem; white-space: nowrap; }
+.tools { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+.langs { display: inline-flex; border: 1px solid var(--line-2); border-radius: 4px; overflow: hidden; }
+.langs a { min-width: 40px; min-height: 36px; display: grid; place-items: center; color: var(--muted); text-decoration: none; font-weight: 600; font-size: .82rem; letter-spacing: .04em; border-right: 1px solid var(--line-2); }
+.langs a:last-child { border-right: 0; }
+.langs a:hover { color: var(--fg); }
+.langs a[aria-current="true"] { background: var(--gold); color: var(--gold-ink); }
+.iconbtn { min-width: 40px; min-height: 38px; display: inline-grid; place-items: center; border: 1px solid var(--line-2); border-radius: 4px; background: transparent; color: var(--fg); }
+.iconbtn:hover { border-color: var(--gold); color: var(--gold-2); }
+.tocbtn { display: none; gap: 8px; padding: 0 12px; grid-auto-flow: column; font-weight: 600; font-size: .92rem; }
 
-nav.sticky { position: sticky; top: 0; z-index: 10; background: var(--bg); border-bottom: 1px solid var(--line); margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); padding-inline: max(16px, env(safe-area-inset-left, 0px)); }
-nav.sticky .in { max-width: 1080px; margin: 0 auto; display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
-nav.sticky .in::-webkit-scrollbar { display: none; }
-nav.sticky a { flex: none; padding: 14px 12px; color: var(--muted); text-decoration: none; font-weight: 600; font-size: .92rem; border-bottom: 2px solid transparent; }
-nav.sticky a:hover { color: var(--gold); border-bottom-color: var(--gold); }
+/* Shell */
+.shell { max-width: 1320px; margin: 0 auto; padding: 0 max(16px, env(safe-area-inset-left, 0px)); display: grid; grid-template-columns: 216px minmax(0, 1fr); gap: 48px; }
+.side { position: sticky; top: var(--top); align-self: start; max-height: calc(100vh - var(--top)); overflow-y: auto; padding: 28px 0 40px; scrollbar-width: thin; }
+.toc { display: grid; gap: 22px; }
+.toc .grp { display: grid; gap: 1px; }
+.toc .gh { font-size: .8rem; color: var(--muted); font-weight: 600; padding: 0 0 6px 12px; }
+.toc a { display: block; padding: 6px 12px; color: var(--muted); text-decoration: none; font-size: .95rem; border-left: 2px solid transparent; }
+.toc a:hover { color: var(--fg); }
+.toc a[aria-current="true"] { color: var(--fg); border-left-color: var(--gold); background: var(--surface); }
+.toc .meta { margin-top: 6px; padding: 14px 12px 0; border-top: 1px solid var(--line); font-size: .82rem; color: var(--muted); line-height: 1.5; }
+main { min-width: 0; padding-bottom: 72px; }
 
-section.block { padding-top: 56px; display: grid; gap: 18px; }
-.sec-head { display: grid; gap: 6px; }
-.sec-head p { color: var(--muted); max-width: 70ch; }
-.rule { border: 0; border-top: 1px solid var(--line); margin: 0; }
+/* Masthead */
+.mast { padding: 36px 0 32px; border-bottom: 1px solid var(--line); display: grid; gap: 28px; }
+.mast-top { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 40px; align-items: start; }
+.kicker { font-size: .92rem; color: var(--muted); }
+.kicker b { color: var(--fg); font-weight: 600; }
+.mast h1 { font-size: clamp(2.5rem, 5.4vw, 4rem); font-weight: 500; letter-spacing: -.005em; margin-top: 10px; }
+.mast .lead { color: var(--muted); max-width: 58ch; font-size: 1.06rem; margin-top: 14px; }
+.cd { display: flex; align-items: flex-end; gap: 18px; flex-wrap: wrap; margin-top: 26px; }
+.cd .u { display: grid; gap: 2px; }
+.cd .u b { font-family: var(--font-display); font-weight: 500; font-size: clamp(2.6rem, 6vw, 3.6rem); line-height: .9; color: var(--gold-2); font-variant-numeric: tabular-nums lining-nums; }
+:root[data-theme="light"] .cd .u b { color: var(--gold); }
+.cd .u span { font-size: .85rem; color: var(--muted); }
+.cd .what { padding-bottom: 6px; display: grid; gap: 2px; }
+.cd .what b { font-weight: 600; }
+.cd .what span { color: var(--muted); font-size: .92rem; }
+.launch { border: 1px solid var(--line); background: var(--surface); border-radius: 4px; }
+.launch h2 { font-family: var(--font-body); font-size: .9rem; font-weight: 600; color: var(--muted); padding: 14px 16px 10px; }
+.launch a { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 2px 12px; padding: 14px 16px; border-top: 1px solid var(--line); text-decoration: none; color: var(--fg); min-height: 64px; }
+.launch a:hover { background: var(--surface-2); }
+.launch a:hover b { color: var(--gold-2); }
+:root[data-theme="light"] .launch a:hover b { color: var(--gold); }
+.launch .ico { grid-row: 1 / 3; margin-top: 2px; color: var(--gold-2); }
+:root[data-theme="light"] .launch .ico { color: var(--gold); }
+.launch b { font-weight: 600; }
+.launch span { color: var(--muted); font-size: .88rem; }
+.rail { position: relative; padding: 34px 0 34px; }
+.rail .bar { position: relative; height: 2px; background: var(--line-2); }
+.rail .bar i { position: absolute; left: 0; top: 0; height: 2px; background: var(--gold); }
+.rail ol { list-style: none; margin: 0; padding: 0; }
+.rail li { position: absolute; top: 0; height: 100%; transform: translateX(-50%); }
+.rail li::before { content: ""; position: absolute; left: 50%; top: 31px; width: 9px; height: 9px; margin-left: -4.5px; background: var(--bg); border: 2px solid var(--line-2); transform: rotate(45deg); }
+.rail li.past::before { border-color: var(--gold); background: var(--gold); }
+.rail li span { position: absolute; left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: .82rem; color: var(--muted); text-align: center; line-height: 1.25; }
+.rail li span b { display: block; color: var(--fg); font-weight: 600; font-variant-numeric: tabular-nums; }
+.rail li.up span { bottom: calc(100% - 22px); }
+.rail li.dn span { top: calc(100% - 22px); }
+.rail li:first-child span { left: 0; transform: none; text-align: left; }
+.rail li:last-child span { left: auto; right: 0; transform: none; text-align: right; }
+.rail .now { position: absolute; top: 27px; width: 3px; height: 16px; margin-left: -1px; background: var(--gold-2); }
+:root[data-theme="light"] .rail .now { background: var(--gold); }
 
-.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 20px; }
-.panel.gold { border-color: var(--gold); }
-ul.dots { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+/* Sections */
+section.block { padding-top: 64px; display: grid; gap: 20px; }
+.sec-head { display: grid; gap: 8px; padding-bottom: 14px; border-bottom: 1px solid var(--gold); }
+.sec-head .row { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: baseline; justify-content: space-between; }
+.sec-head .src { font-size: .85rem; color: var(--muted); }
+.sec-head p { color: var(--muted); max-width: 72ch; }
+.part-h { padding-top: 72px; display: flex; align-items: baseline; gap: 14px; color: var(--muted); font-size: .92rem; }
+.part-h::after { content: ""; flex: 1; border-top: 1px solid var(--line); }
+
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 20px 32px; }
+.grid2 > * { min-width: 0; }
+.panel { border-top: 1px solid var(--line); padding-top: 14px; }
+.panel h3 { font-size: 1.2rem; }
+ul.dots { margin: 10px 0 0; padding-left: 18px; display: grid; gap: 7px; }
 ul.dots li::marker { color: var(--gold); }
 
-.timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; border-top: 1px solid var(--line); }
-.timeline li { display: grid; grid-template-columns: 128px 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
-.timeline .d { font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; color: var(--gold); line-height: 1.2; }
+.mk { display: inline-block; font-size: .72rem; font-weight: 600; line-height: 1; padding: 4px 6px 3px; border-radius: 3px; vertical-align: .12em; margin-right: 6px; border: 1px solid; }
+.mk.fact { color: var(--sapphire); border-color: color-mix(in srgb, var(--sapphire) 45%, transparent); }
+.mk.tip { color: var(--gold-2); border-color: color-mix(in srgb, var(--gold) 55%, transparent); }
+:root[data-theme="light"] .mk.tip { color: var(--gold); }
+.note { border-left: 2px solid var(--line-2); padding: 2px 0 2px 14px; color: var(--muted); font-size: .95rem; }
+.note b { color: var(--fg); }
+.note.tipn { border-left-color: var(--gold); }
+.own { border: 1px solid var(--line); border-left: 2px solid var(--gold); padding: 14px 16px; background: var(--surface); }
+.own h3 { font-size: 1.2rem; margin-bottom: 4px; }
+
+.timeline { list-style: none; margin: 0; padding: 0; display: grid; }
+.timeline li { display: grid; grid-template-columns: 136px 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.timeline .d { font-family: var(--font-display); font-weight: 600; font-size: 1.25rem; color: var(--gold-2); line-height: 1.25; font-variant-numeric: lining-nums; }
+:root[data-theme="light"] .timeline .d { color: var(--gold); }
 .timeline .t b { display: block; }
-.timeline .t span { color: var(--muted); font-size: .94rem; }
+.timeline .t span { color: var(--muted); font-size: .95rem; }
 
-.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
-.grid2 > * { min-width: 0; }
-
+/* Controls */
 .filters { display: flex; flex-wrap: wrap; gap: 12px 28px; align-items: center; }
 .fgroup { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-width: 0; }
-.flabel { font-size: .76rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
-.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; flex-wrap: wrap; background: var(--surface); }
-.seg button { border: 0; background: transparent; padding: 9px 15px; font-weight: 600; font-size: .95rem; border-right: 1px solid var(--line); min-height: 40px; }
+.flabel { font-size: .9rem; color: var(--muted); font-weight: 500; }
+.seg { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--line-2); border-radius: 4px; overflow: hidden; background: var(--surface); }
+.seg button { border: 0; background: transparent; padding: 0 15px; min-height: 42px; font-weight: 500; font-size: .95rem; border-right: 1px solid var(--line-2); }
 .seg button:last-child { border-right: 0; }
+.seg button:hover { background: var(--surface-2); }
 .seg button[aria-pressed="true"] { background: var(--gold); color: var(--gold-ink); }
+.btn { display: inline-flex; align-items: center; gap: 8px; background: var(--gold); color: var(--gold-ink); border: 1px solid var(--gold); border-radius: 4px; padding: 0 16px; font-weight: 600; min-height: 44px; }
+.btn:hover { filter: brightness(1.08); }
+.btn.ghost { background: transparent; color: var(--fg); border-color: var(--line-2); }
+.btn.ghost:hover { border-color: var(--gold); filter: none; }
+.btn[disabled] { opacity: .5; cursor: not-allowed; }
+.copyrow { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.copyrow input { flex: 1 1 220px; min-width: 0; font: inherit; min-height: 44px; padding: 0 12px; border: 1px solid var(--line-2); border-radius: 4px; background: var(--bg); color: var(--fg); }
+.copyrow .small { flex-basis: 100%; min-height: 1.4em; }
 
-.matrix-box { overflow-x: auto; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); }
-table { border-collapse: separate; border-spacing: 0; width: 100%; min-width: 760px; }
-th, td { padding: 0; text-align: center; border-bottom: 1px solid var(--line); }
-tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
-thead th { font-size: .8rem; font-weight: 700; padding: 11px 4px; background: var(--surface-2); letter-spacing: .02em; }
-thead th.dim { opacity: .35; }
-tbody th { text-align: left; padding: 8px 12px; font-weight: 600; font-size: .95rem; position: sticky; left: 0; background: var(--surface); z-index: 1; border-right: 1px solid var(--line); white-space: nowrap; }
-thead th:first-child { position: sticky; left: 0; z-index: 2; border-right: 1px solid var(--line); }
-tbody th .f { display: inline-block; width: 8px; height: 8px; margin-right: 8px; }
+/* Picker */
+.tool { border: 1px solid var(--line); background: var(--surface); border-radius: 4px; padding: 20px; display: grid; gap: 18px; }
+.matrix-box { overflow-x: auto; border: 1px solid var(--line); border-radius: 4px; }
+table { border-collapse: separate; border-spacing: 0; width: 100%; }
+#matrix { min-width: 760px; }
+#matrix th, #matrix td { padding: 0; text-align: center; border-bottom: 1px solid var(--line); }
+#matrix tbody tr:last-child th, #matrix tbody tr:last-child td { border-bottom: 0; }
+#matrix thead th { font-size: .8rem; font-weight: 600; padding: 10px 4px; background: var(--surface-2); color: var(--muted); }
+#matrix thead th.dim { opacity: .4; }
+#matrix tbody th { text-align: left; padding: 8px 12px; font-weight: 500; font-size: .94rem; position: sticky; left: 0; background: var(--surface); z-index: 1; border-right: 1px solid var(--line); white-space: nowrap; }
+#matrix thead th:first-child { position: sticky; left: 0; z-index: 2; border-right: 1px solid var(--line); text-align: left; padding-left: 12px; }
+.f { display: inline-block; width: 8px; height: 8px; margin-right: 8px; vertical-align: .05em; }
 .f.alliance { background: var(--alliance); } .f.horde { background: var(--horde); }
-tbody th .paid { font-size: .68rem; color: var(--gold); font-weight: 600; margin-left: 6px; border: 1px solid var(--gold); border-radius: 2px; padding: 0 4px; }
-td { height: 46px; }
-.cell { width: 100%; height: 100%; min-height: 46px; border: 0; background: transparent; font-weight: 700; font-size: 1rem; display: grid; place-items: center; }
+.paid { font-size: .7rem; color: var(--gold-2); font-weight: 600; margin-left: 6px; border: 1px solid var(--gold); border-radius: 3px; padding: 0 4px; }
+:root[data-theme="light"] .paid { color: var(--gold); }
+#matrix td { height: 44px; }
+.cell { width: 100%; height: 100%; min-height: 44px; border: 0; background: transparent; font-weight: 600; display: grid; place-items: center; }
 .cell:hover { background: var(--surface-2); }
-.cell.no { color: var(--line); cursor: default; }
-.cell.no:hover { background: transparent; }
+.cell.no { color: var(--line-2); cursor: default; }
 .cell.ok { color: var(--fg); }
-.cell.new { color: var(--new); font-size: .7rem; letter-spacing: .08em; }
+.cell.new { color: var(--new); font-size: .7rem; letter-spacing: .04em; }
 .cell.dim { opacity: .3; }
 .cell.sel { background: var(--gold); color: var(--gold-ink); }
 tr.rowsel th { box-shadow: inset 3px 0 0 var(--gold); }
 .legend { display: flex; flex-wrap: wrap; gap: 6px 18px; color: var(--muted); font-size: .88rem; }
-.legend b { color: var(--fg); }
-.legend .n { color: var(--new); font-weight: 700; }
-
-.detail { background: var(--surface); border: 1px solid var(--gold); border-radius: 4px; padding: 22px; display: grid; gap: 18px; }
-.d-top { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: baseline; }
-.d-top h2 { color: var(--fg); }
-.tag { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; border-radius: 2px; padding: 2px 8px; border: 1px solid currentColor; }
-.tag.alliance { color: var(--alliance); } .tag.horde { color: var(--horde); } .tag.new { color: var(--new); } .tag.paid { color: var(--gold); }
-.d-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+.legend b { color: var(--fg); } .legend .n { color: var(--new); font-weight: 600; }
+.pickm { display: none; gap: 14px; }
+.pickm .lbl { font-size: .9rem; color: var(--muted); margin-bottom: 8px; }
+.chiprow { display: flex; flex-wrap: wrap; gap: 6px; }
+.chiprow button { min-height: 40px; padding: 0 12px; border: 1px solid var(--line-2); border-radius: 4px; background: var(--bg); font-size: .92rem; font-weight: 500; }
+.chiprow button[aria-pressed="true"] { background: var(--gold); border-color: var(--gold); color: var(--gold-ink); }
+.chiprow button.na { color: var(--muted); border-style: dashed; }
+.chiprow button .f { margin-right: 6px; }
+.detail { border-top: 1px solid var(--gold); padding-top: 18px; display: grid; gap: 18px; }
+.d-top { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: baseline; }
+.d-top h3 { font-size: 1.7rem; }
+.tag { font-size: .74rem; font-weight: 600; border-radius: 3px; padding: 2px 8px; border: 1px solid currentColor; }
+.tag.alliance { color: var(--alliance); } .tag.horde { color: var(--horde); } .tag.new { color: var(--new); } .tag.paid { color: var(--gold-2); }
+:root[data-theme="light"] .tag.paid { color: var(--gold); }
+.d-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 24px 32px; }
 .d-cols > div { min-width: 0; }
-.d-cols h3 { margin-bottom: 10px; }
+.d-cols h4 { margin: 0 0 10px; font-size: .9rem; font-weight: 600; color: var(--muted); }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.chip { font-size: .8rem; font-weight: 600; padding: 2px 10px; border-radius: 2px; border: 1px solid var(--line); background: var(--surface-2); white-space: nowrap; }
+.chip { font-size: .82rem; font-weight: 500; padding: 3px 9px; border-radius: 3px; border: 1px solid var(--line-2); white-space: nowrap; }
 .chip.on { background: var(--gold); color: var(--gold-ink); border-color: var(--gold); }
 .chip.q { border-style: dashed; }
+.chip.new { color: var(--new); border-color: color-mix(in srgb, var(--new) 50%, transparent); }
 ul.plain { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
 ul.plain li { display: grid; gap: 1px; }
-.specname { font-weight: 700; }
+.specname { font-weight: 600; }
 .en { font-weight: 400; color: var(--muted); font-size: .92em; }
-.specrole { color: var(--muted); font-size: .9rem; }
-.rtype { font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); margin-right: 8px; }
-.copyrow { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; border-top: 1px solid var(--line); padding-top: 16px; }
-.copyrow input { flex: 1 1 220px; min-width: 0; font: inherit; padding: 10px 12px; border: 1px solid var(--line); border-radius: 4px; background: var(--bg); color: var(--fg); }
-.btn { background: var(--gold); color: var(--gold-ink); border: 0; border-radius: 4px; padding: 10px 18px; font-weight: 700; min-height: 42px; }
+.specrole { color: var(--muted); font-size: .92rem; }
+.rtype { font-size: .74rem; font-weight: 600; color: var(--muted); margin-right: 8px; }
+dl.facts { margin: 12px 0 0; display: grid; gap: 8px; }
+dl.facts div { display: grid; grid-template-columns: 96px 1fr; gap: 10px; font-size: .94rem; }
+dl.facts dt { color: var(--muted); }
+dl.facts dd { margin: 0; }
 
-.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 14px; }
-.card { text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 16px; display: grid; gap: 10px; align-content: start; min-width: 0; }
-.card:hover { border-color: var(--gold); }
-.card.sel { border-color: var(--gold); box-shadow: inset 0 0 0 1px var(--gold); }
-.card dl { margin: 0; display: grid; gap: 7px; }
-.card dt { font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); font-weight: 700; }
-.card dd { margin: 0; font-size: .94rem; }
-
-.tbl-box { overflow-x: auto; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); }
-.tbl-box table { min-width: 560px; }
-.tbl-box th, .tbl-box td { text-align: left; padding: 10px 14px; vertical-align: top; }
-.tbl-box thead th { color: var(--gold); font-size: .76rem; letter-spacing: .1em; text-transform: uppercase; }
-.tbl-box tbody th { position: static; background: transparent; border-right: 0; white-space: normal; font-size: .95rem; }
-.tbl-box td.num { white-space: nowrap; color: var(--gold); font-weight: 600; }
-.badge-new { color: var(--new); font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin-left: 6px; }
-
-.note { border-left: 2px solid var(--gold); padding: 4px 0 4px 14px; color: var(--muted); font-size: .94rem; }
-.note b { color: var(--fg); }
-.own { border: 1px dashed var(--line); border-radius: 4px; padding: 14px 16px; background: var(--surface); }
-.own .eyebrow { color: var(--gold); margin-bottom: 6px; }
-
-footer { margin-top: 64px; border-top: 1px solid var(--gold); padding-top: 24px; display: grid; gap: 14px; color: var(--muted); font-size: .92rem; }
-footer ul { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
-footer ul li::marker { color: var(--gold); }
-
-.brand { flex-wrap: wrap; }
-.tools { margin-left: auto; display: flex; gap: 8px; align-items: center; }
-.langs { display: inline-flex; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; background: var(--surface); }
-.langs a { padding: 8px 12px; min-height: 38px; display: grid; place-items: center; color: var(--muted); text-decoration: none; font-weight: 700; font-size: .85rem; letter-spacing: .06em; border-right: 1px solid var(--line); }
-.langs a:last-child { border-right: 0; }
-.langs a:hover { color: var(--gold); }
-.langs a[aria-current="true"] { background: var(--gold); color: var(--gold-ink); }
-.themebtn { min-height: 38px; min-width: 42px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); color: var(--fg); font-size: 1.1rem; line-height: 1; }
-.themebtn:hover { border-color: var(--gold); color: var(--gold); }
-.ri { width: 1.05em; height: 1.05em; vertical-align: -.17em; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; margin-right: 5px; }
-.chip .ri { margin-right: 4px; }
-nav.sticky a[aria-current="true"] { color: var(--gold); border-bottom-color: var(--gold); }
-
-.countdown { display: flex; flex-wrap: wrap; gap: 10px 32px; align-items: center; max-width: 720px; }
-.countdown .big, .timeline .d { font-variant-numeric: lining-nums; }
-.countdown .big { font-family: var(--font-display); font-weight: 700; font-size: clamp(2.6rem, 9vw, 3.6rem); line-height: 1; color: var(--gold); }
-.countdown .cap { display: grid; gap: 2px; }
-.countdown .cap b { font-size: 1rem; }
-.countdown .cap span { color: var(--muted); font-size: .9rem; }
-.countdown .res { display: grid; gap: 2px; padding-left: 32px; border-left: 1px solid var(--line); }
-
-.slots { display: grid; gap: 8px; }
-.slot { display: grid; grid-template-columns: 34px minmax(0,1.2fr) minmax(0,1.2fr) minmax(0,.9fr) 40px; gap: 8px; align-items: center; padding: 8px 10px; background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--cc, var(--line)); border-radius: 4px; }
-.slot .no { font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; color: var(--muted); text-align: center; }
-.slot select { width: 100%; min-width: 0; font: inherit; padding: 9px 8px; min-height: 42px; border: 1px solid var(--line); border-radius: 4px; background: var(--bg); color: var(--fg); }
-.slot .del { min-height: 42px; border: 1px solid var(--line); border-radius: 4px; background: transparent; color: var(--muted); }
-.slot .del:hover { color: var(--gold); border-color: var(--gold); }
-.row-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-.btn.ghost { background: transparent; color: var(--fg); border: 1px solid var(--line); }
-.btn.ghost:hover { border-color: var(--gold); color: var(--gold); }
-.roles-sum { display: flex; flex-wrap: wrap; gap: 10px; }
-
-.start { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; padding-top: 32px; }
-.start a { display: grid; grid-template-columns: 34px 1fr; gap: 4px 12px; padding: 16px 0; border-top: 1px solid var(--line); text-decoration: none; color: var(--fg); }
-.start a:hover b { color: var(--gold); }
-.start .n { grid-row: 1 / 3; font-family: var(--font-display); font-weight: 700; font-size: 1.9rem; line-height: 1; color: var(--gold); font-variant-numeric: lining-nums; }
-.start b { font-size: 1.05rem; }
-.start span.t { color: var(--muted); font-size: .93rem; }
-
-.steps { display: grid; gap: 22px; }
-.step { display: grid; grid-template-columns: 32px 1fr; gap: 6px 14px; align-items: start; }
-.stepn { width: 28px; height: 28px; display: grid; place-items: center; border: 1px solid var(--gold); border-radius: 50%; color: var(--gold); font-weight: 700; font-size: .9rem; }
+/* Builder */
+.builder { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 24px; align-items: start; }
+.steps { display: grid; gap: 24px; }
+.step { display: grid; grid-template-columns: 30px 1fr; gap: 6px 14px; align-items: start; }
+.stepn { width: 28px; height: 28px; display: grid; place-items: center; border: 1px solid var(--gold); color: var(--gold-2); font-weight: 600; font-size: .88rem; font-variant-numeric: tabular-nums; }
+:root[data-theme="light"] .stepn { color: var(--gold); }
 .step > div { display: grid; gap: 10px; min-width: 0; }
-.step b { font-size: 1.05rem; }
+.step b { font-size: 1.05rem; font-weight: 600; }
 .sizes { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-.sizes button { min-width: 48px; min-height: 42px; padding: 0 12px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); font-weight: 700; }
+.sizes button { min-width: 48px; min-height: 44px; padding: 0 12px; border: 1px solid var(--line-2); border-radius: 4px; background: var(--bg); font-weight: 600; font-variant-numeric: tabular-nums; }
 .sizes button:hover { border-color: var(--gold); }
 .sizes button[aria-pressed="true"] { background: var(--gold); border-color: var(--gold); color: var(--gold-ink); }
-.stepper { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); }
-.stepper button { min-width: 42px; min-height: 42px; border: 0; background: transparent; font-size: 1.2rem; }
-.stepper button:hover { color: var(--gold); }
-.stepper output { min-width: 56px; text-align: center; font-weight: 700; }
-.party { display: grid; gap: 8px; }
-.party-h { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; padding-top: 10px; border-top: 1px solid var(--line); }
-.party-h h3 { font-size: 1.2rem; }
-.party-h .pc { display: inline-flex; gap: 12px; color: var(--muted); font-size: .9rem; font-weight: 600; }
+.stepper { display: inline-flex; align-items: center; border: 1px solid var(--line-2); border-radius: 4px; background: var(--bg); }
+.stepper button { min-width: 44px; min-height: 44px; border: 0; background: transparent; font-size: 1.2rem; }
+.stepper button:hover { color: var(--gold-2); }
+.stepper output { min-width: 48px; text-align: center; font-weight: 600; font-variant-numeric: tabular-nums; }
+.slots { display: grid; gap: 14px; }
+.party { display: grid; gap: 6px; }
+.party-h { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; padding-bottom: 4px; }
+.party-h h4 { margin: 0; font-family: var(--font-display); font-size: 1.15rem; font-weight: 600; }
+.party-h .pc { display: inline-flex; flex-wrap: wrap; gap: 12px; color: var(--muted); font-size: .88rem; font-weight: 500; }
 .party-h .pc .miss { color: var(--horde); }
 .party-h .pc .ok { color: var(--new); }
-.rs { display: flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); font-weight: 700; font-size: 1.05rem; }
-.rs span { color: var(--muted); font-weight: 600; font-size: .85rem; letter-spacing: .06em; text-transform: uppercase; }
-.rs.ok { border-color: var(--new); color: var(--new); }
-.rs.zero { border-color: var(--horde); color: var(--horde); }
+.slot { display: grid; grid-template-columns: 30px minmax(0,1.2fr) minmax(0,1.2fr) minmax(0,.9fr) 44px; gap: 8px; align-items: center; padding: 6px 8px; background: var(--bg); border: 1px solid var(--line); border-left: 3px solid var(--cc, var(--line)); border-radius: 4px; }
+.slot .no { font-weight: 600; color: var(--muted); text-align: center; font-variant-numeric: tabular-nums; }
+.slot select { width: 100%; min-width: 0; font: inherit; font-size: .95rem; padding: 0 8px; min-height: 42px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); color: var(--fg); }
+.slot .del { min-height: 42px; border: 1px solid var(--line); border-radius: 4px; background: transparent; color: var(--muted); display: grid; place-items: center; }
+.slot .del:hover { color: var(--horde); border-color: var(--horde); }
+.row-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.summary { position: sticky; top: calc(var(--top) + 16px); border: 1px solid var(--line); background: var(--bg); border-radius: 4px; display: grid; }
+.summary > div { padding: 14px 16px; border-bottom: 1px solid var(--line); }
+.summary > div:last-child { border-bottom: 0; }
+.summary h4 { margin: 0 0 8px; font-size: .9rem; font-weight: 600; color: var(--muted); }
+.roles-sum { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.rs { display: grid; justify-items: center; gap: 0; padding: 8px 4px; border: 1px solid var(--line); border-radius: 4px; }
+.rs b { font-family: var(--font-display); font-size: 1.7rem; font-weight: 500; line-height: 1; font-variant-numeric: tabular-nums lining-nums; }
+.rs span { color: var(--muted); font-size: .8rem; }
+.rs.ok { border-color: color-mix(in srgb, var(--new) 55%, transparent); }
+.rs.ok b { color: var(--new); }
+.rs.zero { border-color: color-mix(in srgb, var(--horde) 55%, transparent); }
+.rs.zero b { color: var(--horde); }
 ul.verdict { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
-ul.verdict li { padding-left: 24px; position: relative; font-size: .96rem; }
-ul.verdict li::before { content: "·"; position: absolute; left: 6px; color: var(--gold); font-weight: 700; }
-ul.verdict li.good::before { content: "✓"; color: var(--new); left: 4px; }
-ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 6px; }
-:root[data-theme="light"] .cdot { box-shadow: inset 0 0 0 1px rgba(0,0,0,.35); }
+ul.verdict li { padding-left: 22px; position: relative; font-size: .93rem; }
+ul.verdict li::before { content: "·"; position: absolute; left: 6px; color: var(--muted); font-weight: 700; }
+ul.verdict li.good::before { content: "✓"; color: var(--new); left: 3px; }
+ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .cdot { display: inline-block; width: 9px; height: 9px; margin-right: 7px; background: var(--cc, var(--muted)); }
+:root[data-theme="light"] .cdot { box-shadow: inset 0 0 0 1px rgba(0,0,0,.35); }
+.summary .copyrow input { flex-basis: 100%; }
+.summary .copyrow .btn { flex: 1 1 auto; justify-content: center; }
 
-.check { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; border-top: 1px solid var(--line); }
+/* Checklist */
+.check { list-style: none; margin: 0; padding: 0; display: grid; border-top: 1px solid var(--line); }
 .check li { border-bottom: 1px solid var(--line); }
-.check label { display: grid; grid-template-columns: 26px 1fr; gap: 12px; padding: 14px 4px; cursor: pointer; align-items: start; }
+.check label { display: grid; grid-template-columns: 26px 1fr; gap: 12px; padding: 14px 6px; cursor: pointer; align-items: start; min-height: 44px; }
+.check label:hover { background: var(--surface-2); }
 .check input { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--gold); }
-.check b { display: block; }
+.check b { display: block; font-weight: 600; }
 .check span { color: var(--muted); font-size: .93rem; }
 .check input:checked + div b { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--gold); }
-.prog { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; }
-.prog i { display: block; height: 100%; background: var(--gold); width: 0; transition: width .2s; }
+.prog { display: flex; align-items: center; gap: 14px; }
+.prog .bar { flex: 1; height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.prog .bar i { display: block; height: 100%; background: var(--gold); width: 0; transition: width .2s; }
+.prog span { color: var(--muted); font-size: .9rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
 
+/* Reference rows (classes, races) */
+.ref { display: grid; border-top: 1px solid var(--line); }
+.ref-row { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 10px 28px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+.ref-name { display: grid; gap: 8px; align-content: start; }
+.ref-name h3 { display: flex; align-items: center; gap: 0; font-size: 1.45rem; }
+.ref-name .bar { width: 4px; height: 1.05em; margin-right: 10px; background: var(--cc, var(--gold)); }
+.ref-name .sub { color: var(--muted); font-size: .9rem; }
+.ref-name .go { justify-self: start; min-height: 36px; padding: 0 10px; border: 1px solid var(--line-2); border-radius: 4px; background: transparent; font-size: .85rem; font-weight: 500; color: var(--muted); }
+.ref-name .go:hover { color: var(--fg); border-color: var(--gold); }
+.ref-body { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 24px; font-size: .95rem; }
+.ref-body.two { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
+.ref-body h4 { margin: 0 0 4px; font-size: .82rem; font-weight: 600; color: var(--muted); }
+.ref-body .wide { grid-column: 1 / -1; }
+.ref details { grid-column: 1 / -1; border-top: 1px dashed var(--line); padding-top: 10px; }
+.ref summary { cursor: pointer; color: var(--muted); font-size: .9rem; font-weight: 500; min-height: 32px; display: flex; align-items: center; gap: 6px; list-style: none; }
+.ref summary::-webkit-details-marker { display: none; }
+.ref summary::before { content: "+"; width: 1em; color: var(--gold-2); font-weight: 600; }
+.ref details[open] summary::before { content: "−"; }
+.ref summary:hover { color: var(--fg); }
+.ref details p { margin-top: 6px; font-size: .95rem; max-width: 80ch; }
+.ref-row.sel .ref-name h3 { color: var(--gold-2); }
+:root[data-theme="light"] .ref-row.sel .ref-name h3 { color: var(--gold); }
+
+/* Data tables */
+.tbl-box { overflow-x: auto; border-top: 1px solid var(--line); }
+.tbl-box table { min-width: 560px; }
+.tbl-box th, .tbl-box td { text-align: left; padding: 11px 14px 11px 0; vertical-align: top; border-bottom: 1px solid var(--line); }
+.tbl-box thead th { color: var(--muted); font-size: .85rem; font-weight: 600; border-bottom-color: var(--line-2); }
+.tbl-box tbody th { font-weight: 600; font-size: .96rem; }
+.tbl-box td.num { white-space: nowrap; color: var(--gold-2); font-weight: 600; font-variant-numeric: tabular-nums; }
+:root[data-theme="light"] .tbl-box td.num { color: var(--gold); }
+
+footer { margin-top: 80px; border-top: 1px solid var(--gold); padding-top: 24px; display: grid; gap: 14px; color: var(--muted); font-size: .93rem; }
+footer h2 { color: var(--fg); }
+footer ul { margin: 0; padding-left: 18px; display: grid; gap: 5px; }
+footer ul li::marker { color: var(--gold); }
+
+dialog.toc-dlg { border: 0; padding: 0; margin: 0 0 0 auto; width: min(320px, 86vw); max-width: none; height: 100dvh; max-height: none; background: var(--rail); color: var(--fg); border-left: 1px solid var(--line); }
+dialog.toc-dlg::backdrop { background: rgba(0,0,0,.55); }
+dialog.toc-dlg .dh { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px 10px 16px; border-bottom: 1px solid var(--line); height: var(--top); }
+dialog.toc-dlg .toc { padding: 18px 8px 32px; }
+dialog.toc-dlg .toc a { padding: 10px 12px; font-size: 1rem; }
+
+@media (max-width: 1100px) {
+  .shell { grid-template-columns: 1fr; gap: 0; }
+  .side { display: none; }
+  .tocbtn { display: inline-grid; }
+}
+@media (max-width: 980px) {
+  .mast-top { grid-template-columns: 1fr; gap: 28px; }
+  .builder { grid-template-columns: 1fr; }
+  .summary { position: static; }
+}
+@media (max-width: 860px) {
+  .matrix-box, .legend { display: none; }
+  .pickm { display: grid; }
+  .ref-row { grid-template-columns: 1fr; }
+  .ref-body, .ref-body.two { grid-template-columns: 1fr 1fr; }
+}
 @media (max-width: 719px) {
-  .brand { display: grid; grid-template-columns: auto 1fr; gap: 12px; }
-  .brand .eyebrow { grid-column: 1 / -1; order: 3; }
-  .slot { grid-template-columns: 28px 1fr 1fr 40px; }
-  .slot select.srole { grid-column: 2 / 4; }
+  .brand > span:not(.mark), .brand b { display: none; }
+  .tools { gap: 6px; }
+  .mast { padding-top: 26px; }
+  .tool { padding: 14px; }
+  .rail { padding: 6px 0 0; }
+  .rail .bar, .rail .now { display: none; }
+  .rail ol { display: grid; gap: 0; border-top: 1px solid var(--line); }
+  .rail li { position: static; transform: none; height: auto; display: grid; grid-template-columns: 18px 1fr; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--line); align-items: center; }
+  .rail li::before { position: static; margin: 0 0 0 4px; left: auto; top: auto; }
+  .rail li span, .rail li:first-child span, .rail li:last-child span { position: static; transform: none; text-align: left; white-space: normal; display: flex; gap: 10px; align-items: baseline; }
+  .rail li span b { display: inline; min-width: 52px; }
+  .rail li.cur span b { color: var(--gold-2); }
+  .ref-body, .ref-body.two { grid-template-columns: 1fr; }
+  .slot { grid-template-columns: 22px minmax(0, 2fr) minmax(0, 1fr) 44px; gap: 6px; padding: 6px; }
+  .slot select { font-size: .9rem; padding: 0 4px; }
+  .slot select.srace { grid-column: 2 / 4; }
   .slot .del { grid-row: 1; grid-column: 4; }
-  .countdown .res { padding-left: 0; border-left: 0; }
-}
-@media (max-width: 719px) {
-  header.top { padding-block: 28px 22px; }
-  tbody th { padding: 6px 8px; font-size: .84rem; white-space: normal; min-width: 104px; max-width: 120px; }
-  tbody th .paid { display: block; margin: 2px 0 0; width: max-content; }
-  thead th { font-size: .72rem; padding: 9px 2px; }
-  td { height: 44px; } .cell { min-height: 44px; }
+  .slot select.scls { grid-column: 2; }
+  .slot select.srole { grid-column: 3 / 5; }
   .timeline li { grid-template-columns: 1fr; gap: 2px; }
-  .panel, .detail { padding: 16px; }
+  dl.facts div { grid-template-columns: 1fr; gap: 0; }
 }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-@media (prefers-reduced-motion: no-preference) { .card, .cell, .seg button { transition: background-color .12s, border-color .12s; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .prog .bar i { transition: none; } }
 </style>
 </head>
 <body>
@@ -295,39 +421,68 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 6px; }
   <symbol id="i-tank" viewBox="0 0 24 24"><path d="M12 3l7 3v5.5c0 4.6-3 7.7-7 9.5-4-1.8-7-4.9-7-9.5V6z"/></symbol>
   <symbol id="i-heal" viewBox="0 0 24 24"><path d="M10 4h4v6h6v4h-6v6h-4v-6H4v-4h6z"/></symbol>
   <symbol id="i-dps" viewBox="0 0 24 24"><path d="M5 19L19 5M19 5h-6M19 5v6M8.5 12.5l3 3M4 20l3-3"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5M16 4.8a3.2 3.2 0 0 1 0 6.4M18 14.8c1.8.7 3 2.6 3 5.2"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M4 4h16v16H4zM8 12l3 3 5-6"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><path d="M9 9h11v11H9zM5 15H4V4h11v1"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
 </svg>
-<div class="wrap">
 
-<header class="top">
-  <div class="brand">
-    <svg class="mark" viewBox="0 0 64 64" role="img" aria-label="Gabella Team">
-      <rect width="64" height="64" rx="8" fill="#0c0c0d"/>
-      <text x="32" y="33" text-anchor="middle" dominant-baseline="central" font-family="Georgia, serif" font-size="46" font-weight="700" fill="#c9a54a">G</text>
-    </svg>
-    <div class="eyebrow">Gabella Team · World of Warcraft: Forever</div>
-    <div class="tools">
-      <div class="langs" role="group" aria-label="Язык"><a href="./" data-lang="ru" hreflang="ru" lang="ru" aria-current="true">RU</a><a href="en/" data-lang="en" hreflang="en" lang="en" aria-current="false">EN</a><a href="uk/" data-lang="uk" hreflang="uk" lang="uk" aria-current="false">UK</a></div>
-      <button class="themebtn" id="themeBtn" type="button" aria-label="Переключить тему" title="Переключить тему">☀</button>
-    </div>
+<header class="topbar"><div class="in">
+  <a class="brand" href="#top" aria-label="Gabella Team, к началу страницы"><span class="mark" aria-hidden="true">G</span><b>Gabella Team</b><span>WoW Forever · справочник</span></a>
+  <div class="tools">
+    <div class="langs" role="group" aria-label="Язык"><a href="./" data-lang="ru" hreflang="ru" lang="ru" aria-current="true">RU</a><a href="en/" data-lang="en" hreflang="en" lang="en" aria-current="false">EN</a><a href="uk/" data-lang="uk" hreflang="uk" lang="uk" aria-current="false">UK</a></div>
+    <button class="iconbtn" id="themeBtn" type="button" aria-label="Переключить тему" title="Переключить тему"><svg class="ico"><use href="#i-sun"/></svg></button>
+    <button class="iconbtn tocbtn" id="tocBtn" type="button" aria-haspopup="dialog" aria-controls="tocDlg"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg><span>Разделы</span></button>
   </div>
-  <h1>Гид по WoW Forever для своей компании</h1>
-  <p class="lead">Классы, расы, новые комбинации, Legacy, лагерь, подземелья и рейды. Плюс подбор состава для компании любого размера. Только проверенные данные, с источниками и датой.</p>
-  <div class="stamp"><span>Данные на <b>22.10.2026</b></span><span>Версия: <b>закрытая бета, патч от 15.10.2026</b></span><span>Релиз: <b>04.11.2026</b></span></div>
-  <div class="countdown" id="cd" aria-live="polite"></div>
-</header>
+</div></header>
 
-<nav class="sticky" aria-label="Разделы"><div class="in">
-  <a href="#dates">Даты</a><a href="#picker">Подборщик</a><a href="#builder">Конструктор</a><a href="#classes">Классы</a><a href="#races">Расы</a><a href="#legacy">Legacy</a><a href="#camp">Лагерь</a><a href="#dungeons">Подземелья</a><a href="#group">Состав группы</a><a href="#checklist">Чек-лист</a><a href="#era">Отличия от Era</a><a href="#sources">Источники</a>
-</div></nav>
+<div class="shell" id="top">
+<aside class="side" aria-label="Оглавление">
+  <nav class="toc" id="toc" aria-label="Разделы">
+    <div class="grp"><div class="gh">Старт</div><a href="#top">Обзор</a><a href="#dates">Даты и наборы</a></div>
+    <div class="grp"><div class="gh">Инструменты</div><a href="#picker">Подборщик</a><a href="#builder">Конструктор группы</a><a href="#checklist">Чек-лист</a></div>
+    <div class="grp"><div class="gh">Справочник</div><a href="#classes">Классы</a><a href="#races">Расы</a><a href="#legacy">Legacy</a><a href="#camp">Лагерь и профессии</a><a href="#dungeons">Подземелья и рейды</a><a href="#group">Состав группы</a><a href="#era">Отличия от Era</a><a href="#sources">Источники</a></div>
+    <div class="meta">Данные на 22.10.2026, закрытая бета, патч от 15.10.2026.</div>
+  </nav>
+</aside>
 
-<div class="start">
-  <a href="#picker"><span class="n">1</span><b>Выберите расу и класс</b><span class="t">Подборщик покажет, какие сочетания есть и что умеет каждое.</span></a>
-  <a href="#builder"><span class="n">2</span><b>Соберите свою группу</b><span class="t">На любое число игроков: от одного до сорока.</span></a>
-  <a href="#checklist"><span class="n">3</span><b>Не забудьте про старт</b><span class="t">Короткий чек-лист: имена, профессии, дни, подписка.</span></a>
+<main>
+<div class="mast">
+  <div class="mast-top">
+    <div>
+      <p class="kicker">Справочник Gabella Team · данные на <b>22.10.2026</b></p>
+      <h1>World of Warcraft: Forever</h1>
+      <p class="lead">Классы, расы, новые комбинации, Legacy, лагерь, подземелья и рейды. Три инструмента для своей компании: подбор расы и класса, сбор группы и чек-лист к старту.</p>
+      <div class="cd" id="cd" aria-live="polite"></div>
+    </div>
+    <nav class="launch" aria-labelledby="launchH">
+      <h2 id="launchH">Инструменты</h2>
+      <a href="#picker"><svg class="ico" aria-hidden="true"><use href="#i-grid"/></svg><b>Подборщик расы и класса</b><span id="qPick">Все сочетания и что умеет каждое</span></a>
+      <a href="#builder"><svg class="ico" aria-hidden="true"><use href="#i-users"/></svg><b>Конструктор группы</b><span id="qTeam">От одного до сорока игроков</span></a>
+      <a href="#checklist"><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><b>Чек-лист перед стартом</b><span id="qCheck">Имена, профессии, дни, подписка</span></a>
+    </nav>
+  </div>
+  <div class="rail" aria-label="Шкала дат">
+    <div class="bar"><i id="railFill"></i></div>
+    <ol>
+      <li class="dn" data-d="2026-09-17" style="left:0%"><span><b>17.09</b>Бета</span></li>
+      <li class="up" data-d="2026-10-15" style="left:33.7%"><span><b>15.10</b>Патч беты</span></li>
+      <li class="dn" data-d="2026-10-21" style="left:41%"><span><b>21.10</b>Бета закрыта</span></li>
+      <li class="up" data-d="2026-10-27" style="left:48.2%"><span><b>27.10</b>Резерв имён</span></li>
+      <li class="dn" data-d="2026-11-04" style="left:57.8%"><span><b>04.11</b>Релиз</span></li>
+      <li class="up" data-d="2026-12-09" style="left:100%"><span><b>09.12</b>Рейды</span></li>
+    </ol>
+    <div class="now" id="railNow" hidden title="сегодня"><span class="sr">сегодня</span></div>
+  </div>
 </div>
 
 <section class="block" id="dates">
-  <div class="sec-head"><h2>Что и когда</h2><p>Главное до релиза и после него.</p></div>
+  <div class="sec-head"><div class="row"><h2>Даты и наборы</h2><span class="src">Blizzard, ClassicWoW.gg, Warcraft Tavern</span></div><p>Главное до релиза и после него.</p></div>
   <ul class="timeline">
     <li><span class="d">17.09 – 21.10</span><span class="t"><b>Закрытая бета</b><span>Доступ был у владельцев наборов Epic и Collection. Бета временно закрыта, Blizzard пишет, что она вернётся.</span></span></li>
     <li><span class="d">15.10</span><span class="t"><b>Крупный патч беты</b><span>Переделаны способности рас (оружейные специализации заменены критами) и настроены почти все классы.</span></span></li>
@@ -338,7 +493,7 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 6px; }
   <div class="grid2">
     <div class="panel">
       <h3>Наборы и цены</h3>
-      <ul class="dots" style="margin-top:10px">
+      <ul class="dots">
         <li><b>Heroic Pack</b> $29.99: открывает расу Скайборн, её стартовую зону и раннюю резервацию имён.</li>
         <li><b>Epic Pack</b> $59.99: то же плюс доступ к бете.</li>
         <li><b>Warcraft Forever Collection</b> $79.99, продаётся до 11.01.2027, с доступом к бете.</li>
@@ -347,79 +502,97 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 6px; }
     </div>
     <div class="panel">
       <h3>Режимы игры</h3>
-      <ul class="dots" style="margin-top:10px">
+      <ul class="dots">
         <li>Обычный, PvP и RP. Hardcore запустят позже со своими правилами.</li>
         <li>Группироваться можно только внутри одного режима. В PvP при создании доступна одна фракция.</li>
-        <li><b>Договоритесь заранее:</b> одна фракция, один режим, одни и те же дни на старт.</li>
       </ul>
+      <p class="note tipn" style="margin-top:12px"><span class="mk tip">совет</span><b>Договоритесь заранее:</b> одна фракция, один режим, одни и те же дни на старт.</p>
     </div>
   </div>
 </section>
 
-<section class="block" id="picker">
-  <div class="sec-head"><h2>Подборщик: раса и класс</h2>
+<div class="part-h">Инструменты</div>
+
+<section class="block" id="picker" style="padding-top:20px">
+  <div class="sec-head"><div class="row"><h2>Подборщик: раса и класс</h2><span class="src">Warcraft Tavern, Method</span></div>
     <p>Выберите фракцию и роль, посмотрите сочетания и нажмите на клетку. Ниже появятся способности расы и роли класса, а выбор копируется одной кнопкой для общего чата.</p></div>
-  <div class="filters" role="group" aria-label="Фильтры">
-    <div class="fgroup"><span class="flabel" id="lf">Фракция</span>
-      <div class="seg" id="segF" aria-labelledby="lf">
-        <button data-v="all" aria-pressed="true">Любая</button>
-        <button data-v="alliance" aria-pressed="false">Альянс</button>
-        <button data-v="horde" aria-pressed="false">Орда</button>
-      </div></div>
-    <div class="fgroup"><span class="flabel" id="lr">Роль</span>
-      <div class="seg" id="segR" aria-labelledby="lr">
-        <button data-v="all" aria-pressed="true">Любая</button>
-        <button data-v="tank" aria-pressed="false">Танк</button>
-        <button data-v="heal" aria-pressed="false">Хил</button>
-        <button data-v="dps" aria-pressed="false">Урон</button>
-      </div></div>
+  <div class="tool">
+    <div class="filters" role="group" aria-label="Фильтры">
+      <div class="fgroup"><span class="flabel" id="lf">Фракция</span>
+        <div class="seg" id="segF" aria-labelledby="lf">
+          <button data-v="all" aria-pressed="true">Любая</button>
+          <button data-v="alliance" aria-pressed="false">Альянс</button>
+          <button data-v="horde" aria-pressed="false">Орда</button>
+        </div></div>
+      <div class="fgroup"><span class="flabel" id="lr">Роль</span>
+        <div class="seg" id="segR" aria-labelledby="lr">
+          <button data-v="all" aria-pressed="true">Любая</button>
+          <button data-v="tank" aria-pressed="false">Танк</button>
+          <button data-v="heal" aria-pressed="false">Хил</button>
+          <button data-v="dps" aria-pressed="false">Урон</button>
+        </div></div>
+    </div>
+    <div class="matrix-box" tabindex="0" role="region" aria-label="Таблица рас и классов, прокручивается по горизонтали"><table id="matrix"></table></div>
+    <div class="legend"><span><b>✓</b> можно</span><span><span class="n">НОВОЕ</span> комбинации не было в Classic</span><span><b>·</b> нельзя</span></div>
+    <div class="pickm" id="pickm"></div>
+    <div class="detail" id="detail" aria-live="polite" aria-label="Выбранная комбинация"></div>
   </div>
-  <div class="matrix-box" tabindex="0" role="region" aria-label="Таблица рас и классов, прокручивается по горизонтали"><table id="matrix"></table></div>
-  <div class="legend"><span><b>✓</b> можно</span><span><span class="n">НОВОЕ</span> комбинации не было в Classic</span><span><b>·</b> нельзя</span></div>
-  <div class="detail" id="detail" aria-live="polite" aria-label="Выбранная комбинация"></div>
-  <p class="note"><b>Новые комбинации:</b> дворф-шаман и гном-жрец (Альянс), человек-охотник, а у Орды орк-маг, тролль-чернокнижник и нежить-паладин. Паладин появился у Орды, шаман у Альянса. Скайборн-ветрорез (Орда) может быть шаманом, Высший скайборн (Альянс) магом.</p>
+  <p class="note"><span class="mk fact">факт</span><b>Новые комбинации:</b> дворф-шаман и гном-жрец (Альянс), человек-охотник, а у Орды орк-маг, тролль-чернокнижник и нежить-паладин. Паладин появился у Орды, шаман у Альянса. Скайборн-ветрорез (Орда) может быть шаманом, Высший скайборн (Альянс) магом.</p>
 </section>
 
 <section class="block" id="builder">
   <div class="sec-head"><h2>Конструктор группы</h2>
-    <p>Три шага: фракция, сколько вас и кто за кого играет. Внизу сразу видно, чего не хватает, какие баффы вы приносите и можно ли идти в рейд.</p></div>
-  <div class="steps">
-    <div class="step"><span class="stepn">1</span><div><b id="lbf">Фракция</b>
-      <div class="seg" id="segBF" aria-labelledby="lbf"><button data-v="alliance" aria-pressed="true">Альянс</button><button data-v="horde" aria-pressed="false">Орда</button></div></div></div>
-    <div class="step"><span class="stepn">2</span><div><b>Сколько вас?</b>
-      <p class="small">Нажмите число, и состав подберётся сам. Потом можно поменять любого игрока.</p>
-      <div class="sizes" id="sizes" role="group" aria-label="Размер компании"></div>
-      <div class="sizes"><div class="stepper"><button type="button" id="szMinus" aria-label="Меньше игроков">−</button><output id="szOut" aria-live="polite"></output><button type="button" id="szPlus" aria-label="Больше игроков">+</button></div><span class="small" id="szNote"></span></div></div></div>
-    <div class="step"><span class="stepn">3</span><div><b>Расы, классы и роли</b>
-      <p class="small">Игроки идут группами по 5, как в подземелье: 1–5, 6–10 и так далее.</p>
-      <div class="slots" id="slots"></div>
-      <div class="row-actions"><button class="btn ghost" id="bAdd">Добавить игрока</button><button class="btn ghost" id="bClear">Очистить</button></div></div></div>
+    <p>Три шага: фракция, сколько вас и кто за кого играет. Сразу видно, чего не хватает, какие баффы вы приносите и можно ли идти в рейд.</p></div>
+  <div class="builder">
+    <div class="tool">
+      <div class="steps">
+        <div class="step"><span class="stepn">1</span><div><b id="lbf">Фракция</b>
+          <div class="seg" id="segBF" aria-labelledby="lbf"><button data-v="alliance" aria-pressed="true">Альянс</button><button data-v="horde" aria-pressed="false">Орда</button></div></div></div>
+        <div class="step"><span class="stepn">2</span><div><b>Сколько вас?</b>
+          <p class="small">Нажмите число, и состав подберётся сам. Потом можно поменять любого игрока.</p>
+          <div class="sizes" id="sizes" role="group" aria-label="Размер компании"></div>
+          <div class="sizes"><div class="stepper"><button type="button" id="szMinus" aria-label="Меньше игроков">−</button><output id="szOut" aria-live="polite"></output><button type="button" id="szPlus" aria-label="Больше игроков">+</button></div><span class="small" id="szNote"></span></div></div></div>
+        <div class="step"><span class="stepn">3</span><div><b>Расы, классы и роли</b>
+          <p class="small">Игроки идут группами по 5, как в подземелье: 1–5, 6–10 и так далее.</p>
+          <div class="slots" id="slots"></div>
+          <div class="row-actions"><button class="btn ghost" id="bAdd">Добавить игрока</button><button class="btn ghost" id="bClear">Очистить</button></div></div></div>
+      </div>
+    </div>
+    <aside class="summary" aria-label="Итог по группе">
+      <div><h4>Роли</h4><div class="roles-sum" id="roleSum"></div></div>
+      <div><h4>Что получается</h4><ul class="verdict" id="verdict"></ul></div>
+      <div><h4>Баффы группы</h4><ul class="verdict" id="buffs"></ul></div>
+      <div class="copyrow"><input id="teamText" readonly aria-label="Состав для чата"><button class="btn" id="copyTeam"><svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg>Скопировать состав</button><button class="btn ghost" id="copyLink"><svg class="ico" aria-hidden="true"><use href="#i-link"/></svg>Ссылка</button><span class="small" id="teamMsg" role="status"></span></div>
+    </aside>
   </div>
-  <div class="roles-sum" id="roleSum"></div>
-  <div class="grid2">
-    <div class="panel"><h3>Что получается</h3><ul class="verdict" id="verdict" style="margin-top:10px"></ul></div>
-    <div class="panel"><h3>Баффы группы</h3><ul class="verdict" id="buffs" style="margin-top:10px"></ul></div>
-  </div>
-  <div class="copyrow"><input id="teamText" readonly aria-label="Состав для чата"><button class="btn" id="copyTeam">Скопировать состав</button><button class="btn ghost" id="copyLink">Скопировать ссылку</button><span class="small" id="teamMsg" role="status"></span></div>
 </section>
 
-<section class="block" id="classes">
-  <div class="sec-head"><h2>Классы</h2><p>Девять классов по три специализации. Темп прокачки взят из прогнозов по бете (в бете был потолок 30 уровня, выше оценки проектные). Нажмите на карточку, чтобы выбрать класс.</p></div>
-  <div class="cards" id="classCards"></div>
+<section class="block" id="checklist">
+  <div class="sec-head"><h2>Чек-лист перед стартом</h2><p>Галочки сохраняются в этом браузере. Удобно пройтись вместе в чате и отметить, что уже решено.</p></div>
+  <div class="prog"><div class="bar" aria-hidden="true"><i id="progBar"></i></div><span id="progTxt"></span></div>
+  <ul class="check" id="checkList"></ul>
+  <div class="row-actions"><button class="btn ghost" id="checkReset">Сбросить отметки</button></div>
+</section>
+
+<div class="part-h">Справочник</div>
+
+<section class="block" id="classes" style="padding-top:20px">
+  <div class="sec-head"><div class="row"><h2>Классы</h2><span class="src">Warcraft Tavern, LFCarry</span></div><p>Девять классов по три специализации. Темп прокачки взят из прогнозов по бете (в бете был потолок 30 уровня, выше оценки проектные).</p></div>
+  <div class="ref" id="classRef"></div>
 </section>
 
 <section class="block" id="races">
-  <div class="sec-head"><h2>Расы</h2><p>У каждой расы по четыре способности: две активные и две пассивные. Часть старых способностей заменена новыми, сопротивления убраны.</p></div>
-  <div class="cards" id="raceCards"></div>
-  <p class="note"><b>Скайборн</b> играбельна за обе фракции, выбор фракции делается при создании. Обе ветки говорят на общем языке, а стартовая зона Zephras Isle общая, враги там не встречаются из-за слоёв.</p>
+  <div class="sec-head"><div class="row"><h2>Расы</h2><span class="src">Method, Warcraft Tavern</span></div><p>У каждой расы по четыре способности: две активные и две пассивные. Часть старых способностей заменена новыми, сопротивления убраны.</p></div>
+  <div class="ref" id="raceRef"></div>
+  <p class="note"><span class="mk fact">факт</span><b>Скайборн</b> играбельна за обе фракции, выбор фракции делается при создании. Обе ветки говорят на общем языке, а стартовая зона Zephras Isle общая, враги там не встречаются из-за слоёв.</p>
 </section>
 
 <section class="block" id="legacy">
-  <div class="sec-head"><h2>Система Legacy</h2><p>Прогресс на весь аккаунт Battle.net. Очки получают за испытания, а тратят на перки отдельно на каждом персонаже.</p></div>
+  <div class="sec-head"><div class="row"><h2>Система Legacy</h2><span class="src">Blizzard, Warcraft Tavern</span></div><p>Прогресс на весь аккаунт Battle.net. Очки получают за испытания, а тратят на перки отдельно на каждом персонаже.</p></div>
   <div class="grid2">
     <div class="panel">
       <h3>Как получить очки</h3>
-      <ul class="dots" style="margin-top:10px">
+      <ul class="dots">
         <li>Система открывается с первым очком: уровень 25 на персонаже, либо 150 в профессии (не сбор), либо исследование всей карты.</li>
         <li>Каждое испытание даёт 1 очко. По данным Blizzard испытаний 65 в шести категориях: классы 27, профессии 18, PvP 12, подземелья 3, рейды 3, приключения 2.</li>
         <li>Очки действуют на всех персонажах не-Hardcore. Горячая клавиша окна: Y.</li>
@@ -428,7 +601,7 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 6px; }
     </div>
     <div class="panel">
       <h3>Трек наград (по числу очков)</h3>
-      <ul class="dots" style="margin-top:10px">
+      <ul class="dots">
         <li>15: игрушка Holstered Replica Ironforge Air Rifle</li>
         <li>25: питомец Spectral Bear Cub</li>
         <li>40: табард Spectral Bear</li>
@@ -444,15 +617,15 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 6px; }
       <tr><th scope="row">Приключения</th><td>Well Rested (5): быстрее копится отдых и выше его потолок. Thrill of Adventure (5): здоровье и мана за убийство вне подземелий. Talented (5): таланты с 9 уровня вместо 10. Field Guide (3): короче откат объектов лагеря. Frequent Flier (1): перелёты на 50% дешевле.</td></tr>
       <tr><th scope="row">Ресурсы</th><td>Gourmand (3): еда действует на 33% дольше. Reinforce (5): на 8% меньше потеря прочности. Diplomat (5): +2% репутации. Permanence (2): дольше баффы лагеря. Reagent Economy (1): способностям класса не нужны покупные реагенты.</td></tr>
     </tbody></table></div>
-  <p class="note"><b>Совет:</b> в первую очередь ценны перки лагеря и опыта (Well Rested, Field Guide, Permanence) и Reagent Economy для классов с реагентами. Это наша оценка. Один источник пишет про лимит 25 очков на дерево, Blizzard лимита на дерево не называет.</p>
+  <p class="note tipn"><span class="mk tip">совет</span>В первую очередь ценны перки лагеря и опыта (Well Rested, Field Guide, Permanence) и Reagent Economy для классов с реагентами. Один источник пишет про лимит 25 очков на дерево, Blizzard лимита на дерево не называет.</p>
 </section>
 
 <section class="block" id="camp">
-  <div class="sec-head"><h2>Лагерь и профессии</h2><p>Костёр по профессии Кулинария превращается в общий лагерь: рядом можно отдыхать, получать баффы и ставить объекты своих профессий.</p></div>
+  <div class="sec-head"><div class="row"><h2>Лагерь и профессии</h2><span class="src">Warcraft Tavern</span></div><p>Костёр по профессии Кулинария превращается в общий лагерь: рядом можно отдыхать, получать баффы и ставить объекты своих профессий.</p></div>
   <div class="grid2">
     <div class="panel">
       <h3>Как это работает</h3>
-      <ul class="dots" style="margin-top:10px">
+      <ul class="dots">
         <li>Костёр одноразовый: строится несколько секунд, горит около 10 минут, откат на постановку 5 минут.</li>
         <li>Базовый костёр доступен без Кулинарии, на 3 объекта. Кулинария 140 даёт 5 слотов, 220 даёт 10.</li>
         <li>Каждый персонаж ставит один объект, откат на объект 1 час. Вместе делают общий лагерь.</li>
@@ -462,7 +635,7 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 6px; }
     </div>
     <div class="panel">
       <h3>Спальник и еда</h3>
-      <ul class="dots" style="margin-top:10px">
+      <ul class="dots">
         <li><b>Cozy Sleeping Bag</b> даёт Well-Rested, он складывается с баффами лагеря. Получают его цепочкой заданий на обоих континентах.</li>
         <li>Большая часть готовой еды даёт бонус к опыту, он складывается и с лагерем, и со спальником.</li>
         <li>Перки Legacy: Field Guide, Permanence, Reagent Economy улучшают лагерь.</li>
@@ -489,7 +662,7 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 6px; }
 </section>
 
 <section class="block" id="dungeons">
-  <div class="sec-head"><h2>Подземелья и рейды</h2><p>Всего 35 подземелий, из них 9 новых. Уровни ориентировочные, жёстких блокировок Blizzard пока не опубликовала. На сайтах диапазоны местами отличаются на пару уровней.</p></div>
+  <div class="sec-head"><div class="row"><h2>Подземелья и рейды</h2><span class="src">Warcraft Tavern, ClassicWoW.gg</span></div><p>Всего 35 подземелий, из них 9 новых. Уровни ориентировочные, жёстких блокировок Blizzard пока не опубликовала. На сайтах диапазоны местами отличаются на пару уровней.</p></div>
   <div class="tbl-box"><table>
     <thead><tr><th>Новое подземелье</th><th>Уровни</th><th>Где</th></tr></thead>
     <tbody>
@@ -506,7 +679,7 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 6px; }
   <div class="grid2">
     <div class="panel">
       <h3>Рейды (с 09.12.2026)</h3>
-      <ul class="dots" style="margin-top:10px">
+      <ul class="dots">
         <li><b>Barrow Deeps</b>, 10 игроков</li>
         <li><b>Hyjal Summit</b>, 20 игроков</li>
         <li><b>Onyxia’s Lair</b>, 40 игроков, в Dustwallow Marsh</li>
@@ -515,7 +688,7 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 6px; }
     </div>
     <div class="panel">
       <h3>PvP</h3>
-      <ul class="dots" style="margin-top:10px">
+      <ul class="dots">
         <li>Новое поле боя 15 на 15: Darkspear Islands у побережья Dustwallow Marsh.</li>
         <li>Звания с недельным лимитом, улучшение экипировки за Честь, сезонные цели Legacy.</li>
       </ul>
@@ -528,8 +701,8 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 6px; }
   <div class="sec-head"><h2>Состав для компании из 6–8 человек</h2><p>Ниже факты из источников и наши рекомендации. Рекомендации помечены отдельно, это не официальные данные.</p></div>
   <div class="grid2">
     <div class="panel">
-      <h3>Что известно</h3>
-      <ul class="dots" style="margin-top:10px">
+      <h3><span class="mk fact">факт</span>Что известно</h3>
+      <ul class="dots">
         <li>Подземелья рассчитаны на 5 игроков: танк, лекарь, трое с уроном.</li>
         <li>Рейды на 10, 20 и 40 игроков. Из шести-восьми друзей 10-местный Barrow Deeps соберётся с одним-двумя знакомыми из гильдии.</li>
         <li>Танковать могут Воин, Паладин и Друид, лечить Паладин, Жрец, Шаман и Друид.</li>
@@ -538,7 +711,7 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 6px; }
       </ul>
     </div>
     <div class="own">
-      <div class="eyebrow">Рекомендация составителя</div>
+      <h3><span class="mk tip">совет</span>Рекомендация составителя</h3>
       <ul class="dots">
         <li><b>На 6:</b> Воин или Паладин (Защита) в танка, Жрец или Паладин (Свет) в лекаря, четверо в урон: Маг, Охотник, Разбойник, Чернокнижник.</li>
         <li><b>На 8:</b> два танка-гибрида (Паладин, Друид), два лекаря (Жрец плюс Шаман или Друид), в урон Маг, Охотник, Чернокнижник и Шаман. Тогда можно собрать две группы по 4–5 игроков или одну на 5 и менять роли.</li>
@@ -550,7 +723,7 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 6px; }
   </div>
   <div class="panel">
     <h3>Прокачка</h3>
-    <ul class="dots" style="margin-top:10px">
+    <ul class="dots">
       <li>По прогнозам Охотник и Маг прокачиваются быстрее всего (примерно на 8% быстрее среднего), Воин медленнее всех (около 12%), Друид и Жрец чуть медленнее среднего. Это оценки для беты, цифры могут измениться.</li>
       <li>Масштабирования уровней нет: подземелья для своих уровней, их нельзя пройти «подтянув» слабого друга.</li>
       <li>Копите отдых: спальник, Well Rested и еда с бонусом опыта складываются.</li>
@@ -559,16 +732,8 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 6px; }
   </div>
 </section>
 
-<section class="block" id="checklist">
-  <div class="sec-head"><h2>Чек-лист перед стартом</h2><p>Галочки сохраняются в этом браузере. Удобно пройтись вместе в чате и отметить, что уже решено.</p></div>
-  <div class="prog" aria-hidden="true"><i id="progBar"></i></div>
-  <p class="small" id="progTxt"></p>
-  <ul class="check" id="checkList"></ul>
-  <div class="row-actions"><button class="btn ghost" id="checkReset">Сбросить отметки</button></div>
-</section>
-
 <section class="block" id="era">
-  <div class="sec-head"><h2>Чем Forever отличается от Classic Era</h2></div>
+  <div class="sec-head"><div class="row"><h2>Чем Forever отличается от Classic Era</h2><span class="src">ClassicWoW.gg</span></div></div>
   <div class="tbl-box"><table>
     <thead><tr><th>Тема</th><th>Что в Forever</th></tr></thead>
     <tbody>
@@ -583,6 +748,7 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 6px; }
 <footer id="sources">
   <h2>Источники и актуальность</h2>
   <p>Данные собраны <b style="color:var(--fg)">22.10.2026</b> по закрытой бете и патчу от 15.10.2026 и сверены по нескольким источникам. До релиза Blizzard ещё может менять бету, особенно способности рас, настройку классов и перки Legacy. Если источники расходились, это отмечено в тексте. Точные числа сверяйте в игре.</p>
+  <p><span class="mk fact">факт</span>взято из источников ниже. <span class="mk tip">совет</span>мнение составителя, не официальные данные.</p>
   <ul>
     <li><a href="https://www.warcrafttavern.com/forever/" target="_blank" rel="noopener">Warcraft Tavern</a>: <a href="https://www.warcrafttavern.com/forever/guides/race-class-combos/" target="_blank" rel="noopener">комбинации</a>, <a href="https://www.warcrafttavern.com/forever/guides/races/" target="_blank" rel="noopener">расы</a>, <a href="https://www.warcrafttavern.com/forever/guides/legacy/" target="_blank" rel="noopener">Legacy</a>, <a href="https://www.warcrafttavern.com/forever/guides/camping/" target="_blank" rel="noopener">лагерь</a>, <a href="https://www.warcrafttavern.com/forever/guides/dungeons/" target="_blank" rel="noopener">подземелья</a>, <a href="https://www.warcrafttavern.com/news/world-of-warcraft-forever-editions-skyborne-race-unlock-beta-access/" target="_blank" rel="noopener">наборы и цены</a></li>
     <li><a href="https://www.method.gg/wow-forever" target="_blank" rel="noopener">Method</a>: <a href="https://www.method.gg/wow-forever/all-class-and-race-combinations-in-world-of-warcraft-forever" target="_blank" rel="noopener">все комбинации</a>, <a href="https://www.method.gg/wow-forever/all-new-racial-abilities-in-world-of-warcraft-forever" target="_blank" rel="noopener">способности рас</a></li>
@@ -594,7 +760,13 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 6px; }
   </ul>
   <p>Страница сделана для сервера Gabella Team и не связана с Blizzard Entertainment. World of Warcraft — товарный знак Blizzard.</p>
 </footer>
+</main>
 </div>
+
+<dialog class="toc-dlg" id="tocDlg" aria-label="Разделы">
+  <div class="dh"><b>Разделы</b><button class="iconbtn" id="tocClose" type="button" aria-label="Закрыть"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
+  <div class="toc" id="tocM"></div>
+</dialog>
 
 <script>
 const CLASSES = [
@@ -715,7 +887,6 @@ const EN = {
 RC.skyA.en = 'High Order Skyborne'; RC.skyH.en = 'Windshaper Skyborne';
 function bi(ru) { return EN[ru] && EN[ru] !== ru ? `${esc(ru)} <span class="en">(${esc(EN[ru])})</span>` : esc(ru); }
 function raceEn(r) { return r.en ? ` <span class="en">/ ${esc(r.en)}</span>` : ''; }
-
 const state = { f:'all', r:'all', race:'dwarf', cls:'shaman' };
 const $ = s => document.querySelector(s);
 
@@ -723,12 +894,19 @@ function roleMatch(c, role) { return role === 'all' || c.roles.includes(role); }
 function raceVisible(r) { return state.f === 'all' || r.f === state.f; }
 function facName(f) { return f === 'alliance' ? 'Альянс' : 'Орда'; }
 function esc(s) { return String(s).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])); }
+function roleChips(c) { return c.roles.map(x => `<span class="chip ${state.r === x ? 'on' : ''} ${x.endsWith('?') ? 'q' : ''}">${ri(x)}${ROLE_RU[x]}</span>`).join(''); }
 
 function pickValid() {
   let r = RC[state.race];
   if (!raceVisible(r)) { r = RACES.find(raceVisible); state.race = r.id; }
   if (!r.can[state.cls]) { state.cls = Object.keys(r.can).find(c => roleMatch(CL[c], state.r)) || Object.keys(r.can)[0]; }
 }
+function pickClass(id) {
+  state.cls = id;
+  if (!RC[state.race].can[id]) { const r = RACES.filter(raceVisible).find(x => x.can[id]) || RACES.find(x => x.can[id]); if (r) state.race = r.id; }
+  if (!raceVisible(RC[state.race])) { state.f = 'all'; syncSeg('segF', 'all'); }
+}
+function syncSeg(id, v) { document.querySelectorAll(`#${id} button`).forEach(b => b.setAttribute('aria-pressed', b.dataset.v === v ? 'true' : 'false')); }
 
 function renderMatrix() {
   let h = '<thead><tr><th scope="col">Раса</th>';
@@ -749,103 +927,127 @@ function renderMatrix() {
   $('#matrix').innerHTML = h + '</tbody>';
 }
 
+function renderPickM() {
+  const r = RC[state.race];
+  const races = RACES.filter(raceVisible).map(x => `<button type="button" data-pr="${x.id}" aria-pressed="${x.id === state.race}"><span class="f ${x.f}"></span>${esc(x.n)}</button>`).join('');
+  const cls = CLASSES.filter(c => roleMatch(c, state.r)).map(c => {
+    const v = r.can[c.id];
+    return `<button type="button" data-pc="${c.id}" class="${v ? '' : 'na'}" aria-pressed="${c.id === state.cls}">${esc(c.n)}${v === 'new' ? ' · новое' : ''}</button>`;
+  }).join('');
+  $('#pickm').innerHTML = `<div><div class="lbl">1. Раса</div><div class="chiprow">${races}</div></div>
+    <div><div class="lbl">2. Класс (пунктиром: этой расе недоступен, нажмите, чтобы сменить расу)</div><div class="chiprow">${cls}</div></div>`;
+}
+
 function renderDetail() {
   const r = RC[state.race], c = CL[state.cls], isNew = r.can[c.id] === 'new';
-  const rolesChips = c.roles.map(x => `<span class="chip ${state.r === x ? 'on' : ''} ${x.endsWith('?') ? 'q' : ''}">${ri(x)}${ROLE_RU[x]}</span>`).join('');
   const specs = c.specs.map(s => {
     const hit = state.r === 'all' ? '' : (s[2].includes(state.r) ? ' on' : '');
-    return `<li><span class="specname">${bi(s[0])}</span><span class="specrole">${esc(s[1])}</span></li>`.replace('<li>', `<li class="${hit}">`);
+    return `<li class="${hit}"><span class="specname">${bi(s[0])}</span><span class="specrole">${esc(s[1])}</span></li>`;
   }).join('');
   const rac = r.rac.map(x => `<li><span><span class="rtype">${x[0] === 'a' ? 'Активная' : 'Пассивная'}</span><span class="specname">${bi(x[1])}</span></span><span class="specrole">${esc(x[2])}</span></li>`).join('');
   const text = `${r.name || r.n} ${c.n} (${facName(r.f)})${r.paid ? ', нужен набор Скайборн' : ''}`;
   $('#detail').innerHTML = `
-    <div class="d-top"><h2>${esc(r.n)}${raceEn(r)} · ${esc(c.n)}</h2>
+    <div class="d-top"><h3>${esc(r.n)}${raceEn(r)} · ${esc(c.n)}</h3>
       <span class="tag ${r.f}">${facName(r.f)}</span>
       ${isNew ? '<span class="tag new">Новая комбинация</span>' : ''}
       ${r.paid ? '<span class="tag paid">Платная раса</span>' : ''}</div>
     <div class="d-cols">
-      <div><h3>Класс: роли и специализации</h3>
-        <div class="chips" style="margin-bottom:10px">${rolesChips}</div>
+      <div><h4>Класс: роли и специализации</h4>
+        <div class="chips" style="margin-bottom:12px">${roleChips(c)}</div>
         <ul class="plain">${specs}</ul>
-        <p class="small" style="margin-top:10px"><b>Прокачка:</b> ${esc(c.lvl)}.</p>
-        <p class="small"><b>В рейде:</b> ${esc(c.raid)}.</p>
-        <p class="small"><b>Что нового:</b> ${esc(c.forever)}</p></div>
-      <div><h3>Раса: способности</h3>
+        <dl class="facts"><div><dt>Прокачка</dt><dd>${esc(c.lvl)}.</dd></div>
+        <div><dt>В рейде</dt><dd>${esc(c.raid)}.</dd></div>
+        <div><dt>Что нового</dt><dd>${esc(c.forever)}</dd></div></dl></div>
+      <div><h4>Раса: способности</h4>
         <ul class="plain">${rac}</ul>
-        <p class="small" style="margin-top:10px">${esc(r.tip)}</p></div>
+        <p class="note tipn" style="margin-top:14px"><span class="mk tip">совет</span>${esc(r.tip)}</p></div>
     </div>
     <div class="copyrow">
       <input id="pickText" readonly value="${esc(text)}" aria-label="Мой выбор">
-      <button class="btn" id="copyBtn">Скопировать мой выбор</button>
+      <button class="btn" id="copyBtn"><svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg>Скопировать мой выбор</button>
       <span class="small" id="copyMsg" role="status"></span>
     </div>`;
-  $('#copyBtn').onclick = async () => {
-    const inp = $('#pickText'); inp.select();
-    try { await navigator.clipboard.writeText(inp.value); $('#copyMsg').textContent = 'Скопировано'; }
-    catch (e) { $('#copyMsg').textContent = 'Текст выделен, нажмите Ctrl+C'; }
-  };
+  $('#copyBtn').onclick = () => copyTo($('#pickText').value, $('#copyMsg'), 'Скопировано');
+  $('#qPick').textContent = `Сейчас: ${r.n} · ${c.n}`;
 }
 
-function renderClassCards() {
-  $('#classCards').innerHTML = CLASSES.map(c => {
-    const dim = roleMatch(c, state.r) ? '' : ' style="opacity:.45"';
-    return `<button class="card ${c.id === state.cls ? 'sel' : ''}" data-c="${c.id}"${dim} aria-pressed="${c.id === state.cls}">
-      <h3><span class="cdot" style="--cc:${CCOL[c.id]}"></span>${esc(c.n)}</h3>
-      <div class="chips">${c.roles.map(x => `<span class="chip ${state.r === x ? 'on' : ''} ${x.endsWith('?') ? 'q' : ''}">${ri(x)}${ROLE_RU[x]}</span>`).join('')}</div>
-      <dl><div><dt>Специализации</dt><dd>${c.specs.map(s => bi(s[0])).join(', ')}</dd></div>
-      <div><dt>Прокачка</dt><dd>${esc(c.lvl)}</dd></div>
-      <div><dt>В рейде</dt><dd>${esc(c.raid)}</dd></div></dl></button>`;
-  }).join('');
+function renderClassRef() {
+  $('#classRef').innerHTML = CLASSES.map(c => `<div class="ref-row ${c.id === state.cls ? 'sel' : ''}" style="--cc:${CCOL[c.id]}">
+    <div class="ref-name"><h3><span class="bar" aria-hidden="true"></span>${esc(c.n)}</h3>
+      <div class="chips">${roleChips(c)}</div>
+      <button type="button" class="go" data-c="${c.id}">Открыть в подборщике</button></div>
+    <div class="ref-body">
+      <div><h4>Специализации</h4>${c.specs.map(s => `<div>${bi(s[0])}</div>`).join('')}</div>
+      <div><h4>Прокачка</h4>${esc(c.lvl)}</div>
+      <div><h4>В рейде</h4>${esc(c.raid)}</div>
+      <details><summary>Что изменилось в Forever</summary><p>${esc(c.forever)}</p>
+        <ul class="plain" style="margin-top:10px">${c.specs.map(s => `<li><span class="specname">${bi(s[0])}</span><span class="specrole">${esc(s[1])}</span></li>`).join('')}</ul></details>
+    </div></div>`).join('');
 }
 
-function renderRaceCards() {
-  $('#raceCards').innerHTML = RACES.filter(raceVisible).map(r => {
-    const classes = Object.keys(r.can).map(id => `${CL[id].n}${r.can[id] === 'new' ? ' (новое)' : ''}`).join(', ');
-    return `<button class="card ${r.id === state.race ? 'sel' : ''}" data-r="${r.id}" aria-pressed="${r.id === state.race}">
-      <h3>${esc(r.n)}${raceEn(r)}</h3>
-      <div class="chips"><span class="chip">${facName(r.f)}</span>${r.paid ? '<span class="chip">платная</span>' : ''}</div>
-      <dl><div><dt>Классы</dt><dd>${esc(classes)}</dd></div>
-      <div><dt>Способности</dt><dd>${r.rac.map(x => bi(x[1])).join(', ')}</dd></div></dl></button>`;
-  }).join('');
+function renderRaceRef() {
+  $('#raceRef').innerHTML = RACES.map(r => `<div class="ref-row ${r.id === state.race ? 'sel' : ''}">
+    <div class="ref-name"><h3>${esc(r.n)}</h3>
+      ${r.en ? `<div class="sub">${esc(r.en)}</div>` : ''}
+      <div class="chips"><span class="tag ${r.f}">${facName(r.f)}</span>${r.paid ? '<span class="tag paid">платная</span>' : ''}</div>
+      <button type="button" class="go" data-r="${r.id}">Открыть в подборщике</button></div>
+    <div class="ref-body two">
+      <div><h4>Классы</h4><div class="chips">${Object.keys(r.can).map(id => `<span class="chip ${r.can[id] === 'new' ? 'new' : ''}">${esc(CL[id].n)}${r.can[id] === 'new' ? ' · новое' : ''}</span>`).join('')}</div></div>
+      <div><h4>Способности</h4><ul class="plain">${r.rac.map(x => `<li><span><span class="rtype">${x[0] === 'a' ? 'Активная' : 'Пассивная'}</span><span class="specname">${bi(x[1])}</span></span><span class="specrole">${esc(x[2])}</span></li>`).join('')}</ul></div>
+      <p class="note tipn wide"><span class="mk tip">совет</span>${esc(r.tip)}</p>
+    </div></div>`).join('');
 }
 
-function render() { pickValid(); renderMatrix(); renderDetail(); renderClassCards(); renderRaceCards(); }
+function render() { pickValid(); renderMatrix(); renderPickM(); renderDetail(); renderClassRef(); renderRaceRef(); }
+function toPicker() { $('#detail').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest' }); }
 
 document.addEventListener('click', e => {
-  const seg = e.target.closest('.seg button');
+  const seg = e.target.closest('#segF button, #segR button');
   if (seg) {
     const which = seg.parentElement.id === 'segF' ? 'f' : 'r';
-    state[which] = seg.dataset.v;
-    seg.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b === seg ? 'true' : 'false'));
+    state[which] = seg.dataset.v; syncSeg(seg.parentElement.id, seg.dataset.v);
     render(); return;
   }
   const cell = e.target.closest('button.cell');
-  if (cell) { state.race = cell.dataset.r; state.cls = cell.dataset.c; render(); $('#detail').scrollIntoView({ behavior:'smooth', block:'nearest' }); return; }
-  const card = e.target.closest('button.card');
-  if (card) {
-    if (card.dataset.c) state.cls = card.dataset.c;
-    if (card.dataset.r) state.race = card.dataset.r;
-    if (card.dataset.c && !RC[state.race].can[state.cls]) { const r = RACES.filter(raceVisible).find(x => x.can[state.cls]); if (r) state.race = r.id; }
-    render(); $('#detail').scrollIntoView({ behavior:'smooth', block:'nearest' });
+  if (cell) { state.race = cell.dataset.r; state.cls = cell.dataset.c; render(); toPicker(); return; }
+  const pr = e.target.closest('[data-pr]');
+  if (pr) { state.race = pr.dataset.pr; render(); return; }
+  const pc = e.target.closest('[data-pc]');
+  if (pc) { pickClass(pc.dataset.pc); render(); return; }
+  const go = e.target.closest('button.go');
+  if (go) {
+    if (go.dataset.r) { state.race = go.dataset.r; if (!raceVisible(RC[state.race])) { state.f = 'all'; syncSeg('segF', 'all'); } }
+    if (go.dataset.c) pickClass(go.dataset.c);
+    render(); document.getElementById('picker').scrollIntoView({ behavior: 'smooth' });
   }
 });
 render();
 
-/* Countdown */
+/* Countdown and date rail */
+const D0 = new Date('2026-09-17T00:00:00'), D1 = new Date('2026-12-09T00:00:00');
 function renderCountdown() {
-  const day = 86400000, now = new Date(), t = d => new Date(d + 'T00:00:00');
-  const rel = t('2026-11-04'), r1 = t('2026-10-27'), r2 = t('2026-11-04'), raid = t('2026-12-09');
-  const n = (a) => Math.ceil((a - now) / day);
-  let big, cap, res;
-  if (now < rel) { big = n(rel); cap = ['дней до релиза', 'WoW Forever выходит 04.11.2026']; }
-  else if (now < raid) { big = n(raid); cap = ['дней до рейдов', 'Игра вышла 04.11.2026, рейды откроются 09.12']; }
-  else { big = '✓'; cap = ['рейды открыты', 'Barrow Deeps, Hyjal Summit, Onyxia\'s Lair']; }
-  if (now < r1) res = ['Резервация имён', `откроется через ${n(r1)} дн. (27.10 – 03.11)`];
-  else if (now < r2) res = ['Резервация имён', `идёт сейчас, до 03.11 включительно`];
-  else res = ['Резервация имён', 'завершена'];
-  $('#cd').innerHTML = `<div class="big">${big}</div><div class="cap"><b>${cap[0]}</b><span>${cap[1]}</span></div><div class="res"><b>${res[0]}</b><span class="small">${res[1]}</span></div>`;
+  const now = new Date(), rel = new Date('2026-11-04T00:00:00'), raid = D1, r1 = new Date('2026-10-27T00:00:00');
+  let target, what, sub;
+  if (now < rel) { target = rel; what = 'до релиза'; sub = 'WoW Forever выходит 04.11.2026'; }
+  else if (now < raid) { target = raid; what = 'до рейдов'; sub = 'Рейды открываются 09.12.2026'; }
+  if (target) {
+    const ms = target - now, d = Math.floor(ms / 864e5), h = Math.floor(ms % 864e5 / 36e5), m = Math.floor(ms % 36e5 / 6e4);
+    const p = x => String(x).padStart(2, '0');
+    const names = now < r1 ? 'Резервация имён откроется 27.10' : (now < rel ? 'Резервация имён идёт до 03.11' : '');
+    $('#cd').innerHTML = `<div class="u"><b>${d}</b><span>дн</span></div><div class="u"><b>${p(h)}</b><span>ч</span></div><div class="u"><b>${p(m)}</b><span>мин</span></div>
+      <div class="what"><b>${what}</b><span>${sub}</span>${names ? `<span>${names}</span>` : ''}</div>`;
+  } else {
+    $('#cd').innerHTML = `<div class="what"><b>Рейды открыты</b><span>Barrow Deeps, Hyjal Summit, Onyxia’s Lair</span></div>`;
+  }
+  const k = Math.max(0, Math.min(1, (now - D0) / (D1 - D0)));
+  $('#railFill').style.width = (k * 100) + '%';
+  const nowEl = $('#railNow'); nowEl.hidden = now > D1; nowEl.style.left = (k * 100) + '%';
+  let cur = null;
+  document.querySelectorAll('.rail li').forEach(li => { const past = new Date(li.dataset.d + 'T00:00:00') <= now; li.classList.toggle('past', past); li.classList.remove('cur'); if (!past && !cur) cur = li; });
+  if (cur) cur.classList.add('cur');
 }
 renderCountdown();
+setInterval(renderCountdown, 30000);
 
 /* Group builder */
 const MAXT = 40, PARTY = 5;
@@ -894,18 +1096,15 @@ function readHash() {
   team.f = m[1]; team.list = list.map(x => ({ race: x[0], cls: x[1], role: x[2] }));
   return true;
 }
+const fromLink = readHash();
 function teamLink() { return location.origin + location.pathname + '#team=' + team.f + ';' + team.list.map(s => `${s.race}.${s.cls}.${s.role}`).join(','); }
-function setSize(n) {
-  n = Math.max(1, Math.min(MAXT, n));
-  if (team.list.length === n) return;
-  team.list = autoTeam(n, team.f); renderTeam();
-}
 function raceName(r) { return r.name || r.n; }
 function countRoles(list) { const c = { tank: 0, heal: 0, dps: 0 }; list.forEach(s => c[s.role]++); return c; }
+let teamTouched = fromLink;
 function renderTeam() {
   team.list.forEach(fixSlot);
   const n = team.list.length;
-  document.querySelectorAll('#segBF button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === team.f ? 'true' : 'false'));
+  syncSeg('segBF', team.f);
   $('#sizes').innerHTML = SIZES.map(x => `<button type="button" data-n="${x}" aria-pressed="${x === n}">${x}</button>`).join('');
   $('#szOut').textContent = n;
   const parties = Math.ceil(n / PARTY);
@@ -917,27 +1116,27 @@ function renderTeam() {
     const need = [];
     if (!c.tank) need.push('нет танка'); if (!c.heal) need.push('нет лекаря'); if (part.length < PARTY) need.push(`не хватает ${PARTY - part.length}`);
     const status = need.length ? `<span class="miss">${need.join(', ')}</span>` : '<span class="ok">полный состав</span>';
-    html += `<div class="party"><div class="party-h"><h3>Группа ${g + 1}</h3><span class="pc"><span>${ri('tank')}${c.tank}</span><span>${ri('heal')}${c.heal}</span><span>${ri('dps')}${c.dps}</span>${status}</span></div>`;
+    html += `<div class="party"><div class="party-h"><h4>Группа ${g + 1}</h4><span class="pc"><span>${ri('tank')}${c.tank}</span><span>${ri('heal')}${c.heal}</span><span>${ri('dps')}${c.dps}</span>${status}</span></div>`;
     part.forEach((s, k) => {
       const i = g * PARTY + k, r = RC[s.race], ro = roleOpts(CL[s.cls]);
       html += `<div class="slot" style="--cc:${CCOL[s.cls]}" data-i="${i}"><span class="no">${i + 1}</span>
       <select class="srace" aria-label="Раса игрока ${i + 1}">${races.map(x => `<option value="${x.id}"${x.id === s.race ? ' selected' : ''}>${esc(x.n)}${x.paid ? ' (платная)' : ''}</option>`).join('')}</select>
       <select class="scls" aria-label="Класс игрока ${i + 1}">${Object.keys(r.can).map(c2 => `<option value="${c2}"${c2 === s.cls ? ' selected' : ''}>${esc(CL[c2].n)}</option>`).join('')}</select>
       <select class="srole" aria-label="Роль игрока ${i + 1}">${ro.map(x => `<option value="${x}"${x === s.role ? ' selected' : ''}>${ROLE_RU[x]}</option>`).join('')}</select>
-      <button class="del" aria-label="Убрать игрока ${i + 1}">✕</button></div>`;
+      <button class="del" aria-label="Убрать игрока ${i + 1}"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>`;
     });
     html += '</div>';
   }
   $('#slots').innerHTML = html;
   $('#bAdd').disabled = n >= MAXT;
   const cnt = countRoles(team.list);
-  $('#roleSum').innerHTML = RR.map(x => `<div class="rs ${cnt[x] ? 'ok' : 'zero'}">${ri(x)}<b>${cnt[x]}</b><span>${ROLE_RU[x]}</span></div>`).join('');
+  $('#roleSum').innerHTML = RR.map(x => `<div class="rs ${cnt[x] ? 'ok' : 'zero'}"><b>${cnt[x]}</b><span>${ri(x)}${ROLE_RU[x]}</span></div>`).join('');
   const v = [];
-  if (!n) v.push(['', 'Нажмите число игроков выше или добавьте игрока.']);
+  if (!n) v.push(['', 'Нажмите число игроков или добавьте игрока.']);
   else {
     const full = Array.from({ length: parties }, (_, g) => team.list.slice(g * PARTY, g * PARTY + PARTY)).filter(p => p.length === PARTY && p.some(s => s.role === 'tank') && p.some(s => s.role === 'heal')).length;
     if (full) v.push(['good', `Готовых групп для подземелья: ${full} из ${parties}. В каждой есть танк и лекарь.`]);
-    if (full < parties) v.push(['warn', 'Есть группы, где не хватает танка, лекаря или игроков. Они подсвечены выше.']);
+    if (full < parties) v.push(['warn', 'Есть группы, где не хватает танка, лекаря или игроков. Они подсвечены в списке.']);
     RAIDS.forEach(([size, name]) => v.push([n >= size ? 'good' : '', n >= size ? `Рейд на ${size} (${name}): людей хватает.` : `Рейд на ${size} (${name}): не хватает ${size - n}.`]));
     const byCls = {}; team.list.forEach(s => byCls[s.cls] = (byCls[s.cls] || 0) + 1);
     const dup = Object.keys(byCls).filter(c => byCls[c] > 1 && BUFF[c]);
@@ -951,34 +1150,37 @@ function renderTeam() {
   $('#buffs').innerHTML = (withB.length ? withB.map(c => `<li class="good"><span class="cdot" style="--cc:${CCOL[c]}"></span><b>${esc(CL[c].n)}:</b> ${esc(BUFF[c])}</li>`).join('') : '<li>Пока нет классов с групповыми баффами.</li>')
     + (noB.length ? `<li>Без группового баффа: ${noB.map(c => CL[c].n).join(', ')}. Они дают чистый урон.</li>` : '');
   $('#teamText').value = n ? Array.from({ length: parties }, (_, g) => (parties > 1 ? `Группа ${g + 1}: ` : '') + team.list.slice(g * PARTY, g * PARTY + PARTY).map(s => `${raceName(RC[s.race])} ${CL[s.cls].n} (${ROLE_RU[s.role]})`).join(', ')).join('; ') + ` — ${facName(team.f)}` : '';
-  try { history.replaceState(null, '', n ? teamLink() : location.pathname); } catch (e) {}
+  $('#qTeam').textContent = n ? `${facName(team.f)}, игроков: ${n}, танков ${cnt.tank}, лекарей ${cnt.heal}` : 'От одного до сорока игроков';
+  if (teamTouched) { try { history.replaceState(null, '', n ? teamLink() : location.pathname); } catch (e) {} }
 }
+function touch() { teamTouched = true; renderTeam(); }
 async function copyTo(text, msgEl, ok) {
   try { await navigator.clipboard.writeText(text); msgEl.textContent = ok; } catch (e) { msgEl.textContent = 'Не удалось скопировать, выделите и нажмите Ctrl+C'; }
 }
-$('#segBF').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; team.f = b.dataset.v; renderTeam(); });
-$('#sizes').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { team.list = autoTeam(+b.dataset.n, team.f); renderTeam(); } });
-$('#szMinus').onclick = () => { if (team.list.length > 1) { team.list.pop(); renderTeam(); } };
-$('#szPlus').onclick = () => { if (team.list.length < MAXT) { addPlayer(); } };
+$('#segBF').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; team.f = b.dataset.v; touch(); });
+$('#sizes').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { team.list = autoTeam(+b.dataset.n, team.f); touch(); } });
+$('#szMinus').onclick = () => { if (team.list.length > 1) { team.list.pop(); touch(); } };
+$('#szPlus').onclick = () => { if (team.list.length < MAXT) addPlayer(); };
 function addPlayer() {
   const k = team.list.length, role = k % PARTY === 0 ? 'tank' : k % PARTY === 1 ? 'heal' : 'dps';
   const pool = POOL[role].filter(c => RACES.some(r => r.f === team.f && r.can[c])), cls = pool[k % pool.length];
-  team.list.push({ race: raceFor(cls, team.f, k), cls, role }); renderTeam();
+  team.list.push({ race: raceFor(cls, team.f, k), cls, role }); touch();
 }
-$('#bClear').onclick = () => { team.list = []; renderTeam(); };
+$('#bClear').onclick = () => { team.list = []; touch(); };
 $('#bAdd').onclick = () => { if (team.list.length < MAXT) addPlayer(); };
 $('#slots').addEventListener('change', e => {
   const row = e.target.closest('.slot'); if (!row) return; const s = team.list[+row.dataset.i];
   if (e.target.classList.contains('srace')) s.race = e.target.value;
   if (e.target.classList.contains('scls')) s.cls = e.target.value;
   if (e.target.classList.contains('srole')) s.role = e.target.value;
-  renderTeam();
+  touch();
 });
-$('#slots').addEventListener('click', e => { const d = e.target.closest('.del'); if (!d) return; team.list.splice(+d.closest('.slot').dataset.i, 1); renderTeam(); });
+$('#slots').addEventListener('click', e => { const d = e.target.closest('.del'); if (!d) return; team.list.splice(+d.closest('.slot').dataset.i, 1); touch(); });
 $('#copyTeam').onclick = () => copyTo($('#teamText').value, $('#teamMsg'), 'Состав скопирован');
 $('#copyLink').onclick = () => copyTo(teamLink(), $('#teamMsg'), 'Ссылка скопирована');
-if (!readHash()) team.list = autoTeam(5, team.f);
+if (!fromLink) team.list = autoTeam(5, team.f);
 renderTeam();
+if (fromLink) setTimeout(() => document.getElementById('builder').scrollIntoView(), 0);
 
 /* Checklist */
 const CHECK = [
@@ -1000,6 +1202,7 @@ function renderCheck() {
   const k = done.length;
   $('#progBar').style.width = (k / CHECK.length * 100) + '%';
   $('#progTxt').textContent = `Готово ${k} из ${CHECK.length}`;
+  $('#qCheck').textContent = k ? `Готово ${k} из ${CHECK.length}` : 'Имена, профессии, дни, подписка';
 }
 $('#checkList').addEventListener('change', e => {
   const i = +e.target.dataset.i; done = done.filter(x => x !== i); if (e.target.checked) done.push(i); saveDone(); renderCheck();
@@ -1009,18 +1212,23 @@ renderCheck();
 
 /* Theme toggle and language links */
 const themeBtn = $('#themeBtn');
-function paintTheme() { const t = document.documentElement.getAttribute('data-theme'); themeBtn.textContent = t === 'light' ? '☾' : '☀'; const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#8a6414' : '#c9a54a'); }
+function paintTheme() { const t = document.documentElement.getAttribute('data-theme'); themeBtn.querySelector('use').setAttribute('href', t === 'light' ? '#i-moon' : '#i-sun'); const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#e9ebee' : '#0e1012'); }
 themeBtn.onclick = () => { const t = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light'; document.documentElement.setAttribute('data-theme', t); try { localStorage.setItem('wf-theme', t); } catch (e) {} paintTheme(); };
 paintTheme();
 document.querySelectorAll('.langs a').forEach(a => { a.addEventListener('click', () => { a.href = a.getAttribute('href').split('#')[0] + location.hash; }); });
 
-/* Highlight current section in nav */
+/* Table of contents: mobile drawer and current section */
+const dlg = $('#tocDlg');
+$('#tocM').innerHTML = $('#toc').innerHTML;
+$('#tocBtn').onclick = () => { if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', ''); };
+$('#tocClose').onclick = () => dlg.close();
+dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('a')) dlg.close(); });
 if ('IntersectionObserver' in window) {
-  const links = [...document.querySelectorAll('nav.sticky a')];
+  const links = [...document.querySelectorAll('.toc a')];
   const io = new IntersectionObserver(es => es.forEach(en => {
-    if (en.isIntersecting) links.forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === '#' + en.target.id ? 'true' : 'false'));
+    if (en.isIntersecting) { const id = en.target.classList.contains('mast') ? '#top' : '#' + en.target.id; links.forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === id ? 'true' : 'false')); }
   }), { rootMargin: '-20% 0px -70% 0px' });
-  document.querySelectorAll('section.block, footer#sources').forEach(s => io.observe(s));
+  document.querySelectorAll('.mast, section.block, footer#sources').forEach(s => io.observe(s));
 }
 </script>
 </body>
