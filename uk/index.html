@@ -193,7 +193,7 @@ section.block { scroll-margin-top: -72px; }
 
 /* Class roster: tall portraits, the active one expands */
 .roster { display: flex; gap: 6px; height: clamp(440px, 40vw, 560px); }
-.hc { position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; isolation: isolate; padding: 0; border: 1px solid #262930; border-radius: 2px; background: #0b0c0e; color: var(--ink); text-align: left; transition: flex-grow .55s var(--ease), border-color .3s; }
+.hc { display: block; text-decoration: none; position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; isolation: isolate; padding: 0; border: 1px solid #262930; border-radius: 2px; background: #0b0c0e; color: var(--ink); text-align: left; transition: flex-grow .55s var(--ease), border-color .3s; }
 .hc.on { flex-grow: 3.6; border-color: rgba(201,165,74,.7); }
 .hc picture, .hc img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .hc picture { z-index: -2; }
@@ -398,7 +398,7 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .ref-name h3 { display: flex; align-items: center; gap: 0; font-size: 1.6rem; }
 .ref-name .bar { width: 4px; height: 1.05em; margin-right: 10px; background: var(--cc, var(--gold)); }
 .ref-name .sub { color: var(--muted); font-size: .9rem; }
-.ref-name .go { justify-self: start; min-height: 40px; padding: 0 12px; border: 1px solid var(--line-2); border-radius: 3px; background: transparent; font-size: .85rem; font-weight: 500; color: var(--muted); }
+.ref-name .go { justify-self: start; display: inline-flex; align-items: center; text-decoration: none; min-height: 40px; padding: 0 12px; border: 1px solid var(--line-2); border-radius: 3px; background: transparent; font-size: .85rem; font-weight: 500; color: var(--muted); }
 .ref-name .go:hover { color: var(--fg); border-color: var(--gold); }
 .ref-body { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 24px; font-size: .95rem; }
 .ref-body.two { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
@@ -603,7 +603,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </section>
 
 <section class="block wrap" id="classes" data-nav="#classes" data-tab="#classes">
-  <div class="sec-head"><div class="row"><div style="display:grid;gap:12px"><p class="kick">Дев’ять класів</p><h2>Ким грати</h2></div><span class="src">Warcraft Tavern, LFCarry</span></div><p>Наведіть на портрет, щоб розкрити клас. Натисніть, і підбирач покаже раси, спеціалізації та що нового у Forever.</p></div>
+  <div class="sec-head"><div class="row"><div style="display:grid;gap:12px"><p class="kick">Дев’ять класів</p><h2>Ким грати</h2></div><span class="src">Warcraft Tavern, LFCarry</span></div><p>Наведіть на портрет, щоб розкрити клас. Натисніть, щоб відкрити сторінку класу: спеціалізації, раси й що нового у Forever.</p></div>
   <div class="roster" id="roster"></div>
   <p class="swipe">Гортайте портрети вбік.</p>
 </section>
@@ -1142,7 +1142,7 @@ function renderClassRef() {
   $('#classRef').innerHTML = CLASSES.map(c => `<div class="ref-row ${c.id === state.cls ? 'sel' : ''}" style="--cc:${CCOL[c.id]}">
     <div class="ref-name"><h3><span class="bar" aria-hidden="true"></span>${esc(c.n)}</h3>
       <div class="chips">${roleChips(c)}</div>
-      <button type="button" class="go" data-c="${c.id}">Відкрити в підборі</button></div>
+      <div class="chips"><a class="go" href="classes/${c.id}/">Сторінка класу</a><button type="button" class="go" data-c="${c.id}">Відкрити в підборі</button></div></div>
     <div class="ref-body">
       <div><h4>Спеціалізації</h4>${c.specs.map(s => `<div>${bi(s[0])}</div>`).join('')}</div>
       <div><h4>Прокачування</h4>${esc(c.lvl)}</div>
@@ -1189,6 +1189,14 @@ document.addEventListener('click', e => {
   }
 });
 render();
+/* Deep link from class pages: #pick=shaman or #pick=dwarf.shaman */
+(function () {
+  const m = location.hash.match(/^#pick=(?:(\w+)\.)?(\w+)$/);
+  if (!m || !CL[m[2]]) return;
+  if (m[1] && RC[m[1]] && RC[m[1]].can[m[2]]) { state.race = m[1]; state.cls = m[2]; } else pickClass(m[2]);
+  state.f = 'all'; state.r = 'all'; syncSeg('segF', 'all'); syncSeg('segR', 'all'); render();
+  setTimeout(() => document.getElementById('picker').scrollIntoView(), 0);
+})();
 /* Class roster: tall portraits, the hovered or focused one expands */
 const ROOT = '../';
 const DESC = {
@@ -1205,11 +1213,11 @@ const DESC = {
 const artSet = (id, ext) => [360, 600, 896].map(w => `${ROOT}assets/art/${id}-${w}.${ext} ${w}w`).join(', ');
 const ART_SIZES = '(max-width: 719px) 78vw, 440px';
 function renderRoster() {
-  $('#roster').innerHTML = CLASSES.map((c, i) => `<button type="button" class="hc go${i === 0 ? ' on' : ''}" data-c="${c.id}" style="--cc:${CCOL[c.id]}">
+  $('#roster').innerHTML = CLASSES.map((c, i) => `<a class="hc${i === 0 ? ' on' : ''}" href="classes/${c.id}/" style="--cc:${CCOL[c.id]}">
     <picture><source type="image/avif" srcset="${artSet(c.id, 'avif')}" sizes="${ART_SIZES}"><source type="image/webp" srcset="${artSet(c.id, 'webp')}" sizes="${ART_SIZES}"><img src="${ROOT}assets/art/${c.id}-600.webp" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
     <span class="vn" aria-hidden="true">${esc(c.n)}</span>
-    <span class="info"><b>${esc(c.n)}</b><span class="roles">${c.roles.filter(r => !r.endsWith('?')).map(r => `<span>${ri(r)}${ROLE_RU[r]}</span>`).join('')}</span><span class="d">${esc(DESC[c.id])}</span><span class="more">Відкрити в підборі</span></span>
-  </button>`).join('');
+    <span class="info"><b>${esc(c.n)}</b><span class="roles">${c.roles.filter(r => !r.endsWith('?')).map(r => `<span>${ri(r)}${ROLE_RU[r]}</span>`).join('')}</span><span class="d">${esc(DESC[c.id])}</span><span class="more">Докладніше про клас</span></span>
+  </a>`).join('');
 }
 renderRoster();
 function activate(card) { if (!card || card.classList.contains('on')) return; document.querySelectorAll('.hc.on').forEach(x => x.classList.remove('on')); card.classList.add('on'); }

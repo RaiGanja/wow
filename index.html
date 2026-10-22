@@ -24,14 +24,14 @@
 <meta property="og:image:alt" content="WoW Forever: гид Gabella Team">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230a0b0d'/%3E%3Ctext x='32' y='34' text-anchor='middle' dominant-baseline='central' font-family='Georgia,serif' font-size='44' font-weight='700' fill='%23c9a54a'%3EG%3C/text%3E%3C/svg%3E">
-<link rel="preload" href="assets/fonts/forum-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/golos-text-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="./assets/fonts/forum-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="./assets/fonts/golos-text-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <style>
 /* Game-portal layout: full-screen art hero, faction banners, class portrait roster, tools, guides band. Night + gold, light paper theme for content. */
-@font-face { font-family: "Forum"; font-style: normal; font-weight: 400; font-display: swap; src: url(assets/fonts/forum-cyrillic.woff2) format("woff2"); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
-@font-face { font-family: "Forum"; font-style: normal; font-weight: 400; font-display: swap; src: url(assets/fonts/forum-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-@font-face { font-family: "Golos Text"; font-style: normal; font-weight: 400 600; font-display: swap; src: url(assets/fonts/golos-text-cyrillic.woff2) format("woff2"); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
-@font-face { font-family: "Golos Text"; font-style: normal; font-weight: 400 600; font-display: swap; src: url(assets/fonts/golos-text-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Forum"; font-style: normal; font-weight: 400; font-display: swap; src: url(./assets/fonts/forum-cyrillic.woff2) format("woff2"); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: "Forum"; font-style: normal; font-weight: 400; font-display: swap; src: url(./assets/fonts/forum-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Golos Text"; font-style: normal; font-weight: 400 600; font-display: swap; src: url(./assets/fonts/golos-text-cyrillic.woff2) format("woff2"); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: "Golos Text"; font-style: normal; font-weight: 400 600; font-display: swap; src: url(./assets/fonts/golos-text-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 :root {
   --bg: #0a0b0d;
   --rail: #07080a;
@@ -193,7 +193,7 @@ section.block { scroll-margin-top: -72px; }
 
 /* Class roster: tall portraits, the active one expands */
 .roster { display: flex; gap: 6px; height: clamp(440px, 40vw, 560px); }
-.hc { position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; isolation: isolate; padding: 0; border: 1px solid #262930; border-radius: 2px; background: #0b0c0e; color: var(--ink); text-align: left; transition: flex-grow .55s var(--ease), border-color .3s; }
+.hc { display: block; text-decoration: none; position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; isolation: isolate; padding: 0; border: 1px solid #262930; border-radius: 2px; background: #0b0c0e; color: var(--ink); text-align: left; transition: flex-grow .55s var(--ease), border-color .3s; }
 .hc.on { flex-grow: 3.6; border-color: rgba(201,165,74,.7); }
 .hc picture, .hc img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .hc picture { z-index: -2; }
@@ -398,7 +398,7 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .ref-name h3 { display: flex; align-items: center; gap: 0; font-size: 1.6rem; }
 .ref-name .bar { width: 4px; height: 1.05em; margin-right: 10px; background: var(--cc, var(--gold)); }
 .ref-name .sub { color: var(--muted); font-size: .9rem; }
-.ref-name .go { justify-self: start; min-height: 40px; padding: 0 12px; border: 1px solid var(--line-2); border-radius: 3px; background: transparent; font-size: .85rem; font-weight: 500; color: var(--muted); }
+.ref-name .go { justify-self: start; display: inline-flex; align-items: center; text-decoration: none; min-height: 40px; padding: 0 12px; border: 1px solid var(--line-2); border-radius: 3px; background: transparent; font-size: .85rem; font-weight: 500; color: var(--muted); }
 .ref-name .go:hover { color: var(--fg); border-color: var(--gold); }
 .ref-body { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 24px; font-size: .95rem; }
 .ref-body.two { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
@@ -558,9 +558,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 
 <section class="hero" id="top" data-nav="#top" data-tab="#top">
   <picture class="hero-art">
-    <source type="image/avif" srcset="assets/art/hero_dawn-960.avif 960w, assets/art/hero_dawn-1440.avif 1440w, assets/art/hero_dawn-1920.avif 1920w, assets/art/hero_dawn-2560.avif 2560w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw">
-    <source type="image/webp" srcset="assets/art/hero_dawn-960.webp 960w, assets/art/hero_dawn-1440.webp 1440w, assets/art/hero_dawn-1920.webp 1920w, assets/art/hero_dawn-2560.webp 2560w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw">
-    <img src="assets/art/hero_dawn-1920.webp" width="1920" height="1072" alt="" fetchpriority="high" decoding="async">
+    <source type="image/avif" srcset="./assets/art/hero_dawn-960.avif 960w, ./assets/art/hero_dawn-1440.avif 1440w, ./assets/art/hero_dawn-1920.avif 1920w, ./assets/art/hero_dawn-2560.avif 2560w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw">
+    <source type="image/webp" srcset="./assets/art/hero_dawn-960.webp 960w, ./assets/art/hero_dawn-1440.webp 1440w, ./assets/art/hero_dawn-1920.webp 1920w, ./assets/art/hero_dawn-2560.webp 2560w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw">
+    <img src="./assets/art/hero_dawn-1920.webp" width="1920" height="1072" alt="" fetchpriority="high" decoding="async">
   </picture>
   <div class="wrap hero-in">
     <p class="eyebrow">Гид Gabella Team · данные на 23.10.2026</p>
@@ -584,7 +584,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <div class="sec-head"><p class="kick">Выбор стороны</p><h2>Альянс или Орда</h2><p>Договоритесь о фракции заранее: в PvP-режиме при создании доступна только одна. Девять классов есть у обеих сторон.</p></div>
   <div class="factions">
     <article class="fac alliance">
-      <picture><source type="image/avif" srcset="assets/art/paladin-600.avif 600w, assets/art/paladin-896.avif 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><source type="image/webp" srcset="assets/art/paladin-600.webp 600w, assets/art/paladin-896.webp 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><img src="assets/art/paladin-600.webp" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
+      <picture><source type="image/avif" srcset="./assets/art/paladin-600.avif 600w, ./assets/art/paladin-896.avif 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><source type="image/webp" srcset="./assets/art/paladin-600.webp 600w, ./assets/art/paladin-896.webp 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><img src="./assets/art/paladin-600.webp" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
       <p class="kick">Фракция</p>
       <h3>Альянс</h3>
       <p>Человек, дворф, ночной эльф, гном и Высший скайборн.</p>
@@ -592,7 +592,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
       <button type="button" class="go-f" data-fac="alliance">Подобрать расу и класс<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
     </article>
     <article class="fac horde">
-      <picture><source type="image/avif" srcset="assets/art/shaman-600.avif 600w, assets/art/shaman-896.avif 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><source type="image/webp" srcset="assets/art/shaman-600.webp 600w, assets/art/shaman-896.webp 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><img src="assets/art/shaman-600.webp" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
+      <picture><source type="image/avif" srcset="./assets/art/shaman-600.avif 600w, ./assets/art/shaman-896.avif 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><source type="image/webp" srcset="./assets/art/shaman-600.webp 600w, ./assets/art/shaman-896.webp 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><img src="./assets/art/shaman-600.webp" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
       <p class="kick">Фракция</p>
       <h3>Орда</h3>
       <p>Орк, нежить, таурен, тролль и Скайборн-ветрорез.</p>
@@ -603,7 +603,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </section>
 
 <section class="block wrap" id="classes" data-nav="#classes" data-tab="#classes">
-  <div class="sec-head"><div class="row"><div style="display:grid;gap:12px"><p class="kick">Девять классов</p><h2>Кем играть</h2></div><span class="src">Warcraft Tavern, LFCarry</span></div><p>Наведите на портрет, чтобы раскрыть класс. Нажмите, и подборщик покажет расы, специализации и что нового в Forever.</p></div>
+  <div class="sec-head"><div class="row"><div style="display:grid;gap:12px"><p class="kick">Девять классов</p><h2>Кем играть</h2></div><span class="src">Warcraft Tavern, LFCarry</span></div><p>Наведите на портрет, чтобы раскрыть класс. Нажмите, чтобы открыть страницу класса: специализации, расы и что нового в Forever.</p></div>
   <div class="roster" id="roster"></div>
   <p class="swipe">Листайте портреты в сторону.</p>
 </section>
@@ -675,7 +675,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <div class="row-actions"><button class="btn ghost" id="checkReset">Сбросить отметки</button></div>
 </section>
 <section class="gband" id="guides" data-nav="#guides" data-tab="#guides">
-  <picture><source type="image/avif" srcset="assets/art/hero_campfire-960.avif 960w, assets/art/hero_campfire-1600.avif 1600w" sizes="100vw"><source type="image/webp" srcset="assets/art/hero_campfire-960.webp 960w, assets/art/hero_campfire-1600.webp 1600w" sizes="100vw"><img src="assets/art/hero_campfire-1600.webp" width="1600" height="893" alt="" loading="lazy" decoding="async"></picture>
+  <picture><source type="image/avif" srcset="./assets/art/hero_campfire-960.avif 960w, ./assets/art/hero_campfire-1600.avif 1600w" sizes="100vw"><source type="image/webp" srcset="./assets/art/hero_campfire-960.webp 960w, ./assets/art/hero_campfire-1600.webp 1600w" sizes="100vw"><img src="./assets/art/hero_campfire-1600.webp" width="1600" height="893" alt="" loading="lazy" decoding="async"></picture>
   <div class="wrap">
     <div class="sec-head"><p class="kick">Справочник</p><h2>Гайды и справочник</h2><p>Всё, что мы собрали о WoW Forever: даты, системы игры, подземелья и советы для компании.</p></div>
     <nav class="gtiles" aria-label="Гайды">
@@ -1142,7 +1142,7 @@ function renderClassRef() {
   $('#classRef').innerHTML = CLASSES.map(c => `<div class="ref-row ${c.id === state.cls ? 'sel' : ''}" style="--cc:${CCOL[c.id]}">
     <div class="ref-name"><h3><span class="bar" aria-hidden="true"></span>${esc(c.n)}</h3>
       <div class="chips">${roleChips(c)}</div>
-      <button type="button" class="go" data-c="${c.id}">Открыть в подборщике</button></div>
+      <div class="chips"><a class="go" href="classes/${c.id}/">Страница класса</a><button type="button" class="go" data-c="${c.id}">Открыть в подборщике</button></div></div>
     <div class="ref-body">
       <div><h4>Специализации</h4>${c.specs.map(s => `<div>${bi(s[0])}</div>`).join('')}</div>
       <div><h4>Прокачка</h4>${esc(c.lvl)}</div>
@@ -1189,8 +1189,16 @@ document.addEventListener('click', e => {
   }
 });
 render();
+/* Deep link from class pages: #pick=shaman or #pick=dwarf.shaman */
+(function () {
+  const m = location.hash.match(/^#pick=(?:(\w+)\.)?(\w+)$/);
+  if (!m || !CL[m[2]]) return;
+  if (m[1] && RC[m[1]] && RC[m[1]].can[m[2]]) { state.race = m[1]; state.cls = m[2]; } else pickClass(m[2]);
+  state.f = 'all'; state.r = 'all'; syncSeg('segF', 'all'); syncSeg('segR', 'all'); render();
+  setTimeout(() => document.getElementById('picker').scrollIntoView(), 0);
+})();
 /* Class roster: tall portraits, the hovered or focused one expands */
-const ROOT = '';
+const ROOT = './';
 const DESC = {
   warrior: 'Латы, ярость и первый ряд. Держит удар как танк или рубит двуручным оружием.',
   paladin: 'Святой воин в латах: лечит, танкует и бьёт молотом. Теперь есть и у Орды.',
@@ -1205,11 +1213,11 @@ const DESC = {
 const artSet = (id, ext) => [360, 600, 896].map(w => `${ROOT}assets/art/${id}-${w}.${ext} ${w}w`).join(', ');
 const ART_SIZES = '(max-width: 719px) 78vw, 440px';
 function renderRoster() {
-  $('#roster').innerHTML = CLASSES.map((c, i) => `<button type="button" class="hc go${i === 0 ? ' on' : ''}" data-c="${c.id}" style="--cc:${CCOL[c.id]}">
+  $('#roster').innerHTML = CLASSES.map((c, i) => `<a class="hc${i === 0 ? ' on' : ''}" href="classes/${c.id}/" style="--cc:${CCOL[c.id]}">
     <picture><source type="image/avif" srcset="${artSet(c.id, 'avif')}" sizes="${ART_SIZES}"><source type="image/webp" srcset="${artSet(c.id, 'webp')}" sizes="${ART_SIZES}"><img src="${ROOT}assets/art/${c.id}-600.webp" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
     <span class="vn" aria-hidden="true">${esc(c.n)}</span>
-    <span class="info"><b>${esc(c.n)}</b><span class="roles">${c.roles.filter(r => !r.endsWith('?')).map(r => `<span>${ri(r)}${ROLE_RU[r]}</span>`).join('')}</span><span class="d">${esc(DESC[c.id])}</span><span class="more">Открыть в подборщике</span></span>
-  </button>`).join('');
+    <span class="info"><b>${esc(c.n)}</b><span class="roles">${c.roles.filter(r => !r.endsWith('?')).map(r => `<span>${ri(r)}${ROLE_RU[r]}</span>`).join('')}</span><span class="d">${esc(DESC[c.id])}</span><span class="more">Подробнее о классе</span></span>
+  </a>`).join('');
 }
 renderRoster();
 function activate(card) { if (!card || card.classList.contains('on')) return; document.querySelectorAll('.hc.on').forEach(x => x.classList.remove('on')); card.classList.add('on'); }
