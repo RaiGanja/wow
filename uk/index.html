@@ -1,0 +1,944 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WoW Forever: гід Gabella Team</title>
+<meta name="description" content="Гід по WoW Forever для компанії друзів: класи, раси, комбінації, Legacy, табір, підземелля, рейди та добір складу групи. Дані на 22.10.2026.">
+<meta name="theme-color" content="#c9a54a">
+<link rel="alternate" hreflang="ru" href="https://raiganja.github.io/wow/">
+<link rel="alternate" hreflang="en" href="https://raiganja.github.io/wow/en/">
+<link rel="alternate" hreflang="uk" href="https://raiganja.github.io/wow/uk/">
+<link rel="alternate" hreflang="x-default" href="https://raiganja.github.io/wow/">
+<script>(function(){var t=null;try{t=localStorage.getItem('wf-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}document.documentElement.setAttribute('data-theme',t)})();</script>
+<link rel="canonical" href="https://raiganja.github.io/wow/uk/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="uk_UA">
+<meta property="og:site_name" content="Gabella Team">
+<meta property="og:title" content="WoW Forever: гід Gabella Team">
+<meta property="og:description" content="Класи, раси, Legacy, табір, підземелля та добір складу групи. Дані на 22.10.2026.">
+<meta property="og:url" content="https://raiganja.github.io/wow/uk/">
+<meta property="og:image" content="https://raiganja.github.io/wow/assets/og-uk.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="WoW Forever: гід Gabella Team">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230c0c0d'/%3E%3Ctext x='32' y='33' text-anchor='middle' dominant-baseline='central' font-family='Georgia,serif' font-size='44' font-weight='700' fill='%23c9a54a'%3EG%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+/* Layout: header, sticky nav, dates, picker (filters, matrix, panel, cards), reference sections, sources. Two themes: dark (gold on black) and light. */
+:root {
+  --bg: #0c0c0d;
+  --surface: #141416;
+  --surface-2: #1c1c1f;
+  --fg: #ece6d6;
+  --muted: #a8a290;
+  --line: #2d2b26;
+  --gold: #c9a54a;
+  --gold-ink: #14100a;
+  --alliance: #86a6d8;
+  --horde: #d4807b;
+  --new: #92c4a0;
+  --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  color-scheme: dark;
+}
+:root[data-theme="light"] {
+  --bg: #faf7f0;
+  --surface: #ffffff;
+  --surface-2: #f1ece0;
+  --fg: #1d1b16;
+  --muted: #5d5849;
+  --line: #ddd5c2;
+  --gold: #8a6414;
+  --gold-ink: #ffffff;
+  --alliance: #2a5ba8;
+  --horde: #b03a34;
+  --new: #2d7a45;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 16px; line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-bottom: 56px;
+}
+.wrap { max-width: 1080px; margin: 0 auto; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 700; margin: 0; text-wrap: balance; line-height: 1.12; }
+h1 { font-size: clamp(2.2rem, 7vw, 3.6rem); letter-spacing: .01em; }
+h2 { font-size: clamp(1.6rem, 4vw, 2.1rem); color: var(--gold); }
+h3 { font-size: 1.3rem; }
+p { margin: 0; }
+a { color: var(--gold); text-underline-offset: 3px; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.eyebrow { font-size: .78rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.small { color: var(--muted); font-size: .92rem; }
+
+header.top { padding-block: 40px 28px; display: grid; gap: 16px; border-bottom: 1px solid var(--gold); }
+.brand { display: flex; align-items: center; gap: 14px; }
+.mark { width: 52px; height: 52px; flex: none; }
+.lead { color: var(--muted); max-width: 64ch; font-size: 1.05rem; }
+.stamp { display: inline-flex; flex-wrap: wrap; gap: 6px 16px; font-size: .88rem; color: var(--muted); }
+.stamp b { color: var(--fg); }
+
+nav.sticky { position: sticky; top: 0; z-index: 10; background: var(--bg); border-bottom: 1px solid var(--line); margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); padding-inline: max(16px, env(safe-area-inset-left, 0px)); }
+nav.sticky .in { max-width: 1080px; margin: 0 auto; display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+nav.sticky .in::-webkit-scrollbar { display: none; }
+nav.sticky a { flex: none; padding: 14px 12px; color: var(--muted); text-decoration: none; font-weight: 600; font-size: .92rem; border-bottom: 2px solid transparent; }
+nav.sticky a:hover { color: var(--gold); border-bottom-color: var(--gold); }
+
+section.block { padding-top: 56px; display: grid; gap: 18px; }
+.sec-head { display: grid; gap: 6px; }
+.sec-head p { color: var(--muted); max-width: 70ch; }
+.rule { border: 0; border-top: 1px solid var(--line); margin: 0; }
+
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 20px; }
+.panel.gold { border-color: var(--gold); }
+ul.dots { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+ul.dots li::marker { color: var(--gold); }
+
+.timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; border-top: 1px solid var(--line); }
+.timeline li { display: grid; grid-template-columns: 128px 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.timeline .d { font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; color: var(--gold); line-height: 1.2; }
+.timeline .t b { display: block; }
+.timeline .t span { color: var(--muted); font-size: .94rem; }
+
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+.grid2 > * { min-width: 0; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 12px 28px; align-items: center; }
+.fgroup { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-width: 0; }
+.flabel { font-size: .76rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; flex-wrap: wrap; background: var(--surface); }
+.seg button { border: 0; background: transparent; padding: 9px 15px; font-weight: 600; font-size: .95rem; border-right: 1px solid var(--line); min-height: 40px; }
+.seg button:last-child { border-right: 0; }
+.seg button[aria-pressed="true"] { background: var(--gold); color: var(--gold-ink); }
+
+.matrix-box { overflow-x: auto; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); }
+table { border-collapse: separate; border-spacing: 0; width: 100%; min-width: 760px; }
+th, td { padding: 0; text-align: center; border-bottom: 1px solid var(--line); }
+tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
+thead th { font-size: .8rem; font-weight: 700; padding: 11px 4px; background: var(--surface-2); letter-spacing: .02em; }
+thead th.dim { opacity: .35; }
+tbody th { text-align: left; padding: 8px 12px; font-weight: 600; font-size: .95rem; position: sticky; left: 0; background: var(--surface); z-index: 1; border-right: 1px solid var(--line); white-space: nowrap; }
+thead th:first-child { position: sticky; left: 0; z-index: 2; border-right: 1px solid var(--line); }
+tbody th .f { display: inline-block; width: 8px; height: 8px; margin-right: 8px; }
+.f.alliance { background: var(--alliance); } .f.horde { background: var(--horde); }
+tbody th .paid { font-size: .68rem; color: var(--gold); font-weight: 600; margin-left: 6px; border: 1px solid var(--gold); border-radius: 2px; padding: 0 4px; }
+td { height: 46px; }
+.cell { width: 100%; height: 100%; min-height: 46px; border: 0; background: transparent; font-weight: 700; font-size: 1rem; display: grid; place-items: center; }
+.cell:hover { background: var(--surface-2); }
+.cell.no { color: var(--line); cursor: default; }
+.cell.no:hover { background: transparent; }
+.cell.ok { color: var(--fg); }
+.cell.new { color: var(--new); font-size: .7rem; letter-spacing: .08em; }
+.cell.dim { opacity: .3; }
+.cell.sel { background: var(--gold); color: var(--gold-ink); }
+tr.rowsel th { box-shadow: inset 3px 0 0 var(--gold); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; color: var(--muted); font-size: .88rem; }
+.legend b { color: var(--fg); }
+.legend .n { color: var(--new); font-weight: 700; }
+
+.detail { background: var(--surface); border: 1px solid var(--gold); border-radius: 4px; padding: 22px; display: grid; gap: 18px; }
+.d-top { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: baseline; }
+.d-top h2 { color: var(--fg); }
+.tag { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; border-radius: 2px; padding: 2px 8px; border: 1px solid currentColor; }
+.tag.alliance { color: var(--alliance); } .tag.horde { color: var(--horde); } .tag.new { color: var(--new); } .tag.paid { color: var(--gold); }
+.d-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+.d-cols > div { min-width: 0; }
+.d-cols h3 { margin-bottom: 10px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-size: .8rem; font-weight: 600; padding: 2px 10px; border-radius: 2px; border: 1px solid var(--line); background: var(--surface-2); white-space: nowrap; }
+.chip.on { background: var(--gold); color: var(--gold-ink); border-color: var(--gold); }
+.chip.q { border-style: dashed; }
+ul.plain { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
+ul.plain li { display: grid; gap: 1px; }
+.specname { font-weight: 700; }
+.en { font-weight: 400; color: var(--muted); font-size: .92em; }
+.specrole { color: var(--muted); font-size: .9rem; }
+.rtype { font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); margin-right: 8px; }
+.copyrow { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; border-top: 1px solid var(--line); padding-top: 16px; }
+.copyrow input { flex: 1 1 220px; min-width: 0; font: inherit; padding: 10px 12px; border: 1px solid var(--line); border-radius: 4px; background: var(--bg); color: var(--fg); }
+.btn { background: var(--gold); color: var(--gold-ink); border: 0; border-radius: 4px; padding: 10px 18px; font-weight: 700; min-height: 42px; }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 14px; }
+.card { text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 16px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.card:hover { border-color: var(--gold); }
+.card.sel { border-color: var(--gold); box-shadow: inset 0 0 0 1px var(--gold); }
+.card dl { margin: 0; display: grid; gap: 7px; }
+.card dt { font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); font-weight: 700; }
+.card dd { margin: 0; font-size: .94rem; }
+
+.tbl-box { overflow-x: auto; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); }
+.tbl-box table { min-width: 560px; }
+.tbl-box th, .tbl-box td { text-align: left; padding: 10px 14px; vertical-align: top; }
+.tbl-box thead th { color: var(--gold); font-size: .76rem; letter-spacing: .1em; text-transform: uppercase; }
+.tbl-box tbody th { position: static; background: transparent; border-right: 0; white-space: normal; font-size: .95rem; }
+.tbl-box td.num { white-space: nowrap; color: var(--gold); font-weight: 600; }
+.badge-new { color: var(--new); font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin-left: 6px; }
+
+.note { border-left: 2px solid var(--gold); padding: 4px 0 4px 14px; color: var(--muted); font-size: .94rem; }
+.note b { color: var(--fg); }
+.own { border: 1px dashed var(--line); border-radius: 4px; padding: 14px 16px; background: var(--surface); }
+.own .eyebrow { color: var(--gold); margin-bottom: 6px; }
+
+footer { margin-top: 64px; border-top: 1px solid var(--gold); padding-top: 24px; display: grid; gap: 14px; color: var(--muted); font-size: .92rem; }
+footer ul { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
+footer ul li::marker { color: var(--gold); }
+
+.brand { flex-wrap: wrap; }
+.tools { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+.langs { display: inline-flex; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; background: var(--surface); }
+.langs a { padding: 8px 12px; min-height: 38px; display: grid; place-items: center; color: var(--muted); text-decoration: none; font-weight: 700; font-size: .85rem; letter-spacing: .06em; border-right: 1px solid var(--line); }
+.langs a:last-child { border-right: 0; }
+.langs a:hover { color: var(--gold); }
+.langs a[aria-current="true"] { background: var(--gold); color: var(--gold-ink); }
+.themebtn { min-height: 38px; min-width: 42px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); color: var(--fg); font-size: 1.1rem; line-height: 1; }
+.themebtn:hover { border-color: var(--gold); color: var(--gold); }
+.ri { width: 1.05em; height: 1.05em; vertical-align: -.17em; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; margin-right: 5px; }
+.chip .ri { margin-right: 4px; }
+nav.sticky a[aria-current="true"] { color: var(--gold); border-bottom-color: var(--gold); }
+
+.countdown { display: flex; flex-wrap: wrap; gap: 14px 36px; align-items: center; padding: 16px 20px; border: 1px solid var(--line); border-left: 2px solid var(--gold); border-radius: 4px; background: var(--surface); max-width: 720px; }
+.countdown .big, .timeline .d { font-variant-numeric: lining-nums; }
+.countdown .big { font-family: var(--font-display); font-weight: 700; font-size: clamp(2.6rem, 9vw, 3.6rem); line-height: 1; color: var(--gold); }
+.countdown .cap { display: grid; gap: 2px; }
+.countdown .cap b { font-size: 1rem; }
+.countdown .cap span { color: var(--muted); font-size: .9rem; }
+.countdown .res { display: grid; gap: 2px; padding-left: 36px; border-left: 1px solid var(--line); }
+
+.slots { display: grid; gap: 8px; }
+.slot { display: grid; grid-template-columns: 34px minmax(0,1.2fr) minmax(0,1.2fr) minmax(0,.9fr) 40px; gap: 8px; align-items: center; padding: 8px 10px; background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--cc, var(--line)); border-radius: 4px; }
+.slot .no { font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; color: var(--muted); text-align: center; }
+.slot select { width: 100%; min-width: 0; font: inherit; padding: 9px 8px; min-height: 42px; border: 1px solid var(--line); border-radius: 4px; background: var(--bg); color: var(--fg); }
+.slot .del { min-height: 42px; border: 1px solid var(--line); border-radius: 4px; background: transparent; color: var(--muted); }
+.slot .del:hover { color: var(--gold); border-color: var(--gold); }
+.row-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.btn.ghost { background: transparent; color: var(--fg); border: 1px solid var(--line); }
+.btn.ghost:hover { border-color: var(--gold); color: var(--gold); }
+.roles-sum { display: flex; flex-wrap: wrap; gap: 10px; }
+.rs { display: flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); font-weight: 700; font-size: 1.05rem; }
+.rs span { color: var(--muted); font-weight: 600; font-size: .85rem; letter-spacing: .06em; text-transform: uppercase; }
+.rs.ok { border-color: var(--new); color: var(--new); }
+.rs.zero { border-color: var(--horde); color: var(--horde); }
+ul.verdict { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
+ul.verdict li { padding-left: 24px; position: relative; font-size: .96rem; }
+ul.verdict li::before { content: "·"; position: absolute; left: 6px; color: var(--gold); font-weight: 700; }
+ul.verdict li.good::before { content: "✓"; color: var(--new); left: 4px; }
+ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 6px; }
+:root[data-theme="light"] .cdot { box-shadow: inset 0 0 0 1px rgba(0,0,0,.35); }
+.cdot { display: inline-block; width: 9px; height: 9px; margin-right: 7px; background: var(--cc, var(--muted)); }
+
+.check { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; border-top: 1px solid var(--line); }
+.check li { border-bottom: 1px solid var(--line); }
+.check label { display: grid; grid-template-columns: 26px 1fr; gap: 12px; padding: 14px 4px; cursor: pointer; align-items: start; }
+.check input { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--gold); }
+.check b { display: block; }
+.check span { color: var(--muted); font-size: .93rem; }
+.check input:checked + div b { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--gold); }
+.prog { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.prog i { display: block; height: 100%; background: var(--gold); width: 0; transition: width .2s; }
+
+@media (max-width: 719px) {
+  .brand { display: grid; grid-template-columns: auto 1fr; gap: 12px; }
+  .brand .eyebrow { grid-column: 1 / -1; order: 3; }
+  .slot { grid-template-columns: 28px 1fr 1fr 40px; }
+  .slot select.srole { grid-column: 2 / 4; }
+  .slot .del { grid-row: 1; grid-column: 4; }
+  .countdown .res { padding-left: 0; border-left: 0; }
+}
+@media (max-width: 719px) {
+  header.top { padding-block: 28px 22px; }
+  tbody th { padding: 6px 8px; font-size: .84rem; white-space: normal; min-width: 104px; max-width: 120px; }
+  tbody th .paid { display: block; margin: 2px 0 0; width: max-content; }
+  thead th { font-size: .72rem; padding: 9px 2px; }
+  td { height: 44px; } .cell { min-height: 44px; }
+  .timeline li { grid-template-columns: 1fr; gap: 2px; }
+  .panel, .detail { padding: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+@media (prefers-reduced-motion: no-preference) { .card, .cell, .seg button { transition: background-color .12s, border-color .12s; } }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-tank" viewBox="0 0 24 24"><path d="M12 3l7 3v5.5c0 4.6-3 7.7-7 9.5-4-1.8-7-4.9-7-9.5V6z"/></symbol>
+  <symbol id="i-heal" viewBox="0 0 24 24"><path d="M10 4h4v6h6v4h-6v6h-4v-6H4v-4h6z"/></symbol>
+  <symbol id="i-dps" viewBox="0 0 24 24"><path d="M5 19L19 5M19 5h-6M19 5v6M8.5 12.5l3 3M4 20l3-3"/></symbol>
+</svg>
+<div class="wrap">
+
+<header class="top">
+  <div class="brand">
+    <svg class="mark" viewBox="0 0 64 64" role="img" aria-label="Gabella Team">
+      <rect width="64" height="64" rx="8" fill="#0c0c0d"/>
+      <text x="32" y="33" text-anchor="middle" dominant-baseline="central" font-family="Georgia, serif" font-size="46" font-weight="700" fill="#c9a54a">G</text>
+    </svg>
+    <div class="eyebrow">Gabella Team · World of Warcraft: Forever</div>
+    <div class="tools">
+      <div class="langs" role="group" aria-label="Мова"><a href="../" data-lang="ru" hreflang="ru" lang="ru" aria-current="false">RU</a><a href="../en/" data-lang="en" hreflang="en" lang="en" aria-current="false">EN</a><a href="./" data-lang="uk" hreflang="uk" lang="uk" aria-current="true">UK</a></div>
+      <button class="themebtn" id="themeBtn" type="button" aria-label="Перемкнути тему" title="Перемкнути тему">☀</button>
+    </div>
+  </div>
+  <h1>Гід по WoW Forever для своєї компанії</h1>
+  <p class="lead">Класи, раси, нові комбінації, Legacy, табір, підземелля та рейди. Плюс добір складу для групи з 6–8 людей. Лише перевірені дані, з джерелами та датою.</p>
+  <div class="stamp"><span>Дані на <b>22.10.2026</b></span><span>Версія: <b>закрита бета, патч від 15.10.2026</b></span><span>Реліз: <b>04.11.2026</b></span></div>
+  <div class="countdown" id="cd" aria-live="polite"></div>
+</header>
+
+<nav class="sticky" aria-label="Розділи"><div class="in">
+  <a href="#dates">Дати</a><a href="#picker">Підбирач</a><a href="#builder">Конструктор</a><a href="#classes">Класи</a><a href="#races">Раси</a><a href="#legacy">Legacy</a><a href="#camp">Табір</a><a href="#dungeons">Підземелля</a><a href="#group">Склад групи</a><a href="#checklist">Чек-лист</a><a href="#era">Відмінності від Era</a><a href="#sources">Джерела</a>
+</div></nav>
+
+<section class="block" id="dates">
+  <div class="sec-head"><h2>Що і коли</h2><p>Головне до релізу та після нього.</p></div>
+  <ul class="timeline">
+    <li><span class="d">17.09 – 21.10</span><span class="t"><b>Закрита бета</b><span>Доступ мали власники наборів Epic і Collection. Бета тимчасово закрита, Blizzard пише, що вона повернеться.</span></span></li>
+    <li><span class="d">15.10</span><span class="t"><b>Великий патч бети</b><span>Переробили здібності рас (спеціалізації зброї замінили критами) і налаштували майже всі класи.</span></span></li>
+    <li><span class="d">27.10 – 03.11</span><span class="t"><b>Рання резервація імен</b><span>Входить у набори Heroic, Epic і Collection. Хто перший, той і займе, це не ранній доступ до гри. Деякі сайти називають початком 23.10, надійніше звірити на сторінці Blizzard.</span></span></li>
+    <li><span class="d">04.11</span><span class="t"><b>Реліз WoW Forever</b><span>Потрібна підписка або ігровий час. Forever це постійна гра поруч із Retail і Classic, а не сезон.</span></span></li>
+    <li><span class="d">09.12</span><span class="t"><b>Відкриваються рейди</b><span>Barrow Deeps (10 гравців), Hyjal Summit (20), Onyxia’s Lair (40). До цього є п’ять тижнів на прокачування та підземелля.</span></span></li>
+  </ul>
+  <div class="grid2">
+    <div class="panel">
+      <h3>Набори та ціни</h3>
+      <ul class="dots" style="margin-top:10px">
+        <li><b>Heroic Pack</b> $29.99: відкриває расу Скайборн, її стартову зону та ранню резервацію імен.</li>
+        <li><b>Epic Pack</b> $59.99: те саме плюс доступ до бети.</li>
+        <li><b>Warcraft Forever Collection</b> $79.99, продається до 11.01.2027, з доступом до бети.</li>
+        <li>Решту восьми рас і всі дев’ять класів докуповувати не потрібно.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>Режими гри</h3>
+      <ul class="dots" style="margin-top:10px">
+        <li>Звичайний, PvP і RP. Hardcore запустять пізніше зі своїми правилами.</li>
+        <li>Групуватися можна лише в межах одного режиму. У PvP під час створення доступна одна фракція.</li>
+        <li><b>Домовтеся заздалегідь:</b> одна фракція, один режим, одні й ті самі дні на старт.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="picker">
+  <div class="sec-head"><h2>Підбирач: раса і клас</h2>
+    <p>Оберіть фракцію та роль, подивіться поєднання й натисніть на клітинку. Нижче з’являться здібності раси та ролі класу, а вибір копіюється однією кнопкою для спільного чату.</p></div>
+  <div class="filters" role="group" aria-label="Фільтри">
+    <div class="fgroup"><span class="flabel" id="lf">Фракція</span>
+      <div class="seg" id="segF" aria-labelledby="lf">
+        <button data-v="all" aria-pressed="true">Будь-яка</button>
+        <button data-v="alliance" aria-pressed="false">Альянс</button>
+        <button data-v="horde" aria-pressed="false">Орда</button>
+      </div></div>
+    <div class="fgroup"><span class="flabel" id="lr">Роль</span>
+      <div class="seg" id="segR" aria-labelledby="lr">
+        <button data-v="all" aria-pressed="true">Будь-яка</button>
+        <button data-v="tank" aria-pressed="false">Танк</button>
+        <button data-v="heal" aria-pressed="false">Цілитель</button>
+        <button data-v="dps" aria-pressed="false">Шкода</button>
+      </div></div>
+  </div>
+  <div class="matrix-box" tabindex="0" role="region" aria-label="Таблиця рас і класів, прокручується горизонтально"><table id="matrix"></table></div>
+  <div class="legend"><span><b>✓</b> можна</span><span><span class="n">НОВЕ</span> такої комбінації не було в Classic</span><span><b>·</b> не можна</span></div>
+  <div class="detail" id="detail" aria-live="polite" aria-label="Обрана комбінація"></div>
+  <p class="note"><b>Нові комбінації:</b> дворф-шаман і гном-жрець (Альянс), людина-мисливець, а в Орди орк-маг, троль-чорнокнижник і нежить-паладин. Паладин з’явився в Орди, шаман в Альянсі. Скайборн-вітрорізь (Орда) може бути шаманом, Високий скайборн (Альянс) магом.</p>
+</section>
+
+<section class="block" id="builder">
+  <div class="sec-head"><h2>Конструктор групи</h2>
+    <p>Зберіть свою компанію: оберіть фракцію, потім расу, клас і роль для кожного гравця. Внизу з’явиться, чого не вистачає для підземель, які баффи ви приносите і текст для чату. Посилання на сторінку запам’ятовує склад.</p></div>
+  <div class="filters"><div class="fgroup"><span class="flabel" id="lbf">Фракція</span>
+    <div class="seg" id="segBF" aria-labelledby="lbf"><button data-v="alliance" aria-pressed="true">Альянс</button><button data-v="horde" aria-pressed="false">Орда</button></div></div>
+    <div class="row-actions"><button class="btn ghost" data-preset="6">Приклад на 6</button><button class="btn ghost" data-preset="8">Приклад на 8</button><button class="btn ghost" id="bClear">Очистити</button></div></div>
+  <div class="slots" id="slots"></div>
+  <div class="row-actions"><button class="btn ghost" id="bAdd">Додати гравця</button><span class="small" id="bCount"></span></div>
+  <div class="roles-sum" id="roleSum"></div>
+  <div class="grid2">
+    <div class="panel"><h3>Що виходить</h3><ul class="verdict" id="verdict" style="margin-top:10px"></ul></div>
+    <div class="panel"><h3>Баффи групи</h3><ul class="verdict" id="buffs" style="margin-top:10px"></ul></div>
+  </div>
+  <div class="copyrow"><input id="teamText" readonly aria-label="Склад для чату"><button class="btn" id="copyTeam">Скопіювати склад</button><button class="btn ghost" id="copyLink">Скопіювати посилання</button><span class="small" id="teamMsg" role="status"></span></div>
+</section>
+
+<section class="block" id="classes">
+  <div class="sec-head"><h2>Класи</h2><p>Дев’ять класів по три спеціалізації. Темп прокачування взято з прогнозів по беті (у беті була стеля 30 рівня, вище оцінки проєктні). Натисніть на картку, щоб обрати клас.</p></div>
+  <div class="cards" id="classCards"></div>
+</section>
+
+<section class="block" id="races">
+  <div class="sec-head"><h2>Раси</h2><p>У кожної раси по чотири здібності: дві активні та дві пасивні. Частину старих здібностей замінено новими, опори прибрано.</p></div>
+  <div class="cards" id="raceCards"></div>
+  <p class="note"><b>Скайборн</b> ігрова за обидві фракції, фракцію обирають під час створення. Обидві гілки говорять спільною мовою, а стартова зона Zephras Isle спільна, вороги там не зустрічаються через шари.</p>
+</section>
+
+<section class="block" id="legacy">
+  <div class="sec-head"><h2>Система Legacy</h2><p>Прогрес на весь акаунт Battle.net. Очки отримують за випробування, а витрачають на перки окремо на кожному персонажі.</p></div>
+  <div class="grid2">
+    <div class="panel">
+      <h3>Як отримати очки</h3>
+      <ul class="dots" style="margin-top:10px">
+        <li>Система відкривається з першим очком: 25 рівень на персонажі, або 150 у професії (не збирання), або дослідження всієї мапи.</li>
+        <li>Кожне випробування дає 1 очко. За даними Blizzard випробувань 65 у шести категоріях: класи 27, професії 18, PvP 12, підземелля 3, рейди 3, пригоди 2.</li>
+        <li>Очки діють на всіх персонажах не-Hardcore. Гаряча клавіша вікна: Y.</li>
+        <li><b>Ліміт на запуску:</b> на персонажі можна витратити не більше 16 очок. Зайві йдуть у трек нагород.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>Трек нагород (за кількістю очок)</h3>
+      <ul class="dots" style="margin-top:10px">
+        <li>15: іграшка Holstered Replica Ironforge Air Rifle</li>
+        <li>25: улюбленець Spectral Bear Cub</li>
+        <li>40: табард Spectral Bear</li>
+        <li>55: скакун Reins of the Spectral Bear</li>
+      </ul>
+      <p class="small" style="margin-top:10px">Це косметика, переваг у грі вона не дає.</p>
+    </div>
+  </div>
+  <div class="tbl-box"><table>
+    <thead><tr><th>Дерево</th><th>Приклади перків (рангів)</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Професії</th><td>Working Overtime (5): частіше ростуть навички. Bountiful Harvest (5): на 20% більше рідкісних матеріалів. Master Chef (5): шанс зайвої страви. Bartering (2): ціни в торговців нижчі на 5%.</td></tr>
+      <tr><th scope="row">Пригоди</th><td>Well Rested (5): швидше накопичується відпочинок і вища його стеля. Thrill of Adventure (5): здоров’я та мана за вбивство поза підземеллями. Talented (5): таланти з 9 рівня замість 10. Field Guide (3): коротше відновлення об’єктів табору. Frequent Flier (1): перельоти на 50% дешевші.</td></tr>
+      <tr><th scope="row">Ресурси</th><td>Gourmand (3): їжа діє на 33% довше. Reinforce (5): на 8% менше втрата міцності. Diplomat (5): +2% репутації. Permanence (2): довше баффи табору. Reagent Economy (1): здібностям класу не потрібні куповані реагенти.</td></tr>
+    </tbody></table></div>
+  <p class="note"><b>Порада:</b> насамперед цінні перки табору та досвіду (Well Rested, Field Guide, Permanence) і Reagent Economy для класів з реагентами. Це наша оцінка. Одне джерело пише про ліміт 25 очок на дерево, Blizzard ліміту на дерево не називає.</p>
+</section>
+
+<section class="block" id="camp">
+  <div class="sec-head"><h2>Табір і професії</h2><p>Вогнище за професією Кулінарія перетворюється на спільний табір: поруч можна відпочивати, отримувати баффи та ставити об’єкти своїх професій.</p></div>
+  <div class="grid2">
+    <div class="panel">
+      <h3>Як це працює</h3>
+      <ul class="dots" style="margin-top:10px">
+        <li>Вогнище одноразове: будується кілька секунд, горить близько 10 хвилин, відновлення на встановлення 5 хвилин.</li>
+        <li>Базове вогнище доступне без Кулінарії, на 3 об’єкти. Кулінарія 140 дає 5 слотів, 220 дає 10.</li>
+        <li>Кожен персонаж ставить один об’єкт, відновлення на об’єкт 1 година. Разом роблять спільний табір.</li>
+        <li>Щоб отримати баффи, сядьте (<code>/sit</code>) поруч щонайменше на 1 хвилину. Вони підсумовуються в один бафф «Camp Benefits».</li>
+        <li>Баффи табору трохи слабші за класові й не складаються з ними.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>Спальник і їжа</h3>
+      <ul class="dots" style="margin-top:10px">
+        <li><b>Cozy Sleeping Bag</b> дає Well-Rested, він складається з баффами табору. Отримують його ланцюжком завдань на обох континентах.</li>
+        <li>Більша частина готової їжі дає бонус до досвіду, він складається і з табором, і зі спальником.</li>
+        <li>Перки Legacy: Field Guide, Permanence, Reagent Economy покращують табір.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="tbl-box"><table>
+    <thead><tr><th>Професія</th><th>Об’єкт (1 рівень)</th><th>Ефект</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Алхімія</th><td>Mana Well</td><td>більше відновлення мани</td></tr>
+      <tr><th scope="row">Ковальство</th><td>Sharpening Wheel</td><td>більше сили</td></tr>
+      <tr><th scope="row">Зачарування</th><td>Enchanted Lute</td><td>більше основних характеристик і опорів</td></tr>
+      <tr><th scope="row">Перша допомога</th><td>First Aid Kit</td><td>більше витривалості</td></tr>
+      <tr><th scope="row">Рибальство</th><td>Fish Bowl</td><td>більше основних характеристик</td></tr>
+      <tr><th scope="row">Травництво</th><td>Incense Candle</td><td>більше інтелекту</td></tr>
+      <tr><th scope="row">Шкіряництво</th><td>Camp Tent</td><td>відпочинок і досвід (Boosted Rest)</td></tr>
+      <tr><th scope="row">Гірництво</th><td>Lodestone</td><td>більше сили атаки</td></tr>
+      <tr><th scope="row">Знімання шкур</th><td>Camp Chair</td><td>більший шанс критичного удару</td></tr>
+      <tr><th scope="row">Кравецтво</th><td>Faction Banner</td><td>більше духу</td></tr>
+      <tr><th scope="row">Інженерія</th><td>Reagent Bot</td><td>торговець, на 2 рівні ремонт (Repair Bot)</td></tr>
+      <tr><th scope="row">Кулінарія</th><td>Basic Campfire</td><td>без баффа, додає слоти табору</td></tr>
+    </tbody></table></div>
+  <p class="note">Кожна професія робить по три об’єкти, по одному на рівень. Джерела розходяться в навичці для об’єктів 2 і 3 рівня (одне пише 140 і 300), тому звіряйте в грі.</p>
+</section>
+
+<section class="block" id="dungeons">
+  <div class="sec-head"><h2>Підземелля та рейди</h2><p>Усього 35 підземель, з них 9 нових. Рівні орієнтовні, жорстких блокувань Blizzard поки не опублікувала. На сайтах діапазони подекуди відрізняються на пару рівнів.</p></div>
+  <div class="tbl-box"><table>
+    <thead><tr><th>Нове підземелля</th><th>Рівні</th><th>Де</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Hall of Thanes</th><td class="num">13–18</td><td>Ironforge</td></tr>
+      <tr><th scope="row">Ruins of Lordaeron</th><td class="num">15–20</td><td>Tirisfal Glades</td></tr>
+      <tr><th scope="row">Excavation Site</th><td class="num">24–29</td><td>Wetlands</td></tr>
+      <tr><th scope="row">City of Dalaran</th><td class="num">28–33</td><td>Alterac Mountains</td></tr>
+      <tr><th scope="row">The Drowned City</th><td class="num">35–40</td><td>Stranglethorn Vale</td></tr>
+      <tr><th scope="row">Krol'Dok Stronghold</th><td class="num">40–45</td><td>Riverglades</td></tr>
+      <tr><th scope="row">Alcaz Island Prison</th><td class="num">48–53</td><td>Dustwallow Marsh</td></tr>
+      <tr><th scope="row">Blackmaw Hold</th><td class="num">55–60</td><td>Azshara</td></tr>
+      <tr><th scope="row">Shaper's Terrace</th><td class="num">58–60</td><td>Un'Goro Crater</td></tr>
+    </tbody></table></div>
+  <div class="grid2">
+    <div class="panel">
+      <h3>Рейди (з 09.12.2026)</h3>
+      <ul class="dots" style="margin-top:10px">
+        <li><b>Barrow Deeps</b>, 10 гравців</li>
+        <li><b>Hyjal Summit</b>, 20 гравців</li>
+        <li><b>Onyxia’s Lair</b>, 40 гравців, у Dustwallow Marsh</li>
+        <li>За проходження кожного з цих рейдів у Legacy дається по одному очку.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>PvP</h3>
+      <ul class="dots" style="margin-top:10px">
+        <li>Нове поле бою 15 на 15: Darkspear Islands біля узбережжя Dustwallow Marsh.</li>
+        <li>Звання з тижневим лімітом, покращення екіпірування за Честь, сезонні цілі Legacy.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="note">Старі підземелля Classic теж у грі (Ragefire Chasm, Wailing Caverns, Deadmines, Shadowfang Keep, Scarlet Monastery, Blackrock Depths та інші), тож для групи з 5 людей на рівнях 13–60 завжди є що пройти.</p>
+</section>
+
+<section class="block" id="group">
+  <div class="sec-head"><h2>Склад для компанії з 6–8 людей</h2><p>Нижче факти з джерел і наші рекомендації. Рекомендації позначено окремо, це не офіційні дані.</p></div>
+  <div class="grid2">
+    <div class="panel">
+      <h3>Що відомо</h3>
+      <ul class="dots" style="margin-top:10px">
+        <li>Підземелля розраховані на 5 гравців: танк, цілитель, троє зі шкодою.</li>
+        <li>Рейди на 10, 20 і 40 гравців. Із шести-восьми друзів 10-місний Barrow Deeps збереться з одним-двома знайомими з гільдії.</li>
+        <li>Танкувати можуть Воїн, Паладин і Друїд, лікувати Паладин, Жрець, Шаман і Друїд.</li>
+        <li>Паладин і Друїд вміють усі три ролі. Це найгнучкіша пара для невеликої компанії.</li>
+        <li>Група й рейд отримують баффи класів: Королів від паладина, тотеми шамана, Бойовий клич воїна, аури мисливця та друїда. Портали, їжу та воду робить маг.</li>
+      </ul>
+    </div>
+    <div class="own">
+      <div class="eyebrow">Рекомендація укладача</div>
+      <ul class="dots">
+        <li><b>На 6:</b> Воїн або Паладин (Захист) у танка, Жрець або Паладин (Світло) у цілителя, четверо в шкоду: Маг, Мисливець, Розбійник, Чорнокнижник.</li>
+        <li><b>На 8:</b> два танки-гібриди (Паладин, Друїд), два цілителі (Жрець плюс Шаман або Друїд), у шкоду Маг, Мисливець, Чорнокнижник і Шаман. Тоді можна зібрати дві групи по 4–5 гравців або одну на 5 і міняти ролі.</li>
+        <li>Беріть різні класи: баффи різних класів складаються, а однакові перекриваються.</li>
+        <li>Один із вас бере Кулінарію заради вогнища на 10 об’єктів, решта за професією під баффи табору. З 4 листопада по 9 грудня прокачайтеся разом по підземеллях.</li>
+        <li>Займіть імена у вікні 27.10 – 03.11, якщо у вас є набір, і заздалегідь вирішіть, хто за який клас, щоб не дублюватися.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="panel">
+    <h3>Прокачування</h3>
+    <ul class="dots" style="margin-top:10px">
+      <li>За прогнозами Мисливець і Маг прокачуються найшвидше (приблизно на 8% швидше за середнє), Воїн повільніше за всіх (близько 12%), Друїд і Жрець трохи повільніше за середнє. Це оцінки для бети, цифри можуть змінитися.</li>
+      <li>Масштабування рівнів немає: підземелля для своїх рівнів, їх не можна пройти «підтягнувши» слабкого друга.</li>
+      <li>Копіть відпочинок: спальник, Well Rested і їжа з бонусом досвіду складаються.</li>
+      <li>Табір можна ставити просто на прокачуванні, п’ять хвилин на вогнище окупаються баффами на групу.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="block" id="checklist">
+  <div class="sec-head"><h2>Чек-лист перед стартом</h2><p>Галочки зберігаються в цьому браузері. Зручно пройтися разом у чаті та відзначити, що вже вирішено.</p></div>
+  <div class="prog" aria-hidden="true"><i id="progBar"></i></div>
+  <p class="small" id="progTxt"></p>
+  <ul class="check" id="checkList"></ul>
+  <div class="row-actions"><button class="btn ghost" id="checkReset">Скинути відмітки</button></div>
+</section>
+
+<section class="block" id="era">
+  <div class="sec-head"><h2>Чим Forever відрізняється від Classic Era</h2></div>
+  <div class="tbl-box"><table>
+    <thead><tr><th>Тема</th><th>Що у Forever</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Загальне</th><td>Східні королівства та Калімдор, прокачування до 60. Постійна гра, а не сезон. Немає літаючих скакунів і масштабування рівнів, як і в Classic.</td></tr>
+      <tr><th scope="row">Контент</th><td>Нові зони, завдання, 9 нових підземель, 3 нові рейди, нове поле бою, нова раса Скайборн.</td></tr>
+      <tr><th scope="row">Класи та раси</th><td>Оновлено таланти та здібності класів, нові поєднання рас і класів, у рас прибрано опори й додано свої здібності.</td></tr>
+      <tr><th scope="row">Системи</th><td>Legacy, табір, опціональна трансмогрифікація та вибір візуального стилю (Classic або сучасний), офіційна підтримка геймпада.</td></tr>
+      <tr><th scope="row">Предмети</th><td>Характеристики та предмети змінено, тому старі списки здобичі з Classic ненадійні.</td></tr>
+    </tbody></table></div>
+</section>
+
+<footer id="sources">
+  <h2>Джерела та актуальність</h2>
+  <p>Дані зібрано <b style="color:var(--fg)">22.10.2026</b> за закритою бетою та патчем від 15.10.2026 і звірено за кількома джерелами. До релізу Blizzard ще може змінювати бету, особливо здібності рас, налаштування класів і перки Legacy. Якщо джерела розходилися, це зазначено в тексті. Точні числа звіряйте в грі.</p>
+  <ul>
+    <li><a href="https://www.warcrafttavern.com/forever/" target="_blank" rel="noopener">Warcraft Tavern</a>: <a href="https://www.warcrafttavern.com/forever/guides/race-class-combos/" target="_blank" rel="noopener">комбінації</a>, <a href="https://www.warcrafttavern.com/forever/guides/races/" target="_blank" rel="noopener">раси</a>, <a href="https://www.warcrafttavern.com/forever/guides/legacy/" target="_blank" rel="noopener">Legacy</a>, <a href="https://www.warcrafttavern.com/forever/guides/camping/" target="_blank" rel="noopener">табір</a>, <a href="https://www.warcrafttavern.com/forever/guides/dungeons/" target="_blank" rel="noopener">підземелля</a>, <a href="https://www.warcrafttavern.com/news/world-of-warcraft-forever-editions-skyborne-race-unlock-beta-access/" target="_blank" rel="noopener">набори та ціни</a></li>
+    <li><a href="https://www.method.gg/wow-forever" target="_blank" rel="noopener">Method</a>: <a href="https://www.method.gg/wow-forever/all-class-and-race-combinations-in-world-of-warcraft-forever" target="_blank" rel="noopener">усі комбінації</a>, <a href="https://www.method.gg/wow-forever/all-new-racial-abilities-in-world-of-warcraft-forever" target="_blank" rel="noopener">здібності рас</a></li>
+    <li><a href="https://classicwow.gg/forever" target="_blank" rel="noopener">ClassicWoW.gg</a>: дати бети, резервації імен, рейдів, відмінності від Era</li>
+    <li><a href="https://news.blizzard.com/en-gb/article/24307383" target="_blank" rel="noopener">Blizzard: система Legacy</a></li>
+    <li><a href="https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/" target="_blank" rel="noopener">Warcraft Tavern: зміни бети від 15 жовтня</a></li>
+    <li><a href="https://www.wowhead.com/forever" target="_blank" rel="noopener">Wowhead</a>: новини та довідник</li>
+    <li>Опис класів, темп прокачування: <a href="https://www.warcrafttavern.com/forever/guides/classes/" target="_blank" rel="noopener">Warcraft Tavern</a>, <a href="https://lfcarry.com/guides/wow-forever-classes" target="_blank" rel="noopener">LFCarry</a></li>
+  </ul>
+  <p>Сторінку зроблено для сервера Gabella Team, вона не пов’язана з Blizzard Entertainment. World of Warcraft — торгова марка Blizzard.</p>
+</footer>
+</div>
+
+<script>
+const CLASSES = [
+  { id:'warrior', n:'Воїн', s:'Воїн', roles:['tank','dps'],
+    specs:[['Зброя','Шкода в ближньому бою (дворучна зброя)',['dps']],['Лють','Шкода в ближньому бою (дві зброї)',['dps']],['Захист','Танк',['tank']]],
+    lvl:'Найповільніше прокачування, приблизно на 12% довше за середнє',
+    raid:'Бойовий клич діє на весь рейд',
+    forever:'Більше Люті, краща загроза по групі цілей, талант Майстер зброї. Лють і Жага крові послаблені.' },
+  { id:'paladin', n:'Паладин', roles:['tank','heal','dps'],
+    specs:[['Світло','Цілитель',['heal']],['Захист','Танк',['tank']],['Відплата','Шкода в ближньому бою',['dps']]],
+    lvl:'Середній темп прокачування',
+    raid:'Благословення королів тепер базове. За бета-списками Захист серед найсильніших танків, Відплата просіла після патча 15 жовтня.',
+    forever:'Священний удар з 6 рівня, Правосуддя не витрачає печатку. Нежить тепер може бути паладином, отже клас з’явився в Орди.' },
+  { id:'hunter', n:'Мисливець', roles:['dps'],
+    specs:[['Володіння звірами','Шкода здалеку, багато шкоди від улюбленця',['dps']],['Стрільба','Шкода здалеку',['dps']],['Виживання','Ближній і дальній бій, пастки',['dps']]],
+    lvl:'Найшвидше прокачування, приблизно на 8% швидше за середнє',
+    raid:'Аура влучного стрільця діє на весь рейд',
+    forever:'Можна грати без улюбленця, пастки працюють у бою, з’явилися лисиці як родина улюбленців. Виживання може йти в ближній бій.' },
+  { id:'rogue', n:'Розбійник', roles:['dps'],
+    specs:[['Ліквідація','Шкода отрутами',['dps']],['Бій','Швидкі атаки зброєю',['dps']],['Непомітність','Засідки, кровотечі',['dps']]],
+    lvl:'Середній темп прокачування',
+    raid:'Чиста шкода в ближньому бою без баффів на весь рейд',
+    forever:'Тепер можна використовувати одноручні сокири. Ліквідація будується на отрутах, Непомітність на кровотечах і невидимості.' },
+  { id:'priest', n:'Жрець', roles:['heal','dps'],
+    specs:[['Послух','Цілитель, щити та поглинання',['heal']],['Світло','Цілитель',['heal']],['Темрява','Шкода здалеку',['dps']]],
+    lvl:'Приблизно на 5% повільніше за середнє',
+    raid:'Божественний дух став базовим. Шкоду Темряви та «Пожираючу чуму» (відновлення 24 сек) підсилено патчем 15 жовтня.',
+    forever:'Захист від страху та «Пожираюча чума» доступні з 20 рівня будь-якій расі. У кожної раси по два своїх закляття жерця.' },
+  { id:'shaman', n:'Шаман', roles:['heal','dps','tank?'],
+    specs:[['Стихії','Шкода здалеку',['dps']],['Вдосконалення','Шкода в ближньому бою. Можливість танкувати поки під питанням',['dps','tank?']],['Зцілення','Цілитель',['heal']]],
+    lvl:'Середній темп прокачування',
+    raid:'Тотеми сили землі, несамовитості вітру, язиків полум’я та грації повітря підсилюють увесь рейд',
+    forever:'Дворфи тепер можуть бути шаманами, отже клас з’явився в Альянсі. Сплеск лави підсилено, Стихії піднялися в списках шкоди.' },
+  { id:'mage', n:'Маг', roles:['dps'],
+    specs:[['Тайна магія','Бурст, багато мани',['dps']],['Вогонь','Криті та підпали',['dps']],['Лід','Шкода і контроль',['dps']]],
+    lvl:'Найшвидше прокачування, приблизно на 8% швидше за середнє (близько 12 годин економії)',
+    raid:'Портали та їжа з водою для всієї компанії',
+    forever:'Вогонь отримав Hotstreak, Тайна магія перероблений Чародійський вибух, Лід Крижаний спис. Вогняно-крижана стріла доступна з 40 рівня.' },
+  { id:'warlock', n:'Чорнокнижник', roles:['dps'],
+    specs:[['Прокляття','Шкода від прокляттів і псування',['dps']],['Демонологія','Шкода через демонів',['dps']],['Руйнування','Пряма шкода вогнем і темрявою',['dps']]],
+    lvl:'Середній темп прокачування',
+    raid:'Майстерність темряви тепер дає 2–10% шкоди від темряви (було 1–5%)',
+    forever:'У Прокляття нове закляття з наведенням, демон лишається при Жертві демона, у Руйнування з’явилися Спалення та AoE.' },
+  { id:'druid', n:'Друїд', roles:['tank','heal','dps'],
+    specs:[['Баланс','Шкода здалеку',['dps']],['Сила звіра','Танк (ведмідь) і шкода в ближньому бою (кішка)',['tank','dps']],['Зцілення','Цілитель, багато лікування з часом',['heal']]],
+    lvl:'Приблизно на 5% повільніше за середнє',
+    raid:'Ватажок зграї та аура місячного совиця діють на весь рейд і складаються',
+    forever:'Кожна спеціалізація отримала чітку роль, форми працюють із зіллями та чарами на зброї. Можна бути танком, цілителем і бійцем на одному персонажі.' }
+];
+const ROLE_RU = { tank:'Танк', heal:'Цілитель', dps:'Шкода', 'tank?':'Танк (під питанням)' };
+const ri = r => `<svg class="ri" aria-hidden="true"><use href="#i-${r.replace('?','')}"/></svg>`;
+const CCOL = { warrior:'#c79c6e', paladin:'#f58cba', hunter:'#abd473', rogue:'#fff569', priest:'#e8e8e8', shaman:'#2f8cf0', mage:'#40c7eb', warlock:'#8788ee', druid:'#ff7d0a' };
+const BUFF = { warrior:'Бойовий клич', paladin:'Благословення королів', hunter:'Аура влучного стрільця', priest:'Божественний дух', shaman:'Тотеми (сила землі, несамовитість вітру, язики полум’я, грація повітря)', mage:'Портали, їжа та вода', druid:'Ватажок зграї та аура місячного совиця' };
+
+const RACES = [
+  { id:'human', n:'Людина', f:'alliance',
+    cls:['warrior','paladin','hunter*','rogue','priest','mage','warlock'],
+    rac:[['a','Воля до життя','Знімає приголомшення'],['a','Уважність','Показує невидимих ворогів на 20 сек'],['p','Безжальність','+2% шанс крита'],['p','Людський дух','+5% до духу']],
+    tip:'Дух іде в лікування Жрецю Світла, тож Людина-жрець добра для цілителя.' },
+  { id:'dwarf', n:'Дворф', f:'alliance',
+    cls:['warrior','paladin','hunter','rogue','priest','shaman*'],
+    rac:[['a','Кам’яна форма','Імунітет до кровотеч, отрут і хвороб на 8 сек і зниження фізичної шкоди'],['a','Пошук скарбів','Показує скрині поруч'],['p','Лють землі','+2% до шкоди крита та сили лікування'],['p','Мисливець на велику дичину','+5% шкоди по звірах']],
+    tip:'Кам’яна форма корисна танку й у PvP.' },
+  { id:'nightelf', n:'Нічний ельф', f:'alliance',
+    cls:['warrior','hunter','rogue','priest','druid'],
+    rac:[['a','Світло Елуни','+10% до шансу крита на 15 сек'],['a','Злиття з тінню','Невидимість на місці'],['p','Спритність','+1% до ухилення та +2% до швидкості бігу'],['p','Дух-вогник','+75% до швидкості бігу у вигляді духу']],
+    tip:'Єдина раса Альянсу з друїдом, якщо не брати Скайборн.' },
+  { id:'gnome', n:'Гном', f:'alliance',
+    cls:['warrior','rogue','mage','warlock','priest*'],
+    rac:[['a','Майстер втечі','Короткий імунітет до уповільнення та коренів'],['a','Еврика!','Наступні 3 здібності дешевші й на 10% сильніші'],['p','Допитливий розум','+5% до максимуму мани, люті або енергії'],['p','Спеціалізація: інженерія','Інженерні пристрої спрацьовують надійніше']],
+    tip:'Допитливий розум особливо виручає класам на енергії.' },
+  { id:'skyA', n:'Скайборн (Альянс)', f:'alliance', paid:true, name:'Високий скайборн',
+    cls:['warrior','hunter','rogue','mage','druid'],
+    rac:[['a','Ходіння повітрям','Планування вниз 10 сек, немає шкоди від падіння'],['a','Читання лей-ліній','+100% до відновлення здоров’я та мани'],['p','Благословення вітру','+3% до швидкості атаки та заклять'],['p','Прозріння стихій','+5% шкоди по елементалях']],
+    tip:'Платна раса: набір Heroic Pack від $29.99. Старт у локації Zephras Isle (1–12 рівні).' },
+  { id:'orc', n:'Орк', f:'horde',
+    cls:['warrior','hunter','rogue','shaman','warlock','mage*'],
+    rac:[['a','Кривава лють','+10% до сили атаки та заклять на 15 сек'],['a','Руйнування прокляттів','Імунітет до прокляттів і псування та менше магічної шкоди на 8 сек'],['p','Дикість','+1% шанс крита'],['p','Загартування','Приголомшення коротші на 20%']],
+    tip:'Кривава лють дає потужне вікно шкоди.' },
+  { id:'undead', n:'Нежить', f:'horde',
+    cls:['warrior','rogue','mage','priest','warlock','paladin*'],
+    rac:[['a','Воля Відрікшихся','Знімає зачарування, страх і сон'],['a','Канібалізм','Відновлює 35% здоров’я та мани з часом'],['p','Підводне дихання','Дихання під водою довше'],['p','Дотик могили','5% шанс висмоктати здоров’я під час атаки']],
+    tip:'Нова комбінація: паладин в Орди, де раніше цього класу не було.' },
+  { id:'tauren', n:'Таурен', f:'horde',
+    cls:['warrior','hunter','shaman','druid'],
+    rac:[['a','Тупіт війни','Приголомшує ворогів поруч на 2 сек'],['a','Культивація','Вирощує трави, які можна зібрати без травництва'],['p','Біг рівнинами','Швидкість росте, поки ви біжите'],['p','Витривалість','+5% здоров’я та +2% до шкоди крита']],
+    tip:'Єдина раса Орди з друїдом, якщо не брати Скайборн.' },
+  { id:'troll', n:'Троль', f:'horde',
+    cls:['warrior','hunter','rogue','priest','shaman','mage','warlock*'],
+    rac:[['a','Берсерк','+10% до швидкості атаки та заклять на 10 сек'],['a','Швидке відновлення','Відновлює здоров’я з часом'],['p','Убивця звірів','+5% шкоди по звірах'],['p','Регенерація','Здоров’я відновлюється і в бою']],
+    tip:'Найбільше варіантів класів в Орді: сім.' },
+  { id:'skyH', n:'Скайборн (Орда)', f:'horde', paid:true, name:'Скайборн-вітрорізь',
+    cls:['warrior','hunter','rogue','shaman','druid'],
+    rac:[['a','Ходіння повітрям','Планування вниз 10 сек, немає шкоди від падіння'],['a','Погляд у небо','+10% до швидкості бігу'],['p','Благословення вітру','+3% до швидкості атаки та заклять'],['p','Прозріння стихій','+5% шкоди по елементалях']],
+    tip:'Платна раса: набір Heroic Pack від $29.99. Шаманом може бути лише Орда, магом лише Альянс.' }
+];
+RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
+const CL = Object.fromEntries(CLASSES.map(c => [c.id, c]));
+const RC = Object.fromEntries(RACES.map(r => [r.id, r]));
+
+const EN = {
+  'Зброя':'Arms','Лють':'Fury','Захист':'Protection','Світло':'Holy','Відплата':'Retribution',
+  'Володіння звірами':'Beast Mastery','Стрільба':'Marksmanship','Виживання':'Survival',
+  'Ліквідація':'Assassination','Бій':'Combat','Непомітність':'Subtlety',
+  'Послух':'Discipline','Темрява':'Shadow','Стихії':'Elemental','Вдосконалення':'Enhancement','Зцілення':'Restoration',
+  'Тайна магія':'Arcane','Вогонь':'Fire','Лід':'Frost','Прокляття':'Affliction','Демонологія':'Demonology','Руйнування':'Destruction',
+  'Баланс':'Balance','Сила звіра':'Feral',
+  'Воля до життя':'Will to Survive','Уважність':'Perception','Безжальність':'Ruthless','Людський дух':'The Human Spirit',
+  'Кам’яна форма':'Stoneform','Пошук скарбів':'Find Treasure','Лють землі':'Earth Fury','Мисливець на велику дичину':'Big Game Hunter',
+  'Світло Елуни':"Elune’s Light",'Злиття з тінню':'Shadowmeld','Спритність':'Quickness','Дух-вогник':'Wisp Spirit',
+  'Майстер втечі':'Escape Artist','Еврика!':'Eureka!','Допитливий розум':'Expansive Mind','Спеціалізація: інженерія':'Engineering Specialization',
+  'Ходіння повітрям':'Walk on Air','Читання лей-ліній':'Read Ley Line','Благословення вітру':'Wind Blessed','Прозріння стихій':'Elemental Insight','Погляд у небо':'Skysight',
+  'Кривава лють':'Blood Fury','Руйнування прокляттів':'Shatter Curse','Дикість':'Savage','Загартування':'Hardiness',
+  'Воля Відрікшихся':'Will of the Forsaken','Канібалізм':'Cannibalize','Підводне дихання':'Underwater Breathing','Дотик могили':'Touch of the Grave',
+  'Тупіт війни':'War Stomp','Культивація':'Cultivation','Біг рівнинами':'Plainsrunning','Витривалість':'Endurance',
+  'Берсерк':'Berserking','Швидке відновлення':'Rapid Regeneration','Убивця звірів':'Beast Slaying','Регенерація':'Regeneration'
+};
+RC.skyA.en = 'High Order Skyborne'; RC.skyH.en = 'Windshaper Skyborne';
+function bi(ru) { return EN[ru] && EN[ru] !== ru ? `${esc(ru)} <span class="en">(${esc(EN[ru])})</span>` : esc(ru); }
+function raceEn(r) { return r.en ? ` <span class="en">/ ${esc(r.en)}</span>` : ''; }
+
+const state = { f:'all', r:'all', race:'dwarf', cls:'shaman' };
+const $ = s => document.querySelector(s);
+
+function roleMatch(c, role) { return role === 'all' || c.roles.includes(role); }
+function raceVisible(r) { return state.f === 'all' || r.f === state.f; }
+function facName(f) { return f === 'alliance' ? 'Альянс' : 'Орда'; }
+function esc(s) { return String(s).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])); }
+
+function pickValid() {
+  let r = RC[state.race];
+  if (!raceVisible(r)) { r = RACES.find(raceVisible); state.race = r.id; }
+  if (!r.can[state.cls]) { state.cls = Object.keys(r.can).find(c => roleMatch(CL[c], state.r)) || Object.keys(r.can)[0]; }
+}
+
+function renderMatrix() {
+  let h = '<thead><tr><th scope="col">Раса</th>';
+  CLASSES.forEach(c => { h += `<th scope="col" class="${roleMatch(c, state.r) ? '' : 'dim'}">${esc(c.n)}</th>`; });
+  h += '</tr></thead><tbody>';
+  RACES.filter(raceVisible).forEach(r => {
+    h += `<tr class="${r.id === state.race ? 'rowsel' : ''}"><th scope="row"><span class="f ${r.f}"></span>${esc(r.n)}${r.paid ? '<span class="paid">платна</span>' : ''}</th>`;
+    CLASSES.forEach(c => {
+      const v = r.can[c.id];
+      const dim = roleMatch(c, state.r) ? '' : ' dim';
+      if (!v) { h += `<td><span class="cell no${dim}" aria-label="${esc(r.n)} ${esc(c.n)}: не можна">·</span></td>`; return; }
+      const sel = (r.id === state.race && c.id === state.cls) ? ' sel' : '';
+      const label = `${r.n} ${c.n}${v === 'new' ? ', нова комбінація' : ''}`;
+      h += `<td><button class="cell ${v}${dim}${sel}" data-r="${r.id}" data-c="${c.id}" aria-label="${esc(label)}" aria-pressed="${sel ? 'true' : 'false'}">${v === 'new' ? 'НОВЕ' : '✓'}</button></td>`;
+    });
+    h += '</tr>';
+  });
+  $('#matrix').innerHTML = h + '</tbody>';
+}
+
+function renderDetail() {
+  const r = RC[state.race], c = CL[state.cls], isNew = r.can[c.id] === 'new';
+  const rolesChips = c.roles.map(x => `<span class="chip ${state.r === x ? 'on' : ''} ${x.endsWith('?') ? 'q' : ''}">${ri(x)}${ROLE_RU[x]}</span>`).join('');
+  const specs = c.specs.map(s => {
+    const hit = state.r === 'all' ? '' : (s[2].includes(state.r) ? ' on' : '');
+    return `<li><span class="specname">${bi(s[0])}</span><span class="specrole">${esc(s[1])}</span></li>`.replace('<li>', `<li class="${hit}">`);
+  }).join('');
+  const rac = r.rac.map(x => `<li><span><span class="rtype">${x[0] === 'a' ? 'Активна' : 'Пасивна'}</span><span class="specname">${bi(x[1])}</span></span><span class="specrole">${esc(x[2])}</span></li>`).join('');
+  const text = `${r.name || r.n} ${c.n} (${facName(r.f)})${r.paid ? ', потрібен набір Скайборн' : ''}`;
+  $('#detail').innerHTML = `
+    <div class="d-top"><h2>${esc(r.n)}${raceEn(r)} · ${esc(c.n)}</h2>
+      <span class="tag ${r.f}">${facName(r.f)}</span>
+      ${isNew ? '<span class="tag new">Нова комбінація</span>' : ''}
+      ${r.paid ? '<span class="tag paid">Платна раса</span>' : ''}</div>
+    <div class="d-cols">
+      <div><h3>Клас: ролі та спеціалізації</h3>
+        <div class="chips" style="margin-bottom:10px">${rolesChips}</div>
+        <ul class="plain">${specs}</ul>
+        <p class="small" style="margin-top:10px"><b>Прокачування:</b> ${esc(c.lvl)}.</p>
+        <p class="small"><b>У рейді:</b> ${esc(c.raid)}.</p>
+        <p class="small"><b>Що нового:</b> ${esc(c.forever)}</p></div>
+      <div><h3>Раса: здібності</h3>
+        <ul class="plain">${rac}</ul>
+        <p class="small" style="margin-top:10px">${esc(r.tip)}</p></div>
+    </div>
+    <div class="copyrow">
+      <input id="pickText" readonly value="${esc(text)}" aria-label="Мій вибір">
+      <button class="btn" id="copyBtn">Скопіювати мій вибір</button>
+      <span class="small" id="copyMsg" role="status"></span>
+    </div>`;
+  $('#copyBtn').onclick = async () => {
+    const inp = $('#pickText'); inp.select();
+    try { await navigator.clipboard.writeText(inp.value); $('#copyMsg').textContent = 'Скопійовано'; }
+    catch (e) { $('#copyMsg').textContent = 'Текст виділено, натисніть Ctrl+C'; }
+  };
+}
+
+function renderClassCards() {
+  $('#classCards').innerHTML = CLASSES.map(c => {
+    const dim = roleMatch(c, state.r) ? '' : ' style="opacity:.45"';
+    return `<button class="card ${c.id === state.cls ? 'sel' : ''}" data-c="${c.id}"${dim} aria-pressed="${c.id === state.cls}">
+      <h3><span class="cdot" style="--cc:${CCOL[c.id]}"></span>${esc(c.n)}</h3>
+      <div class="chips">${c.roles.map(x => `<span class="chip ${state.r === x ? 'on' : ''} ${x.endsWith('?') ? 'q' : ''}">${ri(x)}${ROLE_RU[x]}</span>`).join('')}</div>
+      <dl><div><dt>Спеціалізації</dt><dd>${c.specs.map(s => bi(s[0])).join(', ')}</dd></div>
+      <div><dt>Прокачування</dt><dd>${esc(c.lvl)}</dd></div>
+      <div><dt>У рейді</dt><dd>${esc(c.raid)}</dd></div></dl></button>`;
+  }).join('');
+}
+
+function renderRaceCards() {
+  $('#raceCards').innerHTML = RACES.filter(raceVisible).map(r => {
+    const classes = Object.keys(r.can).map(id => `${CL[id].n}${r.can[id] === 'new' ? ' (нове)' : ''}`).join(', ');
+    return `<button class="card ${r.id === state.race ? 'sel' : ''}" data-r="${r.id}" aria-pressed="${r.id === state.race}">
+      <h3>${esc(r.n)}${raceEn(r)}</h3>
+      <div class="chips"><span class="chip">${facName(r.f)}</span>${r.paid ? '<span class="chip">платна</span>' : ''}</div>
+      <dl><div><dt>Класи</dt><dd>${esc(classes)}</dd></div>
+      <div><dt>Здібності</dt><dd>${r.rac.map(x => bi(x[1])).join(', ')}</dd></div></dl></button>`;
+  }).join('');
+}
+
+function render() { pickValid(); renderMatrix(); renderDetail(); renderClassCards(); renderRaceCards(); }
+
+document.addEventListener('click', e => {
+  const seg = e.target.closest('.seg button');
+  if (seg) {
+    const which = seg.parentElement.id === 'segF' ? 'f' : 'r';
+    state[which] = seg.dataset.v;
+    seg.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b === seg ? 'true' : 'false'));
+    render(); return;
+  }
+  const cell = e.target.closest('button.cell');
+  if (cell) { state.race = cell.dataset.r; state.cls = cell.dataset.c; render(); $('#detail').scrollIntoView({ behavior:'smooth', block:'nearest' }); return; }
+  const card = e.target.closest('button.card');
+  if (card) {
+    if (card.dataset.c) state.cls = card.dataset.c;
+    if (card.dataset.r) state.race = card.dataset.r;
+    if (card.dataset.c && !RC[state.race].can[state.cls]) { const r = RACES.filter(raceVisible).find(x => x.can[state.cls]); if (r) state.race = r.id; }
+    render(); $('#detail').scrollIntoView({ behavior:'smooth', block:'nearest' });
+  }
+});
+render();
+
+/* Countdown */
+function renderCountdown() {
+  const day = 86400000, now = new Date(), t = d => new Date(d + 'T00:00:00');
+  const rel = t('2026-11-04'), r1 = t('2026-10-27'), r2 = t('2026-11-04'), raid = t('2026-12-09');
+  const n = (a) => Math.ceil((a - now) / day);
+  let big, cap, res;
+  if (now < rel) { big = n(rel); cap = ['днів до релізу', 'WoW Forever виходить 04.11.2026']; }
+  else if (now < raid) { big = n(raid); cap = ['днів до рейдів', 'Гра вийшла 04.11.2026, рейди відкриються 09.12']; }
+  else { big = '✓'; cap = ['рейди відкриті', 'Barrow Deeps, Hyjal Summit, Onyxia\'s Lair']; }
+  if (now < r1) res = ['Резервація імен', `відкриється через ${n(r1)} дн. (27.10 – 03.11)`];
+  else if (now < r2) res = ['Резервація імен', `іде зараз, до 03.11 включно`];
+  else res = ['Резервація імен', 'завершена'];
+  $('#cd').innerHTML = `<div class="big">${big}</div><div class="cap"><b>${cap[0]}</b><span>${cap[1]}</span></div><div class="res"><b>${res[0]}</b><span class="small">${res[1]}</span></div>`;
+}
+renderCountdown();
+
+/* Group builder */
+const PRESETS = {
+  6: [['dwarf','paladin','tank'],['human','priest','heal'],['gnome','mage','dps'],['human','hunter','dps'],['nightelf','rogue','dps'],['gnome','warlock','dps']],
+  8: [['dwarf','paladin','tank'],['nightelf','druid','tank'],['human','priest','heal'],['dwarf','shaman','heal'],['gnome','mage','dps'],['human','hunter','dps'],['gnome','warlock','dps'],['human','rogue','dps']]
+};
+const team = { f:'alliance', list: [] };
+const MAXT = 8;
+const RR = ['tank','heal','dps'];
+function roleOpts(c) { return RR.filter(x => c.roles.includes(x) || (x === 'tank' && c.roles.includes('tank?'))); }
+function fixSlot(s) {
+  const races = RACES.filter(r => r.f === team.f);
+  let r = RC[s.race]; if (!r || r.f !== team.f) r = races.find(x => x.can[s.cls]) || races[0];
+  s.race = r.id;
+  const cls = Object.keys(r.can); if (!r.can[s.cls]) s.cls = cls[0];
+  const ro = roleOpts(CL[s.cls]); if (!ro.includes(s.role)) s.role = ro[0];
+}
+function readHash() {
+  const m = location.hash.match(/^#team=([^;]+);(.*)$/);
+  if (!m || !['alliance','horde'].includes(m[1])) return false;
+  const list = m[2].split(',').map(x => x.split('.')).filter(x => x.length === 3 && RC[x[0]] && CL[x[1]] && RR.includes(x[2])).slice(0, MAXT);
+  if (!list.length) return false;
+  team.f = m[1]; team.list = list.map(x => ({ race:x[0], cls:x[1], role:x[2] }));
+  return true;
+}
+function teamLink() { return location.origin + location.pathname + '#team=' + team.f + ';' + team.list.map(s => `${s.race}.${s.cls}.${s.role}`).join(','); }
+function setPreset(n) { team.list = PRESETS[n].map(x => ({ race:x[0], cls:x[1], role:x[2] })); team.f = 'alliance'; renderTeam(); }
+function raceName(r) { return r.name || r.n; }
+function renderTeam() {
+  team.list.forEach(fixSlot);
+  document.querySelectorAll('#segBF button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === team.f ? 'true' : 'false'));
+  const races = RACES.filter(r => r.f === team.f);
+  $('#slots').innerHTML = team.list.map((s, i) => {
+    const r = RC[s.race];
+    const ro = roleOpts(CL[s.cls]);
+    return `<div class="slot" style="--cc:${CCOL[s.cls]}" data-i="${i}"><span class="no">${i + 1}</span>
+      <select class="srace" aria-label="Раса гравця ${i + 1}">${races.map(x => `<option value="${x.id}"${x.id === s.race ? ' selected' : ''}>${esc(x.n)}${x.paid ? ' (платна)' : ''}</option>`).join('')}</select>
+      <select class="scls" aria-label="Клас гравця ${i + 1}">${Object.keys(r.can).map(c => `<option value="${c}"${c === s.cls ? ' selected' : ''}>${esc(CL[c].n)}</option>`).join('')}</select>
+      <select class="srole" aria-label="Роль гравця ${i + 1}">${ro.map(x => `<option value="${x}"${x === s.role ? ' selected' : ''}>${ROLE_RU[x]}</option>`).join('')}</select>
+      <button class="del" aria-label="Прибрати гравця ${i + 1}">✕</button></div>`;
+  }).join('');
+  $('#bCount').textContent = `${team.list.length} з ${MAXT}`;
+  $('#bAdd').disabled = team.list.length >= MAXT;
+  const cnt = { tank:0, heal:0, dps:0 }; team.list.forEach(s => cnt[s.role]++);
+  $('#roleSum').innerHTML = RR.map(x => `<div class="rs ${cnt[x] ? (x === 'dps' || cnt[x] >= 1 ? 'ok' : '') : 'zero'}">${ri(x)}<b>${cnt[x]}</b><span>${ROLE_RU[x]}</span></div>`).join('');
+  const v = [], n = team.list.length;
+  if (!n) v.push(['', 'Додайте гравців або натисніть «Приклад на 6».']);
+  else {
+    if (cnt.tank && cnt.heal && n >= 5) v.push(['good', 'Підземелля на 5 збереться: є танк, цілитель і достатньо шкоди.']);
+    else {
+      if (!cnt.tank) v.push(['warn', 'Немає танка: воїн, паладин (Захист) або друїд (Сила звіра).']);
+      if (!cnt.heal) v.push(['warn', 'Немає цілителя: паладин (Світло), жрець, шаман (Зцілення) або друїд (Зцілення).']);
+      if (n < 5) v.push(['', `Для підземелля потрібно 5 людей, зараз ${n}.`]);
+    }
+    if (n >= 8 && cnt.tank >= 2 && cnt.heal >= 2) v.push(['good', 'Вистачає на дві групи по 4–5 людей або одну із запасом на зміну ролей.']);
+    else if (n >= 6 && cnt.tank >= 1 && cnt.heal >= 1) v.push(['', `Шостий гравець — запас: можна міняти ролі та не чекати, якщо хтось зайнятий.`]);
+    const byCls = {}; team.list.forEach(s => byCls[s.cls] = (byCls[s.cls] || 0) + 1);
+    const dup = Object.keys(byCls).filter(c => byCls[c] > 1 && BUFF[c]);
+    if (dup.length) v.push(['', `Однакові класи (${dup.map(c => CL[c].n).join(', ')}): їхні баффи перекриваються, користі від другого менше.`]);
+    const sky = team.list.filter(s => RC[s.race].paid).length;
+    if (sky) v.push(['', `Скайборн — платна раса: набір Heroic Pack від $29.99 потрібен ${sky} з ${n} гравцям.`]);
+    const hybrid = team.list.filter(s => CL[s.cls].roles.filter(x => !x.endsWith('?')).length >= 3).length;
+    if (hybrid) v.push(['', `Паладин і друїд вміють усі три ролі: ${hybrid} у складі, це гнучкість під час зміни груп.`]);
+  }
+  $('#verdict').innerHTML = v.map(x => `<li class="${x[0]}">${esc(x[1])}</li>`).join('');
+  const have = [...new Set(team.list.map(s => s.cls))];
+  const withB = have.filter(c => BUFF[c]), noB = have.filter(c => !BUFF[c]);
+  $('#buffs').innerHTML = (withB.length ? withB.map(c => `<li class="good"><span class="cdot" style="--cc:${CCOL[c]}"></span><b>${esc(CL[c].n)}:</b> ${esc(BUFF[c])}</li>`).join('') : '<li>Поки немає класів із груповими баффами.</li>')
+    + (noB.length ? `<li>Без групового баффа: ${noB.map(c => CL[c].n).join(', ')}. Вони дають чисту шкоду.</li>` : '');
+  $('#teamText').value = n ? team.list.map((s, i) => `${i + 1}. ${raceName(RC[s.race])} ${CL[s.cls].n} (${ROLE_RU[s.role]})`).join('; ') + ` — ${facName(team.f)}` : '';
+  try { history.replaceState(null, '', n ? teamLink() : location.pathname); } catch (e) {}
+}
+async function copyTo(text, msgEl, ok) {
+  try { await navigator.clipboard.writeText(text); msgEl.textContent = ok; } catch (e) { msgEl.textContent = 'Не вдалося скопіювати, виділіть і натисніть Ctrl+C'; }
+}
+$('#segBF').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; team.f = b.dataset.v; renderTeam(); });
+document.querySelectorAll('[data-preset]').forEach(b => b.onclick = () => setPreset(b.dataset.preset));
+$('#bClear').onclick = () => { team.list = []; renderTeam(); };
+$('#bAdd').onclick = () => { if (team.list.length < MAXT) { team.list.push({ race:RACES.find(r => r.f === team.f).id, cls:'warrior', role:'tank' }); renderTeam(); } };
+$('#slots').addEventListener('change', e => {
+  const row = e.target.closest('.slot'); if (!row) return; const s = team.list[+row.dataset.i];
+  if (e.target.classList.contains('srace')) s.race = e.target.value;
+  if (e.target.classList.contains('scls')) s.cls = e.target.value;
+  if (e.target.classList.contains('srole')) s.role = e.target.value;
+  renderTeam();
+});
+$('#slots').addEventListener('click', e => { const d = e.target.closest('.del'); if (!d) return; team.list.splice(+d.closest('.slot').dataset.i, 1); renderTeam(); });
+$('#copyTeam').onclick = () => copyTo($('#teamText').value, $('#teamMsg'), 'Склад скопійовано');
+$('#copyLink').onclick = () => copyTo(teamLink(), $('#teamMsg'), 'Посилання скопійовано');
+if (!readHash()) setPreset(6); else renderTeam();
+
+/* Checklist */
+const CHECK = [
+  ['Домовитися про одну фракцію та режим', 'Групуватися можна лише в межах одного режиму (звичайний, PvP, RP), у PvP під час створення доступна одна фракція.'],
+  ['Розподілити класи без зайвих дублів', 'Зберіть склад у конструкторі вище: потрібен танк, цілитель і різні класи заради баффів.'],
+  ['Вирішити, чи потрібна раса Скайборн', 'Платна: набір Heroic Pack від $29.99. Решту рас і всі класи докуповувати не потрібно.'],
+  ['Зайняти імена з 27.10 по 03.11', 'Потрібен набір Heroic, Epic або Collection. Це резервація імен, а не ранній доступ до гри.'],
+  ['Перевірити підписку або ігровий час', 'З 04.11 для гри потрібна підписка або ігровий час.'],
+  ['Обрати професії під табір', 'Один бере Кулінарію заради вогнища, решта за професіями під баффи табору.'],
+  ['Призначити дні та час старту 04.11', 'Заздалегідь домовтеся, хто й коли заходить першим, щоб почати одним складом.'],
+  ['Намітити підземелля на п’ять тижнів до рейдів', 'Рейди відкриваються 09.12, до цього прокачування та підземелля групою.']
+];
+const CKEY = 'gabella-wf-check';
+let done = [];
+try { done = JSON.parse(localStorage.getItem(CKEY) || '[]'); } catch (e) {}
+function saveDone() { try { localStorage.setItem(CKEY, JSON.stringify(done)); } catch (e) {} }
+function renderCheck() {
+  $('#checkList').innerHTML = CHECK.map((c, i) => `<li><label><input type="checkbox" data-i="${i}"${done.includes(i) ? ' checked' : ''}><div><b>${esc(c[0])}</b><span>${esc(c[1])}</span></div></label></li>`).join('');
+  const k = done.length;
+  $('#progBar').style.width = (k / CHECK.length * 100) + '%';
+  $('#progTxt').textContent = `Готово ${k} з ${CHECK.length}`;
+}
+$('#checkList').addEventListener('change', e => {
+  const i = +e.target.dataset.i; done = done.filter(x => x !== i); if (e.target.checked) done.push(i); saveDone(); renderCheck();
+});
+$('#checkReset').onclick = () => { done = []; saveDone(); renderCheck(); };
+renderCheck();
+
+/* Theme toggle and language links */
+const themeBtn = $('#themeBtn');
+function paintTheme() { const t = document.documentElement.getAttribute('data-theme'); themeBtn.textContent = t === 'light' ? '☾' : '☀'; const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#8a6414' : '#c9a54a'); }
+themeBtn.onclick = () => { const t = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light'; document.documentElement.setAttribute('data-theme', t); try { localStorage.setItem('wf-theme', t); } catch (e) {} paintTheme(); };
+paintTheme();
+document.querySelectorAll('.langs a').forEach(a => { a.addEventListener('click', () => { a.href = a.getAttribute('href').split('#')[0] + location.hash; }); });
+
+/* Highlight current section in nav */
+if ('IntersectionObserver' in window) {
+  const links = [...document.querySelectorAll('nav.sticky a')];
+  const io = new IntersectionObserver(es => es.forEach(en => {
+    if (en.isIntersecting) links.forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === '#' + en.target.id ? 'true' : 'false'));
+  }), { rootMargin: '-20% 0px -70% 0px' });
+  document.querySelectorAll('section.block, footer#sources').forEach(s => io.observe(s));
+}
+</script>
+</body>
+</html>

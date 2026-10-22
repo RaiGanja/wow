@@ -6,8 +6,14 @@
 <title>WoW Forever: гид Gabella Team</title>
 <meta name="description" content="Гид по WoW Forever для компании друзей: классы, расы, комбинации, Legacy, лагерь, подземелья, рейды и подбор состава группы. Данные на 22.10.2026.">
 <meta name="theme-color" content="#c9a54a">
+<link rel="alternate" hreflang="ru" href="https://raiganja.github.io/wow/">
+<link rel="alternate" hreflang="en" href="https://raiganja.github.io/wow/en/">
+<link rel="alternate" hreflang="uk" href="https://raiganja.github.io/wow/uk/">
+<link rel="alternate" hreflang="x-default" href="https://raiganja.github.io/wow/">
+<script>(function(){var t=null;try{t=localStorage.getItem('wf-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}document.documentElement.setAttribute('data-theme',t)})();</script>
 <link rel="canonical" href="https://raiganja.github.io/wow/">
 <meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
 <meta property="og:site_name" content="Gabella Team">
 <meta property="og:title" content="WoW Forever: гид Gabella Team">
 <meta property="og:description" content="Классы, расы, Legacy, лагерь, подземелья и подбор состава группы. Данные на 22.10.2026.">
@@ -20,7 +26,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230c0c0d'/%3E%3Ctext x='32' y='33' text-anchor='middle' dominant-baseline='central' font-family='Georgia,serif' font-size='44' font-weight='700' fill='%23c9a54a'%3EG%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Source+Sans+3:wght@400;600;700&display=swap">
 <style>
-/* Layout: шапка, липкая навигация, даты, подборщик (фильтры, матрица, панель, карточки), затем справочные разделы и источники. Тема одна: золото на чёрном. */
+/* Layout: header, sticky nav, dates, picker (filters, matrix, panel, cards), reference sections, sources. Two themes: dark (gold on black) and light. */
 :root {
   --bg: #0c0c0d;
   --surface: #141416;
@@ -36,6 +42,20 @@
   --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
   --font-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
   color-scheme: dark;
+}
+:root[data-theme="light"] {
+  --bg: #faf7f0;
+  --surface: #ffffff;
+  --surface-2: #f1ece0;
+  --fg: #1d1b16;
+  --muted: #5d5849;
+  --line: #ddd5c2;
+  --gold: #8a6414;
+  --gold-ink: #ffffff;
+  --alliance: #2a5ba8;
+  --horde: #b03a34;
+  --new: #2d7a45;
+  color-scheme: light;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 64px; }
@@ -169,6 +189,15 @@ footer { margin-top: 64px; border-top: 1px solid var(--gold); padding-top: 24px;
 footer ul { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
 footer ul li::marker { color: var(--gold); }
 
+.brand { flex-wrap: wrap; }
+.tools { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+.langs { display: inline-flex; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; background: var(--surface); }
+.langs a { padding: 8px 12px; min-height: 38px; display: grid; place-items: center; color: var(--muted); text-decoration: none; font-weight: 700; font-size: .85rem; letter-spacing: .06em; border-right: 1px solid var(--line); }
+.langs a:last-child { border-right: 0; }
+.langs a:hover { color: var(--gold); }
+.langs a[aria-current="true"] { background: var(--gold); color: var(--gold-ink); }
+.themebtn { min-height: 38px; min-width: 42px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); color: var(--fg); font-size: 1.1rem; line-height: 1; }
+.themebtn:hover { border-color: var(--gold); color: var(--gold); }
 .ri { width: 1.05em; height: 1.05em; vertical-align: -.17em; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; margin-right: 5px; }
 .chip .ri { margin-right: 4px; }
 nav.sticky a[aria-current="true"] { color: var(--gold); border-bottom-color: var(--gold); }
@@ -200,6 +229,7 @@ ul.verdict li { padding-left: 24px; position: relative; font-size: .96rem; }
 ul.verdict li::before { content: "·"; position: absolute; left: 6px; color: var(--gold); font-weight: 700; }
 ul.verdict li.good::before { content: "✓"; color: var(--new); left: 4px; }
 ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 6px; }
+:root[data-theme="light"] .cdot { box-shadow: inset 0 0 0 1px rgba(0,0,0,.35); }
 .cdot { display: inline-block; width: 9px; height: 9px; margin-right: 7px; background: var(--cc, var(--muted)); }
 
 .check { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; border-top: 1px solid var(--line); }
@@ -213,6 +243,8 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 6px; }
 .prog i { display: block; height: 100%; background: var(--gold); width: 0; transition: width .2s; }
 
 @media (max-width: 719px) {
+  .brand { display: grid; grid-template-columns: auto 1fr; gap: 12px; }
+  .brand .eyebrow { grid-column: 1 / -1; order: 3; }
   .slot { grid-template-columns: 28px 1fr 1fr 40px; }
   .slot select.srole { grid-column: 2 / 4; }
   .slot .del { grid-row: 1; grid-column: 4; }
@@ -242,10 +274,14 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 6px; }
 <header class="top">
   <div class="brand">
     <svg class="mark" viewBox="0 0 64 64" role="img" aria-label="Gabella Team">
-      <circle cx="32" cy="32" r="30" fill="#0c0c0d" stroke="#c9a54a" stroke-width="1.5"/>
-      <text x="32" y="32" text-anchor="middle" dominant-baseline="central" font-family="Cormorant Garamond, Georgia, serif" font-size="40" font-weight="700" fill="#c9a54a">G</text>
+      <rect width="64" height="64" rx="8" fill="#0c0c0d"/>
+      <text x="32" y="33" text-anchor="middle" dominant-baseline="central" font-family="Georgia, serif" font-size="46" font-weight="700" fill="#c9a54a">G</text>
     </svg>
     <div class="eyebrow">Gabella Team · World of Warcraft: Forever</div>
+    <div class="tools">
+      <div class="langs" role="group" aria-label="Язык"><a href="./" data-lang="ru" hreflang="ru" lang="ru" aria-current="true">RU</a><a href="en/" data-lang="en" hreflang="en" lang="en" aria-current="false">EN</a><a href="uk/" data-lang="uk" hreflang="uk" lang="uk" aria-current="false">UK</a></div>
+      <button class="themebtn" id="themeBtn" type="button" aria-label="Переключить тему" title="Переключить тему">☀</button>
+    </div>
   </div>
   <h1>Гид по WoW Forever для своей компании</h1>
   <p class="lead">Классы, расы, новые комбинации, Legacy, лагерь, подземелья и рейды. Плюс подбор состава для группы из 6–8 человек. Только проверенные данные, с источниками и датой.</p>
@@ -264,7 +300,7 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 6px; }
     <li><span class="d">15.10</span><span class="t"><b>Крупный патч беты</b><span>Переделаны способности рас (оружейные специализации заменены критами) и настроены почти все классы.</span></span></li>
     <li><span class="d">27.10 – 03.11</span><span class="t"><b>Ранняя резервация имён</b><span>Входит в наборы Heroic, Epic и Collection. Первым пришёл, первым занял, это не ранний доступ в игру. Некоторые сайты называют начало 23.10, надёжнее сверить на странице Blizzard.</span></span></li>
     <li><span class="d">04.11</span><span class="t"><b>Релиз WoW Forever</b><span>Нужна подписка или игровое время. Forever постоянная игра рядом с Retail и Classic, не сезон.</span></span></li>
-    <li><span class="d">09.12</span><span class="t"><b>Открываются рейды</b><span>Barrow Deeps (10 игроков), Hyjal Summit (20), Onyxia's Lair (40). До этого есть пять недель на прокачку и подземелья.</span></span></li>
+    <li><span class="d">09.12</span><span class="t"><b>Открываются рейды</b><span>Barrow Deeps (10 игроков), Hyjal Summit (20), Onyxia’s Lair (40). До этого есть пять недель на прокачку и подземелья.</span></span></li>
   </ul>
   <div class="grid2">
     <div class="panel">
@@ -433,7 +469,7 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 6px; }
       <ul class="dots" style="margin-top:10px">
         <li><b>Barrow Deeps</b>, 10 игроков</li>
         <li><b>Hyjal Summit</b>, 20 игроков</li>
-        <li><b>Onyxia's Lair</b>, 40 игроков, в Dustwallow Marsh</li>
+        <li><b>Onyxia’s Lair</b>, 40 игроков, в Dustwallow Marsh</li>
         <li>За прохождение каждого из этих рейдов в Legacy даётся по очку.</li>
       </ul>
     </div>
@@ -628,7 +664,7 @@ const EN = {
   'Баланс':'Balance','Сила зверя':'Feral',
   'Воля к жизни':'Will to Survive','Внимательность':'Perception','Беспощадность':'Ruthless','Человеческий дух':'The Human Spirit',
   'Каменная форма':'Stoneform','Поиск сокровищ':'Find Treasure','Ярость земли':'Earth Fury','Охотник на крупную дичь':'Big Game Hunter',
-  'Свет Элуны':"Elune's Light",'Слияние с тенью':'Shadowmeld','Проворство':'Quickness','Дух-огонёк':'Wisp Spirit',
+  'Свет Элуны':"Elune’s Light",'Слияние с тенью':'Shadowmeld','Проворство':'Quickness','Дух-огонёк':'Wisp Spirit',
   'Мастер побега':'Escape Artist','Эврика!':'Eureka!','Пытливый ум':'Expansive Mind','Специализация: инженерия':'Engineering Specialization',
   'Хождение по воздуху':'Walk on Air','Чтение лей-линий':'Read Ley Line','Благословение ветра':'Wind Blessed','Прозрение стихий':'Elemental Insight','Взгляд в небо':'Skysight',
   'Кровавая ярость':'Blood Fury','Разрушение проклятий':'Shatter Curse','Дикость':'Savage','Закалка':'Hardiness',
@@ -637,7 +673,7 @@ const EN = {
   'Берсерк':'Berserking','Быстрое восстановление':'Rapid Regeneration','Убийца зверей':'Beast Slaying','Регенерация':'Regeneration'
 };
 RC.skyA.en = 'High Order Skyborne'; RC.skyH.en = 'Windshaper Skyborne';
-function bi(ru) { return EN[ru] ? `${esc(ru)} <span class="en">(${esc(EN[ru])})</span>` : esc(ru); }
+function bi(ru) { return EN[ru] && EN[ru] !== ru ? `${esc(ru)} <span class="en">(${esc(EN[ru])})</span>` : esc(ru); }
 function raceEn(r) { return r.en ? ` <span class="en">/ ${esc(r.en)}</span>` : ''; }
 
 const state = { f:'all', r:'all', race:'dwarf', cls:'shaman' };
@@ -755,7 +791,7 @@ document.addEventListener('click', e => {
 });
 render();
 
-/* Обратный отсчёт */
+/* Countdown */
 function renderCountdown() {
   const day = 86400000, now = new Date(), t = d => new Date(d + 'T00:00:00');
   const rel = t('2026-11-04'), r1 = t('2026-10-27'), r2 = t('2026-11-04'), raid = t('2026-12-09');
@@ -771,7 +807,7 @@ function renderCountdown() {
 }
 renderCountdown();
 
-/* Конструктор группы */
+/* Group builder */
 const PRESETS = {
   6: [['dwarf','paladin','tank'],['human','priest','heal'],['gnome','mage','dps'],['human','hunter','dps'],['nightelf','rogue','dps'],['gnome','warlock','dps']],
   8: [['dwarf','paladin','tank'],['nightelf','druid','tank'],['human','priest','heal'],['dwarf','shaman','heal'],['gnome','mage','dps'],['human','hunter','dps'],['gnome','warlock','dps'],['human','rogue','dps']]
@@ -861,7 +897,7 @@ $('#copyTeam').onclick = () => copyTo($('#teamText').value, $('#teamMsg'), 'Со
 $('#copyLink').onclick = () => copyTo(teamLink(), $('#teamMsg'), 'Ссылка скопирована');
 if (!readHash()) setPreset(6); else renderTeam();
 
-/* Чек-лист */
+/* Checklist */
 const CHECK = [
   ['Договориться об одной фракции и режиме', 'Группироваться можно только внутри одного режима (обычный, PvP, RP), в PvP при создании доступна одна фракция.'],
   ['Распределить классы без лишних дублей', 'Соберите состав в конструкторе выше: нужен танк, лекарь и разные классы ради баффов.'],
@@ -888,7 +924,14 @@ $('#checkList').addEventListener('change', e => {
 $('#checkReset').onclick = () => { done = []; saveDone(); renderCheck(); };
 renderCheck();
 
-/* Подсветка раздела в меню */
+/* Theme toggle and language links */
+const themeBtn = $('#themeBtn');
+function paintTheme() { const t = document.documentElement.getAttribute('data-theme'); themeBtn.textContent = t === 'light' ? '☾' : '☀'; const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#8a6414' : '#c9a54a'); }
+themeBtn.onclick = () => { const t = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light'; document.documentElement.setAttribute('data-theme', t); try { localStorage.setItem('wf-theme', t); } catch (e) {} paintTheme(); };
+paintTheme();
+document.querySelectorAll('.langs a').forEach(a => { a.addEventListener('click', () => { a.href = a.getAttribute('href').split('#')[0] + location.hash; }); });
+
+/* Highlight current section in nav */
 if ('IntersectionObserver' in window) {
   const links = [...document.querySelectorAll('nav.sticky a')];
   const io = new IntersectionObserver(es => es.forEach(en => {
