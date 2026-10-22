@@ -51,6 +51,9 @@
   --ink: #f1ece0;
   --ink-2: #c9c3b6;
   --ink-gold: #e0c27a;
+  --panel: rgba(15,18,26,.9);
+  --panel-2: #161a24;
+  --pline: rgba(255,255,255,.08);
   --font-display: "Forum", Georgia, "Times New Roman", serif;
   --display-w: 400;
   --font-body: "Golos Text", "Segoe UI", system-ui, sans-serif;
@@ -75,6 +78,9 @@
   --alliance: #2a5ba8;
   --horde: #b03a34;
   --new: #2d7a45;
+  --panel: rgba(255,255,255,.95);
+  --panel-2: #f6f4ef;
+  --pline: #e2ddd2;
   color-scheme: light;
 }
 * { box-sizing: border-box; }
@@ -236,65 +242,102 @@ section.block { scroll-margin-top: -72px; }
 .gt span { color: var(--ink-2); font-size: .9rem; }
 .gt:hover b { color: var(--ink-gold); }
 
-/* Journey: game stages, my character */
-.stagebar { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); }
-.stagebar li { min-width: 0; }
-.stagebar button { position: relative; width: 100%; min-height: 76px; padding: 18px 14px 12px 0; display: grid; gap: 2px; align-content: start; text-align: left; border: 0; border-top: 1px solid var(--line-2); background: none; color: var(--fg); }
-.stagebar button::before { content: ""; position: absolute; left: 0; top: -5px; width: 9px; height: 9px; background: var(--bg); border: 1px solid var(--line-2); transform: rotate(45deg); transition: background-color .2s, border-color .2s; }
-.stagebar button.done { border-top-color: color-mix(in srgb, var(--gold) 70%, transparent); }
-.stagebar button.done::before { border-color: var(--gold); }
-.stagebar button[aria-selected="true"]::before { background: var(--gold); border-color: var(--gold); }
-.stagebar b { font-family: var(--font-display); font-weight: 400; font-size: 1.4rem; line-height: 1.15; }
-.stagebar button[aria-selected="true"] b { color: var(--gold-2); }
-.stagebar button:hover b { color: var(--gold-2); }
-.stagebar span { color: var(--muted); font-size: .88rem; }
-.stagebar .now { justify-self: start; margin-top: 4px; font-size: .72rem; font-weight: 600; color: var(--gold-2); border: 1px solid color-mix(in srgb, var(--gold) 55%, transparent); border-radius: 3px; padding: 1px 6px; }
-.journey { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 24px; align-items: start; }
-.stage { display: grid; gap: 18px; min-width: 0; }
-.st-head { display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: baseline; }
-.st-head h3 { font-size: 2rem; }
-.st-head span { color: var(--muted); }
-.st-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 28px; }
-.st-grid > * { min-width: 0; }
-.st-grid .wide { grid-column: 1 / -1; }
-.st-grid h4 { margin: 0 0 2px; font-family: var(--font-display); font-weight: 400; font-size: 1.3rem; }
-.st-grid .own h4 { margin-bottom: 0; }
-.st-grid ul.dots { margin-top: 8px; }
-.st-src { display: flex; flex-wrap: wrap; gap: 4px 14px; }
-ul.dlist { list-style: none; margin: 8px 0 0; padding: 0; display: grid; }
-ul.dlist li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 12px; padding: 7px 0 7px 10px; border-bottom: 1px solid var(--line); box-shadow: inset 2px 0 0 transparent; }
-ul.dlist li b { font-weight: 600; }
-ul.dlist li .num { color: var(--gold-2); font-weight: 600; white-space: nowrap; }
-ul.dlist li .small { grid-column: 1 / -1; font-size: .85rem; }
-ul.dlist li.mine, .dg tr.mine th { box-shadow: inset 2px 0 0 var(--gold); }
-.more-l { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-weight: 500; }
-.me { border: 1px solid var(--line); background: var(--surface); border-radius: 2px; display: grid; position: sticky; top: calc(var(--top) + 16px); }
-.me > * { padding: 16px; border-bottom: 1px solid var(--line); }
-.me > *:last-child { border-bottom: 0; }
-.me summary { list-style: none; cursor: pointer; display: grid; gap: 2px; min-height: 44px; align-content: center; }
-.me summary::-webkit-details-marker { display: none; }
-.me details { padding: 0; }
-.me details > summary { padding: 14px 16px; }
-.me details[open] > summary { border-bottom: 1px solid var(--line); }
-.me .me-t { font-family: var(--font-display); font-size: 1.5rem; line-height: 1.1; display: flex; justify-content: space-between; gap: 10px; }
-.me .me-t::after { content: "+"; font-family: var(--font-body); color: var(--gold-2); font-weight: 600; font-size: 1.1rem; }
-.me details[open] .me-t::after { content: "−"; }
-.me .me-s { color: var(--muted); font-size: .9rem; }
-.me-f { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 10px; padding: 16px; }
-.me-f .fl { display: grid; gap: 4px; min-width: 0; font-size: .85rem; color: var(--muted); font-weight: 500; }
+/* Journey: game stages and my character, framed panels over art */
+.stband { position: relative; isolation: isolate; padding: 110px 0 24px; color: var(--fg); }
+.stband-art, .stband-art img { position: absolute; inset: 0 0 auto 0; width: 100%; height: 620px; }
+.stband-art { z-index: -2; }
+.stband-art img { object-fit: cover; object-position: 50% 40%; }
+.stband::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 620px; z-index: -1; background: linear-gradient(180deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 70%, transparent) 22%, color-mix(in srgb, var(--bg) 55%, transparent) 50%, var(--bg) 100%); }
+.stband .wrap { display: grid; gap: 20px; }
+.stband .sec-head h2::after { display: none; }
+.stband .sec-head p { color: var(--fg); opacity: .85; }
+.frame { position: relative; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); box-shadow: 0 18px 48px rgba(0,0,0,.35); backdrop-filter: blur(6px); }
+.stiles { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; padding: 14px; }
+.stile { position: relative; isolation: isolate; overflow: hidden; height: 168px; padding: 0 14px 14px; display: grid; align-content: end; gap: 2px; text-align: left; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; background: #0b0d12; color: #f3efe6; transition: border-color .2s; }
+.stile picture, .stile img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.stile picture { z-index: -2; }
+.stile img { object-fit: cover; object-position: 50% 22%; filter: saturate(.85) brightness(.78); transition: filter .3s, transform .6s var(--ease); }
+.stile::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(6,8,12,0) 25%, rgba(6,8,12,.9) 100%); }
+.stile:hover img { filter: none; transform: scale(1.04); }
+.stile[aria-selected="true"] { border-color: #e0c27a; box-shadow: inset 0 0 0 1px #e0c27a; }
+.stile[aria-selected="true"] img { filter: none; }
+.stile b { font-weight: 700; font-size: 1.12rem; line-height: 1.2; text-shadow: 0 1px 8px rgba(0,0,0,.7); }
+.stile .lv { font-size: .86rem; color: rgba(243,239,230,.8); }
+.stile .now { position: absolute; top: 10px; left: 10px; font-size: .74rem; font-weight: 700; color: #15110a; background: #e0c27a; border-radius: 4px; padding: 2px 7px; }
+.journey { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 20px; align-items: start; }
+.stage { padding: 26px 28px 22px; display: grid; gap: 22px; min-width: 0; }
+.st-head { display: grid; gap: 6px; }
+.st-head .t { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.st-head h3 { font-size: 2.1rem; }
+.pill { display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px; border-radius: 999px; background: var(--panel-2); border: 1px solid var(--pline); color: var(--fg); font-size: .85rem; font-weight: 600; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.pill.gold { background: #c9a54a; border-color: #c9a54a; color: #15110a; }
+.st-head .why { color: var(--muted); font-size: .9rem; }
+.steps-c { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.steps-c li { display: grid; grid-template-columns: 38px minmax(0, 1fr); gap: 12px; align-items: start; padding: 16px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--pline); }
+.steps-c .n { font-family: var(--font-display); font-size: 1.9rem; line-height: 1; color: var(--gold-2); font-variant-numeric: lining-nums; }
+.steps-c .fi { width: 28px; height: 28px; margin-top: 2px; color: var(--gold-2); }
+.steps-c p { font-size: .98rem; }
+.tl { display: block; font-size: .78rem; font-weight: 700; color: var(--gold-2); margin-bottom: 2px; }
+.st-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 26px; }
+.st-cols > * { min-width: 0; }
+.st-cols h4, .me-out h4 { margin: 0 0 10px; font-size: 1.02rem; font-weight: 700; }
+ul.clean { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; font-size: .95rem; }
+ul.clean li { padding-left: 15px; position: relative; }
+ul.clean li::before { content: ""; position: absolute; left: 0; top: .62em; width: 5px; height: 5px; border-radius: 50%; background: var(--gold); }
+ul.clean li.tip::before { background: transparent; box-shadow: inset 0 0 0 1.5px var(--gold); }
+ul.clean .tl { display: inline; margin-right: 6px; }
+ul.dlist { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+ul.dlist li { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 2px 12px; padding: 9px 12px; border-radius: 7px; background: var(--panel-2); border: 1px solid var(--pline); }
+ul.dlist li b { font-weight: 600; font-size: .95rem; line-height: 1.3; }
+ul.dlist li .z { grid-column: 1; color: var(--muted); font-size: .82rem; line-height: 1.3; }
+ul.dlist li .z i { font-style: normal; color: var(--sapphire); font-weight: 600; }
+ul.dlist li .pill { grid-column: 2; grid-row: 1 / 3; }
+ul.dlist li.mine { border-color: color-mix(in srgb, var(--gold) 60%, transparent); }
+.more-l { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-weight: 600; font-size: .92rem; }
+.gtip { padding: 16px 18px; border-radius: 8px; background: color-mix(in srgb, var(--gold) 9%, var(--panel-2)); border: 1px solid color-mix(in srgb, var(--gold) 30%, transparent); }
+.st-src { color: var(--muted); font-size: .85rem; display: flex; flex-wrap: wrap; gap: 4px 14px; }
+.st-src a { color: var(--muted); }
+.st-src a:hover { color: var(--gold-2); }
+.me { overflow: hidden; display: grid; position: sticky; top: calc(var(--top) + 16px); }
+.me-hero { position: relative; isolation: isolate; height: 190px; padding: 16px 18px; display: grid; align-content: end; gap: 2px; color: #f3efe6; background: #0b0d12; }
+.me-hero picture, .me-hero img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.me-hero picture { z-index: -2; }
+.me-hero img { object-fit: cover; object-position: 50% 18%; }
+.me-hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(6,8,12,.1) 20%, rgba(6,8,12,.92) 100%); }
+.me-hero::before { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--cc, #c9a54a); }
+.me-hero .k { font-size: .8rem; font-weight: 700; color: #e0c27a; }
+.me-hero b { font-family: var(--font-display); font-weight: 400; font-size: 1.75rem; line-height: 1.1; }
+.me-hero .s { font-size: .88rem; color: rgba(243,239,230,.82); }
+.me-hero .lvb { position: absolute; top: 14px; right: 14px; width: 52px; height: 52px; display: grid; place-items: center; border-radius: 50%; border: 1px solid rgba(224,194,122,.8); background: rgba(6,8,12,.6); font-family: var(--font-display); font-size: 1.5rem; color: #e0c27a; font-variant-numeric: lining-nums; }
+.me details > summary { list-style: none; cursor: pointer; min-height: 48px; display: flex; align-items: center; justify-content: space-between; padding: 0 18px; font-weight: 600; font-size: .95rem; border-top: 1px solid var(--pline); }
+.me details > summary::-webkit-details-marker { display: none; }
+.me details > summary::after { content: ""; width: 8px; height: 8px; border-right: 1.5px solid var(--gold-2); border-bottom: 1.5px solid var(--gold-2); transform: translateY(-2px) rotate(45deg); transition: transform .2s; }
+.me details[open] > summary::after { transform: translateY(2px) rotate(-135deg); }
+.me-f { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 10px; padding: 4px 18px 12px; }
+.me-f .fl { display: grid; gap: 5px; min-width: 0; font-size: .82rem; color: var(--muted); font-weight: 600; }
 .me-f .wide { grid-column: 1 / -1; }
-.me-f select { width: 100%; min-width: 0; font: inherit; font-size: .95rem; padding: 0 8px; min-height: 44px; border: 1px solid var(--line-2); border-radius: 3px; background: var(--bg); color: var(--fg); }
-.me-f .chiprow button { font-size: .88rem; color: var(--fg); }
-.me-f + .small { padding: 0 16px 16px; }
+.me-f select { width: 100%; min-width: 0; font: inherit; font-size: .95rem; font-weight: 500; padding: 0 8px; min-height: 44px; border: 1px solid var(--pline); border-radius: 7px; background: var(--panel-2); color: var(--fg); }
+.me-f .stepper { border-radius: 7px; border-color: var(--pline); background: var(--panel-2); }
+.me-f .chiprow button { border-radius: 7px; border-color: var(--pline); background: var(--panel-2); color: var(--fg); font-size: .88rem; }
+.me-f .chiprow button[aria-pressed="true"] { background: #c9a54a; border-color: #c9a54a; color: #15110a; }
+.me .note-s { padding: 0 18px 16px; color: var(--muted); font-size: .82rem; }
+.me-out { padding: 16px 18px; border-top: 1px solid var(--pline); display: grid; gap: 14px; }
+.me-out:empty { display: none; }
+.me-out > p { color: var(--muted); font-size: .9rem; }
+ul.buffs { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+ul.buffs li { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 10px; align-items: center; font-size: .9rem; line-height: 1.35; }
+ul.buffs .bi { width: 30px; height: 30px; border-radius: 6px; display: grid; place-items: center; background: var(--panel-2); border: 1px solid var(--cc, var(--pline)); color: var(--cc, var(--gold-2)); }
+ul.buffs .bi .ico { width: 16px; height: 16px; }
+ul.buffs b { font-weight: 600; }
+ul.buffs .m { color: var(--muted); }
+.me .act { padding: 0 18px 18px; }
+.me .act .btn { width: 100%; border-radius: 7px; }
 .stepper input { width: 52px; min-height: 44px; border: 0; background: transparent; color: var(--fg); font: inherit; font-weight: 600; text-align: center; font-variant-numeric: tabular-nums; -moz-appearance: textfield; }
 .stepper input::-webkit-inner-spin-button, .stepper input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-.me h4 { margin: 0 0 8px; font-size: .9rem; font-weight: 600; color: var(--muted); }
-.me .verdict + h4 { margin-top: 14px; }
-.me .btn { width: 100%; }
 .tbl-box.dg table { min-width: 0; }
 .dg td.num .alt { display: block; color: var(--muted); font-weight: 400; font-size: .8rem; white-space: normal; }
 .dg tbody th .tag { margin-left: 8px; vertical-align: .1em; }
-.dg tr.mine th { padding-left: 10px; }
+.dg tr.mine th { padding-left: 10px; box-shadow: inset 2px 0 0 var(--gold); }
 .dg td.zone { color: var(--muted); }
 .dg tbody th .z { display: none; }
 .dg-empty td { color: var(--muted); }
@@ -524,7 +567,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 @media (max-width: 980px) {
   .builder, .journey { grid-template-columns: 1fr; }
   .summary, .me { position: static; }
-  .me { order: -1; }
+  .stiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .factions { grid-template-columns: 1fr; }
   .tcards { grid-template-columns: 1fr; }
 }
@@ -570,13 +613,15 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .slot select.scls { grid-column: 2; }
   .slot select.srole { grid-column: 3 / 5; }
   .timeline li { grid-template-columns: 1fr; gap: 2px; }
-  .stagebar { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; margin: 0 -16px; padding: 6px 16px 0; scroll-padding: 0 16px; scrollbar-width: none; overscroll-behavior-x: contain; }
-  .stagebar::-webkit-scrollbar { display: none; }
-  .stagebar li { flex: 0 0 44%; scroll-snap-align: start; }
-  .stagebar b { font-size: 1.2rem; }
-  .st-head h3 { font-size: 1.7rem; }
-  .st-grid { grid-template-columns: 1fr; gap: 18px; }
-  .me-f { padding: 14px; }
+  .stband { padding-top: 80px; }
+  .stband-art, .stband-art img, .stband::before { height: 480px; }
+  .stiles { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 10px; padding: 12px; scroll-padding: 0 12px; scrollbar-width: none; overscroll-behavior-x: contain; }
+  .stiles::-webkit-scrollbar { display: none; }
+  .stile { flex: 0 0 62%; height: 148px; scroll-snap-align: start; }
+  .stage { padding: 20px 16px 18px; }
+  .st-head h3 { font-size: 1.75rem; }
+  .steps-c, .st-cols { grid-template-columns: 1fr; }
+  .steps-c li { padding: 14px; }
   .dg th, .dg td { padding-right: 10px; }
   .dg thead th:last-child, .dg td.zone { display: none; }
   .dg tbody th .z { display: block; color: var(--muted); font-weight: 400; font-size: .85rem; }
@@ -617,6 +662,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7M6 9.5V20h12V9.5M10 20v-5h4v5"/></symbol>
   <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5.5C6.5 4 9.5 4 12 5.5v14c-2.5-1.5-5.5-1.5-8 0zM20 5.5C17.5 4 14.5 4 12 5.5v14c2.5-1.5 5.5-1.5 8 0z"/></symbol>
   <symbol id="i-dots" viewBox="0 0 24 24"><path d="M5 12h.01M12 12h.01M19 12h.01"/></symbol>
+  <symbol id="i-fire" viewBox="0 0 24 24"><path d="M12 2.5c1 4 5.5 6 5.5 11a5.5 5.5 0 0 1-11 0c0-2.2 1.1-3.8 2.2-4.8 0 2 .9 3.2 2.1 3.2 0-3.2-1-6 1.2-9.4z"/></symbol>
   <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
 </svg>
 
@@ -656,28 +702,31 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </section>
 
 <main>
-<section class="block wrap" id="stages" data-nav="#stages" data-tab="#top">
-  <div class="sec-head"><div class="row"><div style="display:grid;gap:12px"><p class="kick">Путівник грою</p><h2>Де ти зараз</h2></div><span class="src">Warcraft Tavern, Icy Veins, Blizzard</span></div>
-    <p>П’ять етапів від резерву імен до рейдів. Етап обирається сам за датою, а якщо вказати персонажа, гід підбере підземелля під рівень і покаже ваші бафи для групи.</p></div>
-  <ol class="stagebar" id="stageBar" role="tablist" aria-label="Етапи гри"></ol>
-  <div class="journey">
-    <div class="stage" id="stagePanel" role="tabpanel" tabindex="-1"></div>
-    <aside class="me" id="me" aria-label="Мій персонаж">
-      <details id="meD" open><summary><span class="me-t">Мій персонаж</span><span class="me-s" id="meSum">Не обрано</span></summary>
-        <div class="me-f">
-          <label class="fl">Раса<select id="meRace"></select></label>
-          <label class="fl">Клас<select id="meCls"></select></label>
-          <label class="fl">Роль<select id="meRole"></select></label>
-          <div class="fl"><span id="lmeLvl">Рівень</span><div class="stepper" role="group" aria-labelledby="lmeLvl"><button type="button" class="lvm" aria-label="Нижчий рівень">−</button><input class="lvin" id="meLvl" type="number" min="1" max="60" inputmode="numeric" aria-labelledby="lmeLvl" placeholder="—"><button type="button" class="lvp" aria-label="Вищий рівень">+</button></div></div>
-          <label class="fl">Професія 1<select id="meP1"></select></label>
-          <label class="fl">Професія 2<select id="meP2"></select></label>
-          <div class="fl wide"><span id="lmeSec">Допоміжні професії</span><div class="chiprow" id="meSec" role="group" aria-labelledby="lmeSec"></div></div>
-        </div>
-        <p class="small">Зберігається лише в цьому браузері.</p>
-      </details>
-      <div id="meOut" aria-live="polite"></div>
-      <div><button type="button" class="btn ghost" id="meReset">Скинути персонажа</button></div>
-    </aside>
+<section class="stband" id="stages" data-nav="#stages" data-tab="#top">
+  <picture class="stband-art"><source type="image/avif" srcset="../assets/art/hero_campfire-960.avif 960w, ../assets/art/hero_campfire-1600.avif 1600w" sizes="100vw"><source type="image/webp" srcset="../assets/art/hero_campfire-960.webp 960w, ../assets/art/hero_campfire-1600.webp 1600w" sizes="100vw"><img src="../assets/art/hero_campfire-1600.webp" width="1600" height="893" alt="" loading="lazy" decoding="async"></picture>
+  <div class="wrap">
+    <div class="sec-head"><h2>Де ти зараз</h2><p>П’ять етапів від резерву імен до рейдів. Етап обирається сам за датою, а якщо вказати персонажа, гід підбере підземелля під рівень і покаже ваші бафи для групи.</p></div>
+    <div class="frame stiles" id="stageBar" role="tablist" aria-label="Етапи гри"></div>
+    <div class="journey">
+      <div class="frame stage" id="stagePanel" role="tabpanel" tabindex="-1"></div>
+      <aside class="frame me" id="me" aria-label="Мій персонаж">
+        <div class="me-hero" id="meHero"></div>
+        <details id="meD" open><summary>Налаштувати персонажа</summary>
+          <div class="me-f">
+            <label class="fl">Раса<select id="meRace"></select></label>
+            <label class="fl">Клас<select id="meCls"></select></label>
+            <label class="fl">Роль<select id="meRole"></select></label>
+            <div class="fl"><span id="lmeLvl">Рівень</span><div class="stepper" role="group" aria-labelledby="lmeLvl"><button type="button" class="lvm" aria-label="Нижчий рівень">−</button><input class="lvin" id="meLvl" type="number" min="1" max="60" inputmode="numeric" aria-labelledby="lmeLvl" placeholder="—"><button type="button" class="lvp" aria-label="Вищий рівень">+</button></div></div>
+            <label class="fl">Професія 1<select id="meP1"></select></label>
+            <label class="fl">Професія 2<select id="meP2"></select></label>
+            <div class="fl wide"><span id="lmeSec">Допоміжні професії</span><div class="chiprow" id="meSec" role="group" aria-labelledby="lmeSec"></div></div>
+          </div>
+          <p class="note-s">Зберігається лише в цьому браузері.</p>
+        </details>
+        <div class="me-out" id="meOut" aria-live="polite"></div>
+        <div class="act"><button type="button" class="btn ghost" id="meReset">Скинути персонажа</button></div>
+      </aside>
+    </div>
   </div>
 </section>
 
@@ -1651,34 +1700,39 @@ function autoStage() {
   if (now >= D_RAID) return ['raid', 'Обрано за датою: рейди відкрито.'];
   return [now < new Date('2026-11-11T00:00:00') ? 'first' : 'dung', 'Обрано за датою. Вкажіть рівень персонажа, і етап підлаштується.'];
 }
-function liMk(x) { return `<li>${x[0] === 'f' ? '<span class="mk fact">факт</span>' : '<span class="mk tip">порада</span>'}${esc(x[1])}</li>`; }
+const START = { pre: 'hero_dawn-960', first: 'hero_campfire-960', dung: 'warlock-360', path: 'hunter-360', raid: 'paladin-360' };
+const pic = f => `<picture><source type="image/avif" srcset="${ROOT}assets/art/${f}.avif"><img src="${ROOT}assets/art/${f}.webp" alt="" loading="lazy" decoding="async"></picture>`;
+const tipL = () => '<span class="tl">Порада</span>';
+function liC(x) { return x[0] === 't' ? `<li class="tip">${tipL()}${esc(x[1])}</li>` : `<li>${esc(x[1])}</li>`; }
 function dLi(d) {
   const mine = me.lvl && nearLvl(d, me.lvl);
-  return `<li class="${mine ? 'mine' : ''}"><b>${esc(d[0])}</b><span class="num">${lvRange(d)}</span><span class="small">${esc(d[3])}${d[4] ? ' · нове' : ''}${mine ? ' · під ваш рівень' : ''}</span></li>`;
+  return `<li class="${mine ? 'mine' : ''}"><b>${esc(d[0])}</b><span class="pill${mine ? ' gold' : ''}">${lvRange(d)}</span><span class="z">${esc(d[3])}${d[4] ? ' · <i>нове</i>' : ''}${mine ? '<span class="sr"> · під ваш рівень</span>' : ''}</span></li>`;
 }
 function renderStage() {
   const [auto, why] = autoStage();
   if (stageAuto) stageSel = auto;
-  const s = ST[stageSel], idx = STAGES.indexOf(s);
-  $('#stageBar').innerHTML = STAGES.map((x, i) => `<li role="presentation"><button type="button" role="tab" id="tab-${x.id}" data-st="${x.id}" aria-controls="stagePanel" aria-selected="${x.id === stageSel}" tabindex="${x.id === stageSel ? 0 : -1}" class="${i < idx ? 'done' : ''}"><b>${esc(x.n)}</b><span>${esc(x.sub)}</span>${x.id === auto ? '<span class="now">зараз</span>' : ''}</button></li>`).join('');
+  const s = ST[stageSel];
+  $('#stageBar').innerHTML = STAGES.map(x => `<button type="button" class="stile" role="tab" id="tab-${x.id}" data-st="${x.id}" aria-controls="stagePanel" aria-selected="${x.id === stageSel}" tabindex="${x.id === stageSel ? 0 : -1}">${pic(START[x.id])}${x.id === auto ? '<span class="now">зараз</span>' : ''}<b>${esc(x.n)}</b><span class="lv">${esc(x.sub)}</span></button>`).join('');
   let ds;
   if (s.id === 'pre') ds = DUNGEONS.filter(d => d[1] <= 15);
   else ds = DUNGEONS.filter(d => d[1] <= s.hi && d[2] >= s.lo);
   if (me.lvl && s.lo <= me.lvl && me.lvl <= Math.max(s.hi, 1)) ds = ds.filter(d => nearLvl(d, me.lvl)).concat(ds.filter(d => !nearLvl(d, me.lvl)));
-  const MAXD = 8, extra = ds.length - MAXD;
-  const prof = s.prof.map(liMk).join('');
+  const MAXD = 6, extra = ds.length - MAXD;
+  let k = 0;
+  const steps = s.todo.map(x => x[0] === 't'
+    ? `<li class="tip"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p>${tipL()}${esc(x[1])}</p></li>`
+    : `<li><span class="n">${String(++k).padStart(2, '0')}</span><p>${esc(x[1])}</p></li>`).join('');
   $('#stagePanel').setAttribute('aria-labelledby', 'tab-' + s.id);
-  $('#stagePanel').innerHTML = `<div class="st-head"><h3>${esc(s.n)}</h3><span>${esc(s.sub)}</span></div>
-    <p class="small">${stageAuto ? esc(why) : 'Етап обрано вручну.'}</p>
-    <div class="st-grid">
-      <div class="panel wide"><h4>Що робити</h4><ul class="dots">${s.todo.map(liMk).join('')}</ul></div>
-      <div class="panel"><h4>Підземелля під рівень</h4>${s.dnote ? `<p class="small" style="margin-top:6px">${esc(s.dnote)}</p>` : ''}<ul class="dlist">${ds.slice(0, MAXD).map(dLi).join('')}</ul>
+  $('#stagePanel').innerHTML = `<div class="st-head"><div class="t"><h3>${esc(s.n)}</h3><span class="pill gold">${esc(s.sub)}</span></div><p class="why">${stageAuto ? esc(why) : 'Етап обрано вручну.'}</p></div>
+    <ol class="steps-c">${steps}</ol>
+    <div class="st-cols">
+      <div><h4>Підземелля під рівень</h4>${s.dnote ? `<p class="small" style="margin:-4px 0 10px">${esc(s.dnote)}</p>` : ''}<ul class="dlist">${ds.slice(0, MAXD).map(dLi).join('')}</ul>
         <a class="more-l" href="#dungeons">${extra > 0 ? `Ще підземель у таблиці: ${extra}` : 'Усі 35 підземель'}<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
-      <div class="panel"><h4>Професії і табір</h4><ul class="dots">${prof}</ul></div>
-      <div class="panel"><h4>Перки Legacy</h4><ul class="dots">${s.legacy.map(liMk).join('')}</ul></div>
-      <div class="own"><h4>Поради групі</h4><ul class="dots">${s.group.map(liMk).join('')}</ul></div>
+      <div style="display:grid;gap:24px;align-content:start"><div><h4>Професії і табір</h4><ul class="clean">${s.prof.map(liC).join('')}</ul></div>
+        <div><h4>Перки Legacy</h4><ul class="clean">${s.legacy.map(liC).join('')}</ul></div></div>
     </div>
-    <p class="small st-src"><span>Джерела:</span>${s.src.map(k => `<a href="${SRC[k][1]}" target="_blank" rel="noopener">${esc(SRC[k][0])}</a>`).join('')}</p>`;
+    <div class="gtip"><h4 style="margin:0 0 10px;font-size:1.02rem">Поради групі</h4><ul class="clean">${s.group.map(liC).join('')}</ul></div>
+    <p class="st-src"><span>Джерела:</span>${s.src.map(k2 => `<a href="${SRC[k2][1]}" target="_blank" rel="noopener">${esc(SRC[k2][0])}</a>`).join('')}</p>`;
 }
 function optList(items, cur, none) { return `<option value="">${esc(none)}</option>` + items.map(([v, t]) => `<option value="${v}"${v === cur ? ' selected' : ''}>${esc(t)}</option>`).join(''); }
 function renderMe() {
@@ -1694,20 +1748,23 @@ function renderMe() {
   $('#meP2').innerHTML = optList(prim.filter(p => p[0] !== me.p1).map(p => [p[0], p[1]]), me.p2, 'Немає');
   $('#meSec').innerHTML = PROFS.filter(p => !p[2]).map(p => `<button type="button" data-sec="${p[0]}" aria-pressed="${me.sec.includes(p[0])}">${esc(p[1])}</button>`).join('');
   document.querySelectorAll('.lvin').forEach(i => { if (document.activeElement !== i) i.value = me.lvl || ''; });
-  const who = [me.race ? RC[me.race].n : '', me.cls ? CL[me.cls].n : ''].filter(Boolean).join(' ');
-  $('#meSum').textContent = meSet() ? [who, me.lvl ? `${me.lvl} рів.` : ''].filter(Boolean).join(', ') : 'Не обрано: заповніть, і гід підлаштується';
+  const who = [me.race ? RC[me.race].n : '', me.cls ? CL[me.cls].n : ''].filter(Boolean).join(' · ');
+  const sub = me.cls ? [ROLE_RU[me.role], me.race ? facName(RC[me.race].f) : ''].filter(Boolean).join(' · ') : 'Оберіть расу, клас і рівень нижче';
+  const hero = $('#meHero');
+  hero.style.setProperty('--cc', me.cls ? CCOL[me.cls] : '#c9a54a');
+  hero.innerHTML = pic(me.cls ? `${me.cls}-600` : 'hero_campfire-960') + (me.lvl ? `<span class="lvb" aria-label="Рівень ${me.lvl}">${me.lvl}</span>` : '')
+    + `<span class="k">Мій персонаж</span><b>${who ? esc(who) : 'Ще не створено'}</b><span class="s">${esc(sub)}</span>`;
   let out = '';
-  if (!meSet()) out = '<p class="small">Оберіть расу, клас і рівень. З’являться ваші бафи для групи й підземелля під рівень.</p>';
-  else {
+  if (meSet()) {
     const b = [];
-    if (me.cls) b.push(BUFF[me.cls] ? `<li class="good"><span class="cdot" style="--cc:${CCOL[me.cls]}"></span><b>${esc(CL[me.cls].n)}:</b> ${esc(BUFF[me.cls])}</li>` : `<li>${esc(CL[me.cls].n)}: без групового бафу, чистий урон.</li>`);
-    [me.p1, me.p2, ...me.sec].filter(Boolean).forEach(id => { const p = PR[id]; b.push(`<li class="good"><b>${esc(p[3])}</b> у табір (${esc(p[1])}): ${esc(p[4])}</li>`); });
-    if (!b.length) b.push('<li>Оберіть клас і професії, щоб побачити бафи.</li>');
-    out += `<h4>Що ви даєте групі</h4><ul class="verdict">${b.join('')}</ul>`;
+    if (me.cls) b.push(BUFF[me.cls] ? `<li><span class="bi" style="--cc:${CCOL[me.cls]}"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></span><span><b>${esc(CL[me.cls].n)}:</b> ${esc(BUFF[me.cls])}</span></li>` : `<li><span class="bi" style="--cc:${CCOL[me.cls]}"><svg class="ico" aria-hidden="true"><use href="#i-dps"/></svg></span><span>${esc(CL[me.cls].n)}: без групового бафу, чистий урон.</span></li>`);
+    [me.p1, me.p2, ...me.sec].filter(Boolean).forEach(id => { const p = PR[id]; b.push(`<li><span class="bi"><svg class="ico" aria-hidden="true"><use href="#i-fire"/></svg></span><span><b>${esc(p[3])}</b> <span class="m">· ${esc(p[1])}</span><br>${esc(p[4])}</span></li>`); });
+    if (!b.length) b.push('<li><span class="bi"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></span><span>Оберіть клас і професії, щоб побачити бафи.</span></li>');
+    out += `<div><h4>Що ви даєте групі</h4><ul class="buffs">${b.join('')}</ul></div>`;
     if (me.lvl) {
       const ds = DUNGEONS.filter(d => nearLvl(d, me.lvl));
-      out += `<h4>Підземелля під ваш рівень</h4>` + (ds.length ? `<ul class="dlist">${ds.slice(0, 5).map(dLi).join('')}</ul>` : '<p class="small">Перші підземелля з 13 рівня.</p>')
-        + `<a class="more-l" href="#dungeons">${ds.length > 5 ? `Ще підземель у таблиці: ${ds.length - 5}` : 'Таблиця підземель'}<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>`;
+      out += `<div><h4>Підземелля під ваш рівень</h4>` + (ds.length ? `<ul class="dlist">${ds.slice(0, 4).map(dLi).join('')}</ul>` : '<p class="small">Перші підземелля з 13 рівня.</p>')
+        + `<a class="more-l" href="#dungeons">${ds.length > 4 ? `Ще підземель у таблиці: ${ds.length - 4}` : 'Таблиця підземель'}<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>`;
     }
   }
   $('#meOut').innerHTML = out;
