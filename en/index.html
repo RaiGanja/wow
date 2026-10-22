@@ -236,6 +236,69 @@ section.block { scroll-margin-top: -72px; }
 .gt span { color: var(--ink-2); font-size: .9rem; }
 .gt:hover b { color: var(--ink-gold); }
 
+/* Journey: game stages, my character */
+.stagebar { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.stagebar li { min-width: 0; }
+.stagebar button { position: relative; width: 100%; min-height: 76px; padding: 18px 14px 12px 0; display: grid; gap: 2px; align-content: start; text-align: left; border: 0; border-top: 1px solid var(--line-2); background: none; color: var(--fg); }
+.stagebar button::before { content: ""; position: absolute; left: 0; top: -5px; width: 9px; height: 9px; background: var(--bg); border: 1px solid var(--line-2); transform: rotate(45deg); transition: background-color .2s, border-color .2s; }
+.stagebar button.done { border-top-color: color-mix(in srgb, var(--gold) 70%, transparent); }
+.stagebar button.done::before { border-color: var(--gold); }
+.stagebar button[aria-selected="true"]::before { background: var(--gold); border-color: var(--gold); }
+.stagebar b { font-family: var(--font-display); font-weight: 400; font-size: 1.4rem; line-height: 1.15; }
+.stagebar button[aria-selected="true"] b { color: var(--gold-2); }
+.stagebar button:hover b { color: var(--gold-2); }
+.stagebar span { color: var(--muted); font-size: .88rem; }
+.stagebar .now { justify-self: start; margin-top: 4px; font-size: .72rem; font-weight: 600; color: var(--gold-2); border: 1px solid color-mix(in srgb, var(--gold) 55%, transparent); border-radius: 3px; padding: 1px 6px; }
+.journey { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 24px; align-items: start; }
+.stage { display: grid; gap: 18px; min-width: 0; }
+.st-head { display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: baseline; }
+.st-head h3 { font-size: 2rem; }
+.st-head span { color: var(--muted); }
+.st-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 28px; }
+.st-grid > * { min-width: 0; }
+.st-grid .wide { grid-column: 1 / -1; }
+.st-grid h4 { margin: 0 0 2px; font-family: var(--font-display); font-weight: 400; font-size: 1.3rem; }
+.st-grid .own h4 { margin-bottom: 0; }
+.st-grid ul.dots { margin-top: 8px; }
+.st-src { display: flex; flex-wrap: wrap; gap: 4px 14px; }
+ul.dlist { list-style: none; margin: 8px 0 0; padding: 0; display: grid; }
+ul.dlist li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 12px; padding: 7px 0 7px 10px; border-bottom: 1px solid var(--line); box-shadow: inset 2px 0 0 transparent; }
+ul.dlist li b { font-weight: 600; }
+ul.dlist li .num { color: var(--gold-2); font-weight: 600; white-space: nowrap; }
+ul.dlist li .small { grid-column: 1 / -1; font-size: .85rem; }
+ul.dlist li.mine, .dg tr.mine th { box-shadow: inset 2px 0 0 var(--gold); }
+.more-l { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-weight: 500; }
+.me { border: 1px solid var(--line); background: var(--surface); border-radius: 2px; display: grid; position: sticky; top: calc(var(--top) + 16px); }
+.me > * { padding: 16px; border-bottom: 1px solid var(--line); }
+.me > *:last-child { border-bottom: 0; }
+.me summary { list-style: none; cursor: pointer; display: grid; gap: 2px; min-height: 44px; align-content: center; }
+.me summary::-webkit-details-marker { display: none; }
+.me details { padding: 0; }
+.me details > summary { padding: 14px 16px; }
+.me details[open] > summary { border-bottom: 1px solid var(--line); }
+.me .me-t { font-family: var(--font-display); font-size: 1.5rem; line-height: 1.1; display: flex; justify-content: space-between; gap: 10px; }
+.me .me-t::after { content: "+"; font-family: var(--font-body); color: var(--gold-2); font-weight: 600; font-size: 1.1rem; }
+.me details[open] .me-t::after { content: "−"; }
+.me .me-s { color: var(--muted); font-size: .9rem; }
+.me-f { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 10px; padding: 16px; }
+.me-f .fl { display: grid; gap: 4px; min-width: 0; font-size: .85rem; color: var(--muted); font-weight: 500; }
+.me-f .wide { grid-column: 1 / -1; }
+.me-f select { width: 100%; min-width: 0; font: inherit; font-size: .95rem; padding: 0 8px; min-height: 44px; border: 1px solid var(--line-2); border-radius: 3px; background: var(--bg); color: var(--fg); }
+.me-f .chiprow button { font-size: .88rem; color: var(--fg); }
+.me-f + .small { padding: 0 16px 16px; }
+.stepper input { width: 52px; min-height: 44px; border: 0; background: transparent; color: var(--fg); font: inherit; font-weight: 600; text-align: center; font-variant-numeric: tabular-nums; -moz-appearance: textfield; }
+.stepper input::-webkit-inner-spin-button, .stepper input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.me h4 { margin: 0 0 8px; font-size: .9rem; font-weight: 600; color: var(--muted); }
+.me .verdict + h4 { margin-top: 14px; }
+.me .btn { width: 100%; }
+.tbl-box.dg table { min-width: 0; }
+.dg td.num .alt { display: block; color: var(--muted); font-weight: 400; font-size: .8rem; white-space: normal; }
+.dg tbody th .tag { margin-left: 8px; vertical-align: .1em; }
+.dg tr.mine th { padding-left: 10px; }
+.dg td.zone { color: var(--muted); }
+.dg tbody th .z { display: none; }
+.dg-empty td { color: var(--muted); }
+
 /* Content blocks reused by the reference sections */
 .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 20px 32px; }
 .grid2 > * { min-width: 0; }
@@ -459,8 +522,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .swipe { display: block; }
 }
 @media (max-width: 980px) {
-  .builder { grid-template-columns: 1fr; }
-  .summary { position: static; }
+  .builder, .journey { grid-template-columns: 1fr; }
+  .summary, .me { position: static; }
+  .me { order: -1; }
   .factions { grid-template-columns: 1fr; }
   .tcards { grid-template-columns: 1fr; }
 }
@@ -506,6 +570,18 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .slot select.scls { grid-column: 2; }
   .slot select.srole { grid-column: 3 / 5; }
   .timeline li { grid-template-columns: 1fr; gap: 2px; }
+  .stagebar { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; margin: 0 -16px; padding: 6px 16px 0; scroll-padding: 0 16px; scrollbar-width: none; overscroll-behavior-x: contain; }
+  .stagebar::-webkit-scrollbar { display: none; }
+  .stagebar li { flex: 0 0 44%; scroll-snap-align: start; }
+  .stagebar b { font-size: 1.2rem; }
+  .st-head h3 { font-size: 1.7rem; }
+  .st-grid { grid-template-columns: 1fr; gap: 18px; }
+  .me-f { padding: 14px; }
+  .dg th, .dg td { padding-right: 10px; }
+  .dg thead th:last-child, .dg td.zone { display: none; }
+  .dg tbody th .z { display: block; color: var(--muted); font-weight: 400; font-size: .85rem; }
+  #segD { width: 100%; }
+  #segD button { flex: 1 1 auto; padding: 0 8px; }
   dl.facts div { grid-template-columns: 1fr; gap: 0; }
   body { padding-bottom: calc(62px + env(safe-area-inset-bottom, 0px)); }
   .tabbar { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); position: fixed; inset: auto 0 0 0; z-index: 35; background: var(--rail); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px); }
@@ -547,7 +623,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="#top" aria-label="Gabella Team, back to top"><span class="mark" aria-hidden="true">G</span><b>Gabella Team</b></a>
   <nav class="mainnav" aria-label="Sections">
-    <a href="#factions">Factions</a><a href="#classes">Classes</a><a href="#picker">Picker</a><a href="#builder">Group</a><a href="#checklist">Checklist</a><a href="#guides">Guides</a>
+    <a href="#stages">Stages</a><a href="#factions">Factions</a><a href="#classes">Classes</a><a href="#picker">Picker</a><a href="#builder">Group</a><a href="#checklist">Checklist</a><a href="#guides">Guides</a>
   </nav>
   <div class="tools">
     <div class="langs" role="group" aria-label="Language"><a href="../" data-lang="ru" hreflang="ru" lang="ru" aria-current="false">RU</a><a href="./" data-lang="en" hreflang="en" lang="en" aria-current="true">EN</a><a href="../uk/" data-lang="uk" hreflang="uk" lang="uk" aria-current="false">UK</a></div>
@@ -580,6 +656,31 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </section>
 
 <main>
+<section class="block wrap" id="stages" data-nav="#stages" data-tab="#top">
+  <div class="sec-head"><div class="row"><div style="display:grid;gap:12px"><p class="kick">Game roadmap</p><h2>Where you are now</h2></div><span class="src">Warcraft Tavern, Icy Veins, Blizzard</span></div>
+    <p>Five stages from name reservation to raids. The stage is picked by date, and if you add your character, the guide finds dungeons for your level and shows the buffs you bring to the group.</p></div>
+  <ol class="stagebar" id="stageBar" role="tablist" aria-label="Game stages"></ol>
+  <div class="journey">
+    <div class="stage" id="stagePanel" role="tabpanel" tabindex="-1"></div>
+    <aside class="me" id="me" aria-label="My character">
+      <details id="meD" open><summary><span class="me-t">My character</span><span class="me-s" id="meSum">Not chosen</span></summary>
+        <div class="me-f">
+          <label class="fl">Race<select id="meRace"></select></label>
+          <label class="fl">Class<select id="meCls"></select></label>
+          <label class="fl">Role<select id="meRole"></select></label>
+          <div class="fl"><span id="lmeLvl">Level</span><div class="stepper" role="group" aria-labelledby="lmeLvl"><button type="button" class="lvm" aria-label="Lower level">−</button><input class="lvin" id="meLvl" type="number" min="1" max="60" inputmode="numeric" aria-labelledby="lmeLvl" placeholder="—"><button type="button" class="lvp" aria-label="Higher level">+</button></div></div>
+          <label class="fl">Profession 1<select id="meP1"></select></label>
+          <label class="fl">Profession 2<select id="meP2"></select></label>
+          <div class="fl wide"><span id="lmeSec">Secondary professions</span><div class="chiprow" id="meSec" role="group" aria-labelledby="lmeSec"></div></div>
+        </div>
+        <p class="small">Saved only in this browser.</p>
+      </details>
+      <div id="meOut" aria-live="polite"></div>
+      <div><button type="button" class="btn ghost" id="meReset">Reset character</button></div>
+    </aside>
+  </div>
+</section>
+
 <section class="block wrap" id="factions" data-nav="#factions" data-tab="#classes">
   <div class="sec-head"><p class="kick">Pick a side</p><h2>Alliance or Horde</h2><p>Agree on a faction in advance: in PvP mode only one is available at creation. All nine classes exist on both sides.</p></div>
   <div class="factions">
@@ -684,7 +785,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
       <a class="gt" href="#races"><b>Races</b><span>Racial abilities and available classes</span></a>
       <a class="gt" href="#legacy"><b>Legacy</b><span>Account-wide points, perks and rewards</span></a>
       <a class="gt" href="#camp"><b>Camp and professions</b><span>Campfire, profession objects and buffs</span></a>
-      <a class="gt" href="#dungeons"><b>Dungeons and raids</b><span>9 new dungeons and 3 raids</span></a>
+      <a class="gt" href="#dungeons"><b>Dungeons and raids</b><span>All 35 dungeons by level and 3 raids</span></a>
       <a class="gt" href="#group"><b>Group</b><span>Facts and tips for a group of 6–8</span></a>
       <a class="gt" href="#era"><b>Differences from Era</b><span>What is new compared to Classic</span></a>
     </nav>
@@ -803,20 +904,16 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </section>
 
 <section class="block wrap" id="dungeons" data-nav="#guides">
-  <div class="sec-head"><div class="row"><h2>Dungeons and raids</h2><span class="src">Warcraft Tavern, ClassicWoW.gg</span></div><p>There are 35 dungeons in total, 9 of them new. Levels are approximate, Blizzard has not published hard locks yet. Ranges differ by a couple of levels on some sites.</p></div>
-  <div class="tbl-box"><table>
-    <thead><tr><th>New dungeon</th><th>Levels</th><th>Where</th></tr></thead>
-    <tbody>
-      <tr><th scope="row">Hall of Thanes</th><td class="num">13–18</td><td>Ironforge</td></tr>
-      <tr><th scope="row">Ruins of Lordaeron</th><td class="num">15–20</td><td>Tirisfal Glades</td></tr>
-      <tr><th scope="row">Excavation Site</th><td class="num">24–29</td><td>Wetlands</td></tr>
-      <tr><th scope="row">City of Dalaran</th><td class="num">28–33</td><td>Alterac Mountains</td></tr>
-      <tr><th scope="row">The Drowned City</th><td class="num">35–40</td><td>Stranglethorn Vale</td></tr>
-      <tr><th scope="row">Krol'Dok Stronghold</th><td class="num">40–45</td><td>Riverglades</td></tr>
-      <tr><th scope="row">Alcaz Island Prison</th><td class="num">48–53</td><td>Dustwallow Marsh</td></tr>
-      <tr><th scope="row">Blackmaw Hold</th><td class="num">55–60</td><td>Azshara</td></tr>
-      <tr><th scope="row">Shaper's Terrace</th><td class="num">58–60</td><td>Un'Goro Crater</td></tr>
-    </tbody></table></div>
+  <div class="sec-head"><div class="row"><h2>Dungeons and raids</h2><span class="src">Warcraft Tavern, Sportskeeda, Icy Veins, ClassicWoW.gg</span></div><p>All 35 dungeons, 9 of them new. Levels are from Warcraft Tavern, Sportskeeda gives the same. Where other sites list a different range, it is shown in small print. Blizzard has not published hard level limits.</p></div>
+  <div class="filters" role="group" aria-label="Dungeon filter">
+    <div class="seg" id="segD"><button type="button" data-v="all" aria-pressed="true">All</button><button type="button" data-v="mine" aria-pressed="false">My level ±3</button><button type="button" data-v="new" aria-pressed="false">New</button></div>
+    <div class="fgroup"><span class="flabel" id="ldgLvl">My level</span><div class="stepper" role="group" aria-labelledby="ldgLvl"><button type="button" class="lvm" aria-label="Lower level">−</button><input class="lvin" id="dgLvl" type="number" min="1" max="60" inputmode="numeric" aria-labelledby="ldgLvl" placeholder="—"><button type="button" class="lvp" aria-label="Higher level">+</button></div></div>
+    <span class="small" id="dgCount" role="status"></span>
+  </div>
+  <div class="tbl-box dg"><table>
+    <thead><tr><th scope="col">Dungeon</th><th scope="col">Levels</th><th scope="col">Entrance</th></tr></thead>
+    <tbody id="dgBody"></tbody></table></div>
+  <p class="note"><span class="mk fact">fact</span>Most dungeon experience comes from its quest chains, repeat runs give noticeably less. Every item that drops unlocks its appearance for everyone in the group who can wear it. Blizzard promises two more dungeons in spring and two in summer.</p>
   <div class="grid2">
     <div class="panel">
       <h3>Raids (from 09.12.2026)</h3>
@@ -835,7 +932,6 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
       </ul>
     </div>
   </div>
-  <p class="note">The old Classic dungeons are in the game too (Ragefire Chasm, Wailing Caverns, Deadmines, Shadowfang Keep, Scarlet Monastery, Blackrock Depths and others), so a group of 5 always has something to run at levels 13–60.</p>
 </section>
 
 <section class="block wrap" id="group" data-nav="#guides">
@@ -896,6 +992,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     <li><a href="https://classicwow.gg/forever" target="_blank" rel="noopener">ClassicWoW.gg</a>: beta dates, name reservations, raids, differences from Era</li>
     <li><a href="https://news.blizzard.com/en-gb/article/24307383" target="_blank" rel="noopener">Blizzard: Legacy system</a></li>
     <li><a href="https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/" target="_blank" rel="noopener">Warcraft Tavern: beta changes of 15 October</a></li>
+    <li>Dungeons and stages: <a href="https://www.warcrafttavern.com/forever/guides/dungeons/" target="_blank" rel="noopener">Warcraft Tavern</a>, <a href="https://www.sportskeeda.com/mmo/world-warcraft-forever-all-dungeons-order-level-range" target="_blank" rel="noopener">Sportskeeda</a>, <a href="https://www.icy-veins.com/wow-forever/dungeons-overview" target="_blank" rel="noopener">Icy Veins</a>, <a href="https://classicwow.gg/forever/dungeons" target="_blank" rel="noopener">ClassicWoW.gg</a>, <a href="https://www.warcrafttavern.com/forever/guides/riding/" target="_blank" rel="noopener">riding</a>, <a href="https://www.warcrafttavern.com/forever/guides/professions/" target="_blank" rel="noopener">professions</a>, <a href="https://teamoverpowered.com/forever/guides/name-reservation/" target="_blank" rel="noopener">names and surnames</a></li>
     <li><a href="https://www.wowhead.com/forever" target="_blank" rel="noopener">Wowhead</a>: news and reference</li>
     <li>Class descriptions, leveling pace: <a href="https://www.warcrafttavern.com/forever/guides/classes/" target="_blank" rel="noopener">Warcraft Tavern</a>, <a href="https://lfcarry.com/guides/wow-forever-classes" target="_blank" rel="noopener">LFCarry</a></li>
   </ul>
@@ -915,7 +1012,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <dialog class="sheet" id="moreDlg" aria-label="All sections">
   <div class="dh"><b>All sections</b><button class="iconbtn" id="moreClose" type="button" aria-label="Close"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="All sections">
-    <div class="grp"><div class="gh">Home</div><a href="#top">Overview</a><a href="#factions">Factions</a><a href="#classes">Classes</a></div>
+    <div class="grp"><div class="gh">Home</div><a href="#top">Overview</a><a href="#stages">Where you are now</a><a href="#factions">Factions</a><a href="#classes">Classes</a></div>
     <div class="grp"><div class="gh">Tools</div><a href="#picker">Picker</a><a href="#builder">Group builder</a><a href="#checklist">Checklist</a></div>
     <div class="grp"><div class="gh">Reference</div><a href="#dates">Dates and packs</a><a href="#classref">Classes in detail</a><a href="#races">Races</a><a href="#legacy">Legacy</a><a href="#camp">Camp and professions</a><a href="#dungeons">Dungeons and raids</a><a href="#group">Group</a><a href="#era">Differences from Era</a><a href="#sources">Sources</a></div>
   </nav>
@@ -1392,6 +1489,267 @@ $('#checkList').addEventListener('change', e => {
 });
 $('#checkReset').onclick = () => { done = []; saveDone(); renderCheck(); };
 renderCheck();
+
+/* Dungeons: [name, min, max, entrance zone, new, other sites' ranges where they differ] */
+const DUNGEONS = [
+  ['Ragefire Chasm', 13, 18, 'Orgrimmar', 0],
+  ['Hall of Thanes', 13, 18, 'Ironforge', 1, [['Icy Veins', '13–20']]],
+  ['Ruins of Lordaeron', 15, 20, 'Tirisfal Glades', 1, [['Icy Veins', '15–22']]],
+  ['The Deadmines', 15, 22, 'Westfall', 0, [['Icy Veins', '17–26']]],
+  ['Wailing Caverns', 17, 24, 'The Barrens', 0, [['Icy Veins', '15–24']]],
+  ['Shadowfang Keep', 20, 26, 'Silverpine Forest', 0, [['Icy Veins', '20–30']]],
+  ['Blackfathom Deeps', 22, 28, 'Ashenvale', 0, [['Sportskeeda', '22–26'], ['Icy Veins', '24–32']]],
+  ['Excavation Site: Wetlands', 24, 29, 'Wetlands', 1, [['ClassicWoW.gg', '26–31'], ['Icy Veins', '26–33']]],
+  ['The Stockade', 25, 29, 'Stormwind City', 0, [['Icy Veins', '24–32']]],
+  ['City of Dalaran', 28, 33, 'Alterac Mountains', 1, [['Icy Veins', '28–35']]],
+  ['Gnomeregan', 29, 38, 'Dun Morogh', 0],
+  ['Razorfen Kraul', 29, 38, 'The Barrens', 0],
+  ['Scarlet Monastery: Graveyard', 30, 38, 'Tirisfal Glades', 0],
+  ['Scarlet Monastery: Library', 33, 41, 'Tirisfal Glades', 0],
+  ['The Drowned City', 35, 40, 'Stranglethorn Vale', 1],
+  ['Scarlet Monastery: Armory', 36, 44, 'Tirisfal Glades', 0],
+  ['Uldaman', 36, 45, 'Badlands', 0, [['Icy Veins', '41–51']]],
+  ['Razorfen Downs', 37, 46, 'The Barrens', 0],
+  ['Scarlet Monastery: Cathedral', 38, 46, 'Tirisfal Glades', 0],
+  ["Zul'Farrak", 40, 47, 'Tanaris', 0, [['Icy Veins', '44–54']]],
+  ["Krol'dok Stronghold", 40, 45, 'Riverglades', 1],
+  ['Maraudon', 45, 51, 'Desolace', 0, [['Icy Veins', '46–55']]],
+  ['Alcaz Island Prison', 48, 53, 'Dustwallow Marsh', 1],
+  ["Temple of Atal'Hakkar", 50, 55, 'Swamp of Sorrows', 0, [['Icy Veins', '50–60']]],
+  ['Blackrock Depths', 52, 60, 'Blackrock Mountain', 0],
+  ['Blackmaw Hold', 55, 60, 'Azshara', 1],
+  ['Lower Blackrock Spire', 57, 60, 'Blackrock Mountain', 0, [['Icy Veins', '55–60']]],
+  ['Dire Maul: East', 58, 60, 'Feralas', 0, [['Icy Veins', '54–60']]],
+  ["Shaper's Terrace", 58, 60, "Un'Goro Crater", 1],
+  ['Stratholme: Living', 58, 60, 'Eastern Plaguelands', 0],
+  ['Stratholme: Undead', 58, 60, 'Eastern Plaguelands', 0],
+  ['Scholomance', 58, 60, 'Western Plaguelands', 0],
+  ['Upper Blackrock Spire', 60, 60, 'Blackrock Mountain', 0, [['Icy Veins', '59–60']]],
+  ['Dire Maul: West', 60, 60, 'Feralas', 0, [['Icy Veins', '56–60']]],
+  ['Dire Maul: North', 60, 60, 'Feralas', 0, [['Icy Veins', '56–60']]]
+];
+const lvRange = d => d[1] === d[2] ? String(d[1]) : `${d[1]}–${d[2]}`;
+const nearLvl = (d, lv) => lv >= d[1] - 3 && lv <= d[2] + 3;
+
+/* Professions: camp object (tier 1) and the class buff it stands in for */
+const PROFS = [
+  ['alchemy', 'Alchemy', 1, 'Mana Well', 'like Blessing of Wisdom'],
+  ['blacksmithing', 'Blacksmithing', 1, 'Sharpening Wheel', 'like Strength of Earth Totem'],
+  ['enchanting', 'Enchanting', 1, 'Enchanted Lute', 'like Mark of the Wild'],
+  ['engineering', 'Engineering', 1, 'Reagent Bot', 'reagent vendor, repairs at tier 2'],
+  ['herbalism', 'Herbalism', 1, 'Incense Candle', 'like Arcane Intellect'],
+  ['leatherworking', 'Leatherworking', 1, 'Camp Tent', 'more rested experience'],
+  ['mining', 'Mining', 1, 'Lodestone', 'like Blessing of Might'],
+  ['skinning', 'Skinning', 1, 'Camp Chair', 'like Moonkin Aura'],
+  ['tailoring', 'Tailoring', 1, 'Faction Banner', 'like Divine Spirit'],
+  ['cooking', 'Cooking', 0, 'Basic Campfire', 'more object slots in camp'],
+  ['firstaid', 'First Aid', 0, 'First Aid Kit', 'like Power Word: Fortitude'],
+  ['fishing', 'Fishing', 0, 'Fish Bowl', 'like Blessing of Kings']
+];
+const PR = Object.fromEntries(PROFS.map(p => [p[0], p]));
+
+/* Game stages: f = fact from the sources, t = our tip */
+const SRC = {
+  names: ['Icy Veins: name reservation', 'https://www.icy-veins.com/wow-forever/name-reservation'],
+  names2: ['Team Overpowered: names and surnames', 'https://teamoverpowered.com/forever/guides/name-reservation/'],
+  prof: ['Warcraft Tavern: professions', 'https://www.warcrafttavern.com/forever/guides/professions/'],
+  camp: ['Warcraft Tavern: camping', 'https://www.warcrafttavern.com/forever/guides/camping/'],
+  legacy: ['Blizzard: Legacy', 'https://news.blizzard.com/en-gb/article/24307383'],
+  dung: ['Warcraft Tavern: dungeons', 'https://www.warcrafttavern.com/forever/guides/dungeons/'],
+  ride: ['Warcraft Tavern: riding', 'https://www.warcrafttavern.com/forever/guides/riding/'],
+  cwg: ['ClassicWoW.gg: dates and raids', 'https://classicwow.gg/forever']
+};
+const STAGES = [
+  { id: 'pre', n: 'Before launch', sub: 'until 04.11', lo: 0, hi: 0,
+    todo: [['f', 'Early name reservation 27.10 – 03.11 for owners of the Heroic, Epic and Collection packs. First come, first served.'],
+      ['f', 'You can reserve up to three characters per account. A character has a first name and a surname, and the pair must be unique within the region.'],
+      ['f', 'From 04.11 a subscription or game time is required to play.'],
+      ['t', 'Pick three names with surnames, plus backups, before 27.10.']],
+    dnote: 'The first dungeons open at level 13.',
+    prof: [['f', 'Each character gets two primary professions plus all three secondary ones: Cooking, First Aid and Fishing.'],
+      ['f', 'Each profession places its own camp object with a buff similar to a class buff.'],
+      ['t', 'Split professions in advance: one of you takes Cooking for the campfire, the rest pick different ones so camp buffs do not repeat.']],
+    legacy: [['f', 'Legacy opens with your first point: level 25, 150 in a profession (not gathering) or exploring the whole map.'],
+      ['f', 'At launch a character can spend at most 16 points, the rest go to the reward track.']],
+    group: [['t', 'Agree on one faction and one mode: you can only group within a mode, and in PvP an account has one faction.'],
+      ['t', 'Build your roster in the group builder: a tank, a healer and different classes for buffs.']],
+    src: ['names', 'names2', 'prof', 'legacy'] },
+  { id: 'first', n: 'First days', sub: 'levels 1–15', lo: 1, hi: 15,
+    todo: [['f', 'Skyborne start on Zephras Isle, levels 1–12.'],
+      ['f', 'Talents open at level 10, or at 9 with the Legacy perk Talented.'],
+      ['f', 'Most cooked food gives an experience bonus. It stacks with the camp and the Cozy Sleeping Bag.'],
+      ['t', 'Build up rest: log out at an inn or at a camp with a tent.']],
+    prof: [['f', 'The basic campfire needs no Cooking and holds 3 objects. It burns for about 10 minutes, and you can place a new one after 5.'],
+      ['f', 'To get camp buffs, sit nearby (/sit) for at least a minute.'],
+      ['t', 'Pick up gathering from the first levels: herbs, ore and hides feed crafting, and 150 in a crafting profession opens Legacy.']],
+    legacy: [['f', 'No perks yet: the first point comes at level 25 or with 150 in a profession.'],
+      ['t', 'When Legacy opens, take experience and camp perks first: Well Rested, Talented, Field Guide.']],
+    group: [['t', 'Level in the same zone and set up camp at every stop: five minutes on a campfire pay off with buffs for the whole group.'],
+      ['t', 'Form your first group of five by level 13–15.']],
+    src: ['camp', 'legacy', 'dung'] },
+  { id: 'dung', n: 'Dungeons', sub: 'levels 15–40', lo: 15, hi: 40,
+    todo: [['f', 'Most dungeon experience comes from its quest chains. Repeat runs after them give noticeably less experience than questing in the world.'],
+      ['f', 'Every item that drops unlocks its transmog appearance for everyone who can wear it, even if someone else got the item.'],
+      ['f', 'Legacy opens at level 25.'],
+      ['t', 'Collect the dungeon quests as a group first and go in once everyone has them.']],
+    prof: [['f', 'Cooking 140 gives 5 camp slots, 220 gives 10.'],
+      ['f', 'Each profession makes three camp objects, one per tier. Sources disagree on the skill needed for tiers 2 and 3.'],
+      ['t', 'If level 25 is still far off, take a crafting profession to 150: Legacy will open sooner.']],
+    legacy: [['f', 'Each challenge gives 1 point. There are 65: classes 27, professions 18, PvP 12, dungeons 3, raids 3, adventure 2.'],
+      ['t', 'Reagent Economy (no bought reagents for abilities) and Field Guide (shorter camp object cooldown) are worth it.']],
+    group: [['f', 'A dungeon is built for 5 players: a tank, a healer and three damage dealers.'],
+      ['f', 'There is no level scaling, so a friend who is far behind cannot join the dungeon.'],
+      ['t', 'Keep levels close: whoever falls behind catches up on quests, and you run dungeons together.']],
+    src: ['dung', 'camp', 'legacy'] },
+  { id: 'path', n: 'Road to 60', sub: 'levels 40–60', lo: 40, hi: 60,
+    todo: [['f', 'A mount at level 40 (60% speed), a fast one at 60 (100%). Train with your race’s trainer.'],
+      ['f', 'Paladins and warlocks get their mount through class quests.'],
+      ['f', 'Honored with your own faction gives a 10% discount on riding training and mounts. Blizzard has not published exact prices, and sites disagree.'],
+      ['t', 'Save gold for level 40: riding will be your biggest expense on the road to 60.']],
+    prof: [['f', 'Each profession has its own tier 2 and 3 camp objects. Engineering’s second object, Repair Bot, repairs gear.'],
+      ['t', 'Keep Cooking 220 in the group for a 10-object camp: by raid time there will be room for everyone.']],
+    legacy: [['f', 'At most 16 points per character, the rest go to the reward track: a toy at 15, a pet at 25, a tabard at 40, a mount at 55.']],
+    group: [['f', 'Raids open on 09.12: Barrow Deeps for 10 players, Hyjal Summit for 20, Onyxia’s Lair for 40.'],
+      ['t', 'For the 10-player raid, a group of 6–8 friends needs 1–2 more players: find them in your guild early.']],
+    src: ['ride', 'prof', 'legacy', 'cwg'] },
+  { id: 'raid', n: '60 and raids', sub: 'from 09.12', lo: 60, hi: 60,
+    todo: [['f', 'On 09.12 Barrow Deeps (10 players), Hyjal Summit (20) and Onyxia’s Lair (40, Dustwallow Marsh) open.'],
+      ['f', 'Clearing each of the three raids gives a Legacy point.'],
+      ['f', 'New 15v15 battleground: Darkspear Islands off the coast of Dustwallow Marsh.'],
+      ['t', 'While you gather people for the raid, run level 60 dungeons for gear.']],
+    prof: [['f', 'Camp buffs are a bit weaker than class buffs and do not stack with them: Blessing of Kings gives 10% to all stats, the camp gives 8%.'],
+      ['t', 'Set up camp at the raid entrance: its buffs cover what your classes lack.']],
+    legacy: [['f', 'Challenges for level 60: dungeons 3, raids 3, PvP 12. PvP has ranks with a weekly cap and gear upgrades for Honor.']],
+    group: [['f', 'The same buffs from two players of one class overlap, different classes stack.'],
+      ['t', 'Build your raid roster in the group builder and post the link in chat.']],
+    src: ['cwg', 'prof', 'legacy'] }
+];
+const ST = Object.fromEntries(STAGES.map(s => [s.id, s]));
+const D_REL = new Date('2026-11-04T00:00:00'), D_RAID = new Date('2026-12-09T00:00:00');
+
+/* My character, saved in this browser */
+const MEKEY = 'gabella-wf-me';
+const me = { race: '', cls: '', role: '', lvl: 0, p1: '', p2: '', sec: [] };
+try { const v = JSON.parse(localStorage.getItem(MEKEY) || '{}'); if (v && typeof v === 'object') Object.keys(me).forEach(k => { if (v[k] !== undefined) me[k] = v[k]; }); } catch (e) {}
+function fixMe() {
+  if (!RC[me.race]) me.race = '';
+  if (!CL[me.cls] || (me.race && !RC[me.race].can[me.cls])) me.cls = '';
+  const ro = me.cls ? roleOpts(CL[me.cls]) : [];
+  if (!ro.includes(me.role)) me.role = (me.cls && CL[me.cls].roles.find(r => ro.includes(r))) || ro[0] || '';
+  me.lvl = Math.max(0, Math.min(60, parseInt(me.lvl, 10) || 0));
+  if (!PR[me.p1] || !PR[me.p1][2]) me.p1 = '';
+  if (!PR[me.p2] || !PR[me.p2][2] || me.p2 === me.p1) me.p2 = '';
+  me.sec = Array.isArray(me.sec) ? me.sec.filter(x => PR[x] && !PR[x][2]) : [];
+}
+function saveMe() { try { localStorage.setItem(MEKEY, JSON.stringify(me)); } catch (e) {} }
+const meSet = () => !!(me.race || me.cls || me.lvl);
+let stageSel = null, stageAuto = true;
+function autoStage() {
+  const now = new Date();
+  if (now < D_REL) return ['pre', 'Picked by date: before the 04.11 launch.'];
+  if (me.lvl) return [me.lvl < 15 ? 'first' : me.lvl < 40 ? 'dung' : me.lvl < 60 ? 'path' : 'raid', 'Picked by your character’s level.'];
+  if (now >= D_RAID) return ['raid', 'Picked by date: raids are open.'];
+  return [now < new Date('2026-11-11T00:00:00') ? 'first' : 'dung', 'Picked by date. Add your character’s level and the stage will follow it.'];
+}
+function liMk(x) { return `<li>${x[0] === 'f' ? '<span class="mk fact">fact</span>' : '<span class="mk tip">tip</span>'}${esc(x[1])}</li>`; }
+function dLi(d) {
+  const mine = me.lvl && nearLvl(d, me.lvl);
+  return `<li class="${mine ? 'mine' : ''}"><b>${esc(d[0])}</b><span class="num">${lvRange(d)}</span><span class="small">${esc(d[3])}${d[4] ? ' · new' : ''}${mine ? ' · for your level' : ''}</span></li>`;
+}
+function renderStage() {
+  const [auto, why] = autoStage();
+  if (stageAuto) stageSel = auto;
+  const s = ST[stageSel], idx = STAGES.indexOf(s);
+  $('#stageBar').innerHTML = STAGES.map((x, i) => `<li role="presentation"><button type="button" role="tab" id="tab-${x.id}" data-st="${x.id}" aria-controls="stagePanel" aria-selected="${x.id === stageSel}" tabindex="${x.id === stageSel ? 0 : -1}" class="${i < idx ? 'done' : ''}"><b>${esc(x.n)}</b><span>${esc(x.sub)}</span>${x.id === auto ? '<span class="now">now</span>' : ''}</button></li>`).join('');
+  let ds;
+  if (s.id === 'pre') ds = DUNGEONS.filter(d => d[1] <= 15);
+  else ds = DUNGEONS.filter(d => d[1] <= s.hi && d[2] >= s.lo);
+  if (me.lvl && s.lo <= me.lvl && me.lvl <= Math.max(s.hi, 1)) ds = ds.filter(d => nearLvl(d, me.lvl)).concat(ds.filter(d => !nearLvl(d, me.lvl)));
+  const MAXD = 8, extra = ds.length - MAXD;
+  const prof = s.prof.map(liMk).join('');
+  $('#stagePanel').setAttribute('aria-labelledby', 'tab-' + s.id);
+  $('#stagePanel').innerHTML = `<div class="st-head"><h3>${esc(s.n)}</h3><span>${esc(s.sub)}</span></div>
+    <p class="small">${stageAuto ? esc(why) : 'Stage chosen manually.'}</p>
+    <div class="st-grid">
+      <div class="panel wide"><h4>What to do</h4><ul class="dots">${s.todo.map(liMk).join('')}</ul></div>
+      <div class="panel"><h4>Dungeons for this level</h4>${s.dnote ? `<p class="small" style="margin-top:6px">${esc(s.dnote)}</p>` : ''}<ul class="dlist">${ds.slice(0, MAXD).map(dLi).join('')}</ul>
+        <a class="more-l" href="#dungeons">${extra > 0 ? `More dungeons in the table: ${extra}` : 'All 35 dungeons'}<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+      <div class="panel"><h4>Professions and camp</h4><ul class="dots">${prof}</ul></div>
+      <div class="panel"><h4>Legacy perks</h4><ul class="dots">${s.legacy.map(liMk).join('')}</ul></div>
+      <div class="own"><h4>Tips for the group</h4><ul class="dots">${s.group.map(liMk).join('')}</ul></div>
+    </div>
+    <p class="small st-src"><span>Sources:</span>${s.src.map(k => `<a href="${SRC[k][1]}" target="_blank" rel="noopener">${esc(SRC[k][0])}</a>`).join('')}</p>`;
+}
+function optList(items, cur, none) { return `<option value="">${esc(none)}</option>` + items.map(([v, t]) => `<option value="${v}"${v === cur ? ' selected' : ''}>${esc(t)}</option>`).join(''); }
+function renderMe() {
+  fixMe();
+  const races = f => RACES.filter(r => r.f === f).map(r => `<option value="${r.id}"${r.id === me.race ? ' selected' : ''}>${esc(r.n)}</option>`).join('');
+  $('#meRace').innerHTML = `<option value="">Not chosen</option><optgroup label="${facName('alliance')}">${races('alliance')}</optgroup><optgroup label="${facName('horde')}">${races('horde')}</optgroup>`;
+  const cls = (me.race ? Object.keys(RC[me.race].can) : CLASSES.map(c => c.id)).map(id => [id, CL[id].n]);
+  $('#meCls').innerHTML = optList(cls, me.cls, 'Not chosen');
+  $('#meRole').innerHTML = me.cls ? roleOpts(CL[me.cls]).map(x => `<option value="${x}"${x === me.role ? ' selected' : ''}>${ROLE_RU[x]}</option>`).join('') : `<option value="">Pick a class first</option>`;
+  $('#meRole').disabled = !me.cls;
+  const prim = PROFS.filter(p => p[2]);
+  $('#meP1').innerHTML = optList(prim.filter(p => p[0] !== me.p2).map(p => [p[0], p[1]]), me.p1, 'None');
+  $('#meP2').innerHTML = optList(prim.filter(p => p[0] !== me.p1).map(p => [p[0], p[1]]), me.p2, 'None');
+  $('#meSec').innerHTML = PROFS.filter(p => !p[2]).map(p => `<button type="button" data-sec="${p[0]}" aria-pressed="${me.sec.includes(p[0])}">${esc(p[1])}</button>`).join('');
+  document.querySelectorAll('.lvin').forEach(i => { if (document.activeElement !== i) i.value = me.lvl || ''; });
+  const who = [me.race ? RC[me.race].n : '', me.cls ? CL[me.cls].n : ''].filter(Boolean).join(' ');
+  $('#meSum').textContent = meSet() ? [who, me.lvl ? `${me.lvl} lvl` : ''].filter(Boolean).join(', ') : 'Not set: fill it in and the guide will adapt';
+  let out = '';
+  if (!meSet()) out = '<p class="small">Choose a race, class and level. Your group buffs and dungeons for your level will appear.</p>';
+  else {
+    const b = [];
+    if (me.cls) b.push(BUFF[me.cls] ? `<li class="good"><span class="cdot" style="--cc:${CCOL[me.cls]}"></span><b>${esc(CL[me.cls].n)}:</b> ${esc(BUFF[me.cls])}</li>` : `<li>${esc(CL[me.cls].n)}: no group buff, pure damage.</li>`);
+    [me.p1, me.p2, ...me.sec].filter(Boolean).forEach(id => { const p = PR[id]; b.push(`<li class="good"><b>${esc(p[3])}</b> for camp (${esc(p[1])}): ${esc(p[4])}</li>`); });
+    if (!b.length) b.push('<li>Choose a class and professions to see your buffs.</li>');
+    out += `<h4>What you bring to the group</h4><ul class="verdict">${b.join('')}</ul>`;
+    if (me.lvl) {
+      const ds = DUNGEONS.filter(d => nearLvl(d, me.lvl));
+      out += `<h4>Dungeons for your level</h4>` + (ds.length ? `<ul class="dlist">${ds.slice(0, 5).map(dLi).join('')}</ul>` : '<p class="small">The first dungeons start at level 13.</p>')
+        + `<a class="more-l" href="#dungeons">${ds.length > 5 ? `More dungeons in the table: ${ds.length - 5}` : 'Dungeon table'}<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>`;
+    }
+  }
+  $('#meOut').innerHTML = out;
+  $('#meReset').disabled = !meSet() && !me.p1 && !me.p2 && !me.sec.length;
+}
+let dgMode = 'all';
+function renderDungeons() {
+  const lv = me.lvl;
+  let rows = DUNGEONS;
+  if (dgMode === 'new') rows = rows.filter(d => d[4]);
+  if (dgMode === 'mine') rows = lv ? rows.filter(d => nearLvl(d, lv)) : [];
+  $('#dgBody').innerHTML = rows.length ? rows.map(d => {
+    const alt = (d[5] || []).map(a => `${a[0]}: ${a[1]}`).join(', ');
+    return `<tr class="${lv && nearLvl(d, lv) ? 'mine' : ''}"><th scope="row">${esc(d[0])}${d[4] ? '<span class="tag new">new</span>' : ''}<span class="z">${esc(d[3])}</span></th><td class="num">${lvRange(d)}${alt ? `<span class="alt">${esc(alt)}</span>` : ''}</td><td class="zone">${esc(d[3])}</td></tr>`;
+  }).join('') : `<tr class="dg-empty"><td colspan="3">${lv ? 'No dungeons for this level.' : 'Enter your level to filter.'}</td></tr>`;
+  $('#dgCount').textContent = `Showing ${rows.length} of ${DUNGEONS.length}`;
+  syncSeg('segD', dgMode);
+}
+function renderJourney() { renderMe(); renderStage(); renderDungeons(); }
+function meChanged() { fixMe(); saveMe(); stageAuto = true; renderJourney(); }
+$('#meRace').addEventListener('change', e => { me.race = e.target.value; meChanged(); });
+$('#meCls').addEventListener('change', e => { me.cls = e.target.value; if (me.cls && !me.race) { const r = RACES.find(x => x.can[me.cls] && !x.paid); if (r) me.race = r.id; } meChanged(); });
+$('#meRole').addEventListener('change', e => { me.role = e.target.value; meChanged(); });
+$('#meP1').addEventListener('change', e => { me.p1 = e.target.value; meChanged(); });
+$('#meP2').addEventListener('change', e => { me.p2 = e.target.value; meChanged(); });
+$('#meSec').addEventListener('click', e => { const b = e.target.closest('[data-sec]'); if (!b) return; const id = b.dataset.sec; me.sec = me.sec.includes(id) ? me.sec.filter(x => x !== id) : me.sec.concat(id); meChanged(); });
+$('#meReset').onclick = () => { Object.assign(me, { race: '', cls: '', role: '', lvl: 0, p1: '', p2: '', sec: [] }); meChanged(); };
+document.querySelectorAll('.stepper .lvm, .stepper .lvp').forEach(b => b.addEventListener('click', () => { me.lvl = Math.max(1, Math.min(60, (me.lvl || (b.classList.contains('lvp') ? 0 : 2)) + (b.classList.contains('lvp') ? 1 : -1))); meChanged(); }));
+document.querySelectorAll('.lvin').forEach(i => {
+  i.addEventListener('change', () => { me.lvl = i.value === '' ? 0 : parseInt(i.value, 10) || 0; meChanged(); });
+  i.addEventListener('keydown', e => { if (e.key === 'Enter') i.blur(); });
+});
+$('#segD').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; dgMode = b.dataset.v; renderDungeons(); if (dgMode === 'mine' && !me.lvl) $('#dgLvl').focus(); });
+$('#stageBar').addEventListener('click', e => { const b = e.target.closest('[data-st]'); if (!b) return; stageSel = b.dataset.st; stageAuto = false; renderStage(); $('#tab-' + stageSel).focus(); });
+$('#stageBar').addEventListener('keydown', e => {
+  const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key]; if (!k) return;
+  const i = (STAGES.findIndex(s => s.id === stageSel) + k + STAGES.length) % STAGES.length;
+  stageSel = STAGES[i].id; stageAuto = false; renderStage(); const t = $('#tab-' + stageSel); t.focus(); t.scrollIntoView({ block: 'nearest', inline: 'nearest' }); e.preventDefault();
+});
+if (meSet() && matchMedia('(max-width: 980px)').matches) $('#meD').open = false;
+renderJourney();
+setTimeout(() => { const t = $('#tab-' + stageSel), bar = $('#stageBar'); if (t && matchMedia('(max-width: 719px)').matches) bar.scrollLeft += t.getBoundingClientRect().left - bar.getBoundingClientRect().left - 16; }, 0);
 
 /* Theme toggle and language links */
 const themeBtns = document.querySelectorAll('.themebtn');

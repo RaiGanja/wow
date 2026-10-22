@@ -236,6 +236,69 @@ section.block { scroll-margin-top: -72px; }
 .gt span { color: var(--ink-2); font-size: .9rem; }
 .gt:hover b { color: var(--ink-gold); }
 
+/* Journey: game stages, my character */
+.stagebar { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.stagebar li { min-width: 0; }
+.stagebar button { position: relative; width: 100%; min-height: 76px; padding: 18px 14px 12px 0; display: grid; gap: 2px; align-content: start; text-align: left; border: 0; border-top: 1px solid var(--line-2); background: none; color: var(--fg); }
+.stagebar button::before { content: ""; position: absolute; left: 0; top: -5px; width: 9px; height: 9px; background: var(--bg); border: 1px solid var(--line-2); transform: rotate(45deg); transition: background-color .2s, border-color .2s; }
+.stagebar button.done { border-top-color: color-mix(in srgb, var(--gold) 70%, transparent); }
+.stagebar button.done::before { border-color: var(--gold); }
+.stagebar button[aria-selected="true"]::before { background: var(--gold); border-color: var(--gold); }
+.stagebar b { font-family: var(--font-display); font-weight: 400; font-size: 1.4rem; line-height: 1.15; }
+.stagebar button[aria-selected="true"] b { color: var(--gold-2); }
+.stagebar button:hover b { color: var(--gold-2); }
+.stagebar span { color: var(--muted); font-size: .88rem; }
+.stagebar .now { justify-self: start; margin-top: 4px; font-size: .72rem; font-weight: 600; color: var(--gold-2); border: 1px solid color-mix(in srgb, var(--gold) 55%, transparent); border-radius: 3px; padding: 1px 6px; }
+.journey { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 24px; align-items: start; }
+.stage { display: grid; gap: 18px; min-width: 0; }
+.st-head { display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: baseline; }
+.st-head h3 { font-size: 2rem; }
+.st-head span { color: var(--muted); }
+.st-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 28px; }
+.st-grid > * { min-width: 0; }
+.st-grid .wide { grid-column: 1 / -1; }
+.st-grid h4 { margin: 0 0 2px; font-family: var(--font-display); font-weight: 400; font-size: 1.3rem; }
+.st-grid .own h4 { margin-bottom: 0; }
+.st-grid ul.dots { margin-top: 8px; }
+.st-src { display: flex; flex-wrap: wrap; gap: 4px 14px; }
+ul.dlist { list-style: none; margin: 8px 0 0; padding: 0; display: grid; }
+ul.dlist li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 12px; padding: 7px 0 7px 10px; border-bottom: 1px solid var(--line); box-shadow: inset 2px 0 0 transparent; }
+ul.dlist li b { font-weight: 600; }
+ul.dlist li .num { color: var(--gold-2); font-weight: 600; white-space: nowrap; }
+ul.dlist li .small { grid-column: 1 / -1; font-size: .85rem; }
+ul.dlist li.mine, .dg tr.mine th { box-shadow: inset 2px 0 0 var(--gold); }
+.more-l { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-weight: 500; }
+.me { border: 1px solid var(--line); background: var(--surface); border-radius: 2px; display: grid; position: sticky; top: calc(var(--top) + 16px); }
+.me > * { padding: 16px; border-bottom: 1px solid var(--line); }
+.me > *:last-child { border-bottom: 0; }
+.me summary { list-style: none; cursor: pointer; display: grid; gap: 2px; min-height: 44px; align-content: center; }
+.me summary::-webkit-details-marker { display: none; }
+.me details { padding: 0; }
+.me details > summary { padding: 14px 16px; }
+.me details[open] > summary { border-bottom: 1px solid var(--line); }
+.me .me-t { font-family: var(--font-display); font-size: 1.5rem; line-height: 1.1; display: flex; justify-content: space-between; gap: 10px; }
+.me .me-t::after { content: "+"; font-family: var(--font-body); color: var(--gold-2); font-weight: 600; font-size: 1.1rem; }
+.me details[open] .me-t::after { content: "−"; }
+.me .me-s { color: var(--muted); font-size: .9rem; }
+.me-f { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 10px; padding: 16px; }
+.me-f .fl { display: grid; gap: 4px; min-width: 0; font-size: .85rem; color: var(--muted); font-weight: 500; }
+.me-f .wide { grid-column: 1 / -1; }
+.me-f select { width: 100%; min-width: 0; font: inherit; font-size: .95rem; padding: 0 8px; min-height: 44px; border: 1px solid var(--line-2); border-radius: 3px; background: var(--bg); color: var(--fg); }
+.me-f .chiprow button { font-size: .88rem; color: var(--fg); }
+.me-f + .small { padding: 0 16px 16px; }
+.stepper input { width: 52px; min-height: 44px; border: 0; background: transparent; color: var(--fg); font: inherit; font-weight: 600; text-align: center; font-variant-numeric: tabular-nums; -moz-appearance: textfield; }
+.stepper input::-webkit-inner-spin-button, .stepper input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.me h4 { margin: 0 0 8px; font-size: .9rem; font-weight: 600; color: var(--muted); }
+.me .verdict + h4 { margin-top: 14px; }
+.me .btn { width: 100%; }
+.tbl-box.dg table { min-width: 0; }
+.dg td.num .alt { display: block; color: var(--muted); font-weight: 400; font-size: .8rem; white-space: normal; }
+.dg tbody th .tag { margin-left: 8px; vertical-align: .1em; }
+.dg tr.mine th { padding-left: 10px; }
+.dg td.zone { color: var(--muted); }
+.dg tbody th .z { display: none; }
+.dg-empty td { color: var(--muted); }
+
 /* Content blocks reused by the reference sections */
 .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 20px 32px; }
 .grid2 > * { min-width: 0; }
@@ -459,8 +522,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .swipe { display: block; }
 }
 @media (max-width: 980px) {
-  .builder { grid-template-columns: 1fr; }
-  .summary { position: static; }
+  .builder, .journey { grid-template-columns: 1fr; }
+  .summary, .me { position: static; }
+  .me { order: -1; }
   .factions { grid-template-columns: 1fr; }
   .tcards { grid-template-columns: 1fr; }
 }
@@ -506,6 +570,18 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .slot select.scls { grid-column: 2; }
   .slot select.srole { grid-column: 3 / 5; }
   .timeline li { grid-template-columns: 1fr; gap: 2px; }
+  .stagebar { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; margin: 0 -16px; padding: 6px 16px 0; scroll-padding: 0 16px; scrollbar-width: none; overscroll-behavior-x: contain; }
+  .stagebar::-webkit-scrollbar { display: none; }
+  .stagebar li { flex: 0 0 44%; scroll-snap-align: start; }
+  .stagebar b { font-size: 1.2rem; }
+  .st-head h3 { font-size: 1.7rem; }
+  .st-grid { grid-template-columns: 1fr; gap: 18px; }
+  .me-f { padding: 14px; }
+  .dg th, .dg td { padding-right: 10px; }
+  .dg thead th:last-child, .dg td.zone { display: none; }
+  .dg tbody th .z { display: block; color: var(--muted); font-weight: 400; font-size: .85rem; }
+  #segD { width: 100%; }
+  #segD button { flex: 1 1 auto; padding: 0 8px; }
   dl.facts div { grid-template-columns: 1fr; gap: 0; }
   body { padding-bottom: calc(62px + env(safe-area-inset-bottom, 0px)); }
   .tabbar { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); position: fixed; inset: auto 0 0 0; z-index: 35; background: var(--rail); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px); }
@@ -547,7 +623,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="#top" aria-label="Gabella Team, к началу страницы"><span class="mark" aria-hidden="true">G</span><b>Gabella Team</b></a>
   <nav class="mainnav" aria-label="Разделы">
-    <a href="#factions">Фракции</a><a href="#classes">Классы</a><a href="#picker">Подборщик</a><a href="#builder">Группа</a><a href="#checklist">Чек-лист</a><a href="#guides">Гайды</a>
+    <a href="#stages">Этапы</a><a href="#factions">Фракции</a><a href="#classes">Классы</a><a href="#picker">Подборщик</a><a href="#builder">Группа</a><a href="#checklist">Чек-лист</a><a href="#guides">Гайды</a>
   </nav>
   <div class="tools">
     <div class="langs" role="group" aria-label="Язык"><a href="@@RU@@" data-lang="ru" hreflang="ru" lang="ru" aria-current="true">RU</a><a href="@@EN@@" data-lang="en" hreflang="en" lang="en" aria-current="false">EN</a><a href="@@UK@@" data-lang="uk" hreflang="uk" lang="uk" aria-current="false">UK</a></div>
@@ -580,6 +656,31 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </section>
 
 <main>
+<section class="block wrap" id="stages" data-nav="#stages" data-tab="#top">
+  <div class="sec-head"><div class="row"><div style="display:grid;gap:12px"><p class="kick">Путеводитель по игре</p><h2>Где ты сейчас</h2></div><span class="src">Warcraft Tavern, Icy Veins, Blizzard</span></div>
+    <p>Пять этапов от резерва имён до рейдов. Этап выбирается сам по дате, а если указать персонажа, гид подберёт подземелья под уровень и покажет ваши баффы для группы.</p></div>
+  <ol class="stagebar" id="stageBar" role="tablist" aria-label="Этапы игры"></ol>
+  <div class="journey">
+    <div class="stage" id="stagePanel" role="tabpanel" tabindex="-1"></div>
+    <aside class="me" id="me" aria-label="Мой персонаж">
+      <details id="meD" open><summary><span class="me-t">Мой персонаж</span><span class="me-s" id="meSum">Не выбран</span></summary>
+        <div class="me-f">
+          <label class="fl">Раса<select id="meRace"></select></label>
+          <label class="fl">Класс<select id="meCls"></select></label>
+          <label class="fl">Роль<select id="meRole"></select></label>
+          <div class="fl"><span id="lmeLvl">Уровень</span><div class="stepper" role="group" aria-labelledby="lmeLvl"><button type="button" class="lvm" aria-label="Уровень ниже">−</button><input class="lvin" id="meLvl" type="number" min="1" max="60" inputmode="numeric" aria-labelledby="lmeLvl" placeholder="—"><button type="button" class="lvp" aria-label="Уровень выше">+</button></div></div>
+          <label class="fl">Профессия 1<select id="meP1"></select></label>
+          <label class="fl">Профессия 2<select id="meP2"></select></label>
+          <div class="fl wide"><span id="lmeSec">Вспомогательные профессии</span><div class="chiprow" id="meSec" role="group" aria-labelledby="lmeSec"></div></div>
+        </div>
+        <p class="small">Сохраняется только в этом браузере.</p>
+      </details>
+      <div id="meOut" aria-live="polite"></div>
+      <div><button type="button" class="btn ghost" id="meReset">Сбросить персонажа</button></div>
+    </aside>
+  </div>
+</section>
+
 <section class="block wrap" id="factions" data-nav="#factions" data-tab="#classes">
   <div class="sec-head"><p class="kick">Выбор стороны</p><h2>Альянс или Орда</h2><p>Договоритесь о фракции заранее: в PvP-режиме при создании доступна только одна. Девять классов есть у обеих сторон.</p></div>
   <div class="factions">
@@ -684,7 +785,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
       <a class="gt" href="#races"><b>Расы</b><span>Способности рас и доступные классы</span></a>
       <a class="gt" href="#legacy"><b>Legacy</b><span>Очки на весь аккаунт, перки и награды</span></a>
       <a class="gt" href="#camp"><b>Лагерь и профессии</b><span>Костёр, объекты профессий и баффы</span></a>
-      <a class="gt" href="#dungeons"><b>Подземелья и рейды</b><span>9 новых подземелий и 3 рейда</span></a>
+      <a class="gt" href="#dungeons"><b>Подземелья и рейды</b><span>Все 35 подземелий по уровням и 3 рейда</span></a>
       <a class="gt" href="#group"><b>Состав группы</b><span>Факты и советы для компании из 6–8 человек</span></a>
       <a class="gt" href="#era"><b>Отличия от Era</b><span>Что нового по сравнению с Classic</span></a>
     </nav>
@@ -803,20 +904,16 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </section>
 
 <section class="block wrap" id="dungeons" data-nav="#guides">
-  <div class="sec-head"><div class="row"><h2>Подземелья и рейды</h2><span class="src">Warcraft Tavern, ClassicWoW.gg</span></div><p>Всего 35 подземелий, из них 9 новых. Уровни ориентировочные, жёстких блокировок Blizzard пока не опубликовала. На сайтах диапазоны местами отличаются на пару уровней.</p></div>
-  <div class="tbl-box"><table>
-    <thead><tr><th>Новое подземелье</th><th>Уровни</th><th>Где</th></tr></thead>
-    <tbody>
-      <tr><th scope="row">Hall of Thanes</th><td class="num">13–18</td><td>Ironforge</td></tr>
-      <tr><th scope="row">Ruins of Lordaeron</th><td class="num">15–20</td><td>Tirisfal Glades</td></tr>
-      <tr><th scope="row">Excavation Site</th><td class="num">24–29</td><td>Wetlands</td></tr>
-      <tr><th scope="row">City of Dalaran</th><td class="num">28–33</td><td>Alterac Mountains</td></tr>
-      <tr><th scope="row">The Drowned City</th><td class="num">35–40</td><td>Stranglethorn Vale</td></tr>
-      <tr><th scope="row">Krol'Dok Stronghold</th><td class="num">40–45</td><td>Riverglades</td></tr>
-      <tr><th scope="row">Alcaz Island Prison</th><td class="num">48–53</td><td>Dustwallow Marsh</td></tr>
-      <tr><th scope="row">Blackmaw Hold</th><td class="num">55–60</td><td>Azshara</td></tr>
-      <tr><th scope="row">Shaper's Terrace</th><td class="num">58–60</td><td>Un'Goro Crater</td></tr>
-    </tbody></table></div>
+  <div class="sec-head"><div class="row"><h2>Подземелья и рейды</h2><span class="src">Warcraft Tavern, Sportskeeda, Icy Veins, ClassicWoW.gg</span></div><p>Все 35 подземелий, из них 9 новых. Уровни по Warcraft Tavern, Sportskeeda даёт те же. Где другие сайты называют иной диапазон, он подписан мелко. Жёстких ограничений по уровню Blizzard не публиковала.</p></div>
+  <div class="filters" role="group" aria-label="Фильтр подземелий">
+    <div class="seg" id="segD"><button type="button" data-v="all" aria-pressed="true">Все</button><button type="button" data-v="mine" aria-pressed="false">Мой уровень ±3</button><button type="button" data-v="new" aria-pressed="false">Новые</button></div>
+    <div class="fgroup"><span class="flabel" id="ldgLvl">Мой уровень</span><div class="stepper" role="group" aria-labelledby="ldgLvl"><button type="button" class="lvm" aria-label="Уровень ниже">−</button><input class="lvin" id="dgLvl" type="number" min="1" max="60" inputmode="numeric" aria-labelledby="ldgLvl" placeholder="—"><button type="button" class="lvp" aria-label="Уровень выше">+</button></div></div>
+    <span class="small" id="dgCount" role="status"></span>
+  </div>
+  <div class="tbl-box dg"><table>
+    <thead><tr><th scope="col">Подземелье</th><th scope="col">Уровни</th><th scope="col">Где вход</th></tr></thead>
+    <tbody id="dgBody"></tbody></table></div>
+  <p class="note"><span class="mk fact">факт</span>Основной опыт за подземелье дают его цепочки заданий, повторные заходы приносят заметно меньше. Любая выпавшая вещь открывает свой облик всем в группе, кто может её надеть. Ещё по два подземелья Blizzard обещает весной и летом.</p>
   <div class="grid2">
     <div class="panel">
       <h3>Рейды (с 09.12.2026)</h3>
@@ -835,7 +932,6 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
       </ul>
     </div>
   </div>
-  <p class="note">Старые подземелья Classic тоже в игре (Ragefire Chasm, Wailing Caverns, Deadmines, Shadowfang Keep, Scarlet Monastery, Blackrock Depths и другие), так что для группы на 5 человек в уровнях 13–60 всегда есть что пройти.</p>
 </section>
 
 <section class="block wrap" id="group" data-nav="#guides">
@@ -896,6 +992,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     <li><a href="https://classicwow.gg/forever" target="_blank" rel="noopener">ClassicWoW.gg</a>: даты беты, резервации имён, рейдов, отличия от Era</li>
     <li><a href="https://news.blizzard.com/en-gb/article/24307383" target="_blank" rel="noopener">Blizzard: система Legacy</a></li>
     <li><a href="https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/" target="_blank" rel="noopener">Warcraft Tavern: изменения беты от 15 октября</a></li>
+    <li>Подземелья и этапы: <a href="https://www.warcrafttavern.com/forever/guides/dungeons/" target="_blank" rel="noopener">Warcraft Tavern</a>, <a href="https://www.sportskeeda.com/mmo/world-warcraft-forever-all-dungeons-order-level-range" target="_blank" rel="noopener">Sportskeeda</a>, <a href="https://www.icy-veins.com/wow-forever/dungeons-overview" target="_blank" rel="noopener">Icy Veins</a>, <a href="https://classicwow.gg/forever/dungeons" target="_blank" rel="noopener">ClassicWoW.gg</a>, <a href="https://www.warcrafttavern.com/forever/guides/riding/" target="_blank" rel="noopener">верховая езда</a>, <a href="https://www.warcrafttavern.com/forever/guides/professions/" target="_blank" rel="noopener">профессии</a>, <a href="https://teamoverpowered.com/forever/guides/name-reservation/" target="_blank" rel="noopener">имена и фамилии</a></li>
     <li><a href="https://www.wowhead.com/forever" target="_blank" rel="noopener">Wowhead</a>: новости и справочник</li>
     <li>Описание классов, темп прокачки: <a href="https://www.warcrafttavern.com/forever/guides/classes/" target="_blank" rel="noopener">Warcraft Tavern</a>, <a href="https://lfcarry.com/guides/wow-forever-classes" target="_blank" rel="noopener">LFCarry</a></li>
   </ul>
@@ -915,7 +1012,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <dialog class="sheet" id="moreDlg" aria-label="Все разделы">
   <div class="dh"><b>Все разделы</b><button class="iconbtn" id="moreClose" type="button" aria-label="Закрыть"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Все разделы">
-    <div class="grp"><div class="gh">Главная</div><a href="#top">Обзор</a><a href="#factions">Фракции</a><a href="#classes">Классы</a></div>
+    <div class="grp"><div class="gh">Главная</div><a href="#top">Обзор</a><a href="#stages">Где ты сейчас</a><a href="#factions">Фракции</a><a href="#classes">Классы</a></div>
     <div class="grp"><div class="gh">Инструменты</div><a href="#picker">Подборщик</a><a href="#builder">Конструктор группы</a><a href="#checklist">Чек-лист</a></div>
     <div class="grp"><div class="gh">Справочник</div><a href="#dates">Даты и наборы</a><a href="#classref">Классы подробно</a><a href="#races">Расы</a><a href="#legacy">Legacy</a><a href="#camp">Лагерь и профессии</a><a href="#dungeons">Подземелья и рейды</a><a href="#group">Состав группы</a><a href="#era">Отличия от Era</a><a href="#sources">Источники</a></div>
   </nav>
@@ -1392,6 +1489,267 @@ $('#checkList').addEventListener('change', e => {
 });
 $('#checkReset').onclick = () => { done = []; saveDone(); renderCheck(); };
 renderCheck();
+
+/* Dungeons: [name, min, max, entrance zone, new, other sites' ranges where they differ] */
+const DUNGEONS = [
+  ['Ragefire Chasm', 13, 18, 'Orgrimmar', 0],
+  ['Hall of Thanes', 13, 18, 'Ironforge', 1, [['Icy Veins', '13–20']]],
+  ['Ruins of Lordaeron', 15, 20, 'Tirisfal Glades', 1, [['Icy Veins', '15–22']]],
+  ['The Deadmines', 15, 22, 'Westfall', 0, [['Icy Veins', '17–26']]],
+  ['Wailing Caverns', 17, 24, 'The Barrens', 0, [['Icy Veins', '15–24']]],
+  ['Shadowfang Keep', 20, 26, 'Silverpine Forest', 0, [['Icy Veins', '20–30']]],
+  ['Blackfathom Deeps', 22, 28, 'Ashenvale', 0, [['Sportskeeda', '22–26'], ['Icy Veins', '24–32']]],
+  ['Excavation Site: Wetlands', 24, 29, 'Wetlands', 1, [['ClassicWoW.gg', '26–31'], ['Icy Veins', '26–33']]],
+  ['The Stockade', 25, 29, 'Stormwind City', 0, [['Icy Veins', '24–32']]],
+  ['City of Dalaran', 28, 33, 'Alterac Mountains', 1, [['Icy Veins', '28–35']]],
+  ['Gnomeregan', 29, 38, 'Dun Morogh', 0],
+  ['Razorfen Kraul', 29, 38, 'The Barrens', 0],
+  ['Scarlet Monastery: Graveyard', 30, 38, 'Tirisfal Glades', 0],
+  ['Scarlet Monastery: Library', 33, 41, 'Tirisfal Glades', 0],
+  ['The Drowned City', 35, 40, 'Stranglethorn Vale', 1],
+  ['Scarlet Monastery: Armory', 36, 44, 'Tirisfal Glades', 0],
+  ['Uldaman', 36, 45, 'Badlands', 0, [['Icy Veins', '41–51']]],
+  ['Razorfen Downs', 37, 46, 'The Barrens', 0],
+  ['Scarlet Monastery: Cathedral', 38, 46, 'Tirisfal Glades', 0],
+  ["Zul'Farrak", 40, 47, 'Tanaris', 0, [['Icy Veins', '44–54']]],
+  ["Krol'dok Stronghold", 40, 45, 'Riverglades', 1],
+  ['Maraudon', 45, 51, 'Desolace', 0, [['Icy Veins', '46–55']]],
+  ['Alcaz Island Prison', 48, 53, 'Dustwallow Marsh', 1],
+  ["Temple of Atal'Hakkar", 50, 55, 'Swamp of Sorrows', 0, [['Icy Veins', '50–60']]],
+  ['Blackrock Depths', 52, 60, 'Blackrock Mountain', 0],
+  ['Blackmaw Hold', 55, 60, 'Azshara', 1],
+  ['Lower Blackrock Spire', 57, 60, 'Blackrock Mountain', 0, [['Icy Veins', '55–60']]],
+  ['Dire Maul: East', 58, 60, 'Feralas', 0, [['Icy Veins', '54–60']]],
+  ["Shaper's Terrace", 58, 60, "Un'Goro Crater", 1],
+  ['Stratholme: Living', 58, 60, 'Eastern Plaguelands', 0],
+  ['Stratholme: Undead', 58, 60, 'Eastern Plaguelands', 0],
+  ['Scholomance', 58, 60, 'Western Plaguelands', 0],
+  ['Upper Blackrock Spire', 60, 60, 'Blackrock Mountain', 0, [['Icy Veins', '59–60']]],
+  ['Dire Maul: West', 60, 60, 'Feralas', 0, [['Icy Veins', '56–60']]],
+  ['Dire Maul: North', 60, 60, 'Feralas', 0, [['Icy Veins', '56–60']]]
+];
+const lvRange = d => d[1] === d[2] ? String(d[1]) : `${d[1]}–${d[2]}`;
+const nearLvl = (d, lv) => lv >= d[1] - 3 && lv <= d[2] + 3;
+
+/* Professions: camp object (tier 1) and the class buff it stands in for */
+const PROFS = [
+  ['alchemy', 'Алхимия', 1, 'Mana Well', 'как Благословение мудрости'],
+  ['blacksmithing', 'Кузнечное дело', 1, 'Sharpening Wheel', 'как Тотем силы земли'],
+  ['enchanting', 'Наложение чар', 1, 'Enchanted Lute', 'как Знак дикой природы'],
+  ['engineering', 'Инженерия', 1, 'Reagent Bot', 'торговец реагентами, во 2 уровне ремонт'],
+  ['herbalism', 'Травничество', 1, 'Incense Candle', 'как Чародейский интеллект'],
+  ['leatherworking', 'Кожевничество', 1, 'Camp Tent', 'больше опыта от отдыха'],
+  ['mining', 'Горное дело', 1, 'Lodestone', 'как Благословение могущества'],
+  ['skinning', 'Снятие шкур', 1, 'Camp Chair', 'как аура лунного совуха'],
+  ['tailoring', 'Портняжное дело', 1, 'Faction Banner', 'как Божественный дух'],
+  ['cooking', 'Кулинария', 0, 'Basic Campfire', 'больше мест для объектов в лагере'],
+  ['firstaid', 'Первая помощь', 0, 'First Aid Kit', 'как Слово силы: Стойкость'],
+  ['fishing', 'Рыбалка', 0, 'Fish Bowl', 'как Благословение королей']
+];
+const PR = Object.fromEntries(PROFS.map(p => [p[0], p]));
+
+/* Game stages: f = fact from the sources, t = our tip */
+const SRC = {
+  names: ['Icy Veins: резерв имён', 'https://www.icy-veins.com/wow-forever/name-reservation'],
+  names2: ['Team Overpowered: имена и фамилии', 'https://teamoverpowered.com/forever/guides/name-reservation/'],
+  prof: ['Warcraft Tavern: профессии', 'https://www.warcrafttavern.com/forever/guides/professions/'],
+  camp: ['Warcraft Tavern: лагерь', 'https://www.warcrafttavern.com/forever/guides/camping/'],
+  legacy: ['Blizzard: Legacy', 'https://news.blizzard.com/en-gb/article/24307383'],
+  dung: ['Warcraft Tavern: подземелья', 'https://www.warcrafttavern.com/forever/guides/dungeons/'],
+  ride: ['Warcraft Tavern: верховая езда', 'https://www.warcrafttavern.com/forever/guides/riding/'],
+  cwg: ['ClassicWoW.gg: даты и рейды', 'https://classicwow.gg/forever']
+};
+const STAGES = [
+  { id: 'pre', n: 'До старта', sub: 'до 04.11', lo: 0, hi: 0,
+    todo: [['f', 'Ранняя резервация имён 27.10 – 03.11 для владельцев наборов Heroic, Epic и Collection. Первым пришёл, первым занял.'],
+      ['f', 'Можно занять до трёх персонажей на аккаунт. У персонажа имя и фамилия, уникальным должно быть их сочетание в пределах региона.'],
+      ['f', 'С 04.11 для игры нужна подписка или игровое время.'],
+      ['t', 'Придумайте по три имени с фамилией и запасные варианты до 27.10.']],
+    dnote: 'Первые подземелья доступны с 13 уровня.',
+    prof: [['f', 'На персонажа две основные профессии и все три вспомогательные: Кулинария, Первая помощь и Рыбалка.'],
+      ['f', 'Каждая профессия ставит в лагерь свой объект с баффом, похожим на бафф класса.'],
+      ['t', 'Распределите профессии заранее: один берёт Кулинарию ради костра, у остальных разные, чтобы баффы лагеря не повторялись.']],
+    legacy: [['f', 'Legacy открывается с первым очком: 25 уровень, 150 в профессии (не сбор) или исследование всей карты.'],
+      ['f', 'На старте на персонажа можно потратить не больше 16 очков, лишние идут в трек наград.']],
+    group: [['t', 'Договоритесь об одной фракции и одном режиме: группироваться можно только внутри режима, а в PvP на аккаунте одна фракция.'],
+      ['t', 'Соберите состав в конструкторе: танк, лекарь и разные классы ради баффов.']],
+    src: ['names', 'names2', 'prof', 'legacy'] },
+  { id: 'first', n: 'Первые дни', sub: 'уровни 1–15', lo: 1, hi: 15,
+    todo: [['f', 'Скайборн начинают на острове Zephras Isle, это уровни 1–12.'],
+      ['f', 'Таланты открываются с 10 уровня, с перком Legacy Talented с 9.'],
+      ['f', 'Большая часть готовой еды даёт бонус к опыту. Он складывается с лагерем и спальником Cozy Sleeping Bag.'],
+      ['t', 'Копите отдых: выходите из игры в трактире или у лагеря с палаткой.']],
+    prof: [['f', 'Базовый костёр доступен без Кулинарии и вмещает 3 объекта. Горит около 10 минут, поставить новый можно через 5.'],
+      ['f', 'Чтобы получить баффы лагеря, сядьте рядом (/sit) хотя бы на минуту.'],
+      ['t', 'Берите сбор с первых уровней: травы, руда и шкуры понадобятся ремеслу, а 150 в ремесле открывает Legacy.']],
+    legacy: [['f', 'Перков пока нет: первое очко даст 25 уровень или 150 в профессии.'],
+      ['t', 'Когда откроется Legacy, первыми берите перки опыта и лагеря: Well Rested, Talented, Field Guide.']],
+    group: [['t', 'Качайтесь в одной зоне и ставьте лагерь на привале: пять минут на костёр окупаются баффами на всю группу.'],
+      ['t', 'Собирайтесь в первую пятёрку к 13–15 уровню.']],
+    src: ['camp', 'legacy', 'dung'] },
+  { id: 'dung', n: 'Подземелья', sub: 'уровни 15–40', lo: 15, hi: 40,
+    todo: [['f', 'Основной опыт за подземелье дают его цепочки заданий. Повторные заходы после них приносят заметно меньше опыта, чем задания в мире.'],
+      ['f', 'Любая выпавшая вещь открывает свой облик для трансмогрификации всем, кто может её надеть, даже если вещь досталась другому.'],
+      ['f', 'На 25 уровне открывается Legacy.'],
+      ['t', 'Соберите задания подземелья всей группой заранее и идите, когда они есть у каждого.']],
+    prof: [['f', 'Кулинария 140 даёт 5 мест в лагере, 220 даёт 10.'],
+      ['f', 'Каждая профессия делает три объекта лагеря, по одному на уровень. Навык для 2 и 3 уровня у источников расходится.'],
+      ['t', 'Если до 25 уровня далеко, доведите ремесло до 150: Legacy откроется раньше.']],
+    legacy: [['f', 'Каждое испытание даёт 1 очко. Всего их 65: классы 27, профессии 18, PvP 12, подземелья 3, рейды 3, приключения 2.'],
+      ['t', 'Ценны Reagent Economy (без покупных реагентов для способностей) и Field Guide (короче откат объектов лагеря).']],
+    group: [['f', 'Подземелье рассчитано на 5 игроков: танк, лекарь и трое с уроном.'],
+      ['f', 'Масштабирования уровней нет, поэтому сильно отставшего друга в подземелье не взять.'],
+      ['t', 'Держите уровни близко: отставшие догоняют на заданиях, подземелья проходите вместе.']],
+    src: ['dung', 'camp', 'legacy'] },
+  { id: 'path', n: 'Путь к 60', sub: 'уровни 40–60', lo: 40, hi: 60,
+    todo: [['f', 'Скакун с 40 уровня (скорость 60%), быстрый с 60 (100%). Учиться у тренера своей расы.'],
+      ['f', 'Паладин и чернокнижник получают скакуна заданиями класса.'],
+      ['f', 'Почёт у своей фракции даёт скидку 10% на обучение езде и скакунов. Точные цены Blizzard не публиковала, у сайтов они расходятся.'],
+      ['t', 'Отложите золото к 40 уровню: езда будет самой крупной тратой на пути к 60.']],
+    prof: [['f', 'Объекты лагеря 2 и 3 уровня у каждой профессии свои. У Инженерии второй объект Repair Bot чинит экипировку.'],
+      ['t', 'Держите в группе Кулинарию 220 ради лагеря на 10 объектов: к рейду места хватит всем.']],
+    legacy: [['f', 'На персонажа не больше 16 очков, лишние идут в трек наград: игрушка за 15, питомец за 25, табард за 40, скакун за 55.']],
+    group: [['f', 'Рейды откроются 09.12: Barrow Deeps на 10 игроков, Hyjal Summit на 20, Onyxia’s Lair на 40.'],
+      ['t', 'Для 10-местного рейда компании из 6–8 человек нужны ещё 1–2 игрока: найдите их в гильдии заранее.']],
+    src: ['ride', 'prof', 'legacy', 'cwg'] },
+  { id: 'raid', n: '60 и рейды', sub: 'с 09.12', lo: 60, hi: 60,
+    todo: [['f', '09.12 открываются Barrow Deeps (10 игроков), Hyjal Summit (20) и Onyxia’s Lair (40, Dustwallow Marsh).'],
+      ['f', 'За прохождение каждого из трёх рейдов даётся очко Legacy.'],
+      ['f', 'Новое поле боя 15 на 15: Darkspear Islands у побережья Dustwallow Marsh.'],
+      ['t', 'Пока набираете людей на рейд, проходите подземелья 60 уровня за экипировкой.']],
+    prof: [['f', 'Баффы лагеря немного слабее классовых и не складываются с ними: Благословение королей даёт 10% ко всем характеристикам, лагерь 8%.'],
+      ['t', 'Ставьте лагерь у входа в рейд: его баффы закроют то, чего нет у ваших классов.']],
+    legacy: [['f', 'Испытания для 60 уровня: подземелья 3, рейды 3, PvP 12. В PvP звания с недельным лимитом и улучшение экипировки за Честь.']],
+    group: [['f', 'Одинаковые баффы двух игроков одного класса перекрываются, разные классы складываются.'],
+      ['t', 'Соберите рейдовый состав в конструкторе и пошлите ссылку в чат.']],
+    src: ['cwg', 'prof', 'legacy'] }
+];
+const ST = Object.fromEntries(STAGES.map(s => [s.id, s]));
+const D_REL = new Date('2026-11-04T00:00:00'), D_RAID = new Date('2026-12-09T00:00:00');
+
+/* My character, saved in this browser */
+const MEKEY = 'gabella-wf-me';
+const me = { race: '', cls: '', role: '', lvl: 0, p1: '', p2: '', sec: [] };
+try { const v = JSON.parse(localStorage.getItem(MEKEY) || '{}'); if (v && typeof v === 'object') Object.keys(me).forEach(k => { if (v[k] !== undefined) me[k] = v[k]; }); } catch (e) {}
+function fixMe() {
+  if (!RC[me.race]) me.race = '';
+  if (!CL[me.cls] || (me.race && !RC[me.race].can[me.cls])) me.cls = '';
+  const ro = me.cls ? roleOpts(CL[me.cls]) : [];
+  if (!ro.includes(me.role)) me.role = (me.cls && CL[me.cls].roles.find(r => ro.includes(r))) || ro[0] || '';
+  me.lvl = Math.max(0, Math.min(60, parseInt(me.lvl, 10) || 0));
+  if (!PR[me.p1] || !PR[me.p1][2]) me.p1 = '';
+  if (!PR[me.p2] || !PR[me.p2][2] || me.p2 === me.p1) me.p2 = '';
+  me.sec = Array.isArray(me.sec) ? me.sec.filter(x => PR[x] && !PR[x][2]) : [];
+}
+function saveMe() { try { localStorage.setItem(MEKEY, JSON.stringify(me)); } catch (e) {} }
+const meSet = () => !!(me.race || me.cls || me.lvl);
+let stageSel = null, stageAuto = true;
+function autoStage() {
+  const now = new Date();
+  if (now < D_REL) return ['pre', 'Выбрано по дате: до релиза 04.11.'];
+  if (me.lvl) return [me.lvl < 15 ? 'first' : me.lvl < 40 ? 'dung' : me.lvl < 60 ? 'path' : 'raid', 'Выбрано по уровню вашего персонажа.'];
+  if (now >= D_RAID) return ['raid', 'Выбрано по дате: рейды открыты.'];
+  return [now < new Date('2026-11-11T00:00:00') ? 'first' : 'dung', 'Выбрано по дате. Укажите уровень персонажа, и этап подстроится.'];
+}
+function liMk(x) { return `<li>${x[0] === 'f' ? '<span class="mk fact">факт</span>' : '<span class="mk tip">совет</span>'}${esc(x[1])}</li>`; }
+function dLi(d) {
+  const mine = me.lvl && nearLvl(d, me.lvl);
+  return `<li class="${mine ? 'mine' : ''}"><b>${esc(d[0])}</b><span class="num">${lvRange(d)}</span><span class="small">${esc(d[3])}${d[4] ? ' · новое' : ''}${mine ? ' · под ваш уровень' : ''}</span></li>`;
+}
+function renderStage() {
+  const [auto, why] = autoStage();
+  if (stageAuto) stageSel = auto;
+  const s = ST[stageSel], idx = STAGES.indexOf(s);
+  $('#stageBar').innerHTML = STAGES.map((x, i) => `<li role="presentation"><button type="button" role="tab" id="tab-${x.id}" data-st="${x.id}" aria-controls="stagePanel" aria-selected="${x.id === stageSel}" tabindex="${x.id === stageSel ? 0 : -1}" class="${i < idx ? 'done' : ''}"><b>${esc(x.n)}</b><span>${esc(x.sub)}</span>${x.id === auto ? '<span class="now">сейчас</span>' : ''}</button></li>`).join('');
+  let ds;
+  if (s.id === 'pre') ds = DUNGEONS.filter(d => d[1] <= 15);
+  else ds = DUNGEONS.filter(d => d[1] <= s.hi && d[2] >= s.lo);
+  if (me.lvl && s.lo <= me.lvl && me.lvl <= Math.max(s.hi, 1)) ds = ds.filter(d => nearLvl(d, me.lvl)).concat(ds.filter(d => !nearLvl(d, me.lvl)));
+  const MAXD = 8, extra = ds.length - MAXD;
+  const prof = s.prof.map(liMk).join('');
+  $('#stagePanel').setAttribute('aria-labelledby', 'tab-' + s.id);
+  $('#stagePanel').innerHTML = `<div class="st-head"><h3>${esc(s.n)}</h3><span>${esc(s.sub)}</span></div>
+    <p class="small">${stageAuto ? esc(why) : 'Этап выбран вручную.'}</p>
+    <div class="st-grid">
+      <div class="panel wide"><h4>Что делать</h4><ul class="dots">${s.todo.map(liMk).join('')}</ul></div>
+      <div class="panel"><h4>Подземелья под уровень</h4>${s.dnote ? `<p class="small" style="margin-top:6px">${esc(s.dnote)}</p>` : ''}<ul class="dlist">${ds.slice(0, MAXD).map(dLi).join('')}</ul>
+        <a class="more-l" href="#dungeons">${extra > 0 ? `Ещё подземелий в таблице: ${extra}` : 'Все 35 подземелий'}<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+      <div class="panel"><h4>Профессии и лагерь</h4><ul class="dots">${prof}</ul></div>
+      <div class="panel"><h4>Перки Legacy</h4><ul class="dots">${s.legacy.map(liMk).join('')}</ul></div>
+      <div class="own"><h4>Советы группе</h4><ul class="dots">${s.group.map(liMk).join('')}</ul></div>
+    </div>
+    <p class="small st-src"><span>Источники:</span>${s.src.map(k => `<a href="${SRC[k][1]}" target="_blank" rel="noopener">${esc(SRC[k][0])}</a>`).join('')}</p>`;
+}
+function optList(items, cur, none) { return `<option value="">${esc(none)}</option>` + items.map(([v, t]) => `<option value="${v}"${v === cur ? ' selected' : ''}>${esc(t)}</option>`).join(''); }
+function renderMe() {
+  fixMe();
+  const races = f => RACES.filter(r => r.f === f).map(r => `<option value="${r.id}"${r.id === me.race ? ' selected' : ''}>${esc(r.n)}</option>`).join('');
+  $('#meRace').innerHTML = `<option value="">Не выбрана</option><optgroup label="${facName('alliance')}">${races('alliance')}</optgroup><optgroup label="${facName('horde')}">${races('horde')}</optgroup>`;
+  const cls = (me.race ? Object.keys(RC[me.race].can) : CLASSES.map(c => c.id)).map(id => [id, CL[id].n]);
+  $('#meCls').innerHTML = optList(cls, me.cls, 'Не выбран');
+  $('#meRole').innerHTML = me.cls ? roleOpts(CL[me.cls]).map(x => `<option value="${x}"${x === me.role ? ' selected' : ''}>${ROLE_RU[x]}</option>`).join('') : `<option value="">Сначала класс</option>`;
+  $('#meRole').disabled = !me.cls;
+  const prim = PROFS.filter(p => p[2]);
+  $('#meP1').innerHTML = optList(prim.filter(p => p[0] !== me.p2).map(p => [p[0], p[1]]), me.p1, 'Нет');
+  $('#meP2').innerHTML = optList(prim.filter(p => p[0] !== me.p1).map(p => [p[0], p[1]]), me.p2, 'Нет');
+  $('#meSec').innerHTML = PROFS.filter(p => !p[2]).map(p => `<button type="button" data-sec="${p[0]}" aria-pressed="${me.sec.includes(p[0])}">${esc(p[1])}</button>`).join('');
+  document.querySelectorAll('.lvin').forEach(i => { if (document.activeElement !== i) i.value = me.lvl || ''; });
+  const who = [me.race ? RC[me.race].n : '', me.cls ? CL[me.cls].n : ''].filter(Boolean).join(' ');
+  $('#meSum').textContent = meSet() ? [who, me.lvl ? `${me.lvl} ур.` : ''].filter(Boolean).join(', ') : 'Не выбран: заполните, и гид подстроится';
+  let out = '';
+  if (!meSet()) out = '<p class="small">Выберите расу, класс и уровень. Появятся ваши баффы для группы и подземелья под уровень.</p>';
+  else {
+    const b = [];
+    if (me.cls) b.push(BUFF[me.cls] ? `<li class="good"><span class="cdot" style="--cc:${CCOL[me.cls]}"></span><b>${esc(CL[me.cls].n)}:</b> ${esc(BUFF[me.cls])}</li>` : `<li>${esc(CL[me.cls].n)}: без группового баффа, чистый урон.</li>`);
+    [me.p1, me.p2, ...me.sec].filter(Boolean).forEach(id => { const p = PR[id]; b.push(`<li class="good"><b>${esc(p[3])}</b> в лагерь (${esc(p[1])}): ${esc(p[4])}</li>`); });
+    if (!b.length) b.push('<li>Выберите класс и профессии, чтобы увидеть баффы.</li>');
+    out += `<h4>Что вы приносите группе</h4><ul class="verdict">${b.join('')}</ul>`;
+    if (me.lvl) {
+      const ds = DUNGEONS.filter(d => nearLvl(d, me.lvl));
+      out += `<h4>Подземелья под ваш уровень</h4>` + (ds.length ? `<ul class="dlist">${ds.slice(0, 5).map(dLi).join('')}</ul>` : '<p class="small">Первые подземелья с 13 уровня.</p>')
+        + `<a class="more-l" href="#dungeons">${ds.length > 5 ? `Ещё подземелий в таблице: ${ds.length - 5}` : 'Таблица подземелий'}<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>`;
+    }
+  }
+  $('#meOut').innerHTML = out;
+  $('#meReset').disabled = !meSet() && !me.p1 && !me.p2 && !me.sec.length;
+}
+let dgMode = 'all';
+function renderDungeons() {
+  const lv = me.lvl;
+  let rows = DUNGEONS;
+  if (dgMode === 'new') rows = rows.filter(d => d[4]);
+  if (dgMode === 'mine') rows = lv ? rows.filter(d => nearLvl(d, lv)) : [];
+  $('#dgBody').innerHTML = rows.length ? rows.map(d => {
+    const alt = (d[5] || []).map(a => `${a[0]}: ${a[1]}`).join(', ');
+    return `<tr class="${lv && nearLvl(d, lv) ? 'mine' : ''}"><th scope="row">${esc(d[0])}${d[4] ? '<span class="tag new">новое</span>' : ''}<span class="z">${esc(d[3])}</span></th><td class="num">${lvRange(d)}${alt ? `<span class="alt">${esc(alt)}</span>` : ''}</td><td class="zone">${esc(d[3])}</td></tr>`;
+  }).join('') : `<tr class="dg-empty"><td colspan="3">${lv ? 'Под этот уровень подземелий нет.' : 'Укажите свой уровень, чтобы отфильтровать.'}</td></tr>`;
+  $('#dgCount').textContent = `Показано ${rows.length} из ${DUNGEONS.length}`;
+  syncSeg('segD', dgMode);
+}
+function renderJourney() { renderMe(); renderStage(); renderDungeons(); }
+function meChanged() { fixMe(); saveMe(); stageAuto = true; renderJourney(); }
+$('#meRace').addEventListener('change', e => { me.race = e.target.value; meChanged(); });
+$('#meCls').addEventListener('change', e => { me.cls = e.target.value; if (me.cls && !me.race) { const r = RACES.find(x => x.can[me.cls] && !x.paid); if (r) me.race = r.id; } meChanged(); });
+$('#meRole').addEventListener('change', e => { me.role = e.target.value; meChanged(); });
+$('#meP1').addEventListener('change', e => { me.p1 = e.target.value; meChanged(); });
+$('#meP2').addEventListener('change', e => { me.p2 = e.target.value; meChanged(); });
+$('#meSec').addEventListener('click', e => { const b = e.target.closest('[data-sec]'); if (!b) return; const id = b.dataset.sec; me.sec = me.sec.includes(id) ? me.sec.filter(x => x !== id) : me.sec.concat(id); meChanged(); });
+$('#meReset').onclick = () => { Object.assign(me, { race: '', cls: '', role: '', lvl: 0, p1: '', p2: '', sec: [] }); meChanged(); };
+document.querySelectorAll('.stepper .lvm, .stepper .lvp').forEach(b => b.addEventListener('click', () => { me.lvl = Math.max(1, Math.min(60, (me.lvl || (b.classList.contains('lvp') ? 0 : 2)) + (b.classList.contains('lvp') ? 1 : -1))); meChanged(); }));
+document.querySelectorAll('.lvin').forEach(i => {
+  i.addEventListener('change', () => { me.lvl = i.value === '' ? 0 : parseInt(i.value, 10) || 0; meChanged(); });
+  i.addEventListener('keydown', e => { if (e.key === 'Enter') i.blur(); });
+});
+$('#segD').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; dgMode = b.dataset.v; renderDungeons(); if (dgMode === 'mine' && !me.lvl) $('#dgLvl').focus(); });
+$('#stageBar').addEventListener('click', e => { const b = e.target.closest('[data-st]'); if (!b) return; stageSel = b.dataset.st; stageAuto = false; renderStage(); $('#tab-' + stageSel).focus(); });
+$('#stageBar').addEventListener('keydown', e => {
+  const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key]; if (!k) return;
+  const i = (STAGES.findIndex(s => s.id === stageSel) + k + STAGES.length) % STAGES.length;
+  stageSel = STAGES[i].id; stageAuto = false; renderStage(); const t = $('#tab-' + stageSel); t.focus(); t.scrollIntoView({ block: 'nearest', inline: 'nearest' }); e.preventDefault();
+});
+if (meSet() && matchMedia('(max-width: 980px)').matches) $('#meD').open = false;
+renderJourney();
+setTimeout(() => { const t = $('#tab-' + stageSel), bar = $('#stageBar'); if (t && matchMedia('(max-width: 719px)').matches) bar.scrollLeft += t.getBoundingClientRect().left - bar.getBoundingClientRect().left - 16; }, 0);
 
 /* Theme toggle and language links */
 const themeBtns = document.querySelectorAll('.themebtn');
