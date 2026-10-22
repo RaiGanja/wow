@@ -107,21 +107,23 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .topbar.solid { background: var(--rail); border-bottom-color: var(--line); color: var(--fg); }
 .topbar .in { max-width: var(--wrap); height: 100%; margin: 0 auto; padding: 0 max(20px, env(safe-area-inset-left, 0px)); display: flex; align-items: center; gap: 18px; }
 .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; min-height: 44px; }
-.mark { width: 34px; height: 34px; flex: none; display: grid; place-items: center; border: 1px solid currentColor; color: var(--ink-gold); font-family: var(--font-display); font-size: 23px; line-height: 1; padding-top: 1px; }
+.mark { width: 34px; height: 34px; flex: none; display: grid; place-items: center; border: 1px solid currentColor; border-radius: 8px; color: var(--ink-gold); font-family: var(--font-display); font-size: 23px; line-height: 1; padding-top: 1px; }
 .topbar.solid .mark { color: var(--gold-2); }
 .brand b { font-family: var(--font-display); font-weight: 400; font-size: 1.3rem; white-space: nowrap; }
 .mainnav { display: flex; gap: 2px; margin-left: 12px; }
 .mainnav a { min-height: 44px; display: grid; place-items: center; padding: 0 12px; color: inherit; opacity: .78; text-decoration: none; font-size: .95rem; font-weight: 500; box-shadow: inset 0 -2px 0 transparent; transition: opacity .2s, box-shadow .2s; }
 .mainnav a:hover { opacity: 1; }
-.mainnav a[aria-current="true"] { opacity: 1; box-shadow: inset 0 -2px 0 var(--gold); }
+.mainnav a[aria-current="true"] { opacity: 1; color: var(--ink-gold); }
+.topbar.solid .mainnav a[aria-current="true"] { color: var(--gold-2); }
 .tools { margin-left: auto; display: flex; gap: 8px; align-items: center; }
-.langs { display: inline-flex; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 3px; overflow: hidden; }
-.langs a { min-width: 42px; min-height: 40px; display: grid; place-items: center; color: inherit; opacity: .75; text-decoration: none; font-weight: 600; font-size: .8rem; letter-spacing: .04em; border-right: 1px solid color-mix(in srgb, currentColor 30%, transparent); }
+.langs { display: inline-flex; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; overflow: hidden; }
+.langs a { min-width: 44px; min-height: 42px;
+ display: grid; place-items: center; color: inherit; opacity: .75; text-decoration: none; font-weight: 600; font-size: .8rem; letter-spacing: .04em; border-right: 1px solid color-mix(in srgb, currentColor 30%, transparent); }
 .langs a:last-child { border-right: 0; }
 .langs a:hover { opacity: 1; }
 .langs a[aria-current="true"] { background: var(--gold); color: var(--gold-ink); opacity: 1; }
 .topbar:not(.solid) .langs a[aria-current="true"] { background: #c9a54a; color: #15110a; }
-.iconbtn { min-width: 44px; min-height: 42px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 3px; background: transparent; color: inherit; }
+.iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: .92rem; }
 
@@ -134,23 +136,21 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
   linear-gradient(90deg, rgba(7,8,10,.92) 0%, rgba(7,8,10,.74) 30%, rgba(7,8,10,.28) 56%, rgba(7,8,10,.06) 78%),
   linear-gradient(180deg, rgba(7,8,10,.5) 0%, rgba(7,8,10,0) 26%, rgba(7,8,10,0) 58%, rgba(7,8,10,.9) 100%); }
 .hero-in { width: 100%; padding-top: calc(var(--top) + clamp(40px, 9vh, 110px)); padding-bottom: 40px; display: grid; gap: 22px; justify-items: start; max-width: var(--wrap); }
-.eyebrow { font-size: .95rem; color: var(--ink-2); display: flex; align-items: center; gap: 12px; }
-.eyebrow::before { content: ""; width: 28px; height: 1px; background: var(--ink-gold); }
+.hmeta { font-size: .9rem; color: var(--ink-2); }
 .hero h1 { font-size: clamp(2.9rem, 6.2vw, 5.4rem); line-height: .98; letter-spacing: .005em; }
 .hero h1 span { display: block; color: var(--ink-gold); }
 .hero .lead { max-width: 46ch; font-size: clamp(1.02rem, 1.4vw, 1.15rem); color: var(--ink-2); }
 .cd { display: flex; align-items: center; flex-wrap: wrap; gap: 14px 22px; margin-top: 6px; }
-.cd .units { display: flex; align-items: stretch; }
-.cd .u { display: grid; gap: 4px; padding: 0 20px; border-left: 1px solid rgba(224,194,122,.35); }
-.cd .u:first-child { padding-left: 0; border-left: 0; }
+.cd .units { display: flex; align-items: stretch; gap: 6px; padding: 6px; border: 1px solid rgba(255,255,255,.12); border-radius: 10px; background: rgba(10,12,18,.62); backdrop-filter: blur(6px); }
+.cd .u { display: grid; gap: 4px; min-width: 76px; padding: 10px 16px 8px; border-radius: 7px; background: rgba(255,255,255,.05); }
 .cd .u b { font-family: var(--font-display); font-weight: 400; font-size: clamp(2.4rem, 4.4vw, 3.3rem); line-height: .9; color: var(--ink-gold); font-variant-numeric: tabular-nums lining-nums; }
 .cd .u span { font-size: .82rem; color: var(--ink-2); }
 .cd .what { display: grid; gap: 1px; font-size: .95rem; color: var(--ink-2); }
 .cd .what b { color: var(--ink); font-weight: 600; }
 .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap; background: var(--gold); color: var(--gold-ink); border: 1px solid var(--gold); border-radius: 3px; padding: 0 18px; font-weight: 600; min-height: 44px; text-decoration: none; transition: background-color .2s, border-color .2s, color .2s; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap; background: var(--gold); color: var(--gold-ink); border: 1px solid var(--gold); border-radius: 7px; padding: 0 18px; font-weight: 600; min-height: 44px; text-decoration: none; transition: background-color .2s, border-color .2s, color .2s; }
 .btn:hover { background: var(--gold-2); border-color: var(--gold-2); }
-.btn.ghost { background: transparent; color: var(--fg); border-color: var(--line-2); }
+.btn.ghost { background: var(--panel-2); color: var(--fg); border-color: var(--pline); }
 .btn.ghost:hover { border-color: var(--gold); }
 .btn.lg { min-height: 52px; padding: 0 26px; font-size: 1.02rem; }
 .btn[disabled] { opacity: .5; cursor: not-allowed; }
@@ -158,12 +158,11 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .hero .btn:hover { background: #e0c27a; border-color: #e0c27a; }
 .hero .btn.ghost { background: rgba(7,8,10,.35); color: var(--ink); border-color: rgba(241,236,224,.45); }
 .hero .btn.ghost:hover { border-color: #e0c27a; background: rgba(7,8,10,.55); }
-.hdates { list-style: none; margin: 0 auto; padding: 0 max(20px, env(safe-area-inset-left, 0px)) 34px; max-width: var(--wrap); width: 100%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.hdates li { position: relative; padding: 18px 16px 0 0; border-top: 1px solid rgba(241,236,224,.22); display: grid; gap: 2px; }
-.hdates li::before { content: ""; position: absolute; left: 0; top: -5px; width: 9px; height: 9px; background: #08090b; border: 1px solid rgba(241,236,224,.5); transform: rotate(45deg); }
-.hdates li.past { border-top-color: rgba(224,194,122,.7); }
-.hdates li.past::before, .hdates li.cur::before { background: #c9a54a; border-color: #c9a54a; }
-.hdates b { font-family: var(--font-display); font-weight: 400; font-size: 1.5rem; line-height: 1.1; color: var(--ink); font-variant-numeric: lining-nums; }
+.hdates { list-style: none; margin: 0 auto 34px; padding: 0; max-width: calc(var(--wrap) - 40px); width: calc(100% - 40px); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.hdates li { padding: 14px 18px; display: grid; gap: 2px; border: 1px solid rgba(255,255,255,.12); border-radius: 10px; background: rgba(10,12,18,.62); backdrop-filter: blur(6px); }
+.hdates li.past { opacity: .62; }
+.hdates li.cur { border-color: #e0c27a; box-shadow: inset 0 0 0 1px #e0c27a; }
+.hdates b { font-family: var(--font-display); font-weight: 400; font-size: 1.6rem; line-height: 1.1; color: var(--ink); font-variant-numeric: lining-nums; }
 .hdates li.cur b { color: var(--ink-gold); }
 .hdates span { color: var(--ink-2); font-size: .9rem; }
 
@@ -172,17 +171,14 @@ main { padding-bottom: 40px; }
 section.block { padding-top: 96px; display: grid; gap: 28px; }
 .sec-head { display: grid; gap: 12px; }
 .sec-head .row { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: flex-end; justify-content: space-between; }
-.sec-head h2::after { content: ""; display: block; width: 56px; height: 1px; margin-top: 16px; background: var(--gold); }
-.sec-head .src { font-size: .85rem; color: var(--muted); padding-bottom: 18px; }
+.sec-head .src { font-size: .85rem; color: var(--muted); padding-bottom: 6px; }
 .sec-head p { color: var(--muted); max-width: 68ch; }
-.sec-head .kick { color: var(--gold-2); }
 section.block { scroll-margin-top: -72px; }
-.kick { font-size: .92rem; color: var(--gold-2); font-weight: 500; }
 
 /* Faction banners */
-.factions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
-.fac { position: relative; overflow: hidden; isolation: isolate; min-height: 340px; padding: 34px 34px 30px; display: grid; align-content: end; gap: 12px; color: var(--ink); border: 1px solid var(--fl); border-radius: 2px; background: var(--fb); }
-.fac::after { content: ""; position: absolute; inset: 7px; border: 1px solid color-mix(in srgb, var(--fl) 45%, transparent); pointer-events: none; }
+.factions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 14px; }
+.fac { position: relative; overflow: hidden; isolation: isolate; min-height: 340px; padding: 30px 30px 26px; display: grid; align-content: end; gap: 12px; color: var(--ink); border: 1px solid rgba(255,255,255,.1); border-radius: 7px; background: var(--fb); transition: border-color .2s; }
+.fac:hover { border-color: #e0c27a; }
 .fac picture, .fac picture img { position: absolute; top: 0; right: 0; height: 100%; width: 62%; }
 .fac picture { z-index: -2; }
 .fac picture img { object-fit: cover; object-position: 50% 16%; transition: transform .8s var(--ease); }
@@ -190,17 +186,17 @@ section.block { scroll-margin-top: -72px; }
 .fac::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, var(--fb) 40%, color-mix(in srgb, var(--fb) 55%, transparent) 60%, transparent 85%), linear-gradient(0deg, color-mix(in srgb, var(--fb) 80%, transparent), transparent 50%); }
 .fac.alliance { --fb: #0c1830; --fl: #b39352; --fa: #e3c77e; }
 .fac.horde { --fb: #240d0a; --fl: #a8683a; --fa: #e0a36a; }
-.fac .kick { color: var(--fa); }
+
 .fac h3 { font-size: clamp(2.2rem, 3.6vw, 3rem); }
 .fac p { color: var(--ink-2); max-width: 34ch; }
 .fac p b { color: var(--ink); font-weight: 600; }
-.fac .go-f { justify-self: start; margin-top: 6px; min-height: 44px; padding: 0 16px; display: inline-flex; align-items: center; gap: 8px; border: 1px solid color-mix(in srgb, var(--fl) 80%, transparent); border-radius: 3px; background: rgba(5,6,8,.35); color: var(--ink); font-weight: 600; font-size: .95rem; transition: border-color .2s, background-color .2s; }
+.fac .go-f { justify-self: start; margin-top: 6px; min-height: 44px; padding: 0 16px; display: inline-flex; align-items: center; gap: 8px; border: 1px solid color-mix(in srgb, var(--fl) 80%, transparent); border-radius: 7px; background: rgba(5,6,8,.45); color: var(--ink); font-weight: 600; font-size: .95rem; transition: border-color .2s, background-color .2s; }
 .fac .go-f:hover { border-color: var(--fa); background: rgba(5,6,8,.6); }
 
 /* Class roster: tall portraits, the active one expands */
-.roster { display: flex; gap: 6px; height: clamp(440px, 40vw, 560px); }
-.hc { display: block; text-decoration: none; position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; isolation: isolate; padding: 0; border: 1px solid #262930; border-radius: 2px; background: #0b0c0e; color: var(--ink); text-align: left; transition: flex-grow .55s var(--ease), border-color .3s; }
-.hc.on { flex-grow: 3.6; border-color: rgba(201,165,74,.7); }
+.roster { display: flex; gap: 8px; padding: 14px; height: clamp(460px, 41vw, 580px); }
+.hc { display: block; text-decoration: none; position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; isolation: isolate; padding: 0; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; background: #0b0c0e; color: var(--ink); text-align: left; transition: flex-grow .55s var(--ease), border-color .3s; }
+.hc.on { flex-grow: 3.6; border-color: #e0c27a; box-shadow: inset 0 0 0 1px #e0c27a; }
 .hc picture, .hc img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .hc picture { z-index: -2; }
 .hc img { object-fit: cover; object-position: 50% 22%; filter: saturate(.75) brightness(.62); transition: filter .45s, transform .9s var(--ease); }
@@ -210,7 +206,7 @@ section.block { scroll-margin-top: -72px; }
 .hc.on .vn { opacity: 0; }
 .hc .info { position: absolute; left: 0; bottom: 0; width: 100%; min-width: 320px; padding: 26px 28px 28px; display: grid; gap: 10px; opacity: 0; transform: translateY(12px); transition: opacity .3s, transform .4s var(--ease); }
 .hc.on .info { opacity: 1; transform: none; transition-delay: .15s; }
-.hc .info::before { content: ""; width: 34px; height: 2px; background: var(--cc, #c9a54a); }
+
 .hc .info b { font-family: var(--font-display); font-weight: 400; font-size: 2.3rem; line-height: 1; }
 .hc .roles { display: flex; flex-wrap: wrap; gap: 4px 14px; color: #dcc78f; font-size: .9rem; font-weight: 500; }
 .hc .d { color: var(--ink-2); font-size: .97rem; max-width: 36ch; }
@@ -218,13 +214,17 @@ section.block { scroll-margin-top: -72px; }
 .hc:hover .more { text-decoration: underline; text-underline-offset: 4px; }
 .swipe { display: none; color: var(--muted); font-size: .88rem; }
 
-/* Tools overview */
-.tcards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-.tcard { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 2px 14px; align-items: start; padding: 20px; border: 1px solid var(--line); border-radius: 2px; background: var(--surface); color: var(--fg); text-decoration: none; transition: border-color .2s, background-color .2s; }
-.tcard:hover { border-color: var(--gold); }
-.tcard .ico { grid-row: 1 / 3; width: 40px; height: 40px; padding: 9px; border: 1px solid var(--line-2); color: var(--gold-2); }
-.tcard b { font-family: var(--font-display); font-weight: var(--display-w); font-size: 1.35rem; line-height: 1.2; }
-.tcard span { color: var(--muted); font-size: .9rem; }
+/* Art tiles with the title on the picture: tools and guides */
+.ttiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding: 14px; }
+.ttile, .gt { position: relative; isolation: isolate; overflow: hidden; min-height: 210px; padding: 0 18px 16px; display: grid; align-content: end; gap: 3px; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; background: #0b0d12; color: #f3efe6; text-decoration: none; transition: border-color .2s; }
+.ttile picture, .ttile img, .gt picture, .gt img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.ttile picture, .gt picture { z-index: -2; }
+.ttile img, .gt img { object-fit: cover; object-position: 50% 24%; filter: saturate(.85) brightness(.78); transition: filter .3s, transform .6s var(--ease); }
+.ttile::after, .gt::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(6,8,12,0) 22%, rgba(6,8,12,.92) 100%); }
+.ttile:hover, .gt:hover { border-color: #e0c27a; }
+.ttile:hover img, .gt:hover img { filter: none; transform: scale(1.04); }
+.ttile b, .gt b { font-weight: 700; font-size: 1.2rem; line-height: 1.2; text-shadow: 0 1px 8px rgba(0,0,0,.7); }
+.ttile span, .gt span { font-size: .9rem; line-height: 1.4; color: rgba(243,239,230,.82); }
 
 /* Guides band over the campfire art */
 .gband { position: relative; isolation: isolate; margin-top: 110px; padding: 96px 0 88px; color: var(--ink); background: #08090b; overflow: hidden; }
@@ -249,8 +249,8 @@ section.block { scroll-margin-top: -72px; }
 .stband-art img { object-fit: cover; object-position: 50% 40%; }
 .stband::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 620px; z-index: -1; background: linear-gradient(180deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 70%, transparent) 22%, color-mix(in srgb, var(--bg) 55%, transparent) 50%, var(--bg) 100%); }
 .stband .wrap { display: grid; gap: 20px; }
-.stband .sec-head h2::after { display: none; }
 .stband .sec-head p { color: var(--fg); opacity: .85; }
+.stband .sec-head .src { color: var(--fg); opacity: .7; }
 .frame { position: relative; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); box-shadow: 0 18px 48px rgba(0,0,0,.35); backdrop-filter: blur(6px); }
 .stiles { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; padding: 14px; }
 .stile { position: relative; isolation: isolate; overflow: hidden; height: 168px; padding: 0 14px 14px; display: grid; align-content: end; gap: 2px; text-align: left; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; background: #0b0d12; color: #f3efe6; transition: border-color .2s; }
@@ -342,43 +342,43 @@ ul.buffs .m { color: var(--muted); }
 .dg tbody th .z { display: none; }
 .dg-empty td { color: var(--muted); }
 
-/* Content blocks reused by the reference sections */
-.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 20px 32px; }
+/* Content blocks reused by the reference sections: framed panels, plaques, tips */
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 16px; }
 .grid2 > * { min-width: 0; }
-.panel { border-top: 1px solid var(--line); padding-top: 16px; }
-.panel h3 { font-size: 1.35rem; }
-ul.dots { margin: 10px 0 0; padding-left: 18px; display: grid; gap: 7px; }
+.panel, .tool, .tbl-box, .summary { border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); box-shadow: 0 14px 40px rgba(0,0,0,.28); }
+:root[data-theme="light"] .panel, :root[data-theme="light"] .tool, :root[data-theme="light"] .tbl-box, :root[data-theme="light"] .summary, :root[data-theme="light"] .frame { box-shadow: 0 10px 30px rgba(40,32,16,.08); }
+.panel { padding: 22px 24px; display: grid; gap: 12px; align-content: start; }
+.panel h3 { font-size: 1.45rem; }
+.panel > .tipbox, .panel > .note { margin-top: 2px; }
+ul.dots { margin: 0; padding-left: 18px; display: grid; gap: 8px; }
 ul.dots li::marker { color: var(--gold); }
-.mk { display: inline-block; font-size: .72rem; font-weight: 600; line-height: 1; padding: 4px 6px 3px; border-radius: 3px; vertical-align: .12em; margin-right: 6px; border: 1px solid; font-family: var(--font-body); }
-.mk.fact { color: var(--sapphire); border-color: color-mix(in srgb, var(--sapphire) 45%, transparent); }
-.mk.tip { color: var(--gold-2); border-color: color-mix(in srgb, var(--gold) 55%, transparent); }
-.note { border-left: 2px solid var(--line-2); padding: 2px 0 2px 14px; color: var(--muted); font-size: .95rem; }
-.note b { color: var(--fg); }
-.note.tipn { border-left-color: var(--gold); }
-.own { border: 1px solid var(--line); border-left: 2px solid var(--gold); padding: 16px 18px; background: var(--surface); }
-.own h3 { font-size: 1.35rem; margin-bottom: 4px; }
-.timeline { list-style: none; margin: 0; padding: 0; display: grid; }
-.timeline li { display: grid; grid-template-columns: 150px 1fr; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); }
-.timeline li:first-child { border-top: 1px solid var(--line); }
-.timeline .d { font-family: var(--font-display); font-size: 1.35rem; color: var(--gold-2); line-height: 1.25; font-variant-numeric: lining-nums; }
-.timeline .t b { display: block; }
+.note { padding: 14px 16px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--pline); font-size: .95rem; }
+.note b { font-weight: 600; }
+.tipbox { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 12px; align-items: start; padding: 14px 16px; border-radius: 8px; background: color-mix(in srgb, var(--gold) 9%, var(--panel-2)); border: 1px solid color-mix(in srgb, var(--gold) 30%, transparent); font-size: .95rem; }
+.tipbox .fi, .tiph .fi { width: 26px; height: 26px; margin-top: 1px; color: var(--gold-2); }
+.tipbox b { font-weight: 600; }
+.panel.tipp { background: color-mix(in srgb, var(--gold) 7%, var(--panel)); border-color: color-mix(in srgb, var(--gold) 28%, transparent); }
+.tiph { display: flex; align-items: center; gap: 10px; }
+.timeline { list-style: none; margin: 0; padding: 14px; display: grid; gap: 8px; }
+.timeline li { display: grid; grid-template-columns: 170px 1fr; gap: 18px; align-items: start; padding: 16px 18px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--pline); }
+.timeline .d { font-family: var(--font-display); font-size: 1.45rem; color: var(--gold-2); line-height: 1.2; font-variant-numeric: lining-nums; }
+.timeline .t b { display: block; font-weight: 600; margin-bottom: 2px; }
 .timeline .t span { color: var(--muted); font-size: .95rem; }
 
 /* Controls */
 .filters { display: flex; flex-wrap: wrap; gap: 12px 28px; align-items: center; }
 .fgroup { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-width: 0; }
 .flabel { font-size: .9rem; color: var(--muted); font-weight: 500; }
-.seg { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--line-2); border-radius: 3px; overflow: hidden; background: var(--surface); }
-.seg button { border: 0; background: transparent; padding: 0 15px; min-height: 44px; font-weight: 500; font-size: .95rem; border-right: 1px solid var(--line-2); }
-.seg button:last-child { border-right: 0; }
-.seg button:hover { background: var(--surface-2); }
-.seg button[aria-pressed="true"] { background: var(--gold); color: var(--gold-ink); }
+.seg { display: inline-flex; flex-wrap: wrap; gap: 4px; padding: 4px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); }
+.seg button { border: 0; border-radius: 7px; background: transparent; padding: 0 15px; min-height: 44px; font-weight: 600; font-size: .95rem; }
+.seg button:hover { background: color-mix(in srgb, var(--fg) 7%, transparent); }
+.seg button[aria-pressed="true"] { background: #c9a54a; color: #15110a; }
 .copyrow { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-.copyrow input { flex: 1 1 220px; min-width: 0; font: inherit; min-height: 44px; padding: 0 12px; border: 1px solid var(--line-2); border-radius: 3px; background: var(--bg); color: var(--fg); }
+.copyrow input { flex: 1 1 220px; min-width: 0; font: inherit; min-height: 44px; padding: 0 12px; border: 1px solid var(--pline); border-radius: 7px; background: var(--panel-2); color: var(--fg); }
 .copyrow .small { flex-basis: 100%; min-height: 1.4em; }
 
 /* Picker */
-.tool { border: 1px solid var(--line); background: var(--surface); border-radius: 2px; padding: 24px; display: grid; gap: 18px; }
+.tool { padding: 24px; display: grid; gap: 18px; }
 .matrix-box { overflow-x: auto; border: 1px solid var(--line); border-radius: 2px; }
 table { border-collapse: separate; border-spacing: 0; width: 100%; }
 #matrix { min-width: 760px; }
@@ -412,14 +412,14 @@ tr.rowsel th { box-shadow: inset 3px 0 0 var(--gold); }
 .detail { border-top: 1px solid var(--gold); padding-top: 18px; display: grid; gap: 18px; }
 .d-top { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: baseline; }
 .d-top h3 { font-size: 1.9rem; }
-.tag { font-size: .74rem; font-weight: 600; border-radius: 3px; padding: 2px 8px; border: 1px solid currentColor; }
+.tag { display: inline-block; font-size: .76rem; font-weight: 600; line-height: 1.5; border-radius: 999px; padding: 1px 9px; background: color-mix(in srgb, currentColor 14%, transparent); white-space: nowrap; }
 .tag.alliance { color: var(--alliance); } .tag.horde { color: var(--horde); } .tag.new { color: var(--new); } .tag.paid { color: var(--gold-2); }
 .d-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 24px 32px; }
 .d-cols > div { min-width: 0; }
 .d-cols h4 { margin: 0 0 10px; font-size: .9rem; font-weight: 600; color: var(--muted); }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.chip { font-size: .82rem; font-weight: 500; padding: 3px 9px; border-radius: 3px; border: 1px solid var(--line-2); white-space: nowrap; }
-.chip.on { background: var(--gold); color: var(--gold-ink); border-color: var(--gold); }
+.chip { display: inline-flex; align-items: center; min-height: 26px; font-size: .84rem; font-weight: 600; padding: 0 10px; border-radius: 999px; border: 1px solid var(--pline); background: var(--panel-2); white-space: nowrap; }
+.chip.on { background: #c9a54a; color: #15110a; border-color: #c9a54a; }
 .chip.q { border-style: dashed; }
 .chip.new { color: var(--new); border-color: color-mix(in srgb, var(--new) 50%, transparent); }
 ul.plain { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
@@ -461,8 +461,8 @@ dl.facts dd { margin: 0; }
 .slot .del { min-height: 44px; border: 1px solid var(--line); border-radius: 3px; background: transparent; color: var(--muted); display: grid; place-items: center; }
 .slot .del:hover { color: var(--horde); border-color: var(--horde); }
 .row-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-.summary { position: sticky; top: calc(var(--top) + 16px); border: 1px solid var(--line); background: var(--surface); border-radius: 2px; display: grid; }
-.summary > div { padding: 14px 16px; border-bottom: 1px solid var(--line); }
+.summary { position: sticky; top: calc(var(--top) + 16px); display: grid; overflow: hidden; }
+.summary > div { padding: 16px 18px; border-bottom: 1px solid var(--pline); }
 .summary > div:last-child { border-bottom: 0; }
 .summary h4 { margin: 0 0 8px; font-size: .9rem; font-weight: 600; color: var(--muted); }
 .roles-sum { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
@@ -519,15 +519,17 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .ref details p { margin-top: 6px; font-size: .95rem; max-width: 80ch; }
 .ref-row.sel .ref-name h3 { color: var(--gold-2); }
 
-/* Data tables */
-.tbl-box { overflow-x: auto; border-top: 1px solid var(--line); }
-.tbl-box table { min-width: 560px; }
-.tbl-box th, .tbl-box td { text-align: left; padding: 12px 14px 12px 0; vertical-align: top; border-bottom: 1px solid var(--line); }
-.tbl-box thead th { color: var(--muted); font-size: .85rem; font-weight: 600; border-bottom-color: var(--line-2); }
+/* Data tables: each row is a plaque inside a framed panel */
+.tbl-box { overflow-x: auto; padding: 8px 14px 10px; }
+.tbl-box table { min-width: 560px; border-spacing: 0 6px; }
+.tbl-box th, .tbl-box td { text-align: left; padding: 12px 16px; vertical-align: top; background: var(--panel-2); border-top: 1px solid var(--pline); border-bottom: 1px solid var(--pline); }
+.tbl-box tr > :first-child { border-left: 1px solid var(--pline); border-radius: 8px 0 0 8px; }
+.tbl-box tr > :last-child { border-right: 1px solid var(--pline); border-radius: 0 8px 8px 0; }
+.tbl-box thead th { background: none; border: 0; color: var(--muted); font-size: .85rem; font-weight: 600; padding-top: 6px; padding-bottom: 0; }
 .tbl-box tbody th { font-weight: 600; font-size: .96rem; }
-.tbl-box td.num { white-space: nowrap; color: var(--gold-2); font-weight: 600; font-variant-numeric: tabular-nums; }
+.tbl-box td.num { white-space: nowrap; font-weight: 600; font-variant-numeric: tabular-nums; }
 
-footer { margin-top: 110px; border-top: 1px solid var(--line); padding-top: 34px; display: grid; gap: 14px; color: var(--muted); font-size: .93rem; }
+footer { margin-top: 96px; padding: 28px 28px 24px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); display: grid; gap: 14px; color: var(--muted); font-size: .93rem; }
 footer h2 { color: var(--fg); font-size: 1.8rem; }
 footer ul { margin: 0; padding-left: 18px; display: grid; gap: 5px; }
 footer ul li::marker { color: var(--gold); }
@@ -554,9 +556,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .gtiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 1023px) {
-  .roster { height: auto; overflow-x: auto; scroll-snap-type: x mandatory; gap: 10px; margin: 0 -20px; padding: 0 20px 4px; scroll-padding: 0 20px; scrollbar-width: none; overscroll-behavior-x: contain; }
+  .roster { height: auto; overflow-x: auto; scroll-snap-type: x mandatory; gap: 10px; padding: 12px; scroll-padding: 0 12px; scrollbar-width: none; overscroll-behavior-x: contain; }
   .roster::-webkit-scrollbar { display: none; }
-  .hc, .hc.on { flex: 0 0 min(78%, 330px); aspect-ratio: 3 / 4; scroll-snap-align: start; border-color: #262930; }
+  .hc, .hc.on { flex: 0 0 min(78%, 330px); aspect-ratio: 3 / 4; scroll-snap-align: start; border-color: rgba(255,255,255,.1); box-shadow: none; }
   .hc img, .hc.on img { filter: none; transform: none; }
   .hc .vn { display: none; }
   .hc .info { min-width: 0; padding: 20px; opacity: 1; transform: none; }
@@ -569,7 +571,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .summary, .me { position: static; }
   .stiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .factions { grid-template-columns: 1fr; }
-  .tcards { grid-template-columns: 1fr; }
+  .ttiles { grid-template-columns: 1fr; }
+  .ttile { min-height: 160px; }
 }
 @media (max-width: 860px) {
   .matrix-box, .legend { display: none; }
@@ -591,16 +594,16 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .cd .u { padding: 0 14px; }
   .cta { width: 100%; }
   .cta .btn { flex: 1 1 140px; padding: 0 12px; }
-  .hdates { padding-bottom: 22px; }
-  .hdates li { padding: 14px 8px 0 0; }
+  .hdates { margin-bottom: 22px; width: calc(100% - 32px); gap: 6px; }
+  .hdates li { padding: 10px 10px; }
   .hdates b { font-size: 1.25rem; }
   .hdates span { font-size: .8rem; line-height: 1.35; }
   section.block { padding-top: 72px; gap: 22px; scroll-margin-top: -48px; }
-  .fac { min-height: 400px; padding: 24px 22px 22px; }
+  .factions { padding: 10px; gap: 10px; }
+  .fac { min-height: 400px; padding: 22px 20px 20px; }
   .fac picture, .fac picture img { width: 100%; }
   .fac::before { background: linear-gradient(0deg, var(--fb) 30%, color-mix(in srgb, var(--fb) 60%, transparent) 58%, transparent 85%); }
-  .roster { margin: 0 -16px; padding: 0 16px 4px; scroll-padding: 0 16px; }
-  .hc, .hc.on { flex-basis: 78%; }
+  .hc, .hc.on { flex-basis: 80%; }
   .tool { padding: 16px; }
   .gband { margin-top: 80px; padding: 72px 0 64px; }
   .gtiles { grid-template-columns: 1fr; }
@@ -685,7 +688,6 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     <img src="../assets/art/hero_dawn-1920.webp" width="1920" height="1072" alt="" fetchpriority="high" decoding="async">
   </picture>
   <div class="wrap hero-in">
-    <p class="eyebrow">Gabella Team guide · data as of 23.10.2026</p>
     <h1>World of Warcraft <span>Forever</span></h1>
     <p class="lead">Classes, races, group building and everything you need for the November 4 launch. Made for our own crew, with sources and dates.</p>
     <div class="cd" id="cd" aria-live="polite"></div>
@@ -693,6 +695,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
       <a class="btn lg" href="#classes">Choose a class</a>
       <a class="btn lg ghost" href="#builder">Build a group</a>
     </div>
+    <p class="hmeta">Gabella Team guide · data as of 23.10.2026</p>
   </div>
   <ol class="hdates" aria-label="Key dates">
     <li data-d="2026-10-27"><b>27.10</b><span>Name reservation</span></li>
@@ -731,11 +734,10 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </section>
 
 <section class="block wrap" id="factions" data-nav="#factions" data-tab="#classes">
-  <div class="sec-head"><p class="kick">Pick a side</p><h2>Alliance or Horde</h2><p>Agree on a faction in advance: in PvP mode only one is available at creation. All nine classes exist on both sides.</p></div>
-  <div class="factions">
+  <div class="sec-head"><h2>Alliance or Horde</h2><p>Agree on a faction in advance: in PvP mode only one is available at creation. All nine classes exist on both sides.</p></div>
+  <div class="frame factions">
     <article class="fac alliance">
       <picture><source type="image/avif" srcset="../assets/art/paladin-600.avif 600w, ../assets/art/paladin-896.avif 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><source type="image/webp" srcset="../assets/art/paladin-600.webp 600w, ../assets/art/paladin-896.webp 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><img src="../assets/art/paladin-600.webp" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
-      <p class="kick">Faction</p>
       <h3>Alliance</h3>
       <p>Human, Dwarf, Night Elf, Gnome and High Order Skyborne.</p>
       <p><b>New:</b> Dwarf Shaman, Gnome Priest and Human Hunter.</p>
@@ -743,8 +745,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     </article>
     <article class="fac horde">
       <picture><source type="image/avif" srcset="../assets/art/shaman-600.avif 600w, ../assets/art/shaman-896.avif 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><source type="image/webp" srcset="../assets/art/shaman-600.webp 600w, ../assets/art/shaman-896.webp 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><img src="../assets/art/shaman-600.webp" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
-      <p class="kick">Faction</p>
       <h3>Horde</h3>
+
       <p>Orc, Undead, Tauren, Troll and Windshaper Skyborne.</p>
       <p><b>New:</b> Undead Paladin, Orc Mage and Troll Warlock.</p>
       <button type="button" class="go-f" data-fac="horde">Pick a race and class<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
@@ -753,18 +755,19 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </section>
 
 <section class="block wrap" id="classes" data-nav="#classes" data-tab="#classes">
-  <div class="sec-head"><div class="row"><div style="display:grid;gap:12px"><p class="kick">Nine classes</p><h2>Who to play</h2></div><span class="src">Warcraft Tavern, LFCarry</span></div><p>Hover a portrait to expand the class. Click to open the class page: specializations, races and what is new in Forever.</p></div>
-  <div class="roster" id="roster"></div>
+  <div class="sec-head"><div class="row"><h2>Who to play</h2><span class="src">Warcraft Tavern, LFCarry</span></div><p>Hover a portrait to expand the class. Click to open the class page: specializations, races and what is new in Forever.</p></div>
+  <div class="frame roster" id="roster"></div>
   <p class="swipe">Swipe sideways through the portraits.</p>
 </section>
 
 <section class="block wrap" id="tools" data-nav="#picker" data-tab="#builder">
-  <div class="sec-head"><p class="kick">For our crew</p><h2>Tools</h2><p>Race and class picker, a group builder for any number of players and a launch checklist. Share the group link in chat.</p></div>
-  <nav class="tcards" aria-label="Tools">
-    <a class="tcard" href="#picker"><svg class="ico" aria-hidden="true"><use href="#i-grid"/></svg><b>Race and class picker</b><span id="qPick">Every combination and what each can do</span></a>
-    <a class="tcard" href="#builder"><svg class="ico" aria-hidden="true"><use href="#i-users"/></svg><b>Group builder</b><span id="qTeam">From one to forty players</span></a>
-    <a class="tcard" href="#checklist"><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><b>Checklist before launch</b><span id="qCheck">Names, professions, days, subscription</span></a>
+  <div class="sec-head"><h2>Tools</h2><p>Race and class picker, a group builder for any number of players and a launch checklist. Share the group link in chat.</p></div>
+  <nav class="frame ttiles" aria-label="Tools">
+    <a class="ttile" href="#picker"><picture><source type="image/avif" srcset="../assets/art/druid-360.avif 360w, ../assets/art/druid-600.avif 600w" sizes="(max-width: 980px) 100vw, 400px"><source type="image/webp" srcset="../assets/art/druid-360.webp 360w, ../assets/art/druid-600.webp 600w" sizes="(max-width: 980px) 100vw, 400px"><img src="../assets/art/druid-600.webp" alt="" loading="lazy" decoding="async"></picture><b>Race and class picker</b><span id="qPick">Every combination and what each can do</span></a>
+    <a class="ttile" href="#builder"><picture><source type="image/avif" srcset="../assets/art/hero_campfire-960.avif"><img src="../assets/art/hero_campfire-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Group builder</b><span id="qTeam">From one to forty players</span></a>
+    <a class="ttile" href="#checklist"><picture><source type="image/avif" srcset="../assets/art/hero_dawn-960.avif"><img src="../assets/art/hero_dawn-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Checklist before launch</b><span id="qCheck">Names, professions, days, subscription</span></a>
   </nav>
+
 </section>
 <section class="block wrap" id="picker" data-tab="#builder">
   <div class="sec-head"><div class="row"><h2>Picker: race and class</h2><span class="src">Warcraft Tavern, Method</span></div>
@@ -790,7 +793,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     <div class="pickm" id="pickm"></div>
     <div class="detail" id="detail" aria-live="polite" aria-label="Selected combination"></div>
   </div>
-  <p class="note"><span class="mk fact">fact</span><b>New combinations:</b> dwarf shaman and gnome priest (Alliance), human hunter, and for the Horde orc mage, troll warlock and undead paladin. The Horde gained the paladin, the Alliance the shaman. The Windshaper Skyborne (Horde) can be a shaman, the High Order Skyborne (Alliance) a mage.</p>
+  <p class="note"><b>New combinations:</b> dwarf shaman and gnome priest (Alliance), human hunter, and for the Horde orc mage, troll warlock and undead paladin. The Horde gained the paladin, the Alliance the shaman. The Windshaper Skyborne (Horde) can be a shaman, the High Order Skyborne (Alliance) a mage.</p>
 </section>
 <section class="block wrap" id="builder" data-tab="#builder">
   <div class="sec-head"><h2>Group builder</h2>
@@ -827,7 +830,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <section class="gband" id="guides" data-nav="#guides" data-tab="#guides">
   <picture><source type="image/avif" srcset="../assets/art/hero_campfire-960.avif 960w, ../assets/art/hero_campfire-1600.avif 1600w" sizes="100vw"><source type="image/webp" srcset="../assets/art/hero_campfire-960.webp 960w, ../assets/art/hero_campfire-1600.webp 1600w" sizes="100vw"><img src="../assets/art/hero_campfire-1600.webp" width="1600" height="893" alt="" loading="lazy" decoding="async"></picture>
   <div class="wrap">
-    <div class="sec-head"><p class="kick">Reference</p><h2>Guides and reference</h2><p>Everything we gathered about WoW Forever: dates, game systems, dungeons and tips for a group of friends.</p></div>
+    <div class="sec-head"><h2>Guides and reference</h2><p>Everything we gathered about WoW Forever: dates, game systems, dungeons and tips for a group of friends.</p></div>
     <nav class="gtiles" aria-label="Guides">
       <a class="gt" href="#dates"><b>Dates and packs</b><span>Name reservation, launch, raids and pack prices</span></a>
       <a class="gt" href="#classref"><b>Classes in detail</b><span>Specs, leveling pace and what is new</span></a>
@@ -865,7 +868,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
         <li>Normal, PvP and RP. Hardcore will launch later with its own rules.</li>
         <li>You can only group within one mode. In PvP only one faction is available at character creation.</li>
       </ul>
-      <p class="note tipn" style="margin-top:12px"><span class="mk tip">tip</span><b>Agree in advance:</b> one faction, one mode, the same days for launch.</p>
+      <div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Tip</span><b>Agree in advance:</b> one faction, one mode, the same days for launch.</p></div>
     </div>
     <div class="panel">
       <h3>Names and surnames</h3>
@@ -875,7 +878,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
         <li>You can hide the surname: Esc → Options → Nameplates → My Secondary Name.</li>
         <li>In PvP mode an account can have only one faction.</li>
       </ul>
-      <p class="note tipn" style="margin-top:12px"><span class="mk tip">tip</span><b>Prepare before 27.10:</b> a name, a surname and two or three backups, short names will go first.</p>
+      <div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Tip</span><b>Prepare before 27.10:</b> a name, a surname and two or three backups, short names will go first.</p></div>
     </div>
   </div>
 </section>
@@ -886,7 +889,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <section class="block wrap" id="races" data-nav="#guides">
   <div class="sec-head"><div class="row"><h2>Races</h2><span class="src">Method, Warcraft Tavern</span></div><p>Each race has four abilities: two active and two passive. Some old abilities were replaced with new ones, resistances were removed.</p></div>
   <div class="ref" id="raceRef"></div>
-  <p class="note"><span class="mk fact">fact</span><b>Skyborne</b> is playable for both factions; the faction is chosen at creation. Both branches speak a common language, and the Zephras Isle starting zone is shared, with no enemies meeting there because of layers.</p>
+  <p class="note"><b>Skyborne</b> is playable for both factions; the faction is chosen at creation. Both branches speak a common language, and the Zephras Isle starting zone is shared, with no enemies meeting there because of layers.</p>
 </section>
 <section class="block wrap" id="legacy" data-nav="#guides">
   <div class="sec-head"><div class="row"><h2>Legacy system</h2><span class="src">Blizzard, Warcraft Tavern</span></div><p>Progress for the whole Battle.net account. Points are earned from challenges and spent on perks separately on each character.</p></div>
@@ -908,7 +911,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
         <li>40: tabard Spectral Bear</li>
         <li>55: mount Reins of the Spectral Bear</li>
       </ul>
-      <p class="small" style="margin-top:10px">These are cosmetics and give no advantage in the game.</p>
+      <p class="small">These are cosmetics and give no advantage in the game.</p>
     </div>
   </div>
   <div class="tbl-box"><table>
@@ -918,7 +921,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
       <tr><th scope="row">Adventures</th><td>Well Rested (5): rest accumulates faster and its cap is higher. Thrill of Adventure (5): health and mana for kills outside dungeons. Talented (5): talents from level 9 instead of 10. Field Guide (3): shorter cooldown of camp objects. Frequent Flier (1): flights are 50% cheaper.</td></tr>
       <tr><th scope="row">Resources</th><td>Gourmand (3): food lasts 33% longer. Reinforce (5): 8% less durability loss. Diplomat (5): +2% reputation. Permanence (2): camp buffs last longer. Reagent Economy (1): class abilities need no purchased reagents.</td></tr>
     </tbody></table></div>
-  <p class="note tipn"><span class="mk tip">tip</span>Camp and experience perks come first (Well Rested, Field Guide, Permanence), plus Reagent Economy for classes that use reagents. One source mentions a 25-point cap per tree, Blizzard names no per-tree cap.</p>
+  <div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Tip</span>Camp and experience perks come first (Well Rested, Field Guide, Permanence), plus Reagent Economy for classes that use reagents. One source mentions a 25-point cap per tree, Blizzard names no per-tree cap.</p></div>
 </section>
 
 <section class="block wrap" id="camp" data-nav="#guides">
@@ -972,7 +975,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <div class="tbl-box dg"><table>
     <thead><tr><th scope="col">Dungeon</th><th scope="col">Levels</th><th scope="col">Entrance</th></tr></thead>
     <tbody id="dgBody"></tbody></table></div>
-  <p class="note"><span class="mk fact">fact</span>Most dungeon experience comes from its quest chains, repeat runs give noticeably less. Every item that drops unlocks its appearance for everyone in the group who can wear it. Blizzard promises two more dungeons in spring and two in summer.</p>
+  <p class="note">Most dungeon experience comes from its quest chains, repeat runs give noticeably less. Every item that drops unlocks its appearance for everyone in the group who can wear it. Blizzard promises two more dungeons in spring and two in summer.</p>
   <div class="grid2">
     <div class="panel">
       <h3>Raids (from 09.12.2026)</h3>
@@ -997,7 +1000,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <div class="sec-head"><h2>Group for a company of 6–8 players</h2><p>Below are facts from the sources and our recommendations. Recommendations are marked separately; they are not official data.</p></div>
   <div class="grid2">
     <div class="panel">
-      <h3><span class="mk fact">fact</span>What is known</h3>
+      <h3>What is known</h3>
       <ul class="dots">
         <li>Dungeons are designed for 5 players: a tank, a healer and three damage dealers.</li>
         <li>Raids are for 10, 20 and 40 players. With six to eight friends, the 10-player Barrow Deeps can be filled with one or two acquaintances from a guild.</li>
@@ -1006,8 +1009,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
         <li>Groups and raids receive class buffs: Kings from the paladin, shaman totems, the warrior’s Battle Shout, hunter and druid auras. Portals, food and water come from the mage.</li>
       </ul>
     </div>
-    <div class="own">
-      <h3><span class="mk tip">tip</span>Compiler’s recommendation</h3>
+    <div class="panel tipp">
+      <h3 class="tiph"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg>Compiler’s recommendation</h3>
       <ul class="dots">
         <li><b>For 6:</b> a Warrior or Paladin (Protection) as tank, a Priest or Paladin (Holy) as healer, and four damage dealers: Mage, Hunter, Rogue, Warlock.</li>
         <li><b>For 8:</b> two hybrid tanks (Paladin, Druid), two healers (Priest plus Shaman or Druid), and Mage, Hunter, Warlock and Shaman for damage. Then you can form two groups of 4–5 players or one of 5 and swap roles.</li>
@@ -1044,7 +1047,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <footer id="sources" data-nav="#guides">
   <h2>Sources and currency</h2>
   <p>Data collected on <b style="color:var(--fg)">23.10.2026</b> from the closed beta and the patch of 15.10.2026 and cross-checked against several sources. Before release Blizzard may still change the beta, especially racial abilities, class tuning and Legacy perks. Where sources disagreed, this is noted in the text. Check exact numbers in the game.</p>
-  <p><span class="mk fact">fact</span>taken from the sources below. <span class="mk tip">tip</span>the author’s opinion, not official data.</p>
+  <p><span class="tl" style="display:inline">Tip:</span> the author’s opinion, not official data.</p>
   <ul>
     <li><a href="https://www.warcrafttavern.com/forever/" target="_blank" rel="noopener">Warcraft Tavern</a>: <a href="https://www.warcrafttavern.com/forever/guides/race-class-combos/" target="_blank" rel="noopener">combinations</a>, <a href="https://www.warcrafttavern.com/forever/guides/races/" target="_blank" rel="noopener">races</a>, <a href="https://www.warcrafttavern.com/forever/guides/legacy/" target="_blank" rel="noopener">Legacy</a>, <a href="https://www.warcrafttavern.com/forever/guides/camping/" target="_blank" rel="noopener">camp</a>, <a href="https://www.warcrafttavern.com/forever/guides/dungeons/" target="_blank" rel="noopener">dungeons</a>, <a href="https://www.warcrafttavern.com/news/world-of-warcraft-forever-editions-skyborne-race-unlock-beta-access/" target="_blank" rel="noopener">packs and prices</a></li>
     <li><a href="https://www.method.gg/wow-forever" target="_blank" rel="noopener">Method</a>: <a href="https://www.method.gg/wow-forever/all-class-and-race-combinations-in-world-of-warcraft-forever" target="_blank" rel="noopener">all combinations</a>, <a href="https://www.method.gg/wow-forever/all-new-racial-abilities-in-world-of-warcraft-forever" target="_blank" rel="noopener">racial abilities</a></li>
@@ -1198,6 +1201,7 @@ const EN = {
   'Berserking':'Berserking','Rapid Regeneration':'Rapid Regeneration','Beast Slaying':'Beast Slaying','Regeneration':'Regeneration'
 };
 RC.skyA.en = 'High Order Skyborne'; RC.skyH.en = 'Windshaper Skyborne';
+const tipBox = h => `<div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Tip</span>${h}</p></div>`;
 function bi(ru) { return EN[ru] && EN[ru] !== ru ? `${esc(ru)} <span class="en">(${esc(EN[ru])})</span>` : esc(ru); }
 function raceEn(r) { return r.en ? ` <span class="en">/ ${esc(r.en)}</span>` : ''; }
 const state = { f:'all', r:'all', race:'dwarf', cls:'shaman' };
@@ -1273,7 +1277,7 @@ function renderDetail() {
         <div><dt>What’s new</dt><dd>${esc(c.forever)}</dd></div></dl></div>
       <div><h4>Race: abilities</h4>
         <ul class="plain">${rac}</ul>
-        <p class="note tipn" style="margin-top:14px"><span class="mk tip">tip</span>${esc(r.tip)}</p></div>
+        ${tipBox(esc(r.tip))}</div>
     </div>
     <div class="copyrow">
       <input id="pickText" readonly value="${esc(text)}" aria-label="My choice">
@@ -1307,7 +1311,7 @@ function renderRaceRef() {
     <div class="ref-body two">
       <div><h4>Classes</h4><div class="chips">${Object.keys(r.can).map(id => `<span class="chip ${r.can[id] === 'new' ? 'new' : ''}">${esc(CL[id].n)}${r.can[id] === 'new' ? ' · new' : ''}</span>`).join('')}</div></div>
       <div><h4>Abilities</h4><ul class="plain">${r.rac.map(x => `<li><span><span class="rtype">${x[0] === 'a' ? 'Active' : 'Passive'}</span><span class="specname">${bi(x[1])}</span></span><span class="specrole">${esc(x[2])}</span></li>`).join('')}</ul></div>
-      <p class="note tipn wide"><span class="mk tip">tip</span>${esc(r.tip)}</p>
+      <div class="wide">${tipBox(esc(r.tip))}</div>
     </div></div>`).join('');
 }
 

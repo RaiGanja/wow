@@ -107,21 +107,23 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .topbar.solid { background: var(--rail); border-bottom-color: var(--line); color: var(--fg); }
 .topbar .in { max-width: var(--wrap); height: 100%; margin: 0 auto; padding: 0 max(20px, env(safe-area-inset-left, 0px)); display: flex; align-items: center; gap: 18px; }
 .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; min-height: 44px; }
-.mark { width: 34px; height: 34px; flex: none; display: grid; place-items: center; border: 1px solid currentColor; color: var(--ink-gold); font-family: var(--font-display); font-size: 23px; line-height: 1; padding-top: 1px; }
+.mark { width: 34px; height: 34px; flex: none; display: grid; place-items: center; border: 1px solid currentColor; border-radius: 8px; color: var(--ink-gold); font-family: var(--font-display); font-size: 23px; line-height: 1; padding-top: 1px; }
 .topbar.solid .mark { color: var(--gold-2); }
 .brand b { font-family: var(--font-display); font-weight: 400; font-size: 1.3rem; white-space: nowrap; }
 .mainnav { display: flex; gap: 2px; margin-left: 12px; }
 .mainnav a { min-height: 44px; display: grid; place-items: center; padding: 0 12px; color: inherit; opacity: .78; text-decoration: none; font-size: .95rem; font-weight: 500; box-shadow: inset 0 -2px 0 transparent; transition: opacity .2s, box-shadow .2s; }
 .mainnav a:hover { opacity: 1; }
-.mainnav a[aria-current="true"] { opacity: 1; box-shadow: inset 0 -2px 0 var(--gold); }
+.mainnav a[aria-current="true"] { opacity: 1; color: var(--ink-gold); }
+.topbar.solid .mainnav a[aria-current="true"] { color: var(--gold-2); }
 .tools { margin-left: auto; display: flex; gap: 8px; align-items: center; }
-.langs { display: inline-flex; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 3px; overflow: hidden; }
-.langs a { min-width: 42px; min-height: 40px; display: grid; place-items: center; color: inherit; opacity: .75; text-decoration: none; font-weight: 600; font-size: .8rem; letter-spacing: .04em; border-right: 1px solid color-mix(in srgb, currentColor 30%, transparent); }
+.langs { display: inline-flex; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; overflow: hidden; }
+.langs a { min-width: 44px; min-height: 42px;
+ display: grid; place-items: center; color: inherit; opacity: .75; text-decoration: none; font-weight: 600; font-size: .8rem; letter-spacing: .04em; border-right: 1px solid color-mix(in srgb, currentColor 30%, transparent); }
 .langs a:last-child { border-right: 0; }
 .langs a:hover { opacity: 1; }
 .langs a[aria-current="true"] { background: var(--gold); color: var(--gold-ink); opacity: 1; }
 .topbar:not(.solid) .langs a[aria-current="true"] { background: #c9a54a; color: #15110a; }
-.iconbtn { min-width: 44px; min-height: 42px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 3px; background: transparent; color: inherit; }
+.iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: .92rem; }
 
@@ -134,23 +136,21 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
   linear-gradient(90deg, rgba(7,8,10,.92) 0%, rgba(7,8,10,.74) 30%, rgba(7,8,10,.28) 56%, rgba(7,8,10,.06) 78%),
   linear-gradient(180deg, rgba(7,8,10,.5) 0%, rgba(7,8,10,0) 26%, rgba(7,8,10,0) 58%, rgba(7,8,10,.9) 100%); }
 .hero-in { width: 100%; padding-top: calc(var(--top) + clamp(40px, 9vh, 110px)); padding-bottom: 40px; display: grid; gap: 22px; justify-items: start; max-width: var(--wrap); }
-.eyebrow { font-size: .95rem; color: var(--ink-2); display: flex; align-items: center; gap: 12px; }
-.eyebrow::before { content: ""; width: 28px; height: 1px; background: var(--ink-gold); }
+.hmeta { font-size: .9rem; color: var(--ink-2); }
 .hero h1 { font-size: clamp(2.9rem, 6.2vw, 5.4rem); line-height: .98; letter-spacing: .005em; }
 .hero h1 span { display: block; color: var(--ink-gold); }
 .hero .lead { max-width: 46ch; font-size: clamp(1.02rem, 1.4vw, 1.15rem); color: var(--ink-2); }
 .cd { display: flex; align-items: center; flex-wrap: wrap; gap: 14px 22px; margin-top: 6px; }
-.cd .units { display: flex; align-items: stretch; }
-.cd .u { display: grid; gap: 4px; padding: 0 20px; border-left: 1px solid rgba(224,194,122,.35); }
-.cd .u:first-child { padding-left: 0; border-left: 0; }
+.cd .units { display: flex; align-items: stretch; gap: 6px; padding: 6px; border: 1px solid rgba(255,255,255,.12); border-radius: 10px; background: rgba(10,12,18,.62); backdrop-filter: blur(6px); }
+.cd .u { display: grid; gap: 4px; min-width: 76px; padding: 10px 16px 8px; border-radius: 7px; background: rgba(255,255,255,.05); }
 .cd .u b { font-family: var(--font-display); font-weight: 400; font-size: clamp(2.4rem, 4.4vw, 3.3rem); line-height: .9; color: var(--ink-gold); font-variant-numeric: tabular-nums lining-nums; }
 .cd .u span { font-size: .82rem; color: var(--ink-2); }
 .cd .what { display: grid; gap: 1px; font-size: .95rem; color: var(--ink-2); }
 .cd .what b { color: var(--ink); font-weight: 600; }
 .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap; background: var(--gold); color: var(--gold-ink); border: 1px solid var(--gold); border-radius: 3px; padding: 0 18px; font-weight: 600; min-height: 44px; text-decoration: none; transition: background-color .2s, border-color .2s, color .2s; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap; background: var(--gold); color: var(--gold-ink); border: 1px solid var(--gold); border-radius: 7px; padding: 0 18px; font-weight: 600; min-height: 44px; text-decoration: none; transition: background-color .2s, border-color .2s, color .2s; }
 .btn:hover { background: var(--gold-2); border-color: var(--gold-2); }
-.btn.ghost { background: transparent; color: var(--fg); border-color: var(--line-2); }
+.btn.ghost { background: var(--panel-2); color: var(--fg); border-color: var(--pline); }
 .btn.ghost:hover { border-color: var(--gold); }
 .btn.lg { min-height: 52px; padding: 0 26px; font-size: 1.02rem; }
 .btn[disabled] { opacity: .5; cursor: not-allowed; }
@@ -158,12 +158,11 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .hero .btn:hover { background: #e0c27a; border-color: #e0c27a; }
 .hero .btn.ghost { background: rgba(7,8,10,.35); color: var(--ink); border-color: rgba(241,236,224,.45); }
 .hero .btn.ghost:hover { border-color: #e0c27a; background: rgba(7,8,10,.55); }
-.hdates { list-style: none; margin: 0 auto; padding: 0 max(20px, env(safe-area-inset-left, 0px)) 34px; max-width: var(--wrap); width: 100%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.hdates li { position: relative; padding: 18px 16px 0 0; border-top: 1px solid rgba(241,236,224,.22); display: grid; gap: 2px; }
-.hdates li::before { content: ""; position: absolute; left: 0; top: -5px; width: 9px; height: 9px; background: #08090b; border: 1px solid rgba(241,236,224,.5); transform: rotate(45deg); }
-.hdates li.past { border-top-color: rgba(224,194,122,.7); }
-.hdates li.past::before, .hdates li.cur::before { background: #c9a54a; border-color: #c9a54a; }
-.hdates b { font-family: var(--font-display); font-weight: 400; font-size: 1.5rem; line-height: 1.1; color: var(--ink); font-variant-numeric: lining-nums; }
+.hdates { list-style: none; margin: 0 auto 34px; padding: 0; max-width: calc(var(--wrap) - 40px); width: calc(100% - 40px); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.hdates li { padding: 14px 18px; display: grid; gap: 2px; border: 1px solid rgba(255,255,255,.12); border-radius: 10px; background: rgba(10,12,18,.62); backdrop-filter: blur(6px); }
+.hdates li.past { opacity: .62; }
+.hdates li.cur { border-color: #e0c27a; box-shadow: inset 0 0 0 1px #e0c27a; }
+.hdates b { font-family: var(--font-display); font-weight: 400; font-size: 1.6rem; line-height: 1.1; color: var(--ink); font-variant-numeric: lining-nums; }
 .hdates li.cur b { color: var(--ink-gold); }
 .hdates span { color: var(--ink-2); font-size: .9rem; }
 
@@ -172,17 +171,14 @@ main { padding-bottom: 40px; }
 section.block { padding-top: 96px; display: grid; gap: 28px; }
 .sec-head { display: grid; gap: 12px; }
 .sec-head .row { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: flex-end; justify-content: space-between; }
-.sec-head h2::after { content: ""; display: block; width: 56px; height: 1px; margin-top: 16px; background: var(--gold); }
-.sec-head .src { font-size: .85rem; color: var(--muted); padding-bottom: 18px; }
+.sec-head .src { font-size: .85rem; color: var(--muted); padding-bottom: 6px; }
 .sec-head p { color: var(--muted); max-width: 68ch; }
-.sec-head .kick { color: var(--gold-2); }
 section.block { scroll-margin-top: -72px; }
-.kick { font-size: .92rem; color: var(--gold-2); font-weight: 500; }
 
 /* Faction banners */
-.factions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
-.fac { position: relative; overflow: hidden; isolation: isolate; min-height: 340px; padding: 34px 34px 30px; display: grid; align-content: end; gap: 12px; color: var(--ink); border: 1px solid var(--fl); border-radius: 2px; background: var(--fb); }
-.fac::after { content: ""; position: absolute; inset: 7px; border: 1px solid color-mix(in srgb, var(--fl) 45%, transparent); pointer-events: none; }
+.factions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 14px; }
+.fac { position: relative; overflow: hidden; isolation: isolate; min-height: 340px; padding: 30px 30px 26px; display: grid; align-content: end; gap: 12px; color: var(--ink); border: 1px solid rgba(255,255,255,.1); border-radius: 7px; background: var(--fb); transition: border-color .2s; }
+.fac:hover { border-color: #e0c27a; }
 .fac picture, .fac picture img { position: absolute; top: 0; right: 0; height: 100%; width: 62%; }
 .fac picture { z-index: -2; }
 .fac picture img { object-fit: cover; object-position: 50% 16%; transition: transform .8s var(--ease); }
@@ -190,17 +186,17 @@ section.block { scroll-margin-top: -72px; }
 .fac::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, var(--fb) 40%, color-mix(in srgb, var(--fb) 55%, transparent) 60%, transparent 85%), linear-gradient(0deg, color-mix(in srgb, var(--fb) 80%, transparent), transparent 50%); }
 .fac.alliance { --fb: #0c1830; --fl: #b39352; --fa: #e3c77e; }
 .fac.horde { --fb: #240d0a; --fl: #a8683a; --fa: #e0a36a; }
-.fac .kick { color: var(--fa); }
+
 .fac h3 { font-size: clamp(2.2rem, 3.6vw, 3rem); }
 .fac p { color: var(--ink-2); max-width: 34ch; }
 .fac p b { color: var(--ink); font-weight: 600; }
-.fac .go-f { justify-self: start; margin-top: 6px; min-height: 44px; padding: 0 16px; display: inline-flex; align-items: center; gap: 8px; border: 1px solid color-mix(in srgb, var(--fl) 80%, transparent); border-radius: 3px; background: rgba(5,6,8,.35); color: var(--ink); font-weight: 600; font-size: .95rem; transition: border-color .2s, background-color .2s; }
+.fac .go-f { justify-self: start; margin-top: 6px; min-height: 44px; padding: 0 16px; display: inline-flex; align-items: center; gap: 8px; border: 1px solid color-mix(in srgb, var(--fl) 80%, transparent); border-radius: 7px; background: rgba(5,6,8,.45); color: var(--ink); font-weight: 600; font-size: .95rem; transition: border-color .2s, background-color .2s; }
 .fac .go-f:hover { border-color: var(--fa); background: rgba(5,6,8,.6); }
 
 /* Class roster: tall portraits, the active one expands */
-.roster { display: flex; gap: 6px; height: clamp(440px, 40vw, 560px); }
-.hc { display: block; text-decoration: none; position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; isolation: isolate; padding: 0; border: 1px solid #262930; border-radius: 2px; background: #0b0c0e; color: var(--ink); text-align: left; transition: flex-grow .55s var(--ease), border-color .3s; }
-.hc.on { flex-grow: 3.6; border-color: rgba(201,165,74,.7); }
+.roster { display: flex; gap: 8px; padding: 14px; height: clamp(460px, 41vw, 580px); }
+.hc { display: block; text-decoration: none; position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; isolation: isolate; padding: 0; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; background: #0b0c0e; color: var(--ink); text-align: left; transition: flex-grow .55s var(--ease), border-color .3s; }
+.hc.on { flex-grow: 3.6; border-color: #e0c27a; box-shadow: inset 0 0 0 1px #e0c27a; }
 .hc picture, .hc img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .hc picture { z-index: -2; }
 .hc img { object-fit: cover; object-position: 50% 22%; filter: saturate(.75) brightness(.62); transition: filter .45s, transform .9s var(--ease); }
@@ -210,7 +206,7 @@ section.block { scroll-margin-top: -72px; }
 .hc.on .vn { opacity: 0; }
 .hc .info { position: absolute; left: 0; bottom: 0; width: 100%; min-width: 320px; padding: 26px 28px 28px; display: grid; gap: 10px; opacity: 0; transform: translateY(12px); transition: opacity .3s, transform .4s var(--ease); }
 .hc.on .info { opacity: 1; transform: none; transition-delay: .15s; }
-.hc .info::before { content: ""; width: 34px; height: 2px; background: var(--cc, #c9a54a); }
+
 .hc .info b { font-family: var(--font-display); font-weight: 400; font-size: 2.3rem; line-height: 1; }
 .hc .roles { display: flex; flex-wrap: wrap; gap: 4px 14px; color: #dcc78f; font-size: .9rem; font-weight: 500; }
 .hc .d { color: var(--ink-2); font-size: .97rem; max-width: 36ch; }
@@ -218,13 +214,17 @@ section.block { scroll-margin-top: -72px; }
 .hc:hover .more { text-decoration: underline; text-underline-offset: 4px; }
 .swipe { display: none; color: var(--muted); font-size: .88rem; }
 
-/* Tools overview */
-.tcards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-.tcard { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 2px 14px; align-items: start; padding: 20px; border: 1px solid var(--line); border-radius: 2px; background: var(--surface); color: var(--fg); text-decoration: none; transition: border-color .2s, background-color .2s; }
-.tcard:hover { border-color: var(--gold); }
-.tcard .ico { grid-row: 1 / 3; width: 40px; height: 40px; padding: 9px; border: 1px solid var(--line-2); color: var(--gold-2); }
-.tcard b { font-family: var(--font-display); font-weight: var(--display-w); font-size: 1.35rem; line-height: 1.2; }
-.tcard span { color: var(--muted); font-size: .9rem; }
+/* Art tiles with the title on the picture: tools and guides */
+.ttiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding: 14px; }
+.ttile, .gt { position: relative; isolation: isolate; overflow: hidden; min-height: 210px; padding: 0 18px 16px; display: grid; align-content: end; gap: 3px; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; background: #0b0d12; color: #f3efe6; text-decoration: none; transition: border-color .2s; }
+.ttile picture, .ttile img, .gt picture, .gt img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.ttile picture, .gt picture { z-index: -2; }
+.ttile img, .gt img { object-fit: cover; object-position: 50% 24%; filter: saturate(.85) brightness(.78); transition: filter .3s, transform .6s var(--ease); }
+.ttile::after, .gt::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(6,8,12,0) 22%, rgba(6,8,12,.92) 100%); }
+.ttile:hover, .gt:hover { border-color: #e0c27a; }
+.ttile:hover img, .gt:hover img { filter: none; transform: scale(1.04); }
+.ttile b, .gt b { font-weight: 700; font-size: 1.2rem; line-height: 1.2; text-shadow: 0 1px 8px rgba(0,0,0,.7); }
+.ttile span, .gt span { font-size: .9rem; line-height: 1.4; color: rgba(243,239,230,.82); }
 
 /* Guides band over the campfire art */
 .gband { position: relative; isolation: isolate; margin-top: 110px; padding: 96px 0 88px; color: var(--ink); background: #08090b; overflow: hidden; }
@@ -249,8 +249,8 @@ section.block { scroll-margin-top: -72px; }
 .stband-art img { object-fit: cover; object-position: 50% 40%; }
 .stband::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 620px; z-index: -1; background: linear-gradient(180deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 70%, transparent) 22%, color-mix(in srgb, var(--bg) 55%, transparent) 50%, var(--bg) 100%); }
 .stband .wrap { display: grid; gap: 20px; }
-.stband .sec-head h2::after { display: none; }
 .stband .sec-head p { color: var(--fg); opacity: .85; }
+.stband .sec-head .src { color: var(--fg); opacity: .7; }
 .frame { position: relative; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); box-shadow: 0 18px 48px rgba(0,0,0,.35); backdrop-filter: blur(6px); }
 .stiles { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; padding: 14px; }
 .stile { position: relative; isolation: isolate; overflow: hidden; height: 168px; padding: 0 14px 14px; display: grid; align-content: end; gap: 2px; text-align: left; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; background: #0b0d12; color: #f3efe6; transition: border-color .2s; }
@@ -342,43 +342,43 @@ ul.buffs .m { color: var(--muted); }
 .dg tbody th .z { display: none; }
 .dg-empty td { color: var(--muted); }
 
-/* Content blocks reused by the reference sections */
-.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 20px 32px; }
+/* Content blocks reused by the reference sections: framed panels, plaques, tips */
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 16px; }
 .grid2 > * { min-width: 0; }
-.panel { border-top: 1px solid var(--line); padding-top: 16px; }
-.panel h3 { font-size: 1.35rem; }
-ul.dots { margin: 10px 0 0; padding-left: 18px; display: grid; gap: 7px; }
+.panel, .tool, .tbl-box, .summary { border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); box-shadow: 0 14px 40px rgba(0,0,0,.28); }
+:root[data-theme="light"] .panel, :root[data-theme="light"] .tool, :root[data-theme="light"] .tbl-box, :root[data-theme="light"] .summary, :root[data-theme="light"] .frame { box-shadow: 0 10px 30px rgba(40,32,16,.08); }
+.panel { padding: 22px 24px; display: grid; gap: 12px; align-content: start; }
+.panel h3 { font-size: 1.45rem; }
+.panel > .tipbox, .panel > .note { margin-top: 2px; }
+ul.dots { margin: 0; padding-left: 18px; display: grid; gap: 8px; }
 ul.dots li::marker { color: var(--gold); }
-.mk { display: inline-block; font-size: .72rem; font-weight: 600; line-height: 1; padding: 4px 6px 3px; border-radius: 3px; vertical-align: .12em; margin-right: 6px; border: 1px solid; font-family: var(--font-body); }
-.mk.fact { color: var(--sapphire); border-color: color-mix(in srgb, var(--sapphire) 45%, transparent); }
-.mk.tip { color: var(--gold-2); border-color: color-mix(in srgb, var(--gold) 55%, transparent); }
-.note { border-left: 2px solid var(--line-2); padding: 2px 0 2px 14px; color: var(--muted); font-size: .95rem; }
-.note b { color: var(--fg); }
-.note.tipn { border-left-color: var(--gold); }
-.own { border: 1px solid var(--line); border-left: 2px solid var(--gold); padding: 16px 18px; background: var(--surface); }
-.own h3 { font-size: 1.35rem; margin-bottom: 4px; }
-.timeline { list-style: none; margin: 0; padding: 0; display: grid; }
-.timeline li { display: grid; grid-template-columns: 150px 1fr; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); }
-.timeline li:first-child { border-top: 1px solid var(--line); }
-.timeline .d { font-family: var(--font-display); font-size: 1.35rem; color: var(--gold-2); line-height: 1.25; font-variant-numeric: lining-nums; }
-.timeline .t b { display: block; }
+.note { padding: 14px 16px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--pline); font-size: .95rem; }
+.note b { font-weight: 600; }
+.tipbox { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 12px; align-items: start; padding: 14px 16px; border-radius: 8px; background: color-mix(in srgb, var(--gold) 9%, var(--panel-2)); border: 1px solid color-mix(in srgb, var(--gold) 30%, transparent); font-size: .95rem; }
+.tipbox .fi, .tiph .fi { width: 26px; height: 26px; margin-top: 1px; color: var(--gold-2); }
+.tipbox b { font-weight: 600; }
+.panel.tipp { background: color-mix(in srgb, var(--gold) 7%, var(--panel)); border-color: color-mix(in srgb, var(--gold) 28%, transparent); }
+.tiph { display: flex; align-items: center; gap: 10px; }
+.timeline { list-style: none; margin: 0; padding: 14px; display: grid; gap: 8px; }
+.timeline li { display: grid; grid-template-columns: 170px 1fr; gap: 18px; align-items: start; padding: 16px 18px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--pline); }
+.timeline .d { font-family: var(--font-display); font-size: 1.45rem; color: var(--gold-2); line-height: 1.2; font-variant-numeric: lining-nums; }
+.timeline .t b { display: block; font-weight: 600; margin-bottom: 2px; }
 .timeline .t span { color: var(--muted); font-size: .95rem; }
 
 /* Controls */
 .filters { display: flex; flex-wrap: wrap; gap: 12px 28px; align-items: center; }
 .fgroup { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-width: 0; }
 .flabel { font-size: .9rem; color: var(--muted); font-weight: 500; }
-.seg { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--line-2); border-radius: 3px; overflow: hidden; background: var(--surface); }
-.seg button { border: 0; background: transparent; padding: 0 15px; min-height: 44px; font-weight: 500; font-size: .95rem; border-right: 1px solid var(--line-2); }
-.seg button:last-child { border-right: 0; }
-.seg button:hover { background: var(--surface-2); }
-.seg button[aria-pressed="true"] { background: var(--gold); color: var(--gold-ink); }
+.seg { display: inline-flex; flex-wrap: wrap; gap: 4px; padding: 4px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); }
+.seg button { border: 0; border-radius: 7px; background: transparent; padding: 0 15px; min-height: 44px; font-weight: 600; font-size: .95rem; }
+.seg button:hover { background: color-mix(in srgb, var(--fg) 7%, transparent); }
+.seg button[aria-pressed="true"] { background: #c9a54a; color: #15110a; }
 .copyrow { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-.copyrow input { flex: 1 1 220px; min-width: 0; font: inherit; min-height: 44px; padding: 0 12px; border: 1px solid var(--line-2); border-radius: 3px; background: var(--bg); color: var(--fg); }
+.copyrow input { flex: 1 1 220px; min-width: 0; font: inherit; min-height: 44px; padding: 0 12px; border: 1px solid var(--pline); border-radius: 7px; background: var(--panel-2); color: var(--fg); }
 .copyrow .small { flex-basis: 100%; min-height: 1.4em; }
 
 /* Picker */
-.tool { border: 1px solid var(--line); background: var(--surface); border-radius: 2px; padding: 24px; display: grid; gap: 18px; }
+.tool { padding: 24px; display: grid; gap: 18px; }
 .matrix-box { overflow-x: auto; border: 1px solid var(--line); border-radius: 2px; }
 table { border-collapse: separate; border-spacing: 0; width: 100%; }
 #matrix { min-width: 760px; }
@@ -412,14 +412,14 @@ tr.rowsel th { box-shadow: inset 3px 0 0 var(--gold); }
 .detail { border-top: 1px solid var(--gold); padding-top: 18px; display: grid; gap: 18px; }
 .d-top { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: baseline; }
 .d-top h3 { font-size: 1.9rem; }
-.tag { font-size: .74rem; font-weight: 600; border-radius: 3px; padding: 2px 8px; border: 1px solid currentColor; }
+.tag { display: inline-block; font-size: .76rem; font-weight: 600; line-height: 1.5; border-radius: 999px; padding: 1px 9px; background: color-mix(in srgb, currentColor 14%, transparent); white-space: nowrap; }
 .tag.alliance { color: var(--alliance); } .tag.horde { color: var(--horde); } .tag.new { color: var(--new); } .tag.paid { color: var(--gold-2); }
 .d-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 24px 32px; }
 .d-cols > div { min-width: 0; }
 .d-cols h4 { margin: 0 0 10px; font-size: .9rem; font-weight: 600; color: var(--muted); }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.chip { font-size: .82rem; font-weight: 500; padding: 3px 9px; border-radius: 3px; border: 1px solid var(--line-2); white-space: nowrap; }
-.chip.on { background: var(--gold); color: var(--gold-ink); border-color: var(--gold); }
+.chip { display: inline-flex; align-items: center; min-height: 26px; font-size: .84rem; font-weight: 600; padding: 0 10px; border-radius: 999px; border: 1px solid var(--pline); background: var(--panel-2); white-space: nowrap; }
+.chip.on { background: #c9a54a; color: #15110a; border-color: #c9a54a; }
 .chip.q { border-style: dashed; }
 .chip.new { color: var(--new); border-color: color-mix(in srgb, var(--new) 50%, transparent); }
 ul.plain { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
@@ -461,8 +461,8 @@ dl.facts dd { margin: 0; }
 .slot .del { min-height: 44px; border: 1px solid var(--line); border-radius: 3px; background: transparent; color: var(--muted); display: grid; place-items: center; }
 .slot .del:hover { color: var(--horde); border-color: var(--horde); }
 .row-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-.summary { position: sticky; top: calc(var(--top) + 16px); border: 1px solid var(--line); background: var(--surface); border-radius: 2px; display: grid; }
-.summary > div { padding: 14px 16px; border-bottom: 1px solid var(--line); }
+.summary { position: sticky; top: calc(var(--top) + 16px); display: grid; overflow: hidden; }
+.summary > div { padding: 16px 18px; border-bottom: 1px solid var(--pline); }
 .summary > div:last-child { border-bottom: 0; }
 .summary h4 { margin: 0 0 8px; font-size: .9rem; font-weight: 600; color: var(--muted); }
 .roles-sum { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
@@ -519,15 +519,17 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .ref details p { margin-top: 6px; font-size: .95rem; max-width: 80ch; }
 .ref-row.sel .ref-name h3 { color: var(--gold-2); }
 
-/* Data tables */
-.tbl-box { overflow-x: auto; border-top: 1px solid var(--line); }
-.tbl-box table { min-width: 560px; }
-.tbl-box th, .tbl-box td { text-align: left; padding: 12px 14px 12px 0; vertical-align: top; border-bottom: 1px solid var(--line); }
-.tbl-box thead th { color: var(--muted); font-size: .85rem; font-weight: 600; border-bottom-color: var(--line-2); }
+/* Data tables: each row is a plaque inside a framed panel */
+.tbl-box { overflow-x: auto; padding: 8px 14px 10px; }
+.tbl-box table { min-width: 560px; border-spacing: 0 6px; }
+.tbl-box th, .tbl-box td { text-align: left; padding: 12px 16px; vertical-align: top; background: var(--panel-2); border-top: 1px solid var(--pline); border-bottom: 1px solid var(--pline); }
+.tbl-box tr > :first-child { border-left: 1px solid var(--pline); border-radius: 8px 0 0 8px; }
+.tbl-box tr > :last-child { border-right: 1px solid var(--pline); border-radius: 0 8px 8px 0; }
+.tbl-box thead th { background: none; border: 0; color: var(--muted); font-size: .85rem; font-weight: 600; padding-top: 6px; padding-bottom: 0; }
 .tbl-box tbody th { font-weight: 600; font-size: .96rem; }
-.tbl-box td.num { white-space: nowrap; color: var(--gold-2); font-weight: 600; font-variant-numeric: tabular-nums; }
+.tbl-box td.num { white-space: nowrap; font-weight: 600; font-variant-numeric: tabular-nums; }
 
-footer { margin-top: 110px; border-top: 1px solid var(--line); padding-top: 34px; display: grid; gap: 14px; color: var(--muted); font-size: .93rem; }
+footer { margin-top: 96px; padding: 28px 28px 24px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); display: grid; gap: 14px; color: var(--muted); font-size: .93rem; }
 footer h2 { color: var(--fg); font-size: 1.8rem; }
 footer ul { margin: 0; padding-left: 18px; display: grid; gap: 5px; }
 footer ul li::marker { color: var(--gold); }
@@ -554,9 +556,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .gtiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 1023px) {
-  .roster { height: auto; overflow-x: auto; scroll-snap-type: x mandatory; gap: 10px; margin: 0 -20px; padding: 0 20px 4px; scroll-padding: 0 20px; scrollbar-width: none; overscroll-behavior-x: contain; }
+  .roster { height: auto; overflow-x: auto; scroll-snap-type: x mandatory; gap: 10px; padding: 12px; scroll-padding: 0 12px; scrollbar-width: none; overscroll-behavior-x: contain; }
   .roster::-webkit-scrollbar { display: none; }
-  .hc, .hc.on { flex: 0 0 min(78%, 330px); aspect-ratio: 3 / 4; scroll-snap-align: start; border-color: #262930; }
+  .hc, .hc.on { flex: 0 0 min(78%, 330px); aspect-ratio: 3 / 4; scroll-snap-align: start; border-color: rgba(255,255,255,.1); box-shadow: none; }
   .hc img, .hc.on img { filter: none; transform: none; }
   .hc .vn { display: none; }
   .hc .info { min-width: 0; padding: 20px; opacity: 1; transform: none; }
@@ -569,7 +571,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .summary, .me { position: static; }
   .stiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .factions { grid-template-columns: 1fr; }
-  .tcards { grid-template-columns: 1fr; }
+  .ttiles { grid-template-columns: 1fr; }
+  .ttile { min-height: 160px; }
 }
 @media (max-width: 860px) {
   .matrix-box, .legend { display: none; }
@@ -591,16 +594,16 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .cd .u { padding: 0 14px; }
   .cta { width: 100%; }
   .cta .btn { flex: 1 1 140px; padding: 0 12px; }
-  .hdates { padding-bottom: 22px; }
-  .hdates li { padding: 14px 8px 0 0; }
+  .hdates { margin-bottom: 22px; width: calc(100% - 32px); gap: 6px; }
+  .hdates li { padding: 10px 10px; }
   .hdates b { font-size: 1.25rem; }
   .hdates span { font-size: .8rem; line-height: 1.35; }
   section.block { padding-top: 72px; gap: 22px; scroll-margin-top: -48px; }
-  .fac { min-height: 400px; padding: 24px 22px 22px; }
+  .factions { padding: 10px; gap: 10px; }
+  .fac { min-height: 400px; padding: 22px 20px 20px; }
   .fac picture, .fac picture img { width: 100%; }
   .fac::before { background: linear-gradient(0deg, var(--fb) 30%, color-mix(in srgb, var(--fb) 60%, transparent) 58%, transparent 85%); }
-  .roster { margin: 0 -16px; padding: 0 16px 4px; scroll-padding: 0 16px; }
-  .hc, .hc.on { flex-basis: 78%; }
+  .hc, .hc.on { flex-basis: 80%; }
   .tool { padding: 16px; }
   .gband { margin-top: 80px; padding: 72px 0 64px; }
   .gtiles { grid-template-columns: 1fr; }
@@ -685,7 +688,6 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     <img src="@@ROOT@@assets/art/hero_dawn-1920.webp" width="1920" height="1072" alt="" fetchpriority="high" decoding="async">
   </picture>
   <div class="wrap hero-in">
-    <p class="eyebrow">Гид Gabella Team · данные на 23.10.2026</p>
     <h1>World of Warcraft <span>Forever</span></h1>
     <p class="lead">Классы, расы, сбор группы и всё, что нужно знать к старту 4 ноября. Собрано для своей компании, с источниками и датой.</p>
     <div class="cd" id="cd" aria-live="polite"></div>
@@ -693,6 +695,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
       <a class="btn lg" href="#classes">Выбрать класс</a>
       <a class="btn lg ghost" href="#builder">Собрать группу</a>
     </div>
+    <p class="hmeta">Гид Gabella Team · данные на 23.10.2026</p>
   </div>
   <ol class="hdates" aria-label="Ключевые даты">
     <li data-d="2026-10-27"><b>27.10</b><span>Резерв имён</span></li>
@@ -731,11 +734,10 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </section>
 
 <section class="block wrap" id="factions" data-nav="#factions" data-tab="#classes">
-  <div class="sec-head"><p class="kick">Выбор стороны</p><h2>Альянс или Орда</h2><p>Договоритесь о фракции заранее: в PvP-режиме при создании доступна только одна. Девять классов есть у обеих сторон.</p></div>
-  <div class="factions">
+  <div class="sec-head"><h2>Альянс или Орда</h2><p>Договоритесь о фракции заранее: в PvP-режиме при создании доступна только одна. Девять классов есть у обеих сторон.</p></div>
+  <div class="frame factions">
     <article class="fac alliance">
       <picture><source type="image/avif" srcset="@@ROOT@@assets/art/paladin-600.avif 600w, @@ROOT@@assets/art/paladin-896.avif 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><source type="image/webp" srcset="@@ROOT@@assets/art/paladin-600.webp 600w, @@ROOT@@assets/art/paladin-896.webp 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><img src="@@ROOT@@assets/art/paladin-600.webp" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
-      <p class="kick">Фракция</p>
       <h3>Альянс</h3>
       <p>Человек, дворф, ночной эльф, гном и Высший скайборн.</p>
       <p><b>Новое:</b> дворф-шаман, гном-жрец и человек-охотник.</p>
@@ -743,8 +745,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     </article>
     <article class="fac horde">
       <picture><source type="image/avif" srcset="@@ROOT@@assets/art/shaman-600.avif 600w, @@ROOT@@assets/art/shaman-896.avif 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><source type="image/webp" srcset="@@ROOT@@assets/art/shaman-600.webp 600w, @@ROOT@@assets/art/shaman-896.webp 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><img src="@@ROOT@@assets/art/shaman-600.webp" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
-      <p class="kick">Фракция</p>
       <h3>Орда</h3>
+
       <p>Орк, нежить, таурен, тролль и Скайборн-ветрорез.</p>
       <p><b>Новое:</b> нежить-паладин, орк-маг и тролль-чернокнижник.</p>
       <button type="button" class="go-f" data-fac="horde">Подобрать расу и класс<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
@@ -753,18 +755,19 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </section>
 
 <section class="block wrap" id="classes" data-nav="#classes" data-tab="#classes">
-  <div class="sec-head"><div class="row"><div style="display:grid;gap:12px"><p class="kick">Девять классов</p><h2>Кем играть</h2></div><span class="src">Warcraft Tavern, LFCarry</span></div><p>Наведите на портрет, чтобы раскрыть класс. Нажмите, чтобы открыть страницу класса: специализации, расы и что нового в Forever.</p></div>
-  <div class="roster" id="roster"></div>
+  <div class="sec-head"><div class="row"><h2>Кем играть</h2><span class="src">Warcraft Tavern, LFCarry</span></div><p>Наведите на портрет, чтобы раскрыть класс. Нажмите, чтобы открыть страницу класса: специализации, расы и что нового в Forever.</p></div>
+  <div class="frame roster" id="roster"></div>
   <p class="swipe">Листайте портреты в сторону.</p>
 </section>
 
 <section class="block wrap" id="tools" data-nav="#picker" data-tab="#builder">
-  <div class="sec-head"><p class="kick">Для своей компании</p><h2>Инструменты</h2><p>Подбор расы и класса, сбор группы на любое число игроков и чек-лист к старту. Ссылкой на состав можно поделиться в чате.</p></div>
-  <nav class="tcards" aria-label="Инструменты">
-    <a class="tcard" href="#picker"><svg class="ico" aria-hidden="true"><use href="#i-grid"/></svg><b>Подборщик расы и класса</b><span id="qPick">Все сочетания и что умеет каждое</span></a>
-    <a class="tcard" href="#builder"><svg class="ico" aria-hidden="true"><use href="#i-users"/></svg><b>Конструктор группы</b><span id="qTeam">От одного до сорока игроков</span></a>
-    <a class="tcard" href="#checklist"><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><b>Чек-лист перед стартом</b><span id="qCheck">Имена, профессии, дни, подписка</span></a>
+  <div class="sec-head"><h2>Инструменты</h2><p>Подбор расы и класса, сбор группы на любое число игроков и чек-лист к старту. Ссылкой на состав можно поделиться в чате.</p></div>
+  <nav class="frame ttiles" aria-label="Инструменты">
+    <a class="ttile" href="#picker"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/druid-360.avif 360w, @@ROOT@@assets/art/druid-600.avif 600w" sizes="(max-width: 980px) 100vw, 400px"><source type="image/webp" srcset="@@ROOT@@assets/art/druid-360.webp 360w, @@ROOT@@assets/art/druid-600.webp 600w" sizes="(max-width: 980px) 100vw, 400px"><img src="@@ROOT@@assets/art/druid-600.webp" alt="" loading="lazy" decoding="async"></picture><b>Подборщик расы и класса</b><span id="qPick">Все сочетания и что умеет каждое</span></a>
+    <a class="ttile" href="#builder"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/hero_campfire-960.avif"><img src="@@ROOT@@assets/art/hero_campfire-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Конструктор группы</b><span id="qTeam">От одного до сорока игроков</span></a>
+    <a class="ttile" href="#checklist"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/hero_dawn-960.avif"><img src="@@ROOT@@assets/art/hero_dawn-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Чек-лист перед стартом</b><span id="qCheck">Имена, профессии, дни, подписка</span></a>
   </nav>
+
 </section>
 <section class="block wrap" id="picker" data-tab="#builder">
   <div class="sec-head"><div class="row"><h2>Подборщик: раса и класс</h2><span class="src">Warcraft Tavern, Method</span></div>
@@ -790,7 +793,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     <div class="pickm" id="pickm"></div>
     <div class="detail" id="detail" aria-live="polite" aria-label="Выбранная комбинация"></div>
   </div>
-  <p class="note"><span class="mk fact">факт</span><b>Новые комбинации:</b> дворф-шаман и гном-жрец (Альянс), человек-охотник, а у Орды орк-маг, тролль-чернокнижник и нежить-паладин. Паладин появился у Орды, шаман у Альянса. Скайборн-ветрорез (Орда) может быть шаманом, Высший скайборн (Альянс) магом.</p>
+  <p class="note"><b>Новые комбинации:</b> дворф-шаман и гном-жрец (Альянс), человек-охотник, а у Орды орк-маг, тролль-чернокнижник и нежить-паладин. Паладин появился у Орды, шаман у Альянса. Скайборн-ветрорез (Орда) может быть шаманом, Высший скайборн (Альянс) магом.</p>
 </section>
 <section class="block wrap" id="builder" data-tab="#builder">
   <div class="sec-head"><h2>Конструктор группы</h2>
@@ -827,7 +830,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <section class="gband" id="guides" data-nav="#guides" data-tab="#guides">
   <picture><source type="image/avif" srcset="@@ROOT@@assets/art/hero_campfire-960.avif 960w, @@ROOT@@assets/art/hero_campfire-1600.avif 1600w" sizes="100vw"><source type="image/webp" srcset="@@ROOT@@assets/art/hero_campfire-960.webp 960w, @@ROOT@@assets/art/hero_campfire-1600.webp 1600w" sizes="100vw"><img src="@@ROOT@@assets/art/hero_campfire-1600.webp" width="1600" height="893" alt="" loading="lazy" decoding="async"></picture>
   <div class="wrap">
-    <div class="sec-head"><p class="kick">Справочник</p><h2>Гайды и справочник</h2><p>Всё, что мы собрали о WoW Forever: даты, системы игры, подземелья и советы для компании.</p></div>
+    <div class="sec-head"><h2>Гайды и справочник</h2><p>Всё, что мы собрали о WoW Forever: даты, системы игры, подземелья и советы для компании.</p></div>
     <nav class="gtiles" aria-label="Гайды">
       <a class="gt" href="#dates"><b>Даты и наборы</b><span>Резерв имён, релиз, рейды и цены наборов</span></a>
       <a class="gt" href="#classref"><b>Классы подробно</b><span>Специализации, темп прокачки и что нового</span></a>
@@ -865,7 +868,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
         <li>Обычный, PvP и RP. Hardcore запустят позже со своими правилами.</li>
         <li>Группироваться можно только внутри одного режима. В PvP при создании доступна одна фракция.</li>
       </ul>
-      <p class="note tipn" style="margin-top:12px"><span class="mk tip">совет</span><b>Договоритесь заранее:</b> одна фракция, один режим, одни и те же дни на старт.</p>
+      <div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span><b>Договоритесь заранее:</b> одна фракция, один режим, одни и те же дни на старт.</p></div>
     </div>
     <div class="panel">
       <h3>Имена и фамилии</h3>
@@ -875,7 +878,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
         <li>Фамилию можно скрыть: Esc → Options → Nameplates → My Secondary Name.</li>
         <li>В PvP-режиме на аккаунте может быть только одна фракция.</li>
       </ul>
-      <p class="note tipn" style="margin-top:12px"><span class="mk tip">совет</span><b>Подготовьте до 27.10:</b> имя, фамилию и два-три запасных варианта, короткие имена разберут первыми.</p>
+      <div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span><b>Подготовьте до 27.10:</b> имя, фамилию и два-три запасных варианта, короткие имена разберут первыми.</p></div>
     </div>
   </div>
 </section>
@@ -886,7 +889,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <section class="block wrap" id="races" data-nav="#guides">
   <div class="sec-head"><div class="row"><h2>Расы</h2><span class="src">Method, Warcraft Tavern</span></div><p>У каждой расы по четыре способности: две активные и две пассивные. Часть старых способностей заменена новыми, сопротивления убраны.</p></div>
   <div class="ref" id="raceRef"></div>
-  <p class="note"><span class="mk fact">факт</span><b>Скайборн</b> играбельна за обе фракции, выбор фракции делается при создании. Обе ветки говорят на общем языке, а стартовая зона Zephras Isle общая, враги там не встречаются из-за слоёв.</p>
+  <p class="note"><b>Скайборн</b> играбельна за обе фракции, выбор фракции делается при создании. Обе ветки говорят на общем языке, а стартовая зона Zephras Isle общая, враги там не встречаются из-за слоёв.</p>
 </section>
 <section class="block wrap" id="legacy" data-nav="#guides">
   <div class="sec-head"><div class="row"><h2>Система Legacy</h2><span class="src">Blizzard, Warcraft Tavern</span></div><p>Прогресс на весь аккаунт Battle.net. Очки получают за испытания, а тратят на перки отдельно на каждом персонаже.</p></div>
@@ -908,7 +911,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
         <li>40: табард Spectral Bear</li>
         <li>55: скакун Reins of the Spectral Bear</li>
       </ul>
-      <p class="small" style="margin-top:10px">Это косметика, преимуществ в игре она не даёт.</p>
+      <p class="small">Это косметика, преимуществ в игре она не даёт.</p>
     </div>
   </div>
   <div class="tbl-box"><table>
@@ -918,7 +921,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
       <tr><th scope="row">Приключения</th><td>Well Rested (5): быстрее копится отдых и выше его потолок. Thrill of Adventure (5): здоровье и мана за убийство вне подземелий. Talented (5): таланты с 9 уровня вместо 10. Field Guide (3): короче откат объектов лагеря. Frequent Flier (1): перелёты на 50% дешевле.</td></tr>
       <tr><th scope="row">Ресурсы</th><td>Gourmand (3): еда действует на 33% дольше. Reinforce (5): на 8% меньше потеря прочности. Diplomat (5): +2% репутации. Permanence (2): дольше баффы лагеря. Reagent Economy (1): способностям класса не нужны покупные реагенты.</td></tr>
     </tbody></table></div>
-  <p class="note tipn"><span class="mk tip">совет</span>В первую очередь ценны перки лагеря и опыта (Well Rested, Field Guide, Permanence) и Reagent Economy для классов с реагентами. Один источник пишет про лимит 25 очков на дерево, Blizzard лимита на дерево не называет.</p>
+  <div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>В первую очередь ценны перки лагеря и опыта (Well Rested, Field Guide, Permanence) и Reagent Economy для классов с реагентами. Один источник пишет про лимит 25 очков на дерево, Blizzard лимита на дерево не называет.</p></div>
 </section>
 
 <section class="block wrap" id="camp" data-nav="#guides">
@@ -972,7 +975,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <div class="tbl-box dg"><table>
     <thead><tr><th scope="col">Подземелье</th><th scope="col">Уровни</th><th scope="col">Где вход</th></tr></thead>
     <tbody id="dgBody"></tbody></table></div>
-  <p class="note"><span class="mk fact">факт</span>Основной опыт за подземелье дают его цепочки заданий, повторные заходы приносят заметно меньше. Любая выпавшая вещь открывает свой облик всем в группе, кто может её надеть. Ещё по два подземелья Blizzard обещает весной и летом.</p>
+  <p class="note">Основной опыт за подземелье дают его цепочки заданий, повторные заходы приносят заметно меньше. Любая выпавшая вещь открывает свой облик всем в группе, кто может её надеть. Ещё по два подземелья Blizzard обещает весной и летом.</p>
   <div class="grid2">
     <div class="panel">
       <h3>Рейды (с 09.12.2026)</h3>
@@ -997,7 +1000,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <div class="sec-head"><h2>Состав для компании из 6–8 человек</h2><p>Ниже факты из источников и наши рекомендации. Рекомендации помечены отдельно, это не официальные данные.</p></div>
   <div class="grid2">
     <div class="panel">
-      <h3><span class="mk fact">факт</span>Что известно</h3>
+      <h3>Что известно</h3>
       <ul class="dots">
         <li>Подземелья рассчитаны на 5 игроков: танк, лекарь, трое с уроном.</li>
         <li>Рейды на 10, 20 и 40 игроков. Из шести-восьми друзей 10-местный Barrow Deeps соберётся с одним-двумя знакомыми из гильдии.</li>
@@ -1006,8 +1009,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
         <li>Группа и рейд получают баффы классов: Королей от паладина, тотемы шамана, Боевой крик воина, ауры охотника и друида. Порталы, еду и воду делает маг.</li>
       </ul>
     </div>
-    <div class="own">
-      <h3><span class="mk tip">совет</span>Рекомендация составителя</h3>
+    <div class="panel tipp">
+      <h3 class="tiph"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg>Рекомендация составителя</h3>
       <ul class="dots">
         <li><b>На 6:</b> Воин или Паладин (Защита) в танка, Жрец или Паладин (Свет) в лекаря, четверо в урон: Маг, Охотник, Разбойник, Чернокнижник.</li>
         <li><b>На 8:</b> два танка-гибрида (Паладин, Друид), два лекаря (Жрец плюс Шаман или Друид), в урон Маг, Охотник, Чернокнижник и Шаман. Тогда можно собрать две группы по 4–5 игроков или одну на 5 и менять роли.</li>
@@ -1044,7 +1047,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <footer id="sources" data-nav="#guides">
   <h2>Источники и актуальность</h2>
   <p>Данные собраны <b style="color:var(--fg)">23.10.2026</b> по закрытой бете и патчу от 15.10.2026 и сверены по нескольким источникам. До релиза Blizzard ещё может менять бету, особенно способности рас, настройку классов и перки Legacy. Если источники расходились, это отмечено в тексте. Точные числа сверяйте в игре.</p>
-  <p><span class="mk fact">факт</span>взято из источников ниже. <span class="mk tip">совет</span>мнение составителя, не официальные данные.</p>
+  <p><span class="tl" style="display:inline">Совет:</span> мнение составителя, не официальные данные.</p>
   <ul>
     <li><a href="https://www.warcrafttavern.com/forever/" target="_blank" rel="noopener">Warcraft Tavern</a>: <a href="https://www.warcrafttavern.com/forever/guides/race-class-combos/" target="_blank" rel="noopener">комбинации</a>, <a href="https://www.warcrafttavern.com/forever/guides/races/" target="_blank" rel="noopener">расы</a>, <a href="https://www.warcrafttavern.com/forever/guides/legacy/" target="_blank" rel="noopener">Legacy</a>, <a href="https://www.warcrafttavern.com/forever/guides/camping/" target="_blank" rel="noopener">лагерь</a>, <a href="https://www.warcrafttavern.com/forever/guides/dungeons/" target="_blank" rel="noopener">подземелья</a>, <a href="https://www.warcrafttavern.com/news/world-of-warcraft-forever-editions-skyborne-race-unlock-beta-access/" target="_blank" rel="noopener">наборы и цены</a></li>
     <li><a href="https://www.method.gg/wow-forever" target="_blank" rel="noopener">Method</a>: <a href="https://www.method.gg/wow-forever/all-class-and-race-combinations-in-world-of-warcraft-forever" target="_blank" rel="noopener">все комбинации</a>, <a href="https://www.method.gg/wow-forever/all-new-racial-abilities-in-world-of-warcraft-forever" target="_blank" rel="noopener">способности рас</a></li>
@@ -1198,6 +1201,7 @@ const EN = {
   'Берсерк':'Berserking','Быстрое восстановление':'Rapid Regeneration','Убийца зверей':'Beast Slaying','Регенерация':'Regeneration'
 };
 RC.skyA.en = 'High Order Skyborne'; RC.skyH.en = 'Windshaper Skyborne';
+const tipBox = h => `<div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>${h}</p></div>`;
 function bi(ru) { return EN[ru] && EN[ru] !== ru ? `${esc(ru)} <span class="en">(${esc(EN[ru])})</span>` : esc(ru); }
 function raceEn(r) { return r.en ? ` <span class="en">/ ${esc(r.en)}</span>` : ''; }
 const state = { f:'all', r:'all', race:'dwarf', cls:'shaman' };
@@ -1273,7 +1277,7 @@ function renderDetail() {
         <div><dt>Что нового</dt><dd>${esc(c.forever)}</dd></div></dl></div>
       <div><h4>Раса: способности</h4>
         <ul class="plain">${rac}</ul>
-        <p class="note tipn" style="margin-top:14px"><span class="mk tip">совет</span>${esc(r.tip)}</p></div>
+        ${tipBox(esc(r.tip))}</div>
     </div>
     <div class="copyrow">
       <input id="pickText" readonly value="${esc(text)}" aria-label="Мой выбор">
@@ -1307,7 +1311,7 @@ function renderRaceRef() {
     <div class="ref-body two">
       <div><h4>Классы</h4><div class="chips">${Object.keys(r.can).map(id => `<span class="chip ${r.can[id] === 'new' ? 'new' : ''}">${esc(CL[id].n)}${r.can[id] === 'new' ? ' · новое' : ''}</span>`).join('')}</div></div>
       <div><h4>Способности</h4><ul class="plain">${r.rac.map(x => `<li><span><span class="rtype">${x[0] === 'a' ? 'Активная' : 'Пассивная'}</span><span class="specname">${bi(x[1])}</span></span><span class="specrole">${esc(x[2])}</span></li>`).join('')}</ul></div>
-      <p class="note tipn wide"><span class="mk tip">совет</span>${esc(r.tip)}</p>
+      <div class="wide">${tipBox(esc(r.tip))}</div>
     </div></div>`).join('');
 }
 
