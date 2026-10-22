@@ -117,7 +117,7 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .topbar.solid .mainnav a[aria-current="true"] { color: var(--gold-2); }
 .tools { margin-left: auto; display: flex; gap: 8px; align-items: center; }
 .langs { display: inline-flex; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; overflow: hidden; }
-.langs a { min-width: 44px; min-height: 42px;
+.langs a { min-width: 44px; min-height: 44px;
  display: grid; place-items: center; color: inherit; opacity: .75; text-decoration: none; font-weight: 600; font-size: .8rem; letter-spacing: .04em; border-right: 1px solid color-mix(in srgb, currentColor 30%, transparent); }
 .langs a:last-child { border-right: 0; }
 .langs a:hover { opacity: 1; }
@@ -225,6 +225,17 @@ section.block { scroll-margin-top: -72px; }
 .ttile:hover img, .gt:hover img { filter: none; transform: scale(1.04); }
 .ttile b, .gt b { font-weight: 700; font-size: 1.2rem; line-height: 1.2; text-shadow: 0 1px 8px rgba(0,0,0,.7); }
 .ttile span, .gt span { font-size: .9rem; line-height: 1.4; color: rgba(243,239,230,.82); }
+
+/* Race roster: two factions side by side in one frame, five portraits each */
+.peoples { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 14px; }
+.pfac { min-width: 0; display: grid; gap: 12px; align-content: start; padding: 14px; border: 1px solid rgba(255,255,255,.08); border-radius: 7px; background: radial-gradient(120% 60% at 50% 0%, var(--ft) 0%, transparent 70%), var(--panel-2); }
+.pfac.alliance { --fc: var(--alliance); --ft: rgba(43,74,124,.45); } .pfac.horde { --fc: var(--horde); --ft: rgba(110,43,29,.45); }
+.pfac h3 { color: var(--fc); font-size: 1.5rem; line-height: 1; }
+.rr { height: clamp(400px, 36vw, 520px); padding: 0; }
+.rr .hc .info { min-width: 250px; padding: 22px 20px 24px; }
+.rr .hc .info b { font-size: 1.9rem; }
+.rr .hc .vn { font-size: 1.15rem; }
+.rr .hc .tag { justify-self: start; color: #e0c27a; }
 
 /* Guides band over the campfire art */
 .gtiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; padding: 14px; }
@@ -499,8 +510,8 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .rtile picture { z-index: -2; }
 .rtile img { object-fit: cover; object-position: 50% 20%; }
 .rtile::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(6,8,12,0) 30%, rgba(6,8,12,.9) 100%); }
-.rtile.alliance { min-height: 96px; background: radial-gradient(120% 100% at 90% 0%, #2b4a7c 0%, #0c1830 65%); }
-.rtile.horde { min-height: 96px; background: radial-gradient(120% 100% at 90% 0%, #6e2b1d 0%, #240d0a 65%); }
+.rtile.alliance { background: #0c1830; border-color: rgba(134,166,216,.35); }
+.rtile.horde { background: #240d0a; border-color: rgba(217,138,132,.35); }
 .rtile h3 { font-size: 1.75rem; text-shadow: 0 1px 8px rgba(0,0,0,.6); }
 .rtile .sub { color: rgba(243,239,230,.75); font-size: .88rem; }
 .ref-name .go { justify-self: start; display: inline-flex; align-items: center; text-decoration: none; min-height: 44px; padding: 0 14px; border: 1px solid var(--pline); border-radius: 7px; background: var(--panel-2); font-size: .88rem; font-weight: 600; color: var(--fg); }
@@ -564,6 +575,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .hc .info b { font-size: 2rem; }
   .hc::after { background: linear-gradient(180deg, rgba(7,8,10,0) 30%, rgba(7,8,10,.72) 55%, rgba(7,8,10,.96) 100%); }
   .swipe { display: block; }
+  .peoples { grid-template-columns: 1fr; gap: 8px; padding: 10px; }
+  .rr { padding: 0; scroll-padding: 0; }
+  .pfac { padding: 10px; }
 }
 @media (max-width: 980px) {
   .builder, .journey { grid-template-columns: 1fr; }
@@ -690,7 +704,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="#top" aria-label="Gabella Team, к началу страницы"><span class="mark" aria-hidden="true">G</span><b>Gabella Team</b></a>
   <nav class="mainnav" aria-label="Разделы">
-    <a href="#stages">Этапы</a><a href="#factions">Фракции</a><a href="#classes">Классы</a><a href="#picker">Подборщик</a><a href="#builder">Группа</a><a href="#checklist">Чек-лист</a><a href="#guides">Гайды</a>
+    <a href="#stages">Этапы</a><a href="#factions">Фракции</a><a href="#classes">Классы</a><a href="#peoples">Расы</a><a href="#picker">Подборщик</a><a href="#builder">Группа</a><a href="#guides">Гайды</a>
   </nav>
   <div class="tools">
     <div class="langs" role="group" aria-label="Язык"><a href="./" data-lang="ru" hreflang="ru" lang="ru" aria-current="true">RU</a><a href="en/" data-lang="en" hreflang="en" lang="en" aria-current="false">EN</a><a href="uk/" data-lang="uk" hreflang="uk" lang="uk" aria-current="false">UK</a></div>
@@ -778,6 +792,15 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <p class="swipe">Листайте портреты в сторону.</p>
 </section>
 
+<section class="block wrap" id="peoples" data-nav="#peoples" data-tab="#classes">
+  <div class="sec-head"><div class="row"><h2>За кого играть</h2><span class="src">Warcraft Tavern</span></div><p>По пять рас у каждой фракции, Скайборн есть у обеих. Нажмите на портрет, чтобы открыть страницу расы: способности, классы и история.</p></div>
+  <div class="frame peoples">
+    <div class="pfac alliance"><h3>Альянс</h3><div class="roster rr" id="rosterA"></div></div>
+    <div class="pfac horde"><h3>Орда</h3><div class="roster rr" id="rosterH"></div></div>
+  </div>
+  <p class="swipe">Листайте портреты в сторону.</p>
+</section>
+
 <section class="block wrap" id="tools" data-nav="#picker" data-tab="#builder">
   <div class="sec-head"><h2>Инструменты</h2><p>Подбор расы и класса, сбор группы на любое число игроков и чек-лист к старту. Ссылкой на состав можно поделиться в чате.</p></div>
   <nav class="frame ttiles" aria-label="Инструменты">
@@ -854,7 +877,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     <nav class="frame gtiles" aria-label="Гайды">
       <a class="gt" href="#dates"><picture><source type="image/avif" srcset="./assets/art/hero_dawn-960.avif"><img src="./assets/art/hero_dawn-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Даты и наборы</b><span>Резерв имён, релиз, рейды и цены наборов</span></a>
       <a class="gt" href="#classref"><picture><source type="image/avif" srcset="./assets/art/warrior-360.avif 360w, ./assets/art/warrior-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="./assets/art/warrior-360.webp" srcset="./assets/art/warrior-360.webp 360w, ./assets/art/warrior-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Классы подробно</b><span>Специализации, темп прокачки и что нового</span></a>
-      <a class="gt" href="#races"><picture><source type="image/avif" srcset="./assets/art/druid-360.avif 360w, ./assets/art/druid-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="./assets/art/druid-360.webp" srcset="./assets/art/druid-360.webp 360w, ./assets/art/druid-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Расы</b><span>Способности рас и доступные классы</span></a>
+      <a class="gt" href="#races"><picture><source type="image/avif" srcset="./assets/art/human-360.avif 360w, ./assets/art/human-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="./assets/art/human-360.webp" srcset="./assets/art/human-360.webp 360w, ./assets/art/human-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Расы</b><span>Способности рас и доступные классы</span></a>
       <a class="gt" href="#legacy"><picture><source type="image/avif" srcset="./assets/art/priest-360.avif 360w, ./assets/art/priest-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="./assets/art/priest-360.webp" srcset="./assets/art/priest-360.webp 360w, ./assets/art/priest-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Legacy</b><span>Очки на весь аккаунт, перки и награды</span></a>
       <a class="gt" href="#camp"><picture><source type="image/avif" srcset="./assets/art/hero_campfire-960.avif"><img src="./assets/art/hero_campfire-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Лагерь и профессии</b><span>Костёр, объекты профессий и баффы</span></a>
       <a class="gt" href="#dungeons"><picture><source type="image/avif" srcset="./assets/art/warlock-360.avif 360w, ./assets/art/warlock-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="./assets/art/warlock-360.webp" srcset="./assets/art/warlock-360.webp 360w, ./assets/art/warlock-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Подземелья и рейды</b><span>Все 35 подземелий по уровням и 3 рейда</span></a>
@@ -1094,7 +1117,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <dialog class="sheet" id="moreDlg" aria-label="Все разделы">
   <div class="dh"><b>Все разделы</b><button class="iconbtn" id="moreClose" type="button" aria-label="Закрыть"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Все разделы">
-    <div class="grp"><div class="gh">Главная</div><a href="#top">Обзор</a><a href="#stages">Где ты сейчас</a><a href="#factions">Фракции</a><a href="#classes">Классы</a></div>
+    <div class="grp"><div class="gh">Главная</div><a href="#top">Обзор</a><a href="#stages">Где ты сейчас</a><a href="#factions">Фракции</a><a href="#classes">Классы</a><a href="#peoples">Расы</a></div>
     <div class="grp"><div class="gh">Инструменты</div><a href="#picker">Подборщик</a><a href="#builder">Конструктор группы</a><a href="#checklist">Чек-лист</a></div>
     <div class="grp"><div class="gh">Справочник</div><a href="#dates">Даты и наборы</a><a href="#classref">Классы подробно</a><a href="#races">Расы</a><a href="#legacy">Legacy</a><a href="#camp">Лагерь и профессии</a><a href="#dungeons">Подземелья и рейды</a><a href="#group">Состав группы</a><a href="#era">Отличия от Era</a><a href="#sources">Источники</a></div>
   </nav>
@@ -1202,6 +1225,8 @@ const RACES = [
 RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
 const CL = Object.fromEntries(CLASSES.map(c => [c.id, c]));
 const RC = Object.fromEntries(RACES.map(r => [r.id, r]));
+const RLEAD = {"human": "Самая многочисленная раса Альянса. Универсальна и сильна в PvP благодаря Воле к жизни.", "dwarf": "Крепкие горняки и стрелки Стальгорна. Впервые в Classic у Альянса есть шаманы, и это дворфы.", "nightelf": "Древний народ лесов. Неуловимы: свой способ скрыться, уклонение и быстрый бег.", "gnome": "Изобретатели Гномрегана. Маленькие, хитрые и с лучшей способностью побега в игре.", "skyA": "Новая раса Forever. Высший орден: эльфы ветра, которые ищут утраченную тайную магию предков.", "orc": "Сердце Орды. Сильнейшие воины и мастера PvP благодаря Кровавой ярости и Закалке.", "undead": "Отрекшиеся: бывшие люди, вырвавшиеся из-под власти Короля-лича. Не боятся страха и сна.", "tauren": "Мирные великаны равнин. Больше всех здоровья и свой массовый оглушающий удар.", "troll": "Племя Чёрного Копья. Больше всех классов в Орде и сильный Берсерк для урона.", "skyH": "Новая раса Forever. Ветрорезы: духовные лидеры скайборнов, близкие к стихиям."}; // race page leads and URL slugs, filled in by build.py
+const RSLUG = {"human": "human", "dwarf": "dwarf", "nightelf": "night-elf", "gnome": "gnome", "skyA": "skyborne-alliance", "orc": "orc", "undead": "undead", "tauren": "tauren", "troll": "troll", "skyH": "skyborne-horde"};
 
 const EN = {
   'Оружие':'Arms','Неистовство':'Fury','Защита':'Protection','Свет':'Holy','Возмездие':'Retribution',
@@ -1324,10 +1349,11 @@ function renderClassRef() {
 
 function renderRaceRef() {
   $('#raceRef').innerHTML = RACES.map(r => `<div class="ref-row ${r.id === state.race ? 'sel' : ''}">
-    <div class="ref-name"><div class="rtile ${r.f}"><h3>${esc(r.n)}</h3>
+    <div class="ref-name"><div class="rtile ${r.f}"><picture><source type="image/avif" srcset="./assets/art/${RSLUG[r.id]}-360.avif"><img src="./assets/art/${RSLUG[r.id]}-360.webp" width="360" height="482" alt="" loading="lazy" decoding="async"></picture><h3>${esc(r.n)}</h3>
       ${r.en ? `<div class="sub">${esc(r.en)}</div>` : ''}</div>
       <div class="chips"><span class="tag ${r.f}">${facName(r.f)}</span>${r.paid ? '<span class="tag paid">платная</span>' : ''}</div>
-      <button type="button" class="go" data-r="${r.id}">Открыть в подборщике</button></div>
+      <button type="button" class="go" data-r="${r.id}">Открыть в подборщике</button>
+      <a class="go" href="races/${RSLUG[r.id]}/">Страница расы</a></div>
     <div class="ref-body two">
       <div><h4>Классы</h4><div class="chips">${Object.keys(r.can).map(id => `<span class="chip ${r.can[id] === 'new' ? 'new' : ''}">${esc(CL[id].n)}${r.can[id] === 'new' ? ' · новое' : ''}</span>`).join('')}</div></div>
       <div><h4>Способности</h4><ul class="plain">${r.rac.map(x => `<li><span><span class="rtype">${x[0] === 'a' ? 'Активная' : 'Пассивная'}</span><span class="specname">${bi(x[1])}</span></span><span class="specrole">${esc(x[2])}</span></li>`).join('')}</ul></div>
@@ -1390,9 +1416,22 @@ function renderRoster() {
   </a>`).join('');
 }
 renderRoster();
-function activate(card) { if (!card || card.classList.contains('on')) return; document.querySelectorAll('.hc.on').forEach(x => x.classList.remove('on')); card.classList.add('on'); }
-$('#roster').addEventListener('mouseover', e => activate(e.target.closest('.hc')));
-$('#roster').addEventListener('focusin', e => activate(e.target.closest('.hc')));
+/* Race roster: one row of portraits per faction, links to the race pages */
+function renderPeoples() {
+  [['alliance', '#rosterA'], ['horde', '#rosterH']].forEach(([f, sel]) => {
+    $(sel).innerHTML = RACES.filter(r => r.f === f).map((r, i) => `<a class="hc${i === 0 ? ' on' : ''}" href="races/${RSLUG[r.id]}/" style="--cc:var(--${f})">
+    <picture><source type="image/avif" srcset="${artSet(RSLUG[r.id], 'avif')}" sizes="${ART_SIZES}"><source type="image/webp" srcset="${artSet(RSLUG[r.id], 'webp')}" sizes="${ART_SIZES}"><img src="${ROOT}assets/art/${RSLUG[r.id]}-600.webp" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
+    <span class="vn" aria-hidden="true">${esc(raceName(r))}</span>
+    <span class="info"><b>${esc(raceName(r))}</b>${r.paid ? '<span class="tag paid">платная</span>' : ''}<span class="d">${esc(RLEAD[r.id])}</span><span class="more">Подробнее о расе</span></span>
+  </a>`).join('');
+  });
+}
+renderPeoples();
+function activate(card) { if (!card || card.classList.contains('on')) return; card.parentElement.querySelectorAll('.hc.on').forEach(x => x.classList.remove('on')); card.classList.add('on'); }
+document.querySelectorAll('.roster').forEach(ro => {
+  ro.addEventListener('mouseover', e => activate(e.target.closest('.hc')));
+  ro.addEventListener('focusin', e => activate(e.target.closest('.hc')));
+});
 
 /* Faction banners open the picker with that faction */
 document.querySelectorAll('.go-f').forEach(b => b.addEventListener('click', () => {

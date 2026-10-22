@@ -118,7 +118,7 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .topbar.solid .mainnav a[aria-current="true"] { color: var(--gold-2); }
 .tools { margin-left: auto; display: flex; gap: 8px; align-items: center; }
 .langs { display: inline-flex; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; overflow: hidden; }
-.langs a { min-width: 44px; min-height: 42px;
+.langs a { min-width: 44px; min-height: 44px;
  display: grid; place-items: center; color: inherit; opacity: .75; text-decoration: none; font-weight: 600; font-size: .8rem; letter-spacing: .04em; border-right: 1px solid color-mix(in srgb, currentColor 30%, transparent); }
 .langs a:last-child { border-right: 0; }
 .langs a:hover { opacity: 1; }
@@ -226,6 +226,17 @@ section.block { scroll-margin-top: -72px; }
 .ttile:hover img, .gt:hover img { filter: none; transform: scale(1.04); }
 .ttile b, .gt b { font-weight: 700; font-size: 1.2rem; line-height: 1.2; text-shadow: 0 1px 8px rgba(0,0,0,.7); }
 .ttile span, .gt span { font-size: .9rem; line-height: 1.4; color: rgba(243,239,230,.82); }
+
+/* Race roster: two factions side by side in one frame, five portraits each */
+.peoples { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 14px; }
+.pfac { min-width: 0; display: grid; gap: 12px; align-content: start; padding: 14px; border: 1px solid rgba(255,255,255,.08); border-radius: 7px; background: radial-gradient(120% 60% at 50% 0%, var(--ft) 0%, transparent 70%), var(--panel-2); }
+.pfac.alliance { --fc: var(--alliance); --ft: rgba(43,74,124,.45); } .pfac.horde { --fc: var(--horde); --ft: rgba(110,43,29,.45); }
+.pfac h3 { color: var(--fc); font-size: 1.5rem; line-height: 1; }
+.rr { height: clamp(400px, 36vw, 520px); padding: 0; }
+.rr .hc .info { min-width: 250px; padding: 22px 20px 24px; }
+.rr .hc .info b { font-size: 1.9rem; }
+.rr .hc .vn { font-size: 1.15rem; }
+.rr .hc .tag { justify-self: start; color: #e0c27a; }
 
 /* Guides band over the campfire art */
 .gtiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; padding: 14px; }
@@ -500,8 +511,8 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .rtile picture { z-index: -2; }
 .rtile img { object-fit: cover; object-position: 50% 20%; }
 .rtile::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(6,8,12,0) 30%, rgba(6,8,12,.9) 100%); }
-.rtile.alliance { min-height: 96px; background: radial-gradient(120% 100% at 90% 0%, #2b4a7c 0%, #0c1830 65%); }
-.rtile.horde { min-height: 96px; background: radial-gradient(120% 100% at 90% 0%, #6e2b1d 0%, #240d0a 65%); }
+.rtile.alliance { background: #0c1830; border-color: rgba(134,166,216,.35); }
+.rtile.horde { background: #240d0a; border-color: rgba(217,138,132,.35); }
 .rtile h3 { font-size: 1.75rem; text-shadow: 0 1px 8px rgba(0,0,0,.6); }
 .rtile .sub { color: rgba(243,239,230,.75); font-size: .88rem; }
 .ref-name .go { justify-self: start; display: inline-flex; align-items: center; text-decoration: none; min-height: 44px; padding: 0 14px; border: 1px solid var(--pline); border-radius: 7px; background: var(--panel-2); font-size: .88rem; font-weight: 600; color: var(--fg); }
@@ -565,6 +576,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .hc .info b { font-size: 2rem; }
   .hc::after { background: linear-gradient(180deg, rgba(7,8,10,0) 30%, rgba(7,8,10,.72) 55%, rgba(7,8,10,.96) 100%); }
   .swipe { display: block; }
+  .peoples { grid-template-columns: 1fr; gap: 8px; padding: 10px; }
+  .rr { padding: 0; scroll-padding: 0; }
+  .pfac { padding: 10px; }
 }
 @media (max-width: 980px) {
   .builder, .journey { grid-template-columns: 1fr; }
@@ -773,7 +787,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   .chero::before { background: linear-gradient(180deg, rgba(7,8,10,.5) 0%, rgba(7,8,10,0) 18%); bottom: auto; height: 60%; }
   .chero-in { padding-top: 0; margin-top: -120px; padding-bottom: 36px; gap: 16px; }
   .crumbs { order: -1; }
-  .chero h1 { font-size: clamp(3rem, 15vw, 4rem); }
+  .chero h1 { font-size: clamp(2.4rem, 11.5vw, 4rem); overflow-wrap: anywhere; }
   .cfacts { grid-template-columns: 1fr 1fr; gap: 0 16px; }
   .stabs { gap: 4px; padding: 4px; }
   .stabs button { flex: 1 1 0; min-width: 0; padding: 6px 8px; font-size: 1.05rem; min-height: 56px; white-space: normal; text-align: center; justify-items: center; }
@@ -810,7 +824,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="../../" aria-label="Gabella Team, на головну"><span class="mark" aria-hidden="true">G</span><b>Gabella Team</b></a>
   <nav class="mainnav" aria-label="Розділи">
-    <a href="../../#factions">Фракції</a><a href="../../#classes" aria-current="true">Класи</a><a href="../../#picker">Підбирач</a><a href="../../#builder">Група</a><a href="../../#checklist">Чек-лист</a><a href="../../#guides">Гайди</a>
+    <a href="../../#factions">Фракції</a><a href="../../#classes" aria-current="true">Класи</a><a href="../../#peoples">Раси</a><a href="../../#picker">Підбирач</a><a href="../../#builder">Група</a><a href="../../#guides">Гайди</a>
   </nav>
   <div class="tools">
     <div class="langs" role="group" aria-label="Мова"><a href="../../../classes/hunter/" data-lang="ru" hreflang="ru" lang="ru" aria-current="false">RU</a><a href="../../../en/classes/hunter/" data-lang="en" hreflang="en" lang="en" aria-current="false">EN</a><a href="./" data-lang="uk" hreflang="uk" lang="uk" aria-current="true">UK</a></div>

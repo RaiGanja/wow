@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>@@NAME@@ в WoW Forever: гид Gabella Team</title>
+<meta name="description" content="@@NAME@@ в WoW Forever: расовые способности, доступные классы, что нового, столица и стартовая зона. Данные на 23.10.2026.">
+<meta name="theme-color" content="#060708">
+@@ALTERNATES@@
+<script>(function(){var t=null;try{t=localStorage.getItem('wf-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}document.documentElement.setAttribute('data-theme',t)})();</script>
+<link rel="canonical" href="@@CANON@@">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:site_name" content="Gabella Team">
+<meta property="og:title" content="@@NAME@@ в WoW Forever">
+<meta property="og:description" content="@@DESC@@">
+<meta property="og:url" content="@@CANON@@">
+<meta property="og:image" content="https://raiganja.github.io/wow/assets/og/@@ART@@.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="@@NAME@@ в WoW Forever">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230a0b0d'/%3E%3Ctext x='32' y='34' text-anchor='middle' dominant-baseline='central' font-family='Georgia,serif' font-size='44' font-weight='700' fill='%23c9a54a'%3EG%3C/text%3E%3C/svg%3E">
+<link rel="preload" href="@@ROOT@@assets/fonts/forum-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="@@ROOT@@assets/fonts/golos-text-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" type="image/avif" imagesrcset="@@ROOT@@assets/art/@@ART@@-600.avif 600w, @@ROOT@@assets/art/@@ART@@-896.avif 896w" imagesizes="(max-width: 719px) 100vw, 75vh">
+<style>
+@@BASE_CSS@@
+@@CLASS_CSS@@
+/* Race page: faction plate, racial cards, available classes as portraits */
+.chero .ftag { justify-self: start; display: inline-flex; align-items: center; gap: 8px; min-height: 34px; padding: 0 14px; border: 1px solid color-mix(in srgb, var(--fh) 45%, transparent); border-radius: 999px; background: rgba(10,12,18,.62); backdrop-filter: blur(6px); color: var(--fh); font-weight: 600; font-size: .92rem; }
+.chero .ftag .tag { margin-left: 2px; color: #e0c27a; }
+.chero .sub { margin-top: -8px; color: var(--ink-2); font-size: 1.05rem; }
+.racials { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; padding: 14px; }
+.rcard { display: grid; gap: 10px; align-content: start; padding: 18px 18px 20px; border: 1px solid var(--pline); border-radius: 7px; background: var(--panel-2); }
+.rcard .rt { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.rcard .rt .k { display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px; border-radius: 999px; border: 1px solid var(--pline); background: var(--panel); color: var(--muted); font-size: .82rem; font-weight: 500; }
+.rcard .rt .k.a { color: var(--gold-2); border-color: color-mix(in srgb, var(--gold) 45%, transparent); }
+.rcard h3 { font-size: 1.5rem; line-height: 1.1; }
+.rcard .en { display: block; margin-top: 4px; font-family: var(--font-body); font-size: .85rem; color: var(--muted); }
+.rcard p { color: var(--fg); }
+.pspells { margin: 0 14px 14px; padding: 12px 16px; border-radius: 7px; background: var(--panel-2); border: 1px solid var(--pline); color: var(--muted); }
+.pspells b { color: var(--fg); font-weight: 600; }
+.rclasses { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; padding: 14px; }
+.rclasses .oc .tags { position: absolute; top: 8px; left: 8px; display: flex; gap: 4px; }
+.rclasses .oc .tag { background: rgba(7,8,10,.7); }
+.rclasses .oc .go { color: var(--ink-2); font-size: .8rem; margin-top: 4px; }
+.rclasses .oc:hover .go { color: #e0c27a; }
+.nope { margin: 0 14px 14px; padding: 12px 16px; border-radius: 7px; background: var(--panel-2); border: 1px solid var(--pline); color: var(--muted); }
+.best { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.best li { display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 4px 16px; padding: 11px 14px; border-radius: 7px; background: var(--panel-2); border: 1px solid var(--pline); }
+.best a { color: var(--fg); font-weight: 600; text-decoration: none; }
+.best a:hover { color: var(--gold-2); text-decoration: underline; }
+.best span { color: var(--muted); }
+.ofacs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 14px; }
+.ofac { min-width: 0; display: grid; gap: 10px; align-content: start; padding: 14px; border-radius: 7px; background: var(--panel-2); border: 1px solid var(--pline); }
+.ofac h3 { font-size: 1.2rem; color: var(--fc); }
+.ofac.alliance { --fc: var(--alliance); } .ofac.horde { --fc: var(--horde); }
+.ofac .others { grid-template-columns: repeat(5, minmax(0, 1fr)); padding: 0; }
+@media (max-width: 1023px) {
+  .racials { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rclasses { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 132px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 12px; scroll-padding: 0 12px; scrollbar-width: none; }
+  .rclasses::-webkit-scrollbar { display: none; }
+  .ofacs { grid-template-columns: 1fr; }
+  .ofac .others { grid-template-columns: none; padding: 0; }
+}
+@media (max-width: 719px) {
+  .racials { grid-template-columns: 1fr; padding: 10px; gap: 8px; }
+  .rclasses { padding: 10px; scroll-padding: 0 10px; grid-auto-columns: 120px; }
+  .ofacs { padding: 10px; gap: 8px; }
+  .ofac { padding: 12px; }
+  .ofac .others { grid-auto-columns: 112px; }
+  .best li { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body style="--cc:@@FCOLOR@@;--fh:@@FHERO@@">
+@@SPRITE@@
+
+<header class="topbar" id="topbar"><div class="in">
+  <a class="brand" href="@@HOME@@" aria-label="Gabella Team, на главную"><span class="mark" aria-hidden="true">G</span><b>Gabella Team</b></a>
+  <nav class="mainnav" aria-label="Разделы">
+    <a href="@@HOME@@#factions">Фракции</a><a href="@@HOME@@#classes">Классы</a><a href="@@HOME@@#peoples" aria-current="true">Расы</a><a href="@@HOME@@#picker">Подборщик</a><a href="@@HOME@@#builder">Группа</a><a href="@@HOME@@#guides">Гайды</a>
+  </nav>
+  <div class="tools">
+    <div class="langs" role="group" aria-label="Язык"><a href="@@RU@@" data-lang="ru" hreflang="ru" lang="ru" aria-current="@@CUR_RU@@">RU</a><a href="@@EN@@" data-lang="en" hreflang="en" lang="en" aria-current="@@CUR_EN@@">EN</a><a href="@@UK@@" data-lang="uk" hreflang="uk" lang="uk" aria-current="@@CUR_UK@@">UK</a></div>
+    <button class="iconbtn themebtn" type="button" aria-label="Переключить тему" title="Переключить тему"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></button>
+    <button class="iconbtn menubtn" type="button" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg><span>Разделы</span></button>
+  </div>
+</div></header>
+
+<section class="chero" id="top">
+  <picture class="blur" aria-hidden="true"><img src="@@ROOT@@assets/art/@@ART@@-bg.webp" width="480" height="270" alt="" decoding="async"></picture>
+  <picture class="por">
+    <source type="image/avif" srcset="@@ROOT@@assets/art/@@ART@@-600.avif 600w, @@ROOT@@assets/art/@@ART@@-896.avif 896w" sizes="(max-width: 719px) 100vw, 75vh">
+    <source type="image/webp" srcset="@@ROOT@@assets/art/@@ART@@-600.webp 600w, @@ROOT@@assets/art/@@ART@@-896.webp 896w" sizes="(max-width: 719px) 100vw, 75vh">
+    <img src="@@ROOT@@assets/art/@@ART@@-896.webp" width="896" height="1200" alt="" fetchpriority="high" decoding="async">
+  </picture>
+  <div class="wrap chero-in">
+    <nav class="crumbs" aria-label="Навигация"><a href="@@HOME@@">Гид</a><span aria-hidden="true">/</span><a href="@@HOME@@#peoples">Расы</a></nav>
+    <p class="ftag">@@FACTION@@@@PAID@@</p>
+    <h1>@@NAME@@</h1>
+    @@SUB@@
+    <p class="lead">@@DESC@@</p>
+    <dl class="cfacts">@@FACTS@@</dl>
+    <div class="cta">
+      <a class="btn lg" href="@@HOME@@#pick=@@ID@@.@@BEST@@">Открыть в подборщике</a>
+      <a class="btn lg ghost" href="#racials">Способности</a>
+    </div>
+  </div>
+</section>
+
+<main>
+<section class="block wrap" id="racials">
+  <div class="sec-head"><div class="row"><h2>Расовые способности</h2><span class="src">Method, Warcraft Tavern</span></div></div>
+  <div class="frame">
+    <div class="racials">@@RACIALS@@</div>
+    @@PRIEST@@
+  </div>
+</section>
+
+<section class="block wrap" id="classes">
+  <div class="sec-head"><h2>Кем можно играть</h2><p>Нажмите на класс, и подборщик откроет это сочетание: способности расы и всё про класс.</p></div>
+  <div class="frame">
+    <div class="rclasses">@@CLASSES@@</div>
+    @@NOPE@@
+  </div>
+</section>
+
+<section class="nband" id="new">
+  <picture aria-hidden="true"><img src="@@ROOT@@assets/art/@@ART@@-bg.webp" width="480" height="270" alt="" loading="lazy" decoding="async"></picture>
+  <div class="wrap">
+  <div class="sec-head"><div class="row"><h2>Что нового в Forever</h2><span class="src">Warcraft Tavern</span></div><p>По сравнению с Classic. До релиза Blizzard ещё может менять цифры.</p></div>
+  <ol class="news">@@NEWS@@</ol>
+  </div>
+</section>
+
+<section class="block wrap" id="lore">
+  <div class="sec-head"><h2>История и выбор</h2></div>
+  <div class="grid2">
+    <div class="panel"><h3>История</h3><p>@@LORE@@</p><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>@@TIP@@</p></div></div>
+    <div class="panel"><h3>Лучшие классы</h3><ul class="best">@@BESTLIST@@</ul><p class="note">Это мнение составителя. Любое разрешённое сочетание играбельно.</p></div>
+  </div>
+</section>
+
+<section class="block wrap" id="others">
+  <div class="sec-head"><h2>Другие расы</h2></div>
+  <div class="frame ofacs">@@OTHERS@@</div>
+  <div class="pager">@@PAGER@@</div>
+</section>
+
+<div class="wrap">
+<footer id="sources">
+  <h2>Источники</h2>
+  <p>Данные собраны <b style="color:var(--fg)">23.10.2026</b> по закрытой бете и патчу от 15.10.2026. Итоговые цифры могут измениться. <span class="tl" style="display:inline">Совет:</span> мнение составителя.</p>
+  <ul>@@SOURCES@@</ul>
+  <p>Страница сделана для сервера Gabella Team и не связана с Blizzard Entertainment. World of Warcraft — товарный знак Blizzard.</p>
+</footer>
+</div>
+</main>
+
+<nav class="tabbar" aria-label="Быстрые разделы">
+  <a href="@@HOME@@"><svg class="ico" aria-hidden="true"><use href="#i-home"/></svg>Главная</a>
+  <a href="@@HOME@@#classes"><svg class="ico" aria-hidden="true"><use href="#i-tank"/></svg>Классы</a>
+  <a href="@@HOME@@#builder"><svg class="ico" aria-hidden="true"><use href="#i-users"/></svg>Группа</a>
+  <a href="@@HOME@@#guides"><svg class="ico" aria-hidden="true"><use href="#i-book"/></svg>Гайды</a>
+  <button type="button" class="morebtn" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-dots"/></svg>Ещё</button>
+</nav>
+
+<dialog class="sheet" id="moreDlg" aria-label="Все разделы">
+  <div class="dh"><b>Все разделы</b><button class="iconbtn" id="moreClose" type="button" aria-label="Закрыть"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
+  <nav class="toc" aria-label="Все разделы">
+    <div class="grp"><div class="gh">Эта страница</div><a href="#racials">Расовые способности</a><a href="#classes">Кем можно играть</a><a href="#new">Что нового</a><a href="#lore">История и выбор</a></div>
+    <div class="grp"><div class="gh">Гид</div><a href="@@HOME@@">Главная</a><a href="@@HOME@@#picker">Подборщик</a><a href="@@HOME@@#builder">Конструктор группы</a><a href="@@HOME@@#checklist">Чек-лист</a><a href="@@HOME@@#guides">Гайды</a></div>
+    <div class="grp"><div class="gh">Расы</div>@@TOC_RACES@@</div>
+  </nav>
+  <div class="opts">
+    <div class="langs" role="group" aria-label="Язык"><a href="@@RU@@" data-lang="ru" hreflang="ru" lang="ru" aria-current="@@CUR_RU@@">RU</a><a href="@@EN@@" data-lang="en" hreflang="en" lang="en" aria-current="@@CUR_EN@@">EN</a><a href="@@UK@@" data-lang="uk" hreflang="uk" lang="uk" aria-current="@@CUR_UK@@">UK</a></div>
+    <button class="iconbtn themebtn" type="button" aria-label="Переключить тему"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg><span>Тема</span></button>
+  </div>
+  <p class="meta">Данные на 23.10.2026, закрытая бета, патч от 15.10.2026.</p>
+</dialog>
+
+<script>
+const $ = s => document.querySelector(s);
+/* Theme toggle */
+const themeBtns = document.querySelectorAll('.themebtn');
+function paintTheme() { const t = document.documentElement.getAttribute('data-theme'); themeBtns.forEach(b => b.querySelector('use').setAttribute('href', t === 'light' ? '#i-moon' : '#i-sun')); const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#fbfaf7' : '#07080a'); }
+themeBtns.forEach(b => b.onclick = () => { const t = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light'; document.documentElement.setAttribute('data-theme', t); try { localStorage.setItem('wf-theme', t); } catch (e) {} paintTheme(); });
+paintTheme();
+
+/* Top bar turns solid once the page is scrolled */
+const topbar = $('#topbar');
+let barTick = false;
+function paintBar() { topbar.classList.toggle('solid', window.scrollY > 24); barTick = false; }
+window.addEventListener('scroll', () => { if (!barTick) { barTick = true; requestAnimationFrame(paintBar); } }, { passive: true });
+paintBar();
+
+/* Menu sheet */
+const dlg = $('#moreDlg');
+document.querySelectorAll('.menubtn, .morebtn').forEach(b => b.onclick = () => { if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', ''); });
+$('#moreClose').onclick = () => dlg.close();
+dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.toc a')) dlg.close(); });
+</script>
+</body>
+</html>
