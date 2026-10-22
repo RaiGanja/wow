@@ -2,6 +2,14 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
+<script>
+/* Old guide anchors moved to /guides/ pages (stage 5): keep Discord links working */
+(function () {
+  var m = { dates: 'faq/#dates', era: 'faq/#era' };
+  var h = location.hash.slice(1);
+  if (m[h]) location.replace('guides/' + m[h]);
+})();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>WoW Forever: гид Gabella Team</title>
 <meta name="description" content="Гид по WoW Forever для компании друзей: классы, расы, комбинации, Legacy, лагерь, подземелья, рейды и подбор состава группы. Данные на 23.10.2026.">
