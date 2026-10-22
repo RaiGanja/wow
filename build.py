@@ -1,11 +1,13 @@
-"""Сборка гида: index.src.html и class.src.html (русские исходники) + content/classes.py + i18n/{ru,en,uk}.txt (переводы, строка в строку)
--> index.html, en/index.html, uk/index.html и classes/<id>/index.html на трёх языках.
+"""Сборка гида: index.src.html, class.src.html, race.src.html (русские исходники) + content/classes.py, content/races.py
++ i18n/{ru,en,uk}.txt (переводы, строка в строку)
+-> index.html, en/index.html, uk/index.html, classes/<id>/index.html и races/<slug>/index.html на трёх языках.
 Запуск: python build.py [--list]  (--list печатает русские фрагменты без перевода)"""
-import os, posixpath, re, sys
+import json, os, posixpath, re, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, 'content'))
 from classes import CLASSES, SOURCES  # noqa: E402
+from races import RACES_PAGE, SOURCES as RACE_SOURCES, NEW_RACIALS  # noqa: E402
 
 
 def load(name):
@@ -69,6 +71,8 @@ def localize(html, lang, here):
 # ---------- home page ----------
 
 def build_home(lang, src):
+    src = src.replace('@@RACE_LEAD@@', json.dumps({r['id']: r['lead'] for r in RACES_PAGE}, ensure_ascii=False))
+    src = src.replace('@@RACE_SLUG@@', json.dumps({r['id']: r['slug'] for r in RACES_PAGE}))
     html, missing = translate(src, lang)
     here = page_dir(lang)
     html = html.replace('@@RU@@', rel(here, page_dir('ru'))).replace('@@EN@@', rel(here, page_dir('en'))).replace('@@UK@@', rel(here, page_dir('uk')))
@@ -102,13 +106,29 @@ def ri(role):
 
 
 def parse_races(src):
+    """RACES of the home page: classes, racial abilities [(a|p, name, what)] and the tip."""
     out = []
-    for rid, n, fac, paid, name, cls in RACE_RX.findall(src):
+    block = src[src.index('const RACES = ['):]
+    block = block[:block.index('\n];')]
+    for m in RACE_RX.finditer(block):
+        rid, n, fac, paid, name, cls = m.groups()
         can = {}
         for c in re.findall(r"'(\w+\*?)'", cls):
             can[c.rstrip('*')] = 'new' if c.endswith('*') else 'ok'
-        out.append({'id': rid, 'n': name or n, 'f': fac, 'paid': bool(paid), 'can': can})
+        rest = block[m.end():]
+        nxt = RACE_RX.search(rest)
+        body = rest[:nxt.start()] if nxt else rest
+        rac = re.findall(r"\['([ap])','([^']+)','([^']+)'\]", body)
+        tip = re.search(r"tip:'([^']+)'", body).group(1)
+        out.append({'id': rid, 'n': name or n, 'f': fac, 'paid': bool(paid), 'can': can, 'rac': rac, 'tip': tip})
     return out
+
+
+def parse_en(src):
+    """English names of specs and racial abilities from the EN map of the home page."""
+    block = src[src.index('const EN = {'):]
+    block = block[:block.index('};')]
+    return {ru: a or b for ru, a, b in re.findall(r"'([^']+)':(?:'([^']+)'|\"([^\"]+)\")", block)}
 
 
 def pic(cid, root, widths, sizes, cls='', lazy=True):
@@ -185,18 +205,104 @@ def build_class(c, lang, tpl, base_css, sprite, races):
     return here + 'index.html', html, missing
 
 
+# ---------- race pages ----------
+
+FAC = {'alliance': 'Альянс', 'horde': 'Орда'}
+FHERO = {'alliance': '#86a6d8', 'horde': '#d98a84'}
+NCLS = {4: 'Четыре класса', 5: 'Пять классов', 6: 'Шесть классов', 7: 'Семь классов'}
+SKY_SUB = {'skyA': 'Скайборн за Альянс', 'skyH': 'Скайборн за Орду'}
+
+
+def build_race(rp, lang, tpl, base_css, class_css, sprite, races, en):
+    r = next(x for x in races if x['id'] == rp['id'])
+    slug = {x['id']: x['slug'] for x in RACES_PAGE}
+    i = next(k for k, x in enumerate(RACES_PAGE) if x['id'] == rp['id'])
+    here = page_dir(lang, f'races/{rp["slug"]}/')
+    root = rel(here, '')
+    home = rel(here, page_dir(lang))
+    classes_dir = rel(here, page_dir(lang, 'classes/'))
+
+    facts = ''.join(f'<div><dt>{k}</dt><dd>{esc(v)}</dd></div>' for k, v in rp['facts'])
+    cards = []
+    for kind, ru, what in r['rac']:
+        # ability names: Russian with the English original; other languages use the English name only
+        name = f'{esc(ru)}<span class="en" lang="en">{esc(en.get(ru, ru))}</span>' if lang == 'ru' else f'<span lang="en">{esc(en.get(ru, ru))}</span>'
+        new = '<span class="tag new">новое</span>' if ru in NEW_RACIALS else ''
+        cards.append(f'<article class="rcard"><div class="rt"><span class="k{" a" if kind == "a" else ""}">{"Активная" if kind == "a" else "Пассивная"}</span>{new}</div><h3>{name}</h3><p>{esc(what)}</p></article>')
+    priest = ''
+    if rp['priest']:
+        sp = ', '.join(f'<b lang="en">{esc(n)}</b>' + (' <span class="tag new">новое</span>' if nw else '') for n, nw in rp['priest'])
+        priest = f'<p class="pspells">Свои заклинания жреца: {sp}.</p>'
+
+    cls_cards = []
+    for c in CLASSES:
+        if c['id'] not in r['can']:
+            continue
+        tags = '<span class="tags"><span class="tag new">новое</span></span>' if r['can'][c['id']] == 'new' else ''
+        cls_cards.append(f'<a class="oc" href="@@HOME@@#pick={r["id"]}.{c["id"]}" style="--cc:{COLOR[c["id"]]}">{pic(c["id"], root, (360,), "132px")}{tags}<b>{esc(c["n"])}</b><span class="go">В подборщик</span></a>')
+    nope = [c['n'] for c in CLASSES if c['id'] not in r['can']]
+    nope_html = ('<p class="nope">Недоступны: ' + ', '.join(f'<span>{esc(n)}</span>' for n in nope) + '.</p>') if nope else ''
+
+    news = ''.join(f'<li>{esc(x)}</li>' for x in rp['news'])
+    cn = {c['id']: c['n'] for c in CLASSES}
+    best = ''.join(f'<li><a href="{classes_dir}{cid}/">{esc(cn[cid])}</a><span>{esc(why)}</span></li>' for cid, why in rp['best'])
+
+    others = ''
+    for fac in ('alliance', 'horde'):
+        cards_o = ''.join(f'<a class="oc" href="../{slug[o["id"]]}/" style="--cc:var(--{fac})">{pic(slug[o["id"]], root, (360,), "132px")}<b>{esc(o["n"])}</b></a>'
+                          for o in races if o['f'] == fac and o['id'] != r['id'])
+        others += f'<div class="ofac {fac}"><h3>{FAC[fac]}</h3><div class="others">{cards_o}</div></div>'
+    prev, nxt = RACES_PAGE[i - 1], RACES_PAGE[(i + 1) % len(RACES_PAGE)]
+    rn = {x['id']: x['n'] for x in races}
+    pager = (f'<a class="prev" href="../{prev["slug"]}/">{ico("arrow")}{esc(rn[prev["id"]])}</a>'
+             f'<a class="next" href="../{nxt["slug"]}/">{esc(rn[nxt["id"]])}{ico("arrow")}</a>')
+    cur = ' aria-current="page"'
+    toc = ''.join(f'<a href="../{slug[o["id"]]}/"{cur if o["id"] == r["id"] else ""}>{esc(o["n"])}</a>' for o in races)
+    sources = ''.join(f'<li><a href="{u.format(wt=rp["wt"])}" target="_blank" rel="noopener">{esc(n)}</a></li>' for n, u in RACE_SOURCES)
+
+    v = {
+        'ID': r['id'], 'ART': rp['slug'], 'FCOLOR': f'var(--{r["f"]})', 'FHERO': FHERO[r['f']], 'FACTION': FAC[r['f']],
+        'PAID': ' <span class="tag paid">платная</span>' if r['paid'] else '',
+        'SUB': f'<p class="sub">{SKY_SUB[r["id"]]}</p>' if r['id'] in SKY_SUB else '',
+        'DESC': esc(rp['lead']), 'FACTS': facts, 'BEST': rp['best'][0][0], 'RACIALS': ''.join(cards), 'PRIEST': priest,
+        'NCLS': NCLS[len(r['can'])], 'CLASSES': ''.join(cls_cards), 'NOPE': nope_html, 'NEWS': news,
+        'LORE': esc(rp['lore']), 'TIP': esc(r['tip']), 'BESTLIST': best, 'OTHERS': others, 'PAGER': pager,
+        'TOC_RACES': toc, 'SOURCES': sources,
+    }
+    html = tpl.replace('@@BASE_CSS@@', base_css).replace('@@CLASS_CSS@@', class_css).replace('@@SPRITE@@', sprite)
+    for k, val in v.items():
+        html = html.replace(f'@@{k}@@', val)
+    html, missing = translate(html, lang)
+    html = html.replace('@@NAME@@', esc(tr(r['n'], lang)))
+    html = html.replace('@@HOME@@', home)
+    for l in LANGS:
+        html = html.replace(f'@@{l.upper()}@@', rel(here, page_dir(l, f'races/{rp["slug"]}/')))
+        html = html.replace(f'@@CUR_{l.upper()}@@', 'true' if l == lang else 'false')
+    html = html.replace('@@CANON@@', SITE + here)
+    alt = '\n'.join(f'<link rel="alternate" hreflang="{l}" href="{SITE}{page_dir(l, "races/" + rp["slug"] + "/")}">' for l in LANGS)
+    alt += f'\n<link rel="alternate" hreflang="x-default" href="{SITE}races/{rp["slug"]}/">'
+    html = html.replace('@@ALTERNATES@@', alt)
+    html = localize(html, lang, here)
+    return here + 'index.html', html, missing
+
+
 def main():
     src = open(os.path.join(HERE, 'index.src.html'), encoding='utf-8').read()
     tpl = open(os.path.join(HERE, 'class.src.html'), encoding='utf-8').read()
+    rtpl = open(os.path.join(HERE, 'race.src.html'), encoding='utf-8').read()
+    class_css = tpl[tpl.index('/* Class page'):tpl.index('</style>')].strip('\n')
     base_css = src[src.index('<style>') + 7:src.index('</style>')].strip('\n')
     s0 = src.index('<svg width="0" height="0"')
     sprite = src[s0:src.index('</svg>', s0) + 6]
     races = parse_races(src)
-    assert len(races) == 10, len(races)
+    assert len(races) == 10 and all(len(r['rac']) == 4 for r in races), [(r['id'], len(r['rac'])) for r in races]
+    assert [r['id'] for r in races] == [r['id'] for r in RACES_PAGE]
+    en = parse_en(src)
 
     pages, allmissing = [], []
     for lang in LANGS:
-        for path, html, missing in [build_home(lang, src)] + [build_class(c, lang, tpl, base_css, sprite, races) for c in CLASSES]:
+        for path, html, missing in [build_home(lang, src)] + [build_class(c, lang, tpl, base_css, sprite, races) for c in CLASSES] \
+                + [build_race(rp, lang, rtpl, base_css, class_css, sprite, races, en) for rp in RACES_PAGE]:
             assert '@@' not in html, (path, re.findall(r'@@\w+@@', html)[:5])
             pages.append((path, html))
             allmissing += missing

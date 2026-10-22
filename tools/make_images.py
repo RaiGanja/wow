@@ -1,6 +1,7 @@
 """Web images for the guide: source art (gabella-bot/assets/wow_art) -> assets/art/*.avif|webp in several widths,
-plus class page extras: blurred hero backdrop assets/art/<class>-bg.webp and share preview assets/og/<class>.jpg.
-Run: python tools/make_images.py [path-to-wow_art] [--classes-only]"""
+plus class and race page extras: blurred hero backdrop assets/art/<id>-bg.webp and share preview assets/og/<id>.jpg.
+Race portraits live in wow_art/races/<race id>.jpg and are saved under the race page slug.
+Run: python tools/make_images.py [path-to-wow_art] [--classes-only | --races-only]"""
 import os, sys
 from PIL import Image, ImageDraw, ImageEnhance, ImageFilter
 
@@ -8,6 +9,8 @@ ARGS = [a for a in sys.argv[1:] if not a.startswith('--')]
 SRC = ARGS[0] if ARGS else os.path.join(os.path.expanduser('~'), 'gabella-bot', 'assets', 'wow_art')
 OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'assets', 'art')
 CLASSES = ['warrior', 'paladin', 'hunter', 'rogue', 'priest', 'shaman', 'mage', 'warlock', 'druid']
+RACES = {'human': 'human', 'dwarf': 'dwarf', 'nightelf': 'night-elf', 'gnome': 'gnome', 'skyA': 'skyborne-alliance',
+         'orc': 'orc', 'undead': 'undead', 'tauren': 'tauren', 'troll': 'troll', 'skyH': 'skyborne-horde'}
 JOBS = [('hero_dawn', [960, 1440, 1920, 2560])] + [('hero_campfire', [960, 1600])] + [(c, [360, 600, 896]) for c in CLASSES]
 
 
@@ -35,8 +38,8 @@ def backdrop(im, w, h):
     return ImageEnhance.Brightness(bg).enhance(.55)
 
 
-def class_extras(cid):
-    im = Image.open(os.path.join(SRC, cid + '.jpg')).convert('RGB')
+def page_extras(cid, src=None):
+    im = Image.open(src or os.path.join(SRC, cid + '.jpg')).convert('RGB')
     backdrop(im, 480, 270).save(os.path.join(OUT, f'{cid}-bg.webp'), quality=70, method=6)
     # share preview 1200x630: backdrop + centered portrait with soft side edges
     og = backdrop(im, 1200, 630)
@@ -55,8 +58,17 @@ def class_extras(cid):
 
 def main():
     os.makedirs(OUT, exist_ok=True)
+    if '--races-only' in sys.argv:
+        for rid, slug in RACES.items():
+            src = os.path.join(SRC, 'races', rid + '.jpg')
+            page_extras(slug, src)
+            im = Image.open(src).convert('RGB')
+            for w in (360, 600, 896):
+                save(im, slug, w)
+            print(slug, 'ok')
+        return
     for cid in CLASSES:
-        class_extras(cid)
+        page_extras(cid)
     print('class extras ok')
     if '--classes-only' in sys.argv:
         return
