@@ -1,7 +1,7 @@
 """Web images for the guide: source art (gabella-bot/assets/wow_art) -> assets/art/*.avif|webp in several widths,
 plus class and race page extras: blurred hero backdrop assets/art/<id>-bg.webp and share preview assets/og/<id>.jpg.
 Race portraits live in wow_art/races/<race id>.jpg and are saved under the race page slug.
-Run: python tools/make_images.py [path-to-wow_art] [--classes-only | --races-only]"""
+Run: python tools/make_images.py [path-to-wow_art] [--classes-only | --races-only | --faces-only]"""
 import os, sys
 from PIL import Image, ImageDraw, ImageEnhance, ImageFilter
 
@@ -56,8 +56,29 @@ def page_extras(cid, src=None):
     og.save(os.path.join(os.path.dirname(OUT), 'og', f'{cid}.jpg'), quality=84, optimize=True, progressive=True)
 
 
+# face centre as a share of portrait height, where it differs from the default
+FACE_Y = {'gnome': .33, 'dwarf': .27, 'skyborne-horde': .24}
+
+
+def face(src, name):
+    """Square head-and-shoulders crop for round avatars: <name>-face.avif|webp, 160 px."""
+    im = Image.open(src).convert('RGB')
+    w, h = im.size
+    side, cy = int(w * .44), int(h * FACE_Y.get(name, .25))
+    im = im.crop((w // 2 - side // 2, cy - side // 2, w // 2 + side // 2, cy + side // 2)).resize((160, 160), Image.LANCZOS)
+    im.save(os.path.join(OUT, f'{name}-face.avif'), quality=55, speed=4)
+    im.save(os.path.join(OUT, f'{name}-face.webp'), quality=82, method=6)
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
+    if '--faces-only' in sys.argv:
+        for cid in CLASSES:
+            face(os.path.join(SRC, cid + '.jpg'), cid)
+        for rid, slug in RACES.items():
+            face(os.path.join(SRC, 'races', rid + '.jpg'), slug)
+        print('faces ok')
+        return
     if '--races-only' in sys.argv:
         for rid, slug in RACES.items():
             src = os.path.join(SRC, 'races', rid + '.jpg')
@@ -65,10 +86,12 @@ def main():
             im = Image.open(src).convert('RGB')
             for w in (360, 600, 896):
                 save(im, slug, w)
+            face(src, slug)
             print(slug, 'ok')
         return
     for cid in CLASSES:
         page_extras(cid)
+        face(os.path.join(SRC, cid + '.jpg'), cid)
     print('class extras ok')
     if '--classes-only' in sys.argv:
         return
