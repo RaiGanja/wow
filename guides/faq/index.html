@@ -807,6 +807,10 @@ nav.gtiles { padding: 14px; }
 .gtable td { background: var(--panel-2); padding: 11px 12px; border-block: 1px solid var(--pline); }
 .gtable td:first-child { border-radius: 8px 0 0 8px; border-left: 1px solid var(--pline); font-weight: 600; }
 .gtable td:last-child { border-radius: 0 8px 8px 0; border-right: 1px solid var(--pline); }
+.gtable tr.mine td { border-color: color-mix(in srgb, var(--gold) 55%, transparent); }
+.gtable .alt { display: block; margin-top: 4px; color: var(--muted); font-size: .8rem; font-weight: 400; }
+.gtable .tag { margin-left: 6px; vertical-align: 1px; }
+#dgBox .filters { margin-bottom: 6px; }
 .gtabs [role="tablist"] { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
 .gtabs [role="tab"] { min-height: 38px; padding: 0 14px; cursor: pointer; font: inherit; font-weight: 600; }
 .gtabs [role="tab"][aria-selected="true"] { background: #c9a54a; border-color: #c9a54a; color: #15110a; }
@@ -838,6 +842,14 @@ nav.gtiles { padding: 14px; }
   .gtable, .gtable tbody, .gtable tr, .gtable td { display: block; width: 100%; }
   .gtable tr { background: var(--panel-2); border: 1px solid var(--pline); border-radius: 10px; padding: 8px 0; margin-bottom: 8px; }
   .gtable td { background: none; padding: 4px 14px; border: 0 !important; border-radius: 0 !important; }
+  .gtable tr.mine { border-color: color-mix(in srgb, var(--gold) 55%, transparent); }
+  .dgt tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; padding: 10px 14px; }
+  .dgt td { padding: 0; }
+  .dgt td::before { display: none !important; }
+  .dgt td:nth-child(2) { display: contents; }
+  .dgt td:nth-child(2) .pill { grid-column: 2; grid-row: 1; justify-self: end; align-self: start; }
+  .dgt td:nth-child(2) .alt { grid-column: 1 / -1; grid-row: 3; margin-top: 2px; }
+  .dgt td:nth-child(3) { grid-column: 1 / -1; grid-row: 2; color: var(--muted); font-size: .85rem; }
   .gtable td::before { content: attr(data-l); display: block; font-size: .78rem; font-weight: 400; color: var(--muted); }
 }
 </style>
@@ -898,7 +910,7 @@ nav.gtiles { padding: 14px; }
 </main>
 
 <div class="wrap">
-<section id="more" hidden><div class="sec-head"><h2>Другие гайды</h2></div><nav class="frame ttiles gtiles" aria-label="Другие гайды"></nav></section>
+<section id="more"><div class="sec-head"><h2>Другие гайды</h2></div><nav class="frame ttiles gtiles" aria-label="Другие гайды"><a class="ttile" href="../../guides/dungeons/"><picture><source type="image/avif" srcset="../../assets/art/warlock-360.avif 360w, ../../assets/art/warlock-600.avif 600w, ../../assets/art/warlock-896.avif 896w" sizes="320px"><img src="../../assets/art/warlock-600.webp" srcset="../../assets/art/warlock-360.webp 360w, ../../assets/art/warlock-600.webp 600w, ../../assets/art/warlock-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Подземелья и рейды</b><span>35 подземелий по уровням, рейды, состав группы</span></a></nav></section>
 <footer id="sources">
   <h2>Источники</h2>
   <ul><li><a href="https://classicwow.gg/forever" target="_blank" rel="noopener">ClassicWoW.gg: даты беты, имён, рейдов, отличия от Era</a></li><li><a href="https://www.warcrafttavern.com/news/world-of-warcraft-forever-editions-skyborne-race-unlock-beta-access/" target="_blank" rel="noopener">Warcraft Tavern: наборы и цены</a></li><li><a href="https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/" target="_blank" rel="noopener">Warcraft Tavern: изменения беты от 15 октября</a></li><li><a href="https://www.warcrafttavern.com/forever/guides/races/" target="_blank" rel="noopener">Warcraft Tavern: расы</a></li><li><a href="https://teamoverpowered.com/forever/guides/name-reservation/" target="_blank" rel="noopener">Team Overpowered: имена и фамилии</a></li></ul>

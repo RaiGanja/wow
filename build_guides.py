@@ -2,7 +2,7 @@
 Обвязка шаблона переводится через i18n/{ru,en,uk}.txt + i18n/guides.*.txt (строка в строку);
 тело подставляется ПОСЛЕ перевода — тексты гайдов уже на трёх языках, translate() их не видит.
 Запуск: python build_guides.py [--list]  (--list печатает русские фрагменты обвязки без перевода)"""
-import os, re, sys
+import json, os, re, sys
 from html import escape
 
 import build
@@ -127,6 +127,56 @@ function openHash() { const d = location.hash && document.getElementById(decodeU
 addEventListener('hashchange', openHash); openHash();'''
 
 
+DG_TX = {
+    'ru': {'h': ['Подземелье', 'Уровни', 'Где вход'], 'new': 'новое', 'shown': 'Показано', 'of': 'из',
+           'none': 'Под этот уровень подземелий нет.', 'need': 'Укажите свой уровень, чтобы отфильтровать.'},
+    'en': {'h': ['Dungeon', 'Levels', 'Entrance'], 'new': 'new', 'shown': 'Showing', 'of': 'of',
+           'none': 'No dungeons for this level.', 'need': 'Enter your level to filter.'},
+    'uk': {'h': ['Підземелля', 'Рівні', 'Де вхід'], 'new': 'нове', 'shown': 'Показано', 'of': 'з',
+           'none': 'Під цей рівень підземель немає.', 'need': 'Вкажіть свій рівень, щоб відфільтрувати.'},
+}
+DG_JS = r'''/* Dungeons: level filter seeded from "My hero" (read only, the hero is edited on the home page) */
+const TX = @@TX@@;
+const lvRange = d => d[1] === d[2] ? String(d[1]) : `${d[1]}–${d[2]}`;
+const nearLvl = (d, lv) => lv >= d[1] - 3 && lv <= d[2] + 3;
+let dgLvl = 0;
+try { dgLvl = +(JSON.parse(localStorage.getItem('gabella-wf-me')) || {}).lvl || 0; } catch (e) {}
+let dgMode = dgLvl ? 'mine' : 'all';
+const lvIn = $('#dgLvl');
+function renderDg() {
+  let rows = DUNGEONS;
+  if (dgMode === 'new') rows = rows.filter(d => d[4]);
+  if (dgMode === 'mine') rows = dgLvl ? rows.filter(d => nearLvl(d, dgLvl)) : [];
+  $('#dgBody').innerHTML = rows.length ? rows.map(d => {
+    const mine = dgLvl && nearLvl(d, dgLvl);
+    const alt = (d[5] || []).map(a => `${a[0]}: ${a[1]}`).join(', ');
+    return `<tr class="${mine ? 'mine' : ''}"><td data-l="${TX.h[0]}">${esc(d[0])}${d[4] ? ` <span class="tag new">${TX.new}</span>` : ''}</td>`
+      + `<td data-l="${TX.h[1]}"><span class="pill${mine ? ' gold' : ''}">${lvRange(d)}</span>${alt ? `<span class="alt">${esc(alt)}</span>` : ''}</td>`
+      + `<td data-l="${TX.h[2]}">${esc(d[3])}</td></tr>`;
+  }).join('') : `<tr><td colspan="3">${dgLvl ? TX.none : TX.need}</td></tr>`;
+  $('#dgCount').textContent = `${TX.shown} ${rows.length} ${TX.of} ${DUNGEONS.length}`;
+  document.querySelectorAll('#segD button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === dgMode));
+  if (document.activeElement !== lvIn) lvIn.value = dgLvl || '';
+}
+$('#segD').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { dgMode = b.dataset.v; renderDg(); } });
+lvIn.addEventListener('input', () => { const v = parseInt(lvIn.value, 10); dgLvl = v >= 1 && v <= 60 ? v : 0; dgMode = dgLvl ? 'mine' : 'all'; renderDg(); });
+document.querySelectorAll('#dgBox .lvm, #dgBox .lvp').forEach(b => b.addEventListener('click', () => {
+  const up = b.classList.contains('lvp');
+  dgLvl = Math.max(1, Math.min(60, (dgLvl || (up ? 0 : 2)) + (up ? 1 : -1))); dgMode = 'mine'; renderDg();
+}));
+renderDg();'''
+JS['dungeons'] = {l: DG_JS.replace('@@TX@@', json.dumps(DG_TX[l], ensure_ascii=False)) for l in LANGS}
+
+
+def dungeons_data(src):
+    """Only the DUNGEONS array of the home page: the rest of its data is Russian and not needed here."""
+    i = src.index('const DUNGEONS = [')
+    return src[i:src.index('\n];', i) + 3]
+
+
+DATA = {'dungeons': dungeons_data, 'professions': home_data}   # js key -> data blocks from index.src.html
+
+
 def page_ids(g):
     """Every id a guide puts on its page: sections, FAQ questions, raw blocks."""
     ids = [s['id'] for s in g['sections']]
@@ -166,7 +216,7 @@ def build_page(g, lang, tpl, base_css, sprite, src):
         'SOLO': '' if toc else ' solo',
         'SOURCES': ''.join(f'<li><a href="{u}" target="_blank" rel="noopener">{E(n, lang)}</a></li>' for n, u in g.get('sources', [])),
         'UPDATED': g.get('updated', HUB.get('updated', '')),
-        'JS': (((home_data(src) + '\n') if js in ('dungeons', 'professions') else '') + JS[js]) if js else '',
+        'JS': ((DATA[js](src) + '\n' if js in DATA else '') + L(JS[js], lang)) if js else '',
     }
     for k, v in rep.items():                                     # 2) тело
         html = html.replace(f'@@{k}@@', v)

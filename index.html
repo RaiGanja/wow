@@ -5,7 +5,7 @@
 <script>
 /* Old guide anchors moved to /guides/ pages (stage 5): keep Discord links working */
 (function () {
-  var m = { dates: 'faq/#dates', era: 'faq/#era' };
+  var m = { dates: 'faq/#dates', era: 'faq/#era', dungeons: 'dungeons/', group: 'dungeons/#group' };
   var h = location.hash.slice(1);
   if (m[h]) location.replace('guides/' + m[h]);
 })();
@@ -1956,7 +1956,7 @@ function renderStage() {
     <ol class="steps-c">${steps}</ol>
     <div class="st-cols">
       <div><h4>Подземелья под уровень</h4>${s.dnote ? `<p class="small" style="margin:-4px 0 10px">${esc(s.dnote)}</p>` : ''}<ul class="dlist">${ds.slice(0, MAXD).map(dLi).join('')}</ul>
-        <a class="more-l" href="#dungeons">${extra > 0 ? `Ещё подземелий в таблице: ${extra}` : 'Все 35 подземелий'}<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+        <a class="more-l" href="guides/dungeons/">${extra > 0 ? `Ещё подземелий в таблице: ${extra}` : 'Все 35 подземелий'}<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
       <div style="display:grid;gap:24px;align-content:start"><div><h4>Профессии и лагерь</h4><ul class="clean">${s.prof.map(liC).join('')}</ul></div>
         <div><h4>Перки Legacy</h4><ul class="clean">${s.legacy.map(liC).join('')}</ul></div></div>
     </div>
@@ -1993,7 +1993,7 @@ function renderMe() {
     if (me.lvl) {
       const ds = DUNGEONS.filter(d => nearLvl(d, me.lvl));
       out += `<div><h4>Подземелья под ваш уровень</h4>` + (ds.length ? `<ul class="dlist">${ds.slice(0, 4).map(dLi).join('')}</ul>` : '<p class="small">Первые подземелья с 13 уровня.</p>')
-        + `<a class="more-l" href="#dungeons">${ds.length > 4 ? `Ещё подземелий в таблице: ${ds.length - 4}` : 'Таблица подземелий'}<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>`;
+        + `<a class="more-l" href="guides/dungeons/">${ds.length > 4 ? `Ещё подземелий в таблице: ${ds.length - 4}` : 'Таблица подземелий'}<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>`;
     }
   }
   $('#meOut').innerHTML = out;

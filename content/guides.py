@@ -206,4 +206,144 @@ GUIDES.append({
     ],
 })
 
+# ---------- Подземелья и рейды (переехали #dungeons и #group главной) ----------
+
+def _dg_filter():
+    """Filter bar + table shell for the dungeons list; rows are drawn by JS['dungeons'] from DUNGEONS."""
+    out = {}
+    for l, (flt, all_, mine, new, my, lo, hi, cols) in {
+        'ru': ('Фильтр подземелий', 'Все', 'Мой уровень ±3', 'Новые', 'Мой уровень', 'Уровень ниже', 'Уровень выше', ('Подземелье', 'Уровни', 'Где вход')),
+        'en': ('Dungeon filter', 'All', 'My level ±3', 'New', 'My level', 'Lower level', 'Higher level', ('Dungeon', 'Levels', 'Entrance')),
+        'uk': ('Фільтр підземель', 'Усі', 'Мій рівень ±3', 'Нові', 'Мій рівень', 'Нижчий рівень', 'Вищий рівень', ('Підземелля', 'Рівні', 'Де вхід')),
+    }.items():
+        ths = ''.join(f'<th scope="col">{c}</th>' for c in cols)
+        out[l] = (f'<div id="dgBox"><div class="filters" role="group" aria-label="{flt}">'
+                  f'<div class="seg" id="segD"><button type="button" data-v="all" aria-pressed="true">{all_}</button>'
+                  f'<button type="button" data-v="mine" aria-pressed="false">{mine}</button>'
+                  f'<button type="button" data-v="new" aria-pressed="false">{new}</button></div>'
+                  f'<div class="fgroup"><span class="flabel" id="ldgLvl">{my}</span><div class="stepper" role="group" aria-labelledby="ldgLvl">'
+                  f'<button type="button" class="lvm" aria-label="{lo}">−</button>'
+                  f'<input class="lvin" id="dgLvl" type="number" min="1" max="60" inputmode="numeric" aria-labelledby="ldgLvl" placeholder="—">'
+                  f'<button type="button" class="lvp" aria-label="{hi}">+</button></div></div>'
+                  f'<span class="small" id="dgCount" role="status"></span></div>'
+                  f'<table class="gtable dgt"><thead><tr>{ths}</tr></thead>'
+                  f'<tbody id="dgBody"></tbody></table></div>')
+    return out
+
+
+GUIDES.append({
+    'slug': 'dungeons', 'art': 'warlock', 'updated': '23.10.2026', 'js': 'dungeons',
+    'title': t('Подземелья и рейды', 'Dungeons and raids', 'Підземелля та рейди'),
+    'lead': t('Все 35 подземелий по уровням с фильтром под вашего героя, три рейда и состав группы под любое число друзей.',
+              'All 35 dungeons by level with a filter for your hero, three raids and a group lineup for any number of friends.',
+              'Усі 35 підземель за рівнями з фільтром під вашого героя, три рейди та склад групи під будь-яку кількість друзів.'),
+    'tile': t('35 подземелий по уровням, рейды, состав группы', '35 dungeons by level, raids, group lineup', '35 підземель за рівнями, рейди, склад групи'),
+    'pills': [t('35 подземелий', '35 dungeons', '35 підземель'), t('9 новых', '9 new', '9 нових'),
+              t('Рейды с 09.12', 'Raids from 09.12', 'Рейди з 09.12')],
+    'sources': [
+        (t('Warcraft Tavern: подземелья', 'Warcraft Tavern: dungeons', 'Warcraft Tavern: підземелля'), 'https://www.warcrafttavern.com/forever/guides/dungeons/'),
+        (t('Sportskeeda: подземелья по уровням', 'Sportskeeda: dungeons by level', 'Sportskeeda: підземелля за рівнями'),
+         'https://www.sportskeeda.com/mmo/world-warcraft-forever-all-dungeons-order-level-range'),
+        (t('Icy Veins: обзор подземелий', 'Icy Veins: dungeons overview', 'Icy Veins: огляд підземель'), 'https://www.icy-veins.com/wow-forever/dungeons-overview'),
+        (t('ClassicWoW.gg: подземелья', 'ClassicWoW.gg: dungeons', 'ClassicWoW.gg: підземелля'), 'https://classicwow.gg/forever/dungeons'),
+        (t('Warcraft Tavern: Legacy', 'Warcraft Tavern: Legacy', 'Warcraft Tavern: Legacy'), 'https://www.warcrafttavern.com/forever/guides/legacy/'),
+        (t('LFCarry: классы и темп прокачки', 'LFCarry: classes and leveling pace', 'LFCarry: класи та темп прокачування'), 'https://lfcarry.com/guides/wow-forever-classes'),
+    ],
+    'sections': [
+        {'id': 'list', 'title': t('Подземелья по уровням', 'Dungeons by level', 'Підземелля за рівнями'), 'blocks': [
+            ('text', [t('Все 35 подземелий, из них 9 новых. Уровни по Warcraft Tavern, Sportskeeda даёт те же. Где другие сайты называют иной диапазон, он подписан мелко. Жёстких ограничений по уровню Blizzard не публиковала.',
+                        'All 35 dungeons, 9 of them new. Levels are from Warcraft Tavern, Sportskeeda gives the same. Where other sites list a different range, it is shown in small print. Blizzard has not published hard level limits.',
+                        'Усі 35 підземель, з них 9 нових. Рівні за Warcraft Tavern, Sportskeeda дає ті самі. Де інші сайти називають інший діапазон, він підписаний дрібно. Жорстких обмежень за рівнем Blizzard не публікувала.')]),
+            ('raw', _dg_filter()),
+            ('text', [t('Основной опыт за подземелье дают его цепочки заданий, повторные заходы приносят заметно меньше. Любая выпавшая вещь открывает свой облик всем в группе, кто может её надеть. Ещё по два подземелья Blizzard обещает весной и летом.',
+                        'Most dungeon experience comes from its quest chains, repeat runs give noticeably less. Every item that drops unlocks its appearance for everyone in the group who can wear it. Blizzard promises two more dungeons in spring and two in summer.',
+                        'Основний досвід за підземелля дають його ланцюжки завдань, повторні заходи дають помітно менше. Будь-яка річ, що випала, відкриває свій вигляд усім у групі, хто може її вдягнути. Ще по два підземелля Blizzard обіцяє навесні та влітку.')]),
+        ]},
+        {'id': 'raids', 'title': t('Рейды (с 09.12.2026)', 'Raids (from 09.12.2026)', 'Рейди (з 09.12.2026)'), 'blocks': [
+            ('steps', [
+                {'t': 'Barrow Deeps', 'd': t('10 игроков', '10 players', '10 гравців')},
+                {'t': 'Hyjal Summit', 'd': t('20 игроков', '20 players', '20 гравців')},
+                {'t': 'Onyxia’s Lair', 'd': t('40 игроков, в Dustwallow Marsh', '40 players, in Dustwallow Marsh', '40 гравців, у Dustwallow Marsh')},
+            ]),
+            ('text', [t('За прохождение каждого из этих рейдов в Legacy даётся по очку.', 'Completing each of these raids gives one Legacy point.',
+                        'За проходження кожного з цих рейдів у Legacy дається по одному очку.')]),
+        ]},
+        {'id': 'pvp', 'title': 'PvP', 'blocks': [
+            ('steps', [
+                {'t': 'Darkspear Islands', 'd': t('Новое поле боя 15 на 15 у побережья Dustwallow Marsh.', 'New 15v15 battleground off the coast of Dustwallow Marsh.',
+                                                  'Нове поле бою 15 на 15 біля узбережжя Dustwallow Marsh.')},
+                {'t': t('Звания и Честь', 'Ranks and Honor', 'Звання та Честь'),
+                 'd': t('Звания с недельным лимитом, улучшение экипировки за Честь, сезонные цели Legacy.', 'Ranks with a weekly limit, gear upgrades for Honor, seasonal Legacy goals.',
+                        'Звання з тижневим лімітом, покращення екіпірування за Честь, сезонні цілі Legacy.')},
+            ]),
+        ]},
+        {'id': 'group', 'title': t('Состав группы', 'Group composition', 'Склад групи'), 'blocks': [
+            ('steps', [
+                {'t': t('Подземелья на 5', 'Dungeons for 5', 'Підземелля на 5'),
+                 'd': t('Подземелья рассчитаны на 5 игроков: танк, лекарь, трое с уроном.', 'Dungeons are designed for 5 players: a tank, a healer and three damage dealers.',
+                        'Підземелля розраховані на 5 гравців: танк, цілитель, троє зі шкодою.')},
+                {'t': t('Рейды на 10, 20 и 40', 'Raids for 10, 20 and 40', 'Рейди на 10, 20 і 40'),
+                 'd': t('Если своих меньше, недостающих добирают из гильдии.', 'If your own group is smaller, the rest are filled from a guild.',
+                        'Якщо своїх менше, решту добирають із гільдії.')},
+                {'t': t('Кто танкует и лечит', 'Who tanks and heals', 'Хто танкує й лікує'),
+                 'd': t('Танковать могут Воин, Паладин и Друид, лечить Паладин, Жрец, Шаман и Друид.', 'Warriors, Paladins and Druids can tank; Paladins, Priests, Shamans and Druids can heal.',
+                        'Танкувати можуть Воїн, Паладин і Друїд, лікувати Паладин, Жрець, Шаман і Друїд.')},
+                {'t': t('Паладин и Друид', 'Paladin and Druid', 'Паладин і Друїд'),
+                 'd': t('Паладин и Друид умеют все три роли. Это самые гибкие классы, когда игроков мало.', 'Paladins and Druids can do all three roles. They are the most flexible classes when players are few.',
+                        'Паладин і Друїд вміють усі три ролі. Це найгнучкіші класи, коли гравців мало.')},
+                {'t': t('Баффы классов', 'Class buffs', 'Баффи класів'),
+                 'd': t('Группа и рейд получают баффы классов: Королей от паладина, тотемы шамана, Боевой крик воина, ауры охотника и друида. Порталы, еду и воду делает маг.',
+                        'Groups and raids receive class buffs: Kings from the paladin, shaman totems, the warrior’s Battle Shout, hunter and druid auras. Portals, food and water come from the mage.',
+                        'Група й рейд отримують баффи класів: Королів від паладина, тотеми шамана, Бойовий клич воїна, аури мисливця та друїда. Портали, їжу та воду робить маг.')},
+            ]),
+            ('tabs', [
+                {'id': 'solo', 't': t('Соло', 'Solo', 'Соло'), 'blocks': [
+                    ('tip', t('Легче всего Охотнику и Чернокнижнику, у них питомец держит врага. Паладин и Друид тоже живучи и в подземелье пойдут на любую роль.',
+                              'Hunters and Warlocks have it easiest, their pet holds the enemy. Paladins and Druids are also sturdy and can fill any role in a dungeon.',
+                              'Найлегше Мисливцю й Чорнокнижнику, у них вихованець тримає ворога. Паладин і Друїд теж живучі й у підземеллі підуть на будь-яку роль.'))]},
+                {'id': 'p2-4', 't': t('2–4 игрока', '2–4 players', '2–4 гравці'), 'blocks': [
+                    ('tip', t('Пусть хотя бы один умеет танковать или лечить (Воин, Паладин, Друид, Жрец, Шаман), остальных до пяти добирайте в подземелье.',
+                              'Make sure at least one of you can tank or heal (Warrior, Paladin, Druid, Priest, Shaman), and fill the dungeon group up to five.',
+                              'Нехай хоча б один уміє танкувати або лікувати (Воїн, Паладин, Друїд, Жрець, Шаман), решту до п’яти добирайте в підземелля.'))]},
+                {'id': 'p5', 't': t('5 игроков', '5 players', '5 гравців'), 'blocks': [
+                    ('tip', t('Танк, лекарь и трое в урон, например Воин, Жрец, Маг, Охотник и Разбойник.',
+                              'A tank, a healer and three damage dealers, for example Warrior, Priest, Mage, Hunter and Rogue.',
+                              'Танк, цілитель і троє в шкоду, наприклад Воїн, Жрець, Маг, Мисливець і Розбійник.'))]},
+                {'id': 'p6-9', 't': t('6–9 игроков', '6–9 players', '6–9 гравців'), 'blocks': [
+                    ('tip', t('Две группы для подземелий, в каждой нужны свой танк и лекарь. Тут особенно ценны гибриды: Паладин, Друид, Шаман.',
+                              'Two dungeon groups, each needs its own tank and healer. Hybrids are especially valuable here: Paladin, Druid, Shaman.',
+                              'Дві групи для підземель, у кожній потрібні свій танк і цілитель. Тут особливо цінні гібриди: Паладин, Друїд, Шаман.'))]},
+                {'id': 'p10', 't': t('10 и больше', '10 or more', '10 і більше'), 'blocks': [
+                    ('tip', t('Хватает на 10-местный рейд Barrow Deeps: два танка, два-три лекаря, остальные в урон.',
+                              'Enough for the 10-player Barrow Deeps raid: two tanks, two or three healers, the rest on damage.',
+                              'Вистачає на 10-місний рейд Barrow Deeps: два танки, два-три цілителі, решта в шкоду.'))]},
+            ]),
+            ('tip', t('Берите разные классы: баффы разных классов складываются, а одинаковые перекрываются. Кто-то в группе берёт Кулинарию ради костра на 10 объектов, остальные по профессии под баффы лагеря.',
+                      'Take different classes: buffs of different classes stack, while identical ones overlap. Someone in the group takes Cooking for a campfire with 10 objects, the others pick professions for camp buffs.',
+                      'Беріть різні класи: баффи різних класів складаються, а однакові перекриваються. Хтось у групі бере Кулінарію заради вогнища на 10 об’єктів, решта за професією під баффи табору.')),
+        ]},
+        {'id': 'together', 'title': t('Прокачка вместе', 'Leveling together', 'Прокачування разом'), 'blocks': [
+            ('steps', [
+                {'t': t('Темп классов', 'Class pace', 'Темп класів'),
+                 'd': t('По прогнозам Охотник и Маг прокачиваются быстрее всего (примерно на 8% быстрее среднего), Воин медленнее всех (около 12%), Друид и Жрец чуть медленнее среднего. Это оценки для беты, цифры могут измениться.',
+                        'By forecasts, Hunter and Mage level fastest (about 8% faster than average), Warrior slowest (about 12%), Druid and Priest slightly slower than average. These are beta estimates, the figures may change.',
+                        'За прогнозами Мисливець і Маг прокачуються найшвидше (приблизно на 8% швидше за середнє), Воїн повільніше за всіх (близько 12%), Друїд і Жрець трохи повільніше за середнє. Це оцінки для бети, цифри можуть змінитися.')},
+                {'t': t('Без масштабирования', 'No level scaling', 'Без масштабування'),
+                 'd': t('Подземелья для своих уровней, их нельзя пройти «подтянув» слабого друга.', 'Dungeons are for their own levels, and you cannot run them by “pulling up” a weaker friend.',
+                        'Підземелля для своїх рівнів, їх не можна пройти «підтягнувши» слабкого друга.')},
+                {'t': t('Копите отдых', 'Save up rest', 'Копіть відпочинок'),
+                 'd': t('Спальник, Well Rested и еда с бонусом опыта складываются.', 'The bedroll, Well Rested and food with an experience bonus stack.',
+                        'Спальник, Well Rested і їжа з бонусом досвіду складаються.')},
+                {'t': t('Лагерь на прокачке', 'Camp while leveling', 'Табір на прокачуванні'),
+                 'd': t('Лагерь можно ставить прямо на прокачке, пять минут на костёр окупаются баффами на группу.',
+                        'You can set up camp right while leveling; five minutes for a campfire pays off with buffs for the group.',
+                        'Табір можна ставити просто на прокачуванні, п’ять хвилин на вогнище окупаються баффами на групу.')},
+            ]),
+            ('tip', t('С 4 ноября по 9 декабря прокачайтесь вместе по подземельям и заранее решите, кто за какой класс, чтобы не дублироваться.',
+                      'From 4 November to 9 December, level up together through dungeons, and decide in advance who plays which class so you do not duplicate.',
+                      'З 4 листопада по 9 грудня прокачайтеся разом по підземеллях і заздалегідь вирішіть, хто за який клас, щоб не дублюватися.')),
+        ]},
+    ],
+})
+
 GUIDES.sort(key=lambda g: ORDER.index(g['slug']))
