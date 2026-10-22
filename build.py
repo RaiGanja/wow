@@ -228,11 +228,11 @@ def build_race(rp, lang, tpl, base_css, class_css, sprite, races, en):
         # ability names: Russian with the English original; other languages use the English name only
         name = f'{esc(ru)}<span class="en" lang="en">{esc(en.get(ru, ru))}</span>' if lang == 'ru' else f'<span lang="en">{esc(en.get(ru, ru))}</span>'
         new = '<span class="tag new">новое</span>' if ru in NEW_RACIALS else ''
-        cards.append(f'<article class="rcard"><div class="rt">{"Активная" if kind == "a" else "Пассивная"}{new}</div><h3>{name}</h3><p>{esc(what)}</p></article>')
+        cards.append(f'<article class="rcard"><div class="rt"><span class="k{" a" if kind == "a" else ""}">{"Активная" if kind == "a" else "Пассивная"}</span>{new}</div><h3>{name}</h3><p>{esc(what)}</p></article>')
     priest = ''
     if rp['priest']:
         sp = ', '.join(f'<b lang="en">{esc(n)}</b>' + (' <span class="tag new">новое</span>' if nw else '') for n, nw in rp['priest'])
-        priest = f'<p class="pspells"><span class="mk fact">факт</span>Свои заклинания жреца: {sp}.</p>'
+        priest = f'<p class="pspells">Свои заклинания жреца: {sp}.</p>'
 
     cls_cards = []
     for c in CLASSES:
@@ -319,6 +319,9 @@ def main():
     print(f'pages: {len(pages)}, missing: {len(uniq)}', file=sys.stderr)
     if uniq and not listing:
         sys.exit(1)
+
+    import build_tools  # the tools page has its own builder and translations
+    build_tools.main()
 
 
 if __name__ == '__main__':

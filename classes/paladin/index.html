@@ -114,11 +114,12 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .mainnav { display: flex; gap: 2px; margin-left: 12px; }
 .mainnav a { min-height: 44px; display: grid; place-items: center; padding: 0 12px; color: inherit; opacity: .78; text-decoration: none; font-size: .95rem; font-weight: 500; box-shadow: inset 0 -2px 0 transparent; transition: opacity .2s, box-shadow .2s; }
 .mainnav a:hover { opacity: 1; }
+@media (max-width: 1280px) { .mainnav a { padding: 0 8px; } }
 .mainnav a[aria-current="true"] { opacity: 1; color: var(--ink-gold); }
 .topbar.solid .mainnav a[aria-current="true"] { color: var(--gold-2); }
 .tools { margin-left: auto; display: flex; gap: 8px; align-items: center; }
 .langs { display: inline-flex; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; overflow: hidden; }
-.langs a { min-width: 44px; min-height: 42px;
+.langs a { min-width: 44px; min-height: 44px;
  display: grid; place-items: center; color: inherit; opacity: .75; text-decoration: none; font-weight: 600; font-size: .8rem; letter-spacing: .04em; border-right: 1px solid color-mix(in srgb, currentColor 30%, transparent); }
 .langs a:last-child { border-right: 0; }
 .langs a:hover { opacity: 1; }
@@ -217,6 +218,7 @@ section.block { scroll-margin-top: -72px; }
 
 /* Art tiles with the title on the picture: tools and guides */
 .ttiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding: 14px; }
+.ttiles.t4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .ttile, .gt { position: relative; isolation: isolate; overflow: hidden; min-height: 210px; padding: 0 18px 16px; display: grid; align-content: end; gap: 3px; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; background: #0b0d12; color: #f3efe6; text-decoration: none; transition: border-color .2s; }
 .ttile picture, .ttile img, .gt picture, .gt img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .ttile picture, .gt picture { z-index: -2; }
@@ -227,17 +229,16 @@ section.block { scroll-margin-top: -72px; }
 .ttile b, .gt b { font-weight: 700; font-size: 1.2rem; line-height: 1.2; text-shadow: 0 1px 8px rgba(0,0,0,.7); }
 .ttile span, .gt span { font-size: .9rem; line-height: 1.4; color: rgba(243,239,230,.82); }
 
-/* Race roster: two factions side by side, five portraits each */
-.peoples { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
-.pfac.alliance { --fc: var(--alliance); } .pfac.horde { --fc: var(--horde); }
-.pfac h3 { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; color: var(--fc); font-size: 1.3rem; }
-.pfac h3::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--fc); }
-.rr { height: clamp(400px, 36vw, 520px); }
+/* Race roster: two factions side by side in one frame, five portraits each */
+.peoples { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 14px; }
+.pfac { min-width: 0; display: grid; gap: 12px; align-content: start; padding: 14px; border: 1px solid rgba(255,255,255,.08); border-radius: 7px; background: radial-gradient(120% 60% at 50% 0%, var(--ft) 0%, transparent 70%), var(--panel-2); }
+.pfac.alliance { --fc: var(--alliance); --ft: rgba(43,74,124,.45); } .pfac.horde { --fc: var(--horde); --ft: rgba(110,43,29,.45); }
+.pfac h3 { color: var(--fc); font-size: 1.5rem; line-height: 1; }
+.rr { height: clamp(400px, 36vw, 520px); padding: 0; }
 .rr .hc .info { min-width: 250px; padding: 22px 20px 24px; }
 .rr .hc .info b { font-size: 1.9rem; }
 .rr .hc .vn { font-size: 1.15rem; }
 .rr .hc .tag { justify-self: start; color: #e0c27a; }
-
 
 /* Guides band over the campfire art */
 .gtiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; padding: 14px; }
@@ -645,6 +646,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .mainnav { display: none; }
   .menubtn { display: inline-grid; }
   .gtiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ttiles.t4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 1023px) {
   .roster { height: auto; overflow-x: auto; scroll-snap-type: x mandatory; gap: 10px; padding: 12px; scroll-padding: 0 12px; scrollbar-width: none; overscroll-behavior-x: contain; }
@@ -656,14 +658,16 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .hc .info b { font-size: 2rem; }
   .hc::after { background: linear-gradient(180deg, rgba(7,8,10,0) 30%, rgba(7,8,10,.72) 55%, rgba(7,8,10,.96) 100%); }
   .swipe { display: block; }
-  .peoples { grid-template-columns: 1fr; gap: 28px; }
+  .peoples { grid-template-columns: 1fr; gap: 8px; padding: 10px; }
+  .rr { padding: 0; scroll-padding: 0; }
+  .pfac { padding: 10px; }
 }
 @media (max-width: 980px) {
   .builder, .journey { grid-template-columns: 1fr; }
   .summary, .me { position: static; }
   .stiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .factions { grid-template-columns: 1fr; }
-  .ttiles { grid-template-columns: 1fr; }
+  .ttiles, .ttiles.t4 { grid-template-columns: 1fr; }
   .ttile { min-height: 160px; }
 }
 @media (max-width: 860px) {
@@ -875,7 +879,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   .chero::before { background: linear-gradient(180deg, rgba(7,8,10,.5) 0%, rgba(7,8,10,0) 18%); bottom: auto; height: 60%; }
   .chero-in { padding-top: 0; margin-top: -120px; padding-bottom: 36px; gap: 16px; }
   .crumbs { order: -1; }
-  .chero h1 { font-size: clamp(3rem, 15vw, 4rem); }
+  .chero h1 { font-size: clamp(2.4rem, 11.5vw, 4rem); overflow-wrap: anywhere; }
   .cfacts { grid-template-columns: 1fr 1fr; gap: 0 16px; }
   .stabs { gap: 4px; padding: 4px; }
   .stabs button { flex: 1 1 0; min-width: 0; padding: 6px 8px; font-size: 1.05rem; min-height: 56px; white-space: normal; text-align: center; justify-items: center; }
@@ -912,7 +916,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="../../" aria-label="Gabella Team, на главную"><span class="mark" aria-hidden="true">G</span><b>Gabella Team</b></a>
   <nav class="mainnav" aria-label="Разделы">
-    <a href="../../#factions">Фракции</a><a href="../../#classes" aria-current="true">Классы</a><a href="../../#peoples">Расы</a><a href="../../#picker">Подборщик</a><a href="../../#builder">Группа</a><a href="../../#guides">Гайды</a>
+    <a href="../../#factions">Фракции</a><a href="../../#classes" aria-current="true">Классы</a><a href="../../#peoples">Расы</a><a href="../../#picker">Подборщик</a><a href="../../#builder">Группа</a><a href="../../#guides">Гайды</a><a href="../../tools/">Инструменты</a>
   </nav>
   <div class="tools">
     <div class="langs" role="group" aria-label="Язык"><a href="./" data-lang="ru" hreflang="ru" lang="ru" aria-current="true">RU</a><a href="../../en/classes/paladin/" data-lang="en" hreflang="en" lang="en" aria-current="false">EN</a><a href="../../uk/classes/paladin/" data-lang="uk" hreflang="uk" lang="uk" aria-current="false">UK</a></div>
@@ -1008,7 +1012,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   <div class="dh"><b>Все разделы</b><button class="iconbtn" id="moreClose" type="button" aria-label="Закрыть"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Все разделы">
     <div class="grp"><div class="gh">Эта страница</div><a href="#specs">Специализации</a><a href="#new">Что нового</a><a href="#races">Расы</a><a href="#group">В группе</a><a href="#pc">Плюсы и минусы</a></div>
-    <div class="grp"><div class="gh">Гид</div><a href="../../">Главная</a><a href="../../#picker">Подборщик</a><a href="../../#builder">Конструктор группы</a><a href="../../#checklist">Чек-лист</a><a href="../../#guides">Гайды</a></div>
+    <div class="grp"><div class="gh">Гид</div><a href="../../">Главная</a><a href="../../#picker">Подборщик</a><a href="../../#builder">Конструктор группы</a><a href="../../#checklist">Чек-лист</a><a href="../../#guides">Гайды</a><a href="../../tools/">Инструменты</a></div>
     <div class="grp"><div class="gh">Классы</div><a href="../warrior/">Воин</a><a href="../paladin/" aria-current="page">Паладин</a><a href="../hunter/">Охотник</a><a href="../rogue/">Разбойник</a><a href="../priest/">Жрец</a><a href="../shaman/">Шаман</a><a href="../mage/">Маг</a><a href="../warlock/">Чернокнижник</a><a href="../druid/">Друид</a></div>
   </nav>
   <div class="opts">
