@@ -386,7 +386,9 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 /* Round portrait avatar with a ring in the class or faction colour */
 .av { --s: 40px; position: relative; width: var(--s); height: var(--s); flex: none; display: inline-block; border-radius: 50%; background: #0b0d12; box-shadow: 0 0 0 2px var(--ring-gap, var(--panel)), 0 0 0 3.5px var(--cc, var(--pline)); }
 .av img { display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
-#matrix { min-width: 860px; border-spacing: 0 2px; }
+#matrix { min-width: 860px; border-spacing: 0 2px; table-layout: fixed; }
+/* Equal class columns: the race column is fixed, the nine class columns share the rest */
+#matrix thead th:first-child { width: 290px; }
 #matrix th, #matrix td { padding: 0; text-align: center; }
 #matrix thead th { padding: 0 2px 12px; vertical-align: bottom; font-size: .76rem; font-weight: 600; color: var(--muted); transition: opacity .2s, color .2s; }
 #matrix thead th .av { --s: 38px; display: block; margin: 0 auto 8px; transition: box-shadow .2s, transform .2s var(--ease); }
@@ -410,6 +412,14 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 .f { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; vertical-align: .05em; }
 .f.alliance { background: var(--alliance); } .f.horde { background: var(--horde); }
 .paid { font-size: .7rem; color: var(--gold-2); font-weight: 600; margin-left: 2px; border-radius: 999px; padding: 1px 8px; background: color-mix(in srgb, var(--gold) 16%, transparent); }
+@media (max-width: 1199px) {
+  #matrix thead th:first-child { width: 215px; }
+  #matrix thead th { font-size: .7rem; }
+  /* paid badge drops under the race name so the race column can stay narrow */
+  #matrix tbody th .rn:has(.paid) { display: inline-grid; grid-template-columns: auto auto; column-gap: 12px; row-gap: 2px; align-items: center; justify-items: start; }
+  #matrix tbody th .rn:has(.paid) .av { grid-row: span 2; }
+  #matrix tbody th .paid { margin-left: 0; }
+}
 .cell { width: 100%; height: 100%; min-height: 46px; border: 0; background: transparent; display: grid; place-items: center; padding: 0; transition: opacity .2s; }
 .cell i { display: grid; place-items: center; width: 10px; height: 10px; border-radius: 50%; background: var(--cc); box-shadow: 0 0 0 4px color-mix(in srgb, var(--cc) 16%, transparent); transition: transform .18s var(--ease), width .18s var(--ease), height .18s var(--ease); }
 .cell i .ico { width: 15px; height: 15px; opacity: 0; color: var(--gold-ink); }
