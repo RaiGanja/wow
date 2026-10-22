@@ -202,13 +202,13 @@ footer ul li::marker { color: var(--gold); }
 .chip .ri { margin-right: 4px; }
 nav.sticky a[aria-current="true"] { color: var(--gold); border-bottom-color: var(--gold); }
 
-.countdown { display: flex; flex-wrap: wrap; gap: 14px 36px; align-items: center; padding: 16px 20px; border: 1px solid var(--line); border-left: 2px solid var(--gold); border-radius: 4px; background: var(--surface); max-width: 720px; }
+.countdown { display: flex; flex-wrap: wrap; gap: 10px 32px; align-items: center; max-width: 720px; }
 .countdown .big, .timeline .d { font-variant-numeric: lining-nums; }
 .countdown .big { font-family: var(--font-display); font-weight: 700; font-size: clamp(2.6rem, 9vw, 3.6rem); line-height: 1; color: var(--gold); }
 .countdown .cap { display: grid; gap: 2px; }
 .countdown .cap b { font-size: 1rem; }
 .countdown .cap span { color: var(--muted); font-size: .9rem; }
-.countdown .res { display: grid; gap: 2px; padding-left: 36px; border-left: 1px solid var(--line); }
+.countdown .res { display: grid; gap: 2px; padding-left: 32px; border-left: 1px solid var(--line); }
 
 .slots { display: grid; gap: 8px; }
 .slot { display: grid; grid-template-columns: 34px minmax(0,1.2fr) minmax(0,1.2fr) minmax(0,.9fr) 40px; gap: 8px; align-items: center; padding: 8px 10px; background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--cc, var(--line)); border-radius: 4px; }
@@ -220,6 +220,33 @@ nav.sticky a[aria-current="true"] { color: var(--gold); border-bottom-color: var
 .btn.ghost { background: transparent; color: var(--fg); border: 1px solid var(--line); }
 .btn.ghost:hover { border-color: var(--gold); color: var(--gold); }
 .roles-sum { display: flex; flex-wrap: wrap; gap: 10px; }
+
+.start { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; padding-top: 32px; }
+.start a { display: grid; grid-template-columns: 34px 1fr; gap: 4px 12px; padding: 16px 0; border-top: 1px solid var(--line); text-decoration: none; color: var(--fg); }
+.start a:hover b { color: var(--gold); }
+.start .n { grid-row: 1 / 3; font-family: var(--font-display); font-weight: 700; font-size: 1.9rem; line-height: 1; color: var(--gold); font-variant-numeric: lining-nums; }
+.start b { font-size: 1.05rem; }
+.start span.t { color: var(--muted); font-size: .93rem; }
+
+.steps { display: grid; gap: 22px; }
+.step { display: grid; grid-template-columns: 32px 1fr; gap: 6px 14px; align-items: start; }
+.stepn { width: 28px; height: 28px; display: grid; place-items: center; border: 1px solid var(--gold); border-radius: 50%; color: var(--gold); font-weight: 700; font-size: .9rem; }
+.step > div { display: grid; gap: 10px; min-width: 0; }
+.step b { font-size: 1.05rem; }
+.sizes { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.sizes button { min-width: 48px; min-height: 42px; padding: 0 12px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); font-weight: 700; }
+.sizes button:hover { border-color: var(--gold); }
+.sizes button[aria-pressed="true"] { background: var(--gold); border-color: var(--gold); color: var(--gold-ink); }
+.stepper { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); }
+.stepper button { min-width: 42px; min-height: 42px; border: 0; background: transparent; font-size: 1.2rem; }
+.stepper button:hover { color: var(--gold); }
+.stepper output { min-width: 56px; text-align: center; font-weight: 700; }
+.party { display: grid; gap: 8px; }
+.party-h { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; padding-top: 10px; border-top: 1px solid var(--line); }
+.party-h h3 { font-size: 1.2rem; }
+.party-h .pc { display: inline-flex; gap: 12px; color: var(--muted); font-size: .9rem; font-weight: 600; }
+.party-h .pc .miss { color: var(--horde); }
+.party-h .pc .ok { color: var(--new); }
 .rs { display: flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); font-weight: 700; font-size: 1.05rem; }
 .rs span { color: var(--muted); font-weight: 600; font-size: .85rem; letter-spacing: .06em; text-transform: uppercase; }
 .rs.ok { border-color: var(--new); color: var(--new); }
@@ -284,7 +311,7 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 6px; }
     </div>
   </div>
   <h1>Гід по WoW Forever для своєї компанії</h1>
-  <p class="lead">Класи, раси, нові комбінації, Legacy, табір, підземелля та рейди. Плюс добір складу для групи з 6–8 людей. Лише перевірені дані, з джерелами та датою.</p>
+  <p class="lead">Класи, раси, нові комбінації, Legacy, табір, підземелля та рейди. Плюс добір складу для компанії будь-якого розміру. Лише перевірені дані, з джерелами та датою.</p>
   <div class="stamp"><span>Дані на <b>22.10.2026</b></span><span>Версія: <b>закрита бета, патч від 15.10.2026</b></span><span>Реліз: <b>04.11.2026</b></span></div>
   <div class="countdown" id="cd" aria-live="polite"></div>
 </header>
@@ -292,6 +319,12 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 6px; }
 <nav class="sticky" aria-label="Розділи"><div class="in">
   <a href="#dates">Дати</a><a href="#picker">Підбирач</a><a href="#builder">Конструктор</a><a href="#classes">Класи</a><a href="#races">Раси</a><a href="#legacy">Legacy</a><a href="#camp">Табір</a><a href="#dungeons">Підземелля</a><a href="#group">Склад групи</a><a href="#checklist">Чек-лист</a><a href="#era">Відмінності від Era</a><a href="#sources">Джерела</a>
 </div></nav>
+
+<div class="start">
+  <a href="#picker"><span class="n">1</span><b>Оберіть расу та клас</b><span class="t">Підбирач покаже, які поєднання є і що вміє кожне.</span></a>
+  <a href="#builder"><span class="n">2</span><b>Зберіть свою групу</b><span class="t">На будь-яке число гравців: від одного до сорока.</span></a>
+  <a href="#checklist"><span class="n">3</span><b>Не забудьте про старт</b><span class="t">Короткий чек-лист: імена, професії, дні, підписка.</span></a>
+</div>
 
 <section class="block" id="dates">
   <div class="sec-head"><h2>Що і коли</h2><p>Головне до релізу та після нього.</p></div>
@@ -349,12 +382,19 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 6px; }
 
 <section class="block" id="builder">
   <div class="sec-head"><h2>Конструктор групи</h2>
-    <p>Зберіть свою компанію: оберіть фракцію, потім расу, клас і роль для кожного гравця. Внизу з’явиться, чого не вистачає для підземель, які баффи ви приносите і текст для чату. Посилання на сторінку запам’ятовує склад.</p></div>
-  <div class="filters"><div class="fgroup"><span class="flabel" id="lbf">Фракція</span>
-    <div class="seg" id="segBF" aria-labelledby="lbf"><button data-v="alliance" aria-pressed="true">Альянс</button><button data-v="horde" aria-pressed="false">Орда</button></div></div>
-    <div class="row-actions"><button class="btn ghost" data-preset="6">Приклад на 6</button><button class="btn ghost" data-preset="8">Приклад на 8</button><button class="btn ghost" id="bClear">Очистити</button></div></div>
-  <div class="slots" id="slots"></div>
-  <div class="row-actions"><button class="btn ghost" id="bAdd">Додати гравця</button><span class="small" id="bCount"></span></div>
+    <p>Три кроки: фракція, скільки вас і хто за кого грає. Внизу одразу видно, чого бракує, які баффи ви приносите і чи можна йти в рейд.</p></div>
+  <div class="steps">
+    <div class="step"><span class="stepn">1</span><div><b id="lbf">Фракція</b>
+      <div class="seg" id="segBF" aria-labelledby="lbf"><button data-v="alliance" aria-pressed="true">Альянс</button><button data-v="horde" aria-pressed="false">Орда</button></div></div></div>
+    <div class="step"><span class="stepn">2</span><div><b>Скільки вас?</b>
+      <p class="small">Натисніть число, і склад підбереться сам. Потім можна змінити будь-якого гравця.</p>
+      <div class="sizes" id="sizes" role="group" aria-label="Розмір компанії"></div>
+      <div class="sizes"><div class="stepper"><button type="button" id="szMinus" aria-label="Менше гравців">−</button><output id="szOut" aria-live="polite"></output><button type="button" id="szPlus" aria-label="Більше гравців">+</button></div><span class="small" id="szNote"></span></div></div></div>
+    <div class="step"><span class="stepn">3</span><div><b>Раси, класи та ролі</b>
+      <p class="small">Гравці йдуть групами по 5, як у підземеллі: 1–5, 6–10 і так далі.</p>
+      <div class="slots" id="slots"></div>
+      <div class="row-actions"><button class="btn ghost" id="bAdd">Додати гравця</button><button class="btn ghost" id="bClear">Очистити</button></div></div></div>
+  </div>
   <div class="roles-sum" id="roleSum"></div>
   <div class="grid2">
     <div class="panel"><h3>Що виходить</h3><ul class="verdict" id="verdict" style="margin-top:10px"></ul></div>
@@ -808,14 +848,37 @@ function renderCountdown() {
 renderCountdown();
 
 /* Group builder */
-const PRESETS = {
-  6: [['dwarf','paladin','tank'],['human','priest','heal'],['gnome','mage','dps'],['human','hunter','dps'],['nightelf','rogue','dps'],['gnome','warlock','dps']],
-  8: [['dwarf','paladin','tank'],['nightelf','druid','tank'],['human','priest','heal'],['dwarf','shaman','heal'],['gnome','mage','dps'],['human','hunter','dps'],['gnome','warlock','dps'],['human','rogue','dps']]
+const MAXT = 40, PARTY = 5;
+const SIZES = [5, 6, 8, 10, 15, 20, 25, 40];
+const RR = ['tank', 'heal', 'dps'];
+const POOL = {
+  tank: ['paladin', 'warrior', 'druid'],
+  heal: ['priest', 'shaman', 'paladin', 'druid'],
+  dps: ['mage', 'hunter', 'warlock', 'rogue', 'shaman', 'druid', 'warrior']
 };
-const team = { f:'alliance', list: [] };
-const MAXT = 8;
-const RR = ['tank','heal','dps'];
+const RAIDS = [[10, 'Barrow Deeps'], [20, 'Hyjal Summit'], [40, 'Onyxia’s Lair']];
+const team = { f: 'alliance', list: [] };
+
 function roleOpts(c) { return RR.filter(x => c.roles.includes(x) || (x === 'tank' && c.roles.includes('tank?'))); }
+function raceFor(cls, f, k) {
+  const free = RACES.filter(r => r.f === f && !r.paid && r.can[cls]);
+  return free.length ? free[k % free.length].id : (RACES.find(r => r.f === f && r.can[cls]) || RACES.find(r => r.f === f)).id;
+}
+function partyRoles(k) {
+  if (k >= 5) return ['tank', 'heal', 'dps', 'dps', 'dps'];
+  return { 1: ['dps'], 2: ['tank', 'heal'], 3: ['tank', 'heal', 'dps'], 4: ['tank', 'heal', 'dps', 'dps'] }[k];
+}
+function autoTeam(n, f) {
+  const out = [], used = { tank: 0, heal: 0, dps: 0 };
+  for (let left = n, g = 0; left > 0; left -= PARTY, g++) {
+    partyRoles(Math.min(PARTY, left)).forEach(role => {
+      const pool = POOL[role].filter(c => RACES.some(r => r.f === f && r.can[c]));
+      const cls = pool[used[role]++ % pool.length];
+      out.push({ race: raceFor(cls, f, out.length), cls, role });
+    });
+  }
+  return out;
+}
 function fixSlot(s) {
   const races = RACES.filter(r => r.f === team.f);
   let r = RC[s.race]; if (!r || r.f !== team.f) r = races.find(x => x.can[s.cls]) || races[0];
@@ -825,66 +888,85 @@ function fixSlot(s) {
 }
 function readHash() {
   const m = location.hash.match(/^#team=([^;]+);(.*)$/);
-  if (!m || !['alliance','horde'].includes(m[1])) return false;
+  if (!m || !['alliance', 'horde'].includes(m[1])) return false;
   const list = m[2].split(',').map(x => x.split('.')).filter(x => x.length === 3 && RC[x[0]] && CL[x[1]] && RR.includes(x[2])).slice(0, MAXT);
   if (!list.length) return false;
-  team.f = m[1]; team.list = list.map(x => ({ race:x[0], cls:x[1], role:x[2] }));
+  team.f = m[1]; team.list = list.map(x => ({ race: x[0], cls: x[1], role: x[2] }));
   return true;
 }
 function teamLink() { return location.origin + location.pathname + '#team=' + team.f + ';' + team.list.map(s => `${s.race}.${s.cls}.${s.role}`).join(','); }
-function setPreset(n) { team.list = PRESETS[n].map(x => ({ race:x[0], cls:x[1], role:x[2] })); team.f = 'alliance'; renderTeam(); }
+function setSize(n) {
+  n = Math.max(1, Math.min(MAXT, n));
+  if (team.list.length === n) return;
+  team.list = autoTeam(n, team.f); renderTeam();
+}
 function raceName(r) { return r.name || r.n; }
+function countRoles(list) { const c = { tank: 0, heal: 0, dps: 0 }; list.forEach(s => c[s.role]++); return c; }
 function renderTeam() {
   team.list.forEach(fixSlot);
+  const n = team.list.length;
   document.querySelectorAll('#segBF button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === team.f ? 'true' : 'false'));
+  $('#sizes').innerHTML = SIZES.map(x => `<button type="button" data-n="${x}" aria-pressed="${x === n}">${x}</button>`).join('');
+  $('#szOut').textContent = n;
+  const parties = Math.ceil(n / PARTY);
+  $('#szNote').textContent = n ? `${parties} груп по 5${n % PARTY ? ', остання неповна' : ''}` : '';
   const races = RACES.filter(r => r.f === team.f);
-  $('#slots').innerHTML = team.list.map((s, i) => {
-    const r = RC[s.race];
-    const ro = roleOpts(CL[s.cls]);
-    return `<div class="slot" style="--cc:${CCOL[s.cls]}" data-i="${i}"><span class="no">${i + 1}</span>
+  let html = '';
+  for (let g = 0; g < parties; g++) {
+    const part = team.list.slice(g * PARTY, g * PARTY + PARTY), c = countRoles(part);
+    const need = [];
+    if (!c.tank) need.push('немає танка'); if (!c.heal) need.push('немає цілителя'); if (part.length < PARTY) need.push(`бракує ${PARTY - part.length}`);
+    const status = need.length ? `<span class="miss">${need.join(', ')}</span>` : '<span class="ok">повний склад</span>';
+    html += `<div class="party"><div class="party-h"><h3>Група ${g + 1}</h3><span class="pc"><span>${ri('tank')}${c.tank}</span><span>${ri('heal')}${c.heal}</span><span>${ri('dps')}${c.dps}</span>${status}</span></div>`;
+    part.forEach((s, k) => {
+      const i = g * PARTY + k, r = RC[s.race], ro = roleOpts(CL[s.cls]);
+      html += `<div class="slot" style="--cc:${CCOL[s.cls]}" data-i="${i}"><span class="no">${i + 1}</span>
       <select class="srace" aria-label="Раса гравця ${i + 1}">${races.map(x => `<option value="${x.id}"${x.id === s.race ? ' selected' : ''}>${esc(x.n)}${x.paid ? ' (платна)' : ''}</option>`).join('')}</select>
-      <select class="scls" aria-label="Клас гравця ${i + 1}">${Object.keys(r.can).map(c => `<option value="${c}"${c === s.cls ? ' selected' : ''}>${esc(CL[c].n)}</option>`).join('')}</select>
+      <select class="scls" aria-label="Клас гравця ${i + 1}">${Object.keys(r.can).map(c2 => `<option value="${c2}"${c2 === s.cls ? ' selected' : ''}>${esc(CL[c2].n)}</option>`).join('')}</select>
       <select class="srole" aria-label="Роль гравця ${i + 1}">${ro.map(x => `<option value="${x}"${x === s.role ? ' selected' : ''}>${ROLE_RU[x]}</option>`).join('')}</select>
       <button class="del" aria-label="Прибрати гравця ${i + 1}">✕</button></div>`;
-  }).join('');
-  $('#bCount').textContent = `${team.list.length} з ${MAXT}`;
-  $('#bAdd').disabled = team.list.length >= MAXT;
-  const cnt = { tank:0, heal:0, dps:0 }; team.list.forEach(s => cnt[s.role]++);
-  $('#roleSum').innerHTML = RR.map(x => `<div class="rs ${cnt[x] ? (x === 'dps' || cnt[x] >= 1 ? 'ok' : '') : 'zero'}">${ri(x)}<b>${cnt[x]}</b><span>${ROLE_RU[x]}</span></div>`).join('');
-  const v = [], n = team.list.length;
-  if (!n) v.push(['', 'Додайте гравців або натисніть «Приклад на 6».']);
+    });
+    html += '</div>';
+  }
+  $('#slots').innerHTML = html;
+  $('#bAdd').disabled = n >= MAXT;
+  const cnt = countRoles(team.list);
+  $('#roleSum').innerHTML = RR.map(x => `<div class="rs ${cnt[x] ? 'ok' : 'zero'}">${ri(x)}<b>${cnt[x]}</b><span>${ROLE_RU[x]}</span></div>`).join('');
+  const v = [];
+  if (!n) v.push(['', 'Натисніть число гравців вище або додайте гравця.']);
   else {
-    if (cnt.tank && cnt.heal && n >= 5) v.push(['good', 'Підземелля на 5 збереться: є танк, цілитель і достатньо шкоди.']);
-    else {
-      if (!cnt.tank) v.push(['warn', 'Немає танка: воїн, паладин (Захист) або друїд (Сила звіра).']);
-      if (!cnt.heal) v.push(['warn', 'Немає цілителя: паладин (Світло), жрець, шаман (Зцілення) або друїд (Зцілення).']);
-      if (n < 5) v.push(['', `Для підземелля потрібно 5 людей, зараз ${n}.`]);
-    }
-    if (n >= 8 && cnt.tank >= 2 && cnt.heal >= 2) v.push(['good', 'Вистачає на дві групи по 4–5 людей або одну із запасом на зміну ролей.']);
-    else if (n >= 6 && cnt.tank >= 1 && cnt.heal >= 1) v.push(['', `Шостий гравець — запас: можна міняти ролі та не чекати, якщо хтось зайнятий.`]);
+    const full = Array.from({ length: parties }, (_, g) => team.list.slice(g * PARTY, g * PARTY + PARTY)).filter(p => p.length === PARTY && p.some(s => s.role === 'tank') && p.some(s => s.role === 'heal')).length;
+    if (full) v.push(['good', `Готових груп для підземелля: ${full} з ${parties}. У кожній є танк і цілитель.`]);
+    if (full < parties) v.push(['warn', 'Є групи, де бракує танка, цілителя або гравців. Вони підсвічені вище.']);
+    RAIDS.forEach(([size, name]) => v.push([n >= size ? 'good' : '', n >= size ? `Рейд на ${size} (${name}): людей вистачає.` : `Рейд на ${size} (${name}): бракує ${size - n}.`]));
     const byCls = {}; team.list.forEach(s => byCls[s.cls] = (byCls[s.cls] || 0) + 1);
     const dup = Object.keys(byCls).filter(c => byCls[c] > 1 && BUFF[c]);
-    if (dup.length) v.push(['', `Однакові класи (${dup.map(c => CL[c].n).join(', ')}): їхні баффи перекриваються, користі від другого менше.`]);
+    if (dup.length && n <= 10) v.push(['', `Однакові класи (${dup.map(c => CL[c].n).join(', ')}): їхні баффи перекриваються, користі від другого менше.`]);
     const sky = team.list.filter(s => RC[s.race].paid).length;
     if (sky) v.push(['', `Скайборн — платна раса: набір Heroic Pack від $29.99 потрібен ${sky} з ${n} гравцям.`]);
-    const hybrid = team.list.filter(s => CL[s.cls].roles.filter(x => !x.endsWith('?')).length >= 3).length;
-    if (hybrid) v.push(['', `Паладин і друїд вміють усі три ролі: ${hybrid} у складі, це гнучкість під час зміни груп.`]);
   }
   $('#verdict').innerHTML = v.map(x => `<li class="${x[0]}">${esc(x[1])}</li>`).join('');
   const have = [...new Set(team.list.map(s => s.cls))];
   const withB = have.filter(c => BUFF[c]), noB = have.filter(c => !BUFF[c]);
   $('#buffs').innerHTML = (withB.length ? withB.map(c => `<li class="good"><span class="cdot" style="--cc:${CCOL[c]}"></span><b>${esc(CL[c].n)}:</b> ${esc(BUFF[c])}</li>`).join('') : '<li>Поки немає класів із груповими баффами.</li>')
     + (noB.length ? `<li>Без групового баффа: ${noB.map(c => CL[c].n).join(', ')}. Вони дають чисту шкоду.</li>` : '');
-  $('#teamText').value = n ? team.list.map((s, i) => `${i + 1}. ${raceName(RC[s.race])} ${CL[s.cls].n} (${ROLE_RU[s.role]})`).join('; ') + ` — ${facName(team.f)}` : '';
+  $('#teamText').value = n ? Array.from({ length: parties }, (_, g) => (parties > 1 ? `Група ${g + 1}: ` : '') + team.list.slice(g * PARTY, g * PARTY + PARTY).map(s => `${raceName(RC[s.race])} ${CL[s.cls].n} (${ROLE_RU[s.role]})`).join(', ')).join('; ') + ` — ${facName(team.f)}` : '';
   try { history.replaceState(null, '', n ? teamLink() : location.pathname); } catch (e) {}
 }
 async function copyTo(text, msgEl, ok) {
   try { await navigator.clipboard.writeText(text); msgEl.textContent = ok; } catch (e) { msgEl.textContent = 'Не вдалося скопіювати, виділіть і натисніть Ctrl+C'; }
 }
 $('#segBF').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; team.f = b.dataset.v; renderTeam(); });
-document.querySelectorAll('[data-preset]').forEach(b => b.onclick = () => setPreset(b.dataset.preset));
+$('#sizes').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { team.list = autoTeam(+b.dataset.n, team.f); renderTeam(); } });
+$('#szMinus').onclick = () => { if (team.list.length > 1) { team.list.pop(); renderTeam(); } };
+$('#szPlus').onclick = () => { if (team.list.length < MAXT) { addPlayer(); } };
+function addPlayer() {
+  const k = team.list.length, role = k % PARTY === 0 ? 'tank' : k % PARTY === 1 ? 'heal' : 'dps';
+  const pool = POOL[role].filter(c => RACES.some(r => r.f === team.f && r.can[c])), cls = pool[k % pool.length];
+  team.list.push({ race: raceFor(cls, team.f, k), cls, role }); renderTeam();
+}
 $('#bClear').onclick = () => { team.list = []; renderTeam(); };
-$('#bAdd').onclick = () => { if (team.list.length < MAXT) { team.list.push({ race:RACES.find(r => r.f === team.f).id, cls:'warrior', role:'tank' }); renderTeam(); } };
+$('#bAdd').onclick = () => { if (team.list.length < MAXT) addPlayer(); };
 $('#slots').addEventListener('change', e => {
   const row = e.target.closest('.slot'); if (!row) return; const s = team.list[+row.dataset.i];
   if (e.target.classList.contains('srace')) s.race = e.target.value;
@@ -895,7 +977,8 @@ $('#slots').addEventListener('change', e => {
 $('#slots').addEventListener('click', e => { const d = e.target.closest('.del'); if (!d) return; team.list.splice(+d.closest('.slot').dataset.i, 1); renderTeam(); });
 $('#copyTeam').onclick = () => copyTo($('#teamText').value, $('#teamMsg'), 'Склад скопійовано');
 $('#copyLink').onclick = () => copyTo(teamLink(), $('#teamMsg'), 'Посилання скопійовано');
-if (!readHash()) setPreset(6); else renderTeam();
+if (!readHash()) team.list = autoTeam(5, team.f);
+renderTeam();
 
 /* Checklist */
 const CHECK = [
