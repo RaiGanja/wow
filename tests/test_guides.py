@@ -38,7 +38,7 @@ def test_tabs():
 
 def test_tiles_link_and_art():
     html = bg.render_block('tiles', [{'t': T, 'd': T, 'href': 'guides/faq/', 'art': 'mage'}], 'uk', '../')
-    assert 'href="../guides/faq/"' in html and 'assets/art/mage-600.webp' in html and 'Привіт' in html
+    assert 'href="../guides/faq/"' in html and '@@ROOT@@assets/art/mage-600.webp' in html and 'Привіт' in html
 
 def test_raw_by_lang():
     assert bg.render_block('raw', T, 'en', '') == 'Hello'
@@ -62,6 +62,20 @@ def test_content_complete():
         assert bg.check_langs(g) == [], (g['slug'], bg.check_langs(g)[:5])
     for n in cg.NEWS:
         assert bg.check_langs(n) == []
+
+def test_ids_unique():
+    taken = {'top', 'more', 'sources', 'all', 'topbar', 'moreDlg', 'moreClose'}   # ids of the template itself
+    for g in cg.GUIDES:
+        ids = bg.page_ids(g)
+        assert len(ids) == len(set(ids)), (g['slug'], sorted(i for i in ids if ids.count(i) > 1))
+        assert not taken & set(ids), (g['slug'], taken & set(ids))
+
+def test_sources_translated():
+    for g in cg.GUIDES:
+        assert g['sources'], g['slug']
+        for n, u in g['sources']:
+            assert u.startswith('https://'), u
+            assert bg.L(n, 'en').isascii(), (g['slug'], n)
 
 if __name__ == '__main__':
     for name, fn in list(globals().items()):

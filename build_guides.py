@@ -54,9 +54,10 @@ def art_sets(art, root, big=False):
 
 
 def tile_links(tiles, lang, root):
+    """root: path to the language home (links); art always from the site root via @@ROOT@@."""
     out = []
     for s in tiles:
-        avif, webp, img = art_sets(s['art'], root)
+        avif, webp, img = art_sets(s['art'], '@@ROOT@@')
         out.append(f'<a class="ttile" href="{root}{s["href"]}"><picture><source type="image/avif" srcset="{avif}" sizes="320px">'
                    f'<img src="{img}" srcset="{webp}" sizes="320px" alt="" loading="lazy" decoding="async"></picture>'
                    f'<b>{E(s["t"], lang)}</b><span>{E(s["d"], lang)}</span></a>')
@@ -115,6 +116,34 @@ def hub_body(lang, root):
 
 JS = {}   # slug -> JS живой части; наполняется в задачах 3, 5, 7, 8, 9
 
+JS['faq'] = r'''/* FAQ: search over questions and answers; #id opens the question */
+const qIn = document.getElementById('faqQ');
+const qs = [...document.querySelectorAll('.gfaq details')];
+if (qIn) qIn.addEventListener('input', () => {
+  const v = qIn.value.trim().toLowerCase();
+  qs.forEach(d => { const hit = !v || d.textContent.toLowerCase().includes(v); d.hidden = !hit; if (v && hit) d.open = true; });
+});
+function openHash() { const d = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1))); if (d && d.tagName === 'DETAILS') { d.open = true; d.scrollIntoView(); } }
+addEventListener('hashchange', openHash); openHash();'''
+
+
+def page_ids(g):
+    """Every id a guide puts on its page: sections, FAQ questions, raw blocks."""
+    ids = [s['id'] for s in g['sections']]
+    def walk(blocks):
+        for k, d in blocks:
+            if k == 'faq':
+                ids.extend(q['id'] for q in d)
+            elif k == 'tabs':
+                for x in d:
+                    walk(x['blocks'])
+            elif k == 'raw':
+                for l in LANGS[:1]:   # raw ids are the same in every language
+                    ids.extend(re.findall(r'\sid="([^"]+)"', L(d, l)))
+    for s in g['sections']:
+        walk(s['blocks'])
+    return ids
+
 
 def build_page(g, lang, tpl, base_css, sprite, src):
     sub = g.get('path') or (f'guides/{g["slug"]}/' if g['slug'] else 'guides/')   # path: разделы classes/, races/ (Task 8)
@@ -135,7 +164,7 @@ def build_page(g, lang, tpl, base_css, sprite, src):
         'PILLS': ''.join(f'<span class="pill">{E(p, lang)}</span>' for p in g.get('pills', [])),
         'ART_AVIF': avif, 'ART_WEBP': webp, 'ART_IMG': img, 'TOC': toc, 'TOC_GRP': toc_grp, 'BODY': body, 'MORE': more,
         'SOLO': '' if toc else ' solo',
-        'SOURCES': ''.join(f'<li><a href="{u}" target="_blank" rel="noopener">{escape(n)}</a></li>' for n, u in g.get('sources', [])),
+        'SOURCES': ''.join(f'<li><a href="{u}" target="_blank" rel="noopener">{E(n, lang)}</a></li>' for n, u in g.get('sources', [])),
         'UPDATED': g.get('updated', HUB.get('updated', '')),
         'JS': (((home_data(src) + '\n') if js in ('dungeons', 'professions') else '') + JS[js]) if js else '',
     }
