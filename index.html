@@ -227,20 +227,8 @@ section.block { scroll-margin-top: -72px; }
 .ttile span, .gt span { font-size: .9rem; line-height: 1.4; color: rgba(243,239,230,.82); }
 
 /* Guides band over the campfire art */
-.gband { position: relative; isolation: isolate; margin-top: 110px; padding: 96px 0 88px; color: var(--ink); background: #08090b; overflow: hidden; }
-.gband > picture, .gband > picture img { position: absolute; inset: 0; width: 100%; height: 100%; }
-.gband > picture { z-index: -2; }
-.gband > picture img { object-fit: cover; object-position: 75% 55%; }
-.gband::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(7,8,10,.9) 0%, rgba(7,8,10,.62) 42%, rgba(7,8,10,.18) 100%), linear-gradient(180deg, rgba(7,8,10,.25), rgba(7,8,10,.8)); }
-.gband .sec-head p { color: var(--ink-2); }
-.gband .sec-head .kick { color: var(--ink-gold); }
-.gband .sec-head h2::after { background: #c9a54a; }
-.gtiles { margin-top: 36px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: rgba(241,236,224,.14); border: 1px solid rgba(241,236,224,.14); }
-.gt { display: grid; gap: 6px; align-content: start; min-height: 132px; padding: 22px 22px 20px; background: rgba(9,10,12,.78); color: var(--ink); text-decoration: none; transition: background-color .2s; }
-.gt:hover { background: rgba(20,18,14,.9); }
-.gt b { font-family: var(--font-display); font-weight: 400; font-size: 1.4rem; line-height: 1.15; }
-.gt span { color: var(--ink-2); font-size: .9rem; }
-.gt:hover b { color: var(--ink-gold); }
+.gtiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; padding: 14px; }
+.gt { min-height: 180px; }
 
 /* Journey: game stages and my character, framed panels over art */
 .stband { position: relative; isolation: isolate; padding: 110px 0 24px; color: var(--fg); }
@@ -501,26 +489,33 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .prog span { color: var(--muted); font-size: .9rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 /* Reference rows (classes, races) */
-.ref { display: grid; border-top: 1px solid var(--line); }
-.ref-row { display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 10px 28px; padding: 22px 0; border-bottom: 1px solid var(--line); }
-.ref-name { display: grid; gap: 8px; align-content: start; }
-.ref-name h3 { display: flex; align-items: center; gap: 0; font-size: 1.6rem; }
-.ref-name .bar { width: 4px; height: 1.05em; margin-right: 10px; background: var(--cc, var(--gold)); }
-.ref-name .sub { color: var(--muted); font-size: .9rem; }
-.ref-name .go { justify-self: start; display: inline-flex; align-items: center; text-decoration: none; min-height: 40px; padding: 0 12px; border: 1px solid var(--line-2); border-radius: 3px; background: transparent; font-size: .85rem; font-weight: 500; color: var(--muted); }
-.ref-name .go:hover { color: var(--fg); border-color: var(--gold); }
-.ref-body { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 24px; font-size: .95rem; }
+.ref { display: grid; gap: 12px; }
+.ref-row { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 14px 28px; padding: 14px 24px 14px 14px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); transition: border-color .2s; }
+.ref-row.sel { border-color: color-mix(in srgb, var(--gold) 55%, transparent); }
+.ref-name { display: grid; gap: 10px; align-content: start; }
+.rtile { position: relative; isolation: isolate; overflow: hidden; min-height: 150px; padding: 0 14px 12px; display: grid; align-content: end; gap: 2px; border-radius: 7px; border: 1px solid rgba(255,255,255,.1); background: #0b0d12; color: #f3efe6; }
+.rtile picture, .rtile img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.rtile picture { z-index: -2; }
+.rtile img { object-fit: cover; object-position: 50% 20%; }
+.rtile::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(6,8,12,0) 30%, rgba(6,8,12,.9) 100%); }
+.rtile.alliance { min-height: 96px; background: radial-gradient(120% 100% at 90% 0%, #2b4a7c 0%, #0c1830 65%); }
+.rtile.horde { min-height: 96px; background: radial-gradient(120% 100% at 90% 0%, #6e2b1d 0%, #240d0a 65%); }
+.rtile h3 { font-size: 1.75rem; text-shadow: 0 1px 8px rgba(0,0,0,.6); }
+.rtile .sub { color: rgba(243,239,230,.75); font-size: .88rem; }
+.ref-name .go { justify-self: start; display: inline-flex; align-items: center; text-decoration: none; min-height: 44px; padding: 0 14px; border: 1px solid var(--pline); border-radius: 7px; background: var(--panel-2); font-size: .88rem; font-weight: 600; color: var(--fg); }
+.ref-name .go:hover { border-color: var(--gold); }
+.ref-body { padding-top: 8px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 24px; font-size: .95rem; }
 .ref-body.two { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
 .ref-body h4 { margin: 0 0 4px; font-size: .82rem; font-weight: 600; color: var(--muted); }
 .ref-body .wide { grid-column: 1 / -1; }
-.ref details { grid-column: 1 / -1; border-top: 1px dashed var(--line); padding-top: 10px; }
+.ref details { grid-column: 1 / -1; border-top: 1px solid var(--pline); padding-top: 6px; }
 .ref summary { cursor: pointer; color: var(--muted); font-size: .9rem; font-weight: 500; min-height: 44px; display: flex; align-items: center; gap: 6px; list-style: none; }
 .ref summary::-webkit-details-marker { display: none; }
 .ref summary::before { content: "+"; width: 1em; color: var(--gold-2); font-weight: 600; }
 .ref details[open] summary::before { content: "−"; }
 .ref summary:hover { color: var(--fg); }
 .ref details p { margin-top: 6px; font-size: .95rem; max-width: 80ch; }
-.ref-row.sel .ref-name h3 { color: var(--gold-2); }
+.ref-row.sel .rtile h3 { color: #e0c27a; }
 
 /* Data tables: each row is a plaque inside a framed panel */
 .tbl-box { overflow-x: auto; padding: 8px 14px 10px; }
@@ -608,9 +603,12 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .fac::before { background: linear-gradient(0deg, var(--fb) 30%, color-mix(in srgb, var(--fb) 60%, transparent) 58%, transparent 85%); }
   .hc, .hc.on { flex-basis: 80%; }
   .tool { padding: 16px; }
-  .gband { margin-top: 80px; padding: 72px 0 64px; }
-  .gtiles { grid-template-columns: 1fr; }
-  .gt { min-height: 0; padding: 18px; }
+  .gtiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 8px; }
+  .gt { min-height: 168px; padding: 0 12px 12px; }
+  .gt b { font-size: 1.02rem; }
+  .gt span { font-size: .8rem; line-height: 1.35; }
+  .timeline { padding: 8px; }
+  .ref-row { padding: 10px 14px 12px 10px; }
   .ref-body, .ref-body.two { grid-template-columns: 1fr; }
   .slot { grid-template-columns: 44px minmax(0, 2.6fr) minmax(0, 1fr) 44px; gap: 6px; padding: 6px; }
   .slot .no { grid-row: 1 / 3; align-self: center; }
@@ -837,25 +835,25 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   </div>
   <div class="row-actions"><button class="btn ghost" id="checkReset">Сбросить отметки</button></div>
 </section>
-<section class="gband" id="guides" data-nav="#guides" data-tab="#guides">
-  <picture><source type="image/avif" srcset="./assets/art/hero_campfire-960.avif 960w, ./assets/art/hero_campfire-1600.avif 1600w" sizes="100vw"><source type="image/webp" srcset="./assets/art/hero_campfire-960.webp 960w, ./assets/art/hero_campfire-1600.webp 1600w" sizes="100vw"><img src="./assets/art/hero_campfire-1600.webp" width="1600" height="893" alt="" loading="lazy" decoding="async"></picture>
+<section class="stband" id="guides" data-nav="#guides" data-tab="#guides">
+  <picture class="stband-art"><source type="image/avif" srcset="./assets/art/hero_dawn-960.avif 960w, ./assets/art/hero_dawn-1440.avif 1440w" sizes="100vw"><source type="image/webp" srcset="./assets/art/hero_dawn-960.webp 960w, ./assets/art/hero_dawn-1440.webp 1440w" sizes="100vw"><img src="./assets/art/hero_dawn-1440.webp" width="1440" height="804" alt="" loading="lazy" decoding="async"></picture>
   <div class="wrap">
     <div class="sec-head"><h2>Гайды и справочник</h2><p>Всё, что мы собрали о WoW Forever: даты, системы игры, подземелья и советы для компании.</p></div>
-    <nav class="gtiles" aria-label="Гайды">
-      <a class="gt" href="#dates"><b>Даты и наборы</b><span>Резерв имён, релиз, рейды и цены наборов</span></a>
-      <a class="gt" href="#classref"><b>Классы подробно</b><span>Специализации, темп прокачки и что нового</span></a>
-      <a class="gt" href="#races"><b>Расы</b><span>Способности рас и доступные классы</span></a>
-      <a class="gt" href="#legacy"><b>Legacy</b><span>Очки на весь аккаунт, перки и награды</span></a>
-      <a class="gt" href="#camp"><b>Лагерь и профессии</b><span>Костёр, объекты профессий и баффы</span></a>
-      <a class="gt" href="#dungeons"><b>Подземелья и рейды</b><span>Все 35 подземелий по уровням и 3 рейда</span></a>
-      <a class="gt" href="#group"><b>Состав группы</b><span>Факты и советы для компании из 6–8 человек</span></a>
-      <a class="gt" href="#era"><b>Отличия от Era</b><span>Что нового по сравнению с Classic</span></a>
+    <nav class="frame gtiles" aria-label="Гайды">
+      <a class="gt" href="#dates"><picture><source type="image/avif" srcset="./assets/art/hero_dawn-960.avif"><img src="./assets/art/hero_dawn-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Даты и наборы</b><span>Резерв имён, релиз, рейды и цены наборов</span></a>
+      <a class="gt" href="#classref"><picture><source type="image/avif" srcset="./assets/art/warrior-360.avif 360w, ./assets/art/warrior-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="./assets/art/warrior-360.webp" srcset="./assets/art/warrior-360.webp 360w, ./assets/art/warrior-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Классы подробно</b><span>Специализации, темп прокачки и что нового</span></a>
+      <a class="gt" href="#races"><picture><source type="image/avif" srcset="./assets/art/druid-360.avif 360w, ./assets/art/druid-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="./assets/art/druid-360.webp" srcset="./assets/art/druid-360.webp 360w, ./assets/art/druid-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Расы</b><span>Способности рас и доступные классы</span></a>
+      <a class="gt" href="#legacy"><picture><source type="image/avif" srcset="./assets/art/priest-360.avif 360w, ./assets/art/priest-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="./assets/art/priest-360.webp" srcset="./assets/art/priest-360.webp 360w, ./assets/art/priest-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Legacy</b><span>Очки на весь аккаунт, перки и награды</span></a>
+      <a class="gt" href="#camp"><picture><source type="image/avif" srcset="./assets/art/hero_campfire-960.avif"><img src="./assets/art/hero_campfire-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Лагерь и профессии</b><span>Костёр, объекты профессий и баффы</span></a>
+      <a class="gt" href="#dungeons"><picture><source type="image/avif" srcset="./assets/art/warlock-360.avif 360w, ./assets/art/warlock-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="./assets/art/warlock-360.webp" srcset="./assets/art/warlock-360.webp 360w, ./assets/art/warlock-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Подземелья и рейды</b><span>Все 35 подземелий по уровням и 3 рейда</span></a>
+      <a class="gt" href="#group"><picture><source type="image/avif" srcset="./assets/art/paladin-360.avif 360w, ./assets/art/paladin-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="./assets/art/paladin-360.webp" srcset="./assets/art/paladin-360.webp 360w, ./assets/art/paladin-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Состав группы</b><span>Факты и советы для компании из 6–8 человек</span></a>
+      <a class="gt" href="#era"><picture><source type="image/avif" srcset="./assets/art/mage-360.avif 360w, ./assets/art/mage-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="./assets/art/mage-360.webp" srcset="./assets/art/mage-360.webp 360w, ./assets/art/mage-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Отличия от Era</b><span>Что нового по сравнению с Classic</span></a>
     </nav>
   </div>
 </section>
 <section class="block wrap" id="dates" data-nav="#guides">
   <div class="sec-head"><div class="row"><h2>Даты и наборы</h2><span class="src">Blizzard, ClassicWoW.gg, Warcraft Tavern</span></div><p>Главное до релиза и после него.</p></div>
-  <ul class="timeline">
+  <ul class="timeline frame">
     <li><span class="d">17.09 – 23.10</span><span class="t"><b>Закрытая бета</b><span>Доступ был у владельцев наборов Epic и Collection. Blizzard продлила бету до 23.10, она отключается в 10:00 по тихоокеанскому времени. 08.10 в бету добавили City of Dalaran и примерно на 20% больше опыта за врагов в подземельях.</span></span></li>
     <li><span class="d">15.10</span><span class="t"><b>Крупный патч беты</b><span>Переделаны способности рас (оружейные специализации заменены критами) и настроены почти все классы.</span></span></li>
     <li><span class="d">27.10 – 03.11</span><span class="t"><b>Ранняя резервация имён</b><span>Входит в наборы Heroic, Epic и Collection. До трёх персонажей на аккаунт, кто первым пришёл, тот и занял. Это не ранний доступ в игру. Точное время открытия Blizzard пока не назвала.</span></span></li>
@@ -1300,7 +1298,7 @@ function renderDetail() {
 
 function renderClassRef() {
   $('#classRef').innerHTML = CLASSES.map(c => `<div class="ref-row ${c.id === state.cls ? 'sel' : ''}" style="--cc:${CCOL[c.id]}">
-    <div class="ref-name"><h3><span class="bar" aria-hidden="true"></span>${esc(c.n)}</h3>
+    <div class="ref-name"><div class="rtile"><picture><source type="image/avif" srcset="./assets/art/${c.id}-360.avif 360w, ./assets/art/${c.id}-600.avif 600w" sizes="(max-width: 860px) 100vw, 250px"><img src="./assets/art/${c.id}-360.webp" srcset="./assets/art/${c.id}-360.webp 360w, ./assets/art/${c.id}-600.webp 600w" sizes="(max-width: 860px) 100vw, 250px" alt="" loading="lazy" decoding="async"></picture><h3>${esc(c.n)}</h3></div>
       <div class="chips">${roleChips(c)}</div>
       <div class="chips"><a class="go" href="classes/${c.id}/">Страница класса</a><button type="button" class="go" data-c="${c.id}">Открыть в подборщике</button></div></div>
     <div class="ref-body">
@@ -1314,8 +1312,8 @@ function renderClassRef() {
 
 function renderRaceRef() {
   $('#raceRef').innerHTML = RACES.map(r => `<div class="ref-row ${r.id === state.race ? 'sel' : ''}">
-    <div class="ref-name"><h3>${esc(r.n)}</h3>
-      ${r.en ? `<div class="sub">${esc(r.en)}</div>` : ''}
+    <div class="ref-name"><div class="rtile ${r.f}"><h3>${esc(r.n)}</h3>
+      ${r.en ? `<div class="sub">${esc(r.en)}</div>` : ''}</div>
       <div class="chips"><span class="tag ${r.f}">${facName(r.f)}</span>${r.paid ? '<span class="tag paid">платная</span>' : ''}</div>
       <button type="button" class="go" data-r="${r.id}">Открыть в подборщике</button></div>
     <div class="ref-body two">
@@ -1869,7 +1867,7 @@ if ('IntersectionObserver' in window) {
     const t = en.target, nav = t.dataset.nav || ('#' + t.id);
     mark(navLinks, nav); mark(tabLinks, t.dataset.tab || '#guides');
   }), { rootMargin: '-45% 0px -50% 0px' });
-  document.querySelectorAll('.hero, section.block, section.gband, footer#sources').forEach(s => io.observe(s));
+  document.querySelectorAll('.hero, section.block, section.stband, footer#sources').forEach(s => io.observe(s));
 }
 </script>
 </body>
