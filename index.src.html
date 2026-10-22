@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>WoW Forever: гид Gabella Team</title>
-<meta name="description" content="Гид по WoW Forever для компании друзей: классы, расы, комбинации, Legacy, лагерь, подземелья, рейды и подбор состава группы. Данные на 22.10.2026.">
+<meta name="description" content="Гид по WoW Forever для компании друзей: классы, расы, комбинации, Legacy, лагерь, подземелья, рейды и подбор состава группы. Данные на 23.10.2026.">
 <meta name="theme-color" content="#060708">
 <link rel="alternate" hreflang="ru" href="https://raiganja.github.io/wow/">
 <link rel="alternate" hreflang="en" href="https://raiganja.github.io/wow/en/">
@@ -16,7 +16,7 @@
 <meta property="og:locale" content="ru_RU">
 <meta property="og:site_name" content="Gabella Team">
 <meta property="og:title" content="WoW Forever: гид Gabella Team">
-<meta property="og:description" content="Классы, расы, Legacy, лагерь, подземелья и подбор состава группы. Данные на 22.10.2026.">
+<meta property="og:description" content="Классы, расы, Legacy, лагерь, подземелья и подбор состава группы. Данные на 23.10.2026.">
 <meta property="og:url" content="https://raiganja.github.io/wow/">
 <meta property="og:image" content="https://raiganja.github.io/wow/assets/og.png">
 <meta property="og:image:width" content="1200">
@@ -199,7 +199,7 @@ section.block { scroll-margin-top: -72px; }
 
 /* Class roster: tall portraits, the active one expands */
 .roster { display: flex; gap: 6px; height: clamp(440px, 40vw, 560px); }
-.hc { position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; isolation: isolate; padding: 0; border: 1px solid #262930; border-radius: 2px; background: #0b0c0e; color: var(--ink); text-align: left; transition: flex-grow .55s var(--ease), border-color .3s; }
+.hc { display: block; text-decoration: none; position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; isolation: isolate; padding: 0; border: 1px solid #262930; border-radius: 2px; background: #0b0c0e; color: var(--ink); text-align: left; transition: flex-grow .55s var(--ease), border-color .3s; }
 .hc.on { flex-grow: 3.6; border-color: rgba(201,165,74,.7); }
 .hc picture, .hc img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .hc picture { z-index: -2; }
@@ -504,7 +504,7 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .ref-name h3 { display: flex; align-items: center; gap: 0; font-size: 1.6rem; }
 .ref-name .bar { width: 4px; height: 1.05em; margin-right: 10px; background: var(--cc, var(--gold)); }
 .ref-name .sub { color: var(--muted); font-size: .9rem; }
-.ref-name .go { justify-self: start; min-height: 40px; padding: 0 12px; border: 1px solid var(--line-2); border-radius: 3px; background: transparent; font-size: .85rem; font-weight: 500; color: var(--muted); }
+.ref-name .go { justify-self: start; display: inline-flex; align-items: center; text-decoration: none; min-height: 40px; padding: 0 12px; border: 1px solid var(--line-2); border-radius: 3px; background: transparent; font-size: .85rem; font-weight: 500; color: var(--muted); }
 .ref-name .go:hover { color: var(--fg); border-color: var(--gold); }
 .ref-body { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 24px; font-size: .95rem; }
 .ref-body.two { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
@@ -685,7 +685,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     <img src="@@ROOT@@assets/art/hero_dawn-1920.webp" width="1920" height="1072" alt="" fetchpriority="high" decoding="async">
   </picture>
   <div class="wrap hero-in">
-    <p class="eyebrow">Гид Gabella Team · данные на 22.10.2026</p>
+    <p class="eyebrow">Гид Gabella Team · данные на 23.10.2026</p>
     <h1>World of Warcraft <span>Forever</span></h1>
     <p class="lead">Классы, расы, сбор группы и всё, что нужно знать к старту 4 ноября. Собрано для своей компании, с источниками и датой.</p>
     <div class="cd" id="cd" aria-live="polite"></div>
@@ -753,7 +753,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </section>
 
 <section class="block wrap" id="classes" data-nav="#classes" data-tab="#classes">
-  <div class="sec-head"><div class="row"><div style="display:grid;gap:12px"><p class="kick">Девять классов</p><h2>Кем играть</h2></div><span class="src">Warcraft Tavern, LFCarry</span></div><p>Наведите на портрет, чтобы раскрыть класс. Нажмите, и подборщик покажет расы, специализации и что нового в Forever.</p></div>
+  <div class="sec-head"><div class="row"><div style="display:grid;gap:12px"><p class="kick">Девять классов</p><h2>Кем играть</h2></div><span class="src">Warcraft Tavern, LFCarry</span></div><p>Наведите на портрет, чтобы раскрыть класс. Нажмите, чтобы открыть страницу класса: специализации, расы и что нового в Forever.</p></div>
   <div class="roster" id="roster"></div>
   <p class="swipe">Листайте портреты в сторону.</p>
 </section>
@@ -843,10 +843,10 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <section class="block wrap" id="dates" data-nav="#guides">
   <div class="sec-head"><div class="row"><h2>Даты и наборы</h2><span class="src">Blizzard, ClassicWoW.gg, Warcraft Tavern</span></div><p>Главное до релиза и после него.</p></div>
   <ul class="timeline">
-    <li><span class="d">17.09 – 21.10</span><span class="t"><b>Закрытая бета</b><span>Доступ был у владельцев наборов Epic и Collection. Бета временно закрыта, Blizzard пишет, что она вернётся.</span></span></li>
+    <li><span class="d">17.09 – 23.10</span><span class="t"><b>Закрытая бета</b><span>Доступ был у владельцев наборов Epic и Collection. Blizzard продлила бету до 23.10, она отключается в 10:00 по тихоокеанскому времени. 08.10 в бету добавили City of Dalaran и примерно на 20% больше опыта за врагов в подземельях.</span></span></li>
     <li><span class="d">15.10</span><span class="t"><b>Крупный патч беты</b><span>Переделаны способности рас (оружейные специализации заменены критами) и настроены почти все классы.</span></span></li>
-    <li><span class="d">27.10 – 03.11</span><span class="t"><b>Ранняя резервация имён</b><span>Входит в наборы Heroic, Epic и Collection. Первым пришёл, первым занял, это не ранний доступ в игру. Некоторые сайты называют начало 23.10, надёжнее сверить на странице Blizzard.</span></span></li>
-    <li><span class="d">04.11</span><span class="t"><b>Релиз WoW Forever</b><span>Нужна подписка или игровое время. Forever постоянная игра рядом с Retail и Classic, не сезон.</span></span></li>
+    <li><span class="d">27.10 – 03.11</span><span class="t"><b>Ранняя резервация имён</b><span>Входит в наборы Heroic, Epic и Collection. До трёх персонажей на аккаунт, кто первым пришёл, тот и занял. Это не ранний доступ в игру. Точное время открытия Blizzard пока не назвала.</span></span></li>
+    <li><span class="d">04.11</span><span class="t"><b>Релиз WoW Forever</b><span>Нужна подписка или игровое время. Forever постоянная игра рядом с Retail и Classic, не сезон. Точное время старта Blizzard пока не подтвердила. Если это 15:00 по тихоокеанскому, как пишут некоторые сайты, в Киеве будет уже 01:00 5 ноября.</span></span></li>
     <li><span class="d">09.12</span><span class="t"><b>Открываются рейды</b><span>Barrow Deeps (10 игроков), Hyjal Summit (20), Onyxia’s Lair (40). До этого есть пять недель на прокачку и подземелья.</span></span></li>
   </ul>
   <div class="grid2">
@@ -866,6 +866,16 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
         <li>Группироваться можно только внутри одного режима. В PvP при создании доступна одна фракция.</li>
       </ul>
       <p class="note tipn" style="margin-top:12px"><span class="mk tip">совет</span><b>Договоритесь заранее:</b> одна фракция, один режим, одни и те же дни на старт.</p>
+    </div>
+    <div class="panel">
+      <h3>Имена и фамилии</h3>
+      <ul class="dots">
+        <li>У каждого персонажа есть имя и фамилия.</li>
+        <li>Реалмов нет: полное имя должно быть уникальным во всём регионе. Одно имя у двоих возможно, если фамилии разные.</li>
+        <li>Фамилию можно скрыть: Esc → Options → Nameplates → My Secondary Name.</li>
+        <li>В PvP-режиме на аккаунте может быть только одна фракция.</li>
+      </ul>
+      <p class="note tipn" style="margin-top:12px"><span class="mk tip">совет</span><b>Подготовьте до 27.10:</b> имя, фамилию и два-три запасных варианта, короткие имена разберут первыми.</p>
     </div>
   </div>
 </section>
@@ -1033,7 +1043,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <div class="wrap">
 <footer id="sources" data-nav="#guides">
   <h2>Источники и актуальность</h2>
-  <p>Данные собраны <b style="color:var(--fg)">22.10.2026</b> по закрытой бете и патчу от 15.10.2026 и сверены по нескольким источникам. До релиза Blizzard ещё может менять бету, особенно способности рас, настройку классов и перки Legacy. Если источники расходились, это отмечено в тексте. Точные числа сверяйте в игре.</p>
+  <p>Данные собраны <b style="color:var(--fg)">23.10.2026</b> по закрытой бете и патчу от 15.10.2026 и сверены по нескольким источникам. До релиза Blizzard ещё может менять бету, особенно способности рас, настройку классов и перки Legacy. Если источники расходились, это отмечено в тексте. Точные числа сверяйте в игре.</p>
   <p><span class="mk fact">факт</span>взято из источников ниже. <span class="mk tip">совет</span>мнение составителя, не официальные данные.</p>
   <ul>
     <li><a href="https://www.warcrafttavern.com/forever/" target="_blank" rel="noopener">Warcraft Tavern</a>: <a href="https://www.warcrafttavern.com/forever/guides/race-class-combos/" target="_blank" rel="noopener">комбинации</a>, <a href="https://www.warcrafttavern.com/forever/guides/races/" target="_blank" rel="noopener">расы</a>, <a href="https://www.warcrafttavern.com/forever/guides/legacy/" target="_blank" rel="noopener">Legacy</a>, <a href="https://www.warcrafttavern.com/forever/guides/camping/" target="_blank" rel="noopener">лагерь</a>, <a href="https://www.warcrafttavern.com/forever/guides/dungeons/" target="_blank" rel="noopener">подземелья</a>, <a href="https://www.warcrafttavern.com/news/world-of-warcraft-forever-editions-skyborne-race-unlock-beta-access/" target="_blank" rel="noopener">наборы и цены</a></li>
@@ -1069,7 +1079,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     <div class="langs" role="group" aria-label="Язык"><a href="@@RU@@" data-lang="ru" hreflang="ru" lang="ru" aria-current="true">RU</a><a href="@@EN@@" data-lang="en" hreflang="en" lang="en" aria-current="false">EN</a><a href="@@UK@@" data-lang="uk" hreflang="uk" lang="uk" aria-current="false">UK</a></div>
     <button class="iconbtn themebtn" type="button" aria-label="Переключить тему"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg><span>Тема</span></button>
   </div>
-  <p class="meta">Данные на 22.10.2026, закрытая бета, патч от 15.10.2026.</p>
+  <p class="meta">Данные на 23.10.2026, закрытая бета, патч от 15.10.2026.</p>
 </dialog>
 <script>
 const CLASSES = [
@@ -1278,7 +1288,7 @@ function renderClassRef() {
   $('#classRef').innerHTML = CLASSES.map(c => `<div class="ref-row ${c.id === state.cls ? 'sel' : ''}" style="--cc:${CCOL[c.id]}">
     <div class="ref-name"><h3><span class="bar" aria-hidden="true"></span>${esc(c.n)}</h3>
       <div class="chips">${roleChips(c)}</div>
-      <button type="button" class="go" data-c="${c.id}">Открыть в подборщике</button></div>
+      <div class="chips"><a class="go" href="classes/${c.id}/">Страница класса</a><button type="button" class="go" data-c="${c.id}">Открыть в подборщике</button></div></div>
     <div class="ref-body">
       <div><h4>Специализации</h4>${c.specs.map(s => `<div>${bi(s[0])}</div>`).join('')}</div>
       <div><h4>Прокачка</h4>${esc(c.lvl)}</div>
@@ -1325,6 +1335,14 @@ document.addEventListener('click', e => {
   }
 });
 render();
+/* Deep link from class pages: #pick=shaman or #pick=dwarf.shaman */
+(function () {
+  const m = location.hash.match(/^#pick=(?:(\w+)\.)?(\w+)$/);
+  if (!m || !CL[m[2]]) return;
+  if (m[1] && RC[m[1]] && RC[m[1]].can[m[2]]) { state.race = m[1]; state.cls = m[2]; } else pickClass(m[2]);
+  state.f = 'all'; state.r = 'all'; syncSeg('segF', 'all'); syncSeg('segR', 'all'); render();
+  setTimeout(() => document.getElementById('picker').scrollIntoView(), 0);
+})();
 /* Class roster: tall portraits, the hovered or focused one expands */
 const ROOT = '@@ROOT@@';
 const DESC = {
@@ -1341,11 +1359,11 @@ const DESC = {
 const artSet = (id, ext) => [360, 600, 896].map(w => `${ROOT}assets/art/${id}-${w}.${ext} ${w}w`).join(', ');
 const ART_SIZES = '(max-width: 719px) 78vw, 440px';
 function renderRoster() {
-  $('#roster').innerHTML = CLASSES.map((c, i) => `<button type="button" class="hc go${i === 0 ? ' on' : ''}" data-c="${c.id}" style="--cc:${CCOL[c.id]}">
+  $('#roster').innerHTML = CLASSES.map((c, i) => `<a class="hc${i === 0 ? ' on' : ''}" href="classes/${c.id}/" style="--cc:${CCOL[c.id]}">
     <picture><source type="image/avif" srcset="${artSet(c.id, 'avif')}" sizes="${ART_SIZES}"><source type="image/webp" srcset="${artSet(c.id, 'webp')}" sizes="${ART_SIZES}"><img src="${ROOT}assets/art/${c.id}-600.webp" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
     <span class="vn" aria-hidden="true">${esc(c.n)}</span>
-    <span class="info"><b>${esc(c.n)}</b><span class="roles">${c.roles.filter(r => !r.endsWith('?')).map(r => `<span>${ri(r)}${ROLE_RU[r]}</span>`).join('')}</span><span class="d">${esc(DESC[c.id])}</span><span class="more">Открыть в подборщике</span></span>
-  </button>`).join('');
+    <span class="info"><b>${esc(c.n)}</b><span class="roles">${c.roles.filter(r => !r.endsWith('?')).map(r => `<span>${ri(r)}${ROLE_RU[r]}</span>`).join('')}</span><span class="d">${esc(DESC[c.id])}</span><span class="more">Подробнее о классе</span></span>
+  </a>`).join('');
 }
 renderRoster();
 function activate(card) { if (!card || card.classList.contains('on')) return; document.querySelectorAll('.hc.on').forEach(x => x.classList.remove('on')); card.classList.add('on'); }
@@ -1362,7 +1380,7 @@ document.querySelectorAll('.go-f').forEach(b => b.addEventListener('click', () =
 function renderCountdown() {
   const now = new Date(), rel = new Date('2026-11-04T00:00:00'), raid = new Date('2026-12-09T00:00:00'), r1 = new Date('2026-10-27T00:00:00');
   let target, what, sub;
-  if (now < rel) { target = rel; what = 'до релиза'; sub = now < r1 ? 'Резервация имён откроется 27.10' : 'Резервация имён идёт до 03.11'; }
+  if (now < rel) { target = rel; what = 'до 04.11, время старта уточняется'; sub = now < r1 ? 'Резервация имён откроется 27.10' : 'Резервация имён идёт до 03.11'; }
   else if (now < raid) { target = raid; what = 'до рейдов'; sub = 'Рейды открываются 09.12.2026'; }
   if (target) {
     const ms = target - now, d = Math.floor(ms / 864e5), h = Math.floor(ms % 864e5 / 36e5), m = Math.floor(ms % 36e5 / 6e4);
@@ -1516,7 +1534,7 @@ const CHECK = [
   ['Договориться об одной фракции и режиме', 'Группироваться можно только внутри одного режима (обычный, PvP, RP), в PvP при создании доступна одна фракция.'],
   ['Распределить классы без лишних дублей', 'Соберите состав в конструкторе выше: нужен танк, лекарь и разные классы ради баффов.'],
   ['Решить, нужна ли раса Скайборн', 'Платная: набор Heroic Pack от $29.99. Остальные расы и все классы докупать не нужно.'],
-  ['Занять имена с 27.10 по 03.11', 'Нужен набор Heroic, Epic или Collection. Это резервация имён, а не ранний доступ в игру.'],
+  ['Занять имена с 27.10 по 03.11', 'Нужен набор Heroic, Epic или Collection, до трёх персонажей на аккаунт. Придумайте имя, фамилию и запасные варианты: полное имя уникально во всём регионе.'],
   ['Проверить подписку или игровое время', 'С 04.11 для игры нужна подписка или игровое время.'],
   ['Выбрать профессии под лагерь', 'Один берёт Кулинарию ради костра, остальные по профессиям под баффы лагеря.'],
   ['Назначить дни и время старта 04.11', 'Заранее договоритесь, кто и когда заходит первым, чтобы начать одним составом.'],

@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>@@NAME@@ в WoW Forever: гид Gabella Team</title>
+<meta name="description" content="@@NAME@@ в WoW Forever: специализации, что нового, расы, польза в группе, плюсы и минусы. Данные на 23.10.2026.">
+<meta name="theme-color" content="#060708">
+@@ALTERNATES@@
+<script>(function(){var t=null;try{t=localStorage.getItem('wf-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}document.documentElement.setAttribute('data-theme',t)})();</script>
+<link rel="canonical" href="@@CANON@@">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:site_name" content="Gabella Team">
+<meta property="og:title" content="@@NAME@@ в WoW Forever">
+<meta property="og:description" content="@@DESC@@">
+<meta property="og:url" content="@@CANON@@">
+<meta property="og:image" content="https://raiganja.github.io/wow/assets/og/@@ID@@.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="@@NAME@@ в WoW Forever">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230a0b0d'/%3E%3Ctext x='32' y='34' text-anchor='middle' dominant-baseline='central' font-family='Georgia,serif' font-size='44' font-weight='700' fill='%23c9a54a'%3EG%3C/text%3E%3C/svg%3E">
+<link rel="preload" href="@@ROOT@@assets/fonts/forum-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="@@ROOT@@assets/fonts/golos-text-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" type="image/avif" imagesrcset="@@ROOT@@assets/art/@@ID@@-600.avif 600w, @@ROOT@@assets/art/@@ID@@-896.avif 896w" imagesizes="(max-width: 719px) 100vw, 75vh">
+<style>
+@@BASE_CSS@@
+/* Class page: full-screen portrait hero, spec tabs, races, group use, other classes */
+.chero { position: relative; isolation: isolate; overflow: hidden; min-height: max(620px, 100svh); display: grid; align-content: end; color: var(--ink); background: #08090b; }
+.chero .blur, .chero .blur img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.chero .blur { z-index: -3; }
+.chero .blur img { object-fit: cover; opacity: .7; }
+.chero .por { position: absolute; z-index: -2; top: 0; bottom: 0; right: max(0px, calc((100vw - var(--wrap)) / 2 - 40px)); aspect-ratio: 3 / 4; height: 100%; -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 24%, #000 82%, transparent 100%); mask-image: linear-gradient(90deg, transparent 0, #000 24%, #000 82%, transparent 100%); }
+.chero .por img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; }
+.chero::before { content: ""; position: absolute; inset: 0; z-index: -1; background:
+  linear-gradient(90deg, rgba(7,8,10,.9) 0%, rgba(7,8,10,.66) 34%, rgba(7,8,10,.1) 62%, rgba(7,8,10,0) 100%),
+  linear-gradient(180deg, rgba(7,8,10,.55) 0%, rgba(7,8,10,0) 22%, rgba(7,8,10,0) 60%, rgba(7,8,10,.95) 100%); }
+.chero-in { padding-top: calc(var(--top) + 48px); padding-bottom: 56px; display: grid; gap: 20px; justify-items: start; width: 100%; }
+.crumbs { display: flex; flex-wrap: wrap; gap: 6px 10px; font-size: .9rem; color: var(--ink-2); }
+.crumbs a { color: var(--ink-2); text-decoration: none; }
+.crumbs a:hover { color: var(--ink); text-decoration: underline; }
+.crumbs span[aria-hidden] { opacity: .5; }
+.chero h1 { font-size: clamp(3.4rem, 8vw, 6.6rem); line-height: .92; }
+.chero h1::after { content: ""; display: block; width: 72px; height: 2px; margin-top: 20px; background: var(--cc); }
+.chero .lead { max-width: 40ch; font-size: clamp(1.05rem, 1.5vw, 1.2rem); color: var(--ink-2); }
+.croles { display: flex; flex-wrap: wrap; gap: 8px; }
+.croles span { display: inline-flex; align-items: center; min-height: 34px; padding: 0 12px; border: 1px solid rgba(224,194,122,.45); border-radius: 3px; background: rgba(7,8,10,.4); color: #e8d6a6; font-size: .92rem; font-weight: 500; }
+.croles span.q { border-style: dashed; color: var(--ink-2); }
+.cfacts { margin: 4px 0 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 28px; max-width: 560px; width: 100%; }
+.cfacts div { align-content: start; padding: 10px 0; border-top: 1px solid rgba(241,236,224,.18); display: grid; gap: 2px; }
+.cfacts dt { font-size: .8rem; color: var(--ink-2); }
+.cfacts dd { margin: 0; font-size: .95rem; color: var(--ink); }
+.chero .cta { margin-top: 4px; }
+.chero .btn { background: #c9a54a; border-color: #c9a54a; color: #15110a; }
+.chero .btn:hover { background: #e0c27a; border-color: #e0c27a; }
+.chero .btn.ghost { background: rgba(7,8,10,.35); color: var(--ink); border-color: rgba(241,236,224,.45); }
+.chero .btn.ghost:hover { border-color: #e0c27a; background: rgba(7,8,10,.55); }
+
+.stabs { display: flex; gap: 0; border-bottom: 1px solid var(--line); overflow-x: auto; scrollbar-width: none; }
+.stabs::-webkit-scrollbar { display: none; }
+.stabs button { flex: 0 0 auto; min-height: 56px; padding: 0 22px; border: 0; background: none; color: var(--muted); font-family: var(--font-display); font-size: 1.4rem; line-height: 1.1; box-shadow: inset 0 -2px 0 transparent; transition: color .2s, box-shadow .2s; display: grid; align-content: center; gap: 2px; text-align: left; }
+.stabs button small { font-family: var(--font-body); font-size: .78rem; font-weight: 500; }
+.stabs button:hover { color: var(--fg); }
+.stabs button[aria-selected="true"] { color: var(--fg); box-shadow: inset 0 -2px 0 var(--cc); }
+.spanel { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 28px 48px; padding-top: 28px; }
+.spanel[hidden] { display: none; }
+.spanel .about { display: grid; gap: 14px; align-content: start; }
+.spanel .what { color: var(--gold-2); font-weight: 500; }
+.spanel .style { font-size: 1.1rem; }
+.keys { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.keys li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 4px 20px; padding: 13px 0; border-bottom: 1px solid var(--line); }
+.keys b { font-weight: 600; }
+.keys .en { display: block; font-size: .85rem; }
+.keys span.d { color: var(--muted); font-size: .94rem; }
+
+.nband { position: relative; isolation: isolate; overflow: hidden; margin-top: 110px; padding: 88px 0 80px; color: var(--ink); background: #08090b; }
+.nband > picture, .nband > picture img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.nband > picture { z-index: -2; }
+.nband > picture img { object-fit: cover; }
+.nband::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(7,8,10,.8) 0%, rgba(7,8,10,.5) 55%, rgba(7,8,10,.3) 100%); }
+.nband .wrap { display: grid; gap: 28px; }
+.nband .sec-head p, .nband .sec-head .src { color: var(--ink-2); }
+.nband .sec-head .kick { color: var(--ink-gold); }
+.nband .sec-head h2::after { background: var(--cc); }
+.nband .news li { border-top-color: rgba(241,236,224,.16); }
+.nband .news li::before { color: var(--ink-gold); }
+.news { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 40px; counter-reset: n; }
+.news li { position: relative; padding: 14px 0 14px 44px; border-top: 1px solid var(--line); counter-increment: n; }
+.news li::before { content: counter(n, decimal-leading-zero); position: absolute; left: 0; top: 12px; font-family: var(--font-display); font-size: 1.3rem; color: var(--gold-2); font-variant-numeric: lining-nums tabular-nums; }
+
+.fraces { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.fside { border: 1px solid var(--line); background: var(--surface); padding: 18px 20px 8px; border-top: 2px solid var(--fc); }
+.fside.alliance { --fc: var(--alliance); } .fside.horde { --fc: var(--horde); }
+.fside h3 { color: var(--fc); margin-bottom: 6px; }
+.fside ul { list-style: none; margin: 0; padding: 0; }
+.fside li a { display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 6px 0; border-top: 1px solid var(--line); color: var(--fg); text-decoration: none; }
+.fside li:first-child a { border-top: 0; }
+.fside li a:hover .rn { color: var(--gold-2); }
+.fside .rn { font-weight: 500; }
+.fside .go { margin-left: auto; color: var(--muted); font-size: .85rem; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.fside .go .ico { width: 16px; height: 16px; }
+.fside .none { padding: 12px 0 14px; color: var(--muted); }
+
+.pc { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 40px; }
+ul.pm { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 9px; }
+ul.pm li { position: relative; padding-left: 24px; }
+ul.pm li::before { position: absolute; left: 2px; top: 0; font-weight: 700; }
+ul.pm.plus li::before { content: "+"; color: var(--new); }
+ul.pm.minus li::before { content: "−"; color: var(--horde); }
+
+.others { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 8px; }
+.oc { position: relative; aspect-ratio: 3 / 4; overflow: hidden; isolation: isolate; border: 1px solid #262930; border-radius: 2px; color: var(--ink); text-decoration: none; display: grid; align-content: end; padding: 10px; background: #0b0c0e; }
+.oc picture, .oc img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.oc picture { z-index: -2; }
+.oc img { object-fit: cover; object-position: 50% 20%; filter: saturate(.8) brightness(.75); transition: filter .3s, transform .6s var(--ease); }
+.oc::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(7,8,10,0) 45%, rgba(7,8,10,.92) 100%); }
+.oc b { font-family: var(--font-display); font-weight: 400; font-size: 1.15rem; line-height: 1.1; }
+.oc b::before { content: ""; display: block; width: 18px; height: 2px; margin-bottom: 6px; background: var(--cc); }
+.oc:hover { border-color: rgba(201,165,74,.7); }
+.oc:hover img { filter: none; transform: scale(1.04); }
+.pager { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.pager a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--fg); text-decoration: none; font-weight: 500; }
+.pager a:hover { color: var(--gold-2); }
+.pager .prev .ico { transform: rotate(180deg); }
+
+@media (max-width: 1023px) {
+  .others { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 132px; overflow-x: auto; scroll-snap-type: x mandatory; margin: 0 -20px; padding: 0 20px 4px; scroll-padding: 0 20px; scrollbar-width: none; }
+  .others::-webkit-scrollbar { display: none; }
+  .oc { scroll-snap-align: start; }
+}
+@media (max-width: 860px) {
+  .spanel, .news, .fraces, .pc { grid-template-columns: 1fr; }
+  .nband { margin-top: 80px; padding: 64px 0 56px; }
+}
+@media (max-width: 719px) {
+  .chero { min-height: 0; align-content: start; }
+  .chero .blur { display: none; }
+  .chero .por { position: relative; right: auto; width: 100%; height: auto; aspect-ratio: 4 / 5; -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent 100%); mask-image: linear-gradient(180deg, #000 60%, transparent 100%); }
+  .chero::before { background: linear-gradient(180deg, rgba(7,8,10,.5) 0%, rgba(7,8,10,0) 18%); bottom: auto; height: 60%; }
+  .chero-in { padding-top: 0; margin-top: -120px; padding-bottom: 36px; gap: 16px; }
+  .crumbs { order: -1; }
+  .chero h1 { font-size: clamp(3rem, 15vw, 4rem); }
+  .cfacts { grid-template-columns: 1fr 1fr; gap: 0 16px; }
+  .stabs { margin: 0 -16px; padding: 0 16px; }
+  .stabs button { padding: 0 14px; font-size: 1.2rem; min-height: 52px; }
+  .keys li { grid-template-columns: 1fr; }
+  .others { margin: 0 -16px; padding: 0 16px 4px; scroll-padding: 0 16px; grid-auto-columns: 120px; }
+}
+</style>
+</head>
+<body style="--cc:@@COLOR@@">
+@@SPRITE@@
+
+<header class="topbar" id="topbar"><div class="in">
+  <a class="brand" href="@@HOME@@" aria-label="Gabella Team, на главную"><span class="mark" aria-hidden="true">G</span><b>Gabella Team</b></a>
+  <nav class="mainnav" aria-label="Разделы">
+    <a href="@@HOME@@#factions">Фракции</a><a href="@@HOME@@#classes" aria-current="true">Классы</a><a href="@@HOME@@#picker">Подборщик</a><a href="@@HOME@@#builder">Группа</a><a href="@@HOME@@#checklist">Чек-лист</a><a href="@@HOME@@#guides">Гайды</a>
+  </nav>
+  <div class="tools">
+    <div class="langs" role="group" aria-label="Язык"><a href="@@RU@@" data-lang="ru" hreflang="ru" lang="ru" aria-current="@@CUR_RU@@">RU</a><a href="@@EN@@" data-lang="en" hreflang="en" lang="en" aria-current="@@CUR_EN@@">EN</a><a href="@@UK@@" data-lang="uk" hreflang="uk" lang="uk" aria-current="@@CUR_UK@@">UK</a></div>
+    <button class="iconbtn themebtn" type="button" aria-label="Переключить тему" title="Переключить тему"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></button>
+    <button class="iconbtn menubtn" type="button" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg><span>Разделы</span></button>
+  </div>
+</div></header>
+
+<section class="chero" id="top">
+  <picture class="blur" aria-hidden="true"><img src="@@ROOT@@assets/art/@@ID@@-bg.webp" width="480" height="270" alt="" decoding="async"></picture>
+  <picture class="por">
+    <source type="image/avif" srcset="@@ROOT@@assets/art/@@ID@@-600.avif 600w, @@ROOT@@assets/art/@@ID@@-896.avif 896w" sizes="(max-width: 719px) 100vw, 75vh">
+    <source type="image/webp" srcset="@@ROOT@@assets/art/@@ID@@-600.webp 600w, @@ROOT@@assets/art/@@ID@@-896.webp 896w" sizes="(max-width: 719px) 100vw, 75vh">
+    <img src="@@ROOT@@assets/art/@@ID@@-896.webp" width="896" height="1200" alt="" fetchpriority="high" decoding="async">
+  </picture>
+  <div class="wrap chero-in">
+    <nav class="crumbs" aria-label="Навигация"><a href="@@HOME@@">Гид</a><span aria-hidden="true">/</span><a href="@@HOME@@#classes">Классы</a></nav>
+    <h1>@@NAME@@</h1>
+    <p class="lead">@@DESC@@</p>
+    <div class="croles">@@ROLES@@</div>
+    <dl class="cfacts">@@FACTS@@</dl>
+    <div class="cta">
+      <a class="btn lg" href="@@HOME@@#pick=@@ID@@">Подобрать расу</a>
+      <a class="btn lg ghost" href="#specs">Специализации</a>
+    </div>
+  </div>
+</section>
+
+<main>
+<section class="block wrap" id="specs">
+  <div class="sec-head"><p class="kick">Три пути</p><h2>Специализации</h2></div>
+  <div>
+    <div class="stabs" role="tablist" aria-label="Специализации">@@TABS@@</div>
+    @@PANELS@@
+  </div>
+</section>
+
+<section class="nband" id="new">
+  <picture aria-hidden="true"><img src="@@ROOT@@assets/art/@@ID@@-bg.webp" width="480" height="270" alt="" loading="lazy" decoding="async"></picture>
+  <div class="wrap">
+  <div class="sec-head"><div class="row"><div style="display:grid;gap:12px"><p class="kick">Бета, патч от 15.10.2026</p><h2>Что нового в Forever</h2></div><span class="src">Warcraft Tavern, LFCarry</span></div><p>По сравнению с Classic. До релиза Blizzard ещё может менять цифры.</p></div>
+  <ol class="news">@@NEWS@@</ol>
+  </div>
+</section>
+
+<section class="block wrap" id="races">
+  <div class="sec-head"><p class="kick">Кем стать</p><h2>Расы</h2><p>Нажмите на расу, и подборщик откроет это сочетание: способности расы и всё про класс.</p></div>
+  <div class="fraces">@@RACES@@</div>
+  <p class="note tipn"><span class="mk tip">совет</span>@@RACES_TIP@@</p>
+</section>
+
+<section class="block wrap" id="group">
+  <div class="sec-head"><p class="kick">Для компании</p><h2>В группе и в прокачке</h2></div>
+  <div class="grid2">
+    <div class="panel"><h3>Польза для группы</h3><ul class="dots">@@GROUP@@</ul></div>
+    <div class="panel"><h3>Прокачка</h3><p style="margin-top:10px">@@LVL@@</p><p class="note tipn" style="margin-top:14px"><span class="mk tip">совет</span>@@PROFS@@</p></div>
+  </div>
+</section>
+
+<section class="block wrap" id="pc">
+  <div class="sec-head"><p class="kick">Коротко</p><h2>Плюсы и минусы</h2></div>
+  <div class="pc">
+    <div class="panel"><h3>Сильные стороны</h3><ul class="pm plus">@@PROS@@</ul></div>
+    <div class="panel"><h3>Слабые стороны</h3><ul class="pm minus">@@CONS@@</ul></div>
+  </div>
+</section>
+
+<section class="block wrap" id="others">
+  <div class="sec-head"><p class="kick">Девять классов</p><h2>Другие классы</h2></div>
+  <div class="others">@@OTHERS@@</div>
+  <div class="pager">@@PAGER@@</div>
+</section>
+
+<div class="wrap">
+<footer id="sources">
+  <h2>Источники</h2>
+  <p>Данные собраны <b style="color:var(--fg)">23.10.2026</b> по закрытой бете и патчу от 15.10.2026. Гайды писались при лимите 20–30 уровня, итоговые цифры могут измениться. <span class="mk fact">факт</span>взято из источников, <span class="mk tip">совет</span>мнение составителя.</p>
+  <ul>@@SOURCES@@</ul>
+  <p>Страница сделана для сервера Gabella Team и не связана с Blizzard Entertainment. World of Warcraft — товарный знак Blizzard.</p>
+</footer>
+</div>
+</main>
+
+<nav class="tabbar" aria-label="Быстрые разделы">
+  <a href="@@HOME@@"><svg class="ico" aria-hidden="true"><use href="#i-home"/></svg>Главная</a>
+  <a href="@@HOME@@#classes" aria-current="true"><svg class="ico" aria-hidden="true"><use href="#i-tank"/></svg>Классы</a>
+  <a href="@@HOME@@#builder"><svg class="ico" aria-hidden="true"><use href="#i-users"/></svg>Группа</a>
+  <a href="@@HOME@@#guides"><svg class="ico" aria-hidden="true"><use href="#i-book"/></svg>Гайды</a>
+  <button type="button" class="morebtn" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-dots"/></svg>Ещё</button>
+</nav>
+
+<dialog class="sheet" id="moreDlg" aria-label="Все разделы">
+  <div class="dh"><b>Все разделы</b><button class="iconbtn" id="moreClose" type="button" aria-label="Закрыть"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
+  <nav class="toc" aria-label="Все разделы">
+    <div class="grp"><div class="gh">Эта страница</div><a href="#specs">Специализации</a><a href="#new">Что нового</a><a href="#races">Расы</a><a href="#group">В группе</a><a href="#pc">Плюсы и минусы</a></div>
+    <div class="grp"><div class="gh">Гид</div><a href="@@HOME@@">Главная</a><a href="@@HOME@@#picker">Подборщик</a><a href="@@HOME@@#builder">Конструктор группы</a><a href="@@HOME@@#checklist">Чек-лист</a><a href="@@HOME@@#guides">Гайды</a></div>
+    <div class="grp"><div class="gh">Классы</div>@@TOC_CLASSES@@</div>
+  </nav>
+  <div class="opts">
+    <div class="langs" role="group" aria-label="Язык"><a href="@@RU@@" data-lang="ru" hreflang="ru" lang="ru" aria-current="@@CUR_RU@@">RU</a><a href="@@EN@@" data-lang="en" hreflang="en" lang="en" aria-current="@@CUR_EN@@">EN</a><a href="@@UK@@" data-lang="uk" hreflang="uk" lang="uk" aria-current="@@CUR_UK@@">UK</a></div>
+    <button class="iconbtn themebtn" type="button" aria-label="Переключить тему"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg><span>Тема</span></button>
+  </div>
+  <p class="meta">Данные на 23.10.2026, закрытая бета, патч от 15.10.2026.</p>
+</dialog>
+
+<script>
+const $ = s => document.querySelector(s);
+/* Spec tabs: arrows move between tabs */
+const tabs = [...document.querySelectorAll('.stabs [role="tab"]')];
+function selectTab(t, focus) {
+  tabs.forEach(x => { const on = x === t; x.setAttribute('aria-selected', on); x.tabIndex = on ? 0 : -1; document.getElementById(x.getAttribute('aria-controls')).hidden = !on; });
+  if (focus) t.focus();
+}
+tabs.forEach((t, i) => {
+  t.addEventListener('click', () => selectTab(t));
+  t.addEventListener('keydown', e => {
+    const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
+    if (k) { e.preventDefault(); selectTab(tabs[(i + k + tabs.length) % tabs.length], true); }
+  });
+});
+
+/* Theme toggle */
+const themeBtns = document.querySelectorAll('.themebtn');
+function paintTheme() { const t = document.documentElement.getAttribute('data-theme'); themeBtns.forEach(b => b.querySelector('use').setAttribute('href', t === 'light' ? '#i-moon' : '#i-sun')); const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#fbfaf7' : '#07080a'); }
+themeBtns.forEach(b => b.onclick = () => { const t = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light'; document.documentElement.setAttribute('data-theme', t); try { localStorage.setItem('wf-theme', t); } catch (e) {} paintTheme(); });
+paintTheme();
+
+/* Top bar turns solid once the page is scrolled */
+const topbar = $('#topbar');
+let barTick = false;
+function paintBar() { topbar.classList.toggle('solid', window.scrollY > 24); barTick = false; }
+window.addEventListener('scroll', () => { if (!barTick) { barTick = true; requestAnimationFrame(paintBar); } }, { passive: true });
+paintBar();
+
+/* Menu sheet */
+const dlg = $('#moreDlg');
+document.querySelectorAll('.menubtn, .morebtn').forEach(b => b.onclick = () => { if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', ''); });
+$('#moreClose').onclick = () => dlg.close();
+dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.toc a')) dlg.close(); });
+</script>
+</body>
+</html>
