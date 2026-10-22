@@ -50,6 +50,7 @@ def main():
         en_l = {'ru': 'en/', 'en': './', 'uk': '../en/'}[lang]
         uk_l = {'ru': 'uk/', 'en': '../uk/', 'uk': './'}[lang]
         html = html.replace('@@RU@@', ru_l).replace('@@EN@@', en_l).replace('@@UK@@', uk_l)
+        html = html.replace('@@ROOT@@', '' if lang == 'ru' else '../')
         if lang != 'ru':
             code = lang
             html = html.replace('<html lang="ru">', f'<html lang="{code}">')

@@ -24,20 +24,23 @@
 <meta property="og:image:alt" content="WoW Forever: гід Gabella Team">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230a0b0d'/%3E%3Ctext x='32' y='34' text-anchor='middle' dominant-baseline='central' font-family='Georgia,serif' font-size='44' font-weight='700' fill='%23c9a54a'%3EG%3C/text%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600&family=Golos+Text:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
+<link rel="preload" href="../assets/fonts/forum-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/golos-text-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <style>
-/* Reference layout: top bar, masthead (countdown rail + tool launcher), sidebar TOC, sections (tools first, then reference). Dark graphite + gold, light paper. */
+/* Game-portal layout: full-screen art hero, faction banners, class portrait roster, tools, guides band. Night + gold, light paper theme for content. */
+@font-face { font-family: "Forum"; font-style: normal; font-weight: 400; font-display: swap; src: url(../assets/fonts/forum-cyrillic.woff2) format("woff2"); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: "Forum"; font-style: normal; font-weight: 400; font-display: swap; src: url(../assets/fonts/forum-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Golos Text"; font-style: normal; font-weight: 400 600; font-display: swap; src: url(../assets/fonts/golos-text-cyrillic.woff2) format("woff2"); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: "Golos Text"; font-style: normal; font-weight: 400 600; font-display: swap; src: url(../assets/fonts/golos-text-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 :root {
   --bg: #0a0b0d;
-  --rail: #060708;
+  --rail: #07080a;
   --surface: #111317;
   --surface-2: #181a1f;
   --line: #22252b;
   --line-2: #33373e;
-  --fg: #ebe6da;
-  --muted: #a1a6ae;
+  --fg: #ece6d8;
+  --muted: #a3a7ae;
   --gold: #c9a54a;
   --gold-2: #e0c27a;
   --gold-ink: #15110a;
@@ -45,20 +48,26 @@
   --alliance: #86a6d8;
   --horde: #d98a84;
   --new: #93c7a2;
-  --font-display: "EB Garamond", Georgia, "Times New Roman", serif;
+  --ink: #f1ece0;
+  --ink-2: #c9c3b6;
+  --ink-gold: #e0c27a;
+  --font-display: "Forum", Georgia, "Times New Roman", serif;
+  --display-w: 400;
   --font-body: "Golos Text", "Segoe UI", system-ui, sans-serif;
-  --top: 56px;
+  --top: 64px;
+  --wrap: 1240px;
+  --ease: cubic-bezier(.2, .7, .2, 1);
   color-scheme: dark;
 }
 :root[data-theme="light"] {
-  --bg: #f3f4f5;
-  --rail: #e9ebee;
+  --bg: #f3f2ee;
+  --rail: #fbfaf7;
   --surface: #ffffff;
-  --surface-2: #eef0f2;
-  --line: #d9dce1;
-  --line-2: #c3c8cf;
-  --fg: #15181c;
-  --muted: #555b64;
+  --surface-2: #efede7;
+  --line: #dedad0;
+  --line-2: #c8c2b4;
+  --fg: #17161a;
+  --muted: #595650;
   --gold: #7d5c12;
   --gold-2: #7d5c12;
   --gold-ink: #ffffff;
@@ -69,15 +78,15 @@
   color-scheme: light;
 }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: calc(var(--top) + 16px); -webkit-text-size-adjust: 100%; }
-body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 16px; line-height: 1.6; }
-h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; line-height: 1.12; text-wrap: balance; }
-h2 { font-size: clamp(1.75rem, 3.4vw, 2.2rem); }
-h3 { font-size: 1.3rem; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--top) + 12px); -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 16px; line-height: 1.6; overflow-x: clip; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: var(--display-w); margin: 0; line-height: 1.1; text-wrap: balance; }
+h2 { font-size: clamp(2rem, 4vw, 2.75rem); }
+h3 { font-size: 1.35rem; }
 p { margin: 0; }
 a { color: var(--gold-2); text-underline-offset: 3px; }
-:root[data-theme="light"] a { color: var(--gold); }
 button { font: inherit; color: inherit; cursor: pointer; }
+img { display: block; max-width: 100%; }
 :focus-visible { outline: 2px solid var(--gold-2); outline-offset: 2px; }
 code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-radius: 3px; }
 .num, .tab { font-variant-numeric: tabular-nums lining-nums; }
@@ -85,108 +94,167 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .ico { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 .ri { width: 1.05em; height: 1.05em; vertical-align: -.17em; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; margin-right: 4px; }
+.wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 max(20px, env(safe-area-inset-left, 0px)); }
 
-/* Top bar */
-.topbar { position: sticky; top: 0; z-index: 30; height: var(--top); background: var(--rail); border-bottom: 1px solid var(--line); }
-.topbar .in { max-width: 1320px; height: 100%; margin: 0 auto; padding: 0 max(16px, env(safe-area-inset-left, 0px)); display: flex; align-items: center; gap: 14px; }
-.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--fg); min-width: 0; }
-.mark { width: 32px; height: 32px; flex: none; display: grid; place-items: center; border: 1px solid var(--gold); color: var(--gold-2); font-family: var(--font-display); font-weight: 600; font-size: 22px; line-height: 1; padding-top: 2px; }
-:root[data-theme="light"] .mark { color: var(--gold); }
-.brand b { font-family: var(--font-display); font-weight: 600; font-size: 1.2rem; white-space: nowrap; }
-.brand span { color: var(--muted); font-size: .9rem; white-space: nowrap; }
+/* Top bar: transparent over the hero, solid after scrolling */
+.topbar { position: fixed; inset: 0 0 auto 0; z-index: 30; height: var(--top); color: var(--ink); background: linear-gradient(rgba(5,6,8,.62), rgba(5,6,8,0)); border-bottom: 1px solid transparent; transition: background-color .25s, border-color .25s, color .25s; }
+.topbar.solid { background: var(--rail); border-bottom-color: var(--line); color: var(--fg); }
+.topbar .in { max-width: var(--wrap); height: 100%; margin: 0 auto; padding: 0 max(20px, env(safe-area-inset-left, 0px)); display: flex; align-items: center; gap: 18px; }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; min-height: 44px; }
+.mark { width: 34px; height: 34px; flex: none; display: grid; place-items: center; border: 1px solid currentColor; color: var(--ink-gold); font-family: var(--font-display); font-size: 23px; line-height: 1; padding-top: 1px; }
+.topbar.solid .mark { color: var(--gold-2); }
+.brand b { font-family: var(--font-display); font-weight: 400; font-size: 1.3rem; white-space: nowrap; }
+.mainnav { display: flex; gap: 2px; margin-left: 12px; }
+.mainnav a { min-height: 44px; display: grid; place-items: center; padding: 0 12px; color: inherit; opacity: .78; text-decoration: none; font-size: .95rem; font-weight: 500; box-shadow: inset 0 -2px 0 transparent; transition: opacity .2s, box-shadow .2s; }
+.mainnav a:hover { opacity: 1; }
+.mainnav a[aria-current="true"] { opacity: 1; box-shadow: inset 0 -2px 0 var(--gold); }
 .tools { margin-left: auto; display: flex; gap: 8px; align-items: center; }
-.langs { display: inline-flex; border: 1px solid var(--line-2); border-radius: 4px; overflow: hidden; }
-.langs a { min-width: 40px; min-height: 36px; display: grid; place-items: center; color: var(--muted); text-decoration: none; font-weight: 600; font-size: .82rem; letter-spacing: .04em; border-right: 1px solid var(--line-2); }
+.langs { display: inline-flex; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 3px; overflow: hidden; }
+.langs a { min-width: 42px; min-height: 40px; display: grid; place-items: center; color: inherit; opacity: .75; text-decoration: none; font-weight: 600; font-size: .8rem; letter-spacing: .04em; border-right: 1px solid color-mix(in srgb, currentColor 30%, transparent); }
 .langs a:last-child { border-right: 0; }
-.langs a:hover { color: var(--fg); }
-.langs a[aria-current="true"] { background: var(--gold); color: var(--gold-ink); }
-.iconbtn { min-width: 40px; min-height: 38px; display: inline-grid; place-items: center; border: 1px solid var(--line-2); border-radius: 4px; background: transparent; color: var(--fg); }
-.iconbtn:hover { border-color: var(--gold); color: var(--gold-2); }
-.tocbtn { display: none; gap: 8px; padding: 0 12px; grid-auto-flow: column; font-weight: 600; font-size: .92rem; }
+.langs a:hover { opacity: 1; }
+.langs a[aria-current="true"] { background: var(--gold); color: var(--gold-ink); opacity: 1; }
+.topbar:not(.solid) .langs a[aria-current="true"] { background: #c9a54a; color: #15110a; }
+.iconbtn { min-width: 44px; min-height: 42px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 3px; background: transparent; color: inherit; }
+.iconbtn:hover { border-color: var(--gold); }
+.menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: .92rem; }
 
-/* Shell */
-.shell { max-width: 1320px; margin: 0 auto; padding: 0 max(16px, env(safe-area-inset-left, 0px)); display: grid; grid-template-columns: 216px minmax(0, 1fr); gap: 48px; }
-.side { position: sticky; top: var(--top); align-self: start; max-height: calc(100vh - var(--top)); overflow-y: auto; padding: 28px 0 40px; scrollbar-width: thin; }
-.toc { display: grid; gap: 22px; }
-.toc .grp { display: grid; gap: 1px; }
-.toc .gh { font-size: .8rem; color: var(--muted); font-weight: 600; padding: 0 0 6px 12px; }
-.toc a { display: block; padding: 6px 12px; color: var(--muted); text-decoration: none; font-size: .95rem; border-left: 2px solid transparent; }
-.toc a:hover { color: var(--fg); }
-.toc a[aria-current="true"] { color: var(--fg); border-left-color: var(--gold); background: var(--surface); }
-.toc .meta { margin-top: 6px; padding: 14px 12px 0; border-top: 1px solid var(--line); font-size: .82rem; color: var(--muted); line-height: 1.5; }
-main { min-width: 0; padding-bottom: 72px; }
+/* Hero */
+.hero { position: relative; min-height: max(560px, 100svh); display: grid; align-content: space-between; color: var(--ink); background: #08090b; isolation: isolate; overflow: hidden; }
+.hero-art, .hero-art img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hero-art { z-index: -2; }
+.hero-art img { object-fit: cover; object-position: 62% 50%; }
+.hero::before { content: ""; position: absolute; inset: 0; z-index: -1; background:
+  linear-gradient(90deg, rgba(7,8,10,.92) 0%, rgba(7,8,10,.74) 30%, rgba(7,8,10,.28) 56%, rgba(7,8,10,.06) 78%),
+  linear-gradient(180deg, rgba(7,8,10,.5) 0%, rgba(7,8,10,0) 26%, rgba(7,8,10,0) 58%, rgba(7,8,10,.9) 100%); }
+.hero-in { width: 100%; padding-top: calc(var(--top) + clamp(40px, 9vh, 110px)); padding-bottom: 40px; display: grid; gap: 22px; justify-items: start; max-width: var(--wrap); }
+.eyebrow { font-size: .95rem; color: var(--ink-2); display: flex; align-items: center; gap: 12px; }
+.eyebrow::before { content: ""; width: 28px; height: 1px; background: var(--ink-gold); }
+.hero h1 { font-size: clamp(2.9rem, 6.2vw, 5.4rem); line-height: .98; letter-spacing: .005em; }
+.hero h1 span { display: block; color: var(--ink-gold); }
+.hero .lead { max-width: 46ch; font-size: clamp(1.02rem, 1.4vw, 1.15rem); color: var(--ink-2); }
+.cd { display: flex; align-items: center; flex-wrap: wrap; gap: 14px 22px; margin-top: 6px; }
+.cd .units { display: flex; align-items: stretch; }
+.cd .u { display: grid; gap: 4px; padding: 0 20px; border-left: 1px solid rgba(224,194,122,.35); }
+.cd .u:first-child { padding-left: 0; border-left: 0; }
+.cd .u b { font-family: var(--font-display); font-weight: 400; font-size: clamp(2.4rem, 4.4vw, 3.3rem); line-height: .9; color: var(--ink-gold); font-variant-numeric: tabular-nums lining-nums; }
+.cd .u span { font-size: .82rem; color: var(--ink-2); }
+.cd .what { display: grid; gap: 1px; font-size: .95rem; color: var(--ink-2); }
+.cd .what b { color: var(--ink); font-weight: 600; }
+.cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap; background: var(--gold); color: var(--gold-ink); border: 1px solid var(--gold); border-radius: 3px; padding: 0 18px; font-weight: 600; min-height: 44px; text-decoration: none; transition: background-color .2s, border-color .2s, color .2s; }
+.btn:hover { background: var(--gold-2); border-color: var(--gold-2); }
+.btn.ghost { background: transparent; color: var(--fg); border-color: var(--line-2); }
+.btn.ghost:hover { border-color: var(--gold); }
+.btn.lg { min-height: 52px; padding: 0 26px; font-size: 1.02rem; }
+.btn[disabled] { opacity: .5; cursor: not-allowed; }
+.hero .btn { background: #c9a54a; border-color: #c9a54a; color: #15110a; }
+.hero .btn:hover { background: #e0c27a; border-color: #e0c27a; }
+.hero .btn.ghost { background: rgba(7,8,10,.35); color: var(--ink); border-color: rgba(241,236,224,.45); }
+.hero .btn.ghost:hover { border-color: #e0c27a; background: rgba(7,8,10,.55); }
+.hdates { list-style: none; margin: 0 auto; padding: 0 max(20px, env(safe-area-inset-left, 0px)) 34px; max-width: var(--wrap); width: 100%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.hdates li { position: relative; padding: 18px 16px 0 0; border-top: 1px solid rgba(241,236,224,.22); display: grid; gap: 2px; }
+.hdates li::before { content: ""; position: absolute; left: 0; top: -5px; width: 9px; height: 9px; background: #08090b; border: 1px solid rgba(241,236,224,.5); transform: rotate(45deg); }
+.hdates li.past { border-top-color: rgba(224,194,122,.7); }
+.hdates li.past::before, .hdates li.cur::before { background: #c9a54a; border-color: #c9a54a; }
+.hdates b { font-family: var(--font-display); font-weight: 400; font-size: 1.5rem; line-height: 1.1; color: var(--ink); font-variant-numeric: lining-nums; }
+.hdates li.cur b { color: var(--ink-gold); }
+.hdates span { color: var(--ink-2); font-size: .9rem; }
 
-/* Masthead */
-.mast { padding: 36px 0 32px; border-bottom: 1px solid var(--line); display: grid; gap: 28px; }
-.mast-top { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 40px; align-items: start; }
-.kicker { font-size: .92rem; color: var(--muted); }
-.kicker b { color: var(--fg); font-weight: 600; }
-.mast h1 { font-size: clamp(2.5rem, 5.4vw, 4rem); font-weight: 500; letter-spacing: -.005em; margin-top: 10px; }
-.mast .lead { color: var(--muted); max-width: 58ch; font-size: 1.06rem; margin-top: 14px; }
-.cd { display: flex; align-items: flex-end; gap: 18px; flex-wrap: wrap; margin-top: 26px; }
-.cd .u { display: grid; gap: 2px; }
-.cd .u b { font-family: var(--font-display); font-weight: 500; font-size: clamp(2.6rem, 6vw, 3.6rem); line-height: .9; color: var(--gold-2); font-variant-numeric: tabular-nums lining-nums; }
-:root[data-theme="light"] .cd .u b { color: var(--gold); }
-.cd .u span { font-size: .85rem; color: var(--muted); }
-.cd .what { padding-bottom: 6px; display: grid; gap: 2px; }
-.cd .what b { font-weight: 600; }
-.cd .what span { color: var(--muted); font-size: .92rem; }
-.launch { border: 1px solid var(--line); background: var(--surface); border-radius: 4px; }
-.launch h2 { font-family: var(--font-body); font-size: .9rem; font-weight: 600; color: var(--muted); padding: 14px 16px 10px; }
-.launch a { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 2px 12px; padding: 14px 16px; border-top: 1px solid var(--line); text-decoration: none; color: var(--fg); min-height: 64px; }
-.launch a:hover { background: var(--surface-2); }
-.launch a:hover b { color: var(--gold-2); }
-:root[data-theme="light"] .launch a:hover b { color: var(--gold); }
-.launch .ico { grid-row: 1 / 3; margin-top: 2px; color: var(--gold-2); }
-:root[data-theme="light"] .launch .ico { color: var(--gold); }
-.launch b { font-weight: 600; }
-.launch span { color: var(--muted); font-size: .88rem; }
-.rail { position: relative; padding: 34px 0 34px; }
-.rail .bar { position: relative; height: 2px; background: var(--line-2); }
-.rail .bar i { position: absolute; left: 0; top: 0; height: 2px; background: var(--gold); }
-.rail ol { list-style: none; margin: 0; padding: 0; }
-.rail li { position: absolute; top: 0; height: 100%; transform: translateX(-50%); }
-.rail li::before { content: ""; position: absolute; left: 50%; top: 31px; width: 9px; height: 9px; margin-left: -4.5px; background: var(--bg); border: 2px solid var(--line-2); transform: rotate(45deg); }
-.rail li.past::before { border-color: var(--gold); background: var(--gold); }
-.rail li span { position: absolute; left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: .82rem; color: var(--muted); text-align: center; line-height: 1.25; }
-.rail li span b { display: block; color: var(--fg); font-weight: 600; font-variant-numeric: tabular-nums; }
-.rail li.up span { bottom: calc(100% - 22px); }
-.rail li.dn span { top: calc(100% - 22px); }
-.rail li:first-child span { left: 0; transform: none; text-align: left; }
-.rail li:last-child span { left: auto; right: 0; transform: none; text-align: right; }
-.rail .now { position: absolute; top: 27px; width: 3px; height: 16px; margin-left: -1px; background: var(--gold-2); }
-:root[data-theme="light"] .rail .now { background: var(--gold); }
+/* Section heads */
+main { padding-bottom: 40px; }
+section.block { padding-top: 96px; display: grid; gap: 28px; }
+.sec-head { display: grid; gap: 12px; }
+.sec-head .row { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: flex-end; justify-content: space-between; }
+.sec-head h2::after { content: ""; display: block; width: 56px; height: 1px; margin-top: 16px; background: var(--gold); }
+.sec-head .src { font-size: .85rem; color: var(--muted); padding-bottom: 18px; }
+.sec-head p { color: var(--muted); max-width: 68ch; }
+.sec-head .kick { color: var(--gold-2); }
+section.block { scroll-margin-top: -72px; }
+.kick { font-size: .92rem; color: var(--gold-2); font-weight: 500; }
 
-/* Sections */
-section.block { padding-top: 64px; display: grid; gap: 20px; }
-.sec-head { display: grid; gap: 8px; padding-bottom: 14px; border-bottom: 1px solid var(--gold); }
-.sec-head .row { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: baseline; justify-content: space-between; }
-.sec-head .src { font-size: .85rem; color: var(--muted); }
-.sec-head p { color: var(--muted); max-width: 72ch; }
-.part-h { padding-top: 72px; display: flex; align-items: baseline; gap: 14px; color: var(--muted); font-size: .92rem; }
-.part-h::after { content: ""; flex: 1; border-top: 1px solid var(--line); }
+/* Faction banners */
+.factions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.fac { position: relative; overflow: hidden; isolation: isolate; min-height: 340px; padding: 34px 34px 30px; display: grid; align-content: end; gap: 12px; color: var(--ink); border: 1px solid var(--fl); border-radius: 2px; background: var(--fb); }
+.fac::after { content: ""; position: absolute; inset: 7px; border: 1px solid color-mix(in srgb, var(--fl) 45%, transparent); pointer-events: none; }
+.fac picture, .fac picture img { position: absolute; top: 0; right: 0; height: 100%; width: 62%; }
+.fac picture { z-index: -2; }
+.fac picture img { object-fit: cover; object-position: 50% 16%; transition: transform .8s var(--ease); }
+.fac:hover picture img { transform: scale(1.03); }
+.fac::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, var(--fb) 40%, color-mix(in srgb, var(--fb) 55%, transparent) 60%, transparent 85%), linear-gradient(0deg, color-mix(in srgb, var(--fb) 80%, transparent), transparent 50%); }
+.fac.alliance { --fb: #0c1830; --fl: #b39352; --fa: #e3c77e; }
+.fac.horde { --fb: #240d0a; --fl: #a8683a; --fa: #e0a36a; }
+.fac .kick { color: var(--fa); }
+.fac h3 { font-size: clamp(2.2rem, 3.6vw, 3rem); }
+.fac p { color: var(--ink-2); max-width: 34ch; }
+.fac p b { color: var(--ink); font-weight: 600; }
+.fac .go-f { justify-self: start; margin-top: 6px; min-height: 44px; padding: 0 16px; display: inline-flex; align-items: center; gap: 8px; border: 1px solid color-mix(in srgb, var(--fl) 80%, transparent); border-radius: 3px; background: rgba(5,6,8,.35); color: var(--ink); font-weight: 600; font-size: .95rem; transition: border-color .2s, background-color .2s; }
+.fac .go-f:hover { border-color: var(--fa); background: rgba(5,6,8,.6); }
 
+/* Class roster: tall portraits, the active one expands */
+.roster { display: flex; gap: 6px; height: clamp(440px, 40vw, 560px); }
+.hc { position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; isolation: isolate; padding: 0; border: 1px solid #262930; border-radius: 2px; background: #0b0c0e; color: var(--ink); text-align: left; transition: flex-grow .55s var(--ease), border-color .3s; }
+.hc.on { flex-grow: 3.6; border-color: rgba(201,165,74,.7); }
+.hc picture, .hc img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hc picture { z-index: -2; }
+.hc img { object-fit: cover; object-position: 50% 22%; filter: saturate(.75) brightness(.62); transition: filter .45s, transform .9s var(--ease); }
+.hc.on img { filter: none; transform: scale(1.02); }
+.hc::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(7,8,10,0) 42%, rgba(7,8,10,.94) 100%); }
+.hc .vn { position: absolute; left: 50%; bottom: 26px; writing-mode: vertical-rl; transform: translateX(-50%) rotate(180deg); font-family: var(--font-display); font-size: 1.3rem; white-space: nowrap; transition: opacity .25s; }
+.hc.on .vn { opacity: 0; }
+.hc .info { position: absolute; left: 0; bottom: 0; width: 100%; min-width: 320px; padding: 26px 28px 28px; display: grid; gap: 10px; opacity: 0; transform: translateY(12px); transition: opacity .3s, transform .4s var(--ease); }
+.hc.on .info { opacity: 1; transform: none; transition-delay: .15s; }
+.hc .info::before { content: ""; width: 34px; height: 2px; background: var(--cc, #c9a54a); }
+.hc .info b { font-family: var(--font-display); font-weight: 400; font-size: 2.3rem; line-height: 1; }
+.hc .roles { display: flex; flex-wrap: wrap; gap: 4px 14px; color: #dcc78f; font-size: .9rem; font-weight: 500; }
+.hc .d { color: var(--ink-2); font-size: .97rem; max-width: 36ch; }
+.hc .more { color: var(--ink-gold); font-weight: 600; font-size: .92rem; margin-top: 4px; }
+.hc:hover .more { text-decoration: underline; text-underline-offset: 4px; }
+.swipe { display: none; color: var(--muted); font-size: .88rem; }
+
+/* Tools overview */
+.tcards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.tcard { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 2px 14px; align-items: start; padding: 20px; border: 1px solid var(--line); border-radius: 2px; background: var(--surface); color: var(--fg); text-decoration: none; transition: border-color .2s, background-color .2s; }
+.tcard:hover { border-color: var(--gold); }
+.tcard .ico { grid-row: 1 / 3; width: 40px; height: 40px; padding: 9px; border: 1px solid var(--line-2); color: var(--gold-2); }
+.tcard b { font-family: var(--font-display); font-weight: var(--display-w); font-size: 1.35rem; line-height: 1.2; }
+.tcard span { color: var(--muted); font-size: .9rem; }
+
+/* Guides band over the campfire art */
+.gband { position: relative; isolation: isolate; margin-top: 110px; padding: 96px 0 88px; color: var(--ink); background: #08090b; overflow: hidden; }
+.gband > picture, .gband > picture img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.gband > picture { z-index: -2; }
+.gband > picture img { object-fit: cover; object-position: 75% 55%; }
+.gband::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(7,8,10,.9) 0%, rgba(7,8,10,.62) 42%, rgba(7,8,10,.18) 100%), linear-gradient(180deg, rgba(7,8,10,.25), rgba(7,8,10,.8)); }
+.gband .sec-head p { color: var(--ink-2); }
+.gband .sec-head .kick { color: var(--ink-gold); }
+.gband .sec-head h2::after { background: #c9a54a; }
+.gtiles { margin-top: 36px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: rgba(241,236,224,.14); border: 1px solid rgba(241,236,224,.14); }
+.gt { display: grid; gap: 6px; align-content: start; min-height: 132px; padding: 22px 22px 20px; background: rgba(9,10,12,.78); color: var(--ink); text-decoration: none; transition: background-color .2s; }
+.gt:hover { background: rgba(20,18,14,.9); }
+.gt b { font-family: var(--font-display); font-weight: 400; font-size: 1.4rem; line-height: 1.15; }
+.gt span { color: var(--ink-2); font-size: .9rem; }
+.gt:hover b { color: var(--ink-gold); }
+
+/* Content blocks reused by the reference sections */
 .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 20px 32px; }
 .grid2 > * { min-width: 0; }
-.panel { border-top: 1px solid var(--line); padding-top: 14px; }
-.panel h3 { font-size: 1.2rem; }
+.panel { border-top: 1px solid var(--line); padding-top: 16px; }
+.panel h3 { font-size: 1.35rem; }
 ul.dots { margin: 10px 0 0; padding-left: 18px; display: grid; gap: 7px; }
 ul.dots li::marker { color: var(--gold); }
-
-.mk { display: inline-block; font-size: .72rem; font-weight: 600; line-height: 1; padding: 4px 6px 3px; border-radius: 3px; vertical-align: .12em; margin-right: 6px; border: 1px solid; }
+.mk { display: inline-block; font-size: .72rem; font-weight: 600; line-height: 1; padding: 4px 6px 3px; border-radius: 3px; vertical-align: .12em; margin-right: 6px; border: 1px solid; font-family: var(--font-body); }
 .mk.fact { color: var(--sapphire); border-color: color-mix(in srgb, var(--sapphire) 45%, transparent); }
 .mk.tip { color: var(--gold-2); border-color: color-mix(in srgb, var(--gold) 55%, transparent); }
-:root[data-theme="light"] .mk.tip { color: var(--gold); }
 .note { border-left: 2px solid var(--line-2); padding: 2px 0 2px 14px; color: var(--muted); font-size: .95rem; }
 .note b { color: var(--fg); }
 .note.tipn { border-left-color: var(--gold); }
-.own { border: 1px solid var(--line); border-left: 2px solid var(--gold); padding: 14px 16px; background: var(--surface); }
-.own h3 { font-size: 1.2rem; margin-bottom: 4px; }
-
+.own { border: 1px solid var(--line); border-left: 2px solid var(--gold); padding: 16px 18px; background: var(--surface); }
+.own h3 { font-size: 1.35rem; margin-bottom: 4px; }
 .timeline { list-style: none; margin: 0; padding: 0; display: grid; }
-.timeline li { display: grid; grid-template-columns: 136px 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
-.timeline .d { font-family: var(--font-display); font-weight: 600; font-size: 1.25rem; color: var(--gold-2); line-height: 1.25; font-variant-numeric: lining-nums; }
-:root[data-theme="light"] .timeline .d { color: var(--gold); }
+.timeline li { display: grid; grid-template-columns: 150px 1fr; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.timeline li:first-child { border-top: 1px solid var(--line); }
+.timeline .d { font-family: var(--font-display); font-size: 1.35rem; color: var(--gold-2); line-height: 1.25; font-variant-numeric: lining-nums; }
 .timeline .t b { display: block; }
 .timeline .t span { color: var(--muted); font-size: .95rem; }
 
@@ -194,23 +262,18 @@ ul.dots li::marker { color: var(--gold); }
 .filters { display: flex; flex-wrap: wrap; gap: 12px 28px; align-items: center; }
 .fgroup { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-width: 0; }
 .flabel { font-size: .9rem; color: var(--muted); font-weight: 500; }
-.seg { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--line-2); border-radius: 4px; overflow: hidden; background: var(--surface); }
-.seg button { border: 0; background: transparent; padding: 0 15px; min-height: 42px; font-weight: 500; font-size: .95rem; border-right: 1px solid var(--line-2); }
+.seg { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--line-2); border-radius: 3px; overflow: hidden; background: var(--surface); }
+.seg button { border: 0; background: transparent; padding: 0 15px; min-height: 44px; font-weight: 500; font-size: .95rem; border-right: 1px solid var(--line-2); }
 .seg button:last-child { border-right: 0; }
 .seg button:hover { background: var(--surface-2); }
 .seg button[aria-pressed="true"] { background: var(--gold); color: var(--gold-ink); }
-.btn { display: inline-flex; align-items: center; gap: 8px; background: var(--gold); color: var(--gold-ink); border: 1px solid var(--gold); border-radius: 4px; padding: 0 16px; font-weight: 600; min-height: 44px; }
-.btn:hover { filter: brightness(1.08); }
-.btn.ghost { background: transparent; color: var(--fg); border-color: var(--line-2); }
-.btn.ghost:hover { border-color: var(--gold); filter: none; }
-.btn[disabled] { opacity: .5; cursor: not-allowed; }
 .copyrow { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-.copyrow input { flex: 1 1 220px; min-width: 0; font: inherit; min-height: 44px; padding: 0 12px; border: 1px solid var(--line-2); border-radius: 4px; background: var(--bg); color: var(--fg); }
+.copyrow input { flex: 1 1 220px; min-width: 0; font: inherit; min-height: 44px; padding: 0 12px; border: 1px solid var(--line-2); border-radius: 3px; background: var(--bg); color: var(--fg); }
 .copyrow .small { flex-basis: 100%; min-height: 1.4em; }
 
 /* Picker */
-.tool { border: 1px solid var(--line); background: var(--surface); border-radius: 4px; padding: 20px; display: grid; gap: 18px; }
-.matrix-box { overflow-x: auto; border: 1px solid var(--line); border-radius: 4px; }
+.tool { border: 1px solid var(--line); background: var(--surface); border-radius: 2px; padding: 24px; display: grid; gap: 18px; }
+.matrix-box { overflow-x: auto; border: 1px solid var(--line); border-radius: 2px; }
 table { border-collapse: separate; border-spacing: 0; width: 100%; }
 #matrix { min-width: 760px; }
 #matrix th, #matrix td { padding: 0; text-align: center; border-bottom: 1px solid var(--line); }
@@ -222,13 +285,12 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 .f { display: inline-block; width: 8px; height: 8px; margin-right: 8px; vertical-align: .05em; }
 .f.alliance { background: var(--alliance); } .f.horde { background: var(--horde); }
 .paid { font-size: .7rem; color: var(--gold-2); font-weight: 600; margin-left: 6px; border: 1px solid var(--gold); border-radius: 3px; padding: 0 4px; }
-:root[data-theme="light"] .paid { color: var(--gold); }
 #matrix td { height: 44px; }
 .cell { width: 100%; height: 100%; min-height: 44px; border: 0; background: transparent; font-weight: 600; display: grid; place-items: center; }
 .cell:hover { background: var(--surface-2); }
 .cell.no { color: var(--line-2); cursor: default; }
 .cell.ok { color: var(--fg); }
-.cell.new { color: var(--new); font-size: .7rem; letter-spacing: .04em; }
+.cell.new { color: var(--new); font-size: .78rem; }
 .cell.dim { opacity: .3; }
 .cell.sel { background: var(--gold); color: var(--gold-ink); }
 tr.rowsel th { box-shadow: inset 3px 0 0 var(--gold); }
@@ -237,16 +299,15 @@ tr.rowsel th { box-shadow: inset 3px 0 0 var(--gold); }
 .pickm { display: none; gap: 14px; }
 .pickm .lbl { font-size: .9rem; color: var(--muted); margin-bottom: 8px; }
 .chiprow { display: flex; flex-wrap: wrap; gap: 6px; }
-.chiprow button { min-height: 40px; padding: 0 12px; border: 1px solid var(--line-2); border-radius: 4px; background: var(--bg); font-size: .92rem; font-weight: 500; }
+.chiprow button { min-height: 44px; padding: 0 12px; border: 1px solid var(--line-2); border-radius: 3px; background: var(--bg); font-size: .92rem; font-weight: 500; }
 .chiprow button[aria-pressed="true"] { background: var(--gold); border-color: var(--gold); color: var(--gold-ink); }
 .chiprow button.na { color: var(--muted); border-style: dashed; }
 .chiprow button .f { margin-right: 6px; }
 .detail { border-top: 1px solid var(--gold); padding-top: 18px; display: grid; gap: 18px; }
 .d-top { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: baseline; }
-.d-top h3 { font-size: 1.7rem; }
+.d-top h3 { font-size: 1.9rem; }
 .tag { font-size: .74rem; font-weight: 600; border-radius: 3px; padding: 2px 8px; border: 1px solid currentColor; }
 .tag.alliance { color: var(--alliance); } .tag.horde { color: var(--horde); } .tag.new { color: var(--new); } .tag.paid { color: var(--gold-2); }
-:root[data-theme="light"] .tag.paid { color: var(--gold); }
 .d-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 24px 32px; }
 .d-cols > div { min-width: 0; }
 .d-cols h4 { margin: 0 0 10px; font-size: .9rem; font-weight: 600; color: var(--muted); }
@@ -267,41 +328,40 @@ dl.facts dt { color: var(--muted); }
 dl.facts dd { margin: 0; }
 
 /* Builder */
-.builder { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 24px; align-items: start; }
+.builder { display: grid; grid-template-columns: minmax(0, 1fr) 310px; gap: 24px; align-items: start; }
 .steps { display: grid; gap: 24px; }
 .step { display: grid; grid-template-columns: 30px 1fr; gap: 6px 14px; align-items: start; }
 .stepn { width: 28px; height: 28px; display: grid; place-items: center; border: 1px solid var(--gold); color: var(--gold-2); font-weight: 600; font-size: .88rem; font-variant-numeric: tabular-nums; }
-:root[data-theme="light"] .stepn { color: var(--gold); }
 .step > div { display: grid; gap: 10px; min-width: 0; }
 .step b { font-size: 1.05rem; font-weight: 600; }
 .sizes { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-.sizes button { min-width: 48px; min-height: 44px; padding: 0 12px; border: 1px solid var(--line-2); border-radius: 4px; background: var(--bg); font-weight: 600; font-variant-numeric: tabular-nums; }
+.sizes button { min-width: 48px; min-height: 44px; padding: 0 12px; border: 1px solid var(--line-2); border-radius: 3px; background: var(--bg); font-weight: 600; font-variant-numeric: tabular-nums; }
 .sizes button:hover { border-color: var(--gold); }
 .sizes button[aria-pressed="true"] { background: var(--gold); border-color: var(--gold); color: var(--gold-ink); }
-.stepper { display: inline-flex; align-items: center; border: 1px solid var(--line-2); border-radius: 4px; background: var(--bg); }
+.stepper { display: inline-flex; align-items: center; border: 1px solid var(--line-2); border-radius: 3px; background: var(--bg); }
 .stepper button { min-width: 44px; min-height: 44px; border: 0; background: transparent; font-size: 1.2rem; }
 .stepper button:hover { color: var(--gold-2); }
 .stepper output { min-width: 48px; text-align: center; font-weight: 600; font-variant-numeric: tabular-nums; }
 .slots { display: grid; gap: 14px; }
 .party { display: grid; gap: 6px; }
 .party-h { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; padding-bottom: 4px; }
-.party-h h4 { margin: 0; font-family: var(--font-display); font-size: 1.15rem; font-weight: 600; }
+.party-h h4 { margin: 0; font-family: var(--font-display); font-size: 1.25rem; font-weight: var(--display-w); }
 .party-h .pc { display: inline-flex; flex-wrap: wrap; gap: 12px; color: var(--muted); font-size: .88rem; font-weight: 500; }
 .party-h .pc .miss { color: var(--horde); }
 .party-h .pc .ok { color: var(--new); }
-.slot { display: grid; grid-template-columns: 30px minmax(0,1.2fr) minmax(0,1.2fr) minmax(0,.9fr) 44px; gap: 8px; align-items: center; padding: 6px 8px; background: var(--bg); border: 1px solid var(--line); border-left: 3px solid var(--cc, var(--line)); border-radius: 4px; }
+.slot { display: grid; grid-template-columns: 30px minmax(0,1.2fr) minmax(0,1.2fr) minmax(0,.9fr) 44px; gap: 8px; align-items: center; padding: 6px 8px; background: var(--bg); border: 1px solid var(--line); border-left: 3px solid var(--cc, var(--line)); border-radius: 2px; }
 .slot .no { font-weight: 600; color: var(--muted); text-align: center; font-variant-numeric: tabular-nums; }
-.slot select { width: 100%; min-width: 0; font: inherit; font-size: .95rem; padding: 0 8px; min-height: 42px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); color: var(--fg); }
-.slot .del { min-height: 42px; border: 1px solid var(--line); border-radius: 4px; background: transparent; color: var(--muted); display: grid; place-items: center; }
+.slot select { width: 100%; min-width: 0; font: inherit; font-size: .95rem; padding: 0 8px; min-height: 44px; border: 1px solid var(--line); border-radius: 3px; background: var(--surface); color: var(--fg); }
+.slot .del { min-height: 44px; border: 1px solid var(--line); border-radius: 3px; background: transparent; color: var(--muted); display: grid; place-items: center; }
 .slot .del:hover { color: var(--horde); border-color: var(--horde); }
 .row-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-.summary { position: sticky; top: calc(var(--top) + 16px); border: 1px solid var(--line); background: var(--bg); border-radius: 4px; display: grid; }
+.summary { position: sticky; top: calc(var(--top) + 16px); border: 1px solid var(--line); background: var(--surface); border-radius: 2px; display: grid; }
 .summary > div { padding: 14px 16px; border-bottom: 1px solid var(--line); }
 .summary > div:last-child { border-bottom: 0; }
 .summary h4 { margin: 0 0 8px; font-size: .9rem; font-weight: 600; color: var(--muted); }
 .roles-sum { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-.rs { display: grid; justify-items: center; gap: 0; padding: 8px 4px; border: 1px solid var(--line); border-radius: 4px; }
-.rs b { font-family: var(--font-display); font-size: 1.7rem; font-weight: 500; line-height: 1; font-variant-numeric: tabular-nums lining-nums; }
+.rs { display: grid; justify-items: center; gap: 0; padding: 8px 4px; border: 1px solid var(--line); border-radius: 2px; }
+.rs b { font-family: var(--font-display); font-size: 1.8rem; font-weight: 400; line-height: 1; font-variant-numeric: tabular-nums lining-nums; }
 .rs span { color: var(--muted); font-size: .8rem; }
 .rs.ok { border-color: color-mix(in srgb, var(--new) 55%, transparent); }
 .rs.ok b { color: var(--new); }
@@ -315,7 +375,7 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .cdot { display: inline-block; width: 9px; height: 9px; margin-right: 7px; background: var(--cc, var(--muted)); }
 :root[data-theme="light"] .cdot { box-shadow: inset 0 0 0 1px rgba(0,0,0,.35); }
 .summary .copyrow input { flex-basis: 100%; }
-.summary .copyrow .btn { flex: 1 1 auto; justify-content: center; }
+.summary .copyrow .btn { flex: 1 1 auto; }
 
 /* Checklist */
 .check { list-style: none; margin: 0; padding: 0; display: grid; border-top: 1px solid var(--line); }
@@ -333,56 +393,76 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 
 /* Reference rows (classes, races) */
 .ref { display: grid; border-top: 1px solid var(--line); }
-.ref-row { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 10px 28px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+.ref-row { display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 10px 28px; padding: 22px 0; border-bottom: 1px solid var(--line); }
 .ref-name { display: grid; gap: 8px; align-content: start; }
-.ref-name h3 { display: flex; align-items: center; gap: 0; font-size: 1.45rem; }
+.ref-name h3 { display: flex; align-items: center; gap: 0; font-size: 1.6rem; }
 .ref-name .bar { width: 4px; height: 1.05em; margin-right: 10px; background: var(--cc, var(--gold)); }
 .ref-name .sub { color: var(--muted); font-size: .9rem; }
-.ref-name .go { justify-self: start; min-height: 36px; padding: 0 10px; border: 1px solid var(--line-2); border-radius: 4px; background: transparent; font-size: .85rem; font-weight: 500; color: var(--muted); }
+.ref-name .go { justify-self: start; min-height: 40px; padding: 0 12px; border: 1px solid var(--line-2); border-radius: 3px; background: transparent; font-size: .85rem; font-weight: 500; color: var(--muted); }
 .ref-name .go:hover { color: var(--fg); border-color: var(--gold); }
 .ref-body { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 24px; font-size: .95rem; }
 .ref-body.two { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
 .ref-body h4 { margin: 0 0 4px; font-size: .82rem; font-weight: 600; color: var(--muted); }
 .ref-body .wide { grid-column: 1 / -1; }
 .ref details { grid-column: 1 / -1; border-top: 1px dashed var(--line); padding-top: 10px; }
-.ref summary { cursor: pointer; color: var(--muted); font-size: .9rem; font-weight: 500; min-height: 32px; display: flex; align-items: center; gap: 6px; list-style: none; }
+.ref summary { cursor: pointer; color: var(--muted); font-size: .9rem; font-weight: 500; min-height: 44px; display: flex; align-items: center; gap: 6px; list-style: none; }
 .ref summary::-webkit-details-marker { display: none; }
 .ref summary::before { content: "+"; width: 1em; color: var(--gold-2); font-weight: 600; }
 .ref details[open] summary::before { content: "−"; }
 .ref summary:hover { color: var(--fg); }
 .ref details p { margin-top: 6px; font-size: .95rem; max-width: 80ch; }
 .ref-row.sel .ref-name h3 { color: var(--gold-2); }
-:root[data-theme="light"] .ref-row.sel .ref-name h3 { color: var(--gold); }
 
 /* Data tables */
 .tbl-box { overflow-x: auto; border-top: 1px solid var(--line); }
 .tbl-box table { min-width: 560px; }
-.tbl-box th, .tbl-box td { text-align: left; padding: 11px 14px 11px 0; vertical-align: top; border-bottom: 1px solid var(--line); }
+.tbl-box th, .tbl-box td { text-align: left; padding: 12px 14px 12px 0; vertical-align: top; border-bottom: 1px solid var(--line); }
 .tbl-box thead th { color: var(--muted); font-size: .85rem; font-weight: 600; border-bottom-color: var(--line-2); }
 .tbl-box tbody th { font-weight: 600; font-size: .96rem; }
 .tbl-box td.num { white-space: nowrap; color: var(--gold-2); font-weight: 600; font-variant-numeric: tabular-nums; }
-:root[data-theme="light"] .tbl-box td.num { color: var(--gold); }
 
-footer { margin-top: 80px; border-top: 1px solid var(--gold); padding-top: 24px; display: grid; gap: 14px; color: var(--muted); font-size: .93rem; }
-footer h2 { color: var(--fg); }
+footer { margin-top: 110px; border-top: 1px solid var(--line); padding-top: 34px; display: grid; gap: 14px; color: var(--muted); font-size: .93rem; }
+footer h2 { color: var(--fg); font-size: 1.8rem; }
 footer ul { margin: 0; padding-left: 18px; display: grid; gap: 5px; }
 footer ul li::marker { color: var(--gold); }
 
-dialog.toc-dlg { border: 0; padding: 0; margin: 0 0 0 auto; width: min(320px, 86vw); max-width: none; height: 100dvh; max-height: none; background: var(--rail); color: var(--fg); border-left: 1px solid var(--line); }
-dialog.toc-dlg::backdrop { background: rgba(0,0,0,.55); }
-dialog.toc-dlg .dh { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px 10px 16px; border-bottom: 1px solid var(--line); height: var(--top); }
-dialog.toc-dlg .toc { padding: 18px 8px 32px; }
-dialog.toc-dlg .toc a { padding: 10px 12px; font-size: 1rem; }
+/* Menu sheet (all sections, language, theme) */
+dialog.sheet { border: 0; padding: 0; margin: 0 0 0 auto; width: min(360px, 88vw); max-width: none; height: 100dvh; max-height: none; background: var(--rail); color: var(--fg); border-left: 1px solid var(--line); }
+dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
+.sheet .dh { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px 10px 20px; border-bottom: 1px solid var(--line); min-height: var(--top); }
+.sheet .dh b { font-family: var(--font-display); font-weight: 400; font-size: 1.4rem; }
+.sheet .toc { padding: 16px 8px 8px; display: grid; gap: 18px; }
+.sheet .grp { display: grid; }
+.sheet .gh { font-size: .8rem; color: var(--muted); font-weight: 600; padding: 0 12px 4px; }
+.sheet .toc a { display: flex; align-items: center; min-height: 44px; padding: 0 12px; color: var(--fg); text-decoration: none; border-left: 2px solid transparent; }
+.sheet .toc a:hover { background: var(--surface); border-left-color: var(--gold); }
+.sheet .opts { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding: 16px 20px 28px; border-top: 1px solid var(--line); margin-top: 8px; }
+.sheet .meta { padding: 0 20px 24px; color: var(--muted); font-size: .85rem; }
+
+/* Bottom tab bar (phones) */
+.tabbar { display: none; }
 
 @media (max-width: 1100px) {
-  .shell { grid-template-columns: 1fr; gap: 0; }
-  .side { display: none; }
-  .tocbtn { display: inline-grid; }
+  .mainnav { display: none; }
+  .menubtn { display: inline-grid; }
+  .gtiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 1023px) {
+  .roster { height: auto; overflow-x: auto; scroll-snap-type: x mandatory; gap: 10px; margin: 0 -20px; padding: 0 20px 4px; scroll-padding: 0 20px; scrollbar-width: none; overscroll-behavior-x: contain; }
+  .roster::-webkit-scrollbar { display: none; }
+  .hc, .hc.on { flex: 0 0 min(78%, 330px); aspect-ratio: 3 / 4; scroll-snap-align: start; border-color: #262930; }
+  .hc img, .hc.on img { filter: none; transform: none; }
+  .hc .vn { display: none; }
+  .hc .info { min-width: 0; padding: 20px; opacity: 1; transform: none; }
+  .hc .info b { font-size: 2rem; }
+  .hc::after { background: linear-gradient(180deg, rgba(7,8,10,0) 30%, rgba(7,8,10,.72) 55%, rgba(7,8,10,.96) 100%); }
+  .swipe { display: block; }
 }
 @media (max-width: 980px) {
-  .mast-top { grid-template-columns: 1fr; gap: 28px; }
   .builder { grid-template-columns: 1fr; }
   .summary { position: static; }
+  .factions { grid-template-columns: 1fr; }
+  .tcards { grid-template-columns: 1fr; }
 }
 @media (max-width: 860px) {
   .matrix-box, .legend { display: none; }
@@ -391,18 +471,33 @@ dialog.toc-dlg .toc a { padding: 10px 12px; font-size: 1rem; }
   .ref-body, .ref-body.two { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 719px) {
-  .brand > span:not(.mark), .brand b { display: none; }
-  .tools { gap: 6px; }
-  .mast { padding-top: 26px; }
-  .tool { padding: 14px; }
-  .rail { padding: 6px 0 0; }
-  .rail .bar, .rail .now { display: none; }
-  .rail ol { display: grid; gap: 0; border-top: 1px solid var(--line); }
-  .rail li { position: static; transform: none; height: auto; display: grid; grid-template-columns: 18px 1fr; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--line); align-items: center; }
-  .rail li::before { position: static; margin: 0 0 0 4px; left: auto; top: auto; }
-  .rail li span, .rail li:first-child span, .rail li:last-child span { position: static; transform: none; text-align: left; white-space: normal; display: flex; gap: 10px; align-items: baseline; }
-  .rail li span b { display: inline; min-width: 52px; }
-  .rail li.cur span b { color: var(--gold-2); }
+  :root { --top: 56px; }
+  .wrap, .topbar .in { padding-left: 16px; padding-right: 16px; }
+  .topbar .langs, .menubtn { display: none; }
+  .brand b { font-size: 1.15rem; }
+  .hero { min-height: max(580px, calc(100svh - 62px - env(safe-area-inset-bottom, 0px))); }
+  .hero-art img { object-position: 74% 50%; }
+  .hero::before { background:
+    linear-gradient(180deg, rgba(7,8,10,.86) 0%, rgba(7,8,10,.7) 40%, rgba(7,8,10,.6) 72%, rgba(7,8,10,.94) 100%); }
+  .hero-in { padding-top: calc(var(--top) + 28px); gap: 18px; }
+  .hero h1 { font-size: clamp(2.6rem, 12vw, 3.4rem); }
+  .cd .u { padding: 0 14px; }
+  .cta { width: 100%; }
+  .cta .btn { flex: 1 1 140px; padding: 0 12px; }
+  .hdates { padding-bottom: 22px; }
+  .hdates li { padding: 14px 8px 0 0; }
+  .hdates b { font-size: 1.25rem; }
+  .hdates span { font-size: .8rem; line-height: 1.35; }
+  section.block { padding-top: 72px; gap: 22px; scroll-margin-top: -48px; }
+  .fac { min-height: 400px; padding: 24px 22px 22px; }
+  .fac picture, .fac picture img { width: 100%; }
+  .fac::before { background: linear-gradient(0deg, var(--fb) 30%, color-mix(in srgb, var(--fb) 60%, transparent) 58%, transparent 85%); }
+  .roster { margin: 0 -16px; padding: 0 16px 4px; scroll-padding: 0 16px; }
+  .hc, .hc.on { flex-basis: 78%; }
+  .tool { padding: 16px; }
+  .gband { margin-top: 80px; padding: 72px 0 64px; }
+  .gtiles { grid-template-columns: 1fr; }
+  .gt { min-height: 0; padding: 18px; }
   .ref-body, .ref-body.two { grid-template-columns: 1fr; }
   .slot { grid-template-columns: 22px minmax(0, 2.6fr) minmax(0, 1fr) 44px; gap: 6px; padding: 6px; }
   .slot select { font-size: .9rem; padding: 0 4px; }
@@ -412,8 +507,21 @@ dialog.toc-dlg .toc a { padding: 10px 12px; font-size: 1rem; }
   .slot select.srole { grid-column: 3 / 5; }
   .timeline li { grid-template-columns: 1fr; gap: 2px; }
   dl.facts div { grid-template-columns: 1fr; gap: 0; }
+  body { padding-bottom: calc(62px + env(safe-area-inset-bottom, 0px)); }
+  .tabbar { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); position: fixed; inset: auto 0 0 0; z-index: 35; background: var(--rail); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  .tabbar a, .tabbar button { min-height: 60px; display: grid; justify-items: center; align-content: center; gap: 3px; padding: 0 2px; border: 0; background: none; color: var(--muted); text-decoration: none; font-size: .72rem; font-weight: 500; line-height: 1.2; }
+  .tabbar .ico { width: 22px; height: 22px; }
+  .tabbar [aria-current="true"] { color: var(--gold-2); }
+  dialog.sheet { margin: auto 0 0 0; width: 100%; height: auto; max-height: 86dvh; border-left: 0; border-top: 1px solid var(--line); border-radius: 10px 10px 0 0; padding-bottom: env(safe-area-inset-bottom, 0px); }
+  .sheet .toc { grid-template-columns: 1fr 1fr; gap: 14px 6px; }
+  .sheet .grp:last-child { grid-column: 1 / -1; grid-template-columns: 1fr 1fr; column-gap: 6px; }
+  .sheet .grp:last-child .gh { grid-column: 1 / -1; }
+  .sheet .toc a { min-height: 44px; line-height: 1.25; }
 }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .prog .bar i { transition: none; } }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hc, .hc img, .hc .info, .fac picture img, .prog .bar i { transition: none; }
+}
 </style>
 </head>
 <body>
@@ -430,58 +538,159 @@ dialog.toc-dlg .toc a { padding: 10px 12px; font-size: 1rem; }
   <symbol id="i-check" viewBox="0 0 24 24"><path d="M4 4h16v16H4zM8 12l3 3 5-6"/></symbol>
   <symbol id="i-copy" viewBox="0 0 24 24"><path d="M9 9h11v11H9zM5 15H4V4h11v1"/></symbol>
   <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7M6 9.5V20h12V9.5M10 20v-5h4v5"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5.5C6.5 4 9.5 4 12 5.5v14c-2.5-1.5-5.5-1.5-8 0zM20 5.5C17.5 4 14.5 4 12 5.5v14c2.5-1.5 5.5-1.5 8 0z"/></symbol>
+  <symbol id="i-dots" viewBox="0 0 24 24"><path d="M5 12h.01M12 12h.01M19 12h.01"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
 </svg>
 
-<header class="topbar"><div class="in">
-  <a class="brand" href="#top" aria-label="Gabella Team, на початок сторінки"><span class="mark" aria-hidden="true">G</span><b>Gabella Team</b><span>WoW Forever · довідник</span></a>
+<header class="topbar" id="topbar"><div class="in">
+  <a class="brand" href="#top" aria-label="Gabella Team, на початок сторінки"><span class="mark" aria-hidden="true">G</span><b>Gabella Team</b></a>
+  <nav class="mainnav" aria-label="Розділи">
+    <a href="#factions">Фракції</a><a href="#classes">Класи</a><a href="#picker">Підбирач</a><a href="#builder">Група</a><a href="#checklist">Чек-лист</a><a href="#guides">Гайди</a>
+  </nav>
   <div class="tools">
     <div class="langs" role="group" aria-label="Мова"><a href="../" data-lang="ru" hreflang="ru" lang="ru" aria-current="false">RU</a><a href="../en/" data-lang="en" hreflang="en" lang="en" aria-current="false">EN</a><a href="./" data-lang="uk" hreflang="uk" lang="uk" aria-current="true">UK</a></div>
-    <button class="iconbtn" id="themeBtn" type="button" aria-label="Перемкнути тему" title="Перемкнути тему"><svg class="ico"><use href="#i-sun"/></svg></button>
-    <button class="iconbtn tocbtn" id="tocBtn" type="button" aria-haspopup="dialog" aria-controls="tocDlg"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg><span>Розділи</span></button>
+    <button class="iconbtn themebtn" type="button" aria-label="Перемкнути тему" title="Перемкнути тему"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></button>
+    <button class="iconbtn menubtn" type="button" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg><span>Розділи</span></button>
   </div>
 </div></header>
 
-<div class="shell" id="top">
-<aside class="side" aria-label="Зміст">
-  <nav class="toc" id="toc" aria-label="Розділи">
-    <div class="grp"><div class="gh">Старт</div><a href="#top">Огляд</a><a href="#dates">Дати й набори</a></div>
-    <div class="grp"><div class="gh">Інструменти</div><a href="#picker">Підбирач</a><a href="#builder">Конструктор групи</a><a href="#checklist">Чек-лист</a></div>
-    <div class="grp"><div class="gh">Довідник</div><a href="#classes">Класи</a><a href="#races">Раси</a><a href="#legacy">Legacy</a><a href="#camp">Табір і професії</a><a href="#dungeons">Підземелля та рейди</a><a href="#group">Склад групи</a><a href="#era">Відмінності від Era</a><a href="#sources">Джерела</a></div>
-    <div class="meta">Дані на 22.10.2026, закрита бета, патч від 15.10.2026.</div>
-  </nav>
-</aside>
+<section class="hero" id="top" data-nav="#top" data-tab="#top">
+  <picture class="hero-art">
+    <source type="image/avif" srcset="../assets/art/hero_dawn-960.avif 960w, ../assets/art/hero_dawn-1440.avif 1440w, ../assets/art/hero_dawn-1920.avif 1920w, ../assets/art/hero_dawn-2560.avif 2560w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw">
+    <source type="image/webp" srcset="../assets/art/hero_dawn-960.webp 960w, ../assets/art/hero_dawn-1440.webp 1440w, ../assets/art/hero_dawn-1920.webp 1920w, ../assets/art/hero_dawn-2560.webp 2560w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw">
+    <img src="../assets/art/hero_dawn-1920.webp" width="1920" height="1072" alt="" fetchpriority="high" decoding="async">
+  </picture>
+  <div class="wrap hero-in">
+    <p class="eyebrow">Гід Gabella Team · дані на 22.10.2026</p>
+    <h1>World of Warcraft <span>Forever</span></h1>
+    <p class="lead">Класи, раси, збір групи й усе, що треба знати до старту 4 листопада. Зібрано для своєї компанії, з джерелами та датою.</p>
+    <div class="cd" id="cd" aria-live="polite"></div>
+    <div class="cta">
+      <a class="btn lg" href="#classes">Обрати клас</a>
+      <a class="btn lg ghost" href="#builder">Зібрати групу</a>
+    </div>
+  </div>
+  <ol class="hdates" aria-label="Ключові дати">
+    <li data-d="2026-10-27"><b>27.10</b><span>Резерв імен</span></li>
+    <li data-d="2026-11-04"><b>04.11</b><span>Реліз</span></li>
+    <li data-d="2026-12-09"><b>09.12</b><span>Рейди</span></li>
+  </ol>
+</section>
 
 <main>
-<div class="mast">
-  <div class="mast-top">
-    <div>
-      <p class="kicker">Довідник Gabella Team · дані на <b>22.10.2026</b></p>
-      <h1>World of Warcraft: Forever</h1>
-      <p class="lead">Класи, раси, нові комбінації, Legacy, табір, підземелля й рейди. Три інструменти для своєї компанії: підбір раси й класу, збір групи та чек-лист до старту.</p>
-      <div class="cd" id="cd" aria-live="polite"></div>
+<section class="block wrap" id="factions" data-nav="#factions" data-tab="#classes">
+  <div class="sec-head"><p class="kick">Вибір сторони</p><h2>Альянс чи Орда</h2><p>Домовтеся про фракцію заздалегідь: у PvP-режимі під час створення доступна лише одна. Дев’ять класів є в обох сторін.</p></div>
+  <div class="factions">
+    <article class="fac alliance">
+      <picture><source type="image/avif" srcset="../assets/art/paladin-600.avif 600w, ../assets/art/paladin-896.avif 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><source type="image/webp" srcset="../assets/art/paladin-600.webp 600w, ../assets/art/paladin-896.webp 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><img src="../assets/art/paladin-600.webp" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
+      <p class="kick">Фракція</p>
+      <h3>Альянс</h3>
+      <p>Людина, дворф, нічний ельф, гном і Вищий скайборн.</p>
+      <p><b>Нове:</b> дворф-шаман, гном-жрець і людина-мисливець.</p>
+      <button type="button" class="go-f" data-fac="alliance">Підібрати расу й клас<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+    </article>
+    <article class="fac horde">
+      <picture><source type="image/avif" srcset="../assets/art/shaman-600.avif 600w, ../assets/art/shaman-896.avif 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><source type="image/webp" srcset="../assets/art/shaman-600.webp 600w, ../assets/art/shaman-896.webp 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><img src="../assets/art/shaman-600.webp" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
+      <p class="kick">Фракція</p>
+      <h3>Орда</h3>
+      <p>Орк, нежить, таурен, троль і Скайборн-вітроріз.</p>
+      <p><b>Нове:</b> нежить-паладин, орк-маг і троль-чорнокнижник.</p>
+      <button type="button" class="go-f" data-fac="horde">Підібрати расу й клас<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+    </article>
+  </div>
+</section>
+
+<section class="block wrap" id="classes" data-nav="#classes" data-tab="#classes">
+  <div class="sec-head"><div class="row"><div style="display:grid;gap:12px"><p class="kick">Дев’ять класів</p><h2>Ким грати</h2></div><span class="src">Warcraft Tavern, LFCarry</span></div><p>Наведіть на портрет, щоб розкрити клас. Натисніть, і підбирач покаже раси, спеціалізації та що нового у Forever.</p></div>
+  <div class="roster" id="roster"></div>
+  <p class="swipe">Гортайте портрети вбік.</p>
+</section>
+
+<section class="block wrap" id="tools" data-nav="#picker" data-tab="#builder">
+  <div class="sec-head"><p class="kick">Для своєї компанії</p><h2>Інструменти</h2><p>Підбір раси й класу, збір групи на будь-яку кількість гравців і чек-лист до старту. Посиланням на склад можна поділитися в чаті.</p></div>
+  <nav class="tcards" aria-label="Інструменти">
+    <a class="tcard" href="#picker"><svg class="ico" aria-hidden="true"><use href="#i-grid"/></svg><b>Підбір раси й класу</b><span id="qPick">Усі поєднання і що вміє кожне</span></a>
+    <a class="tcard" href="#builder"><svg class="ico" aria-hidden="true"><use href="#i-users"/></svg><b>Конструктор групи</b><span id="qTeam">Від одного до сорока гравців</span></a>
+    <a class="tcard" href="#checklist"><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><b>Чек-лист перед стартом</b><span id="qCheck">Імена, професії, дні, підписка</span></a>
+  </nav>
+</section>
+<section class="block wrap" id="picker" data-tab="#builder">
+  <div class="sec-head"><div class="row"><h2>Підбирач: раса і клас</h2><span class="src">Warcraft Tavern, Method</span></div>
+    <p>Оберіть фракцію та роль, подивіться поєднання й натисніть на клітинку. Нижче з’являться здібності раси та ролі класу, а вибір копіюється однією кнопкою для спільного чату.</p></div>
+  <div class="tool">
+    <div class="filters" role="group" aria-label="Фільтри">
+      <div class="fgroup"><span class="flabel" id="lf">Фракція</span>
+        <div class="seg" id="segF" aria-labelledby="lf">
+          <button data-v="all" aria-pressed="true">Будь-яка</button>
+          <button data-v="alliance" aria-pressed="false">Альянс</button>
+          <button data-v="horde" aria-pressed="false">Орда</button>
+        </div></div>
+      <div class="fgroup"><span class="flabel" id="lr">Роль</span>
+        <div class="seg" id="segR" aria-labelledby="lr">
+          <button data-v="all" aria-pressed="true">Будь-яка</button>
+          <button data-v="tank" aria-pressed="false">Танк</button>
+          <button data-v="heal" aria-pressed="false">Цілитель</button>
+          <button data-v="dps" aria-pressed="false">Шкода</button>
+        </div></div>
     </div>
-    <nav class="launch" aria-labelledby="launchH">
-      <h2 id="launchH">Інструменти</h2>
-      <a href="#picker"><svg class="ico" aria-hidden="true"><use href="#i-grid"/></svg><b>Підбір раси й класу</b><span id="qPick">Усі поєднання і що вміє кожне</span></a>
-      <a href="#builder"><svg class="ico" aria-hidden="true"><use href="#i-users"/></svg><b>Конструктор групи</b><span id="qTeam">Від одного до сорока гравців</span></a>
-      <a href="#checklist"><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><b>Чек-лист перед стартом</b><span id="qCheck">Імена, професії, дні, підписка</span></a>
+    <div class="matrix-box" tabindex="0" role="region" aria-label="Таблиця рас і класів, прокручується горизонтально"><table id="matrix"></table></div>
+    <div class="legend"><span><b>✓</b> можна</span><span><span class="n">Нове</span> такої комбінації не було в Classic</span><span><b>·</b> не можна</span></div>
+    <div class="pickm" id="pickm"></div>
+    <div class="detail" id="detail" aria-live="polite" aria-label="Обрана комбінація"></div>
+  </div>
+  <p class="note"><span class="mk fact">факт</span><b>Нові комбінації:</b> дворф-шаман і гном-жрець (Альянс), людина-мисливець, а в Орди орк-маг, троль-чорнокнижник і нежить-паладин. Паладин з’явився в Орди, шаман в Альянсі. Скайборн-вітрорізь (Орда) може бути шаманом, Високий скайборн (Альянс) магом.</p>
+</section>
+<section class="block wrap" id="builder" data-tab="#builder">
+  <div class="sec-head"><h2>Конструктор групи</h2>
+    <p>Три кроки: фракція, скільки вас і хто за кого грає. Одразу видно, чого бракує, які бафи ви приносите і чи можна йти в рейд.</p></div>
+  <div class="builder">
+    <div class="tool">
+      <div class="steps">
+        <div class="step"><span class="stepn">1</span><div><b id="lbf">Фракція</b>
+          <div class="seg" id="segBF" aria-labelledby="lbf"><button data-v="alliance" aria-pressed="true">Альянс</button><button data-v="horde" aria-pressed="false">Орда</button></div></div></div>
+        <div class="step"><span class="stepn">2</span><div><b>Скільки вас?</b>
+          <p class="small">Натисніть число, і склад підбереться сам. Потім можна змінити будь-якого гравця.</p>
+          <div class="sizes" id="sizes" role="group" aria-label="Розмір компанії"></div>
+          <div class="sizes"><div class="stepper"><button type="button" id="szMinus" aria-label="Менше гравців">−</button><output id="szOut" aria-live="polite"></output><button type="button" id="szPlus" aria-label="Більше гравців">+</button></div><span class="small" id="szNote"></span></div></div></div>
+        <div class="step"><span class="stepn">3</span><div><b>Раси, класи та ролі</b>
+          <p class="small">Гравці йдуть групами по 5, як у підземеллі: 1–5, 6–10 і так далі.</p>
+          <div class="slots" id="slots"></div>
+          <div class="row-actions"><button class="btn ghost" id="bAdd">Додати гравця</button><button class="btn ghost" id="bClear">Очистити</button></div></div></div>
+      </div>
+    </div>
+    <aside class="summary" aria-label="Підсумок групи">
+      <div><h4>Ролі</h4><div class="roles-sum" id="roleSum"></div></div>
+      <div><h4>Що виходить</h4><ul class="verdict" id="verdict"></ul></div>
+      <div><h4>Баффи групи</h4><ul class="verdict" id="buffs"></ul></div>
+      <div class="copyrow"><input id="teamText" readonly aria-label="Склад для чату"><button class="btn" id="copyTeam"><svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg>Скопіювати склад</button><button class="btn ghost" id="copyLink"><svg class="ico" aria-hidden="true"><use href="#i-link"/></svg>Посилання</button><span class="small" id="teamMsg" role="status"></span></div>
+    </aside>
+  </div>
+</section>
+<section class="block wrap" id="checklist" data-tab="#builder">
+  <div class="sec-head"><h2>Чек-лист перед стартом</h2><p>Галочки зберігаються в цьому браузері. Зручно пройтися разом у чаті та відзначити, що вже вирішено.</p></div>
+  <div class="prog"><div class="bar" aria-hidden="true"><i id="progBar"></i></div><span id="progTxt"></span></div>
+  <ul class="check" id="checkList"></ul>
+  <div class="row-actions"><button class="btn ghost" id="checkReset">Скинути відмітки</button></div>
+</section>
+<section class="gband" id="guides" data-nav="#guides" data-tab="#guides">
+  <picture><source type="image/avif" srcset="../assets/art/hero_campfire-960.avif 960w, ../assets/art/hero_campfire-1600.avif 1600w" sizes="100vw"><source type="image/webp" srcset="../assets/art/hero_campfire-960.webp 960w, ../assets/art/hero_campfire-1600.webp 1600w" sizes="100vw"><img src="../assets/art/hero_campfire-1600.webp" width="1600" height="893" alt="" loading="lazy" decoding="async"></picture>
+  <div class="wrap">
+    <div class="sec-head"><p class="kick">Довідник</p><h2>Гайди та довідник</h2><p>Усе, що ми зібрали про WoW Forever: дати, системи гри, підземелля й поради для компанії.</p></div>
+    <nav class="gtiles" aria-label="Гайди">
+      <a class="gt" href="#dates"><b>Дати й набори</b><span>Резерв імен, реліз, рейди й ціни наборів</span></a>
+      <a class="gt" href="#classref"><b>Класи докладно</b><span>Спеціалізації, темп прокачки й що нового</span></a>
+      <a class="gt" href="#races"><b>Раси</b><span>Здібності рас і доступні класи</span></a>
+      <a class="gt" href="#legacy"><b>Legacy</b><span>Очки на весь акаунт, перки й нагороди</span></a>
+      <a class="gt" href="#camp"><b>Табір і професії</b><span>Багаття, об’єкти професій і бафи</span></a>
+      <a class="gt" href="#dungeons"><b>Підземелля та рейди</b><span>9 нових підземель і 3 рейди</span></a>
+      <a class="gt" href="#group"><b>Склад групи</b><span>Факти й поради для компанії з 6–8 людей</span></a>
+      <a class="gt" href="#era"><b>Відмінності від Era</b><span>Що нового порівняно з Classic</span></a>
     </nav>
   </div>
-  <div class="rail" aria-label="Шкала дат">
-    <div class="bar"><i id="railFill"></i></div>
-    <ol>
-      <li class="dn" data-d="2026-09-17" style="left:0%"><span><b>17.09</b>Бета</span></li>
-      <li class="up" data-d="2026-10-15" style="left:33.7%"><span><b>15.10</b>Патч бети</span></li>
-      <li class="dn" data-d="2026-10-21" style="left:41%"><span><b>21.10</b>Бету закрито</span></li>
-      <li class="up" data-d="2026-10-27" style="left:48.2%"><span><b>27.10</b>Резерв імен</span></li>
-      <li class="dn" data-d="2026-11-04" style="left:57.8%"><span><b>04.11</b>Реліз</span></li>
-      <li class="up" data-d="2026-12-09" style="left:100%"><span><b>09.12</b>Рейди</span></li>
-    </ol>
-    <div class="now" id="railNow" hidden title="сьогодні"><span class="sr">сьогодні</span></div>
-  </div>
-</div>
-
-<section class="block" id="dates">
+</section>
+<section class="block wrap" id="dates" data-nav="#guides">
   <div class="sec-head"><div class="row"><h2>Дати й набори</h2><span class="src">Blizzard, ClassicWoW.gg, Warcraft Tavern</span></div><p>Головне до релізу та після нього.</p></div>
   <ul class="timeline">
     <li><span class="d">17.09 – 21.10</span><span class="t"><b>Закрита бета</b><span>Доступ мали власники наборів Epic і Collection. Бета тимчасово закрита, Blizzard пише, що вона повернеться.</span></span></li>
@@ -510,84 +719,16 @@ dialog.toc-dlg .toc a { padding: 10px 12px; font-size: 1rem; }
     </div>
   </div>
 </section>
-
-<div class="part-h">Інструменти</div>
-
-<section class="block" id="picker" style="padding-top:20px">
-  <div class="sec-head"><div class="row"><h2>Підбирач: раса і клас</h2><span class="src">Warcraft Tavern, Method</span></div>
-    <p>Оберіть фракцію та роль, подивіться поєднання й натисніть на клітинку. Нижче з’являться здібності раси та ролі класу, а вибір копіюється однією кнопкою для спільного чату.</p></div>
-  <div class="tool">
-    <div class="filters" role="group" aria-label="Фільтри">
-      <div class="fgroup"><span class="flabel" id="lf">Фракція</span>
-        <div class="seg" id="segF" aria-labelledby="lf">
-          <button data-v="all" aria-pressed="true">Будь-яка</button>
-          <button data-v="alliance" aria-pressed="false">Альянс</button>
-          <button data-v="horde" aria-pressed="false">Орда</button>
-        </div></div>
-      <div class="fgroup"><span class="flabel" id="lr">Роль</span>
-        <div class="seg" id="segR" aria-labelledby="lr">
-          <button data-v="all" aria-pressed="true">Будь-яка</button>
-          <button data-v="tank" aria-pressed="false">Танк</button>
-          <button data-v="heal" aria-pressed="false">Цілитель</button>
-          <button data-v="dps" aria-pressed="false">Шкода</button>
-        </div></div>
-    </div>
-    <div class="matrix-box" tabindex="0" role="region" aria-label="Таблиця рас і класів, прокручується горизонтально"><table id="matrix"></table></div>
-    <div class="legend"><span><b>✓</b> можна</span><span><span class="n">НОВЕ</span> такої комбінації не було в Classic</span><span><b>·</b> не можна</span></div>
-    <div class="pickm" id="pickm"></div>
-    <div class="detail" id="detail" aria-live="polite" aria-label="Обрана комбінація"></div>
-  </div>
-  <p class="note"><span class="mk fact">факт</span><b>Нові комбінації:</b> дворф-шаман і гном-жрець (Альянс), людина-мисливець, а в Орди орк-маг, троль-чорнокнижник і нежить-паладин. Паладин з’явився в Орди, шаман в Альянсі. Скайборн-вітрорізь (Орда) може бути шаманом, Високий скайборн (Альянс) магом.</p>
-</section>
-
-<section class="block" id="builder">
-  <div class="sec-head"><h2>Конструктор групи</h2>
-    <p>Три кроки: фракція, скільки вас і хто за кого грає. Одразу видно, чого бракує, які бафи ви приносите і чи можна йти в рейд.</p></div>
-  <div class="builder">
-    <div class="tool">
-      <div class="steps">
-        <div class="step"><span class="stepn">1</span><div><b id="lbf">Фракція</b>
-          <div class="seg" id="segBF" aria-labelledby="lbf"><button data-v="alliance" aria-pressed="true">Альянс</button><button data-v="horde" aria-pressed="false">Орда</button></div></div></div>
-        <div class="step"><span class="stepn">2</span><div><b>Скільки вас?</b>
-          <p class="small">Натисніть число, і склад підбереться сам. Потім можна змінити будь-якого гравця.</p>
-          <div class="sizes" id="sizes" role="group" aria-label="Розмір компанії"></div>
-          <div class="sizes"><div class="stepper"><button type="button" id="szMinus" aria-label="Менше гравців">−</button><output id="szOut" aria-live="polite"></output><button type="button" id="szPlus" aria-label="Більше гравців">+</button></div><span class="small" id="szNote"></span></div></div></div>
-        <div class="step"><span class="stepn">3</span><div><b>Раси, класи та ролі</b>
-          <p class="small">Гравці йдуть групами по 5, як у підземеллі: 1–5, 6–10 і так далі.</p>
-          <div class="slots" id="slots"></div>
-          <div class="row-actions"><button class="btn ghost" id="bAdd">Додати гравця</button><button class="btn ghost" id="bClear">Очистити</button></div></div></div>
-      </div>
-    </div>
-    <aside class="summary" aria-label="Підсумок групи">
-      <div><h4>Ролі</h4><div class="roles-sum" id="roleSum"></div></div>
-      <div><h4>Що виходить</h4><ul class="verdict" id="verdict"></ul></div>
-      <div><h4>Баффи групи</h4><ul class="verdict" id="buffs"></ul></div>
-      <div class="copyrow"><input id="teamText" readonly aria-label="Склад для чату"><button class="btn" id="copyTeam"><svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg>Скопіювати склад</button><button class="btn ghost" id="copyLink"><svg class="ico" aria-hidden="true"><use href="#i-link"/></svg>Посилання</button><span class="small" id="teamMsg" role="status"></span></div>
-    </aside>
-  </div>
-</section>
-
-<section class="block" id="checklist">
-  <div class="sec-head"><h2>Чек-лист перед стартом</h2><p>Галочки зберігаються в цьому браузері. Зручно пройтися разом у чаті та відзначити, що вже вирішено.</p></div>
-  <div class="prog"><div class="bar" aria-hidden="true"><i id="progBar"></i></div><span id="progTxt"></span></div>
-  <ul class="check" id="checkList"></ul>
-  <div class="row-actions"><button class="btn ghost" id="checkReset">Скинути відмітки</button></div>
-</section>
-
-<div class="part-h">Довідник</div>
-
-<section class="block" id="classes" style="padding-top:20px">
-  <div class="sec-head"><div class="row"><h2>Класи</h2><span class="src">Warcraft Tavern, LFCarry</span></div><p>Дев’ять класів по три спеціалізації. Темп прокачки взято з прогнозів по беті (у беті була стеля 30 рівня, вище оцінки проєктні).</p></div>
+<section class="block wrap" id="classref" data-nav="#guides">
+  <div class="sec-head"><div class="row"><h2>Класи докладно</h2><span class="src">Warcraft Tavern, LFCarry</span></div><p>Дев’ять класів по три спеціалізації. Темп прокачки взято з прогнозів по беті (у беті була стеля 30 рівня, вище оцінки проєктні).</p></div>
   <div class="ref" id="classRef"></div>
 </section>
-
-<section class="block" id="races">
+<section class="block wrap" id="races" data-nav="#guides">
   <div class="sec-head"><div class="row"><h2>Раси</h2><span class="src">Method, Warcraft Tavern</span></div><p>У кожної раси по чотири здібності: дві активні та дві пасивні. Частину старих здібностей замінено новими, опори прибрано.</p></div>
   <div class="ref" id="raceRef"></div>
   <p class="note"><span class="mk fact">факт</span><b>Скайборн</b> ігрова за обидві фракції, фракцію обирають під час створення. Обидві гілки говорять спільною мовою, а стартова зона Zephras Isle спільна, вороги там не зустрічаються через шари.</p>
 </section>
-
-<section class="block" id="legacy">
+<section class="block wrap" id="legacy" data-nav="#guides">
   <div class="sec-head"><div class="row"><h2>Система Legacy</h2><span class="src">Blizzard, Warcraft Tavern</span></div><p>Прогрес на весь акаунт Battle.net. Очки отримують за випробування, а витрачають на перки окремо на кожному персонажі.</p></div>
   <div class="grid2">
     <div class="panel">
@@ -620,7 +761,7 @@ dialog.toc-dlg .toc a { padding: 10px 12px; font-size: 1rem; }
   <p class="note tipn"><span class="mk tip">порада</span>Насамперед цінні перки табору й досвіду (Well Rested, Field Guide, Permanence) і Reagent Economy для класів із реагентами. Одне джерело пише про ліміт 25 очок на дерево, Blizzard ліміту на дерево не називає.</p>
 </section>
 
-<section class="block" id="camp">
+<section class="block wrap" id="camp" data-nav="#guides">
   <div class="sec-head"><div class="row"><h2>Табір і професії</h2><span class="src">Warcraft Tavern</span></div><p>Вогнище за професією Кулінарія перетворюється на спільний табір: поруч можна відпочивати, отримувати баффи та ставити об’єкти своїх професій.</p></div>
   <div class="grid2">
     <div class="panel">
@@ -661,7 +802,7 @@ dialog.toc-dlg .toc a { padding: 10px 12px; font-size: 1rem; }
   <p class="note">Кожна професія робить по три об’єкти, по одному на рівень. Джерела розходяться в навичці для об’єктів 2 і 3 рівня (одне пише 140 і 300), тому звіряйте в грі.</p>
 </section>
 
-<section class="block" id="dungeons">
+<section class="block wrap" id="dungeons" data-nav="#guides">
   <div class="sec-head"><div class="row"><h2>Підземелля та рейди</h2><span class="src">Warcraft Tavern, ClassicWoW.gg</span></div><p>Усього 35 підземель, з них 9 нових. Рівні орієнтовні, жорстких блокувань Blizzard поки не опублікувала. На сайтах діапазони подекуди відрізняються на пару рівнів.</p></div>
   <div class="tbl-box"><table>
     <thead><tr><th>Нове підземелля</th><th>Рівні</th><th>Де</th></tr></thead>
@@ -697,7 +838,7 @@ dialog.toc-dlg .toc a { padding: 10px 12px; font-size: 1rem; }
   <p class="note">Старі підземелля Classic теж у грі (Ragefire Chasm, Wailing Caverns, Deadmines, Shadowfang Keep, Scarlet Monastery, Blackrock Depths та інші), тож для групи з 5 людей на рівнях 13–60 завжди є що пройти.</p>
 </section>
 
-<section class="block" id="group">
+<section class="block wrap" id="group" data-nav="#guides">
   <div class="sec-head"><h2>Склад для компанії з 6–8 людей</h2><p>Нижче факти з джерел і наші рекомендації. Рекомендації позначено окремо, це не офіційні дані.</p></div>
   <div class="grid2">
     <div class="panel">
@@ -732,7 +873,7 @@ dialog.toc-dlg .toc a { padding: 10px 12px; font-size: 1rem; }
   </div>
 </section>
 
-<section class="block" id="era">
+<section class="block wrap" id="era" data-nav="#guides">
   <div class="sec-head"><div class="row"><h2>Чим Forever відрізняється від Classic Era</h2><span class="src">ClassicWoW.gg</span></div></div>
   <div class="tbl-box"><table>
     <thead><tr><th>Тема</th><th>Що у Forever</th></tr></thead>
@@ -744,8 +885,8 @@ dialog.toc-dlg .toc a { padding: 10px 12px; font-size: 1rem; }
       <tr><th scope="row">Предмети</th><td>Характеристики та предмети змінено, тому старі списки здобичі з Classic ненадійні.</td></tr>
     </tbody></table></div>
 </section>
-
-<footer id="sources">
+<div class="wrap">
+<footer id="sources" data-nav="#guides">
   <h2>Джерела та актуальність</h2>
   <p>Дані зібрано <b style="color:var(--fg)">22.10.2026</b> за закритою бетою та патчем від 15.10.2026 і звірено за кількома джерелами. До релізу Blizzard ще може змінювати бету, особливо здібності рас, налаштування класів і перки Legacy. Якщо джерела розходилися, це зазначено в тексті. Точні числа звіряйте в грі.</p>
   <p><span class="mk fact">факт</span>взято з джерел нижче. <span class="mk tip">порада</span>думка укладача, не офіційні дані.</p>
@@ -760,14 +901,30 @@ dialog.toc-dlg .toc a { padding: 10px 12px; font-size: 1rem; }
   </ul>
   <p>Сторінку зроблено для сервера Gabella Team, вона не пов’язана з Blizzard Entertainment. World of Warcraft — торгова марка Blizzard.</p>
 </footer>
-</main>
 </div>
+</main>
 
-<dialog class="toc-dlg" id="tocDlg" aria-label="Розділи">
-  <div class="dh"><b>Розділи</b><button class="iconbtn" id="tocClose" type="button" aria-label="Закрити"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
-  <div class="toc" id="tocM"></div>
+<nav class="tabbar" aria-label="Швидкі розділи">
+  <a href="#top"><svg class="ico" aria-hidden="true"><use href="#i-home"/></svg>Головна</a>
+  <a href="#classes"><svg class="ico" aria-hidden="true"><use href="#i-tank"/></svg>Класи</a>
+  <a href="#builder"><svg class="ico" aria-hidden="true"><use href="#i-users"/></svg>Група</a>
+  <a href="#guides"><svg class="ico" aria-hidden="true"><use href="#i-book"/></svg>Гайди</a>
+  <button type="button" class="morebtn" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-dots"/></svg>Ще</button>
+</nav>
+
+<dialog class="sheet" id="moreDlg" aria-label="Усі розділи">
+  <div class="dh"><b>Усі розділи</b><button class="iconbtn" id="moreClose" type="button" aria-label="Закрити"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
+  <nav class="toc" aria-label="Усі розділи">
+    <div class="grp"><div class="gh">Головна</div><a href="#top">Огляд</a><a href="#factions">Фракції</a><a href="#classes">Класи</a></div>
+    <div class="grp"><div class="gh">Інструменти</div><a href="#picker">Підбирач</a><a href="#builder">Конструктор групи</a><a href="#checklist">Чек-лист</a></div>
+    <div class="grp"><div class="gh">Довідник</div><a href="#dates">Дати й набори</a><a href="#classref">Класи докладно</a><a href="#races">Раси</a><a href="#legacy">Legacy</a><a href="#camp">Табір і професії</a><a href="#dungeons">Підземелля та рейди</a><a href="#group">Склад групи</a><a href="#era">Відмінності від Era</a><a href="#sources">Джерела</a></div>
+  </nav>
+  <div class="opts">
+    <div class="langs" role="group" aria-label="Мова"><a href="../" data-lang="ru" hreflang="ru" lang="ru" aria-current="false">RU</a><a href="../en/" data-lang="en" hreflang="en" lang="en" aria-current="false">EN</a><a href="./" data-lang="uk" hreflang="uk" lang="uk" aria-current="true">UK</a></div>
+    <button class="iconbtn themebtn" type="button" aria-label="Перемкнути тему"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg><span>Тема</span></button>
+  </div>
+  <p class="meta">Дані на 22.10.2026, закрита бета, патч від 15.10.2026.</p>
 </dialog>
-
 <script>
 const CLASSES = [
   { id:'warrior', n:'Воїн', s:'Воїн', roles:['tank','dps'],
@@ -920,7 +1077,7 @@ function renderMatrix() {
       if (!v) { h += `<td><span class="cell no${dim}" aria-label="${esc(r.n)} ${esc(c.n)}: не можна">·</span></td>`; return; }
       const sel = (r.id === state.race && c.id === state.cls) ? ' sel' : '';
       const label = `${r.n} ${c.n}${v === 'new' ? ', нова комбінація' : ''}`;
-      h += `<td><button class="cell ${v}${dim}${sel}" data-r="${r.id}" data-c="${c.id}" aria-label="${esc(label)}" aria-pressed="${sel ? 'true' : 'false'}">${v === 'new' ? 'НОВЕ' : '✓'}</button></td>`;
+      h += `<td><button class="cell ${v}${dim}${sel}" data-r="${r.id}" data-c="${c.id}" aria-label="${esc(label)}" aria-pressed="${sel ? 'true' : 'false'}">${v === 'new' ? 'Нове' : '✓'}</button></td>`;
     });
     h += '</tr>';
   });
@@ -1022,33 +1179,59 @@ document.addEventListener('click', e => {
   }
 });
 render();
+/* Class roster: tall portraits, the hovered or focused one expands */
+const ROOT = '../';
+const DESC = {
+  warrior: 'Лати, лють і перший ряд. Тримає удар як танк або рубає дворучною зброєю.',
+  paladin: 'Святий воїн у латах: лікує, танкує й б’є молотом. Тепер є й в Орди.',
+  hunter: 'Лук, пастки й вірний звір поруч. Один із найшвидших класів у прокачці.',
+  rogue: 'Отрути, клинки й тінь. Чиста шкода із засідки та контроль ворогів.',
+  priest: 'Світло й Темрява в одних руках. Головний лікар групи або темний заклинач.',
+  shaman: 'Тотеми й стихії: лікує, б’є блискавкою або зброєю. Тепер є й в Альянсу.',
+  mage: 'Вогонь, лід і таємна магія. Портали, їжа й вода для всієї компанії.',
+  warlock: 'Прокляття, демони й вогонь. Шкода з часом і власний демон на допомогу.',
+  druid: 'Ведмідь, кіт, сова або лікар: усі три ролі на одному персонажі.'
+};
+const artSet = (id, ext) => [360, 600, 896].map(w => `${ROOT}assets/art/${id}-${w}.${ext} ${w}w`).join(', ');
+const ART_SIZES = '(max-width: 719px) 78vw, 440px';
+function renderRoster() {
+  $('#roster').innerHTML = CLASSES.map((c, i) => `<button type="button" class="hc go${i === 0 ? ' on' : ''}" data-c="${c.id}" style="--cc:${CCOL[c.id]}">
+    <picture><source type="image/avif" srcset="${artSet(c.id, 'avif')}" sizes="${ART_SIZES}"><source type="image/webp" srcset="${artSet(c.id, 'webp')}" sizes="${ART_SIZES}"><img src="${ROOT}assets/art/${c.id}-600.webp" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
+    <span class="vn" aria-hidden="true">${esc(c.n)}</span>
+    <span class="info"><b>${esc(c.n)}</b><span class="roles">${c.roles.filter(r => !r.endsWith('?')).map(r => `<span>${ri(r)}${ROLE_RU[r]}</span>`).join('')}</span><span class="d">${esc(DESC[c.id])}</span><span class="more">Відкрити в підборі</span></span>
+  </button>`).join('');
+}
+renderRoster();
+function activate(card) { if (!card || card.classList.contains('on')) return; document.querySelectorAll('.hc.on').forEach(x => x.classList.remove('on')); card.classList.add('on'); }
+$('#roster').addEventListener('mouseover', e => activate(e.target.closest('.hc')));
+$('#roster').addEventListener('focusin', e => activate(e.target.closest('.hc')));
 
-/* Countdown and date rail */
-const D0 = new Date('2026-09-17T00:00:00'), D1 = new Date('2026-12-09T00:00:00');
+/* Faction banners open the picker with that faction */
+document.querySelectorAll('.go-f').forEach(b => b.addEventListener('click', () => {
+  state.f = b.dataset.fac; syncSeg('segF', state.f); render();
+  document.getElementById('picker').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+}));
+
+/* Countdown and key dates */
 function renderCountdown() {
-  const now = new Date(), rel = new Date('2026-11-04T00:00:00'), raid = D1, r1 = new Date('2026-10-27T00:00:00');
+  const now = new Date(), rel = new Date('2026-11-04T00:00:00'), raid = new Date('2026-12-09T00:00:00'), r1 = new Date('2026-10-27T00:00:00');
   let target, what, sub;
-  if (now < rel) { target = rel; what = 'до релізу'; sub = 'WoW Forever виходить 04.11.2026'; }
+  if (now < rel) { target = rel; what = 'до релізу'; sub = now < r1 ? 'Резервування імен відкриється 27.10' : 'Резервування імен триває до 03.11'; }
   else if (now < raid) { target = raid; what = 'до рейдів'; sub = 'Рейди відкриваються 09.12.2026'; }
   if (target) {
     const ms = target - now, d = Math.floor(ms / 864e5), h = Math.floor(ms % 864e5 / 36e5), m = Math.floor(ms % 36e5 / 6e4);
     const p = x => String(x).padStart(2, '0');
-    const names = now < r1 ? 'Резервування імен відкриється 27.10' : (now < rel ? 'Резервування імен триває до 03.11' : '');
-    $('#cd').innerHTML = `<div class="u"><b>${d}</b><span>дн</span></div><div class="u"><b>${p(h)}</b><span>год</span></div><div class="u"><b>${p(m)}</b><span>хв</span></div>
-      <div class="what"><b>${what}</b><span>${sub}</span>${names ? `<span>${names}</span>` : ''}</div>`;
+    $('#cd').innerHTML = `<div class="units"><div class="u"><b>${d}</b><span>дн</span></div><div class="u"><b>${p(h)}</b><span>год</span></div><div class="u"><b>${p(m)}</b><span>хв</span></div></div>
+      <div class="what"><b>${what}</b><span>${sub}</span></div>`;
   } else {
     $('#cd').innerHTML = `<div class="what"><b>Рейди відкрито</b><span>Barrow Deeps, Hyjal Summit, Onyxia’s Lair</span></div>`;
   }
-  const k = Math.max(0, Math.min(1, (now - D0) / (D1 - D0)));
-  $('#railFill').style.width = (k * 100) + '%';
-  const nowEl = $('#railNow'); nowEl.hidden = now > D1; nowEl.style.left = (k * 100) + '%';
   let cur = null;
-  document.querySelectorAll('.rail li').forEach(li => { const past = new Date(li.dataset.d + 'T00:00:00') <= now; li.classList.toggle('past', past); li.classList.remove('cur'); if (!past && !cur) cur = li; });
+  document.querySelectorAll('.hdates li').forEach(li => { const past = new Date(li.dataset.d + 'T00:00:00') <= now; li.classList.toggle('past', past); li.classList.remove('cur'); if (!past && !cur) cur = li; });
   if (cur) cur.classList.add('cur');
 }
 renderCountdown();
 setInterval(renderCountdown, 30000);
-
 /* Group builder */
 const MAXT = 40, PARTY = 5;
 const SIZES = [5, 6, 8, 10, 15, 20, 25, 40];
@@ -1211,24 +1394,35 @@ $('#checkReset').onclick = () => { done = []; saveDone(); renderCheck(); };
 renderCheck();
 
 /* Theme toggle and language links */
-const themeBtn = $('#themeBtn');
-function paintTheme() { const t = document.documentElement.getAttribute('data-theme'); themeBtn.querySelector('use').setAttribute('href', t === 'light' ? '#i-moon' : '#i-sun'); const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#e9ebee' : '#060708'); }
-themeBtn.onclick = () => { const t = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light'; document.documentElement.setAttribute('data-theme', t); try { localStorage.setItem('wf-theme', t); } catch (e) {} paintTheme(); };
+const themeBtns = document.querySelectorAll('.themebtn');
+function paintTheme() { const t = document.documentElement.getAttribute('data-theme'); themeBtns.forEach(b => b.querySelector('use').setAttribute('href', t === 'light' ? '#i-moon' : '#i-sun')); const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#fbfaf7' : '#07080a'); }
+themeBtns.forEach(b => b.onclick = () => { const t = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light'; document.documentElement.setAttribute('data-theme', t); try { localStorage.setItem('wf-theme', t); } catch (e) {} paintTheme(); });
 paintTheme();
 document.querySelectorAll('.langs a').forEach(a => { a.addEventListener('click', () => { a.href = a.getAttribute('href').split('#')[0] + location.hash; }); });
 
-/* Table of contents: mobile drawer and current section */
-const dlg = $('#tocDlg');
-$('#tocM').innerHTML = $('#toc').innerHTML;
-$('#tocBtn').onclick = () => { if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', ''); };
-$('#tocClose').onclick = () => dlg.close();
-dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('a')) dlg.close(); });
+/* Top bar turns solid once the page is scrolled */
+const topbar = $('#topbar');
+let barTick = false;
+function paintBar() { topbar.classList.toggle('solid', window.scrollY > 24); barTick = false; }
+window.addEventListener('scroll', () => { if (!barTick) { barTick = true; requestAnimationFrame(paintBar); } }, { passive: true });
+paintBar();
+
+/* Menu sheet: all sections, language, theme */
+const dlg = $('#moreDlg');
+document.querySelectorAll('.menubtn, .morebtn').forEach(b => b.onclick = () => { if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', ''); });
+$('#moreClose').onclick = () => dlg.close();
+dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.toc a')) dlg.close(); });
+
+/* Current section in the top menu and the bottom tab bar */
 if ('IntersectionObserver' in window) {
-  const links = [...document.querySelectorAll('.toc a')];
+  const navLinks = [...document.querySelectorAll('.mainnav a')], tabLinks = [...document.querySelectorAll('.tabbar a')];
+  const mark = (links, href) => links.forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === href ? 'true' : 'false'));
   const io = new IntersectionObserver(es => es.forEach(en => {
-    if (en.isIntersecting) { const id = en.target.classList.contains('mast') ? '#top' : '#' + en.target.id; links.forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === id ? 'true' : 'false')); }
-  }), { rootMargin: '-20% 0px -70% 0px' });
-  document.querySelectorAll('.mast, section.block, footer#sources').forEach(s => io.observe(s));
+    if (!en.isIntersecting) return;
+    const t = en.target, nav = t.dataset.nav || ('#' + t.id);
+    mark(navLinks, nav); mark(tabLinks, t.dataset.tab || '#guides');
+  }), { rootMargin: '-45% 0px -50% 0px' });
+  document.querySelectorAll('.hero, section.block, section.gband, footer#sources').forEach(s => io.observe(s));
 }
 </script>
 </body>
