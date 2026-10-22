@@ -1,0 +1,193 @@
+"""Сборка гайдов: guide.src.html + content/guides.py -> guides/[slug/]index.html, en/…, uk/….
+Обвязка шаблона переводится через i18n/{ru,en,uk}.txt + i18n/guides.*.txt (строка в строку);
+тело подставляется ПОСЛЕ перевода — тексты гайдов уже на трёх языках, translate() их не видит.
+Запуск: python build_guides.py [--list]  (--list печатает русские фрагменты обвязки без перевода)"""
+import os, re, sys
+from html import escape
+
+import build
+from build import LANGS, SITE, page_dir, rel, localize, translate
+from build_tools import home_data
+from content.guides import GUIDES, HUB, NEWS
+
+HERE = build.HERE
+
+_ru, _en, _uk = (build.load(f'guides.{l}.txt') for l in LANGS)
+assert len(_ru) == len(_en) == len(_uk), (len(_ru), len(_en), len(_uk))
+build.T.update({r: (e, u) for r, e, u in zip(_ru, _en, _uk)})
+
+TIP = {'ru': 'Совет', 'en': 'Tip', 'uk': 'Порада'}
+THIS_PAGE = {'ru': 'Эта страница', 'en': 'This page', 'uk': 'Ця сторінка'}
+# Wide hero art; everything else is a class/race portrait cut at 360/600/896
+WIDTHS = {'hero_dawn': (960, 1440, 1920, 2560), 'hero_campfire': (960, 1600)}
+
+
+def L(x, lang):
+    return x[lang] if isinstance(x, dict) else x
+
+
+def E(x, lang):
+    return escape(L(x, lang), quote=True)
+
+
+def check_langs(obj, path=''):
+    """Paths of trilingual fields that miss a language (or are empty)."""
+    gaps = []
+    if isinstance(obj, dict):
+        if set(obj) & set(LANGS) and set(obj) <= set(LANGS):
+            gaps += [f'{path}.{l}' for l in LANGS if not obj.get(l)]
+        else:
+            for k, v in obj.items():
+                gaps += check_langs(v, f'{path}.{k}')
+    elif isinstance(obj, (list, tuple)):
+        for i, v in enumerate(obj):
+            gaps += check_langs(v, f'{path}[{i}]')
+    return gaps
+
+
+def art_sets(art, root, big=False):
+    """(avif srcset, webp srcset, fallback src). big: hero fallback = widest, else a tile-sized one."""
+    ws = WIDTHS.get(art, (360, 600, 896))
+    src = lambda ext: ', '.join(f'{root}assets/art/{art}-{w}.{ext} {w}w' for w in ws)
+    fb = ws[-1] if big else (ws[0] if art in WIDTHS else 600)
+    return src('avif'), src('webp'), f'{root}assets/art/{art}-{fb}.webp'
+
+
+def tile_links(tiles, lang, root):
+    out = []
+    for s in tiles:
+        avif, webp, img = art_sets(s['art'], root)
+        out.append(f'<a class="ttile" href="{root}{s["href"]}"><picture><source type="image/avif" srcset="{avif}" sizes="320px">'
+                   f'<img src="{img}" srcset="{webp}" sizes="320px" alt="" loading="lazy" decoding="async"></picture>'
+                   f'<b>{E(s["t"], lang)}</b><span>{E(s["d"], lang)}</span></a>')
+    return ''.join(out)
+
+
+def render_block(kind, data, lang, root):
+    if kind == 'text':
+        return ''.join(f'<p>{E(p, lang)}</p>' for p in data)
+    if kind == 'steps':
+        cards = ''.join(f'<li><span class="n">{i:02d}</span><div><b>{E(s["t"], lang)}</b><p>{E(s["d"], lang)}</p></div></li>'
+                        for i, s in enumerate(data, 1))
+        return f'<ol class="steps-c">{cards}</ol>'
+    if kind == 'tiles':
+        return f'<div class="ttiles gtiles">{tile_links(data, lang, root)}</div>'
+    if kind == 'table':
+        head = [E(h, lang) for h in data['head']]
+        th = ''.join(f'<th scope="col">{h}</th>' for h in head)
+        rows = ''.join('<tr>' + ''.join(f'<td data-l="{h}">{E(c, lang)}</td>' for h, c in zip(head, r)) + '</tr>'
+                       for r in data['rows'])
+        return f'<table class="gtable"><thead><tr>{th}</tr></thead><tbody>{rows}</tbody></table>'
+    if kind == 'tabs':
+        btns = ''.join(f'<button type="button" class="pill" role="tab" data-tab="{x["id"]}" aria-selected="{"true" if i == 0 else "false"}">'
+                       f'{E(x["t"], lang)}</button>' for i, x in enumerate(data))
+        panels = ''.join(f'<div role="tabpanel" data-tab="{x["id"]}"{"" if i == 0 else " hidden"}>'
+                         + ''.join(render_block(k, d, lang, root) for k, d in x['blocks']) + '</div>'
+                         for i, x in enumerate(data))
+        return f'<div class="gtabs"><div role="tablist">{btns}</div>{panels}</div>'
+    if kind == 'faq':
+        items = ''.join(f'<details id="{q["id"]}"><summary>{E(q["q"], lang)}</summary>'
+                        + ''.join(f'<p>{E(a, lang)}</p>' for a in q['a']) + '</details>' for q in data)
+        return f'<div class="gfaq">{items}</div>'
+    if kind == 'tip':
+        return (f'<div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg>'
+                f'<p><span class="tl">{TIP[lang]}</span>{E(data, lang)}</p></div>')
+    if kind == 'raw':
+        return L(data, lang)
+    raise ValueError(f'unknown block {kind!r}')
+
+
+def render_guide(g, lang, root):
+    toc = ''.join(f'<a href="#{s["id"]}">{E(s["title"], lang)}</a>' for s in g['sections'])
+    body = '\n'.join(f'<section class="frame gsec" id="{s["id"]}"><h2>{E(s["title"], lang)}</h2>'
+                     + ''.join(render_block(k, d, lang, root) for k, d in s['blocks']) + '</section>'
+                     for s in g['sections'])
+    return toc, body
+
+
+def guide_tiles(guides):
+    return [{'t': x['title'], 'd': x['tile'], 'href': f'guides/{x["slug"]}/', 'art': x['art']} for x in guides]
+
+
+def hub_body(lang, root):
+    return '', f'<section class="frame gsec" id="all">{render_block("tiles", guide_tiles(GUIDES), lang, root)}</section>'
+
+
+JS = {}   # slug -> JS живой части; наполняется в задачах 3, 5, 7, 8, 9
+
+
+def build_page(g, lang, tpl, base_css, sprite, src):
+    sub = g.get('path') or (f'guides/{g["slug"]}/' if g['slug'] else 'guides/')   # path: разделы classes/, races/ (Task 8)
+    here = page_dir(lang, sub)
+    html = tpl.replace('@@BASE_CSS@@', base_css).replace('@@SPRITE@@', sprite)
+    html, missing = translate(html, lang)                       # 1) обвязка
+    root = rel(here, page_dir(lang))
+    toc, body = render_guide(g, lang, root) if g['slug'] else hub_body(lang, root)
+    others = [x for x in GUIDES if x['slug'] != g['slug']] if g['slug'] else []
+    more = tile_links(guide_tiles(others), lang, root)
+    avif, webp, img = art_sets(g['art'], '@@ROOT@@', big=True)
+    crumb = (f'<a href="{root}guides/">{E(HUB["title"], lang)}</a><span aria-hidden="true">/</span><span>{E(g["title"], lang)}</span>'
+             if g['slug'] else f'<span>{E(g["title"], lang)}</span>')
+    toc_grp = f'<div class="grp"><div class="gh">{THIS_PAGE[lang]}</div>{toc}</div>' if toc else ''
+    js = g.get('js')
+    rep = {
+        'TITLE': E(g['title'], lang), 'LEAD': E(g['lead'], lang), 'CRUMB': crumb,
+        'PILLS': ''.join(f'<span class="pill">{E(p, lang)}</span>' for p in g.get('pills', [])),
+        'ART_AVIF': avif, 'ART_WEBP': webp, 'ART_IMG': img, 'TOC': toc, 'TOC_GRP': toc_grp, 'BODY': body, 'MORE': more,
+        'SOLO': '' if toc else ' solo',
+        'SOURCES': ''.join(f'<li><a href="{u}" target="_blank" rel="noopener">{escape(n)}</a></li>' for n, u in g.get('sources', [])),
+        'UPDATED': g.get('updated', HUB.get('updated', '')),
+        'JS': (((home_data(src) + '\n') if js in ('dungeons', 'professions') else '') + JS[js]) if js else '',
+    }
+    for k, v in rep.items():                                     # 2) тело
+        html = html.replace(f'@@{k}@@', v)
+    if not others:
+        html = html.replace('<section id="more">', '<section id="more" hidden>')
+    html = html.replace('@@GUIDES@@', rel(here, page_dir(lang, 'guides/')))
+    html = html.replace('@@HOME@@', root)
+    for l in LANGS:
+        html = html.replace(f'@@{l.upper()}@@', rel(here, page_dir(l, sub)))
+        html = html.replace(f'@@CUR_{l.upper()}@@', 'true' if l == lang else 'false')
+    html = html.replace('@@CANON@@', SITE + here)
+    alt = '\n'.join(f'<link rel="alternate" hreflang="{l}" href="{SITE}{page_dir(l, sub)}">' for l in LANGS)
+    alt += f'\n<link rel="alternate" hreflang="x-default" href="{SITE}{sub}">'
+    html = html.replace('@@ALTERNATES@@', alt)
+    html = localize(html, lang, here)
+    if lang != 'ru':
+        html = html.replace('assets/og.png', f'assets/og-{lang}.png')
+    return here + 'index.html', html, missing
+
+
+def main():
+    gaps = check_langs(HUB, 'HUB') + [p for g in GUIDES for p in check_langs(g, g['slug'])] + check_langs(NEWS, 'NEWS')
+    assert not gaps, gaps[:10]
+    src = open(os.path.join(HERE, 'index.src.html'), encoding='utf-8').read()
+    tpl = open(os.path.join(HERE, 'guide.src.html'), encoding='utf-8').read()
+    base_css = src[src.index('<style>') + 7:src.index('</style>')].strip('\n')
+    s0 = src.index('<svg width="0" height="0"')
+    sprite = src[s0:src.index('</svg>', s0) + 6]
+
+    pages, allmissing = [], []
+    for lang in LANGS:
+        for g in [HUB] + GUIDES:
+            path, html, missing = build_page(g, lang, tpl, base_css, sprite, src)
+            assert '@@' not in html, (path, re.findall(r'@@\w+@@', html)[:5])
+            pages.append((path, html))
+            allmissing += missing
+
+    listing = '--list' in sys.argv
+    if not listing:
+        for path, html in pages:
+            full = os.path.join(HERE, path)
+            os.makedirs(os.path.dirname(full), exist_ok=True)
+            open(full, 'w', encoding='utf-8', newline='\n').write(html)
+    uniq = list(dict.fromkeys(allmissing))
+    if listing:
+        print('\n'.join(uniq))
+    print(f'guides: {len(pages)}, missing: {len(uniq)}', file=sys.stderr)
+    if uniq and not listing:
+        sys.exit(1)
+
+
+if __name__ == '__main__':
+    main()

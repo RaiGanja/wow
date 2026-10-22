@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>@@TITLE@@ · Гид WoW Forever</title>
+<meta name="description" content="@@LEAD@@">
+<meta name="theme-color" content="#060708">
+@@ALTERNATES@@
+<script>(function(){var t=null;try{t=localStorage.getItem('wf-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}document.documentElement.setAttribute('data-theme',t)})();</script>
+<link rel="canonical" href="@@CANON@@">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:site_name" content="Gabella Team">
+<meta property="og:title" content="@@TITLE@@ · WoW Forever">
+<meta property="og:description" content="@@LEAD@@">
+<meta property="og:url" content="@@CANON@@">
+<meta property="og:image" content="https://raiganja.github.io/wow/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230a0b0d'/%3E%3Ctext x='32' y='34' text-anchor='middle' dominant-baseline='central' font-family='Georgia,serif' font-size='44' font-weight='700' fill='%23c9a54a'%3EG%3C/text%3E%3C/svg%3E">
+<link rel="preload" href="@@ROOT@@assets/fonts/forum-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="@@ROOT@@assets/fonts/golos-text-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@@BASE_CSS@@
+/* Guide pages: hero over art, sticky contents left, frames right; tables become cards on phones */
+.ghero { padding-top: calc(var(--top) + 64px); min-height: 440px; display: flex; align-items: flex-end; }
+.ghero .wrap { width: 100%; gap: 14px; }
+.ghero .crumbs { display: flex; flex-wrap: wrap; gap: 6px 10px; font-size: .9rem; color: var(--muted); }
+.ghero .crumbs a { color: var(--muted); text-decoration: none; }
+.ghero .crumbs a:hover { color: var(--fg); text-decoration: underline; }
+.ghero h1 { font-size: clamp(2.6rem, 6vw, 4.6rem); line-height: .98; }
+.glead { max-width: 60ch; font-size: clamp(1.02rem, 1.4vw, 1.15rem); opacity: .88; }
+.pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.pills:empty { display: none; }
+.gbody { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 28px; align-items: start; padding-top: 20px; }
+.gbody.solo { grid-template-columns: minmax(0, 1fr); }
+.gbody.solo .gtoc { display: none; }
+.gtoc { position: sticky; top: calc(var(--top) + 16px); display: flex; flex-direction: column; gap: 2px; padding: 12px; }
+.gtoc a { padding: 9px 12px; border-radius: 7px; color: var(--muted); text-decoration: none; font-size: .95rem; }
+.gtoc a:hover { color: var(--fg); }
+.gtoc a[aria-current="true"] { background: var(--panel-2); color: var(--fg); }
+.gmain { display: flex; flex-direction: column; gap: 24px; min-width: 0; }
+.gsec { padding: 22px 24px; display: grid; gap: 16px; scroll-margin-top: calc(var(--top) + 16px); }
+.gsec > h2 { margin: 0; font-size: 1.9rem; }
+.gsec p { max-width: 72ch; }
+.gtiles { padding: 0; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+nav.gtiles { padding: 14px; }
+.gtable { width: 100%; border-collapse: separate; border-spacing: 0 6px; font-size: .95rem; }
+.gtable th { text-align: left; font-weight: 600; font-size: .85rem; color: var(--muted); padding: 2px 12px; }
+.gtable td { background: var(--panel-2); padding: 11px 12px; border-block: 1px solid var(--pline); }
+.gtable td:first-child { border-radius: 8px 0 0 8px; border-left: 1px solid var(--pline); font-weight: 600; }
+.gtable td:last-child { border-radius: 0 8px 8px 0; border-right: 1px solid var(--pline); }
+.gtabs [role="tablist"] { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.gtabs [role="tab"] { min-height: 38px; padding: 0 14px; cursor: pointer; font: inherit; font-weight: 600; }
+.gtabs [role="tab"][aria-selected="true"] { background: #c9a54a; border-color: #c9a54a; color: #15110a; }
+.gtabs [role="tabpanel"] { display: grid; gap: 14px; }
+.gtabs [role="tabpanel"][hidden] { display: none; }
+.gfaq { display: grid; gap: 8px; }
+.gfaq details { background: var(--panel-2); border: 1px solid var(--pline); border-radius: 8px; padding: 12px 16px; scroll-margin-top: calc(var(--top) + 16px); }
+.gfaq details[open] { border-color: color-mix(in srgb, var(--gold) 45%, transparent); }
+.gfaq details[hidden] { display: none; }
+.gfaq summary { cursor: pointer; font-weight: 600; min-height: 26px; }
+.gfaq details p { margin-top: 10px; }
+.gsearch { display: flex; align-items: center; min-height: 52px; padding: 0 16px; border: 1px solid var(--pline); border-radius: 8px; background: var(--panel-2); }
+.gsearch:focus-within { border-color: var(--gold); }
+.gsearch input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; color: var(--fg); font: inherit; font-size: 1.05rem; min-height: 48px; }
+.gsearch input::placeholder { color: var(--muted); }
+#more { margin-top: 56px; }
+#more .sec-head { margin-bottom: 14px; }
+@media (max-width: 1023px) {
+  .gbody { grid-template-columns: minmax(0, 1fr); }
+  .gtoc { display: none; }
+  .tabbar.g4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 719px) {
+  .ghero { min-height: 360px; padding-top: calc(var(--top) + 36px); }
+  .gsec { padding: 18px 16px; }
+  .gsec > h2 { font-size: 1.6rem; }
+  .steps-c { grid-template-columns: minmax(0, 1fr); }
+  .gtable thead { display: none; }
+  .gtable, .gtable tbody, .gtable tr, .gtable td { display: block; width: 100%; }
+  .gtable tr { background: var(--panel-2); border: 1px solid var(--pline); border-radius: 10px; padding: 8px 0; margin-bottom: 8px; }
+  .gtable td { background: none; padding: 4px 14px; border: 0 !important; border-radius: 0 !important; }
+  .gtable td::before { content: attr(data-l); display: block; font-size: .78rem; font-weight: 400; color: var(--muted); }
+}
+</style>
+</head>
+<body>
+@@SPRITE@@
+
+<header class="topbar" id="topbar"><div class="in">
+  <a class="brand" href="@@HOME@@" aria-label="Gabella Team, на главную"><span class="mark" aria-hidden="true">G</span><b>Gabella Team</b></a>
+  <nav class="mainnav" aria-label="Разделы">
+    <a href="@@HOME@@#factions">Фракции</a><a href="@@HOME@@#classes">Классы</a><a href="@@HOME@@#peoples">Расы</a><a href="@@HOME@@#picker">Подборщик</a><a href="@@HOME@@#builder">Группа</a><a href="@@GUIDES@@" aria-current="true">Гайды</a><a href="@@HOME@@tools/">Инструменты</a>
+  </nav>
+  <div class="tools">
+    <div class="langs" role="group" aria-label="Язык"><a href="@@RU@@" data-lang="ru" hreflang="ru" lang="ru" aria-current="@@CUR_RU@@">RU</a><a href="@@EN@@" data-lang="en" hreflang="en" lang="en" aria-current="@@CUR_EN@@">EN</a><a href="@@UK@@" data-lang="uk" hreflang="uk" lang="uk" aria-current="@@CUR_UK@@">UK</a></div>
+    <button class="iconbtn themebtn" type="button" aria-label="Переключить тему" title="Переключить тему"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></button>
+    <button class="iconbtn menubtn" type="button" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg><span>Разделы</span></button>
+  </div>
+</div></header>
+
+<section class="stband ghero" id="top">
+  <picture class="stband-art" aria-hidden="true"><source type="image/avif" srcset="@@ART_AVIF@@" sizes="100vw"><img src="@@ART_IMG@@" srcset="@@ART_WEBP@@" sizes="100vw" alt="" decoding="async" fetchpriority="high"></picture>
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Навигация"><a href="@@HOME@@">Гид</a><span aria-hidden="true">/</span>@@CRUMB@@</nav>
+    <h1>@@TITLE@@</h1>
+    <p class="glead">@@LEAD@@</p>
+    <div class="pills">@@PILLS@@</div>
+  </div>
+</section>
+
+<main class="wrap gbody@@SOLO@@">
+  <nav class="gtoc frame" aria-label="Разделы гайда">@@TOC@@</nav>
+  <div class="gmain">
+@@BODY@@
+  </div>
+</main>
+
+<div class="wrap">
+<section id="more"><div class="sec-head"><h2>Другие гайды</h2></div><nav class="frame ttiles gtiles" aria-label="Другие гайды">@@MORE@@</nav></section>
+<footer id="sources">
+  <h2>Источники</h2>
+  <ul>@@SOURCES@@</ul>
+  <p>Обновлено @@UPDATED@@. Данные по закрытой бете, до релиза могут измениться.</p>
+  <p>Страница сделана для сервера Gabella Team и не связана с Blizzard Entertainment. World of Warcraft — товарный знак Blizzard.</p>
+</footer>
+</div>
+
+<nav class="tabbar g4" aria-label="Быстрые разделы">
+  <a href="@@HOME@@"><svg class="ico" aria-hidden="true"><use href="#i-home"/></svg>Главная</a>
+  <button type="button" class="morebtn" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg>Разделы</button>
+  <a href="@@HOME@@tools/"><svg class="ico" aria-hidden="true"><use href="#i-grid"/></svg>Инструменты</a>
+  <a href="@@GUIDES@@" aria-current="true"><svg class="ico" aria-hidden="true"><use href="#i-book"/></svg>Гайды</a>
+</nav>
+
+<dialog class="sheet" id="moreDlg" aria-label="Все разделы">
+  <div class="dh"><b>Все разделы</b><button class="iconbtn" id="moreClose" type="button" aria-label="Закрыть"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
+  <nav class="toc" aria-label="Все разделы">
+    @@TOC_GRP@@
+    <div class="grp"><div class="gh">Гид</div><a href="@@HOME@@">Главная</a><a href="@@HOME@@#classes">Классы</a><a href="@@HOME@@#peoples">Расы</a><a href="@@HOME@@#picker">Подборщик</a><a href="@@HOME@@#builder">Конструктор группы</a><a href="@@HOME@@tools/">Инструменты</a><a href="@@GUIDES@@">Гайды</a></div>
+  </nav>
+  <div class="opts">
+    <div class="langs" role="group" aria-label="Язык"><a href="@@RU@@" data-lang="ru" hreflang="ru" lang="ru" aria-current="@@CUR_RU@@">RU</a><a href="@@EN@@" data-lang="en" hreflang="en" lang="en" aria-current="@@CUR_EN@@">EN</a><a href="@@UK@@" data-lang="uk" hreflang="uk" lang="uk" aria-current="@@CUR_UK@@">UK</a></div>
+    <button class="iconbtn themebtn" type="button" aria-label="Переключить тему"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg><span>Тема</span></button>
+  </div>
+  <p class="meta">Данные на 23.10.2026, закрытая бета, патч от 15.10.2026.</p>
+</dialog>
+
+<script>
+const $ = s => document.querySelector(s);
+const ROOT = '@@ROOT@@', HOME = '@@HOME@@';
+function esc(s) { return String(s).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])); }
+
+/* ---------- Page chrome ---------- */
+const themeBtns = document.querySelectorAll('.themebtn');
+function paintTheme() { const t = document.documentElement.getAttribute('data-theme'); themeBtns.forEach(b => b.querySelector('use').setAttribute('href', t === 'light' ? '#i-moon' : '#i-sun')); const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#fbfaf7' : '#07080a'); }
+themeBtns.forEach(b => b.onclick = () => { const t = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light'; document.documentElement.setAttribute('data-theme', t); try { localStorage.setItem('wf-theme', t); } catch (e) {} paintTheme(); });
+paintTheme();
+const topbar = $('#topbar');
+let barTick = false;
+function paintBar() { topbar.classList.toggle('solid', window.scrollY > 24); barTick = false; }
+window.addEventListener('scroll', () => { if (!barTick) { barTick = true; requestAnimationFrame(paintBar); } }, { passive: true });
+paintBar();
+const dlg = $('#moreDlg');
+document.querySelectorAll('.menubtn, .morebtn').forEach(b => b.onclick = () => { if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', ''); });
+$('#moreClose').onclick = () => dlg.close();
+dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.toc a')) dlg.close(); });
+
+/* Guides: tabs, contents highlight; live parts switch on per page */
+document.querySelectorAll('.gtabs').forEach(box => {
+  const btns = box.querySelectorAll('[role="tab"]'), panels = box.querySelectorAll('[role="tabpanel"]');
+  btns.forEach(b => b.addEventListener('click', () => {
+    btns.forEach(x => x.setAttribute('aria-selected', x === b));
+    panels.forEach(p => p.hidden = p.dataset.tab !== b.dataset.tab);
+  }));
+});
+const tocLinks = [...document.querySelectorAll('.gtoc a')];
+if ('IntersectionObserver' in window && tocLinks.length) {
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) tocLinks.forEach(a => a.setAttribute('aria-current', a.hash === '#' + e.target.id));
+  }), { rootMargin: '-40% 0px -55% 0px' });
+  document.querySelectorAll('.gsec').forEach(s => io.observe(s));
+}
+@@JS@@
+</script>
+</body>
+</html>

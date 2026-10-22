@@ -322,6 +322,8 @@ def main():
 
     import build_tools  # the tools page has its own builder and translations
     build_tools.main()
+    import build_guides  # guides: own builder, texts already in three languages
+    build_guides.main()
 
 
 if __name__ == '__main__':
