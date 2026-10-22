@@ -130,7 +130,7 @@ def render_class(c, races, lang):
         keys = ''.join(f'<li><div>{name(ru, en)}</div><span class="d">{esc(d)}</span></li>' for ru, en, d in s['keys'])
         panels.append(f'<div class="spanel" role="tabpanel" id="spec-{k}" aria-labelledby="tab-{k}" tabindex="0"{"" if on else " hidden"}>'
                       f'<div class="about"><p class="what">{"".join(ri(r) for r in s["roles"])}{esc(s["what"])}</p><p class="style">{esc(s["style"])}</p>'
-                      f'<p class="note tipn"><span class="mk tip">совет</span>{esc(s["tip"])}</p></div>'
+                      f'<div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>{esc(s["tip"])}</p></div></div>'
                       f'<ul class="keys" aria-label="Ключевые способности">{keys}</ul></div>')
     news = ''.join(f'<li>{esc(x)}</li>' for x in c['news'])
     side = []
