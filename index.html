@@ -381,7 +381,7 @@ ul.dots li::marker { color: var(--gold); }
 
 /* Picker */
 .tool { padding: 24px; display: grid; gap: 18px; }
-.matrix-box { overflow-x: auto; }
+.matrix-box { overflow-x: auto; padding-top: 8px; }
 table { border-collapse: separate; border-spacing: 0; width: 100%; }
 /* Round portrait avatar with a ring in the class or faction colour */
 .av { --s: 40px; position: relative; width: var(--s); height: var(--s); flex: none; display: inline-block; border-radius: 50%; background: #0b0d12; box-shadow: 0 0 0 2px var(--ring-gap, var(--panel)), 0 0 0 3.5px var(--cc, var(--pline)); }
@@ -974,7 +974,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
       <a class="gt" href="#legacy"><picture><source type="image/avif" srcset="./assets/art/priest-360.avif 360w, ./assets/art/priest-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="./assets/art/priest-360.webp" srcset="./assets/art/priest-360.webp 360w, ./assets/art/priest-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Legacy</b><span>Очки на весь аккаунт, перки и награды</span></a>
       <a class="gt" href="#camp"><picture><source type="image/avif" srcset="./assets/art/hero_campfire-960.avif"><img src="./assets/art/hero_campfire-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Лагерь и профессии</b><span>Костёр, объекты профессий и баффы</span></a>
       <a class="gt" href="#dungeons"><picture><source type="image/avif" srcset="./assets/art/warlock-360.avif 360w, ./assets/art/warlock-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="./assets/art/warlock-360.webp" srcset="./assets/art/warlock-360.webp 360w, ./assets/art/warlock-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Подземелья и рейды</b><span>Все 35 подземелий по уровням и 3 рейда</span></a>
-      <a class="gt" href="#group"><picture><source type="image/avif" srcset="./assets/art/paladin-360.avif 360w, ./assets/art/paladin-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="./assets/art/paladin-360.webp" srcset="./assets/art/paladin-360.webp 360w, ./assets/art/paladin-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Состав группы</b><span>Факты и советы для компании из 6–8 человек</span></a>
+      <a class="gt" href="#group"><picture><source type="image/avif" srcset="./assets/art/paladin-360.avif 360w, ./assets/art/paladin-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="./assets/art/paladin-360.webp" srcset="./assets/art/paladin-360.webp 360w, ./assets/art/paladin-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Состав группы</b><span>Факты и советы для группы любого размера</span></a>
       <a class="gt" href="#era"><picture><source type="image/avif" srcset="./assets/art/mage-360.avif 360w, ./assets/art/mage-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="./assets/art/mage-360.webp" srcset="./assets/art/mage-360.webp 360w, ./assets/art/mage-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Отличия от Era</b><span>Что нового по сравнению с Classic</span></a>
     </nav>
   </div>
@@ -1133,25 +1133,28 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </section>
 
 <section class="block wrap" id="group" data-nav="#guides">
-  <div class="sec-head"><h2>Состав для компании из 6–8 человек</h2><p>Ниже факты из источников и наши рекомендации. Рекомендации помечены отдельно, это не официальные данные.</p></div>
+  <div class="sec-head"><h2>Состав группы</h2><p>Ниже факты из источников и наши рекомендации. Рекомендации помечены отдельно, это не официальные данные.</p></div>
   <div class="grid2">
     <div class="panel">
       <h3>Что известно</h3>
       <ul class="dots">
         <li>Подземелья рассчитаны на 5 игроков: танк, лекарь, трое с уроном.</li>
-        <li>Рейды на 10, 20 и 40 игроков. Из шести-восьми друзей 10-местный Barrow Deeps соберётся с одним-двумя знакомыми из гильдии.</li>
+        <li>Рейды на 10, 20 и 40 игроков. Если своих меньше, недостающих добирают из гильдии.</li>
         <li>Танковать могут Воин, Паладин и Друид, лечить Паладин, Жрец, Шаман и Друид.</li>
-        <li>Паладин и Друид умеют все три роли. Это самая гибкая пара для небольшой компании.</li>
+        <li>Паладин и Друид умеют все три роли. Это самые гибкие классы, когда игроков мало.</li>
         <li>Группа и рейд получают баффы классов: Королей от паладина, тотемы шамана, Боевой крик воина, ауры охотника и друида. Порталы, еду и воду делает маг.</li>
       </ul>
     </div>
     <div class="panel tipp">
       <h3 class="tiph"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg>Рекомендация составителя</h3>
       <ul class="dots">
-        <li><b>На 6:</b> Воин или Паладин (Защита) в танка, Жрец или Паладин (Свет) в лекаря, четверо в урон: Маг, Охотник, Разбойник, Чернокнижник.</li>
-        <li><b>На 8:</b> два танка-гибрида (Паладин, Друид), два лекаря (Жрец плюс Шаман или Друид), в урон Маг, Охотник, Чернокнижник и Шаман. Тогда можно собрать две группы по 4–5 игроков или одну на 5 и менять роли.</li>
+        <li><b>Соло:</b> легче всего Охотнику и Чернокнижнику, у них питомец держит врага. Паладин и Друид тоже живучи и в подземелье пойдут на любую роль.</li>
+        <li><b>2–4 игрока:</b> пусть хотя бы один умеет танковать или лечить (Воин, Паладин, Друид, Жрец, Шаман), остальных до пяти добирайте в подземелье.</li>
+        <li><b>5 игроков:</b> танк, лекарь и трое в урон, например Воин, Жрец, Маг, Охотник и Разбойник.</li>
+        <li><b>6–9 игроков:</b> две группы для подземелий, в каждой нужны свой танк и лекарь. Тут особенно ценны гибриды: Паладин, Друид, Шаман.</li>
+        <li><b>10 и больше:</b> хватает на 10-местный рейд Barrow Deeps: два танка, два-три лекаря, остальные в урон.</li>
         <li>Берите разные классы: баффы разных классов складываются, а одинаковые перекрываются.</li>
-        <li>Один из вас берёт Кулинарию ради костра на 10 объектов, остальные по профессии под баффы лагеря. С 4 ноября по 9 декабря прокачайтесь вместе по подземельям.</li>
+        <li>Кто-то в группе берёт Кулинарию ради костра на 10 объектов, остальные по профессии под баффы лагеря. С 4 ноября по 9 декабря прокачайтесь вместе по подземельям.</li>
         <li>Займите имена в окне 27.10 – 03.11, если у вас есть набор, и заранее решите, кто за какой класс, чтобы не дублироваться.</li>
       </ul>
     </div>
@@ -1867,7 +1870,7 @@ const STAGES = [
       ['t', 'Держите в группе Кулинарию 220 ради лагеря на 10 объектов: к рейду места хватит всем.']],
     legacy: [['f', 'На персонажа не больше 16 очков, лишние идут в трек наград: игрушка за 15, питомец за 25, табард за 40, скакун за 55.']],
     group: [['f', 'Рейды откроются 09.12: Barrow Deeps на 10 игроков, Hyjal Summit на 20, Onyxia’s Lair на 40.'],
-      ['t', 'Для 10-местного рейда компании из 6–8 человек нужны ещё 1–2 игрока: найдите их в гильдии заранее.']],
+      ['t', 'Для 10-местного рейда нужно 10 игроков: если вас меньше, найдите недостающих в гильдии заранее.']],
     src: ['ride', 'prof', 'legacy', 'cwg'] },
   { id: 'raid', n: '60 и рейды', sub: 'с 09.12', lo: 60, hi: 60,
     todo: [['f', '09.12 открываются Barrow Deeps (10 игроков), Hyjal Summit (20) и Onyxia’s Lair (40, Dustwallow Marsh).'],
