@@ -216,6 +216,7 @@ section.block { scroll-margin-top: -72px; }
 
 /* Art tiles with the title on the picture: tools and guides */
 .ttiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding: 14px; }
+.ttiles.t4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .ttile, .gt { position: relative; isolation: isolate; overflow: hidden; min-height: 210px; padding: 0 18px 16px; display: grid; align-content: end; gap: 3px; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; background: #0b0d12; color: #f3efe6; text-decoration: none; transition: border-color .2s; }
 .ttile picture, .ttile img, .gt picture, .gt img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .ttile picture, .gt picture { z-index: -2; }
@@ -564,6 +565,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .mainnav { display: none; }
   .menubtn { display: inline-grid; }
   .gtiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ttiles.t4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 1023px) {
   .roster { height: auto; overflow-x: auto; scroll-snap-type: x mandatory; gap: 10px; padding: 12px; scroll-padding: 0 12px; scrollbar-width: none; overscroll-behavior-x: contain; }
@@ -584,7 +586,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .summary, .me { position: static; }
   .stiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .factions { grid-template-columns: 1fr; }
-  .ttiles { grid-template-columns: 1fr; }
+  .ttiles, .ttiles.t4 { grid-template-columns: 1fr; }
   .ttile { min-height: 160px; }
 }
 @media (max-width: 860px) {
@@ -704,7 +706,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="#top" aria-label="Gabella Team, на початок сторінки"><span class="mark" aria-hidden="true">G</span><b>Gabella Team</b></a>
   <nav class="mainnav" aria-label="Розділи">
-    <a href="#stages">Етапи</a><a href="#factions">Фракції</a><a href="#classes">Класи</a><a href="#peoples">Раси</a><a href="#picker">Підбирач</a><a href="#builder">Група</a><a href="#guides">Гайди</a>
+    <a href="#stages">Етапи</a><a href="#factions">Фракції</a><a href="#classes">Класи</a><a href="#peoples">Раси</a><a href="#picker">Підбирач</a><a href="#builder">Група</a><a href="#guides">Гайди</a><a href="tools/">Інструменти</a>
   </nav>
   <div class="tools">
     <div class="langs" role="group" aria-label="Мова"><a href="../" data-lang="ru" hreflang="ru" lang="ru" aria-current="false">RU</a><a href="../en/" data-lang="en" hreflang="en" lang="en" aria-current="false">EN</a><a href="./" data-lang="uk" hreflang="uk" lang="uk" aria-current="true">UK</a></div>
@@ -802,11 +804,12 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </section>
 
 <section class="block wrap" id="tools" data-nav="#picker" data-tab="#builder">
-  <div class="sec-head"><h2>Інструменти</h2><p>Підбір раси й класу, збір групи на будь-яку кількість гравців і чек-лист до старту. Посиланням на склад можна поділитися в чаті.</p></div>
-  <nav class="frame ttiles" aria-label="Інструменти">
+  <div class="sec-head"><h2>Інструменти</h2><p>Підбір раси та класу, збір групи, чек-лист до старту, а на окремій сторінці рамки рейду як у грі, порівняння та пошук по гіду. Посиланням на склад можна поділитися в чаті.</p></div>
+  <nav class="frame ttiles t4" aria-label="Інструменти">
     <a class="ttile" href="#picker"><picture><source type="image/avif" srcset="../assets/art/druid-360.avif 360w, ../assets/art/druid-600.avif 600w" sizes="(max-width: 980px) 100vw, 400px"><source type="image/webp" srcset="../assets/art/druid-360.webp 360w, ../assets/art/druid-600.webp 600w" sizes="(max-width: 980px) 100vw, 400px"><img src="../assets/art/druid-600.webp" alt="" loading="lazy" decoding="async"></picture><b>Підбір раси й класу</b><span id="qPick">Усі поєднання і що вміє кожне</span></a>
     <a class="ttile" href="#builder"><picture><source type="image/avif" srcset="../assets/art/hero_campfire-960.avif"><img src="../assets/art/hero_campfire-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Конструктор групи</b><span id="qTeam">Від одного до сорока гравців</span></a>
     <a class="ttile" href="#checklist"><picture><source type="image/avif" srcset="../assets/art/hero_dawn-960.avif"><img src="../assets/art/hero_dawn-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Чек-лист перед стартом</b><span id="qCheck">Імена, професії, дні, підписка</span></a>
+    <a class="ttile" href="tools/"><picture><source type="image/avif" srcset="../assets/art/paladin-600.avif"><img src="../assets/art/paladin-600.webp" alt="" loading="lazy" decoding="async"></picture><b>Рамки, порівняння, пошук</b><span>Рейдова сітка як у грі, класи й раси поруч</span></a>
   </nav>
 
 </section>
@@ -1118,7 +1121,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <div class="dh"><b>Усі розділи</b><button class="iconbtn" id="moreClose" type="button" aria-label="Закрити"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Усі розділи">
     <div class="grp"><div class="gh">Головна</div><a href="#top">Огляд</a><a href="#stages">Де ти зараз</a><a href="#factions">Фракції</a><a href="#classes">Класи</a><a href="#peoples">Раси</a></div>
-    <div class="grp"><div class="gh">Інструменти</div><a href="#picker">Підбирач</a><a href="#builder">Конструктор групи</a><a href="#checklist">Чек-лист</a></div>
+    <div class="grp"><div class="gh">Інструменти</div><a href="#picker">Підбирач</a><a href="#builder">Конструктор групи</a><a href="#checklist">Чек-лист</a><a href="tools/">Рамки, порівняння, пошук</a></div>
     <div class="grp"><div class="gh">Довідник</div><a href="#dates">Дати й набори</a><a href="#classref">Класи докладно</a><a href="#races">Раси</a><a href="#legacy">Legacy</a><a href="#camp">Табір і професії</a><a href="#dungeons">Підземелля та рейди</a><a href="#group">Склад групи</a><a href="#era">Відмінності від Era</a><a href="#sources">Джерела</a></div>
   </nav>
   <div class="opts">

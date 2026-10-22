@@ -320,6 +320,9 @@ def main():
     if uniq and not listing:
         sys.exit(1)
 
+    import build_tools  # the tools page has its own builder and translations
+    build_tools.main()
+
 
 if __name__ == '__main__':
     main()
