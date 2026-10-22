@@ -1,0 +1,671 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Инструменты WoW Forever: гид Gabella Team</title>
+<meta name="description" content="Поиск по гиду, рамки группы и рейдовая сетка как в игре, сравнение классов и рас WoW Forever. Данные на 23.10.2026.">
+<meta name="theme-color" content="#060708">
+@@ALTERNATES@@
+<script>(function(){var t=null;try{t=localStorage.getItem('wf-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}document.documentElement.setAttribute('data-theme',t)})();</script>
+<link rel="canonical" href="@@CANON@@">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:site_name" content="Gabella Team">
+<meta property="og:title" content="Инструменты WoW Forever">
+<meta property="og:description" content="Рамки группы и рейда, сравнение классов и рас, поиск по гиду.">
+<meta property="og:url" content="@@CANON@@">
+<meta property="og:image" content="https://raiganja.github.io/wow/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230a0b0d'/%3E%3Ctext x='32' y='34' text-anchor='middle' dominant-baseline='central' font-family='Georgia,serif' font-size='44' font-weight='700' fill='%23c9a54a'%3EG%3C/text%3E%3C/svg%3E">
+<link rel="preload" href="@@ROOT@@assets/fonts/forum-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="@@ROOT@@assets/fonts/golos-text-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@@BASE_CSS@@
+/* Tools page: search in the hero, party and raid frames, side-by-side compare */
+.thero { position: relative; isolation: isolate; padding: calc(var(--top) + 56px) 0 8px; color: var(--fg); }
+.thero-art, .thero-art img { position: absolute; inset: 0 0 auto 0; width: 100%; height: 640px; }
+.thero-art { z-index: -2; }
+.thero-art img { object-fit: cover; object-position: 50% 45%; }
+.thero::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 640px; z-index: -1; background: linear-gradient(180deg, rgba(7,8,10,.55) 0%, rgba(7,8,10,.25) 30%, color-mix(in srgb, var(--bg) 80%, transparent) 72%, var(--bg) 100%); }
+.thero-in { display: grid; gap: 18px; }
+.thero .crumbs { display: flex; gap: 10px; font-size: .9rem; color: var(--ink-2); }
+.thero .crumbs a { color: var(--ink-2); text-decoration: none; }
+.thero .crumbs a:hover { color: var(--ink); text-decoration: underline; }
+.thero h1 { font-size: clamp(3rem, 7vw, 5.4rem); line-height: .95; color: var(--ink); text-shadow: 0 2px 18px rgba(0,0,0,.5); }
+.thero .lead { max-width: 52ch; color: var(--ink-2); font-size: clamp(1.02rem, 1.4vw, 1.15rem); text-shadow: 0 1px 10px rgba(0,0,0,.6); }
+:root[data-theme="light"] .thero::before { background: linear-gradient(180deg, rgba(7,8,10,.6) 0%, rgba(7,8,10,.35) 34%, color-mix(in srgb, var(--bg) 78%, transparent) 74%, var(--bg) 100%); }
+
+.sbox { margin-top: 10px; padding: 14px; display: grid; gap: 12px; }
+.sfield { display: flex; align-items: center; gap: 12px; min-height: 60px; padding: 0 16px; border: 1px solid var(--pline); border-radius: 8px; background: var(--panel-2); cursor: text; transition: border-color .2s; }
+.sfield:focus-within { border-color: var(--gold); }
+.sfield .ico { width: 22px; height: 22px; color: var(--gold-2); }
+.sfield input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; color: var(--fg); font: inherit; font-size: 1.15rem; min-height: 56px; }
+.sfield input::placeholder { color: var(--muted); }
+.sfield input::-webkit-search-cancel-button { filter: grayscale(1); }
+.sfield kbd { font: inherit; font-size: .8rem; color: var(--muted); border: 1px solid var(--pline); border-radius: 5px; padding: 1px 8px; }
+.shint { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: .9rem; color: var(--muted); }
+.shint button { min-height: 34px; padding: 0 12px; border: 1px solid var(--pline); border-radius: 999px; background: var(--panel-2); color: var(--fg); font: inherit; font-size: .88rem; }
+.shint button:hover { border-color: var(--gold); }
+.sres { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.sres:empty { display: none; }
+.sres a { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; padding: 11px 14px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--pline); color: var(--fg); text-decoration: none; transition: border-color .2s; height: 100%; }
+.sres a:hover, .sres a:focus-visible { border-color: var(--gold); }
+.sres b { font-weight: 600; }
+.sres b mark { background: none; color: var(--gold-2); }
+.sres .k { grid-column: 2; grid-row: 1; justify-self: end; align-self: start; font-size: .74rem; font-weight: 600; color: var(--muted); padding: 2px 8px; border-radius: 999px; border: 1px solid var(--pline); white-space: nowrap; }
+.sres .s { grid-column: 1 / -1; font-size: .88rem; color: var(--muted); }
+.sres .s i { font-style: normal; color: var(--cc, inherit); }
+.smore { justify-self: start; }
+.smore[hidden] { display: none; }
+.snone { color: var(--muted); }
+
+.ttiles.t2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+/* Frames */
+.rtool { padding: 18px; display: grid; gap: 18px; }
+.rbar { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; }
+.rbar .act { margin-left: auto; display: flex; flex-wrap: wrap; gap: 8px; }
+.rbar .btn { min-height: 44px; }
+.rlay { display: grid; gap: 18px; }
+.rlay.p5 { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; }
+.rsum { display: grid; gap: 14px; grid-template-columns: repeat(2, minmax(0, 1fr)); align-content: start; }
+.rlay.p5 .rsum { grid-template-columns: 1fr; }
+.rsum .panel { padding: 18px 20px; display: grid; gap: 12px; align-content: start; box-shadow: none; background: var(--panel-2); }
+.rsum h3 { font-size: 1.45rem; }
+.rhint { min-height: 1.5em; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.rhint:empty { display: none; }
+.rhint.on { color: var(--gold-2); font-weight: 500; }
+.rhint button { min-height: 34px; padding: 0 12px; border: 1px solid var(--pline); border-radius: 7px; background: var(--panel-2); color: var(--fg); font: inherit; font-size: .88rem; }
+
+/* party frames: portrait, name, health and power bars */
+.party5 { display: grid; gap: 8px; }
+.unit { --pc: #3f7fe0; position: relative; display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 12px; align-items: center; width: 100%; padding: 8px 12px 8px 8px; border: 1px solid var(--pline); border-radius: 9px; background: linear-gradient(180deg, #14171f, #0d0f14); color: #f3efe6; text-align: left; font: inherit; cursor: pointer; transition: border-color .2s, box-shadow .2s; }
+.unit:hover { border-color: color-mix(in srgb, var(--gold) 70%, transparent); }
+.unit .up { position: relative; width: 76px; height: 76px; border-radius: 50%; overflow: hidden; border: 2px solid #b08f45; box-shadow: 0 0 0 2px #0a0b0e, 0 0 0 3px rgba(176,143,69,.45); background: #0b0d12; }
+.unit .up img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 14%; }
+.unit .ur { position: absolute; left: 50px; top: 2px; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: #0d0f14; border: 1.5px solid #b08f45; color: #e0c27a; }
+.unit .ur .ri { margin: 0; width: 15px; height: 15px; }
+.unit .ub { display: grid; gap: 5px; min-width: 0; }
+.unit .un { display: flex; align-items: baseline; gap: 10px; min-width: 0; }
+.unit .un b { font-family: var(--font-display); font-weight: 400; font-size: 1.3rem; line-height: 1.1; color: var(--cc); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.unit .un small { margin-left: auto; color: rgba(243,239,230,.7); font-size: .8rem; white-space: nowrap; }
+.unit .hp { position: relative; height: 22px; border-radius: 4px; background: #050608; border: 1px solid rgba(0,0,0,.8); overflow: hidden; }
+.unit .hp i { position: absolute; inset: 0; background: linear-gradient(180deg, color-mix(in srgb, var(--cc) 100%, #fff 18%), var(--cc) 45%, color-mix(in srgb, var(--cc) 72%, #000)); }
+.unit .hp em { position: relative; display: block; padding: 0 8px; font-style: normal; font-size: .82rem; font-weight: 600; line-height: 20px; color: #0b0d12; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.unit .mp { height: 8px; border-radius: 3px; background: linear-gradient(180deg, color-mix(in srgb, var(--pc) 100%, #fff 20%), var(--pc)); border: 1px solid rgba(0,0,0,.8); }
+.unit.empty { background: transparent; border-style: dashed; color: var(--muted); }
+.unit.empty .up { display: grid; place-items: center; border: 2px dashed var(--pline); box-shadow: none; background: transparent; font-size: 2rem; color: var(--muted); }
+.unit.empty .ub b { font-family: var(--font-display); font-size: 1.25rem; font-weight: 400; color: var(--fg); }
+.unit.empty .ub span { font-size: .85rem; }
+.unit.src, .rc.src { border-color: var(--gold-2); box-shadow: inset 0 0 0 1px var(--gold-2); }
+.unit.over, .rc.over { border-color: var(--gold-2); border-style: solid; }
+
+/* raid grid: groups in columns, class-coloured cells */
+.rgrid { display: grid; grid-template-columns: repeat(var(--gc, 8), minmax(0, 1fr)); gap: 10px; }
+.rg { display: grid; gap: 4px; align-content: start; min-width: 0; }
+.rg-h { display: flex; justify-content: space-between; align-items: baseline; gap: 6px; padding: 0 2px 2px; font-size: .82rem; color: var(--muted); }
+.rg-h b { color: var(--fg); font-weight: 600; font-size: .86rem; }
+.rg-h .warn { color: var(--horde); }
+.rc { --pc: #3f7fe0; position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-content: center; gap: 0 4px; height: 54px; padding: 4px 8px 7px; border: 1px solid rgba(0,0,0,.85); border-radius: 5px; overflow: hidden; isolation: isolate; color: #0b0d12; text-align: left; font: inherit; cursor: pointer; background: linear-gradient(180deg, color-mix(in srgb, var(--cc) 100%, #fff 16%), var(--cc) 40%, color-mix(in srgb, var(--cc) 70%, #000)); transition: filter .2s, box-shadow .2s; }
+.rc::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: var(--pc); border-top: 1px solid rgba(0,0,0,.7); }
+.rc:hover { filter: brightness(1.08); box-shadow: 0 0 0 1px #e0c27a; }
+.rc b { font-weight: 700; font-size: .88rem; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rc small { grid-column: 1; font-size: .74rem; line-height: 1.2; opacity: .85; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; }
+.rc .ri { grid-column: 2; grid-row: 1 / 3; align-self: center; margin: 0; width: 18px; height: 18px; stroke-width: 2; }
+.rc.empty { background: transparent; border: 1px dashed var(--pline); color: var(--muted); display: flex; align-items: center; justify-content: center; gap: 6px; font-size: .84rem; }
+.rc.empty::after { display: none; }
+.rc.empty:hover { box-shadow: none; border-color: var(--gold); color: var(--fg); filter: none; }
+
+.rroles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.rroles div { display: grid; justify-items: center; padding: 10px 4px 8px; border-radius: 8px; background: var(--panel); border: 1px solid var(--pline); }
+.rroles b { font-family: var(--font-display); font-weight: 400; font-size: 2rem; line-height: 1; font-variant-numeric: lining-nums tabular-nums; }
+.rroles b small { font-family: var(--font-body); font-size: .8rem; color: var(--muted); }
+.rroles span { font-size: .84rem; color: var(--muted); }
+.rroles .low { border-color: color-mix(in srgb, var(--horde) 55%, transparent); }
+.rroles .low b { color: var(--horde); }
+ul.rbuffs { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+ul.rbuffs li { display: flex; align-items: center; gap: 10px; font-size: .92rem; }
+ul.rbuffs li.off { color: var(--muted); }
+ul.rbuffs .cdot { width: 10px; height: 10px; border-radius: 50%; background: var(--cc); flex: none; }
+ul.rbuffs li.off .cdot { background: transparent; box-shadow: inset 0 0 0 1.5px var(--muted); }
+.rshare { padding: 18px 20px; display: grid; gap: 12px; }
+.rshare .copyrow .btn { min-height: 44px; }
+
+dialog.edlg { border: 1px solid var(--pline); border-radius: 12px; padding: 0; width: min(440px, calc(100vw - 32px)); background: var(--surface); color: var(--fg); box-shadow: 0 30px 80px rgba(0,0,0,.6); }
+dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
+.edlg .dh { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 12px 12px 20px; border-bottom: 1px solid var(--pline); }
+.edlg .dh b { font-family: var(--font-display); font-weight: 400; font-size: 1.5rem; }
+.edf { padding: 18px 20px; display: grid; gap: 14px; }
+.edf label, .edf .fl { display: grid; gap: 6px; font-size: .9rem; color: var(--muted); font-weight: 500; }
+.edf input, .edf select { font: inherit; font-size: 1rem; color: var(--fg); min-height: 46px; padding: 0 12px; border: 1px solid var(--pline); border-radius: 7px; background: var(--panel-2); }
+.edf .seg { justify-self: start; }
+.eda { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 20px 20px; }
+.eda .btn { min-height: 44px; }
+.eda .ok { margin-left: auto; }
+.eda .del:hover { border-color: var(--horde); color: var(--horde); }
+
+/* Compare */
+.cbar { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; }
+.cpick { padding: 12px; display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 8px; }
+.cpick.races { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.cp { position: relative; aspect-ratio: 3 / 4; overflow: hidden; isolation: isolate; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; padding: 8px; display: grid; align-content: end; background: #0b0c0e; color: #f3efe6; font: inherit; text-align: left; cursor: pointer; }
+.cp img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: 50% 18%; filter: saturate(.7) brightness(.6); transition: filter .3s, transform .6s var(--ease); }
+.cp::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(7,8,10,0) 45%, rgba(7,8,10,.92) 100%); }
+.cp b { font-family: var(--font-display); font-weight: 400; font-size: 1.1rem; line-height: 1.1; }
+.cp:hover img { filter: saturate(.9) brightness(.85); }
+.cp[aria-pressed="true"] { border-color: #e0c27a; box-shadow: inset 0 0 0 1px #e0c27a; }
+.cp[aria-pressed="true"] img { filter: none; }
+.cp .no { position: absolute; top: 6px; left: 6px; width: 24px; height: 24px; border-radius: 50%; display: none; place-items: center; background: #e0c27a; color: #15110a; font-size: .8rem; font-weight: 700; }
+.cp[aria-pressed="true"] .no { display: grid; }
+.rside { display: grid; gap: 6px; align-content: start; }
+.rside h3 { font-size: 1.3rem; color: var(--fc); padding: 2px 4px 4px; }
+.rside.alliance { --fc: var(--alliance); } .rside.horde { --fc: var(--horde); }
+.rp { display: flex; align-items: center; gap: 10px; min-height: 46px; padding: 0 14px; border: 1px solid var(--pline); border-radius: 7px; background: var(--panel-2); color: var(--fg); font: inherit; font-weight: 500; text-align: left; cursor: pointer; }
+.rp:hover { border-color: var(--gold); }
+.rp[aria-pressed="true"] { border-color: var(--gold-2); box-shadow: inset 0 0 0 1px var(--gold-2); }
+.rp .no { margin-left: auto; width: 24px; height: 24px; border-radius: 50%; display: none; place-items: center; background: #e0c27a; color: #15110a; font-size: .8rem; font-weight: 700; }
+.rp[aria-pressed="true"] .no { display: grid; }
+.cmp { display: grid; gap: 6px; }
+.crow { display: grid; grid-template-columns: 170px repeat(var(--n), minmax(0, 1fr)); gap: 6px; }
+.crow > * { min-width: 0; }
+.crow .lab { padding: 14px 4px; font-weight: 600; font-size: .92rem; color: var(--muted); }
+.crow .lab.tl { color: var(--gold-2); margin: 0; }
+.crow .val { padding: 12px 14px; border-radius: 8px; background: var(--panel); border: 1px solid var(--pline); font-size: .95rem; }
+.crow .val ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.crow .val li { position: relative; padding-left: 16px; }
+.crow .val li::before { content: ""; position: absolute; left: 2px; top: .62em; width: 5px; height: 5px; border-radius: 50%; background: var(--cc, var(--gold)); }
+.crow .val ul.plus li::before { content: "+"; width: auto; height: auto; background: none; top: 0; color: var(--new); font-weight: 700; }
+.crow .val ul.minus li::before { content: "−"; width: auto; height: auto; background: none; top: 0; color: var(--horde); font-weight: 700; }
+.crow .val .sub { color: var(--muted); font-size: .88rem; }
+.crow .val .none { color: var(--muted); }
+.crow .val .pill { margin: 0 4px 4px 0; }
+.crow .val .pill .ri { margin-right: 4px; }
+.chead .val { padding: 0; overflow: hidden; position: relative; isolation: isolate; min-height: 150px; display: grid; align-content: end; gap: 4px; padding: 14px; color: #f3efe6; background: #0b0d12; border-color: rgba(255,255,255,.1); }
+.chead .val img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: 50% 16%; }
+.chead .val::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(7,8,10,.1) 20%, rgba(7,8,10,.92) 100%); }
+.chead .val.race { min-height: 110px; background: linear-gradient(135deg, var(--fb), #0b0d12 75%); }
+.chead .val.race::after { display: none; }
+.chead .val.alliance { --fb: #13284d; } .chead .val.horde { --fb: #3a1410; }
+.chead b { font-family: var(--font-display); font-weight: 400; font-size: 1.7rem; line-height: 1.05; color: var(--cc, #f3efe6); text-shadow: 0 1px 10px rgba(0,0,0,.6); }
+.chead a { color: rgba(243,239,230,.85); font-size: .86rem; display: inline-flex; align-items: center; gap: 6px; }
+.chead a:hover { color: #e0c27a; }
+.chead a .ico { width: 15px; height: 15px; }
+.chead .fx { font-size: .84rem; color: rgba(243,239,230,.75); }
+.cempty { padding: 18px; color: var(--muted); }
+
+@media (max-width: 1023px) {
+  .rgrid { --gc: 4 !important; }
+  .rlay.p5 { grid-template-columns: 1fr; }
+  .rlay.p5 .rsum { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cpick { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .cpick::-webkit-scrollbar { display: none; }
+  .cpick .cp { flex: 0 0 104px; scroll-snap-align: start; }
+  .cpick.races { display: grid; }
+}
+@media (max-width: 719px) {
+  .thero { padding-top: calc(var(--top) + 28px); }
+  .thero-art, .thero-art img, .thero::before { height: 460px; }
+  .sres { grid-template-columns: 1fr; }
+  .sfield kbd { display: none; }
+  .ttiles.t2 { grid-template-columns: 1fr; }
+  .rtool { padding: 12px; }
+  .rbar .act { margin-left: 0; }
+  .rgrid { --gc: 2 !important; }
+  .rlay.p5 .rsum, .rsum { grid-template-columns: 1fr; }
+  .unit { grid-template-columns: 64px minmax(0, 1fr); }
+  .unit .up { width: 64px; height: 64px; }
+  .unit .ur { left: 42px; }
+  .cpick.races { grid-template-columns: 1fr; }
+  .crow { grid-template-columns: repeat(var(--n), minmax(0, 1fr)); }
+  .crow .lab { grid-column: 1 / -1; padding: 10px 2px 0; }
+  .crow .val { padding: 10px; font-size: .9rem; }
+  .chead .lab { display: none; }
+  .chead .val { min-height: 120px; padding: 10px; }
+  .chead b { font-size: 1.3rem; }
+}
+</style>
+</head>
+<body>
+@@SPRITE@@
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></symbol><symbol id="i-swap" viewBox="0 0 24 24"><path d="M7 4 3 8l4 4M3 8h14M17 20l4-4-4-4M21 16H7"/></symbol></svg>
+
+<header class="topbar" id="topbar"><div class="in">
+  <a class="brand" href="@@HOME@@" aria-label="Gabella Team, на главную"><span class="mark" aria-hidden="true">G</span><b>Gabella Team</b></a>
+  <nav class="mainnav" aria-label="Разделы">
+    <a href="@@HOME@@#factions">Фракции</a><a href="@@HOME@@#classes">Классы</a><a href="@@HOME@@#picker">Подборщик</a><a href="@@HOME@@#builder">Группа</a><a href="@@HOME@@#guides">Гайды</a><a href="./" aria-current="true">Инструменты</a>
+  </nav>
+  <div class="tools">
+    <div class="langs" role="group" aria-label="Язык"><a href="@@RU@@" data-lang="ru" hreflang="ru" lang="ru" aria-current="@@CUR_RU@@">RU</a><a href="@@EN@@" data-lang="en" hreflang="en" lang="en" aria-current="@@CUR_EN@@">EN</a><a href="@@UK@@" data-lang="uk" hreflang="uk" lang="uk" aria-current="@@CUR_UK@@">UK</a></div>
+    <button class="iconbtn themebtn" type="button" aria-label="Переключить тему" title="Переключить тему"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></button>
+    <button class="iconbtn menubtn" type="button" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg><span>Разделы</span></button>
+  </div>
+</div></header>
+
+<section class="thero" id="top">
+  <picture class="thero-art" aria-hidden="true"><source type="image/avif" srcset="@@ROOT@@assets/art/hero_campfire-960.avif 960w, @@ROOT@@assets/art/hero_campfire-1600.avif 1600w" sizes="100vw"><source type="image/webp" srcset="@@ROOT@@assets/art/hero_campfire-960.webp 960w, @@ROOT@@assets/art/hero_campfire-1600.webp 1600w" sizes="100vw"><img src="@@ROOT@@assets/art/hero_campfire-1600.webp" alt="" fetchpriority="high" decoding="async"></picture>
+  <div class="wrap thero-in">
+    <nav class="crumbs" aria-label="Навигация"><a href="@@HOME@@">Гид</a><span aria-hidden="true">/</span><span>Инструменты</span></nav>
+    <h1>Инструменты</h1>
+    <p class="lead">Поиск по всему гиду, рамки группы и рейда как в игре и сравнение классов и рас. Состав хранится в ссылке, её можно кинуть в Discord.</p>
+    <div class="frame sbox" id="search" role="search">
+      <label class="sfield"><svg class="ico" aria-hidden="true"><use href="#i-search"/></svg><input id="q" type="search" placeholder="Класс, способность, раса, подземелье или уровень" autocomplete="off" spellcheck="false" aria-label="Поиск по гиду" aria-controls="sres" aria-describedby="sstat"><kbd aria-hidden="true">/</kbd></label>
+      <div class="shint" id="shint"><span>Например:</span><button type="button">Паладин</button><button type="button">Shadow</button><button type="button">Танк</button><button type="button">Скайборн</button><button type="button">Onyxia</button><button type="button">24</button></div>
+      <p class="small" id="sstat" aria-live="polite"></p>
+      <ul class="sres" id="sres"></ul>
+      <button type="button" class="btn ghost smore" id="smore" hidden></button>
+    </div>
+    <nav class="frame ttiles t2" aria-label="Инструменты">
+      <a class="ttile" href="#raid"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/paladin-600.avif"><img src="@@ROOT@@assets/art/paladin-600.webp" alt="" loading="lazy" decoding="async"></picture><b>Рамки группы и рейда</b><span>Группа на 5, рейд на 10, 20 и 40, как в игре</span></a>
+      <a class="ttile" href="#compare"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/mage-600.avif"><img src="@@ROOT@@assets/art/mage-600.webp" alt="" loading="lazy" decoding="async"></picture><b>Сравнение классов и рас</b><span>До трёх рядом: роли, броня, баффы, способности</span></a>
+    </nav>
+  </div>
+</section>
+
+<main>
+<section class="block wrap" id="raid">
+  <div class="sec-head"><h2>Рамки группы и рейда</h2>
+    <p>Соберите состав так, как он будет выглядеть в игре. Нажмите на рамку, чтобы выбрать расу, класс, роль и имя игрока. Рамку можно перетащить в другую группу или переставить кнопкой.</p></div>
+  <div class="frame rtool">
+    <div class="rbar">
+      <div class="fgroup"><span class="flabel" id="lrf">Фракция</span><div class="seg" id="rF" aria-labelledby="lrf"><button type="button" data-v="alliance" aria-pressed="true">Альянс</button><button type="button" data-v="horde" aria-pressed="false">Орда</button></div></div>
+      <div class="fgroup"><span class="flabel" id="lrs">Размер</span><div class="seg" id="rS" aria-labelledby="lrs"><button type="button" data-v="5" aria-pressed="true">5</button><button type="button" data-v="10" aria-pressed="false">10</button><button type="button" data-v="20" aria-pressed="false">20</button><button type="button" data-v="40" aria-pressed="false">40</button></div></div>
+      <div class="act"><button type="button" class="btn" id="rFill">Заполнить пустые</button><button type="button" class="btn ghost" id="rClear">Очистить</button></div>
+    </div>
+    <p class="rhint small" id="rhint" aria-live="polite"></p>
+    <div class="rlay" id="rlay">
+      <div id="rview"></div>
+      <div class="rsum">
+        <div class="panel"><h3>Роли</h3><div class="rroles" id="rRoles"></div><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span><span id="rTip"></span></p></div></div>
+        <div class="panel"><h3>Баффы и рейды</h3><ul class="rbuffs" id="rBuffs"></ul><ul class="verdict" id="rRaids"></ul></div>
+      </div>
+    </div>
+  </div>
+  <div class="panel rshare">
+    <h3>Поделиться составом</h3>
+    <div class="copyrow"><input id="rLink" readonly aria-label="Ссылка на состав"><button type="button" class="btn" id="rCopyLink"><svg class="ico" aria-hidden="true"><use href="#i-link"/></svg>Скопировать ссылку</button><button type="button" class="btn ghost" id="rCopyText"><svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg>Скопировать текстом</button><p class="small" id="rMsg" aria-live="polite"></p></div>
+  </div>
+</section>
+
+<section class="block wrap" id="compare">
+  <div class="sec-head"><h2>Сравнение классов и рас</h2>
+    <p>Выберите до трёх классов или рас. Строки стоят рядом, так проще решить, кем идти.</p></div>
+  <div class="cbar"><div class="seg" id="cMode" role="group" aria-label="Что сравнивать"><button type="button" data-v="class" aria-pressed="true">Классы</button><button type="button" data-v="race" aria-pressed="false">Расы</button></div><span class="small" id="cNote"></span></div>
+  <div class="frame cpick" id="cPick" role="group" aria-label="Выбор для сравнения"></div>
+  <div class="cmp" id="cmp" aria-live="polite"></div>
+</section>
+
+<div class="wrap">
+<footer id="sources">
+  <h2>Источники</h2>
+  <p>Данные те же, что на главной и страницах классов: Warcraft Tavern, Method, ClassicWoW.gg, LFCarry, патчноуты Blizzard. Собраны <b style="color:var(--fg)">23.10.2026</b> по закрытой бете, до релиза цифры могут измениться. <span class="tl" style="display:inline">Совет:</span> мнение составителя.</p>
+  <p>Страница сделана для сервера Gabella Team и не связана с Blizzard Entertainment. World of Warcraft — товарный знак Blizzard.</p>
+</footer>
+</div>
+</main>
+
+<nav class="tabbar" aria-label="Быстрые разделы">
+  <a href="@@HOME@@"><svg class="ico" aria-hidden="true"><use href="#i-home"/></svg>Главная</a>
+  <a href="#search"><svg class="ico" aria-hidden="true"><use href="#i-search"/></svg>Поиск</a>
+  <a href="#raid" aria-current="true"><svg class="ico" aria-hidden="true"><use href="#i-users"/></svg>Рамки</a>
+  <a href="#compare"><svg class="ico" aria-hidden="true"><use href="#i-grid"/></svg>Сравнение</a>
+  <button type="button" class="morebtn" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-dots"/></svg>Ещё</button>
+</nav>
+
+<dialog class="edlg" id="edDlg" aria-labelledby="edT">
+  <div class="dh"><b id="edT"></b><button class="iconbtn" id="edClose" type="button" aria-label="Закрыть"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
+  <div class="edf">
+    <label>Имя игрока<input id="edName" maxlength="16" placeholder="Необязательно, например ник" autocomplete="off"></label>
+    <label>Раса<select id="edRace"></select></label>
+    <label>Класс<select id="edCls"></select></label>
+    <div class="fl"><span id="lrole">Роль</span><div class="seg" id="edRole" aria-labelledby="lrole"></div></div>
+  </div>
+  <div class="eda"><button type="button" class="btn ghost" id="edMove"><svg class="ico" aria-hidden="true"><use href="#i-swap"/></svg>Переставить</button><button type="button" class="btn ghost del" id="edDel">Убрать</button><button type="button" class="btn ok" id="edOk">Готово</button></div>
+</dialog>
+
+<dialog class="sheet" id="moreDlg" aria-label="Все разделы">
+  <div class="dh"><b>Все разделы</b><button class="iconbtn" id="moreClose" type="button" aria-label="Закрыть"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
+  <nav class="toc" aria-label="Все разделы">
+    <div class="grp"><div class="gh">Эта страница</div><a href="#search">Поиск по гиду</a><a href="#raid">Рамки группы и рейда</a><a href="#compare">Сравнение классов и рас</a></div>
+    <div class="grp"><div class="gh">Гид</div><a href="@@HOME@@">Главная</a><a href="@@HOME@@#classes">Классы</a><a href="@@HOME@@#picker">Подборщик</a><a href="@@HOME@@#builder">Конструктор группы</a><a href="@@HOME@@#checklist">Чек-лист</a><a href="@@HOME@@#guides">Гайды</a></div>
+  </nav>
+  <div class="opts">
+    <div class="langs" role="group" aria-label="Язык"><a href="@@RU@@" data-lang="ru" hreflang="ru" lang="ru" aria-current="@@CUR_RU@@">RU</a><a href="@@EN@@" data-lang="en" hreflang="en" lang="en" aria-current="@@CUR_EN@@">EN</a><a href="@@UK@@" data-lang="uk" hreflang="uk" lang="uk" aria-current="@@CUR_UK@@">UK</a></div>
+    <button class="iconbtn themebtn" type="button" aria-label="Переключить тему"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg><span>Тема</span></button>
+  </div>
+  <p class="meta">Данные на 23.10.2026, закрытая бета, патч от 15.10.2026.</p>
+</dialog>
+
+<script>
+@@DATA@@
+const $ = s => document.querySelector(s);
+const ROOT = '@@ROOT@@', HOME = '@@HOME@@';
+function esc(s) { return String(s).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])); }
+function raceName(r) { return r.name || r.n; }
+function syncSeg(id, v) { document.querySelectorAll(`#${id} button`).forEach(b => b.setAttribute('aria-pressed', b.dataset.v === String(v))); }
+const FAC = { alliance: 'Альянс', horde: 'Орда' };
+const RSLUG = { human: 'human', dwarf: 'dwarf', nightelf: 'night-elf', gnome: 'gnome', skyA: 'skyborne-alliance', orc: 'orc', undead: 'undead', tauren: 'tauren', troll: 'troll', skyH: 'skyborne-horde' };
+const classUrl = id => `${HOME}classes/${id}/`, raceUrl = id => `${HOME}races/${RSLUG[id]}/`;
+const art = id => `${ROOT}assets/art/${id}-360.webp`;
+async function copyTo(text, msgEl, ok) {
+  try { await navigator.clipboard.writeText(text); msgEl.textContent = ok; } catch (e) { msgEl.textContent = 'Не удалось скопировать, выделите и нажмите Ctrl+C'; }
+}
+
+/* ---------- Party and raid frames ---------- */
+const SIZES = [5, 10, 20, 40], PARTY = 5, RR = ['tank', 'heal', 'dps'];
+const POOL = { tank: ['paladin', 'warrior', 'druid'], heal: ['priest', 'shaman', 'paladin', 'druid'], dps: ['mage', 'hunter', 'warlock', 'rogue', 'shaman', 'druid', 'warrior'] };
+const RAIDS = [[10, 'Barrow Deeps'], [20, 'Hyjal Summit'], [40, 'Onyxia’s Lair']];
+const REC = { 5: [1, 1, 3], 10: [2, 3, 5], 20: [3, 5, 12], 40: [4, 10, 26] };
+const RAGE = '#c8443a', ENERGY = '#e3c54b', MANA = '#3f7fe0';
+const R = { f: 'alliance', size: 5, s: Array(5).fill(null), moving: -1 };
+
+function roleOpts(c) { return RR.filter(x => c.roles.includes(x) || (x === 'tank' && c.roles.includes('tank?'))); }
+function power(p) { return p.cls === 'warrior' || (p.cls === 'druid' && p.role === 'tank') ? RAGE : p.cls === 'rogue' || (p.cls === 'druid' && p.role === 'dps') ? ENERGY : MANA; }
+function slotRole(i) { const k = i % PARTY; return k === 0 ? 'tank' : k === 1 ? 'heal' : 'dps'; }
+function raceFor(cls, k) {
+  const free = RACES.filter(r => r.f === R.f && !r.paid && r.can[cls]);
+  return free.length ? free[k % free.length].id : (RACES.find(r => r.f === R.f && r.can[cls]) || RACES.find(r => r.f === R.f)).id;
+}
+function fixPlayer(p) {
+  const races = RACES.filter(r => r.f === R.f);
+  let r = RC[p.race]; if (!r || r.f !== R.f) r = races.find(x => x.can[p.cls]) || races[0];
+  p.race = r.id;
+  if (!r.can[p.cls]) p.cls = Object.keys(r.can)[0];
+  const ro = roleOpts(CL[p.cls]); if (!ro.includes(p.role)) p.role = ro[0];
+}
+function newPlayer(i, used) {
+  const role = slotRole(i), pool = POOL[role].filter(c => RACES.some(r => r.f === R.f && r.can[c]));
+  const k = used ? used[role]++ : i;
+  const cls = pool[k % pool.length];
+  return { race: raceFor(cls, i), cls, role, name: '' };
+}
+function cleanName(s) { return String(s || '').replace(/[.,;#&]/g, '').trim().slice(0, 16); }
+
+function readHash() {
+  const m = location.hash.match(/^#team=(alliance|horde);(?:(\d+);)?(.*)$/);
+  if (!m) return;
+  const items = m[3].split(',').map(x => {
+    const p = x.split('.');
+    if (p.length < 3 || !RC[p[0]] || !CL[p[1]] || !RR.includes(p[2])) return null;
+    let name = ''; try { name = cleanName(decodeURIComponent(p[3] || '')); } catch (e) {}
+    return { race: p[0], cls: p[1], role: p[2], name };
+  });
+  const want = +m[2], n = items.length;
+  R.f = m[1];
+  R.size = SIZES.includes(want) && want >= Math.min(n, 40) ? want : SIZES.find(x => x >= n) || 40;
+  R.s = Array.from({ length: R.size }, (_, i) => items[i] || null);
+}
+function hashStr() {
+  let last = R.s.length; while (last > 0 && !R.s[last - 1]) last--;
+  const list = R.s.slice(0, last).map(p => p ? `${p.race}.${p.cls}.${p.role}${p.name ? '.' + encodeURIComponent(p.name) : ''}` : '-');
+  return `#team=${R.f};${R.size};${list.join(',')}`;
+}
+function teamLink() { return location.origin + location.pathname + hashStr(); }
+function teamText() {
+  const groups = Math.ceil(R.size / PARTY), out = [];
+  for (let g = 0; g < groups; g++) {
+    const part = R.s.slice(g * PARTY, g * PARTY + PARTY).filter(Boolean);
+    if (!part.length) continue;
+    out.push((groups > 1 ? `Группа ${g + 1}: ` : '') + part.map(p => `${p.name ? p.name + ' — ' : ''}${raceName(RC[p.race])} ${CL[p.cls].n} (${ROLE_RU[p.role]})`).join(', '));
+  }
+  return out.length ? out.join('\n') + `\n${FAC[R.f]}, ${R.size}` : '';
+}
+
+function unitHTML(p, i) {
+  const cls = R.moving === i ? ' src' : '';
+  if (!p) return `<button type="button" class="unit empty${cls}" data-i="${i}"><span class="up" aria-hidden="true">+</span><span class="ub"><b>Свободное место</b><span>Нажмите, чтобы добавить игрока</span></span></button>`;
+  const c = CL[p.cls], r = RC[p.race];
+  return `<button type="button" class="unit${cls}" data-i="${i}" draggable="true" style="--cc:${CCOL[p.cls]};--pc:${power(p)}" aria-label="${esc((p.name || `Игрок ${i + 1}`) + ', ' + raceName(r) + ' ' + c.n + ', ' + ROLE_RU[p.role])}">
+    <span class="up"><img src="${art(p.cls)}" alt="" loading="lazy" decoding="async"></span><span class="ur" title="${ROLE_RU[p.role]}">${ri(p.role)}</span>
+    <span class="ub"><span class="un"><b>${esc(p.name || c.n)}</b><small>${ROLE_RU[p.role]}</small></span><span class="hp"><i></i><em>${esc(raceName(r))} · ${esc(c.n)}</em></span><span class="mp"></span></span></button>`;
+}
+function cellHTML(p, i) {
+  const cls = R.moving === i ? ' src' : '';
+  if (!p) return `<button type="button" class="rc empty${cls}" data-i="${i}" aria-label="Свободное место ${i + 1}"><span aria-hidden="true">+</span>Добавить</button>`;
+  const c = CL[p.cls], r = RC[p.race];
+  return `<button type="button" class="rc${cls}" data-i="${i}" draggable="true" style="--cc:${CCOL[p.cls]};--pc:${power(p)}" aria-label="${esc((p.name || `Игрок ${i + 1}`) + ', ' + raceName(r) + ' ' + c.n + ', ' + ROLE_RU[p.role])}" title="${esc(raceName(r) + ' · ' + c.n + ' · ' + ROLE_RU[p.role])}"><b>${esc(p.name || c.n)}</b><small>${esc(p.name ? c.n : raceName(r))}</small>${ri(p.role)}</button>`;
+}
+function countRoles(list) { const c = { tank: 0, heal: 0, dps: 0 }; list.forEach(p => p && c[p.role]++); return c; }
+
+function renderRaid(touched = true) {
+  R.s.forEach(p => p && fixPlayer(p));
+  syncSeg('rF', R.f); syncSeg('rS', R.size);
+  const groups = R.size / PARTY;
+  $('#rlay').classList.toggle('p5', R.size === 5);
+  if (R.size === 5) $('#rview').innerHTML = `<div class="party5">${R.s.map(unitHTML).join('')}</div>`;
+  else {
+    let h = '';
+    for (let g = 0; g < groups; g++) {
+      const part = R.s.slice(g * PARTY, g * PARTY + PARTY), c = countRoles(part), n = part.filter(Boolean).length;
+      const st = n && (!c.tank || !c.heal) ? `<span class="warn">${!c.tank ? 'нет танка' : 'нет лекаря'}</span>` : `<span>${n}/5</span>`;
+      h += `<div class="rg"><div class="rg-h"><b>Группа ${g + 1}</b>${st}</div>${part.map((p, k) => cellHTML(p, g * PARTY + k)).join('')}</div>`;
+    }
+    $('#rview').innerHTML = `<div class="rgrid" style="--gc:${Math.min(groups, 8)}">${h}</div>`;
+  }
+  const hint = $('#rhint');
+  hint.classList.toggle('on', R.moving >= 0);
+  hint.innerHTML = R.moving >= 0 ? `Выберите место, куда переставить игрока ${R.moving + 1}. <button type="button" id="mvCancel">Отмена</button>` : '';
+
+  const list = R.s.filter(Boolean), cnt = countRoles(list), rec = REC[R.size];
+  $('#rRoles').innerHTML = RR.map((x, k) => `<div class="${list.length && cnt[x] < rec[k] ? 'low' : ''}"><b>${cnt[x]}<small> / ${rec[k]}</small></b><span>${ri(x)}${ROLE_RU[x]}</span></div>`).join('');
+  $('#rTip').textContent = R.size === 5 ? 'Для подземелья нужны танк, лекарь и три бойца урона.' : `Ориентир для рейда: танков ${rec[0]}, лекарей ${rec[1]}, остальные урон. Точное число зависит от боссов.`;
+  const have = new Set(list.map(p => p.cls));
+  $('#rBuffs').innerHTML = CLASSES.filter(c => BUFF[c.id]).map(c => `<li class="${have.has(c.id) ? '' : 'off'}" style="--cc:${CCOL[c.id]}"><span class="cdot"></span><span><b>${esc(c.n)}:</b> ${esc(BUFF[c.id])}</span></li>`).join('');
+  const n = list.length;
+  $('#rRaids').innerHTML = n ? RAIDS.map(([size, name]) => `<li class="${n >= size ? 'good' : ''}">${n >= size ? `Рейд на ${size} (${name}): людей хватает.` : `Рейд на ${size} (${name}): не хватает ${size - n}.`}</li>`).join('') : '<li>Пока никого нет. Нажмите «Заполнить пустые» или на свободную рамку.</li>';
+
+  const link = n ? teamLink() : '';
+  $('#rLink').value = link;
+  $('#rCopyLink').disabled = $('#rCopyText').disabled = !n;
+  // the link follows the roster only once it has been edited, so #compare and other anchors keep working on load
+  if (touched) try { history.replaceState(null, '', n ? hashStr() : location.pathname + location.search); } catch (e) {}
+}
+
+function setSize(size) {
+  // keep slots in place; if some players would fall off the end, pack everyone to the front instead
+  const lost = R.s.slice(size).some(Boolean), src = lost ? R.s.filter(Boolean) : R.s;
+  R.s = Array.from({ length: size }, (_, i) => src[i] || null);
+  R.size = size; R.moving = -1; renderRaid();
+}
+$('#rF').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { R.f = b.dataset.v; renderRaid(); } });
+$('#rS').addEventListener('click', e => { const b = e.target.closest('button'); if (b) setSize(+b.dataset.v); });
+$('#rFill').onclick = () => {
+  const used = { tank: 0, heal: 0, dps: 0 };
+  R.s.forEach(p => p && used[p.role]++);
+  R.s = R.s.map((p, i) => p || newPlayer(i, used)); R.moving = -1; renderRaid();
+};
+$('#rClear').onclick = () => { R.s = Array(R.size).fill(null); R.moving = -1; renderRaid(); };
+$('#rCopyLink').onclick = () => copyTo(teamLink(), $('#rMsg'), 'Ссылка скопирована');
+$('#rCopyText').onclick = () => copyTo(teamText(), $('#rMsg'), 'Состав скопирован');
+
+function swap(a, b) { const t = R.s[a]; R.s[a] = R.s[b]; R.s[b] = t; }
+$('#rview').addEventListener('click', e => {
+  const b = e.target.closest('[data-i]'); if (!b) return;
+  const i = +b.dataset.i;
+  if (R.moving >= 0) { if (i !== R.moving) swap(R.moving, i); const to = i; R.moving = -1; renderRaid(); focusSlot(to); return; }
+  if (!R.s[i]) { R.s[i] = newPlayer(i); fixPlayer(R.s[i]); renderRaid(); }
+  openEditor(i);
+});
+$('#rhint').addEventListener('click', e => { if (e.target.id === 'mvCancel') { const i = R.moving; R.moving = -1; renderRaid(); focusSlot(i); } });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && R.moving >= 0 && !$('#edDlg').open) { const i = R.moving; R.moving = -1; renderRaid(); focusSlot(i); } });
+function focusSlot(i) { const el = document.querySelector(`#rview [data-i="${i}"]`); if (el) el.focus(); }
+
+/* drag a frame onto another slot to swap them */
+let dragFrom = -1;
+$('#rview').addEventListener('dragstart', e => { const b = e.target.closest('[data-i]'); if (!b) return; dragFrom = +b.dataset.i; e.dataTransfer.effectAllowed = 'move'; try { e.dataTransfer.setData('text/plain', String(dragFrom)); } catch (x) {} b.classList.add('src'); });
+$('#rview').addEventListener('dragover', e => { const b = e.target.closest('[data-i]'); if (b && dragFrom >= 0) { e.preventDefault(); document.querySelectorAll('#rview .over').forEach(x => x !== b && x.classList.remove('over')); b.classList.add('over'); } });
+$('#rview').addEventListener('dragleave', e => { const b = e.target.closest('[data-i]'); if (b && !b.contains(e.relatedTarget)) b.classList.remove('over'); });
+$('#rview').addEventListener('drop', e => { const b = e.target.closest('[data-i]'); if (!b || dragFrom < 0) return; e.preventDefault(); swap(dragFrom, +b.dataset.i); dragFrom = -1; renderRaid(); });
+$('#rview').addEventListener('dragend', () => { dragFrom = -1; document.querySelectorAll('#rview .src, #rview .over').forEach(x => x.classList.remove('src', 'over')); });
+
+/* frame editor */
+const ed = $('#edDlg');
+let edI = -1;
+function fillEditor() {
+  const p = R.s[edI];
+  $('#edT').textContent = `Игрок ${edI + 1}` + (R.size > 5 ? ` · Группа ${Math.floor(edI / PARTY) + 1}` : '');
+  $('#edRace').innerHTML = RACES.filter(r => r.f === R.f).map(r => `<option value="${r.id}"${r.id === p.race ? ' selected' : ''}>${esc(raceName(r))}${r.paid ? ' (платная)' : ''}</option>`).join('');
+  $('#edCls').innerHTML = Object.keys(RC[p.race].can).map(c => `<option value="${c}"${c === p.cls ? ' selected' : ''}>${esc(CL[c].n)}</option>`).join('');
+  $('#edRole').innerHTML = roleOpts(CL[p.cls]).map(x => `<button type="button" data-v="${x}" aria-pressed="${x === p.role}">${ri(x)}${ROLE_RU[x]}</button>`).join('');
+}
+function openEditor(i) {
+  edI = i; $('#edName').value = R.s[i].name || ''; fillEditor();
+  if (ed.showModal) ed.showModal(); else ed.setAttribute('open', '');
+}
+function edChanged() { fixPlayer(R.s[edI]); fillEditor(); renderRaid(); }
+$('#edName').addEventListener('input', e => { R.s[edI].name = cleanName(e.target.value); renderRaid(); });
+$('#edRace').onchange = e => { R.s[edI].race = e.target.value; edChanged(); };
+$('#edCls').onchange = e => { R.s[edI].cls = e.target.value; edChanged(); };
+$('#edRole').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { R.s[edI].role = b.dataset.v; edChanged(); } });
+$('#edDel').onclick = () => { R.s[edI] = null; ed.close(); };
+$('#edMove').onclick = () => { R.moving = edI; ed.close(); };
+$('#edOk').onclick = $('#edClose').onclick = () => ed.close();
+ed.addEventListener('close', () => { renderRaid(); focusSlot(R.moving >= 0 ? R.moving : edI); });
+ed.addEventListener('click', e => { if (e.target === ed) ed.close(); });
+
+/* ---------- Compare ---------- */
+const C = { mode: 'class', cls: ['warrior', 'paladin'], race: ['human', 'orc'] };
+const SPEC_SEP = ' — ';
+function pickToggle(list, id) {
+  const k = list.indexOf(id);
+  if (k >= 0) { if (list.length > 1) list.splice(k, 1); }
+  else { list.push(id); if (list.length > 3) list.shift(); }
+}
+function renderPick() {
+  syncSeg('cMode', C.mode);
+  const box = $('#cPick'), sel = C.mode === 'class' ? C.cls : C.race;
+  box.classList.toggle('races', C.mode === 'race');
+  if (C.mode === 'class') box.innerHTML = CLASSES.map(c => { const k = sel.indexOf(c.id); return `<button type="button" class="cp" data-id="${c.id}" aria-pressed="${k >= 0}"><img src="${art(c.id)}" alt="" loading="lazy" decoding="async"><span class="no">${k + 1}</span><b>${esc(c.n)}</b></button>`; }).join('');
+  else box.innerHTML = ['alliance', 'horde'].map(f => `<div class="rside ${f}"><h3>${FAC[f]}</h3>${RACES.filter(r => r.f === f).map(r => { const k = sel.indexOf(r.id); return `<button type="button" class="rp" data-id="${r.id}" aria-pressed="${k >= 0}">${esc(raceName(r))}${r.paid ? '<span class="tag paid">платная</span>' : ''}<span class="no">${k + 1}</span></button>`; }).join('')}</div>`).join('');
+  $('#cNote').textContent = `Выбрано ${sel.length} из 3`;
+}
+const ul = (items, cls) => items.length ? `<ul${cls ? ` class="${cls}"` : ''}>${items.map(x => `<li>${x}</li>`).join('')}</ul>` : '<span class="none">Нет</span>';
+const row = (lab, vals, extra) => `<div class="crow${extra ? ' ' + extra : ''}"><div class="lab${extra === 'tiprow' ? ' tl' : ''}">${lab}</div>${vals.map(v => `<div class="val">${v}</div>`).join('')}</div>`;
+function renderCmp() {
+  const out = [];
+  if (C.mode === 'class') {
+    const ids = C.cls;
+    out.push(`<div class="crow chead"><div class="lab"></div>${ids.map(id => `<div class="val" style="--cc:${CCOL[id]}"><img src="${art(id)}" alt="" loading="lazy" decoding="async"><b>${esc(CL[id].n)}</b><a href="${classUrl(id)}">Страница класса<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>`).join('')}</div>`);
+    out.push(row('Роли', ids.map(id => CL[id].roles.map(r => `<span class="pill">${ri(r)}${ROLE_RU[r]}</span>`).join(''))));
+    out.push(row('Броня', ids.map(id => esc(CX[id].armor))));
+    out.push(row('Вооружение', ids.map(id => esc(CX[id].weapons))));
+    out.push(row('Ресурс', ids.map(id => esc(CX[id].resource))));
+    out.push(row('Прокачка', ids.map(id => esc(CX[id].lvl))));
+    out.push(row('Специализации', ids.map(id => ul(CX[id].specs.map(s => `<b>${esc(s.n)}</b>${SPEC_SEP}<span class="sub">${esc(s.what)}</span>`)))));
+    out.push(row('Бафф для рейда', ids.map(id => BUFF[id] ? esc(BUFF[id]) : '<span class="none">Нет</span>')));
+    out.push(row('В группе', ids.map(id => ul(CX[id].group.map(esc)))));
+    out.push(row('Сильные стороны', ids.map(id => ul(CX[id].pros.map(esc), 'plus'))));
+    out.push(row('Слабые стороны', ids.map(id => ul(CX[id].cons.map(esc), 'minus'))));
+    ['alliance', 'horde'].forEach(f => out.push(row(`Расы: ${FAC[f]}`, ids.map(id => { const rs = RACES.filter(r => r.f === f && r.can[id]); return rs.length ? rs.map(r => `<a href="${raceUrl(r.id)}">${esc(raceName(r))}</a>`).join(', ') : '<span class="none">Нет</span>'; }))));
+  } else {
+    const ids = C.race;
+    out.push(`<div class="crow chead"><div class="lab"></div>${ids.map(id => { const r = RC[id]; return `<div class="val race ${r.f}"><span class="fx">${FAC[r.f]}${r.paid ? ' · платная' : ''}</span><b>${esc(raceName(r))}</b><a href="${raceUrl(id)}">Страница расы<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>`; }).join('')}</div>`);
+    out.push(row('Классы', ids.map(id => ul(Object.keys(RC[id].can).map(c => `<span style="color:${CCOL[c]}">●</span> ${esc(CL[c].n)}${RC[id].can[c] === 'new' ? ' <span class="tag new">новое</span>' : ''}`)))));
+    out.push(row('Активные способности', ids.map(id => ul(RC[id].rac.filter(x => x[0] === 'a').map(x => `<b>${esc(x[1])}</b><br><span class="sub">${esc(x[2])}</span>`)))));
+    out.push(row('Пассивные способности', ids.map(id => ul(RC[id].rac.filter(x => x[0] === 'p').map(x => `<b>${esc(x[1])}</b><br><span class="sub">${esc(x[2])}</span>`)))));
+    out.push(row('Совет', ids.map(id => esc(RC[id].tip)), 'tiprow'));
+  }
+  const box = $('#cmp');
+  box.style.setProperty('--n', C.mode === 'class' ? C.cls.length : C.race.length);
+  box.innerHTML = out.join('');
+}
+$('#cMode').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { C.mode = b.dataset.v; renderPick(); renderCmp(); } });
+$('#cPick').addEventListener('click', e => {
+  const b = e.target.closest('[data-id]'); if (!b) return;
+  pickToggle(C.mode === 'class' ? C.cls : C.race, b.dataset.id);
+  renderPick(); renderCmp();
+  const nb = document.querySelector(`#cPick [data-id="${b.dataset.id}"]`); if (nb) nb.focus();
+});
+
+/* ---------- Search ---------- */
+const KIND = { cls: 'Класс', spec: 'Специализация', abil: 'Способность', race: 'Раса', rac: 'Расовая', dung: 'Подземелье', prof: 'Профессия', sec: 'Раздел' };
+const SECTIONS = [
+  ['Где ты сейчас', '#stages'], ['Подборщик: раса и класс', '#picker'], ['Конструктор группы', '#builder'], ['Чек-лист перед стартом', '#checklist'],
+  ['Даты и наборы', '#dates'], ['Система Legacy', '#legacy'], ['Лагерь и профессии', '#camp'], ['Подземелья и рейды', '#dungeons'], ['Чем Forever отличается от Classic Era', '#era']
+];
+const norm = s => String(s).toLowerCase().replace(/\u0451/g, '\u0435').replace(/[’'`]/g, '');
+const IDX = [];
+function add(kind, t, sub, u, extra, cc) { IDX.push({ kind, t, sub, u, cc, nt: norm(t), nh: norm([t, sub, extra || ''].join(' ')) }); }
+SECTIONS.forEach(([t, h]) => add('sec', t, 'Главная страница гида', HOME + h));
+add('sec', 'Рамки группы и рейда', 'Эта страница', '#raid');
+add('sec', 'Сравнение классов и рас', 'Эта страница', '#compare');
+CLASSES.forEach(c => {
+  add('cls', c.n, c.roles.map(r => ROLE_RU[r]).join(', '), classUrl(c.id), CX[c.id].specs.map(s => s.n + ' ' + s.en).join(' '), CCOL[c.id]);
+  CX[c.id].specs.forEach(s => {
+    add('spec', s.n, `${c.n} · ${s.what}`, classUrl(c.id) + '#specs', s.en + ' ' + s.roles.map(r => ROLE_RU[r]).join(' '), CCOL[c.id]);
+    s.keys.forEach(k => add('abil', k[0], `${k[0] === k[1] ? '' : k[1] + ' · '}${c.n}, ${s.n}. ${k[2]}`, classUrl(c.id) + '#specs', k[1], CCOL[c.id]));
+  });
+});
+RACES.forEach(r => {
+  add('race', raceName(r), FAC[r.f] + (r.paid ? ', платная' : '') + ' · ' + Object.keys(r.can).map(c => CL[c].n).join(', '), raceUrl(r.id), r.n);
+  r.rac.forEach(x => add('rac', x[1], `${raceName(r)} · ${x[2]}`, raceUrl(r.id)));
+});
+DUNGEONS.forEach(d => add('dung', d[0], `${d[1]}–${d[2]} · ${d[3]}`, HOME + '#dungeons'));
+PROFS.forEach(p => add('prof', p[1], `Лагерь: ${p[3]}, ${p[4]}`, HOME + '#camp'));
+
+let sLimit = 10;
+function hl(t, terms) {
+  let h = esc(t);
+  const nt = norm(t), first = terms.find(x => nt.includes(x));
+  if (first) { const i = nt.indexOf(first); h = esc(t.slice(0, i)) + '<mark>' + esc(t.slice(i, i + first.length)) + '</mark>' + esc(t.slice(i + first.length)); }
+  return h;
+}
+function runSearch() {
+  const raw = $('#q').value.trim(), q = norm(raw);
+  const res = $('#sres'), stat = $('#sstat'), more = $('#smore');
+  $('#shint').hidden = !!q;
+  if (!q) { res.innerHTML = ''; stat.textContent = ''; more.hidden = true; return; }
+  let hits;
+  const lv = /^\d{1,2}$/.test(q) ? +q : 0;
+  if (lv) hits = DUNGEONS.filter(d => d[1] <= lv && lv <= d[2]).map(d => IDX.find(x => x.kind === 'dung' && x.t === d[0]));
+  else {
+    const terms = q.split(/\s+/);
+    hits = IDX.map(x => {
+      if (!terms.every(t => x.nh.includes(t))) return null;
+      const score = (x.nt === q ? 0 : x.nt.startsWith(q) ? 1 : x.nt.includes(q) ? 2 : terms.every(t => x.nt.includes(t)) ? 3 : 4) * 10 + Object.keys(KIND).indexOf(x.kind);
+      return [score, x];
+    }).filter(Boolean).sort((a, b) => a[0] - b[0]).map(a => a[1]);
+  }
+  const terms = q.split(/\s+/);
+  stat.textContent = hits.length ? (lv ? `Уровень ${lv}, подходящих подземелий: ${hits.length}` : `Найдено: ${hits.length}`) : '';
+  res.innerHTML = hits.length ? hits.slice(0, sLimit).map(x => `<li><a href="${x.u}"><b>${hl(x.t, terms)}</b><span class="k">${KIND[x.kind]}</span><span class="s"${x.cc ? ` style="--cc:${x.cc}"` : ''}>${esc(x.sub)}</span></a></li>`).join('') : '<li class="snone">Ничего не нашлось. Попробуйте другое слово или английское название.</li>';
+  more.hidden = hits.length <= sLimit;
+  more.textContent = `Показать все (${hits.length})`;
+}
+$('#q').addEventListener('input', () => { sLimit = 10; runSearch(); });
+$('#q').addEventListener('keydown', e => { if (e.key === 'Escape') { e.target.value = ''; runSearch(); } });
+$('#smore').onclick = () => { sLimit = 1000; runSearch(); };
+$('#shint').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { $('#q').value = b.textContent; sLimit = 10; runSearch(); $('#q').focus(); } });
+document.addEventListener('keydown', e => {
+  if (e.key !== '/' || e.ctrlKey || e.metaKey || e.altKey) return;
+  const t = e.target; if (t.closest('input, textarea, select, [contenteditable]') || document.querySelector('dialog[open]')) return;
+  e.preventDefault(); $('#q').focus(); $('#q').scrollIntoView({ block: 'center' });
+});
+
+/* ---------- Page chrome ---------- */
+const themeBtns = document.querySelectorAll('.themebtn');
+function paintTheme() { const t = document.documentElement.getAttribute('data-theme'); themeBtns.forEach(b => b.querySelector('use').setAttribute('href', t === 'light' ? '#i-moon' : '#i-sun')); const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#fbfaf7' : '#07080a'); }
+themeBtns.forEach(b => b.onclick = () => { const t = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light'; document.documentElement.setAttribute('data-theme', t); try { localStorage.setItem('wf-theme', t); } catch (e) {} paintTheme(); });
+paintTheme();
+const topbar = $('#topbar');
+let barTick = false;
+function paintBar() { topbar.classList.toggle('solid', window.scrollY > 24); barTick = false; }
+window.addEventListener('scroll', () => { if (!barTick) { barTick = true; requestAnimationFrame(paintBar); } }, { passive: true });
+paintBar();
+const dlg = $('#moreDlg');
+document.querySelectorAll('.menubtn, .morebtn').forEach(b => b.onclick = () => { if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', ''); });
+$('#moreClose').onclick = () => dlg.close();
+dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.toc a')) dlg.close(); });
+
+const fromLink = location.hash.startsWith('#team=');
+readHash();
+if (!R.s.some(Boolean)) { const used = { tank: 0, heal: 0, dps: 0 }; R.s = R.s.map((_, i) => newPlayer(i, used)); }
+renderRaid(fromLink); renderPick(); renderCmp();
+if (fromLink) $('#raid').scrollIntoView();
+const q0 = new URLSearchParams(location.search).get('q');
+if (q0) { $('#q').value = q0.slice(0, 60); runSearch(); }
+</script>
+</body>
+</html>
