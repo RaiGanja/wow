@@ -3,163 +3,228 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>WoW Forever: Класс и раса</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Philosopher:wght@400;700&family=Source+Sans+3:wght@400;600;700&display=swap">
+<title>WoW Forever: гид Gabella Team</title>
+<meta name="description" content="Гид по WoW Forever для компании друзей: классы, расы, комбинации, Legacy, лагерь, подземелья, рейды и подбор состава группы. Данные на 22.10.2026.">
+<meta name="theme-color" content="#0c0c0d">
+<link rel="canonical" href="https://raiganja.github.io/wow/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230c0c0d'/%3E%3Ctext x='32' y='33' text-anchor='middle' dominant-baseline='central' font-family='Georgia,serif' font-size='44' font-weight='700' fill='%23c9a54a'%3EG%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Source+Sans+3:wght@400;600;700&display=swap">
 <style>
-/* Layout: шапка с правилами для компании, липкие фильтры, матрица раса×класс, панель выбранной комбинации, затем карточки классов и рас. */
+/* Layout: шапка, липкая навигация, даты, подборщик (фильтры, матрица, панель, карточки), затем справочные разделы и источники. Тема одна: золото на чёрном. */
 :root {
-  --bg: #eef0f3;
-  --surface: #ffffff;
-  --surface-2: #e6e9ee;
-  --fg: #1b2230;
-  --muted: #566074;
-  --line: #d3d8e1;
-  --accent: #7d5f17;
-  --accent-ink: #ffffff;
-  --alliance: #2557a7;
-  --horde: #a3282a;
-  --new: #17704c;
-  --warn-bg: #f6edd3;
-  --font-display: "Philosopher", Georgia, "Times New Roman", serif;
+  --bg: #0c0c0d;
+  --surface: #141416;
+  --surface-2: #1c1c1f;
+  --fg: #ece6d6;
+  --muted: #a8a290;
+  --line: #2d2b26;
+  --gold: #c9a54a;
+  --gold-ink: #14100a;
+  --alliance: #86a6d8;
+  --horde: #d4807b;
+  --new: #92c4a0;
+  --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
   --font-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #11151d; --surface: #1a202c; --surface-2: #232b3a; --fg: #e8ebf1; --muted: #9aa4b6;
-    --line: #2c3445; --accent: #d4a84a; --accent-ink: #1a1405; --alliance: #7aa6f2; --horde: #ef8280;
-    --new: #5ec79a; --warn-bg: #2a2512; color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #11151d; --surface: #1a202c; --surface-2: #232b3a; --fg: #e8ebf1; --muted: #9aa4b6;
-  --line: #2c3445; --accent: #d4a84a; --accent-ink: #1a1405; --alliance: #7aa6f2; --horde: #ef8280;
-  --new: #5ec79a; --warn-bg: #2a2512; color-scheme: dark;
+  color-scheme: dark;
 }
 * { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 body {
-  background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 16px; line-height: 1.5;
+  margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 16px; line-height: 1.55;
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
-  padding-block: 24px 48px;
+  padding-bottom: 56px;
 }
-.wrap { max-width: 1080px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px; }
-h1, h2, h3 { font-family: var(--font-display); font-weight: 700; margin: 0; text-wrap: balance; line-height: 1.15; }
-h1 { font-size: clamp(1.9rem, 5vw, 2.8rem); }
-h2 { font-size: 1.5rem; }
-h3 { font-size: 1.2rem; }
+.wrap { max-width: 1080px; margin: 0 auto; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 700; margin: 0; text-wrap: balance; line-height: 1.12; }
+h1 { font-size: clamp(2.2rem, 7vw, 3.6rem); letter-spacing: .01em; }
+h2 { font-size: clamp(1.6rem, 4vw, 2.1rem); color: var(--gold); }
+h3 { font-size: 1.3rem; }
 p { margin: 0; }
-a { color: var(--accent); }
+a { color: var(--gold); text-underline-offset: 3px; }
 button { font: inherit; color: inherit; cursor: pointer; }
-:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-.eyebrow { font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
-.lead { color: var(--muted); max-width: 62ch; margin-top: 10px; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.eyebrow { font-size: .78rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.small { color: var(--muted); font-size: .92rem; }
 
-header { display: flex; flex-direction: column; gap: 6px; }
-.rules { background: var(--warn-bg); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; display: grid; gap: 6px; }
-.rules strong { font-weight: 700; }
-.rules ul { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
+header.top { padding-block: 40px 28px; display: grid; gap: 16px; border-bottom: 1px solid var(--gold); }
+.brand { display: flex; align-items: center; gap: 14px; }
+.mark { width: 52px; height: 52px; flex: none; }
+.lead { color: var(--muted); max-width: 64ch; font-size: 1.05rem; }
+.stamp { display: inline-flex; flex-wrap: wrap; gap: 6px 16px; font-size: .88rem; color: var(--muted); }
+.stamp b { color: var(--fg); }
 
-.filters { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); padding-block: 10px; border-bottom: 1px solid var(--line);
-  display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; }
-.fgroup { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; min-width: 0; }
-.flabel { font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
-.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--surface); flex-wrap: wrap; }
-.seg button { border: 0; background: transparent; padding: 7px 13px; font-weight: 600; font-size: .95rem; border-right: 1px solid var(--line); }
-.seg button:last-child { border-right: 0; }
-.seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
-.seg button[data-v="alliance"][aria-pressed="true"] { background: var(--alliance); color: #fff; }
-.seg button[data-v="horde"][aria-pressed="true"] { background: var(--horde); color: #fff; }
-:root[data-theme="dark"] .seg button[data-v="alliance"][aria-pressed="true"], :root[data-theme="dark"] .seg button[data-v="horde"][aria-pressed="true"] { color: #10141b; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .seg button[data-v="alliance"][aria-pressed="true"], :root:not([data-theme="light"]) .seg button[data-v="horde"][aria-pressed="true"] { color: #10141b; } }
+nav.sticky { position: sticky; top: 0; z-index: 10; background: var(--bg); border-bottom: 1px solid var(--line); margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); padding-inline: max(16px, env(safe-area-inset-left, 0px)); }
+nav.sticky .in { max-width: 1080px; margin: 0 auto; display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+nav.sticky .in::-webkit-scrollbar { display: none; }
+nav.sticky a { flex: none; padding: 14px 12px; color: var(--muted); text-decoration: none; font-weight: 600; font-size: .92rem; border-bottom: 2px solid transparent; }
+nav.sticky a:hover { color: var(--gold); border-bottom-color: var(--gold); }
 
-.sec-head { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+section.block { padding-top: 56px; display: grid; gap: 18px; }
+.sec-head { display: grid; gap: 6px; }
 .sec-head p { color: var(--muted); max-width: 70ch; }
+.rule { border: 0; border-top: 1px solid var(--line); margin: 0; }
 
-.matrix-box { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 20px; }
+.panel.gold { border-color: var(--gold); }
+ul.dots { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+ul.dots li::marker { color: var(--gold); }
+
+.timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; border-top: 1px solid var(--line); }
+.timeline li { display: grid; grid-template-columns: 128px 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.timeline .d { font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; color: var(--gold); line-height: 1.2; }
+.timeline .t b { display: block; }
+.timeline .t span { color: var(--muted); font-size: .94rem; }
+
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+.grid2 > * { min-width: 0; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 12px 28px; align-items: center; }
+.fgroup { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-width: 0; }
+.flabel { font-size: .76rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; flex-wrap: wrap; background: var(--surface); }
+.seg button { border: 0; background: transparent; padding: 9px 15px; font-weight: 600; font-size: .95rem; border-right: 1px solid var(--line); min-height: 40px; }
+.seg button:last-child { border-right: 0; }
+.seg button[aria-pressed="true"] { background: var(--gold); color: var(--gold-ink); }
+
+.matrix-box { overflow-x: auto; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); }
 table { border-collapse: separate; border-spacing: 0; width: 100%; min-width: 760px; }
 th, td { padding: 0; text-align: center; border-bottom: 1px solid var(--line); }
 tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
-thead th { font-size: .8rem; font-weight: 700; padding: 10px 4px; background: var(--surface-2); position: sticky; top: 0; }
-thead th small { display: block; font-weight: 400; color: var(--muted); font-size: .7rem; }
-thead th.dim { opacity: .38; }
+thead th { font-size: .8rem; font-weight: 700; padding: 11px 4px; background: var(--surface-2); letter-spacing: .02em; }
+thead th.dim { opacity: .35; }
 tbody th { text-align: left; padding: 8px 12px; font-weight: 600; font-size: .95rem; position: sticky; left: 0; background: var(--surface); z-index: 1; border-right: 1px solid var(--line); white-space: nowrap; }
 thead th:first-child { position: sticky; left: 0; z-index: 2; border-right: 1px solid var(--line); }
-tbody th .f { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; }
+tbody th .f { display: inline-block; width: 8px; height: 8px; margin-right: 8px; }
 .f.alliance { background: var(--alliance); } .f.horde { background: var(--horde); }
-tbody th .paid { font-size: .68rem; color: var(--muted); font-weight: 600; margin-left: 6px; border: 1px solid var(--line); border-radius: 4px; padding: 0 4px; }
+tbody th .paid { font-size: .68rem; color: var(--gold); font-weight: 600; margin-left: 6px; border: 1px solid var(--gold); border-radius: 2px; padding: 0 4px; }
 td { height: 46px; }
 .cell { width: 100%; height: 100%; min-height: 46px; border: 0; background: transparent; font-weight: 700; font-size: 1rem; display: grid; place-items: center; }
 .cell:hover { background: var(--surface-2); }
 .cell.no { color: var(--line); cursor: default; }
 .cell.no:hover { background: transparent; }
 .cell.ok { color: var(--fg); }
-.cell.new { color: var(--new); font-size: .72rem; letter-spacing: .06em; }
+.cell.new { color: var(--new); font-size: .7rem; letter-spacing: .08em; }
 .cell.dim { opacity: .3; }
-.cell.sel { background: var(--accent); color: var(--accent-ink); }
-tr.rowsel th { box-shadow: inset 3px 0 0 var(--accent); }
-.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; color: var(--muted); font-size: .88rem; margin-top: 10px; }
+.cell.sel { background: var(--gold); color: var(--gold-ink); }
+tr.rowsel th { box-shadow: inset 3px 0 0 var(--gold); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; color: var(--muted); font-size: .88rem; }
 .legend b { color: var(--fg); }
 .legend .n { color: var(--new); font-weight: 700; }
 
-.detail { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 20px; display: grid; gap: 18px; }
+.detail { background: var(--surface); border: 1px solid var(--gold); border-radius: 4px; padding: 22px; display: grid; gap: 18px; }
 .d-top { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: baseline; }
-.tag { font-size: .74rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; border-radius: 4px; padding: 2px 8px; border: 1px solid currentColor; }
-.tag.alliance { color: var(--alliance); } .tag.horde { color: var(--horde); } .tag.new { color: var(--new); } .tag.paid { color: var(--muted); }
-.d-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; }
+.d-top h2 { color: var(--fg); }
+.tag { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; border-radius: 2px; padding: 2px 8px; border: 1px solid currentColor; }
+.tag.alliance { color: var(--alliance); } .tag.horde { color: var(--horde); } .tag.new { color: var(--new); } .tag.paid { color: var(--gold); }
+.d-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
 .d-cols > div { min-width: 0; }
-.d-cols h3 { margin-bottom: 8px; }
+.d-cols h3 { margin-bottom: 10px; }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.chip { font-size: .8rem; font-weight: 600; padding: 2px 9px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--line); white-space: nowrap; }
-.chip.on { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.chip { font-size: .8rem; font-weight: 600; padding: 2px 10px; border-radius: 2px; border: 1px solid var(--line); background: var(--surface-2); white-space: nowrap; }
+.chip.on { background: var(--gold); color: var(--gold-ink); border-color: var(--gold); }
 .chip.q { border-style: dashed; }
-ul.plain { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+ul.plain { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
 ul.plain li { display: grid; gap: 1px; }
 .specname { font-weight: 700; }
 .en { font-weight: 400; color: var(--muted); font-size: .92em; }
-.specrole { color: var(--muted); font-size: .88rem; }
-.rtype { font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-right: 6px; }
-.small { color: var(--muted); font-size: .92rem; }
+.specrole { color: var(--muted); font-size: .9rem; }
+.rtype { font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); margin-right: 8px; }
 .copyrow { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; border-top: 1px solid var(--line); padding-top: 16px; }
-.copyrow input { flex: 1 1 220px; min-width: 0; font: inherit; padding: 8px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--fg); }
-.btn { background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 6px; padding: 9px 16px; font-weight: 700; }
+.copyrow input { flex: 1 1 220px; min-width: 0; font: inherit; padding: 10px 12px; border: 1px solid var(--line); border-radius: 4px; background: var(--bg); color: var(--fg); }
+.btn { background: var(--gold); color: var(--gold-ink); border: 0; border-radius: 4px; padding: 10px 18px; font-weight: 700; min-height: 42px; }
 
 .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 14px; }
-.card { text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 16px; display: grid; gap: 10px; align-content: start; min-width: 0; }
-.card:hover { border-color: var(--accent); }
-.card.sel { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
-.card dl { margin: 0; display: grid; gap: 6px; }
-.card dt { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
-.card dd { margin: 0; font-size: .95rem; }
-.rc { display: grid; gap: 4px; }
-footer { color: var(--muted); font-size: .9rem; display: grid; gap: 8px; border-top: 1px solid var(--line); padding-top: 18px; }
-footer ul { margin: 0; padding-left: 20px; }
+.card { text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 16px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.card:hover { border-color: var(--gold); }
+.card.sel { border-color: var(--gold); box-shadow: inset 0 0 0 1px var(--gold); }
+.card dl { margin: 0; display: grid; gap: 7px; }
+.card dt { font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); font-weight: 700; }
+.card dd { margin: 0; font-size: .94rem; }
+
+.tbl-box { overflow-x: auto; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); }
+.tbl-box table { min-width: 560px; }
+.tbl-box th, .tbl-box td { text-align: left; padding: 10px 14px; vertical-align: top; }
+.tbl-box thead th { color: var(--gold); font-size: .76rem; letter-spacing: .1em; text-transform: uppercase; }
+.tbl-box tbody th { position: static; background: transparent; border-right: 0; white-space: normal; font-size: .95rem; }
+.tbl-box td.num { white-space: nowrap; color: var(--gold); font-weight: 600; }
+.badge-new { color: var(--new); font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin-left: 6px; }
+
+.note { border-left: 2px solid var(--gold); padding: 4px 0 4px 14px; color: var(--muted); font-size: .94rem; }
+.note b { color: var(--fg); }
+.own { border: 1px dashed var(--line); border-radius: 4px; padding: 14px 16px; background: var(--surface); }
+.own .eyebrow { color: var(--gold); margin-bottom: 6px; }
+
+footer { margin-top: 64px; border-top: 1px solid var(--gold); padding-top: 24px; display: grid; gap: 14px; color: var(--muted); font-size: .92rem; }
+footer ul { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
+footer ul li::marker { color: var(--gold); }
+
 @media (max-width: 719px) {
-  .filters { position: static; border-bottom: 0; padding-block: 0; }
+  header.top { padding-block: 28px 22px; }
   tbody th { padding: 6px 8px; font-size: .84rem; white-space: normal; min-width: 104px; max-width: 120px; }
   tbody th .paid { display: block; margin: 2px 0 0; width: max-content; }
-  thead th { font-size: .72rem; padding: 8px 2px; }
-  td { height: 42px; }
-  .cell { min-height: 42px; }
+  thead th { font-size: .72rem; padding: 9px 2px; }
+  td { height: 44px; } .cell { min-height: 44px; }
+  .timeline li { grid-template-columns: 1fr; gap: 2px; }
+  .panel, .detail { padding: 16px; }
 }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 @media (prefers-reduced-motion: no-preference) { .card, .cell, .seg button { transition: background-color .12s, border-color .12s; } }
 </style>
-
+</head>
+<body>
 <div class="wrap">
-  <header>
-    <div class="eyebrow">World of Warcraft: Forever · Classic+ · релиз 4 ноября 2026</div>
-    <h1>Какой класс и расу взять</h1>
-    <p class="lead">Выберите фракцию и роль, посмотрите, какие расы и классы сочетаются, и нажмите на клетку. Под таблицей появятся способности расы и роли класса. Готовый выбор копируется одной кнопкой, чтобы скинуть в общий чат.</p>
-  </header>
 
-  <section class="rules" aria-label="Договориться заранее">
-    <strong>Договоритесь в компании до создания персонажей</strong>
-    <ul>
-      <li>Все играют за одну фракцию: Альянс или Орда. Так вы сможете группироваться.</li>
-      <li>Все выбирают один режим: Обычный, PvP или RP (Hardcore добавят позже). Группироваться можно только внутри одного режима, а в PvP при создании доступна только одна фракция.</li>
-      <li>Нужна подписка или игровое время. Расу Скайборн открывает платный набор (от $29.99), для остальных ничего докупать не нужно.</li>
-    </ul>
-  </section>
+<header class="top">
+  <div class="brand">
+    <svg class="mark" viewBox="0 0 64 64" role="img" aria-label="Gabella Team">
+      <circle cx="32" cy="32" r="30" fill="#0c0c0d" stroke="#c9a54a" stroke-width="1.5"/>
+      <text x="32" y="32" text-anchor="middle" dominant-baseline="central" font-family="Cormorant Garamond, Georgia, serif" font-size="40" font-weight="700" fill="#c9a54a">G</text>
+    </svg>
+    <div class="eyebrow">Gabella Team Ukraine · World of Warcraft: Forever</div>
+  </div>
+  <h1>Гид по WoW Forever для своей компании</h1>
+  <p class="lead">Классы, расы, новые комбинации, Legacy, лагерь, подземелья и рейды. Плюс подбор состава для группы из 6–8 человек. Только проверенные данные, с источниками и датой.</p>
+  <div class="stamp"><span>Данные на <b>22.10.2026</b></span><span>Версия: <b>закрытая бета, патч от 15.10.2026</b></span><span>Релиз: <b>04.11.2026</b></span></div>
+</header>
 
+<nav class="sticky" aria-label="Разделы"><div class="in">
+  <a href="#dates">Даты</a><a href="#picker">Подборщик</a><a href="#classes">Классы</a><a href="#races">Расы</a><a href="#legacy">Legacy</a><a href="#camp">Лагерь</a><a href="#dungeons">Подземелья</a><a href="#group">Состав группы</a><a href="#era">Отличия от Era</a><a href="#sources">Источники</a>
+</div></nav>
+
+<section class="block" id="dates">
+  <div class="sec-head"><h2>Что и когда</h2><p>Главное до релиза и после него.</p></div>
+  <ul class="timeline">
+    <li><span class="d">17.09 – 21.10</span><span class="t"><b>Закрытая бета</b><span>Доступ был у владельцев наборов Epic и Collection. Бета временно закрыта, Blizzard пишет, что она вернётся.</span></span></li>
+    <li><span class="d">15.10</span><span class="t"><b>Крупный патч беты</b><span>Переделаны способности рас (оружейные специализации заменены критами) и настроены почти все классы.</span></span></li>
+    <li><span class="d">27.10 – 03.11</span><span class="t"><b>Ранняя резервация имён</b><span>Входит в наборы Heroic, Epic и Collection. Первым пришёл, первым занял, это не ранний доступ в игру. Некоторые сайты называют начало 23.10, надёжнее сверить на странице Blizzard.</span></span></li>
+    <li><span class="d">04.11</span><span class="t"><b>Релиз WoW Forever</b><span>Нужна подписка или игровое время. Forever постоянная игра рядом с Retail и Classic, не сезон.</span></span></li>
+    <li><span class="d">09.12</span><span class="t"><b>Открываются рейды</b><span>Barrow Deeps (10 игроков), Hyjal Summit (20), Onyxia's Lair (40). До этого есть пять недель на прокачку и подземелья.</span></span></li>
+  </ul>
+  <div class="grid2">
+    <div class="panel">
+      <h3>Наборы и цены</h3>
+      <ul class="dots" style="margin-top:10px">
+        <li><b>Heroic Pack</b> $29.99: открывает расу Скайборн, её стартовую зону и раннюю резервацию имён.</li>
+        <li><b>Epic Pack</b> $59.99: то же плюс доступ к бете.</li>
+        <li><b>Warcraft Forever Collection</b> $79.99, продаётся до 11.01.2027, с доступом к бете.</li>
+        <li>Остальные восемь рас и все девять классов докупать не нужно.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>Режимы игры</h3>
+      <ul class="dots" style="margin-top:10px">
+        <li>Обычный, PvP и RP. Hardcore запустят позже со своими правилами.</li>
+        <li>Группироваться можно только внутри одного режима. В PvP при создании доступна одна фракция.</li>
+        <li><b>Договоритесь заранее:</b> одна фракция, один режим, одни и те же дни на старт.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="picker">
+  <div class="sec-head"><h2>Подборщик: раса и класс</h2>
+    <p>Выберите фракцию и роль, посмотрите сочетания и нажмите на клетку. Ниже появятся способности расы и роли класса, а выбор копируется одной кнопкой для общего чата.</p></div>
   <div class="filters" role="group" aria-label="Фильтры">
     <div class="fgroup"><span class="flabel" id="lf">Фракция</span>
       <div class="seg" id="segF" aria-labelledby="lf">
@@ -167,7 +232,7 @@ footer ul { margin: 0; padding-left: 20px; }
         <button data-v="alliance" aria-pressed="false">Альянс</button>
         <button data-v="horde" aria-pressed="false">Орда</button>
       </div></div>
-    <div class="fgroup"><span class="flabel" id="lr">Роль в группе</span>
+    <div class="fgroup"><span class="flabel" id="lr">Роль</span>
       <div class="seg" id="segR" aria-labelledby="lr">
         <button data-v="all" aria-pressed="true">Любая</button>
         <button data-v="tank" aria-pressed="false">Танк</button>
@@ -175,37 +240,195 @@ footer ul { margin: 0; padding-left: 20px; }
         <button data-v="dps" aria-pressed="false">Урон</button>
       </div></div>
   </div>
+  <div class="matrix-box" tabindex="0" role="region" aria-label="Таблица рас и классов, прокручивается по горизонтали"><table id="matrix"></table></div>
+  <div class="legend"><span><b>✓</b> можно</span><span><span class="n">НОВОЕ</span> комбинации не было в Classic</span><span><b>·</b> нельзя</span></div>
+  <div class="detail" id="detail" aria-live="polite" aria-label="Выбранная комбинация"></div>
+  <p class="note"><b>Новые комбинации:</b> дворф-шаман и гном-жрец (Альянс), человек-охотник, а у Орды орк-маг, тролль-чернокнижник и нежить-паладин. Паладин появился у Орды, шаман у Альянса. Скайборн-ветрорез (Орда) может быть шаманом, Высший скайборн (Альянс) магом.</p>
+</section>
 
-  <section>
-    <div class="sec-head"><h2>Таблица рас и классов</h2>
-      <p>Столбцы классов, подходящих под выбранную роль, остаются яркими. Нажмите на клетку, чтобы увидеть подробности.</p></div>
-    <div class="matrix-box" tabindex="0" role="region" aria-label="Таблица рас и классов, прокручивается по горизонтали"><table id="matrix"></table></div>
-    <div class="legend"><span><b>✓</b> можно</span><span><span class="n">НОВОЕ</span> комбинация, которой не было в Classic</span><span><b>·</b> нельзя</span></div>
-  </section>
+<section class="block" id="classes">
+  <div class="sec-head"><h2>Классы</h2><p>Девять классов по три специализации. Темп прокачки взят из прогнозов по бете (в бете был потолок 30 уровня, выше оценки проектные). Нажмите на карточку, чтобы выбрать класс.</p></div>
+  <div class="cards" id="classCards"></div>
+</section>
 
-  <section class="detail" id="detail" aria-live="polite" aria-label="Выбранная комбинация"></section>
+<section class="block" id="races">
+  <div class="sec-head"><h2>Расы</h2><p>У каждой расы по четыре способности: две активные и две пассивные. Часть старых способностей заменена новыми, сопротивления убраны.</p></div>
+  <div class="cards" id="raceCards"></div>
+  <p class="note"><b>Скайборн</b> играбельна за обе фракции, выбор фракции делается при создании. Обе ветки говорят на общем языке, а стартовая зона Zephras Isle общая, враги там не встречаются из-за слоёв.</p>
+</section>
 
-  <section>
-    <div class="sec-head"><h2>Классы</h2><p>Темп прокачки и вклад в рейд приведены по данным беты. Нажмите на карточку, чтобы выбрать класс.</p></div>
-    <div class="cards" id="classCards"></div>
-  </section>
+<section class="block" id="legacy">
+  <div class="sec-head"><h2>Система Legacy</h2><p>Прогресс на весь аккаунт Battle.net. Очки получают за испытания, а тратят на перки отдельно на каждом персонаже.</p></div>
+  <div class="grid2">
+    <div class="panel">
+      <h3>Как получить очки</h3>
+      <ul class="dots" style="margin-top:10px">
+        <li>Система открывается с первым очком: уровень 25 на персонаже, либо 150 в профессии (не сбор), либо исследование всей карты.</li>
+        <li>Каждое испытание даёт 1 очко. По данным Blizzard испытаний 65 в шести категориях: классы 27, профессии 18, PvP 12, подземелья 3, рейды 3, приключения 2.</li>
+        <li>Очки действуют на всех персонажах не-Hardcore. Горячая клавиша окна: Y.</li>
+        <li><b>Лимит на запуске:</b> на персонаже можно потратить не более 16 очков. Лишние идут в трек наград.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>Трек наград (по числу очков)</h3>
+      <ul class="dots" style="margin-top:10px">
+        <li>15: игрушка Holstered Replica Ironforge Air Rifle</li>
+        <li>25: питомец Spectral Bear Cub</li>
+        <li>40: табард Spectral Bear</li>
+        <li>55: скакун Reins of the Spectral Bear</li>
+      </ul>
+      <p class="small" style="margin-top:10px">Это косметика, преимуществ в игре она не даёт.</p>
+    </div>
+  </div>
+  <div class="tbl-box"><table>
+    <thead><tr><th>Дерево</th><th>Примеры перков (рангов)</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Профессии</th><td>Working Overtime (5): чаще растут навыки. Bountiful Harvest (5): на 20% больше редких материалов. Master Chef (5): шанс лишнего блюда. Bartering (2): цены у торговцев ниже на 5%.</td></tr>
+      <tr><th scope="row">Приключения</th><td>Well Rested (5): быстрее копится отдых и выше его потолок. Thrill of Adventure (5): здоровье и мана за убийство вне подземелий. Talented (5): таланты с 9 уровня вместо 10. Field Guide (3): короче откат объектов лагеря. Frequent Flier (1): перелёты на 50% дешевле.</td></tr>
+      <tr><th scope="row">Ресурсы</th><td>Gourmand (3): еда действует на 33% дольше. Reinforce (5): на 8% меньше потеря прочности. Diplomat (5): +2% репутации. Permanence (2): дольше баффы лагеря. Reagent Economy (1): способностям класса не нужны покупные реагенты.</td></tr>
+    </tbody></table></div>
+  <p class="note"><b>Совет:</b> в первую очередь ценны перки лагеря и опыта (Well Rested, Field Guide, Permanence) и Reagent Economy для классов с реагентами. Это наша оценка. Один источник пишет про лимит 25 очков на дерево, Blizzard лимита на дерево не называет.</p>
+</section>
 
-  <section>
-    <div class="sec-head"><h2>Расы</h2><p>В Forever у каждой расы по четыре способности: две активные и две пассивные. Сопротивления из старого Classic убрали.</p></div>
-    <div class="cards" id="raceCards"></div>
-  </section>
+<section class="block" id="camp">
+  <div class="sec-head"><h2>Лагерь и профессии</h2><p>Костёр по профессии Кулинария превращается в общий лагерь: рядом можно отдыхать, получать баффы и ставить объекты своих профессий.</p></div>
+  <div class="grid2">
+    <div class="panel">
+      <h3>Как это работает</h3>
+      <ul class="dots" style="margin-top:10px">
+        <li>Костёр одноразовый: строится несколько секунд, горит около 10 минут, откат на постановку 5 минут.</li>
+        <li>Базовый костёр доступен без Кулинарии, на 3 объекта. Кулинария 140 даёт 5 слотов, 220 даёт 10.</li>
+        <li>Каждый персонаж ставит один объект, откат на объект 1 час. Вместе делают общий лагерь.</li>
+        <li>Чтобы получить баффы, сядьте (<code>/sit</code>) рядом минимум на 1 минуту. Они суммируются в один бафф «Camp Benefits».</li>
+        <li>Баффы лагеря немного слабее классовых и не складываются с ними.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>Спальник и еда</h3>
+      <ul class="dots" style="margin-top:10px">
+        <li><b>Cozy Sleeping Bag</b> даёт Well-Rested, он складывается с баффами лагеря. Получают его цепочкой заданий на обоих континентах.</li>
+        <li>Большая часть готовой еды даёт бонус к опыту, он складывается и с лагерем, и со спальником.</li>
+        <li>Перки Legacy: Field Guide, Permanence, Reagent Economy улучшают лагерь.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="tbl-box"><table>
+    <thead><tr><th>Профессия</th><th>Объект (1 уровень)</th><th>Эффект</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Алхимия</th><td>Mana Well</td><td>больше восстановление маны</td></tr>
+      <tr><th scope="row">Кузнечное дело</th><td>Sharpening Wheel</td><td>больше силы</td></tr>
+      <tr><th scope="row">Наложение чар</th><td>Enchanted Lute</td><td>больше основных характеристик и сопротивлений</td></tr>
+      <tr><th scope="row">Первая помощь</th><td>First Aid Kit</td><td>больше выносливости</td></tr>
+      <tr><th scope="row">Рыбалка</th><td>Fish Bowl</td><td>больше основных характеристик</td></tr>
+      <tr><th scope="row">Травничество</th><td>Incense Candle</td><td>больше интеллекта</td></tr>
+      <tr><th scope="row">Кожевничество</th><td>Camp Tent</td><td>отдых и опыт (Boosted Rest)</td></tr>
+      <tr><th scope="row">Горное дело</th><td>Lodestone</td><td>больше силы атаки</td></tr>
+      <tr><th scope="row">Снятие шкур</th><td>Camp Chair</td><td>больше шанс критического удара</td></tr>
+      <tr><th scope="row">Портняжное дело</th><td>Faction Banner</td><td>больше духа</td></tr>
+      <tr><th scope="row">Инженерия</th><td>Reagent Bot</td><td>торговец, во 2 уровне ремонт (Repair Bot)</td></tr>
+      <tr><th scope="row">Кулинария</th><td>Basic Campfire</td><td>без баффа, добавляет слоты лагеря</td></tr>
+    </tbody></table></div>
+  <p class="note">Каждая профессия делает по три объекта, по одному на уровень. Источники расходятся в навыке для объектов 2 и 3 уровня (один пишет 140 и 300), поэтому сверяйте в игре.</p>
+</section>
 
-  <footer>
-    <p>Данные собраны 22.10.2026 по закрытой бете и патчу от 15 октября. До релиза цифры могут поменяться, особенно у способностей рас и в оценках классов. Источники расходятся в мелочах (например, в длительности некоторых способностей), поэтому точные числа сверяйте в игре.</p>
-    <p>Источники:</p>
-    <ul>
-      <li><a href="https://www.method.gg/wow-forever/all-new-racial-abilities-in-world-of-warcraft-forever" target="_blank" rel="noopener">Method: способности рас</a></li>
-      <li><a href="https://www.warcrafttavern.com/forever/guides/classes/" target="_blank" rel="noopener">Warcraft Tavern: классы, специализации, роли</a></li>
-      <li><a href="https://lfcarry.com/guides/wow-forever-classes" target="_blank" rel="noopener">LFCarry: изменения классов, новые комбинации, патч 15 октября</a></li>
-      <li><a href="https://theforeverera.com/en/guides/wow-forever/" target="_blank" rel="noopener">The Forever Era: дата выхода, наборы Скайборн, режимы</a></li>
-      <li><a href="https://classicwow.gg/forever" target="_blank" rel="noopener">ClassicWoW.gg: сроки беты и предзаказа имён</a></li>
+<section class="block" id="dungeons">
+  <div class="sec-head"><h2>Подземелья и рейды</h2><p>Всего 35 подземелий, из них 9 новых. Уровни ориентировочные, жёстких блокировок Blizzard пока не опубликовала. На сайтах диапазоны местами отличаются на пару уровней.</p></div>
+  <div class="tbl-box"><table>
+    <thead><tr><th>Новое подземелье</th><th>Уровни</th><th>Где</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Hall of Thanes</th><td class="num">13–18</td><td>Ironforge</td></tr>
+      <tr><th scope="row">Ruins of Lordaeron</th><td class="num">15–20</td><td>Tirisfal Glades</td></tr>
+      <tr><th scope="row">Excavation Site</th><td class="num">24–29</td><td>Wetlands</td></tr>
+      <tr><th scope="row">City of Dalaran</th><td class="num">28–33</td><td>Alterac Mountains</td></tr>
+      <tr><th scope="row">The Drowned City</th><td class="num">35–40</td><td>Stranglethorn Vale</td></tr>
+      <tr><th scope="row">Krol'Dok Stronghold</th><td class="num">40–45</td><td>Riverglades</td></tr>
+      <tr><th scope="row">Alcaz Island Prison</th><td class="num">48–53</td><td>Dustwallow Marsh</td></tr>
+      <tr><th scope="row">Blackmaw Hold</th><td class="num">55–60</td><td>Azshara</td></tr>
+      <tr><th scope="row">Shaper's Terrace</th><td class="num">58–60</td><td>Un'Goro Crater</td></tr>
+    </tbody></table></div>
+  <div class="grid2">
+    <div class="panel">
+      <h3>Рейды (с 09.12.2026)</h3>
+      <ul class="dots" style="margin-top:10px">
+        <li><b>Barrow Deeps</b>, 10 игроков</li>
+        <li><b>Hyjal Summit</b>, 20 игроков</li>
+        <li><b>Onyxia's Lair</b>, 40 игроков, в Dustwallow Marsh</li>
+        <li>За прохождение каждого из этих рейдов в Legacy даётся по очку.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>PvP</h3>
+      <ul class="dots" style="margin-top:10px">
+        <li>Новое поле боя 15 на 15: Darkspear Islands у побережья Dustwallow Marsh.</li>
+        <li>Звания с недельным лимитом, улучшение экипировки за Честь, сезонные цели Legacy.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="note">Старые подземелья Classic тоже в игре (Ragefire Chasm, Wailing Caverns, Deadmines, Shadowfang Keep, Scarlet Monastery, Blackrock Depths и другие), так что для группы на 5 человек в уровнях 13–60 всегда есть что пройти.</p>
+</section>
+
+<section class="block" id="group">
+  <div class="sec-head"><h2>Состав для компании из 6–8 человек</h2><p>Ниже факты из источников и наши рекомендации. Рекомендации помечены отдельно, это не официальные данные.</p></div>
+  <div class="grid2">
+    <div class="panel">
+      <h3>Что известно</h3>
+      <ul class="dots" style="margin-top:10px">
+        <li>Подземелья рассчитаны на 5 игроков: танк, лекарь, трое с уроном.</li>
+        <li>Рейды на 10, 20 и 40 игроков. Из шести-восьми друзей 10-местный Barrow Deeps соберётся с одним-двумя знакомыми из гильдии.</li>
+        <li>Танковать могут Воин, Паладин и Друид, лечить Паладин, Жрец, Шаман и Друид.</li>
+        <li>Паладин и Друид умеют все три роли. Это самая гибкая пара для небольшой компании.</li>
+        <li>Группа и рейд получают баффы классов: Королей от паладина, тотемы шамана, Боевой крик воина, ауры охотника и друида. Порталы, еду и воду делает маг.</li>
+      </ul>
+    </div>
+    <div class="own">
+      <div class="eyebrow">Рекомендация составителя</div>
+      <ul class="dots">
+        <li><b>На 6:</b> Воин или Паладин (Защита) в танка, Жрец или Паладин (Свет) в лекаря, четверо в урон: Маг, Охотник, Разбойник, Чернокнижник.</li>
+        <li><b>На 8:</b> два танка-гибрида (Паладин, Друид), два лекаря (Жрец плюс Шаман или Друид), в урон Маг, Охотник, Чернокнижник и Шаман. Тогда можно собрать две группы по 4–5 игроков или одну на 5 и менять роли.</li>
+        <li>Берите разные классы: баффы разных классов складываются, а одинаковые перекрываются.</li>
+        <li>Один из вас берёт Кулинарию ради костра на 10 объектов, остальные по профессии под баффы лагеря. С 4 ноября по 9 декабря прокачайтесь вместе по подземельям.</li>
+        <li>Займите имена в окне 27.10 – 03.11, если у вас есть набор, и заранее решите, кто за какой класс, чтобы не дублироваться.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="panel">
+    <h3>Прокачка</h3>
+    <ul class="dots" style="margin-top:10px">
+      <li>По прогнозам Охотник и Маг прокачиваются быстрее всего (примерно на 8% быстрее среднего), Воин медленнее всех (около 12%), Друид и Жрец чуть медленнее среднего. Это оценки для беты, цифры могут измениться.</li>
+      <li>Масштабирования уровней нет: подземелья для своих уровней, их нельзя пройти «подтянув» слабого друга.</li>
+      <li>Копите отдых: спальник, Well Rested и еда с бонусом опыта складываются.</li>
+      <li>Лагерь можно ставить прямо на прокачке, пять минут на костёр окупаются баффами на группу.</li>
     </ul>
-  </footer>
+  </div>
+</section>
+
+<section class="block" id="era">
+  <div class="sec-head"><h2>Чем Forever отличается от Classic Era</h2></div>
+  <div class="tbl-box"><table>
+    <thead><tr><th>Тема</th><th>Что в Forever</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Общее</th><td>Восточные королевства и Калимдор, прокачка до 60. Постоянная игра, а не сезон. Нет летающих скакунов и нет масштабирования уровней, как и в Classic.</td></tr>
+      <tr><th scope="row">Контент</th><td>Новые зоны, задания, 9 новых подземелий, 3 новых рейда, новое поле боя, новая раса Скайборн.</td></tr>
+      <tr><th scope="row">Классы и расы</th><td>Обновлены таланты и способности классов, новые сочетания рас и классов, у рас убраны сопротивления и добавлены свои способности.</td></tr>
+      <tr><th scope="row">Системы</th><td>Legacy, лагерь, опциональная трансмогрификация и выбор визуального стиля (Classic или современный), официальная поддержка геймпада.</td></tr>
+      <tr><th scope="row">Предметы</th><td>Характеристики и предметы изменены, поэтому старые списки добычи из Classic ненадёжны.</td></tr>
+    </tbody></table></div>
+</section>
+
+<footer id="sources">
+  <h2>Источники и актуальность</h2>
+  <p>Данные собраны <b style="color:var(--fg)">22.10.2026</b> по закрытой бете и патчу от 15.10.2026 и сверены по нескольким источникам. До релиза Blizzard ещё может менять бету, особенно способности рас, настройку классов и перки Legacy. Если источники расходились, это отмечено в тексте. Точные числа сверяйте в игре.</p>
+  <ul>
+    <li><a href="https://www.warcrafttavern.com/forever/" target="_blank" rel="noopener">Warcraft Tavern</a>: <a href="https://www.warcrafttavern.com/forever/guides/race-class-combos/" target="_blank" rel="noopener">комбинации</a>, <a href="https://www.warcrafttavern.com/forever/guides/races/" target="_blank" rel="noopener">расы</a>, <a href="https://www.warcrafttavern.com/forever/guides/legacy/" target="_blank" rel="noopener">Legacy</a>, <a href="https://www.warcrafttavern.com/forever/guides/camping/" target="_blank" rel="noopener">лагерь</a>, <a href="https://www.warcrafttavern.com/forever/guides/dungeons/" target="_blank" rel="noopener">подземелья</a>, <a href="https://www.warcrafttavern.com/news/world-of-warcraft-forever-editions-skyborne-race-unlock-beta-access/" target="_blank" rel="noopener">наборы и цены</a></li>
+    <li><a href="https://www.method.gg/wow-forever" target="_blank" rel="noopener">Method</a>: <a href="https://www.method.gg/wow-forever/all-class-and-race-combinations-in-world-of-warcraft-forever" target="_blank" rel="noopener">все комбинации</a>, <a href="https://www.method.gg/wow-forever/all-new-racial-abilities-in-world-of-warcraft-forever" target="_blank" rel="noopener">способности рас</a></li>
+    <li><a href="https://classicwow.gg/forever" target="_blank" rel="noopener">ClassicWoW.gg</a>: даты беты, резервации имён, рейдов, отличия от Era</li>
+    <li><a href="https://news.blizzard.com/en-gb/article/24307383" target="_blank" rel="noopener">Blizzard: система Legacy</a></li>
+    <li><a href="https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/" target="_blank" rel="noopener">Warcraft Tavern: изменения беты от 15 октября</a></li>
+    <li><a href="https://www.wowhead.com/forever" target="_blank" rel="noopener">Wowhead</a>: новости и справочник</li>
+    <li>Описание классов, темп прокачки: <a href="https://www.warcrafttavern.com/forever/guides/classes/" target="_blank" rel="noopener">Warcraft Tavern</a>, <a href="https://lfcarry.com/guides/wow-forever-classes" target="_blank" rel="noopener">LFCarry</a></li>
+  </ul>
+  <p>Страница сделана для сервера Gabella Team Ukraine и не связана с Blizzard Entertainment. World of Warcraft — товарный знак Blizzard.</p>
+</footer>
 </div>
 
 <script>
@@ -440,5 +663,5 @@ document.addEventListener('click', e => {
 });
 render();
 </script>
-
+</body>
 </html>
