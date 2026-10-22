@@ -323,9 +323,10 @@ ul.buffs .m { color: var(--muted); }
 .stepper input { width: 52px; min-height: 44px; border: 0; background: transparent; color: var(--fg); font: inherit; font-weight: 600; text-align: center; font-variant-numeric: tabular-nums; -moz-appearance: textfield; }
 .stepper input::-webkit-inner-spin-button, .stepper input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 .tbl-box.dg table { min-width: 0; }
-.dg td.num .alt { display: block; color: var(--muted); font-weight: 400; font-size: .8rem; white-space: normal; }
+.dg td.num .alt { display: block; margin-top: 4px; color: var(--muted); font-weight: 400; font-size: .8rem; white-space: normal; }
 .dg tbody th .tag { margin-left: 8px; vertical-align: .1em; }
-.dg tr.mine th { padding-left: 10px; box-shadow: inset 2px 0 0 var(--gold); }
+.dg tr.mine > * { border-color: color-mix(in srgb, var(--gold) 60%, transparent); }
+.dg td.num .pill { min-width: 64px; justify-content: center; }
 .dg td.zone { color: var(--muted); }
 .dg tbody th .z { display: none; }
 .dg-empty td { color: var(--muted); }
@@ -631,7 +632,18 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .st-head h3 { font-size: 1.75rem; }
   .steps-c, .st-cols { grid-template-columns: 1fr; }
   .steps-c li { padding: 14px; }
-  .dg th, .dg td { padding-right: 10px; }
+  .tbl-box { padding: 8px; }
+  .tbl-box table, .tbl-box tbody, .tbl-box tr, .tbl-box th, .tbl-box td { display: block; }
+  .tbl-box table { min-width: 0; }
+  .tbl-box thead { display: none; }
+  .tbl-box tbody { display: grid; gap: 6px; }
+  .tbl-box tr { padding: 12px 14px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--pline); }
+  .tbl-box th, .tbl-box td, .tbl-box tr > :first-child, .tbl-box tr > :last-child { padding: 0; border: 0; border-radius: 0; background: none; }
+  .tbl-box td { margin-top: 4px; font-size: .95rem; }
+  .tbl-box td + td { color: var(--muted); }
+  .dg tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; align-items: center; }
+  .dg td.num { margin: 0; text-align: right; }
+  .dg tr.mine { border-color: color-mix(in srgb, var(--gold) 60%, transparent); }
   .dg thead th:last-child, .dg td.zone { display: none; }
   .dg tbody th .z { display: block; color: var(--muted); font-weight: 400; font-size: .85rem; }
   #segD { width: 100%; }
@@ -1808,7 +1820,7 @@ function renderDungeons() {
   if (dgMode === 'mine') rows = lv ? rows.filter(d => nearLvl(d, lv)) : [];
   $('#dgBody').innerHTML = rows.length ? rows.map(d => {
     const alt = (d[5] || []).map(a => `${a[0]}: ${a[1]}`).join(', ');
-    return `<tr class="${lv && nearLvl(d, lv) ? 'mine' : ''}"><th scope="row">${esc(d[0])}${d[4] ? '<span class="tag new">новое</span>' : ''}<span class="z">${esc(d[3])}</span></th><td class="num">${lvRange(d)}${alt ? `<span class="alt">${esc(alt)}</span>` : ''}</td><td class="zone">${esc(d[3])}</td></tr>`;
+    return `<tr class="${lv && nearLvl(d, lv) ? 'mine' : ''}"><th scope="row">${esc(d[0])}${d[4] ? '<span class="tag new">новое</span>' : ''}<span class="z">${esc(d[3])}</span></th><td class="num"><span class="pill${lv && nearLvl(d, lv) ? ' gold' : ''}">${lvRange(d)}</span>${alt ? `<span class="alt">${esc(alt)}</span>` : ''}</td><td class="zone">${esc(d[3])}</td></tr>`;
   }).join('') : `<tr class="dg-empty"><td colspan="3">${lv ? 'Под этот уровень подземелий нет.' : 'Укажите свой уровень, чтобы отфильтровать.'}</td></tr>`;
   $('#dgCount').textContent = `Показано ${rows.length} из ${DUNGEONS.length}`;
   syncSeg('segD', dgMode);
