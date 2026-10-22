@@ -389,12 +389,14 @@ ul.dots li::marker { color: var(--gold); }
 
 /* Picker */
 .tool { padding: 24px; display: grid; gap: 18px; }
-.matrix-box { overflow-x: auto; }
+.matrix-box { overflow-x: auto; padding-top: 8px; }
 table { border-collapse: separate; border-spacing: 0; width: 100%; }
 /* Round portrait avatar with a ring in the class or faction colour */
 .av { --s: 40px; position: relative; width: var(--s); height: var(--s); flex: none; display: inline-block; border-radius: 50%; background: #0b0d12; box-shadow: 0 0 0 2px var(--ring-gap, var(--panel)), 0 0 0 3.5px var(--cc, var(--pline)); }
 .av img { display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
-#matrix { min-width: 860px; border-spacing: 0 2px; }
+#matrix { min-width: 860px; border-spacing: 0 2px; table-layout: fixed; }
+/* Equal class columns: the race column is fixed, the nine class columns share the rest */
+#matrix thead th:first-child { width: 290px; }
 #matrix th, #matrix td { padding: 0; text-align: center; }
 #matrix thead th { padding: 0 2px 12px; vertical-align: bottom; font-size: .76rem; font-weight: 600; color: var(--muted); transition: opacity .2s, color .2s; }
 #matrix thead th .av { --s: 38px; display: block; margin: 0 auto 8px; transition: box-shadow .2s, transform .2s var(--ease); }
@@ -418,6 +420,14 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 .f { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; vertical-align: .05em; }
 .f.alliance { background: var(--alliance); } .f.horde { background: var(--horde); }
 .paid { font-size: .7rem; color: var(--gold-2); font-weight: 600; margin-left: 2px; border-radius: 999px; padding: 1px 8px; background: color-mix(in srgb, var(--gold) 16%, transparent); }
+@media (max-width: 1199px) {
+  #matrix thead th:first-child { width: 215px; }
+  #matrix thead th { font-size: .7rem; }
+  /* paid badge drops under the race name so the race column can stay narrow */
+  #matrix tbody th .rn:has(.paid) { display: inline-grid; grid-template-columns: auto auto; column-gap: 12px; row-gap: 2px; align-items: center; justify-items: start; }
+  #matrix tbody th .rn:has(.paid) .av { grid-row: span 2; }
+  #matrix tbody th .paid { margin-left: 0; }
+}
 .cell { width: 100%; height: 100%; min-height: 46px; border: 0; background: transparent; display: grid; place-items: center; padding: 0; transition: opacity .2s; }
 .cell i { display: grid; place-items: center; width: 10px; height: 10px; border-radius: 50%; background: var(--cc); box-shadow: 0 0 0 4px color-mix(in srgb, var(--cc) 16%, transparent); transition: transform .18s var(--ease), width .18s var(--ease), height .18s var(--ease); }
 .cell i .ico { width: 15px; height: 15px; opacity: 0; color: var(--gold-ink); }
@@ -982,7 +992,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
       <a class="gt" href="#legacy"><picture><source type="image/avif" srcset="../assets/art/priest-360.avif 360w, ../assets/art/priest-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/priest-360.webp" srcset="../assets/art/priest-360.webp 360w, ../assets/art/priest-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Legacy</b><span>Очки на весь акаунт, перки й нагороди</span></a>
       <a class="gt" href="#camp"><picture><source type="image/avif" srcset="../assets/art/hero_campfire-960.avif"><img src="../assets/art/hero_campfire-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Табір і професії</b><span>Багаття, об’єкти професій і бафи</span></a>
       <a class="gt" href="#dungeons"><picture><source type="image/avif" srcset="../assets/art/warlock-360.avif 360w, ../assets/art/warlock-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/warlock-360.webp" srcset="../assets/art/warlock-360.webp 360w, ../assets/art/warlock-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Підземелля та рейди</b><span>Усі 35 підземель за рівнями і 3 рейди</span></a>
-      <a class="gt" href="#group"><picture><source type="image/avif" srcset="../assets/art/paladin-360.avif 360w, ../assets/art/paladin-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/paladin-360.webp" srcset="../assets/art/paladin-360.webp 360w, ../assets/art/paladin-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Склад групи</b><span>Факти й поради для компанії з 6–8 людей</span></a>
+      <a class="gt" href="#group"><picture><source type="image/avif" srcset="../assets/art/paladin-360.avif 360w, ../assets/art/paladin-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/paladin-360.webp" srcset="../assets/art/paladin-360.webp 360w, ../assets/art/paladin-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Склад групи</b><span>Факти й поради для групи будь-якого розміру</span></a>
       <a class="gt" href="#era"><picture><source type="image/avif" srcset="../assets/art/mage-360.avif 360w, ../assets/art/mage-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/mage-360.webp" srcset="../assets/art/mage-360.webp 360w, ../assets/art/mage-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Відмінності від Era</b><span>Що нового порівняно з Classic</span></a>
     </nav>
   </div>
@@ -1141,25 +1151,28 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </section>
 
 <section class="block wrap" id="group" data-nav="#guides">
-  <div class="sec-head"><h2>Склад для компанії з 6–8 людей</h2><p>Нижче факти з джерел і наші рекомендації. Рекомендації позначено окремо, це не офіційні дані.</p></div>
+  <div class="sec-head"><h2>Склад групи</h2><p>Нижче факти з джерел і наші рекомендації. Рекомендації позначено окремо, це не офіційні дані.</p></div>
   <div class="grid2">
     <div class="panel">
       <h3>Що відомо</h3>
       <ul class="dots">
         <li>Підземелля розраховані на 5 гравців: танк, цілитель, троє зі шкодою.</li>
-        <li>Рейди на 10, 20 і 40 гравців. Із шести-восьми друзів 10-місний Barrow Deeps збереться з одним-двома знайомими з гільдії.</li>
+        <li>Рейди на 10, 20 і 40 гравців. Якщо своїх менше, решту добирають із гільдії.</li>
         <li>Танкувати можуть Воїн, Паладин і Друїд, лікувати Паладин, Жрець, Шаман і Друїд.</li>
-        <li>Паладин і Друїд вміють усі три ролі. Це найгнучкіша пара для невеликої компанії.</li>
+        <li>Паладин і Друїд вміють усі три ролі. Це найгнучкіші класи, коли гравців мало.</li>
         <li>Група й рейд отримують баффи класів: Королів від паладина, тотеми шамана, Бойовий клич воїна, аури мисливця та друїда. Портали, їжу та воду робить маг.</li>
       </ul>
     </div>
     <div class="panel tipp">
       <h3 class="tiph"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg>Рекомендація укладача</h3>
       <ul class="dots">
-        <li><b>На 6:</b> Воїн або Паладин (Захист) у танка, Жрець або Паладин (Світло) у цілителя, четверо в шкоду: Маг, Мисливець, Розбійник, Чорнокнижник.</li>
-        <li><b>На 8:</b> два танки-гібриди (Паладин, Друїд), два цілителі (Жрець плюс Шаман або Друїд), у шкоду Маг, Мисливець, Чорнокнижник і Шаман. Тоді можна зібрати дві групи по 4–5 гравців або одну на 5 і міняти ролі.</li>
+        <li><b>Соло:</b> найлегше Мисливцю й Чорнокнижнику, у них вихованець тримає ворога. Паладин і Друїд теж живучі й у підземеллі підуть на будь-яку роль.</li>
+        <li><b>2–4 гравці:</b> нехай хоча б один уміє танкувати або лікувати (Воїн, Паладин, Друїд, Жрець, Шаман), решту до п’яти добирайте в підземелля.</li>
+        <li><b>5 гравців:</b> танк, цілитель і троє в шкоду, наприклад Воїн, Жрець, Маг, Мисливець і Розбійник.</li>
+        <li><b>6–9 гравців:</b> дві групи для підземель, у кожній потрібні свій танк і цілитель. Тут особливо цінні гібриди: Паладин, Друїд, Шаман.</li>
+        <li><b>10 і більше:</b> вистачає на 10-місний рейд Barrow Deeps: два танки, два-три цілителі, решта в шкоду.</li>
         <li>Беріть різні класи: баффи різних класів складаються, а однакові перекриваються.</li>
-        <li>Один із вас бере Кулінарію заради вогнища на 10 об’єктів, решта за професією під баффи табору. З 4 листопада по 9 грудня прокачайтеся разом по підземеллях.</li>
+        <li>Хтось у групі бере Кулінарію заради вогнища на 10 об’єктів, решта за професією під баффи табору. З 4 листопада по 9 грудня прокачайтеся разом по підземеллях.</li>
         <li>Займіть імена у вікні 27.10 – 03.11, якщо у вас є набір, і заздалегідь вирішіть, хто за який клас, щоб не дублюватися.</li>
       </ul>
     </div>
@@ -1875,7 +1888,7 @@ const STAGES = [
       ['t', 'Тримайте в групі Кулінарію 220 заради табору на 10 об’єктів: до рейду місця вистачить усім.']],
     legacy: [['f', 'На персонажа не більше 16 очок, зайві йдуть у трек нагород: іграшка за 15, вихованець за 25, табард за 40, скакун за 55.']],
     group: [['f', 'Рейди відкриються 09.12: Barrow Deeps на 10 гравців, Hyjal Summit на 20, Onyxia’s Lair на 40.'],
-      ['t', 'Для 10-місного рейду компанії з 6–8 людей потрібні ще 1–2 гравці: знайдіть їх у гільдії заздалегідь.']],
+      ['t', 'Для 10-місного рейду потрібно 10 гравців: якщо вас менше, знайдіть решту в гільдії заздалегідь.']],
     src: ['ride', 'prof', 'legacy', 'cwg'] },
   { id: 'raid', n: '60 і рейди', sub: 'з 09.12', lo: 60, hi: 60,
     todo: [['f', '09.12 відкриваються Barrow Deeps (10 гравців), Hyjal Summit (20) і Onyxia’s Lair (40, Dustwallow Marsh).'],

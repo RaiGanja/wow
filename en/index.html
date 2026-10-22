@@ -389,12 +389,14 @@ ul.dots li::marker { color: var(--gold); }
 
 /* Picker */
 .tool { padding: 24px; display: grid; gap: 18px; }
-.matrix-box { overflow-x: auto; }
+.matrix-box { overflow-x: auto; padding-top: 8px; }
 table { border-collapse: separate; border-spacing: 0; width: 100%; }
 /* Round portrait avatar with a ring in the class or faction colour */
 .av { --s: 40px; position: relative; width: var(--s); height: var(--s); flex: none; display: inline-block; border-radius: 50%; background: #0b0d12; box-shadow: 0 0 0 2px var(--ring-gap, var(--panel)), 0 0 0 3.5px var(--cc, var(--pline)); }
 .av img { display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
-#matrix { min-width: 860px; border-spacing: 0 2px; }
+#matrix { min-width: 860px; border-spacing: 0 2px; table-layout: fixed; }
+/* Equal class columns: the race column is fixed, the nine class columns share the rest */
+#matrix thead th:first-child { width: 290px; }
 #matrix th, #matrix td { padding: 0; text-align: center; }
 #matrix thead th { padding: 0 2px 12px; vertical-align: bottom; font-size: .76rem; font-weight: 600; color: var(--muted); transition: opacity .2s, color .2s; }
 #matrix thead th .av { --s: 38px; display: block; margin: 0 auto 8px; transition: box-shadow .2s, transform .2s var(--ease); }
@@ -418,6 +420,14 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 .f { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; vertical-align: .05em; }
 .f.alliance { background: var(--alliance); } .f.horde { background: var(--horde); }
 .paid { font-size: .7rem; color: var(--gold-2); font-weight: 600; margin-left: 2px; border-radius: 999px; padding: 1px 8px; background: color-mix(in srgb, var(--gold) 16%, transparent); }
+@media (max-width: 1199px) {
+  #matrix thead th:first-child { width: 215px; }
+  #matrix thead th { font-size: .7rem; }
+  /* paid badge drops under the race name so the race column can stay narrow */
+  #matrix tbody th .rn:has(.paid) { display: inline-grid; grid-template-columns: auto auto; column-gap: 12px; row-gap: 2px; align-items: center; justify-items: start; }
+  #matrix tbody th .rn:has(.paid) .av { grid-row: span 2; }
+  #matrix tbody th .paid { margin-left: 0; }
+}
 .cell { width: 100%; height: 100%; min-height: 46px; border: 0; background: transparent; display: grid; place-items: center; padding: 0; transition: opacity .2s; }
 .cell i { display: grid; place-items: center; width: 10px; height: 10px; border-radius: 50%; background: var(--cc); box-shadow: 0 0 0 4px color-mix(in srgb, var(--cc) 16%, transparent); transition: transform .18s var(--ease), width .18s var(--ease), height .18s var(--ease); }
 .cell i .ico { width: 15px; height: 15px; opacity: 0; color: var(--gold-ink); }
@@ -982,7 +992,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
       <a class="gt" href="#legacy"><picture><source type="image/avif" srcset="../assets/art/priest-360.avif 360w, ../assets/art/priest-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/priest-360.webp" srcset="../assets/art/priest-360.webp 360w, ../assets/art/priest-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Legacy</b><span>Account-wide points, perks and rewards</span></a>
       <a class="gt" href="#camp"><picture><source type="image/avif" srcset="../assets/art/hero_campfire-960.avif"><img src="../assets/art/hero_campfire-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Camp and professions</b><span>Campfire, profession objects and buffs</span></a>
       <a class="gt" href="#dungeons"><picture><source type="image/avif" srcset="../assets/art/warlock-360.avif 360w, ../assets/art/warlock-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/warlock-360.webp" srcset="../assets/art/warlock-360.webp 360w, ../assets/art/warlock-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Dungeons and raids</b><span>All 35 dungeons by level and 3 raids</span></a>
-      <a class="gt" href="#group"><picture><source type="image/avif" srcset="../assets/art/paladin-360.avif 360w, ../assets/art/paladin-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/paladin-360.webp" srcset="../assets/art/paladin-360.webp 360w, ../assets/art/paladin-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Group</b><span>Facts and tips for a group of 6–8</span></a>
+      <a class="gt" href="#group"><picture><source type="image/avif" srcset="../assets/art/paladin-360.avif 360w, ../assets/art/paladin-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/paladin-360.webp" srcset="../assets/art/paladin-360.webp 360w, ../assets/art/paladin-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Group composition</b><span>Facts and tips for a group of any size</span></a>
       <a class="gt" href="#era"><picture><source type="image/avif" srcset="../assets/art/mage-360.avif 360w, ../assets/art/mage-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/mage-360.webp" srcset="../assets/art/mage-360.webp 360w, ../assets/art/mage-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Differences from Era</b><span>What is new compared to Classic</span></a>
     </nav>
   </div>
@@ -1141,25 +1151,28 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </section>
 
 <section class="block wrap" id="group" data-nav="#guides">
-  <div class="sec-head"><h2>Group for a company of 6–8 players</h2><p>Below are facts from the sources and our recommendations. Recommendations are marked separately; they are not official data.</p></div>
+  <div class="sec-head"><h2>Group composition</h2><p>Below are facts from the sources and our recommendations. Recommendations are marked separately; they are not official data.</p></div>
   <div class="grid2">
     <div class="panel">
       <h3>What is known</h3>
       <ul class="dots">
         <li>Dungeons are designed for 5 players: a tank, a healer and three damage dealers.</li>
-        <li>Raids are for 10, 20 and 40 players. With six to eight friends, the 10-player Barrow Deeps can be filled with one or two acquaintances from a guild.</li>
+        <li>Raids are for 10, 20 and 40 players. If your own group is smaller, the rest are filled from a guild.</li>
         <li>Warriors, Paladins and Druids can tank; Paladins, Priests, Shamans and Druids can heal.</li>
-        <li>Paladins and Druids can do all three roles. This is the most flexible pair for a small group.</li>
+        <li>Paladins and Druids can do all three roles. They are the most flexible classes when players are few.</li>
         <li>Groups and raids receive class buffs: Kings from the paladin, shaman totems, the warrior’s Battle Shout, hunter and druid auras. Portals, food and water come from the mage.</li>
       </ul>
     </div>
     <div class="panel tipp">
       <h3 class="tiph"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg>Compiler’s recommendation</h3>
       <ul class="dots">
-        <li><b>For 6:</b> a Warrior or Paladin (Protection) as tank, a Priest or Paladin (Holy) as healer, and four damage dealers: Mage, Hunter, Rogue, Warlock.</li>
-        <li><b>For 8:</b> two hybrid tanks (Paladin, Druid), two healers (Priest plus Shaman or Druid), and Mage, Hunter, Warlock and Shaman for damage. Then you can form two groups of 4–5 players or one of 5 and swap roles.</li>
+        <li><b>Solo:</b> Hunters and Warlocks have it easiest, their pet holds the enemy. Paladins and Druids are also sturdy and can fill any role in a dungeon.</li>
+        <li><b>2–4 players:</b> make sure at least one of you can tank or heal (Warrior, Paladin, Druid, Priest, Shaman), and fill the dungeon group up to five.</li>
+        <li><b>5 players:</b> a tank, a healer and three damage dealers, for example Warrior, Priest, Mage, Hunter and Rogue.</li>
+        <li><b>6–9 players:</b> two dungeon groups, each needs its own tank and healer. Hybrids are especially valuable here: Paladin, Druid, Shaman.</li>
+        <li><b>10 or more:</b> enough for the 10-player Barrow Deeps raid: two tanks, two or three healers, the rest on damage.</li>
         <li>Take different classes: buffs of different classes stack, while identical ones overlap.</li>
-        <li>One of you takes Cooking for a campfire with 10 objects, the others pick professions for camp buffs. From 4 November to 9 December, level up together through dungeons.</li>
+        <li>Someone in the group takes Cooking for a campfire with 10 objects, the others pick professions for camp buffs. From 4 November to 9 December, level up together through dungeons.</li>
         <li>Reserve names in the 27.10 – 03.11 window if you have a pack, and decide in advance who plays which class so you do not duplicate.</li>
       </ul>
     </div>
@@ -1220,7 +1233,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <nav class="toc" aria-label="All sections">
     <div class="grp"><div class="gh">Home</div><a href="#top">Overview</a><a href="#stages">Where you are now</a><a href="#factions">Factions</a><a href="#classes">Classes</a><a href="#peoples">Races</a></div>
     <div class="grp"><div class="gh">Tools</div><a href="#picker">Picker</a><a href="#builder">Group builder</a><a href="#checklist">Checklist</a><a href="tools/">Frames, compare, search</a></div>
-    <div class="grp"><div class="gh">Reference</div><a href="#dates">Dates and packs</a><a href="#classref">Classes in detail</a><a href="#races">Races</a><a href="#legacy">Legacy</a><a href="#camp">Camp and professions</a><a href="#dungeons">Dungeons and raids</a><a href="#group">Group</a><a href="#era">Differences from Era</a><a href="#sources">Sources</a></div>
+    <div class="grp"><div class="gh">Reference</div><a href="#dates">Dates and packs</a><a href="#classref">Classes in detail</a><a href="#races">Races</a><a href="#legacy">Legacy</a><a href="#camp">Camp and professions</a><a href="#dungeons">Dungeons and raids</a><a href="#group">Group composition</a><a href="#era">Differences from Era</a><a href="#sources">Sources</a></div>
   </nav>
   <div class="opts">
     <div class="langs" role="group" aria-label="Language"><a href="../" data-lang="ru" hreflang="ru" lang="ru" aria-current="false">RU</a><a href="./" data-lang="en" hreflang="en" lang="en" aria-current="true">EN</a><a href="../uk/" data-lang="uk" hreflang="uk" lang="uk" aria-current="false">UK</a></div>
@@ -1875,7 +1888,7 @@ const STAGES = [
       ['t', 'Keep Cooking 220 in the group for a 10-object camp: by raid time there will be room for everyone.']],
     legacy: [['f', 'At most 16 points per character, the rest go to the reward track: a toy at 15, a pet at 25, a tabard at 40, a mount at 55.']],
     group: [['f', 'Raids open on 09.12: Barrow Deeps for 10 players, Hyjal Summit for 20, Onyxia’s Lair for 40.'],
-      ['t', 'For the 10-player raid, a group of 6–8 friends needs 1–2 more players: find them in your guild early.']],
+      ['t', 'The 10-player raid needs 10 players: if you have fewer, find the rest in your guild early.']],
     src: ['ride', 'prof', 'legacy', 'cwg'] },
   { id: 'raid', n: '60 and raids', sub: 'from 09.12', lo: 60, hi: 60,
     todo: [['f', 'On 09.12 Barrow Deeps (10 players), Hyjal Summit (20) and Onyxia’s Lair (40, Dustwallow Marsh) open.'],
