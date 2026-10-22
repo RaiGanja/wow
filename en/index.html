@@ -226,6 +226,18 @@ section.block { scroll-margin-top: -72px; }
 .ttile b, .gt b { font-weight: 700; font-size: 1.2rem; line-height: 1.2; text-shadow: 0 1px 8px rgba(0,0,0,.7); }
 .ttile span, .gt span { font-size: .9rem; line-height: 1.4; color: rgba(243,239,230,.82); }
 
+/* Race roster: two factions side by side, five portraits each */
+.peoples { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.pfac.alliance { --fc: var(--alliance); } .pfac.horde { --fc: var(--horde); }
+.pfac h3 { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; color: var(--fc); font-size: 1.3rem; }
+.pfac h3::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--fc); }
+.rr { height: clamp(400px, 36vw, 520px); }
+.rr .hc .info { min-width: 250px; padding: 22px 20px 24px; }
+.rr .hc .info b { font-size: 1.9rem; }
+.rr .hc .vn { font-size: 1.15rem; }
+.rr .hc .tag { justify-self: start; color: #e0c27a; }
+
+
 /* Guides band over the campfire art */
 .gtiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; padding: 14px; }
 .gt { min-height: 180px; }
@@ -564,6 +576,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .hc .info b { font-size: 2rem; }
   .hc::after { background: linear-gradient(180deg, rgba(7,8,10,0) 30%, rgba(7,8,10,.72) 55%, rgba(7,8,10,.96) 100%); }
   .swipe { display: block; }
+  .peoples { grid-template-columns: 1fr; gap: 28px; }
 }
 @media (max-width: 980px) {
   .builder, .journey { grid-template-columns: 1fr; }
@@ -690,7 +703,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="#top" aria-label="Gabella Team, back to top"><span class="mark" aria-hidden="true">G</span><b>Gabella Team</b></a>
   <nav class="mainnav" aria-label="Sections">
-    <a href="#stages">Stages</a><a href="#factions">Factions</a><a href="#classes">Classes</a><a href="#picker">Picker</a><a href="#builder">Group</a><a href="#checklist">Checklist</a><a href="#guides">Guides</a>
+    <a href="#stages">Stages</a><a href="#factions">Factions</a><a href="#classes">Classes</a><a href="#peoples">Races</a><a href="#picker">Picker</a><a href="#builder">Group</a><a href="#guides">Guides</a>
   </nav>
   <div class="tools">
     <div class="langs" role="group" aria-label="Language"><a href="../" data-lang="ru" hreflang="ru" lang="ru" aria-current="false">RU</a><a href="./" data-lang="en" hreflang="en" lang="en" aria-current="true">EN</a><a href="../uk/" data-lang="uk" hreflang="uk" lang="uk" aria-current="false">UK</a></div>
@@ -775,6 +788,15 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <section class="block wrap" id="classes" data-nav="#classes" data-tab="#classes">
   <div class="sec-head"><div class="row"><h2>Who to play</h2><span class="src">Warcraft Tavern, LFCarry</span></div><p>Hover a portrait to expand the class. Click to open the class page: specializations, races and what is new in Forever.</p></div>
   <div class="frame roster" id="roster"></div>
+  <p class="swipe">Swipe sideways through the portraits.</p>
+</section>
+
+<section class="block wrap" id="peoples" data-nav="#peoples" data-tab="#classes">
+  <div class="sec-head"><div class="row"><h2>Who to play</h2><span class="src">Warcraft Tavern</span></div><p>Five races per faction, and the Skyborne are on both sides. Click a portrait to open the race page: abilities, classes and story.</p></div>
+  <div class="peoples">
+    <div class="pfac alliance"><h3>Alliance</h3><div class="roster rr" id="rosterA"></div></div>
+    <div class="pfac horde"><h3>Horde</h3><div class="roster rr" id="rosterH"></div></div>
+  </div>
   <p class="swipe">Swipe sideways through the portraits.</p>
 </section>
 
@@ -1094,7 +1116,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <dialog class="sheet" id="moreDlg" aria-label="All sections">
   <div class="dh"><b>All sections</b><button class="iconbtn" id="moreClose" type="button" aria-label="Close"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="All sections">
-    <div class="grp"><div class="gh">Home</div><a href="#top">Overview</a><a href="#stages">Where you are now</a><a href="#factions">Factions</a><a href="#classes">Classes</a></div>
+    <div class="grp"><div class="gh">Home</div><a href="#top">Overview</a><a href="#stages">Where you are now</a><a href="#factions">Factions</a><a href="#classes">Classes</a><a href="#peoples">Races</a></div>
     <div class="grp"><div class="gh">Tools</div><a href="#picker">Picker</a><a href="#builder">Group builder</a><a href="#checklist">Checklist</a></div>
     <div class="grp"><div class="gh">Reference</div><a href="#dates">Dates and packs</a><a href="#classref">Classes in detail</a><a href="#races">Races</a><a href="#legacy">Legacy</a><a href="#camp">Camp and professions</a><a href="#dungeons">Dungeons and raids</a><a href="#group">Group</a><a href="#era">Differences from Era</a><a href="#sources">Sources</a></div>
   </nav>
@@ -1202,6 +1224,8 @@ const RACES = [
 RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
 const CL = Object.fromEntries(CLASSES.map(c => [c.id, c]));
 const RC = Object.fromEntries(RACES.map(r => [r.id, r]));
+const RLEAD = {"human": "The most numerous race of the Alliance. Versatile and strong in PvP thanks to Will to Survive.", "dwarf": "Sturdy miners and riflemen of Ironforge. For the first time in Classic the Alliance has shamans, and they are dwarves.", "nightelf": "An ancient people of the forests. Elusive: their own way to hide, dodge and fast running.", "gnome": "The inventors of Gnomeregan. Small, cunning and with the best escape ability in the game.", "skyA": "A new race in Forever. The High Order: wind elves seeking the lost arcane magic of their ancestors.", "orc": "The heart of the Horde. The strongest warriors and PvP masters thanks to Blood Fury and Hardiness.", "undead": "The Forsaken: former humans who broke free of the Lich King. Immune to fear and sleep when it counts.", "tauren": "Peaceful giants of the plains. The most health and their own area stun.", "troll": "The Darkspear tribe. The most classes in the Horde and a strong Berserking for damage.", "skyH": "A new race in Forever. The Windshapers: spiritual leaders of the Skyborne, close to the elements."}; // race page leads and URL slugs, filled in by build.py
+const RSLUG = {"human": "human", "dwarf": "dwarf", "nightelf": "night-elf", "gnome": "gnome", "skyA": "skyborne-alliance", "orc": "orc", "undead": "undead", "tauren": "tauren", "troll": "troll", "skyH": "skyborne-horde"};
 
 const EN = {
   'Arms':'Arms','Fury':'Fury','Protection':'Protection','Holy':'Holy','Retribution':'Retribution',
@@ -1327,7 +1351,8 @@ function renderRaceRef() {
     <div class="ref-name"><div class="rtile ${r.f}"><h3>${esc(r.n)}</h3>
       ${r.en ? `<div class="sub">${esc(r.en)}</div>` : ''}</div>
       <div class="chips"><span class="tag ${r.f}">${facName(r.f)}</span>${r.paid ? '<span class="tag paid">paid</span>' : ''}</div>
-      <button type="button" class="go" data-r="${r.id}">Open in the picker</button></div>
+      <button type="button" class="go" data-r="${r.id}">Open in the picker</button>
+      <a class="go" href="races/${RSLUG[r.id]}/">Race page</a></div>
     <div class="ref-body two">
       <div><h4>Classes</h4><div class="chips">${Object.keys(r.can).map(id => `<span class="chip ${r.can[id] === 'new' ? 'new' : ''}">${esc(CL[id].n)}${r.can[id] === 'new' ? ' · new' : ''}</span>`).join('')}</div></div>
       <div><h4>Abilities</h4><ul class="plain">${r.rac.map(x => `<li><span><span class="rtype">${x[0] === 'a' ? 'Active' : 'Passive'}</span><span class="specname">${bi(x[1])}</span></span><span class="specrole">${esc(x[2])}</span></li>`).join('')}</ul></div>
@@ -1390,9 +1415,22 @@ function renderRoster() {
   </a>`).join('');
 }
 renderRoster();
-function activate(card) { if (!card || card.classList.contains('on')) return; document.querySelectorAll('.hc.on').forEach(x => x.classList.remove('on')); card.classList.add('on'); }
-$('#roster').addEventListener('mouseover', e => activate(e.target.closest('.hc')));
-$('#roster').addEventListener('focusin', e => activate(e.target.closest('.hc')));
+/* Race roster: one row of portraits per faction, links to the race pages */
+function renderPeoples() {
+  [['alliance', '#rosterA'], ['horde', '#rosterH']].forEach(([f, sel]) => {
+    $(sel).innerHTML = RACES.filter(r => r.f === f).map((r, i) => `<a class="hc${i === 0 ? ' on' : ''}" href="races/${RSLUG[r.id]}/" style="--cc:var(--${f})">
+    <picture><source type="image/avif" srcset="${artSet(RSLUG[r.id], 'avif')}" sizes="${ART_SIZES}"><source type="image/webp" srcset="${artSet(RSLUG[r.id], 'webp')}" sizes="${ART_SIZES}"><img src="${ROOT}assets/art/${RSLUG[r.id]}-600.webp" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
+    <span class="vn" aria-hidden="true">${esc(raceName(r))}</span>
+    <span class="info"><b>${esc(raceName(r))}</b>${r.paid ? '<span class="tag paid">paid</span>' : ''}<span class="d">${esc(RLEAD[r.id])}</span><span class="more">More about the race</span></span>
+  </a>`).join('');
+  });
+}
+renderPeoples();
+function activate(card) { if (!card || card.classList.contains('on')) return; card.parentElement.querySelectorAll('.hc.on').forEach(x => x.classList.remove('on')); card.classList.add('on'); }
+document.querySelectorAll('.roster').forEach(ro => {
+  ro.addEventListener('mouseover', e => activate(e.target.closest('.hc')));
+  ro.addEventListener('focusin', e => activate(e.target.closest('.hc')));
+});
 
 /* Faction banners open the picker with that faction */
 document.querySelectorAll('.go-f').forEach(b => b.addEventListener('click', () => {
