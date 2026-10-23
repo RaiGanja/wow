@@ -1,5 +1,5 @@
 """Radio of the guide: tracks of Kevin MacLeod (incompetech.com, CC BY 4.0) -> <MEDIA>/<slug>.m4a
-(AAC 64 kbit/s, loudness -16 LUFS so stations play at one level) and assets/radio/stations.json
+(AAC <BITRATE>, loudness -16 LUFS so stations play at one level) and assets/radio/stations.json
 (stations, the "On air" day plan, titles, authors, durations, credits) that assets/radio/radio.js reads when the panel opens.
 Source mp3: https://incompetech.com/music/royalty-free/mp3-royaltyfree/<file>.mp3 (file names: incompetech.com/music/royalty-free/pieces.json),
 saved into a folder as <Title>.mp3.
@@ -12,6 +12,8 @@ OUT = os.path.join(ROOT, 'assets', 'radio')
 # Where the tracks are served from: '' = assets/radio/ of the site itself. To move them to other storage
 # (e.g. a Cloudflare R2 bucket on media.gabella.site), upload the .m4a files there and put its address here, then rerun.
 MEDIA = ''
+# Sound quality of the tracks (sources are 320 kbit/s mp3). To change it, delete assets/radio/*.m4a and rerun.
+BITRATE = '128k'
 
 KM = 'Kevin MacLeod'
 # art: picture of the station tile, from assets/art (without .webp); pos: its object-position (portraits: the face).
@@ -59,6 +61,49 @@ AIR = [
     {'id': 'evening', 'from': 17, 'to': 23, 'name': {'ru': 'Вечер', 'en': 'Evening', 'uk': 'Вечір'}, 'stations': ['tavern', 'battle', 'dungeon']},
     {'id': 'night', 'from': 23, 'to': 6, 'name': {'ru': 'Ночь', 'en': 'Night', 'uk': 'Ніч'}, 'stations': ['night', 'forest']},
 ]
+# Station and day-part texts in the guide's other languages, by the English text: de, fr, es, pt (pt-BR), it, pl
+TX = {
+    'Morning in the Vale': ('Morgen im Tal', 'Matin dans la vallée', 'Mañana en el valle', 'Manhã no vale', 'Mattino nella valle', 'Poranek w dolinie'),
+    'Harp and flute at dawn': ('Harfe und Flöte im Morgengrauen', 'Harpe et flûte à l’aube', 'Arpa y flauta al amanecer', 'Harpa e flauta ao amanhecer',
+                               'Arpa e flauto all’alba', 'Harfa i flet o świcie'),
+    'The Road': ('Unterwegs', 'La route', 'El camino', 'A estrada', 'La strada', 'Droga'),
+    'Pipes and fiddle on the way': ('Dudelsack und Fiedel auf dem Weg', 'Cornemuse et violon en chemin', 'Gaita y violín por el camino',
+                                    'Gaita e rabeca pelo caminho', 'Cornamusa e violino in cammino', 'Dudy i skrzypce w drodze'),
+    'Ancient Forest': ('Uralter Wald', 'Forêt ancienne', 'Bosque ancestral', 'Floresta ancestral', 'Foresta antica', 'Prastary las'),
+    'Secrets under the canopy': ('Geheimnisse unter dem Blätterdach', 'Secrets sous la canopée', 'Secretos bajo las copas', 'Segredos sob as copas',
+                                 'Segreti sotto le fronde', 'Tajemnice pod koronami drzew'),
+    'Drums of the Plains': ('Trommeln der Steppe', 'Tambours des plaines', 'Tambores de las llanuras', 'Tambores das planícies', 'Tamburi delle pianure', 'Bębny równin'),
+    'Rhythm of the tribes': ('Rhythmus der Stämme', 'Rythme des tribus', 'Ritmo de las tribus', 'Ritmo das tribos', 'Ritmo delle tribù', 'Rytm plemion'),
+    'Tavern': ('Taverne', 'Taverne', 'Taberna', 'Taverna', 'Taverna', 'Karczma'),
+    'Lute and ale by the hearth': ('Laute und Ale am Kamin', 'Luth et bière au coin du feu', 'Laúd y cerveza junto al hogar', 'Alaúde e cerveja junto à lareira',
+                                   'Liuto e birra accanto al focolare', 'Lutnia i piwo przy kominku'),
+    'Dungeon': ('Dungeon', 'Donjon', 'Mazmorra', 'Masmorra', 'Spedizione', 'Dungeon'),
+    'Torches and shadows': ('Fackeln und Schatten', 'Torches et ombres', 'Antorchas y sombras', 'Tochas e sombras', 'Torce e ombre', 'Pochodnie i cienie'),
+    'Battle': ('Schlacht', 'Bataille', 'Batalla', 'Batalha', 'Battaglia', 'Bitwa'),
+    'For the Alliance! For the Horde!': ('Für die Allianz! Für die Horde!', 'Pour l’Alliance ! Pour la Horde !', '¡Por la Alianza! ¡Por la Horda!',
+                                         'Pela Aliança! Pela Horda!', 'Per l’Alleanza! Per l’Orda!', 'For the Alliance! For the Horde!'),
+    'Night Camp': ('Nachtlager', 'Bivouac nocturne', 'Campamento nocturno', 'Acampamento noturno', 'Bivacco notturno', 'Nocny obóz'),
+    'Quiet while the camp sleeps': ('Still, während das Lager schläft', 'Silence, le camp dort', 'Silencio mientras el campamento duerme',
+                                    'Silêncio enquanto o acampamento dorme', 'Silenzio mentre il campo dorme', 'Cicho, gdy obóz śpi'),
+    'Morning': ('Morgen', 'Matin', 'Mañana', 'Manhã', 'Mattina', 'Rano'),
+    'Day': ('Tag', 'Journée', 'Día', 'Dia', 'Giorno', 'Dzień'),
+    'Evening': ('Abend', 'Soir', 'Tarde', 'Tarde', 'Sera', 'Wieczór'),
+    'Night': ('Nacht', 'Nuit', 'Noche', 'Noite', 'Notte', 'Noc'),
+}
+NEW_LANGS = ('de', 'fr', 'es', 'pt', 'it', 'pl')
+
+
+def add_langs(items):
+    """name/mood dicts of stations and day parts: add the new languages from TX by the English text."""
+    for it in items:
+        for k in ('name', 'mood'):
+            if k in it:
+                it[k].update(zip(NEW_LANGS, TX[it[k]['en']]))
+    return items
+
+
+add_langs(STATIONS)
+add_langs(AIR)
 LICENSE = ('CC BY 4.0', 'https://creativecommons.org/licenses/by/4.0/')
 SOURCES = {KM: 'incompetech.com'}
 
@@ -88,7 +133,7 @@ def main():
             used.add(f)
             if not os.path.exists(dst):
                 subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', os.path.join(src, title + '.mp3'), '-vn', '-map_metadata', '-1',
-                                '-af', 'loudnorm=I=-16:TP=-1.5:LRA=11', '-ar', '44100', '-c:a', 'aac', '-b:a', '64k',
+                                '-af', 'loudnorm=I=-16:TP=-1.5:LRA=11', '-ar', '44100', '-c:a', 'aac', '-b:a', BITRATE,
                                 '-movflags', '+faststart', dst], check=True)
             d = duration(dst)
             total += d

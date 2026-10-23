@@ -10,7 +10,7 @@
   const SCRIPT = document.currentScript, ROOT = SCRIPT.dataset.root || './';
   const btn = document.querySelector('.radiobtn'), dock = document.getElementById('radioDock');
   if (!btn) return;
-  const LANG = ['en', 'uk'].includes(document.documentElement.lang) ? document.documentElement.lang : 'ru';
+  const LANG = (l => ['ru', 'en', 'uk', 'de', 'fr', 'es', 'pt', 'it', 'pl'].includes(l) ? l : 'en')(document.documentElement.lang.split('-')[0]);
   const L = {
     ru: { title: 'Радио Gabella', play: 'Играть', pause: 'Пауза', prev: 'Предыдущий трек', next: 'Следующий трек', close: 'Закрыть',
       vol: 'Громкость музыки', seek: 'Позиция в треке', amb: 'Звуки вокруг', fire: 'Костёр', rain: 'Дождь', wind: 'Ветер',
@@ -27,6 +27,36 @@
       ambVol: 'Гучність: ', music: 'Музика', err: 'Трек не завантажився — перевірте мережу', pick: 'Оберіть станцію',
       air: 'Ефір', airNow: 'За часом доби · зараз ', stations: 'Станції', sleep: 'Таймер сну', off: 'Вимк', min: ' хв',
       left: 'вимкнеться за ', sleepSet: 'Вимкнути музику за ', more: 'Таймер сну та звуки довкола' },
+    de: { title: 'Gabella Radio', play: 'Abspielen', pause: 'Pause', prev: 'Vorheriger Titel', next: 'Nächster Titel', close: 'Schließen',
+      vol: 'Musiklautstärke', seek: 'Position im Titel', amb: 'Umgebungsgeräusche', fire: 'Lagerfeuer', rain: 'Regen', wind: 'Wind',
+      ambVol: 'Lautstärke: ', music: 'Musik', err: 'Titel nicht geladen – prüfe deine Verbindung', pick: 'Wähle einen Sender',
+      air: 'Live', airNow: 'Nach Tageszeit · jetzt ', stations: 'Sender', sleep: 'Sleep-Timer', off: 'Aus', min: ' Min.',
+      left: 'endet in ', sleepSet: 'Musik beenden in ', more: 'Sleep-Timer und Umgebungsgeräusche' },
+    fr: { title: 'Radio Gabella', play: 'Lecture', pause: 'Pause', prev: 'Piste précédente', next: 'Piste suivante', close: 'Fermer',
+      vol: 'Volume de la musique', seek: 'Position dans la piste', amb: 'Ambiance', fire: 'Feu de camp', rain: 'Pluie', wind: 'Vent',
+      ambVol: 'Volume : ', music: 'Musique', err: 'La piste ne s’est pas chargée — vérifiez la connexion', pick: 'Choisissez une station',
+      air: 'À l’antenne', airNow: 'Selon l’heure · maintenant ', stations: 'Stations', sleep: 'Minuterie', off: 'Non', min: ' min',
+      left: 's’arrête dans ', sleepSet: 'Arrêter la musique dans ', more: 'Minuterie et ambiance' },
+    es: { title: 'Radio Gabella', play: 'Reproducir', pause: 'Pausa', prev: 'Pista anterior', next: 'Pista siguiente', close: 'Cerrar',
+      vol: 'Volumen de la música', seek: 'Posición en la pista', amb: 'Sonidos de ambiente', fire: 'Hoguera', rain: 'Lluvia', wind: 'Viento',
+      ambVol: 'Volumen: ', music: 'Música', err: 'La pista no se cargó: revisa la conexión', pick: 'Elige una emisora',
+      air: 'En antena', airNow: 'Según la hora · ahora ', stations: 'Emisoras', sleep: 'Temporizador', off: 'No', min: ' min',
+      left: 'se apaga en ', sleepSet: 'Apagar la música en ', more: 'Temporizador y sonidos de ambiente' },
+    pt: { title: 'Rádio Gabella', play: 'Tocar', pause: 'Pausar', prev: 'Faixa anterior', next: 'Próxima faixa', close: 'Fechar',
+      vol: 'Volume da música', seek: 'Posição na faixa', amb: 'Sons ambientes', fire: 'Fogueira', rain: 'Chuva', wind: 'Vento',
+      ambVol: 'Volume: ', music: 'Música', err: 'A faixa não carregou — verifique a conexão', pick: 'Escolha uma estação',
+      air: 'No ar', airNow: 'Pela hora do dia · agora ', stations: 'Estações', sleep: 'Timer para dormir', off: 'Desl.', min: ' min',
+      left: 'desliga em ', sleepSet: 'Desligar a música em ', more: 'Timer para dormir e sons ambientes' },
+    it: { title: 'Radio Gabella', play: 'Riproduci', pause: 'Pausa', prev: 'Brano precedente', next: 'Brano successivo', close: 'Chiudi',
+      vol: 'Volume della musica', seek: 'Posizione nel brano', amb: 'Suoni d’ambiente', fire: 'Falò', rain: 'Pioggia', wind: 'Vento',
+      ambVol: 'Volume: ', music: 'Musica', err: 'Il brano non si è caricato — controlla la connessione', pick: 'Scegli una stazione',
+      air: 'In onda', airNow: 'In base all’ora · ora ', stations: 'Stazioni', sleep: 'Timer', off: 'No', min: ' min',
+      left: 'si spegne tra ', sleepSet: 'Spegni la musica tra ', more: 'Timer e suoni d’ambiente' },
+    pl: { title: 'Radio Gabella', play: 'Odtwórz', pause: 'Pauza', prev: 'Poprzedni utwór', next: 'Następny utwór', close: 'Zamknij',
+      vol: 'Głośność muzyki', seek: 'Pozycja w utworze', amb: 'Dźwięki otoczenia', fire: 'Ognisko', rain: 'Deszcz', wind: 'Wiatr',
+      ambVol: 'Głośność: ', music: 'Muzyka', err: 'Utwór się nie wczytał — sprawdź połączenie', pick: 'Wybierz stację',
+      air: 'Na antenie', airNow: 'Według pory dnia · teraz ', stations: 'Stacje', sleep: 'Wyłącznik czasowy', off: 'Wył.', min: ' min',
+      left: 'wyłączy się za ', sleepSet: 'Wyłącz muzykę za ', more: 'Wyłącznik czasowy i dźwięki otoczenia' },
   }[LANG];
   const KEY = 'gabella-radio', RESUME_MS = 60000;
   const FADE = 5, FADE_TUNE = 1.5, PRELOAD = 30, HISTORY = 30, SLEEP = [15, 30, 60, 90], SLEEP_FADE = 30000;

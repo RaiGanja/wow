@@ -1,26 +1,44 @@
 """Share previews 1200x630 with the page title on the art: home (og-<lang>.jpg), guides, the classes/ and races/ sections
 and tools (og/<slug>-<lang>.jpg). Rendered from HTML with the site fonts by headless Chrome, so the type matches the site.
 Class and race pages keep their language-neutral art previews from make_images.py.
-Run: python tools/make_og.py [slug ...]   (no args = all cards)"""
+Run: python tools/make_og.py [slug ...] [--langs=de,fr]   (no args = all cards in every built language)"""
 import os, subprocess, sys, tempfile
 from PIL import Image
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0, os.path.join(ROOT, 'content'))
+sys.path[:0] = [os.path.join(ROOT, 'content'), ROOT]
 from guides import HUB, GUIDES, HUBS  # noqa: E402
 
+sys.path.insert(0, ROOT)
+import langs  # noqa: E402
+
 CHROME = r'C:\Program Files\Google\Chrome\Application\chrome.exe'
-LANGS = ('ru', 'en', 'uk')
+LANGS = langs.LANGS
 BRAND = 'Gabella Team'
-START = {'ru': 'Старт 4 ноября 2026', 'en': 'Launch November 4, 2026', 'uk': 'Старт 4 листопада 2026'}
-HOME = {'t': {'ru': 'WoW Forever', 'en': 'WoW Forever', 'uk': 'WoW Forever'},
+START = {'ru': 'Старт 4 ноября 2026', 'en': 'Launch November 4, 2026', 'uk': 'Старт 4 листопада 2026',
+         'de': 'Start am 4. November 2026', 'fr': 'Lancement le 4 novembre 2026', 'es': 'Lanzamiento: 4 de noviembre de 2026',
+         'pt': 'Lançamento em 4 de novembro de 2026', 'it': 'Uscita il 4 novembre 2026', 'pl': 'Start 4 listopada 2026'}
+HOME = {'t': {l: 'WoW Forever' for l in langs.ALL},
         'd': {'ru': 'Гид: классы, расы, подземелья, прокачка и сборка группы',
               'en': 'Guide: classes, races, dungeons, leveling and party building',
-              'uk': 'Гід: класи, раси, підземелля, прокачування та збір групи'}}
-TOOLS = {'t': {'ru': 'Инструменты', 'en': 'Tools', 'uk': 'Інструменти'},
+              'uk': 'Гід: класи, раси, підземелля, прокачування та збір групи',
+              'de': 'Guide: Klassen, Völker, Dungeons, Leveln und Gruppenaufbau',
+              'fr': 'Guide : classes, races, donjons, progression et composition de groupe',
+              'es': 'Guía: clases, razas, mazmorras, subida de nivel y composición de grupo',
+              'pt': 'Guia: classes, raças, masmorras, evolução e montagem de grupo',
+              'it': 'Guida: classi, razze, spedizioni, livellamento e composizione del gruppo',
+              'pl': 'Poradnik: klasy, rasy, dungeony, levelowanie i skład grupy'}}
+TOOLS = {'t': langs.derive({'ru': 'Инструменты', 'en': 'Tools', 'uk': 'Інструменти'}),
          'd': {'ru': 'Рамки группы, рейдовая сетка, сравнение классов и рас, поиск по гиду',
                'en': 'Party frames, raid grid, class and race comparison, guide search',
-               'uk': 'Рамки групи, рейдова сітка, порівняння класів і рас, пошук по гіду'}}
+               'uk': 'Рамки групи, рейдова сітка, порівняння класів і рас, пошук по гіду',
+               'de': 'Gruppenrahmen, Schlachtzugsraster, Klassen- und Volksvergleich, Suche',
+               'fr': 'Cadres de groupe, grille de raid, comparaison des classes et races, recherche',
+               'es': 'Marcos de grupo, cuadrícula de banda, comparación de clases y razas, búsqueda',
+               'pt': 'Quadros de grupo, grade de raide, comparação de classes e raças, busca',
+               'it': 'Riquadri del gruppo, griglia d’incursione, confronto classi e razze, ricerca',
+               'pl': 'Ramki drużyny, siatka raidu, porównanie klas i ras, wyszukiwarka'}}
+langs.fill([HUB, GUIDES, HUBS])
 WIDE = ('hero_dawn', 'hero_campfire')    # landscape art fills the card; portraits stand on the right
 
 
@@ -45,7 +63,8 @@ def html(art, title, lead, lang):
     fonts = ''.join(
         f'@font-face{{font-family:"{fam}";font-weight:400 700;src:url({url("assets/fonts/" + f)}) format("woff2");unicode-range:{rng}}}'
         for fam, base in (('Bona Nova SC', 'bona-nova-sc'), ('Golos Text', 'golos-text'))
-        for f, rng in ((base + '-cyrillic.woff2', 'U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116'), (base + '-latin.woff2', 'U+0000-00FF,U+2000-206F')))
+        for f, rng in ((base + '-cyrillic.woff2', 'U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116'), (base + '-latin-ext.woff2', 'U+0100-02BA,U+1E00-1E9F'),
+                       (base + '-latin.woff2', 'U+0000-00FF,U+2000-206F')))
     return f'''<!doctype html><meta charset="utf-8"><style>{fonts}
 *{{margin:0;box-sizing:border-box}}
 body{{width:1200px;height:630px;overflow:hidden;background:#07080a;position:relative;font-family:"Golos Text";color:#efe9da}}
@@ -80,11 +99,12 @@ def shoot(page, out):
 
 
 def main():
-    only = set(sys.argv[1:])
+    only = {a for a in sys.argv[1:] if not a.startswith('--')}
+    pick = next((a[8:].split(',') for a in sys.argv[1:] if a.startswith('--langs=')), LANGS)   # --langs=de,fr: only these
     for name, art, title, lead in cards():
         if only and name.split('/')[-1] not in only:
             continue
-        for lang in LANGS:
+        for lang in pick:
             out = os.path.join(ROOT, 'assets', f'{name}-{lang}.jpg')
             shoot(html(art, title[lang], lead[lang], lang), out)
         print(name, 'ok')

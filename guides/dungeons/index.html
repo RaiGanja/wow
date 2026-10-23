@@ -9,6 +9,12 @@
 <link rel="alternate" hreflang="ru" href="https://gabella.site/wow/guides/dungeons/">
 <link rel="alternate" hreflang="en" href="https://gabella.site/wow/en/guides/dungeons/">
 <link rel="alternate" hreflang="uk" href="https://gabella.site/wow/uk/guides/dungeons/">
+<link rel="alternate" hreflang="de" href="https://gabella.site/wow/de/guides/dungeons/">
+<link rel="alternate" hreflang="fr" href="https://gabella.site/wow/fr/guides/dungeons/">
+<link rel="alternate" hreflang="es" href="https://gabella.site/wow/es/guides/dungeons/">
+<link rel="alternate" hreflang="pt-BR" href="https://gabella.site/wow/pt/guides/dungeons/">
+<link rel="alternate" hreflang="it" href="https://gabella.site/wow/it/guides/dungeons/">
+<link rel="alternate" hreflang="pl" href="https://gabella.site/wow/pl/guides/dungeons/">
 <link rel="alternate" hreflang="x-default" href="https://gabella.site/wow/guides/dungeons/">
 <script>(function(){var t=null;try{t=localStorage.getItem('wf-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}document.documentElement.setAttribute('data-theme',t)})();</script>
 <link rel="canonical" href="https://gabella.site/wow/guides/dungeons/">
@@ -16,6 +22,12 @@
 <meta property="og:locale" content="ru_RU">
 <meta property="og:locale:alternate" content="en_US">
 <meta property="og:locale:alternate" content="uk_UA">
+<meta property="og:locale:alternate" content="de_DE">
+<meta property="og:locale:alternate" content="fr_FR">
+<meta property="og:locale:alternate" content="es_ES">
+<meta property="og:locale:alternate" content="pt_BR">
+<meta property="og:locale:alternate" content="it_IT">
+<meta property="og:locale:alternate" content="pl_PL">
 <meta property="og:site_name" content="Gabella Team">
 <meta property="og:title" content="Подземелья WoW Forever: список всех 35 по уровням и рейды">
 <meta property="og:description" content="Все 35 подземелий WoW Forever по уровням и где вход, с фильтром под уровень вашего героя, три рейда с датами открытия и состав группы.">
@@ -34,6 +46,7 @@
 @font-face { font-family: "Bona Nova SC"; font-style: normal; font-weight: 400 700; font-display: swap; src: url(../../assets/fonts/bona-nova-sc-latin-ext.woff2) format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
 @font-face { font-family: "Bona Nova SC"; font-style: normal; font-weight: 400 700; font-display: swap; src: url(../../assets/fonts/bona-nova-sc-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 @font-face { font-family: "Golos Text"; font-style: normal; font-weight: 400 600; font-display: swap; src: url(../../assets/fonts/golos-text-cyrillic.woff2) format("woff2"); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: "Golos Text"; font-style: normal; font-weight: 400 600; font-display: swap; src: url(../../assets/fonts/golos-text-latin-ext.woff2) format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
 @font-face { font-family: "Golos Text"; font-style: normal; font-weight: 400 600; font-display: swap; src: url(../../assets/fonts/golos-text-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 :root {
   --bg: #0a0b0d;
@@ -120,13 +133,23 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .mainnav a[aria-current="true"] { opacity: 1; color: var(--ink-gold); }
 .topbar.solid .mainnav a[aria-current="true"] { color: var(--gold-2); }
 .tools { margin-left: auto; display: flex; gap: 8px; align-items: center; }
-.langs { display: inline-flex; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; overflow: hidden; }
-.langs a { min-width: 44px; min-height: 44px;
- display: grid; place-items: center; color: inherit; opacity: .75; text-decoration: none; font-weight: 600; font-size: .8rem; letter-spacing: .04em; border-right: 1px solid color-mix(in srgb, currentColor 30%, transparent); }
-.langs a:last-child { border-right: 0; }
-.langs a:hover { opacity: 1; }
-.langs a[aria-current="true"] { background: var(--gold); color: var(--gold-ink); opacity: 1; }
-.topbar:not(.solid) .langs a[aria-current="true"] { background: #c9a54a; color: #15110a; }
+.langsel { position: relative; }
+.langbtn { min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; gap: 8px; padding: 0 12px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; font: inherit; font-weight: 600; font-size: .8rem; letter-spacing: .04em; cursor: pointer; }
+.langbtn::after { content: ""; width: 6px; height: 6px; border-right: 1.5px solid; border-bottom: 1.5px solid; transform: translateY(-2px) rotate(45deg); opacity: .7; }
+.langbtn[aria-expanded="true"]::after { transform: translateY(2px) rotate(-135deg); }
+.langlist { position: absolute; right: 0; top: calc(100% + 8px); z-index: 60; min-width: 230px; margin: 0; padding: 6px; list-style: none; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); color: var(--fg); box-shadow: 0 18px 48px rgba(0,0,0,.35); }
+.langlist a { display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 40px; padding: 0 12px; border-radius: 7px; color: inherit; text-decoration: none; font-size: .92rem; }
+.langlist a small { opacity: .55; font-size: .72rem; font-weight: 600; letter-spacing: .06em; }
+.langlist a:hover, .langlist a:focus-visible { background: color-mix(in srgb, var(--gold) 12%, transparent); }
+.langlist a[aria-current="page"] { color: var(--gold-2); font-weight: 600; }
+.langgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; width: 100%; }
+.langgrid a { min-height: 44px; display: grid; place-items: center; padding: 4px 6px; text-align: center; line-height: 1.15; border: 1px solid var(--pline); border-radius: 8px; color: inherit; text-decoration: none; font-size: .85rem; }
+.langgrid a[aria-current="page"] { background: var(--gold); color: var(--gold-ink); border-color: transparent; font-weight: 600; }
+.langhint { position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); z-index: 70; display: flex; align-items: center; gap: 12px; width: max-content; max-width: calc(100% - 32px); padding: 6px 6px 6px 16px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); color: var(--fg); box-shadow: 0 18px 48px rgba(0,0,0,.35); font-size: .9rem; }
+.langhint a { color: var(--gold-2); font-weight: 600; white-space: nowrap; }
+.langhint button { flex: none; width: 36px; height: 36px; display: grid; place-items: center; border: 0; border-radius: 7px; background: transparent; color: inherit; cursor: pointer; }
+.langhint button:hover { background: color-mix(in srgb, currentColor 10%, transparent); }
+@media print { .langhint { display: none; } }
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: .92rem; }
@@ -691,7 +714,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 @media (max-width: 719px) {
   :root { --top: 56px; }
   .wrap, .topbar .in { padding-left: 16px; padding-right: 16px; }
-  .topbar .langs, .menubtn { display: none; }
+  .topbar .langsel, .menubtn { display: none; }
+  .langhint { bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
   .brand b { font-size: 1.15rem; }
   .hero { min-height: max(580px, calc(100svh - 62px - env(safe-area-inset-bottom, 0px))); }
   .hero-art img { object-position: 74% 50%; }
@@ -952,7 +976,7 @@ nav.gtiles { padding: 14px; }
     <a href="../../#factions">Фракции</a><a href="../../#classes">Классы</a><a href="../../#peoples">Расы</a><a href="../../#picker">Подборщик</a><a href="../../#builder">Группа</a><a href="../" aria-current="true">Гайды</a><a href="../../tools/">Инструменты</a>
   </nav>
   <div class="tools">
-    <div class="langs" role="group" aria-label="Язык"><a href="./" data-lang="ru" hreflang="ru" lang="ru" aria-current="true">RU</a><a href="../../en/guides/dungeons/" data-lang="en" hreflang="en" lang="en" aria-current="false">EN</a><a href="../../uk/guides/dungeons/" data-lang="uk" hreflang="uk" lang="uk" aria-current="false">UK</a></div>
+    <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" aria-label="Язык: Русский">RU</button><ul class="langlist" hidden><li><a href="./" data-lang="ru" hreflang="ru" lang="ru" aria-current="page"><span>Русский</span><small>RU</small></a></li><li><a href="../../en/guides/dungeons/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../../uk/guides/dungeons/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../../de/guides/dungeons/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="../../fr/guides/dungeons/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="../../es/guides/dungeons/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="../../pt/guides/dungeons/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="../../it/guides/dungeons/" data-lang="it" hreflang="it" lang="it"><span>Italiano</span><small>IT</small></a></li><li><a href="../../pl/guides/dungeons/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
     <button class="iconbtn radiobtn" type="button" aria-label="Радио" title="Радио" aria-expanded="false" aria-controls="radioPanel" aria-pressed="false"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg><span class="rdo-eq" aria-hidden="true"><i></i><i></i><i></i></span></button>
     <button class="iconbtn themebtn" type="button" aria-label="Переключить тему" title="Переключить тему"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></button>
     <button class="iconbtn menubtn" type="button" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg><span>Разделы</span></button>
@@ -1004,7 +1028,7 @@ nav.gtiles { padding: 14px; }
     <div class="grp"><div class="gh">Гид</div><a href="../../">Главная</a><a href="../../#classes">Классы</a><a href="../../#peoples">Расы</a><a href="../../#picker">Подборщик</a><a href="../../#builder">Конструктор группы</a><a href="../../tools/">Инструменты</a><a href="../../play/">В игре</a><a href="../">Гайды</a></div>
   </nav>
   <div class="opts">
-    <div class="langs" role="group" aria-label="Язык"><a href="./" data-lang="ru" hreflang="ru" lang="ru" aria-current="true">RU</a><a href="../../en/guides/dungeons/" data-lang="en" hreflang="en" lang="en" aria-current="false">EN</a><a href="../../uk/guides/dungeons/" data-lang="uk" hreflang="uk" lang="uk" aria-current="false">UK</a></div>
+    <div class="langgrid" role="group" aria-label="Язык"><a href="./" data-lang="ru" hreflang="ru" lang="ru" aria-current="page">Русский</a><a href="../../en/guides/dungeons/" data-lang="en" hreflang="en" lang="en">English</a><a href="../../uk/guides/dungeons/" data-lang="uk" hreflang="uk" lang="uk">Українська</a><a href="../../de/guides/dungeons/" data-lang="de" hreflang="de" lang="de">Deutsch</a><a href="../../fr/guides/dungeons/" data-lang="fr" hreflang="fr" lang="fr">Français</a><a href="../../es/guides/dungeons/" data-lang="es" hreflang="es" lang="es">Español</a><a href="../../pt/guides/dungeons/" data-lang="pt" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a><a href="../../it/guides/dungeons/" data-lang="it" hreflang="it" lang="it">Italiano</a><a href="../../pl/guides/dungeons/" data-lang="pl" hreflang="pl" lang="pl">Polski</a></div>
     <button class="iconbtn themebtn" type="button" aria-label="Переключить тему"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg><span>Тема</span></button>
   </div>
   <p class="meta">Данные на 23.10.2026, закрытая бета, патч от 15.10.2026.</p>
@@ -1112,6 +1136,47 @@ document.querySelectorAll('#dgBox .lvm, #dgBox .lvp').forEach(b => b.addEventLis
   dgLvl = Math.max(1, Math.min(60, (dgLvl || (up ? 0 : 2)) + (up ? 1 : -1))); dgMode = 'mine'; renderDg();
 }));
 renderDg();
+</script>
+<script>
+(() => {
+  const KEY = 'gabella-lang-hint', store = () => { try { localStorage.setItem(KEY, '1'); } catch (e) {} };
+  const keepHash = a => a.addEventListener('click', () => { store(); a.href = a.getAttribute('href').split('#')[0] + location.hash; });
+  document.querySelectorAll('.langlist a, .langgrid a').forEach(keepHash);
+  const sel = document.querySelector('.langsel'), btn = sel && sel.querySelector('.langbtn'), list = sel && sel.querySelector('.langlist');
+  if (btn) {
+    const links = [...list.querySelectorAll('a')];
+    const shut = focus => { if (list.hidden) return; list.hidden = true; btn.setAttribute('aria-expanded', 'false'); if (focus) btn.focus(); };
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      list.hidden = !list.hidden; btn.setAttribute('aria-expanded', String(!list.hidden));
+      if (!list.hidden) (list.querySelector('[aria-current]') || links[0]).focus();
+    });
+    document.addEventListener('click', e => { if (!sel.contains(e.target)) shut(); });
+    sel.addEventListener('keydown', e => {
+      if (e.key === 'Escape') return shut(true);
+      const i = links.indexOf(document.activeElement);
+      if (i < 0 || !['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(e.key)) return;
+      e.preventDefault();
+      const n = e.key === 'Home' ? 0 : e.key === 'End' ? links.length - 1 : (i + (e.key === 'ArrowDown' ? 1 : -1) + links.length) % links.length;
+      links[n].focus();
+    });
+    sel.addEventListener('focusout', e => { if (!sel.contains(e.relatedTarget)) shut(); });
+  }
+  let seen = '1';
+  try { seen = localStorage.getItem(KEY); } catch (e) {}
+  if (seen) return;
+  const H = {"ru": ["Эта страница есть на русском", "Читать по-русски", "Закрыть"], "en": ["This page is available in English", "Read in English", "Close"], "uk": ["Ця сторінка є українською", "Читати українською", "Закрити"], "de": ["Diese Seite gibt es auch auf Deutsch", "Auf Deutsch lesen", "Schließen"], "fr": ["Cette page existe aussi en français", "Lire en français", "Fermer"], "es": ["Esta página también está en español", "Leer en español", "Cerrar"], "pt": ["Esta página também está em português", "Ler em português", "Fechar"], "it": ["Questa pagina è disponibile anche in italiano", "Leggi in italiano", "Chiudi"], "pl": ["Ta strona jest dostępna po polsku", "Czytaj po polsku", "Zamknij"]}, cur = document.documentElement.lang.split('-')[0];
+  const want = (navigator.languages || [navigator.language]).map(x => String(x || '').toLowerCase().split('-')[0]).find(x => x in H);
+  const to = want && want !== cur && document.querySelector(`.langlist a[data-lang="${want}"]`);
+  if (!to) return;
+  const bar = document.createElement('div');
+  bar.className = 'langhint'; bar.lang = want; bar.setAttribute('role', 'status');
+  bar.innerHTML = `<span>${H[want][0]}</span><a href="${to.getAttribute('href')}" hreflang="${to.hreflang}">${H[want][1]}</a>`
+    + `<button type="button" aria-label="${H[want][2]}"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button>`;
+  keepHash(bar.querySelector('a'));
+  bar.querySelector('button').addEventListener('click', () => { store(); bar.remove(); });
+  document.body.append(bar);
+})();
 </script>
 <script>
 if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('../../sw.js').catch(() => {}));

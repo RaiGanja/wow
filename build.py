@@ -5,9 +5,14 @@
 import hashlib, json, os, posixpath, re, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+if '--missing' in sys.argv:          # python build.py --missing de: build de without its json, print what it lacks, write nothing
+    os.environ['WF_LANG'] = sys.argv[sys.argv.index('--missing') + 1]
+    sys.argv.append('--list')
 sys.path.insert(0, os.path.join(HERE, 'content'))
 from classes import CLASSES, SOURCES  # noqa: E402
 from races import RACES_PAGE, SOURCES as RACE_SOURCES, NEW_RACIALS  # noqa: E402
+import langs  # noqa: E402
+from langs import LANGS, AUTONYM, HREFLANG, LOCALE, NAMED  # noqa: E402
 
 
 def load(name):
@@ -21,8 +26,13 @@ T = {r: (e, u) for r, e, u in zip(_ru, _en, _uk)}
 
 CYR = r'А-Яа-яЁё'
 SEG = re.compile(r'(?:(?!\$\{)[^<>"\'`{}\n])*[' + CYR + r'](?:(?!\$\{)[^<>"\'`{}\n])*')
-LANGS = ('ru', 'en', 'uk')
 SITE = 'https://gabella.site/wow/'
+
+
+def t_of(ru, lang):
+    """Translation of a Russian fragment known to T: en/uk from the line files, new languages via the English one."""
+    en, uk = T[ru]
+    return en if lang == 'en' else uk if lang == 'uk' else langs.ov(en, lang)
 
 
 def split_ws(seg):
@@ -41,12 +51,12 @@ def translate(src, lang):
         if core not in T:
             missing.append(core)
             return m.group(0)
-        return lead + T[core][0 if lang == 'en' else 1] + tail
+        return lead + t_of(core, lang) + tail
     return SEG.sub(sub, src), missing
 
 
 def tr(s, lang):
-    return s if lang == 'ru' else T.get(s, (s, s))[0 if lang == 'en' else 1]
+    return s if lang == 'ru' or s not in T else t_of(s, lang)
 
 
 def page_dir(lang, sub=''):
@@ -70,6 +80,9 @@ LEGAL = {
 }
 
 
+langs.derive(LEGAL)
+
+
 def legal(lang, root):
     """Footer block of every page (@@LEGAL@@): trademarks, ©, privacy page, contact."""
     text, privacy, contact = LEGAL[lang]
@@ -78,13 +91,92 @@ def legal(lang, root):
             f'{contact}: <a href="mailto:{CONTACT}">{CONTACT}</a></p></div>')
 
 
+def alternates(sub):
+    """hreflang links of a page (site-relative directory sub, '' = home) in every built language; x-default = Russian."""
+    alt = '\n'.join(f'<link rel="alternate" hreflang="{HREFLANG[l]}" href="{SITE}{page_dir(l, sub)}">' for l in LANGS)
+    return alt + f'\n<link rel="alternate" hreflang="x-default" href="{SITE}{sub}">'
+
+
+# Browser-language hint, in the visitor's language: (text, link, close button)
+HINT = {
+    'ru': ('Эта страница есть на русском', 'Читать по-русски', 'Закрыть'),
+    'en': ('This page is available in English', 'Read in English', 'Close'),
+    'uk': ('Ця сторінка є українською', 'Читати українською', 'Закрити'),
+    'de': ('Diese Seite gibt es auch auf Deutsch', 'Auf Deutsch lesen', 'Schließen'),
+    'fr': ('Cette page existe aussi en français', 'Lire en français', 'Fermer'),
+    'es': ('Esta página también está en español', 'Leer en español', 'Cerrar'),
+    'pt': ('Esta página também está em português', 'Ler em português', 'Fechar'),
+    'it': ('Questa pagina è disponibile anche in italiano', 'Leggi in italiano', 'Chiudi'),
+    'pl': ('Ta strona jest dostępna po polsku', 'Czytaj po polsku', 'Zamknij'),
+}
+
+LANG_JS = """<script>
+(() => {
+  const KEY = 'gabella-lang-hint', store = () => { try { localStorage.setItem(KEY, '1'); } catch (e) {} };
+  const keepHash = a => a.addEventListener('click', () => { store(); a.href = a.getAttribute('href').split('#')[0] + location.hash; });
+  document.querySelectorAll('.langlist a, .langgrid a').forEach(keepHash);
+  const sel = document.querySelector('.langsel'), btn = sel && sel.querySelector('.langbtn'), list = sel && sel.querySelector('.langlist');
+  if (btn) {
+    const links = [...list.querySelectorAll('a')];
+    const shut = focus => { if (list.hidden) return; list.hidden = true; btn.setAttribute('aria-expanded', 'false'); if (focus) btn.focus(); };
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      list.hidden = !list.hidden; btn.setAttribute('aria-expanded', String(!list.hidden));
+      if (!list.hidden) (list.querySelector('[aria-current]') || links[0]).focus();
+    });
+    document.addEventListener('click', e => { if (!sel.contains(e.target)) shut(); });
+    sel.addEventListener('keydown', e => {
+      if (e.key === 'Escape') return shut(true);
+      const i = links.indexOf(document.activeElement);
+      if (i < 0 || !['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(e.key)) return;
+      e.preventDefault();
+      const n = e.key === 'Home' ? 0 : e.key === 'End' ? links.length - 1 : (i + (e.key === 'ArrowDown' ? 1 : -1) + links.length) % links.length;
+      links[n].focus();
+    });
+    sel.addEventListener('focusout', e => { if (!sel.contains(e.relatedTarget)) shut(); });
+  }
+  let seen = '1';
+  try { seen = localStorage.getItem(KEY); } catch (e) {}
+  if (seen) return;
+  const H = @@HINT@@, cur = document.documentElement.lang.split('-')[0];
+  const want = (navigator.languages || [navigator.language]).map(x => String(x || '').toLowerCase().split('-')[0]).find(x => x in H);
+  const to = want && want !== cur && document.querySelector(`.langlist a[data-lang="${want}"]`);
+  if (!to) return;
+  const bar = document.createElement('div');
+  bar.className = 'langhint'; bar.lang = want; bar.setAttribute('role', 'status');
+  bar.innerHTML = `<span>${H[want][0]}</span><a href="${to.getAttribute('href')}" hreflang="${to.hreflang}">${H[want][1]}</a>`
+    + `<button type="button" aria-label="${H[want][2]}"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button>`;
+  keepHash(bar.querySelector('a'));
+  bar.querySelector('button').addEventListener('click', () => { store(); bar.remove(); });
+  document.body.append(bar);
+})();
+</script>
+"""
+
+
+def lang_menu(html, lang, here):
+    """@@LANGSEL@@ (top bar: button + dropdown list) and @@LANGSHEET@@ (phone sheet: 3x3 grid) — the same page in every language."""
+    sub = here[len(page_dir(lang)):]
+    label = tr('Язык', lang)
+    def link(l, inner):
+        cur = ' aria-current="page"' if l == lang else ''
+        return f'<a href="{rel(here, page_dir(l, sub))}" data-lang="{l}" hreflang="{HREFLANG[l]}" lang="{HREFLANG[l]}"{cur}>{inner}</a>'
+    items = ''.join(f'<li>{link(l, f"<span>{AUTONYM[l]}</span><small>{l.upper()}</small>")}</li>' for l in LANGS)
+    sel = (f'<div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" '
+           f'aria-label="{label}: {AUTONYM[lang]}">{lang.upper()}</button><ul class="langlist" hidden>{items}</ul></div>')
+    sheet = f'<div class="langgrid" role="group" aria-label="{label}">{"".join(link(l, AUTONYM[l]) for l in LANGS)}</div>'
+    hint = json.dumps({l: HINT[l] for l in LANGS}, ensure_ascii=False)
+    return html.replace('@@LANGSEL@@', sel).replace('@@LANGSHEET@@', sheet).replace('</body>', LANG_JS.replace('@@HINT@@', hint) + '</body>', 1)
+
+
 def localize(html, lang, here):
     """Language-specific attributes shared by all pages."""
     html = html.replace('@@LEGAL@@', legal(lang, rel(here, '')))
     html = html.replace('@@ROOT@@', rel(here, ''))
+    html = lang_menu(html, lang, here)
     if lang != 'ru':
-        html = html.replace('<html lang="ru">', f'<html lang="{lang}">')
-        html = html.replace('content="ru_RU"', 'content="en_US"' if lang == 'en' else 'content="uk_UA"')
+        html = html.replace('<html lang="ru">', f'<html lang="{HREFLANG[lang]}">')
+        html = html.replace('content="ru_RU"', f'content="{LOCALE[lang]}"')
     return pwa(html, lang, rel(here, ''))
 
 
@@ -101,6 +193,7 @@ APP = {
            'install': 'Встановити', 'install_l': 'Встановити гід як застосунок',
            'short': [('У грі', 'play/'), ('Гайди', 'guides/'), ('Підземелля', 'guides/dungeons/'), ('Інструменти', 'tools/'), ('Класи', 'classes/')]},
 }
+langs.derive(APP)
 
 
 def manifest(lang):
@@ -108,7 +201,7 @@ def manifest(lang):
     icons = [{'src': f'assets/icons/icon-{s}.png', 'sizes': f'{s}x{s}', 'type': 'image/png', 'purpose': 'any'} for s in (192, 512)]
     icons.append({'src': 'assets/icons/icon-maskable-512.png', 'sizes': '512x512', 'type': 'image/png', 'purpose': 'maskable'})
     return json.dumps({
-        'id': './', 'name': a['name'], 'short_name': 'Gabella WoW', 'description': a['desc'], 'lang': lang, 'dir': 'ltr',
+        'id': './', 'name': a['name'], 'short_name': 'Gabella WoW', 'description': a['desc'], 'lang': HREFLANG[lang], 'dir': 'ltr',
         'start_url': './' + home, 'scope': './', 'display': 'standalone', 'orientation': 'any',
         'background_color': '#0a0b0d', 'theme_color': '#060708', 'categories': ['games', 'entertainment'], 'icons': icons,
         'shortcuts': [{'name': n, 'url': './' + home + u} for n, u in a['short']],
@@ -145,7 +238,7 @@ def sw_version():
     open(sw, 'w', encoding='utf-8', newline='\n').write(js)
 
 
-RADIO = {'ru': 'Радио', 'en': 'Radio', 'uk': 'Радіо'}
+RADIO = langs.derive({'ru': 'Радио', 'en': 'Radio', 'uk': 'Радіо'})
 RADIO_BTN = ('<button class="iconbtn radiobtn" type="button" aria-label="@@L@@" title="@@L@@" aria-expanded="false" aria-controls="radioPanel" aria-pressed="false">'
              '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
              '<path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>'
@@ -176,14 +269,12 @@ def build_home(lang, src):
     src = src.replace('@@RACE_SLUG@@', json.dumps({r['id']: r['slug'] for r in RACES_PAGE}))
     html, missing = translate(src, lang)
     here = page_dir(lang)
-    html = html.replace('@@RU@@', rel(here, page_dir('ru'))).replace('@@EN@@', rel(here, page_dir('en'))).replace('@@UK@@', rel(here, page_dir('uk')))
+    html = html.replace('@@ALTERNATES@@', alternates(''))
     html = localize(html, lang, here)
     if lang != 'ru':
         for tag in ('rel="canonical" href', 'property="og:url" content'):
             html = html.replace(tag + f'="{SITE}"', tag + f'="{SITE}{lang}/"')
         html = html.replace('assets/og-ru.jpg', f'assets/og-{lang}.jpg')
-        html = html.replace('data-lang="ru" hreflang="ru" lang="ru" aria-current="true"', 'data-lang="ru" hreflang="ru" lang="ru" aria-current="false"')
-        html = html.replace(f'data-lang="{lang}" hreflang="{lang}" lang="{lang}" aria-current="false"', f'data-lang="{lang}" hreflang="{lang}" lang="{lang}" aria-current="true"')
     return here + 'index.html', html, missing
 
 
@@ -202,7 +293,16 @@ def esc(s):
 HYPH = {w.replace('-', ''): w.replace('-', '&shy;') for w in (
     'Совер-шен-ство-вание', 'Вдо-ско-на-лен-ня', 'Не-по-міт-ність', 'Не-ис-тов-ство', 'Де-мо-но-ло-гия', 'Де-мо-но-ло-гія',
     'Лик-ви-да-ция', 'Лік-ві-да-ція', 'Раз-ру-ше-ние', 'Руй-ну-ван-ня', 'По-слу-ша-ние', 'Кол-дов-ство', 'Скрыт-ность',
-    'Assas-si-na-tion', 'Marks-man-ship', 'Retri-bu-tion', 'Resto-ra-tion', 'Destruc-tion', 'Enhance-ment')}
+    'Assas-si-na-tion', 'Marks-man-ship', 'Retri-bu-tion', 'Resto-ra-tion', 'Destruc-tion', 'Enhance-ment',
+    'Afflic-tion', 'Demo-no-lo-gy', 'Disci-pline', 'Protec-tion',
+    'Tier-herr-schaft', 'Treff-sicher-heit', 'Wieder-her-stel-lung', 'Ver-stär-kung', 'Gleich-ge-wicht', 'Dä-mo-no-lo-gie',
+    'Zer-stö-rung', 'Ver-gel-tung',
+    'Amé-lio-ra-tion', 'Res-tau-ra-tion', 'Dé-mo-no-lo-gie', 'Élé-men-taire', 'Assas-si-nat',
+    'Demo-no-lo-gía', 'Des-truc-ción', 'Res-tau-ra-ción', 'Super-vi-ven-cia', 'Repren-sión', 'Equi-li-brio', 'Protec-ción', 'Disci-pli-na',
+    'Aper-fei-ço-a-men-to', 'Assas-si-na-to', 'Demo-no-lo-gia', 'Des-trui-ção', 'Equi-lí-brio', 'Res-tau-ra-ção', 'Retri-bui-ção',
+    'Sobre-vi-vên-cia', 'Sub-ter-fú-gio',
+    'Af-fli-zio-ne', 'Ag-gres-so-re', 'As-sas-si-nio', 'Com-bat-ti-men-to', 'Di-stru-zio-ne', 'Ele-men-ta-le', 'Po-ten-zia-men-to',
+    'Pre-ci-sio-ne', 'Pro-te-zio-ne', 'Ri-ge-ne-ra-zio-ne', 'Scal-trez-za', 'So-prav-vi-ven-za')}
 
 
 def hyph_tabs(html):
@@ -214,6 +314,23 @@ def mark_long(html):
     def name(m):
         return '<b class="long">' if max(len(w) for w in re.split(r'[\s-]+', m[1])) >= 10 else m[0]
     return re.sub(r'<a class="oc".*?</a>', lambda a: re.sub(r'<b>(?=([^<]+)</b>)', name, a[0]), html, flags=re.S)
+
+
+def ability(ru, en, lang, tag='b'):
+    """Ability name. ru: Russian + the English original; de/fr/es/pt/it: the official name (i18n/names.json, Wowhead)
+    + English; en/uk/pl: English only. tag wraps the main name; '' = bare text (race cards put it in their own h3)."""
+    main = ru if lang == 'ru' else langs.name(en, lang)
+    if main == en:
+        return f'<{tag or "span"} lang="en">{esc(en)}</{tag or "span"}>'
+    head = f'<{tag}>{esc(main)}</{tag}>' if tag else esc(main)
+    return f'{head}<span class="en" lang="en">{esc(en)}</span>'
+
+
+def js_names(js, lang):
+    """English game names in single-quoted JS data (dungeons, zones, cities) -> official localized ones on de/fr/es/pt/it."""
+    if lang not in NAMED:
+        return js
+    return re.sub(r"'([^'\n]+)'", lambda m: "'" + langs.name(m[1], lang).replace("'", '’') + "'", js)
 
 
 def ico(name):
@@ -264,9 +381,7 @@ def render_class(c, races, lang):
     for k, s in enumerate(c['specs']):
         on = k == 0
         tabs.append(f'<button type="button" role="tab" id="tab-{k}" aria-controls="spec-{k}" aria-selected="{"true" if on else "false"}" tabindex="{0 if on else -1}">{esc(s["n"])}<small>{" · ".join(ROLE[r] for r in s["roles"])}</small></button>')
-        # ability names: Russian with the English original; other languages use the English name only
-        name = (lambda ru, en: f'<b>{esc(ru)}</b><span class="en" lang="en">{esc(en)}</span>') if lang == 'ru' else (lambda ru, en: f'<b lang="en">{esc(en)}</b>')
-        keys = ''.join(f'<li><div>{name(ru, en)}</div><span class="d">{esc(d)}</span></li>' for ru, en, d in s['keys'])
+        keys = ''.join(f'<li><div>{ability(ru, en, lang)}</div><span class="d">{esc(d)}</span></li>' for ru, en, d in s['keys'])
         panels.append(f'<div class="spanel" role="tabpanel" id="spec-{k}" aria-labelledby="tab-{k}" tabindex="0"{"" if on else " hidden"}>'
                       f'<div class="about"><p class="what">{"".join(ri(r) for r in s["roles"])}{esc(s["what"])}</p><p class="style">{esc(s["style"])}</p>'
                       f'<div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>{esc(s["tip"])}</p></div></div>'
@@ -314,13 +429,8 @@ def build_class(c, lang, tpl, base_css, sprite, races):
     html = mark_long(hyph_tabs(html))
     html = html.replace('@@NAME@@', esc(tr(c['n'], lang)))
     html = html.replace('@@HOME@@', home)
-    for l in LANGS:
-        html = html.replace(f'@@{l.upper()}@@', rel(here, page_dir(l, f'classes/{c["id"]}/')))
-        html = html.replace(f'@@CUR_{l.upper()}@@', 'true' if l == lang else 'false')
     html = html.replace('@@CANON@@', SITE + here)
-    alt = '\n'.join(f'<link rel="alternate" hreflang="{l}" href="{SITE}{page_dir(l, "classes/" + c["id"] + "/")}">' for l in LANGS)
-    alt += f'\n<link rel="alternate" hreflang="x-default" href="{SITE}classes/{c["id"]}/">'
-    html = html.replace('@@ALTERNATES@@', alt)
+    html = html.replace('@@ALTERNATES@@', alternates(f'classes/{c["id"]}/'))
     html = localize(html, lang, here)
     return here + 'index.html', html, missing
 
@@ -345,13 +455,12 @@ def build_race(rp, lang, tpl, base_css, class_css, sprite, races, en):
     facts = ''.join(f'<div><dt>{k}</dt><dd>{esc(v)}</dd></div>' for k, v in rp['facts'])
     cards = []
     for kind, ru, what in r['rac']:
-        # ability names: Russian with the English original; other languages use the English name only
-        name = f'{esc(ru)}<span class="en" lang="en">{esc(en.get(ru, ru))}</span>' if lang == 'ru' else f'<span lang="en">{esc(en.get(ru, ru))}</span>'
+        name = ability(ru, en.get(ru, ru), lang, tag='')
         new = '<span class="tag new">новое</span>' if ru in NEW_RACIALS else ''
         cards.append(f'<article class="rcard"><div class="rt"><span class="k{" a" if kind == "a" else ""}">{"Активная" if kind == "a" else "Пассивная"}</span>{new}</div><h3>{name}</h3><p>{esc(what)}</p></article>')
     priest = ''
     if rp['priest']:
-        sp = ', '.join(f'<b lang="en">{esc(n)}</b>' + (' <span class="tag new">новое</span>' if nw else '') for n, nw in rp['priest'])
+        sp = ', '.join(ability(n, n, lang) + (' <span class="tag new">новое</span>' if nw else '') for n, nw in rp['priest'])
         priest = f'<p class="pspells">Свои заклинания жреца: {sp}.</p>'
 
     cls_cards = []
@@ -396,13 +505,8 @@ def build_race(rp, lang, tpl, base_css, class_css, sprite, races, en):
     html = mark_long(html)
     html = html.replace('@@NAME@@', esc(tr(r['n'], lang)))
     html = html.replace('@@HOME@@', home)
-    for l in LANGS:
-        html = html.replace(f'@@{l.upper()}@@', rel(here, page_dir(l, f'races/{rp["slug"]}/')))
-        html = html.replace(f'@@CUR_{l.upper()}@@', 'true' if l == lang else 'false')
     html = html.replace('@@CANON@@', SITE + here)
-    alt = '\n'.join(f'<link rel="alternate" hreflang="{l}" href="{SITE}{page_dir(l, "races/" + rp["slug"] + "/")}">' for l in LANGS)
-    alt += f'\n<link rel="alternate" hreflang="x-default" href="{SITE}races/{rp["slug"]}/">'
-    html = html.replace('@@ALTERNATES@@', alt)
+    html = html.replace('@@ALTERNATES@@', alternates(f'races/{rp["slug"]}/'))
     html = localize(html, lang, here)
     return here + 'index.html', html, missing
 
@@ -438,7 +542,7 @@ def main():
             open(os.path.join(HERE, f'manifest-{lang}.webmanifest'), 'w', encoding='utf-8', newline='\n').write(manifest(lang) + '\n')
         sw_version()
     uniq = list(dict.fromkeys(allmissing))
-    if listing:
+    if listing and '--missing' not in sys.argv:
         print('\n'.join(uniq))
     print(f'pages: {len(pages)}, missing: {len(uniq)}', file=sys.stderr)
     if uniq and not listing:
@@ -450,6 +554,23 @@ def main():
     build_guides.main()
     import seo  # last: titles/descriptions for search, JSON-LD, analytics, sitemap.xml over the built pages
     seo.main()
+    report_new_langs()
+
+
+def report_new_langs():
+    """New languages: bad characters in translations fail the build; --missing prints the translator template,
+    otherwise untranslated strings fail the build (the page would show English in their place)."""
+    bad = [(l, en, x) for l in langs.NEW for en, x in langs.OV[l].items() if not langs.check_chars(en, x)]
+    assert not bad, bad[:5]
+    if '--missing' in sys.argv:
+        lang = os.environ['WF_LANG']
+        sys.stdout.reconfigure(encoding='utf-8')
+        print(langs.missing_json(lang, langs.MISSING[lang]))
+        return
+    gaps = {l: len(set(langs.MISSING[l])) for l in langs.NEW if langs.MISSING[l]}
+    if gaps:
+        print(f'untranslated: {gaps} (python build.py --missing <lang>)', file=sys.stderr)
+        sys.exit(1)
 
 
 if __name__ == '__main__':

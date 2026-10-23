@@ -4,7 +4,11 @@
    GitHub Pages lets browsers keep files only 10 minutes, so repeat visits come from here instead.
    VERSION is written by build.py from the contents of assets/ and the manifests: any changed file gives
    a new worker, which drops the old caches on activate. */
-const VERSION = '0e9956a3b5';
+<<<<<<< HEAD
+const VERSION = '6aeb7cdaec';
+=======
+const VERSION = '3dee10b65c';
+>>>>>>> origin/main
 const PAGES = 'pages-' + VERSION, FILES = 'files-' + VERSION;
 const PRECACHE = ['./', 'assets/fonts/bona-nova-sc-cyrillic.woff2', 'assets/fonts/bona-nova-sc-latin.woff2',
   'assets/fonts/golos-text-cyrillic.woff2', 'assets/fonts/golos-text-latin.woff2', 'assets/icons/icon-192.png'];
@@ -72,6 +76,6 @@ self.addEventListener('fetch', e => {
   if (req.method !== 'GET' || url.origin !== location.origin || !url.pathname.startsWith(new URL('./', location).pathname)) return;
   if (req.mode === 'navigate') return e.respondWith(page(e));
   if (url.pathname.endsWith('/news.json')) return e.respondWith(fresh(e));
-  if (req.headers.has('range') || url.pathname.endsWith('.m4a')) return;   // radio tracks stream from the network
+  if (req.headers.has('range')) return;
   e.respondWith(file(e));
 });
