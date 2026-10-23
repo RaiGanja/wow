@@ -11,6 +11,20 @@ import sys
 sys.path.insert(0, ROOT)
 
 
+def size(name):
+    return os.path.getsize(os.path.join(ART, name))
+
+
+class Files(unittest.TestCase):
+    def test_every_variant_and_width_exists_within_budget(self):
+        for tod in TODS:
+            for ext in ('avif', 'webp'):
+                for w in WIDE:
+                    self.assertLessEqual(size(f'hero_{tod}-{w}.{ext}'), size(f'hero_dawn-{w}.{ext}') * 1.15, (tod, w, ext))
+                for w in MOBILE:
+                    self.assertLessEqual(size(f'hero_{tod}-m-{w}.{ext}'), size(f'hero_dawn-m-{w}.{ext}') * 1.15, (tod, 'm', w, ext))
+
+
 class Hours(unittest.TestCase):
     def test_bounds_follow_radio(self):
         import tod

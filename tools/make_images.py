@@ -2,7 +2,7 @@
 plus class and race page extras: blurred hero backdrop assets/art/<id>-bg.webp and share preview assets/og/<id>.jpg.
 Race portraits live in wow_art/races/<race id>.jpg and are saved under the race page slug.
 Run: python tools/make_images.py [path-to-wow_art] [--classes-only | --races-only | --faces-only | --hero-mobile]"""
-import os, sys
+import os, re, sys
 from PIL import Image, ImageDraw, ImageEnhance, ImageFilter
 
 ARGS = [a for a in sys.argv[1:] if not a.startswith('--')]
@@ -12,7 +12,8 @@ CLASSES = ['warrior', 'paladin', 'hunter', 'rogue', 'priest', 'shaman', 'mage', 
 RACES = {'human': 'human', 'dwarf': 'dwarf', 'nightelf': 'night-elf', 'gnome': 'gnome', 'skyA': 'skyborne-alliance',
          'orc': 'orc', 'undead': 'undead', 'tauren': 'tauren', 'troll': 'troll', 'skyH': 'skyborne-horde'}
 SCENE_Q = 66  # wide scene art fills the screen: AVIF at 52 smears grass and fur there
-JOBS = [('hero_dawn', [960, 1440, 1920, 2560, 3840])] + [('hero_campfire', [960, 1600, 2560]), ('hero_road', [960, 1600, 2560])] + [(c, [360, 600, 896]) for c in CLASSES]
+TODS = ['dawn', 'day', 'dusk', 'night']   # the home hero in the reader's time of day (tod.py); one living mask fits all
+JOBS = [(f'hero_{t}', [960, 1440, 1920, 2560, 3840]) for t in TODS] + [('hero_campfire', [960, 1600, 2560]), ('hero_road', [960, 1600, 2560])] + [(c, [360, 600, 896]) for c in CLASSES]
 
 
 def save(im, name, w, aq=52):
@@ -22,8 +23,23 @@ def save(im, name, w, aq=52):
         im = im.resize((w, h), Image.LANCZOS)
         if up:  # upscaled: restore a little edge contrast
             im = im.filter(ImageFilter.UnsharpMask(radius=1.6, percent=60, threshold=2))
-    im.save(os.path.join(OUT, f'{name}-{w}.avif'), quality=aq, speed=4)
-    im.save(os.path.join(OUT, f'{name}-{w}.webp'), quality=80, method=6)
+    for ext, q, kw in (('avif', aq, {'speed': 4}), ('webp', 80, {'method': 6})):
+        path = os.path.join(OUT, f'{name}-{w}.{ext}')
+        im.save(path, quality=q, **kw)
+        limit = budget(name, w, ext)
+        while limit and os.path.getsize(path) > limit and q > 50:   # a richer time of day: a step lower, not a heavier header
+            q -= 2
+            im.save(path, quality=q, **kw)
+
+
+BUDGET = 1.15   # a time-of-day variant may weigh at most this much more than dawn at the same width (spec)
+
+
+def budget(name, w, ext):
+    """Byte limit for a hero_<tod> variant (hero_dawn of the same width and cut x BUDGET), None for anything else."""
+    m = re.fullmatch(r'hero_(day|dusk|night)(-m)?', name)
+    ref = m and os.path.join(OUT, f'hero_dawn{m.group(2) or ""}-{w}.{ext}')
+    return ref and os.path.exists(ref) and os.path.getsize(ref) * BUDGET
 
 
 def source(name):
@@ -79,16 +95,17 @@ def face(src, name):
 
 
 def hero_mobile():
-    """Portrait cut of the home hero for phones: hero_dawn-m-600|1000. Cut at x = .6 * (width - 600), so the
+    """Portrait cut of the home hero for phones: hero_<tod>-m-600|1000. Cut at x = .6 * (width - 600), so the
     phone view (object-position 60%) shows exactly the same part of the picture as with the full-width file:
-    the banner, the paladin and the elf, with no face under the title."""
-    im = source('hero_dawn')
-    w = round(600 * im.height / 768)
-    x = round(.6 * (im.width - w))
-    im = im.crop((x, 0, x + w, im.height))
-    for width in (600, 1000):
-        save(im, 'hero_dawn-m', width, SCENE_Q)
-    print('hero_dawn-m ok')
+    the banner, the paladin and the elf, with no face under the title. Every time of day is cut the same way."""
+    for tod in TODS:
+        im = source(f'hero_{tod}')
+        w = round(600 * im.height / 768)
+        x = round(.6 * (im.width - w))
+        im = im.crop((x, 0, x + w, im.height))
+        for width in (600, 1000):
+            save(im, f'hero_{tod}-m', width, SCENE_Q)
+        print(f'hero_{tod}-m ok')
 
 
 def main():
