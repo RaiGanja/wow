@@ -1,24 +1,25 @@
 /* Profiles on every page (assets/me/me.js): portrait in the top bar, achievement toasts, the level question on «В игре».
-   Frames are CSS stand-ins until the painted ones (assets/me/frames/) arrive. No glow, no neon: metal and a single gleam. */
+   Painted frames live in assets/me/frames/, achievement icons in assets/me/ach/. No glow, no neon: metal and a single gleam. */
 
-/* portrait ring: one colour per rank and special frame */
-.me-ring { --rc: #6f6a5e; position: relative; display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 50%;
-  padding: 2px; background: var(--rc); box-shadow: inset 0 0 0 1px rgba(0,0,0,.45); }
+/* portrait ring. Recruit is a plain metal ring; every other frame is painted (frames/<id>.webp, 256 px, hole 43% in the centre):
+   the picture sits 30% beyond the ring box, the portrait fills 70% of the box, so ornaments (wings, crowns) reach outside. */
+.me-ring { position: relative; display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 50%;
+  padding: 2px; background: #5d5a53; box-shadow: inset 0 0 0 1px rgba(0,0,0,.45); }
 .me-ring img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; background: var(--surface-2); }
-.fr-recruit { --rc: #5d5a53; }
-.fr-bronze { --rc: linear-gradient(145deg, #c08a5a, #6e4325 60%, #a8754a); }
-.fr-silver { --rc: linear-gradient(145deg, #e3e6ea, #8a9097 60%, #c9ced4); }
-.fr-gold { --rc: linear-gradient(145deg, #f0d58c, #9a7426 60%, #e0c27a); }
-.fr-relite { --rc: linear-gradient(145deg, #e9edf2, #6c7a8c 45%, #e0c27a); }
-.fr-epic { --rc: linear-gradient(145deg, #b79ae6, #4e3478 60%, #e0c27a); }
-.fr-legend { --rc: linear-gradient(145deg, #f2c27a, #9a4a12 55%, #f0d58c); }
-.fr-boss { --rc: linear-gradient(145deg, #1b1b1d, #c9a54a 50%, #1b1b1d); }
-.fr-founder { --rc: conic-gradient(from 30deg, #e0c27a, #8a6620, #f0d58c, #8a6620, #e0c27a); }
-.fr-dragon { --rc: linear-gradient(145deg, #c9a54a, #5b1d16 55%, #c9a54a); }
-.fr-fire { --rc: linear-gradient(145deg, #f2b04a, #8c2a0e 55%, #f2b04a); }
-.fr-secrets { --rc: linear-gradient(145deg, #9fc3b2, #2f4b46 55%, #c9a54a); }
-.fr-recruiter { --rc: linear-gradient(145deg, #86a6d8, #2c3b5c 55%, #c9a54a); }
-.me-ring[class*="fr-"] { background: var(--rc); }
+.me-ring[class*="fr-"]:not(.fr-recruit) { padding: 0 !important; background: none; box-shadow: none; }
+.me-ring[class*="fr-"]:not(.fr-recruit) img { width: 70%; height: 70%; }
+.me-ring[class*="fr-"]:not(.fr-recruit)::after { content: ""; position: absolute; inset: -30%; pointer-events: none; background: var(--fr) center / contain no-repeat; }
+.fr-bronze { --fr: url(frames/bronze.webp); } .fr-silver { --fr: url(frames/silver.webp); } .fr-gold { --fr: url(frames/gold.webp); }
+.fr-relite { --fr: url(frames/relite.webp); } .fr-epic { --fr: url(frames/epic.webp); } .fr-legend { --fr: url(frames/legend.webp); }
+.fr-boss { --fr: url(frames/boss.webp); } .fr-founder { --fr: url(frames/founder.webp); } .fr-dragon { --fr: url(frames/dragon.webp); }
+.fr-fire { --fr: url(frames/fire.webp); } .fr-secrets { --fr: url(frames/secrets.webp); } .fr-recruiter { --fr: url(frames/recruiter.webp); }
+/* Legend: a gleam runs over the metal only (masked by the frame itself) */
+.me-ring.fr-legend::before { content: ""; position: absolute; inset: -30%; z-index: 1; pointer-events: none;
+  background: linear-gradient(105deg, transparent 40%, rgba(255,240,200,.55) 50%, transparent 60%) 0 0 / 300% 100% no-repeat;
+  -webkit-mask: var(--fr) center / contain no-repeat; mask: var(--fr) center / contain no-repeat; animation: me-gleam 5s ease-in-out infinite; }
+.me-ring.fr-legend::after { z-index: 0; }
+@keyframes me-gleam { 0%, 55% { background-position: 100% 0; } 100% { background-position: 0 0; } }
+@media (prefers-reduced-motion: reduce) { .me-ring.fr-legend::before { animation: none; display: none; } }
 
 /* top bar: portrait or the login button (roster and profile pages only) */
 .mebtn { padding: 0; overflow: visible; }
@@ -36,7 +37,8 @@
 .me-ti { width: 52px; height: 52px; border-radius: 8px; display: grid; place-items: center; padding: 3px;
   background: linear-gradient(145deg, #f0d58c, #7a5a1c 55%, #c9a54a); box-shadow: inset 0 0 0 1px rgba(0,0,0,.5); }
 .me-ti img { width: 100%; height: 100%; border-radius: 6px; object-fit: cover; background: #0d0c0a; }
-.me-ti .me-ring { width: 46px; height: 46px; background: var(--rc); }
+.me-ti .me-ring { width: 40px; height: 40px; }
+.me-ti:has(.me-ring) { background: none; box-shadow: none; }
 .me-tt { display: grid; gap: 2px; min-width: 0; }
 .me-tt small { font-size: .7rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: #e0c27a; }
 .me-tt b { font-family: var(--font-display); font-weight: var(--display-w); font-size: 1.35rem; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }

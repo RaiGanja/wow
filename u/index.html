@@ -820,14 +820,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 [hidden] { display: none !important; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-/* rings: me.css draws the metal, here only the size and the founder's griffin */
+/* rings: me.css draws the metal, here only the size */
 main .me-ring, dialog .me-ring { --s: 64px; width: var(--s); height: var(--s); padding: calc(var(--s) * .07); flex: none; }
-.me-ring.fr-founder::after { content: ""; position: absolute; left: 50%; bottom: -8%; width: 36%; aspect-ratio: 1; transform: translateX(-50%); border-radius: 50%;
-  background: #0b0d12 url(../assets/brand/mark.webp) center/cover; box-shadow: 0 0 0 2px #c9a54a; }
-.me-ring.fr-legend { overflow: hidden; }
-.me-ring.fr-legend::before { content: ""; position: absolute; inset: -40%; background: conic-gradient(from 0deg, transparent 0 70%, rgba(255,236,190,.55) 80%, transparent 90%); animation: pg-spin 5s linear infinite; }
-.me-ring.fr-legend img { position: relative; z-index: 1; }
-@keyframes pg-spin { to { transform: rotate(360deg); } }
 .me-ring.locked { filter: grayscale(.9) brightness(.55); }
 
 /* shield with points, like the game */
@@ -837,7 +831,7 @@ main .me-ring, dialog .me-ring { --s: 64px; width: var(--s); height: var(--s); p
 .bar i { display: block; height: 100%; background: linear-gradient(90deg, #a9832f, #f3d78e); }
 
 /* player card (roster, characters) */
-.pcard { --cc: var(--gold); position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 14px; align-items: center; padding: 16px 16px 14px;
+.pcard { --cc: var(--gold); position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 22px; align-items: center; align-content: start; padding: 16px 16px 14px;
   border: 1px solid var(--pline); border-radius: 10px; background: linear-gradient(100deg, color-mix(in srgb, var(--cc) 10%, var(--panel-2)) 0%, var(--panel-2) 60%); min-width: 0; }
 .pcard .pic { position: relative; grid-row: 1 / 3; }
 .pcard .lv { position: absolute; right: -4px; bottom: -4px; z-index: 2; min-width: 26px; height: 22px; padding: 0 5px; border-radius: 6px; display: grid; place-items: center;
@@ -960,7 +954,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
   .ladder { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .me-ring.fr-legend::before, .skel, .bcard .me-ring.reveal { animation: none; }
+  .skel, .bcard .me-ring.reveal { animation: none; }
 }
 
 .pl { display: grid; gap: 18px; }
@@ -1066,7 +1060,7 @@ const subline = c => `${esc(race(c.race).n)} · ${esc(cls(c.class).n)}`;
 const profLine = (c, hi) => [[c.prof1, c.prof1_skill], [c.prof2, c.prof2_skill]].filter(p => p[0])
   .map(([p, s]) => (p === hi ? '<b>' : '') + esc(GD.profs[p] || p) + (s ? ` ${s}` : '') + (p === hi ? '</b>' : '')).join(', ');
 const playerUrl = id => `${HOME}u/#${id}`;
-const achIcon = () => `${ROOT}assets/brand/mark.webp`;   // painted icons (assets/me/ach/) replace this later
+const achIcon = id => `${ROOT}assets/me/ach/${id}.webp`;   // painted icons; secret.webp hides an unfound secret
 const dateOf = t => new Date(t).toLocaleDateString(HL);
 const unit = (n, u) => new Intl.NumberFormat(HL, { style: 'unit', unit: u, unitDisplay: 'short', maximumFractionDigits: 0 }).format(n);
 function ago(t) {
@@ -1183,7 +1177,7 @@ function achTile(a, st, ctx, marks) {
     if (pr) foot = `<span class="prog"><span class="bar"><i style="width:${Math.round(100 * pr.v / pr.goal)}%"></i></span>${esc(pr.text)}</span>`;
   }
   return `<div class="ach${own || (marks && marks.some(m => m[1])) ? '' : ' lock'}${hide ? ' secret' : ''}">
-    <span class="ic"><img src="${achIcon(a.id)}" alt="" width="46" height="46" loading="lazy"></span><b>${esc(name)}</b>
+    <span class="ic"><img src="${achIcon(hide ? 'secret' : a.id)}" alt="" width="46" height="46" loading="lazy"></span><b>${esc(name)}</b>
     <span class="shield" aria-label="${a.pts} ${esc(T.ui.pts || '')}">${a.pts}</span><p>${esc(desc)}</p>${foot}</div>`;
 }
 

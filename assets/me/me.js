@@ -105,7 +105,7 @@
       const pts = a && T.pts ? T.pts[t.id] : null;
       const el = document.createElement('div');
       el.className = 'me-toast' + (t.kind === 'rank' ? ' rank' : '') + (reduced() ? '' : ' anim');
-      el.innerHTML = `<span class="me-ti">${t.kind === 'rank' ? `<span class="me-ring fr-${esc(t.id)}"><img src="${face(state)}" alt="" width="40" height="40"></span>` : `<img src="${ROOT}assets/brand/mark.webp" alt="" width="44" height="44">`}</span>
+      el.innerHTML = `<span class="me-ti">${t.kind === 'rank' ? `<span class="me-ring fr-${esc(t.id)}"><img src="${face(state)}" alt="" width="40" height="40"></span>` : `<img src="${ROOT}assets/me/ach/${esc(t.id)}.webp" alt="" width="44" height="44">`}</span>
         <span class="me-tt"><small>${esc(t.kind === 'rank' ? T.ui.rankUp : T.ui.got)}</small><b>${esc(t.kind === 'rank' ? T.ranks[t.id] || t.id : a[0])}</b></span>
         ${pts ? `<span class="me-shield" aria-label="${esc(pts + ' ' + (T.ui.pts || ''))}">${pts}</span>` : ''}`;
       box.append(el);

@@ -20,7 +20,7 @@ const subline = c => `${esc(race(c.race).n)} · ${esc(cls(c.class).n)}`;
 const profLine = (c, hi) => [[c.prof1, c.prof1_skill], [c.prof2, c.prof2_skill]].filter(p => p[0])
   .map(([p, s]) => (p === hi ? '<b>' : '') + esc(GD.profs[p] || p) + (s ? ` ${s}` : '') + (p === hi ? '</b>' : '')).join(', ');
 const playerUrl = id => `${HOME}u/#${id}`;
-const achIcon = () => `${ROOT}assets/brand/mark.webp`;   // painted icons (assets/me/ach/) replace this later
+const achIcon = id => `${ROOT}assets/me/ach/${id}.webp`;   // painted icons; secret.webp hides an unfound secret
 const dateOf = t => new Date(t).toLocaleDateString(HL);
 const unit = (n, u) => new Intl.NumberFormat(HL, { style: 'unit', unit: u, unitDisplay: 'short', maximumFractionDigits: 0 }).format(n);
 function ago(t) {
@@ -137,7 +137,7 @@ function achTile(a, st, ctx, marks) {
     if (pr) foot = `<span class="prog"><span class="bar"><i style="width:${Math.round(100 * pr.v / pr.goal)}%"></i></span>${esc(pr.text)}</span>`;
   }
   return `<div class="ach${own || (marks && marks.some(m => m[1])) ? '' : ' lock'}${hide ? ' secret' : ''}">
-    <span class="ic"><img src="${achIcon(a.id)}" alt="" width="46" height="46" loading="lazy"></span><b>${esc(name)}</b>
+    <span class="ic"><img src="${achIcon(hide ? 'secret' : a.id)}" alt="" width="46" height="46" loading="lazy"></span><b>${esc(name)}</b>
     <span class="shield" aria-label="${a.pts} ${esc(T.ui.pts || '')}">${a.pts}</span><p>${esc(desc)}</p>${foot}</div>`;
 }
 
