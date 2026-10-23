@@ -232,10 +232,11 @@ def localize(html, lang, here):
 
 
 # Sections below the first screen fade in once when they scroll into view.
-# Without JS, with reduced motion or for what is already on screen nothing changes.
+# Without JS, with reduced motion, in print or for what is already on screen nothing changes.
 REVEAL_CSS = """<style>
 .rv { opacity: 0; transform: translateY(18px); }
 .rv.in { opacity: 1; transform: none; transition: opacity .6s var(--ease), transform .6s var(--ease); }
+@media print { .rv { opacity: 1; transform: none; } }
 </style>
 """
 REVEAL_JS = """<script>
