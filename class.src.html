@@ -47,7 +47,7 @@
 .croles span { display: inline-flex; align-items: center; min-height: 34px; padding: 0 14px; border: 1px solid rgba(255,255,255,.14); border-radius: 999px; background: rgba(10,12,18,.62); backdrop-filter: blur(6px); color: #e8d6a6; font-size: .92rem; font-weight: 500; }
 .croles span.q { border-style: dashed; color: var(--ink-2); }
 .cfacts { margin: 4px 0 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; padding: 6px; max-width: 580px; width: 100%; border: 1px solid rgba(255,255,255,.12); border-radius: 10px; background: rgba(10,12,18,.62); backdrop-filter: blur(6px); }
-.cfacts div { align-content: start; padding: 10px 14px; border-radius: 7px; background: rgba(255,255,255,.05); display: grid; gap: 2px; }
+.cfacts div { grid-template-columns: minmax(0, 1fr); align-content: start; padding: 10px 14px; border-radius: 7px; background: rgba(255,255,255,.05); display: grid; gap: 2px; }
 .cfacts dt { font-size: .8rem; color: var(--ink-2); }
 .cfacts dd { margin: 0; font-size: .95rem; color: var(--ink); }
 .chero .cta { margin-top: 4px; }
@@ -78,7 +78,7 @@
 .nband > picture { z-index: -2; }
 .nband > picture img { object-fit: cover; }
 .nband::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(7,8,10,.8) 0%, rgba(7,8,10,.5) 55%, rgba(7,8,10,.3) 100%); }
-.nband .wrap { display: grid; gap: 28px; }
+.nband .wrap { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; }
 .nband .sec-head p, .nband .sec-head .src { color: var(--ink-2); }
 .news { list-style: none; margin: 0; padding: 14px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; counter-reset: n; border: 1px solid rgba(255,255,255,.1); border-radius: 10px; background: rgba(12,14,20,.72); backdrop-filter: blur(6px); }
 .news li { position: relative; padding: 16px 16px 16px 66px; border-radius: 8px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); counter-increment: n; }
@@ -138,7 +138,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   .chero-in { padding-top: 0; margin-top: -120px; padding-bottom: 36px; gap: 16px; }
   .crumbs { order: -1; }
   .chero h1 { font-size: clamp(2.4rem, 11.5vw, 4rem); overflow-wrap: anywhere; }
-  .cfacts { grid-template-columns: 1fr 1fr; gap: 0 16px; }
+  .cfacts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 16px; }
   .stabs { gap: 4px; padding: 4px; }
   .stabs button { flex: 1 1 0; min-width: 0; padding: 6px 6px; font-size: .95rem; min-height: 56px; white-space: normal; text-align: center; justify-items: center; hyphens: auto; overflow-wrap: anywhere; }
   .spanel { padding: 18px 16px; }

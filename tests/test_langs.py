@@ -59,6 +59,19 @@ def test_tables():
     assert langs.LANGS[:3] == ('ru', 'en', 'uk')
 
 
+def test_js_names_zones():
+    import build
+    js = """const DUNGEONS = [
+  ['The Deadmines', 15, 22, 'Westfall', 0],
+  ["Shaper's Terrace", 58, 60, "Un'Goro Crater", 1],
+  ['Nowhere Hall', 1, 2, 'Nowhere', 0]
+];"""
+    fr = build.js_names(js, 'fr')
+    assert "'Marche de l’Ouest'" in fr and '"Cratère d’Un’Goro"' in fr               # double-quoted names localized too
+    assert "'Nowhere'" in fr                                                         # unknown name stays English
+    assert all(build.js_names(js, l) == js for l in ('ru', 'uk', 'en', 'pl'))      # English client: names as in game
+
+
 if __name__ == '__main__':
     for name, fn in list(globals().items()):
         if name.startswith('test_'):

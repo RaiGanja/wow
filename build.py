@@ -72,21 +72,45 @@ def rel(from_dir, to_dir):
 CONTACT = 'contact@gabella.site'   # Cloudflare Email Routing -> почта Вячеслава
 LEGAL = {
     'ru': ('Фанатский гид Gabella. Сайт не связан с Blizzard Entertainment и не одобрен ею. World of Warcraft, Warcraft и Blizzard Entertainment — '
-           'товарные знаки или зарегистрированные товарные знаки Blizzard Entertainment, Inc. в США и/или других странах.', 'Конфиденциальность', 'Связь'),
+           'товарные знаки или зарегистрированные товарные знаки Blizzard Entertainment, Inc. в США и/или других странах.', 'Конфиденциальность', 'Связь', 'Карта сайта'),
     'en': ('Gabella fan guide. Not affiliated with or endorsed by Blizzard Entertainment. World of Warcraft, Warcraft and Blizzard Entertainment are '
-           'trademarks or registered trademarks of Blizzard Entertainment, Inc. in the U.S. and/or other countries.', 'Privacy', 'Contact'),
+           'trademarks or registered trademarks of Blizzard Entertainment, Inc. in the U.S. and/or other countries.', 'Privacy', 'Contact', 'Site map'),
     'uk': ('Фанатський гід Gabella. Сайт не пов’язаний з Blizzard Entertainment і не схвалений нею. World of Warcraft, Warcraft і Blizzard Entertainment — '
-           'торгові марки або зареєстровані торгові марки Blizzard Entertainment, Inc. у США та/або інших країнах.', 'Конфіденційність', 'Зв’язок'),
+           'торгові марки або зареєстровані торгові марки Blizzard Entertainment, Inc. у США та/або інших країнах.', 'Конфіденційність', 'Зв’язок', 'Мапа сайту'),
 }
 
 
 langs.derive(LEGAL)
 
 
+TOOLS_T = langs.derive({'ru': 'Инструменты', 'en': 'Tools', 'uk': 'Інструменти'})
+
+
+def site_map(lang, home):
+    """Footer site map of every page: classes, races, guides, tools. home: path to the language home."""
+    from content.guides import GUIDES, HUB, HUBS, ORDER, PLAY
+    langs.fill([HUB, HUBS, PLAY] + GUIDES)
+    if not _RACES:
+        _RACES.extend(parse_races(open(os.path.join(HERE, 'index.src.html'), encoding='utf-8').read()))
+    slug = {r['id']: r['slug'] for r in RACES_PAGE}
+    hub = {h['slug']: h for h in HUBS}
+    guides = sorted(GUIDES, key=lambda g: ORDER.index(g['slug']) if g['slug'] in ORDER else len(ORDER))
+    cols = [
+        (hub['classes']['title'], 'classes/', [(f'classes/{c["id"]}/', tr(c['n'], lang)) for c in CLASSES]),
+        (hub['races']['title'], 'races/', [(f'races/{slug[r["id"]]}/', tr(r['n'], lang)) for r in _RACES]),
+        (HUB['title'], 'guides/', [(f'guides/{g["slug"]}/', g['title'][lang]) for g in guides]),
+        (TOOLS_T, 'tools/', [('tools/', TOOLS_T[lang]), ('play/', PLAY['title'][lang])]),
+    ]
+    out = ''.join(f'<div><a class="fh" href="{home}{href}">{esc(h[lang])}</a><ul>'
+                  + ''.join(f'<li><a href="{home}{u}">{esc(n)}</a></li>' for u, n in links) + '</ul></div>'
+                  for h, href, links in cols)
+    return f'<nav class="fmap" aria-label="{esc(LEGAL[lang][3])}">{out}</nav>'
+
+
 def legal(lang, root):
-    """Footer block of every page (@@LEGAL@@): trademarks, ©, privacy page, contact."""
-    text, privacy, contact = LEGAL[lang]
-    return (f'<div class="legal"><p>{text}</p><p>© 2026 Gabella<span aria-hidden="true"> · </span>'
+    """Footer block of every page (@@LEGAL@@): site map, trademarks, ©, privacy page, contact."""
+    text, privacy, contact = LEGAL[lang][:3]
+    return site_map(lang, root + page_dir(lang)) + (f'<div class="legal"><p>{text}</p><p>© 2026 Gabella<span aria-hidden="true"> · </span>'
             f'<a href="{root}{page_dir(lang, "privacy/")}">{privacy}</a><span aria-hidden="true"> · </span>'
             f'{contact}: <a href="mailto:{CONTACT}">{CONTACT}</a></p></div>')
 
@@ -203,7 +227,30 @@ def localize(html, lang, here):
         html = html.replace('content="ru_RU"', f'content="{LOCALE[lang]}"')
     if lang not in ('ru', 'uk'):                                  # Latin-script pages: preload the fonts they draw first
         html = html.replace('-cyrillic.woff2" as="font"', '-latin.woff2" as="font"')
+    html = html.replace('</head>', REVEAL_CSS + '</head>', 1).replace('</body>', REVEAL_JS + '</body>', 1)
     return me(pwa(html, lang, rel(here, '')), lang, here)
+
+
+# Sections below the first screen fade in once when they scroll into view.
+# Without JS, with reduced motion, in print or for what is already on screen nothing changes.
+REVEAL_CSS = """<style>
+.rv { opacity: 0; transform: translateY(18px); }
+.rv.in { opacity: 1; transform: none; transition: opacity .6s var(--ease), transform .6s var(--ease); }
+@media print { .rv { opacity: 1; transform: none; } }
+</style>
+"""
+REVEAL_JS = """<script>
+(function () {
+  if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { rootMargin: '0px 0px -6% 0px' });
+  document.querySelectorAll('section.block, section.nband, section.stband:not(.ghero), .gsec, footer').forEach(function (s) {
+    if (s.getBoundingClientRect().top > innerHeight) { s.classList.add('rv'); io.observe(s); }
+  });
+})();
+</script>
+"""
 
 
 # ---------- installable site (PWA): manifest, icons, service worker sw.js ----------
@@ -272,6 +319,22 @@ RADIO_BTN = ('<button class="iconbtn radiobtn" type="button" aria-label="@@L@@" 
              '<span class="rdo-eq" aria-hidden="true"><i></i><i></i><i></i></span></button>\n    ')
 
 
+SEARCH = {'ru': 'Поиск по сайту', 'en': 'Search the site', 'uk': 'Пошук по сайту', 'de': 'Seite durchsuchen', 'fr': 'Rechercher sur le site',
+          'es': 'Buscar en el sitio', 'pt': 'Pesquisar no site', 'it': 'Cerca nel sito', 'pl': 'Szukaj w serwisie'}
+SEARCH_BTN = ('<button class="iconbtn srchbtn" type="button" aria-label="@@L@@" aria-haspopup="dialog">'
+              '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
+              '<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><kbd>Ctrl K</kbd></button>\n    ')
+
+
+def search(html, lang, root):
+    """Site search (assets/search/, search.py): button before the radio button, styles without blocking the page, script.
+    search.py adds ?v=<hash> to both files after the index is written."""
+    html = html.replace('<button class="iconbtn radiobtn"', SEARCH_BTN.replace('@@L@@', SEARCH[lang]) + '<button class="iconbtn radiobtn"', 1)
+    head = f'<link rel="stylesheet" href="{root}assets/search/search.css" media="print" onload="this.media=\'all\'">\n</head>'
+    js = f'<script src="{root}assets/search/search.js" data-root="{root}" defer></script>\n</body>'
+    return html.replace('</head>', head, 1).replace('</body>', js, 1)
+
+
 def radio(html, lang, root):
     """Radio (assets/radio/, tools/make_radio.py): button before the theme button of the top bar, styles without blocking the page, script."""
     html = html.replace('<button class="iconbtn themebtn"', RADIO_BTN.replace('@@L@@', RADIO[lang]) + '<button class="iconbtn themebtn"', 1)
@@ -296,10 +359,21 @@ def pwa(html, lang, root):
             f'<link rel="apple-touch-icon" href="{root}assets/icons/apple-touch-icon.png">\n'
             '<meta name="apple-mobile-web-app-title" content="Gabella WoW">\n</head>')
     js = PWA_JS.replace('@@R@@', root).replace('@@L@@', a['install_l']).replace('@@T@@', a['install'])
-    return radio(html.replace('</head>', head, 1).replace('</body>', js + '</body>', 1), lang, root)
+    return search(radio(html.replace('</head>', head, 1).replace('</body>', js + '</body>', 1), lang, root), lang, root)
 
 
 # ---------- home page ----------
+
+def upd_time(d):
+    """'23.10.2026' -> <time> line of a guide card."""
+    return f'<time datetime="{"-".join(reversed(d.split(".")))}">{d}</time>' if d else ''
+
+
+def card_dates(html):
+    """Update date at the bottom of the home guide cards (a.gt). The news feed refreshes itself, so its card has none."""
+    from content.guides import GUIDES, HUBS
+    dates = {f'guides/{g["slug"]}/': g.get('updated') for g in GUIDES if g['slug'] != 'news'} | {h['path']: h.get('updated') for h in HUBS}
+    return re.sub(r'(<a class="gt" href="([^"#]+)">.*?)(</a>)', lambda m: m[1] + upd_time(dates.get(m[2])) + m[3], html)
 
 def build_home(lang, src):
     src = src.replace('@@RACE_LEAD@@', json.dumps({r['id']: r['lead'] for r in RACES_PAGE}, ensure_ascii=False))
@@ -309,6 +383,8 @@ def build_home(lang, src):
     html = html.replace('@@ALTERNATES@@', alternates(''))
     html = localize(html, lang, here)
     html = static_links(html, lang, '')
+    html = card_dates(html)
+    html = home_dungeons(html, lang)
     if lang == 'ru':
         html = auto_lang(html)
     if lang != 'ru':
@@ -366,11 +442,28 @@ def ability(ru, en, lang, tag='b'):
     return f'{head}<span class="en" lang="en">{esc(en)}</span>'
 
 
+JS_STR = re.compile(r"""'[^'\n]*'|"[^"\n]*\"""")
+
+
+def js_quote(s, q):
+    return q + s.replace(q, '’') + q
+
+
 def js_names(js, lang):
-    """English game names in single-quoted JS data (dungeons, zones, cities) -> official localized ones on de/fr/es/pt/it."""
+    """English game names in quoted JS data (dungeons, zones, cities) -> official localized ones on de/fr/es/pt/it.
+    ru/uk/en/pl keep English: the server's client has no Russian or Ukrainian, players see the English names in game."""
     if lang not in NAMED:
         return js
-    return re.sub(r"'([^'\n]+)'", lambda m: "'" + langs.name(m[1], lang).replace("'", '’') + "'", js)
+    return JS_STR.sub(lambda m: js_quote(langs.name(m[0][1:-1], lang), m[0][0]), js)
+
+
+def home_dungeons(html, lang):
+    """DUNGEONS on the home page: zone (and on de/fr/es/pt/it dungeon) names in the page language, as on the dungeon guide."""
+    i = html.find('const DUNGEONS = [')
+    if i < 0:
+        return html
+    j = html.index('\n];', i)
+    return html[:i] + js_names(html[i:j], lang) + html[j:]
 
 
 def ico(name):
@@ -499,6 +592,17 @@ NCLS = {4: 'Четыре класса', 5: 'Пять классов', 6: 'Шес
 SKY_SUB = {'skyA': 'Скайборн за Альянс', 'skyH': 'Скайборн за Орду'}
 
 
+PLACE_FACTS = ('Столица', 'Стартовая зона', 'Репутация')
+
+
+def fact_ru(k, v):
+    """Russian race page: places and factions as the game shows them (English client, like uk); the Russian source
+    stays the translation key for the other languages. Site-named factions (Высший орден) keep their Russian name."""
+    if k in PLACE_FACTS and v in T and t_of(v, 'uk') == t_of(v, 'en'):
+        return t_of(v, 'en')
+    return v
+
+
 def build_race(rp, lang, tpl, base_css, class_css, sprite, races, en):
     r = next(x for x in races if x['id'] == rp['id'])
     slug = {x['id']: x['slug'] for x in RACES_PAGE}
@@ -508,7 +612,7 @@ def build_race(rp, lang, tpl, base_css, class_css, sprite, races, en):
     home = rel(here, page_dir(lang))
     classes_dir = rel(here, page_dir(lang, 'classes/'))
 
-    facts = ''.join(f'<div><dt>{k}</dt><dd>{esc(v)}</dd></div>' for k, v in rp['facts'])
+    facts = ''.join(f'<div><dt>{k}</dt><dd>{esc(fact_ru(k, v) if lang == "ru" else v)}</dd></div>' for k, v in rp['facts'])
     cards = []
     for kind, ru, what in r['rac']:
         name = ability(ru, en.get(ru, ru), lang, tag='')
@@ -616,6 +720,10 @@ def main():
     import seo  # last: titles/descriptions for search, JSON-LD, analytics, sitemap.xml over the built pages
     seo.main()
     report_new_langs()
+    if not listing:
+        import search  # site search index over the finished pages; it changes assets/, so the worker version is taken again
+        search.main()
+        sw_version()
 
 
 def report_new_langs():

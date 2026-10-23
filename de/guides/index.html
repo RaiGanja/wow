@@ -101,7 +101,7 @@
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: calc(var(--top) + 12px); -webkit-text-size-adjust: 100%; }
-body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 16px; line-height: 1.6; overflow-x: clip; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 16px; line-height: 1.6; overflow-x: clip; overflow-wrap: break-word; }
 h1, h2, h3 { font-family: var(--font-display); font-weight: var(--display-w); letter-spacing: .03em; overflow-wrap: break-word; margin: 0; line-height: 1.1; text-wrap: balance; }
 h2 { font-size: clamp(2rem, 4vw, 2.75rem); }
 @media (max-width: 470px) { h2 { font-size: 6.8vw; } }
@@ -246,7 +246,7 @@ section.block { scroll-margin-top: -72px; }
 /* Art tiles with the title on the picture: tools and guides */
 .ttiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding: 14px; }
 .ttiles.t4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-.ttile, .gt { position: relative; isolation: isolate; overflow: hidden; min-height: 210px; padding: 0 18px 16px; display: grid; align-content: end; gap: 3px; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; background: #0b0d12; color: #f3efe6; text-decoration: none; transition: border-color .2s; }
+.ttile, .gt { position: relative; isolation: isolate; overflow: hidden; min-height: 210px; padding: 0 18px 16px; display: grid; grid-template-columns: minmax(0, 1fr); align-content: end; gap: 3px; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; background: #0b0d12; color: #f3efe6; text-decoration: none; transition: border-color .2s; }
 .ttile picture, .ttile img, .gt picture, .gt img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .ttile picture, .gt picture { z-index: -2; }
 .ttile img, .gt img { object-fit: cover; object-position: 50% 24%; filter: saturate(.85) brightness(.78); transition: filter .3s, transform .6s var(--ease); }
@@ -255,6 +255,7 @@ section.block { scroll-margin-top: -72px; }
 .ttile:hover img, .gt:hover img { filter: none; transform: scale(1.04); }
 .ttile b, .gt b { font-weight: 700; font-size: 1.2rem; line-height: 1.2; text-shadow: 0 1px 8px rgba(0,0,0,.7); }
 .ttile span, .gt span { font-size: .9rem; line-height: 1.4; color: rgba(243,239,230,.82); }
+.ttile time, .gt time { margin-top: 4px; font-size: .78rem; color: rgba(243,239,230,.6); font-variant-numeric: tabular-nums; }
 
 /* Race roster: two factions side by side in one frame, five portraits each */
 .peoples { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 14px; }
@@ -278,6 +279,8 @@ section.block { scroll-margin-top: -72px; }
 .stband-art img { object-fit: cover; object-position: 50% 40%; }
 .stband::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 620px; z-index: -1; background: linear-gradient(180deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 70%, transparent) 22%, color-mix(in srgb, var(--bg) 55%, transparent) 50%, var(--bg) 100%); }
 .stband .wrap { display: grid; gap: 20px; }
+/* page-level grids: one column that may shrink, so a long word or a wide field never pushes past the screen edge */
+section.block, .hero-in, .chero-in, .thero-in, .stband .wrap { grid-template-columns: minmax(0, 1fr); }
 .stband .sec-head p { color: var(--fg); opacity: .85; }
 .stband .sec-head .src { color: var(--fg); opacity: .7; }
 .frame { position: relative; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); box-shadow: 0 18px 48px rgba(0,0,0,.35); backdrop-filter: blur(6px); }
@@ -342,11 +345,13 @@ ul.dlist li.mine { border-color: color-mix(in srgb, var(--gold) 60%, transparent
 .me details > summary::-webkit-details-marker { display: none; }
 .me details > summary::after { content: ""; width: 8px; height: 8px; border-right: 1.5px solid var(--gold-2); border-bottom: 1.5px solid var(--gold-2); transform: translateY(-2px) rotate(45deg); transition: transform .2s; }
 .me details[open] > summary::after { transform: translateY(2px) rotate(-135deg); }
-.me-f { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 10px; padding: 4px 18px 12px; }
+.me-f { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 10px; padding: 4px 18px 12px; }
 .me-f .fl { display: grid; gap: 5px; min-width: 0; font-size: .82rem; color: var(--muted); font-weight: 600; }
 .me-f .wide { grid-column: 1 / -1; }
 .me-f select { width: 100%; min-width: 0; font: inherit; font-size: .95rem; font-weight: 500; padding: 0 8px; min-height: 44px; border: 1px solid var(--pline); border-radius: 7px; background: var(--panel-2); color: var(--fg); }
-.me-f .stepper { border-radius: 7px; border-color: var(--pline); background: var(--panel-2); }
+.me-f .stepper { display: flex; width: 100%; border-radius: 7px; border-color: var(--pline); background: var(--panel-2); }
+.me-f .stepper button { min-width: 36px; }
+.me-f .stepper input { flex: 1; width: auto; min-width: 0; }
 .me-f .chiprow button { border-radius: 7px; border-color: var(--pline); background: var(--panel-2); color: var(--fg); font-size: .88rem; }
 .me-f .chiprow button[aria-pressed="true"] { background: #c9a54a; border-color: #c9a54a; color: #15110a; }
 .me .note-s { padding: 0 18px 16px; color: var(--muted); font-size: .82rem; }
@@ -373,7 +378,7 @@ ul.buffs .m { color: var(--muted); }
 .dg-empty td { color: var(--muted); }
 
 /* Content blocks reused by the reference sections: framed panels, plaques, tips */
-.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 16px; }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(290px, 100%), 1fr)); gap: 16px; }
 .grid2 > * { min-width: 0; }
 .panel, .tool, .tbl-box, .summary { border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); box-shadow: 0 14px 40px rgba(0,0,0,.28); }
 :root[data-theme="light"] .panel, :root[data-theme="light"] .tool, :root[data-theme="light"] .tbl-box, :root[data-theme="light"] .summary, :root[data-theme="light"] .frame { box-shadow: 0 10px 30px rgba(40,32,16,.08); }
@@ -477,7 +482,7 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 .chiprow button.na { color: var(--muted); border-style: dashed; }
 .chiprow button .f { margin-right: 6px; }
 /* Selected combination: art header, specs and racials as cards, three facts */
-.detail { position: relative; isolation: isolate; overflow: hidden; border-radius: 12px; background: var(--panel-2); border: 1px solid var(--pline); display: grid; }
+.detail { position: relative; isolation: isolate; overflow: hidden; border-radius: 12px; background: var(--panel-2); border: 1px solid var(--pline); display: grid; grid-template-columns: minmax(0, 1fr); }
 .detail .chip:not(.on), .detail .copyrow input { background: var(--panel); }
 .d-head { position: relative; isolation: isolate; display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: center; min-height: 170px; padding: 26px 28px; }
 .d-art { position: absolute; z-index: -1; inset: 0 0 0 auto; width: min(62%, 640px); overflow: hidden; }
@@ -489,8 +494,8 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 .d-title { display: grid; gap: 10px; min-width: 0; }
 .d-title h3 { font-size: clamp(1.9rem, 3.4vw, 2.6rem); text-shadow: 0 2px 14px rgba(0,0,0,.45); }
 .d-title .chips { gap: 6px 8px; }
-.d-body { display: grid; gap: 22px; padding: 4px 28px 26px; }
-.d-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px 28px; }
+.d-body { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; padding: 4px 28px 26px; }
+.d-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 22px 28px; }
 .d-cols > div { min-width: 0; display: grid; gap: 10px; align-content: start; }
 .d-cols h4, .d-body h4 { margin: 0; font-size: .86rem; font-weight: 600; color: var(--muted); }
 .cards { display: grid; gap: 8px; }
@@ -600,6 +605,7 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .cmp-row:hover::before { opacity: .3; }
 :root[data-theme="light"] .cmp-row::before { opacity: .1; }
 .cmp-id { display: flex; align-items: center; gap: 16px; min-width: 0; }
+.cmp-id > div { min-width: 0; }
 .cmp-id .av { --s: 52px; }
 .cmp-id b { display: block; font-family: var(--font-display); font-weight: 400; font-size: 1.5rem; line-height: 1.1; }
 .cmp-id small { display: block; margin-top: 3px; color: var(--muted); font-size: .84rem; line-height: 1.4; }
@@ -656,6 +662,16 @@ footer .legal:first-child { padding-top: 0; border-top: 0; }
 footer .legal p { margin: 0; }
 footer .legal a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
 footer .legal a:hover { color: var(--gold); }
+footer .fmap { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px 28px; padding-top: 18px; border-top: 1px solid var(--pline); }
+footer .fmap ul { padding: 0; list-style: none; gap: 2px; }
+footer .fmap a { display: inline-block; padding: 2px 0; color: var(--muted); text-decoration: none; transition: color .15s; }
+footer .fmap .fh { margin-bottom: 6px; font-family: var(--font-display); font-weight: var(--display-w); font-size: 1.1rem; color: var(--fg); }
+footer .fmap a:hover { color: var(--gold); }
+@media (max-width: 719px) {
+  footer .fmap { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  footer .fmap a { padding: 5px 0; }
+  footer .fmap a { hyphens: auto; }
+}
 
 /* Menu sheet (all sections, language, theme) */
 dialog.sheet { border: 0; padding: 0; margin: 0 0 0 auto; width: min(360px, 88vw); max-width: none; height: 100dvh; max-height: none; background: var(--rail); color: var(--fg); border-left: 1px solid var(--line); }
@@ -708,6 +724,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .cmp.cls .cmp-row, .cmp.rac .cmp-row { grid-template-columns: minmax(0, 1fr) auto auto; gap: 14px; padding: 16px; }
   .cmp-row > * { grid-column: 1 / -1; }
   .cmp-row > .cmp-id { grid-column: 1; grid-row: 1; }
+  .cmp-id { gap: 12px; }
+  .cmp-id .av { --s: 44px; }
+  .cmp-id b { font-size: 1.25rem; }
   .cmp-row > .rdots { grid-column: 2; grid-row: 1; }
   .cmp-row > .go { grid-column: 3; grid-row: 1; }
   .cmp-row::before { width: 80%; }
@@ -716,7 +735,10 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 @media (max-width: 719px) {
   :root { --top: 56px; }
   .wrap, .topbar .in { padding-left: 16px; padding-right: 16px; }
-  .topbar .langsel, .menubtn { display: none; }
+  .menubtn, .topbar .themebtn { display: none; }
+  .topbar .langbtn { padding: 0 10px; }
+  .topbar .langbtn::after { display: none; }
+  .topbar .langsel { order: 1; }
   .langhint { bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
   .brand b { font-size: 1.15rem; }
   .hero { min-height: max(580px, calc(100svh - 62px - env(safe-area-inset-bottom, 0px))); }
@@ -738,11 +760,15 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .fac picture, .fac picture img { width: 100%; }
   .fac::before { background: linear-gradient(0deg, var(--fb) 30%, color-mix(in srgb, var(--fb) 60%, transparent) 58%, transparent 85%); }
   .hc, .hc.on { flex-basis: 80%; }
+  .hc .info, .rr .hc .info { min-width: 0; padding: 22px 20px 22px; grid-template-columns: minmax(0, 1fr); }
+  .hc .info b { font-size: 1.8rem; hyphens: auto; }
+  h2, h3 { hyphens: auto; }
   .tool { padding: 16px; }
   .gtiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 8px; }
   .gt { min-height: 168px; padding: 0 12px 12px; }
   .gt b { font-size: 1.02rem; }
   .gt span { font-size: .8rem; line-height: 1.35; }
+  .gt b, .gt span { hyphens: auto; }
   .timeline { padding: 8px; }
   .abs, .cards.two { grid-template-columns: 1fr; }
   .cmp-row > .rdots { grid-column: 1 / -1; grid-row: auto; }
@@ -750,6 +776,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .d-art { width: 100%; }
   .d-art img { opacity: .3; }
   .d-body { padding: 4px 16px 18px; }
+  .copyrow .btn { max-width: 100%; white-space: normal; }
   .d-avs .av { --s: 54px; }
   .slot { grid-template-columns: 50px minmax(0, 2.6fr) minmax(0, 1fr) 40px; gap: 4px 6px; padding: 8px; }
   .slot .no { grid-row: 1 / 3; align-self: center; }
@@ -797,6 +824,14 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .sheet .grp:last-child .gh { grid-column: 1 / -1; }
   .sheet .toc a { min-height: 44px; line-height: 1.25; }
 }
+@media (max-width: 380px) {
+  /* 320–380px phones: brand + search, radio, language must share one row */
+  .topbar .in { gap: 10px; }
+  .topbar .tools { gap: 4px; }
+  .topbar .iconbtn, .topbar .langbtn { min-width: 40px; }
+  .brand { gap: 8px; }
+  .mark { width: 34px; height: 34px; }
+}
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .hc, .hc img, .hc .info, .fac picture img { transition: none; }
@@ -819,7 +854,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .gtoc a:hover { color: var(--fg); }
 .gtoc a[aria-current="true"] { background: var(--panel-2); color: var(--fg); }
 .gmain { display: flex; flex-direction: column; gap: 24px; min-width: 0; }
-.gsec { padding: 22px 24px; display: grid; gap: 16px; scroll-margin-top: calc(var(--top) + 16px); }
+.gsec { padding: 22px 24px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; scroll-margin-top: calc(var(--top) + 16px); }
 .gsec > h2 { margin: 0; font-size: 1.9rem; }
 .gsec p { max-width: 72ch; }
 .gtiles { padding: 0; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
@@ -927,6 +962,7 @@ nav.gtiles { padding: 14px; }
 }
 @media (max-width: 719px) {
   .ghero { min-height: 360px; padding-top: calc(var(--top) + 36px); }
+  .ghero h1 { font-size: clamp(2.1rem, 10.5vw, 2.6rem); hyphens: auto; }
   .gsec { padding: 18px 16px; }
   .gsec > h2 { font-size: 1.6rem; }
   .steps-c { grid-template-columns: minmax(0, 1fr); }
@@ -945,10 +981,16 @@ nav.gtiles { padding: 14px; }
   .gtable td::before { content: attr(data-l); display: block; font-size: .78rem; font-weight: 400; color: var(--muted); }
 }
 </style>
+<style>
+.rv { opacity: 0; transform: translateY(18px); }
+.rv.in { opacity: 1; transform: none; transition: opacity .6s var(--ease), transform .6s var(--ease); }
+@media print { .rv { opacity: 1; transform: none; } }
+</style>
 <link rel="manifest" href="../../manifest-de.webmanifest">
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=99acbc06ba" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/me/me.css" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://gabella.site/wow/de/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://gabella.site/wow/de/guides/"}]}</script>
 </head>
@@ -980,6 +1022,7 @@ nav.gtiles { padding: 14px; }
   </nav>
   <div class="tools">
     <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" aria-label="Sprache: Deutsch">DE</button><ul class="langlist" hidden><li><a href="../../guides/" data-lang="ru" hreflang="ru" lang="ru"><span>Русский</span><small>RU</small></a></li><li><a href="../../en/guides/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../../uk/guides/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="./" data-lang="de" hreflang="de" lang="de" aria-current="page"><span>Deutsch</span><small>DE</small></a></li><li><a href="../../fr/guides/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="../../es/guides/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="../../pt/guides/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="../../it/guides/" data-lang="it" hreflang="it" lang="it"><span>Italiano</span><small>IT</small></a></li><li><a href="../../pl/guides/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
+    <button class="iconbtn srchbtn" type="button" aria-label="Seite durchsuchen" aria-haspopup="dialog"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><kbd>Ctrl K</kbd></button>
     <button class="iconbtn radiobtn" type="button" aria-label="Radio" title="Radio" aria-expanded="false" aria-controls="radioPanel" aria-pressed="false"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg><span class="rdo-eq" aria-hidden="true"><i></i><i></i><i></i></span></button>
     <button class="iconbtn themebtn" type="button" aria-label="Design wechseln" title="Design wechseln"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></button>
     <button class="iconbtn menubtn" type="button" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg><span>Abschnitte</span></button>
@@ -999,7 +1042,7 @@ nav.gtiles { padding: 14px; }
 <main class="wrap gbody solo">
   <nav class="gtoc frame" aria-label="Bereiche des Guides"></nav>
   <div class="gmain">
-<section class="frame gsec" id="all"><div class="ttiles gtiles"><a class="ttile" href="../guides/leveling/"><picture><source type="image/avif" srcset="../../assets/art/hero_dawn-960.avif 960w, ../../assets/art/hero_dawn-1440.avif 1440w, ../../assets/art/hero_dawn-1920.avif 1920w, ../../assets/art/hero_dawn-2560.avif 2560w" sizes="320px"><img src="../../assets/art/hero_dawn-960.webp" srcset="../../assets/art/hero_dawn-960.webp 960w, ../../assets/art/hero_dawn-1440.webp 1440w, ../../assets/art/hero_dawn-1920.webp 1920w, ../../assets/art/hero_dawn-2560.webp 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Leveln 1–60</b><span>Zonen nach Stufe, Erholung, Legacy und Lager</span></a><a class="ttile" href="../guides/dungeons/"><picture><source type="image/avif" srcset="../../assets/art/warlock-360.avif 360w, ../../assets/art/warlock-600.avif 600w, ../../assets/art/warlock-896.avif 896w" sizes="320px"><img src="../../assets/art/warlock-600.webp" srcset="../../assets/art/warlock-360.webp 360w, ../../assets/art/warlock-600.webp 600w, ../../assets/art/warlock-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Dungeons und Raids</b><span>35 Dungeons nach Stufe, Raids, Gruppenaufstellung</span></a><a class="ttile" href="../guides/professions/"><picture><source type="image/avif" srcset="../../assets/art/hero_campfire-960.avif 960w, ../../assets/art/hero_campfire-1600.avif 1600w" sizes="320px"><img src="../../assets/art/hero_campfire-960.webp" srcset="../../assets/art/hero_campfire-960.webp 960w, ../../assets/art/hero_campfire-1600.webp 1600w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Berufe</b><span>Paare für deine Klasse, Lagerobjekte, Skill auf 300</span></a><a class="ttile" href="../guides/faq/"><picture><source type="image/avif" srcset="../../assets/art/mage-360.avif 360w, ../../assets/art/mage-600.avif 600w, ../../assets/art/mage-896.avif 896w" sizes="320px"><img src="../../assets/art/mage-600.webp" srcset="../../assets/art/mage-360.webp 360w, ../../assets/art/mage-600.webp 600w, ../../assets/art/mage-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>FAQ und Termine</b><span>Termine, Pakete, Modi und Antworten</span></a><a class="ttile" href="../guides/news/"><picture><source type="image/avif" srcset="../../assets/art/paladin-360.avif 360w, ../../assets/art/paladin-600.avif 600w, ../../assets/art/paladin-896.avif 896w" sizes="320px"><img src="../../assets/art/paladin-600.webp" srcset="../../assets/art/paladin-360.webp 360w, ../../assets/art/paladin-600.webp 600w, ../../assets/art/paladin-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>News</b><span>Unsere Notizen und der Wowhead-Feed</span></a><a class="ttile" href="../classes/"><picture><source type="image/avif" srcset="../../assets/art/warrior-360.avif 360w, ../../assets/art/warrior-600.avif 600w, ../../assets/art/warrior-896.avif 896w" sizes="320px"><img src="../../assets/art/warrior-600.webp" srcset="../../assets/art/warrior-360.webp 360w, ../../assets/art/warrior-600.webp 600w, ../../assets/art/warrior-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Klassen</b><span>Alle Klassen im Vergleich</span></a><a class="ttile" href="../races/"><picture><source type="image/avif" srcset="../../assets/art/human-360.avif 360w, ../../assets/art/human-600.avif 600w, ../../assets/art/human-896.avif 896w" sizes="320px"><img src="../../assets/art/human-600.webp" srcset="../../assets/art/human-360.webp 360w, ../../assets/art/human-600.webp 600w, ../../assets/art/human-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Völker</b><span>Alle Völker im Vergleich</span></a><a class="ttile" href="../tools/"><picture><source type="image/avif" srcset="../../assets/art/rogue-360.avif 360w, ../../assets/art/rogue-600.avif 600w, ../../assets/art/rogue-896.avif 896w" sizes="320px"><img src="../../assets/art/rogue-600.webp" srcset="../../assets/art/rogue-360.webp 360w, ../../assets/art/rogue-600.webp 600w, ../../assets/art/rogue-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Tools</b><span>Fenster, Vergleich, Suche</span></a></div></section>
+<section class="frame gsec" id="all"><div class="ttiles gtiles"><a class="ttile" href="../guides/leveling/"><picture><source type="image/avif" srcset="../../assets/art/hero_dawn-960.avif 960w, ../../assets/art/hero_dawn-1440.avif 1440w, ../../assets/art/hero_dawn-1920.avif 1920w, ../../assets/art/hero_dawn-2560.avif 2560w" sizes="320px"><img src="../../assets/art/hero_dawn-960.webp" srcset="../../assets/art/hero_dawn-960.webp 960w, ../../assets/art/hero_dawn-1440.webp 1440w, ../../assets/art/hero_dawn-1920.webp 1920w, ../../assets/art/hero_dawn-2560.webp 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Leveln 1–60</b><span>Zonen nach Stufe, Erholung, Legacy und Lager</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../guides/dungeons/"><picture><source type="image/avif" srcset="../../assets/art/warlock-360.avif 360w, ../../assets/art/warlock-600.avif 600w, ../../assets/art/warlock-896.avif 896w" sizes="320px"><img src="../../assets/art/warlock-600.webp" srcset="../../assets/art/warlock-360.webp 360w, ../../assets/art/warlock-600.webp 600w, ../../assets/art/warlock-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Dungeons und Raids</b><span>35 Dungeons nach Stufe, Raids, Gruppenaufstellung</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../guides/professions/"><picture><source type="image/avif" srcset="../../assets/art/hero_campfire-960.avif 960w, ../../assets/art/hero_campfire-1600.avif 1600w" sizes="320px"><img src="../../assets/art/hero_campfire-960.webp" srcset="../../assets/art/hero_campfire-960.webp 960w, ../../assets/art/hero_campfire-1600.webp 1600w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Berufe</b><span>Paare für deine Klasse, Lagerobjekte, Skill auf 300</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../guides/faq/"><picture><source type="image/avif" srcset="../../assets/art/mage-360.avif 360w, ../../assets/art/mage-600.avif 600w, ../../assets/art/mage-896.avif 896w" sizes="320px"><img src="../../assets/art/mage-600.webp" srcset="../../assets/art/mage-360.webp 360w, ../../assets/art/mage-600.webp 600w, ../../assets/art/mage-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>FAQ und Termine</b><span>Termine, Pakete, Modi und Antworten</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../guides/news/"><picture><source type="image/avif" srcset="../../assets/art/paladin-360.avif 360w, ../../assets/art/paladin-600.avif 600w, ../../assets/art/paladin-896.avif 896w" sizes="320px"><img src="../../assets/art/paladin-600.webp" srcset="../../assets/art/paladin-360.webp 360w, ../../assets/art/paladin-600.webp 600w, ../../assets/art/paladin-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>News</b><span>Unsere Notizen und der Wowhead-Feed</span></a><a class="ttile" href="../classes/"><picture><source type="image/avif" srcset="../../assets/art/warrior-360.avif 360w, ../../assets/art/warrior-600.avif 600w, ../../assets/art/warrior-896.avif 896w" sizes="320px"><img src="../../assets/art/warrior-600.webp" srcset="../../assets/art/warrior-360.webp 360w, ../../assets/art/warrior-600.webp 600w, ../../assets/art/warrior-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Klassen</b><span>Alle Klassen im Vergleich</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../races/"><picture><source type="image/avif" srcset="../../assets/art/human-360.avif 360w, ../../assets/art/human-600.avif 600w, ../../assets/art/human-896.avif 896w" sizes="320px"><img src="../../assets/art/human-600.webp" srcset="../../assets/art/human-360.webp 360w, ../../assets/art/human-600.webp 600w, ../../assets/art/human-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Völker</b><span>Alle Völker im Vergleich</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../tools/"><picture><source type="image/avif" srcset="../../assets/art/rogue-360.avif 360w, ../../assets/art/rogue-600.avif 600w, ../../assets/art/rogue-896.avif 896w" sizes="320px"><img src="../../assets/art/rogue-600.webp" srcset="../../assets/art/rogue-360.webp 360w, ../../assets/art/rogue-600.webp 600w, ../../assets/art/rogue-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Tools</b><span>Fenster, Vergleich, Suche</span></a></div></section>
   </div>
 </main>
 
@@ -1007,7 +1050,7 @@ nav.gtiles { padding: 14px; }
 <section id="more" hidden><div class="sec-head"><h2>Andere Guides</h2></div><nav class="frame ttiles gtiles" aria-label="Andere Guides"></nav></section>
 <footer id="sources">
   
-  <div class="legal"><p>Fan-Guide von Gabella. Nicht mit Blizzard Entertainment verbunden und nicht von Blizzard Entertainment unterstützt. World of Warcraft, Warcraft und Blizzard Entertainment sind Marken oder eingetragene Marken von Blizzard Entertainment, Inc. in den USA und/oder anderen Ländern.</p><p>© 2026 Gabella<span aria-hidden="true"> · </span><a href="../../de/privacy/">Datenschutz</a><span aria-hidden="true"> · </span>Kontakt: <a href="mailto:contact@gabella.site">contact@gabella.site</a></p></div>
+  <nav class="fmap" aria-label="Seitenübersicht"><div><a class="fh" href="../../de/classes/">Klassen</a><ul><li><a href="../../de/classes/warrior/">Krieger</a></li><li><a href="../../de/classes/paladin/">Paladin</a></li><li><a href="../../de/classes/hunter/">Jäger</a></li><li><a href="../../de/classes/rogue/">Schurke</a></li><li><a href="../../de/classes/priest/">Priester</a></li><li><a href="../../de/classes/shaman/">Schamane</a></li><li><a href="../../de/classes/mage/">Magier</a></li><li><a href="../../de/classes/warlock/">Hexenmeister</a></li><li><a href="../../de/classes/druid/">Druide</a></li></ul></div><div><a class="fh" href="../../de/races/">Völker</a><ul><li><a href="../../de/races/human/">Mensch</a></li><li><a href="../../de/races/dwarf/">Zwerg</a></li><li><a href="../../de/races/night-elf/">Nachtelf</a></li><li><a href="../../de/races/gnome/">Gnom</a></li><li><a href="../../de/races/skyborne-alliance/">High Order Skyborne</a></li><li><a href="../../de/races/orc/">Orc</a></li><li><a href="../../de/races/undead/">Untoter</a></li><li><a href="../../de/races/tauren/">Tauren</a></li><li><a href="../../de/races/troll/">Troll</a></li><li><a href="../../de/races/skyborne-horde/">Windshaper Skyborne</a></li></ul></div><div><a class="fh" href="../../de/guides/">Guides</a><ul><li><a href="../../de/guides/leveling/">Leveln 1–60</a></li><li><a href="../../de/guides/dungeons/">Dungeons und Raids</a></li><li><a href="../../de/guides/professions/">Berufe</a></li><li><a href="../../de/guides/faq/">FAQ und Termine</a></li><li><a href="../../de/guides/news/">News</a></li></ul></div><div><a class="fh" href="../../de/tools/">Tools</a><ul><li><a href="../../de/tools/">Tools</a></li><li><a href="../../de/play/">Im Spiel</a></li></ul></div></nav><div class="legal"><p>Fan-Guide von Gabella. Nicht mit Blizzard Entertainment verbunden und nicht von Blizzard Entertainment unterstützt. World of Warcraft, Warcraft und Blizzard Entertainment sind Marken oder eingetragene Marken von Blizzard Entertainment, Inc. in den USA und/oder anderen Ländern.</p><p>© 2026 Gabella<span aria-hidden="true"> · </span><a href="../../de/privacy/">Datenschutz</a><span aria-hidden="true"> · </span>Kontakt: <a href="mailto:contact@gabella.site">contact@gabella.site</a></p></div>
 </footer>
 </div>
 
@@ -1111,6 +1154,17 @@ if ('IntersectionObserver' in window && tocLinks.length) {
 })();
 </script>
 <script>
+(function () {
+  if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { rootMargin: '0px 0px -6% 0px' });
+  document.querySelectorAll('section.block, section.nband, section.stband:not(.ghero), .gsec, footer').forEach(function (s) {
+    if (s.getBoundingClientRect().top > innerHeight) { s.classList.add('rv'); io.observe(s); }
+  });
+})();
+</script>
+<script>
 if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('../../sw.js').catch(() => {}));
 addEventListener('beforeinstallprompt', e => {
   e.preventDefault();
@@ -1125,6 +1179,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
+<script src="../../assets/search/search.js?v=99acbc06ba" data-root="../../" defer></script>
 <script src="../../assets/me/me.js" data-root="../../" data-home="../" data-lang="de" data-page="guides/" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>

@@ -127,9 +127,9 @@ GUIDES.append({
         {'id': 'era', 'title': t('Чем Forever отличается от Classic Era', 'How Forever differs from Classic Era', 'Чим Forever відрізняється від Classic Era'), 'blocks': [
             ('table', {'head': [t('Тема', 'Topic', 'Тема'), t('Что в Forever', 'What Forever has', 'Що у Forever')], 'rows': [
                 [t('Общее', 'General', 'Загальне'),
-                 t('Восточные королевства и Калимдор, прокачка до 60. Постоянная игра, а не сезон. Нет летающих скакунов и нет масштабирования уровней, как и в Classic.',
+                 t('Eastern Kingdoms и Kalimdor, прокачка до 60. Постоянная игра, а не сезон. Нет летающих скакунов и нет масштабирования уровней, как и в Classic.',
                    'Eastern Kingdoms and Kalimdor, leveling to 60. A permanent game, not a season. No flying mounts and no level scaling, as in Classic.',
-                   'Східні королівства та Калімдор, прокачування до 60. Постійна гра, а не сезон. Немає літаючих скакунів і масштабування рівнів, як і в Classic.')],
+                   'Eastern Kingdoms та Kalimdor, прокачування до 60. Постійна гра, а не сезон. Немає літаючих скакунів і масштабування рівнів, як і в Classic.')],
                 [t('Контент', 'Content', 'Контент'),
                  t('Новые зоны, задания, 9 новых подземелий, 3 новых рейда, новое поле боя, новая раса Скайборн.',
                    'New zones, quests, 9 new dungeons, 3 new raids, a new battleground, the new Skyborne race.',
@@ -178,9 +178,9 @@ GUIDES.append({
                          'The new Forever race, unlocked by any of the three packs. Playable for both factions, the faction is chosen at character creation. Both branches speak a common language and share the Zephras Isle starting zone.',
                          'Нова раса Forever, відкривається будь-яким із трьох наборів. Доступна за обидві фракції, фракцію обирають під час створення. Обидві гілки говорять спільною мовою, а стартова зона Zephras Isle спільна.')]},
                 {'id': 'levels', 'q': t('До какого уровня качаться и где?', 'What is the level cap, and where do we level?', 'До якого рівня качатися і де?'),
-                 'a': [t('До 60, в Восточных королевствах и Калимдоре. Летающих скакунов и масштабирования уровней нет, как и в Classic.',
+                 'a': [t('До 60, в Eastern Kingdoms и Kalimdor. Летающих скакунов и масштабирования уровней нет, как и в Classic.',
                          'Up to 60, in the Eastern Kingdoms and Kalimdor. No flying mounts and no level scaling, as in Classic.',
-                         'До 60, у Східних королівствах і Калімдорі. Літаючих скакунів і масштабування рівнів немає, як і в Classic.')]},
+                         'До 60, у Eastern Kingdoms і Kalimdor. Літаючих скакунів і масштабування рівнів немає, як і в Classic.')]},
                 {'id': 'together', 'q': t('Можно ли играть вместе, если выбрали разные режимы?', 'Can we play together in different modes?', 'Чи можна грати разом, якщо обрали різні режими?'),
                  'a': [t('Нет: группироваться можно только внутри одного режима. Режимы на старте: обычный, PvP и RP, Hardcore запустят позже. В PvP на аккаунте может быть только одна фракция.',
                          'No: you can only group within one mode. Modes at launch: Normal, PvP and RP, Hardcore comes later. In PvP an account can have only one faction.',
@@ -386,9 +386,9 @@ GUIDES.append({
                         {'t': '10–18', 'd': t('Westfall или Loch Modan, ночные эльфы обычно в Darkshore. С 15 подходят Redridge Mountains.',
                                               'Westfall or Loch Modan, Night Elves usually go to Darkshore. From 15, Redridge Mountains fit.',
                                               'Westfall або Loch Modan, нічні ельфи зазвичай у Darkshore. З 15 підходять Redridge Mountains.')},
-                        {'t': '18–30', 'd': t('Duskwood, Redridge Mountains и Wetlands, в Калимдоре Stonetalon Mountains и Ashenvale.',
+                        {'t': '18–30', 'd': t('Duskwood, Redridge Mountains и Wetlands, в Kalimdor Stonetalon Mountains и Ashenvale.',
                                               'Duskwood, Redridge Mountains and Wetlands; in Kalimdor, Stonetalon Mountains and Ashenvale.',
-                                              'Duskwood, Redridge Mountains і Wetlands, у Калімдорі Stonetalon Mountains і Ashenvale.')},
+                                              'Duskwood, Redridge Mountains і Wetlands, у Kalimdor Stonetalon Mountains і Ashenvale.')},
                         {'t': '30–45', 'd': t('Desolace или Arathi Highlands, Stranglethorn Vale. С 35: новая зона Riverglades между Redridge и Burning Steppes, Dustwallow Marsh, Badlands, Swamp of Sorrows.',
                                               'Desolace or Arathi Highlands, Stranglethorn Vale. From 35: the new Riverglades zone between Redridge and Burning Steppes, Dustwallow Marsh, Badlands, Swamp of Sorrows.',
                                               'Desolace або Arathi Highlands, Stranglethorn Vale. З 35: нова зона Riverglades між Redridge і Burning Steppes, Dustwallow Marsh, Badlands, Swamp of Sorrows.')},
@@ -774,8 +774,10 @@ HUBS = [
 from build import CONTACT  # noqa: E402  (адрес один на весь сайт, подвал берёт его оттуда же)
 _mail = f'<a href="mailto:{CONTACT}">{CONTACT}</a>'
 _cf = 'https://www.cloudflare.com/privacypolicy/'
-_cc = 'https://creativecommons.org/licenses/by/4.0/'
 _dc = 'https://discord.com/privacy'
+_lic = ', '.join(f'<a href="{u}" target="_blank" rel="noopener">Creative Commons {n}</a>' for n, u in (
+    ('BY 4.0', 'https://creativecommons.org/licenses/by/4.0/'), ('BY 3.0', 'https://creativecommons.org/licenses/by/3.0/'),
+    ('CC0', 'https://creativecommons.org/publicdomain/zero/1.0/')))
 _gh = 'https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement'
 
 PAGES = [
@@ -845,12 +847,12 @@ PAGES = [
                          'This data stays on your device and is not sent anywhere. You can delete it by clearing the site data in your browser settings.',
                          'Ці дані залишаються на вашому пристрої й нікуди не надсилаються. Видалити їх можна, очистивши дані сайту в налаштуваннях браузера.')])]},
          {'id': 'links', 'title': t('Шрифты, музыка и ссылки', 'Fonts, music and links', 'Шрифти, музика та посилання'), 'blocks': [
-             ('text', [t('Шрифты, картинки и музыка радио загружаются с нашего же сайта, без сторонних сервисов. Музыка загружается, только когда вы включили радио; звуки костра, дождя и ветра создаёт сам браузер. Ссылки на источники ведут на другие сайты, у них свои правила конфиденциальности.',
-                         'Fonts, images and radio music load from this site, with no third-party services. Music loads only when you turn the radio on; the campfire, rain and wind sounds are made by the browser itself. Links to sources lead to other sites, which have their own privacy rules.',
-                         'Шрифти, зображення й музика радіо завантажуються з нашого ж сайту, без сторонніх сервісів. Музика завантажується, лише коли ви ввімкнули радіо; звуки багаття, дощу й вітру створює сам браузер. Посилання на джерела ведуть на інші сайти, у них свої правила конфіденційності.')]),
-             ('raw', t(f'<p>Музыка радио: Kevin MacLeod (incompetech.com), лицензия <a href="{_cc}" target="_blank" rel="noopener">Creative Commons BY 4.0</a>. Список треков — в панели радио.</p>',
-                       f'<p>Radio music: Kevin MacLeod (incompetech.com), licensed under <a href="{_cc}" target="_blank" rel="noopener">Creative Commons BY 4.0</a>. The track list is in the radio panel.</p>',
-                       f'<p>Музика радіо: Kevin MacLeod (incompetech.com), ліцензія <a href="{_cc}" target="_blank" rel="noopener">Creative Commons BY 4.0</a>. Список треків — у панелі радіо.</p>'))]},
+             ('text', [t('Шрифты и картинки загружаются с нашего же сайта, без сторонних сервисов. Музыка радио лежит в хранилище Cloudflare R2 и загружается с нашего адреса media.gabella.site, только когда вы включили радио; как и при открытии страниц, Cloudflare получает IP-адрес вашего устройства. Звуки костра, дождя и ветра создаёт сам браузер. Ссылки на источники ведут на другие сайты, у них свои правила конфиденциальности.',
+                         'Fonts and images load from this site, with no third-party services. Radio music is stored in Cloudflare R2 and loads from our address media.gabella.site, only when you turn the radio on; as with the pages, Cloudflare receives your device’s IP address. The campfire, rain and wind sounds are made by the browser itself. Links to sources lead to other sites, which have their own privacy rules.',
+                         'Шрифти й зображення завантажуються з нашого ж сайту, без сторонніх сервісів. Музика радіо лежить у сховищі Cloudflare R2 і завантажується з нашої адреси media.gabella.site, лише коли ви ввімкнули радіо; як і під час відкриття сторінок, Cloudflare отримує IP-адресу вашого пристрою. Звуки багаття, дощу й вітру створює сам браузер. Посилання на джерела ведуть на інші сайти, у них свої правила конфіденційності.')]),
+             ('raw', t(f'<p>Музыка радио: Kevin MacLeod (incompetech.com) и другие авторы с opengameart.org, лицензии {_lic}. Звук перекодирован и выровнен по громкости. Автор и лицензия каждого трека — в панели радио.</p>',
+                       f'<p>Radio music: Kevin MacLeod (incompetech.com) and other authors from opengameart.org, licensed under {_lic}. The audio is re-encoded and levelled in loudness. The author and license of every track are in the radio panel.</p>',
+                       f'<p>Музика радіо: Kevin MacLeod (incompetech.com) та інші автори з opengameart.org, ліцензії {_lic}. Звук перекодовано й вирівняно за гучністю. Автор і ліцензія кожного треку — у панелі радіо.</p>'))]},
          {'id': 'contact', 'title': t('Связь', 'Contact', 'Зв’язок'), 'blocks': [
              ('text', [t('С вопросами о данных, ошибками в гайде и претензиями правообладателей пишите на почту ниже. Если не можете войти, профиль удалим по письму: укажите ник в Discord.',
                          'For questions about data, mistakes in the guide or copyright concerns, write to the address below. If you cannot sign in, we will delete your profile on request: include your Discord nickname.',

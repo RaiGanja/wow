@@ -1,0 +1,39 @@
+"""Поиск по сайту: индекс есть на каждом языке, записи одинаковые по числу, каждая ведёт на собранную страницу и её якорь,
+на всех страницах кнопка поиска и скрипты с одной версией ?v=. Запуск: python tests/test_search.py"""
+import glob, json, os, re, sys
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, ROOT)
+from langs import LANGS  # noqa: E402
+
+problems, sizes = [], {}
+for lang in LANGS:
+    rows = json.load(open(os.path.join(ROOT, 'assets', 'search', f'{lang}.json'), encoding='utf-8'))
+    sizes[lang] = len(rows)
+    kinds = {k: sum(r[3] == k for r in rows) for k in range(4)}
+    if kinds[0] < 31 or kinds[2] < 10 or kinds[3] < 35:
+        problems.append(f'{lang}: мало записей {kinds}')
+    for t, s, u, k, keys, x in rows:
+        path, _, anchor = u.partition('#')
+        page = os.path.join(ROOT, path, 'index.html')
+        if not t.strip() or not os.path.exists(page):
+            problems.append(f'{lang}: {t!r} -> {u}')
+        elif anchor and f' id="{anchor}"' not in open(page, encoding='utf-8').read():
+            problems.append(f'{lang}: нет якоря {u}')
+if len(set(sizes.values())) != 1:
+    problems.append(f'разное число записей: {sizes}')
+
+pages = [p for p in glob.glob(os.path.join(ROOT, '**', '*.html'), recursive=True)
+         if not p.endswith('.src.html') and not re.search(r'(^|[\\/])(\.|node_modules|mock-)', os.path.relpath(p, ROOT))]
+versions = set()
+for p in pages:
+    html = open(p, encoding='utf-8').read()
+    v = re.findall(r'assets/search/search\.(?:js|css)\?v=(\w+)', html)
+    if 'class="iconbtn srchbtn"' not in html or len(v) != 2:
+        problems.append(f'нет поиска: {os.path.relpath(p, ROOT)}')
+    versions |= set(v)
+if len(versions) > 1:
+    problems.append(f'разные версии поиска: {versions}')
+
+assert not problems, '\n'.join(problems[:20])
+print('OK', len(LANGS), 'languages,', sizes['ru'], 'entries,', len(pages), 'pages')

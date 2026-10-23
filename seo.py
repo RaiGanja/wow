@@ -167,7 +167,8 @@ def page_meta():
         out[p] = {}
         for l in LANGS:
             n = tr(names[rp['id']], l)
-            out[p][l] = (RACE_T[l].format(n=n), RACE_D[l].format(n=n, cap=tr(facts['Столица'], l), zone=tr(facts['Стартовая зона'], l)))
+            fact = lambda k: build.fact_ru(k, facts[k]) if l == 'ru' else tr(facts[k], l)   # places as the game shows them
+            out[p][l] = (RACE_T[l].format(n=n), RACE_D[l].format(n=n, cap=fact('Столица'), zone=fact('Стартовая зона')))
     return out
 
 
