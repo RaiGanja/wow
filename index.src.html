@@ -843,7 +843,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   dl.facts div { grid-template-columns: 1fr; gap: 0; }
   body { padding-bottom: calc(62px + env(safe-area-inset-bottom, 0px)); }
   .tabbar { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); position: fixed; inset: auto 0 0 0; z-index: 35; background: var(--rail); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px); }
-  .tabbar a, .tabbar button { min-height: 60px; display: grid; justify-items: center; align-content: center; gap: 3px; padding: 0 2px; border: 0; background: none; color: var(--muted); text-decoration: none; font-size: .72rem; font-weight: 500; line-height: 1.2; }
+  .tabbar a, .tabbar button { min-height: 60px; display: grid; justify-items: center; align-content: center; gap: 3px; padding: 0 2px; border: 0; background: none; color: var(--muted); text-decoration: none; text-align: center; font-size: .72rem; font-weight: 500; line-height: 1.2; }
   .tabbar .ico { width: 22px; height: 22px; }
   .tabbar [aria-current="true"] { color: var(--gold-2); }
   dialog.sheet { margin: auto 0 0 0; width: 100%; height: auto; max-height: 86dvh; border-left: 0; border-top: 1px solid var(--line); border-radius: 10px 10px 0 0; padding-bottom: env(safe-area-inset-bottom, 0px); }
@@ -882,6 +882,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
   <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7M6 9.5V20h12V9.5M10 20v-5h4v5"/></symbol>
   <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5.5C6.5 4 9.5 4 12 5.5v14c-2.5-1.5-5.5-1.5-8 0zM20 5.5C17.5 4 14.5 4 12 5.5v14c2.5-1.5 5.5-1.5 8 0z"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></symbol>
+  <symbol id="i-sword" viewBox="0 0 24 24"><path d="M20 4h-4.5L7 12.5l4.5 4.5L20 8.5zM5 14.5l4.5 4.5M7.3 16.7 4 20"/></symbol>
   <symbol id="i-dots" viewBox="0 0 24 24"><path d="M5 12h.01M12 12h.01M19 12h.01"/></symbol>
   <symbol id="i-fire" viewBox="0 0 24 24"><path d="M12 2.5c1 4 5.5 6 5.5 11a5.5 5.5 0 0 1-11 0c0-2.2 1.1-3.8 2.2-4.8 0 2 .9 3.2 2.1 3.2 0-3.2-1-6 1.2-9.4z"/></symbol>
   <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
@@ -895,11 +897,11 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <div class="tools">
     @@LANGSEL@@
     <button class="iconbtn themebtn" type="button" aria-label="Переключить тему" title="Переключить тему"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></button>
-    <button class="iconbtn menubtn" type="button" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg><span>Разделы</span></button>
+    <button class="iconbtn menubtn" type="button" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg><span>Ещё</span></button>
   </div>
 </div></header>
 
-<section class="hero" id="top" data-nav="#top" data-tab="#top">
+<section class="hero" id="top" data-nav="#top">
   <picture class="hero-art" data-fx="dawn">
     <source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/avif" srcset="@@ROOT@@assets/art/hero_dawn-m-600.avif 600w, @@ROOT@@assets/art/hero_dawn-m-1000.avif 1000w" sizes="78vh">
     <source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/webp" srcset="@@ROOT@@assets/art/hero_dawn-m-600.webp 600w, @@ROOT@@assets/art/hero_dawn-m-1000.webp 1000w" sizes="78vh">
@@ -925,7 +927,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </section>
 
 <main>
-<section class="stband" id="stages" data-nav="#stages" data-tab="#top">
+<section class="stband" id="stages" data-nav="#stages">
   <picture class="stband-art" data-fx="road"><source type="image/avif" srcset="@@ROOT@@assets/art/hero_road-960.avif 960w, @@ROOT@@assets/art/hero_road-1600.avif 1600w, @@ROOT@@assets/art/hero_road-2560.avif 2560w" sizes="100vw"><source type="image/webp" srcset="@@ROOT@@assets/art/hero_road-960.webp 960w, @@ROOT@@assets/art/hero_road-1600.webp 1600w, @@ROOT@@assets/art/hero_road-2560.webp 2560w" sizes="100vw"><img src="@@ROOT@@assets/art/hero_road-1600.webp" width="1600" height="893" alt="" loading="lazy" decoding="async"></picture>
   <div class="wrap">
     <div class="sec-head"><h2>Где вы сейчас</h2><p>Пять этапов от резерва имён до рейдов. Этап выбирается сам по дате, а если указать персонажа, гид подберёт подземелья под уровень и покажет ваши баффы для группы.</p></div>
@@ -953,7 +955,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   </div>
 </section>
 
-<section class="block wrap" id="factions" data-nav="#factions" data-tab="#classes">
+<section class="block wrap" id="factions" data-nav="#factions">
   <div class="sec-head"><h2>Альянс или Орда</h2><p>Договоритесь о фракции заранее: в PvP-режиме при создании доступна только одна. Девять классов есть у обеих сторон.</p></div>
   <div class="frame factions">
     <article class="fac alliance">
@@ -974,14 +976,14 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   </div>
 </section>
 
-<section class="block wrap" id="classes" data-nav="#classes" data-tab="#classes">
+<section class="block wrap" id="classes" data-nav="#classes">
   <div class="sec-head"><div class="row"><h2>Кем играть</h2><span class="src">Warcraft Tavern, LFCarry</span></div><p>Наведите на портрет, чтобы раскрыть класс. Нажмите, чтобы открыть страницу класса: специализации, расы и что нового в Forever.</p></div>
   <div class="frame roster" id="roster"></div>
   <p class="swipe">Листайте портреты в сторону.</p>
   <p><a class="more-l" href="classes/">Сравнить все классы<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
 </section>
 
-<section class="block wrap" id="peoples" data-nav="#peoples" data-tab="#classes">
+<section class="block wrap" id="peoples" data-nav="#peoples">
   <div class="sec-head"><div class="row"><h2>За кого играть</h2><span class="src">Warcraft Tavern</span></div><p>По пять рас у каждой фракции, Скайборн есть у обеих. Нажмите на портрет, чтобы открыть страницу расы: способности, классы и история.</p></div>
   <div class="frame peoples">
     <div class="pfac alliance"><h3>Альянс</h3><div class="roster rr" id="rosterA"></div></div>
@@ -991,7 +993,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <p><a class="more-l" href="races/">Сравнить все расы<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
 </section>
 
-<section class="block wrap" id="tools" data-nav="#picker" data-tab="#builder">
+<section class="block wrap" id="tools" data-nav="#picker">
   <div class="sec-head"><h2>Инструменты</h2><p>Подбор расы и класса, сбор группы, а на отдельной странице рамки рейда как в игре, сравнение и поиск по гиду. Ссылкой на состав можно поделиться в чате.</p></div>
   <nav class="frame ttiles t4" aria-label="Инструменты">
     <a class="ttile" href="#picker"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/druid-360.avif 360w, @@ROOT@@assets/art/druid-600.avif 600w" sizes="(max-width: 980px) 100vw, 400px"><source type="image/webp" srcset="@@ROOT@@assets/art/druid-360.webp 360w, @@ROOT@@assets/art/druid-600.webp 600w" sizes="(max-width: 980px) 100vw, 400px"><img src="@@ROOT@@assets/art/druid-600.webp" alt="" loading="lazy" decoding="async"></picture><b>Подборщик расы и класса</b><span id="qPick">Все сочетания и что умеет каждое</span></a>
@@ -1001,7 +1003,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   </nav>
 
 </section>
-<section class="block wrap" id="picker" data-tab="#builder">
+<section class="block wrap" id="picker">
   <div class="sec-head"><div class="row"><h2>Подборщик: раса и класс</h2><span class="src">Warcraft Tavern, Method</span></div>
     <p>Выберите фракцию и роль, посмотрите сочетания и нажмите на клетку. Ниже появятся способности расы и роли класса, а выбор копируется одной кнопкой для общего чата.</p></div>
   <div class="tool">
@@ -1027,7 +1029,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   </div>
   <p class="note"><b>Новые комбинации:</b> дворф-шаман и гном-жрец (Альянс), человек-охотник, а у Орды орк-маг, тролль-чернокнижник и нежить-паладин. Паладин появился у Орды, шаман у Альянса. Скайборн-ветрорез (Орда) может быть шаманом, Высший скайборн (Альянс) магом.</p>
 </section>
-<section class="block wrap" id="builder" data-tab="#builder">
+<section class="block wrap" id="builder">
   <div class="sec-head"><h2>Конструктор группы</h2>
     <p>Три шага: фракция, сколько вас и кто за кого играет. Сразу видно, чего не хватает, какие баффы вы приносите и можно ли идти в рейд.</p></div>
   <div class="builder">
@@ -1053,7 +1055,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     </aside>
   </div>
 </section>
-<section class="stband" id="guides" data-nav="#guides" data-tab="#guides">
+<section class="stband" id="guides" data-nav="#guides">
   <div class="wrap">
     <div class="sec-head"><h2>Гайды и справочник</h2><p>Всё, что мы собрали о WoW Forever: даты, системы игры, подземелья и советы для компании.</p></div>
     <nav class="frame gtiles" aria-label="Гайды">
@@ -1069,7 +1071,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     <p><a class="more-l" href="guides/">Все гайды<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
   </div>
 </section>
-<section class="camp" id="camp" data-nav="#guides" data-tab="#guides">
+<section class="camp" id="camp" data-nav="#guides">
   <picture class="camp-art" data-fx="camp"><source type="image/avif" srcset="@@ROOT@@assets/art/hero_campfire-960.avif 960w, @@ROOT@@assets/art/hero_campfire-1600.avif 1600w, @@ROOT@@assets/art/hero_campfire-2560.avif 2560w" sizes="(max-width: 719px) 300vw, 100vw"><source type="image/webp" srcset="@@ROOT@@assets/art/hero_campfire-960.webp 960w, @@ROOT@@assets/art/hero_campfire-1600.webp 1600w, @@ROOT@@assets/art/hero_campfire-2560.webp 2560w" sizes="(max-width: 719px) 300vw, 100vw"><img src="@@ROOT@@assets/art/hero_campfire-1600.webp" width="1600" height="893" alt="" loading="lazy" decoding="async"></picture>
   <div class="wrap camp-in">
     <h2>Найдите группу</h2>
@@ -1097,13 +1099,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </div>
 </main>
 
-<nav class="tabbar" aria-label="Быстрые разделы">
-  <a href="#top"><svg class="ico" aria-hidden="true"><use href="#i-home"/></svg>Главная</a>
-  <a href="#classes"><svg class="ico" aria-hidden="true"><use href="#i-tank"/></svg>Классы</a>
-  <a href="roster/"><svg class="ico" aria-hidden="true"><use href="#i-users"/></svg>Состав</a>
-  <a href="#guides"><svg class="ico" aria-hidden="true"><use href="#i-book"/></svg>Гайды</a>
-  <button type="button" class="morebtn" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-dots"/></svg>Ещё</button>
-</nav>
+@@TABBAR@@
 
 <dialog class="sheet" id="moreDlg" aria-label="Все разделы">
   <div class="dh"><b>Все разделы</b><button class="iconbtn" id="moreClose" type="button" aria-label="Закрыть"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
@@ -1894,14 +1890,14 @@ document.querySelectorAll('.menubtn, .morebtn').forEach(b => b.onclick = () => {
 $('#moreClose').onclick = () => dlg.close();
 dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.toc a')) dlg.close(); });
 
-/* Current section in the top menu and the bottom tab bar */
+/* Current section in the top menu */
 if ('IntersectionObserver' in window) {
-  const navLinks = [...document.querySelectorAll('.mainnav a')], tabLinks = [...document.querySelectorAll('.tabbar a')];
+  const navLinks = [...document.querySelectorAll('.mainnav a')];
   const mark = (links, href) => links.forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === href ? 'true' : 'false'));
   const io = new IntersectionObserver(es => es.forEach(en => {
     if (!en.isIntersecting) return;
     const t = en.target, nav = t.dataset.nav || ('#' + t.id);
-    mark(navLinks, nav); mark(tabLinks, t.dataset.tab || '#guides');
+    mark(navLinks, nav);
   }), { rootMargin: '-45% 0px -50% 0px' });
   document.querySelectorAll('.hero, section.block, section.stband, footer#sources').forEach(s => io.observe(s));
 }

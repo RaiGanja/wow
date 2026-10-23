@@ -231,6 +231,19 @@ def lang_menu(html, lang, here):
     return html.replace('@@LANGSEL@@', sel).replace('@@LANGSHEET@@', sheet).replace('</body>', LANG_JS.replace('@@HINT@@', hint) + '</body>', 1)
 
 
+# Bottom tab bar on phones: the same tabs in the same order on every page (the profile button of the top bar is hidden there).
+TABS = (('', 'home', 'Главная'), ('guides/', 'book', 'Гайды'), ('play/', 'sword', 'В игре'), ('profile/', 'user', 'Профиль'))
+
+
+def tabbar(cur=None, home='@@HOME@@'):
+    """Tab bar markup; cur — path of the current tab ('', 'guides/', 'play/', 'profile/'); home '' — the home page itself."""
+    on = ' aria-current="true"'
+    tabs = ''.join(f'\n  <a href="{home + p if home or p else "#top"}"{on if p == cur else ""}>'
+                   f'<svg class="ico" aria-hidden="true"><use href="#i-{i}"/></svg>{t}</a>' for p, i, t in TABS)
+    return (f'<nav class="tabbar" aria-label="Быстрые разделы">{tabs}\n  <button type="button" class="morebtn" aria-haspopup="dialog" aria-controls="moreDlg">'
+            '<svg class="ico" aria-hidden="true"><use href="#i-dots"/></svg>Ещё</button>\n</nav>')
+
+
 def localize(html, lang, here):
     """Language-specific attributes shared by all pages."""
     html = html.replace('@@LEGAL@@', legal(lang, rel(here, '')))
@@ -469,6 +482,7 @@ def game_hint(lang):
 def build_home(lang, src):
     src = src.replace('@@RACE_LEAD@@', json.dumps({r['id']: r['lead'] for r in RACES_PAGE}, ensure_ascii=False))
     src = src.replace('@@RACE_SLUG@@', json.dumps({r['id']: r['slug'] for r in RACES_PAGE}))
+    src = src.replace('@@TABBAR@@', tabbar('', home=''))
     html, missing = translate(src, lang)
     here = page_dir(lang)
     html = html.replace('@@ALTERNATES@@', alternates(''))
@@ -778,7 +792,7 @@ def build_class(c, lang, tpl, base_css, sprite, races):
     root = rel(here, '')
     home = rel(here, page_dir(lang))
     v = render_class(c, races, lang)
-    html = tpl.replace('@@BASE_CSS@@', base_css).replace('@@SPRITE@@', sprite)
+    html = tpl.replace('@@BASE_CSS@@', base_css).replace('@@SPRITE@@', sprite).replace('@@TABBAR@@', tabbar())
     for k in ('ID', 'COLOR', 'DESC', 'ROLES', 'FACTS', 'TABS', 'PANELS', 'NEWS', 'RACES', 'RACES_TIP', 'GROUP', 'LVL', 'PROS', 'CONS'):
         html = html.replace(f'@@{k}@@', v[k])
     others = ''.join(f'<a class="oc" href="../{o["id"]}/" style="--cc:{COLOR[o["id"]]}">{pic(o["id"], root, (360,), "132px")}<b>{esc(o["n"])}</b></a>' for o in CLASSES if o['id'] != c['id'])
@@ -874,7 +888,7 @@ def build_race(rp, lang, tpl, base_css, class_css, sprite, races, en):
         'LORE': esc(rp['lore']), 'TIP': esc(r['tip']), 'BESTLIST': best, 'OTHERS': others, 'PAGER': pager,
         'TOC_RACES': toc, 'SOURCES': sources,
     }
-    html = tpl.replace('@@BASE_CSS@@', base_css).replace('@@CLASS_CSS@@', class_css).replace('@@SPRITE@@', sprite)
+    html = tpl.replace('@@BASE_CSS@@', base_css).replace('@@CLASS_CSS@@', class_css).replace('@@SPRITE@@', sprite).replace('@@TABBAR@@', tabbar())
     for k, val in v.items():
         html = html.replace(f'@@{k}@@', val)
     html, missing = translate(html, lang)
