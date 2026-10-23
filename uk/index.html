@@ -13,7 +13,7 @@
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Гід WoW Forever: класи, раси, підбір групи та гайди</title>
-<meta name="description" content="Гід по WoW Forever: ким грати, підбір раси й класу, збір групи, чек-лист до релізу 04.11.2026 і гайди з прокачки, підземель і професій.">
+<meta name="description" content="Гід по WoW Forever: ким грати, підбір раси й класу, збір групи і гайди з прокачки, підземель і професій.">
 <meta name="theme-color" content="#060708">
 <link rel="alternate" hreflang="ru" href="https://gabella.site/wow/">
 <link rel="alternate" hreflang="en" href="https://gabella.site/wow/en/">
@@ -27,7 +27,7 @@
 <meta property="og:locale:alternate" content="en_US">
 <meta property="og:site_name" content="Gabella Team">
 <meta property="og:title" content="Гід WoW Forever: класи, раси, підбір групи та гайди">
-<meta property="og:description" content="Гід по WoW Forever: ким грати, підбір раси й класу, збір групи, чек-лист до релізу 04.11.2026 і гайди з прокачки, підземель і професій.">
+<meta property="og:description" content="Гід по WoW Forever: ким грати, підбір раси й класу, збір групи і гайди з прокачки, підземель і професій.">
 <meta property="og:url" content="https://gabella.site/wow/uk/">
 <meta property="og:image" content="https://gabella.site/wow/assets/og-uk.jpg">
 <meta property="og:image:width" content="1200">
@@ -566,21 +566,6 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .summary .copyrow input { flex-basis: 100%; }
 .summary .copyrow .btn { flex: 1 1 auto; }
 
-/* Checklist */
-.check { list-style: none; margin: 0; padding: 14px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-.check li { border-radius: 8px; background: var(--panel-2); border: 1px solid var(--pline); transition: border-color .2s; }
-.check li:has(input:checked) { border-color: color-mix(in srgb, var(--gold) 50%, transparent); }
-.check label { display: grid; grid-template-columns: 26px 1fr; gap: 12px; padding: 14px 16px; border-radius: 8px; cursor: pointer; align-items: start; min-height: 44px; height: 100%; }
-.check label:hover { background: color-mix(in srgb, var(--fg) 4%, transparent); }
-.check input { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--gold); }
-.check b { display: block; font-weight: 600; }
-.check span { color: var(--muted); font-size: .93rem; }
-.check input:checked + div b { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--gold); }
-.prog { display: flex; align-items: center; gap: 14px; padding: 18px 18px 0; }
-.prog .bar { flex: 1; height: 6px; background: var(--panel-2); border: 1px solid var(--pline); border-radius: 999px; overflow: hidden; }
-.prog .bar i { display: block; height: 100%; background: var(--gold); width: 0; transition: width .2s; }
-.prog span { color: var(--muted); font-size: .9rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
-
 /* Comparison tables: classes and races, one row per entry, whole row opens its page */
 .cmp { display: grid; gap: 6px; }
 .cmp-h, .cmp-row { display: grid; gap: 22px; align-items: center; }
@@ -746,8 +731,6 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .d-avs .av { --s: 54px; }
   .slot { grid-template-columns: 50px minmax(0, 2.6fr) minmax(0, 1fr) 40px; gap: 4px 6px; padding: 8px; }
   .slot .no { grid-row: 1 / 3; align-self: center; }
-  .check { grid-template-columns: 1fr; padding: 10px; }
-  .prog { padding: 14px 14px 0; }
 
   .slot select { font-size: .9rem; padding: 0 4px; }
   .slot select.srace { grid-column: 2 / 4; }
@@ -794,13 +777,13 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .hc, .hc img, .hc .info, .fac picture img, .prog .bar i { transition: none; }
+  .hc, .hc img, .hc .info, .fac picture img { transition: none; }
 }
 </style>
 <link rel="manifest" href="../manifest-uk.webmanifest">
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Гід WoW Forever","alternateName":"Gabella Team","url":"https://gabella.site/wow/uk/","inLanguage":"uk","description":"Гід по WoW Forever: ким грати, підбір раси й класу, збір групи, чек-лист до релізу 04.11.2026 і гайди з прокачки, підземель і професій."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Гід WoW Forever","alternateName":"Gabella Team","url":"https://gabella.site/wow/uk/","inLanguage":"uk","description":"Гід по WoW Forever: ким грати, підбір раси й класу, збір групи і гайди з прокачки, підземель і професій."}</script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -928,11 +911,10 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </section>
 
 <section class="block wrap" id="tools" data-nav="#picker" data-tab="#builder">
-  <div class="sec-head"><h2>Інструменти</h2><p>Підбір раси та класу, збір групи, чек-лист до старту, а на окремій сторінці рамки рейду як у грі, порівняння та пошук по гіду. Посиланням на склад можна поділитися в чаті.</p></div>
-  <nav class="frame ttiles t4" aria-label="Інструменти">
+  <div class="sec-head"><h2>Інструменти</h2><p>Підбір раси та класу, збір групи, а на окремій сторінці рамки рейду як у грі, порівняння та пошук по гіду. Посиланням на склад можна поділитися в чаті.</p></div>
+  <nav class="frame ttiles" aria-label="Інструменти">
     <a class="ttile" href="#picker"><picture><source type="image/avif" srcset="../assets/art/druid-360.avif 360w, ../assets/art/druid-600.avif 600w" sizes="(max-width: 980px) 100vw, 400px"><source type="image/webp" srcset="../assets/art/druid-360.webp 360w, ../assets/art/druid-600.webp 600w" sizes="(max-width: 980px) 100vw, 400px"><img src="../assets/art/druid-600.webp" alt="" loading="lazy" decoding="async"></picture><b>Підбір раси й класу</b><span id="qPick">Усі поєднання і що вміє кожне</span></a>
     <a class="ttile" href="#builder"><picture><source type="image/avif" srcset="../assets/art/hero_campfire-960.avif"><img src="../assets/art/hero_campfire-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Конструктор групи</b><span id="qTeam">Від одного до сорока гравців</span></a>
-    <a class="ttile" href="#checklist"><picture><source type="image/avif" srcset="../assets/art/hero_dawn-960.avif"><img src="../assets/art/hero_dawn-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Чек-лист перед стартом</b><span id="qCheck">Імена, професії, дні, підписка</span></a>
     <a class="ttile" href="tools/"><picture><source type="image/avif" srcset="../assets/art/paladin-600.avif"><img src="../assets/art/paladin-600.webp" alt="" loading="lazy" decoding="async"></picture><b>Рамки, порівняння, пошук</b><span>Рейдова сітка як у грі, класи й раси поруч</span></a>
   </nav>
 
@@ -989,14 +971,6 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     </aside>
   </div>
 </section>
-<section class="block wrap" id="checklist" data-tab="#builder">
-  <div class="sec-head"><h2>Чек-лист перед стартом</h2><p>Галочки зберігаються в цьому браузері. Зручно пройтися разом у чаті та відзначити, що вже вирішено.</p></div>
-  <div class="frame chk">
-    <div class="prog"><div class="bar" aria-hidden="true"><i id="progBar"></i></div><span id="progTxt"></span></div>
-    <ul class="check" id="checkList"></ul>
-  </div>
-  <div class="row-actions"><button class="btn ghost" id="checkReset">Скинути відмітки</button></div>
-</section>
 <section class="stband" id="guides" data-nav="#guides" data-tab="#guides">
   <picture class="stband-art"><source type="image/avif" srcset="../assets/art/hero_dawn-960.avif 960w, ../assets/art/hero_dawn-1440.avif 1440w" sizes="100vw"><source type="image/webp" srcset="../assets/art/hero_dawn-960.webp 960w, ../assets/art/hero_dawn-1440.webp 1440w" sizes="100vw"><img src="../assets/art/hero_dawn-1440.webp" width="1440" height="804" alt="" loading="lazy" decoding="async"></picture>
   <div class="wrap">
@@ -1046,7 +1020,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <div class="dh"><b>Усі розділи</b><button class="iconbtn" id="moreClose" type="button" aria-label="Закрити"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Усі розділи">
     <div class="grp"><div class="gh">Головна</div><a href="#top">Огляд</a><a href="#stages">Де ти зараз</a><a href="#factions">Фракції</a><a href="#classes">Класи</a><a href="#peoples">Раси</a></div>
-    <div class="grp"><div class="gh">Інструменти</div><a href="#picker">Підбирач</a><a href="#builder">Конструктор групи</a><a href="#checklist">Чек-лист</a><a href="tools/">Рамки, порівняння, пошук</a></div>
+    <div class="grp"><div class="gh">Інструменти</div><a href="#picker">Підбирач</a><a href="#builder">Конструктор групи</a><a href="tools/">Рамки, порівняння, пошук</a></div>
     <div class="grp"><div class="gh">Довідник</div><a href="guides/leveling/">Прокачка 1–60</a><a href="guides/dungeons/">Підземелля та рейди</a><a href="guides/professions/">Професії</a><a href="guides/faq/">FAQ і дати</a><a href="guides/news/">Новини</a><a href="classes/">Класи: порівняння</a><a href="races/">Раси: порівняння</a><a href="#sources">Джерела</a></div>
   </nav>
   <div class="opts">
@@ -1556,34 +1530,6 @@ if (!fromLink) team.list = autoTeam(5, team.f);
 renderTeam();
 if (fromLink) setTimeout(() => document.getElementById('builder').scrollIntoView(), 0);
 
-/* Checklist */
-const CHECK = [
-  ['Домовитися про одну фракцію та режим', 'Групуватися можна лише в межах одного режиму (звичайний, PvP, RP), у PvP під час створення доступна одна фракція.'],
-  ['Розподілити класи без зайвих дублів', 'Зберіть склад у конструкторі вище: потрібен танк, цілитель і різні класи заради баффів.'],
-  ['Вирішити, чи потрібна раса Скайборн', 'Платна: набір Heroic Pack від $29.99. Решту рас і всі класи докуповувати не потрібно.'],
-  ['Зайняти імена з 27.10 по 03.11', 'Потрібен набір Heroic, Epic або Collection, до трьох персонажів на акаунт. Придумайте ім’я, прізвище й запасні варіанти: повне ім’я унікальне в усьому регіоні.'],
-  ['Перевірити підписку або ігровий час', 'З 04.11 для гри потрібна підписка або ігровий час.'],
-  ['Обрати професії під табір', 'Один бере Кулінарію заради вогнища, решта за професіями під баффи табору.'],
-  ['Призначити дні та час старту 04.11', 'Заздалегідь домовтеся, хто й коли заходить першим, щоб почати одним складом.'],
-  ['Намітити підземелля на п’ять тижнів до рейдів', 'Рейди відкриваються 09.12, до цього прокачування та підземелля групою.']
-];
-const CKEY = 'gabella-wf-check';
-let done = [];
-try { done = JSON.parse(localStorage.getItem(CKEY) || '[]'); } catch (e) {}
-function saveDone() { try { localStorage.setItem(CKEY, JSON.stringify(done)); } catch (e) {} }
-function renderCheck() {
-  $('#checkList').innerHTML = CHECK.map((c, i) => `<li><label><input type="checkbox" data-i="${i}"${done.includes(i) ? ' checked' : ''}><div><b>${esc(c[0])}</b><span>${esc(c[1])}</span></div></label></li>`).join('');
-  const k = done.length;
-  $('#progBar').style.width = (k / CHECK.length * 100) + '%';
-  $('#progTxt').textContent = `Готово ${k} з ${CHECK.length}`;
-  $('#qCheck').textContent = k ? `Готово ${k} з ${CHECK.length}` : 'Імена, професії, дні, підписка';
-}
-$('#checkList').addEventListener('change', e => {
-  const i = +e.target.dataset.i; done = done.filter(x => x !== i); if (e.target.checked) done.push(i); saveDone(); renderCheck();
-});
-$('#checkReset').onclick = () => { done = []; saveDone(); renderCheck(); };
-renderCheck();
-
 /* Dungeons: [name, min, max, entrance zone, new, other sites' ranges where they differ] */
 const DUNGEONS = [
   ['Ragefire Chasm', 13, 18, 'Orgrimmar', 0],
@@ -1885,5 +1831,6 @@ addEventListener('beforeinstallprompt', e => {
   opts.append(b);
 });
 </script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

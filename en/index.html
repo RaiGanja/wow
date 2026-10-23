@@ -13,7 +13,7 @@
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>WoW Forever Guide: Classes, Races, Group Builder and Guides</title>
-<meta name="description" content="WoW Forever guide: who to play, a race and class picker, a group builder, a launch checklist for 04.11.2026 and guides to leveling, dungeons and professions.">
+<meta name="description" content="WoW Forever guide: who to play, a race and class picker, a group builder and guides to leveling, dungeons and professions.">
 <meta name="theme-color" content="#060708">
 <link rel="alternate" hreflang="ru" href="https://gabella.site/wow/">
 <link rel="alternate" hreflang="en" href="https://gabella.site/wow/en/">
@@ -27,7 +27,7 @@
 <meta property="og:locale:alternate" content="uk_UA">
 <meta property="og:site_name" content="Gabella Team">
 <meta property="og:title" content="WoW Forever Guide: Classes, Races, Group Builder and Guides">
-<meta property="og:description" content="WoW Forever guide: who to play, a race and class picker, a group builder, a launch checklist for 04.11.2026 and guides to leveling, dungeons and professions.">
+<meta property="og:description" content="WoW Forever guide: who to play, a race and class picker, a group builder and guides to leveling, dungeons and professions.">
 <meta property="og:url" content="https://gabella.site/wow/en/">
 <meta property="og:image" content="https://gabella.site/wow/assets/og-en.jpg">
 <meta property="og:image:width" content="1200">
@@ -566,21 +566,6 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .summary .copyrow input { flex-basis: 100%; }
 .summary .copyrow .btn { flex: 1 1 auto; }
 
-/* Checklist */
-.check { list-style: none; margin: 0; padding: 14px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-.check li { border-radius: 8px; background: var(--panel-2); border: 1px solid var(--pline); transition: border-color .2s; }
-.check li:has(input:checked) { border-color: color-mix(in srgb, var(--gold) 50%, transparent); }
-.check label { display: grid; grid-template-columns: 26px 1fr; gap: 12px; padding: 14px 16px; border-radius: 8px; cursor: pointer; align-items: start; min-height: 44px; height: 100%; }
-.check label:hover { background: color-mix(in srgb, var(--fg) 4%, transparent); }
-.check input { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--gold); }
-.check b { display: block; font-weight: 600; }
-.check span { color: var(--muted); font-size: .93rem; }
-.check input:checked + div b { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--gold); }
-.prog { display: flex; align-items: center; gap: 14px; padding: 18px 18px 0; }
-.prog .bar { flex: 1; height: 6px; background: var(--panel-2); border: 1px solid var(--pline); border-radius: 999px; overflow: hidden; }
-.prog .bar i { display: block; height: 100%; background: var(--gold); width: 0; transition: width .2s; }
-.prog span { color: var(--muted); font-size: .9rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
-
 /* Comparison tables: classes and races, one row per entry, whole row opens its page */
 .cmp { display: grid; gap: 6px; }
 .cmp-h, .cmp-row { display: grid; gap: 22px; align-items: center; }
@@ -746,8 +731,6 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .d-avs .av { --s: 54px; }
   .slot { grid-template-columns: 50px minmax(0, 2.6fr) minmax(0, 1fr) 40px; gap: 4px 6px; padding: 8px; }
   .slot .no { grid-row: 1 / 3; align-self: center; }
-  .check { grid-template-columns: 1fr; padding: 10px; }
-  .prog { padding: 14px 14px 0; }
 
   .slot select { font-size: .9rem; padding: 0 4px; }
   .slot select.srace { grid-column: 2 / 4; }
@@ -794,13 +777,13 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .hc, .hc img, .hc .info, .fac picture img, .prog .bar i { transition: none; }
+  .hc, .hc img, .hc .info, .fac picture img { transition: none; }
 }
 </style>
 <link rel="manifest" href="../manifest-en.webmanifest">
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"WoW Forever Guide","alternateName":"Gabella Team","url":"https://gabella.site/wow/en/","inLanguage":"en","description":"WoW Forever guide: who to play, a race and class picker, a group builder, a launch checklist for 04.11.2026 and guides to leveling, dungeons and professions."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"WoW Forever Guide","alternateName":"Gabella Team","url":"https://gabella.site/wow/en/","inLanguage":"en","description":"WoW Forever guide: who to play, a race and class picker, a group builder and guides to leveling, dungeons and professions."}</script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -928,11 +911,10 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </section>
 
 <section class="block wrap" id="tools" data-nav="#picker" data-tab="#builder">
-  <div class="sec-head"><h2>Tools</h2><p>Race and class picker, group builder and a launch checklist; a separate page has in-game style raid frames, comparison and guide search. Share the roster link in chat.</p></div>
-  <nav class="frame ttiles t4" aria-label="Tools">
+  <div class="sec-head"><h2>Tools</h2><p>Race and class picker and group builder; a separate page has in-game style raid frames, comparison and guide search. Share the roster link in chat.</p></div>
+  <nav class="frame ttiles" aria-label="Tools">
     <a class="ttile" href="#picker"><picture><source type="image/avif" srcset="../assets/art/druid-360.avif 360w, ../assets/art/druid-600.avif 600w" sizes="(max-width: 980px) 100vw, 400px"><source type="image/webp" srcset="../assets/art/druid-360.webp 360w, ../assets/art/druid-600.webp 600w" sizes="(max-width: 980px) 100vw, 400px"><img src="../assets/art/druid-600.webp" alt="" loading="lazy" decoding="async"></picture><b>Race and class picker</b><span id="qPick">Every combination and what each can do</span></a>
     <a class="ttile" href="#builder"><picture><source type="image/avif" srcset="../assets/art/hero_campfire-960.avif"><img src="../assets/art/hero_campfire-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Group builder</b><span id="qTeam">From one to forty players</span></a>
-    <a class="ttile" href="#checklist"><picture><source type="image/avif" srcset="../assets/art/hero_dawn-960.avif"><img src="../assets/art/hero_dawn-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Checklist before launch</b><span id="qCheck">Names, professions, days, subscription</span></a>
     <a class="ttile" href="tools/"><picture><source type="image/avif" srcset="../assets/art/paladin-600.avif"><img src="../assets/art/paladin-600.webp" alt="" loading="lazy" decoding="async"></picture><b>Frames, compare, search</b><span>In-game style raid grid, classes and races side by side</span></a>
   </nav>
 
@@ -989,14 +971,6 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     </aside>
   </div>
 </section>
-<section class="block wrap" id="checklist" data-tab="#builder">
-  <div class="sec-head"><h2>Checklist before launch</h2><p>Checkmarks are saved in this browser. It is handy to go through them together in chat and mark what is already decided.</p></div>
-  <div class="frame chk">
-    <div class="prog"><div class="bar" aria-hidden="true"><i id="progBar"></i></div><span id="progTxt"></span></div>
-    <ul class="check" id="checkList"></ul>
-  </div>
-  <div class="row-actions"><button class="btn ghost" id="checkReset">Reset marks</button></div>
-</section>
 <section class="stband" id="guides" data-nav="#guides" data-tab="#guides">
   <picture class="stband-art"><source type="image/avif" srcset="../assets/art/hero_dawn-960.avif 960w, ../assets/art/hero_dawn-1440.avif 1440w" sizes="100vw"><source type="image/webp" srcset="../assets/art/hero_dawn-960.webp 960w, ../assets/art/hero_dawn-1440.webp 1440w" sizes="100vw"><img src="../assets/art/hero_dawn-1440.webp" width="1440" height="804" alt="" loading="lazy" decoding="async"></picture>
   <div class="wrap">
@@ -1046,7 +1020,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <div class="dh"><b>All sections</b><button class="iconbtn" id="moreClose" type="button" aria-label="Close"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="All sections">
     <div class="grp"><div class="gh">Home</div><a href="#top">Overview</a><a href="#stages">Where you are now</a><a href="#factions">Factions</a><a href="#classes">Classes</a><a href="#peoples">Races</a></div>
-    <div class="grp"><div class="gh">Tools</div><a href="#picker">Picker</a><a href="#builder">Group builder</a><a href="#checklist">Checklist</a><a href="tools/">Frames, compare, search</a></div>
+    <div class="grp"><div class="gh">Tools</div><a href="#picker">Picker</a><a href="#builder">Group builder</a><a href="tools/">Frames, compare, search</a></div>
     <div class="grp"><div class="gh">Reference</div><a href="guides/leveling/">Leveling 1–60</a><a href="guides/dungeons/">Dungeons and raids</a><a href="guides/professions/">Professions</a><a href="guides/faq/">FAQ and dates</a><a href="guides/news/">News</a><a href="classes/">Classes compared</a><a href="races/">Races compared</a><a href="#sources">Sources</a></div>
   </nav>
   <div class="opts">
@@ -1556,34 +1530,6 @@ if (!fromLink) team.list = autoTeam(5, team.f);
 renderTeam();
 if (fromLink) setTimeout(() => document.getElementById('builder').scrollIntoView(), 0);
 
-/* Checklist */
-const CHECK = [
-  ['Agree on one faction and mode', 'You can only group within one mode (normal, PvP, RP), and in PvP only one faction is available at creation.'],
-  ['Distribute classes without extra duplicates', 'Build your group in the builder above: you need a tank, a healer and different classes for buffs.'],
-  ['Decide whether you need the Skyborne race', 'Paid: Heroic Pack from $29.99. The other races and all classes do not need to be bought.'],
-  ['Reserve names from 27.10 to 03.11', 'Needs the Heroic, Epic or Collection pack, up to three characters per account. Pick a name, a surname and backups: the full name is unique across the whole region.'],
-  ['Check the subscription or game time', 'From 04.11 a subscription or game time is required to play.'],
-  ['Choose professions for the camp', 'One takes Cooking for the campfire, the others choose professions for camp buffs.'],
-  ['Set days and time for the 04.11 launch', 'Agree in advance who logs in first and when, so you start with one group.'],
-  ['Plan dungeons for the five weeks before raids', 'Raids open 09.12; until then, leveling and dungeons as a group.']
-];
-const CKEY = 'gabella-wf-check';
-let done = [];
-try { done = JSON.parse(localStorage.getItem(CKEY) || '[]'); } catch (e) {}
-function saveDone() { try { localStorage.setItem(CKEY, JSON.stringify(done)); } catch (e) {} }
-function renderCheck() {
-  $('#checkList').innerHTML = CHECK.map((c, i) => `<li><label><input type="checkbox" data-i="${i}"${done.includes(i) ? ' checked' : ''}><div><b>${esc(c[0])}</b><span>${esc(c[1])}</span></div></label></li>`).join('');
-  const k = done.length;
-  $('#progBar').style.width = (k / CHECK.length * 100) + '%';
-  $('#progTxt').textContent = `Done ${k} of ${CHECK.length}`;
-  $('#qCheck').textContent = k ? `Done ${k} of ${CHECK.length}` : 'Names, professions, days, subscription';
-}
-$('#checkList').addEventListener('change', e => {
-  const i = +e.target.dataset.i; done = done.filter(x => x !== i); if (e.target.checked) done.push(i); saveDone(); renderCheck();
-});
-$('#checkReset').onclick = () => { done = []; saveDone(); renderCheck(); };
-renderCheck();
-
 /* Dungeons: [name, min, max, entrance zone, new, other sites' ranges where they differ] */
 const DUNGEONS = [
   ['Ragefire Chasm', 13, 18, 'Orgrimmar', 0],
@@ -1885,5 +1831,6 @@ addEventListener('beforeinstallprompt', e => {
   opts.append(b);
 });
 </script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

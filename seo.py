@@ -16,9 +16,9 @@ from content.guides import GUIDES, HUB, HUBS
 
 HERE = build.HERE
 
-# Cloudflare Web Analytics: токен сайта из дашборда Cloudflare (Analytics & Logs → Web Analytics → Add a site → gabella.site).
+# Cloudflare Web Analytics: токен сайта gabella.site (Analytics → Web analytics → gabella.site → Manage site, режим «Enable with JS Snippet installation» — DNS only, автовставки нет).
 # Пусто — сниппет не вставляется.
-CF_BEACON_TOKEN = ''
+CF_BEACON_TOKEN = 'ee1d216e690040389063e8d72384c2c7'
 
 BRAND = 'Gabella Team'
 LOCALE = {'ru': 'ru_RU', 'en': 'en_US', 'uk': 'uk_UA'}
@@ -38,9 +38,9 @@ META = {
     '': (t('Гид WoW Forever: классы, расы, подбор группы и гайды',
            'WoW Forever Guide: Classes, Races, Group Builder and Guides',
            'Гід WoW Forever: класи, раси, підбір групи та гайди'),
-         t('Гид по WoW Forever: кем играть, подборщик расы и класса, сборка группы, чек-лист к релизу 04.11.2026 и гайды по прокачке, подземельям и профессиям.',
-           'WoW Forever guide: who to play, a race and class picker, a group builder, a launch checklist for 04.11.2026 and guides to leveling, dungeons and professions.',
-           'Гід по WoW Forever: ким грати, підбір раси й класу, збір групи, чек-лист до релізу 04.11.2026 і гайди з прокачки, підземель і професій.')),
+         t('Гид по WoW Forever: кем играть, подборщик расы и класса, сборка группы и гайды по прокачке, подземельям и профессиям.',
+           'WoW Forever guide: who to play, a race and class picker, a group builder and guides to leveling, dungeons and professions.',
+           'Гід по WoW Forever: ким грати, підбір раси й класу, збір групи і гайди з прокачки, підземель і професій.')),
     'classes/': (t('Лучший класс в WoW Forever: сравнение всех 9 классов',
                    'WoW Forever Best Class: All 9 Classes Compared',
                    'Найкращий клас у WoW Forever: порівняння всіх 9 класів'),
@@ -224,10 +224,10 @@ def apply(html, path, lang, title, desc):
     html = html.replace('<meta property="og:site_name"', alt + '<meta property="og:site_name"', 1)
     html = re.sub(r'<script type="application/ld\+json">.*?</script>\n', '', html, flags=re.S)
     html = html.replace('</head>', json_ld(path, lang, desc) + '</head>', 1)
-    html = re.sub(r'<script defer src="https://static.cloudflareinsights.com/[^>]*></script>\n', '', html)
+    html = re.sub(r'<script type="module" src="https://static.cloudflareinsights.com/[^>]*></script>\n', '', html)
     if CF_BEACON_TOKEN:
         beacon = json.dumps({'token': CF_BEACON_TOKEN})
-        html = html.replace('</body>', f'<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon=\'{beacon}\'></script>\n</body>', 1)
+        html = html.replace('</body>', f'<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon=\'{beacon}\'></script>\n</body>', 1)
     return html
 
 
