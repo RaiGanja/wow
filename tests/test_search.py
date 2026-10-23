@@ -6,10 +6,13 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 from langs import LANGS  # noqa: E402
 
+import build  # noqa: E402
+
 problems, sizes = [], {}
 for lang in LANGS:
     rows = json.load(open(os.path.join(ROOT, 'assets', 'search', f'{lang}.json'), encoding='utf-8'))
-    sizes[lang] = len(rows)
+    pre = build.page_dir(lang)
+    sizes[lang] = sum(not build.only_lang(r[2].partition('#')[0][len(pre):]) for r in rows)   # one-language pages aside
     kinds = {k: sum(r[3] == k for r in rows) for k in range(4)}
     if kinds[0] < 31 or kinds[2] < 10 or kinds[3] < 35:
         problems.append(f'{lang}: мало записей {kinds}')

@@ -26,7 +26,7 @@ HUB = {
 GUIDES = []   # наполняется в задачах 3, 5, 6, 7, 9; каждый гайд дописывается ниже через GUIDES.append
 
 NEWS = []     # ручные записи: {'date': '2026-10-23', 'title': t(...), 'text': t(...), 'url': 'https://…'}
-ORDER = ['leveling', 'dungeons', 'professions', 'faq', 'news']   # порядок плиток на хабе и в «Другие гайды»
+ORDER = ['leveling', 'dungeons', 'professions', 'faq', 'news', 'ukrainian']   # порядок плиток на хабе и в «Другие гайды»
 
 
 # ---------- FAQ: даты и наборы, режимы, имена, отличия от Era (переехали с главной) + частые вопросы ----------
@@ -178,7 +178,7 @@ GUIDES.append({
                          'The new Forever race, unlocked by any of the three packs. Playable for both factions, the faction is chosen at character creation. Both branches speak a common language and share the Zephras Isle starting zone.',
                          'Нова раса Forever, відкривається будь-яким із трьох наборів. Доступна за обидві фракції, фракцію обирають під час створення. Обидві гілки говорять спільною мовою, а стартова зона Zephras Isle спільна.')]},
                 {'id': 'levels', 'q': t('До какого уровня качаться и где?', 'What is the level cap, and where do we level?', 'До якого рівня качатися і де?'),
-                 'a': [t('До 60, в Eastern Kingdoms и Kalimdor. Летающих скакунов и масштабирования уровней нет, как и в Classic.',
+                 'a': [t('До 60, в [[Восточных королевствах|Eastern Kingdoms]] и [[Калимдоре|Kalimdor]]. Летающих скакунов и масштабирования уровней нет, как и в Classic.',
                          'Up to 60, in the Eastern Kingdoms and Kalimdor. No flying mounts and no level scaling, as in Classic.',
                          'До 60, у Eastern Kingdoms і Kalimdor. Літаючих скакунів і масштабування рівнів немає, як і в Classic.')]},
                 {'id': 'together', 'q': t('Можно ли играть вместе, если выбрали разные режимы?', 'Can we play together in different modes?', 'Чи можна грати разом, якщо обрали різні режими?'),
@@ -267,14 +267,14 @@ GUIDES.append({
             ('steps', [
                 {'t': 'Barrow Deeps', 'd': t('10 игроков', '10 players', '10 гравців')},
                 {'t': 'Hyjal Summit', 'd': t('20 игроков', '20 players', '20 гравців')},
-                {'t': 'Onyxia’s Lair', 'd': t('40 игроков, в Dustwallow Marsh', '40 players, in Dustwallow Marsh', '40 гравців, у Dustwallow Marsh')},
+                {'t': 'Onyxia’s Lair', 'd': t('40 игроков, в [[Пылевых топях|Dustwallow Marsh]]', '40 players, in Dustwallow Marsh', '40 гравців, у Dustwallow Marsh')},
             ]),
             ('text', [t('За прохождение каждого из этих рейдов в Legacy даётся по очку.', 'Completing each of these raids gives one Legacy point.',
                         'За проходження кожного з цих рейдів у Legacy дається по одному очку.')]),
         ]},
         {'id': 'pvp', 'title': 'PvP', 'blocks': [
             ('steps', [
-                {'t': 'Darkspear Islands', 'd': t('Новое поле боя 15 на 15 у побережья Dustwallow Marsh.', 'New 15v15 battleground off the coast of Dustwallow Marsh.',
+                {'t': 'Darkspear Islands', 'd': t('Новое поле боя 15 на 15 у побережья [[Пылевых топей|Dustwallow Marsh]].', 'New 15v15 battleground off the coast of Dustwallow Marsh.',
                                                   'Нове поле бою 15 на 15 біля узбережжя Dustwallow Marsh.')},
                 {'t': t('Звания и Честь', 'Ranks and Honor', 'Звання та Честь'),
                  'd': t('Звания с недельным лимитом, улучшение экипировки за Честь, сезонные цели Legacy.', 'Ranks with a weekly limit, gear upgrades for Honor, seasonal Legacy goals.',
@@ -380,29 +380,29 @@ GUIDES.append({
             ('tabs', [
                 {'id': 'alliance', 't': t('Альянс', 'Alliance', 'Альянс'), 'blocks': [
                     ('steps', [
-                        {'t': '1–10', 'd': t('Human: Elwynn Forest. Dwarf и Gnome: Dun Morogh. Night Elf: Teldrassil (до 11). High Order Skyborne: Zephras Isle (до 12).',
+                        {'t': '1–10', 'd': t('Люди: Elwynn Forest. Дворфы и гномы: Dun Morogh. Ночные эльфы: Teldrassil, до 11. Высшие скайборны: Zephras Isle, до 12.',
                                              'Human: Elwynn Forest. Dwarf and Gnome: Dun Morogh. Night Elf: Teldrassil (to 11). High Order Skyborne: Zephras Isle (to 12).',
                                              'Human: Elwynn Forest. Dwarf і Gnome: Dun Morogh. Night Elf: Teldrassil (до 11). High Order Skyborne: Zephras Isle (до 12).')},
-                        {'t': '10–18', 'd': t('Westfall или Loch Modan, ночные эльфы обычно в Darkshore. С 15 подходят Redridge Mountains.',
+                        {'t': '10–18', 'd': t('Westfall или Loch Modan, ночные эльфы обычно в [[Темных берегах|Darkshore]]. С 15 подходит Redridge Mountains.',
                                               'Westfall or Loch Modan, Night Elves usually go to Darkshore. From 15, Redridge Mountains fit.',
                                               'Westfall або Loch Modan, нічні ельфи зазвичай у Darkshore. З 15 підходять Redridge Mountains.')},
-                        {'t': '18–30', 'd': t('Duskwood, Redridge Mountains и Wetlands, в Kalimdor Stonetalon Mountains и Ashenvale.',
+                        {'t': '18–30', 'd': t('Duskwood, Redridge Mountains и Wetlands, в [[Калимдоре|Kalimdor]] Stonetalon Mountains и Ashenvale.',
                                               'Duskwood, Redridge Mountains and Wetlands; in Kalimdor, Stonetalon Mountains and Ashenvale.',
                                               'Duskwood, Redridge Mountains і Wetlands, у Kalimdor Stonetalon Mountains і Ashenvale.')},
-                        {'t': '30–45', 'd': t('Desolace или Arathi Highlands, Stranglethorn Vale. С 35: новая зона Riverglades между Redridge и Burning Steppes, Dustwallow Marsh, Badlands, Swamp of Sorrows.',
+                        {'t': '30–45', 'd': t('Desolace или Arathi Highlands, Stranglethorn Vale. С 35: новая зона Riverglades между [[Красногорьем|Redridge Mountains]] и [[Пылающими степями|Burning Steppes]], Dustwallow Marsh, Badlands, Swamp of Sorrows.',
                                               'Desolace or Arathi Highlands, Stranglethorn Vale. From 35: the new Riverglades zone between Redridge and Burning Steppes, Dustwallow Marsh, Badlands, Swamp of Sorrows.',
                                               'Desolace або Arathi Highlands, Stranglethorn Vale. З 35: нова зона Riverglades між Redridge і Burning Steppes, Dustwallow Marsh, Badlands, Swamp of Sorrows.')},
-                        {'t': '40–55', 'd': t('Tanaris, Feralas, The Hinterlands, затем Searing Gorge, Blasted Lands, Azshara, с 48 Un’Goro Crater и Felwood.',
+                        {'t': '40–55', 'd': t('Tanaris, Feralas, The Hinterlands, затем Searing Gorge, Blasted Lands, Azshara, с 48 [[Кратер Ун’Горо|Un’Goro Crater]] и Felwood.',
                                               'Tanaris, Feralas, The Hinterlands, then Searing Gorge, Blasted Lands, Azshara, from 48 Un’Goro Crater and Felwood.',
                                               'Tanaris, Feralas, The Hinterlands, далі Searing Gorge, Blasted Lands, Azshara, з 48 Un’Goro Crater і Felwood.')},
-                        {'t': '50–60', 'd': t('Burning Steppes, Western и Eastern Plaguelands, Winterspring, Silithus. На 60 открыт Mount Hyjal.',
+                        {'t': '50–60', 'd': t('Burning Steppes, Western Plaguelands, Eastern Plaguelands, Winterspring, Silithus. На 60 открыта Mount Hyjal.',
                                               'Burning Steppes, Western and Eastern Plaguelands, Winterspring, Silithus. Mount Hyjal opens at 60.',
                                               'Burning Steppes, Western і Eastern Plaguelands, Winterspring, Silithus. На 60 відкритий Mount Hyjal.')},
                     ]),
                 ]},
                 {'id': 'horde', 't': t('Орда', 'Horde', 'Орда'), 'blocks': [
                     ('steps', [
-                        {'t': '1–10', 'd': t('Orc и Troll: Durotar. Tauren: Mulgore. Undead: Tirisfal Glades. Windshaper Skyborne: Zephras Isle (до 12).',
+                        {'t': '1–10', 'd': t('Орки и тролли: Durotar. Таурены: Mulgore. Нежить: Tirisfal Glades. Скайборны-ветрорезы: Zephras Isle, до 12.',
                                              'Orc and Troll: Durotar. Tauren: Mulgore. Undead: Tirisfal Glades. Windshaper Skyborne: Zephras Isle (to 12).',
                                              'Orc і Troll: Durotar. Tauren: Mulgore. Undead: Tirisfal Glades. Windshaper Skyborne: Zephras Isle (до 12).')},
                         {'t': '10–18', 'd': t('The Barrens или Silverpine Forest.', 'The Barrens or Silverpine Forest.', 'The Barrens або Silverpine Forest.')},
@@ -412,16 +412,16 @@ GUIDES.append({
                         {'t': '30–45', 'd': t('Desolace или Arathi Highlands, Stranglethorn Vale. С 35: новая зона Riverglades, Dustwallow Marsh, Badlands, Swamp of Sorrows.',
                                               'Desolace or Arathi Highlands, Stranglethorn Vale. From 35: the new Riverglades zone, Dustwallow Marsh, Badlands, Swamp of Sorrows.',
                                               'Desolace або Arathi Highlands, Stranglethorn Vale. З 35: нова зона Riverglades, Dustwallow Marsh, Badlands, Swamp of Sorrows.')},
-                        {'t': '40–55', 'd': t('Tanaris, Feralas, The Hinterlands, затем Searing Gorge, Blasted Lands, Azshara, с 48 Un’Goro Crater и Felwood.',
+                        {'t': '40–55', 'd': t('Tanaris, Feralas, The Hinterlands, затем Searing Gorge, Blasted Lands, Azshara, с 48 [[Кратер Ун’Горо|Un’Goro Crater]] и Felwood.',
                                               'Tanaris, Feralas, The Hinterlands, then Searing Gorge, Blasted Lands, Azshara, from 48 Un’Goro Crater and Felwood.',
                                               'Tanaris, Feralas, The Hinterlands, далі Searing Gorge, Blasted Lands, Azshara, з 48 Un’Goro Crater і Felwood.')},
-                        {'t': '50–60', 'd': t('Burning Steppes, Western и Eastern Plaguelands, Winterspring, Silithus. На 60 открыт Mount Hyjal.',
+                        {'t': '50–60', 'd': t('Burning Steppes, Western Plaguelands, Eastern Plaguelands, Winterspring, Silithus. На 60 открыта Mount Hyjal.',
                                               'Burning Steppes, Western and Eastern Plaguelands, Winterspring, Silithus. Mount Hyjal opens at 60.',
                                               'Burning Steppes, Western і Eastern Plaguelands, Winterspring, Silithus. На 60 відкритий Mount Hyjal.')},
                     ]),
                 ]},
             ]),
-            ('tip', t('Новая зона Shen’Dralas лежит между Desolace и Feralas, в ней задания для Maraudon и Razorfen Downs. Уровень зоны источники пока не называют.',
+            ('tip', t('Новая зона Shen’Dralas лежит между [[Пустошами|Desolace]] и [[Фераласом|Feralas]], в ней задания для [[Мародона|Maraudon]] и [[Курганов Иглошкурых|Razorfen Downs]]. Уровень зоны источники пока не называют.',
                       'The new Shen’Dralas zone lies between Desolace and Feralas and has quests for Maraudon and Razorfen Downs. Sources do not give its level yet.',
                       'Нова зона Shen’Dralas лежить між Desolace і Feralas, у ній завдання для Maraudon і Razorfen Downs. Рівень зони джерела поки не називають.')),
         ]},
@@ -602,7 +602,7 @@ CLASS_PAIRS = [   # (id, имя класса, [(пара, своя причин�
     ('priest', t('Жрец', 'Priest', 'Жрець'), [('tail', None), ('alch', None)]),
     ('shaman', t('Шаман', 'Shaman', 'Шаман'), [('lw', None), ('alch', None)]),
     ('mage', t('Маг', 'Mage', 'Маг'), [('tail', None), ('alch', None)]),
-    ('warlock', t('Чернокнижник', 'Warlock', 'Чорнокнижник'), [('tail', t('Знамя Faction Banner от портного даёт дух для Life Tap.', 'The tailor’s Faction Banner gives Spirit for Life Tap.',
+    ('warlock', t('Чернокнижник', 'Warlock', 'Чорнокнижник'), [('tail', t('Знамя Faction Banner от портного даёт дух для [[Жизнеотвода|Life Tap]].', 'The tailor’s Faction Banner gives Spirit for Life Tap.',
                                                                            'Прапор Faction Banner від кравця дає дух для Life Tap.')), ('alch', None)]),
     ('druid', t('Друид', 'Druid', 'Друїд'), [('alch', t('Травы друид собирает прямо в облике путешествия.', 'A druid gathers herbs right in Travel Form.',
                                                      'Трави друїд збирає просто в подобі подорожі.')), ('lw', None)]),
@@ -724,6 +724,62 @@ GUIDES.append({
             ('raw', t('<div class="nlist" id="feedList" hidden></div><p><a class="more-l" href="https://www.wowhead.com/news" target="_blank" rel="noopener">Все новости Wowhead</a></p>',
                       '<div class="nlist" id="feedList" hidden></div><p><a class="more-l" href="https://www.wowhead.com/news" target="_blank" rel="noopener">All Wowhead news</a></p>',
                       '<div class="nlist" id="feedList" hidden></div><p><a class="more-l" href="https://www.wowhead.com/news" target="_blank" rel="noopener">Усі новини Wowhead</a></p>')),
+        ]},
+    ],
+})
+
+
+# ---------- Як грати українською: только uk ('only'), тексты — словари {'uk': …} ----------
+
+def u(s):
+    return {'uk': s}
+
+
+GUIDES.append({
+    'slug': 'ukrainian', 'only': 'uk', 'art': 'priest', 'updated': '23.10.2026',
+    'title': u('Як грати українською'),
+    'lead': u('Української мови у WoW Forever немає. Порівняння аддонів UA_Forever і UALL Forever, встановлення та перегляд оригіналу.'),
+    'tile': u('Аддони перекладу: який обрати й як встановити'),
+    'pills': [u('UA_Forever'), u('UALL Forever'), u('Shift — оригінал')],
+    'sources': [
+        (u('CurseForge: UA_Forever'), 'https://www.curseforge.com/wow/addons/ua-forever'),
+        (u('CurseForge: UALL Forever'), 'https://www.curseforge.com/wow/addons/uall-forever-ukrainian-localization'),
+        (u('ClassicUA на GitHub'), 'https://github.com/greenya/ClassicUA'),
+        (u('WoWGuide: мови WoW Forever'), 'https://wowguide.net/en/guides/wow-forever-supported-languages'),
+    ],
+    'sections': [
+        {'id': 'client', 'title': u('Мова клієнта'), 'blocks': [
+            ('text', [u('Клієнт WoW Forever доступний десятьма мовами, серед них англійська та російська. Української серед них немає.'),
+                      u('Українською грають з аддоном: він підміняє тексти завдань, підказок і вікон поверх клієнта. Аддони неофіційні, їх роблять гравці, тож після патчів переклад може відставати.')]),
+        ]},
+        {'id': 'choose', 'title': u('Який аддон обрати'), 'blocks': [
+            ('table', {'head': [u(''), u('UA_Forever'), u('UALL Forever')], 'rows': [
+                [u('Основа'), u('Переклад спільноти ClassicUA, ведеться з 2021 року'), u('Власний переклад')],
+                [u('Завдання'), '6209', '4389'],
+                [u('Предмети'), '24 025', '6097'],
+                [u('Заклинання'), '32 939', '29 743'],
+                [u('Рід героя'), u('«дав» або «дала» за статтю персонажа'), u('Завжди чоловічий рід')],
+                [u('Назви'), u('Перекладені: Залізогарт, Підмістя'), u('Транслітерація: Айронфордж, Андерсіті')],
+                [u('Оригінал'), u('Shift у підказці, EN/UA у діалогах завдань'), u('Shift')],
+                [u('Клієнт'), u('Клієнт Forever'), u('Лише англійський')],
+                [u('Версія'), u('0.22.0 від 22.10.2026'), u('1.0.10 від 13.10.2026')],
+            ]}),
+            ('text', [u('Обирайте UA_Forever. Перекладено більше, назви українською, речення узгоджені з родом героя. Слабкі місця: місцями дослівний текст і поодинокі помилки.'),
+                      u('UALL Forever читається рівніше, але назви в ньому транслітом, а предметів перекладено вчетверо менше.')]),
+            ('tip', u('На цьому сайті ігрові назви англійською, як в оригінальному клієнті. Так їх пишуть Wowhead, гайди й гравці в групі. Затисніть Shift на підказці, щоб звірити назву.')),
+        ]},
+        {'id': 'install', 'title': u('Встановлення'), 'blocks': [
+            ('steps', [
+                {'t': u('CurseForge'), 'd': u('У застосунку CurseForge оберіть World of Warcraft і версію Forever, знайдіть аддон і натисніть Install.')},
+                {'t': u('Або вручну'), 'd': u('Завантажте архів зі сторінки аддона й розпакуйте папку в Interface\\AddOns у теці гри Forever. У беті це була тека _classic_beta_.')},
+                {'t': u('Увімкнення'), 'd': u('На екрані вибору персонажа відкрийте AddOns і поставте позначку. Якщо аддон позначено застарілим, увімкніть Load out of date AddOns.')},
+                {'t': u('Перезавантаження'), 'd': u('Якщо гра вже запущена, введіть /reload у чаті.')},
+            ]),
+            ('tip', u('Вмикайте один аддон перекладу. Обидва підміняють ті самі вікна.')),
+        ]},
+        {'id': 'original', 'title': u('Оригінал англійською'), 'blocks': [
+            ('text', [u('UA_Forever: затисніть Shift, і підказка покаже англійський текст. У діалогах завдань є перемикач EN/UA. Окремі частини перекладу вимикаються в налаштуваннях аддона.'),
+                      u('UALL Forever: Shift показує англійський текст. /uallfua виводить стан перекладу, /uallfua list — частини, які можна вимкнути. Ті самі перемикачі: Esc → Options → AddOns → UALLF.')]),
         ]},
     ],
 })

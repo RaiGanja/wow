@@ -102,6 +102,8 @@ META = {
                      t('Новости WoW Forever перед релизом: закрытие беты и бронь имён с 27.10, изменения рас и классов в патчах беты, Даларан и свежая лента Wowhead.',
                        'WoW Forever news before launch: the beta closing and name reservations from 27.10, race and class changes in beta patches, Dalaran and the latest Wowhead feed.',
                        'Новини WoW Forever перед релізом: закриття бети й бронювання імен з 27.10, зміни рас і класів у патчах бети, Даларан і свіжа стрічка Wowhead.')),
+    'guides/ukrainian/': ({'uk': 'WoW Forever українською: аддони UA_Forever і UALL Forever'},   # only uk
+                          {'uk': 'Української мови у WoW Forever немає. Який аддон перекладу обрати, як встановити його через CurseForge чи вручну і як побачити оригінал.'}),
     'play/': (t('WoW Forever: второй экран — радио, зоны по уровню, таймеры',
                 'WoW Forever Second Screen: Radio, Zones by Level, Timers',
                 'WoW Forever: другий екран — радіо, зони за рівнем, таймери'),
@@ -149,7 +151,7 @@ def listing(xs, lang):
 
 def page_meta():
     """path -> {lang: (title, description)} for every page of the site."""
-    out = {p: {l: (ti[l], de[l]) for l in LANGS} for p, (ti, de) in META.items()}
+    out = {p: {l: (ti[l], de[l]) for l in LANGS if l in ti} for p, (ti, de) in META.items()}   # one-language page: its language
     for c in CLASSES:
         out[f'classes/{c["id"]}/'] = {}
         for l in LANGS:
@@ -167,7 +169,7 @@ def page_meta():
         out[p] = {}
         for l in LANGS:
             n = tr(names[rp['id']], l)
-            fact = lambda k: build.fact_ru(k, facts[k]) if l == 'ru' else tr(facts[k], l)   # places as the game shows them
+            fact = lambda k: build.ru_word(build.fact_ru(k, facts[k])) if l == 'ru' else tr(facts[k], l)   # places as the ruRU client shows them
             out[p][l] = (RACE_T[l].format(n=n), RACE_D[l].format(n=n, cap=fact('Столица'), zone=fact('Стартовая зона')))
     return out
 
@@ -218,9 +220,10 @@ def crumbs(path, lang):
 def faq_ld(lang):
     faq = next(g for g in GUIDES if g['slug'] == 'faq')
     qs = [q for s in faq['sections'] for k, d in s['blocks'] if k == 'faq' for q in d]
+    text = build.ru_plain if lang == 'ru' else str                 # ru: game names as the ruRU client shows them
     return {'@context': 'https://schema.org', '@type': 'FAQPage', 'inLanguage': HREFLANG[lang],
-            'mainEntity': [{'@type': 'Question', 'name': q['q'][lang],
-                            'acceptedAnswer': {'@type': 'Answer', 'text': ' '.join(a[lang] for a in q['a'])}} for q in qs]}
+            'mainEntity': [{'@type': 'Question', 'name': text(q['q'][lang]),
+                            'acceptedAnswer': {'@type': 'Answer', 'text': ' '.join(text(a[lang]) for a in q['a'])}} for q in qs]}
 
 
 def json_ld(path, lang, desc):
@@ -258,7 +261,7 @@ def apply(html, path, lang, title, desc):
         html = set_attr(html, r'(<meta property="og:image:alt" content=")[^"]*(">)', a, path)
     else:
         html = html.replace('<meta name="twitter:card"', f'<meta property="og:image:alt" content="{a}">\n<meta name="twitter:card"', 1)
-    alt = ''.join(f'<meta property="og:locale:alternate" content="{LOCALE[l]}">\n' for l in LANGS if l != lang)
+    alt = ''.join(f'<meta property="og:locale:alternate" content="{LOCALE[l]}">\n' for l in LANGS if l != lang and not build.only_lang(path))
     html = re.sub(r'<meta property="og:locale:alternate"[^>]*>\n', '', html)
     html = html.replace('<meta property="og:site_name"', alt + '<meta property="og:site_name"', 1)
     html = re.sub(r'<script type="application/ld\+json">.*?</script>\n', '', html, flags=re.S)
@@ -272,10 +275,11 @@ def apply(html, path, lang, title, desc):
 
 def sitemap(paths):
     urls = []
-    for p in paths:
-        alts = ''.join(f'<xhtml:link rel="alternate" hreflang="{HREFLANG[l]}" href="{SITE}{page_dir(l, p)}"/>' for l in LANGS)
-        alts += f'<xhtml:link rel="alternate" hreflang="x-default" href="{SITE}{p}"/>'
-        urls += [f'<url><loc>{SITE}{page_dir(l, p)}</loc>{alts}</url>' for l in LANGS]
+    for p, by_lang in paths.items():
+        ls = [l for l in LANGS if l in by_lang]
+        alts = ''.join(f'<xhtml:link rel="alternate" hreflang="{HREFLANG[l]}" href="{SITE}{page_dir(l, p)}"/>' for l in ls)
+        alts += f'<xhtml:link rel="alternate" hreflang="x-default" href="{SITE}{p if len(ls) > 1 else page_dir(ls[0], p)}"/>'
+        urls += [f'<url><loc>{SITE}{page_dir(l, p)}</loc>{alts}</url>' for l in ls]
     return ('<?xml version="1.0" encoding="UTF-8"?>\n'
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
             + '\n'.join(urls) + '\n</urlset>\n')
@@ -294,8 +298,8 @@ def main():
             html = open(full, encoding='utf-8').read()
             open(full, 'w', encoding='utf-8', newline='\n').write(apply(html, path, lang, title, desc))
     with open(os.path.join(HERE, 'sitemap.xml'), 'w', encoding='utf-8', newline='\n') as f:
-        f.write(sitemap([p for p in meta if p not in NOINDEX]))
-    print(f'seo: {len(meta) * len(LANGS)} pages, sitemap.xml, analytics {"on" if CF_BEACON_TOKEN else "off (CF_BEACON_TOKEN empty)"}', file=sys.stderr)
+        f.write(sitemap({p: v for p, v in meta.items() if p not in NOINDEX}))
+    print(f'seo: {sum(map(len, meta.values()))} pages, sitemap.xml, analytics {"on" if CF_BEACON_TOKEN else "off (CF_BEACON_TOKEN empty)"}', file=sys.stderr)
 
 
 if __name__ == '__main__':

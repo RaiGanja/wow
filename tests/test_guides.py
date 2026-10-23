@@ -102,7 +102,7 @@ def test_sources_translated():
         assert g['sources'], g['slug']
         for n, u in g['sources']:
             assert u.startswith('https://'), u
-            assert bg.L(n, 'en').isascii(), (g['slug'], n)
+            assert g.get('only') or bg.L(n, 'en').isascii(), (g['slug'], n)
 
 def test_play_route_from_leveling():
     route, tip = bg.leveling_parts()

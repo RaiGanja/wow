@@ -69,7 +69,23 @@ def test_js_names_zones():
     fr = build.js_names(js, 'fr')
     assert "'Marche de l’Ouest'" in fr and '"Cratère d’Un’Goro"' in fr               # double-quoted names localized too
     assert "'Nowhere'" in fr                                                         # unknown name stays English
-    assert all(build.js_names(js, l) == js for l in ('ru', 'uk', 'en', 'pl'))      # English client: names as in game
+    assert all(build.js_names(js, l) == js for l in ('uk', 'en', 'pl'))            # English client: names as in game
+    ru = build.js_names(js, 'ru')                                                    # ruRU client: Russian, dungeon + (English)
+    assert "'Мертвые копи (The Deadmines)'" in ru and "'Западный Край'" in ru and "'Nowhere'" in ru, ru
+
+
+def test_ru_names():
+    import build
+    html = ('<html><head><title>Durotar</title></head><body><p>Столица Orgrimmar, путь в [[Дуротаре|Durotar]]. '
+            'Снова Orgrimmar и Durotar.</p><span lang="en">Thunder Bluff</span><p>Thunder Bluff, '
+            'Holstered Replica Ironforge Air Rifle</p><script>const T = "у [[Пылевых топей|Dustwallow Marsh]], Orgrimmar", E = "Orgrimmar";</script></body></html>')
+    out = build.ru_names(html)
+    assert '<title>Durotar</title>' in out                                           # head untouched
+    assert 'Столица Оргриммар (Orgrimmar), путь в Дуротаре (Durotar). Снова Оргриммар и Дуротар.' in out, out
+    assert '<p>Громовой Утес, Holstered Replica Ironforge Air Rifle</p>' in out, out  # English shown before; no partial names
+    assert '"у Пылевых топей, Оргриммар", E = "Orgrimmar"' in out, out                # script: Russian strings only, no (English)
+    assert '[[' not in out
+    assert build.ru_plain('Мертвые копи (The Deadmines), Orgrimmar') == 'Мертвые копи (The Deadmines), Оргриммар'   # English in brackets stays
 
 
 if __name__ == '__main__':

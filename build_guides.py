@@ -55,6 +55,8 @@ def E(x, lang):
 def check_langs(obj, path=''):
     """Paths of trilingual fields that miss ru/en/uk (or are empty); the new languages are derived from en by langs.fill."""
     gaps = []
+    if isinstance(obj, dict) and obj.get('only'):                 # one-language guide: {'uk': …} texts
+        return gaps
     if isinstance(obj, dict):
         if set(obj) & set(langs.OLD) and set(obj) <= set(langs.ALL):
             gaps += [f'{path}.{l}' for l in langs.OLD if not obj.get(l)]
@@ -161,9 +163,14 @@ def section_tiles():
     return [{'t': x['title'], 'd': x['tile'], 'href': x['path'], 'art': x['art'], 'upd': x.get('updated')} for x in HUBS]
 
 
+def lang_guides(lang):
+    """Guides of a language: a guide with 'only' exists in that one language."""
+    return [g for g in GUIDES if g.get('only', lang) == lang]
+
+
 def hub_body(lang, root):
     """Guides first, then the classes/ and races/ sections and the tools page: two full rows of four."""
-    tiles = guide_tiles(GUIDES) + section_tiles() + SITE_TILES[1:]
+    tiles = guide_tiles(lang_guides(lang)) + section_tiles() + SITE_TILES[1:]
     return '', f'<section class="frame gsec" id="all">{render_block("tiles", tiles, lang, root)}</section>'
 
 
@@ -515,7 +522,7 @@ def build_page(g, lang, tpl, base_css, sprite, src):
         others = [x for x in section_tiles() if x['href'] != g['path']] + SITE_TILES
         more = tile_links(others, lang, root)
     else:
-        others = [x for x in GUIDES if x['slug'] != g['slug']] if g['slug'] else []
+        others = [x for x in lang_guides(lang) if x['slug'] != g['slug']] if g['slug'] else []
         more = tile_links(guide_tiles(others), lang, root)
     avif, webp, img = art_sets(g['art'], '@@ROOT@@', big=True)
     crumb = (f'<a href="{root}guides/">{E(HUB["title"], lang)}</a><span aria-hidden="true">/</span><span>{E(g["title"], lang)}</span>'
@@ -595,7 +602,7 @@ def main():
 
     pages, allmissing = [], []
     for lang in LANGS:
-        for g in [HUB] + GUIDES + HUBS + PAGES:
+        for g in [HUB] + lang_guides(lang) + HUBS + PAGES:
             path, html, missing = build_page(g, lang, tpl, base_css, sprite, src)
             assert '@@' not in html, (path, re.findall(r'@@\w+@@', html)[:5])
             pages.append((path, html))
