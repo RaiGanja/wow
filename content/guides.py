@@ -775,20 +775,51 @@ from build import CONTACT  # noqa: E402  (адрес один на весь са
 _mail = f'<a href="mailto:{CONTACT}">{CONTACT}</a>'
 _cf = 'https://www.cloudflare.com/privacypolicy/'
 _cc = 'https://creativecommons.org/licenses/by/4.0/'
+_dc = 'https://discord.com/privacy'
 _gh = 'https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement'
 
 PAGES = [
     {'slug': 'privacy', 'path': 'privacy/', 'og': 'guides', 'art': 'hero_campfire', 'updated': '23.10.2026',
      'title': t('Конфиденциальность', 'Privacy', 'Конфіденційність'),
-     'lead': t('Какие данные собирает сайт и что хранится у вас в браузере. Коротко: персональные данные мы не собираем.',
-               'What data the site collects and what is stored in your browser. In short: we do not collect personal data.',
-               'Які дані збирає сайт і що зберігається у вашому браузері. Коротко: персональні дані ми не збираємо.'),
+     'lead': t('Какие данные собирает сайт и что хранится у вас в браузере. Коротко: без входа мы о вас ничего не знаем, после входа через Discord храним только профиль.',
+               'What data the site collects and what is stored in your browser. In short: without signing in we know nothing about you; after signing in with Discord we keep only your profile.',
+               'Які дані збирає сайт і що зберігається у вашому браузері. Коротко: без входу ми нічого про вас не знаємо, після входу через Discord зберігаємо лише профіль.'),
      'pills': [t('Обновлено 23.10.2026', 'Updated 23.10.2026', 'Оновлено 23.10.2026')],
      'sections': [
          {'id': 'short', 'title': t('Коротко', 'In short', 'Коротко'), 'blocks': [
-             ('text', [t('На сайте нет регистрации, форм, комментариев и рекламы. Мы не ставим cookies и не знаем, кто вы.',
-                         'The site has no sign-up, forms, comments or ads. We set no cookies and do not know who you are.',
-                         'На сайті немає реєстрації, форм, коментарів і реклами. Ми не ставимо cookies і не знаємо, хто ви.')])]},
+             ('text', [t('Гид читается без входа: тогда сайт не ставит cookies и не знает, кто вы. Вход через Discord нужен только для профиля участника Gabella Team и «Состава». Рекламы, форм и комментариев на сайте нет.',
+                         'The guide works without signing in: then the site sets no cookies and does not know who you are. Signing in with Discord is only needed for a Gabella Team member profile and the Roster. The site has no ads, forms or comments.',
+                         'Гід читається без входу: тоді сайт не ставить cookies і не знає, хто ви. Вхід через Discord потрібен лише для профілю учасника Gabella Team і «Складу». Реклами, форм і коментарів на сайті немає.')])]},
+         {'id': 'account', 'title': t('Профиль участника', 'Member profile', 'Профіль учасника'), 'blocks': [
+             ('text', [t('Войти может только участник Discord-сервера Gabella Team. При входе Discord передаёт нам ваш Discord ID, ник на сервере и дату вступления. Пароль и почту мы не получаем, ключ доступа Discord не храним.',
+                         'Only members of the Gabella Team Discord server can sign in. On sign-in Discord gives us your Discord ID, your server nickname and the date you joined. We do not receive your password or email and do not keep the Discord access key.',
+                         'Увійти може лише учасник Discord-сервера Gabella Team. Під час входу Discord передає нам ваш Discord ID, нік на сервері й дату вступу. Пароль і пошту ми не отримуємо, ключ доступу Discord не зберігаємо.'),
+                       t('Ещё храним то, что вы указали сами: персонажей (имя, раса, класс, роль, уровень, профессии, время игры), внешний вид профиля, девиз, отметку «Ищу группу» и того, кто вас пригласил, если вы пришли по его ссылке.',
+                         'We also keep what you entered yourself: your characters (name, race, class, role, level, professions, play time), the look of your profile, your motto, the Looking for group mark and who invited you, if you came by their link.',
+                         'Також зберігаємо те, що ви вказали самі: персонажів (ім’я, раса, клас, роль, рівень, професії, час гри), вигляд профілю, девіз, позначку «Шукаю групу» і того, хто вас запросив, якщо ви прийшли за його посиланням.'),
+                       t('Для достижений сайт ведёт счётчики: какие разделы гида вы открывали, сколько слушали радио, в какие дни заходили. Счётчики идут только после входа.',
+                         'For achievements the site keeps counters: which guide sections you opened, how long you listened to the radio, which days you visited. Counters run only after you sign in.',
+                         'Для досягнень сайт веде лічильники: які розділи гіда ви відкривали, скільки слухали радіо, в які дні заходили. Лічильники працюють лише після входу.'),
+                       t('В «Составе» и на вашей странице всем видны персонажи, достижения, рамка, девиз и ник Discord, если вы не выключили его показ.',
+                         'In the Roster and on your page everyone can see your characters, achievements, frame, motto and Discord nickname, unless you turned it off.',
+                         'У «Складі» і на вашій сторінці всім видно персонажів, досягнення, рамку, девіз і нік Discord, якщо ви не вимкнули його показ.'),
+                       t('После входа сайт ставит одну cookie — ключ сессии на 30 дней. Она нужна только для входа; в базе лежит не сам ключ, а его хэш. Выход удаляет сессию.',
+                         'After you sign in, the site sets one cookie: a session key for 30 days. It is used only to keep you signed in; the database stores a hash of the key, not the key itself. Signing out deletes the session.',
+                         'Після входу сайт ставить одну cookie — ключ сесії на 30 днів. Вона потрібна лише для входу; у базі лежить не сам ключ, а його хеш. Вихід видаляє сесію.')]),
+             ('raw', t(f'<p><a href="{_dc}" target="_blank" rel="noopener">Политика конфиденциальности Discord</a></p>',
+                       f'<p><a href="{_dc}" target="_blank" rel="noopener">Discord privacy policy</a></p>',
+                       f'<p><a href="{_dc}" target="_blank" rel="noopener">Політика конфіденційності Discord</a></p>'))]},
+         {'id': 'storage', 'title': t('Где и сколько хранится', 'Where and how long', 'Де й скільки зберігається'), 'blocks': [
+             ('text', [t('Профили хранятся в Cloudflare (Workers и база D1): Cloudflare обрабатывает их по нашему поручению. Храним, пока вы не удалите профиль. Никому не передаём и не продаём.',
+                         'Profiles are stored with Cloudflare (Workers and the D1 database), which processes them on our behalf. We keep them until you delete your profile. We do not share or sell them.',
+                         'Профілі зберігаються в Cloudflare (Workers і база D1): Cloudflare обробляє їх за нашим дорученням. Зберігаємо, доки ви не видалите профіль. Нікому не передаємо й не продаємо.'),
+                       t('Администратор может скрыть персонажа или девиз, если они нарушают правила сервера.',
+                         'An administrator can hide a character or motto that breaks the server rules.',
+                         'Адміністратор може приховати персонажа або девіз, якщо вони порушують правила сервера.')])]},
+         {'id': 'delete', 'title': t('Скачать и удалить', 'Download and delete', 'Завантажити й видалити'), 'blocks': [
+             ('text', [t('В кабинете «Мой профиль», раздел «Аккаунт», можно скачать всё, что мы о вас храним, одним файлом и удалить профиль. Вместе с ним сразу удаляются персонажи, достижения, счётчики, записи в ленте и сессии. Восстановить профиль нельзя.',
+                         'In My profile, under Account, you can download everything we keep about you as one file and delete your profile. Your characters, achievements, counters, feed entries and sessions are deleted with it at once. A deleted profile cannot be restored.',
+                         'У кабінеті «Мій профіль», розділ «Акаунт», можна завантажити все, що ми про вас зберігаємо, одним файлом і видалити профіль. Разом із ним одразу видаляються персонажі, досягнення, лічильники, записи в стрічці й сесії. Відновити профіль не можна.')])]},
          {'id': 'analytics', 'title': t('Статистика посещений', 'Visit statistics', 'Статистика відвідувань'), 'blocks': [
              ('text', [t('Чтобы понимать, какие страницы читают, сайт использует Cloudflare Web Analytics. Он работает без cookies, не снимает отпечаток браузера и не следит за вами на других сайтах.',
                          'To see which pages people read, the site uses Cloudflare Web Analytics. It works without cookies, does not fingerprint your browser and does not track you across other sites.',
@@ -807,9 +838,9 @@ PAGES = [
                        f'<p><a href="{_gh}" target="_blank" rel="noopener">GitHub privacy statement</a></p>',
                        f'<p><a href="{_gh}" target="_blank" rel="noopener">Політика конфіденційності GitHub</a></p>'))]},
          {'id': 'device', 'title': t('Что хранится у вас', 'Stored on your device', 'Що зберігається у вас'), 'blocks': [
-             ('text', [t('В памяти браузера (localStorage) сайт запоминает выбранную тему, вашего героя — расу, класс, уровень и профессии, если вы их указали, — и настройки радио: станцию, трек, очередь треков, громкость, таймер сна и звуки вокруг, а на странице «В игре» — ваши таймеры и фракцию. Чтобы гид открывался без сети, браузер хранит копии страниц.',
-                         'In browser storage (localStorage) the site remembers your chosen theme, your hero (race, class, level and professions) if you entered them, and the radio settings: station, track, the queue of tracks, volume, sleep timer and ambient sounds, and on the In game page your timers and faction. To open the guide offline, the browser keeps copies of the pages.',
-                         'У пам’яті браузера (localStorage) сайт запам’ятовує вибрану тему, вашого героя — расу, клас, рівень і професії, якщо ви їх вказали, — і налаштування радіо: станцію, трек, чергу треків, гучність, таймер сну і звуки довкола, а на сторінці «У грі» — ваші таймери та фракцію. Щоб гід відкривався без мережі, браузер зберігає копії сторінок.'),
+             ('text', [t('В памяти браузера (localStorage) сайт запоминает выбранную тему, вашего героя — расу, класс, уровень и профессии, если вы их указали, — и настройки радио: станцию, трек, очередь треков, громкость, таймер сна и звуки вокруг, а на странице «В игре» — ваши таймеры и фракцию. Чтобы гид открывался без сети, браузер хранит копии страниц. После входа добавляются отметка о входе, копия профиля для быстрой загрузки и выключатель звука достижений.',
+                         'In browser storage (localStorage) the site remembers your chosen theme, your hero (race, class, level and professions) if you entered them, and the radio settings: station, track, the queue of tracks, volume, sleep timer and ambient sounds, and on the In game page your timers and faction. To open the guide offline, the browser keeps copies of the pages. After you sign in, it also keeps a signed-in mark, a copy of your profile for faster loading and the achievement sound switch.',
+                         'У пам’яті браузера (localStorage) сайт запам’ятовує вибрану тему, вашого героя — расу, клас, рівень і професії, якщо ви їх вказали, — і налаштування радіо: станцію, трек, чергу треків, гучність, таймер сну і звуки довкола, а на сторінці «У грі» — ваші таймери та фракцію. Щоб гід відкривався без мережі, браузер зберігає копії сторінок. Після входу додаються позначка входу, копія профілю для швидкого завантаження й вимикач звуку досягнень.'),
                        t('Эти данные остаются на вашем устройстве и никуда не отправляются. Удалить их можно, очистив данные сайта в настройках браузера.',
                          'This data stays on your device and is not sent anywhere. You can delete it by clearing the site data in your browser settings.',
                          'Ці дані залишаються на вашому пристрої й нікуди не надсилаються. Видалити їх можна, очистивши дані сайту в налаштуваннях браузера.')])]},
@@ -821,9 +852,9 @@ PAGES = [
                        f'<p>Radio music: Kevin MacLeod (incompetech.com), licensed under <a href="{_cc}" target="_blank" rel="noopener">Creative Commons BY 4.0</a>. The track list is in the radio panel.</p>',
                        f'<p>Музика радіо: Kevin MacLeod (incompetech.com), ліцензія <a href="{_cc}" target="_blank" rel="noopener">Creative Commons BY 4.0</a>. Список треків — у панелі радіо.</p>'))]},
          {'id': 'contact', 'title': t('Связь', 'Contact', 'Зв’язок'), 'blocks': [
-             ('text', [t('Персональных данных у нас нет, поэтому выдавать или удалять нечего. С вопросами о данных, ошибками в гайде и претензиями правообладателей пишите на почту ниже.',
-                         'We hold no personal data, so there is nothing to hand over or delete. For questions about data, mistakes in the guide or copyright concerns, write to the address below.',
-                         'Персональних даних у нас немає, тож видавати чи видаляти нічого. З питаннями про дані, помилками в гіді та претензіями правовласників пишіть на пошту нижче.')]),
+             ('text', [t('С вопросами о данных, ошибками в гайде и претензиями правообладателей пишите на почту ниже. Если не можете войти, профиль удалим по письму: укажите ник в Discord.',
+                         'For questions about data, mistakes in the guide or copyright concerns, write to the address below. If you cannot sign in, we will delete your profile on request: include your Discord nickname.',
+                         'З питаннями про дані, помилками в гіді та претензіями правовласників пишіть на пошту нижче. Якщо не можете увійти, профіль видалимо за листом: вкажіть нік у Discord.')]),
              ('raw', f'<p>{_mail}</p>'),
              ('text', [t('Если что-то изменится, например появится реклама, мы обновим эту страницу и дату вверху.',
                          'If anything changes, for example if ads appear, we will update this page and the date at the top.',

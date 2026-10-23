@@ -123,6 +123,24 @@ def test_profile_pages():
                     assert not re.search('[А-Яа-яЁё]', re.sub(r'"n":"[^"]*"', '', body)), (rel, re.findall('[А-Яа-яЁё][^<\n]{0,30}', body)[:3])
 
 
+def test_roster_in_navigation():
+    """Every full page links roster/ in the top menu and roster/ + profile/ in the sections sheet; privacy covers accounts."""
+    for p in built_pages():
+        html = open(p, encoding='utf-8').read()
+        if 'class="mainnav"' not in html:
+            continue
+        nav = re.search(r'<nav class="mainnav".*?</nav>', html, re.S).group(0)
+        toc = re.search(r'<nav class="toc".*?</nav>', html, re.S).group(0)
+        assert re.search(r'href="[^"]*roster/"', nav), p
+        assert re.search(r'href="[^"]*roster/"', toc) and re.search(r'href="[^"]*profile/"', toc), p
+    from langs import LANGS
+    for lang in LANGS:
+        html = open(os.path.join(ROOT, '' if lang == 'ru' else lang, 'privacy', 'index.html'), encoding='utf-8').read()
+        for sec in ('account', 'storage', 'delete'):
+            assert f'id="{sec}"' in html, (lang, sec)
+        assert 'https://discord.com/privacy' in html, lang
+
+
 def test_radio_tells_me_js():
     js = open(os.path.join(ROOT, 'assets', 'radio', 'radio.js'), encoding='utf-8').read()
     for ev in ("emit('on')", "emit('minute')", "emit('station', id)", "emit('sleep')"):
