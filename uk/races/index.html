@@ -860,6 +860,7 @@ nav.gtiles { padding: 14px; }
 <link rel="manifest" href="../../manifest-uk.webmanifest">
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
+<link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Головна","item":"https://gabella.site/wow/uk/"},{"@type":"ListItem","position":2,"name":"Раси","item":"https://gabella.site/wow/uk/races/"}]}</script>
 </head>
 <body>
@@ -890,6 +891,7 @@ nav.gtiles { padding: 14px; }
   </nav>
   <div class="tools">
     <div class="langs" role="group" aria-label="Мова"><a href="../../races/" data-lang="ru" hreflang="ru" lang="ru" aria-current="false">RU</a><a href="../../en/races/" data-lang="en" hreflang="en" lang="en" aria-current="false">EN</a><a href="./" data-lang="uk" hreflang="uk" lang="uk" aria-current="true">UK</a></div>
+    <button class="iconbtn radiobtn" type="button" aria-label="Радіо" title="Радіо" aria-expanded="false" aria-controls="radioPanel" aria-pressed="false"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg><span class="rdo-eq" aria-hidden="true"><i></i><i></i><i></i></span></button>
     <button class="iconbtn themebtn" type="button" aria-label="Перемкнути тему" title="Перемкнути тему"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></button>
     <button class="iconbtn menubtn" type="button" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg><span>Розділи</span></button>
   </div>
@@ -1155,6 +1157,7 @@ addEventListener('beforeinstallprompt', e => {
   opts.append(b);
 });
 </script>
+<script src="../../assets/radio/radio.js" data-root="../../" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

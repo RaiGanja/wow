@@ -860,6 +860,7 @@ nav.gtiles { padding: 14px; }
 <link rel="manifest" href="../../manifest-ru.webmanifest">
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
+<link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://gabella.site/wow/"},{"@type":"ListItem","position":2,"name":"Гайды","item":"https://gabella.site/wow/guides/"},{"@type":"ListItem","position":3,"name":"Подземелья и рейды","item":"https://gabella.site/wow/guides/dungeons/"}]}</script>
 </head>
 <body>
@@ -890,6 +891,7 @@ nav.gtiles { padding: 14px; }
   </nav>
   <div class="tools">
     <div class="langs" role="group" aria-label="Язык"><a href="./" data-lang="ru" hreflang="ru" lang="ru" aria-current="true">RU</a><a href="../../en/guides/dungeons/" data-lang="en" hreflang="en" lang="en" aria-current="false">EN</a><a href="../../uk/guides/dungeons/" data-lang="uk" hreflang="uk" lang="uk" aria-current="false">UK</a></div>
+    <button class="iconbtn radiobtn" type="button" aria-label="Радио" title="Радио" aria-expanded="false" aria-controls="radioPanel" aria-pressed="false"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg><span class="rdo-eq" aria-hidden="true"><i></i><i></i><i></i></span></button>
     <button class="iconbtn themebtn" type="button" aria-label="Переключить тему" title="Переключить тему"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></button>
     <button class="iconbtn menubtn" type="button" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg><span>Разделы</span></button>
   </div>
@@ -1063,6 +1065,7 @@ addEventListener('beforeinstallprompt', e => {
   opts.append(b);
 });
 </script>
+<script src="../../assets/radio/radio.js" data-root="../../" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>
