@@ -14,13 +14,54 @@ const TICO = { morning: 'sun', evening: 'moon', night: 'moon' };
 const ico = n => `<svg class="ico" aria-hidden="true"><use href="#i-${n}"/></svg>`;
 const race = id => GD.races[id] || { f: 'alliance', n: id, slug: 'human', cls: [] };
 const cls = id => GD.classes[id] || { n: id, color: '#c9a54a', roles: [] };
-const face = (c, portrait) => `${ROOT}assets/art/${portrait === 'class' ? c.class : race(c.race).slug}-face.webp`;
-const ring = (frame, src, extra) => `<span class="me-ring fr-${esc(frame || 'recruit')}${extra ? ' ' + extra : ''}"><img src="${src}" alt="" width="64" height="64" loading="lazy" decoding="async"></span>`;
+const lookOf = c => c.look || { sex: (GD.looks.races[c.race] || { sex: 'm' }).sex, bg: (GD.looks.races[c.race] || {}).bg || race(c.race).slug };
+/** Character portrait: transparent base, portrait background, and the old race face in case loading fails. */
+const pic = c => {
+  const l = lookOf(c), s = race(c.race).slug, v = '?v=' + GD.looks.v;
+  return { src: `${ROOT}assets/me/look/base/${s}-${l.sex}.webp${v}`, bg: `${ROOT}assets/me/look/bg/${l.bg}.webp${v}`, old: `${ROOT}assets/art/${s}-face.webp` };
+};
+const ring = (frame, p, extra) => {
+  const o = typeof p === 'string' ? { src: p } : p;
+  return `<span class="me-ring fr-${esc(frame || 'recruit')}${extra ? ' ' + extra : ''}"><img src="${o.src}" alt="" width="64" height="64" loading="lazy" decoding="async"${o.bg ? ` style="background-image:url('${o.bg}')" data-old="${o.old}"` : ''}></span>`;
+};
+// base failed to load: fall back to the old race face
+document.addEventListener('error', e => {
+  const i = e.target;
+  if (i.tagName === 'IMG' && i.dataset && i.dataset.old) { i.src = i.dataset.old; i.style.backgroundImage = ''; delete i.dataset.old; }
+}, true);
 const subline = c => `${esc(race(c.race).n)} · ${esc(cls(c.class).n)}`;
 const profLine = (c, hi) => [[c.prof1, c.prof1_skill], [c.prof2, c.prof2_skill]].filter(p => p[0])
   .map(([p, s]) => (p === hi ? '<b>' : '') + esc(GD.profs[p] || p) + (s ? ` ${s}` : '') + (p === hi ? '</b>' : '')).join(', ');
 const playerUrl = id => `${HOME}u/#${id}`;
 const achIcon = id => `${ROOT}assets/me/ach/${id}.webp`;   // painted icons; secret.webp hides an unfound secret
+const tl = k => (T.gl || {})[k] || k;
+const guildUrl = id => `${HOME}g/#${id}`;
+const SHIELD = {
+  heater: 'M8 6h84v38c0 26-18 42-42 50C26 86 8 70 8 44z',
+  round: 'M50 4a46 46 0 1 1 0 92a46 46 0 1 1 0-92z',
+  kite: 'M12 6h76v32c0 28-18 48-38 58C30 86 12 66 12 38z',
+  banner: 'M14 4h72v90L50 78L14 94z',
+};
+const FIELD = { plain: '', pale: 'M50 0h50v100H50z', fess: 'M0 50h100v50H0z', quarterly: 'M50 0h50v50H50zM0 50h50v50H0z', chevron: 'M0 100L50 46L100 100z', bend: 'M0 0h40L100 60v40z' };
+const BORDER = { gold: '#c9a54a', silver: '#b9bec6', bronze: '#8a5a2b' };
+let crestN = 0;
+/** Shield from catalog ids; the texture only from 48 px up (it turns to mud on a mini crest). */
+function crestSvg(c, px, o = {}) {
+  const P = GD.guilds.palette, id = 'gc' + (++crestN);
+  const tex = GD.guilds.texture && o.texture !== false && px >= 48
+    ? `<image href="${ROOT}assets/me/crest/metal.webp" width="100" height="100" preserveAspectRatio="none" class="gl-tex"/>` : '';
+  const edge = c.b !== 'none' ? `<path d="${SHIELD[c.s]}" fill="none" stroke="${BORDER[c.b]}" stroke-width="${px >= 48 ? 3 : 5}"/>` : '';
+  return `<svg class="gl-crest" viewBox="0 0 100 100" width="${px}" height="${px}" role="img" aria-label="${esc(o.label || tl('crest'))}">`
+    + `<defs><clipPath id="${id}"><path d="${SHIELD[c.s]}"/></clipPath></defs><g clip-path="url(#${id})">`
+    + `<rect width="100" height="100" fill="${P[c.c[0]]}"/>${FIELD[c.f] ? `<path d="${FIELD[c.f]}" fill="${P[c.c[1]]}"/>` : ''}`
+    + `<use href="${ROOT}assets/me/crest/charges.svg#c-${esc(c.i)}" x="24" y="20" width="52" height="52" fill="${P[c.ic]}"/>${tex}</g>${edge}</svg>`;
+}
+const DOWN = ['Сервер профилей не отвечает', 'Попробуйте через пару минут. Остальной гид работает как обычно.', 'Повторить'];   // same words as the player page
+/** Member count: singular and the paucal form come from the page language's plural rules. */
+const PR = new Intl.PluralRules(HL);
+const sizeText = n => { const k = PR.select(n); return fill(tl(k === 'one' ? 'size_1' : k === 'few' ? 'size_few' : 'size_n'), { n: num(n) }); };
+const guildName = g => g.name || fill(tl('hidden'), { n: g.id });
+const crestMini = g => `<a class="gl-mini" href="${guildUrl(g.id)}">${crestSvg(g.crest, 24, { label: guildName(g) })}<span>${esc(guildName(g))}</span></a>`;
 const dateOf = t => new Date(t).toLocaleDateString(HL);
 const unit = (n, u) => new Intl.NumberFormat(HL, { style: 'unit', unit: u, unitDisplay: 'short', maximumFractionDigits: 0 }).format(n);
 function ago(t) {
@@ -53,7 +94,10 @@ function ready(cb) {
   });
 }
 
-/** Player card of the roster and the character lists. p: {id, nick, title, frame, rank, portrait, lfg, main, alts}. */
+/** Level badge on a portrait; a check mark after a level an admin has confirmed. c: {level, verified}. */
+const lvBadge = c => `<span class="lv${c.verified ? ' ver' : ''}" aria-label="Уровень ${c.level}${c.verified ? ', ' + esc(tg('verified')) : ''}">${c.level}${c.verified ? '<i aria-hidden="true">✓</i>' : ''}</span>`;
+
+/** Player card of the roster and the character lists. p: {id, nick, title, frame, rank, lfg, main, alts}. */
 function pcard(p, o) {
   o = o || {};
   const c = p.main, f = race(c.race).f;
@@ -66,11 +110,11 @@ function pcard(p, o) {
   const name = o.link === false ? `<b${qc}>${esc(c.name)}</b>` : `<a${qc} href="${playerUrl(p.id)}">${esc(c.name)}</a>`;
   const glory = o.glory && p.glory ? `<small class="g-gl">${esc(tg('glory_n', { n: p.glory }))}</small>` : '';
   const alts = (p.alts || []).length ? `<div class="alts">Твинки: ${p.alts.map(a => `<i style="--ac:${cls(a.class).color}">${esc(a.name)}</i>`).join(', ')}</div>` : '';
-  return `<article class="pcard${o.cls ? ' ' + o.cls : ''}" style="--cc:${cls(c.class).color}"${o.attrs || ''}>
-    <span class="pic">${ring(p.frame || p.rank, face(c, p.portrait))}<span class="lv${c.verified ? ' ver' : ''}" aria-label="Уровень ${c.level}${c.verified ? ', ' + esc(tg('verified')) : ''}">${c.level}${c.verified ? '<i aria-hidden="true">✓</i>' : ''}</span></span>
+  return `<article class="pcard${p.guild ? ' gl-has' : ''}${o.cls ? ' ' + o.cls : ''}" style="--cc:${cls(c.class).color}"${o.attrs || ''}>
+    <span class="pic">${ring(p.frame || p.rank, pic(c))}${lvBadge(c)}</span>
     <span class="fx ${f}">${esc(o.tag || FACN[f])}</span>
     <div class="nm">${p.title ? `<span class="ttl">${esc(titleName(p.title))}</span>` : ''}${name}${glory}</div>
-    <span class="sub">${subline(c)}</span>
+    <span class="sub">${subline(c)}</span>${p.guild ? `<span class="gl-pg">${crestMini(p.guild)}</span>` : ''}
     <div class="meta">${meta.join('')}</div>${alts}${p.member || p.nick ? `<div class="nick">${p.member ? `<span class="team"><img src="${ROOT}assets/brand/mark.webp" alt="" width="14" height="14">Gabella Team</span>` : ''}${p.nick ? `<span>${esc(p.nick)}</span>` : ''}</div>` : ''}${o.after || ''}
   </article>`;
 }
@@ -85,13 +129,14 @@ const verMark = c => (c.verified ? `<span class="g-ver" role="img" aria-label="$
 /** Card menu («…» with the report item) for signed-in people looking at somebody else. */
 const cardMenu = (id, cls) => `<details class="g-menu${cls ? ' ' + cls : ''}"><summary aria-label="${esc(tg('menu'))}" title="${esc(tg('menu'))}">⋯</summary><button type="button" data-report="${esc(id)}">${esc(tg('report'))}</button></details>`;
 
-/** Report dialog: what is wrong (name, motto, other), an optional reason, POST /reports; success is a quiet toast. */
-function reportDialog(M, target, name) {
+/** Report dialog: what is wrong (name, motto, other; fields = [[value, label]] for a guild), an optional reason, POST /reports; success is a quiet toast. */
+function reportDialog(M, target, name, fields) {
+  const opts = fields || ['name', 'motto', 'other'].map(k => [k, tg('report_' + k)]);
   const d = document.createElement('dialog');
   d.className = 'g-dlg';
   d.setAttribute('aria-labelledby', 'repH');
   d.innerHTML = `<form class="g-rf"><h2 id="repH">${esc(tg('report'))}: ${esc(name)}</h2>
-    <fieldset><legend>${esc(tg('report_field'))}</legend>${['name', 'motto', 'other'].map((k, i) => `<label class="g-rr"><input type="radio" name="f" value="${k}"${i ? '' : ' checked'}>${esc(tg('report_' + k))}</label>`).join('')}</fieldset>
+    <fieldset><legend>${esc(tg('report_field'))}</legend>${opts.map(([k, label], i) => `<label class="g-rr"><input type="radio" name="f" value="${k}"${i ? '' : ' checked'}>${esc(label)}</label>`).join('')}</fieldset>
     <label class="g-rl">${esc(tg('report_reason'))}<input type="text" name="r" maxlength="80" autocomplete="off"></label>
     <p class="msg err" role="alert"></p>
     <div class="row"><button type="submit" class="btn">${esc(tg('report_send'))}</button><button type="button" class="btn ghost" data-x>${esc(tg('report_cancel'))}</button></div></form>`;
@@ -103,7 +148,7 @@ function reportDialog(M, target, name) {
   d.addEventListener('click', e => { if (e.target === d) close(); });
   f.onsubmit = e => {
     e.preventDefault();
-    const field = f.elements.f.value, reason = f.elements.r.value.trim() || tg('report_' + field);   // the API wants a reason: the field's own name when none is typed
+    const field = f.elements.f.value, reason = f.elements.r.value.trim() || opts.find(o => o[0] === field)[1];   // the API wants a reason: the field's own name when none is typed
     ok.disabled = true; msg.textContent = '';
     M.api('/reports', { body: { target, field, reason } }).then(() => { close(); M.toast({ kind: 'note', id: 'report_sent' }); }, err => {
       ok.disabled = false;
@@ -127,7 +172,7 @@ function rankBlock(pts) {
 function bcard(p, o) {
   o = o || {};
   const c = p.main, bg = p.background || race(c.race).slug;
-  const src = /^hero_/.test(bg) ? `${ROOT}assets/art/${bg}-960.webp` : `${ROOT}assets/art/${bg}-896.webp`;
+  const src = /^(hero_|scene-)/.test(bg) ? `${ROOT}assets/art/${bg}-960.webp` : `${ROOT}assets/art/${bg}-896.webp`;
   const who = [];
   if (p.nick) who.push(esc(p.nick));
   if (p.joined) who.push(esc(fill('В Gabella Team с %d', { d: dateOf(p.joined) })));
@@ -136,7 +181,7 @@ function bcard(p, o) {
   const h = o.h || 'h1';
   return `<section class="bcard" style="--cc:${cls(c.class).color}" aria-label="Карточка игрока">
     <img class="bg" src="${src}" alt="" decoding="async">
-    <div class="in">${ring(p.frame || p.rank, face(c, p.portrait), o.reveal ? 'reveal' : '')}
+    <div class="in">${ring(p.frame || p.rank, pic(c), o.reveal ? 'reveal' : '')}
       <div>${p.title ? `<span class="ttl">${esc(titleName(p.title))}</span>` : ''}<${h}${p.name_color ? ` class="${nameCls(p.name_color)}"` : ''}>${esc(c.name)}</${h}>
         <span class="sub">${subline(c)} · ${c.level}${verMark(c)} · ${esc(ROLE[c.role] || '')}</span>
         ${who.length ? `<p class="who">${who.join(' · ')}</p>` : ''}${p.motto ? `<p class="motto">«${esc(p.motto)}»</p>` : ''}</div>
@@ -259,7 +304,7 @@ function feedLine(x) {
   const what = x.kind === 'rank' ? fill(esc('%n достигает ранга %r'), { n: who, r: `<em>${esc(rankName(x.ref))}</em>` })
     : x.ref === 'secret' ? fill(esc('%n находит секрет'), { n: who })
     : fill(esc('%n получает «%a»'), { n: who, a: `<em>${esc(achName(x.ref))}</em>` });
-  return `<div class="it">${ring(x.frame || 'recruit', face(x, x.portrait))}<span>${what}</span><small>${esc(ago(x.at))}</small></div>`;
+  return `<div class="it">${ring(x.frame || 'recruit', pic(x))}<span>${what}</span><small>${esc(ago(x.at))}</small></div>`;
 }
 
 async function copyText(text) {

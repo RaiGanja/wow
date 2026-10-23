@@ -792,7 +792,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .langhint { bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
   .brand b { font-size: 1.15rem; }
   .hero { min-height: max(580px, calc(100svh - 62px - env(safe-area-inset-bottom, 0px))); }
-  .hero-art img { object-position: 74% 50%; }
+  .hero-art img { object-position: 60% 50%; }
   .hero::before { background:
     linear-gradient(180deg, rgb(var(--hero-fade) / .86) 0%, rgb(var(--hero-fade) / .7) 40%, rgb(var(--hero-fade) / .6) 72%, rgb(var(--hero-fade) / .94) 100%); }
   .hero-in { padding-top: calc(var(--top) + 28px); gap: 18px; }
@@ -901,8 +901,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=16576bd936" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/me/me.css?v=b478324dc8" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/search/search.css?v=9da1611b67" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/me/me.css?v=36a486068d" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"WoW Forever Guide","alternateName":"Gabella","url":"https://gabella.site/wow/en/","inLanguage":"en","description":"WoW Forever guide: who to play, a race and class picker, a group builder and guides to leveling, dungeons and professions.","publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/Zd45sNHy9x"]}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/Zd45sNHy9x"]}</script>
 </head>
@@ -930,7 +930,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="#top" aria-label="Gabella, back to top"><img class="mark" src="../assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>WoW Forever Guide</small></span></a>
   <nav class="mainnav" aria-label="Sections">
-    <a href="#stages">Stages</a><a href="#factions">Factions</a><a href="#classes">Classes</a><a href="#peoples">Races</a><a href="#picker">Picker</a><a href="#builder">Group</a><a href="guides/">Guides</a><a href="tools/">Tools</a><a href="roster/">Roster</a>
+    <a href="#factions">Factions</a><a href="#classes">Classes</a><a href="#peoples">Races</a><a href="#picker">Picker</a><a href="#builder">Group</a><a href="guides/">Guides</a><a href="tools/">Tools</a><a href="roster/">Roster</a><a href="play/">In game</a>
   </nav>
   <div class="tools">
     <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" aria-label="Language: English">EN</button><ul class="langlist" hidden><li><a href="../" data-lang="ru" hreflang="ru" lang="ru"><span>Русский</span><small>RU</small></a></li><li><a href="./" data-lang="en" hreflang="en" lang="en" aria-current="page"><span>English</span><small>EN</small></a></li><li><a href="../uk/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../de/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="../fr/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="../es/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="../pt/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="../it/" data-lang="it" hreflang="it" lang="it"><span>Italiano</span><small>IT</small></a></li><li><a href="../pl/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
@@ -1034,7 +1034,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     <a class="ttile" href="#picker"><picture><source type="image/avif" srcset="../assets/art/druid-360.avif 360w, ../assets/art/druid-600.avif 600w" sizes="(max-width: 980px) 100vw, 400px"><source type="image/webp" srcset="../assets/art/druid-360.webp 360w, ../assets/art/druid-600.webp 600w" sizes="(max-width: 980px) 100vw, 400px"><img src="../assets/art/druid-600.webp" alt="" loading="lazy" decoding="async"></picture><b>Race and class picker</b><span id="qPick">Every combination and what each can do</span></a>
     <a class="ttile" href="#builder"><picture><source type="image/avif" srcset="../assets/art/hero_campfire-960.avif"><img src="../assets/art/hero_campfire-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Group builder</b><span id="qTeam">From one to forty players</span></a>
     <a class="ttile" href="tools/"><picture><source type="image/avif" srcset="../assets/art/paladin-600.avif"><img src="../assets/art/paladin-600.webp" alt="" loading="lazy" decoding="async"></picture><b>Frames, compare, search</b><span>In-game style raid grid, classes and races side by side</span></a>
-    <a class="ttile" href="play/"><picture><source type="image/avif" srcset="../assets/art/mage-600.avif"><img src="../assets/art/mage-600.webp" alt="" loading="lazy" decoding="async"></picture><b>In game</b><span>Second screen: radio, level, dungeons and timers</span></a>
+    <a class="ttile" href="play/"><picture><source type="image/avif" srcset="../assets/art/mage-600.avif"><img src="../assets/art/mage-600.webp" alt="" loading="lazy" decoding="async"></picture><b>In game</b><span>Second screen: radio, level, timers, Glory and weekly tasks</span></a>
   </nav>
 
 </section>
@@ -1110,8 +1110,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <picture class="camp-art" data-fx="camp"><source type="image/avif" srcset="../assets/art/hero_campfire-960.avif 960w, ../assets/art/hero_campfire-1600.avif 1600w, ../assets/art/hero_campfire-2560.avif 2560w" sizes="(max-width: 719px) 300vw, 100vw"><source type="image/webp" srcset="../assets/art/hero_campfire-960.webp 960w, ../assets/art/hero_campfire-1600.webp 1600w, ../assets/art/hero_campfire-2560.webp 2560w" sizes="(max-width: 719px) 300vw, 100vw"><img src="../assets/art/hero_campfire-1600.webp" width="1600" height="893" alt="" loading="lazy" decoding="async"></picture>
   <div class="wrap camp-in">
     <h2>Find a group</h2>
-    <p>Build a party in the group builder and share the link, or meet players on the Gabella Team Discord server.</p>
-    <div class="camp-btns"><a class="btn lg" href="#builder">Build a group</a><a class="btn lg ghost" href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Discord server</a></div>
+    <p>Build a party in the group builder and share the link. Looking for players? Turn on “Looking for group” in your profile and you will show up in the Roster. Players also team up on the Gabella Team Discord server.</p>
+    <div class="camp-btns"><a class="btn lg" href="#builder">Build a group</a><a class="btn lg ghost" href="roster/">Who is looking for a group</a><a class="btn lg ghost" href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Discord server</a></div>
   </div>
 </section>
 <div class="wrap">
@@ -1943,7 +1943,7 @@ if ('IntersectionObserver' in window) {
   document.querySelectorAll('.hero, section.block, section.stband, footer#sources').forEach(s => io.observe(s));
 }
 </script>
-<script src="../assets/living/living.js?v=740fcc718a" defer></script>
+<script src="../assets/living/living.js?v=4b6bff6806" defer></script>
 <link rel="stylesheet" href="../assets/tod/tod.css?v=616e6ec276" media="print" onload="this.media='all'">
 <script src="../assets/tod/tod.js?v=616e6ec276" defer></script>
 <script>
@@ -2013,8 +2013,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../assets/radio/radio.js" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=16576bd936" data-root="../" defer></script>
-<script src="../assets/me/me.js?v=b478324dc8" data-root="../" data-home="./" data-lang="en" data-teaser="Your profile keeps your path: Glory, frames, seasons" data-close="Close" data-page="" defer></script>
+<script src="../assets/search/search.js?v=9da1611b67" data-root="../" defer></script>
+<script src="../assets/me/me.js?v=36a486068d" data-root="../" data-home="./" data-lang="en" data-teaser="Your profile keeps your path: Glory, frames, seasons" data-close="Close" data-page="" data-look="1" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

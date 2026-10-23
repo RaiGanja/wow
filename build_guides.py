@@ -28,6 +28,8 @@ SITE_TILES = [
      'd': {'ru': 'Прокачка, подземелья, профессии и ответы', 'en': 'Leveling, dungeons, professions and answers', 'uk': 'Прокачка, підземелля, професії та відповіді'}},
     {'t': {'ru': 'Инструменты', 'en': 'Tools', 'uk': 'Інструменти'}, 'href': 'tools/', 'art': 'rogue',
      'd': {'ru': 'Рамки, сравнение, поиск', 'en': 'Frames, compare, search', 'uk': 'Рамки, порівняння, пошук'}},
+    {'t': {'ru': 'В игре', 'en': 'In game', 'uk': 'У грі'}, 'href': 'play/', 'art': 'shaman',
+     'd': {'ru': 'Второй экран: радио, уровень, таймеры, Слава и задания недели', 'en': 'Second screen: radio, level, timers, Glory and weekly tasks', 'uk': 'Другий екран: радіо, рівень, таймери, Слава й завдання тижня'}},
 ]
 # Wide hero art; everything else is a class/race portrait cut at 360/600/896
 WIDTHS = {'hero_dawn': (960, 1440, 1920, 2560, 3840), 'hero_campfire': (960, 1600, 2560)}
@@ -123,6 +125,9 @@ def render_block(kind, data, lang, root):
     if kind == 'tip':
         return (f'<div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg>'
                 f'<p><span class="tl">{TIP[lang]}</span>{E(data, lang)}</p></div>')
+    if kind == 'play':                                            # Leveling: the in-game page in one line
+        return (f'<a class="gplay frame" href="{root}play/"><span><b>{E(data["h"], lang)}</b> {E(data["d"], lang)}</span>'
+                f'<span class="btn ghost">{E(data["go"], lang)}</span></a>')
     if kind == 'raw':
         return L(data, lang)
     if kind == 'news':                                            # our notes from NEWS, newest first
@@ -242,11 +247,13 @@ def dungeons_data(src, lang=None):
     return src[i:src.index('\n];', i) + 3]
 
 
-JS['professions'] = r'''/* Professions: open the tab of the class from "My hero" */
+JS['professions'] = r'''/* Professions: open the tab of the class from the link (#pairs=mage, class pages and the compare tool) or from "My hero" */
 try {
-  const cls = (JSON.parse(localStorage.getItem('gabella-wf-me')) || {}).cls;
+  const link = (location.hash.match(/^#pairs=(\w+)$/) || [])[1];
+  const cls = link || (JSON.parse(localStorage.getItem('gabella-wf-me')) || {}).cls;
   const tab = cls && document.querySelector(`#pairs [role="tab"][data-tab="${cls}"]`);
   if (tab) tab.click();
+  if (link) document.getElementById('pairs').scrollIntoView();
 } catch (e) {}'''
 
 
@@ -296,14 +303,33 @@ def play_data(src, lang):
         'racef': {r['id']: r['f'] for r in races},
         'rn': {r['id']: build.tr(r['n'], lang) for r in races},
         'cn': {c['id']: build.tr(c['n'], lang) for c in build.CLASSES},
+        'wk': play_weekly(lang),
     }
     return dungeons_data(src) + '\nconst P = ' + json.dumps(data, ensure_ascii=False) + ';\n'
 
 
+def play_weekly(lang):
+    """Weekly tasks about one station, guide or class: task id -> [template key, item name] (the profile texts name the rest)."""
+    import build_me                                               # build_me imports this module: load it when the page is built
+    d = build_me.page_data(lang)
+    out = {}
+    for tid, w in d['prog']['weekly'].items():
+        if 'item' in w:
+            k = {'station': 'st', 'guide': 'g', 'class': 'c'}[w['key']]
+            out[tid] = [k, d['classes'][w['item']]['n'] if k == 'c' else d['items'][w['key']].get(w['item'], w['item'])]
+    return out
+
+
 def play_head(lang):
-    return ('<section class="phead" id="top"><div class="wrap"><h1>@@TITLE@@</h1><p class="glead">@@LEAD@@</p>'
-            '<button class="pill pwake" id="wakeBtn" type="button" aria-pressed="false" hidden>'
-            f'<svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg>{E(PLAY_TX["wake"], lang)}</button></div></section>')
+    """Title and lead on the left, the screen buttons on the right (each shows up only where the browser can do it)."""
+    x = lambda k: E(PLAY_TX[k], lang)
+    pip = ('<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">'
+           '<rect x="3" y="5" width="18" height="14" rx="2"/><rect x="12" y="11" width="6" height="5" rx="1"/></svg>')
+    return ('<section class="phead" id="top"><div class="wrap"><div class="ptitle"><h1>@@TITLE@@</h1><p class="glead">@@LEAD@@</p></div>'
+            '<div class="pacts"><button class="pill pwake" id="wakeBtn" type="button" aria-pressed="false" hidden>'
+            f'<svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg>{x("wake")}</button>'
+            f'<button class="pill pwake" id="pipBtn" type="button" aria-pressed="false" title="{x("pipNote")}" hidden>{pip}{x("pip")}</button></div></div></section>'
+            f'<div class="wrap"><section class="frame pway" id="pWay" aria-label="{x("way")}" hidden></section></div>')
 
 
 def play_body(lang, root):
@@ -315,6 +341,7 @@ def play_body(lang, root):
     return f'''<div class="pgrid"><div class="pcol">
 <section class="frame psec" id="level" aria-labelledby="hLvl">
   <div class="phero"><h2 id="hLvl">{x("lvl")}</h2><span id="pWho"></span><a href="{root}#me">{x("edit")}</a></div>
+  <div class="pchars" id="pChars" role="group" aria-label="{x("chars")}" hidden></div>
   <div class="pfac" id="pFac" role="group" aria-label="{x("fac")}">{fac}</div>
   <div class="plv"><button type="button" class="lvb" id="lvDown" aria-label="{x("lvDown")}">−</button><output id="lvOut" aria-live="polite">—</output><button type="button" class="lvb" id="lvUp" aria-label="{x("lvUp")}">+</button></div>
   <div id="pNow"></div>
@@ -337,7 +364,8 @@ def play_body(lang, root):
 
 
 JS['play'] = r'''/* In game: level -> zones and the next milestones (data from the Leveling guide), dungeons near the level, timers,
-   screen wake lock. Level, race and class are the shared hero "gabella-wf-me" of the home page (the level is written back);
+   screen wake lock, the mini window. Level, race and class are the shared hero "gabella-wf-me" of the home page (the level is
+   written back); signed in, the hero is one of the profile characters and the level is saved to it. The chosen character,
    the faction without a race, the timers and the notification choice live in "gabella-play". */
 const TX = P.tx, MEKEY = 'gabella-wf-me', PKEY = 'gabella-play';
 const rd = k => { try { return JSON.parse(localStorage.getItem(k)) || {}; } catch (e) { return {}; } };
@@ -345,14 +373,43 @@ const wr = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch
 const ps = Object.assign({ fac: 'alliance', timers: [], notify: false }, rd(PKEY));
 if (!Array.isArray(ps.timers)) ps.timers = [];
 const saveP = () => wr(PKEY, ps);
+const GM = () => window.GabellaMe;   // me.js: the profile client, there on every page once it has loaded
+let meNow = null, saveT = 0, pending = false, firstMe = true, pip = null;   // pip: the mini window
+function chars() { return (meNow && meNow.characters) || []; }
+function curChar() { const cs = chars(); return cs.find(c => c.id === ps.char) || cs.find(c => c.is_main) || cs[0] || null; }
+function useChar(c) { const m = rd(MEKEY); m.race = c.race; m.cls = c.class; m.lvl = c.level; wr(MEKEY, m); }
 const lvOf = m => Math.max(0, Math.min(60, parseInt(m.lvl, 10) || 0));
 const lvRange = d => d[1] === d[2] ? String(d[1]) : `${d[1]}–${d[2]}`;
 const nearLvl = (d, lv) => lv >= d[1] - 3 && lv <= d[2] + 3;
-function setLvl(v) { const m = rd(MEKEY); m.lvl = Math.max(1, Math.min(60, v)); wr(MEKEY, m); renderLvl(); }
+function setLvl(v) {
+  const m = rd(MEKEY), c = curChar();
+  m.lvl = Math.max(1, Math.min(60, v)); wr(MEKEY, m);
+  if (c) { c.level = m.lvl; pending = true; saveLvl(); }
+  renderLvl(); pipPaint();
+}
+/* The level goes to the profile 1.5 s after the last tap: one request for a run of taps. While it is on its way the level on
+   the screen wins over the one the profile answers with */
+function saveLvl() {
+  clearTimeout(saveT);
+  saveT = setTimeout(() => {
+    const c = curChar(), lv = lvOf(rd(MEKEY));
+    if (!c || !GM()) { pending = false; return; }
+    GM().api('/characters/' + c.id, { method: 'PUT', body: Object.assign({}, c, { level: lv }) }).then(r => {
+      const s = ((r.me && r.me.characters) || []).find(x => x.id === c.id);
+      if (s && s.level === lvOf(rd(MEKEY))) pending = false; else saveLvl();
+      GM().took(r);
+    }, () => { pending = false; });
+  }, 1500);
+}
 
 function renderLvl() {
   const m = rd(MEKEY), lv = lvOf(m), raceF = P.racef[m.race], fac = raceF || ps.fac;
   $('#pWho').textContent = P.rn[m.race] || P.cn[m.cls] ? [P.rn[m.race], P.cn[m.cls], TX[raceF]].filter(Boolean).join(' · ') : TX.noHero;
+  const cs = chars(), cur = curChar(), box = $('#pChars');
+  box.hidden = !meNow;
+  if (meNow) box.innerHTML = cs.length ? cs.map(c => `<button type="button" class="pill" data-c="${c.id}" aria-pressed="${c === cur}"><b>${esc(c.name)}</b>${c.level}</button>`).join('')
+    : `<a href="${ROOT}profile/">${esc(TX.addChar)}</a>`;
+  $('#level .phero a').href = meNow ? ROOT + 'profile/' : ROOT + '#me';
   $('#pFac').hidden = !!raceF;
   document.querySelectorAll('#pFac button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.f === fac)));
   $('#lvOut').textContent = lv || '—';
@@ -374,6 +431,12 @@ function renderLvl() {
 }
 $('#lvDown').addEventListener('click', () => setLvl((lvOf(rd(MEKEY)) || 2) - 1));
 $('#lvUp').addEventListener('click', () => setLvl(lvOf(rd(MEKEY)) + 1));
+$('#pChars').addEventListener('click', e => {
+  const b = e.target.closest('button[data-c]'), c = b && chars().find(x => String(x.id) === b.dataset.c);
+  if (!c) return;
+  clearTimeout(saveT); pending = false;
+  ps.char = c.id; saveP(); useChar(c); renderLvl(); pipPaint();
+});
 $('#pFac').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { ps.fac = b.dataset.f; saveP(); renderLvl(); } });
 addEventListener('keydown', e => {   // + / − on the keyboard: level up or down, outside text fields
   if (e.ctrlKey || e.metaKey || e.altKey || e.target.closest('input, textarea, select')) return;
@@ -382,6 +445,46 @@ addEventListener('keydown', e => {   // + / − on the keyboard: level up or dow
 });
 addEventListener('storage', e => { if (e.key === MEKEY) renderLvl(); });
 renderLvl();
+
+/* «Your path»: Glory and the week's tasks, fresh after every radio pulse (me.js answers with the new profile). A guest gets
+   one line with the login. Names of the tasks come from the profile texts, a station, guide or class from P.wk */
+function renderWay() {
+  const w = $('#pWay');
+  if (!meNow) {
+    w.innerHTML = `<p class="pnote">${esc(TX.guest)}</p><a class="btn" href="${ROOT}profile/">${esc(TX.login)}</a>`;
+    w.hidden = false;
+    return;
+  }
+  GM().texts().then(T => {
+    const g = T.g || {}, gl = meNow.glory || {}, nf = new Intl.NumberFormat(document.documentElement.lang);
+    const fill = (k, o) => Object.keys(o).reduce((s, x) => s.split('{' + x + '}').join(o[x]), g[k] || k);
+    const need = gl.need || 0, into = Math.max(0, Math.min(gl.into || 0, need)), pct = need ? Math.round(100 * into / need) : 100;
+    const glory = `<div class="pgl"><div class="gh"><b>${esc(fill('glory_n', { n: gl.level || 1 }))}</b>${need ? `<span>${nf.format(into)} / ${nf.format(need)}</span>` : ''}</div>`
+      + `<div class="pbar" role="progressbar" aria-label="${esc(g.glory || '')}" aria-valuemin="0" aria-valuemax="${need || 1}" aria-valuenow="${need ? into : 1}"><i style="width:${pct}%"></i></div></div>`;
+    const tasks = ((meNow.week && meNow.week.tasks) || []).map(t => {
+      const it = P.wk[t.id], name = g['task_' + t.id] || (it ? fill('task_' + it[0], { x: it[1] }) : t.id);
+      return `<li${t.done ? ' class="ok"' : ''}><span>${esc(name)}</span><small>${t.done ? esc(g.task_done || '✓') : `${t.value} / ${t.goal}`}</small></li>`;
+    }).join('');
+    const nick = meNow.user.nick || (curChar() || {}).name || '';
+    w.innerHTML = (nick ? `<span class="pnk">${esc(nick)}</span>` : '') + glory + (tasks ? `<ul class="pwk" aria-label="${esc(g.week || '')}">${tasks}</ul>` : '')
+      + `<a href="${ROOT}profile/">${esc(TX.profile)}</a>`;
+    w.hidden = false;
+  });
+}
+function gotMe(m) {
+  if (!m && GM().logged()) return;   // signed in on this device: wait for the profile, no guest line in between
+  meNow = m;
+  const c = curChar();
+  if (c && firstMe) {   // the level played here as a guest of the same hero is newer than the profile: keep it and save it
+    const h = rd(MEKEY);
+    if (h.race === c.race && h.cls === c.class && lvOf(h) > c.level) { c.level = lvOf(h); pending = true; saveLvl(); }
+  }
+  if (c) { if (pending) c.level = lvOf(rd(MEKEY)); else useChar(c); }
+  if (m) firstMe = false;
+  renderLvl(); renderWay(); pipPaint();
+}
+function hookMe() { if (!GM()) return false; GM().onMe(gotMe); GM().me(); return true; }
+if (!hookMe()) addEventListener('load', hookMe, { once: true });
 
 /* Timers: the end time is stored, so they keep going after a reload. When one ends: three beeps, a blinking tab title
    and, if the visitor asked for it, a notification while the tab is in the background */
@@ -429,6 +532,7 @@ function tick() {
     if (li) { li.classList.toggle('done', left <= 0); li.querySelector('.tt').textContent = left > 0 ? fmtT(left) : TX.done; }
   });
   if (changed) saveP();
+  pipPaint();
   blink = !blink;
   document.title = rung ? (document.hidden && blink ? `⏰ ${TX.done}` : `⏰ ${rung.name} · ${baseTitle}`)
     : soonest < Infinity ? `${fmtT(soonest)} · ${baseTitle}` : baseTitle;
@@ -483,7 +587,58 @@ if ('wakeLock' in navigator) {
   wb.hidden = false;
   wb.addEventListener('click', () => { wantWake = !wantWake; paintWake(); if (wantWake) lock(); else if (wl) wl.release(); });
   document.addEventListener('visibilitychange', () => { if (wantWake && !wl && document.visibilityState === 'visible') lock(); });
-}'''
+}
+
+/* Mini window (Document Picture-in-Picture: Chrome and Edge on a computer) on top of the game: the nearest timer, the radio
+   and the level. It shows this page and presses this page's buttons, so nothing is lost when it is closed */
+const pb = $('#pipBtn');
+
+function pipPaint() {
+  if (!pip) return;
+  const d = pip.document, q = s => d.getElementById(s), now = Date.now();
+  const run = ps.timers.filter(x => x.end > now).sort((a, b) => a.end - b.end)[0], rung = ps.timers.find(x => x.end <= now && x.end > now - 60000);
+  const t = rung || run;
+  q('qn').textContent = t ? t.name : TX.noTimer;
+  q('qt').textContent = t ? (t.end > now ? fmtT(t.end - now) : TX.done) : '';
+  q('qt').classList.toggle('done', !!rung);
+  const dk = $('#radioDock'), tt = dk.querySelector('.rdo-tt'), play = dk.querySelector('.rdo-play'), next = dk.querySelector('[data-do="next"]');
+  q('qs').textContent = tt ? tt.textContent : TX.radio;
+  if (play && q('qp').dataset.h !== play.innerHTML) { q('qp').innerHTML = play.innerHTML; q('qp').dataset.h = play.innerHTML; q('qp').setAttribute('aria-label', play.getAttribute('aria-label')); }
+  if (next && !q('qx').innerHTML) { q('qx').innerHTML = next.innerHTML; q('qx').setAttribute('aria-label', next.getAttribute('aria-label')); }
+  q('ql').textContent = lvOf(rd(MEKEY)) || '—';
+}
+function openPip() {
+  if (pip) { pip.close(); return; }
+  documentPictureInPicture.requestWindow({ width: 320, height: 210 }).then(w => {
+    pip = w;
+    const d = w.document;
+    for (const a of document.documentElement.attributes) d.documentElement.setAttribute(a.name, a.value);
+    [...document.styleSheets].forEach(sh => {
+      try { const st = d.createElement('style'); st.textContent = [...sh.cssRules].map(r => r.cssText).join('\n'); d.head.append(st); }
+      catch (e) { if (sh.href) { const l = d.createElement('link'); l.rel = 'stylesheet'; l.href = sh.href; d.head.append(l); } }
+    });
+    const st = d.createElement('style');
+    st.textContent = `body{margin:0;padding:12px 14px;display:grid;gap:10px;align-content:center;min-height:100vh;box-sizing:border-box;background:var(--bg);color:var(--fg)}
+      .qrow{display:flex;align-items:center;gap:10px;min-width:0}.qrow>span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted);font-size:.9rem}
+      #qt{font-family:var(--font-display);font-weight:700;font-size:1.5rem;font-variant-numeric:lining-nums tabular-nums}#qt.done{color:var(--gold-2);font-family:inherit;font-size:1rem}
+      .qrow .rdo-b{width:40px;height:40px;flex:none;color:var(--fg);cursor:pointer}.qrow .rdo-b .ico{width:18px;height:18px}.qlv{justify-content:center;gap:16px}.qlv .lvb{width:40px;height:40px;font-size:1.4rem}
+      #ql{min-width:2.2ch;text-align:center;font-family:var(--font-display);font-weight:700;font-size:2rem;line-height:1;color:var(--gold-2);font-variant-numeric:lining-nums tabular-nums}`;
+    d.head.append(st);
+    d.title = TX.pip;
+    d.body.innerHTML = `<div class="qrow"><span id="qn"></span><b id="qt" aria-live="polite"></b></div>
+      <div class="qrow"><span id="qs"></span><button class="rdo-b rdo-play" type="button" id="qp"></button><button class="rdo-b" type="button" id="qx"></button></div>
+      <div class="qrow qlv"><button type="button" class="lvb" id="qd" aria-label="${esc(TX.lvDown)}">−</button><output id="ql"></output><button type="button" class="lvb" id="qu" aria-label="${esc(TX.lvUp)}">+</button></div>`;
+    const dk = $('#radioDock');
+    d.getElementById('qp').onclick = () => { const b = dk.querySelector('.rdo-play'); if (b) b.click(); setTimeout(pipPaint, 50); };
+    d.getElementById('qx').onclick = () => { const b = dk.querySelector('[data-do="next"]'); if (b) b.click(); setTimeout(pipPaint, 50); };
+    d.getElementById('qd').onclick = () => setLvl((lvOf(rd(MEKEY)) || 2) - 1);
+    d.getElementById('qu').onclick = () => setLvl(lvOf(rd(MEKEY)) + 1);
+    w.addEventListener('pagehide', () => { pip = null; pb.setAttribute('aria-pressed', 'false'); });
+    pb.setAttribute('aria-pressed', 'true');
+    pipPaint();
+  }, () => {});
+}
+if ('documentPictureInPicture' in window) { pb.hidden = false; pb.addEventListener('click', openPip); }'''
 
 DATA = {'dungeons': dungeons_data, 'play': play_data}   # js key -> data blocks (from index.src.html and content)
 REF = ('classref', 'raceref')        # js keys fed by ref_js (language-specific)
@@ -564,7 +719,7 @@ def build_page(g, lang, tpl, base_css, sprite, src):
     html = html.replace('<!--src-->', '').replace('<!--/src-->', '')
     if section:                                                  # menu: the current item is Classes / Races, not Guides
         html = html.replace('<a href="@@GUIDES@@" aria-current="true">', '<a href="@@GUIDES@@">')
-        anchor = {'classes': '#classes', 'races': '#peoples'}.get(g['slug'])
+        anchor = {'classes': '#classes', 'races': '#peoples', 'play': 'play/'}.get(g['slug'])
         if anchor:
             html = html.replace(f'<a href="@@HOME@@{anchor}">', f'<a href="@@HOME@@{anchor}" aria-current="true">')
     html = html.replace('@@GUIDES@@', rel(here, page_dir(lang, 'guides/')))
@@ -604,7 +759,7 @@ def not_found_page(tpl, base_css, sprite, src, lang='ru'):
     js = NOT_FOUND_JS.replace('@@L@@', '|'.join(l for l in LANGS if l != 'ru')) if lang == 'ru' else ''
     html = html.replace('<head>', f'<head>\n<base href="/wow/{page_dir(lang)}">\n<meta name="robots" content="noindex">', 1)
     html = html.replace('<meta charset="utf-8">\n', '<meta charset="utf-8">\n' + js, 1)
-    html = html.replace('data-page="" defer', 'data-page="404" defer', 1)   # me.js: the secret for getting lost
+    html = html.replace('data-page=""', 'data-page="404"', 1)   # me.js: the secret for getting lost
     return page_dir(lang, '404.html'), html, missing
 
 

@@ -52,7 +52,7 @@ vec2 artPx() { return (uCrop.xy + (vUv * uSize - uMap.xy) / uMap.zw * uCrop.zw) 
 void main() {
   vec2 P = artPx(); acc = vec4(0.); add = vec3(0.);
   // floating island drifts up and down a little
-  float wb = box(P, vec4(812., 46., 1196., 312.), 14.);
+  float wb = box(P, vec4(455., 84., 672., 350.), 14.);  // the banner pole hides the seam on the right
   vec2 Pb = P - vec2(0., sin(uT * .55) * 1.6 * wb);
   vec4 m = mask(Pb);
   if (wb > 0.) over(img(Pb), wb);
@@ -68,7 +68,7 @@ void main() {
     c += vec3(.9, .95, 1.) * smoothstep(.62, 1., s) * .2;
     over(c, m.r);
   }
-  // river runs toward the lower fall, with glints
+  // river winds down the valley, with glints
   if (m.a > .01) {
     vec3 c = flow(P, vec2(7., 5.), 3., 0.);
     c += vec3(1., .95, .85) * pow(n2(P * vec2(.35, .7) + vec2(uT * .9, uT * .4)), 9.) * .9;
@@ -81,13 +81,12 @@ void main() {
     over(img(P - off) * (1. + .14 * w * cos(ph)), smoothstep(.0, .12, w));
   }
   // mist in the valley and under the falls
-  float band = smoothstep(395., 455., P.y) * smoothstep(650., 585., P.y) * smoothstep(760., 620., P.x);
+  float band = smoothstep(410., 460., P.y) * smoothstep(640., 580., P.y) * smoothstep(720., 600., P.x);
   float fog = smoothstep(.48, .9, fbm(P * vec2(.006, .013) + vec2(uT * .022, 0.))) * band * .26;
-  float spray = fbm(P * .03 - vec2(0., uT * .35)) * smoothstep(1., .2, length((P - vec2(512., 662.)) / vec2(85., 40.)));
-  spray += fbm(P * .025 - vec2(uT * .1, uT * .25)) * smoothstep(1., .2, length((P - vec2(955., 305.)) / vec2(120., 30.))) * wb;
+  float spray = fbm(P * .025 - vec2(uT * .1, uT * .25)) * smoothstep(1., .2, length((P - vec2(600., 365.)) / vec2(170., 30.)));
   over(vec3(.86, .89, .93), clamp(fog + spray * .5, 0., .6));
   // god rays from the sun
-  vec2 v = P - vec2(275., 232.);
+  vec2 v = P - vec2(190., 375.);
   float ang = atan(v.y, v.x), r = length(v);
   float ray = n2(vec2(ang * 9., uT * .07)) * n2(vec2(ang * 23., -uT * .05));
   add += vec3(1., .86, .6) * pow(ray, 2.) * smoothstep(720., 60., r) * .11;
@@ -95,14 +94,14 @@ void main() {
   for (int i = 0; i < 26; i++) {
     float fi = float(i), h = h21(vec2(fi, 3.1)), k = h21(vec2(fi, 9.7));
     float life = fract(uT * (.025 + k * .03) + h);
-    vec2 c = vec2(40. + h * 720. + sin(uT * .6 + fi) * 14. + life * 60., 600. - life * 470.);
-    float tw = sin(life * 3.1416) * (.55 + .45 * sin(uT * (1.5 + k * 2.) + fi)) * smoothstep(780., 150., length(c - vec2(275., 232.)));
+    vec2 c = vec2(30. + h * 600. + sin(uT * .6 + fi) * 14. + life * 60., 620. - life * 470.);
+    float tw = sin(life * 3.1416) * (.55 + .45 * sin(uT * (1.5 + k * 2.) + fi)) * smoothstep(780., 150., length(c - vec2(190., 375.)));
     add += vec3(1., .88, .62) * dot1(P, c, 1.4 + k * 1.6) * tw * .7;
   }
-  // a few birds cross the sky now and then
+  // a few birds cross the open sky left of the banner now and then
   float t0 = mod(uT + 6., 40.) / 28.;
   if (t0 < 1.) {
-    vec2 c = vec2(1330. - t0 * 980., 150. + sin(t0 * 3.) * 18.);
+    vec2 c = vec2(630. - t0 * 640., 62. + sin(t0 * 3.) * 14.);
     float b = 0.;
     for (int i = 0; i < 4; i++) {
       float fi = float(i);
@@ -115,10 +114,7 @@ void main() {
     camp: `
 void main() {
   vec2 P = artPx(); acc = vec4(0.); add = vec3(0.);
-  float wb = box(P, vec4(392., 196., 480., 290.), 10.);
-  vec2 Pb = P - vec2(0., sin(uT * .5) * 1.3 * wb);
   vec4 m = mask(P);
-  if (wb > 0.) over(img(Pb), wb);
   if (m.b > .01) over(flow(P, vec2(-6., 0.) + (n2(P * .006 + uT * .03) - .5) * vec2(4., 2.), 12., 0.), m.b);
   // stars
   vec2 cell = floor(P / 16.), sp = (cell + .2 + .6 * vec2(h21(cell + 1.3), h21(cell + 7.1))) * 16.;
@@ -131,26 +127,26 @@ void main() {
     over(c, m.a);
   }
   // mist over the valley
-  float band = smoothstep(290., 340., P.y) * smoothstep(500., 440., P.y) * smoothstep(660., 520., P.x);
+  float band = smoothstep(380., 430., P.y) * smoothstep(620., 560., P.y) * smoothstep(600., 480., P.x);
   over(vec3(.62, .64, .78), smoothstep(.5, .9, fbm(P * vec2(.006, .014) + vec2(uT * .02, 0.))) * band * .25);
   // fire
   float fl = .55 + .45 * (n2(vec2(uT * 7., 0.)) * .6 + n2(vec2(uT * 13., 4.)) * .4);
   if (m.r > .01) over(flow(P, vec2(0., -10.), .42, n2(vec2(P.x * .15, 0.))) * (.9 + .35 * fl), m.r);
-  vec2 F = vec2(962., 560.);
+  vec2 F = vec2(935., 590.);
   float L = smoothstep(320., 0., length((P - F) * vec2(1., 1.35)));
   L *= L;
   add += img(P) * vec3(1., .55, .22) * L * fl * .32;
   over(vec3(0.), L * (1. - fl) * .1);
   // smoke above the pot
-  float sw = 14. + (520. - P.y) * .22, sx = P.x - 962. - (520. - P.y) * .12;
+  float sw = 14. + (490. - P.y) * .22, sx = P.x - 940. - (490. - P.y) * .12;
   float sm = smoothstep(.45, .85, fbm(vec2(P.x * .03, P.y * .02 + uT * .55))) * smoothstep(sw, 0., abs(sx))
-           * smoothstep(528., 505., P.y) * smoothstep(360., 470., P.y);
+           * smoothstep(498., 475., P.y) * smoothstep(380., 450., P.y);
   over(vec3(.5, .5, .56), sm * .14);
   // embers
   for (int i = 0; i < 22; i++) {
     float fi = float(i), h = h21(vec2(fi, 1.7)), k = h21(vec2(fi, 5.3));
     float life = fract(uT / (1.8 + k * 2.2) + h);
-    vec2 c = vec2(F.x + (h - .5) * 46. + sin(life * 6. + h * 20.) * 9. * life + life * 26., 556. - life * (130. + k * 140.));
+    vec2 c = vec2(F.x + (h - .5) * 60. + sin(life * 6. + h * 20.) * 9. * life + life * 26., 586. - life * (130. + k * 140.));
     vec3 col = mix(vec3(1., .85, .45), vec3(1., .35, .08), life);
     add += col * dot1(P, c, 1.3 + k * 1.4) * pow(1. - life, 1.4) * 1.3;
   }
@@ -176,11 +172,11 @@ void main() {
   over(vec3(.6, .66, .78), smoothstep(.5, .9, fbm(P * vec2(.005, .013) + vec2(uT * .02, 0.))) * band * .3);
   // lantern on the signpost
   float fl = .6 + .4 * (n2(vec2(uT * 6., 0.)) * .6 + n2(vec2(uT * 11., 4.)) * .4);
-  vec2 Ln = vec2(1153., 222.);
+  vec2 Ln = vec2(1155., 150.);
   add += vec3(1., .7, .32) * (smoothstep(150., 0., length(P - Ln)) * .16 + smoothstep(16., 0., length(P - Ln)) * .35) * fl;
   add += img(P) * vec3(1., .6, .3) * smoothstep(230., 0., length((P - Ln) * vec2(1., .8))) * fl * .25;
   // the dungeon gate breathes
-  vec2 G = vec2(1043., 238.);
+  vec2 G = vec2(595., 375.);
   float pu = .5 + .5 * sin(uT * 1.3) * (.7 + .3 * n2(vec2(uT * 2., 9.)));
   add += vec3(.45, .4, 1.) * smoothstep(90., 0., length((P - G) * vec2(1., .75))) * pu * .22;
   gl_FragColor = vec4(acc.rgb + add, acc.a);
@@ -254,7 +250,7 @@ void main() {
       const pos = getComputedStyle(img).objectPosition.split(' ').map(v => parseFloat(v) / 100);
       const dw = iw * s, dh = ih * s;
       // phones get a portrait cut of the dawn art (tools/make_images.py hero_mobile)
-      const crop = /hero_dawn-m-/.test(img.currentSrc) ? [.4173, 0, .43605, 1] : [0, 0, 1, 1];
+      const crop = /hero_dawn-m-/.test(img.currentSrc) ? [.33837, 0, .43605, 1] : [0, 0, 1, 1];
       gl.uniform2f(U.uSize, w, h);
       gl.uniform4f(U.uMap, (w - dw) * (isNaN(pos[0]) ? .5 : pos[0]), (h - dh) * (isNaN(pos[1]) ? .5 : pos[1]), dw, dh);
       gl.uniform4f(U.uCrop, ...crop);

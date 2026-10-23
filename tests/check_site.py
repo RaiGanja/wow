@@ -87,7 +87,7 @@ def main():
             u = urlsplit(t)
             if not u.path:
                 # a hash inside a script template is a route of that page (profile: #chars, #account), not an anchor
-                if u.fragment and u.fragment not in ids and t in static and not u.fragment.startswith(('pick=', 'team=')):
+                if u.fragment and u.fragment not in ids and t in static and not u.fragment.startswith(('pick=', 'team=', 'pairs=')):
                     problems.append(f'{rel}: нет якоря #{u.fragment}')
                 continue
             p = os.path.normpath(os.path.join(os.path.dirname(page), unquote(u.path)))

@@ -43,6 +43,16 @@
 <link rel="preload" href="../../../assets/fonts/golos-text-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" type="image/avif" imagesrcset="../../../assets/art/warrior-600.avif 600w, ../../../assets/art/warrior-896.avif 896w" imagesizes="(max-width: 719px) 100vw, 75vh">
 <style>
+.cprofs { margin-top: -12px; }   /* section gap 28px -> the 16px of the panels above */
+@media (max-width: 719px) { .cprofs { margin-top: -6px; } }
+.cpairs { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 16px 32px; }
+.cpairs li { display: grid; gap: 6px; align-content: start; min-width: 0; }
+.cpairs b { font-weight: 600; font-size: 1.06rem; }
+.cpairs .pcamp { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 8px; align-items: start; color: var(--muted); font-size: .92rem; }
+.cpairs .pcamp .ico { width: 18px; height: 18px; margin-top: 3px; color: var(--gold-2); }
+.cprofs .pmore { justify-self: start; color: var(--gold-2); font-weight: 500; text-decoration: none; }
+.cprofs .pmore:hover { text-decoration: underline; }
+.cprofs .pmore .ico { width: 16px; height: 16px; margin-left: 6px; vertical-align: -3px; }
 /* Game-portal layout: full-screen art hero, faction banners, class portrait roster, tools, guides band. Night + gold, light paper theme for content. */
 @font-face { font-family: "Bona Nova SC"; font-style: normal; font-weight: 400 700; font-display: swap; src: url(../../../assets/fonts/bona-nova-sc-cyrillic.woff2) format("woff2"); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
 @font-face { font-family: "Bona Nova SC"; font-style: normal; font-weight: 400 700; font-display: swap; src: url(../../../assets/fonts/bona-nova-sc-latin-ext.woff2) format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
@@ -782,7 +792,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .langhint { bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
   .brand b { font-size: 1.15rem; }
   .hero { min-height: max(580px, calc(100svh - 62px - env(safe-area-inset-bottom, 0px))); }
-  .hero-art img { object-position: 74% 50%; }
+  .hero-art img { object-position: 60% 50%; }
   .hero::before { background:
     linear-gradient(180deg, rgb(var(--hero-fade) / .86) 0%, rgb(var(--hero-fade) / .7) 40%, rgb(var(--hero-fade) / .6) 72%, rgb(var(--hero-fade) / .94) 100%); }
   .hero-in { padding-top: calc(var(--top) + 28px); gap: 18px; }
@@ -1012,8 +1022,8 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/search/search.css?v=16576bd936" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/me/me.css?v=b478324dc8" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/search/search.css?v=9da1611b67" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/me/me.css?v=36a486068d" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://gabella.site/wow/fr/"},{"@type":"ListItem","position":2,"name":"Classes","item":"https://gabella.site/wow/fr/classes/"},{"@type":"ListItem","position":3,"name":"Guerrier","item":"https://gabella.site/wow/fr/classes/warrior/"}]}</script>
 </head>
 <body style="--cc:#c79c6e">
@@ -1040,7 +1050,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="../../" aria-label="Gabella, vers l’accueil"><img class="mark" src="../../../assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Guide WoW Forever</small></span></a>
   <nav class="mainnav" aria-label="Sections">
-    <a href="../../#factions">Factions</a><a href="../../#classes" aria-current="true">Classes</a><a href="../../#peoples">Races</a><a href="../../#picker">Sélecteur</a><a href="../../#builder">Groupe</a><a href="../../guides/">Guides</a><a href="../../tools/">Outils</a><a href="../../roster/">Effectif</a>
+    <a href="../../#factions">Factions</a><a href="../../#classes" aria-current="true">Classes</a><a href="../../#peoples">Races</a><a href="../../#picker">Sélecteur</a><a href="../../#builder">Groupe</a><a href="../../guides/">Guides</a><a href="../../tools/">Outils</a><a href="../../roster/">Effectif</a><a href="../../play/">En jeu</a>
   </nav>
   <div class="tools">
     <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" aria-label="Langue: Français">FR</button><ul class="langlist" hidden><li><a href="../../../classes/warrior/" data-lang="ru" hreflang="ru" lang="ru"><span>Русский</span><small>RU</small></a></li><li><a href="../../../en/classes/warrior/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../../../uk/classes/warrior/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../../../de/classes/warrior/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="./" data-lang="fr" hreflang="fr" lang="fr" aria-current="page"><span>Français</span><small>FR</small></a></li><li><a href="../../../es/classes/warrior/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="../../../pt/classes/warrior/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="../../../it/classes/warrior/" data-lang="it" hreflang="it" lang="it"><span>Italiano</span><small>IT</small></a></li><li><a href="../../../pl/classes/warrior/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
@@ -1098,8 +1108,9 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   <div class="sec-head"><h2>En groupe et en progression</h2></div>
   <div class="grid2">
     <div class="panel"><h3>Apport au groupe</h3><ul class="dots"><li>Cri de guerre affecte tout le raid</li><li>Cri démoralisant et Fracasser armure sur le boss</li><li>Attaques circulaires et Tourbillon pour les combats contre plusieurs cibles</li></ul></div>
-    <div class="panel"><h3>Progression</h3><p>La progression la plus lente, environ 12% plus longue que la moyenne</p><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Conseil</span>Forge et Minage pour l’équipement, ou Ingénierie pour des gadgets utiles.</p></div></div>
+    <div class="panel"><h3>Progression</h3><p>La progression la plus lente, environ 12% plus longue que la moyenne</p></div>
   </div>
+  <div class="panel cprofs" id="profs"><h3>Métiers</h3><ul class="cpairs"><li><b>Forge + Minage</b><span class="d">Pour les porteurs de plaques et la mêlée : fabriquez vos propres armes et armures.</span><span class="pcamp"><svg class="ico" aria-hidden="true"><use href="#i-fire"/></svg><span>Au camp: Sharpening Wheel — comme Totem de Force de la Terre; Lodestone — comme Bénédiction de puissance</span></span></li><li><b>Ingénierie + Minage</b><span class="d">Pour le JcJ, des gadgets utiles et le plaisir. Au camp, le Reagent Bot vend des composants et répare l’équipement au rang 2.</span><span class="pcamp"><svg class="ico" aria-hidden="true"><use href="#i-fire"/></svg><span>Au camp: Reagent Bot — vendeur de composants, réparations au rang 2; Lodestone — comme Bénédiction de puissance</span></span></li></ul><p class="small">Les métiers n’ont pas de bonus passifs dans Forever : les caractéristiques viennent de l’équipement, des potions et des enchantements que vous fabriquez, et des buffs des objets de camp.</p><a class="pmore" href="../../guides/professions/#pairs=warrior">Tous les duos, objets de camp et montée de compétence<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
 </section>
 
 <section class="block wrap" id="pc">
@@ -1251,8 +1262,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../../assets/radio/radio.js" data-root="../../../" defer></script>
-<script src="../../../assets/search/search.js?v=16576bd936" data-root="../../../" defer></script>
-<script src="../../../assets/me/me.js?v=b478324dc8" data-root="../../../" data-home="../../" data-lang="fr" data-teaser="Votre profil garde votre parcours : Gloire, cadres, saisons" data-close="Fermer" data-page="classes/warrior/" defer></script>
+<script src="../../../assets/search/search.js?v=9da1611b67" data-root="../../../" defer></script>
+<script src="../../../assets/me/me.js?v=36a486068d" data-root="../../../" data-home="../../" data-lang="fr" data-teaser="Votre profil garde votre parcours : Gloire, cadres, saisons" data-close="Fermer" data-page="classes/warrior/" data-look="1" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

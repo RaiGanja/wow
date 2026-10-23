@@ -781,7 +781,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .langhint { bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
   .brand b { font-size: 1.15rem; }
   .hero { min-height: max(580px, calc(100svh - 62px - env(safe-area-inset-bottom, 0px))); }
-  .hero-art img { object-position: 74% 50%; }
+  .hero-art img { object-position: 60% 50%; }
   .hero::before { background:
     linear-gradient(180deg, rgb(var(--hero-fade) / .86) 0%, rgb(var(--hero-fade) / .7) 40%, rgb(var(--hero-fade) / .6) 72%, rgb(var(--hero-fade) / .94) 100%); }
   .hero-in { padding-top: calc(var(--top) + 28px); gap: 18px; }
@@ -901,6 +901,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .gsec > h2 { margin: 0; font-size: 1.9rem; }
 .gsec p { max-width: 72ch; }
 .gtiles { padding: 0; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+.gtiles:has(> :nth-child(9):last-child) { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }   /* exactly nine: 3 x 3, no lone tile */
 nav.gtiles { padding: 14px; }
 .gtable { width: 100%; border-collapse: separate; border-spacing: 0 6px; font-size: .95rem; }
 .gtable th { text-align: left; font-weight: 600; font-size: .85rem; color: var(--muted); padding: 2px 12px; }
@@ -937,13 +938,43 @@ nav.gtiles { padding: 14px; }
 /* In game (/play/, build_guides.play_body): no art band, always solid bar; one column on phones, two from 960px */
 .compact .topbar { background: var(--rail); border-bottom-color: var(--line); color: var(--fg); }
 .phead { padding-top: calc(var(--top) + 22px); }
-.phead .wrap { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; }
+.phead .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; }
+.ptitle { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; flex: 1 1 520px; min-width: 0; }
 .phead h1 { font-size: clamp(2rem, 4vw, 2.6rem); line-height: 1; }
 .phead .glead { flex: 1 1 320px; margin: 0; font-size: .98rem; color: var(--muted); opacity: 1; }
+.pacts { display: flex; flex-wrap: wrap; gap: 8px; }
+.pacts:not(:has(> :not([hidden]))) { display: none; }
 .pwake { gap: 6px; min-height: 36px; padding: 0 14px; cursor: pointer; font: inherit; font-size: .9rem; }
 .pwake .ico { width: 16px; height: 16px; }
 .pwake[aria-pressed="true"] { background: #c9a54a; border-color: #c9a54a; color: #15110a; }
+.gplay { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding: 14px 18px; color: inherit; text-decoration: none; transition: border-color .2s; }
+.gplay:hover { border-color: var(--gold); }
+.gplay > span:first-child { flex: 1 1 320px; }
+.gplay b { color: var(--gold-2); }
+.gplay .btn { margin-left: auto; }
 .gbody.play { padding-top: 14px; }
+/* «Your path»: Glory and the week's tasks of the signed-in visitor, one line for a guest */
+.pway { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; margin-top: 16px; padding: 14px 20px; }
+.pway[hidden] { display: none; }
+.pway .pnk { font-weight: 600; }
+.pgl { display: grid; gap: 6px; flex: 1 1 200px; max-width: 300px; }
+.pgl .gh { display: flex; justify-content: space-between; gap: 12px; font-size: .88rem; }
+.pgl .gh b { color: var(--gold-2); }
+.pgl .gh span, .pwk small { color: var(--muted); font-variant-numeric: tabular-nums; }
+.pbar { height: 6px; border-radius: 3px; background: var(--panel-2); border: 1px solid var(--pline); overflow: hidden; }
+.pbar i { display: block; height: 100%; background: #c9a54a; }
+.pwk { display: flex; flex-wrap: wrap; gap: 8px 24px; list-style: none; margin: 0; padding: 0; flex: 2 1 320px; font-size: .88rem; }
+.pwk li { display: grid; gap: 2px; }
+.pwk li.ok small { color: var(--gold-2); }
+.pway > a:last-child { margin-left: auto; color: var(--gold-2); font-size: .9rem; }
+.pway .pnote { flex: 1 1 260px; }
+.pway .btn { margin-left: auto; }
+.pchars { display: flex; flex-wrap: wrap; gap: 8px; }
+.pchars[hidden] { display: none; }
+.pchars .pill { min-height: 36px; padding: 0 14px; cursor: pointer; font: inherit; font-size: .92rem; }
+.pchars .pill[aria-pressed="true"] { background: #c9a54a; border-color: #c9a54a; color: #15110a; }
+.pchars .pill b { font-weight: 600; margin-right: 6px; }
+.pchars a { align-self: center; color: var(--gold-2); font-size: .9rem; }
 .pgrid { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
 .pcol { display: contents; }   /* phone: one column, radio first */
 #radio { order: 1; } #level { order: 2; } #dung { order: 3; } #timers { order: 4; }
@@ -995,7 +1026,7 @@ nav.gtiles { padding: 14px; }
 .pnotify { display: flex; align-items: center; gap: 8px; font-size: .9rem; color: var(--muted); cursor: pointer; }
 .pnotify[hidden] { display: none; }
 .pnotify input { width: 18px; height: 18px; accent-color: #c9a54a; }
-@media (max-width: 719px) { .phead { padding-top: calc(var(--top) + 14px); } .psec { padding: 14px; } .pform { grid-template-columns: minmax(0, 1fr) 104px; } .pform .pill { grid-column: 1 / -1; justify-content: center; } }
+@media (max-width: 719px) { .phead { padding-top: calc(var(--top) + 14px); } .pway { padding: 12px 14px; gap: 10px 20px; } .pway > a:last-child, .pway .btn { margin-left: 0; } .psec { padding: 14px; } .pform { grid-template-columns: minmax(0, 1fr) 104px; } .pform .pill { grid-column: 1 / -1; justify-content: center; } }
 #more { margin-top: 56px; }
 #more .sec-head { margin-bottom: 14px; }
 @media (max-width: 1023px) {
@@ -1033,8 +1064,8 @@ nav.gtiles { padding: 14px; }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=16576bd936" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=b478324dc8" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=9da1611b67" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=36a486068d" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://gabella.site/wow/es/"},{"@type":"ListItem","position":2,"name":"En el juego","item":"https://gabella.site/wow/es/play/"}]}</script>
 </head>
 <body class="compact">
@@ -1061,7 +1092,7 @@ nav.gtiles { padding: 14px; }
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="../" aria-label="Gabella, a la página de inicio"><img class="mark" src="../../assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Guía de WoW Forever</small></span></a>
   <nav class="mainnav" aria-label="Secciones">
-    <a href="../#factions">Facciones</a><a href="../#classes">Clases</a><a href="../#peoples">Razas</a><a href="../#picker">Selector</a><a href="../#builder">Grupo</a><a href="../guides/">Guías</a><a href="../tools/">Herramientas</a><a href="../roster/">Plantilla</a>
+    <a href="../#factions">Facciones</a><a href="../#classes">Clases</a><a href="../#peoples">Razas</a><a href="../#picker">Selector</a><a href="../#builder">Grupo</a><a href="../guides/">Guías</a><a href="../tools/">Herramientas</a><a href="../roster/">Plantilla</a><a href="../play/" aria-current="true">En el juego</a>
   </nav>
   <div class="tools">
     <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" aria-label="Idioma: Español">ES</button><ul class="langlist" hidden><li><a href="../../play/" data-lang="ru" hreflang="ru" lang="ru"><span>Русский</span><small>RU</small></a></li><li><a href="../../en/play/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../../uk/play/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../../de/play/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="../../fr/play/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="./" data-lang="es" hreflang="es" lang="es" aria-current="page"><span>Español</span><small>ES</small></a></li><li><a href="../../pt/play/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="../../it/play/" data-lang="it" hreflang="it" lang="it"><span>Italiano</span><small>IT</small></a></li><li><a href="../../pl/play/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
@@ -1072,7 +1103,7 @@ nav.gtiles { padding: 14px; }
   </div>
 </div></header>
 
-<section class="phead" id="top"><div class="wrap"><h1>En el juego</h1><p class="glead">Una segunda pantalla mientras juegas: radio, qué hacer en tu nivel, mazmorras y temporizadores.</p><button class="pill pwake" id="wakeBtn" type="button" aria-pressed="false" hidden><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg>Pantalla siempre encendida</button></div></section>
+<section class="phead" id="top"><div class="wrap"><div class="ptitle"><h1>En el juego</h1><p class="glead">Una segunda pantalla mientras juegas: radio, zonas y mazmorras para tu nivel, temporizadores. Con sesión iniciada: personajes del perfil, Gloria y tareas semanales.</p></div><div class="pacts"><button class="pill pwake" id="wakeBtn" type="button" aria-pressed="false" hidden><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg>Pantalla siempre encendida</button><button class="pill pwake" id="pipBtn" type="button" aria-pressed="false" title="Una ventana pequeña sobre el juego: temporizador, radio y nivel" hidden><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><rect x="12" y="11" width="6" height="5" rx="1"/></svg>Miniventana</button></div></div></section><div class="wrap"><section class="frame pway" id="pWay" aria-label="Tu camino" hidden></section></div>
 
 <main class="wrap gbody play solo">
   <nav class="gtoc frame" aria-label="Secciones de la guía"></nav>
@@ -1080,6 +1111,7 @@ nav.gtiles { padding: 14px; }
 <div class="pgrid"><div class="pcol">
 <section class="frame psec" id="level" aria-labelledby="hLvl">
   <div class="phero"><h2 id="hLvl">Nivel</h2><span id="pWho"></span><a href="../#me">Configura tu héroe</a></div>
+  <div class="pchars" id="pChars" role="group" aria-label="Personajes" hidden></div>
   <div class="pfac" id="pFac" role="group" aria-label="Facción"><button type="button" class="pill" data-f="alliance" aria-pressed="false">Alianza</button><button type="button" class="pill" data-f="horde" aria-pressed="false">Horda</button></div>
   <div class="plv"><button type="button" class="lvb" id="lvDown" aria-label="Bajar nivel">−</button><output id="lvOut" aria-live="polite">—</output><button type="button" class="lvb" id="lvUp" aria-label="Subir nivel">+</button></div>
   <div id="pNow"></div>
@@ -1121,7 +1153,7 @@ nav.gtiles { padding: 14px; }
   <div class="dh"><b>Todas las secciones</b><button class="iconbtn" id="moreClose" type="button" aria-label="Cerrar"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Todas las secciones">
     
-    <div class="grp"><div class="gh">Guía</div><a href="../">Inicio</a><a href="../#classes">Clases</a><a href="../#peoples">Razas</a><a href="../#picker">Selector</a><a href="../#builder">Creador de grupos</a><a href="../tools/">Herramientas</a><a href="../play/">En el juego</a><a href="../guides/">Guías</a></div>
+    <div class="grp"><div class="gh">Guía</div><a href="../">Inicio</a><a href="../#classes">Clases</a><a href="../#peoples">Razas</a><a href="../#picker">Selector</a><a href="../#builder">Creador de grupos</a><a href="../tools/">Herramientas</a><a href="../play/" aria-current="true">En el juego</a><a href="../guides/">Guías</a></div>
     <div class="grp"><div class="gh">Equipo</div><a href="../roster/">Plantilla</a><a href="../profile/">Mi perfil</a></div>
   </nav>
   <div class="opts">
@@ -1203,10 +1235,11 @@ const DUNGEONS = [
   ['La Masacre: Oeste', 60, 60, 'Feralas', 0, [['Icy Veins', '56–60']]],
   ['La Masacre: Norte', 60, 60, 'Feralas', 0, [['Icy Veins', '56–60']]]
 ];
-const P = {"route": {"alliance": [[1, 10, "Humano: Bosque de Elwynn. Enano y Gnomo: Dun Morogh. Elfo de la noche: Teldrassil (hasta 11). Skyborne High Order: Zephras Isle (hasta 12)."], [10, 18, "Páramos de Poniente o Loch Modan; los elfos de la noche suelen ir a Costa Oscura. Desde el 15 encajan las Montañas Crestagrana."], [18, 30, "Bosque del Ocaso, Montañas Crestagrana y Los Humedales; en Kalimdor, Sierra Espolón y Vallefresno."], [30, 45, "Desolace o Tierras Altas de Arathi, Vega de Tuercespina. Desde el 35: la nueva zona Riverglades entre Crestagrana y las Estepas Ardientes, Marjal Revolcafango, Tierras Inhóspitas, Pantano de las Penas."], [40, 55, "Tanaris, Feralas, Tierras del Interior, luego La Garganta de Fuego, Las Tierras Devastadas, Azshara, desde el 48 Cráter de Un’Goro y Frondavil."], [50, 60, "Las Estepas Ardientes, Tierras de la Peste del Oeste, Tierras de la Peste del Este, Cuna del Invierno, Silithus. Monte Hyjal se abre al 60."]], "horde": [[1, 10, "Orco y Trol: Durotar. Tauren: Mulgore. No-muerto: Claros de Tirisfal. Skyborne Windshaper: Zephras Isle (hasta 12)."], [10, 18, "Los Baldíos o Bosque de Argénteos."], [18, 30, "Sierra Espolón y Los Baldíos, luego Vallefresno o Laderas de Trabalomas, desde el 25 Las Mil Agujas."], [30, 45, "Desolace o Tierras Altas de Arathi, Vega de Tuercespina. Desde el 35: la nueva zona Riverglades, Marjal Revolcafango, Tierras Inhóspitas, Pantano de las Penas."], [40, 55, "Tanaris, Feralas, Tierras del Interior, luego La Garganta de Fuego, Las Tierras Devastadas, Azshara, desde el 48 Cráter de Un’Goro y Frondavil."], [50, 60, "Las Estepas Ardientes, Tierras de la Peste del Oeste, Tierras de la Peste del Este, Cuna del Invierno, Silithus. Monte Hyjal se abre al 60."]]}, "miles": [[40, "Equitación: aprendizaje 100 de oro y una montura 20 (+60 % de velocidad)."], [60, "Equitación rápida: 1000 y 200 de oro (+100 %). Se abre Mount Hyjal, bandas desde el 09.12.2026."]], "tx": {"radio": "Radio", "lvl": "Nivel", "lvDown": "Bajar nivel", "lvUp": "Subir nivel", "noHero": "Sin héroe elegido", "edit": "Configura tu héroe", "fac": "Facción", "alliance": "Alianza", "horde": "Horda", "needLvl": "Marca tu nivel con «+» para ver zonas y mazmorras.", "now": "Ahora", "next": "Después", "from": "desde", "at": "a", "route": "Ruta completa", "dung": "Mazmorras para el nivel", "dungNone": "No hay mazmorras para este nivel.", "all": "Todas las mazmorras", "new": "nuevo", "timers": "Temporizadores", "food": "Comida", "foodNote": "+5 % de experiencia por enemigos", "min": "min", "custom": "Propio", "name": "Nombre", "minutes": "Minutos", "start": "Iniciar", "timer": "Temporizador", "done": "Se acabó el tiempo", "again": "Otra vez", "remove": "Quitar", "noTimers": "Toca un ajuste rápido o pon tu propio tiempo. Los temporizadores siguen tras recargar la página.", "notify": "Avisar cuando la pestaña esté en segundo plano", "wake": "Pantalla siempre encendida"}, "racef": {"human": "alliance", "dwarf": "alliance", "nightelf": "alliance", "gnome": "alliance", "skyA": "alliance", "orc": "horde", "undead": "horde", "tauren": "horde", "troll": "horde", "skyH": "horde"}, "rn": {"human": "Humano", "dwarf": "Enano", "nightelf": "Elfo de la noche", "gnome": "Gnomo", "skyA": "Skyborne High Order", "orc": "Orco", "undead": "No-muerto", "tauren": "Tauren", "troll": "Trol", "skyH": "Skyborne Windshaper"}, "cn": {"warrior": "Guerrero", "paladin": "Paladín", "hunter": "Cazador", "rogue": "Pícaro", "priest": "Sacerdote", "shaman": "Chamán", "mage": "Mago", "warlock": "Brujo", "druid": "Druida"}};
+const P = {"route": {"alliance": [[1, 10, "Humano: Bosque de Elwynn. Enano y Gnomo: Dun Morogh. Elfo de la noche: Teldrassil (hasta 11). Skyborne High Order: Zephras Isle (hasta 12)."], [10, 18, "Páramos de Poniente o Loch Modan; los elfos de la noche suelen ir a Costa Oscura. Desde el 15 encajan las Montañas Crestagrana."], [18, 30, "Bosque del Ocaso, Montañas Crestagrana y Los Humedales; en Kalimdor, Sierra Espolón y Vallefresno."], [30, 45, "Desolace o Tierras Altas de Arathi, Vega de Tuercespina. Desde el 35: la nueva zona Riverglades entre Crestagrana y las Estepas Ardientes, Marjal Revolcafango, Tierras Inhóspitas, Pantano de las Penas."], [40, 55, "Tanaris, Feralas, Tierras del Interior, luego La Garganta de Fuego, Las Tierras Devastadas, Azshara, desde el 48 Cráter de Un’Goro y Frondavil."], [50, 60, "Las Estepas Ardientes, Tierras de la Peste del Oeste, Tierras de la Peste del Este, Cuna del Invierno, Silithus. Monte Hyjal se abre al 60."]], "horde": [[1, 10, "Orco y Trol: Durotar. Tauren: Mulgore. No-muerto: Claros de Tirisfal. Skyborne Windshaper: Zephras Isle (hasta 12)."], [10, 18, "Los Baldíos o Bosque de Argénteos."], [18, 30, "Sierra Espolón y Los Baldíos, luego Vallefresno o Laderas de Trabalomas, desde el 25 Las Mil Agujas."], [30, 45, "Desolace o Tierras Altas de Arathi, Vega de Tuercespina. Desde el 35: la nueva zona Riverglades, Marjal Revolcafango, Tierras Inhóspitas, Pantano de las Penas."], [40, 55, "Tanaris, Feralas, Tierras del Interior, luego La Garganta de Fuego, Las Tierras Devastadas, Azshara, desde el 48 Cráter de Un’Goro y Frondavil."], [50, 60, "Las Estepas Ardientes, Tierras de la Peste del Oeste, Tierras de la Peste del Este, Cuna del Invierno, Silithus. Monte Hyjal se abre al 60."]]}, "miles": [[40, "Equitación: aprendizaje 100 de oro y una montura 20 (+60 % de velocidad)."], [60, "Equitación rápida: 1000 y 200 de oro (+100 %). Se abre Mount Hyjal, bandas desde el 09.12.2026."]], "tx": {"radio": "Radio", "lvl": "Nivel", "lvDown": "Bajar nivel", "lvUp": "Subir nivel", "noHero": "Sin héroe elegido", "edit": "Configura tu héroe", "fac": "Facción", "alliance": "Alianza", "horde": "Horda", "needLvl": "Marca tu nivel con «+» para ver zonas y mazmorras.", "now": "Ahora", "next": "Después", "from": "desde", "at": "a", "route": "Ruta completa", "dung": "Mazmorras para el nivel", "dungNone": "No hay mazmorras para este nivel.", "all": "Todas las mazmorras", "new": "nuevo", "timers": "Temporizadores", "food": "Comida", "foodNote": "+5 % de experiencia por enemigos", "min": "min", "custom": "Propio", "name": "Nombre", "minutes": "Minutos", "start": "Iniciar", "timer": "Temporizador", "done": "Se acabó el tiempo", "again": "Otra vez", "remove": "Quitar", "noTimers": "Toca un ajuste rápido o pon tu propio tiempo. Los temporizadores siguen tras recargar la página.", "notify": "Avisar cuando la pestaña esté en segundo plano", "wake": "Pantalla siempre encendida", "pip": "Miniventana", "pipNote": "Una ventana pequeña sobre el juego: temporizador, radio y nivel", "noTimer": "Sin temporizadores", "way": "Tu camino", "guest": "Inicia sesión: la radio y las tareas semanales darán Gloria.", "login": "Entrar", "profile": "Perfil", "chars": "Personajes", "addChar": "Añadir personaje"}, "racef": {"human": "alliance", "dwarf": "alliance", "nightelf": "alliance", "gnome": "alliance", "skyA": "alliance", "orc": "horde", "undead": "horde", "tauren": "horde", "troll": "horde", "skyH": "horde"}, "rn": {"human": "Humano", "dwarf": "Enano", "nightelf": "Elfo de la noche", "gnome": "Gnomo", "skyA": "Skyborne High Order", "orc": "Orco", "undead": "No-muerto", "tauren": "Tauren", "troll": "Trol", "skyH": "Skyborne Windshaper"}, "cn": {"warrior": "Guerrero", "paladin": "Paladín", "hunter": "Cazador", "rogue": "Pícaro", "priest": "Sacerdote", "shaman": "Chamán", "mage": "Mago", "warlock": "Brujo", "druid": "Druida"}, "wk": {"st_morning": ["st", "Mañana en el valle"], "st_road": ["st", "El camino"], "st_forest": ["st", "Bosque ancestral"], "st_steppe": ["st", "Tambores de las llanuras"], "st_tavern": ["st", "Taberna"], "st_dungeon": ["st", "Mazmorra"], "st_battle": ["st", "Batalla"], "st_night": ["st", "Campamento nocturno"], "g_leveling": ["g", "Subir de nivel 1–60"], "g_dungeons": ["g", "Mazmorras y bandas"], "g_professions": ["g", "Profesiones"], "g_faq": ["g", "FAQ y fechas"], "g_news": ["g", "Noticias"], "c_warrior": ["c", "Guerrero"], "c_paladin": ["c", "Paladín"], "c_hunter": ["c", "Cazador"], "c_rogue": ["c", "Pícaro"], "c_priest": ["c", "Sacerdote"], "c_shaman": ["c", "Chamán"], "c_mage": ["c", "Mago"], "c_warlock": ["c", "Brujo"], "c_druid": ["c", "Druida"]}};
 
 /* In game: level -> zones and the next milestones (data from the Leveling guide), dungeons near the level, timers,
-   screen wake lock. Level, race and class are the shared hero "gabella-wf-me" of the home page (the level is written back);
+   screen wake lock, the mini window. Level, race and class are the shared hero "gabella-wf-me" of the home page (the level is
+   written back); signed in, the hero is one of the profile characters and the level is saved to it. The chosen character,
    the faction without a race, the timers and the notification choice live in "gabella-play". */
 const TX = P.tx, MEKEY = 'gabella-wf-me', PKEY = 'gabella-play';
 const rd = k => { try { return JSON.parse(localStorage.getItem(k)) || {}; } catch (e) { return {}; } };
@@ -1214,14 +1247,43 @@ const wr = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch
 const ps = Object.assign({ fac: 'alliance', timers: [], notify: false }, rd(PKEY));
 if (!Array.isArray(ps.timers)) ps.timers = [];
 const saveP = () => wr(PKEY, ps);
+const GM = () => window.GabellaMe;   // me.js: the profile client, there on every page once it has loaded
+let meNow = null, saveT = 0, pending = false, firstMe = true, pip = null;   // pip: the mini window
+function chars() { return (meNow && meNow.characters) || []; }
+function curChar() { const cs = chars(); return cs.find(c => c.id === ps.char) || cs.find(c => c.is_main) || cs[0] || null; }
+function useChar(c) { const m = rd(MEKEY); m.race = c.race; m.cls = c.class; m.lvl = c.level; wr(MEKEY, m); }
 const lvOf = m => Math.max(0, Math.min(60, parseInt(m.lvl, 10) || 0));
 const lvRange = d => d[1] === d[2] ? String(d[1]) : `${d[1]}–${d[2]}`;
 const nearLvl = (d, lv) => lv >= d[1] - 3 && lv <= d[2] + 3;
-function setLvl(v) { const m = rd(MEKEY); m.lvl = Math.max(1, Math.min(60, v)); wr(MEKEY, m); renderLvl(); }
+function setLvl(v) {
+  const m = rd(MEKEY), c = curChar();
+  m.lvl = Math.max(1, Math.min(60, v)); wr(MEKEY, m);
+  if (c) { c.level = m.lvl; pending = true; saveLvl(); }
+  renderLvl(); pipPaint();
+}
+/* The level goes to the profile 1.5 s after the last tap: one request for a run of taps. While it is on its way the level on
+   the screen wins over the one the profile answers with */
+function saveLvl() {
+  clearTimeout(saveT);
+  saveT = setTimeout(() => {
+    const c = curChar(), lv = lvOf(rd(MEKEY));
+    if (!c || !GM()) { pending = false; return; }
+    GM().api('/characters/' + c.id, { method: 'PUT', body: Object.assign({}, c, { level: lv }) }).then(r => {
+      const s = ((r.me && r.me.characters) || []).find(x => x.id === c.id);
+      if (s && s.level === lvOf(rd(MEKEY))) pending = false; else saveLvl();
+      GM().took(r);
+    }, () => { pending = false; });
+  }, 1500);
+}
 
 function renderLvl() {
   const m = rd(MEKEY), lv = lvOf(m), raceF = P.racef[m.race], fac = raceF || ps.fac;
   $('#pWho').textContent = P.rn[m.race] || P.cn[m.cls] ? [P.rn[m.race], P.cn[m.cls], TX[raceF]].filter(Boolean).join(' · ') : TX.noHero;
+  const cs = chars(), cur = curChar(), box = $('#pChars');
+  box.hidden = !meNow;
+  if (meNow) box.innerHTML = cs.length ? cs.map(c => `<button type="button" class="pill" data-c="${c.id}" aria-pressed="${c === cur}"><b>${esc(c.name)}</b>${c.level}</button>`).join('')
+    : `<a href="${ROOT}profile/">${esc(TX.addChar)}</a>`;
+  $('#level .phero a').href = meNow ? ROOT + 'profile/' : ROOT + '#me';
   $('#pFac').hidden = !!raceF;
   document.querySelectorAll('#pFac button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.f === fac)));
   $('#lvOut').textContent = lv || '—';
@@ -1243,6 +1305,12 @@ function renderLvl() {
 }
 $('#lvDown').addEventListener('click', () => setLvl((lvOf(rd(MEKEY)) || 2) - 1));
 $('#lvUp').addEventListener('click', () => setLvl(lvOf(rd(MEKEY)) + 1));
+$('#pChars').addEventListener('click', e => {
+  const b = e.target.closest('button[data-c]'), c = b && chars().find(x => String(x.id) === b.dataset.c);
+  if (!c) return;
+  clearTimeout(saveT); pending = false;
+  ps.char = c.id; saveP(); useChar(c); renderLvl(); pipPaint();
+});
 $('#pFac').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { ps.fac = b.dataset.f; saveP(); renderLvl(); } });
 addEventListener('keydown', e => {   // + / − on the keyboard: level up or down, outside text fields
   if (e.ctrlKey || e.metaKey || e.altKey || e.target.closest('input, textarea, select')) return;
@@ -1251,6 +1319,46 @@ addEventListener('keydown', e => {   // + / − on the keyboard: level up or dow
 });
 addEventListener('storage', e => { if (e.key === MEKEY) renderLvl(); });
 renderLvl();
+
+/* «Your path»: Glory and the week's tasks, fresh after every radio pulse (me.js answers with the new profile). A guest gets
+   one line with the login. Names of the tasks come from the profile texts, a station, guide or class from P.wk */
+function renderWay() {
+  const w = $('#pWay');
+  if (!meNow) {
+    w.innerHTML = `<p class="pnote">${esc(TX.guest)}</p><a class="btn" href="${ROOT}profile/">${esc(TX.login)}</a>`;
+    w.hidden = false;
+    return;
+  }
+  GM().texts().then(T => {
+    const g = T.g || {}, gl = meNow.glory || {}, nf = new Intl.NumberFormat(document.documentElement.lang);
+    const fill = (k, o) => Object.keys(o).reduce((s, x) => s.split('{' + x + '}').join(o[x]), g[k] || k);
+    const need = gl.need || 0, into = Math.max(0, Math.min(gl.into || 0, need)), pct = need ? Math.round(100 * into / need) : 100;
+    const glory = `<div class="pgl"><div class="gh"><b>${esc(fill('glory_n', { n: gl.level || 1 }))}</b>${need ? `<span>${nf.format(into)} / ${nf.format(need)}</span>` : ''}</div>`
+      + `<div class="pbar" role="progressbar" aria-label="${esc(g.glory || '')}" aria-valuemin="0" aria-valuemax="${need || 1}" aria-valuenow="${need ? into : 1}"><i style="width:${pct}%"></i></div></div>`;
+    const tasks = ((meNow.week && meNow.week.tasks) || []).map(t => {
+      const it = P.wk[t.id], name = g['task_' + t.id] || (it ? fill('task_' + it[0], { x: it[1] }) : t.id);
+      return `<li${t.done ? ' class="ok"' : ''}><span>${esc(name)}</span><small>${t.done ? esc(g.task_done || '✓') : `${t.value} / ${t.goal}`}</small></li>`;
+    }).join('');
+    const nick = meNow.user.nick || (curChar() || {}).name || '';
+    w.innerHTML = (nick ? `<span class="pnk">${esc(nick)}</span>` : '') + glory + (tasks ? `<ul class="pwk" aria-label="${esc(g.week || '')}">${tasks}</ul>` : '')
+      + `<a href="${ROOT}profile/">${esc(TX.profile)}</a>`;
+    w.hidden = false;
+  });
+}
+function gotMe(m) {
+  if (!m && GM().logged()) return;   // signed in on this device: wait for the profile, no guest line in between
+  meNow = m;
+  const c = curChar();
+  if (c && firstMe) {   // the level played here as a guest of the same hero is newer than the profile: keep it and save it
+    const h = rd(MEKEY);
+    if (h.race === c.race && h.cls === c.class && lvOf(h) > c.level) { c.level = lvOf(h); pending = true; saveLvl(); }
+  }
+  if (c) { if (pending) c.level = lvOf(rd(MEKEY)); else useChar(c); }
+  if (m) firstMe = false;
+  renderLvl(); renderWay(); pipPaint();
+}
+function hookMe() { if (!GM()) return false; GM().onMe(gotMe); GM().me(); return true; }
+if (!hookMe()) addEventListener('load', hookMe, { once: true });
 
 /* Timers: the end time is stored, so they keep going after a reload. When one ends: three beeps, a blinking tab title
    and, if the visitor asked for it, a notification while the tab is in the background */
@@ -1298,6 +1406,7 @@ function tick() {
     if (li) { li.classList.toggle('done', left <= 0); li.querySelector('.tt').textContent = left > 0 ? fmtT(left) : TX.done; }
   });
   if (changed) saveP();
+  pipPaint();
   blink = !blink;
   document.title = rung ? (document.hidden && blink ? `⏰ ${TX.done}` : `⏰ ${rung.name} · ${baseTitle}`)
     : soonest < Infinity ? `${fmtT(soonest)} · ${baseTitle}` : baseTitle;
@@ -1353,8 +1462,59 @@ if ('wakeLock' in navigator) {
   wb.addEventListener('click', () => { wantWake = !wantWake; paintWake(); if (wantWake) lock(); else if (wl) wl.release(); });
   document.addEventListener('visibilitychange', () => { if (wantWake && !wl && document.visibilityState === 'visible') lock(); });
 }
+
+/* Mini window (Document Picture-in-Picture: Chrome and Edge on a computer) on top of the game: the nearest timer, the radio
+   and the level. It shows this page and presses this page's buttons, so nothing is lost when it is closed */
+const pb = $('#pipBtn');
+
+function pipPaint() {
+  if (!pip) return;
+  const d = pip.document, q = s => d.getElementById(s), now = Date.now();
+  const run = ps.timers.filter(x => x.end > now).sort((a, b) => a.end - b.end)[0], rung = ps.timers.find(x => x.end <= now && x.end > now - 60000);
+  const t = rung || run;
+  q('qn').textContent = t ? t.name : TX.noTimer;
+  q('qt').textContent = t ? (t.end > now ? fmtT(t.end - now) : TX.done) : '';
+  q('qt').classList.toggle('done', !!rung);
+  const dk = $('#radioDock'), tt = dk.querySelector('.rdo-tt'), play = dk.querySelector('.rdo-play'), next = dk.querySelector('[data-do="next"]');
+  q('qs').textContent = tt ? tt.textContent : TX.radio;
+  if (play && q('qp').dataset.h !== play.innerHTML) { q('qp').innerHTML = play.innerHTML; q('qp').dataset.h = play.innerHTML; q('qp').setAttribute('aria-label', play.getAttribute('aria-label')); }
+  if (next && !q('qx').innerHTML) { q('qx').innerHTML = next.innerHTML; q('qx').setAttribute('aria-label', next.getAttribute('aria-label')); }
+  q('ql').textContent = lvOf(rd(MEKEY)) || '—';
+}
+function openPip() {
+  if (pip) { pip.close(); return; }
+  documentPictureInPicture.requestWindow({ width: 320, height: 210 }).then(w => {
+    pip = w;
+    const d = w.document;
+    for (const a of document.documentElement.attributes) d.documentElement.setAttribute(a.name, a.value);
+    [...document.styleSheets].forEach(sh => {
+      try { const st = d.createElement('style'); st.textContent = [...sh.cssRules].map(r => r.cssText).join('\n'); d.head.append(st); }
+      catch (e) { if (sh.href) { const l = d.createElement('link'); l.rel = 'stylesheet'; l.href = sh.href; d.head.append(l); } }
+    });
+    const st = d.createElement('style');
+    st.textContent = `body{margin:0;padding:12px 14px;display:grid;gap:10px;align-content:center;min-height:100vh;box-sizing:border-box;background:var(--bg);color:var(--fg)}
+      .qrow{display:flex;align-items:center;gap:10px;min-width:0}.qrow>span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted);font-size:.9rem}
+      #qt{font-family:var(--font-display);font-weight:700;font-size:1.5rem;font-variant-numeric:lining-nums tabular-nums}#qt.done{color:var(--gold-2);font-family:inherit;font-size:1rem}
+      .qrow .rdo-b{width:40px;height:40px;flex:none;color:var(--fg);cursor:pointer}.qrow .rdo-b .ico{width:18px;height:18px}.qlv{justify-content:center;gap:16px}.qlv .lvb{width:40px;height:40px;font-size:1.4rem}
+      #ql{min-width:2.2ch;text-align:center;font-family:var(--font-display);font-weight:700;font-size:2rem;line-height:1;color:var(--gold-2);font-variant-numeric:lining-nums tabular-nums}`;
+    d.head.append(st);
+    d.title = TX.pip;
+    d.body.innerHTML = `<div class="qrow"><span id="qn"></span><b id="qt" aria-live="polite"></b></div>
+      <div class="qrow"><span id="qs"></span><button class="rdo-b rdo-play" type="button" id="qp"></button><button class="rdo-b" type="button" id="qx"></button></div>
+      <div class="qrow qlv"><button type="button" class="lvb" id="qd" aria-label="${esc(TX.lvDown)}">−</button><output id="ql"></output><button type="button" class="lvb" id="qu" aria-label="${esc(TX.lvUp)}">+</button></div>`;
+    const dk = $('#radioDock');
+    d.getElementById('qp').onclick = () => { const b = dk.querySelector('.rdo-play'); if (b) b.click(); setTimeout(pipPaint, 50); };
+    d.getElementById('qx').onclick = () => { const b = dk.querySelector('[data-do="next"]'); if (b) b.click(); setTimeout(pipPaint, 50); };
+    d.getElementById('qd').onclick = () => setLvl((lvOf(rd(MEKEY)) || 2) - 1);
+    d.getElementById('qu').onclick = () => setLvl(lvOf(rd(MEKEY)) + 1);
+    w.addEventListener('pagehide', () => { pip = null; pb.setAttribute('aria-pressed', 'false'); });
+    pb.setAttribute('aria-pressed', 'true');
+    pipPaint();
+  }, () => {});
+}
+if ('documentPictureInPicture' in window) { pb.hidden = false; pb.addEventListener('click', openPip); }
 </script>
-<script src="../../assets/living/living.js?v=740fcc718a" defer></script>
+<script src="../../assets/living/living.js?v=4b6bff6806" defer></script>
 <script>
 (() => {
   const KEY = 'gabella-lang-hint', store = l => { try { localStorage.setItem(KEY, '1'); if (l) localStorage.setItem('gabella-lang', l); } catch (e) {} };
@@ -1422,8 +1582,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=16576bd936" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=b478324dc8" data-root="../../" data-home="../" data-lang="es" data-teaser="Tu perfil guarda tu camino: Gloria, marcos, temporadas" data-close="Cerrar" data-page="play/" defer></script>
+<script src="../../assets/search/search.js?v=9da1611b67" data-root="../../" defer></script>
+<script src="../../assets/me/me.js?v=36a486068d" data-root="../../" data-home="../" data-lang="es" data-teaser="Tu perfil guarda tu camino: Gloria, marcos, temporadas" data-close="Cerrar" data-page="play/" data-look="1" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

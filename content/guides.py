@@ -4,6 +4,7 @@
   ('text', [строка, …])                                 абзацы
   ('steps', [{'t': строка, 'd': строка}, …])           карточки 01/02/03
   ('tiles', [{'t', 'd', 'href', 'art'}, …])            плитки с артом; href относительно корня гида, art = имя без размера
+  ('play', {'h', 'd', 'go'})                           строка-ссылка на «В игре» (гайд «Прокачка»)
   ('table', {'head': [строка, …], 'rows': [[строка|str, …], …]})
   ('tabs', [{'id': 'alliance', 't': строка, 'blocks': [блок, …]}, …])
   ('faq', [{'id': 'release', 'q': строка, 'a': [строка, …], 'link': (строка, url)?}, …])   link — кнопка под ответом
@@ -204,10 +205,23 @@ GUIDES.append({
                          'The same for everyone. Regions are separate and there is no cross-region play, so pick the region with the best ping for most of you. Groups form only within one mode, and Alliance and Horde cannot group in any mode. In PvP an account has only one faction, so agree on it before name reservation opens on 27.10.',
                          'Однакові для всіх. Регіони розділені, міжрегіональної гри немає, тож беріть регіон із найкращим пінгом для більшості. Група збирається лише в межах одного режиму, а Альянс і Орда не стають в одну групу в жодному режимі. У PvP на акаунті одна фракція, тож домовтеся про неї до бронювання імен 27.10.')]},
                 {'id': 'where', 'q': t('Где найти группу?', 'Where do I find a group?', 'Де знайти групу?'),
-                 'a': [t('На Discord-сервере Gabella Team. Там собирают группы на старт 04.11 и договариваются о регионе, режиме и фракции.',
-                         'On the Gabella Team Discord server. Groups for the 04.11 launch form there, and players agree on region, mode and faction.',
-                         'На Discord-сервері Gabella Team. Там збирають групи на старт 04.11 і домовляються про регіон, режим і фракцію.')],
+                 'a': [t('На сайте и в Discord. Войдите, добавьте персонажа и отметьте в профиле «Ищу группу»: на 3 часа он появится в полосе «Сейчас ищут группу» в «Составе». На Discord-сервере Gabella Team собирают группы на старт 04.11 и договариваются о регионе, режиме и фракции.',
+                         'On this site and on Discord. Log in, add a character and turn on “Looking for group” in your profile: for 3 hours it shows in the “Looking for a group now” strip of the Roster. On the Gabella Team Discord server groups form for the 04.11 launch, and players agree on region, mode and faction.',
+                         'На сайті та в Discord. Увійдіть, додайте персонажа й позначте в профілі «Шукаю групу»: на 3 години він з’явиться в смузі «Зараз шукають групу» у «Складі». На Discord-сервері Gabella Team збирають групи на старт 04.11 і домовляються про регіон, режим і фракцію.')],
                  'link': (t('Discord Gabella Team', 'Gabella Team Discord', 'Discord Gabella Team'), DISCORD)},
+                {'id': 'profile', 'q': t('Что такое Слава, ранг и сезон в профиле?', 'What are Glory, rank and season in the profile?', 'Що таке Слава, ранг і сезон у профілі?'),
+                 'a': [t('Это рост вашего профиля на сайте, к самой игре он не относится.',
+                         'This is how your profile grows on the site; it has nothing to do with the game itself.',
+                         'Це зростання вашого профілю на сайті, до самої гри воно не стосується.'),
+                       t('Слава (1–60) — опыт за то, что вы пользуетесь гидом: заходы, гайды, радио, сбор групп и задания недели. После перерыва опыт идёт вдвое быстрее, как отдых в таверне. Слава открывает девиз и цвет имени.',
+                         'Glory (1–60) is experience for using the guide: visits, guides, the radio, building groups and weekly tasks. After a break, experience comes twice as fast, like rest in a tavern. Glory unlocks a motto and name colors.',
+                         'Слава (1–60) — досвід за те, що ви користуєтеся гідом: заходи, гайди, радіо, збір груп і завдання тижня. Після перерви досвід іде вдвічі швидше, як відпочинок у таверні. Слава відкриває девіз і колір імені.'),
+                       t('Ранг растёт от очков достижений и открывает рамки портрета.',
+                         'Rank grows from achievement points and unlocks portrait frames.',
+                         'Ранг росте від очок досягнень і відкриває рамки портрета.'),
+                       t('Сезон 1 начинается 04.11: опыт и задания недели дают звёзды, звёзды открывают ступени с наградами. Всё полученное остаётся навсегда.',
+                         'Season 1 starts on 04.11: experience and weekly tasks give stars, and stars unlock steps with rewards. Everything you earn stays forever.',
+                         'Сезон 1 починається 04.11: досвід і завдання тижня дають зірки, зірки відкривають щаблі з нагородами. Усе отримане залишається назавжди.')]},
                 {'id': 'raids', 'q': t('Когда откроются рейды?', 'When do raids open?', 'Коли відкриються рейди?'),
                  'a': [t('09.12: Barrow Deeps (10 игроков), Hyjal Summit (20), Onyxia’s Lair (40). До этого есть пять недель на прокачку и подземелья.',
                          '09.12: Barrow Deeps (10 players), Hyjal Summit (20), Onyxia’s Lair (40). Until then you have five weeks for leveling and dungeons.',
@@ -393,6 +407,11 @@ GUIDES.append({
     ],
     'sections': [
         {'id': 'route', 'title': t('Маршрут по зонам', 'Zone route', 'Маршрут зонами'), 'blocks': [
+            ('play', {'h': t('Играете прямо сейчас?', 'Playing right now?', 'Граєте просто зараз?'),
+                      'd': t('Откройте «В игре» на телефоне или втором мониторе: зоны под ваш уровень, подземелья, таймеры и радио.',
+                             'Open “In game” on your phone or a second monitor: zones for your level, dungeons, timers and radio.',
+                             'Відкрийте «У грі» на телефоні або другому моніторі: зони під ваш рівень, підземелля, таймери й радіо.'),
+                      'go': t('Открыть «В игре»', 'Open “In game”', 'Відкрити «У грі»')}),
             ('text', [t('Диапазоны уровней по карте Mobalytics, новые зоны сверены с Icy Veins. Это ориентир для беты: Blizzard может сдвинуть уровни к релизу. Масштабирования нет, у каждой зоны свои уровни.',
                         'Level ranges are from the Mobalytics map, new zones checked against Icy Veins. This is a beta guideline: Blizzard may shift levels by release. There is no level scaling, each zone has its own levels.',
                         'Діапазони рівнів за мапою Mobalytics, нові зони звірені з Icy Veins. Це орієнтир для бети: Blizzard може зсунути рівні до релізу. Масштабування немає, кожна зона має свої рівні.')]),
@@ -879,6 +898,7 @@ HUBS = [
 # ---------- Служебные страницы: /privacy/ и 404.html. Не гайды: в список гайдов и плитки не попадают ----------
 # Политика описывает то, что сайт делает на самом деле. Появится реклама, форма или новый сторонний скрипт — сначала поправить её.
 
+from guilds import authors as _crest_authors  # noqa: E402
 from build import CONTACT  # noqa: E402  (адрес один на весь сайт, подвал берёт его оттуда же)
 _mail = f'<a href="mailto:{CONTACT}">{CONTACT}</a>'
 _cf = 'https://www.cloudflare.com/privacypolicy/'
@@ -891,15 +911,17 @@ _waylinks = ' · '.join(f'<a href="{u}" target="_blank" rel="noopener">{n}</a>' 
 _lic = ', '.join(f'<a href="{u}" target="_blank" rel="noopener">Creative Commons {n}</a>' for n, u in (
     ('BY 4.0', 'https://creativecommons.org/licenses/by/4.0/'), ('BY 3.0', 'https://creativecommons.org/licenses/by/3.0/'),
     ('CC0', 'https://creativecommons.org/publicdomain/zero/1.0/')))
+_icons = ', '.join(_crest_authors())
+_by3 = '<a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">Creative Commons BY 3.0</a>'
 _gh = 'https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement'
 
 PAGES = [
-    {'slug': 'privacy', 'path': 'privacy/', 'og': 'guides', 'art': 'hero_campfire', 'updated': '23.10.2026',
+    {'slug': 'privacy', 'path': 'privacy/', 'og': 'guides', 'art': 'hero_campfire', 'updated': '24.10.2026',
      'title': t('Конфиденциальность', 'Privacy', 'Конфіденційність'),
      'lead': t('Какие данные собирает сайт и что хранится у вас в браузере. Коротко: без входа мы о вас ничего не знаем, после входа храним только профиль.',
                'What data the site collects and what is stored in your browser. In short: without signing in we know nothing about you; after signing in we keep only your profile.',
                'Які дані збирає сайт і що зберігається у вашому браузері. Коротко: без входу ми нічого про вас не знаємо, після входу зберігаємо лише профіль.'),
-     'pills': [t('Обновлено 23.10.2026', 'Updated 23.10.2026', 'Оновлено 23.10.2026')],
+     'pills': [t('Обновлено 24.10.2026', 'Updated 24.10.2026', 'Оновлено 24.10.2026')],
      'sections': [
          {'id': 'short', 'title': t('Коротко', 'In short', 'Коротко'), 'blocks': [
              ('text', [t('Гид читается без входа: тогда сайт не ставит cookies и не знает, кто вы. Вход нужен только для профиля и «Состава». Рекламы и комментариев на сайте нет.',
@@ -927,9 +949,9 @@ PAGES = [
              ('text', [t('Аккаунт один, а входов может быть несколько: привязать и отвязать их можно в кабинете, раздел «Аккаунт». Сами по себе входы не склеиваются: вход новым способом без привязки создаёт новый аккаунт.',
                          'One account can have several ways to sign in: link and unlink them in your profile, under Account. Ways are never merged on their own: signing in a new way without linking it creates a new account.',
                          'Акаунт один, а входів може бути кілька: прив’язати й відв’язати їх можна в кабінеті, розділ «Акаунт». Самі входи не склеюються: вхід новим способом без прив’язки створює новий акаунт.'),
-                       t('Ещё храним то, что вы указали сами: персонажей (имя, раса, класс, роль, уровень, профессии, время игры), внешний вид профиля, девиз, отметку «Ищу группу» и того, кто вас пригласил, если вы пришли по его ссылке.',
-                         'We also keep what you entered yourself: your characters (name, race, class, role, level, professions, play time), the look of your profile, your motto, the Looking for group mark and who invited you, if you came by their link.',
-                         'Також зберігаємо те, що ви вказали самі: персонажів (ім’я, раса, клас, роль, рівень, професії, час гри), вигляд профілю, девіз, позначку «Шукаю групу» і того, хто вас запросив, якщо ви прийшли за його посиланням.'),
+                       t('Ещё храним то, что вы указали сами: персонажей (имя, раса, класс, роль, уровень, профессии, время игры, облик: пол и фон портрета), внешний вид профиля, девиз, отметку «Ищу группу» и того, кто вас пригласил, если вы пришли по его ссылке.',
+                         'We also keep what you entered yourself: your characters (name, race, class, role, level, professions, play time, look: gender and portrait background), the look of your profile, your motto, the Looking for group mark and who invited you, if you came by their link.',
+                         'Також зберігаємо те, що ви вказали самі: персонажів (ім’я, раса, клас, роль, рівень, професії, час гри, вигляд: стать і тло портрета), вигляд профілю, девіз, позначку «Шукаю групу» і того, хто вас запросив, якщо ви прийшли за його посиланням.'),
                        t('Для достижений сайт ведёт счётчики: какие разделы гида вы открывали, сколько слушали радио, в какие дни заходили. Счётчики идут только после входа.',
                          'For achievements the site keeps counters: which guide sections you opened, how long you listened to the radio, which days you visited. Counters run only after you sign in.',
                          'Для досягнень сайт веде лічильники: які розділи гіда ви відкривали, скільки слухали радіо, в які дні заходили. Лічильники працюють лише після входу.'),
@@ -960,7 +982,10 @@ PAGES = [
                          'Адміністратор може приховати персонажа або девіз, що порушують правила, і закрити вхід акаунту за спам чи образи.'),
                        t('Если вы пожаловались на игрока, мы храним, кто пожаловался, на кого, на что и причину. Запись остаётся со статусом решения и удаляется вместе с профилем любой из сторон. В закрытый канал команды в Discord уходит уведомление: что не так, причина и ссылка на игрока, без имени автора жалобы. Игрок не видит, кто пожаловался.',
                          'If you report a player, we keep who reported, whom, what about and the reason. The record stays with the decision status and is deleted together with the profile of either side. A notice goes to the team’s private Discord channel: what is wrong, the reason and a link to the player, without the reporter’s name. The player does not see who reported.',
-                         'Якщо ви поскаржилися на гравця, ми зберігаємо, хто поскаржився, на кого, на що й причину. Запис лишається зі статусом рішення й видаляється разом із профілем будь-якої зі сторін. У закритий канал команди в Discord надходить сповіщення: що не так, причина й посилання на гравця, без імені автора скарги. Гравець не бачить, хто поскаржився.')])]},
+                         'Якщо ви поскаржилися на гравця, ми зберігаємо, хто поскаржився, на кого, на що й причину. Запис лишається зі статусом рішення й видаляється разом із профілем будь-якої зі сторін. У закритий канал команди в Discord надходить сповіщення: що не так, причина й посилання на гравця, без імені автора скарги. Гравець не бачить, хто поскаржився.')]),
+             ('text', [t('Гильдии. Название, герб, девиз гильдии, её состав (видимые персонажи и роли) и хроника гильдии видны всем. Заявку в гильдию видят её глава и офицеры. Выход из гильдии и удаление персонажа убирают его из состава; в хронике он остаётся как «Бывший участник» без имени.',
+                         'Guilds. A guild’s name, crest, motto, roster (visible characters and roles) and chronicle are public. A join request is seen by the guild leader and officers. Leaving a guild or deleting a character removes it from the roster; in the chronicle it stays as “Former member” without a name.',
+                         'Гільдії. Назву, герб, девіз гільдії, її склад (видимі персонажі та ролі) і хроніку гільдії бачать усі. Заявку до гільдії бачать її очільник і офіцери. Вихід із гільдії та видалення персонажа прибирають його зі складу; у хроніці він лишається як «Колишній учасник» без імені.')])]},
          {'id': 'delete', 'title': t('Скачать и удалить', 'Download and delete', 'Завантажити й видалити'), 'blocks': [
              ('text', [t('В кабинете «Мой профиль», раздел «Аккаунт», можно скачать всё, что мы о вас храним, одним файлом и удалить профиль. Вместе с ним сразу удаляются персонажи, достижения, счётчики, записи в ленте и сессии. Восстановить профиль нельзя.',
                          'In My profile, under Account, you can download everything we keep about you as one file and delete your profile. Your characters, achievements, counters, feed entries and sessions are deleted with it at once. A deleted profile cannot be restored.',
@@ -983,9 +1008,9 @@ PAGES = [
                        f'<p><a href="{_gh}" target="_blank" rel="noopener">GitHub privacy statement</a></p>',
                        f'<p><a href="{_gh}" target="_blank" rel="noopener">Політика конфіденційності GitHub</a></p>'))]},
          {'id': 'device', 'title': t('Что хранится у вас', 'Stored on your device', 'Що зберігається у вас'), 'blocks': [
-             ('text', [t('В памяти браузера (localStorage) сайт запоминает выбранную тему, вашего героя — расу, класс, уровень и профессии, если вы их указали, — и настройки радио: станцию, трек, очередь треков, громкость, таймер сна и звуки вокруг, а на странице «В игре» — ваши таймеры и фракцию. Чтобы гид открывался без сети, браузер хранит копии страниц. После входа добавляются отметка о входе, копия профиля для быстрой загрузки и выключатель звука достижений.',
-                         'In browser storage (localStorage) the site remembers your chosen theme, your hero (race, class, level and professions) if you entered them, and the radio settings: station, track, the queue of tracks, volume, sleep timer and ambient sounds, and on the In game page your timers and faction. To open the guide offline, the browser keeps copies of the pages. After you sign in, it also keeps a signed-in mark, a copy of your profile for faster loading and the achievement sound switch.',
-                         'У пам’яті браузера (localStorage) сайт запам’ятовує вибрану тему, вашого героя — расу, клас, рівень і професії, якщо ви їх вказали, — і налаштування радіо: станцію, трек, чергу треків, гучність, таймер сну і звуки довкола, а на сторінці «У грі» — ваші таймери та фракцію. Щоб гід відкривався без мережі, браузер зберігає копії сторінок. Після входу додаються позначка входу, копія профілю для швидкого завантаження й вимикач звуку досягнень.'),
+             ('text', [t('В памяти браузера (localStorage) сайт запоминает выбранную тему, вашего героя — расу, класс, уровень и профессии, если вы их указали, — и настройки радио: станцию, трек, очередь треков, громкость, таймер сна и звуки вокруг, а на странице «В игре» — ваши таймеры, фракцию и выбранного персонажа. Чтобы гид открывался без сети, браузер хранит копии страниц. После входа добавляются отметка о входе, копия профиля для быстрой загрузки и выключатель звука достижений.',
+                         'In browser storage (localStorage) the site remembers your chosen theme, your hero (race, class, level and professions) if you entered them, and the radio settings: station, track, the queue of tracks, volume, sleep timer and ambient sounds, and on the In game page your timers, faction and chosen character. To open the guide offline, the browser keeps copies of the pages. After you sign in, it also keeps a signed-in mark, a copy of your profile for faster loading and the achievement sound switch.',
+                         'У пам’яті браузера (localStorage) сайт запам’ятовує вибрану тему, вашого героя — расу, клас, рівень і професії, якщо ви їх вказали, — і налаштування радіо: станцію, трек, чергу треків, гучність, таймер сну і звуки довкола, а на сторінці «У грі» — ваші таймери, фракцію та вибраного персонажа. Щоб гід відкривався без мережі, браузер зберігає копії сторінок. Після входу додаються позначка входу, копія профілю для швидкого завантаження й вимикач звуку досягнень.'),
                        t('Эти данные остаются на вашем устройстве и никуда не отправляются. Удалить их можно, очистив данные сайта в настройках браузера.',
                          'This data stays on your device and is not sent anywhere. You can delete it by clearing the site data in your browser settings.',
                          'Ці дані залишаються на вашому пристрої й нікуди не надсилаються. Видалити їх можна, очистивши дані сайту в налаштуваннях браузера.')])]},
@@ -995,7 +1020,10 @@ PAGES = [
                          'Шрифти й зображення завантажуються з нашого ж сайту, без сторонніх сервісів. Музика радіо лежить у сховищі Cloudflare R2 і завантажується з нашої адреси media.gabella.site, лише коли ви ввімкнули радіо; як і під час відкриття сторінок, Cloudflare отримує IP-адресу вашого пристрою. Звуки багаття, дощу й вітру створює сам браузер. Посилання на джерела ведуть на інші сайти, у них свої правила конфіденційності.')]),
              ('raw', t(f'<p>Музыка радио: Kevin MacLeod (incompetech.com) и другие авторы с opengameart.org, лицензии {_lic}. Звук перекодирован и выровнен по громкости. Автор и лицензия каждого трека — в панели радио.</p>',
                        f'<p>Radio music: Kevin MacLeod (incompetech.com) and other authors from opengameart.org, licensed under {_lic}. The audio is re-encoded and levelled in loudness. The author and license of every track are in the radio panel.</p>',
-                       f'<p>Музика радіо: Kevin MacLeod (incompetech.com) та інші автори з opengameart.org, ліцензії {_lic}. Звук перекодовано й вирівняно за гучністю. Автор і ліцензія кожного треку — у панелі радіо.</p>'))]},
+                       f'<p>Музика радіо: Kevin MacLeod (incompetech.com) та інші автори з opengameart.org, ліцензії {_lic}. Звук перекодовано й вирівняно за гучністю. Автор і ліцензія кожного треку — у панелі радіо.</p>')),
+             ('raw', t(f'<p>Знаки гербов — <a href="https://game-icons.net" target="_blank" rel="noopener">game-icons.net</a> ({_by3}): {_icons}.</p>',
+                       f'<p>Crest charges: <a href="https://game-icons.net" target="_blank" rel="noopener">game-icons.net</a> ({_by3}): {_icons}.</p>',
+                       f'<p>Знаки гербів — <a href="https://game-icons.net" target="_blank" rel="noopener">game-icons.net</a> ({_by3}): {_icons}.</p>'))]},
          {'id': 'contact', 'title': t('Связь', 'Contact', 'Зв’язок'), 'blocks': [
              ('text', [t('С вопросами о данных, ошибками в гайде и претензиями правообладателей пишите на почту ниже. Если не можете войти, профиль удалим по письму: укажите имя основного персонажа и способ входа.',
                          'For questions about data, mistakes in the guide or copyright concerns, write to the address below. If you cannot sign in, we will delete your profile on request: include your main character’s name and how you signed in.',
@@ -1026,9 +1054,9 @@ NOT_FOUND = {
 PLAY = {
     'slug': 'play', 'path': 'play/', 'og': 'guides', 'art': 'hero_campfire', 'compact': True, 'more': False, 'js': 'play',
     'title': t('В игре', 'In game', 'У грі'),
-    'lead': t('Второй экран на время игры: радио, что делать на вашем уровне, подземелья и таймеры.',
-              'A second screen while you play: radio, what to do at your level, dungeons and timers.',
-              'Другий екран під час гри: радіо, що робити на вашому рівні, підземелля й таймери.'),
+    'lead': t('Второй экран на время игры: радио, зоны и подземелья под ваш уровень, таймеры. После входа — персонажи из профиля, Слава и задания недели.',
+              'A second screen while you play: radio, zones and dungeons for your level, timers. After you log in: characters from your profile, Glory and weekly tasks.',
+              'Другий екран під час гри: радіо, зони й підземелля під ваш рівень, таймери. Після входу — персонажі з профілю, Слава й завдання тижня.'),
     'sections': [],
 }
 # Рубежи по уровню — только факты из гайдов (ездовое — секция pace «Прокачки», Хиджал — маршрут, рейды — «Подземелья и рейды»)
@@ -1079,5 +1107,17 @@ PLAY_TX = {
                   'Натисніть заготовку або задайте свій час. Таймери йдуть і після перезавантаження сторінки.'),
     'notify': t('Уведомление, когда вкладка в фоне', 'Notify when the tab is in the background', 'Сповіщення, коли вкладка у фоні'),
     'wake': t('Экран не гаснет', 'Keep screen on', 'Екран не гасне'),
+    'pip': t('Мини-окно', 'Mini window', 'Міні-вікно'),
+    'pipNote': t('Маленькое окно поверх игры: таймер, радио и уровень', 'A small window on top of the game: timer, radio and level',
+                 'Маленьке вікно поверх гри: таймер, радіо й рівень'),
+    'noTimer': t('Таймеров нет', 'No timers', 'Таймерів немає'),
+    'way': t('Ваш путь', 'Your path', 'Ваш шлях'),
+    'guest': t('Войдите — радио и задания недели будут копить Славу.',
+               'Log in: the radio and weekly tasks will earn Glory.',
+               'Увійдіть — радіо й завдання тижня накопичуватимуть Славу.'),
+    'login': t('Войти', 'Log in', 'Увійти'),
+    'profile': t('Профиль', 'Profile', 'Профіль'),
+    'chars': t('Персонажи', 'Characters', 'Персонажі'),
+    'addChar': t('Добавить персонажа', 'Add a character', 'Додати персонажа'),
 }
 PAGES.append(PLAY)

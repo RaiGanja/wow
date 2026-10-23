@@ -4,6 +4,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 sys.path.insert(0, os.path.join(ROOT, 'tools'))
 import export_game
+import looks as LK
 
 G = export_game.game()
 
@@ -93,11 +94,12 @@ def test_me_script_on_every_page_after_radio():
             continue
         assert html.count('assets/me/me.js') == 1 and html.count('assets/me/me.css') == 1, p
         assert html.index('assets/radio/radio.js') < html.index('assets/me/me.js'), p
-        m = re.search(r'<script src="[^"]*assets/me/me\.js\?v=\w{10}" data-root="([^"]*)" data-home="([^"]*)" data-lang="(\w+)" data-teaser="([^"]+)" data-close="([^"]+)" data-page="([^"]*)"( data-solo="1")? defer>', html)
+        m = re.search(r'<script src="[^"]*assets/me/me\.js\?v=\w{10}" data-root="([^"]*)" data-home="([^"]*)" data-lang="(\w+)" data-teaser="([^"]+)" data-close="([^"]+)" data-page="([^"]*)" data-look="([^"]+)"( data-solo="1")? defer>', html)
         assert m, p
         page = m.group(6)
+        assert m.group(7) == LK.V, (p, m.group(7))
         # only a language-only guide (uk «ukrainian») is marked: it is not in the guide set, so me.js does not track it
-        assert bool(m.group(7)) == (page == 'guides/ukrainian/'), p
+        assert bool(m.group(8)) == (page == 'guides/ukrainian/'), p
         name = os.path.relpath(p, ROOT).replace(os.sep, '/')
         if name.endswith('404.html'):
             assert page == '404', name
@@ -206,6 +208,108 @@ def test_radio_tells_me_js():
         assert key in me, key
     for egg in G['sets']['egg']:
         assert f"'{egg}'" in me, egg
+
+
+def _lum(h):
+    v = [int(h[i:i + 2], 16) / 255 for i in (1, 3, 5)]
+    v = [c / 12.92 if c <= 0.03928 else ((c + 0.055) / 1.055) ** 2.4 for c in v]
+    return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2]
+
+
+def contrast(a, b):
+    x, y = sorted((_lum(a), _lum(b)), reverse=True)
+    return (x + 0.05) / (y + 0.05)
+
+
+def test_guilds_catalog():
+    Gd = G['guilds']
+    L = Gd['limits']
+    assert L['members'] == 1000 and L['officers'] == 5 and L['create_glory'] == 5 and L['top'] == 10
+    assert Gd['shapes'] == ['heater', 'round', 'kite', 'banner']
+    assert Gd['fields'] == ['plain', 'pale', 'fess', 'quarterly', 'chevron', 'bend']
+    assert len(Gd['palette']) == 12 and all(len(v) == 7 and v[0] == '#' for v in Gd['palette'].values())
+    ids = [c['id'] for c in Gd['charges']]
+    assert len(ids) == len(set(ids)) and sum(not c['lock'] for c in Gd['charges']) >= 24
+    locked = {'charge:' + c['id'] for c in Gd['charges'] if c['lock']}
+    assert locked <= set(Gd['banner_unlocks'])
+    d = Gd['default_crest']
+    assert d['i'] in ids and d['s'] in Gd['shapes'] and contrast(Gd['palette'][d['ic']], Gd['palette'][d['c'][0]]) >= L['contrast_min']
+    # every colour has at least 4 readable charge colours: the constructor never runs out of choices
+    for k, v in Gd['palette'].items():
+        assert sum(contrast(v, w) >= L['contrast_min'] for w in Gd['palette'].values()) >= 4, k
+
+
+def test_guild_authors():
+    import guilds
+    a = guilds.authors()
+    assert len(a) == len(set(a)) and set(a) == {path.split('/')[0] for _, path, _ in guilds.CHARGES}
+    assert a[0] == guilds.CHARGES[0][1].split('/')[0]
+    term = {'': 'Гильдии. Название', 'en/': 'Guilds. A guild', 'uk/': 'Гільдії. Назву', 'de/': 'Gilden. Name', 'fr/': 'Guildes. Le nom',
+            'es/': 'Hermandades. El nombre', 'pt/': 'Guildas. O nome', 'it/': 'Gilde. Il nome', 'pl/': 'Gildie. Nazwa'}
+    for lang in term:
+        html = open(os.path.join(ROOT, *(lang + 'privacy/index.html').split('/')), encoding='utf-8').read()
+        assert 'game-icons.net' in html and ', '.join(a) in html, lang
+        assert term[lang] in html and '24.10.2026' in html, lang
+
+
+def test_guild_texts():
+    import build_me
+    from langs import LANGS
+    for lang in LANGS:
+        with open(os.path.join(ROOT, 'assets', 'me', f'i18n-{lang}.json'), encoding='utf-8') as f:
+            t = json.load(f)
+        assert set(t['gl']) == set(build_me.GUILD), lang
+
+
+def test_guild_page_built():
+    from langs import LANGS
+    for lang in LANGS:
+        p = os.path.join(ROOT, *(([] if lang == 'ru' else [lang]) + ['g', 'index.html']))
+        html = open(p, encoding='utf-8').read()
+        assert 'noindex' in html and 'id="gl-head"' in html, lang
+        assert re.search(r'assets/me/crest/charges\.svg\?v=\w{10}#c-', html), lang   # the sprite is versioned like me.js
+        assert not re.search(r'assets/me/crest/charges\.svg(?!\?v=)', html), lang
+    sm = open(os.path.join(ROOT, 'sitemap.xml'), encoding='utf-8').read()
+    assert '/g/' not in sm
+
+
+def test_crest_sprite():
+    sprite = open(os.path.join(ROOT, 'assets', 'me', 'crest', 'charges.svg'), encoding='utf-8').read()
+    ids = set(re.findall(r'<symbol id="c-([\w-]+)"', sprite))
+    assert ids == {c['id'] for c in G['guilds']['charges']}
+    assert 'fill=' not in sprite and len(sprite) < 120_000
+
+
+def test_looks_catalog():
+    L = G['looks']
+    assert L['sexes'] == ['m', 'f']
+    assert set(L['races']) == set(G['races'])
+    for rid, d in L['races'].items():
+        assert d['sex'] in L['sexes'], rid
+        assert d['bg'] in L['bg'], rid
+    assert set(L['bg']) == set(G['backgrounds'])
+    assert len(G['backgrounds']) == 20
+    assert L['races']['nightelf'] == {'sex': 'f', 'bg': 'night-elf'}
+
+
+def test_looks_art_exists():
+    L, slug = G['looks'], {k: v['slug'] for k, v in G['races'].items()}
+    for rid in L['races']:
+        for s in L['sexes']:
+            p = os.path.join(ROOT, 'assets', 'me', 'look', 'base', f'{slug[rid]}-{s}.webp')
+            assert os.path.exists(p), p
+    for b in L['bg']:
+        p = os.path.join(ROOT, 'assets', 'me', 'look', 'bg', f'{b}.webp')
+        assert os.path.exists(p), p
+
+
+def test_no_portrait_left():
+    # the portrait follows the character's look (pic() / lookOf()); the old user.portrait race/class switch is gone.
+    # Only the cabinet and roster scripts are checked: index.src.html has its own class/race tile face() helper.
+    for name in ('me-pages.src.js', 'profile.src.html', 'roster.src.html', 'player.src.html', 'assets/me/me.js'):
+        src = open(os.path.join(ROOT, name), encoding='utf-8').read()
+        assert not re.search(r'\bface\([^()]*portrait', src), (name, 'face() with a portrait argument')
+        assert not re.search(r'\.portrait\b|[{,]\s*portrait\s*:', src), (name, 'portrait property')
 
 
 if __name__ == '__main__':

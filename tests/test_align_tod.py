@@ -51,7 +51,7 @@ class Align(unittest.TestCase):
 
     def test_moved_waterfall_rejected(self):
         bad = self.relit(self.ref).copy()
-        x, y, w, h = 458, 532, 106, 122         # нижний водопад (зона R маски) уехал на 12 px
+        x, y, w, h = 508, 156, 50, 218          # большой водопад под островом (зона R маски) уехал на 12 px
         bad[y:y + h, x + 12:x + w + 12] = bad[y:y + h, x:x + w]
         aligned, _ = align_tod.align(self.ref, bad)
         res = align_tod.check(self.ref, aligned, self.mask)
@@ -64,10 +64,10 @@ class Align(unittest.TestCase):
         return bad
 
     def test_near_threshold_shifts_rejected(self):
-        cases = {'lower waterfall R': (458, 532, 106, 122), 'upper waterfall R': (916, 110, 56, 200),
-                 'banner G': (1286, 298, 90, 74, -4), 'banner G 2': (948, 328, 124, 64)}
+        cases = {'big waterfall R': (508, 156, 50, 218), 'right waterfall R': (598, 154, 44, 198),
+                 'banner tail G': (1150, 26, 160, 140), 'banner G 2': (880, 26, 140, 142), 'river A': (224, 526, 120, 70)}
         for name, box in cases.items():
-            dx = box[4] if len(box) > 4 else 4     # the banner touches the right edge: shift it left
+            dx = box[4] if len(box) > 4 else 4
             aligned, _ = align_tod.align(self.ref, self.shifted(box[:4], dx))
             res = align_tod.check(self.ref, aligned, self.mask)
             self.assertGreater(self.worst(res), 2, (name, res))
@@ -77,13 +77,13 @@ class Align(unittest.TestCase):
         aligned, _ = align_tod.align(self.ref, cv2.imdecode(buf, cv2.IMREAD_COLOR))
         res = align_tod.check(self.ref, aligned, self.mask)
         self.assertTrue(all(v['shift'] <= 2 for v in res.values()), res)
-        bad = self.shifted((458, 532, 106, 122), 1)
+        bad = self.shifted((508, 156, 50, 218), 1)
         aligned, _ = align_tod.align(self.ref, bad)
         res = align_tod.check(self.ref, aligned, self.mask)
         self.assertTrue(all(v['shift'] <= 2 for v in res.values()), res)
 
     def test_check_is_idempotent(self):
-        aligned, _ = align_tod.align(self.ref, self.shifted((458, 532, 106, 122), 12))
+        aligned, _ = align_tod.align(self.ref, self.shifted((508, 156, 50, 218), 12))
         r1 = align_tod.check(self.ref, aligned, self.mask)
         r2 = align_tod.check(self.ref, aligned, self.mask)
         self.assertEqual(r1, r2)

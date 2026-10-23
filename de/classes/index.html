@@ -781,7 +781,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .langhint { bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
   .brand b { font-size: 1.15rem; }
   .hero { min-height: max(580px, calc(100svh - 62px - env(safe-area-inset-bottom, 0px))); }
-  .hero-art img { object-position: 74% 50%; }
+  .hero-art img { object-position: 60% 50%; }
   .hero::before { background:
     linear-gradient(180deg, rgb(var(--hero-fade) / .86) 0%, rgb(var(--hero-fade) / .7) 40%, rgb(var(--hero-fade) / .6) 72%, rgb(var(--hero-fade) / .94) 100%); }
   .hero-in { padding-top: calc(var(--top) + 28px); gap: 18px; }
@@ -901,6 +901,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .gsec > h2 { margin: 0; font-size: 1.9rem; }
 .gsec p { max-width: 72ch; }
 .gtiles { padding: 0; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+.gtiles:has(> :nth-child(9):last-child) { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }   /* exactly nine: 3 x 3, no lone tile */
 nav.gtiles { padding: 14px; }
 .gtable { width: 100%; border-collapse: separate; border-spacing: 0 6px; font-size: .95rem; }
 .gtable th { text-align: left; font-weight: 600; font-size: .85rem; color: var(--muted); padding: 2px 12px; }
@@ -937,13 +938,43 @@ nav.gtiles { padding: 14px; }
 /* In game (/play/, build_guides.play_body): no art band, always solid bar; one column on phones, two from 960px */
 .compact .topbar { background: var(--rail); border-bottom-color: var(--line); color: var(--fg); }
 .phead { padding-top: calc(var(--top) + 22px); }
-.phead .wrap { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; }
+.phead .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; }
+.ptitle { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; flex: 1 1 520px; min-width: 0; }
 .phead h1 { font-size: clamp(2rem, 4vw, 2.6rem); line-height: 1; }
 .phead .glead { flex: 1 1 320px; margin: 0; font-size: .98rem; color: var(--muted); opacity: 1; }
+.pacts { display: flex; flex-wrap: wrap; gap: 8px; }
+.pacts:not(:has(> :not([hidden]))) { display: none; }
 .pwake { gap: 6px; min-height: 36px; padding: 0 14px; cursor: pointer; font: inherit; font-size: .9rem; }
 .pwake .ico { width: 16px; height: 16px; }
 .pwake[aria-pressed="true"] { background: #c9a54a; border-color: #c9a54a; color: #15110a; }
+.gplay { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding: 14px 18px; color: inherit; text-decoration: none; transition: border-color .2s; }
+.gplay:hover { border-color: var(--gold); }
+.gplay > span:first-child { flex: 1 1 320px; }
+.gplay b { color: var(--gold-2); }
+.gplay .btn { margin-left: auto; }
 .gbody.play { padding-top: 14px; }
+/* «Your path»: Glory and the week's tasks of the signed-in visitor, one line for a guest */
+.pway { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; margin-top: 16px; padding: 14px 20px; }
+.pway[hidden] { display: none; }
+.pway .pnk { font-weight: 600; }
+.pgl { display: grid; gap: 6px; flex: 1 1 200px; max-width: 300px; }
+.pgl .gh { display: flex; justify-content: space-between; gap: 12px; font-size: .88rem; }
+.pgl .gh b { color: var(--gold-2); }
+.pgl .gh span, .pwk small { color: var(--muted); font-variant-numeric: tabular-nums; }
+.pbar { height: 6px; border-radius: 3px; background: var(--panel-2); border: 1px solid var(--pline); overflow: hidden; }
+.pbar i { display: block; height: 100%; background: #c9a54a; }
+.pwk { display: flex; flex-wrap: wrap; gap: 8px 24px; list-style: none; margin: 0; padding: 0; flex: 2 1 320px; font-size: .88rem; }
+.pwk li { display: grid; gap: 2px; }
+.pwk li.ok small { color: var(--gold-2); }
+.pway > a:last-child { margin-left: auto; color: var(--gold-2); font-size: .9rem; }
+.pway .pnote { flex: 1 1 260px; }
+.pway .btn { margin-left: auto; }
+.pchars { display: flex; flex-wrap: wrap; gap: 8px; }
+.pchars[hidden] { display: none; }
+.pchars .pill { min-height: 36px; padding: 0 14px; cursor: pointer; font: inherit; font-size: .92rem; }
+.pchars .pill[aria-pressed="true"] { background: #c9a54a; border-color: #c9a54a; color: #15110a; }
+.pchars .pill b { font-weight: 600; margin-right: 6px; }
+.pchars a { align-self: center; color: var(--gold-2); font-size: .9rem; }
 .pgrid { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
 .pcol { display: contents; }   /* phone: one column, radio first */
 #radio { order: 1; } #level { order: 2; } #dung { order: 3; } #timers { order: 4; }
@@ -995,7 +1026,7 @@ nav.gtiles { padding: 14px; }
 .pnotify { display: flex; align-items: center; gap: 8px; font-size: .9rem; color: var(--muted); cursor: pointer; }
 .pnotify[hidden] { display: none; }
 .pnotify input { width: 18px; height: 18px; accent-color: #c9a54a; }
-@media (max-width: 719px) { .phead { padding-top: calc(var(--top) + 14px); } .psec { padding: 14px; } .pform { grid-template-columns: minmax(0, 1fr) 104px; } .pform .pill { grid-column: 1 / -1; justify-content: center; } }
+@media (max-width: 719px) { .phead { padding-top: calc(var(--top) + 14px); } .pway { padding: 12px 14px; gap: 10px 20px; } .pway > a:last-child, .pway .btn { margin-left: 0; } .psec { padding: 14px; } .pform { grid-template-columns: minmax(0, 1fr) 104px; } .pform .pill { grid-column: 1 / -1; justify-content: center; } }
 #more { margin-top: 56px; }
 #more .sec-head { margin-bottom: 14px; }
 @media (max-width: 1023px) {
@@ -1033,8 +1064,8 @@ nav.gtiles { padding: 14px; }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=16576bd936" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=b478324dc8" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=9da1611b67" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=36a486068d" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://gabella.site/wow/de/"},{"@type":"ListItem","position":2,"name":"Klassen","item":"https://gabella.site/wow/de/classes/"}]}</script>
 </head>
 <body>
@@ -1061,7 +1092,7 @@ nav.gtiles { padding: 14px; }
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="../" aria-label="Gabella, zur Startseite"><img class="mark" src="../../assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>WoW Forever Guide</small></span></a>
   <nav class="mainnav" aria-label="Abschnitte">
-    <a href="../#factions">Fraktionen</a><a href="../#classes" aria-current="true">Klassen</a><a href="../#peoples">Völker</a><a href="../#picker">Auswahl</a><a href="../#builder">Gruppe</a><a href="../guides/">Guides</a><a href="../tools/">Tools</a><a href="../roster/">Kader</a>
+    <a href="../#factions">Fraktionen</a><a href="../#classes" aria-current="true">Klassen</a><a href="../#peoples">Völker</a><a href="../#picker">Auswahl</a><a href="../#builder">Gruppe</a><a href="../guides/">Guides</a><a href="../tools/">Tools</a><a href="../roster/">Kader</a><a href="../play/">Im Spiel</a>
   </nav>
   <div class="tools">
     <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" aria-label="Sprache: Deutsch">DE</button><ul class="langlist" hidden><li><a href="../../classes/" data-lang="ru" hreflang="ru" lang="ru"><span>Русский</span><small>RU</small></a></li><li><a href="../../en/classes/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../../uk/classes/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="./" data-lang="de" hreflang="de" lang="de" aria-current="page"><span>Deutsch</span><small>DE</small></a></li><li><a href="../../fr/classes/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="../../es/classes/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="../../pt/classes/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="../../it/classes/" data-lang="it" hreflang="it" lang="it"><span>Italiano</span><small>IT</small></a></li><li><a href="../../pl/classes/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
@@ -1090,7 +1121,7 @@ nav.gtiles { padding: 14px; }
 </main>
 
 <div class="wrap">
-<section id="more"><div class="sec-head"><h2>Mehr auf der Seite</h2></div><nav class="frame ttiles gtiles" aria-label="Mehr auf der Seite"><a class="ttile" href="../races/"><picture><source type="image/avif" srcset="../../assets/art/human-360.avif 360w, ../../assets/art/human-600.avif 600w, ../../assets/art/human-896.avif 896w" sizes="320px"><img src="../../assets/art/human-600.webp" srcset="../../assets/art/human-360.webp 360w, ../../assets/art/human-600.webp 600w, ../../assets/art/human-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Völker</b><span>Alle Völker im Vergleich</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../guides/"><picture><source type="image/avif" srcset="../../assets/art/hero_campfire-960.avif 960w, ../../assets/art/hero_campfire-1600.avif 1600w, ../../assets/art/hero_campfire-2560.avif 2560w" sizes="320px"><img src="../../assets/art/hero_campfire-960.webp" srcset="../../assets/art/hero_campfire-960.webp 960w, ../../assets/art/hero_campfire-1600.webp 1600w, ../../assets/art/hero_campfire-2560.webp 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Guides</b><span>Leveln, Dungeons, Berufe und Antworten</span></a><a class="ttile" href="../tools/"><picture><source type="image/avif" srcset="../../assets/art/rogue-360.avif 360w, ../../assets/art/rogue-600.avif 600w, ../../assets/art/rogue-896.avif 896w" sizes="320px"><img src="../../assets/art/rogue-600.webp" srcset="../../assets/art/rogue-360.webp 360w, ../../assets/art/rogue-600.webp 600w, ../../assets/art/rogue-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Tools</b><span>Fenster, Vergleich, Suche</span></a></nav></section>
+<section id="more"><div class="sec-head"><h2>Mehr auf der Seite</h2></div><nav class="frame ttiles gtiles" aria-label="Mehr auf der Seite"><a class="ttile" href="../races/"><picture><source type="image/avif" srcset="../../assets/art/human-360.avif 360w, ../../assets/art/human-600.avif 600w, ../../assets/art/human-896.avif 896w" sizes="320px"><img src="../../assets/art/human-600.webp" srcset="../../assets/art/human-360.webp 360w, ../../assets/art/human-600.webp 600w, ../../assets/art/human-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Völker</b><span>Alle Völker im Vergleich</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../guides/"><picture><source type="image/avif" srcset="../../assets/art/hero_campfire-960.avif 960w, ../../assets/art/hero_campfire-1600.avif 1600w, ../../assets/art/hero_campfire-2560.avif 2560w" sizes="320px"><img src="../../assets/art/hero_campfire-960.webp" srcset="../../assets/art/hero_campfire-960.webp 960w, ../../assets/art/hero_campfire-1600.webp 1600w, ../../assets/art/hero_campfire-2560.webp 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Guides</b><span>Leveln, Dungeons, Berufe und Antworten</span></a><a class="ttile" href="../tools/"><picture><source type="image/avif" srcset="../../assets/art/rogue-360.avif 360w, ../../assets/art/rogue-600.avif 600w, ../../assets/art/rogue-896.avif 896w" sizes="320px"><img src="../../assets/art/rogue-600.webp" srcset="../../assets/art/rogue-360.webp 360w, ../../assets/art/rogue-600.webp 600w, ../../assets/art/rogue-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Tools</b><span>Fenster, Vergleich, Suche</span></a><a class="ttile" href="../play/"><picture><source type="image/avif" srcset="../../assets/art/shaman-360.avif 360w, ../../assets/art/shaman-600.avif 600w, ../../assets/art/shaman-896.avif 896w" sizes="320px"><img src="../../assets/art/shaman-600.webp" srcset="../../assets/art/shaman-360.webp 360w, ../../assets/art/shaman-600.webp 600w, ../../assets/art/shaman-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Im Spiel</b><span>Zweiter Bildschirm: Radio, Stufe, Timer, Ruhm und Wochenaufgaben</span></a></nav></section>
 <footer id="sources">
   <h2>Quellen</h2>
   <ul><li><a href="https://www.warcrafttavern.com/forever/guides/classes/" target="_blank" rel="noopener">Warcraft Tavern</a></li><li><a href="https://lfcarry.com/guides/wow-forever-classes" target="_blank" rel="noopener">LFCarry</a></li></ul>
@@ -1386,8 +1417,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=16576bd936" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=b478324dc8" data-root="../../" data-home="../" data-lang="de" data-teaser="Dein Profil hält deinen Weg fest: Ruhm, Rahmen, Saisons" data-close="Schließen" data-page="classes/" defer></script>
+<script src="../../assets/search/search.js?v=9da1611b67" data-root="../../" defer></script>
+<script src="../../assets/me/me.js?v=36a486068d" data-root="../../" data-home="../" data-lang="de" data-teaser="Dein Profil hält deinen Weg fest: Ruhm, Rahmen, Saisons" data-close="Schließen" data-page="classes/" data-look="1" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>
