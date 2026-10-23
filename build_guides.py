@@ -55,7 +55,7 @@ def E(x, lang):
 def check_langs(obj, path=''):
     """Paths of trilingual fields that miss ru/en/uk (or are empty); the new languages are derived from en by langs.fill."""
     gaps = []
-    if isinstance(obj, dict) and obj.get('only'):                 # one-language guide: {'uk': …} texts
+    if isinstance(obj, dict) and (obj.get('only') or obj.get('langs')):   # one-language guide, ru/uk-only section
         return gaps
     if isinstance(obj, dict):
         if set(obj) & set(langs.OLD) and set(obj) <= set(langs.ALL):
@@ -147,10 +147,11 @@ def profs_table(src):
 
 
 def render_guide(g, lang, root):
-    toc = ''.join(f'<a href="#{s["id"]}">{E(s["title"], lang)}</a>' for s in g['sections'])
+    sections = [s for s in g['sections'] if lang in s.get('langs', (lang,))]   # 'langs': a section only in these languages
+    toc = ''.join(f'<a href="#{s["id"]}">{E(s["title"], lang)}</a>' for s in sections)
     body = '\n'.join(f'<section class="frame gsec" id="{s["id"]}"><h2>{E(s["title"], lang)}</h2>'
                      + ''.join(render_block(k, d, lang, root) for k, d in s['blocks']) + '</section>'
-                     for s in g['sections'])
+                     for s in sections)
     return toc, body
 
 

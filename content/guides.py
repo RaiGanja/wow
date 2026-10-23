@@ -91,6 +91,18 @@ GUIDES.append({
                         'The other eight races and all nine classes do not need to be bought.',
                         'Решту восьми рас і всі дев’ять класів докуповувати не потрібно.')]),
         ]},
+        {'id': 'language', 'langs': ('ru', 'uk'),   # только ru и uk: язык клиента и аддоны перевода
+         'title': {'ru': 'Играть на русском', 'uk': 'Грати українською'}, 'blocks': [
+            ('raw', {
+                'ru': '<p>У WoW Forever есть русский клиент. В лаунчере Battle.net откройте настройки игры и выберите язык «Русский». Русификатор не нужен.</p>'
+                      '<p>Русская озвучка заданий, истории зон и книг — аддон Wayfarer — Russian VoiceOver. Работает только с русским клиентом. Запасной вариант — Russian Quests Voiceover.</p>'
+                      '<p class="gbtns"><a class="btn ghost" href="https://www.curseforge.com/wow/addons/wayfarer-russian-voiceover" target="_blank" rel="noopener">Wayfarer на CurseForge ↗</a>'
+                      '<a class="btn ghost" href="https://www.curseforge.com/wow/addons/wowvoice-classic" target="_blank" rel="noopener">Russian Quests Voiceover ↗</a></p>',
+                'uk': '<p>Українського клієнта у WoW Forever немає. Українською грають з аддоном UA_Forever: він перекладає завдання, підказки й вікна поверх клієнта.</p>'
+                      '<p class="gbtns"><a class="btn ghost" href="https://www.curseforge.com/wow/addons/ua-forever" target="_blank" rel="noopener">Відкрити на CurseForge ↗</a>'
+                      '<a class="btn ghost" href="../ukrainian/">Як грати українською</a></p>',
+            }),
+        ]},
         {'id': 'modes', 'title': t('Режимы игры', 'Game modes', 'Режими гри'), 'blocks': [
             ('steps', [
                 {'t': t('Обычный, PvP и RP', 'Normal, PvP and RP', 'Звичайний, PvP і RP'),

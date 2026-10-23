@@ -388,6 +388,30 @@ def card_dates(html):
     dates = {f'guides/{g["slug"]}/': g.get('updated') for g in GUIDES if g['slug'] != 'news'} | {h['path']: h.get('updated') for h in HUBS}
     return re.sub(r'(<a class="gt" href="([^"#]+)">.*?)(</a>)', lambda m: m[1] + upd_time(dates.get(m[2])) + m[3], html)
 
+# ru/uk home: one quiet line above the footer on how to play in the language; once closed (or followed), never again.
+GAME_HINT = {'ru': ('В игре есть русский язык.', 'Как включить', 'guides/faq/#language', 'Закрыть'),
+             'uk': ('Українською грають з аддоном.', 'Як встановити', 'guides/ukrainian/', 'Закрити')}
+GAME_JS = """<script>
+(function () {
+  var KEY = 'gabella-game-lang', bar = document.getElementById('gamehint'), seen = '1';
+  try { seen = localStorage.getItem(KEY); } catch (e) {}
+  if (seen) return;
+  var done = function () { try { localStorage.setItem(KEY, '1'); } catch (e) {} };
+  bar.hidden = false;
+  bar.querySelector('a').addEventListener('click', done);
+  bar.querySelector('button').addEventListener('click', function () { done(); bar.remove(); });
+})();
+</script>
+"""
+
+
+def game_hint(lang):
+    text, link, href, close = GAME_HINT[lang]
+    return (f'<div class="gamehint" id="gamehint" hidden><span>{text} <a href="{href}">{link}</a></span>'
+            f'<button type="button" aria-label="{close}"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>\n'
+            + GAME_JS)
+
+
 def build_home(lang, src):
     src = src.replace('@@RACE_LEAD@@', json.dumps({r['id']: r['lead'] for r in RACES_PAGE}, ensure_ascii=False))
     src = src.replace('@@RACE_SLUG@@', json.dumps({r['id']: r['slug'] for r in RACES_PAGE}))
@@ -398,6 +422,8 @@ def build_home(lang, src):
     html = static_links(html, lang, '')
     html = card_dates(html)
     html = home_dungeons(html, lang)
+    if lang in GAME_HINT:
+        html = html.replace('<footer id="sources"', game_hint(lang) + '<footer id="sources"', 1)
     if lang == 'ru':
         html = auto_lang(html)
     if lang != 'ru':
