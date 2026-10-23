@@ -260,6 +260,7 @@ def sw_version():
         h.update(os.path.relpath(f, HERE).replace(os.sep, '/').encode())
         h.update(open(f, 'rb').read())
     sw = os.path.join(HERE, 'sw.js')
+    assert '<<<<<<<' not in open(sw, encoding='utf-8').read(), 'sw.js: unresolved merge conflict'
     js = re.sub(r"const VERSION = '[^']*';", f"const VERSION = '{h.hexdigest()[:10]}';", open(sw, encoding='utf-8').read(), count=1)
     open(sw, 'w', encoding='utf-8', newline='\n').write(js)
 
