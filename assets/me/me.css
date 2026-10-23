@@ -22,10 +22,10 @@
 @media (prefers-reduced-motion: reduce) { .me-ring.fr-legend::before { animation: none; display: none; } }
 
 /* top bar: portrait or the login button (roster and profile pages only) */
-.mebtn { padding: 0; overflow: visible; }
+.mebtn, .mebtn:hover { padding: 0; overflow: visible; text-decoration: none; }   /* a link styled as a button: no underline */
 .mebtn .me-ring { width: 34px; height: 34px; }
-.mebtn.login { padding: 0 14px; width: auto; white-space: nowrap; font-weight: 600; font-size: .9rem; color: var(--gold-ink); background: var(--gold); border-color: var(--gold); }
-.mebtn.login:hover { background: var(--gold-2); }
+.mebtn.guest { padding: 0 14px; width: auto; white-space: nowrap; font-weight: 600; font-size: .9rem; color: var(--gold-ink); background: var(--gold); border-color: var(--gold); }
+.mebtn.guest:hover { background: var(--gold-2); }
 
 /* achievement toast */
 .me-toasts { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 1200;

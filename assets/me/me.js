@@ -156,7 +156,7 @@
         btn.title = T.ui.profile || '';
         btn.innerHTML = `<span class="me-ring fr-${esc(state.user.frame || state.user.rank)}"><img src="${face(state)}" alt="" width="30" height="30"></span>`;
       } else {
-        btn.className = 'iconbtn mebtn login';
+        btn.className = 'iconbtn mebtn guest';   // not «login»: the profile page has its own .login block
         btn.removeAttribute('title'); btn.removeAttribute('aria-label');
         btn.textContent = T.ui.login || 'Log in';
       }
