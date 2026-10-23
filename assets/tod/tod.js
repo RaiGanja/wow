@@ -15,10 +15,11 @@
     return i;
   };
   const emit = (name, detail) => document.dispatchEvent(new CustomEvent(name, { detail }));
-  let busy = null;
+  let busy = null, want = null;   // want: the latest requested variant, so a pick made during a running fade is not lost
 
   function go(to, ms) {
     const from = G.now;
+    want = to;
     if (to === from || busy) return busy || Promise.resolve();
     const next = pic.cloneNode(true);
     next.removeAttribute('data-fx');
@@ -42,6 +43,7 @@
           busy = null;
           render();
           emit('gabella:tod', { from, to });
+          if (want && want !== G.now) go(want, 1200); else want = null;
           done();
         };
         base.decode().then(swap, swap);
@@ -80,11 +82,14 @@
   G.go = t => pick(t);
   function render() {
     if (!box) return;
+    const had = box.contains(document.activeElement);
     const name = G.names[G.now];
+    const keep = () => { if (had) (box.querySelector('[aria-pressed="true"]') || box.querySelector('button')).focus(); };
     if (!open) {
       box.innerHTML = `<button type="button" aria-expanded="false" aria-label="${G.text.label}: ${name}">`
         + `<b>${name}</b>${G.pinned ? '' : `<span> · ${G.text.auto}</span>`}</button>`;
       box.firstChild.addEventListener('click', () => { open = true; render(); box.querySelector('[aria-pressed="true"]').focus(); });
+      keep();
       return;
     }
     const b = (id, label, on) => `<button type="button" data-t="${id}" aria-pressed="${on}">${label}</button>`;
@@ -92,6 +97,7 @@
       + PARTS.map(t => b(t, G.names[t], G.pinned && G.now === t)).join('<i aria-hidden="true">·</i>')
       + '<i aria-hidden="true">·</i>' + b('auto', G.text.reset, !G.pinned) + '</div>';
     box.querySelectorAll('button').forEach(x => x.addEventListener('click', () => pick(x.dataset.t)));
+    keep();
   }
   const close = () => { if (open) { open = false; render(); } };
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && open) { close(); box.querySelector('button').focus(); } });
