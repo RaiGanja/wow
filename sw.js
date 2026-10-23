@@ -5,7 +5,7 @@
    VERSION is written by build.py from the contents of assets/ and the manifests: any changed file gives
    a new worker, which drops the old caches on activate. */
 <<<<<<< HEAD
-const VERSION = 'bcbc27eb67';
+const VERSION = '10415b5561';
 =======
 const VERSION = '3dee10b65c';
 >>>>>>> origin/main

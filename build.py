@@ -71,11 +71,11 @@ def rel(from_dir, to_dir):
 
 CONTACT = 'contact@gabella.site'   # Cloudflare Email Routing -> почта Вячеслава
 LEGAL = {
-    'ru': ('Фанатский гид Gabella Team. Сайт не связан с Blizzard Entertainment и не одобрен ею. World of Warcraft, Warcraft и Blizzard Entertainment — '
+    'ru': ('Фанатский гид Gabella. Сайт не связан с Blizzard Entertainment и не одобрен ею. World of Warcraft, Warcraft и Blizzard Entertainment — '
            'товарные знаки или зарегистрированные товарные знаки Blizzard Entertainment, Inc. в США и/или других странах.', 'Конфиденциальность', 'Связь'),
-    'en': ('Gabella Team fan guide. Not affiliated with or endorsed by Blizzard Entertainment. World of Warcraft, Warcraft and Blizzard Entertainment are '
+    'en': ('Gabella fan guide. Not affiliated with or endorsed by Blizzard Entertainment. World of Warcraft, Warcraft and Blizzard Entertainment are '
            'trademarks or registered trademarks of Blizzard Entertainment, Inc. in the U.S. and/or other countries.', 'Privacy', 'Contact'),
-    'uk': ('Фанатський гід Gabella Team. Сайт не пов’язаний з Blizzard Entertainment і не схвалений нею. World of Warcraft, Warcraft і Blizzard Entertainment — '
+    'uk': ('Фанатський гід Gabella. Сайт не пов’язаний з Blizzard Entertainment і не схвалений нею. World of Warcraft, Warcraft і Blizzard Entertainment — '
            'торгові марки або зареєстровані торгові марки Blizzard Entertainment, Inc. у США та/або інших країнах.', 'Конфіденційність', 'Зв’язок'),
 }
 
@@ -86,7 +86,7 @@ langs.derive(LEGAL)
 def legal(lang, root):
     """Footer block of every page (@@LEGAL@@): trademarks, ©, privacy page, contact."""
     text, privacy, contact = LEGAL[lang]
-    return (f'<div class="legal"><p>{text}</p><p>© 2026 Gabella Team<span aria-hidden="true"> · </span>'
+    return (f'<div class="legal"><p>{text}</p><p>© 2026 Gabella<span aria-hidden="true"> · </span>'
             f'<a href="{root}{page_dir(lang, "privacy/")}">{privacy}</a><span aria-hidden="true"> · </span>'
             f'{contact}: <a href="mailto:{CONTACT}">{CONTACT}</a></p></div>')
 
@@ -209,13 +209,13 @@ def localize(html, lang, here):
 # ---------- installable site (PWA): manifest, icons, service worker sw.js ----------
 
 APP = {
-    'ru': {'name': 'WoW Forever — гид Gabella Team', 'desc': 'Классы, расы, подземелья, прокачка и сборка группы для WoW Forever.',
+    'ru': {'name': 'WoW Forever — гид Gabella', 'desc': 'Классы, расы, подземелья, прокачка и сборка группы для WoW Forever.',
            'install': 'Установить', 'install_l': 'Установить гид как приложение',
            'short': [('В игре', 'play/'), ('Гайды', 'guides/'), ('Подземелья', 'guides/dungeons/'), ('Инструменты', 'tools/'), ('Классы', 'classes/')]},
-    'en': {'name': 'WoW Forever — Gabella Team guide', 'desc': 'Classes, races, dungeons, leveling and party building for WoW Forever.',
+    'en': {'name': 'WoW Forever — Gabella guide', 'desc': 'Classes, races, dungeons, leveling and party building for WoW Forever.',
            'install': 'Install', 'install_l': 'Install the guide as an app',
            'short': [('In game', 'play/'), ('Guides', 'guides/'), ('Dungeons', 'guides/dungeons/'), ('Tools', 'tools/'), ('Classes', 'classes/')]},
-    'uk': {'name': 'WoW Forever — гід Gabella Team', 'desc': 'Класи, раси, підземелля, прокачування та збір групи для WoW Forever.',
+    'uk': {'name': 'WoW Forever — гід Gabella', 'desc': 'Класи, раси, підземелля, прокачування та збір групи для WoW Forever.',
            'install': 'Встановити', 'install_l': 'Встановити гід як застосунок',
            'short': [('У грі', 'play/'), ('Гайди', 'guides/'), ('Підземелля', 'guides/dungeons/'), ('Інструменти', 'tools/'), ('Класи', 'classes/')]},
 }

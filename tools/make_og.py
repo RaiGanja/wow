@@ -14,7 +14,7 @@ import langs  # noqa: E402
 
 CHROME = r'C:\Program Files\Google\Chrome\Application\chrome.exe'
 LANGS = langs.LANGS
-BRAND = 'Gabella Team'
+BRAND = 'Gabella'
 START = {'ru': 'Старт 4 ноября 2026', 'en': 'Launch November 4, 2026', 'uk': 'Старт 4 листопада 2026',
          'de': 'Start am 4. November 2026', 'fr': 'Lancement le 4 novembre 2026', 'es': 'Lanzamiento: 4 de noviembre de 2026',
          'pt': 'Lançamento em 4 de novembro de 2026', 'it': 'Uscita il 4 novembre 2026', 'pl': 'Start 4 listopada 2026'}
@@ -75,7 +75,7 @@ img{{position:absolute;display:block}}
 .shade{{position:absolute;inset:0;background:linear-gradient(90deg,#07080a 0%,rgba(7,8,10,.92) 34%,rgba(7,8,10,.35) 62%,rgba(7,8,10,0) 80%),
   linear-gradient(0deg,rgba(7,8,10,.85) 0%,rgba(7,8,10,0) 36%)}}
 .txt{{position:absolute;left:72px;top:0;bottom:0;width:640px;display:flex;flex-direction:column;justify-content:center;gap:22px}}
-.brand{{position:absolute;left:72px;top:56px;display:flex;align-items:center;gap:14px;font-size:24px;color:#cfc8b6;letter-spacing:.01em}}
+.brand{{position:absolute;left:72px;top:56px;display:flex;align-items:center;gap:16px;font:700 30px/1 "Bona Nova SC";color:#efe9da;letter-spacing:.04em}}
 .brand img{{position:static;width:56px;height:56px;border-radius:10px;box-shadow:0 0 0 1px rgba(201,165,74,.45)}}
 h1{{font:700 {'92' if len(title) <= 14 else '74'}px/1.02 "Bona Nova SC";letter-spacing:.02em;text-wrap:balance}}
 p{{font-size:30px;line-height:1.35;color:#c9c2b0;text-wrap:pretty;max-width:{"520" if wide else "600"}px}}

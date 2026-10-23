@@ -22,7 +22,7 @@ HERE = build.HERE
 # Пусто — сниппет не вставляется.
 CF_BEACON_TOKEN = 'ee1d216e690040389063e8d72384c2c7'
 
-BRAND = 'Gabella Team'
+BRAND = 'Gabella'
 HOME_NAME = {'ru': 'Главная', 'en': 'Home', 'uk': 'Головна'}
 SITE_NAME = {'ru': 'Гид WoW Forever', 'en': 'WoW Forever Guide', 'uk': 'Гід WoW Forever'}
 TOOLS_NAME = {'ru': 'Инструменты', 'en': 'Tools', 'uk': 'Інструменти'}
@@ -107,9 +107,9 @@ META = {
     'privacy/': (t('Конфиденциальность — гид WoW Forever',
                    'Privacy — WoW Forever Guide',
                    'Конфіденційність — гід WoW Forever'),
-                 t('Какие данные собирает гид WoW Forever от Gabella Team: статистика без cookies, хостинг GitHub Pages, что хранится в браузере и как с нами связаться.',
-                   'What data the Gabella Team WoW Forever guide collects: cookieless statistics, GitHub Pages hosting, what is stored in your browser and how to contact us.',
-                   'Які дані збирає гід WoW Forever від Gabella Team: статистика без cookies, хостинг GitHub Pages, що зберігається в браузері та як з нами зв’язатися.')),
+                 t('Какие данные собирает гид WoW Forever от Gabella: статистика без cookies, хостинг GitHub Pages, что хранится в браузере и как с нами связаться.',
+                   'What data the Gabella WoW Forever guide collects: cookieless statistics, GitHub Pages hosting, what is stored in your browser and how to contact us.',
+                   'Які дані збирає гід WoW Forever від Gabella: статистика без cookies, хостинг GitHub Pages, що зберігається в браузері та як з нами зв’язатися.')),
 }
 
 CLASS_T = t('{n} в WoW Forever: гайд — {specs}', 'WoW Forever {n} Guide: {specs} Specs', '{n} у WoW Forever: гайд — {specs}')
