@@ -66,12 +66,10 @@ def test_js_names_zones():
   ["Shaper's Terrace", 58, 60, "Un'Goro Crater", 1],
   ['Nowhere Hall', 1, 2, 'Nowhere', 0]
 ];"""
-    ru = build.js_names(js, 'ru')
-    assert "'Западный Край (Westfall)'" in ru and "'The Deadmines'" in ru          # zone in Russian + English, dungeon stays
-    assert '"Кратер Ун’Горо (Un\'Goro Crater)"' in ru and "'Nowhere'" in ru           # double quotes kept; unknown zone stays
     fr = build.js_names(js, 'fr')
     assert "'Marche de l’Ouest'" in fr and '"Cratère d’Un’Goro"' in fr               # double-quoted names localized too
-    assert build.js_names(js, 'uk') == js == build.js_names(js, 'pl')
+    assert "'Nowhere'" in fr                                                         # unknown name stays English
+    assert all(build.js_names(js, l) == js for l in ('ru', 'uk', 'en', 'pl'))      # English client: names as in game
 
 
 if __name__ == '__main__':

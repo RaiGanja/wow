@@ -433,7 +433,6 @@ def ability(ru, en, lang, tag='b'):
 
 
 JS_STR = re.compile(r"""'[^'\n]*'|"[^"\n]*\"""")
-DG_ZONE = re.compile(r"""^(\s*\[(?:'[^'\n]*'|"[^"\n]*"), \d+, \d+, )('[^'\n]*'|"[^"\n]*")""", re.M)
 
 
 def js_quote(s, q):
@@ -442,14 +441,7 @@ def js_quote(s, q):
 
 def js_names(js, lang):
     """English game names in quoted JS data (dungeons, zones, cities) -> official localized ones on de/fr/es/pt/it.
-    ru: only the entrance zone of DUNGEONS rows, as the Russian client names it + the English original
-    («Тирисфальские леса (Tirisfal Glades)»); dungeon names stay English there."""
-    if lang == 'ru':
-        def zone(m):
-            en = m[2][1:-1]
-            ru = langs.NAMES.get(en, {}).get('ru')
-            return m[1] + (js_quote(f'{ru} ({en})', m[2][0]) if ru else m[2])
-        return DG_ZONE.sub(zone, js)
+    ru/uk/en/pl keep English: the server's client has no Russian or Ukrainian, players see the English names in game."""
     if lang not in NAMED:
         return js
     return JS_STR.sub(lambda m: js_quote(langs.name(m[0][1:-1], lang), m[0][0]), js)
