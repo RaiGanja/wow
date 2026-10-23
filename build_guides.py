@@ -241,11 +241,13 @@ def dungeons_data(src, lang=None):
     return src[i:src.index('\n];', i) + 3]
 
 
-JS['professions'] = r'''/* Professions: open the tab of the class from "My hero" */
+JS['professions'] = r'''/* Professions: open the tab of the class from the link (#pairs=mage, class pages and the compare tool) or from "My hero" */
 try {
-  const cls = (JSON.parse(localStorage.getItem('gabella-wf-me')) || {}).cls;
+  const link = (location.hash.match(/^#pairs=(\w+)$/) || [])[1];
+  const cls = link || (JSON.parse(localStorage.getItem('gabella-wf-me')) || {}).cls;
   const tab = cls && document.querySelector(`#pairs [role="tab"][data-tab="${cls}"]`);
   if (tab) tab.click();
+  if (link) document.getElementById('pairs').scrollIntoView();
 } catch (e) {}'''
 
 

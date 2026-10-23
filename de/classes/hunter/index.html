@@ -43,6 +43,16 @@
 <link rel="preload" href="../../../assets/fonts/golos-text-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" type="image/avif" imagesrcset="../../../assets/art/hunter-600.avif 600w, ../../../assets/art/hunter-896.avif 896w" imagesizes="(max-width: 719px) 100vw, 75vh">
 <style>
+.cprofs { margin-top: -12px; }   /* section gap 28px -> the 16px of the panels above */
+@media (max-width: 719px) { .cprofs { margin-top: -6px; } }
+.cpairs { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 16px 32px; }
+.cpairs li { display: grid; gap: 6px; align-content: start; min-width: 0; }
+.cpairs b { font-weight: 600; font-size: 1.06rem; }
+.cpairs .pcamp { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 8px; align-items: start; color: var(--muted); font-size: .92rem; }
+.cpairs .pcamp .ico { width: 18px; height: 18px; margin-top: 3px; color: var(--gold-2); }
+.cprofs .pmore { justify-self: start; color: var(--gold-2); font-weight: 500; text-decoration: none; }
+.cprofs .pmore:hover { text-decoration: underline; }
+.cprofs .pmore .ico { width: 16px; height: 16px; margin-left: 6px; vertical-align: -3px; }
 /* Game-portal layout: full-screen art hero, faction banners, class portrait roster, tools, guides band. Night + gold, light paper theme for content. */
 @font-face { font-family: "Bona Nova SC"; font-style: normal; font-weight: 400 700; font-display: swap; src: url(../../../assets/fonts/bona-nova-sc-cyrillic.woff2) format("woff2"); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
 @font-face { font-family: "Bona Nova SC"; font-style: normal; font-weight: 400 700; font-display: swap; src: url(../../../assets/fonts/bona-nova-sc-latin-ext.woff2) format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
@@ -1003,8 +1013,8 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/search/search.css?v=6df11f1da3" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/me/me.css?v=21ee28585f" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/search/search.css?v=ff70952aa1" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/me/me.css?v=99b91f8be3" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://gabella.site/wow/de/"},{"@type":"ListItem","position":2,"name":"Klassen","item":"https://gabella.site/wow/de/classes/"},{"@type":"ListItem","position":3,"name":"Jäger","item":"https://gabella.site/wow/de/classes/hunter/"}]}</script>
 </head>
 <body style="--cc:#abd473">
@@ -1089,8 +1099,9 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   <div class="sec-head"><h2>In der Gruppe und beim Leveln</h2></div>
   <div class="grid2">
     <div class="panel"><h3>Wert für die Gruppe</h3><ul class="dots"><li>Aura des Volltreffers erhöht den Fernkampfschaden der Gruppe</li><li>Eiskältefalle: zuverlässige Kontrolle</li><li>Streuschuss unterbricht Zauber</li><li>Aspekt des Rudels macht die ganze Gruppe unterwegs schneller</li></ul></div>
-    <div class="panel"><h3>Leveln</h3><p>Das schnellste Leveln, etwa 8 % schneller als der Durchschnitt</p><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Tipp</span>Lederverarbeitung und Kürschnerei, oder Ingenieurskunst für Schusswaffen und Munition.</p></div></div>
+    <div class="panel"><h3>Leveln</h3><p>Das schnellste Leveln, etwa 8 % schneller als der Durchschnitt</p></div>
   </div>
+  <div class="panel cprofs" id="profs"><h3>Berufe</h3><ul class="cpairs"><li><b>Lederverarbeitung + Kürschnerei</b><span class="d">Für Leder- und Kettenträger. Ein Lederverarbeiter stellt im Lager das Camp Tent auf, das Erholung gibt.</span><span class="pcamp"><svg class="ico" aria-hidden="true"><use href="#i-fire"/></svg><span>Im Lager: Camp Tent — mehr Erholungserfahrung; Camp Chair — wie Aura des Moonkin</span></span></li><li><b>Ingenieurskunst + Bergbau</b><span class="d">Ein Ingenieur stellt seine eigenen Schusswaffen und Munition her.</span><span class="pcamp"><svg class="ico" aria-hidden="true"><use href="#i-fire"/></svg><span>Im Lager: Reagent Bot — Reagenzienhändler, Reparatur ab Stufe 2; Lodestone — wie Segen der Macht</span></span></li></ul><p class="small">Berufe haben in Forever keine passiven Boni: Werte bringen die Ausrüstung, Tränke und Verzauberungen, die du herstellst, und die Buffs der Lagerobjekte.</p><a class="pmore" href="../../guides/professions/#pairs=hunter">Alle Paare, Lagerobjekte und Skill steigern<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
 </section>
 
 <section class="block wrap" id="pc">
@@ -1242,8 +1253,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../../assets/radio/radio.js" data-root="../../../" defer></script>
-<script src="../../../assets/search/search.js?v=6df11f1da3" data-root="../../../" defer></script>
-<script src="../../../assets/me/me.js?v=21ee28585f" data-root="../../../" data-home="../../" data-lang="de" data-teaser="Dein Profil hält deinen Weg fest: Ruhm, Rahmen, Saisons" data-close="Schließen" data-page="classes/hunter/" data-look="1" defer></script>
+<script src="../../../assets/search/search.js?v=ff70952aa1" data-root="../../../" defer></script>
+<script src="../../../assets/me/me.js?v=99b91f8be3" data-root="../../../" data-home="../../" data-lang="de" data-teaser="Dein Profil hält deinen Weg fest: Ruhm, Rahmen, Saisons" data-close="Schließen" data-page="classes/hunter/" data-look="1" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>
