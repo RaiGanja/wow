@@ -830,6 +830,68 @@ nav.gtiles { padding: 14px; }
 .gsearch:focus-within { border-color: var(--gold); }
 .gsearch input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; color: var(--fg); font: inherit; font-size: 1.05rem; min-height: 48px; }
 .gsearch input::placeholder { color: var(--muted); }
+/* In game (/play/, build_guides.play_body): no art band, always solid bar; one column on phones, two from 960px */
+.compact .topbar { background: var(--rail); border-bottom-color: var(--line); color: var(--fg); }
+.phead { padding-top: calc(var(--top) + 22px); }
+.phead .wrap { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; }
+.phead h1 { font-size: clamp(2rem, 4vw, 2.6rem); line-height: 1; }
+.phead .glead { flex: 1 1 320px; margin: 0; font-size: .98rem; color: var(--muted); opacity: 1; }
+.pwake { gap: 6px; min-height: 36px; padding: 0 14px; cursor: pointer; font: inherit; font-size: .9rem; }
+.pwake .ico { width: 16px; height: 16px; }
+.pwake[aria-pressed="true"] { background: #c9a54a; border-color: #c9a54a; color: #15110a; }
+.gbody.play { padding-top: 14px; }
+.pgrid { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
+.pcol { display: contents; }   /* phone: one column, radio first */
+#radio { order: 1; } #level { order: 2; } #dung { order: 3; } #timers { order: 4; }
+@media (min-width: 960px) {   /* two independent columns: level + dungeons | radio + timers */
+  .pgrid { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: start; }
+  .pcol { display: grid; gap: 14px; min-width: 0; }
+}
+.psec { padding: 16px 18px; display: grid; gap: 12px; align-content: start; }
+.psec > h2, .phero h2 { margin: 0; font-size: 1.4rem; }
+#radio .rdo { border-radius: 10px; }
+.phero { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+.phero #pWho { color: var(--muted); }
+.phero a, .pmore { color: var(--gold-2); font-size: .9rem; }
+.phero a { margin-left: auto; }
+.pmore { justify-self: start; }
+.pfac { display: flex; gap: 8px; }
+.pfac[hidden] { display: none; }
+.pfac .pill, .ppre .pill, .pform .pill { min-height: 36px; padding: 0 14px; cursor: pointer; font: inherit; font-size: .92rem; }
+.pfac .pill[aria-pressed="true"] { background: #c9a54a; border-color: #c9a54a; color: #15110a; }
+.plv { display: flex; align-items: center; justify-content: center; gap: 22px; }
+.lvb { width: 56px; height: 56px; border-radius: 50%; border: 1px solid var(--pline); background: var(--panel-2); color: var(--fg); font: inherit; font-size: 1.8rem; line-height: 1; cursor: pointer; }
+.lvb:hover { border-color: var(--gold); }
+.lvb:active { transform: scale(.96); }
+#lvOut { min-width: 2.2ch; text-align: center; font-family: var(--font-display); font-weight: 700; font-size: 3.4rem; line-height: 1; color: var(--gold-2); font-variant-numeric: lining-nums tabular-nums; }
+.pnow { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 12px; align-items: baseline; }
+.pnow p, .pnext { margin: 0; }
+.ph { margin: 4px 0 0; font-size: 1rem; color: var(--muted); }
+.pnext { padding: 0; list-style: none; display: grid; gap: 6px; }
+.pnext b { color: var(--gold-2); margin-right: 8px; }
+.pnote { margin: 0; color: var(--muted); }
+.psec .tipbox { margin: 0; }
+.pdg, .ptl { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+.pdg li:not(.pnote) { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 8px 12px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--pline); }
+.pdg small { display: block; color: var(--muted); font-size: .82rem; }
+.pdg .tag { margin-left: 4px; }
+.ppre { display: flex; flex-wrap: wrap; gap: 8px; }
+.ppre .pill:hover { border-color: var(--gold); }
+.pform { display: grid; grid-template-columns: minmax(0, 1fr) 112px auto; gap: 8px; }
+.pform input { min-width: 0; min-height: 40px; padding: 0 12px; border: 1px solid var(--pline); border-radius: 8px; background: var(--panel-2); color: var(--fg); font: inherit; }
+.pform input:focus { outline: 0; border-color: var(--gold); }
+.ptl li:not(.pnote) { display: grid; grid-template-columns: minmax(0, 1fr) auto auto auto; align-items: center; gap: 8px; padding: 6px 6px 6px 12px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--pline); }
+.ptl .tn { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ptl .tt { font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; font-variant-numeric: lining-nums tabular-nums; }
+.ptl .iconbtn { width: 36px; height: 36px; }
+.ptl li.done { border-color: #c9a54a; }
+.ptl li.done .tt { color: var(--gold-2); font-family: inherit; font-size: .95rem; animation: pdone 1s steps(2) 6; }
+@keyframes pdone { 50% { opacity: .35; } }
+@media (prefers-reduced-motion: reduce) { .ptl li.done .tt { animation: none; } }
+.pnotify { display: flex; align-items: center; gap: 8px; font-size: .9rem; color: var(--muted); cursor: pointer; }
+.pnotify[hidden] { display: none; }
+.pnotify input { width: 18px; height: 18px; accent-color: #c9a54a; }
+@media (max-width: 719px) { .phead { padding-top: calc(var(--top) + 14px); } .psec { padding: 14px; } .pform { grid-template-columns: minmax(0, 1fr) 104px; } .pform .pill { grid-column: 1 / -1; justify-content: center; } }
 #more { margin-top: 56px; }
 #more .sec-head { margin-bottom: 14px; }
 @media (max-width: 1023px) {
@@ -941,7 +1003,7 @@ nav.gtiles { padding: 14px; }
   <div class="dh"><b>Усі розділи</b><button class="iconbtn" id="moreClose" type="button" aria-label="Закрити"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Усі розділи">
     <div class="grp"><div class="gh">Ця сторінка</div><a href="#dates">Дати</a><a href="#editions">Набори та ціни</a><a href="#modes">Режими гри</a><a href="#names">Імена та прізвища</a><a href="#era">Чим Forever відрізняється від Classic Era</a><a href="#questions">Часті питання</a></div>
-    <div class="grp"><div class="gh">Гід</div><a href="../../">Головна</a><a href="../../#classes">Класи</a><a href="../../#peoples">Раси</a><a href="../../#picker">Підбирач</a><a href="../../#builder">Конструктор групи</a><a href="../../tools/">Інструменти</a><a href="../">Гайди</a></div>
+    <div class="grp"><div class="gh">Гід</div><a href="../../">Головна</a><a href="../../#classes">Класи</a><a href="../../#peoples">Раси</a><a href="../../#picker">Підбирач</a><a href="../../#builder">Конструктор групи</a><a href="../../tools/">Інструменти</a><a href="../../play/">У грі</a><a href="../">Гайди</a></div>
   </nav>
   <div class="opts">
     <div class="langs" role="group" aria-label="Мова"><a href="../../../guides/faq/" data-lang="ru" hreflang="ru" lang="ru" aria-current="false">RU</a><a href="../../../en/guides/faq/" data-lang="en" hreflang="en" lang="en" aria-current="false">EN</a><a href="./" data-lang="uk" hreflang="uk" lang="uk" aria-current="true">UK</a></div>

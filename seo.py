@@ -26,6 +26,7 @@ HOME_NAME = {'ru': 'Главная', 'en': 'Home', 'uk': 'Головна'}
 SITE_NAME = {'ru': 'Гид WoW Forever', 'en': 'WoW Forever Guide', 'uk': 'Гід WoW Forever'}
 TOOLS_NAME = {'ru': 'Инструменты', 'en': 'Tools', 'uk': 'Інструменти'}
 PRIVACY_NAME = {'ru': 'Конфиденциальность', 'en': 'Privacy', 'uk': 'Конфіденційність'}
+PLAY_NAME = {'ru': 'В игре', 'en': 'In game', 'uk': 'У грі'}
 
 
 def t(ru, en, uk):
@@ -96,6 +97,12 @@ META = {
                      t('Новости WoW Forever перед релизом: закрытие беты и бронь имён с 27.10, изменения рас и классов в патчах беты, Даларан и свежая лента Wowhead.',
                        'WoW Forever news before launch: the beta closing and name reservations from 27.10, race and class changes in beta patches, Dalaran and the latest Wowhead feed.',
                        'Новини WoW Forever перед релізом: закриття бети й бронювання імен з 27.10, зміни рас і класів у патчах бети, Даларан і свіжа стрічка Wowhead.')),
+    'play/': (t('WoW Forever: второй экран — радио, зоны по уровню, таймеры',
+                'WoW Forever Second Screen: Radio, Zones by Level, Timers',
+                'WoW Forever: другий екран — радіо, зони за рівнем, таймери'),
+              t('Держите открытым во время игры: фэнтези-радио, куда идти на вашем уровне за Альянс или Орду, подземелья под уровень и таймеры с сигналом.',
+                'Keep it open while you play: fantasy radio, where to level next for Alliance or Horde, dungeons for your level and timers with an alert.',
+                'Тримайте відкритим під час гри: фентезі-радіо, куди йти на вашому рівні за Альянс чи Орду, підземелля під рівень і таймери із сигналом.')),
     'privacy/': (t('Конфиденциальность — гид WoW Forever',
                    'Privacy — WoW Forever Guide',
                    'Конфіденційність — гід WoW Forever'),
@@ -166,8 +173,8 @@ def crumbs(path, lang):
     sec = {'classes/': HUBS[0], 'races/': HUBS[1], 'guides/': HUB}
     parts = path.strip('/').split('/')
     top = parts[0] + '/'
-    if top in ('tools/', 'privacy/'):
-        items.append(((TOOLS_NAME if top == 'tools/' else PRIVACY_NAME)[lang], base + top))
+    if top in ('tools/', 'privacy/', 'play/'):
+        items.append(({'tools/': TOOLS_NAME, 'privacy/': PRIVACY_NAME, 'play/': PLAY_NAME}[top][lang], base + top))
         return items
     items.append((sec[top]['title'][lang], base + top))
     if len(parts) > 1:

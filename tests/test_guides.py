@@ -104,6 +104,36 @@ def test_sources_translated():
             assert u.startswith('https://'), u
             assert bg.L(n, 'en').isascii(), (g['slug'], n)
 
+def test_play_route_from_leveling():
+    route, tip = bg.leveling_parts()
+    assert set(route) == {'alliance', 'horde'}
+    for f, rows in route.items():
+        assert rows[0][0] == 1 and rows[-1][1] == 60, (f, rows[0][:2], rows[-1][:2])
+        for (lo, hi, _), (lo2, _h, _d) in zip(rows, rows[1:]):
+            assert lo < hi and lo2 <= hi, (f, lo, hi, lo2)   # no gap in levels between brackets
+    assert bg.check_langs(tip) == []
+
+def test_play_data_per_language():
+    import json, re
+    src = bg.home_src()
+    for lang in ('ru', 'en', 'uk'):
+        js = bg.play_data(src, lang)
+        assert js.startswith('const DUNGEONS = [')
+        p = json.loads(js[js.index('const P = ') + 10:].rstrip().rstrip(';'))
+        assert p['racef']['human'] == 'alliance' and p['racef']['orc'] == 'horde', p['racef']
+        assert len(p['cn']) == 9 and len(p['rn']) == 10 and all(p['tx'].values())
+        assert [m[0] for m in p['miles']] == sorted(m[0] for m in p['miles'])
+        if lang == 'en':
+            text = json.dumps([p['route'], p['miles'], p['tx'], p['cn'], p['rn']], ensure_ascii=False)
+            assert not re.search('[А-Яа-яЁё]', text), re.findall('[А-Яа-яЁё]+', text)[:5]
+
+def test_play_page_built():
+    for d in ('', 'en/', 'uk/'):
+        html = open(os.path.join(bg.HERE, d + 'play', 'index.html'), encoding='utf-8').read()
+        assert 'id="radioDock"' in html and 'const P = ' in html and '<body class="compact">' in html
+        assert 'class="stband ghero"' not in html and 'id="wakeBtn"' in html
+        assert 'assets/radio/radio.js' in html
+
 if __name__ == '__main__':
     for name, fn in list(globals().items()):
         if name.startswith('test_'):

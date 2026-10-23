@@ -103,3 +103,17 @@
   .rdo { left: 8px; right: 8px; width: auto; max-height: calc(100dvh - var(--top, 64px) - 88px - env(safe-area-inset-bottom, 0px)); }
   .rdo-hero { height: 120px; }
 }
+
+/* Built into a page (#radioDock on /play/): in the flow, always open, compact; stations scroll sideways */
+.rdo-docked { position: static; width: auto; max-height: none; overflow: visible; box-shadow: none; z-index: auto; }
+.rdo-docked .rdo-hero { height: 92px; border-radius: 10px 10px 0 0; overflow: hidden; }
+.rdo-docked .rdo-tt { font-size: 1.12rem; }
+.rdo-docked .rdo-body { gap: 12px; }
+.rdo-docked .rdo-tiles { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 132px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 4px; }
+.rdo-docked .rdo-tile { aspect-ratio: 16 / 10; scroll-snap-align: start; }
+.rdo-docked .rdo-tn b { font-size: .9rem; }
+.rdo-docked .rdo-tile .rdo-tn span { display: none; }
+.rdo-more { display: grid; gap: 12px; }
+.rdo-more > summary { cursor: pointer; font-weight: 600; font-size: .92rem; color: var(--muted, #a3a7ae); }
+.rdo-more[open] > summary { margin-bottom: 4px; }
+@media (max-width: 719px) { .rdo-docked { left: auto; right: auto; } .rdo-docked .rdo-hero { height: 84px; } }

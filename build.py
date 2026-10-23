@@ -93,13 +93,13 @@ def localize(html, lang, here):
 APP = {
     'ru': {'name': 'WoW Forever — гид Gabella Team', 'desc': 'Классы, расы, подземелья, прокачка и сборка группы для WoW Forever.',
            'install': 'Установить', 'install_l': 'Установить гид как приложение',
-           'short': [('Гайды', 'guides/'), ('Подземелья', 'guides/dungeons/'), ('Инструменты', 'tools/'), ('Классы', 'classes/')]},
+           'short': [('В игре', 'play/'), ('Гайды', 'guides/'), ('Подземелья', 'guides/dungeons/'), ('Инструменты', 'tools/'), ('Классы', 'classes/')]},
     'en': {'name': 'WoW Forever — Gabella Team guide', 'desc': 'Classes, races, dungeons, leveling and party building for WoW Forever.',
            'install': 'Install', 'install_l': 'Install the guide as an app',
-           'short': [('Guides', 'guides/'), ('Dungeons', 'guides/dungeons/'), ('Tools', 'tools/'), ('Classes', 'classes/')]},
+           'short': [('In game', 'play/'), ('Guides', 'guides/'), ('Dungeons', 'guides/dungeons/'), ('Tools', 'tools/'), ('Classes', 'classes/')]},
     'uk': {'name': 'WoW Forever — гід Gabella Team', 'desc': 'Класи, раси, підземелля, прокачування та збір групи для WoW Forever.',
            'install': 'Встановити', 'install_l': 'Встановити гід як застосунок',
-           'short': [('Гайди', 'guides/'), ('Підземелля', 'guides/dungeons/'), ('Інструменти', 'tools/'), ('Класи', 'classes/')]},
+           'short': [('У грі', 'play/'), ('Гайди', 'guides/'), ('Підземелля', 'guides/dungeons/'), ('Інструменти', 'tools/'), ('Класи', 'classes/')]},
 }
 
 

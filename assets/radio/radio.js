@@ -4,10 +4,11 @@
    all have played; the next track loads ahead and fades in over the last seconds of the current one (two audio elements;
    where the browser does not let a page set the volume, as on iPhone, they just follow each other). State lives in
    localStorage, so the music goes on after moving to another page: it restarts at the saved second if the page changed less
-   than a minute ago; when the browser blocks autoplay, the first click or key press on the new page resumes it. */
+   than a minute ago; when the browser blocks autoplay, the first click or key press on the new page resumes it.
+   A page with #radioDock (the in-game page /play/) gets the panel built into it, always open; the header button scrolls to it. */
 (() => {
   const SCRIPT = document.currentScript, ROOT = SCRIPT.dataset.root || './';
-  const btn = document.querySelector('.radiobtn');
+  const btn = document.querySelector('.radiobtn'), dock = document.getElementById('radioDock');
   if (!btn) return;
   const LANG = ['en', 'uk'].includes(document.documentElement.lang) ? document.documentElement.lang : 'ru';
   const L = {
@@ -15,17 +16,17 @@
       vol: 'Громкость музыки', seek: 'Позиция в треке', amb: 'Звуки вокруг', fire: 'Костёр', rain: 'Дождь', wind: 'Ветер',
       ambVol: 'Громкость: ', music: 'Музыка', err: 'Трек не загрузился — проверьте сеть', pick: 'Выберите станцию',
       air: 'Эфир', airNow: 'По времени суток · сейчас ', stations: 'Станции', sleep: 'Таймер сна', off: 'Выкл', min: ' мин',
-      left: 'выключится через ', sleepSet: 'Выключить музыку через ' },
+      left: 'выключится через ', sleepSet: 'Выключить музыку через ', more: 'Таймер сна и звуки вокруг' },
     en: { title: 'Gabella Radio', play: 'Play', pause: 'Pause', prev: 'Previous track', next: 'Next track', close: 'Close',
       vol: 'Music volume', seek: 'Track position', amb: 'Sounds around', fire: 'Campfire', rain: 'Rain', wind: 'Wind',
       ambVol: 'Volume: ', music: 'Music', err: 'The track did not load — check your connection', pick: 'Pick a station',
       air: 'On air', airNow: 'By the time of day · now ', stations: 'Stations', sleep: 'Sleep timer', off: 'Off', min: ' min',
-      left: 'stops in ', sleepSet: 'Stop the music in ' },
+      left: 'stops in ', sleepSet: 'Stop the music in ', more: 'Sleep timer and sounds around' },
     uk: { title: 'Радіо Gabella', play: 'Грати', pause: 'Пауза', prev: 'Попередній трек', next: 'Наступний трек', close: 'Закрити',
       vol: 'Гучність музики', seek: 'Позиція в треку', amb: 'Звуки довкола', fire: 'Багаття', rain: 'Дощ', wind: 'Вітер',
       ambVol: 'Гучність: ', music: 'Музика', err: 'Трек не завантажився — перевірте мережу', pick: 'Оберіть станцію',
       air: 'Ефір', airNow: 'За часом доби · зараз ', stations: 'Станції', sleep: 'Таймер сну', off: 'Вимк', min: ' хв',
-      left: 'вимкнеться за ', sleepSet: 'Вимкнути музику за ' },
+      left: 'вимкнеться за ', sleepSet: 'Вимкнути музику за ', more: 'Таймер сну та звуки довкола' },
   }[LANG];
   const KEY = 'gabella-radio', RESUME_MS = 60000;
   const FADE = 5, FADE_TUNE = 1.5, PRELOAD = 30, HISTORY = 30, SLEEP = [15, 30, 60, 90], SLEEP_FADE = 30000;
@@ -309,8 +310,8 @@
   const $ = s => panel.querySelector(s);
   function build() {
     panel = document.createElement('div');
-    panel.className = 'rdo'; panel.id = 'radioPanel'; panel.hidden = true;
-    panel.setAttribute('role', 'dialog'); panel.setAttribute('aria-label', L.title);
+    panel.className = dock ? 'rdo rdo-docked' : 'rdo'; panel.id = 'radioPanel'; panel.hidden = !dock;
+    panel.setAttribute('role', dock ? 'region' : 'dialog'); panel.setAttribute('aria-label', L.title);
     const eq = '<span class="rdo-eq" aria-hidden="true"><i></i><i></i><i></i></span>';
     const tiles = data.stations.map(s => `<button class="rdo-tile" type="button" data-s="${s.id}" aria-pressed="false" title="${s.mood[LANG]}">
       <img src="${art(s)}" alt="" loading="lazy" decoding="async" style="object-position:${s.pos || '50% 50%'}"><span class="rdo-tn"><b>${s.name[LANG]}</b><span>${s.mood[LANG]}</span></span>${eq}</button>`).join('');
@@ -323,7 +324,7 @@
     const who = authors.map(a => data.sources[a] ? `${a} (${data.sources[a]})` : a).join(', ');
     panel.innerHTML = `<div class="rdo-hero"><img class="rdo-art" alt="" decoding="async">
       <div class="rdo-now"><span class="rdo-st"></span><b class="rdo-tt"></b></div>
-      <button class="rdo-x" type="button" aria-label="${L.close}">${svg('x')}</button></div>
+      ${dock ? '' : `<button class="rdo-x" type="button" aria-label="${L.close}">${svg('x')}</button>`}</div>
       <div class="rdo-body">
       <div class="rdo-seekrow"><span class="rdo-cur">0:00</span><input class="rdo-range rdo-seek" type="range" min="0" max="1" step="1" value="0" aria-label="${L.seek}"><span class="rdo-dur">0:00</span></div>
       <div class="rdo-ctl">
@@ -335,14 +336,15 @@
       <button class="rdo-air" type="button" data-s="air" aria-pressed="false">${svg('air')}<span class="rdo-tn"><b>${L.air}</b><span class="rdo-airnow"></span></span>${eq}</button>
       <p class="rdo-h">${L.stations}</p>
       <div class="rdo-tiles">${tiles}</div>
+      ${dock ? `<details class="rdo-more"><summary>${L.more}</summary>` : ''}
       <div class="rdo-sleep"><p class="rdo-h">${svg('moon')}<span>${L.sleep}</span><span class="rdo-left" aria-live="polite"></span></p>
         <div class="rdo-chips" role="group" aria-label="${L.sleep}">${sleep}</div></div>
       <p class="rdo-h">${L.amb}</p>
-      <div class="rdo-amb">${amb}</div>
+      <div class="rdo-amb">${amb}</div>${dock ? '</details>' : ''}
       <details class="rdo-cr"><summary>${L.music}: ${who} · ${data.license}</summary>
         <ul>${credits}</ul><p>${who}. <a href="${data.license_url}" target="_blank" rel="noopener">Creative Commons ${data.license}</a></p></details>
       </div>`;
-    document.body.append(panel);
+    (dock || document.body).append(panel);
 
     panel.addEventListener('click', e => {
       const b = e.target.closest('button');
@@ -361,7 +363,7 @@
     const seek = $('.rdo-seek');
     seek.addEventListener('input', () => { seeking = true; $('.rdo-cur').textContent = fmt(seek.value); });
     seek.addEventListener('change', () => { seeking = false; if (cur().fid) { endFade(); cur().currentTime = +seek.value; } });
-    panel.addEventListener('keydown', e => { if (e.key === 'Escape') { close(); btn.focus(); } });
+    if (!dock) panel.addEventListener('keydown', e => { if (e.key === 'Escape') { close(); btn.focus(); } });
   }
   let seeking = false;
   function progress() {
@@ -411,8 +413,14 @@
     });
   }
   function close() { if (panel) panel.hidden = true; btn.setAttribute('aria-expanded', 'false'); }
-  btn.addEventListener('click', () => (panel && !panel.hidden ? close() : open()));
-  document.addEventListener('pointerdown', e => { if (panel && !panel.hidden && !panel.contains(e.target) && !btn.contains(e.target)) close(); });
+  if (dock) {
+    btn.setAttribute('aria-expanded', 'true');
+    btn.addEventListener('click', () => { dock.scrollIntoView({ behavior: 'smooth', block: 'center' }); if (panel) $('.rdo-play').focus({ preventScroll: true }); });
+    getData().then(() => { if (!panel) build(); render(); });
+  } else {
+    btn.addEventListener('click', () => (panel && !panel.hidden ? close() : open()));
+    document.addEventListener('pointerdown', e => { if (panel && !panel.hidden && !panel.contains(e.target) && !btn.contains(e.target)) close(); });
+  }
 
   // ---------- go on after a page change ----------
   const fresh = Date.now() - st.ts < RESUME_MS;

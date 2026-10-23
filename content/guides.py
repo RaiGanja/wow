@@ -803,9 +803,9 @@ PAGES = [
                        f'<p><a href="{_gh}" target="_blank" rel="noopener">GitHub privacy statement</a></p>',
                        f'<p><a href="{_gh}" target="_blank" rel="noopener">Політика конфіденційності GitHub</a></p>'))]},
          {'id': 'device', 'title': t('Что хранится у вас', 'Stored on your device', 'Що зберігається у вас'), 'blocks': [
-             ('text', [t('В памяти браузера (localStorage) сайт запоминает выбранную тему, вашего героя — расу, класс, уровень и профессии, если вы их указали, — и настройки радио: станцию, трек, очередь треков, громкость, таймер сна и звуки вокруг. Чтобы гид открывался без сети, браузер хранит копии страниц.',
-                         'In browser storage (localStorage) the site remembers your chosen theme, your hero (race, class, level and professions) if you entered them, and the radio settings: station, track, the queue of tracks, volume, sleep timer and ambient sounds. To open the guide offline, the browser keeps copies of the pages.',
-                         'У пам’яті браузера (localStorage) сайт запам’ятовує вибрану тему, вашого героя — расу, клас, рівень і професії, якщо ви їх вказали, — і налаштування радіо: станцію, трек, чергу треків, гучність, таймер сну і звуки довкола. Щоб гід відкривався без мережі, браузер зберігає копії сторінок.'),
+             ('text', [t('В памяти браузера (localStorage) сайт запоминает выбранную тему, вашего героя — расу, класс, уровень и профессии, если вы их указали, — и настройки радио: станцию, трек, очередь треков, громкость, таймер сна и звуки вокруг, а на странице «В игре» — ваши таймеры и фракцию. Чтобы гид открывался без сети, браузер хранит копии страниц.',
+                         'In browser storage (localStorage) the site remembers your chosen theme, your hero (race, class, level and professions) if you entered them, and the radio settings: station, track, the queue of tracks, volume, sleep timer and ambient sounds, and on the In game page your timers and faction. To open the guide offline, the browser keeps copies of the pages.',
+                         'У пам’яті браузера (localStorage) сайт запам’ятовує вибрану тему, вашого героя — расу, клас, рівень і професії, якщо ви їх вказали, — і налаштування радіо: станцію, трек, чергу треків, гучність, таймер сну і звуки довкола, а на сторінці «У грі» — ваші таймери та фракцію. Щоб гід відкривався без мережі, браузер зберігає копії сторінок.'),
                        t('Эти данные остаются на вашем устройстве и никуда не отправляются. Удалить их можно, очистив данные сайта в настройках браузера.',
                          'This data stays on your device and is not sent anywhere. You can delete it by clearing the site data in your browser settings.',
                          'Ці дані залишаються на вашому пристрої й нікуди не надсилаються. Видалити їх можна, очистивши дані сайту в налаштуваннях браузера.')])]},
@@ -840,3 +840,64 @@ NOT_FOUND = {
                 '<a href="uk/" lang="uk">Сторінку не знайдено — гід українською</a></p>'),
     ]}],
 }
+
+# ---------- /play/ «В игре»: второй экран на время игры. Сборка — build_guides.play_body + JS['play'] ----------
+# Маршрут по зонам и совет про отдых страница берёт из гайда «Прокачка» (секции route и pace), тут только подписи и рубежи.
+PLAY = {
+    'slug': 'play', 'path': 'play/', 'og': 'guides', 'art': 'hero_campfire', 'compact': True, 'more': False, 'js': 'play',
+    'title': t('В игре', 'In game', 'У грі'),
+    'lead': t('Второй экран на время игры: радио, что делать на вашем уровне, подземелья и таймеры.',
+              'A second screen while you play: radio, what to do at your level, dungeons and timers.',
+              'Другий екран під час гри: радіо, що робити на вашому рівні, підземелля й таймери.'),
+    'sections': [],
+}
+# Рубежи по уровню — только факты из гайдов (ездовое — секция pace «Прокачки», Хиджал — маршрут, рейды — «Подземелья и рейды»)
+PLAY_MILESTONES = [
+    (40, t('Ездовое животное: обучение 100 золотых и скакун 20 (+60% скорости).',
+           'Riding: training 100 gold and a mount 20 (+60% speed).',
+           'Їздова тварина: навчання 100 золотих і скакун 20 (+60% швидкості).')),
+    (60, t('Быстрое ездовое: 1000 и 200 золотых (+100%). Открыт Mount Hyjal, рейды — с 09.12.2026.',
+           'Fast riding: 1,000 and 200 gold (+100%). Mount Hyjal opens, raids from 09.12.2026.',
+           'Швидка їздова: 1000 і 200 золотих (+100%). Відкритий Mount Hyjal, рейди — з 09.12.2026.')),
+]
+PLAY_TX = {
+    'radio': t('Радио', 'Radio', 'Радіо'),
+    'lvl': t('Уровень', 'Level', 'Рівень'),
+    'lvDown': t('Уровень ниже', 'Level down', 'Рівень нижче'),
+    'lvUp': t('Уровень выше', 'Level up', 'Рівень вище'),
+    'noHero': t('Персонаж не выбран', 'No hero set', 'Персонажа не вибрано'),
+    'edit': t('Настроить персонажа', 'Set up your hero', 'Налаштувати персонажа'),
+    'fac': t('Фракция', 'Faction', 'Фракція'),
+    'alliance': t('Альянс', 'Alliance', 'Альянс'),
+    'horde': t('Орда', 'Horde', 'Орда'),
+    'needLvl': t('Укажите уровень кнопкой «+» — подскажем зоны и подземелья.',
+                 'Set your level with “+” to see zones and dungeons.',
+                 'Вкажіть рівень кнопкою «+» — підкажемо зони й підземелля.'),
+    'now': t('Сейчас', 'Now', 'Зараз'),
+    'next': t('Дальше', 'Next', 'Далі'),
+    'from': t('с', 'from', 'з'),
+    'at': t('на', 'at', 'на'),
+    'route': t('Весь маршрут', 'Full route', 'Весь маршрут'),
+    'dung': t('Подземелья под', 'Dungeons for level', 'Підземелля під'),
+    'dungNone': t('Под этот уровень подземелий нет.', 'No dungeons for this level.', 'Під цей рівень підземель немає.'),
+    'all': t('Все подземелья', 'All dungeons', 'Усі підземелля'),
+    'new': t('новое', 'new', 'нове'),
+    'timers': t('Таймеры', 'Timers', 'Таймери'),
+    'food': t('Еда', 'Food', 'Їжа'),
+    'foodNote': t('+5% опыта за врагов', '+5% experience from enemies', '+5% досвіду за ворогів'),
+    'min': t('мин', 'min', 'хв'),
+    'custom': t('Своё', 'Custom', 'Своє'),
+    'name': t('Название', 'Name', 'Назва'),
+    'minutes': t('Минут', 'Minutes', 'Хвилин'),
+    'start': t('Старт', 'Start', 'Старт'),
+    'timer': t('Таймер', 'Timer', 'Таймер'),
+    'done': t('Время вышло', 'Time is up', 'Час вийшов'),
+    'again': t('Ещё раз', 'Again', 'Ще раз'),
+    'remove': t('Убрать', 'Remove', 'Прибрати'),
+    'noTimers': t('Нажмите на заготовку или задайте своё время. Таймеры идут и после перезагрузки страницы.',
+                  'Tap a preset or set your own time. Timers keep running after the page reloads.',
+                  'Натисніть заготовку або задайте свій час. Таймери йдуть і після перезавантаження сторінки.'),
+    'notify': t('Уведомление, когда вкладка в фоне', 'Notify when the tab is in the background', 'Сповіщення, коли вкладка у фоні'),
+    'wake': t('Экран не гаснет', 'Keep screen on', 'Екран не гасне'),
+}
+PAGES.append(PLAY)

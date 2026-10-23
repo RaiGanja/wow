@@ -7,7 +7,7 @@ from html import escape
 
 import build
 from build import LANGS, SITE, page_dir, rel, localize, translate
-from content.guides import GUIDES, HUB, HUBS, NEWS, NOT_FOUND, PAGES
+from content.guides import GUIDES, HUB, HUBS, NEWS, NOT_FOUND, PAGES, PLAY_MILESTONES, PLAY_TX
 
 HERE = build.HERE
 
@@ -206,7 +206,7 @@ renderDg();'''
 JS['dungeons'] = {l: DG_JS.replace('@@TX@@', json.dumps(DG_TX[l], ensure_ascii=False)) for l in LANGS}
 
 
-def dungeons_data(src):
+def dungeons_data(src, lang=None):
     """Only the DUNGEONS array of the home page: the rest of its data is Russian and not needed here."""
     i = src.index('const DUNGEONS = [')
     return src[i:src.index('\n];', i) + 3]
@@ -240,7 +240,222 @@ def ref_js(src, lang):
 JS['classref'] = 'renderClassRef();'
 JS['raceref'] = 'renderRaceRef();'
 
-DATA = {'dungeons': dungeons_data}   # js key -> data blocks from index.src.html
+# ---------- /play/ «В игре»: compact page, a second screen while playing ----------
+
+def leveling_parts():
+    """From the Leveling guide: zone route {faction: [(lo, hi, text)]} and the tip of the pace section."""
+    g = next(x for x in GUIDES if x['slug'] == 'leveling')
+    sec = {s['id']: s for s in g['sections']}
+    tabs = next(d for k, d in sec['route']['blocks'] if k == 'tabs')
+    route = {}
+    for tab in tabs:
+        steps = next(d for k, d in tab['blocks'] if k == 'steps')
+        route[tab['id']] = [(*map(int, L(x['t'], 'ru').split('–')), x['d']) for x in steps]
+    tip = next(d for k, d in sec['pace']['blocks'] if k == 'tip')
+    return route, tip
+
+
+def play_data(src, lang):
+    """Language data of the page script: route, milestones, labels, race -> faction and race/class names."""
+    route, _ = leveling_parts()
+    races = build.parse_races(src)
+    data = {
+        'route': {f: [[lo, hi, L(d, lang)] for lo, hi, d in rows] for f, rows in route.items()},
+        'miles': [[lv, L(x, lang)] for lv, x in PLAY_MILESTONES],
+        'tx': {k: L(v, lang) for k, v in PLAY_TX.items()},
+        'racef': {r['id']: r['f'] for r in races},
+        'rn': {r['id']: build.tr(r['n'], lang) for r in races},
+        'cn': {c['id']: build.tr(c['n'], lang) for c in build.CLASSES},
+    }
+    return dungeons_data(src) + '\nconst P = ' + json.dumps(data, ensure_ascii=False) + ';\n'
+
+
+def play_head(lang):
+    return ('<section class="phead" id="top"><div class="wrap"><h1>@@TITLE@@</h1><p class="glead">@@LEAD@@</p>'
+            '<button class="pill pwake" id="wakeBtn" type="button" aria-pressed="false" hidden>'
+            f'<svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg>{E(PLAY_TX["wake"], lang)}</button></div></section>')
+
+
+def play_body(lang, root):
+    x = lambda k: E(PLAY_TX[k], lang)
+    _, tip = leveling_parts()
+    fac = ''.join(f'<button type="button" class="pill" data-f="{f}" aria-pressed="false">{x(f)}</button>' for f in ('alliance', 'horde'))
+    presets = (f'<button type="button" class="pill" data-min="15" data-name="{x("food")}" title="{x("foodNote")}">{x("food")} · 15 {x("min")}</button>'
+               + ''.join(f'<button type="button" class="pill" data-min="{m}">{m} {x("min")}</button>' for m in (5, 10, 30)))
+    return f'''<div class="pgrid"><div class="pcol">
+<section class="frame psec" id="level" aria-labelledby="hLvl">
+  <div class="phero"><h2 id="hLvl">{x("lvl")}</h2><span id="pWho"></span><a href="{root}#me">{x("edit")}</a></div>
+  <div class="pfac" id="pFac" role="group" aria-label="{x("fac")}">{fac}</div>
+  <div class="plv"><button type="button" class="lvb" id="lvDown" aria-label="{x("lvDown")}">−</button><output id="lvOut" aria-live="polite">—</output><button type="button" class="lvb" id="lvUp" aria-label="{x("lvUp")}">+</button></div>
+  <div id="pNow"></div>
+  {render_block('tip', tip, lang, root)}
+  <a class="pmore" href="{root}guides/leveling/#route">{x("route")}</a>
+</section>
+<section class="frame psec" id="dung" aria-labelledby="hDg"><h2 id="hDg">{x("dung")} <span id="dgLv">…</span></h2><ul class="pdg" id="pDg"></ul>
+  <a class="pmore" href="{root}guides/dungeons/#list">{x("all")}</a></section>
+</div><div class="pcol">
+<section class="frame psec" id="radio" aria-labelledby="hRadio"><h2 id="hRadio">{x("radio")}</h2><div id="radioDock"></div></section>
+<section class="frame psec" id="timers" aria-labelledby="hT"><h2 id="hT">{x("timers")}</h2>
+  <div class="ppre" id="tPre">{presets}</div>
+  <form class="pform" id="tForm" novalidate><input id="tName" maxlength="40" placeholder="{x("name")}" aria-label="{x("name")}">
+    <input id="tMin" type="number" min="1" max="600" inputmode="numeric" placeholder="{x("minutes")}" aria-label="{x("minutes")}">
+    <button type="submit" class="pill gold">{x("start")}</button></form>
+  <ul class="ptl" id="tList" aria-live="polite"></ul>
+  <label class="pnotify" id="tNotify" hidden><input type="checkbox"> {x("notify")}</label>
+</section>
+</div></div>'''
+
+
+JS['play'] = r'''/* In game: level -> zones and the next milestones (data from the Leveling guide), dungeons near the level, timers,
+   screen wake lock. Level, race and class are the shared hero "gabella-wf-me" of the home page (the level is written back);
+   the faction without a race, the timers and the notification choice live in "gabella-play". */
+const TX = P.tx, MEKEY = 'gabella-wf-me', PKEY = 'gabella-play';
+const rd = k => { try { return JSON.parse(localStorage.getItem(k)) || {}; } catch (e) { return {}; } };
+const wr = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+const ps = Object.assign({ fac: 'alliance', timers: [], notify: false }, rd(PKEY));
+if (!Array.isArray(ps.timers)) ps.timers = [];
+const saveP = () => wr(PKEY, ps);
+const lvOf = m => Math.max(0, Math.min(60, parseInt(m.lvl, 10) || 0));
+const lvRange = d => d[1] === d[2] ? String(d[1]) : `${d[1]}–${d[2]}`;
+const nearLvl = (d, lv) => lv >= d[1] - 3 && lv <= d[2] + 3;
+function setLvl(v) { const m = rd(MEKEY); m.lvl = Math.max(1, Math.min(60, v)); wr(MEKEY, m); renderLvl(); }
+
+function renderLvl() {
+  const m = rd(MEKEY), lv = lvOf(m), raceF = P.racef[m.race], fac = raceF || ps.fac;
+  $('#pWho').textContent = P.rn[m.race] || P.cn[m.cls] ? [P.rn[m.race], P.cn[m.cls], TX[raceF]].filter(Boolean).join(' · ') : TX.noHero;
+  $('#pFac').hidden = !!raceF;
+  document.querySelectorAll('#pFac button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.f === fac)));
+  $('#lvOut').textContent = lv || '—';
+  $('#dgLv').textContent = lv || '…';
+  if (!lv) {
+    $('#pNow').innerHTML = `<p class="pnote">${esc(TX.needLvl)}</p>`;
+    $('#pDg').innerHTML = `<li class="pnote">${esc(TX.needLvl)}</li>`;
+    return;
+  }
+  const route = P.route[fac], nx = route.find(r => r[0] > lv), ms = P.miles.find(x => x[0] >= lv);
+  let h = route.filter(r => lv >= r[0] && lv <= r[1]).map(r => `<div class="pnow"><span class="pill gold">${r[0]}–${r[1]}</span><p>${esc(r[2])}</p></div>`).join('');
+  const next = (nx ? `<li><b>${TX.from} ${nx[0]}</b>${esc(nx[2])}</li>` : '') + (ms ? `<li><b>${ms[0] === lv ? TX.now : TX.at + ' ' + ms[0]}</b>${esc(ms[1])}</li>` : '');
+  if (next) h += `<h3 class="ph">${TX.next}</h3><ul class="pnext">${next}</ul>`;
+  $('#pNow').innerHTML = h;
+  const dg = DUNGEONS.filter(d => nearLvl(d, lv))
+    .sort((a, b) => Math.abs(a[1] + a[2] - 2 * lv) - Math.abs(b[1] + b[2] - 2 * lv)).slice(0, 6).sort((a, b) => a[1] - b[1] || a[2] - b[2]);
+  $('#pDg').innerHTML = dg.length ? dg.map(d => `<li><span><b>${esc(d[0])}</b>${d[4] ? ` <span class="tag new">${TX.new}</span>` : ''}<small>${esc(d[3])}</small></span>`
+    + `<span class="pill${lv >= d[1] && lv <= d[2] ? ' gold' : ''}">${lvRange(d)}</span></li>`).join('') : `<li class="pnote">${TX.dungNone}</li>`;
+}
+$('#lvDown').addEventListener('click', () => setLvl((lvOf(rd(MEKEY)) || 2) - 1));
+$('#lvUp').addEventListener('click', () => setLvl(lvOf(rd(MEKEY)) + 1));
+$('#pFac').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { ps.fac = b.dataset.f; saveP(); renderLvl(); } });
+addEventListener('keydown', e => {   // + / − on the keyboard: level up or down, outside text fields
+  if (e.ctrlKey || e.metaKey || e.altKey || e.target.closest('input, textarea, select')) return;
+  if (e.key === '+' || e.key === '=') setLvl(lvOf(rd(MEKEY)) + 1);
+  else if (e.key === '-' || e.key === '_') setLvl((lvOf(rd(MEKEY)) || 2) - 1);
+});
+addEventListener('storage', e => { if (e.key === MEKEY) renderLvl(); });
+renderLvl();
+
+/* Timers: the end time is stored, so they keep going after a reload. When one ends: three beeps, a blinking tab title
+   and, if the visitor asked for it, a notification while the tab is in the background */
+let actx = null;
+function unlock() {   // the sound context has to start from a tap or a key
+  try { actx = actx || new (window.AudioContext || window.webkitAudioContext)(); if (actx.state === 'suspended') actx.resume(); } catch (e) {}
+}
+function beep() {
+  if (!actx) return;
+  [0, .35, .7].forEach(t => {
+    const o = actx.createOscillator(), g = actx.createGain(), s = actx.currentTime + t;
+    o.frequency.value = 880; o.connect(g).connect(actx.destination);
+    g.gain.setValueAtTime(.0001, s); g.gain.exponentialRampToValueAtTime(.3, s + .02); g.gain.exponentialRampToValueAtTime(.0001, s + .25);
+    o.start(s); o.stop(s + .3);
+  });
+}
+function notify(x) {
+  if (!ps.notify || !document.hidden || !('Notification' in window) || Notification.permission !== 'granted') return;
+  const opt = { body: TX.done, icon: ROOT + 'assets/icons/icon-192.png', tag: 'play-' + x.id };
+  try { new Notification(x.name, opt); }
+  catch (e) { if (navigator.serviceWorker) navigator.serviceWorker.ready.then(r => r.showNotification(x.name, opt)).catch(() => {}); }
+}
+const fmtT = ms => {
+  const s = Math.max(0, Math.ceil(ms / 1000)), m = Math.floor(s / 60), ss = String(s % 60).padStart(2, '0');
+  return m >= 60 ? `${Math.floor(m / 60)}:${String(m % 60).padStart(2, '0')}:${ss}` : `${m}:${ss}`;
+};
+const AGAIN = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></svg>';
+function renderTimers() {
+  $('#tList').innerHTML = ps.timers.length ? ps.timers.map(x => `<li data-id="${esc(x.id)}"><span class="tn">${esc(x.name)}</span><span class="tt"></span>`
+    + `<button type="button" class="iconbtn" data-act="again" aria-label="${esc(TX.again)}: ${esc(x.name)}">${AGAIN}</button>`
+    + `<button type="button" class="iconbtn" data-act="rm" aria-label="${esc(TX.remove)}: ${esc(x.name)}"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></li>`).join('')
+    : `<li class="pnote">${esc(TX.noTimers)}</li>`;
+  tick();
+}
+const baseTitle = document.title;
+let blink = false;
+function tick() {
+  const now = Date.now();
+  let soonest = Infinity, rung = null, changed = false;
+  ps.timers.forEach(x => {
+    const left = x.end - now;
+    if (left <= 0 && !x.rang) { x.rang = true; changed = true; beep(); notify(x); }
+    if (left > 0) soonest = Math.min(soonest, left); else rung = rung || x;
+    const li = document.querySelector(`#tList li[data-id="${CSS.escape(x.id)}"]`);
+    if (li) { li.classList.toggle('done', left <= 0); li.querySelector('.tt').textContent = left > 0 ? fmtT(left) : TX.done; }
+  });
+  if (changed) saveP();
+  blink = !blink;
+  document.title = rung ? (document.hidden && blink ? `⏰ ${TX.done}` : `⏰ ${rung.name} · ${baseTitle}`)
+    : soonest < Infinity ? `${fmtT(soonest)} · ${baseTitle}` : baseTitle;
+}
+function addTimer(name, min) {
+  unlock();
+  ps.timers.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), name, min, end: Date.now() + min * 60000, rang: false });
+  saveP(); renderTimers();
+}
+ps.timers.forEach(x => { if (x.end < Date.now() - 60000) x.rang = true; });   // ended while the page was closed: no beep now
+$('#tPre').addEventListener('click', e => {
+  const b = e.target.closest('button[data-min]');
+  if (b) addTimer(b.dataset.name || `${b.dataset.min} ${TX.min}`, +b.dataset.min);
+});
+$('#tForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const min = parseInt($('#tMin').value, 10);
+  if (!(min >= 1 && min <= 600)) { $('#tMin').focus(); return; }
+  addTimer($('#tName').value.trim() || `${TX.timer} · ${min} ${TX.min}`, min);
+  $('#tName').value = ''; $('#tMin').value = '';
+});
+$('#tList').addEventListener('click', e => {
+  const b = e.target.closest('button[data-act]');
+  if (!b) return;
+  const id = b.closest('li').dataset.id, x = ps.timers.find(t => t.id === id);
+  if (!x) return;
+  if (b.dataset.act === 'again') { unlock(); x.end = Date.now() + x.min * 60000; x.rang = false; }
+  else ps.timers = ps.timers.filter(t => t !== x);
+  saveP(); renderTimers();
+});
+addEventListener('pointerdown', unlock, { once: true });
+const nBox = $('#tNotify'), nIn = nBox.querySelector('input');
+if ('Notification' in window) {
+  nBox.hidden = false;
+  nIn.checked = ps.notify && Notification.permission === 'granted';
+  nIn.addEventListener('change', () => {
+    if (!nIn.checked) { ps.notify = false; saveP(); return; }
+    Promise.resolve(Notification.requestPermission()).then(p => { ps.notify = p === 'granted'; nIn.checked = ps.notify; saveP(); });
+  });
+}
+renderTimers();
+setInterval(tick, 500);
+
+/* Keep the screen on (a phone or tablet next to the keyboard); the browser drops the lock when the tab is hidden */
+const wb = $('#wakeBtn');
+let wl = null, wantWake = false;
+const paintWake = () => wb.setAttribute('aria-pressed', String(wantWake));
+function lock() {
+  navigator.wakeLock.request('screen').then(l => { wl = l; l.addEventListener('release', () => { wl = null; }); }, () => { wantWake = false; paintWake(); });
+}
+if ('wakeLock' in navigator) {
+  wb.hidden = false;
+  wb.addEventListener('click', () => { wantWake = !wantWake; paintWake(); if (wantWake) lock(); else if (wl) wl.release(); });
+  document.addEventListener('visibilitychange', () => { if (wantWake && !wl && document.visibilityState === 'visible') lock(); });
+}'''
+
+DATA = {'dungeons': dungeons_data, 'play': play_data}   # js key -> data blocks (from index.src.html and content)
 REF = ('classref', 'raceref')        # js keys fed by ref_js (language-specific)
 
 
@@ -269,6 +484,10 @@ def build_page(g, lang, tpl, base_css, sprite, src):
     html, missing = translate(html, lang)                       # 1) обвязка
     root = rel(here, page_dir(lang))
     toc, body = render_guide(g, lang, root) if g['slug'] else hub_body(lang, root)
+    if g.get('compact'):                                          # /play/: small heading instead of the art band
+        html = re.sub(r'<section class="stband ghero" id="top">.*?</section>', lambda _: play_head(lang), html, count=1, flags=re.S)
+        html = html.replace('<body>', '<body class="compact">', 1).replace('<main class="wrap gbody', '<main class="wrap gbody play', 1)
+        body = play_body(lang, root)
     if g is NOT_FOUND:
         body += hub_body(lang, root)[1]                           # 404: every section of the guide as tiles
     if len(g.get('sections', ())) == 1:
@@ -294,7 +513,7 @@ def build_page(g, lang, tpl, base_css, sprite, src):
         'SOLO': '' if toc else ' solo', 'MORE_H': (MORE_SITE if section else MORE_H)[lang],
         'SOURCES': ''.join(f'<li><a href="{u}" target="_blank" rel="noopener">{E(n, lang)}</a></li>' for n, u in g.get('sources', [])),
         'UPDATED': g.get('updated', HUB.get('updated', '')),
-        'JS': ((DATA[js](src) + '\n' if js in DATA else ref_js(src, lang) + '\n' if js in REF else '') + L(JS[js], lang)) if js else '',
+        'JS': ((DATA[js](src, lang) + '\n' if js in DATA else ref_js(src, lang) + '\n' if js in REF else '') + L(JS[js], lang)) if js else '',
     }
     for k, v in rep.items():                                     # 2) тело
         html = html.replace(f'@@{k}@@', v)
@@ -333,7 +552,8 @@ def not_found_page(tpl, base_css, sprite, src):
 
 def main():
     gaps = (check_langs(HUB, 'HUB') + [p for g in GUIDES + HUBS + PAGES + [NOT_FOUND] for p in check_langs(g, g['slug'])]
-            + check_langs(NEWS, 'NEWS') + check_langs(SITE_TILES, 'SITE_TILES'))
+            + check_langs(NEWS, 'NEWS') + check_langs(SITE_TILES, 'SITE_TILES')
+            + check_langs(PLAY_TX, 'PLAY_TX') + check_langs(PLAY_MILESTONES, 'PLAY_MILESTONES'))
     assert not gaps, gaps[:10]
     src = open(os.path.join(HERE, 'index.src.html'), encoding='utf-8').read()
     tpl = open(os.path.join(HERE, 'guide.src.html'), encoding='utf-8').read()
