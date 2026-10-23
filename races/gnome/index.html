@@ -973,6 +973,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <link rel="manifest" href="../../manifest-ru.webmanifest">
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
+<link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://gabella.site/wow/"},{"@type":"ListItem","position":2,"name":"Расы","item":"https://gabella.site/wow/races/"},{"@type":"ListItem","position":3,"name":"Гном","item":"https://gabella.site/wow/races/gnome/"}]}</script>
 </head>
 <body style="--cc:var(--alliance);--fh:#86a6d8">
@@ -1003,6 +1004,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   </nav>
   <div class="tools">
     <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" aria-label="Язык: Русский">RU</button><ul class="langlist" hidden><li><a href="./" data-lang="ru" hreflang="ru" lang="ru" aria-current="page"><span>Русский</span><small>RU</small></a></li><li><a href="../../en/races/gnome/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../../uk/races/gnome/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../../de/races/gnome/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="../../fr/races/gnome/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="../../es/races/gnome/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="../../pt/races/gnome/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="../../it/races/gnome/" data-lang="it" hreflang="it" lang="it"><span>Italiano</span><small>IT</small></a></li><li><a href="../../pl/races/gnome/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
+    <button class="iconbtn radiobtn" type="button" aria-label="Радио" title="Радио" aria-expanded="false" aria-controls="radioPanel" aria-pressed="false"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg><span class="rdo-eq" aria-hidden="true"><i></i><i></i><i></i></span></button>
     <button class="iconbtn themebtn" type="button" aria-label="Переключить тему" title="Переключить тему"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></button>
     <button class="iconbtn menubtn" type="button" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg><span>Разделы</span></button>
   </div>
@@ -1176,6 +1178,7 @@ addEventListener('beforeinstallprompt', e => {
   opts.append(b);
 });
 </script>
+<script src="../../assets/radio/radio.js" data-root="../../" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

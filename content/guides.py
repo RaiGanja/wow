@@ -770,6 +770,7 @@ HUBS = [
 from build import CONTACT  # noqa: E402  (адрес один на весь сайт, подвал берёт его оттуда же)
 _mail = f'<a href="mailto:{CONTACT}">{CONTACT}</a>'
 _cf = 'https://www.cloudflare.com/privacypolicy/'
+_cc = 'https://creativecommons.org/licenses/by/4.0/'
 _gh = 'https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement'
 
 PAGES = [
@@ -802,16 +803,19 @@ PAGES = [
                        f'<p><a href="{_gh}" target="_blank" rel="noopener">GitHub privacy statement</a></p>',
                        f'<p><a href="{_gh}" target="_blank" rel="noopener">Політика конфіденційності GitHub</a></p>'))]},
          {'id': 'device', 'title': t('Что хранится у вас', 'Stored on your device', 'Що зберігається у вас'), 'blocks': [
-             ('text', [t('В памяти браузера (localStorage) сайт запоминает выбранную тему и вашего героя — расу, класс, уровень и профессии, если вы их указали. Чтобы гид открывался без сети, браузер хранит копии страниц.',
-                         'In browser storage (localStorage) the site remembers your chosen theme and your hero (race, class, level and professions) if you entered them. To open the guide offline, the browser keeps copies of the pages.',
-                         'У пам’яті браузера (localStorage) сайт запам’ятовує вибрану тему та вашого героя — расу, клас, рівень і професії, якщо ви їх вказали. Щоб гід відкривався без мережі, браузер зберігає копії сторінок.'),
+             ('text', [t('В памяти браузера (localStorage) сайт запоминает выбранную тему, вашего героя — расу, класс, уровень и профессии, если вы их указали, — и настройки радио: станцию, трек, очередь треков, громкость, таймер сна и звуки вокруг. Чтобы гид открывался без сети, браузер хранит копии страниц.',
+                         'In browser storage (localStorage) the site remembers your chosen theme, your hero (race, class, level and professions) if you entered them, and the radio settings: station, track, the queue of tracks, volume, sleep timer and ambient sounds. To open the guide offline, the browser keeps copies of the pages.',
+                         'У пам’яті браузера (localStorage) сайт запам’ятовує вибрану тему, вашого героя — расу, клас, рівень і професії, якщо ви їх вказали, — і налаштування радіо: станцію, трек, чергу треків, гучність, таймер сну і звуки довкола. Щоб гід відкривався без мережі, браузер зберігає копії сторінок.'),
                        t('Эти данные остаются на вашем устройстве и никуда не отправляются. Удалить их можно, очистив данные сайта в настройках браузера.',
                          'This data stays on your device and is not sent anywhere. You can delete it by clearing the site data in your browser settings.',
                          'Ці дані залишаються на вашому пристрої й нікуди не надсилаються. Видалити їх можна, очистивши дані сайту в налаштуваннях браузера.')])]},
-         {'id': 'links', 'title': t('Шрифты и ссылки', 'Fonts and links', 'Шрифти та посилання'), 'blocks': [
-             ('text', [t('Шрифты и картинки загружаются с нашего же сайта, без сторонних сервисов. Ссылки на источники ведут на другие сайты, у них свои правила конфиденциальности.',
-                         'Fonts and images load from this site, with no third-party services. Links to sources lead to other sites, which have their own privacy rules.',
-                         'Шрифти й зображення завантажуються з нашого ж сайту, без сторонніх сервісів. Посилання на джерела ведуть на інші сайти, у них свої правила конфіденційності.')])]},
+         {'id': 'links', 'title': t('Шрифты, музыка и ссылки', 'Fonts, music and links', 'Шрифти, музика та посилання'), 'blocks': [
+             ('text', [t('Шрифты, картинки и музыка радио загружаются с нашего же сайта, без сторонних сервисов. Музыка загружается, только когда вы включили радио; звуки костра, дождя и ветра создаёт сам браузер. Ссылки на источники ведут на другие сайты, у них свои правила конфиденциальности.',
+                         'Fonts, images and radio music load from this site, with no third-party services. Music loads only when you turn the radio on; the campfire, rain and wind sounds are made by the browser itself. Links to sources lead to other sites, which have their own privacy rules.',
+                         'Шрифти, зображення й музика радіо завантажуються з нашого ж сайту, без сторонніх сервісів. Музика завантажується, лише коли ви ввімкнули радіо; звуки багаття, дощу й вітру створює сам браузер. Посилання на джерела ведуть на інші сайти, у них свої правила конфіденційності.')]),
+             ('raw', t(f'<p>Музыка радио: Kevin MacLeod (incompetech.com), лицензия <a href="{_cc}" target="_blank" rel="noopener">Creative Commons BY 4.0</a>. Список треков — в панели радио.</p>',
+                       f'<p>Radio music: Kevin MacLeod (incompetech.com), licensed under <a href="{_cc}" target="_blank" rel="noopener">Creative Commons BY 4.0</a>. The track list is in the radio panel.</p>',
+                       f'<p>Музика радіо: Kevin MacLeod (incompetech.com), ліцензія <a href="{_cc}" target="_blank" rel="noopener">Creative Commons BY 4.0</a>. Список треків — у панелі радіо.</p>'))]},
          {'id': 'contact', 'title': t('Связь', 'Contact', 'Зв’язок'), 'blocks': [
              ('text', [t('Персональных данных у нас нет, поэтому выдавать или удалять нечего. С вопросами о данных, ошибками в гайде и претензиями правообладателей пишите на почту ниже.',
                          'We hold no personal data, so there is nothing to hand over or delete. For questions about data, mistakes in the guide or copyright concerns, write to the address below.',

@@ -1007,6 +1007,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 <link rel="manifest" href="../../manifest-it.webmanifest">
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
+<link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/it/"},{"@type":"ListItem","position":2,"name":"Strumenti","item":"https://gabella.site/wow/it/tools/"}]}</script>
 </head>
 <body>
@@ -1038,6 +1039,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
   </nav>
   <div class="tools">
     <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" aria-label="Lingua: Italiano">IT</button><ul class="langlist" hidden><li><a href="../../tools/" data-lang="ru" hreflang="ru" lang="ru"><span>Русский</span><small>RU</small></a></li><li><a href="../../en/tools/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../../uk/tools/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../../de/tools/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="../../fr/tools/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="../../es/tools/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="../../pt/tools/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="./" data-lang="it" hreflang="it" lang="it" aria-current="page"><span>Italiano</span><small>IT</small></a></li><li><a href="../../pl/tools/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
+    <button class="iconbtn radiobtn" type="button" aria-label="Radio" title="Radio" aria-expanded="false" aria-controls="radioPanel" aria-pressed="false"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg><span class="rdo-eq" aria-hidden="true"><i></i><i></i><i></i></span></button>
     <button class="iconbtn themebtn" type="button" aria-label="Cambia tema" title="Cambia tema"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></button>
     <button class="iconbtn menubtn" type="button" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg><span>Sezioni</span></button>
   </div>
@@ -1678,6 +1680,7 @@ addEventListener('beforeinstallprompt', e => {
   opts.append(b);
 });
 </script>
+<script src="../../assets/radio/radio.js" data-root="../../" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

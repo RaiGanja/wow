@@ -238,13 +238,28 @@ def sw_version():
     open(sw, 'w', encoding='utf-8', newline='\n').write(js)
 
 
+RADIO = langs.derive({'ru': 'Радио', 'en': 'Radio', 'uk': 'Радіо'})
+RADIO_BTN = ('<button class="iconbtn radiobtn" type="button" aria-label="@@L@@" title="@@L@@" aria-expanded="false" aria-controls="radioPanel" aria-pressed="false">'
+             '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
+             '<path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>'
+             '<span class="rdo-eq" aria-hidden="true"><i></i><i></i><i></i></span></button>\n    ')
+
+
+def radio(html, lang, root):
+    """Radio (assets/radio/, tools/make_radio.py): button before the theme button of the top bar, styles without blocking the page, script."""
+    html = html.replace('<button class="iconbtn themebtn"', RADIO_BTN.replace('@@L@@', RADIO[lang]) + '<button class="iconbtn themebtn"', 1)
+    head = (f'<link rel="stylesheet" href="{root}assets/radio/radio.css" media="print" onload="this.media=\'all\'">\n</head>')
+    js = f'<script src="{root}assets/radio/radio.js" data-root="{root}" defer></script>\n</body>'
+    return html.replace('</head>', head, 1).replace('</body>', js, 1)
+
+
 def pwa(html, lang, root):
     a = APP[lang]
     head = (f'<link rel="manifest" href="{root}manifest-{lang}.webmanifest">\n'
             f'<link rel="apple-touch-icon" href="{root}assets/icons/apple-touch-icon.png">\n'
             '<meta name="apple-mobile-web-app-title" content="Gabella WoW">\n</head>')
     js = PWA_JS.replace('@@R@@', root).replace('@@L@@', a['install_l']).replace('@@T@@', a['install'])
-    return html.replace('</head>', head, 1).replace('</body>', js + '</body>', 1)
+    return radio(html.replace('</head>', head, 1).replace('</body>', js + '</body>', 1), lang, root)
 
 
 # ---------- home page ----------
