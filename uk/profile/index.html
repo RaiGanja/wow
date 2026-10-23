@@ -1378,7 +1378,7 @@ function rankBlock(pts) {
 function bcard(p, o) {
   o = o || {};
   const c = p.main, bg = p.background || race(c.race).slug;
-  const src = /^hero_/.test(bg) ? `${ROOT}assets/art/${bg}-960.webp` : `${ROOT}assets/art/${bg}-896.webp`;
+  const src = /^(hero_|scene-)/.test(bg) ? `${ROOT}assets/art/${bg}-960.webp` : `${ROOT}assets/art/${bg}-896.webp`;
   const who = [];
   if (p.nick) who.push(esc(p.nick));
   if (p.joined) who.push(esc(fill('У Gabella Team з %d', { d: dateOf(p.joined) })));
@@ -1706,7 +1706,7 @@ function wizard() {
     const c0 = { race: w.race, class: w.cls };
     const tile = (k, v, name) => {
       const t = Object.assign({}, c0, { look: Object.assign({}, w.look, { [k]: v }) });
-      return `<button type="button" role="radio" aria-checked="${w.look[k] === v}" data-wl="${k}" data-v="${v}">${ring('recruit', pic(t))}<span>${esc(name)}</span></button>`;
+      return `<button type="button" role="radio" aria-checked="${w.look[k] === v}" tabindex="${w.look[k] === v ? 0 : -1}" data-wl="${k}" data-v="${v}">${ring('recruit', pic(t))}<span>${esc(name)}</span></button>`;
     };
     body = `<h2>Вигляд</h2><div class="picks" role="radiogroup" aria-label="Стать">${GD.looks.sexes.map(s => tile('sex', s, s === 'f' ? 'Жіноча' : 'Чоловіча')).join('')}</div>
       <h3>Тло портрета</h3><div class="picks" role="radiogroup" aria-label="Тло портрета">${GD.backgrounds.filter(b => !GD.looks.bg[b].lock).map(b => tile('bg', b, lkName('bg', b))).join('')}</div>
@@ -1730,7 +1730,7 @@ document.addEventListener('click', e => {
   if (b.dataset.f) { wiz.f = b.dataset.f; wiz.race = ''; wiz.cls = ''; wiz.step = 2; }
   else if (b.dataset.race) { wiz.race = b.dataset.race; wiz.look = Object.assign({}, GD.looks.races[wiz.race]); if (!race(wiz.race).cls.includes(wiz.cls)) wiz.cls = ''; }
   else if (b.dataset.cls) wiz.cls = b.dataset.cls;
-  else if (b.dataset.wl) wiz.look[b.dataset.wl] = b.dataset.v;
+  else if (b.dataset.wl) { wiz.look[b.dataset.wl] = b.dataset.v; wizard(); return $(`.wiz [data-wl="${b.dataset.wl}"][data-v="${b.dataset.v}"]`).focus(); }
   else if ('back' in b.dataset) wiz.step--;
   else if ('next' in b.dataset) wiz.step++;
   else return;
@@ -1874,7 +1874,7 @@ function lkDraw() {
 }
 function lkOpen(c) {
   lk = { c, look: Object.assign({}, lookOf(c)), tab: 'sex', saved: JSON.stringify(lookOf(c)) };
-  $('#lookMsg').textContent = '';
+  $('#lookMsg').className = 'msg'; $('#lookMsg').textContent = '';
   lkDraw();
   if ($('#lookDlg').showModal) $('#lookDlg').showModal(); else $('#lookDlg').setAttribute('open', '');
 }
@@ -1890,17 +1890,18 @@ $('#lookDlg').addEventListener('click', e => {
   if ('lookReset' in b.dataset) { const d = GD.looks.races[lk.c.race]; lk.look = { sex: d.sex, bg: d.bg }; return lkDraw(); }
   if ('lookSave' in b.dataset) {
     b.disabled = true;
-    M.api(`/characters/${lk.c.id}/look`, { method: 'PUT', body: { look: lk.look } })
-      .then(r => { lk.saved = JSON.stringify(lk.look); b.disabled = false; $('#lookDlg').close(); lk = null; M.took(r); },
-        e2 => { b.disabled = false; $('#lookMsg').textContent = errText(e2); });
+    const s = lk;   // the dialog may be closed (Esc, backdrop) while the request is pending
+    M.api(`/characters/${s.c.id}/look`, { method: 'PUT', body: { look: s.look } })
+      .then(r => { b.disabled = false; if (lk === s) { s.saved = JSON.stringify(s.look); $('#lookDlg').close(); lk = null; } M.took(r); },
+        e2 => { b.disabled = false; if (lk === s) { $('#lookMsg').className = 'msg err'; $('#lookMsg').textContent = errText(e2); } });
   }
 });
 $('#lookDlg').addEventListener('cancel', e => { if (lkDirty() && !confirm('Зміни вигляду не збережено. Закрити?')) e.preventDefault(); else lk = null; });
-// arrow keys inside a radio group
-$('#lookDlg').addEventListener('keydown', e => {
-  const b = e.target.closest('[role="radio"]');
+// arrow keys inside a radio group: the look editor and the wizard's look step
+document.addEventListener('keydown', e => {
+  const b = e.target.closest && e.target.closest('#lookDlg [role="radio"], .wiz [role="radio"]');
   if (!b || !['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp'].includes(e.key)) return;
-  const all = $$('#lkPane [role="radio"]'), i = all.indexOf(b) + (e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : -1);
+  const all = [...b.closest('[role="radiogroup"]').querySelectorAll('[role="radio"]')], i = all.indexOf(b) + (e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : -1);
   all[(i + all.length) % all.length].click();
   e.preventDefault();
 });
@@ -1973,7 +1974,7 @@ function secLook() {
   const titles = `<option value="">Без титулу</option>` + m.titles.map(t => `<option value="${t}"${u.title === t ? ' selected' : ''}>${esc(achName(t))}</option>`).join('');
   const bgs = GD.backgrounds.map(b => {
     const src = /^hero_/.test(b) ? `${ROOT}assets/art/${b}-960.webp` : `${ROOT}assets/art/${b}-bg.webp`;
-    const name = /^hero_/.test(b) ? (b === 'hero_dawn' ? 'Світанок' : 'Привал') : (Object.values(GD.races).find(r => r.slug === b) || { n: b }).n;
+    const name = lkName('bg', b);
     return `<button type="button" data-bg="${b}" aria-pressed="${(u.background || race(c.race).slug) === b}"><img src="${src}" alt="" loading="lazy"><span>${esc(name)}</span></button>`;
   }).join('');
   return `<div class="sec-h"><h2>Зовнішній вигляд</h2></div><p>Усе змінюється одразу — картка вгорі показує, як вас бачать інші.</p>

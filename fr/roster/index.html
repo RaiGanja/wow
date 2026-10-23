@@ -1264,7 +1264,7 @@ function rankBlock(pts) {
 function bcard(p, o) {
   o = o || {};
   const c = p.main, bg = p.background || race(c.race).slug;
-  const src = /^hero_/.test(bg) ? `${ROOT}assets/art/${bg}-960.webp` : `${ROOT}assets/art/${bg}-896.webp`;
+  const src = /^(hero_|scene-)/.test(bg) ? `${ROOT}assets/art/${bg}-960.webp` : `${ROOT}assets/art/${bg}-896.webp`;
   const who = [];
   if (p.nick) who.push(esc(p.nick));
   if (p.joined) who.push(esc(fill('Dans Gabella Team depuis le %d', { d: dateOf(p.joined) })));
