@@ -60,10 +60,10 @@ def test_verify_meta_only_when_set():
         assert (f'<meta name="{name}"' in html) == bool(value), name
     saved = dict(seo.VERIFY)
     try:
-        seo.VERIFY['yandex-verification'] = 'abc"1'
+        seo.VERIFY['msvalidate.01'] = 'abc"1'
         m = seo.page_meta()['']['en']
         out = seo.apply(seo.apply(html, '', 'en', *m), '', 'en', *m)          # rebuild over a built page: one tag, not two
-        assert out.count('<meta name="yandex-verification" content="abc&quot;1">') == 1
+        assert out.count('<meta name="msvalidate.01" content="abc&quot;1">') == 1
     finally:
         seo.VERIFY.clear(); seo.VERIFY.update(saved)
 

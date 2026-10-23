@@ -2,7 +2,7 @@
 Шаблоны и контент не трогает: правит уже собранные index.html —
   * <title>, meta description, og:title/og:description/og:image:alt под поисковые запросы (тексты ниже, на трёх языках);
   * og:locale:alternate; JSON-LD (WebSite + Organization на главной, BreadcrumbList на разделах/классах/расах/гайдах,
-    Article с датой обновления на гайдах, FAQPage на FAQ); метки подтверждения кабинетов (VERIFY);
+    Article с датой обновления на гайдах, FAQPage на FAQ); метка подтверждения Bing (VERIFY);
   * сниппет Cloudflare Web Analytics, если задан CF_BEACON_TOKEN;
 и пишет sitemap.xml со всеми страницами и hreflang-альтернативами.
 robots.txt живёт в корне домена — репо RaiGanja/raiganja.github.io (gabella-hub), не здесь.
@@ -23,11 +23,10 @@ HERE = build.HERE
 # Пусто — сниппет не вставляется.
 CF_BEACON_TOKEN = 'ee1d216e690040389063e8d72384c2c7'
 
-# Подтверждение прав в поисковиках: значение content= из метатега, который выдаёт кабинет. Пусто — метатег не вставляется.
+# Подтверждение прав в поисковиках (Яндекс не используем — решение 23.10): значение content= из метатега, который выдаёт кабинет. Пусто — метатег не вставляется.
 # Та же метка — в хабе (gabella-hub, content.VERIFY): кабинеты проверяют корень домена gabella.site.
 # Bing Webmaster Tools подключён импортом из Search Console и метки не требует; msvalidate.01 — запасной путь.
 VERIFY = {
-    'yandex-verification': '',   # Яндекс Вебмастер → Права доступа → Метатег
     'msvalidate.01': '',         # Bing Webmaster Tools → Settings → Verification → HTML Meta Tag
 }
 
