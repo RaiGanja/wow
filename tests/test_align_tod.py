@@ -17,6 +17,10 @@ class Align(unittest.TestCase):
         cls.ref = cv2.resize(cv2.imread(ART), (1376, 768))
         cls.mask = cv2.imread(MASK, cv2.IMREAD_UNCHANGED)
 
+    @staticmethod
+    def worst(res):
+        return max(v['shift'] for v in res.values())
+
     def relit(self, im):
         """Другое «время суток»: темнее и синее — цвет другой, контуры те же."""
         out = im.astype(np.float32) * np.array([1.15, .75, .55]) * .6
@@ -28,7 +32,7 @@ class Align(unittest.TestCase):
         aligned, cc = align_tod.align(self.ref, moved)
         res = align_tod.check(self.ref, aligned, self.mask)
         self.assertGreater(cc, .6)
-        self.assertTrue(all(v <= 2 for v in res.values()), res)
+        self.assertTrue(all(v['shift'] <= 2 for v in res.values()), res)
 
     def test_moved_waterfall_rejected(self):
         bad = self.relit(self.ref).copy()
@@ -36,7 +40,7 @@ class Align(unittest.TestCase):
         bad[y:y + h, x + 12:x + w + 12] = bad[y:y + h, x:x + w]
         aligned, _ = align_tod.align(self.ref, bad)
         res = align_tod.check(self.ref, aligned, self.mask)
-        self.assertGreater(max(res.values()), 2, res)
+        self.assertGreater(self.worst(res), 2, res)
 
     def shifted(self, box, dx):
         bad = self.relit(self.ref).copy()
@@ -51,17 +55,17 @@ class Align(unittest.TestCase):
             dx = box[4] if len(box) > 4 else 4     # the banner touches the right edge: shift it left
             aligned, _ = align_tod.align(self.ref, self.shifted(box[:4], dx))
             res = align_tod.check(self.ref, aligned, self.mask)
-            self.assertGreater(max(res.values()), 2, (name, res))
+            self.assertGreater(self.worst(res), 2, (name, res))
 
     def test_small_noise_passes(self):
         ok, buf = cv2.imencode('.jpg', self.relit(self.ref), [cv2.IMWRITE_JPEG_QUALITY, 80])
         aligned, _ = align_tod.align(self.ref, cv2.imdecode(buf, cv2.IMREAD_COLOR))
         res = align_tod.check(self.ref, aligned, self.mask)
-        self.assertTrue(all(v <= 2 for v in res.values()), res)
+        self.assertTrue(all(v['shift'] <= 2 for v in res.values()), res)
         bad = self.shifted((458, 532, 106, 122), 1)
         aligned, _ = align_tod.align(self.ref, bad)
         res = align_tod.check(self.ref, aligned, self.mask)
-        self.assertTrue(all(v <= 2 for v in res.values()), res)
+        self.assertTrue(all(v['shift'] <= 2 for v in res.values()), res)
 
     def test_check_is_idempotent(self):
         aligned, _ = align_tod.align(self.ref, self.shifted((458, 532, 106, 122), 12))
@@ -89,11 +93,35 @@ class Align(unittest.TestCase):
         cv2.rectangle(base, (380, 330), (430, 380), (200, 200, 200), -1)
         moved = np.roll(base, 5, axis=1)
         res = align_tod.check(base, moved, self.zone_mask(320, 240, 200, 200))
-        self.assertGreater(res['B'], align_tod.LIMIT, res)
+        self.assertGreater(res['B']['shift'], align_tod.LIMIT, res)
 
     def test_redrawn_clouds_do_not_count(self):
+        for seed in range(5):
+            res = align_tod.check(self.clouds(seed), self.clouds(seed + 100), self.zone_mask(100, 100, 600, 400))
+            self.assertLessEqual(res['B']['shift'], align_tod.LIMIT, (seed, res))
+
+    def test_shift_caught_despite_lighting_noise_and_redrawn_patch(self):
+        rng = np.random.RandomState(7)
+        moved = np.roll(self.ref, 5, axis=1).astype(np.float32) * .6 + 51      # other light, 5 px shift
+        moved += rng.normal(0, 4, moved.shape)                                   # mild independent noise
+        moved[200:330, 560:700] = rng.rand(130, 140, 1) * 255                    # a patch redrawn from scratch
+        moved = cv2.GaussianBlur(np.clip(moved, 0, 255).astype(np.uint8), (0, 0), .8)
+        res = align_tod.check(self.ref, moved, self.mask)
+        self.assertGreater(self.worst(res), align_tod.LIMIT, res)
+
+    def test_skipped_zone_is_not_measured_not_zero(self):
         res = align_tod.check(self.clouds(1), self.clouds(2), self.zone_mask(100, 100, 600, 400))
-        self.assertLessEqual(res['B'], align_tod.LIMIT, res)
+        self.assertFalse(res['B']['measured'], res)
+        self.assertIn('не измерена', align_tod.show(res)['B'])
+
+    def test_zone_without_counted_windows_fails_variant(self):
+        for zone in 'RGA':
+            res = {k: {'shift': 0., 'n': 5, 'total': 5, 'measured': True} for k in 'RGAB'}
+            res[zone] = {'shift': 0., 'n': 0, 'total': 5, 'measured': False}
+            self.assertTrue(align_tod.problems(res), zone)
+        res = {k: {'shift': 0., 'n': 5, 'total': 5, 'measured': True} for k in 'RGAB'}
+        res['B'] = {'shift': 0., 'n': 0, 'total': 5, 'measured': False}
+        self.assertEqual(align_tod.problems(res), [])      # unmeasured sky alone does not fail
 
 
 if __name__ == '__main__':

@@ -8,9 +8,11 @@ import cv2, numpy as np
 
 W, H = 1376, 768
 LIMIT = 2.0   # px: the most a mask zone may still be off
-MATCH = 0.8   # min Pearson correlation of a window's edges after undoing the found shift. A repainted sky (new clouds) shares
-              # no outlines with hero_dawn, so phaseCorrelate returns a random peak there; such a window says nothing about
-              # alignment and is skipped. Unrelated smooth texture still reaches ~0.6 by chance at a large false shift, so 0.5 was too lax; real structure after a true shift matches higher.
+WIN = 64      # px: side of the square windows the residual shift is measured in
+MARGIN = 8    # px: border of a window left out of the correlation (the shift-back leaves junk there)
+MATCH = 0.7   # min Pearson correlation of a window's edges after undoing the found shift; below it the window is not
+              # counted (no common outlines, e.g. a repainted sky: the found shift is a random peak)
+MIN_SHARE = .25   # a zone with fewer counted windows (share of its windows) is reported as not measured
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MASK = os.path.join(ROOT, 'assets', 'living', 'hero_dawn-fx.png')
 
@@ -42,35 +44,52 @@ def align(ref, img):
 
 
 def _matches(wa, wb, dx, dy):
-    """True when the edges of window wb, moved back by the found shift (dx, dy), correlate with wa (centre only: no border junk)."""
-    back = cv2.warpAffine(wb, np.float32([[1, 0, -dx], [0, 1, -dy]]), (64, 64), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
-    u, v = wa[8:56, 8:56].ravel(), back[8:56, 8:56].ravel()
+    """True when the edges of window wb, moved back by the found shift (dx, dy), correlate with wa (centre only)."""
+    back = cv2.warpAffine(wb, np.float32([[1, 0, -dx], [0, 1, -dy]]), (WIN, WIN), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
+    c = slice(MARGIN, WIN - MARGIN)
+    u, v = wa[c, c].ravel(), back[c, c].ravel()
     u, v = u - u.mean(), v - v.mean()
     d = float(np.sqrt((u * u).sum() * (v * v).sum()))
     return d > 1e-9 and float((u * v).sum()) / d >= MATCH
 
 
 def check(ref, aligned, mask):
-    """Largest leftover shift (px) inside each mask zone, by phase correlation of edge maps in 64 px windows."""
+    """Per mask zone: {'shift': largest leftover shift (px) over counted windows, 'n': counted windows,
+    'total': windows in the zone, 'measured': enough of them were counted}. Phase correlation of edge maps in WIN px windows."""
     a, b = edges(ref), edges(aligned)
     # the mask file may be stored at half size; bring it to the W x H grid of the images (nearest keeps zones crisp)
     if mask.shape[:2] != (H, W):
         mask = cv2.resize(mask, (W, H), interpolation=cv2.INTER_NEAREST)
     zones = {'R': mask[:, :, 2], 'G': mask[:, :, 1], 'B': mask[:, :, 0], 'A': mask[:, :, 3]}
-    win = cv2.createHanningWindow((64, 64), cv2.CV_32F)
+    win = cv2.createHanningWindow((WIN, WIN), cv2.CV_32F)
     out = {}
     for name, z in zones.items():
         z = cv2.dilate((z > 40).astype(np.uint8), np.ones((13, 13), np.uint8))
-        worst = 0.
-        for y in range(0, H - 64, 32):
-            for x in range(0, W - 64, 32):
-                if z[y:y + 64, x:x + 64].mean() < .25 or a[y:y + 64, x:x + 64].std() < .02:
+        worst, n, total = 0., 0, 0
+        for y in range(0, H - WIN, WIN // 2):
+            for x in range(0, W - WIN, WIN // 2):
+                wa, wb = a[y:y + WIN, x:x + WIN], b[y:y + WIN, x:x + WIN]
+                if z[y:y + WIN, x:x + WIN].mean() < .25 or wa.std() < .02:
                     continue
-                (dx, dy), resp = cv2.phaseCorrelate(a[y:y + 64, x:x + 64].copy(), b[y:y + 64, x:x + 64].copy(), win)  # copies: phaseCorrelate windows its inputs in place
-                if resp > .15 and _matches(a[y:y + 64, x:x + 64], b[y:y + 64, x:x + 64], dx, dy):
+                total += 1
+                (dx, dy), resp = cv2.phaseCorrelate(wa.copy(), wb.copy(), win)  # copies: phaseCorrelate windows its inputs in place
+                if resp > .15 and _matches(wa, wb, dx, dy):
+                    n += 1
                     worst = max(worst, float(np.hypot(dx, dy)))
-        out[name] = round(worst, 2)
+        out[name] = {'shift': round(worst, 2), 'n': n, 'total': total, 'measured': total > 0 and n >= MIN_SHARE * total}
     return out
+
+
+def problems(res):
+    """Reasons a check() result fails the variant (empty list = passes). A sky zone (B) that was not measured is left
+    to a human looking at the overlay; R, G and A must have counted windows."""
+    out = [f'{k}: сдвиг {v["shift"]} px > {LIMIT}' for k, v in res.items() if v['shift'] > LIMIT]
+    out += [f'{k}: нет учтённых окон' for k, v in res.items() if k in 'RGA' and v['n'] == 0]
+    return out
+
+
+def show(res):
+    return {k: (f'{v["shift"]} ({v["n"]}/{v["total"]})' if v['measured'] else f'не измерена ({v["n"]}/{v["total"]})') for k, v in res.items()}
 
 
 def overlay(ref, aligned):
@@ -91,10 +110,12 @@ def main():
     for p in raws:
         aligned, cc = align(ref, cv2.imread(p))
         res = check(ref, aligned, mask)
-        ok = cc > .5 and max(res.values()) <= LIMIT
-        print(os.path.basename(p), 'ok' if ok else 'брак', f'ecc={cc:.3f}', res)
-        if ok and (best is None or max(res.values()) < best[0]):
-            best = (max(res.values()), aligned)
+        bad = problems(res)
+        ok = cc > .5 and not bad
+        print(os.path.basename(p), 'ok' if ok else 'брак', f'ecc={cc:.3f}', show(res), *bad)
+        worst = max(v['shift'] for v in res.values())
+        if ok and (best is None or worst < best[0]):
+            best = (worst, aligned)
     if best is None:
         sys.exit(1)
     cv2.imwrite(os.path.join(art, f'hero_{tod}.jpg'), best[1], [cv2.IMWRITE_JPEG_QUALITY, 95])
