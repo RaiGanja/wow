@@ -40,8 +40,29 @@ def test_frames_titles_ranks():
     pts = [r['pts'] for r in G['ranks']]
     assert pts == sorted(pts) and pts[0] == 0
     for f in G['frames']:
-        assert f.get('rank') in ranks or f.get('ach') in ach or f.get('admin'), f
-    assert set(G['titles']) <= ach
+        assert f.get('rank') in ranks or f.get('ach') in ach or f.get('admin') or f.get('unlock'), f
+    assert set(G['titles']) <= ach | {'pioneer'}
+    assert 'pioneer' in G['titles'] and {'id': 's1', 'unlock': 's1'} in G['frames']
+
+
+def test_progression_catalog():
+    P = G['progression']
+    assert P['glory'] == {'max': 60, 'a': 60, 'b': 15, 'p': 1.2}
+    assert set(P['sources']) == {'visit', 'radio', 'page', 'tool'}
+    ids = [t['id'] for t in P['weekly']]
+    assert len(ids) == len(set(ids)) and len(ids) >= 30
+    for t in P['weekly']:
+        assert t['cat'] in P['weekly_cats']
+        assert t['key'] in G['sets'] or t['key'] in G['flags'] or t['key'] in ('visit', 'radio_min', 'lfg')
+        if t.get('item') is not None:
+            assert t['item'] in G['sets'][t['key']], t
+    for c in P['weekly_cats']:
+        assert sum(t['cat'] == c for t in P['weekly']) >= 4, c   # 4 недели без повторов
+    steps = P['track']['s1']
+    assert len(steps) == 30 and [s['stars'] for s in steps] == sorted(s['stars'] for s in steps)
+    rewards = [s['reward'] for s in steps if s.get('reward')]
+    assert {'badge:s1', 'title:pioneer', 'frame:s1', 'bg:s1-bg-1', 'bg:s1-bg-2'} <= set(rewards)
+    assert [c for c, _ in P['name_colors']] == ['poor', 'common', 'uncommon', 'rare', 'epic', 'legendary']
 
 
 def test_backgrounds_have_art():

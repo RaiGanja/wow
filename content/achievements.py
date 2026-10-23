@@ -75,9 +75,10 @@ FRAMES = [
     ('founder', {'ach': 'founder'}, 'Основатель'), ('dragon', {'ach': 'onyxia'}, 'Драконоборец'),
     ('fire', {'ach': 'molten_core'}, 'Повелитель огня'), ('secrets', {'ach': 'keeper'}, 'Хранитель тайн'),
     ('recruiter', {'ach': 'recruiter5'}, 'Вербовщик'), ('boss', {'admin': True}, 'Босс'),
+    ('s1', {'unlock': 's1'}, 'Сезон 1'),
 ]
 
 # Титулы над именем: из достижений (название достижения) — список id, которые дают титул
-TITLES = ['founder', 'veteran12', 'recruiter5', 'radio100h', 'raid40', 'keeper', 'first60', 'onyxia', 'molten_core', 'raid_regular', 'crafter', 'event_winner']
+TITLES = ['founder', 'veteran12', 'recruiter5', 'radio100h', 'raid40', 'keeper', 'first60', 'onyxia', 'molten_core', 'raid_regular', 'crafter', 'event_winner', 'pioneer']
 
 EGGS = ['griffin', 'leeroy', 'konami', 'static', '404']

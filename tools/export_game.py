@@ -10,6 +10,7 @@ from classes import CLASSES  # noqa: E402
 from races import RACES_PAGE  # noqa: E402
 from guides import GUIDES  # noqa: E402
 import achievements as A  # noqa: E402
+import progression as P  # noqa: E402
 import langs  # noqa: E402
 
 SCENES = ['hero_dawn', 'hero_campfire']   # card backgrounds besides the race arts
@@ -72,6 +73,13 @@ def game():
         'titles': list(A.TITLES),
         'backgrounds': [r['wt'] if r['wt'] != 'skyborne' else r['slug'] for r in RACES_PAGE] + SCENES,
         'deadline_founder': '2026-11-03T21:00:00Z',
+        'progression': {
+            'glory': P.GLORY, 'sources': {k: {'xp': v[0], 'cap': v[1], 'rested': v[2]} for k, v in P.SOURCES.items()},
+            'ach_xp': P.ACH_XP, 'weekly_xp': P.WEEKLY_XP, 'weekly_all_xp': P.WEEKLY_ALL_XP, 'rested': P.RESTED,
+            'week_anchor': P.WEEK_ANCHOR, 'weekly_cats': P.WEEKLY_CATS, 'weekly': P.weekly(sets),
+            'seasons': P.SEASONS, 'star_xp': P.STAR_XP, 'week_stars': P.WEEK_STARS, 'track': P.TRACK,
+            'name_colors': P.NAME_COLORS, 'motto_glory': P.MOTTO_GLORY, 'report_glory': P.REPORT_GLORY, 'reports_hide': P.REPORTS_HIDE,
+        },
     }
 
 
