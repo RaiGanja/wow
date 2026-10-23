@@ -237,6 +237,15 @@ def test_guilds_catalog():
         assert sum(contrast(v, w) >= L['contrast_min'] for w in Gd['palette'].values()) >= 4, k
 
 
+def test_guild_texts():
+    import build_me
+    from langs import LANGS
+    for lang in LANGS:
+        with open(os.path.join(ROOT, 'assets', 'me', f'i18n-{lang}.json'), encoding='utf-8') as f:
+            t = json.load(f)
+        assert set(t['gl']) == set(build_me.GUILD), lang
+
+
 if __name__ == '__main__':
     for name, fn in list(globals().items()):
         if name.startswith('test_'):

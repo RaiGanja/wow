@@ -145,10 +145,44 @@ GROWTH = {
 }
 GROWTH['glory_toast'] = GROWTH['ch_glory'] = GROWTH['glory_n']
 
+# Guilds: UI texts of the guild pages and the crest (keys -> Russian source). Placeholders: %n %d %c %g %r.
+GUILD = {
+    'tab': 'Гильдии', 'tab_hint': 'Гильдии WoW Forever на Gabella',
+    'power': 'Сила', 'power_hint': 'Средняя Слава 10 лучших участников', 'banners': 'Знамёна', 'streak': 'Серия',
+    'sort_power': 'Сила', 'sort_banners': 'Знамёна', 'sort_new': 'Новые', 'search': 'Название гильдии',
+    'size_n': '%n персонажей', 'unrated': 'Меньше 5 участников — без места в рейтинге', 'created': 'Создана %d',
+    'hidden': 'Гильдия #%n', 'former': 'Бывший участник', 'empty': 'Гильдий пока нет',
+    'leader': 'Глава', 'officer': 'Офицер', 'member': 'Участник',
+    'members': 'Состав', 'chronicle': 'Хроника', 'more': 'Показать ещё', 'all_classes': 'Все классы', 'all_ranks': 'Все роли',
+    'create': 'Создать гильдию', 'create_low': 'Со Славы 5', 'settings': 'Настроить', 'save': 'Сохранить', 'cancel': 'Отмена',
+    'name': 'Название', 'motto': 'Девиз', 'crest': 'Герб', 'shape': 'Форма', 'field': 'Поле', 'charge': 'Знак', 'border': 'Кайма',
+    'random': 'Случайный', 'border_none': 'Без каймы', 'pick_char': 'Персонаж',
+    'link': 'Ссылка для приглашения', 'copy': 'Копировать', 'copied': 'Скопировано', 'reset': 'Сбросить ссылку',
+    'reset_q': 'Старая ссылка перестанет работать.', 'requests': 'Заявки', 'accept': 'Принять', 'decline': 'Отклонить',
+    'no_requests': 'Заявок нет', 'apply': 'Подать заявку', 'applied': 'Заявка отправлена', 'withdraw': 'Отозвать',
+    'login_to_join': 'Войти, чтобы вступить', 'no_char': 'Нет персонажа этой фракции без гильдии',
+    'leave': 'Выйти из гильдии', 'leave_q': 'Выйти из гильдии %g?', 'kick': 'Исключить', 'make_officer': 'Сделать офицером',
+    'make_member': 'Снять с офицеров', 'make_leader': 'Передать главенство', 'leader_q': 'Передать главенство %c? Вы станете офицером.',
+    'disband': 'Распустить гильдию', 'disband_q': 'Гильдия %g исчезнет вместе с хроникой.', 'my_guild': 'Моя гильдия',
+    'char_guild': 'Гильдия: %g · %r', 'joined_toast': 'Вас приняли в %g',
+    'ev_create': 'Гильдия создана', 'ev_join': '%c вступает в гильдию', 'ev_leave': '%c покидает гильдию', 'ev_kick': '%c исключён',
+    'ev_leader': '%c — новый глава', 'ev_rename': 'Новое название: %r',
+    'report_name': 'Название гильдии', 'report_motto': 'Девиз гильдии', 'report_crest': 'Герб гильдии',
+    'e_bad_name': 'Только буквы, пробел, апостроф и дефис, 2–24 знака', 'e_bad_word': 'Такое название не подойдёт',
+    'e_no_links': 'Без ссылок', 'e_name_taken': 'Название уже занято', 'e_bad_crest': 'Герб не сохранился — выберите другое сочетание',
+    'e_bad_motto': 'Девиз — до 80 знаков, без ссылок',
+    'e_glory_low': 'Создать гильдию можно со Славы 5', 'e_one_leader': 'Вы уже глава гильдии', 'e_wrong_faction': 'Персонаж другой фракции',
+    'e_already_in_guild': 'Персонаж уже в гильдии', 'e_in_guild': 'Сначала выйдите из гильдии', 'e_bad_code': 'Ссылка устарела — попросите новую',
+    'e_too_many_requests': 'Не больше 3 заявок одновременно', 'e_guild_requests_full': 'У гильдии слишком много заявок — попробуйте позже',
+    'e_guild_full': 'В гильдии нет мест', 'e_kicked_recently': 'Повторная заявка — через 7 дней после исключения',
+    'e_rename_cooldown': 'Переименовать можно раз в 30 дней', 'e_officers_full': 'Не больше 5 офицеров',
+    'e_leader_leaves': 'Сначала передайте главенство', 'e_rate': 'Одна новая гильдия в сутки',
+}
+
 
 def strings():
     """Every Russian string me.js and the profile pages show, in a stable order (the line files follow it)."""
-    out = list(UI.values()) + list(GROWTH.values()) + [c[1] for c in A.CATS] + [r[2] for r in A.RANKS] + [f[2] for f in A.FRAMES]
+    out = list(UI.values()) + list(GROWTH.values()) + list(GUILD.values()) + [c[1] for c in A.CATS] + [r[2] for r in A.RANKS] + [f[2] for f in A.FRAMES]
     for a in A.ACH:
         out += [a[5], a[6]] + ([a[7]] if len(a) > 7 else [])
     return [s for s in dict.fromkeys(out) if any('А' <= ch <= 'я' or ch in 'Ёё' for ch in s)]
@@ -176,6 +210,7 @@ def texts(lang):
         'pts': {a[0]: a[2] for a in A.ACH},
         'secret': [a[0] for a in A.ACH if len(a) > 7],
         'g': {k: t(v) for k, v in GROWTH.items()},
+        'gl': {k: t(v) for k, v in GUILD.items()},
         'wk': week_keys(),                                                               # weekly task id -> progress key (me.js sends repeats of these)
         'titles': {x: t(GROWTH['title_' + x]) for x in A.TITLES if x not in ach},     # a title that is not an achievement (pioneer)
         'bg': {k[3:]: t(v) for k, v in GROWTH.items() if k.startswith('bg_')},       # season backgrounds by id (s1-1, s1-2)
@@ -206,7 +241,7 @@ def page_data(lang):
                  'track': {sid: [[x['step'], x['stars'], x['reward']] for x in st] for sid, st in g['progression']['track'].items()},
                  'season': g['progression']['seasons'][0]['id'], 'motto_glory': g['progression']['motto_glory'],
                  'weekly': {w['id']: {k: w[k] for k in ('key', 'item') if k in w} for w in g['progression']['weekly']}},
-        'titles': g['titles'], 'backgrounds': g['backgrounds'], 'deadline': g['deadline_founder'], 'invite': INVITE,
+        'guilds': g['guilds'], 'titles': g['titles'], 'backgrounds': g['backgrounds'], 'deadline': g['deadline_founder'], 'invite': INVITE,
         'items': {'station': {x['id']: x['name'][lang] for x in json.load(open(os.path.join(HERE, 'assets', 'radio', 'stations.json'), encoding='utf-8'))['stations']},
                   'guide': {x['slug']: x['title'][lang] for x in G.GUIDES if 'only' not in x}},
     }
