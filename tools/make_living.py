@@ -2,6 +2,7 @@
 One RGBA PNG per picture, half the source size, in source coordinates (1376 x 768 grid):
   hero_dawn      R falling water, G banner cloth (0 at the pole -> 1 at the tip), B open sky, A river
   hero_campfire  R flames, G (unused), B open sky, A river
+  hero_road      R (unused), G (unused), B open sky, A river
 Run: python tools/make_living.py [path-to-wow_art]"""
 import os, sys
 from PIL import Image, ImageFilter, ImageChops
@@ -86,7 +87,8 @@ def dawn():
     red = pick(im, [(1213, 300, 1374, 378)], lambda r, g, b, x, y: r > g + 28 or lum(r, g, b) < .4,
                lambda x, y: min(1, (x - 1209) / 160))
     cloth = ImageChops.lighter(blue, red)
-    open_sky = sky([(806, 40, 1198, 318), (1250, 196, W, 330), (280, 262, 372, 300)], (190, 285))
+    open_sky = sky([(806, 40, 1198, 318), (1250, 196, W, 330), (280, 262, 372, 300),
+                    (818, 258, 842, 300), (1192, 272, 1216, 310)], (190, 285))  # banner spear tips
     river = pick(im, [(376, 462, 566, 548)], lambda r, g, b, x, y: lum(r, g, b) > .58 and b >= r)
     save('hero_dawn', soft(water, 1, 1.5), soft(cloth, 3, 1.2), open_sky, soft(river, 1, 2))
 
@@ -95,12 +97,22 @@ def campfire():
     im = load('hero_campfire')
     flames = pick(im, [(918, 505, 1010, 590)], lambda r, g, b, x, y: r > 200 and g > 110 and r - b > 110)
     open_sky = sky([(1090, 0, W, 330), (392, 196, 478, 286), (160, 250, 300, 330),  # rock, island, ruins
-                    (895, 182, 978, 300), (712, 252, 792, 330), (596, 276, 644, 330)], (215, 300))  # staff, axe, bow
+                    (895, 182, 978, 300), (712, 252, 792, 330), (596, 276, 644, 330),  # staff, axe, bow
+                    (985, 222, 1052, 300), (775, 262, 850, 310)], (195, 240))  # orc topknot, paladin head; heads stay sharp
     river = pick(im, [(300, 330, 560, 480)], lambda r, g, b, x, y: lum(r, g, b) > .55 and b >= r)
     zero = Image.new('L', (W, H), 0)
     save('hero_campfire', soft(flames, 2, 2.5), zero, open_sky, soft(river, 1, 2))
 
 
+def road():
+    im = load('hero_road')
+    open_sky = sky([(700, 105, 900, 270), (868, 40, W, 340), (1110, 115, 1315, 390)], (190, 245))  # castle, cliffs, signpost
+    river = pick(im, [(340, 350, 520, 445), (556, 452, 724, 508)], lambda r, g, b, x, y: lum(r, g, b) > .4 and b >= r)
+    zero = Image.new('L', (W, H), 0)
+    save('hero_road', zero, zero, open_sky, soft(river, 1, 2))
+
+
 if __name__ == '__main__':
     dawn()
     campfire()
+    road()
