@@ -1,7 +1,7 @@
 """Облик персонажа: пол и фон портрета. Спек: gabella-docs/wow/specs/2026-10-23-portraits-design.md.
 tools/export_game.py кладёт это в assets/game.json (его читает API: проверка и умолчания)."""
 
-V = '1'   # бамп при замене картинок в assets/me/look/ — Cloudflare держит /wow/assets/ 30 дней
+V = '2'   # бамп при замене картинок в assets/me/look/ — Cloudflare держит /wow/assets/ 30 дней
 
 SEXES = ['m', 'f']
 
