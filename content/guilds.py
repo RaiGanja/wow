@@ -23,9 +23,9 @@ CHARGES = [
     ('skull', 'lorc/skull-crossed-bones', False), ('griffin', 'delapouite/griffin-symbol', False),
     ('axe', 'lorc/battle-axe', False), ('sword', 'lorc/broadsword', False), ('crown', 'lorc/crown', False),
     ('moon', 'lorc/moon', False), ('tree', 'lorc/oak', False), ('eagle', 'lorc/eagle-emblem', False),
-    ('bear', 'delapouite/bear-head', False), ('boar', 'caro-asercion/boar', False), ('stag', 'delapouite/deer-head', False),
-    ('raven', 'lorc/raven', False), ('serpent', 'lorc/snake', False), ('flame', 'lorc/flame', False),
-    ('tower', 'delapouite/castle', False), ('hammer', 'lorc/warhammer', False), ('sun', 'lorc/sun', False),
+    ('bear', 'delapouite/bear-head', False), ('boar', 'caro-asercion/boar', False), ('stag', 'lorc/stag-head', False),
+    ('raven', 'lorc/raven', False), ('serpent', 'lorc/snake', False), ('flame', 'carl-olsen/flame', False),
+    ('tower', 'delapouite/castle', False), ('hammer', 'delapouite/warhammer', False), ('sun', 'lorc/sun', False),
     ('star', 'lorc/star-swirl', False), ('rose', 'lorc/rose', False), ('horse', 'delapouite/horse-head', False),
     ('fist', 'lorc/fist', False),
 ]

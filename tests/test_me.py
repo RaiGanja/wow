@@ -246,6 +246,13 @@ def test_guild_texts():
         assert set(t['gl']) == set(build_me.GUILD), lang
 
 
+def test_crest_sprite():
+    sprite = open(os.path.join(ROOT, 'assets', 'me', 'crest', 'charges.svg'), encoding='utf-8').read()
+    ids = set(re.findall(r'<symbol id="c-([\w-]+)"', sprite))
+    assert ids == {c['id'] for c in G['guilds']['charges']}
+    assert 'fill=' not in sprite and len(sprite) < 120_000
+
+
 if __name__ == '__main__':
     for name, fn in list(globals().items()):
         if name.startswith('test_'):
