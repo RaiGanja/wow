@@ -897,12 +897,12 @@ _by3 = '<a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" r
 _gh = 'https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement'
 
 PAGES = [
-    {'slug': 'privacy', 'path': 'privacy/', 'og': 'guides', 'art': 'hero_campfire', 'updated': '23.10.2026',
+    {'slug': 'privacy', 'path': 'privacy/', 'og': 'guides', 'art': 'hero_campfire', 'updated': '24.10.2026',
      'title': t('Конфиденциальность', 'Privacy', 'Конфіденційність'),
      'lead': t('Какие данные собирает сайт и что хранится у вас в браузере. Коротко: без входа мы о вас ничего не знаем, после входа храним только профиль.',
                'What data the site collects and what is stored in your browser. In short: without signing in we know nothing about you; after signing in we keep only your profile.',
                'Які дані збирає сайт і що зберігається у вашому браузері. Коротко: без входу ми нічого про вас не знаємо, після входу зберігаємо лише профіль.'),
-     'pills': [t('Обновлено 23.10.2026', 'Updated 23.10.2026', 'Оновлено 23.10.2026')],
+     'pills': [t('Обновлено 24.10.2026', 'Updated 24.10.2026', 'Оновлено 24.10.2026')],
      'sections': [
          {'id': 'short', 'title': t('Коротко', 'In short', 'Коротко'), 'blocks': [
              ('text', [t('Гид читается без входа: тогда сайт не ставит cookies и не знает, кто вы. Вход нужен только для профиля и «Состава». Рекламы и комментариев на сайте нет.',
