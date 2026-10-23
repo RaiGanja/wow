@@ -179,6 +179,11 @@ GUILD = {
     'e_leader_leaves': 'Сначала передайте главенство', 'e_rate': 'Одна новая гильдия в сутки',
     'e_generic': 'Не получилось. Обновите страницу и попробуйте ещё раз.', 'e_forbidden': 'Нет прав на это действие.', 'e_not_found': 'Уже неактуально — обновите страницу.',
     'not_found': 'Гильдия не найдена.',
+    'color': 'Цвет', 'unlock_at': 'Знамя %n', 'bad_contrast': 'Не читается на этом поле',
+    'sh_heater': 'Классический', 'sh_round': 'Круглый', 'sh_kite': 'Удлинённый', 'sh_banner': 'Вымпел',
+    'fl_plain': 'Сплошное', 'fl_pale': 'Вертикальное', 'fl_fess': 'Горизонтальное', 'fl_quarterly': 'Четверти', 'fl_chevron': 'Шеврон', 'fl_bend': 'Перевязь',
+    'cg_lion': 'Лев', 'cg_wolf': 'Волк', 'cg_dragon': 'Дракон', 'cg_skull': 'Череп', 'cg_griffin': 'Грифон', 'cg_axe': 'Топор', 'cg_sword': 'Меч', 'cg_crown': 'Корона', 'cg_moon': 'Луна', 'cg_tree': 'Дерево', 'cg_eagle': 'Орёл', 'cg_bear': 'Медведь', 'cg_boar': 'Кабан', 'cg_stag': 'Олень', 'cg_raven': 'Ворон', 'cg_serpent': 'Змея', 'cg_flame': 'Пламя', 'cg_tower': 'Башня', 'cg_hammer': 'Молот', 'cg_sun': 'Солнце', 'cg_star': 'Звезда', 'cg_rose': 'Роза', 'cg_horse': 'Конь', 'cg_fist': 'Кулак',
+    'col_black': 'Чёрный', 'col_night': 'Ночной', 'col_crimson': 'Багровый', 'col_ember': 'Ржавый', 'col_azure': 'Лазурный', 'col_teal': 'Бирюзовый', 'col_emerald': 'Изумрудный', 'col_purple': 'Пурпурный', 'col_bronze': 'Бронзовый', 'col_gold': 'Золотой', 'col_silver': 'Серебряный', 'col_bone': 'Костяной',
 }
 
 
