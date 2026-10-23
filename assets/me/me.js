@@ -57,7 +57,13 @@
   /** Answers of the API that change the person ({me, granted, rankUp, gained}): store the fresh /me and celebrate.
       No more than three toasts at once, the rest waits in the profile; the very first experience gets one quiet note. */
   function took(r) {
-    if (r && r.me) setMe(r.me); else if (r && (r.granted || []).length) me(true);
+    if (r && r.me) setMe(r.me);
+    else if (r && (r.granted || []).length) me(true);   // a new achievement moves points, rank and frames: the rare full refresh
+    else if (r && state && (r.live || 'lfg' in r)) {   // the API sends what experience changed (Glory, week, season) and the lfg switch: patch, no /me
+      if (r.live) Object.assign(state, r.live);
+      if ('lfg' in r) state.user.lfg = r.lfg;
+      setMe(state);
+    }
     const list = [], g = r && r.gained;
     ((r && r.granted) || []).forEach(id => list.push({ kind: 'ach', id }));
     if (r && r.rankUp) list.push({ kind: 'rank', id: r.rankUp });
@@ -65,11 +71,8 @@
     if (g && g.step_up) list.push({ kind: 'step', id: g.step_up });
     if (g && g.xp > 0 && ls.get(XP1) !== '1') { ls.set(XP1, '1'); if (!list.length) list.push({ kind: 'note', id: 'xp_first' }); }
     list.slice(0, 3).forEach(toast);
-    // experience changed the weekly tasks and the Glory bar: ask /me again (own throttle, not the cache stamp: that one is fresh after every track)
-    if (g && g.xp > 0 && !(r && r.me) && Date.now() - lastRefresh > 15000) { lastRefresh = Date.now(); me(true); }
     return r;
   }
-  let lastRefresh = 0;
 
   // ---------- progress: only for people who logged in; skipped when the server already knows ----------
   const ONCE = new Map(), TOOL = /^(party5|raid40|compare3|share_team)$/;
@@ -208,7 +211,8 @@
   function pageHooks() {
     track('lang', LANG);
     const m = PAGE.match(/^(guides|classes|races)\/([\w-]+)\/$/);
-    if (m) track({ guides: 'guide', classes: 'class', races: 'race' }[m[1]], m[2]);
+    // a language-only guide (data-solo, the uk «ukrainian») is not in the guide set: the API would answer bad_item
+    if (m && !(m[1] === 'guides' && D.solo)) track({ guides: 'guide', classes: 'class', races: 'race' }[m[1]], m[2]);
     if (PAGE === 'play/') { track('play_page'); levelFromPlay(); }
     if (PAGE === '404') track('egg', '404');
     const today = new Date().toDateString();

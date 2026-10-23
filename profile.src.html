@@ -636,7 +636,7 @@ function loadChron(more) {
   M.api(`/u/${m.user.id}/chronicle${before}`).then(r => {
     const items = r.items || [];
     c.items = more ? c.items.concat(items) : items;
-    c.more = items.length >= 20;   // a full page: there may be more (the API page is 20 lines)
+    c.more = !!r.more;   // the API says whether another page exists
   }, () => { c.more = false; }).finally(() => { c.loading = false; c.loaded = true; if (m && sec === 'chronicle') cabinet(); });
 }
 

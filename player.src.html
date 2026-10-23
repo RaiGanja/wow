@@ -20,7 +20,6 @@
 <script>
 /* ---------- Player page: big card, characters, achievements by category, «compare with me» ---------- */
 let M = null, p = null, me = null, compare = false;
-const PAGE_N = 20;   // chronicle page size of the API
 
 function notFound() {
   $('#view').innerHTML = `<section class="frame state"><h2>Игрок не найден</h2><p>Такого игрока нет в «Составе» или он скрыл профиль.</p>
@@ -72,7 +71,7 @@ function draw() {
       ${p.chMore ? `<button type="button" class="btn ghost g-more" id="chMore">${esc(tg('chronicle_more'))}</button>` : ''}</section>` : ''}`;
   if (own && ch === null && !p.chOwn) {   // hidden from others, but the owner sees it
     p.chOwn = true;
-    M.api(`/u/${p.id}/chronicle`).then(r => { p.chronicle = r.items; p.chMore = r.items.length >= PAGE_N; draw(); }, () => {});
+    M.api(`/u/${p.id}/chronicle`).then(r => { p.chronicle = r.items; p.chMore = !!r.more; draw(); }, () => {});
   }
   $('#copy').onclick = () => copyText(location.href).then(ok => {
     $('#copyNote').textContent = ok ? 'Ссылка скопирована' : location.href;
@@ -85,7 +84,7 @@ function draw() {
     const last = p.chronicle[p.chronicle.length - 1];
     more.disabled = true;
     M.api(`/u/${p.id}/chronicle?before=${last.at}`).then(r => {
-      p.chronicle = p.chronicle.concat(r.items); p.chMore = r.items.length >= PAGE_N;
+      p.chronicle = p.chronicle.concat(r.items); p.chMore = !!r.more;
       $('#chron').insertAdjacentHTML('beforeend', r.items.map(x => chronicleItem(x)).join(''));
       if (p.chMore) more.disabled = false; else more.remove();
     }, () => { more.disabled = false; });
@@ -107,11 +106,11 @@ function draw() {
 
 function load() {
   const id = location.hash.slice(1);
-  if (!/^\d{1,20}$/.test(id)) return notFound();
+  if (!/^(\d{1,20}|u_[0-9a-f]{16})$/.test(id)) return notFound();   // Discord ids and the new accounts (u_ + 16 hex), as USER_ID in the API
   $('#view').innerHTML = '<div class="skel" style="min-height:250px"></div>';
   M.api('/u/' + id).then(r => {
     p = r;
-    p.chMore = !!(r.chronicle && r.chronicle.length >= PAGE_N);
+    p.chMore = !!r.chronicle_more;
     document.title = `${r.main.name} — Gabella`;
     draw();
   }, e => (e.status === 404 ? notFound() : down()));

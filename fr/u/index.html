@@ -1108,7 +1108,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/search/search.css?v=cd1963be87" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=7a42cc6814" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=974417c49c" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://gabella.site/wow/fr/"},{"@type":"ListItem","position":2,"name":"Effectif","item":"https://gabella.site/wow/fr/roster/"},{"@type":"ListItem","position":3,"name":"Joueur de Gabella Team","item":"https://gabella.site/wow/fr/u/"}]}</script>
 </head>
 <body>
@@ -1462,7 +1462,6 @@ moreDlg.addEventListener('click', e => { if (e.target === moreDlg || e.target.cl
 
 /* ---------- Player page: big card, characters, achievements by category, «compare with me» ---------- */
 let M = null, p = null, me = null, compare = false;
-const PAGE_N = 20;   // chronicle page size of the API
 
 function notFound() {
   $('#view').innerHTML = `<section class="frame state"><h2>Joueur introuvable</h2><p>Ce joueur n’est pas dans l’effectif ou a masqué son profil.</p>
@@ -1514,7 +1513,7 @@ function draw() {
       ${p.chMore ? `<button type="button" class="btn ghost g-more" id="chMore">${esc(tg('chronicle_more'))}</button>` : ''}</section>` : ''}`;
   if (own && ch === null && !p.chOwn) {   // hidden from others, but the owner sees it
     p.chOwn = true;
-    M.api(`/u/${p.id}/chronicle`).then(r => { p.chronicle = r.items; p.chMore = r.items.length >= PAGE_N; draw(); }, () => {});
+    M.api(`/u/${p.id}/chronicle`).then(r => { p.chronicle = r.items; p.chMore = !!r.more; draw(); }, () => {});
   }
   $('#copy').onclick = () => copyText(location.href).then(ok => {
     $('#copyNote').textContent = ok ? 'Lien copié' : location.href;
@@ -1527,7 +1526,7 @@ function draw() {
     const last = p.chronicle[p.chronicle.length - 1];
     more.disabled = true;
     M.api(`/u/${p.id}/chronicle?before=${last.at}`).then(r => {
-      p.chronicle = p.chronicle.concat(r.items); p.chMore = r.items.length >= PAGE_N;
+      p.chronicle = p.chronicle.concat(r.items); p.chMore = !!r.more;
       $('#chron').insertAdjacentHTML('beforeend', r.items.map(x => chronicleItem(x)).join(''));
       if (p.chMore) more.disabled = false; else more.remove();
     }, () => { more.disabled = false; });
@@ -1549,11 +1548,11 @@ function draw() {
 
 function load() {
   const id = location.hash.slice(1);
-  if (!/^\d{1,20}$/.test(id)) return notFound();
+  if (!/^(\d{1,20}|u_[0-9a-f]{16})$/.test(id)) return notFound();   // Discord ids and the new accounts (u_ + 16 hex), as USER_ID in the API
   $('#view').innerHTML = '<div class="skel" style="min-height:250px"></div>';
   M.api('/u/' + id).then(r => {
     p = r;
-    p.chMore = !!(r.chronicle && r.chronicle.length >= PAGE_N);
+    p.chMore = !!r.chronicle_more;
     document.title = `${r.main.name} — Gabella`;
     draw();
   }, e => (e.status === 404 ? notFound() : down()));
@@ -1635,7 +1634,7 @@ addEventListener('beforeinstallprompt', e => {
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
 <script src="../../assets/search/search.js?v=cd1963be87" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=7a42cc6814" data-root="../../" data-home="../" data-lang="fr" data-teaser="Votre profil garde votre parcours : Gloire, cadres, saisons" data-close="Fermer" data-page="u/" defer></script>
+<script src="../../assets/me/me.js?v=974417c49c" data-root="../../" data-home="../" data-lang="fr" data-teaser="Votre profil garde votre parcours : Gloire, cadres, saisons" data-close="Fermer" data-page="u/" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>
