@@ -14,9 +14,9 @@ LANGS = ('ru', 'en', 'uk')
 BRAND = 'Gabella Team'
 START = {'ru': 'Старт 4 ноября 2026', 'en': 'Launch November 4, 2026', 'uk': 'Старт 4 листопада 2026'}
 HOME = {'t': {'ru': 'WoW Forever', 'en': 'WoW Forever', 'uk': 'WoW Forever'},
-        'd': {'ru': 'Открытый гид: классы, расы, подземелья, прокачка и сборка группы',
-              'en': 'An open guide: classes, races, dungeons, leveling and party building',
-              'uk': 'Відкритий гід: класи, раси, підземелля, прокачування та збір групи'}}
+        'd': {'ru': 'Гид: классы, расы, подземелья, прокачка и сборка группы',
+              'en': 'Guide: classes, races, dungeons, leveling and party building',
+              'uk': 'Гід: класи, раси, підземелля, прокачування та збір групи'}}
 TOOLS = {'t': {'ru': 'Инструменты', 'en': 'Tools', 'uk': 'Інструменти'},
          'd': {'ru': 'Рамки группы, рейдовая сетка, сравнение классов и рас, поиск по гиду',
                'en': 'Party frames, raid grid, class and race comparison, guide search',
