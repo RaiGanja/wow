@@ -374,6 +374,7 @@ def build_home(lang, src):
     html = localize(html, lang, here)
     html = static_links(html, lang, '')
     html = card_dates(html)
+    html = home_dungeons(html, lang)
     if lang == 'ru':
         html = auto_lang(html)
     if lang != 'ru':
@@ -431,11 +432,36 @@ def ability(ru, en, lang, tag='b'):
     return f'{head}<span class="en" lang="en">{esc(en)}</span>'
 
 
+JS_STR = re.compile(r"""'[^'\n]*'|"[^"\n]*\"""")
+DG_ZONE = re.compile(r"""^(\s*\[(?:'[^'\n]*'|"[^"\n]*"), \d+, \d+, )('[^'\n]*'|"[^"\n]*")""", re.M)
+
+
+def js_quote(s, q):
+    return q + s.replace(q, '’') + q
+
+
 def js_names(js, lang):
-    """English game names in single-quoted JS data (dungeons, zones, cities) -> official localized ones on de/fr/es/pt/it."""
+    """English game names in quoted JS data (dungeons, zones, cities) -> official localized ones on de/fr/es/pt/it.
+    ru: only the entrance zone of DUNGEONS rows, as the Russian client names it + the English original
+    («Тирисфальские леса (Tirisfal Glades)»); dungeon names stay English there."""
+    if lang == 'ru':
+        def zone(m):
+            en = m[2][1:-1]
+            ru = langs.NAMES.get(en, {}).get('ru')
+            return m[1] + (js_quote(f'{ru} ({en})', m[2][0]) if ru else m[2])
+        return DG_ZONE.sub(zone, js)
     if lang not in NAMED:
         return js
-    return re.sub(r"'([^'\n]+)'", lambda m: "'" + langs.name(m[1], lang).replace("'", '’') + "'", js)
+    return JS_STR.sub(lambda m: js_quote(langs.name(m[0][1:-1], lang), m[0][0]), js)
+
+
+def home_dungeons(html, lang):
+    """DUNGEONS on the home page: zone (and on de/fr/es/pt/it dungeon) names in the page language, as on the dungeon guide."""
+    i = html.find('const DUNGEONS = [')
+    if i < 0:
+        return html
+    j = html.index('\n];', i)
+    return html[:i] + js_names(html[i:j], lang) + html[j:]
 
 
 def ico(name):

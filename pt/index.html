@@ -832,7 +832,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=caa63774e6" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/search/search.css?v=515a986644" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Guia de WoW Forever","alternateName":"Gabella","url":"https://gabella.site/wow/pt/","inLanguage":"pt-BR","description":"Guia de WoW Forever: quem jogar, seletor de raça e classe, montador de grupo e guias de evolução, masmorras e profissões."}</script>
 </head>
 <body>
@@ -1585,41 +1585,41 @@ if (fromLink) setTimeout(() => document.getElementById('builder').scrollIntoView
 
 /* Dungeons: [name, min, max, entrance zone, new, other sites' ranges where they differ] */
 const DUNGEONS = [
-  ['Ragefire Chasm', 13, 18, 'Orgrimmar', 0],
-  ['Hall of Thanes', 13, 18, 'Ironforge', 1, [['Icy Veins', '13–20']]],
-  ['Ruins of Lordaeron', 15, 20, 'Tirisfal Glades', 1, [['Icy Veins', '15–22']]],
-  ['The Deadmines', 15, 22, 'Westfall', 0, [['Icy Veins', '17–26']]],
-  ['Wailing Caverns', 17, 24, 'The Barrens', 0, [['Icy Veins', '15–24']]],
-  ['Shadowfang Keep', 20, 26, 'Silverpine Forest', 0, [['Icy Veins', '20–30']]],
-  ['Blackfathom Deeps', 22, 28, 'Ashenvale', 0, [['Sportskeeda', '22–26'], ['Icy Veins', '24–32']]],
-  ['Excavation Site: Wetlands', 24, 29, 'Wetlands', 1, [['ClassicWoW.gg', '26–31'], ['Icy Veins', '26–33']]],
-  ['The Stockade', 25, 29, 'Stormwind City', 0, [['Icy Veins', '24–32']]],
-  ['City of Dalaran', 28, 33, 'Alterac Mountains', 1, [['Icy Veins', '28–35']]],
+  ['Cavernas Ígneas', 13, 18, 'Orgrimmar', 0],
+  ['Hall of Thanes', 13, 18, 'Altaforja', 1, [['Icy Veins', '13–20']]],
+  ['Ruínas de Lordaeron', 15, 20, 'Clareiras de Tirisfal', 1, [['Icy Veins', '15–22']]],
+  ['Minas Mortas', 15, 22, 'Cerro Oeste', 0, [['Icy Veins', '17–26']]],
+  ['Caverna Ululante', 17, 24, 'Sertões', 0, [['Icy Veins', '15–24']]],
+  ['Bastilha da Presa Negra', 20, 26, 'Floresta de Pinhaprata', 0, [['Icy Veins', '20–30']]],
+  ['Profundezas Negras', 22, 28, 'Vale Gris', 0, [['Sportskeeda', '22–26'], ['Icy Veins', '24–32']]],
+  ['Excavation Site: Wetlands', 24, 29, 'Pantanal', 1, [['ClassicWoW.gg', '26–31'], ['Icy Veins', '26–33']]],
+  ['O Cárcere', 25, 29, 'Ventobravo', 0, [['Icy Veins', '24–32']]],
+  ['City of Dalaran', 28, 33, 'Montanhas de Alterac', 1, [['Icy Veins', '28–35']]],
   ['Gnomeregan', 29, 38, 'Dun Morogh', 0],
-  ['Razorfen Kraul', 29, 38, 'The Barrens', 0],
-  ['Scarlet Monastery: Graveyard', 30, 38, 'Tirisfal Glades', 0],
-  ['Scarlet Monastery: Library', 33, 41, 'Tirisfal Glades', 0],
-  ['The Drowned City', 35, 40, 'Stranglethorn Vale', 1],
-  ['Scarlet Monastery: Armory', 36, 44, 'Tirisfal Glades', 0],
-  ['Uldaman', 36, 45, 'Badlands', 0, [['Icy Veins', '41–51']]],
-  ['Razorfen Downs', 37, 46, 'The Barrens', 0],
-  ['Scarlet Monastery: Cathedral', 38, 46, 'Tirisfal Glades', 0],
-  ["Zul'Farrak", 40, 47, 'Tanaris', 0, [['Icy Veins', '44–54']]],
-  ["Krol'dok Stronghold", 40, 45, 'Riverglades', 1],
-  ['Maraudon', 45, 51, 'Desolace', 0, [['Icy Veins', '46–55']]],
-  ['Alcaz Island Prison', 48, 53, 'Dustwallow Marsh', 1],
-  ["Temple of Atal'Hakkar", 50, 55, 'Swamp of Sorrows', 0, [['Icy Veins', '50–60']]],
-  ['Blackrock Depths', 52, 60, 'Blackrock Mountain', 0],
+  ['Urzal dos Tuscos', 29, 38, 'Sertões', 0],
+  ['Monastério Escarlate: Cemitério', 30, 38, 'Clareiras de Tirisfal', 0],
+  ['Monastério Escarlate: Biblioteca', 33, 41, 'Clareiras de Tirisfal', 0],
+  ['The Drowned City', 35, 40, 'Selva do Espinhaço', 1],
+  ['Monastério Escarlate: Arsenal', 36, 44, 'Clareiras de Tirisfal', 0],
+  ['Uldaman', 36, 45, 'Ermos', 0, [['Icy Veins', '41–51']]],
+  ['Urzal dos Mortos', 37, 46, 'Sertões', 0],
+  ['Monastério Escarlate: Catedral', 38, 46, 'Clareiras de Tirisfal', 0],
+  ["Zul’Farrak", 40, 47, 'Tanaris', 0, [['Icy Veins', '44–54']]],
+  ["Krol’dok Stronghold", 40, 45, 'Riverglades', 1],
+  ['Maraudon', 45, 51, 'Desolação', 0, [['Icy Veins', '46–55']]],
+  ['Alcaz Island Prison', 48, 53, 'Pântano Vadeoso', 1],
+  ["Templo de Atal’Hakkar", 50, 55, 'Pântano das Mágoas', 0, [['Icy Veins', '50–60']]],
+  ['Abismo Rocha Negra', 52, 60, 'Montanha Rocha Negra', 0],
   ['Blackmaw Hold', 55, 60, 'Azshara', 1],
-  ['Lower Blackrock Spire', 57, 60, 'Blackrock Mountain', 0, [['Icy Veins', '55–60']]],
-  ['Dire Maul: East', 58, 60, 'Feralas', 0, [['Icy Veins', '54–60']]],
-  ["Shaper's Terrace", 58, 60, "Un'Goro Crater", 1],
-  ['Stratholme: Living', 58, 60, 'Eastern Plaguelands', 0],
-  ['Stratholme: Undead', 58, 60, 'Eastern Plaguelands', 0],
-  ['Scholomance', 58, 60, 'Western Plaguelands', 0],
-  ['Upper Blackrock Spire', 60, 60, 'Blackrock Mountain', 0, [['Icy Veins', '59–60']]],
-  ['Dire Maul: West', 60, 60, 'Feralas', 0, [['Icy Veins', '56–60']]],
-  ['Dire Maul: North', 60, 60, 'Feralas', 0, [['Icy Veins', '56–60']]]
+  ['Pico da Rocha Negra Inferior', 57, 60, 'Montanha Rocha Negra', 0, [['Icy Veins', '55–60']]],
+  ['Gládio Cruel: Leste', 58, 60, 'Feralas', 0, [['Icy Veins', '54–60']]],
+  ["Shaper’s Terrace", 58, 60, "Cratera Un’Goro", 1],
+  ['Stratholme: vivos', 58, 60, 'Terras Pestilentas Orientais', 0],
+  ['Stratholme: mortos-vivos', 58, 60, 'Terras Pestilentas Orientais', 0],
+  ['Scolomântia', 58, 60, 'Terras Pestilentas Ocidentais', 0],
+  ['Pico da Rocha Negra Superior', 60, 60, 'Montanha Rocha Negra', 0, [['Icy Veins', '59–60']]],
+  ['Gládio Cruel: Oeste', 60, 60, 'Feralas', 0, [['Icy Veins', '56–60']]],
+  ['Gládio Cruel: Norte', 60, 60, 'Feralas', 0, [['Icy Veins', '56–60']]]
 ];
 const lvRange = d => d[1] === d[2] ? String(d[1]) : `${d[1]}–${d[2]}`;
 const nearLvl = (d, lv) => lv >= d[1] - 3 && lv <= d[2] + 3;
@@ -1936,7 +1936,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../assets/radio/radio.js" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=caa63774e6" data-root="../" defer></script>
+<script src="../assets/search/search.js?v=515a986644" data-root="../" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>
