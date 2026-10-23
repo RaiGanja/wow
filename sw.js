@@ -4,7 +4,7 @@
    GitHub Pages lets browsers keep files only 10 minutes, so repeat visits come from here instead.
    VERSION is written by build.py from the contents of assets/ and the manifests: any changed file gives
    a new worker, which drops the old caches on activate. */
-const VERSION = 'bd69d77da6';
+const VERSION = 'f5fbec387e';
 const PAGES = 'pages-' + VERSION, FILES = 'files-' + VERSION;
 const PRECACHE = ['./', 'assets/fonts/bona-nova-sc-cyrillic.woff2', 'assets/fonts/bona-nova-sc-latin.woff2',
   'assets/fonts/golos-text-cyrillic.woff2', 'assets/fonts/golos-text-latin.woff2', 'assets/icons/icon-192.png'];

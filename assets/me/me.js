@@ -146,7 +146,7 @@
   function paintBtn() {
     const theme = document.querySelector('.topbar .themebtn');
     if (!theme) return;
-    if (!state && !(AUTH_PAGE && !loading)) { if (btn) { btn.remove(); btn = null; } return; }
+    if (!state && loading) return;   // still asking /me: keep what is drawn (v4: everyone can sign in, so no state = the login button)
     texts().then(T => {
       if (!btn) { btn = document.createElement('a'); theme.before(btn); }
       btn.href = HOME + 'profile/';
@@ -271,4 +271,5 @@
 
   if (PAGE === 'tools/') toolsHooks();
   if (logged() || AUTH_PAGE) me().then(() => { paintBtn(); if (state) pageHooks(); });
+  else paintBtn();   // a visitor who never signed in: the «Log in» button, no API request
 })();

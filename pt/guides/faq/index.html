@@ -123,16 +123,17 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 /* Top bar: transparent over the hero, solid after scrolling */
 .topbar { position: fixed; inset: 0 0 auto 0; z-index: 30; height: var(--top); color: var(--ink); background: linear-gradient(rgba(5,6,8,.62), rgba(5,6,8,0)); border-bottom: 1px solid transparent; transition: background-color .25s, border-color .25s, color .25s; }
 .topbar.solid { background: var(--rail); border-bottom-color: var(--line); color: var(--fg); }
-.topbar .in { max-width: var(--wrap); height: 100%; margin: 0 auto; padding: 0 max(20px, env(safe-area-inset-left, 0px)); display: flex; align-items: center; gap: 18px; }
-.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; min-height: 44px; }
+.topbar .in { max-width: var(--wrap); height: 100%; margin: 0 auto; padding: 0 max(20px, env(safe-area-inset-left, 0px)); display: flex; align-items: center; gap: 14px; }
+.brand { flex: none; display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; min-height: 44px; }   /* never squeezed: the subtitle would run into the menu */
 .mark { width: 40px; height: 40px; flex: none; display: block; border-radius: 8px; box-shadow: 0 0 0 1px rgba(201,165,74,.35); }
 .brand b { font-family: var(--font-display); font-weight: 400; font-size: 1.3rem; white-space: nowrap; }
 .bt { display: grid; line-height: 1.1; }
 .bt small { font-size: .74rem; font-weight: 500; letter-spacing: .04em; color: var(--ink-gold); white-space: nowrap; margin-top: 2px; }
-.mainnav { display: flex; gap: 2px; margin-left: 12px; }
-.mainnav a { min-height: 44px; display: grid; place-items: center; padding: 0 12px; color: inherit; opacity: .78; text-decoration: none; font-size: .95rem; font-weight: 500; box-shadow: inset 0 -2px 0 transparent; transition: opacity .2s, box-shadow .2s; }
+.mainnav { display: flex; margin-left: 4px; }
+.mainnav a { min-height: 44px; display: grid; place-items: center; padding: 0 9px; color: inherit; opacity: .78; text-decoration: none; font-size: .92rem; font-weight: 500; box-shadow: inset 0 -2px 0 transparent; transition: opacity .2s, box-shadow .2s; }
 .mainnav a:hover { opacity: 1; }
-@media (max-width: 1280px) { .mainnav a { padding: 0 8px; } }
+/* the top bar row is tight (9 links + language, search, radio, login, theme): measured to fit with room at every width */
+@media (max-width: 1280px) { .mainnav a { padding: 0 6px; } }
 .mainnav a[aria-current="true"] { opacity: 1; color: var(--ink-gold); }
 .topbar.solid .mainnav a[aria-current="true"] { color: var(--gold-2); }
 .tools { margin-left: auto; display: flex; gap: 8px; align-items: center; }
@@ -163,6 +164,7 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: .92rem; }
+@media (max-width: 1210px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }
 
 /* Hero */
 .hero { position: relative; min-height: max(560px, 100svh); display: grid; align-content: space-between; color: var(--ink); background: #08090b; isolation: isolate; overflow: hidden; }
@@ -998,8 +1000,8 @@ nav.gtiles { padding: 14px; }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/search/search.css?v=cb7a9f447f" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/me/me.css?v=323483bce5" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/search/search.css?v=1d0bf07143" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/me/me.css?v=ca9fa85522" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Início","item":"https://gabella.site/wow/pt/"},{"@type":"ListItem","position":2,"name":"Guias","item":"https://gabella.site/wow/pt/guides/"},{"@type":"ListItem","position":3,"name":"FAQ e datas","item":"https://gabella.site/wow/pt/guides/faq/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"WoW Forever: quando lança, preço e mensalidade (FAQ)","description":"Quando o WoW Forever é lançado, se tem mensalidade (assinatura), preços dos pacotes, modos de jogo, quando reservar um nome e como o Forever difere do Classic Era.","inLanguage":"pt-BR","url":"https://gabella.site/wow/pt/guides/faq/","dateModified":"2026-10-23","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/Zd45sNHy9x"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/Zd45sNHy9x"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/pt/"},"image":"https://gabella.site/wow/assets/og/faq-pt.jpg"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"pt-BR","mainEntity":[{"@type":"Question","name":"Quando o WoW Forever é lançado?","acceptedAnswer":{"@type":"Answer","text":"04.11.2026. A Blizzard ainda não confirmou o horário exato do lançamento. Alguns sites falam em 15:00 do Pacífico, ou seja, 23:00 UTC."}},{"@type":"Question","name":"Preciso de assinatura?","acceptedAnswer":{"@type":"Answer","text":"Sim, assinatura ou tempo de jogo. Forever é um jogo permanente ao lado de Retail e Classic, não uma temporada."}},{"@type":"Question","name":"Quanto custam os pacotes, e eu preciso de um?","acceptedAnswer":{"@type":"Answer","text":"Heroic Pack $29.99, Epic Pack $59.99, Warcraft Forever Collection $79.99. Um pacote só é necessário para a raça Skyborne e a reserva antecipada de nomes: as outras oito raças e todas as nove classes não precisam ser compradas."}},{"@type":"Question","name":"Quando posso reservar um nome?","acceptedAnswer":{"@type":"Answer","text":"De 27.10 a 03.11, se você tiver o Heroic, o Epic ou o Collection. Até três personagens por conta, quem chegar primeiro leva. Não é acesso antecipado ao jogo."}},{"@type":"Question","name":"Por que sobrenome, e duas pessoas podem ter o mesmo nome?","acceptedAnswer":{"@type":"Answer","text":"Não há reinos, então o nome completo precisa ser único em toda a região. Dois jogadores podem ter o mesmo nome se os sobrenomes forem diferentes. Você pode ocultar o sobrenome: Esc → Opções → Placas de nome → My Secondary Name."}},{"@type":"Question","name":"O que é Skyborne?","acceptedAnswer":{"@type":"Answer","text":"A nova raça do Forever, liberada por qualquer um dos três pacotes. Jogável nas duas facções, a facção é escolhida na criação do personagem. Os dois ramos falam um idioma comum e compartilham a zona inicial Zephras Isle."}},{"@type":"Question","name":"Qual é o nível máximo, e onde evoluímos?","acceptedAnswer":{"@type":"Answer","text":"Até o 60, nos Reinos do Leste e em Kalimdor. Sem montarias voadoras e sem ajuste de nível, como no Classic."}},{"@type":"Question","name":"Dá para jogar juntos em modos diferentes?","acceptedAnswer":{"@type":"Answer","text":"Não: só dá para formar grupo dentro de um mesmo modo. Modos no lançamento: Normal, PvP e RP, o Hardcore vem depois. No PvP uma conta só pode ter uma facção."}},{"@type":"Question","name":"Qual região, modo e facção escolher para jogar com os amigos?","acceptedAnswer":{"@type":"Answer","text":"Os mesmos para todos. As regiões são separadas e não há jogo entre regiões, então escolham a região com o melhor ping para a maioria. Só dá para formar grupo dentro de um mesmo modo, e Aliança e Horda não formam grupo em nenhum modo. No PvP uma conta só tem uma facção, então combinem qual antes de a reserva de nomes abrir em 27.10."}},{"@type":"Question","name":"Onde encontro um grupo?","acceptedAnswer":{"@type":"Answer","text":"No servidor de Discord da Gabella Team. Lá se formam grupos para o lançamento em 04.11 e os jogadores combinam região, modo e facção."}},{"@type":"Question","name":"Quando as raides abrem?","acceptedAnswer":{"@type":"Answer","text":"09.12: Barrow Deeps (10 jogadores), Pico Hyjal (20), Covil da Onyxia (40). Até lá vocês têm cinco semanas para evoluir e fazer masmorras."}},{"@type":"Question","name":"Ainda dá para entrar no beta?","acceptedAnswer":{"@type":"Answer","text":"Não. O acesso era para donos do Epic e do Collection. O beta terminou em 23.10 às 10:00 no horário do Pacífico."}},{"@type":"Question","name":"Os guias antigos do Classic ainda servem?","acceptedAnswer":{"@type":"Answer","text":"Só em parte. Atributos e itens foram alterados, então as listas de saque antigas não são confiáveis. Há 9 masmorras novas, 3 raides novas, novas zonas e missões, e os talentos de classe foram atualizados."}},{"@type":"Question","name":"Tem gráficos modernos e suporte a controle?","acceptedAnswer":{"@type":"Answer","text":"Sim: dá para escolher o estilo visual (clássico ou moderno), há transmog opcional e suporte oficial a controle."}}]}</script>
@@ -1210,8 +1212,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../../assets/radio/radio.js" data-root="../../../" defer></script>
-<script src="../../../assets/search/search.js?v=cb7a9f447f" data-root="../../../" defer></script>
-<script src="../../../assets/me/me.js?v=323483bce5" data-root="../../../" data-home="../../" data-lang="pt" data-page="guides/faq/" defer></script>
+<script src="../../../assets/search/search.js?v=1d0bf07143" data-root="../../../" defer></script>
+<script src="../../../assets/me/me.js?v=ca9fa85522" data-root="../../../" data-home="../../" data-lang="pt" data-page="guides/faq/" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>
