@@ -250,9 +250,9 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
   .g-tab { transition: none; }
 }
 /* guilds in the cabinet: guild line under a character, create/settings screen, crest constructor */
-.gl-cw { display: grid; gap: 8px; align-content: start; min-width: 0; }
-.gl-char { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; padding: 0 4px; font-size: .9rem; color: var(--muted); min-width: 0; }
-.gl-char .btn { min-height: 40px; padding: 0 14px; font-size: .9rem; }
+.gl-cw { display: grid; gap: 6px; align-content: start; min-width: 0; }
+.gl-char { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; font-size: .9rem; color: var(--muted); min-width: 0; }
+.gl-char .btn, .pitem > .btn { min-height: 40px; padding: 0 14px; font-size: .9rem; }
 .gl-char .btn:disabled { opacity: .5; cursor: not-allowed; }
 .gl-set { color: var(--gold-2); text-decoration: none; border-bottom: 1px solid var(--pline); }
 .gl-ed { display: grid; gap: 18px; padding: 22px 24px; min-width: 0; }
@@ -277,6 +277,15 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 .gl-sw { min-width: 40px; min-height: 40px; width: 40px; height: 40px; padding: 0; border-radius: 50%; background: var(--sw); border: 2px solid var(--pline); }
 .gl-sw[aria-checked="true"] { background: var(--sw); border-color: var(--gold); box-shadow: 0 0 0 2px var(--panel-2) inset; }
 .gl-fields .row .sp { flex: 1; }
+.gl-pv { position: sticky; top: calc(var(--top, 56px) + 16px); cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; }
+.gl-pv.drag { cursor: grabbing; }
+.gl-pos { gap: 10px; }
+.gl-rng { display: grid; gap: 4px; font-size: .9rem; color: var(--muted); }
+.gl-rng output { color: var(--fg); font-variant-numeric: lining-nums tabular-nums; }
+.gl-rng input { width: 100%; max-width: 360px; min-height: 32px; margin: 0; accent-color: var(--gold); cursor: pointer; }
+.gl-rng input:disabled { opacity: .4; cursor: not-allowed; }
+.gl-pos .row { align-items: center; gap: 8px 14px; }
+.gl-pos .row small { color: var(--muted); font-size: .85rem; }
 @media (max-width: 720px) {
   .gl-ed { padding: 18px 16px; }
   .gl-form { grid-template-columns: minmax(0, 1fr); gap: 16px; }

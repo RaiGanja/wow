@@ -36,25 +36,53 @@ const playerUrl = id => `${HOME}u/#${id}`;
 const achIcon = id => `${ROOT}assets/me/ach/${id}.webp`;   // painted icons; secret.webp hides an unfound secret
 const tl = k => (T.gl || {})[k] || k;
 const guildUrl = id => `${HOME}g/#${id}`;
-const SHIELD = {
-  heater: 'M8 6h84v38c0 26-18 42-42 50C26 86 8 70 8 44z',
-  round: 'M50 4a46 46 0 1 1 0 92a46 46 0 1 1 0-92z',
-  kite: 'M12 6h76v32c0 28-18 48-38 58C30 86 12 66 12 38z',
-  banner: 'M14 4h72v90L50 78L14 94z',
-};
-const FIELD = { plain: '', pale: 'M50 0h50v100H50z', fess: 'M0 50h100v50H0z', quarterly: 'M50 0h50v50H50zM0 50h50v50H0z', chevron: 'M0 100L50 46L100 100z', bend: 'M0 0h40L100 60v40z' };
+// field divisions drawn through (50, 50) with room to spare; crestSvg moves them to the centre of the shape
+const FIELD = { plain: '', pale: 'M50 -20h70v140H50z', fess: 'M-20 50h140v70H-20z', quarterly: 'M50 -20h70v70H50zM-20 50h70v70H-20z', chevron: 'M-50 158L50 50L150 158z', bend: 'M-20 -20h40L120 80v40z' };
 const BORDER = { gold: '#c9a54a', silver: '#b9bec6', bronze: '#8a5a2b' };
+const CREST_T = [0, 0, 100];   // charge shift x, y (viewBox units) and scale (%): the default is the centre of the shape at 100%
+const inPoly = (P, x, y) => { let r = false; for (let i = 0, j = P.length - 1; i < P.length; j = i++) if ((P[i][1] > y) !== (P[j][1] > y) && x < P[i][0] + (y - P[i][1]) * (P[j][0] - P[i][0]) / (P[j][1] - P[i][1])) r = !r; return r; };
+/** The charge box (glyph plus the border's room) lies inside the shape: corners inside, no outline point inside the box. The API checks the same. */
+function crestFits(c, t) {
+  const G = GD.guilds.geo[c.s], L = GD.guilds.limits, ch = GD.guilds.charges.find(x => x.id === c.i);
+  if (!G || !ch) return false;
+  const u = L.charge_size * t[2] / 100 / 512, x = G.c[0] + t[0], y = G.c[1] + t[1], w = ch.box[0] * u / 2 + L.crest_pad, h = ch.box[1] * u / 2 + L.crest_pad;
+  const x0 = x - w, x1 = x + w, y0 = y - h, y1 = y + h;
+  return [[x0, y0], [x1, y0], [x0, y1], [x1, y1]].every(p => inPoly(G.poly, p[0], p[1])) && !G.poly.some(p => p[0] > x0 && p[0] < x1 && p[1] > y0 && p[1] < y1);
+}
+/** The nearest allowed place for the charge: limits first, then the scale shrinks until the charge fits at the centre, then it walks
+ *  from `from` (same scale) or the centre towards the wanted shift one unit at a time, sliding along the edge of the shape. */
+function crestPlace(c, want, from) {
+  const L = GD.guilds.limits, cl = (v, a, b) => Math.min(b, Math.max(a, Math.round(v) || 0));
+  const t = [cl(want[0], -L.shift_max, L.shift_max), cl(want[1], -L.shift_max, L.shift_max), cl(want[2], L.scale_min, L.scale_max)];
+  if (crestFits(c, t)) return t;
+  let k = t[2];
+  while (k > L.scale_min && !crestFits(c, [0, 0, k])) k--;
+  if (!crestFits(c, [0, 0, k])) return CREST_T.slice();
+  if (crestFits(c, [t[0], t[1], k])) return [t[0], t[1], k];
+  let p = from && from[2] === k && crestFits(c, from) ? [from[0], from[1]] : [0, 0];
+  for (let moved = true; moved;) {
+    moved = false;
+    for (const i of [0, 1]) {
+      if (p[i] === t[i]) continue;
+      const q = p.slice();
+      q[i] += Math.sign(t[i] - p[i]);
+      if (crestFits(c, [q[0], q[1], k])) { p = q; moved = true; }
+    }
+  }
+  return [p[0], p[1], k];
+}
 let crestN = 0;
 /** Shield from catalog ids; the texture only from 48 px up (it turns to mud on a mini crest). */
 function crestSvg(c, px, o = {}) {
-  const P = GD.guilds.palette, id = 'gc' + (++crestN);
+  const P = GD.guilds.palette, G = GD.guilds.geo[c.s], id = 'gc' + (++crestN), t = c.t || CREST_T;
+  const sz = GD.guilds.limits.charge_size * t[2] / 100, cx = G.c[0] + t[0] - sz / 2, cy = G.c[1] + t[1] - sz / 2, r = v => Math.round(v * 100) / 100;
   const tex = GD.guilds.texture && o.texture !== false && px >= 48
     ? `<image href="${ROOT}assets/me/crest/metal.webp" width="100" height="100" preserveAspectRatio="none" class="gl-tex"/>` : '';
-  const edge = c.b !== 'none' ? `<path d="${SHIELD[c.s]}" fill="none" stroke="${BORDER[c.b]}" stroke-width="${px >= 48 ? 3 : 5}"/>` : '';
+  const edge = c.b !== 'none' ? `<path d="${G.d}" fill="none" stroke="${BORDER[c.b]}" stroke-width="${px >= 48 ? 3 : 5}"/>` : '';
   return `<svg class="gl-crest" viewBox="0 0 100 100" width="${px}" height="${px}" role="img" aria-label="${esc(o.label || tl('crest'))}">`
-    + `<defs><clipPath id="${id}"><path d="${SHIELD[c.s]}"/></clipPath></defs><g clip-path="url(#${id})">`
-    + `<rect width="100" height="100" fill="${P[c.c[0]]}"/>${FIELD[c.f] ? `<path d="${FIELD[c.f]}" fill="${P[c.c[1]]}"/>` : ''}`
-    + `<use href="${ROOT}assets/me/crest/charges.svg#c-${esc(c.i)}" x="24" y="20" width="52" height="52" fill="${P[c.ic]}"/>${tex}</g>${edge}</svg>`;
+    + `<defs><clipPath id="${id}"><path d="${G.d}"/></clipPath></defs><g clip-path="url(#${id})">`
+    + `<rect width="100" height="100" fill="${P[c.c[0]]}"/>${FIELD[c.f] ? `<path d="${FIELD[c.f]}" transform="translate(0 ${G.c[1] - 50})" fill="${P[c.c[1]]}"/>` : ''}`
+    + `<use class="gl-ch" href="${ROOT}assets/me/crest/charges.svg#c-${esc(c.i)}" x="${r(cx)}" y="${r(cy)}" width="${r(sz)}" height="${r(sz)}" fill="${P[c.ic]}"/>${tex}</g>${edge}</svg>`;
 }
 const DOWN = ['Сервер профилей не отвечает', 'Попробуйте через пару минут. Остальной гид работает как обычно.', 'Повторить'];   // same words as the player page
 /** Member count: singular and the paucal form come from the page language's plural rules. */
