@@ -1,7 +1,8 @@
 """SEO-обвязка гида: последний шаг сборки (build.py зовёт seo.main() после всех страниц).
 Шаблоны и контент не трогает: правит уже собранные index.html —
   * <title>, meta description, og:title/og:description/og:image:alt под поисковые запросы (тексты ниже, на трёх языках);
-  * og:locale:alternate; JSON-LD (WebSite на главной, BreadcrumbList на разделах/классах/расах/гайдах, FAQPage на FAQ);
+  * og:locale:alternate; JSON-LD (WebSite + Organization на главной, BreadcrumbList на разделах/классах/расах/гайдах,
+    Article с датой обновления на гайдах, FAQPage на FAQ); метки подтверждения кабинетов (VERIFY);
   * сниппет Cloudflare Web Analytics, если задан CF_BEACON_TOKEN;
 и пишет sitemap.xml со всеми страницами и hreflang-альтернативами.
 robots.txt живёт в корне домена — репо RaiGanja/raiganja.github.io (gabella-hub), не здесь.
@@ -21,6 +22,14 @@ HERE = build.HERE
 # Cloudflare Web Analytics: токен сайта gabella.site (Analytics → Web analytics → gabella.site → Manage site, режим «Enable with JS Snippet installation» — DNS only, автовставки нет).
 # Пусто — сниппет не вставляется.
 CF_BEACON_TOKEN = 'ee1d216e690040389063e8d72384c2c7'
+
+# Подтверждение прав в поисковиках: значение content= из метатега, который выдаёт кабинет. Пусто — метатег не вставляется.
+# Та же метка — в хабе (gabella-hub, content.VERIFY): кабинеты проверяют корень домена gabella.site.
+# Bing Webmaster Tools подключён импортом из Search Console и метки не требует; msvalidate.01 — запасной путь.
+VERIFY = {
+    'yandex-verification': '',   # Яндекс Вебмастер → Права доступа → Метатег
+    'msvalidate.01': '',         # Bing Webmaster Tools → Settings → Verification → HTML Meta Tag
+}
 
 BRAND = 'Gabella'
 HOME_NAME = {'ru': 'Главная', 'en': 'Home', 'uk': 'Головна'}
@@ -42,21 +51,21 @@ def t(ru, en, uk):
 # Под реальные запросы, по факту содержимого страницы. Длина: title до ~65, description 120–160 символов.
 
 META = {
-    '': (t('Гид WoW Forever: классы, расы, подбор группы и гайды',
-           'WoW Forever Guide: Classes, Races, Group Builder and Guides',
-           'Гід WoW Forever: класи, раси, підбір групи та гайди'),
+    '': (t('Гид WoW Forever: классы, расы, прокачка и подземелья',
+           'WoW Forever Guide: Classes, Races, Leveling and Dungeons',
+           'Гід WoW Forever: класи, раси, прокачка та підземелля'),
          t('Гид по WoW Forever (ВоВ Форевер): кем играть, подборщик расы и класса, сборка группы и гайды по прокачке, подземельям и профессиям.',
            'WoW Forever guide: who to play, a race and class picker, a group builder and guides to leveling, dungeons and professions.',
            'Гід по WoW Forever (ВоВ Форевер): ким грати, підбір раси й класу, збір групи і гайди з прокачки, підземель і професій.')),
-    'classes/': (t('Лучший класс в WoW Forever: сравнение всех 9 классов',
-                   'WoW Forever Best Class: All 9 Classes Compared',
-                   'Найкращий клас у WoW Forever: порівняння всіх 9 класів'),
+    'classes/': (t('Классы WoW Forever: какой класс выбрать, сравнение всех 9',
+                   'WoW Forever Classes: Best Class to Play, All 9 Compared',
+                   'Класи WoW Forever: який клас обрати, порівняння всіх 9'),
                  t('Какой класс выбрать в WoW Forever: девять классов по три специализации, роли танк/лекарь/урон, кто качается быстрее и чем каждый полезен рейду.',
                    'Which class to pick in WoW Forever: nine classes with three specs each, tank/healer/DPS roles, which level fastest and what each brings to a raid.',
                    'Який клас обрати у WoW Forever: дев’ять класів по три спеціалізації, ролі танк/лікар/шкода, хто качається швидше і чим кожен корисний рейду.')),
-    'races/': (t('Расы WoW Forever: все 10 рас, классы и расовые способности',
-                 'WoW Forever Races: All 10 Races, Classes and Racials',
-                 'Раси WoW Forever: усі 10 рас, класи та расові здібності'),
+    'races/': (t('Расы и классы WoW Forever: все 10 рас и расовые способности',
+                 'WoW Forever Races: Racials and Race/Class Combos for All 10',
+                 'Раси й класи WoW Forever: усі 10 рас і расові здібності'),
                t('Пять рас за Альянс и пять за Орду, включая новых Скайборнов: какие классы доступны каждой расе и что дают её четыре расовые способности.',
                  'Five races per faction, including the new Skyborne: which classes each race can play and what its four racial abilities do.',
                  'П’ять рас за Альянс і п’ять за Орду, разом із новими Скайборнами: які класи доступні кожній расі та що дають її чотири расові здібності.')),
@@ -72,27 +81,27 @@ META = {
                 t('Все гайды по WoW Forever (ВоВ Форевер) в одном месте: маршрут прокачки 1–60, список подземелий и рейдов, профессии под класс, ответы на вопросы и новости.',
                   'All WoW Forever guides in one place: a 1–60 leveling route, the dungeon and raid list, professions for your class, answers to common questions and news.',
                   'Усі гайди по WoW Forever (ВоВ Форевер) в одному місці: маршрут прокачки 1–60, список підземель і рейдів, професії під клас, відповіді на питання та новини.')),
-    'guides/leveling/': (t('Гайд по прокачке WoW Forever 1–60: маршрут по зонам',
-                           'WoW Forever Leveling Guide 1–60: Zone Route',
-                           'Гайд з прокачки WoW Forever 1–60: маршрут зонами'),
+    'guides/leveling/': (t('Гайд по прокачке WoW Forever 1–60: зоны по уровням',
+                           'WoW Forever Leveling Guide 1–60: Zones by Level',
+                           'Гайд з прокачки WoW Forever 1–60: зони за рівнями'),
                          t('Прокачка в WoW Forever с 1 до 60: маршрут по зонам за Альянс и Орду, отдых и бонусы опыта, советы соло, вдвоём и группой, Legacy и лагерь.',
                            'Level 1 to 60 in WoW Forever: a zone-by-zone route for Alliance and Horde, rested XP and experience bonuses, solo, duo and group tips, Legacy and the camp.',
                            'Прокачка у WoW Forever з 1 до 60: маршрут зонами за Альянс і Орду, відпочинок і бонуси досвіду, поради соло, удвох і групою, Legacy та табір.')),
-    'guides/dungeons/': (t('Подземелья WoW Forever: список всех 35 по уровням и рейды',
-                           'WoW Forever Dungeons List: All 35 by Level, Plus Raids',
-                           'Підземелля WoW Forever: список усіх 35 за рівнями та рейди'),
+    'guides/dungeons/': (t('Подземелья WoW Forever по уровням: все 35 и рейды',
+                           'WoW Forever Dungeons by Level: All 35 Dungeons and Raids',
+                           'Підземелля WoW Forever за рівнями: усі 35 і рейди'),
                          t('Все 35 подземелий WoW Forever по уровням и где вход, с фильтром под уровень вашего героя, три рейда с датами открытия и состав группы.',
                            'All 35 WoW Forever dungeons by level with entrance locations and a filter for your level, the three raids with opening dates, and group composition.',
                            'Усі 35 підземель WoW Forever за рівнями та де вхід, з фільтром під рівень вашого героя, три рейди з датами відкриття та склад групи.')),
-    'guides/professions/': (t('Профессии WoW Forever: какие взять под класс',
-                              'WoW Forever Professions: Best Pairs for Every Class',
-                              'Професії WoW Forever: які взяти під клас'),
+    'guides/professions/': (t('Профессии WoW Forever: лучшие пары для каждого класса',
+                              'WoW Forever Professions Guide: Best Pairs for Every Class',
+                              'Професії WoW Forever: найкращі пари для кожного класу'),
                             t('Какие две профессии взять в WoW Forever под каждый класс, что каждая профессия ставит в лагерь и как прокачать навык до 300.',
                               'Which two professions to take in WoW Forever for each class, what every profession places in the camp, and how to raise your skill to 300.',
                               'Які дві професії взяти у WoW Forever під кожен клас, що кожна професія ставить у табір і як прокачати навичку до 300.')),
-    'guides/faq/': (t('WoW Forever FAQ: дата выхода, цены, подписка, режимы',
-                      'WoW Forever FAQ: Release Date, Price, Subscription, Modes',
-                      'WoW Forever FAQ: дата виходу, ціни, підписка, режими'),
+    'guides/faq/': (t('WoW Forever FAQ: дата и время выхода, цена, подписка',
+                      'WoW Forever FAQ: Release Date and Time, Price, Subscription',
+                      'WoW Forever FAQ: дата й час виходу, ціна, підписка'),
                     t('Когда выходит WoW Forever, нужна ли подписка, сколько стоят наборы, какие режимы игры, когда бронировать имя и чем Forever отличается от Classic Era.',
                       'When WoW Forever launches, whether you need a subscription, pack prices, game modes, when to reserve a name and how Forever differs from Classic Era.',
                       'Коли виходить WoW Forever, чи потрібна підписка, скільки коштують набори, які режими гри, коли бронювати ім’я та чим Forever відрізняється від Classic Era.')),
@@ -132,12 +141,12 @@ META = {
                    'Які дані збирає гід WoW Forever від Gabella: профіль учасника через Discord, статистика без cookies, що зберігається в браузері, як завантажити й видалити дані.')),
 }
 
-CLASS_T = t('{n} в WoW Forever: гайд — {specs}', 'WoW Forever {n} Guide: {specs} Specs', '{n} у WoW Forever: гайд — {specs}')
+CLASS_T = t('{n} в WoW Forever: гайд, специализации и расы', 'WoW Forever {n} Guide: Specs, Abilities and Races', '{n} у WoW Forever: гайд, спеціалізації та раси')
 CLASS_T_SHORT = t('{n} в WoW Forever: {specs}', 'WoW Forever {n}: {specs}', '{n} у WoW Forever: {specs}')   # when the full one is over 65
 CLASS_D = t('{n} в WoW Forever: {specs} — ключевые способности, расы, польза в группе, плюсы, минусы и что нового.',
             'WoW Forever {n} guide: {specs} specs, key abilities, races, group value, pros and cons, and what is new.',
             '{n} у WoW Forever: {specs} — ключові здібності, раси, користь у групі, плюси, мінуси та що нового.')
-RACE_T = t('{n} в WoW Forever: расовые способности и классы', 'WoW Forever {n} Guide: Racials and Classes', '{n} у WoW Forever: расові здібності та класи')
+RACE_T = t('{n} в WoW Forever: расовые способности и классы', 'WoW Forever {n} Racials and Classes Guide', '{n} у WoW Forever: расові здібності та класи')
 RACE_D = t('{n} в WoW Forever: четыре расовые способности, доступные и лучшие классы, столица {cap}, стартовая зона {zone}.',
            'WoW Forever {n} guide: four racial abilities, available and best classes, capital {cap}, starting zone {zone}.',
            '{n} у WoW Forever: чотири расові здібності, доступні та найкращі класи, столиця {cap}, стартова зона {zone}.')
@@ -226,16 +235,36 @@ def faq_ld(lang):
                             'acceptedAnswer': {'@type': 'Answer', 'text': ' '.join(text(a[lang]) for a in q['a'])}} for q in qs]}
 
 
-def json_ld(path, lang, desc):
+ORG = {'@type': 'Organization', 'name': BRAND, 'url': 'https://gabella.site/', 'logo': SITE + 'assets/icons/icon-512.png'}
+
+
+def guide_updated(path):
+    """'2026-10-23' for a guide page with an update date (news refreshes itself and has none), else None."""
+    g = next((g for g in GUIDES if path == f'guides/{g["slug"]}/' and g['slug'] != 'news'), None)
+    d = g and g.get('updated')
+    return '-'.join(reversed(d.split('.'))) if d else None
+
+
+def json_ld(path, lang, desc, title='', image=''):
     blocks = []
     if not path:
         blocks.append({'@context': 'https://schema.org', '@type': 'WebSite', 'name': SITE_NAME[lang],
-                       'alternateName': BRAND, 'url': SITE + page_dir(lang), 'inLanguage': HREFLANG[lang], 'description': desc})
+                       'alternateName': BRAND, 'url': SITE + page_dir(lang), 'inLanguage': HREFLANG[lang], 'description': desc,
+                       'publisher': ORG})
+        blocks.append({'@context': 'https://schema.org'} | ORG)
     else:
         items = crumbs(path, lang)
         blocks.append({'@context': 'https://schema.org', '@type': 'BreadcrumbList',
                        'itemListElement': [{'@type': 'ListItem', 'position': i, 'name': n, 'item': u}
                                            for i, (n, u) in enumerate(items, 1)]})
+    updated = guide_updated(path)
+    if updated:
+        art = {'@context': 'https://schema.org', '@type': 'Article', 'headline': title, 'description': desc,
+               'inLanguage': HREFLANG[lang], 'url': SITE + page_dir(lang, path), 'dateModified': updated,
+               'author': ORG, 'publisher': ORG, 'isPartOf': {'@type': 'WebSite', 'url': SITE + page_dir(lang)}}
+        if image:
+            art['image'] = image
+        blocks.append(art)
     if path == 'guides/faq/':
         blocks.append(faq_ld(lang))
     dump = lambda b: json.dumps(b, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')
@@ -265,7 +294,10 @@ def apply(html, path, lang, title, desc):
     html = re.sub(r'<meta property="og:locale:alternate"[^>]*>\n', '', html)
     html = html.replace('<meta property="og:site_name"', alt + '<meta property="og:site_name"', 1)
     html = re.sub(r'<script type="application/ld\+json">.*?</script>\n', '', html, flags=re.S)
-    html = html.replace('</head>', json_ld(path, lang, desc) + '</head>', 1)
+    html = re.sub(r'<meta name="(?:%s)" content="[^"]*">\n' % '|'.join(map(re.escape, VERIFY)), '', html)
+    verify = ''.join(f'<meta name="{k}" content="{escape(v, quote=True)}">\n' for k, v in VERIFY.items() if v)
+    og = re.search(r'<meta property="og:image" content="([^"]+)"', html)
+    html = html.replace('</head>', verify + json_ld(path, lang, desc, title, og and og[1]) + '</head>', 1)
     html = re.sub(r'<script type="module" src="https://static.cloudflareinsights.com/[^>]*></script>\n', '', html)
     if CF_BEACON_TOKEN:
         beacon = json.dumps({'token': CF_BEACON_TOKEN})
