@@ -33,6 +33,10 @@ BANNER_UNLOCKS = []          # волна 1б: 'charge:<id>' в порядке �
 DEFAULT_CREST = {'s': 'heater', 'f': 'plain', 'c': ['black', 'black'], 'i': 'griffin', 'ic': 'gold', 'b': 'gold'}
 TEXTURE = os.path.join(os.path.dirname(__file__), '..', 'assets', 'me', 'crest', 'metal.webp')
 
+def authors():
+    """Unique game-icons.net authors of the charges (first path segment), in catalog order: for the license line on /privacy/."""
+    return list(dict.fromkeys(path.split('/')[0] for _, path, _ in CHARGES))
+
 
 def export():
     return {

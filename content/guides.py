@@ -879,6 +879,7 @@ HUBS = [
 # ---------- Служебные страницы: /privacy/ и 404.html. Не гайды: в список гайдов и плитки не попадают ----------
 # Политика описывает то, что сайт делает на самом деле. Появится реклама, форма или новый сторонний скрипт — сначала поправить её.
 
+from guilds import authors as _crest_authors  # noqa: E402
 from build import CONTACT  # noqa: E402  (адрес один на весь сайт, подвал берёт его оттуда же)
 _mail = f'<a href="mailto:{CONTACT}">{CONTACT}</a>'
 _cf = 'https://www.cloudflare.com/privacypolicy/'
@@ -891,6 +892,8 @@ _waylinks = ' · '.join(f'<a href="{u}" target="_blank" rel="noopener">{n}</a>' 
 _lic = ', '.join(f'<a href="{u}" target="_blank" rel="noopener">Creative Commons {n}</a>' for n, u in (
     ('BY 4.0', 'https://creativecommons.org/licenses/by/4.0/'), ('BY 3.0', 'https://creativecommons.org/licenses/by/3.0/'),
     ('CC0', 'https://creativecommons.org/publicdomain/zero/1.0/')))
+_icons = ', '.join(_crest_authors())
+_by3 = '<a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">Creative Commons BY 3.0</a>'
 _gh = 'https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement'
 
 PAGES = [
@@ -960,7 +963,10 @@ PAGES = [
                          'Адміністратор може приховати персонажа або девіз, що порушують правила, і закрити вхід акаунту за спам чи образи.'),
                        t('Если вы пожаловались на игрока, мы храним, кто пожаловался, на кого, на что и причину. Запись остаётся со статусом решения и удаляется вместе с профилем любой из сторон. В закрытый канал команды в Discord уходит уведомление: что не так, причина и ссылка на игрока, без имени автора жалобы. Игрок не видит, кто пожаловался.',
                          'If you report a player, we keep who reported, whom, what about and the reason. The record stays with the decision status and is deleted together with the profile of either side. A notice goes to the team’s private Discord channel: what is wrong, the reason and a link to the player, without the reporter’s name. The player does not see who reported.',
-                         'Якщо ви поскаржилися на гравця, ми зберігаємо, хто поскаржився, на кого, на що й причину. Запис лишається зі статусом рішення й видаляється разом із профілем будь-якої зі сторін. У закритий канал команди в Discord надходить сповіщення: що не так, причина й посилання на гравця, без імені автора скарги. Гравець не бачить, хто поскаржився.')])]},
+                         'Якщо ви поскаржилися на гравця, ми зберігаємо, хто поскаржився, на кого, на що й причину. Запис лишається зі статусом рішення й видаляється разом із профілем будь-якої зі сторін. У закритий канал команди в Discord надходить сповіщення: що не так, причина й посилання на гравця, без імені автора скарги. Гравець не бачить, хто поскаржився.')]),
+             ('text', [t('Гильдии. Название, герб, девиз гильдии, её состав (видимые персонажи и роли) и хроника гильдии видны всем. Заявку в гильдию видят её глава и офицеры. Выход из гильдии и удаление персонажа убирают его из состава; в хронике он остаётся как «Бывший участник» без имени.',
+                         'Guilds. A guild’s name, crest, motto, roster (visible characters and roles) and chronicle are public. A join request is seen by the guild leader and officers. Leaving a guild or deleting a character removes it from the roster; in the chronicle it stays as “Former member” without a name.',
+                         'Гільдії. Назву, герб, девіз гільдії, її склад (видимі персонажі та ролі) і хроніку гільдії бачать усі. Заявку до гільдії бачать її очільник і офіцери. Вихід із гільдії та видалення персонажа прибирають його зі складу; у хроніці він лишається як «Колишній учасник» без імені.')])]},
          {'id': 'delete', 'title': t('Скачать и удалить', 'Download and delete', 'Завантажити й видалити'), 'blocks': [
              ('text', [t('В кабинете «Мой профиль», раздел «Аккаунт», можно скачать всё, что мы о вас храним, одним файлом и удалить профиль. Вместе с ним сразу удаляются персонажи, достижения, счётчики, записи в ленте и сессии. Восстановить профиль нельзя.',
                          'In My profile, under Account, you can download everything we keep about you as one file and delete your profile. Your characters, achievements, counters, feed entries and sessions are deleted with it at once. A deleted profile cannot be restored.',
@@ -995,7 +1001,10 @@ PAGES = [
                          'Шрифти й зображення завантажуються з нашого ж сайту, без сторонніх сервісів. Музика радіо лежить у сховищі Cloudflare R2 і завантажується з нашої адреси media.gabella.site, лише коли ви ввімкнули радіо; як і під час відкриття сторінок, Cloudflare отримує IP-адресу вашого пристрою. Звуки багаття, дощу й вітру створює сам браузер. Посилання на джерела ведуть на інші сайти, у них свої правила конфіденційності.')]),
              ('raw', t(f'<p>Музыка радио: Kevin MacLeod (incompetech.com) и другие авторы с opengameart.org, лицензии {_lic}. Звук перекодирован и выровнен по громкости. Автор и лицензия каждого трека — в панели радио.</p>',
                        f'<p>Radio music: Kevin MacLeod (incompetech.com) and other authors from opengameart.org, licensed under {_lic}. The audio is re-encoded and levelled in loudness. The author and license of every track are in the radio panel.</p>',
-                       f'<p>Музика радіо: Kevin MacLeod (incompetech.com) та інші автори з opengameart.org, ліцензії {_lic}. Звук перекодовано й вирівняно за гучністю. Автор і ліцензія кожного треку — у панелі радіо.</p>'))]},
+                       f'<p>Музика радіо: Kevin MacLeod (incompetech.com) та інші автори з opengameart.org, ліцензії {_lic}. Звук перекодовано й вирівняно за гучністю. Автор і ліцензія кожного треку — у панелі радіо.</p>')),
+             ('raw', t(f'<p>Знаки гербов — <a href="https://game-icons.net" target="_blank" rel="noopener">game-icons.net</a> ({_by3}): {_icons}.</p>',
+                       f'<p>Crest charges: <a href="https://game-icons.net" target="_blank" rel="noopener">game-icons.net</a> ({_by3}): {_icons}.</p>',
+                       f'<p>Знаки гербів — <a href="https://game-icons.net" target="_blank" rel="noopener">game-icons.net</a> ({_by3}): {_icons}.</p>'))]},
          {'id': 'contact', 'title': t('Связь', 'Contact', 'Зв’язок'), 'blocks': [
              ('text', [t('С вопросами о данных, ошибками в гайде и претензиями правообладателей пишите на почту ниже. Если не можете войти, профиль удалим по письму: укажите имя основного персонажа и способ входа.',
                          'For questions about data, mistakes in the guide or copyright concerns, write to the address below. If you cannot sign in, we will delete your profile on request: include your main character’s name and how you signed in.',

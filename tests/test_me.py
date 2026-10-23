@@ -237,6 +237,16 @@ def test_guilds_catalog():
         assert sum(contrast(v, w) >= L['contrast_min'] for w in Gd['palette'].values()) >= 4, k
 
 
+def test_guild_authors():
+    import guilds
+    a = guilds.authors()
+    assert len(a) == len(set(a)) and set(a) == {path.split('/')[0] for _, path, _ in guilds.CHARGES}
+    assert a[0] == guilds.CHARGES[0][1].split('/')[0]
+    for lang in ('', 'en/', 'uk/', 'de/', 'fr/', 'es/', 'pt/', 'it/', 'pl/'):
+        html = open(os.path.join(ROOT, *(lang + 'privacy/index.html').split('/')), encoding='utf-8').read()
+        assert 'game-icons.net' in html and ', '.join(a) in html, lang
+
+
 def test_guild_texts():
     import build_me
     from langs import LANGS
