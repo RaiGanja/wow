@@ -2,7 +2,7 @@
 + i18n/{ru,en,uk}.txt (переводы, строка в строку)
 -> index.html, en/index.html, uk/index.html, classes/<id>/index.html и races/<slug>/index.html на трёх языках.
 Запуск: python build.py [--list]  (--list печатает русские фрагменты без перевода)"""
-import hashlib, json, os, posixpath, re, sys
+import hashlib, html as _html, json, os, posixpath, re, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 if '--missing' in sys.argv:          # python build.py --missing de: build de without its json, print what it lacks, write nothing
@@ -358,13 +358,17 @@ def radio(html, lang, root):
     return html.replace('</head>', head, 1).replace('</body>', js, 1)
 
 
+TEASER = langs.derive({'ru': 'Профиль копит ваш путь: Слава, рамки, сезоны', 'en': 'Your profile keeps your path: Glory, frames, seasons',
+                       'uk': 'Профіль зберігає ваш шлях: Слава, рамки, сезони'})   # the line for signed-out readers; same words as GROWTH['teaser']
+
+
 def me(html, lang, here):
     """Profiles (assets/me/, build_me.py): after the radio, so its events are heard. data-page is the path under the language
     home (guides/leveling/, tools/, play/; the 404 page swaps in 404) — me.js finds the page it is on without parsing URLs."""
     root, home = rel(here, ''), rel(here, page_dir(lang))
     page = here[len(page_dir(lang)):]
     head = f'<link rel="stylesheet" href="{root}assets/me/me.css" media="print" onload="this.media=\'all\'">\n</head>'
-    js = f'<script src="{root}assets/me/me.js" data-root="{root}" data-home="{home}" data-lang="{lang}" data-page="{page}" defer></script>\n</body>'
+    js = f'<script src="{root}assets/me/me.js" data-root="{root}" data-home="{home}" data-lang="{lang}" data-teaser="{_html.escape(TEASER[lang])}" data-close="{_html.escape(tr('Закрыть', lang))}" data-page="{page}" defer></script>\n</body>'
     return html.replace('</head>', head, 1).replace('</body>', js, 1)
 
 

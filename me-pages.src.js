@@ -62,15 +62,56 @@ function pcard(p, o) {
   if (pl) meta.push(`<span>${pl}</span>`);
   meta.push(`<span>${ico(TICO[c.playtime] || 'moon')}${esc(TIME[c.playtime] || '')}</span>`);
   if (p.lfg) meta.push(`<span class="lfg">${esc(LFG[p.lfg.kind] || '')} · ${esc(left(p.lfg.until))}</span>`);
-  const name = o.link === false ? `<b>${esc(c.name)}</b>` : `<a href="${playerUrl(p.id)}">${esc(c.name)}</a>`;
+  const qc = p.name_color ? ` class="${nameCls(p.name_color)}"` : '';
+  const name = o.link === false ? `<b${qc}>${esc(c.name)}</b>` : `<a${qc} href="${playerUrl(p.id)}">${esc(c.name)}</a>`;
+  const glory = o.glory && p.glory ? `<small class="g-gl">${esc(tg('glory_n', { n: p.glory }))}</small>` : '';
   const alts = (p.alts || []).length ? `<div class="alts">Твинки: ${p.alts.map(a => `<i style="--ac:${cls(a.class).color}">${esc(a.name)}</i>`).join(', ')}</div>` : '';
   return `<article class="pcard${o.cls ? ' ' + o.cls : ''}" style="--cc:${cls(c.class).color}"${o.attrs || ''}>
-    <span class="pic">${ring(p.frame || p.rank, face(c, p.portrait))}<span class="lv" aria-label="Уровень ${c.level}">${c.level}</span></span>
+    <span class="pic">${ring(p.frame || p.rank, face(c, p.portrait))}<span class="lv${c.verified ? ' ver' : ''}" aria-label="Уровень ${c.level}${c.verified ? ', ' + esc(tg('verified')) : ''}">${c.level}${c.verified ? '<i aria-hidden="true">✓</i>' : ''}</span></span>
     <span class="fx ${f}">${esc(o.tag || FACN[f])}</span>
-    <div class="nm">${p.title ? `<span class="ttl">${esc(titleName(p.title))}</span>` : ''}${name}</div>
+    <div class="nm">${p.title ? `<span class="ttl">${esc(titleName(p.title))}</span>` : ''}${name}${glory}</div>
     <span class="sub">${subline(c)}</span>
     <div class="meta">${meta.join('')}</div>${alts}${p.nick ? `<div class="nick">Discord: ${esc(p.nick)}</div>` : ''}${o.after || ''}
   </article>`;
+}
+
+/** Showcase item: an achievement (id) or a season badge (badge:<id>). */
+const showName = id => (id.startsWith('badge:') ? tg('ch_badge') : achName(id));
+const showIcon = id => achIcon(id.startsWith('badge:') ? id.slice(6) : id);
+
+/** Check mark after a level an admin has confirmed. */
+const verMark = c => (c.verified ? `<span class="g-ver" role="img" aria-label="${esc(tg('verified'))}" title="${esc(tg('verified'))}">✓</span>` : '');
+
+/** Card menu («…» with the report item) for signed-in people looking at somebody else. */
+const cardMenu = (id, cls) => `<details class="g-menu${cls ? ' ' + cls : ''}"><summary aria-label="${esc(tg('menu'))}" title="${esc(tg('menu'))}">⋯</summary><button type="button" data-report="${esc(id)}">${esc(tg('report'))}</button></details>`;
+
+/** Report dialog: what is wrong (name, motto, other), an optional reason, POST /reports; success is a quiet toast. */
+function reportDialog(M, target, name) {
+  const d = document.createElement('dialog');
+  d.className = 'g-dlg';
+  d.setAttribute('aria-labelledby', 'repH');
+  d.innerHTML = `<form class="g-rf"><h2 id="repH">${esc(tg('report'))}: ${esc(name)}</h2>
+    <fieldset><legend>${esc(tg('report_field'))}</legend>${['name', 'motto', 'other'].map((k, i) => `<label class="g-rr"><input type="radio" name="f" value="${k}"${i ? '' : ' checked'}>${esc(tg('report_' + k))}</label>`).join('')}</fieldset>
+    <label class="g-rl">${esc(tg('report_reason'))}<input type="text" name="r" maxlength="80" autocomplete="off"></label>
+    <p class="msg err" role="alert"></p>
+    <div class="row"><button type="submit" class="btn">${esc(tg('report_send'))}</button><button type="button" class="btn ghost" data-x>${esc(tg('report_cancel'))}</button></div></form>`;
+  document.body.append(d);
+  const f = $('form', d), msg = $('.msg', d), ok = $('[type=submit]', d);
+  const close = () => { d.close ? d.close() : d.removeAttribute('open'); };
+  d.addEventListener('close', () => d.remove());
+  $('[data-x]', d).onclick = close;
+  d.addEventListener('click', e => { if (e.target === d) close(); });
+  f.onsubmit = e => {
+    e.preventDefault();
+    const field = f.elements.f.value, reason = f.elements.r.value.trim() || field;
+    ok.disabled = true; msg.textContent = '';
+    M.api('/reports', { body: { target, field, reason } }).then(() => { close(); M.toast({ kind: 'note', id: 'report_sent' }); }, err => {
+      ok.disabled = false;
+      msg.textContent = tg(err.code === 'report_limit' ? 'report_limit' : 'err_report');
+    });
+  };
+  if (d.showModal) d.showModal(); else d.setAttribute('open', '');
+  f.elements.f.focus();
 }
 
 /** Rank block of the big card: points, rank, bar to the next one. */
@@ -96,7 +137,7 @@ function bcard(p, o) {
     <img class="bg" src="${src}" alt="" decoding="async">
     <div class="in">${ring(p.frame || p.rank, face(c, p.portrait), o.reveal ? 'reveal' : '')}
       <div>${p.title ? `<span class="ttl">${esc(titleName(p.title))}</span>` : ''}<${h}${p.name_color ? ` class="${nameCls(p.name_color)}"` : ''}>${esc(c.name)}</${h}>
-        <span class="sub">${subline(c)} · ${c.level} · ${esc(ROLE[c.role] || '')}</span>
+        <span class="sub">${subline(c)} · ${c.level}${verMark(c)} · ${esc(ROLE[c.role] || '')}</span>
         ${who.length ? `<p class="who">${who.join(' · ')}</p>` : ''}${p.motto ? `<p class="motto">«${esc(p.motto)}»</p>` : ''}</div>
       ${rankBlock(p.points || 0)}</div></section>`;
 }

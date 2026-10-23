@@ -1012,9 +1012,12 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 :root[data-theme="light"] .g-rest { background: #2f5fae; }
 .g-rtxt { color: var(--ink-2); font-size: .8rem; }
 .g-max .g-lvl { font-size: 1.2rem; }
-.q-poor { color: #9d9d9d; } .q-common { color: #e6e6e6; } .q-uncommon { color: #1eff00; } .q-rare { color: #0070dd; } .q-epic { color: #a335ee; } .q-legendary { color: #ff8000; }
-:root[data-theme="light"] .q-poor { color: #6b6b6b; } :root[data-theme="light"] .q-common { color: #1b1b1b; } :root[data-theme="light"] .q-uncommon { color: #137a00; }
-:root[data-theme="light"] .q-rare { color: #0059b0; } :root[data-theme="light"] .q-epic { color: #7a22c0; } :root[data-theme="light"] .q-legendary { color: #b35900; }
+.q-poor { --qd: #9d9d9d; } .q-common { --qd: #e6e6e6; } .q-uncommon { --qd: #1eff00; } .q-rare { --qd: #0070dd; } .q-epic { --qd: #a335ee; } .q-legendary { --qd: #ff8000; }
+.q-poor, .q-common, .q-uncommon, .q-rare, .q-epic, .q-legendary { --q: var(--qd); color: var(--q); }   /* --qd: the dark-card colour (the big card is dark in both themes); --q: the page's own, light theme below */
+:root[data-theme="light"] .q-poor { --q: #6b6b6b; } :root[data-theme="light"] .q-common { --q: #1b1b1b; } :root[data-theme="light"] .q-uncommon { --q: #137a00; }
+:root[data-theme="light"] .q-rare { --q: #0059b0; } :root[data-theme="light"] .q-epic { --q: #7a22c0; } :root[data-theme="light"] .q-legendary { --q: #b35900; }
+.bcard h1[class^="q-"], .bcard h2[class^="q-"] { color: var(--qd); }
+.pcard .nm [class^="q-"] { color: var(--q); }
 .g-task { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 14px; align-items: center; padding: 12px 14px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); }
 .g-tt { grid-column: 1; display: flex; justify-content: space-between; align-items: baseline; gap: 12px; min-width: 0; }
 .g-tt b { font-weight: 600; min-width: 0; overflow-wrap: anywhere; }
@@ -1028,11 +1031,64 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 .g-chd { color: var(--ink-2); font-size: .85rem; font-variant-numeric: lining-nums; }
 @media (max-width: 560px) { .g-task { grid-template-columns: minmax(0, 1fr); } .g-task .g-acts { grid-column: 1; grid-row: auto; justify-content: flex-start; } .g-ch { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
 
+/* Glory on a card, the confirmed-level check, the card menu, report dialog */
+.pcard .g-gl { font-size: .78rem; color: var(--gold-2); font-variant-numeric: lining-nums; }
+.pcard .lv.ver { gap: 2px; grid-auto-flow: column; }
+.pcard .lv i { font-style: normal; font-size: .62rem; color: var(--gold-2); }
+.g-ver { margin-left: 4px; color: var(--gold-2); font-size: .85em; }
+.bcard .g-ver { color: #e0c27a; }
+.g-menu { position: absolute; z-index: 3; right: 8px; bottom: 6px; }
+.g-menu.adm { right: 92px; }
+.g-menu summary { list-style: none; display: grid; place-items: center; width: 44px; height: 32px; border-radius: 6px; color: var(--muted); font-size: 1.2rem; line-height: 1; cursor: pointer; user-select: none; }
+.g-menu summary::-webkit-details-marker { display: none; }
+.g-menu summary:hover, .g-menu[open] summary { color: var(--fg); background: var(--panel); }
+.g-menu summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 1px; }
+.g-menu > button { position: absolute; right: 0; bottom: 36px; white-space: nowrap; min-height: 40px; padding: 0 14px; border-radius: 8px; border: 1px solid var(--line-2); background: var(--panel); color: var(--fg); font: inherit; font-size: .9rem; cursor: pointer; box-shadow: 0 10px 24px rgba(0,0,0,.35); }
+.g-menu > button:hover { border-color: var(--gold); }
+.g-dlg { width: min(420px, calc(100vw - 32px)); padding: 22px; border: 1px solid var(--line-2); border-radius: 12px; background: var(--panel); color: var(--fg); }
+.g-dlg::backdrop { background: rgba(0,0,0,.6); }
+.g-rf { display: grid; gap: 14px; }
+.g-rf h2 { font-size: 1.4rem; margin: 0; overflow-wrap: anywhere; }
+.g-rf fieldset { margin: 0; padding: 0; border: 0; display: grid; gap: 2px; min-width: 0; }
+.g-rf legend { padding: 0; margin-bottom: 4px; color: var(--muted); font-size: .85rem; }
+.g-rr { display: flex; align-items: center; gap: 10px; min-height: 44px; cursor: pointer; }
+.g-rr input { width: 18px; height: 18px; accent-color: var(--gold); }
+.g-rl { display: grid; gap: 6px; color: var(--muted); font-size: .85rem; }
+.g-rl input { min-height: 44px; border-radius: 8px; border: 1px solid var(--pline); background: var(--panel-2); color: var(--fg); padding: 0 12px; font: inherit; font-size: .95rem; }
+.g-rl input:focus { outline: none; border-color: var(--gold); }
+.g-rf .row { display: flex; flex-wrap: wrap; gap: 10px; }
+.g-rf .msg { margin: 0; }
+
+/* roster tabs, weekly line */
+.g-tabs { position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: 6px; }   /* the hero art reaches under the first rows of the page */
+.g-tab { display: inline-flex; align-items: baseline; gap: 8px; min-height: 44px; padding: 0 18px; border: 1px solid var(--pline); border-radius: 8px; background: var(--panel-2); color: var(--ink-2); font: inherit; font-weight: 600; cursor: pointer; align-items: center; }
+.g-tab small { font-size: .82rem; font-weight: 500; font-variant-numeric: lining-nums; color: var(--muted); }
+.g-tab:hover { color: var(--fg); border-color: var(--gold); }
+.g-tab[aria-selected="true"] { color: var(--gold-2); border-color: var(--gold); background: color-mix(in srgb, var(--gold) 10%, var(--panel-2)); }
+.g-tab:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.g-wk { margin: 0; color: var(--ink-2); font-size: .9rem; overflow-wrap: anywhere; }
+.g-wk b { color: var(--gold-2); font-weight: 600; }
+.g-wk a { color: var(--ink-2); text-decoration: none; border-bottom: 1px solid var(--pline); }
+.g-wk a:hover { color: var(--fg); border-color: var(--gold); }
+.g-wk .g-ok { color: var(--gold-2); }
+
+/* player page: showcase, chronicle, admin */
+.g-pgl { padding: 14px 18px; }
+.g-showc { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin: 0; padding: 0; list-style: none; }
+.g-showc li { display: grid; justify-items: center; align-content: start; gap: 6px; padding: 14px 8px 12px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); text-align: center; min-width: 0; }
+.g-showc img { width: 56px; height: 56px; border-radius: 8px; object-fit: cover; }
+.g-showc b { font-size: .9rem; font-weight: 600; overflow-wrap: anywhere; }
+.g-showc small { color: var(--muted); font-size: .78rem; }
+.g-more { justify-self: start; }
+.g-adm { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+@media (max-width: 719px) { .g-showc { grid-template-columns: repeat(2, minmax(0, 1fr)); } .g-showc li:last-child:nth-child(odd) { grid-column: 1 / -1; } }
 @media (prefers-reduced-motion: reduce) {
   .skel, .bcard .me-ring.reveal { animation: none; }
+  .g-tab { transition: none; }
 }
 
 .pl { display: grid; gap: 18px; }
+#view { display: grid; gap: 18px; min-width: 0; }
 .pl .bar-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
 .chars { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 12px; }
 .vs { display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center; padding: 12px 18px; }
@@ -1050,8 +1106,8 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=c72245122c" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=b33a806ed0" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=a331e7826b" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=fbfcf5696d" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://gabella.site/wow/es/"},{"@type":"ListItem","position":2,"name":"Plantilla","item":"https://gabella.site/wow/es/roster/"},{"@type":"ListItem","position":3,"name":"Jugador de Gabella Team","item":"https://gabella.site/wow/es/u/"}]}</script>
 </head>
 <body>
@@ -1184,15 +1240,56 @@ function pcard(p, o) {
   if (pl) meta.push(`<span>${pl}</span>`);
   meta.push(`<span>${ico(TICO[c.playtime] || 'moon')}${esc(TIME[c.playtime] || '')}</span>`);
   if (p.lfg) meta.push(`<span class="lfg">${esc(LFG[p.lfg.kind] || '')} · ${esc(left(p.lfg.until))}</span>`);
-  const name = o.link === false ? `<b>${esc(c.name)}</b>` : `<a href="${playerUrl(p.id)}">${esc(c.name)}</a>`;
+  const qc = p.name_color ? ` class="${nameCls(p.name_color)}"` : '';
+  const name = o.link === false ? `<b${qc}>${esc(c.name)}</b>` : `<a${qc} href="${playerUrl(p.id)}">${esc(c.name)}</a>`;
+  const glory = o.glory && p.glory ? `<small class="g-gl">${esc(tg('glory_n', { n: p.glory }))}</small>` : '';
   const alts = (p.alts || []).length ? `<div class="alts">Alters: ${p.alts.map(a => `<i style="--ac:${cls(a.class).color}">${esc(a.name)}</i>`).join(', ')}</div>` : '';
   return `<article class="pcard${o.cls ? ' ' + o.cls : ''}" style="--cc:${cls(c.class).color}"${o.attrs || ''}>
-    <span class="pic">${ring(p.frame || p.rank, face(c, p.portrait))}<span class="lv" aria-label="Nivel ${c.level}">${c.level}</span></span>
+    <span class="pic">${ring(p.frame || p.rank, face(c, p.portrait))}<span class="lv${c.verified ? ' ver' : ''}" aria-label="Nivel ${c.level}${c.verified ? ', ' + esc(tg('verified')) : ''}">${c.level}${c.verified ? '<i aria-hidden="true">✓</i>' : ''}</span></span>
     <span class="fx ${f}">${esc(o.tag || FACN[f])}</span>
-    <div class="nm">${p.title ? `<span class="ttl">${esc(titleName(p.title))}</span>` : ''}${name}</div>
+    <div class="nm">${p.title ? `<span class="ttl">${esc(titleName(p.title))}</span>` : ''}${name}${glory}</div>
     <span class="sub">${subline(c)}</span>
     <div class="meta">${meta.join('')}</div>${alts}${p.nick ? `<div class="nick">Discord: ${esc(p.nick)}</div>` : ''}${o.after || ''}
   </article>`;
+}
+
+/** Showcase item: an achievement (id) or a season badge (badge:<id>). */
+const showName = id => (id.startsWith('badge:') ? tg('ch_badge') : achName(id));
+const showIcon = id => achIcon(id.startsWith('badge:') ? id.slice(6) : id);
+
+/** Check mark after a level an admin has confirmed. */
+const verMark = c => (c.verified ? `<span class="g-ver" role="img" aria-label="${esc(tg('verified'))}" title="${esc(tg('verified'))}">✓</span>` : '');
+
+/** Card menu («…» with the report item) for signed-in people looking at somebody else. */
+const cardMenu = (id, cls) => `<details class="g-menu${cls ? ' ' + cls : ''}"><summary aria-label="${esc(tg('menu'))}" title="${esc(tg('menu'))}">⋯</summary><button type="button" data-report="${esc(id)}">${esc(tg('report'))}</button></details>`;
+
+/** Report dialog: what is wrong (name, motto, other), an optional reason, POST /reports; success is a quiet toast. */
+function reportDialog(M, target, name) {
+  const d = document.createElement('dialog');
+  d.className = 'g-dlg';
+  d.setAttribute('aria-labelledby', 'repH');
+  d.innerHTML = `<form class="g-rf"><h2 id="repH">${esc(tg('report'))}: ${esc(name)}</h2>
+    <fieldset><legend>${esc(tg('report_field'))}</legend>${['name', 'motto', 'other'].map((k, i) => `<label class="g-rr"><input type="radio" name="f" value="${k}"${i ? '' : ' checked'}>${esc(tg('report_' + k))}</label>`).join('')}</fieldset>
+    <label class="g-rl">${esc(tg('report_reason'))}<input type="text" name="r" maxlength="80" autocomplete="off"></label>
+    <p class="msg err" role="alert"></p>
+    <div class="row"><button type="submit" class="btn">${esc(tg('report_send'))}</button><button type="button" class="btn ghost" data-x>${esc(tg('report_cancel'))}</button></div></form>`;
+  document.body.append(d);
+  const f = $('form', d), msg = $('.msg', d), ok = $('[type=submit]', d);
+  const close = () => { d.close ? d.close() : d.removeAttribute('open'); };
+  d.addEventListener('close', () => d.remove());
+  $('[data-x]', d).onclick = close;
+  d.addEventListener('click', e => { if (e.target === d) close(); });
+  f.onsubmit = e => {
+    e.preventDefault();
+    const field = f.elements.f.value, reason = f.elements.r.value.trim() || field;
+    ok.disabled = true; msg.textContent = '';
+    M.api('/reports', { body: { target, field, reason } }).then(() => { close(); M.toast({ kind: 'note', id: 'report_sent' }); }, err => {
+      ok.disabled = false;
+      msg.textContent = tg(err.code === 'report_limit' ? 'report_limit' : 'err_report');
+    });
+  };
+  if (d.showModal) d.showModal(); else d.setAttribute('open', '');
+  f.elements.f.focus();
 }
 
 /** Rank block of the big card: points, rank, bar to the next one. */
@@ -1218,7 +1315,7 @@ function bcard(p, o) {
     <img class="bg" src="${src}" alt="" decoding="async">
     <div class="in">${ring(p.frame || p.rank, face(c, p.portrait), o.reveal ? 'reveal' : '')}
       <div>${p.title ? `<span class="ttl">${esc(titleName(p.title))}</span>` : ''}<${h}${p.name_color ? ` class="${nameCls(p.name_color)}"` : ''}>${esc(c.name)}</${h}>
-        <span class="sub">${subline(c)} · ${c.level} · ${esc(ROLE[c.role] || '')}</span>
+        <span class="sub">${subline(c)} · ${c.level}${verMark(c)} · ${esc(ROLE[c.role] || '')}</span>
         ${who.length ? `<p class="who">${who.join(' · ')}</p>` : ''}${p.motto ? `<p class="motto">«${esc(p.motto)}»</p>` : ''}</div>
       ${rankBlock(p.points || 0)}</div></section>`;
 }
@@ -1364,6 +1461,7 @@ moreDlg.addEventListener('click', e => { if (e.target === moreDlg || e.target.cl
 
 /* ---------- Player page: big card, characters, achievements by category, «compare with me» ---------- */
 let M = null, p = null, me = null, compare = false;
+const PAGE_N = 20;   // chronicle page size of the API
 
 function notFound() {
   $('#view').innerHTML = `<section class="frame state"><h2>Jugador no encontrado</h2><p>Este jugador no está en la plantilla o ha ocultado su perfil.</p>
@@ -1392,21 +1490,57 @@ function draw() {
   }).join('');
   const cmpBar = cmp ? `<div class="frame vs" role="status"><span>${fill(esc('Tú: %a · %n: %b'), { a: `<b>${mine.size}</b>`, b: `<b>${got.size}</b>`, n: esc(name) })}</span>
     <span class="small">${esc(fill('En común: %n', { n: [...got.keys()].filter(id => mine.has(id)).length }))}</span></div>` : '';
-  const admin = me && me.admin && !own ? `<div class="frame admin"><span>Admin:</span>${p.motto ? '<button type="button" class="btn ghost" id="hideMotto">Ocultar lema</button>' : ''}<span class="msg" id="admNote"></span></div>` : '';
+  const admin = me && me.admin && !own ? `<div class="frame admin"><span>Admin:</span>${p.motto ? '<button type="button" class="btn ghost" id="hideMotto">Ocultar lema</button>' : ''}
+    ${p.characters.map(c => `<button type="button" class="btn ghost" data-verify="${c.id}" data-name="${esc(c.name)}" data-level="${c.level}">${esc(tg('verify_level'))}: ${esc(c.name)}</button>`).join('')}<span class="msg" id="admNote" role="status"></span></div>` : '';
+  const showc = (p.showcase || []).map(id => {
+    const r = (p.rarity || {})[id], cap = id.startsWith('badge:') || r === undefined ? '' : `<small>${esc(tg('rarity', { p: r < 1 ? '<1' : r }))}</small>`;
+    return `<li><img src="${esc(showIcon(id))}" alt="" width="56" height="56" loading="lazy"><b>${esc(showName(id))}</b>${cap}</li>`;
+  }).join('');
+  const ch = p.chronicle;
   $('#view').innerHTML = `${bcard(Object.assign({}, p, { since: p.since }), { h: 'h2' })}
+    <div class="frame g-pgl">${gloryBar({ level: p.glory, into: p.glory_into, need: p.glory_need, rested: 0 })}</div>
     <div class="bar-row"><button type="button" class="btn ghost" id="copy">${ico('copy')}Copiar enlace</button>
       ${me && !own ? `<button type="button" class="btn ghost" id="cmpBtn" aria-pressed="${compare}">${compare ? 'Ocultar comparación' : 'Comparar conmigo'}</button>` : ''}
+      ${me && !own ? `<button type="button" class="btn ghost" id="repBtn">${esc(tg('report'))}</button>` : ''}
       ${own ? `<a class="btn ghost" href="${HOME}profile/">Mi perfil</a>` : ''}<span class="msg" id="copyNote" role="status"></span></div>
     ${admin}
+    ${showc ? `<section class="sec" aria-labelledby="shH"><div class="sec-h"><h2 id="shH">${esc(tg('showcase'))}</h2></div><ul class="g-showc">${showc}</ul></section>` : ''}
     <section class="sec" aria-labelledby="chH"><div class="sec-h"><h2 id="chH">Personajes</h2></div><div class="chars">${chars}</div></section>
     <section class="sec" aria-labelledby="acH"><div class="sec-h"><h2 id="acH">Logros</h2><span class="small">${esc(fill('Puntos: %n', { n: p.points }))}</span></div>
-      ${cmpBar}${cats || '<p class="small">Aún no hay logros.</p>'}</section>`;
+      ${cmpBar}${cats || '<p class="small">Aún no hay logros.</p>'}</section>
+    ${ch ? `<section class="sec" aria-labelledby="chrH"><div class="sec-h"><h2 id="chrH">${esc(tg('chronicle'))}</h2></div>
+      ${ch.length ? `<ol class="g-chron" id="chron">${ch.map(x => chronicleItem(x)).join('')}</ol>` : `<p class="small">${esc(tg('chronicle_empty'))}</p>`}
+      ${p.chMore ? `<button type="button" class="btn ghost g-more" id="chMore">${esc(tg('chronicle_more'))}</button>` : ''}</section>` : ''}`;
+  if (own && ch === null && !p.chOwn) {   // hidden from others, but the owner sees it
+    p.chOwn = true;
+    M.api(`/u/${p.id}/chronicle`).then(r => { p.chronicle = r.items; p.chMore = r.items.length >= PAGE_N; draw(); }, () => {});
+  }
   $('#copy').onclick = () => copyText(location.href).then(ok => {
     $('#copyNote').textContent = ok ? 'Enlace copiado' : location.href;
     if (ok && own) M.track('show_card');
   });
   const cb = $('#cmpBtn');
   if (cb) cb.onclick = () => { compare = !compare; draw(); };
+  const more = $('#chMore');
+  if (more) more.onclick = () => {
+    const last = p.chronicle[p.chronicle.length - 1];
+    more.disabled = true;
+    M.api(`/u/${p.id}/chronicle?before=${last.at}`).then(r => {
+      p.chronicle = p.chronicle.concat(r.items); p.chMore = r.items.length >= PAGE_N;
+      $('#chron').insertAdjacentHTML('beforeend', r.items.map(x => chronicleItem(x)).join(''));
+      if (p.chMore) more.disabled = false; else more.remove();
+    }, () => { more.disabled = false; });
+  };
+  const rb = $('#repBtn');
+  if (rb) rb.onclick = () => reportDialog(M, p.id, p.main.name);
+  $$('[data-verify]').forEach(b => b.onclick = () => {
+    const lv = prompt(tg('verify_ask', { name: b.dataset.name }), b.dataset.level);
+    if (lv === null) return;
+    const n = Number(lv.trim());
+    if (!Number.isInteger(n) || n < 1 || n > 60) { $('#admNote').textContent = tg('verify_bad'); return; }
+    b.disabled = true;
+    M.api(`/admin/characters/${b.dataset.verify}/verify`, { body: { level: n } }).then(() => { load(); }, () => { b.disabled = false; $('#admNote').textContent = tg('err_report'); });
+  });
   const hm = $('#hideMotto');
   if (hm) hm.onclick = () => M.api(`/admin/users/${p.id}/motto-hide`, { body: { hidden: true } }).then(() => { p.motto = null; draw(); }, () => { $('#admNote').textContent = 'No funcionó'; });
 }
@@ -1417,6 +1551,7 @@ function load() {
   $('#view').innerHTML = '<div class="skel" style="min-height:250px"></div>';
   M.api('/u/' + id).then(r => {
     p = r;
+    p.chMore = !!(r.chronicle && r.chronicle.length >= PAGE_N);
     document.title = `${r.main.name} — Gabella`;
     draw();
   }, e => (e.status === 404 ? notFound() : down()));
@@ -1497,8 +1632,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=c72245122c" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=b33a806ed0" data-root="../../" data-home="../" data-lang="es" data-page="u/" defer></script>
+<script src="../../assets/search/search.js?v=a331e7826b" data-root="../../" defer></script>
+<script src="../../assets/me/me.js?v=fbfcf5696d" data-root="../../" data-home="../" data-lang="es" data-teaser="Tu perfil guarda tu camino: Gloria, marcos, temporadas" data-close="Cerrar" data-page="u/" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

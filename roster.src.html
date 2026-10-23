@@ -58,11 +58,16 @@
     <h1>Состав Gabella Team</h1>
     <p class="lead">Кто кем играет в WoW Forever. Основной персонаж — карточкой, твинки — строкой под ней.</p>
     <p class="rstat" id="stats" aria-live="polite"></p>
+    <p class="g-wk" id="wk" hidden></p>
     <div class="rcta"><a class="btn lg" id="cta" href="@@HOME@@profile/">Добавить своего персонажа</a><span id="ctaHint">Вход через Discord, только для участников сервера</span></div>
   </div>
 </section>
 <main class="wrap rost" id="list">
   <div class="frame lfgbar" id="lfgBar" hidden><b>Сейчас ищут группу</b><div class="lfgs" id="lfgList"></div></div>
+  <div class="g-tabs" role="tablist" id="tabs">
+    <button type="button" class="g-tab" role="tab" id="tabTeam" data-t="team" aria-controls="roster">Gabella Team <small id="nTeam"></small></button>
+    <button type="button" class="g-tab" role="tab" id="tabAll" data-t="all" aria-controls="roster">Все игроки <small id="nAll"></small></button>
+  </div>
   <div class="frame fbar" role="search" aria-label="Фильтры">
     <input type="search" id="fq" placeholder="Имя или ник" aria-label="Поиск по имени или нику" autocomplete="off" maxlength="30">
     <div class="fgroup"><span class="flabel" id="lf">Фракция</span><div class="seg" id="ff" aria-labelledby="lf"><button type="button" data-v="">Все</button><button type="button" data-v="alliance">Альянс</button><button type="button" data-v="horde">Орда</button></div></div>
@@ -78,7 +83,7 @@
       <div class="rhead"><p class="small" id="count" aria-live="polite"></p>
         <div class="fgroup"><label class="flabel" for="fs">Сортировка</label><select id="fs"><option value="pts">По очкам</option><option value="lvl">По уровню</option><option value="name">По имени</option><option value="new">Новые</option></select>
           <div class="seg" id="fv" role="group" aria-label="Вид"><button type="button" data-v="cards">Карточки</button><button type="button" data-v="list">Список</button></div></div></div>
-      <div class="rlist" id="roster"></div>
+      <div class="rlist" id="roster" role="tabpanel"></div>
     </div>
     <aside class="side" aria-labelledby="feedH"><h2 id="feedH">Лента команды</h2><div class="frame feed" id="feed"><div class="skel" style="min-height:120px;border:0"></div></div></aside>
   </div>
@@ -88,17 +93,47 @@
 /* ---------- Roster: filters in the hash, cards or a list, who looks for a group, the team feed ---------- */
 const F0 = { q: '', f: '', r: '', c: '', t: '', p: '', lfg: '', s: 'pts', v: 'cards' };
 const F = Object.assign({}, F0);
-let players = null, failed = false, me = null;
+let players = null, failed = false, me = null, tab = 'team';   // tab: the team (members) or everybody (#all)
 
 function readHash() {
   const h = new URLSearchParams(location.hash.slice(1));
   for (const k in F0) F[k] = h.get(k) || F0[k];
+  tab = h.has('all') ? 'all' : 'team';
 }
 function writeHash() {
   const h = new URLSearchParams();
   for (const k in F0) if (F[k] && F[k] !== F0[k]) h.set(k, F[k]);
-  const s = h.toString();
+  const s = [tab === 'all' ? 'all' : '', h.toString()].filter(Boolean).join('&');
   history.replaceState(null, '', s ? '#' + s : location.pathname + location.search);
+}
+/** Players of the open tab. */
+const pool = () => (!players ? [] : tab === 'team' ? players.filter(p => p.member) : players);
+function statsOf(list) {
+  const s = { total: list.length, alliance: 0, horde: 0, tank: 0, heal: 0, dps: 0 };
+  list.forEach(p => { s[race(p.main.race).f]++; s[p.main.role]++; });
+  return s;
+}
+function paintTabs() {
+  $$('#tabs .g-tab').forEach(b => {
+    const on = b.dataset.t === tab;
+    b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1;
+    if (on) $('#roster').setAttribute('aria-labelledby', b.id);
+  });
+  $('#nTeam').textContent = players ? players.filter(p => p.member).length : '';
+  $('#nAll').textContent = players ? players.length : '';
+}
+function setTab(t, focus) {
+  if (t === tab) return;
+  tab = t; draw();
+  if (focus) $('#tab' + (t === 'all' ? 'All' : 'Team')).focus();
+}
+/** Weekly tasks under the header, for signed-in people only. */
+const itemOf = (k, item) => (k === 'station' ? (GD.items.station || {})[item] : k === 'guide' ? (GD.items.guide || {})[item] : null);
+function drawWeek() {
+  const w = me && me.week, el = $('#wk');
+  el.hidden = !w || !w.tasks.length;
+  if (el.hidden) return;
+  el.innerHTML = `<b>${esc(tg('week'))}:</b> ` + w.tasks.map(t => `${esc(taskName(t, T.g, { itemName: itemOf }))} ${t.done ? `<span class="g-ok" role="img" aria-label="${esc(tg('task_done'))}">✓</span>` : esc(`${t.value}/${t.goal}`)}`).join(' · ');
 }
 function syncControls() {
   [['ff', 'f'], ['fr', 'r'], ['ft', 't'], ['fv', 'v']].forEach(([id, k]) => $$(`#${id} button`).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === F[k]))));
@@ -108,7 +143,7 @@ function syncControls() {
 
 function filtered() {
   const q = F.q.trim().toLowerCase();
-  const out = players.filter(p => {
+  const out = pool().filter(p => {
     const c = p.main;
     if (F.f && race(c.race).f !== F.f) return false;
     if (F.r && c.role !== F.r) return false;
@@ -136,14 +171,15 @@ function drawStats(st) {
 }
 
 function drawLfg() {
-  const now = players.filter(p => p.lfg && p.lfg.until > Date.now()).sort((a, b) => b.lfg.until - a.lfg.until);
+  const now = pool().filter(p => p.lfg && p.lfg.until > Date.now()).sort((a, b) => b.lfg.until - a.lfg.until);
   $('#lfgBar').hidden = !now.length;
   $('#lfgList').innerHTML = now.map(p => `<a href="${playerUrl(p.id)}">${ring(p.frame || p.rank, face(p.main, p.portrait))}<span><b>${esc(p.main.name)}</b>`
     + `<small>${esc(LFG[p.lfg.kind] || '')} · ${esc(fill('ещё %t', { t: left(p.lfg.until) }))}</small></span></a>`).join('');
 }
 
 function draw() {
-  writeHash(); syncControls();
+  writeHash(); syncControls(); paintTabs();
+  if (players) { drawStats(statsOf(pool())); drawLfg(); }
   const box = $('#roster');
   box.classList.toggle('list', F.v === 'list');
   if (failed) {
@@ -158,18 +194,25 @@ function draw() {
     $('#count').textContent = '';
     return;
   }
+  if (!pool().length) {
+    box.innerHTML = `<div class="frame state"><h2>${esc(tg('team_empty'))}</h2><div class="row"><button type="button" class="btn ghost" id="toAll">${esc(tg('tab_all'))}</button></div></div>`;
+    $('#toAll').onclick = () => setTab('all', true);
+    $('#count').textContent = '';
+    return;
+  }
   const list = filtered();
-  $('#count').textContent = fill('Показано: %n из %m', { n: list.length, m: players.length });
+  $('#count').textContent = fill('Показано: %n из %m', { n: list.length, m: pool().length });
   if (!list.length) {
     box.innerHTML = `<div class="frame state"><h2>Никого не нашли</h2><p>Под эти фильтры никто не подходит.</p><div class="row"><button type="button" class="btn ghost" id="clear">Сбросить фильтры</button></div></div>`;
     $('#clear').onclick = reset;
     return;
   }
   const admin = me && me.admin;
+  const uid = me && me.user && me.user.id;
   box.innerHTML = list.map(p => pcard(p, {
-    prof: F.p,
+    prof: F.p, glory: true,
     attrs: ` data-id="${esc(p.id)}"`,
-    after: admin ? `<button type="button" class="mod" data-hide="${p.main.id}">Скрыть</button>` : '',
+    after: (admin ? `<button type="button" class="mod" data-hide="${p.main.id}">Скрыть</button>` : '') + (uid && uid !== p.id ? cardMenu(p.id, admin ? 'adm' : '') : ''),
   })).join('');
 }
 
@@ -181,8 +224,7 @@ function load() {
   if (!M) { failed = true; return draw(); }
   M.api('/roster').then(r => {
     players = r.players || [];
-    drawStats(r.stats || {});
-    drawLfg(); draw();
+    draw();
   }, () => { failed = true; draw(); });
   M.api('/feed?limit=15').then(r => {
     $('#feed').innerHTML = (r.items || []).length ? r.items.map(feedLine).join('') : '<p class="none">Здесь появятся достижения команды.</p>';
@@ -193,6 +235,8 @@ ready(M => {
   Object.entries(GD.classes).forEach(([id, c]) => $('#fc').insertAdjacentHTML('beforeend', `<option value="${id}">${esc(c.n)}</option>`));
   Object.entries(GD.profs).forEach(([id, n]) => $('#fp').insertAdjacentHTML('beforeend', `<option value="${id}">${esc(n)}</option>`));
   readHash();
+  $('#tabs').setAttribute('aria-label', tg('tabs_label'));
+  $('#tabTeam').title = tg('tab_team_hint');
   [['ff', 'f'], ['fr', 'r'], ['ft', 't'], ['fv', 'v']].forEach(([id, k]) => $(`#${id}`).addEventListener('click', e => {
     const b = e.target.closest('button'); if (!b) return; F[k] = b.dataset.v; draw();
   }));
@@ -204,7 +248,22 @@ ready(M => {
   $('#fl').onchange = e => { F.lfg = e.target.checked ? '1' : ''; draw(); };
   $('#freset').onclick = reset;
   addEventListener('hashchange', () => { readHash(); if (players) draw(); });
+  // tabs: arrows, Home and End move between them (the selected one is the only tab stop)
+  $('#tabs').addEventListener('click', e => { const b = e.target.closest('.g-tab'); if (b) setTab(b.dataset.t, false); });
+  $('#tabs').addEventListener('keydown', e => {
+    const order = ['team', 'all'], i = order.indexOf(tab);
+    const to = { ArrowRight: order[(i + 1) % 2], ArrowLeft: order[(i + 1) % 2], Home: 'team', End: 'all' }[e.key];
+    if (!to) return;
+    e.preventDefault(); setTab(to, true);
+  });
+  document.addEventListener('click', e => { $$('.g-menu[open]').forEach(d => { if (!d.contains(e.target)) d.open = false; }); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') $$('.g-menu[open]').forEach(d => { d.open = false; }); });
   $('#roster').addEventListener('click', e => {
+    const rb = e.target.closest('[data-report]');
+    if (rb) {
+      rb.closest('details').open = false;
+      return reportDialog(M, rb.dataset.report, $('.nm a', rb.closest('.pcard')).textContent);
+    }
     const b = e.target.closest('[data-hide]');
     if (!b) return;
     const card = b.closest('.pcard'), name = $('.nm a', card).textContent;
@@ -215,7 +274,7 @@ ready(M => {
     }, () => { b.disabled = false; });
   });
   if (M) M.onMe(m => {
-    me = m;
+    me = m; drawWeek();
     if (m && m.characters && m.characters.length) { $('#cta').textContent = 'Мой профиль'; $('#ctaHint').hidden = true; }
     if (players) draw();
   });

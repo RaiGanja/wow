@@ -93,9 +93,9 @@ def test_me_script_on_every_page_after_radio():
             continue
         assert html.count('assets/me/me.js') == 1 and html.count('assets/me/me.css') == 1, p
         assert html.index('assets/radio/radio.js') < html.index('assets/me/me.js'), p
-        m = re.search(r'<script src="[^"]*assets/me/me\.js\?v=\w{10}" data-root="([^"]*)" data-home="([^"]*)" data-lang="(\w+)" data-page="([^"]*)" defer>', html)
+        m = re.search(r'<script src="[^"]*assets/me/me\.js\?v=\w{10}" data-root="([^"]*)" data-home="([^"]*)" data-lang="(\w+)" data-teaser="([^"]+)" data-close="([^"]+)" data-page="([^"]*)" defer>', html)
         assert m, p
-        page = m.group(4)
+        page = m.group(6)
         name = os.path.relpath(p, ROOT).replace(os.sep, '/')
         if name.endswith('404.html'):
             assert page == '404', name
@@ -117,6 +117,8 @@ def check_growth_texts(lang, t):
     ach = {a['id'] for a in G['achievements']}
     assert set(t['titles']) == set(G['titles']) - ach and 'pioneer' in t['titles'], lang
     assert set(t['bg']) == {'s1-1', 's1-2'}, lang   # ids of the season backgrounds (R17)
+    # me.js sends repeats of a key that feeds an open weekly task (R15): task id -> key comes with the texts
+    assert t['wk'] == {w['id']: w['key'] for w in G['progression']['weekly']}, lang
     for w in G['progression']['weekly']:
         assert 'task_' + w['id'] in g or w['id'].split('_')[0] in ('st', 'g', 'c') and 'task_' + w['id'].split('_')[0] in g, (lang, w['id'])
 
@@ -179,6 +181,18 @@ def test_roster_in_navigation():
         for sec in ('account', 'storage', 'delete'):
             assert f'id="{sec}"' in html, (lang, sec)
         assert 'https://discord.com/privacy' in html, lang
+
+
+def test_me_js_growth_hooks():
+    """R15: known() lets weekly-task keys and tool flags through; Glory and season toasts; the teaser costs no request."""
+    me = open(os.path.join(ROOT, 'assets', 'me', 'me.js'), encoding='utf-8').read()
+    assert 'party5|raid40|compare3|share_team' in me and 'T.wk' in me and 'state.week' in me
+    for k in ("kind: 'glory'", "kind: 'step'", 'gabella-me-xp1', 'gabella-me-teaser', 'slice(0, 3)'):
+        assert k in me, k
+    teaser = me[me.index('function teaser()'):me.index("if (PAGE === 'tools/') toolsHooks();")]
+    assert 'fetch(' not in teaser and 'api(' not in teaser and 'D.teaser' in teaser
+    # signed-out visitors: nothing but the teaser runs before the login check
+    assert me.index('teaser();') < me.index('if (logged() || AUTH_PAGE) me()')
 
 
 def test_radio_tells_me_js():

@@ -125,6 +125,21 @@ GROWTH = {
     'err_bad_showcase': 'Витрина: до пяти наград из полученных',
     'err_swap_used': 'Замена на этой неделе уже была',
     'tab_team': 'Gabella Team',   # без перевода
+    'tab_team_hint': 'Участники сервера Gabella',
+    'xp_first': 'Слава растёт — смотрите профиль',
+    'report_field': 'Что не так',
+    'report_reason': 'Причина (необязательно)',
+    'report_send': 'Отправить',
+    'report_cancel': 'Отмена',
+    'err_report': 'Не получилось отправить',
+    'verify_level': 'Подтвердить уровень',
+    'verify_ask': 'Уровень персонажа {name} (1–60)',
+    'verify_done': 'Уровень подтверждён',
+    'verify_bad': 'Нужно число от 1 до 60',
+    'team_empty': 'В Gabella Team пока никого',
+    'menu': 'Действия',
+    'close': 'Закрыть',
+    'tabs_label': 'Состав',
 }
 GROWTH['glory_toast'] = GROWTH['ch_glory'] = GROWTH['glory_n']
 
@@ -135,6 +150,13 @@ def strings():
     for a in A.ACH:
         out += [a[5], a[6]] + ([a[7]] if len(a) > 7 else [])
     return [s for s in dict.fromkeys(out) if any('А' <= ch <= 'я' or ch in 'Ёё' for ch in s)]
+
+
+def week_keys():
+    """Weekly task id -> the progress key its events carry (radio_min, station, guide, ...)."""
+    sys.path.insert(0, os.path.join(HERE, 'tools'))
+    import export_game
+    return {w['id']: w['key'] for w in export_game.game()['progression']['weekly']}
 
 
 def texts(lang):
@@ -152,6 +174,7 @@ def texts(lang):
         'pts': {a[0]: a[2] for a in A.ACH},
         'secret': [a[0] for a in A.ACH if len(a) > 7],
         'g': {k: t(v) for k, v in GROWTH.items()},
+        'wk': week_keys(),                                                               # weekly task id -> progress key (me.js sends repeats of these)
         'titles': {x: t(GROWTH['title_' + x]) for x in A.TITLES if x not in ach},     # a title that is not an achievement (pioneer)
         'bg': {k[3:]: t(v) for k, v in GROWTH.items() if k.startswith('bg_')},       # season backgrounds by id (s1-1, s1-2)
     }, missing

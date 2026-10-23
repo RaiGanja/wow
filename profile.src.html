@@ -496,9 +496,6 @@ function colorBox() {
   return `<div class="frame box"><h3>${esc(tg('name_color'))}</h3><div class="g-colors" role="group" aria-label="${esc(tg('name_color'))}">${sw}</div></div>`;
 }
 
-/** Showcase item: an achievement (id) or a season badge (badge:<id>). */
-const showName = id => (id.startsWith('badge:') ? tg('ch_badge') : achName(id));
-const showIcon = id => achIcon(id.startsWith('badge:') ? id.slice(6) : id);
 function showcaseList() { return (m.user.showcase || []).filter(x => typeof x === 'string'); }
 /** Showcase: five cells, up/down/remove for each (and dragging with a mouse), a list to add from what is owned. */
 function showcaseBox() {
@@ -508,7 +505,7 @@ function showcaseBox() {
     const id = list[i];
     if (!id) { cells.push(`<li class="g-cell empty">${esc(tg('showcase_empty'))}</li>`); continue; }
     const n = esc(showName(id)), btn = (a, glyph, key, off) => `<button type="button" data-sh="${a}" data-i="${i}" aria-label="${esc(tg(key))}: ${n}"${off ? ' disabled' : ''}>${glyph}</button>`;
-    cells.push(`<li class="g-cell" data-i="${i}"${fine ? ' draggable="true"' : ''}><img src="${esc(showIcon(id))}" alt=""" width="46" height="46" loading="lazy"><b>${n}</b>
+    cells.push(`<li class="g-cell" data-i="${i}"${fine ? ' draggable="true"' : ''}><img src="${esc(showIcon(id))}" alt="" width="46" height="46" loading="lazy"><b>${n}</b>
       <span class="g-ctl">${btn('up', '↑', 'showcase_up', i === 0)}${btn('down', '↓', 'showcase_down', i === list.length - 1)}${btn('del', '×', 'showcase_del')}</span></li>`);
   }
   const owned = m.achievements.map(a => a.id).concat(m.unlocks.filter(x => x.startsWith('badge:'))).filter(id => !list.includes(id));
