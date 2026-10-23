@@ -1024,6 +1024,8 @@ nav.gtiles { padding: 14px; }
   .gtable td::before { content: attr(data-l); display: block; font-size: .78rem; font-weight: 400; color: var(--muted); }
 }
 </style>
+<script>(function(){var D={"B": [6, 11, 17, 23], "N": {"dawn": "Утро", "day": "День", "dusk": "Вечер", "night": "Ночь"}, "X": {"auto": "по вашему времени", "reset": "По времени", "label": "Время суток"}, "A": [["image/avif", "", "../../assets/art/hero_{tod}-960.avif 960w, ../../assets/art/hero_{tod}-1440.avif 1440w, ../../assets/art/hero_{tod}-1920.avif 1920w, ../../assets/art/hero_{tod}-2560.avif 2560w, ../../assets/art/hero_{tod}-3840.avif 3840w", "100vw"]]},B=D.B,K="gabella-tod",P=["dawn","day","dusk","night"],d=document.documentElement;function part(h){return h>=B[0]&&h<B[1]?'dawn':h>=B[1]&&h<B[2]?'day':h>=B[2]&&h<B[3]?'dusk':'night'};var q=(location.search.match(/[?&]tod=(dawn|day|dusk|night)\b/)||[])[1],s=null;try{s=localStorage.getItem(K)}catch(e){}if(P.indexOf(s)<0)s=null;var t=q||s||part(new Date().getHours());d.setAttribute("data-tod",t);window.GabellaTod={part:part,bounds:B,now:t,pinned:!!(q||s),url:!!q,key:K,names:D.N,text:D.X};D.A.forEach(function(a){var l=document.createElement("link");l.rel="preload";l.as="image";l.type=a[0];if(a[1])l.media=a[1];l.setAttribute("fetchpriority","high");l.setAttribute("imagesrcset",a[2].replace(/\{tod\}/g,t));l.setAttribute("imagesizes",a[3]);document.head.appendChild(l)})})();</script>
+<link rel="stylesheet" href="../../assets/tod/tod.css?v=616e6ec276" media="print" onload="this.media='all'">
 <style>
 .rv { opacity: 0; transform: translateY(18px); }
 .rv.in { opacity: 1; transform: none; transition: opacity .6s var(--ease), transform .6s var(--ease); }
@@ -1074,12 +1076,13 @@ nav.gtiles { padding: 14px; }
 </div></header>
 
 <section class="stband ghero" id="top">
-  <picture class="stband-art" aria-hidden="true" data-fx="dawn"><source type="image/avif" srcset="../../assets/art/hero_dawn-960.avif 960w, ../../assets/art/hero_dawn-1440.avif 1440w, ../../assets/art/hero_dawn-1920.avif 1920w, ../../assets/art/hero_dawn-2560.avif 2560w, ../../assets/art/hero_dawn-3840.avif 3840w" sizes="100vw"><img src="../../assets/art/hero_dawn-3840.webp" srcset="../../assets/art/hero_dawn-960.webp 960w, ../../assets/art/hero_dawn-1440.webp 1440w, ../../assets/art/hero_dawn-1920.webp 1920w, ../../assets/art/hero_dawn-2560.webp 2560w, ../../assets/art/hero_dawn-3840.webp 3840w" sizes="100vw" alt="" decoding="async" fetchpriority="high"></picture>
+  <picture class="stband-art" data-fx="dawn" data-tod-art><source type="image/avif" data-srcset="../../assets/art/hero_{tod}-960.avif 960w, ../../assets/art/hero_{tod}-1440.avif 1440w, ../../assets/art/hero_{tod}-1920.avif 1920w, ../../assets/art/hero_{tod}-2560.avif 2560w, ../../assets/art/hero_{tod}-3840.avif 3840w" sizes="100vw"><source type="image/webp" data-srcset="../../assets/art/hero_{tod}-960.webp 960w, ../../assets/art/hero_{tod}-1440.webp 1440w, ../../assets/art/hero_{tod}-1920.webp 1920w, ../../assets/art/hero_{tod}-2560.webp 2560w, ../../assets/art/hero_{tod}-3840.webp 3840w" sizes="100vw"><img data-src="../../assets/art/hero_{tod}-1920.webp" width="1920" height="1072" alt="" fetchpriority="high" decoding="async"></picture><script>(function(p,t){p.querySelectorAll("[data-srcset]").forEach(function(e){e.srcset=e.getAttribute("data-srcset").replace(/\{tod\}/g,t)});var i=p.querySelector("img");i.src=i.getAttribute("data-src").replace(/\{tod\}/g,t)})(document.currentScript.previousElementSibling,GabellaTod.now)</script><noscript><picture class="stband-art"><source type="image/avif" srcset="../../assets/art/hero_dawn-960.avif 960w, ../../assets/art/hero_dawn-1440.avif 1440w, ../../assets/art/hero_dawn-1920.avif 1920w, ../../assets/art/hero_dawn-2560.avif 2560w, ../../assets/art/hero_dawn-3840.avif 3840w" sizes="100vw"><source type="image/webp" srcset="../../assets/art/hero_dawn-960.webp 960w, ../../assets/art/hero_dawn-1440.webp 1440w, ../../assets/art/hero_dawn-1920.webp 1920w, ../../assets/art/hero_dawn-2560.webp 2560w, ../../assets/art/hero_dawn-3840.webp 3840w" sizes="100vw"><img src="../../assets/art/hero_dawn-1920.webp" width="1920" height="1072" alt="" decoding="async"></picture></noscript>
   <div class="wrap">
     <nav class="crumbs" aria-label="Навигация"><a href="../../">Гид</a><span aria-hidden="true">/</span><a href="../../guides/">Гайды</a><span aria-hidden="true">/</span><span>Прокачка 1–60</span></nav>
     <h1>Прокачка 1–60</h1>
     <p class="glead">Маршрут по зонам для Альянса и Орды, отдых и бонусы опыта, советы соло, вдвоём и группой, Legacy и лагерь.</p>
     <div class="pills"><span class="pill">Альянс и Орда</span><span class="pill">Ездовое с 40</span><span class="pill">4 084 700 опыта до 60</span></div>
+    <div class="todsw" data-tod-sw></div>
   </div>
 </section>
 
@@ -1162,6 +1165,7 @@ if ('IntersectionObserver' in window && tocLinks.length) {
 }
 
 </script>
+<script src="../../assets/tod/tod.js?v=616e6ec276" defer></script>
 <script src="../../assets/living/living.js?v=740fcc718a" defer></script>
 <script>
 (() => {

@@ -6,6 +6,7 @@ import json, os, re, sys
 from html import escape
 
 import build
+import tod
 from build import LANGS, SITE, page_dir, rel, localize, translate
 import langs
 from content.guides import GUIDES, HUB, HUBS, NEWS, NOT_FOUND, PAGES, PLAY_MILESTONES, PLAY_TX
@@ -535,10 +536,14 @@ def build_page(g, lang, tpl, base_css, sprite, src):
              if g['slug'] and not section else f'<span>{E(g["title"], lang)}</span>')
     toc_grp = f'<div class="grp"><div class="gh">{THIS_PAGE[lang]}</div>{toc}</div>' if toc else ''
     js = g.get('js')
+    fx_attr = f' data-fx="{FX[g["art"]]}"' if g['art'] in FX else ''
     rep = {
+        'HERO': ('@@TOD_HERO@@' if g['art'] == 'hero_dawn' else   # the leveling guide: the hero in the reader's time of day (tod.py)
+                 f'<picture class="stband-art" aria-hidden="true"{fx_attr}><source type="image/avif" srcset="{avif}" sizes="100vw">'
+                 f'<img src="{img}" srcset="{webp}" sizes="100vw" alt="" decoding="async" fetchpriority="high"></picture>'),
         'TITLE': E(g['title'], lang), 'LEAD': E(g['lead'], lang), 'CRUMB': crumb,
         'PILLS': ''.join(f'<span class="pill">{E(p, lang)}</span>' for p in g.get('pills', [])),
-        'ART_AVIF': avif, 'ART_WEBP': webp, 'ART_IMG': img, 'FX': f' data-fx="{FX[g["art"]]}"' if g['art'] in FX else '', 'TOC': toc, 'TOC_GRP': toc_grp, 'BODY': body, 'MORE': more,
+        'TOC': toc, 'TOC_GRP': toc_grp, 'BODY': body, 'MORE': more,
         'SOLO': '' if toc else ' solo', 'MORE_H': (MORE_SITE if section else MORE_H)[lang],
         'SOURCES': ''.join(f'<li><a href="{u}" target="_blank" rel="noopener">{E(n, lang)}</a></li>' for n, u in g.get('sources', [])),
         'UPDATED': g.get('updated', HUB.get('updated', '')),
@@ -546,6 +551,12 @@ def build_page(g, lang, tpl, base_css, sprite, src):
     }
     for k, v in rep.items():                                     # 2) тело
         html = html.replace(f'@@{k}@@', v)
+    html = tod.apply(html, lang, root='@@ROOT@@', cls='stband-art', fx='dawn', mobile=False,
+                     widths=WIDTHS['hero_dawn'], sizes='100vw', img_w=1920, img_h=1072)
+    html = html.replace('\n    @@TOD_SW@@', '', 1)                # other guides: no switch
+    if 'data-tod-art' in html:
+        html = html.replace('</head>', '<link rel="stylesheet" href="@@ROOT@@assets/tod/tod.css" media="print" onload="this.media=\'all\'">\n</head>', 1)
+        html = html.replace('</body>', '<script src="@@ROOT@@assets/tod/tod.js" defer></script>\n</body>', 1)
     if not others:
         html = html.replace('<section id="more">', '<section id="more" hidden>')
     if not g.get('sources'):                                     # privacy, 404: footer without the sources list

@@ -53,6 +53,16 @@ class Markup(unittest.TestCase):
             self.assertIn('data-tod-sw', html, page)
             self.assertNotIn('hero_dawn-1920.avif 1920w', html.split('<noscript>')[0].split('</head>')[1], page)
 
+    def test_leveling_guide_follows_time_of_day(self):
+        html = open(os.path.join(ROOT, 'guides', 'leveling', 'index.html'), encoding='utf-8').read()
+        self.assertIn('window.GabellaTod', html.split('</head>')[0])
+        self.assertIn('hero_{tod}-1440', html)
+        self.assertRegex(html, r'assets/tod/tod\.js\?v=\w{10}')
+        self.assertIn('data-tod-sw', html)
+        other = open(os.path.join(ROOT, 'guides', 'professions', 'index.html'), encoding='utf-8').read()
+        self.assertNotIn('GabellaTod', other)
+        self.assertNotIn('data-tod-sw', other)
+
 
 class Wiring(unittest.TestCase):
     def test_home_loads_tod_script_with_version(self):
