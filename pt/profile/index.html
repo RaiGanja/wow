@@ -1333,8 +1333,8 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=6df11f1da3" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=21ee28585f" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=d107c7a109" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=accf6780cc" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Início","item":"https://gabella.site/wow/pt/"},{"@type":"ListItem","position":2,"name":"Meu perfil","item":"https://gabella.site/wow/pt/profile/"}]}</script>
 </head>
 <body>
@@ -1362,7 +1362,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="../" aria-label="Gabella, para a página inicial"><img class="mark" src="../../assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Guia de WoW Forever</small></span></a>
   <nav class="mainnav" aria-label="Seções">
-    <a href="../#factions">Facções</a><a href="../#classes">Classes</a><a href="../#peoples">Raças</a><a href="../#picker">Seletor</a><a href="../guides/">Guias</a><a href="../tools/">Ferramentas</a><a href="../roster/">Elenco</a>
+    <a href="../#factions">Facções</a><a href="../#classes">Classes</a><a href="../#peoples">Raças</a><a href="../#picker">Seletor</a><a href="../guides/">Guias</a><a href="../tools/">Ferramentas</a><a href="../roster/">Elenco</a><a href="../play/">No jogo</a>
   </nav>
   <div class="tools">
     <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" aria-label="Idioma: Português (Brasil)">PT</button><ul class="langlist" hidden><li><a href="../../profile/" data-lang="ru" hreflang="ru" lang="ru"><span>Русский</span><small>RU</small></a></li><li><a href="../../en/profile/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../../uk/profile/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../../de/profile/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="../../fr/profile/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="../../es/profile/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="./" data-lang="pt" hreflang="pt-BR" lang="pt-BR" aria-current="page"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="../../it/profile/" data-lang="it" hreflang="it" lang="it"><span>Italiano</span><small>IT</small></a></li><li><a href="../../pl/profile/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
@@ -2231,6 +2231,10 @@ function pathHtml() {
   return `<div class="frame path" aria-label="Sua jornada"><span>Dias seguidos: <b>${u.streak || 0}</b></span><span>Rádio: <b>${unit(radio, 'hour')}</b></span>
     <span>Guias: <b>${fill('%v de %g', { v: guides, g: GD.sets.guide.length })}</b></span><span>Posição na equipe: <b>${place}</b></span></div>`;
 }
+function playHint() {   // until the person has opened the in-game page once
+  if ((m.progress || {}).play_page) return '';
+  return `<div class="frame ask"><span>Jogando? Abra “No jogo” ao lado do jogo: lá o rádio rende Glória e o nível do seu personagem muda com um toque.</span><a class="btn ghost" href="${HOME}play/">Abrir “No jogo”</a></div>`;
+}
 function levelAsk() {
   let lvl = 0;
   try { lvl = +(JSON.parse(localStorage.getItem('gabella-wf-me')) || {}).lvl || 0; } catch (e) { /* no level */ }
@@ -2490,7 +2494,7 @@ function cabinet() {
   if (!secs().some(x => x[0] === sec)) sec = 'chars';
   const nav = secs().map(([id, t]) => `<a href="#${id}"${sec === id ? ' aria-current="page"' : ''}>${esc(t)}${id === 'chars' ? `<span>${esc(fill('%n de %m', { n: m.characters.length, m: CHAR_MAX }))}</span>` : id === 'ach' ? `<span>${ach} / ${all}</span>` : ''}</a>`).join('');
   const body = { chars: secChars, look: secLook, ach: secAch, frames: secFrames, chronicle: secChronicle, account: secAccount, reports: secReports }[sec]();
-  $('#view').innerHTML = `${noticeHtml()}<p class="lab">Seu cartão como os outros o veem</p>${bcard(p, { h: 'h2', reveal })}${gloryHtml()}${levelAsk()}${nextHtml()}${weekHtml()}${seasonHtml()}${pathHtml()}
+  $('#view').innerHTML = `${noticeHtml()}<p class="lab">Seu cartão como os outros o veem</p>${bcard(p, { h: 'h2', reveal })}${gloryHtml()}${levelAsk()}${nextHtml()}${weekHtml()}${playHint()}${seasonHtml()}${pathHtml()}
     <div class="lay"><nav class="frame pnav" aria-label="Área pessoal">${nav}<hr><a class="pub" href="${playerUrl(m.user.id)}">Minha página ↗</a></nav><section class="sec" id="sec">${body}</section></div>`;
   reveal = false;
   const cur = $('.s-track');   // the season track opens at the step in progress
@@ -2741,8 +2745,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=6df11f1da3" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=21ee28585f" data-root="../../" data-home="../" data-lang="pt" data-teaser="Seu perfil guarda sua jornada: Glória, quadros, temporadas" data-close="Fechar" data-page="profile/" data-look="1" defer></script>
+<script src="../../assets/search/search.js?v=d107c7a109" data-root="../../" defer></script>
+<script src="../../assets/me/me.js?v=accf6780cc" data-root="../../" data-home="../" data-lang="pt" data-teaser="Seu perfil guarda sua jornada: Glória, quadros, temporadas" data-close="Fechar" data-page="profile/" data-look="1" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

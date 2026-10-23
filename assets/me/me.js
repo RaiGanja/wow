@@ -270,7 +270,7 @@
     const m = PAGE.match(/^(guides|classes|races)\/([\w-]+)\/$/);
     // a language-only guide (data-solo, the uk «ukrainian») is not in the guide set: the API would answer bad_item
     if (m && !(m[1] === 'guides' && D.solo)) track({ guides: 'guide', classes: 'class', races: 'race' }[m[1]], m[2]);
-    if (PAGE === 'play/') { track('play_page'); levelFromPlay(); }
+    if (PAGE === 'play/') track('play_page');
     if (PAGE === '404') track('egg', '404');
     const today = new Date().toDateString();
     if (ls.get(DAY) !== today) track('visit').then(r => { if (r) ls.set(DAY, today); });
@@ -345,29 +345,6 @@
     kpos = k === KONAMI[kpos] ? kpos + 1 : k === KONAMI[0] ? 1 : 0;
     if (kpos === KONAMI.length) { kpos = 0; track('egg', 'konami'); }
   });
-
-  // «В игре» keeps the hero level in gabella-wf-me: when it outgrows the main character, offer to update it in one tap
-  function levelFromPlay() {
-    let lvl = 0;
-    try { lvl = +(JSON.parse(localStorage.getItem('gabella-wf-me')) || {}).lvl || 0; } catch (e) { /* no level */ }
-    const main = state && state.characters && state.characters.find(c => c.is_main);
-    if (!main || !(lvl > main.level) || lvl > 60 || ss.get('gabella-me-lvl-asked') === lvl) return;
-    ss.set('gabella-me-lvl-asked', lvl);
-    texts().then(T => {
-      const el = document.createElement('div');
-      el.className = 'me-ask';
-      el.setAttribute('role', 'dialog');
-      el.innerHTML = `<span>${esc((T.ui.lvlAsk || '').replace('{name}', main.name).replace('{n}', lvl))}</span>
-        <button type="button" class="btn gold">${esc(T.ui.update)}</button><button type="button" class="btn ghost">${esc(T.ui.notNow)}</button>`;
-      document.body.append(el);
-      const [yes, no] = el.querySelectorAll('button');
-      no.onclick = () => el.remove();
-      yes.onclick = () => {
-        yes.disabled = true;
-        api('/characters/' + main.id, { method: 'PUT', body: Object.assign({}, main, { level: lvl }) }).then(r => { el.remove(); took(r); }, () => { el.remove(); });
-      };
-    });
-  }
 
   window.GabellaMe = { api, me, track, toast, onMe, took, forget, logged, texts, face, API, sound: on => (on === undefined ? ls.get(SOUND) !== '0' : ls.set(SOUND, on ? null : '0')) };
 

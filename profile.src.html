@@ -744,6 +744,10 @@ function pathHtml() {
   return `<div class="frame path" aria-label="Ваш путь"><span>Дней подряд: <b>${u.streak || 0}</b></span><span>Радио: <b>${unit(radio, 'hour')}</b></span>
     <span>Гайды: <b>${fill('%v из %g', { v: guides, g: GD.sets.guide.length })}</b></span><span>Место в команде: <b>${place}</b></span></div>`;
 }
+function playHint() {   // until the person has opened the in-game page once
+  if ((m.progress || {}).play_page) return '';
+  return `<div class="frame ask"><span>Играете? Откройте «В игре» рядом с игрой: там радио копит Славу, а уровень персонажа меняется в одно касание.</span><a class="btn ghost" href="${HOME}play/">Открыть «В игре»</a></div>`;
+}
 function levelAsk() {
   let lvl = 0;
   try { lvl = +(JSON.parse(localStorage.getItem('gabella-wf-me')) || {}).lvl || 0; } catch (e) { /* no level */ }
@@ -1003,7 +1007,7 @@ function cabinet() {
   if (!secs().some(x => x[0] === sec)) sec = 'chars';
   const nav = secs().map(([id, t]) => `<a href="#${id}"${sec === id ? ' aria-current="page"' : ''}>${esc(t)}${id === 'chars' ? `<span>${esc(fill('%n из %m', { n: m.characters.length, m: CHAR_MAX }))}</span>` : id === 'ach' ? `<span>${ach} / ${all}</span>` : ''}</a>`).join('');
   const body = { chars: secChars, look: secLook, ach: secAch, frames: secFrames, chronicle: secChronicle, account: secAccount, reports: secReports }[sec]();
-  $('#view').innerHTML = `${noticeHtml()}<p class="lab">Карточка — как вас видят другие</p>${bcard(p, { h: 'h2', reveal })}${gloryHtml()}${levelAsk()}${nextHtml()}${weekHtml()}${seasonHtml()}${pathHtml()}
+  $('#view').innerHTML = `${noticeHtml()}<p class="lab">Карточка — как вас видят другие</p>${bcard(p, { h: 'h2', reveal })}${gloryHtml()}${levelAsk()}${nextHtml()}${weekHtml()}${playHint()}${seasonHtml()}${pathHtml()}
     <div class="lay"><nav class="frame pnav" aria-label="Кабинет">${nav}<hr><a class="pub" href="${playerUrl(m.user.id)}">Моя страница ↗</a></nav><section class="sec" id="sec">${body}</section></div>`;
   reveal = false;
   const cur = $('.s-track');   // the season track opens at the step in progress

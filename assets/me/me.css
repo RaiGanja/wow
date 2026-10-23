@@ -82,21 +82,11 @@
 .me-teaser button { flex: none; width: 44px; height: 44px; border: 0; background: none; color: var(--muted); font: inherit; font-size: 1.2rem; line-height: 1; cursor: pointer; border-radius: 8px; }
 .me-teaser button:hover { color: var(--fg); }
 
-/* «В игре»: offer to carry the level over to the main character */
-.me-ask { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 1150;
-  width: min(520px, calc(100vw - 32px)); display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; padding: 14px 16px;
-  border-radius: 10px; background: var(--panel); border: 1px solid var(--line-2); color: var(--fg); box-shadow: 0 18px 40px rgba(0,0,0,.45); }
-.me-ask span { flex: 1 1 220px; font-size: .95rem; }
-.me-ask .btn { min-height: 40px; padding: 0 14px; border-radius: 7px; font: inherit; font-weight: 600; font-size: .9rem; cursor: pointer; }
-.me-ask .btn.gold { background: var(--gold); color: var(--gold-ink); border: 1px solid var(--gold); }
-.me-ask .btn.ghost { background: none; color: var(--fg); border: 1px solid var(--line-2); }
-
 @media (max-width: 719px) {   /* above the bottom tab bar, where the language hint sits too */
   .mebtn { display: none; }   /* the tab bar has «Профиль»; the top bar has no room next to search, radio and language */
-  .me-toasts, .me-ask { bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
+  .me-toasts { bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
 }
 
-:root[data-theme="light"] .me-ask { box-shadow: 0 12px 30px rgba(40,32,16,.12); }
 
 @media (prefers-reduced-motion: reduce) {
   .me-toast.anim, .me-toast.anim::after { animation: none; }

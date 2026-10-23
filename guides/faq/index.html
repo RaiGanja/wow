@@ -928,13 +928,43 @@ nav.gtiles { padding: 14px; }
 /* In game (/play/, build_guides.play_body): no art band, always solid bar; one column on phones, two from 960px */
 .compact .topbar { background: var(--rail); border-bottom-color: var(--line); color: var(--fg); }
 .phead { padding-top: calc(var(--top) + 22px); }
-.phead .wrap { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; }
+.phead .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; }
+.ptitle { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; flex: 1 1 520px; min-width: 0; }
 .phead h1 { font-size: clamp(2rem, 4vw, 2.6rem); line-height: 1; }
 .phead .glead { flex: 1 1 320px; margin: 0; font-size: .98rem; color: var(--muted); opacity: 1; }
+.pacts { display: flex; flex-wrap: wrap; gap: 8px; }
+.pacts:not(:has(> :not([hidden]))) { display: none; }
 .pwake { gap: 6px; min-height: 36px; padding: 0 14px; cursor: pointer; font: inherit; font-size: .9rem; }
 .pwake .ico { width: 16px; height: 16px; }
 .pwake[aria-pressed="true"] { background: #c9a54a; border-color: #c9a54a; color: #15110a; }
+.gplay { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding: 14px 18px; color: inherit; text-decoration: none; transition: border-color .2s; }
+.gplay:hover { border-color: var(--gold); }
+.gplay > span:first-child { flex: 1 1 320px; }
+.gplay b { color: var(--gold-2); }
+.gplay .btn { margin-left: auto; }
 .gbody.play { padding-top: 14px; }
+/* «Your path»: Glory and the week's tasks of the signed-in visitor, one line for a guest */
+.pway { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; margin-top: 16px; padding: 14px 20px; }
+.pway[hidden] { display: none; }
+.pway .pnk { font-weight: 600; }
+.pgl { display: grid; gap: 6px; flex: 1 1 200px; max-width: 300px; }
+.pgl .gh { display: flex; justify-content: space-between; gap: 12px; font-size: .88rem; }
+.pgl .gh b { color: var(--gold-2); }
+.pgl .gh span, .pwk small { color: var(--muted); font-variant-numeric: tabular-nums; }
+.pbar { height: 6px; border-radius: 3px; background: var(--panel-2); border: 1px solid var(--pline); overflow: hidden; }
+.pbar i { display: block; height: 100%; background: #c9a54a; }
+.pwk { display: flex; flex-wrap: wrap; gap: 8px 24px; list-style: none; margin: 0; padding: 0; flex: 2 1 320px; font-size: .88rem; }
+.pwk li { display: grid; gap: 2px; }
+.pwk li.ok small { color: var(--gold-2); }
+.pway > a:last-child { margin-left: auto; color: var(--gold-2); font-size: .9rem; }
+.pway .pnote { flex: 1 1 260px; }
+.pway .btn { margin-left: auto; }
+.pchars { display: flex; flex-wrap: wrap; gap: 8px; }
+.pchars[hidden] { display: none; }
+.pchars .pill { min-height: 36px; padding: 0 14px; cursor: pointer; font: inherit; font-size: .92rem; }
+.pchars .pill[aria-pressed="true"] { background: #c9a54a; border-color: #c9a54a; color: #15110a; }
+.pchars .pill b { font-weight: 600; margin-right: 6px; }
+.pchars a { align-self: center; color: var(--gold-2); font-size: .9rem; }
 .pgrid { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
 .pcol { display: contents; }   /* phone: one column, radio first */
 #radio { order: 1; } #level { order: 2; } #dung { order: 3; } #timers { order: 4; }
@@ -986,7 +1016,7 @@ nav.gtiles { padding: 14px; }
 .pnotify { display: flex; align-items: center; gap: 8px; font-size: .9rem; color: var(--muted); cursor: pointer; }
 .pnotify[hidden] { display: none; }
 .pnotify input { width: 18px; height: 18px; accent-color: #c9a54a; }
-@media (max-width: 719px) { .phead { padding-top: calc(var(--top) + 14px); } .psec { padding: 14px; } .pform { grid-template-columns: minmax(0, 1fr) 104px; } .pform .pill { grid-column: 1 / -1; justify-content: center; } }
+@media (max-width: 719px) { .phead { padding-top: calc(var(--top) + 14px); } .pway { padding: 12px 14px; gap: 10px 20px; } .pway > a:last-child, .pway .btn { margin-left: 0; } .psec { padding: 14px; } .pform { grid-template-columns: minmax(0, 1fr) 104px; } .pform .pill { grid-column: 1 / -1; justify-content: center; } }
 #more { margin-top: 56px; }
 #more .sec-head { margin-bottom: 14px; }
 @media (max-width: 1023px) {
@@ -1024,8 +1054,8 @@ nav.gtiles { padding: 14px; }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=6df11f1da3" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=21ee28585f" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=d107c7a109" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=accf6780cc" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://gabella.site/wow/"},{"@type":"ListItem","position":2,"name":"Гайды","item":"https://gabella.site/wow/guides/"},{"@type":"ListItem","position":3,"name":"FAQ и даты","item":"https://gabella.site/wow/guides/faq/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"WoW Forever FAQ: дата и время выхода, цена, подписка","description":"Когда выходит WoW Forever, нужна ли подписка, сколько стоят наборы, какие режимы игры, когда бронировать имя и чем Forever отличается от Classic Era.","inLanguage":"ru","url":"https://gabella.site/wow/guides/faq/","dateModified":"2026-10-23","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/Zd45sNHy9x"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/Zd45sNHy9x"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/"},"image":"https://gabella.site/wow/assets/og/faq-ru.jpg"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ru","mainEntity":[{"@type":"Question","name":"Когда выходит WoW Forever?","acceptedAnswer":{"@type":"Answer","text":"04.11.2026. Точное время старта Blizzard пока не подтвердила. Некоторые сайты называют 15:00 по тихоокеанскому, это 23:00 UTC."}},{"@type":"Question","name":"Нужна ли подписка?","acceptedAnswer":{"@type":"Answer","text":"Да, подписка или игровое время. Forever — постоянная игра рядом с Retail и Classic, а не сезон."}},{"@type":"Question","name":"Сколько стоят наборы и нужны ли они?","acceptedAnswer":{"@type":"Answer","text":"Heroic Pack $29.99, Epic Pack $59.99, Warcraft Forever Collection $79.99. Набор нужен только ради расы Скайборн и ранней резервации имён: остальные восемь рас и все девять классов докупать не нужно."}},{"@type":"Question","name":"Когда бронировать имя?","acceptedAnswer":{"@type":"Answer","text":"С 27.10 по 03.11, если у вас Heroic, Epic или Collection. До трёх персонажей на аккаунт, кто первым пришёл, тот и занял. Это не ранний доступ в игру."}},{"@type":"Question","name":"Зачем фамилия и можно ли взять то же имя, что у друга?","acceptedAnswer":{"@type":"Answer","text":"Реалмов нет, поэтому уникальным должно быть полное имя во всём регионе. Одно имя у двоих возможно, если фамилии разные. Фамилию можно скрыть: Esc → Options → Nameplates → My Secondary Name."}},{"@type":"Question","name":"Что такое Скайборн?","acceptedAnswer":{"@type":"Answer","text":"Новая раса Forever, открывается любым из трёх наборов. Играбельна за обе фракции, фракция выбирается при создании. Обе ветки говорят на общем языке, а стартовая зона Zephras Isle общая."}},{"@type":"Question","name":"До какого уровня качаться и где?","acceptedAnswer":{"@type":"Answer","text":"До 60, в Восточных королевствах и Калимдоре. Летающих скакунов и масштабирования уровней нет, как и в Classic."}},{"@type":"Question","name":"Можно ли играть вместе, если выбрали разные режимы?","acceptedAnswer":{"@type":"Answer","text":"Нет: группироваться можно только внутри одного режима. Режимы на старте: обычный, PvP и RP, Hardcore запустят позже. В PvP на аккаунте может быть только одна фракция."}},{"@type":"Question","name":"Какой регион, режим и фракцию выбрать, чтобы играть с друзьями?","acceptedAnswer":{"@type":"Answer","text":"Одни и те же на всех. Регионы разделены, межрегиональной игры нет, поэтому берите регион с лучшим пингом для большинства. Группа собирается только внутри одного режима, а Альянс и Орда не встают в одну группу ни в каком режиме. В PvP на аккаунте одна фракция, так что договоритесь о ней до брони имён 27.10."}},{"@type":"Question","name":"Где найти группу?","acceptedAnswer":{"@type":"Answer","text":"На Discord-сервере Gabella Team. Там собирают группы на старт 04.11 и договариваются о регионе, режиме и фракции."}},{"@type":"Question","name":"Когда откроются рейды?","acceptedAnswer":{"@type":"Answer","text":"09.12: Barrow Deeps (10 игроков), Вершина Хиджала (20), Логово Ониксии (40). До этого есть пять недель на прокачку и подземелья."}},{"@type":"Question","name":"Можно ли ещё попасть в бету?","acceptedAnswer":{"@type":"Answer","text":"Нет. Доступ был у владельцев Epic и Collection. Бета завершилась 23.10 в 10:00 по тихоокеанскому времени."}},{"@type":"Question","name":"Подойдут ли старые гайды по Classic?","acceptedAnswer":{"@type":"Answer","text":"Только частично. Характеристики и предметы изменены, поэтому старые списки добычи ненадёжны. Добавлены 9 новых подземелий, 3 новых рейда, новые зоны и задания, у классов обновлены таланты."}},{"@type":"Question","name":"Будет ли современная графика и геймпад?","acceptedAnswer":{"@type":"Answer","text":"Да: можно выбрать визуальный стиль (Classic или современный), есть опциональная трансмогрификация и официальная поддержка геймпада."}}]}</script>
@@ -1054,7 +1084,7 @@ nav.gtiles { padding: 14px; }
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="../../" aria-label="Gabella, на главную"><img class="mark" src="../../assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Гид WoW Forever</small></span></a>
   <nav class="mainnav" aria-label="Разделы">
-    <a href="../../#factions">Фракции</a><a href="../../#classes">Классы</a><a href="../../#peoples">Расы</a><a href="../../#picker">Подборщик</a><a href="../../#builder">Группа</a><a href="../" aria-current="true">Гайды</a><a href="../../tools/">Инструменты</a><a href="../../roster/">Состав</a>
+    <a href="../../#factions">Фракции</a><a href="../../#classes">Классы</a><a href="../../#peoples">Расы</a><a href="../../#picker">Подборщик</a><a href="../../#builder">Группа</a><a href="../" aria-current="true">Гайды</a><a href="../../tools/">Инструменты</a><a href="../../roster/">Состав</a><a href="../../play/">В игре</a>
   </nav>
   <div class="tools">
     <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" aria-label="Язык: Русский">RU</button><ul class="langlist" hidden><li><a href="./" data-lang="ru" hreflang="ru" lang="ru" aria-current="page"><span>Русский</span><small>RU</small></a></li><li><a href="../../en/guides/faq/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../../uk/guides/faq/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../../de/guides/faq/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="../../fr/guides/faq/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="../../es/guides/faq/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="../../pt/guides/faq/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="../../it/guides/faq/" data-lang="it" hreflang="it" lang="it"><span>Italiano</span><small>IT</small></a></li><li><a href="../../pl/guides/faq/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
@@ -1237,8 +1267,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=6df11f1da3" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=21ee28585f" data-root="../../" data-home="../../" data-lang="ru" data-teaser="Профиль копит ваш путь: Слава, рамки, сезоны" data-close="Закрыть" data-page="guides/faq/" data-look="1" defer></script>
+<script src="../../assets/search/search.js?v=d107c7a109" data-root="../../" defer></script>
+<script src="../../assets/me/me.js?v=accf6780cc" data-root="../../" data-home="../../" data-lang="ru" data-teaser="Профиль копит ваш путь: Слава, рамки, сезоны" data-close="Закрыть" data-page="guides/faq/" data-look="1" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

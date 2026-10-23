@@ -928,13 +928,43 @@ nav.gtiles { padding: 14px; }
 /* In game (/play/, build_guides.play_body): no art band, always solid bar; one column on phones, two from 960px */
 .compact .topbar { background: var(--rail); border-bottom-color: var(--line); color: var(--fg); }
 .phead { padding-top: calc(var(--top) + 22px); }
-.phead .wrap { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; }
+.phead .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; }
+.ptitle { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; flex: 1 1 520px; min-width: 0; }
 .phead h1 { font-size: clamp(2rem, 4vw, 2.6rem); line-height: 1; }
 .phead .glead { flex: 1 1 320px; margin: 0; font-size: .98rem; color: var(--muted); opacity: 1; }
+.pacts { display: flex; flex-wrap: wrap; gap: 8px; }
+.pacts:not(:has(> :not([hidden]))) { display: none; }
 .pwake { gap: 6px; min-height: 36px; padding: 0 14px; cursor: pointer; font: inherit; font-size: .9rem; }
 .pwake .ico { width: 16px; height: 16px; }
 .pwake[aria-pressed="true"] { background: #c9a54a; border-color: #c9a54a; color: #15110a; }
+.gplay { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding: 14px 18px; color: inherit; text-decoration: none; transition: border-color .2s; }
+.gplay:hover { border-color: var(--gold); }
+.gplay > span:first-child { flex: 1 1 320px; }
+.gplay b { color: var(--gold-2); }
+.gplay .btn { margin-left: auto; }
 .gbody.play { padding-top: 14px; }
+/* «Your path»: Glory and the week's tasks of the signed-in visitor, one line for a guest */
+.pway { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; margin-top: 16px; padding: 14px 20px; }
+.pway[hidden] { display: none; }
+.pway .pnk { font-weight: 600; }
+.pgl { display: grid; gap: 6px; flex: 1 1 200px; max-width: 300px; }
+.pgl .gh { display: flex; justify-content: space-between; gap: 12px; font-size: .88rem; }
+.pgl .gh b { color: var(--gold-2); }
+.pgl .gh span, .pwk small { color: var(--muted); font-variant-numeric: tabular-nums; }
+.pbar { height: 6px; border-radius: 3px; background: var(--panel-2); border: 1px solid var(--pline); overflow: hidden; }
+.pbar i { display: block; height: 100%; background: #c9a54a; }
+.pwk { display: flex; flex-wrap: wrap; gap: 8px 24px; list-style: none; margin: 0; padding: 0; flex: 2 1 320px; font-size: .88rem; }
+.pwk li { display: grid; gap: 2px; }
+.pwk li.ok small { color: var(--gold-2); }
+.pway > a:last-child { margin-left: auto; color: var(--gold-2); font-size: .9rem; }
+.pway .pnote { flex: 1 1 260px; }
+.pway .btn { margin-left: auto; }
+.pchars { display: flex; flex-wrap: wrap; gap: 8px; }
+.pchars[hidden] { display: none; }
+.pchars .pill { min-height: 36px; padding: 0 14px; cursor: pointer; font: inherit; font-size: .92rem; }
+.pchars .pill[aria-pressed="true"] { background: #c9a54a; border-color: #c9a54a; color: #15110a; }
+.pchars .pill b { font-weight: 600; margin-right: 6px; }
+.pchars a { align-self: center; color: var(--gold-2); font-size: .9rem; }
 .pgrid { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
 .pcol { display: contents; }   /* phone: one column, radio first */
 #radio { order: 1; } #level { order: 2; } #dung { order: 3; } #timers { order: 4; }
@@ -986,7 +1016,7 @@ nav.gtiles { padding: 14px; }
 .pnotify { display: flex; align-items: center; gap: 8px; font-size: .9rem; color: var(--muted); cursor: pointer; }
 .pnotify[hidden] { display: none; }
 .pnotify input { width: 18px; height: 18px; accent-color: #c9a54a; }
-@media (max-width: 719px) { .phead { padding-top: calc(var(--top) + 14px); } .psec { padding: 14px; } .pform { grid-template-columns: minmax(0, 1fr) 104px; } .pform .pill { grid-column: 1 / -1; justify-content: center; } }
+@media (max-width: 719px) { .phead { padding-top: calc(var(--top) + 14px); } .pway { padding: 12px 14px; gap: 10px 20px; } .pway > a:last-child, .pway .btn { margin-left: 0; } .psec { padding: 14px; } .pform { grid-template-columns: minmax(0, 1fr) 104px; } .pform .pill { grid-column: 1 / -1; justify-content: center; } }
 #more { margin-top: 56px; }
 #more .sec-head { margin-bottom: 14px; }
 @media (max-width: 1023px) {
@@ -1024,8 +1054,8 @@ nav.gtiles { padding: 14px; }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=6df11f1da3" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=21ee28585f" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=d107c7a109" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=accf6780cc" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/it/"},{"@type":"ListItem","position":2,"name":"Privacy","item":"https://gabella.site/wow/it/privacy/"}]}</script>
 </head>
 <body>
@@ -1052,7 +1082,7 @@ nav.gtiles { padding: 14px; }
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="../" aria-label="Gabella, alla pagina principale"><img class="mark" src="../../assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Guida a WoW Forever</small></span></a>
   <nav class="mainnav" aria-label="Sezioni">
-    <a href="../#factions">Fazioni</a><a href="../#classes">Classi</a><a href="../#peoples">Razze</a><a href="../#picker">Selettore</a><a href="../#builder">Gruppo</a><a href="../guides/">Guide</a><a href="../tools/">Strumenti</a><a href="../roster/">Rosa</a>
+    <a href="../#factions">Fazioni</a><a href="../#classes">Classi</a><a href="../#peoples">Razze</a><a href="../#picker">Selettore</a><a href="../#builder">Gruppo</a><a href="../guides/">Guide</a><a href="../tools/">Strumenti</a><a href="../roster/">Rosa</a><a href="../play/">In gioco</a>
   </nav>
   <div class="tools">
     <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" aria-label="Lingua: Italiano">IT</button><ul class="langlist" hidden><li><a href="../../privacy/" data-lang="ru" hreflang="ru" lang="ru"><span>Русский</span><small>RU</small></a></li><li><a href="../../en/privacy/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../../uk/privacy/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../../de/privacy/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="../../fr/privacy/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="../../es/privacy/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="../../pt/privacy/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="./" data-lang="it" hreflang="it" lang="it" aria-current="page"><span>Italiano</span><small>IT</small></a></li><li><a href="../../pl/privacy/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
@@ -1082,7 +1112,7 @@ nav.gtiles { padding: 14px; }
 <section class="frame gsec" id="delete"><h2>Scarica ed elimina</h2><p>In «Il mio profilo», sezione «Account», puoi scaricare in un solo file tutto ciò che conserviamo su di te ed eliminare il profilo. Personaggi, imprese, contatori, voci del feed e sessioni vengono eliminati subito insieme a esso. Un profilo eliminato non si può ripristinare.</p></section>
 <section class="frame gsec" id="analytics"><h2>Statistiche delle visite</h2><p>Per vedere quali pagine vengono lette, il sito usa Cloudflare Web Analytics. Funziona senza cookie, non crea un’impronta digitale del tuo browser e non ti segue su altri siti.</p><p>Vediamo solo i totali: quante volte è stata aperta una pagina, da quale Paese, con che tipo di dispositivo e da quale sito. I singoli visitatori non sono distinguibili.</p><p><a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">Informativa sulla privacy di Cloudflare</a></p></section>
 <section class="frame gsec" id="hosting"><h2>Hosting</h2><p>Il sito è ospitato su GitHub Pages. Come ogni server web, GitHub riceve l’indirizzo IP del tuo dispositivo per consegnare la pagina e può conservarlo nei registri per proteggersi dagli attacchi. Noi non abbiamo accesso a quei registri.</p><p><a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">Informativa sulla privacy di GitHub</a></p></section>
-<section class="frame gsec" id="device"><h2>Salvato sul tuo dispositivo</h2><p>Nella memoria del browser (localStorage) il sito ricorda il tema scelto, il tuo eroe (razza, classe, livello e professioni) se li hai inseriti, e le impostazioni della radio: stazione, brano, coda dei brani, volume, timer e suoni d’ambiente, e nella pagina «In gioco» i tuoi timer e la tua fazione. Per aprire la guida offline, il browser conserva copie delle pagine. Dopo l’accesso si aggiungono un segno di accesso, una copia del tuo profilo per caricarlo più in fretta e l’interruttore del suono delle imprese.</p><p>Questi dati restano sul tuo dispositivo e non vengono inviati da nessuna parte. Puoi eliminarli cancellando i dati del sito nelle impostazioni del browser.</p></section>
+<section class="frame gsec" id="device"><h2>Salvato sul tuo dispositivo</h2><p>Nella memoria del browser (localStorage) il sito ricorda il tema scelto, il tuo eroe (razza, classe, livello e professioni) se li hai inseriti, e le impostazioni della radio: stazione, brano, coda dei brani, volume, timer e suoni d’ambiente, e nella pagina «In gioco» i tuoi timer, la tua fazione e il personaggio scelto. Per aprire la guida offline, il browser conserva copie delle pagine. Dopo l’accesso si aggiungono un segno di accesso, una copia del tuo profilo per caricarlo più in fretta e l’interruttore del suono delle imprese.</p><p>Questi dati restano sul tuo dispositivo e non vengono inviati da nessuna parte. Puoi eliminarli cancellando i dati del sito nelle impostazioni del browser.</p></section>
 <section class="frame gsec" id="links"><h2>Caratteri, musica e link</h2><p>Font e immagini si caricano da questo sito, senza servizi di terze parti. La musica della radio è conservata su Cloudflare R2 e si carica dal nostro indirizzo media.gabella.site, solo quando accendi la radio; come per le pagine, Cloudflare riceve l’indirizzo IP del tuo dispositivo. I suoni di falò, pioggia e vento li crea il browser stesso. I link alle fonti portano ad altri siti, con proprie regole sulla privacy.</p><p>Musica della radio: Kevin MacLeod (incompetech.com) e altri autori di opengameart.org, licenze <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">Creative Commons BY 4.0</a>, <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">Creative Commons BY 3.0</a>, <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noopener">Creative Commons CC0</a>. L’audio è ricodificato e livellato nel volume. Autore e licenza di ogni brano sono nel pannello della radio.</p></section>
 <section class="frame gsec" id="contact"><h2>Contatti</h2><p>Per domande sui dati, errori nella guida o questioni di copyright, scrivi all’indirizzo qui sotto. Se non riesci ad accedere, elimineremo il profilo su richiesta: indica il nome del personaggio principale e come accedevi.</p><p><a href="mailto:contact@gabella.site">contact@gabella.site</a></p><p>Se qualcosa cambia, per esempio se compare la pubblicità, aggiorneremo questa pagina e la data in alto.</p></section>
   </div>
@@ -1222,8 +1252,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=6df11f1da3" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=21ee28585f" data-root="../../" data-home="../" data-lang="it" data-teaser="Il tuo profilo conserva il tuo percorso: Gloria, riquadri, stagioni" data-close="Chiudi" data-page="privacy/" data-look="1" defer></script>
+<script src="../../assets/search/search.js?v=d107c7a109" data-root="../../" defer></script>
+<script src="../../assets/me/me.js?v=accf6780cc" data-root="../../" data-home="../" data-lang="it" data-teaser="Il tuo profilo conserva il tuo percorso: Gloria, riquadri, stagioni" data-close="Chiudi" data-page="privacy/" data-look="1" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

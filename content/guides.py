@@ -4,6 +4,7 @@
   ('text', [строка, …])                                 абзацы
   ('steps', [{'t': строка, 'd': строка}, …])           карточки 01/02/03
   ('tiles', [{'t', 'd', 'href', 'art'}, …])            плитки с артом; href относительно корня гида, art = имя без размера
+  ('play', {'h', 'd', 'go'})                           строка-ссылка на «В игре» (гайд «Прокачка»)
   ('table', {'head': [строка, …], 'rows': [[строка|str, …], …]})
   ('tabs', [{'id': 'alliance', 't': строка, 'blocks': [блок, …]}, …])
   ('faq', [{'id': 'release', 'q': строка, 'a': [строка, …], 'link': (строка, url)?}, …])   link — кнопка под ответом
@@ -393,6 +394,11 @@ GUIDES.append({
     ],
     'sections': [
         {'id': 'route', 'title': t('Маршрут по зонам', 'Zone route', 'Маршрут зонами'), 'blocks': [
+            ('play', {'h': t('Играете прямо сейчас?', 'Playing right now?', 'Граєте просто зараз?'),
+                      'd': t('Откройте «В игре» на телефоне или втором мониторе: зоны под ваш уровень, подземелья, таймеры и радио.',
+                             'Open “In game” on your phone or a second monitor: zones for your level, dungeons, timers and radio.',
+                             'Відкрийте «У грі» на телефоні або другому моніторі: зони під ваш рівень, підземелля, таймери й радіо.'),
+                      'go': t('Открыть «В игре»', 'Open “In game”', 'Відкрити «У грі»')}),
             ('text', [t('Диапазоны уровней по карте Mobalytics, новые зоны сверены с Icy Veins. Это ориентир для беты: Blizzard может сдвинуть уровни к релизу. Масштабирования нет, у каждой зоны свои уровни.',
                         'Level ranges are from the Mobalytics map, new zones checked against Icy Veins. This is a beta guideline: Blizzard may shift levels by release. There is no level scaling, each zone has its own levels.',
                         'Діапазони рівнів за мапою Mobalytics, нові зони звірені з Icy Veins. Це орієнтир для бети: Blizzard може зсунути рівні до релізу. Масштабування немає, кожна зона має свої рівні.')]),
@@ -983,9 +989,9 @@ PAGES = [
                        f'<p><a href="{_gh}" target="_blank" rel="noopener">GitHub privacy statement</a></p>',
                        f'<p><a href="{_gh}" target="_blank" rel="noopener">Політика конфіденційності GitHub</a></p>'))]},
          {'id': 'device', 'title': t('Что хранится у вас', 'Stored on your device', 'Що зберігається у вас'), 'blocks': [
-             ('text', [t('В памяти браузера (localStorage) сайт запоминает выбранную тему, вашего героя — расу, класс, уровень и профессии, если вы их указали, — и настройки радио: станцию, трек, очередь треков, громкость, таймер сна и звуки вокруг, а на странице «В игре» — ваши таймеры и фракцию. Чтобы гид открывался без сети, браузер хранит копии страниц. После входа добавляются отметка о входе, копия профиля для быстрой загрузки и выключатель звука достижений.',
-                         'In browser storage (localStorage) the site remembers your chosen theme, your hero (race, class, level and professions) if you entered them, and the radio settings: station, track, the queue of tracks, volume, sleep timer and ambient sounds, and on the In game page your timers and faction. To open the guide offline, the browser keeps copies of the pages. After you sign in, it also keeps a signed-in mark, a copy of your profile for faster loading and the achievement sound switch.',
-                         'У пам’яті браузера (localStorage) сайт запам’ятовує вибрану тему, вашого героя — расу, клас, рівень і професії, якщо ви їх вказали, — і налаштування радіо: станцію, трек, чергу треків, гучність, таймер сну і звуки довкола, а на сторінці «У грі» — ваші таймери та фракцію. Щоб гід відкривався без мережі, браузер зберігає копії сторінок. Після входу додаються позначка входу, копія профілю для швидкого завантаження й вимикач звуку досягнень.'),
+             ('text', [t('В памяти браузера (localStorage) сайт запоминает выбранную тему, вашего героя — расу, класс, уровень и профессии, если вы их указали, — и настройки радио: станцию, трек, очередь треков, громкость, таймер сна и звуки вокруг, а на странице «В игре» — ваши таймеры, фракцию и выбранного персонажа. Чтобы гид открывался без сети, браузер хранит копии страниц. После входа добавляются отметка о входе, копия профиля для быстрой загрузки и выключатель звука достижений.',
+                         'In browser storage (localStorage) the site remembers your chosen theme, your hero (race, class, level and professions) if you entered them, and the radio settings: station, track, the queue of tracks, volume, sleep timer and ambient sounds, and on the In game page your timers, faction and chosen character. To open the guide offline, the browser keeps copies of the pages. After you sign in, it also keeps a signed-in mark, a copy of your profile for faster loading and the achievement sound switch.',
+                         'У пам’яті браузера (localStorage) сайт запам’ятовує вибрану тему, вашого героя — расу, клас, рівень і професії, якщо ви їх вказали, — і налаштування радіо: станцію, трек, чергу треків, гучність, таймер сну і звуки довкола, а на сторінці «У грі» — ваші таймери, фракцію та вибраного персонажа. Щоб гід відкривався без мережі, браузер зберігає копії сторінок. Після входу додаються позначка входу, копія профілю для швидкого завантаження й вимикач звуку досягнень.'),
                        t('Эти данные остаются на вашем устройстве и никуда не отправляются. Удалить их можно, очистив данные сайта в настройках браузера.',
                          'This data stays on your device and is not sent anywhere. You can delete it by clearing the site data in your browser settings.',
                          'Ці дані залишаються на вашому пристрої й нікуди не надсилаються. Видалити їх можна, очистивши дані сайту в налаштуваннях браузера.')])]},
@@ -1079,5 +1085,17 @@ PLAY_TX = {
                   'Натисніть заготовку або задайте свій час. Таймери йдуть і після перезавантаження сторінки.'),
     'notify': t('Уведомление, когда вкладка в фоне', 'Notify when the tab is in the background', 'Сповіщення, коли вкладка у фоні'),
     'wake': t('Экран не гаснет', 'Keep screen on', 'Екран не гасне'),
+    'pip': t('Мини-окно', 'Mini window', 'Міні-вікно'),
+    'pipNote': t('Маленькое окно поверх игры: таймер, радио и уровень', 'A small window on top of the game: timer, radio and level',
+                 'Маленьке вікно поверх гри: таймер, радіо й рівень'),
+    'noTimer': t('Таймеров нет', 'No timers', 'Таймерів немає'),
+    'way': t('Ваш путь', 'Your path', 'Ваш шлях'),
+    'guest': t('Войдите — радио и задания недели на этой странице копят Славу.',
+               'Log in: the radio and weekly tasks on this page earn Glory.',
+               'Увійдіть — радіо й завдання тижня на цій сторінці накопичують Славу.'),
+    'login': t('Войти', 'Log in', 'Увійти'),
+    'profile': t('Профиль', 'Profile', 'Профіль'),
+    'chars': t('Персонажи', 'Characters', 'Персонажі'),
+    'addChar': t('Добавить персонажа', 'Add a character', 'Додати персонажа'),
 }
 PAGES.append(PLAY)
