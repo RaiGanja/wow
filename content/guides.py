@@ -676,6 +676,54 @@ GUIDES.append({
     ],
 })
 
+# ---------- Новости: наши записи (новые сверху) + автолента Wowhead из assets/news.json ----------
+
+NEWS += [
+    {'date': '2026-10-23', 'url': 'https://teamoverpowered.com/forever/guides/name-reservation/',
+     'title': t('Бета закрывается, следующий шаг — имена с 27.10', 'Beta closes, next up: names from 27.10', 'Бета закривається, наступний крок — імена з 27.10'),
+     'text': t('Закрытая бета отключается 23.10 в 10:00 по тихоокеанскому времени (20:00 по Киеву). С 27.10 по 03.11 владельцы Heroic, Epic и Collection резервируют до трёх имён на аккаунт, кто первым пришёл, тот и занял.',
+               'The closed beta goes offline on 23.10 at 10:00 Pacific time (20:00 in Kyiv). From 27.10 to 03.11 Heroic, Epic and Collection owners reserve up to three names per account, first come, first served.',
+               'Закрита бета вимикається 23.10 о 10:00 за тихоокеанським часом (20:00 за Києвом). З 27.10 по 03.11 власники Heroic, Epic і Collection резервують до трьох імен на акаунт, хто перший прийшов, той і зайняв.')},
+    {'date': '2026-10-15', 'url': 'https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/',
+     'title': t('Крупный патч беты: расы и классы', 'Major beta patch: races and classes', 'Великий патч бети: раси та класи'),
+     'text': t('Способности рас переделаны (оружейные специализации заменены критами), настроены почти все классы. Таблицы рас и классов на сайте уже по этому патчу.',
+               'Racial abilities were reworked (weapon specializations replaced with crits), almost all classes were tuned. The race and class tables on this site already follow this patch.',
+               'Здібності рас перероблено (спеціалізації зброї замінено критами), налаштовано майже всі класи. Таблиці рас і класів на сайті вже за цим патчем.')},
+    {'date': '2026-10-08', 'url': 'https://classicwow.gg/forever',
+     'title': t('В бете Даларан и больше опыта в подземельях', 'Dalaran and more dungeon experience in the beta', 'У беті Даларан і більше досвіду в підземеллях'),
+     'text': t('В бету добавили City of Dalaran и примерно на 20% больше опыта за врагов в подземельях.',
+               'The beta got City of Dalaran and about 20% more experience for enemies in dungeons.',
+               'У бету додали City of Dalaran і приблизно на 20% більше досвіду за ворогів у підземеллях.')},
+]
+
+GUIDES.append({
+    'slug': 'news', 'art': 'paladin', 'updated': '23.10.2026', 'js': 'news',
+    'title': t('Новости', 'News', 'Новини'),
+    'lead': t('Что важно для нашей игры в WoW Forever, и свежая лента Wowhead.',
+              'What matters for our game in WoW Forever, plus the latest Wowhead feed.',
+              'Що важливо для нашої гри у WoW Forever, і свіжа стрічка Wowhead.'),
+    'tile': t('Наши записи и лента Wowhead', 'Our notes and the Wowhead feed', 'Наші записи та стрічка Wowhead'),
+    'pills': [t('Лента обновляется каждые 6 часов', 'Feed updates every 6 hours', 'Стрічка оновлюється кожні 6 годин')],
+    'sources': [
+        ('Wowhead News', 'https://www.wowhead.com/news'),
+        (t('Warcraft Tavern: изменения рас и классов', 'Warcraft Tavern: racial and class changes', 'Warcraft Tavern: зміни рас і класів'),
+         'https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/'),
+        ('ClassicWoW.gg', 'https://classicwow.gg/forever'),
+        ('Team Overpowered', 'https://teamoverpowered.com/forever/guides/name-reservation/'),
+    ],
+    'sections': [
+        {'id': 'ours', 'title': t('Наши записи', 'Our notes', 'Наші записи'), 'blocks': [('news', None)]},
+        {'id': 'feed', 'title': t('Лента Wowhead', 'Wowhead feed', 'Стрічка Wowhead'), 'blocks': [
+            ('text', [t('Новости про Forever с Wowhead, на английском. Список обновляется сам.',
+                        'Forever news from Wowhead, in English. The list updates by itself.',
+                        'Новини про Forever з Wowhead, англійською. Список оновлюється сам.')]),
+            ('raw', t('<div class="nlist" id="feedList" hidden></div><p><a class="more-l" href="https://www.wowhead.com/news" target="_blank" rel="noopener">Все новости Wowhead</a></p>',
+                      '<div class="nlist" id="feedList" hidden></div><p><a class="more-l" href="https://www.wowhead.com/news" target="_blank" rel="noopener">All Wowhead news</a></p>',
+                      '<div class="nlist" id="feedList" hidden></div><p><a class="more-l" href="https://www.wowhead.com/news" target="_blank" rel="noopener">Усі новини Wowhead</a></p>')),
+        ]},
+    ],
+})
+
 GUIDES.sort(key=lambda g: ORDER.index(g['slug']))
 
 

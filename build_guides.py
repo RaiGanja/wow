@@ -103,6 +103,12 @@ def render_block(kind, data, lang, root):
                 f'<p><span class="tl">{TIP[lang]}</span>{E(data, lang)}</p></div>')
     if kind == 'raw':
         return L(data, lang)
+    if kind == 'news':                                            # our notes from NEWS, newest first
+        items = ''.join(f'<a class="nitem" href="{escape(n["url"])}" target="_blank" rel="noopener">'
+                        f'<span class="pill">{".".join(reversed(n["date"].split("-")))}</span>'
+                        f'<b>{E(n["title"], lang)}</b><p>{E(n["text"], lang)}</p></a>'
+                        for n in sorted(NEWS, key=lambda n: n['date'], reverse=True))
+        return f'<div class="nlist">{items}</div>'
     if kind == 'profs':
         return render_block('table', {'head': PROF_HEAD, 'rows': profs_table(home_src())}, lang, root)
     raise ValueError(f'unknown block {kind!r}')
@@ -206,6 +212,15 @@ try {
   const tab = cls && document.querySelector(`#pairs [role="tab"][data-tab="${cls}"]`);
   if (tab) tab.click();
 } catch (e) {}'''
+
+
+JS['news'] = r'''/* News: automatic Wowhead feed from assets/news.json; no file -> the list stays hidden */
+fetch(ROOT + 'assets/news.json').then(r => r.ok ? r.json() : []).then(items => {
+  const box = document.getElementById('feedList');
+  if (!box || !items.length) return;
+  box.innerHTML = items.map(n => `<a class="nitem" href="${esc(n.url)}" target="_blank" rel="noopener"><span class="pill">${esc(n.date.split('-').reverse().join('.'))}</span><b>${esc(n.title)}</b></a>`).join('');
+  box.hidden = false;
+}).catch(() => {});'''
 
 
 def ref_js(src, lang):

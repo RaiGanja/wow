@@ -17,6 +17,13 @@ def test_ref_js_translated():
     assert 'Прокачка' not in js_en and '@@RACE_SLUG@@' not in js_en
     assert 'const $' not in js_en and 'function esc' not in js_en   # the guide template defines them
 
+def test_news_block_newest_first():
+    html = bg.render_block('news', None, 'en', '')
+    assert html.count('class="nitem"') == len(cg.NEWS) > 0
+    dates = [n['date'] for n in cg.NEWS]
+    first = '.'.join(reversed(max(dates).split('-')))
+    assert html.index(first) < html.index('.'.join(reversed(min(dates).split('-'))))
+
 def test_L():
     assert bg.L(T, 'uk') == 'Привіт'
     assert bg.L('Blackrock Depths', 'ru') == 'Blackrock Depths'

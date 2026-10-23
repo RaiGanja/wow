@@ -1,0 +1,21 @@
+# Автолента новостей гида: RSS Wowhead -> assets/news.json (tools/fetch_news.py), раз в 6 часов и вручную
+name: news
+on:
+  schedule: [{ cron: '17 */6 * * *' }]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: { group: news, cancel-in-progress: false }
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: python tools/fetch_news.py
+      - run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add assets/news.json
+          git diff --cached --quiet || (git commit -m 'Гид: автолента новостей' && git pull --rebase && git push)

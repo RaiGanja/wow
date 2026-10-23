@@ -53,6 +53,14 @@ nav.gtiles { padding: 14px; }
 .gtable td:first-child { border-radius: 8px 0 0 8px; border-left: 1px solid var(--pline); font-weight: 600; }
 .gtable td:last-child { border-radius: 0 8px 8px 0; border-right: 1px solid var(--pline); }
 .gtable tr.mine td { border-color: color-mix(in srgb, var(--gold) 55%, transparent); }
+/* News: each entry is a plaque, the date is a pill; the whole plaque opens the source */
+.nlist { display: grid; gap: 8px; }
+.nlist[hidden] { display: none; }
+.nitem { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 14px; align-items: baseline; padding: 12px 14px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--pline); color: var(--fg); text-decoration: none; }
+.nitem:hover { border-color: color-mix(in srgb, var(--gold) 55%, transparent); }
+.nitem b { font-weight: 600; }
+.nitem p { grid-column: 2; margin: 0; color: var(--muted); font-size: .92rem; }
+@media (max-width: 719px) { .nitem { grid-template-columns: minmax(0, 1fr); } .nitem .pill { justify-self: start; } .nitem p { grid-column: 1; } }
 .gtable .alt { display: block; margin-top: 4px; color: var(--muted); font-size: .8rem; font-weight: 400; }
 .gtable .tag { margin-left: 6px; vertical-align: 1px; }
 #dgBox .filters { margin-bottom: 6px; }
