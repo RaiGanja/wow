@@ -1778,7 +1778,8 @@ function autoStage() {
   return [now < new Date('2026-11-11T00:00:00') ? 'first' : 'dung', 'Выбрано по дате. Укажите уровень персонажа, и этап подстроится.'];
 }
 const START = { pre: 'hero_dawn-960', first: 'hero_campfire-960', dung: 'warlock-360', path: 'hunter-360', raid: 'paladin-360' };
-const pic = f => `<picture><source type="image/avif" srcset="${ROOT}assets/art/${f}.avif"><img src="${ROOT}assets/art/${f}.webp" alt="" loading="lazy" decoding="async"></picture>`;
+const ARTV = /*ARTV*/{};   // ?v= of the scene arts, filled in by build.art_version (same names, redrawn pictures)
+const pic = f => `<picture><source type="image/avif" srcset="${ROOT}assets/art/${f}.avif${ARTV[f + '.avif'] || ''}"><img src="${ROOT}assets/art/${f}.webp${ARTV[f + '.webp'] || ''}" alt="" loading="lazy" decoding="async"></picture>`;
 const tipL = () => '<span class="tl">Совет</span>';
 function liC(x) { return x[0] === 't' ? `<li class="tip">${tipL()}${esc(x[1])}</li>` : `<li>${esc(x[1])}</li>`; }
 function dLi(d) {

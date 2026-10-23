@@ -433,6 +433,36 @@ def living_version():
     print(f'living: v={v}', file=sys.stderr)
 
 
+def art_version():
+    """?v=<hash> on every assets/art/<file> address in the pages: Cloudflare and the browser keep /wow/assets/ for days
+    (7 in the browser, plus the service worker), so a picture redrawn under the same name would otherwise stay old
+    for returning visitors while living.js and its masks (versioned) already move on — water and fire off their places."""
+    d = os.path.join(HERE, 'assets', 'art')
+    ver = {}
+
+    def tag(m):
+        name = m.group(2)
+        if name not in ver:
+            f = os.path.join(d, name)
+            ver[name] = hashlib.sha1(open(f, 'rb').read()).hexdigest()[:8] if os.path.isfile(f) else ''
+        return m.group(1) + (f'?v={ver[name]}' if ver[name] else '')
+    scenes = json.dumps({f: '?v=' + hashlib.sha1(open(os.path.join(d, f), 'rb').read()).hexdigest()[:8]
+                         for f in sorted(os.listdir(d)) if f.startswith('hero_')}, separators=(',', ':'))
+    n = 0
+    for root, dirs, files in os.walk(HERE):
+        dirs[:] = [x for x in dirs if not x.startswith('.') and x not in ('assets', 'content', 'i18n', 'tests', 'node_modules')]
+        for f in files:
+            if f.endswith('.html') and not f.endswith('.src.html'):
+                p = os.path.join(root, f)
+                was = html = open(p, encoding='utf-8').read()
+                html = re.sub(r'/\*ARTV\*/\{[^}]*\}', lambda _: '/*ARTV*/' + scenes, html)   # pic() in page JS
+                new = re.sub(r'(assets/art/([A-Za-z0-9_.-]+\.(?:avif|webp|jpg|png)))(?:\?v=\w+)?', tag, html)
+                if new != was:
+                    open(p, 'w', encoding='utf-8', newline='\n').write(new)
+                    n += 1
+    print(f'art: {n} pages, {len(ver)} files', file=sys.stderr)
+
+
 def pwa(html, lang, root):
     a = APP[lang]
     head = (f'<link rel="manifest" href="{root}manifest-{lang}.webmanifest">\n'
@@ -955,6 +985,7 @@ def main():
         search.main()
         me_version()
         living_version()
+        art_version()
         sw_version()
 
 
