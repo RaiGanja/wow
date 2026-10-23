@@ -2,7 +2,7 @@
 layer's mask (assets/living/hero_dawn-fx.png) must fit all of them. Aligns a variant to hero_dawn by its edges
 (lighting differs, outlines do not), then checks the residual shift inside every mask zone.
 Run: python tools/align_tod.py <wow_art> <day|dusk|night> [raw files...]   (default raw: hero_<tod>.raw*.jpg)
-Writes hero_<tod>.jpg (best aligned try) and hero_<tod>-overlay.png; exit code 1 when no try passes."""
+Writes hero_<tod>.jpg (best aligned try, at the size of hero_dawn.jpg) and hero_<tod>-overlay.png; exit code 1 when no try passes."""
 import glob, os, sys
 import cv2, numpy as np
 
@@ -24,23 +24,42 @@ def edges(im):
     return m / (m.max() + 1e-6)
 
 
-def align(ref, img):
-    """Warp img onto ref (affine, then homography if that fits better). Returns (aligned BGR W x H, ECC score)."""
-    img = cv2.resize(img, (W, H), interpolation=cv2.INTER_AREA)
-    a, b = edges(ref), edges(img)
-    best = (img, -1.)
+def fit(ref, img):
+    """Transform (3x3, W x H grid, maps ref pixels to img pixels) that lays img onto ref by edges: affine, then
+    homography if that fits better. ref must be W x H; img any size. Returns (T, ECC score)."""
+    a, b = edges(ref), edges(cv2.resize(img, (W, H), interpolation=cv2.INTER_AREA))
+    best = (np.eye(3, dtype=np.float64), -1.)
     crit = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 200, 1e-6)
     for mode, eye in ((cv2.MOTION_AFFINE, np.eye(2, 3, dtype=np.float32)), (cv2.MOTION_HOMOGRAPHY, np.eye(3, dtype=np.float32))):
         try:
             cc, M = cv2.findTransformECC(a, b, eye, mode, crit, None, 5)
         except cv2.error:
             continue
-        flags = cv2.INTER_LINEAR + cv2.WARP_INVERSE_MAP
-        out = (cv2.warpAffine(img, M, (W, H), flags=flags, borderMode=cv2.BORDER_REFLECT) if mode == cv2.MOTION_AFFINE
-               else cv2.warpPerspective(img, M, (W, H), flags=flags, borderMode=cv2.BORDER_REFLECT))
         if cc > best[1]:
-            best = (out, cc)
+            best = (np.vstack([M, [0, 0, 1]]) if mode == cv2.MOTION_AFFINE else M.astype(np.float64), cc)
     return best
+
+
+def warp(img, T, size):
+    """Apply grid transform T to img of any size, writing an image of size (w, h): the grid is scaled to both ends,
+    so a 4K source is resampled once, at full size."""
+    w, h = size
+    to_grid = np.diag([W / w, H / h, 1.])                         # output pixel -> grid
+    to_img = np.diag([img.shape[1] / W, img.shape[0] / H, 1.])    # grid -> source pixel
+    M = to_img @ T @ to_grid
+    return cv2.warpPerspective(img, M, (w, h), flags=cv2.INTER_LANCZOS4 + cv2.WARP_INVERSE_MAP, borderMode=cv2.BORDER_REFLECT)
+
+
+def align(ref, img):
+    """Warp img onto ref (W x H). Returns (aligned BGR W x H, ECC score)."""
+    T, cc = fit(ref, img)
+    return warp(img, T, (W, H)), cc
+
+
+def align_full(ref, img):
+    """Same as align, but ref is the master at full size and the result has its size (shift measured in the grid)."""
+    T, cc = fit(cv2.resize(ref, (W, H), interpolation=cv2.INTER_AREA), img)
+    return warp(img, T, (ref.shape[1], ref.shape[0])), cc
 
 
 def _matches(wa, wb, dx, dy):
@@ -104,21 +123,25 @@ def main():
         sys.exit(__doc__)
     art, tod = sys.argv[1], sys.argv[2]
     raws = sys.argv[3:] or sorted(glob.glob(os.path.join(art, f'hero_{tod}.raw*.jpg')))
-    ref = cv2.resize(cv2.imread(os.path.join(art, 'hero_dawn.jpg')), (W, H), interpolation=cv2.INTER_AREA)
+    master = cv2.imread(os.path.join(art, 'hero_dawn.jpg'))
+    ref = cv2.resize(master, (W, H), interpolation=cv2.INTER_AREA)
     mask = cv2.imread(MASK, cv2.IMREAD_UNCHANGED)
     best = None
     for p in raws:
-        aligned, cc = align(ref, cv2.imread(p))
+        img = cv2.imread(p)
+        T, cc = fit(ref, img)
+        aligned = warp(img, T, (W, H))
         res = check(ref, aligned, mask)
         bad = problems(res)
         ok = cc > .5 and not bad
         print(os.path.basename(p), 'ok' if ok else 'брак', f'ecc={cc:.3f}', show(res), *bad)
         worst = max(v['shift'] for v in res.values())
         if ok and (best is None or worst < best[0]):
-            best = (worst, aligned)
+            best = (worst, aligned, img, T)
     if best is None:
         sys.exit(1)
-    cv2.imwrite(os.path.join(art, f'hero_{tod}.jpg'), best[1], [cv2.IMWRITE_JPEG_QUALITY, 95])
+    full = warp(best[2], best[3], (master.shape[1], master.shape[0]))   # the master's size: a 4K source stays 4K
+    cv2.imwrite(os.path.join(art, f'hero_{tod}.jpg'), full, [cv2.IMWRITE_JPEG_QUALITY, 95])
     cv2.imwrite(os.path.join(art, f'hero_{tod}-overlay.png'), overlay(ref, best[1]))
     print(f'hero_{tod}.jpg ok, shift {best[0]} px')
 

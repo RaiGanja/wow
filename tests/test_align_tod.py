@@ -34,6 +34,21 @@ class Align(unittest.TestCase):
         self.assertGreater(cc, .6)
         self.assertTrue(all(v['shift'] <= 2 for v in res.values()), res)
 
+    def test_full_size_kept_and_aligned(self):
+        """4K-мастер: сдвиг меряется в сетке 1376×768, а пишется вариант в размере мастера, без потери чёткости."""
+        ref = cv2.resize(self.ref, (2752, 1536), interpolation=cv2.INTER_CUBIC)
+        M = np.float32([[1.012, 0, -14], [0, 1.012, 8]])
+        moved = cv2.warpAffine(self.relit(ref), M, (2752, 1536), borderMode=cv2.BORDER_REFLECT)
+        out, cc = align_tod.align_full(ref, cv2.resize(moved, (2048, 1143), interpolation=cv2.INTER_AREA))
+        self.assertEqual(out.shape[:2], (1536, 2752))
+        self.assertGreater(cc, .6)
+        # остаток сдвига в полном размере: контуры совпадают с точностью до 2 px сетки = 4 px мастера
+        (dx, dy), _ = cv2.phaseCorrelate(align_tod.edges(ref), align_tod.edges(out))
+        self.assertLess(np.hypot(dx, dy), 2, (dx, dy))
+        small = cv2.resize(out, (1376, 768), interpolation=cv2.INTER_AREA)
+        res = align_tod.check(self.ref, small, self.mask)
+        self.assertTrue(all(v['shift'] <= 2 for v in res.values()), res)
+
     def test_moved_waterfall_rejected(self):
         bad = self.relit(self.ref).copy()
         x, y, w, h = 458, 532, 106, 122         # нижний водопад (зона R маски) уехал на 12 px
