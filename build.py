@@ -94,7 +94,7 @@ def site_map(lang, home):
         _RACES.extend(parse_races(open(os.path.join(HERE, 'index.src.html'), encoding='utf-8').read()))
     slug = {r['id']: r['slug'] for r in RACES_PAGE}
     hub = {h['slug']: h for h in HUBS}
-    guides = sorted(GUIDES, key=lambda g: ORDER.index(g['slug']) if g['slug'] in ORDER else len(ORDER))
+    guides = sorted((g for g in GUIDES if g.get('only', lang) == lang), key=lambda g: ORDER.index(g['slug']) if g['slug'] in ORDER else len(ORDER))
     cols = [
         (hub['classes']['title'], 'classes/', [(f'classes/{c["id"]}/', tr(c['n'], lang)) for c in CLASSES]),
         (hub['races']['title'], 'races/', [(f'races/{slug[r["id"]]}/', tr(r['n'], lang)) for r in _RACES]),
@@ -115,10 +115,18 @@ def legal(lang, root):
             f'{contact}: <a href="mailto:{CONTACT}">{CONTACT}</a></p></div>')
 
 
+def only_lang(sub):
+    """Language of a page built in one language only (a guide with 'only': 'uk'), else None."""
+    from content.guides import GUIDES
+    return next((g['only'] for g in GUIDES if g.get('only') and sub == f'guides/{g["slug"]}/'), None)
+
+
 def alternates(sub):
-    """hreflang links of a page (site-relative directory sub, '' = home) in every built language; x-default = Russian."""
-    alt = '\n'.join(f'<link rel="alternate" hreflang="{HREFLANG[l]}" href="{SITE}{page_dir(l, sub)}">' for l in LANGS)
-    return alt + f'\n<link rel="alternate" hreflang="x-default" href="{SITE}{sub}">'
+    """hreflang links of a page (site-relative directory sub, '' = home) in every built language; x-default = Russian
+    (a one-language page: only its own language, which is also x-default)."""
+    only = only_lang(sub)
+    alt = '\n'.join(f'<link rel="alternate" hreflang="{HREFLANG[l]}" href="{SITE}{page_dir(l, sub)}">' for l in ([only] if only else LANGS))
+    return alt + f'\n<link rel="alternate" hreflang="x-default" href="{SITE}{page_dir(only, sub) if only else sub}">'
 
 
 # Browser-language hint, in the visitor's language: (text, link, close button)
@@ -164,7 +172,7 @@ LANG_JS = """<script>
   if (seen) return;
   const H = @@HINT@@, cur = document.documentElement.lang.split('-')[0];
   const want = (navigator.languages || [navigator.language]).map(x => String(x || '').toLowerCase().split('-')[0]).find(x => x in H);
-  const to = want && want !== cur && document.querySelector(`.langlist a[data-lang="${want}"]`);
+  const to = want && want !== cur && document.querySelector(`.langlist a[data-lang="${want}"]:not([data-list])`);
   if (!to) return;
   const bar = document.createElement('div');
   bar.className = 'langhint'; bar.lang = want; bar.setAttribute('role', 'status');
@@ -205,10 +213,13 @@ def auto_lang(html):
 def lang_menu(html, lang, here):
     """@@LANGSEL@@ (top bar: button + dropdown list) and @@LANGSHEET@@ (phone sheet: 3x3 grid) — the same page in every language."""
     sub = here[len(page_dir(lang)):]
+    only = only_lang(sub)
     label = tr('Язык', lang)
     def link(l, inner):
         cur = ' aria-current="page"' if l == lang else ''
-        return f'<a href="{rel(here, page_dir(l, sub))}" data-lang="{l}" hreflang="{HREFLANG[l]}" lang="{HREFLANG[l]}"{cur}>{inner}</a>'
+        to = 'guides/' if only and l != only else sub            # a one-language guide: other languages open their guide list
+        lst = ' data-list' if to != sub else ''                   # not this page in that language: no browser-language hint
+        return f'<a href="{rel(here, page_dir(l, to))}" data-lang="{l}" hreflang="{HREFLANG[l]}" lang="{HREFLANG[l]}"{cur}{lst}>{inner}</a>'
     items = ''.join(f'<li>{link(l, f"<span>{AUTONYM[l]}</span><small>{l.upper()}</small>")}</li>' for l in LANGS)
     sel = (f'<div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" '
            f'aria-label="{label}: {AUTONYM[lang]}">{lang.upper()}</button><ul class="langlist" hidden>{items}</ul></div>')
@@ -222,7 +233,9 @@ def localize(html, lang, here):
     html = html.replace('@@LEGAL@@', legal(lang, rel(here, '')))
     html = html.replace('@@ROOT@@', rel(here, ''))
     html = lang_menu(html, lang, here)
-    if lang != 'ru':
+    if lang == 'ru':
+        html = ru_names(html)
+    else:
         html = html.replace('<html lang="ru">', f'<html lang="{HREFLANG[lang]}">')
         html = html.replace('content="ru_RU"', f'content="{LOCALE[lang]}"')
     if lang not in ('ru', 'uk'):                                  # Latin-script pages: preload the fonts they draw first
@@ -375,6 +388,30 @@ def card_dates(html):
     dates = {f'guides/{g["slug"]}/': g.get('updated') for g in GUIDES if g['slug'] != 'news'} | {h['path']: h.get('updated') for h in HUBS}
     return re.sub(r'(<a class="gt" href="([^"#]+)">.*?)(</a>)', lambda m: m[1] + upd_time(dates.get(m[2])) + m[3], html)
 
+# ru/uk home: one quiet line above the footer on how to play in the language; once closed (or followed), never again.
+GAME_HINT = {'ru': ('В игре есть русский язык.', 'Как включить', 'guides/faq/#language', 'Закрыть'),
+             'uk': ('Українською грають з аддоном.', 'Як встановити', 'guides/ukrainian/', 'Закрити')}
+GAME_JS = """<script>
+(function () {
+  var KEY = 'gabella-game-lang', bar = document.getElementById('gamehint'), seen = '1';
+  try { seen = localStorage.getItem(KEY); } catch (e) {}
+  if (seen) return;
+  var done = function () { try { localStorage.setItem(KEY, '1'); } catch (e) {} };
+  bar.hidden = false;
+  bar.querySelector('a').addEventListener('click', done);
+  bar.querySelector('button').addEventListener('click', function () { done(); bar.remove(); });
+})();
+</script>
+"""
+
+
+def game_hint(lang):
+    text, link, href, close = GAME_HINT[lang]
+    return (f'<div class="gamehint" id="gamehint" hidden><span>{text} <a href="{href}">{link}</a></span>'
+            f'<button type="button" aria-label="{close}"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>\n'
+            + GAME_JS)
+
+
 def build_home(lang, src):
     src = src.replace('@@RACE_LEAD@@', json.dumps({r['id']: r['lead'] for r in RACES_PAGE}, ensure_ascii=False))
     src = src.replace('@@RACE_SLUG@@', json.dumps({r['id']: r['slug'] for r in RACES_PAGE}))
@@ -385,6 +422,8 @@ def build_home(lang, src):
     html = static_links(html, lang, '')
     html = card_dates(html)
     html = home_dungeons(html, lang)
+    if lang in GAME_HINT:
+        html = html.replace('<footer id="sources"', game_hint(lang) + '<footer id="sources"', 1)
     if lang == 'ru':
         html = auto_lang(html)
     if lang != 'ru':
@@ -433,9 +472,9 @@ def mark_long(html):
 
 
 def ability(ru, en, lang, tag='b'):
-    """Ability name. ru: Russian + the English original; de/fr/es/pt/it: the official name (i18n/names.json, Wowhead)
+    """Ability name. ru: the ruRU client name (names.json, else the site's Russian) + the English original; de/fr/es/pt/it: the official name (i18n/names.json, Wowhead)
     + English; en/uk/pl: English only. tag wraps the main name; '' = bare text (race cards put it in their own h3)."""
-    main = ru if lang == 'ru' else langs.name(en, lang)
+    main = langs.NAMES.get(en, {}).get('ru') or ru if lang == 'ru' else langs.name(en, lang)
     if main == en:
         return f'<{tag or "span"} lang="en">{esc(en)}</{tag or "span"}>'
     head = f'<{tag}>{esc(main)}</{tag}>' if tag else esc(main)
@@ -450,11 +489,87 @@ def js_quote(s, q):
 
 
 def js_names(js, lang):
-    """English game names in quoted JS data (dungeons, zones, cities) -> official localized ones on de/fr/es/pt/it.
-    ru/uk/en/pl keep English: the server's client has no Russian or Ukrainian, players see the English names in game."""
+    """English game names in quoted JS data (dungeons, zones, cities) -> official localized ones on de/fr/es/pt/it and
+    the ruRU client names on ru (the English stays a search key). uk/en/pl keep English: there is no Ukrainian client."""
+    if lang == 'ru':
+        def one(m):                                                # names inside Russian text; an English string only as a whole
+            s = m[0][1:-1]
+            return js_quote(ru_plain(s) if re.search(f'[{CYR}]', s) else ru_word(s), m[0][0])
+
+        def row(m):                                                # DUNGEONS row: «Мертвые копи (The Deadmines)», the rest in Russian
+            ru = ru_word(m[2])
+            return m[1] + js_quote(f'{ru} ({m[2]})' if ru != m[2] else ru, "'") + JS_STR.sub(one, m[3])
+        e = js.find('const EN = {')                                # EN maps Russian names to English: keep its English
+        if e >= 0:
+            f = js.index('\n};', e)
+            return js_names(js[:e], lang) + js[e:f] + js_names(js[f:], lang)
+        i = js.find('const DUNGEONS = [')
+        if i < 0:
+            return JS_STR.sub(one, js)
+        j = js.find('\n];', i) % (len(js) + 1)                     # home_dungeons passes the block without its end
+        return JS_STR.sub(one, js[:i]) + re.sub(r"(?m)^(\s*\[)'([^'\n]*)'(.*)$", row, js[i:j]) + JS_STR.sub(one, js[j:])
     if lang not in NAMED:
         return js
     return JS_STR.sub(lambda m: js_quote(langs.name(m[0][1:-1], lang), m[0][0]), js)
+
+
+RU_MARK = re.compile(r'\[\[([^\[\]|\n]+)\|([^\[\]|\n]+)\]\]')   # ru sources: [[Дуротаре|Durotar]] = the name in a case form
+RU_SKIP = re.compile(r'<head\b.*?</head>|<script\b.*?</script>|<style\b.*?</style>|<(\w+)\b[^>]*\blang="en"[^>]*>.*?</\1>|<[^>]+>', re.S)
+_ru_rx = []
+
+
+def ru_word(en):
+    """Russian client name of an English game name (names.json, Wowhead ruRU); English when the client has none."""
+    return langs.NAMES.get(en, {}).get('ru') or en
+
+
+def ru_rx():
+    """[[форма|English]] markup (groups 1, 2) or a bare English name with a ruRU name (group 3), not inside a longer English phrase."""
+    if not _ru_rx:
+        names = sorted((en for en, v in langs.NAMES.items() if v.get('ru') and v['ru'] != en), key=len, reverse=True) or ['\0']
+        _ru_rx.append(re.compile(RU_MARK.pattern + r'|(?<![A-Za-z’\'-])(?<![A-Za-z] )(' + '|'.join(map(re.escape, names))
+                                 + r')(?![A-Za-z’-])(?! [A-Za-z])'))
+    return _ru_rx[0]
+
+
+JS_TEXT = re.compile(r"""'[^'\n]*'|"[^"\n]*"|`[^`]*`""")
+
+
+def ru_plain(s):
+    """Russian text outside the page flow (script strings, JSON-LD): names in the client's Russian, without the English."""
+    def word(n):
+        if n[3] and n.string[n.start() - 1:n.start()] == '(' and n.string[n.end():n.end() + 1] == ')':
+            return n[0]                                            # «Мертвые копи (The Deadmines)»: the English stays
+        return n[1] or ru_word(n[3])
+    return ru_rx().sub(word, s)
+
+
+def ru_names(html):
+    """Russian pages: game names as the ruRU client shows them. The first mention on a page reads «Оргриммар (Orgrimmar)»,
+    later ones «Оргриммар». Bare English names in the text are nominative; other cases come marked in the source
+    as [[Оргриммаре|Orgrimmar]]. Head, scripts, attributes and lang="en" elements are left alone (markup there loses the English)."""
+    rx = ru_rx()
+    seen = set()
+
+    def name(m):
+        word, en = (m[1], m[2]) if m[1] else (ru_word(m[3]), m[3])
+        if en in seen:
+            return word
+        seen.add(en)
+        return f'{word} ({en})'
+
+    out, i = [], 0
+    for m in RU_SKIP.finditer(html):
+        out.append(rx.sub(name, html[i:m.start()]))
+        block = m[0]
+        if m[1]:                                                   # lang="en" element: its English counts as mentioned
+            seen.add(re.sub(r'<[^>]+>', '', block).strip())
+        elif block.startswith('<script'):                          # Russian strings in scripts: the client name, no English
+            block = JS_TEXT.sub(lambda s: ru_plain(s[0]) if re.search(f'[{CYR}]', s[0]) else s[0], block)
+        out.append(block)
+        i = m.end()
+    out.append(rx.sub(name, html[i:]))
+    return RU_MARK.sub(r'\1', ''.join(out))
 
 
 def home_dungeons(html, lang):
@@ -596,8 +711,8 @@ PLACE_FACTS = ('Столица', 'Стартовая зона', 'Репутац�
 
 
 def fact_ru(k, v):
-    """Russian race page: places and factions as the game shows them (English client, like uk); the Russian source
-    stays the translation key for the other languages. Site-named factions (Высший орден) keep their Russian name."""
+    """Russian race page: places and factions by their English game name, which ru_names turns into the ruRU client name
+    + (English); the Russian source stays the translation key. Site-named factions (Высший орден) keep their Russian name."""
     if k in PLACE_FACTS and v in T and t_of(v, 'uk') == t_of(v, 'en'):
         return t_of(v, 'en')
     return v

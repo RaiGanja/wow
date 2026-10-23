@@ -152,6 +152,13 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .langhint button { flex: none; width: 36px; height: 36px; display: grid; place-items: center; border: 0; border-radius: 7px; background: transparent; color: inherit; cursor: pointer; }
 .langhint button:hover { background: color-mix(in srgb, currentColor 10%, transparent); }
 @media print { .langhint { display: none; } }
+.gamehint { display: flex; align-items: center; gap: 12px; margin: 0 0 16px; padding: 6px 6px 6px 16px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); font-size: .9rem; }
+.gamehint[hidden] { display: none; }
+.gamehint span { flex: 1; min-width: 0; }
+.gamehint a { color: var(--gold-2); font-weight: 600; white-space: nowrap; }
+.gamehint button { flex: none; width: 36px; height: 36px; display: grid; place-items: center; border: 0; border-radius: 7px; background: transparent; color: inherit; cursor: pointer; }
+.gbtns { display: flex; flex-wrap: wrap; gap: 10px; }
+.gbtns .btn { white-space: normal; text-align: center; }
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: .92rem; }
@@ -990,7 +997,7 @@ nav.gtiles { padding: 14px; }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=1c35e1b1bb" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=b7bf0d71de" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/me/me.css" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://gabella.site/wow/"},{"@type":"ListItem","position":2,"name":"Гайды","item":"https://gabella.site/wow/guides/"},{"@type":"ListItem","position":3,"name":"Подземелья и рейды","item":"https://gabella.site/wow/guides/dungeons/"}]}</script>
 </head>
@@ -1043,8 +1050,8 @@ nav.gtiles { padding: 14px; }
   <nav class="gtoc frame" aria-label="Разделы гайда"><a href="#list">Подземелья по уровням</a><a href="#raids">Рейды (с 09.12.2026)</a><a href="#pvp">PvP</a><a href="#group">Состав группы</a><a href="#together">Прокачка вместе</a></nav>
   <div class="gmain">
 <section class="frame gsec" id="list"><h2>Подземелья по уровням</h2><p>Все 35 подземелий, из них 9 новых. Уровни по Warcraft Tavern, Sportskeeda даёт те же. Где другие сайты называют иной диапазон, он подписан мелко. Жёстких ограничений по уровню Blizzard не публиковала.</p><div id="dgBox"><div class="filters" role="group" aria-label="Фильтр подземелий"><div class="seg" id="segD"><button type="button" data-v="all" aria-pressed="true">Все</button><button type="button" data-v="mine" aria-pressed="false">Мой уровень ±3</button><button type="button" data-v="new" aria-pressed="false">Новые</button></div><div class="fgroup"><span class="flabel" id="ldgLvl">Мой уровень</span><div class="stepper" role="group" aria-labelledby="ldgLvl"><button type="button" class="lvm" aria-label="Уровень ниже">−</button><input class="lvin" id="dgLvl" type="number" min="1" max="60" inputmode="numeric" aria-labelledby="ldgLvl" placeholder="—"><button type="button" class="lvp" aria-label="Уровень выше">+</button></div></div><span class="small" id="dgCount" role="status"></span></div><table class="gtable dgt"><thead><tr><th scope="col">Подземелье</th><th scope="col">Уровни</th><th scope="col">Где вход</th></tr></thead><tbody id="dgBody"></tbody></table></div><p>Основной опыт за подземелье дают его цепочки заданий, повторные заходы приносят заметно меньше. Любая выпавшая вещь открывает свой облик всем в группе, кто может её надеть. Ещё по два подземелья Blizzard обещает весной и летом.</p></section>
-<section class="frame gsec" id="raids"><h2>Рейды (с 09.12.2026)</h2><ol class="steps-c"><li><span class="n">01</span><div><b>Barrow Deeps</b><p>10 игроков</p></div></li><li><span class="n">02</span><div><b>Hyjal Summit</b><p>20 игроков</p></div></li><li><span class="n">03</span><div><b>Onyxia’s Lair</b><p>40 игроков, в Dustwallow Marsh</p></div></li></ol><p>За прохождение каждого из этих рейдов в Legacy даётся по очку.</p></section>
-<section class="frame gsec" id="pvp"><h2>PvP</h2><ol class="steps-c"><li><span class="n">01</span><div><b>Darkspear Islands</b><p>Новое поле боя 15 на 15 у побережья Dustwallow Marsh.</p></div></li><li><span class="n">02</span><div><b>Звания и Честь</b><p>Звания с недельным лимитом, улучшение экипировки за Честь, сезонные цели Legacy.</p></div></li></ol></section>
+<section class="frame gsec" id="raids"><h2>Рейды (с 09.12.2026)</h2><ol class="steps-c"><li><span class="n">01</span><div><b>Barrow Deeps</b><p>10 игроков</p></div></li><li><span class="n">02</span><div><b>Вершина Хиджала (Hyjal Summit)</b><p>20 игроков</p></div></li><li><span class="n">03</span><div><b>Логово Ониксии (Onyxia’s Lair)</b><p>40 игроков, в Пылевых топях (Dustwallow Marsh)</p></div></li></ol><p>За прохождение каждого из этих рейдов в Legacy даётся по очку.</p></section>
+<section class="frame gsec" id="pvp"><h2>PvP</h2><ol class="steps-c"><li><span class="n">01</span><div><b>Darkspear Islands</b><p>Новое поле боя 15 на 15 у побережья Пылевых топей.</p></div></li><li><span class="n">02</span><div><b>Звания и Честь</b><p>Звания с недельным лимитом, улучшение экипировки за Честь, сезонные цели Legacy.</p></div></li></ol></section>
 <section class="frame gsec" id="group"><h2>Состав группы</h2><ol class="steps-c"><li><span class="n">01</span><div><b>Подземелья на 5</b><p>Подземелья рассчитаны на 5 игроков: танк, лекарь, трое с уроном.</p></div></li><li><span class="n">02</span><div><b>Рейды на 10, 20 и 40</b><p>Если своих меньше, недостающих добирают из гильдии.</p></div></li><li><span class="n">03</span><div><b>Кто танкует и лечит</b><p>Танковать могут Воин, Паладин и Друид, лечить Паладин, Жрец, Шаман и Друид.</p></div></li><li><span class="n">04</span><div><b>Паладин и Друид</b><p>Паладин и Друид умеют все три роли. Это самые гибкие классы, когда игроков мало.</p></div></li><li><span class="n">05</span><div><b>Баффы классов</b><p>Группа и рейд получают баффы классов: Королей от паладина, тотемы шамана, Боевой крик воина, ауры охотника и друида. Порталы, еду и воду делает маг.</p></div></li></ol><div class="gtabs"><div role="tablist"><button type="button" class="pill" role="tab" data-tab="solo" aria-selected="true">Соло</button><button type="button" class="pill" role="tab" data-tab="p2-4" aria-selected="false">2–4 игрока</button><button type="button" class="pill" role="tab" data-tab="p5" aria-selected="false">5 игроков</button><button type="button" class="pill" role="tab" data-tab="p6-9" aria-selected="false">6–9 игроков</button><button type="button" class="pill" role="tab" data-tab="p10" aria-selected="false">10 и больше</button></div><div role="tabpanel" data-tab="solo"><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>Легче всего Охотнику и Чернокнижнику, у них питомец держит врага. Паладин и Друид тоже живучи и в подземелье пойдут на любую роль.</p></div></div><div role="tabpanel" data-tab="p2-4" hidden><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>Пусть хотя бы один умеет танковать или лечить (Воин, Паладин, Друид, Жрец, Шаман), остальных до пяти добирайте в подземелье.</p></div></div><div role="tabpanel" data-tab="p5" hidden><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>Танк, лекарь и трое в урон, например Воин, Жрец, Маг, Охотник и Разбойник.</p></div></div><div role="tabpanel" data-tab="p6-9" hidden><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>Две группы для подземелий, в каждой нужны свой танк и лекарь. Тут особенно ценны гибриды: Паладин, Друид, Шаман.</p></div></div><div role="tabpanel" data-tab="p10" hidden><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>Хватает на 10-местный рейд Barrow Deeps: два танка, два-три лекаря, остальные в урон.</p></div></div></div><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>Берите разные классы: баффы разных классов складываются, а одинаковые перекрываются. Кто-то в группе берёт Кулинарию ради костра на 10 объектов, остальные по профессии под баффы лагеря.</p></div></section>
 <section class="frame gsec" id="together"><h2>Прокачка вместе</h2><ol class="steps-c"><li><span class="n">01</span><div><b>Темп классов</b><p>По прогнозам Охотник и Маг прокачиваются быстрее всего (примерно на 8% быстрее среднего), Воин медленнее всех (около 12%), Друид и Жрец чуть медленнее среднего. Это оценки для беты, цифры могут измениться.</p></div></li><li><span class="n">02</span><div><b>Без масштабирования</b><p>Подземелья для своих уровней, их нельзя пройти «подтянув» слабого друга.</p></div></li><li><span class="n">03</span><div><b>Копите отдых</b><p>Спальник, Well Rested и еда с бонусом опыта складываются.</p></div></li><li><span class="n">04</span><div><b>Лагерь на прокачке</b><p>Лагерь можно ставить прямо на прокачке, пять минут на костёр окупаются баффами на группу.</p></div></li></ol><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>С 4 ноября по 9 декабря прокачайтесь вместе по подземельям и заранее решите, кто за какой класс, чтобы не дублироваться.</p></div></section>
   </div>
@@ -1117,41 +1124,41 @@ if ('IntersectionObserver' in window && tocLinks.length) {
   document.querySelectorAll('.gsec').forEach(s => io.observe(s));
 }
 const DUNGEONS = [
-  ['Ragefire Chasm', 13, 18, 'Orgrimmar', 0],
-  ['Hall of Thanes', 13, 18, 'Ironforge', 1, [['Icy Veins', '13–20']]],
-  ['Ruins of Lordaeron', 15, 20, 'Tirisfal Glades', 1, [['Icy Veins', '15–22']]],
-  ['The Deadmines', 15, 22, 'Westfall', 0, [['Icy Veins', '17–26']]],
-  ['Wailing Caverns', 17, 24, 'The Barrens', 0, [['Icy Veins', '15–24']]],
-  ['Shadowfang Keep', 20, 26, 'Silverpine Forest', 0, [['Icy Veins', '20–30']]],
-  ['Blackfathom Deeps', 22, 28, 'Ashenvale', 0, [['Sportskeeda', '22–26'], ['Icy Veins', '24–32']]],
-  ['Excavation Site: Wetlands', 24, 29, 'Wetlands', 1, [['ClassicWoW.gg', '26–31'], ['Icy Veins', '26–33']]],
-  ['The Stockade', 25, 29, 'Stormwind City', 0, [['Icy Veins', '24–32']]],
-  ['City of Dalaran', 28, 33, 'Alterac Mountains', 1, [['Icy Veins', '28–35']]],
-  ['Gnomeregan', 29, 38, 'Dun Morogh', 0],
-  ['Razorfen Kraul', 29, 38, 'The Barrens', 0],
-  ['Scarlet Monastery: Graveyard', 30, 38, 'Tirisfal Glades', 0],
-  ['Scarlet Monastery: Library', 33, 41, 'Tirisfal Glades', 0],
-  ['The Drowned City', 35, 40, 'Stranglethorn Vale', 1],
-  ['Scarlet Monastery: Armory', 36, 44, 'Tirisfal Glades', 0],
-  ['Uldaman', 36, 45, 'Badlands', 0, [['Icy Veins', '41–51']]],
-  ['Razorfen Downs', 37, 46, 'The Barrens', 0],
-  ['Scarlet Monastery: Cathedral', 38, 46, 'Tirisfal Glades', 0],
+  ['Огненная пропасть (Ragefire Chasm)', 13, 18, 'Оргриммар', 0],
+  ['Hall of Thanes', 13, 18, 'Стальгорн', 1, [['Icy Veins', '13–20']]],
+  ['Руины Лордерона (Ruins of Lordaeron)', 15, 20, 'Тирисфальские леса', 1, [['Icy Veins', '15–22']]],
+  ['Мертвые копи (The Deadmines)', 15, 22, 'Западный Край', 0, [['Icy Veins', '17–26']]],
+  ['Пещеры Стенаний (Wailing Caverns)', 17, 24, 'Степи', 0, [['Icy Veins', '15–24']]],
+  ['Крепость Темного Клыка (Shadowfang Keep)', 20, 26, 'Серебряный бор', 0, [['Icy Veins', '20–30']]],
+  ['Непроглядная Пучина (Blackfathom Deeps)', 22, 28, 'Ясеневый лес', 0, [['Sportskeeda', '22–26'], ['Icy Veins', '24–32']]],
+  ['Excavation Site: Wetlands', 24, 29, 'Болотина', 1, [['ClassicWoW.gg', '26–31'], ['Icy Veins', '26–33']]],
+  ['Тюрьма (The Stockade)', 25, 29, 'Штормград', 0, [['Icy Veins', '24–32']]],
+  ['City of Dalaran', 28, 33, 'Альтеракские горы', 1, [['Icy Veins', '28–35']]],
+  ['Гномреган (Gnomeregan)', 29, 38, 'Дун Морог', 0],
+  ['Лабиринты Иглошкурых (Razorfen Kraul)', 29, 38, 'Степи', 0],
+  ['Монастырь Алого ордена: кладбище (Scarlet Monastery: Graveyard)', 30, 38, 'Тирисфальские леса', 0],
+  ['Монастырь Алого ордена: библиотека (Scarlet Monastery: Library)', 33, 41, 'Тирисфальские леса', 0],
+  ['The Drowned City', 35, 40, 'Тернистая долина', 1],
+  ['Монастырь Алого ордена: оружейная (Scarlet Monastery: Armory)', 36, 44, 'Тирисфальские леса', 0],
+  ['Ульдаман (Uldaman)', 36, 45, 'Бесплодные земли', 0, [['Icy Veins', '41–51']]],
+  ['Курганы Иглошкурых (Razorfen Downs)', 37, 46, 'Степи', 0],
+  ['Монастырь Алого ордена: собор (Scarlet Monastery: Cathedral)', 38, 46, 'Тирисфальские леса', 0],
   ["Zul'Farrak", 40, 47, 'Tanaris', 0, [['Icy Veins', '44–54']]],
   ["Krol'dok Stronghold", 40, 45, 'Riverglades', 1],
-  ['Maraudon', 45, 51, 'Desolace', 0, [['Icy Veins', '46–55']]],
-  ['Alcaz Island Prison', 48, 53, 'Dustwallow Marsh', 1],
+  ['Мародон (Maraudon)', 45, 51, 'Пустоши', 0, [['Icy Veins', '46–55']]],
+  ['Alcaz Island Prison', 48, 53, 'Пылевые топи', 1],
   ["Temple of Atal'Hakkar", 50, 55, 'Swamp of Sorrows', 0, [['Icy Veins', '50–60']]],
-  ['Blackrock Depths', 52, 60, 'Blackrock Mountain', 0],
-  ['Blackmaw Hold', 55, 60, 'Azshara', 1],
-  ['Lower Blackrock Spire', 57, 60, 'Blackrock Mountain', 0, [['Icy Veins', '55–60']]],
-  ['Dire Maul: East', 58, 60, 'Feralas', 0, [['Icy Veins', '54–60']]],
+  ['Глубины Черной горы (Blackrock Depths)', 52, 60, 'Черная гора', 0],
+  ['Blackmaw Hold', 55, 60, 'Азшара', 1],
+  ['Нижняя часть Вершины Черной горы (Lower Blackrock Spire)', 57, 60, 'Черная гора', 0, [['Icy Veins', '55–60']]],
+  ['Забытый Город: восток (Dire Maul: East)', 58, 60, 'Фералас', 0, [['Icy Veins', '54–60']]],
   ["Shaper's Terrace", 58, 60, "Un'Goro Crater", 1],
-  ['Stratholme: Living', 58, 60, 'Eastern Plaguelands', 0],
-  ['Stratholme: Undead', 58, 60, 'Eastern Plaguelands', 0],
-  ['Scholomance', 58, 60, 'Western Plaguelands', 0],
-  ['Upper Blackrock Spire', 60, 60, 'Blackrock Mountain', 0, [['Icy Veins', '59–60']]],
-  ['Dire Maul: West', 60, 60, 'Feralas', 0, [['Icy Veins', '56–60']]],
-  ['Dire Maul: North', 60, 60, 'Feralas', 0, [['Icy Veins', '56–60']]]
+  ['Стратхольм: живые (Stratholme: Living)', 58, 60, 'Восточные Чумные земли', 0],
+  ['Стратхольм: нежить (Stratholme: Undead)', 58, 60, 'Восточные Чумные земли', 0],
+  ['Некроситет (Scholomance)', 58, 60, 'Западные Чумные земли', 0],
+  ['Верхняя часть Вершины Черной горы (Upper Blackrock Spire)', 60, 60, 'Черная гора', 0, [['Icy Veins', '59–60']]],
+  ['Забытый Город: запад (Dire Maul: West)', 60, 60, 'Фералас', 0, [['Icy Veins', '56–60']]],
+  ['Забытый Город: север (Dire Maul: North)', 60, 60, 'Фералас', 0, [['Icy Veins', '56–60']]]
 ];
 /* Dungeons: level filter seeded from "My hero" (read only, the hero is edited on the home page) */
 const TX = {"h": ["Подземелье", "Уровни", "Где вход"], "new": "новое", "shown": "Показано", "of": "из", "none": "Под этот уровень подземелий нет.", "need": "Укажите свой уровень, чтобы отфильтровать."};
@@ -1214,7 +1221,7 @@ renderDg();
   if (seen) return;
   const H = {"ru": ["Эта страница есть на русском", "Читать по-русски", "Закрыть"], "en": ["This page is available in English", "Read in English", "Close"], "uk": ["Ця сторінка є українською", "Читати українською", "Закрити"], "de": ["Diese Seite gibt es auch auf Deutsch", "Auf Deutsch lesen", "Schließen"], "fr": ["Cette page existe aussi en français", "Lire en français", "Fermer"], "es": ["Esta página también está en español", "Leer en español", "Cerrar"], "pt": ["Esta página também está em português", "Ler em português", "Fechar"], "it": ["Questa pagina è disponibile anche in italiano", "Leggi in italiano", "Chiudi"], "pl": ["Ta strona jest dostępna po polsku", "Czytaj po polsku", "Zamknij"]}, cur = document.documentElement.lang.split('-')[0];
   const want = (navigator.languages || [navigator.language]).map(x => String(x || '').toLowerCase().split('-')[0]).find(x => x in H);
-  const to = want && want !== cur && document.querySelector(`.langlist a[data-lang="${want}"]`);
+  const to = want && want !== cur && document.querySelector(`.langlist a[data-lang="${want}"]:not([data-list])`);
   if (!to) return;
   const bar = document.createElement('div');
   bar.className = 'langhint'; bar.lang = want; bar.setAttribute('role', 'status');
@@ -1251,7 +1258,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=1c35e1b1bb" data-root="../../" defer></script>
+<script src="../../assets/search/search.js?v=b7bf0d71de" data-root="../../" defer></script>
 <script src="../../assets/me/me.js" data-root="../../" data-home="../../" data-lang="ru" data-page="guides/dungeons/" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>

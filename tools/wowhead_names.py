@@ -1,7 +1,7 @@
-"""Official in-game names for de/fr/es/pt/it, taken from the Wowhead tooltip API.
+"""Official in-game names for de/fr/es/pt/it and ru (the ruRU client), taken from the Wowhead tooltip API.
 
 Reads i18n/names_ids.json and writes i18n/names.json:
-    {"<English name>": {"de": ..., "fr": ..., "es": ..., "pt": ..., "it": ...}}
+    {"<English name>": {"de": ..., "fr": ..., "es": ..., "pt": ..., "it": ..., "ru": ...}}
 
 names_ids.json entry kinds:
     {"type": "spell|zone|npc|item|object|quest", "id": 123}
@@ -12,6 +12,8 @@ names_ids.json entry kinds:
         optional "note"
     {"forever": true}                    new in WoW Forever: all five values = English name
     {"manual": {"de": ...}, "note": ""}  no Wowhead entity (class/spec/race names, compositions)
+                                         "ru" is optional: without it ru keeps English and is reported
+Russian has no value for Forever-only names either: those stay English (report ru_english).
 
 Every id is verified: its English name (locale 0) must equal the expected English name.
 Italian does not exist in Classic, so it comes from retail (dataEnv=1, locale=9); the retail
@@ -29,7 +31,7 @@ import urllib.request
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, 'i18n', 'names_ids.json')
 OUT = os.path.join(ROOT, 'i18n', 'names.json')
-LOCALES = {'en': 0, 'fr': 2, 'de': 3, 'es': 6, 'pt': 8, 'it': 9}
+LOCALES = {'en': 0, 'fr': 2, 'de': 3, 'es': 6, 'ru': 7, 'pt': 8, 'it': 9}
 LANGS = ('de', 'fr', 'es', 'pt', 'it')
 URL = 'https://nether.wowhead.com/tooltip/{type}/{id}?dataEnv={env}&locale={loc}'
 DELAY = 0.25
@@ -95,6 +97,11 @@ def resolve(en_name, e, report):
     elif norm(it_name) == norm(want) and any(norm(out[l]) != norm(want) for l in ('de', 'fr', 'es', 'pt')):
         report['it_english'].append('%s (retail Italian equals English)' % en_name)
     out['it'] = it_name
+    ru = fetch(typ, ident, env, LOCALES['ru'])
+    if ru and norm(ru) != norm(want):
+        out['ru'] = ru
+    else:
+        report['ru_english'].append(en_name)
     report['wowhead'] += 1
     return out
 
@@ -107,7 +114,7 @@ def main():
     else:
         path = None
     ids = json.load(open(SRC, encoding='utf-8'))
-    report = {'wowhead': 0, 'manual': 0, 'forever': 0, 'unresolved': [], 'warn': [], 'it_english': []}
+    report = {'wowhead': 0, 'manual': 0, 'forever': 0, 'unresolved': [], 'warn': [], 'it_english': [], 'ru_english': []}
     names = {}
     try:
         for en_name in sorted(ids):
@@ -115,6 +122,7 @@ def main():
             if e.get('forever'):
                 names[en_name] = {l: en_name for l in LANGS}
                 report['forever'] += 1
+                report['ru_english'].append(en_name)
             elif 'manual' in e:
                 m = e['manual']
                 missing = [l for l in LANGS if not m.get(l)]
@@ -122,6 +130,10 @@ def main():
                     report['unresolved'].append('%s: manual without %s' % (en_name, ','.join(missing)))
                     continue
                 names[en_name] = {l: m[l] for l in LANGS}
+                if m.get('ru'):
+                    names[en_name]['ru'] = m['ru']
+                else:
+                    report['ru_english'].append(en_name)
                 report['manual'] += 1
             elif 'type' in e and 'id' in e:
                 r = resolve(en_name, e, report)
@@ -137,7 +149,7 @@ def main():
         f.write('\n')
     print('total %d, wowhead %d, manual %d, forever %d, unresolved %d'
           % (len(ids), report['wowhead'], report['manual'], report['forever'], len(report['unresolved'])))
-    for k in ('unresolved', 'warn', 'it_english'):
+    for k in ('unresolved', 'warn', 'it_english', 'ru_english'):
         for line in report[k]:
             print('%s: %s' % (k, line))
     return 1 if report['unresolved'] else 0

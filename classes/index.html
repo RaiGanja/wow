@@ -152,6 +152,13 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .langhint button { flex: none; width: 36px; height: 36px; display: grid; place-items: center; border: 0; border-radius: 7px; background: transparent; color: inherit; cursor: pointer; }
 .langhint button:hover { background: color-mix(in srgb, currentColor 10%, transparent); }
 @media print { .langhint { display: none; } }
+.gamehint { display: flex; align-items: center; gap: 12px; margin: 0 0 16px; padding: 6px 6px 6px 16px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); font-size: .9rem; }
+.gamehint[hidden] { display: none; }
+.gamehint span { flex: 1; min-width: 0; }
+.gamehint a { color: var(--gold-2); font-weight: 600; white-space: nowrap; }
+.gamehint button { flex: none; width: 36px; height: 36px; display: grid; place-items: center; border: 0; border-radius: 7px; background: transparent; color: inherit; cursor: pointer; }
+.gbtns { display: flex; flex-wrap: wrap; gap: 10px; }
+.gbtns .btn { white-space: normal; text-align: center; }
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: .92rem; }
@@ -990,7 +997,7 @@ nav.gtiles { padding: 14px; }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=1c35e1b1bb" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/search/search.css?v=b7bf0d71de" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../assets/me/me.css" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://gabella.site/wow/"},{"@type":"ListItem","position":2,"name":"Классы","item":"https://gabella.site/wow/classes/"}]}</script>
 </head>
@@ -1121,16 +1128,16 @@ const CLASSES = [
     raid:'Боевой крик действует на весь рейд',
     forever:'Больше Ярости, лучше угроза по группе целей, талант Мастер оружия. Неистовство и Кровожадность ослаблены.' },
   { id:'paladin', n:'Паладин', roles:['tank','heal','dps'],
-    specs:[['Свет','Лекарь',['heal']],['Защита','Танк',['tank']],['Возмездие','Урон в ближнем бою',['dps']]],
+    specs:[['Свет','Лекарь',['heal']],['Защита','Танк',['tank']],['Воздаяние','Урон в ближнем бою',['dps']]],
     lvl:'Средний темп прокачки',
     lp:0,
-    raid:'Благословение королей теперь базовое. По бета-спискам Защита среди сильнейших танков, Возмездие просело после патча 15 октября.',
+    raid:'Благословение королей теперь базовое. По бета-спискам Защита среди сильнейших танков, Воздаяние просело после патча 15 октября.',
     forever:'Священный удар с 6 уровня, Правосудие не тратит печать. Нежить теперь может быть паладином, значит класс появился у Орды.' },
   { id:'hunter', n:'Охотник', roles:['dps'],
     specs:[['Повелитель зверей','Урон дальнего боя, много урона от питомца',['dps']],['Стрельба','Урон дальнего боя',['dps']],['Выживание','Ближний и дальний бой, ловушки',['dps']]],
     lvl:'Самая быстрая прокачка, примерно на 8% быстрее среднего',
     lp:-8,
-    raid:'Аура меткого стрелка действует на весь рейд',
+    raid:'Аура меткого выстрела действует на весь рейд',
     forever:'Можно играть без питомца, ловушки работают в бою, появились лисы как семейство питомцев. Выживание может идти в ближний бой.' },
   { id:'rogue', n:'Разбойник', roles:['dps'],
     specs:[['Ликвидация','Урон ядами',['dps']],['Бой','Быстрые атаки оружием',['dps']],['Скрытность','Засады, кровотечения',['dps']]],
@@ -1139,11 +1146,11 @@ const CLASSES = [
     raid:'Чистый урон в ближнем бою без баффов на весь рейд',
     forever:'Теперь можно использовать одноручные топоры. Ликвидация строится на ядах, Скрытность на кровотечениях и невидимости.' },
   { id:'priest', n:'Жрец', roles:['heal','dps'],
-    specs:[['Послушание','Лекарь, щиты и поглощение',['heal']],['Свет','Лекарь',['heal']],['Тьма','Урон дальнего боя',['dps']]],
+    specs:[['Послушание','Лекарь, щиты и поглощение',['heal']],['Свет','Лекарь',['heal']],['Темная магия','Урон дальнего боя',['dps']]],
     lvl:'Примерно на 5% медленнее среднего',
     lp:5,
-    raid:'Божественный дух стал базовым. Урон Тьмы и «Пожирающая чума» (откат 24 сек) усилены патчем 15 октября.',
-    forever:'Защита от страха и «Пожирающая чума» доступны с 20 уровня любой расе. У каждой расы по два своих заклинания жреца.' },
+    raid:'Божественный дух стал базовым. Урон Тьмы и «Всепожирающая чума» (откат 24 сек) усилены патчем 15 октября.',
+    forever:'Защита от страха и «Всепожирающая чума» доступны с 20 уровня любой расе. У каждой расы по два своих заклинания жреца.' },
   { id:'shaman', n:'Шаман', roles:['heal','dps','tank?'],
     specs:[['Стихии','Урон дальнего боя',['dps']],['Совершенствование','Урон в ближнем бою. Возможность танковать пока под вопросом',['dps','tank?']],['Исцеление','Лекарь',['heal']]],
     lvl:'Средний темп прокачки',
@@ -1155,7 +1162,7 @@ const CLASSES = [
     lvl:'Самая быстрая прокачка, примерно на 8% быстрее среднего (около 12 часов экономии)',
     lp:-8,
     raid:'Порталы и еда с водой для всей компании',
-    forever:'Огонь получил Hotstreak, Тайная магия переработанный Чародейский взрыв, Лёд Ледяное копьё. Огненно-ледяная стрела доступна с 40 уровня.' },
+    forever:'Огонь получил Путь огня, Тайная магия переработанный Чародейский взрыв, Лёд Ледяное копьё. Огненно-ледяная стрела доступна с 40 уровня.' },
   { id:'warlock', n:'Чернокнижник', roles:['dps'],
     specs:[['Колдовство','Урон от проклятий и порчи',['dps']],['Демонология','Урон через демонов',['dps']],['Разрушение','Прямой урон огнём и тьмой',['dps']]],
     lvl:'Средний темп прокачки',
@@ -1172,7 +1179,7 @@ const CLASSES = [
 const ROLE_RU = { tank:'Танк', heal:'Хил', dps:'Урон', 'tank?':'Танк (под вопросом)' };
 const ri = r => `<svg class="ri" aria-hidden="true"><use href="#i-${r.replace('?','')}"/></svg>`;
 const CCOL = { warrior:'#c79c6e', paladin:'#f58cba', hunter:'#abd473', rogue:'#fff569', priest:'#e8e8e8', shaman:'#2f8cf0', mage:'#40c7eb', warlock:'#8788ee', druid:'#ff7d0a' };
-const BUFF = { warrior:'Боевой крик', paladin:'Благословение королей', hunter:'Аура меткого стрелка', priest:'Божественный дух', shaman:'Тотемы (сила земли, неистовство ветра, языки пламени, грация воздуха)', mage:'Порталы, еда и вода', druid:'Вожак стаи и аура лунного совуха' };
+const BUFF = { warrior:'Боевой крик', paladin:'Благословение королей', hunter:'Аура меткого выстрела', priest:'Божественный дух', shaman:'Тотемы (сила земли, неистовство ветра, языки пламени, грация воздуха)', mage:'Порталы, еда и вода', druid:'Вожак стаи и аура лунного совуха' };
 
 const RACES = [
   { id:'human', n:'Человек', f:'alliance',
@@ -1181,15 +1188,15 @@ const RACES = [
     tip:'Дух идёт в лечение Жрецу Света, так что Человек-жрец хорош для хила.' },
   { id:'dwarf', n:'Дворф', f:'alliance',
     cls:['warrior','paladin','hunter','rogue','priest','shaman*'],
-    rac:[['a','Каменная форма','Иммунитет к кровотечениям, ядам и болезням на 8 сек и снижение физического урона'],['a','Поиск сокровищ','Показывает сундуки рядом'],['p','Ярость земли','+2% к урону крита и силе лечения'],['p','Охотник на крупную дичь','+5% урона по зверям']],
+    rac:[['a','Каменная форма','Иммунитет к кровотечениям, ядам и болезням на 8 сек и снижение физического урона'],['a','Поиск сокровища','Показывает сундуки рядом'],['p','Ярость земли','+2% к урону крита и силе лечения'],['p','Охотник на крупную дичь','+5% урона по зверям']],
     tip:'Каменная форма полезна танку и в PvP.' },
   { id:'nightelf', n:'Ночной эльф', f:'alliance',
     cls:['warrior','hunter','rogue','priest','druid'],
-    rac:[['a','Свет Элуны','+10% к шансу крита на 15 сек'],['a','Слияние с тенью','Невидимость на месте'],['p','Проворство','+1% к уклонению и +2% к скорости бега'],['p','Дух-огонёк','+75% к скорости бега в виде духа']],
+    rac:[['a','Свет Элуны','+10% к шансу крита на 15 сек'],['a','Слиться с тенью','Невидимость на месте'],['p','Расторопность','+1% к уклонению и +2% к скорости бега'],['p','Дух огонька','+75% к скорости бега в виде духа']],
     tip:'Единственная раса Альянса с друидом, если не брать Скайборн.' },
   { id:'gnome', n:'Гном', f:'alliance',
     cls:['warrior','rogue','mage','warlock','priest*'],
-    rac:[['a','Мастер побега','Короткий иммунитет к замедлению и корням'],['a','Эврика!','Следующие 3 способности дешевле и на 10% сильнее'],['p','Пытливый ум','+5% к максимуму маны, ярости или энергии'],['p','Специализация: инженерия','Инженерные устройства срабатывают надёжнее']],
+    rac:[['a','Мастер побега','Короткий иммунитет к замедлению и корням'],['a','Эврика!','Следующие 3 способности дешевле и на 10% сильнее'],['p','Пытливый ум','+5% к максимуму маны, ярости или энергии'],['p','Инженерное дело, специализация','Инженерные устройства срабатывают надёжнее']],
     tip:'Пытливый ум особенно выручает классам на энергии.' },
   { id:'skyA', n:'Скайборн (Альянс)', f:'alliance', paid:true, name:'Высший скайборн',
     cls:['warrior','hunter','rogue','mage','druid'],
@@ -1197,19 +1204,19 @@ const RACES = [
     tip:'Платная раса: набор Heroic Pack от $29.99. Старт в локации Zephras Isle (1–12 уровни).' },
   { id:'orc', n:'Орк', f:'horde',
     cls:['warrior','hunter','rogue','shaman','warlock','mage*'],
-    rac:[['a','Кровавая ярость','+10% к силе атаки и заклинаний на 15 сек'],['a','Разрушение проклятий','Иммунитет к проклятиям и порчам и меньше магического урона на 8 сек'],['p','Дикость','+1% шанс крита'],['p','Закалка','Оглушения короче на 20%']],
-    tip:'Кровавая ярость даёт мощное окно урона.' },
+    rac:[['a','Кровавое неистовство','+10% к силе атаки и заклинаний на 15 сек'],['a','Разрушение проклятий','Иммунитет к проклятиям и порчам и меньше магического урона на 8 сек'],['p','Дикость','+1% шанс крита'],['p','Твердость','Оглушения короче на 20%']],
+    tip:'Кровавое неистовство даёт мощное окно урона.' },
   { id:'undead', n:'Нежить', f:'horde',
     cls:['warrior','rogue','mage','priest','warlock','paladin*'],
-    rac:[['a','Воля Отрекшихся','Снимает очарование, страх и сон'],['a','Каннибализм','Восстанавливает 35% здоровья и маны со временем'],['p','Подводное дыхание','Дыхание под водой дольше'],['p','Прикосновение могилы','5% шанс высосать здоровье при атаке']],
+    rac:[['a','Воля Отрекшихся','Снимает очарование, страх и сон'],['a','Каннибализм','Восстанавливает 35% здоровья и маны со временем'],['p','Подводное дыхание','Дыхание под водой дольше'],['p','Могильное касание','5% шанс высосать здоровье при атаке']],
     tip:'Новая комбинация: паладин у Орды, где раньше этого класса не было.' },
   { id:'tauren', n:'Таурен', f:'horde',
     cls:['warrior','hunter','shaman','druid'],
-    rac:[['a','Топот войны','Оглушает врагов рядом на 2 сек'],['a','Культивация','Выращивает травы, которые можно собрать без травничества'],['p','Бег по равнинам','Скорость растёт, пока вы бежите'],['p','Выносливость','+5% здоровья и +2% к урону крита']],
+    rac:[['a','Громовая поступь','Оглушает врагов рядом на 2 сек'],['a','Проращивание','Выращивает травы, которые можно собрать без травничества'],['p','Бег по равнинам','Скорость растёт, пока вы бежите'],['p','Закалка','+5% здоровья и +2% к урону крита']],
     tip:'Единственная раса Орды с друидом, если не брать Скайборн.' },
   { id:'troll', n:'Тролль', f:'horde',
     cls:['warrior','hunter','rogue','priest','shaman','mage','warlock*'],
-    rac:[['a','Берсерк','+10% к скорости атаки и заклинаний на 10 сек'],['a','Быстрое восстановление','Восстанавливает здоровье со временем'],['p','Убийца зверей','+5% урона по зверям'],['p','Регенерация','Здоровье восстанавливается и в бою']],
+    rac:[['a','Боевое исступление','+10% к скорости атаки и заклинаний на 10 сек'],['a','Быстрая регенерация','Восстанавливает здоровье со временем'],['p','Убийство животных','+5% урона по зверям'],['p','Регенерация','Здоровье восстанавливается и в бою']],
     tip:'Больше всего вариантов классов в Орде: семь.' },
   { id:'skyH', n:'Скайборн (Орда)', f:'horde', paid:true, name:'Скайборн-ветрорез',
     cls:['warrior','hunter','rogue','shaman','druid'],
@@ -1219,25 +1226,25 @@ const RACES = [
 RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
 const CL = Object.fromEntries(CLASSES.map(c => [c.id, c]));
 const RC = Object.fromEntries(RACES.map(r => [r.id, r]));
-const RLEAD = {"human": "Самая многочисленная раса Альянса. Универсальна и сильна в PvP благодаря Воле к жизни.", "dwarf": "Крепкие горняки и стрелки Ironforge. Впервые в Classic у Альянса есть шаманы, и это дворфы.", "nightelf": "Древний народ лесов. Неуловимы: свой способ скрыться, уклонение и быстрый бег.", "gnome": "Изобретатели Gnomeregan. Маленькие, хитрые и с лучшей способностью побега в игре.", "skyA": "Новая раса Forever. Высший орден: эльфы ветра, которые ищут утраченную тайную магию предков.", "orc": "Сердце Орды. Сильнейшие воины и мастера PvP благодаря Кровавой ярости и Закалке.", "undead": "Отрекшиеся: бывшие люди, вырвавшиеся из-под власти Короля-лича. Не боятся страха и сна.", "tauren": "Мирные великаны равнин. Больше всех здоровья и свой массовый оглушающий удар.", "troll": "Племя Чёрного Копья. Больше всех классов в Орде и сильный Берсерк для урона.", "skyH": "Новая раса Forever. Ветрорезы: духовные лидеры скайборнов, близкие к стихиям."}; // race page leads and URL slugs, filled in by build.py
+const RLEAD = {"human": "Самая многочисленная раса Альянса. Универсальна и сильна в PvP благодаря Воле к жизни.", "dwarf": "Крепкие горняки и стрелки Стальгорна. Впервые в Classic у Альянса есть шаманы, и это дворфы.", "nightelf": "Древний народ лесов. Неуловимы: свой способ скрыться, уклонение и быстрый бег.", "gnome": "Изобретатели Гномрегана. Маленькие, хитрые и с лучшей способностью побега в игре.", "skyA": "Новая раса Forever. Высший орден: эльфы ветра, которые ищут утраченную тайную магию предков.", "orc": "Сердце Орды. Сильнейшие воины и мастера PvP благодаря Кровавому неистовству и Твердости.", "undead": "Отрекшиеся: бывшие люди, вырвавшиеся из-под власти Короля-лича. Не боятся страха и сна.", "tauren": "Мирные великаны равнин. Больше всех здоровья и свой массовый оглушающий удар.", "troll": "Племя Чёрного Копья. Больше всех классов в Орде и сильное Боевое исступление для урона.", "skyH": "Новая раса Forever. Ветрорезы: духовные лидеры скайборнов, близкие к стихиям."}; // race page leads and URL slugs, filled in by build.py
 const RSLUG = {"human": "human", "dwarf": "dwarf", "nightelf": "night-elf", "gnome": "gnome", "skyA": "skyborne-alliance", "orc": "orc", "undead": "undead", "tauren": "tauren", "troll": "troll", "skyH": "skyborne-horde"};
 
 const EN = {
-  'Оружие':'Arms','Неистовство':'Fury','Защита':'Protection','Свет':'Holy','Возмездие':'Retribution',
+  'Оружие':'Arms','Неистовство':'Fury','Защита':'Protection','Свет':'Holy','Воздаяние':'Retribution',
   'Повелитель зверей':'Beast Mastery','Стрельба':'Marksmanship','Выживание':'Survival',
   'Ликвидация':'Assassination','Бой':'Combat','Скрытность':'Subtlety',
-  'Послушание':'Discipline','Тьма':'Shadow','Стихии':'Elemental','Совершенствование':'Enhancement','Исцеление':'Restoration',
+  'Послушание':'Discipline','Темная магия':'Shadow','Стихии':'Elemental','Совершенствование':'Enhancement','Исцеление':'Restoration',
   'Тайная магия':'Arcane','Огонь':'Fire','Лёд':'Frost','Колдовство':'Affliction','Демонология':'Demonology','Разрушение':'Destruction',
   'Баланс':'Balance','Сила зверя':'Feral',
   'Воля к жизни':'Will to Survive','Внимательность':'Perception','Беспощадность':'Ruthless','Человеческий дух':'The Human Spirit',
-  'Каменная форма':'Stoneform','Поиск сокровищ':'Find Treasure','Ярость земли':'Earth Fury','Охотник на крупную дичь':'Big Game Hunter',
-  'Свет Элуны':"Elune’s Light",'Слияние с тенью':'Shadowmeld','Проворство':'Quickness','Дух-огонёк':'Wisp Spirit',
-  'Мастер побега':'Escape Artist','Эврика!':'Eureka!','Пытливый ум':'Expansive Mind','Специализация: инженерия':'Engineering Specialization',
+  'Каменная форма':'Stoneform','Поиск сокровища':'Find Treasure','Ярость земли':'Earth Fury','Охотник на крупную дичь':'Big Game Hunter',
+  'Свет Элуны':"Elune’s Light",'Слиться с тенью':'Shadowmeld','Расторопность':'Quickness','Дух огонька':'Wisp Spirit',
+  'Мастер побега':'Escape Artist','Эврика!':'Eureka!','Пытливый ум':'Expansive Mind','Инженерное дело, специализация':'Engineering Specialization',
   'Хождение по воздуху':'Walk on Air','Чтение лей-линий':'Read Ley Line','Благословение ветра':'Wind Blessed','Прозрение стихий':'Elemental Insight','Взгляд в небо':'Skysight',
-  'Кровавая ярость':'Blood Fury','Разрушение проклятий':'Shatter Curse','Дикость':'Savage','Закалка':'Hardiness',
-  'Воля Отрекшихся':'Will of the Forsaken','Каннибализм':'Cannibalize','Подводное дыхание':'Underwater Breathing','Прикосновение могилы':'Touch of the Grave',
-  'Топот войны':'War Stomp','Культивация':'Cultivation','Бег по равнинам':'Plainsrunning','Выносливость':'Endurance',
-  'Берсерк':'Berserking','Быстрое восстановление':'Rapid Regeneration','Убийца зверей':'Beast Slaying','Регенерация':'Regeneration'
+  'Кровавое неистовство':'Blood Fury','Разрушение проклятий':'Shatter Curse','Дикость':'Savage','Твердость':'Hardiness',
+  'Воля Отрекшихся':'Will of the Forsaken','Каннибализм':'Cannibalize','Подводное дыхание':'Underwater Breathing','Могильное касание':'Touch of the Grave',
+  'Громовая поступь':'War Stomp','Проращивание':'Cultivation','Бег по равнинам':'Plainsrunning','Закалка':'Endurance',
+  'Боевое исступление':'Berserking','Быстрая регенерация':'Rapid Regeneration','Убийство животных':'Beast Slaying','Регенерация':'Regeneration'
 };
 RC.skyA.en = 'High Order Skyborne'; RC.skyH.en = 'Windshaper Skyborne';
 const tipBox = h => `<div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>${h}</p></div>`;
@@ -1306,7 +1313,7 @@ renderClassRef();
   if (seen) return;
   const H = {"ru": ["Эта страница есть на русском", "Читать по-русски", "Закрыть"], "en": ["This page is available in English", "Read in English", "Close"], "uk": ["Ця сторінка є українською", "Читати українською", "Закрити"], "de": ["Diese Seite gibt es auch auf Deutsch", "Auf Deutsch lesen", "Schließen"], "fr": ["Cette page existe aussi en français", "Lire en français", "Fermer"], "es": ["Esta página también está en español", "Leer en español", "Cerrar"], "pt": ["Esta página também está em português", "Ler em português", "Fechar"], "it": ["Questa pagina è disponibile anche in italiano", "Leggi in italiano", "Chiudi"], "pl": ["Ta strona jest dostępna po polsku", "Czytaj po polsku", "Zamknij"]}, cur = document.documentElement.lang.split('-')[0];
   const want = (navigator.languages || [navigator.language]).map(x => String(x || '').toLowerCase().split('-')[0]).find(x => x in H);
-  const to = want && want !== cur && document.querySelector(`.langlist a[data-lang="${want}"]`);
+  const to = want && want !== cur && document.querySelector(`.langlist a[data-lang="${want}"]:not([data-list])`);
   if (!to) return;
   const bar = document.createElement('div');
   bar.className = 'langhint'; bar.lang = want; bar.setAttribute('role', 'status');
@@ -1343,7 +1350,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../assets/radio/radio.js" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=1c35e1b1bb" data-root="../" defer></script>
+<script src="../assets/search/search.js?v=b7bf0d71de" data-root="../" defer></script>
 <script src="../assets/me/me.js" data-root="../" data-home="../" data-lang="ru" data-page="classes/" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>

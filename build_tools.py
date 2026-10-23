@@ -15,7 +15,8 @@ assert len(_ru) == len(_en) == len(_uk), (len(_ru), len(_en), len(_uk))
 build.T.update({r: (e, u) for r, e, u in zip(_ru, _en, _uk)})
 
 # Home page data blocks reused as is: classes, roles, colours, buffs, races, dungeons, professions
-HOME_JS = [(r'const CLASSES = \[', r'^const RC = .*$'), (r'const DUNGEONS = \[', r'^\];$'), (r'const PROFS = \[', r'^\];$')]
+HOME_JS = [(r'const CLASSES = \[', r'^const RC = .*$'), (r'const DUNGEONS = \[', r'^\];$'), (r'const PROFS = \[', r'^\];$'),
+           (r'const EN = \{', r'^\};$')]   # EN: English names of specs and racials, for the search
 
 
 def home_data(src):
@@ -28,7 +29,7 @@ def home_data(src):
 
 
 def class_data(lang):
-    """Fields of content/classes.py the compare and search tools need. Ability names: Russian on the Russian page,
+    """Fields of content/classes.py the compare and search tools need. Ability names: the ruRU client name on the Russian page,
     official localized ones on de/fr/es/pt/it (names.json), English elsewhere."""
     cx = {}
     for c in CLASSES:
@@ -36,7 +37,7 @@ def class_data(lang):
             'armor': c['armor'], 'weapons': c['weapons'], 'resource': c['resource'], 'lvl': c['lvl'],
             'group': c['group'], 'pros': c['pros'], 'cons': c['cons'],
             'specs': [{'n': s['n'], 'en': s['en'], 'roles': s['roles'], 'what': s['what'],
-                       'keys': [[ru if lang == 'ru' else langs.name(en, lang), en, d] for ru, en, d in s['keys']]} for s in c['specs']],
+                       'keys': [[(langs.NAMES.get(en, {}).get('ru') or ru) if lang == 'ru' else langs.name(en, lang), en, d] for ru, en, d in s['keys']]} for s in c['specs']],
         }
     return 'const CX = ' + json.dumps(cx, ensure_ascii=False) + ';'
 

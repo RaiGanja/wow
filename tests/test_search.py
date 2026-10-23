@@ -6,10 +6,17 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 from langs import LANGS  # noqa: E402
 
+import build  # noqa: E402
+from content.guides import GUIDES  # noqa: E402
+
+LIMITED = {s['id'] for g in GUIDES for s in g['sections'] if 'langs' in s}   # sections shown in some languages only
+
 problems, sizes = [], {}
 for lang in LANGS:
     rows = json.load(open(os.path.join(ROOT, 'assets', 'search', f'{lang}.json'), encoding='utf-8'))
-    sizes[lang] = len(rows)
+    pre = build.page_dir(lang)
+    sizes[lang] = sum(not build.only_lang(r[2].partition('#')[0][len(pre):]) and r[2].partition('#')[2] not in LIMITED
+                      for r in rows)                             # one-language pages and ru/uk-only sections aside
     kinds = {k: sum(r[3] == k for r in rows) for k in range(4)}
     if kinds[0] < 31 or kinds[2] < 10 or kinds[3] < 35:
         problems.append(f'{lang}: мало записей {kinds}')

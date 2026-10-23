@@ -2,7 +2,7 @@
 Читает уже собранные страницы:
   * страница — заголовок h1, раздел из хлебных крошек, title и description для совпадений;
   * разделы <section id> с h2 — ссылка с якорем, текст раздела для совпадений и выдержки;
-  * вопросы FAQ <details id>; подземелья из DUNGEONS (на ru/en/uk/pl англ. названия, на de/fr/es/pt/it официальные + английское).
+  * вопросы FAQ <details id>; подземелья из DUNGEONS (на en/uk/pl англ. названия, на ru и de/fr/es/pt/it официальные + английское).
 Запись индекса: [заголовок, где (страница/раздел), путь от корня гида, вид 0 страница/1 раздел/2 вопрос/3 подземелье, ключи, текст];
 «где» тоже ищется наравне с ключами: «паладин танк» находит разделы страницы паладина.
 Затем ставит ?v=<хэш> скриптам поиска во всех страницах: Cloudflare держит /wow/assets/ 30 дней, новый адрес обходит кэш.
@@ -49,7 +49,7 @@ Q = r"""(?:'([^']*)'|"([^"]*)")"""
 DG_RX = re.compile(rf"^  \[{Q}, (\d+), (\d+), {Q}", re.M)
 
 
-# русские названия классических подземелий (клиент ruRU) — только ключи поиска на ru/uk, сайт пишет английские
+# русские названия классических подземелий (клиент ruRU) — ключи поиска на ru/uk (uk пишет английские, ru — русские + английское)
 RU_DG = {'Ragefire Chasm': 'Огненная пропасть', 'The Deadmines': 'Мертвые копи', 'Wailing Caverns': 'Пещеры Стенаний',
          'Shadowfang Keep': 'Крепость Темного Клыка', 'Blackfathom Deeps': 'Непроглядная Пучина', 'The Stockade': 'Тюрьма Штормграда',
          'Gnomeregan': 'Гномреган', 'Razorfen Kraul': 'Лабиринты Иглошкурых', 'Razorfen Downs': 'Курганы Иглошкурых',
@@ -76,7 +76,7 @@ def dungeons(lang):
 
 def index(lang, meta):
     items = []
-    for path in meta:
+    for path in (p for p in meta if lang in meta[p]):
         html = open(os.path.join(HERE, page_dir(lang, path), 'index.html'), encoding='utf-8').read()
         cr = seo.crumbs(path, lang)
         items += page_entries(html, path, lang, cr[-2][0] if cr else '')

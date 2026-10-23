@@ -104,7 +104,7 @@ def main():
     for name, art, title, lead in cards():
         if only and name.split('/')[-1] not in only:
             continue
-        for lang in pick:
+        for lang in (l for l in pick if l in title):        # a one-language guide has one card
             out = os.path.join(ROOT, 'assets', f'{name}-{lang}.jpg')
             shoot(html(art, title[lang], lead[lang], lang), out)
         print(name, 'ok')

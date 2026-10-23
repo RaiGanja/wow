@@ -255,7 +255,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
     <p class="lead">Поиск по всему гиду, рамки группы и рейда как в игре и сравнение классов и рас. Состав хранится в ссылке, её можно кинуть в Discord.</p>
     <div class="frame sbox" id="search" role="search">
       <label class="sfield"><svg class="ico" aria-hidden="true"><use href="#i-search"/></svg><input id="q" type="search" placeholder="Класс, способность, раса, подземелье или уровень" autocomplete="off" spellcheck="false" aria-label="Поиск по гиду" aria-controls="sres" aria-describedby="sstat"><kbd aria-hidden="true">/</kbd></label>
-      <div class="shint" id="shint"><span>Например:</span><button type="button">Паладин</button><button type="button">Shadow</button><button type="button">Танк</button><button type="button">Скайборн</button><button type="button">Onyxia</button><button type="button">24</button></div>
+      <div class="shint" id="shint"><span>Например:</span><button type="button">Паладин</button><button type="button" lang="en">Shadow</button><button type="button">Танк</button><button type="button">Скайборн</button><button type="button" lang="en">Onyxia</button><button type="button">24</button></div>
       <p class="small" id="sstat" aria-live="polite"></p>
       <ul class="sres" id="sres"></ul>
       <button type="button" class="btn ghost smore" id="smore" hidden></button>
@@ -604,7 +604,7 @@ CLASSES.forEach(c => {
 });
 RACES.forEach(r => {
   add('race', raceName(r), FAC[r.f] + (r.paid ? ', платная' : '') + ' · ' + Object.keys(r.can).map(c => CL[c].n).join(', '), raceUrl(r.id), r.n);
-  r.rac.forEach(x => add('rac', x[1], `${raceName(r)} · ${x[2]}`, raceUrl(r.id)));
+  r.rac.forEach(x => add('rac', x[1], `${raceName(r)} · ${x[2]}`, raceUrl(r.id), EN[x[1]]));
 });
 DUNGEONS.forEach(d => add('dung', d[0], `${d[1]}–${d[2]} · ${d[3]}`, HOME + 'guides/dungeons/#list'));
 PROFS.forEach(p => add('prof', p[1], `Лагерь: ${p[3]}, ${p[4]}`, HOME + 'guides/professions/#camp'));

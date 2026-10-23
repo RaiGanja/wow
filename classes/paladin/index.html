@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Паладин в WoW Forever: гайд — Свет, Защита и Возмездие</title>
-<meta name="description" content="Паладин в WoW Forever: Свет, Защита и Возмездие — ключевые способности, расы, польза в группе, плюсы, минусы и что нового.">
+<title>Паладин в WoW Forever: гайд — Свет, Защита и Воздаяние</title>
+<meta name="description" content="Паладин в WoW Forever: Свет, Защита и Воздаяние — ключевые способности, расы, польза в группе, плюсы, минусы и что нового.">
 <meta name="theme-color" content="#060708">
 <link rel="alternate" hreflang="ru" href="https://gabella.site/wow/classes/paladin/">
 <link rel="alternate" hreflang="en" href="https://gabella.site/wow/en/classes/paladin/">
@@ -29,13 +29,13 @@
 <meta property="og:locale:alternate" content="it_IT">
 <meta property="og:locale:alternate" content="pl_PL">
 <meta property="og:site_name" content="Gabella">
-<meta property="og:title" content="Паладин в WoW Forever: гайд — Свет, Защита и Возмездие">
-<meta property="og:description" content="Паладин в WoW Forever: Свет, Защита и Возмездие — ключевые способности, расы, польза в группе, плюсы, минусы и что нового.">
+<meta property="og:title" content="Паладин в WoW Forever: гайд — Свет, Защита и Воздаяние">
+<meta property="og:description" content="Паладин в WoW Forever: Свет, Защита и Воздаяние — ключевые способности, расы, польза в группе, плюсы, минусы и что нового.">
 <meta property="og:url" content="https://gabella.site/wow/classes/paladin/">
 <meta property="og:image" content="https://gabella.site/wow/assets/og/paladin.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Паладин в WoW Forever: гайд — Свет, Защита и Возмездие">
+<meta property="og:image:alt" content="Паладин в WoW Forever: гайд — Свет, Защита и Воздаяние">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="../../assets/icons/favicon-64.png">
 <link rel="preload" href="../../assets/fonts/bona-nova-sc-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
@@ -153,6 +153,13 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .langhint button { flex: none; width: 36px; height: 36px; display: grid; place-items: center; border: 0; border-radius: 7px; background: transparent; color: inherit; cursor: pointer; }
 .langhint button:hover { background: color-mix(in srgb, currentColor 10%, transparent); }
 @media print { .langhint { display: none; } }
+.gamehint { display: flex; align-items: center; gap: 12px; margin: 0 0 16px; padding: 6px 6px 6px 16px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); font-size: .9rem; }
+.gamehint[hidden] { display: none; }
+.gamehint span { flex: 1; min-width: 0; }
+.gamehint a { color: var(--gold-2); font-weight: 600; white-space: nowrap; }
+.gamehint button { flex: none; width: 36px; height: 36px; display: grid; place-items: center; border: 0; border-radius: 7px; background: transparent; color: inherit; cursor: pointer; }
+.gbtns { display: flex; flex-wrap: wrap; gap: 10px; }
+.gbtns .btn { white-space: normal; text-align: center; }
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: .92rem; }
@@ -969,7 +976,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=1c35e1b1bb" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=b7bf0d71de" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/me/me.css" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://gabella.site/wow/"},{"@type":"ListItem","position":2,"name":"Классы","item":"https://gabella.site/wow/classes/"},{"@type":"ListItem","position":3,"name":"Паладин","item":"https://gabella.site/wow/classes/paladin/"}]}</script>
 </head>
@@ -1032,8 +1039,8 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <section class="block wrap" id="specs">
   <div class="sec-head"><h2>Специализации</h2></div>
   <div>
-    <div class="stabs" role="tablist" aria-label="Специализации"><button type="button" role="tab" id="tab-0" aria-controls="spec-0" aria-selected="true" tabindex="0">Свет<small>Лекарь</small></button><button type="button" role="tab" id="tab-1" aria-controls="spec-1" aria-selected="false" tabindex="-1">Защита<small>Танк</small></button><button type="button" role="tab" id="tab-2" aria-controls="spec-2" aria-selected="false" tabindex="-1">Возмездие<small>Урон</small></button></div>
-    <div class="spanel" role="tabpanel" id="spec-0" aria-labelledby="tab-0" tabindex="0"><div class="about"><p class="what"><svg class="ri" aria-hidden="true"><use href="#i-heal"/></svg>Лекарь</p><p class="style">Чередует Шок небес, Вспышку Света и Свет небес, а не жмёт одно заклинание.</p><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>Мана больше не держится только на критах.</p></div></div><ul class="keys" aria-label="Ключевые способности"><li><div><b>Шок небес</b><span class="en" lang="en">Holy Shock</span></div><span class="d">Мгновенное лечение или урон</span></li><li><div><b>Благоговение</b><span class="en" lang="en">Reverence</span></div><span class="d">Новое: часть восполнения маны от духа</span></li><li><div><b>Освящённая земля</b><span class="en" lang="en">Consecrated Ground</span></div><span class="d">Новый талант ветки Света</span></li><li><div><b>Божественная точность</b><span class="en" lang="en">Divine Precision</span></div><span class="d">Новый талант ветки Света</span></li><li><div><b>Сила Света</b><span class="en" lang="en">Holy Power</span></div><span class="d">Шанс крита лечения</span></li></ul></div><div class="spanel" role="tabpanel" id="spec-1" aria-labelledby="tab-1" tabindex="0" hidden><div class="about"><p class="what"><svg class="ri" aria-hidden="true"><use href="#i-tank"/></svg>Танк</p><p class="style">Танк со щитом, который растёт от силы заклинаний.</p><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>По бета-спискам среди сильнейших танков.</p></div></div><ul class="keys" aria-label="Ключевые способности"><li><div><b>Печать ярости</b><span class="en" lang="en">Seal of Fury</span></div><span class="d">Новая печать: Правосудие провоцирует врага</span></li><li><div><b>Оплот храмовника</b><span class="en" lang="en">Templar’s Bulwark</span></div><span class="d">Сильная защитная способность</span></li><li><div><b>Щит небес</b><span class="en" lang="en">Holy Shield</span></div><span class="d">Шанс блока 30% (было 20%)</span></li><li><div><b>Укрепление</b><span class="en" lang="en">Redoubt</span></div><span class="d">Блок 4–20% (было 6–30%)</span></li><li><div><b>Расплата</b><span class="en" lang="en">Reckoning</span></div><span class="d">Ответные удары</span></li></ul></div><div class="spanel" role="tabpanel" id="spec-2" aria-labelledby="tab-2" tabindex="0" hidden><div class="about"><p class="what"><svg class="ri" aria-hidden="true"><use href="#i-dps"/></svg>Урон в ближнем бою</p><p class="style">Большие удары медленным двуручным оружием.</p><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>Просело после патча 15 октября.</p></div></div><ul class="keys" aria-label="Ключевые способности"><li><div><b>Печать повиновения</b><span class="en" lang="en">Seal of Command</span></div><span class="d">Крупные криты</span></li><li><div><b>Освящение</b><span class="en" lang="en">Consecration</span></div><span class="d">Надёжный урон по площади</span></li><li><div><b>Поборник Света</b><span class="en" lang="en">Champion of the Light</span></div><span class="d">Интеллект в силу заклинаний, урезано до 10–30%</span></li><li><div><b>Изгиб Света</b><span class="en" lang="en">Twist of Light</span></div><span class="d">Вершина ветки: как будто две печати сразу</span></li><li><div><b>Освящённое правосудие</b><span class="en" lang="en">Sanctified Judgement</span></div><span class="d">Усиливает Правосудие</span></li></ul></div>
+    <div class="stabs" role="tablist" aria-label="Специализации"><button type="button" role="tab" id="tab-0" aria-controls="spec-0" aria-selected="true" tabindex="0">Свет<small>Лекарь</small></button><button type="button" role="tab" id="tab-1" aria-controls="spec-1" aria-selected="false" tabindex="-1">Защита<small>Танк</small></button><button type="button" role="tab" id="tab-2" aria-controls="spec-2" aria-selected="false" tabindex="-1">Воздаяние<small>Урон</small></button></div>
+    <div class="spanel" role="tabpanel" id="spec-0" aria-labelledby="tab-0" tabindex="0"><div class="about"><p class="what"><svg class="ri" aria-hidden="true"><use href="#i-heal"/></svg>Лекарь</p><p class="style">Чередует Шок небес, Вспышку Света и Свет небес, а не жмёт одно заклинание.</p><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>Мана больше не держится только на критах.</p></div></div><ul class="keys" aria-label="Ключевые способности"><li><div><b>Шок небес</b><span class="en" lang="en">Holy Shock</span></div><span class="d">Мгновенное лечение или урон</span></li><li><div><b>Благоговение</b><span class="en" lang="en">Reverence</span></div><span class="d">Новое: часть восполнения маны от духа</span></li><li><div><b>Освященная земля</b><span class="en" lang="en">Consecrated Ground</span></div><span class="d">Новый талант ветки Света</span></li><li><div><b>Божественная точность</b><span class="en" lang="en">Divine Precision</span></div><span class="d">Новый талант ветки Света</span></li><li><div><b>Священная сила</b><span class="en" lang="en">Holy Power</span></div><span class="d">Шанс крита лечения</span></li></ul></div><div class="spanel" role="tabpanel" id="spec-1" aria-labelledby="tab-1" tabindex="0" hidden><div class="about"><p class="what"><svg class="ri" aria-hidden="true"><use href="#i-tank"/></svg>Танк</p><p class="style">Танк со щитом, который растёт от силы заклинаний.</p><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>По бета-спискам среди сильнейших танков.</p></div></div><ul class="keys" aria-label="Ключевые способности"><li><div><b>Печать ярости</b><span class="en" lang="en">Seal of Fury</span></div><span class="d">Новая печать: Правосудие провоцирует врага</span></li><li><div><b>Оплот храмовника</b><span class="en" lang="en">Templar’s Bulwark</span></div><span class="d">Сильная защитная способность</span></li><li><div><b>Щит небес</b><span class="en" lang="en">Holy Shield</span></div><span class="d">Шанс блока 30% (было 20%)</span></li><li><div><b>Оплот</b><span class="en" lang="en">Redoubt</span></div><span class="d">Блок 4–20% (было 6–30%)</span></li><li><div><b>Расплата</b><span class="en" lang="en">Reckoning</span></div><span class="d">Ответные удары</span></li></ul></div><div class="spanel" role="tabpanel" id="spec-2" aria-labelledby="tab-2" tabindex="0" hidden><div class="about"><p class="what"><svg class="ri" aria-hidden="true"><use href="#i-dps"/></svg>Урон в ближнем бою</p><p class="style">Большие удары медленным двуручным оружием.</p><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>Просело после патча 15 октября.</p></div></div><ul class="keys" aria-label="Ключевые способности"><li><div><b>Печать повиновения</b><span class="en" lang="en">Seal of Command</span></div><span class="d">Крупные криты</span></li><li><div><b>Освящение</b><span class="en" lang="en">Consecration</span></div><span class="d">Надёжный урон по площади</span></li><li><div><b>Воитель Света</b><span class="en" lang="en">Champion of the Light</span></div><span class="d">Интеллект в силу заклинаний, урезано до 10–30%</span></li><li><div><b>Изгиб Света</b><span class="en" lang="en">Twist of Light</span></div><span class="d">Вершина ветки: как будто две печати сразу</span></li><li><div><b>Освящённое правосудие</b><span class="en" lang="en">Sanctified Judgement</span></div><span class="d">Усиливает Правосудие</span></li></ul></div>
   </div>
 </section>
 
@@ -1063,7 +1070,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   <div class="sec-head"><h2>Плюсы и минусы</h2></div>
   <div class="pc">
     <div class="panel"><h3>Сильные стороны</h3><ul class="pm plus"><li>Все три роли на одном персонаже</li><li>Сильные баффы для группы</li><li>Латы и крепкий персонаж</li></ul></div>
-    <div class="panel"><h3>Слабые стороны</h3><ul class="pm minus"><li>Нет рывка, замедления и ускорения</li><li>Мало контроля, кроме Молота правосудия</li><li>Возмездие просело после патча</li></ul></div>
+    <div class="panel"><h3>Слабые стороны</h3><ul class="pm minus"><li>Нет рывка, замедления и ускорения</li><li>Мало контроля, кроме Молота правосудия</li><li>Воздаяние просело после патча</li></ul></div>
   </div>
 </section>
 
@@ -1171,7 +1178,7 @@ dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.
   if (seen) return;
   const H = {"ru": ["Эта страница есть на русском", "Читать по-русски", "Закрыть"], "en": ["This page is available in English", "Read in English", "Close"], "uk": ["Ця сторінка є українською", "Читати українською", "Закрити"], "de": ["Diese Seite gibt es auch auf Deutsch", "Auf Deutsch lesen", "Schließen"], "fr": ["Cette page existe aussi en français", "Lire en français", "Fermer"], "es": ["Esta página también está en español", "Leer en español", "Cerrar"], "pt": ["Esta página também está em português", "Ler em português", "Fechar"], "it": ["Questa pagina è disponibile anche in italiano", "Leggi in italiano", "Chiudi"], "pl": ["Ta strona jest dostępna po polsku", "Czytaj po polsku", "Zamknij"]}, cur = document.documentElement.lang.split('-')[0];
   const want = (navigator.languages || [navigator.language]).map(x => String(x || '').toLowerCase().split('-')[0]).find(x => x in H);
-  const to = want && want !== cur && document.querySelector(`.langlist a[data-lang="${want}"]`);
+  const to = want && want !== cur && document.querySelector(`.langlist a[data-lang="${want}"]:not([data-list])`);
   if (!to) return;
   const bar = document.createElement('div');
   bar.className = 'langhint'; bar.lang = want; bar.setAttribute('role', 'status');
@@ -1208,7 +1215,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=1c35e1b1bb" data-root="../../" defer></script>
+<script src="../../assets/search/search.js?v=b7bf0d71de" data-root="../../" defer></script>
 <script src="../../assets/me/me.js" data-root="../../" data-home="../../" data-lang="ru" data-page="classes/paladin/" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
