@@ -38,6 +38,37 @@ class Align(unittest.TestCase):
         res = align_tod.check(self.ref, aligned, self.mask)
         self.assertGreater(max(res.values()), 2, res)
 
+    def shifted(self, box, dx):
+        bad = self.relit(self.ref).copy()
+        x, y, w, h = box
+        bad[y:y + h, x + dx:x + w + dx] = bad[y:y + h, x:x + w]
+        return bad
+
+    def test_near_threshold_shifts_rejected(self):
+        cases = {'lower waterfall R': (458, 532, 106, 122), 'upper waterfall R': (916, 110, 56, 200),
+                 'banner G': (1286, 298, 90, 74, -4), 'banner G 2': (948, 328, 124, 64)}
+        for name, box in cases.items():
+            dx = box[4] if len(box) > 4 else 4     # the banner touches the right edge: shift it left
+            aligned, _ = align_tod.align(self.ref, self.shifted(box[:4], dx))
+            res = align_tod.check(self.ref, aligned, self.mask)
+            self.assertGreater(max(res.values()), 2, (name, res))
+
+    def test_small_noise_passes(self):
+        ok, buf = cv2.imencode('.jpg', self.relit(self.ref), [cv2.IMWRITE_JPEG_QUALITY, 80])
+        aligned, _ = align_tod.align(self.ref, cv2.imdecode(buf, cv2.IMREAD_COLOR))
+        res = align_tod.check(self.ref, aligned, self.mask)
+        self.assertTrue(all(v <= 2 for v in res.values()), res)
+        bad = self.shifted((458, 532, 106, 122), 1)
+        aligned, _ = align_tod.align(self.ref, bad)
+        res = align_tod.check(self.ref, aligned, self.mask)
+        self.assertTrue(all(v <= 2 for v in res.values()), res)
+
+    def test_check_is_idempotent(self):
+        aligned, _ = align_tod.align(self.ref, self.shifted((458, 532, 106, 122), 12))
+        r1 = align_tod.check(self.ref, aligned, self.mask)
+        r2 = align_tod.check(self.ref, aligned, self.mask)
+        self.assertEqual(r1, r2)
+
 
 if __name__ == '__main__':
     unittest.main()

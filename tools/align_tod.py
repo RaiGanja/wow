@@ -54,7 +54,7 @@ def check(ref, aligned, mask):
             for x in range(0, W - 64, 32):
                 if z[y:y + 64, x:x + 64].mean() < .25 or a[y:y + 64, x:x + 64].std() < .02:
                     continue
-                (dx, dy), resp = cv2.phaseCorrelate(a[y:y + 64, x:x + 64], b[y:y + 64, x:x + 64], win)
+                (dx, dy), resp = cv2.phaseCorrelate(a[y:y + 64, x:x + 64].copy(), b[y:y + 64, x:x + 64].copy(), win)  # copies: phaseCorrelate windows its inputs in place
                 if resp > .15:
                     worst = max(worst, float(np.hypot(dx, dy)))
         out[name] = round(worst, 2)
