@@ -281,3 +281,19 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
   .gl-pv { position: sticky; top: var(--top, 56px); z-index: 5; padding: 8px; background: var(--bg); box-shadow: 0 0 0 1px var(--pline); }
   .gl-pv svg { width: 96px; height: 96px; }
 }
+/* guilds tab of the roster, mini crest on player cards */
+.gl-card { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 14px; align-items: center; padding: 14px 16px; color: var(--fg); text-decoration: none; border-radius: 10px; min-width: 0; }
+.gl-card:hover { border-color: var(--gold); }
+.gl-card:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.gl-card-b { display: grid; gap: 3px; min-width: 0; }
+.gl-card-b > b { font-family: var(--font-display); font-weight: var(--display-w); font-size: 1.2rem; line-height: 1.15; overflow-wrap: anywhere; }
+.gl-card-b small { color: var(--muted); font-size: .85rem; }
+.gl-motto { color: var(--ink-2); font-size: .88rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gl-bar { display: flex; height: 4px; margin-top: 4px; gap: 1px; border-radius: 2px; overflow: hidden; }
+.gl-bar i { display: block; min-width: 2px; }
+.gl-card-n { display: grid; justify-items: end; text-align: right; }
+.gl-card-n b { font-size: 1.5rem; font-weight: 600; color: var(--gold-2); font-variant-numeric: lining-nums; line-height: 1.1; }
+.gl-card-n small { color: var(--muted); font-size: .78rem; }
+.pcard.gl-has .pic { grid-row: 1 / 4; }
+.pcard .gl-pg { grid-column: 2; position: relative; z-index: 2; min-width: 0; }
+.rlist.list .pcard .gl-pg { display: none; }

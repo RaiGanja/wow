@@ -223,7 +223,9 @@
     const name = c ? c.name : u.nick || T.ui.noChar || '';
     const go = (href, text) => `<a role="menuitem" href="${HOME}${href}">${esc(text)}</a>`;
     const items = c
-      ? [go('profile/', T.ui.profile), go('u/#' + u.id, T.ui.myPage), go('profile/#chars', T.ui.chars), go('profile/#look', T.ui.look), go('profile/#account', T.ui.account)]
+      ? [go('profile/', T.ui.profile), go('u/#' + u.id, T.ui.myPage), go('profile/#chars', T.ui.chars)]
+        .concat(c.guild_id ? [go('g/#' + c.guild_id, ((T.gl || {}).my_guild || '') + (state.guild_requests > 0 ? ' (' + state.guild_requests + ')' : ''))] : [])
+        .concat([go('profile/#look', T.ui.look), go('profile/#account', T.ui.account)])
       : [go('profile/#chars', T.ui.newChar), go('profile/#account', T.ui.account)];
     menu = document.createElement('div');
     menu.className = 'me-menu';
@@ -361,6 +363,24 @@
       };
     });
   }
+
+  // ---------- guild accepted: a quiet note when a character lands in a guild it was not in before ----------
+  // The first visit after this shipped only remembers (no toasts); a guild the person leads (just created) is not announced.
+  onMe(m => {
+    if (!m || !m.characters) return;
+    const KEY = 'gabella-guilds', first = ls.get(KEY) === null, seen = (ls.get(KEY) || '').split(',').filter(Boolean);
+    const now = [...new Set(m.characters.filter(c => c.guild_id).map(c => String(c.guild_id)))];
+    ls.set(KEY, now.join(','));
+    if (first) return;
+    now.filter(g => !seen.includes(g)).slice(0, 1).forEach(g => {
+      const gg = (m.guilds || {})[g];
+      if (!gg || m.characters.some(c => String(c.guild_id) === g && c.guild_rank === 'leader')) return;
+      texts().then(T => {
+        const tpl = (T.gl || {}).joined_toast;
+        if (tpl) toast({ kind: 'note', text: tpl.replace('%g', gg.name || '#' + g) });
+      });
+    });
+  });
 
   window.GabellaMe = { api, me, track, toast, onMe, took, forget, logged, texts, face, API, sound: on => (on === undefined ? ls.get(SOUND) !== '0' : ls.set(SOUND, on ? null : '0')) };
 

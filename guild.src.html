@@ -173,7 +173,7 @@ ready(M => {
         <dl class="gl-stats">
           <div><dt title="${esc(tl('power_hint'))}">${esc(tl('power'))}</dt><dd>${num(Math.round(g.power))}</dd></div>
           <div><dt>${esc(tl('banners'))}</dt><dd>${num(g.banners)}${g.streak ? `<small>${esc(tl('streak'))} ${num(g.streak)}</small>` : ''}</dd></div>
-          <div><dt>${esc(tl('members'))}</dt><dd>${esc(fill(tl('size_n'), { n: num(g.size) }))}</dd></div>
+          <div><dt>${esc(tl('members'))}</dt><dd>${esc(sizeText(g.size))}</dd></div>
         </dl>
         ${g.rated ? '' : `<p class="small">${esc(tl('unrated'))}</p>`}
         <p class="small">${esc(fill(tl('created'), { d: dateOf(g.created_at) }))}</p></div>
@@ -253,7 +253,7 @@ ready(M => {
   function drawMembers() {
     const list = g.members.filter(m => (!flt.cls || m.class === flt.cls) && (!flt.rank || m.rank === flt.rank))
       .sort((a, b) => RANKS.indexOf(a.rank) - RANKS.indexOf(b.rank));
-    $('#glCount').textContent = fill(tl('size_n'), { n: num(list.length) });
+    $('#glCount').textContent = sizeText(list.length);
     $('#gl-list').innerHTML = list.slice(0, shown).map(mcard).join('');
     const more = $('#glMore');
     more.hidden = list.length <= shown;

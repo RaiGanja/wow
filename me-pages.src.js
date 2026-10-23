@@ -44,6 +44,8 @@ function crestSvg(c, px, o = {}) {
     + `<use href="${ROOT}assets/me/crest/charges.svg#c-${esc(c.i)}" x="24" y="20" width="52" height="52" fill="${P[c.ic]}"/>${tex}</g>${edge}</svg>`;
 }
 const DOWN = ['Сервер профилей не отвечает', 'Попробуйте через пару минут. Остальной гид работает как обычно.', 'Повторить'];   // same words as the player page
+/** Member count with a singular form for exactly one. */
+const sizeText = n => fill(tl(n === 1 ? 'size_1' : 'size_n'), { n: num(n) });
 const guildName = g => g.name || fill(tl('hidden'), { n: g.id });
 const crestMini = g => `<a class="gl-mini" href="${guildUrl(g.id)}">${crestSvg(g.crest, 24, { label: guildName(g) })}<span>${esc(guildName(g))}</span></a>`;
 const dateOf = t => new Date(t).toLocaleDateString(HL);
@@ -94,11 +96,11 @@ function pcard(p, o) {
   const name = o.link === false ? `<b${qc}>${esc(c.name)}</b>` : `<a${qc} href="${playerUrl(p.id)}">${esc(c.name)}</a>`;
   const glory = o.glory && p.glory ? `<small class="g-gl">${esc(tg('glory_n', { n: p.glory }))}</small>` : '';
   const alts = (p.alts || []).length ? `<div class="alts">Твинки: ${p.alts.map(a => `<i style="--ac:${cls(a.class).color}">${esc(a.name)}</i>`).join(', ')}</div>` : '';
-  return `<article class="pcard${o.cls ? ' ' + o.cls : ''}" style="--cc:${cls(c.class).color}"${o.attrs || ''}>
+  return `<article class="pcard${p.guild ? ' gl-has' : ''}${o.cls ? ' ' + o.cls : ''}" style="--cc:${cls(c.class).color}"${o.attrs || ''}>
     <span class="pic">${ring(p.frame || p.rank, face(c, p.portrait))}${lvBadge(c)}</span>
     <span class="fx ${f}">${esc(o.tag || FACN[f])}</span>
     <div class="nm">${p.title ? `<span class="ttl">${esc(titleName(p.title))}</span>` : ''}${name}${glory}</div>
-    <span class="sub">${subline(c)}</span>
+    <span class="sub">${subline(c)}</span>${p.guild ? `<span class="gl-pg">${crestMini(p.guild)}</span>` : ''}
     <div class="meta">${meta.join('')}</div>${alts}${p.member || p.nick ? `<div class="nick">${p.member ? `<span class="team"><img src="${ROOT}assets/brand/mark.webp" alt="" width="14" height="14">Gabella Team</span>` : ''}${p.nick ? `<span>${esc(p.nick)}</span>` : ''}</div>` : ''}${o.after || ''}
   </article>`;
 }
