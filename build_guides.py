@@ -23,7 +23,7 @@ MORE_SITE = {'ru': 'Ещё на сайте', 'en': 'More on the site', 'uk': 'Щ
 SITE_TILES = [
     {'t': HUB['title'], 'href': 'guides/', 'art': 'hero_campfire',
      'd': {'ru': 'Прокачка, подземелья, профессии и ответы', 'en': 'Leveling, dungeons, professions and answers', 'uk': 'Прокачка, підземелля, професії та відповіді'}},
-    {'t': {'ru': 'Инструменты', 'en': 'Tools', 'uk': 'Інструменти'}, 'href': 'tools/', 'art': 'paladin',
+    {'t': {'ru': 'Инструменты', 'en': 'Tools', 'uk': 'Інструменти'}, 'href': 'tools/', 'art': 'rogue',
      'd': {'ru': 'Рамки, сравнение, поиск', 'en': 'Frames, compare, search', 'uk': 'Рамки, порівняння, пошук'}},
 ]
 # Wide hero art; everything else is a class/race portrait cut at 360/600/896
@@ -142,8 +142,14 @@ def guide_tiles(guides):
     return [{'t': x['title'], 'd': x['tile'], 'href': f'guides/{x["slug"]}/', 'art': x['art']} for x in guides]
 
 
+def section_tiles():
+    return [{'t': x['title'], 'd': x['tile'], 'href': x['path'], 'art': x['art']} for x in HUBS]
+
+
 def hub_body(lang, root):
-    return '', f'<section class="frame gsec" id="all">{render_block("tiles", guide_tiles(GUIDES), lang, root)}</section>'
+    """Guides first, then the classes/ and races/ sections and the tools page: two full rows of four."""
+    tiles = guide_tiles(GUIDES) + section_tiles() + SITE_TILES[1:]
+    return '', f'<section class="frame gsec" id="all">{render_block("tiles", tiles, lang, root)}</section>'
 
 
 JS = {}   # slug -> JS живой части; наполняется в задачах 3, 5, 7, 8, 9
@@ -267,7 +273,7 @@ def build_page(g, lang, tpl, base_css, sprite, src):
         toc = ''                                                 # one section: no contents column
     section = 'path' in g                                         # classes/, races/: not a guide
     if section:
-        others = [{'t': x['title'], 'd': x['tile'], 'href': x['path'], 'art': x['art']} for x in HUBS if x is not g] + SITE_TILES
+        others = [x for x in section_tiles() if x['href'] != g['path']] + SITE_TILES
         more = tile_links(others, lang, root)
     else:
         others = [x for x in GUIDES if x['slug'] != g['slug']] if g['slug'] else []
