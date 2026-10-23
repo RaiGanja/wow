@@ -1147,18 +1147,18 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 .s-step { position: relative; flex: none; width: 48px; display: grid; justify-items: center; align-content: start; gap: 4px; }
 .s-step::before { content: ""; position: absolute; top: 19px; left: -50%; right: 50%; height: 2px; background: var(--pline); }
 .s-step:first-child::before { display: none; }
-.s-step.got::before { background: var(--gold); }
+.s-step.s-got::before { background: var(--gold); }
 .s-dot { position: relative; z-index: 1; display: grid; place-items: center; height: 38px; }
 .s-pt { display: grid; place-items: center; width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--line-2); background: var(--panel-2); overflow: hidden; }
-.s-pt.rw { width: 38px; height: 38px; border-radius: 8px; border-width: 1px; color: var(--gold-2); font-weight: 700; }
+.s-pt.s-rw { width: 38px; height: 38px; border-radius: 8px; border-width: 1px; color: var(--gold-2); font-weight: 700; }
 .s-pt img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .s-pt .me-ring { --s: 34px; margin: 0; }
-.s-step:not(.got) .s-pt.rw { opacity: .6; }
-.s-step.got .s-pt { background: var(--gold); border-color: var(--gold); }
-.s-step.got .s-pt.rw { background: var(--panel-2); }
-.s-step.next .s-pt { border-color: var(--gold-2); }
+.s-step:not(.s-got) .s-pt.s-rw { opacity: .6; }
+.s-step.s-got .s-pt { background: var(--gold); border-color: var(--gold); }
+.s-step.s-got .s-pt.s-rw { background: var(--panel-2); }
+.s-step.s-now .s-pt { border-color: var(--gold-2); }
 .s-step i { font-style: normal; font-size: .74rem; color: var(--muted); font-variant-numeric: lining-nums tabular-nums; }
-.s-step.got i, .s-step.next i { color: var(--gold-2); }
+.s-step.s-got i, .s-step.s-now i { color: var(--gold-2); }
 .g-colors { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(150px, 100%), 1fr)); gap: 8px; }
 .g-sw { display: grid; gap: 2px; min-width: 0; padding: 12px 14px; text-align: left; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); color: var(--fg); font: inherit; cursor: pointer; }
 .g-sw b { font-size: 1.05rem; overflow-wrap: anywhere; }
@@ -1494,12 +1494,12 @@ function taskLine(task, texts, o) {
   const w = GD.prog.weekly[task.id] || {}, act = TASK_ACT[w.key || task.key];
   let btn = '';
   if (!task.done && act) {
-    const label = esc(tg(act[0], null, texts));
-    if (['radio', 'card'].includes(act[1])) btn = `<button type="button" class="btn ghost g-go" data-act="${act[1]}">${label}</button>`;
-    else if (act[1] === 'lfg') btn = `<button type="button" class="btn ghost g-go" data-act="lfgOn">${label}</button>`;
+    const label = esc(tg(act[0], null, texts)), aria = ` aria-label="${esc(tg(act[0], null, texts) + ': ' + taskName(task, texts, o))}"`;
+    if (['radio', 'card'].includes(act[1])) btn = `<button type="button" class="btn ghost g-go" data-act="${act[1]}"${aria}>${label}</button>`;
+    else if (act[1] === 'lfg') btn = `<button type="button" class="btn ghost g-go" data-act="lfgOn"${aria}>${label}</button>`;
     else {
       const sub = w.item && ['guide', 'class', 'race'].includes(w.key) ? w.item + '/' : '';
-      btn = `<a class="btn ghost g-go" href="${HOME}${act[1]}${act[1].endsWith('/') ? sub : ''}">${label}</a>`;
+      btn = `<a class="btn ghost g-go" href="${HOME}${act[1]}${act[1].endsWith('/') ? sub : ''}"${aria}>${label}</a>`;
     }
   }
   const pct = task.goal ? Math.round(100 * Math.min(task.value, task.goal) / task.goal) : 0;
@@ -1854,7 +1854,7 @@ function showcaseBox() {
     const id = list[i];
     if (!id) { cells.push(`<li class="g-cell empty">${esc(tg('showcase_empty'))}</li>`); continue; }
     const n = esc(showName(id)), btn = (a, glyph, key, off) => `<button type="button" data-sh="${a}" data-i="${i}" aria-label="${esc(tg(key))}: ${n}"${off ? ' disabled' : ''}>${glyph}</button>`;
-    cells.push(`<li class="g-cell" data-i="${i}"${fine ? ' draggable="true"' : ''}><img src="${showIcon(id)}" alt="" width="46" height="46" loading="lazy"><b>${n}</b>
+    cells.push(`<li class="g-cell" data-i="${i}"${fine ? ' draggable="true"' : ''}><img src="${esc(showIcon(id))}" alt=""" width="46" height="46" loading="lazy"><b>${n}</b>
       <span class="g-ctl">${btn('up', '↑', 'showcase_up', i === 0)}${btn('down', '↓', 'showcase_down', i === list.length - 1)}${btn('del', '×', 'showcase_del')}</span></li>`);
   }
   const owned = m.achievements.map(a => a.id).concat(m.unlocks.filter(x => x.startsWith('badge:'))).filter(id => !list.includes(id));
@@ -1870,6 +1870,7 @@ function moveShowcase(from, to) {
   to = Math.max(0, Math.min(to, list.length - 1));
   if (to === from) return;
   list.splice(to, 0, list.splice(from, 1)[0]);
+  if (document.activeElement && document.activeElement.dataset && document.activeElement.dataset.sh) focusNext = `[data-sh="${document.activeElement.dataset.sh}"][data-i="${to}"]`;
   return saveShowcase(list);
 }
 
@@ -1935,7 +1936,7 @@ function weekHtml() {
   if (!w) return '';   // before the first week
   const swap = w.swap_left > 0;
   const rows = w.tasks.map(t => taskLine(t, T.g, {
-    itemName, extra: !t.done && swap ? `<button type="button" class="btn ghost g-swap" data-act="swap" data-task="${esc(t.id)}">${esc(tg('week_swap'))}</button>` : '',
+    itemName, extra: !t.done && swap ? `<button type="button" class="btn ghost g-swap" data-act="swap" data-task="${esc(t.id)}" aria-label="${esc(tg('week_swap') + ': ' + taskName(t, T.g, { itemName }))}">${esc(tg('week_swap'))}</button>` : '',
   })).join('');
   return `<section aria-labelledby="wkH"><div class="sec-h"><h2 id="wkH">${esc(tg('week'))}</h2></div>
     <div class="frame box"><p class="g-meta"><span>${esc(tg('week_ends', { d: until(w.ends_at) }))}</span><span>${esc(tg('week_streak', { n: w.streak }))}</span></p>
@@ -1958,8 +1959,8 @@ function seasonHtml() {
   const pct = s.next ? Math.round(100 * Math.max(0, s.stars - prev) / Math.max(1, s.next - prev)) : 100;
   const steps = track.map(([n, stars, rew]) => {
     const got = n <= s.step, label = [tg('ch_step', { n }), rew ? rewardName(rew) : '', tg('season_stars', { n: stars })].filter(Boolean).join(' · ');
-    return `<li class="s-step${got ? ' got' : ''}${rew ? ' rw' : ''}${n === s.step + 1 ? ' next' : ''}"${n === s.step + 1 ? ' aria-current="step"' : ''}>
-      <span class="s-dot" role="img" aria-label="${esc(label)}" title="${esc(label)}"><span class="s-pt${rew ? ' rw' : ''}">${rew ? rewardThumb(rew) : ''}</span></span><i>${n}</i></li>`;
+    return `<li class="s-step${got ? ' s-got' : ''}${rew ? ' s-rw' : ''}${n === s.step + 1 ? ' s-now' : ''}"${n === s.step + 1 ? ' aria-current="step"' : ''}>
+      <span class="s-dot" role="img" aria-label="${esc(label)}" title="${esc(label)}"><span class="s-pt${rew ? ' s-rw' : ''}">${rew ? rewardThumb(rew) : ''}</span></span><i>${n}</i></li>`;
   }).join('');
   return `<section aria-labelledby="seH"><div class="sec-h"><h2 id="seH">${esc(tg('season'))}</h2></div><div class="frame box s-sec">
     <div class="s-head"><b>${esc(tg('season_stars', { n: s.stars }))}</b><span>${esc(tg('season_step', { n: s.step }))}</span>
@@ -1996,7 +1997,7 @@ function secReports() {
   return head + reps.map(g => {
     const now = g.field === 'motto' ? g.motto : g.field === 'name' ? g.name : null;
     const key = `data-t="${esc(g.target)}" data-f="${esc(g.field)}"`;
-    return `<div class="g-rep"><h3><a href="${playerUrl(g.target)}">${esc(g.name || g.target)}</a> · ${esc(tg(REP_FIELD[g.field] || 'report_other'))} · ${esc(tg('reports_n', { n: g.n }))}</h3>
+    return `<div class="g-rep"><h3><a href="${esc(playerUrl(g.target))}">${esc(g.name || g.target)}</a> · ${esc(tg(REP_FIELD[g.field] || 'report_other'))} · ${esc(tg('reports_n', { n: g.n }))}</h3>
       <p>${esc(g.reasons.join('; '))}</p>${now ? `<p>${esc(tg('rep_now', { x: now }))}</p>` : ''}
       <div class="row"><button type="button" class="btn ghost" data-act="repKeep" ${key}>${esc(tg('rep_keep'))}</button>${g.field === 'other' ? '' : `<button type="button" class="btn ghost" data-act="repHide" ${key}>${esc(tg('rep_hide'))}</button>`}<button type="button" class="btn danger" data-act="repBan" ${key}>${esc(tg('rep_ban'))}</button></div></div>`;
   }).join('') + '<p class="msg" id="repNote" role="alert"></p>';
@@ -2023,7 +2024,31 @@ function secAccount() {
       <div class="row"><button type="button" class="btn ghost" data-act="logout">Log out</button><button type="button" class="btn danger" data-act="delete">Delete profile and all data</button></div></div>`;
 }
 
+/** Selector of the control that has focus inside the cabinet (stable data keys), to find its twin after a redraw. */
+function focusKey() {
+  const el = document.activeElement;
+  if (!el || !el.closest || !el.closest('#view')) return '';
+  const d = el.dataset || {};
+  if (d.sh) return `[data-sh="${d.sh}"][data-i="${d.i}"]`;
+  if (d.ncolor) return `[data-ncolor="${d.ncolor}"]`;
+  if (d.act && d.task) return `[data-act="${d.act}"][data-task="${d.task}"]`;
+  if (d.act) return `[data-act="${d.act}"]`;
+  if (d.frame) return `[data-frame="${d.frame}"]`;
+  if (d.bg) return `[data-bg="${d.bg}"]`;
+  return el.id ? '#' + el.id : '';
+}
+let focusNext = '';   // set by an action that moves its control (↑/↓ follow the item)
+function restoreFocus(sel) {
+  if (!sel) return;
+  let t = $(sel);
+  if (t && t.disabled) t = $$('button:not(:disabled)', t.closest('.g-cell') || document)[0] || null;
+  if (!t && sel.startsWith('[data-sh=')) { const cells = $$('.g-cell[data-i]'); t = cells.length ? $('[data-sh="del"]', cells[Math.min(+/data-i="(\d+)"/.exec(sel)[1], cells.length - 1)]) : $('#shPick'); }
+  if (!t && sel.includes('data-act="swap"')) t = $('[data-act="swap"]');
+  if (t) t.focus({ preventScroll: true });
+}
 function cabinet() {
+  const keep = focusNext || focusKey();
+  focusNext = '';
   parkForm();
   const c = mainOf(), p = asPlayer(c);
   const ach = m.achievements.length, all = GD.ach.length;
@@ -2034,8 +2059,9 @@ function cabinet() {
     <div class="lay"><nav class="frame pnav" aria-label="Account area">${nav}<hr><a class="pub" href="${playerUrl(m.user.id)}">My page ↗</a></nav><section class="sec" id="sec">${body}</section></div>`;
   reveal = false;
   const cur = $('.s-track');   // the season track opens at the step in progress
-  const at = cur && ($('.s-step.next', cur) || $$('.s-step.got', cur).pop());
+  const at = cur && ($('.s-step.s-now', cur) || $$('.s-step.s-got', cur).pop());
   if (at) cur.scrollLeft = Math.max(0, at.offsetLeft - cur.clientWidth / 2);
+  restoreFocus(keep);
   if (sec === 'chronicle' && !chron.loaded) loadChron(false);
   if (sec === 'reports' && reps === null) loadReps();
   const mn = $('#lMotto');

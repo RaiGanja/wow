@@ -1306,12 +1306,12 @@ function taskLine(task, texts, o) {
   const w = GD.prog.weekly[task.id] || {}, act = TASK_ACT[w.key || task.key];
   let btn = '';
   if (!task.done && act) {
-    const label = esc(tg(act[0], null, texts));
-    if (['radio', 'card'].includes(act[1])) btn = `<button type="button" class="btn ghost g-go" data-act="${act[1]}">${label}</button>`;
-    else if (act[1] === 'lfg') btn = `<button type="button" class="btn ghost g-go" data-act="lfgOn">${label}</button>`;
+    const label = esc(tg(act[0], null, texts)), aria = ` aria-label="${esc(tg(act[0], null, texts) + ': ' + taskName(task, texts, o))}"`;
+    if (['radio', 'card'].includes(act[1])) btn = `<button type="button" class="btn ghost g-go" data-act="${act[1]}"${aria}>${label}</button>`;
+    else if (act[1] === 'lfg') btn = `<button type="button" class="btn ghost g-go" data-act="lfgOn"${aria}>${label}</button>`;
     else {
       const sub = w.item && ['guide', 'class', 'race'].includes(w.key) ? w.item + '/' : '';
-      btn = `<a class="btn ghost g-go" href="${HOME}${act[1]}${act[1].endsWith('/') ? sub : ''}">${label}</a>`;
+      btn = `<a class="btn ghost g-go" href="${HOME}${act[1]}${act[1].endsWith('/') ? sub : ''}"${aria}>${label}</a>`;
     }
   }
   const pct = task.goal ? Math.round(100 * Math.min(task.value, task.goal) / task.goal) : 0;
