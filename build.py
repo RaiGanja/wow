@@ -315,6 +315,15 @@ addEventListener('beforeinstallprompt', e => {
 """
 
 
+TEXT_EXT = ('.js', '.css', '.json', '.webmanifest', '.svg', '.txt', '.html', '.xml', '.vtt', '.md')
+
+
+def read_norm(path):
+    """File bytes with CRLF turned into LF for text files, so hashes are the same on LF and CRLF checkouts (autocrlf)."""
+    b = open(path, 'rb').read()
+    return b.replace(b'\r\n', b'\n') if path.endswith(TEXT_EXT) else b
+
+
 def sw_version():
     """sw.js VERSION = short hash of assets/ (without the news feed, the worker fetches it fresh) and the manifests."""
     h = hashlib.sha1()
@@ -322,7 +331,7 @@ def sw_version():
     files += [os.path.join(HERE, f'manifest-{l}.webmanifest') for l in LANGS]
     for f in sorted(files):
         h.update(os.path.relpath(f, HERE).replace(os.sep, '/').encode())
-        h.update(open(f, 'rb').read())
+        h.update(read_norm(f))
     sw = os.path.join(HERE, 'sw.js')
     assert '<<<<<<<' not in open(sw, encoding='utf-8').read(), 'sw.js: unresolved merge conflict'
     js = re.sub(r"const VERSION = '[^']*';", f"const VERSION = '{h.hexdigest()[:10]}';", open(sw, encoding='utf-8').read(), count=1)
@@ -397,26 +406,33 @@ def me_version():
     print(f'me: {n} pages, v={v}', file=sys.stderr)
 
 
-def living_version():
-    """?v=<hash> on assets/living/living.js (art masks included; the script passes the version on to them), like me_version."""
-    d = os.path.join(HERE, 'assets', 'living')
+def script_version(folder, names):
+    """?v=<hash of assets/<folder>/*> on the given files of that folder in every built page, like me_version."""
+    d = os.path.join(HERE, 'assets', folder)
     h = hashlib.sha1()
     for f in sorted(os.listdir(d)):
-        b = open(os.path.join(d, f), 'rb').read()
-        if f.endswith(('.js', '.css')):
-            b = b.replace(b'\r\n', b'\n')   # same hash on LF and CRLF checkouts (autocrlf)
-        h.update(b)
+        h.update(read_norm(os.path.join(d, f)))
     v = h.hexdigest()[:10]
+    rx = re.compile(rf'(assets/{folder}/(?:{"|".join(re.escape(n) for n in names)}))(?:\?v=\w+)?')
     for root, dirs, files in os.walk(HERE):
         dirs[:] = [x for x in dirs if not x.startswith('.') and x not in ('assets', 'content', 'i18n', 'tests', 'node_modules')]
         for f in files:
             if f.endswith('.html') and not f.endswith('.src.html'):
                 p = os.path.join(root, f)
                 html = open(p, encoding='utf-8').read()
-                new = re.sub(r'(assets/living/living\.js)(?:\?v=\w+)?', rf'\1?v={v}', html)
+                new = rx.sub(rf'\1?v={v}', html)
                 if new != html:
                     open(p, 'w', encoding='utf-8', newline='\n').write(new)
-    print(f'living: v={v}', file=sys.stderr)
+    print(f'{folder}: v={v}', file=sys.stderr)
+
+
+def living_version():
+    """?v=<hash> on assets/living/living.js (art masks included; the script passes the version on to them)."""
+    script_version('living', ['living.js'])
+
+
+def tod_version():
+    script_version('tod', ['tod.js', 'tod.css'])
 
 
 def pwa(html, lang, root):
@@ -894,6 +910,7 @@ def main():
         search.main()
         me_version()
         living_version()
+        tod_version()
         sw_version()
 
 

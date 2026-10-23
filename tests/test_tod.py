@@ -54,5 +54,12 @@ class Markup(unittest.TestCase):
             self.assertNotIn('hero_dawn-1920.avif 1920w', html.split('<noscript>')[0].split('</head>')[1], page)
 
 
+class Wiring(unittest.TestCase):
+    def test_home_loads_tod_script_with_version(self):
+        html = open(os.path.join(ROOT, 'index.html'), encoding='utf-8').read()
+        self.assertRegex(html, r'assets/tod/tod\.js\?v=\w{10}')
+        self.assertRegex(html, r'assets/tod/tod\.css\?v=\w{10}')
+
+
 if __name__ == '__main__':
     unittest.main()
