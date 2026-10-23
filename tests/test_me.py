@@ -1,5 +1,5 @@
 """Профили: правила достижений и игровые данные (assets/game.json). Запуск: python tests/test_me.py"""
-import json, os, sys
+import json, os, re, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 sys.path.insert(0, os.path.join(ROOT, 'tools'))
@@ -53,6 +53,61 @@ def test_backgrounds_have_art():
 def test_exported_file_is_fresh():
     with open(os.path.join(ROOT, 'assets', 'game.json'), encoding='utf-8') as f:
         assert json.load(f) == json.loads(json.dumps(G)), 'run python tools/export_game.py'
+
+
+def built_pages():
+    out = []
+    for d, dirs, fs in os.walk(ROOT):
+        dirs[:] = [x for x in dirs if not x.startswith(('.', 'mock-', 'node_modules'))]
+        out += [os.path.join(d, f) for f in fs if f.endswith('.html') and not f.endswith('.src.html')]
+    return out
+
+
+def test_me_script_on_every_page_after_radio():
+    pages = built_pages()
+    assert len(pages) >= 270, len(pages)
+    for p in pages:
+        html = open(p, encoding='utf-8').read()
+        if 'assets/radio/radio.js' not in html:      # tools/index.html of the repo root is a redirect stub
+            continue
+        assert html.count('assets/me/me.js') == 1 and html.count('assets/me/me.css') == 1, p
+        assert html.index('assets/radio/radio.js') < html.index('assets/me/me.js'), p
+        m = re.search(r'<script src="[^"]*assets/me/me\.js" data-root="([^"]*)" data-home="([^"]*)" data-lang="(\w+)" data-page="([^"]*)" defer>', html)
+        assert m, p
+        page = m.group(4)
+        name = os.path.relpath(p, ROOT).replace(os.sep, '/')
+        if name.endswith('404.html'):
+            assert page == '404', name
+        else:
+            assert name.endswith(page + 'index.html'), (name, page)
+
+
+def test_texts_for_every_language():
+    from langs import LANGS
+    ach = {a['id'] for a in G['achievements']}
+    for lang in LANGS:
+        with open(os.path.join(ROOT, 'assets', 'me', f'i18n-{lang}.json'), encoding='utf-8') as f:
+            t = json.load(f)
+        assert set(t['ach']) == ach, lang
+        assert set(t['ranks']) == {r['id'] for r in G['ranks']}, lang
+        assert set(t['frames']) == {f['id'] for f in G['frames']}, lang
+        assert all(t['ui'][k] for k in ('got', 'rankUp', 'profile', 'login', 'lvlAsk', 'update', 'notNow')), lang
+        assert '{n}' in t['ui']['lvlAsk'] and '{name}' in t['ui']['lvlAsk'], lang
+        for a in G['achievements']:
+            assert len(t['ach'][a['id']]) == (3 if a['secret'] else 2), (lang, a['id'])
+            if lang != 'ru':
+                assert not re.search('[А-Яа-яЁё]', ' '.join(t['ach'][a['id']])) or lang == 'uk', (lang, a['id'])
+
+
+def test_radio_tells_me_js():
+    js = open(os.path.join(ROOT, 'assets', 'radio', 'radio.js'), encoding='utf-8').read()
+    for ev in ("emit('on')", "emit('minute')", "emit('station', id)", "emit('sleep')"):
+        assert ev in js, ev
+    me = open(os.path.join(ROOT, 'assets', 'me', 'me.js'), encoding='utf-8').read()
+    for key in ('radio_on', 'radio_min', 'sleep_timer', "'station'", 'party5', 'raid40', 'share_team', 'compare3', 'play_page'):
+        assert key in me, key
+    for egg in G['sets']['egg']:
+        assert f"'{egg}'" in me, egg
 
 
 if __name__ == '__main__':

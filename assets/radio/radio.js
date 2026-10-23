@@ -93,6 +93,8 @@
   const stationById = id => data.stations.find(s => s.id === id);
   const art = s => ROOT + 'assets/art/' + s.art + '.webp';
   const now = () => byFile[st.cur];
+  // what happens, for assets/me/me.js (achievements): on, station <id>, sleep, and a minute of music actually playing
+  const emit = (type, id) => dispatchEvent(new CustomEvent('gabella:radio', { detail: { type, id } }));
 
   // ---------- what plays next ----------
   function airPart(d = new Date()) {
@@ -148,7 +150,7 @@
     if (!cur().fid) prime(cur(), st.cur, st.t);
     if (ctx && ctx.state === 'suspended') ctx.resume();
     vol(); meta();
-    return cur().play().then(() => { failed = false; st.on = true; save(); render(); }, () => { st.on = false; render(); });
+    return cur().play().then(() => { failed = false; st.on = true; save(); render(); emit('on'); }, () => { st.on = false; render(); });
   }
   function pause() { endFade(); cur().pause(); st.on = false; save(); render(); }
   // move to track f; with sec > 0 and music on, the two tracks cross-fade. Without volume control (iPhone) one element
@@ -182,6 +184,7 @@
     from.pause(); from.g = 0; to.g = 1; vol();
   }
   setInterval(() => { tick(); sleepTick(); }, 250);
+  setInterval(() => { if (st.on && !cur().paused) emit('minute'); }, 60000);
 
   function advance(d, sec) {
     if (d < 0) {
@@ -195,6 +198,7 @@
   function tune(id) {
     if (st.mode === id && st.cur) return st.on ? pause() : play();
     st.mode = id; st.next = null;
+    if (id !== 'air') emit('station', id);
     const wasOn = st.on;
     if (st.cur) st.hist = st.hist.concat(st.cur).slice(-HISTORY);
     switchTo(nextFile(), FADE_TUNE);
@@ -229,7 +233,7 @@
   }
 
   // ---------- sleep timer: fades music and sounds out over the last 30 s, then stops them ----------
-  function setSleep(min) { st.sleep = min ? Date.now() + min * 60000 : 0; st.sleepMin = min; sleepK = 1; vol(); if (ambOut) ambOut.gain.value = 1; save(); render(); }
+  function setSleep(min) { st.sleep = min ? Date.now() + min * 60000 : 0; st.sleepMin = min; sleepK = 1; vol(); if (ambOut) ambOut.gain.value = 1; save(); render(); if (min) emit('sleep'); }
   let lastLeft = '';
   function sleepTick() {
     if (!st.sleep) return;

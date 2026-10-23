@@ -203,7 +203,7 @@ def localize(html, lang, here):
         html = html.replace('content="ru_RU"', f'content="{LOCALE[lang]}"')
     if lang not in ('ru', 'uk'):                                  # Latin-script pages: preload the fonts they draw first
         html = html.replace('-cyrillic.woff2" as="font"', '-latin.woff2" as="font"')
-    return pwa(html, lang, rel(here, ''))
+    return me(pwa(html, lang, rel(here, '')), lang, here)
 
 
 # ---------- installable site (PWA): manifest, icons, service worker sw.js ----------
@@ -277,6 +277,16 @@ def radio(html, lang, root):
     html = html.replace('<button class="iconbtn themebtn"', RADIO_BTN.replace('@@L@@', RADIO[lang]) + '<button class="iconbtn themebtn"', 1)
     head = (f'<link rel="stylesheet" href="{root}assets/radio/radio.css" media="print" onload="this.media=\'all\'">\n</head>')
     js = f'<script src="{root}assets/radio/radio.js" data-root="{root}" defer></script>\n</body>'
+    return html.replace('</head>', head, 1).replace('</body>', js, 1)
+
+
+def me(html, lang, here):
+    """Profiles (assets/me/, build_me.py): after the radio, so its events are heard. data-page is the path under the language
+    home (guides/leveling/, tools/, play/; the 404 page swaps in 404) — me.js finds the page it is on without parsing URLs."""
+    root, home = rel(here, ''), rel(here, page_dir(lang))
+    page = here[len(page_dir(lang)):]
+    head = f'<link rel="stylesheet" href="{root}assets/me/me.css" media="print" onload="this.media=\'all\'">\n</head>'
+    js = f'<script src="{root}assets/me/me.js" data-root="{root}" data-home="{home}" data-lang="{lang}" data-page="{page}" defer></script>\n</body>'
     return html.replace('</head>', head, 1).replace('</body>', js, 1)
 
 
@@ -594,6 +604,11 @@ def main():
     if uniq and not listing:
         sys.exit(1)
 
+    sys.path.insert(0, os.path.join(HERE, 'tools'))
+    import export_game  # game rules for profiles -> assets/game.json (the API copies it with npm run sync)
+    export_game.main()
+    import build_me  # profile texts -> assets/me/i18n-<lang>.json
+    build_me.main()
     import build_tools  # the tools page has its own builder and translations
     build_tools.main()
     import build_guides  # guides: own builder, texts already in three languages
