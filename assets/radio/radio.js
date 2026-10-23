@@ -1,8 +1,10 @@
-/* Radio of the guide: the header button .radiobtn (put in by build.py pwa()) opens a panel with 4 stations
-   (tracks from stations.json, made by tools/make_radio.py) and ambient sounds synthesised with Web Audio
-   (campfire, rain, wind). State lives in localStorage, so the music goes on after moving to another page:
-   it restarts at the saved second if the page changed less than a minute ago; when the browser blocks
-   autoplay, the first click or key press on the new page resumes it. */
+/* Radio of the guide: the header button .radiobtn (put in by build.py pwa()) opens a panel with "On air" (stations picked by
+   the listener's local hour), 8 stations (tracks from stations.json, made by tools/make_radio.py), a sleep timer and ambient
+   sounds synthesised with Web Audio (campfire, rain, wind). Tracks come from a shuffled bag per station, so none repeats until
+   all have played; the next track loads ahead and fades in over the last seconds of the current one (two audio elements;
+   where the browser does not let a page set the volume, as on iPhone, they just follow each other). State lives in
+   localStorage, so the music goes on after moving to another page: it restarts at the saved second if the page changed less
+   than a minute ago; when the browser blocks autoplay, the first click or key press on the new page resumes it. */
 (() => {
   const SCRIPT = document.currentScript, ROOT = SCRIPT.dataset.root || './';
   const btn = document.querySelector('.radiobtn');
@@ -11,15 +13,22 @@
   const L = {
     ru: { title: 'Радио Gabella', play: 'Играть', pause: 'Пауза', prev: 'Предыдущий трек', next: 'Следующий трек', close: 'Закрыть',
       vol: 'Громкость музыки', seek: 'Позиция в треке', amb: 'Звуки вокруг', fire: 'Костёр', rain: 'Дождь', wind: 'Ветер',
-      ambVol: 'Громкость: ', music: 'Музыка', err: 'Трек не загрузился — проверьте сеть', pick: 'Выберите станцию' },
+      ambVol: 'Громкость: ', music: 'Музыка', err: 'Трек не загрузился — проверьте сеть', pick: 'Выберите станцию',
+      air: 'Эфир', airNow: 'По времени суток · сейчас ', stations: 'Станции', sleep: 'Таймер сна', off: 'Выкл', min: ' мин',
+      left: 'выключится через ', sleepSet: 'Выключить музыку через ' },
     en: { title: 'Gabella Radio', play: 'Play', pause: 'Pause', prev: 'Previous track', next: 'Next track', close: 'Close',
       vol: 'Music volume', seek: 'Track position', amb: 'Sounds around', fire: 'Campfire', rain: 'Rain', wind: 'Wind',
-      ambVol: 'Volume: ', music: 'Music', err: 'The track did not load — check your connection', pick: 'Pick a station' },
+      ambVol: 'Volume: ', music: 'Music', err: 'The track did not load — check your connection', pick: 'Pick a station',
+      air: 'On air', airNow: 'By the time of day · now ', stations: 'Stations', sleep: 'Sleep timer', off: 'Off', min: ' min',
+      left: 'stops in ', sleepSet: 'Stop the music in ' },
     uk: { title: 'Радіо Gabella', play: 'Грати', pause: 'Пауза', prev: 'Попередній трек', next: 'Наступний трек', close: 'Закрити',
       vol: 'Гучність музики', seek: 'Позиція в треку', amb: 'Звуки довкола', fire: 'Багаття', rain: 'Дощ', wind: 'Вітер',
-      ambVol: 'Гучність: ', music: 'Музика', err: 'Трек не завантажився — перевірте мережу', pick: 'Оберіть станцію' },
+      ambVol: 'Гучність: ', music: 'Музика', err: 'Трек не завантажився — перевірте мережу', pick: 'Оберіть станцію',
+      air: 'Ефір', airNow: 'За часом доби · зараз ', stations: 'Станції', sleep: 'Таймер сну', off: 'Вимк', min: ' хв',
+      left: 'вимкнеться за ', sleepSet: 'Вимкнути музику за ' },
   }[LANG];
   const KEY = 'gabella-radio', RESUME_MS = 60000;
+  const FADE = 5, FADE_TUNE = 1.5, PRELOAD = 30, HISTORY = 30, SLEEP = [15, 30, 60, 90], SLEEP_FADE = 30000;
   const ICO = {
     play: '<path d="M8 5.5v13l11-6.5z" fill="currentColor" stroke="none"/>',
     pause: '<path d="M8 5h3v14H8zM13 5h3v14h-3z" fill="currentColor" stroke="none"/>',
@@ -28,82 +37,195 @@
     fire: '<path d="M12 3c.5 3.5 4.5 5 4.5 10a4.5 4.5 0 0 1-9 0c0-2.5 1.5-3.5 2.2-5.3.8 1.3 1.3 2.3 1.3 3.3 1-1.5 1.5-4.5 1-8z"/><path d="M5 21h14"/>',
     rain: '<path d="M7 15a4 4 0 0 1 .5-8 5.5 5.5 0 0 1 10.5 1.5A3.3 3.3 0 0 1 17.5 15z"/><path d="M8.5 18l-1 2.5M12.5 18l-1 2.5M16.5 18l-1 2.5"/>',
     wind: '<path d="M3 9h11a3 3 0 1 0-3-3M3 15h15a3 3 0 1 1-3 3M3 12h7"/>',
+    air: '<circle cx="12" cy="12" r="2"/><path d="M8.5 8.5a5 5 0 0 0 0 7M15.5 8.5a5 5 0 0 1 0 7M5.6 5.6a9 9 0 0 0 0 12.8M18.4 5.6a9 9 0 0 1 0 12.8"/>',
+    moon: '<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>',
   };
   const svg = (k, cls = 'ico') => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICO[k]}</svg>`;
   const fmt = s => (s = Math.max(0, Math.floor(s || 0)), Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'));
+  const clamp = v => Math.min(1, Math.max(0, v));
 
   // ---------- state ----------
-  const st = Object.assign({ s: null, i: 0, t: 0, on: false, vol: 0.6, amb: { fire: 0, rain: 0, wind: 0 }, ts: 0 }, read());
+  // mode: 'air' or a station id; cur: file of the track playing; next: file loaded ahead; bags: tracks left per station / part of day
+  const st = Object.assign({ mode: null, cur: null, next: null, t: 0, on: false, vol: 0.6, amb: { fire: 0, rain: 0, wind: 0 },
+    bags: {}, hist: [], sleep: 0, sleepMin: 0, ts: 0 }, read());
+  if ('i' in st) { delete st.s; delete st.i; st.on = false; }   // state of the first radio (4 stations, no bags)
   function read() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } }
   function save() { st.ts = Date.now(); try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) { /* private mode */ } }
 
-  let data = null;
-  const getData = () => data ? Promise.resolve(data) : fetch(ROOT + 'assets/radio/stations.json').then(r => r.json()).then(d => (data = d));
-  const station = () => data && data.stations.find(s => s.id === st.s);
-  const track = () => station() && station().tracks[st.i];
+  let data = null, byFile = {}, base = '';
+  const getData = () => data ? Promise.resolve(data) : fetch(ROOT + 'assets/radio/stations.json').then(r => r.json()).then(d => {
+    data = d;
+    base = d.media ? d.media.replace(/\/?$/, '/') : ROOT + 'assets/radio/';
+    d.stations.forEach(s => s.tracks.forEach(t => { byFile[t.f] = { t, s }; }));
+    return d;
+  });
+  const stationById = id => data.stations.find(s => s.id === id);
   const art = s => ROOT + 'assets/art/' + s.art + '.webp';
+  const now = () => byFile[st.cur];
 
-  // ---------- music ----------
-  const audio = new Audio();
-  audio.preload = 'none';
-  audio.volume = st.vol;
-  let failed = false;
+  // ---------- what plays next ----------
+  function airPart(d = new Date()) {
+    const h = d.getHours();
+    return data.air.find(p => p.from < p.to ? h >= p.from && h < p.to : h >= p.from || h < p.to) || data.air[0];
+  }
+  const poolKey = () => st.mode === 'air' ? 'air:' + airPart().id : st.mode;
+  function pool() {
+    const ids = st.mode === 'air' ? airPart().stations : [st.mode];
+    return ids.map(stationById).filter(Boolean).flatMap(s => s.tracks.map(t => t.f));
+  }
+  function shuffle(a) {
+    for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+    return a;
+  }
+  function nextFile() {
+    const files = pool();
+    if (st.next && files.includes(st.next) && st.next !== st.cur) { const f = st.next; st.next = null; return f; }
+    st.next = null;
+    const key = poolKey();
+    let bag = (st.bags[key] || []).filter(f => files.includes(f) && f !== st.cur);
+    if (!bag.length) {
+      bag = shuffle(files.filter(f => f !== st.cur));
+      if (!bag.length) bag = files.slice();
+    }
+    const f = bag.shift();
+    st.bags[key] = bag;
+    return f;
+  }
 
-  function load(at = 0) {
-    const t = track();
-    if (!t) return;
-    audio.src = ROOT + 'assets/radio/' + t.f;
-    if (at) audio.addEventListener('loadedmetadata', () => { audio.currentTime = Math.min(at, (audio.duration || at + 1) - 1); }, { once: true });
-    failed = false;
-    meta();
+  // ---------- music: two elements, the next track fades in on the second one ----------
+  const A = [0, 1].map(() => {
+    const el = new Audio();
+    el.preload = 'none'; el.g = 1; el.fid = null;
+    el.addEventListener('timeupdate', () => el === cur() ? onTime() : tick());
+    el.addEventListener('ended', () => { if (el === cur()) advance(1, 0); });
+    el.addEventListener('error', () => { if (el !== cur() || !el.fid) return; failed = true; st.on = false; render(); });
+    return el;
+  });
+  let ci = 0, failed = false, fading = null, sleepK = 1;
+  const cur = () => A[ci], alt = () => A[1 - ci];
+  const canFade = (() => { const a = new Audio(); a.volume = 0.5; return Math.abs(a.volume - 0.5) < 0.01; })();
+  function vol() { A.forEach(el => { el.volume = clamp(st.vol * el.g * sleepK); }); }
+
+  function prime(el, f, at = 0) {
+    if (el.fid !== f) {
+      el.fid = f; el.src = base + f; el.preload = 'auto';
+      if (at) el.addEventListener('loadedmetadata', () => { el.currentTime = Math.min(at, (el.duration || at + 1) - 1); }, { once: true });
+    } else if (at) el.currentTime = at;
   }
   function play() {
-    if (!audio.src) load(st.t);
+    if (!st.cur) { if (!st.mode) st.mode = 'air'; st.cur = nextFile(); }
+    if (!cur().fid) prime(cur(), st.cur, st.t);
     if (ctx && ctx.state === 'suspended') ctx.resume();
-    return audio.play().then(() => { st.on = true; save(); render(); }, () => { st.on = false; render(); });
+    vol(); meta();
+    return cur().play().then(() => { failed = false; st.on = true; save(); render(); }, () => { st.on = false; render(); });
   }
-  function pause() { audio.pause(); st.on = false; save(); render(); }
-  function step(d) {
-    const s = station();
-    if (!s) return;
-    st.i = (st.i + d + s.tracks.length) % s.tracks.length; st.t = 0;
-    load(); play();
+  function pause() { endFade(); cur().pause(); st.on = false; save(); render(); }
+  // move to track f; with sec > 0 and music on, the two tracks cross-fade. Without volume control (iPhone) one element
+  // just changes its track: a second element started outside a tap may be refused there.
+  function switchTo(f, sec) {
+    endFade();
+    const from = cur(), wasOn = st.on, fade = wasOn && sec > 0 && canFade && !from.paused;
+    const to = canFade ? alt() : from;
+    prime(to, f);
+    if (to.currentTime) to.currentTime = 0;
+    if (to !== from) { ci = 1 - ci; if (!fade) from.pause(); }
+    st.cur = f; st.t = 0; failed = false;
+    to.g = fade ? 0 : 1; vol(); meta();
+    if (wasOn) {
+      to.play().then(() => { st.on = true; save(); render(); }, () => { st.on = false; render(); });
+      if (fade) fading = { from, to, t0: performance.now(), ms: sec * 1000 };
+    }
+    save(); render();
+  }
+  function tick() {   // fade step: from timers, and from timeupdate, which also runs in background tabs
+    if (!fading) return;
+    const k = clamp((performance.now() - fading.t0) / fading.ms);
+    fading.to.g = Math.sin(k * Math.PI / 2); fading.from.g = Math.cos(k * Math.PI / 2);
+    vol();
+    if (k >= 1) endFade();
+  }
+  function endFade() {
+    if (!fading) return;
+    const { from, to } = fading;
+    fading = null;
+    from.pause(); from.g = 0; to.g = 1; vol();
+  }
+  setInterval(() => { tick(); sleepTick(); }, 250);
+
+  function advance(d, sec) {
+    if (d < 0) {
+      const f = st.hist.pop();
+      if (cur().currentTime > 5 || !f) { cur().currentTime = 0; return; }
+      return switchTo(f, 0);
+    }
+    if (st.cur) st.hist = st.hist.concat(st.cur).slice(-HISTORY);
+    switchTo(nextFile(), sec);
   }
   function tune(id) {
-    if (st.s === id) return st.on ? pause() : play();
-    st.s = id; st.t = 0;
-    st.i = Math.floor(Math.random() * station().tracks.length);
-    load(); play();
+    if (st.mode === id && st.cur) return st.on ? pause() : play();
+    st.mode = id; st.next = null;
+    const wasOn = st.on;
+    if (st.cur) st.hist = st.hist.concat(st.cur).slice(-HISTORY);
+    switchTo(nextFile(), FADE_TUNE);
+    if (!wasOn) play();
   }
-  audio.addEventListener('ended', () => step(1));
-  audio.addEventListener('error', () => { if (!audio.src) return; failed = true; st.on = false; render(); });
   let lastSave = 0;
-  audio.addEventListener('timeupdate', () => {
-    st.t = audio.currentTime;
+  function onTime() {
+    const el = cur();
+    st.t = el.currentTime;
+    tick();
     if (Date.now() - lastSave > 2000) { lastSave = Date.now(); save(); }
     progress();
-  });
-  addEventListener('pagehide', () => { if (audio.src) st.t = audio.currentTime; save(); });
+    const left = (el.duration || 0) - el.currentTime;
+    if (!el.duration || !st.on || fading) return;
+    if (canFade && left < PRELOAD && (!st.next || alt().fid !== st.next)) {   // load the next track ahead
+      if (!st.next) st.next = nextFile();
+      prime(alt(), st.next);
+    }
+    if (canFade && left <= FADE && el.duration > FADE * 3) advance(1, FADE);
+  }
+  addEventListener('pagehide', () => { if (cur().fid) st.t = cur().currentTime; save(); });
 
   function meta() {
-    const s = station(), t = track();
-    if (!('mediaSession' in navigator) || !t) return;
-    navigator.mediaSession.metadata = new MediaMetadata({ title: t.t, artist: 'Kevin MacLeod', album: L.title + ' · ' + s.name[LANG],
-      artwork: [{ src: new URL(art(s), location).href, sizes: '960x540', type: 'image/webp' }] });
+    const n = now();
+    if (!('mediaSession' in navigator) || !n) return;
+    navigator.mediaSession.metadata = new MediaMetadata({ title: n.t.t, artist: n.t.a || n.s.author, album: L.title + ' · ' + n.s.name[LANG],
+      artwork: [{ src: new URL(art(n.s), location).href, sizes: '600x600', type: 'image/webp' }] });
     navigator.mediaSession.setActionHandler('play', play);
     navigator.mediaSession.setActionHandler('pause', pause);
-    navigator.mediaSession.setActionHandler('previoustrack', () => step(-1));
-    navigator.mediaSession.setActionHandler('nexttrack', () => step(1));
+    navigator.mediaSession.setActionHandler('previoustrack', () => advance(-1, 0));
+    navigator.mediaSession.setActionHandler('nexttrack', () => advance(1, FADE_TUNE));
+  }
+
+  // ---------- sleep timer: fades music and sounds out over the last 30 s, then stops them ----------
+  function setSleep(min) { st.sleep = min ? Date.now() + min * 60000 : 0; st.sleepMin = min; sleepK = 1; vol(); if (ambOut) ambOut.gain.value = 1; save(); render(); }
+  let lastLeft = '';
+  function sleepTick() {
+    if (!st.sleep) return;
+    const left = st.sleep - Date.now();
+    if (left <= 0) {
+      st.sleep = 0; pause();
+      Object.keys(st.amb).forEach(n => { if (st.amb[n] > 0) ambient(n, 0); });
+      sleepK = 1; vol(); if (ambOut) ambOut.gain.value = 1;
+      return render();
+    }
+    sleepK = left < SLEEP_FADE ? left / SLEEP_FADE : 1;
+    vol();
+    if (ambOut) ambOut.gain.value = sleepK;
+    const label = Math.ceil(left / 60000) + L.min;
+    if (label !== lastLeft) { lastLeft = label; renderSleep(); }
   }
 
   // ---------- ambient sounds (Web Audio, nothing to download) ----------
-  let ctx = null;
+  let ctx = null, ambOut = null;
   const layers = {};
   function ac() {
     if (!ctx) {
       const C = window.AudioContext || window.webkitAudioContext;
       if (!C) return null;
       ctx = new C();
+      ambOut = ctx.createGain();
+      ambOut.connect(ctx.destination);
     }
     if (ctx.state === 'suspended') ctx.resume();
     return ctx;
@@ -172,7 +294,7 @@
     if (level > 0 && !l) {
       const gain = c.createGain();
       gain.gain.value = 0;
-      gain.connect(c.destination);
+      gain.connect(ambOut);
       l = layers[name] = { gain, stop: SYNTH[name](c, gain) };
     }
     if (!l) return;
@@ -189,13 +311,16 @@
     panel = document.createElement('div');
     panel.className = 'rdo'; panel.id = 'radioPanel'; panel.hidden = true;
     panel.setAttribute('role', 'dialog'); panel.setAttribute('aria-label', L.title);
-    const tiles = data.stations.map(s => `<button class="rdo-tile" type="button" data-s="${s.id}" aria-pressed="false">
-      <img src="${art(s)}" alt="" loading="lazy" decoding="async" style="object-position:${s.pos || '50% 50%'}"><span class="rdo-tn"><b>${s.name[LANG]}</b><span>${s.mood[LANG]}</span></span>
-      <span class="rdo-eq" aria-hidden="true"><i></i><i></i><i></i></span></button>`).join('');
+    const eq = '<span class="rdo-eq" aria-hidden="true"><i></i><i></i><i></i></span>';
+    const tiles = data.stations.map(s => `<button class="rdo-tile" type="button" data-s="${s.id}" aria-pressed="false" title="${s.mood[LANG]}">
+      <img src="${art(s)}" alt="" loading="lazy" decoding="async" style="object-position:${s.pos || '50% 50%'}"><span class="rdo-tn"><b>${s.name[LANG]}</b><span>${s.mood[LANG]}</span></span>${eq}</button>`).join('');
     const amb = ['fire', 'rain', 'wind'].map(n => `<div class="rdo-amb-row">
       <button class="rdo-amb-t" type="button" data-a="${n}" aria-pressed="false">${svg(n)}<span>${L[n]}</span></button>
       <input class="rdo-range" type="range" min="0" max="1" step="0.05" data-a="${n}" aria-label="${L.ambVol}${L[n]}"></div>`).join('');
-    const credits = data.stations.flatMap(s => s.tracks.map(t => `<li>«${t.t}»</li>`)).join('');
+    const sleep = [0, ...SLEEP].map(m => `<button class="rdo-chip" type="button" data-sleep="${m}" aria-pressed="false"${m ? ` aria-label="${L.sleepSet}${m}${L.min}"` : ''}>${m || L.off}</button>`).join('');
+    const authors = [...new Set(data.stations.flatMap(s => s.tracks.map(t => t.a || s.author)))];
+    const credits = data.stations.map(s => `<li><b>${s.name[LANG]}</b>: ${s.tracks.map(t => '«' + t.t + '»' + (t.a ? ' — ' + t.a : '')).join(', ')}</li>`).join('');
+    const who = authors.map(a => data.sources[a] ? `${a} (${data.sources[a]})` : a).join(', ');
     panel.innerHTML = `<div class="rdo-hero"><img class="rdo-art" alt="" decoding="async">
       <div class="rdo-now"><span class="rdo-st"></span><b class="rdo-tt"></b></div>
       <button class="rdo-x" type="button" aria-label="${L.close}">${svg('x')}</button></div>
@@ -207,11 +332,15 @@
         <button class="rdo-b" type="button" data-do="next" aria-label="${L.next}">${svg('next')}</button>
         <label class="rdo-vol">${svg('vol')}<input class="rdo-range" type="range" min="0" max="1" step="0.05" aria-label="${L.vol}"></label>
       </div>
+      <button class="rdo-air" type="button" data-s="air" aria-pressed="false">${svg('air')}<span class="rdo-tn"><b>${L.air}</b><span class="rdo-airnow"></span></span>${eq}</button>
+      <p class="rdo-h">${L.stations}</p>
       <div class="rdo-tiles">${tiles}</div>
+      <div class="rdo-sleep"><p class="rdo-h">${svg('moon')}<span>${L.sleep}</span><span class="rdo-left" aria-live="polite"></span></p>
+        <div class="rdo-chips" role="group" aria-label="${L.sleep}">${sleep}</div></div>
       <p class="rdo-h">${L.amb}</p>
       <div class="rdo-amb">${amb}</div>
-      <details class="rdo-cr"><summary>${L.music}: ${data.author} · ${data.license}</summary>
-        <ol>${credits}</ol><p>${data.author}. <a href="${data.license_url}" target="_blank" rel="noopener">Creative Commons ${data.license}</a></p></details>
+      <details class="rdo-cr"><summary>${L.music}: ${who} · ${data.license}</summary>
+        <ul>${credits}</ul><p>${who}. <a href="${data.license_url}" target="_blank" rel="noopener">Creative Commons ${data.license}</a></p></details>
       </div>`;
     document.body.append(panel);
 
@@ -220,46 +349,56 @@
       if (!b) return;
       if (b.dataset.s) tune(b.dataset.s);
       else if (b.dataset.a) ambient(b.dataset.a, st.amb[b.dataset.a] > 0 ? 0 : 0.6);
-      else if (b.dataset.do === 'play') station() ? (st.on ? pause() : play()) : tune(data.stations[0].id);
-      else if (b.dataset.do === 'prev') step(-1);
-      else if (b.dataset.do === 'next') step(1);
+      else if (b.dataset.sleep) setSleep(+b.dataset.sleep);
+      else if (b.dataset.do === 'play') st.cur ? (st.on ? pause() : play()) : tune('air');
+      else if (b.dataset.do === 'prev') advance(-1, 0);
+      else if (b.dataset.do === 'next') advance(1, FADE_TUNE);
       else if (b.classList.contains('rdo-x')) close();
       render();
     });
-    $('.rdo-vol input').addEventListener('input', e => { audio.volume = st.vol = +e.target.value; save(); });
+    $('.rdo-vol input').addEventListener('input', e => { st.vol = +e.target.value; vol(); save(); });
     panel.querySelectorAll('.rdo-amb input').forEach(r => r.addEventListener('input', () => { ambient(r.dataset.a, +r.value); render(); }));
     const seek = $('.rdo-seek');
     seek.addEventListener('input', () => { seeking = true; $('.rdo-cur').textContent = fmt(seek.value); });
-    seek.addEventListener('change', () => { seeking = false; if (audio.src) audio.currentTime = +seek.value; });
+    seek.addEventListener('change', () => { seeking = false; if (cur().fid) { endFade(); cur().currentTime = +seek.value; } });
     panel.addEventListener('keydown', e => { if (e.key === 'Escape') { close(); btn.focus(); } });
   }
   let seeking = false;
   function progress() {
     if (!panel || panel.hidden || seeking) return;
-    const t = track(), dur = audio.duration || (t && t.d) || 0, seek = $('.rdo-seek');
-    seek.max = Math.max(1, Math.floor(dur)); seek.value = Math.floor(audio.currentTime || st.t);
+    const n = now(), el = cur(), dur = el.duration || (n && n.t.d) || 0, seek = $('.rdo-seek');
+    seek.max = Math.max(1, Math.floor(dur)); seek.value = Math.floor(el.currentTime || st.t);
     seek.style.setProperty('--p', (seek.value / seek.max * 100) + '%');
-    $('.rdo-cur').textContent = fmt(audio.currentTime || st.t); $('.rdo-dur').textContent = fmt(dur);
+    $('.rdo-cur').textContent = fmt(el.currentTime || st.t); $('.rdo-dur').textContent = fmt(dur);
+  }
+  function renderSleep() {
+    if (!panel) return;
+    const left = st.sleep ? Math.ceil((st.sleep - Date.now()) / 60000) : 0;
+    $('.rdo-left').textContent = left > 0 ? ' · ' + L.left + left + L.min : '';
+    const pick = st.sleep ? st.sleepMin : 0;
+    panel.querySelectorAll('.rdo-chip').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.sleep === pick)));
   }
   function render() {
     btn.classList.toggle('on', st.on);
     btn.setAttribute('aria-pressed', String(st.on));
     if (!panel) return;
-    const s = station(), t = track(), hero = s || data.stations[0];
+    const n = now(), hero = n ? n.s : data.stations[0], part = airPart();
     const img = $('.rdo-art');
     if (img.getAttribute('src') !== art(hero)) { img.src = art(hero); img.style.objectPosition = hero.pos || '50% 50%'; }
-    $('.rdo-st').textContent = s ? s.name[LANG] + ' · ' + s.mood[LANG] : L.title;
-    $('.rdo-tt').textContent = failed ? L.err : t ? t.t : L.pick;
+    $('.rdo-st').textContent = !n ? L.title : st.mode === 'air' ? L.air + ' · ' + part.name[LANG] + ' · ' + n.s.name[LANG] : n.s.name[LANG] + ' · ' + n.s.mood[LANG];
+    $('.rdo-tt').textContent = failed ? L.err : n ? n.t.t : L.pick;
+    $('.rdo-airnow').textContent = L.airNow + part.name[LANG].toLowerCase() + ': ' + part.stations.map(id => stationById(id).name[LANG]).join(', ');
     const pb = $('.rdo-play');
     pb.innerHTML = svg(st.on ? 'pause' : 'play'); pb.setAttribute('aria-label', st.on ? L.pause : L.play);
-    panel.querySelectorAll('.rdo-tile').forEach(b => {
-      b.setAttribute('aria-pressed', String(b.dataset.s === st.s));
-      b.classList.toggle('playing', b.dataset.s === st.s && st.on);
+    panel.querySelectorAll('[data-s]').forEach(b => {
+      b.setAttribute('aria-pressed', String(b.dataset.s === st.mode));
+      b.classList.toggle('playing', b.dataset.s === st.mode && st.on);
     });
     panel.querySelectorAll('.rdo-amb-t').forEach(b => b.setAttribute('aria-pressed', String(st.amb[b.dataset.a] > 0)));
     panel.querySelectorAll('.rdo-amb input').forEach(r => { r.value = st.amb[r.dataset.a]; r.style.setProperty('--p', st.amb[r.dataset.a] * 100 + '%'); });
     const v = $('.rdo-vol input');
     v.value = st.vol; v.style.setProperty('--p', st.vol * 100 + '%');
+    renderSleep();
     progress();
   }
   function open() {
@@ -268,7 +407,7 @@
       panel.hidden = false;
       btn.setAttribute('aria-expanded', 'true');
       render();
-      (panel.querySelector('.rdo-tile[aria-pressed="true"]') || panel.querySelector('.rdo-tile')).focus({ preventScroll: true });
+      (panel.querySelector('[data-s][aria-pressed="true"]') || panel.querySelector('.rdo-air')).focus({ preventScroll: true });
     });
   }
   function close() { if (panel) panel.hidden = true; btn.setAttribute('aria-expanded', 'false'); }
@@ -277,22 +416,23 @@
 
   // ---------- go on after a page change ----------
   const fresh = Date.now() - st.ts < RESUME_MS;
-  if (!fresh) { st.on = false; st.amb = { fire: 0, rain: 0, wind: 0 }; }
-  const wantMusic = st.on && st.s, wantAmb = Object.keys(st.amb).filter(n => st.amb[n] > 0);
+  if (!fresh) { st.on = false; st.amb = { fire: 0, rain: 0, wind: 0 }; st.sleep = 0; }
+  const wantMusic = st.on && st.cur, wantAmb = Object.keys(st.amb).filter(n => st.amb[n] > 0);
   render();
   if (wantMusic || wantAmb.length) {
     getData().then(() => {
-      if (!station()) st.s = null;
+      if (!byFile[st.cur]) { st.cur = null; st.next = null; }
+      if (st.mode !== 'air' && !stationById(st.mode)) st.mode = null;
       wantAmb.forEach(n => ambient(n, st.amb[n]));
-      const music = wantMusic && station();
-      (music ? (load(st.t), play()) : Promise.resolve()).then(() => {
-        const musicBlocked = music && audio.paused, ambBlocked = ctx && ctx.state !== 'running';
+      const music = wantMusic && st.cur;
+      (music ? play() : Promise.resolve()).then(() => {
+        const musicBlocked = music && cur().paused, ambBlocked = ctx && ctx.state !== 'running';
         if (!musicBlocked && !ambBlocked) return;
         if (musicBlocked) { st.on = true; render(); }   // blocked: show as playing and wait for the first gesture
         const resume = () => {
           removeEventListener('pointerdown', resume, true); removeEventListener('keydown', resume, true);
           if (ctx) ctx.resume();
-          if (music && audio.paused) play();
+          if (music && cur().paused) play();
         };
         addEventListener('pointerdown', resume, true); addEventListener('keydown', resume, true);
       });
