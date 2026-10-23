@@ -69,6 +69,32 @@ class Align(unittest.TestCase):
         r2 = align_tod.check(self.ref, aligned, self.mask)
         self.assertEqual(r1, r2)
 
+    @staticmethod
+    def clouds(seed):
+        """Сглаженный шум — «облака»; у разных seed контуры независимы."""
+        n = np.random.RandomState(seed).rand(768, 1376).astype(np.float32)
+        n = cv2.GaussianBlur(n, (0, 0), 6)
+        n = (n - n.min()) / (n.max() - n.min())
+        return cv2.cvtColor((n * 255).astype(np.uint8), cv2.COLOR_GRAY2BGR)
+
+    @staticmethod
+    def zone_mask(x, y, w, h):
+        m = np.zeros((768, 1376, 4), np.uint8)
+        m[y:y + h, x:x + w, 0] = 255     # зона B
+        return m
+
+    def test_real_shift_of_one_structure_caught(self):
+        base = np.zeros((768, 1376, 3), np.uint8)
+        cv2.circle(base, (400, 300), 40, (255, 255, 255), -1)
+        cv2.rectangle(base, (380, 330), (430, 380), (200, 200, 200), -1)
+        moved = np.roll(base, 5, axis=1)
+        res = align_tod.check(base, moved, self.zone_mask(320, 240, 200, 200))
+        self.assertGreater(res['B'], align_tod.LIMIT, res)
+
+    def test_redrawn_clouds_do_not_count(self):
+        res = align_tod.check(self.clouds(1), self.clouds(2), self.zone_mask(100, 100, 600, 400))
+        self.assertLessEqual(res['B'], align_tod.LIMIT, res)
+
 
 if __name__ == '__main__':
     unittest.main()

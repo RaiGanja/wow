@@ -8,6 +8,9 @@ import cv2, numpy as np
 
 W, H = 1376, 768
 LIMIT = 2.0   # px: the most a mask zone may still be off
+MATCH = 0.8   # min Pearson correlation of a window's edges after undoing the found shift. A repainted sky (new clouds) shares
+              # no outlines with hero_dawn, so phaseCorrelate returns a random peak there; such a window says nothing about
+              # alignment and is skipped. Unrelated smooth texture still reaches ~0.6 by chance at a large false shift, so 0.5 was too lax; real structure after a true shift matches higher.
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MASK = os.path.join(ROOT, 'assets', 'living', 'hero_dawn-fx.png')
 
@@ -38,6 +41,15 @@ def align(ref, img):
     return best
 
 
+def _matches(wa, wb, dx, dy):
+    """True when the edges of window wb, moved back by the found shift (dx, dy), correlate with wa (centre only: no border junk)."""
+    back = cv2.warpAffine(wb, np.float32([[1, 0, -dx], [0, 1, -dy]]), (64, 64), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
+    u, v = wa[8:56, 8:56].ravel(), back[8:56, 8:56].ravel()
+    u, v = u - u.mean(), v - v.mean()
+    d = float(np.sqrt((u * u).sum() * (v * v).sum()))
+    return d > 1e-9 and float((u * v).sum()) / d >= MATCH
+
+
 def check(ref, aligned, mask):
     """Largest leftover shift (px) inside each mask zone, by phase correlation of edge maps in 64 px windows."""
     a, b = edges(ref), edges(aligned)
@@ -55,7 +67,7 @@ def check(ref, aligned, mask):
                 if z[y:y + 64, x:x + 64].mean() < .25 or a[y:y + 64, x:x + 64].std() < .02:
                     continue
                 (dx, dy), resp = cv2.phaseCorrelate(a[y:y + 64, x:x + 64].copy(), b[y:y + 64, x:x + 64].copy(), win)  # copies: phaseCorrelate windows its inputs in place
-                if resp > .15:
+                if resp > .15 and _matches(a[y:y + 64, x:x + 64], b[y:y + 64, x:x + 64], dx, dy):
                     worst = max(worst, float(np.hypot(dx, dy)))
         out[name] = round(worst, 2)
     return out
