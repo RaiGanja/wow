@@ -494,8 +494,8 @@ def page_ids(g):
                 for x in d:
                     walk(x['blocks'])
             elif k == 'raw':
-                for l in LANGS[:1]:   # raw ids are the same in every language
-                    ids.extend(re.findall(r'\sid="([^"]+)"', L(d, l)))
+                html = next(iter(d.values())) if isinstance(d, dict) else d   # raw ids are the same in every language
+                ids.extend(re.findall(r'\sid="([^"]+)"', html))
     for s in g['sections']:
         walk(s['blocks'])
     return ids
