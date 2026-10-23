@@ -1188,7 +1188,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/search/search.css?v=d44d3d28f5" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=799ee05770" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=3693e9b687" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Головна","item":"https://gabella.site/wow/uk/"},{"@type":"ListItem","position":2,"name":"Склад","item":"https://gabella.site/wow/uk/roster/"},{"@type":"ListItem","position":3,"name":"Гільдія","item":"https://gabella.site/wow/uk/g/"}]}</script>
 </head>
 <body>
@@ -1309,12 +1309,12 @@ let crestN = 0;
 function crestSvg(c, px, o = {}) {
   const P = GD.guilds.palette, id = 'gc' + (++crestN);
   const tex = GD.guilds.texture && o.texture !== false && px >= 48
-    ? `<image href="${ROOT}assets/me/crest/metal.webp?v=799ee05770" width="100" height="100" preserveAspectRatio="none" class="gl-tex"/>` : '';
+    ? `<image href="${ROOT}assets/me/crest/metal.webp?v=3693e9b687" width="100" height="100" preserveAspectRatio="none" class="gl-tex"/>` : '';
   const edge = c.b !== 'none' ? `<path d="${SHIELD[c.s]}" fill="none" stroke="${BORDER[c.b]}" stroke-width="${px >= 48 ? 3 : 5}"/>` : '';
   return `<svg class="gl-crest" viewBox="0 0 100 100" width="${px}" height="${px}" role="img" aria-label="${esc(o.label || tl('crest'))}">`
     + `<defs><clipPath id="${id}"><path d="${SHIELD[c.s]}"/></clipPath></defs><g clip-path="url(#${id})">`
     + `<rect width="100" height="100" fill="${P[c.c[0]]}"/>${FIELD[c.f] ? `<path d="${FIELD[c.f]}" fill="${P[c.c[1]]}"/>` : ''}`
-    + `<use href="${ROOT}assets/me/crest/charges.svg?v=799ee05770#c-${esc(c.i)}" x="24" y="20" width="52" height="52" fill="${P[c.ic]}"/>${tex}</g>${edge}</svg>`;
+    + `<use href="${ROOT}assets/me/crest/charges.svg?v=3693e9b687#c-${esc(c.i)}" x="24" y="20" width="52" height="52" fill="${P[c.ic]}"/>${tex}</g>${edge}</svg>`;
 }
 const DOWN = ['Сервер профілів не відповідає', 'Спробуйте за кілька хвилин. Решта гіда працює як завжди.', 'Повторити'];   // same words as the player page
 const guildName = g => g.name || fill(tl('hidden'), { n: g.id });
@@ -1600,12 +1600,12 @@ ready(M => {
   function state(title, text, btn) {
     $('#app').innerHTML = `<section class="frame state"><h2>${esc(title)}</h2>${text ? `<p>${esc(text)}</p>` : ''}<div class="row">${btn}</div></section>`;
   }
-  const notFound = () => state(fill(tl('hidden'), { n: id || '' }), '', `<a class="btn" href="${HOME}roster/#guilds">${esc(tl('tab'))}</a>`);
+  const notFound = () => state(fill(tl('hidden'), { n: id || '' }), tl('not_found'), `<a class="btn" href="${HOME}roster/#guilds">${esc(tl('tab'))}</a>`);
   function down() {
     state(DOWN[0], DOWN[1], `<button type="button" class="btn ghost" id="retry">${esc(DOWN[2])}</button>`);
     $('#retry').onclick = () => location.reload();
   }
-  const err = e => M.toast({ kind: 'note', text: (T.gl || {})['e_' + (e && e.code)] || tg('err_report') });
+  const err = e => M.toast({ kind: 'note', text: (T.gl || {})['e_' + (e && e.code)] || tl('e_generic') });
 
   /* ----- who I am here: the best rank of my characters in this guild, read from the fresh member list ----- */
   const ownIds = () => new Set(me ? me.characters.map(c => c.id) : []);
@@ -1945,7 +1945,7 @@ addEventListener('beforeinstallprompt', e => {
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
 <script src="../../assets/search/search.js?v=d44d3d28f5" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=799ee05770" data-root="../../" data-home="../" data-lang="uk" data-teaser="Профіль зберігає ваш шлях: Слава, рамки, сезони" data-close="Закрити" data-page="g/" defer></script>
+<script src="../../assets/me/me.js?v=3693e9b687" data-root="../../" data-home="../" data-lang="uk" data-teaser="Профіль зберігає ваш шлях: Слава, рамки, сезони" data-close="Закрити" data-page="g/" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

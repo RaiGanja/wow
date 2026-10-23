@@ -94,12 +94,12 @@ ready(M => {
   function state(title, text, btn) {
     $('#app').innerHTML = `<section class="frame state"><h2>${esc(title)}</h2>${text ? `<p>${esc(text)}</p>` : ''}<div class="row">${btn}</div></section>`;
   }
-  const notFound = () => state(fill(tl('hidden'), { n: id || '' }), '', `<a class="btn" href="${HOME}roster/#guilds">${esc(tl('tab'))}</a>`);
+  const notFound = () => state(fill(tl('hidden'), { n: id || '' }), tl('not_found'), `<a class="btn" href="${HOME}roster/#guilds">${esc(tl('tab'))}</a>`);
   function down() {
     state(DOWN[0], DOWN[1], `<button type="button" class="btn ghost" id="retry">${esc(DOWN[2])}</button>`);
     $('#retry').onclick = () => location.reload();
   }
-  const err = e => M.toast({ kind: 'note', text: (T.gl || {})['e_' + (e && e.code)] || tg('err_report') });
+  const err = e => M.toast({ kind: 'note', text: (T.gl || {})['e_' + (e && e.code)] || tl('e_generic') });
 
   /* ----- who I am here: the best rank of my characters in this guild, read from the fresh member list ----- */
   const ownIds = () => new Set(me ? me.characters.map(c => c.id) : []);
