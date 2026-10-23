@@ -4,6 +4,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 sys.path.insert(0, os.path.join(ROOT, 'tools'))
 import export_game
+import looks as LK
 
 G = export_game.game()
 
@@ -72,8 +73,9 @@ def test_me_script_on_every_page_after_radio():
             continue
         assert html.count('assets/me/me.js') == 1 and html.count('assets/me/me.css') == 1, p
         assert html.index('assets/radio/radio.js') < html.index('assets/me/me.js'), p
-        m = re.search(r'<script src="[^"]*assets/me/me\.js\?v=\w{10}" data-root="([^"]*)" data-home="([^"]*)" data-lang="(\w+)" data-page="([^"]*)" defer>', html)
+        m = re.search(r'<script src="[^"]*assets/me/me\.js\?v=\w{10}" data-root="([^"]*)" data-home="([^"]*)" data-lang="(\w+)" data-page="([^"]*)" data-look="([^"]+)" defer>', html)
         assert m, p
+        assert m.group(5) == LK.V, (p, m.group(5))
         page = m.group(4)
         name = os.path.relpath(p, ROOT).replace(os.sep, '/')
         if name.endswith('404.html'):

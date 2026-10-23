@@ -590,7 +590,7 @@ def not_found_page(tpl, base_css, sprite, src, lang='ru'):
     js = NOT_FOUND_JS.replace('@@L@@', '|'.join(l for l in LANGS if l != 'ru')) if lang == 'ru' else ''
     html = html.replace('<head>', f'<head>\n<base href="/wow/{page_dir(lang)}">\n<meta name="robots" content="noindex">', 1)
     html = html.replace('<meta charset="utf-8">\n', '<meta charset="utf-8">\n' + js, 1)
-    html = html.replace('data-page="" defer', 'data-page="404" defer', 1)   # me.js: the secret for getting lost
+    html = html.replace('data-page=""', 'data-page="404"', 1)   # me.js: the secret for getting lost
     return page_dir(lang, '404.html'), html, missing
 
 
