@@ -666,6 +666,7 @@ def build_page(g, lang, tpl, base_css, sprite, src):
     sub = g['path'] if 'path' in g else (f'guides/{g["slug"]}/' if g['slug'] else 'guides/')   # path: classes/, races/, privacy/, '' (404)
     here = page_dir(lang, sub)
     html = tpl.replace('@@BASE_CSS@@', base_css).replace('@@SPRITE@@', sprite)
+    html = html.replace('@@TABBAR@@', build.tabbar({'play': 'play/'}.get(g['slug']) if 'path' in g else 'guides/'))
     html, missing = translate(html, lang)                       # 1) обвязка
     root = rel(here, page_dir(lang))
     toc, body = render_guide(g, lang, root) if g['slug'] else hub_body(lang, root)

@@ -31,17 +31,17 @@
 </head>
 <body>
 @@SPRITE@@
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></symbol><symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol></svg>
 
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="@@HOME@@" aria-label="Gabella, на главную"><img class="mark" src="@@ROOT@@assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Гид WoW Forever</small></span></a>
   <nav class="mainnav" aria-label="Разделы">
-    <a href="@@HOME@@#factions">Фракции</a><a href="@@HOME@@#classes">Классы</a><a href="@@HOME@@#peoples">Расы</a><a href="@@HOME@@#picker">Подборщик</a><a href="@@HOME@@guides/">Гайды</a><a href="@@HOME@@tools/">Инструменты</a><a href="@@HOME@@roster/"@@NAV_ROSTER@@>Состав</a><a href="@@HOME@@play/">В игре</a>
+    <a href="@@HOME@@#factions">Фракции</a><a href="@@HOME@@#classes">Классы</a><a href="@@HOME@@#peoples">Расы</a><a href="@@HOME@@#picker">Подборщик</a><a href="@@HOME@@#builder">Группа</a><a href="@@HOME@@guides/">Гайды</a><a href="@@HOME@@tools/">Инструменты</a><a href="@@HOME@@roster/"@@NAV_ROSTER@@>Состав</a><a href="@@HOME@@play/">В игре</a>
   </nav>
   <div class="tools">
     @@LANGSEL@@
     <button class="iconbtn themebtn" type="button" aria-label="Переключить тему" title="Переключить тему"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></button>
-    <button class="iconbtn menubtn" type="button" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg><span>Разделы</span></button>
+    <button class="iconbtn menubtn" type="button" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg><span>Ещё</span></button>
   </div>
 </div></header>
 
@@ -51,13 +51,7 @@
   @@LEGAL@@
 </footer></div>
 
-<nav class="tabbar" aria-label="Быстрые разделы">
-  <a href="@@HOME@@"><svg class="ico" aria-hidden="true"><use href="#i-home"/></svg>Главная</a>
-  <a href="@@HOME@@guides/"><svg class="ico" aria-hidden="true"><use href="#i-book"/></svg>Гайды</a>
-  <a href="@@HOME@@roster/"@@NAV_ROSTER@@><svg class="ico" aria-hidden="true"><use href="#i-users"/></svg>Состав</a>
-  <a href="@@HOME@@profile/"@@NAV_PROFILE@@><svg class="ico" aria-hidden="true"><use href="#i-user"/></svg>Профиль</a>
-  <button type="button" class="morebtn" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-dots"/></svg>Ещё</button>
-</nav>
+@@TABBAR@@
 
 <dialog class="sheet" id="moreDlg" aria-label="Все разделы">
   <div class="dh"><b>Все разделы</b><button class="iconbtn" id="moreClose" type="button" aria-label="Закрыть"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>

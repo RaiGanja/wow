@@ -232,6 +232,19 @@ def lang_menu(html, lang, here):
     return html.replace('@@LANGSEL@@', sel).replace('@@LANGSHEET@@', sheet).replace('</body>', LANG_JS.replace('@@HINT@@', hint) + '</body>', 1)
 
 
+# Bottom tab bar on phones: the same tabs in the same order on every page (the profile button of the top bar is hidden there).
+TABS = (('', 'home', 'Главная'), ('guides/', 'book', 'Гайды'), ('play/', 'sword', 'В игре'), ('profile/', 'user', 'Профиль'))
+
+
+def tabbar(cur=None, home='@@HOME@@'):
+    """Tab bar markup; cur — path of the current tab ('', 'guides/', 'play/', 'profile/'); home '' — the home page itself."""
+    on = ' aria-current="true"'
+    tabs = ''.join(f'\n  <a href="{home + p if home or p else "#top"}"{on if p == cur else ""}>'
+                   f'<svg class="ico" aria-hidden="true"><use href="#i-{i}"/></svg>{t}</a>' for p, i, t in TABS)
+    return (f'<nav class="tabbar" aria-label="Быстрые разделы">{tabs}\n  <button type="button" class="morebtn" aria-haspopup="dialog" aria-controls="moreDlg">'
+            '<svg class="ico" aria-hidden="true"><use href="#i-dots"/></svg>Ещё</button>\n</nav>')
+
+
 def localize(html, lang, here):
     """Language-specific attributes shared by all pages."""
     html = html.replace('@@LEGAL@@', legal(lang, rel(here, '')))
@@ -440,6 +453,41 @@ def tod_version():
     script_version('tod', ['tod.js', 'tod.css'])
 
 
+def art_version():
+    """?v=<hash> on every assets/art/<file> address in the pages: Cloudflare and the browser keep /wow/assets/ for days
+    (7 in the browser, plus the service worker), so a picture redrawn under the same name would otherwise stay old
+    for returning visitors while living.js and its masks (versioned) already move on — water and fire off their places."""
+    d = os.path.join(HERE, 'assets', 'art')
+    ver = {}
+
+    def tag(m):
+        name = m.group(2)
+        if name not in ver:
+            # hero_{tod}-<w>.<ext> (tod.py) is filled in by the browser: one version over all four times of day
+            fs = [os.path.join(d, name.replace('{tod}', t)) for t in tod.PARTS] if '{tod}' in name else [os.path.join(d, name)]
+            h = hashlib.sha1()
+            for f in fs:
+                if os.path.isfile(f):
+                    h.update(open(f, 'rb').read())
+            ver[name] = h.hexdigest()[:8] if any(os.path.isfile(f) for f in fs) else ''
+        return m.group(1) + (f'?v={ver[name]}' if ver[name] else '')
+    scenes = json.dumps({f: '?v=' + hashlib.sha1(open(os.path.join(d, f), 'rb').read()).hexdigest()[:8]
+                         for f in sorted(os.listdir(d)) if f.startswith('hero_')}, separators=(',', ':'))
+    n = 0
+    for root, dirs, files in os.walk(HERE):
+        dirs[:] = [x for x in dirs if not x.startswith('.') and x not in ('assets', 'content', 'i18n', 'tests', 'node_modules')]
+        for f in files:
+            if f.endswith('.html') and not f.endswith('.src.html'):
+                p = os.path.join(root, f)
+                was = html = open(p, encoding='utf-8').read()
+                html = re.sub(r'/\*ARTV\*/\{[^}]*\}', lambda _: '/*ARTV*/' + scenes, html)   # pic() in page JS
+                new = re.sub(r'(assets/art/([A-Za-z0-9_.{}-]+\.(?:avif|webp|jpg|png)))(?:\?v=\w+)?', tag, html)
+                if new != was:
+                    open(p, 'w', encoding='utf-8', newline='\n').write(new)
+                    n += 1
+    print(f'art: {n} pages, {len(ver)} files', file=sys.stderr)
+
+
 def pwa(html, lang, root):
     a = APP[lang]
     head = (f'<link rel="manifest" href="{root}manifest-{lang}.webmanifest">\n'
@@ -489,6 +537,7 @@ def game_hint(lang):
 def build_home(lang, src):
     src = src.replace('@@RACE_LEAD@@', json.dumps({r['id']: r['lead'] for r in RACES_PAGE}, ensure_ascii=False))
     src = src.replace('@@RACE_SLUG@@', json.dumps({r['id']: r['slug'] for r in RACES_PAGE}))
+    src = src.replace('@@TABBAR@@', tabbar('', home=''))
     html, missing = translate(src, lang)
     html = tod.apply(html, lang)   # the hero in the reader's time of day (tod.py)
     here = page_dir(lang)
@@ -799,7 +848,7 @@ def build_class(c, lang, tpl, base_css, sprite, races):
     root = rel(here, '')
     home = rel(here, page_dir(lang))
     v = render_class(c, races, lang)
-    html = tpl.replace('@@BASE_CSS@@', base_css).replace('@@SPRITE@@', sprite)
+    html = tpl.replace('@@BASE_CSS@@', base_css).replace('@@SPRITE@@', sprite).replace('@@TABBAR@@', tabbar())
     for k in ('ID', 'COLOR', 'DESC', 'ROLES', 'FACTS', 'TABS', 'PANELS', 'NEWS', 'RACES', 'RACES_TIP', 'GROUP', 'LVL', 'PROS', 'CONS'):
         html = html.replace(f'@@{k}@@', v[k])
     others = ''.join(f'<a class="oc" href="../{o["id"]}/" style="--cc:{COLOR[o["id"]]}">{pic(o["id"], root, (360,), "132px")}<b>{esc(o["n"])}</b></a>' for o in CLASSES if o['id'] != c['id'])
@@ -895,7 +944,7 @@ def build_race(rp, lang, tpl, base_css, class_css, sprite, races, en):
         'LORE': esc(rp['lore']), 'TIP': esc(r['tip']), 'BESTLIST': best, 'OTHERS': others, 'PAGER': pager,
         'TOC_RACES': toc, 'SOURCES': sources,
     }
-    html = tpl.replace('@@BASE_CSS@@', base_css).replace('@@CLASS_CSS@@', class_css).replace('@@SPRITE@@', sprite)
+    html = tpl.replace('@@BASE_CSS@@', base_css).replace('@@CLASS_CSS@@', class_css).replace('@@SPRITE@@', sprite).replace('@@TABBAR@@', tabbar())
     for k, val in v.items():
         html = html.replace(f'@@{k}@@', val)
     html, missing = translate(html, lang)
@@ -963,6 +1012,7 @@ def main():
         me_version()
         living_version()
         tod_version()
+        art_version()
         sw_version()
 
 

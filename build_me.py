@@ -267,6 +267,7 @@ def build_page(lang, sub, frag, shell, base_css, sprite, me_css, me_js):
     here = build.page_dir(lang, sub)
     root, home = build.rel(here, ''), build.rel(here, build.page_dir(lang))
     html = shell.replace('@@BASE_CSS@@', base_css).replace('@@SPRITE@@', sprite).replace('@@ME_CSS@@', me_css)
+    html = html.replace('@@TABBAR@@', build.tabbar('profile/' if sub == 'profile/' else None))
     html = html.replace('@@P_CSS@@', part(frag, r'<style>(.*?)</style>', 'style'))
     html = html.replace('@@P_BODY@@', part(frag, r'<!--body-->(.*?)<!--/body-->', 'body'))
     html = html.replace('@@ME_JS@@', me_js).replace('@@P_JS@@', part(frag, r'<script>(.*?)</script>', 'script'))

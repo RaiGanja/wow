@@ -44,7 +44,7 @@ def class_data(lang):
 
 def build_tools(lang, src, tpl, base_css, sprite):
     here = page_dir(lang, 'tools/')
-    html = tpl.replace('@@BASE_CSS@@', base_css).replace('@@SPRITE@@', sprite)
+    html = tpl.replace('@@BASE_CSS@@', base_css).replace('@@SPRITE@@', sprite).replace('@@TABBAR@@', build.tabbar())
     html = html.replace('@@DATA@@', build.js_names(home_data(src), lang) + '\n' + class_data(lang))
     html, missing = translate(html, lang)
     html = html.replace('@@CPROF@@', json.dumps({c['id']: [p[:2] for p in build.class_profs(c['id'], lang)] for c in CLASSES}, ensure_ascii=False))

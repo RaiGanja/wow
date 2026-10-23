@@ -79,6 +79,16 @@ class Markup(unittest.TestCase):
 
 
 class Wiring(unittest.TestCase):
+    def test_hero_templates_are_versioned_like_other_art(self):
+        # build.art_version: a redrawn variant under the same name must not stay cached while the living mask moves on
+        html = open(os.path.join(ROOT, 'index.html'), encoding='utf-8').read()
+        urls = re.findall(r'hero_\{tod\}(-m)?-(\d+)\.(avif|webp)(\?v=\w+)?', html)
+        self.assertTrue(urls)
+        self.assertTrue(all(u[3] for u in urls), [u for u in urls if not u[3]][:3])
+        seen = {}
+        for m, w, ext, v in urls:
+            self.assertEqual(seen.setdefault((m, w, ext), v), v, (m, w, ext))   # preload in <head> = <picture>
+
     def test_living_sun_measured_for_every_variant(self):
         js = open(os.path.join(ROOT, 'assets', 'living', 'living.js'), encoding='utf-8').read()
         sun = re.search(r'const SUN = \{([^}]+)\}', js).group(1)

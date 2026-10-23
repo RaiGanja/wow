@@ -178,7 +178,6 @@ nav.gtiles { padding: 14px; }
 @media (max-width: 1023px) {
   .gbody { grid-template-columns: minmax(0, 1fr); }
   .gtoc { display: none; }
-  .tabbar.g4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 @media (max-width: 719px) {
   .ghero { min-height: 360px; padding-top: calc(var(--top) + 36px); }
@@ -213,7 +212,7 @@ nav.gtiles { padding: 14px; }
   <div class="tools">
     @@LANGSEL@@
     <button class="iconbtn themebtn" type="button" aria-label="Переключить тему" title="Переключить тему"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></button>
-    <button class="iconbtn menubtn" type="button" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg><span>Разделы</span></button>
+    <button class="iconbtn menubtn" type="button" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg><span>Ещё</span></button>
   </div>
 </div></header>
 
@@ -245,12 +244,7 @@ nav.gtiles { padding: 14px; }
 </footer>
 </div>
 
-<nav class="tabbar g4" aria-label="Быстрые разделы">
-  <a href="@@HOME@@"><svg class="ico" aria-hidden="true"><use href="#i-home"/></svg>Главная</a>
-  <button type="button" class="morebtn" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg>Разделы</button>
-  <a href="@@HOME@@roster/"><svg class="ico" aria-hidden="true"><use href="#i-users"/></svg>Состав</a>
-  <a href="@@GUIDES@@" aria-current="true"><svg class="ico" aria-hidden="true"><use href="#i-book"/></svg>Гайды</a>
-</nav>
+@@TABBAR@@
 
 <dialog class="sheet" id="moreDlg" aria-label="Все разделы">
   <div class="dh"><b>Все разделы</b><button class="iconbtn" id="moreClose" type="button" aria-label="Закрыть"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>

@@ -869,7 +869,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   dl.facts div { grid-template-columns: 1fr; gap: 0; }
   body { padding-bottom: calc(62px + env(safe-area-inset-bottom, 0px)); }
   .tabbar { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); position: fixed; inset: auto 0 0 0; z-index: 35; background: var(--rail); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px); }
-  .tabbar a, .tabbar button { min-height: 60px; display: grid; justify-items: center; align-content: center; gap: 3px; padding: 0 2px; border: 0; background: none; color: var(--muted); text-decoration: none; font-size: .72rem; font-weight: 500; line-height: 1.2; }
+  .tabbar a, .tabbar button { min-height: 60px; display: grid; justify-items: center; align-content: center; gap: 3px; padding: 0 2px; border: 0; background: none; color: var(--muted); text-decoration: none; text-align: center; font-size: .72rem; font-weight: 500; line-height: 1.2; }
   .tabbar .ico { width: 22px; height: 22px; }
   .tabbar [aria-current="true"] { color: var(--gold-2); }
   dialog.sheet { margin: auto 0 0 0; width: 100%; height: auto; max-height: 86dvh; border-left: 0; border-top: 1px solid var(--line); border-radius: 10px 10px 0 0; padding-bottom: env(safe-area-inset-bottom, 0px); }
@@ -891,7 +891,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .hc, .hc img, .hc .info, .fac picture img { transition: none; }
 }
 </style>
-<script>(function(){var D={"B": [6, 11, 17, 23], "N": {"dawn": "Matin", "day": "Journée", "dusk": "Soir", "night": "Nuit"}, "X": {"auto": "selon votre heure", "reset": "Heure locale", "label": "Moment de la journée"}, "A": [["image/avif", "(max-width: 719px) and (max-aspect-ratio: 2/3)", "../assets/art/hero_{tod}-m-600.avif 600w, ../assets/art/hero_{tod}-m-1000.avif 1000w", "78vh"], ["image/avif", "not all and (max-width: 719px) and (max-aspect-ratio: 2/3)", "../assets/art/hero_{tod}-960.avif 960w, ../assets/art/hero_{tod}-1440.avif 1440w, ../assets/art/hero_{tod}-1920.avif 1920w, ../assets/art/hero_{tod}-2560.avif 2560w, ../assets/art/hero_{tod}-3840.avif 3840w", "(max-aspect-ratio: 16/9) 180vh, 100vw"]]},B=D.B,K="gabella-tod",P=["dawn","day","dusk","night"],d=document.documentElement;function part(h){return h>=B[0]&&h<B[1]?'dawn':h>=B[1]&&h<B[2]?'day':h>=B[2]&&h<B[3]?'dusk':'night'};var q=(location.search.match(/[?&]tod=(dawn|day|dusk|night)\b/)||[])[1],s=null;try{s=localStorage.getItem(K)}catch(e){}if(P.indexOf(s)<0)s=null;var t=q||s||part(new Date().getHours());d.setAttribute("data-tod",t);window.GabellaTod={part:part,bounds:B,now:t,pinned:!!(q||s),url:!!q,key:K,names:D.N,text:D.X};D.A.forEach(function(a){var l=document.createElement("link");l.rel="preload";l.as="image";l.type=a[0];if(a[1])l.media=a[1];l.setAttribute("fetchpriority","high");l.setAttribute("imagesrcset",a[2].replace(/\{tod\}/g,t));l.setAttribute("imagesizes",a[3]);document.head.appendChild(l)})})();</script>
+<script>(function(){var D={"B": [6, 11, 17, 23], "N": {"dawn": "Matin", "day": "Journée", "dusk": "Soir", "night": "Nuit"}, "X": {"auto": "selon votre heure", "reset": "Heure locale", "label": "Moment de la journée"}, "A": [["image/avif", "(max-width: 719px) and (max-aspect-ratio: 2/3)", "../assets/art/hero_{tod}-m-600.avif?v=65d306b9 600w, ../assets/art/hero_{tod}-m-1000.avif?v=543899f8 1000w", "78vh"], ["image/avif", "not all and (max-width: 719px) and (max-aspect-ratio: 2/3)", "../assets/art/hero_{tod}-960.avif?v=885a0602 960w, ../assets/art/hero_{tod}-1440.avif?v=f5790b97 1440w, ../assets/art/hero_{tod}-1920.avif?v=877ecaff 1920w, ../assets/art/hero_{tod}-2560.avif?v=1792050a 2560w, ../assets/art/hero_{tod}-3840.avif?v=40b1b018 3840w", "(max-aspect-ratio: 16/9) 180vh, 100vw"]]},B=D.B,K="gabella-tod",P=["dawn","day","dusk","night"],d=document.documentElement;function part(h){return h>=B[0]&&h<B[1]?'dawn':h>=B[1]&&h<B[2]?'day':h>=B[2]&&h<B[3]?'dusk':'night'};var q=(location.search.match(/[?&]tod=(dawn|day|dusk|night)\b/)||[])[1],s=null;try{s=localStorage.getItem(K)}catch(e){}if(P.indexOf(s)<0)s=null;var t=q||s||part(new Date().getHours());d.setAttribute("data-tod",t);window.GabellaTod={part:part,bounds:B,now:t,pinned:!!(q||s),url:!!q,key:K,names:D.N,text:D.X};D.A.forEach(function(a){var l=document.createElement("link");l.rel="preload";l.as="image";l.type=a[0];if(a[1])l.media=a[1];l.setAttribute("fetchpriority","high");l.setAttribute("imagesrcset",a[2].replace(/\{tod\}/g,t));l.setAttribute("imagesizes",a[3]);document.head.appendChild(l)})})();</script>
 <style>
 .rv { opacity: 0; transform: translateY(18px); }
 .rv.in { opacity: 1; transform: none; transition: opacity .6s var(--ease), transform .6s var(--ease); }
@@ -922,6 +922,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
   <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7M6 9.5V20h12V9.5M10 20v-5h4v5"/></symbol>
   <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5.5C6.5 4 9.5 4 12 5.5v14c-2.5-1.5-5.5-1.5-8 0zM20 5.5C17.5 4 14.5 4 12 5.5v14c2.5-1.5 5.5-1.5 8 0z"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></symbol>
+  <symbol id="i-sword" viewBox="0 0 24 24"><path d="M20 4h-4.5L7 12.5l4.5 4.5L20 8.5zM5 14.5l4.5 4.5M7.3 16.7 4 20"/></symbol>
   <symbol id="i-dots" viewBox="0 0 24 24"><path d="M5 12h.01M12 12h.01M19 12h.01"/></symbol>
   <symbol id="i-fire" viewBox="0 0 24 24"><path d="M12 2.5c1 4 5.5 6 5.5 11a5.5 5.5 0 0 1-11 0c0-2.2 1.1-3.8 2.2-4.8 0 2 .9 3.2 2.1 3.2 0-3.2-1-6 1.2-9.4z"/></symbol>
   <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
@@ -937,12 +939,12 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     <button class="iconbtn srchbtn" type="button" aria-label="Rechercher sur le site" aria-haspopup="dialog"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><kbd>Ctrl K</kbd></button>
     <button class="iconbtn radiobtn" type="button" aria-label="Radio" title="Radio" aria-expanded="false" aria-controls="radioPanel" aria-pressed="false"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg><span class="rdo-eq" aria-hidden="true"><i></i><i></i><i></i></span></button>
     <button class="iconbtn themebtn" type="button" aria-label="Changer de thème" title="Changer de thème"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></button>
-    <button class="iconbtn menubtn" type="button" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg><span>Sections</span></button>
+    <button class="iconbtn menubtn" type="button" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg><span>Plus</span></button>
   </div>
 </div></header>
 
-<section class="hero" id="top" data-nav="#top" data-tab="#top">
-  <picture class="hero-art" data-fx="dawn" data-tod-art><source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/avif" data-srcset="../assets/art/hero_{tod}-m-600.avif 600w, ../assets/art/hero_{tod}-m-1000.avif 1000w" sizes="78vh"><source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/webp" data-srcset="../assets/art/hero_{tod}-m-600.webp 600w, ../assets/art/hero_{tod}-m-1000.webp 1000w" sizes="78vh"><source type="image/avif" data-srcset="../assets/art/hero_{tod}-960.avif 960w, ../assets/art/hero_{tod}-1440.avif 1440w, ../assets/art/hero_{tod}-1920.avif 1920w, ../assets/art/hero_{tod}-2560.avif 2560w, ../assets/art/hero_{tod}-3840.avif 3840w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw"><source type="image/webp" data-srcset="../assets/art/hero_{tod}-960.webp 960w, ../assets/art/hero_{tod}-1440.webp 1440w, ../assets/art/hero_{tod}-1920.webp 1920w, ../assets/art/hero_{tod}-2560.webp 2560w, ../assets/art/hero_{tod}-3840.webp 3840w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw"><img data-src="../assets/art/hero_{tod}-1920.webp" width="1920" height="1072" alt="" fetchpriority="high" decoding="async"></picture><script>(function(p,t){p.querySelectorAll("[data-srcset]").forEach(function(e){e.srcset=e.getAttribute("data-srcset").replace(/\{tod\}/g,t)});var i=p.querySelector("img");i.src=i.getAttribute("data-src").replace(/\{tod\}/g,t)})(document.currentScript.previousElementSibling,GabellaTod.now)</script><noscript><picture class="hero-art"><source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/avif" srcset="../assets/art/hero_dawn-m-600.avif 600w, ../assets/art/hero_dawn-m-1000.avif 1000w" sizes="78vh"><source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/webp" srcset="../assets/art/hero_dawn-m-600.webp 600w, ../assets/art/hero_dawn-m-1000.webp 1000w" sizes="78vh"><source type="image/avif" srcset="../assets/art/hero_dawn-960.avif 960w, ../assets/art/hero_dawn-1440.avif 1440w, ../assets/art/hero_dawn-1920.avif 1920w, ../assets/art/hero_dawn-2560.avif 2560w, ../assets/art/hero_dawn-3840.avif 3840w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw"><source type="image/webp" srcset="../assets/art/hero_dawn-960.webp 960w, ../assets/art/hero_dawn-1440.webp 1440w, ../assets/art/hero_dawn-1920.webp 1920w, ../assets/art/hero_dawn-2560.webp 2560w, ../assets/art/hero_dawn-3840.webp 3840w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw"><img src="../assets/art/hero_dawn-1920.webp" width="1920" height="1072" alt="" decoding="async"></picture></noscript>
+<section class="hero" id="top" data-nav="#top">
+  <picture class="hero-art" data-fx="dawn" data-tod-art><source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/avif" data-srcset="../assets/art/hero_{tod}-m-600.avif?v=65d306b9 600w, ../assets/art/hero_{tod}-m-1000.avif?v=543899f8 1000w" sizes="78vh"><source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/webp" data-srcset="../assets/art/hero_{tod}-m-600.webp?v=11023db0 600w, ../assets/art/hero_{tod}-m-1000.webp?v=f49fb94b 1000w" sizes="78vh"><source type="image/avif" data-srcset="../assets/art/hero_{tod}-960.avif?v=885a0602 960w, ../assets/art/hero_{tod}-1440.avif?v=f5790b97 1440w, ../assets/art/hero_{tod}-1920.avif?v=877ecaff 1920w, ../assets/art/hero_{tod}-2560.avif?v=1792050a 2560w, ../assets/art/hero_{tod}-3840.avif?v=40b1b018 3840w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw"><source type="image/webp" data-srcset="../assets/art/hero_{tod}-960.webp?v=70a6e647 960w, ../assets/art/hero_{tod}-1440.webp?v=99eb0b20 1440w, ../assets/art/hero_{tod}-1920.webp?v=b9a3d418 1920w, ../assets/art/hero_{tod}-2560.webp?v=69d94b04 2560w, ../assets/art/hero_{tod}-3840.webp?v=00fec2fb 3840w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw"><img data-src="../assets/art/hero_{tod}-1920.webp?v=b9a3d418" width="1920" height="1072" alt="" fetchpriority="high" decoding="async"></picture><script>(function(p,t){p.querySelectorAll("[data-srcset]").forEach(function(e){e.srcset=e.getAttribute("data-srcset").replace(/\{tod\}/g,t)});var i=p.querySelector("img");i.src=i.getAttribute("data-src").replace(/\{tod\}/g,t)})(document.currentScript.previousElementSibling,GabellaTod.now)</script><noscript><picture class="hero-art"><source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/avif" srcset="../assets/art/hero_dawn-m-600.avif?v=56ed93dc 600w, ../assets/art/hero_dawn-m-1000.avif?v=77e02522 1000w" sizes="78vh"><source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/webp" srcset="../assets/art/hero_dawn-m-600.webp?v=f9840349 600w, ../assets/art/hero_dawn-m-1000.webp?v=c04d35ff 1000w" sizes="78vh"><source type="image/avif" srcset="../assets/art/hero_dawn-960.avif?v=17dcd2c2 960w, ../assets/art/hero_dawn-1440.avif?v=ff4f1d9c 1440w, ../assets/art/hero_dawn-1920.avif?v=f7247901 1920w, ../assets/art/hero_dawn-2560.avif?v=44a7e5be 2560w, ../assets/art/hero_dawn-3840.avif?v=2ff976e6 3840w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw"><source type="image/webp" srcset="../assets/art/hero_dawn-960.webp?v=643f09a0 960w, ../assets/art/hero_dawn-1440.webp?v=043ac087 1440w, ../assets/art/hero_dawn-1920.webp?v=c4eed46f 1920w, ../assets/art/hero_dawn-2560.webp?v=8901e93a 2560w, ../assets/art/hero_dawn-3840.webp?v=5284ec42 3840w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw"><img src="../assets/art/hero_dawn-1920.webp?v=c4eed46f" width="1920" height="1072" alt="" decoding="async"></picture></noscript>
   <div class="wrap hero-in">
     <h1>World of Warcraft <span>Forever</span></h1>
     <p class="lead">Classes, races, composition de groupe et tout ce qu’il faut savoir pour le lancement du 4 novembre. Avec sources et dates.</p>
@@ -962,8 +964,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </section>
 
 <main>
-<section class="stband" id="stages" data-nav="#stages" data-tab="#top">
-  <picture class="stband-art" data-fx="road"><source type="image/avif" srcset="../assets/art/hero_road-960.avif 960w, ../assets/art/hero_road-1600.avif 1600w, ../assets/art/hero_road-2560.avif 2560w" sizes="100vw"><source type="image/webp" srcset="../assets/art/hero_road-960.webp 960w, ../assets/art/hero_road-1600.webp 1600w, ../assets/art/hero_road-2560.webp 2560w" sizes="100vw"><img src="../assets/art/hero_road-1600.webp" width="1600" height="893" alt="" loading="lazy" decoding="async"></picture>
+<section class="stband" id="stages" data-nav="#stages">
+  <picture class="stband-art" data-fx="road"><source type="image/avif" srcset="../assets/art/hero_road-960.avif?v=af8674cf 960w, ../assets/art/hero_road-1600.avif?v=5f569a68 1600w, ../assets/art/hero_road-2560.avif?v=221bdf28 2560w" sizes="100vw"><source type="image/webp" srcset="../assets/art/hero_road-960.webp?v=6acf5cfd 960w, ../assets/art/hero_road-1600.webp?v=fb66c4d8 1600w, ../assets/art/hero_road-2560.webp?v=93caec68 2560w" sizes="100vw"><img src="../assets/art/hero_road-1600.webp?v=fb66c4d8" width="1600" height="893" alt="" loading="lazy" decoding="async"></picture>
   <div class="wrap">
     <div class="sec-head"><h2>Où vous en êtes</h2><p>Cinq étapes, de la réservation des noms aux raids. L’étape est choisie selon la date, et si vous ajoutez votre personnage, le guide trouve les donjons de votre niveau et montre les améliorations que vous apportez au groupe.</p></div>
     <div class="frame stiles" id="stageBar" role="tablist" aria-label="Étapes du jeu"></div>
@@ -990,18 +992,18 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   </div>
 </section>
 
-<section class="block wrap" id="factions" data-nav="#factions" data-tab="#classes">
+<section class="block wrap" id="factions" data-nav="#factions">
   <div class="sec-head"><h2>Alliance ou Horde</h2><p>Mettez-vous d’accord sur une faction à l’avance : en mode JcJ, une seule est disponible à la création. Les neuf classes existent des deux côtés.</p></div>
   <div class="frame factions">
     <article class="fac alliance">
-      <picture><source type="image/avif" srcset="../assets/art/paladin-600.avif 600w, ../assets/art/paladin-896.avif 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><source type="image/webp" srcset="../assets/art/paladin-600.webp 600w, ../assets/art/paladin-896.webp 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><img src="../assets/art/paladin-600.webp" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
+      <picture><source type="image/avif" srcset="../assets/art/paladin-600.avif?v=62bbe825 600w, ../assets/art/paladin-896.avif?v=f272a36e 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><source type="image/webp" srcset="../assets/art/paladin-600.webp?v=ce6a9574 600w, ../assets/art/paladin-896.webp?v=0288b052 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><img src="../assets/art/paladin-600.webp?v=ce6a9574" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
       <h3>Alliance</h3>
       <p>Humain, Nain, Elfe de la nuit, Gnome et Skyborne High Order.</p>
       <p><b>Nouveau :</b> Chaman nain, Prêtre gnome et Chasseur humain.</p>
       <button type="button" class="go-f" data-fac="alliance">Choisir race et classe<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
     </article>
     <article class="fac horde">
-      <picture><source type="image/avif" srcset="../assets/art/shaman-600.avif 600w, ../assets/art/shaman-896.avif 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><source type="image/webp" srcset="../assets/art/shaman-600.webp 600w, ../assets/art/shaman-896.webp 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><img src="../assets/art/shaman-600.webp" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
+      <picture><source type="image/avif" srcset="../assets/art/shaman-600.avif?v=f3897c65 600w, ../assets/art/shaman-896.avif?v=bf19e5ec 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><source type="image/webp" srcset="../assets/art/shaman-600.webp?v=685d7399 600w, ../assets/art/shaman-896.webp?v=c55422e9 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><img src="../assets/art/shaman-600.webp?v=685d7399" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
       <h3>Horde</h3>
 
       <p>Orc, Mort-vivant, Tauren, Troll et Skyborne Windshaper.</p>
@@ -1011,14 +1013,14 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   </div>
 </section>
 
-<section class="block wrap" id="classes" data-nav="#classes" data-tab="#classes">
+<section class="block wrap" id="classes" data-nav="#classes">
   <div class="sec-head"><div class="row"><h2>Que jouer</h2><span class="src">Warcraft Tavern, LFCarry</span></div><p>Survolez un portrait pour déplier la classe. Cliquez pour ouvrir la page de la classe : spécialisations, races et nouveautés de Forever.</p></div>
   <div class="frame roster" id="roster"><a href="classes/warrior/">Guerrier</a><a href="classes/paladin/">Paladin</a><a href="classes/hunter/">Chasseur</a><a href="classes/rogue/">Voleur</a><a href="classes/priest/">Prêtre</a><a href="classes/shaman/">Chaman</a><a href="classes/mage/">Mage</a><a href="classes/warlock/">Démoniste</a><a href="classes/druid/">Druide</a></div>
   <p class="swipe">Faites défiler les portraits sur le côté.</p>
   <p><a class="more-l" href="classes/">Comparer les classes<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
 </section>
 
-<section class="block wrap" id="peoples" data-nav="#peoples" data-tab="#classes">
+<section class="block wrap" id="peoples" data-nav="#peoples">
   <div class="sec-head"><div class="row"><h2>Que jouer</h2><span class="src">Warcraft Tavern</span></div><p>Cinq races par faction, et les Skyborne sont des deux côtés. Cliquez sur un portrait pour ouvrir la page de la race : capacités, classes et histoire.</p></div>
   <div class="frame peoples">
     <div class="pfac alliance"><h3>Alliance</h3><div class="roster rr" id="rosterA"><a href="races/human/">Humain</a><a href="races/dwarf/">Nain</a><a href="races/night-elf/">Elfe de la nuit</a><a href="races/gnome/">Gnome</a><a href="races/skyborne-alliance/">Skyborne High Order</a></div></div>
@@ -1028,17 +1030,17 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <p><a class="more-l" href="races/">Comparer les races<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
 </section>
 
-<section class="block wrap" id="tools" data-nav="#picker" data-tab="#builder">
+<section class="block wrap" id="tools" data-nav="#picker">
   <div class="sec-head"><h2>Outils</h2><p>Sélecteur de race et de classe et créateur de groupe ; une page à part propose des cadres de raid façon jeu, une comparaison et une recherche dans le guide. Partagez le lien de la composition dans le chat.</p></div>
   <nav class="frame ttiles t4" aria-label="Outils">
-    <a class="ttile" href="#picker"><picture><source type="image/avif" srcset="../assets/art/druid-360.avif 360w, ../assets/art/druid-600.avif 600w" sizes="(max-width: 980px) 100vw, 400px"><source type="image/webp" srcset="../assets/art/druid-360.webp 360w, ../assets/art/druid-600.webp 600w" sizes="(max-width: 980px) 100vw, 400px"><img src="../assets/art/druid-600.webp" alt="" loading="lazy" decoding="async"></picture><b>Sélecteur de race et de classe</b><span id="qPick">Toutes les combinaisons et ce que chacune sait faire</span></a>
-    <a class="ttile" href="#builder"><picture><source type="image/avif" srcset="../assets/art/hero_campfire-960.avif"><img src="../assets/art/hero_campfire-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Créateur de groupe</b><span id="qTeam">De un à quarante joueurs</span></a>
-    <a class="ttile" href="tools/"><picture><source type="image/avif" srcset="../assets/art/paladin-600.avif"><img src="../assets/art/paladin-600.webp" alt="" loading="lazy" decoding="async"></picture><b>Cadres, comparaison, recherche</b><span>Grille de raid façon jeu, classes et races côte à côte</span></a>
-    <a class="ttile" href="play/"><picture><source type="image/avif" srcset="../assets/art/mage-600.avif"><img src="../assets/art/mage-600.webp" alt="" loading="lazy" decoding="async"></picture><b>En jeu</b><span>Second écran : radio, niveau, minuteurs, Gloire et défis de la semaine</span></a>
+    <a class="ttile" href="#picker"><picture><source type="image/avif" srcset="../assets/art/druid-360.avif?v=ab838763 360w, ../assets/art/druid-600.avif?v=1b0c026e 600w" sizes="(max-width: 980px) 100vw, 400px"><source type="image/webp" srcset="../assets/art/druid-360.webp?v=8c2cd510 360w, ../assets/art/druid-600.webp?v=35718cc0 600w" sizes="(max-width: 980px) 100vw, 400px"><img src="../assets/art/druid-600.webp?v=35718cc0" alt="" loading="lazy" decoding="async"></picture><b>Sélecteur de race et de classe</b><span id="qPick">Toutes les combinaisons et ce que chacune sait faire</span></a>
+    <a class="ttile" href="#builder"><picture><source type="image/avif" srcset="../assets/art/hero_campfire-960.avif?v=2654726f"><img src="../assets/art/hero_campfire-960.webp?v=d73f1e16" alt="" loading="lazy" decoding="async"></picture><b>Créateur de groupe</b><span id="qTeam">De un à quarante joueurs</span></a>
+    <a class="ttile" href="tools/"><picture><source type="image/avif" srcset="../assets/art/paladin-600.avif?v=62bbe825"><img src="../assets/art/paladin-600.webp?v=ce6a9574" alt="" loading="lazy" decoding="async"></picture><b>Cadres, comparaison, recherche</b><span>Grille de raid façon jeu, classes et races côte à côte</span></a>
+    <a class="ttile" href="play/"><picture><source type="image/avif" srcset="../assets/art/mage-600.avif?v=632283e7"><img src="../assets/art/mage-600.webp?v=37403d76" alt="" loading="lazy" decoding="async"></picture><b>En jeu</b><span>Second écran : radio, niveau, minuteurs, Gloire et défis de la semaine</span></a>
   </nav>
 
 </section>
-<section class="block wrap" id="picker" data-tab="#builder">
+<section class="block wrap" id="picker">
   <div class="sec-head"><div class="row"><h2>Sélecteur : race et classe</h2><span class="src">Warcraft Tavern, Method</span></div>
     <p>Choisissez une faction et un rôle, regardez les combinaisons et cliquez sur une case. En dessous, vous verrez les capacités de race et les rôles de classe, et votre choix se copie d’un seul bouton pour le chat du groupe.</p></div>
   <div class="tool">
@@ -1064,7 +1066,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   </div>
   <p class="note"><b>Nouvelles combinaisons :</b> chaman nain et prêtre gnome (Alliance), chasseur humain, et pour la Horde mage orc, démoniste troll et paladin mort-vivant. La Horde gagne le paladin, l’Alliance le chaman. Le Skyborne Windshaper (Horde) peut être chaman, le Skyborne High Order (Alliance) mage.</p>
 </section>
-<section class="block wrap" id="builder" data-tab="#builder">
+<section class="block wrap" id="builder">
   <div class="sec-head"><h2>Créateur de groupe</h2>
     <p>Trois étapes : la faction, votre nombre, et qui joue quoi. Vous voyez tout de suite ce qui manque, quelles améliorations vous apportez et si vous pouvez faire des raids.</p></div>
   <div class="builder">
@@ -1090,24 +1092,24 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     </aside>
   </div>
 </section>
-<section class="stband" id="guides" data-nav="#guides" data-tab="#guides">
+<section class="stband" id="guides" data-nav="#guides">
   <div class="wrap">
     <div class="sec-head"><h2>Guides et référence</h2><p>Tout ce que nous avons réuni sur WoW Forever : dates, systèmes de jeu, donjons et conseils pour un groupe d’amis.</p></div>
     <nav class="frame gtiles" aria-label="Guides">
-      <a class="gt" href="guides/leveling/"><picture><source type="image/avif" srcset="../assets/art/hero_dawn-960.avif"><img src="../assets/art/hero_dawn-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Progression 1–60</b><span>Itinéraire des zones, rythme et repos</span><time datetime="2026-10-23">23.10.2026</time></a>
-      <a class="gt" href="guides/dungeons/"><picture><source type="image/avif" srcset="../assets/art/warlock-360.avif 360w, ../assets/art/warlock-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/warlock-360.webp" srcset="../assets/art/warlock-360.webp 360w, ../assets/art/warlock-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Donjons et raids</b><span>Les 35 donjons par niveau et 3 raids</span><time datetime="2026-10-23">23.10.2026</time></a>
-      <a class="gt" href="guides/professions/"><picture><source type="image/avif" srcset="../assets/art/hero_campfire-960.avif"><img src="../assets/art/hero_campfire-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Métiers</b><span>Duos pour votre classe et objets de camp</span><time datetime="2026-10-23">23.10.2026</time></a>
-      <a class="gt" href="guides/faq/"><picture><source type="image/avif" srcset="../assets/art/mage-360.avif 360w, ../assets/art/mage-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/mage-360.webp" srcset="../assets/art/mage-360.webp 360w, ../assets/art/mage-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>FAQ et dates</b><span>Réservation des noms, sortie, raids et différences avec Era</span><time datetime="2026-10-23">23.10.2026</time></a>
-      <a class="gt" href="guides/news/"><picture><source type="image/avif" srcset="../assets/art/shaman-360.avif 360w, ../assets/art/shaman-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/shaman-360.webp" srcset="../assets/art/shaman-360.webp 360w, ../assets/art/shaman-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Actualités</b><span>Nos notes et le fil Wowhead</span></a>
-      <a class="gt" href="classes/"><picture><source type="image/avif" srcset="../assets/art/warrior-360.avif 360w, ../assets/art/warrior-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/warrior-360.webp" srcset="../assets/art/warrior-360.webp 360w, ../assets/art/warrior-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Classes comparées</b><span>Spécialisations, rythme de progression et nouveautés</span><time datetime="2026-10-23">23.10.2026</time></a>
-      <a class="gt" href="races/"><picture><source type="image/avif" srcset="../assets/art/human-360.avif 360w, ../assets/art/human-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/human-360.webp" srcset="../assets/art/human-360.webp 360w, ../assets/art/human-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Races comparées</b><span>Capacités raciales et classes disponibles</span><time datetime="2026-10-23">23.10.2026</time></a>
-      <a class="gt" href="guides/leveling/#legacy"><picture><source type="image/avif" srcset="../assets/art/priest-360.avif 360w, ../assets/art/priest-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/priest-360.webp" srcset="../assets/art/priest-360.webp 360w, ../assets/art/priest-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Legacy</b><span>Points, bonus et récompenses à l’échelle du compte</span></a>
+      <a class="gt" href="guides/leveling/"><picture><source type="image/avif" srcset="../assets/art/hero_dawn-960.avif?v=17dcd2c2"><img src="../assets/art/hero_dawn-960.webp?v=643f09a0" alt="" loading="lazy" decoding="async"></picture><b>Progression 1–60</b><span>Itinéraire des zones, rythme et repos</span><time datetime="2026-10-23">23.10.2026</time></a>
+      <a class="gt" href="guides/dungeons/"><picture><source type="image/avif" srcset="../assets/art/warlock-360.avif?v=dd5fc7a8 360w, ../assets/art/warlock-600.avif?v=f1b27c51 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/warlock-360.webp?v=1f04d604" srcset="../assets/art/warlock-360.webp?v=1f04d604 360w, ../assets/art/warlock-600.webp?v=a0181c77 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Donjons et raids</b><span>Les 35 donjons par niveau et 3 raids</span><time datetime="2026-10-23">23.10.2026</time></a>
+      <a class="gt" href="guides/professions/"><picture><source type="image/avif" srcset="../assets/art/hero_campfire-960.avif?v=2654726f"><img src="../assets/art/hero_campfire-960.webp?v=d73f1e16" alt="" loading="lazy" decoding="async"></picture><b>Métiers</b><span>Duos pour votre classe et objets de camp</span><time datetime="2026-10-23">23.10.2026</time></a>
+      <a class="gt" href="guides/faq/"><picture><source type="image/avif" srcset="../assets/art/mage-360.avif?v=7b69fc64 360w, ../assets/art/mage-600.avif?v=632283e7 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/mage-360.webp?v=f08052db" srcset="../assets/art/mage-360.webp?v=f08052db 360w, ../assets/art/mage-600.webp?v=37403d76 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>FAQ et dates</b><span>Réservation des noms, sortie, raids et différences avec Era</span><time datetime="2026-10-23">23.10.2026</time></a>
+      <a class="gt" href="guides/news/"><picture><source type="image/avif" srcset="../assets/art/shaman-360.avif?v=0dbb0972 360w, ../assets/art/shaman-600.avif?v=f3897c65 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/shaman-360.webp?v=bebb6ed5" srcset="../assets/art/shaman-360.webp?v=bebb6ed5 360w, ../assets/art/shaman-600.webp?v=685d7399 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Actualités</b><span>Nos notes et le fil Wowhead</span></a>
+      <a class="gt" href="classes/"><picture><source type="image/avif" srcset="../assets/art/warrior-360.avif?v=6859bd26 360w, ../assets/art/warrior-600.avif?v=778c7ed6 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/warrior-360.webp?v=a184c6fb" srcset="../assets/art/warrior-360.webp?v=a184c6fb 360w, ../assets/art/warrior-600.webp?v=f33e405c 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Classes comparées</b><span>Spécialisations, rythme de progression et nouveautés</span><time datetime="2026-10-23">23.10.2026</time></a>
+      <a class="gt" href="races/"><picture><source type="image/avif" srcset="../assets/art/human-360.avif?v=4b83bd2a 360w, ../assets/art/human-600.avif?v=b743f61d 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/human-360.webp?v=f6b98610" srcset="../assets/art/human-360.webp?v=f6b98610 360w, ../assets/art/human-600.webp?v=2d8182c1 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Races comparées</b><span>Capacités raciales et classes disponibles</span><time datetime="2026-10-23">23.10.2026</time></a>
+      <a class="gt" href="guides/leveling/#legacy"><picture><source type="image/avif" srcset="../assets/art/priest-360.avif?v=7bd13375 360w, ../assets/art/priest-600.avif?v=a4c033f8 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/priest-360.webp?v=dceffb9e" srcset="../assets/art/priest-360.webp?v=dceffb9e 360w, ../assets/art/priest-600.webp?v=c6a0304e 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Legacy</b><span>Points, bonus et récompenses à l’échelle du compte</span></a>
     </nav>
     <p><a class="more-l" href="guides/">Tous les guides<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
   </div>
 </section>
-<section class="camp" id="camp" data-nav="#guides" data-tab="#guides">
-  <picture class="camp-art" data-fx="camp"><source type="image/avif" srcset="../assets/art/hero_campfire-960.avif 960w, ../assets/art/hero_campfire-1600.avif 1600w, ../assets/art/hero_campfire-2560.avif 2560w" sizes="(max-width: 719px) 300vw, 100vw"><source type="image/webp" srcset="../assets/art/hero_campfire-960.webp 960w, ../assets/art/hero_campfire-1600.webp 1600w, ../assets/art/hero_campfire-2560.webp 2560w" sizes="(max-width: 719px) 300vw, 100vw"><img src="../assets/art/hero_campfire-1600.webp" width="1600" height="893" alt="" loading="lazy" decoding="async"></picture>
+<section class="camp" id="camp" data-nav="#guides">
+  <picture class="camp-art" data-fx="camp"><source type="image/avif" srcset="../assets/art/hero_campfire-960.avif?v=2654726f 960w, ../assets/art/hero_campfire-1600.avif?v=a9d1ad39 1600w, ../assets/art/hero_campfire-2560.avif?v=6b161175 2560w" sizes="(max-width: 719px) 300vw, 100vw"><source type="image/webp" srcset="../assets/art/hero_campfire-960.webp?v=d73f1e16 960w, ../assets/art/hero_campfire-1600.webp?v=bef1b754 1600w, ../assets/art/hero_campfire-2560.webp?v=08f5bedc 2560w" sizes="(max-width: 719px) 300vw, 100vw"><img src="../assets/art/hero_campfire-1600.webp?v=bef1b754" width="1600" height="893" alt="" loading="lazy" decoding="async"></picture>
   <div class="wrap camp-in">
     <h2>Trouver un groupe</h2>
     <p>Composez votre groupe dans le constructeur et partagez le lien. Vous cherchez des joueurs ? Activez « Je cherche un groupe » dans votre profil et vous apparaîtrez dans l’Effectif. Des joueurs se regroupent aussi sur le serveur Discord de Gabella Team.</p>
@@ -1135,10 +1137,10 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </main>
 
 <nav class="tabbar" aria-label="Sections rapides">
-  <a href="#top"><svg class="ico" aria-hidden="true"><use href="#i-home"/></svg>Accueil</a>
-  <a href="#classes"><svg class="ico" aria-hidden="true"><use href="#i-tank"/></svg>Classes</a>
-  <a href="roster/"><svg class="ico" aria-hidden="true"><use href="#i-users"/></svg>Effectif</a>
-  <a href="#guides"><svg class="ico" aria-hidden="true"><use href="#i-book"/></svg>Guides</a>
+  <a href="#top" aria-current="true"><svg class="ico" aria-hidden="true"><use href="#i-home"/></svg>Accueil</a>
+  <a href="guides/"><svg class="ico" aria-hidden="true"><use href="#i-book"/></svg>Guides</a>
+  <a href="play/"><svg class="ico" aria-hidden="true"><use href="#i-sword"/></svg>En jeu</a>
+  <a href="profile/"><svg class="ico" aria-hidden="true"><use href="#i-user"/></svg>Profil</a>
   <button type="button" class="morebtn" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-dots"/></svg>Plus</button>
 </nav>
 
@@ -1819,7 +1821,8 @@ function autoStage() {
   return [now < new Date('2026-11-11T00:00:00') ? 'first' : 'dung', 'Choisi selon la date. Ajoutez le niveau de votre personnage et l’étape le suivra.'];
 }
 const START = { pre: 'hero_dawn-960', first: 'hero_campfire-960', dung: 'warlock-360', path: 'hunter-360', raid: 'paladin-360' };
-const pic = f => `<picture><source type="image/avif" srcset="${ROOT}assets/art/${f}.avif"><img src="${ROOT}assets/art/${f}.webp" alt="" loading="lazy" decoding="async"></picture>`;
+const ARTV = /*ARTV*/{"hero_campfire-1600.avif":"?v=a9d1ad39","hero_campfire-1600.webp":"?v=bef1b754","hero_campfire-2560.avif":"?v=6b161175","hero_campfire-2560.webp":"?v=08f5bedc","hero_campfire-960.avif":"?v=2654726f","hero_campfire-960.webp":"?v=d73f1e16","hero_dawn-1440.avif":"?v=ff4f1d9c","hero_dawn-1440.webp":"?v=043ac087","hero_dawn-1920.avif":"?v=f7247901","hero_dawn-1920.webp":"?v=c4eed46f","hero_dawn-2560.avif":"?v=44a7e5be","hero_dawn-2560.webp":"?v=8901e93a","hero_dawn-3840.avif":"?v=2ff976e6","hero_dawn-3840.webp":"?v=5284ec42","hero_dawn-960.avif":"?v=17dcd2c2","hero_dawn-960.webp":"?v=643f09a0","hero_dawn-m-1000.avif":"?v=77e02522","hero_dawn-m-1000.webp":"?v=c04d35ff","hero_dawn-m-600.avif":"?v=56ed93dc","hero_dawn-m-600.webp":"?v=f9840349","hero_day-1440.avif":"?v=7e33f0ab","hero_day-1440.webp":"?v=6b8dc9c4","hero_day-1920.avif":"?v=83b6d64c","hero_day-1920.webp":"?v=69f2453d","hero_day-2560.avif":"?v=04453fe2","hero_day-2560.webp":"?v=87902d8d","hero_day-3840.avif":"?v=3b1cea8d","hero_day-3840.webp":"?v=a22da3fc","hero_day-960.avif":"?v=21923309","hero_day-960.webp":"?v=99ebce67","hero_day-m-1000.avif":"?v=cfd08dc0","hero_day-m-1000.webp":"?v=4daf2429","hero_day-m-600.avif":"?v=442c1c5a","hero_day-m-600.webp":"?v=6eeead8c","hero_dusk-1440.avif":"?v=4719e645","hero_dusk-1440.webp":"?v=bd620263","hero_dusk-1920.avif":"?v=13abdfcf","hero_dusk-1920.webp":"?v=c9b354b1","hero_dusk-2560.avif":"?v=07302bd8","hero_dusk-2560.webp":"?v=fecf4fab","hero_dusk-3840.avif":"?v=11390961","hero_dusk-3840.webp":"?v=00d93c1a","hero_dusk-960.avif":"?v=cd15bb3f","hero_dusk-960.webp":"?v=d516ff58","hero_dusk-m-1000.avif":"?v=149401c9","hero_dusk-m-1000.webp":"?v=3a54dd35","hero_dusk-m-600.avif":"?v=9d0dcf09","hero_dusk-m-600.webp":"?v=5eba4dce","hero_night-1440.avif":"?v=1925c421","hero_night-1440.webp":"?v=2bacaa3d","hero_night-1920.avif":"?v=af679b0c","hero_night-1920.webp":"?v=6ec21306","hero_night-2560.avif":"?v=c6f95a36","hero_night-2560.webp":"?v=55fcc6ab","hero_night-3840.avif":"?v=41599cc9","hero_night-3840.webp":"?v=89e7131c","hero_night-960.avif":"?v=e7f1cc5e","hero_night-960.webp":"?v=c2bd0f4b","hero_night-m-1000.avif":"?v=63ea1668","hero_night-m-1000.webp":"?v=f70e2c97","hero_night-m-600.avif":"?v=4026475e","hero_night-m-600.webp":"?v=d7f5183c","hero_road-1600.avif":"?v=5f569a68","hero_road-1600.webp":"?v=fb66c4d8","hero_road-2560.avif":"?v=221bdf28","hero_road-2560.webp":"?v=93caec68","hero_road-960.avif":"?v=af8674cf","hero_road-960.webp":"?v=6acf5cfd"};   // ?v= of the scene arts, filled in by build.art_version (same names, redrawn pictures)
+const pic = f => `<picture><source type="image/avif" srcset="${ROOT}assets/art/${f}.avif${ARTV[f + '.avif'] || ''}"><img src="${ROOT}assets/art/${f}.webp${ARTV[f + '.webp'] || ''}" alt="" loading="lazy" decoding="async"></picture>`;
 const tipL = () => '<span class="tl">Conseil</span>';
 function liC(x) { return x[0] === 't' ? `<li class="tip">${tipL()}${esc(x[1])}</li>` : `<li>${esc(x[1])}</li>`; }
 function dLi(d) {
@@ -1931,14 +1934,14 @@ document.querySelectorAll('.menubtn, .morebtn').forEach(b => b.onclick = () => {
 $('#moreClose').onclick = () => dlg.close();
 dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.toc a')) dlg.close(); });
 
-/* Current section in the top menu and the bottom tab bar */
+/* Current section in the top menu */
 if ('IntersectionObserver' in window) {
-  const navLinks = [...document.querySelectorAll('.mainnav a')], tabLinks = [...document.querySelectorAll('.tabbar a')];
+  const navLinks = [...document.querySelectorAll('.mainnav a')];
   const mark = (links, href) => links.forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === href ? 'true' : 'false'));
   const io = new IntersectionObserver(es => es.forEach(en => {
     if (!en.isIntersecting) return;
     const t = en.target, nav = t.dataset.nav || ('#' + t.id);
-    mark(navLinks, nav); mark(tabLinks, t.dataset.tab || '#guides');
+    mark(navLinks, nav);
   }), { rootMargin: '-45% 0px -50% 0px' });
   document.querySelectorAll('.hero, section.block, section.stband, footer#sources').forEach(s => io.observe(s));
 }
