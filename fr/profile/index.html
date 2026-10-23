@@ -1191,6 +1191,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 .picks small { color: var(--muted); font-weight: 500; }
 .signed { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px 14px; color: var(--muted); font-size: .92rem; }
 .signed .btn { min-height: 38px; padding: 0 14px; font-size: .9rem; }
+.signed + .sec { margin-top: 12px; }
 .founder { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 18px; align-items: center; padding: 14px 18px; }
 .founder b { font-family: var(--font-display); font-size: 1.2rem; color: var(--gold-2); }
 .founder p { margin: 2px 0 0; color: var(--muted); font-size: .92rem; }
@@ -1290,7 +1291,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/search/search.css?v=ad1c2df117" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=e3150ed17b" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=b478324dc8" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://gabella.site/wow/fr/"},{"@type":"ListItem","position":2,"name":"Mon profil","item":"https://gabella.site/wow/fr/profile/"}]}</script>
 </head>
 <body>
@@ -1813,7 +1814,12 @@ function mailVerify(t) {
 let tgBot = null;
 function tgConfig() { if (!tgBot && M) M.api('/auth/telegram/config').then(c => { tgBot = c.bot_id; }, () => {}); }
 function tgOpen(link) {
-  if (!tgBot) { notice = 'login-down'; return render(); }
+  if (!tgBot) {   // the bot id comes with the page's first screen; without it the Telegram window cannot open
+    tgConfig();
+    const n = link && $('#idNote');
+    if (n) { n.textContent = STATES['login-down'][1]; n.className = 'msg err'; return; }
+    notice = 'login-down'; return render();
+  }
   try { sessionStorage.setItem('gabella-tg-link', link ? '1' : ''); } catch (e) { /* private mode */ }
   const url = `https://oauth.telegram.org/auth?bot_id=${tgBot}&origin=${encodeURIComponent(location.origin)}&lang=${LANG}&return_to=${encodeURIComponent(location.href.split('#')[0])}`;
   const w = 550, h = 470;   // centred on this window (`screen` here is the page's own function)
@@ -1890,6 +1896,13 @@ function founderPlaque() {
   return `<div class="frame founder"><div><b>Titre «Fondateur»</b><p>Ajoutez un personnage avant le lancement du 4 novembre : le titre et le cadre doré restent pour toujours.</p></div>
     <div class="fcd">${unit(days, 'day')}<small>avant la fermeture</small></div></div>`;
 }
+const who = () => (m && m.user.nick ? fill('Connecté en tant que %n', { n: m.user.nick }) : 'Vous êtes connecté');
+/** Account without a character: the same section as in the cabinet, the wizard one tap away. */
+function accountOnly() {
+  parkForm();
+  $('#view').innerHTML = `${noticeHtml()}<div class="signed"><span>${esc(who())}</span><a class="btn ghost" href="#chars">Créer le personnage</a></div>
+    <section class="sec" id="sec">${secAccount()}</section>`;
+}
 function wizard() {
   parkForm();
   wiz = wiz || { step: 1, f: '', race: '', cls: '' };
@@ -1912,9 +1925,8 @@ function wizard() {
   const prev = asPlayer(c);
   prev.title = Date.now() < Date.parse(GD.deadline) ? 'founder' : null;
   prev.frame = prev.title ? 'founder' : prev.frame;
-  // no character yet means no cabinet: say who is signed in and let them leave
-  const who = m && m.user.nick ? fill('Connecté en tant que %n', { n: m.user.nick }) : 'Vous êtes connecté';
-  v.innerHTML = `${noticeHtml()}<div class="signed"><span>${esc(who)}</span><button type="button" class="btn ghost" data-act="logout">Se déconnecter</button></div>
+  // no character yet means no cabinet: say who is signed in, open the account (ways to sign in, deletion) or leave
+  v.innerHTML = `${noticeHtml()}<div class="signed"><span>${esc(who())}</span><a class="btn ghost" href="#account">Compte</a><button type="button" class="btn ghost" data-act="logout">Se déconnecter</button></div>
     <p class="lab">Voici comment l’effectif vous affichera</p>${bcard(prev, { h: 'h2' })}${founderPlaque()}
     <section class="frame wiz"><div class="wsteps">${steps}</div>${body}</section>`;
   if (w.step === 3) mountForm($('#wForm'), null);
@@ -2302,6 +2314,7 @@ function secAccount() {
 }
 /** Account → ways to sign in: one account, several logins; the last one cannot be removed. */
 function waysBox() {
+  tgConfig();   // the Telegram link button must open its window right in the click, so the bot id is fetched in advance
   const ids = m.identities || [];
   const rows = WAYS.map(([id, n]) => {
     const on = ids.includes(id);
@@ -2359,7 +2372,7 @@ function cabinet() {
 
 function render() {
   if (!m) return screen('login');
-  if (!m.characters.length) return wizard();
+  if (!m.characters.length) return sec === 'account' ? accountOnly() : wizard();
   cabinet();
 }
 
@@ -2521,7 +2534,8 @@ ready(Mx => {
   if (STATES[h]) notice = h;
   addEventListener('hashchange', () => {
     const s2 = location.hash.slice(1);
-    if (!secs().some(x => x[0] === s2) || !m || !m.characters.length) return;
+    if (!secs().some(x => x[0] === s2) || !m) return;
+    if (!m.characters.length) { sec = s2 === 'account' ? 'account' : 'chars'; render(); scrollTo(0, 0); return; }
     sec = s2; cabinet(); $('#sec').scrollIntoView({ block: 'nearest' });
   });
   follow();
@@ -2595,7 +2609,7 @@ addEventListener('beforeinstallprompt', e => {
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
 <script src="../../assets/search/search.js?v=ad1c2df117" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=e3150ed17b" data-root="../../" data-home="../" data-lang="fr" data-teaser="Votre profil garde votre parcours : Gloire, cadres, saisons" data-close="Fermer" data-page="profile/" defer></script>
+<script src="../../assets/me/me.js?v=b478324dc8" data-root="../../" data-home="../" data-lang="fr" data-teaser="Votre profil garde votre parcours : Gloire, cadres, saisons" data-close="Fermer" data-page="profile/" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

@@ -80,12 +80,14 @@ def main():
         if 'rel="manifest"' not in html or 'serviceWorker' not in html:
             problems.append(f'{rel}: нет манифеста или service worker')
         ids = set(IDS.findall(html))
+        static = set(targets(re.sub(r'<script\b.*?</script>', '', html, flags=re.S)))
         for t in targets(html):
             if t.startswith(('http:', 'https:', 'mailto:', 'data:', 'javascript:', '${')) or '${' in t:
                 continue
             u = urlsplit(t)
             if not u.path:
-                if u.fragment and u.fragment not in ids and not u.fragment.startswith(('pick=', 'team=')):
+                # a hash inside a script template is a route of that page (profile: #chars, #account), not an anchor
+                if u.fragment and u.fragment not in ids and t in static and not u.fragment.startswith(('pick=', 'team=')):
                     problems.append(f'{rel}: нет якоря #{u.fragment}')
                 continue
             p = os.path.normpath(os.path.join(os.path.dirname(page), unquote(u.path)))
