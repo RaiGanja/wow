@@ -12,7 +12,7 @@ CLASSES = ['warrior', 'paladin', 'hunter', 'rogue', 'priest', 'shaman', 'mage', 
 RACES = {'human': 'human', 'dwarf': 'dwarf', 'nightelf': 'night-elf', 'gnome': 'gnome', 'skyA': 'skyborne-alliance',
          'orc': 'orc', 'undead': 'undead', 'tauren': 'tauren', 'troll': 'troll', 'skyH': 'skyborne-horde'}
 SCENE_Q = 66  # wide scene art fills the screen: AVIF at 52 smears grass and fur there
-JOBS = [('hero_dawn', [960, 1440, 1920, 2560, 3840])] + [('hero_campfire', [960, 1600, 2560])] + [(c, [360, 600, 896]) for c in CLASSES]
+JOBS = [('hero_dawn', [960, 1440, 1920, 2560, 3840])] + [('hero_campfire', [960, 1600, 2560]), ('hero_road', [960, 1600, 2560])] + [(c, [360, 600, 896]) for c in CLASSES]
 
 
 def save(im, name, w, aq=52):

@@ -1,5 +1,5 @@
 /* Living art: a WebGL layer over the home page pictures — falling water, banners in the wind, drifting sky, mist,
-   god rays, dust and birds at dawn; fire, firelight, embers, smoke and stars at the camp.
+   god rays, dust and birds at dawn; fire, firelight, embers, smoke and stars at the camp; lantern, gate, river and mist on the road.
    A picture opts in with data-fx="dawn|camp" on its <picture>; masks are assets/living/<art>-fx.png (tools/make_living.py),
    in the 1376 x 768 grid of the source art. The canvas is transparent except where something moves, so the sharp <img>
    stays visible underneath. Off with prefers-reduced-motion, Save-Data or without WebGL; paused off screen. */
@@ -8,7 +8,7 @@
   if (!me || matchMedia('(prefers-reduced-motion: reduce)').matches || (navigator.connection || {}).saveData) return;
   const base = me.src.replace(/living\.js.*$/, '');
   const ver = (me.src.match(/\?v=\w+/) || [''])[0];
-  const ART = { dawn: 'hero_dawn', camp: 'hero_campfire' };
+  const ART = { dawn: 'hero_dawn', camp: 'hero_campfire', road: 'hero_road' };
   const FPS = matchMedia('(pointer: coarse)').matches ? 30 : 60;
   const FORCE = /[?&]fx=force\b/.test(location.search);   // screenshots in headless Chrome
 
@@ -154,6 +154,35 @@ void main() {
     vec3 col = mix(vec3(1., .85, .45), vec3(1., .35, .08), life);
     add += col * dot1(P, c, 1.3 + k * 1.4) * pow(1. - life, 1.4) * 1.3;
   }
+  gl_FragColor = vec4(acc.rgb + add, acc.a);
+}`,
+    road: `
+void main() {
+  vec2 P = artPx(); acc = vec4(0.); add = vec3(0.);
+  vec4 m = mask(P);
+  if (m.b > .01) over(flow(P, vec2(-5., 0.) + (n2(P * .006 + uT * .03) - .5) * vec2(4., 2.), 13., 0.), m.b);
+  // stars
+  vec2 cell = floor(P / 18.), sp = (cell + .2 + .6 * vec2(h21(cell + 1.3), h21(cell + 7.1))) * 18.;
+  float hs = h21(cell);
+  if (hs > .92) add += vec3(.9, .93, 1.) * dot1(P, sp, 1.5 + (hs - .92) * 16.) * (.45 + .55 * sin(uT * (.8 + hs * 3.) + hs * 50.)) * .55 * m.b;
+  // river
+  if (m.a > .01) {
+    vec3 c = flow(P, vec2(6., 2.), 3.4, 0.);
+    c += vec3(.8, .88, 1.) * pow(n2(P * vec2(.35, .7) + vec2(uT * .7, uT * .3)), 9.) * .7;
+    over(c, m.a);
+  }
+  // mist drifting through the valleys
+  float band = smoothstep(330., 380., P.y) * smoothstep(520., 450., P.y);
+  over(vec3(.6, .66, .78), smoothstep(.5, .9, fbm(P * vec2(.005, .013) + vec2(uT * .02, 0.))) * band * .3);
+  // lantern on the signpost
+  float fl = .6 + .4 * (n2(vec2(uT * 6., 0.)) * .6 + n2(vec2(uT * 11., 4.)) * .4);
+  vec2 Ln = vec2(1153., 222.);
+  add += vec3(1., .7, .32) * (smoothstep(150., 0., length(P - Ln)) * .16 + smoothstep(16., 0., length(P - Ln)) * .35) * fl;
+  add += img(P) * vec3(1., .6, .3) * smoothstep(230., 0., length((P - Ln) * vec2(1., .8))) * fl * .25;
+  // the dungeon gate breathes
+  vec2 G = vec2(1043., 238.);
+  float pu = .5 + .5 * sin(uT * 1.3) * (.7 + .3 * n2(vec2(uT * 2., 9.)));
+  add += vec3(.45, .4, 1.) * smoothstep(90., 0., length((P - G) * vec2(1., .75))) * pu * .22;
   gl_FragColor = vec4(acc.rgb + add, acc.a);
 }`
   };

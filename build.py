@@ -235,6 +235,7 @@ def localize(html, lang, here):
     """Language-specific attributes shared by all pages."""
     html = html.replace('@@LEGAL@@', legal(lang, rel(here, '')))
     html = html.replace('@@ROOT@@', rel(here, ''))
+    html = html.replace('@@DISCORD@@', DISCORD)
     html = lang_menu(html, lang, here)
     if lang == 'ru':
         html = ru_names(html)

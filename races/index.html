@@ -287,6 +287,23 @@ section.block { scroll-margin-top: -72px; }
 .stband-art, .stband-art img { position: absolute; inset: 0 0 auto 0; width: 100%; height: 620px; }
 .stband-art { z-index: -2; }
 .stband-art img { object-fit: cover; object-position: 50% 40%; }
+#guides.stband { padding-top: 56px; }   /* no art behind the guides band any more */
+/* Camp scene near the end: the campfire art in full, fire and embers alive (assets/living/) */
+.camp { position: relative; isolation: isolate; overflow: hidden; margin-top: 56px; min-height: clamp(520px, 56vw, 940px); display: grid; align-content: end; color: #f1ece0; background: #08090b; }
+.camp-art, .camp-art img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.camp-art { z-index: -2; }
+.camp-art img { object-fit: cover; object-position: 66% 60%; }
+.camp::before { content: ""; position: absolute; inset: 0; z-index: -1; background:
+  linear-gradient(90deg, rgba(7,8,10,.86) 0%, rgba(7,8,10,.62) 26%, rgba(7,8,10,.1) 52%, rgba(7,8,10,0) 70%),
+  linear-gradient(180deg, var(--bg) 0%, transparent 16%, transparent 84%, var(--bg) 100%); }
+.camp-in { width: 100%; display: grid; gap: 16px; justify-items: start; padding-bottom: clamp(56px, 8vw, 120px); }
+.camp h2 { font-size: clamp(2.2rem, 4.4vw, 3.6rem); line-height: 1; }
+.camp p { max-width: 42ch; font-size: clamp(1rem, 1.3vw, 1.12rem); color: rgba(241,236,224,.86); }
+.camp-btns { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
+.camp .btn { background: #c9a54a; border-color: #c9a54a; color: #15110a; }
+.camp .btn:hover { background: #e0c27a; border-color: #e0c27a; }
+.camp .btn.ghost { background: rgba(7,8,10,.35); color: #f1ece0; border-color: rgba(241,236,224,.45); }
+.camp .btn.ghost:hover { border-color: #e0c27a; background: rgba(7,8,10,.55); }
 /* Living art (assets/living/): the WebGL layer over a picture fades in once it draws */
 canvas.fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0; transition: opacity 1.6s ease; }
 canvas.fx.on { opacity: 1; }
@@ -802,6 +819,10 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .timeline li { grid-template-columns: 1fr; gap: 2px; }
   .stband { padding-top: 80px; }
   .stband-art, .stband-art img, .stband::before { height: 480px; }
+  .camp { min-height: 640px; align-content: start; }
+  .camp-art img { object-position: 70% 50%; }
+  .camp::before { background: linear-gradient(180deg, var(--bg) 0%, rgba(7,8,10,.82) 14%, rgba(7,8,10,.55) 40%, rgba(7,8,10,0) 58%, rgba(7,8,10,0) 88%, var(--bg) 100%); }
+  .camp-in { padding-top: 64px; padding-bottom: 0; }
   .stiles { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 10px; padding: 12px; scroll-padding: 0 12px; scrollbar-width: none; overscroll-behavior-x: contain; }
   .stiles::-webkit-scrollbar { display: none; }
   .stile { flex: 0 0 62%; height: 148px; scroll-snap-align: start; }
@@ -1003,7 +1024,7 @@ nav.gtiles { padding: 14px; }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=7760edc556" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/search/search.css?v=6df11f1da3" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../assets/me/me.css?v=21ee28585f" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://gabella.site/wow/"},{"@type":"ListItem","position":2,"name":"Расы","item":"https://gabella.site/wow/races/"}]}</script>
 </head>
@@ -1356,7 +1377,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../assets/radio/radio.js" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=7760edc556" data-root="../" defer></script>
+<script src="../assets/search/search.js?v=6df11f1da3" data-root="../" defer></script>
 <script src="../assets/me/me.js?v=21ee28585f" data-root="../" data-home="../" data-lang="ru" data-teaser="Профиль копит ваш путь: Слава, рамки, сезоны" data-close="Закрыть" data-page="races/" data-look="1" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
