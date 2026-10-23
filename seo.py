@@ -12,6 +12,8 @@ from html import escape
 
 import build
 from build import CLASSES, LANGS, RACES_PAGE, SITE, page_dir, tr
+import langs
+from langs import HREFLANG, LOCALE
 from content.guides import GUIDES, HUB, HUBS
 
 HERE = build.HERE
@@ -21,7 +23,6 @@ HERE = build.HERE
 CF_BEACON_TOKEN = 'ee1d216e690040389063e8d72384c2c7'
 
 BRAND = 'Gabella Team'
-LOCALE = {'ru': 'ru_RU', 'en': 'en_US', 'uk': 'uk_UA'}
 HOME_NAME = {'ru': 'Главная', 'en': 'Home', 'uk': 'Головна'}
 SITE_NAME = {'ru': 'Гид WoW Forever', 'en': 'WoW Forever Guide', 'uk': 'Гід WoW Forever'}
 TOOLS_NAME = {'ru': 'Инструменты', 'en': 'Tools', 'uk': 'Інструменти'}
@@ -114,6 +115,7 @@ RACE_D = t('{n} в WoW Forever: четыре расовые способност
            'WoW Forever {n} guide: four racial abilities, available and best classes, capital {cap}, starting zone {zone}.',
            '{n} у WoW Forever: чотири расові здібності, доступні та найкращі класи, столиця {cap}, стартова зона {zone}.')
 AND = {'ru': ' и ', 'en': ' and ', 'uk': ' і '}
+langs.fill([HOME_NAME, SITE_NAME, TOOLS_NAME, PRIVACY_NAME, META, CLASS_T, CLASS_T_SHORT, CLASS_D, RACE_T, RACE_D, AND])   # new languages: i18n/<lang>.json
 
 
 def listing(xs, lang):
@@ -186,7 +188,7 @@ def crumbs(path, lang):
 def faq_ld(lang):
     faq = next(g for g in GUIDES if g['slug'] == 'faq')
     qs = [q for s in faq['sections'] for k, d in s['blocks'] if k == 'faq' for q in d]
-    return {'@context': 'https://schema.org', '@type': 'FAQPage', 'inLanguage': lang,
+    return {'@context': 'https://schema.org', '@type': 'FAQPage', 'inLanguage': HREFLANG[lang],
             'mainEntity': [{'@type': 'Question', 'name': q['q'][lang],
                             'acceptedAnswer': {'@type': 'Answer', 'text': ' '.join(a[lang] for a in q['a'])}} for q in qs]}
 
@@ -195,7 +197,7 @@ def json_ld(path, lang, desc):
     blocks = []
     if not path:
         blocks.append({'@context': 'https://schema.org', '@type': 'WebSite', 'name': SITE_NAME[lang],
-                       'alternateName': BRAND, 'url': SITE + page_dir(lang), 'inLanguage': lang, 'description': desc})
+                       'alternateName': BRAND, 'url': SITE + page_dir(lang), 'inLanguage': HREFLANG[lang], 'description': desc})
     else:
         items = crumbs(path, lang)
         blocks.append({'@context': 'https://schema.org', '@type': 'BreadcrumbList',
@@ -241,7 +243,7 @@ def apply(html, path, lang, title, desc):
 def sitemap(paths):
     urls = []
     for p in paths:
-        alts = ''.join(f'<xhtml:link rel="alternate" hreflang="{l}" href="{SITE}{page_dir(l, p)}"/>' for l in LANGS)
+        alts = ''.join(f'<xhtml:link rel="alternate" hreflang="{HREFLANG[l]}" href="{SITE}{page_dir(l, p)}"/>' for l in LANGS)
         alts += f'<xhtml:link rel="alternate" hreflang="x-default" href="{SITE}{p}"/>'
         urls += [f'<url><loc>{SITE}{page_dir(l, p)}</loc>{alts}</url>' for l in LANGS]
     return ('<?xml version="1.0" encoding="UTF-8"?>\n'
@@ -251,10 +253,12 @@ def sitemap(paths):
 
 def main():
     meta = page_meta()
+    if '--list' in sys.argv:                 # build.py --list / --missing: texts collected, pages were not written
+        return
     for path, by_lang in meta.items():
         for lang, (title, desc) in by_lang.items():
             if lang != 'ru':
-                cyr = re.findall(r'[А-Яа-яЁё]', title + desc) if lang == 'en' else []
+                cyr = re.findall(r'[А-Яа-яЁё]', title + desc) if lang not in ('ru', 'uk') else []
                 assert not cyr, (path, lang, title, desc)
             full = os.path.join(HERE, page_dir(lang, path), 'index.html')
             html = open(full, encoding='utf-8').read()

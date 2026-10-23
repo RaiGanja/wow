@@ -6,10 +6,11 @@ import json, os, re, sys
 
 import build
 from build import CLASSES, LANGS, SITE, page_dir, rel, localize, translate
+import langs
 
 HERE = build.HERE
 
-_ru, _en, _uk = (build.load(f'tools.{l}.txt') for l in LANGS)
+_ru, _en, _uk = (build.load(f'tools.{l}.txt') for l in langs.OLD)
 assert len(_ru) == len(_en) == len(_uk), (len(_ru), len(_en), len(_uk))
 build.T.update({r: (e, u) for r, e, u in zip(_ru, _en, _uk)})
 
@@ -27,14 +28,15 @@ def home_data(src):
 
 
 def class_data(lang):
-    """Fields of content/classes.py the compare and search tools need. Ability names: Russian only on the Russian page."""
+    """Fields of content/classes.py the compare and search tools need. Ability names: Russian on the Russian page,
+    official localized ones on de/fr/es/pt/it (names.json), English elsewhere."""
     cx = {}
     for c in CLASSES:
         cx[c['id']] = {
             'armor': c['armor'], 'weapons': c['weapons'], 'resource': c['resource'], 'lvl': c['lvl'],
             'group': c['group'], 'pros': c['pros'], 'cons': c['cons'],
             'specs': [{'n': s['n'], 'en': s['en'], 'roles': s['roles'], 'what': s['what'],
-                       'keys': [[ru if lang == 'ru' else en, en, d] for ru, en, d in s['keys']]} for s in c['specs']],
+                       'keys': [[ru if lang == 'ru' else langs.name(en, lang), en, d] for ru, en, d in s['keys']]} for s in c['specs']],
         }
     return 'const CX = ' + json.dumps(cx, ensure_ascii=False) + ';'
 
@@ -42,16 +44,11 @@ def class_data(lang):
 def build_tools(lang, src, tpl, base_css, sprite):
     here = page_dir(lang, 'tools/')
     html = tpl.replace('@@BASE_CSS@@', base_css).replace('@@SPRITE@@', sprite)
-    html = html.replace('@@DATA@@', home_data(src) + '\n' + class_data(lang))
+    html = html.replace('@@DATA@@', build.js_names(home_data(src), lang) + '\n' + class_data(lang))
     html, missing = translate(html, lang)
     html = html.replace('@@HOME@@', rel(here, page_dir(lang)))
-    for l in LANGS:
-        html = html.replace(f'@@{l.upper()}@@', rel(here, page_dir(l, 'tools/')))
-        html = html.replace(f'@@CUR_{l.upper()}@@', 'true' if l == lang else 'false')
     html = html.replace('@@CANON@@', SITE + here)
-    alt = '\n'.join(f'<link rel="alternate" hreflang="{l}" href="{SITE}{page_dir(l, "tools/")}">' for l in LANGS)
-    alt += f'\n<link rel="alternate" hreflang="x-default" href="{SITE}tools/">'
-    html = html.replace('@@ALTERNATES@@', alt)
+    html = html.replace('@@ALTERNATES@@', build.alternates('tools/'))
     html = localize(html, lang, here).replace('assets/og.png', f'assets/og/tools-{lang}.jpg')
     return here + 'index.html', html, missing
 
@@ -77,7 +74,7 @@ def main():
             os.makedirs(os.path.dirname(full), exist_ok=True)
             open(full, 'w', encoding='utf-8', newline='\n').write(html)
     uniq = list(dict.fromkeys(allmissing))
-    if listing:
+    if listing and '--missing' not in sys.argv:
         print('\n'.join(uniq))
     print(f'pages: {len(pages)}, missing: {len(uniq)}', file=sys.stderr)
     if uniq and not listing:

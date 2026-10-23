@@ -6,6 +6,8 @@ import xml.etree.ElementTree as ET
 from urllib.parse import unquote, urlsplit
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, ROOT)
+import langs  # noqa: E402
 SKIP_DIRS = {'.git', '.github', '.claude', 'docs', 'content', 'i18n', 'tests', 'node_modules'}
 ATTR = re.compile(r'(?:href|src)="([^"]+)"')
 SRCSET = re.compile(r'srcset="([^"]+)"')
@@ -64,12 +66,13 @@ def main():
             except ValueError as e:
                 problems.append(f'{rel}: битый JSON-LD: {e}')
         listed.add(SITE + rel[:-len('index.html')])
-        if rel.startswith('en/guides/'):
+        if rel.startswith('en/guides/') or rel.split('/')[0] in langs.NEW:   # Latin-script pages: no Russian left
             body = re.sub(r'<(script|style)\b.*?</\1>', '', html, flags=re.S)
+            body = re.sub(r'<a [^>]*\blang="(ru|uk)"[^>]*>.*?</a>', '', body, flags=re.S)   # language menu: autonyms
             body = re.sub(r'<[^>]+>', ' ', body)
             cyr = re.findall(r'[А-Яа-яЁёІіЇїЄєҐґ][^<\n]{0,30}', body)
             if cyr:
-                problems.append(f'{rel}: кириллица на EN: {cyr[:3]}')
+                problems.append(f'{rel}: кириллица: {cyr[:3]}')
         for u in OG.findall(html):   # share preview: absolute URL of a file in this repo
             if not u.startswith(SITE) or not os.path.exists(os.path.join(ROOT, u[len(SITE):])):
                 problems.append(f'{rel}: нет картинки превью {u}')
@@ -89,7 +92,7 @@ def main():
                 p = os.path.join(p, 'index.html')
             if not os.path.exists(p):
                 problems.append(f'{rel}: нет файла {t}')
-    for lang in ('ru', 'en', 'uk'):   # installable site: every manifest icon exists
+    for lang in langs.LANGS:   # installable site: every manifest icon exists
         m = json.load(open(os.path.join(ROOT, f'manifest-{lang}.webmanifest'), encoding='utf-8'))
         problems += [f'manifest-{lang}: нет {i["src"]}' for i in m['icons'] if not os.path.exists(os.path.join(ROOT, i['src']))]
     if "const VERSION = 'dev'" in open(os.path.join(ROOT, 'sw.js'), encoding='utf-8').read():

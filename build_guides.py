@@ -7,13 +7,15 @@ from html import escape
 
 import build
 from build import LANGS, SITE, page_dir, rel, localize, translate
+import langs
 from content.guides import GUIDES, HUB, HUBS, NEWS, NOT_FOUND, PAGES
 
 HERE = build.HERE
 
-_ru, _en, _uk = (build.load(f'guides.{l}.txt') for l in LANGS)
+_ru, _en, _uk = (build.load(f'guides.{l}.txt') for l in langs.OLD)
 assert len(_ru) == len(_en) == len(_uk), (len(_ru), len(_en), len(_uk))
 build.T.update({r: (e, u) for r, e, u in zip(_ru, _en, _uk)})
+langs.fill([GUIDES, HUB, HUBS, NEWS, NOT_FOUND, PAGES])   # new languages of every guide text: i18n/<lang>.json by the English one
 
 TIP = {'ru': 'Совет', 'en': 'Tip', 'uk': 'Порада'}
 THIS_PAGE = {'ru': 'Эта страница', 'en': 'This page', 'uk': 'Ця сторінка'}
@@ -125,7 +127,7 @@ def home_src():
 
 def profs_table(src):
     """Camp table from PROFS of the home page: [name, object, effect]; names and effects via the home i18n."""
-    tr = lambda x: {'ru': x, 'en': build.T[x][0], 'uk': build.T[x][1]}
+    tr = lambda x: langs.derive({'ru': x, 'en': build.T[x][0], 'uk': build.T[x][1]})
     return [[tr(name), obj, tr(eff)]
             for _id, name, _tier, obj, eff in re.findall(r"\['(\w+)', '([^']+)', (\d), '([^']+)', '([^']+)'\]", src)]
 
@@ -203,6 +205,7 @@ document.querySelectorAll('#dgBox .lvm, #dgBox .lvp').forEach(b => b.addEventLis
   dgLvl = Math.max(1, Math.min(60, (dgLvl || (up ? 0 : 2)) + (up ? 1 : -1))); dgMode = 'mine'; renderDg();
 }));
 renderDg();'''
+langs.fill([TIP, THIS_PAGE, MORE_H, MORE_SITE, SITE_TILES, PROF_HEAD, DG_TX])
 JS['dungeons'] = {l: DG_JS.replace('@@TX@@', json.dumps(DG_TX[l], ensure_ascii=False)) for l in LANGS}
 
 
@@ -294,7 +297,7 @@ def build_page(g, lang, tpl, base_css, sprite, src):
         'SOLO': '' if toc else ' solo', 'MORE_H': (MORE_SITE if section else MORE_H)[lang],
         'SOURCES': ''.join(f'<li><a href="{u}" target="_blank" rel="noopener">{E(n, lang)}</a></li>' for n, u in g.get('sources', [])),
         'UPDATED': g.get('updated', HUB.get('updated', '')),
-        'JS': ((DATA[js](src) + '\n' if js in DATA else ref_js(src, lang) + '\n' if js in REF else '') + L(JS[js], lang)) if js else '',
+        'JS': ((build.js_names(DATA[js](src), lang) + '\n' if js in DATA else ref_js(src, lang) + '\n' if js in REF else '') + L(JS[js], lang)) if js else '',
     }
     for k, v in rep.items():                                     # 2) тело
         html = html.replace(f'@@{k}@@', v)
@@ -310,13 +313,8 @@ def build_page(g, lang, tpl, base_css, sprite, src):
             html = html.replace(f'<a href="@@HOME@@{anchor}">', f'<a href="@@HOME@@{anchor}" aria-current="true">')
     html = html.replace('@@GUIDES@@', rel(here, page_dir(lang, 'guides/')))
     html = html.replace('@@HOME@@', root)
-    for l in LANGS:
-        html = html.replace(f'@@{l.upper()}@@', rel(here, page_dir(l, sub)))
-        html = html.replace(f'@@CUR_{l.upper()}@@', 'true' if l == lang else 'false')
     html = html.replace('@@CANON@@', SITE + here)
-    alt = '\n'.join(f'<link rel="alternate" hreflang="{l}" href="{SITE}{page_dir(l, sub)}">' for l in LANGS)
-    alt += f'\n<link rel="alternate" hreflang="x-default" href="{SITE}{sub}">'
-    html = html.replace('@@ALTERNATES@@', alt)
+    html = html.replace('@@ALTERNATES@@', build.alternates(sub))
     html = localize(html, lang, here).replace('assets/og.png', f'assets/og/{g.get("og") or g["slug"] or "guides"}-{lang}.jpg')   # tools/make_og.py
     return here + 'index.html', html, missing
 
@@ -360,7 +358,7 @@ def main():
             os.makedirs(os.path.dirname(full), exist_ok=True)
             open(full, 'w', encoding='utf-8', newline='\n').write(html)
     uniq = list(dict.fromkeys(allmissing))
-    if listing:
+    if listing and '--missing' not in sys.argv:
         print('\n'.join(uniq))
     print(f'guides: {len(pages)}, missing: {len(uniq)}', file=sys.stderr)
     if uniq and not listing:
