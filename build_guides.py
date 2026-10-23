@@ -309,9 +309,7 @@ def build_page(g, lang, tpl, base_css, sprite, src):
     alt = '\n'.join(f'<link rel="alternate" hreflang="{l}" href="{SITE}{page_dir(l, sub)}">' for l in LANGS)
     alt += f'\n<link rel="alternate" hreflang="x-default" href="{SITE}{sub}">'
     html = html.replace('@@ALTERNATES@@', alt)
-    html = localize(html, lang, here)
-    if lang != 'ru':
-        html = html.replace('assets/og.png', f'assets/og-{lang}.png')
+    html = localize(html, lang, here).replace('assets/og.png', f'assets/og/{g["slug"] or "guides"}-{lang}.jpg')   # tools/make_og.py
     return here + 'index.html', html, missing
 
 

@@ -18,7 +18,7 @@
 <meta property="og:title" content="Новости · WoW Forever">
 <meta property="og:description" content="Что важно для нашей игры в WoW Forever, и свежая лента Wowhead.">
 <meta property="og:url" content="https://gabella.site/wow/guides/news/">
-<meta property="og:image" content="https://gabella.site/wow/assets/og.png">
+<meta property="og:image" content="https://gabella.site/wow/assets/og/news-ru.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -867,6 +867,9 @@ nav.gtiles { padding: 14px; }
   .gtable td::before { content: attr(data-l); display: block; font-size: .78rem; font-weight: 400; color: var(--muted); }
 }
 </style>
+<link rel="manifest" href="../../manifest-ru.webmanifest">
+<link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="Gabella WoW">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -991,6 +994,20 @@ fetch(ROOT + 'assets/news.json').then(r => r.ok ? r.json() : []).then(items => {
   box.innerHTML = items.map(n => `<a class="nitem" href="${esc(n.url)}" target="_blank" rel="noopener"><span class="pill">${esc(n.date.split('-').reverse().join('.'))}</span><b>${esc(n.title)}</b></a>`).join('');
   box.hidden = false;
 }).catch(() => {});
+</script>
+<script>
+if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('../../sw.js').catch(() => {}));
+addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  const opts = document.querySelector('.sheet .opts');
+  if (!opts || opts.querySelector('.installbtn')) return;
+  const b = document.createElement('button');
+  b.className = 'iconbtn installbtn'; b.type = 'button'; b.style.padding = '0 14px';
+  b.setAttribute('aria-label', 'Установить гид как приложение');
+  b.innerHTML = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></svg><span>Установить</span>';
+  b.onclick = async () => { e.prompt(); await e.userChoice; b.remove(); };
+  opts.append(b);
+});
 </script>
 </body>
 </html>

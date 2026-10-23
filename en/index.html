@@ -27,7 +27,7 @@
 <meta property="og:title" content="WoW Forever: Gabella Team guide">
 <meta property="og:description" content="Classes, races, Legacy, camp, dungeons and group composition. Data as of 23.10.2026.">
 <meta property="og:url" content="https://gabella.site/wow/en/">
-<meta property="og:image" content="https://gabella.site/wow/assets/og-en.png">
+<meta property="og:image" content="https://gabella.site/wow/assets/og-en.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="WoW Forever: Gabella Team guide">
@@ -796,6 +796,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .hc, .hc img, .hc .info, .fac picture img, .prog .bar i { transition: none; }
 }
 </style>
+<link rel="manifest" href="../manifest-en.webmanifest">
+<link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="Gabella WoW">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -832,6 +835,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 
 <section class="hero" id="top" data-nav="#top" data-tab="#top">
   <picture class="hero-art">
+    <source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/avif" srcset="../assets/art/hero_dawn-m-600.avif 600w, ../assets/art/hero_dawn-m-1000.avif 1000w" sizes="78vh">
+    <source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/webp" srcset="../assets/art/hero_dawn-m-600.webp 600w, ../assets/art/hero_dawn-m-1000.webp 1000w" sizes="78vh">
     <source type="image/avif" srcset="../assets/art/hero_dawn-960.avif 960w, ../assets/art/hero_dawn-1440.avif 1440w, ../assets/art/hero_dawn-1920.avif 1920w, ../assets/art/hero_dawn-2560.avif 2560w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw">
     <source type="image/webp" srcset="../assets/art/hero_dawn-960.webp 960w, ../assets/art/hero_dawn-1440.webp 1440w, ../assets/art/hero_dawn-1920.webp 1920w, ../assets/art/hero_dawn-2560.webp 2560w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw">
     <img src="../assets/art/hero_dawn-1920.webp" width="1920" height="1072" alt="" fetchpriority="high" decoding="async">
@@ -1863,6 +1868,20 @@ if ('IntersectionObserver' in window) {
   }), { rootMargin: '-45% 0px -50% 0px' });
   document.querySelectorAll('.hero, section.block, section.stband, footer#sources').forEach(s => io.observe(s));
 }
+</script>
+<script>
+if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('../sw.js').catch(() => {}));
+addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  const opts = document.querySelector('.sheet .opts');
+  if (!opts || opts.querySelector('.installbtn')) return;
+  const b = document.createElement('button');
+  b.className = 'iconbtn installbtn'; b.type = 'button'; b.style.padding = '0 14px';
+  b.setAttribute('aria-label', 'Install the guide as an app');
+  b.innerHTML = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></svg><span>Install</span>';
+  b.onclick = async () => { e.prompt(); await e.userChoice; b.remove(); };
+  opts.append(b);
+});
 </script>
 </body>
 </html>

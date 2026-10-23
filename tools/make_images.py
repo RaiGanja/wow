@@ -1,7 +1,7 @@
 """Web images for the guide: source art (gabella-bot/assets/wow_art) -> assets/art/*.avif|webp in several widths,
 plus class and race page extras: blurred hero backdrop assets/art/<id>-bg.webp and share preview assets/og/<id>.jpg.
 Race portraits live in wow_art/races/<race id>.jpg and are saved under the race page slug.
-Run: python tools/make_images.py [path-to-wow_art] [--classes-only | --races-only | --faces-only]"""
+Run: python tools/make_images.py [path-to-wow_art] [--classes-only | --races-only | --faces-only | --hero-mobile]"""
 import os, sys
 from PIL import Image, ImageDraw, ImageEnhance, ImageFilter
 
@@ -70,8 +70,23 @@ def face(src, name):
     im.save(os.path.join(OUT, f'{name}-face.webp'), quality=82, method=6)
 
 
+def hero_mobile():
+    """Portrait cut of the home hero for phones: hero_dawn-m-600|1000. Cut at x = .74 * (width - 600), so the
+    phone view (object-position 74%) shows exactly the same part of the picture as with the full-width file."""
+    im = Image.open(os.path.join(SRC, 'hero_dawn.jpg')).convert('RGB')
+    w = round(600 * im.height / 768)
+    x = round(.74 * (im.width - w))
+    im = im.crop((x, 0, x + w, im.height))
+    for width in (600, 1000):
+        save(im, 'hero_dawn-m', width)
+    print('hero_dawn-m ok')
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
+    if '--hero-mobile' in sys.argv:
+        hero_mobile()
+        return
     if '--faces-only' in sys.argv:
         for cid in CLASSES:
             face(os.path.join(SRC, cid + '.jpg'), cid)
@@ -100,6 +115,7 @@ def main():
         for w in widths:
             save(im, name, w)
         print(name, 'ok')
+    hero_mobile()
 
 
 if __name__ == '__main__':

@@ -1,6 +1,6 @@
 """Проверка собранного сайта: локальные ссылки существуют, нет @@, на EN-гайдах нет кириллицы.
 Запуск: python tests/check_site.py"""
-import os, re, sys
+import json, os, re, sys
 from urllib.parse import unquote, urlsplit
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -8,6 +8,8 @@ SKIP_DIRS = {'.git', '.github', '.claude', 'docs', 'content', 'i18n', 'tests', '
 ATTR = re.compile(r'(?:href|src)="([^"]+)"')
 SRCSET = re.compile(r'srcset="([^"]+)"')
 IDS = re.compile(r'\sid="([^"]+)"')
+OG = re.compile(r'property="og:image" content="([^"]+)"')
+SITE = 'https://gabella.site/wow/'
 
 
 def pages():
@@ -41,6 +43,11 @@ def main():
             cyr = re.findall(r'[А-Яа-яЁёІіЇїЄєҐґ][^<\n]{0,30}', body)
             if cyr:
                 problems.append(f'{rel}: кириллица на EN: {cyr[:3]}')
+        for u in OG.findall(html):   # share preview: absolute URL of a file in this repo
+            if not u.startswith(SITE) or not os.path.exists(os.path.join(ROOT, u[len(SITE):])):
+                problems.append(f'{rel}: нет картинки превью {u}')
+        if 'rel="manifest"' not in html or 'serviceWorker' not in html:
+            problems.append(f'{rel}: нет манифеста или service worker')
         ids = set(IDS.findall(html))
         for t in targets(html):
             if t.startswith(('http:', 'https:', 'mailto:', 'data:', 'javascript:', '${')) or '${' in t:
@@ -55,6 +62,11 @@ def main():
                 p = os.path.join(p, 'index.html')
             if not os.path.exists(p):
                 problems.append(f'{rel}: нет файла {t}')
+    for lang in ('ru', 'en', 'uk'):   # installable site: every manifest icon exists
+        m = json.load(open(os.path.join(ROOT, f'manifest-{lang}.webmanifest'), encoding='utf-8'))
+        problems += [f'manifest-{lang}: нет {i["src"]}' for i in m['icons'] if not os.path.exists(os.path.join(ROOT, i['src']))]
+    if "const VERSION = 'dev'" in open(os.path.join(ROOT, 'sw.js'), encoding='utf-8').read():
+        problems.append('sw.js: VERSION не проставлен сборкой')
     for p in problems:
         print(p)
     if problems:

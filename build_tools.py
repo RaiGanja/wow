@@ -52,9 +52,7 @@ def build_tools(lang, src, tpl, base_css, sprite):
     alt = '\n'.join(f'<link rel="alternate" hreflang="{l}" href="{SITE}{page_dir(l, "tools/")}">' for l in LANGS)
     alt += f'\n<link rel="alternate" hreflang="x-default" href="{SITE}tools/">'
     html = html.replace('@@ALTERNATES@@', alt)
-    html = localize(html, lang, here)
-    if lang != 'ru':
-        html = html.replace('assets/og.png', f'assets/og-{lang}.png')
+    html = localize(html, lang, here).replace('assets/og.png', f'assets/og/tools-{lang}.jpg')
     return here + 'index.html', html, missing
 
 

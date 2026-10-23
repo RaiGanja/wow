@@ -18,7 +18,7 @@
 <meta property="og:title" content="WoW Forever tools">
 <meta property="og:description" content="Party and raid frames, class and race comparison, guide search.">
 <meta property="og:url" content="https://gabella.site/wow/en/tools/">
-<meta property="og:image" content="https://gabella.site/wow/assets/og-en.png">
+<meta property="og:image" content="https://gabella.site/wow/assets/og/tools-en.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -990,6 +990,9 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
   .chead b { font-size: 1.3rem; }
 }
 </style>
+<link rel="manifest" href="../../manifest-en.webmanifest">
+<link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="Gabella WoW">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -1604,6 +1607,20 @@ renderRaid(fromLink); renderPick(); renderCmp();
 if (fromLink) $('#raid').scrollIntoView();
 const q0 = new URLSearchParams(location.search).get('q');
 if (q0) { $('#q').value = q0.slice(0, 60); runSearch(); }
+</script>
+<script>
+if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('../../sw.js').catch(() => {}));
+addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  const opts = document.querySelector('.sheet .opts');
+  if (!opts || opts.querySelector('.installbtn')) return;
+  const b = document.createElement('button');
+  b.className = 'iconbtn installbtn'; b.type = 'button'; b.style.padding = '0 14px';
+  b.setAttribute('aria-label', 'Install the guide as an app');
+  b.innerHTML = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></svg><span>Install</span>';
+  b.onclick = async () => { e.prompt(); await e.userChoice; b.remove(); };
+  opts.append(b);
+});
 </script>
 </body>
 </html>

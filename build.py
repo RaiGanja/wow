@@ -2,7 +2,7 @@
 + i18n/{ru,en,uk}.txt (переводы, строка в строку)
 -> index.html, en/index.html, uk/index.html, classes/<id>/index.html и races/<slug>/index.html на трёх языках.
 Запуск: python build.py [--list]  (--list печатает русские фрагменты без перевода)"""
-import json, os, posixpath, re, sys
+import hashlib, json, os, posixpath, re, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, 'content'))
@@ -65,7 +65,73 @@ def localize(html, lang, here):
     if lang != 'ru':
         html = html.replace('<html lang="ru">', f'<html lang="{lang}">')
         html = html.replace('content="ru_RU"', 'content="en_US"' if lang == 'en' else 'content="uk_UA"')
-    return html
+    return pwa(html, lang, rel(here, ''))
+
+
+# ---------- installable site (PWA): manifest, icons, service worker sw.js ----------
+
+APP = {
+    'ru': {'name': 'WoW Forever — гид Gabella Team', 'desc': 'Классы, расы, подземелья, прокачка и сборка группы для WoW Forever.',
+           'install': 'Установить', 'install_l': 'Установить гид как приложение',
+           'short': [('Гайды', 'guides/'), ('Подземелья', 'guides/dungeons/'), ('Инструменты', 'tools/'), ('Классы', 'classes/')]},
+    'en': {'name': 'WoW Forever — Gabella Team guide', 'desc': 'Classes, races, dungeons, leveling and party building for WoW Forever.',
+           'install': 'Install', 'install_l': 'Install the guide as an app',
+           'short': [('Guides', 'guides/'), ('Dungeons', 'guides/dungeons/'), ('Tools', 'tools/'), ('Classes', 'classes/')]},
+    'uk': {'name': 'WoW Forever — гід Gabella Team', 'desc': 'Класи, раси, підземелля, прокачування та збір групи для WoW Forever.',
+           'install': 'Встановити', 'install_l': 'Встановити гід як застосунок',
+           'short': [('Гайди', 'guides/'), ('Підземелля', 'guides/dungeons/'), ('Інструменти', 'tools/'), ('Класи', 'classes/')]},
+}
+
+
+def manifest(lang):
+    a, home = APP[lang], page_dir(lang)
+    icons = [{'src': f'assets/icons/icon-{s}.png', 'sizes': f'{s}x{s}', 'type': 'image/png', 'purpose': 'any'} for s in (192, 512)]
+    icons.append({'src': 'assets/icons/icon-maskable-512.png', 'sizes': '512x512', 'type': 'image/png', 'purpose': 'maskable'})
+    return json.dumps({
+        'id': './', 'name': a['name'], 'short_name': 'Gabella WoW', 'description': a['desc'], 'lang': lang, 'dir': 'ltr',
+        'start_url': './' + home, 'scope': './', 'display': 'standalone', 'orientation': 'any',
+        'background_color': '#0a0b0d', 'theme_color': '#060708', 'categories': ['games', 'entertainment'], 'icons': icons,
+        'shortcuts': [{'name': n, 'url': './' + home + u} for n, u in a['short']],
+    }, ensure_ascii=False, indent=1)
+
+
+PWA_JS = """<script>
+if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('@@R@@sw.js').catch(() => {}));
+addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  const opts = document.querySelector('.sheet .opts');
+  if (!opts || opts.querySelector('.installbtn')) return;
+  const b = document.createElement('button');
+  b.className = 'iconbtn installbtn'; b.type = 'button'; b.style.padding = '0 14px';
+  b.setAttribute('aria-label', '@@L@@');
+  b.innerHTML = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></svg><span>@@T@@</span>';
+  b.onclick = async () => { e.prompt(); await e.userChoice; b.remove(); };
+  opts.append(b);
+});
+</script>
+"""
+
+
+def sw_version():
+    """sw.js VERSION = short hash of assets/ (without the news feed, the worker fetches it fresh) and the manifests."""
+    h = hashlib.sha1()
+    files = [os.path.join(d, f) for d, _, fs in os.walk(os.path.join(HERE, 'assets')) for f in fs if f != 'news.json']
+    files += [os.path.join(HERE, f'manifest-{l}.webmanifest') for l in LANGS]
+    for f in sorted(files):
+        h.update(os.path.relpath(f, HERE).replace(os.sep, '/').encode())
+        h.update(open(f, 'rb').read())
+    sw = os.path.join(HERE, 'sw.js')
+    js = re.sub(r"const VERSION = '[^']*';", f"const VERSION = '{h.hexdigest()[:10]}';", open(sw, encoding='utf-8').read(), count=1)
+    open(sw, 'w', encoding='utf-8', newline='\n').write(js)
+
+
+def pwa(html, lang, root):
+    a = APP[lang]
+    head = (f'<link rel="manifest" href="{root}manifest-{lang}.webmanifest">\n'
+            f'<link rel="apple-touch-icon" href="{root}assets/icons/apple-touch-icon.png">\n'
+            '<meta name="apple-mobile-web-app-title" content="Gabella WoW">\n</head>')
+    js = PWA_JS.replace('@@R@@', root).replace('@@L@@', a['install_l']).replace('@@T@@', a['install'])
+    return html.replace('</head>', head, 1).replace('</body>', js + '</body>', 1)
 
 
 # ---------- home page ----------
@@ -80,7 +146,7 @@ def build_home(lang, src):
     if lang != 'ru':
         for tag in ('rel="canonical" href', 'property="og:url" content'):
             html = html.replace(tag + f'="{SITE}"', tag + f'="{SITE}{lang}/"')
-        html = html.replace('assets/og.png', f'assets/og-{lang}.png')
+        html = html.replace('assets/og-ru.jpg', f'assets/og-{lang}.jpg')
         html = html.replace('data-lang="ru" hreflang="ru" lang="ru" aria-current="true"', 'data-lang="ru" hreflang="ru" lang="ru" aria-current="false"')
         html = html.replace(f'data-lang="{lang}" hreflang="{lang}" lang="{lang}" aria-current="false"', f'data-lang="{lang}" hreflang="{lang}" lang="{lang}" aria-current="true"')
     return here + 'index.html', html, missing
@@ -333,6 +399,9 @@ def main():
             full = os.path.join(HERE, path)
             os.makedirs(os.path.dirname(full), exist_ok=True)
             open(full, 'w', encoding='utf-8', newline='\n').write(html)
+        for lang in LANGS:
+            open(os.path.join(HERE, f'manifest-{lang}.webmanifest'), 'w', encoding='utf-8', newline='\n').write(manifest(lang) + '\n')
+        sw_version()
     uniq = list(dict.fromkeys(allmissing))
     if listing:
         print('\n'.join(uniq))
