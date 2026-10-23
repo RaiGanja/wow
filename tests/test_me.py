@@ -47,7 +47,7 @@ def test_frames_titles_ranks():
 
 def test_progression_catalog():
     P = G['progression']
-    assert P['glory'] == {'max': 60, 'a': 60, 'b': 15, 'p': 1.2}
+    assert P['glory'] == {'max': 60, 'a': 60, 'b': 14, 'p': 1.15}
     assert set(P['sources']) == {'visit', 'radio', 'page', 'tool'}
     ids = [t['id'] for t in P['weekly']]
     assert len(ids) == len(set(ids)) and len(ids) >= 30
