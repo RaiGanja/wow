@@ -23,7 +23,7 @@
 /* top bar: portrait or the login button (roster and profile pages only) */
 .mebtn { padding: 0; overflow: visible; }
 .mebtn .me-ring { width: 34px; height: 34px; }
-.mebtn.login { padding: 0 14px; width: auto; font-weight: 600; font-size: .9rem; color: var(--gold-ink); background: var(--gold); border-color: var(--gold); }
+.mebtn.login { padding: 0 14px; width: auto; white-space: nowrap; font-weight: 600; font-size: .9rem; color: var(--gold-ink); background: var(--gold); border-color: var(--gold); }
 .mebtn.login:hover { background: var(--gold-2); }
 
 /* achievement toast */
@@ -62,6 +62,7 @@
 .me-ask .btn.ghost { background: none; color: var(--fg); border: 1px solid var(--line-2); }
 
 @media (max-width: 719px) {   /* above the bottom tab bar, where the language hint sits too */
+  .mebtn.login { padding: 0 10px; font-size: .85rem; }
   .me-toasts, .me-ask { bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
 }
 

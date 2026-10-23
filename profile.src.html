@@ -1,0 +1,592 @@
+<!-- «Мой профиль»: login, the first-run wizard, the cabinet. Fragment of me.src.html, built by build_me.py into profile/. -->
+<style>
+.pf { display: grid; gap: 18px; }
+.pf .lab { margin: 0 0 -6px; line-height: 1.4; font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; color: var(--gold-2); }
+.login { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 18px 28px; align-items: center; padding: 28px 30px; }
+.login h2 { font-size: 1.7rem; margin-bottom: 6px; }
+.login p { margin: 0; color: var(--muted); max-width: 62ch; }
+.login ul { margin: 12px 0 0; padding-left: 18px; color: var(--muted); display: grid; gap: 4px; }
+.login ul li::marker { color: var(--gold); }
+.next { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.nx { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 4px 12px; align-content: start; padding: 14px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); }
+.nx .ic { grid-row: 1 / 3; width: 44px; height: 44px; border-radius: 8px; padding: 3px; background: linear-gradient(145deg, #f0d58c, #7a5a1c 55%, #c9a54a); }
+.nx .ic img { width: 100%; height: 100%; border-radius: 6px; display: block; object-fit: cover; }
+.nx b { font-weight: 600; }
+.nx p { margin: 0; font-size: .85rem; color: var(--muted); }
+.nx .prog { grid-column: 1 / -1; display: flex; align-items: center; gap: 10px; font-size: .78rem; color: var(--muted); margin-top: 6px; }
+.nx .prog .bar { flex: 1; height: 4px; }
+.nx .go { grid-column: 1 / -1; justify-self: start; margin-top: 8px; min-height: 40px; padding: 0 14px; font-size: .9rem; }
+.path { display: flex; flex-wrap: wrap; gap: 6px 26px; padding: 12px 18px; font-size: .92rem; color: var(--muted); }
+.path b { color: var(--fg); font-weight: 600; font-variant-numeric: lining-nums tabular-nums; }
+.ask { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; padding: 14px 18px; }
+.ask span { flex: 1 1 260px; }
+.lay { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 22px; align-items: start; }
+.pnav { position: sticky; top: calc(var(--top) + 16px); display: grid; gap: 2px; padding: 8px; }
+.pnav a { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 46px; padding: 0 14px; border-radius: 8px; color: var(--ink-2); text-decoration: none; font-weight: 500; }
+:root[data-theme="light"] .pnav a { color: var(--muted); }
+.pnav a:hover { background: color-mix(in srgb, var(--fg) 6%, transparent); color: var(--fg); }
+.pnav a[aria-current] { background: var(--panel-2); color: var(--fg); box-shadow: inset 2px 0 0 var(--gold); }
+.pnav a span { font-size: .8rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.pnav hr { border: 0; border-top: 1px solid var(--pline); margin: 6px 8px; }
+.pnav .pub { color: var(--gold-2); }
+.sec { display: grid; gap: 14px; min-width: 0; }
+.sec > p { margin: 0; color: var(--muted); max-width: 70ch; }
+.plist { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; }
+.plist .pcard { cursor: pointer; text-align: left; font: inherit; color: inherit; }
+.plist .pcard:hover { border-color: var(--gold); }
+.plist .pcard.main { border-color: color-mix(in srgb, var(--gold) 70%, transparent); }
+.add { display: grid; place-items: center; align-content: center; gap: 6px; min-height: 130px; border: 1px dashed var(--line-2); border-radius: 10px; color: var(--muted); background: none; font: inherit; cursor: pointer; }
+.add:hover { border-color: var(--gold); color: var(--fg); }
+.add b { color: var(--fg); font-weight: 600; display: inline-flex; gap: 6px; align-items: center; }
+.box { display: grid; gap: 12px; padding: 18px 20px; }
+.box h3 { font-family: var(--font-body); font-size: 1.05rem; font-weight: 600; letter-spacing: 0; }
+.box .small { margin: 0; }
+.row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 18px; }
+.form label, .form .fl { display: grid; gap: 6px; font-size: .9rem; color: var(--muted); font-weight: 500; min-width: 0; }
+.form .full { grid-column: 1 / -1; }
+.form input:not([type="checkbox"]), .form select, .box input:not([type="checkbox"]), .box select { min-height: 46px; width: 100%; border-radius: 8px; border: 1px solid var(--pline); background: var(--panel-2); color: var(--fg); padding: 0 12px; font: inherit; font-size: 1rem; }
+.form input:focus, .form select:focus, .box input:focus, .box select:focus { outline: none; border-color: var(--gold); }
+.form .seg { justify-self: start; }
+.form .pair { display: grid; grid-template-columns: minmax(0, 1fr) 96px; gap: 8px; }
+.chk { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; color: var(--fg); font-weight: 500; cursor: pointer; }
+.chk input { width: 18px; height: 18px; accent-color: var(--gold); flex: none; }
+.frames { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 8px; }
+.bgs { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; }
+.bgs button { position: relative; aspect-ratio: 16 / 9; padding: 0; overflow: hidden; border: 1px solid var(--pline); border-radius: 8px; background: #0b0d12; cursor: pointer; }
+.bgs img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.bgs span { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 8px 5px; font-size: .74rem; color: #ece6d8; background: linear-gradient(transparent, rgba(0,0,0,.8)); text-align: left; }
+.bgs button[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset 0 0 0 2px var(--gold); }
+.cats { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 8px; }
+.cats button { display: grid; gap: 6px; padding: 12px 14px; text-align: left; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); color: var(--fg); font: inherit; cursor: pointer; }
+.cats button[aria-pressed="true"] { border-color: var(--gold); }
+.cats b { font-weight: 600; font-size: .95rem; }
+.cats span { font-size: .8rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.cats .bar { height: 4px; }
+/* wizard */
+.wiz { display: grid; gap: 16px; padding: 22px 24px; }
+.wiz .wsteps { display: flex; gap: 8px; flex-wrap: wrap; font-size: .85rem; color: var(--muted); }
+.wiz .wsteps span[aria-current] { color: var(--gold-2); font-weight: 600; }
+.wiz h2 { font-size: 1.7rem; }
+.facs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.facs button { position: relative; min-height: 200px; overflow: hidden; isolation: isolate; display: grid; align-content: end; padding: 18px; border: 1px solid var(--pline); border-radius: 10px; background: #0b0d12; color: #f1ece0; text-align: left; font: inherit; cursor: pointer; }
+.facs img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; z-index: -2; filter: brightness(.6); transition: filter .3s; }
+.facs button::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(transparent 40%, rgba(0,0,0,.75)); }
+.facs button:hover img { filter: brightness(.8); }
+.facs b { font-family: var(--font-display); font-size: 2rem; color: var(--fc); }
+.picks { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 8px; }
+.picks button { display: grid; justify-items: center; gap: 8px; padding: 14px 8px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); color: var(--fg); font: inherit; font-weight: 600; font-size: .9rem; cursor: pointer; }
+.picks button:hover { border-color: var(--gold); }
+.picks button[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset 0 0 0 1px var(--gold); }
+.picks .me-ring { --s: 64px; }
+.picks small { color: var(--muted); font-weight: 500; }
+.founder { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 18px; align-items: center; padding: 14px 18px; }
+.founder b { font-family: var(--font-display); font-size: 1.2rem; color: var(--gold-2); }
+.founder p { margin: 2px 0 0; color: var(--muted); font-size: .92rem; }
+.founder .fcd { font-family: var(--font-display); font-size: 1.9rem; line-height: 1; text-align: right; font-variant-numeric: lining-nums; }
+.founder .fcd small { display: block; font-family: var(--font-body); font-size: .78rem; color: var(--muted); }
+/* side panel: the character editor */
+.side { margin: 0 0 0 auto; height: 100%; max-height: 100%; width: min(520px, 100vw); padding: 0; border: 0; border-left: 1px solid var(--pline); background: var(--surface); color: var(--fg); }
+.side::backdrop { background: rgba(0,0,0,.55); }
+.side .dh { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 12px 10px 20px; min-height: var(--top); background: var(--surface); border-bottom: 1px solid var(--line); }
+.side .dh b { font-family: var(--font-display); font-size: 1.4rem; font-weight: 400; }
+.side .form { padding: 20px; }
+.side .act { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 10px; padding-top: 4px; }
+.side .act .sp { flex: 1; }
+.cdlg { width: min(460px, calc(100vw - 32px)); padding: 0; border: 1px solid var(--pline); border-radius: 12px; background: var(--surface); color: var(--fg); }
+.cdlg::backdrop { background: rgba(0,0,0,.6); }
+.cdlg .in { display: grid; gap: 12px; padding: 22px; }
+.cdlg h2 { font-size: 1.5rem; }
+.cdlg p { margin: 0; color: var(--muted); }
+.cdlg input { min-height: 46px; border-radius: 8px; border: 1px solid var(--pline); background: var(--panel-2); color: var(--fg); padding: 0 12px; font: inherit; }
+@media (max-width: 1100px) { .next { grid-template-columns: 1fr; } }
+@media (max-width: 960px) {
+  .lay { grid-template-columns: 1fr; }
+  .pnav { position: static; display: flex; overflow-x: auto; }
+  .pnav hr { display: none; }
+  .pnav a { white-space: nowrap; }
+  .plist { grid-template-columns: 1fr; }
+  .login, .founder { grid-template-columns: 1fr; }
+  .founder .fcd { text-align: left; }
+}
+@media (max-width: 600px) {
+  .form, .facs { grid-template-columns: 1fr; }
+  .side { width: 100vw; }
+}
+@media (prefers-reduced-motion: reduce) { .facs img { transition: none; } }
+</style>
+<!--body-->
+<main class="wrap pg-top pf" id="app">
+  <h1 class="sr">Мой профиль</h1>
+  <div id="view"><div class="skel" style="min-height:250px"></div></div>
+</main>
+
+<dialog class="side" id="edDlg" aria-labelledby="edT">
+  <div class="dh"><b id="edT">Персонаж</b><button class="iconbtn" id="edClose" type="button" aria-label="Закрыть"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
+  <form class="form" id="edForm" novalidate>
+    <label class="full">Имя<input id="eName" maxlength="12" autocomplete="off" spellcheck="false" required></label>
+    <div class="fl full"><span id="leF">Фракция</span><div class="seg" id="eF" aria-labelledby="leF"><button type="button" data-v="alliance">Альянс</button><button type="button" data-v="horde">Орда</button></div></div>
+    <label>Раса<select id="eRace"></select></label>
+    <label>Класс<select id="eCls"></select></label>
+    <div class="fl"><span id="leRole">Роль</span><div class="seg" id="eRole" aria-labelledby="leRole"></div></div>
+    <label>Уровень<input id="eLvl" type="number" min="1" max="60" inputmode="numeric" value="1"></label>
+    <div class="fl full"><span id="leT">Когда играете</span><div class="seg" id="eT" aria-labelledby="leT"><button type="button" data-v="morning">Утро</button><button type="button" data-v="evening">Вечер</button><button type="button" data-v="night">Сова</button></div></div>
+    <div class="fl"><span>Профессия 1</span><div class="pair"><select id="eP1" aria-label="Профессия 1"></select><input id="eS1" type="number" min="1" max="300" inputmode="numeric" placeholder="1–300" aria-label="Навык профессии 1"></div></div>
+    <div class="fl"><span>Профессия 2</span><div class="pair"><select id="eP2" aria-label="Профессия 2"></select><input id="eS2" type="number" min="1" max="300" inputmode="numeric" placeholder="1–300" aria-label="Навык профессии 2"></div></div>
+    <p class="msg full" id="eNote" role="alert"></p>
+    <div class="act"><button type="submit" class="btn" id="eSave">Сохранить</button><button type="button" class="btn ghost" id="eMain">Сделать основным</button><span class="sp"></span><button type="button" class="btn danger" id="eDel">Удалить персонажа</button></div>
+  </form>
+</dialog>
+
+<dialog class="cdlg" id="delDlg" aria-labelledby="delT">
+  <form class="in" method="dialog" id="delForm">
+    <h2 id="delT">Удалить профиль</h2>
+    <p>Персонажи, достижения, очки и место в «Составе» исчезнут навсегда. Вернуть их нельзя.</p>
+    <label class="small" for="delWord">Чтобы подтвердить, введите слово <b id="delW">УДАЛИТЬ</b></label>
+    <input id="delWord" autocomplete="off" spellcheck="false">
+    <p class="msg err" id="delNote" role="alert"></p>
+    <div class="row"><button type="button" class="btn danger" id="delGo" disabled>Удалить навсегда</button><button type="button" class="btn ghost" id="delNo">Отмена</button></div>
+  </form>
+</dialog>
+<!--/body-->
+<script>
+/* ---------- Profile: login, first-run wizard, cabinet sections in the hash, the character editor ---------- */
+const ERR = {
+  bad_name: 'Имя: от 2 до 12 букв, без цифр и пробелов.', bad_race: 'Выберите расу.', bad_combo: 'Такого сочетания расы и класса нет.',
+  bad_role: 'Эта роль классу недоступна.', bad_level: 'Уровень — от 1 до 60.', bad_prof: 'Две разные профессии из списка.',
+  bad_skill: 'Навык — от 1 до 300 и только у выбранной профессии.', bad_playtime: 'Выберите, когда играете.', limit: 'Не больше трёх персонажей.',
+  bad_motto: 'Девиз — до 60 знаков.', locked: 'Это ещё не открыто.', auth: 'Сессия закончилась, войдите снова.',
+};
+const errText = e => ERR[e && e.code] || 'Не получилось сохранить. Попробуйте ещё раз.';
+const SECS = [['chars', 'Персонажи'], ['look', 'Внешний вид'], ['ach', 'Достижения'], ['frames', 'Рамки и ранги'], ['account', 'Аккаунт']];
+const DEL_WORD = 'УДАЛИТЬ';
+const FIRST = ['profile_full', 'radio_on', 'guides3', 'party5', 'play_page'];
+const ACT = {
+  guide: ['Открыть гайды', 'guides/'], class: ['Открыть классы', 'classes/'], race: ['Открыть расы', 'races/'], play_page: ['Открыть «В игре»', 'play/'],
+  party5: ['Собрать группу', 'tools/#raid'], raid40: ['Собрать рейд', 'tools/#raid'], share_team: ['Собрать группу', 'tools/#raid'],
+  compare3: ['Сравнить', 'tools/#compare'], search: ['Искать', 'tools/#search'], lang: ['Сменить язык', null],
+  radio_on: ['Включить радио', 'radio'], radio_min: ['Включить радио', 'radio'], station: ['Включить радио', 'radio'], sleep_timer: ['Включить радио', 'radio'],
+  show_card: ['Скопировать ссылку', 'card'], three_chars: ['Добавить персонажа', 'add'], profile_full: ['Заполнить персонажа', 'edit'],
+  recruiter1: ['Ссылка для друга', 'account'], recruiter5: ['Ссылка для друга', 'account'],
+};
+let M = null, m = null, sec = 'chars', cat = '', wiz = null, edit = null, lastRank = null, reveal = false;
+
+const mainOf = () => m.characters.find(c => c.is_main) || m.characters[0];
+const have = () => new Map(m.achievements.map(a => [a.id, a]));
+const ctx = () => ({ progress: m.progress, user: m.user, chars: m.characters, have: new Set(m.achievements.map(a => a.id)) });
+const asPlayer = c => ({ id: m.user.id, nick: m.user.show_nick ? m.user.nick : null, title: m.user.title, frame: m.user.frame, rank: m.user.rank,
+  portrait: m.user.portrait, background: m.user.background, motto: m.user.motto, points: m.user.points, joined: m.user.joined_guild_at, main: c });
+const myUrl = () => new URL(playerUrl(m.user.id), location.href).href;
+const refUrl = () => new URL(`${HOME}profile/?ref=${m.user.id}`, location.href).href;
+function loginUrl() {
+  let ref = '';
+  try { ref = localStorage.getItem('gabella-ref') || ''; } catch (e) { /* private mode */ }
+  return `${M ? M.API : 'https://api.gabella.site'}/auth/login?lang=${LANG}` + (/^\d{1,20}$/.test(ref) ? `&ref=${ref}` : '');
+}
+const DISCORD = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.6 5.2A17 17 0 0 0 15.4 4l-.5 1a15.6 15.6 0 0 0-5.8 0L8.6 4a17 17 0 0 0-4.2 1.3C1.7 9.3 1 13.2 1.3 17a17 17 0 0 0 5.2 2.6l1.1-1.7c-.6-.2-1.2-.5-1.7-.8l.4-.3a12.2 12.2 0 0 0 11.4 0l.4.3c-.5.3-1.1.6-1.7.8l1.1 1.7A17 17 0 0 0 22.7 17c.4-4.4-.7-8.3-3.1-11.8ZM8.7 14.7c-1 0-1.9-1-1.9-2.2s.8-2.2 1.9-2.2 1.9 1 1.9 2.2-.8 2.2-1.9 2.2Zm6.6 0c-1 0-1.9-1-1.9-2.2s.8-2.2 1.9-2.2 1.9 1 1.9 2.2-.8 2.2-1.9 2.2Z"/></svg>';
+
+/* ---------- screens before the cabinet ---------- */
+function screen(kind) {
+  parkForm();
+  const v = $('#view');
+  if (kind === 'login') {
+    v.innerHTML = `<section class="frame login"><div><h2>Войдите через Discord</h2>
+      <p>Профили только для участников сервера Gabella Team. Мы получаем ваш Discord ID и проверяем участие в сервере, больше ничего.</p>
+      <ul><li>До трёх персонажей, основной виден в «Составе».</li><li>Достижения, ранги и рамки портрета.</li><li>Титул «Основатель» — для тех, кто успеет до старта 4 ноября.</li></ul></div>
+      <a class="btn lg dsc" href="${esc(loginUrl())}">${DISCORD}Войти через Discord</a></section>`;
+  } else if (kind === 'not-member') {
+    v.innerHTML = `<section class="frame state"><h2>Вы не участник сервера</h2><p>Профили только для участников Discord-сервера Gabella Team. Вступите в сервер и войдите ещё раз.</p>
+      <div class="row">${GD.invite ? `<a class="btn" href="${esc(GD.invite)}" target="_blank" rel="noopener">Вступить в Gabella Team</a>` : ''}<a class="btn ghost" href="${esc(loginUrl())}">Войти ещё раз</a></div></section>`;
+  } else if (kind === 'discord-down') {
+    v.innerHTML = `<section class="frame state"><h2>Discord не отвечает</h2><p>Не удалось проверить вход. Попробуйте через пару минут.</p>
+      <div class="row"><a class="btn" href="${esc(loginUrl())}">Попробовать снова</a></div></section>`;
+  } else {
+    v.innerHTML = `<section class="frame state"><h2>Сервер профилей не отвечает</h2><p>Попробуйте через пару минут. Остальной гид работает как обычно.</p>
+      <div class="row"><button type="button" class="btn ghost" id="retry">Повторить</button></div></section>`;
+    $('#retry').onclick = start;
+  }
+}
+
+/* ---------- first run: faction -> race and class -> the rest ---------- */
+function founderPlaque() {
+  const ms = Date.parse(GD.deadline) - Date.now();
+  if (ms <= 0) return '';
+  const days = Math.ceil(ms / 86400000);
+  return `<div class="frame founder"><div><b>Титул «Основатель»</b><p>Добавьте персонажа до старта 4 ноября — титул и золотая рамка останутся навсегда.</p></div>
+    <div class="fcd">${unit(days, 'day')}<small>до закрытия окна</small></div></div>`;
+}
+function wizard() {
+  parkForm();
+  wiz = wiz || { step: 1, f: '', race: '', cls: '' };
+  const w = wiz, v = $('#view');
+  const steps = ['Сторона', 'Раса и класс', 'Персонаж'].map((s, i) => `<span${w.step === i + 1 ? ' aria-current="step"' : ''}>${i + 1}. ${esc(s)}</span>`).join('<span aria-hidden="true">·</span>');
+  let body = '';
+  if (w.step === 1) {
+    body = `<h2>За кого играете?</h2><div class="facs">${['alliance', 'horde'].map(f => `<button type="button" data-f="${f}" style="--fc:var(--${f})">
+      <img src="${ROOT}assets/art/${f === 'alliance' ? 'human' : 'orc'}-600.webp" alt="" loading="lazy"><b>${esc(FACN[f])}</b></button>`).join('')}</div>`;
+  } else if (w.step === 2) {
+    const races = Object.entries(GD.races).filter(([, r]) => r.f === w.f);
+    const cl = w.race ? race(w.race).cls : [];
+    body = `<h2>Раса и класс</h2><div class="picks" role="group" aria-label="Раса">${races.map(([id, r]) => `<button type="button" data-race="${id}" aria-pressed="${w.race === id}">${ring('recruit', `${ROOT}assets/art/${r.slug}-face.webp`)}${esc(r.n)}</button>`).join('')}</div>
+      ${w.race ? `<div class="picks" role="group" aria-label="Класс">${cl.map(id => `<button type="button" data-cls="${id}" aria-pressed="${w.cls === id}" style="color:${cls(id).color}">${ring('recruit', `${ROOT}assets/art/${id}-face.webp`)}${esc(cls(id).n)}</button>`).join('')}</div>` : ''}
+      <div class="row"><button type="button" class="btn ghost" data-back>Назад</button><button type="button" class="btn" data-next${w.race && w.cls ? '' : ' disabled'}>Дальше</button></div>`;
+  } else {
+    body = `<h2>Персонаж</h2><div id="wForm"></div><div class="row"><button type="button" class="btn ghost" data-back>Назад</button></div>`;
+  }
+  const c = { name: w.name || '…', race: w.race || (w.f === 'horde' ? 'orc' : 'human'), class: w.cls || 'warrior', level: w.level || 1, role: w.role || 'dps' };
+  const prev = asPlayer(c);
+  prev.title = Date.now() < Date.parse(GD.deadline) ? 'founder' : null;
+  prev.frame = prev.title ? 'founder' : prev.frame;
+  v.innerHTML = `<p class="lab">Так вас увидят в «Составе»</p>${bcard(prev, { h: 'h2' })}${founderPlaque()}
+    <section class="frame wiz"><div class="wsteps">${steps}</div>${body}</section>`;
+  if (w.step === 3) mountForm($('#wForm'), null);
+}
+document.addEventListener('click', e => {
+  if (!wiz || !e.target.closest('.wiz')) return;
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.f) { wiz.f = b.dataset.f; wiz.race = ''; wiz.cls = ''; wiz.step = 2; }
+  else if (b.dataset.race) { wiz.race = b.dataset.race; if (!race(wiz.race).cls.includes(wiz.cls)) wiz.cls = ''; }
+  else if (b.dataset.cls) wiz.cls = b.dataset.cls;
+  else if ('back' in b.dataset) wiz.step--;
+  else if ('next' in b.dataset) wiz.step++;
+  else return;
+  wizard();
+});
+
+/* ---------- the character form: in the wizard and in the side panel ---------- */
+/** The wizard borrows the side panel's form (the dialog is closed then); every redraw of the view parks it back first. */
+function mountForm(host, c) {
+  host.append($('#edForm'));
+  fillForm(c, true);
+}
+function segSet(id, v) { $$(`#${id} button`).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === v))); }
+function segVal(id) { const b = $(`#${id} [aria-pressed="true"]`); return b ? b.dataset.v : ''; }
+function fillRaces(f, keep) {
+  const list = Object.entries(GD.races).filter(([, r]) => r.f === f);
+  $('#eRace').innerHTML = list.map(([id, r]) => `<option value="${id}">${esc(r.n)}</option>`).join('');
+  if (keep && list.some(([id]) => id === keep)) $('#eRace').value = keep;
+}
+function fillClasses(keep) {
+  const cl = race($('#eRace').value).cls;
+  $('#eCls').innerHTML = cl.map(id => `<option value="${id}">${esc(cls(id).n)}</option>`).join('');
+  if (keep && cl.includes(keep)) $('#eCls').value = keep;
+}
+function fillRoles(keep) {
+  const roles = cls($('#eCls').value).roles;
+  $('#eRole').innerHTML = roles.map(r => `<button type="button" data-v="${r}">${esc(ROLE[r])}</button>`).join('');
+  segSet('eRole', roles.includes(keep) ? keep : roles[0]);
+}
+function fillProfs() {
+  const opts = '<option value="">Нет</option>' + Object.entries(GD.profs).map(([id, n]) => `<option value="${id}">${esc(n)}</option>`).join('');
+  $('#eP1').innerHTML = opts; $('#eP2').innerHTML = opts;
+}
+function skillState() { ['1', '2'].forEach(i => { const on = !!$('#eP' + i).value; $('#eS' + i).disabled = !on; if (!on) $('#eS' + i).value = ''; }); }
+function fillForm(c, wizardMode) {
+  edit = c ? c.id : null;
+  const w = wizardMode && !c ? wiz : null;
+  const f = c ? race(c.race).f : w ? w.f : 'alliance';
+  segSet('eF', f); fillRaces(f, c ? c.race : w && w.race); fillClasses(c ? c.class : w && w.cls); fillRoles(c ? c.role : 'dps'); fillProfs();
+  $('#eName').value = c ? c.name : (w && w.name) || '';
+  $('#eLvl').value = c ? c.level : 1;
+  segSet('eT', c ? c.playtime : 'evening');
+  $('#eP1').value = c && c.prof1 || ''; $('#eP2').value = c && c.prof2 || '';
+  $('#eS1').value = c && c.prof1_skill || ''; $('#eS2').value = c && c.prof2_skill || '';
+  skillState();
+  $('#eNote').textContent = ''; $('#eNote').className = 'msg full';
+  $('#eMain').hidden = !c || !!c.is_main;
+  $('#eDel').hidden = !c;
+  $('#eSave').textContent = c ? 'Сохранить' : 'Создать персонажа';
+  const nick = $('#eNick');
+  if (nick) nick.closest('label').remove();
+  if (!c && wizardMode) $('#eNote').insertAdjacentHTML('beforebegin', `<label class="chk full"><input type="checkbox" id="eNick" checked>Показывать мой ник из Discord в «Составе»</label>`);
+  // the wizard's choices are made already: race and class stay editable, but the faction row is not needed there
+  $('#eF').closest('.fl').hidden = !!wizardMode && !c;
+  $('#eRace').closest('label').hidden = !!wizardMode && !c;
+  $('#eCls').closest('label').hidden = !!wizardMode && !c;
+}
+function formBody() {
+  const n = v => (v === '' ? null : +v);
+  return {
+    name: $('#eName').value.trim(), race: $('#eRace').value, class: $('#eCls').value, role: segVal('eRole'), level: +$('#eLvl').value,
+    playtime: segVal('eT'), prof1: $('#eP1').value || null, prof2: $('#eP2').value || null, prof1_skill: n($('#eS1').value), prof2_skill: n($('#eS2').value),
+  };
+}
+function check(b) {
+  if (!/^\p{L}{2,12}$/u.test(b.name)) return 'bad_name';
+  if (!Number.isInteger(b.level) || b.level < 1 || b.level > 60) return 'bad_level';
+  if (b.prof1 && b.prof1 === b.prof2) return 'bad_prof';
+  for (const s of [b.prof1_skill, b.prof2_skill]) if (s !== null && !(Number.isInteger(s) && s >= 1 && s <= 300)) return 'bad_skill';
+  return null;
+}
+function note(text, bad) { $('#eNote').textContent = text; $('#eNote').className = 'msg full' + (bad ? ' err' : ''); }
+function busy(on) { $$('#edForm button').forEach(b => { b.disabled = on; }); }
+
+function wireForm() {
+  $('#eF').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; segSet('eF', b.dataset.v); fillRaces(b.dataset.v); fillClasses(); fillRoles(segVal('eRole')); });
+  $('#eRace').onchange = () => { fillClasses($('#eCls').value); fillRoles(segVal('eRole')); };
+  $('#eCls').onchange = () => fillRoles(segVal('eRole'));
+  $('#eRole').addEventListener('click', e => { const b = e.target.closest('button'); if (b) segSet('eRole', b.dataset.v); });
+  $('#eT').addEventListener('click', e => { const b = e.target.closest('button'); if (b) segSet('eT', b.dataset.v); });
+  $('#eP1').onchange = $('#eP2').onchange = skillState;
+  $('#eName').addEventListener('input', () => { if (wiz) wiz.name = $('#eName').value.trim(); });
+  $('#edForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const b = formBody(), bad = check(b);
+    if (bad) return note(ERR[bad], true);
+    busy(true); note('');
+    const nick = $('#eNick'), hideNick = nick && !nick.checked;
+    const req = edit ? M.api('/characters/' + edit, { method: 'PUT', body: b }) : M.api('/characters', { body: b });
+    req.then(r => (hideNick ? M.api('/me', { method: 'PUT', body: { show_nick: false } }).then(r2 => Object.assign(r, { me: r2.me })) : r))
+      .then(r => { busy(false); if (!edit) { wiz = null; parkForm(); } closeEd(); M.took(r); },
+        e2 => { busy(false); note(errText(e2), true); });
+  });
+  $('#eMain').onclick = () => { busy(true); M.api(`/characters/${edit}/main`, { body: {} }).then(r => { busy(false); closeEd(); M.took(r); }, e => { busy(false); note(errText(e), true); }); };
+  $('#eDel').onclick = () => {
+    const c = m.characters.find(x => x.id === edit);
+    if (!c || !confirm(fill('Удалить персонажа %n? Его достижения останутся у вас.', { n: c.name }))) return;
+    busy(true);
+    M.api('/characters/' + edit, { method: 'DELETE' }).then(r => { busy(false); closeEd(); M.took(r); }, e => { busy(false); note(errText(e), true); });
+  };
+  $('#edClose').onclick = closeEd;
+  $('#edDlg').addEventListener('click', e => { if (e.target === $('#edDlg')) closeEd(); });
+}
+function parkForm() { $('#edDlg').append($('#edForm')); }
+function openEd(c) {
+  parkForm();
+  fillForm(c, false);
+  $('#edT').textContent = c ? c.name : 'Новый персонаж';
+  if ($('#edDlg').showModal) $('#edDlg').showModal(); else $('#edDlg').setAttribute('open', '');
+  $('#eName').focus();
+}
+function closeEd() { if ($('#edDlg').open) $('#edDlg').close(); }
+
+/* ---------- cabinet ---------- */
+const fresh = () => m.achievements.length < 3;   // a newcomer: the first steps go first
+function nextUp() {
+  const h = have(), c = ctx(), out = [];
+  for (const a of GD.ach) {
+    if (h.has(a.id) || a.secret || a.kind === 'admin') continue;
+    const key = a.rule && a.rule.key || a.id;
+    if (!ACT[key]) continue;   // only what a button can move forward
+    const pr = achProgress(a, c);
+    out.push({ a, pr, pct: pr ? pr.v / pr.goal : 0, key });
+  }
+  out.sort((x, y) => y.pct - x.pct);
+  if (fresh()) out.sort((x, y) => (FIRST.indexOf(x.a.id) + 1 || 99) - (FIRST.indexOf(y.a.id) + 1 || 99));
+  return out.slice(0, 3);
+}
+function nextHtml() {
+  const list = nextUp();
+  if (!list.length) return '';
+  return `<section aria-labelledby="nxH"><div class="sec-h"><h2 id="nxH">${fresh() ? 'Первые шаги' : 'Что дальше'}</h2></div><div class="next">${list.map(({ a, pr, key }) => {
+    const act = ACT[key];
+    let btn = '';
+    if (act && act[1] === 'radio') btn = `<button type="button" class="btn ghost go" data-act="radio">${esc(act[0])}</button>`;
+    else if (act && ['card', 'add', 'edit', 'account'].includes(act[1])) btn = `<button type="button" class="btn ghost go" data-act="${act[1]}">${esc(act[0])}</button>`;
+    else if (act && act[1]) btn = `<a class="btn ghost go" href="${HOME}${act[1]}">${esc(act[0])}</a>`;
+    const t = T.ach[a.id] || [a.id, ''];
+    return `<div class="nx"><span class="ic"><img src="${achIcon(a.id)}" alt="" width="38" height="38"></span><b>${esc(t[0])}</b><p>${esc(t[1])}</p>
+      ${pr ? `<span class="prog"><span class="bar"><i style="width:${Math.round(100 * pr.v / pr.goal)}%"></i></span>${esc(pr.text)}</span>` : ''}${btn}</div>`;
+  }).join('')}</div></section>`;
+}
+function pathHtml() {
+  const u = m.user, P = m.progress || {};
+  const radio = Math.floor(((P.radio_min || {}).value || 0) / 60);
+  const guides = ((P.guide || {}).items || []).filter(x => GD.sets.guide.includes(x)).length;
+  const place = u.rank_place && u.rank_place.place ? fill('%p из %t', { p: u.rank_place.place, t: u.rank_place.total }) : '—';
+  return `<div class="frame path" aria-label="Ваш путь"><span>Дней подряд: <b>${u.streak || 0}</b></span><span>Радио: <b>${unit(radio, 'hour')}</b></span>
+    <span>Гайды: <b>${fill('%v из %g', { v: guides, g: GD.sets.guide.length })}</b></span><span>Место в команде: <b>${place}</b></span></div>`;
+}
+function levelAsk() {
+  let lvl = 0;
+  try { lvl = +(JSON.parse(localStorage.getItem('gabella-wf-me')) || {}).lvl || 0; } catch (e) { /* no level */ }
+  const c = mainOf();
+  if (!(lvl > c.level) || lvl > 60) return '';
+  return `<div class="frame ask"><span>${esc((T.ui.lvlAsk || '').replace('{n}', lvl).replace('{name}', c.name))}</span><button type="button" class="btn" data-act="lvl" data-lvl="${lvl}">${esc(T.ui.update || 'OK')}</button></div>`;
+}
+
+function secChars() {
+  const n = m.characters.length;
+  const cards = m.characters.map(c => pcard(Object.assign(asPlayer(c), { alts: [], lfg: c.is_main ? m.user.lfg : null, nick: null }), {
+    link: false, cls: c.is_main ? 'main' : '', after: c.is_main ? '<div class="mainmark">Основной персонаж</div>' : '',
+    attrs: ` role="button" tabindex="0" data-edit="${c.id}" aria-label="${esc(fill('Изменить: %n', { n: c.name }))}"`,
+  })).join('');
+  const add = n < 3 ? `<button type="button" class="add" data-act="add"><b>${ico('plus')}Добавить персонажа</b><span>${esc(fill('Можно ещё: %n', { n: 3 - n }))}</span></button>` : '';
+  const l = m.user.lfg;
+  const lfg = `<div class="frame box"><h3>Ищу группу</h3><p class="small">Основной персонаж появится в полосе «Сейчас ищут» на «Составе». Через 3 часа отметка гаснет сама.</p>
+    <div class="row"><div class="seg" id="lfgSeg" role="group" aria-label="Ищу группу"><button type="button" data-v="" aria-pressed="${!l}">Нет</button>${Object.entries(LFG).map(([k, t]) => `<button type="button" data-v="${k}" aria-pressed="${!!l && l.kind === k}">${esc(t)}</button>`).join('')}</div>
+    ${l ? `<span class="small">${esc(fill('Осталось %t', { t: left(l.until) }))}</span><button type="button" class="btn ghost" data-act="lfgMore" data-v="${l.kind}">Продлить на 3 часа</button>` : ''}</div></div>`;
+  return `<div class="sec-h"><h2>Персонажи</h2><span class="small">${esc(fill('%n из 3', { n }))}</span></div>
+    <p>Основной персонаж — в «Составе» и на карточке, остальные — строкой «Твинки». Нажмите на персонажа, чтобы изменить.</p>
+    <div class="plist">${cards}${add}</div>${lfg}`;
+}
+function secLook() {
+  const u = m.user, c = mainOf();
+  const frames = m.frames.map(f => `<button type="button" class="rstep" data-frame="${f}" aria-pressed="${(u.frame || u.rank) === f}">${ring(f, face(c, u.portrait))}<b>${esc(frameName(f))}</b></button>`).join('');
+  const titles = `<option value="">Без титула</option>` + m.titles.map(t => `<option value="${t}"${u.title === t ? ' selected' : ''}>${esc(achName(t))}</option>`).join('');
+  const bgs = GD.backgrounds.map(b => {
+    const src = /^hero_/.test(b) ? `${ROOT}assets/art/${b}-960.webp` : `${ROOT}assets/art/${b}-bg.webp`;
+    const name = /^hero_/.test(b) ? (b === 'hero_dawn' ? 'Рассвет' : 'Привал') : (Object.values(GD.races).find(r => r.slug === b) || { n: b }).n;
+    return `<button type="button" data-bg="${b}" aria-pressed="${(u.background || race(c.race).slug) === b}"><img src="${src}" alt="" loading="lazy"><span>${esc(name)}</span></button>`;
+  }).join('');
+  return `<div class="sec-h"><h2>Внешний вид</h2></div><p>Всё меняется сразу — карточка вверху показывает, как вас видят другие.</p>
+    <div class="frame box"><h3>Рамка</h3><div class="frames">${frames}</div><p class="small">Новые рамки открываются рангами и особыми достижениями.</p></div>
+    <div class="frame box"><h3>Титул над именем</h3><select id="lTitle" aria-label="Титул над именем">${titles}</select></div>
+    <div class="frame box"><h3>Портрет</h3><div class="seg" id="lPortrait" role="group" aria-label="Портрет"><button type="button" data-v="race" aria-pressed="${u.portrait !== 'class'}">Раса</button><button type="button" data-v="class" aria-pressed="${u.portrait === 'class'}">Класс</button></div></div>
+    <div class="frame box"><h3>Фон карточки</h3><div class="bgs">${bgs}</div></div>
+    <div class="frame box"><h3>Девиз</h3>${u.motto_hidden ? '<p class="small">Девиз скрыт администратором.</p>' : ''}
+      <div class="row"><input id="lMotto" maxlength="60" value="${esc(u.motto || '')}" placeholder="Например: Сначала лечу, потом спрашиваю" aria-label="Девиз" style="flex:1 1 280px"><button type="button" class="btn ghost" data-act="motto">Сохранить девиз</button></div>
+      <span class="small" id="lMottoN"></span></div>
+    <div class="frame box"><label class="chk"><input type="checkbox" id="lNick"${u.show_nick ? ' checked' : ''}>Показывать мой ник из Discord${u.nick ? `: <b>${esc(u.nick)}</b>` : ''}</label></div>
+    <p class="msg" id="lookNote" role="status"></p>`;
+}
+function secAch() {
+  const h = have(), c = ctx();
+  const sum = (list) => [list.filter(a => h.has(a.id)).length, list.length];
+  const btn = (id, label, list) => {
+    const [n, t] = sum(list), secret = id === 'secrets';
+    return `<button type="button" data-cat="${id}" aria-pressed="${cat === id}"><b>${esc(label)}</b><span>${secret ? fill('%v из ?', { v: n }) : fill('%v из %g', { v: n, g: t })}</span><span class="bar"><i style="width:${Math.round(100 * n / t)}%"></i></span></button>`;
+  };
+  const list = GD.ach.filter(a => !cat || a.cat === cat);
+  list.sort((x, y) => (h.has(y.id) ? 1 : 0) - (h.has(x.id) ? 1 : 0));
+  return `<div class="sec-h"><h2>Достижения</h2><span class="small">${esc(fill('Очки: %n', { n: m.user.points }))}</span></div>
+    <div class="cats" role="group" aria-label="Категории">${btn('', 'Все', GD.ach)}${GD.cats.map(k => btn(k, T.cats[k] || k, GD.ach.filter(a => a.cat === k))).join('')}</div>
+    <div class="achs">${list.map(a => achTile(a, h.get(a.id), c)).join('')}</div>`;
+}
+function secFrames() {
+  const u = m.user, c = mainOf(), pic = face(c, u.portrait), open = new Set(m.frames);
+  const ladder = GD.ranks.map(r => {
+    const on = open.has(r.id);
+    return `<${on ? 'button type="button" data-frame="' + r.id + '"' : 'div'} class="rstep${u.rank === r.id ? ' cur' : ''}${on ? '' : ' lock'}">${ring(r.id, pic, on ? '' : 'locked')}<b>${esc(rankName(r.id))}</b><span>${esc(fill('%n очков', { n: r.pts }))}</span></${on ? 'button' : 'div'}>`;
+  }).join('') + `<div class="rstep${open.has('boss') ? '' : ' lock'}">${ring('boss', pic, open.has('boss') ? '' : 'locked')}<b>${esc(frameName('boss'))}</b><span>Одна на сервер</span></div>`;
+  const specials = GD.frames.filter(f => f.ach).map(f => {
+    const on = open.has(f.id);
+    return `<${on ? 'button type="button" data-frame="' + f.id + '"' : 'div'} class="rstep${on ? '' : ' lock'}">${ring(f.id, pic, on ? '' : 'locked')}<b>${esc(frameName(f.id))}</b><span>${on ? 'Открыта' : esc(fill('За «%a»', { a: achName(f.ach) }))}</span></${on ? 'button' : 'div'}>`;
+  }).join('');
+  return `<div class="sec-h"><h2>Рамки и ранги</h2></div>
+    <p>Ранг растёт от очков достижений, каждый ранг открывает свою рамку портрета. Особые рамки — только за особые достижения. Носить можно любую открытую: нажмите на неё.</p>
+    <div class="ladder">${ladder}</div><div class="specials">${specials}</div><p class="msg" id="frNote" role="status"></p>`;
+}
+function secAccount() {
+  const on = M.sound();
+  return `<div class="sec-h"><h2>Аккаунт</h2></div>
+    <div class="frame box"><label class="chk"><input type="checkbox" id="aSound"${on ? ' checked' : ''}>Звук при новом достижении</label></div>
+    <div class="frame box"><h3>Ссылка для друга</h3><p class="small">Друг входит по ней — вам засчитывается «Вербовщик». Сейчас по вашей ссылке: ${m.user.refs || 0}.</p>
+      <div class="row"><input id="aRef" readonly value="${esc(refUrl())}" aria-label="Ссылка для друга" style="flex:1 1 280px"><button type="button" class="btn ghost" data-act="copyRef">${ico('copy')}Скопировать</button></div><span class="msg" id="aRefNote" role="status"></span></div>
+    <div class="frame box"><h3>Мои данные</h3><p class="small">Всё, что мы храним о вас, одним файлом JSON.</p><div class="row"><a class="btn ghost" href="${esc(M.API)}/me/export" download>Скачать мои данные</a></div></div>
+    <div class="frame box"><h3>Вход</h3><p class="small">Вход через Discord. Выход завершает сессию на этом устройстве.</p>
+      <div class="row"><button type="button" class="btn ghost" data-act="logout">Выйти</button><button type="button" class="btn danger" data-act="delete">Удалить профиль и все данные</button></div></div>`;
+}
+
+function cabinet() {
+  parkForm();
+  const c = mainOf(), p = asPlayer(c);
+  const ach = m.achievements.length, all = GD.ach.length;
+  const nav = SECS.map(([id, t]) => `<a href="#${id}"${sec === id ? ' aria-current="page"' : ''}>${esc(t)}${id === 'chars' ? `<span>${esc(fill('%n из 3', { n: m.characters.length }))}</span>` : id === 'ach' ? `<span>${ach} / ${all}</span>` : ''}</a>`).join('');
+  const body = { chars: secChars, look: secLook, ach: secAch, frames: secFrames, account: secAccount }[sec]();
+  $('#view').innerHTML = `<p class="lab">Карточка — как вас видят другие</p>${bcard(p, { h: 'h2', reveal })}${levelAsk()}${nextHtml()}${pathHtml()}
+    <div class="lay"><nav class="frame pnav" aria-label="Кабинет">${nav}<hr><a class="pub" href="${playerUrl(m.user.id)}">Моя страница ↗</a></nav><section class="sec" id="sec">${body}</section></div>`;
+  reveal = false;
+  const mn = $('#lMotto');
+  if (mn) { const cnt = () => { $('#lMottoN').textContent = fill('%n из 60', { n: [...mn.value].length }); }; mn.addEventListener('input', cnt); cnt(); }
+}
+
+function render() {
+  if (!m) return screen('login');
+  if (!m.characters.length) return wizard();
+  cabinet();
+}
+
+function put(body, noteId) {
+  return M.api('/me', { method: 'PUT', body }).then(r => M.took(r), e => { const n = $('#' + noteId); if (n) { n.textContent = errText(e); n.className = 'msg err'; } });
+}
+
+/* clicks of the cabinet: one listener, the view is redrawn on every change of /me */
+document.addEventListener('click', e => {
+  if (!m || !e.target.closest('#view')) return;
+  const t = e.target;
+  const editCard = t.closest('[data-edit]');
+  if (editCard) return openEd(m.characters.find(c => c.id === +editCard.dataset.edit));
+  const nav = t.closest('.pnav a[href^="#"]');
+  if (nav) { e.preventDefault(); sec = nav.getAttribute('href').slice(1); history.replaceState(null, '', '#' + sec); cabinet(); $('#sec').scrollIntoView({ block: 'nearest' }); return; }
+  const fr = t.closest('[data-frame]');
+  if (fr) return put({ frame: fr.dataset.frame }, sec === 'look' ? 'lookNote' : 'frNote');
+  const bg = t.closest('[data-bg]');
+  if (bg) return put({ background: bg.dataset.bg }, 'lookNote');
+  const ct = t.closest('[data-cat]');
+  if (ct) { cat = ct.dataset.cat; return cabinet(); }
+  const pt = t.closest('#lPortrait button');
+  if (pt) return put({ portrait: pt.dataset.v }, 'lookNote');
+  const lg = t.closest('#lfgSeg button');
+  if (lg) return M.api('/me/lfg', { method: 'PUT', body: { kind: lg.dataset.v || null } }).then(r => M.took(r), () => {});
+  const a = t.closest('[data-act]');
+  if (!a) return;
+  const act = a.dataset.act;
+  if (act === 'add') openEd(null);
+  else if (act === 'edit') openEd(mainOf());
+  else if (act === 'radio') { const r = $('.radiobtn'); if (r) r.click(); }
+  else if (act === 'account') { sec = 'account'; history.replaceState(null, '', '#account'); cabinet(); }
+  else if (act === 'card') copyText(myUrl()).then(ok => { if (ok) M.track('show_card'); a.textContent = ok ? 'Скопировано' : myUrl(); });
+  else if (act === 'copyRef') copyText(refUrl()).then(ok => { $('#aRefNote').textContent = ok ? 'Скопировано' : 'Не удалось скопировать, выделите ссылку и скопируйте вручную'; });
+  else if (act === 'lfgMore') M.api('/me/lfg', { method: 'PUT', body: { kind: a.dataset.v } }).then(r => M.took(r), () => {});
+  else if (act === 'motto') put({ motto: $('#lMotto').value }, 'lookNote').then(() => { const n = $('#lookNote'); if (n && !n.classList.contains('err')) n.textContent = 'Девиз сохранён'; });
+  else if (act === 'lvl') {
+    const c = mainOf();
+    a.disabled = true;
+    M.api('/characters/' + c.id, { method: 'PUT', body: Object.assign({}, c, { level: +a.dataset.lvl }) }).then(r => M.took(r), () => { a.disabled = false; });
+  } else if (act === 'logout') M.api('/auth/logout', { body: {} }).then(() => M.forget(), () => M.forget());
+  else if (act === 'delete') openDelete();
+});
+document.addEventListener('change', e => {
+  if (!m) return;
+  if (e.target.id === 'lTitle') put({ title: e.target.value || null }, 'lookNote');
+  else if (e.target.id === 'lNick') put({ show_nick: e.target.checked }, 'lookNote');
+  else if (e.target.id === 'aSound') M.sound(e.target.checked);
+});
+document.addEventListener('keydown', e => {
+  const card = e.target.closest && e.target.closest('[data-edit]');
+  if (card && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); card.click(); }
+});
+
+function openDelete() {
+  const d = $('#delDlg');
+  $('#delW').textContent = DEL_WORD; $('#delWord').value = ''; $('#delGo').disabled = true; $('#delNote').textContent = '';
+  if (d.showModal) d.showModal(); else d.setAttribute('open', '');
+  $('#delWord').focus();
+}
+$('#delWord').addEventListener('input', e => { $('#delGo').disabled = e.target.value.trim().toLocaleUpperCase(HL) !== DEL_WORD.toLocaleUpperCase(HL); });
+$('#delNo').onclick = () => $('#delDlg').close();
+$('#delGo').onclick = () => {
+  $('#delGo').disabled = true;
+  M.api('/me', { method: 'DELETE' }).then(() => { $('#delDlg').close(); M.forget(); }, e => { $('#delNote').textContent = errText(e); $('#delGo').disabled = false; });
+};
+
+function start() {
+  $('#view').innerHTML = '<div class="skel" style="min-height:250px"></div>';
+  M.api('/me').then(r => M.took({ me: r }), e => { if (e.status !== 401) screen('down'); });
+}
+
+ready(Mx => {
+  M = Mx;
+  const ref = new URLSearchParams(location.search).get('ref');
+  if (ref && /^\d{1,20}$/.test(ref)) try { localStorage.setItem('gabella-ref', ref); } catch (e) { /* private mode */ }
+  const h = location.hash.slice(1);
+  if (SECS.some(s => s[0] === h)) sec = h;
+  if (!M) return screen('down');
+  wireForm();
+  if (h === 'not-member' || h === 'discord-down') return screen(h);
+  let got = false;
+  M.onMe(state => {
+    got = true;
+    const was = lastRank, idx = id => GD.ranks.findIndex(r => r.id === id);
+    m = state;
+    if (m) { reveal = was !== null && idx(m.user.rank) > idx(was); lastRank = m.user.rank; }
+    if (!m) closeEd();
+    render();
+  });
+  // me.js keeps quiet when the API is unreachable: ask once more to tell «logged out» (401) from «server down»
+  M.me().then(() => {
+    if (!got) M.api('/me').then(r => M.took({ me: r }), e => { if (e.status !== 401) screen('down'); });
+  });
+});
+</script>

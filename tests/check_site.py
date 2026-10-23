@@ -65,7 +65,8 @@ def main():
                 json.loads(ld)
             except ValueError as e:
                 problems.append(f'{rel}: битый JSON-LD: {e}')
-        listed.add(SITE + rel[:-len('index.html')])
+        if '<meta name="robots" content="noindex">' not in html:   # personal pages (profile, player) stay out of the sitemap
+            listed.add(SITE + rel[:-len('index.html')])
         if rel.startswith('en/guides/') or rel.split('/')[0] in langs.NEW:   # Latin-script pages: no Russian left
             body = re.sub(r'<(script|style)\b.*?</\1>', '', html, flags=re.S)
             body = re.sub(r'<a [^>]*\blang="(ru|uk)"[^>]*>.*?</a>', '', body, flags=re.S)   # language menu: autonyms

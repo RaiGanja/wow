@@ -1,0 +1,86 @@
+<!-- Player page /u/#<id>: one static file per language, the id comes from the hash. Fragment of me.src.html (build_me.py). -->
+<style>
+.pl { display: grid; gap: 18px; }
+.pl .bar-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.chars { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 12px; }
+.vs { display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center; padding: 12px 18px; }
+.vs b { font-variant-numeric: lining-nums tabular-nums; }
+.cat-h { margin-top: 6px; font-family: var(--font-body); font-size: 1.05rem; font-weight: 600; letter-spacing: 0; display: flex; gap: 10px; align-items: baseline; }
+.cat-h span { font-size: .85rem; font-weight: 500; color: var(--muted); }
+.admin { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding: 12px 18px; font-size: .9rem; color: var(--muted); }
+</style>
+<!--body-->
+<main class="wrap pg-top pl" id="app">
+  <h1 class="sr">Игрок Gabella Team</h1>
+  <div id="view"><div class="skel" style="min-height:250px"></div></div>
+</main>
+<!--/body-->
+<script>
+/* ---------- Player page: big card, characters, achievements by category, «compare with me» ---------- */
+let M = null, p = null, me = null, compare = false;
+
+function notFound() {
+  $('#view').innerHTML = `<section class="frame state"><h2>Игрок не найден</h2><p>Такого игрока нет в «Составе» или он скрыл профиль.</p>
+    <div class="row"><a class="btn" href="${HOME}roster/">Открыть «Состав»</a></div></section>`;
+}
+function down() {
+  $('#view').innerHTML = `<section class="frame state"><h2>Сервер профилей не отвечает</h2><p>Попробуйте через пару минут. Остальной гид работает как обычно.</p>
+    <div class="row"><button type="button" class="btn ghost" id="retry">Повторить</button></div></section>`;
+  $('#retry').onclick = load;
+}
+
+function draw() {
+  const own = !!me && me.user.id === p.id;
+  const got = new Map(p.achievements.map(a => [a.id, a]));
+  const mine = new Map(me ? me.achievements.map(a => [a.id, a]) : []);
+  const chars = p.characters.map((c, i) => pcard(Object.assign({}, p, { main: c, alts: [], nick: null, lfg: i === 0 ? p.lfg : null }), {
+    link: false, after: i === 0 ? '<div class="mainmark">Основной персонаж</div>' : '',
+  })).join('');
+  const cmp = compare && me && !own;
+  const name = p.main.name;
+  const cats = GD.cats.map(k => {
+    const list = GD.ach.filter(a => a.cat === k && (got.has(a.id) || (cmp && mine.has(a.id))));
+    if (!list.length) return '';
+    const tiles = list.map(a => achTile(a, got.get(a.id), null, cmp ? [['Вы', mine.has(a.id)], [name, got.has(a.id)]] : null)).join('');
+    return `<h3 class="cat-h">${esc(T.cats[k] || k)}<span>${list.filter(a => got.has(a.id)).length}</span></h3><div class="achs">${tiles}</div>`;
+  }).join('');
+  const cmpBar = cmp ? `<div class="frame vs" role="status"><span>${fill(esc('Вы: %a · %n: %b'), { a: `<b>${mine.size}</b>`, b: `<b>${got.size}</b>`, n: esc(name) })}</span>
+    <span class="small">${esc(fill('Общих: %n', { n: [...got.keys()].filter(id => mine.has(id)).length }))}</span></div>` : '';
+  const admin = me && me.admin && !own ? `<div class="frame admin"><span>Админ:</span>${p.motto ? '<button type="button" class="btn ghost" id="hideMotto">Скрыть девиз</button>' : ''}<span class="msg" id="admNote"></span></div>` : '';
+  $('#view').innerHTML = `${bcard(Object.assign({}, p, { since: p.since }), { h: 'h2' })}
+    <div class="bar-row"><button type="button" class="btn ghost" id="copy">${ico('copy')}Скопировать ссылку</button>
+      ${me && !own ? `<button type="button" class="btn ghost" id="cmpBtn" aria-pressed="${compare}">${compare ? 'Скрыть сравнение' : 'Сравнить с собой'}</button>` : ''}
+      ${own ? `<a class="btn ghost" href="${HOME}profile/">Мой профиль</a>` : ''}<span class="msg" id="copyNote" role="status"></span></div>
+    ${admin}
+    <section class="sec" aria-labelledby="chH"><div class="sec-h"><h2 id="chH">Персонажи</h2></div><div class="chars">${chars}</div></section>
+    <section class="sec" aria-labelledby="acH"><div class="sec-h"><h2 id="acH">Достижения</h2><span class="small">${esc(fill('Очки: %n', { n: p.points }))}</span></div>
+      ${cmpBar}${cats || '<p class="small">Достижений пока нет.</p>'}</section>`;
+  $('#copy').onclick = () => copyText(location.href).then(ok => {
+    $('#copyNote').textContent = ok ? 'Ссылка скопирована' : location.href;
+    if (ok && own) M.track('show_card');
+  });
+  const cb = $('#cmpBtn');
+  if (cb) cb.onclick = () => { compare = !compare; draw(); };
+  const hm = $('#hideMotto');
+  if (hm) hm.onclick = () => M.api(`/admin/users/${p.id}/motto-hide`, { body: { hidden: true } }).then(() => { p.motto = null; draw(); }, () => { $('#admNote').textContent = 'Не получилось'; });
+}
+
+function load() {
+  const id = location.hash.slice(1);
+  if (!/^\d{1,20}$/.test(id)) return notFound();
+  $('#view').innerHTML = '<div class="skel" style="min-height:250px"></div>';
+  M.api('/u/' + id).then(r => {
+    p = r;
+    document.title = `${r.main.name} — Gabella`;
+    draw();
+  }, e => (e.status === 404 ? notFound() : down()));
+}
+
+ready(Mx => {
+  M = Mx;
+  if (!M) return down();
+  M.onMe(s => { me = s; if (p) draw(); });
+  addEventListener('hashchange', () => { compare = false; load(); });
+  load();
+});
+</script>

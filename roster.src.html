@@ -1,0 +1,224 @@
+<!-- «Состав»: public roster of the team. Fragment of me.src.html, built by build_me.py into roster/ on every language. -->
+<style>
+.rstat { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 0; color: var(--ink-2); font-size: .95rem; min-height: 1.6em; text-shadow: 0 1px 8px rgba(0,0,0,.6); }
+.rstat b { color: var(--ink); font-weight: 600; font-variant-numeric: lining-nums; }
+.rstat .alliance b { color: var(--alliance); } .rstat .horde b { color: var(--horde); }
+:root[data-theme="light"] .rstat .alliance b { color: #a9c1e8; } :root[data-theme="light"] .rstat .horde b { color: #ecaaa4; }
+.rcta { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; color: var(--ink-2); font-size: .92rem; }
+.rost { display: grid; gap: 14px; margin-top: 18px; }
+.lfgbar { display: grid; gap: 10px; padding: 14px 16px; }
+.lfgbar > b { font-size: .95rem; font-weight: 600; }
+.lfgs { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 2px; }
+.lfgs a { display: flex; align-items: center; gap: 10px; flex: none; padding: 8px 14px 8px 8px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); color: var(--fg); text-decoration: none; }
+.lfgs a:hover { border-color: var(--gold); }
+.lfgs .me-ring { --s: 40px; }
+.lfgs span { display: grid; line-height: 1.3; }
+.lfgs b { font-weight: 600; }
+.lfgs small { color: var(--gold-2); font-size: .8rem; }
+.fbar { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; padding: 14px 16px; }
+.fbar select, .fbar input[type="search"] { min-height: 44px; border-radius: 8px; border: 1px solid var(--pline); background: var(--panel-2); color: var(--fg); padding: 0 12px; font: inherit; font-size: .95rem; }
+.fbar input[type="search"] { width: 220px; max-width: 100%; }
+.fbar select:focus, .fbar input:focus { outline: none; border-color: var(--gold); }
+.fbar .chk { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-weight: 500; cursor: pointer; }
+.fbar .chk input { width: 18px; height: 18px; accent-color: var(--gold); }
+.fbar .reset { min-height: 44px; }
+.rlay { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 22px; align-items: start; }
+.rhead { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+.rhead p { margin: 0; }
+.rhead select { min-height: 44px; border-radius: 8px; border: 1px solid var(--pline); background: var(--panel-2); color: var(--fg); padding: 0 12px; font: inherit; font-size: .95rem; }
+.rlist { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 12px; }
+.rlist.list { grid-template-columns: 1fr; gap: 6px; }
+.rlist.list .pcard { grid-template-columns: auto minmax(150px, .9fr) minmax(0, 2fr); padding: 10px 14px; }
+.rlist.list .pic { grid-row: 1 / 3; }
+.rlist.list .me-ring { --s: 46px; }
+.rlist.list .nm { padding-right: 0; }
+.rlist.list .nm b, .rlist.list .nm a { font-size: 1.15rem; }
+.rlist.list .sub { grid-column: 2; }
+.rlist.list .meta { grid-column: 3; grid-row: 1 / 3; margin: 0; padding: 0; border: 0; }
+.rlist.list .fx, .rlist.list .alts, .rlist.list .nick { display: none; }
+.rlist .state { grid-column: 1 / -1; }
+.side { position: sticky; top: calc(var(--top) + 14px); display: grid; gap: 10px; }
+.side h2 { font-size: 1.5rem; }
+@media (max-width: 1100px) {
+  .rlay { grid-template-columns: 1fr; }
+  .side { position: static; }
+}
+@media (max-width: 719px) {
+  .fbar { gap: 10px 14px; }
+  .fbar input[type="search"] { width: 100%; }
+  .rlist.list .pcard { grid-template-columns: auto minmax(0, 1fr); }
+  .rlist.list .meta { grid-column: 1 / -1; grid-row: auto; }
+}
+</style>
+<!--body-->
+<section class="thero" id="top">
+  <picture class="thero-art" aria-hidden="true"><source type="image/avif" srcset="@@ROOT@@assets/art/hero_dawn-960.avif 960w, @@ROOT@@assets/art/hero_dawn-1440.avif 1440w, @@ROOT@@assets/art/hero_dawn-1920.avif 1920w" sizes="100vw"><source type="image/webp" srcset="@@ROOT@@assets/art/hero_dawn-960.webp 960w, @@ROOT@@assets/art/hero_dawn-1440.webp 1440w, @@ROOT@@assets/art/hero_dawn-1920.webp 1920w" sizes="100vw"><img src="@@ROOT@@assets/art/hero_dawn-1440.webp" alt="" fetchpriority="high" decoding="async"></picture>
+  <div class="wrap thero-in">
+    <nav class="crumbs" aria-label="Навигация"><a href="@@HOME@@">Гид</a><span aria-hidden="true">/</span><span>Состав</span></nav>
+    <h1>Состав Gabella Team</h1>
+    <p class="lead">Кто кем играет в WoW Forever. Основной персонаж — карточкой, твинки — строкой под ней.</p>
+    <p class="rstat" id="stats" aria-live="polite"></p>
+    <div class="rcta"><a class="btn lg" id="cta" href="@@HOME@@profile/">Добавить своего персонажа</a><span id="ctaHint">Вход через Discord, только для участников сервера</span></div>
+  </div>
+</section>
+<main class="wrap rost" id="list">
+  <div class="frame lfgbar" id="lfgBar" hidden><b>Сейчас ищут группу</b><div class="lfgs" id="lfgList"></div></div>
+  <div class="frame fbar" role="search" aria-label="Фильтры">
+    <input type="search" id="fq" placeholder="Имя или ник" aria-label="Поиск по имени или нику" autocomplete="off" maxlength="30">
+    <div class="fgroup"><span class="flabel" id="lf">Фракция</span><div class="seg" id="ff" aria-labelledby="lf"><button type="button" data-v="">Все</button><button type="button" data-v="alliance">Альянс</button><button type="button" data-v="horde">Орда</button></div></div>
+    <div class="fgroup"><span class="flabel" id="lr">Роль</span><div class="seg" id="fr" aria-labelledby="lr"><button type="button" data-v="">Все</button><button type="button" data-v="tank">Танк</button><button type="button" data-v="heal">Лекарь</button><button type="button" data-v="dps">Урон</button></div></div>
+    <div class="fgroup"><label class="flabel" for="fc">Класс</label><select id="fc"><option value="">Все классы</option></select></div>
+    <div class="fgroup"><span class="flabel" id="lt">Время</span><div class="seg" id="ft" aria-labelledby="lt"><button type="button" data-v="">Любое</button><button type="button" data-v="morning">Утро</button><button type="button" data-v="evening">Вечер</button><button type="button" data-v="night">Сова</button></div></div>
+    <div class="fgroup"><label class="flabel" for="fp">Кто сделает</label><select id="fp"><option value="">Любая профессия</option></select></div>
+    <label class="chk"><input type="checkbox" id="fl">Ищут группу</label>
+    <button type="button" class="btn ghost reset" id="freset" hidden>Сбросить</button>
+  </div>
+  <div class="rlay">
+    <div>
+      <div class="rhead"><p class="small" id="count" aria-live="polite"></p>
+        <div class="fgroup"><label class="flabel" for="fs">Сортировка</label><select id="fs"><option value="pts">По очкам</option><option value="lvl">По уровню</option><option value="name">По имени</option><option value="new">Новые</option></select>
+          <div class="seg" id="fv" role="group" aria-label="Вид"><button type="button" data-v="cards">Карточки</button><button type="button" data-v="list">Список</button></div></div></div>
+      <div class="rlist" id="roster"></div>
+    </div>
+    <aside class="side" aria-labelledby="feedH"><h2 id="feedH">Лента команды</h2><div class="frame feed" id="feed"><div class="skel" style="min-height:120px;border:0"></div></div></aside>
+  </div>
+</main>
+<!--/body-->
+<script>
+/* ---------- Roster: filters in the hash, cards or a list, who looks for a group, the team feed ---------- */
+const F0 = { q: '', f: '', r: '', c: '', t: '', p: '', lfg: '', s: 'pts', v: 'cards' };
+const F = Object.assign({}, F0);
+let players = null, failed = false, me = null;
+
+function readHash() {
+  const h = new URLSearchParams(location.hash.slice(1));
+  for (const k in F0) F[k] = h.get(k) || F0[k];
+}
+function writeHash() {
+  const h = new URLSearchParams();
+  for (const k in F0) if (F[k] && F[k] !== F0[k]) h.set(k, F[k]);
+  const s = h.toString();
+  history.replaceState(null, '', s ? '#' + s : location.pathname + location.search);
+}
+function syncControls() {
+  [['ff', 'f'], ['fr', 'r'], ['ft', 't'], ['fv', 'v']].forEach(([id, k]) => $$(`#${id} button`).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === F[k]))));
+  $('#fq').value = F.q; $('#fc').value = F.c; $('#fp').value = F.p; $('#fs').value = F.s; $('#fl').checked = F.lfg === '1';
+  $('#freset').hidden = !['q', 'f', 'r', 'c', 't', 'p', 'lfg'].some(k => F[k]);
+}
+
+function filtered() {
+  const q = F.q.trim().toLowerCase();
+  const out = players.filter(p => {
+    const c = p.main;
+    if (F.f && race(c.race).f !== F.f) return false;
+    if (F.r && c.role !== F.r) return false;
+    if (F.c && c.class !== F.c) return false;
+    if (F.t && c.playtime !== F.t) return false;
+    if (F.p && c.prof1 !== F.p && c.prof2 !== F.p) return false;
+    if (F.lfg && !p.lfg) return false;
+    if (q && ![c.name, p.nick || ''].concat((p.alts || []).map(a => a.name)).some(s => s.toLowerCase().includes(q))) return false;
+    return true;
+  });
+  const skill = p => (p.main.prof1 === F.p ? p.main.prof1_skill : p.main.prof2_skill) || 0;
+  const by = {
+    pts: (a, b) => b.points - a.points || b.main.level - a.main.level,
+    lvl: (a, b) => b.main.level - a.main.level || b.points - a.points,
+    name: (a, b) => a.main.name.localeCompare(b.main.name, HL),
+    new: (a, b) => b.since - a.since,
+  }[F.s] || ((a, b) => b.points - a.points);
+  return out.sort(F.p ? (a, b) => skill(b) - skill(a) || by(a, b) : by);
+}
+
+function drawStats(st) {
+  const part = (cls, label, n) => `<span class="${cls}">${esc(label)} <b>${n}</b></span>`;
+  $('#stats').innerHTML = part('', 'Игроков:', st.total) + part('alliance', 'Альянс:', st.alliance) + part('horde', 'Орда:', st.horde)
+    + part('', 'Танки:', st.tank) + part('', 'Лекари:', st.heal) + part('', 'Урон:', st.dps);
+}
+
+function drawLfg() {
+  const now = players.filter(p => p.lfg && p.lfg.until > Date.now()).sort((a, b) => b.lfg.until - a.lfg.until);
+  $('#lfgBar').hidden = !now.length;
+  $('#lfgList').innerHTML = now.map(p => `<a href="${playerUrl(p.id)}">${ring(p.frame || p.rank, face(p.main, p.portrait))}<span><b>${esc(p.main.name)}</b>`
+    + `<small>${esc(LFG[p.lfg.kind] || '')} · ${esc(fill('ещё %t', { t: left(p.lfg.until) }))}</small></span></a>`).join('');
+}
+
+function draw() {
+  writeHash(); syncControls();
+  const box = $('#roster');
+  box.classList.toggle('list', F.v === 'list');
+  if (failed) {
+    box.innerHTML = `<div class="frame state"><h2>Состав временно недоступен</h2><p>Сервер профилей не ответил. Остальной гид работает как обычно.</p><div class="row"><button type="button" class="btn ghost" id="retry">Повторить</button></div></div>`;
+    $('#retry').onclick = load;
+    $('#count').textContent = '';
+    return;
+  }
+  if (!players) { box.innerHTML = '<div class="skel"></div>'.repeat(6); return; }
+  if (!players.length) {
+    box.innerHTML = `<div class="frame state"><h2>Будьте первым</h2><p>В составе пока никого. Добавьте своего персонажа — карточка появится здесь.</p><div class="row"><a class="btn" href="${HOME}profile/">Добавить персонажа</a></div></div>`;
+    $('#count').textContent = '';
+    return;
+  }
+  const list = filtered();
+  $('#count').textContent = fill('Показано: %n из %m', { n: list.length, m: players.length });
+  if (!list.length) {
+    box.innerHTML = `<div class="frame state"><h2>Никого не нашли</h2><p>Под эти фильтры никто не подходит.</p><div class="row"><button type="button" class="btn ghost" id="clear">Сбросить фильтры</button></div></div>`;
+    $('#clear').onclick = reset;
+    return;
+  }
+  const admin = me && me.admin;
+  box.innerHTML = list.map(p => pcard(p, {
+    prof: F.p,
+    attrs: ` data-id="${esc(p.id)}"`,
+    after: admin ? `<button type="button" class="mod" data-hide="${p.main.id}">Скрыть</button>` : '',
+  })).join('');
+}
+
+function reset() { Object.assign(F, F0, { s: F.s, v: F.v }); draw(); }
+
+function load() {
+  failed = false; players = null; draw();
+  const M = window.GabellaMe;
+  if (!M) { failed = true; return draw(); }
+  M.api('/roster').then(r => {
+    players = r.players || [];
+    drawStats(r.stats || {});
+    drawLfg(); draw();
+  }, () => { failed = true; draw(); });
+  M.api('/feed?limit=15').then(r => {
+    $('#feed').innerHTML = (r.items || []).length ? r.items.map(feedLine).join('') : '<p class="none">Здесь появятся достижения команды.</p>';
+  }, () => { $('#feed').innerHTML = '<p class="none">Лента временно недоступна.</p>'; });
+}
+
+ready(M => {
+  Object.entries(GD.classes).forEach(([id, c]) => $('#fc').insertAdjacentHTML('beforeend', `<option value="${id}">${esc(c.n)}</option>`));
+  Object.entries(GD.profs).forEach(([id, n]) => $('#fp').insertAdjacentHTML('beforeend', `<option value="${id}">${esc(n)}</option>`));
+  readHash();
+  [['ff', 'f'], ['fr', 'r'], ['ft', 't'], ['fv', 'v']].forEach(([id, k]) => $(`#${id}`).addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return; F[k] = b.dataset.v; draw();
+  }));
+  let qt = 0;
+  $('#fq').addEventListener('input', e => { clearTimeout(qt); qt = setTimeout(() => { F.q = e.target.value.slice(0, 30); draw(); }, 150); });
+  $('#fc').onchange = e => { F.c = e.target.value; draw(); };
+  $('#fp').onchange = e => { F.p = e.target.value; draw(); };
+  $('#fs').onchange = e => { F.s = e.target.value; draw(); };
+  $('#fl').onchange = e => { F.lfg = e.target.checked ? '1' : ''; draw(); };
+  $('#freset').onclick = reset;
+  addEventListener('hashchange', () => { readHash(); if (players) draw(); });
+  $('#roster').addEventListener('click', e => {
+    const b = e.target.closest('[data-hide]');
+    if (!b) return;
+    const card = b.closest('.pcard'), name = $('.nm a', card).textContent;
+    if (!confirm(fill('Скрыть %n из «Состава»?', { n: name }))) return;
+    b.disabled = true;
+    M.api(`/admin/characters/${b.dataset.hide}/hide`, { body: { hidden: true } }).then(() => {
+      players = players.filter(p => p.id !== card.dataset.id); draw();
+    }, () => { b.disabled = false; });
+  });
+  if (M) M.onMe(m => {
+    me = m;
+    if (m && m.characters && m.characters.length) { $('#cta').textContent = 'Мой профиль'; $('#ctaHint').hidden = true; }
+    if (players) draw();
+  });
+  load();
+});
+</script>

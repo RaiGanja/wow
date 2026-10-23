@@ -1,0 +1,171 @@
+/* Profile pages (roster, profile, u): game data, the player card, the big card, achievement tiles, page chrome.
+   Inlined by build_me.py before the page script; Russian strings are translated at build like the rest of the site.
+   The pages talk to the API only through window.GabellaMe (me.js), which runs before DOMContentLoaded. */
+const GD = @@GD@@;
+const ROOT = '@@ROOT@@', HOME = '@@HOME@@', LANG = '@@LANG@@', HL = document.documentElement.lang;
+const $ = (s, el) => (el || document).querySelector(s), $$ = (s, el) => [...(el || document).querySelectorAll(s)];
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
+const fill = (s, o) => s.replace(/%(\w)/g, (m, k) => (k in o ? o[k] : m));
+const ROLE = { tank: 'Танк', heal: 'Лекарь', dps: 'Урон' };
+const TIME = { morning: 'Утро', evening: 'Вечер', night: 'Сова' };
+const FACN = { alliance: 'Альянс', horde: 'Орда' };
+const LFG = { dungeon: 'Подземелье', raid: 'Рейд', quest: 'Задания' };
+const TICO = { morning: 'sun', evening: 'moon', night: 'moon' };
+const ico = n => `<svg class="ico" aria-hidden="true"><use href="#i-${n}"/></svg>`;
+const race = id => GD.races[id] || { f: 'alliance', n: id, slug: 'human', cls: [] };
+const cls = id => GD.classes[id] || { n: id, color: '#c9a54a', roles: [] };
+const face = (c, portrait) => `${ROOT}assets/art/${portrait === 'class' ? c.class : race(c.race).slug}-face.webp`;
+const ring = (frame, src, extra) => `<span class="me-ring fr-${esc(frame || 'recruit')}${extra ? ' ' + extra : ''}"><img src="${src}" alt="" width="64" height="64" loading="lazy" decoding="async"></span>`;
+const subline = c => `${esc(race(c.race).n)} · ${esc(cls(c.class).n)}`;
+const profLine = (c, hi) => [[c.prof1, c.prof1_skill], [c.prof2, c.prof2_skill]].filter(p => p[0])
+  .map(([p, s]) => (p === hi ? '<b>' : '') + esc(GD.profs[p] || p) + (s ? ` ${s}` : '') + (p === hi ? '</b>' : '')).join(', ');
+const playerUrl = id => `${HOME}u/#${id}`;
+const achIcon = () => `${ROOT}assets/brand/mark.webp`;   // painted icons (assets/me/ach/) replace this later
+const dateOf = t => new Date(t).toLocaleDateString(HL);
+const unit = (n, u) => new Intl.NumberFormat(HL, { style: 'unit', unit: u, unitDisplay: 'short', maximumFractionDigits: 0 }).format(n);
+function ago(t) {
+  const s = (t - Date.now()) / 1000, rtf = new Intl.RelativeTimeFormat(HL, { numeric: 'auto' });
+  for (const [u, k] of [['day', 86400], ['hour', 3600], ['minute', 60]]) if (Math.abs(s) >= k) return rtf.format(Math.round(s / k), u);
+  return rtf.format(0, 'minute');
+}
+function left(until) {
+  const m = Math.max(1, Math.round((until - Date.now()) / 60000)), h = Math.floor(m / 60);
+  return (h ? unit(h, 'hour') + ' ' : '') + (m % 60 ? unit(m % 60, 'minute') : '');
+}
+
+// texts of achievements, ranks and frames (assets/me/i18n-<lang>.json), loaded once by ready()
+let T = { ui: {}, cats: {}, ranks: {}, frames: {}, ach: {}, pts: {}, secret: [] };
+const achName = id => (T.ach[id] ? T.ach[id][0] : id);
+const rankName = id => T.ranks[id] || id;
+const frameName = id => T.frames[id] || id;
+const rankPts = id => (GD.ranks.find(r => r.id === id) || { pts: 0 }).pts;
+const nextRank = pts => GD.ranks.find(r => r.pts > pts) || null;
+const rankOf = pts => GD.ranks.filter(r => r.pts <= pts).pop().id;
+
+/** Runs the page once me.js is there and the texts are loaded; M is null when me.js did not load. */
+function ready(cb) {
+  addEventListener('DOMContentLoaded', () => {
+    const M = window.GabellaMe;
+    if (!M) return cb(null);
+    M.texts().then(t => { T = t; cb(M); }, () => cb(M));
+  });
+}
+
+/** Player card of the roster and the character lists. p: {id, nick, title, frame, rank, portrait, lfg, main, alts}. */
+function pcard(p, o) {
+  o = o || {};
+  const c = p.main, f = race(c.race).f;
+  const meta = [`<span>${ico(c.role)}${esc(ROLE[c.role] || '')}</span>`];
+  const pl = profLine(c, o.prof);
+  if (pl) meta.push(`<span>${pl}</span>`);
+  meta.push(`<span>${ico(TICO[c.playtime] || 'moon')}${esc(TIME[c.playtime] || '')}</span>`);
+  if (p.lfg) meta.push(`<span class="lfg">${esc(LFG[p.lfg.kind] || '')} · ${esc(left(p.lfg.until))}</span>`);
+  const name = o.link === false ? `<b>${esc(c.name)}</b>` : `<a href="${playerUrl(p.id)}">${esc(c.name)}</a>`;
+  const alts = (p.alts || []).length ? `<div class="alts">Твинки: ${p.alts.map(a => `<i style="--ac:${cls(a.class).color}">${esc(a.name)}</i>`).join(', ')}</div>` : '';
+  return `<article class="pcard${o.cls ? ' ' + o.cls : ''}" style="--cc:${cls(c.class).color}"${o.attrs || ''}>
+    <span class="pic">${ring(p.frame || p.rank, face(c, p.portrait))}<span class="lv" aria-label="Уровень ${c.level}">${c.level}</span></span>
+    <span class="fx ${f}">${esc(o.tag || FACN[f])}</span>
+    <div class="nm">${p.title ? `<span class="ttl">${esc(achName(p.title))}</span>` : ''}${name}</div>
+    <span class="sub">${subline(c)}</span>
+    <div class="meta">${meta.join('')}</div>${alts}${p.nick ? `<div class="nick">Discord: ${esc(p.nick)}</div>` : ''}${o.after || ''}
+  </article>`;
+}
+
+/** Rank block of the big card: points, rank, bar to the next one. */
+function rankBlock(pts) {
+  const r = rankOf(pts), nx = nextRank(pts), from = rankPts(r);
+  const pct = nx ? Math.round(100 * (pts - from) / (nx.pts - from)) : 100;
+  return `<div class="rk"><span class="pts"><span class="shield" aria-hidden="true">★</span>${pts}</span>
+    <span class="rn">Ранг: ${esc(rankName(r))}</span><span class="bar"><i style="width:${pct}%"></i></span>
+    <small>${nx ? esc(fill('До ранга «%r»: %n', { n: nx.pts - pts, r: rankName(nx.id) })) : 'Высший ранг'}</small></div>`;
+}
+
+/** The big card, «how others see you». p: player shape plus background, motto, points, joined or since. */
+function bcard(p, o) {
+  o = o || {};
+  const c = p.main, bg = p.background || race(c.race).slug;
+  const src = /^hero_/.test(bg) ? `${ROOT}assets/art/${bg}-960.webp` : `${ROOT}assets/art/${bg}-896.webp`;
+  const who = [];
+  if (p.nick) who.push('Discord: ' + esc(p.nick));
+  if (p.joined) who.push(esc(fill('В Gabella Team с %d', { d: dateOf(p.joined) })));
+  else if (p.since) who.push(esc(fill('В составе с %d', { d: dateOf(p.since) })));
+  const h = o.h || 'h1';
+  return `<section class="bcard" style="--cc:${cls(c.class).color}" aria-label="Карточка игрока">
+    <img class="bg" src="${src}" alt="" decoding="async">
+    <div class="in">${ring(p.frame || p.rank, face(c, p.portrait), o.reveal ? 'reveal' : '')}
+      <div>${p.title ? `<span class="ttl">${esc(achName(p.title))}</span>` : ''}<${h}>${esc(c.name)}</${h}>
+        <span class="sub">${subline(c)} · ${c.level} · ${esc(ROLE[c.role] || '')}</span>
+        ${who.length ? `<p class="who">${who.join(' · ')}</p>` : ''}${p.motto ? `<p class="motto">«${esc(p.motto)}»</p>` : ''}</div>
+      ${rankBlock(p.points || 0)}</div></section>`;
+}
+
+/** Progress of an achievement toward its goal: {v, goal, text} or null when it is all-or-nothing.
+    ctx: {progress, user, chars, have:Set}; user and chars are known only for the person themself. */
+function achProgress(a, ctx) {
+  const r = a.rule || {}, P = (ctx.progress || {})[r.key] || { value: 0, items: [] };
+  let v = null, goal = null;
+  if (a.kind === 'progress' && r.key) {
+    if (r.items) return null;
+    if (r.all) { goal = (GD.sets[r.key] || []).length; v = (P.items || []).filter(x => GD.sets[r.key].includes(x)).length; }
+    else { goal = r.goal; v = r.set ? (P.items || []).length : P.value || 0; }
+    if (goal <= 1) return null;
+  } else if (ctx.user) {
+    const u = ctx.user;
+    if (r.days && u.joined_guild_at) { goal = r.days; v = Math.floor((Date.now() - u.joined_guild_at) / 86400000); }
+    else if (r.refs) { goal = r.refs; v = u.refs || 0; }
+    else if (r.streak) { goal = r.streak; v = u.streak || 0; }
+    else if (a.id === 'three_chars') { goal = 3; v = (ctx.chars || []).length; }
+    else if (r.all_cat) { const ids = GD.ach.filter(x => x.cat === r.all_cat && x.id !== a.id).map(x => x.id); goal = ids.length; v = ids.filter(x => ctx.have.has(x)).length; }
+  }
+  if (goal === null) return null;
+  v = Math.max(0, Math.min(v, goal));
+  const text = r.key === 'radio_min' ? `${unit(Math.floor(v / 60), 'hour')} / ${unit(goal / 60, 'hour')}` : fill('%v из %g', { v, g: goal });
+  return { v, goal, text };
+}
+
+/** Achievement tile. st: {at} when owned; marks: [[label, on]] for the comparison. */
+function achTile(a, st, ctx, marks) {
+  const own = !!st, hide = a.secret && !own && !(marks && marks.some(m => m[1]));
+  const t = T.ach[a.id] || [a.id, ''];
+  const name = hide ? 'Секрет' : t[0];
+  const desc = hide ? fill('Подсказка: %h', { h: t[2] || '?' }) : t[1];
+  let foot = '';
+  if (marks) foot = `<span class="marks">${marks.map(([l, on]) => `<span class="${on ? 'on' : ''}">${esc(l)}</span>`).join('')}</span>`;
+  else if (own) foot = `<span class="when">${esc(fill('Получено %d', { d: dateOf(st.at) }))}</span>`;
+  else if (ctx && !hide) {
+    const pr = achProgress(a, ctx);
+    if (pr) foot = `<span class="prog"><span class="bar"><i style="width:${Math.round(100 * pr.v / pr.goal)}%"></i></span>${esc(pr.text)}</span>`;
+  }
+  return `<div class="ach${own || (marks && marks.some(m => m[1])) ? '' : ' lock'}${hide ? ' secret' : ''}">
+    <span class="ic"><img src="${achIcon(a.id)}" alt="" width="46" height="46" loading="lazy"></span><b>${esc(name)}</b>
+    <span class="shield" aria-label="${a.pts} ${esc(T.ui.pts || '')}">${a.pts}</span><p>${esc(desc)}</p>${foot}</div>`;
+}
+
+/** Team feed line: who got what. */
+function feedLine(x) {
+  const who = `<a href="${playerUrl(x.user)}">${esc(x.name)}</a>`;
+  const what = x.kind === 'rank' ? fill(esc('%n достигает ранга %r'), { n: who, r: `<em>${esc(rankName(x.ref))}</em>` })
+    : x.ref === 'secret' ? fill(esc('%n находит секрет'), { n: who })
+    : fill(esc('%n получает «%a»'), { n: who, a: `<em>${esc(achName(x.ref))}</em>` });
+  return `<div class="it">${ring(x.frame || 'recruit', face(x, x.portrait))}<span>${what}</span><small>${esc(ago(x.at))}</small></div>`;
+}
+
+async function copyText(text) {
+  try { await navigator.clipboard.writeText(text); return true; } catch (e) { return false; }
+}
+
+/* ---------- page chrome: theme, top bar, menu sheet ---------- */
+const themeBtns = document.querySelectorAll('.themebtn');
+function paintTheme() { const t = document.documentElement.getAttribute('data-theme'); themeBtns.forEach(b => b.querySelector('use').setAttribute('href', t === 'light' ? '#i-moon' : '#i-sun')); const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#fbfaf7' : '#07080a'); }
+themeBtns.forEach(b => b.onclick = () => { const t = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light'; document.documentElement.setAttribute('data-theme', t); try { localStorage.setItem('wf-theme', t); } catch (e) {} paintTheme(); });
+paintTheme();
+const topbar = $('#topbar');
+let barTick = false;
+const overArt = !!document.querySelector('.thero');   // without hero art under it the bar stays solid
+function paintBar() { topbar.classList.toggle('solid', !overArt || window.scrollY > 24); barTick = false; }
+window.addEventListener('scroll', () => { if (!barTick) { barTick = true; requestAnimationFrame(paintBar); } }, { passive: true });
+paintBar();
+const moreDlg = $('#moreDlg');
+document.querySelectorAll('.menubtn, .morebtn').forEach(b => b.onclick = () => { if (moreDlg.showModal) moreDlg.showModal(); else moreDlg.setAttribute('open', ''); });
+$('#moreClose').onclick = () => moreDlg.close();
+moreDlg.addEventListener('click', e => { if (e.target === moreDlg || e.target.closest('.toc a')) moreDlg.close(); });

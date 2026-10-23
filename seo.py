@@ -28,6 +28,10 @@ SITE_NAME = {'ru': 'Гид WoW Forever', 'en': 'WoW Forever Guide', 'uk': 'Гі�
 TOOLS_NAME = {'ru': 'Инструменты', 'en': 'Tools', 'uk': 'Інструменти'}
 PRIVACY_NAME = {'ru': 'Конфиденциальность', 'en': 'Privacy', 'uk': 'Конфіденційність'}
 PLAY_NAME = {'ru': 'В игре', 'en': 'In game', 'uk': 'У грі'}
+ROSTER_NAME = {'ru': 'Состав', 'en': 'Roster', 'uk': 'Склад'}
+PROFILE_NAME = {'ru': 'Мой профиль', 'en': 'My profile', 'uk': 'Мій профіль'}
+PLAYER_NAME = {'ru': 'Игрок Gabella Team', 'en': 'Gabella Team player', 'uk': 'Гравець Gabella Team'}
+NOINDEX = {'profile/', 'u/'}   # personal pages: noindex in the page (build_me.py), left out of sitemap.xml
 
 
 def t(ru, en, uk):
@@ -104,6 +108,20 @@ META = {
               t('Держите открытым во время игры: фэнтези-радио, куда идти на вашем уровне за Альянс или Орду, подземелья под уровень и таймеры с сигналом.',
                 'Keep it open while you play: fantasy radio, where to level next for Alliance or Horde, dungeons for your level and timers with an alert.',
                 'Тримайте відкритим під час гри: фентезі-радіо, куди йти на вашому рівні за Альянс чи Орду, підземелля під рівень і таймери із сигналом.')),
+    'roster/': (t('Состав Gabella Team в WoW Forever: кто кем играет',
+                  'Gabella Team Roster in WoW Forever: Who Plays What',
+                  'Склад Gabella Team у WoW Forever: хто ким грає'),
+                t('Персонажи участников Gabella Team в WoW Forever: фракция, раса, класс, роль, профессии и время игры. Кто сейчас ищет группу и лента достижений.',
+                  'Characters of Gabella Team members in WoW Forever: faction, race, class, role, professions and play time. Who is looking for a group and the achievement feed.',
+                  'Персонажі учасників Gabella Team у WoW Forever: фракція, раса, клас, роль, професії та час гри. Хто зараз шукає групу і стрічка досягнень.')),
+    'profile/': (t('Мой профиль — гид WoW Forever', 'My Profile — WoW Forever Guide', 'Мій профіль — гід WoW Forever'),
+                 t('Персонажи, достижения, ранги и рамки портрета участника Gabella Team. Вход через Discord.',
+                   'Characters, achievements, ranks and portrait frames of a Gabella Team member. Log in with Discord.',
+                   'Персонажі, досягнення, ранги й рамки портрета учасника Gabella Team. Вхід через Discord.')),
+    'u/': (t('Игрок Gabella Team — гид WoW Forever', 'Gabella Team Player — WoW Forever Guide', 'Гравець Gabella Team — гід WoW Forever'),
+           t('Карточка игрока Gabella Team: персонажи в WoW Forever, ранг, рамка и достижения.',
+             'Gabella Team player card: WoW Forever characters, rank, frame and achievements.',
+             'Картка гравця Gabella Team: персонажі у WoW Forever, ранг, рамка й досягнення.')),
     'privacy/': (t('Конфиденциальность — гид WoW Forever',
                    'Privacy — WoW Forever Guide',
                    'Конфіденційність — гід WoW Forever'),
@@ -122,7 +140,7 @@ RACE_D = t('{n} в WoW Forever: четыре расовые способност
            'WoW Forever {n} guide: four racial abilities, available and best classes, capital {cap}, starting zone {zone}.',
            '{n} у WoW Forever: чотири расові здібності, доступні та найкращі класи, столиця {cap}, стартова зона {zone}.')
 AND = {'ru': ' и ', 'en': ' and ', 'uk': ' і '}
-langs.fill([HOME_NAME, SITE_NAME, TOOLS_NAME, PRIVACY_NAME, PLAY_NAME, META, CLASS_T, CLASS_T_SHORT, CLASS_D, RACE_T, RACE_D, AND])   # new languages: i18n/<lang>.json
+langs.fill([HOME_NAME, SITE_NAME, TOOLS_NAME, PRIVACY_NAME, PLAY_NAME, ROSTER_NAME, PROFILE_NAME, PLAYER_NAME, META, CLASS_T, CLASS_T_SHORT, CLASS_D, RACE_T, RACE_D, AND])   # new languages: i18n/<lang>.json
 
 
 def listing(xs, lang):
@@ -175,8 +193,12 @@ def crumbs(path, lang):
     sec = {'classes/': HUBS[0], 'races/': HUBS[1], 'guides/': HUB}
     parts = path.strip('/').split('/')
     top = parts[0] + '/'
-    if top in ('tools/', 'privacy/', 'play/'):
-        items.append(({'tools/': TOOLS_NAME, 'privacy/': PRIVACY_NAME, 'play/': PLAY_NAME}[top][lang], base + top))
+    names = {'tools/': TOOLS_NAME, 'privacy/': PRIVACY_NAME, 'play/': PLAY_NAME, 'roster/': ROSTER_NAME, 'profile/': PROFILE_NAME}
+    if top == 'u/':
+        items += [(ROSTER_NAME[lang], base + 'roster/'), (PLAYER_NAME[lang], base + top)]
+        return items
+    if top in names:
+        items.append((names[top][lang], base + top))
         return items
     items.append((sec[top]['title'][lang], base + top))
     if len(parts) > 1:
@@ -271,7 +293,7 @@ def main():
             html = open(full, encoding='utf-8').read()
             open(full, 'w', encoding='utf-8', newline='\n').write(apply(html, path, lang, title, desc))
     with open(os.path.join(HERE, 'sitemap.xml'), 'w', encoding='utf-8', newline='\n') as f:
-        f.write(sitemap(meta))
+        f.write(sitemap([p for p in meta if p not in NOINDEX]))
     print(f'seo: {len(meta) * len(LANGS)} pages, sitemap.xml, analytics {"on" if CF_BEACON_TOKEN else "off (CF_BEACON_TOKEN empty)"}', file=sys.stderr)
 
 

@@ -99,6 +99,30 @@ def test_texts_for_every_language():
                 assert not re.search('[А-Яа-яЁё]', ' '.join(t['ach'][a['id']])) or lang == 'uk', (lang, a['id'])
 
 
+def test_profile_pages():
+    """roster/, profile/, u/ on every language: game data inlined, the personal ones noindex and out of the sitemap."""
+    from langs import LANGS
+    sitemap = open(os.path.join(ROOT, 'sitemap.xml'), encoding='utf-8').read()
+    for lang in LANGS:
+        for sub in ('roster/', 'profile/', 'u/'):
+            rel = ('' if lang == 'ru' else lang + '/') + sub
+            html = open(os.path.join(ROOT, rel, 'index.html'), encoding='utf-8').read()
+            m = re.search(r'const GD = (\{.*?\});\n', html)
+            assert m, rel
+            gd = json.loads(m.group(1))
+            assert set(gd['races']) == set(G['races']) and len(gd['classes']) == 9 and len(gd['profs']) == 9, rel
+            assert all(r['n'] for r in gd['races'].values()) and all(c['n'] for c in gd['classes'].values()), rel
+            assert f"LANG = '{lang}'" in html and 'window.GabellaMe' in html, rel
+            hidden = sub != 'roster/'
+            assert ('<meta name="robots" content="noindex">' in html) == hidden, rel
+            assert (f'<loc>https://gabella.site/wow/{rel}</loc>' in sitemap) != hidden, rel
+            if lang != 'ru':   # Russian left only in the language menu autonyms
+                body = re.sub(r'<a [^>]*\blang="(ru|uk)"[^>]*>.*?</a>', '', html, flags=re.S)
+                body = re.sub(r'const H = \{.*?\}, cur', '', body)   # the language hint speaks every language
+                if lang != 'uk':
+                    assert not re.search('[А-Яа-яЁё]', re.sub(r'"n":"[^"]*"', '', body)), (rel, re.findall('[А-Яа-яЁё][^<\n]{0,30}', body)[:3])
+
+
 def test_radio_tells_me_js():
     js = open(os.path.join(ROOT, 'assets', 'radio', 'radio.js'), encoding='utf-8').read()
     for ev in ("emit('on')", "emit('minute')", "emit('station', id)", "emit('sleep')"):
