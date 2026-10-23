@@ -38,8 +38,8 @@
 <meta property="og:image:alt" content="WoW Forever Priest Guide: Discipline, Holy, Shadow Specs">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="../../../assets/icons/favicon-64.png">
-<link rel="preload" href="../../../assets/fonts/bona-nova-sc-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="../../../assets/fonts/golos-text-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../../assets/fonts/bona-nova-sc-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../../assets/fonts/golos-text-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" type="image/avif" imagesrcset="../../../assets/art/priest-600.avif 600w, ../../../assets/art/priest-896.avif 896w" imagesizes="(max-width: 719px) 100vw, 75vh">
 <style>
 /* Game-portal layout: full-screen art hero, faction banners, class portrait roster, tools, guides band. Night + gold, light paper theme for content. */
@@ -1097,8 +1097,8 @@ dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.
 </script>
 <script>
 (() => {
-  const KEY = 'gabella-lang-hint', store = () => { try { localStorage.setItem(KEY, '1'); } catch (e) {} };
-  const keepHash = a => a.addEventListener('click', () => { store(); a.href = a.getAttribute('href').split('#')[0] + location.hash; });
+  const KEY = 'gabella-lang-hint', store = l => { try { localStorage.setItem(KEY, '1'); if (l) localStorage.setItem('gabella-lang', l); } catch (e) {} };
+  const keepHash = a => a.addEventListener('click', () => { store(a.dataset.lang); a.href = a.getAttribute('href').split('#')[0] + location.hash; });
   document.querySelectorAll('.langlist a, .langgrid a').forEach(keepHash);
   const sel = document.querySelector('.langsel'), btn = sel && sel.querySelector('.langbtn'), list = sel && sel.querySelector('.langlist');
   if (btn) {
@@ -1129,7 +1129,7 @@ dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.
   if (!to) return;
   const bar = document.createElement('div');
   bar.className = 'langhint'; bar.lang = want; bar.setAttribute('role', 'status');
-  bar.innerHTML = `<span>${H[want][0]}</span><a href="${to.getAttribute('href')}" hreflang="${to.hreflang}">${H[want][1]}</a>`
+  bar.innerHTML = `<span>${H[want][0]}</span><a href="${to.getAttribute('href')}" hreflang="${to.hreflang}" data-lang="${want}">${H[want][1]}</a>`
     + `<button type="button" aria-label="${H[want][2]}"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button>`;
   keepHash(bar.querySelector('a'));
   bar.querySelector('button').addEventListener('click', () => { store(); bar.remove(); });

@@ -1540,7 +1540,7 @@ $('#cPick').addEventListener('click', e => {
 /* ---------- Search ---------- */
 const KIND = { cls: 'Класс', spec: 'Специализация', abil: 'Способность', race: 'Раса', rac: 'Расовая', dung: 'Подземелье', prof: 'Профессия', sec: 'Раздел' };
 const SECTIONS = [
-  ['Где ты сейчас', '#stages'], ['Подборщик: раса и класс', '#picker'], ['Конструктор группы', '#builder'],
+  ['Где вы сейчас', '#stages'], ['Подборщик: раса и класс', '#picker'], ['Конструктор группы', '#builder'],
   ['Даты и наборы', '#dates'], ['Система Legacy', '#legacy'], ['Лагерь и профессии', '#camp'], ['Подземелья и рейды', '#dungeons'], ['Чем Forever отличается от Classic Era', '#era']
 ];
 const norm = s => String(s).toLowerCase().replace(/\u0451/g, '\u0435').replace(/[’'`]/g, '');
@@ -1627,8 +1627,8 @@ if (q0) { $('#q').value = q0.slice(0, 60); runSearch(); }
 </script>
 <script>
 (() => {
-  const KEY = 'gabella-lang-hint', store = () => { try { localStorage.setItem(KEY, '1'); } catch (e) {} };
-  const keepHash = a => a.addEventListener('click', () => { store(); a.href = a.getAttribute('href').split('#')[0] + location.hash; });
+  const KEY = 'gabella-lang-hint', store = l => { try { localStorage.setItem(KEY, '1'); if (l) localStorage.setItem('gabella-lang', l); } catch (e) {} };
+  const keepHash = a => a.addEventListener('click', () => { store(a.dataset.lang); a.href = a.getAttribute('href').split('#')[0] + location.hash; });
   document.querySelectorAll('.langlist a, .langgrid a').forEach(keepHash);
   const sel = document.querySelector('.langsel'), btn = sel && sel.querySelector('.langbtn'), list = sel && sel.querySelector('.langlist');
   if (btn) {
@@ -1659,7 +1659,7 @@ if (q0) { $('#q').value = q0.slice(0, 60); runSearch(); }
   if (!to) return;
   const bar = document.createElement('div');
   bar.className = 'langhint'; bar.lang = want; bar.setAttribute('role', 'status');
-  bar.innerHTML = `<span>${H[want][0]}</span><a href="${to.getAttribute('href')}" hreflang="${to.hreflang}">${H[want][1]}</a>`
+  bar.innerHTML = `<span>${H[want][0]}</span><a href="${to.getAttribute('href')}" hreflang="${to.hreflang}" data-lang="${want}">${H[want][1]}</a>`
     + `<button type="button" aria-label="${H[want][2]}"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button>`;
   keepHash(bar.querySelector('a'));
   bar.querySelector('button').addEventListener('click', () => { store(); bar.remove(); });

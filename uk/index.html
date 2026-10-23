@@ -9,6 +9,8 @@
   var h = location.hash.slice(1);
   if (m[h]) location.replace('guides/' + m[h]);
   else if (h === 'classref' || h === 'races') location.replace(h === 'races' ? 'races/' : 'classes/');
+  else return;
+  window.wfMoved = 1;
 })();
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -878,7 +880,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <section class="stband" id="stages" data-nav="#stages" data-tab="#top">
   <picture class="stband-art"><source type="image/avif" srcset="../assets/art/hero_campfire-960.avif 960w, ../assets/art/hero_campfire-1600.avif 1600w" sizes="100vw"><source type="image/webp" srcset="../assets/art/hero_campfire-960.webp 960w, ../assets/art/hero_campfire-1600.webp 1600w" sizes="100vw"><img src="../assets/art/hero_campfire-1600.webp" width="1600" height="893" alt="" loading="lazy" decoding="async"></picture>
   <div class="wrap">
-    <div class="sec-head"><h2>Де ти зараз</h2><p>П’ять етапів від резерву імен до рейдів. Етап обирається сам за датою, а якщо вказати персонажа, гід підбере підземелля під рівень і покаже ваші бафи для групи.</p></div>
+    <div class="sec-head"><h2>Де ви зараз</h2><p>П’ять етапів від резерву імен до рейдів. Етап обирається сам за датою, а якщо вказати персонажа, гід підбере підземелля під рівень і покаже ваші бафи для групи.</p></div>
     <div class="frame stiles" id="stageBar" role="tablist" aria-label="Етапи гри"></div>
     <div class="journey">
       <div class="frame stage" id="stagePanel" role="tabpanel" tabindex="-1"></div>
@@ -926,7 +928,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 
 <section class="block wrap" id="classes" data-nav="#classes" data-tab="#classes">
   <div class="sec-head"><div class="row"><h2>Ким грати</h2><span class="src">Warcraft Tavern, LFCarry</span></div><p>Наведіть на портрет, щоб розкрити клас. Натисніть, щоб відкрити сторінку класу: спеціалізації, раси й що нового у Forever.</p></div>
-  <div class="frame roster" id="roster"></div>
+  <div class="frame roster" id="roster"><a href="classes/warrior/">Воїн</a><a href="classes/paladin/">Паладин</a><a href="classes/hunter/">Мисливець</a><a href="classes/rogue/">Розбійник</a><a href="classes/priest/">Жрець</a><a href="classes/shaman/">Шаман</a><a href="classes/mage/">Маг</a><a href="classes/warlock/">Чорнокнижник</a><a href="classes/druid/">Друїд</a></div>
   <p class="swipe">Гортайте портрети вбік.</p>
   <p><a class="more-l" href="classes/">Порівняти всі класи<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
 </section>
@@ -934,8 +936,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <section class="block wrap" id="peoples" data-nav="#peoples" data-tab="#classes">
   <div class="sec-head"><div class="row"><h2>За кого грати</h2><span class="src">Warcraft Tavern</span></div><p>По п’ять рас у кожної фракції, Скайборн є в обох. Натисніть на портрет, щоб відкрити сторінку раси: здібності, класи та історія.</p></div>
   <div class="frame peoples">
-    <div class="pfac alliance"><h3>Альянс</h3><div class="roster rr" id="rosterA"></div></div>
-    <div class="pfac horde"><h3>Орда</h3><div class="roster rr" id="rosterH"></div></div>
+    <div class="pfac alliance"><h3>Альянс</h3><div class="roster rr" id="rosterA"><a href="races/human/">Людина</a><a href="races/dwarf/">Дворф</a><a href="races/night-elf/">Нічний ельф</a><a href="races/gnome/">Гном</a><a href="races/skyborne-alliance/">Високий скайборн</a></div></div>
+    <div class="pfac horde"><h3>Орда</h3><div class="roster rr" id="rosterH"><a href="races/orc/">Орк</a><a href="races/undead/">Нежить</a><a href="races/tauren/">Таурен</a><a href="races/troll/">Троль</a><a href="races/skyborne-horde/">Скайборн-вітрорізь</a></div></div>
   </div>
   <p class="swipe">Гортайте портрети вбік.</p>
   <p><a class="more-l" href="races/">Порівняти всі раси<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
@@ -1051,7 +1053,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <dialog class="sheet" id="moreDlg" aria-label="Усі розділи">
   <div class="dh"><b>Усі розділи</b><button class="iconbtn" id="moreClose" type="button" aria-label="Закрити"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Усі розділи">
-    <div class="grp"><div class="gh">Головна</div><a href="#top">Огляд</a><a href="#stages">Де ти зараз</a><a href="#factions">Фракції</a><a href="#classes">Класи</a><a href="#peoples">Раси</a></div>
+    <div class="grp"><div class="gh">Головна</div><a href="#top">Огляд</a><a href="#stages">Де ви зараз</a><a href="#factions">Фракції</a><a href="#classes">Класи</a><a href="#peoples">Раси</a></div>
     <div class="grp"><div class="gh">Інструменти</div><a href="#picker">Підбирач</a><a href="#builder">Конструктор групи</a><a href="tools/">Рамки, порівняння, пошук</a><a href="play/">У грі</a></div>
     <div class="grp"><div class="gh">Довідник</div><a href="guides/leveling/">Прокачка 1–60</a><a href="guides/dungeons/">Підземелля та рейди</a><a href="guides/professions/">Професії</a><a href="guides/faq/">FAQ і дати</a><a href="guides/news/">Новини</a><a href="classes/">Класи: порівняння</a><a href="races/">Раси: порівняння</a><a href="#sources">Джерела</a></div>
   </nav>
@@ -1850,8 +1852,8 @@ if ('IntersectionObserver' in window) {
 </script>
 <script>
 (() => {
-  const KEY = 'gabella-lang-hint', store = () => { try { localStorage.setItem(KEY, '1'); } catch (e) {} };
-  const keepHash = a => a.addEventListener('click', () => { store(); a.href = a.getAttribute('href').split('#')[0] + location.hash; });
+  const KEY = 'gabella-lang-hint', store = l => { try { localStorage.setItem(KEY, '1'); if (l) localStorage.setItem('gabella-lang', l); } catch (e) {} };
+  const keepHash = a => a.addEventListener('click', () => { store(a.dataset.lang); a.href = a.getAttribute('href').split('#')[0] + location.hash; });
   document.querySelectorAll('.langlist a, .langgrid a').forEach(keepHash);
   const sel = document.querySelector('.langsel'), btn = sel && sel.querySelector('.langbtn'), list = sel && sel.querySelector('.langlist');
   if (btn) {
@@ -1882,7 +1884,7 @@ if ('IntersectionObserver' in window) {
   if (!to) return;
   const bar = document.createElement('div');
   bar.className = 'langhint'; bar.lang = want; bar.setAttribute('role', 'status');
-  bar.innerHTML = `<span>${H[want][0]}</span><a href="${to.getAttribute('href')}" hreflang="${to.hreflang}">${H[want][1]}</a>`
+  bar.innerHTML = `<span>${H[want][0]}</span><a href="${to.getAttribute('href')}" hreflang="${to.hreflang}" data-lang="${want}">${H[want][1]}</a>`
     + `<button type="button" aria-label="${H[want][2]}"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button>`;
   keepHash(bar.querySelector('a'));
   bar.querySelector('button').addEventListener('click', () => { store(); bar.remove(); });

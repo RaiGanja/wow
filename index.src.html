@@ -9,6 +9,8 @@
   var h = location.hash.slice(1);
   if (m[h]) location.replace('guides/' + m[h]);
   else if (h === 'classref' || h === 'races') location.replace(h === 'races' ? 'races/' : 'classes/');
+  else return;
+  window.wfMoved = 1;
 })();
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -855,7 +857,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <section class="stband" id="stages" data-nav="#stages" data-tab="#top">
   <picture class="stband-art"><source type="image/avif" srcset="@@ROOT@@assets/art/hero_campfire-960.avif 960w, @@ROOT@@assets/art/hero_campfire-1600.avif 1600w" sizes="100vw"><source type="image/webp" srcset="@@ROOT@@assets/art/hero_campfire-960.webp 960w, @@ROOT@@assets/art/hero_campfire-1600.webp 1600w" sizes="100vw"><img src="@@ROOT@@assets/art/hero_campfire-1600.webp" width="1600" height="893" alt="" loading="lazy" decoding="async"></picture>
   <div class="wrap">
-    <div class="sec-head"><h2>Где ты сейчас</h2><p>Пять этапов от резерва имён до рейдов. Этап выбирается сам по дате, а если указать персонажа, гид подберёт подземелья под уровень и покажет ваши баффы для группы.</p></div>
+    <div class="sec-head"><h2>Где вы сейчас</h2><p>Пять этапов от резерва имён до рейдов. Этап выбирается сам по дате, а если указать персонажа, гид подберёт подземелья под уровень и покажет ваши баффы для группы.</p></div>
     <div class="frame stiles" id="stageBar" role="tablist" aria-label="Этапы игры"></div>
     <div class="journey">
       <div class="frame stage" id="stagePanel" role="tabpanel" tabindex="-1"></div>
@@ -1028,7 +1030,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <dialog class="sheet" id="moreDlg" aria-label="Все разделы">
   <div class="dh"><b>Все разделы</b><button class="iconbtn" id="moreClose" type="button" aria-label="Закрыть"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Все разделы">
-    <div class="grp"><div class="gh">Главная</div><a href="#top">Обзор</a><a href="#stages">Где ты сейчас</a><a href="#factions">Фракции</a><a href="#classes">Классы</a><a href="#peoples">Расы</a></div>
+    <div class="grp"><div class="gh">Главная</div><a href="#top">Обзор</a><a href="#stages">Где вы сейчас</a><a href="#factions">Фракции</a><a href="#classes">Классы</a><a href="#peoples">Расы</a></div>
     <div class="grp"><div class="gh">Инструменты</div><a href="#picker">Подборщик</a><a href="#builder">Конструктор группы</a><a href="tools/">Рамки, сравнение, поиск</a><a href="play/">В игре</a></div>
     <div class="grp"><div class="gh">Справочник</div><a href="guides/leveling/">Прокачка 1–60</a><a href="guides/dungeons/">Подземелья и рейды</a><a href="guides/professions/">Профессии</a><a href="guides/faq/">FAQ и даты</a><a href="guides/news/">Новости</a><a href="classes/">Классы: сравнение</a><a href="races/">Расы: сравнение</a><a href="#sources">Источники</a></div>
   </nav>

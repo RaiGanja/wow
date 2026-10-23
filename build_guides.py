@@ -32,6 +32,18 @@ SITE_TILES = [
 WIDTHS = {'hero_dawn': (960, 1440, 1920, 2560), 'hero_campfire': (960, 1600)}
 
 
+LAUNCH_UTC = '23:00 UTC'
+YOUR = {'ru': 'по вашему времени', 'en': 'your time', 'uk': 'за вашим часом', 'de': 'Ihre Zeit', 'fr': 'votre heure',
+        'es': 'su hora', 'pt': 'seu horário', 'it': 'ora locale', 'pl': 'twój czas'}
+LOCAL_JS = """<script>
+document.querySelectorAll('time.lt').forEach(t => {
+  const s = new Intl.DateTimeFormat(document.documentElement.lang, { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }).format(new Date(t.dateTime));
+  t.after(` (@@YOUR@@: ${s})`);
+});
+</script>
+"""
+
+
 def L(x, lang):
     return x[lang] if isinstance(x, dict) else x
 
@@ -532,20 +544,40 @@ def build_page(g, lang, tpl, base_css, sprite, src):
             html = html.replace(f'<a href="@@HOME@@{anchor}">', f'<a href="@@HOME@@{anchor}" aria-current="true">')
     html = html.replace('@@GUIDES@@', rel(here, page_dir(lang, 'guides/')))
     html = html.replace('@@HOME@@', root)
+    html = build.static_links(html, lang, root)
+    if LAUNCH_UTC in html:                                       # launch time: also in the reader's time zone
+        html = re.sub(rf'{LAUNCH_UTC}(?=\.</(?:td|p)>)', f'<time class="lt" datetime="2026-11-04T23:00:00Z">{LAUNCH_UTC}</time>', html)
+        html = html.replace('</body>', LOCAL_JS.replace('@@YOUR@@', YOUR[lang]) + '</body>', 1)
     html = html.replace('@@CANON@@', SITE + here)
     html = html.replace('@@ALTERNATES@@', build.alternates(sub))
     html = localize(html, lang, here).replace('assets/og.png', f'assets/og/{g.get("og") or g["slug"] or "guides"}-{lang}.jpg')   # tools/make_og.py
     return here + 'index.html', html, missing
 
 
-def not_found_page(tpl, base_css, sprite, src):
+NOT_FOUND_JS = r"""<script>
+(function () {
+  var m = location.pathname.match(/^\/wow\/(@@L@@)\//);
+  if (!m) return;
+  document.documentElement.style.visibility = 'hidden';
+  fetch('/wow/' + m[1] + '/404.html').then(function (r) { if (!r.ok) throw r; return r.text(); })
+    .then(function (h) { document.open(); document.write(h); document.close(); })
+    .catch(function () { document.documentElement.style.visibility = ''; });
+})();
+</script>
+"""
+
+
+def not_found_page(tpl, base_css, sprite, src, lang='ru'):
     """404.html: the Russian page built at the guide root, served by GitHub Pages at any depth under /wow/ —
-    <base> keeps its relative links working, and it is neither indexed nor canonical."""
-    _, html, missing = build_page(NOT_FOUND, 'ru', tpl, base_css, sprite, src)
+    <base> keeps its relative links working, and it is neither indexed nor canonical.
+    <lang>/404.html: the same page per language; under /wow/<lang>/ the root one swaps it in before it draws."""
+    _, html, missing = build_page(NOT_FOUND, lang, tpl, base_css, sprite, src)
     html = re.sub(r'<link rel="(canonical|alternate)"[^>]*>\n', '', html)
     html = re.sub(r'<meta property="og:[^>]*>\n', '', html)
-    html = html.replace('<head>', '<head>\n<base href="/wow/">\n<meta name="robots" content="noindex">', 1)
-    return '404.html', html, missing
+    js = NOT_FOUND_JS.replace('@@L@@', '|'.join(l for l in LANGS if l != 'ru')) if lang == 'ru' else ''
+    html = html.replace('<head>', f'<head>\n<base href="/wow/{page_dir(lang)}">\n<meta name="robots" content="noindex">', 1)
+    html = html.replace('<meta charset="utf-8">\n', '<meta charset="utf-8">\n' + js, 1)
+    return page_dir(lang, '404.html'), html, missing
 
 
 def main():
@@ -566,10 +598,11 @@ def main():
             assert '@@' not in html, (path, re.findall(r'@@\w+@@', html)[:5])
             pages.append((path, html))
             allmissing += missing
-    path, html, missing = not_found_page(tpl, base_css, sprite, src)
-    assert '@@' not in html, (path, re.findall(r'@@\w+@@', html)[:5])
-    pages.append((path, html))
-    allmissing += missing
+    for lang in LANGS:
+        path, html, missing = not_found_page(tpl, base_css, sprite, src, lang)
+        assert '@@' not in html, (path, re.findall(r'@@\w+@@', html)[:5])
+        pages.append((path, html))
+        allmissing += missing
 
     listing = '--list' in sys.argv
     if not listing:

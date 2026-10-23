@@ -9,6 +9,8 @@
   var h = location.hash.slice(1);
   if (m[h]) location.replace('guides/' + m[h]);
   else if (h === 'classref' || h === 'races') location.replace(h === 'races' ? 'races/' : 'classes/');
+  else return;
+  window.wfMoved = 1;
 })();
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -47,8 +49,8 @@
 <meta property="og:image:alt" content="Poradnik WoW Forever: klasy, rasy, kreator drużyny i poradniki">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="../assets/icons/favicon-64.png">
-<link rel="preload" href="../assets/fonts/bona-nova-sc-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="../assets/fonts/golos-text-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/bona-nova-sc-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/golos-text-latin.woff2" as="font" type="font/woff2" crossorigin>
 <style>
 /* Game-portal layout: full-screen art hero, faction banners, class portrait roster, tools, guides band. Night + gold, light paper theme for content. */
 @font-face { font-family: "Bona Nova SC"; font-style: normal; font-weight: 400 700; font-display: swap; src: url(../assets/fonts/bona-nova-sc-cyrillic.woff2) format("woff2"); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
@@ -926,7 +928,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 
 <section class="block wrap" id="classes" data-nav="#classes" data-tab="#classes">
   <div class="sec-head"><div class="row"><h2>Kim grać</h2><span class="src">Warcraft Tavern, LFCarry</span></div><p>Najedź na portret, aby rozwinąć klasę. Kliknij, aby otworzyć stronę klasy: specjalizacje, rasy i nowości w Forever.</p></div>
-  <div class="frame roster" id="roster"></div>
+  <div class="frame roster" id="roster"><a href="classes/warrior/">Warrior</a><a href="classes/paladin/">Paladin</a><a href="classes/hunter/">Hunter</a><a href="classes/rogue/">Rogue</a><a href="classes/priest/">Priest</a><a href="classes/shaman/">Shaman</a><a href="classes/mage/">Mage</a><a href="classes/warlock/">Warlock</a><a href="classes/druid/">Druid</a></div>
   <p class="swipe">Przesuwaj portrety w bok.</p>
   <p><a class="more-l" href="classes/">Porównaj wszystkie klasy<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
 </section>
@@ -934,8 +936,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <section class="block wrap" id="peoples" data-nav="#peoples" data-tab="#classes">
   <div class="sec-head"><div class="row"><h2>Kim grać</h2><span class="src">Warcraft Tavern</span></div><p>Pięć ras na frakcję, a Skyborne są po obu stronach. Kliknij portret, aby otworzyć stronę rasy: zdolności, klasy i historia.</p></div>
   <div class="frame peoples">
-    <div class="pfac alliance"><h3>Alliance</h3><div class="roster rr" id="rosterA"></div></div>
-    <div class="pfac horde"><h3>Horde</h3><div class="roster rr" id="rosterH"></div></div>
+    <div class="pfac alliance"><h3>Alliance</h3><div class="roster rr" id="rosterA"><a href="races/human/">Human</a><a href="races/dwarf/">Dwarf</a><a href="races/night-elf/">Night Elf</a><a href="races/gnome/">Gnome</a><a href="races/skyborne-alliance/">High Order Skyborne</a></div></div>
+    <div class="pfac horde"><h3>Horde</h3><div class="roster rr" id="rosterH"><a href="races/orc/">Orc</a><a href="races/undead/">Undead</a><a href="races/tauren/">Tauren</a><a href="races/troll/">Troll</a><a href="races/skyborne-horde/">Windshaper Skyborne</a></div></div>
   </div>
   <p class="swipe">Przesuwaj portrety w bok.</p>
   <p><a class="more-l" href="races/">Porównaj wszystkie rasy<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
@@ -1850,8 +1852,8 @@ if ('IntersectionObserver' in window) {
 </script>
 <script>
 (() => {
-  const KEY = 'gabella-lang-hint', store = () => { try { localStorage.setItem(KEY, '1'); } catch (e) {} };
-  const keepHash = a => a.addEventListener('click', () => { store(); a.href = a.getAttribute('href').split('#')[0] + location.hash; });
+  const KEY = 'gabella-lang-hint', store = l => { try { localStorage.setItem(KEY, '1'); if (l) localStorage.setItem('gabella-lang', l); } catch (e) {} };
+  const keepHash = a => a.addEventListener('click', () => { store(a.dataset.lang); a.href = a.getAttribute('href').split('#')[0] + location.hash; });
   document.querySelectorAll('.langlist a, .langgrid a').forEach(keepHash);
   const sel = document.querySelector('.langsel'), btn = sel && sel.querySelector('.langbtn'), list = sel && sel.querySelector('.langlist');
   if (btn) {
@@ -1882,7 +1884,7 @@ if ('IntersectionObserver' in window) {
   if (!to) return;
   const bar = document.createElement('div');
   bar.className = 'langhint'; bar.lang = want; bar.setAttribute('role', 'status');
-  bar.innerHTML = `<span>${H[want][0]}</span><a href="${to.getAttribute('href')}" hreflang="${to.hreflang}">${H[want][1]}</a>`
+  bar.innerHTML = `<span>${H[want][0]}</span><a href="${to.getAttribute('href')}" hreflang="${to.hreflang}" data-lang="${want}">${H[want][1]}</a>`
     + `<button type="button" aria-label="${H[want][2]}"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button>`;
   keepHash(bar.querySelector('a'));
   bar.querySelector('button').addEventListener('click', () => { store(); bar.remove(); });

@@ -996,7 +996,7 @@ nav.gtiles { padding: 14px; }
 <main class="wrap gbody solo">
   <nav class="gtoc frame" aria-label="Разделы гайда"></nav>
   <div class="gmain">
-<section class="frame gsec" id="compare"><h2>Сравнение</h2><p>У каждой расы по четыре способности: две активные и две пассивные. Часть старых способностей заменена новыми, сопротивления убраны.</p><div class="cmp rac" id="raceRef"></div><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>Скайборн играбельна за обе фракции, выбор фракции делается при создании. Обе ветки говорят на общем языке, а стартовая зона Zephras Isle общая, враги там не встречаются из-за слоёв.</p></div></section>
+<section class="frame gsec" id="compare"><h2>Сравнение</h2><p>У каждой расы по четыре способности: две активные и две пассивные. Часть старых способностей заменена новыми, сопротивления убраны.</p><div class="cmp rac" id="raceRef"><a href="../races/human/">Человек</a><a href="../races/dwarf/">Дворф</a><a href="../races/night-elf/">Ночной эльф</a><a href="../races/gnome/">Гном</a><a href="../races/skyborne-alliance/">Высший скайборн</a><a href="../races/orc/">Орк</a><a href="../races/undead/">Нежить</a><a href="../races/tauren/">Таурен</a><a href="../races/troll/">Тролль</a><a href="../races/skyborne-horde/">Скайборн-ветрорез</a></div><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>Скайборн играбельна за обе фракции, выбор фракции делается при создании. Обе ветки говорят на общем языке, а стартовая зона Zephras Isle общая, враги там не встречаются из-за слоёв.</p></div></section>
   </div>
 </main>
 
@@ -1231,8 +1231,8 @@ renderRaceRef();
 </script>
 <script>
 (() => {
-  const KEY = 'gabella-lang-hint', store = () => { try { localStorage.setItem(KEY, '1'); } catch (e) {} };
-  const keepHash = a => a.addEventListener('click', () => { store(); a.href = a.getAttribute('href').split('#')[0] + location.hash; });
+  const KEY = 'gabella-lang-hint', store = l => { try { localStorage.setItem(KEY, '1'); if (l) localStorage.setItem('gabella-lang', l); } catch (e) {} };
+  const keepHash = a => a.addEventListener('click', () => { store(a.dataset.lang); a.href = a.getAttribute('href').split('#')[0] + location.hash; });
   document.querySelectorAll('.langlist a, .langgrid a').forEach(keepHash);
   const sel = document.querySelector('.langsel'), btn = sel && sel.querySelector('.langbtn'), list = sel && sel.querySelector('.langlist');
   if (btn) {
@@ -1263,7 +1263,7 @@ renderRaceRef();
   if (!to) return;
   const bar = document.createElement('div');
   bar.className = 'langhint'; bar.lang = want; bar.setAttribute('role', 'status');
-  bar.innerHTML = `<span>${H[want][0]}</span><a href="${to.getAttribute('href')}" hreflang="${to.hreflang}">${H[want][1]}</a>`
+  bar.innerHTML = `<span>${H[want][0]}</span><a href="${to.getAttribute('href')}" hreflang="${to.hreflang}" data-lang="${want}">${H[want][1]}</a>`
     + `<button type="button" aria-label="${H[want][2]}"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button>`;
   keepHash(bar.querySelector('a'));
   bar.querySelector('button').addEventListener('click', () => { store(); bar.remove(); });

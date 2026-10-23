@@ -996,7 +996,7 @@ nav.gtiles { padding: 14px; }
 <main class="wrap gbody solo">
   <nav class="gtoc frame" aria-label="Розділи гайду"></nav>
   <div class="gmain">
-<section class="frame gsec" id="compare"><h2>Порівняння</h2><p>Темп прокачки взято з прогнозів по беті: у беті була стеля 30 рівня, вище оцінки проєктні. Рядок відкриває сторінку класу.</p><div class="cmp cls" id="classRef"></div></section>
+<section class="frame gsec" id="compare"><h2>Порівняння</h2><p>Темп прокачки взято з прогнозів по беті: у беті була стеля 30 рівня, вище оцінки проєктні. Рядок відкриває сторінку класу.</p><div class="cmp cls" id="classRef"><a href="../classes/warrior/">Воїн</a><a href="../classes/paladin/">Паладин</a><a href="../classes/hunter/">Мисливець</a><a href="../classes/rogue/">Розбійник</a><a href="../classes/priest/">Жрець</a><a href="../classes/shaman/">Шаман</a><a href="../classes/mage/">Маг</a><a href="../classes/warlock/">Чорнокнижник</a><a href="../classes/druid/">Друїд</a></div></section>
   </div>
 </main>
 
@@ -1231,8 +1231,8 @@ renderClassRef();
 </script>
 <script>
 (() => {
-  const KEY = 'gabella-lang-hint', store = () => { try { localStorage.setItem(KEY, '1'); } catch (e) {} };
-  const keepHash = a => a.addEventListener('click', () => { store(); a.href = a.getAttribute('href').split('#')[0] + location.hash; });
+  const KEY = 'gabella-lang-hint', store = l => { try { localStorage.setItem(KEY, '1'); if (l) localStorage.setItem('gabella-lang', l); } catch (e) {} };
+  const keepHash = a => a.addEventListener('click', () => { store(a.dataset.lang); a.href = a.getAttribute('href').split('#')[0] + location.hash; });
   document.querySelectorAll('.langlist a, .langgrid a').forEach(keepHash);
   const sel = document.querySelector('.langsel'), btn = sel && sel.querySelector('.langbtn'), list = sel && sel.querySelector('.langlist');
   if (btn) {
@@ -1263,7 +1263,7 @@ renderClassRef();
   if (!to) return;
   const bar = document.createElement('div');
   bar.className = 'langhint'; bar.lang = want; bar.setAttribute('role', 'status');
-  bar.innerHTML = `<span>${H[want][0]}</span><a href="${to.getAttribute('href')}" hreflang="${to.hreflang}">${H[want][1]}</a>`
+  bar.innerHTML = `<span>${H[want][0]}</span><a href="${to.getAttribute('href')}" hreflang="${to.hreflang}" data-lang="${want}">${H[want][1]}</a>`
     + `<button type="button" aria-label="${H[want][2]}"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button>`;
   keepHash(bar.querySelector('a'));
   bar.querySelector('button').addEventListener('click', () => { store(); bar.remove(); });

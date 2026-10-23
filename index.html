@@ -9,6 +9,22 @@
   var h = location.hash.slice(1);
   if (m[h]) location.replace('guides/' + m[h]);
   else if (h === 'classref' || h === 'races') location.replace(h === 'races' ? 'races/' : 'classes/');
+  else return;
+  window.wfMoved = 1;
+})();
+</script>
+<script>
+(function () {
+  if (window.wfMoved || /bot|crawl|spider|slurp|lighthouse|headless|google-|preview/i.test(navigator.userAgent) || navigator.webdriver) return;
+  var P = {"ru": "./", "en": "en/", "uk": "uk/", "de": "de/", "fr": "fr/", "es": "es/", "pt": "pt/", "it": "it/", "pl": "pl/"}, A = { be: 'ru', kk: 'ru' }, w = null, r = document.referrer;
+  try { w = localStorage.getItem('gabella-lang'); } catch (e) {}
+  if (!(w in P)) {
+    if (r && (r.indexOf(location.origin + '/') === 0 || /^https?:\/\/([^\/]*\.)?(google|bing|yandex|ya|duckduckgo|yahoo|baidu|ecosia|naver|qwant|seznam)\.[^\/]+\//.test(r))) return;
+    var L = navigator.languages || [navigator.language];
+    for (var i = 0; i < L.length && !w; i++) { var b = String(L[i] || '').toLowerCase().split('-')[0]; b = A[b] || b; if (b in P) w = b; }
+    w = w || 'en';
+  }
+  if (w !== 'ru') location.replace(P[w] + location.search + location.hash);
 })();
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -878,7 +894,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <section class="stband" id="stages" data-nav="#stages" data-tab="#top">
   <picture class="stband-art"><source type="image/avif" srcset="./assets/art/hero_campfire-960.avif 960w, ./assets/art/hero_campfire-1600.avif 1600w" sizes="100vw"><source type="image/webp" srcset="./assets/art/hero_campfire-960.webp 960w, ./assets/art/hero_campfire-1600.webp 1600w" sizes="100vw"><img src="./assets/art/hero_campfire-1600.webp" width="1600" height="893" alt="" loading="lazy" decoding="async"></picture>
   <div class="wrap">
-    <div class="sec-head"><h2>Где ты сейчас</h2><p>Пять этапов от резерва имён до рейдов. Этап выбирается сам по дате, а если указать персонажа, гид подберёт подземелья под уровень и покажет ваши баффы для группы.</p></div>
+    <div class="sec-head"><h2>Где вы сейчас</h2><p>Пять этапов от резерва имён до рейдов. Этап выбирается сам по дате, а если указать персонажа, гид подберёт подземелья под уровень и покажет ваши баффы для группы.</p></div>
     <div class="frame stiles" id="stageBar" role="tablist" aria-label="Этапы игры"></div>
     <div class="journey">
       <div class="frame stage" id="stagePanel" role="tabpanel" tabindex="-1"></div>
@@ -926,7 +942,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 
 <section class="block wrap" id="classes" data-nav="#classes" data-tab="#classes">
   <div class="sec-head"><div class="row"><h2>Кем играть</h2><span class="src">Warcraft Tavern, LFCarry</span></div><p>Наведите на портрет, чтобы раскрыть класс. Нажмите, чтобы открыть страницу класса: специализации, расы и что нового в Forever.</p></div>
-  <div class="frame roster" id="roster"></div>
+  <div class="frame roster" id="roster"><a href="classes/warrior/">Воин</a><a href="classes/paladin/">Паладин</a><a href="classes/hunter/">Охотник</a><a href="classes/rogue/">Разбойник</a><a href="classes/priest/">Жрец</a><a href="classes/shaman/">Шаман</a><a href="classes/mage/">Маг</a><a href="classes/warlock/">Чернокнижник</a><a href="classes/druid/">Друид</a></div>
   <p class="swipe">Листайте портреты в сторону.</p>
   <p><a class="more-l" href="classes/">Сравнить все классы<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
 </section>
@@ -934,8 +950,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <section class="block wrap" id="peoples" data-nav="#peoples" data-tab="#classes">
   <div class="sec-head"><div class="row"><h2>За кого играть</h2><span class="src">Warcraft Tavern</span></div><p>По пять рас у каждой фракции, Скайборн есть у обеих. Нажмите на портрет, чтобы открыть страницу расы: способности, классы и история.</p></div>
   <div class="frame peoples">
-    <div class="pfac alliance"><h3>Альянс</h3><div class="roster rr" id="rosterA"></div></div>
-    <div class="pfac horde"><h3>Орда</h3><div class="roster rr" id="rosterH"></div></div>
+    <div class="pfac alliance"><h3>Альянс</h3><div class="roster rr" id="rosterA"><a href="races/human/">Человек</a><a href="races/dwarf/">Дворф</a><a href="races/night-elf/">Ночной эльф</a><a href="races/gnome/">Гном</a><a href="races/skyborne-alliance/">Высший скайборн</a></div></div>
+    <div class="pfac horde"><h3>Орда</h3><div class="roster rr" id="rosterH"><a href="races/orc/">Орк</a><a href="races/undead/">Нежить</a><a href="races/tauren/">Таурен</a><a href="races/troll/">Тролль</a><a href="races/skyborne-horde/">Скайборн-ветрорез</a></div></div>
   </div>
   <p class="swipe">Листайте портреты в сторону.</p>
   <p><a class="more-l" href="races/">Сравнить все расы<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
@@ -1051,7 +1067,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <dialog class="sheet" id="moreDlg" aria-label="Все разделы">
   <div class="dh"><b>Все разделы</b><button class="iconbtn" id="moreClose" type="button" aria-label="Закрыть"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Все разделы">
-    <div class="grp"><div class="gh">Главная</div><a href="#top">Обзор</a><a href="#stages">Где ты сейчас</a><a href="#factions">Фракции</a><a href="#classes">Классы</a><a href="#peoples">Расы</a></div>
+    <div class="grp"><div class="gh">Главная</div><a href="#top">Обзор</a><a href="#stages">Где вы сейчас</a><a href="#factions">Фракции</a><a href="#classes">Классы</a><a href="#peoples">Расы</a></div>
     <div class="grp"><div class="gh">Инструменты</div><a href="#picker">Подборщик</a><a href="#builder">Конструктор группы</a><a href="tools/">Рамки, сравнение, поиск</a><a href="play/">В игре</a></div>
     <div class="grp"><div class="gh">Справочник</div><a href="guides/leveling/">Прокачка 1–60</a><a href="guides/dungeons/">Подземелья и рейды</a><a href="guides/professions/">Профессии</a><a href="guides/faq/">FAQ и даты</a><a href="guides/news/">Новости</a><a href="classes/">Классы: сравнение</a><a href="races/">Расы: сравнение</a><a href="#sources">Источники</a></div>
   </nav>
@@ -1850,8 +1866,8 @@ if ('IntersectionObserver' in window) {
 </script>
 <script>
 (() => {
-  const KEY = 'gabella-lang-hint', store = () => { try { localStorage.setItem(KEY, '1'); } catch (e) {} };
-  const keepHash = a => a.addEventListener('click', () => { store(); a.href = a.getAttribute('href').split('#')[0] + location.hash; });
+  const KEY = 'gabella-lang-hint', store = l => { try { localStorage.setItem(KEY, '1'); if (l) localStorage.setItem('gabella-lang', l); } catch (e) {} };
+  const keepHash = a => a.addEventListener('click', () => { store(a.dataset.lang); a.href = a.getAttribute('href').split('#')[0] + location.hash; });
   document.querySelectorAll('.langlist a, .langgrid a').forEach(keepHash);
   const sel = document.querySelector('.langsel'), btn = sel && sel.querySelector('.langbtn'), list = sel && sel.querySelector('.langlist');
   if (btn) {
@@ -1882,7 +1898,7 @@ if ('IntersectionObserver' in window) {
   if (!to) return;
   const bar = document.createElement('div');
   bar.className = 'langhint'; bar.lang = want; bar.setAttribute('role', 'status');
-  bar.innerHTML = `<span>${H[want][0]}</span><a href="${to.getAttribute('href')}" hreflang="${to.hreflang}">${H[want][1]}</a>`
+  bar.innerHTML = `<span>${H[want][0]}</span><a href="${to.getAttribute('href')}" hreflang="${to.hreflang}" data-lang="${want}">${H[want][1]}</a>`
     + `<button type="button" aria-label="${H[want][2]}"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button>`;
   keepHash(bar.querySelector('a'));
   bar.querySelector('button').addEventListener('click', () => { store(); bar.remove(); });

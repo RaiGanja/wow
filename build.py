@@ -112,8 +112,8 @@ HINT = {
 
 LANG_JS = """<script>
 (() => {
-  const KEY = 'gabella-lang-hint', store = () => { try { localStorage.setItem(KEY, '1'); } catch (e) {} };
-  const keepHash = a => a.addEventListener('click', () => { store(); a.href = a.getAttribute('href').split('#')[0] + location.hash; });
+  const KEY = 'gabella-lang-hint', store = l => { try { localStorage.setItem(KEY, '1'); if (l) localStorage.setItem('gabella-lang', l); } catch (e) {} };
+  const keepHash = a => a.addEventListener('click', () => { store(a.dataset.lang); a.href = a.getAttribute('href').split('#')[0] + location.hash; });
   document.querySelectorAll('.langlist a, .langgrid a').forEach(keepHash);
   const sel = document.querySelector('.langsel'), btn = sel && sel.querySelector('.langbtn'), list = sel && sel.querySelector('.langlist');
   if (btn) {
@@ -144,7 +144,7 @@ LANG_JS = """<script>
   if (!to) return;
   const bar = document.createElement('div');
   bar.className = 'langhint'; bar.lang = want; bar.setAttribute('role', 'status');
-  bar.innerHTML = `<span>${H[want][0]}</span><a href="${to.getAttribute('href')}" hreflang="${to.hreflang}">${H[want][1]}</a>`
+  bar.innerHTML = `<span>${H[want][0]}</span><a href="${to.getAttribute('href')}" hreflang="${to.hreflang}" data-lang="${want}">${H[want][1]}</a>`
     + `<button type="button" aria-label="${H[want][2]}"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button>`;
   keepHash(bar.querySelector('a'));
   bar.querySelector('button').addEventListener('click', () => { store(); bar.remove(); });
@@ -152,6 +152,30 @@ LANG_JS = """<script>
 })();
 </script>
 """
+
+# Root /wow/ only: the visitor's language before the page draws. A saved choice (gabella-lang, set by the language menu
+# here and on the hub) wins; otherwise the browser languages, English for the rest. Bots, search results and links
+# from inside the site stay on the Russian page, so search engines index it as is.
+AUTO_JS = r"""<script>
+(function () {
+  if (window.wfMoved || /bot|crawl|spider|slurp|lighthouse|headless|google-|preview/i.test(navigator.userAgent) || navigator.webdriver) return;
+  var P = @@PATHS@@, A = { be: 'ru', kk: 'ru' }, w = null, r = document.referrer;
+  try { w = localStorage.getItem('gabella-lang'); } catch (e) {}
+  if (!(w in P)) {
+    if (r && (r.indexOf(location.origin + '/') === 0 || /^https?:\/\/([^\/]*\.)?(google|bing|yandex|ya|duckduckgo|yahoo|baidu|ecosia|naver|qwant|seznam)\.[^\/]+\//.test(r))) return;
+    var L = navigator.languages || [navigator.language];
+    for (var i = 0; i < L.length && !w; i++) { var b = String(L[i] || '').toLowerCase().split('-')[0]; b = A[b] || b; if (b in P) w = b; }
+    w = w || 'en';
+  }
+  if (w !== 'ru') location.replace(P[w] + location.search + location.hash);
+})();
+</script>
+"""
+
+
+def auto_lang(html):
+    paths = json.dumps({l: page_dir(l) or './' for l in LANGS})
+    return html.replace('<meta name="viewport"', AUTO_JS.replace('@@PATHS@@', paths) + '<meta name="viewport"', 1)
 
 
 def lang_menu(html, lang, here):
@@ -177,6 +201,8 @@ def localize(html, lang, here):
     if lang != 'ru':
         html = html.replace('<html lang="ru">', f'<html lang="{HREFLANG[lang]}">')
         html = html.replace('content="ru_RU"', f'content="{LOCALE[lang]}"')
+    if lang not in ('ru', 'uk'):                                  # Latin-script pages: preload the fonts they draw first
+        html = html.replace('-cyrillic.woff2" as="font"', '-latin.woff2" as="font"')
     return pwa(html, lang, rel(here, ''))
 
 
@@ -271,6 +297,9 @@ def build_home(lang, src):
     here = page_dir(lang)
     html = html.replace('@@ALTERNATES@@', alternates(''))
     html = localize(html, lang, here)
+    html = static_links(html, lang, '')
+    if lang == 'ru':
+        html = auto_lang(html)
     if lang != 'ru':
         for tag in ('rel="canonical" href', 'property="og:url" content'):
             html = html.replace(tag + f'="{SITE}"', tag + f'="{SITE}{lang}/"')
@@ -358,6 +387,22 @@ def parse_races(src):
         tip = re.search(r"tip:'([^']+)'", body).group(1)
         out.append({'id': rid, 'n': name or n, 'f': fac, 'paid': bool(paid), 'can': can, 'rac': rac, 'tip': tip})
     return out
+
+
+_RACES = []
+
+
+def static_links(html, lang, home):
+    """Plain links inside the class and race blocks the page script draws (home rosters, /classes/, /races/):
+    the script replaces them, crawlers and readers without JS follow them."""
+    if not _RACES:
+        _RACES.extend(parse_races(open(os.path.join(HERE, 'index.src.html'), encoding='utf-8').read()))
+    slug = {r['id']: r['slug'] for r in RACES_PAGE}
+    cls = ''.join(f'<a href="{home}classes/{c["id"]}/">{esc(tr(c["n"], lang))}</a>' for c in CLASSES)
+    rac = lambda f=None: ''.join(f'<a href="{home}races/{slug[r["id"]]}/">{esc(tr(r["n"], lang))}</a>' for r in _RACES if f in (None, r['f']))
+    for box, links in (('roster', cls), ('classRef', cls), ('rosterA', rac('alliance')), ('rosterH', rac('horde')), ('raceRef', rac())):
+        html = html.replace(f' id="{box}"></div>', f' id="{box}">{links}</div>', 1)
+    return html
 
 
 def parse_en(src):
