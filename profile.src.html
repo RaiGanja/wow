@@ -423,7 +423,7 @@ function secChars() {
 function secLook() {
   const u = m.user, c = mainOf();
   const frames = m.frames.map(f => `<button type="button" class="rstep" data-frame="${f}" aria-pressed="${(u.frame || u.rank) === f}">${ring(f, face(c, u.portrait))}<b>${esc(frameName(f))}</b></button>`).join('');
-  const titles = `<option value="">Без титула</option>` + m.titles.map(t => `<option value="${t}"${u.title === t ? ' selected' : ''}>${esc(achName(t))}</option>`).join('');
+  const titles = `<option value="">Без титула</option>` + m.titles.map(t => `<option value="${t}"${u.title === t ? ' selected' : ''}>${esc(titleName(t))}</option>`).join('');
   const bgs = GD.backgrounds.map(b => {
     const src = /^hero_/.test(b) ? `${ROOT}assets/art/${b}-960.webp` : `${ROOT}assets/art/${b}-bg.webp`;
     const name = /^hero_/.test(b) ? (b === 'hero_dawn' ? 'Рассвет' : 'Привал') : (Object.values(GD.races).find(r => r.slug === b) || { n: b }).n;

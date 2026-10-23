@@ -47,7 +47,7 @@ def game():
     for rid, r in races.items():
         r['slug'] = slug[rid]
     sets = {
-        'guide': [g['slug'] for g in GUIDES if g['slug']],
+        'guide': [g['slug'] for g in GUIDES if g['slug'] and not g.get('only')],   # language-only guides (uk) stay out: «all guides» must be reachable in every language
         'class': [c['id'] for c in CLASSES],
         'race': [r['slug'] for r in RACES_PAGE],
         'lang': list(langs.ALL),

@@ -2,7 +2,7 @@
 ранги, рамки, категории, очки, подписи тоста и шапки) и страницы «Состав» (roster/), «Мой профиль» (profile/), игрок (u/).
 Страницы: оболочка me.src.html + общие me-pages.src.css/js + фрагмент roster|profile|player.src.html (style, body, script).
 Русский исходник — content/achievements.py, UI ниже и русский текст страниц; en/uk — i18n/me.{ru,en,uk}.txt (строка в строку),
-новые языки — i18n/<lang>.json по английской строке (как весь сайт).
+новые языки — i18n/<lang>.json по английской строке (как весь сайт). Тексты прокачки — GROWTH ниже.
 Запуск: python build_me.py [--list]  (build.py запускает его сам; --list печатает русские фрагменты страниц без перевода)"""
 import json, os, re, sys
 
@@ -21,10 +21,87 @@ build.T.update({r: (e, u) for r, e, u in zip(_ru, _en, _uk)})
 UI = {'got': 'Достижение получено', 'rankUp': 'Новый ранг', 'profile': 'Мой профиль', 'login': 'Войти', 'pts': 'очков',
       'lvlAsk': 'На странице «В игре» у вас {n} уровень. Обновить персонажа {name}?', 'update': 'Обновить', 'notNow': 'Не сейчас'}
 
+# Прокачка: тексты Славы, недельных заданий, сезона, витрины, хроники, жалоб. Ключ -> русская строка; сайт читает их из i18n-<lang>.json (раздел g).
+# Переводы: en/uk — в конце i18n/me.*.txt (строка в строку), остальные — i18n/<lang>.json по английской строке. Шаблоны: {n} {d} {p} {x} {a} {r} {name}.
+GROWTH = {
+    'glory': 'Слава',
+    'glory_n': 'Слава {n}',
+    'glory_rested': 'Вы отдохнули в таверне — опыт ×2',
+    'week': 'Задания недели',
+    'week_ends': 'До сброса {d}',
+    'week_swap': 'Заменить',
+    'week_swap_used': 'Замена на этой неделе уже была',
+    'week_streak': 'Недель подряд: {n}',
+    'week_all': 'Все три — +600 опыта и 3 звезды сезона',
+    'season': 'Сезон 1',
+    'season_stars': 'Звёзды: {n}',
+    'season_step': 'Ступень {n} из 30',
+    'season_toast': 'Ступень сезона {n}',
+    'season_keep': 'Всё полученное остаётся навсегда',
+    'showcase': 'Витрина',
+    'showcase_hint': 'До пяти наград. Порядок — ваш',
+    'rarity': 'есть у {p}% игроков',
+    'name_color': 'Цвет имени',
+    'color_poor': 'Серый',
+    'color_common': 'Белый',
+    'color_uncommon': 'Зелёный',
+    'color_rare': 'Синий',
+    'color_epic': 'Фиолетовый',
+    'color_legendary': 'Оранжевый',
+    'color_locked': 'Со Славы {n}',
+    'chronicle': 'Хроника',
+    'chronicle_hide': 'Скрыть хронику от других',
+    'chronicle_more': 'Показать ещё',
+    'ch_join': 'Пришёл в Gabella',
+    'ch_step': 'Ступень {n} сезона',
+    'ch_badge': 'Значок «Сезон 1»',
+    'ch_lvl60': '{name} — 60 уровень',
+    'ch_ach': 'Получено «{a}»',
+    'ch_rank': 'Ранг: {r}',
+    'motto_later': 'Будет виден другим со Славы 5',
+    'report': 'Пожаловаться',
+    'report_name': 'Имя',
+    'report_motto': 'Девиз',
+    'report_other': 'Другое',
+    'report_sent': 'Жалоба отправлена',
+    'report_limit': 'Вы уже жаловались сегодня',
+    'tab_all': 'Все игроки',
+    'verified': 'Подтверждено',
+    'teaser': 'Профиль копит ваш путь: Слава, рамки, сезоны',
+    'err_bad_word': 'Так нельзя: выберите другие слова',
+    'err_no_links': 'Без ссылок и упоминаний',
+    'err_members_only': 'Вход временно только для участников Gabella Team',
+    'task_radio_hour': 'Час радио',
+    'task_radio_3h': 'Три часа радио',
+    'task_stations3': 'Три разные станции',
+    'task_guides3': 'Три гайда',
+    'task_classes3': 'Три класса',
+    'task_races3': 'Три расы',
+    'task_party5': 'Собрать группу на пятерых',
+    'task_raid40': 'Собрать рейд на сорок',
+    'task_compare3': 'Сравнить три класса или расы',
+    'task_share_team': 'Поделиться составом группы',
+    'task_search5': 'Пять поисков по сайту',
+    'task_days3': 'Зайти в три разных дня',
+    'task_days5': 'Зайти в пять разных дней',
+    'task_lfg': 'Включить «Ищу группу»',
+    'task_show_card': 'Поделиться своей страницей',
+    'task_play_page': 'Открыть «В игре»',
+    'task_st': 'Станция «{x}»',
+    'task_g': 'Гайд «{x}»',
+    'task_c': 'Класс: {x}',
+    'title_pioneer': 'Первопроходец',
+    'bg_s1-1': 'Сезон 1: рассвет',
+    'bg_s1-2': 'Сезон 1: ночь',
+    'task_done': 'Выполнено',
+    'tab_team': 'Gabella Team',   # без перевода
+}
+GROWTH['glory_toast'] = GROWTH['ch_glory'] = GROWTH['glory_n']
+
 
 def strings():
     """Every Russian string me.js and the profile pages show, in a stable order (the line files follow it)."""
-    out = list(UI.values()) + [c[1] for c in A.CATS] + [r[2] for r in A.RANKS] + [f[2] for f in A.FRAMES]
+    out = list(UI.values()) + list(GROWTH.values()) + [c[1] for c in A.CATS] + [r[2] for r in A.RANKS] + [f[2] for f in A.FRAMES]
     for a in A.ACH:
         out += [a[5], a[6]] + ([a[7]] if len(a) > 7 else [])
     return [s for s in dict.fromkeys(out) if any('А' <= ch <= 'я' or ch in 'Ёё' for ch in s)]
@@ -44,6 +121,9 @@ def texts(lang):
         'ach': ach,
         'pts': {a[0]: a[2] for a in A.ACH},
         'secret': [a[0] for a in A.ACH if len(a) > 7],
+        'g': {k: t(v) for k, v in GROWTH.items()},
+        'titles': {x: t(GROWTH['title_' + x]) for x in A.TITLES if x not in ach},     # a title that is not an achievement (pioneer)
+        'bg': {k[3:]: t(v) for k, v in GROWTH.items() if k.startswith('bg_')},       # season backgrounds by id (s1-1, s1-2)
     }, missing
 
 
@@ -67,6 +147,8 @@ def page_data(lang):
         'classes': {c['id']: {'roles': g['classes'][c['id']]['roles'], 'n': t(c['n']), 'color': build.COLOR[c['id']]} for c in build.CLASSES},
         'profs': {p: t(pn[p]) for p in g['profs']},
         'sets': g['sets'], 'cats': g['cats'], 'ach': g['achievements'], 'ranks': g['ranks'], 'frames': g['frames'],
+        'prog': {'glory_max': g['progression']['glory']['max'], 'colors': g['progression']['name_colors'],
+                 'weekly': {w['id']: {k: w[k] for k in ('key', 'item') if k in w} for w in g['progression']['weekly']}},
         'titles': g['titles'], 'backgrounds': g['backgrounds'], 'deadline': g['deadline_founder'], 'invite': INVITE,
     }
 

@@ -103,6 +103,24 @@ def test_me_script_on_every_page_after_radio():
             assert name.endswith(page + 'index.html'), (name, page)
 
 
+def check_growth_texts(lang, t):
+    """Growth texts (section g): the same keys everywhere, same placeholders as the Russian source, a title for each non-achievement title,
+    a name for each season background and every weekly task (templates for the station, guide and class ones)."""
+    import build_me
+    g = t['g']
+    assert set(g) == set(build_me.GROWTH), lang
+    for k, ru in build_me.GROWTH.items():
+        assert g[k], (lang, k)
+        assert sorted(re.findall(r'\{\w+\}', g[k])) == sorted(re.findall(r'\{\w+\}', ru)), (lang, k, g[k])
+        if lang != 'ru' and lang != 'uk' and re.search('[А-Яа-яЁё]', ru):
+            assert g[k] != ru and not re.search('[А-Яа-яЁё]', g[k]), (lang, k, g[k])
+    ach = {a['id'] for a in G['achievements']}
+    assert set(t['titles']) == set(G['titles']) - ach and 'pioneer' in t['titles'], lang
+    assert set(t['bg']) == {'s1-1', 's1-2'}, lang   # ids of the season backgrounds (R17); progression.py still has s1-bg-N until task 14
+    for w in G['progression']['weekly']:
+        assert 'task_' + w['id'] in g or w['id'].split('_')[0] in ('st', 'g', 'c') and 'task_' + w['id'].split('_')[0] in g, (lang, w['id'])
+
+
 def test_texts_for_every_language():
     from langs import LANGS
     ach = {a['id'] for a in G['achievements']}
@@ -114,6 +132,7 @@ def test_texts_for_every_language():
         assert set(t['frames']) == {f['id'] for f in G['frames']}, lang
         assert all(t['ui'][k] for k in ('got', 'rankUp', 'profile', 'login', 'lvlAsk', 'update', 'notNow')), lang
         assert '{n}' in t['ui']['lvlAsk'] and '{name}' in t['ui']['lvlAsk'], lang
+        check_growth_texts(lang, t)
         for a in G['achievements']:
             assert len(t['ach'][a['id']]) == (3 if a['secret'] else 2), (lang, a['id'])
             if lang != 'ru':

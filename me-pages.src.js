@@ -34,8 +34,10 @@ function left(until) {
 }
 
 // texts of achievements, ranks and frames (assets/me/i18n-<lang>.json), loaded once by ready()
-let T = { ui: {}, cats: {}, ranks: {}, frames: {}, ach: {}, pts: {}, secret: [] };
+let T = { ui: {}, cats: {}, ranks: {}, frames: {}, ach: {}, pts: {}, secret: [], g: {}, titles: {}, bg: {} };
 const achName = id => (T.ach[id] ? T.ach[id][0] : id);
+/** Name of a title: an achievement's, or one of its own (pioneer) from T.titles. */
+const titleName = id => (T.ach[id] ? T.ach[id][0] : (T.titles || {})[id] || id);
 const rankName = id => T.ranks[id] || id;
 const frameName = id => T.frames[id] || id;
 const rankPts = id => (GD.ranks.find(r => r.id === id) || { pts: 0 }).pts;
@@ -65,7 +67,7 @@ function pcard(p, o) {
   return `<article class="pcard${o.cls ? ' ' + o.cls : ''}" style="--cc:${cls(c.class).color}"${o.attrs || ''}>
     <span class="pic">${ring(p.frame || p.rank, face(c, p.portrait))}<span class="lv" aria-label="Уровень ${c.level}">${c.level}</span></span>
     <span class="fx ${f}">${esc(o.tag || FACN[f])}</span>
-    <div class="nm">${p.title ? `<span class="ttl">${esc(achName(p.title))}</span>` : ''}${name}</div>
+    <div class="nm">${p.title ? `<span class="ttl">${esc(titleName(p.title))}</span>` : ''}${name}</div>
     <span class="sub">${subline(c)}</span>
     <div class="meta">${meta.join('')}</div>${alts}${p.nick ? `<div class="nick">Discord: ${esc(p.nick)}</div>` : ''}${o.after || ''}
   </article>`;
@@ -93,7 +95,7 @@ function bcard(p, o) {
   return `<section class="bcard" style="--cc:${cls(c.class).color}" aria-label="Карточка игрока">
     <img class="bg" src="${src}" alt="" decoding="async">
     <div class="in">${ring(p.frame || p.rank, face(c, p.portrait), o.reveal ? 'reveal' : '')}
-      <div>${p.title ? `<span class="ttl">${esc(achName(p.title))}</span>` : ''}<${h}>${esc(c.name)}</${h}>
+      <div>${p.title ? `<span class="ttl">${esc(titleName(p.title))}</span>` : ''}<${h}>${esc(c.name)}</${h}>
         <span class="sub">${subline(c)} · ${c.level} · ${esc(ROLE[c.role] || '')}</span>
         ${who.length ? `<p class="who">${who.join(' · ')}</p>` : ''}${p.motto ? `<p class="motto">«${esc(p.motto)}»</p>` : ''}</div>
       ${rankBlock(p.points || 0)}</div></section>`;
@@ -139,6 +141,73 @@ function achTile(a, st, ctx, marks) {
   return `<div class="ach${own || (marks && marks.some(m => m[1])) ? '' : ' lock'}${hide ? ' secret' : ''}">
     <span class="ic"><img src="${achIcon(hide ? 'secret' : a.id)}" alt="" width="46" height="46" loading="lazy"></span><b>${esc(name)}</b>
     <span class="shield" aria-label="${a.pts} ${esc(T.ui.pts || '')}">${a.pts}</span><p>${esc(desc)}</p>${foot}</div>`;
+}
+
+
+/* ---------- growth: Glory bar, name colours, weekly task lines, chronicle ---------- */
+/** Text of the growth set (T.g): {n}, {d}, {x} ... are filled from o. texts: the dict to take it from, T.g by default. */
+const tg = (k, o, texts) => Object.keys(o || {}).reduce((s, x) => s.split('{' + x + '}').join(o[x]), (texts || T.g || {})[k] || k);
+const num = n => new Intl.NumberFormat(HL).format(n);
+
+/** Glory bar. glory: {level, into, need, rested}: gold fill into/need, the blue rested stretch right behind it
+    (min(rested, need - into) / need). At the top level only «Glory N», no bar. */
+function gloryBar(g, texts) {
+  const head = `<b class="g-lvl">${esc(tg('glory_n', { n: g.level }, texts))}</b>`;
+  if (g.level >= GD.prog.glory_max || !g.need) return `<div class="g-glory g-max">${head}</div>`;
+  const into = Math.max(0, Math.min(g.into, g.need)), pct = Math.round(1000 * into / g.need) / 10;
+  const rest = Math.max(0, Math.min(g.rested || 0, g.need - into)), rpct = Math.round(1000 * rest / g.need) / 10;
+  return `<div class="g-glory"><div class="g-head">${head}<span class="g-num">${num(into)} / ${num(g.need)}</span></div>
+    <div class="g-bar" role="progressbar" aria-label="${esc(tg('glory', null, texts))}" aria-valuemin="0" aria-valuemax="${g.need}" aria-valuenow="${into}"><i class="g-fill" style="width:${pct}%"></i>${rest ? `<i class="g-rest" style="left:${pct}%;width:${rpct}%"></i>` : ''}</div>
+    ${rest ? `<small class="g-rtxt">${esc(tg('glory_rested', null, texts))}</small>` : ''}</div>`;
+}
+
+/** Class of a name colour (q-poor ... q-legendary); anything unknown is the default white. */
+const nameCls = color => 'q-' + (/^[a-z]+$/.test(color || '') ? color : 'common');
+
+const TASK_ACT = {
+  radio_min: ['Включить радио', 'radio'], station: ['Включить радио', 'radio'], guide: ['Открыть гайды', 'guides/'], class: ['Открыть классы', 'classes/'],
+  race: ['Открыть расы', 'races/'], party5: ['Собрать группу', 'tools/#raid'], raid40: ['Собрать рейд', 'tools/#raid'], share_team: ['Собрать группу', 'tools/#raid'],
+  compare3: ['Сравнить', 'tools/#compare'], search: ['Искать', 'tools/#search'], lfg: ['Ищу группу', 'lfg'], show_card: ['Скопировать ссылку', 'card'],
+  play_page: ['Открыть «В игре»', 'play/'],
+};
+/** Name of a weekly task: its own text, or a template filled with the station, guide or class. o.itemName(key, item) may name stations and guides. */
+function taskName(task, texts, o) {
+  const tx = texts || T.g || {}, m = /^(st|g|c)_/.exec(task.id), w = GD.prog.weekly[task.id] || {};
+  if (tx['task_' + task.id] || !m || !w.item) return tx['task_' + task.id] || task.id;
+  const k = { st: 'station', g: 'guide', c: 'class' }[m[1]];
+  const x = (o && o.itemName && o.itemName(k, w.item)) || (k === 'class' ? cls(w.item).n : w.item);
+  return tg('task_' + m[1], { x }, tx);
+}
+/** Line of a weekly task. task: {id, value, goal, done}; the button leads where the task is done (the same as «What next»):
+    radio -> data-act="radio", guides/classes/races/tools/play -> a link, lfg -> data-act="lfgOn", link copy -> data-act="card". */
+function taskLine(task, texts, o) {
+  const w = GD.prog.weekly[task.id] || {}, act = TASK_ACT[w.key || task.key];
+  let btn = '';
+  if (!task.done && act) {
+    if (['radio', 'card'].includes(act[1])) btn = `<button type="button" class="btn ghost g-go" data-act="${act[1]}">${esc(act[0])}</button>`;
+    else if (act[1] === 'lfg') btn = `<button type="button" class="btn ghost g-go" data-act="lfgOn">${esc(act[0])}</button>`;
+    else {
+      const sub = w.item && ['guide', 'class', 'race'].includes(w.key) ? w.item + '/' : '';
+      btn = `<a class="btn ghost g-go" href="${HOME}${act[1]}${act[1].endsWith('/') ? sub : ''}">${esc(act[0])}</a>`;
+    }
+  }
+  const pct = task.goal ? Math.round(100 * Math.min(task.value, task.goal) / task.goal) : 0;
+  const state = task.done ? `<span class="g-done" role="img" aria-label="${esc(tg('task_done', null, texts))}">✓</span>` : `<span class="g-tv">${task.value} / ${task.goal}</span>`;
+  return `<div class="g-task${task.done ? ' done' : ''}"><div class="g-tt"><b>${esc(taskName(task, texts, o))}</b>${state}</div>
+    <div class="g-bar g-sm" aria-hidden="true"><i class="g-fill" style="width:${pct}%"></i></div>${btn}</div>`;
+}
+
+/** Chronicle line. item: {kind, ref, at}; the caller puts the lines into an <ol class="g-chron">. */
+function chronicleItem(item, texts) {
+  const r = item.ref || '', tx = texts || T.g;
+  const text = item.kind === 'join' ? tg('ch_join', null, tx)
+    : item.kind === 'glory' ? tg('ch_glory', { n: r }, tx)
+    : item.kind === 'step' ? tg('ch_step', { n: r.split(':').pop() }, tx)
+    : item.kind === 'badge' ? tg('ch_badge', null, tx)
+    : item.kind === 'lvl60' ? tg('ch_lvl60', { name: r }, tx)
+    : item.kind === 'rank' ? tg('ch_rank', { r: rankName(r) }, tx)
+    : tg('ch_ach', { a: achName(r) }, tx);
+  return `<li class="g-ch g-ch-${esc(item.kind)}"><time class="g-chd" datetime="${new Date(item.at).toISOString()}">${esc(dateOf(item.at))}</time><span>${esc(text)}</span></li>`;
 }
 
 /** Team feed line: who got what. */
