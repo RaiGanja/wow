@@ -8,7 +8,7 @@
   const ROOT = D.root || './', HOME = D.home || './', LANG = D.lang || 'ru', PAGE = D.page || '';
   const V = (S.src.match(/\?v=\w+/) || [''])[0];   // build.py me_version(): the same version for the texts
   const API = /^(127\.0\.0\.1|localhost)$/.test(location.hostname) ? 'http://127.0.0.1:8787' : 'https://api.gabella.site';
-  const FLAG = 'gabella-me', CACHE = 'gabella-me-cache', SOUND = 'gabella-me-sound', DAY = 'gabella-me-day', CACHE_MS = 10 * 60000;
+  const FLAG = 'gabella-me', CACHE = 'gabella-me-cache', SOUND = 'gabella-me-sound', DAY = 'gabella-me-day', CACHE_MS = 10 * 60000, RMIN = 'gabella-me-rmin';
   const AUTH_PAGE = /^(roster|profile)\/$/.test(PAGE);
   const ls = {
     get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
@@ -80,7 +80,7 @@
       return api('/progress', { body }).then(r => {
         if (state && state.progress && key !== 'visit') {   // keep the cache honest without asking /me again
           const p = state.progress[key] || (state.progress[key] = { value: 0, items: item === undefined ? null : [] });
-          if (item === undefined) p.value++; else if (!p.items.includes(item)) { p.items.push(item); p.value = p.items.length; }
+          if (item === undefined) p.value += key === 'radio_min' ? 5 : 1; else if (!p.items.includes(item)) { p.items.push(item); p.value = p.items.length; }
           ss.set(CACHE, { t: Date.now(), m: state });
         }
         return took(r);
@@ -180,7 +180,12 @@
   addEventListener('gabella:radio', e => {
     const d = e.detail || {};
     if (d.type === 'on') track('radio_on');
-    else if (d.type === 'minute') track('radio_min');
+    else if (d.type === 'minute') {
+      // the server counts radio by 5 minutes (one write instead of five); minutes carry over between pages of the tab
+      const n = (+ss.get(RMIN) || 0) + 1;
+      ss.set(RMIN, n >= 5 ? null : n);
+      if (n >= 5) track('radio_min');
+    }
     else if (d.type === 'sleep') track('sleep_timer');
     else if (d.type === 'station') {
       track('station', d.id);

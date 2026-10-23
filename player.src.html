@@ -67,7 +67,7 @@ function draw() {
 
 function load() {
   const id = location.hash.slice(1);
-  if (!/^\d{1,20}$/.test(id)) return notFound();
+  if (!/^(\d{1,20}|u_[0-9a-f]{16})$/.test(id)) return notFound();
   $('#view').innerHTML = '<div class="skel" style="min-height:250px"></div>';
   M.api('/u/' + id).then(r => {
     p = r;

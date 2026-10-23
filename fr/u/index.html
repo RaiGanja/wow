@@ -898,6 +898,9 @@ main .me-ring, dialog .me-ring { --s: 64px; --room-x: 12px; --room-y: 12px; widt
 .pcard .alts { grid-column: 1 / -1; font-size: .84rem; color: var(--muted); }
 .pcard .alts i { font-style: normal; color: var(--ac); }
 .pcard .nick { grid-column: 1 / -1; font-size: .82rem; color: var(--muted); }
+.pcard .nick { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: center; }
+.team { display: inline-flex; align-items: center; gap: 5px; color: var(--gold-2); font-weight: 600; }
+.team img { display: block; }
 .pcard .mainmark { grid-column: 1 / -1; font-size: .8rem; font-weight: 600; color: var(--gold-2); }
 .pcard .mod { position: absolute; z-index: 3; right: 10px; bottom: 10px; min-height: 32px; font: inherit; font-size: .78rem; color: var(--muted); border: 1px solid var(--pline); border-radius: 6px; padding: 0 10px; background: var(--panel-2); cursor: pointer; }
 .pcard .mod:hover { color: var(--fg); border-color: var(--gold); }
@@ -1022,8 +1025,8 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=c72245122c" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=44770bb7ab" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=cb7a9f447f" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=323483bce5" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://gabella.site/wow/fr/"},{"@type":"ListItem","position":2,"name":"Effectif","item":"https://gabella.site/wow/fr/roster/"},{"@type":"ListItem","position":3,"name":"Joueur de Gabella Team","item":"https://gabella.site/wow/fr/u/"}]}</script>
 </head>
 <body>
@@ -1161,7 +1164,7 @@ function pcard(p, o) {
     <span class="fx ${f}">${esc(o.tag || FACN[f])}</span>
     <div class="nm">${p.title ? `<span class="ttl">${esc(achName(p.title))}</span>` : ''}${name}</div>
     <span class="sub">${subline(c)}</span>
-    <div class="meta">${meta.join('')}</div>${alts}${p.nick ? `<div class="nick">Discord: ${esc(p.nick)}</div>` : ''}${o.after || ''}
+    <div class="meta">${meta.join('')}</div>${alts}${p.member || p.nick ? `<div class="nick">${p.member ? `<span class="team"><img src="${ROOT}assets/brand/mark.webp" alt="" width="14" height="14">Gabella Team</span>` : ''}${p.nick ? `<span>${esc(p.nick)}</span>` : ''}</div>` : ''}${o.after || ''}
   </article>`;
 }
 
@@ -1180,8 +1183,9 @@ function bcard(p, o) {
   const c = p.main, bg = p.background || race(c.race).slug;
   const src = /^hero_/.test(bg) ? `${ROOT}assets/art/${bg}-960.webp` : `${ROOT}assets/art/${bg}-896.webp`;
   const who = [];
-  if (p.nick) who.push('Discord: ' + esc(p.nick));
+  if (p.nick) who.push(esc(p.nick));
   if (p.joined) who.push(esc(fill('Dans Gabella Team depuis le %d', { d: dateOf(p.joined) })));
+  else if (p.member) who.push('Gabella Team');
   else if (p.since) who.push(esc(fill('Dans l’effectif depuis le %d', { d: dateOf(p.since) })));
   const h = o.h || 'h1';
   return `<section class="bcard" style="--cc:${cls(c.class).color}" aria-label="Carte du joueur">
@@ -1315,7 +1319,7 @@ function draw() {
 
 function load() {
   const id = location.hash.slice(1);
-  if (!/^\d{1,20}$/.test(id)) return notFound();
+  if (!/^(\d{1,20}|u_[0-9a-f]{16})$/.test(id)) return notFound();
   $('#view').innerHTML = '<div class="skel" style="min-height:250px"></div>';
   M.api('/u/' + id).then(r => {
     p = r;
@@ -1399,8 +1403,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=c72245122c" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=44770bb7ab" data-root="../../" data-home="../" data-lang="fr" data-page="u/" defer></script>
+<script src="../../assets/search/search.js?v=cb7a9f447f" data-root="../../" defer></script>
+<script src="../../assets/me/me.js?v=323483bce5" data-root="../../" data-home="../" data-lang="fr" data-page="u/" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

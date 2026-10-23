@@ -91,6 +91,8 @@ def tile_links(tiles, lang, root):
 def render_block(kind, data, lang, root):
     if kind == 'text':
         return ''.join(f'<p>{E(p, lang)}</p>' for p in data)
+    if kind == 'list':
+        return '<ul>' + ''.join(f'<li>{E(p, lang)}</li>' for p in data) + '</ul>'
     if kind == 'steps':
         cards = ''.join(f'<li><span class="n">{i:02d}</span><div><b>{E(s["t"], lang)}</b><p>{E(s["d"], lang)}</p></div></li>'
                         for i, s in enumerate(data, 1))
