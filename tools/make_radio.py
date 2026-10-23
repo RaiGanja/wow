@@ -1,58 +1,44 @@
-"""Radio of the guide: tracks of Kevin MacLeod (incompetech.com, CC BY 4.0) -> <MEDIA>/<slug>.m4a
-(AAC <BITRATE>, loudness -16 LUFS so stations play at one level) and assets/radio/stations.json
-(stations, the "On air" day plan, titles, authors, durations, credits) that assets/radio/radio.js reads when the panel opens.
-Source mp3: https://incompetech.com/music/royalty-free/mp3-royaltyfree/<file>.mp3 (file names: incompetech.com/music/royalty-free/pieces.json),
-saved into a folder as <Title>.mp3.
-Run: python tools/make_radio.py <folder with the mp3>  (needs ffmpeg and ffprobe in PATH)"""
+"""Radio of the guide: tracks of Kevin MacLeod (incompetech.com) and other authors under CC BY / CC0 (opengameart.org)
+-> <tracks folder>/<slug>.m4a (AAC <BITRATE>, loudness -16 LUFS so stations play at one level) and assets/radio/stations.json
+(stations, the "On air" day plan, titles, authors, licenses, durations) that assets/radio/radio.js reads when the panel opens.
+Track lists: tools/radio_tracks.py. Sources are saved into one folder as <Title>.<mp3|ogg|wav|flac> (":" in a title -> "_");
+Kevin MacLeod: https://incompetech.com/music/royalty-free/mp3-royaltyfree/<file>.mp3 (file names: incompetech.com/music/royalty-free/pieces.json).
+The .m4a files are served from MEDIA (Cloudflare R2), not from the site: upload the tracks folder there after a run
+(npx wrangler r2 object put gabella-media/radio/<file> --file <tracks folder>/<file> --remote).
+Run: python tools/make_radio.py <folder with the sources> <tracks folder>  (needs ffmpeg and ffprobe in PATH)"""
 import glob, json, os, re, subprocess, sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from radio_tracks import KM, LICENSES, SOURCES, TRACKS
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'assets', 'radio')
 
-# Where the tracks are served from: '' = assets/radio/ of the site itself. To move them to other storage
-# (e.g. a Cloudflare R2 bucket on media.gabella.site), upload the .m4a files there and put its address here, then rerun.
-MEDIA = ''
-# Sound quality of the tracks (sources are 320 kbit/s mp3). To change it, delete assets/radio/*.m4a and rerun.
-BITRATE = '128k'
+# Where the tracks are served from: the radio/ folder of the Cloudflare R2 bucket gabella-media (domain media.gabella.site).
+# '' = assets/radio/ of the site itself (the site on GitHub Pages is limited to 1 GB, so the library lives on R2).
+MEDIA = 'https://media.gabella.site/radio/'
+# Sound quality of the tracks: 256k AAC, near-transparent to the 320k mp3 / wav sources (never lower than 128k). To change it, delete the .m4a in the tracks folder, rerun and upload again.
+BITRATE = '256k'
 
-KM = 'Kevin MacLeod'
 # art: picture of the station tile, from assets/art (without .webp); pos: its object-position (portraits: the face).
-# tracks: titles, or (title, author) when the author is not Kevin MacLeod.
+# Tracks of each station: TRACKS[id] in tools/radio_tracks.py.
 STATIONS = [
     {'id': 'morning', 'art': 'hero_dawn-960', 'name': {'ru': 'Утро в долине', 'en': 'Morning in the Vale', 'uk': 'Ранок у долині'},
-     'mood': {'ru': 'Арфа и флейта на рассвете', 'en': 'Harp and flute at dawn', 'uk': 'Арфа й флейта на світанку'},
-     'tracks': ['Morning', 'Ascending the Vale', 'Enchanted Journey', 'Canon in D for Two Renaissance Harps', 'Evening', 'Royal Coupling',
-                'Dreamy Flashback', 'Frozen Star', 'Decline', 'The Parting', 'Windswept', 'On the Shore', 'Cello Suite #1 in G - Prelude',
-                'Adventures in Adventureland']},
+     'mood': {'ru': 'Арфа и флейта на рассвете', 'en': 'Harp and flute at dawn', 'uk': 'Арфа й флейта на світанку'}},
     {'id': 'road', 'art': 'hunter-600', 'pos': '50% 20%', 'name': {'ru': 'Дорога', 'en': 'The Road', 'uk': 'Дорога'},
-     'mood': {'ru': 'Волынка и скрипка в пути', 'en': 'Pipes and fiddle on the way', 'uk': 'Волинка й скрипка в дорозі'},
-     'tracks': ['Achaidh Cheide', 'Skye Cuillin', 'Lord of the Land', 'Teller of the Tales', 'Celtic Impulse', 'Angevin', 'Tabuk',
-                'The Other Side of the Door', 'Americana', 'Long Road Ahead', 'Temple of the Manes', 'Moorland', 'Heavy Heart', 'Hidden Past']},
+     'mood': {'ru': 'Волынка и скрипка в пути', 'en': 'Pipes and fiddle on the way', 'uk': 'Волинка й скрипка в дорозі'}},
     {'id': 'forest', 'art': 'night-elf-600', 'pos': '50% 20%', 'name': {'ru': 'Древний лес', 'en': 'Ancient Forest', 'uk': 'Прадавній ліс'},
-     'mood': {'ru': 'Тайны под кронами', 'en': 'Secrets under the canopy', 'uk': 'Таємниці під кронами'},
-     'tracks': ['Willow and the Light', 'Night of the Owl', 'The Snow Queen', 'The Path of the Goblin King', 'Enchanted Valley', 'Magic Forest',
-                'Heart of Nowhere', 'Myst', 'River Fire', 'Vulcan', 'Not As It Seems', 'Angevin B', 'Tempting Secrets']},
+     'mood': {'ru': 'Тайны под кронами', 'en': 'Secrets under the canopy', 'uk': 'Таємниці під кронами'}},
     {'id': 'steppe', 'art': 'tauren-600', 'pos': '50% 20%', 'name': {'ru': 'Степи и барабаны', 'en': 'Drums of the Plains', 'uk': 'Степи й барабани'},
-     'mood': {'ru': 'Ритм кочевых племён', 'en': 'Rhythm of the tribes', 'uk': 'Ритм кочових племен'},
-     'tracks': ['Dentaneosuchus Hunt', 'Sauropod Spotting', 'Cretaceous Dawn', 'Truth in the Stones', 'Firesong', 'Silver Flame',
-                'Trouble with Tribals', 'Arcane', 'Firebrand', 'Lotus', 'Crossing the Chasm']},
+     'mood': {'ru': 'Ритм кочевых племён', 'en': 'Rhythm of the tribes', 'uk': 'Ритм кочових племен'}},
     {'id': 'tavern', 'art': 'dwarf-600', 'pos': '50% 20%', 'name': {'ru': 'Таверна', 'en': 'Tavern', 'uk': 'Таверна'},
-     'mood': {'ru': 'Лютня и эль у очага', 'en': 'Lute and ale by the hearth', 'uk': 'Лютня й ель біля вогнища'},
-     'tracks': ['Master of the Feast', 'Minstrel Guild', 'Folk Round', 'Pippin the Hunchback', 'Village Consort', 'Thatched Villagers',
-                'Fiddles McGinty', 'Galway', 'Club Seamus', 'Crunk Knight', 'Industrious Ferret', 'Mischief Maker', 'Errigal',
-                'Suonatore di Liuto', 'The Britons']},
+     'mood': {'ru': 'Лютня и эль у очага', 'en': 'Lute and ale by the hearth', 'uk': 'Лютня й ель біля вогнища'}},
     {'id': 'dungeon', 'art': 'warlock-600', 'pos': '50% 18%', 'name': {'ru': 'Подземелье', 'en': 'Dungeon', 'uk': 'Підземелля'},
-     'mood': {'ru': 'Факелы и тени', 'en': 'Torches and shadows', 'uk': 'Смолоскипи й тіні'},
-     'tracks': ['Dark Times', 'Unseen Horrors', 'Ancient Rite', 'Drums of the Deep', 'Lost Time', 'Lost Frontier', 'Intrepid', 'Vanishing',
-                'Return of the Mummy', 'Oppressive Gloom', 'This House', 'Mary Celeste', 'The Chamber', 'Serpentine Trek']},
+     'mood': {'ru': 'Факелы и тени', 'en': 'Torches and shadows', 'uk': 'Смолоскипи й тіні'}},
     {'id': 'battle', 'art': 'warrior-600', 'pos': '50% 20%', 'name': {'ru': 'Битва', 'en': 'Battle', 'uk': 'Битва'},
-     'mood': {'ru': 'За Альянс! За Орду!', 'en': 'For the Alliance! For the Horde!', 'uk': 'За Альянс! За Орду!'},
-     'tracks': ['Heroic Age', 'Five Armies', 'Crusade', 'Prelude and Action', 'Black Vortex', 'Death and Axes', 'Darkling', 'Rynos Theme',
-                'Hero Down', 'Death of Kings', 'Majestic Hills', 'Colossus', 'Stoneworld Battle', 'The Descent', 'Clash Defiant']},
+     'mood': {'ru': 'За Альянс! За Орду!', 'en': 'For the Alliance! For the Horde!', 'uk': 'За Альянс! За Орду!'}},
     {'id': 'night', 'art': 'hero_campfire-960', 'name': {'ru': 'Ночной привал', 'en': 'Night Camp', 'uk': 'Нічний привал'},
-     'mood': {'ru': 'Тихо, пока все спят', 'en': 'Quiet while the camp sleeps', 'uk': 'Тихо, поки всі сплять'},
-     'tracks': ['Midnight Tale', 'Anguish', 'Gymnopedie No. 1', 'Gymnopedie No. 2', 'Water Lily', 'Reawakening', 'At Rest', 'Disquiet',
-                'Danse Morialta', 'Brittle Rille', 'Avec Soin', 'Facile', 'Calmant', 'Prelude in C (BWV 846)', 'Canon in D Major']},
+     'mood': {'ru': 'Тихо, пока все спят', 'en': 'Quiet while the camp sleeps', 'uk': 'Тихо, поки всі сплять'}},
 ]
 # "On air": the station plan by the listener's local hour (from..to, to may pass midnight); tracks of the part's stations are mixed.
 AIR = [
@@ -104,12 +90,20 @@ def add_langs(items):
 
 add_langs(STATIONS)
 add_langs(AIR)
-LICENSE = ('CC BY 4.0', 'https://creativecommons.org/licenses/by/4.0/')
-SOURCES = {KM: 'incompetech.com'}
 
 
 def slug(title):
     return re.sub(r'[^a-z0-9]+', '-', title.lower()).strip('-')
+
+
+def source(folder, title):
+    """The source file of a track: <Title>.<ext> (":" is not allowed in Windows file names)."""
+    name = title.replace(':', '_')
+    for ext in ('flac', 'wav', 'ogg', 'mp3'):
+        path = os.path.join(folder, f'{name}.{ext}')
+        if os.path.exists(path):
+            return path
+    sys.exit(f'{title}: no source in {folder}')
 
 
 def duration(path):
@@ -119,34 +113,38 @@ def duration(path):
 
 
 def main():
-    src = sys.argv[1] if len(sys.argv) > 1 else sys.exit(__doc__)
-    os.makedirs(OUT, exist_ok=True)
-    data = {'media': MEDIA, 'license': LICENSE[0], 'license_url': LICENSE[1], 'sources': SOURCES, 'air': AIR, 'stations': []}
+    if len(sys.argv) < 3:
+        sys.exit(__doc__)
+    src, out = sys.argv[1], sys.argv[2]
+    os.makedirs(out, exist_ok=True)
+    data = {'media': MEDIA, 'license': 'by4', 'licenses': {k: list(v) for k, v in LICENSES.items()}, 'sources': SOURCES,
+            'air': AIR, 'stations': []}
     used, total = set(), 0
     for st in STATIONS:
         tracks = []
-        for item in st['tracks']:
-            title, author = (item, KM) if isinstance(item, str) else item
+        for item in TRACKS[st['id']]:
+            title, author, lic = (item, KM, 'by4') if isinstance(item, str) else item
+            assert author in SOURCES and lic in LICENSES, title
             f = slug(title) + '.m4a'
-            dst = os.path.join(OUT, f)
+            dst = os.path.join(out, f)
             assert f not in used, f'{title}: track is on two stations'
             used.add(f)
             if not os.path.exists(dst):
-                subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', os.path.join(src, title + '.mp3'), '-vn', '-map_metadata', '-1',
-                                '-af', 'loudnorm=I=-16:TP=-1.5:LRA=11', '-ar', '44100', '-c:a', 'aac', '-b:a', BITRATE,
+                subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', source(src, title), '-vn', '-map_metadata', '-1',
+                                '-af', 'loudnorm=I=-16:TP=-1.5:LRA=11', '-ar', '44100', '-ac', '2', '-c:a', 'aac', '-b:a', BITRATE,
                                 '-movflags', '+faststart', dst], check=True)
             d = duration(dst)
             total += d
-            tracks.append({'t': title, 'a': author, 'f': f, 'd': d} if author != KM else {'t': title, 'f': f, 'd': d})
+            tracks.append({'t': title, 'f': f, 'd': d} | ({'a': author} if author != KM else {}) | ({'l': lic} if lic != 'by4' else {}))
             print(f'{st["id"]:8} {title:38} {os.path.getsize(dst) // 1024:6} KB')
         data['stations'].append({k: st[k] for k in ('id', 'art', 'pos', 'name', 'mood') if k in st} | {'author': KM, 'tracks': tracks})
-    for old in glob.glob(os.path.join(OUT, '*.m4a')):   # tracks no station plays any more
+    for old in glob.glob(os.path.join(out, '*.m4a')):   # tracks no station plays any more
         if os.path.basename(old) not in used:
             os.remove(old)
             print('removed', os.path.basename(old))
     with open(os.path.join(OUT, 'stations.json'), 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, separators=(',', ':'))
-    size = sum(os.path.getsize(os.path.join(OUT, f)) for f in used)
+    size = sum(os.path.getsize(os.path.join(out, f)) for f in used)
     print(f'{len(used)} tracks, {total // 3600} h {total % 3600 // 60} min, {size / 2**20:.0f} MB')
 
 

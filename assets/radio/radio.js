@@ -350,8 +350,12 @@
       <input class="rdo-range" type="range" min="0" max="1" step="0.05" data-a="${n}" aria-label="${L.ambVol}${L[n]}"></div>`).join('');
     const sleep = [0, ...SLEEP].map(m => `<button class="rdo-chip" type="button" data-sleep="${m}" aria-pressed="false"${m ? ` aria-label="${L.sleepSet}${m}${L.min}"` : ''}>${m || L.off}</button>`).join('');
     const authors = [...new Set(data.stations.flatMap(s => s.tracks.map(t => t.a || s.author)))];
-    const credits = data.stations.map(s => `<li><b>${s.name[LANG]}</b>: ${s.tracks.map(t => '«' + t.t + '»' + (t.a ? ' — ' + t.a : '')).join(', ')}</li>`).join('');
+    const lics = [...new Set(data.stations.flatMap(s => s.tracks.map(t => t.l || data.license)))];
+    const credits = data.stations.map(s => `<li><b>${s.name[LANG]}</b>: ${s.tracks.map(t => '«' + t.t + '»' + (t.a ? ' — ' + t.a : '')
+      + (t.l ? ' (' + data.licenses[t.l][0] + ')' : '')).join(', ')}</li>`).join('');
     const who = authors.map(a => data.sources[a] ? `${a} (${data.sources[a]})` : a).join(', ');
+    const short = authors.slice(0, 2).join(', ') + (authors.length > 2 ? ' +' + (authors.length - 2) : '');
+    const licLinks = lics.map(l => `<a href="${data.licenses[l][1]}" target="_blank" rel="noopener">${data.licenses[l][0]}</a>`).join(', ');
     panel.innerHTML = `<div class="rdo-hero"><img class="rdo-art" alt="" decoding="async">
       <div class="rdo-now"><span class="rdo-st"></span><b class="rdo-tt"></b></div>
       ${dock ? '' : `<button class="rdo-x" type="button" aria-label="${L.close}">${svg('x')}</button>`}</div>
@@ -371,8 +375,8 @@
         <div class="rdo-chips" role="group" aria-label="${L.sleep}">${sleep}</div></div>
       <p class="rdo-h">${L.amb}</p>
       <div class="rdo-amb">${amb}</div>${dock ? '</details>' : ''}
-      <details class="rdo-cr"><summary>${L.music}: ${who} · ${data.license}</summary>
-        <ul>${credits}</ul><p>${who}. <a href="${data.license_url}" target="_blank" rel="noopener">Creative Commons ${data.license}</a></p></details>
+      <details class="rdo-cr"><summary>${L.music}: ${short} · ${lics.map(l => data.licenses[l][0]).join(', ')}</summary>
+        <ul>${credits}</ul><p>${who}. Creative Commons: ${licLinks}</p></details>
       </div>`;
     (dock || document.body).append(panel);
 
