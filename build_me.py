@@ -49,7 +49,7 @@ def texts(lang):
 
 PAGES = [('roster/', 'roster.src.html'), ('profile/', 'profile.src.html'), ('u/', 'player.src.html')]
 NOINDEX = {'profile/', 'u/'}
-INVITE = ''   # приглашение на Discord-сервер для экрана «не участник»; пусто — кнопки нет (решение 23.10: ссылку на Discord пока не ставим)
+INVITE = build.DISCORD   # кнопка «Вступить в Gabella Team» на экране «не участник»
 
 
 def page_data(lang):

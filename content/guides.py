@@ -6,7 +6,7 @@
   ('tiles', [{'t', 'd', 'href', 'art'}, …])            плитки с артом; href относительно корня гида, art = имя без размера
   ('table', {'head': [строка, …], 'rows': [[строка|str, …], …]})
   ('tabs', [{'id': 'alliance', 't': строка, 'blocks': [блок, …]}, …])
-  ('faq', [{'id': 'release', 'q': строка, 'a': [строка, …]}, …])
+  ('faq', [{'id': 'release', 'q': строка, 'a': [строка, …], 'link': (строка, url)?}, …])   link — кнопка под ответом
   ('tip', строка)
   ('raw', 'html')   только для живых частей, разметка с data-атрибутами для JS"""
 
@@ -26,6 +26,8 @@ HUB = {
 GUIDES = []   # наполняется в задачах 3, 5, 6, 7, 9; каждый гайд дописывается ниже через GUIDES.append
 
 NEWS = []     # ручные записи: {'date': '2026-10-23', 'title': t(...), 'text': t(...), 'url': 'https://…'}
+from build import DISCORD  # noqa: E402  (приглашение одно на весь сайт)
+
 ORDER = ['leveling', 'dungeons', 'professions', 'faq', 'news', 'ukrainian']   # порядок плиток на хабе и в «Другие гайды»
 
 
@@ -201,6 +203,11 @@ GUIDES.append({
                  'a': [t('Одни и те же на всех. Регионы разделены, межрегиональной игры нет, поэтому берите регион с лучшим пингом для большинства. Группа собирается только внутри одного режима, а Альянс и Орда не встают в одну группу ни в каком режиме. В PvP на аккаунте одна фракция, так что договоритесь о ней до брони имён 27.10.',
                          'The same for everyone. Regions are separate and there is no cross-region play, so pick the region with the best ping for most of you. Groups form only within one mode, and Alliance and Horde cannot group in any mode. In PvP an account has only one faction, so agree on it before name reservation opens on 27.10.',
                          'Однакові для всіх. Регіони розділені, міжрегіональної гри немає, тож беріть регіон із найкращим пінгом для більшості. Група збирається лише в межах одного режиму, а Альянс і Орда не стають в одну групу в жодному режимі. У PvP на акаунті одна фракція, тож домовтеся про неї до бронювання імен 27.10.')]},
+                {'id': 'where', 'q': t('Где найти группу?', 'Where do I find a group?', 'Де знайти групу?'),
+                 'a': [t('На Discord-сервере Gabella Team. Там собирают группы на старт 04.11 и договариваются о регионе, режиме и фракции.',
+                         'On the Gabella Team Discord server. Groups for the 04.11 launch form there, and players agree on region, mode and faction.',
+                         'На Discord-сервері Gabella Team. Там збирають групи на старт 04.11 і домовляються про регіон, режим і фракцію.')],
+                 'link': (t('Discord Gabella Team', 'Gabella Team Discord', 'Discord Gabella Team'), DISCORD)},
                 {'id': 'raids', 'q': t('Когда откроются рейды?', 'When do raids open?', 'Коли відкриються рейди?'),
                  'a': [t('09.12: Barrow Deeps (10 игроков), Hyjal Summit (20), Onyxia’s Lair (40). До этого есть пять недель на прокачку и подземелья.',
                          '09.12: Barrow Deeps (10 players), Hyjal Summit (20), Onyxia’s Lair (40). Until then you have five weeks for leveling and dungeons.',

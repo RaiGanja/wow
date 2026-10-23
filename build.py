@@ -70,6 +70,7 @@ def rel(from_dir, to_dir):
 
 
 CONTACT = 'contact@gabella.site'   # Cloudflare Email Routing -> почта Вячеслава
+DISCORD = 'https://discord.gg/Zd45sNHy9x'   # постоянное приглашение на сервер Gabella Team (без срока и лимита)
 LEGAL = {
     'ru': ('Фанатский гид Gabella. Сайт не связан с Blizzard Entertainment и не одобрен ею. World of Warcraft, Warcraft и Blizzard Entertainment — '
            'товарные знаки или зарегистрированные товарные знаки Blizzard Entertainment, Inc. в США и/или других странах.', 'Конфиденциальность', 'Связь', 'Карта сайта'),
@@ -108,10 +109,11 @@ def site_map(lang, home):
 
 
 def legal(lang, root):
-    """Footer block of every page (@@LEGAL@@): site map, trademarks, ©, privacy page, contact."""
+    """Footer block of every page (@@LEGAL@@): site map, trademarks, ©, privacy page, Discord, contact."""
     text, privacy, contact = LEGAL[lang][:3]
     return site_map(lang, root + page_dir(lang)) + (f'<div class="legal"><p>{text}</p><p>© 2026 Gabella<span aria-hidden="true"> · </span>'
             f'<a href="{root}{page_dir(lang, "privacy/")}">{privacy}</a><span aria-hidden="true"> · </span>'
+            f'<a href="{DISCORD}" target="_blank" rel="noopener">Discord</a><span aria-hidden="true"> · </span>'
             f'{contact}: <a href="mailto:{CONTACT}">{CONTACT}</a></p></div>')
 
 

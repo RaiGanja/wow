@@ -234,7 +234,8 @@ def faq_ld(lang):
                             'acceptedAnswer': {'@type': 'Answer', 'text': ' '.join(text(a[lang]) for a in q['a'])}} for q in qs]}
 
 
-ORG = {'@type': 'Organization', 'name': BRAND, 'url': 'https://gabella.site/', 'logo': SITE + 'assets/icons/icon-512.png'}
+ORG = {'@type': 'Organization', 'name': BRAND, 'url': 'https://gabella.site/', 'logo': SITE + 'assets/icons/icon-512.png',
+       'sameAs': [build.DISCORD]}
 
 
 def guide_updated(path):
