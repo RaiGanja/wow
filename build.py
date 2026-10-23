@@ -319,6 +319,22 @@ RADIO_BTN = ('<button class="iconbtn radiobtn" type="button" aria-label="@@L@@" 
              '<span class="rdo-eq" aria-hidden="true"><i></i><i></i><i></i></span></button>\n    ')
 
 
+SEARCH = {'ru': 'Поиск по сайту', 'en': 'Search the site', 'uk': 'Пошук по сайту', 'de': 'Seite durchsuchen', 'fr': 'Rechercher sur le site',
+          'es': 'Buscar en el sitio', 'pt': 'Pesquisar no site', 'it': 'Cerca nel sito', 'pl': 'Szukaj w serwisie'}
+SEARCH_BTN = ('<button class="iconbtn srchbtn" type="button" aria-label="@@L@@" aria-haspopup="dialog">'
+              '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
+              '<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><kbd>Ctrl K</kbd></button>\n    ')
+
+
+def search(html, lang, root):
+    """Site search (assets/search/, search.py): button before the radio button, styles without blocking the page, script.
+    search.py adds ?v=<hash> to both files after the index is written."""
+    html = html.replace('<button class="iconbtn radiobtn"', SEARCH_BTN.replace('@@L@@', SEARCH[lang]) + '<button class="iconbtn radiobtn"', 1)
+    head = f'<link rel="stylesheet" href="{root}assets/search/search.css" media="print" onload="this.media=\'all\'">\n</head>'
+    js = f'<script src="{root}assets/search/search.js" data-root="{root}" defer></script>\n</body>'
+    return html.replace('</head>', head, 1).replace('</body>', js, 1)
+
+
 def radio(html, lang, root):
     """Radio (assets/radio/, tools/make_radio.py): button before the theme button of the top bar, styles without blocking the page, script."""
     html = html.replace('<button class="iconbtn themebtn"', RADIO_BTN.replace('@@L@@', RADIO[lang]) + '<button class="iconbtn themebtn"', 1)
@@ -333,7 +349,7 @@ def pwa(html, lang, root):
             f'<link rel="apple-touch-icon" href="{root}assets/icons/apple-touch-icon.png">\n'
             '<meta name="apple-mobile-web-app-title" content="Gabella WoW">\n</head>')
     js = PWA_JS.replace('@@R@@', root).replace('@@L@@', a['install_l']).replace('@@T@@', a['install'])
-    return radio(html.replace('</head>', head, 1).replace('</body>', js + '</body>', 1), lang, root)
+    return search(radio(html.replace('</head>', head, 1).replace('</body>', js + '</body>', 1), lang, root), lang, root)
 
 
 # ---------- home page ----------
@@ -660,6 +676,10 @@ def main():
     import seo  # last: titles/descriptions for search, JSON-LD, analytics, sitemap.xml over the built pages
     seo.main()
     report_new_langs()
+    if not listing:
+        import search  # site search index over the finished pages; it changes assets/, so the worker version is taken again
+        search.main()
+        sw_version()
 
 
 def report_new_langs():
