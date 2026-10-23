@@ -1556,7 +1556,12 @@ function mailVerify(t) {
 let tgBot = null;
 function tgConfig() { if (!tgBot && M) M.api('/auth/telegram/config').then(c => { tgBot = c.bot_id; }, () => {}); }
 function tgOpen(link) {
-  if (!tgBot) { notice = 'login-down'; return render(); }
+  if (!tgBot) {   // the bot id comes with the page's first screen; without it the Telegram window cannot open
+    tgConfig();
+    const n = link && $('#idNote');
+    if (n) { n.textContent = STATES['login-down'][1]; n.className = 'msg err'; return; }
+    notice = 'login-down'; return render();
+  }
   try { sessionStorage.setItem('gabella-tg-link', link ? '1' : ''); } catch (e) { /* private mode */ }
   const url = `https://oauth.telegram.org/auth?bot_id=${tgBot}&origin=${encodeURIComponent(location.origin)}&lang=${LANG}&return_to=${encodeURIComponent(location.href.split('#')[0])}`;
   const w = 550, h = 470;   // centred on this window (`screen` here is the page's own function)
@@ -1913,6 +1918,7 @@ function secAccount() {
 }
 /** Account → ways to sign in: one account, several logins; the last one cannot be removed. */
 function waysBox() {
+  tgConfig();   // the Telegram link button must open its window right in the click, so the bot id is fetched in advance
   const ids = m.identities || [];
   const rows = WAYS.map(([id, n]) => {
     const on = ids.includes(id);
