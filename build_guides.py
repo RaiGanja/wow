@@ -7,7 +7,6 @@ from html import escape
 
 import build
 from build import LANGS, SITE, page_dir, rel, localize, translate
-from build_tools import home_data
 from content.guides import GUIDES, HUB, NEWS
 
 HERE = build.HERE
@@ -95,7 +94,25 @@ def render_block(kind, data, lang, root):
                 f'<p><span class="tl">{TIP[lang]}</span>{E(data, lang)}</p></div>')
     if kind == 'raw':
         return L(data, lang)
+    if kind == 'profs':
+        return render_block('table', {'head': PROF_HEAD, 'rows': profs_table(home_src())}, lang, root)
     raise ValueError(f'unknown block {kind!r}')
+
+
+PROF_HEAD = [{'ru': 'Профессия', 'en': 'Profession', 'uk': 'Професія'},
+             {'ru': 'Объект лагеря', 'en': 'Camp object', 'uk': 'Об’єкт табору'},
+             {'ru': 'Похож на бафф', 'en': 'Similar buff', 'uk': 'Схожий на бафф'}]
+
+
+def home_src():
+    return open(os.path.join(HERE, 'index.src.html'), encoding='utf-8').read()
+
+
+def profs_table(src):
+    """Camp table from PROFS of the home page: [name, object, effect]; names and effects via the home i18n."""
+    tr = lambda x: {'ru': x, 'en': build.T[x][0], 'uk': build.T[x][1]}
+    return [[tr(name), obj, tr(eff)]
+            for _id, name, _tier, obj, eff in re.findall(r"\['(\w+)', '([^']+)', (\d), '([^']+)', '([^']+)'\]", src)]
 
 
 def render_guide(g, lang, root):
@@ -174,7 +191,15 @@ def dungeons_data(src):
     return src[i:src.index('\n];', i) + 3]
 
 
-DATA = {'dungeons': dungeons_data, 'professions': home_data}   # js key -> data blocks from index.src.html
+JS['professions'] = r'''/* Professions: open the tab of the class from "My hero" */
+try {
+  const cls = (JSON.parse(localStorage.getItem('gabella-wf-me')) || {}).cls;
+  const tab = cls && document.querySelector(`#pairs [role="tab"][data-tab="${cls}"]`);
+  if (tab) tab.click();
+} catch (e) {}'''
+
+
+DATA = {'dungeons': dungeons_data}   # js key -> data blocks from index.src.html
 
 
 def page_ids(g):

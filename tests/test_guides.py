@@ -70,6 +70,15 @@ def test_ids_unique():
         assert len(ids) == len(set(ids)), (g['slug'], sorted(i for i in ids if ids.count(i) > 1))
         assert not taken & set(ids), (g['slug'], taken & set(ids))
 
+def test_profs_table():
+    src = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'index.src.html'), encoding='utf-8').read()
+    rows = bg.profs_table(src)
+    assert len(rows) == 12, len(rows)
+    assert [bg.L(c, 'ru') for c in rows[0]] == ['Алхимия', 'Mana Well', 'как Благословение мудрости'], rows[0]
+    assert bg.L(rows[0][2], 'en') == 'like Blessing of Wisdom'
+    html = bg.render_block('profs', None, 'uk', '')
+    assert 'Mana Well' in html and 'Алхімія' in html and 'data-l=' in html
+
 def test_sources_translated():
     for g in cg.GUIDES:
         assert g['sources'], g['slug']

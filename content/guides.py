@@ -568,4 +568,112 @@ GUIDES.append({
     ],
 })
 
+# ---------- Профессии ----------
+
+# Пары по Warcraft Tavern («Best for»); у класса своя причина там, где её даёт content/classes.py
+PAIRS = {
+    'bs': (t('Кузнечное дело + Горное дело', 'Blacksmithing + Mining', 'Ковальство + Гірництво'),
+           t('Для латников и ближнего боя: оружие и доспехи себе сами.', 'For plate wearers and melee: make your own weapons and armor.',
+             'Для латників і ближнього бою: зброя та обладунки собі самі.')),
+    'eng': (t('Инженерия + Горное дело', 'Engineering + Mining', 'Інженерія + Гірництво'),
+            t('Для PvP, полезных устройств и веселья. В лагере Reagent Bot продаёт реагенты, на 2 уровне чинит экипировку.',
+              'For PvP, useful gadgets and fun. In camp the Reagent Bot sells reagents and repairs gear at tier 2.',
+              'Для PvP, корисних пристроїв і розваги. У таборі Reagent Bot продає реагенти, на 2 рівні лагодить спорядження.')),
+    'lw': (t('Кожевничество + Снятие шкур', 'Leatherworking + Skinning', 'Шкіряництво + Знімання шкур'),
+           t('Для тех, кто носит кожу и кольчугу. Кожевник ставит в лагере Camp Tent, она даёт отдых.',
+             'For leather and mail wearers. A leatherworker places the Camp Tent in camp, which gives rest.',
+             'Для тих, хто носить шкіру й кольчугу. Шкіряник ставить у таборі Camp Tent, він дає відпочинок.')),
+    'tail': (t('Портняжное дело + Наложение чар', 'Tailoring + Enchanting', 'Кравецтво + Зачарування'),
+             t('Для тех, кто носит ткань, и заклинателей.', 'For cloth wearers and spellcasters.', 'Для тих, хто носить тканину, і заклинателів.')),
+    'alch': (t('Алхимия + Травничество', 'Alchemy + Herbalism', 'Алхімія + Травництво'),
+             t('Зелья для себя и группы и заработок золота. Подходит любому классу.', 'Potions for yourself and the group, and gold making. Fits any class.',
+               'Зілля для себе й групи та заробіток золота. Підходить будь-якому класу.')),
+}
+CLASS_PAIRS = [   # (id, имя класса, [(пара, своя причина или None), …])
+    ('warrior', t('Воин', 'Warrior', 'Воїн'), [('bs', None), ('eng', None)]),
+    ('paladin', t('Паладин', 'Paladin', 'Паладин'), [('bs', None), ('alch', None)]),
+    ('hunter', t('Охотник', 'Hunter', 'Мисливець'), [('lw', None), ('eng', t('Инженер делает себе ружья и патроны.', 'An engineer makes their own guns and ammo.',
+                                                                        'Інженер робить собі рушниці й набої.'))]),
+    ('rogue', t('Разбойник', 'Rogue', 'Розбійник'), [('lw', None), ('eng', None)]),
+    ('priest', t('Жрец', 'Priest', 'Жрець'), [('tail', None), ('alch', None)]),
+    ('shaman', t('Шаман', 'Shaman', 'Шаман'), [('lw', None), ('alch', None)]),
+    ('mage', t('Маг', 'Mage', 'Маг'), [('tail', None), ('alch', None)]),
+    ('warlock', t('Чернокнижник', 'Warlock', 'Чорнокнижник'), [('tail', t('Знамя Faction Banner от портного даёт дух для Life Tap.', 'The tailor’s Faction Banner gives Spirit for Life Tap.',
+                                                                           'Прапор Faction Banner від кравця дає дух для Life Tap.')), ('alch', None)]),
+    ('druid', t('Друид', 'Druid', 'Друїд'), [('alch', t('Травы друид собирает прямо в облике путешествия.', 'A druid gathers herbs right in Travel Form.',
+                                                     'Трави друїд збирає просто в подобі подорожі.')), ('lw', None)]),
+]
+
+
+def _pair_tabs():
+    return [{'id': cid, 't': name, 'blocks': [('steps', [{'t': PAIRS[p][0], 'd': why or PAIRS[p][1]} for p, why in pairs])]}
+            for cid, name, pairs in CLASS_PAIRS]
+
+
+GUIDES.append({
+    'slug': 'professions', 'art': 'hero_campfire', 'updated': '23.10.2026', 'js': 'professions',
+    'title': t('Профессии', 'Professions', 'Професії'),
+    'lead': t('Какие две профессии взять под ваш класс, что каждая ставит в лагерь и как прокачать навык до 300.',
+              'Which two professions suit your class, what each one places in camp and how to raise the skill to 300.',
+              'Які дві професії взяти під ваш клас, що кожна ставить у табір і як прокачати навичку до 300.'),
+    'tile': t('Пары под класс, объекты лагеря, навык до 300', 'Pairs for your class, camp objects, skill to 300', 'Пари під клас, об’єкти табору, навичка до 300'),
+    'pills': [t('2 основные + 3 вспомогательные', '2 primary + 3 secondary', '2 основні + 3 допоміжні'), t('Навык до 300', 'Skill to 300', 'Навичка до 300'),
+              t('12 объектов лагеря', '12 camp objects', '12 об’єктів табору')],
+    'sources': [
+        (t('Warcraft Tavern: профессии', 'Warcraft Tavern: professions', 'Warcraft Tavern: професії'), 'https://www.warcrafttavern.com/forever/guides/professions/'),
+        (t('Warcraft Tavern: объекты и баффы лагеря', 'Warcraft Tavern: camp objects and buffs', 'Warcraft Tavern: об’єкти та баффи табору'),
+         'https://www.warcrafttavern.com/forever/guides/camping-objects-buffs/'),
+        (t('Warcraft Tavern: лагерь', 'Warcraft Tavern: camping', 'Warcraft Tavern: табір'), 'https://www.warcrafttavern.com/forever/guides/camping/'),
+    ],
+    'sections': [
+        {'id': 'pairs', 'title': t('Пары под класс', 'Pairs for your class', 'Пари під клас'), 'blocks': [
+            ('text', [t('Основных профессий у персонажа две. Обычно ремесло берут вместе с подходящим сбором, чтобы добывать материалы самому. Если вы заполнили «Мой персонаж» на главной, сразу откроется ваш класс.',
+                        'A character has two primary professions. A craft is usually paired with its matching gathering profession so you collect materials yourself. If you filled in “My hero” on the home page, your class opens right away.',
+                        'Основних професій у персонажа дві. Зазвичай ремесло беруть разом із відповідним збиранням, щоб добувати матеріали самому. Якщо ви заповнили «Мій персонаж» на головній, одразу відкриється ваш клас.')]),
+            ('tabs', _pair_tabs()),
+            ('tip', t('Кулинарию, Первую помощь и Рыбалку берут все: это вспомогательные профессии, их может быть все три сразу, и разучить их нельзя. Пусть кто-то в группе поднимет Кулинарию до 220 ради 10 мест в лагере.',
+                      'Everyone takes Cooking, First Aid and Fishing: they are secondary professions, you can have all three and they cannot be unlearned. Let someone in the group raise Cooking to 220 for 10 camp slots.',
+                      'Кулінарію, Першу допомогу та Рибальство беруть усі: це допоміжні професії, їх може бути всі три одразу, і розучити їх не можна. Нехай хтось у групі підніме Кулінарію до 220 заради 10 місць у таборі.')),
+        ]},
+        {'id': 'camp', 'title': t('Объекты лагеря', 'Camp objects', 'Об’єкти табору'), 'blocks': [
+            ('text', [t('У каждой профессии три объекта лагеря, по одному на уровень. Ниже объект первого уровня и бафф класса, на который похож его эффект.',
+                        'Each profession has three camp objects, one per tier. Below is the tier 1 object and the class buff its effect resembles.',
+                        'Кожна професія має три об’єкти табору, по одному на рівень. Нижче об’єкт першого рівня та бафф класу, на який схожий його ефект.')]),
+            ('profs', None),
+            ('tip', t('Баффы лагеря немного слабее классовых и не складываются с ними: Благословение королей даёт 10% ко всем характеристикам, а Fish Bowl в лагере 8%. Ставьте объекты, которых нет у классов вашей группы.',
+                      'Camp buffs are slightly weaker than class buffs and do not stack with them: Blessing of Kings gives 10% to all stats, the camp Fish Bowl 8%. Place objects whose buffs no class in your group provides.',
+                      'Баффи табору трохи слабші за класові й не складаються з ними: Благословення королів дає 10% до всіх характеристик, а Fish Bowl у таборі 8%. Ставте об’єкти, яких немає в класів вашої групи.')),
+        ]},
+        {'id': 'leveling', 'title': t('Прокачка навыка', 'Raising your skill', 'Прокачування навички'), 'blocks': [
+            ('table', {'head': [t('Ступень', 'Rank', 'Ступінь'), t('С уровня героя', 'From hero level', 'З рівня героя'), t('Навык до', 'Skill up to', 'Навичка до')], 'rows': [
+                ['Apprentice', t('1 для сбора, 5 для ремёсел', '1 for gathering, 5 for crafts', '1 для збирання, 5 для ремесел'), '75'],
+                ['Journeyman', '10', '150'],
+                ['Expert', '20', '225'],
+                ['Artisan', '35', '300'],
+            ]}),
+            ('steps', [
+                {'t': t('Первое задание', 'First quest', 'Перше завдання'),
+                 'd': t('Стартовое задание предлагает Горное дело, Снятие шкур или Травничество, учит профессии и сразу даёт 2 очка навыка.',
+                        'A starter quest offers Mining, Skinning or Herbalism, teaches the profession and gives 2 skill points right away.',
+                        'Стартове завдання пропонує Гірництво, Знімання шкур або Травництво, вчить професії й одразу дає 2 очки навички.')},
+                {'t': t('Цвет рецепта', 'Recipe colour', 'Колір рецепта'),
+                 'd': t('Оранжевые рецепты и залежи всегда дают очко, жёлтые часто, зелёные редко, серые никогда.',
+                        'Orange recipes and nodes always give a point, yellow often, green rarely, grey never.',
+                        'Помаранчеві рецепти й поклади завжди дають очко, жовті часто, зелені рідко, сірі ніколи.')},
+                {'t': t('Artisan', 'Artisan', 'Artisan'),
+                 'd': t('Ступень Artisan дают только особые учители, а для вспомогательных профессий особое задание.',
+                        'Artisan comes only from special trainers, or from a special quest for secondary professions.',
+                        'Ступінь Artisan дають лише особливі вчителі, а для допоміжних професій особливе завдання.')},
+                {'t': t('Окно профессий', 'Professions window', 'Вікно професій'),
+                 'd': t('Своё окно на клавише K: рецепты можно искать, фильтровать и отслеживать как список покупок. Для сумки с реагентами есть отдельный слот.',
+                        'Its own window on the K key: recipes can be searched, filtered and tracked as a shopping list. Reagent bags have their own slot.',
+                        'Своє вікно на клавіші K: рецепти можна шукати, фільтрувати й відстежувати як список покупок. Для сумки з реагентами є окремий слот.')},
+            ]),
+            ('tip', t('Разучив профессию, вы теряете весь её прогресс, а игра просит подтвердить это вводом слова. Пассивных бонусов у профессий в Forever нет: польза в том, что вы делаете и собираете, и в баффах лагеря.',
+                      'Unlearning a profession wipes all its progress, and the game asks you to type a confirmation. Professions in Forever have no passive bonuses: the value is in what you craft and gather, and in camp buffs.',
+                      'Розучивши професію, ви втрачаєте весь її прогрес, а гра просить підтвердити це введенням слова. Пасивних бонусів у професій у Forever немає: користь у тому, що ви робите й збираєте, і в баффах табору.')),
+        ]},
+    ],
+})
+
 GUIDES.sort(key=lambda g: ORDER.index(g['slug']))
