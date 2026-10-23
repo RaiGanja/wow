@@ -1143,6 +1143,20 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
   .side { width: 100vw; }
 }
 @media (prefers-reduced-motion: reduce) { .facs img { transition: none; } }
+.lkbox .me-ring { --room-x: 6px; --room-y: 6px; }
+.pitem { display: grid; gap: 6px; align-content: start; }
+.pitem > .btn { justify-self: start; }
+.lk { display: grid; gap: 14px; padding: 20px; }
+.lk-prev { display: flex; align-items: center; gap: 14px; position: sticky; top: var(--top); z-index: 1; padding: 10px 0; background: var(--surface); }
+.lk-prev .me-ring { --s: 120px; --room-x: 14px; --room-y: 16px; }
+.lk .tabs { display: flex; gap: 6px; border-bottom: 1px solid var(--line); }
+.lk .tabs button { padding: 8px 14px; border: 0; background: none; color: var(--muted); font: inherit; border-bottom: 2px solid transparent; cursor: pointer; }
+.lk .tabs [aria-selected="true"] { color: var(--fg); border-bottom-color: var(--gold); }
+.lk-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(96px, 100%), 1fr)); gap: 8px; }
+.lk-tiles button { display: grid; justify-items: center; gap: 6px; padding: 10px 4px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); color: var(--fg); font: inherit; font-size: .85rem; cursor: pointer; }
+.lk-tiles button[aria-checked="true"] { border-color: var(--gold); }
+.lk-tiles .me-ring { --s: 64px; --room-x: 10px; --room-y: 10px; }
+.lk-tiles button:focus-visible, .lk .tabs button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 </style>
 <style>
 .rv { opacity: 0; transform: translateY(18px); }
@@ -1153,8 +1167,8 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=1d0bf07143" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=813eeda59a" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=772a556ae1" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=eb63a601b5" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://gabella.site/wow/es/"},{"@type":"ListItem","position":2,"name":"Mi perfil","item":"https://gabella.site/wow/es/profile/"}]}</script>
 </head>
 <body>
@@ -1213,6 +1227,20 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
     <p class="msg full" id="eNote" role="alert"></p>
     <div class="act"><button type="submit" class="btn" id="eSave">Guardar</button><button type="button" class="btn ghost" id="eMain">Hacer principal</button><span class="sp"></span><button type="button" class="btn danger" id="eDel">Eliminar personaje</button></div>
   </form>
+</dialog>
+
+<dialog class="side" id="lookDlg" aria-labelledby="lookT">
+  <div class="dh"><b id="lookT">Aspecto</b><button type="button" class="btn ghost" data-look-close aria-label="Cerrar">✕</button></div>
+  <div class="lk">
+    <div class="lk-prev" id="lkPrev"></div>
+    <div class="tabs" role="tablist" aria-label="Aspecto">
+      <button type="button" role="tab" id="lkTabSex" aria-controls="lkPane" aria-selected="true" data-tab="sex">Sexo</button>
+      <button type="button" role="tab" id="lkTabBg" aria-controls="lkPane" aria-selected="false" data-tab="bg">Fondo</button>
+    </div>
+    <div id="lkPane" role="tabpanel" class="lk-tiles"></div>
+    <div class="act"><button type="button" class="btn ghost" data-look-rand>Al azar</button><button type="button" class="btn ghost" data-look-reset>Restablecer</button><span class="sp"></span><button type="button" class="btn" data-look-save>Guardar</button></div>
+    <p class="msg" id="lookMsg" role="status"></p>
+  </div>
 </dialog>
 
 <dialog class="cdlg" id="delDlg" aria-labelledby="delT">
@@ -1661,9 +1689,9 @@ function accountOnly() {
 }
 function wizard() {
   parkForm();
-  wiz = wiz || { step: 1, f: '', race: '', cls: '' };
+  wiz = wiz || { step: 1, f: '', race: '', cls: '', look: null };
   const w = wiz, v = $('#view');
-  const steps = ['Bando', 'Raza y clase', 'Personaje'].map((s, i) => `<span${w.step === i + 1 ? ' aria-current="step"' : ''}>${i + 1}. ${esc(s)}</span>`).join('<span aria-hidden="true">·</span>');
+  const steps = ['Bando', 'Raza y clase', 'Aspecto', 'Personaje'].map((s, i) => `<span${w.step === i + 1 ? ' aria-current="step"' : ''}>${i + 1}. ${esc(s)}</span>`).join('<span aria-hidden="true">·</span>');
   let body = '';
   if (w.step === 1) {
     body = `<h2>¿Con qué bando juegas?</h2><div class="facs">${['alliance', 'horde'].map(f => `<button type="button" data-f="${f}" style="--fc:var(--${f})">
@@ -1674,10 +1702,19 @@ function wizard() {
     body = `<h2>Raza y clase</h2><div class="picks" role="group" aria-label="Raza">${races.map(([id, r]) => `<button type="button" data-race="${id}" aria-pressed="${w.race === id}">${ring('recruit', `${ROOT}assets/art/${r.slug}-face.webp`)}${esc(r.n)}</button>`).join('')}</div>
       ${w.race ? `<div class="picks" role="group" aria-label="Clase">${cl.map(id => `<button type="button" data-cls="${id}" aria-pressed="${w.cls === id}" style="color:${cls(id).color}">${ring('recruit', `${ROOT}assets/art/${id}-face.webp`)}${esc(cls(id).n)}</button>`).join('')}</div>` : ''}
       <div class="row"><button type="button" class="btn ghost" data-back>Atrás</button><button type="button" class="btn" data-next${w.race && w.cls ? '' : ' disabled'}>Continuar</button></div>`;
+  } else if (w.step === 3) {
+    const c0 = { race: w.race, class: w.cls };
+    const tile = (k, v, name) => {
+      const t = Object.assign({}, c0, { look: Object.assign({}, w.look, { [k]: v }) });
+      return `<button type="button" role="radio" aria-checked="${w.look[k] === v}" data-wl="${k}" data-v="${v}">${ring('recruit', pic(t))}<span>${esc(name)}</span></button>`;
+    };
+    body = `<h2>Aspecto</h2><div class="picks" role="radiogroup" aria-label="Sexo">${GD.looks.sexes.map(s => tile('sex', s, s === 'f' ? 'Femenino' : 'Masculino')).join('')}</div>
+      <h3>Fondo del retrato</h3><div class="picks" role="radiogroup" aria-label="Fondo del retrato">${GD.backgrounds.filter(b => !GD.looks.bg[b].lock).map(b => tile('bg', b, lkName('bg', b))).join('')}</div>
+      <div class="row"><button type="button" class="btn ghost" data-back>Atrás</button><button type="button" class="btn" data-next>Continuar</button></div>`;
   } else {
     body = `<h2>Personaje</h2><div id="wForm"></div><div class="row"><button type="button" class="btn ghost" data-back>Atrás</button></div>`;
   }
-  const c = { name: w.name || '…', race: w.race || (w.f === 'horde' ? 'orc' : 'human'), class: w.cls || 'warrior', level: w.level || 1, role: w.role || 'dps' };
+  const c = { name: w.name || '…', race: w.race || (w.f === 'horde' ? 'orc' : 'human'), class: w.cls || 'warrior', level: w.level || 1, role: w.role || 'dps', look: w.look || undefined };
   const prev = asPlayer(c);
   prev.title = Date.now() < Date.parse(GD.deadline) ? 'founder' : null;
   prev.frame = prev.title ? 'founder' : prev.frame;
@@ -1685,14 +1722,15 @@ function wizard() {
   v.innerHTML = `${noticeHtml()}<div class="signed"><span>${esc(who())}</span><a class="btn ghost" href="#account">Cuenta</a><button type="button" class="btn ghost" data-act="logout">Cerrar sesión</button></div>
     <p class="lab">Así te verán en la plantilla</p>${bcard(prev, { h: 'h2' })}${founderPlaque()}
     <section class="frame wiz"><div class="wsteps">${steps}</div>${body}</section>`;
-  if (w.step === 3) mountForm($('#wForm'), null);
+  if (w.step === 4) mountForm($('#wForm'), null);
 }
 document.addEventListener('click', e => {
   if (!wiz || !e.target.closest('.wiz')) return;
   const b = e.target.closest('button'); if (!b) return;
   if (b.dataset.f) { wiz.f = b.dataset.f; wiz.race = ''; wiz.cls = ''; wiz.step = 2; }
-  else if (b.dataset.race) { wiz.race = b.dataset.race; if (!race(wiz.race).cls.includes(wiz.cls)) wiz.cls = ''; }
+  else if (b.dataset.race) { wiz.race = b.dataset.race; wiz.look = Object.assign({}, GD.looks.races[wiz.race]); if (!race(wiz.race).cls.includes(wiz.cls)) wiz.cls = ''; }
   else if (b.dataset.cls) wiz.cls = b.dataset.cls;
+  else if (b.dataset.wl) wiz.look[b.dataset.wl] = b.dataset.v;
   else if ('back' in b.dataset) wiz.step--;
   else if ('next' in b.dataset) wiz.step++;
   else return;
@@ -1792,6 +1830,7 @@ function wireForm() {
     (ts ? ts.get() : Promise.resolve(null)).then(t => {
       if (ts && !t) { busy(false); return note(ERR.bot, true); }
       if (t) b.turnstile = t;
+      if (!edit && wiz && wiz.look) b.look = wiz.look;
       const req = edit ? M.api('/characters/' + edit, { method: 'PUT', body: b }) : M.api('/characters', { body: b });
       return req.then(r => (hideNick ? M.api('/me', { method: 'PUT', body: { show_nick: false } }).then(r2 => Object.assign(r, { me: r2.me })) : r))
         .then(r => { busy(false); if (!edit) { wiz = null; parkForm(); } closeEd(); M.took(r); },
@@ -1817,6 +1856,55 @@ function openEd(c) {
   $('#eName').focus();
 }
 function closeEd() { if ($('#edDlg').open) $('#edDlg').close(); }
+
+/* ---------- look: sex and portrait background ---------- */
+let lk = null;   // { c, look, tab, saved }
+const LK_TABS = { sex: () => GD.looks.sexes, bg: () => GD.backgrounds.filter(b => !GD.looks.bg[b].lock) };
+const lkName = (tab, v) => tab === 'sex' ? (v === 'f' ? 'Femenino' : 'Masculino')
+  : /^hero_/.test(v) ? (v === 'hero_dawn' ? 'Amanecer' : 'Hoguera') : GD.scenes[v] || (Object.values(GD.races).find(r => r.slug === v) || { n: v }).n;
+function lkDraw() {
+  const c = Object.assign({}, lk.c, { look: lk.look }), u = m.user;
+  $('#lkPrev').innerHTML = `${ring(u.frame || u.rank, pic(c))}<div><b>${esc(c.name)}</b><div class="small">${subline(c)}</div></div>`;
+  $$('#lookDlg [role="tab"]').forEach(t => t.setAttribute('aria-selected', String(t.dataset.tab === lk.tab)));
+  $('#lkPane').setAttribute('aria-labelledby', lk.tab === 'sex' ? 'lkTabSex' : 'lkTabBg');
+  $('#lkPane').innerHTML = `<div role="radiogroup" aria-label="${lk.tab === 'sex' ? 'Sexo' : 'Fondo'}" style="display:contents">${LK_TABS[lk.tab]().map(v => {
+    const on = lk.look[lk.tab] === v, t = Object.assign({}, c, { look: Object.assign({}, lk.look, { [lk.tab]: v }) });
+    return `<button type="button" role="radio" aria-checked="${on}" tabindex="${on ? 0 : -1}" data-v="${v}">${ring('recruit', pic(t))}<span>${esc(lkName(lk.tab, v))}</span></button>`;
+  }).join('')}</div>`;
+}
+function lkOpen(c) {
+  lk = { c, look: Object.assign({}, lookOf(c)), tab: 'sex', saved: JSON.stringify(lookOf(c)) };
+  $('#lookMsg').textContent = '';
+  lkDraw();
+  if ($('#lookDlg').showModal) $('#lookDlg').showModal(); else $('#lookDlg').setAttribute('open', '');
+}
+const lkDirty = () => lk && JSON.stringify(lk.look) !== lk.saved;
+function lkClose() { if (lkDirty() && !confirm('Los cambios de aspecto no se han guardado. ¿Cerrar?')) return; $('#lookDlg').close(); lk = null; }
+$('#lookDlg').addEventListener('click', e => {
+  const b = e.target.closest('button');
+  if (e.target === $('#lookDlg') || (b && 'lookClose' in b.dataset)) return lkClose();
+  if (!b || !lk) return;
+  if (b.dataset.tab) { lk.tab = b.dataset.tab; return lkDraw(); }
+  if (b.getAttribute('role') === 'radio') { lk.look[lk.tab] = b.dataset.v; lkDraw(); return $(`#lkPane [data-v="${b.dataset.v}"]`).focus(); }
+  if ('lookRand' in b.dataset) { const all = LK_TABS.bg(); lk.look.bg = all[Math.floor(Math.random() * all.length)]; return lkDraw(); }
+  if ('lookReset' in b.dataset) { const d = GD.looks.races[lk.c.race]; lk.look = { sex: d.sex, bg: d.bg }; return lkDraw(); }
+  if ('lookSave' in b.dataset) {
+    b.disabled = true;
+    M.api(`/characters/${lk.c.id}/look`, { method: 'PUT', body: { look: lk.look } })
+      .then(r => { lk.saved = JSON.stringify(lk.look); b.disabled = false; $('#lookDlg').close(); lk = null; M.took(r); },
+        e2 => { b.disabled = false; $('#lookMsg').textContent = errText(e2); });
+  }
+});
+$('#lookDlg').addEventListener('cancel', e => { if (lkDirty() && !confirm('Los cambios de aspecto no se han guardado. ¿Cerrar?')) e.preventDefault(); else lk = null; });
+// arrow keys inside a radio group
+$('#lookDlg').addEventListener('keydown', e => {
+  const b = e.target.closest('[role="radio"]');
+  if (!b || !['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp'].includes(e.key)) return;
+  const all = $$('#lkPane [role="radio"]'), i = all.indexOf(b) + (e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : -1);
+  all[(i + all.length) % all.length].click();
+  e.preventDefault();
+});
+window.addEventListener('beforeunload', e => { if (lkDirty()) { e.preventDefault(); e.returnValue = ''; } });
 
 /* ---------- cabinet ---------- */
 const fresh = () => m.achievements.length < 3;   // a newcomer: the first steps go first
@@ -1865,10 +1953,11 @@ function levelAsk() {
 
 function secChars() {
   const n = m.characters.length;
-  const cards = m.characters.map(c => pcard(Object.assign(asPlayer(c), { alts: [], lfg: c.is_main ? m.user.lfg : null, nick: null }), {
+  // the look button sits under the card, not inside it: the card is role=button and must not nest another control
+  const cards = m.characters.map(c => `<div class="pitem">${pcard(Object.assign(asPlayer(c), { alts: [], lfg: c.is_main ? m.user.lfg : null, nick: null }), {
     link: false, cls: c.is_main ? 'main' : '', after: c.is_main ? '<div class="mainmark">Personaje principal</div>' : '',
     attrs: ` role="button" tabindex="0" data-edit="${c.id}" aria-label="${esc(fill('Editar: %n', { n: c.name }))}"`,
-  })).join('');
+  })}<button type="button" class="btn ghost" data-look="${c.id}" aria-label="${esc(fill('Aspecto: %n', { n: c.name }))}">Aspecto</button></div>`).join('');
   const add = n < 3 ? `<button type="button" class="add" data-act="add"><b>${ico('plus')}Añadir personaje</b><span>${esc(fill('Puedes añadir: %n', { n: 3 - n }))}</span></button>` : '';
   const l = m.user.lfg;
   const lfg = `<div class="frame box"><h3>Busco grupo</h3><p class="small">Tu personaje principal aparece en la franja «Buscan grupo ahora» de la plantilla. La marca se apaga sola a las 3 horas.</p>
@@ -1890,7 +1979,7 @@ function secLook() {
   return `<div class="sec-h"><h2>Apariencia</h2></div><p>Los cambios se aplican al instante: la tarjeta de arriba muestra cómo te ven los demás.</p>
     <div class="frame box"><h3>Marco</h3><div class="frames">${frames}</div><p class="small">Los marcos nuevos se desbloquean con rangos y logros especiales.</p></div>
     <div class="frame box"><h3>Título sobre el nombre</h3><select id="lTitle" aria-label="Título sobre el nombre">${titles}</select></div>
-    <div class="frame box"><h3>Retrato</h3><div class="seg" id="lPortrait" role="group" aria-label="Retrato"><button type="button" data-v="race" aria-pressed="${u.portrait !== 'class'}">Raza</button><button type="button" data-v="class" aria-pressed="${u.portrait === 'class'}">Clase</button></div></div>
+    <div class="frame box lkbox"><h3>Aspecto</h3><div class="row">${ring(u.frame || u.rank, pic(c))}<div><p class="small">El sexo y el fondo del retrato son propios de cada personaje.</p><button type="button" class="btn ghost" data-look="${c.id}">Cambiar el aspecto</button></div></div></div>
     <div class="frame box"><h3>Fondo de la tarjeta</h3><div class="bgs">${bgs}</div></div>
     <div class="frame box"><h3>Lema</h3>${u.motto_hidden ? '<p class="small">Un administrador ocultó el lema.</p>' : ''}
       <div class="row"><input id="lMotto" maxlength="60" value="${esc(u.motto || '')}" placeholder="Por ejemplo: Primero curo, luego pregunto" aria-label="Lema" style="flex:1 1 280px"><button type="button" class="btn ghost" data-act="motto">Guardar lema</button></div>
@@ -1977,6 +2066,8 @@ function put(body, noteId) {
 document.addEventListener('click', e => {
   if (!m || !e.target.closest('#view')) return;
   const t = e.target;
+  const lb = t.closest('[data-look]');
+  if (lb) { e.stopPropagation(); return lkOpen(m.characters.find(x => x.id === +lb.dataset.look)); }
   const editCard = t.closest('[data-edit]');
   if (editCard) return openEd(m.characters.find(c => c.id === +editCard.dataset.edit));
   const nav = t.closest('.pnav a[href^="#"]');
@@ -1987,8 +2078,6 @@ document.addEventListener('click', e => {
   if (bg) return put({ background: bg.dataset.bg }, 'lookNote');
   const ct = t.closest('[data-cat]');
   if (ct) { cat = ct.dataset.cat; return cabinet(); }
-  const pt = t.closest('#lPortrait button');
-  if (pt) return put({ portrait: pt.dataset.v }, 'lookNote');
   const lg = t.closest('#lfgSeg button');
   if (lg) return M.api('/me/lfg', { method: 'PUT', body: { kind: lg.dataset.v || null } }).then(r => M.took(r), () => {});
   const a = t.closest('[data-act]');
@@ -2151,8 +2240,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=1d0bf07143" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=813eeda59a" data-root="../../" data-home="../" data-lang="es" data-page="profile/" data-look="1" defer></script>
+<script src="../../assets/search/search.js?v=772a556ae1" data-root="../../" defer></script>
+<script src="../../assets/me/me.js?v=eb63a601b5" data-root="../../" data-home="../" data-lang="es" data-page="profile/" data-look="1" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>
