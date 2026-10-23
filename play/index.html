@@ -152,6 +152,13 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .langhint button { flex: none; width: 36px; height: 36px; display: grid; place-items: center; border: 0; border-radius: 7px; background: transparent; color: inherit; cursor: pointer; }
 .langhint button:hover { background: color-mix(in srgb, currentColor 10%, transparent); }
 @media print { .langhint { display: none; } }
+.gamehint { display: flex; align-items: center; gap: 12px; margin: 0 0 16px; padding: 6px 6px 6px 16px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); font-size: .9rem; }
+.gamehint[hidden] { display: none; }
+.gamehint span { flex: 1; min-width: 0; }
+.gamehint a { color: var(--gold-2); font-weight: 600; white-space: nowrap; }
+.gamehint button { flex: none; width: 36px; height: 36px; display: grid; place-items: center; border: 0; border-radius: 7px; background: transparent; color: inherit; cursor: pointer; }
+.gbtns { display: flex; flex-wrap: wrap; gap: 10px; }
+.gbtns .btn { white-space: normal; text-align: center; }
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: .92rem; }
@@ -990,7 +997,7 @@ nav.gtiles { padding: 14px; }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=99acbc06ba" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/search/search.css?v=452ecdb1e1" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../assets/me/me.css" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://gabella.site/wow/"},{"@type":"ListItem","position":2,"name":"В игре","item":"https://gabella.site/wow/play/"}]}</script>
 </head>
@@ -1124,43 +1131,43 @@ if ('IntersectionObserver' in window && tocLinks.length) {
   document.querySelectorAll('.gsec').forEach(s => io.observe(s));
 }
 const DUNGEONS = [
-  ['Ragefire Chasm', 13, 18, 'Orgrimmar', 0],
-  ['Hall of Thanes', 13, 18, 'Ironforge', 1, [['Icy Veins', '13–20']]],
-  ['Ruins of Lordaeron', 15, 20, 'Tirisfal Glades', 1, [['Icy Veins', '15–22']]],
-  ['The Deadmines', 15, 22, 'Westfall', 0, [['Icy Veins', '17–26']]],
-  ['Wailing Caverns', 17, 24, 'The Barrens', 0, [['Icy Veins', '15–24']]],
-  ['Shadowfang Keep', 20, 26, 'Silverpine Forest', 0, [['Icy Veins', '20–30']]],
-  ['Blackfathom Deeps', 22, 28, 'Ashenvale', 0, [['Sportskeeda', '22–26'], ['Icy Veins', '24–32']]],
-  ['Excavation Site: Wetlands', 24, 29, 'Wetlands', 1, [['ClassicWoW.gg', '26–31'], ['Icy Veins', '26–33']]],
-  ['The Stockade', 25, 29, 'Stormwind City', 0, [['Icy Veins', '24–32']]],
-  ['City of Dalaran', 28, 33, 'Alterac Mountains', 1, [['Icy Veins', '28–35']]],
-  ['Gnomeregan', 29, 38, 'Dun Morogh', 0],
-  ['Razorfen Kraul', 29, 38, 'The Barrens', 0],
-  ['Scarlet Monastery: Graveyard', 30, 38, 'Tirisfal Glades', 0],
-  ['Scarlet Monastery: Library', 33, 41, 'Tirisfal Glades', 0],
-  ['The Drowned City', 35, 40, 'Stranglethorn Vale', 1],
-  ['Scarlet Monastery: Armory', 36, 44, 'Tirisfal Glades', 0],
-  ['Uldaman', 36, 45, 'Badlands', 0, [['Icy Veins', '41–51']]],
-  ['Razorfen Downs', 37, 46, 'The Barrens', 0],
-  ['Scarlet Monastery: Cathedral', 38, 46, 'Tirisfal Glades', 0],
+  ['Огненная пропасть (Ragefire Chasm)', 13, 18, 'Оргриммар', 0],
+  ['Hall of Thanes', 13, 18, 'Стальгорн', 1, [['Icy Veins', '13–20']]],
+  ['Руины Лордерона (Ruins of Lordaeron)', 15, 20, 'Тирисфальские леса', 1, [['Icy Veins', '15–22']]],
+  ['Мертвые копи (The Deadmines)', 15, 22, 'Западный Край', 0, [['Icy Veins', '17–26']]],
+  ['Пещеры Стенаний (Wailing Caverns)', 17, 24, 'Степи', 0, [['Icy Veins', '15–24']]],
+  ['Крепость Темного Клыка (Shadowfang Keep)', 20, 26, 'Серебряный бор', 0, [['Icy Veins', '20–30']]],
+  ['Непроглядная Пучина (Blackfathom Deeps)', 22, 28, 'Ясеневый лес', 0, [['Sportskeeda', '22–26'], ['Icy Veins', '24–32']]],
+  ['Excavation Site: Wetlands', 24, 29, 'Болотина', 1, [['ClassicWoW.gg', '26–31'], ['Icy Veins', '26–33']]],
+  ['Тюрьма (The Stockade)', 25, 29, 'Штормград', 0, [['Icy Veins', '24–32']]],
+  ['City of Dalaran', 28, 33, 'Альтеракские горы', 1, [['Icy Veins', '28–35']]],
+  ['Гномреган (Gnomeregan)', 29, 38, 'Дун Морог', 0],
+  ['Лабиринты Иглошкурых (Razorfen Kraul)', 29, 38, 'Степи', 0],
+  ['Монастырь Алого ордена: кладбище (Scarlet Monastery: Graveyard)', 30, 38, 'Тирисфальские леса', 0],
+  ['Монастырь Алого ордена: библиотека (Scarlet Monastery: Library)', 33, 41, 'Тирисфальские леса', 0],
+  ['The Drowned City', 35, 40, 'Тернистая долина', 1],
+  ['Монастырь Алого ордена: оружейная (Scarlet Monastery: Armory)', 36, 44, 'Тирисфальские леса', 0],
+  ['Ульдаман (Uldaman)', 36, 45, 'Бесплодные земли', 0, [['Icy Veins', '41–51']]],
+  ['Курганы Иглошкурых (Razorfen Downs)', 37, 46, 'Степи', 0],
+  ['Монастырь Алого ордена: собор (Scarlet Monastery: Cathedral)', 38, 46, 'Тирисфальские леса', 0],
   ["Zul'Farrak", 40, 47, 'Tanaris', 0, [['Icy Veins', '44–54']]],
   ["Krol'dok Stronghold", 40, 45, 'Riverglades', 1],
-  ['Maraudon', 45, 51, 'Desolace', 0, [['Icy Veins', '46–55']]],
-  ['Alcaz Island Prison', 48, 53, 'Dustwallow Marsh', 1],
+  ['Мародон (Maraudon)', 45, 51, 'Пустоши', 0, [['Icy Veins', '46–55']]],
+  ['Alcaz Island Prison', 48, 53, 'Пылевые топи', 1],
   ["Temple of Atal'Hakkar", 50, 55, 'Swamp of Sorrows', 0, [['Icy Veins', '50–60']]],
-  ['Blackrock Depths', 52, 60, 'Blackrock Mountain', 0],
-  ['Blackmaw Hold', 55, 60, 'Azshara', 1],
-  ['Lower Blackrock Spire', 57, 60, 'Blackrock Mountain', 0, [['Icy Veins', '55–60']]],
-  ['Dire Maul: East', 58, 60, 'Feralas', 0, [['Icy Veins', '54–60']]],
+  ['Глубины Черной горы (Blackrock Depths)', 52, 60, 'Черная гора', 0],
+  ['Blackmaw Hold', 55, 60, 'Азшара', 1],
+  ['Нижняя часть Вершины Черной горы (Lower Blackrock Spire)', 57, 60, 'Черная гора', 0, [['Icy Veins', '55–60']]],
+  ['Забытый Город: восток (Dire Maul: East)', 58, 60, 'Фералас', 0, [['Icy Veins', '54–60']]],
   ["Shaper's Terrace", 58, 60, "Un'Goro Crater", 1],
-  ['Stratholme: Living', 58, 60, 'Eastern Plaguelands', 0],
-  ['Stratholme: Undead', 58, 60, 'Eastern Plaguelands', 0],
-  ['Scholomance', 58, 60, 'Western Plaguelands', 0],
-  ['Upper Blackrock Spire', 60, 60, 'Blackrock Mountain', 0, [['Icy Veins', '59–60']]],
-  ['Dire Maul: West', 60, 60, 'Feralas', 0, [['Icy Veins', '56–60']]],
-  ['Dire Maul: North', 60, 60, 'Feralas', 0, [['Icy Veins', '56–60']]]
+  ['Стратхольм: живые (Stratholme: Living)', 58, 60, 'Восточные Чумные земли', 0],
+  ['Стратхольм: нежить (Stratholme: Undead)', 58, 60, 'Восточные Чумные земли', 0],
+  ['Некроситет (Scholomance)', 58, 60, 'Западные Чумные земли', 0],
+  ['Верхняя часть Вершины Черной горы (Upper Blackrock Spire)', 60, 60, 'Черная гора', 0, [['Icy Veins', '59–60']]],
+  ['Забытый Город: запад (Dire Maul: West)', 60, 60, 'Фералас', 0, [['Icy Veins', '56–60']]],
+  ['Забытый Город: север (Dire Maul: North)', 60, 60, 'Фералас', 0, [['Icy Veins', '56–60']]]
 ];
-const P = {"route": {"alliance": [[1, 10, "Human: Elwynn Forest. Dwarf и Gnome: Dun Morogh. Night Elf: Teldrassil (до 11). High Order Skyborne: Zephras Isle (до 12)."], [10, 18, "Westfall или Loch Modan, ночные эльфы обычно в Darkshore. С 15 подходят Redridge Mountains."], [18, 30, "Duskwood, Redridge Mountains и Wetlands, в Kalimdor Stonetalon Mountains и Ashenvale."], [30, 45, "Desolace или Arathi Highlands, Stranglethorn Vale. С 35: новая зона Riverglades между Redridge и Burning Steppes, Dustwallow Marsh, Badlands, Swamp of Sorrows."], [40, 55, "Tanaris, Feralas, The Hinterlands, затем Searing Gorge, Blasted Lands, Azshara, с 48 Un’Goro Crater и Felwood."], [50, 60, "Burning Steppes, Western и Eastern Plaguelands, Winterspring, Silithus. На 60 открыт Mount Hyjal."]], "horde": [[1, 10, "Orc и Troll: Durotar. Tauren: Mulgore. Undead: Tirisfal Glades. Windshaper Skyborne: Zephras Isle (до 12)."], [10, 18, "The Barrens или Silverpine Forest."], [18, 30, "Stonetalon Mountains и The Barrens, затем Ashenvale или Hillsbrad Foothills, с 25 Thousand Needles."], [30, 45, "Desolace или Arathi Highlands, Stranglethorn Vale. С 35: новая зона Riverglades, Dustwallow Marsh, Badlands, Swamp of Sorrows."], [40, 55, "Tanaris, Feralas, The Hinterlands, затем Searing Gorge, Blasted Lands, Azshara, с 48 Un’Goro Crater и Felwood."], [50, 60, "Burning Steppes, Western и Eastern Plaguelands, Winterspring, Silithus. На 60 открыт Mount Hyjal."]]}, "miles": [[40, "Ездовое животное: обучение 100 золотых и скакун 20 (+60% скорости)."], [60, "Быстрое ездовое: 1000 и 200 золотых (+100%). Открыт Mount Hyjal, рейды — с 09.12.2026."]], "tx": {"radio": "Радио", "lvl": "Уровень", "lvDown": "Уровень ниже", "lvUp": "Уровень выше", "noHero": "Персонаж не выбран", "edit": "Настроить персонажа", "fac": "Фракция", "alliance": "Альянс", "horde": "Орда", "needLvl": "Укажите уровень кнопкой «+» — подскажем зоны и подземелья.", "now": "Сейчас", "next": "Дальше", "from": "с", "at": "на", "route": "Весь маршрут", "dung": "Подземелья под", "dungNone": "Под этот уровень подземелий нет.", "all": "Все подземелья", "new": "новое", "timers": "Таймеры", "food": "Еда", "foodNote": "+5% опыта за врагов", "min": "мин", "custom": "Своё", "name": "Название", "minutes": "Минут", "start": "Старт", "timer": "Таймер", "done": "Время вышло", "again": "Ещё раз", "remove": "Убрать", "noTimers": "Нажмите на заготовку или задайте своё время. Таймеры идут и после перезагрузки страницы.", "notify": "Уведомление, когда вкладка в фоне", "wake": "Экран не гаснет"}, "racef": {"human": "alliance", "dwarf": "alliance", "nightelf": "alliance", "gnome": "alliance", "skyA": "alliance", "orc": "horde", "undead": "horde", "tauren": "horde", "troll": "horde", "skyH": "horde"}, "rn": {"human": "Человек", "dwarf": "Дворф", "nightelf": "Ночной эльф", "gnome": "Гном", "skyA": "Высший скайборн", "orc": "Орк", "undead": "Нежить", "tauren": "Таурен", "troll": "Тролль", "skyH": "Скайборн-ветрорез"}, "cn": {"warrior": "Воин", "paladin": "Паладин", "hunter": "Охотник", "rogue": "Разбойник", "priest": "Жрец", "shaman": "Шаман", "mage": "Маг", "warlock": "Чернокнижник", "druid": "Друид"}};
+const P = {"route": {"alliance": [[1, 10, "Люди: Элвиннский лес. Дворфы и гномы: Дун Морог. Ночные эльфы: Тельдрассил, до 11. Высшие скайборны: Zephras Isle, до 12."], [10, 18, "Западный Край или Лок Модан, ночные эльфы обычно в Темных берегах. С 15 подходит Красногорье."], [18, 30, "Сумеречный лес, Красногорье и Болотина, в Калимдоре Когтистые горы и Ясеневый лес."], [30, 45, "Пустоши или Нагорье Арати, Тернистая долина. С 35: новая зона Riverglades между Красногорьем и Пылающими степями, Пылевые топи, Бесплодные земли, Болото Печали."], [40, 55, "Танарис, Фералас, Внутренние земли, затем Тлеющее ущелье, Выжженные земли, Азшара, с 48 Кратер Ун’Горо и Оскверненный лес."], [50, 60, "Пылающие степи, Западные Чумные земли, Восточные Чумные земли, Зимние Ключи, Силитус. На 60 открыта Гора Хиджал."]], "horde": [[1, 10, "Орки и тролли: Дуротар. Таурены: Мулгор. Нежить: Тирисфальские леса. Скайборны-ветрорезы: Zephras Isle, до 12."], [10, 18, "Степи или Серебряный бор."], [18, 30, "Когтистые горы и Степи, затем Ясеневый лес или Предгорья Хилсбрада, с 25 Тысяча Игл."], [30, 45, "Пустоши или Нагорье Арати, Тернистая долина. С 35: новая зона Riverglades, Пылевые топи, Бесплодные земли, Болото Печали."], [40, 55, "Танарис, Фералас, Внутренние земли, затем Тлеющее ущелье, Выжженные земли, Азшара, с 48 Кратер Ун’Горо и Оскверненный лес."], [50, 60, "Пылающие степи, Западные Чумные земли, Восточные Чумные земли, Зимние Ключи, Силитус. На 60 открыта Гора Хиджал."]]}, "miles": [[40, "Ездовое животное: обучение 100 золотых и скакун 20 (+60% скорости)."], [60, "Быстрое ездовое: 1000 и 200 золотых (+100%). Открыт Гора Хиджал, рейды — с 09.12.2026."]], "tx": {"radio": "Радио", "lvl": "Уровень", "lvDown": "Уровень ниже", "lvUp": "Уровень выше", "noHero": "Персонаж не выбран", "edit": "Настроить персонажа", "fac": "Фракция", "alliance": "Альянс", "horde": "Орда", "needLvl": "Укажите уровень кнопкой «+» — подскажем зоны и подземелья.", "now": "Сейчас", "next": "Дальше", "from": "с", "at": "на", "route": "Весь маршрут", "dung": "Подземелья под", "dungNone": "Под этот уровень подземелий нет.", "all": "Все подземелья", "new": "новое", "timers": "Таймеры", "food": "Еда", "foodNote": "+5% опыта за врагов", "min": "мин", "custom": "Своё", "name": "Название", "minutes": "Минут", "start": "Старт", "timer": "Таймер", "done": "Время вышло", "again": "Ещё раз", "remove": "Убрать", "noTimers": "Нажмите на заготовку или задайте своё время. Таймеры идут и после перезагрузки страницы.", "notify": "Уведомление, когда вкладка в фоне", "wake": "Экран не гаснет"}, "racef": {"human": "alliance", "dwarf": "alliance", "nightelf": "alliance", "gnome": "alliance", "skyA": "alliance", "orc": "horde", "undead": "horde", "tauren": "horde", "troll": "horde", "skyH": "horde"}, "rn": {"human": "Человек", "dwarf": "Дворф", "nightelf": "Ночной эльф", "gnome": "Гном", "skyA": "Высший скайборн", "orc": "Орк", "undead": "Нежить", "tauren": "Таурен", "troll": "Тролль", "skyH": "Скайборн-ветрорез"}, "cn": {"warrior": "Воин", "paladin": "Паладин", "hunter": "Охотник", "rogue": "Разбойник", "priest": "Жрец", "shaman": "Шаман", "mage": "Маг", "warlock": "Чернокнижник", "druid": "Друид"}};
 
 /* In game: level -> zones and the next milestones (data from the Leveling guide), dungeons near the level, timers,
    screen wake lock. Level, race and class are the shared hero "gabella-wf-me" of the home page (the level is written back);
@@ -1341,7 +1348,7 @@ if ('wakeLock' in navigator) {
   if (seen) return;
   const H = {"ru": ["Эта страница есть на русском", "Читать по-русски", "Закрыть"], "en": ["This page is available in English", "Read in English", "Close"], "uk": ["Ця сторінка є українською", "Читати українською", "Закрити"], "de": ["Diese Seite gibt es auch auf Deutsch", "Auf Deutsch lesen", "Schließen"], "fr": ["Cette page existe aussi en français", "Lire en français", "Fermer"], "es": ["Esta página también está en español", "Leer en español", "Cerrar"], "pt": ["Esta página também está em português", "Ler em português", "Fechar"], "it": ["Questa pagina è disponibile anche in italiano", "Leggi in italiano", "Chiudi"], "pl": ["Ta strona jest dostępna po polsku", "Czytaj po polsku", "Zamknij"]}, cur = document.documentElement.lang.split('-')[0];
   const want = (navigator.languages || [navigator.language]).map(x => String(x || '').toLowerCase().split('-')[0]).find(x => x in H);
-  const to = want && want !== cur && document.querySelector(`.langlist a[data-lang="${want}"]`);
+  const to = want && want !== cur && document.querySelector(`.langlist a[data-lang="${want}"]:not([data-list])`);
   if (!to) return;
   const bar = document.createElement('div');
   bar.className = 'langhint'; bar.lang = want; bar.setAttribute('role', 'status');
@@ -1378,7 +1385,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../assets/radio/radio.js" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=99acbc06ba" data-root="../" defer></script>
+<script src="../assets/search/search.js?v=452ecdb1e1" data-root="../" defer></script>
 <script src="../assets/me/me.js" data-root="../" data-home="../" data-lang="ru" data-page="play/" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
