@@ -81,9 +81,10 @@ FRAMES = [
     ('raid', {'ach': 'raid_regular'}, 'Костяк рейда'), ('master', {'ach': 'crafter'}, 'Мастер'),
     ('friend', {'ach': 'helper'}, 'Плечо друга'), ('champion', {'ach': 'event_winner'}, 'Победитель'),
     ('boss', {'admin': True}, 'Босс'),
+    ('s1', {'unlock': 's1'}, 'Сезон 1'),
 ]
 
 # Титулы над именем: из достижений (название достижения) — список id, которые дают титул
-TITLES = ['founder', 'veteran12', 'recruiter5', 'radio100h', 'raid40', 'keeper', 'first60', 'onyxia', 'molten_core', 'raid_regular', 'crafter', 'event_winner']
+TITLES = ['founder', 'veteran12', 'recruiter5', 'radio100h', 'raid40', 'keeper', 'first60', 'onyxia', 'molten_core', 'raid_regular', 'crafter', 'event_winner', 'pioneer']
 
 EGGS = ['griffin', 'leeroy', 'konami', 'static', '404']

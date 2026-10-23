@@ -288,6 +288,9 @@ section.block { scroll-margin-top: -72px; }
 .stband-art, .stband-art img { position: absolute; inset: 0 0 auto 0; width: 100%; height: 620px; }
 .stband-art { z-index: -2; }
 .stband-art img { object-fit: cover; object-position: 50% 40%; }
+/* Living art (assets/living/): the WebGL layer over a picture fades in once it draws */
+canvas.fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0; transition: opacity 1.6s ease; }
+canvas.fx.on { opacity: 1; }
 .stband::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 620px; z-index: -1; background: linear-gradient(180deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 70%, transparent) 22%, color-mix(in srgb, var(--bg) 55%, transparent) 50%, var(--bg) 100%); }
 .stband .wrap { display: grid; gap: 20px; }
 /* page-level grids: one column that may shrink, so a long word or a wide field never pushes past the screen edge */
@@ -979,8 +982,8 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/search/search.css?v=772a556ae1" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/me/me.css?v=eb63a601b5" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/search/search.css?v=7760edc556" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/me/me.css?v=21ee28585f" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Início","item":"https://gabella.site/wow/pt/"},{"@type":"ListItem","position":2,"name":"Classes","item":"https://gabella.site/wow/pt/classes/"},{"@type":"ListItem","position":3,"name":"Mago","item":"https://gabella.site/wow/pt/classes/mage/"}]}</script>
 </head>
 <body style="--cc:#40c7eb">
@@ -1218,8 +1221,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../../assets/radio/radio.js" data-root="../../../" defer></script>
-<script src="../../../assets/search/search.js?v=772a556ae1" data-root="../../../" defer></script>
-<script src="../../../assets/me/me.js?v=eb63a601b5" data-root="../../../" data-home="../../" data-lang="pt" data-page="classes/mage/" data-look="1" defer></script>
+<script src="../../../assets/search/search.js?v=7760edc556" data-root="../../../" defer></script>
+<script src="../../../assets/me/me.js?v=21ee28585f" data-root="../../../" data-home="../../" data-lang="pt" data-teaser="Seu perfil guarda sua jornada: Glória, quadros, temporadas" data-close="Fechar" data-page="classes/mage/" data-look="1" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

@@ -41,8 +41,29 @@ def test_frames_titles_ranks():
     pts = [r['pts'] for r in G['ranks']]
     assert pts == sorted(pts) and pts[0] == 0
     for f in G['frames']:
-        assert f.get('rank') in ranks or f.get('ach') in ach or f.get('admin'), f
-    assert set(G['titles']) <= ach
+        assert f.get('rank') in ranks or f.get('ach') in ach or f.get('admin') or f.get('unlock'), f
+    assert set(G['titles']) <= ach | {'pioneer'}
+    assert 'pioneer' in G['titles'] and {'id': 's1', 'unlock': 's1'} in G['frames']
+
+
+def test_progression_catalog():
+    P = G['progression']
+    assert P['glory'] == {'max': 60, 'a': 60, 'b': 14, 'p': 1.15}
+    assert set(P['sources']) == {'visit', 'radio', 'page', 'tool'}
+    ids = [t['id'] for t in P['weekly']]
+    assert len(ids) == len(set(ids)) and len(ids) >= 30
+    for t in P['weekly']:
+        assert t['cat'] in P['weekly_cats']
+        assert t['key'] in G['sets'] or t['key'] in G['flags'] or t['key'] in ('visit', 'radio_min', 'lfg')
+        if t.get('item') is not None:
+            assert t['item'] in G['sets'][t['key']], t
+    for c in P['weekly_cats']:
+        assert sum(t['cat'] == c for t in P['weekly']) >= 4, c   # 4 недели без повторов
+    steps = P['track']['s1']
+    assert len(steps) == 30 and [s['stars'] for s in steps] == sorted(s['stars'] for s in steps)
+    rewards = [s['reward'] for s in steps if s.get('reward')]
+    assert {'badge:s1', 'title:pioneer', 'frame:s1', 'bg:s1-1', 'bg:s1-2'} <= set(rewards)
+    assert [c for c, _ in P['name_colors']] == ['poor', 'common', 'uncommon', 'rare', 'epic', 'legendary']
 
 
 def test_backgrounds_have_art():
@@ -73,15 +94,37 @@ def test_me_script_on_every_page_after_radio():
             continue
         assert html.count('assets/me/me.js') == 1 and html.count('assets/me/me.css') == 1, p
         assert html.index('assets/radio/radio.js') < html.index('assets/me/me.js'), p
-        m = re.search(r'<script src="[^"]*assets/me/me\.js\?v=\w{10}" data-root="([^"]*)" data-home="([^"]*)" data-lang="(\w+)" data-page="([^"]*)" data-look="([^"]+)" defer>', html)
+        m = re.search(r'<script src="[^"]*assets/me/me\.js\?v=\w{10}" data-root="([^"]*)" data-home="([^"]*)" data-lang="(\w+)" data-teaser="([^"]+)" data-close="([^"]+)" data-page="([^"]*)" data-look="([^"]+)"( data-solo="1")? defer>', html)
         assert m, p
-        assert m.group(5) == LK.V, (p, m.group(5))
-        page = m.group(4)
+        page = m.group(6)
+        assert m.group(7) == LK.V, (p, m.group(7))
+        # only a language-only guide (uk «ukrainian») is marked: it is not in the guide set, so me.js does not track it
+        assert bool(m.group(8)) == (page == 'guides/ukrainian/'), p
         name = os.path.relpath(p, ROOT).replace(os.sep, '/')
         if name.endswith('404.html'):
             assert page == '404', name
         else:
             assert name.endswith(page + 'index.html'), (name, page)
+
+
+def check_growth_texts(lang, t):
+    """Growth texts (section g): the same keys everywhere, same placeholders as the Russian source, a title for each non-achievement title,
+    a name for each season background and every weekly task (templates for the station, guide and class ones)."""
+    import build_me
+    g = t['g']
+    assert set(g) == set(build_me.GROWTH), lang
+    for k, ru in build_me.GROWTH.items():
+        assert g[k], (lang, k)
+        assert sorted(re.findall(r'\{\w+\}', g[k])) == sorted(re.findall(r'\{\w+\}', ru)), (lang, k, g[k])
+        if lang != 'ru' and lang != 'uk' and re.search('[А-Яа-яЁё]', ru):
+            assert g[k] != ru and not re.search('[А-Яа-яЁё]', g[k]), (lang, k, g[k])
+    ach = {a['id'] for a in G['achievements']}
+    assert set(t['titles']) == set(G['titles']) - ach and 'pioneer' in t['titles'], lang
+    assert set(t['bg']) == {'s1-1', 's1-2'}, lang   # ids of the season backgrounds (R17)
+    # me.js sends repeats of a key that feeds an open weekly task (R15): task id -> key comes with the texts
+    assert t['wk'] == {w['id']: w['key'] for w in G['progression']['weekly']}, lang
+    for w in G['progression']['weekly']:
+        assert 'task_' + w['id'] in g or w['id'].split('_')[0] in ('st', 'g', 'c') and 'task_' + w['id'].split('_')[0] in g, (lang, w['id'])
 
 
 def test_texts_for_every_language():
@@ -95,6 +138,7 @@ def test_texts_for_every_language():
         assert set(t['frames']) == {f['id'] for f in G['frames']}, lang
         assert all(t['ui'][k] for k in ('got', 'rankUp', 'profile', 'login', 'lvlAsk', 'update', 'notNow')), lang
         assert '{n}' in t['ui']['lvlAsk'] and '{name}' in t['ui']['lvlAsk'], lang
+        check_growth_texts(lang, t)
         for a in G['achievements']:
             assert len(t['ach'][a['id']]) == (3 if a['secret'] else 2), (lang, a['id'])
             if lang != 'ru':
@@ -143,6 +187,18 @@ def test_roster_in_navigation():
         assert 'https://discord.com/privacy' in html, lang
 
 
+def test_me_js_growth_hooks():
+    """R15: known() lets weekly-task keys and tool flags through; Glory and season toasts; the teaser costs no request."""
+    me = open(os.path.join(ROOT, 'assets', 'me', 'me.js'), encoding='utf-8').read()
+    assert 'party5|raid40|compare3|share_team' in me and 'T.wk' in me and 'state.week' in me
+    for k in ("kind: 'glory'", "kind: 'step'", 'gabella-me-xp1', 'gabella-me-teaser', 'slice(0, 3)'):
+        assert k in me, k
+    teaser = me[me.index('function teaser()'):me.index("if (PAGE === 'tools/') toolsHooks();")]
+    assert 'fetch(' not in teaser and 'api(' not in teaser and 'D.teaser' in teaser
+    # signed-out visitors: nothing but the teaser runs before the login check
+    assert me.index('teaser();') < me.index('if (logged() || AUTH_PAGE) me()')
+
+
 def test_radio_tells_me_js():
     js = open(os.path.join(ROOT, 'assets', 'radio', 'radio.js'), encoding='utf-8').read()
     for ev in ("emit('on')", "emit('minute')", "emit('station', id)", "emit('sleep')"):
@@ -175,6 +231,15 @@ def test_looks_art_exists():
     for b in L['bg']:
         p = os.path.join(ROOT, 'assets', 'me', 'look', 'bg', f'{b}.webp')
         assert os.path.exists(p), p
+
+
+def test_no_portrait_left():
+    # the portrait follows the character's look (pic() / lookOf()); the old user.portrait race/class switch is gone.
+    # Only the cabinet and roster scripts are checked: index.src.html has its own class/race tile face() helper.
+    for name in ('me-pages.src.js', 'profile.src.html', 'roster.src.html', 'player.src.html', 'assets/me/me.js'):
+        src = open(os.path.join(ROOT, name), encoding='utf-8').read()
+        assert not re.search(r'\bface\([^()]*portrait', src), (name, 'face() with a portrait argument')
+        assert not re.search(r'\.portrait\b|[{,]\s*portrait\s*:', src), (name, 'portrait property')
 
 
 if __name__ == '__main__':

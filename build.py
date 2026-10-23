@@ -2,7 +2,7 @@
 + i18n/{ru,en,uk}.txt (переводы, строка в строку)
 -> index.html, en/index.html, uk/index.html, classes/<id>/index.html и races/<slug>/index.html на трёх языках.
 Запуск: python build.py [--list]  (--list печатает русские фрагменты без перевода)"""
-import hashlib, json, os, posixpath, re, sys
+import hashlib, html as _html, json, os, posixpath, re, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 if '--missing' in sys.argv:          # python build.py --missing de: build de without its json, print what it lacks, write nothing
@@ -359,13 +359,18 @@ def radio(html, lang, root):
     return html.replace('</head>', head, 1).replace('</body>', js, 1)
 
 
+TEASER = langs.derive({'ru': 'Профиль копит ваш путь: Слава, рамки, сезоны', 'en': 'Your profile keeps your path: Glory, frames, seasons',
+                       'uk': 'Профіль зберігає ваш шлях: Слава, рамки, сезони'})   # the line for signed-out readers; same words as GROWTH['teaser']
+
+
 def me(html, lang, here):
     """Profiles (assets/me/, build_me.py): after the radio, so its events are heard. data-page is the path under the language
     home (guides/leveling/, tools/, play/; the 404 page swaps in 404) — me.js finds the page it is on without parsing URLs."""
     root, home = rel(here, ''), rel(here, page_dir(lang))
     page = here[len(page_dir(lang)):]
+    solo = ' data-solo="1"' if only_lang(page) else ''   # a language-only guide is not in the guide set of game.json: me.js skips it
     head = f'<link rel="stylesheet" href="{root}assets/me/me.css" media="print" onload="this.media=\'all\'">\n</head>'
-    js = f'<script src="{root}assets/me/me.js" data-root="{root}" data-home="{home}" data-lang="{lang}" data-page="{page}" data-look="{LK.V}" defer></script>\n</body>'
+    js = f'<script src="{root}assets/me/me.js" data-root="{root}" data-home="{home}" data-lang="{lang}" data-teaser="{_html.escape(TEASER[lang])}" data-close="{_html.escape(tr('Закрыть', lang))}" data-page="{page}" data-look="{LK.V}"{solo} defer></script>\n</body>'
     return html.replace('</head>', head, 1).replace('</body>', js, 1)
 
 
@@ -389,6 +394,25 @@ def me_version():
                     open(p, 'w', encoding='utf-8', newline='\n').write(new)
                     n += 1
     print(f'me: {n} pages, v={v}', file=sys.stderr)
+
+
+def living_version():
+    """?v=<hash> on assets/living/living.js (art masks included; the script passes the version on to them), like me_version."""
+    d = os.path.join(HERE, 'assets', 'living')
+    h = hashlib.sha1()
+    for f in sorted(os.listdir(d)):
+        h.update(open(os.path.join(d, f), 'rb').read())
+    v = h.hexdigest()[:10]
+    for root, dirs, files in os.walk(HERE):
+        dirs[:] = [x for x in dirs if not x.startswith('.') and x not in ('assets', 'content', 'i18n', 'tests', 'node_modules')]
+        for f in files:
+            if f.endswith('.html') and not f.endswith('.src.html'):
+                p = os.path.join(root, f)
+                html = open(p, encoding='utf-8').read()
+                new = re.sub(r'(assets/living/living\.js)(?:\?v=\w+)?', rf'\1?v={v}', html)
+                if new != html:
+                    open(p, 'w', encoding='utf-8', newline='\n').write(new)
+    print(f'living: v={v}', file=sys.stderr)
 
 
 def pwa(html, lang, root):
@@ -864,6 +888,7 @@ def main():
         import search  # site search index over the finished pages; it changes assets/, so the worker version is taken again
         search.main()
         me_version()
+        living_version()
         sw_version()
 
 

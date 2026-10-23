@@ -11,17 +11,25 @@ OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 
 CLASSES = ['warrior', 'paladin', 'hunter', 'rogue', 'priest', 'shaman', 'mage', 'warlock', 'druid']
 RACES = {'human': 'human', 'dwarf': 'dwarf', 'nightelf': 'night-elf', 'gnome': 'gnome', 'skyA': 'skyborne-alliance',
          'orc': 'orc', 'undead': 'undead', 'tauren': 'tauren', 'troll': 'troll', 'skyH': 'skyborne-horde'}
-JOBS = [('hero_dawn', [960, 1440, 1920, 2560])] + [('hero_campfire', [960, 1600])] + [(c, [360, 600, 896]) for c in CLASSES]
+SCENE_Q = 66  # wide scene art fills the screen: AVIF at 52 smears grass and fur there
+JOBS = [('hero_dawn', [960, 1440, 1920, 2560, 3840])] + [('hero_campfire', [960, 1600, 2560])] + [(c, [360, 600, 896]) for c in CLASSES]
 
 
-def save(im, name, w):
+def save(im, name, w, aq=52):
     if im.width != w:
+        up = w > im.width
         h = round(im.height * w / im.width)
         im = im.resize((w, h), Image.LANCZOS)
-        if w > 1376:  # upscaled: restore a little edge contrast
+        if up:  # upscaled: restore a little edge contrast
             im = im.filter(ImageFilter.UnsharpMask(radius=1.6, percent=60, threshold=2))
-    im.save(os.path.join(OUT, f'{name}-{w}.avif'), quality=52, speed=4)
+    im.save(os.path.join(OUT, f'{name}-{w}.avif'), quality=aq, speed=4)
     im.save(os.path.join(OUT, f'{name}-{w}.webp'), quality=80, method=6)
+
+
+def source(name):
+    """Source art; <name>@4x.jpg (the same picture upscaled 4x) wins when present, so wide screens get real detail."""
+    big = os.path.join(SRC, name + '@4x.jpg')
+    return Image.open(big if os.path.exists(big) else os.path.join(SRC, name + '.jpg')).convert('RGB')
 
 
 def cover(im, w, h):
@@ -73,12 +81,12 @@ def face(src, name):
 def hero_mobile():
     """Portrait cut of the home hero for phones: hero_dawn-m-600|1000. Cut at x = .74 * (width - 600), so the
     phone view (object-position 74%) shows exactly the same part of the picture as with the full-width file."""
-    im = Image.open(os.path.join(SRC, 'hero_dawn.jpg')).convert('RGB')
+    im = source('hero_dawn')
     w = round(600 * im.height / 768)
     x = round(.74 * (im.width - w))
     im = im.crop((x, 0, x + w, im.height))
     for width in (600, 1000):
-        save(im, 'hero_dawn-m', width)
+        save(im, 'hero_dawn-m', width, SCENE_Q)
     print('hero_dawn-m ok')
 
 
@@ -111,9 +119,9 @@ def main():
     if '--classes-only' in sys.argv:
         return
     for name, widths in JOBS:
-        im = Image.open(os.path.join(SRC, name + '.jpg')).convert('RGB')
+        im = source(name)
         for w in widths:
-            save(im, name, w)
+            save(im, name, w, SCENE_Q if name.startswith('hero_') else 52)
         print(name, 'ok')
     hero_mobile()
 

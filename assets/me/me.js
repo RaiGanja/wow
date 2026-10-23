@@ -9,6 +9,7 @@
   const V = (S.src.match(/\?v=\w+/) || [''])[0];   // build.py me_version(): the same version for the texts
   const API = /^(127\.0\.0\.1|localhost)$/.test(location.hostname) ? 'http://127.0.0.1:8787' : 'https://api.gabella.site';
   const FLAG = 'gabella-me', CACHE = 'gabella-me-cache', SOUND = 'gabella-me-sound', DAY = 'gabella-me-day', CACHE_MS = 10 * 60000, RMIN = 'gabella-me-rmin';
+  const XP1 = 'gabella-me-xp1', TEASER = 'gabella-me-teaser';
   const AUTH_PAGE = /^(roster|profile)\/$/.test(PAGE);
   const ls = {
     get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
@@ -53,29 +54,56 @@
     loading = api('/me').then(setMe, e => (e.status === 401 ? setMe(null) : state)).finally(() => { loading = null; });
     return loading;
   }
-  /** Answers of the API that change the person ({me, granted, rankUp}): store the fresh /me and celebrate. */
+  /** Answers of the API that change the person ({me, granted, rankUp, gained}): store the fresh /me and celebrate.
+      No more than three toasts at once, the rest waits in the profile; the very first experience gets one quiet note. */
   function took(r) {
-    if (r && r.me) setMe(r.me); else if (r && (r.granted || []).length) me(true);
-    (r && r.granted || []).forEach(id => toast({ kind: 'ach', id }));
-    if (r && r.rankUp) toast({ kind: 'rank', id: r.rankUp });
+    const g = r && r.gained;
+    // a season step opens titles and frames, Glory before the motto opens (Glory 5) may open the motto: also rare full refreshes
+    const opens = g && (g.step_up || (g.glory_up && state && state.user && !state.user.motto_visible));
+    if (r && r.me) setMe(r.me);
+    else if (r && ((r.granted || []).length || opens)) me(true);   // a new achievement moves points, rank and frames: the rare full refresh
+    else if (r && state && (r.live || 'lfg' in r)) {   // the API sends what experience changed (Glory, week, season) and the lfg switch: patch, no /me
+      if (r.live) Object.assign(state, r.live);
+      if ('lfg' in r) state.user.lfg = r.lfg;
+      setMe(state);
+    }
+    const list = [];
+    ((r && r.granted) || []).forEach(id => list.push({ kind: 'ach', id }));
+    if (r && r.rankUp) list.push({ kind: 'rank', id: r.rankUp });
+    if (g && g.glory_up) list.push({ kind: 'glory', id: g.glory_up });
+    if (g && g.step_up) list.push({ kind: 'step', id: g.step_up });
+    if (g && g.xp > 0 && ls.get(XP1) !== '1') { ls.set(XP1, '1'); if (!list.length) list.push({ kind: 'note', id: 'xp_first' }); }
+    list.slice(0, 3).forEach(toast);
     return r;
   }
 
   // ---------- progress: only for people who logged in; skipped when the server already knows ----------
-  const ONCE = new Set();
-  function known(key, item) {
+  const ONCE = new Map(), TOOL = /^(party5|raid40|compare3|share_team)$/;
+  const REPEAT = { share_team: 10000, compare3: 10000 };   // a new use after a pause counts again (per-use tool experience)
+  /** The server already holds this for good. */
+  function server(key, item) {
     const p = state && state.progress && state.progress[key];
     if (!p) return false;
     if (item !== undefined) return (p.items || []).includes(item);
     return ['radio_min', 'search'].indexOf(key) < 0 && p.value >= 1;
   }
+  /** Resolves true when there is nothing to send: the server holds it and it feeds neither an open task of this week
+      (a repeat counts there) nor a tool's per-use experience. Task id -> key comes with the texts (wk). */
+  function known(key, item) {
+    if (!server(key, item) || TOOL.test(key)) return Promise.resolve(false);
+    const open = ((state.week && state.week.tasks) || []).filter(t => !t.done);
+    if (!open.length) return Promise.resolve(true);
+    return texts().then(T => !open.some(t => (T.wk || {})[t.id] === key));
+  }
   function track(key, item) {
     if (!logged()) return Promise.resolve(null);
-    const id = key + ':' + (item === undefined ? '' : item);
-    if (key !== 'radio_min' && key !== 'search' && ONCE.has(id)) return Promise.resolve(null);
-    ONCE.add(id);
-    return me().then(() => {
-      if (!state || known(key, item)) return null;
+    // once per page load; a team of five or forty counts again when the team changes (it is in the hash)
+    const id = key + ':' + (item === undefined ? '' : item) + (key === 'party5' || key === 'raid40' ? '#' + location.hash : '');
+    const t0 = Date.now(), last = ONCE.get(id);
+    if (key !== 'radio_min' && key !== 'search' && last !== undefined && !(REPEAT[key] && t0 - last >= REPEAT[key])) return Promise.resolve(null);
+    ONCE.set(id, t0);
+    return me().then(() => (state ? known(key, item) : true)).then(skip => {
+      if (skip) return null;
       const body = item === undefined ? { key } : { key, item };
       return api('/progress', { body }).then(r => {
         if (state && state.progress && key !== 'visit') {   // keep the cache honest without asking /me again
@@ -95,7 +123,18 @@
   // ---------- toast: bottom centre, one at a time, like the game ----------
   const queue = [];
   let box = null, busy = false;
-  function toast(t) { queue.push(t); if (!busy) next(); }
+  const SMALL = /^(step|note)$/;
+  function toast(t) {
+    // never a wall of toasts: three at most (queue plus the one on screen); an achievement or rank pushes out a waiting Glory, step or note
+    const low = x => /^(glory|step|note)$/.test(x.kind);
+    if (queue.length >= 3) {
+      const i = queue.findIndex(low);
+      if (low(t) || i < 0) return;
+      queue.splice(i, 1);
+    }
+    queue.push(t); if (!busy) next();
+  }
+  const fillTx = (s, o) => String(s || '').replace(/\{(\w+)\}/g, (m, k) => (k in o ? o[k] : m));
   function next() {
     const t = queue.shift();
     if (!t) { busy = false; return; }
@@ -105,16 +144,24 @@
       const a = t.kind === 'ach' ? T.ach[t.id] || [t.id] : null;
       const pts = a && T.pts ? T.pts[t.id] : null;
       const el = document.createElement('div');
-      el.className = 'me-toast' + (t.kind === 'rank' ? ' rank' : '') + (reduced() ? '' : ' anim');
-      el.innerHTML = `<span class="me-ti">${t.kind === 'rank' ? `<span class="me-ring fr-${esc(t.id)}">${img(face(state), 40)}</span>` : `<img src="${ROOT}assets/me/ach/${esc(t.id)}.webp" alt="" width="44" height="44">`}</span>
+      const G = T.g || {};
+      el.className = 'me-toast' + (t.kind === 'rank' || t.kind === 'glory' ? ' rank' : '') + (SMALL.test(t.kind) ? ' sm' : '') + (reduced() ? '' : ' anim');
+      if (SMALL.test(t.kind)) {   // one quiet line: a season step, or the first experience
+        const text = t.kind === 'step' ? fillTx(G.season_toast, { n: t.id }) : G[t.id] || '';
+        el.innerHTML = `<span class="me-tt"><b>${esc(text)}</b></span>`;
+      } else if (t.kind === 'glory') {
+        const fr = state && state.user ? state.user.frame || state.user.rank : 'recruit';
+        el.innerHTML = `<span class="me-ti"><span class="me-ring fr-${esc(fr)}">${img(face(state), 40)}</span></span>
+          <span class="me-tt"><b>${esc(fillTx(G.glory_toast, { n: t.id }))}</b></span>`;
+      } else el.innerHTML = `<span class="me-ti">${t.kind === 'rank' ? `<span class="me-ring fr-${esc(t.id)}">${img(face(state), 40)}</span>` : `<img src="${ROOT}assets/me/ach/${esc(t.id)}.webp" alt="" width="44" height="44">`}</span>
         <span class="me-tt"><small>${esc(t.kind === 'rank' ? T.ui.rankUp : T.ui.got)}</small><b>${esc(t.kind === 'rank' ? T.ranks[t.id] || t.id : a[0])}</b></span>
         ${pts ? `<span class="me-shield" aria-label="${esc(pts + ' ' + (T.ui.pts || ''))}">${pts}</span>` : ''}`;
       box.append(el);
-      chime(t.kind === 'rank');
+      if (!SMALL.test(t.kind)) chime(t.kind === 'rank');
       setTimeout(() => {
         el.classList.add('out');
         setTimeout(() => { el.remove(); next(); }, reduced() ? 0 : 400);
-      }, t.kind === 'rank' ? 5000 : 4000);
+      }, t.kind === 'rank' ? 5000 : SMALL.test(t.kind) ? 3500 : 4000);
     });
   }
 
@@ -221,7 +268,8 @@
   function pageHooks() {
     track('lang', LANG);
     const m = PAGE.match(/^(guides|classes|races)\/([\w-]+)\/$/);
-    if (m) track({ guides: 'guide', classes: 'class', races: 'race' }[m[1]], m[2]);
+    // a language-only guide (data-solo, the uk «ukrainian») is not in the guide set: the API would answer bad_item
+    if (m && !(m[1] === 'guides' && D.solo)) track({ guides: 'guide', classes: 'class', races: 'race' }[m[1]], m[2]);
     if (PAGE === 'play/') { track('play_page'); levelFromPlay(); }
     if (PAGE === '404') track('egg', '404');
     const today = new Date().toDateString();
@@ -323,7 +371,20 @@
 
   window.GabellaMe = { api, me, track, toast, onMe, took, forget, logged, texts, face, API, sound: on => (on === undefined ? ls.get(SOUND) !== '0' : ls.set(SOUND, on ? null : '0')) };
 
+  // signed-out visitors of an article: one line about the profile, closed for good with the cross. Text comes with the page
+  // (data-teaser, built per language), so it costs no request.
+  function teaser() {
+    if (logged() || !D.teaser || ls.get(TEASER) === '0' || !/^(guides|classes|races)\/[\w-]+\/$/.test(PAGE)) return;
+    const el = document.createElement('p');
+    el.className = 'me-teaser';
+    el.innerHTML = `<a href="${esc(HOME)}profile/">${esc(D.teaser)}</a><button type="button" aria-label="${esc(D.close || '×')}">×</button>`;
+    el.querySelector('button').onclick = () => { ls.set(TEASER, '0'); el.remove(); };
+    const at = document.getElementById('sources');
+    if (at) at.before(el); else (document.querySelector('main') || document.body).append(el);
+  }
+
   if (PAGE === 'tools/') toolsHooks();
+  teaser();
   if (logged() || AUTH_PAGE) me().then(() => { paintBtn(); if (state) pageHooks(); });
   else paintBtn();   // a visitor who never signed in: the «Log in» button, no API request
 })();

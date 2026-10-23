@@ -11,6 +11,7 @@ from races import RACES_PAGE  # noqa: E402
 from guides import GUIDES  # noqa: E402
 import achievements as A  # noqa: E402
 import looks as LK  # noqa: E402
+import progression as P  # noqa: E402
 import langs  # noqa: E402
 
 SCENES = ['hero_dawn', 'hero_campfire'] + [s for s, _ in LK.SCENES]   # card backgrounds besides the race arts
@@ -47,7 +48,7 @@ def game():
     for rid, r in races.items():
         r['slug'] = slug[rid]
     sets = {
-        'guide': [g['slug'] for g in GUIDES if g['slug']],
+        'guide': [g['slug'] for g in GUIDES if g['slug'] and not g.get('only')],   # language-only guides (uk) stay out: «all guides» must be reachable in every language
         'class': [c['id'] for c in CLASSES],
         'race': [r['slug'] for r in RACES_PAGE],
         'lang': list(langs.ALL),
@@ -80,6 +81,13 @@ def game():
             'bg': {b: {'lock': LK.LOCK.get(b)} for b in backgrounds},
         },
         'deadline_founder': '2026-11-03T21:00:00Z',
+        'progression': {
+            'glory': P.GLORY, 'sources': {k: {'xp': v[0], 'cap': v[1], 'rested': v[2]} for k, v in P.SOURCES.items()},
+            'ach_xp': P.ACH_XP, 'weekly_xp': P.WEEKLY_XP, 'weekly_all_xp': P.WEEKLY_ALL_XP, 'rested': P.RESTED,
+            'week_anchor': P.WEEK_ANCHOR, 'weekly_cats': P.WEEKLY_CATS, 'weekly': P.weekly(sets),
+            'seasons': P.SEASONS, 'star_xp': P.STAR_XP, 'week_stars': P.WEEK_STARS, 'track': P.TRACK,
+            'name_colors': P.NAME_COLORS, 'motto_glory': P.MOTTO_GLORY, 'report_glory': P.REPORT_GLORY, 'reports_hide': P.REPORTS_HIDE,
+        },
     }
 
 
