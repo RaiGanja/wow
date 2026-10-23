@@ -1066,13 +1066,13 @@ const CLASSES = [
     specs:[['Armas','Daño cuerpo a cuerpo (arma de dos manos)',['dps']],['Furia','Daño cuerpo a cuerpo (dos armas)',['dps']],['Protección','Tanque',['tank']]],
     lvl:'La subida más lenta, un 12% más larga que la media',
     lp:12,
-    raid:'Grito de batalla afecta a toda la banda',
+    raid:'Grito de guerra afecta a toda la banda',
     forever:'Más ira, mejor amenaza contra grupos de objetivos, el talento Weapon Master. Furia y Sed de sangre se han debilitado.' },
   { id:'paladin', n:'Paladín', roles:['tank','heal','dps'],
     specs:[['Sagrado','Sanador',['heal']],['Protección','Tanque',['tank']],['Reprensión','Daño cuerpo a cuerpo',['dps']]],
     lvl:'Ritmo de subida medio',
     lp:0,
-    raid:'Bendición de reyes ahora es básica. Según las listas de la beta, Protección está entre los tanques más fuertes, y Reprensión bajó tras el parche del 15 de octubre.',
+    raid:'Bendición de los Reyes ahora es básica. Según las listas de la beta, Protección está entre los tanques más fuertes, y Reprensión bajó tras el parche del 15 de octubre.',
     forever:'Holy Strike desde el nivel 6, Sentencia no consume el sello. Los no-muertos ya pueden ser paladines, así que la clase llega a la Horda.' },
   { id:'hunter', n:'Cazador', roles:['dps'],
     specs:[['Bestias','Daño a distancia, mucho daño de la mascota',['dps']],['Puntería','Daño a distancia',['dps']],['Supervivencia','Cuerpo a cuerpo y a distancia, trampas',['dps']]],
@@ -1097,18 +1097,18 @@ const CLASSES = [
     lvl:'Ritmo de subida medio',
     lp:0,
     raid:'Los tótems Fuerza de la tierra, Viento Furioso, Lengua de Fuego y Gracia del aire mejoran a toda la banda',
-    forever:'Los enanos ya pueden ser chamanes, así que la clase llega a la Alianza. Estallido de lava se mejoró y Elemental subió en las clasificaciones de daño.' },
+    forever:'Los enanos ya pueden ser chamanes, así que la clase llega a la Alianza. Ráfaga de lava se mejoró y Elemental subió en las clasificaciones de daño.' },
   { id:'mage', n:'Mago', roles:['dps'],
     specs:[['Arcano','Ráfagas, mucho maná',['dps']],['Fuego','Críticos e igniciones',['dps']],['Escarcha','Daño y control',['dps']]],
     lvl:'La subida más rápida, un 8% más rápida que la media (unas 12 horas de ahorro)',
     lp:-8,
     raid:'Portales y comida y agua para todo el grupo',
-    forever:'Fuego recibió Racha caliente, Arcano una Deflagración Arcana rediseñada, Escarcha Lanza de hielo. Descarga de Fuego de Escarcha está disponible desde el nivel 40.' },
+    forever:'Fuego recibió Buena racha, Arcano una Deflagración Arcana rediseñada, Escarcha Lanza de hielo. Descarga de Pirofrío está disponible desde el nivel 40.' },
   { id:'warlock', n:'Brujo', roles:['dps'],
     specs:[['Aflicción','Daño con maldiciones y corrupción',['dps']],['Demonología','Daño a través de demonios',['dps']],['Destrucción','Daño directo de fuego y sombras',['dps']]],
     lvl:'Ritmo de subida medio',
     lp:0,
-    raid:'Maestría en Sombras ahora da un 2–10% de daño de sombras (antes 1–5%)',
+    raid:'Maestría de las Sombras ahora da un 2–10% de daño de sombras (antes 1–5%)',
     forever:'Aflicción tiene un nuevo hechizo canalizado, el demonio se queda con Sacrificio demoníaco, Destrucción gana Incinerar y daño en área.' },
   { id:'druid', n:'Druida', roles:['tank','heal','dps'],
     specs:[['Equilibrio','Daño a distancia',['dps']],['Combate feral','Tanque (oso) y daño cuerpo a cuerpo (gato)',['tank','dps']],['Restauración','Sanador, mucha sanación en el tiempo',['heal']]],
@@ -1120,7 +1120,7 @@ const CLASSES = [
 const ROLE_RU = { tank:'Tanque', heal:'Sanador', dps:'Daño', 'tank?':'Tanque (dudoso)' };
 const ri = r => `<svg class="ri" aria-hidden="true"><use href="#i-${r.replace('?','')}"/></svg>`;
 const CCOL = { warrior:'#c79c6e', paladin:'#f58cba', hunter:'#abd473', rogue:'#fff569', priest:'#e8e8e8', shaman:'#2f8cf0', mage:'#40c7eb', warlock:'#8788ee', druid:'#ff7d0a' };
-const BUFF = { warrior:'Grito de batalla', paladin:'Bendición de reyes', hunter:'Aura de disparo certero', priest:'Espíritu divino', shaman:'Tótems (Fuerza de la tierra, Viento Furioso, Lengua de Fuego, Gracia del aire)', mage:'Portales, comida y agua', druid:'Líder de la manada y Aura de lechúcico lunar' };
+const BUFF = { warrior:'Grito de guerra', paladin:'Bendición de los Reyes', hunter:'Aura de disparo certero', priest:'Espíritu divino', shaman:'Tótems (Fuerza de la tierra, Viento Furioso, Lengua de Fuego, Gracia del aire)', mage:'Portales, comida y agua', druid:'Líder de la manada y Aura de lechúcico lunar' };
 
 const RACES = [
   { id:'human', n:'Humano', f:'alliance',
@@ -1129,15 +1129,15 @@ const RACES = [
     tip:'El espíritu se convierte en sanación para un Sacerdote Sagrado, así que un sacerdote humano es bueno para sanar.' },
   { id:'dwarf', n:'Enano', f:'alliance',
     cls:['warrior','paladin','hunter','rogue','priest','shaman*'],
-    rac:[['a','Forma de piedra','Inmunidad a sangrados, venenos y enfermedades durante 8 s y menos daño físico'],['a','Encontrar tesoro','Muestra cofres cercanos'],['p','Earth Fury','+2% de daño crítico y poder de sanación'],['p','Big Game Hunter','+5% de daño contra bestias']],
-    tip:'Forma de piedra es útil para tanques y en JcJ.' },
+    rac:[['a','Petraforma','Inmunidad a sangrados, venenos y enfermedades durante 8 s y menos daño físico'],['a','Buscar tesoro','Muestra cofres cercanos'],['p','Earth Fury','+2% de daño crítico y poder de sanación'],['p','Big Game Hunter','+5% de daño contra bestias']],
+    tip:'Petraforma es útil para tanques y en JcJ.' },
   { id:'nightelf', n:'Elfo de la noche', f:'alliance',
     cls:['warrior','hunter','rogue','priest','druid'],
-    rac:[['a','Elune’s Light','+10% de probabilidad de crítico durante 15 s'],['a','Fusión de las sombras','Invisibilidad en el sitio'],['p','Rapidez','+1% de esquiva y +2% de velocidad de carrera'],['p','Espíritu de fuego fatuo','+75% de velocidad de carrera como espíritu']],
+    rac:[['a','Elune’s Light','+10% de probabilidad de crítico durante 15 s'],['a','Fusión de las Sombras','Invisibilidad en el sitio'],['p','Prontitud','+1% de esquiva y +2% de velocidad de carrera'],['p','Espíritu de fuego fatuo','+75% de velocidad de carrera como espíritu']],
     tip:'La única raza de la Alianza con druida, salvo que elijas Skyborne.' },
   { id:'gnome', n:'Gnomo', f:'alliance',
     cls:['warrior','rogue','mage','warlock','priest*'],
-    rac:[['a','Artista del escape','Breve inmunidad a ralentizaciones e inmovilizaciones'],['a','Eureka!','Las próximas 3 habilidades cuestan menos y son un 10% más fuertes'],['p','Mente expansiva','+5% de maná, ira o energía máximos'],['p','Especialización en Ingeniería','Los artefactos de ingeniería funcionan de forma más fiable']],
+    rac:[['a','Artista del escape','Breve inmunidad a ralentizaciones e inmovilizaciones'],['a','Eureka!','Las próximas 3 habilidades cuestan menos y son un 10% más fuertes'],['p','Mente expansiva','+5% de maná, ira o energía máximos'],['p','Especialización de ingeniería','Los artefactos de ingeniería funcionan de forma más fiable']],
     tip:'Mente expansiva ayuda sobre todo a las clases de energía.' },
   { id:'skyA', n:'Skyborne (Alianza)', f:'alliance', paid:true, name:'Skyborne High Order',
     cls:['warrior','hunter','rogue','mage','druid'],
@@ -1145,7 +1145,7 @@ const RACES = [
     tip:'Raza de pago: Heroic Pack desde 29,99 $. Empieza en Zephras Isle (niveles 1–12).' },
   { id:'orc', n:'Orco', f:'horde',
     cls:['warrior','hunter','rogue','shaman','warlock','mage*'],
-    rac:[['a','Furia sangrienta','+10% de poder de ataque y poder con hechizos durante 15 s'],['a','Shatter Curse','Inmunidad a maldiciones y corrupción y menos daño mágico durante 8 s'],['p','Savage','+1% de probabilidad de crítico'],['p','Dureza','Los aturdimientos duran un 20% menos']],
+    rac:[['a','Furia sangrienta','+10% de poder de ataque y poder con hechizos durante 15 s'],['a','Shatter Curse','Inmunidad a maldiciones y corrupción y menos daño mágico durante 8 s'],['p','Savage','+1% de probabilidad de crítico'],['p','Firmeza','Los aturdimientos duran un 20% menos']],
     tip:'Furia sangrienta da una potente ventana de daño.' },
   { id:'undead', n:'No-muerto', f:'horde',
     cls:['warrior','rogue','mage','priest','warlock','paladin*'],
@@ -1153,11 +1153,11 @@ const RACES = [
     tip:'Combinación nueva: un paladín para la Horda, donde esta clase no existía antes.' },
   { id:'tauren', n:'Tauren', f:'horde',
     cls:['warrior','hunter','shaman','druid'],
-    rac:[['a','Pisotón de guerra','Aturde a los enemigos cercanos durante 2 s'],['a','Cultivo','Cultiva hierbas que se pueden recoger sin Herboristería'],['p','Plainsrunning','La velocidad aumenta mientras corres'],['p','Aguante','+5% de salud y +2% de daño crítico']],
+    rac:[['a','Pisotón de guerra','Aturde a los enemigos cercanos durante 2 s'],['a','Cultivo','Cultiva hierbas que se pueden recoger sin Herboristería'],['p','Plainsrunning','La velocidad aumenta mientras corres'],['p','Robustez','+5% de salud y +2% de daño crítico']],
     tip:'La única raza de la Horda con druida, salvo que elijas Skyborne.' },
   { id:'troll', n:'Trol', f:'horde',
     cls:['warrior','hunter','rogue','priest','shaman','mage','warlock*'],
-    rac:[['a','Rabiar','+10% de velocidad de ataque y de hechizos durante 10 s'],['a','Rapid Regeneration','Restaura salud con el tiempo'],['p','Matanza de bestias','+5% de daño contra bestias'],['p','Regeneración','La salud se regenera también en combate']],
+    rac:[['a','Iracundia','+10% de velocidad de ataque y de hechizos durante 10 s'],['a','Rapid Regeneration','Restaura salud con el tiempo'],['p','Matanza de bestias','+5% de daño contra bestias'],['p','Regeneración','La salud se regenera también en combate']],
     tip:'Más opciones de clase de la Horda: siete.' },
   { id:'skyH', n:'Skyborne (Horda)', f:'horde', paid:true, name:'Skyborne Windshaper',
     cls:['warrior','hunter','rogue','shaman','druid'],
@@ -1167,7 +1167,7 @@ const RACES = [
 RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
 const CL = Object.fromEntries(CLASSES.map(c => [c.id, c]));
 const RC = Object.fromEntries(RACES.map(r => [r.id, r]));
-const RLEAD = {"human": "La raza más numerosa de la Alianza. Versátil y fuerte en JcJ gracias a Will to Survive.", "dwarf": "Robustos mineros y fusileros de Forjaz. Por primera vez en Classic la Alianza tiene chamanes, y son enanos.", "nightelf": "Un pueblo antiguo de los bosques. Escurridizos: su propia forma de esconderse, esquiva y carrera rápida.", "gnome": "Los inventores de Gnomeregan. Pequeños, astutos y con la mejor habilidad de escape del juego.", "skyA": "Una raza nueva en Forever. Los High Order: elfos del viento que buscan la magia arcana perdida de sus ancestros.", "orc": "El corazón de la Horda. Los guerreros más fuertes y maestros del JcJ gracias a Furia sangrienta y Dureza.", "undead": "Los Renegados: antiguos humanos que se liberaron del Rey Exánime. Inmunes al miedo y al sueño cuando importa.", "tauren": "Gigantes pacíficos de las llanuras. La mayor salud y su propio aturdimiento en área.", "troll": "La tribu Lanza Negra. Más clases que nadie en la Horda y un potente Rabiar para el daño.", "skyH": "Una raza nueva en Forever. Los Windshaper: líderes espirituales de los Skyborne, cercanos a los elementos."}; // race page leads and URL slugs, filled in by build.py
+const RLEAD = {"human": "La raza más numerosa de la Alianza. Versátil y fuerte en JcJ gracias a Will to Survive.", "dwarf": "Robustos mineros y fusileros de Forjaz. Por primera vez en Classic la Alianza tiene chamanes, y son enanos.", "nightelf": "Un pueblo antiguo de los bosques. Escurridizos: su propia forma de esconderse, esquiva y carrera rápida.", "gnome": "Los inventores de Gnomeregan. Pequeños, astutos y con la mejor habilidad de escape del juego.", "skyA": "Una raza nueva en Forever. Los High Order: elfos del viento que buscan la magia arcana perdida de sus ancestros.", "orc": "El corazón de la Horda. Los guerreros más fuertes y maestros del JcJ gracias a Furia sangrienta y Firmeza.", "undead": "Los Renegados: antiguos humanos que se liberaron del Rey Exánime. Inmunes al miedo y al sueño cuando importa.", "tauren": "Gigantes pacíficos de las llanuras. La mayor salud y su propio aturdimiento en área.", "troll": "La tribu Lanza Negra. Más clases que nadie en la Horda y una potente Iracundia para el daño.", "skyH": "Una raza nueva en Forever. Los Windshaper: líderes espirituales de los Skyborne, cercanos a los elementos."}; // race page leads and URL slugs, filled in by build.py
 const RSLUG = {"human": "human", "dwarf": "dwarf", "nightelf": "night-elf", "gnome": "gnome", "skyA": "skyborne-alliance", "orc": "orc", "undead": "undead", "tauren": "tauren", "troll": "troll", "skyH": "skyborne-horde"};
 
 const EN = {
@@ -1178,14 +1178,14 @@ const EN = {
   'Arcano':'Arcane','Fuego':'Fire','Escarcha':'Frost','Aflicción':'Affliction','Demonología':'Demonology','Destrucción':'Destruction',
   'Equilibrio':'Balance','Combate feral':'Feral',
   'Will to Survive':'Will to Survive','Percepción':'Perception','Ruthless':'Ruthless','El espíritu humano':'The Human Spirit',
-  'Forma de piedra':'Stoneform','Encontrar tesoro':'Find Treasure','Earth Fury':'Earth Fury','Big Game Hunter':'Big Game Hunter',
-  'Elune’s Light':"Elune’s Light",'Fusión de las sombras':'Shadowmeld','Rapidez':'Quickness','Espíritu de fuego fatuo':'Wisp Spirit',
-  'Artista del escape':'Escape Artist','Eureka!':'Eureka!','Mente expansiva':'Expansive Mind','Especialización en Ingeniería':'Engineering Specialization',
+  'Petraforma':'Stoneform','Buscar tesoro':'Find Treasure','Earth Fury':'Earth Fury','Big Game Hunter':'Big Game Hunter',
+  'Elune’s Light':"Elune’s Light",'Fusión de las Sombras':'Shadowmeld','Prontitud':'Quickness','Espíritu de fuego fatuo':'Wisp Spirit',
+  'Artista del escape':'Escape Artist','Eureka!':'Eureka!','Mente expansiva':'Expansive Mind','Especialización de ingeniería':'Engineering Specialization',
   'Walk on Air':'Walk on Air','Read Ley Line':'Read Ley Line','Wind Blessed':'Wind Blessed','Elemental Insight':'Elemental Insight','Skysight':'Skysight',
-  'Furia sangrienta':'Blood Fury','Shatter Curse':'Shatter Curse','Savage':'Savage','Dureza':'Hardiness',
+  'Furia sangrienta':'Blood Fury','Shatter Curse':'Shatter Curse','Savage':'Savage','Firmeza':'Hardiness',
   'Voluntad de los Renegados':'Will of the Forsaken','Canibalizar':'Cannibalize','Respiración subacuática':'Underwater Breathing','Touch of the Grave':'Touch of the Grave',
-  'Pisotón de guerra':'War Stomp','Cultivo':'Cultivation','Plainsrunning':'Plainsrunning','Aguante':'Endurance',
-  'Rabiar':'Berserking','Rapid Regeneration':'Rapid Regeneration','Matanza de bestias':'Beast Slaying','Regeneración':'Regeneration'
+  'Pisotón de guerra':'War Stomp','Cultivo':'Cultivation','Plainsrunning':'Plainsrunning','Robustez':'Endurance',
+  'Iracundia':'Berserking','Rapid Regeneration':'Rapid Regeneration','Matanza de bestias':'Beast Slaying','Regeneración':'Regeneration'
 };
 RC.skyA.en = 'High Order Skyborne'; RC.skyH.en = 'Windshaper Skyborne';
 const tipBox = h => `<div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Consejo</span>${h}</p></div>`;
@@ -1602,18 +1602,18 @@ const nearLvl = (d, lv) => lv >= d[1] - 3 && lv <= d[2] + 3;
 
 /* Professions: camp object (tier 1) and the class buff it stands in for */
 const PROFS = [
-  ['alchemy', 'Alquimia', 1, 'Mana Well', 'como Bendición de sabiduría'],
-  ['blacksmithing', 'Herrería', 1, 'Sharpening Wheel', 'como el Tótem Fuerza de la tierra'],
-  ['enchanting', 'Encantamiento', 1, 'Enchanted Lute', 'como Marca de lo Salvaje'],
+  ['alchemy', 'Alquimia', 1, 'Mana Well', 'como Bendición de Sabiduría'],
+  ['blacksmithing', 'Herrería', 1, 'Sharpening Wheel', 'como Fuerza de tótem de la Tierra'],
+  ['enchanting', 'Encantamiento', 1, 'Enchanted Lute', 'como Marca de lo salvaje'],
   ['engineering', 'Ingeniería', 1, 'Reagent Bot', 'vendedor de componentes, reparaciones en nivel 2'],
   ['herbalism', 'Herboristería', 1, 'Incense Candle', 'como Intelecto Arcano'],
   ['leatherworking', 'Peletería', 1, 'Camp Tent', 'más experiencia por descanso'],
-  ['mining', 'Minería', 1, 'Lodestone', 'como Bendición de poderío'],
-  ['skinning', 'Desuello', 1, 'Camp Chair', 'como Aura de lechúcico lunar'],
+  ['mining', 'Minería', 1, 'Lodestone', 'como Bendición del poderío'],
+  ['skinning', 'Desollando', 1, 'Camp Chair', 'como Aura de lechúcico lunar'],
   ['tailoring', 'Sastrería', 1, 'Faction Banner', 'como Espíritu divino'],
   ['cooking', 'Cocina', 0, 'Basic Campfire', 'más huecos para objetos en el campamento'],
   ['firstaid', 'Primeros auxilios', 0, 'First Aid Kit', 'como Palabra de poder: entereza'],
-  ['fishing', 'Pesca', 0, 'Fish Bowl', 'como Bendición de reyes']
+  ['fishing', 'Pesca', 0, 'Fish Bowl', 'como Bendición de los Reyes']
 ];
 const PR = Object.fromEntries(PROFS.map(p => [p[0], p]));
 
@@ -1678,15 +1678,15 @@ const STAGES = [
     prof: [['f', 'Cada profesión tiene sus propios objetos de campamento de nivel 2 y 3. El segundo objeto de Ingeniería, Repair Bot, repara el equipo.'],
       ['t', 'Mantened Cocina 220 en el grupo para un campamento de 10 objetos: para las bandas habrá sitio para todos.']],
     legacy: [['f', 'Como máximo 16 puntos por personaje, el resto va a la ruta de recompensas: un juguete a los 15, una mascota a los 25, un tabardo a los 40, una montura a los 55.']],
-    group: [['f', 'Las bandas abren el 09.12: Barrow Deeps para 10 jugadores, Cima Hyjal para 20, Guarida de Onyxia para 40.'],
+    group: [['f', 'Las bandas abren el 09.12: Barrow Deeps para 10 jugadores, la Cima Hyjal para 20, Guarida de Onyxia para 40.'],
       ['t', 'La banda de 10 necesita 10 jugadores: si sois menos, buscad al resto en vuestra hermandad con tiempo.']],
     src: ['ride', 'prof', 'legacy', 'cwg'] },
   { id: 'raid', n: '60 y bandas', sub: 'desde el 09.12', lo: 60, hi: 60,
-    todo: [['f', 'El 09.12 abren Barrow Deeps (10 jugadores), Cima Hyjal (20) y Guarida de Onyxia (40, Marjal Revolcafango).'],
+    todo: [['f', 'El 09.12 abren Barrow Deeps (10 jugadores), la Cima Hyjal (20) y Guarida de Onyxia (40, Marjal Revolcafango).'],
       ['f', 'Completar cada una de las tres bandas da un punto de Legacy.'],
       ['f', 'Nuevo campo de batalla 15c15: Darkspear Islands, frente a la costa del Marjal Revolcafango.'],
       ['t', 'Mientras reunís gente para la banda, haced mazmorras de nivel 60 para conseguir equipo.']],
-    prof: [['f', 'Los beneficios del campamento son algo más débiles que los de clase y no se acumulan con ellos: Bendición de reyes da un 10% a todas las estadísticas, el campamento un 8%.'],
+    prof: [['f', 'Los beneficios del campamento son algo más débiles que los de clase y no se acumulan con ellos: Bendición de los Reyes da un 10% a todas las estadísticas, el campamento un 8%.'],
       ['t', 'Montad el campamento en la entrada de la banda: sus beneficios cubren lo que les falta a vuestras clases.']],
     legacy: [['f', 'Desafíos para el nivel 60: mazmorras 3, bandas 3, JcJ 12. El JcJ tiene rangos con tope semanal y mejoras de equipo por Honor.']],
     group: [['f', 'Los mismos beneficios de dos jugadores de una clase se solapan; los de clases distintas se acumulan.'],

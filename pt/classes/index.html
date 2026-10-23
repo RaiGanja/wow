@@ -1031,54 +1031,54 @@ const CLASSES = [
     specs:[['Disciplina','Curador, escudos e absorção',['heal']],['Sagrado','Curador',['heal']],['Sombra','Dano à distância',['dps']]],
     lvl:'Cerca de 5% mais lenta que a média',
     lp:5,
-    raid:'Espírito Divino agora é básico. O dano de Sombra e Praga Devoradora (recarga de 24 s) foram fortalecidos pelo patch de 15 de outubro.',
-    forever:'Proteção contra Medo e Praga Devoradora ficam disponíveis a partir do nível 20 para qualquer raça. Cada raça tem dois feitiços de sacerdote próprios.' },
+    raid:'Espírito Divino agora é básico. O dano de Sombra e Peste Devoradora (recarga de 24 s) foram fortalecidos pelo patch de 15 de outubro.',
+    forever:'Proteção contra Medo e Peste Devoradora ficam disponíveis a partir do nível 20 para qualquer raça. Cada raça tem dois feitiços de sacerdote próprios.' },
   { id:'shaman', n:'Xamã', roles:['heal','dps','tank?'],
     specs:[['Elemental','Dano à distância',['dps']],['Aperfeiçoamento','Dano corpo a corpo. A capacidade de tanquear ainda é incerta',['dps','tank?']],['Restauração','Curador',['heal']]],
     lvl:'Ritmo de evolução médio',
     lp:0,
     raid:'Os totens Força da Terra, Fúria dos Ventos, Labaredas e Graça do Ar dão bônus à raide toda',
-    forever:'Anões agora podem ser xamãs, então a classe chegou à Aliança. Explosão de Lava foi fortalecida, Elemental subiu no ranking de dano.' },
+    forever:'Anões agora podem ser xamãs, então a classe chegou à Aliança. Estouro de Lava foi fortalecida, Elemental subiu no ranking de dano.' },
   { id:'mage', n:'Mago', roles:['dps'],
-    specs:[['Arcano','Explosão de dano, muita mana',['dps']],['Fogo','Críticos e ignições',['dps']],['Gelo','Dano e controle',['dps']]],
+    specs:[['Arcano','Explosão de dano, muita mana',['dps']],['Fogo','Críticos e ignições',['dps']],['Gélido','Dano e controle',['dps']]],
     lvl:'A evolução mais rápida, cerca de 8% mais rápida que a média (cerca de 12 horas a menos)',
     lp:-8,
     raid:'Portais, comida e água para o grupo todo',
-    forever:'Fogo ganhou Hotstreak, Arcano ganhou uma Explosão Arcana reformulada, Gelo ganhou Lança de Gelo. Seta de Fogofrio fica disponível a partir do nível 40.' },
+    forever:'Fogo ganhou Embalo de Fogo, Arcano ganhou uma Explosão Arcana reformulada, Gélido ganhou Lança de Gelo. Seta de Fogofrio fica disponível a partir do nível 40.' },
   { id:'warlock', n:'Bruxo', roles:['dps'],
     specs:[['Suplício','Dano de maldições e corrupção',['dps']],['Demonologia','Dano por meio de demônios',['dps']],['Destruição','Dano direto de fogo e de sombra',['dps']]],
     lvl:'Ritmo de evolução médio',
     lp:0,
-    raid:'Domínio Sombrio agora dá 2–10% de dano de sombra (antes 1–5%)',
+    raid:'Maestria em Sombras agora dá 2–10% de dano de sombra (antes 1–5%)',
     forever:'Suplício tem um novo feitiço canalizado, o demônio fica com Sacrifício Demoníaco, Destruição ganhou Incinerar e dano em área.' },
   { id:'druid', n:'Druida', roles:['tank','heal','dps'],
-    specs:[['Equilíbrio','Dano à distância',['dps']],['Feral','Tanque (urso) e dano corpo a corpo (gato)',['tank','dps']],['Restauração','Curador, muita cura ao longo do tempo',['heal']]],
+    specs:[['Equilíbrio','Dano à distância',['dps']],['Combate Feral','Tanque (urso) e dano corpo a corpo (gato)',['tank','dps']],['Restauração','Curador, muita cura ao longo do tempo',['heal']]],
     lvl:'Cerca de 5% mais lenta que a média',
     lp:5,
-    raid:'Líder da Matilha e Aura de Luniscante afetam a raide toda e se acumulam',
+    raid:'Líder do Bando e Aura de Luniscante afetam a raide toda e se acumulam',
     forever:'Cada especialização ganhou uma função clara, as formas funcionam com poções e encantamentos de arma. Você pode ser tanque, curador e lutador num só personagem.' }
 ];
 const ROLE_RU = { tank:'Tanque', heal:'Curador', dps:'Dano', 'tank?':'Tanque (incerto)' };
 const ri = r => `<svg class="ri" aria-hidden="true"><use href="#i-${r.replace('?','')}"/></svg>`;
 const CCOL = { warrior:'#c79c6e', paladin:'#f58cba', hunter:'#abd473', rogue:'#fff569', priest:'#e8e8e8', shaman:'#2f8cf0', mage:'#40c7eb', warlock:'#8788ee', druid:'#ff7d0a' };
-const BUFF = { warrior:'Brado de Batalha', paladin:'Bênção dos Reis', hunter:'Aura de Tiro Certeiro', priest:'Espírito Divino', shaman:'Totens (Força da Terra, Fúria dos Ventos, Labaredas, Graça do Ar)', mage:'Portais, comida e água', druid:'Líder da Matilha e Aura de Luniscante' };
+const BUFF = { warrior:'Brado de Batalha', paladin:'Bênção dos Reis', hunter:'Aura de Tiro Certeiro', priest:'Espírito Divino', shaman:'Totens (Força da Terra, Fúria dos Ventos, Labaredas, Graça do Ar)', mage:'Portais, comida e água', druid:'Líder do Bando e Aura de Luniscante' };
 
 const RACES = [
   { id:'human', n:'Humano', f:'alliance',
     cls:['warrior','paladin','hunter*','rogue','priest','mage','warlock'],
-    rac:[['a','Vontade de Sobreviver','Remove atordoamento'],['a','Percepção','Revela inimigos invisíveis por 20 s'],['p','Ruthless','+2% de chance de crítico'],['p','O Espírito Humano','+5% de espírito']],
+    rac:[['a','Desejo de Sobreviver','Remove atordoamento'],['a','Percepção','Revela inimigos invisíveis por 20 s'],['p','Ruthless','+2% de chance de crítico'],['p','O Espírito Humano','+5% de espírito']],
     tip:'O espírito vira cura para um Sacerdote Sagrado, então um sacerdote humano é bom para curar.' },
   { id:'dwarf', n:'Anão', f:'alliance',
     cls:['warrior','paladin','hunter','rogue','priest','shaman*'],
-    rac:[['a','Forma de Pedra','Imunidade a sangramentos, venenos e doenças por 8 s e dano físico reduzido'],['a','Encontrar Tesouro','Mostra baús por perto'],['p','Earth Fury','+2% de dano crítico e de poder de cura'],['p','Big Game Hunter','+5% de dano contra feras']],
+    rac:[['a','Forma de Pedra','Imunidade a sangramentos, venenos e doenças por 8 s e dano físico reduzido'],['a','Localizar Tesouros','Mostra baús por perto'],['p','Earth Fury','+2% de dano crítico e de poder de cura'],['p','Big Game Hunter','+5% de dano contra feras']],
     tip:'Forma de Pedra é útil para tanques e no PvP.' },
   { id:'nightelf', n:'Elfo Noturno', f:'alliance',
     cls:['warrior','hunter','rogue','priest','druid'],
-    rac:[['a','Elune’s Light','+10% de chance de crítico por 15 s'],['a','Fusão Sombria','Invisibilidade sem sair do lugar'],['p','Rapidez','+1% de esquiva e +2% de velocidade de corrida'],['p','Espírito de Lampejo','+75% de velocidade de corrida como espírito']],
+    rac:[['a','Luz de Eluna','+10% de chance de crítico por 15 s'],['a','Fusão Sombria','Invisibilidade sem sair do lugar'],['p','Rapidez','+1% de esquiva e +2% de velocidade de corrida'],['p','Espírito de Fogo-fátuo','+75% de velocidade de corrida como espírito']],
     tip:'A única raça da Aliança com druida, a menos que você pegue Skyborne.' },
   { id:'gnome', n:'Gnomo', f:'alliance',
     cls:['warrior','rogue','mage','warlock','priest*'],
-    rac:[['a','Artista da Fuga','Breve imunidade a lentidão e enraizamento'],['a','Eureka!','As próximas 3 habilidades custam menos e ficam 10% mais fortes'],['p','Mente Expansiva','+5% de mana, raiva ou energia máxima'],['p','Especialização em Engenharia','Dispositivos de engenharia funcionam com mais confiabilidade']],
+    rac:[['a','Artista da Fuga','Breve imunidade a lentidão e enraizamento'],['a','Eureca!','As próximas 3 habilidades custam menos e ficam 10% mais fortes'],['p','Mente Expansiva','+5% de mana, raiva ou energia máxima'],['p','Especialização em Engenharia','Dispositivos de engenharia funcionam com mais confiabilidade']],
     tip:'Mente Expansiva ajuda especialmente as classes de energia.' },
   { id:'skyA', n:'Skyborne (Aliança)', f:'alliance', paid:true, name:'Skyborne da High Order',
     cls:['warrior','hunter','rogue','mage','druid'],
@@ -1090,15 +1090,15 @@ const RACES = [
     tip:'Fúria Sangrenta dá uma janela de dano poderosa.' },
   { id:'undead', n:'Morto-vivo', f:'horde',
     cls:['warrior','rogue','mage','priest','warlock','paladin*'],
-    rac:[['a','Vontade dos Renegados','Remove enfeitiçamento, medo e sono'],['a','Canibalizar','Restaura 35% de vida e mana ao longo do tempo'],['p','Respiração Subaquática','Respira debaixo d’água por mais tempo'],['p','Touch of the Grave','5% de chance de drenar vida ao atacar']],
+    rac:[['a','Determinação dos Renegados','Remove enfeitiçamento, medo e sono'],['a','Canibalizar','Restaura 35% de vida e mana ao longo do tempo'],['p','Respiração Subaquática','Respira debaixo d’água por mais tempo'],['p','Toque do Túmulo','5% de chance de drenar vida ao atacar']],
     tip:'Nova combinação: um paladino para a Horda, onde essa classe não existia antes.' },
-  { id:'tauren', n:'Tauren', f:'horde',
+  { id:'tauren', n:'Taureno', f:'horde',
     cls:['warrior','hunter','shaman','druid'],
-    rac:[['a','Pisada de Guerra','Atordoa inimigos próximos por 2 s'],['a','Cultivo','Faz crescer ervas que podem ser colhidas sem Herborismo'],['p','Plainsrunning','A velocidade aumenta enquanto você corre'],['p','Resistência','+5% de vida e +2% de dano crítico']],
+    rac:[['a','Pisada de Guerra','Atordoa inimigos próximos por 2 s'],['a','Cultivo','Faz crescer ervas que podem ser colhidas sem Herborismo'],['p','Vencer Planícies','A velocidade aumenta enquanto você corre'],['p','Resistência','+5% de vida e +2% de dano crítico']],
     tip:'A única raça da Horda com druida, a menos que você pegue Skyborne.' },
   { id:'troll', n:'Troll', f:'horde',
     cls:['warrior','hunter','rogue','priest','shaman','mage','warlock*'],
-    rac:[['a','Frenesi','+10% de velocidade de ataque e de feitiços por 10 s'],['a','Rapid Regeneration','Restaura vida ao longo do tempo'],['p','Matança de Feras','+5% de dano contra feras'],['p','Regeneração','A vida se regenera também em combate']],
+    rac:[['a','Berserk','+10% de velocidade de ataque e de feitiços por 10 s'],['a','Regeneração Rápida','Restaura vida ao longo do tempo'],['p','Matança de Feras','+5% de dano contra feras'],['p','Regeneração','A vida se regenera também em combate']],
     tip:'O maior número de classes na Horda: sete.' },
   { id:'skyH', n:'Skyborne (Horda)', f:'horde', paid:true, name:'Skyborne Windshaper',
     cls:['warrior','hunter','rogue','shaman','druid'],
@@ -1108,7 +1108,7 @@ const RACES = [
 RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
 const CL = Object.fromEntries(CLASSES.map(c => [c.id, c]));
 const RC = Object.fromEntries(RACES.map(r => [r.id, r]));
-const RLEAD = {"human": "A raça mais numerosa da Aliança. Versátil e forte no PvP graças a Vontade de Sobreviver.", "dwarf": "Mineradores e fuzileiros robustos de Altaforja. Pela primeira vez no Classic a Aliança tem xamãs, e eles são anões.", "nightelf": "Um povo antigo das florestas. Esquivos: seu próprio jeito de se esconder, esquivar e correr rápido.", "gnome": "Os inventores de Gnomeregan. Pequenos, astutos e com a melhor habilidade de fuga do jogo.", "skyA": "Uma nova raça no Forever. A High Order: elfos do vento em busca da magia arcana perdida dos seus ancestrais.", "orc": "O coração da Horda. Os guerreiros mais fortes e mestres do PvP graças a Fúria Sangrenta e Robustez.", "undead": "Os Renegados: ex-humanos que se libertaram do Lich Rei. Imunes a medo e sono quando importa.", "tauren": "Gigantes pacíficos das planícies. A maior vida e seu próprio atordoamento em área.", "troll": "A tribo Lançanegra. O maior número de classes na Horda e um Frenesi forte para dano.", "skyH": "Uma nova raça no Forever. Os Windshapers: líderes espirituais dos Skyborne, próximos aos elementos."}; // race page leads and URL slugs, filled in by build.py
+const RLEAD = {"human": "A raça mais numerosa da Aliança. Versátil e forte no PvP graças a Desejo de Sobreviver.", "dwarf": "Mineradores e fuzileiros robustos de Altaforja. Pela primeira vez no Classic a Aliança tem xamãs, e eles são anões.", "nightelf": "Um povo antigo das florestas. Esquivos: seu próprio jeito de se esconder, esquivar e correr rápido.", "gnome": "Os inventores de Gnomeregan. Pequenos, astutos e com a melhor habilidade de fuga do jogo.", "skyA": "Uma nova raça no Forever. A High Order: elfos do vento em busca da magia arcana perdida dos seus ancestrais.", "orc": "O coração da Horda. Os guerreiros mais fortes e mestres do PvP graças a Fúria Sangrenta e Robustez.", "undead": "Os Renegados: ex-humanos que se libertaram do Lich Rei. Imunes a medo e sono quando importa.", "tauren": "Gigantes pacíficos das planícies. A maior vida e seu próprio atordoamento em área.", "troll": "A tribo Lançanegra. O maior número de classes na Horda e um Berserk forte para dano.", "skyH": "Uma nova raça no Forever. Os Windshapers: líderes espirituais dos Skyborne, próximos aos elementos."}; // race page leads and URL slugs, filled in by build.py
 const RSLUG = {"human": "human", "dwarf": "dwarf", "nightelf": "night-elf", "gnome": "gnome", "skyA": "skyborne-alliance", "orc": "orc", "undead": "undead", "tauren": "tauren", "troll": "troll", "skyH": "skyborne-horde"};
 
 const EN = {
@@ -1116,17 +1116,17 @@ const EN = {
   'Domínio das Feras':'Beast Mastery','Precisão':'Marksmanship','Sobrevivência':'Survival',
   'Assassinato':'Assassination','Combate':'Combat','Subterfúgio':'Subtlety',
   'Disciplina':'Discipline','Sombra':'Shadow','Elemental':'Elemental','Aperfeiçoamento':'Enhancement','Restauração':'Restoration',
-  'Arcano':'Arcane','Fogo':'Fire','Gelo':'Frost','Suplício':'Affliction','Demonologia':'Demonology','Destruição':'Destruction',
-  'Equilíbrio':'Balance','Feral':'Feral',
-  'Vontade de Sobreviver':'Will to Survive','Percepção':'Perception','Ruthless':'Ruthless','O Espírito Humano':'The Human Spirit',
-  'Forma de Pedra':'Stoneform','Encontrar Tesouro':'Find Treasure','Earth Fury':'Earth Fury','Big Game Hunter':'Big Game Hunter',
-  'Elune’s Light':"Elune’s Light",'Fusão Sombria':'Shadowmeld','Rapidez':'Quickness','Espírito de Lampejo':'Wisp Spirit',
-  'Artista da Fuga':'Escape Artist','Eureka!':'Eureka!','Mente Expansiva':'Expansive Mind','Especialização em Engenharia':'Engineering Specialization',
+  'Arcano':'Arcane','Fogo':'Fire','Gélido':'Frost','Suplício':'Affliction','Demonologia':'Demonology','Destruição':'Destruction',
+  'Equilíbrio':'Balance','Combate Feral':'Feral',
+  'Desejo de Sobreviver':'Will to Survive','Percepção':'Perception','Ruthless':'Ruthless','O Espírito Humano':'The Human Spirit',
+  'Forma de Pedra':'Stoneform','Localizar Tesouros':'Find Treasure','Earth Fury':'Earth Fury','Big Game Hunter':'Big Game Hunter',
+  'Luz de Eluna':"Elune’s Light",'Fusão Sombria':'Shadowmeld','Rapidez':'Quickness','Espírito de Fogo-fátuo':'Wisp Spirit',
+  'Artista da Fuga':'Escape Artist','Eureca!':'Eureka!','Mente Expansiva':'Expansive Mind','Especialização em Engenharia':'Engineering Specialization',
   'Walk on Air':'Walk on Air','Read Ley Line':'Read Ley Line','Wind Blessed':'Wind Blessed','Elemental Insight':'Elemental Insight','Skysight':'Skysight',
   'Fúria Sangrenta':'Blood Fury','Shatter Curse':'Shatter Curse','Savage':'Savage','Robustez':'Hardiness',
-  'Vontade dos Renegados':'Will of the Forsaken','Canibalizar':'Cannibalize','Respiração Subaquática':'Underwater Breathing','Touch of the Grave':'Touch of the Grave',
-  'Pisada de Guerra':'War Stomp','Cultivo':'Cultivation','Plainsrunning':'Plainsrunning','Resistência':'Endurance',
-  'Frenesi':'Berserking','Rapid Regeneration':'Rapid Regeneration','Matança de Feras':'Beast Slaying','Regeneração':'Regeneration'
+  'Determinação dos Renegados':'Will of the Forsaken','Canibalizar':'Cannibalize','Respiração Subaquática':'Underwater Breathing','Toque do Túmulo':'Touch of the Grave',
+  'Pisada de Guerra':'War Stomp','Cultivo':'Cultivation','Vencer Planícies':'Plainsrunning','Resistência':'Endurance',
+  'Berserk':'Berserking','Regeneração Rápida':'Rapid Regeneration','Matança de Feras':'Beast Slaying','Regeneração':'Regeneration'
 };
 RC.skyA.en = 'High Order Skyborne'; RC.skyH.en = 'Windshaper Skyborne';
 const tipBox = h => `<div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Dica</span>${h}</p></div>`;
