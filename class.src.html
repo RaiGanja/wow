@@ -26,6 +26,16 @@
 <link rel="preload" href="@@ROOT@@assets/fonts/golos-text-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" type="image/avif" imagesrcset="@@ROOT@@assets/art/@@ID@@-600.avif 600w, @@ROOT@@assets/art/@@ID@@-896.avif 896w" imagesizes="(max-width: 719px) 100vw, 75vh">
 <style>
+.cprofs { margin-top: -12px; }   /* section gap 28px -> the 16px of the panels above */
+@media (max-width: 719px) { .cprofs { margin-top: -6px; } }
+.cpairs { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 16px 32px; }
+.cpairs li { display: grid; gap: 6px; align-content: start; min-width: 0; }
+.cpairs b { font-weight: 600; font-size: 1.06rem; }
+.cpairs .pcamp { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 8px; align-items: start; color: var(--muted); font-size: .92rem; }
+.cpairs .pcamp .ico { width: 18px; height: 18px; margin-top: 3px; color: var(--gold-2); }
+.cprofs .pmore { justify-self: start; color: var(--gold-2); font-weight: 500; text-decoration: none; }
+.cprofs .pmore:hover { text-decoration: underline; }
+.cprofs .pmore .ico { width: 16px; height: 16px; margin-left: 6px; vertical-align: -3px; }
 @@BASE_CSS@@
 /* Class page: full-screen portrait hero, spec tabs, races, group use, other classes */
 .chero { position: relative; isolation: isolate; overflow: hidden; min-height: max(620px, 100svh); display: grid; align-content: end; color: var(--ink); background: #08090b; }
@@ -213,8 +223,9 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   <div class="sec-head"><h2>В группе и в прокачке</h2></div>
   <div class="grid2">
     <div class="panel"><h3>Польза для группы</h3><ul class="dots">@@GROUP@@</ul></div>
-    <div class="panel"><h3>Прокачка</h3><p>@@LVL@@</p><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>@@PROFS@@</p></div></div>
+    <div class="panel"><h3>Прокачка</h3><p>@@LVL@@</p></div>
   </div>
+  @@PROFS@@
 </section>
 
 <section class="block wrap" id="pc">

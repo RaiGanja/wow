@@ -43,6 +43,16 @@
 <link rel="preload" href="../../assets/fonts/golos-text-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" type="image/avif" imagesrcset="../../assets/art/warlock-600.avif 600w, ../../assets/art/warlock-896.avif 896w" imagesizes="(max-width: 719px) 100vw, 75vh">
 <style>
+.cprofs { margin-top: -12px; }   /* section gap 28px -> the 16px of the panels above */
+@media (max-width: 719px) { .cprofs { margin-top: -6px; } }
+.cpairs { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 16px 32px; }
+.cpairs li { display: grid; gap: 6px; align-content: start; min-width: 0; }
+.cpairs b { font-weight: 600; font-size: 1.06rem; }
+.cpairs .pcamp { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 8px; align-items: start; color: var(--muted); font-size: .92rem; }
+.cpairs .pcamp .ico { width: 18px; height: 18px; margin-top: 3px; color: var(--gold-2); }
+.cprofs .pmore { justify-self: start; color: var(--gold-2); font-weight: 500; text-decoration: none; }
+.cprofs .pmore:hover { text-decoration: underline; }
+.cprofs .pmore .ico { width: 16px; height: 16px; margin-left: 6px; vertical-align: -3px; }
 /* Game-portal layout: full-screen art hero, faction banners, class portrait roster, tools, guides band. Night + gold, light paper theme for content. */
 @font-face { font-family: "Bona Nova SC"; font-style: normal; font-weight: 400 700; font-display: swap; src: url(../../assets/fonts/bona-nova-sc-cyrillic.woff2) format("woff2"); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
 @font-face { font-family: "Bona Nova SC"; font-style: normal; font-weight: 400 700; font-display: swap; src: url(../../assets/fonts/bona-nova-sc-latin-ext.woff2) format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
@@ -1003,7 +1013,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=d107c7a109" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=b6b856d926" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/me/me.css?v=accf6780cc" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://gabella.site/wow/"},{"@type":"ListItem","position":2,"name":"Классы","item":"https://gabella.site/wow/classes/"},{"@type":"ListItem","position":3,"name":"Чернокнижник","item":"https://gabella.site/wow/classes/warlock/"}]}</script>
 </head>
@@ -1089,8 +1099,9 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   <div class="sec-head"><h2>В группе и в прокачке</h2></div>
   <div class="grid2">
     <div class="panel"><h3>Польза для группы</h3><ul class="dots"><li>Камень здоровья и Камень души</li><li>Ритуал призыва: собирает группу</li><li>Проклятие косноязычия замедляет заклинания на 60%</li><li>Проклятие стихий: больше магического урона по цели</li></ul></div>
-    <div class="panel"><h3>Прокачка</h3><p>Средний темп прокачки</p><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>Портняжное дело и наложение чар. Знамя фракции из портняжного дела даёт дух для Жизнеотвода.</p></div></div>
+    <div class="panel"><h3>Прокачка</h3><p>Средний темп прокачки</p></div>
   </div>
+  <div class="panel cprofs" id="profs"><h3>Профессии</h3><ul class="cpairs"><li><b>Портняжное дело + Наложение чар</b><span class="d">Знамя Faction Banner от портного даёт дух для Жизнеотвода (Life Tap).</span><span class="pcamp"><svg class="ico" aria-hidden="true"><use href="#i-fire"/></svg><span>В лагере: Faction Banner — как Божественный дух; Enchanted Lute — как Знак дикой природы</span></span></li><li><b>Алхимия + Травничество</b><span class="d">Зелья для себя и группы и заработок золота. Подходит любому классу.</span><span class="pcamp"><svg class="ico" aria-hidden="true"><use href="#i-fire"/></svg><span>В лагере: Mana Well — как Благословение мудрости; Incense Candle — как Чародейский интеллект</span></span></li></ul><p class="small">Пассивных бонусов у профессий в Forever нет: характеристики дают вещи, зелья и чары, которые вы делаете, и баффы объектов лагеря.</p><a class="pmore" href="../../guides/professions/#pairs=warlock">Все пары, объекты лагеря и прокачка навыка<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
 </section>
 
 <section class="block wrap" id="pc">
@@ -1242,7 +1253,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=d107c7a109" data-root="../../" defer></script>
+<script src="../../assets/search/search.js?v=b6b856d926" data-root="../../" defer></script>
 <script src="../../assets/me/me.js?v=accf6780cc" data-root="../../" data-home="../../" data-lang="ru" data-teaser="Профиль копит ваш путь: Слава, рамки, сезоны" data-close="Закрыть" data-page="classes/warlock/" data-look="1" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
