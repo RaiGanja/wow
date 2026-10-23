@@ -3,8 +3,8 @@
 (stations, the "On air" day plan, titles, authors, licenses, durations) that assets/radio/radio.js reads when the panel opens.
 Track lists: tools/radio_tracks.py. Sources are saved into one folder as <Title>.<mp3|ogg|wav|flac> (":" in a title -> "_");
 Kevin MacLeod: https://incompetech.com/music/royalty-free/mp3-royaltyfree/<file>.mp3 (file names: incompetech.com/music/royalty-free/pieces.json).
-The .m4a files are served from MEDIA (Cloudflare R2), not from the site: upload the tracks folder there after a run
-(npx wrangler r2 object put gabella-media/radio/<file> --file <tracks folder>/<file> --remote).
+The .m4a files are served from MEDIA (Cloudflare R2), not from the site: after a run upload the new ones with
+tools/upload_radio.sh <tracks folder>.
 Run: python tools/make_radio.py <folder with the sources> <tracks folder>  (needs ffmpeg and ffprobe in PATH)"""
 import glob, json, os, re, subprocess, sys
 
