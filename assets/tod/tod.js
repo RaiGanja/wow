@@ -14,7 +14,9 @@
     i.src = i.getAttribute('data-src').replace(/\{tod\}/g, t);
     return i;
   };
-  const emit = (name, detail) => document.dispatchEvent(new CustomEvent(name, { detail }));
+  // decode ok, failed or 3 s passed: a decode that never settles (hidden tab) must not wedge the transition
+  const ready = i => Promise.race([i.decode(), new Promise(r => setTimeout(r, 3000))]).catch(() => {});
+  const emit =(name, detail) => document.dispatchEvent(new CustomEvent(name, { detail }));
   let busy = null, want = null;   // want: the latest requested variant, so a pick made during a running fade is not lost
 
   function go(to, ms) {
@@ -27,7 +29,7 @@
     next.querySelectorAll('canvas').forEach(c => c.remove());
     next.classList.add('tod-next');
     const img = fill(next, to);
-    busy = img.decode().catch(() => {}).then(() => new Promise(done => {
+    busy = ready(img).then(() => new Promise(done => {
       emit('gabella:tod-start', { from, to });
       ms = STILL.matches ? 0 : ms;
       next.style.transitionDuration = ms + 'ms';
@@ -46,7 +48,7 @@
           if (want && want !== G.now) go(want, 1200); else want = null;
           done();
         };
-        base.decode().then(swap, swap);
+        ready(base).then(swap);
       }, ms + 50);
     }));
     return busy;
