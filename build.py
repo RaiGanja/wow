@@ -582,6 +582,17 @@ NCLS = {4: 'Четыре класса', 5: 'Пять классов', 6: 'Шес
 SKY_SUB = {'skyA': 'Скайборн за Альянс', 'skyH': 'Скайборн за Орду'}
 
 
+PLACE_FACTS = ('Столица', 'Стартовая зона', 'Репутация')
+
+
+def fact_ru(k, v):
+    """Russian race page: places and factions as the game shows them (English client, like uk); the Russian source
+    stays the translation key for the other languages. Site-named factions (Высший орден) keep their Russian name."""
+    if k in PLACE_FACTS and v in T and t_of(v, 'uk') == t_of(v, 'en'):
+        return t_of(v, 'en')
+    return v
+
+
 def build_race(rp, lang, tpl, base_css, class_css, sprite, races, en):
     r = next(x for x in races if x['id'] == rp['id'])
     slug = {x['id']: x['slug'] for x in RACES_PAGE}
@@ -591,7 +602,7 @@ def build_race(rp, lang, tpl, base_css, class_css, sprite, races, en):
     home = rel(here, page_dir(lang))
     classes_dir = rel(here, page_dir(lang, 'classes/'))
 
-    facts = ''.join(f'<div><dt>{k}</dt><dd>{esc(v)}</dd></div>' for k, v in rp['facts'])
+    facts = ''.join(f'<div><dt>{k}</dt><dd>{esc(fact_ru(k, v) if lang == "ru" else v)}</dd></div>' for k, v in rp['facts'])
     cards = []
     for kind, ru, what in r['rac']:
         name = ability(ru, en.get(ru, ru), lang, tag='')
