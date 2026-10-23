@@ -477,7 +477,7 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 .d-title { display: grid; gap: 10px; min-width: 0; }
 .d-title h3 { font-size: clamp(1.9rem, 3.4vw, 2.6rem); text-shadow: 0 2px 14px rgba(0,0,0,.45); }
 .d-title .chips { gap: 6px 8px; }
-.d-body { display: grid; gap: 22px; padding: 4px 28px 26px; }
+.d-body { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; padding: 4px 28px 26px; }
 .d-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 22px 28px; }
 .d-cols > div { min-width: 0; display: grid; gap: 10px; align-content: start; }
 .d-cols h4, .d-body h4 { margin: 0; font-size: .86rem; font-weight: 600; color: var(--muted); }
@@ -759,6 +759,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .d-art { width: 100%; }
   .d-art img { opacity: .3; }
   .d-body { padding: 4px 16px 18px; }
+  .copyrow .btn { max-width: 100%; white-space: normal; }
   .d-avs .av { --s: 54px; }
   .slot { grid-template-columns: 50px minmax(0, 2.6fr) minmax(0, 1fr) 40px; gap: 4px 6px; padding: 8px; }
   .slot .no { grid-row: 1 / 3; align-self: center; }
