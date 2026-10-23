@@ -71,7 +71,7 @@ function pcard(p, o) {
     <span class="fx ${f}">${esc(o.tag || FACN[f])}</span>
     <div class="nm">${p.title ? `<span class="ttl">${esc(titleName(p.title))}</span>` : ''}${name}${glory}</div>
     <span class="sub">${subline(c)}</span>
-    <div class="meta">${meta.join('')}</div>${alts}${p.nick ? `<div class="nick">Discord: ${esc(p.nick)}</div>` : ''}${o.after || ''}
+    <div class="meta">${meta.join('')}</div>${alts}${p.member || p.nick ? `<div class="nick">${p.member ? `<span class="team"><img src="${ROOT}assets/brand/mark.webp" alt="" width="14" height="14">Gabella Team</span>` : ''}${p.nick ? `<span>${esc(p.nick)}</span>` : ''}</div>` : ''}${o.after || ''}
   </article>`;
 }
 
@@ -129,8 +129,9 @@ function bcard(p, o) {
   const c = p.main, bg = p.background || race(c.race).slug;
   const src = /^hero_/.test(bg) ? `${ROOT}assets/art/${bg}-960.webp` : `${ROOT}assets/art/${bg}-896.webp`;
   const who = [];
-  if (p.nick) who.push('Discord: ' + esc(p.nick));
+  if (p.nick) who.push(esc(p.nick));
   if (p.joined) who.push(esc(fill('В Gabella Team с %d', { d: dateOf(p.joined) })));
+  else if (p.member) who.push('Gabella Team');
   else if (p.since) who.push(esc(fill('В составе с %d', { d: dateOf(p.since) })));
   const h = o.h || 'h1';
   return `<section class="bcard" style="--cc:${cls(c.class).color}" aria-label="Карточка игрока">

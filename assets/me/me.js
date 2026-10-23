@@ -8,7 +8,7 @@
   const ROOT = D.root || './', HOME = D.home || './', LANG = D.lang || 'ru', PAGE = D.page || '';
   const V = (S.src.match(/\?v=\w+/) || [''])[0];   // build.py me_version(): the same version for the texts
   const API = /^(127\.0\.0\.1|localhost)$/.test(location.hostname) ? 'http://127.0.0.1:8787' : 'https://api.gabella.site';
-  const FLAG = 'gabella-me', CACHE = 'gabella-me-cache', SOUND = 'gabella-me-sound', DAY = 'gabella-me-day', CACHE_MS = 10 * 60000;
+  const FLAG = 'gabella-me', CACHE = 'gabella-me-cache', SOUND = 'gabella-me-sound', DAY = 'gabella-me-day', CACHE_MS = 10 * 60000, RMIN = 'gabella-me-rmin';
   const XP1 = 'gabella-me-xp1', TEASER = 'gabella-me-teaser';
   const AUTH_PAGE = /^(roster|profile)\/$/.test(PAGE);
   const ls = {
@@ -33,7 +33,7 @@
     }));
   }
   const logged = () => ls.get(FLAG) === '1';
-  function forget() { ls.set(FLAG, null); ss.set(CACHE, null); state = null; emit(); }
+  function forget() { ls.set(FLAG, null); ss.set(CACHE, null); state = null; paintBtn(); emit(); }
 
   // ---------- who am I: cached for the tab, refreshed after anything that changes it ----------
   let state = null, loading = null;
@@ -108,7 +108,7 @@
       return api('/progress', { body }).then(r => {
         if (state && state.progress && key !== 'visit') {   // keep the cache honest without asking /me again
           const p = state.progress[key] || (state.progress[key] = { value: 0, items: item === undefined ? null : [] });
-          if (item === undefined) p.value++; else if (!p.items.includes(item)) { p.items.push(item); p.value = p.items.length; }
+          if (item === undefined) p.value += key === 'radio_min' ? 5 : 1; else if (!p.items.includes(item)) { p.items.push(item); p.value = p.items.length; }
           ss.set(CACHE, { t: Date.now(), m: state });
         }
         return took(r);
@@ -193,21 +193,68 @@
   function paintBtn() {
     const theme = document.querySelector('.topbar .themebtn');
     if (!theme) return;
-    if (!state && !(AUTH_PAGE && !loading)) { if (btn) { btn.remove(); btn = null; } return; }
+    if (!state && loading) return;   // still asking /me: keep what is drawn (v4: everyone can sign in, so no state = the login button)
     texts().then(T => {
       if (!btn) { btn = document.createElement('a'); theme.before(btn); }
       btn.href = HOME + 'profile/';
       if (state) {
         btn.className = 'iconbtn mebtn';
-        btn.setAttribute('aria-label', T.ui.profile || 'Profile');
+        btn.setAttribute('aria-label', T.ui.menu || T.ui.profile || 'Profile');
+        btn.setAttribute('aria-haspopup', 'menu');
+        btn.setAttribute('aria-expanded', 'false');
         btn.title = T.ui.profile || '';
         btn.innerHTML = `<span class="me-ring fr-${esc(state.user.frame || state.user.rank)}"><img src="${face(state)}" alt="" width="30" height="30"></span>`;
+        btn.onclick = e => { e.preventDefault(); menu ? closeMenu() : openMenu(T); };
       } else {
-        btn.className = 'iconbtn mebtn login';
-        btn.removeAttribute('title'); btn.removeAttribute('aria-label');
+        closeMenu();
+        btn.className = 'iconbtn mebtn guest';   // not «login»: the profile page has its own .login block
+        btn.removeAttribute('title'); btn.removeAttribute('aria-label'); btn.removeAttribute('aria-haspopup'); btn.removeAttribute('aria-expanded');
+        btn.onclick = null;
         btn.textContent = T.ui.login || 'Log in';
       }
     });
+  }
+
+  // ---------- account menu under the portrait: who you are, the cabinet sections, sign out ----------
+  let menu = null;
+  function openMenu(T) {
+    if (!state || !btn) return;
+    const c = state.characters.find(x => x.is_main) || state.characters[0], u = state.user;
+    const name = c ? c.name : u.nick || T.ui.noChar || '';
+    const go = (href, text) => `<a role="menuitem" href="${HOME}${href}">${esc(text)}</a>`;
+    const items = c
+      ? [go('profile/', T.ui.profile), go('u/#' + u.id, T.ui.myPage), go('profile/#chars', T.ui.chars), go('profile/#look', T.ui.look), go('profile/#account', T.ui.account)]
+      : [go('profile/', T.ui.newChar)];
+    menu = document.createElement('div');
+    menu.className = 'me-menu';
+    menu.setAttribute('role', 'menu');
+    menu.setAttribute('aria-label', T.ui.menu || '');
+    menu.innerHTML = `<div class="me-mh"><span class="me-ring fr-${esc(u.frame || u.rank)}"><img src="${face(state)}" alt="" width="40" height="40"></span>
+      <span><b>${esc(name)}</b><small>${esc((T.ranks[u.rank] || u.rank) + ' · ' + (u.points || 0) + ' ' + (T.ui.pts || ''))}</small></span></div>
+      ${items.join('')}<hr><button type="button" role="menuitem" class="me-out">${esc(T.ui.logout || 'Log out')}</button>`;
+    document.body.append(menu);
+    const r = btn.getBoundingClientRect();
+    menu.style.top = Math.round(r.bottom + 8) + 'px';
+    menu.style.right = Math.max(8, Math.round(document.documentElement.clientWidth - r.right)) + 'px';
+    btn.setAttribute('aria-expanded', 'true');
+    menu.querySelector('.me-out').onclick = () => { closeMenu(); api('/auth/logout', { body: {} }).then(forget, forget); };
+    menu.addEventListener('click', e => { if (e.target.closest('a')) closeMenu(); });
+    menu.querySelector('[role="menuitem"]').focus({ preventScroll: true });
+    setTimeout(() => { document.addEventListener('click', outside); document.addEventListener('keydown', keys); addEventListener('scroll', closeMenu, { once: true, passive: true }); });
+  }
+  function closeMenu() {
+    if (!menu) return;
+    menu.remove(); menu = null;
+    if (btn) btn.setAttribute('aria-expanded', 'false');
+    document.removeEventListener('click', outside); document.removeEventListener('keydown', keys);
+  }
+  function outside(e) { if (menu && !menu.contains(e.target) && !btn.contains(e.target)) closeMenu(); }
+  function keys(e) {
+    if (!menu) return;
+    const list = [...menu.querySelectorAll('[role="menuitem"]')], i = list.indexOf(document.activeElement);
+    if (e.key === 'Escape') { closeMenu(); btn.focus(); }
+    else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); list[(i + (e.key === 'ArrowDown' ? 1 : list.length - 1)) % list.length].focus(); }
+    else if (e.key === 'Tab') closeMenu();
   }
 
   // ---------- hooks ----------
@@ -228,7 +275,12 @@
   addEventListener('gabella:radio', e => {
     const d = e.detail || {};
     if (d.type === 'on') track('radio_on');
-    else if (d.type === 'minute') track('radio_min');
+    else if (d.type === 'minute') {
+      // the server counts radio by 5 minutes (one write instead of five); minutes carry over between pages of the tab
+      const n = (+ss.get(RMIN) || 0) + 1;
+      ss.set(RMIN, n >= 5 ? null : n);
+      if (n >= 5) track('radio_min');
+    }
     else if (d.type === 'sleep') track('sleep_timer');
     else if (d.type === 'station') {
       track('station', d.id);
@@ -327,4 +379,5 @@
   if (PAGE === 'tools/') toolsHooks();
   teaser();
   if (logged() || AUTH_PAGE) me().then(() => { paintBtn(); if (state) pageHooks(); });
+  else paintBtn();   // a visitor who never signed in: the «Log in» button, no API request
 })();

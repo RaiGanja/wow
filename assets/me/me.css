@@ -11,7 +11,7 @@
 .me-ring[class*="fr-"]:not(.fr-recruit)::after { content: ""; position: absolute; inset: -30%; pointer-events: none; background: var(--fr) center / contain no-repeat; }
 .fr-bronze { --fr: url(frames/bronze.webp); } .fr-silver { --fr: url(frames/silver.webp); } .fr-gold { --fr: url(frames/gold.webp); }
 .fr-relite { --fr: url(frames/relite.webp); } .fr-epic { --fr: url(frames/epic.webp); } .fr-legend { --fr: url(frames/legend.webp); }
-.fr-boss { --fr: url(frames/boss.webp); } .fr-founder { --fr: url(frames/founder.webp); } .fr-dragon { --fr: url(frames/dragon.webp); }
+.fr-boss { --fr: url(frames/boss.webp); } .fr-founder { --fr: url(frames/founder.webp?v=2); } .fr-dragon { --fr: url(frames/dragon.webp); }
 .fr-fire { --fr: url(frames/fire.webp); } .fr-secrets { --fr: url(frames/secrets.webp); } .fr-recruiter { --fr: url(frames/recruiter.webp); }
 /* Legend: a gleam runs over the metal only (masked by the frame itself) */
 .me-ring.fr-legend::before { content: ""; position: absolute; inset: -30%; z-index: 1; pointer-events: none;
@@ -22,10 +22,23 @@
 @media (prefers-reduced-motion: reduce) { .me-ring.fr-legend::before { animation: none; display: none; } }
 
 /* top bar: portrait or the login button (roster and profile pages only) */
-.mebtn { padding: 0; overflow: visible; }
+.mebtn, .mebtn:hover { padding: 0; overflow: visible; text-decoration: none; }   /* a link styled as a button: no underline */
 .mebtn .me-ring { width: 34px; height: 34px; }
-.mebtn.login { padding: 0 14px; width: auto; white-space: nowrap; font-weight: 600; font-size: .9rem; color: var(--gold-ink); background: var(--gold); border-color: var(--gold); }
-.mebtn.login:hover { background: var(--gold-2); }
+.mebtn.guest { padding: 0 14px; width: auto; white-space: nowrap; font-weight: 600; font-size: .9rem; color: var(--gold-ink); background: var(--gold); border-color: var(--gold); }
+.mebtn.guest:hover { background: var(--gold-2); }
+/* account menu under the portrait */
+.me-menu { position: fixed; z-index: 60; width: 260px; padding: 6px; border: 1px solid var(--line-2); border-radius: 10px; background: var(--panel); color: var(--fg);
+  box-shadow: 0 18px 40px rgba(0,0,0,.45); display: grid; }
+.me-mh { display: flex; align-items: center; gap: 12px; padding: 10px 10px 12px; margin-bottom: 4px; border-bottom: 1px solid var(--line); }
+.me-mh .me-ring { width: 46px; height: 46px; flex: none; }
+.me-mh span:last-child { display: grid; min-width: 0; }
+.me-mh b { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.me-mh small { font-size: .8rem; color: var(--muted); }
+.me-menu a, .me-menu button { display: flex; align-items: center; min-height: 42px; padding: 0 12px; border: 0; border-radius: 7px; background: none; color: inherit;
+  font: inherit; font-size: .95rem; text-align: left; text-decoration: none; cursor: pointer; }
+.me-menu a:hover, .me-menu button:hover, .me-menu a:focus-visible, .me-menu button:focus-visible { background: color-mix(in srgb, var(--fg) 7%, transparent); outline: none; }
+.me-menu hr { border: 0; border-top: 1px solid var(--line); margin: 4px 6px; }
+.me-menu .me-out { color: var(--muted); }
 
 /* achievement toast */
 .me-toasts { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 1200;

@@ -124,16 +124,17 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 /* Top bar: transparent over the hero, solid after scrolling */
 .topbar { position: fixed; inset: 0 0 auto 0; z-index: 30; height: var(--top); color: var(--ink); background: linear-gradient(rgba(5,6,8,.62), rgba(5,6,8,0)); border-bottom: 1px solid transparent; transition: background-color .25s, border-color .25s, color .25s; }
 .topbar.solid { background: var(--rail); border-bottom-color: var(--line); color: var(--fg); }
-.topbar .in { max-width: var(--wrap); height: 100%; margin: 0 auto; padding: 0 max(20px, env(safe-area-inset-left, 0px)); display: flex; align-items: center; gap: 18px; }
-.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; min-height: 44px; }
+.topbar .in { max-width: var(--wrap); height: 100%; margin: 0 auto; padding: 0 max(20px, env(safe-area-inset-left, 0px)); display: flex; align-items: center; gap: 14px; }
+.brand { flex: none; display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; min-height: 44px; }   /* never squeezed: the subtitle would run into the menu */
 .mark { width: 40px; height: 40px; flex: none; display: block; border-radius: 8px; box-shadow: 0 0 0 1px rgba(201,165,74,.35); }
 .brand b { font-family: var(--font-display); font-weight: 400; font-size: 1.3rem; white-space: nowrap; }
 .bt { display: grid; line-height: 1.1; }
 .bt small { font-size: .74rem; font-weight: 500; letter-spacing: .04em; color: var(--ink-gold); white-space: nowrap; margin-top: 2px; }
-.mainnav { display: flex; gap: 2px; margin-left: 12px; }
-.mainnav a { min-height: 44px; display: grid; place-items: center; padding: 0 12px; color: inherit; opacity: .78; text-decoration: none; font-size: .95rem; font-weight: 500; box-shadow: inset 0 -2px 0 transparent; transition: opacity .2s, box-shadow .2s; }
+.mainnav { display: flex; margin-left: 4px; }
+.mainnav a { min-height: 44px; display: grid; place-items: center; padding: 0 9px; color: inherit; opacity: .78; text-decoration: none; font-size: .92rem; font-weight: 500; box-shadow: inset 0 -2px 0 transparent; transition: opacity .2s, box-shadow .2s; }
 .mainnav a:hover { opacity: 1; }
-@media (max-width: 1280px) { .mainnav a { padding: 0 8px; } }
+/* the top bar row is tight (9 links + language, search, radio, login, theme): measured to fit with room at every width */
+@media (max-width: 1280px) { .mainnav a { padding: 0 6px; } }
 .mainnav a[aria-current="true"] { opacity: 1; color: var(--ink-gold); }
 .topbar.solid .mainnav a[aria-current="true"] { color: var(--gold-2); }
 .tools { margin-left: auto; display: flex; gap: 8px; align-items: center; }
@@ -164,6 +165,7 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: .92rem; }
+@media (max-width: 1210px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }
 
 /* Hero */
 .hero { position: relative; min-height: max(560px, 100svh); display: grid; align-content: space-between; color: var(--ink); background: #08090b; isolation: isolate; overflow: hidden; }
@@ -898,6 +900,9 @@ main .me-ring, dialog .me-ring { --s: 64px; --room-x: 12px; --room-y: 12px; widt
 .pcard .alts { grid-column: 1 / -1; font-size: .84rem; color: var(--muted); }
 .pcard .alts i { font-style: normal; color: var(--ac); }
 .pcard .nick { grid-column: 1 / -1; font-size: .82rem; color: var(--muted); }
+.pcard .nick { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: center; }
+.team { display: inline-flex; align-items: center; gap: 5px; color: var(--gold-2); font-weight: 600; }
+.team img { display: block; }
 .pcard .mainmark { grid-column: 1 / -1; font-size: .8rem; font-weight: 600; color: var(--gold-2); }
 .pcard .mod { position: absolute; z-index: 3; right: 10px; bottom: 10px; min-height: 32px; font: inherit; font-size: .78rem; color: var(--muted); border: 1px solid var(--pline); border-radius: 6px; padding: 0 10px; background: var(--panel-2); cursor: pointer; }
 .pcard .mod:hover { color: var(--fg); border-color: var(--gold); }
@@ -1094,6 +1099,23 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 .login p { margin: 0; color: var(--muted); max-width: 62ch; }
 .login ul { margin: 12px 0 0; padding-left: 18px; color: var(--muted); display: grid; gap: 4px; }
 .login ul li::marker { color: var(--gold); }
+.wayc { display: grid; gap: 14px; width: 300px; max-width: 100%; }
+.ways { display: grid; gap: 8px; }
+.way { justify-content: flex-start; gap: 12px; }
+.way svg, .idl svg { width: 20px; height: 20px; fill: var(--gold-2); flex: none; }
+.mailf { display: grid; gap: 10px; }
+.mailf input { min-height: 46px; width: 100%; border-radius: 8px; border: 1px solid var(--pline); background: var(--panel-2); color: var(--fg); padding: 0 12px; font: inherit; font-size: 1rem; }
+.mailf input:focus { outline: none; border-color: var(--gold); }
+.mailf .small, .mailf .msg { margin: 0; }
+.notice { padding: 16px 20px; }
+.notice h2 { font-size: 1.3rem; margin-bottom: 4px; }
+.notice p { margin: 0; color: var(--muted); }
+.idl { display: grid; }
+.idl .it { display: flex; align-items: center; gap: 12px; min-height: 52px; border-bottom: 1px solid var(--pline); }
+.idl .it:last-child { border-bottom: 0; }
+.idl .it b { font-weight: 600; }
+.idl .sp { flex: 1; }
+.idl .btn { min-height: 40px; padding: 0 14px; font-size: .9rem; }
 .next { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
 .nx { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 4px 12px; align-content: start; padding: 14px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); }
 .nx .ic { grid-row: 1 / 3; width: 44px; height: 44px; border-radius: 8px; padding: 3px; background: linear-gradient(145deg, #f0d58c, #7a5a1c 55%, #c9a54a); }
@@ -1167,6 +1189,8 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 .picks button[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset 0 0 0 1px var(--gold); }
 .picks .me-ring { --s: 64px; margin: 0; }
 .picks small { color: var(--muted); font-weight: 500; }
+.signed { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px 14px; color: var(--muted); font-size: .92rem; }
+.signed .btn { min-height: 38px; padding: 0 14px; font-size: .9rem; }
 .founder { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 18px; align-items: center; padding: 14px 18px; }
 .founder b { font-family: var(--font-display); font-size: 1.2rem; color: var(--gold-2); }
 .founder p { margin: 2px 0 0; color: var(--muted); font-size: .92rem; }
@@ -1265,8 +1289,8 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=cd1963be87" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=1b17d58ed3" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=ad1c2df117" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=e3150ed17b" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Início","item":"https://gabella.site/wow/pt/"},{"@type":"ListItem","position":2,"name":"Meu perfil","item":"https://gabella.site/wow/pt/profile/"}]}</script>
 </head>
 <body>
@@ -1436,7 +1460,7 @@ function pcard(p, o) {
     <span class="fx ${f}">${esc(o.tag || FACN[f])}</span>
     <div class="nm">${p.title ? `<span class="ttl">${esc(titleName(p.title))}</span>` : ''}${name}${glory}</div>
     <span class="sub">${subline(c)}</span>
-    <div class="meta">${meta.join('')}</div>${alts}${p.nick ? `<div class="nick">Discord: ${esc(p.nick)}</div>` : ''}${o.after || ''}
+    <div class="meta">${meta.join('')}</div>${alts}${p.member || p.nick ? `<div class="nick">${p.member ? `<span class="team"><img src="${ROOT}assets/brand/mark.webp" alt="" width="14" height="14">Gabella Team</span>` : ''}${p.nick ? `<span>${esc(p.nick)}</span>` : ''}</div>` : ''}${o.after || ''}
   </article>`;
 }
 
@@ -1494,8 +1518,9 @@ function bcard(p, o) {
   const c = p.main, bg = p.background || race(c.race).slug;
   const src = /^hero_/.test(bg) ? `${ROOT}assets/art/${bg}-960.webp` : `${ROOT}assets/art/${bg}-896.webp`;
   const who = [];
-  if (p.nick) who.push('Discord: ' + esc(p.nick));
+  if (p.nick) who.push(esc(p.nick));
   if (p.joined) who.push(esc(fill('Na Gabella Team desde %d', { d: dateOf(p.joined) })));
+  else if (p.member) who.push('Gabella Team');
   else if (p.since) who.push(esc(fill('No elenco desde %d', { d: dateOf(p.since) })));
   const h = o.h || 'h1';
   return `<section class="bcard" style="--cc:${cls(c.class).color}" aria-label="Cartão do jogador">
@@ -1652,11 +1677,13 @@ const ERR = {
   bad_role: 'Esta classe não pode ter essa função.', bad_level: 'Nível: de 1 a 60.', bad_prof: 'Duas profissões diferentes da lista.',
   bad_skill: 'Perícia: de 1 a 300, só para uma profissão escolhida.', bad_playtime: 'Escolha quando você joga.', limit: 'No máximo três personagens.',
   bad_motto: 'Lema: até 60 caracteres.', locked: 'Ainda não foi desbloqueado.', auth: 'Sua sessão terminou, entre de novo.',
+  bot: 'A verificação “não sou um robô” falhou. Tente de novo.', bad_email: 'Confira o endereço de e-mail.', mail_down: 'O e-mail não foi enviado. Tente de novo em alguns minutos.',
+  last_identity: 'É sua última forma de entrar, não dá para desvincular.',
 };
-/** Text of an API error code: the growth texts (err_<code>: bad_word, no_links, swap_used, task_done, bad_showcase) first, then ERR. */
-const errText = e => {
+/** Text of an API error code: the growth texts (err_<code>: bad_word, no_links, swap_used, task_done, bad_showcase, members_only) first, then ERR. */
+const errText = (e, def) => {
   const c = e && e.code;
-  return (c && T.g && T.g['err_' + c]) || ERR[c] || 'Não foi possível salvar. Tente de novo.';
+  return (c && T.g && T.g['err_' + c]) || ERR[c] || def || 'Não foi possível salvar. Tente de novo.';
 };
 const SECS0 = [['chars', 'Personagens'], ['look', 'Aparência'], ['ach', 'Conquistas'], ['frames', 'Molduras e postos'], ['chronicle', 'Crônica'], ['account', 'Conta']];
 const secs = () => (m && m.admin ? SECS0.concat([['reports', tg('tab_reports')]]) : SECS0);   // «Reports» is for the admin only
@@ -1678,36 +1705,176 @@ const mainOf = () => m.characters.find(c => c.is_main) || m.characters[0];
 const have = () => new Map(m.achievements.map(a => [a.id, a]));
 const ctx = () => ({ progress: m.progress, user: m.user, chars: m.characters, have: new Set(m.achievements.map(a => a.id)) });
 const asPlayer = c => ({ id: m.user.id, nick: m.user.show_nick ? m.user.nick : null, title: m.user.title, frame: m.user.frame, rank: m.user.rank,
-  portrait: m.user.portrait, background: m.user.background, motto: m.user.motto, points: m.user.points, joined: m.user.joined_guild_at, main: c,
+  portrait: m.user.portrait, background: m.user.background, motto: m.user.motto, points: m.user.points, joined: m.user.joined_guild_at, member: m.user.member, main: c,
   name_color: m.user.name_color });
 const myUrl = () => new URL(playerUrl(m.user.id), location.href).href;
 const refUrl = () => new URL(`${HOME}profile/?ref=${m.user.id}`, location.href).href;
-const REF_ID = /^(\d{1,20}|u_[0-9a-f]{16})$/;   // Discord ids and the new accounts (u_ + 16 hex), as USER_ID in the API
-function loginUrl() {
-  let ref = '';
-  try { ref = localStorage.getItem('gabella-ref') || ''; } catch (e) { /* private mode */ }
-  return `${M ? M.API : 'https://api.gabella.site'}/auth/login?lang=${LANG}` + (REF_ID.test(ref) ? `&ref=${ref}` : '');
+/* provider marks: simple-icons (CC0), one colour; the envelope is ours */
+const WAY_ICON = {
+  discord: 'M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z',
+  google: 'M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z',
+  bnet: 'M18.94 8.296C15.9 6.892 11.534 6 7.426 6.332c.206-1.36.714-2.308 1.548-2.508 1.148-.275 2.4.48 3.594 1.854.782.102 1.71.28 2.355.429C12.747 2.013 9.828-.282 7.607.565c-1.688.644-2.553 2.97-2.448 6.094-2.2.468-3.915 1.3-5.013 2.495-.056.065-.181.227-.137.305.034.058.146-.008.194-.04 1.274-.89 2.904-1.373 5.027-1.676.303 3.333 1.713 7.56 4.055 10.952-1.28.502-2.356.536-2.946-.087-.812-.856-.784-2.318-.19-4.04a26.764 26.764 0 0 1-.807-2.254c-2.459 3.934-2.986 7.61-1.143 9.11 1.402 1.14 3.847.725 6.502-.926 1.505 1.672 3.083 2.74 4.667 3.094.084.015.287.043.332-.034.034-.06-.08-.124-.131-.149-1.408-.657-2.64-1.828-3.964-3.515 2.735-1.929 5.691-5.263 7.457-8.988 1.076.86 1.64 1.773 1.398 2.595-.336 1.131-1.615 1.84-3.403 2.185a27.697 27.697 0 0 1-1.548 1.826c4.634.16 8.08-1.22 8.458-3.565.286-1.786-1.295-3.696-4.053-5.17.696-2.139.832-4.04.346-5.588-.029-.08-.106-.27-.196-.27-.068 0-.067.13-.063.187.135 1.547-.263 3.2-1.062 5.19zm-8.533 9.869c-1.96-3.145-3.09-6.849-3.082-10.594 3.702-.124 7.474.748 10.714 2.627-1.743 3.269-4.385 6.1-7.633 7.966h.001z',
+  telegram: 'M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z',
+  mail: 'M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm1 2.4V17h16V7.4l-7.4 5.2a1 1 0 0 1-1.2 0L4 7.4ZM5.6 7l6.4 4.5L18.4 7H5.6Z',
+};
+const WAYS = [['discord', 'Discord'], ['google', 'Google'], ['bnet', 'Battle.net'], ['telegram', 'Telegram'], ['email', 'E-mail']];
+const wayIco = id => `<svg viewBox="0 0 24 24" aria-hidden="true"><path${id === 'email' ? ' fill-rule="evenodd"' : ''} d="${WAY_ICON[id === 'email' ? 'mail' : id]}"/></svg>`;
+const REF = /^(\d{1,20}|u_[0-9a-f]{16})$/;
+const TS_KEY = /^(127\.0\.0\.1|localhost)$/.test(location.hostname) ? '1x00000000000000000000AA' : '0x4AAAAAAFil-dgnPKkeExYt';   // Turnstile site key is public
+const apiBase = () => (M ? M.API : 'https://api.gabella.site');
+function savedRef() { try { const r = localStorage.getItem('gabella-ref') || ''; return REF.test(r) ? r : ''; } catch (e) { return ''; } }
+function authUrl(p, link) {
+  const ref = savedRef();
+  return `${apiBase()}${p === 'discord' ? '/auth/login' : `/auth/${p}/login`}?lang=${LANG}` + (ref ? `&ref=${ref}` : '') + (link ? '&link=1' : '');
 }
-const DISCORD = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.6 5.2A17 17 0 0 0 15.4 4l-.5 1a15.6 15.6 0 0 0-5.8 0L8.6 4a17 17 0 0 0-4.2 1.3C1.7 9.3 1 13.2 1.3 17a17 17 0 0 0 5.2 2.6l1.1-1.7c-.6-.2-1.2-.5-1.7-.8l.4-.3a12.2 12.2 0 0 0 11.4 0l.4.3c-.5.3-1.1.6-1.7.8l1.1 1.7A17 17 0 0 0 22.7 17c.4-4.4-.7-8.3-3.1-11.8ZM8.7 14.7c-1 0-1.9-1-1.9-2.2s.8-2.2 1.9-2.2 1.9 1 1.9 2.2-.8 2.2-1.9 2.2Zm6.6 0c-1 0-1.9-1-1.9-2.2s.8-2.2 1.9-2.2 1.9 1 1.9 2.2-.8 2.2-1.9 2.2Z"/></svg>';
+/** Discord, Google and Battle.net are plain links; Telegram and email open here. link: attach to the signed-in account. */
+function wayBtn(id, label, link) {
+  if (id === 'telegram' || id === 'email') return `<button type="button" class="btn ghost way" data-way="${id}"${link ? ' data-link="1"' : ''}>${wayIco(id)}${esc(label)}</button>`;
+  return `<a class="btn ghost way" href="${esc(authUrl(id, link))}">${wayIco(id)}${esc(label)}</a>`;
+}
+const mailForm = () => `<form class="mailf" id="mailF" hidden novalidate><label class="small" for="mAddr">E-mail para o link de acesso</label>
+  <input id="mAddr" type="email" autocomplete="email" inputmode="email" maxlength="254" placeholder="name@example.com" required>
+  <div id="tsBox"></div><button type="submit" class="btn" id="mGo">Enviar link</button>
+  <p class="small">Não guardamos o endereço: só enviamos o e-mail para ele.</p><p class="msg" id="mNote" role="alert"></p></form>`;
+
+/* ---------- messages after a redirect: #banned, #taken... shown above the login screen or the cabinet ---------- */
+const STATES = {
+  banned: ['Acesso bloqueado', 'Um administrador bloqueou esta conta.'],
+  taken: ['Este acesso já está em uso', 'Ele está vinculado a outra conta Gabella. Entre com ele, desvincule lá e vincule aqui.'],
+  'already-linked': ['Esse tipo de acesso já está vinculado', 'Uma conta pode ter um acesso de cada tipo. Desvincule o anterior primeiro.'],
+  'link-used': ['O link já foi usado', 'Cada link funciona uma vez. Peça um novo.'],
+  'link-expired': ['O link expirou', 'Um link vale por 15 minutos. Peça um novo.'],
+  'login-down': ['Não foi possível entrar', 'O serviço de acesso não respondeu. Tente de novo em alguns minutos ou escolha outra forma.'],
+  'discord-down': ['O Discord não responde', 'Não foi possível verificar o acesso. Tente de novo em alguns minutos ou escolha outra forma.'],
+  'too-many': ['Contas novas demais', 'Várias contas já foram criadas desta conexão em uma hora. Tente mais tarde.'],
+  auth: ['A sessão terminou', 'Entre de novo e repita a vinculação.'],
+  'members-only': ['Login', 'Login temporariamente só para membros da Gabella Team'],   // OPEN_LOGIN is off (R11)
+};
+let notice = null;
+const noticeHtml = () => (notice && STATES[notice] ? `<section class="frame notice" role="alert"><h2>${esc(STATES[notice][0])}</h2><p>${esc(STATES[notice][1])}</p></section>` : '');
+
+/* ---------- Turnstile («not a robot»): the script loads only when a check is needed ---------- */
+let tsLoad = null;
+function tsWidget(host) {
+  tsLoad = tsLoad || new Promise((ok, no) => {
+    const sc = document.createElement('script');
+    sc.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+    sc.async = true; sc.onload = ok; sc.onerror = () => { tsLoad = null; no(); };
+    document.head.append(sc);
+  });
+  let done, token = new Promise(r => { done = r; });
+  const w = tsLoad.then(() => window.turnstile.render(host, {
+    sitekey: TS_KEY, language: LANG === 'pt' ? 'pt-br' : LANG,
+    theme: document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark',
+    callback: t => done(t), 'expired-callback': () => { token = new Promise(r => { done = r; }); },
+  }));
+  return {
+    host,
+    /** The token, or '' if the check did not pass within 15 s (the widget then asks its own question). */
+    get: () => Promise.race([w.then(() => token), new Promise(r => setTimeout(() => r(''), 15000))]).catch(() => ''),
+    reset: () => { token = new Promise(r => { done = r; }); w.then(id => window.turnstile.reset(id), () => {}); },
+  };
+}
+let tsMail = null, tsChar = null;
+
+/* ---------- email: the letter links to this page with #email=<token> (mail scanners open links but run no JS) ---------- */
+function openMail(link) {
+  const f = $('#mailF');
+  if (!f) return;
+  f.hidden = false; f.dataset.link = link ? '1' : '';
+  mailNote('');
+  if (!tsMail || tsMail.host !== $('#tsBox')) tsMail = tsWidget($('#tsBox'));
+  $('#mAddr').focus();
+}
+function mailNote(text, bad) { const n = $('#mNote'); if (n) { n.textContent = text; n.className = 'msg' + (bad ? ' err' : ''); } }
+document.addEventListener('submit', e => {
+  if (e.target.id !== 'mailF') return;
+  e.preventDefault();
+  const addr = $('#mAddr').value.trim(), link = !!e.target.dataset.link;
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@.]{2,}$/.test(addr)) return mailNote(ERR.bad_email, true);
+  $('#mGo').disabled = true; mailNote('');
+  tsMail.get().then(t => {
+    if (!t) { $('#mGo').disabled = false; return mailNote(ERR.bot, true); }
+    return M.api('/auth/email', { body: { email: addr, lang: LANG, ref: savedRef(), link, turnstile: t } }).then(() => {
+      if (!link) return screen('mail', addr);
+      $('#mGo').disabled = false; tsMail.reset();
+      mailNote(fill('O link foi enviado para %e. Abra-o para vincular este e-mail.', { e: addr }));
+    }, e2 => { $('#mGo').disabled = false; tsMail.reset(); mailNote(errText(e2, 'O e-mail não foi enviado. Tente de novo.'), true); });
+  });
+});
+function mailVerify(t) {
+  M.api('/auth/email/verify', { body: { t } }).then(r => arrive(r.go), e => {
+    notice = e.code === 'link_expired' ? 'link-expired' : e.code === 'link_used' ? 'link-used' : 'login-down';
+    follow();
+  });
+}
+
+/* ---------- Telegram: its own login window on oauth.telegram.org, no widget script on the page ---------- */
+let tgBot = null;
+function tgConfig() { if (!tgBot && M) M.api('/auth/telegram/config').then(c => { tgBot = c.bot_id; }, () => {}); }
+function tgOpen(link) {
+  if (!tgBot) { notice = 'login-down'; return render(); }
+  try { sessionStorage.setItem('gabella-tg-link', link ? '1' : ''); } catch (e) { /* private mode */ }
+  const url = `https://oauth.telegram.org/auth?bot_id=${tgBot}&origin=${encodeURIComponent(location.origin)}&lang=${LANG}&return_to=${encodeURIComponent(location.href.split('#')[0])}`;
+  const w = 550, h = 470;   // centred on this window (`screen` here is the page's own function)
+  const pop = open(url, 'telegram_oauth_bot' + tgBot, `width=${w},height=${h},left=${Math.max(0, screenX + (outerWidth - w) / 2)},top=${Math.max(0, screenY + (outerHeight - h) / 2)}`);
+  if (!pop) { location.href = url; return; }   // no popup (phones): Telegram comes back with #tgAuthResult=
+  const onMsg = e => {
+    if (e.source !== pop) return;
+    let d = {};
+    try { d = JSON.parse(e.data); } catch (x) { /* not ours */ }
+    if (d.event !== 'auth_result') return;
+    removeEventListener('message', onMsg);
+    try { pop.close(); } catch (x) { /* closed already */ }
+    if (d.result) tgSend(d.result);
+  };
+  addEventListener('message', onMsg);
+}
+function tgSend(user) {
+  let link = false;
+  try { link = sessionStorage.getItem('gabella-tg-link') === '1'; sessionStorage.removeItem('gabella-tg-link'); } catch (e) { /* private mode */ }
+  M.api('/auth/telegram', { body: Object.assign({}, user, { lang: LANG, ref: savedRef(), link }) }).then(r => arrive(r.go), e => {
+    notice = e.status === 401 ? 'auth' : 'login-down';
+    follow();
+  });
+}
+function tgFromHash(b64) {
+  let user = null;
+  try { user = JSON.parse(decodeURIComponent(escape(atob(b64.replace(/-/g, '+').replace(/_/g, '/'))))); } catch (e) { /* broken */ }
+  if (user) return tgSend(user);
+  notice = 'login-down';
+  follow();
+}
+document.addEventListener('click', e => {
+  const w = e.target.closest('[data-way]');
+  if (!w || !e.target.closest('#view')) return;
+  if (w.dataset.way === 'telegram') tgOpen(!!w.dataset.link);
+  else openMail(!!w.dataset.link);
+});
+
+/** After Telegram or email the API answers {go: profile URL[#state]} and has set the session cookie. */
+function arrive(go) {
+  const u = new URL(go, location.href), st = u.hash.slice(1);
+  if (u.pathname !== location.pathname) { location.href = u.href; return; }
+  if (st) notice = st;
+  else try { localStorage.setItem('gabella-me', '1'); } catch (e) { /* private mode */ }
+  follow(true);
+}
 
 /* ---------- screens before the cabinet ---------- */
-function screen(kind) {
+function screen(kind, arg) {
   parkForm();
   const v = $('#view');
   if (kind === 'login') {
-    v.innerHTML = `<section class="frame login"><div><h2>Entre com o Discord</h2>
-      <p>Os perfis são só para membros do servidor Gabella Team. Recebemos seu ID do Discord e verificamos se você é membro, nada mais.</p>
+    tgConfig();
+    v.innerHTML = `${noticeHtml()}<section class="frame login"><div><h2>Entre no seu perfil</h2>
+      <p>Não há senha: entre como preferir. O que recebemos de cada serviço está em <a href="${HOME}privacy/#account">Privacidade</a>.</p>
       <ul><li>Até três personagens, o principal aparece no elenco.</li><li>Conquistas, postos e molduras de retrato.</li><li>O título “Fundador” para quem chegar antes do lançamento em 4 de novembro.</li></ul></div>
-      <a class="btn lg dsc" href="${esc(loginUrl())}">${DISCORD}Entrar com o Discord</a></section>`;
-  } else if (kind === 'not-member') {
-    v.innerHTML = `<section class="frame state"><h2>Você não é membro do servidor</h2><p>Os perfis são só para membros do servidor do Discord da Gabella Team. Entre no servidor e faça login de novo.</p>
-      <div class="row">${GD.invite ? `<a class="btn" href="${esc(GD.invite)}" target="_blank" rel="noopener">Entrar na Gabella Team</a>` : ''}<a class="btn ghost" href="${esc(loginUrl())}">Entrar de novo</a></div></section>`;
-  } else if (kind === 'members-only') {   // OPEN_LOGIN is off: only members of the Discord server get in (R11)
-    v.innerHTML = `<section class="frame state"><h2>Login</h2><p>${esc(tg('err_members_only'))}</p>
-      <div class="row">${GD.invite ? `<a class="btn" href="${esc(GD.invite)}" target="_blank" rel="noopener">Entrar na Gabella Team</a>` : ''}<a class="btn ghost" href="${esc(loginUrl())}">Entrar de novo</a></div></section>`;
-  } else if (kind === 'discord-down') {
-    v.innerHTML = `<section class="frame state"><h2>O Discord não responde</h2><p>Não foi possível verificar o login. Tente de novo em alguns minutos.</p>
-      <div class="row"><a class="btn" href="${esc(loginUrl())}">Tentar de novo</a></div></section>`;
+      <div class="wayc"><div class="ways">${WAYS.map(([id, n]) => wayBtn(id, n, false)).join('')}</div>${mailForm()}</div></section>`;
+  } else if (kind === 'mail') {
+    v.innerHTML = `<section class="frame state"><h2>Confira seu e-mail</h2><p>${esc(fill('O link de acesso foi enviado para %e. Ele vale por 15 minutos. Não chegou? Veja o spam.', { e: arg }))}</p>
+      <div class="row"><button type="button" class="btn ghost" id="mAgain">Outro endereço</button></div></section>`;
+    $('#mAgain').onclick = () => { screen('login'); openMail(false); };
   } else {
     v.innerHTML = `<section class="frame state"><h2>O servidor de perfis não responde</h2><p>Tente de novo em alguns minutos. O resto do guia funciona normalmente.</p>
       <div class="row"><button type="button" class="btn ghost" id="retry">Tentar de novo</button></div></section>`;
@@ -1745,7 +1912,10 @@ function wizard() {
   const prev = asPlayer(c);
   prev.title = Date.now() < Date.parse(GD.deadline) ? 'founder' : null;
   prev.frame = prev.title ? 'founder' : prev.frame;
-  v.innerHTML = `<p class="lab">É assim que o elenco vai mostrar você</p>${bcard(prev, { h: 'h2' })}${founderPlaque()}
+  // no character yet means no cabinet: say who is signed in and let them leave
+  const who = m && m.user.nick ? fill('Conectado como %n', { n: m.user.nick }) : 'Você está conectado';
+  v.innerHTML = `${noticeHtml()}<div class="signed"><span>${esc(who)}</span><button type="button" class="btn ghost" data-act="logout">Sair</button></div>
+    <p class="lab">É assim que o elenco vai mostrar você</p>${bcard(prev, { h: 'h2' })}${founderPlaque()}
     <section class="frame wiz"><div class="wsteps">${steps}</div>${body}</section>`;
   if (w.step === 3) mountForm($('#wForm'), null);
 }
@@ -1806,7 +1976,15 @@ function fillForm(c, wizardMode) {
   $('#eSave').textContent = c ? 'Salvar' : 'Criar personagem';
   const nick = $('#eNick');
   if (nick) nick.closest('label').remove();
-  if (!c && wizardMode) $('#eNote').insertAdjacentHTML('beforebegin', `<label class="chk full"><input type="checkbox" id="eNick" checked>Mostrar meu apelido do Discord no elenco</label>`);
+  const tsc = $('#tsChar');
+  if (tsc) tsc.remove();
+  tsChar = null;
+  if (!c && wizardMode && m && m.user.nick) $('#eNote').insertAdjacentHTML('beforebegin', `<label class="chk full"><input type="checkbox" id="eNick" checked>${esc(fill('Mostrar meu apelido %n no Elenco', { n: m.user.nick }))}</label>`);
+  // the first character puts a person into the Roster: a «not a robot» check, usually invisible
+  if (!c && wizardMode && m && !m.characters.length) {
+    $('#eNote').insertAdjacentHTML('beforebegin', '<div class="full" id="tsChar"></div>');
+    tsChar = tsWidget($('#tsChar'));
+  }
   // the wizard's choices are made already: race and class stay editable, but the faction row is not needed there
   $('#eF').closest('.fl').hidden = !!wizardMode && !c;
   $('#eRace').closest('label').hidden = !!wizardMode && !c;
@@ -1842,11 +2020,15 @@ function wireForm() {
     const b = formBody(), bad = check(b);
     if (bad) return note(ERR[bad], true);
     busy(true); note('');
-    const nick = $('#eNick'), hideNick = nick && !nick.checked;
-    const req = edit ? M.api('/characters/' + edit, { method: 'PUT', body: b }) : M.api('/characters', { body: b });
-    req.then(r => (hideNick ? M.api('/me', { method: 'PUT', body: { show_nick: false } }).then(r2 => Object.assign(r, { me: r2.me })) : r))
-      .then(r => { busy(false); if (!edit) { wiz = null; parkForm(); } closeEd(); M.took(r); },
-        e2 => { busy(false); note(errText(e2), true); });
+    const nick = $('#eNick'), hideNick = nick && !nick.checked, ts = !edit && tsChar;
+    (ts ? ts.get() : Promise.resolve(null)).then(t => {
+      if (ts && !t) { busy(false); return note(ERR.bot, true); }
+      if (t) b.turnstile = t;
+      const req = edit ? M.api('/characters/' + edit, { method: 'PUT', body: b }) : M.api('/characters', { body: b });
+      return req.then(r => (hideNick ? M.api('/me', { method: 'PUT', body: { show_nick: false } }).then(r2 => Object.assign(r, { me: r2.me })) : r))
+        .then(r => { busy(false); if (!edit) { wiz = null; parkForm(); } closeEd(); M.took(r); },
+          e2 => { busy(false); if (ts) ts.reset(); note(errText(e2), true); });
+    });
   });
   $('#eMain').onclick = () => { busy(true); M.api(`/characters/${edit}/main`, { body: {} }).then(r => { busy(false); closeEd(); M.took(r); }, e => { busy(false); note(errText(e), true); }); };
   $('#eDel').onclick = () => {
@@ -1986,7 +2168,7 @@ function secLook() {
     <div class="frame box"><h3>Lema</h3>${u.motto_hidden ? '<p class="small">O lema foi ocultado por um administrador.</p>' : ''}${u.motto_visible ? '' : `<p class="small">${esc(tg('motto_later'))}</p>`}
       <div class="row"><input id="lMotto" maxlength="60" value="${esc(u.motto || '')}" placeholder="Por exemplo: Primeiro curo, depois pergunto" aria-label="Lema" style="flex:1 1 280px"><button type="button" class="btn ghost" data-act="motto">Salvar lema</button></div>
       <span class="small" id="lMottoN"></span></div>
-    <div class="frame box"><label class="chk"><input type="checkbox" id="lNick"${u.show_nick ? ' checked' : ''}>Mostrar meu apelido do Discord${u.nick ? `: <b>${esc(u.nick)}</b>` : ''}</label></div>
+    ${u.nick ? `<div class="frame box"><label class="chk"><input type="checkbox" id="lNick"${u.show_nick ? ' checked' : ''}>Mostrar meu apelido: <b>${esc(u.nick)}</b></label></div>` : ''}
     <p class="msg" id="lookNote" role="status"></p>`;
 }
 function secAch() {
@@ -2114,8 +2296,21 @@ function secAccount() {
     <div class="frame box"><h3>Link para um amigo</h3><p class="small">Quando um amigo entra por ele, conta para “Recrutador”. Entraram pelo seu link: ${m.user.refs || 0}.</p>
       <div class="row"><input id="aRef" readonly value="${esc(refUrl())}" aria-label="Link para um amigo" style="flex:1 1 280px"><button type="button" class="btn ghost" data-act="copyRef">${ico('copy')}Copiar</button></div><span class="msg" id="aRefNote" role="status"></span></div>
     <div class="frame box"><h3>Meus dados</h3><p class="small">Tudo o que guardamos sobre você, em um arquivo JSON.</p><div class="row"><a class="btn ghost" href="${esc(M.API)}/me/export" download>Baixar meus dados</a></div></div>
-    <div class="frame box"><h3>Login</h3><p class="small">O login é pelo Discord. Sair encerra a sessão neste dispositivo.</p>
+    ${waysBox()}
+    <div class="frame box"><h3>Sair e excluir</h3><p class="small">Sair encerra a sessão neste dispositivo.</p>
       <div class="row"><button type="button" class="btn ghost" data-act="logout">Sair</button><button type="button" class="btn danger" data-act="delete">Excluir o perfil e todos os dados</button></div></div>`;
+}
+/** Account → ways to sign in: one account, several logins; the last one cannot be removed. */
+function waysBox() {
+  const ids = m.identities || [];
+  const rows = WAYS.map(([id, n]) => {
+    const on = ids.includes(id);
+    const act = on ? (ids.length > 1 ? `<button type="button" class="btn ghost" data-act="unlink" data-p="${id}">Desvincular</button>` : '<span class="small">Único acesso</span>')
+      : wayBtn(id, 'Link', true).replace(/<svg.*?<\/svg>/, '').replace(' way"', '"');
+    return `<div class="it">${wayIco(id)}<b>${esc(n)}</b><span class="sp"></span>${act}</div>`;
+  }).join('');
+  return `<div class="frame box"><h3>Formas de acesso</h3><p class="small">Uma só conta: entre com qualquer forma vinculada.</p>
+    <div class="idl">${rows}</div>${mailForm()}<p class="msg" id="idNote" role="status"></p></div>`;
 }
 
 /** Selector of the control that has focus inside the cabinet (stable data keys), to find its twin after a redraw. */
@@ -2149,7 +2344,7 @@ function cabinet() {
   if (!secs().some(x => x[0] === sec)) sec = 'chars';
   const nav = secs().map(([id, t]) => `<a href="#${id}"${sec === id ? ' aria-current="page"' : ''}>${esc(t)}${id === 'chars' ? `<span>${esc(fill('%n de 3', { n: m.characters.length }))}</span>` : id === 'ach' ? `<span>${ach} / ${all}</span>` : ''}</a>`).join('');
   const body = { chars: secChars, look: secLook, ach: secAch, frames: secFrames, chronicle: secChronicle, account: secAccount, reports: secReports }[sec]();
-  $('#view').innerHTML = `<p class="lab">Seu cartão como os outros o veem</p>${bcard(p, { h: 'h2', reveal })}${gloryHtml()}${levelAsk()}${nextHtml()}${weekHtml()}${seasonHtml()}${pathHtml()}
+  $('#view').innerHTML = `${noticeHtml()}<p class="lab">Seu cartão como os outros o veem</p>${bcard(p, { h: 'h2', reveal })}${gloryHtml()}${levelAsk()}${nextHtml()}${weekHtml()}${seasonHtml()}${pathHtml()}
     <div class="lay"><nav class="frame pnav" aria-label="Área pessoal">${nav}<hr><a class="pub" href="${playerUrl(m.user.id)}">Minha página ↗</a></nav><section class="sec" id="sec">${body}</section></div>`;
   reveal = false;
   const cur = $('.s-track');   // the season track opens at the step in progress
@@ -2228,6 +2423,9 @@ document.addEventListener('click', e => {
     const c = mainOf();
     a.disabled = true;
     M.api('/characters/' + c.id, { method: 'PUT', body: Object.assign({}, c, { level: +a.dataset.lvl }) }).then(r => M.took(r), () => { a.disabled = false; });
+  } else if (act === 'unlink') {
+    a.disabled = true;
+    M.api('/me/identities/' + a.dataset.p, { method: 'DELETE' }).then(() => M.me(true), e2 => { a.disabled = false; const n = $('#idNote'); if (n) { n.textContent = errText(e2); n.className = 'msg err'; } });
   } else if (act === 'logout') M.api('/auth/logout', { body: {} }).then(() => M.forget(), () => M.forget());
   else if (act === 'delete') openDelete();
 });
@@ -2287,15 +2485,11 @@ function start() {
   M.api('/me').then(r => M.took({ me: r }), e => { if (e.status !== 401) screen('down'); });
 }
 
-ready(Mx => {
-  M = Mx;
-  const ref = new URLSearchParams(location.search).get('ref');
-  if (ref && REF_ID.test(ref)) try { localStorage.setItem('gabella-ref', ref); } catch (e) { /* private mode */ }
-  const h = location.hash.slice(1);
-  if (SECS0.some(s => s[0] === h) || h === 'reports') sec = h;   // «reports» is checked against m.admin when the cabinet is drawn
-  if (!M) return screen('down');
-  wireForm();
-  if (['not-member', 'discord-down', 'members-only'].includes(h)) return screen(h);
+/** Subscribes the page to /me (once); fresh: ask the API again, e.g. right after signing in. */
+let following = false;
+function follow(fresh) {
+  if (following) { M.me(true); return; }
+  following = true;
   let got = false;
   M.onMe(state => {
     got = true;
@@ -2306,9 +2500,31 @@ ready(Mx => {
     render();
   });
   // me.js keeps quiet when the API is unreachable: ask once more to tell «logged out» (401) from «server down»
-  M.me().then(() => {
+  M.me(fresh).then(() => {
     if (!got) M.api('/me').then(r => M.took({ me: r }), e => { if (e.status !== 401) screen('down'); });
   });
+}
+
+ready(Mx => {
+  M = Mx;
+  const ref = new URLSearchParams(location.search).get('ref');
+  if (ref && REF.test(ref)) try { localStorage.setItem('gabella-ref', ref); } catch (e) { /* private mode */ }
+  const h = location.hash.slice(1);
+  if (SECS0.some(s => s[0] === h) || h === 'reports') sec = h;   // «reports» is checked against m.admin when the cabinet is drawn
+  if (!M) return screen('down');
+  wireForm();
+  // one-time hashes: the email token, Telegram's answer without a popup, messages after a redirect
+  const once = /^(email=|tgAuthResult=)/.test(h) || STATES[h] || h === 'not-member';
+  if (once) history.replaceState(null, '', location.pathname + location.search);
+  if (h.startsWith('email=')) return mailVerify(h.slice(6));
+  if (h.startsWith('tgAuthResult=')) return tgFromHash(h.slice(13));
+  if (STATES[h]) notice = h;
+  addEventListener('hashchange', () => {
+    const s2 = location.hash.slice(1);
+    if (!secs().some(x => x[0] === s2) || !m || !m.characters.length) return;
+    sec = s2; cabinet(); $('#sec').scrollIntoView({ block: 'nearest' });
+  });
+  follow();
 });
 </script>
 <script>
@@ -2378,8 +2594,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=cd1963be87" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=1b17d58ed3" data-root="../../" data-home="../" data-lang="pt" data-teaser="Seu perfil guarda sua jornada: Glória, quadros, temporadas" data-close="Fechar" data-page="profile/" defer></script>
+<script src="../../assets/search/search.js?v=ad1c2df117" data-root="../../" defer></script>
+<script src="../../assets/me/me.js?v=e3150ed17b" data-root="../../" data-home="../" data-lang="pt" data-teaser="Seu perfil guarda sua jornada: Glória, quadros, temporadas" data-close="Fechar" data-page="profile/" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

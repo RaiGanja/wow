@@ -123,16 +123,17 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 /* Top bar: transparent over the hero, solid after scrolling */
 .topbar { position: fixed; inset: 0 0 auto 0; z-index: 30; height: var(--top); color: var(--ink); background: linear-gradient(rgba(5,6,8,.62), rgba(5,6,8,0)); border-bottom: 1px solid transparent; transition: background-color .25s, border-color .25s, color .25s; }
 .topbar.solid { background: var(--rail); border-bottom-color: var(--line); color: var(--fg); }
-.topbar .in { max-width: var(--wrap); height: 100%; margin: 0 auto; padding: 0 max(20px, env(safe-area-inset-left, 0px)); display: flex; align-items: center; gap: 18px; }
-.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; min-height: 44px; }
+.topbar .in { max-width: var(--wrap); height: 100%; margin: 0 auto; padding: 0 max(20px, env(safe-area-inset-left, 0px)); display: flex; align-items: center; gap: 14px; }
+.brand { flex: none; display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; min-height: 44px; }   /* never squeezed: the subtitle would run into the menu */
 .mark { width: 40px; height: 40px; flex: none; display: block; border-radius: 8px; box-shadow: 0 0 0 1px rgba(201,165,74,.35); }
 .brand b { font-family: var(--font-display); font-weight: 400; font-size: 1.3rem; white-space: nowrap; }
 .bt { display: grid; line-height: 1.1; }
 .bt small { font-size: .74rem; font-weight: 500; letter-spacing: .04em; color: var(--ink-gold); white-space: nowrap; margin-top: 2px; }
-.mainnav { display: flex; gap: 2px; margin-left: 12px; }
-.mainnav a { min-height: 44px; display: grid; place-items: center; padding: 0 12px; color: inherit; opacity: .78; text-decoration: none; font-size: .95rem; font-weight: 500; box-shadow: inset 0 -2px 0 transparent; transition: opacity .2s, box-shadow .2s; }
+.mainnav { display: flex; margin-left: 4px; }
+.mainnav a { min-height: 44px; display: grid; place-items: center; padding: 0 9px; color: inherit; opacity: .78; text-decoration: none; font-size: .92rem; font-weight: 500; box-shadow: inset 0 -2px 0 transparent; transition: opacity .2s, box-shadow .2s; }
 .mainnav a:hover { opacity: 1; }
-@media (max-width: 1280px) { .mainnav a { padding: 0 8px; } }
+/* the top bar row is tight (9 links + language, search, radio, login, theme): measured to fit with room at every width */
+@media (max-width: 1280px) { .mainnav a { padding: 0 6px; } }
 .mainnav a[aria-current="true"] { opacity: 1; color: var(--ink-gold); }
 .topbar.solid .mainnav a[aria-current="true"] { color: var(--gold-2); }
 .tools { margin-left: auto; display: flex; gap: 8px; align-items: center; }
@@ -163,6 +164,7 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: .92rem; }
+@media (max-width: 1210px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }
 
 /* Hero */
 .hero { position: relative; min-height: max(560px, 100svh); display: grid; align-content: space-between; color: var(--ink); background: #08090b; isolation: isolate; overflow: hidden; }
@@ -998,8 +1000,8 @@ nav.gtiles { padding: 14px; }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/search/search.css?v=cd1963be87" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/me/me.css?v=1b17d58ed3" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/search/search.css?v=ad1c2df117" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/me/me.css?v=e3150ed17b" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Головна","item":"https://gabella.site/wow/uk/"},{"@type":"ListItem","position":2,"name":"Гайди","item":"https://gabella.site/wow/uk/guides/"},{"@type":"ListItem","position":3,"name":"Прокачування 1–60","item":"https://gabella.site/wow/uk/guides/leveling/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Гайд з прокачки WoW Forever 1–60: зони за рівнями","description":"Прокачка у WoW Forever з 1 до 60: маршрут зонами за Альянс і Орду, відпочинок і бонуси досвіду, поради соло, удвох і групою, Legacy та табір.","inLanguage":"uk","url":"https://gabella.site/wow/uk/guides/leveling/","dateModified":"2026-10-23","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/Zd45sNHy9x"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/Zd45sNHy9x"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/uk/"},"image":"https://gabella.site/wow/assets/og/leveling-uk.jpg"}</script>
 </head>
@@ -1194,8 +1196,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../../assets/radio/radio.js" data-root="../../../" defer></script>
-<script src="../../../assets/search/search.js?v=cd1963be87" data-root="../../../" defer></script>
-<script src="../../../assets/me/me.js?v=1b17d58ed3" data-root="../../../" data-home="../../" data-lang="uk" data-teaser="Профіль зберігає ваш шлях: Слава, рамки, сезони" data-close="Закрити" data-page="guides/leveling/" defer></script>
+<script src="../../../assets/search/search.js?v=ad1c2df117" data-root="../../../" defer></script>
+<script src="../../../assets/me/me.js?v=e3150ed17b" data-root="../../../" data-home="../../" data-lang="uk" data-teaser="Профіль зберігає ваш шлях: Слава, рамки, сезони" data-close="Закрити" data-page="guides/leveling/" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

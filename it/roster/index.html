@@ -123,16 +123,17 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 /* Top bar: transparent over the hero, solid after scrolling */
 .topbar { position: fixed; inset: 0 0 auto 0; z-index: 30; height: var(--top); color: var(--ink); background: linear-gradient(rgba(5,6,8,.62), rgba(5,6,8,0)); border-bottom: 1px solid transparent; transition: background-color .25s, border-color .25s, color .25s; }
 .topbar.solid { background: var(--rail); border-bottom-color: var(--line); color: var(--fg); }
-.topbar .in { max-width: var(--wrap); height: 100%; margin: 0 auto; padding: 0 max(20px, env(safe-area-inset-left, 0px)); display: flex; align-items: center; gap: 18px; }
-.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; min-height: 44px; }
+.topbar .in { max-width: var(--wrap); height: 100%; margin: 0 auto; padding: 0 max(20px, env(safe-area-inset-left, 0px)); display: flex; align-items: center; gap: 14px; }
+.brand { flex: none; display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; min-height: 44px; }   /* never squeezed: the subtitle would run into the menu */
 .mark { width: 40px; height: 40px; flex: none; display: block; border-radius: 8px; box-shadow: 0 0 0 1px rgba(201,165,74,.35); }
 .brand b { font-family: var(--font-display); font-weight: 400; font-size: 1.3rem; white-space: nowrap; }
 .bt { display: grid; line-height: 1.1; }
 .bt small { font-size: .74rem; font-weight: 500; letter-spacing: .04em; color: var(--ink-gold); white-space: nowrap; margin-top: 2px; }
-.mainnav { display: flex; gap: 2px; margin-left: 12px; }
-.mainnav a { min-height: 44px; display: grid; place-items: center; padding: 0 12px; color: inherit; opacity: .78; text-decoration: none; font-size: .95rem; font-weight: 500; box-shadow: inset 0 -2px 0 transparent; transition: opacity .2s, box-shadow .2s; }
+.mainnav { display: flex; margin-left: 4px; }
+.mainnav a { min-height: 44px; display: grid; place-items: center; padding: 0 9px; color: inherit; opacity: .78; text-decoration: none; font-size: .92rem; font-weight: 500; box-shadow: inset 0 -2px 0 transparent; transition: opacity .2s, box-shadow .2s; }
 .mainnav a:hover { opacity: 1; }
-@media (max-width: 1280px) { .mainnav a { padding: 0 8px; } }
+/* the top bar row is tight (9 links + language, search, radio, login, theme): measured to fit with room at every width */
+@media (max-width: 1280px) { .mainnav a { padding: 0 6px; } }
 .mainnav a[aria-current="true"] { opacity: 1; color: var(--ink-gold); }
 .topbar.solid .mainnav a[aria-current="true"] { color: var(--gold-2); }
 .tools { margin-left: auto; display: flex; gap: 8px; align-items: center; }
@@ -163,6 +164,7 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: .92rem; }
+@media (max-width: 1210px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }
 
 /* Hero */
 .hero { position: relative; min-height: max(560px, 100svh); display: grid; align-content: space-between; color: var(--ink); background: #08090b; isolation: isolate; overflow: hidden; }
@@ -897,6 +899,9 @@ main .me-ring, dialog .me-ring { --s: 64px; --room-x: 12px; --room-y: 12px; widt
 .pcard .alts { grid-column: 1 / -1; font-size: .84rem; color: var(--muted); }
 .pcard .alts i { font-style: normal; color: var(--ac); }
 .pcard .nick { grid-column: 1 / -1; font-size: .82rem; color: var(--muted); }
+.pcard .nick { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: center; }
+.team { display: inline-flex; align-items: center; gap: 5px; color: var(--gold-2); font-weight: 600; }
+.team img { display: block; }
 .pcard .mainmark { grid-column: 1 / -1; font-size: .8rem; font-weight: 600; color: var(--gold-2); }
 .pcard .mod { position: absolute; z-index: 3; right: 10px; bottom: 10px; min-height: 32px; font: inherit; font-size: .78rem; color: var(--muted); border: 1px solid var(--pline); border-radius: 6px; padding: 0 10px; background: var(--panel-2); cursor: pointer; }
 .pcard .mod:hover { color: var(--fg); border-color: var(--gold); }
@@ -1145,8 +1150,8 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=cd1963be87" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=1b17d58ed3" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=ad1c2df117" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=e3150ed17b" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/it/"},{"@type":"ListItem","position":2,"name":"Rosa","item":"https://gabella.site/wow/it/roster/"}]}</script>
 </head>
 <body>
@@ -1193,7 +1198,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
     <p class="lead">Chi gioca cosa in WoW Forever. Il personaggio principale in una scheda, gli alt in una riga sotto.</p>
     <p class="rstat" id="stats" aria-live="polite"></p>
     <p class="g-wk" id="wk" hidden></p>
-    <div class="rcta"><a class="btn lg" id="cta" href="../profile/">Aggiungi il tuo personaggio</a><span id="ctaHint">Accesso con Discord, solo per i membri del server</span></div>
+    <div class="rcta"><a class="btn lg" id="cta" href="../profile/">Aggiungi il tuo personaggio</a><span id="ctaHint">Accedi con Discord, Google, Battle.net, Telegram o email</span></div>
   </div>
 </section>
 <main class="wrap rost" id="list">
@@ -1321,7 +1326,7 @@ function pcard(p, o) {
     <span class="fx ${f}">${esc(o.tag || FACN[f])}</span>
     <div class="nm">${p.title ? `<span class="ttl">${esc(titleName(p.title))}</span>` : ''}${name}${glory}</div>
     <span class="sub">${subline(c)}</span>
-    <div class="meta">${meta.join('')}</div>${alts}${p.nick ? `<div class="nick">Discord: ${esc(p.nick)}</div>` : ''}${o.after || ''}
+    <div class="meta">${meta.join('')}</div>${alts}${p.member || p.nick ? `<div class="nick">${p.member ? `<span class="team"><img src="${ROOT}assets/brand/mark.webp" alt="" width="14" height="14">Gabella Team</span>` : ''}${p.nick ? `<span>${esc(p.nick)}</span>` : ''}</div>` : ''}${o.after || ''}
   </article>`;
 }
 
@@ -1379,8 +1384,9 @@ function bcard(p, o) {
   const c = p.main, bg = p.background || race(c.race).slug;
   const src = /^hero_/.test(bg) ? `${ROOT}assets/art/${bg}-960.webp` : `${ROOT}assets/art/${bg}-896.webp`;
   const who = [];
-  if (p.nick) who.push('Discord: ' + esc(p.nick));
+  if (p.nick) who.push(esc(p.nick));
   if (p.joined) who.push(esc(fill('In Gabella Team dal %d', { d: dateOf(p.joined) })));
+  else if (p.member) who.push('Gabella Team');
   else if (p.since) who.push(esc(fill('Nella rosa dal %d', { d: dateOf(p.since) })));
   const h = o.h || 'h1';
   return `<section class="bcard" style="--cc:${cls(c.class).color}" aria-label="Scheda del giocatore">
@@ -1789,8 +1795,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=cd1963be87" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=1b17d58ed3" data-root="../../" data-home="../" data-lang="it" data-teaser="Il tuo profilo conserva il tuo percorso: Gloria, riquadri, stagioni" data-close="Chiudi" data-page="roster/" defer></script>
+<script src="../../assets/search/search.js?v=ad1c2df117" data-root="../../" defer></script>
+<script src="../../assets/me/me.js?v=e3150ed17b" data-root="../../" data-home="../" data-lang="it" data-teaser="Il tuo profilo conserva il tuo percorso: Gloria, riquadri, stagioni" data-close="Chiudi" data-page="roster/" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>
