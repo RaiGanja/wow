@@ -7,7 +7,7 @@ from html import escape
 
 import build
 from build import LANGS, SITE, page_dir, rel, localize, translate
-from content.guides import GUIDES, HUB, HUBS, NEWS
+from content.guides import GUIDES, HUB, HUBS, NEWS, NOT_FOUND, PAGES
 
 HERE = build.HERE
 
@@ -263,16 +263,20 @@ def page_ids(g):
 
 
 def build_page(g, lang, tpl, base_css, sprite, src):
-    sub = g.get('path') or (f'guides/{g["slug"]}/' if g['slug'] else 'guides/')   # path: разделы classes/, races/ (Task 8)
+    sub = g['path'] if 'path' in g else (f'guides/{g["slug"]}/' if g['slug'] else 'guides/')   # path: classes/, races/, privacy/, '' (404)
     here = page_dir(lang, sub)
     html = tpl.replace('@@BASE_CSS@@', base_css).replace('@@SPRITE@@', sprite)
     html, missing = translate(html, lang)                       # 1) обвязка
     root = rel(here, page_dir(lang))
     toc, body = render_guide(g, lang, root) if g['slug'] else hub_body(lang, root)
+    if g is NOT_FOUND:
+        body += hub_body(lang, root)[1]                           # 404: every section of the guide as tiles
     if len(g.get('sections', ())) == 1:
         toc = ''                                                 # one section: no contents column
-    section = 'path' in g                                         # classes/, races/: not a guide
-    if section:
+    section = 'path' in g                                         # classes/, races/, privacy/: not a guide
+    if not g.get('more', True):
+        others, more = [], ''
+    elif section:
         others = [x for x in section_tiles() if x['href'] != g['path']] + SITE_TILES
         more = tile_links(others, lang, root)
     else:
@@ -296,10 +300,14 @@ def build_page(g, lang, tpl, base_css, sprite, src):
         html = html.replace(f'@@{k}@@', v)
     if not others:
         html = html.replace('<section id="more">', '<section id="more" hidden>')
+    if not g.get('sources'):                                     # privacy, 404: footer without the sources list
+        html = re.sub(r'<!--src-->.*?<!--/src-->', '', html, flags=re.S)
+    html = html.replace('<!--src-->', '').replace('<!--/src-->', '')
     if section:                                                  # menu: the current item is Classes / Races, not Guides
         html = html.replace('<a href="@@GUIDES@@" aria-current="true">', '<a href="@@GUIDES@@">')
-        anchor = '#classes' if g['slug'] == 'classes' else '#peoples'
-        html = html.replace(f'<a href="@@HOME@@{anchor}">', f'<a href="@@HOME@@{anchor}" aria-current="true">')
+        anchor = {'classes': '#classes', 'races': '#peoples'}.get(g['slug'])
+        if anchor:
+            html = html.replace(f'<a href="@@HOME@@{anchor}">', f'<a href="@@HOME@@{anchor}" aria-current="true">')
     html = html.replace('@@GUIDES@@', rel(here, page_dir(lang, 'guides/')))
     html = html.replace('@@HOME@@', root)
     for l in LANGS:
@@ -309,12 +317,22 @@ def build_page(g, lang, tpl, base_css, sprite, src):
     alt = '\n'.join(f'<link rel="alternate" hreflang="{l}" href="{SITE}{page_dir(l, sub)}">' for l in LANGS)
     alt += f'\n<link rel="alternate" hreflang="x-default" href="{SITE}{sub}">'
     html = html.replace('@@ALTERNATES@@', alt)
-    html = localize(html, lang, here).replace('assets/og.png', f'assets/og/{g["slug"] or "guides"}-{lang}.jpg')   # tools/make_og.py
+    html = localize(html, lang, here).replace('assets/og.png', f'assets/og/{g.get("og") or g["slug"] or "guides"}-{lang}.jpg')   # tools/make_og.py
     return here + 'index.html', html, missing
 
 
+def not_found_page(tpl, base_css, sprite, src):
+    """404.html: the Russian page built at the guide root, served by GitHub Pages at any depth under /wow/ —
+    <base> keeps its relative links working, and it is neither indexed nor canonical."""
+    _, html, missing = build_page(NOT_FOUND, 'ru', tpl, base_css, sprite, src)
+    html = re.sub(r'<link rel="(canonical|alternate)"[^>]*>\n', '', html)
+    html = re.sub(r'<meta property="og:[^>]*>\n', '', html)
+    html = html.replace('<head>', '<head>\n<base href="/wow/">\n<meta name="robots" content="noindex">', 1)
+    return '404.html', html, missing
+
+
 def main():
-    gaps = (check_langs(HUB, 'HUB') + [p for g in GUIDES + HUBS for p in check_langs(g, g['slug'])]
+    gaps = (check_langs(HUB, 'HUB') + [p for g in GUIDES + HUBS + PAGES + [NOT_FOUND] for p in check_langs(g, g['slug'])]
             + check_langs(NEWS, 'NEWS') + check_langs(SITE_TILES, 'SITE_TILES'))
     assert not gaps, gaps[:10]
     src = open(os.path.join(HERE, 'index.src.html'), encoding='utf-8').read()
@@ -325,11 +343,15 @@ def main():
 
     pages, allmissing = [], []
     for lang in LANGS:
-        for g in [HUB] + GUIDES + HUBS:
+        for g in [HUB] + GUIDES + HUBS + PAGES:
             path, html, missing = build_page(g, lang, tpl, base_css, sprite, src)
             assert '@@' not in html, (path, re.findall(r'@@\w+@@', html)[:5])
             pages.append((path, html))
             allmissing += missing
+    path, html, missing = not_found_page(tpl, base_css, sprite, src)
+    assert '@@' not in html, (path, re.findall(r'@@\w+@@', html)[:5])
+    pages.append((path, html))
+    allmissing += missing
 
     listing = '--list' in sys.argv
     if not listing:

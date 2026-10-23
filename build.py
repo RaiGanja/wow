@@ -59,8 +59,28 @@ def rel(from_dir, to_dir):
     return './' if r == '.' else r + '/'
 
 
+CONTACT = 'contact@gabella.site'   # Cloudflare Email Routing -> почта Вячеслава
+LEGAL = {
+    'ru': ('Фанатский гид Gabella Team. Сайт не связан с Blizzard Entertainment и не одобрен ею. World of Warcraft, Warcraft и Blizzard Entertainment — '
+           'товарные знаки или зарегистрированные товарные знаки Blizzard Entertainment, Inc. в США и/или других странах.', 'Конфиденциальность', 'Связь'),
+    'en': ('Gabella Team fan guide. Not affiliated with or endorsed by Blizzard Entertainment. World of Warcraft, Warcraft and Blizzard Entertainment are '
+           'trademarks or registered trademarks of Blizzard Entertainment, Inc. in the U.S. and/or other countries.', 'Privacy', 'Contact'),
+    'uk': ('Фанатський гід Gabella Team. Сайт не пов’язаний з Blizzard Entertainment і не схвалений нею. World of Warcraft, Warcraft і Blizzard Entertainment — '
+           'торгові марки або зареєстровані торгові марки Blizzard Entertainment, Inc. у США та/або інших країнах.', 'Конфіденційність', 'Зв’язок'),
+}
+
+
+def legal(lang, root):
+    """Footer block of every page (@@LEGAL@@): trademarks, ©, privacy page, contact."""
+    text, privacy, contact = LEGAL[lang]
+    return (f'<div class="legal"><p>{text}</p><p>© 2026 Gabella Team<span aria-hidden="true"> · </span>'
+            f'<a href="{root}{page_dir(lang, "privacy/")}">{privacy}</a><span aria-hidden="true"> · </span>'
+            f'{contact}: <a href="mailto:{CONTACT}">{CONTACT}</a></p></div>')
+
+
 def localize(html, lang, here):
     """Language-specific attributes shared by all pages."""
+    html = html.replace('@@LEGAL@@', legal(lang, rel(here, '')))
     html = html.replace('@@ROOT@@', rel(here, ''))
     if lang != 'ru':
         html = html.replace('<html lang="ru">', f'<html lang="{lang}">')

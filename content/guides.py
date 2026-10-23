@@ -762,3 +762,77 @@ HUBS = [
                    'Скайборн ігрова за обидві фракції, фракцію обирають під час створення. Обидві гілки говорять спільною мовою, а стартова зона Zephras Isle спільна, вороги там не зустрічаються через шари.')),
      ]}]},
 ]
+
+
+# ---------- Служебные страницы: /privacy/ и 404.html. Не гайды: в список гайдов и плитки не попадают ----------
+# Политика описывает то, что сайт делает на самом деле. Появится реклама, форма или новый сторонний скрипт — сначала поправить её.
+
+from build import CONTACT  # noqa: E402  (адрес один на весь сайт, подвал берёт его оттуда же)
+_mail = f'<a href="mailto:{CONTACT}">{CONTACT}</a>'
+_cf = 'https://www.cloudflare.com/privacypolicy/'
+_gh = 'https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement'
+
+PAGES = [
+    {'slug': 'privacy', 'path': 'privacy/', 'og': 'guides', 'art': 'hero_campfire', 'updated': '23.10.2026',
+     'title': t('Конфиденциальность', 'Privacy', 'Конфіденційність'),
+     'lead': t('Какие данные собирает сайт и что хранится у вас в браузере. Коротко: персональные данные мы не собираем.',
+               'What data the site collects and what is stored in your browser. In short: we do not collect personal data.',
+               'Які дані збирає сайт і що зберігається у вашому браузері. Коротко: персональні дані ми не збираємо.'),
+     'pills': [t('Обновлено 23.10.2026', 'Updated 23.10.2026', 'Оновлено 23.10.2026')],
+     'sections': [
+         {'id': 'short', 'title': t('Коротко', 'In short', 'Коротко'), 'blocks': [
+             ('text', [t('На сайте нет регистрации, форм, комментариев и рекламы. Мы не ставим cookies и не знаем, кто вы.',
+                         'The site has no sign-up, forms, comments or ads. We set no cookies and do not know who you are.',
+                         'На сайті немає реєстрації, форм, коментарів і реклами. Ми не ставимо cookies і не знаємо, хто ви.')])]},
+         {'id': 'analytics', 'title': t('Статистика посещений', 'Visit statistics', 'Статистика відвідувань'), 'blocks': [
+             ('text', [t('Чтобы понимать, какие страницы читают, сайт использует Cloudflare Web Analytics. Он работает без cookies, не снимает отпечаток браузера и не следит за вами на других сайтах.',
+                         'To see which pages people read, the site uses Cloudflare Web Analytics. It works without cookies, does not fingerprint your browser and does not track you across other sites.',
+                         'Щоб розуміти, які сторінки читають, сайт використовує Cloudflare Web Analytics. Він працює без cookies, не знімає відбиток браузера і не стежить за вами на інших сайтах.'),
+                       t('Мы видим только сводные цифры: сколько раз открывали страницу, из какой страны, с какого типа устройства и с какого сайта пришли. Отдельного посетителя в них не различить.',
+                         'We only see totals: how many times a page was opened, from which country, on what kind of device and from which site. Individual visitors cannot be told apart.',
+                         'Ми бачимо лише зведені цифри: скільки разів відкривали сторінку, з якої країни, з якого типу пристрою і з якого сайту прийшли. Окремого відвідувача в них не розрізнити.')]),
+             ('raw', t(f'<p><a href="{_cf}" target="_blank" rel="noopener">Политика конфиденциальности Cloudflare</a></p>',
+                       f'<p><a href="{_cf}" target="_blank" rel="noopener">Cloudflare privacy policy</a></p>',
+                       f'<p><a href="{_cf}" target="_blank" rel="noopener">Політика конфіденційності Cloudflare</a></p>'))]},
+         {'id': 'hosting', 'title': t('Хостинг', 'Hosting', 'Хостинг'), 'blocks': [
+             ('text', [t('Сайт размещён на GitHub Pages. Как любой веб-сервер, GitHub получает IP-адрес вашего устройства, чтобы отдать страницу, и может хранить его в журналах для защиты от атак. У нас доступа к этим журналам нет.',
+                         'The site is hosted on GitHub Pages. Like any web server, GitHub receives your device’s IP address to deliver the page and may keep it in logs to protect against attacks. We have no access to those logs.',
+                         'Сайт розміщено на GitHub Pages. Як будь-який вебсервер, GitHub отримує IP-адресу вашого пристрою, щоб віддати сторінку, і може зберігати її в журналах для захисту від атак. Ми доступу до цих журналів не маємо.')]),
+             ('raw', t(f'<p><a href="{_gh}" target="_blank" rel="noopener">Политика конфиденциальности GitHub</a></p>',
+                       f'<p><a href="{_gh}" target="_blank" rel="noopener">GitHub privacy statement</a></p>',
+                       f'<p><a href="{_gh}" target="_blank" rel="noopener">Політика конфіденційності GitHub</a></p>'))]},
+         {'id': 'device', 'title': t('Что хранится у вас', 'Stored on your device', 'Що зберігається у вас'), 'blocks': [
+             ('text', [t('В памяти браузера (localStorage) сайт запоминает выбранную тему и вашего героя — расу, класс, уровень и профессии, если вы их указали. Чтобы гид открывался без сети, браузер хранит копии страниц.',
+                         'In browser storage (localStorage) the site remembers your chosen theme and your hero (race, class, level and professions) if you entered them. To open the guide offline, the browser keeps copies of the pages.',
+                         'У пам’яті браузера (localStorage) сайт запам’ятовує вибрану тему та вашого героя — расу, клас, рівень і професії, якщо ви їх вказали. Щоб гід відкривався без мережі, браузер зберігає копії сторінок.'),
+                       t('Эти данные остаются на вашем устройстве и никуда не отправляются. Удалить их можно, очистив данные сайта в настройках браузера.',
+                         'This data stays on your device and is not sent anywhere. You can delete it by clearing the site data in your browser settings.',
+                         'Ці дані залишаються на вашому пристрої й нікуди не надсилаються. Видалити їх можна, очистивши дані сайту в налаштуваннях браузера.')])]},
+         {'id': 'links', 'title': t('Шрифты и ссылки', 'Fonts and links', 'Шрифти та посилання'), 'blocks': [
+             ('text', [t('Шрифты и картинки загружаются с нашего же сайта, без сторонних сервисов. Ссылки на источники ведут на другие сайты, у них свои правила конфиденциальности.',
+                         'Fonts and images load from this site, with no third-party services. Links to sources lead to other sites, which have their own privacy rules.',
+                         'Шрифти й зображення завантажуються з нашого ж сайту, без сторонніх сервісів. Посилання на джерела ведуть на інші сайти, у них свої правила конфіденційності.')])]},
+         {'id': 'contact', 'title': t('Связь', 'Contact', 'Зв’язок'), 'blocks': [
+             ('text', [t('Персональных данных у нас нет, поэтому выдавать или удалять нечего. С вопросами о данных, ошибками в гайде и претензиями правообладателей пишите на почту ниже.',
+                         'We hold no personal data, so there is nothing to hand over or delete. For questions about data, mistakes in the guide or copyright concerns, write to the address below.',
+                         'Персональних даних у нас немає, тож видавати чи видаляти нічого. З питаннями про дані, помилками в гіді та претензіями правовласників пишіть на пошту нижче.')]),
+             ('raw', f'<p>{_mail}</p>'),
+             ('text', [t('Если что-то изменится, например появится реклама, мы обновим эту страницу и дату вверху.',
+                         'If anything changes, for example if ads appear, we will update this page and the date at the top.',
+                         'Якщо щось зміниться, наприклад з’явиться реклама, ми оновимо цю сторінку й дату вгорі.')])]},
+     ]},
+]
+
+# 404.html в корне гида: GitHub Pages отдаёт её на любой несуществующий адрес под /wow/. Одна страница на все языки.
+NOT_FOUND = {
+    'slug': '404', 'path': '', 'og': 'guides', 'art': 'hero_campfire', 'more': False,
+    'title': t('Страница не найдена', 'Page not found', 'Сторінку не знайдено'),
+    'lead': t('Такой страницы нет: ссылка устарела или в адресе опечатка. Разделы гида ниже.',
+              'This page does not exist: the link is outdated or the address has a typo. The guide sections are below.',
+              'Такої сторінки немає: посилання застаріло або в адресі помилка. Розділи гіда нижче.'),
+    'sections': [{'id': 'where', 'title': t('Куда дальше', 'Where next', 'Куди далі'), 'blocks': [
+        ('raw', '<p class="nf-langs"><a href="./">Главная гида</a><span aria-hidden="true"> · </span>'
+                '<a href="en/" lang="en">Page not found — English guide</a><span aria-hidden="true"> · </span>'
+                '<a href="uk/" lang="uk">Сторінку не знайдено — гід українською</a></p>'),
+    ]}],
+}

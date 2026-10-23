@@ -25,6 +25,7 @@ LOCALE = {'ru': 'ru_RU', 'en': 'en_US', 'uk': 'uk_UA'}
 HOME_NAME = {'ru': 'Главная', 'en': 'Home', 'uk': 'Головна'}
 SITE_NAME = {'ru': 'Гид WoW Forever', 'en': 'WoW Forever Guide', 'uk': 'Гід WoW Forever'}
 TOOLS_NAME = {'ru': 'Инструменты', 'en': 'Tools', 'uk': 'Інструменти'}
+PRIVACY_NAME = {'ru': 'Конфиденциальность', 'en': 'Privacy', 'uk': 'Конфіденційність'}
 
 
 def t(ru, en, uk):
@@ -95,6 +96,12 @@ META = {
                      t('Новости WoW Forever перед релизом: закрытие беты и бронь имён с 27.10, изменения рас и классов в патчах беты, Даларан и свежая лента Wowhead.',
                        'WoW Forever news before launch: the beta closing and name reservations from 27.10, race and class changes in beta patches, Dalaran and the latest Wowhead feed.',
                        'Новини WoW Forever перед релізом: закриття бети й бронювання імен з 27.10, зміни рас і класів у патчах бети, Даларан і свіжа стрічка Wowhead.')),
+    'privacy/': (t('Конфиденциальность — гид WoW Forever',
+                   'Privacy — WoW Forever Guide',
+                   'Конфіденційність — гід WoW Forever'),
+                 t('Какие данные собирает гид WoW Forever от Gabella Team: статистика без cookies, хостинг GitHub Pages, что хранится в браузере и как с нами связаться.',
+                   'What data the Gabella Team WoW Forever guide collects: cookieless statistics, GitHub Pages hosting, what is stored in your browser and how to contact us.',
+                   'Які дані збирає гід WoW Forever від Gabella Team: статистика без cookies, хостинг GitHub Pages, що зберігається в браузері та як з нами зв’язатися.')),
 }
 
 CLASS_T = t('{n} в WoW Forever: гайд — {specs}', 'WoW Forever {n} Guide: {specs} Specs', '{n} у WoW Forever: гайд — {specs}')
@@ -159,8 +166,8 @@ def crumbs(path, lang):
     sec = {'classes/': HUBS[0], 'races/': HUBS[1], 'guides/': HUB}
     parts = path.strip('/').split('/')
     top = parts[0] + '/'
-    if top == 'tools/':
-        items.append((TOOLS_NAME[lang], base + top))
+    if top in ('tools/', 'privacy/'):
+        items.append(((TOOLS_NAME if top == 'tools/' else PRIVACY_NAME)[lang], base + top))
         return items
     items.append((sec[top]['title'][lang], base + top))
     if len(parts) > 1:
