@@ -1266,7 +1266,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/search/search.css?v=cd1963be87" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=974417c49c" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=1b17d58ed3" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://gabella.site/wow/es/"},{"@type":"ListItem","position":2,"name":"Mi perfil","item":"https://gabella.site/wow/es/profile/"}]}</script>
 </head>
 <body>
@@ -1682,10 +1682,11 @@ const asPlayer = c => ({ id: m.user.id, nick: m.user.show_nick ? m.user.nick : n
   name_color: m.user.name_color });
 const myUrl = () => new URL(playerUrl(m.user.id), location.href).href;
 const refUrl = () => new URL(`${HOME}profile/?ref=${m.user.id}`, location.href).href;
+const REF_ID = /^(\d{1,20}|u_[0-9a-f]{16})$/;   // Discord ids and the new accounts (u_ + 16 hex), as USER_ID in the API
 function loginUrl() {
   let ref = '';
   try { ref = localStorage.getItem('gabella-ref') || ''; } catch (e) { /* private mode */ }
-  return `${M ? M.API : 'https://api.gabella.site'}/auth/login?lang=${LANG}` + (/^\d{1,20}$/.test(ref) ? `&ref=${ref}` : '');
+  return `${M ? M.API : 'https://api.gabella.site'}/auth/login?lang=${LANG}` + (REF_ID.test(ref) ? `&ref=${ref}` : '');
 }
 const DISCORD = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.6 5.2A17 17 0 0 0 15.4 4l-.5 1a15.6 15.6 0 0 0-5.8 0L8.6 4a17 17 0 0 0-4.2 1.3C1.7 9.3 1 13.2 1.3 17a17 17 0 0 0 5.2 2.6l1.1-1.7c-.6-.2-1.2-.5-1.7-.8l.4-.3a12.2 12.2 0 0 0 11.4 0l.4.3c-.5.3-1.1.6-1.7.8l1.1 1.7A17 17 0 0 0 22.7 17c.4-4.4-.7-8.3-3.1-11.8ZM8.7 14.7c-1 0-1.9-1-1.9-2.2s.8-2.2 1.9-2.2 1.9 1 1.9 2.2-.8 2.2-1.9 2.2Zm6.6 0c-1 0-1.9-1-1.9-2.2s.8-2.2 1.9-2.2 1.9 1 1.9 2.2-.8 2.2-1.9 2.2Z"/></svg>';
 
@@ -2289,7 +2290,7 @@ function start() {
 ready(Mx => {
   M = Mx;
   const ref = new URLSearchParams(location.search).get('ref');
-  if (ref && /^\d{1,20}$/.test(ref)) try { localStorage.setItem('gabella-ref', ref); } catch (e) { /* private mode */ }
+  if (ref && REF_ID.test(ref)) try { localStorage.setItem('gabella-ref', ref); } catch (e) { /* private mode */ }
   const h = location.hash.slice(1);
   if (SECS0.some(s => s[0] === h) || h === 'reports') sec = h;   // «reports» is checked against m.admin when the cabinet is drawn
   if (!M) return screen('down');
@@ -2378,7 +2379,7 @@ addEventListener('beforeinstallprompt', e => {
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
 <script src="../../assets/search/search.js?v=cd1963be87" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=974417c49c" data-root="../../" data-home="../" data-lang="es" data-teaser="Tu perfil guarda tu camino: Gloria, marcos, temporadas" data-close="Cerrar" data-page="profile/" defer></script>
+<script src="../../assets/me/me.js?v=1b17d58ed3" data-root="../../" data-home="../" data-lang="es" data-teaser="Tu perfil guarda tu camino: Gloria, marcos, temporadas" data-close="Cerrar" data-page="profile/" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

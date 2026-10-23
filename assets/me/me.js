@@ -57,14 +57,17 @@
   /** Answers of the API that change the person ({me, granted, rankUp, gained}): store the fresh /me and celebrate.
       No more than three toasts at once, the rest waits in the profile; the very first experience gets one quiet note. */
   function took(r) {
+    const g = r && r.gained;
+    // a season step opens titles and frames, Glory before the motto opens (Glory 5) may open the motto: also rare full refreshes
+    const opens = g && (g.step_up || (g.glory_up && state && state.user && !state.user.motto_visible));
     if (r && r.me) setMe(r.me);
-    else if (r && (r.granted || []).length) me(true);   // a new achievement moves points, rank and frames: the rare full refresh
+    else if (r && ((r.granted || []).length || opens)) me(true);   // a new achievement moves points, rank and frames: the rare full refresh
     else if (r && state && (r.live || 'lfg' in r)) {   // the API sends what experience changed (Glory, week, season) and the lfg switch: patch, no /me
       if (r.live) Object.assign(state, r.live);
       if ('lfg' in r) state.user.lfg = r.lfg;
       setMe(state);
     }
-    const list = [], g = r && r.gained;
+    const list = [];
     ((r && r.granted) || []).forEach(id => list.push({ kind: 'ach', id }));
     if (r && r.rankUp) list.push({ kind: 'rank', id: r.rankUp });
     if (g && g.glory_up) list.push({ kind: 'glory', id: g.glory_up });
