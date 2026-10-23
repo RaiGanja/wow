@@ -1108,6 +1108,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 .picks small { color: var(--muted); font-weight: 500; }
 .signed { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px 14px; color: var(--muted); font-size: .92rem; }
 .signed .btn { min-height: 38px; padding: 0 14px; font-size: .9rem; }
+.signed + .sec { margin-top: 12px; }
 .founder { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 18px; align-items: center; padding: 14px 18px; }
 .founder b { font-family: var(--font-display); font-size: 1.2rem; color: var(--gold-2); }
 .founder p { margin: 2px 0 0; color: var(--muted); font-size: .92rem; }
@@ -1153,7 +1154,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/search/search.css?v=1d0bf07143" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=1c70cc84ab" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=90eb789af9" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://gabella.site/wow/es/"},{"@type":"ListItem","position":2,"name":"Mi perfil","item":"https://gabella.site/wow/es/profile/"}]}</script>
 </head>
 <body>
@@ -1638,6 +1639,13 @@ function founderPlaque() {
   return `<div class="frame founder"><div><b>Título «Fundador»</b><p>Añade un personaje antes del lanzamiento del 4 de noviembre y conserva el título y el marco dorado para siempre.</p></div>
     <div class="fcd">${unit(days, 'day')}<small>hasta el cierre</small></div></div>`;
 }
+const who = () => (m && m.user.nick ? fill('Sesión iniciada como %n', { n: m.user.nick }) : 'Has iniciado sesión');
+/** Account without a character: the same section as in the cabinet, the wizard one tap away. */
+function accountOnly() {
+  parkForm();
+  $('#view').innerHTML = `${noticeHtml()}<div class="signed"><span>${esc(who())}</span><a class="btn ghost" href="#chars">Crear personaje</a></div>
+    <section class="sec" id="sec">${secAccount()}</section>`;
+}
 function wizard() {
   parkForm();
   wiz = wiz || { step: 1, f: '', race: '', cls: '' };
@@ -1660,9 +1668,8 @@ function wizard() {
   const prev = asPlayer(c);
   prev.title = Date.now() < Date.parse(GD.deadline) ? 'founder' : null;
   prev.frame = prev.title ? 'founder' : prev.frame;
-  // no character yet means no cabinet: say who is signed in and let them leave
-  const who = m && m.user.nick ? fill('Sesión iniciada como %n', { n: m.user.nick }) : 'Has iniciado sesión';
-  v.innerHTML = `${noticeHtml()}<div class="signed"><span>${esc(who)}</span><button type="button" class="btn ghost" data-act="logout">Cerrar sesión</button></div>
+  // no character yet means no cabinet: say who is signed in, open the account (ways to sign in, deletion) or leave
+  v.innerHTML = `${noticeHtml()}<div class="signed"><span>${esc(who())}</span><a class="btn ghost" href="#account">Cuenta</a><button type="button" class="btn ghost" data-act="logout">Cerrar sesión</button></div>
     <p class="lab">Así te verán en la plantilla</p>${bcard(prev, { h: 'h2' })}${founderPlaque()}
     <section class="frame wiz"><div class="wsteps">${steps}</div>${body}</section>`;
   if (w.step === 3) mountForm($('#wForm'), null);
@@ -1945,7 +1952,7 @@ function cabinet() {
 
 function render() {
   if (!m) return screen('login');
-  if (!m.characters.length) return wizard();
+  if (!m.characters.length) return sec === 'account' ? accountOnly() : wizard();
   cabinet();
 }
 
@@ -2057,7 +2064,8 @@ ready(Mx => {
   if (STATES[h]) notice = h;
   addEventListener('hashchange', () => {
     const s2 = location.hash.slice(1);
-    if (!SECS.some(x => x[0] === s2) || !m || !m.characters.length) return;
+    if (!SECS.some(x => x[0] === s2) || !m) return;
+    if (!m.characters.length) { sec = s2 === 'account' ? 'account' : 'chars'; render(); scrollTo(0, 0); return; }
     sec = s2; cabinet(); $('#sec').scrollIntoView({ block: 'nearest' });
   });
   follow();
@@ -2131,7 +2139,7 @@ addEventListener('beforeinstallprompt', e => {
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
 <script src="../../assets/search/search.js?v=1d0bf07143" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=1c70cc84ab" data-root="../../" data-home="../" data-lang="es" data-page="profile/" defer></script>
+<script src="../../assets/me/me.js?v=90eb789af9" data-root="../../" data-home="../" data-lang="es" data-page="profile/" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

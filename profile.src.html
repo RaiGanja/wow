@@ -99,6 +99,7 @@
 .picks small { color: var(--muted); font-weight: 500; }
 .signed { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px 14px; color: var(--muted); font-size: .92rem; }
 .signed .btn { min-height: 38px; padding: 0 14px; font-size: .9rem; }
+.signed + .sec { margin-top: 12px; }
 .founder { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 18px; align-items: center; padding: 14px 18px; }
 .founder b { font-family: var(--font-display); font-size: 1.2rem; color: var(--gold-2); }
 .founder p { margin: 2px 0 0; color: var(--muted); font-size: .92rem; }
@@ -384,6 +385,13 @@ function founderPlaque() {
   return `<div class="frame founder"><div><b>Титул «Основатель»</b><p>Добавьте персонажа до старта 4 ноября — титул и золотая рамка останутся навсегда.</p></div>
     <div class="fcd">${unit(days, 'day')}<small>до закрытия окна</small></div></div>`;
 }
+const who = () => (m && m.user.nick ? fill('Вы вошли как %n', { n: m.user.nick }) : 'Вы вошли');
+/** Account without a character: the same section as in the cabinet, the wizard one tap away. */
+function accountOnly() {
+  parkForm();
+  $('#view').innerHTML = `${noticeHtml()}<div class="signed"><span>${esc(who())}</span><a class="btn ghost" href="#chars">Создать персонажа</a></div>
+    <section class="sec" id="sec">${secAccount()}</section>`;
+}
 function wizard() {
   parkForm();
   wiz = wiz || { step: 1, f: '', race: '', cls: '' };
@@ -406,9 +414,8 @@ function wizard() {
   const prev = asPlayer(c);
   prev.title = Date.now() < Date.parse(GD.deadline) ? 'founder' : null;
   prev.frame = prev.title ? 'founder' : prev.frame;
-  // no character yet means no cabinet: say who is signed in and let them leave
-  const who = m && m.user.nick ? fill('Вы вошли как %n', { n: m.user.nick }) : 'Вы вошли';
-  v.innerHTML = `${noticeHtml()}<div class="signed"><span>${esc(who)}</span><button type="button" class="btn ghost" data-act="logout">Выйти</button></div>
+  // no character yet means no cabinet: say who is signed in, open the account (ways to sign in, deletion) or leave
+  v.innerHTML = `${noticeHtml()}<div class="signed"><span>${esc(who())}</span><a class="btn ghost" href="#account">Аккаунт</a><button type="button" class="btn ghost" data-act="logout">Выйти</button></div>
     <p class="lab">Так вас увидят в «Составе»</p>${bcard(prev, { h: 'h2' })}${founderPlaque()}
     <section class="frame wiz"><div class="wsteps">${steps}</div>${body}</section>`;
   if (w.step === 3) mountForm($('#wForm'), null);
@@ -691,7 +698,7 @@ function cabinet() {
 
 function render() {
   if (!m) return screen('login');
-  if (!m.characters.length) return wizard();
+  if (!m.characters.length) return sec === 'account' ? accountOnly() : wizard();
   cabinet();
 }
 
@@ -803,7 +810,8 @@ ready(Mx => {
   if (STATES[h]) notice = h;
   addEventListener('hashchange', () => {
     const s2 = location.hash.slice(1);
-    if (!SECS.some(x => x[0] === s2) || !m || !m.characters.length) return;
+    if (!SECS.some(x => x[0] === s2) || !m) return;
+    if (!m.characters.length) { sec = s2 === 'account' ? 'account' : 'chars'; render(); scrollTo(0, 0); return; }
     sec = s2; cabinet(); $('#sec').scrollIntoView({ block: 'nearest' });
   });
   follow();

@@ -177,7 +177,7 @@
     const go = (href, text) => `<a role="menuitem" href="${HOME}${href}">${esc(text)}</a>`;
     const items = c
       ? [go('profile/', T.ui.profile), go('u/#' + u.id, T.ui.myPage), go('profile/#chars', T.ui.chars), go('profile/#look', T.ui.look), go('profile/#account', T.ui.account)]
-      : [go('profile/', T.ui.newChar)];
+      : [go('profile/#chars', T.ui.newChar), go('profile/#account', T.ui.account)];
     menu = document.createElement('div');
     menu.className = 'me-menu';
     menu.setAttribute('role', 'menu');
