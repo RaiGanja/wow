@@ -39,7 +39,12 @@ def main():
     logo = logo.convert('RGB')
     small = logo.resize((96, 96), Image.LANCZOS)
     small.save(os.path.join(ROOT, 'assets', 'brand', 'mark.webp'), quality=90)
-    logo.resize((64, 64), Image.LANCZOS).quantize(96, Image.Quantize.FASTOCTREE).save(os.path.join(ROOT, 'assets', 'icons', 'favicon-64.png'), optimize=True)
+    icons = os.path.join(ROOT, 'assets', 'icons')
+    logo.resize((64, 64), Image.LANCZOS).quantize(96, Image.Quantize.FASTOCTREE).save(os.path.join(icons, 'favicon-64.png'), optimize=True)
+    # Google search shows a favicon only in sizes that are multiples of 48; favicon.ico goes to the hub root too
+    for size in (48, 96):
+        logo.resize((size, size), Image.LANCZOS).save(os.path.join(icons, f'favicon-{size}.png'), optimize=True)
+    logo.save(os.path.join(icons, 'favicon.ico'), sizes=[(16, 16), (32, 32), (48, 48)])
     print('logo ok')
 
 
