@@ -833,16 +833,21 @@ function loadChron(more) {
 }
 
 const REP_FIELD = { name: 'report_name', motto: 'report_motto', other: 'report_other' };
+const REP_GUILD = { guild_name: 'report_name', guild_motto: 'report_motto', guild_crest: 'report_crest' };   // texts of the guild pages (T.gl)
 function secReports() {
   const head = `<div class="sec-h"><h2>${esc(tg('tab_reports'))}</h2></div>`;
   if (reps === null) return head + '<div class="skel" style="min-height:120px"></div>';
   if (!reps.length) return head + `<p>${esc(tg('reports_empty'))}</p>`;
   return head + reps.map(g => {
-    const now = g.field === 'motto' ? g.motto : g.field === 'name' ? g.name : null;
+    const gl = /^g:[1-9]\d*$/.test(g.target);   // a guild target is g:<id>
+    const now = g.field === 'motto' || g.field === 'guild_motto' ? g.motto : g.field === 'name' || g.field === 'guild_name' ? g.name : null;
     const key = `data-t="${esc(g.target)}" data-f="${esc(g.field)}"`;
-    return `<div class="g-rep"><h3><a href="${esc(playerUrl(g.target))}">${esc(g.name || g.target)}</a> · ${esc(tg(REP_FIELD[g.field] || 'report_other'))} · ${esc(tg('reports_n', { n: g.n }))}</h3>
+    const link = gl ? guildUrl(Number(g.target.slice(2))) : playerUrl(g.target);
+    const what = gl ? tl(REP_GUILD[g.field] || 'report_name') : tg(REP_FIELD[g.field] || 'report_other');
+    const last = gl ? `<button type="button" class="btn danger" data-act="repDisband" ${key}>${esc(tl('disband'))}</button>` : `<button type="button" class="btn danger" data-act="repBan" ${key}>${esc(tg('rep_ban'))}</button>`;
+    return `<div class="g-rep"><h3><a href="${esc(link)}">${esc(g.name || g.target)}</a> · ${esc(what)} · ${esc(tg('reports_n', { n: g.n }))}</h3>
       <p>${esc(g.reasons.join('; '))}</p>${now ? `<p>${esc(tg('rep_now', { x: now }))}</p>` : ''}
-      <div class="row"><button type="button" class="btn ghost" data-act="repKeep" ${key}>${esc(tg('rep_keep'))}</button>${g.field === 'other' ? '' : `<button type="button" class="btn ghost" data-act="repHide" ${key}>${esc(tg('rep_hide'))}</button>`}<button type="button" class="btn danger" data-act="repBan" ${key}>${esc(tg('rep_ban'))}</button></div></div>`;
+      <div class="row"><button type="button" class="btn ghost" data-act="repKeep" ${key}>${esc(tg('rep_keep'))}</button>${g.field === 'other' ? '' : `<button type="button" class="btn ghost" data-act="repHide" ${key}>${esc(tg('rep_hide'))}</button>`}${last}</div></div>`;
   }).join('') + '<p class="msg" id="repNote" role="alert"></p>';
 }
 function loadReps() {
@@ -852,6 +857,7 @@ function loadReps() {
 }
 function resolveRep(b, action) {
   if (action === 'ban' && !confirm(tg('rep_ban_ask'))) return;
+  if (action === 'disband' && !confirm(`${tl('disband')}\n${fill(tl('disband_q'), { g: b.closest('.g-rep').querySelector('h3 a').textContent })}`)) return;
   b.disabled = true;
   M.api('/admin/reports/resolve', { body: { target: b.dataset.t, field: b.dataset.f, action } }).then(() => { reps = null; cabinet(); }, e => { b.disabled = false; const n = $('#repNote'); if (n) { n.textContent = errText(e); n.className = 'msg err'; } });
 }
@@ -1028,7 +1034,7 @@ function glScreen() {
 function glMount(g) {
   const id = g ? g.id : 0, leader = !g || m.characters.some(c => c.guild_id === id && c.guild_rank === 'leader');
   const free = m.characters.filter(c => !c.guild_id);
-  const st = glSt = { id, g, leader, cr: glClone(g ? g.crest : GLD.default_crest), unlocks: g ? (g.unlocks || []) : [] };
+  const st = glSt = { id, g, leader, cr: g ? glClone(g.crest) : glRandom([]), unlocks: g ? (g.unlocks || []) : [] };
   const pick = free.length > 1 ? `<label class="gl-fld">${esc(tl('pick_char'))}<select id="glChar">${free.map(c => `<option value="${c.id}"${c.id === glChar ? ' selected' : ''}>${esc(c.name)}</option>`).join('')}</select></label>` : '';
   const title = g ? `${tl('settings')}: ${guildName(g)}` : tl('create');
   $('#view').innerHTML = `<section class="frame gl-ed" id="glEdit" data-key="gl${id}"><div class="sec-h"><h2>${esc(title)}</h2></div>
@@ -1211,7 +1217,7 @@ document.addEventListener('click', e => {
     const id = $('#shPick') && $('#shPick').value, list = showcaseList();
     if (id) saveShowcase(list.concat(id));
   } else if (act === 'chronMore') loadChron(true);
-  else if (act === 'repKeep' || act === 'repHide' || act === 'repBan') resolveRep(a, { repKeep: 'keep', repHide: 'hide', repBan: 'ban' }[act]);
+  else if (act === 'repKeep' || act === 'repHide' || act === 'repBan' || act === 'repDisband') resolveRep(a, { repKeep: 'keep', repHide: 'hide', repBan: 'ban', repDisband: 'disband' }[act]);
   else if (act === 'lfgMore') M.api('/me/lfg', { method: 'PUT', body: { kind: a.dataset.v } }).then(r => M.took(r), () => {});
   else if (act === 'motto') put({ motto: $('#lMotto').value }, 'lookNote').then(() => { const n = $('#lookNote'); if (n && !n.classList.contains('err')) n.textContent = 'Девиз сохранён'; });
   else if (act === 'lvl') {

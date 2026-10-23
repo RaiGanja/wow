@@ -1244,7 +1244,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/search/search.css?v=3f88e5704c" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=e6ceb5c71a" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=7dd9e27510" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://gabella.site/wow/fr/"},{"@type":"ListItem","position":2,"name":"Effectif","item":"https://gabella.site/wow/fr/roster/"},{"@type":"ListItem","position":3,"name":"Guilde","item":"https://gabella.site/wow/fr/g/"}]}</script>
 </head>
 <body>
@@ -1365,16 +1365,17 @@ let crestN = 0;
 function crestSvg(c, px, o = {}) {
   const P = GD.guilds.palette, id = 'gc' + (++crestN);
   const tex = GD.guilds.texture && o.texture !== false && px >= 48
-    ? `<image href="${ROOT}assets/me/crest/metal.webp?v=e6ceb5c71a" width="100" height="100" preserveAspectRatio="none" class="gl-tex"/>` : '';
+    ? `<image href="${ROOT}assets/me/crest/metal.webp?v=7dd9e27510" width="100" height="100" preserveAspectRatio="none" class="gl-tex"/>` : '';
   const edge = c.b !== 'none' ? `<path d="${SHIELD[c.s]}" fill="none" stroke="${BORDER[c.b]}" stroke-width="${px >= 48 ? 3 : 5}"/>` : '';
   return `<svg class="gl-crest" viewBox="0 0 100 100" width="${px}" height="${px}" role="img" aria-label="${esc(o.label || tl('crest'))}">`
     + `<defs><clipPath id="${id}"><path d="${SHIELD[c.s]}"/></clipPath></defs><g clip-path="url(#${id})">`
     + `<rect width="100" height="100" fill="${P[c.c[0]]}"/>${FIELD[c.f] ? `<path d="${FIELD[c.f]}" fill="${P[c.c[1]]}"/>` : ''}`
-    + `<use href="${ROOT}assets/me/crest/charges.svg?v=e6ceb5c71a#c-${esc(c.i)}" x="24" y="20" width="52" height="52" fill="${P[c.ic]}"/>${tex}</g>${edge}</svg>`;
+    + `<use href="${ROOT}assets/me/crest/charges.svg?v=7dd9e27510#c-${esc(c.i)}" x="24" y="20" width="52" height="52" fill="${P[c.ic]}"/>${tex}</g>${edge}</svg>`;
 }
 const DOWN = ['Le serveur des profils ne répond pas', 'Réessayez dans quelques minutes. Le reste du guide fonctionne normalement.', 'Réessayer'];   // same words as the player page
-/** Member count with a singular form for exactly one. */
-const sizeText = n => fill(tl(n === 1 ? 'size_1' : 'size_n'), { n: num(n) });
+/** Member count: singular and the paucal form come from the page language's plural rules. */
+const PR = new Intl.PluralRules(HL);
+const sizeText = n => { const k = PR.select(n); return fill(tl(k === 'one' ? 'size_1' : k === 'few' ? 'size_few' : 'size_n'), { n: num(n) }); };
 const guildName = g => g.name || fill(tl('hidden'), { n: g.id });
 const crestMini = g => `<a class="gl-mini" href="${guildUrl(g.id)}">${crestSvg(g.crest, 24, { label: guildName(g) })}<span>${esc(guildName(g))}</span></a>`;
 const dateOf = t => new Date(t).toLocaleDateString(HL);
@@ -1702,7 +1703,7 @@ ready(M => {
     }, e => { err(e); throw e; });
   }
   const quiet = p => p.catch(() => {});
-  const gone = () => { location.href = `${HOME}roster/#guilds`; };
+  const gone = () => { try { sessionStorage.removeItem(KEPT); } catch (e) { /* private mode */ } location.href = `${HOME}roster/#guilds`; };
   const done = r => { if (r.disbanded) gone(); };
 
   /* ----- confirmation ----- */
@@ -1735,7 +1736,7 @@ ready(M => {
         <p class="gl-name" aria-hidden="true">${esc(name)}</p>
         ${g.motto ? `<p class="gl-motto">«${esc(g.motto)}»</p>` : ''}
         <dl class="gl-stats">
-          <div><dt title="${esc(tl('power_hint'))}">${esc(tl('power'))}</dt><dd>${num(Math.round(g.power))}</dd></div>
+          <div><dt title="${esc(tl('power_hint'))}">${esc(tl('power'))}</dt><dd>${num(g.power)}</dd></div>
           <div><dt>${esc(tl('banners'))}</dt><dd>${num(g.banners)}${g.streak ? `<small>${esc(tl('streak'))} ${num(g.streak)}</small>` : ''}</dd></div>
           <div><dt>${esc(tl('members'))}</dt><dd>${esc(sizeText(g.size))}</dd></div>
         </dl>
@@ -1758,7 +1759,7 @@ ready(M => {
         own.forEach(c => out.push(`<button type="button" class="btn ghost" data-do="leave" data-char="${c.id}">${esc(tl('leave'))}${own.length > 1 ? ' · ' + esc(c.name) : ''}</button>`));
       }
     } else if (reqs.length) {
-      reqs.forEach(q => out.push(`<span class="small">${esc(tl('applied'))}${reqs.length > 1 ? ' · ' + esc(q.name) : ''}</span><button type="button" class="btn ghost" data-do="withdraw" data-char="${q.char_id}">${esc(tl('withdraw'))}</button>`));
+      reqs.forEach(q => out.push(`<span class="small">${esc(tl('applied'))}${reqs.length > 1 ? ' · ' + esc((me.characters.find(c => c.id === q.char_id) || {}).name || '') : ''}</span><button type="button" class="btn ghost" data-do="withdraw" data-char="${q.char_id}">${esc(tl('withdraw'))}</button>`));
     } else if (join) {
       const ok = me.characters.filter(c => !c.guild_id && race(c.race).f === g.faction);
       if (!ok.length) out.push(`<p class="small">${esc(tl('no_char'))}</p>`);
@@ -2003,7 +2004,7 @@ addEventListener('beforeinstallprompt', e => {
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
 <script src="../../assets/search/search.js?v=3f88e5704c" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=e6ceb5c71a" data-root="../../" data-home="../" data-lang="fr" data-teaser="Votre profil garde votre parcours : Gloire, cadres, saisons" data-close="Fermer" data-page="g/" defer></script>
+<script src="../../assets/me/me.js?v=7dd9e27510" data-root="../../" data-home="../" data-lang="fr" data-teaser="Votre profil garde votre parcours : Gloire, cadres, saisons" data-close="Fermer" data-page="g/" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

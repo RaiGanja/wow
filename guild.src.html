@@ -142,7 +142,7 @@ ready(M => {
     }, e => { err(e); throw e; });
   }
   const quiet = p => p.catch(() => {});
-  const gone = () => { location.href = `${HOME}roster/#guilds`; };
+  const gone = () => { try { sessionStorage.removeItem(KEPT); } catch (e) { /* private mode */ } location.href = `${HOME}roster/#guilds`; };
   const done = r => { if (r.disbanded) gone(); };
 
   /* ----- confirmation ----- */
@@ -175,7 +175,7 @@ ready(M => {
         <p class="gl-name" aria-hidden="true">${esc(name)}</p>
         ${g.motto ? `<p class="gl-motto">«${esc(g.motto)}»</p>` : ''}
         <dl class="gl-stats">
-          <div><dt title="${esc(tl('power_hint'))}">${esc(tl('power'))}</dt><dd>${num(Math.round(g.power))}</dd></div>
+          <div><dt title="${esc(tl('power_hint'))}">${esc(tl('power'))}</dt><dd>${num(g.power)}</dd></div>
           <div><dt>${esc(tl('banners'))}</dt><dd>${num(g.banners)}${g.streak ? `<small>${esc(tl('streak'))} ${num(g.streak)}</small>` : ''}</dd></div>
           <div><dt>${esc(tl('members'))}</dt><dd>${esc(sizeText(g.size))}</dd></div>
         </dl>
@@ -198,7 +198,7 @@ ready(M => {
         own.forEach(c => out.push(`<button type="button" class="btn ghost" data-do="leave" data-char="${c.id}">${esc(tl('leave'))}${own.length > 1 ? ' · ' + esc(c.name) : ''}</button>`));
       }
     } else if (reqs.length) {
-      reqs.forEach(q => out.push(`<span class="small">${esc(tl('applied'))}${reqs.length > 1 ? ' · ' + esc(q.name) : ''}</span><button type="button" class="btn ghost" data-do="withdraw" data-char="${q.char_id}">${esc(tl('withdraw'))}</button>`));
+      reqs.forEach(q => out.push(`<span class="small">${esc(tl('applied'))}${reqs.length > 1 ? ' · ' + esc((me.characters.find(c => c.id === q.char_id) || {}).name || '') : ''}</span><button type="button" class="btn ghost" data-do="withdraw" data-char="${q.char_id}">${esc(tl('withdraw'))}</button>`));
     } else if (join) {
       const ok = me.characters.filter(c => !c.guild_id && race(c.race).f === g.faction);
       if (!ok.length) out.push(`<p class="small">${esc(tl('no_char'))}</p>`);

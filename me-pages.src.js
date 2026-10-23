@@ -44,8 +44,9 @@ function crestSvg(c, px, o = {}) {
     + `<use href="${ROOT}assets/me/crest/charges.svg#c-${esc(c.i)}" x="24" y="20" width="52" height="52" fill="${P[c.ic]}"/>${tex}</g>${edge}</svg>`;
 }
 const DOWN = ['Сервер профилей не отвечает', 'Попробуйте через пару минут. Остальной гид работает как обычно.', 'Повторить'];   // same words as the player page
-/** Member count with a singular form for exactly one. */
-const sizeText = n => fill(tl(n === 1 ? 'size_1' : 'size_n'), { n: num(n) });
+/** Member count: singular and the paucal form come from the page language's plural rules. */
+const PR = new Intl.PluralRules(HL);
+const sizeText = n => { const k = PR.select(n); return fill(tl(k === 'one' ? 'size_1' : k === 'few' ? 'size_few' : 'size_n'), { n: num(n) }); };
 const guildName = g => g.name || fill(tl('hidden'), { n: g.id });
 const crestMini = g => `<a class="gl-mini" href="${guildUrl(g.id)}">${crestSvg(g.crest, 24, { label: guildName(g) })}<span>${esc(guildName(g))}</span></a>`;
 const dateOf = t => new Date(t).toLocaleDateString(HL);

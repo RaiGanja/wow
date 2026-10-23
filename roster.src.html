@@ -160,7 +160,7 @@ function gcard(g) {
   return `<a class="frame gl-card" href="${guildUrl(g.id)}">${crestSvg(g.crest, 56, { label: guildName(g) })}
     <span class="gl-card-b"><b>${esc(guildName(g))}</b><small>${esc(FACN[g.faction])} · ${esc(sizeText(g.size))}</small>
     ${g.motto ? `<span class="gl-motto">${esc(g.motto)}</span>` : ''}<span class="gl-bar" aria-hidden="true">${bar}</span></span>
-    <span class="gl-card-n"${g.rated ? '' : ` title="${esc(tl('unrated'))}"`}><b>${g.rated ? g.power : '—'}</b><small>${esc(tl('power'))}</small></span></a>`;
+    <span class="gl-card-n"${g.rated ? '' : ` title="${esc(tl('unrated'))}"`}><b>${g.rated ? num(g.power) : '—'}</b><small>${esc(tl('power'))}</small></span></a>`;
 }
 const SORT = {
   power: (a, b) => (b.rated - a.rated) || b.power - a.power,
