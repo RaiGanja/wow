@@ -32,7 +32,7 @@ def targets(html):
         if '${' in s:   # JS template srcset: commas inside ${...} break the split
             continue
         out += [p.strip().split(' ')[0] for p in s.split(',') if p.strip()]
-    return out
+    return [t for t in out if '{tod}' not in t]   # tod.py templates: the variant is filled in by the browser (files: tests/test_tod.py)
 
 
 def check_sitemap(pages):

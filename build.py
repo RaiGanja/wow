@@ -12,6 +12,7 @@ sys.path.insert(0, os.path.join(HERE, 'content'))
 from classes import CLASSES, SOURCES  # noqa: E402
 from races import RACES_PAGE, SOURCES as RACE_SOURCES, NEW_RACIALS  # noqa: E402
 import langs  # noqa: E402
+import tod  # noqa: E402
 from langs import LANGS, AUTONYM, HREFLANG, LOCALE, NAMED  # noqa: E402
 
 
@@ -401,7 +402,10 @@ def living_version():
     d = os.path.join(HERE, 'assets', 'living')
     h = hashlib.sha1()
     for f in sorted(os.listdir(d)):
-        h.update(open(os.path.join(d, f), 'rb').read())
+        b = open(os.path.join(d, f), 'rb').read()
+        if f.endswith(('.js', '.css')):
+            b = b.replace(b'\r\n', b'\n')   # same hash on LF and CRLF checkouts (autocrlf)
+        h.update(b)
     v = h.hexdigest()[:10]
     for root, dirs, files in os.walk(HERE):
         dirs[:] = [x for x in dirs if not x.startswith('.') and x not in ('assets', 'content', 'i18n', 'tests', 'node_modules')]
@@ -465,6 +469,7 @@ def build_home(lang, src):
     src = src.replace('@@RACE_LEAD@@', json.dumps({r['id']: r['lead'] for r in RACES_PAGE}, ensure_ascii=False))
     src = src.replace('@@RACE_SLUG@@', json.dumps({r['id']: r['slug'] for r in RACES_PAGE}))
     html, missing = translate(src, lang)
+    html = tod.apply(html, lang)   # the hero in the reader's time of day (tod.py)
     here = page_dir(lang)
     html = html.replace('@@ALTERNATES@@', alternates(''))
     html = localize(html, lang, here)
