@@ -61,7 +61,7 @@ def test_progression_catalog():
     steps = P['track']['s1']
     assert len(steps) == 30 and [s['stars'] for s in steps] == sorted(s['stars'] for s in steps)
     rewards = [s['reward'] for s in steps if s.get('reward')]
-    assert {'badge:s1', 'title:pioneer', 'frame:s1', 'bg:s1-bg-1', 'bg:s1-bg-2'} <= set(rewards)
+    assert {'badge:s1', 'title:pioneer', 'frame:s1', 'bg:s1-1', 'bg:s1-2'} <= set(rewards)
     assert [c for c, _ in P['name_colors']] == ['poor', 'common', 'uncommon', 'rare', 'epic', 'legendary']
 
 
@@ -116,7 +116,7 @@ def check_growth_texts(lang, t):
             assert g[k] != ru and not re.search('[А-Яа-яЁё]', g[k]), (lang, k, g[k])
     ach = {a['id'] for a in G['achievements']}
     assert set(t['titles']) == set(G['titles']) - ach and 'pioneer' in t['titles'], lang
-    assert set(t['bg']) == {'s1-1', 's1-2'}, lang   # ids of the season backgrounds (R17); progression.py still has s1-bg-N until task 14
+    assert set(t['bg']) == {'s1-1', 's1-2'}, lang   # ids of the season backgrounds (R17)
     for w in G['progression']['weekly']:
         assert 'task_' + w['id'] in g or w['id'].split('_')[0] in ('st', 'g', 'c') and 'task_' + w['id'].split('_')[0] in g, (lang, w['id'])
 

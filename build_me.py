@@ -13,6 +13,8 @@ from langs import LANGS
 HERE = build.HERE
 sys.path.insert(0, os.path.join(HERE, 'content'))
 import achievements as A  # noqa: E402
+import guides as G  # noqa: E402
+langs.fill(G.GUIDES)
 
 _ru, _en, _uk = (build.load(f'me.{l}.txt') for l in langs.OLD)
 assert len(_ru) == len(_en) == len(_uk), (len(_ru), len(_en), len(_uk))
@@ -94,6 +96,34 @@ GROWTH = {
     'bg_s1-1': 'Сезон 1: рассвет',
     'bg_s1-2': 'Сезон 1: ночь',
     'task_done': 'Выполнено',
+    'act_radio': 'Включить радио',
+    'act_guides': 'Открыть гайды',
+    'act_classes': 'Открыть классы',
+    'act_races': 'Открыть расы',
+    'act_party': 'Собрать группу',
+    'act_raid': 'Собрать рейд',
+    'act_compare': 'Сравнить',
+    'act_search': 'Искать',
+    'act_lfg': 'Ищу группу',
+    'act_copy': 'Скопировать ссылку',
+    'act_play': 'Открыть «В игре»',
+    'showcase_up': 'Выше',
+    'showcase_down': 'Ниже',
+    'showcase_del': 'Убрать из витрины',
+    'showcase_add': 'Добавить',
+    'showcase_empty': 'Пусто',
+    'chronicle_empty': 'Пока пусто',
+    'tab_reports': 'Жалобы',
+    'reports_n': 'Жалоб: {n}',
+    'reports_empty': 'Открытых жалоб нет',
+    'rep_keep': 'Оставить',
+    'rep_hide': 'Скрыть',
+    'rep_ban': 'Бан',
+    'rep_ban_ask': 'Забанить игрока? Его сессии закончатся.',
+    'rep_now': 'Сейчас: {x}',
+    'err_task_done': 'Это задание уже выполнено',
+    'err_bad_showcase': 'Витрина: до пяти наград из полученных',
+    'err_swap_used': 'Замена на этой неделе уже была',
     'tab_team': 'Gabella Team',   # без перевода
 }
 GROWTH['glory_toast'] = GROWTH['ch_glory'] = GROWTH['glory_n']
@@ -148,8 +178,12 @@ def page_data(lang):
         'profs': {p: t(pn[p]) for p in g['profs']},
         'sets': g['sets'], 'cats': g['cats'], 'ach': g['achievements'], 'ranks': g['ranks'], 'frames': g['frames'],
         'prog': {'glory_max': g['progression']['glory']['max'], 'colors': g['progression']['name_colors'],
+                 'track': {sid: [[x['step'], x['stars'], x['reward']] for x in st] for sid, st in g['progression']['track'].items()},
+                 'season': g['progression']['seasons'][0]['id'], 'motto_glory': g['progression']['motto_glory'],
                  'weekly': {w['id']: {k: w[k] for k in ('key', 'item') if k in w} for w in g['progression']['weekly']}},
         'titles': g['titles'], 'backgrounds': g['backgrounds'], 'deadline': g['deadline_founder'], 'invite': INVITE,
+        'items': {'station': {x['id']: x['name'][lang] for x in json.load(open(os.path.join(HERE, 'assets', 'radio', 'stations.json'), encoding='utf-8'))['stations']},
+                  'guide': {x['slug']: x['title'][lang] for x in G.GUIDES if 'only' not in x}},
     }
 
 

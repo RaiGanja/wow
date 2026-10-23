@@ -42,7 +42,7 @@ def weekly(sets):
 SEASONS = [{'id': 's1', 'starts': '2026-11-03T21:00:00Z', 'min_weeks': 8}]
 STAR_XP, WEEK_STARS = 2000, 3
 # 30 ступеней: порог звёзд round(1.2 * k); награды — косметика навсегда, остальные ступени — сундук опыта
-_REW = {5: 'badge:s1', 10: 'bg:s1-bg-1', 15: 'title:pioneer', 20: 'bg:s1-bg-2', 30: 'frame:s1'}
+_REW = {5: 'badge:s1', 10: 'bg:s1-1', 15: 'title:pioneer', 20: 'bg:s1-2', 30: 'frame:s1'}
 TRACK = {'s1': [{'step': k, 'stars': round(1.2 * k), 'reward': _REW.get(k), 'xp': 0 if k in _REW else 300} for k in range(1, 31)]}
 NAME_COLORS = [('poor', 1), ('common', 1), ('uncommon', 15), ('rare', 30), ('epic', 45), ('legendary', 60)]
 MOTTO_GLORY, REPORT_GLORY, REPORTS_HIDE = 5, 10, 3

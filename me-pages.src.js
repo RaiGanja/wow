@@ -95,7 +95,7 @@ function bcard(p, o) {
   return `<section class="bcard" style="--cc:${cls(c.class).color}" aria-label="Карточка игрока">
     <img class="bg" src="${src}" alt="" decoding="async">
     <div class="in">${ring(p.frame || p.rank, face(c, p.portrait), o.reveal ? 'reveal' : '')}
-      <div>${p.title ? `<span class="ttl">${esc(titleName(p.title))}</span>` : ''}<${h}>${esc(c.name)}</${h}>
+      <div>${p.title ? `<span class="ttl">${esc(titleName(p.title))}</span>` : ''}<${h}${p.name_color ? ` class="${nameCls(p.name_color)}"` : ''}>${esc(c.name)}</${h}>
         <span class="sub">${subline(c)} · ${c.level} · ${esc(ROLE[c.role] || '')}</span>
         ${who.length ? `<p class="who">${who.join(' · ')}</p>` : ''}${p.motto ? `<p class="motto">«${esc(p.motto)}»</p>` : ''}</div>
       ${rankBlock(p.points || 0)}</div></section>`;
@@ -164,11 +164,11 @@ function gloryBar(g, texts) {
 /** Class of a name colour (q-poor ... q-legendary); anything unknown is the default white. */
 const nameCls = color => 'q-' + (/^[a-z]+$/.test(color || '') ? color : 'common');
 
-const TASK_ACT = {
-  radio_min: ['Включить радио', 'radio'], station: ['Включить радио', 'radio'], guide: ['Открыть гайды', 'guides/'], class: ['Открыть классы', 'classes/'],
-  race: ['Открыть расы', 'races/'], party5: ['Собрать группу', 'tools/#raid'], raid40: ['Собрать рейд', 'tools/#raid'], share_team: ['Собрать группу', 'tools/#raid'],
-  compare3: ['Сравнить', 'tools/#compare'], search: ['Искать', 'tools/#search'], lfg: ['Ищу группу', 'lfg'], show_card: ['Скопировать ссылку', 'card'],
-  play_page: ['Открыть «В игре»', 'play/'],
+const TASK_ACT = {   // [text key of T.g, where it leads]
+  radio_min: ['act_radio', 'radio'], station: ['act_radio', 'radio'], guide: ['act_guides', 'guides/'], class: ['act_classes', 'classes/'],
+  race: ['act_races', 'races/'], party5: ['act_party', 'tools/#raid'], raid40: ['act_raid', 'tools/#raid'], share_team: ['act_party', 'tools/#raid'],
+  compare3: ['act_compare', 'tools/#compare'], search: ['act_search', 'tools/#search'], lfg: ['act_lfg', 'lfg'], show_card: ['act_copy', 'card'],
+  play_page: ['act_play', 'play/'],
 };
 /** Name of a weekly task: its own text, or a template filled with the station, guide or class. o.itemName(key, item) may name stations and guides. */
 function taskName(task, texts, o) {
@@ -178,23 +178,24 @@ function taskName(task, texts, o) {
   const x = (o && o.itemName && o.itemName(k, w.item)) || (k === 'class' ? cls(w.item).n : w.item);
   return tg('task_' + m[1], { x }, tx);
 }
-/** Line of a weekly task. task: {id, value, goal, done}; the button leads where the task is done (the same as «What next»):
+/** Line of a weekly task. task: {id, value, goal, done}; o.extra: more buttons after the main one. The button leads where the task is done (the same as «What next»):
     radio -> data-act="radio", guides/classes/races/tools/play -> a link, lfg -> data-act="lfgOn", link copy -> data-act="card". */
 function taskLine(task, texts, o) {
   const w = GD.prog.weekly[task.id] || {}, act = TASK_ACT[w.key || task.key];
   let btn = '';
   if (!task.done && act) {
-    if (['radio', 'card'].includes(act[1])) btn = `<button type="button" class="btn ghost g-go" data-act="${act[1]}">${esc(act[0])}</button>`;
-    else if (act[1] === 'lfg') btn = `<button type="button" class="btn ghost g-go" data-act="lfgOn">${esc(act[0])}</button>`;
+    const label = esc(tg(act[0], null, texts));
+    if (['radio', 'card'].includes(act[1])) btn = `<button type="button" class="btn ghost g-go" data-act="${act[1]}">${label}</button>`;
+    else if (act[1] === 'lfg') btn = `<button type="button" class="btn ghost g-go" data-act="lfgOn">${label}</button>`;
     else {
       const sub = w.item && ['guide', 'class', 'race'].includes(w.key) ? w.item + '/' : '';
-      btn = `<a class="btn ghost g-go" href="${HOME}${act[1]}${act[1].endsWith('/') ? sub : ''}">${esc(act[0])}</a>`;
+      btn = `<a class="btn ghost g-go" href="${HOME}${act[1]}${act[1].endsWith('/') ? sub : ''}">${label}</a>`;
     }
   }
   const pct = task.goal ? Math.round(100 * Math.min(task.value, task.goal) / task.goal) : 0;
   const state = task.done ? `<span class="g-done" role="img" aria-label="${esc(tg('task_done', null, texts))}">✓</span>` : `<span class="g-tv">${task.value} / ${task.goal}</span>`;
   return `<div class="g-task${task.done ? ' done' : ''}"><div class="g-tt"><b>${esc(taskName(task, texts, o))}</b>${state}</div>
-    <div class="g-bar g-sm" aria-hidden="true"><i class="g-fill" style="width:${pct}%"></i></div>${btn}</div>`;
+    <div class="g-bar g-sm" aria-hidden="true"><i class="g-fill" style="width:${pct}%"></i></div>${btn || (o && o.extra) ? `<span class="g-acts">${btn}${(o && o.extra) || ''}</span>` : ''}</div>`;
 }
 
 /** Chronicle line. item: {kind, ref, at}; the caller puts the lines into an <ol class="g-chron">. */

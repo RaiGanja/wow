@@ -99,6 +99,60 @@
 .cdlg h2 { font-size: 1.5rem; }
 .cdlg p { margin: 0; color: var(--muted); }
 .cdlg input { min-height: 46px; border-radius: 8px; border: 1px solid var(--pline); background: var(--panel-2); color: var(--fg); padding: 0 12px; font: inherit; }
+/* growth: Glory, weekly tasks, season track, name colour, showcase, chronicle, reports */
+.g-box { padding: 14px 18px; }
+#wkNote:empty { display: none; }
+.g-tasks { display: grid; gap: 8px; }
+.g-meta { display: flex; flex-wrap: wrap; gap: 4px 18px; margin: 0; color: var(--muted); font-size: .9rem; }
+.g-meta b { color: var(--fg); font-weight: 600; font-variant-numeric: lining-nums tabular-nums; }
+.g-go, .g-swap { min-height: 40px; padding: 0 14px; font-size: .9rem; }
+.s-sec { display: grid; gap: 12px; }
+.s-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 18px; }
+.s-head b { font-weight: 600; color: var(--gold-2); font-variant-numeric: lining-nums tabular-nums; }
+.s-head span { color: var(--muted); font-size: .9rem; }
+.s-head .g-bar { flex: 1 1 140px; align-self: center; }
+.s-track { display: flex; margin: 0; padding: 4px 2px 10px; list-style: none; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: thin; }
+.s-step { position: relative; flex: none; width: 48px; display: grid; justify-items: center; align-content: start; gap: 4px; }
+.s-step::before { content: ""; position: absolute; top: 19px; left: -50%; right: 50%; height: 2px; background: var(--pline); }
+.s-step:first-child::before { display: none; }
+.s-step.got::before { background: var(--gold); }
+.s-dot { position: relative; z-index: 1; display: grid; place-items: center; height: 38px; }
+.s-pt { display: grid; place-items: center; width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--line-2); background: var(--panel-2); overflow: hidden; }
+.s-pt.rw { width: 38px; height: 38px; border-radius: 8px; border-width: 1px; color: var(--gold-2); font-weight: 700; }
+.s-pt img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.s-pt .me-ring { --s: 34px; margin: 0; }
+.s-step:not(.got) .s-pt.rw { opacity: .6; }
+.s-step.got .s-pt { background: var(--gold); border-color: var(--gold); }
+.s-step.got .s-pt.rw { background: var(--panel-2); }
+.s-step.next .s-pt { border-color: var(--gold-2); }
+.s-step i { font-style: normal; font-size: .74rem; color: var(--muted); font-variant-numeric: lining-nums tabular-nums; }
+.s-step.got i, .s-step.next i { color: var(--gold-2); }
+.g-colors { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(150px, 100%), 1fr)); gap: 8px; }
+.g-sw { display: grid; gap: 2px; min-width: 0; padding: 12px 14px; text-align: left; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); color: var(--fg); font: inherit; cursor: pointer; }
+.g-sw b { font-size: 1.05rem; overflow-wrap: anywhere; }
+.g-sw small { color: var(--muted); }
+.g-sw:hover:not(:disabled) { border-color: var(--gold); }
+.g-sw[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset 0 0 0 1px var(--gold); }
+.g-sw:disabled { cursor: not-allowed; }
+.g-sw:disabled b { color: var(--muted); }
+.g-show { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; margin: 0; padding: 0; list-style: none; }
+.g-cell { display: grid; justify-items: center; align-content: start; gap: 6px; min-width: 0; padding: 12px 6px 8px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); text-align: center; font-size: .8rem; }
+.g-cell img { width: 46px; height: 46px; border-radius: 8px; object-fit: cover; display: block; }
+.g-cell b { font-weight: 600; line-height: 1.25; overflow-wrap: anywhere; }
+.g-cell.empty { place-items: center; align-content: center; min-height: 112px; border-style: dashed; background: none; color: var(--muted); }
+.g-cell[draggable="true"] { cursor: grab; }
+.g-cell.drag { opacity: .45; }
+.g-cell.over { border-color: var(--gold); }
+.g-ctl { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; }
+.g-ctl button { min-width: 38px; min-height: 38px; border: 1px solid var(--pline); border-radius: 8px; background: none; color: var(--fg); font: inherit; cursor: pointer; }
+.g-ctl button:hover { border-color: var(--gold); }
+.g-pick { display: flex; flex-wrap: wrap; gap: 8px; }
+.g-pick select { flex: 1 1 220px; width: auto; min-width: 0; }
+.g-rep { display: grid; gap: 8px; padding: 14px 16px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); }
+.g-rep h3 { font-family: var(--font-body); font-size: 1rem; font-weight: 600; letter-spacing: 0; overflow-wrap: anywhere; }
+.g-rep p { margin: 0; color: var(--muted); font-size: .9rem; overflow-wrap: anywhere; }
+.g-rep .row .btn { min-height: 40px; padding: 0 14px; font-size: .9rem; }
+@media (max-width: 700px) { .g-show { grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); } }
 @media (max-width: 1100px) { .next { grid-template-columns: 1fr; } }
 @media (max-width: 960px) {
   .lay { grid-template-columns: 1fr; }
@@ -157,8 +211,13 @@ const ERR = {
   bad_skill: 'Навык — от 1 до 300 и только у выбранной профессии.', bad_playtime: 'Выберите, когда играете.', limit: 'Не больше трёх персонажей.',
   bad_motto: 'Девиз — до 60 знаков.', locked: 'Это ещё не открыто.', auth: 'Сессия закончилась, войдите снова.',
 };
-const errText = e => ERR[e && e.code] || 'Не получилось сохранить. Попробуйте ещё раз.';
-const SECS = [['chars', 'Персонажи'], ['look', 'Внешний вид'], ['ach', 'Достижения'], ['frames', 'Рамки и ранги'], ['account', 'Аккаунт']];
+/** Text of an API error code: the growth texts (err_<code>: bad_word, no_links, swap_used, task_done, bad_showcase) first, then ERR. */
+const errText = e => {
+  const c = e && e.code;
+  return (c && T.g && T.g['err_' + c]) || ERR[c] || 'Не получилось сохранить. Попробуйте ещё раз.';
+};
+const SECS0 = [['chars', 'Персонажи'], ['look', 'Внешний вид'], ['ach', 'Достижения'], ['frames', 'Рамки и ранги'], ['chronicle', 'Хроника'], ['account', 'Аккаунт']];
+const secs = () => (m && m.admin ? SECS0.concat([['reports', tg('tab_reports')]]) : SECS0);   // «Reports» is for the admin only
 const DEL_WORD = 'УДАЛИТЬ';
 const FIRST = ['profile_full', 'radio_on', 'guides3', 'party5', 'play_page'];
 const ACT = {
@@ -170,12 +229,15 @@ const ACT = {
   recruiter1: ['Ссылка для друга', 'account'], recruiter5: ['Ссылка для друга', 'account'],
 };
 let M = null, m = null, sec = 'chars', cat = '', wiz = null, edit = null, lastRank = null, reveal = false;
+const newChron = () => ({ items: [], more: false, loaded: false, loading: false });
+let chron = newChron(), reps = null, repsLoading = false, dragFrom = -1;
 
 const mainOf = () => m.characters.find(c => c.is_main) || m.characters[0];
 const have = () => new Map(m.achievements.map(a => [a.id, a]));
 const ctx = () => ({ progress: m.progress, user: m.user, chars: m.characters, have: new Set(m.achievements.map(a => a.id)) });
 const asPlayer = c => ({ id: m.user.id, nick: m.user.show_nick ? m.user.nick : null, title: m.user.title, frame: m.user.frame, rank: m.user.rank,
-  portrait: m.user.portrait, background: m.user.background, motto: m.user.motto, points: m.user.points, joined: m.user.joined_guild_at, main: c });
+  portrait: m.user.portrait, background: m.user.background, motto: m.user.motto, points: m.user.points, joined: m.user.joined_guild_at, main: c,
+  name_color: m.user.name_color });
 const myUrl = () => new URL(playerUrl(m.user.id), location.href).href;
 const refUrl = () => new URL(`${HOME}profile/?ref=${m.user.id}`, location.href).href;
 function loginUrl() {
@@ -196,6 +258,9 @@ function screen(kind) {
       <a class="btn lg dsc" href="${esc(loginUrl())}">${DISCORD}Войти через Discord</a></section>`;
   } else if (kind === 'not-member') {
     v.innerHTML = `<section class="frame state"><h2>Вы не участник сервера</h2><p>Профили только для участников Discord-сервера Gabella Team. Вступите в сервер и войдите ещё раз.</p>
+      <div class="row">${GD.invite ? `<a class="btn" href="${esc(GD.invite)}" target="_blank" rel="noopener">Вступить в Gabella Team</a>` : ''}<a class="btn ghost" href="${esc(loginUrl())}">Войти ещё раз</a></div></section>`;
+  } else if (kind === 'members-only') {   // OPEN_LOGIN is off: only members of the Discord server get in (R11)
+    v.innerHTML = `<section class="frame state"><h2>Вход</h2><p>${esc(tg('err_members_only'))}</p>
       <div class="row">${GD.invite ? `<a class="btn" href="${esc(GD.invite)}" target="_blank" rel="noopener">Вступить в Gabella Team</a>` : ''}<a class="btn ghost" href="${esc(loginUrl())}">Войти ещё раз</a></div></section>`;
   } else if (kind === 'discord-down') {
     v.innerHTML = `<section class="frame state"><h2>Discord не отвечает</h2><p>Не удалось проверить вход. Попробуйте через пару минут.</p>
@@ -420,6 +485,48 @@ function secChars() {
     <p>Основной персонаж — в «Составе» и на карточке, остальные — строкой «Твинки». Нажмите на персонажа, чтобы изменить.</p>
     <div class="plist">${cards}${add}</div>${lfg}`;
 }
+/** Name colour: six samples of the main character's name; the ones above the Glory are grey with «From Glory N». */
+function colorBox() {
+  const u = m.user, name = mainOf().name, lvl = m.glory.level;
+  const sw = GD.prog.colors.map(([id, need]) => {
+    const open = lvl >= need;
+    return `<button type="button" class="g-sw" data-ncolor="${id}" aria-pressed="${u.name_color === id}"${open ? '' : ' disabled'}>
+      <b class="${open ? nameCls(id) : ''}">${esc(name)}</b><small>${esc(open ? tg('color_' + id) : tg('color_locked', { n: need }))}</small></button>`;
+  }).join('');
+  return `<div class="frame box"><h3>${esc(tg('name_color'))}</h3><div class="g-colors" role="group" aria-label="${esc(tg('name_color'))}">${sw}</div></div>`;
+}
+
+/** Showcase item: an achievement (id) or a season badge (badge:<id>). */
+const showName = id => (id.startsWith('badge:') ? tg('ch_badge') : achName(id));
+const showIcon = id => achIcon(id.startsWith('badge:') ? id.slice(6) : id);
+function showcaseList() { return (m.user.showcase || []).filter(x => typeof x === 'string'); }
+/** Showcase: five cells, up/down/remove for each (and dragging with a mouse), a list to add from what is owned. */
+function showcaseBox() {
+  const list = showcaseList(), fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const cells = [];
+  for (let i = 0; i < 5; i++) {
+    const id = list[i];
+    if (!id) { cells.push(`<li class="g-cell empty">${esc(tg('showcase_empty'))}</li>`); continue; }
+    const n = esc(showName(id)), btn = (a, glyph, key, off) => `<button type="button" data-sh="${a}" data-i="${i}" aria-label="${esc(tg(key))}: ${n}"${off ? ' disabled' : ''}>${glyph}</button>`;
+    cells.push(`<li class="g-cell" data-i="${i}"${fine ? ' draggable="true"' : ''}><img src="${showIcon(id)}" alt="" width="46" height="46" loading="lazy"><b>${n}</b>
+      <span class="g-ctl">${btn('up', '↑', 'showcase_up', i === 0)}${btn('down', '↓', 'showcase_down', i === list.length - 1)}${btn('del', '×', 'showcase_del')}</span></li>`);
+  }
+  const owned = m.achievements.map(a => a.id).concat(m.unlocks.filter(x => x.startsWith('badge:'))).filter(id => !list.includes(id));
+  const pick = owned.length && list.length < 5
+    ? `<div class="g-pick"><select id="shPick" aria-label="${esc(tg('showcase_add'))}">${owned.map(id => `<option value="${esc(id)}">${esc(showName(id))}</option>`).join('')}</select>
+      <button type="button" class="btn ghost" data-act="showAdd">${esc(tg('showcase_add'))}</button></div>` : '';
+  return `<div class="frame box"><h3>${esc(tg('showcase'))}</h3><ul class="g-show">${cells.join('')}</ul><p class="small">${esc(tg('showcase_hint'))}</p>${pick}</div>`;
+}
+const saveShowcase = list => put({ showcase: list }, 'lookNote');
+function moveShowcase(from, to) {
+  const list = showcaseList();
+  if (from < 0 || from >= list.length) return;
+  to = Math.max(0, Math.min(to, list.length - 1));
+  if (to === from) return;
+  list.splice(to, 0, list.splice(from, 1)[0]);
+  return saveShowcase(list);
+}
+
 function secLook() {
   const u = m.user, c = mainOf();
   const frames = m.frames.map(f => `<button type="button" class="rstep" data-frame="${f}" aria-pressed="${(u.frame || u.rank) === f}">${ring(f, face(c, u.portrait))}<b>${esc(frameName(f))}</b></button>`).join('');
@@ -434,7 +541,8 @@ function secLook() {
     <div class="frame box"><h3>Титул над именем</h3><select id="lTitle" aria-label="Титул над именем">${titles}</select></div>
     <div class="frame box"><h3>Портрет</h3><div class="seg" id="lPortrait" role="group" aria-label="Портрет"><button type="button" data-v="race" aria-pressed="${u.portrait !== 'class'}">Раса</button><button type="button" data-v="class" aria-pressed="${u.portrait === 'class'}">Класс</button></div></div>
     <div class="frame box"><h3>Фон карточки</h3><div class="bgs">${bgs}</div></div>
-    <div class="frame box"><h3>Девиз</h3>${u.motto_hidden ? '<p class="small">Девиз скрыт администратором.</p>' : ''}
+    ${colorBox()}${showcaseBox()}
+    <div class="frame box"><h3>Девиз</h3>${u.motto_hidden ? '<p class="small">Девиз скрыт администратором.</p>' : ''}${u.motto_visible ? '' : `<p class="small">${esc(tg('motto_later'))}</p>`}
       <div class="row"><input id="lMotto" maxlength="60" value="${esc(u.motto || '')}" placeholder="Например: Сначала лечу, потом спрашиваю" aria-label="Девиз" style="flex:1 1 280px"><button type="button" class="btn ghost" data-act="motto">Сохранить девиз</button></div>
       <span class="small" id="lMottoN"></span></div>
     <div class="frame box"><label class="chk"><input type="checkbox" id="lNick"${u.show_nick ? ' checked' : ''}>Показывать мой ник из Discord${u.nick ? `: <b>${esc(u.nick)}</b>` : ''}</label></div>
@@ -467,6 +575,97 @@ function secFrames() {
     <p>Ранг растёт от очков достижений, каждый ранг открывает свою рамку портрета. Особые рамки — только за особые достижения. Носить можно любую открытую: нажмите на неё.</p>
     <div class="ladder">${ladder}</div><div class="specials">${specials}</div><p class="msg" id="frNote" role="status"></p>`;
 }
+/* ---------- growth blocks of the cabinet ---------- */
+function gloryHtml() { return m.glory ? `<div class="frame g-box">${gloryBar(m.glory)}</div>` : ''; }
+
+/** «3 d 4 h» until t. */
+function until(t) {
+  const mins = Math.max(1, Math.round((t - Date.now()) / 60000)), d = Math.floor(mins / 1440), h = Math.floor((mins % 1440) / 60);
+  return d ? unit(d, 'day') + (h ? ' ' + unit(h, 'hour') : '') : h ? unit(h, 'hour') + (mins % 60 ? ' ' + unit(mins % 60, 'minute') : '') : unit(mins, 'minute');
+}
+const itemName = (k, item) => (k === 'station' ? (GD.items.station || {})[item] : k === 'guide' ? (GD.items.guide || {})[item] : null);
+function weekHtml() {
+  const w = m.week;
+  if (!w) return '';   // before the first week
+  const swap = w.swap_left > 0;
+  const rows = w.tasks.map(t => taskLine(t, T.g, {
+    itemName, extra: !t.done && swap ? `<button type="button" class="btn ghost g-swap" data-act="swap" data-task="${esc(t.id)}">${esc(tg('week_swap'))}</button>` : '',
+  })).join('');
+  return `<section aria-labelledby="wkH"><div class="sec-h"><h2 id="wkH">${esc(tg('week'))}</h2></div>
+    <div class="frame box"><p class="g-meta"><span>${esc(tg('week_ends', { d: until(w.ends_at) }))}</span><span>${esc(tg('week_streak', { n: w.streak }))}</span></p>
+    <div class="g-tasks">${rows}</div><p class="small">${esc(tg('week_all'))}</p>${!swap && w.tasks.some(t => !t.done) ? `<p class="small">${esc(tg('week_swap_used'))}</p>` : ''}
+    <p class="msg" id="wkNote" role="alert"></p></div></section>`;
+}
+
+const rewardName = r => { const [k, id] = r.split(':'); return k === 'badge' ? tg('ch_badge') : k === 'bg' ? (T.bg || {})[id] || id : k === 'title' ? titleName(id) : frameName(id); };
+function rewardThumb(r) {
+  const [k, id] = r.split(':');
+  if (k === 'badge') return `<img src="${ROOT}assets/me/ach/${esc(id)}.webp" alt="">`;
+  if (k === 'bg') return `<img src="${ROOT}assets/art/${esc(id)}-bg.webp" alt="">`;
+  if (k === 'frame') return ring(id, face(mainOf(), m.user.portrait));
+  return `<b aria-hidden="true">${esc([...titleName(id)][0] || '')}</b>`;
+}
+function seasonHtml() {
+  const s = m.season, track = s && GD.prog.track[s.id];
+  if (!track) return '';   // the season has not started
+  const prev = s.step ? track[s.step - 1][1] : 0;
+  const pct = s.next ? Math.round(100 * Math.max(0, s.stars - prev) / Math.max(1, s.next - prev)) : 100;
+  const steps = track.map(([n, stars, rew]) => {
+    const got = n <= s.step, label = [tg('ch_step', { n }), rew ? rewardName(rew) : '', tg('season_stars', { n: stars })].filter(Boolean).join(' · ');
+    return `<li class="s-step${got ? ' got' : ''}${rew ? ' rw' : ''}${n === s.step + 1 ? ' next' : ''}"${n === s.step + 1 ? ' aria-current="step"' : ''}>
+      <span class="s-dot" role="img" aria-label="${esc(label)}" title="${esc(label)}"><span class="s-pt${rew ? ' rw' : ''}">${rew ? rewardThumb(rew) : ''}</span></span><i>${n}</i></li>`;
+  }).join('');
+  return `<section aria-labelledby="seH"><div class="sec-h"><h2 id="seH">${esc(tg('season'))}</h2></div><div class="frame box s-sec">
+    <div class="s-head"><b>${esc(tg('season_stars', { n: s.stars }))}</b><span>${esc(tg('season_step', { n: s.step }))}</span>
+      <span class="g-bar g-sm" role="img" aria-label="${esc(tg('season_stars', { n: s.stars }))}"><i class="g-fill" style="width:${pct}%"></i></span></div>
+    <ol class="s-track" tabindex="0" aria-label="${esc(tg('season'))}">${steps}</ol><p class="small">${esc(tg('season_keep'))}</p></div></section>`;
+}
+
+function secChronicle() {
+  const c = chron;
+  const list = c.items.length ? `<ol class="g-chron">${c.items.map(it => chronicleItem(it, T.g)).join('')}</ol>`
+    : c.loading || !c.loaded ? '<div class="skel" style="min-height:120px"></div>' : `<p class="small">${esc(tg('chronicle_empty'))}</p>`;
+  return `<div class="sec-h"><h2>${esc(tg('chronicle'))}</h2></div>
+    <div class="frame box"><label class="chk"><input type="checkbox" id="cHide"${m.user.hide_chronicle ? ' checked' : ''}>${esc(tg('chronicle_hide'))}</label><p class="msg" id="chNote" role="alert"></p></div>
+    <div class="frame box">${list}${c.more ? `<div class="row"><button type="button" class="btn ghost" data-act="chronMore"${c.loading ? ' disabled' : ''}>${esc(tg('chronicle_more'))}</button></div>` : ''}</div>`;
+}
+/** Own chronicle: the owner reads it through /u/:id/chronicle even when it is hidden from others (R13). 20 lines a page. */
+function loadChron(more) {
+  const c = chron;
+  if (c.loading) return;
+  c.loading = true;
+  const before = more && c.items.length ? '?before=' + c.items[c.items.length - 1].at : '';
+  M.api(`/u/${m.user.id}/chronicle${before}`).then(r => {
+    const items = r.items || [];
+    c.items = more ? c.items.concat(items) : items;
+    c.more = items.length >= 20;   // a full page: there may be more (the API page is 20 lines)
+  }, () => { c.more = false; }).finally(() => { c.loading = false; c.loaded = true; if (m && sec === 'chronicle') cabinet(); });
+}
+
+const REP_FIELD = { name: 'report_name', motto: 'report_motto', other: 'report_other' };
+function secReports() {
+  const head = `<div class="sec-h"><h2>${esc(tg('tab_reports'))}</h2></div>`;
+  if (reps === null) return head + '<div class="skel" style="min-height:120px"></div>';
+  if (!reps.length) return head + `<p>${esc(tg('reports_empty'))}</p>`;
+  return head + reps.map(g => {
+    const now = g.field === 'motto' ? g.motto : g.field === 'name' ? g.name : null;
+    const key = `data-t="${esc(g.target)}" data-f="${esc(g.field)}"`;
+    return `<div class="g-rep"><h3><a href="${playerUrl(g.target)}">${esc(g.name || g.target)}</a> · ${esc(tg(REP_FIELD[g.field] || 'report_other'))} · ${esc(tg('reports_n', { n: g.n }))}</h3>
+      <p>${esc(g.reasons.join('; '))}</p>${now ? `<p>${esc(tg('rep_now', { x: now }))}</p>` : ''}
+      <div class="row"><button type="button" class="btn ghost" data-act="repKeep" ${key}>${esc(tg('rep_keep'))}</button>${g.field === 'other' ? '' : `<button type="button" class="btn ghost" data-act="repHide" ${key}>${esc(tg('rep_hide'))}</button>`}<button type="button" class="btn danger" data-act="repBan" ${key}>${esc(tg('rep_ban'))}</button></div></div>`;
+  }).join('') + '<p class="msg" id="repNote" role="alert"></p>';
+}
+function loadReps() {
+  if (repsLoading) return;
+  repsLoading = true;
+  M.api('/admin/reports').then(r => { reps = r.items || []; }, () => { reps = []; }).finally(() => { repsLoading = false; if (m && sec === 'reports') cabinet(); });
+}
+function resolveRep(b, action) {
+  if (action === 'ban' && !confirm(tg('rep_ban_ask'))) return;
+  b.disabled = true;
+  M.api('/admin/reports/resolve', { body: { target: b.dataset.t, field: b.dataset.f, action } }).then(() => { reps = null; cabinet(); }, e => { b.disabled = false; const n = $('#repNote'); if (n) { n.textContent = errText(e); n.className = 'msg err'; } });
+}
+
 function secAccount() {
   const on = M.sound();
   return `<div class="sec-h"><h2>Аккаунт</h2></div>
@@ -482,11 +681,17 @@ function cabinet() {
   parkForm();
   const c = mainOf(), p = asPlayer(c);
   const ach = m.achievements.length, all = GD.ach.length;
-  const nav = SECS.map(([id, t]) => `<a href="#${id}"${sec === id ? ' aria-current="page"' : ''}>${esc(t)}${id === 'chars' ? `<span>${esc(fill('%n из 3', { n: m.characters.length }))}</span>` : id === 'ach' ? `<span>${ach} / ${all}</span>` : ''}</a>`).join('');
-  const body = { chars: secChars, look: secLook, ach: secAch, frames: secFrames, account: secAccount }[sec]();
-  $('#view').innerHTML = `<p class="lab">Карточка — как вас видят другие</p>${bcard(p, { h: 'h2', reveal })}${levelAsk()}${nextHtml()}${pathHtml()}
+  if (!secs().some(x => x[0] === sec)) sec = 'chars';
+  const nav = secs().map(([id, t]) => `<a href="#${id}"${sec === id ? ' aria-current="page"' : ''}>${esc(t)}${id === 'chars' ? `<span>${esc(fill('%n из 3', { n: m.characters.length }))}</span>` : id === 'ach' ? `<span>${ach} / ${all}</span>` : ''}</a>`).join('');
+  const body = { chars: secChars, look: secLook, ach: secAch, frames: secFrames, chronicle: secChronicle, account: secAccount, reports: secReports }[sec]();
+  $('#view').innerHTML = `<p class="lab">Карточка — как вас видят другие</p>${bcard(p, { h: 'h2', reveal })}${gloryHtml()}${levelAsk()}${nextHtml()}${weekHtml()}${seasonHtml()}${pathHtml()}
     <div class="lay"><nav class="frame pnav" aria-label="Кабинет">${nav}<hr><a class="pub" href="${playerUrl(m.user.id)}">Моя страница ↗</a></nav><section class="sec" id="sec">${body}</section></div>`;
   reveal = false;
+  const cur = $('.s-track');   // the season track opens at the step in progress
+  const at = cur && ($('.s-step.next', cur) || $$('.s-step.got', cur).pop());
+  if (at) cur.scrollLeft = Math.max(0, at.offsetLeft - cur.clientWidth / 2);
+  if (sec === 'chronicle' && !chron.loaded) loadChron(false);
+  if (sec === 'reports' && reps === null) loadReps();
   const mn = $('#lMotto');
   if (mn) { const cnt = () => { $('#lMottoN').textContent = fill('%n из 60', { n: [...mn.value].length }); }; mn.addEventListener('input', cnt); cnt(); }
 }
@@ -517,6 +722,13 @@ document.addEventListener('click', e => {
   if (ct) { cat = ct.dataset.cat; return cabinet(); }
   const pt = t.closest('#lPortrait button');
   if (pt) return put({ portrait: pt.dataset.v }, 'lookNote');
+  const nc = t.closest('[data-ncolor]');
+  if (nc) return put({ name_color: nc.dataset.ncolor }, 'lookNote');
+  const sh = t.closest('[data-sh]');
+  if (sh) {
+    const i = +sh.dataset.i, list = showcaseList();
+    return sh.dataset.sh === 'del' ? saveShowcase(list.filter((x, k) => k !== i)) : moveShowcase(i, i + (sh.dataset.sh === 'up' ? -1 : 1));
+  }
   const lg = t.closest('#lfgSeg button');
   if (lg) return M.api('/me/lfg', { method: 'PUT', body: { kind: lg.dataset.v || null } }).then(r => M.took(r), () => {});
   const a = t.closest('[data-act]');
@@ -528,6 +740,22 @@ document.addEventListener('click', e => {
   else if (act === 'account') { sec = 'account'; history.replaceState(null, '', '#account'); cabinet(); }
   else if (act === 'card') copyText(myUrl()).then(ok => { if (ok) M.track('show_card'); a.textContent = ok ? 'Скопировано' : myUrl(); });
   else if (act === 'copyRef') copyText(refUrl()).then(ok => { $('#aRefNote').textContent = ok ? 'Скопировано' : 'Не удалось скопировать, выделите ссылку и скопируйте вручную'; });
+  else if (act === 'lfgOn') {   // the task button leads to the «Looking for group» switch; the kind is the player's choice
+    sec = 'chars'; history.replaceState(null, '', '#chars'); cabinet();
+    const b = $('#lfgSeg button:not([data-v=""])');
+    if (b) { b.scrollIntoView({ block: 'center' }); b.focus(); }
+  } else if (act === 'swap') {
+    a.disabled = true;
+    M.api('/me/weekly/swap', { body: { task_id: a.dataset.task } }).then(r => M.took(r), e => {
+      a.disabled = false;
+      const n = $('#wkNote'); if (n) { n.textContent = errText(e); n.className = 'msg err'; }
+      if (e.code === 'swap_used' || e.code === 'task_done') M.me(true);   // the page was out of date: show what the server has
+    });
+  } else if (act === 'showAdd') {
+    const id = $('#shPick') && $('#shPick').value, list = showcaseList();
+    if (id) saveShowcase(list.concat(id));
+  } else if (act === 'chronMore') loadChron(true);
+  else if (act === 'repKeep' || act === 'repHide' || act === 'repBan') resolveRep(a, { repKeep: 'keep', repHide: 'hide', repBan: 'ban' }[act]);
   else if (act === 'lfgMore') M.api('/me/lfg', { method: 'PUT', body: { kind: a.dataset.v } }).then(r => M.took(r), () => {});
   else if (act === 'motto') put({ motto: $('#lMotto').value }, 'lookNote').then(() => { const n = $('#lookNote'); if (n && !n.classList.contains('err')) n.textContent = 'Девиз сохранён'; });
   else if (act === 'lvl') {
@@ -541,12 +769,39 @@ document.addEventListener('change', e => {
   if (!m) return;
   if (e.target.id === 'lTitle') put({ title: e.target.value || null }, 'lookNote');
   else if (e.target.id === 'lNick') put({ show_nick: e.target.checked }, 'lookNote');
+  else if (e.target.id === 'cHide') put({ hide_chronicle: e.target.checked }, 'chNote');
   else if (e.target.id === 'aSound') M.sound(e.target.checked);
 });
 document.addEventListener('keydown', e => {
   const card = e.target.closest && e.target.closest('[data-edit]');
   if (card && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); card.click(); }
 });
+
+document.addEventListener('dragstart', e => {
+  const c = e.target.closest && e.target.closest('.g-cell[data-i]');
+  if (!c) return;
+  dragFrom = +c.dataset.i;
+  e.dataTransfer.effectAllowed = 'move';
+  try { e.dataTransfer.setData('text/plain', String(dragFrom)); } catch (x) { /* old browsers */ }
+  c.classList.add('drag');
+});
+document.addEventListener('dragover', e => {
+  const c = e.target.closest && e.target.closest('.g-cell');
+  if (dragFrom < 0 || !c) return;
+  e.preventDefault();
+  $$('.g-cell.over').forEach(x => { if (x !== c) x.classList.remove('over'); });
+  c.classList.add('over');
+});
+document.addEventListener('drop', e => {
+  const c = e.target.closest && e.target.closest('.g-cell');
+  if (dragFrom < 0 || !c) return;
+  e.preventDefault();
+  const to = $$('.g-show .g-cell').indexOf(c), from = dragFrom;
+  dragFrom = -1;
+  moveShowcase(from, to);
+});
+document.addEventListener('dragend', () => { dragFrom = -1; $$('.g-cell.drag, .g-cell.over').forEach(x => x.classList.remove('drag', 'over')); });
+document.addEventListener('error', e => { if (e.target.matches && e.target.matches('.s-pt img')) e.target.remove(); }, true);   // art of a reward that is not painted yet
 
 function openDelete() {
   const d = $('#delDlg');
@@ -571,17 +826,17 @@ ready(Mx => {
   const ref = new URLSearchParams(location.search).get('ref');
   if (ref && /^\d{1,20}$/.test(ref)) try { localStorage.setItem('gabella-ref', ref); } catch (e) { /* private mode */ }
   const h = location.hash.slice(1);
-  if (SECS.some(s => s[0] === h)) sec = h;
+  if (SECS0.some(s => s[0] === h) || h === 'reports') sec = h;   // «reports» is checked against m.admin when the cabinet is drawn
   if (!M) return screen('down');
   wireForm();
-  if (h === 'not-member' || h === 'discord-down') return screen(h);
+  if (['not-member', 'discord-down', 'members-only'].includes(h)) return screen(h);
   let got = false;
   M.onMe(state => {
     got = true;
     const was = lastRank, idx = id => GD.ranks.findIndex(r => r.id === id);
     m = state;
     if (m) { reveal = was !== null && idx(m.user.rank) > idx(was); lastRank = m.user.rank; }
-    if (!m) closeEd();
+    if (!m) { closeEd(); chron = newChron(); reps = null; }
     render();
   });
   // me.js keeps quiet when the API is unreachable: ask once more to tell «logged out» (401) from «server down»
