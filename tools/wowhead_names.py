@@ -1,7 +1,9 @@
 """Official in-game names for de/fr/es/pt/it, taken from the Wowhead tooltip API.
+Zones also get the ruRU name ("ru"): Russian pages show places as the Russian client does
+(abilities on ru are written by hand in content/, so they get no "ru").
 
 Reads i18n/names_ids.json and writes i18n/names.json:
-    {"<English name>": {"de": ..., "fr": ..., "es": ..., "pt": ..., "it": ...}}
+    {"<English name>": {"de": ..., "fr": ..., "es": ..., "pt": ..., "it": ..., ["ru": ...]}}
 
 names_ids.json entry kinds:
     {"type": "spell|zone|npc|item|object|quest", "id": 123}
@@ -29,7 +31,7 @@ import urllib.request
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, 'i18n', 'names_ids.json')
 OUT = os.path.join(ROOT, 'i18n', 'names.json')
-LOCALES = {'en': 0, 'fr': 2, 'de': 3, 'es': 6, 'pt': 8, 'it': 9}
+LOCALES = {'en': 0, 'fr': 2, 'de': 3, 'es': 6, 'ru': 7, 'pt': 8, 'it': 9}
 LANGS = ('de', 'fr', 'es', 'pt', 'it')
 URL = 'https://nether.wowhead.com/tooltip/{type}/{id}?dataEnv={env}&locale={loc}'
 DELAY = 0.25
@@ -95,6 +97,12 @@ def resolve(en_name, e, report):
     elif norm(it_name) == norm(want) and any(norm(out[l]) != norm(want) for l in ('de', 'fr', 'es', 'pt')):
         report['it_english'].append('%s (retail Italian equals English)' % en_name)
     out['it'] = it_name
+    if typ == 'zone':
+        ru = fetch(typ, ident, env, LOCALES['ru'])
+        if ru:
+            out['ru'] = ru
+        else:
+            report['warn'].append('%s: no ru name, kept English' % en_name)
     report['wowhead'] += 1
     return out
 
