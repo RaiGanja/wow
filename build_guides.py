@@ -27,6 +27,8 @@ SITE_TILES = [
      'd': {'ru': 'Прокачка, подземелья, профессии и ответы', 'en': 'Leveling, dungeons, professions and answers', 'uk': 'Прокачка, підземелля, професії та відповіді'}},
     {'t': {'ru': 'Инструменты', 'en': 'Tools', 'uk': 'Інструменти'}, 'href': 'tools/', 'art': 'rogue',
      'd': {'ru': 'Рамки, сравнение, поиск', 'en': 'Frames, compare, search', 'uk': 'Рамки, порівняння, пошук'}},
+    {'t': {'ru': 'В игре', 'en': 'In game', 'uk': 'У грі'}, 'href': 'play/', 'art': 'shaman',
+     'd': {'ru': 'Второй экран: радио, уровень, таймеры, Слава и задания недели', 'en': 'Second screen: radio, level, timers, Glory and weekly tasks', 'uk': 'Другий екран: радіо, рівень, таймери, Слава й завдання тижня'}},
 ]
 # Wide hero art; everything else is a class/race portrait cut at 360/600/896
 WIDTHS = {'hero_dawn': (960, 1440, 1920, 2560, 3840), 'hero_campfire': (960, 1600, 2560)}

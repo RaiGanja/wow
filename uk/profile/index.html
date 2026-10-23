@@ -1242,6 +1242,9 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 .cdlg input { min-height: 46px; border-radius: 8px; border: 1px solid var(--pline); background: var(--panel-2); color: var(--fg); padding: 0 12px; font: inherit; }
 /* growth: Glory, weekly tasks, season track, name colour, showcase, chronicle, reports */
 .g-box { padding: 14px 18px; }
+.g-how { margin-top: 10px; font-size: .9rem; color: var(--muted); }
+.g-how summary { cursor: pointer; width: fit-content; color: var(--gold-2); }
+.g-how ul { display: grid; gap: 4px; margin: 8px 0 0; padding-left: 18px; }
 #wkNote:empty { display: none; }
 .g-tasks { display: grid; gap: 8px; }
 .g-meta { display: flex; flex-wrap: wrap; gap: 4px 18px; margin: 0; color: var(--muted); font-size: .9rem; }
@@ -1333,8 +1336,8 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=b6b856d926" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=accf6780cc" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=f123330552" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=a3bad4cc4c" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Головна","item":"https://gabella.site/wow/uk/"},{"@type":"ListItem","position":2,"name":"Мій профіль","item":"https://gabella.site/wow/uk/profile/"}]}</script>
 </head>
 <body>
@@ -2233,7 +2236,7 @@ function pathHtml() {
 }
 function playHint() {   // until the person has opened the in-game page once
   if ((m.progress || {}).play_page) return '';
-  return `<div class="frame ask"><span>Граєте? Відкрийте «У грі» поруч із грою: там радіо накопичує Славу, а рівень персонажа змінюється одним дотиком.</span><a class="btn ghost" href="${HOME}play/">Відкрити «У грі»</a></div>`;
+  return `<div class="frame ask"><span>Граєте? Відкрийте «У грі» поруч із грою: радіо, зони під рівень і таймери, а рівень персонажа змінюється одним дотиком.</span><a class="btn ghost" href="${HOME}play/">Відкрити «У грі»</a></div>`;
 }
 function levelAsk() {
   let lvl = 0;
@@ -2348,7 +2351,15 @@ function secFrames() {
     <div class="ladder">${ladder}</div><div class="specials">${specials}</div><p class="msg" id="frNote" role="status"></p>`;
 }
 /* ---------- growth blocks of the cabinet ---------- */
-function gloryHtml() { return m.glory ? `<div class="frame g-box">${gloryBar(m.glory)}</div>` : ''; }
+function gloryHtml() {
+  if (!m.glory) return '';
+  return `<div class="frame g-box">${gloryBar(m.glory)}<details class="g-how"><summary>Як росте профіль</summary><ul>
+    <li>Слава — досвід за те, що ви користуєтеся гідом: заходи, гайди, радіо, інструменти й завдання тижня. Відкриває девіз і колір імені.</li>
+    <li>Після перерви досвід іде вдвічі швидше, як відпочинок у таверні.</li>
+    <li>Ранг — очки досягнень (★). Відкриває рамки портрета.</li>
+    <li>Сезон — зірки за досвід і завдання тижня. Нагороди щаблів залишаються назавжди.</li>
+  </ul></details></div>`;
+}
 
 /** «3 d 4 h» until t. */
 function until(t) {
@@ -2745,8 +2756,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=b6b856d926" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=accf6780cc" data-root="../../" data-home="../" data-lang="uk" data-teaser="Профіль зберігає ваш шлях: Слава, рамки, сезони" data-close="Закрити" data-page="profile/" data-look="1" defer></script>
+<script src="../../assets/search/search.js?v=f123330552" data-root="../../" defer></script>
+<script src="../../assets/me/me.js?v=a3bad4cc4c" data-root="../../" data-home="../" data-lang="uk" data-teaser="Профіль зберігає ваш шлях: Слава, рамки, сезони" data-close="Закрити" data-page="profile/" data-look="1" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

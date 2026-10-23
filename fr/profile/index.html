@@ -1242,6 +1242,9 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 .cdlg input { min-height: 46px; border-radius: 8px; border: 1px solid var(--pline); background: var(--panel-2); color: var(--fg); padding: 0 12px; font: inherit; }
 /* growth: Glory, weekly tasks, season track, name colour, showcase, chronicle, reports */
 .g-box { padding: 14px 18px; }
+.g-how { margin-top: 10px; font-size: .9rem; color: var(--muted); }
+.g-how summary { cursor: pointer; width: fit-content; color: var(--gold-2); }
+.g-how ul { display: grid; gap: 4px; margin: 8px 0 0; padding-left: 18px; }
 #wkNote:empty { display: none; }
 .g-tasks { display: grid; gap: 8px; }
 .g-meta { display: flex; flex-wrap: wrap; gap: 4px 18px; margin: 0; color: var(--muted); font-size: .9rem; }
@@ -1333,8 +1336,8 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=b6b856d926" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=accf6780cc" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=f123330552" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=a3bad4cc4c" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://gabella.site/wow/fr/"},{"@type":"ListItem","position":2,"name":"Mon profil","item":"https://gabella.site/wow/fr/profile/"}]}</script>
 </head>
 <body>
@@ -2233,7 +2236,7 @@ function pathHtml() {
 }
 function playHint() {   // until the person has opened the in-game page once
   if ((m.progress || {}).play_page) return '';
-  return `<div class="frame ask"><span>Vous jouez ? Ouvrez « En jeu » à côté du jeu : la radio y rapporte de la Gloire et le niveau de votre personnage change d’un seul geste.</span><a class="btn ghost" href="${HOME}play/">Ouvrir «En jeu»</a></div>`;
+  return `<div class="frame ask"><span>Vous jouez ? Ouvrez « En jeu » à côté du jeu : radio, zones pour votre niveau et minuteurs, et le niveau de votre personnage change d’un seul geste.</span><a class="btn ghost" href="${HOME}play/">Ouvrir «En jeu»</a></div>`;
 }
 function levelAsk() {
   let lvl = 0;
@@ -2348,7 +2351,15 @@ function secFrames() {
     <div class="ladder">${ladder}</div><div class="specials">${specials}</div><p class="msg" id="frNote" role="status"></p>`;
 }
 /* ---------- growth blocks of the cabinet ---------- */
-function gloryHtml() { return m.glory ? `<div class="frame g-box">${gloryBar(m.glory)}</div>` : ''; }
+function gloryHtml() {
+  if (!m.glory) return '';
+  return `<div class="frame g-box">${gloryBar(m.glory)}<details class="g-how"><summary>Comment progresse votre profil</summary><ul>
+    <li>La Gloire est l’expérience gagnée en utilisant le guide : visites, guides, radio, outils et défis de la semaine. Elle débloque une devise et des couleurs de nom.</li>
+    <li>Après une pause, l’expérience arrive deux fois plus vite, comme le repos à l’auberge.</li>
+    <li>Le rang vient des points de hauts faits (★). Il débloque des cadres de portrait.</li>
+    <li>Saison : des étoiles pour l’expérience et les défis de la semaine. Les récompenses des paliers restent pour toujours.</li>
+  </ul></details></div>`;
+}
 
 /** «3 d 4 h» until t. */
 function until(t) {
@@ -2745,8 +2756,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=b6b856d926" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=accf6780cc" data-root="../../" data-home="../" data-lang="fr" data-teaser="Votre profil garde votre parcours : Gloire, cadres, saisons" data-close="Fermer" data-page="profile/" data-look="1" defer></script>
+<script src="../../assets/search/search.js?v=f123330552" data-root="../../" defer></script>
+<script src="../../assets/me/me.js?v=a3bad4cc4c" data-root="../../" data-home="../" data-lang="fr" data-teaser="Votre profil garde votre parcours : Gloire, cadres, saisons" data-close="Fermer" data-page="profile/" data-look="1" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>
