@@ -16,9 +16,9 @@ from content.guides import GUIDES, HUB, HUBS
 
 HERE = build.HERE
 
-# Cloudflare Web Analytics: токен сайта из дашборда Cloudflare (Analytics & Logs → Web Analytics → Add a site → gabella.site).
+# Cloudflare Web Analytics: токен сайта gabella.site (Analytics → Web analytics → gabella.site → Manage site, режим «Enable with JS Snippet installation» — DNS only, автовставки нет).
 # Пусто — сниппет не вставляется.
-CF_BEACON_TOKEN = ''
+CF_BEACON_TOKEN = 'ee1d216e690040389063e8d72384c2c7'
 
 BRAND = 'Gabella Team'
 LOCALE = {'ru': 'ru_RU', 'en': 'en_US', 'uk': 'uk_UA'}
@@ -224,10 +224,10 @@ def apply(html, path, lang, title, desc):
     html = html.replace('<meta property="og:site_name"', alt + '<meta property="og:site_name"', 1)
     html = re.sub(r'<script type="application/ld\+json">.*?</script>\n', '', html, flags=re.S)
     html = html.replace('</head>', json_ld(path, lang, desc) + '</head>', 1)
-    html = re.sub(r'<script defer src="https://static.cloudflareinsights.com/[^>]*></script>\n', '', html)
+    html = re.sub(r'<script type="module" src="https://static.cloudflareinsights.com/[^>]*></script>\n', '', html)
     if CF_BEACON_TOKEN:
         beacon = json.dumps({'token': CF_BEACON_TOKEN})
-        html = html.replace('</body>', f'<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon=\'{beacon}\'></script>\n</body>', 1)
+        html = html.replace('</body>', f'<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon=\'{beacon}\'></script>\n</body>', 1)
     return html
 
 
