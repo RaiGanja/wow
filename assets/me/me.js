@@ -6,6 +6,7 @@
 (function () {
   const S = document.currentScript, D = S.dataset;
   const ROOT = D.root || './', HOME = D.home || './', LANG = D.lang || 'ru', PAGE = D.page || '';
+  const V = (S.src.match(/\?v=\w+/) || [''])[0];   // build.py me_version(): the same version for the texts
   const API = /^(127\.0\.0\.1|localhost)$/.test(location.hostname) ? 'http://127.0.0.1:8787' : 'https://api.gabella.site';
   const FLAG = 'gabella-me', CACHE = 'gabella-me-cache', SOUND = 'gabella-me-sound', DAY = 'gabella-me-day', CACHE_MS = 10 * 60000;
   const AUTH_PAGE = /^(roster|profile)\/$/.test(PAGE);
@@ -89,7 +90,7 @@
 
   // ---------- texts ----------
   let tx = null;
-  const texts = () => tx || (tx = fetch(ROOT + 'assets/me/i18n-' + LANG + '.json').then(r => r.json()).catch(() => ({ ui: {}, ach: {}, ranks: {} })));
+  const texts = () => tx || (tx = fetch(ROOT + 'assets/me/i18n-' + LANG + '.json' + V).then(r => r.json()).catch(() => ({ ui: {}, ach: {}, ranks: {} })));
 
   // ---------- toast: bottom centre, one at a time, like the game ----------
   const queue = [];
