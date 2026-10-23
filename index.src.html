@@ -73,6 +73,12 @@
   --ease: cubic-bezier(.2, .7, .2, 1);
   color-scheme: dark;
 }
+/* The hero zone follows the scene's light (tod.py): only the fade into black, the title shadow, the line under the hero
+   and a hairline on the first cards. Gold, black and the fonts never change. Dawn = the defaults = the look before tod. */
+:root { --hero-fade: 7 8 10; --hero-shadow: none; --hero-line: transparent; --hero-edge: transparent; }
+html[data-tod="day"]   { --hero-fade: 8 10 13; --hero-shadow: 0 2px 22px rgb(0 0 0 / .55); }
+html[data-tod="dusk"]  { --hero-fade: 12 8 6;  --hero-shadow: 0 2px 20px rgb(26 10 0 / .5); --hero-line: rgb(201 165 74 / .18); --hero-edge: rgb(201 165 74 / .10); }
+html[data-tod="night"] { --hero-fade: 5 7 12;  --hero-shadow: 0 2px 16px rgb(0 0 8 / .45);  --hero-line: rgb(126 159 220 / .14); --hero-edge: rgb(170 190 230 / .08); }
 :root[data-theme="light"] {
   --bg: #f3f2ee;
   --rail: #fbfaf7;
@@ -166,16 +172,17 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .hero-art { z-index: -2; }
 .hero-art img { object-fit: cover; object-position: 62% 50%; }
 .hero::before { content: ""; position: absolute; inset: 0; z-index: -1; background:
-  linear-gradient(90deg, rgba(7,8,10,.92) 0%, rgba(7,8,10,.74) 30%, rgba(7,8,10,.28) 56%, rgba(7,8,10,.06) 78%),
-  linear-gradient(180deg, rgba(7,8,10,.5) 0%, rgba(7,8,10,0) 26%, rgba(7,8,10,0) 58%, rgba(7,8,10,.9) 100%); }
+  linear-gradient(90deg, rgb(var(--hero-fade) / .92) 0%, rgb(var(--hero-fade) / .74) 30%, rgb(var(--hero-fade) / .28) 56%, rgb(var(--hero-fade) / .06) 78%),
+  linear-gradient(180deg, rgb(var(--hero-fade) / .5) 0%, rgb(var(--hero-fade) / 0) 26%, rgb(var(--hero-fade) / 0) 58%, rgb(var(--hero-fade) / .9) 100%);
+  box-shadow: inset 0 -1px 0 var(--hero-line); }
 .hero-in { width: 100%; padding-top: calc(var(--top) + clamp(40px, 9vh, 110px)); padding-bottom: 40px; display: grid; gap: 22px; justify-items: start; max-width: var(--wrap); }
 .hmeta { font-size: .9rem; color: var(--ink-2); }
 .todsw { min-height: 44px; display: flex; align-items: center; }
-.hero h1 { font-size: clamp(2.9rem, 6.2vw, 5.4rem); line-height: .98; letter-spacing: .005em; }
+.hero h1 { font-size: clamp(2.9rem, 6.2vw, 5.4rem); line-height: .98; letter-spacing: .005em; text-shadow: var(--hero-shadow); }
 .hero h1 span { display: block; color: var(--ink-gold); }
-.hero .lead { max-width: 46ch; font-size: clamp(1.02rem, 1.4vw, 1.15rem); color: var(--ink-2); }
+.hero .lead { max-width: 46ch; font-size: clamp(1.02rem, 1.4vw, 1.15rem); color: var(--ink-2); text-shadow: var(--hero-shadow); }
 .cd { display: flex; align-items: center; flex-wrap: wrap; gap: 14px 22px; margin-top: 6px; }
-.cd .units { display: flex; align-items: stretch; gap: 6px; padding: 6px; border: 1px solid rgba(255,255,255,.12); border-radius: 10px; background: rgba(10,12,18,.62); backdrop-filter: blur(6px); }
+.cd .units { display: flex; align-items: stretch; gap: 6px; padding: 6px; border: 1px solid rgba(255,255,255,.12); border-radius: 10px; background: rgba(10,12,18,.62); backdrop-filter: blur(6px); box-shadow: inset 0 1px 0 var(--hero-edge); }
 .cd .u { display: grid; gap: 4px; min-width: 76px; padding: 10px 16px 8px; border-radius: 7px; background: rgba(255,255,255,.05); }
 .cd .u b { font-family: var(--font-display); font-weight: 400; font-size: clamp(2.4rem, 4.4vw, 3.3rem); line-height: .9; color: var(--ink-gold); font-variant-numeric: tabular-nums lining-nums; }
 .cd .u span { font-size: .82rem; color: var(--ink-2); }
@@ -315,6 +322,7 @@ section.block, .hero-in, .chero-in, .thero-in, .stband .wrap { grid-template-col
 .stile picture { z-index: -2; }
 .stile img { object-fit: cover; object-position: 50% 22%; filter: saturate(.85) brightness(.78); transition: filter .3s, transform .6s var(--ease); }
 .stile::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(6,8,12,0) 25%, rgba(6,8,12,.9) 100%); }
+main > .stband:first-child .stile::after { box-shadow: inset 0 1px 0 var(--hero-edge); }   /* the first tiles pick up the hero light; on ::after, since the art covers the tile */
 .stile:hover img { filter: none; transform: scale(1.04); }
 .stile[aria-selected="true"] { border-color: #e0c27a; box-shadow: inset 0 0 0 1px #e0c27a; }
 .stile[aria-selected="true"] img { filter: none; }
@@ -769,7 +777,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .hero { min-height: max(580px, calc(100svh - 62px - env(safe-area-inset-bottom, 0px))); }
   .hero-art img { object-position: 74% 50%; }
   .hero::before { background:
-    linear-gradient(180deg, rgba(7,8,10,.86) 0%, rgba(7,8,10,.7) 40%, rgba(7,8,10,.6) 72%, rgba(7,8,10,.94) 100%); }
+    linear-gradient(180deg, rgb(var(--hero-fade) / .86) 0%, rgb(var(--hero-fade) / .7) 40%, rgb(var(--hero-fade) / .6) 72%, rgb(var(--hero-fade) / .94) 100%); }
   .hero-in { padding-top: calc(var(--top) + 28px); gap: 18px; }
   .hero h1 { font-size: clamp(2.6rem, 12vw, 3.4rem); }
   .cd .u { padding: 0 14px; }
