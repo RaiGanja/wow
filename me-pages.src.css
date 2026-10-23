@@ -257,7 +257,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 .gl-ed .sec-h { margin: 0; }
 .gl-form { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 26px; align-items: start; }
 .gl-pv { display: grid; place-items: center; padding: 20px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); }
-.gl-fields, .gl-rows { display: grid; gap: 16px; min-width: 0; }
+.gl-fields, .gl-rows { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; min-width: 0; }
 .gl-fld { display: grid; gap: 6px; font-size: .9rem; color: var(--muted); font-weight: 500; min-width: 0; }
 .gl-fld input, .gl-fld select { min-height: 46px; width: 100%; border-radius: 8px; border: 1px solid var(--pline); background: var(--panel-2); color: var(--fg); padding: 0 12px; font: inherit; font-size: 1rem; }
 .gl-fld input:focus, .gl-fld select:focus { outline: none; border-color: var(--gold); }
@@ -281,6 +281,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
   .gl-pv { position: sticky; top: var(--top, 56px); z-index: 5; padding: 8px; background: var(--bg); box-shadow: 0 0 0 1px var(--pline); }
   .gl-pv svg { width: 96px; height: 96px; }
 }
+@media (max-width: 340px) { #glTs { zoom: .84; } }   /* the 300px check widget must fit the form at 320 */
 /* guilds tab of the roster, mini crest on player cards */
 .gl-card { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 14px; align-items: center; padding: 14px 16px; color: var(--fg); text-decoration: none; border-radius: 10px; min-width: 0; }
 .gl-card:hover { border-color: var(--gold); }
