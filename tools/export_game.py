@@ -11,6 +11,7 @@ from races import RACES_PAGE  # noqa: E402
 from guides import GUIDES  # noqa: E402
 import achievements as A  # noqa: E402
 import progression as P  # noqa: E402
+import guilds as GU  # noqa: E402
 import langs  # noqa: E402
 
 SCENES = ['hero_dawn', 'hero_campfire']   # card backgrounds besides the race arts
@@ -80,6 +81,7 @@ def game():
             'seasons': P.SEASONS, 'star_xp': P.STAR_XP, 'week_stars': P.WEEK_STARS, 'track': P.TRACK,
             'name_colors': P.NAME_COLORS, 'motto_glory': P.MOTTO_GLORY, 'report_glory': P.REPORT_GLORY, 'reports_hide': P.REPORTS_HIDE,
         },
+        'guilds': GU.export(),
     }
 
 
