@@ -152,6 +152,29 @@ def test_radio_tells_me_js():
         assert f"'{egg}'" in me, egg
 
 
+def test_looks_catalog():
+    L = G['looks']
+    assert L['sexes'] == ['m', 'f']
+    assert set(L['races']) == set(G['races'])
+    for rid, d in L['races'].items():
+        assert d['sex'] in L['sexes'], rid
+        assert d['bg'] in L['bg'], rid
+    assert set(L['bg']) == set(G['backgrounds'])
+    assert len(G['backgrounds']) == 20
+    assert L['races']['nightelf'] == {'sex': 'f', 'bg': 'night-elf'}
+
+
+def test_looks_art_exists():
+    L, slug = G['looks'], {k: v['slug'] for k, v in G['races'].items()}
+    for rid in L['races']:
+        for s in L['sexes']:
+            p = os.path.join(ROOT, 'assets', 'me', 'look', 'base', f'{slug[rid]}-{s}.webp')
+            assert os.path.exists(p), p
+    for b in L['bg']:
+        p = os.path.join(ROOT, 'assets', 'me', 'look', 'bg', f'{b}.webp')
+        assert os.path.exists(p), p
+
+
 if __name__ == '__main__':
     for name, fn in list(globals().items()):
         if name.startswith('test_'):

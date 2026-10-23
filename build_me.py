@@ -13,6 +13,7 @@ from langs import LANGS
 HERE = build.HERE
 sys.path.insert(0, os.path.join(HERE, 'content'))
 import achievements as A  # noqa: E402
+import looks as LK  # noqa: E402
 
 _ru, _en, _uk = (build.load(f'me.{l}.txt') for l in langs.OLD)
 assert len(_ru) == len(_en) == len(_uk), (len(_ru), len(_en), len(_uk))
@@ -27,6 +28,7 @@ UI = {'got': 'Достижение получено', 'rankUp': 'Новый ра
 def strings():
     """Every Russian string me.js and the profile pages show, in a stable order (the line files follow it)."""
     out = list(UI.values()) + [c[1] for c in A.CATS] + [r[2] for r in A.RANKS] + [f[2] for f in A.FRAMES]
+    out += [n for _, n in LK.SCENES]
     for a in A.ACH:
         out += [a[5], a[6]] + ([a[7]] if len(a) > 7 else [])
     return [s for s in dict.fromkeys(out) if any('А' <= ch <= 'я' or ch in 'Ёё' for ch in s)]
@@ -69,7 +71,8 @@ def page_data(lang):
         'classes': {c['id']: {'roles': g['classes'][c['id']]['roles'], 'n': t(c['n']), 'color': build.COLOR[c['id']]} for c in build.CLASSES},
         'profs': {p: t(pn[p]) for p in g['profs']},
         'sets': g['sets'], 'cats': g['cats'], 'ach': g['achievements'], 'ranks': g['ranks'], 'frames': g['frames'],
-        'titles': g['titles'], 'backgrounds': g['backgrounds'], 'deadline': g['deadline_founder'], 'invite': INVITE,
+        'titles': g['titles'], 'backgrounds': g['backgrounds'], 'looks': g['looks'],
+        'scenes': {s: t(n) for s, n in LK.SCENES}, 'deadline': g['deadline_founder'], 'invite': INVITE,
     }
 
 
