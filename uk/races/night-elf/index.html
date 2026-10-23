@@ -24,13 +24,14 @@
 <meta property="og:image:alt" content="Нічний ельф у WoW Forever">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230a0b0d'/%3E%3Ctext x='32' y='34' text-anchor='middle' dominant-baseline='central' font-family='Georgia,serif' font-size='44' font-weight='700' fill='%23c9a54a'%3EG%3C/text%3E%3C/svg%3E">
-<link rel="preload" href="../../../assets/fonts/forum-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../../assets/fonts/bona-nova-sc-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../../../assets/fonts/golos-text-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" type="image/avif" imagesrcset="../../../assets/art/night-elf-600.avif 600w, ../../../assets/art/night-elf-896.avif 896w" imagesizes="(max-width: 719px) 100vw, 75vh">
 <style>
 /* Game-portal layout: full-screen art hero, faction banners, class portrait roster, tools, guides band. Night + gold, light paper theme for content. */
-@font-face { font-family: "Forum"; font-style: normal; font-weight: 400; font-display: swap; src: url(../../../assets/fonts/forum-cyrillic.woff2) format("woff2"); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
-@font-face { font-family: "Forum"; font-style: normal; font-weight: 400; font-display: swap; src: url(../../../assets/fonts/forum-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Bona Nova SC"; font-style: normal; font-weight: 400 700; font-display: swap; src: url(../../../assets/fonts/bona-nova-sc-cyrillic.woff2) format("woff2"); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: "Bona Nova SC"; font-style: normal; font-weight: 400 700; font-display: swap; src: url(../../../assets/fonts/bona-nova-sc-latin-ext.woff2) format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "Bona Nova SC"; font-style: normal; font-weight: 400 700; font-display: swap; src: url(../../../assets/fonts/bona-nova-sc-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 @font-face { font-family: "Golos Text"; font-style: normal; font-weight: 400 600; font-display: swap; src: url(../../../assets/fonts/golos-text-cyrillic.woff2) format("woff2"); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
 @font-face { font-family: "Golos Text"; font-style: normal; font-weight: 400 600; font-display: swap; src: url(../../../assets/fonts/golos-text-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 :root {
@@ -55,8 +56,8 @@
   --panel: rgba(15,18,26,.9);
   --panel-2: #161a24;
   --pline: rgba(255,255,255,.08);
-  --font-display: "Forum", Georgia, "Times New Roman", serif;
-  --display-w: 400;
+  --font-display: "Bona Nova SC", Georgia, "Times New Roman", serif;
+  --display-w: 700;
   --font-body: "Golos Text", "Segoe UI", system-ui, sans-serif;
   --top: 64px;
   --wrap: 1240px;
@@ -87,8 +88,9 @@
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: calc(var(--top) + 12px); -webkit-text-size-adjust: 100%; }
 body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 16px; line-height: 1.6; overflow-x: clip; }
-h1, h2, h3 { font-family: var(--font-display); font-weight: var(--display-w); margin: 0; line-height: 1.1; text-wrap: balance; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: var(--display-w); letter-spacing: .03em; overflow-wrap: break-word; margin: 0; line-height: 1.1; text-wrap: balance; }
 h2 { font-size: clamp(2rem, 4vw, 2.75rem); }
+@media (max-width: 470px) { h2 { font-size: 6.8vw; } }
 h3 { font-size: 1.35rem; }
 p { margin: 0; }
 a { color: var(--gold-2); text-underline-offset: 3px; }
@@ -811,7 +813,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .chero .btn.ghost { background: rgba(7,8,10,.35); color: var(--ink); border-color: rgba(241,236,224,.45); }
 .chero .btn.ghost:hover { border-color: #e0c27a; background: rgba(7,8,10,.55); }
 
-.stabs { display: flex; gap: 8px; padding: 8px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); overflow-x: auto; scrollbar-width: none; }
+.stabs { display: flex; min-width: 0; gap: 8px; padding: 8px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); overflow-x: auto; scrollbar-width: none; }
 .stabs::-webkit-scrollbar { display: none; }
 .stabs button { flex: 1 0 auto; min-height: 60px; padding: 0 20px; border: 1px solid transparent; border-radius: 7px; background: none; color: var(--muted); font-family: var(--font-display); font-size: 1.4rem; line-height: 1.1; transition: color .2s, border-color .2s, background-color .2s; display: grid; align-content: center; gap: 2px; text-align: left; }
 .stabs button small { font-family: var(--font-body); font-size: .78rem; font-weight: 500; }
@@ -892,7 +894,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   .chero h1 { font-size: clamp(2.4rem, 11.5vw, 4rem); overflow-wrap: anywhere; }
   .cfacts { grid-template-columns: 1fr 1fr; gap: 0 16px; }
   .stabs { gap: 4px; padding: 4px; }
-  .stabs button { flex: 1 1 0; min-width: 0; padding: 6px 8px; font-size: 1.05rem; min-height: 56px; white-space: normal; text-align: center; justify-items: center; }
+  .stabs button { flex: 1 1 0; min-width: 0; padding: 6px 6px; font-size: .95rem; min-height: 56px; white-space: normal; text-align: center; justify-items: center; hyphens: auto; overflow-wrap: anywhere; }
   .spanel { padding: 18px 16px; }
   .keys li { grid-template-columns: 1fr; }
   .news { padding: 8px; gap: 8px; }
