@@ -32,7 +32,7 @@
     }));
   }
   const logged = () => ls.get(FLAG) === '1';
-  function forget() { ls.set(FLAG, null); ss.set(CACHE, null); state = null; emit(); }
+  function forget() { ls.set(FLAG, null); ss.set(CACHE, null); state = null; paintBtn(); emit(); }
 
   // ---------- who am I: cached for the tab, refreshed after anything that changes it ----------
   let state = null, loading = null;
@@ -152,15 +152,62 @@
       btn.href = HOME + 'profile/';
       if (state) {
         btn.className = 'iconbtn mebtn';
-        btn.setAttribute('aria-label', T.ui.profile || 'Profile');
+        btn.setAttribute('aria-label', T.ui.menu || T.ui.profile || 'Profile');
+        btn.setAttribute('aria-haspopup', 'menu');
+        btn.setAttribute('aria-expanded', 'false');
         btn.title = T.ui.profile || '';
         btn.innerHTML = `<span class="me-ring fr-${esc(state.user.frame || state.user.rank)}"><img src="${face(state)}" alt="" width="30" height="30"></span>`;
+        btn.onclick = e => { e.preventDefault(); menu ? closeMenu() : openMenu(T); };
       } else {
+        closeMenu();
         btn.className = 'iconbtn mebtn guest';   // not «login»: the profile page has its own .login block
-        btn.removeAttribute('title'); btn.removeAttribute('aria-label');
+        btn.removeAttribute('title'); btn.removeAttribute('aria-label'); btn.removeAttribute('aria-haspopup'); btn.removeAttribute('aria-expanded');
+        btn.onclick = null;
         btn.textContent = T.ui.login || 'Log in';
       }
     });
+  }
+
+  // ---------- account menu under the portrait: who you are, the cabinet sections, sign out ----------
+  let menu = null;
+  function openMenu(T) {
+    if (!state || !btn) return;
+    const c = state.characters.find(x => x.is_main) || state.characters[0], u = state.user;
+    const name = c ? c.name : u.nick || T.ui.noChar || '';
+    const go = (href, text) => `<a role="menuitem" href="${HOME}${href}">${esc(text)}</a>`;
+    const items = c
+      ? [go('profile/', T.ui.profile), go('u/#' + u.id, T.ui.myPage), go('profile/#chars', T.ui.chars), go('profile/#look', T.ui.look), go('profile/#account', T.ui.account)]
+      : [go('profile/', T.ui.newChar)];
+    menu = document.createElement('div');
+    menu.className = 'me-menu';
+    menu.setAttribute('role', 'menu');
+    menu.setAttribute('aria-label', T.ui.menu || '');
+    menu.innerHTML = `<div class="me-mh"><span class="me-ring fr-${esc(u.frame || u.rank)}"><img src="${face(state)}" alt="" width="40" height="40"></span>
+      <span><b>${esc(name)}</b><small>${esc((T.ranks[u.rank] || u.rank) + ' · ' + (u.points || 0) + ' ' + (T.ui.pts || ''))}</small></span></div>
+      ${items.join('')}<hr><button type="button" role="menuitem" class="me-out">${esc(T.ui.logout || 'Log out')}</button>`;
+    document.body.append(menu);
+    const r = btn.getBoundingClientRect();
+    menu.style.top = Math.round(r.bottom + 8) + 'px';
+    menu.style.right = Math.max(8, Math.round(document.documentElement.clientWidth - r.right)) + 'px';
+    btn.setAttribute('aria-expanded', 'true');
+    menu.querySelector('.me-out').onclick = () => { closeMenu(); api('/auth/logout', { body: {} }).then(forget, forget); };
+    menu.addEventListener('click', e => { if (e.target.closest('a')) closeMenu(); });
+    menu.querySelector('[role="menuitem"]').focus({ preventScroll: true });
+    setTimeout(() => { document.addEventListener('click', outside); document.addEventListener('keydown', keys); addEventListener('scroll', closeMenu, { once: true, passive: true }); });
+  }
+  function closeMenu() {
+    if (!menu) return;
+    menu.remove(); menu = null;
+    if (btn) btn.setAttribute('aria-expanded', 'false');
+    document.removeEventListener('click', outside); document.removeEventListener('keydown', keys);
+  }
+  function outside(e) { if (menu && !menu.contains(e.target) && !btn.contains(e.target)) closeMenu(); }
+  function keys(e) {
+    if (!menu) return;
+    const list = [...menu.querySelectorAll('[role="menuitem"]')], i = list.indexOf(document.activeElement);
+    if (e.key === 'Escape') { closeMenu(); btn.focus(); }
+    else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); list[(i + (e.key === 'ArrowDown' ? 1 : list.length - 1)) % list.length].focus(); }
+    else if (e.key === 'Tab') closeMenu();
   }
 
   // ---------- hooks ----------

@@ -19,7 +19,9 @@ assert len(_ru) == len(_en) == len(_uk), (len(_ru), len(_en), len(_uk))
 build.T.update({r: (e, u) for r, e, u in zip(_ru, _en, _uk)})
 
 UI = {'got': 'Достижение получено', 'rankUp': 'Новый ранг', 'profile': 'Мой профиль', 'login': 'Войти', 'pts': 'очков',
-      'lvlAsk': 'На странице «В игре» у вас {n} уровень. Обновить персонажа {name}?', 'update': 'Обновить', 'notNow': 'Не сейчас'}
+      'lvlAsk': 'На странице «В игре» у вас {n} уровень. Обновить персонажа {name}?', 'update': 'Обновить', 'notNow': 'Не сейчас',
+      'menu': 'Меню профиля', 'myPage': 'Моя страница ↗', 'chars': 'Персонажи', 'look': 'Внешний вид', 'account': 'Аккаунт',
+      'newChar': 'Создать персонажа', 'noChar': 'Персонажа пока нет', 'logout': 'Выйти'}
 
 
 def strings():
