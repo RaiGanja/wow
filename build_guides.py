@@ -7,7 +7,7 @@ from html import escape
 
 import build
 from build import LANGS, SITE, page_dir, rel, localize, translate
-from content.guides import GUIDES, HUB, NEWS
+from content.guides import GUIDES, HUB, HUBS, NEWS
 
 HERE = build.HERE
 
@@ -17,6 +17,15 @@ build.T.update({r: (e, u) for r, e, u in zip(_ru, _en, _uk)})
 
 TIP = {'ru': 'Совет', 'en': 'Tip', 'uk': 'Порада'}
 THIS_PAGE = {'ru': 'Эта страница', 'en': 'This page', 'uk': 'Ця сторінка'}
+MORE_H = {'ru': 'Другие гайды', 'en': 'Other guides', 'uk': 'Інші гайди'}
+MORE_SITE = {'ru': 'Ещё на сайте', 'en': 'More on the site', 'uk': 'Ще на сайті'}
+# Extra tiles under the classes/ and races/ pages: the guides hub and the tools page
+SITE_TILES = [
+    {'t': HUB['title'], 'href': 'guides/', 'art': 'hero_campfire',
+     'd': {'ru': 'Прокачка, подземелья, профессии и ответы', 'en': 'Leveling, dungeons, professions and answers', 'uk': 'Прокачка, підземелля, професії та відповіді'}},
+    {'t': {'ru': 'Инструменты', 'en': 'Tools', 'uk': 'Інструменти'}, 'href': 'tools/', 'art': 'paladin',
+     'd': {'ru': 'Рамки, сравнение, поиск', 'en': 'Frames, compare, search', 'uk': 'Рамки, порівняння, пошук'}},
+]
 # Wide hero art; everything else is a class/race portrait cut at 360/600/896
 WIDTHS = {'hero_dawn': (960, 1440, 1920, 2560), 'hero_campfire': (960, 1600)}
 
@@ -199,7 +208,19 @@ try {
 } catch (e) {}'''
 
 
+def ref_js(src, lang):
+    """Classes/races data and the comparison-table helpers of the home page (ref:start…ref:end), translated like the home page."""
+    i, j = src.index('/* ref:start'), src.index('/* ref:end */')
+    js = src[i:j].replace('@@RACE_LEAD@@', json.dumps({r['id']: r['lead'] for r in build.RACES_PAGE}, ensure_ascii=False))
+    js = js.replace('@@RACE_SLUG@@', json.dumps({r['id']: r['slug'] for r in build.RACES_PAGE}))
+    return translate(js, lang)[0]
+
+
+JS['classref'] = 'renderClassRef();'
+JS['raceref'] = 'renderRaceRef();'
+
 DATA = {'dungeons': dungeons_data}   # js key -> data blocks from index.src.html
+REF = ('classref', 'raceref')        # js keys fed by ref_js (language-specific)
 
 
 def page_ids(g):
@@ -227,26 +248,37 @@ def build_page(g, lang, tpl, base_css, sprite, src):
     html, missing = translate(html, lang)                       # 1) обвязка
     root = rel(here, page_dir(lang))
     toc, body = render_guide(g, lang, root) if g['slug'] else hub_body(lang, root)
-    others = [x for x in GUIDES if x['slug'] != g['slug']] if g['slug'] else []
-    more = tile_links(guide_tiles(others), lang, root)
+    if len(g.get('sections', ())) == 1:
+        toc = ''                                                 # one section: no contents column
+    section = 'path' in g                                         # classes/, races/: not a guide
+    if section:
+        others = [{'t': x['title'], 'd': x['tile'], 'href': x['path'], 'art': x['art']} for x in HUBS if x is not g] + SITE_TILES
+        more = tile_links(others, lang, root)
+    else:
+        others = [x for x in GUIDES if x['slug'] != g['slug']] if g['slug'] else []
+        more = tile_links(guide_tiles(others), lang, root)
     avif, webp, img = art_sets(g['art'], '@@ROOT@@', big=True)
     crumb = (f'<a href="{root}guides/">{E(HUB["title"], lang)}</a><span aria-hidden="true">/</span><span>{E(g["title"], lang)}</span>'
-             if g['slug'] else f'<span>{E(g["title"], lang)}</span>')
+             if g['slug'] and not section else f'<span>{E(g["title"], lang)}</span>')
     toc_grp = f'<div class="grp"><div class="gh">{THIS_PAGE[lang]}</div>{toc}</div>' if toc else ''
     js = g.get('js')
     rep = {
         'TITLE': E(g['title'], lang), 'LEAD': E(g['lead'], lang), 'CRUMB': crumb,
         'PILLS': ''.join(f'<span class="pill">{E(p, lang)}</span>' for p in g.get('pills', [])),
         'ART_AVIF': avif, 'ART_WEBP': webp, 'ART_IMG': img, 'TOC': toc, 'TOC_GRP': toc_grp, 'BODY': body, 'MORE': more,
-        'SOLO': '' if toc else ' solo',
+        'SOLO': '' if toc else ' solo', 'MORE_H': (MORE_SITE if section else MORE_H)[lang],
         'SOURCES': ''.join(f'<li><a href="{u}" target="_blank" rel="noopener">{E(n, lang)}</a></li>' for n, u in g.get('sources', [])),
         'UPDATED': g.get('updated', HUB.get('updated', '')),
-        'JS': ((DATA[js](src) + '\n' if js in DATA else '') + L(JS[js], lang)) if js else '',
+        'JS': ((DATA[js](src) + '\n' if js in DATA else ref_js(src, lang) + '\n' if js in REF else '') + L(JS[js], lang)) if js else '',
     }
     for k, v in rep.items():                                     # 2) тело
         html = html.replace(f'@@{k}@@', v)
     if not others:
         html = html.replace('<section id="more">', '<section id="more" hidden>')
+    if section:                                                  # menu: the current item is Classes / Races, not Guides
+        html = html.replace('<a href="@@GUIDES@@" aria-current="true">', '<a href="@@GUIDES@@">')
+        anchor = '#classes' if g['slug'] == 'classes' else '#peoples'
+        html = html.replace(f'<a href="@@HOME@@{anchor}">', f'<a href="@@HOME@@{anchor}" aria-current="true">')
     html = html.replace('@@GUIDES@@', rel(here, page_dir(lang, 'guides/')))
     html = html.replace('@@HOME@@', root)
     for l in LANGS:
@@ -263,7 +295,8 @@ def build_page(g, lang, tpl, base_css, sprite, src):
 
 
 def main():
-    gaps = check_langs(HUB, 'HUB') + [p for g in GUIDES for p in check_langs(g, g['slug'])] + check_langs(NEWS, 'NEWS')
+    gaps = (check_langs(HUB, 'HUB') + [p for g in GUIDES + HUBS for p in check_langs(g, g['slug'])]
+            + check_langs(NEWS, 'NEWS') + check_langs(SITE_TILES, 'SITE_TILES'))
     assert not gaps, gaps[:10]
     src = open(os.path.join(HERE, 'index.src.html'), encoding='utf-8').read()
     tpl = open(os.path.join(HERE, 'guide.src.html'), encoding='utf-8').read()
@@ -273,7 +306,7 @@ def main():
 
     pages, allmissing = [], []
     for lang in LANGS:
-        for g in [HUB] + GUIDES:
+        for g in [HUB] + GUIDES + HUBS:
             path, html, missing = build_page(g, lang, tpl, base_css, sprite, src)
             assert '@@' not in html, (path, re.findall(r'@@\w+@@', html)[:5])
             pages.append((path, html))

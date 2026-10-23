@@ -6,6 +6,17 @@ from content import guides as cg
 
 T = {'ru': 'Привет', 'en': 'Hello', 'uk': 'Привіт'}
 
+def test_hubs_complete_and_pathed():
+    assert [h['path'] for h in cg.HUBS] == ['classes/', 'races/']
+    for h in cg.HUBS:
+        assert bg.check_langs(h) == [], bg.check_langs(h)[:5]
+
+def test_ref_js_translated():
+    js_en = bg.ref_js(bg.home_src(), 'en')
+    assert 'function renderClassRef' in js_en and 'function renderRaceRef' in js_en
+    assert 'Прокачка' not in js_en and '@@RACE_SLUG@@' not in js_en
+    assert 'const $' not in js_en and 'function esc' not in js_en   # the guide template defines them
+
 def test_L():
     assert bg.L(T, 'uk') == 'Привіт'
     assert bg.L('Blackrock Depths', 'ru') == 'Blackrock Depths'

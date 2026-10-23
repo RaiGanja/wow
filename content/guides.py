@@ -677,3 +677,40 @@ GUIDES.append({
 })
 
 GUIDES.sort(key=lambda g: ORDER.index(g['slug']))
+
+
+# ---------- Разделы /classes/ и /races/: таблицы сравнения с главной (JS — из index.src.html, ref:start…ref:end) ----------
+
+HUBS = [
+    {'slug': 'classes', 'path': 'classes/', 'art': 'warrior', 'js': 'classref', 'updated': '23.10.2026',
+     'title': t('Классы', 'Classes', 'Класи'),
+     'lead': t('Девять классов по три специализации: роли, темп прокачки и польза в рейде в одной таблице.',
+               'Nine classes, three specs each: roles, leveling pace and raid value in one table.',
+               'Дев’ять класів по три спеціалізації: ролі, темп прокачки та користь у рейді в одній таблиці.'),
+     'tile': t('Сравнение всех классов', 'All classes compared', 'Порівняння всіх класів'),
+     'sources': [('Warcraft Tavern', 'https://www.warcrafttavern.com/forever/guides/classes/'),
+                 ('LFCarry', 'https://lfcarry.com/guides/wow-forever-classes')],
+     'sections': [{'id': 'compare', 'title': t('Сравнение', 'Comparison', 'Порівняння'), 'blocks': [
+         ('text', [t('Темп прокачки взят из прогнозов по бете: в бете был потолок 30 уровня, выше оценки проектные. Строка открывает страницу класса.',
+                     'Leveling pace comes from beta projections: the beta was capped at level 30, figures above that are estimates. A row opens the class page.',
+                     'Темп прокачки взято з прогнозів по беті: у беті була стеля 30 рівня, вище оцінки проєктні. Рядок відкриває сторінку класу.')]),
+         ('raw', '<div class="cmp cls" id="classRef"></div>'),
+     ]}]},
+    {'slug': 'races', 'path': 'races/', 'art': 'human', 'js': 'raceref', 'updated': '23.10.2026',
+     'title': t('Расы', 'Races', 'Раси'),
+     'lead': t('Пять рас за каждую фракцию: доступные классы и четыре расовые способности.',
+               'Five races per faction: available classes and four racial abilities.',
+               'П’ять рас за кожну фракцію: доступні класи та чотири расові здібності.'),
+     'tile': t('Сравнение всех рас', 'All races compared', 'Порівняння всіх рас'),
+     'sources': [('Method', 'https://www.method.gg/wow-forever/all-new-racial-abilities-in-world-of-warcraft-forever'),
+                 ('Warcraft Tavern', 'https://www.warcrafttavern.com/forever/guides/races/')],
+     'sections': [{'id': 'compare', 'title': t('Сравнение', 'Comparison', 'Порівняння'), 'blocks': [
+         ('text', [t('У каждой расы по четыре способности: две активные и две пассивные. Часть старых способностей заменена новыми, сопротивления убраны.',
+                     'Each race has four abilities: two active and two passive. Some old abilities were replaced with new ones, resistances were removed.',
+                     'У кожної раси по чотири здібності: дві активні та дві пасивні. Частину старих здібностей замінено новими, опори прибрано.')]),
+         ('raw', '<div class="cmp rac" id="raceRef"></div>'),
+         ('tip', t('Скайборн играбельна за обе фракции, выбор фракции делается при создании. Обе ветки говорят на общем языке, а стартовая зона Zephras Isle общая, враги там не встречаются из-за слоёв.',
+                   'Skyborne is playable for both factions; the faction is chosen at creation. Both branches speak a common language, and the Zephras Isle starting zone is shared, with no enemies meeting there because of layers.',
+                   'Скайборн ігрова за обидві фракції, фракцію обирають під час створення. Обидві гілки говорять спільною мовою, а стартова зона Zephras Isle спільна, вороги там не зустрічаються через шари.')),
+     ]}]},
+]
