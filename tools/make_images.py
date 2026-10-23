@@ -79,11 +79,12 @@ def face(src, name):
 
 
 def hero_mobile():
-    """Portrait cut of the home hero for phones: hero_dawn-m-600|1000. Cut at x = .74 * (width - 600), so the
-    phone view (object-position 74%) shows exactly the same part of the picture as with the full-width file."""
+    """Portrait cut of the home hero for phones: hero_dawn-m-600|1000. Cut at x = .6 * (width - 600), so the
+    phone view (object-position 60%) shows exactly the same part of the picture as with the full-width file:
+    the banner, the paladin and the elf, with no face under the title."""
     im = source('hero_dawn')
     w = round(600 * im.height / 768)
-    x = round(.74 * (im.width - w))
+    x = round(.6 * (im.width - w))
     im = im.crop((x, 0, x + w, im.height))
     for width in (600, 1000):
         save(im, 'hero_dawn-m', width, SCENE_Q)

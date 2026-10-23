@@ -77,37 +77,34 @@ def save(name, r, g, b, a):
 
 def dawn():
     im = load('hero_dawn')
-    falls = [(860, 112, 884, 305), (916, 98, 972, 310), (1055, 102, 1080, 270), (1104, 112, 1125, 220)]
-    water = pick(im, falls, lambda r, g, b, x, y: lum(r, g, b) > .5 and sat(r, g, b) < .3, lambda x, y: fade(y, 98, 122))
-    low = pick(im, [(458, 526, 564, 664)], lambda r, g, b, x, y: lum(r, g, b) > .33 and b >= r,  # the lower fall sits in shade
-               lambda x, y: fade(y, 526, 540) * (1 - fade(y, 640, 664)))
-    water = ImageChops.lighter(water, low)
-    blue = pick(im, [(838, 298, 1072, 394)], lambda r, g, b, x, y: lum(r, g, b) < .5 or sat(r, g, b) > .38,
-                lambda x, y: min(1, (x - 832) / 236))
-    red = pick(im, [(1213, 300, 1374, 378)], lambda r, g, b, x, y: r > g + 28 or lum(r, g, b) < .4,
-               lambda x, y: min(1, (x - 1209) / 160))
-    cloth = ImageChops.lighter(blue, red)
-    open_sky = sky([(806, 40, 1198, 318), (1250, 196, W, 330), (280, 262, 372, 300),
-                    (818, 258, 842, 300), (1192, 272, 1216, 310)], (190, 285))  # banner spear tips
-    river = pick(im, [(376, 462, 566, 548)], lambda r, g, b, x, y: lum(r, g, b) > .58 and b >= r)
+    grey = im.convert('L')
+    hp = ImageChops.subtract(grey, grey.filter(ImageFilter.GaussianBlur(6)), 1, 0).load()  # falls are streaks brighter than the clouds behind
+    falls = [(464, 196, 494, 345), (510, 150, 556, 372), (596, 146, 640, 350), (698, 190, 734, 335), (742, 160, 772, 305)]  # under the floating island
+    water = pick(im, falls, lambda r, g, b, x, y: lum(r, g, b) > .7 and sat(r, g, b) < .2 and hp[x, y] > 4, lambda x, y: fade(y, 146, 176))
+    cloth = pick(im, [(676, 30, 1350, 172)], lambda r, g, b, x, y: lum(r, g, b) < .5 and b > r + 12 and not (1050 < x < 1135 and y > 116 or x > 1030 and y > 140),
+                 lambda x, y: min(1, (x - 676) / 640))  # banner: 0 at the pole -> 1 at the tail
+    open_sky = sky([(452, 80, 802, 345), (656, 0, 1376, 182), (660, 0, 692, H), (736, 120, W, H)], (150, 330))  # island, banner, pole, heroes
+    river = ImageChops.lighter(pick(im, [(220, 470, 580, 555)], lambda r, g, b, x, y: lum(r, g, b) > .8),  # sunlit bends
+                               pick(im, [(210, 555, 480, 606)], lambda r, g, b, x, y: lum(r, g, b) > .55 and sat(r, g, b) < .15))  # silver reach in shade
     save('hero_dawn', soft(water, 1, 1.5), soft(cloth, 3, 1.2), open_sky, soft(river, 1, 2))
 
 
 def campfire():
     im = load('hero_campfire')
-    flames = pick(im, [(918, 505, 1010, 590)], lambda r, g, b, x, y: r > 200 and g > 110 and r - b > 110)
-    open_sky = sky([(1090, 0, W, 330), (392, 196, 478, 286), (160, 250, 300, 330),  # rock, island, ruins
-                    (895, 182, 978, 300), (712, 252, 792, 330), (596, 276, 644, 330),  # staff, axe, bow
-                    (985, 222, 1052, 300), (775, 262, 850, 310)], (195, 240))  # orc topknot, paladin head; heads stay sharp
-    river = pick(im, [(300, 330, 560, 480)], lambda r, g, b, x, y: lum(r, g, b) > .55 and b >= r)
+    flames = pick(im, [(855, 500, 1015, 655)], lambda r, g, b, x, y: r > 200 and g > 110 and r - b > 110)
+    open_sky = sky([(1090, 0, W, 430), (700, 180, 925, 430), (920, 160, 1100, 430), (585, 295, 725, 430)],  # rock+orc, troll, paladin, elf
+                   (300, 390))  # heads stay sharp
+    river = ImageChops.lighter(pick(im, [(180, 470, 430, 530)], lambda r, g, b, x, y: lum(r, g, b) > .5 and b >= r),  # moonlit bends
+                               pick(im, [(170, 525, 515, 602)], lambda r, g, b, x, y: lum(r, g, b) > .3 and b > r + 40))  # wide reach below
     zero = Image.new('L', (W, H), 0)
     save('hero_campfire', soft(flames, 2, 2.5), zero, open_sky, soft(river, 1, 2))
 
 
 def road():
     im = load('hero_road')
-    open_sky = sky([(700, 105, 900, 270), (868, 40, W, 340), (1110, 115, 1315, 390)], (190, 245))  # castle, cliffs, signpost
-    river = pick(im, [(340, 350, 520, 445), (556, 452, 724, 508)], lambda r, g, b, x, y: lum(r, g, b) > .4 and b >= r)
+    open_sky = sky([(200, 160, 365, 300), (690, 115, 905, H), (860, 135, 1185, H), (1095, 0, W, H), (800, 0, W, 225)],
+                   (130, 235))  # castle, horse, paladin, signpost, cliffs
+    river = pick(im, [(260, 360, 560, 520)], lambda r, g, b, x, y: lum(r, g, b) > .45 and b >= r)
     zero = Image.new('L', (W, H), 0)
     save('hero_road', zero, zero, open_sky, soft(river, 1, 2))
 
