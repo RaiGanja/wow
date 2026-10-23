@@ -184,6 +184,9 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 .crow .val ul.minus li::before { content: "−"; width: auto; height: auto; background: none; top: 0; color: var(--horde); font-weight: 700; }
 .crow .val .sub { color: var(--muted); font-size: .88rem; }
 .crow .val .none { color: var(--muted); }
+.crow .val .cgo { display: inline-block; margin-top: 10px; color: var(--gold-2); font-size: .88rem; text-decoration: none; }
+.crow .val .cgo:hover { text-decoration: underline; }
+.crow .val .cgo .ico { width: 14px; height: 14px; margin-left: 6px; vertical-align: -2px; }
 .crow .val .pill { margin: 0 4px 4px 0; }
 .crow .val .pill .ri { margin-right: 4px; }
 .chead .val { padding: 0; overflow: hidden; position: relative; isolation: isolate; min-height: 150px; display: grid; align-content: end; gap: 4px; padding: 14px; color: #f3efe6; background: #0b0d12; border-color: rgba(255,255,255,.1); }
@@ -239,7 +242,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="@@HOME@@" aria-label="Gabella, на главную"><img class="mark" src="@@ROOT@@assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Гид WoW Forever</small></span></a>
   <nav class="mainnav" aria-label="Разделы">
-    <a href="@@HOME@@#factions">Фракции</a><a href="@@HOME@@#classes">Классы</a><a href="@@HOME@@#peoples">Расы</a><a href="@@HOME@@#picker">Подборщик</a><a href="@@HOME@@#builder">Группа</a><a href="@@HOME@@guides/">Гайды</a><a href="./" aria-current="true">Инструменты</a><a href="@@HOME@@roster/">Состав</a>
+    <a href="@@HOME@@#factions">Фракции</a><a href="@@HOME@@#classes">Классы</a><a href="@@HOME@@#peoples">Расы</a><a href="@@HOME@@#picker">Подборщик</a><a href="@@HOME@@#builder">Группа</a><a href="@@HOME@@guides/">Гайды</a><a href="./" aria-current="true">Инструменты</a><a href="@@HOME@@roster/">Состав</a><a href="@@HOME@@play/">В игре</a>
   </nav>
   <div class="tools">
     @@LANGSEL@@
@@ -345,6 +348,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 
 <script>
 @@DATA@@
+const CPROF = @@CPROF@@;   /* recommended profession pairs per class, already in the page language (build.class_profs) */
 const $ = s => document.querySelector(s);
 const ROOT = '@@ROOT@@', HOME = '@@HOME@@';
 function esc(s) { return String(s).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])); }
@@ -561,6 +565,7 @@ function renderCmp() {
     out.push(row('Специализации', ids.map(id => ul(CX[id].specs.map(s => `<b>${esc(s.n)}</b>${SPEC_SEP}<span class="sub">${esc(s.what)}</span>`)))));
     out.push(row('Бафф для рейда', ids.map(id => BUFF[id] ? esc(BUFF[id]) : '<span class="none">Нет</span>')));
     out.push(row('В группе', ids.map(id => ul(CX[id].group.map(esc)))));
+    out.push(row('Профессии', ids.map(id => ul(CPROF[id].map(p => `<b>${esc(p[0])}</b><br><span class="sub">${esc(p[1])}</span>`)) + `<a class="cgo" href="${HOME}guides/professions/#pairs=${id}">Объекты лагеря и прокачка<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>`)));
     out.push(row('Сильные стороны', ids.map(id => ul(CX[id].pros.map(esc), 'plus'))));
     out.push(row('Слабые стороны', ids.map(id => ul(CX[id].cons.map(esc), 'minus'))));
     ['alliance', 'horde'].forEach(f => out.push(row(`Расы: ${FAC[f]}`, ids.map(id => { const rs = RACES.filter(r => r.f === f && r.can[id]); return rs.length ? rs.map(r => `<a href="${raceUrl(r.id)}">${esc(raceName(r))}</a>`).join(', ') : '<span class="none">Нет</span>'; }))));

@@ -925,10 +925,12 @@ main .me-ring, dialog .me-ring { --s: 64px; --room-x: 12px; --room-y: 12px; widt
 .pcard .alts i { font-style: normal; color: var(--ac); }
 .pcard .nick { grid-column: 1 / -1; font-size: .82rem; color: var(--muted); }
 .pcard .nick { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: center; }
+.pcard .nick > span:not(.team) { min-width: 0; overflow-wrap: anywhere; }   /* Discord nicks run to 32 characters: wrap, never cut */
 .team { display: inline-flex; align-items: center; gap: 5px; color: var(--gold-2); font-weight: 600; }
 .team img { display: block; }
 .pcard .mainmark { grid-column: 1 / -1; font-size: .8rem; font-weight: 600; color: var(--gold-2); }
-.pcard .mod { position: absolute; z-index: 3; right: 10px; bottom: 10px; min-height: 32px; font: inherit; font-size: .78rem; color: var(--muted); border: 1px solid var(--pline); border-radius: 6px; padding: 0 10px; background: var(--panel-2); cursor: pointer; }
+/* admin «Hide» gets its own row: pinned to the corner it covered the Discord nick */
+.pcard .mod { position: relative; z-index: 3; grid-column: 1 / -1; justify-self: end; margin-top: 4px; min-height: 32px; font: inherit; font-size: .78rem; color: var(--muted); border: 1px solid var(--pline); border-radius: 6px; padding: 0 10px; background: var(--panel-2); cursor: pointer; }
 .pcard .mod:hover { color: var(--fg); border-color: var(--gold); }
 
 /* the big card: how others see the player */
@@ -1208,8 +1210,9 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 .nx .go { grid-column: 1 / -1; justify-self: start; margin-top: 8px; min-height: 40px; padding: 0 14px; font-size: .9rem; }
 .path { display: flex; flex-wrap: wrap; gap: 6px 26px; padding: 12px 18px; font-size: .92rem; color: var(--muted); }
 .path b { color: var(--fg); font-weight: 600; font-variant-numeric: lining-nums tabular-nums; }
-/* cabinet blocks under the card (next steps, path strip, menu) keep air between them */
-#view > :is(.bcard, .ask, .path, section:not(.wiz)) + :is(.ask, .path, .lay, section:not(.wiz)) { margin-top: 18px; }
+/* cabinet blocks under the card (Glory bar, next steps, path strip, menu) keep air between them; a section title sits off its panels */
+#view > :is(.bcard, .g-box, .ask, .path, section:not(.wiz)) + :is(.g-box, .ask, .path, .lay, section:not(.wiz)) { margin-top: 18px; }
+#view > section:not(.wiz) > .sec-h { margin: 8px 0 12px; }
 .ask { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; padding: 14px 18px; }
 .ask span { flex: 1 1 260px; }
 .lay { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 22px; align-items: start; }
@@ -1269,7 +1272,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 .picks { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 8px; }
 .picks button { display: grid; justify-items: center; gap: 8px; padding: 14px 8px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); color: var(--fg); font: inherit; font-weight: 600; font-size: .9rem; cursor: pointer; }
 .picks button:hover { border-color: var(--gold); }
-.picks button[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset 0 0 0 1px var(--gold); }
+.picks button[aria-pressed="true"], .picks button[aria-checked="true"] { border-color: var(--gold); box-shadow: inset 0 0 0 1px var(--gold); }
 .picks .me-ring { --s: 64px; margin: 0; }
 .picks small { color: var(--muted); font-weight: 500; }
 .signed { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px 14px; color: var(--muted); font-size: .92rem; }
@@ -1363,6 +1366,20 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
   .side { width: 100vw; }
 }
 @media (prefers-reduced-motion: reduce) { .facs img { transition: none; } }
+.lkbox .me-ring { --room-x: 6px; --room-y: 6px; }
+.pitem { display: grid; gap: 6px; align-content: start; }
+.pitem > .btn { justify-self: start; }
+.lk { display: grid; gap: 14px; padding: 20px; }
+.lk-prev { display: flex; align-items: center; gap: 14px; position: sticky; top: var(--top); z-index: 1; padding: 10px 0; background: var(--surface); }
+.lk-prev .me-ring { --s: 120px; --room-x: 14px; --room-y: 16px; }
+.lk .tabs { display: flex; gap: 6px; border-bottom: 1px solid var(--line); }
+.lk .tabs button { padding: 8px 14px; border: 0; background: none; color: var(--muted); font: inherit; border-bottom: 2px solid transparent; cursor: pointer; }
+.lk .tabs [aria-selected="true"] { color: var(--fg); border-bottom-color: var(--gold); }
+.lk-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(96px, 100%), 1fr)); gap: 8px; }
+.lk-tiles button { display: grid; justify-items: center; gap: 6px; padding: 10px 4px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); color: var(--fg); font: inherit; font-size: .85rem; cursor: pointer; }
+.lk-tiles button[aria-checked="true"] { border-color: var(--gold); }
+.lk-tiles .me-ring { --s: 64px; --room-x: 10px; --room-y: 10px; }
+.lk-tiles button:focus-visible, .lk .tabs button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 </style>
 <style>
 .rv { opacity: 0; transform: translateY(18px); }
@@ -1373,8 +1390,8 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=3f88e5704c" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=7dd9e27510" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=724d711a76" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=36a486068d" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/it/"},{"@type":"ListItem","position":2,"name":"Il mio profilo","item":"https://gabella.site/wow/it/profile/"}]}</script>
 </head>
 <body>
@@ -1402,7 +1419,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="../" aria-label="Gabella, alla pagina principale"><img class="mark" src="../../assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Guida a WoW Forever</small></span></a>
   <nav class="mainnav" aria-label="Sezioni">
-    <a href="../#factions">Fazioni</a><a href="../#classes">Classi</a><a href="../#peoples">Razze</a><a href="../#picker">Selettore</a><a href="../guides/">Guide</a><a href="../tools/">Strumenti</a><a href="../roster/">Rosa</a>
+    <a href="../#factions">Fazioni</a><a href="../#classes">Classi</a><a href="../#peoples">Razze</a><a href="../#picker">Selettore</a><a href="../guides/">Guide</a><a href="../tools/">Strumenti</a><a href="../roster/">Rosa</a><a href="../play/">In gioco</a>
   </nav>
   <div class="tools">
     <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" aria-label="Lingua: Italiano">IT</button><ul class="langlist" hidden><li><a href="../../profile/" data-lang="ru" hreflang="ru" lang="ru"><span>Русский</span><small>RU</small></a></li><li><a href="../../en/profile/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../../uk/profile/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../../de/profile/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="../../fr/profile/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="../../es/profile/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="../../pt/profile/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="./" data-lang="it" hreflang="it" lang="it" aria-current="page"><span>Italiano</span><small>IT</small></a></li><li><a href="../../pl/profile/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
@@ -1433,6 +1450,20 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
     <p class="msg full" id="eNote" role="alert"></p>
     <div class="act"><button type="submit" class="btn" id="eSave">Salva</button><button type="button" class="btn ghost" id="eMain">Rendi principale</button><span class="sp"></span><button type="button" class="btn danger" id="eDel">Elimina personaggio</button></div>
   </form>
+</dialog>
+
+<dialog class="side" id="lookDlg" aria-labelledby="lookT">
+  <div class="dh"><b id="lookT">Aspetto</b><button type="button" class="btn ghost" data-look-close aria-label="Chiudi">✕</button></div>
+  <div class="lk">
+    <div class="lk-prev" id="lkPrev"></div>
+    <div class="tabs" role="tablist" aria-label="Aspetto">
+      <button type="button" role="tab" id="lkTabSex" aria-controls="lkPane" aria-selected="true" data-tab="sex">Sesso</button>
+      <button type="button" role="tab" id="lkTabBg" aria-controls="lkPane" aria-selected="false" data-tab="bg">Sfondo</button>
+    </div>
+    <div id="lkPane" role="tabpanel" class="lk-tiles"></div>
+    <div class="act"><button type="button" class="btn ghost" data-look-rand>Casuale</button><button type="button" class="btn ghost" data-look-reset>Azzera</button><span class="sp"></span><button type="button" class="btn" data-look-save>Salva</button></div>
+    <p class="msg" id="lookMsg" role="status"></p>
+  </div>
 </dialog>
 
 <dialog class="cdlg" id="delDlg" aria-labelledby="delT">
@@ -1474,7 +1505,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 /* Profile pages (roster, profile, u): game data, the player card, the big card, achievement tiles, page chrome.
    Inlined by build_me.py before the page script; Russian strings are translated at build like the rest of the site.
    The pages talk to the API only through window.GabellaMe (me.js), which runs before DOMContentLoaded. */
-const GD = {"races":{"human":{"f":"alliance","cls":["warrior","paladin","hunter","rogue","priest","mage","warlock"],"slug":"human","n":"Umano"},"dwarf":{"f":"alliance","cls":["warrior","paladin","hunter","rogue","priest","shaman"],"slug":"dwarf","n":"Nano"},"nightelf":{"f":"alliance","cls":["warrior","hunter","rogue","priest","druid"],"slug":"night-elf","n":"Elfo della Notte"},"gnome":{"f":"alliance","cls":["warrior","rogue","mage","warlock","priest"],"slug":"gnome","n":"Gnomo"},"skyA":{"f":"alliance","cls":["warrior","hunter","rogue","mage","druid"],"slug":"skyborne-alliance","n":"Skyborne dell’High Order"},"orc":{"f":"horde","cls":["warrior","hunter","rogue","shaman","warlock","mage"],"slug":"orc","n":"Orco"},"undead":{"f":"horde","cls":["warrior","rogue","mage","priest","warlock","paladin"],"slug":"undead","n":"Non Morto"},"tauren":{"f":"horde","cls":["warrior","hunter","shaman","druid"],"slug":"tauren","n":"Tauren"},"troll":{"f":"horde","cls":["warrior","hunter","rogue","priest","shaman","mage","warlock"],"slug":"troll","n":"Troll"},"skyH":{"f":"horde","cls":["warrior","hunter","rogue","shaman","druid"],"slug":"skyborne-horde","n":"Skyborne Windshaper"}},"classes":{"warrior":{"roles":["tank","dps"],"n":"Guerriero","color":"#c79c6e"},"paladin":{"roles":["tank","heal","dps"],"n":"Paladino","color":"#f58cba"},"hunter":{"roles":["dps"],"n":"Cacciatore","color":"#abd473"},"rogue":{"roles":["dps"],"n":"Ladro","color":"#fff569"},"priest":{"roles":["heal","dps"],"n":"Sacerdote","color":"#e8e8e8"},"shaman":{"roles":["heal","dps","tank"],"n":"Sciamano","color":"#2f8cf0"},"mage":{"roles":["dps"],"n":"Mago","color":"#40c7eb"},"warlock":{"roles":["dps"],"n":"Stregone","color":"#8788ee"},"druid":{"roles":["tank","heal","dps"],"n":"Druido","color":"#ff7d0a"}},"profs":{"alchemy":"Alchimia","blacksmithing":"Forgiatura","enchanting":"Incantamento","engineering":"Ingegneria","herbalism":"Erbalismo","leatherworking":"Conciatura","mining":"Estrazione","skinning":"Scuoiatura","tailoring":"Sartoria"},"sets":{"guide":["leveling","dungeons","professions","faq","news"],"class":["warrior","paladin","hunter","rogue","priest","shaman","mage","warlock","druid"],"race":["human","dwarf","night-elf","gnome","skyborne-alliance","orc","undead","tauren","troll","skyborne-horde"],"lang":["ru","en","uk","de","fr","es","pt","it","pl"],"station":["morning","road","forest","steppe","tavern","dungeon","battle","night"],"egg":["griffin","leeroy","konami","static","404"],"hour":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]},"cats":["community","guide","radio","tools","rhythm","wow","secrets"],"ach":[{"id":"founder","cat":"community","pts":25,"kind":"auto","rule":null,"secret":false},{"id":"profile_full","cat":"community","pts":10,"kind":"auto","rule":null,"secret":false},{"id":"three_chars","cat":"community","pts":10,"kind":"auto","rule":null,"secret":false},{"id":"veteran3","cat":"community","pts":10,"kind":"auto","rule":{"days":90},"secret":false},{"id":"veteran6","cat":"community","pts":25,"kind":"auto","rule":{"days":182},"secret":false},{"id":"veteran12","cat":"community","pts":50,"kind":"auto","rule":{"days":365},"secret":false},{"id":"recruiter1","cat":"community","pts":10,"kind":"auto","rule":{"refs":1},"secret":false},{"id":"recruiter5","cat":"community","pts":50,"kind":"auto","rule":{"refs":5},"secret":false},{"id":"show_card","cat":"community","pts":5,"kind":"progress","rule":{"key":"show_card","goal":1},"secret":false},{"id":"guides3","cat":"guide","pts":5,"kind":"progress","rule":{"key":"guide","goal":3,"set":true},"secret":false},{"id":"guides_all","cat":"guide","pts":25,"kind":"progress","rule":{"key":"guide","all":true},"secret":false},{"id":"classes_all","cat":"guide","pts":10,"kind":"progress","rule":{"key":"class","all":true},"secret":false},{"id":"races_all","cat":"guide","pts":10,"kind":"progress","rule":{"key":"race","all":true},"secret":false},{"id":"polyglot","cat":"guide","pts":10,"kind":"progress","rule":{"key":"lang","goal":3,"set":true},"secret":false},{"id":"play_page","cat":"guide","pts":5,"kind":"progress","rule":{"key":"play_page","goal":1},"secret":false},{"id":"radio_on","cat":"radio","pts":5,"kind":"progress","rule":{"key":"radio_on","goal":1},"secret":false},{"id":"radio10h","cat":"radio","pts":25,"kind":"progress","rule":{"key":"radio_min","goal":600},"secret":false},{"id":"radio100h","cat":"radio","pts":50,"kind":"progress","rule":{"key":"radio_min","goal":6000},"secret":false},{"id":"stations_all","cat":"radio","pts":10,"kind":"progress","rule":{"key":"station","all":true},"secret":false},{"id":"sleep_timer","cat":"radio","pts":5,"kind":"progress","rule":{"key":"sleep_timer","goal":1},"secret":false},{"id":"party5","cat":"tools","pts":5,"kind":"progress","rule":{"key":"party5","goal":1},"secret":false},{"id":"raid40","cat":"tools","pts":25,"kind":"progress","rule":{"key":"raid40","goal":1},"secret":false},{"id":"share_team","cat":"tools","pts":5,"kind":"progress","rule":{"key":"share_team","goal":1},"secret":false},{"id":"compare3","cat":"tools","pts":5,"kind":"progress","rule":{"key":"compare3","goal":1},"secret":false},{"id":"search25","cat":"tools","pts":10,"kind":"progress","rule":{"key":"search","goal":25},"secret":false},{"id":"streak7","cat":"rhythm","pts":10,"kind":"auto","rule":{"streak":7},"secret":false},{"id":"streak30","cat":"rhythm","pts":50,"kind":"auto","rule":{"streak":30},"secret":false},{"id":"night_owl","cat":"rhythm","pts":10,"kind":"progress","rule":{"key":"hour","items":[3,4]},"secret":true},{"id":"early_bird","cat":"rhythm","pts":10,"kind":"progress","rule":{"key":"hour","items":[5,6]},"secret":true},{"id":"first60","cat":"wow","pts":50,"kind":"admin","rule":null,"secret":false},{"id":"lvl60","cat":"wow","pts":25,"kind":"admin","rule":null,"secret":false},{"id":"dungeon_night","cat":"wow","pts":10,"kind":"admin","rule":null,"secret":false},{"id":"onyxia","cat":"wow","pts":50,"kind":"admin","rule":null,"secret":false},{"id":"molten_core","cat":"wow","pts":50,"kind":"admin","rule":null,"secret":false},{"id":"raid_regular","cat":"wow","pts":25,"kind":"admin","rule":null,"secret":false},{"id":"crafter","cat":"wow","pts":25,"kind":"admin","rule":null,"secret":false},{"id":"helper","cat":"wow","pts":25,"kind":"admin","rule":null,"secret":false},{"id":"event_winner","cat":"wow","pts":25,"kind":"admin","rule":null,"secret":false},{"id":"egg_griffin","cat":"secrets","pts":10,"kind":"progress","rule":{"key":"egg","items":["griffin"]},"secret":true},{"id":"egg_leeroy","cat":"secrets","pts":10,"kind":"progress","rule":{"key":"egg","items":["leeroy"]},"secret":true},{"id":"egg_konami","cat":"secrets","pts":10,"kind":"progress","rule":{"key":"egg","items":["konami"]},"secret":true},{"id":"egg_static","cat":"secrets","pts":10,"kind":"progress","rule":{"key":"egg","items":["static"]},"secret":true},{"id":"egg_404","cat":"secrets","pts":10,"kind":"progress","rule":{"key":"egg","items":["404"]},"secret":true},{"id":"keeper","cat":"secrets","pts":25,"kind":"auto","rule":{"all_cat":"secrets"},"secret":true}],"ranks":[{"id":"recruit","pts":0},{"id":"bronze","pts":25},{"id":"silver","pts":100},{"id":"gold","pts":200},{"id":"relite","pts":350},{"id":"epic","pts":500},{"id":"legend","pts":700}],"frames":[{"id":"recruit","rank":"recruit"},{"id":"bronze","rank":"bronze"},{"id":"silver","rank":"silver"},{"id":"gold","rank":"gold"},{"id":"relite","rank":"relite"},{"id":"epic","rank":"epic"},{"id":"legend","rank":"legend"},{"id":"founder","ach":"founder"},{"id":"dragon","ach":"onyxia"},{"id":"fire","ach":"molten_core"},{"id":"secrets","ach":"keeper"},{"id":"recruiter","ach":"recruiter5"},{"id":"boss","admin":true},{"id":"s1","unlock":"s1"}],"prog":{"glory_max":60,"colors":[["poor",1],["common",1],["uncommon",15],["rare",30],["epic",45],["legendary",60]],"track":{"s1":[[1,1,null],[2,2,null],[3,4,null],[4,5,null],[5,6,"badge:s1"],[6,7,null],[7,8,null],[8,10,null],[9,11,null],[10,12,"bg:s1-1"],[11,13,null],[12,14,null],[13,16,null],[14,17,null],[15,18,"title:pioneer"],[16,19,null],[17,20,null],[18,22,null],[19,23,null],[20,24,"bg:s1-2"],[21,25,null],[22,26,null],[23,28,null],[24,29,null],[25,30,null],[26,31,null],[27,32,null],[28,34,null],[29,35,null],[30,36,"frame:s1"]]},"season":"s1","motto_glory":5,"weekly":{"radio_hour":{"key":"radio_min"},"radio_3h":{"key":"radio_min"},"stations3":{"key":"station"},"guides3":{"key":"guide"},"classes3":{"key":"class"},"races3":{"key":"race"},"party5":{"key":"party5"},"raid40":{"key":"raid40"},"compare3":{"key":"compare3"},"share_team":{"key":"share_team"},"search5":{"key":"search"},"days3":{"key":"visit"},"days5":{"key":"visit"},"lfg":{"key":"lfg"},"show_card":{"key":"show_card"},"play_page":{"key":"play_page"},"st_morning":{"key":"station","item":"morning"},"st_road":{"key":"station","item":"road"},"st_forest":{"key":"station","item":"forest"},"st_steppe":{"key":"station","item":"steppe"},"st_tavern":{"key":"station","item":"tavern"},"st_dungeon":{"key":"station","item":"dungeon"},"st_battle":{"key":"station","item":"battle"},"st_night":{"key":"station","item":"night"},"g_leveling":{"key":"guide","item":"leveling"},"g_dungeons":{"key":"guide","item":"dungeons"},"g_professions":{"key":"guide","item":"professions"},"g_faq":{"key":"guide","item":"faq"},"g_news":{"key":"guide","item":"news"},"c_warrior":{"key":"class","item":"warrior"},"c_paladin":{"key":"class","item":"paladin"},"c_hunter":{"key":"class","item":"hunter"},"c_rogue":{"key":"class","item":"rogue"},"c_priest":{"key":"class","item":"priest"},"c_shaman":{"key":"class","item":"shaman"},"c_mage":{"key":"class","item":"mage"},"c_warlock":{"key":"class","item":"warlock"},"c_druid":{"key":"class","item":"druid"}}},"guilds":{"limits":{"members":1000,"officers":5,"request_days":14,"requests_user":3,"requests_guild":50,"kick_days":7,"rename_days":30,"create_glory":5,"top":10,"rated_min":5,"count_glory":5,"count_days":7,"banner_every":4,"banner_min":3,"name_min":2,"name_max":24,"motto_max":80,"crest_max":200,"contrast_min":2.0},"shapes":["heater","round","kite","banner"],"fields":["plain","pale","fess","quarterly","chevron","bend"],"palette":{"black":"#16171a","night":"#262b45","crimson":"#8f1f2e","ember":"#a3401c","azure":"#2a5a8c","teal":"#1f5b5e","emerald":"#1f5a3a","purple":"#4b2466","bronze":"#8a5a2b","gold":"#c9a54a","silver":"#b9bec6","bone":"#d9cfb8"},"borders":["gold","silver","bronze","none"],"charges":[{"id":"lion","lock":false},{"id":"wolf","lock":false},{"id":"dragon","lock":false},{"id":"skull","lock":false},{"id":"griffin","lock":false},{"id":"axe","lock":false},{"id":"sword","lock":false},{"id":"crown","lock":false},{"id":"moon","lock":false},{"id":"tree","lock":false},{"id":"eagle","lock":false},{"id":"bear","lock":false},{"id":"boar","lock":false},{"id":"stag","lock":false},{"id":"raven","lock":false},{"id":"serpent","lock":false},{"id":"flame","lock":false},{"id":"tower","lock":false},{"id":"hammer","lock":false},{"id":"sun","lock":false},{"id":"star","lock":false},{"id":"rose","lock":false},{"id":"horse","lock":false},{"id":"fist","lock":false}],"banner_unlocks":[],"default_crest":{"s":"heater","f":"plain","c":["black","black"],"i":"griffin","ic":"gold","b":"gold"},"texture":false},"titles":["founder","veteran12","recruiter5","radio100h","raid40","keeper","first60","onyxia","molten_core","raid_regular","crafter","event_winner","pioneer"],"backgrounds":["human","dwarf","night-elf","gnome","skyborne-alliance","orc","undead","tauren","troll","skyborne-horde","hero_dawn","hero_campfire"],"deadline":"2026-11-03T21:00:00Z","invite":"https://discord.gg/Zd45sNHy9x","items":{"station":{"morning":"Mattino nella valle","road":"La strada","forest":"Foresta antica","steppe":"Tamburi delle pianure","tavern":"Taverna","dungeon":"Spedizione","battle":"Battaglia","night":"Bivacco notturno"},"guide":{"leveling":"Livellamento 1–60","dungeons":"Spedizioni e incursioni","professions":"Professioni","faq":"FAQ e date","news":"Notizie"}}};
+const GD = {"races":{"human":{"f":"alliance","cls":["warrior","paladin","hunter","rogue","priest","mage","warlock"],"slug":"human","n":"Umano"},"dwarf":{"f":"alliance","cls":["warrior","paladin","hunter","rogue","priest","shaman"],"slug":"dwarf","n":"Nano"},"nightelf":{"f":"alliance","cls":["warrior","hunter","rogue","priest","druid"],"slug":"night-elf","n":"Elfo della Notte"},"gnome":{"f":"alliance","cls":["warrior","rogue","mage","warlock","priest"],"slug":"gnome","n":"Gnomo"},"skyA":{"f":"alliance","cls":["warrior","hunter","rogue","mage","druid"],"slug":"skyborne-alliance","n":"Skyborne dell’High Order"},"orc":{"f":"horde","cls":["warrior","hunter","rogue","shaman","warlock","mage"],"slug":"orc","n":"Orco"},"undead":{"f":"horde","cls":["warrior","rogue","mage","priest","warlock","paladin"],"slug":"undead","n":"Non Morto"},"tauren":{"f":"horde","cls":["warrior","hunter","shaman","druid"],"slug":"tauren","n":"Tauren"},"troll":{"f":"horde","cls":["warrior","hunter","rogue","priest","shaman","mage","warlock"],"slug":"troll","n":"Troll"},"skyH":{"f":"horde","cls":["warrior","hunter","rogue","shaman","druid"],"slug":"skyborne-horde","n":"Skyborne Windshaper"}},"classes":{"warrior":{"roles":["tank","dps"],"n":"Guerriero","color":"#c79c6e"},"paladin":{"roles":["tank","heal","dps"],"n":"Paladino","color":"#f58cba"},"hunter":{"roles":["dps"],"n":"Cacciatore","color":"#abd473"},"rogue":{"roles":["dps"],"n":"Ladro","color":"#fff569"},"priest":{"roles":["heal","dps"],"n":"Sacerdote","color":"#e8e8e8"},"shaman":{"roles":["heal","dps","tank"],"n":"Sciamano","color":"#2f8cf0"},"mage":{"roles":["dps"],"n":"Mago","color":"#40c7eb"},"warlock":{"roles":["dps"],"n":"Stregone","color":"#8788ee"},"druid":{"roles":["tank","heal","dps"],"n":"Druido","color":"#ff7d0a"}},"profs":{"alchemy":"Alchimia","blacksmithing":"Forgiatura","enchanting":"Incantamento","engineering":"Ingegneria","herbalism":"Erbalismo","leatherworking":"Conciatura","mining":"Estrazione","skinning":"Scuoiatura","tailoring":"Sartoria"},"sets":{"guide":["leveling","dungeons","professions","faq","news"],"class":["warrior","paladin","hunter","rogue","priest","shaman","mage","warlock","druid"],"race":["human","dwarf","night-elf","gnome","skyborne-alliance","orc","undead","tauren","troll","skyborne-horde"],"lang":["ru","en","uk","de","fr","es","pt","it","pl"],"station":["morning","road","forest","steppe","tavern","dungeon","battle","night"],"egg":["griffin","leeroy","konami","static","404"],"hour":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]},"cats":["community","guide","radio","tools","rhythm","wow","secrets"],"ach":[{"id":"founder","cat":"community","pts":25,"kind":"auto","rule":null,"secret":false},{"id":"profile_full","cat":"community","pts":10,"kind":"auto","rule":null,"secret":false},{"id":"three_chars","cat":"community","pts":10,"kind":"auto","rule":null,"secret":false},{"id":"veteran3","cat":"community","pts":10,"kind":"auto","rule":{"days":90},"secret":false},{"id":"veteran6","cat":"community","pts":25,"kind":"auto","rule":{"days":182},"secret":false},{"id":"veteran12","cat":"community","pts":50,"kind":"auto","rule":{"days":365},"secret":false},{"id":"recruiter1","cat":"community","pts":10,"kind":"auto","rule":{"refs":1},"secret":false},{"id":"recruiter5","cat":"community","pts":50,"kind":"auto","rule":{"refs":5},"secret":false},{"id":"show_card","cat":"community","pts":5,"kind":"progress","rule":{"key":"show_card","goal":1},"secret":false},{"id":"guides3","cat":"guide","pts":5,"kind":"progress","rule":{"key":"guide","goal":3,"set":true},"secret":false},{"id":"guides_all","cat":"guide","pts":25,"kind":"progress","rule":{"key":"guide","all":true},"secret":false},{"id":"classes_all","cat":"guide","pts":10,"kind":"progress","rule":{"key":"class","all":true},"secret":false},{"id":"races_all","cat":"guide","pts":10,"kind":"progress","rule":{"key":"race","all":true},"secret":false},{"id":"polyglot","cat":"guide","pts":10,"kind":"progress","rule":{"key":"lang","goal":3,"set":true},"secret":false},{"id":"play_page","cat":"guide","pts":5,"kind":"progress","rule":{"key":"play_page","goal":1},"secret":false},{"id":"radio_on","cat":"radio","pts":5,"kind":"progress","rule":{"key":"radio_on","goal":1},"secret":false},{"id":"radio10h","cat":"radio","pts":25,"kind":"progress","rule":{"key":"radio_min","goal":600},"secret":false},{"id":"radio100h","cat":"radio","pts":50,"kind":"progress","rule":{"key":"radio_min","goal":6000},"secret":false},{"id":"stations_all","cat":"radio","pts":10,"kind":"progress","rule":{"key":"station","all":true},"secret":false},{"id":"sleep_timer","cat":"radio","pts":5,"kind":"progress","rule":{"key":"sleep_timer","goal":1},"secret":false},{"id":"party5","cat":"tools","pts":5,"kind":"progress","rule":{"key":"party5","goal":1},"secret":false},{"id":"raid40","cat":"tools","pts":25,"kind":"progress","rule":{"key":"raid40","goal":1},"secret":false},{"id":"share_team","cat":"tools","pts":5,"kind":"progress","rule":{"key":"share_team","goal":1},"secret":false},{"id":"compare3","cat":"tools","pts":5,"kind":"progress","rule":{"key":"compare3","goal":1},"secret":false},{"id":"search25","cat":"tools","pts":10,"kind":"progress","rule":{"key":"search","goal":25},"secret":false},{"id":"streak7","cat":"rhythm","pts":10,"kind":"auto","rule":{"streak":7},"secret":false},{"id":"streak30","cat":"rhythm","pts":50,"kind":"auto","rule":{"streak":30},"secret":false},{"id":"night_owl","cat":"rhythm","pts":10,"kind":"progress","rule":{"key":"hour","items":[3,4]},"secret":true},{"id":"early_bird","cat":"rhythm","pts":10,"kind":"progress","rule":{"key":"hour","items":[5,6]},"secret":true},{"id":"first60","cat":"wow","pts":50,"kind":"admin","rule":null,"secret":false},{"id":"lvl60","cat":"wow","pts":25,"kind":"admin","rule":null,"secret":false},{"id":"dungeon_night","cat":"wow","pts":10,"kind":"admin","rule":null,"secret":false},{"id":"onyxia","cat":"wow","pts":50,"kind":"admin","rule":null,"secret":false},{"id":"molten_core","cat":"wow","pts":50,"kind":"admin","rule":null,"secret":false},{"id":"raid_regular","cat":"wow","pts":25,"kind":"admin","rule":null,"secret":false},{"id":"crafter","cat":"wow","pts":25,"kind":"admin","rule":null,"secret":false},{"id":"helper","cat":"wow","pts":25,"kind":"admin","rule":null,"secret":false},{"id":"event_winner","cat":"wow","pts":25,"kind":"admin","rule":null,"secret":false},{"id":"egg_griffin","cat":"secrets","pts":10,"kind":"progress","rule":{"key":"egg","items":["griffin"]},"secret":true},{"id":"egg_leeroy","cat":"secrets","pts":10,"kind":"progress","rule":{"key":"egg","items":["leeroy"]},"secret":true},{"id":"egg_konami","cat":"secrets","pts":10,"kind":"progress","rule":{"key":"egg","items":["konami"]},"secret":true},{"id":"egg_static","cat":"secrets","pts":10,"kind":"progress","rule":{"key":"egg","items":["static"]},"secret":true},{"id":"egg_404","cat":"secrets","pts":10,"kind":"progress","rule":{"key":"egg","items":["404"]},"secret":true},{"id":"keeper","cat":"secrets","pts":25,"kind":"auto","rule":{"all_cat":"secrets"},"secret":true}],"ranks":[{"id":"recruit","pts":0},{"id":"bronze","pts":25},{"id":"silver","pts":100},{"id":"gold","pts":200},{"id":"relite","pts":350},{"id":"epic","pts":500},{"id":"legend","pts":700}],"frames":[{"id":"recruit","rank":"recruit"},{"id":"bronze","rank":"bronze"},{"id":"silver","rank":"silver"},{"id":"gold","rank":"gold"},{"id":"relite","rank":"relite"},{"id":"epic","rank":"epic"},{"id":"legend","rank":"legend"},{"id":"founder","ach":"founder"},{"id":"dragon","ach":"onyxia"},{"id":"fire","ach":"molten_core"},{"id":"secrets","ach":"keeper"},{"id":"recruiter","ach":"recruiter5"},{"id":"history","ach":"veteran12"},{"id":"ether","ach":"radio100h"},{"id":"tavern","ach":"streak30"},{"id":"scholar","ach":"guides_all"},{"id":"first60","ach":"first60"},{"id":"sixty","ach":"lvl60"},{"id":"raid","ach":"raid_regular"},{"id":"master","ach":"crafter"},{"id":"friend","ach":"helper"},{"id":"champion","ach":"event_winner"},{"id":"boss","admin":true},{"id":"s1","unlock":"s1"}],"prog":{"glory_max":60,"colors":[["poor",1],["common",1],["uncommon",15],["rare",30],["epic",45],["legendary",60]],"track":{"s1":[[1,1,null],[2,2,null],[3,4,null],[4,5,null],[5,6,"badge:s1"],[6,7,null],[7,8,null],[8,10,null],[9,11,null],[10,12,"bg:s1-1"],[11,13,null],[12,14,null],[13,16,null],[14,17,null],[15,18,"title:pioneer"],[16,19,null],[17,20,null],[18,22,null],[19,23,null],[20,24,"bg:s1-2"],[21,25,null],[22,26,null],[23,28,null],[24,29,null],[25,30,null],[26,31,null],[27,32,null],[28,34,null],[29,35,null],[30,36,"frame:s1"]]},"season":"s1","motto_glory":5,"weekly":{"radio_hour":{"key":"radio_min"},"radio_3h":{"key":"radio_min"},"stations3":{"key":"station"},"guides3":{"key":"guide"},"classes3":{"key":"class"},"races3":{"key":"race"},"party5":{"key":"party5"},"raid40":{"key":"raid40"},"compare3":{"key":"compare3"},"share_team":{"key":"share_team"},"search5":{"key":"search"},"days3":{"key":"visit"},"days5":{"key":"visit"},"lfg":{"key":"lfg"},"show_card":{"key":"show_card"},"play_page":{"key":"play_page"},"st_morning":{"key":"station","item":"morning"},"st_road":{"key":"station","item":"road"},"st_forest":{"key":"station","item":"forest"},"st_steppe":{"key":"station","item":"steppe"},"st_tavern":{"key":"station","item":"tavern"},"st_dungeon":{"key":"station","item":"dungeon"},"st_battle":{"key":"station","item":"battle"},"st_night":{"key":"station","item":"night"},"g_leveling":{"key":"guide","item":"leveling"},"g_dungeons":{"key":"guide","item":"dungeons"},"g_professions":{"key":"guide","item":"professions"},"g_faq":{"key":"guide","item":"faq"},"g_news":{"key":"guide","item":"news"},"c_warrior":{"key":"class","item":"warrior"},"c_paladin":{"key":"class","item":"paladin"},"c_hunter":{"key":"class","item":"hunter"},"c_rogue":{"key":"class","item":"rogue"},"c_priest":{"key":"class","item":"priest"},"c_shaman":{"key":"class","item":"shaman"},"c_mage":{"key":"class","item":"mage"},"c_warlock":{"key":"class","item":"warlock"},"c_druid":{"key":"class","item":"druid"}}},"guilds":{"limits":{"members":1000,"officers":5,"request_days":14,"requests_user":3,"requests_guild":50,"kick_days":7,"rename_days":30,"create_glory":5,"top":10,"rated_min":5,"count_glory":5,"count_days":7,"banner_every":4,"banner_min":3,"name_min":2,"name_max":24,"motto_max":80,"crest_max":200,"contrast_min":2.0},"shapes":["heater","round","kite","banner"],"fields":["plain","pale","fess","quarterly","chevron","bend"],"palette":{"black":"#16171a","night":"#262b45","crimson":"#8f1f2e","ember":"#a3401c","azure":"#2a5a8c","teal":"#1f5b5e","emerald":"#1f5a3a","purple":"#4b2466","bronze":"#8a5a2b","gold":"#c9a54a","silver":"#b9bec6","bone":"#d9cfb8"},"borders":["gold","silver","bronze","none"],"charges":[{"id":"lion","lock":false},{"id":"wolf","lock":false},{"id":"dragon","lock":false},{"id":"skull","lock":false},{"id":"griffin","lock":false},{"id":"axe","lock":false},{"id":"sword","lock":false},{"id":"crown","lock":false},{"id":"moon","lock":false},{"id":"tree","lock":false},{"id":"eagle","lock":false},{"id":"bear","lock":false},{"id":"boar","lock":false},{"id":"stag","lock":false},{"id":"raven","lock":false},{"id":"serpent","lock":false},{"id":"flame","lock":false},{"id":"tower","lock":false},{"id":"hammer","lock":false},{"id":"sun","lock":false},{"id":"star","lock":false},{"id":"rose","lock":false},{"id":"horse","lock":false},{"id":"fist","lock":false}],"banner_unlocks":[],"default_crest":{"s":"heater","f":"plain","c":["black","black"],"i":"griffin","ic":"gold","b":"gold"},"texture":false},"titles":["founder","veteran12","recruiter5","radio100h","raid40","keeper","first60","onyxia","molten_core","raid_regular","crafter","event_winner","pioneer"],"backgrounds":["human","dwarf","night-elf","gnome","skyborne-alliance","orc","undead","tauren","troll","skyborne-horde","hero_dawn","hero_campfire","scene-tavern","scene-pass","scene-swamp","scene-desert","scene-nightwood","scene-harbor","scene-ruins","scene-peak"],"looks":{"v":"1","sexes":["m","f"],"races":{"human":{"sex":"m","bg":"human"},"dwarf":{"sex":"f","bg":"dwarf"},"nightelf":{"sex":"f","bg":"night-elf"},"gnome":{"sex":"m","bg":"gnome"},"skyA":{"sex":"m","bg":"skyborne-alliance"},"orc":{"sex":"m","bg":"orc"},"undead":{"sex":"m","bg":"undead"},"tauren":{"sex":"m","bg":"tauren"},"troll":{"sex":"m","bg":"troll"},"skyH":{"sex":"f","bg":"skyborne-horde"}},"bg":{"human":{"lock":null},"dwarf":{"lock":null},"night-elf":{"lock":null},"gnome":{"lock":null},"skyborne-alliance":{"lock":null},"orc":{"lock":null},"undead":{"lock":null},"tauren":{"lock":null},"troll":{"lock":null},"skyborne-horde":{"lock":null},"hero_dawn":{"lock":null},"hero_campfire":{"lock":null},"scene-tavern":{"lock":null},"scene-pass":{"lock":null},"scene-swamp":{"lock":null},"scene-desert":{"lock":null},"scene-nightwood":{"lock":null},"scene-harbor":{"lock":null},"scene-ruins":{"lock":null},"scene-peak":{"lock":null}}},"scenes":{"scene-tavern":"Taverna","scene-pass":"Passo di montagna","scene-swamp":"Paludi","scene-desert":"Deserto","scene-nightwood":"Foresta notturna","scene-harbor":"Porto","scene-ruins":"Rovine","scene-peak":"Vetta"},"deadline":"2026-11-03T21:00:00Z","invite":"https://discord.gg/Zd45sNHy9x","items":{"station":{"morning":"Mattino nella valle","road":"La strada","forest":"Foresta antica","steppe":"Tamburi delle pianure","tavern":"Taverna","dungeon":"Spedizione","battle":"Battaglia","night":"Bivacco notturno"},"guide":{"leveling":"Livellamento 1–60","dungeons":"Spedizioni e incursioni","professions":"Professioni","faq":"FAQ e date","news":"Notizie"}}};
 const ROOT = '../../', HOME = '../', LANG = 'it', HL = document.documentElement.lang;
 const $ = (s, el) => (el || document).querySelector(s), $$ = (s, el) => [...(el || document).querySelectorAll(s)];
 const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
@@ -1487,8 +1518,21 @@ const TICO = { morning: 'sun', evening: 'moon', night: 'moon' };
 const ico = n => `<svg class="ico" aria-hidden="true"><use href="#i-${n}"/></svg>`;
 const race = id => GD.races[id] || { f: 'alliance', n: id, slug: 'human', cls: [] };
 const cls = id => GD.classes[id] || { n: id, color: '#c9a54a', roles: [] };
-const face = (c, portrait) => `${ROOT}assets/art/${portrait === 'class' ? c.class : race(c.race).slug}-face.webp`;
-const ring = (frame, src, extra) => `<span class="me-ring fr-${esc(frame || 'recruit')}${extra ? ' ' + extra : ''}"><img src="${src}" alt="" width="64" height="64" loading="lazy" decoding="async"></span>`;
+const lookOf = c => c.look || { sex: (GD.looks.races[c.race] || { sex: 'm' }).sex, bg: (GD.looks.races[c.race] || {}).bg || race(c.race).slug };
+/** Character portrait: transparent base, portrait background, and the old race face in case loading fails. */
+const pic = c => {
+  const l = lookOf(c), s = race(c.race).slug, v = '?v=' + GD.looks.v;
+  return { src: `${ROOT}assets/me/look/base/${s}-${l.sex}.webp${v}`, bg: `${ROOT}assets/me/look/bg/${l.bg}.webp${v}`, old: `${ROOT}assets/art/${s}-face.webp` };
+};
+const ring = (frame, p, extra) => {
+  const o = typeof p === 'string' ? { src: p } : p;
+  return `<span class="me-ring fr-${esc(frame || 'recruit')}${extra ? ' ' + extra : ''}"><img src="${o.src}" alt="" width="64" height="64" loading="lazy" decoding="async"${o.bg ? ` style="background-image:url('${o.bg}')" data-old="${o.old}"` : ''}></span>`;
+};
+// base failed to load: fall back to the old race face
+document.addEventListener('error', e => {
+  const i = e.target;
+  if (i.tagName === 'IMG' && i.dataset && i.dataset.old) { i.src = i.dataset.old; i.style.backgroundImage = ''; delete i.dataset.old; }
+}, true);
 const subline = c => `${esc(race(c.race).n)} · ${esc(cls(c.class).n)}`;
 const profLine = (c, hi) => [[c.prof1, c.prof1_skill], [c.prof2, c.prof2_skill]].filter(p => p[0])
   .map(([p, s]) => (p === hi ? '<b>' : '') + esc(GD.profs[p] || p) + (s ? ` ${s}` : '') + (p === hi ? '</b>' : '')).join(', ');
@@ -1509,12 +1553,12 @@ let crestN = 0;
 function crestSvg(c, px, o = {}) {
   const P = GD.guilds.palette, id = 'gc' + (++crestN);
   const tex = GD.guilds.texture && o.texture !== false && px >= 48
-    ? `<image href="${ROOT}assets/me/crest/metal.webp?v=7dd9e27510" width="100" height="100" preserveAspectRatio="none" class="gl-tex"/>` : '';
+    ? `<image href="${ROOT}assets/me/crest/metal.webp?v=36a486068d" width="100" height="100" preserveAspectRatio="none" class="gl-tex"/>` : '';
   const edge = c.b !== 'none' ? `<path d="${SHIELD[c.s]}" fill="none" stroke="${BORDER[c.b]}" stroke-width="${px >= 48 ? 3 : 5}"/>` : '';
   return `<svg class="gl-crest" viewBox="0 0 100 100" width="${px}" height="${px}" role="img" aria-label="${esc(o.label || tl('crest'))}">`
     + `<defs><clipPath id="${id}"><path d="${SHIELD[c.s]}"/></clipPath></defs><g clip-path="url(#${id})">`
     + `<rect width="100" height="100" fill="${P[c.c[0]]}"/>${FIELD[c.f] ? `<path d="${FIELD[c.f]}" fill="${P[c.c[1]]}"/>` : ''}`
-    + `<use href="${ROOT}assets/me/crest/charges.svg?v=7dd9e27510#c-${esc(c.i)}" x="24" y="20" width="52" height="52" fill="${P[c.ic]}"/>${tex}</g>${edge}</svg>`;
+    + `<use href="${ROOT}assets/me/crest/charges.svg?v=36a486068d#c-${esc(c.i)}" x="24" y="20" width="52" height="52" fill="${P[c.ic]}"/>${tex}</g>${edge}</svg>`;
 }
 const DOWN = ['Il server dei profili non risponde', 'Riprova tra un paio di minuti. Il resto della guida funziona come sempre.', 'Riprova'];   // same words as the player page
 /** Member count: singular and the paucal form come from the page language's plural rules. */
@@ -1557,7 +1601,7 @@ function ready(cb) {
 /** Level badge on a portrait; a check mark after a level an admin has confirmed. c: {level, verified}. */
 const lvBadge = c => `<span class="lv${c.verified ? ' ver' : ''}" aria-label="Livello ${c.level}${c.verified ? ', ' + esc(tg('verified')) : ''}">${c.level}${c.verified ? '<i aria-hidden="true">✓</i>' : ''}</span>`;
 
-/** Player card of the roster and the character lists. p: {id, nick, title, frame, rank, portrait, lfg, main, alts}. */
+/** Player card of the roster and the character lists. p: {id, nick, title, frame, rank, lfg, main, alts}. */
 function pcard(p, o) {
   o = o || {};
   const c = p.main, f = race(c.race).f;
@@ -1571,7 +1615,7 @@ function pcard(p, o) {
   const glory = o.glory && p.glory ? `<small class="g-gl">${esc(tg('glory_n', { n: p.glory }))}</small>` : '';
   const alts = (p.alts || []).length ? `<div class="alts">Alt: ${p.alts.map(a => `<i style="--ac:${cls(a.class).color}">${esc(a.name)}</i>`).join(', ')}</div>` : '';
   return `<article class="pcard${p.guild ? ' gl-has' : ''}${o.cls ? ' ' + o.cls : ''}" style="--cc:${cls(c.class).color}"${o.attrs || ''}>
-    <span class="pic">${ring(p.frame || p.rank, face(c, p.portrait))}${lvBadge(c)}</span>
+    <span class="pic">${ring(p.frame || p.rank, pic(c))}${lvBadge(c)}</span>
     <span class="fx ${f}">${esc(o.tag || FACN[f])}</span>
     <div class="nm">${p.title ? `<span class="ttl">${esc(titleName(p.title))}</span>` : ''}${name}${glory}</div>
     <span class="sub">${subline(c)}</span>${p.guild ? `<span class="gl-pg">${crestMini(p.guild)}</span>` : ''}
@@ -1632,7 +1676,7 @@ function rankBlock(pts) {
 function bcard(p, o) {
   o = o || {};
   const c = p.main, bg = p.background || race(c.race).slug;
-  const src = /^hero_/.test(bg) ? `${ROOT}assets/art/${bg}-960.webp` : `${ROOT}assets/art/${bg}-896.webp`;
+  const src = /^(hero_|scene-)/.test(bg) ? `${ROOT}assets/art/${bg}-960.webp` : `${ROOT}assets/art/${bg}-896.webp`;
   const who = [];
   if (p.nick) who.push(esc(p.nick));
   if (p.joined) who.push(esc(fill('In Gabella Team dal %d', { d: dateOf(p.joined) })));
@@ -1641,7 +1685,7 @@ function bcard(p, o) {
   const h = o.h || 'h1';
   return `<section class="bcard" style="--cc:${cls(c.class).color}" aria-label="Scheda del giocatore">
     <img class="bg" src="${src}" alt="" decoding="async">
-    <div class="in">${ring(p.frame || p.rank, face(c, p.portrait), o.reveal ? 'reveal' : '')}
+    <div class="in">${ring(p.frame || p.rank, pic(c), o.reveal ? 'reveal' : '')}
       <div>${p.title ? `<span class="ttl">${esc(titleName(p.title))}</span>` : ''}<${h}${p.name_color ? ` class="${nameCls(p.name_color)}"` : ''}>${esc(c.name)}</${h}>
         <span class="sub">${subline(c)} · ${c.level}${verMark(c)} · ${esc(ROLE[c.role] || '')}</span>
         ${who.length ? `<p class="who">${who.join(' · ')}</p>` : ''}${p.motto ? `<p class="motto">«${esc(p.motto)}»</p>` : ''}</div>
@@ -1764,7 +1808,7 @@ function feedLine(x) {
   const what = x.kind === 'rank' ? fill(esc('%n raggiunge il grado %r'), { n: who, r: `<em>${esc(rankName(x.ref))}</em>` })
     : x.ref === 'secret' ? fill(esc('%n trova un segreto'), { n: who })
     : fill(esc('%n ottiene «%a»'), { n: who, a: `<em>${esc(achName(x.ref))}</em>` });
-  return `<div class="it">${ring(x.frame || 'recruit', face(x, x.portrait))}<span>${what}</span><small>${esc(ago(x.at))}</small></div>`;
+  return `<div class="it">${ring(x.frame || 'recruit', pic(x))}<span>${what}</span><small>${esc(ago(x.at))}</small></div>`;
 }
 
 async function copyText(text) {
@@ -1822,7 +1866,7 @@ const mainOf = () => m.characters.find(c => c.is_main) || m.characters[0];
 const have = () => new Map(m.achievements.map(a => [a.id, a]));
 const ctx = () => ({ progress: m.progress, user: m.user, chars: m.characters, have: new Set(m.achievements.map(a => a.id)) });
 const asPlayer = c => ({ id: m.user.id, nick: m.user.show_nick ? m.user.nick : null, title: m.user.title, frame: m.user.frame, rank: m.user.rank,
-  portrait: m.user.portrait, background: m.user.background, motto: m.user.motto, points: m.user.points, joined: m.user.joined_guild_at, member: m.user.member, main: c,
+  background: m.user.background, motto: m.user.motto, points: m.user.points, joined: m.user.joined_guild_at, member: m.user.member, main: c,
   name_color: m.user.name_color });
 const myUrl = () => new URL(playerUrl(m.user.id), location.href).href;
 const refUrl = () => new URL(`${HOME}profile/?ref=${m.user.id}`, location.href).href;
@@ -2021,9 +2065,9 @@ function accountOnly() {
 }
 function wizard() {
   parkForm();
-  wiz = wiz || { step: 1, f: '', race: '', cls: '' };
+  wiz = wiz || { step: 1, f: '', race: '', cls: '', look: null };
   const w = wiz, v = $('#view');
-  const steps = ['Schieramento', 'Razza e classe', 'Personaggio'].map((s, i) => `<span${w.step === i + 1 ? ' aria-current="step"' : ''}>${i + 1}. ${esc(s)}</span>`).join('<span aria-hidden="true">·</span>');
+  const steps = ['Schieramento', 'Razza e classe', 'Aspetto', 'Personaggio'].map((s, i) => `<span${w.step === i + 1 ? ' aria-current="step"' : ''}>${i + 1}. ${esc(s)}</span>`).join('<span aria-hidden="true">·</span>');
   let body = '';
   if (w.step === 1) {
     body = `<h2>Per quale schieramento giochi?</h2><div class="facs">${['alliance', 'horde'].map(f => `<button type="button" data-f="${f}" style="--fc:var(--${f})">
@@ -2034,10 +2078,19 @@ function wizard() {
     body = `<h2>Razza e classe</h2><div class="picks" role="group" aria-label="Razza">${races.map(([id, r]) => `<button type="button" data-race="${id}" aria-pressed="${w.race === id}">${ring('recruit', `${ROOT}assets/art/${r.slug}-face.webp`)}${esc(r.n)}</button>`).join('')}</div>
       ${w.race ? `<div class="picks" role="group" aria-label="Classe">${cl.map(id => `<button type="button" data-cls="${id}" aria-pressed="${w.cls === id}" style="color:${cls(id).color}">${ring('recruit', `${ROOT}assets/art/${id}-face.webp`)}${esc(cls(id).n)}</button>`).join('')}</div>` : ''}
       <div class="row"><button type="button" class="btn ghost" data-back>Indietro</button><button type="button" class="btn" data-next${w.race && w.cls ? '' : ' disabled'}>Continua</button></div>`;
+  } else if (w.step === 3) {
+    const c0 = { race: w.race, class: w.cls };
+    const tile = (k, v, name) => {
+      const t = Object.assign({}, c0, { look: Object.assign({}, w.look, { [k]: v }) });
+      return `<button type="button" role="radio" aria-checked="${w.look[k] === v}" tabindex="${w.look[k] === v ? 0 : -1}" data-wl="${k}" data-v="${v}">${ring('recruit', pic(t))}<span>${esc(name)}</span></button>`;
+    };
+    body = `<h2>Aspetto</h2><div class="picks" role="radiogroup" aria-label="Sesso">${GD.looks.sexes.map(s => tile('sex', s, s === 'f' ? 'Femminile' : 'Maschile')).join('')}</div>
+      <h3>Sfondo del ritratto</h3><div class="picks" role="radiogroup" aria-label="Sfondo del ritratto">${GD.backgrounds.filter(b => !GD.looks.bg[b].lock).map(b => tile('bg', b, lkName('bg', b))).join('')}</div>
+      <div class="row"><button type="button" class="btn ghost" data-back>Indietro</button><button type="button" class="btn" data-next>Continua</button></div>`;
   } else {
     body = `<h2>Personaggio</h2><div id="wForm"></div><div class="row"><button type="button" class="btn ghost" data-back>Indietro</button></div>`;
   }
-  const c = { name: w.name || '…', race: w.race || (w.f === 'horde' ? 'orc' : 'human'), class: w.cls || 'warrior', level: w.level || 1, role: w.role || 'dps' };
+  const c = { name: w.name || '…', race: w.race || (w.f === 'horde' ? 'orc' : 'human'), class: w.cls || 'warrior', level: w.level || 1, role: w.role || 'dps', look: w.look || undefined };
   const prev = asPlayer(c);
   prev.title = Date.now() < Date.parse(GD.deadline) ? 'founder' : null;
   prev.frame = prev.title ? 'founder' : prev.frame;
@@ -2045,14 +2098,15 @@ function wizard() {
   v.innerHTML = `${noticeHtml()}<div class="signed"><span>${esc(who())}</span><a class="btn ghost" href="#account">Account</a><button type="button" class="btn ghost" data-act="logout">Esci</button></div>
     <p class="lab">Così ti vedranno nella rosa</p>${bcard(prev, { h: 'h2' })}${founderPlaque()}
     <section class="frame wiz"><div class="wsteps">${steps}</div>${body}</section>`;
-  if (w.step === 3) mountForm($('#wForm'), null);
+  if (w.step === 4) mountForm($('#wForm'), null);
 }
 document.addEventListener('click', e => {
   if (!wiz || !e.target.closest('.wiz')) return;
   const b = e.target.closest('button'); if (!b) return;
   if (b.dataset.f) { wiz.f = b.dataset.f; wiz.race = ''; wiz.cls = ''; wiz.step = 2; }
-  else if (b.dataset.race) { wiz.race = b.dataset.race; if (!race(wiz.race).cls.includes(wiz.cls)) wiz.cls = ''; }
+  else if (b.dataset.race) { wiz.race = b.dataset.race; wiz.look = Object.assign({}, GD.looks.races[wiz.race]); if (!race(wiz.race).cls.includes(wiz.cls)) wiz.cls = ''; }
   else if (b.dataset.cls) wiz.cls = b.dataset.cls;
+  else if (b.dataset.wl) { wiz.look[b.dataset.wl] = b.dataset.v; wizard(); return $(`.wiz [data-wl="${b.dataset.wl}"][data-v="${b.dataset.v}"]`).focus(); }
   else if ('back' in b.dataset) wiz.step--;
   else if ('next' in b.dataset) wiz.step++;
   else return;
@@ -2152,6 +2206,7 @@ function wireForm() {
     (ts ? ts.get() : Promise.resolve(null)).then(t => {
       if (ts && !t) { busy(false); return note(ERR.bot, true); }
       if (t) b.turnstile = t;
+      if (!edit && wiz && wiz.look) b.look = wiz.look;
       const req = edit ? M.api('/characters/' + edit, { method: 'PUT', body: b }) : M.api('/characters', { body: b });
       return req.then(r => (hideNick ? M.api('/me', { method: 'PUT', body: { show_nick: false } }).then(r2 => Object.assign(r, { me: r2.me })) : r))
         .then(r => { busy(false); if (!edit) { wiz = null; parkForm(); } closeEd(); M.took(r); },
@@ -2177,6 +2232,56 @@ function openEd(c) {
   $('#eName').focus();
 }
 function closeEd() { if ($('#edDlg').open) $('#edDlg').close(); }
+
+/* ---------- look: sex and portrait background ---------- */
+let lk = null;   // { c, look, tab, saved }
+const LK_TABS = { sex: () => GD.looks.sexes, bg: () => GD.backgrounds.filter(b => !GD.looks.bg[b].lock) };
+const lkName = (tab, v) => tab === 'sex' ? (v === 'f' ? 'Femminile' : 'Maschile')
+  : /^hero_/.test(v) ? (v === 'hero_dawn' ? 'Alba' : 'Fuoco da campo') : GD.scenes[v] || (Object.values(GD.races).find(r => r.slug === v) || { n: v }).n;
+function lkDraw() {
+  const c = Object.assign({}, lk.c, { look: lk.look }), u = m.user;
+  $('#lkPrev').innerHTML = `${ring(u.frame || u.rank, pic(c))}<div><b>${esc(c.name)}</b><div class="small">${subline(c)}</div></div>`;
+  $$('#lookDlg [role="tab"]').forEach(t => t.setAttribute('aria-selected', String(t.dataset.tab === lk.tab)));
+  $('#lkPane').setAttribute('aria-labelledby', lk.tab === 'sex' ? 'lkTabSex' : 'lkTabBg');
+  $('#lkPane').innerHTML = `<div role="radiogroup" aria-label="${lk.tab === 'sex' ? 'Sesso' : 'Sfondo'}" style="display:contents">${LK_TABS[lk.tab]().map(v => {
+    const on = lk.look[lk.tab] === v, t = Object.assign({}, c, { look: Object.assign({}, lk.look, { [lk.tab]: v }) });
+    return `<button type="button" role="radio" aria-checked="${on}" tabindex="${on ? 0 : -1}" data-v="${v}">${ring('recruit', pic(t))}<span>${esc(lkName(lk.tab, v))}</span></button>`;
+  }).join('')}</div>`;
+}
+function lkOpen(c) {
+  lk = { c, look: Object.assign({}, lookOf(c)), tab: 'sex', saved: JSON.stringify(lookOf(c)) };
+  $('#lookMsg').className = 'msg'; $('#lookMsg').textContent = '';
+  lkDraw();
+  if ($('#lookDlg').showModal) $('#lookDlg').showModal(); else $('#lookDlg').setAttribute('open', '');
+}
+const lkDirty = () => lk && JSON.stringify(lk.look) !== lk.saved;
+function lkClose() { if (lkDirty() && !confirm('Le modifiche all’aspetto non sono state salvate. Chiudere?')) return; $('#lookDlg').close(); lk = null; }
+$('#lookDlg').addEventListener('click', e => {
+  const b = e.target.closest('button');
+  if (e.target === $('#lookDlg') || (b && 'lookClose' in b.dataset)) return lkClose();
+  if (!b || !lk) return;
+  if (b.dataset.tab) { lk.tab = b.dataset.tab; return lkDraw(); }
+  if (b.getAttribute('role') === 'radio') { lk.look[lk.tab] = b.dataset.v; lkDraw(); return $(`#lkPane [data-v="${b.dataset.v}"]`).focus(); }
+  if ('lookRand' in b.dataset) { const all = LK_TABS.bg(); lk.look.bg = all[Math.floor(Math.random() * all.length)]; return lkDraw(); }
+  if ('lookReset' in b.dataset) { const d = GD.looks.races[lk.c.race]; lk.look = { sex: d.sex, bg: d.bg }; return lkDraw(); }
+  if ('lookSave' in b.dataset) {
+    b.disabled = true;
+    const s = lk;   // the dialog may be closed (Esc, backdrop) while the request is pending
+    M.api(`/characters/${s.c.id}/look`, { method: 'PUT', body: { look: s.look } })
+      .then(r => { b.disabled = false; if (lk === s) { s.saved = JSON.stringify(s.look); $('#lookDlg').close(); lk = null; } M.took(r); },
+        e2 => { b.disabled = false; if (lk === s) { $('#lookMsg').className = 'msg err'; $('#lookMsg').textContent = errText(e2); } });
+  }
+});
+$('#lookDlg').addEventListener('cancel', e => { if (lkDirty() && !confirm('Le modifiche all’aspetto non sono state salvate. Chiudere?')) e.preventDefault(); else lk = null; });
+// arrow keys inside a radio group: the look editor and the wizard's look step
+document.addEventListener('keydown', e => {
+  const b = e.target.closest && e.target.closest('#lookDlg [role="radio"], .wiz [role="radio"]');
+  if (!b || !['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp'].includes(e.key)) return;
+  const all = [...b.closest('[role="radiogroup"]').querySelectorAll('[role="radio"]')], i = all.indexOf(b) + (e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : -1);
+  all[(i + all.length) % all.length].click();
+  e.preventDefault();
+});
+window.addEventListener('beforeunload', e => { if (lkDirty()) { e.preventDefault(); e.returnValue = ''; } });
 
 /* ---------- cabinet ---------- */
 const fresh = () => m.achievements.length < 3;   // a newcomer: the first steps go first
@@ -2215,6 +2320,10 @@ function pathHtml() {
   return `<div class="frame path" aria-label="Il tuo percorso"><span>Giorni di fila: <b>${u.streak || 0}</b></span><span>Radio: <b>${unit(radio, 'hour')}</b></span>
     <span>Guide: <b>${fill('%v su %g', { v: guides, g: GD.sets.guide.length })}</b></span><span>Posto nella squadra: <b>${place}</b></span></div>`;
 }
+function playHint() {   // until the person has opened the in-game page once
+  if ((m.progress || {}).play_page) return '';
+  return `<div class="frame ask"><span>Stai giocando? Apri «In gioco» accanto al gioco: lì la radio dà Gloria e il livello del personaggio cambia con un tocco.</span><a class="btn ghost" href="${HOME}play/">Apri «In gioco»</a></div>`;
+}
 function levelAsk() {
   let lvl = 0;
   try { lvl = +(JSON.parse(localStorage.getItem('gabella-wf-me')) || {}).lvl || 0; } catch (e) { /* no level */ }
@@ -2225,10 +2334,11 @@ function levelAsk() {
 
 function secChars() {
   const n = m.characters.length;
-  const cards = m.characters.map(c => glWrap(c, pcard(Object.assign(asPlayer(c), { alts: [], lfg: c.is_main ? m.user.lfg : null, nick: null }), {
+  // the look button sits under the card, not inside it: the card is role=button and must not nest another control
+  const cards = m.characters.map(c => `<div class="pitem">${glWrap(c, pcard(Object.assign(asPlayer(c), { alts: [], lfg: c.is_main ? m.user.lfg : null, nick: null }), {
     link: false, cls: c.is_main ? 'main' : '', after: c.is_main ? '<div class="mainmark">Personaggio principale</div>' : '',
     attrs: ` role="button" tabindex="0" data-edit="${c.id}" aria-label="${esc(fill('Modifica: %n', { n: c.name }))}"`,
-  }))).join('');
+  }))}<button type="button" class="btn ghost" data-look="${c.id}" aria-label="${esc(fill('Aspetto: %n', { n: c.name }))}">Aspetto</button></div>`).join('');
   const add = n < CHAR_MAX ? `<button type="button" class="add" data-act="add"><b>${ico('plus')}Aggiungi personaggio</b><span>${esc(fill('Ancora possibili: %n', { n: CHAR_MAX - n }))}</span></button>` : '';
   const l = m.user.lfg;
   const lfg = `<div class="frame box"><h3>Cerco gruppo</h3><p class="small">Il tuo personaggio principale compare nella fascia «Cercano un gruppo ora» della rosa. Il segnale si spegne da solo dopo 3 ore.</p>
@@ -2280,17 +2390,17 @@ function moveShowcase(from, to) {
 
 function secLook() {
   const u = m.user, c = mainOf();
-  const frames = m.frames.map(f => `<button type="button" class="rstep" data-frame="${f}" aria-pressed="${(u.frame || u.rank) === f}">${ring(f, face(c, u.portrait))}<b>${esc(frameName(f))}</b></button>`).join('');
+  const frames = m.frames.map(f => `<button type="button" class="rstep" data-frame="${f}" aria-pressed="${(u.frame || u.rank) === f}">${ring(f, pic(c))}<b>${esc(frameName(f))}</b></button>`).join('');
   const titles = `<option value="">Nessun titolo</option>` + m.titles.map(t => `<option value="${t}"${u.title === t ? ' selected' : ''}>${esc(titleName(t))}</option>`).join('');
   const bgs = GD.backgrounds.map(b => {
     const src = /^hero_/.test(b) ? `${ROOT}assets/art/${b}-960.webp` : `${ROOT}assets/art/${b}-bg.webp`;
-    const name = /^hero_/.test(b) ? (b === 'hero_dawn' ? 'Alba' : 'Fuoco da campo') : (Object.values(GD.races).find(r => r.slug === b) || { n: b }).n;
+    const name = lkName('bg', b);
     return `<button type="button" data-bg="${b}" aria-pressed="${(u.background || race(c.race).slug) === b}"><img src="${src}" alt="" loading="lazy"><span>${esc(name)}</span></button>`;
   }).join('');
   return `<div class="sec-h"><h2>Aspetto</h2></div><p>Le modifiche valgono subito: la scheda in alto mostra come ti vedono gli altri.</p>
     <div class="frame box"><h3>Cornice</h3><div class="frames">${frames}</div><p class="small">Le nuove cornici si sbloccano con i gradi e con imprese speciali.</p></div>
     <div class="frame box"><h3>Titolo sopra il nome</h3><select id="lTitle" aria-label="Titolo sopra il nome">${titles}</select></div>
-    <div class="frame box"><h3>Ritratto</h3><div class="seg" id="lPortrait" role="group" aria-label="Ritratto"><button type="button" data-v="race" aria-pressed="${u.portrait !== 'class'}">Razza</button><button type="button" data-v="class" aria-pressed="${u.portrait === 'class'}">Classe</button></div></div>
+    <div class="frame box lkbox"><h3>Aspetto</h3><div class="row">${ring(u.frame || u.rank, pic(c))}<div><p class="small">Il sesso e lo sfondo del ritratto sono propri di ogni personaggio.</p><button type="button" class="btn ghost" data-look="${c.id}">Cambia aspetto</button></div></div></div>
     <div class="frame box"><h3>Sfondo della scheda</h3><div class="bgs">${bgs}</div></div>
     ${colorBox()}${showcaseBox()}
     <div class="frame box"><h3>Motto</h3>${u.motto_hidden ? '<p class="small">Il motto è stato nascosto da un amministratore.</p>' : ''}${u.motto_visible ? '' : `<p class="small">${esc(tg('motto_later'))}</p>`}
@@ -2313,14 +2423,14 @@ function secAch() {
     <div class="achs">${list.map(a => achTile(a, h.get(a.id), c)).join('')}</div>`;
 }
 function secFrames() {
-  const u = m.user, c = mainOf(), pic = face(c, u.portrait), open = new Set(m.frames);
+  const u = m.user, c = mainOf(), pics = pic(c), open = new Set(m.frames);
   const ladder = GD.ranks.map(r => {
     const on = open.has(r.id);
-    return `<${on ? 'button type="button" data-frame="' + r.id + '"' : 'div'} class="rstep${u.rank === r.id ? ' cur' : ''}${on ? '' : ' lock'}">${ring(r.id, pic, on ? '' : 'locked')}<b>${esc(rankName(r.id))}</b><span>${esc(fill('%n punti', { n: r.pts }))}</span></${on ? 'button' : 'div'}>`;
-  }).join('') + `<div class="rstep${open.has('boss') ? '' : ' lock'}">${ring('boss', pic, open.has('boss') ? '' : 'locked')}<b>${esc(frameName('boss'))}</b><span>Una per server</span></div>`;
+    return `<${on ? 'button type="button" data-frame="' + r.id + '"' : 'div'} class="rstep${u.rank === r.id ? ' cur' : ''}${on ? '' : ' lock'}">${ring(r.id, pics, on ? '' : 'locked')}<b>${esc(rankName(r.id))}</b><span>${esc(fill('%n punti', { n: r.pts }))}</span></${on ? 'button' : 'div'}>`;
+  }).join('') + `<div class="rstep${open.has('boss') ? '' : ' lock'}">${ring('boss', pics, open.has('boss') ? '' : 'locked')}<b>${esc(frameName('boss'))}</b><span>Una per server</span></div>`;
   const specials = GD.frames.filter(f => f.ach).map(f => {
     const on = open.has(f.id);
-    return `<${on ? 'button type="button" data-frame="' + f.id + '"' : 'div'} class="rstep${on ? '' : ' lock'}">${ring(f.id, pic, on ? '' : 'locked')}<b>${esc(frameName(f.id))}</b><span>${on ? 'Sbloccata' : esc(fill('Per «%a»', { a: achName(f.ach) }))}</span></${on ? 'button' : 'div'}>`;
+    return `<${on ? 'button type="button" data-frame="' + f.id + '"' : 'div'} class="rstep${on ? '' : ' lock'}">${ring(f.id, pics, on ? '' : 'locked')}<b>${esc(frameName(f.id))}</b><span>${on ? 'Sbloccata' : esc(fill('Per «%a»', { a: achName(f.ach) }))}</span></${on ? 'button' : 'div'}>`;
   }).join('');
   return `<div class="sec-h"><h2>Cornici e gradi</h2></div>
     <p>Il grado cresce con i punti delle imprese e ogni grado sblocca la sua cornice del ritratto. Le cornici speciali arrivano solo da imprese speciali. Puoi indossare qualsiasi cornice sbloccata: toccala.</p>
@@ -2353,7 +2463,7 @@ function rewardThumb(r) {
   const [k, id] = r.split(':');
   if (k === 'badge') return `<img src="${ROOT}assets/me/ach/${esc(id)}.webp" alt="">`;
   if (k === 'bg') return `<img src="${ROOT}assets/art/${esc(id)}-bg.webp" alt="">`;
-  if (k === 'frame') return ring(id, face(mainOf(), m.user.portrait));
+  if (k === 'frame') return ring(id, pic(mainOf()));
   return `<b aria-hidden="true">${esc([...titleName(id)][0] || '')}</b>`;
 }
 function seasonHtml() {
@@ -2479,7 +2589,7 @@ function cabinet() {
   if (!secs().some(x => x[0] === sec)) sec = 'chars';
   const nav = secs().map(([id, t]) => `<a href="#${id}"${sec === id ? ' aria-current="page"' : ''}>${esc(t)}${id === 'chars' ? `<span>${esc(fill('%n su %m', { n: m.characters.length, m: CHAR_MAX }))}</span>` : id === 'ach' ? `<span>${ach} / ${all}</span>` : ''}</a>`).join('');
   const body = { chars: secChars, look: secLook, ach: secAch, frames: secFrames, chronicle: secChronicle, account: secAccount, reports: secReports }[sec]();
-  $('#view').innerHTML = `${noticeHtml()}<p class="lab">La tua scheda come la vedono gli altri</p>${bcard(p, { h: 'h2', reveal })}${gloryHtml()}${levelAsk()}${nextHtml()}${weekHtml()}${seasonHtml()}${pathHtml()}
+  $('#view').innerHTML = `${noticeHtml()}<p class="lab">La tua scheda come la vedono gli altri</p>${bcard(p, { h: 'h2', reveal })}${gloryHtml()}${levelAsk()}${nextHtml()}${weekHtml()}${playHint()}${seasonHtml()}${pathHtml()}
     <div class="lay"><nav class="frame pnav" aria-label="Area personale">${nav}<hr><a class="pub" href="${playerUrl(m.user.id)}">La mia pagina ↗</a></nav><section class="sec" id="sec">${body}</section></div>`;
   reveal = false;
   const cur = $('.s-track');   // the season track opens at the step in progress
@@ -2731,6 +2841,8 @@ function put(body, noteId) {
 document.addEventListener('click', e => {
   if (!m || !e.target.closest('#view')) return;
   const t = e.target;
+  const lb = t.closest('[data-look]');
+  if (lb) { e.stopPropagation(); return lkOpen(m.characters.find(x => x.id === +lb.dataset.look)); }
   const editCard = t.closest('[data-edit]');
   if (editCard) return openEd(m.characters.find(c => c.id === +editCard.dataset.edit));
   const gc = t.closest('[data-gl="create"]');
@@ -2743,8 +2855,6 @@ document.addEventListener('click', e => {
   if (bg) return put({ background: bg.dataset.bg }, 'lookNote');
   const ct = t.closest('[data-cat]');
   if (ct) { cat = ct.dataset.cat; return cabinet(); }
-  const pt = t.closest('#lPortrait button');
-  if (pt) return put({ portrait: pt.dataset.v }, 'lookNote');
   const nc = t.closest('[data-ncolor]');
   if (nc) return put({ name_color: nc.dataset.ncolor }, 'lookNote');
   const sh = t.closest('[data-sh]');
@@ -2964,8 +3074,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=3f88e5704c" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=7dd9e27510" data-root="../../" data-home="../" data-lang="it" data-teaser="Il tuo profilo conserva il tuo percorso: Gloria, riquadri, stagioni" data-close="Chiudi" data-page="profile/" defer></script>
+<script src="../../assets/search/search.js?v=724d711a76" data-root="../../" defer></script>
+<script src="../../assets/me/me.js?v=36a486068d" data-root="../../" data-home="../" data-lang="it" data-teaser="Il tuo profilo conserva il tuo percorso: Gloria, riquadri, stagioni" data-close="Chiudi" data-page="profile/" data-look="1" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

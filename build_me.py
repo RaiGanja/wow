@@ -13,6 +13,7 @@ from langs import LANGS
 HERE = build.HERE
 sys.path.insert(0, os.path.join(HERE, 'content'))
 import achievements as A  # noqa: E402
+import looks as LK  # noqa: E402
 import guides as G  # noqa: E402
 langs.fill(G.GUIDES)
 
@@ -190,6 +191,7 @@ GUILD = {
 def strings():
     """Every Russian string me.js and the profile pages show, in a stable order (the line files follow it)."""
     out = list(UI.values()) + list(GROWTH.values()) + list(GUILD.values()) + [c[1] for c in A.CATS] + [r[2] for r in A.RANKS] + [f[2] for f in A.FRAMES]
+    out += [n for _, n in LK.SCENES]
     for a in A.ACH:
         out += [a[5], a[6]] + ([a[7]] if len(a) > 7 else [])
     return [s for s in dict.fromkeys(out) if any('А' <= ch <= 'я' or ch in 'Ёё' for ch in s)]
@@ -248,7 +250,8 @@ def page_data(lang):
                  'track': {sid: [[x['step'], x['stars'], x['reward']] for x in st] for sid, st in g['progression']['track'].items()},
                  'season': g['progression']['seasons'][0]['id'], 'motto_glory': g['progression']['motto_glory'],
                  'weekly': {w['id']: {k: w[k] for k in ('key', 'item') if k in w} for w in g['progression']['weekly']}},
-        'guilds': g['guilds'], 'titles': g['titles'], 'backgrounds': g['backgrounds'], 'deadline': g['deadline_founder'], 'invite': INVITE,
+        'guilds': g['guilds'], 'titles': g['titles'], 'backgrounds': g['backgrounds'], 'looks': g['looks'],
+        'scenes': {s: t(n) for s, n in LK.SCENES}, 'deadline': g['deadline_founder'], 'invite': INVITE,
         'items': {'station': {x['id']: x['name'][lang] for x in json.load(open(os.path.join(HERE, 'assets', 'radio', 'stations.json'), encoding='utf-8'))['stations']},
                   'guide': {x['slug']: x['title'][lang] for x in G.GUIDES if 'only' not in x}},
     }

@@ -928,13 +928,43 @@ nav.gtiles { padding: 14px; }
 /* In game (/play/, build_guides.play_body): no art band, always solid bar; one column on phones, two from 960px */
 .compact .topbar { background: var(--rail); border-bottom-color: var(--line); color: var(--fg); }
 .phead { padding-top: calc(var(--top) + 22px); }
-.phead .wrap { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; }
+.phead .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; }
+.ptitle { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; flex: 1 1 520px; min-width: 0; }
 .phead h1 { font-size: clamp(2rem, 4vw, 2.6rem); line-height: 1; }
 .phead .glead { flex: 1 1 320px; margin: 0; font-size: .98rem; color: var(--muted); opacity: 1; }
+.pacts { display: flex; flex-wrap: wrap; gap: 8px; }
+.pacts:not(:has(> :not([hidden]))) { display: none; }
 .pwake { gap: 6px; min-height: 36px; padding: 0 14px; cursor: pointer; font: inherit; font-size: .9rem; }
 .pwake .ico { width: 16px; height: 16px; }
 .pwake[aria-pressed="true"] { background: #c9a54a; border-color: #c9a54a; color: #15110a; }
+.gplay { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding: 14px 18px; color: inherit; text-decoration: none; transition: border-color .2s; }
+.gplay:hover { border-color: var(--gold); }
+.gplay > span:first-child { flex: 1 1 320px; }
+.gplay b { color: var(--gold-2); }
+.gplay .btn { margin-left: auto; }
 .gbody.play { padding-top: 14px; }
+/* «Your path»: Glory and the week's tasks of the signed-in visitor, one line for a guest */
+.pway { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; margin-top: 16px; padding: 14px 20px; }
+.pway[hidden] { display: none; }
+.pway .pnk { font-weight: 600; }
+.pgl { display: grid; gap: 6px; flex: 1 1 200px; max-width: 300px; }
+.pgl .gh { display: flex; justify-content: space-between; gap: 12px; font-size: .88rem; }
+.pgl .gh b { color: var(--gold-2); }
+.pgl .gh span, .pwk small { color: var(--muted); font-variant-numeric: tabular-nums; }
+.pbar { height: 6px; border-radius: 3px; background: var(--panel-2); border: 1px solid var(--pline); overflow: hidden; }
+.pbar i { display: block; height: 100%; background: #c9a54a; }
+.pwk { display: flex; flex-wrap: wrap; gap: 8px 24px; list-style: none; margin: 0; padding: 0; flex: 2 1 320px; font-size: .88rem; }
+.pwk li { display: grid; gap: 2px; }
+.pwk li.ok small { color: var(--gold-2); }
+.pway > a:last-child { margin-left: auto; color: var(--gold-2); font-size: .9rem; }
+.pway .pnote { flex: 1 1 260px; }
+.pway .btn { margin-left: auto; }
+.pchars { display: flex; flex-wrap: wrap; gap: 8px; }
+.pchars[hidden] { display: none; }
+.pchars .pill { min-height: 36px; padding: 0 14px; cursor: pointer; font: inherit; font-size: .92rem; }
+.pchars .pill[aria-pressed="true"] { background: #c9a54a; border-color: #c9a54a; color: #15110a; }
+.pchars .pill b { font-weight: 600; margin-right: 6px; }
+.pchars a { align-self: center; color: var(--gold-2); font-size: .9rem; }
 .pgrid { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
 .pcol { display: contents; }   /* phone: one column, radio first */
 #radio { order: 1; } #level { order: 2; } #dung { order: 3; } #timers { order: 4; }
@@ -986,7 +1016,7 @@ nav.gtiles { padding: 14px; }
 .pnotify { display: flex; align-items: center; gap: 8px; font-size: .9rem; color: var(--muted); cursor: pointer; }
 .pnotify[hidden] { display: none; }
 .pnotify input { width: 18px; height: 18px; accent-color: #c9a54a; }
-@media (max-width: 719px) { .phead { padding-top: calc(var(--top) + 14px); } .psec { padding: 14px; } .pform { grid-template-columns: minmax(0, 1fr) 104px; } .pform .pill { grid-column: 1 / -1; justify-content: center; } }
+@media (max-width: 719px) { .phead { padding-top: calc(var(--top) + 14px); } .pway { padding: 12px 14px; gap: 10px 20px; } .pway > a:last-child, .pway .btn { margin-left: 0; } .psec { padding: 14px; } .pform { grid-template-columns: minmax(0, 1fr) 104px; } .pform .pill { grid-column: 1 / -1; justify-content: center; } }
 #more { margin-top: 56px; }
 #more .sec-head { margin-bottom: 14px; }
 @media (max-width: 1023px) {
@@ -1024,8 +1054,8 @@ nav.gtiles { padding: 14px; }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/search/search.css?v=3f88e5704c" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/me/me.css?v=7dd9e27510" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/search/search.css?v=724d711a76" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/me/me.css?v=36a486068d" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://gabella.site/wow/es/"},{"@type":"ListItem","position":2,"name":"Guías","item":"https://gabella.site/wow/es/guides/"},{"@type":"ListItem","position":3,"name":"FAQ y fechas","item":"https://gabella.site/wow/es/guides/faq/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"WoW Forever: cuándo sale, hora, precio y suscripción (FAQ)","description":"Cuándo sale WoW Forever, si necesitas suscripción, precios de los packs, modos de juego, cuándo reservar un nombre y en qué se diferencia Forever de Classic Era.","inLanguage":"es","url":"https://gabella.site/wow/es/guides/faq/","dateModified":"2026-10-23","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/Zd45sNHy9x"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/Zd45sNHy9x"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/es/"},"image":"https://gabella.site/wow/assets/og/faq-es.jpg"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"es","mainEntity":[{"@type":"Question","name":"¿Cuándo sale WoW Forever?","acceptedAnswer":{"@type":"Answer","text":"El 04.11.2026. Blizzard aún no ha confirmado la hora exacta de lanzamiento. Algunas webs indican las 15:00 hora del Pacífico, es decir, las 23:00 UTC."}},{"@type":"Question","name":"¿Necesito suscripción?","acceptedAnswer":{"@type":"Answer","text":"Sí, suscripción o tiempo de juego. Forever es un juego permanente junto a Retail y Classic, no una temporada."}},{"@type":"Question","name":"¿Cuánto cuestan los packs y necesito uno?","acceptedAnswer":{"@type":"Answer","text":"Heroic Pack 29,99 $, Epic Pack 59,99 $, Warcraft Forever Collection 79,99 $. Un pack solo hace falta para la raza Skyborne y la reserva anticipada de nombres: las otras ocho razas y las nueve clases no hay que comprarlas."}},{"@type":"Question","name":"¿Cuándo puedo reservar un nombre?","acceptedAnswer":{"@type":"Answer","text":"Del 27.10 al 03.11 si tienes Heroic, Epic o Collection. Hasta tres personajes por cuenta, por orden de llegada. No es acceso anticipado al juego."}},{"@type":"Question","name":"¿Por qué un apellido y pueden dos personas tener el mismo nombre?","acceptedAnswer":{"@type":"Answer","text":"No hay reinos, así que el nombre completo debe ser único en toda la región. Dos jugadores pueden tener el mismo nombre si sus apellidos son distintos. Puedes ocultar el apellido: Esc → Opciones → Placas de nombre → My Secondary Name."}},{"@type":"Question","name":"¿Qué es Skyborne?","acceptedAnswer":{"@type":"Answer","text":"La nueva raza de Forever, que se desbloquea con cualquiera de los tres packs. Jugable en ambas facciones; la facción se elige al crear el personaje. Las dos ramas hablan un idioma común y comparten la zona inicial Zephras Isle."}},{"@type":"Question","name":"¿Cuál es el nivel máximo y dónde subimos?","acceptedAnswer":{"@type":"Answer","text":"Hasta el 60, en los Reinos del Este y Kalimdor. Sin monturas voladoras ni escalado de nivel, como en Classic."}},{"@type":"Question","name":"¿Podemos jugar juntos en modos distintos?","acceptedAnswer":{"@type":"Answer","text":"No: solo podéis agruparos dentro de un modo. Modos en el lanzamiento: Normal, JcJ y RP; Hardcore llega más tarde. En JcJ una cuenta solo puede tener una facción."}},{"@type":"Question","name":"¿Qué región, modo y facción elegir para jugar con amigos?","acceptedAnswer":{"@type":"Answer","text":"Los mismos para todos. Las regiones están separadas y no hay juego entre regiones, así que elegid la región con mejor ping para la mayoría. Solo podéis agruparos dentro de un modo, y la Alianza y la Horda no pueden agruparse en ningún modo. En JcJ una cuenta solo tiene una facción, así que poneos de acuerdo antes de que abra la reserva de nombres el 27.10."}},{"@type":"Question","name":"¿Dónde encuentro grupo?","acceptedAnswer":{"@type":"Answer","text":"En el servidor de Discord de Gabella Team. Allí se forman grupos para el lanzamiento del 04.11 y se acuerdan región, modo y facción."}},{"@type":"Question","name":"¿Cuándo abren las bandas?","acceptedAnswer":{"@type":"Answer","text":"El 09.12: Barrow Deeps (10 jugadores), la Cima Hyjal (20), Guarida de Onyxia (40). Hasta entonces tienes cinco semanas para subir de nivel y hacer mazmorras."}},{"@type":"Question","name":"¿Todavía puedo entrar en la beta?","acceptedAnswer":{"@type":"Answer","text":"No. El acceso era para quienes tenían Epic y Collection. La beta terminó el 23.10 a las 10:00 hora del Pacífico."}},{"@type":"Question","name":"¿Siguen sirviendo las guías antiguas de Classic?","acceptedAnswer":{"@type":"Answer","text":"Solo en parte. Se cambiaron estadísticas y objetos, así que las listas de botín antiguas no son fiables. Hay 9 mazmorras nuevas, 3 bandas nuevas, zonas y misiones nuevas, y se actualizaron los talentos de clase."}},{"@type":"Question","name":"¿Hay gráficos modernos y soporte para mando?","acceptedAnswer":{"@type":"Answer","text":"Sí: puedes elegir estilo visual (clásico o moderno), hay transfiguración opcional y soporte oficial para mando."}}]}</script>
@@ -1054,7 +1084,7 @@ nav.gtiles { padding: 14px; }
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="../../" aria-label="Gabella, a la página de inicio"><img class="mark" src="../../../assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Guía de WoW Forever</small></span></a>
   <nav class="mainnav" aria-label="Secciones">
-    <a href="../../#factions">Facciones</a><a href="../../#classes">Clases</a><a href="../../#peoples">Razas</a><a href="../../#picker">Selector</a><a href="../../#builder">Grupo</a><a href="../" aria-current="true">Guías</a><a href="../../tools/">Herramientas</a><a href="../../roster/">Plantilla</a>
+    <a href="../../#factions">Facciones</a><a href="../../#classes">Clases</a><a href="../../#peoples">Razas</a><a href="../../#picker">Selector</a><a href="../../#builder">Grupo</a><a href="../" aria-current="true">Guías</a><a href="../../tools/">Herramientas</a><a href="../../roster/">Plantilla</a><a href="../../play/">En el juego</a>
   </nav>
   <div class="tools">
     <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" aria-label="Idioma: Español">ES</button><ul class="langlist" hidden><li><a href="../../../guides/faq/" data-lang="ru" hreflang="ru" lang="ru"><span>Русский</span><small>RU</small></a></li><li><a href="../../../en/guides/faq/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../../../uk/guides/faq/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../../../de/guides/faq/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="../../../fr/guides/faq/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="./" data-lang="es" hreflang="es" lang="es" aria-current="page"><span>Español</span><small>ES</small></a></li><li><a href="../../../pt/guides/faq/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="../../../it/guides/faq/" data-lang="it" hreflang="it" lang="it"><span>Italiano</span><small>IT</small></a></li><li><a href="../../../pl/guides/faq/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
@@ -1236,8 +1266,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../../assets/radio/radio.js" data-root="../../../" defer></script>
-<script src="../../../assets/search/search.js?v=3f88e5704c" data-root="../../../" defer></script>
-<script src="../../../assets/me/me.js?v=7dd9e27510" data-root="../../../" data-home="../../" data-lang="es" data-teaser="Tu perfil guarda tu camino: Gloria, marcos, temporadas" data-close="Cerrar" data-page="guides/faq/" defer></script>
+<script src="../../../assets/search/search.js?v=724d711a76" data-root="../../../" defer></script>
+<script src="../../../assets/me/me.js?v=36a486068d" data-root="../../../" data-home="../../" data-lang="es" data-teaser="Tu perfil guarda tu camino: Gloria, marcos, temporadas" data-close="Cerrar" data-page="guides/faq/" data-look="1" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

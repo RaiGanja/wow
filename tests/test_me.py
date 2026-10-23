@@ -4,6 +4,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 sys.path.insert(0, os.path.join(ROOT, 'tools'))
 import export_game
+import looks as LK
 
 G = export_game.game()
 
@@ -93,11 +94,12 @@ def test_me_script_on_every_page_after_radio():
             continue
         assert html.count('assets/me/me.js') == 1 and html.count('assets/me/me.css') == 1, p
         assert html.index('assets/radio/radio.js') < html.index('assets/me/me.js'), p
-        m = re.search(r'<script src="[^"]*assets/me/me\.js\?v=\w{10}" data-root="([^"]*)" data-home="([^"]*)" data-lang="(\w+)" data-teaser="([^"]+)" data-close="([^"]+)" data-page="([^"]*)"( data-solo="1")? defer>', html)
+        m = re.search(r'<script src="[^"]*assets/me/me\.js\?v=\w{10}" data-root="([^"]*)" data-home="([^"]*)" data-lang="(\w+)" data-teaser="([^"]+)" data-close="([^"]+)" data-page="([^"]*)" data-look="([^"]+)"( data-solo="1")? defer>', html)
         assert m, p
         page = m.group(6)
+        assert m.group(7) == LK.V, (p, m.group(7))
         # only a language-only guide (uk «ukrainian») is marked: it is not in the guide set, so me.js does not track it
-        assert bool(m.group(7)) == (page == 'guides/ukrainian/'), p
+        assert bool(m.group(8)) == (page == 'guides/ukrainian/'), p
         name = os.path.relpath(p, ROOT).replace(os.sep, '/')
         if name.endswith('404.html'):
             assert page == '404', name
@@ -276,6 +278,38 @@ def test_crest_sprite():
     ids = set(re.findall(r'<symbol id="c-([\w-]+)"', sprite))
     assert ids == {c['id'] for c in G['guilds']['charges']}
     assert 'fill=' not in sprite and len(sprite) < 120_000
+
+
+def test_looks_catalog():
+    L = G['looks']
+    assert L['sexes'] == ['m', 'f']
+    assert set(L['races']) == set(G['races'])
+    for rid, d in L['races'].items():
+        assert d['sex'] in L['sexes'], rid
+        assert d['bg'] in L['bg'], rid
+    assert set(L['bg']) == set(G['backgrounds'])
+    assert len(G['backgrounds']) == 20
+    assert L['races']['nightelf'] == {'sex': 'f', 'bg': 'night-elf'}
+
+
+def test_looks_art_exists():
+    L, slug = G['looks'], {k: v['slug'] for k, v in G['races'].items()}
+    for rid in L['races']:
+        for s in L['sexes']:
+            p = os.path.join(ROOT, 'assets', 'me', 'look', 'base', f'{slug[rid]}-{s}.webp')
+            assert os.path.exists(p), p
+    for b in L['bg']:
+        p = os.path.join(ROOT, 'assets', 'me', 'look', 'bg', f'{b}.webp')
+        assert os.path.exists(p), p
+
+
+def test_no_portrait_left():
+    # the portrait follows the character's look (pic() / lookOf()); the old user.portrait race/class switch is gone.
+    # Only the cabinet and roster scripts are checked: index.src.html has its own class/race tile face() helper.
+    for name in ('me-pages.src.js', 'profile.src.html', 'roster.src.html', 'player.src.html', 'assets/me/me.js'):
+        src = open(os.path.join(ROOT, name), encoding='utf-8').read()
+        assert not re.search(r'\bface\([^()]*portrait', src), (name, 'face() with a portrait argument')
+        assert not re.search(r'\.portrait\b|[{,]\s*portrait\s*:', src), (name, 'portrait property')
 
 
 if __name__ == '__main__':

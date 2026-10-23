@@ -10,11 +10,12 @@ from classes import CLASSES  # noqa: E402
 from races import RACES_PAGE  # noqa: E402
 from guides import GUIDES  # noqa: E402
 import achievements as A  # noqa: E402
+import looks as LK  # noqa: E402
 import progression as P  # noqa: E402
 import guilds as GU  # noqa: E402
 import langs  # noqa: E402
 
-SCENES = ['hero_dawn', 'hero_campfire']   # card backgrounds besides the race arts
+SCENES = ['hero_dawn', 'hero_campfire'] + [s for s, _ in LK.SCENES]   # card backgrounds besides the race arts
 OUT = os.path.join(ROOT, 'assets', 'game.json')
 
 
@@ -60,6 +61,7 @@ def game():
     for row in A.ACH:
         aid, cat, pts, kind, rule = row[:5]
         achs.append({'id': aid, 'cat': cat, 'pts': pts, 'kind': kind, 'rule': rule, 'secret': cat == 'secrets' or len(row) > 7})
+    backgrounds = [r['wt'] if r['wt'] != 'skyborne' else r['slug'] for r in RACES_PAGE] + SCENES
     return {
         'races': races,
         'classes': {c['id']: {'roles': [r.rstrip('?') for r in c['roles']]} for c in CLASSES},
@@ -72,7 +74,13 @@ def game():
         'ranks': [{'id': r, 'pts': p} for r, p, _ in A.RANKS],
         'frames': [dict(id=f, **rule) for f, rule, _ in A.FRAMES],
         'titles': list(A.TITLES),
-        'backgrounds': [r['wt'] if r['wt'] != 'skyborne' else r['slug'] for r in RACES_PAGE] + SCENES,
+        'backgrounds': backgrounds,
+        'looks': {
+            'v': LK.V,
+            'sexes': LK.SEXES,
+            'races': {rid: {'sex': LK.SEX_DEFAULT[rid], 'bg': r['slug']} for rid, r in races.items()},
+            'bg': {b: {'lock': LK.LOCK.get(b)} for b in backgrounds},
+        },
         'deadline_founder': '2026-11-03T21:00:00Z',
         'progression': {
             'glory': P.GLORY, 'sources': {k: {'xp': v[0], 'cap': v[1], 'rested': v[2]} for k, v in P.SOURCES.items()},

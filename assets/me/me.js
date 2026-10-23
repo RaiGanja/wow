@@ -151,9 +151,9 @@
         el.innerHTML = `<span class="me-tt"><b>${esc(text)}</b></span>`;
       } else if (t.kind === 'glory') {
         const fr = state && state.user ? state.user.frame || state.user.rank : 'recruit';
-        el.innerHTML = `<span class="me-ti"><span class="me-ring fr-${esc(fr)}"><img src="${face(state)}" alt="" width="40" height="40"></span></span>
+        el.innerHTML = `<span class="me-ti"><span class="me-ring fr-${esc(fr)}">${img(face(state), 40)}</span></span>
           <span class="me-tt"><b>${esc(fillTx(G.glory_toast, { n: t.id }))}</b></span>`;
-      } else el.innerHTML = `<span class="me-ti">${t.kind === 'rank' ? `<span class="me-ring fr-${esc(t.id)}"><img src="${face(state)}" alt="" width="40" height="40"></span>` : `<img src="${ROOT}assets/me/ach/${esc(t.id)}.webp" alt="" width="44" height="44">`}</span>
+      } else el.innerHTML = `<span class="me-ti">${t.kind === 'rank' ? `<span class="me-ring fr-${esc(t.id)}">${img(face(state), 40)}</span>` : `<img src="${ROOT}assets/me/ach/${esc(t.id)}.webp" alt="" width="44" height="44">`}</span>
         <span class="me-tt"><small>${esc(t.kind === 'rank' ? T.ui.rankUp : T.ui.got)}</small><b>${esc(t.kind === 'rank' ? T.ranks[t.id] || t.id : a[0])}</b></span>
         ${pts ? `<span class="me-shield" aria-label="${esc(pts + ' ' + (T.ui.pts || ''))}">${pts}</span>` : ''}`;
       box.append(el);
@@ -186,9 +186,16 @@
   const FACE = { nightelf: 'night-elf', skyA: 'skyborne-alliance', skyH: 'skyborne-horde' };
   function face(m) {
     const c = m && m.characters && (m.characters.find(x => x.is_main) || m.characters[0]);
-    if (!c) return ROOT + 'assets/brand/mark.webp';
-    return ROOT + 'assets/art/' + (m.user.portrait === 'class' ? c.class : FACE[c.race] || c.race) + '-face.webp';
+    if (!c) return { src: ROOT + 'assets/brand/mark.webp' };
+    const s = FACE[c.race] || c.race, l = c.look || { sex: 'm', bg: s }, v = '?v=' + (D.look || '1');
+    return { src: `${ROOT}assets/me/look/base/${s}-${l.sex}.webp${v}`, bg: `${ROOT}assets/me/look/bg/${l.bg}.webp${v}`, old: `${ROOT}assets/art/${s}-face.webp` };
   }
+  const img = (p, n) => `<img src="${p.src}" alt="" width="${n}" height="${n}"${p.bg ? ` style="background-image:url('${p.bg}')" data-old="${p.old}"` : ''}>`;
+  // base failed to load: fall back to the old race face
+  document.addEventListener('error', e => {
+    const i = e.target;
+    if (i.tagName === 'IMG' && i.dataset && i.dataset.old) { i.src = i.dataset.old; i.style.backgroundImage = ''; delete i.dataset.old; }
+  }, true);
   let btn = null;
   function paintBtn() {
     const theme = document.querySelector('.topbar .themebtn');
@@ -203,7 +210,7 @@
         btn.setAttribute('aria-haspopup', 'menu');
         btn.setAttribute('aria-expanded', 'false');
         btn.title = T.ui.profile || '';
-        btn.innerHTML = `<span class="me-ring fr-${esc(state.user.frame || state.user.rank)}"><img src="${face(state)}" alt="" width="30" height="30"></span>`;
+        btn.innerHTML = `<span class="me-ring fr-${esc(state.user.frame || state.user.rank)}">${img(face(state), 30)}</span>`;
         btn.onclick = e => { e.preventDefault(); menu ? closeMenu() : openMenu(T); };
       } else {
         closeMenu();
@@ -231,7 +238,7 @@
     menu.className = 'me-menu';
     menu.setAttribute('role', 'menu');
     menu.setAttribute('aria-label', T.ui.menu || '');
-    menu.innerHTML = `<div class="me-mh"><span class="me-ring fr-${esc(u.frame || u.rank)}"><img src="${face(state)}" alt="" width="40" height="40"></span>
+    menu.innerHTML = `<div class="me-mh"><span class="me-ring fr-${esc(u.frame || u.rank)}">${img(face(state), 40)}</span>
       <span><b>${esc(name)}</b><small>${esc((T.ranks[u.rank] || u.rank) + ' · ' + (u.points || 0) + ' ' + (T.ui.pts || ''))}</small></span></div>
       ${items.join('')}<hr><button type="button" role="menuitem" class="me-out">${esc(T.ui.logout || 'Log out')}</button>`;
     document.body.append(menu);
@@ -265,7 +272,7 @@
     const m = PAGE.match(/^(guides|classes|races)\/([\w-]+)\/$/);
     // a language-only guide (data-solo, the uk «ukrainian») is not in the guide set: the API would answer bad_item
     if (m && !(m[1] === 'guides' && D.solo)) track({ guides: 'guide', classes: 'class', races: 'race' }[m[1]], m[2]);
-    if (PAGE === 'play/') { track('play_page'); levelFromPlay(); }
+    if (PAGE === 'play/') track('play_page');
     if (PAGE === '404') track('egg', '404');
     const today = new Date().toDateString();
     if (ls.get(DAY) !== today) track('visit').then(r => { if (r) ls.set(DAY, today); });
@@ -340,29 +347,6 @@
     kpos = k === KONAMI[kpos] ? kpos + 1 : k === KONAMI[0] ? 1 : 0;
     if (kpos === KONAMI.length) { kpos = 0; track('egg', 'konami'); }
   });
-
-  // «В игре» keeps the hero level in gabella-wf-me: when it outgrows the main character, offer to update it in one tap
-  function levelFromPlay() {
-    let lvl = 0;
-    try { lvl = +(JSON.parse(localStorage.getItem('gabella-wf-me')) || {}).lvl || 0; } catch (e) { /* no level */ }
-    const main = state && state.characters && state.characters.find(c => c.is_main);
-    if (!main || !(lvl > main.level) || lvl > 60 || ss.get('gabella-me-lvl-asked') === lvl) return;
-    ss.set('gabella-me-lvl-asked', lvl);
-    texts().then(T => {
-      const el = document.createElement('div');
-      el.className = 'me-ask';
-      el.setAttribute('role', 'dialog');
-      el.innerHTML = `<span>${esc((T.ui.lvlAsk || '').replace('{name}', main.name).replace('{n}', lvl))}</span>
-        <button type="button" class="btn gold">${esc(T.ui.update)}</button><button type="button" class="btn ghost">${esc(T.ui.notNow)}</button>`;
-      document.body.append(el);
-      const [yes, no] = el.querySelectorAll('button');
-      no.onclick = () => el.remove();
-      yes.onclick = () => {
-        yes.disabled = true;
-        api('/characters/' + main.id, { method: 'PUT', body: Object.assign({}, main, { level: lvl }) }).then(r => { el.remove(); took(r); }, () => { el.remove(); });
-      };
-    });
-  }
 
   // ---------- guild accepted: a quiet note when a character lands in a guild it was not in before ----------
   // The first visit after this shipped only remembers (no toasts); a guild the person leads (just created) is not announced.

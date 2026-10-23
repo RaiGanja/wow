@@ -12,6 +12,7 @@ sys.path.insert(0, os.path.join(HERE, 'content'))
 from classes import CLASSES, SOURCES  # noqa: E402
 from races import RACES_PAGE, SOURCES as RACE_SOURCES, NEW_RACIALS  # noqa: E402
 import langs  # noqa: E402
+import looks as LK  # noqa: E402
 from langs import LANGS, AUTONYM, HREFLANG, LOCALE, NAMED  # noqa: E402
 
 
@@ -370,7 +371,7 @@ def me(html, lang, here):
     page = here[len(page_dir(lang)):]
     solo = ' data-solo="1"' if only_lang(page) else ''   # a language-only guide is not in the guide set of game.json: me.js skips it
     head = f'<link rel="stylesheet" href="{root}assets/me/me.css" media="print" onload="this.media=\'all\'">\n</head>'
-    js = f'<script src="{root}assets/me/me.js" data-root="{root}" data-home="{home}" data-lang="{lang}" data-teaser="{_html.escape(TEASER[lang])}" data-close="{_html.escape(tr('Закрыть', lang))}" data-page="{page}"{solo} defer></script>\n</body>'
+    js = f'<script src="{root}assets/me/me.js" data-root="{root}" data-home="{home}" data-lang="{lang}" data-teaser="{_html.escape(TEASER[lang])}" data-close="{_html.escape(tr('Закрыть', lang))}" data-page="{page}" data-look="{LK.V}"{solo} defer></script>\n</body>'
     return html.replace('</head>', head, 1).replace('</body>', js, 1)
 
 
@@ -690,6 +691,52 @@ def pic(cid, root, widths, sizes, cls='', lazy=True):
     return f'<picture{cls}>{srcs}<img src="{root}assets/art/{cid}-{widths[-1]}.webp" width="896" height="1200" alt=""{load} decoding="async"></picture>'
 
 
+# ---------- professions on a class page and in the compare tool: pairs of the Professions guide + camp objects of the home PROFS ----------
+
+PAIR_PROFS = {'bs': ('blacksmithing', 'mining'), 'eng': ('engineering', 'mining'), 'lw': ('leatherworking', 'skinning'),
+              'tail': ('tailoring', 'enchanting'), 'alch': ('alchemy', 'herbalism')}
+PROF_T = langs.fill({
+    'h': {'ru': 'Профессии', 'en': 'Professions', 'uk': 'Професії'},
+    'camp': {'ru': 'В лагере', 'en': 'In camp', 'uk': 'У таборі'},
+    'note': {'ru': 'Пассивных бонусов у профессий в Forever нет: характеристики дают вещи, зелья и чары, которые вы делаете, и баффы объектов лагеря.',
+             'en': 'Professions in Forever have no passive bonuses: stats come from the gear, potions and enchants you make, and from camp object buffs.',
+             'uk': 'Пасивних бонусів у професій у Forever немає: характеристики дають речі, зілля й чари, які ви робите, і баффи об’єктів табору.'},
+    'more': {'ru': 'Все пары, объекты лагеря и прокачка навыка', 'en': 'All pairs, camp objects and skill leveling',
+             'uk': 'Усі пари, об’єкти табору й прокачування навички'},
+})
+_CAMP = {}
+
+
+def camp_objects():
+    """{profession id: (camp object, Russian effect)} from PROFS of the home page."""
+    if not _CAMP:
+        src = open(os.path.join(HERE, 'index.src.html'), encoding='utf-8').read()
+        _CAMP.update({pid: (obj, eff) for pid, _n, _tier, obj, eff in re.findall(r"\['(\w+)', '([^']+)', (\d), '([^']+)', '([^']+)'\]", src)})
+    return _CAMP
+
+
+def class_profs(cid, lang):
+    """Recommended pairs of a class in lang: [(pair, why, [(camp object, effect), …])]."""
+    from content.guides import PAIRS, CLASS_PAIRS
+    L = lambda d: langs.derive(d)[lang]
+    camp = camp_objects()
+    pairs = next(p for c, _n, p in CLASS_PAIRS if c == cid)
+    return [(L(PAIRS[p][0]), L(why or PAIRS[p][1]), [(camp[x][0], camp[x][1] if lang == 'ru' else t_of(camp[x][1], lang)) for x in PAIR_PROFS[p]])
+            for p, why in pairs]
+
+
+def profs_panel(cid, lang):
+    """Class page panel «Профессии»: two pairs, their camp buffs, the no-passives note and a link to this class in the guide."""
+    tx = {k: v[lang] for k, v in PROF_T.items()}
+    items = ''.join(f'<li><b>{esc(pair)}</b><span class="d">{esc(why)}</span>'
+                    f'<span class="pcamp"><svg class="ico" aria-hidden="true"><use href="#i-fire"/></svg><span>{tx["camp"]}: '
+                    + '; '.join(f'{esc(o)} — {esc(e)}' for o, e in camp) + '</span></span></li>'
+                    for pair, why, camp in class_profs(cid, lang))
+    return (f'<div class="panel cprofs" id="profs"><h3>{tx["h"]}</h3><ul class="cpairs">{items}</ul>'
+            f'<p class="small">{esc(tx["note"])}</p>'
+            f'<a class="pmore" href="@@HOME@@guides/professions/#pairs={cid}">{tx["more"]}{ico("arrow")}</a></div>')
+
+
 def render_class(c, races, lang):
     i = next(k for k, x in enumerate(CLASSES) if x['id'] == c['id'])
     roles = ''.join(f'<span class="{"q" if r.endswith("?") else ""}">{ri(r)}{ROLE[r]}</span>' for r in c['roles'])
@@ -720,7 +767,7 @@ def render_class(c, races, lang):
     return {
         'ID': c['id'], 'COLOR': COLOR[c['id']], 'DESC': esc(c['desc']), 'ROLES': roles, 'FACTS': facts,
         'TABS': ''.join(tabs), 'PANELS': ''.join(panels), 'NEWS': news, 'RACES': ''.join(side),
-        'RACES_TIP': esc(c['races_tip']), 'GROUP': group, 'LVL': esc(c['lvl']), 'PROFS': esc(c['profs']),
+        'RACES_TIP': esc(c['races_tip']), 'GROUP': group, 'LVL': esc(c['lvl']),
         'PROS': pros, 'CONS': cons,
         'PREV': CLASSES[i - 1], 'NEXT': CLASSES[(i + 1) % len(CLASSES)],
     }
@@ -732,7 +779,7 @@ def build_class(c, lang, tpl, base_css, sprite, races):
     home = rel(here, page_dir(lang))
     v = render_class(c, races, lang)
     html = tpl.replace('@@BASE_CSS@@', base_css).replace('@@SPRITE@@', sprite)
-    for k in ('ID', 'COLOR', 'DESC', 'ROLES', 'FACTS', 'TABS', 'PANELS', 'NEWS', 'RACES', 'RACES_TIP', 'GROUP', 'LVL', 'PROFS', 'PROS', 'CONS'):
+    for k in ('ID', 'COLOR', 'DESC', 'ROLES', 'FACTS', 'TABS', 'PANELS', 'NEWS', 'RACES', 'RACES_TIP', 'GROUP', 'LVL', 'PROS', 'CONS'):
         html = html.replace(f'@@{k}@@', v[k])
     others = ''.join(f'<a class="oc" href="../{o["id"]}/" style="--cc:{COLOR[o["id"]]}">{pic(o["id"], root, (360,), "132px")}<b>{esc(o["n"])}</b></a>' for o in CLASSES if o['id'] != c['id'])
     pager = (f'<a class="prev" href="../{v["PREV"]["id"]}/">{ico("arrow")}{esc(v["PREV"]["n"])}</a>'
@@ -743,6 +790,7 @@ def build_class(c, lang, tpl, base_css, sprite, races):
     html = html.replace('@@OTHERS@@', others).replace('@@PAGER@@', pager).replace('@@TOC_CLASSES@@', toc).replace('@@SOURCES@@', sources)
 
     html, missing = translate(html, lang)
+    html = html.replace('@@PROFS@@', profs_panel(c['id'], lang))   # already in lang: the pairs come from the Professions guide
     html = mark_long(hyph_tabs(html))
     html = html.replace('@@NAME@@', esc(tr(c['n'], lang)))
     html = html.replace('@@HOME@@', home)

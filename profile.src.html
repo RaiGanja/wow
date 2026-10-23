@@ -35,8 +35,9 @@
 .nx .go { grid-column: 1 / -1; justify-self: start; margin-top: 8px; min-height: 40px; padding: 0 14px; font-size: .9rem; }
 .path { display: flex; flex-wrap: wrap; gap: 6px 26px; padding: 12px 18px; font-size: .92rem; color: var(--muted); }
 .path b { color: var(--fg); font-weight: 600; font-variant-numeric: lining-nums tabular-nums; }
-/* cabinet blocks under the card (next steps, path strip, menu) keep air between them */
-#view > :is(.bcard, .ask, .path, section:not(.wiz)) + :is(.ask, .path, .lay, section:not(.wiz)) { margin-top: 18px; }
+/* cabinet blocks under the card (Glory bar, next steps, path strip, menu) keep air between them; a section title sits off its panels */
+#view > :is(.bcard, .g-box, .ask, .path, section:not(.wiz)) + :is(.g-box, .ask, .path, .lay, section:not(.wiz)) { margin-top: 18px; }
+#view > section:not(.wiz) > .sec-h { margin: 8px 0 12px; }
 .ask { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; padding: 14px 18px; }
 .ask span { flex: 1 1 260px; }
 .lay { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 22px; align-items: start; }
@@ -96,7 +97,7 @@
 .picks { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 8px; }
 .picks button { display: grid; justify-items: center; gap: 8px; padding: 14px 8px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); color: var(--fg); font: inherit; font-weight: 600; font-size: .9rem; cursor: pointer; }
 .picks button:hover { border-color: var(--gold); }
-.picks button[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset 0 0 0 1px var(--gold); }
+.picks button[aria-pressed="true"], .picks button[aria-checked="true"] { border-color: var(--gold); box-shadow: inset 0 0 0 1px var(--gold); }
 .picks .me-ring { --s: 64px; margin: 0; }
 .picks small { color: var(--muted); font-weight: 500; }
 .signed { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px 14px; color: var(--muted); font-size: .92rem; }
@@ -190,6 +191,20 @@
   .side { width: 100vw; }
 }
 @media (prefers-reduced-motion: reduce) { .facs img { transition: none; } }
+.lkbox .me-ring { --room-x: 6px; --room-y: 6px; }
+.pitem { display: grid; gap: 6px; align-content: start; }
+.pitem > .btn { justify-self: start; }
+.lk { display: grid; gap: 14px; padding: 20px; }
+.lk-prev { display: flex; align-items: center; gap: 14px; position: sticky; top: var(--top); z-index: 1; padding: 10px 0; background: var(--surface); }
+.lk-prev .me-ring { --s: 120px; --room-x: 14px; --room-y: 16px; }
+.lk .tabs { display: flex; gap: 6px; border-bottom: 1px solid var(--line); }
+.lk .tabs button { padding: 8px 14px; border: 0; background: none; color: var(--muted); font: inherit; border-bottom: 2px solid transparent; cursor: pointer; }
+.lk .tabs [aria-selected="true"] { color: var(--fg); border-bottom-color: var(--gold); }
+.lk-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(96px, 100%), 1fr)); gap: 8px; }
+.lk-tiles button { display: grid; justify-items: center; gap: 6px; padding: 10px 4px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); color: var(--fg); font: inherit; font-size: .85rem; cursor: pointer; }
+.lk-tiles button[aria-checked="true"] { border-color: var(--gold); }
+.lk-tiles .me-ring { --s: 64px; --room-x: 10px; --room-y: 10px; }
+.lk-tiles button:focus-visible, .lk .tabs button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 </style>
 <!--body-->
 <main class="wrap pg-top pf" id="app">
@@ -212,6 +227,20 @@
     <p class="msg full" id="eNote" role="alert"></p>
     <div class="act"><button type="submit" class="btn" id="eSave">Сохранить</button><button type="button" class="btn ghost" id="eMain">Сделать основным</button><span class="sp"></span><button type="button" class="btn danger" id="eDel">Удалить персонажа</button></div>
   </form>
+</dialog>
+
+<dialog class="side" id="lookDlg" aria-labelledby="lookT">
+  <div class="dh"><b id="lookT">Облик</b><button type="button" class="btn ghost" data-look-close aria-label="Закрыть">✕</button></div>
+  <div class="lk">
+    <div class="lk-prev" id="lkPrev"></div>
+    <div class="tabs" role="tablist" aria-label="Облик">
+      <button type="button" role="tab" id="lkTabSex" aria-controls="lkPane" aria-selected="true" data-tab="sex">Пол</button>
+      <button type="button" role="tab" id="lkTabBg" aria-controls="lkPane" aria-selected="false" data-tab="bg">Фон</button>
+    </div>
+    <div id="lkPane" role="tabpanel" class="lk-tiles"></div>
+    <div class="act"><button type="button" class="btn ghost" data-look-rand>Случайно</button><button type="button" class="btn ghost" data-look-reset>Сбросить</button><span class="sp"></span><button type="button" class="btn" data-look-save>Сохранить</button></div>
+    <p class="msg" id="lookMsg" role="status"></p>
+  </div>
 </dialog>
 
 <dialog class="cdlg" id="delDlg" aria-labelledby="delT">
@@ -261,7 +290,7 @@ const mainOf = () => m.characters.find(c => c.is_main) || m.characters[0];
 const have = () => new Map(m.achievements.map(a => [a.id, a]));
 const ctx = () => ({ progress: m.progress, user: m.user, chars: m.characters, have: new Set(m.achievements.map(a => a.id)) });
 const asPlayer = c => ({ id: m.user.id, nick: m.user.show_nick ? m.user.nick : null, title: m.user.title, frame: m.user.frame, rank: m.user.rank,
-  portrait: m.user.portrait, background: m.user.background, motto: m.user.motto, points: m.user.points, joined: m.user.joined_guild_at, member: m.user.member, main: c,
+  background: m.user.background, motto: m.user.motto, points: m.user.points, joined: m.user.joined_guild_at, member: m.user.member, main: c,
   name_color: m.user.name_color });
 const myUrl = () => new URL(playerUrl(m.user.id), location.href).href;
 const refUrl = () => new URL(`${HOME}profile/?ref=${m.user.id}`, location.href).href;
@@ -460,9 +489,9 @@ function accountOnly() {
 }
 function wizard() {
   parkForm();
-  wiz = wiz || { step: 1, f: '', race: '', cls: '' };
+  wiz = wiz || { step: 1, f: '', race: '', cls: '', look: null };
   const w = wiz, v = $('#view');
-  const steps = ['Сторона', 'Раса и класс', 'Персонаж'].map((s, i) => `<span${w.step === i + 1 ? ' aria-current="step"' : ''}>${i + 1}. ${esc(s)}</span>`).join('<span aria-hidden="true">·</span>');
+  const steps = ['Сторона', 'Раса и класс', 'Облик', 'Персонаж'].map((s, i) => `<span${w.step === i + 1 ? ' aria-current="step"' : ''}>${i + 1}. ${esc(s)}</span>`).join('<span aria-hidden="true">·</span>');
   let body = '';
   if (w.step === 1) {
     body = `<h2>За кого играете?</h2><div class="facs">${['alliance', 'horde'].map(f => `<button type="button" data-f="${f}" style="--fc:var(--${f})">
@@ -473,10 +502,19 @@ function wizard() {
     body = `<h2>Раса и класс</h2><div class="picks" role="group" aria-label="Раса">${races.map(([id, r]) => `<button type="button" data-race="${id}" aria-pressed="${w.race === id}">${ring('recruit', `${ROOT}assets/art/${r.slug}-face.webp`)}${esc(r.n)}</button>`).join('')}</div>
       ${w.race ? `<div class="picks" role="group" aria-label="Класс">${cl.map(id => `<button type="button" data-cls="${id}" aria-pressed="${w.cls === id}" style="color:${cls(id).color}">${ring('recruit', `${ROOT}assets/art/${id}-face.webp`)}${esc(cls(id).n)}</button>`).join('')}</div>` : ''}
       <div class="row"><button type="button" class="btn ghost" data-back>Назад</button><button type="button" class="btn" data-next${w.race && w.cls ? '' : ' disabled'}>Дальше</button></div>`;
+  } else if (w.step === 3) {
+    const c0 = { race: w.race, class: w.cls };
+    const tile = (k, v, name) => {
+      const t = Object.assign({}, c0, { look: Object.assign({}, w.look, { [k]: v }) });
+      return `<button type="button" role="radio" aria-checked="${w.look[k] === v}" tabindex="${w.look[k] === v ? 0 : -1}" data-wl="${k}" data-v="${v}">${ring('recruit', pic(t))}<span>${esc(name)}</span></button>`;
+    };
+    body = `<h2>Облик</h2><div class="picks" role="radiogroup" aria-label="Пол">${GD.looks.sexes.map(s => tile('sex', s, s === 'f' ? 'Женский' : 'Мужской')).join('')}</div>
+      <h3>Фон портрета</h3><div class="picks" role="radiogroup" aria-label="Фон портрета">${GD.backgrounds.filter(b => !GD.looks.bg[b].lock).map(b => tile('bg', b, lkName('bg', b))).join('')}</div>
+      <div class="row"><button type="button" class="btn ghost" data-back>Назад</button><button type="button" class="btn" data-next>Дальше</button></div>`;
   } else {
     body = `<h2>Персонаж</h2><div id="wForm"></div><div class="row"><button type="button" class="btn ghost" data-back>Назад</button></div>`;
   }
-  const c = { name: w.name || '…', race: w.race || (w.f === 'horde' ? 'orc' : 'human'), class: w.cls || 'warrior', level: w.level || 1, role: w.role || 'dps' };
+  const c = { name: w.name || '…', race: w.race || (w.f === 'horde' ? 'orc' : 'human'), class: w.cls || 'warrior', level: w.level || 1, role: w.role || 'dps', look: w.look || undefined };
   const prev = asPlayer(c);
   prev.title = Date.now() < Date.parse(GD.deadline) ? 'founder' : null;
   prev.frame = prev.title ? 'founder' : prev.frame;
@@ -484,14 +522,15 @@ function wizard() {
   v.innerHTML = `${noticeHtml()}<div class="signed"><span>${esc(who())}</span><a class="btn ghost" href="#account">Аккаунт</a><button type="button" class="btn ghost" data-act="logout">Выйти</button></div>
     <p class="lab">Так вас увидят в «Составе»</p>${bcard(prev, { h: 'h2' })}${founderPlaque()}
     <section class="frame wiz"><div class="wsteps">${steps}</div>${body}</section>`;
-  if (w.step === 3) mountForm($('#wForm'), null);
+  if (w.step === 4) mountForm($('#wForm'), null);
 }
 document.addEventListener('click', e => {
   if (!wiz || !e.target.closest('.wiz')) return;
   const b = e.target.closest('button'); if (!b) return;
   if (b.dataset.f) { wiz.f = b.dataset.f; wiz.race = ''; wiz.cls = ''; wiz.step = 2; }
-  else if (b.dataset.race) { wiz.race = b.dataset.race; if (!race(wiz.race).cls.includes(wiz.cls)) wiz.cls = ''; }
+  else if (b.dataset.race) { wiz.race = b.dataset.race; wiz.look = Object.assign({}, GD.looks.races[wiz.race]); if (!race(wiz.race).cls.includes(wiz.cls)) wiz.cls = ''; }
   else if (b.dataset.cls) wiz.cls = b.dataset.cls;
+  else if (b.dataset.wl) { wiz.look[b.dataset.wl] = b.dataset.v; wizard(); return $(`.wiz [data-wl="${b.dataset.wl}"][data-v="${b.dataset.v}"]`).focus(); }
   else if ('back' in b.dataset) wiz.step--;
   else if ('next' in b.dataset) wiz.step++;
   else return;
@@ -591,6 +630,7 @@ function wireForm() {
     (ts ? ts.get() : Promise.resolve(null)).then(t => {
       if (ts && !t) { busy(false); return note(ERR.bot, true); }
       if (t) b.turnstile = t;
+      if (!edit && wiz && wiz.look) b.look = wiz.look;
       const req = edit ? M.api('/characters/' + edit, { method: 'PUT', body: b }) : M.api('/characters', { body: b });
       return req.then(r => (hideNick ? M.api('/me', { method: 'PUT', body: { show_nick: false } }).then(r2 => Object.assign(r, { me: r2.me })) : r))
         .then(r => { busy(false); if (!edit) { wiz = null; parkForm(); } closeEd(); M.took(r); },
@@ -616,6 +656,56 @@ function openEd(c) {
   $('#eName').focus();
 }
 function closeEd() { if ($('#edDlg').open) $('#edDlg').close(); }
+
+/* ---------- look: sex and portrait background ---------- */
+let lk = null;   // { c, look, tab, saved }
+const LK_TABS = { sex: () => GD.looks.sexes, bg: () => GD.backgrounds.filter(b => !GD.looks.bg[b].lock) };
+const lkName = (tab, v) => tab === 'sex' ? (v === 'f' ? 'Женский' : 'Мужской')
+  : /^hero_/.test(v) ? (v === 'hero_dawn' ? 'Рассвет' : 'Привал') : GD.scenes[v] || (Object.values(GD.races).find(r => r.slug === v) || { n: v }).n;
+function lkDraw() {
+  const c = Object.assign({}, lk.c, { look: lk.look }), u = m.user;
+  $('#lkPrev').innerHTML = `${ring(u.frame || u.rank, pic(c))}<div><b>${esc(c.name)}</b><div class="small">${subline(c)}</div></div>`;
+  $$('#lookDlg [role="tab"]').forEach(t => t.setAttribute('aria-selected', String(t.dataset.tab === lk.tab)));
+  $('#lkPane').setAttribute('aria-labelledby', lk.tab === 'sex' ? 'lkTabSex' : 'lkTabBg');
+  $('#lkPane').innerHTML = `<div role="radiogroup" aria-label="${lk.tab === 'sex' ? 'Пол' : 'Фон'}" style="display:contents">${LK_TABS[lk.tab]().map(v => {
+    const on = lk.look[lk.tab] === v, t = Object.assign({}, c, { look: Object.assign({}, lk.look, { [lk.tab]: v }) });
+    return `<button type="button" role="radio" aria-checked="${on}" tabindex="${on ? 0 : -1}" data-v="${v}">${ring('recruit', pic(t))}<span>${esc(lkName(lk.tab, v))}</span></button>`;
+  }).join('')}</div>`;
+}
+function lkOpen(c) {
+  lk = { c, look: Object.assign({}, lookOf(c)), tab: 'sex', saved: JSON.stringify(lookOf(c)) };
+  $('#lookMsg').className = 'msg'; $('#lookMsg').textContent = '';
+  lkDraw();
+  if ($('#lookDlg').showModal) $('#lookDlg').showModal(); else $('#lookDlg').setAttribute('open', '');
+}
+const lkDirty = () => lk && JSON.stringify(lk.look) !== lk.saved;
+function lkClose() { if (lkDirty() && !confirm('Изменения облика не сохранены. Закрыть?')) return; $('#lookDlg').close(); lk = null; }
+$('#lookDlg').addEventListener('click', e => {
+  const b = e.target.closest('button');
+  if (e.target === $('#lookDlg') || (b && 'lookClose' in b.dataset)) return lkClose();
+  if (!b || !lk) return;
+  if (b.dataset.tab) { lk.tab = b.dataset.tab; return lkDraw(); }
+  if (b.getAttribute('role') === 'radio') { lk.look[lk.tab] = b.dataset.v; lkDraw(); return $(`#lkPane [data-v="${b.dataset.v}"]`).focus(); }
+  if ('lookRand' in b.dataset) { const all = LK_TABS.bg(); lk.look.bg = all[Math.floor(Math.random() * all.length)]; return lkDraw(); }
+  if ('lookReset' in b.dataset) { const d = GD.looks.races[lk.c.race]; lk.look = { sex: d.sex, bg: d.bg }; return lkDraw(); }
+  if ('lookSave' in b.dataset) {
+    b.disabled = true;
+    const s = lk;   // the dialog may be closed (Esc, backdrop) while the request is pending
+    M.api(`/characters/${s.c.id}/look`, { method: 'PUT', body: { look: s.look } })
+      .then(r => { b.disabled = false; if (lk === s) { s.saved = JSON.stringify(s.look); $('#lookDlg').close(); lk = null; } M.took(r); },
+        e2 => { b.disabled = false; if (lk === s) { $('#lookMsg').className = 'msg err'; $('#lookMsg').textContent = errText(e2); } });
+  }
+});
+$('#lookDlg').addEventListener('cancel', e => { if (lkDirty() && !confirm('Изменения облика не сохранены. Закрыть?')) e.preventDefault(); else lk = null; });
+// arrow keys inside a radio group: the look editor and the wizard's look step
+document.addEventListener('keydown', e => {
+  const b = e.target.closest && e.target.closest('#lookDlg [role="radio"], .wiz [role="radio"]');
+  if (!b || !['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp'].includes(e.key)) return;
+  const all = [...b.closest('[role="radiogroup"]').querySelectorAll('[role="radio"]')], i = all.indexOf(b) + (e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : -1);
+  all[(i + all.length) % all.length].click();
+  e.preventDefault();
+});
+window.addEventListener('beforeunload', e => { if (lkDirty()) { e.preventDefault(); e.returnValue = ''; } });
 
 /* ---------- cabinet ---------- */
 const fresh = () => m.achievements.length < 3;   // a newcomer: the first steps go first
@@ -654,6 +744,10 @@ function pathHtml() {
   return `<div class="frame path" aria-label="Ваш путь"><span>Дней подряд: <b>${u.streak || 0}</b></span><span>Радио: <b>${unit(radio, 'hour')}</b></span>
     <span>Гайды: <b>${fill('%v из %g', { v: guides, g: GD.sets.guide.length })}</b></span><span>Место в команде: <b>${place}</b></span></div>`;
 }
+function playHint() {   // until the person has opened the in-game page once
+  if ((m.progress || {}).play_page) return '';
+  return `<div class="frame ask"><span>Играете? Откройте «В игре» рядом с игрой: там радио копит Славу, а уровень персонажа меняется в одно касание.</span><a class="btn ghost" href="${HOME}play/">Открыть «В игре»</a></div>`;
+}
 function levelAsk() {
   let lvl = 0;
   try { lvl = +(JSON.parse(localStorage.getItem('gabella-wf-me')) || {}).lvl || 0; } catch (e) { /* no level */ }
@@ -664,10 +758,11 @@ function levelAsk() {
 
 function secChars() {
   const n = m.characters.length;
-  const cards = m.characters.map(c => glWrap(c, pcard(Object.assign(asPlayer(c), { alts: [], lfg: c.is_main ? m.user.lfg : null, nick: null }), {
+  // the look button sits under the card, not inside it: the card is role=button and must not nest another control
+  const cards = m.characters.map(c => `<div class="pitem">${glWrap(c, pcard(Object.assign(asPlayer(c), { alts: [], lfg: c.is_main ? m.user.lfg : null, nick: null }), {
     link: false, cls: c.is_main ? 'main' : '', after: c.is_main ? '<div class="mainmark">Основной персонаж</div>' : '',
     attrs: ` role="button" tabindex="0" data-edit="${c.id}" aria-label="${esc(fill('Изменить: %n', { n: c.name }))}"`,
-  }))).join('');
+  }))}<button type="button" class="btn ghost" data-look="${c.id}" aria-label="${esc(fill('Облик: %n', { n: c.name }))}">Облик</button></div>`).join('');
   const add = n < CHAR_MAX ? `<button type="button" class="add" data-act="add"><b>${ico('plus')}Добавить персонажа</b><span>${esc(fill('Можно ещё: %n', { n: CHAR_MAX - n }))}</span></button>` : '';
   const l = m.user.lfg;
   const lfg = `<div class="frame box"><h3>Ищу группу</h3><p class="small">Основной персонаж появится в полосе «Сейчас ищут» на «Составе». Через 3 часа отметка гаснет сама.</p>
@@ -719,17 +814,17 @@ function moveShowcase(from, to) {
 
 function secLook() {
   const u = m.user, c = mainOf();
-  const frames = m.frames.map(f => `<button type="button" class="rstep" data-frame="${f}" aria-pressed="${(u.frame || u.rank) === f}">${ring(f, face(c, u.portrait))}<b>${esc(frameName(f))}</b></button>`).join('');
+  const frames = m.frames.map(f => `<button type="button" class="rstep" data-frame="${f}" aria-pressed="${(u.frame || u.rank) === f}">${ring(f, pic(c))}<b>${esc(frameName(f))}</b></button>`).join('');
   const titles = `<option value="">Без титула</option>` + m.titles.map(t => `<option value="${t}"${u.title === t ? ' selected' : ''}>${esc(titleName(t))}</option>`).join('');
   const bgs = GD.backgrounds.map(b => {
     const src = /^hero_/.test(b) ? `${ROOT}assets/art/${b}-960.webp` : `${ROOT}assets/art/${b}-bg.webp`;
-    const name = /^hero_/.test(b) ? (b === 'hero_dawn' ? 'Рассвет' : 'Привал') : (Object.values(GD.races).find(r => r.slug === b) || { n: b }).n;
+    const name = lkName('bg', b);
     return `<button type="button" data-bg="${b}" aria-pressed="${(u.background || race(c.race).slug) === b}"><img src="${src}" alt="" loading="lazy"><span>${esc(name)}</span></button>`;
   }).join('');
   return `<div class="sec-h"><h2>Внешний вид</h2></div><p>Всё меняется сразу — карточка вверху показывает, как вас видят другие.</p>
     <div class="frame box"><h3>Рамка</h3><div class="frames">${frames}</div><p class="small">Новые рамки открываются рангами и особыми достижениями.</p></div>
     <div class="frame box"><h3>Титул над именем</h3><select id="lTitle" aria-label="Титул над именем">${titles}</select></div>
-    <div class="frame box"><h3>Портрет</h3><div class="seg" id="lPortrait" role="group" aria-label="Портрет"><button type="button" data-v="race" aria-pressed="${u.portrait !== 'class'}">Раса</button><button type="button" data-v="class" aria-pressed="${u.portrait === 'class'}">Класс</button></div></div>
+    <div class="frame box lkbox"><h3>Облик</h3><div class="row">${ring(u.frame || u.rank, pic(c))}<div><p class="small">Пол и фон портрета — у каждого персонажа свои.</p><button type="button" class="btn ghost" data-look="${c.id}">Изменить облик</button></div></div></div>
     <div class="frame box"><h3>Фон карточки</h3><div class="bgs">${bgs}</div></div>
     ${colorBox()}${showcaseBox()}
     <div class="frame box"><h3>Девиз</h3>${u.motto_hidden ? '<p class="small">Девиз скрыт администратором.</p>' : ''}${u.motto_visible ? '' : `<p class="small">${esc(tg('motto_later'))}</p>`}
@@ -752,14 +847,14 @@ function secAch() {
     <div class="achs">${list.map(a => achTile(a, h.get(a.id), c)).join('')}</div>`;
 }
 function secFrames() {
-  const u = m.user, c = mainOf(), pic = face(c, u.portrait), open = new Set(m.frames);
+  const u = m.user, c = mainOf(), pics = pic(c), open = new Set(m.frames);
   const ladder = GD.ranks.map(r => {
     const on = open.has(r.id);
-    return `<${on ? 'button type="button" data-frame="' + r.id + '"' : 'div'} class="rstep${u.rank === r.id ? ' cur' : ''}${on ? '' : ' lock'}">${ring(r.id, pic, on ? '' : 'locked')}<b>${esc(rankName(r.id))}</b><span>${esc(fill('%n очков', { n: r.pts }))}</span></${on ? 'button' : 'div'}>`;
-  }).join('') + `<div class="rstep${open.has('boss') ? '' : ' lock'}">${ring('boss', pic, open.has('boss') ? '' : 'locked')}<b>${esc(frameName('boss'))}</b><span>Одна на сервер</span></div>`;
+    return `<${on ? 'button type="button" data-frame="' + r.id + '"' : 'div'} class="rstep${u.rank === r.id ? ' cur' : ''}${on ? '' : ' lock'}">${ring(r.id, pics, on ? '' : 'locked')}<b>${esc(rankName(r.id))}</b><span>${esc(fill('%n очков', { n: r.pts }))}</span></${on ? 'button' : 'div'}>`;
+  }).join('') + `<div class="rstep${open.has('boss') ? '' : ' lock'}">${ring('boss', pics, open.has('boss') ? '' : 'locked')}<b>${esc(frameName('boss'))}</b><span>Одна на сервер</span></div>`;
   const specials = GD.frames.filter(f => f.ach).map(f => {
     const on = open.has(f.id);
-    return `<${on ? 'button type="button" data-frame="' + f.id + '"' : 'div'} class="rstep${on ? '' : ' lock'}">${ring(f.id, pic, on ? '' : 'locked')}<b>${esc(frameName(f.id))}</b><span>${on ? 'Открыта' : esc(fill('За «%a»', { a: achName(f.ach) }))}</span></${on ? 'button' : 'div'}>`;
+    return `<${on ? 'button type="button" data-frame="' + f.id + '"' : 'div'} class="rstep${on ? '' : ' lock'}">${ring(f.id, pics, on ? '' : 'locked')}<b>${esc(frameName(f.id))}</b><span>${on ? 'Открыта' : esc(fill('За «%a»', { a: achName(f.ach) }))}</span></${on ? 'button' : 'div'}>`;
   }).join('');
   return `<div class="sec-h"><h2>Рамки и ранги</h2></div>
     <p>Ранг растёт от очков достижений, каждый ранг открывает свою рамку портрета. Особые рамки — только за особые достижения. Носить можно любую открытую: нажмите на неё.</p>
@@ -792,7 +887,7 @@ function rewardThumb(r) {
   const [k, id] = r.split(':');
   if (k === 'badge') return `<img src="${ROOT}assets/me/ach/${esc(id)}.webp" alt="">`;
   if (k === 'bg') return `<img src="${ROOT}assets/art/${esc(id)}-bg.webp" alt="">`;
-  if (k === 'frame') return ring(id, face(mainOf(), m.user.portrait));
+  if (k === 'frame') return ring(id, pic(mainOf()));
   return `<b aria-hidden="true">${esc([...titleName(id)][0] || '')}</b>`;
 }
 function seasonHtml() {
@@ -918,7 +1013,7 @@ function cabinet() {
   if (!secs().some(x => x[0] === sec)) sec = 'chars';
   const nav = secs().map(([id, t]) => `<a href="#${id}"${sec === id ? ' aria-current="page"' : ''}>${esc(t)}${id === 'chars' ? `<span>${esc(fill('%n из %m', { n: m.characters.length, m: CHAR_MAX }))}</span>` : id === 'ach' ? `<span>${ach} / ${all}</span>` : ''}</a>`).join('');
   const body = { chars: secChars, look: secLook, ach: secAch, frames: secFrames, chronicle: secChronicle, account: secAccount, reports: secReports }[sec]();
-  $('#view').innerHTML = `${noticeHtml()}<p class="lab">Карточка — как вас видят другие</p>${bcard(p, { h: 'h2', reveal })}${gloryHtml()}${levelAsk()}${nextHtml()}${weekHtml()}${seasonHtml()}${pathHtml()}
+  $('#view').innerHTML = `${noticeHtml()}<p class="lab">Карточка — как вас видят другие</p>${bcard(p, { h: 'h2', reveal })}${gloryHtml()}${levelAsk()}${nextHtml()}${weekHtml()}${playHint()}${seasonHtml()}${pathHtml()}
     <div class="lay"><nav class="frame pnav" aria-label="Кабинет">${nav}<hr><a class="pub" href="${playerUrl(m.user.id)}">Моя страница ↗</a></nav><section class="sec" id="sec">${body}</section></div>`;
   reveal = false;
   const cur = $('.s-track');   // the season track opens at the step in progress
@@ -1170,6 +1265,8 @@ function put(body, noteId) {
 document.addEventListener('click', e => {
   if (!m || !e.target.closest('#view')) return;
   const t = e.target;
+  const lb = t.closest('[data-look]');
+  if (lb) { e.stopPropagation(); return lkOpen(m.characters.find(x => x.id === +lb.dataset.look)); }
   const editCard = t.closest('[data-edit]');
   if (editCard) return openEd(m.characters.find(c => c.id === +editCard.dataset.edit));
   const gc = t.closest('[data-gl="create"]');
@@ -1182,8 +1279,6 @@ document.addEventListener('click', e => {
   if (bg) return put({ background: bg.dataset.bg }, 'lookNote');
   const ct = t.closest('[data-cat]');
   if (ct) { cat = ct.dataset.cat; return cabinet(); }
-  const pt = t.closest('#lPortrait button');
-  if (pt) return put({ portrait: pt.dataset.v }, 'lookNote');
   const nc = t.closest('[data-ncolor]');
   if (nc) return put({ name_color: nc.dataset.ncolor }, 'lookNote');
   const sh = t.closest('[data-sh]');
