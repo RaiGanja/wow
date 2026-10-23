@@ -14,8 +14,21 @@ const TICO = { morning: 'sun', evening: 'moon', night: 'moon' };
 const ico = n => `<svg class="ico" aria-hidden="true"><use href="#i-${n}"/></svg>`;
 const race = id => GD.races[id] || { f: 'alliance', n: id, slug: 'human', cls: [] };
 const cls = id => GD.classes[id] || { n: id, color: '#c9a54a', roles: [] };
-const face = (c, portrait) => `${ROOT}assets/art/${portrait === 'class' ? c.class : race(c.race).slug}-face.webp`;
-const ring = (frame, src, extra) => `<span class="me-ring fr-${esc(frame || 'recruit')}${extra ? ' ' + extra : ''}"><img src="${src}" alt="" width="64" height="64" loading="lazy" decoding="async"></span>`;
+const lookOf = c => c.look || { sex: (GD.looks.races[c.race] || { sex: 'm' }).sex, bg: (GD.looks.races[c.race] || {}).bg || race(c.race).slug };
+/** Character portrait: transparent base, portrait background, and the old race face in case loading fails. */
+const pic = c => {
+  const l = lookOf(c), s = race(c.race).slug, v = '?v=' + GD.looks.v;
+  return { src: `${ROOT}assets/me/look/base/${s}-${l.sex}.webp${v}`, bg: `${ROOT}assets/me/look/bg/${l.bg}.webp${v}`, old: `${ROOT}assets/art/${s}-face.webp` };
+};
+const ring = (frame, p, extra) => {
+  const o = typeof p === 'string' ? { src: p } : p;
+  return `<span class="me-ring fr-${esc(frame || 'recruit')}${extra ? ' ' + extra : ''}"><img src="${o.src}" alt="" width="64" height="64" loading="lazy" decoding="async"${o.bg ? ` style="background-image:url('${o.bg}')" data-old="${o.old}"` : ''}></span>`;
+};
+// base failed to load: fall back to the old race face
+document.addEventListener('error', e => {
+  const i = e.target;
+  if (i.tagName === 'IMG' && i.dataset && i.dataset.old) { i.src = i.dataset.old; i.style.backgroundImage = ''; delete i.dataset.old; }
+}, true);
 const subline = c => `${esc(race(c.race).n)} · ${esc(cls(c.class).n)}`;
 const profLine = (c, hi) => [[c.prof1, c.prof1_skill], [c.prof2, c.prof2_skill]].filter(p => p[0])
   .map(([p, s]) => (p === hi ? '<b>' : '') + esc(GD.profs[p] || p) + (s ? ` ${s}` : '') + (p === hi ? '</b>' : '')).join(', ');
@@ -63,7 +76,7 @@ function pcard(p, o) {
   const name = o.link === false ? `<b>${esc(c.name)}</b>` : `<a href="${playerUrl(p.id)}">${esc(c.name)}</a>`;
   const alts = (p.alts || []).length ? `<div class="alts">Твинки: ${p.alts.map(a => `<i style="--ac:${cls(a.class).color}">${esc(a.name)}</i>`).join(', ')}</div>` : '';
   return `<article class="pcard${o.cls ? ' ' + o.cls : ''}" style="--cc:${cls(c.class).color}"${o.attrs || ''}>
-    <span class="pic">${ring(p.frame || p.rank, face(c, p.portrait))}<span class="lv" aria-label="Уровень ${c.level}">${c.level}</span></span>
+    <span class="pic">${ring(p.frame || p.rank, pic(c))}<span class="lv" aria-label="Уровень ${c.level}">${c.level}</span></span>
     <span class="fx ${f}">${esc(o.tag || FACN[f])}</span>
     <div class="nm">${p.title ? `<span class="ttl">${esc(achName(p.title))}</span>` : ''}${name}</div>
     <span class="sub">${subline(c)}</span>
@@ -93,7 +106,7 @@ function bcard(p, o) {
   const h = o.h || 'h1';
   return `<section class="bcard" style="--cc:${cls(c.class).color}" aria-label="Карточка игрока">
     <img class="bg" src="${src}" alt="" decoding="async">
-    <div class="in">${ring(p.frame || p.rank, face(c, p.portrait), o.reveal ? 'reveal' : '')}
+    <div class="in">${ring(p.frame || p.rank, pic(c), o.reveal ? 'reveal' : '')}
       <div>${p.title ? `<span class="ttl">${esc(achName(p.title))}</span>` : ''}<${h}>${esc(c.name)}</${h}>
         <span class="sub">${subline(c)} · ${c.level} · ${esc(ROLE[c.role] || '')}</span>
         ${who.length ? `<p class="who">${who.join(' · ')}</p>` : ''}${p.motto ? `<p class="motto">«${esc(p.motto)}»</p>` : ''}</div>
@@ -148,7 +161,7 @@ function feedLine(x) {
   const what = x.kind === 'rank' ? fill(esc('%n достигает ранга %r'), { n: who, r: `<em>${esc(rankName(x.ref))}</em>` })
     : x.ref === 'secret' ? fill(esc('%n находит секрет'), { n: who })
     : fill(esc('%n получает «%a»'), { n: who, a: `<em>${esc(achName(x.ref))}</em>` });
-  return `<div class="it">${ring(x.frame || 'recruit', face(x, x.portrait))}<span>${what}</span><small>${esc(ago(x.at))}</small></div>`;
+  return `<div class="it">${ring(x.frame || 'recruit', pic(x))}<span>${what}</span><small>${esc(ago(x.at))}</small></div>`;
 }
 
 async function copyText(text) {

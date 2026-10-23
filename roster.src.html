@@ -138,7 +138,7 @@ function drawStats(st) {
 function drawLfg() {
   const now = players.filter(p => p.lfg && p.lfg.until > Date.now()).sort((a, b) => b.lfg.until - a.lfg.until);
   $('#lfgBar').hidden = !now.length;
-  $('#lfgList').innerHTML = now.map(p => `<a href="${playerUrl(p.id)}">${ring(p.frame || p.rank, face(p.main, p.portrait))}<span><b>${esc(p.main.name)}</b>`
+  $('#lfgList').innerHTML = now.map(p => `<a href="${playerUrl(p.id)}">${ring(p.frame || p.rank, pic(p.main))}<span><b>${esc(p.main.name)}</b>`
     + `<small>${esc(LFG[p.lfg.kind] || '')} · ${esc(fill('ещё %t', { t: left(p.lfg.until) }))}</small></span></a>`).join('');
 }
 

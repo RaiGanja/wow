@@ -197,7 +197,7 @@ const mainOf = () => m.characters.find(c => c.is_main) || m.characters[0];
 const have = () => new Map(m.achievements.map(a => [a.id, a]));
 const ctx = () => ({ progress: m.progress, user: m.user, chars: m.characters, have: new Set(m.achievements.map(a => a.id)) });
 const asPlayer = c => ({ id: m.user.id, nick: m.user.show_nick ? m.user.nick : null, title: m.user.title, frame: m.user.frame, rank: m.user.rank,
-  portrait: m.user.portrait, background: m.user.background, motto: m.user.motto, points: m.user.points, joined: m.user.joined_guild_at, member: m.user.member, main: c });
+  background: m.user.background, motto: m.user.motto, points: m.user.points, joined: m.user.joined_guild_at, member: m.user.member, main: c });
 const myUrl = () => new URL(playerUrl(m.user.id), location.href).href;
 const refUrl = () => new URL(`${HOME}profile/?ref=${m.user.id}`, location.href).href;
 /* provider marks: simple-icons (CC0), one colour; the envelope is ours */
@@ -613,7 +613,7 @@ function secChars() {
 }
 function secLook() {
   const u = m.user, c = mainOf();
-  const frames = m.frames.map(f => `<button type="button" class="rstep" data-frame="${f}" aria-pressed="${(u.frame || u.rank) === f}">${ring(f, face(c, u.portrait))}<b>${esc(frameName(f))}</b></button>`).join('');
+  const frames = m.frames.map(f => `<button type="button" class="rstep" data-frame="${f}" aria-pressed="${(u.frame || u.rank) === f}">${ring(f, pic(c))}<b>${esc(frameName(f))}</b></button>`).join('');
   const titles = `<option value="">Без титула</option>` + m.titles.map(t => `<option value="${t}"${u.title === t ? ' selected' : ''}>${esc(achName(t))}</option>`).join('');
   const bgs = GD.backgrounds.map(b => {
     const src = /^hero_/.test(b) ? `${ROOT}assets/art/${b}-960.webp` : `${ROOT}assets/art/${b}-bg.webp`;
@@ -645,14 +645,14 @@ function secAch() {
     <div class="achs">${list.map(a => achTile(a, h.get(a.id), c)).join('')}</div>`;
 }
 function secFrames() {
-  const u = m.user, c = mainOf(), pic = face(c, u.portrait), open = new Set(m.frames);
+  const u = m.user, c = mainOf(), pics = pic(c), open = new Set(m.frames);
   const ladder = GD.ranks.map(r => {
     const on = open.has(r.id);
-    return `<${on ? 'button type="button" data-frame="' + r.id + '"' : 'div'} class="rstep${u.rank === r.id ? ' cur' : ''}${on ? '' : ' lock'}">${ring(r.id, pic, on ? '' : 'locked')}<b>${esc(rankName(r.id))}</b><span>${esc(fill('%n очков', { n: r.pts }))}</span></${on ? 'button' : 'div'}>`;
-  }).join('') + `<div class="rstep${open.has('boss') ? '' : ' lock'}">${ring('boss', pic, open.has('boss') ? '' : 'locked')}<b>${esc(frameName('boss'))}</b><span>Одна на сервер</span></div>`;
+    return `<${on ? 'button type="button" data-frame="' + r.id + '"' : 'div'} class="rstep${u.rank === r.id ? ' cur' : ''}${on ? '' : ' lock'}">${ring(r.id, pics, on ? '' : 'locked')}<b>${esc(rankName(r.id))}</b><span>${esc(fill('%n очков', { n: r.pts }))}</span></${on ? 'button' : 'div'}>`;
+  }).join('') + `<div class="rstep${open.has('boss') ? '' : ' lock'}">${ring('boss', pics, open.has('boss') ? '' : 'locked')}<b>${esc(frameName('boss'))}</b><span>Одна на сервер</span></div>`;
   const specials = GD.frames.filter(f => f.ach).map(f => {
     const on = open.has(f.id);
-    return `<${on ? 'button type="button" data-frame="' + f.id + '"' : 'div'} class="rstep${on ? '' : ' lock'}">${ring(f.id, pic, on ? '' : 'locked')}<b>${esc(frameName(f.id))}</b><span>${on ? 'Открыта' : esc(fill('За «%a»', { a: achName(f.ach) }))}</span></${on ? 'button' : 'div'}>`;
+    return `<${on ? 'button type="button" data-frame="' + f.id + '"' : 'div'} class="rstep${on ? '' : ' lock'}">${ring(f.id, pics, on ? '' : 'locked')}<b>${esc(frameName(f.id))}</b><span>${on ? 'Открыта' : esc(fill('За «%a»', { a: achName(f.ach) }))}</span></${on ? 'button' : 'div'}>`;
   }).join('');
   return `<div class="sec-h"><h2>Рамки и ранги</h2></div>
     <p>Ранг растёт от очков достижений, каждый ранг открывает свою рамку портрета. Особые рамки — только за особые достижения. Носить можно любую открытую: нажмите на неё.</p>

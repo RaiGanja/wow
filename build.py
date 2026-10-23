@@ -12,6 +12,7 @@ sys.path.insert(0, os.path.join(HERE, 'content'))
 from classes import CLASSES, SOURCES  # noqa: E402
 from races import RACES_PAGE, SOURCES as RACE_SOURCES, NEW_RACIALS  # noqa: E402
 import langs  # noqa: E402
+import looks as LK  # noqa: E402
 from langs import LANGS, AUTONYM, HREFLANG, LOCALE, NAMED  # noqa: E402
 
 
@@ -364,7 +365,7 @@ def me(html, lang, here):
     root, home = rel(here, ''), rel(here, page_dir(lang))
     page = here[len(page_dir(lang)):]
     head = f'<link rel="stylesheet" href="{root}assets/me/me.css" media="print" onload="this.media=\'all\'">\n</head>'
-    js = f'<script src="{root}assets/me/me.js" data-root="{root}" data-home="{home}" data-lang="{lang}" data-page="{page}" defer></script>\n</body>'
+    js = f'<script src="{root}assets/me/me.js" data-root="{root}" data-home="{home}" data-lang="{lang}" data-page="{page}" data-look="{LK.V}" defer></script>\n</body>'
     return html.replace('</head>', head, 1).replace('</body>', js, 1)
 
 

@@ -106,7 +106,7 @@
       const pts = a && T.pts ? T.pts[t.id] : null;
       const el = document.createElement('div');
       el.className = 'me-toast' + (t.kind === 'rank' ? ' rank' : '') + (reduced() ? '' : ' anim');
-      el.innerHTML = `<span class="me-ti">${t.kind === 'rank' ? `<span class="me-ring fr-${esc(t.id)}"><img src="${face(state)}" alt="" width="40" height="40"></span>` : `<img src="${ROOT}assets/me/ach/${esc(t.id)}.webp" alt="" width="44" height="44">`}</span>
+      el.innerHTML = `<span class="me-ti">${t.kind === 'rank' ? `<span class="me-ring fr-${esc(t.id)}">${img(face(state), 40)}</span>` : `<img src="${ROOT}assets/me/ach/${esc(t.id)}.webp" alt="" width="44" height="44">`}</span>
         <span class="me-tt"><small>${esc(t.kind === 'rank' ? T.ui.rankUp : T.ui.got)}</small><b>${esc(t.kind === 'rank' ? T.ranks[t.id] || t.id : a[0])}</b></span>
         ${pts ? `<span class="me-shield" aria-label="${esc(pts + ' ' + (T.ui.pts || ''))}">${pts}</span>` : ''}`;
       box.append(el);
@@ -139,9 +139,16 @@
   const FACE = { nightelf: 'night-elf', skyA: 'skyborne-alliance', skyH: 'skyborne-horde' };
   function face(m) {
     const c = m && m.characters && (m.characters.find(x => x.is_main) || m.characters[0]);
-    if (!c) return ROOT + 'assets/brand/mark.webp';
-    return ROOT + 'assets/art/' + (m.user.portrait === 'class' ? c.class : FACE[c.race] || c.race) + '-face.webp';
+    if (!c) return { src: ROOT + 'assets/brand/mark.webp' };
+    const s = FACE[c.race] || c.race, l = c.look || { sex: 'm', bg: s }, v = '?v=' + (D.look || '1');
+    return { src: `${ROOT}assets/me/look/base/${s}-${l.sex}.webp${v}`, bg: `${ROOT}assets/me/look/bg/${l.bg}.webp${v}`, old: `${ROOT}assets/art/${s}-face.webp` };
   }
+  const img = (p, n) => `<img src="${p.src}" alt="" width="${n}" height="${n}"${p.bg ? ` style="background-image:url('${p.bg}')" data-old="${p.old}"` : ''}>`;
+  // base failed to load: fall back to the old race face
+  document.addEventListener('error', e => {
+    const i = e.target;
+    if (i.tagName === 'IMG' && i.dataset && i.dataset.old) { i.src = i.dataset.old; i.style.backgroundImage = ''; delete i.dataset.old; }
+  }, true);
   let btn = null;
   function paintBtn() {
     const theme = document.querySelector('.topbar .themebtn');
@@ -156,7 +163,7 @@
         btn.setAttribute('aria-haspopup', 'menu');
         btn.setAttribute('aria-expanded', 'false');
         btn.title = T.ui.profile || '';
-        btn.innerHTML = `<span class="me-ring fr-${esc(state.user.frame || state.user.rank)}"><img src="${face(state)}" alt="" width="30" height="30"></span>`;
+        btn.innerHTML = `<span class="me-ring fr-${esc(state.user.frame || state.user.rank)}">${img(face(state), 30)}</span>`;
         btn.onclick = e => { e.preventDefault(); menu ? closeMenu() : openMenu(T); };
       } else {
         closeMenu();
@@ -182,7 +189,7 @@
     menu.className = 'me-menu';
     menu.setAttribute('role', 'menu');
     menu.setAttribute('aria-label', T.ui.menu || '');
-    menu.innerHTML = `<div class="me-mh"><span class="me-ring fr-${esc(u.frame || u.rank)}"><img src="${face(state)}" alt="" width="40" height="40"></span>
+    menu.innerHTML = `<div class="me-mh"><span class="me-ring fr-${esc(u.frame || u.rank)}">${img(face(state), 40)}</span>
       <span><b>${esc(name)}</b><small>${esc((T.ranks[u.rank] || u.rank) + ' · ' + (u.points || 0) + ' ' + (T.ui.pts || ''))}</small></span></div>
       ${items.join('')}<hr><button type="button" role="menuitem" class="me-out">${esc(T.ui.logout || 'Log out')}</button>`;
     document.body.append(menu);
