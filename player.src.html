@@ -2,6 +2,7 @@
 <style>
 .pl { display: grid; gap: 18px; }
 #view { display: grid; gap: 18px; min-width: 0; }
+#view .sec { display: grid; gap: 12px; }
 .pl .bar-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
 .chars { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 12px; }
 .vs { display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center; padding: 12px 18px; }
@@ -97,7 +98,8 @@ function draw() {
     const n = Number(lv.trim());
     if (!Number.isInteger(n) || n < 1 || n > 60) { $('#admNote').textContent = tg('verify_bad'); return; }
     b.disabled = true;
-    M.api(`/admin/characters/${b.dataset.verify}/verify`, { body: { level: n } }).then(() => { load(); }, () => { b.disabled = false; $('#admNote').textContent = tg('err_report'); });
+    M.api(`/admin/characters/${b.dataset.verify}/verify`, { body: { level: n } }).then(() => { load(); M.toast({ kind: 'note', id: 'verify_done' }); },
+      e => { b.disabled = false; const nt = $('#admNote'); nt.classList.add('err'); nt.textContent = tg(e.code === 'bad_level' ? 'verify_bad' : 'err_report'); });
   });
   const hm = $('#hideMotto');
   if (hm) hm.onclick = () => M.api(`/admin/users/${p.id}/motto-hide`, { body: { hidden: true } }).then(() => { p.motto = null; draw(); }, () => { $('#admNote').textContent = 'Не получилось'; });

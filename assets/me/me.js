@@ -65,10 +65,11 @@
     if (g && g.step_up) list.push({ kind: 'step', id: g.step_up });
     if (g && g.xp > 0 && ls.get(XP1) !== '1') { ls.set(XP1, '1'); if (!list.length) list.push({ kind: 'note', id: 'xp_first' }); }
     list.slice(0, 3).forEach(toast);
-    // experience changed the weekly tasks and the Glory bar: ask /me again, at most once a minute
-    if (g && g.xp > 0 && !(r && r.me)) { const c = ss.get(CACHE); if (!c || Date.now() - c.t > 60000) me(true); }
+    // experience changed the weekly tasks and the Glory bar: ask /me again (own throttle, not the cache stamp: that one is fresh after every track)
+    if (g && g.xp > 0 && !(r && r.me) && Date.now() - lastRefresh > 15000) { lastRefresh = Date.now(); me(true); }
     return r;
   }
+  let lastRefresh = 0;
 
   // ---------- progress: only for people who logged in; skipped when the server already knows ----------
   const ONCE = new Map(), TOOL = /^(party5|raid40|compare3|share_team)$/;
@@ -118,7 +119,13 @@
   let box = null, busy = false;
   const SMALL = /^(step|note)$/;
   function toast(t) {
-    if (/^(glory|step|note)$/.test(t.kind) && queue.length >= 3) return;   // never a wall of toasts: the profile shows the rest
+    // never a wall of toasts: three at most (queue plus the one on screen); an achievement or rank pushes out a waiting Glory, step or note
+    const low = x => /^(glory|step|note)$/.test(x.kind);
+    if (queue.length >= 3) {
+      const i = queue.findIndex(low);
+      if (low(t) || i < 0) return;
+      queue.splice(i, 1);
+    }
     queue.push(t); if (!busy) next();
   }
   const fillTx = (s, o) => String(s || '').replace(/\{(\w+)\}/g, (m, k) => (k in o ? o[k] : m));

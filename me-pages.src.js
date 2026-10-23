@@ -103,7 +103,7 @@ function reportDialog(M, target, name) {
   d.addEventListener('click', e => { if (e.target === d) close(); });
   f.onsubmit = e => {
     e.preventDefault();
-    const field = f.elements.f.value, reason = f.elements.r.value.trim() || field;
+    const field = f.elements.f.value, reason = f.elements.r.value.trim() || tg('report_' + field);   // the API wants a reason: the field's own name when none is typed
     ok.disabled = true; msg.textContent = '';
     M.api('/reports', { body: { target, field, reason } }).then(() => { close(); M.toast({ kind: 'note', id: 'report_sent' }); }, err => {
       ok.disabled = false;

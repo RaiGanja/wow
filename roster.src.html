@@ -252,7 +252,7 @@ ready(M => {
   $('#tabs').addEventListener('click', e => { const b = e.target.closest('.g-tab'); if (b) setTab(b.dataset.t, false); });
   $('#tabs').addEventListener('keydown', e => {
     const order = ['team', 'all'], i = order.indexOf(tab);
-    const to = { ArrowRight: order[(i + 1) % 2], ArrowLeft: order[(i + 1) % 2], Home: 'team', End: 'all' }[e.key];
+    const to = { ArrowRight: order[(i + 1) % order.length], ArrowLeft: order[(i + order.length - 1) % order.length], Home: 'team', End: 'all' }[e.key];
     if (!to) return;
     e.preventDefault(); setTab(to, true);
   });

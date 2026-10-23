@@ -1080,7 +1080,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 .g-showc b { font-size: .9rem; font-weight: 600; overflow-wrap: anywhere; }
 .g-showc small { color: var(--muted); font-size: .78rem; }
 .g-more { justify-self: start; }
-.g-adm { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+:root[data-theme="light"] .g-chd, :root[data-theme="light"] .g-num, :root[data-theme="light"] .g-tv { color: var(--muted); }
 @media (max-width: 719px) { .g-showc { grid-template-columns: repeat(2, minmax(0, 1fr)); } .g-showc li:last-child:nth-child(odd) { grid-column: 1 / -1; } }
 @media (prefers-reduced-motion: reduce) {
   .skel, .bcard .me-ring.reveal { animation: none; }
@@ -1265,8 +1265,8 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=a331e7826b" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=fbfcf5696d" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=cd1963be87" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=7a42cc6814" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://gabella.site/wow/de/"},{"@type":"ListItem","position":2,"name":"Mein Profil","item":"https://gabella.site/wow/de/profile/"}]}</script>
 </head>
 <body>
@@ -1468,7 +1468,7 @@ function reportDialog(M, target, name) {
   d.addEventListener('click', e => { if (e.target === d) close(); });
   f.onsubmit = e => {
     e.preventDefault();
-    const field = f.elements.f.value, reason = f.elements.r.value.trim() || field;
+    const field = f.elements.f.value, reason = f.elements.r.value.trim() || tg('report_' + field);   // the API wants a reason: the field's own name when none is typed
     ok.disabled = true; msg.textContent = '';
     M.api('/reports', { body: { target, field, reason } }).then(() => { close(); M.toast({ kind: 'note', id: 'report_sent' }); }, err => {
       ok.disabled = false;
@@ -2377,8 +2377,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=a331e7826b" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=fbfcf5696d" data-root="../../" data-home="../" data-lang="de" data-teaser="Dein Profil hält deinen Weg fest: Ruhm, Rahmen, Saisons" data-close="Schließen" data-page="profile/" defer></script>
+<script src="../../assets/search/search.js?v=cd1963be87" data-root="../../" defer></script>
+<script src="../../assets/me/me.js?v=7a42cc6814" data-root="../../" data-home="../" data-lang="de" data-teaser="Dein Profil hält deinen Weg fest: Ruhm, Rahmen, Saisons" data-close="Schließen" data-page="profile/" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>
