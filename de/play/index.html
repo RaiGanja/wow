@@ -957,7 +957,8 @@ nav.gtiles { padding: 14px; }
 .pwk { display: flex; flex-wrap: wrap; gap: 8px 24px; list-style: none; margin: 0; padding: 0; flex: 2 1 320px; font-size: .88rem; }
 .pwk li { display: grid; gap: 2px; }
 .pwk li.ok small { color: var(--gold-2); }
-.pway > a:last-child { margin-left: auto; color: var(--gold-2); font-size: .9rem; }
+.pway > a:last-child { margin-left: auto; font-size: .9rem; }
+.pway > a:last-child:not(.btn) { color: var(--gold-2); }   /* the profile link; the guest sign-in button keeps its dark text */
 .pway .pnote { flex: 1 1 260px; }
 .pway .btn { margin-left: auto; }
 .pchars { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -1054,7 +1055,7 @@ nav.gtiles { padding: 14px; }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=9da1611b67" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=8f268c9e82" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/me/me.css?v=36a486068d" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://gabella.site/wow/de/"},{"@type":"ListItem","position":2,"name":"Im Spiel","item":"https://gabella.site/wow/de/play/"}]}</script>
 </head>
@@ -1095,7 +1096,7 @@ nav.gtiles { padding: 14px; }
   </div>
 </div></header>
 
-<section class="phead" id="top"><div class="wrap"><div class="ptitle"><h1>Im Spiel</h1><p class="glead">Ein zweiter Bildschirm beim Spielen: Radio, Gebiete und Dungeons für deine Stufe, Timer. Nach der Anmeldung: Charaktere aus dem Profil, Ruhm und Wochenaufgaben.</p></div><div class="pacts"><button class="pill pwake" id="wakeBtn" type="button" aria-pressed="false" hidden><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg>Bildschirm anlassen</button><button class="pill pwake" id="pipBtn" type="button" aria-pressed="false" title="Ein kleines Fenster über dem Spiel: Timer, Radio und Stufe" hidden><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><rect x="12" y="11" width="6" height="5" rx="1"/></svg>Mini-Fenster</button></div></div></section><div class="wrap"><section class="frame pway" id="pWay" aria-label="Ihr Weg" hidden></section></div>
+<section class="phead" id="top"><div class="wrap"><div class="ptitle"><h1>Im Spiel</h1><p class="glead">Ein zweiter Bildschirm beim Spielen: Radio, Gebiete und Dungeons für deine Stufe, Timer. Nach der Anmeldung: Charaktere aus dem Profil, Ruhm und Wochenaufgaben.</p></div><div class="pacts"><button class="pill pwake" id="wakeBtn" type="button" aria-pressed="false" hidden><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg>Bildschirm anlassen</button></div></div></section><div class="wrap"><section class="frame pway" id="pWay" aria-label="Ihr Weg" hidden></section></div>
 
 <main class="wrap gbody play solo">
   <nav class="gtoc frame" aria-label="Bereiche des Guides"></nav>
@@ -1228,7 +1229,7 @@ const DUNGEONS = [
   ['Düsterbruch: West', 60, 60, 'Feralas', 0, [['Icy Veins', '56–60']]],
   ['Düsterbruch: Nord', 60, 60, 'Feralas', 0, [['Icy Veins', '56–60']]]
 ];
-const P = {"route": {"alliance": [[1, 10, "Mensch: Wald von Elwynn. Zwerg und Gnom: Dun Morogh. Nachtelf: Teldrassil (bis 11). High Order Skyborne: Zephras Isle (bis 12)."], [10, 18, "Westfall oder Loch Modan, Nachtelfen gehen meist an die Dunkelküste. Ab 15 passt das Rotkammgebirge."], [18, 30, "Dämmerwald, Rotkammgebirge und Sumpfland; in Kalimdor Steinkrallengebirge und Ashenvale."], [30, 45, "Desolace oder Arathihochland, Schlingendorntal. Ab 35: die neue Zone Riverglades zwischen Rotkammgebirge und Brennender Steppe, Marschen von Dustwallow, Ödland, Sümpfe des Elends."], [40, 55, "Tanaris, Feralas, Hinterland, dann Sengende Schlucht, Verwüstete Lande, Azshara, ab 48 Krater von Un’Goro und Teufelswald."], [50, 60, "Brennende Steppe, Westliche und Östliche Pestländer, Winterspring, Silithus. Hyjal öffnet ab 60."]], "horde": [[1, 10, "Orc und Troll: Durotar. Tauren: Mulgore. Untote: Tirisfal. Windshaper Skyborne: Zephras Isle (bis 12)."], [10, 18, "Das Brachland oder der Silberwald."], [18, 30, "Steinkrallengebirge und Brachland, dann Ashenvale oder Vorgebirge von Hillsbrad, ab 25 Tausend Nadeln."], [30, 45, "Desolace oder Arathihochland, Schlingendorntal. Ab 35: die neue Zone Riverglades, Marschen von Dustwallow, Ödland, Sümpfe des Elends."], [40, 55, "Tanaris, Feralas, Hinterland, dann Sengende Schlucht, Verwüstete Lande, Azshara, ab 48 Krater von Un’Goro und Teufelswald."], [50, 60, "Brennende Steppe, Westliche und Östliche Pestländer, Winterspring, Silithus. Hyjal öffnet ab 60."]]}, "miles": [[40, "Reiten: Ausbildung 100 Gold und ein Reittier 20 (+60 % Tempo)."], [60, "Schnelles Reiten: 1.000 und 200 Gold (+100 %). Mount Hyjal öffnet, Raids ab 09.12.2026."]], "tx": {"radio": "Radio", "lvl": "Stufe", "lvDown": "Stufe runter", "lvUp": "Stufe hoch", "noHero": "Kein Held festgelegt", "edit": "Held einrichten", "fac": "Fraktion", "alliance": "Allianz", "horde": "Horde", "needLvl": "Stell deine Stufe mit „+“ ein, um Gebiete und Dungeons zu sehen.", "now": "Jetzt", "next": "Danach", "from": "ab", "at": "mit", "route": "Ganze Route", "dung": "Dungeons für Stufe", "dungNone": "Keine Dungeons für diese Stufe.", "all": "Alle Dungeons", "new": "neu", "timers": "Timer", "food": "Essen", "foodNote": "+5 % Erfahrung durch Gegner", "min": "Min.", "custom": "Eigener", "name": "Name", "minutes": "Minuten", "start": "Start", "timer": "Timer", "done": "Zeit ist um", "again": "Nochmal", "remove": "Entfernen", "noTimers": "Tippe auf eine Vorlage oder stell eine eigene Zeit ein. Timer laufen auch nach dem Neuladen der Seite weiter.", "notify": "Benachrichtigen, wenn der Tab im Hintergrund ist", "wake": "Bildschirm anlassen", "pip": "Mini-Fenster", "pipNote": "Ein kleines Fenster über dem Spiel: Timer, Radio und Stufe", "noTimer": "Keine Timer", "way": "Ihr Weg", "guest": "Melden Sie sich an: Radio und Wochenaufgaben bringen dann Ruhm.", "login": "Anmelden", "profile": "Profil", "chars": "Charaktere", "addChar": "Charakter hinzufügen"}, "racef": {"human": "alliance", "dwarf": "alliance", "nightelf": "alliance", "gnome": "alliance", "skyA": "alliance", "orc": "horde", "undead": "horde", "tauren": "horde", "troll": "horde", "skyH": "horde"}, "rn": {"human": "Mensch", "dwarf": "Zwerg", "nightelf": "Nachtelf", "gnome": "Gnom", "skyA": "High Order Skyborne", "orc": "Orc", "undead": "Untoter", "tauren": "Tauren", "troll": "Troll", "skyH": "Windshaper Skyborne"}, "cn": {"warrior": "Krieger", "paladin": "Paladin", "hunter": "Jäger", "rogue": "Schurke", "priest": "Priester", "shaman": "Schamane", "mage": "Magier", "warlock": "Hexenmeister", "druid": "Druide"}, "wk": {"st_morning": ["st", "Morgen im Tal"], "st_road": ["st", "Unterwegs"], "st_forest": ["st", "Uralter Wald"], "st_steppe": ["st", "Trommeln der Steppe"], "st_tavern": ["st", "Taverne"], "st_dungeon": ["st", "Dungeon"], "st_battle": ["st", "Schlacht"], "st_night": ["st", "Nachtlager"], "g_leveling": ["g", "Leveln 1–60"], "g_dungeons": ["g", "Dungeons und Raids"], "g_professions": ["g", "Berufe"], "g_faq": ["g", "FAQ und Termine"], "g_news": ["g", "News"], "c_warrior": ["c", "Krieger"], "c_paladin": ["c", "Paladin"], "c_hunter": ["c", "Jäger"], "c_rogue": ["c", "Schurke"], "c_priest": ["c", "Priester"], "c_shaman": ["c", "Schamane"], "c_mage": ["c", "Magier"], "c_warlock": ["c", "Hexenmeister"], "c_druid": ["c", "Druide"]}};
+const P = {"route": {"alliance": [[1, 10, "Mensch: Wald von Elwynn. Zwerg und Gnom: Dun Morogh. Nachtelf: Teldrassil (bis 11). High Order Skyborne: Zephras Isle (bis 12)."], [10, 18, "Westfall oder Loch Modan, Nachtelfen gehen meist an die Dunkelküste. Ab 15 passt das Rotkammgebirge."], [18, 30, "Dämmerwald, Rotkammgebirge und Sumpfland; in Kalimdor Steinkrallengebirge und Ashenvale."], [30, 45, "Desolace oder Arathihochland, Schlingendorntal. Ab 35: die neue Zone Riverglades zwischen Rotkammgebirge und Brennender Steppe, Marschen von Dustwallow, Ödland, Sümpfe des Elends."], [40, 55, "Tanaris, Feralas, Hinterland, dann Sengende Schlucht, Verwüstete Lande, Azshara, ab 48 Krater von Un’Goro und Teufelswald."], [50, 60, "Brennende Steppe, Westliche und Östliche Pestländer, Winterspring, Silithus. Hyjal öffnet ab 60."]], "horde": [[1, 10, "Orc und Troll: Durotar. Tauren: Mulgore. Untote: Tirisfal. Windshaper Skyborne: Zephras Isle (bis 12)."], [10, 18, "Das Brachland oder der Silberwald."], [18, 30, "Steinkrallengebirge und Brachland, dann Ashenvale oder Vorgebirge von Hillsbrad, ab 25 Tausend Nadeln."], [30, 45, "Desolace oder Arathihochland, Schlingendorntal. Ab 35: die neue Zone Riverglades, Marschen von Dustwallow, Ödland, Sümpfe des Elends."], [40, 55, "Tanaris, Feralas, Hinterland, dann Sengende Schlucht, Verwüstete Lande, Azshara, ab 48 Krater von Un’Goro und Teufelswald."], [50, 60, "Brennende Steppe, Westliche und Östliche Pestländer, Winterspring, Silithus. Hyjal öffnet ab 60."]]}, "miles": [[40, "Reiten: Ausbildung 100 Gold und ein Reittier 20 (+60 % Tempo)."], [60, "Schnelles Reiten: 1.000 und 200 Gold (+100 %). Mount Hyjal öffnet, Raids ab 09.12.2026."]], "tx": {"radio": "Radio", "lvl": "Stufe", "lvDown": "Stufe runter", "lvUp": "Stufe hoch", "noHero": "Kein Held festgelegt", "edit": "Held einrichten", "fac": "Fraktion", "alliance": "Allianz", "horde": "Horde", "needLvl": "Stell deine Stufe mit „+“ ein, um Gebiete und Dungeons zu sehen.", "now": "Jetzt", "next": "Danach", "from": "ab", "at": "mit", "route": "Ganze Route", "dung": "Dungeons für Stufe", "dungNone": "Keine Dungeons für diese Stufe.", "all": "Alle Dungeons", "new": "neu", "timers": "Timer", "food": "Essen", "foodNote": "+5 % Erfahrung durch Gegner", "min": "Min.", "custom": "Eigener", "name": "Name", "minutes": "Minuten", "start": "Start", "timer": "Timer", "done": "Zeit ist um", "again": "Nochmal", "remove": "Entfernen", "noTimers": "Tippe auf eine Vorlage oder stell eine eigene Zeit ein. Timer laufen auch nach dem Neuladen der Seite weiter.", "notify": "Benachrichtigen, wenn der Tab im Hintergrund ist", "wake": "Bildschirm anlassen", "way": "Ihr Weg", "guest": "Melden Sie sich an: Radio und Wochenaufgaben bringen dann Ruhm.", "login": "Anmelden", "profile": "Profil", "chars": "Charaktere", "addChar": "Charakter hinzufügen"}, "racef": {"human": "alliance", "dwarf": "alliance", "nightelf": "alliance", "gnome": "alliance", "skyA": "alliance", "orc": "horde", "undead": "horde", "tauren": "horde", "troll": "horde", "skyH": "horde"}, "rn": {"human": "Mensch", "dwarf": "Zwerg", "nightelf": "Nachtelf", "gnome": "Gnom", "skyA": "High Order Skyborne", "orc": "Orc", "undead": "Untoter", "tauren": "Tauren", "troll": "Troll", "skyH": "Windshaper Skyborne"}, "cn": {"warrior": "Krieger", "paladin": "Paladin", "hunter": "Jäger", "rogue": "Schurke", "priest": "Priester", "shaman": "Schamane", "mage": "Magier", "warlock": "Hexenmeister", "druid": "Druide"}, "wk": {"st_morning": ["st", "Morgen im Tal"], "st_road": ["st", "Unterwegs"], "st_forest": ["st", "Uralter Wald"], "st_steppe": ["st", "Trommeln der Steppe"], "st_tavern": ["st", "Taverne"], "st_dungeon": ["st", "Dungeon"], "st_battle": ["st", "Schlacht"], "st_night": ["st", "Nachtlager"], "g_leveling": ["g", "Leveln 1–60"], "g_dungeons": ["g", "Dungeons und Raids"], "g_professions": ["g", "Berufe"], "g_faq": ["g", "FAQ und Termine"], "g_news": ["g", "News"], "c_warrior": ["c", "Krieger"], "c_paladin": ["c", "Paladin"], "c_hunter": ["c", "Jäger"], "c_rogue": ["c", "Schurke"], "c_priest": ["c", "Priester"], "c_shaman": ["c", "Schamane"], "c_mage": ["c", "Magier"], "c_warlock": ["c", "Hexenmeister"], "c_druid": ["c", "Druide"]}};
 
 /* In game: level -> zones and the next milestones (data from the Leveling guide), dungeons near the level, timers,
    screen wake lock, the mini window. Level, race and class are the shared hero "gabella-wf-me" of the home page (the level is
@@ -1241,7 +1242,7 @@ const ps = Object.assign({ fac: 'alliance', timers: [], notify: false }, rd(PKEY
 if (!Array.isArray(ps.timers)) ps.timers = [];
 const saveP = () => wr(PKEY, ps);
 const GM = () => window.GabellaMe;   // me.js: the profile client, there on every page once it has loaded
-let meNow = null, saveT = 0, pending = false, firstMe = true, pip = null;   // pip: the mini window
+let meNow = null, saveT = 0, pending = false, firstMe = true;
 function chars() { return (meNow && meNow.characters) || []; }
 function curChar() { const cs = chars(); return cs.find(c => c.id === ps.char) || cs.find(c => c.is_main) || cs[0] || null; }
 function useChar(c) { const m = rd(MEKEY); m.race = c.race; m.cls = c.class; m.lvl = c.level; wr(MEKEY, m); }
@@ -1252,7 +1253,7 @@ function setLvl(v) {
   const m = rd(MEKEY), c = curChar();
   m.lvl = Math.max(1, Math.min(60, v)); wr(MEKEY, m);
   if (c) { c.level = m.lvl; pending = true; saveLvl(); }
-  renderLvl(); pipPaint();
+  renderLvl();
 }
 /* The level goes to the profile 1.5 s after the last tap: one request for a run of taps. While it is on its way the level on
    the screen wins over the one the profile answers with */
@@ -1302,7 +1303,7 @@ $('#pChars').addEventListener('click', e => {
   const b = e.target.closest('button[data-c]'), c = b && chars().find(x => String(x.id) === b.dataset.c);
   if (!c) return;
   clearTimeout(saveT); pending = false;
-  ps.char = c.id; saveP(); useChar(c); renderLvl(); pipPaint();
+  ps.char = c.id; saveP(); useChar(c); renderLvl();
 });
 $('#pFac').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { ps.fac = b.dataset.f; saveP(); renderLvl(); } });
 addEventListener('keydown', e => {   // + / − on the keyboard: level up or down, outside text fields
@@ -1348,7 +1349,7 @@ function gotMe(m) {
   }
   if (c) { if (pending) c.level = lvOf(rd(MEKEY)); else useChar(c); }
   if (m) firstMe = false;
-  renderLvl(); renderWay(); pipPaint();
+  renderLvl(); renderWay();
 }
 function hookMe() { if (!GM()) return false; GM().onMe(gotMe); GM().me(); return true; }
 if (!hookMe()) addEventListener('load', hookMe, { once: true });
@@ -1399,7 +1400,6 @@ function tick() {
     if (li) { li.classList.toggle('done', left <= 0); li.querySelector('.tt').textContent = left > 0 ? fmtT(left) : TX.done; }
   });
   if (changed) saveP();
-  pipPaint();
   blink = !blink;
   document.title = rung ? (document.hidden && blink ? `⏰ ${TX.done}` : `⏰ ${rung.name} · ${baseTitle}`)
     : soonest < Infinity ? `${fmtT(soonest)} · ${baseTitle}` : baseTitle;
@@ -1455,57 +1455,6 @@ if ('wakeLock' in navigator) {
   wb.addEventListener('click', () => { wantWake = !wantWake; paintWake(); if (wantWake) lock(); else if (wl) wl.release(); });
   document.addEventListener('visibilitychange', () => { if (wantWake && !wl && document.visibilityState === 'visible') lock(); });
 }
-
-/* Mini window (Document Picture-in-Picture: Chrome and Edge on a computer) on top of the game: the nearest timer, the radio
-   and the level. It shows this page and presses this page's buttons, so nothing is lost when it is closed */
-const pb = $('#pipBtn');
-
-function pipPaint() {
-  if (!pip) return;
-  const d = pip.document, q = s => d.getElementById(s), now = Date.now();
-  const run = ps.timers.filter(x => x.end > now).sort((a, b) => a.end - b.end)[0], rung = ps.timers.find(x => x.end <= now && x.end > now - 60000);
-  const t = rung || run;
-  q('qn').textContent = t ? t.name : TX.noTimer;
-  q('qt').textContent = t ? (t.end > now ? fmtT(t.end - now) : TX.done) : '';
-  q('qt').classList.toggle('done', !!rung);
-  const dk = $('#radioDock'), tt = dk.querySelector('.rdo-tt'), play = dk.querySelector('.rdo-play'), next = dk.querySelector('[data-do="next"]');
-  q('qs').textContent = tt ? tt.textContent : TX.radio;
-  if (play && q('qp').dataset.h !== play.innerHTML) { q('qp').innerHTML = play.innerHTML; q('qp').dataset.h = play.innerHTML; q('qp').setAttribute('aria-label', play.getAttribute('aria-label')); }
-  if (next && !q('qx').innerHTML) { q('qx').innerHTML = next.innerHTML; q('qx').setAttribute('aria-label', next.getAttribute('aria-label')); }
-  q('ql').textContent = lvOf(rd(MEKEY)) || '—';
-}
-function openPip() {
-  if (pip) { pip.close(); return; }
-  documentPictureInPicture.requestWindow({ width: 320, height: 210 }).then(w => {
-    pip = w;
-    const d = w.document;
-    for (const a of document.documentElement.attributes) d.documentElement.setAttribute(a.name, a.value);
-    [...document.styleSheets].forEach(sh => {
-      try { const st = d.createElement('style'); st.textContent = [...sh.cssRules].map(r => r.cssText).join('\n'); d.head.append(st); }
-      catch (e) { if (sh.href) { const l = d.createElement('link'); l.rel = 'stylesheet'; l.href = sh.href; d.head.append(l); } }
-    });
-    const st = d.createElement('style');
-    st.textContent = `body{margin:0;padding:12px 14px;display:grid;gap:10px;align-content:center;min-height:100vh;box-sizing:border-box;background:var(--bg);color:var(--fg)}
-      .qrow{display:flex;align-items:center;gap:10px;min-width:0}.qrow>span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted);font-size:.9rem}
-      #qt{font-family:var(--font-display);font-weight:700;font-size:1.5rem;font-variant-numeric:lining-nums tabular-nums}#qt.done{color:var(--gold-2);font-family:inherit;font-size:1rem}
-      .qrow .rdo-b{width:40px;height:40px;flex:none;color:var(--fg);cursor:pointer}.qrow .rdo-b .ico{width:18px;height:18px}.qlv{justify-content:center;gap:16px}.qlv .lvb{width:40px;height:40px;font-size:1.4rem}
-      #ql{min-width:2.2ch;text-align:center;font-family:var(--font-display);font-weight:700;font-size:2rem;line-height:1;color:var(--gold-2);font-variant-numeric:lining-nums tabular-nums}`;
-    d.head.append(st);
-    d.title = TX.pip;
-    d.body.innerHTML = `<div class="qrow"><span id="qn"></span><b id="qt" aria-live="polite"></b></div>
-      <div class="qrow"><span id="qs"></span><button class="rdo-b rdo-play" type="button" id="qp"></button><button class="rdo-b" type="button" id="qx"></button></div>
-      <div class="qrow qlv"><button type="button" class="lvb" id="qd" aria-label="${esc(TX.lvDown)}">−</button><output id="ql"></output><button type="button" class="lvb" id="qu" aria-label="${esc(TX.lvUp)}">+</button></div>`;
-    const dk = $('#radioDock');
-    d.getElementById('qp').onclick = () => { const b = dk.querySelector('.rdo-play'); if (b) b.click(); setTimeout(pipPaint, 50); };
-    d.getElementById('qx').onclick = () => { const b = dk.querySelector('[data-do="next"]'); if (b) b.click(); setTimeout(pipPaint, 50); };
-    d.getElementById('qd').onclick = () => setLvl((lvOf(rd(MEKEY)) || 2) - 1);
-    d.getElementById('qu').onclick = () => setLvl(lvOf(rd(MEKEY)) + 1);
-    w.addEventListener('pagehide', () => { pip = null; pb.setAttribute('aria-pressed', 'false'); });
-    pb.setAttribute('aria-pressed', 'true');
-    pipPaint();
-  }, () => {});
-}
-if ('documentPictureInPicture' in window) { pb.hidden = false; pb.addEventListener('click', openPip); }
 </script>
 <script src="../../assets/living/living.js?v=014ba6e282" defer></script>
 <script>
@@ -1575,7 +1524,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=9da1611b67" data-root="../../" defer></script>
+<script src="../../assets/search/search.js?v=8f268c9e82" data-root="../../" defer></script>
 <script src="../../assets/me/me.js?v=36a486068d" data-root="../../" data-home="../" data-lang="de" data-teaser="Dein Profil hält deinen Weg fest: Ruhm, Rahmen, Saisons" data-close="Schließen" data-page="play/" data-look="1" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>

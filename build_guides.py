@@ -322,12 +322,9 @@ def play_weekly(lang):
 def play_head(lang):
     """Title and lead on the left, the screen buttons on the right (each shows up only where the browser can do it)."""
     x = lambda k: E(PLAY_TX[k], lang)
-    pip = ('<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">'
-           '<rect x="3" y="5" width="18" height="14" rx="2"/><rect x="12" y="11" width="6" height="5" rx="1"/></svg>')
     return ('<section class="phead" id="top"><div class="wrap"><div class="ptitle"><h1>@@TITLE@@</h1><p class="glead">@@LEAD@@</p></div>'
             '<div class="pacts"><button class="pill pwake" id="wakeBtn" type="button" aria-pressed="false" hidden>'
-            f'<svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg>{x("wake")}</button>'
-            f'<button class="pill pwake" id="pipBtn" type="button" aria-pressed="false" title="{x("pipNote")}" hidden>{pip}{x("pip")}</button></div></div></section>'
+            f'<svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg>{x("wake")}</button></div></div></section>'
             f'<div class="wrap"><section class="frame pway" id="pWay" aria-label="{x("way")}" hidden></section></div>')
 
 
@@ -373,7 +370,7 @@ const ps = Object.assign({ fac: 'alliance', timers: [], notify: false }, rd(PKEY
 if (!Array.isArray(ps.timers)) ps.timers = [];
 const saveP = () => wr(PKEY, ps);
 const GM = () => window.GabellaMe;   // me.js: the profile client, there on every page once it has loaded
-let meNow = null, saveT = 0, pending = false, firstMe = true, pip = null;   // pip: the mini window
+let meNow = null, saveT = 0, pending = false, firstMe = true;
 function chars() { return (meNow && meNow.characters) || []; }
 function curChar() { const cs = chars(); return cs.find(c => c.id === ps.char) || cs.find(c => c.is_main) || cs[0] || null; }
 function useChar(c) { const m = rd(MEKEY); m.race = c.race; m.cls = c.class; m.lvl = c.level; wr(MEKEY, m); }
@@ -384,7 +381,7 @@ function setLvl(v) {
   const m = rd(MEKEY), c = curChar();
   m.lvl = Math.max(1, Math.min(60, v)); wr(MEKEY, m);
   if (c) { c.level = m.lvl; pending = true; saveLvl(); }
-  renderLvl(); pipPaint();
+  renderLvl();
 }
 /* The level goes to the profile 1.5 s after the last tap: one request for a run of taps. While it is on its way the level on
    the screen wins over the one the profile answers with */
@@ -434,7 +431,7 @@ $('#pChars').addEventListener('click', e => {
   const b = e.target.closest('button[data-c]'), c = b && chars().find(x => String(x.id) === b.dataset.c);
   if (!c) return;
   clearTimeout(saveT); pending = false;
-  ps.char = c.id; saveP(); useChar(c); renderLvl(); pipPaint();
+  ps.char = c.id; saveP(); useChar(c); renderLvl();
 });
 $('#pFac').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { ps.fac = b.dataset.f; saveP(); renderLvl(); } });
 addEventListener('keydown', e => {   // + / − on the keyboard: level up or down, outside text fields
@@ -480,7 +477,7 @@ function gotMe(m) {
   }
   if (c) { if (pending) c.level = lvOf(rd(MEKEY)); else useChar(c); }
   if (m) firstMe = false;
-  renderLvl(); renderWay(); pipPaint();
+  renderLvl(); renderWay();
 }
 function hookMe() { if (!GM()) return false; GM().onMe(gotMe); GM().me(); return true; }
 if (!hookMe()) addEventListener('load', hookMe, { once: true });
@@ -531,7 +528,6 @@ function tick() {
     if (li) { li.classList.toggle('done', left <= 0); li.querySelector('.tt').textContent = left > 0 ? fmtT(left) : TX.done; }
   });
   if (changed) saveP();
-  pipPaint();
   blink = !blink;
   document.title = rung ? (document.hidden && blink ? `⏰ ${TX.done}` : `⏰ ${rung.name} · ${baseTitle}`)
     : soonest < Infinity ? `${fmtT(soonest)} · ${baseTitle}` : baseTitle;
@@ -586,58 +582,7 @@ if ('wakeLock' in navigator) {
   wb.hidden = false;
   wb.addEventListener('click', () => { wantWake = !wantWake; paintWake(); if (wantWake) lock(); else if (wl) wl.release(); });
   document.addEventListener('visibilitychange', () => { if (wantWake && !wl && document.visibilityState === 'visible') lock(); });
-}
-
-/* Mini window (Document Picture-in-Picture: Chrome and Edge on a computer) on top of the game: the nearest timer, the radio
-   and the level. It shows this page and presses this page's buttons, so nothing is lost when it is closed */
-const pb = $('#pipBtn');
-
-function pipPaint() {
-  if (!pip) return;
-  const d = pip.document, q = s => d.getElementById(s), now = Date.now();
-  const run = ps.timers.filter(x => x.end > now).sort((a, b) => a.end - b.end)[0], rung = ps.timers.find(x => x.end <= now && x.end > now - 60000);
-  const t = rung || run;
-  q('qn').textContent = t ? t.name : TX.noTimer;
-  q('qt').textContent = t ? (t.end > now ? fmtT(t.end - now) : TX.done) : '';
-  q('qt').classList.toggle('done', !!rung);
-  const dk = $('#radioDock'), tt = dk.querySelector('.rdo-tt'), play = dk.querySelector('.rdo-play'), next = dk.querySelector('[data-do="next"]');
-  q('qs').textContent = tt ? tt.textContent : TX.radio;
-  if (play && q('qp').dataset.h !== play.innerHTML) { q('qp').innerHTML = play.innerHTML; q('qp').dataset.h = play.innerHTML; q('qp').setAttribute('aria-label', play.getAttribute('aria-label')); }
-  if (next && !q('qx').innerHTML) { q('qx').innerHTML = next.innerHTML; q('qx').setAttribute('aria-label', next.getAttribute('aria-label')); }
-  q('ql').textContent = lvOf(rd(MEKEY)) || '—';
-}
-function openPip() {
-  if (pip) { pip.close(); return; }
-  documentPictureInPicture.requestWindow({ width: 320, height: 210 }).then(w => {
-    pip = w;
-    const d = w.document;
-    for (const a of document.documentElement.attributes) d.documentElement.setAttribute(a.name, a.value);
-    [...document.styleSheets].forEach(sh => {
-      try { const st = d.createElement('style'); st.textContent = [...sh.cssRules].map(r => r.cssText).join('\n'); d.head.append(st); }
-      catch (e) { if (sh.href) { const l = d.createElement('link'); l.rel = 'stylesheet'; l.href = sh.href; d.head.append(l); } }
-    });
-    const st = d.createElement('style');
-    st.textContent = `body{margin:0;padding:12px 14px;display:grid;gap:10px;align-content:center;min-height:100vh;box-sizing:border-box;background:var(--bg);color:var(--fg)}
-      .qrow{display:flex;align-items:center;gap:10px;min-width:0}.qrow>span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted);font-size:.9rem}
-      #qt{font-family:var(--font-display);font-weight:700;font-size:1.5rem;font-variant-numeric:lining-nums tabular-nums}#qt.done{color:var(--gold-2);font-family:inherit;font-size:1rem}
-      .qrow .rdo-b{width:40px;height:40px;flex:none;color:var(--fg);cursor:pointer}.qrow .rdo-b .ico{width:18px;height:18px}.qlv{justify-content:center;gap:16px}.qlv .lvb{width:40px;height:40px;font-size:1.4rem}
-      #ql{min-width:2.2ch;text-align:center;font-family:var(--font-display);font-weight:700;font-size:2rem;line-height:1;color:var(--gold-2);font-variant-numeric:lining-nums tabular-nums}`;
-    d.head.append(st);
-    d.title = TX.pip;
-    d.body.innerHTML = `<div class="qrow"><span id="qn"></span><b id="qt" aria-live="polite"></b></div>
-      <div class="qrow"><span id="qs"></span><button class="rdo-b rdo-play" type="button" id="qp"></button><button class="rdo-b" type="button" id="qx"></button></div>
-      <div class="qrow qlv"><button type="button" class="lvb" id="qd" aria-label="${esc(TX.lvDown)}">−</button><output id="ql"></output><button type="button" class="lvb" id="qu" aria-label="${esc(TX.lvUp)}">+</button></div>`;
-    const dk = $('#radioDock');
-    d.getElementById('qp').onclick = () => { const b = dk.querySelector('.rdo-play'); if (b) b.click(); setTimeout(pipPaint, 50); };
-    d.getElementById('qx').onclick = () => { const b = dk.querySelector('[data-do="next"]'); if (b) b.click(); setTimeout(pipPaint, 50); };
-    d.getElementById('qd').onclick = () => setLvl((lvOf(rd(MEKEY)) || 2) - 1);
-    d.getElementById('qu').onclick = () => setLvl(lvOf(rd(MEKEY)) + 1);
-    w.addEventListener('pagehide', () => { pip = null; pb.setAttribute('aria-pressed', 'false'); });
-    pb.setAttribute('aria-pressed', 'true');
-    pipPaint();
-  }, () => {});
-}
-if ('documentPictureInPicture' in window) { pb.hidden = false; pb.addEventListener('click', openPip); }'''
+}'''
 
 DATA = {'dungeons': dungeons_data, 'play': play_data}   # js key -> data blocks (from index.src.html and content)
 REF = ('classref', 'raceref')        # js keys fed by ref_js (language-specific)
