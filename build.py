@@ -22,7 +22,7 @@ T = {r: (e, u) for r, e, u in zip(_ru, _en, _uk)}
 CYR = r'А-Яа-яЁё'
 SEG = re.compile(r'(?:(?!\$\{)[^<>"\'`{}\n])*[' + CYR + r'](?:(?!\$\{)[^<>"\'`{}\n])*')
 LANGS = ('ru', 'en', 'uk')
-SITE = 'https://raiganja.github.io/wow/'
+SITE = 'https://gabella.site/wow/'
 
 
 def split_ws(seg):
