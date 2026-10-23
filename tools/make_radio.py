@@ -1,5 +1,5 @@
 """Radio of the guide: tracks of Kevin MacLeod (incompetech.com, CC BY 4.0) -> <MEDIA>/<slug>.m4a
-(AAC 64 kbit/s, loudness -16 LUFS so stations play at one level) and assets/radio/stations.json
+(AAC <BITRATE>, loudness -16 LUFS so stations play at one level) and assets/radio/stations.json
 (stations, the "On air" day plan, titles, authors, durations, credits) that assets/radio/radio.js reads when the panel opens.
 Source mp3: https://incompetech.com/music/royalty-free/mp3-royaltyfree/<file>.mp3 (file names: incompetech.com/music/royalty-free/pieces.json),
 saved into a folder as <Title>.mp3.
@@ -12,6 +12,8 @@ OUT = os.path.join(ROOT, 'assets', 'radio')
 # Where the tracks are served from: '' = assets/radio/ of the site itself. To move them to other storage
 # (e.g. a Cloudflare R2 bucket on media.gabella.site), upload the .m4a files there and put its address here, then rerun.
 MEDIA = ''
+# Sound quality of the tracks (sources are 320 kbit/s mp3). To change it, delete assets/radio/*.m4a and rerun.
+BITRATE = '128k'
 
 KM = 'Kevin MacLeod'
 # art: picture of the station tile, from assets/art (without .webp); pos: its object-position (portraits: the face).
@@ -131,7 +133,7 @@ def main():
             used.add(f)
             if not os.path.exists(dst):
                 subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', os.path.join(src, title + '.mp3'), '-vn', '-map_metadata', '-1',
-                                '-af', 'loudnorm=I=-16:TP=-1.5:LRA=11', '-ar', '44100', '-c:a', 'aac', '-b:a', '64k',
+                                '-af', 'loudnorm=I=-16:TP=-1.5:LRA=11', '-ar', '44100', '-c:a', 'aac', '-b:a', BITRATE,
                                 '-movflags', '+faststart', dst], check=True)
             d = duration(dst)
             total += d
