@@ -892,6 +892,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .gsec > h2 { margin: 0; font-size: 1.9rem; }
 .gsec p { max-width: 72ch; }
 .gtiles { padding: 0; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+.gtiles:has(> :nth-child(9):last-child) { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }   /* exactly nine: 3 x 3, no lone tile */
 nav.gtiles { padding: 14px; }
 .gtable { width: 100%; border-collapse: separate; border-spacing: 0 6px; font-size: .95rem; }
 .gtable th { text-align: left; font-weight: 600; font-size: .85rem; color: var(--muted); padding: 2px 12px; }
@@ -1054,7 +1055,7 @@ nav.gtiles { padding: 14px; }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=724d711a76" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=9da1611b67" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/me/me.css?v=36a486068d" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://gabella.site/wow/pl/"},{"@type":"ListItem","position":2,"name":"Klasy","item":"https://gabella.site/wow/pl/classes/"}]}</script>
 </head>
@@ -1111,7 +1112,7 @@ nav.gtiles { padding: 14px; }
 </main>
 
 <div class="wrap">
-<section id="more"><div class="sec-head"><h2>Więcej na stronie</h2></div><nav class="frame ttiles gtiles" aria-label="Więcej na stronie"><a class="ttile" href="../races/"><picture><source type="image/avif" srcset="../../assets/art/human-360.avif 360w, ../../assets/art/human-600.avif 600w, ../../assets/art/human-896.avif 896w" sizes="320px"><img src="../../assets/art/human-600.webp" srcset="../../assets/art/human-360.webp 360w, ../../assets/art/human-600.webp 600w, ../../assets/art/human-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Rasy</b><span>Porównanie wszystkich ras</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../guides/"><picture><source type="image/avif" srcset="../../assets/art/hero_campfire-960.avif 960w, ../../assets/art/hero_campfire-1600.avif 1600w, ../../assets/art/hero_campfire-2560.avif 2560w" sizes="320px"><img src="../../assets/art/hero_campfire-960.webp" srcset="../../assets/art/hero_campfire-960.webp 960w, ../../assets/art/hero_campfire-1600.webp 1600w, ../../assets/art/hero_campfire-2560.webp 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Poradniki</b><span>Levelowanie, dungeony, profesje i odpowiedzi</span></a><a class="ttile" href="../tools/"><picture><source type="image/avif" srcset="../../assets/art/rogue-360.avif 360w, ../../assets/art/rogue-600.avif 600w, ../../assets/art/rogue-896.avif 896w" sizes="320px"><img src="../../assets/art/rogue-600.webp" srcset="../../assets/art/rogue-360.webp 360w, ../../assets/art/rogue-600.webp 600w, ../../assets/art/rogue-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Narzędzia</b><span>Ramki, porównanie, szukaj</span></a></nav></section>
+<section id="more"><div class="sec-head"><h2>Więcej na stronie</h2></div><nav class="frame ttiles gtiles" aria-label="Więcej na stronie"><a class="ttile" href="../races/"><picture><source type="image/avif" srcset="../../assets/art/human-360.avif 360w, ../../assets/art/human-600.avif 600w, ../../assets/art/human-896.avif 896w" sizes="320px"><img src="../../assets/art/human-600.webp" srcset="../../assets/art/human-360.webp 360w, ../../assets/art/human-600.webp 600w, ../../assets/art/human-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Rasy</b><span>Porównanie wszystkich ras</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../guides/"><picture><source type="image/avif" srcset="../../assets/art/hero_campfire-960.avif 960w, ../../assets/art/hero_campfire-1600.avif 1600w, ../../assets/art/hero_campfire-2560.avif 2560w" sizes="320px"><img src="../../assets/art/hero_campfire-960.webp" srcset="../../assets/art/hero_campfire-960.webp 960w, ../../assets/art/hero_campfire-1600.webp 1600w, ../../assets/art/hero_campfire-2560.webp 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Poradniki</b><span>Levelowanie, dungeony, profesje i odpowiedzi</span></a><a class="ttile" href="../tools/"><picture><source type="image/avif" srcset="../../assets/art/rogue-360.avif 360w, ../../assets/art/rogue-600.avif 600w, ../../assets/art/rogue-896.avif 896w" sizes="320px"><img src="../../assets/art/rogue-600.webp" srcset="../../assets/art/rogue-360.webp 360w, ../../assets/art/rogue-600.webp 600w, ../../assets/art/rogue-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Narzędzia</b><span>Ramki, porównanie, szukaj</span></a><a class="ttile" href="../play/"><picture><source type="image/avif" srcset="../../assets/art/shaman-360.avif 360w, ../../assets/art/shaman-600.avif 600w, ../../assets/art/shaman-896.avif 896w" sizes="320px"><img src="../../assets/art/shaman-600.webp" srcset="../../assets/art/shaman-360.webp 360w, ../../assets/art/shaman-600.webp 600w, ../../assets/art/shaman-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>W grze</b><span>Drugi ekran: radio, poziom, minutniki, Chwała i zadania tygodnia</span></a></nav></section>
 <footer id="sources">
   <h2>Źródła</h2>
   <ul><li><a href="https://www.warcrafttavern.com/forever/guides/classes/" target="_blank" rel="noopener">Warcraft Tavern</a></li><li><a href="https://lfcarry.com/guides/wow-forever-classes" target="_blank" rel="noopener">LFCarry</a></li></ul>
@@ -1407,7 +1408,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=724d711a76" data-root="../../" defer></script>
+<script src="../../assets/search/search.js?v=9da1611b67" data-root="../../" defer></script>
 <script src="../../assets/me/me.js?v=36a486068d" data-root="../../" data-home="../" data-lang="pl" data-teaser="Profil zapisuje twoją drogę: Chwała, ramki, sezony" data-close="Zamknij" data-page="classes/" data-look="1" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>

@@ -891,7 +891,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=724d711a76" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/search/search.css?v=9da1611b67" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../assets/me/me.css?v=36a486068d" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Guide WoW Forever","alternateName":"Gabella","url":"https://gabella.site/wow/fr/","inLanguage":"fr","description":"Guide WoW Forever : que jouer, un sélecteur de race et de classe, un créateur de groupe et des guides de progression, de donjons et de métiers.","publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/Zd45sNHy9x"]}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/Zd45sNHy9x"]}</script>
@@ -1029,7 +1029,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     <a class="ttile" href="#picker"><picture><source type="image/avif" srcset="../assets/art/druid-360.avif 360w, ../assets/art/druid-600.avif 600w" sizes="(max-width: 980px) 100vw, 400px"><source type="image/webp" srcset="../assets/art/druid-360.webp 360w, ../assets/art/druid-600.webp 600w" sizes="(max-width: 980px) 100vw, 400px"><img src="../assets/art/druid-600.webp" alt="" loading="lazy" decoding="async"></picture><b>Sélecteur de race et de classe</b><span id="qPick">Toutes les combinaisons et ce que chacune sait faire</span></a>
     <a class="ttile" href="#builder"><picture><source type="image/avif" srcset="../assets/art/hero_campfire-960.avif"><img src="../assets/art/hero_campfire-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Créateur de groupe</b><span id="qTeam">De un à quarante joueurs</span></a>
     <a class="ttile" href="tools/"><picture><source type="image/avif" srcset="../assets/art/paladin-600.avif"><img src="../assets/art/paladin-600.webp" alt="" loading="lazy" decoding="async"></picture><b>Cadres, comparaison, recherche</b><span>Grille de raid façon jeu, classes et races côte à côte</span></a>
-    <a class="ttile" href="play/"><picture><source type="image/avif" srcset="../assets/art/mage-600.avif"><img src="../assets/art/mage-600.webp" alt="" loading="lazy" decoding="async"></picture><b>En jeu</b><span>Second écran : radio, niveau, donjons et minuteurs</span></a>
+    <a class="ttile" href="play/"><picture><source type="image/avif" srcset="../assets/art/mage-600.avif"><img src="../assets/art/mage-600.webp" alt="" loading="lazy" decoding="async"></picture><b>En jeu</b><span>Second écran : radio, niveau, minuteurs, Gloire et défis de la semaine</span></a>
   </nav>
 
 </section>
@@ -1105,8 +1105,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <picture class="camp-art" data-fx="camp"><source type="image/avif" srcset="../assets/art/hero_campfire-960.avif 960w, ../assets/art/hero_campfire-1600.avif 1600w, ../assets/art/hero_campfire-2560.avif 2560w" sizes="(max-width: 719px) 300vw, 100vw"><source type="image/webp" srcset="../assets/art/hero_campfire-960.webp 960w, ../assets/art/hero_campfire-1600.webp 1600w, ../assets/art/hero_campfire-2560.webp 2560w" sizes="(max-width: 719px) 300vw, 100vw"><img src="../assets/art/hero_campfire-1600.webp" width="1600" height="893" alt="" loading="lazy" decoding="async"></picture>
   <div class="wrap camp-in">
     <h2>Trouver un groupe</h2>
-    <p>Composez votre groupe dans le constructeur et partagez le lien, ou trouvez des joueurs sur le serveur Discord de Gabella Team.</p>
-    <div class="camp-btns"><a class="btn lg" href="#builder">Former un groupe</a><a class="btn lg ghost" href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Serveur Discord</a></div>
+    <p>Composez votre groupe dans le constructeur et partagez le lien. Vous cherchez des joueurs ? Activez « Je cherche un groupe » dans votre profil et vous apparaîtrez dans l’Effectif. Des joueurs se regroupent aussi sur le serveur Discord de Gabella Team.</p>
+    <div class="camp-btns"><a class="btn lg" href="#builder">Former un groupe</a><a class="btn lg ghost" href="roster/">Qui cherche un groupe</a><a class="btn lg ghost" href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Serveur Discord</a></div>
   </div>
 </section>
 <div class="wrap">
@@ -2006,7 +2006,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../assets/radio/radio.js" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=724d711a76" data-root="../" defer></script>
+<script src="../assets/search/search.js?v=9da1611b67" data-root="../" defer></script>
 <script src="../assets/me/me.js?v=36a486068d" data-root="../" data-home="./" data-lang="fr" data-teaser="Votre profil garde votre parcours : Gloire, cadres, saisons" data-close="Fermer" data-page="" data-look="1" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
