@@ -110,7 +110,10 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 .oc picture { z-index: -2; }
 .oc img { object-fit: cover; object-position: 50% 20%; filter: saturate(.8) brightness(.75); transition: filter .3s, transform .6s var(--ease); }
 .oc::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(7,8,10,0) 45%, rgba(7,8,10,.92) 100%); }
-.oc b { font-family: var(--font-display); font-weight: 400; font-size: 1.15rem; line-height: 1.1; }
+/* name size follows the card width so long class names fit the wide engraved caps */
+.oc { container-type: inline-size; }
+.oc b { font-family: var(--font-display); font-weight: 400; font-size: clamp(.6rem, 13cqi, 1.15rem); line-height: 1.1; }
+.oc b.long { font-size: clamp(.6rem, 9cqi, 1.15rem); }
 .oc:hover { border-color: #e0c27a; }
 .oc:hover img { filter: none; transform: scale(1.04); }
 .pager { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }

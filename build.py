@@ -108,6 +108,13 @@ def hyph_tabs(html):
     return re.sub(r'(role="tab"[^>]*>)([^<]+)', lambda m: m[1] + HYPH.get(m[2], m[2]), html)
 
 
+def mark_long(html):
+    """Portrait cards: names with a 10+ letter word get class "long" and a smaller size (after translation, so every language)."""
+    def name(m):
+        return '<b class="long">' if max(len(w) for w in re.split(r'[\s-]+', m[1])) >= 10 else m[0]
+    return re.sub(r'<a class="oc".*?</a>', lambda a: re.sub(r'<b>(?=([^<]+)</b>)', name, a[0]), html, flags=re.S)
+
+
 def ico(name):
     return f'<svg class="ico" aria-hidden="true"><use href="#i-{name}"/></svg>'
 
@@ -203,7 +210,7 @@ def build_class(c, lang, tpl, base_css, sprite, races):
     html = html.replace('@@OTHERS@@', others).replace('@@PAGER@@', pager).replace('@@TOC_CLASSES@@', toc).replace('@@SOURCES@@', sources)
 
     html, missing = translate(html, lang)
-    html = hyph_tabs(html)
+    html = mark_long(hyph_tabs(html))
     html = html.replace('@@NAME@@', esc(tr(c['n'], lang)))
     html = html.replace('@@HOME@@', home)
     for l in LANGS:
@@ -285,6 +292,7 @@ def build_race(rp, lang, tpl, base_css, class_css, sprite, races, en):
     for k, val in v.items():
         html = html.replace(f'@@{k}@@', val)
     html, missing = translate(html, lang)
+    html = mark_long(html)
     html = html.replace('@@NAME@@', esc(tr(r['n'], lang)))
     html = html.replace('@@HOME@@', home)
     for l in LANGS:
