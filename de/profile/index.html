@@ -1678,7 +1678,7 @@ moreDlg.addEventListener('click', e => { if (e.target === moreDlg || e.target.cl
 const ERR = {
   bad_name: 'Name: 2 bis 12 Buchstaben, ohne Ziffern und Leerzeichen.', bad_race: 'Wähle ein Volk.', bad_combo: 'Diese Kombination aus Volk und Klasse gibt es nicht.',
   bad_role: 'Diese Rolle gibt es für die Klasse nicht.', bad_level: 'Stufe: 1 bis 60.', bad_prof: 'Zwei verschiedene Berufe aus der Liste.',
-  bad_skill: 'Fertigkeit: 1 bis 300, nur bei einem gewählten Beruf.', bad_playtime: 'Wähle, wann du spielst.', limit: 'Höchstens drei Charaktere.',
+  bad_skill: 'Fertigkeit: 1 bis 300, nur bei einem gewählten Beruf.', bad_playtime: 'Wähle, wann du spielst.', limit: 'Höchstens zehn Charaktere.',
   bad_motto: 'Motto: bis zu 60 Zeichen.', locked: 'Das ist noch nicht freigeschaltet.', auth: 'Deine Sitzung ist abgelaufen, bitte melde dich erneut an.',
   bot: 'Die Prüfung „kein Roboter“ ist fehlgeschlagen. Versuchen Sie es erneut.', bad_email: 'Prüfen Sie die E-Mail-Adresse.', mail_down: 'Die E-Mail wurde nicht gesendet. Versuchen Sie es in ein paar Minuten erneut.',
   last_identity: 'Das ist Ihre letzte Anmeldemethode, sie lässt sich nicht trennen.',
@@ -1691,6 +1691,7 @@ const errText = (e, def) => {
 const SECS0 = [['chars', 'Charaktere'], ['look', 'Aussehen'], ['ach', 'Erfolge'], ['frames', 'Rahmen und Ränge'], ['chronicle', 'Chronik'], ['account', 'Konto']];
 const secs = () => (m && m.admin ? SECS0.concat([['reports', tg('tab_reports')]]) : SECS0);   // «Reports» is for the admin only
 const DEL_WORD = 'LÖSCHEN';
+const CHAR_MAX = 10;   // same as LIMIT in the API (a Classic Era realm)
 const FIRST = ['profile_full', 'radio_on', 'guides3', 'party5', 'play_page'];
 const ACT = {
   guide: ['Guides öffnen', 'guides/'], class: ['Klassen öffnen', 'classes/'], race: ['Völker öffnen', 'races/'], play_page: ['„Im Spiel“ öffnen', 'play/'],
@@ -1877,7 +1878,7 @@ function screen(kind, arg) {
     tgConfig();
     v.innerHTML = `${noticeHtml()}<section class="frame login"><div><h2>Melden Sie sich in Ihrem Profil an</h2>
       <p>Ein Passwort gibt es nicht: Melden Sie sich auf beliebigem Weg an. Was wir jeweils erhalten, steht unter <a href="${HOME}privacy/#account">Datenschutz</a>.</p>
-      <ul><li>Bis zu drei Charaktere, der Hauptcharakter steht im Kader.</li><li>Erfolge, Ränge und Porträtrahmen.</li><li>Der Titel „Gründer“ für alle, die es vor dem Start am 4. November schaffen.</li></ul></div>
+      <ul><li>Bis zu zehn Charaktere, der Hauptcharakter steht im Kader.</li><li>Erfolge, Ränge und Porträtrahmen.</li><li>Der Titel „Gründer“ für alle, die es vor dem Start am 4. November schaffen.</li></ul></div>
       <div class="wayc"><div class="ways">${WAYS.map(([id, n]) => wayBtn(id, n, false)).join('')}</div>${mailForm()}</div></section>`;
   } else if (kind === 'mail') {
     v.innerHTML = `<section class="frame state"><h2>Prüfen Sie Ihre E-Mails</h2><p>${esc(fill('Der Anmeldelink wurde an %e gesendet. Er gilt 15 Minuten. Keine E-Mail? Sehen Sie im Spam-Ordner nach.', { e: arg }))}</p>
@@ -2115,12 +2116,12 @@ function secChars() {
     link: false, cls: c.is_main ? 'main' : '', after: c.is_main ? '<div class="mainmark">Hauptcharakter</div>' : '',
     attrs: ` role="button" tabindex="0" data-edit="${c.id}" aria-label="${esc(fill('Bearbeiten: %n', { n: c.name }))}"`,
   })).join('');
-  const add = n < 3 ? `<button type="button" class="add" data-act="add"><b>${ico('plus')}Charakter hinzufügen</b><span>${esc(fill('Noch möglich: %n', { n: 3 - n }))}</span></button>` : '';
+  const add = n < CHAR_MAX ? `<button type="button" class="add" data-act="add"><b>${ico('plus')}Charakter hinzufügen</b><span>${esc(fill('Noch möglich: %n', { n: CHAR_MAX - n }))}</span></button>` : '';
   const l = m.user.lfg;
   const lfg = `<div class="frame box"><h3>Suche Gruppe</h3><p class="small">Dein Hauptcharakter erscheint im Kader in der Leiste „Suchen gerade“. Nach 3 Stunden erlischt die Markierung von selbst.</p>
     <div class="row"><div class="seg" id="lfgSeg" role="group" aria-label="Suche Gruppe"><button type="button" data-v="" aria-pressed="${!l}">Keine</button>${Object.entries(LFG).map(([k, t]) => `<button type="button" data-v="${k}" aria-pressed="${!!l && l.kind === k}">${esc(t)}</button>`).join('')}</div>
     ${l ? `<span class="small">${esc(fill('Noch %t', { t: left(l.until) }))}</span><button type="button" class="btn ghost" data-act="lfgMore" data-v="${l.kind}">Um 3 Stunden verlängern</button>` : ''}</div></div>`;
-  return `<div class="sec-h"><h2>Charaktere</h2><span class="small">${esc(fill('%n von 3', { n }))}</span></div>
+  return `<div class="sec-h"><h2>Charaktere</h2><span class="small">${esc(fill('%n von %m', { n, m: CHAR_MAX }))}</span></div>
     <p>Der Hauptcharakter steht im Kader und auf der Karte, die anderen als Twinks. Tippe auf einen Charakter, um ihn zu bearbeiten.</p>
     <div class="plist">${cards}${add}</div>${lfg}`;
 }
@@ -2357,7 +2358,7 @@ function cabinet() {
   const c = mainOf(), p = asPlayer(c);
   const ach = m.achievements.length, all = GD.ach.length;
   if (!secs().some(x => x[0] === sec)) sec = 'chars';
-  const nav = secs().map(([id, t]) => `<a href="#${id}"${sec === id ? ' aria-current="page"' : ''}>${esc(t)}${id === 'chars' ? `<span>${esc(fill('%n von 3', { n: m.characters.length }))}</span>` : id === 'ach' ? `<span>${ach} / ${all}</span>` : ''}</a>`).join('');
+  const nav = secs().map(([id, t]) => `<a href="#${id}"${sec === id ? ' aria-current="page"' : ''}>${esc(t)}${id === 'chars' ? `<span>${esc(fill('%n von %m', { n: m.characters.length, m: CHAR_MAX }))}</span>` : id === 'ach' ? `<span>${ach} / ${all}</span>` : ''}</a>`).join('');
   const body = { chars: secChars, look: secLook, ach: secAch, frames: secFrames, chronicle: secChronicle, account: secAccount, reports: secReports }[sec]();
   $('#view').innerHTML = `${noticeHtml()}<p class="lab">Deine Karte, wie andere sie sehen</p>${bcard(p, { h: 'h2', reveal })}${gloryHtml()}${levelAsk()}${nextHtml()}${weekHtml()}${seasonHtml()}${pathHtml()}
     <div class="lay"><nav class="frame pnav" aria-label="Bereich">${nav}<hr><a class="pub" href="${playerUrl(m.user.id)}">Meine Seite ↗</a></nav><section class="sec" id="sec">${body}</section></div>`;

@@ -1678,7 +1678,7 @@ moreDlg.addEventListener('click', e => { if (e.target === moreDlg || e.target.cl
 const ERR = {
   bad_name: 'Nome: da 2 a 12 lettere, senza cifre né spazi.', bad_race: 'Scegli una razza.', bad_combo: 'Questa combinazione di razza e classe non esiste.',
   bad_role: 'Questa classe non può avere quel ruolo.', bad_level: 'Livello: da 1 a 60.', bad_prof: 'Due professioni diverse dall’elenco.',
-  bad_skill: 'Abilità: da 1 a 300, solo per una professione scelta.', bad_playtime: 'Scegli quando giochi.', limit: 'Al massimo tre personaggi.',
+  bad_skill: 'Abilità: da 1 a 300, solo per una professione scelta.', bad_playtime: 'Scegli quando giochi.', limit: 'Al massimo dieci personaggi.',
   bad_motto: 'Motto: fino a 60 caratteri.', locked: 'Non è ancora sbloccato.', auth: 'La sessione è scaduta, accedi di nuovo.',
   bot: 'Il controllo “non sono un robot” non è riuscito. Riprova.', bad_email: 'Controlla l’indirizzo email.', mail_down: 'L’email non è partita. Riprova tra un paio di minuti.',
   last_identity: 'È il tuo ultimo metodo di accesso, non si può scollegare.',
@@ -1691,6 +1691,7 @@ const errText = (e, def) => {
 const SECS0 = [['chars', 'Personaggi'], ['look', 'Aspetto'], ['ach', 'Imprese'], ['frames', 'Cornici e gradi'], ['chronicle', 'Cronaca'], ['account', 'Account']];
 const secs = () => (m && m.admin ? SECS0.concat([['reports', tg('tab_reports')]]) : SECS0);   // «Reports» is for the admin only
 const DEL_WORD = 'ELIMINA';
+const CHAR_MAX = 10;   // same as LIMIT in the API (a Classic Era realm)
 const FIRST = ['profile_full', 'radio_on', 'guides3', 'party5', 'play_page'];
 const ACT = {
   guide: ['Apri le guide', 'guides/'], class: ['Apri le classi', 'classes/'], race: ['Apri le razze', 'races/'], play_page: ['Apri «In gioco»', 'play/'],
@@ -1877,7 +1878,7 @@ function screen(kind, arg) {
     tgConfig();
     v.innerHTML = `${noticeHtml()}<section class="frame login"><div><h2>Accedi al tuo profilo</h2>
       <p>Non c’è password: accedi come preferisci. Cosa riceviamo da ciascun servizio è in <a href="${HOME}privacy/#account">Privacy</a>.</p>
-      <ul><li>Fino a tre personaggi, il principale compare nella rosa.</li><li>Imprese, gradi e cornici del ritratto.</li><li>Il titolo «Fondatore» per chi arriva prima del lancio del 4 novembre.</li></ul></div>
+      <ul><li>Fino a dieci personaggi, il principale compare nella rosa.</li><li>Imprese, gradi e cornici del ritratto.</li><li>Il titolo «Fondatore» per chi arriva prima del lancio del 4 novembre.</li></ul></div>
       <div class="wayc"><div class="ways">${WAYS.map(([id, n]) => wayBtn(id, n, false)).join('')}</div>${mailForm()}</div></section>`;
   } else if (kind === 'mail') {
     v.innerHTML = `<section class="frame state"><h2>Controlla la tua email</h2><p>${esc(fill('Il link di accesso è stato inviato a %e. Vale 15 minuti. Non arriva? Guarda nello spam.', { e: arg }))}</p>
@@ -2115,12 +2116,12 @@ function secChars() {
     link: false, cls: c.is_main ? 'main' : '', after: c.is_main ? '<div class="mainmark">Personaggio principale</div>' : '',
     attrs: ` role="button" tabindex="0" data-edit="${c.id}" aria-label="${esc(fill('Modifica: %n', { n: c.name }))}"`,
   })).join('');
-  const add = n < 3 ? `<button type="button" class="add" data-act="add"><b>${ico('plus')}Aggiungi personaggio</b><span>${esc(fill('Ancora possibili: %n', { n: 3 - n }))}</span></button>` : '';
+  const add = n < CHAR_MAX ? `<button type="button" class="add" data-act="add"><b>${ico('plus')}Aggiungi personaggio</b><span>${esc(fill('Ancora possibili: %n', { n: CHAR_MAX - n }))}</span></button>` : '';
   const l = m.user.lfg;
   const lfg = `<div class="frame box"><h3>Cerco gruppo</h3><p class="small">Il tuo personaggio principale compare nella fascia «Cercano un gruppo ora» della rosa. Il segnale si spegne da solo dopo 3 ore.</p>
     <div class="row"><div class="seg" id="lfgSeg" role="group" aria-label="Cerco gruppo"><button type="button" data-v="" aria-pressed="${!l}">Nessuna</button>${Object.entries(LFG).map(([k, t]) => `<button type="button" data-v="${k}" aria-pressed="${!!l && l.kind === k}">${esc(t)}</button>`).join('')}</div>
     ${l ? `<span class="small">${esc(fill('Restano %t', { t: left(l.until) }))}</span><button type="button" class="btn ghost" data-act="lfgMore" data-v="${l.kind}">Prolunga di 3 ore</button>` : ''}</div></div>`;
-  return `<div class="sec-h"><h2>Personaggi</h2><span class="small">${esc(fill('%n su 3', { n }))}</span></div>
+  return `<div class="sec-h"><h2>Personaggi</h2><span class="small">${esc(fill('%n su %m', { n, m: CHAR_MAX }))}</span></div>
     <p>Il personaggio principale compare nella rosa e sulla scheda, gli altri come alt. Tocca un personaggio per modificarlo.</p>
     <div class="plist">${cards}${add}</div>${lfg}`;
 }
@@ -2357,7 +2358,7 @@ function cabinet() {
   const c = mainOf(), p = asPlayer(c);
   const ach = m.achievements.length, all = GD.ach.length;
   if (!secs().some(x => x[0] === sec)) sec = 'chars';
-  const nav = secs().map(([id, t]) => `<a href="#${id}"${sec === id ? ' aria-current="page"' : ''}>${esc(t)}${id === 'chars' ? `<span>${esc(fill('%n su 3', { n: m.characters.length }))}</span>` : id === 'ach' ? `<span>${ach} / ${all}</span>` : ''}</a>`).join('');
+  const nav = secs().map(([id, t]) => `<a href="#${id}"${sec === id ? ' aria-current="page"' : ''}>${esc(t)}${id === 'chars' ? `<span>${esc(fill('%n su %m', { n: m.characters.length, m: CHAR_MAX }))}</span>` : id === 'ach' ? `<span>${ach} / ${all}</span>` : ''}</a>`).join('');
   const body = { chars: secChars, look: secLook, ach: secAch, frames: secFrames, chronicle: secChronicle, account: secAccount, reports: secReports }[sec]();
   $('#view').innerHTML = `${noticeHtml()}<p class="lab">La tua scheda come la vedono gli altri</p>${bcard(p, { h: 'h2', reveal })}${gloryHtml()}${levelAsk()}${nextHtml()}${weekHtml()}${seasonHtml()}${pathHtml()}
     <div class="lay"><nav class="frame pnav" aria-label="Area personale">${nav}<hr><a class="pub" href="${playerUrl(m.user.id)}">La mia pagina ↗</a></nav><section class="sec" id="sec">${body}</section></div>`;

@@ -1678,7 +1678,7 @@ moreDlg.addEventListener('click', e => { if (e.target === moreDlg || e.target.cl
 const ERR = {
   bad_name: 'Nom : de 2 à 12 lettres, sans chiffres ni espaces.', bad_race: 'Choisissez une race.', bad_combo: 'Cette combinaison de race et de classe n’existe pas.',
   bad_role: 'Cette classe ne peut pas tenir ce rôle.', bad_level: 'Niveau : de 1 à 60.', bad_prof: 'Deux métiers différents de la liste.',
-  bad_skill: 'Compétence : de 1 à 300, seulement pour un métier choisi.', bad_playtime: 'Choisissez quand vous jouez.', limit: 'Trois personnages au maximum.',
+  bad_skill: 'Compétence : de 1 à 300, seulement pour un métier choisi.', bad_playtime: 'Choisissez quand vous jouez.', limit: 'Dix personnages au maximum.',
   bad_motto: 'Devise : 60 caractères au maximum.', locked: 'Ce n’est pas encore débloqué.', auth: 'Votre session a expiré, reconnectez-vous.',
   bot: 'La vérification « pas un robot » a échoué. Réessayez.', bad_email: 'Vérifiez l’adresse e-mail.', mail_down: 'L’e-mail n’est pas parti. Réessayez dans quelques minutes.',
   last_identity: 'C’est votre dernier moyen de connexion, il ne peut pas être dissocié.',
@@ -1691,6 +1691,7 @@ const errText = (e, def) => {
 const SECS0 = [['chars', 'Personnages'], ['look', 'Apparence'], ['ach', 'Hauts faits'], ['frames', 'Cadres et rangs'], ['chronicle', 'Chronique'], ['account', 'Compte']];
 const secs = () => (m && m.admin ? SECS0.concat([['reports', tg('tab_reports')]]) : SECS0);   // «Reports» is for the admin only
 const DEL_WORD = 'SUPPRIMER';
+const CHAR_MAX = 10;   // same as LIMIT in the API (a Classic Era realm)
 const FIRST = ['profile_full', 'radio_on', 'guides3', 'party5', 'play_page'];
 const ACT = {
   guide: ['Ouvrir les guides', 'guides/'], class: ['Ouvrir les classes', 'classes/'], race: ['Ouvrir les races', 'races/'], play_page: ['Ouvrir «En jeu»', 'play/'],
@@ -1877,7 +1878,7 @@ function screen(kind, arg) {
     tgConfig();
     v.innerHTML = `${noticeHtml()}<section class="frame login"><div><h2>Connectez-vous à votre profil</h2>
       <p>Pas de mot de passe : connectez-vous comme vous voulez. Ce que nous recevons de chaque service figure dans <a href="${HOME}privacy/#account">Confidentialité</a>.</p>
-      <ul><li>Jusqu’à trois personnages, le principal figure dans l’effectif.</li><li>Hauts faits, rangs et cadres de portrait.</li><li>Le titre «Fondateur» pour ceux qui arrivent avant le lancement du 4 novembre.</li></ul></div>
+      <ul><li>Jusqu’à dix personnages, le principal figure dans l’effectif.</li><li>Hauts faits, rangs et cadres de portrait.</li><li>Le titre «Fondateur» pour ceux qui arrivent avant le lancement du 4 novembre.</li></ul></div>
       <div class="wayc"><div class="ways">${WAYS.map(([id, n]) => wayBtn(id, n, false)).join('')}</div>${mailForm()}</div></section>`;
   } else if (kind === 'mail') {
     v.innerHTML = `<section class="frame state"><h2>Vérifiez vos e-mails</h2><p>${esc(fill('Le lien de connexion a été envoyé à %e. Il est valable 15 minutes. Pas d’e-mail ? Regardez dans les spams.', { e: arg }))}</p>
@@ -2115,12 +2116,12 @@ function secChars() {
     link: false, cls: c.is_main ? 'main' : '', after: c.is_main ? '<div class="mainmark">Personnage principal</div>' : '',
     attrs: ` role="button" tabindex="0" data-edit="${c.id}" aria-label="${esc(fill('Modifier : %n', { n: c.name }))}"`,
   })).join('');
-  const add = n < 3 ? `<button type="button" class="add" data-act="add"><b>${ico('plus')}Ajouter un personnage</b><span>${esc(fill('Encore possible : %n', { n: 3 - n }))}</span></button>` : '';
+  const add = n < CHAR_MAX ? `<button type="button" class="add" data-act="add"><b>${ico('plus')}Ajouter un personnage</b><span>${esc(fill('Encore possible : %n', { n: CHAR_MAX - n }))}</span></button>` : '';
   const l = m.user.lfg;
   const lfg = `<div class="frame box"><h3>Je cherche un groupe</h3><p class="small">Votre personnage principal apparaît dans le bandeau «Cherchent un groupe» de l’effectif. Le signal s’éteint de lui-même après 3 heures.</p>
     <div class="row"><div class="seg" id="lfgSeg" role="group" aria-label="Je cherche un groupe"><button type="button" data-v="" aria-pressed="${!l}">Aucun</button>${Object.entries(LFG).map(([k, t]) => `<button type="button" data-v="${k}" aria-pressed="${!!l && l.kind === k}">${esc(t)}</button>`).join('')}</div>
     ${l ? `<span class="small">${esc(fill('Reste %t', { t: left(l.until) }))}</span><button type="button" class="btn ghost" data-act="lfgMore" data-v="${l.kind}">Prolonger de 3 heures</button>` : ''}</div></div>`;
-  return `<div class="sec-h"><h2>Personnages</h2><span class="small">${esc(fill('%n sur 3', { n }))}</span></div>
+  return `<div class="sec-h"><h2>Personnages</h2><span class="small">${esc(fill('%n sur %m', { n, m: CHAR_MAX }))}</span></div>
     <p>Le personnage principal figure dans l’effectif et sur la carte, les autres en rerolls. Touchez un personnage pour le modifier.</p>
     <div class="plist">${cards}${add}</div>${lfg}`;
 }
@@ -2357,7 +2358,7 @@ function cabinet() {
   const c = mainOf(), p = asPlayer(c);
   const ach = m.achievements.length, all = GD.ach.length;
   if (!secs().some(x => x[0] === sec)) sec = 'chars';
-  const nav = secs().map(([id, t]) => `<a href="#${id}"${sec === id ? ' aria-current="page"' : ''}>${esc(t)}${id === 'chars' ? `<span>${esc(fill('%n sur 3', { n: m.characters.length }))}</span>` : id === 'ach' ? `<span>${ach} / ${all}</span>` : ''}</a>`).join('');
+  const nav = secs().map(([id, t]) => `<a href="#${id}"${sec === id ? ' aria-current="page"' : ''}>${esc(t)}${id === 'chars' ? `<span>${esc(fill('%n sur %m', { n: m.characters.length, m: CHAR_MAX }))}</span>` : id === 'ach' ? `<span>${ach} / ${all}</span>` : ''}</a>`).join('');
   const body = { chars: secChars, look: secLook, ach: secAch, frames: secFrames, chronicle: secChronicle, account: secAccount, reports: secReports }[sec]();
   $('#view').innerHTML = `${noticeHtml()}<p class="lab">Votre carte telle que les autres la voient</p>${bcard(p, { h: 'h2', reveal })}${gloryHtml()}${levelAsk()}${nextHtml()}${weekHtml()}${seasonHtml()}${pathHtml()}
     <div class="lay"><nav class="frame pnav" aria-label="Espace personnel">${nav}<hr><a class="pub" href="${playerUrl(m.user.id)}">Ma page ↗</a></nav><section class="sec" id="sec">${body}</section></div>`;
