@@ -21,7 +21,7 @@
 <meta property="og:image:alt" content="@@NAME@@ в WoW Forever">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230a0b0d'/%3E%3Ctext x='32' y='34' text-anchor='middle' dominant-baseline='central' font-family='Georgia,serif' font-size='44' font-weight='700' fill='%23c9a54a'%3EG%3C/text%3E%3C/svg%3E">
-<link rel="preload" href="@@ROOT@@assets/fonts/forum-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="@@ROOT@@assets/fonts/bona-nova-sc-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="@@ROOT@@assets/fonts/golos-text-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" type="image/avif" imagesrcset="@@ROOT@@assets/art/@@ID@@-600.avif 600w, @@ROOT@@assets/art/@@ID@@-896.avif 896w" imagesizes="(max-width: 719px) 100vw, 75vh">
 <style>
@@ -56,7 +56,7 @@
 .chero .btn.ghost { background: rgba(7,8,10,.35); color: var(--ink); border-color: rgba(241,236,224,.45); }
 .chero .btn.ghost:hover { border-color: #e0c27a; background: rgba(7,8,10,.55); }
 
-.stabs { display: flex; gap: 8px; padding: 8px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); overflow-x: auto; scrollbar-width: none; }
+.stabs { display: flex; min-width: 0; gap: 8px; padding: 8px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); overflow-x: auto; scrollbar-width: none; }
 .stabs::-webkit-scrollbar { display: none; }
 .stabs button { flex: 1 0 auto; min-height: 60px; padding: 0 20px; border: 1px solid transparent; border-radius: 7px; background: none; color: var(--muted); font-family: var(--font-display); font-size: 1.4rem; line-height: 1.1; transition: color .2s, border-color .2s, background-color .2s; display: grid; align-content: center; gap: 2px; text-align: left; }
 .stabs button small { font-family: var(--font-body); font-size: .78rem; font-weight: 500; }
@@ -137,7 +137,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   .chero h1 { font-size: clamp(2.4rem, 11.5vw, 4rem); overflow-wrap: anywhere; }
   .cfacts { grid-template-columns: 1fr 1fr; gap: 0 16px; }
   .stabs { gap: 4px; padding: 4px; }
-  .stabs button { flex: 1 1 0; min-width: 0; padding: 6px 8px; font-size: 1.05rem; min-height: 56px; white-space: normal; text-align: center; justify-items: center; }
+  .stabs button { flex: 1 1 0; min-width: 0; padding: 6px 6px; font-size: .95rem; min-height: 56px; white-space: normal; text-align: center; justify-items: center; hyphens: auto; overflow-wrap: anywhere; }
   .spanel { padding: 18px 16px; }
   .keys li { grid-template-columns: 1fr; }
   .news { padding: 8px; gap: 8px; }

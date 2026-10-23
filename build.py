@@ -97,6 +97,17 @@ def esc(s):
     return s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')
 
 
+# soft hyphen points for long spec names: the engraved caps font is wide and three spec tabs share a phone screen
+HYPH = {w.replace('-', ''): w.replace('-', '&shy;') for w in (
+    'Совер-шен-ство-вание', 'Вдо-ско-на-лен-ня', 'Не-по-міт-ність', 'Не-ис-тов-ство', 'Де-мо-но-ло-гия', 'Де-мо-но-ло-гія',
+    'Лик-ви-да-ция', 'Лік-ві-да-ція', 'Раз-ру-ше-ние', 'Руй-ну-ван-ня', 'По-слу-ша-ние', 'Кол-дов-ство', 'Скрыт-ность',
+    'Assas-si-na-tion', 'Marks-man-ship', 'Retri-bu-tion', 'Resto-ra-tion', 'Destruc-tion', 'Enhance-ment')}
+
+
+def hyph_tabs(html):
+    return re.sub(r'(role="tab"[^>]*>)([^<]+)', lambda m: m[1] + HYPH.get(m[2], m[2]), html)
+
+
 def ico(name):
     return f'<svg class="ico" aria-hidden="true"><use href="#i-{name}"/></svg>'
 
@@ -192,6 +203,7 @@ def build_class(c, lang, tpl, base_css, sprite, races):
     html = html.replace('@@OTHERS@@', others).replace('@@PAGER@@', pager).replace('@@TOC_CLASSES@@', toc).replace('@@SOURCES@@', sources)
 
     html, missing = translate(html, lang)
+    html = hyph_tabs(html)
     html = html.replace('@@NAME@@', esc(tr(c['n'], lang)))
     html = html.replace('@@HOME@@', home)
     for l in LANGS:
