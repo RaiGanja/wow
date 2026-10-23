@@ -2,7 +2,8 @@
    god rays, dust and birds at dawn; fire, firelight, embers, smoke and stars at the camp; lantern, gate, river and mist on the road.
    A picture opts in with data-fx="dawn|camp" on its <picture>; masks are assets/living/<art>-fx.png (tools/make_living.py),
    in the 1376 x 768 grid of the source art. The canvas is transparent except where something moves, so the sharp <img>
-   stays visible underneath. Off with prefers-reduced-motion, Save-Data or without WebGL; paused off screen. */
+   stays visible underneath. Off with prefers-reduced-motion, Save-Data or without WebGL; paused off screen.
+   Follows the time of day (assets/tod/tod.js): sun position, rays, birds by day; stars, fireflies and moon glints at night. */
 (() => {
   const me = document.currentScript;
   if (!me || matchMedia('(prefers-reduced-motion: reduce)').matches || (navigator.connection || {}).saveData) return;
@@ -22,6 +23,8 @@ uniform vec2 uSize;   // canvas, css px
 uniform vec4 uMap;    // picture box inside the canvas: offset, size (css px)
 uniform vec4 uCrop;   // part of the source art in this file: offset, size (0..1)
 uniform float uT, uPx; // seconds; css px per art px
+uniform float uTod;   // 0 dawn, 1 day, 2 dusk, 3 night (assets/tod/tod.js)
+uniform vec2 uSun;    // sun or moon of this variant, art px
 const vec2 ART = vec2(1376., 768.);
 vec4 acc; vec3 add;
 float h21(vec2 p) { p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }
@@ -43,6 +46,22 @@ float bird(vec2 P, vec2 c, float s, float flap) {
   vec2 q = (P - c) / s; q.x = abs(q.x);
   float d = min(seg(q, vec2(0.), vec2(1., -.35 - flap)), seg(q, vec2(1., -.35 - flap), vec2(2., -.1 - flap * 1.4)));
   return smoothstep(.9 / (s * uPx) + .12, .12, d);
+}
+float isT(float t) { return 1. - step(.5, abs(uTod - t)); }
+float stars(vec2 P, float cellSize, float th, float k) {
+  vec2 cell = floor(P / cellSize), sp = (cell + .2 + .6 * vec2(h21(cell + 1.3), h21(cell + 7.1))) * cellSize;
+  float hs = h21(cell);
+  return hs > th ? dot1(P, sp, 1.5 + (hs - th) * 14.) * (.45 + .55 * sin(uT * (.8 + hs * 3.) + hs * 50.)) * k : 0.;
+}
+vec3 fireflies(vec2 P, vec4 area, int n) {
+  vec3 s = vec3(0.);
+  for (int i = 0; i < 14; i++) {
+    if (i >= n) break;
+    float fi = float(i), h = h21(vec2(fi, 2.9)), k = h21(vec2(fi, 8.1));
+    vec2 c = area.xy + vec2(h, k) * (area.zw - area.xy) + vec2(sin(uT * (.3 + k * .4) + fi), cos(uT * (.25 + h * .3) + fi * 1.3)) * 14.;
+    s += vec3(.85, 1., .6) * dot1(P, c, 1.6 + k) * pow(.5 + .5 * sin(uT * (1.2 + h) + fi * 2.), 3.) * .9;
+  }
+  return s;
 }
 vec2 artPx() { return (uCrop.xy + (vUv * uSize - uMap.xy) / uMap.zw * uCrop.zw) * ART; }
 `;
@@ -84,30 +103,35 @@ void main() {
   float band = smoothstep(410., 460., P.y) * smoothstep(640., 580., P.y) * smoothstep(720., 600., P.x);
   float fog = smoothstep(.48, .9, fbm(P * vec2(.006, .013) + vec2(uT * .022, 0.))) * band * .26;
   float spray = fbm(P * .025 - vec2(uT * .1, uT * .25)) * smoothstep(1., .2, length((P - vec2(600., 365.)) / vec2(170., 30.)));
-  over(vec3(.86, .89, .93), clamp(fog + spray * .5, 0., .6));
-  // god rays from the sun
-  vec2 v = P - vec2(190., 375.);
+  over(mix(vec3(.86, .89, .93), vec3(.55, .62, .78), isT(3.)), clamp(fog * (1. + isT(3.) * .5) + spray * .5, 0., .6));
+  // god rays from the sun: soft by day (it is above the frame), warm at sunset, none at night
+  vec2 v = P - uSun;
   float ang = atan(v.y, v.x), r = length(v);
   float ray = n2(vec2(ang * 9., uT * .07)) * n2(vec2(ang * 23., -uT * .05));
-  add += vec3(1., .86, .6) * pow(ray, 2.) * smoothstep(720., 60., r) * .11;
+  add += mix(vec3(1., .86, .6), vec3(1., .66, .38), isT(2.)) * pow(ray, 2.) * smoothstep(720., 60., r) * .11 * (isT(0.) + isT(1.) * .5 + isT(2.) * 1.1);
   // dust in the sunlight
   for (int i = 0; i < 26; i++) {
     float fi = float(i), h = h21(vec2(fi, 3.1)), k = h21(vec2(fi, 9.7));
     float life = fract(uT * (.025 + k * .03) + h);
     vec2 c = vec2(30. + h * 600. + sin(uT * .6 + fi) * 14. + life * 60., 620. - life * 470.);
-    float tw = sin(life * 3.1416) * (.55 + .45 * sin(uT * (1.5 + k * 2.) + fi)) * smoothstep(780., 150., length(c - vec2(190., 375.)));
+    float tw = sin(life * 3.1416) * (.55 + .45 * sin(uT * (1.5 + k * 2.) + fi)) * smoothstep(780., 150., length(c - uSun)) * (isT(0.) + isT(2.) * .5);
     add += vec3(1., .88, .62) * dot1(P, c, 1.4 + k * 1.6) * tw * .7;
   }
   // a few birds cross the open sky left of the banner now and then
   float t0 = mod(uT + 6., 40.) / 28.;
-  if (t0 < 1.) {
+  if (t0 < 1. && uTod < 2.5) {
     vec2 c = vec2(630. - t0 * 640., 62. + sin(t0 * 3.) * 14.);
     float b = 0.;
     for (int i = 0; i < 4; i++) {
       float fi = float(i);
       b = max(b, bird(P, c + vec2(fi * 17., mod(fi, 2.) * 9. - fi * 3.), 3.6 - fi * .3, sin(uT * 9. + fi * 1.7) * .5));
     }
-    over(vec3(.16, .16, .2), b * .8 * smoothstep(0., .06, t0) * smoothstep(1., .94, t0));
+    over(mix(vec3(.16, .16, .2), vec3(.08, .05, .05), isT(2.)), b * .8 * smoothstep(0., .06, t0) * smoothstep(1., .94, t0));
+  }
+  if (uTod > 2.5) {
+    add += vec3(.9, .93, 1.) * stars(P, 16., .9, .6) * m.b;
+    add += fireflies(P, vec4(500., 600., 760., 740.), 10);   // the grassy ledge in front of the heroes
+    if (m.a > .01) add += vec3(.7, .8, 1.) * pow(n2(P * vec2(.3, .8) + vec2(uT * .5, 0.)), 10.) * .6 * m.a;   // moon glints
   }
   gl_FragColor = vec4(acc.rgb + add, acc.a);
 }`,
@@ -119,7 +143,7 @@ void main() {
   // stars
   vec2 cell = floor(P / 16.), sp = (cell + .2 + .6 * vec2(h21(cell + 1.3), h21(cell + 7.1))) * 16.;
   float hs = h21(cell);
-  if (hs > .9) add += vec3(.9, .93, 1.) * dot1(P, sp, 1.6 + (hs - .9) * 14.) * (.45 + .55 * sin(uT * (.8 + hs * 3.) + hs * 50.)) * .6 * m.b;
+  if (hs > .9) add += vec3(.9, .93, 1.) * dot1(P, sp, 1.6 + (hs - .9) * 14.) * (.45 + .55 * sin(uT * (.8 + hs * 3.) + hs * 50.)) * .6 * m.b * (isT(2.) + isT(3.) * 1.4);
   // river
   if (m.a > .01) {
     vec3 c = flow(P, vec2(-6., 3.), 3.2, 0.);
@@ -150,6 +174,7 @@ void main() {
     vec3 col = mix(vec3(1., .85, .45), vec3(1., .35, .08), life);
     add += col * dot1(P, c, 1.3 + k * 1.4) * pow(1. - life, 1.4) * 1.3;
   }
+  if (uTod > 2.5) add += fireflies(P, vec4(200., 560., 1300., 740.), 9);
   gl_FragColor = vec4(acc.rgb + add, acc.a);
 }`,
     road: `
@@ -160,7 +185,7 @@ void main() {
   // stars
   vec2 cell = floor(P / 18.), sp = (cell + .2 + .6 * vec2(h21(cell + 1.3), h21(cell + 7.1))) * 18.;
   float hs = h21(cell);
-  if (hs > .92) add += vec3(.9, .93, 1.) * dot1(P, sp, 1.5 + (hs - .92) * 16.) * (.45 + .55 * sin(uT * (.8 + hs * 3.) + hs * 50.)) * .55 * m.b;
+  if (hs > .92) add += vec3(.9, .93, 1.) * dot1(P, sp, 1.5 + (hs - .92) * 16.) * (.45 + .55 * sin(uT * (.8 + hs * 3.) + hs * 50.)) * .55 * m.b * (isT(2.) + isT(3.) * 1.4);
   // river
   if (m.a > .01) {
     vec3 c = flow(P, vec2(6., 2.), 3.4, 0.);
@@ -179,6 +204,7 @@ void main() {
   vec2 G = vec2(595., 375.);
   float pu = .5 + .5 * sin(uT * 1.3) * (.7 + .3 * n2(vec2(uT * 2., 9.)));
   add += vec3(.45, .4, 1.) * smoothstep(90., 0., length((P - G) * vec2(1., .75))) * pu * .22;
+  if (uTod > 2.5) add += fireflies(P, vec4(200., 560., 1300., 740.), 9);
   gl_FragColor = vec4(acc.rgb + add, acc.a);
 }`
   };
@@ -207,6 +233,9 @@ void main() {
 
   function live(pic) {
     const scene = pic.dataset.fx, img = pic.querySelector('img');
+    const SUN = { dawn: [190, 375], day: [250, 12], dusk: [190, 378], night: [253, 234] };   // measured on the aligned art (tools/align_tod.py); day: above the frame
+    const TOD = { dawn: 0, day: 1, dusk: 2, night: 3 };
+    const tod = () => (window.GabellaTod && window.GabellaTod.now) || (scene === 'dawn' ? 'dawn' : 'dusk');   // camp and road are evening scenes
     if (!SCENES[scene] || !img) return;
     const cv = document.createElement('canvas');
     cv.className = 'fx';
@@ -230,7 +259,7 @@ void main() {
     gl.enableVertexAttribArray(0);
     gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
     const U = {};
-    for (const n of ['uImg', 'uMask', 'uSize', 'uMap', 'uCrop', 'uT', 'uPx']) U[n] = gl.getUniformLocation(prog, n);
+    for (const n of ['uImg', 'uMask', 'uSize', 'uMap', 'uCrop', 'uT', 'uPx', 'uTod', 'uSun']) U[n] = gl.getUniformLocation(prog, n);
     gl.uniform1i(U.uImg, 0);
     gl.uniform1i(U.uMask, 1);
 
@@ -249,8 +278,8 @@ void main() {
       const iw = img.naturalWidth, ih = img.naturalHeight, s = Math.max(w / iw, h / ih);
       const pos = getComputedStyle(img).objectPosition.split(' ').map(v => parseFloat(v) / 100);
       const dw = iw * s, dh = ih * s;
-      // phones get a portrait cut of the dawn art (tools/make_images.py hero_mobile)
-      const crop = /hero_dawn-m-/.test(img.currentSrc) ? [.33837, 0, .43605, 1] : [0, 0, 1, 1];
+      // phones get a portrait cut of the hero art in every time of day (tools/make_images.py hero_mobile)
+      const crop = /hero_\w+-m-/.test(img.currentSrc) ? [.33837, 0, .43605, 1] : [0, 0, 1, 1];
       gl.uniform2f(U.uSize, w, h);
       gl.uniform4f(U.uMap, (w - dw) * (isNaN(pos[0]) ? .5 : pos[0]), (h - dh) * (isNaN(pos[1]) ? .5 : pos[1]), dw, dh);
       gl.uniform4f(U.uCrop, ...crop);
@@ -271,6 +300,9 @@ void main() {
       last = now;
       if (img.currentSrc !== src) { upload(); layout(); }
       gl.uniform1f(U.uT, ((now - t0) / 1000) % 3600);
+      const t = tod();
+      gl.uniform1f(U.uTod, TOD[t]);
+      gl.uniform2f(U.uSun, ...SUN[t]);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
       if (!shown) { shown = true; requestAnimationFrame(() => cv.classList.add('on')); }
     }
@@ -289,6 +321,8 @@ void main() {
       new IntersectionObserver(es => run(es[0].isIntersecting)).observe(pic);
       document.addEventListener('visibilitychange', () => run(on));
       cv.addEventListener('webglcontextlost', () => { on = false; cv.remove(); });
+      document.addEventListener('gabella:tod-start', () => cv.classList.remove('on'));
+      document.addEventListener('gabella:tod', () => { shown = false; });   // the next frame re-uploads the new picture and fades in
     }).catch(() => {});
   }
 

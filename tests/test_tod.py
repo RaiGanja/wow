@@ -79,6 +79,13 @@ class Markup(unittest.TestCase):
 
 
 class Wiring(unittest.TestCase):
+    def test_living_sun_measured_for_every_variant(self):
+        js = open(os.path.join(ROOT, 'assets', 'living', 'living.js'), encoding='utf-8').read()
+        sun = re.search(r'const SUN = \{([^}]+)\}', js).group(1)
+        for tod in TODS:
+            x, y = map(int, re.search(rf'{tod}: \[(\d+), (\d+)\]', sun).groups())
+            self.assertTrue(0 < x < 1376 and 0 < y < 768, (tod, x, y))
+
     def test_home_loads_tod_script_with_version(self):
         html = open(os.path.join(ROOT, 'index.html'), encoding='utf-8').read()
         self.assertRegex(html, r'assets/tod/tod\.js\?v=\w{10}')
