@@ -29,7 +29,8 @@ SITE_TILES = [
      'd': {'ru': 'Рамки, сравнение, поиск', 'en': 'Frames, compare, search', 'uk': 'Рамки, порівняння, пошук'}},
 ]
 # Wide hero art; everything else is a class/race portrait cut at 360/600/896
-WIDTHS = {'hero_dawn': (960, 1440, 1920, 2560), 'hero_campfire': (960, 1600)}
+WIDTHS = {'hero_dawn': (960, 1440, 1920, 2560, 3840), 'hero_campfire': (960, 1600, 2560)}
+FX = {'hero_dawn': 'dawn', 'hero_campfire': 'camp'}   # living art (assets/living/living.js) over these heroes
 
 
 LAUNCH_UTC = '23:00 UTC'
@@ -537,7 +538,7 @@ def build_page(g, lang, tpl, base_css, sprite, src):
     rep = {
         'TITLE': E(g['title'], lang), 'LEAD': E(g['lead'], lang), 'CRUMB': crumb,
         'PILLS': ''.join(f'<span class="pill">{E(p, lang)}</span>' for p in g.get('pills', [])),
-        'ART_AVIF': avif, 'ART_WEBP': webp, 'ART_IMG': img, 'TOC': toc, 'TOC_GRP': toc_grp, 'BODY': body, 'MORE': more,
+        'ART_AVIF': avif, 'ART_WEBP': webp, 'ART_IMG': img, 'FX': f' data-fx="{FX[g["art"]]}"' if g['art'] in FX else '', 'TOC': toc, 'TOC_GRP': toc_grp, 'BODY': body, 'MORE': more,
         'SOLO': '' if toc else ' solo', 'MORE_H': (MORE_SITE if section else MORE_H)[lang],
         'SOURCES': ''.join(f'<li><a href="{u}" target="_blank" rel="noopener">{E(n, lang)}</a></li>' for n, u in g.get('sources', [])),
         'UPDATED': g.get('updated', HUB.get('updated', '')),
@@ -561,6 +562,8 @@ def build_page(g, lang, tpl, base_css, sprite, src):
     if LAUNCH_UTC in html:                                       # launch time: also in the reader's time zone
         html = re.sub(rf'{LAUNCH_UTC}(?=\.</(?:td|p)>)', f'<time class="lt" datetime="2026-11-04T23:00:00Z">{LAUNCH_UTC}</time>', html)
         html = html.replace('</body>', LOCAL_JS.replace('@@YOUR@@', YOUR[lang]) + '</body>', 1)
+    if g['art'] in FX:
+        html = html.replace('</body>', '<script src="@@ROOT@@assets/living/living.js" defer></script>\n</body>', 1)
     html = html.replace('@@CANON@@', SITE + here)
     html = html.replace('@@ALTERNATES@@', build.alternates(sub))
     html = localize(html, lang, here).replace('assets/og.png', f'assets/og/{g.get("og") or g["slug"] or "guides"}-{lang}.jpg')   # tools/make_og.py

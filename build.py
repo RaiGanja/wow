@@ -395,6 +395,25 @@ def me_version():
     print(f'me: {n} pages, v={v}', file=sys.stderr)
 
 
+def living_version():
+    """?v=<hash> on assets/living/living.js (art masks included; the script passes the version on to them), like me_version."""
+    d = os.path.join(HERE, 'assets', 'living')
+    h = hashlib.sha1()
+    for f in sorted(os.listdir(d)):
+        h.update(open(os.path.join(d, f), 'rb').read())
+    v = h.hexdigest()[:10]
+    for root, dirs, files in os.walk(HERE):
+        dirs[:] = [x for x in dirs if not x.startswith('.') and x not in ('assets', 'content', 'i18n', 'tests', 'node_modules')]
+        for f in files:
+            if f.endswith('.html') and not f.endswith('.src.html'):
+                p = os.path.join(root, f)
+                html = open(p, encoding='utf-8').read()
+                new = re.sub(r'(assets/living/living\.js)(?:\?v=\w+)?', rf'\1?v={v}', html)
+                if new != html:
+                    open(p, 'w', encoding='utf-8', newline='\n').write(new)
+    print(f'living: v={v}', file=sys.stderr)
+
+
 def pwa(html, lang, root):
     a = APP[lang]
     head = (f'<link rel="manifest" href="{root}manifest-{lang}.webmanifest">\n'
@@ -868,6 +887,7 @@ def main():
         import search  # site search index over the finished pages; it changes assets/, so the worker version is taken again
         search.main()
         me_version()
+        living_version()
         sw_version()
 
 
