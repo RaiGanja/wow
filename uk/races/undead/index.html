@@ -376,6 +376,10 @@ ul.dots li::marker { color: var(--gold); }
 .flabel { font-size: .9rem; color: var(--muted); font-weight: 500; }
 .seg { display: inline-flex; flex-wrap: wrap; gap: 4px; padding: 4px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); }
 .seg button { border: 0; border-radius: 7px; background: transparent; padding: 0 15px; min-height: 44px; font-weight: 600; font-size: .95rem; }
+/* Level stepper next to a segment: same height and inner frame as .seg */
+.filters .stepper { padding: 4px; gap: 2px; }
+.filters .stepper button { min-width: 40px; border-radius: 7px; }
+.filters .stepper button:hover { background: color-mix(in srgb, var(--fg) 7%, transparent); }
 .seg button:hover { background: color-mix(in srgb, var(--fg) 7%, transparent); }
 .seg button[aria-pressed="true"] { background: #c9a54a; color: #15110a; }
 .copyrow { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
@@ -978,7 +982,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="../../" aria-label="Gabella Team, на головну"><span class="mark" aria-hidden="true">G</span><b>Gabella Team</b></a>
   <nav class="mainnav" aria-label="Розділи">
-    <a href="../../#factions">Фракції</a><a href="../../#classes">Класи</a><a href="../../#peoples" aria-current="true">Раси</a><a href="../../#picker">Підбирач</a><a href="../../#builder">Група</a><a href="../../#guides">Гайди</a><a href="../../tools/">Інструменти</a>
+    <a href="../../#factions">Фракції</a><a href="../../#classes">Класи</a><a href="../../#peoples" aria-current="true">Раси</a><a href="../../#picker">Підбирач</a><a href="../../#builder">Група</a><a href="../../guides/">Гайди</a><a href="../../tools/">Інструменти</a>
   </nav>
   <div class="tools">
     <div class="langs" role="group" aria-label="Мова"><a href="../../../races/undead/" data-lang="ru" hreflang="ru" lang="ru" aria-current="false">RU</a><a href="../../../en/races/undead/" data-lang="en" hreflang="en" lang="en" aria-current="false">EN</a><a href="./" data-lang="uk" hreflang="uk" lang="uk" aria-current="true">UK</a></div>
@@ -995,7 +999,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
     <img src="../../../assets/art/undead-896.webp" width="896" height="1200" alt="" fetchpriority="high" decoding="async">
   </picture>
   <div class="wrap chero-in">
-    <nav class="crumbs" aria-label="Навігація"><a href="../../">Гід</a><span aria-hidden="true">/</span><a href="../../#peoples">Раси</a></nav>
+    <nav class="crumbs" aria-label="Навігація"><a href="../../">Гід</a><span aria-hidden="true">/</span><a href="../../races/">Раси</a></nav>
     <p class="ftag">Орда</p>
     <h1>Нежить</h1>
     
@@ -1061,7 +1065,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   <a href="../../"><svg class="ico" aria-hidden="true"><use href="#i-home"/></svg>Головна</a>
   <a href="../../#classes"><svg class="ico" aria-hidden="true"><use href="#i-tank"/></svg>Класи</a>
   <a href="../../#builder"><svg class="ico" aria-hidden="true"><use href="#i-users"/></svg>Група</a>
-  <a href="../../#guides"><svg class="ico" aria-hidden="true"><use href="#i-book"/></svg>Гайди</a>
+  <a href="../../guides/"><svg class="ico" aria-hidden="true"><use href="#i-book"/></svg>Гайди</a>
   <button type="button" class="morebtn" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-dots"/></svg>Ще</button>
 </nav>
 
@@ -1069,7 +1073,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   <div class="dh"><b>Усі розділи</b><button class="iconbtn" id="moreClose" type="button" aria-label="Закрити"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Усі розділи">
     <div class="grp"><div class="gh">Ця сторінка</div><a href="#racials">Расові здібності</a><a href="#classes">Ким можна грати</a><a href="#new">Що нового</a><a href="#lore">Історія та вибір</a></div>
-    <div class="grp"><div class="gh">Гід</div><a href="../../">Головна</a><a href="../../#picker">Підбирач</a><a href="../../#builder">Конструктор групи</a><a href="../../#checklist">Чек-лист</a><a href="../../#guides">Гайди</a><a href="../../tools/">Інструменти</a></div>
+    <div class="grp"><div class="gh">Гід</div><a href="../../">Головна</a><a href="../../#picker">Підбирач</a><a href="../../#builder">Конструктор групи</a><a href="../../#checklist">Чек-лист</a><a href="../../guides/">Гайди</a><a href="../../tools/">Інструменти</a></div>
     <div class="grp"><div class="gh">Раси</div><a href="../human/">Людина</a><a href="../dwarf/">Дворф</a><a href="../night-elf/">Нічний ельф</a><a href="../gnome/">Гном</a><a href="../skyborne-alliance/">Високий скайборн</a><a href="../orc/">Орк</a><a href="../undead/" aria-current="page">Нежить</a><a href="../tauren/">Таурен</a><a href="../troll/">Троль</a><a href="../skyborne-horde/">Скайборн-вітрорізь</a></div>
   </nav>
   <div class="opts">

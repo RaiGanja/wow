@@ -2,6 +2,15 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
+<script>
+/* Old guide anchors moved to /guides/ pages (stage 5): keep Discord links working */
+(function () {
+  var m = { dates: 'faq/#dates', era: 'faq/#era', dungeons: 'dungeons/', group: 'dungeons/#group', legacy: 'leveling/#legacy', camp: 'leveling/#camp' };
+  var h = location.hash.slice(1);
+  if (m[h]) location.replace('guides/' + m[h]);
+  else if (h === 'classref' || h === 'races') location.replace(h === 'races' ? 'races/' : 'classes/');
+})();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>WoW Forever: гид Gabella Team</title>
 <meta name="description" content="Гид по WoW Forever для компании друзей: классы, расы, комбинации, Legacy, лагерь, подземелья, рейды и подбор состава группы. Данные на 23.10.2026.">
@@ -375,6 +384,10 @@ ul.dots li::marker { color: var(--gold); }
 .flabel { font-size: .9rem; color: var(--muted); font-weight: 500; }
 .seg { display: inline-flex; flex-wrap: wrap; gap: 4px; padding: 4px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); }
 .seg button { border: 0; border-radius: 7px; background: transparent; padding: 0 15px; min-height: 44px; font-weight: 600; font-size: .95rem; }
+/* Level stepper next to a segment: same height and inner frame as .seg */
+.filters .stepper { padding: 4px; gap: 2px; }
+.filters .stepper button { min-width: 40px; border-radius: 7px; }
+.filters .stepper button:hover { background: color-mix(in srgb, var(--fg) 7%, transparent); }
 .seg button:hover { background: color-mix(in srgb, var(--fg) 7%, transparent); }
 .seg button[aria-pressed="true"] { background: #c9a54a; color: #15110a; }
 .copyrow { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
@@ -808,7 +821,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="#top" aria-label="Gabella Team, к началу страницы"><span class="mark" aria-hidden="true">G</span><b>Gabella Team</b></a>
   <nav class="mainnav" aria-label="Разделы">
-    <a href="#stages">Этапы</a><a href="#factions">Фракции</a><a href="#classes">Классы</a><a href="#peoples">Расы</a><a href="#picker">Подборщик</a><a href="#builder">Группа</a><a href="#guides">Гайды</a><a href="tools/">Инструменты</a>
+    <a href="#stages">Этапы</a><a href="#factions">Фракции</a><a href="#classes">Классы</a><a href="#peoples">Расы</a><a href="#picker">Подборщик</a><a href="#builder">Группа</a><a href="guides/">Гайды</a><a href="tools/">Инструменты</a>
   </nav>
   <div class="tools">
     <div class="langs" role="group" aria-label="Язык"><a href="@@RU@@" data-lang="ru" hreflang="ru" lang="ru" aria-current="true">RU</a><a href="@@EN@@" data-lang="en" hreflang="en" lang="en" aria-current="false">EN</a><a href="@@UK@@" data-lang="uk" hreflang="uk" lang="uk" aria-current="false">UK</a></div>
@@ -894,6 +907,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <div class="sec-head"><div class="row"><h2>Кем играть</h2><span class="src">Warcraft Tavern, LFCarry</span></div><p>Наведите на портрет, чтобы раскрыть класс. Нажмите, чтобы открыть страницу класса: специализации, расы и что нового в Forever.</p></div>
   <div class="frame roster" id="roster"></div>
   <p class="swipe">Листайте портреты в сторону.</p>
+  <p><a class="more-l" href="classes/">Сравнить все классы<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
 </section>
 
 <section class="block wrap" id="peoples" data-nav="#peoples" data-tab="#classes">
@@ -903,6 +917,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     <div class="pfac horde"><h3>Орда</h3><div class="roster rr" id="rosterH"></div></div>
   </div>
   <p class="swipe">Листайте портреты в сторону.</p>
+  <p><a class="more-l" href="races/">Сравнить все расы<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
 </section>
 
 <section class="block wrap" id="tools" data-nav="#picker" data-tab="#builder">
@@ -980,219 +995,17 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <div class="wrap">
     <div class="sec-head"><h2>Гайды и справочник</h2><p>Всё, что мы собрали о WoW Forever: даты, системы игры, подземелья и советы для компании.</p></div>
     <nav class="frame gtiles" aria-label="Гайды">
-      <a class="gt" href="#dates"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/hero_dawn-960.avif"><img src="@@ROOT@@assets/art/hero_dawn-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Даты и наборы</b><span>Резерв имён, релиз, рейды и цены наборов</span></a>
-      <a class="gt" href="#classref"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/warrior-360.avif 360w, @@ROOT@@assets/art/warrior-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="@@ROOT@@assets/art/warrior-360.webp" srcset="@@ROOT@@assets/art/warrior-360.webp 360w, @@ROOT@@assets/art/warrior-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Классы подробно</b><span>Специализации, темп прокачки и что нового</span></a>
-      <a class="gt" href="#races"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/human-360.avif 360w, @@ROOT@@assets/art/human-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="@@ROOT@@assets/art/human-360.webp" srcset="@@ROOT@@assets/art/human-360.webp 360w, @@ROOT@@assets/art/human-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Расы</b><span>Способности рас и доступные классы</span></a>
-      <a class="gt" href="#legacy"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/priest-360.avif 360w, @@ROOT@@assets/art/priest-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="@@ROOT@@assets/art/priest-360.webp" srcset="@@ROOT@@assets/art/priest-360.webp 360w, @@ROOT@@assets/art/priest-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Legacy</b><span>Очки на весь аккаунт, перки и награды</span></a>
-      <a class="gt" href="#camp"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/hero_campfire-960.avif"><img src="@@ROOT@@assets/art/hero_campfire-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Лагерь и профессии</b><span>Костёр, объекты профессий и баффы</span></a>
-      <a class="gt" href="#dungeons"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/warlock-360.avif 360w, @@ROOT@@assets/art/warlock-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="@@ROOT@@assets/art/warlock-360.webp" srcset="@@ROOT@@assets/art/warlock-360.webp 360w, @@ROOT@@assets/art/warlock-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Подземелья и рейды</b><span>Все 35 подземелий по уровням и 3 рейда</span></a>
-      <a class="gt" href="#group"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/paladin-360.avif 360w, @@ROOT@@assets/art/paladin-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="@@ROOT@@assets/art/paladin-360.webp" srcset="@@ROOT@@assets/art/paladin-360.webp 360w, @@ROOT@@assets/art/paladin-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Состав группы</b><span>Факты и советы для группы любого размера</span></a>
-      <a class="gt" href="#era"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/mage-360.avif 360w, @@ROOT@@assets/art/mage-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="@@ROOT@@assets/art/mage-360.webp" srcset="@@ROOT@@assets/art/mage-360.webp 360w, @@ROOT@@assets/art/mage-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Отличия от Era</b><span>Что нового по сравнению с Classic</span></a>
+      <a class="gt" href="guides/leveling/"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/hero_dawn-960.avif"><img src="@@ROOT@@assets/art/hero_dawn-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Прокачка 1–60</b><span>Маршрут по зонам, темп и отдых</span></a>
+      <a class="gt" href="guides/dungeons/"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/warlock-360.avif 360w, @@ROOT@@assets/art/warlock-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="@@ROOT@@assets/art/warlock-360.webp" srcset="@@ROOT@@assets/art/warlock-360.webp 360w, @@ROOT@@assets/art/warlock-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Подземелья и рейды</b><span>Все 35 подземелий по уровням и 3 рейда</span></a>
+      <a class="gt" href="guides/professions/"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/hero_campfire-960.avif"><img src="@@ROOT@@assets/art/hero_campfire-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Профессии</b><span>Пары под класс и объекты лагеря</span></a>
+      <a class="gt" href="guides/faq/"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/mage-360.avif 360w, @@ROOT@@assets/art/mage-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="@@ROOT@@assets/art/mage-360.webp" srcset="@@ROOT@@assets/art/mage-360.webp 360w, @@ROOT@@assets/art/mage-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>FAQ и даты</b><span>Резерв имён, релиз, рейды и отличия от Era</span></a>
+      <a class="gt" href="guides/news/"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/shaman-360.avif 360w, @@ROOT@@assets/art/shaman-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="@@ROOT@@assets/art/shaman-360.webp" srcset="@@ROOT@@assets/art/shaman-360.webp 360w, @@ROOT@@assets/art/shaman-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Новости</b><span>Наши записи и лента Wowhead</span></a>
+      <a class="gt" href="classes/"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/warrior-360.avif 360w, @@ROOT@@assets/art/warrior-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="@@ROOT@@assets/art/warrior-360.webp" srcset="@@ROOT@@assets/art/warrior-360.webp 360w, @@ROOT@@assets/art/warrior-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Классы: сравнение</b><span>Специализации, темп прокачки и что нового</span></a>
+      <a class="gt" href="races/"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/human-360.avif 360w, @@ROOT@@assets/art/human-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="@@ROOT@@assets/art/human-360.webp" srcset="@@ROOT@@assets/art/human-360.webp 360w, @@ROOT@@assets/art/human-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Расы: сравнение</b><span>Способности рас и доступные классы</span></a>
+      <a class="gt" href="guides/leveling/#legacy"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/priest-360.avif 360w, @@ROOT@@assets/art/priest-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="@@ROOT@@assets/art/priest-360.webp" srcset="@@ROOT@@assets/art/priest-360.webp 360w, @@ROOT@@assets/art/priest-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Legacy</b><span>Очки на весь аккаунт, перки и награды</span></a>
     </nav>
+    <p><a class="more-l" href="guides/">Все гайды<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
   </div>
-</section>
-<section class="block wrap" id="dates" data-nav="#guides">
-  <div class="sec-head"><div class="row"><h2>Даты и наборы</h2><span class="src">Blizzard, ClassicWoW.gg, Warcraft Tavern</span></div><p>Главное до релиза и после него.</p></div>
-  <ul class="timeline frame">
-    <li><span class="d">17.09 – 23.10</span><span class="t"><b>Закрытая бета</b><span>Доступ был у владельцев наборов Epic и Collection. Blizzard продлила бету до 23.10, она отключается в 10:00 по тихоокеанскому времени. 08.10 в бету добавили City of Dalaran и примерно на 20% больше опыта за врагов в подземельях.</span></span></li>
-    <li><span class="d">15.10</span><span class="t"><b>Крупный патч беты</b><span>Переделаны способности рас (оружейные специализации заменены критами) и настроены почти все классы.</span></span></li>
-    <li><span class="d">27.10 – 03.11</span><span class="t"><b>Ранняя резервация имён</b><span>Входит в наборы Heroic, Epic и Collection. До трёх персонажей на аккаунт, кто первым пришёл, тот и занял. Это не ранний доступ в игру. Точное время открытия Blizzard пока не назвала.</span></span></li>
-    <li><span class="d">04.11</span><span class="t"><b>Релиз WoW Forever</b><span>Нужна подписка или игровое время. Forever постоянная игра рядом с Retail и Classic, не сезон. Точное время старта Blizzard пока не подтвердила. Если это 15:00 по тихоокеанскому, как пишут некоторые сайты, в Киеве будет уже 01:00 5 ноября.</span></span></li>
-    <li><span class="d">09.12</span><span class="t"><b>Открываются рейды</b><span>Barrow Deeps (10 игроков), Hyjal Summit (20), Onyxia’s Lair (40). До этого есть пять недель на прокачку и подземелья.</span></span></li>
-  </ul>
-  <div class="grid2">
-    <div class="panel">
-      <h3>Наборы и цены</h3>
-      <ul class="dots">
-        <li><b>Heroic Pack</b> $29.99: открывает расу Скайборн, её стартовую зону и раннюю резервацию имён.</li>
-        <li><b>Epic Pack</b> $59.99: то же плюс доступ к бете.</li>
-        <li><b>Warcraft Forever Collection</b> $79.99, продаётся до 11.01.2027, с доступом к бете.</li>
-        <li>Остальные восемь рас и все девять классов докупать не нужно.</li>
-      </ul>
-    </div>
-    <div class="panel">
-      <h3>Режимы игры</h3>
-      <ul class="dots">
-        <li>Обычный, PvP и RP. Hardcore запустят позже со своими правилами.</li>
-        <li>Группироваться можно только внутри одного режима. В PvP при создании доступна одна фракция.</li>
-      </ul>
-      <div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span><b>Договоритесь заранее:</b> одна фракция, один режим, одни и те же дни на старт.</p></div>
-    </div>
-    <div class="panel">
-      <h3>Имена и фамилии</h3>
-      <ul class="dots">
-        <li>У каждого персонажа есть имя и фамилия.</li>
-        <li>Реалмов нет: полное имя должно быть уникальным во всём регионе. Одно имя у двоих возможно, если фамилии разные.</li>
-        <li>Фамилию можно скрыть: Esc → Options → Nameplates → My Secondary Name.</li>
-        <li>В PvP-режиме на аккаунте может быть только одна фракция.</li>
-      </ul>
-      <div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span><b>Подготовьте до 27.10:</b> имя, фамилию и два-три запасных варианта, короткие имена разберут первыми.</p></div>
-    </div>
-  </div>
-</section>
-<section class="block wrap" id="classref" data-nav="#guides">
-  <div class="sec-head"><div class="row"><h2>Классы: сравнение</h2><span class="src">Warcraft Tavern, LFCarry</span></div><p>Девять классов по три специализации. Темп прокачки взят из прогнозов по бете (в бете был потолок 30 уровня, выше оценки проектные).</p></div>
-  <div class="cmp cls" id="classRef"></div>
-</section>
-<section class="block wrap" id="races" data-nav="#guides">
-  <div class="sec-head"><div class="row"><h2>Расы: сравнение</h2><span class="src">Method, Warcraft Tavern</span></div><p>У каждой расы по четыре способности: две активные и две пассивные. Часть старых способностей заменена новыми, сопротивления убраны.</p></div>
-  <div class="cmp rac" id="raceRef"></div>
-  <p class="note"><b>Скайборн</b> играбельна за обе фракции, выбор фракции делается при создании. Обе ветки говорят на общем языке, а стартовая зона Zephras Isle общая, враги там не встречаются из-за слоёв.</p>
-</section>
-<section class="block wrap" id="legacy" data-nav="#guides">
-  <div class="sec-head"><div class="row"><h2>Система Legacy</h2><span class="src">Blizzard, Warcraft Tavern</span></div><p>Прогресс на весь аккаунт Battle.net. Очки получают за испытания, а тратят на перки отдельно на каждом персонаже.</p></div>
-  <div class="grid2">
-    <div class="panel">
-      <h3>Как получить очки</h3>
-      <ul class="dots">
-        <li>Система открывается с первым очком: уровень 25 на персонаже, либо 150 в профессии (не сбор), либо исследование всей карты.</li>
-        <li>Каждое испытание даёт 1 очко. По данным Blizzard испытаний 65 в шести категориях: классы 27, профессии 18, PvP 12, подземелья 3, рейды 3, приключения 2.</li>
-        <li>Очки действуют на всех персонажах не-Hardcore. Горячая клавиша окна: Y.</li>
-        <li><b>Лимит на запуске:</b> на персонаже можно потратить не более 16 очков. Лишние идут в трек наград.</li>
-      </ul>
-    </div>
-    <div class="panel">
-      <h3>Трек наград (по числу очков)</h3>
-      <ul class="dots">
-        <li>15: игрушка Holstered Replica Ironforge Air Rifle</li>
-        <li>25: питомец Spectral Bear Cub</li>
-        <li>40: табард Spectral Bear</li>
-        <li>55: скакун Reins of the Spectral Bear</li>
-      </ul>
-      <p class="small">Это косметика, преимуществ в игре она не даёт.</p>
-    </div>
-  </div>
-  <div class="tbl-box"><table>
-    <thead><tr><th>Дерево</th><th>Примеры перков (рангов)</th></tr></thead>
-    <tbody>
-      <tr><th scope="row">Профессии</th><td>Working Overtime (5): чаще растут навыки. Bountiful Harvest (5): на 20% больше редких материалов. Master Chef (5): шанс лишнего блюда. Bartering (2): цены у торговцев ниже на 5%.</td></tr>
-      <tr><th scope="row">Приключения</th><td>Well Rested (5): быстрее копится отдых и выше его потолок. Thrill of Adventure (5): здоровье и мана за убийство вне подземелий. Talented (5): таланты с 9 уровня вместо 10. Field Guide (3): короче откат объектов лагеря. Frequent Flier (1): перелёты на 50% дешевле.</td></tr>
-      <tr><th scope="row">Ресурсы</th><td>Gourmand (3): еда действует на 33% дольше. Reinforce (5): на 8% меньше потеря прочности. Diplomat (5): +2% репутации. Permanence (2): дольше баффы лагеря. Reagent Economy (1): способностям класса не нужны покупные реагенты.</td></tr>
-    </tbody></table></div>
-  <div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>В первую очередь ценны перки лагеря и опыта (Well Rested, Field Guide, Permanence) и Reagent Economy для классов с реагентами. Один источник пишет про лимит 25 очков на дерево, Blizzard лимита на дерево не называет.</p></div>
-</section>
-
-<section class="block wrap" id="camp" data-nav="#guides">
-  <div class="sec-head"><div class="row"><h2>Лагерь и профессии</h2><span class="src">Warcraft Tavern</span></div><p>Костёр по профессии Кулинария превращается в общий лагерь: рядом можно отдыхать, получать баффы и ставить объекты своих профессий.</p></div>
-  <div class="grid2">
-    <div class="panel">
-      <h3>Как это работает</h3>
-      <ul class="dots">
-        <li>Костёр одноразовый: строится несколько секунд, горит около 10 минут, откат на постановку 5 минут.</li>
-        <li>Базовый костёр доступен без Кулинарии, на 3 объекта. Кулинария 140 даёт 5 слотов, 220 даёт 10.</li>
-        <li>Каждый персонаж ставит один объект, откат на объект 1 час. Вместе делают общий лагерь.</li>
-        <li>Чтобы получить баффы, сядьте (<code>/sit</code>) рядом минимум на 1 минуту. Они суммируются в один бафф «Camp Benefits».</li>
-        <li>Баффы лагеря немного слабее классовых и не складываются с ними.</li>
-      </ul>
-    </div>
-    <div class="panel">
-      <h3>Спальник и еда</h3>
-      <ul class="dots">
-        <li><b>Cozy Sleeping Bag</b> даёт Well-Rested, он складывается с баффами лагеря. Получают его цепочкой заданий на обоих континентах.</li>
-        <li>Большая часть готовой еды даёт бонус к опыту, он складывается и с лагерем, и со спальником.</li>
-        <li>Перки Legacy: Field Guide, Permanence, Reagent Economy улучшают лагерь.</li>
-      </ul>
-    </div>
-  </div>
-  <div class="tbl-box"><table>
-    <thead><tr><th>Профессия</th><th>Объект (1 уровень)</th><th>Эффект</th></tr></thead>
-    <tbody>
-      <tr><th scope="row">Алхимия</th><td>Mana Well</td><td>больше восстановление маны</td></tr>
-      <tr><th scope="row">Кузнечное дело</th><td>Sharpening Wheel</td><td>больше силы</td></tr>
-      <tr><th scope="row">Наложение чар</th><td>Enchanted Lute</td><td>больше основных характеристик и сопротивлений</td></tr>
-      <tr><th scope="row">Первая помощь</th><td>First Aid Kit</td><td>больше выносливости</td></tr>
-      <tr><th scope="row">Рыбалка</th><td>Fish Bowl</td><td>больше основных характеристик</td></tr>
-      <tr><th scope="row">Травничество</th><td>Incense Candle</td><td>больше интеллекта</td></tr>
-      <tr><th scope="row">Кожевничество</th><td>Camp Tent</td><td>отдых и опыт (Boosted Rest)</td></tr>
-      <tr><th scope="row">Горное дело</th><td>Lodestone</td><td>больше силы атаки</td></tr>
-      <tr><th scope="row">Снятие шкур</th><td>Camp Chair</td><td>больше шанс критического удара</td></tr>
-      <tr><th scope="row">Портняжное дело</th><td>Faction Banner</td><td>больше духа</td></tr>
-      <tr><th scope="row">Инженерия</th><td>Reagent Bot</td><td>торговец, во 2 уровне ремонт (Repair Bot)</td></tr>
-      <tr><th scope="row">Кулинария</th><td>Basic Campfire</td><td>без баффа, добавляет слоты лагеря</td></tr>
-    </tbody></table></div>
-  <p class="note">Каждая профессия делает по три объекта, по одному на уровень. Источники расходятся в навыке для объектов 2 и 3 уровня (один пишет 140 и 300), поэтому сверяйте в игре.</p>
-</section>
-
-<section class="block wrap" id="dungeons" data-nav="#guides">
-  <div class="sec-head"><div class="row"><h2>Подземелья и рейды</h2><span class="src">Warcraft Tavern, Sportskeeda, Icy Veins, ClassicWoW.gg</span></div><p>Все 35 подземелий, из них 9 новых. Уровни по Warcraft Tavern, Sportskeeda даёт те же. Где другие сайты называют иной диапазон, он подписан мелко. Жёстких ограничений по уровню Blizzard не публиковала.</p></div>
-  <div class="filters" role="group" aria-label="Фильтр подземелий">
-    <div class="seg" id="segD"><button type="button" data-v="all" aria-pressed="true">Все</button><button type="button" data-v="mine" aria-pressed="false">Мой уровень ±3</button><button type="button" data-v="new" aria-pressed="false">Новые</button></div>
-    <div class="fgroup"><span class="flabel" id="ldgLvl">Мой уровень</span><div class="stepper" role="group" aria-labelledby="ldgLvl"><button type="button" class="lvm" aria-label="Уровень ниже">−</button><input class="lvin" id="dgLvl" type="number" min="1" max="60" inputmode="numeric" aria-labelledby="ldgLvl" placeholder="—"><button type="button" class="lvp" aria-label="Уровень выше">+</button></div></div>
-    <span class="small" id="dgCount" role="status"></span>
-  </div>
-  <div class="tbl-box dg"><table>
-    <thead><tr><th scope="col">Подземелье</th><th scope="col">Уровни</th><th scope="col">Где вход</th></tr></thead>
-    <tbody id="dgBody"></tbody></table></div>
-  <p class="note">Основной опыт за подземелье дают его цепочки заданий, повторные заходы приносят заметно меньше. Любая выпавшая вещь открывает свой облик всем в группе, кто может её надеть. Ещё по два подземелья Blizzard обещает весной и летом.</p>
-  <div class="grid2">
-    <div class="panel">
-      <h3>Рейды (с 09.12.2026)</h3>
-      <ul class="dots">
-        <li><b>Barrow Deeps</b>, 10 игроков</li>
-        <li><b>Hyjal Summit</b>, 20 игроков</li>
-        <li><b>Onyxia’s Lair</b>, 40 игроков, в Dustwallow Marsh</li>
-        <li>За прохождение каждого из этих рейдов в Legacy даётся по очку.</li>
-      </ul>
-    </div>
-    <div class="panel">
-      <h3>PvP</h3>
-      <ul class="dots">
-        <li>Новое поле боя 15 на 15: Darkspear Islands у побережья Dustwallow Marsh.</li>
-        <li>Звания с недельным лимитом, улучшение экипировки за Честь, сезонные цели Legacy.</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<section class="block wrap" id="group" data-nav="#guides">
-  <div class="sec-head"><h2>Состав группы</h2><p>Ниже факты из источников и наши рекомендации. Рекомендации помечены отдельно, это не официальные данные.</p></div>
-  <div class="grid2">
-    <div class="panel">
-      <h3>Что известно</h3>
-      <ul class="dots">
-        <li>Подземелья рассчитаны на 5 игроков: танк, лекарь, трое с уроном.</li>
-        <li>Рейды на 10, 20 и 40 игроков. Если своих меньше, недостающих добирают из гильдии.</li>
-        <li>Танковать могут Воин, Паладин и Друид, лечить Паладин, Жрец, Шаман и Друид.</li>
-        <li>Паладин и Друид умеют все три роли. Это самые гибкие классы, когда игроков мало.</li>
-        <li>Группа и рейд получают баффы классов: Королей от паладина, тотемы шамана, Боевой крик воина, ауры охотника и друида. Порталы, еду и воду делает маг.</li>
-      </ul>
-    </div>
-    <div class="panel tipp">
-      <h3 class="tiph"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg>Рекомендация составителя</h3>
-      <ul class="dots">
-        <li><b>Соло:</b> легче всего Охотнику и Чернокнижнику, у них питомец держит врага. Паладин и Друид тоже живучи и в подземелье пойдут на любую роль.</li>
-        <li><b>2–4 игрока:</b> пусть хотя бы один умеет танковать или лечить (Воин, Паладин, Друид, Жрец, Шаман), остальных до пяти добирайте в подземелье.</li>
-        <li><b>5 игроков:</b> танк, лекарь и трое в урон, например Воин, Жрец, Маг, Охотник и Разбойник.</li>
-        <li><b>6–9 игроков:</b> две группы для подземелий, в каждой нужны свой танк и лекарь. Тут особенно ценны гибриды: Паладин, Друид, Шаман.</li>
-        <li><b>10 и больше:</b> хватает на 10-местный рейд Barrow Deeps: два танка, два-три лекаря, остальные в урон.</li>
-        <li>Берите разные классы: баффы разных классов складываются, а одинаковые перекрываются.</li>
-        <li>Кто-то в группе берёт Кулинарию ради костра на 10 объектов, остальные по профессии под баффы лагеря. С 4 ноября по 9 декабря прокачайтесь вместе по подземельям.</li>
-        <li>Займите имена в окне 27.10 – 03.11, если у вас есть набор, и заранее решите, кто за какой класс, чтобы не дублироваться.</li>
-      </ul>
-    </div>
-  </div>
-  <div class="panel">
-    <h3>Прокачка</h3>
-    <ul class="dots">
-      <li>По прогнозам Охотник и Маг прокачиваются быстрее всего (примерно на 8% быстрее среднего), Воин медленнее всех (около 12%), Друид и Жрец чуть медленнее среднего. Это оценки для беты, цифры могут измениться.</li>
-      <li>Масштабирования уровней нет: подземелья для своих уровней, их нельзя пройти «подтянув» слабого друга.</li>
-      <li>Копите отдых: спальник, Well Rested и еда с бонусом опыта складываются.</li>
-      <li>Лагерь можно ставить прямо на прокачке, пять минут на костёр окупаются баффами на группу.</li>
-    </ul>
-  </div>
-</section>
-
-<section class="block wrap" id="era" data-nav="#guides">
-  <div class="sec-head"><div class="row"><h2>Чем Forever отличается от Classic Era</h2><span class="src">ClassicWoW.gg</span></div></div>
-  <div class="tbl-box"><table>
-    <thead><tr><th>Тема</th><th>Что в Forever</th></tr></thead>
-    <tbody>
-      <tr><th scope="row">Общее</th><td>Восточные королевства и Калимдор, прокачка до 60. Постоянная игра, а не сезон. Нет летающих скакунов и нет масштабирования уровней, как и в Classic.</td></tr>
-      <tr><th scope="row">Контент</th><td>Новые зоны, задания, 9 новых подземелий, 3 новых рейда, новое поле боя, новая раса Скайборн.</td></tr>
-      <tr><th scope="row">Классы и расы</th><td>Обновлены таланты и способности классов, новые сочетания рас и классов, у рас убраны сопротивления и добавлены свои способности.</td></tr>
-      <tr><th scope="row">Системы</th><td>Legacy, лагерь, опциональная трансмогрификация и выбор визуального стиля (Classic или современный), официальная поддержка геймпада.</td></tr>
-      <tr><th scope="row">Предметы</th><td>Характеристики и предметы изменены, поэтому старые списки добычи из Classic ненадёжны.</td></tr>
-    </tbody></table></div>
 </section>
 <div class="wrap">
 <footer id="sources" data-nav="#guides">
@@ -1227,7 +1040,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <nav class="toc" aria-label="Все разделы">
     <div class="grp"><div class="gh">Главная</div><a href="#top">Обзор</a><a href="#stages">Где ты сейчас</a><a href="#factions">Фракции</a><a href="#classes">Классы</a><a href="#peoples">Расы</a></div>
     <div class="grp"><div class="gh">Инструменты</div><a href="#picker">Подборщик</a><a href="#builder">Конструктор группы</a><a href="#checklist">Чек-лист</a><a href="tools/">Рамки, сравнение, поиск</a></div>
-    <div class="grp"><div class="gh">Справочник</div><a href="#dates">Даты и наборы</a><a href="#classref">Классы подробно</a><a href="#races">Расы</a><a href="#legacy">Legacy</a><a href="#camp">Лагерь и профессии</a><a href="#dungeons">Подземелья и рейды</a><a href="#group">Состав группы</a><a href="#era">Отличия от Era</a><a href="#sources">Источники</a></div>
+    <div class="grp"><div class="gh">Справочник</div><a href="guides/leveling/">Прокачка 1–60</a><a href="guides/dungeons/">Подземелья и рейды</a><a href="guides/professions/">Профессии</a><a href="guides/faq/">FAQ и даты</a><a href="guides/news/">Новости</a><a href="classes/">Классы: сравнение</a><a href="races/">Расы: сравнение</a><a href="#sources">Источники</a></div>
   </nav>
   <div class="opts">
     <div class="langs" role="group" aria-label="Язык"><a href="@@RU@@" data-lang="ru" hreflang="ru" lang="ru" aria-current="true">RU</a><a href="@@EN@@" data-lang="en" hreflang="en" lang="en" aria-current="false">EN</a><a href="@@UK@@" data-lang="uk" hreflang="uk" lang="uk" aria-current="false">UK</a></div>
@@ -1236,6 +1049,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <p class="meta">Данные на 23.10.2026, закрытая бета, патч от 15.10.2026.</p>
 </dialog>
 <script>
+const HOME = '';   // language home, the classes/ and races/ pages set their own
+/* ref:start — shared with the classes/ and races/ pages (build_guides.ref_js); no $ or esc here, every page defines its own */
 const CLASSES = [
   { id:'warrior', n:'Воин', s:'Воин', roles:['tank','dps'],
     specs:[['Оружие','Урон в ближнем бою (двуручное оружие)',['dps']],['Неистовство','Урон в ближнем бою (два оружия)',['dps']],['Защита','Танк',['tank']]],
@@ -1366,11 +1181,6 @@ RC.skyA.en = 'High Order Skyborne'; RC.skyH.en = 'Windshaper Skyborne';
 const tipBox = h => `<div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>${h}</p></div>`;
 function bi(ru) { return EN[ru] && EN[ru] !== ru ? `${esc(ru)} <span class="en">(${esc(EN[ru])})</span>` : esc(ru); }
 function raceEn(r) { return r.en ? ` <span class="en">/ ${esc(r.en)}</span>` : ''; }
-const state = { f:'all', r:'all', race:'dwarf', cls:'shaman' };
-const $ = s => document.querySelector(s);
-
-function roleMatch(c, role) { return role === 'all' || c.roles.includes(role); }
-function raceVisible(r) { return state.f === 'all' || r.f === state.f; }
 function facName(f) { return f === 'alliance' ? 'Альянс' : 'Орда'; }
 /* Round face avatar: assets/art/<id>-face.webp, ring colour cc */
 function face(id, cc, cls = '', title = '') { return `<span class="av ${cls}" style="--cc:${cc}"${title ? ` title="${esc(title)}"` : ''}><img src="@@ROOT@@assets/art/${id}-face.webp" width="160" height="160" alt="" loading="lazy" decoding="async"></span>`; }
@@ -1380,6 +1190,33 @@ function lvlMeter(c) {
   const bar = p ? `<i class="${p > 0 ? 'slow' : ''}" style="${p < 0 ? 'right' : 'left'}:50%;width:${w}%"></i>` : '';
   return `<span class="lvl"><span>${label}</span><span class="bar" role="img" aria-label="${label}">${bar}</span><span class="scale" aria-hidden="true"><span>быстрее</span><span>медленнее</span></span></span>`;
 }
+function renderClassRef() {
+  const roles = ['tank', 'heal', 'dps'];
+  const head = `<div class="cmp-h" aria-hidden="true"><span>Класс</span><span class="rdots">${roles.map(x => `<span title="${ROLE_RU[x]}">${ri(x)}</span>`).join('')}</span><span>Прокачка</span><span>В рейде</span><span></span></div>`;
+  $('#classRef').innerHTML = head + CLASSES.map(c => `<a class="cmp-row" href="${HOME}classes/${c.id}/" style="--cc:${CCOL[c.id]};--art:url('@@ROOT@@assets/art/${c.id}-360.webp')">
+    <span class="cmp-id">${face(c.id, CCOL[c.id])}<span><b>${esc(c.n)}</b><small>${c.specs.map(s => esc(s[0])).join(' · ')}</small></span></span>
+    <span class="rdots" role="img" aria-label="Роли: ${c.roles.map(x => ROLE_RU[x]).join(', ')}">${roles.map(x => { const on = c.roles.includes(x), q = c.roles.includes(x + '?'); return `<span class="rdot${on ? ' on' : q ? ' q' : ''}" title="${ROLE_RU[q ? x + '?' : x]}">${ri(x)}</span>`; }).join('')}</span>
+    ${lvlMeter(c)}
+    <span class="cmp-txt">${esc(c.raid)}</span>
+    <span class="go" aria-hidden="true"><svg class="ico"><use href="#i-arrow"/></svg></span>
+  </a>`).join('');
+}
+
+function renderRaceRef() {
+  const head = `<div class="cmp-h" aria-hidden="true"><span>Раса</span><span>Классы</span><span class="abl">Способности <span class="abt">активная</span><span class="abt p">пассивная</span></span><span></span></div>`;
+  $('#raceRef').innerHTML = ['alliance', 'horde'].map(f => `<div class="rgroup ${f}"><h3>${facName(f)}</h3>${head}` + RACES.filter(r => r.f === f).map(r => `<a class="cmp-row" href="${HOME}races/${RSLUG[r.id]}/" style="--cc:var(--${f});--art:url('@@ROOT@@assets/art/${RSLUG[r.id]}-360.webp')">
+    <span class="cmp-id">${face(RSLUG[r.id], `var(--${f})`)}<span><b>${esc(r.n)}${r.paid ? '<span class="paid">платная</span>' : ''}</b>${r.en ? `<small>${esc(r.en)}</small>` : ''}</span></span>
+    <span class="ccl" role="img" aria-label="Классы: ${Object.keys(r.can).map(id => CL[id].n).join(', ')}">${CLASSES.map(c => { const v = r.can[c.id]; return face(c.id, CCOL[c.id], v ? (v === 'new' ? 'nw' : '') : 'off', c.n + (v === 'new' ? ', новое' : v ? '' : ', нельзя')); }).join('')}</span>
+    <span class="abs">${r.rac.map(x => `<span><b class="${x[0] === 'a' ? '' : 'p'}">${bi(x[1])}</b><span>${esc(x[2])}</span></span>`).join('')}</span>
+    <span class="go" aria-hidden="true"><svg class="ico"><use href="#i-arrow"/></svg></span>
+  </a>`).join('') + '</div>').join('');
+}
+/* ref:end */
+const state = { f:'all', r:'all', race:'dwarf', cls:'shaman' };
+const $ = s => document.querySelector(s);
+
+function roleMatch(c, role) { return role === 'all' || c.roles.includes(role); }
+function raceVisible(r) { return state.f === 'all' || r.f === state.f; }
 function esc(s) { return String(s).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])); }
 function roleChips(c) { return c.roles.map(x => `<span class="chip ${state.r === x ? 'on' : ''} ${x.endsWith('?') ? 'q' : ''}">${ri(x)}${ROLE_RU[x]}</span>`).join(''); }
 
@@ -1481,29 +1318,7 @@ function renderDetail() {
   $('#qPick').textContent = `Сейчас: ${r.n} · ${c.n}`;
 }
 
-function renderClassRef() {
-  const roles = ['tank', 'heal', 'dps'];
-  const head = `<div class="cmp-h" aria-hidden="true"><span>Класс</span><span class="rdots">${roles.map(x => `<span title="${ROLE_RU[x]}">${ri(x)}</span>`).join('')}</span><span>Прокачка</span><span>В рейде</span><span></span></div>`;
-  $('#classRef').innerHTML = head + CLASSES.map(c => `<a class="cmp-row" href="classes/${c.id}/" style="--cc:${CCOL[c.id]};--art:url('@@ROOT@@assets/art/${c.id}-360.webp')">
-    <span class="cmp-id">${face(c.id, CCOL[c.id])}<span><b>${esc(c.n)}</b><small>${c.specs.map(s => esc(s[0])).join(' · ')}</small></span></span>
-    <span class="rdots" role="img" aria-label="Роли: ${c.roles.map(x => ROLE_RU[x]).join(', ')}">${roles.map(x => { const on = c.roles.includes(x), q = c.roles.includes(x + '?'); return `<span class="rdot${on ? ' on' : q ? ' q' : ''}" title="${ROLE_RU[q ? x + '?' : x]}">${ri(x)}</span>`; }).join('')}</span>
-    ${lvlMeter(c)}
-    <span class="cmp-txt">${esc(c.raid)}</span>
-    <span class="go" aria-hidden="true"><svg class="ico"><use href="#i-arrow"/></svg></span>
-  </a>`).join('');
-}
-
-function renderRaceRef() {
-  const head = `<div class="cmp-h" aria-hidden="true"><span>Раса</span><span>Классы</span><span class="abl">Способности <span class="abt">активная</span><span class="abt p">пассивная</span></span><span></span></div>`;
-  $('#raceRef').innerHTML = ['alliance', 'horde'].map(f => `<div class="rgroup ${f}"><h3>${facName(f)}</h3>${head}` + RACES.filter(r => r.f === f).map(r => `<a class="cmp-row" href="races/${RSLUG[r.id]}/" style="--cc:var(--${f});--art:url('@@ROOT@@assets/art/${RSLUG[r.id]}-360.webp')">
-    <span class="cmp-id">${face(RSLUG[r.id], `var(--${f})`)}<span><b>${esc(r.n)}${r.paid ? '<span class="paid">платная</span>' : ''}</b>${r.en ? `<small>${esc(r.en)}</small>` : ''}</span></span>
-    <span class="ccl" role="img" aria-label="Классы: ${Object.keys(r.can).map(id => CL[id].n).join(', ')}">${CLASSES.map(c => { const v = r.can[c.id]; return face(c.id, CCOL[c.id], v ? (v === 'new' ? 'nw' : '') : 'off', c.n + (v === 'new' ? ', новое' : v ? '' : ', нельзя')); }).join('')}</span>
-    <span class="abs">${r.rac.map(x => `<span><b class="${x[0] === 'a' ? '' : 'p'}">${bi(x[1])}</b><span>${esc(x[2])}</span></span>`).join('')}</span>
-    <span class="go" aria-hidden="true"><svg class="ico"><use href="#i-arrow"/></svg></span>
-  </a>`).join('') + '</div>').join('');
-}
-
-function render() { pickValid(); renderMatrix(); renderPickM(); renderDetail(); renderClassRef(); renderRaceRef(); }
+function render() { pickValid(); renderMatrix(); renderPickM(); renderDetail(); }
 function toPicker() { $('#detail').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest' }); }
 
 document.addEventListener('click', e => {
@@ -1950,7 +1765,7 @@ function renderStage() {
     <ol class="steps-c">${steps}</ol>
     <div class="st-cols">
       <div><h4>Подземелья под уровень</h4>${s.dnote ? `<p class="small" style="margin:-4px 0 10px">${esc(s.dnote)}</p>` : ''}<ul class="dlist">${ds.slice(0, MAXD).map(dLi).join('')}</ul>
-        <a class="more-l" href="#dungeons">${extra > 0 ? `Ещё подземелий в таблице: ${extra}` : 'Все 35 подземелий'}<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+        <a class="more-l" href="guides/dungeons/">${extra > 0 ? `Ещё подземелий в таблице: ${extra}` : 'Все 35 подземелий'}<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
       <div style="display:grid;gap:24px;align-content:start"><div><h4>Профессии и лагерь</h4><ul class="clean">${s.prof.map(liC).join('')}</ul></div>
         <div><h4>Перки Legacy</h4><ul class="clean">${s.legacy.map(liC).join('')}</ul></div></div>
     </div>
@@ -1987,26 +1802,13 @@ function renderMe() {
     if (me.lvl) {
       const ds = DUNGEONS.filter(d => nearLvl(d, me.lvl));
       out += `<div><h4>Подземелья под ваш уровень</h4>` + (ds.length ? `<ul class="dlist">${ds.slice(0, 4).map(dLi).join('')}</ul>` : '<p class="small">Первые подземелья с 13 уровня.</p>')
-        + `<a class="more-l" href="#dungeons">${ds.length > 4 ? `Ещё подземелий в таблице: ${ds.length - 4}` : 'Таблица подземелий'}<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>`;
+        + `<a class="more-l" href="guides/dungeons/">${ds.length > 4 ? `Ещё подземелий в таблице: ${ds.length - 4}` : 'Таблица подземелий'}<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>`;
     }
   }
   $('#meOut').innerHTML = out;
   $('#meReset').disabled = !meSet() && !me.p1 && !me.p2 && !me.sec.length;
 }
-let dgMode = 'all';
-function renderDungeons() {
-  const lv = me.lvl;
-  let rows = DUNGEONS;
-  if (dgMode === 'new') rows = rows.filter(d => d[4]);
-  if (dgMode === 'mine') rows = lv ? rows.filter(d => nearLvl(d, lv)) : [];
-  $('#dgBody').innerHTML = rows.length ? rows.map(d => {
-    const alt = (d[5] || []).map(a => `${a[0]}: ${a[1]}`).join(', ');
-    return `<tr class="${lv && nearLvl(d, lv) ? 'mine' : ''}"><th scope="row">${esc(d[0])}${d[4] ? '<span class="tag new">новое</span>' : ''}<span class="z">${esc(d[3])}</span></th><td class="num"><span class="pill${lv && nearLvl(d, lv) ? ' gold' : ''}">${lvRange(d)}</span>${alt ? `<span class="alt">${esc(alt)}</span>` : ''}</td><td class="zone">${esc(d[3])}</td></tr>`;
-  }).join('') : `<tr class="dg-empty"><td colspan="3">${lv ? 'Под этот уровень подземелий нет.' : 'Укажите свой уровень, чтобы отфильтровать.'}</td></tr>`;
-  $('#dgCount').textContent = `Показано ${rows.length} из ${DUNGEONS.length}`;
-  syncSeg('segD', dgMode);
-}
-function renderJourney() { renderMe(); renderStage(); renderDungeons(); }
+function renderJourney() { renderMe(); renderStage(); }
 function meChanged() { fixMe(); saveMe(); stageAuto = true; renderJourney(); }
 $('#meRace').addEventListener('change', e => { me.race = e.target.value; meChanged(); });
 $('#meCls').addEventListener('change', e => { me.cls = e.target.value; if (me.cls && !me.race) { const r = RACES.find(x => x.can[me.cls] && !x.paid); if (r) me.race = r.id; } meChanged(); });
@@ -2020,7 +1822,6 @@ document.querySelectorAll('.lvin').forEach(i => {
   i.addEventListener('change', () => { me.lvl = i.value === '' ? 0 : parseInt(i.value, 10) || 0; meChanged(); });
   i.addEventListener('keydown', e => { if (e.key === 'Enter') i.blur(); });
 });
-$('#segD').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; dgMode = b.dataset.v; renderDungeons(); if (dgMode === 'mine' && !me.lvl) $('#dgLvl').focus(); });
 $('#stageBar').addEventListener('click', e => { const b = e.target.closest('[data-st]'); if (!b) return; stageSel = b.dataset.st; stageAuto = false; renderStage(); $('#tab-' + stageSel).focus(); });
 $('#stageBar').addEventListener('keydown', e => {
   const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key]; if (!k) return;

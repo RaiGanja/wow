@@ -2,6 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<script>
+/* Old guide anchors moved to /guides/ pages (stage 5): keep Discord links working */
+(function () {
+  var m = { dates: 'faq/#dates', era: 'faq/#era', dungeons: 'dungeons/', group: 'dungeons/#group', legacy: 'leveling/#legacy', camp: 'leveling/#camp' };
+  var h = location.hash.slice(1);
+  if (m[h]) location.replace('guides/' + m[h]);
+  else if (h === 'classref' || h === 'races') location.replace(h === 'races' ? 'races/' : 'classes/');
+})();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>WoW Forever: Gabella Team guide</title>
 <meta name="description" content="Guide to WoW Forever for a group of friends: classes, races, combinations, Legacy, camp, dungeons, raids and group composition. Data as of 23.10.2026.">
@@ -375,6 +384,10 @@ ul.dots li::marker { color: var(--gold); }
 .flabel { font-size: .9rem; color: var(--muted); font-weight: 500; }
 .seg { display: inline-flex; flex-wrap: wrap; gap: 4px; padding: 4px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); }
 .seg button { border: 0; border-radius: 7px; background: transparent; padding: 0 15px; min-height: 44px; font-weight: 600; font-size: .95rem; }
+/* Level stepper next to a segment: same height and inner frame as .seg */
+.filters .stepper { padding: 4px; gap: 2px; }
+.filters .stepper button { min-width: 40px; border-radius: 7px; }
+.filters .stepper button:hover { background: color-mix(in srgb, var(--fg) 7%, transparent); }
 .seg button:hover { background: color-mix(in srgb, var(--fg) 7%, transparent); }
 .seg button[aria-pressed="true"] { background: #c9a54a; color: #15110a; }
 .copyrow { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
@@ -808,7 +821,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="#top" aria-label="Gabella Team, back to top"><span class="mark" aria-hidden="true">G</span><b>Gabella Team</b></a>
   <nav class="mainnav" aria-label="Sections">
-    <a href="#stages">Stages</a><a href="#factions">Factions</a><a href="#classes">Classes</a><a href="#peoples">Races</a><a href="#picker">Picker</a><a href="#builder">Group</a><a href="#guides">Guides</a><a href="tools/">Tools</a>
+    <a href="#stages">Stages</a><a href="#factions">Factions</a><a href="#classes">Classes</a><a href="#peoples">Races</a><a href="#picker">Picker</a><a href="#builder">Group</a><a href="guides/">Guides</a><a href="tools/">Tools</a>
   </nav>
   <div class="tools">
     <div class="langs" role="group" aria-label="Language"><a href="../" data-lang="ru" hreflang="ru" lang="ru" aria-current="false">RU</a><a href="./" data-lang="en" hreflang="en" lang="en" aria-current="true">EN</a><a href="../uk/" data-lang="uk" hreflang="uk" lang="uk" aria-current="false">UK</a></div>
@@ -894,6 +907,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <div class="sec-head"><div class="row"><h2>Who to play</h2><span class="src">Warcraft Tavern, LFCarry</span></div><p>Hover a portrait to expand the class. Click to open the class page: specializations, races and what is new in Forever.</p></div>
   <div class="frame roster" id="roster"></div>
   <p class="swipe">Swipe sideways through the portraits.</p>
+  <p><a class="more-l" href="classes/">Compare all classes<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
 </section>
 
 <section class="block wrap" id="peoples" data-nav="#peoples" data-tab="#classes">
@@ -903,6 +917,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     <div class="pfac horde"><h3>Horde</h3><div class="roster rr" id="rosterH"></div></div>
   </div>
   <p class="swipe">Swipe sideways through the portraits.</p>
+  <p><a class="more-l" href="races/">Compare all races<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
 </section>
 
 <section class="block wrap" id="tools" data-nav="#picker" data-tab="#builder">
@@ -980,219 +995,17 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <div class="wrap">
     <div class="sec-head"><h2>Guides and reference</h2><p>Everything we gathered about WoW Forever: dates, game systems, dungeons and tips for a group of friends.</p></div>
     <nav class="frame gtiles" aria-label="Guides">
-      <a class="gt" href="#dates"><picture><source type="image/avif" srcset="../assets/art/hero_dawn-960.avif"><img src="../assets/art/hero_dawn-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Dates and packs</b><span>Name reservation, launch, raids and pack prices</span></a>
-      <a class="gt" href="#classref"><picture><source type="image/avif" srcset="../assets/art/warrior-360.avif 360w, ../assets/art/warrior-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/warrior-360.webp" srcset="../assets/art/warrior-360.webp 360w, ../assets/art/warrior-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Classes in detail</b><span>Specs, leveling pace and what is new</span></a>
-      <a class="gt" href="#races"><picture><source type="image/avif" srcset="../assets/art/human-360.avif 360w, ../assets/art/human-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/human-360.webp" srcset="../assets/art/human-360.webp 360w, ../assets/art/human-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Races</b><span>Racial abilities and available classes</span></a>
-      <a class="gt" href="#legacy"><picture><source type="image/avif" srcset="../assets/art/priest-360.avif 360w, ../assets/art/priest-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/priest-360.webp" srcset="../assets/art/priest-360.webp 360w, ../assets/art/priest-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Legacy</b><span>Account-wide points, perks and rewards</span></a>
-      <a class="gt" href="#camp"><picture><source type="image/avif" srcset="../assets/art/hero_campfire-960.avif"><img src="../assets/art/hero_campfire-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Camp and professions</b><span>Campfire, profession objects and buffs</span></a>
-      <a class="gt" href="#dungeons"><picture><source type="image/avif" srcset="../assets/art/warlock-360.avif 360w, ../assets/art/warlock-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/warlock-360.webp" srcset="../assets/art/warlock-360.webp 360w, ../assets/art/warlock-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Dungeons and raids</b><span>All 35 dungeons by level and 3 raids</span></a>
-      <a class="gt" href="#group"><picture><source type="image/avif" srcset="../assets/art/paladin-360.avif 360w, ../assets/art/paladin-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/paladin-360.webp" srcset="../assets/art/paladin-360.webp 360w, ../assets/art/paladin-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Group composition</b><span>Facts and tips for a group of any size</span></a>
-      <a class="gt" href="#era"><picture><source type="image/avif" srcset="../assets/art/mage-360.avif 360w, ../assets/art/mage-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/mage-360.webp" srcset="../assets/art/mage-360.webp 360w, ../assets/art/mage-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Differences from Era</b><span>What is new compared to Classic</span></a>
+      <a class="gt" href="guides/leveling/"><picture><source type="image/avif" srcset="../assets/art/hero_dawn-960.avif"><img src="../assets/art/hero_dawn-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Leveling 1–60</b><span>Zone route, pace and rest</span></a>
+      <a class="gt" href="guides/dungeons/"><picture><source type="image/avif" srcset="../assets/art/warlock-360.avif 360w, ../assets/art/warlock-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/warlock-360.webp" srcset="../assets/art/warlock-360.webp 360w, ../assets/art/warlock-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Dungeons and raids</b><span>All 35 dungeons by level and 3 raids</span></a>
+      <a class="gt" href="guides/professions/"><picture><source type="image/avif" srcset="../assets/art/hero_campfire-960.avif"><img src="../assets/art/hero_campfire-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Professions</b><span>Pairs for your class and camp objects</span></a>
+      <a class="gt" href="guides/faq/"><picture><source type="image/avif" srcset="../assets/art/mage-360.avif 360w, ../assets/art/mage-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/mage-360.webp" srcset="../assets/art/mage-360.webp 360w, ../assets/art/mage-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>FAQ and dates</b><span>Name reservation, release, raids and Era differences</span></a>
+      <a class="gt" href="guides/news/"><picture><source type="image/avif" srcset="../assets/art/shaman-360.avif 360w, ../assets/art/shaman-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/shaman-360.webp" srcset="../assets/art/shaman-360.webp 360w, ../assets/art/shaman-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>News</b><span>Our notes and the Wowhead feed</span></a>
+      <a class="gt" href="classes/"><picture><source type="image/avif" srcset="../assets/art/warrior-360.avif 360w, ../assets/art/warrior-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/warrior-360.webp" srcset="../assets/art/warrior-360.webp 360w, ../assets/art/warrior-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Classes compared</b><span>Specs, leveling pace and what is new</span></a>
+      <a class="gt" href="races/"><picture><source type="image/avif" srcset="../assets/art/human-360.avif 360w, ../assets/art/human-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/human-360.webp" srcset="../assets/art/human-360.webp 360w, ../assets/art/human-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Races compared</b><span>Racial abilities and available classes</span></a>
+      <a class="gt" href="guides/leveling/#legacy"><picture><source type="image/avif" srcset="../assets/art/priest-360.avif 360w, ../assets/art/priest-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/priest-360.webp" srcset="../assets/art/priest-360.webp 360w, ../assets/art/priest-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Legacy</b><span>Account-wide points, perks and rewards</span></a>
     </nav>
+    <p><a class="more-l" href="guides/">All guides<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
   </div>
-</section>
-<section class="block wrap" id="dates" data-nav="#guides">
-  <div class="sec-head"><div class="row"><h2>Dates and packs</h2><span class="src">Blizzard, ClassicWoW.gg, Warcraft Tavern</span></div><p>The key dates before and after release.</p></div>
-  <ul class="timeline frame">
-    <li><span class="d">17.09 – 23.10</span><span class="t"><b>Closed beta</b><span>Access was for Epic and Collection owners. Blizzard extended the beta to 23.10, it goes offline at 10:00 Pacific time. On 08.10 the beta got City of Dalaran and about 20% more experience for enemies in dungeons.</span></span></li>
-    <li><span class="d">15.10</span><span class="t"><b>Major beta patch</b><span>Racial abilities were reworked (weapon specializations replaced with crits) and almost all classes were tuned.</span></span></li>
-    <li><span class="d">27.10 – 03.11</span><span class="t"><b>Early name reservation</b><span>Included in the Heroic, Epic and Collection packs. Up to three characters per account, first come, first served. This is not early access to the game. Blizzard has not yet named the exact opening time.</span></span></li>
-    <li><span class="d">04.11</span><span class="t"><b>WoW Forever release</b><span>Requires a subscription or game time. Forever is a permanent game next to Retail and Classic, not a season. Blizzard has not yet confirmed the exact launch time. If it is 15:00 Pacific, as some sites say, it will already be 01:00 on 5 November in Kyiv.</span></span></li>
-    <li><span class="d">09.12</span><span class="t"><b>Raids open</b><span>Barrow Deeps (10 players), Hyjal Summit (20), Onyxia’s Lair (40). Until then you have five weeks for leveling and dungeons.</span></span></li>
-  </ul>
-  <div class="grid2">
-    <div class="panel">
-      <h3>Packs and prices</h3>
-      <ul class="dots">
-        <li><b>Heroic Pack</b> $29.99: unlocks the Skyborne race, its starting zone and early name reservation.</li>
-        <li><b>Epic Pack</b> $59.99: the same plus beta access.</li>
-        <li><b>Warcraft Forever Collection</b> $79.99, on sale until 11.01.2027, with beta access.</li>
-        <li>The other eight races and all nine classes do not need to be bought.</li>
-      </ul>
-    </div>
-    <div class="panel">
-      <h3>Game modes</h3>
-      <ul class="dots">
-        <li>Normal, PvP and RP. Hardcore will launch later with its own rules.</li>
-        <li>You can only group within one mode. In PvP only one faction is available at character creation.</li>
-      </ul>
-      <div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Tip</span><b>Agree in advance:</b> one faction, one mode, the same days for launch.</p></div>
-    </div>
-    <div class="panel">
-      <h3>Names and surnames</h3>
-      <ul class="dots">
-        <li>Every character has a first name and a surname.</li>
-        <li>There are no realms: the full name must be unique across the whole region. Two players can share a first name if their surnames differ.</li>
-        <li>You can hide the surname: Esc → Options → Nameplates → My Secondary Name.</li>
-        <li>In PvP mode an account can have only one faction.</li>
-      </ul>
-      <div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Tip</span><b>Prepare before 27.10:</b> a name, a surname and two or three backups, short names will go first.</p></div>
-    </div>
-  </div>
-</section>
-<section class="block wrap" id="classref" data-nav="#guides">
-  <div class="sec-head"><div class="row"><h2>Classes compared</h2><span class="src">Warcraft Tavern, LFCarry</span></div><p>Nine classes with three specializations each. Leveling pace comes from beta projections (the beta was capped at level 30, figures above that are estimates).</p></div>
-  <div class="cmp cls" id="classRef"></div>
-</section>
-<section class="block wrap" id="races" data-nav="#guides">
-  <div class="sec-head"><div class="row"><h2>Races compared</h2><span class="src">Method, Warcraft Tavern</span></div><p>Each race has four abilities: two active and two passive. Some old abilities were replaced with new ones, resistances were removed.</p></div>
-  <div class="cmp rac" id="raceRef"></div>
-  <p class="note"><b>Skyborne</b> is playable for both factions; the faction is chosen at creation. Both branches speak a common language, and the Zephras Isle starting zone is shared, with no enemies meeting there because of layers.</p>
-</section>
-<section class="block wrap" id="legacy" data-nav="#guides">
-  <div class="sec-head"><div class="row"><h2>Legacy system</h2><span class="src">Blizzard, Warcraft Tavern</span></div><p>Progress for the whole Battle.net account. Points are earned from challenges and spent on perks separately on each character.</p></div>
-  <div class="grid2">
-    <div class="panel">
-      <h3>How to get points</h3>
-      <ul class="dots">
-        <li>The system unlocks with the first point: level 25 on a character, or 150 in a profession (not gathering), or exploring the whole map.</li>
-        <li>Each challenge gives 1 point. According to Blizzard there are 65 challenges in six categories: classes 27, professions 18, PvP 12, dungeons 3, raids 3, adventures 2.</li>
-        <li>Points apply to all non-Hardcore characters. Window hotkey: Y.</li>
-        <li><b>Limit at launch:</b> you can spend no more than 16 points on a character. The excess goes to the rewards track.</li>
-      </ul>
-    </div>
-    <div class="panel">
-      <h3>Rewards track (by number of points)</h3>
-      <ul class="dots">
-        <li>15: toy Holstered Replica Ironforge Air Rifle</li>
-        <li>25: pet Spectral Bear Cub</li>
-        <li>40: tabard Spectral Bear</li>
-        <li>55: mount Reins of the Spectral Bear</li>
-      </ul>
-      <p class="small">These are cosmetics and give no advantage in the game.</p>
-    </div>
-  </div>
-  <div class="tbl-box"><table>
-    <thead><tr><th>Tree</th><th>Example perks (ranks)</th></tr></thead>
-    <tbody>
-      <tr><th scope="row">Professions</th><td>Working Overtime (5): skills increase faster. Bountiful Harvest (5): 20% more rare materials. Master Chef (5): chance of an extra dish. Bartering (2): vendor prices are 5% lower.</td></tr>
-      <tr><th scope="row">Adventures</th><td>Well Rested (5): rest accumulates faster and its cap is higher. Thrill of Adventure (5): health and mana for kills outside dungeons. Talented (5): talents from level 9 instead of 10. Field Guide (3): shorter cooldown of camp objects. Frequent Flier (1): flights are 50% cheaper.</td></tr>
-      <tr><th scope="row">Resources</th><td>Gourmand (3): food lasts 33% longer. Reinforce (5): 8% less durability loss. Diplomat (5): +2% reputation. Permanence (2): camp buffs last longer. Reagent Economy (1): class abilities need no purchased reagents.</td></tr>
-    </tbody></table></div>
-  <div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Tip</span>Camp and experience perks come first (Well Rested, Field Guide, Permanence), plus Reagent Economy for classes that use reagents. One source mentions a 25-point cap per tree, Blizzard names no per-tree cap.</p></div>
-</section>
-
-<section class="block wrap" id="camp" data-nav="#guides">
-  <div class="sec-head"><div class="row"><h2>Camp and professions</h2><span class="src">Warcraft Tavern</span></div><p>A campfire made with the Cooking profession becomes a shared camp: you can rest nearby, get buffs and place objects of your professions.</p></div>
-  <div class="grid2">
-    <div class="panel">
-      <h3>How it works</h3>
-      <ul class="dots">
-        <li>The campfire is single-use: it takes a few seconds to build, burns for about 10 minutes, with a 5 minute cooldown to place.</li>
-        <li>A basic campfire is available without Cooking, with 3 objects. Cooking 140 gives 5 slots, 220 gives 10.</li>
-        <li>Each character places one object, with a 1 hour cooldown per object. Together you make a shared camp.</li>
-        <li>To get the buffs, sit (<code>/sit</code>) nearby for at least 1 minute. They stack into one buff, “Camp Benefits”.</li>
-        <li>Camp buffs are slightly weaker than class buffs and do not stack with them.</li>
-      </ul>
-    </div>
-    <div class="panel">
-      <h3>Bedroll and food</h3>
-      <ul class="dots">
-        <li><b>Cozy Sleeping Bag</b> gives Well Rested, which stacks with camp buffs. It is obtained through a quest chain on both continents.</li>
-        <li>Most prepared food gives an experience bonus, which stacks with both the camp and the bedroll.</li>
-        <li>Legacy perks: Field Guide, Permanence, Reagent Economy improve the camp.</li>
-      </ul>
-    </div>
-  </div>
-  <div class="tbl-box"><table>
-    <thead><tr><th>Profession</th><th>Object (level 1)</th><th>Effect</th></tr></thead>
-    <tbody>
-      <tr><th scope="row">Alchemy</th><td>Mana Well</td><td>more mana regeneration</td></tr>
-      <tr><th scope="row">Blacksmithing</th><td>Sharpening Wheel</td><td>more strength</td></tr>
-      <tr><th scope="row">Enchanting</th><td>Enchanted Lute</td><td>more primary stats and resistances</td></tr>
-      <tr><th scope="row">First Aid</th><td>First Aid Kit</td><td>more stamina</td></tr>
-      <tr><th scope="row">Fishing</th><td>Fish Bowl</td><td>more primary stats</td></tr>
-      <tr><th scope="row">Herbalism</th><td>Incense Candle</td><td>more intellect</td></tr>
-      <tr><th scope="row">Leatherworking</th><td>Camp Tent</td><td>rest and experience (Boosted Rest)</td></tr>
-      <tr><th scope="row">Mining</th><td>Lodestone</td><td>more attack power</td></tr>
-      <tr><th scope="row">Skinning</th><td>Camp Chair</td><td>higher critical strike chance</td></tr>
-      <tr><th scope="row">Tailoring</th><td>Faction Banner</td><td>more spirit</td></tr>
-      <tr><th scope="row">Engineering</th><td>Reagent Bot</td><td>a vendor, at level 2 repairs (Repair Bot)</td></tr>
-      <tr><th scope="row">Cooking</th><td>Basic Campfire</td><td>no buff, adds camp slots</td></tr>
-    </tbody></table></div>
-  <p class="note">Each profession makes three objects, one per level. Sources disagree on the skill needed for level 2 and 3 objects (one says 140 and 300), so check in the game.</p>
-</section>
-
-<section class="block wrap" id="dungeons" data-nav="#guides">
-  <div class="sec-head"><div class="row"><h2>Dungeons and raids</h2><span class="src">Warcraft Tavern, Sportskeeda, Icy Veins, ClassicWoW.gg</span></div><p>All 35 dungeons, 9 of them new. Levels are from Warcraft Tavern, Sportskeeda gives the same. Where other sites list a different range, it is shown in small print. Blizzard has not published hard level limits.</p></div>
-  <div class="filters" role="group" aria-label="Dungeon filter">
-    <div class="seg" id="segD"><button type="button" data-v="all" aria-pressed="true">All</button><button type="button" data-v="mine" aria-pressed="false">My level ±3</button><button type="button" data-v="new" aria-pressed="false">New</button></div>
-    <div class="fgroup"><span class="flabel" id="ldgLvl">My level</span><div class="stepper" role="group" aria-labelledby="ldgLvl"><button type="button" class="lvm" aria-label="Lower level">−</button><input class="lvin" id="dgLvl" type="number" min="1" max="60" inputmode="numeric" aria-labelledby="ldgLvl" placeholder="—"><button type="button" class="lvp" aria-label="Higher level">+</button></div></div>
-    <span class="small" id="dgCount" role="status"></span>
-  </div>
-  <div class="tbl-box dg"><table>
-    <thead><tr><th scope="col">Dungeon</th><th scope="col">Levels</th><th scope="col">Entrance</th></tr></thead>
-    <tbody id="dgBody"></tbody></table></div>
-  <p class="note">Most dungeon experience comes from its quest chains, repeat runs give noticeably less. Every item that drops unlocks its appearance for everyone in the group who can wear it. Blizzard promises two more dungeons in spring and two in summer.</p>
-  <div class="grid2">
-    <div class="panel">
-      <h3>Raids (from 09.12.2026)</h3>
-      <ul class="dots">
-        <li><b>Barrow Deeps</b>, 10 players</li>
-        <li><b>Hyjal Summit</b>, 20 players</li>
-        <li><b>Onyxia’s Lair</b>, 40 players, in Dustwallow Marsh</li>
-        <li>Completing each of these raids gives one Legacy point.</li>
-      </ul>
-    </div>
-    <div class="panel">
-      <h3>PvP</h3>
-      <ul class="dots">
-        <li>New 15v15 battleground: Darkspear Islands off the coast of Dustwallow Marsh.</li>
-        <li>Ranks with a weekly limit, gear upgrades for Honor, seasonal Legacy goals.</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<section class="block wrap" id="group" data-nav="#guides">
-  <div class="sec-head"><h2>Group composition</h2><p>Below are facts from the sources and our recommendations. Recommendations are marked separately; they are not official data.</p></div>
-  <div class="grid2">
-    <div class="panel">
-      <h3>What is known</h3>
-      <ul class="dots">
-        <li>Dungeons are designed for 5 players: a tank, a healer and three damage dealers.</li>
-        <li>Raids are for 10, 20 and 40 players. If your own group is smaller, the rest are filled from a guild.</li>
-        <li>Warriors, Paladins and Druids can tank; Paladins, Priests, Shamans and Druids can heal.</li>
-        <li>Paladins and Druids can do all three roles. They are the most flexible classes when players are few.</li>
-        <li>Groups and raids receive class buffs: Kings from the paladin, shaman totems, the warrior’s Battle Shout, hunter and druid auras. Portals, food and water come from the mage.</li>
-      </ul>
-    </div>
-    <div class="panel tipp">
-      <h3 class="tiph"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg>Compiler’s recommendation</h3>
-      <ul class="dots">
-        <li><b>Solo:</b> Hunters and Warlocks have it easiest, their pet holds the enemy. Paladins and Druids are also sturdy and can fill any role in a dungeon.</li>
-        <li><b>2–4 players:</b> make sure at least one of you can tank or heal (Warrior, Paladin, Druid, Priest, Shaman), and fill the dungeon group up to five.</li>
-        <li><b>5 players:</b> a tank, a healer and three damage dealers, for example Warrior, Priest, Mage, Hunter and Rogue.</li>
-        <li><b>6–9 players:</b> two dungeon groups, each needs its own tank and healer. Hybrids are especially valuable here: Paladin, Druid, Shaman.</li>
-        <li><b>10 or more:</b> enough for the 10-player Barrow Deeps raid: two tanks, two or three healers, the rest on damage.</li>
-        <li>Take different classes: buffs of different classes stack, while identical ones overlap.</li>
-        <li>Someone in the group takes Cooking for a campfire with 10 objects, the others pick professions for camp buffs. From 4 November to 9 December, level up together through dungeons.</li>
-        <li>Reserve names in the 27.10 – 03.11 window if you have a pack, and decide in advance who plays which class so you do not duplicate.</li>
-      </ul>
-    </div>
-  </div>
-  <div class="panel">
-    <h3>Leveling</h3>
-    <ul class="dots">
-      <li>By forecasts, Hunter and Mage level fastest (about 8% faster than average), Warrior slowest (about 12%), Druid and Priest slightly slower than average. These are beta estimates, the figures may change.</li>
-      <li>There is no level scaling: dungeons are for their own levels, and you cannot run them by “pulling up” a weaker friend.</li>
-      <li>Save up rest: the bedroll, Well Rested and food with an experience bonus stack.</li>
-      <li>You can set up camp right while leveling; five minutes for a campfire pays off with buffs for the group.</li>
-    </ul>
-  </div>
-</section>
-
-<section class="block wrap" id="era" data-nav="#guides">
-  <div class="sec-head"><div class="row"><h2>How Forever differs from Classic Era</h2><span class="src">ClassicWoW.gg</span></div></div>
-  <div class="tbl-box"><table>
-    <thead><tr><th>Topic</th><th>What Forever has</th></tr></thead>
-    <tbody>
-      <tr><th scope="row">General</th><td>Eastern Kingdoms and Kalimdor, leveling to 60. A permanent game, not a season. No flying mounts and no level scaling, as in Classic.</td></tr>
-      <tr><th scope="row">Content</th><td>New zones, quests, 9 new dungeons, 3 new raids, a new battleground, the new Skyborne race.</td></tr>
-      <tr><th scope="row">Classes and races</th><td>Class talents and abilities were updated, there are new race and class combinations, and races lost resistances and gained their own abilities.</td></tr>
-      <tr><th scope="row">Systems</th><td>Legacy, camp, optional transmog and a choice of visual style (Classic or modern), official gamepad support.</td></tr>
-      <tr><th scope="row">Items</th><td>Stats and items were changed, so old Classic loot lists are unreliable.</td></tr>
-    </tbody></table></div>
 </section>
 <div class="wrap">
 <footer id="sources" data-nav="#guides">
@@ -1227,7 +1040,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <nav class="toc" aria-label="All sections">
     <div class="grp"><div class="gh">Home</div><a href="#top">Overview</a><a href="#stages">Where you are now</a><a href="#factions">Factions</a><a href="#classes">Classes</a><a href="#peoples">Races</a></div>
     <div class="grp"><div class="gh">Tools</div><a href="#picker">Picker</a><a href="#builder">Group builder</a><a href="#checklist">Checklist</a><a href="tools/">Frames, compare, search</a></div>
-    <div class="grp"><div class="gh">Reference</div><a href="#dates">Dates and packs</a><a href="#classref">Classes in detail</a><a href="#races">Races</a><a href="#legacy">Legacy</a><a href="#camp">Camp and professions</a><a href="#dungeons">Dungeons and raids</a><a href="#group">Group composition</a><a href="#era">Differences from Era</a><a href="#sources">Sources</a></div>
+    <div class="grp"><div class="gh">Reference</div><a href="guides/leveling/">Leveling 1–60</a><a href="guides/dungeons/">Dungeons and raids</a><a href="guides/professions/">Professions</a><a href="guides/faq/">FAQ and dates</a><a href="guides/news/">News</a><a href="classes/">Classes compared</a><a href="races/">Races compared</a><a href="#sources">Sources</a></div>
   </nav>
   <div class="opts">
     <div class="langs" role="group" aria-label="Language"><a href="../" data-lang="ru" hreflang="ru" lang="ru" aria-current="false">RU</a><a href="./" data-lang="en" hreflang="en" lang="en" aria-current="true">EN</a><a href="../uk/" data-lang="uk" hreflang="uk" lang="uk" aria-current="false">UK</a></div>
@@ -1236,6 +1049,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <p class="meta">Data as of 23.10.2026, closed beta, patch of 15.10.2026.</p>
 </dialog>
 <script>
+const HOME = '';   // language home, the classes/ and races/ pages set their own
+/* ref:start — shared with the classes/ and races/ pages (build_guides.ref_js); no $ or esc here, every page defines its own */
 const CLASSES = [
   { id:'warrior', n:'Warrior', s:'Warrior', roles:['tank','dps'],
     specs:[['Arms','Melee damage (two-handed weapon)',['dps']],['Fury','Melee damage (dual wield)',['dps']],['Protection','Tank',['tank']]],
@@ -1366,11 +1181,6 @@ RC.skyA.en = 'High Order Skyborne'; RC.skyH.en = 'Windshaper Skyborne';
 const tipBox = h => `<div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Tip</span>${h}</p></div>`;
 function bi(ru) { return EN[ru] && EN[ru] !== ru ? `${esc(ru)} <span class="en">(${esc(EN[ru])})</span>` : esc(ru); }
 function raceEn(r) { return r.en ? ` <span class="en">/ ${esc(r.en)}</span>` : ''; }
-const state = { f:'all', r:'all', race:'dwarf', cls:'shaman' };
-const $ = s => document.querySelector(s);
-
-function roleMatch(c, role) { return role === 'all' || c.roles.includes(role); }
-function raceVisible(r) { return state.f === 'all' || r.f === state.f; }
 function facName(f) { return f === 'alliance' ? 'Alliance' : 'Horde'; }
 /* Round face avatar: assets/art/<id>-face.webp, ring colour cc */
 function face(id, cc, cls = '', title = '') { return `<span class="av ${cls}" style="--cc:${cc}"${title ? ` title="${esc(title)}"` : ''}><img src="../assets/art/${id}-face.webp" width="160" height="160" alt="" loading="lazy" decoding="async"></span>`; }
@@ -1380,6 +1190,33 @@ function lvlMeter(c) {
   const bar = p ? `<i class="${p > 0 ? 'slow' : ''}" style="${p < 0 ? 'right' : 'left'}:50%;width:${w}%"></i>` : '';
   return `<span class="lvl"><span>${label}</span><span class="bar" role="img" aria-label="${label}">${bar}</span><span class="scale" aria-hidden="true"><span>faster</span><span>slower</span></span></span>`;
 }
+function renderClassRef() {
+  const roles = ['tank', 'heal', 'dps'];
+  const head = `<div class="cmp-h" aria-hidden="true"><span>Class</span><span class="rdots">${roles.map(x => `<span title="${ROLE_RU[x]}">${ri(x)}</span>`).join('')}</span><span>Leveling</span><span>In raids</span><span></span></div>`;
+  $('#classRef').innerHTML = head + CLASSES.map(c => `<a class="cmp-row" href="${HOME}classes/${c.id}/" style="--cc:${CCOL[c.id]};--art:url('../assets/art/${c.id}-360.webp')">
+    <span class="cmp-id">${face(c.id, CCOL[c.id])}<span><b>${esc(c.n)}</b><small>${c.specs.map(s => esc(s[0])).join(' · ')}</small></span></span>
+    <span class="rdots" role="img" aria-label="Roles: ${c.roles.map(x => ROLE_RU[x]).join(', ')}">${roles.map(x => { const on = c.roles.includes(x), q = c.roles.includes(x + '?'); return `<span class="rdot${on ? ' on' : q ? ' q' : ''}" title="${ROLE_RU[q ? x + '?' : x]}">${ri(x)}</span>`; }).join('')}</span>
+    ${lvlMeter(c)}
+    <span class="cmp-txt">${esc(c.raid)}</span>
+    <span class="go" aria-hidden="true"><svg class="ico"><use href="#i-arrow"/></svg></span>
+  </a>`).join('');
+}
+
+function renderRaceRef() {
+  const head = `<div class="cmp-h" aria-hidden="true"><span>Race</span><span>Classes</span><span class="abl">Abilities <span class="abt">active</span><span class="abt p">passive</span></span><span></span></div>`;
+  $('#raceRef').innerHTML = ['alliance', 'horde'].map(f => `<div class="rgroup ${f}"><h3>${facName(f)}</h3>${head}` + RACES.filter(r => r.f === f).map(r => `<a class="cmp-row" href="${HOME}races/${RSLUG[r.id]}/" style="--cc:var(--${f});--art:url('../assets/art/${RSLUG[r.id]}-360.webp')">
+    <span class="cmp-id">${face(RSLUG[r.id], `var(--${f})`)}<span><b>${esc(r.n)}${r.paid ? '<span class="paid">paid</span>' : ''}</b>${r.en ? `<small>${esc(r.en)}</small>` : ''}</span></span>
+    <span class="ccl" role="img" aria-label="Classes: ${Object.keys(r.can).map(id => CL[id].n).join(', ')}">${CLASSES.map(c => { const v = r.can[c.id]; return face(c.id, CCOL[c.id], v ? (v === 'new' ? 'nw' : '') : 'off', c.n + (v === 'new' ? ', new' : v ? '' : ', not available')); }).join('')}</span>
+    <span class="abs">${r.rac.map(x => `<span><b class="${x[0] === 'a' ? '' : 'p'}">${bi(x[1])}</b><span>${esc(x[2])}</span></span>`).join('')}</span>
+    <span class="go" aria-hidden="true"><svg class="ico"><use href="#i-arrow"/></svg></span>
+  </a>`).join('') + '</div>').join('');
+}
+/* ref:end */
+const state = { f:'all', r:'all', race:'dwarf', cls:'shaman' };
+const $ = s => document.querySelector(s);
+
+function roleMatch(c, role) { return role === 'all' || c.roles.includes(role); }
+function raceVisible(r) { return state.f === 'all' || r.f === state.f; }
 function esc(s) { return String(s).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])); }
 function roleChips(c) { return c.roles.map(x => `<span class="chip ${state.r === x ? 'on' : ''} ${x.endsWith('?') ? 'q' : ''}">${ri(x)}${ROLE_RU[x]}</span>`).join(''); }
 
@@ -1481,29 +1318,7 @@ function renderDetail() {
   $('#qPick').textContent = `Now: ${r.n} · ${c.n}`;
 }
 
-function renderClassRef() {
-  const roles = ['tank', 'heal', 'dps'];
-  const head = `<div class="cmp-h" aria-hidden="true"><span>Class</span><span class="rdots">${roles.map(x => `<span title="${ROLE_RU[x]}">${ri(x)}</span>`).join('')}</span><span>Leveling</span><span>In raids</span><span></span></div>`;
-  $('#classRef').innerHTML = head + CLASSES.map(c => `<a class="cmp-row" href="classes/${c.id}/" style="--cc:${CCOL[c.id]};--art:url('../assets/art/${c.id}-360.webp')">
-    <span class="cmp-id">${face(c.id, CCOL[c.id])}<span><b>${esc(c.n)}</b><small>${c.specs.map(s => esc(s[0])).join(' · ')}</small></span></span>
-    <span class="rdots" role="img" aria-label="Roles: ${c.roles.map(x => ROLE_RU[x]).join(', ')}">${roles.map(x => { const on = c.roles.includes(x), q = c.roles.includes(x + '?'); return `<span class="rdot${on ? ' on' : q ? ' q' : ''}" title="${ROLE_RU[q ? x + '?' : x]}">${ri(x)}</span>`; }).join('')}</span>
-    ${lvlMeter(c)}
-    <span class="cmp-txt">${esc(c.raid)}</span>
-    <span class="go" aria-hidden="true"><svg class="ico"><use href="#i-arrow"/></svg></span>
-  </a>`).join('');
-}
-
-function renderRaceRef() {
-  const head = `<div class="cmp-h" aria-hidden="true"><span>Race</span><span>Classes</span><span class="abl">Abilities <span class="abt">active</span><span class="abt p">passive</span></span><span></span></div>`;
-  $('#raceRef').innerHTML = ['alliance', 'horde'].map(f => `<div class="rgroup ${f}"><h3>${facName(f)}</h3>${head}` + RACES.filter(r => r.f === f).map(r => `<a class="cmp-row" href="races/${RSLUG[r.id]}/" style="--cc:var(--${f});--art:url('../assets/art/${RSLUG[r.id]}-360.webp')">
-    <span class="cmp-id">${face(RSLUG[r.id], `var(--${f})`)}<span><b>${esc(r.n)}${r.paid ? '<span class="paid">paid</span>' : ''}</b>${r.en ? `<small>${esc(r.en)}</small>` : ''}</span></span>
-    <span class="ccl" role="img" aria-label="Classes: ${Object.keys(r.can).map(id => CL[id].n).join(', ')}">${CLASSES.map(c => { const v = r.can[c.id]; return face(c.id, CCOL[c.id], v ? (v === 'new' ? 'nw' : '') : 'off', c.n + (v === 'new' ? ', new' : v ? '' : ', not available')); }).join('')}</span>
-    <span class="abs">${r.rac.map(x => `<span><b class="${x[0] === 'a' ? '' : 'p'}">${bi(x[1])}</b><span>${esc(x[2])}</span></span>`).join('')}</span>
-    <span class="go" aria-hidden="true"><svg class="ico"><use href="#i-arrow"/></svg></span>
-  </a>`).join('') + '</div>').join('');
-}
-
-function render() { pickValid(); renderMatrix(); renderPickM(); renderDetail(); renderClassRef(); renderRaceRef(); }
+function render() { pickValid(); renderMatrix(); renderPickM(); renderDetail(); }
 function toPicker() { $('#detail').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest' }); }
 
 document.addEventListener('click', e => {
@@ -1950,7 +1765,7 @@ function renderStage() {
     <ol class="steps-c">${steps}</ol>
     <div class="st-cols">
       <div><h4>Dungeons for this level</h4>${s.dnote ? `<p class="small" style="margin:-4px 0 10px">${esc(s.dnote)}</p>` : ''}<ul class="dlist">${ds.slice(0, MAXD).map(dLi).join('')}</ul>
-        <a class="more-l" href="#dungeons">${extra > 0 ? `More dungeons in the table: ${extra}` : 'All 35 dungeons'}<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+        <a class="more-l" href="guides/dungeons/">${extra > 0 ? `More dungeons in the table: ${extra}` : 'All 35 dungeons'}<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
       <div style="display:grid;gap:24px;align-content:start"><div><h4>Professions and camp</h4><ul class="clean">${s.prof.map(liC).join('')}</ul></div>
         <div><h4>Legacy perks</h4><ul class="clean">${s.legacy.map(liC).join('')}</ul></div></div>
     </div>
@@ -1987,26 +1802,13 @@ function renderMe() {
     if (me.lvl) {
       const ds = DUNGEONS.filter(d => nearLvl(d, me.lvl));
       out += `<div><h4>Dungeons for your level</h4>` + (ds.length ? `<ul class="dlist">${ds.slice(0, 4).map(dLi).join('')}</ul>` : '<p class="small">The first dungeons start at level 13.</p>')
-        + `<a class="more-l" href="#dungeons">${ds.length > 4 ? `More dungeons in the table: ${ds.length - 4}` : 'Dungeon table'}<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>`;
+        + `<a class="more-l" href="guides/dungeons/">${ds.length > 4 ? `More dungeons in the table: ${ds.length - 4}` : 'Dungeon table'}<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>`;
     }
   }
   $('#meOut').innerHTML = out;
   $('#meReset').disabled = !meSet() && !me.p1 && !me.p2 && !me.sec.length;
 }
-let dgMode = 'all';
-function renderDungeons() {
-  const lv = me.lvl;
-  let rows = DUNGEONS;
-  if (dgMode === 'new') rows = rows.filter(d => d[4]);
-  if (dgMode === 'mine') rows = lv ? rows.filter(d => nearLvl(d, lv)) : [];
-  $('#dgBody').innerHTML = rows.length ? rows.map(d => {
-    const alt = (d[5] || []).map(a => `${a[0]}: ${a[1]}`).join(', ');
-    return `<tr class="${lv && nearLvl(d, lv) ? 'mine' : ''}"><th scope="row">${esc(d[0])}${d[4] ? '<span class="tag new">new</span>' : ''}<span class="z">${esc(d[3])}</span></th><td class="num"><span class="pill${lv && nearLvl(d, lv) ? ' gold' : ''}">${lvRange(d)}</span>${alt ? `<span class="alt">${esc(alt)}</span>` : ''}</td><td class="zone">${esc(d[3])}</td></tr>`;
-  }).join('') : `<tr class="dg-empty"><td colspan="3">${lv ? 'No dungeons for this level.' : 'Enter your level to filter.'}</td></tr>`;
-  $('#dgCount').textContent = `Showing ${rows.length} of ${DUNGEONS.length}`;
-  syncSeg('segD', dgMode);
-}
-function renderJourney() { renderMe(); renderStage(); renderDungeons(); }
+function renderJourney() { renderMe(); renderStage(); }
 function meChanged() { fixMe(); saveMe(); stageAuto = true; renderJourney(); }
 $('#meRace').addEventListener('change', e => { me.race = e.target.value; meChanged(); });
 $('#meCls').addEventListener('change', e => { me.cls = e.target.value; if (me.cls && !me.race) { const r = RACES.find(x => x.can[me.cls] && !x.paid); if (r) me.race = r.id; } meChanged(); });
@@ -2020,7 +1822,6 @@ document.querySelectorAll('.lvin').forEach(i => {
   i.addEventListener('change', () => { me.lvl = i.value === '' ? 0 : parseInt(i.value, 10) || 0; meChanged(); });
   i.addEventListener('keydown', e => { if (e.key === 'Enter') i.blur(); });
 });
-$('#segD').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; dgMode = b.dataset.v; renderDungeons(); if (dgMode === 'mine' && !me.lvl) $('#dgLvl').focus(); });
 $('#stageBar').addEventListener('click', e => { const b = e.target.closest('[data-st]'); if (!b) return; stageSel = b.dataset.st; stageAuto = false; renderStage(); $('#tab-' + stageSel).focus(); });
 $('#stageBar').addEventListener('keydown', e => {
   const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key]; if (!k) return;

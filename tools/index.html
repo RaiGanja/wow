@@ -374,6 +374,10 @@ ul.dots li::marker { color: var(--gold); }
 .flabel { font-size: .9rem; color: var(--muted); font-weight: 500; }
 .seg { display: inline-flex; flex-wrap: wrap; gap: 4px; padding: 4px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); }
 .seg button { border: 0; border-radius: 7px; background: transparent; padding: 0 15px; min-height: 44px; font-weight: 600; font-size: .95rem; }
+/* Level stepper next to a segment: same height and inner frame as .seg */
+.filters .stepper { padding: 4px; gap: 2px; }
+.filters .stepper button { min-width: 40px; border-radius: 7px; }
+.filters .stepper button:hover { background: color-mix(in srgb, var(--fg) 7%, transparent); }
 .seg button:hover { background: color-mix(in srgb, var(--fg) 7%, transparent); }
 .seg button[aria-pressed="true"] { background: #c9a54a; color: #15110a; }
 .copyrow { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
@@ -1012,7 +1016,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="../" aria-label="Gabella Team, на главную"><span class="mark" aria-hidden="true">G</span><b>Gabella Team</b></a>
   <nav class="mainnav" aria-label="Разделы">
-    <a href="../#factions">Фракции</a><a href="../#classes">Классы</a><a href="../#peoples">Расы</a><a href="../#picker">Подборщик</a><a href="../#builder">Группа</a><a href="../#guides">Гайды</a><a href="./" aria-current="true">Инструменты</a>
+    <a href="../#factions">Фракции</a><a href="../#classes">Классы</a><a href="../#peoples">Расы</a><a href="../#picker">Подборщик</a><a href="../#builder">Группа</a><a href="../guides/">Гайды</a><a href="./" aria-current="true">Инструменты</a>
   </nav>
   <div class="tools">
     <div class="langs" role="group" aria-label="Язык"><a href="./" data-lang="ru" hreflang="ru" lang="ru" aria-current="true">RU</a><a href="../en/tools/" data-lang="en" hreflang="en" lang="en" aria-current="false">EN</a><a href="../uk/tools/" data-lang="uk" hreflang="uk" lang="uk" aria-current="false">UK</a></div>
@@ -1106,7 +1110,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
   <div class="dh"><b>Все разделы</b><button class="iconbtn" id="moreClose" type="button" aria-label="Закрыть"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Все разделы">
     <div class="grp"><div class="gh">Эта страница</div><a href="#search">Поиск по гиду</a><a href="#raid">Рамки группы и рейда</a><a href="#compare">Сравнение классов и рас</a></div>
-    <div class="grp"><div class="gh">Гид</div><a href="../">Главная</a><a href="../#classes">Классы</a><a href="../#peoples">Расы</a><a href="../#picker">Подборщик</a><a href="../#builder">Конструктор группы</a><a href="../#checklist">Чек-лист</a><a href="../#guides">Гайды</a></div>
+    <div class="grp"><div class="gh">Гид</div><a href="../">Главная</a><a href="../#classes">Классы</a><a href="../#peoples">Расы</a><a href="../#picker">Подборщик</a><a href="../#builder">Конструктор группы</a><a href="../#checklist">Чек-лист</a><a href="../guides/">Гайды</a></div>
   </nav>
   <div class="opts">
     <div class="langs" role="group" aria-label="Язык"><a href="./" data-lang="ru" hreflang="ru" lang="ru" aria-current="true">RU</a><a href="../en/tools/" data-lang="en" hreflang="en" lang="en" aria-current="false">EN</a><a href="../uk/tools/" data-lang="uk" hreflang="uk" lang="uk" aria-current="false">UK</a></div>

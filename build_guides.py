@@ -1,0 +1,351 @@
+"""Сборка гайдов: guide.src.html + content/guides.py -> guides/[slug/]index.html, en/…, uk/….
+Обвязка шаблона переводится через i18n/{ru,en,uk}.txt + i18n/guides.*.txt (строка в строку);
+тело подставляется ПОСЛЕ перевода — тексты гайдов уже на трёх языках, translate() их не видит.
+Запуск: python build_guides.py [--list]  (--list печатает русские фрагменты обвязки без перевода)"""
+import json, os, re, sys
+from html import escape
+
+import build
+from build import LANGS, SITE, page_dir, rel, localize, translate
+from content.guides import GUIDES, HUB, HUBS, NEWS
+
+HERE = build.HERE
+
+_ru, _en, _uk = (build.load(f'guides.{l}.txt') for l in LANGS)
+assert len(_ru) == len(_en) == len(_uk), (len(_ru), len(_en), len(_uk))
+build.T.update({r: (e, u) for r, e, u in zip(_ru, _en, _uk)})
+
+TIP = {'ru': 'Совет', 'en': 'Tip', 'uk': 'Порада'}
+THIS_PAGE = {'ru': 'Эта страница', 'en': 'This page', 'uk': 'Ця сторінка'}
+MORE_H = {'ru': 'Другие гайды', 'en': 'Other guides', 'uk': 'Інші гайди'}
+MORE_SITE = {'ru': 'Ещё на сайте', 'en': 'More on the site', 'uk': 'Ще на сайті'}
+# Extra tiles under the classes/ and races/ pages: the guides hub and the tools page
+SITE_TILES = [
+    {'t': HUB['title'], 'href': 'guides/', 'art': 'hero_campfire',
+     'd': {'ru': 'Прокачка, подземелья, профессии и ответы', 'en': 'Leveling, dungeons, professions and answers', 'uk': 'Прокачка, підземелля, професії та відповіді'}},
+    {'t': {'ru': 'Инструменты', 'en': 'Tools', 'uk': 'Інструменти'}, 'href': 'tools/', 'art': 'rogue',
+     'd': {'ru': 'Рамки, сравнение, поиск', 'en': 'Frames, compare, search', 'uk': 'Рамки, порівняння, пошук'}},
+]
+# Wide hero art; everything else is a class/race portrait cut at 360/600/896
+WIDTHS = {'hero_dawn': (960, 1440, 1920, 2560), 'hero_campfire': (960, 1600)}
+
+
+def L(x, lang):
+    return x[lang] if isinstance(x, dict) else x
+
+
+def E(x, lang):
+    return escape(L(x, lang), quote=True)
+
+
+def check_langs(obj, path=''):
+    """Paths of trilingual fields that miss a language (or are empty)."""
+    gaps = []
+    if isinstance(obj, dict):
+        if set(obj) & set(LANGS) and set(obj) <= set(LANGS):
+            gaps += [f'{path}.{l}' for l in LANGS if not obj.get(l)]
+        else:
+            for k, v in obj.items():
+                gaps += check_langs(v, f'{path}.{k}')
+    elif isinstance(obj, (list, tuple)):
+        for i, v in enumerate(obj):
+            gaps += check_langs(v, f'{path}[{i}]')
+    return gaps
+
+
+def art_sets(art, root, big=False):
+    """(avif srcset, webp srcset, fallback src). big: hero fallback = widest, else a tile-sized one."""
+    ws = WIDTHS.get(art, (360, 600, 896))
+    src = lambda ext: ', '.join(f'{root}assets/art/{art}-{w}.{ext} {w}w' for w in ws)
+    fb = ws[-1] if big else (ws[0] if art in WIDTHS else 600)
+    return src('avif'), src('webp'), f'{root}assets/art/{art}-{fb}.webp'
+
+
+def tile_links(tiles, lang, root):
+    """root: path to the language home (links); art always from the site root via @@ROOT@@."""
+    out = []
+    for s in tiles:
+        avif, webp, img = art_sets(s['art'], '@@ROOT@@')
+        out.append(f'<a class="ttile" href="{root}{s["href"]}"><picture><source type="image/avif" srcset="{avif}" sizes="320px">'
+                   f'<img src="{img}" srcset="{webp}" sizes="320px" alt="" loading="lazy" decoding="async"></picture>'
+                   f'<b>{E(s["t"], lang)}</b><span>{E(s["d"], lang)}</span></a>')
+    return ''.join(out)
+
+
+def render_block(kind, data, lang, root):
+    if kind == 'text':
+        return ''.join(f'<p>{E(p, lang)}</p>' for p in data)
+    if kind == 'steps':
+        cards = ''.join(f'<li><span class="n">{i:02d}</span><div><b>{E(s["t"], lang)}</b><p>{E(s["d"], lang)}</p></div></li>'
+                        for i, s in enumerate(data, 1))
+        return f'<ol class="steps-c">{cards}</ol>'
+    if kind == 'tiles':
+        return f'<div class="ttiles gtiles">{tile_links(data, lang, root)}</div>'
+    if kind == 'table':
+        head = [E(h, lang) for h in data['head']]
+        th = ''.join(f'<th scope="col">{h}</th>' for h in head)
+        rows = ''.join('<tr>' + ''.join(f'<td data-l="{h}">{E(c, lang)}</td>' for h, c in zip(head, r)) + '</tr>'
+                       for r in data['rows'])
+        return f'<table class="gtable"><thead><tr>{th}</tr></thead><tbody>{rows}</tbody></table>'
+    if kind == 'tabs':
+        btns = ''.join(f'<button type="button" class="pill" role="tab" data-tab="{x["id"]}" aria-selected="{"true" if i == 0 else "false"}">'
+                       f'{E(x["t"], lang)}</button>' for i, x in enumerate(data))
+        panels = ''.join(f'<div role="tabpanel" data-tab="{x["id"]}"{"" if i == 0 else " hidden"}>'
+                         + ''.join(render_block(k, d, lang, root) for k, d in x['blocks']) + '</div>'
+                         for i, x in enumerate(data))
+        return f'<div class="gtabs"><div role="tablist">{btns}</div>{panels}</div>'
+    if kind == 'faq':
+        items = ''.join(f'<details id="{q["id"]}"><summary>{E(q["q"], lang)}</summary>'
+                        + ''.join(f'<p>{E(a, lang)}</p>' for a in q['a']) + '</details>' for q in data)
+        return f'<div class="gfaq">{items}</div>'
+    if kind == 'tip':
+        return (f'<div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg>'
+                f'<p><span class="tl">{TIP[lang]}</span>{E(data, lang)}</p></div>')
+    if kind == 'raw':
+        return L(data, lang)
+    if kind == 'news':                                            # our notes from NEWS, newest first
+        items = ''.join(f'<a class="nitem" href="{escape(n["url"])}" target="_blank" rel="noopener">'
+                        f'<span class="pill">{".".join(reversed(n["date"].split("-")))}</span>'
+                        f'<b>{E(n["title"], lang)}</b><p>{E(n["text"], lang)}</p></a>'
+                        for n in sorted(NEWS, key=lambda n: n['date'], reverse=True))
+        return f'<div class="nlist">{items}</div>'
+    if kind == 'profs':
+        return render_block('table', {'head': PROF_HEAD, 'rows': profs_table(home_src())}, lang, root)
+    raise ValueError(f'unknown block {kind!r}')
+
+
+PROF_HEAD = [{'ru': 'Профессия', 'en': 'Profession', 'uk': 'Професія'},
+             {'ru': 'Объект лагеря', 'en': 'Camp object', 'uk': 'Об’єкт табору'},
+             {'ru': 'Похож на бафф', 'en': 'Similar buff', 'uk': 'Схожий на бафф'}]
+
+
+def home_src():
+    return open(os.path.join(HERE, 'index.src.html'), encoding='utf-8').read()
+
+
+def profs_table(src):
+    """Camp table from PROFS of the home page: [name, object, effect]; names and effects via the home i18n."""
+    tr = lambda x: {'ru': x, 'en': build.T[x][0], 'uk': build.T[x][1]}
+    return [[tr(name), obj, tr(eff)]
+            for _id, name, _tier, obj, eff in re.findall(r"\['(\w+)', '([^']+)', (\d), '([^']+)', '([^']+)'\]", src)]
+
+
+def render_guide(g, lang, root):
+    toc = ''.join(f'<a href="#{s["id"]}">{E(s["title"], lang)}</a>' for s in g['sections'])
+    body = '\n'.join(f'<section class="frame gsec" id="{s["id"]}"><h2>{E(s["title"], lang)}</h2>'
+                     + ''.join(render_block(k, d, lang, root) for k, d in s['blocks']) + '</section>'
+                     for s in g['sections'])
+    return toc, body
+
+
+def guide_tiles(guides):
+    return [{'t': x['title'], 'd': x['tile'], 'href': f'guides/{x["slug"]}/', 'art': x['art']} for x in guides]
+
+
+def section_tiles():
+    return [{'t': x['title'], 'd': x['tile'], 'href': x['path'], 'art': x['art']} for x in HUBS]
+
+
+def hub_body(lang, root):
+    """Guides first, then the classes/ and races/ sections and the tools page: two full rows of four."""
+    tiles = guide_tiles(GUIDES) + section_tiles() + SITE_TILES[1:]
+    return '', f'<section class="frame gsec" id="all">{render_block("tiles", tiles, lang, root)}</section>'
+
+
+JS = {}   # slug -> JS живой части; наполняется в задачах 3, 5, 7, 8, 9
+
+JS['faq'] = r'''/* FAQ: search over questions and answers; #id opens the question */
+const qIn = document.getElementById('faqQ');
+const qs = [...document.querySelectorAll('.gfaq details')];
+if (qIn) qIn.addEventListener('input', () => {
+  const v = qIn.value.trim().toLowerCase();
+  qs.forEach(d => { const hit = !v || d.textContent.toLowerCase().includes(v); d.hidden = !hit; if (v && hit) d.open = true; });
+});
+function openHash() { const d = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1))); if (d && d.tagName === 'DETAILS') { d.open = true; d.scrollIntoView(); } }
+addEventListener('hashchange', openHash); openHash();'''
+
+
+DG_TX = {
+    'ru': {'h': ['Подземелье', 'Уровни', 'Где вход'], 'new': 'новое', 'shown': 'Показано', 'of': 'из',
+           'none': 'Под этот уровень подземелий нет.', 'need': 'Укажите свой уровень, чтобы отфильтровать.'},
+    'en': {'h': ['Dungeon', 'Levels', 'Entrance'], 'new': 'new', 'shown': 'Showing', 'of': 'of',
+           'none': 'No dungeons for this level.', 'need': 'Enter your level to filter.'},
+    'uk': {'h': ['Підземелля', 'Рівні', 'Де вхід'], 'new': 'нове', 'shown': 'Показано', 'of': 'з',
+           'none': 'Під цей рівень підземель немає.', 'need': 'Вкажіть свій рівень, щоб відфільтрувати.'},
+}
+DG_JS = r'''/* Dungeons: level filter seeded from "My hero" (read only, the hero is edited on the home page) */
+const TX = @@TX@@;
+const lvRange = d => d[1] === d[2] ? String(d[1]) : `${d[1]}–${d[2]}`;
+const nearLvl = (d, lv) => lv >= d[1] - 3 && lv <= d[2] + 3;
+let dgLvl = 0;
+try { dgLvl = +(JSON.parse(localStorage.getItem('gabella-wf-me')) || {}).lvl || 0; } catch (e) {}
+let dgMode = dgLvl ? 'mine' : 'all';
+const lvIn = $('#dgLvl');
+function renderDg() {
+  let rows = DUNGEONS;
+  if (dgMode === 'new') rows = rows.filter(d => d[4]);
+  if (dgMode === 'mine') rows = dgLvl ? rows.filter(d => nearLvl(d, dgLvl)) : [];
+  $('#dgBody').innerHTML = rows.length ? rows.map(d => {
+    const mine = dgLvl && nearLvl(d, dgLvl);
+    const alt = (d[5] || []).map(a => `${a[0]}: ${a[1]}`).join(', ');
+    return `<tr class="${mine ? 'mine' : ''}"><td data-l="${TX.h[0]}">${esc(d[0])}${d[4] ? ` <span class="tag new">${TX.new}</span>` : ''}</td>`
+      + `<td data-l="${TX.h[1]}"><span class="pill${mine ? ' gold' : ''}">${lvRange(d)}</span>${alt ? `<span class="alt">${esc(alt)}</span>` : ''}</td>`
+      + `<td data-l="${TX.h[2]}">${esc(d[3])}</td></tr>`;
+  }).join('') : `<tr><td colspan="3">${dgLvl ? TX.none : TX.need}</td></tr>`;
+  $('#dgCount').textContent = `${TX.shown} ${rows.length} ${TX.of} ${DUNGEONS.length}`;
+  document.querySelectorAll('#segD button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === dgMode));
+  if (document.activeElement !== lvIn) lvIn.value = dgLvl || '';
+}
+$('#segD').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { dgMode = b.dataset.v; renderDg(); } });
+lvIn.addEventListener('input', () => { const v = parseInt(lvIn.value, 10); dgLvl = v >= 1 && v <= 60 ? v : 0; dgMode = dgLvl ? 'mine' : 'all'; renderDg(); });
+document.querySelectorAll('#dgBox .lvm, #dgBox .lvp').forEach(b => b.addEventListener('click', () => {
+  const up = b.classList.contains('lvp');
+  dgLvl = Math.max(1, Math.min(60, (dgLvl || (up ? 0 : 2)) + (up ? 1 : -1))); dgMode = 'mine'; renderDg();
+}));
+renderDg();'''
+JS['dungeons'] = {l: DG_JS.replace('@@TX@@', json.dumps(DG_TX[l], ensure_ascii=False)) for l in LANGS}
+
+
+def dungeons_data(src):
+    """Only the DUNGEONS array of the home page: the rest of its data is Russian and not needed here."""
+    i = src.index('const DUNGEONS = [')
+    return src[i:src.index('\n];', i) + 3]
+
+
+JS['professions'] = r'''/* Professions: open the tab of the class from "My hero" */
+try {
+  const cls = (JSON.parse(localStorage.getItem('gabella-wf-me')) || {}).cls;
+  const tab = cls && document.querySelector(`#pairs [role="tab"][data-tab="${cls}"]`);
+  if (tab) tab.click();
+} catch (e) {}'''
+
+
+JS['news'] = r'''/* News: automatic Wowhead feed from assets/news.json; no file -> the list stays hidden */
+fetch(ROOT + 'assets/news.json').then(r => r.ok ? r.json() : []).then(items => {
+  const box = document.getElementById('feedList');
+  if (!box || !items.length) return;
+  box.innerHTML = items.map(n => `<a class="nitem" href="${esc(n.url)}" target="_blank" rel="noopener"><span class="pill">${esc(n.date.split('-').reverse().join('.'))}</span><b>${esc(n.title)}</b></a>`).join('');
+  box.hidden = false;
+}).catch(() => {});'''
+
+
+def ref_js(src, lang):
+    """Classes/races data and the comparison-table helpers of the home page (ref:start…ref:end), translated like the home page."""
+    i, j = src.index('/* ref:start'), src.index('/* ref:end */')
+    js = src[i:j].replace('@@RACE_LEAD@@', json.dumps({r['id']: r['lead'] for r in build.RACES_PAGE}, ensure_ascii=False))
+    js = js.replace('@@RACE_SLUG@@', json.dumps({r['id']: r['slug'] for r in build.RACES_PAGE}))
+    return translate(js, lang)[0]
+
+
+JS['classref'] = 'renderClassRef();'
+JS['raceref'] = 'renderRaceRef();'
+
+DATA = {'dungeons': dungeons_data}   # js key -> data blocks from index.src.html
+REF = ('classref', 'raceref')        # js keys fed by ref_js (language-specific)
+
+
+def page_ids(g):
+    """Every id a guide puts on its page: sections, FAQ questions, raw blocks."""
+    ids = [s['id'] for s in g['sections']]
+    def walk(blocks):
+        for k, d in blocks:
+            if k == 'faq':
+                ids.extend(q['id'] for q in d)
+            elif k == 'tabs':
+                for x in d:
+                    walk(x['blocks'])
+            elif k == 'raw':
+                for l in LANGS[:1]:   # raw ids are the same in every language
+                    ids.extend(re.findall(r'\sid="([^"]+)"', L(d, l)))
+    for s in g['sections']:
+        walk(s['blocks'])
+    return ids
+
+
+def build_page(g, lang, tpl, base_css, sprite, src):
+    sub = g.get('path') or (f'guides/{g["slug"]}/' if g['slug'] else 'guides/')   # path: разделы classes/, races/ (Task 8)
+    here = page_dir(lang, sub)
+    html = tpl.replace('@@BASE_CSS@@', base_css).replace('@@SPRITE@@', sprite)
+    html, missing = translate(html, lang)                       # 1) обвязка
+    root = rel(here, page_dir(lang))
+    toc, body = render_guide(g, lang, root) if g['slug'] else hub_body(lang, root)
+    if len(g.get('sections', ())) == 1:
+        toc = ''                                                 # one section: no contents column
+    section = 'path' in g                                         # classes/, races/: not a guide
+    if section:
+        others = [x for x in section_tiles() if x['href'] != g['path']] + SITE_TILES
+        more = tile_links(others, lang, root)
+    else:
+        others = [x for x in GUIDES if x['slug'] != g['slug']] if g['slug'] else []
+        more = tile_links(guide_tiles(others), lang, root)
+    avif, webp, img = art_sets(g['art'], '@@ROOT@@', big=True)
+    crumb = (f'<a href="{root}guides/">{E(HUB["title"], lang)}</a><span aria-hidden="true">/</span><span>{E(g["title"], lang)}</span>'
+             if g['slug'] and not section else f'<span>{E(g["title"], lang)}</span>')
+    toc_grp = f'<div class="grp"><div class="gh">{THIS_PAGE[lang]}</div>{toc}</div>' if toc else ''
+    js = g.get('js')
+    rep = {
+        'TITLE': E(g['title'], lang), 'LEAD': E(g['lead'], lang), 'CRUMB': crumb,
+        'PILLS': ''.join(f'<span class="pill">{E(p, lang)}</span>' for p in g.get('pills', [])),
+        'ART_AVIF': avif, 'ART_WEBP': webp, 'ART_IMG': img, 'TOC': toc, 'TOC_GRP': toc_grp, 'BODY': body, 'MORE': more,
+        'SOLO': '' if toc else ' solo', 'MORE_H': (MORE_SITE if section else MORE_H)[lang],
+        'SOURCES': ''.join(f'<li><a href="{u}" target="_blank" rel="noopener">{E(n, lang)}</a></li>' for n, u in g.get('sources', [])),
+        'UPDATED': g.get('updated', HUB.get('updated', '')),
+        'JS': ((DATA[js](src) + '\n' if js in DATA else ref_js(src, lang) + '\n' if js in REF else '') + L(JS[js], lang)) if js else '',
+    }
+    for k, v in rep.items():                                     # 2) тело
+        html = html.replace(f'@@{k}@@', v)
+    if not others:
+        html = html.replace('<section id="more">', '<section id="more" hidden>')
+    if section:                                                  # menu: the current item is Classes / Races, not Guides
+        html = html.replace('<a href="@@GUIDES@@" aria-current="true">', '<a href="@@GUIDES@@">')
+        anchor = '#classes' if g['slug'] == 'classes' else '#peoples'
+        html = html.replace(f'<a href="@@HOME@@{anchor}">', f'<a href="@@HOME@@{anchor}" aria-current="true">')
+    html = html.replace('@@GUIDES@@', rel(here, page_dir(lang, 'guides/')))
+    html = html.replace('@@HOME@@', root)
+    for l in LANGS:
+        html = html.replace(f'@@{l.upper()}@@', rel(here, page_dir(l, sub)))
+        html = html.replace(f'@@CUR_{l.upper()}@@', 'true' if l == lang else 'false')
+    html = html.replace('@@CANON@@', SITE + here)
+    alt = '\n'.join(f'<link rel="alternate" hreflang="{l}" href="{SITE}{page_dir(l, sub)}">' for l in LANGS)
+    alt += f'\n<link rel="alternate" hreflang="x-default" href="{SITE}{sub}">'
+    html = html.replace('@@ALTERNATES@@', alt)
+    html = localize(html, lang, here)
+    if lang != 'ru':
+        html = html.replace('assets/og.png', f'assets/og-{lang}.png')
+    return here + 'index.html', html, missing
+
+
+def main():
+    gaps = (check_langs(HUB, 'HUB') + [p for g in GUIDES + HUBS for p in check_langs(g, g['slug'])]
+            + check_langs(NEWS, 'NEWS') + check_langs(SITE_TILES, 'SITE_TILES'))
+    assert not gaps, gaps[:10]
+    src = open(os.path.join(HERE, 'index.src.html'), encoding='utf-8').read()
+    tpl = open(os.path.join(HERE, 'guide.src.html'), encoding='utf-8').read()
+    base_css = src[src.index('<style>') + 7:src.index('</style>')].strip('\n')
+    s0 = src.index('<svg width="0" height="0"')
+    sprite = src[s0:src.index('</svg>', s0) + 6]
+
+    pages, allmissing = [], []
+    for lang in LANGS:
+        for g in [HUB] + GUIDES + HUBS:
+            path, html, missing = build_page(g, lang, tpl, base_css, sprite, src)
+            assert '@@' not in html, (path, re.findall(r'@@\w+@@', html)[:5])
+            pages.append((path, html))
+            allmissing += missing
+
+    listing = '--list' in sys.argv
+    if not listing:
+        for path, html in pages:
+            full = os.path.join(HERE, path)
+            os.makedirs(os.path.dirname(full), exist_ok=True)
+            open(full, 'w', encoding='utf-8', newline='\n').write(html)
+    uniq = list(dict.fromkeys(allmissing))
+    if listing:
+        print('\n'.join(uniq))
+    print(f'guides: {len(pages)}, missing: {len(uniq)}', file=sys.stderr)
+    if uniq and not listing:
+        sys.exit(1)
+
+
+if __name__ == '__main__':
+    main()
