@@ -57,13 +57,12 @@ img{{position:absolute;display:block}}
   linear-gradient(0deg,rgba(7,8,10,.85) 0%,rgba(7,8,10,0) 36%)}}
 .txt{{position:absolute;left:72px;top:0;bottom:0;width:640px;display:flex;flex-direction:column;justify-content:center;gap:22px}}
 .brand{{position:absolute;left:72px;top:56px;display:flex;align-items:center;gap:14px;font-size:24px;color:#cfc8b6;letter-spacing:.01em}}
-.g{{width:48px;height:48px;border-radius:10px;background:#0a0b0d;border:1px solid rgba(201,165,74,.45);display:grid;place-items:center;
-  font:700 34px/1 Georgia,serif;color:#c9a54a}}
+.brand img{{position:static;width:56px;height:56px;border-radius:10px;box-shadow:0 0 0 1px rgba(201,165,74,.45)}}
 h1{{font:700 {'92' if len(title) <= 14 else '74'}px/1.02 "Bona Nova SC";letter-spacing:.02em;text-wrap:balance}}
 p{{font-size:30px;line-height:1.35;color:#c9c2b0;text-wrap:pretty;max-width:{"520" if wide else "600"}px}}
 .start{{position:absolute;left:72px;bottom:56px;font:700 28px/1 "Bona Nova SC";letter-spacing:.03em;color:#c9a54a}}
 </style><body>{pic}<div class="shade"></div>
-<div class="brand"><span class="g">G</span>{BRAND}</div>
+<div class="brand"><img src="{url('assets/logo.png')}" alt="">{BRAND}</div>
 <div class="txt"><h1>{title}</h1><p>{lead}</p></div>
 <div class="start">{START[lang]}</div></body>'''
 
