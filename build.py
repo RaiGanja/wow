@@ -278,7 +278,16 @@ def esc(s):
 HYPH = {w.replace('-', ''): w.replace('-', '&shy;') for w in (
     'Совер-шен-ство-вание', 'Вдо-ско-на-лен-ня', 'Не-по-міт-ність', 'Не-ис-тов-ство', 'Де-мо-но-ло-гия', 'Де-мо-но-ло-гія',
     'Лик-ви-да-ция', 'Лік-ві-да-ція', 'Раз-ру-ше-ние', 'Руй-ну-ван-ня', 'По-слу-ша-ние', 'Кол-дов-ство', 'Скрыт-ность',
-    'Assas-si-na-tion', 'Marks-man-ship', 'Retri-bu-tion', 'Resto-ra-tion', 'Destruc-tion', 'Enhance-ment')}
+    'Assas-si-na-tion', 'Marks-man-ship', 'Retri-bu-tion', 'Resto-ra-tion', 'Destruc-tion', 'Enhance-ment',
+    'Afflic-tion', 'Demo-no-lo-gy', 'Disci-pline', 'Protec-tion',
+    'Tier-herr-schaft', 'Treff-sicher-heit', 'Wieder-her-stel-lung', 'Ver-stär-kung', 'Gleich-ge-wicht', 'Dä-mo-no-lo-gie',
+    'Zer-stö-rung', 'Ver-gel-tung',
+    'Amé-lio-ra-tion', 'Res-tau-ra-tion', 'Dé-mo-no-lo-gie', 'Élé-men-taire', 'Assas-si-nat',
+    'Demo-no-lo-gía', 'Des-truc-ción', 'Res-tau-ra-ción', 'Super-vi-ven-cia', 'Repren-sión', 'Equi-li-brio', 'Protec-ción', 'Disci-pli-na',
+    'Aper-fei-ço-a-men-to', 'Assas-si-na-to', 'Demo-no-lo-gia', 'Des-trui-ção', 'Equi-lí-brio', 'Res-tau-ra-ção', 'Retri-bui-ção',
+    'Sobre-vi-vên-cia', 'Sub-ter-fú-gio',
+    'Af-fli-zio-ne', 'Ag-gres-so-re', 'As-sas-si-nio', 'Com-bat-ti-men-to', 'Di-stru-zio-ne', 'Ele-men-ta-le', 'Po-ten-zia-men-to',
+    'Pre-ci-sio-ne', 'Pro-te-zio-ne', 'Ri-ge-ne-ra-zio-ne', 'Scal-trez-za', 'So-prav-vi-ven-za')}
 
 
 def hyph_tabs(html):

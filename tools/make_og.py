@@ -6,7 +6,7 @@ import os, subprocess, sys, tempfile
 from PIL import Image
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0, os.path.join(ROOT, 'content'))
+sys.path[:0] = [os.path.join(ROOT, 'content'), ROOT]
 from guides import HUB, GUIDES, HUBS  # noqa: E402
 
 sys.path.insert(0, ROOT)

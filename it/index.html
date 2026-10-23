@@ -1,0 +1,1905 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<script>
+/* Old guide anchors moved to /guides/ pages (stage 5): keep Discord links working */
+(function () {
+  var m = { dates: 'faq/#dates', era: 'faq/#era', dungeons: 'dungeons/', group: 'dungeons/#group', legacy: 'leveling/#legacy', camp: 'leveling/#camp' };
+  var h = location.hash.slice(1);
+  if (m[h]) location.replace('guides/' + m[h]);
+  else if (h === 'classref' || h === 'races') location.replace(h === 'races' ? 'races/' : 'classes/');
+})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guida a WoW Forever: classi, razze, creatore di gruppi e guide</title>
+<meta name="description" content="Guida a WoW Forever: chi giocare, un selettore di razza e classe, un creatore di gruppi e guide su livellamento, spedizioni e professioni.">
+<meta name="theme-color" content="#060708">
+<link rel="alternate" hreflang="ru" href="https://gabella.site/wow/">
+<link rel="alternate" hreflang="en" href="https://gabella.site/wow/en/">
+<link rel="alternate" hreflang="uk" href="https://gabella.site/wow/uk/">
+<link rel="alternate" hreflang="de" href="https://gabella.site/wow/de/">
+<link rel="alternate" hreflang="fr" href="https://gabella.site/wow/fr/">
+<link rel="alternate" hreflang="es" href="https://gabella.site/wow/es/">
+<link rel="alternate" hreflang="pt-BR" href="https://gabella.site/wow/pt/">
+<link rel="alternate" hreflang="it" href="https://gabella.site/wow/it/">
+<link rel="alternate" hreflang="pl" href="https://gabella.site/wow/pl/">
+<link rel="alternate" hreflang="x-default" href="https://gabella.site/wow/">
+<script>(function(){var t=null;try{t=localStorage.getItem('wf-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}document.documentElement.setAttribute('data-theme',t)})();</script>
+<link rel="canonical" href="https://gabella.site/wow/it/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="it_IT">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:locale:alternate" content="uk_UA">
+<meta property="og:locale:alternate" content="de_DE">
+<meta property="og:locale:alternate" content="fr_FR">
+<meta property="og:locale:alternate" content="es_ES">
+<meta property="og:locale:alternate" content="pt_BR">
+<meta property="og:locale:alternate" content="pl_PL">
+<meta property="og:site_name" content="Gabella Team">
+<meta property="og:title" content="Guida a WoW Forever: classi, razze, creatore di gruppi e guide">
+<meta property="og:description" content="Guida a WoW Forever: chi giocare, un selettore di razza e classe, un creatore di gruppi e guide su livellamento, spedizioni e professioni.">
+<meta property="og:url" content="https://gabella.site/wow/it/">
+<meta property="og:image" content="https://gabella.site/wow/assets/og-it.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Guida a WoW Forever: classi, razze, creatore di gruppi e guide">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="../assets/icons/favicon-64.png">
+<link rel="preload" href="../assets/fonts/bona-nova-sc-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/golos-text-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* Game-portal layout: full-screen art hero, faction banners, class portrait roster, tools, guides band. Night + gold, light paper theme for content. */
+@font-face { font-family: "Bona Nova SC"; font-style: normal; font-weight: 400 700; font-display: swap; src: url(../assets/fonts/bona-nova-sc-cyrillic.woff2) format("woff2"); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: "Bona Nova SC"; font-style: normal; font-weight: 400 700; font-display: swap; src: url(../assets/fonts/bona-nova-sc-latin-ext.woff2) format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "Bona Nova SC"; font-style: normal; font-weight: 400 700; font-display: swap; src: url(../assets/fonts/bona-nova-sc-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Golos Text"; font-style: normal; font-weight: 400 600; font-display: swap; src: url(../assets/fonts/golos-text-cyrillic.woff2) format("woff2"); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: "Golos Text"; font-style: normal; font-weight: 400 600; font-display: swap; src: url(../assets/fonts/golos-text-latin-ext.woff2) format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "Golos Text"; font-style: normal; font-weight: 400 600; font-display: swap; src: url(../assets/fonts/golos-text-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+:root {
+  --bg: #0a0b0d;
+  --rail: #07080a;
+  --surface: #111317;
+  --surface-2: #181a1f;
+  --line: #22252b;
+  --line-2: #33373e;
+  --fg: #ece6d8;
+  --muted: #a3a7ae;
+  --gold: #c9a54a;
+  --gold-2: #e0c27a;
+  --gold-ink: #15110a;
+  --sapphire: #7e9fdc;
+  --alliance: #86a6d8;
+  --horde: #d98a84;
+  --new: #93c7a2;
+  --ink: #f1ece0;
+  --ink-2: #c9c3b6;
+  --ink-gold: #e0c27a;
+  --panel: rgba(15,18,26,.9);
+  --panel-2: #161a24;
+  --pline: rgba(255,255,255,.08);
+  --font-display: "Bona Nova SC", Georgia, "Times New Roman", serif;
+  --display-w: 700;
+  --font-body: "Golos Text", "Segoe UI", system-ui, sans-serif;
+  --top: 64px;
+  --wrap: 1240px;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+  color-scheme: dark;
+}
+:root[data-theme="light"] {
+  --bg: #f3f2ee;
+  --rail: #fbfaf7;
+  --surface: #ffffff;
+  --surface-2: #efede7;
+  --line: #dedad0;
+  --line-2: #c8c2b4;
+  --fg: #17161a;
+  --muted: #595650;
+  --gold: #7d5c12;
+  --gold-2: #7d5c12;
+  --gold-ink: #ffffff;
+  --sapphire: #24427a;
+  --alliance: #2a5ba8;
+  --horde: #b03a34;
+  --new: #2d7a45;
+  --panel: rgba(255,255,255,.95);
+  --panel-2: #f6f4ef;
+  --pline: #e2ddd2;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--top) + 12px); -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 16px; line-height: 1.6; overflow-x: clip; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: var(--display-w); letter-spacing: .03em; overflow-wrap: break-word; margin: 0; line-height: 1.1; text-wrap: balance; }
+h2 { font-size: clamp(2rem, 4vw, 2.75rem); }
+@media (max-width: 470px) { h2 { font-size: 6.8vw; } }
+h3 { font-size: 1.35rem; }
+p { margin: 0; }
+a { color: var(--gold-2); text-underline-offset: 3px; }
+button { font: inherit; color: inherit; cursor: pointer; }
+img { display: block; max-width: 100%; }
+:focus-visible { outline: 2px solid var(--gold-2); outline-offset: 2px; }
+code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-radius: 3px; }
+.num, .tab { font-variant-numeric: tabular-nums lining-nums; }
+.small { color: var(--muted); font-size: .92rem; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.ico { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.ri { width: 1.05em; height: 1.05em; vertical-align: -.17em; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; margin-right: 4px; }
+.wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 max(20px, env(safe-area-inset-left, 0px)); }
+
+/* Top bar: transparent over the hero, solid after scrolling */
+.topbar { position: fixed; inset: 0 0 auto 0; z-index: 30; height: var(--top); color: var(--ink); background: linear-gradient(rgba(5,6,8,.62), rgba(5,6,8,0)); border-bottom: 1px solid transparent; transition: background-color .25s, border-color .25s, color .25s; }
+.topbar.solid { background: var(--rail); border-bottom-color: var(--line); color: var(--fg); }
+.topbar .in { max-width: var(--wrap); height: 100%; margin: 0 auto; padding: 0 max(20px, env(safe-area-inset-left, 0px)); display: flex; align-items: center; gap: 18px; }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; min-height: 44px; }
+.mark { width: 40px; height: 40px; flex: none; display: block; border-radius: 8px; box-shadow: 0 0 0 1px rgba(201,165,74,.35); }
+.brand b { font-family: var(--font-display); font-weight: 400; font-size: 1.3rem; white-space: nowrap; }
+.mainnav { display: flex; gap: 2px; margin-left: 12px; }
+.mainnav a { min-height: 44px; display: grid; place-items: center; padding: 0 12px; color: inherit; opacity: .78; text-decoration: none; font-size: .95rem; font-weight: 500; box-shadow: inset 0 -2px 0 transparent; transition: opacity .2s, box-shadow .2s; }
+.mainnav a:hover { opacity: 1; }
+@media (max-width: 1280px) { .mainnav a { padding: 0 8px; } }
+.mainnav a[aria-current="true"] { opacity: 1; color: var(--ink-gold); }
+.topbar.solid .mainnav a[aria-current="true"] { color: var(--gold-2); }
+.tools { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+.langsel { position: relative; }
+.langbtn { min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; gap: 8px; padding: 0 12px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; font: inherit; font-weight: 600; font-size: .8rem; letter-spacing: .04em; cursor: pointer; }
+.langbtn::after { content: ""; width: 6px; height: 6px; border-right: 1.5px solid; border-bottom: 1.5px solid; transform: translateY(-2px) rotate(45deg); opacity: .7; }
+.langbtn[aria-expanded="true"]::after { transform: translateY(2px) rotate(-135deg); }
+.langlist { position: absolute; right: 0; top: calc(100% + 8px); z-index: 60; min-width: 230px; margin: 0; padding: 6px; list-style: none; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); color: var(--fg); box-shadow: 0 18px 48px rgba(0,0,0,.35); }
+.langlist a { display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 40px; padding: 0 12px; border-radius: 7px; color: inherit; text-decoration: none; font-size: .92rem; }
+.langlist a small { opacity: .55; font-size: .72rem; font-weight: 600; letter-spacing: .06em; }
+.langlist a:hover, .langlist a:focus-visible { background: color-mix(in srgb, var(--gold) 12%, transparent); }
+.langlist a[aria-current="page"] { color: var(--gold-2); font-weight: 600; }
+.langgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; width: 100%; }
+.langgrid a { min-height: 44px; display: grid; place-items: center; padding: 4px 6px; text-align: center; line-height: 1.15; border: 1px solid var(--pline); border-radius: 8px; color: inherit; text-decoration: none; font-size: .85rem; }
+.langgrid a[aria-current="page"] { background: var(--gold); color: var(--gold-ink); border-color: transparent; font-weight: 600; }
+.langhint { position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); z-index: 70; display: flex; align-items: center; gap: 12px; width: max-content; max-width: calc(100% - 32px); padding: 6px 6px 6px 16px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); color: var(--fg); box-shadow: 0 18px 48px rgba(0,0,0,.35); font-size: .9rem; }
+.langhint a { color: var(--gold-2); font-weight: 600; white-space: nowrap; }
+.langhint button { flex: none; width: 36px; height: 36px; display: grid; place-items: center; border: 0; border-radius: 7px; background: transparent; color: inherit; cursor: pointer; }
+.langhint button:hover { background: color-mix(in srgb, currentColor 10%, transparent); }
+@media print { .langhint { display: none; } }
+.iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
+.iconbtn:hover { border-color: var(--gold); }
+.menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: .92rem; }
+
+/* Hero */
+.hero { position: relative; min-height: max(560px, 100svh); display: grid; align-content: space-between; color: var(--ink); background: #08090b; isolation: isolate; overflow: hidden; }
+.hero-art, .hero-art img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hero-art { z-index: -2; }
+.hero-art img { object-fit: cover; object-position: 62% 50%; }
+.hero::before { content: ""; position: absolute; inset: 0; z-index: -1; background:
+  linear-gradient(90deg, rgba(7,8,10,.92) 0%, rgba(7,8,10,.74) 30%, rgba(7,8,10,.28) 56%, rgba(7,8,10,.06) 78%),
+  linear-gradient(180deg, rgba(7,8,10,.5) 0%, rgba(7,8,10,0) 26%, rgba(7,8,10,0) 58%, rgba(7,8,10,.9) 100%); }
+.hero-in { width: 100%; padding-top: calc(var(--top) + clamp(40px, 9vh, 110px)); padding-bottom: 40px; display: grid; gap: 22px; justify-items: start; max-width: var(--wrap); }
+.hmeta { font-size: .9rem; color: var(--ink-2); }
+.hero h1 { font-size: clamp(2.9rem, 6.2vw, 5.4rem); line-height: .98; letter-spacing: .005em; }
+.hero h1 span { display: block; color: var(--ink-gold); }
+.hero .lead { max-width: 46ch; font-size: clamp(1.02rem, 1.4vw, 1.15rem); color: var(--ink-2); }
+.cd { display: flex; align-items: center; flex-wrap: wrap; gap: 14px 22px; margin-top: 6px; }
+.cd .units { display: flex; align-items: stretch; gap: 6px; padding: 6px; border: 1px solid rgba(255,255,255,.12); border-radius: 10px; background: rgba(10,12,18,.62); backdrop-filter: blur(6px); }
+.cd .u { display: grid; gap: 4px; min-width: 76px; padding: 10px 16px 8px; border-radius: 7px; background: rgba(255,255,255,.05); }
+.cd .u b { font-family: var(--font-display); font-weight: 400; font-size: clamp(2.4rem, 4.4vw, 3.3rem); line-height: .9; color: var(--ink-gold); font-variant-numeric: tabular-nums lining-nums; }
+.cd .u span { font-size: .82rem; color: var(--ink-2); }
+.cd .what { display: grid; gap: 1px; font-size: .95rem; color: var(--ink-2); }
+.cd .what b { color: var(--ink); font-weight: 600; }
+.cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap; background: var(--gold); color: var(--gold-ink); border: 1px solid var(--gold); border-radius: 7px; padding: 0 18px; font-weight: 600; min-height: 44px; text-decoration: none; transition: background-color .2s, border-color .2s, color .2s; }
+.btn:hover { background: var(--gold-2); border-color: var(--gold-2); }
+.btn.ghost { background: var(--panel-2); color: var(--fg); border-color: var(--pline); }
+.btn.ghost:hover { border-color: var(--gold); }
+.btn.lg { min-height: 52px; padding: 0 26px; font-size: 1.02rem; }
+.btn[disabled] { opacity: .5; cursor: not-allowed; }
+.hero .btn { background: #c9a54a; border-color: #c9a54a; color: #15110a; }
+.hero .btn:hover { background: #e0c27a; border-color: #e0c27a; }
+.hero .btn.ghost { background: rgba(7,8,10,.35); color: var(--ink); border-color: rgba(241,236,224,.45); }
+.hero .btn.ghost:hover { border-color: #e0c27a; background: rgba(7,8,10,.55); }
+.hdates { list-style: none; margin: 0 auto 34px; padding: 0; max-width: calc(var(--wrap) - 40px); width: calc(100% - 40px); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.hdates li { padding: 14px 18px; display: grid; gap: 2px; border: 1px solid rgba(255,255,255,.12); border-radius: 10px; background: rgba(10,12,18,.62); backdrop-filter: blur(6px); }
+.hdates li.past { opacity: .62; }
+.hdates li.cur { border-color: #e0c27a; box-shadow: inset 0 0 0 1px #e0c27a; }
+.hdates b { font-family: var(--font-display); font-weight: 400; font-size: 1.6rem; line-height: 1.1; color: var(--ink); font-variant-numeric: lining-nums; }
+.hdates li.cur b { color: var(--ink-gold); }
+.hdates span { color: var(--ink-2); font-size: .9rem; }
+
+/* Section heads */
+main { padding-bottom: 40px; }
+section.block { padding-top: 96px; display: grid; gap: 28px; }
+.sec-head { display: grid; gap: 12px; }
+.sec-head .row { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: flex-end; justify-content: space-between; }
+.sec-head .src { font-size: .85rem; color: var(--muted); padding-bottom: 6px; }
+.sec-head p { color: var(--muted); max-width: 68ch; }
+section.block { scroll-margin-top: -72px; }
+
+/* Faction banners */
+.factions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 14px; }
+.fac { position: relative; overflow: hidden; isolation: isolate; min-height: 340px; padding: 30px 30px 26px; display: grid; align-content: end; gap: 12px; color: var(--ink); border: 1px solid rgba(255,255,255,.1); border-radius: 7px; background: var(--fb); transition: border-color .2s; }
+.fac:hover { border-color: #e0c27a; }
+.fac picture, .fac picture img { position: absolute; top: 0; right: 0; height: 100%; width: 62%; }
+.fac picture { z-index: -2; }
+.fac picture img { object-fit: cover; object-position: 50% 16%; transition: transform .8s var(--ease); }
+.fac:hover picture img { transform: scale(1.03); }
+.fac::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, var(--fb) 40%, color-mix(in srgb, var(--fb) 55%, transparent) 60%, transparent 85%), linear-gradient(0deg, color-mix(in srgb, var(--fb) 80%, transparent), transparent 50%); }
+.fac.alliance { --fb: #0c1830; --fl: #b39352; --fa: #e3c77e; }
+.fac.horde { --fb: #240d0a; --fl: #a8683a; --fa: #e0a36a; }
+
+.fac h3 { font-size: clamp(2.2rem, 3.6vw, 3rem); }
+.fac p { color: var(--ink-2); max-width: 34ch; }
+.fac p b { color: var(--ink); font-weight: 600; }
+.fac .go-f { justify-self: start; margin-top: 6px; min-height: 44px; padding: 0 16px; display: inline-flex; align-items: center; gap: 8px; border: 1px solid color-mix(in srgb, var(--fl) 80%, transparent); border-radius: 7px; background: rgba(5,6,8,.45); color: var(--ink); font-weight: 600; font-size: .95rem; transition: border-color .2s, background-color .2s; }
+.fac .go-f:hover { border-color: var(--fa); background: rgba(5,6,8,.6); }
+
+/* Class roster: tall portraits, the active one expands */
+.roster { display: flex; gap: 8px; padding: 14px; height: clamp(460px, 41vw, 580px); }
+.hc { display: block; text-decoration: none; position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; isolation: isolate; padding: 0; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; background: #0b0c0e; color: var(--ink); text-align: left; transition: flex-grow .55s var(--ease), border-color .3s; }
+.hc.on { flex-grow: 3.6; border-color: #e0c27a; box-shadow: inset 0 0 0 1px #e0c27a; }
+.hc picture, .hc img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hc picture { z-index: -2; }
+.hc img { object-fit: cover; object-position: 50% 22%; filter: saturate(.75) brightness(.62); transition: filter .45s, transform .9s var(--ease); }
+.hc.on img { filter: none; transform: scale(1.02); }
+.hc::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(7,8,10,0) 42%, rgba(7,8,10,.94) 100%); }
+.hc .vn { position: absolute; left: 50%; bottom: 26px; writing-mode: vertical-rl; transform: translateX(-50%) rotate(180deg); font-family: var(--font-display); font-size: 1.3rem; white-space: nowrap; transition: opacity .25s; }
+.hc.on .vn { opacity: 0; }
+.hc .info { position: absolute; left: 0; bottom: 0; width: 100%; min-width: 320px; padding: 26px 28px 28px; display: grid; gap: 10px; opacity: 0; transform: translateY(12px); transition: opacity .3s, transform .4s var(--ease); }
+.hc.on .info { opacity: 1; transform: none; transition-delay: .15s; }
+
+.hc .info b { font-family: var(--font-display); font-weight: 400; font-size: 2.3rem; line-height: 1; }
+.hc .roles { display: flex; flex-wrap: wrap; gap: 4px 14px; color: #dcc78f; font-size: .9rem; font-weight: 500; }
+.hc .d { color: var(--ink-2); font-size: .97rem; max-width: 36ch; }
+.hc .more { color: var(--ink-gold); font-weight: 600; font-size: .92rem; margin-top: 4px; }
+.hc:hover .more { text-decoration: underline; text-underline-offset: 4px; }
+.swipe { display: none; color: var(--muted); font-size: .88rem; }
+
+/* Art tiles with the title on the picture: tools and guides */
+.ttiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding: 14px; }
+.ttiles.t4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.ttile, .gt { position: relative; isolation: isolate; overflow: hidden; min-height: 210px; padding: 0 18px 16px; display: grid; align-content: end; gap: 3px; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; background: #0b0d12; color: #f3efe6; text-decoration: none; transition: border-color .2s; }
+.ttile picture, .ttile img, .gt picture, .gt img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.ttile picture, .gt picture { z-index: -2; }
+.ttile img, .gt img { object-fit: cover; object-position: 50% 24%; filter: saturate(.85) brightness(.78); transition: filter .3s, transform .6s var(--ease); }
+.ttile::after, .gt::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(6,8,12,0) 22%, rgba(6,8,12,.92) 100%); }
+.ttile:hover, .gt:hover { border-color: #e0c27a; }
+.ttile:hover img, .gt:hover img { filter: none; transform: scale(1.04); }
+.ttile b, .gt b { font-weight: 700; font-size: 1.2rem; line-height: 1.2; text-shadow: 0 1px 8px rgba(0,0,0,.7); }
+.ttile span, .gt span { font-size: .9rem; line-height: 1.4; color: rgba(243,239,230,.82); }
+
+/* Race roster: two factions side by side in one frame, five portraits each */
+.peoples { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 14px; }
+.pfac { min-width: 0; display: grid; gap: 12px; align-content: start; padding: 14px; border: 1px solid rgba(255,255,255,.08); border-radius: 7px; background: radial-gradient(120% 60% at 50% 0%, var(--ft) 0%, transparent 70%), var(--panel-2); }
+.pfac.alliance { --fc: var(--alliance); --ft: rgba(43,74,124,.45); } .pfac.horde { --fc: var(--horde); --ft: rgba(110,43,29,.45); }
+.pfac h3 { color: var(--fc); font-size: 1.5rem; line-height: 1; }
+.rr { height: clamp(400px, 36vw, 520px); padding: 0; }
+.rr .hc .info { min-width: 250px; padding: 22px 20px 24px; }
+.rr .hc .info b { font-size: 1.9rem; }
+.rr .hc .vn { font-size: 1.15rem; }
+.rr .hc .tag { justify-self: start; color: #e0c27a; }
+
+/* Guides band over the campfire art */
+.gtiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; padding: 14px; }
+.gt { min-height: 180px; }
+
+/* Journey: game stages and my character, framed panels over art */
+.stband { position: relative; isolation: isolate; padding: 110px 0 24px; color: var(--fg); }
+.stband-art, .stband-art img { position: absolute; inset: 0 0 auto 0; width: 100%; height: 620px; }
+.stband-art { z-index: -2; }
+.stband-art img { object-fit: cover; object-position: 50% 40%; }
+.stband::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 620px; z-index: -1; background: linear-gradient(180deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 70%, transparent) 22%, color-mix(in srgb, var(--bg) 55%, transparent) 50%, var(--bg) 100%); }
+.stband .wrap { display: grid; gap: 20px; }
+.stband .sec-head p { color: var(--fg); opacity: .85; }
+.stband .sec-head .src { color: var(--fg); opacity: .7; }
+.frame { position: relative; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); box-shadow: 0 18px 48px rgba(0,0,0,.35); backdrop-filter: blur(6px); }
+.stiles { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; padding: 14px; }
+.stile { position: relative; isolation: isolate; overflow: hidden; height: 168px; padding: 0 14px 14px; display: grid; align-content: end; gap: 2px; text-align: left; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; background: #0b0d12; color: #f3efe6; transition: border-color .2s; }
+.stile picture, .stile img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.stile picture { z-index: -2; }
+.stile img { object-fit: cover; object-position: 50% 22%; filter: saturate(.85) brightness(.78); transition: filter .3s, transform .6s var(--ease); }
+.stile::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(6,8,12,0) 25%, rgba(6,8,12,.9) 100%); }
+.stile:hover img { filter: none; transform: scale(1.04); }
+.stile[aria-selected="true"] { border-color: #e0c27a; box-shadow: inset 0 0 0 1px #e0c27a; }
+.stile[aria-selected="true"] img { filter: none; }
+.stile b { font-weight: 700; font-size: 1.12rem; line-height: 1.2; text-shadow: 0 1px 8px rgba(0,0,0,.7); }
+.stile .lv { font-size: .86rem; color: rgba(243,239,230,.8); }
+.stile .now { position: absolute; top: 10px; left: 10px; font-size: .74rem; font-weight: 700; color: #15110a; background: #e0c27a; border-radius: 4px; padding: 2px 7px; }
+.journey { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 20px; align-items: start; }
+.stage { padding: 26px 28px 22px; display: grid; gap: 22px; min-width: 0; }
+.st-head { display: grid; gap: 6px; }
+.st-head .t { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.st-head h3 { font-size: 2.1rem; }
+.pill { display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px; border-radius: 999px; background: var(--panel-2); border: 1px solid var(--pline); color: var(--fg); font-size: .85rem; font-weight: 600; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.pill.gold { background: #c9a54a; border-color: #c9a54a; color: #15110a; }
+.st-head .why { color: var(--muted); font-size: .9rem; }
+.steps-c { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.steps-c li { display: grid; grid-template-columns: 38px minmax(0, 1fr); gap: 12px; align-items: start; padding: 16px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--pline); }
+.steps-c .n { font-family: var(--font-display); font-size: 1.9rem; line-height: 1; color: var(--gold-2); font-variant-numeric: lining-nums; }
+.steps-c .fi { width: 28px; height: 28px; margin-top: 2px; color: var(--gold-2); }
+.steps-c p { font-size: .98rem; }
+.tl { display: block; font-size: .78rem; font-weight: 700; color: var(--gold-2); margin-bottom: 2px; }
+.st-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 26px; }
+.st-cols > * { min-width: 0; }
+.st-cols h4, .me-out h4 { margin: 0 0 10px; font-size: 1.02rem; font-weight: 700; }
+ul.clean { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; font-size: .95rem; }
+ul.clean li { padding-left: 15px; position: relative; }
+ul.clean li::before { content: ""; position: absolute; left: 0; top: .62em; width: 5px; height: 5px; border-radius: 50%; background: var(--gold); }
+ul.clean li.tip::before { background: transparent; box-shadow: inset 0 0 0 1.5px var(--gold); }
+ul.clean .tl { display: inline; margin-right: 6px; }
+ul.dlist { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+ul.dlist li { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 2px 12px; padding: 9px 12px; border-radius: 7px; background: var(--panel-2); border: 1px solid var(--pline); }
+ul.dlist li b { font-weight: 600; font-size: .95rem; line-height: 1.3; }
+ul.dlist li .z { grid-column: 1; color: var(--muted); font-size: .82rem; line-height: 1.3; }
+ul.dlist li .z i { font-style: normal; color: var(--sapphire); font-weight: 600; }
+ul.dlist li .pill { grid-column: 2; grid-row: 1 / 3; }
+ul.dlist li.mine { border-color: color-mix(in srgb, var(--gold) 60%, transparent); }
+.more-l { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-weight: 600; font-size: .92rem; }
+.gtip { padding: 16px 18px; border-radius: 8px; background: color-mix(in srgb, var(--gold) 9%, var(--panel-2)); border: 1px solid color-mix(in srgb, var(--gold) 30%, transparent); }
+.st-src { color: var(--muted); font-size: .85rem; display: flex; flex-wrap: wrap; gap: 4px 14px; }
+.st-src a { color: var(--muted); }
+.st-src a:hover { color: var(--gold-2); }
+.me { overflow: hidden; display: grid; position: sticky; top: calc(var(--top) + 16px); }
+.me-hero { position: relative; isolation: isolate; height: 190px; padding: 16px 18px; display: grid; align-content: end; gap: 2px; color: #f3efe6; background: #0b0d12; }
+.me-hero picture, .me-hero img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.me-hero picture { z-index: -2; }
+.me-hero img { object-fit: cover; object-position: 50% 18%; }
+.me-hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(6,8,12,.1) 20%, rgba(6,8,12,.92) 100%); }
+.me-hero::before { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--cc, #c9a54a); }
+.me-hero .k { font-size: .8rem; font-weight: 700; color: #e0c27a; }
+.me-hero b { font-family: var(--font-display); font-weight: 400; font-size: 1.75rem; line-height: 1.1; }
+.me-hero .s { font-size: .88rem; color: rgba(243,239,230,.82); }
+.me-hero .lvb { position: absolute; top: 14px; right: 14px; width: 52px; height: 52px; display: grid; place-items: center; border-radius: 50%; border: 1px solid rgba(224,194,122,.8); background: rgba(6,8,12,.6); font-family: var(--font-display); font-size: 1.5rem; color: #e0c27a; font-variant-numeric: lining-nums; }
+.me details > summary { list-style: none; cursor: pointer; min-height: 48px; display: flex; align-items: center; justify-content: space-between; padding: 0 18px; font-weight: 600; font-size: .95rem; border-top: 1px solid var(--pline); }
+.me details > summary::-webkit-details-marker { display: none; }
+.me details > summary::after { content: ""; width: 8px; height: 8px; border-right: 1.5px solid var(--gold-2); border-bottom: 1.5px solid var(--gold-2); transform: translateY(-2px) rotate(45deg); transition: transform .2s; }
+.me details[open] > summary::after { transform: translateY(2px) rotate(-135deg); }
+.me-f { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 10px; padding: 4px 18px 12px; }
+.me-f .fl { display: grid; gap: 5px; min-width: 0; font-size: .82rem; color: var(--muted); font-weight: 600; }
+.me-f .wide { grid-column: 1 / -1; }
+.me-f select { width: 100%; min-width: 0; font: inherit; font-size: .95rem; font-weight: 500; padding: 0 8px; min-height: 44px; border: 1px solid var(--pline); border-radius: 7px; background: var(--panel-2); color: var(--fg); }
+.me-f .stepper { border-radius: 7px; border-color: var(--pline); background: var(--panel-2); }
+.me-f .chiprow button { border-radius: 7px; border-color: var(--pline); background: var(--panel-2); color: var(--fg); font-size: .88rem; }
+.me-f .chiprow button[aria-pressed="true"] { background: #c9a54a; border-color: #c9a54a; color: #15110a; }
+.me .note-s { padding: 0 18px 16px; color: var(--muted); font-size: .82rem; }
+.me-out { padding: 16px 18px; border-top: 1px solid var(--pline); display: grid; gap: 14px; }
+.me-out:empty { display: none; }
+.me-out > p { color: var(--muted); font-size: .9rem; }
+ul.buffs { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+ul.buffs li { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 10px; align-items: center; font-size: .9rem; line-height: 1.35; }
+ul.buffs .bi { width: 30px; height: 30px; border-radius: 6px; display: grid; place-items: center; background: var(--panel-2); border: 1px solid var(--cc, var(--pline)); color: var(--cc, var(--gold-2)); }
+ul.buffs .bi .ico { width: 16px; height: 16px; }
+ul.buffs b { font-weight: 600; }
+ul.buffs .m { color: var(--muted); }
+.me .act { padding: 0 18px 18px; }
+.me .act .btn { width: 100%; border-radius: 7px; }
+.stepper input { width: 52px; min-height: 44px; border: 0; background: transparent; color: var(--fg); font: inherit; font-weight: 600; text-align: center; font-variant-numeric: tabular-nums; -moz-appearance: textfield; }
+.stepper input::-webkit-inner-spin-button, .stepper input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.tbl-box.dg table { min-width: 0; }
+.dg td.num .alt { display: block; margin-top: 4px; color: var(--muted); font-weight: 400; font-size: .8rem; white-space: normal; }
+.dg tbody th .tag { margin-left: 8px; vertical-align: .1em; }
+.dg tr.mine > * { border-color: color-mix(in srgb, var(--gold) 60%, transparent); }
+.dg td.num .pill { min-width: 64px; justify-content: center; }
+.dg td.zone { color: var(--muted); }
+.dg tbody th .z { display: none; }
+.dg-empty td { color: var(--muted); }
+
+/* Content blocks reused by the reference sections: framed panels, plaques, tips */
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 16px; }
+.grid2 > * { min-width: 0; }
+.panel, .tool, .tbl-box, .summary { border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); box-shadow: 0 14px 40px rgba(0,0,0,.28); }
+:root[data-theme="light"] .panel, :root[data-theme="light"] .tool, :root[data-theme="light"] .tbl-box, :root[data-theme="light"] .summary, :root[data-theme="light"] .frame { box-shadow: 0 10px 30px rgba(40,32,16,.08); }
+.panel { padding: 22px 24px; display: grid; gap: 12px; align-content: start; }
+.panel h3 { font-size: 1.45rem; }
+.panel > .tipbox, .panel > .note { margin-top: 2px; }
+ul.dots { margin: 0; padding-left: 18px; display: grid; gap: 8px; }
+ul.dots li::marker { color: var(--gold); }
+.note { padding: 14px 16px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--pline); font-size: .95rem; }
+.note b { font-weight: 600; }
+.tipbox { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 12px; align-items: start; padding: 14px 16px; border-radius: 8px; background: color-mix(in srgb, var(--gold) 9%, var(--panel-2)); border: 1px solid color-mix(in srgb, var(--gold) 30%, transparent); font-size: .95rem; }
+.tipbox .fi, .tiph .fi { width: 26px; height: 26px; margin-top: 1px; color: var(--gold-2); }
+.tipbox b { font-weight: 600; }
+.panel.tipp { background: color-mix(in srgb, var(--gold) 7%, var(--panel)); border-color: color-mix(in srgb, var(--gold) 28%, transparent); }
+.tiph { display: flex; align-items: center; gap: 10px; }
+.timeline { list-style: none; margin: 0; padding: 14px; display: grid; gap: 8px; }
+.timeline li { display: grid; grid-template-columns: 170px 1fr; gap: 18px; align-items: start; padding: 16px 18px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--pline); }
+.timeline .d { font-family: var(--font-display); font-size: 1.45rem; color: var(--gold-2); line-height: 1.2; font-variant-numeric: lining-nums; }
+.timeline .t b { display: block; font-weight: 600; margin-bottom: 2px; }
+.timeline .t span { color: var(--muted); font-size: .95rem; }
+
+/* Controls */
+.filters { display: flex; flex-wrap: wrap; gap: 12px 28px; align-items: center; }
+.fgroup { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-width: 0; }
+.flabel { font-size: .9rem; color: var(--muted); font-weight: 500; }
+.seg { display: inline-flex; flex-wrap: wrap; gap: 4px; padding: 4px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); }
+.seg button { border: 0; border-radius: 7px; background: transparent; padding: 0 15px; min-height: 44px; font-weight: 600; font-size: .95rem; }
+/* Level stepper next to a segment: same height and inner frame as .seg */
+.filters .stepper { padding: 4px; gap: 2px; }
+.filters .stepper button { min-width: 40px; border-radius: 7px; }
+.filters .stepper button:hover { background: color-mix(in srgb, var(--fg) 7%, transparent); }
+.seg button:hover { background: color-mix(in srgb, var(--fg) 7%, transparent); }
+.seg button[aria-pressed="true"] { background: #c9a54a; color: #15110a; }
+.copyrow { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.copyrow input { flex: 1 1 220px; min-width: 0; font: inherit; min-height: 44px; padding: 0 12px; border: 1px solid var(--pline); border-radius: 7px; background: var(--panel-2); color: var(--fg); }
+.copyrow .small { flex-basis: 100%; min-height: 1.4em; }
+
+/* Picker */
+.tool { padding: 24px; display: grid; gap: 18px; }
+.matrix-box { overflow-x: auto; padding-top: 8px; }
+table { border-collapse: separate; border-spacing: 0; width: 100%; }
+/* Round portrait avatar with a ring in the class or faction colour */
+.av { --s: 40px; position: relative; width: var(--s); height: var(--s); flex: none; display: inline-block; border-radius: 50%; background: #0b0d12; box-shadow: 0 0 0 2px var(--ring-gap, var(--panel)), 0 0 0 3.5px var(--cc, var(--pline)); }
+.av img { display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+#matrix { min-width: 860px; border-spacing: 0 2px; table-layout: fixed; }
+/* Equal class columns: the race column is fixed, the nine class columns share the rest */
+#matrix thead th:first-child { width: 290px; }
+#matrix th, #matrix td { padding: 0; text-align: center; }
+#matrix thead th { padding: 0 2px 12px; vertical-align: bottom; font-size: .76rem; font-weight: 600; color: var(--muted); transition: opacity .2s, color .2s; }
+#matrix thead th .av { --s: 38px; display: block; margin: 0 auto 8px; transition: box-shadow .2s, transform .2s var(--ease); }
+#matrix thead th.dim { opacity: .3; }
+#matrix thead th.hcol { color: var(--fg); }
+#matrix thead th.hcol .av { transform: translateY(-2px); }
+#matrix thead th.selc { color: var(--gold-2); }
+#matrix thead th.selc .av { box-shadow: 0 0 0 2px var(--panel), 0 0 0 4px var(--gold-2); }
+#matrix thead th:first-child { position: sticky; left: 0; z-index: 2; text-align: left; padding-left: 12px; background: var(--panel); }
+#matrix tbody th { position: sticky; left: 0; z-index: 1; text-align: left; padding: 5px 16px 5px 8px; font-weight: 600; font-size: .94rem; white-space: nowrap; background: var(--panel); border-radius: 10px 0 0 10px; transition: background-color .15s, color .15s; }
+#matrix tbody th .rn { display: inline-flex; align-items: center; gap: 12px; }
+#matrix tbody th .av { --s: 32px; }
+#matrix tbody td { height: 46px; transition: background-color .15s; }
+#matrix tbody td:last-child { border-radius: 0 10px 10px 0; }
+#matrix tbody tr:not(.fh):hover > *, #matrix tbody td.hcol { background: color-mix(in srgb, var(--fg) 5%, var(--panel)); }
+#matrix tbody tr:not(.fh):hover > td.hcol { background: color-mix(in srgb, var(--fg) 9%, var(--panel)); }
+#matrix tr.rowsel th { color: var(--gold-2); }
+#matrix tr.fh th { position: static; padding: 16px 8px 6px; background: none; font-family: var(--font-display); font-weight: 400; font-size: 1.15rem; color: var(--fc); }
+#matrix tr.fh:first-child th { padding-top: 0; }
+#matrix tr.fh .f { margin-right: 10px; }
+.f { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; vertical-align: .05em; }
+.f.alliance { background: var(--alliance); } .f.horde { background: var(--horde); }
+.paid { font-size: .7rem; color: var(--gold-2); font-weight: 600; margin-left: 2px; border-radius: 999px; padding: 1px 8px; background: color-mix(in srgb, var(--gold) 16%, transparent); }
+@media (max-width: 1199px) {
+  #matrix thead th:first-child { width: 215px; }
+  #matrix thead th { font-size: .7rem; }
+  /* paid badge drops under the race name so the race column can stay narrow */
+  #matrix tbody th .rn:has(.paid) { display: inline-grid; grid-template-columns: auto auto; column-gap: 12px; row-gap: 2px; align-items: center; justify-items: start; }
+  #matrix tbody th .rn:has(.paid) .av { grid-row: span 2; }
+  #matrix tbody th .paid { margin-left: 0; }
+}
+.cell { width: 100%; height: 100%; min-height: 46px; border: 0; background: transparent; display: grid; place-items: center; padding: 0; transition: opacity .2s; }
+.cell i { display: grid; place-items: center; width: 10px; height: 10px; border-radius: 50%; background: var(--cc); box-shadow: 0 0 0 4px color-mix(in srgb, var(--cc) 16%, transparent); transition: transform .18s var(--ease), width .18s var(--ease), height .18s var(--ease); }
+.cell i .ico { width: 15px; height: 15px; opacity: 0; color: var(--gold-ink); }
+.cell:hover i { transform: scale(1.4); }
+.cell.new .nw { font-size: .7rem; font-weight: 700; color: var(--new); padding: 2px 8px; border-radius: 999px; background: color-mix(in srgb, var(--new) 14%, transparent); transition: background-color .15s; }
+.cell.new:hover .nw { background: color-mix(in srgb, var(--new) 26%, transparent); }
+.cell.no { cursor: default; }
+.cell.no::after { content: ""; width: 4px; height: 4px; border-radius: 50%; background: var(--line-2); opacity: .7; }
+.cell.dim { opacity: .22; }
+.cell.sel i { width: 28px; height: 28px; background: var(--gold-2); box-shadow: 0 0 0 5px color-mix(in srgb, var(--gold) 22%, transparent); transform: none; }
+.cell.sel i .ico { opacity: 1; }
+:root[data-theme="light"] .cell i:not(.sel i) { box-shadow: inset 0 0 0 1px rgba(0,0,0,.3), 0 0 0 4px color-mix(in srgb, var(--cc) 18%, transparent); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: center; color: var(--muted); font-size: .86rem; }
+.legend > span { display: inline-flex; align-items: center; gap: 8px; }
+.legend .ld { width: 9px; height: 9px; border-radius: 50%; background: var(--fg); box-shadow: 0 0 0 3px color-mix(in srgb, var(--fg) 14%, transparent); }
+.legend .ld.no { width: 4px; height: 4px; background: var(--line-2); box-shadow: none; }
+.legend .n { font-size: .7rem; font-weight: 700; color: var(--new); padding: 1px 8px; border-radius: 999px; background: color-mix(in srgb, var(--new) 14%, transparent); }
+.pickm { display: none; gap: 14px; }
+.pickm .lbl { font-size: .9rem; color: var(--muted); margin-bottom: 8px; }
+.chiprow { display: flex; flex-wrap: wrap; gap: 6px; }
+.chiprow button { min-height: 44px; padding: 0 12px; border: 1px solid var(--pline); border-radius: 7px; background: var(--panel-2); font-size: .92rem; font-weight: 500; }
+.chiprow button[aria-pressed="true"] { background: #c9a54a; border-color: #c9a54a; color: #15110a; }
+.chiprow button.na { color: var(--muted); border-style: dashed; }
+.chiprow button .f { margin-right: 6px; }
+/* Selected combination: art header, specs and racials as cards, three facts */
+.detail { position: relative; isolation: isolate; overflow: hidden; border-radius: 12px; background: var(--panel-2); border: 1px solid var(--pline); display: grid; }
+.detail .chip:not(.on), .detail .copyrow input { background: var(--panel); }
+.d-head { position: relative; isolation: isolate; display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: center; min-height: 170px; padding: 26px 28px; }
+.d-art { position: absolute; z-index: -1; inset: 0 0 0 auto; width: min(62%, 640px); overflow: hidden; }
+.d-art img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 18%; opacity: .62; -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 55%), linear-gradient(0deg, transparent 0%, #000 40%); mask-image: linear-gradient(90deg, transparent 0%, #000 55%); }
+.d-head::after { content: ""; position: absolute; z-index: -1; inset: auto 0 0 0; height: 60px; background: linear-gradient(0deg, var(--panel-2), transparent); }
+.d-avs { display: flex; align-items: center; }
+.d-avs .av { --s: 66px; --ring-gap: var(--panel-2); }
+.d-avs .av + .av { margin-left: -14px; }
+.d-title { display: grid; gap: 10px; min-width: 0; }
+.d-title h3 { font-size: clamp(1.9rem, 3.4vw, 2.6rem); text-shadow: 0 2px 14px rgba(0,0,0,.45); }
+.d-title .chips { gap: 6px 8px; }
+.d-body { display: grid; gap: 22px; padding: 4px 28px 26px; }
+.d-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px 28px; }
+.d-cols > div { min-width: 0; display: grid; gap: 10px; align-content: start; }
+.d-cols h4, .d-body h4 { margin: 0; font-size: .86rem; font-weight: 600; color: var(--muted); }
+.cards { display: grid; gap: 8px; }
+.cards.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.card { display: grid; align-content: start; grid-template-columns: auto minmax(0, 1fr); gap: 2px 12px; align-items: start; padding: 12px 14px; border-radius: 10px; background: var(--panel); border: 1px solid var(--pline); transition: border-color .2s; }
+.card.on { border-color: color-mix(in srgb, var(--gold) 55%, transparent); }
+.card .rc { grid-row: 1 / 3; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: color-mix(in srgb, var(--cc, var(--gold)) 16%, transparent); color: var(--fg); }
+.card .rc .ri { width: 16px; height: 16px; margin: 0; }
+.card b { font-weight: 600; line-height: 1.35; }
+.card span { color: var(--muted); font-size: .9rem; line-height: 1.45; }
+.card.ab { grid-template-columns: minmax(0, 1fr); gap: 3px; }
+.abt { display: inline-flex; align-items: center; gap: 7px; font-size: .72rem; font-weight: 600; color: var(--muted); }
+.abt::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--gold-2); }
+.abt.p::before { background: transparent; box-shadow: inset 0 0 0 1.5px var(--gold-2); }
+.facts3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.fact { display: grid; gap: 6px; align-content: start; padding: 14px 16px; border-radius: 10px; background: var(--panel); border: 1px solid var(--pline); font-size: .93rem; }
+.fact h4 { margin: 0; }
+.tag { display: inline-block; font-size: .76rem; font-weight: 600; line-height: 1.5; border-radius: 999px; padding: 2px 10px; background: color-mix(in srgb, currentColor 14%, transparent); white-space: nowrap; }
+.tag.alliance { color: var(--alliance); } .tag.horde { color: var(--horde); } .tag.new { color: var(--new); } .tag.paid { color: var(--gold-2); }
+.d-title .chips { align-items: center; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { display: inline-flex; align-items: center; min-height: 26px; font-size: .84rem; font-weight: 600; padding: 0 10px; border-radius: 999px; border: 1px solid var(--pline); background: var(--panel-2); white-space: nowrap; }
+.chip.on { background: #c9a54a; color: #15110a; border-color: #c9a54a; }
+.chip.q { border-style: dashed; }
+.chip.new { color: var(--new); border-color: color-mix(in srgb, var(--new) 50%, transparent); }
+ul.plain { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
+ul.plain li { display: grid; gap: 1px; }
+.specname { font-weight: 600; }
+.en { font-weight: 400; color: var(--muted); font-size: .92em; }
+.specrole { color: var(--muted); font-size: .92rem; }
+.rtype { font-size: .74rem; font-weight: 600; color: var(--muted); margin-right: 8px; }
+
+/* Builder */
+.builder { display: grid; grid-template-columns: minmax(0, 1fr) 310px; gap: 24px; align-items: start; }
+.steps { display: grid; gap: 24px; }
+.step { display: grid; grid-template-columns: 30px 1fr; gap: 6px 14px; align-items: start; }
+.stepn { font-family: var(--font-display); font-size: 2rem; line-height: 1; color: var(--gold-2); text-align: center; font-variant-numeric: lining-nums; }
+.step > div { display: grid; gap: 10px; min-width: 0; }
+.step b { font-size: 1.05rem; font-weight: 600; }
+.sizes { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+#sizes { gap: 2px; padding: 4px; justify-self: start; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); }
+.sizes button { min-width: 48px; min-height: 42px; padding: 0 12px; border: 0; border-radius: 7px; background: transparent; font-weight: 600; font-variant-numeric: tabular-nums; transition: background-color .15s; }
+.sizes button:hover { background: color-mix(in srgb, var(--fg) 7%, transparent); }
+.sizes button[aria-pressed="true"] { background: #c9a54a; color: #15110a; }
+.stepper { display: inline-flex; align-items: center; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); }
+.stepper button { min-width: 44px; min-height: 44px; border: 0; background: transparent; font-size: 1.2rem; }
+.stepper button:hover { color: var(--gold-2); }
+.stepper output { min-width: 48px; text-align: center; font-weight: 600; font-variant-numeric: tabular-nums; }
+.slots { display: grid; gap: 14px; }
+.party { display: grid; gap: 6px; }
+.party-h { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; padding-bottom: 4px; }
+.party-h h4 { margin: 0; font-family: var(--font-display); font-size: 1.25rem; font-weight: var(--display-w); }
+.party-h .pc { display: inline-flex; flex-wrap: wrap; gap: 12px; color: var(--muted); font-size: .88rem; font-weight: 500; }
+.party-h .pc .miss { color: var(--horde); }
+.party-h .pc .ok { color: var(--new); }
+.slot { display: grid; grid-template-columns: 54px minmax(0,1.2fr) minmax(0,1.2fr) minmax(0,.9fr) 40px; gap: 6px; align-items: center; padding: 8px 8px 8px 12px; border: 1px solid var(--pline); border-radius: 12px; background: linear-gradient(90deg, color-mix(in srgb, var(--cc) 14%, var(--panel-2)) 0%, var(--panel-2) 45%); transition: border-color .2s; }
+.slot:hover { border-color: color-mix(in srgb, var(--cc) 45%, var(--pline)); }
+.slot .no { --s: 44px; --ring-gap: var(--panel-2); }
+.slot .no b { position: absolute; right: -5px; bottom: -5px; min-width: 20px; padding: 0 4px; border-radius: 999px; background: var(--bg); border: 1px solid var(--pline); color: var(--fg); font-size: .7rem; font-weight: 700; line-height: 18px; text-align: center; font-variant-numeric: tabular-nums; }
+.slot select { width: 100%; min-width: 0; min-height: 44px; padding: 0 28px 0 10px; font: inherit; font-size: .95rem; font-weight: 600; color: var(--fg); border: 0; border-radius: 8px; background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%238d929b' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 10px center; -webkit-appearance: none; appearance: none; cursor: pointer; transition: background-color .15s; }
+.slot select:hover { background-color: color-mix(in srgb, var(--fg) 6%, transparent); }
+.slot select.scls { color: var(--cc); }
+:root[data-theme="light"] .slot select.scls { color: var(--fg); }
+.slot select.srole { font-weight: 500; color: var(--ink-2); }
+:root[data-theme="light"] .slot select.srole { color: var(--muted); }
+.slot select option { background: var(--surface); color: var(--fg); }
+.slot .del { width: 40px; height: 40px; border: 0; border-radius: 50%; background: transparent; color: var(--muted); display: grid; place-items: center; transition: background-color .15s, color .15s; }
+.slot .del:hover { color: var(--horde); background: color-mix(in srgb, var(--horde) 12%, transparent); }
+.row-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.summary { position: sticky; top: calc(var(--top) + 16px); display: grid; overflow: hidden; }
+.summary > div { padding: 16px 18px; border-bottom: 1px solid var(--pline); }
+.summary > div:last-child { border-bottom: 0; }
+.summary h4 { margin: 0 0 8px; font-size: .9rem; font-weight: 600; color: var(--muted); }
+.roles-sum { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.rs { display: grid; justify-items: center; gap: 2px; padding: 12px 4px 10px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); }
+.rs b { font-family: var(--font-display); font-size: 1.8rem; font-weight: 400; line-height: 1; font-variant-numeric: tabular-nums lining-nums; }
+.rs span { color: var(--muted); font-size: .8rem; }
+.rs.ok { border-color: color-mix(in srgb, var(--new) 55%, transparent); }
+.rs.ok b { color: var(--new); }
+.rs.zero { border-color: color-mix(in srgb, var(--horde) 55%, transparent); }
+.rs.zero b { color: var(--horde); }
+ul.verdict { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
+ul.verdict li { padding-left: 22px; position: relative; font-size: .93rem; }
+ul.verdict li::before { content: "·"; position: absolute; left: 6px; color: var(--muted); font-weight: 700; }
+ul.verdict li.good::before { content: "✓"; color: var(--new); left: 3px; }
+ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
+.cdot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 7px; background: var(--cc, var(--muted)); }
+:root[data-theme="light"] .cdot { box-shadow: inset 0 0 0 1px rgba(0,0,0,.35); }
+.summary .copyrow input { flex-basis: 100%; }
+.summary .copyrow .btn { flex: 1 1 auto; }
+
+/* Comparison tables: classes and races, one row per entry, whole row opens its page */
+.cmp { display: grid; gap: 6px; }
+.cmp-h, .cmp-row { display: grid; gap: 22px; align-items: center; }
+.cmp.cls .cmp-h, .cmp.cls .cmp-row { grid-template-columns: minmax(240px, 1.2fr) 122px 190px minmax(0, 1.9fr) 22px; }
+.cmp.rac .cmp-h, .cmp.rac .cmp-row { grid-template-columns: minmax(200px, .9fr) 314px minmax(0, 2.2fr) 22px; }
+.cmp-h { padding: 0 22px 4px; font-size: .8rem; font-weight: 600; color: var(--muted); }
+.cmp-h .rdots { color: var(--muted); }
+.cmp-h .rdots span { display: grid; place-items: center; }
+.cmp-h .ri { width: 16px; height: 16px; margin: 0; }
+.cmp-h .abl { display: inline-flex; flex-wrap: wrap; gap: 4px 14px; align-items: center; }
+.cmp-h .abl .abt { font-size: .8rem; }
+.cmp-row { position: relative; isolation: isolate; overflow: hidden; padding: 14px 22px 14px 16px; border: 1px solid var(--pline); border-radius: 12px; background: var(--panel); color: var(--fg); text-decoration: none; transition: border-color .2s, background-color .2s; }
+.cmp-row::before { content: ""; position: absolute; z-index: -1; inset: 0 0 0 auto; width: 58%; background: var(--art) 50% 30% / cover no-repeat; opacity: .14; -webkit-mask-image: linear-gradient(90deg, transparent, #000 90%); mask-image: linear-gradient(90deg, transparent, #000 90%); transition: opacity .35s; }
+.cmp-row::after { content: ""; position: absolute; z-index: -1; inset: 0; background: linear-gradient(90deg, color-mix(in srgb, var(--cc) 11%, transparent), transparent 34%); }
+.cmp-row:hover { border-color: color-mix(in srgb, var(--cc) 50%, var(--pline)); }
+.cmp-row:hover::before { opacity: .3; }
+:root[data-theme="light"] .cmp-row::before { opacity: .1; }
+.cmp-id { display: flex; align-items: center; gap: 16px; min-width: 0; }
+.cmp-id .av { --s: 52px; }
+.cmp-id b { display: block; font-family: var(--font-display); font-weight: 400; font-size: 1.5rem; line-height: 1.1; }
+.cmp-id small { display: block; margin-top: 3px; color: var(--muted); font-size: .84rem; line-height: 1.4; }
+.cmp-id .paid { margin-left: 8px; vertical-align: .3em; }
+.cmp-row .go { color: var(--muted); transition: transform .2s var(--ease), color .2s; }
+.cmp-row .go .ico { width: 18px; height: 18px; }
+.cmp-row:hover .go { color: var(--gold-2); transform: translateX(3px); }
+.cmp-txt { font-size: .93rem; color: var(--ink-2); line-height: 1.5; }
+:root[data-theme="light"] .cmp-txt { color: var(--fg); }
+.rdots { display: grid; grid-template-columns: repeat(3, 34px); gap: 6px; }
+.rdot { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: color-mix(in srgb, var(--fg) 4%, transparent); color: color-mix(in srgb, var(--fg) 22%, transparent); }
+.rdot .ri { width: 16px; height: 16px; margin: 0; }
+.rdot.on { background: color-mix(in srgb, var(--cc) 20%, transparent); color: var(--fg); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--cc) 55%, transparent); }
+.rdot.q { color: var(--fg); background: transparent; box-shadow: none; border: 1px dashed color-mix(in srgb, var(--cc) 70%, transparent); }
+.lvl { display: grid; gap: 8px; font-size: .88rem; }
+.lvl .bar { position: relative; height: 6px; border-radius: 999px; background: color-mix(in srgb, var(--fg) 8%, transparent); }
+.lvl .bar::before { content: ""; position: absolute; left: 50%; top: -4px; bottom: -4px; width: 2px; margin-left: -1px; border-radius: 2px; background: color-mix(in srgb, var(--fg) 30%, transparent); }
+.lvl .bar i { position: absolute; top: 0; bottom: 0; border-radius: 999px; background: var(--new); }
+.lvl .bar i.slow { background: var(--horde); }
+.lvl .scale { display: flex; justify-content: space-between; color: var(--muted); font-size: .72rem; }
+.ccl { display: flex; gap: 6px; flex-wrap: wrap; }
+.ccl .av { --s: 28px; transition: opacity .2s, filter .2s; }
+.ccl .av.off { opacity: .16; filter: grayscale(1); box-shadow: none; }
+.ccl .av.nw::after { content: ""; position: absolute; right: -3px; top: -3px; width: 9px; height: 9px; border-radius: 50%; background: var(--new); box-shadow: 0 0 0 2px var(--panel); }
+.abs { display: grid; align-items: start; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 22px; }
+.abs > span { display: grid; align-content: start; gap: 1px; min-width: 0; font-size: .88rem; line-height: 1.4; }
+.abs b { display: block; padding-left: 16px; text-indent: -16px; font-weight: 600; font-size: .93rem; }
+.abs b::before { content: ""; display: inline-block; width: 8px; height: 8px; margin-right: 8px; vertical-align: .08em; border-radius: 50%; background: var(--gold-2); }
+.abs b .en { font-weight: 400; font-size: .84rem; }
+.abs b.p::before { background: transparent; box-shadow: inset 0 0 0 1.5px var(--gold-2); }
+.abs > span > span { color: var(--muted); padding-left: 16px; }
+.rgroup { display: grid; gap: 6px; }
+.rgroup + .rgroup { margin-top: 18px; }
+.rgroup h3 { display: flex; align-items: center; gap: 10px; padding: 0 4px 6px; font-size: 1.35rem; color: var(--fc); }
+.rgroup h3::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--fc); }
+.alliance { --fc: var(--alliance); } .horde { --fc: var(--horde); }
+
+/* Data tables: each row is a plaque inside a framed panel */
+.tbl-box { overflow-x: auto; padding: 8px 14px 10px; }
+.tbl-box table { min-width: 560px; border-spacing: 0 6px; }
+.tbl-box th, .tbl-box td { text-align: left; padding: 12px 16px; vertical-align: top; background: var(--panel-2); border-top: 1px solid var(--pline); border-bottom: 1px solid var(--pline); }
+.tbl-box tr > :first-child { border-left: 1px solid var(--pline); border-radius: 8px 0 0 8px; }
+.tbl-box tr > :last-child { border-right: 1px solid var(--pline); border-radius: 0 8px 8px 0; }
+.tbl-box thead th { background: none; border: 0; color: var(--muted); font-size: .85rem; font-weight: 600; padding-top: 6px; padding-bottom: 0; }
+.tbl-box tbody th { font-weight: 600; font-size: .96rem; }
+.tbl-box td.num { white-space: nowrap; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+footer { margin-top: 96px; padding: 28px 28px 24px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); display: grid; gap: 14px; color: var(--muted); font-size: .93rem; }
+footer h2 { color: var(--fg); font-size: 1.8rem; }
+footer ul { margin: 0; padding-left: 18px; display: grid; gap: 5px; }
+footer ul li::marker { color: var(--gold); }
+footer .legal { display: grid; gap: 6px; padding-top: 14px; border-top: 1px solid var(--pline); font-size: .84rem; }
+footer .legal:first-child { padding-top: 0; border-top: 0; }
+footer .legal p { margin: 0; }
+footer .legal a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+footer .legal a:hover { color: var(--gold); }
+
+/* Menu sheet (all sections, language, theme) */
+dialog.sheet { border: 0; padding: 0; margin: 0 0 0 auto; width: min(360px, 88vw); max-width: none; height: 100dvh; max-height: none; background: var(--rail); color: var(--fg); border-left: 1px solid var(--line); }
+dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
+.sheet .dh { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px 10px 20px; border-bottom: 1px solid var(--line); min-height: var(--top); }
+.sheet .dh b { font-family: var(--font-display); font-weight: 400; font-size: 1.4rem; }
+.sheet .toc { padding: 16px 8px 8px; display: grid; gap: 18px; }
+.sheet .grp { display: grid; }
+.sheet .gh { font-size: .8rem; color: var(--muted); font-weight: 600; padding: 0 12px 4px; }
+.sheet .toc a { display: flex; align-items: center; min-height: 44px; padding: 0 12px; color: var(--fg); text-decoration: none; border-left: 2px solid transparent; }
+.sheet .toc a:hover { background: var(--surface); border-left-color: var(--gold); }
+.sheet .opts { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding: 16px 20px 28px; border-top: 1px solid var(--line); margin-top: 8px; }
+.sheet .meta { padding: 0 20px 24px; color: var(--muted); font-size: .85rem; }
+
+/* Bottom tab bar (phones) */
+.tabbar { display: none; }
+
+@media (max-width: 1100px) {
+  .mainnav { display: none; }
+  .menubtn { display: inline-grid; }
+  .gtiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ttiles.t4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 1023px) {
+  .roster { height: auto; overflow-x: auto; scroll-snap-type: x mandatory; gap: 10px; padding: 12px; scroll-padding: 0 12px; scrollbar-width: none; overscroll-behavior-x: contain; }
+  .roster::-webkit-scrollbar { display: none; }
+  .hc, .hc.on { flex: 0 0 min(78%, 330px); aspect-ratio: 3 / 4; scroll-snap-align: start; border-color: rgba(255,255,255,.1); box-shadow: none; }
+  .hc img, .hc.on img { filter: none; transform: none; }
+  .hc .vn { display: none; }
+  .hc .info { min-width: 0; padding: 20px; opacity: 1; transform: none; }
+  .hc .info b { font-size: 2rem; }
+  .hc::after { background: linear-gradient(180deg, rgba(7,8,10,0) 30%, rgba(7,8,10,.72) 55%, rgba(7,8,10,.96) 100%); }
+  .swipe { display: block; }
+  .peoples { grid-template-columns: 1fr; gap: 8px; padding: 10px; }
+  .rr { padding: 0; scroll-padding: 0; }
+  .pfac { padding: 10px; }
+}
+@media (max-width: 980px) {
+  .builder, .journey { grid-template-columns: 1fr; }
+  .summary, .me { position: static; }
+  .stiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .factions { grid-template-columns: 1fr; }
+  .ttiles, .ttiles.t4 { grid-template-columns: 1fr; }
+  .ttile { min-height: 160px; }
+}
+@media (max-width: 860px) {
+  .matrix-box, .legend { display: none; }
+  .pickm { display: grid; }
+  .cmp-h { display: none; }
+  .cmp.cls .cmp-row, .cmp.rac .cmp-row { grid-template-columns: minmax(0, 1fr) auto auto; gap: 14px; padding: 16px; }
+  .cmp-row > * { grid-column: 1 / -1; }
+  .cmp-row > .cmp-id { grid-column: 1; grid-row: 1; }
+  .cmp-row > .rdots { grid-column: 2; grid-row: 1; }
+  .cmp-row > .go { grid-column: 3; grid-row: 1; }
+  .cmp-row::before { width: 80%; }
+  .facts3 { grid-template-columns: 1fr; }
+}
+@media (max-width: 719px) {
+  :root { --top: 56px; }
+  .wrap, .topbar .in { padding-left: 16px; padding-right: 16px; }
+  .topbar .langsel, .menubtn { display: none; }
+  .langhint { bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
+  .brand b { font-size: 1.15rem; }
+  .hero { min-height: max(580px, calc(100svh - 62px - env(safe-area-inset-bottom, 0px))); }
+  .hero-art img { object-position: 74% 50%; }
+  .hero::before { background:
+    linear-gradient(180deg, rgba(7,8,10,.86) 0%, rgba(7,8,10,.7) 40%, rgba(7,8,10,.6) 72%, rgba(7,8,10,.94) 100%); }
+  .hero-in { padding-top: calc(var(--top) + 28px); gap: 18px; }
+  .hero h1 { font-size: clamp(2.6rem, 12vw, 3.4rem); }
+  .cd .u { padding: 0 14px; }
+  .cta { width: 100%; }
+  .cta .btn { flex: 1 1 140px; padding: 0 12px; }
+  .hdates { margin-bottom: 22px; width: calc(100% - 32px); gap: 6px; }
+  .hdates li { padding: 10px 10px; }
+  .hdates b { font-size: 1.25rem; }
+  .hdates span { font-size: .8rem; line-height: 1.35; }
+  section.block { padding-top: 72px; gap: 22px; scroll-margin-top: -48px; }
+  .factions { padding: 10px; gap: 10px; }
+  .fac { min-height: 400px; padding: 22px 20px 20px; }
+  .fac picture, .fac picture img { width: 100%; }
+  .fac::before { background: linear-gradient(0deg, var(--fb) 30%, color-mix(in srgb, var(--fb) 60%, transparent) 58%, transparent 85%); }
+  .hc, .hc.on { flex-basis: 80%; }
+  .tool { padding: 16px; }
+  .gtiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 8px; }
+  .gt { min-height: 168px; padding: 0 12px 12px; }
+  .gt b { font-size: 1.02rem; }
+  .gt span { font-size: .8rem; line-height: 1.35; }
+  .timeline { padding: 8px; }
+  .abs, .cards.two { grid-template-columns: 1fr; }
+  .cmp-row > .rdots { grid-column: 1 / -1; grid-row: auto; }
+  .d-head { padding: 20px 16px; min-height: 0; }
+  .d-art { width: 100%; }
+  .d-art img { opacity: .3; }
+  .d-body { padding: 4px 16px 18px; }
+  .d-avs .av { --s: 54px; }
+  .slot { grid-template-columns: 50px minmax(0, 2.6fr) minmax(0, 1fr) 40px; gap: 4px 6px; padding: 8px; }
+  .slot .no { grid-row: 1 / 3; align-self: center; }
+
+  .slot select { font-size: .9rem; padding: 0 4px; }
+  .slot select.srace { grid-column: 2 / 4; }
+  .slot .del { grid-row: 1; grid-column: 4; }
+  .slot select.scls { grid-column: 2; }
+  .slot select.srole { grid-column: 3 / 5; }
+  .timeline li { grid-template-columns: 1fr; gap: 2px; }
+  .stband { padding-top: 80px; }
+  .stband-art, .stband-art img, .stband::before { height: 480px; }
+  .stiles { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 10px; padding: 12px; scroll-padding: 0 12px; scrollbar-width: none; overscroll-behavior-x: contain; }
+  .stiles::-webkit-scrollbar { display: none; }
+  .stile { flex: 0 0 62%; height: 148px; scroll-snap-align: start; }
+  .stage { padding: 20px 16px 18px; }
+  .st-head h3 { font-size: 1.75rem; }
+  .steps-c, .st-cols { grid-template-columns: 1fr; }
+  .steps-c li { padding: 14px; }
+  .tbl-box { padding: 8px; }
+  .tbl-box table, .tbl-box tbody, .tbl-box tr, .tbl-box th, .tbl-box td { display: block; }
+  .tbl-box table { min-width: 0; }
+  .tbl-box thead { display: none; }
+  .tbl-box tbody { display: grid; gap: 6px; }
+  .tbl-box tr { padding: 12px 14px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--pline); }
+  .tbl-box th, .tbl-box td, .tbl-box tr > :first-child, .tbl-box tr > :last-child { padding: 0; border: 0; border-radius: 0; background: none; }
+  .tbl-box td { margin-top: 4px; font-size: .95rem; }
+  .tbl-box td + td { color: var(--muted); }
+  .dg tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; align-items: center; }
+  .dg td.num { margin: 0; text-align: right; }
+  .dg tr.mine { border-color: color-mix(in srgb, var(--gold) 60%, transparent); }
+  .dg thead th:last-child, .dg td.zone { display: none; }
+  .dg tbody th .z { display: block; color: var(--muted); font-weight: 400; font-size: .85rem; }
+  #segD { width: 100%; }
+  #segD button { flex: 1 1 auto; padding: 0 8px; }
+  dl.facts div { grid-template-columns: 1fr; gap: 0; }
+  body { padding-bottom: calc(62px + env(safe-area-inset-bottom, 0px)); }
+  .tabbar { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); position: fixed; inset: auto 0 0 0; z-index: 35; background: var(--rail); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  .tabbar a, .tabbar button { min-height: 60px; display: grid; justify-items: center; align-content: center; gap: 3px; padding: 0 2px; border: 0; background: none; color: var(--muted); text-decoration: none; font-size: .72rem; font-weight: 500; line-height: 1.2; }
+  .tabbar .ico { width: 22px; height: 22px; }
+  .tabbar [aria-current="true"] { color: var(--gold-2); }
+  dialog.sheet { margin: auto 0 0 0; width: 100%; height: auto; max-height: 86dvh; border-left: 0; border-top: 1px solid var(--line); border-radius: 10px 10px 0 0; padding-bottom: env(safe-area-inset-bottom, 0px); }
+  .sheet .toc { grid-template-columns: 1fr 1fr; gap: 14px 6px; }
+  .sheet .grp:last-child { grid-column: 1 / -1; grid-template-columns: 1fr 1fr; column-gap: 6px; }
+  .sheet .grp:last-child .gh { grid-column: 1 / -1; }
+  .sheet .toc a { min-height: 44px; line-height: 1.25; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hc, .hc img, .hc .info, .fac picture img { transition: none; }
+}
+</style>
+<link rel="manifest" href="../manifest-it.webmanifest">
+<link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="Gabella WoW">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Guida a WoW Forever","alternateName":"Gabella Team","url":"https://gabella.site/wow/it/","inLanguage":"it","description":"Guida a WoW Forever: chi giocare, un selettore di razza e classe, un creatore di gruppi e guide su livellamento, spedizioni e professioni."}</script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-tank" viewBox="0 0 24 24"><path d="M12 3l7 3v5.5c0 4.6-3 7.7-7 9.5-4-1.8-7-4.9-7-9.5V6z"/></symbol>
+  <symbol id="i-heal" viewBox="0 0 24 24"><path d="M10 4h4v6h6v4h-6v6h-4v-6H4v-4h6z"/></symbol>
+  <symbol id="i-dps" viewBox="0 0 24 24"><path d="M5 19L19 5M19 5h-6M19 5v6M8.5 12.5l3 3M4 20l3-3"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5M16 4.8a3.2 3.2 0 0 1 0 6.4M18 14.8c1.8.7 3 2.6 3 5.2"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M4 4h16v16H4zM8 12l3 3 5-6"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><path d="M9 9h11v11H9zM5 15H4V4h11v1"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7M6 9.5V20h12V9.5M10 20v-5h4v5"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5.5C6.5 4 9.5 4 12 5.5v14c-2.5-1.5-5.5-1.5-8 0zM20 5.5C17.5 4 14.5 4 12 5.5v14c2.5-1.5 5.5-1.5 8 0z"/></symbol>
+  <symbol id="i-dots" viewBox="0 0 24 24"><path d="M5 12h.01M12 12h.01M19 12h.01"/></symbol>
+  <symbol id="i-fire" viewBox="0 0 24 24"><path d="M12 2.5c1 4 5.5 6 5.5 11a5.5 5.5 0 0 1-11 0c0-2.2 1.1-3.8 2.2-4.8 0 2 .9 3.2 2.1 3.2 0-3.2-1-6 1.2-9.4z"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+</svg>
+
+<header class="topbar" id="topbar"><div class="in">
+  <a class="brand" href="#top" aria-label="Gabella Team, torna su"><img class="mark" src="../assets/brand/mark.webp" alt="" width="40" height="40"><b>Gabella Team</b></a>
+  <nav class="mainnav" aria-label="Sezioni">
+    <a href="#stages">Fasi</a><a href="#factions">Fazioni</a><a href="#classes">Classi</a><a href="#peoples">Razze</a><a href="#picker">Selettore</a><a href="#builder">Gruppo</a><a href="guides/">Guide</a><a href="tools/">Strumenti</a>
+  </nav>
+  <div class="tools">
+    <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" aria-label="Lingua: Italiano">IT</button><ul class="langlist" hidden><li><a href="../" data-lang="ru" hreflang="ru" lang="ru"><span>Русский</span><small>RU</small></a></li><li><a href="../en/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../uk/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../de/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="../fr/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="../es/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="../pt/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="./" data-lang="it" hreflang="it" lang="it" aria-current="page"><span>Italiano</span><small>IT</small></a></li><li><a href="../pl/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
+    <button class="iconbtn themebtn" type="button" aria-label="Cambia tema" title="Cambia tema"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></button>
+    <button class="iconbtn menubtn" type="button" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg><span>Sezioni</span></button>
+  </div>
+</div></header>
+
+<section class="hero" id="top" data-nav="#top" data-tab="#top">
+  <picture class="hero-art">
+    <source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/avif" srcset="../assets/art/hero_dawn-m-600.avif 600w, ../assets/art/hero_dawn-m-1000.avif 1000w" sizes="78vh">
+    <source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/webp" srcset="../assets/art/hero_dawn-m-600.webp 600w, ../assets/art/hero_dawn-m-1000.webp 1000w" sizes="78vh">
+    <source type="image/avif" srcset="../assets/art/hero_dawn-960.avif 960w, ../assets/art/hero_dawn-1440.avif 1440w, ../assets/art/hero_dawn-1920.avif 1920w, ../assets/art/hero_dawn-2560.avif 2560w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw">
+    <source type="image/webp" srcset="../assets/art/hero_dawn-960.webp 960w, ../assets/art/hero_dawn-1440.webp 1440w, ../assets/art/hero_dawn-1920.webp 1920w, ../assets/art/hero_dawn-2560.webp 2560w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw">
+    <img src="../assets/art/hero_dawn-1920.webp" width="1920" height="1072" alt="" fetchpriority="high" decoding="async">
+  </picture>
+  <div class="wrap hero-in">
+    <h1>World of Warcraft <span>Forever</span></h1>
+    <p class="lead">Classi, razze, composizione del gruppo e tutto ciò che serve per il lancio del 4 novembre. Fatta per la nostra squadra, con fonti e date.</p>
+    <div class="cd" id="cd" aria-live="polite"></div>
+    <div class="cta">
+      <a class="btn lg" href="#classes">Scegli una classe</a>
+      <a class="btn lg ghost" href="#builder">Crea un gruppo</a>
+    </div>
+    <p class="hmeta">Guida di Gabella Team · dati al 23.10.2026</p>
+  </div>
+  <ol class="hdates" aria-label="Date chiave">
+    <li data-d="2026-10-27"><b>27.10</b><span>Prenotazione nomi</span></li>
+    <li data-d="2026-11-04"><b>04.11</b><span>Lancio</span></li>
+    <li data-d="2026-12-09"><b>09.12</b><span>Incursioni</span></li>
+  </ol>
+</section>
+
+<main>
+<section class="stband" id="stages" data-nav="#stages" data-tab="#top">
+  <picture class="stband-art"><source type="image/avif" srcset="../assets/art/hero_campfire-960.avif 960w, ../assets/art/hero_campfire-1600.avif 1600w" sizes="100vw"><source type="image/webp" srcset="../assets/art/hero_campfire-960.webp 960w, ../assets/art/hero_campfire-1600.webp 1600w" sizes="100vw"><img src="../assets/art/hero_campfire-1600.webp" width="1600" height="893" alt="" loading="lazy" decoding="async"></picture>
+  <div class="wrap">
+    <div class="sec-head"><h2>Dove sei ora</h2><p>Cinque fasi dalla prenotazione dei nomi alle incursioni. La fase viene scelta in base alla data e, se aggiungi il tuo personaggio, la guida trova le spedizioni per il tuo livello e mostra i potenziamenti che porti al gruppo.</p></div>
+    <div class="frame stiles" id="stageBar" role="tablist" aria-label="Fasi di gioco"></div>
+    <div class="journey">
+      <div class="frame stage" id="stagePanel" role="tabpanel" tabindex="-1"></div>
+      <aside class="frame me" id="me" aria-label="Il mio personaggio">
+        <div class="me-hero" id="meHero"></div>
+        <details id="meD" open><summary>Imposta personaggio</summary>
+          <div class="me-f">
+            <label class="fl">Razza<select id="meRace"></select></label>
+            <label class="fl">Classe<select id="meCls"></select></label>
+            <label class="fl">Ruolo<select id="meRole"></select></label>
+            <div class="fl"><span id="lmeLvl">Livello</span><div class="stepper" role="group" aria-labelledby="lmeLvl"><button type="button" class="lvm" aria-label="Livello più basso">−</button><input class="lvin" id="meLvl" type="number" min="1" max="60" inputmode="numeric" aria-labelledby="lmeLvl" placeholder="—"><button type="button" class="lvp" aria-label="Livello più alto">+</button></div></div>
+            <label class="fl">Professione 1<select id="meP1"></select></label>
+            <label class="fl">Professione 2<select id="meP2"></select></label>
+            <div class="fl wide"><span id="lmeSec">Professioni secondarie</span><div class="chiprow" id="meSec" role="group" aria-labelledby="lmeSec"></div></div>
+          </div>
+          <p class="note-s">Salvato solo in questo browser.</p>
+        </details>
+        <div class="me-out" id="meOut" aria-live="polite"></div>
+        <div class="act"><button type="button" class="btn ghost" id="meReset">Azzera personaggio</button></div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="block wrap" id="factions" data-nav="#factions" data-tab="#classes">
+  <div class="sec-head"><h2>Alleanza o Orda</h2><p>Mettetevi d’accordo prima sulla fazione: in modalità PvP alla creazione se ne può scegliere solo una. Tutte e nove le classi esistono in entrambe le fazioni.</p></div>
+  <div class="frame factions">
+    <article class="fac alliance">
+      <picture><source type="image/avif" srcset="../assets/art/paladin-600.avif 600w, ../assets/art/paladin-896.avif 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><source type="image/webp" srcset="../assets/art/paladin-600.webp 600w, ../assets/art/paladin-896.webp 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><img src="../assets/art/paladin-600.webp" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
+      <h3>Alleanza</h3>
+      <p>Umano, Nano, Elfo della Notte, Gnomo e Skyborne dell’High Order.</p>
+      <p><b>Novità:</b> Sciamano Nano, Sacerdote Gnomo e Cacciatore Umano.</p>
+      <button type="button" class="go-f" data-fac="alliance">Scegli razza e classe<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+    </article>
+    <article class="fac horde">
+      <picture><source type="image/avif" srcset="../assets/art/shaman-600.avif 600w, ../assets/art/shaman-896.avif 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><source type="image/webp" srcset="../assets/art/shaman-600.webp 600w, ../assets/art/shaman-896.webp 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><img src="../assets/art/shaman-600.webp" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
+      <h3>Orda</h3>
+
+      <p>Orco, Non Morto, Tauren, Troll e Skyborne Windshaper.</p>
+      <p><b>Novità:</b> Paladino Non Morto, Mago Orco e Stregone Troll.</p>
+      <button type="button" class="go-f" data-fac="horde">Scegli razza e classe<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+    </article>
+  </div>
+</section>
+
+<section class="block wrap" id="classes" data-nav="#classes" data-tab="#classes">
+  <div class="sec-head"><div class="row"><h2>Chi giocare</h2><span class="src">Warcraft Tavern, LFCarry</span></div><p>Passa sopra un ritratto per espandere la classe. Clicca per aprire la pagina della classe: specializzazioni, razze e novità di Forever.</p></div>
+  <div class="frame roster" id="roster"></div>
+  <p class="swipe">Scorri i ritratti di lato.</p>
+  <p><a class="more-l" href="classes/">Confronta le classi<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
+</section>
+
+<section class="block wrap" id="peoples" data-nav="#peoples" data-tab="#classes">
+  <div class="sec-head"><div class="row"><h2>Chi giocare</h2><span class="src">Warcraft Tavern</span></div><p>Cinque razze per fazione, e gli Skyborne sono in entrambe. Clicca un ritratto per aprire la pagina della razza: abilità, classi e storia.</p></div>
+  <div class="frame peoples">
+    <div class="pfac alliance"><h3>Alleanza</h3><div class="roster rr" id="rosterA"></div></div>
+    <div class="pfac horde"><h3>Orda</h3><div class="roster rr" id="rosterH"></div></div>
+  </div>
+  <p class="swipe">Scorri i ritratti di lato.</p>
+  <p><a class="more-l" href="races/">Confronta le razze<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
+</section>
+
+<section class="block wrap" id="tools" data-nav="#picker" data-tab="#builder">
+  <div class="sec-head"><h2>Strumenti</h2><p>Selettore di razza e classe e creatore di gruppi; in una pagina a parte trovi i riquadri d’incursione come nel gioco, il confronto e la ricerca nella guida. Condividi il link della formazione in chat.</p></div>
+  <nav class="frame ttiles" aria-label="Strumenti">
+    <a class="ttile" href="#picker"><picture><source type="image/avif" srcset="../assets/art/druid-360.avif 360w, ../assets/art/druid-600.avif 600w" sizes="(max-width: 980px) 100vw, 400px"><source type="image/webp" srcset="../assets/art/druid-360.webp 360w, ../assets/art/druid-600.webp 600w" sizes="(max-width: 980px) 100vw, 400px"><img src="../assets/art/druid-600.webp" alt="" loading="lazy" decoding="async"></picture><b>Selettore razza e classe</b><span id="qPick">Tutte le combinazioni e cosa sa fare ognuna</span></a>
+    <a class="ttile" href="#builder"><picture><source type="image/avif" srcset="../assets/art/hero_campfire-960.avif"><img src="../assets/art/hero_campfire-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Creatore di gruppi</b><span id="qTeam">Da uno a quaranta giocatori</span></a>
+    <a class="ttile" href="tools/"><picture><source type="image/avif" srcset="../assets/art/paladin-600.avif"><img src="../assets/art/paladin-600.webp" alt="" loading="lazy" decoding="async"></picture><b>Riquadri, confronto, ricerca</b><span>Griglia d’incursione come nel gioco, classi e razze a confronto</span></a>
+  </nav>
+
+</section>
+<section class="block wrap" id="picker" data-tab="#builder">
+  <div class="sec-head"><div class="row"><h2>Selettore: razza e classe</h2><span class="src">Warcraft Tavern, Method</span></div>
+    <p>Scegli fazione e ruolo, guarda le combinazioni e clicca una cella. Sotto vedrai le abilità della razza e i ruoli della classe, e con un pulsante copi la tua scelta per la chat del gruppo.</p></div>
+  <div class="tool">
+    <div class="filters" role="group" aria-label="Filtri">
+      <div class="fgroup"><span class="flabel" id="lf">Fazione</span>
+        <div class="seg" id="segF" aria-labelledby="lf">
+          <button data-v="all" aria-pressed="true">Tutte</button>
+          <button data-v="alliance" aria-pressed="false">Alleanza</button>
+          <button data-v="horde" aria-pressed="false">Orda</button>
+        </div></div>
+      <div class="fgroup"><span class="flabel" id="lr">Ruolo</span>
+        <div class="seg" id="segR" aria-labelledby="lr">
+          <button data-v="all" aria-pressed="true">Tutte</button>
+          <button data-v="tank" aria-pressed="false">Difensore</button>
+          <button data-v="heal" aria-pressed="false">Guaritore</button>
+          <button data-v="dps" aria-pressed="false">Danni</button>
+        </div></div>
+    </div>
+    <div class="matrix-box" tabindex="0" role="region" aria-label="Tabella razze e classi, scorre in orizzontale"><table id="matrix"></table></div>
+    <div class="legend"><span><i class="ld"></i>possibile</span><span><span class="n">nuova</span>la combinazione non esisteva in Classic</span><span><i class="ld no"></i>non possibile</span></div>
+    <div class="pickm" id="pickm"></div>
+    <div class="detail" id="detail" aria-live="polite" aria-label="Combinazione scelta"></div>
+  </div>
+  <p class="note"><b>Nuove combinazioni:</b> sciamano nano e sacerdote gnomo (Alleanza), cacciatore umano e, per l’Orda, mago orco, stregone troll e paladino non morto. L’Orda ha ottenuto il paladino, l’Alleanza lo sciamano. Gli Skyborne Windshaper (Orda) possono essere sciamani, gli Skyborne dell’High Order (Alleanza) maghi.</p>
+</section>
+<section class="block wrap" id="builder" data-tab="#builder">
+  <div class="sec-head"><h2>Creatore di gruppi</h2>
+    <p>Tre passi: fazione, quanti siete e chi gioca cosa. Vedi subito cosa manca, quali potenziamenti portate e se potete fare incursioni.</p></div>
+  <div class="builder">
+    <div class="tool">
+      <div class="steps">
+        <div class="step"><span class="stepn">1</span><div><b id="lbf">Fazione</b>
+          <div class="seg" id="segBF" aria-labelledby="lbf"><button data-v="alliance" aria-pressed="true">Alleanza</button><button data-v="horde" aria-pressed="false">Orda</button></div></div></div>
+        <div class="step"><span class="stepn">2</span><div><b>Quanti siete?</b>
+          <p class="small">Tocca un numero e il gruppo viene composto per te. Poi puoi cambiare qualsiasi giocatore.</p>
+          <div class="sizes" id="sizes" role="group" aria-label="Dimensione gruppo"></div>
+          <div class="sizes"><div class="stepper"><button type="button" id="szMinus" aria-label="Meno giocatori">−</button><output id="szOut" aria-live="polite"></output><button type="button" id="szPlus" aria-label="Più giocatori">+</button></div><span class="small" id="szNote"></span></div></div></div>
+        <div class="step"><span class="stepn">3</span><div><b>Razze, classi e ruoli</b>
+          <p class="small">I giocatori vanno in gruppi da 5, come in una spedizione: 1–5, 6–10 e così via.</p>
+          <div class="slots" id="slots"></div>
+          <div class="row-actions"><button class="btn ghost" id="bAdd">Aggiungi giocatore</button><button class="btn ghost" id="bClear">Svuota</button></div></div></div>
+      </div>
+    </div>
+    <aside class="summary" aria-label="Riepilogo gruppo">
+      <div><h4>Ruoli</h4><div class="roles-sum" id="roleSum"></div></div>
+      <div><h4>Cosa ottieni</h4><ul class="verdict" id="verdict"></ul></div>
+      <div><h4>Potenziamenti di gruppo</h4><ul class="verdict" id="buffs"></ul></div>
+      <div class="copyrow"><input id="teamText" readonly aria-label="Gruppo per la chat"><button class="btn" id="copyTeam"><svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg>Copia gruppo</button><button class="btn ghost" id="copyLink"><svg class="ico" aria-hidden="true"><use href="#i-link"/></svg>Link</button><span class="small" id="teamMsg" role="status"></span></div>
+    </aside>
+  </div>
+</section>
+<section class="stband" id="guides" data-nav="#guides" data-tab="#guides">
+  <picture class="stband-art"><source type="image/avif" srcset="../assets/art/hero_dawn-960.avif 960w, ../assets/art/hero_dawn-1440.avif 1440w" sizes="100vw"><source type="image/webp" srcset="../assets/art/hero_dawn-960.webp 960w, ../assets/art/hero_dawn-1440.webp 1440w" sizes="100vw"><img src="../assets/art/hero_dawn-1440.webp" width="1440" height="804" alt="" loading="lazy" decoding="async"></picture>
+  <div class="wrap">
+    <div class="sec-head"><h2>Guide e riferimenti</h2><p>Tutto ciò che abbiamo raccolto su WoW Forever: date, sistemi di gioco, spedizioni e consigli per un gruppo di amici.</p></div>
+    <nav class="frame gtiles" aria-label="Guide">
+      <a class="gt" href="guides/leveling/"><picture><source type="image/avif" srcset="../assets/art/hero_dawn-960.avif"><img src="../assets/art/hero_dawn-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Livellamento 1–60</b><span>Percorso delle zone, ritmo e riposo</span></a>
+      <a class="gt" href="guides/dungeons/"><picture><source type="image/avif" srcset="../assets/art/warlock-360.avif 360w, ../assets/art/warlock-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/warlock-360.webp" srcset="../assets/art/warlock-360.webp 360w, ../assets/art/warlock-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Spedizioni e incursioni</b><span>Tutte le 35 spedizioni per livello e 3 incursioni</span></a>
+      <a class="gt" href="guides/professions/"><picture><source type="image/avif" srcset="../assets/art/hero_campfire-960.avif"><img src="../assets/art/hero_campfire-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Professioni</b><span>Coppie per la tua classe e oggetti da accampamento</span></a>
+      <a class="gt" href="guides/faq/"><picture><source type="image/avif" srcset="../assets/art/mage-360.avif 360w, ../assets/art/mage-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/mage-360.webp" srcset="../assets/art/mage-360.webp 360w, ../assets/art/mage-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>FAQ e date</b><span>Prenotazione nomi, uscita, incursioni e differenze con Era</span></a>
+      <a class="gt" href="guides/news/"><picture><source type="image/avif" srcset="../assets/art/shaman-360.avif 360w, ../assets/art/shaman-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/shaman-360.webp" srcset="../assets/art/shaman-360.webp 360w, ../assets/art/shaman-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Notizie</b><span>Le nostre note e il feed di Wowhead</span></a>
+      <a class="gt" href="classes/"><picture><source type="image/avif" srcset="../assets/art/warrior-360.avif 360w, ../assets/art/warrior-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/warrior-360.webp" srcset="../assets/art/warrior-360.webp 360w, ../assets/art/warrior-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Classi a confronto</b><span>Specializzazioni, ritmo di livellamento e novità</span></a>
+      <a class="gt" href="races/"><picture><source type="image/avif" srcset="../assets/art/human-360.avif 360w, ../assets/art/human-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/human-360.webp" srcset="../assets/art/human-360.webp 360w, ../assets/art/human-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Razze a confronto</b><span>Abilità razziali e classi disponibili</span></a>
+      <a class="gt" href="guides/leveling/#legacy"><picture><source type="image/avif" srcset="../assets/art/priest-360.avif 360w, ../assets/art/priest-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="../assets/art/priest-360.webp" srcset="../assets/art/priest-360.webp 360w, ../assets/art/priest-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Legacy</b><span>Punti, vantaggi e ricompense per tutto l’account</span></a>
+    </nav>
+    <p><a class="more-l" href="guides/">Tutte le guide<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
+  </div>
+</section>
+<div class="wrap">
+<footer id="sources" data-nav="#guides">
+  <h2>Fonti e aggiornamento</h2>
+  <p>Dati raccolti il <b style="color:var(--fg)">23.10.2026</b> dalla beta chiusa e dalla patch del 15.10.2026, e confrontati con diverse fonti. Prima dell’uscita Blizzard può ancora cambiare la beta, soprattutto abilità razziali, bilanciamento delle classi e vantaggi Legacy. Dove le fonti non concordano, è indicato nel testo. Verifica i numeri esatti nel gioco.</p>
+  <p><span class="tl" style="display:inline">Consiglio:</span> opinione dell’autore, non dati ufficiali.</p>
+  <ul>
+    <li><a href="https://www.warcrafttavern.com/forever/" target="_blank" rel="noopener">Warcraft Tavern</a>: <a href="https://www.warcrafttavern.com/forever/guides/race-class-combos/" target="_blank" rel="noopener">combinazioni</a>, <a href="https://www.warcrafttavern.com/forever/guides/races/" target="_blank" rel="noopener">razze</a>, <a href="https://www.warcrafttavern.com/forever/guides/legacy/" target="_blank" rel="noopener">Legacy</a>, <a href="https://www.warcrafttavern.com/forever/guides/camping/" target="_blank" rel="noopener">accampamento</a>, <a href="https://www.warcrafttavern.com/forever/guides/dungeons/" target="_blank" rel="noopener">spedizioni</a>, <a href="https://www.warcrafttavern.com/news/world-of-warcraft-forever-editions-skyborne-race-unlock-beta-access/" target="_blank" rel="noopener">pacchetti e prezzi</a></li>
+    <li><a href="https://www.method.gg/wow-forever" target="_blank" rel="noopener">Method</a>: <a href="https://www.method.gg/wow-forever/all-class-and-race-combinations-in-world-of-warcraft-forever" target="_blank" rel="noopener">tutte le combinazioni</a>, <a href="https://www.method.gg/wow-forever/all-new-racial-abilities-in-world-of-warcraft-forever" target="_blank" rel="noopener">abilità razziali</a></li>
+    <li><a href="https://classicwow.gg/forever" target="_blank" rel="noopener">ClassicWoW.gg</a>: date della beta, prenotazione nomi, incursioni, differenze con Era</li>
+    <li><a href="https://news.blizzard.com/en-gb/article/24307383" target="_blank" rel="noopener">Blizzard: sistema Legacy</a></li>
+    <li><a href="https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/" target="_blank" rel="noopener">Warcraft Tavern: modifiche alla beta del 15 ottobre</a></li>
+    <li>Spedizioni e fasi: <a href="https://www.warcrafttavern.com/forever/guides/dungeons/" target="_blank" rel="noopener">Warcraft Tavern</a>, <a href="https://www.sportskeeda.com/mmo/world-warcraft-forever-all-dungeons-order-level-range" target="_blank" rel="noopener">Sportskeeda</a>, <a href="https://www.icy-veins.com/wow-forever/dungeons-overview" target="_blank" rel="noopener">Icy Veins</a>, <a href="https://classicwow.gg/forever/dungeons" target="_blank" rel="noopener">ClassicWoW.gg</a>, <a href="https://www.warcrafttavern.com/forever/guides/riding/" target="_blank" rel="noopener">cavalcatura</a>, <a href="https://www.warcrafttavern.com/forever/guides/professions/" target="_blank" rel="noopener">professioni</a>, <a href="https://teamoverpowered.com/forever/guides/name-reservation/" target="_blank" rel="noopener">nomi e cognomi</a></li>
+    <li><a href="https://www.wowhead.com/forever" target="_blank" rel="noopener">Wowhead</a>: notizie e riferimenti</li>
+    <li>Descrizioni delle classi, ritmo di livellamento: <a href="https://www.warcrafttavern.com/forever/guides/classes/" target="_blank" rel="noopener">Warcraft Tavern</a>, <a href="https://lfcarry.com/guides/wow-forever-classes" target="_blank" rel="noopener">LFCarry</a></li>
+  </ul>
+  <div class="legal"><p>Guida amatoriale di Gabella Team. Non affiliata né approvata da Blizzard Entertainment. World of Warcraft, Warcraft e Blizzard Entertainment sono marchi o marchi registrati di Blizzard Entertainment, Inc. negli Stati Uniti e/o in altri Paesi.</p><p>© 2026 Gabella Team<span aria-hidden="true"> · </span><a href="../it/privacy/">Privacy</a><span aria-hidden="true"> · </span>Contatti: <a href="mailto:contact@gabella.site">contact@gabella.site</a></p></div>
+</footer>
+</div>
+</main>
+
+<nav class="tabbar" aria-label="Sezioni rapide">
+  <a href="#top"><svg class="ico" aria-hidden="true"><use href="#i-home"/></svg>Home</a>
+  <a href="#classes"><svg class="ico" aria-hidden="true"><use href="#i-tank"/></svg>Classi</a>
+  <a href="#builder"><svg class="ico" aria-hidden="true"><use href="#i-users"/></svg>Gruppo</a>
+  <a href="#guides"><svg class="ico" aria-hidden="true"><use href="#i-book"/></svg>Guide</a>
+  <button type="button" class="morebtn" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-dots"/></svg>Altro</button>
+</nav>
+
+<dialog class="sheet" id="moreDlg" aria-label="Tutte le sezioni">
+  <div class="dh"><b>Tutte le sezioni</b><button class="iconbtn" id="moreClose" type="button" aria-label="Chiudi"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
+  <nav class="toc" aria-label="Tutte le sezioni">
+    <div class="grp"><div class="gh">Home</div><a href="#top">Panoramica</a><a href="#stages">Dove sei ora</a><a href="#factions">Fazioni</a><a href="#classes">Classi</a><a href="#peoples">Razze</a></div>
+    <div class="grp"><div class="gh">Strumenti</div><a href="#picker">Selettore</a><a href="#builder">Creatore di gruppi</a><a href="tools/">Riquadri, confronto, ricerca</a></div>
+    <div class="grp"><div class="gh">Riferimenti</div><a href="guides/leveling/">Livellamento 1–60</a><a href="guides/dungeons/">Spedizioni e incursioni</a><a href="guides/professions/">Professioni</a><a href="guides/faq/">FAQ e date</a><a href="guides/news/">Notizie</a><a href="classes/">Classi a confronto</a><a href="races/">Razze a confronto</a><a href="#sources">Fonti</a></div>
+  </nav>
+  <div class="opts">
+    <div class="langgrid" role="group" aria-label="Lingua"><a href="../" data-lang="ru" hreflang="ru" lang="ru">Русский</a><a href="../en/" data-lang="en" hreflang="en" lang="en">English</a><a href="../uk/" data-lang="uk" hreflang="uk" lang="uk">Українська</a><a href="../de/" data-lang="de" hreflang="de" lang="de">Deutsch</a><a href="../fr/" data-lang="fr" hreflang="fr" lang="fr">Français</a><a href="../es/" data-lang="es" hreflang="es" lang="es">Español</a><a href="../pt/" data-lang="pt" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a><a href="./" data-lang="it" hreflang="it" lang="it" aria-current="page">Italiano</a><a href="../pl/" data-lang="pl" hreflang="pl" lang="pl">Polski</a></div>
+    <button class="iconbtn themebtn" type="button" aria-label="Cambia tema"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg><span>Argomento</span></button>
+  </div>
+  <p class="meta">Dati al 23.10.2026, beta chiusa, patch del 15.10.2026.</p>
+</dialog>
+<script>
+const HOME = '';   // language home, the classes/ and races/ pages set their own
+/* ref:start — shared with the classes/ and races/ pages (build_guides.ref_js); no $ or esc here, every page defines its own */
+const CLASSES = [
+  { id:'warrior', n:'Guerriero', s:'Guerriero', roles:['tank','dps'],
+    specs:[['Armi','Danni in mischia (arma a due mani)',['dps']],['Furia','Danni in mischia (due armi)',['dps']],['Protezione','Difensore',['tank']]],
+    lvl:'Il livellamento più lento, circa il 12% più lungo della media',
+    lp:12,
+    raid:'Urlo di Battaglia agisce su tutta l’incursione',
+    forever:'Più Rabbia, minaccia migliore su gruppi di bersagli, il talento Weapon Master. Furia e Sete di Sangue sono indebolite.' },
+  { id:'paladin', n:'Paladino', roles:['tank','heal','dps'],
+    specs:[['Sacro','Guaritore',['heal']],['Protezione','Difensore',['tank']],['Castigo','Danni in mischia',['dps']]],
+    lvl:'Ritmo di livellamento nella media',
+    lp:0,
+    raid:'Benedizione dei Re ora è di base. Secondo le classifiche della beta, Protezione è tra i difensori più forti, mentre Castigo è sceso dopo la patch del 15 ottobre.',
+    forever:'Holy Strike dal livello 6, Giudizio non consuma il sigillo. I Non Morti ora possono essere paladini, quindi la classe è arrivata nell’Orda.' },
+  { id:'hunter', n:'Cacciatore', roles:['dps'],
+    specs:[['Affinità Animale','Danni a distanza, molti danni dal famiglio',['dps']],['Precisione','Danni a distanza',['dps']],['Sopravvivenza','Mischia e distanza, trappole',['dps']]],
+    lvl:'Il livellamento più veloce, circa l’8% più rapido della media',
+    lp:-8,
+    raid:'Trueshot Aura agisce su tutta l’incursione',
+    forever:'Puoi giocare senza famiglio, le trappole funzionano in combattimento, le volpi sono arrivate come famiglia di famigli. Sopravvivenza può giocare in mischia.' },
+  { id:'rogue', n:'Ladro', roles:['dps'],
+    specs:[['Assassinio','Danni da veleno',['dps']],['Combattimento','Attacchi rapidi con l’arma',['dps']],['Scaltrezza','Imboscate, sanguinamenti',['dps']]],
+    lvl:'Ritmo di livellamento nella media',
+    lp:0,
+    raid:'Puri danni in mischia, senza potenziamenti per l’incursione',
+    forever:'Ora può usare asce a una mano. Assassinio si basa sui veleni, Scaltrezza su sanguinamenti e furtività.' },
+  { id:'priest', n:'Sacerdote', roles:['heal','dps'],
+    specs:[['Disciplina','Guaritore, scudi e assorbimento',['heal']],['Sacro','Guaritore',['heal']],['Ombra','Danni a distanza',['dps']]],
+    lvl:'Circa il 5% più lento della media',
+    lp:5,
+    raid:'Spirito Divino ora è di base. I danni d’Ombra e Piaga Divorante (recupero di 24 s) sono stati potenziati dalla patch del 15 ottobre.',
+    forever:'Protezione dalla Paura e Piaga Divorante sono disponibili dal livello 20 per tutte le razze. Ogni razza ha due incantesimi da sacerdote propri.' },
+  { id:'shaman', n:'Sciamano', roles:['heal','dps','tank?'],
+    specs:[['Elementale','Danni a distanza',['dps']],['Potenziamento','Danni in mischia. Il ruolo da difensore è ancora in dubbio',['dps','tank?']],['Rigenerazione','Guaritore',['heal']]],
+    lvl:'Ritmo di livellamento nella media',
+    lp:0,
+    raid:'I totem Forza della Terra, Furia del Vento, Lingua di Fuoco e Grazia dell’Aria potenziano tutta l’incursione',
+    forever:'I Nani ora possono essere sciamani, quindi la classe è arrivata nell’Alleanza. Esplosione di Lava è stata potenziata, Elementale è salito nelle classifiche dei danni.' },
+  { id:'mage', n:'Mago', roles:['dps'],
+    specs:[['Arcano','Danni esplosivi, molto mana',['dps']],['Fuoco','Critici e incendi',['dps']],['Gelo','Danni e controllo',['dps']]],
+    lvl:'Il livellamento più veloce, circa l’8% più rapido della media (circa 12 ore risparmiate)',
+    lp:-8,
+    raid:'Portali, cibo e acqua per tutto il gruppo',
+    forever:'Fuoco ha ottenuto Hotstreak, Arcano un’Esplosione Arcana rinnovata, Gelo Lancia di Ghiaccio. Dardo di Fuocogelo è disponibile dal livello 40.' },
+  { id:'warlock', n:'Stregone', roles:['dps'],
+    specs:[['Afflizione','Danni da maledizioni e corruzione',['dps']],['Demonologia','Danni tramite demoni',['dps']],['Distruzione','Danni diretti da fuoco e ombra',['dps']]],
+    lvl:'Ritmo di livellamento nella media',
+    lp:0,
+    raid:'Shadow Mastery ora dà il 2–10% di danni d’ombra (prima 1–5%)',
+    forever:'Afflizione ha un nuovo incantesimo canalizzato, il demone resta con Sacrificio Demoniaco, Distruzione ha ottenuto Incenerimento e danni ad area.' },
+  { id:'druid', n:'Druido', roles:['tank','heal','dps'],
+    specs:[['Equilibrio','Danni a distanza',['dps']],['Aggressore','Difensore (orso) e danni in mischia (gatto)',['tank','dps']],['Rigenerazione','Guaritore, molte cure nel tempo',['heal']]],
+    lvl:'Circa il 5% più lento della media',
+    lp:5,
+    raid:'Capobranco e Aura del Lunagufo agiscono su tutta l’incursione e si sommano',
+    forever:'Ogni specializzazione ha un ruolo chiaro, le forme funzionano con pozioni e incantamenti delle armi. Puoi essere difensore, guaritore e combattente con un solo personaggio.' }
+];
+const ROLE_RU = { tank:'Difensore', heal:'Guaritore', dps:'Danni', 'tank?':'Difensore (incerto)' };
+const ri = r => `<svg class="ri" aria-hidden="true"><use href="#i-${r.replace('?','')}"/></svg>`;
+const CCOL = { warrior:'#c79c6e', paladin:'#f58cba', hunter:'#abd473', rogue:'#fff569', priest:'#e8e8e8', shaman:'#2f8cf0', mage:'#40c7eb', warlock:'#8788ee', druid:'#ff7d0a' };
+const BUFF = { warrior:'Urlo di Battaglia', paladin:'Benedizione dei Re', hunter:'Trueshot Aura', priest:'Spirito Divino', shaman:'Totem (Forza della Terra, Furia del Vento, Lingua di Fuoco, Grazia dell’Aria)', mage:'Portali, cibo e acqua', druid:'Capobranco e Aura del Lunagufo' };
+
+const RACES = [
+  { id:'human', n:'Umano', f:'alliance',
+    cls:['warrior','paladin','hunter*','rogue','priest','mage','warlock'],
+    rac:[['a','Will to Survive','Rimuove lo stordimento'],['a','Percezione','Rivela i nemici invisibili per 20 s'],['p','Ruthless','+2% probabilità di critico'],['p','Spirito Umano','+5% spirito']],
+    tip:'Per un Sacerdote Sacro lo spirito si traduce in cure, quindi un sacerdote Umano è ottimo per curare.' },
+  { id:'dwarf', n:'Nano', f:'alliance',
+    cls:['warrior','paladin','hunter','rogue','priest','shaman*'],
+    rac:[['a','Forma di Pietra','Immunità a sanguinamenti, veleni e malattie per 8 s e danni fisici ridotti'],['a','Trova Tesori','Mostra i forzieri vicini'],['p','Earth Fury','+2% danni critici e potere di cura'],['p','Big Game Hunter','+5% danni alle bestie']],
+    tip:'Forma di Pietra è utile ai difensori e nel PvP.' },
+  { id:'nightelf', n:'Elfo della Notte', f:'alliance',
+    cls:['warrior','hunter','rogue','priest','druid'],
+    rac:[['a','Elune’s Light','+10% probabilità di critico per 15 s'],['a','Fusione con l’Ombra','Invisibilità sul posto'],['p','Rapidità','+1% schivata e +2% velocità di corsa'],['p','Spirito del Fuoco Fatuo','+75% velocità di corsa da spirito']],
+    tip:'L’unica razza dell’Alleanza con il druido, a meno di scegliere gli Skyborne.' },
+  { id:'gnome', n:'Gnomo', f:'alliance',
+    cls:['warrior','rogue','mage','warlock','priest*'],
+    rac:[['a','Artista della Fuga','Breve immunità a rallentamenti e immobilizzazioni'],['a','Eureka!','Le prossime 3 abilità costano meno e sono più forti del 10%'],['p','Mente Espansiva','+5% mana, rabbia o energia massimi'],['p','Specializzazione in Ingegneria','I congegni d’ingegneria funzionano in modo più affidabile']],
+    tip:'Mente Espansiva aiuta soprattutto le classi a energia.' },
+  { id:'skyA', n:'Skyborne (Alleanza)', f:'alliance', paid:true, name:'Skyborne dell’High Order',
+    cls:['warrior','hunter','rogue','mage','druid'],
+    rac:[['a','Walk on Air','Plani per 10 s, senza danni da caduta'],['a','Read Ley Line','+100% rigenerazione di salute e mana'],['p','Wind Blessed','+3% velocità d’attacco e degli incantesimi'],['p','Elemental Insight','+5% danni agli elementali']],
+    tip:'Razza a pagamento: Heroic Pack da $29.99. Inizia nella zona di Zephras Isle (livelli 1–12).' },
+  { id:'orc', n:'Orco', f:'horde',
+    cls:['warrior','hunter','rogue','shaman','warlock','mage*'],
+    rac:[['a','Furia Sanguinaria','+10% potenza d’attacco e potere magico per 15 s'],['a','Shatter Curse','Immunità a maledizioni e corruzione e meno danni magici per 8 s'],['p','Savage','+1% probabilità di critico'],['p','Hardiness','Stordimenti più brevi del 20%']],
+    tip:'Furia Sanguinaria offre una potente finestra di danni.' },
+  { id:'undead', n:'Non Morto', f:'horde',
+    cls:['warrior','rogue','mage','priest','warlock','paladin*'],
+    rac:[['a','Volontà dei Reietti','Rimuove ammaliamento, paura e sonno'],['a','Cannibalismo','Ripristina nel tempo il 35% di salute e mana'],['p','Respirazione Subacquea','Respiri più a lungo sott’acqua'],['p','Touch of the Grave','5% di probabilità di sottrarre salute quando attacchi']],
+    tip:'Nuova combinazione: un paladino per l’Orda, dove prima questa classe non esisteva.' },
+  { id:'tauren', n:'Tauren', f:'horde',
+    cls:['warrior','hunter','shaman','druid'],
+    rac:[['a','Pestone di Guerra','Stordisce i nemici vicini per 2 s'],['a','Coltivazione','Fa crescere erbe raccoglibili senza Erbalismo'],['p','Plainsrunning','La velocità aumenta mentre corri'],['p','Resistenza','+5% salute e +2% danni critici']],
+    tip:'L’unica razza dell’Orda con il druido, a meno di scegliere gli Skyborne.' },
+  { id:'troll', n:'Troll', f:'horde',
+    cls:['warrior','hunter','rogue','priest','shaman','mage','warlock*'],
+    rac:[['a','Berserking','+10% velocità d’attacco e degli incantesimi per 10 s'],['a','Rapid Regeneration','Ripristina salute nel tempo'],['p','Beast Slaying','+5% danni alle bestie'],['p','Rigenerazione','La salute si rigenera anche in combattimento']],
+    tip:'Più scelte di classe di tutta l’Orda: sette.' },
+  { id:'skyH', n:'Skyborne (Orda)', f:'horde', paid:true, name:'Skyborne Windshaper',
+    cls:['warrior','hunter','rogue','shaman','druid'],
+    rac:[['a','Walk on Air','Plani per 10 s, senza danni da caduta'],['a','Skysight','+10% velocità di corsa'],['p','Wind Blessed','+3% velocità d’attacco e degli incantesimi'],['p','Elemental Insight','+5% danni agli elementali']],
+    tip:'Razza a pagamento: Heroic Pack da $29.99. Solo nell’Orda può essere sciamano, solo nell’Alleanza mago.' }
+];
+RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
+const CL = Object.fromEntries(CLASSES.map(c => [c.id, c]));
+const RC = Object.fromEntries(RACES.map(r => [r.id, r]));
+const RLEAD = {"human": "La razza più numerosa dell’Alleanza. Versatile e forte nel PvP grazie a Will to Survive.", "dwarf": "Robusti minatori e fucilieri di Forgiardente. Per la prima volta in Classic l’Alleanza ha gli sciamani, e sono nani.", "nightelf": "Un antico popolo delle foreste. Sfuggenti: un modo tutto loro per nascondersi, schivate e corsa veloce.", "gnome": "Gli inventori di Gnomeregan. Piccoli, astuti e con la migliore abilità di fuga del gioco.", "skyA": "Una nuova razza di Forever. L’High Order: elfi del vento in cerca della magia arcana perduta dei loro antenati.", "orc": "Il cuore dell’Orda. I guerrieri più forti e maestri del PvP grazie a Furia Sanguinaria e Hardiness.", "undead": "I Reietti: ex umani liberatisi dal Re dei Lich. Immuni a paura e sonno quando conta.", "tauren": "Pacifici giganti delle pianure. La salute più alta e uno stordimento ad area tutto loro.", "troll": "La tribù Lanciascura. Più classi di tutta l’Orda e un potente Berserking per i danni.", "skyH": "Una nuova razza di Forever. I Windshaper: guide spirituali degli Skyborne, vicini agli elementi."}; // race page leads and URL slugs, filled in by build.py
+const RSLUG = {"human": "human", "dwarf": "dwarf", "nightelf": "night-elf", "gnome": "gnome", "skyA": "skyborne-alliance", "orc": "orc", "undead": "undead", "tauren": "tauren", "troll": "troll", "skyH": "skyborne-horde"};
+
+const EN = {
+  'Armi':'Arms','Furia':'Fury','Protezione':'Protection','Sacro':'Holy','Castigo':'Retribution',
+  'Affinità Animale':'Beast Mastery','Precisione':'Marksmanship','Sopravvivenza':'Survival',
+  'Assassinio':'Assassination','Combattimento':'Combat','Scaltrezza':'Subtlety',
+  'Disciplina':'Discipline','Ombra':'Shadow','Elementale':'Elemental','Potenziamento':'Enhancement','Rigenerazione':'Restoration',
+  'Arcano':'Arcane','Fuoco':'Fire','Gelo':'Frost','Afflizione':'Affliction','Demonologia':'Demonology','Distruzione':'Destruction',
+  'Equilibrio':'Balance','Aggressore':'Feral',
+  'Will to Survive':'Will to Survive','Percezione':'Perception','Ruthless':'Ruthless','Spirito Umano':'The Human Spirit',
+  'Forma di Pietra':'Stoneform','Trova Tesori':'Find Treasure','Earth Fury':'Earth Fury','Big Game Hunter':'Big Game Hunter',
+  'Elune’s Light':"Elune’s Light",'Fusione con l’Ombra':'Shadowmeld','Rapidità':'Quickness','Spirito del Fuoco Fatuo':'Wisp Spirit',
+  'Artista della Fuga':'Escape Artist','Eureka!':'Eureka!','Mente Espansiva':'Expansive Mind','Specializzazione in Ingegneria':'Engineering Specialization',
+  'Walk on Air':'Walk on Air','Read Ley Line':'Read Ley Line','Wind Blessed':'Wind Blessed','Elemental Insight':'Elemental Insight','Skysight':'Skysight',
+  'Furia Sanguinaria':'Blood Fury','Shatter Curse':'Shatter Curse','Savage':'Savage','Hardiness':'Hardiness',
+  'Volontà dei Reietti':'Will of the Forsaken','Cannibalismo':'Cannibalize','Respirazione Subacquea':'Underwater Breathing','Touch of the Grave':'Touch of the Grave',
+  'Pestone di Guerra':'War Stomp','Coltivazione':'Cultivation','Plainsrunning':'Plainsrunning','Resistenza':'Endurance',
+  'Berserking':'Berserking','Rapid Regeneration':'Rapid Regeneration','Beast Slaying':'Beast Slaying','Rigenerazione':'Regeneration'
+};
+RC.skyA.en = 'High Order Skyborne'; RC.skyH.en = 'Windshaper Skyborne';
+const tipBox = h => `<div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Consiglio</span>${h}</p></div>`;
+function bi(ru) { return EN[ru] && EN[ru] !== ru ? `${esc(ru)} <span class="en">(${esc(EN[ru])})</span>` : esc(ru); }
+function raceEn(r) { return r.en ? ` <span class="en">/ ${esc(r.en)}</span>` : ''; }
+function facName(f) { return f === 'alliance' ? 'Alleanza' : 'Orda'; }
+/* Round face avatar: assets/art/<id>-face.webp, ring colour cc */
+function face(id, cc, cls = '', title = '') { return `<span class="av ${cls}" style="--cc:${cc}"${title ? ` title="${esc(title)}"` : ''}><img src="../assets/art/${id}-face.webp" width="160" height="160" alt="" loading="lazy" decoding="async"></span>`; }
+function lvlMeter(c) {
+  const p = c.lp || 0, w = Math.min(Math.abs(p) / 12 * 46, 46);
+  const label = p < 0 ? `Più veloce del ${-p}%` : p > 0 ? `Più lento del ${p}%` : 'Ritmo nella media';
+  const bar = p ? `<i class="${p > 0 ? 'slow' : ''}" style="${p < 0 ? 'right' : 'left'}:50%;width:${w}%"></i>` : '';
+  return `<span class="lvl"><span>${label}</span><span class="bar" role="img" aria-label="${label}">${bar}</span><span class="scale" aria-hidden="true"><span>più veloce</span><span>più lento</span></span></span>`;
+}
+function renderClassRef() {
+  const roles = ['tank', 'heal', 'dps'];
+  const head = `<div class="cmp-h" aria-hidden="true"><span>Classe</span><span class="rdots">${roles.map(x => `<span title="${ROLE_RU[x]}">${ri(x)}</span>`).join('')}</span><span>Livellamento</span><span>In incursione</span><span></span></div>`;
+  $('#classRef').innerHTML = head + CLASSES.map(c => `<a class="cmp-row" href="${HOME}classes/${c.id}/" style="--cc:${CCOL[c.id]};--art:url('../assets/art/${c.id}-360.webp')">
+    <span class="cmp-id">${face(c.id, CCOL[c.id])}<span><b>${esc(c.n)}</b><small>${c.specs.map(s => esc(s[0])).join(' · ')}</small></span></span>
+    <span class="rdots" role="img" aria-label="Ruoli: ${c.roles.map(x => ROLE_RU[x]).join(', ')}">${roles.map(x => { const on = c.roles.includes(x), q = c.roles.includes(x + '?'); return `<span class="rdot${on ? ' on' : q ? ' q' : ''}" title="${ROLE_RU[q ? x + '?' : x]}">${ri(x)}</span>`; }).join('')}</span>
+    ${lvlMeter(c)}
+    <span class="cmp-txt">${esc(c.raid)}</span>
+    <span class="go" aria-hidden="true"><svg class="ico"><use href="#i-arrow"/></svg></span>
+  </a>`).join('');
+}
+
+function renderRaceRef() {
+  const head = `<div class="cmp-h" aria-hidden="true"><span>Razza</span><span>Classi</span><span class="abl">Abilità <span class="abt">attiva</span><span class="abt p">passiva</span></span><span></span></div>`;
+  $('#raceRef').innerHTML = ['alliance', 'horde'].map(f => `<div class="rgroup ${f}"><h3>${facName(f)}</h3>${head}` + RACES.filter(r => r.f === f).map(r => `<a class="cmp-row" href="${HOME}races/${RSLUG[r.id]}/" style="--cc:var(--${f});--art:url('../assets/art/${RSLUG[r.id]}-360.webp')">
+    <span class="cmp-id">${face(RSLUG[r.id], `var(--${f})`)}<span><b>${esc(r.n)}${r.paid ? '<span class="paid">a pagamento</span>' : ''}</b>${r.en ? `<small>${esc(r.en)}</small>` : ''}</span></span>
+    <span class="ccl" role="img" aria-label="Classi: ${Object.keys(r.can).map(id => CL[id].n).join(', ')}">${CLASSES.map(c => { const v = r.can[c.id]; return face(c.id, CCOL[c.id], v ? (v === 'new' ? 'nw' : '') : 'off', c.n + (v === 'new' ? ', nuova' : v ? '' : ', non disponibile')); }).join('')}</span>
+    <span class="abs">${r.rac.map(x => `<span><b class="${x[0] === 'a' ? '' : 'p'}">${bi(x[1])}</b><span>${esc(x[2])}</span></span>`).join('')}</span>
+    <span class="go" aria-hidden="true"><svg class="ico"><use href="#i-arrow"/></svg></span>
+  </a>`).join('') + '</div>').join('');
+}
+/* ref:end */
+const state = { f:'all', r:'all', race:'dwarf', cls:'shaman' };
+const $ = s => document.querySelector(s);
+
+function roleMatch(c, role) { return role === 'all' || c.roles.includes(role); }
+function raceVisible(r) { return state.f === 'all' || r.f === state.f; }
+function esc(s) { return String(s).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])); }
+function roleChips(c) { return c.roles.map(x => `<span class="chip ${state.r === x ? 'on' : ''} ${x.endsWith('?') ? 'q' : ''}">${ri(x)}${ROLE_RU[x]}</span>`).join(''); }
+
+function pickValid() {
+  let r = RC[state.race];
+  if (!raceVisible(r)) { r = RACES.find(raceVisible); state.race = r.id; }
+  if (!r.can[state.cls]) { state.cls = Object.keys(r.can).find(c => roleMatch(CL[c], state.r)) || Object.keys(r.can)[0]; }
+}
+function pickClass(id) {
+  state.cls = id;
+  if (!RC[state.race].can[id]) { const r = RACES.filter(raceVisible).find(x => x.can[id]) || RACES.find(x => x.can[id]); if (r) state.race = r.id; }
+  if (!raceVisible(RC[state.race])) { state.f = 'all'; syncSeg('segF', 'all'); }
+}
+function syncSeg(id, v) { document.querySelectorAll(`#${id} button`).forEach(b => b.setAttribute('aria-pressed', b.dataset.v === v ? 'true' : 'false')); }
+
+function renderMatrix() {
+  let h = '<thead><tr><th scope="col">Razza</th>';
+  CLASSES.forEach(c => { h += `<th scope="col" class="${roleMatch(c, state.r) ? '' : 'dim'}${c.id === state.cls ? ' selc' : ''}">${face(c.id, CCOL[c.id])}${esc(c.n)}</th>`; });
+  h += '</tr></thead><tbody>';
+  ['alliance', 'horde'].forEach(f => {
+    const rows = RACES.filter(r => r.f === f && raceVisible(r));
+    if (!rows.length) return;
+    h += `<tr class="fh ${f}"><th colspan="${CLASSES.length + 1}" scope="rowgroup"><span class="f ${f}"></span>${facName(f)}</th></tr>`;
+    rows.forEach(r => {
+      h += `<tr class="${r.id === state.race ? 'rowsel' : ''}"><th scope="row"><span class="rn">${face(RSLUG[r.id], `var(--${r.f})`)}${esc(r.n)}${r.paid ? '<span class="paid">a pagamento</span>' : ''}</span></th>`;
+      CLASSES.forEach(c => {
+        const v = r.can[c.id];
+        const dim = roleMatch(c, state.r) ? '' : ' dim';
+        if (!v) { h += `<td><span class="cell no${dim}" role="img" aria-label="${esc(r.n)} ${esc(c.n)}: non possibile"></span></td>`; return; }
+        const sel = (r.id === state.race && c.id === state.cls) ? ' sel' : '';
+        const label = `${r.n} ${c.n}${v === 'new' ? ', nuova combinazione' : ''}`;
+        const mark = v === 'new' && !sel ? '<span class="nw">nuova</span>' : '<i><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></i>';
+        h += `<td><button class="cell ${v}${dim}${sel}" style="--cc:${CCOL[c.id]}" data-r="${r.id}" data-c="${c.id}" aria-label="${esc(label)}" aria-pressed="${sel ? 'true' : 'false'}">${mark}</button></td>`;
+      });
+      h += '</tr>';
+    });
+  });
+  const mx = $('#matrix');
+  mx.innerHTML = h + '</tbody>';
+  mx._hc = -1;
+}
+/* Crosshair: the hovered cell lights up its row (CSS) and its column (here) */
+(function () {
+  const mx = document.getElementById('matrix');
+  const mark = i => {
+    if (i === mx._hc) return;
+    mx._hc = i;
+    mx.querySelectorAll('.hcol').forEach(x => x.classList.remove('hcol'));
+    if (i > 0) mx.querySelectorAll(`thead th:nth-child(${i + 1}), tbody tr:not(.fh) > :nth-child(${i + 1})`).forEach(x => x.classList.add('hcol'));
+  };
+  mx.addEventListener('mouseover', e => { const td = e.target.closest('td'); mark(td ? td.cellIndex : -1); });
+  mx.addEventListener('mouseleave', () => mark(-1));
+})();
+
+function renderPickM() {
+  const r = RC[state.race];
+  const races = RACES.filter(raceVisible).map(x => `<button type="button" data-pr="${x.id}" aria-pressed="${x.id === state.race}"><span class="f ${x.f}"></span>${esc(x.n)}</button>`).join('');
+  const cls = CLASSES.filter(c => roleMatch(c, state.r)).map(c => {
+    const v = r.can[c.id];
+    return `<button type="button" data-pc="${c.id}" class="${v ? '' : 'na'}" aria-pressed="${c.id === state.cls}">${esc(c.n)}${v === 'new' ? ' · nuova' : ''}</button>`;
+  }).join('');
+  $('#pickm').innerHTML = `<div><div class="lbl">1. Razza</div><div class="chiprow">${races}</div></div>
+    <div><div class="lbl">2. Classe (tratteggiata: non disponibile per questa razza, tocca per cambiare razza)</div><div class="chiprow">${cls}</div></div>`;
+}
+
+function renderDetail() {
+  const r = RC[state.race], c = CL[state.cls], isNew = r.can[c.id] === 'new';
+  const specs = c.specs.map(s => {
+    const hit = state.r !== 'all' && s[2].includes(state.r) ? ' on' : '';
+    return `<div class="card${hit}" style="--cc:${CCOL[c.id]}"><span class="rc">${ri(s[2][0])}</span><b>${bi(s[0])}</b><span>${esc(s[1])}</span></div>`;
+  }).join('');
+  const rac = r.rac.map(x => `<div class="card ab"><span class="abt${x[0] === 'a' ? '' : ' p'}">${x[0] === 'a' ? 'Attive' : 'Passive'}</span><b>${bi(x[1])}</b><span>${esc(x[2])}</span></div>`).join('');
+  const text = `${r.name || r.n} ${c.n} (${facName(r.f)})${r.paid ? ', serve il pacchetto Skyborne' : ''}`;
+  $('#detail').innerHTML = `
+    <div class="d-head">
+      <div class="d-art" aria-hidden="true"><img src="../assets/art/${c.id}-600.webp" width="600" height="804" alt="" loading="lazy" decoding="async"></div>
+      <div class="d-avs">${face(RSLUG[r.id], `var(--${r.f})`)}${face(c.id, CCOL[c.id])}</div>
+      <div class="d-title"><h3>${esc(r.n)}${raceEn(r)} · ${esc(c.n)}</h3>
+        <div class="chips"><span class="tag ${r.f}">${facName(r.f)}</span>${isNew ? '<span class="tag new">Nuova combinazione</span>' : ''}${r.paid ? '<span class="tag paid">Razza a pagamento</span>' : ''}${roleChips(c)}</div></div>
+    </div>
+    <div class="d-body">
+      <div class="d-cols">
+        <div><h4>Specializzazioni</h4><div class="cards">${specs}</div></div>
+        <div><h4>Abilità razziali</h4><div class="cards two">${rac}</div></div>
+      </div>
+      <div class="facts3">
+        <div class="fact"><h4>Livellamento</h4>${lvlMeter(c)}</div>
+        <div class="fact"><h4>In incursione</h4><span>${esc(c.raid)}.</span></div>
+        <div class="fact"><h4>Novità</h4><span>${esc(c.forever)}</span></div>
+      </div>
+      ${tipBox(esc(r.tip))}
+      <div class="copyrow">
+        <input id="pickText" readonly value="${esc(text)}" aria-label="La mia scelta">
+        <button class="btn" id="copyBtn"><svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg>Copia la mia scelta</button>
+        <span class="small" id="copyMsg" role="status"></span>
+      </div>
+    </div>`;
+  $('#copyBtn').onclick = () => copyTo($('#pickText').value, $('#copyMsg'), 'Copiato');
+  $('#qPick').textContent = `Ora: ${r.n} · ${c.n}`;
+}
+
+function render() { pickValid(); renderMatrix(); renderPickM(); renderDetail(); }
+function toPicker() { $('#detail').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest' }); }
+
+document.addEventListener('click', e => {
+  const seg = e.target.closest('#segF button, #segR button');
+  if (seg) {
+    const which = seg.parentElement.id === 'segF' ? 'f' : 'r';
+    state[which] = seg.dataset.v; syncSeg(seg.parentElement.id, seg.dataset.v);
+    render(); return;
+  }
+  const cell = e.target.closest('button.cell');
+  if (cell) { state.race = cell.dataset.r; state.cls = cell.dataset.c; render(); toPicker(); return; }
+  const pr = e.target.closest('[data-pr]');
+  if (pr) { state.race = pr.dataset.pr; render(); return; }
+  const pc = e.target.closest('[data-pc]');
+  if (pc) { pickClass(pc.dataset.pc); render(); return; }
+  const go = e.target.closest('button.go');
+  if (go) {
+    if (go.dataset.r) { state.race = go.dataset.r; if (!raceVisible(RC[state.race])) { state.f = 'all'; syncSeg('segF', 'all'); } }
+    if (go.dataset.c) pickClass(go.dataset.c);
+    render(); document.getElementById('picker').scrollIntoView({ behavior: 'smooth' });
+  }
+});
+render();
+/* Deep link from class pages: #pick=shaman or #pick=dwarf.shaman */
+(function () {
+  const m = location.hash.match(/^#pick=(?:(\w+)\.)?(\w+)$/);
+  if (!m || !CL[m[2]]) return;
+  if (m[1] && RC[m[1]] && RC[m[1]].can[m[2]]) { state.race = m[1]; state.cls = m[2]; } else pickClass(m[2]);
+  state.f = 'all'; state.r = 'all'; syncSeg('segF', 'all'); syncSeg('segR', 'all'); render();
+  setTimeout(() => document.getElementById('picker').scrollIntoView(), 0);
+})();
+/* Class roster: tall portraits, the hovered or focused one expands */
+const ROOT = '../';
+const DESC = {
+  warrior: 'Piastre, rabbia e prima linea. Incassa i colpi da difensore o falcia con un’arma a due mani.',
+  paladin: 'Un guerriero sacro in piastre: cura, difende e mena il martello. Ora anche nell’Orda.',
+  hunter: 'Arco, trappole e una bestia fedele al tuo fianco. Una delle classi più veloci da livellare.',
+  rogue: 'Veleni, lame e ombra. Danni puri dall’imboscata e controllo dei nemici.',
+  priest: 'Luce e Ombra nelle stesse mani. Il guaritore principale del gruppo o un incantatore oscuro.',
+  shaman: 'Totem ed elementi: cura, colpisce con fulmini o armi. Ora anche nell’Alleanza.',
+  mage: 'Magia del fuoco, del gelo e arcana. Portali, cibo e acqua per tutta la squadra.',
+  warlock: 'Maledizioni, demoni e fuoco. Danni nel tempo e un demone tutto tuo che ti aiuta.',
+  druid: 'Orso, gatto, gufo o guaritore: tutti e tre i ruoli in un solo personaggio.'
+};
+const artSet = (id, ext) => [360, 600, 896].map(w => `${ROOT}assets/art/${id}-${w}.${ext} ${w}w`).join(', ');
+const ART_SIZES = '(max-width: 719px) 78vw, 440px';
+function renderRoster() {
+  $('#roster').innerHTML = CLASSES.map((c, i) => `<a class="hc${i === 0 ? ' on' : ''}" href="classes/${c.id}/" style="--cc:${CCOL[c.id]}">
+    <picture><source type="image/avif" srcset="${artSet(c.id, 'avif')}" sizes="${ART_SIZES}"><source type="image/webp" srcset="${artSet(c.id, 'webp')}" sizes="${ART_SIZES}"><img src="${ROOT}assets/art/${c.id}-600.webp" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
+    <span class="vn" aria-hidden="true">${esc(c.n)}</span>
+    <span class="info"><b>${esc(c.n)}</b><span class="roles">${c.roles.filter(r => !r.endsWith('?')).map(r => `<span>${ri(r)}${ROLE_RU[r]}</span>`).join('')}</span><span class="d">${esc(DESC[c.id])}</span><span class="more">Di più sulla classe</span></span>
+  </a>`).join('');
+}
+renderRoster();
+/* Race roster: one row of portraits per faction, links to the race pages */
+function renderPeoples() {
+  [['alliance', '#rosterA'], ['horde', '#rosterH']].forEach(([f, sel]) => {
+    $(sel).innerHTML = RACES.filter(r => r.f === f).map((r, i) => `<a class="hc${i === 0 ? ' on' : ''}" href="races/${RSLUG[r.id]}/" style="--cc:var(--${f})">
+    <picture><source type="image/avif" srcset="${artSet(RSLUG[r.id], 'avif')}" sizes="${ART_SIZES}"><source type="image/webp" srcset="${artSet(RSLUG[r.id], 'webp')}" sizes="${ART_SIZES}"><img src="${ROOT}assets/art/${RSLUG[r.id]}-600.webp" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
+    <span class="vn" aria-hidden="true">${esc(raceName(r))}</span>
+    <span class="info"><b>${esc(raceName(r))}</b>${r.paid ? '<span class="tag paid">a pagamento</span>' : ''}<span class="d">${esc(RLEAD[r.id])}</span><span class="more">Di più sulla razza</span></span>
+  </a>`).join('');
+  });
+}
+renderPeoples();
+function activate(card) { if (!card || card.classList.contains('on')) return; card.parentElement.querySelectorAll('.hc.on').forEach(x => x.classList.remove('on')); card.classList.add('on'); }
+document.querySelectorAll('.roster').forEach(ro => {
+  ro.addEventListener('mouseover', e => activate(e.target.closest('.hc')));
+  ro.addEventListener('focusin', e => activate(e.target.closest('.hc')));
+});
+
+/* Faction banners open the picker with that faction */
+document.querySelectorAll('.go-f').forEach(b => b.addEventListener('click', () => {
+  state.f = b.dataset.fac; syncSeg('segF', state.f); render();
+  document.getElementById('picker').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+}));
+
+/* Countdown and key dates */
+function renderCountdown() {
+  const now = new Date(), rel = new Date('2026-11-04T00:00:00'), raid = new Date('2026-12-09T00:00:00'), r1 = new Date('2026-10-27T00:00:00');
+  let target, what, sub;
+  if (now < rel) { target = rel; what = 'fino al 04.11, orario di lancio da confermare'; sub = now < r1 ? 'La prenotazione nomi apre il 27.10' : 'La prenotazione nomi dura fino al 03.11'; }
+  else if (now < raid) { target = raid; what = 'alle incursioni'; sub = 'Le incursioni aprono il 09.12.2026'; }
+  if (target) {
+    const ms = target - now, d = Math.floor(ms / 864e5), h = Math.floor(ms % 864e5 / 36e5), m = Math.floor(ms % 36e5 / 6e4);
+    const p = x => String(x).padStart(2, '0');
+    $('#cd').innerHTML = `<div class="units"><div class="u"><b>${d}</b><span>g</span></div><div class="u"><b>${p(h)}</b><span>h</span></div><div class="u"><b>${p(m)}</b><span>min</span></div></div>
+      <div class="what"><b>${what}</b><span>${sub}</span></div>`;
+  } else {
+    $('#cd').innerHTML = `<div class="what"><b>Le incursioni sono aperte</b><span>Barrow Deeps, Hyjal Summit, Onyxia’s Lair</span></div>`;
+  }
+  let cur = null;
+  document.querySelectorAll('.hdates li').forEach(li => { const past = new Date(li.dataset.d + 'T00:00:00') <= now; li.classList.toggle('past', past); li.classList.remove('cur'); if (!past && !cur) cur = li; });
+  if (cur) cur.classList.add('cur');
+}
+renderCountdown();
+setInterval(renderCountdown, 30000);
+/* Group builder */
+const MAXT = 40, PARTY = 5;
+const SIZES = [5, 6, 8, 10, 15, 20, 25, 40];
+const RR = ['tank', 'heal', 'dps'];
+const POOL = {
+  tank: ['paladin', 'warrior', 'druid'],
+  heal: ['priest', 'shaman', 'paladin', 'druid'],
+  dps: ['mage', 'hunter', 'warlock', 'rogue', 'shaman', 'druid', 'warrior']
+};
+const RAIDS = [[10, 'Barrow Deeps'], [20, 'Hyjal Summit'], [40, 'Onyxia’s Lair']];
+const team = { f: 'alliance', list: [] };
+
+function roleOpts(c) { return RR.filter(x => c.roles.includes(x) || (x === 'tank' && c.roles.includes('tank?'))); }
+function raceFor(cls, f, k) {
+  const free = RACES.filter(r => r.f === f && !r.paid && r.can[cls]);
+  return free.length ? free[k % free.length].id : (RACES.find(r => r.f === f && r.can[cls]) || RACES.find(r => r.f === f)).id;
+}
+function partyRoles(k) {
+  if (k >= 5) return ['tank', 'heal', 'dps', 'dps', 'dps'];
+  return { 1: ['dps'], 2: ['tank', 'heal'], 3: ['tank', 'heal', 'dps'], 4: ['tank', 'heal', 'dps', 'dps'] }[k];
+}
+function autoTeam(n, f) {
+  const out = [], used = { tank: 0, heal: 0, dps: 0 };
+  for (let left = n, g = 0; left > 0; left -= PARTY, g++) {
+    partyRoles(Math.min(PARTY, left)).forEach(role => {
+      const pool = POOL[role].filter(c => RACES.some(r => r.f === f && r.can[c]));
+      const cls = pool[used[role]++ % pool.length];
+      out.push({ race: raceFor(cls, f, out.length), cls, role });
+    });
+  }
+  return out;
+}
+function fixSlot(s) {
+  const races = RACES.filter(r => r.f === team.f);
+  let r = RC[s.race]; if (!r || r.f !== team.f) r = races.find(x => x.can[s.cls]) || races[0];
+  s.race = r.id;
+  const cls = Object.keys(r.can); if (!r.can[s.cls]) s.cls = cls[0];
+  const ro = roleOpts(CL[s.cls]); if (!ro.includes(s.role)) s.role = ro[0];
+}
+function readHash() {
+  const m = location.hash.match(/^#team=([^;]+);(.*)$/);
+  if (!m || !['alliance', 'horde'].includes(m[1])) return false;
+  const list = m[2].split(',').map(x => x.split('.')).filter(x => x.length === 3 && RC[x[0]] && CL[x[1]] && RR.includes(x[2])).slice(0, MAXT);
+  if (!list.length) return false;
+  team.f = m[1]; team.list = list.map(x => ({ race: x[0], cls: x[1], role: x[2] }));
+  return true;
+}
+const fromLink = readHash();
+function teamLink() { return location.origin + location.pathname + '#team=' + team.f + ';' + team.list.map(s => `${s.race}.${s.cls}.${s.role}`).join(','); }
+function raceName(r) { return r.name || r.n; }
+function countRoles(list) { const c = { tank: 0, heal: 0, dps: 0 }; list.forEach(s => c[s.role]++); return c; }
+let teamTouched = fromLink;
+function renderTeam() {
+  team.list.forEach(fixSlot);
+  const n = team.list.length;
+  syncSeg('segBF', team.f);
+  $('#sizes').innerHTML = SIZES.map(x => `<button type="button" data-n="${x}" aria-pressed="${x === n}">${x}</button>`).join('');
+  $('#szOut').textContent = n;
+  const parties = Math.ceil(n / PARTY);
+  $('#szNote').textContent = n ? `${parties} gruppi da 5${n % PARTY ? ', l’ultimo è incompleto' : ''}` : '';
+  const races = RACES.filter(r => r.f === team.f);
+  let html = '';
+  for (let g = 0; g < parties; g++) {
+    const part = team.list.slice(g * PARTY, g * PARTY + PARTY), c = countRoles(part);
+    const need = [];
+    if (!c.tank) need.push('senza difensore'); if (!c.heal) need.push('senza guaritore'); if (part.length < PARTY) need.push(`mancano ${PARTY - part.length}`);
+    const status = need.length ? `<span class="miss">${need.join(', ')}</span>` : '<span class="ok">gruppo completo</span>';
+    html += `<div class="party"><div class="party-h"><h4>Gruppo ${g + 1}</h4><span class="pc"><span>${ri('tank')}${c.tank}</span><span>${ri('heal')}${c.heal}</span><span>${ri('dps')}${c.dps}</span>${status}</span></div>`;
+    part.forEach((s, k) => {
+      const i = g * PARTY + k, r = RC[s.race], ro = roleOpts(CL[s.cls]);
+      html += `<div class="slot" style="--cc:${CCOL[s.cls]}" data-i="${i}"><span class="no av"><img src="${ROOT}assets/art/${s.cls}-face.webp" width="160" height="160" alt="" loading="lazy" decoding="async"><b>${i + 1}</b></span>
+      <select class="srace" aria-label="Razza del giocatore ${i + 1}">${races.map(x => `<option value="${x.id}"${x.id === s.race ? ' selected' : ''}>${esc(x.n)}${x.paid ? ' (a pagamento)' : ''}</option>`).join('')}</select>
+      <select class="scls" aria-label="Classe del giocatore ${i + 1}">${Object.keys(r.can).map(c2 => `<option value="${c2}"${c2 === s.cls ? ' selected' : ''}>${esc(CL[c2].n)}</option>`).join('')}</select>
+      <select class="srole" aria-label="Ruolo del giocatore ${i + 1}">${ro.map(x => `<option value="${x}"${x === s.role ? ' selected' : ''}>${ROLE_RU[x]}</option>`).join('')}</select>
+      <button class="del" aria-label="Rimuovi giocatore ${i + 1}"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>`;
+    });
+    html += '</div>';
+  }
+  $('#slots').innerHTML = html;
+  $('#bAdd').disabled = n >= MAXT;
+  const cnt = countRoles(team.list);
+  $('#roleSum').innerHTML = RR.map(x => `<div class="rs ${cnt[x] ? 'ok' : 'zero'}"><b>${cnt[x]}</b><span>${ri(x)}${ROLE_RU[x]}</span></div>`).join('');
+  const v = [];
+  if (!n) v.push(['', 'Tocca una dimensione del gruppo o aggiungi un giocatore.']);
+  else {
+    const full = Array.from({ length: parties }, (_, g) => team.list.slice(g * PARTY, g * PARTY + PARTY)).filter(p => p.length === PARTY && p.some(s => s.role === 'tank') && p.some(s => s.role === 'heal')).length;
+    if (full) v.push(['good', `Gruppi pronti per una spedizione: ${full} su ${parties}. Ognuno ha un difensore e un guaritore.`]);
+    if (full < parties) v.push(['warn', 'Ad alcuni gruppi manca un difensore, un guaritore o dei giocatori. Sono evidenziati nell’elenco.']);
+    RAIDS.forEach(([size, name]) => v.push([n >= size ? 'good' : '', n >= size ? `Incursione da ${size} (${name}): giocatori sufficienti.` : `Incursione da ${size} (${name}): ne mancano ${size - n}.`]));
+    const byCls = {}; team.list.forEach(s => byCls[s.cls] = (byCls[s.cls] || 0) + 1);
+    const dup = Object.keys(byCls).filter(c => byCls[c] > 1 && BUFF[c]);
+    if (dup.length && n <= 10) v.push(['', `Classi uguali (${dup.map(c => CL[c].n).join(', ')}): i loro potenziamenti si sovrappongono, il secondo aggiunge meno.`]);
+    const sky = team.list.filter(s => RC[s.race].paid).length;
+    if (sky) v.push(['', `Gli Skyborne sono una razza a pagamento: l’Heroic Pack da $29.99 serve a ${sky} su ${n} giocatori.`]);
+  }
+  $('#verdict').innerHTML = v.map(x => `<li class="${x[0]}">${esc(x[1])}</li>`).join('');
+  const have = [...new Set(team.list.map(s => s.cls))];
+  const withB = have.filter(c => BUFF[c]), noB = have.filter(c => !BUFF[c]);
+  $('#buffs').innerHTML = (withB.length ? withB.map(c => `<li class="good"><span class="cdot" style="--cc:${CCOL[c]}"></span><b>${esc(CL[c].n)}:</b> ${esc(BUFF[c])}</li>`).join('') : '<li>Ancora nessuna classe con potenziamenti di gruppo.</li>')
+    + (noB.length ? `<li>Senza potenziamento di gruppo: ${noB.map(c => CL[c].n).join(', ')}. Fanno danni puri.</li>` : '');
+  $('#teamText').value = n ? Array.from({ length: parties }, (_, g) => (parties > 1 ? `Gruppo ${g + 1}: ` : '') + team.list.slice(g * PARTY, g * PARTY + PARTY).map(s => `${raceName(RC[s.race])} ${CL[s.cls].n} (${ROLE_RU[s.role]})`).join(', ')).join('; ') + ` — ${facName(team.f)}` : '';
+  $('#qTeam').textContent = n ? `${facName(team.f)}, giocatori: ${n}, difensori ${cnt.tank}, guaritori ${cnt.heal}` : 'Da uno a quaranta giocatori';
+  if (teamTouched) { try { history.replaceState(null, '', n ? teamLink() : location.pathname); } catch (e) {} }
+}
+function touch() { teamTouched = true; renderTeam(); }
+async function copyTo(text, msgEl, ok) {
+  try { await navigator.clipboard.writeText(text); msgEl.textContent = ok; } catch (e) { msgEl.textContent = 'Impossibile copiare, seleziona il testo e premi Ctrl+C'; }
+}
+$('#segBF').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; team.f = b.dataset.v; touch(); });
+$('#sizes').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { team.list = autoTeam(+b.dataset.n, team.f); touch(); } });
+$('#szMinus').onclick = () => { if (team.list.length > 1) { team.list.pop(); touch(); } };
+$('#szPlus').onclick = () => { if (team.list.length < MAXT) addPlayer(); };
+function addPlayer() {
+  const k = team.list.length, role = k % PARTY === 0 ? 'tank' : k % PARTY === 1 ? 'heal' : 'dps';
+  const pool = POOL[role].filter(c => RACES.some(r => r.f === team.f && r.can[c])), cls = pool[k % pool.length];
+  team.list.push({ race: raceFor(cls, team.f, k), cls, role }); touch();
+}
+$('#bClear').onclick = () => { team.list = []; touch(); };
+$('#bAdd').onclick = () => { if (team.list.length < MAXT) addPlayer(); };
+$('#slots').addEventListener('change', e => {
+  const row = e.target.closest('.slot'); if (!row) return; const s = team.list[+row.dataset.i];
+  if (e.target.classList.contains('srace')) s.race = e.target.value;
+  if (e.target.classList.contains('scls')) s.cls = e.target.value;
+  if (e.target.classList.contains('srole')) s.role = e.target.value;
+  touch();
+});
+$('#slots').addEventListener('click', e => { const d = e.target.closest('.del'); if (!d) return; team.list.splice(+d.closest('.slot').dataset.i, 1); touch(); });
+$('#copyTeam').onclick = () => copyTo($('#teamText').value, $('#teamMsg'), 'Gruppo copiato');
+$('#copyLink').onclick = () => copyTo(teamLink(), $('#teamMsg'), 'Link copiato');
+if (!fromLink) team.list = autoTeam(5, team.f);
+renderTeam();
+if (fromLink) setTimeout(() => document.getElementById('builder').scrollIntoView(), 0);
+
+/* Dungeons: [name, min, max, entrance zone, new, other sites' ranges where they differ] */
+const DUNGEONS = [
+  ['Ragefire Chasm', 13, 18, 'Orgrimmar', 0],
+  ['Hall of Thanes', 13, 18, 'Ironforge', 1, [['Icy Veins', '13–20']]],
+  ['Ruins of Lordaeron', 15, 20, 'Tirisfal Glades', 1, [['Icy Veins', '15–22']]],
+  ['The Deadmines', 15, 22, 'Westfall', 0, [['Icy Veins', '17–26']]],
+  ['Wailing Caverns', 17, 24, 'The Barrens', 0, [['Icy Veins', '15–24']]],
+  ['Shadowfang Keep', 20, 26, 'Silverpine Forest', 0, [['Icy Veins', '20–30']]],
+  ['Blackfathom Deeps', 22, 28, 'Ashenvale', 0, [['Sportskeeda', '22–26'], ['Icy Veins', '24–32']]],
+  ['Excavation Site: Wetlands', 24, 29, 'Wetlands', 1, [['ClassicWoW.gg', '26–31'], ['Icy Veins', '26–33']]],
+  ['The Stockade', 25, 29, 'Stormwind City', 0, [['Icy Veins', '24–32']]],
+  ['City of Dalaran', 28, 33, 'Alterac Mountains', 1, [['Icy Veins', '28–35']]],
+  ['Gnomeregan', 29, 38, 'Dun Morogh', 0],
+  ['Razorfen Kraul', 29, 38, 'The Barrens', 0],
+  ['Scarlet Monastery: Graveyard', 30, 38, 'Tirisfal Glades', 0],
+  ['Scarlet Monastery: Library', 33, 41, 'Tirisfal Glades', 0],
+  ['The Drowned City', 35, 40, 'Stranglethorn Vale', 1],
+  ['Scarlet Monastery: Armory', 36, 44, 'Tirisfal Glades', 0],
+  ['Uldaman', 36, 45, 'Badlands', 0, [['Icy Veins', '41–51']]],
+  ['Razorfen Downs', 37, 46, 'The Barrens', 0],
+  ['Scarlet Monastery: Cathedral', 38, 46, 'Tirisfal Glades', 0],
+  ["Zul'Farrak", 40, 47, 'Tanaris', 0, [['Icy Veins', '44–54']]],
+  ["Krol'dok Stronghold", 40, 45, 'Riverglades', 1],
+  ['Maraudon', 45, 51, 'Desolace', 0, [['Icy Veins', '46–55']]],
+  ['Alcaz Island Prison', 48, 53, 'Dustwallow Marsh', 1],
+  ["Temple of Atal'Hakkar", 50, 55, 'Swamp of Sorrows', 0, [['Icy Veins', '50–60']]],
+  ['Blackrock Depths', 52, 60, 'Blackrock Mountain', 0],
+  ['Blackmaw Hold', 55, 60, 'Azshara', 1],
+  ['Lower Blackrock Spire', 57, 60, 'Blackrock Mountain', 0, [['Icy Veins', '55–60']]],
+  ['Dire Maul: East', 58, 60, 'Feralas', 0, [['Icy Veins', '54–60']]],
+  ["Shaper's Terrace", 58, 60, "Un'Goro Crater", 1],
+  ['Stratholme: Living', 58, 60, 'Eastern Plaguelands', 0],
+  ['Stratholme: Undead', 58, 60, 'Eastern Plaguelands', 0],
+  ['Scholomance', 58, 60, 'Western Plaguelands', 0],
+  ['Upper Blackrock Spire', 60, 60, 'Blackrock Mountain', 0, [['Icy Veins', '59–60']]],
+  ['Dire Maul: West', 60, 60, 'Feralas', 0, [['Icy Veins', '56–60']]],
+  ['Dire Maul: North', 60, 60, 'Feralas', 0, [['Icy Veins', '56–60']]]
+];
+const lvRange = d => d[1] === d[2] ? String(d[1]) : `${d[1]}–${d[2]}`;
+const nearLvl = (d, lv) => lv >= d[1] - 3 && lv <= d[2] + 3;
+
+/* Professions: camp object (tier 1) and the class buff it stands in for */
+const PROFS = [
+  ['alchemy', 'Alchimia', 1, 'Mana Well', 'come Benedizione della Saggezza'],
+  ['blacksmithing', 'Forgiatura', 1, 'Sharpening Wheel', 'come Totem della Forza della Terra'],
+  ['enchanting', 'Incantamento', 1, 'Enchanted Lute', 'come Marchio della Natura'],
+  ['engineering', 'Ingegneria', 1, 'Reagent Bot', 'venditore di reagenti, riparazioni al livello 2'],
+  ['herbalism', 'Erbalismo', 1, 'Incense Candle', 'come Intelletto Arcano'],
+  ['leatherworking', 'Conciatura', 1, 'Camp Tent', 'più esperienza da riposo'],
+  ['mining', 'Estrazione', 1, 'Lodestone', 'come Benedizione della Potenza'],
+  ['skinning', 'Scuoiatura', 1, 'Camp Chair', 'come Aura del Lunagufo'],
+  ['tailoring', 'Sartoria', 1, 'Faction Banner', 'come Spirito Divino'],
+  ['cooking', 'Cucina', 0, 'Basic Campfire', 'più posti per oggetti nell’accampamento'],
+  ['firstaid', 'Primo Soccorso', 0, 'First Aid Kit', 'come Parola del Potere: Tempra'],
+  ['fishing', 'Pesca', 0, 'Fish Bowl', 'come Benedizione dei Re']
+];
+const PR = Object.fromEntries(PROFS.map(p => [p[0], p]));
+
+/* Game stages: f = fact from the sources, t = our tip */
+const SRC = {
+  names: ['Icy Veins: prenotazione nomi', 'https://www.icy-veins.com/wow-forever/name-reservation'],
+  names2: ['Team Overpowered: nomi e cognomi', 'https://teamoverpowered.com/forever/guides/name-reservation/'],
+  prof: ['Warcraft Tavern: professioni', 'https://www.warcrafttavern.com/forever/guides/professions/'],
+  camp: ['Warcraft Tavern: accampamento', 'https://www.warcrafttavern.com/forever/guides/camping/'],
+  legacy: ['Blizzard: Legacy', 'https://news.blizzard.com/en-gb/article/24307383'],
+  dung: ['Warcraft Tavern: spedizioni', 'https://www.warcrafttavern.com/forever/guides/dungeons/'],
+  ride: ['Warcraft Tavern: cavalcature', 'https://www.warcrafttavern.com/forever/guides/riding/'],
+  cwg: ['ClassicWoW.gg: date e incursioni', 'https://classicwow.gg/forever']
+};
+const STAGES = [
+  { id: 'pre', n: 'Prima del lancio', sub: 'fino al 04.11', lo: 0, hi: 0,
+    todo: [['f', 'Prenotazione anticipata dei nomi dal 27.10 al 03.11 per chi possiede i pacchetti Heroic, Epic e Collection. Chi prima arriva, meglio alloggia.'],
+      ['f', 'Puoi prenotare fino a tre personaggi per account. Un personaggio ha nome e cognome, e la coppia deve essere unica nella regione.'],
+      ['f', 'Dal 04.11 per giocare serve un abbonamento o tempo di gioco.'],
+      ['t', 'Scegli tre nomi con cognome, più delle riserve, prima del 27.10.']],
+    dnote: 'Le prime spedizioni si aprono al livello 13.',
+    prof: [['f', 'Ogni personaggio ha due professioni primarie più tutte e tre le secondarie: Cucina, Primo Soccorso e Pesca.'],
+      ['f', 'Ogni professione piazza un proprio oggetto da accampamento con un potenziamento simile a quello di una classe.'],
+      ['t', 'Dividetevi le professioni in anticipo: uno di voi prende Cucina per il fuoco da campo, gli altri ne scelgono di diverse così i potenziamenti dell’accampamento non si ripetono.']],
+    legacy: [['f', 'Legacy si apre con il primo punto: livello 25, 150 in una professione (non di raccolta) o l’esplorazione di tutta la mappa.'],
+      ['f', 'Al lancio un personaggio può spendere al massimo 16 punti, il resto va al percorso delle ricompense.']],
+    group: [['t', 'Mettetevi d’accordo su una fazione e una modalità: si può fare gruppo solo nella stessa modalità, e nel PvP un account ha una sola fazione.'],
+      ['t', 'Prepara la formazione nel creatore di gruppi: un difensore, un guaritore e classi diverse per i potenziamenti.']],
+    src: ['names', 'names2', 'prof', 'legacy'] },
+  { id: 'first', n: 'Primi giorni', sub: 'livelli 1–15', lo: 1, hi: 15,
+    todo: [['f', 'Gli Skyborne iniziano su Zephras Isle, livelli 1–12.'],
+      ['f', 'I talenti si aprono al livello 10, o al 9 con il vantaggio Legacy Talented.'],
+      ['f', 'La maggior parte del cibo cucinato dà un bonus all’esperienza. Si somma all’accampamento e al Cozy Sleeping Bag.'],
+      ['t', 'Accumula riposo: esci dal gioco in una locanda o in un accampamento con tenda.']],
+    prof: [['f', 'Il fuoco da campo base non richiede Cucina e regge 3 oggetti. Arde per circa 10 minuti, e puoi accenderne uno nuovo dopo 5.'],
+      ['f', 'Per ottenere i potenziamenti dell’accampamento, siediti vicino (/sit) per almeno un minuto.'],
+      ['t', 'Inizia a raccogliere fin dai primi livelli: erbe, minerali e pelli alimentano la produzione, e 150 in una professione di produzione apre Legacy.']],
+    legacy: [['f', 'Ancora nessun vantaggio: il primo punto arriva al livello 25 o con 150 in una professione.'],
+      ['t', 'Quando si apre Legacy, prendi prima i vantaggi per esperienza e accampamento: Well Rested, Talented, Field Guide.']],
+    group: [['t', 'Livellate nella stessa zona e montate l’accampamento a ogni sosta: cinque minuti al fuoco ripagano con potenziamenti per tutto il gruppo.'],
+      ['t', 'Forma il tuo primo gruppo da cinque entro il livello 13–15.']],
+    src: ['camp', 'legacy', 'dung'] },
+  { id: 'dung', n: 'Spedizioni', sub: 'livelli 15–40', lo: 15, hi: 40,
+    todo: [['f', 'Gran parte dell’esperienza di una spedizione viene dalle sue catene di missioni. Ripeterla dopo dà molta meno esperienza delle missioni nel mondo.'],
+      ['f', 'Ogni oggetto che cade sblocca il suo aspetto di trasmogrificazione per tutti quelli che possono indossarlo, anche se l’oggetto è andato a un altro.'],
+      ['f', 'Legacy si apre al livello 25.'],
+      ['t', 'Prima raccogliete in gruppo le missioni della spedizione ed entrate quando le hanno tutti.']],
+    prof: [['f', 'Cucina a 140 dà 5 posti nell’accampamento, a 220 ne dà 10.'],
+      ['f', 'Ogni professione crea tre oggetti da accampamento, uno per livello. Le fonti non concordano sulla competenza necessaria per i livelli 2 e 3.'],
+      ['t', 'Se il livello 25 è ancora lontano, porta una professione di produzione a 150: Legacy si aprirà prima.']],
+    legacy: [['f', 'Ogni sfida dà 1 punto. Sono 65: classi 27, professioni 18, PvP 12, spedizioni 3, incursioni 3, avventura 2.'],
+      ['t', 'Reagent Economy (niente reagenti comprati per le abilità) e Field Guide (recupero più breve degli oggetti da accampamento) valgono la pena.']],
+    group: [['f', 'Una spedizione è pensata per 5 giocatori: un difensore, un guaritore e tre assaltatori.'],
+      ['f', 'Non c’è adattamento del livello, quindi un amico molto indietro non può unirsi alla spedizione.'],
+      ['t', 'Tenete i livelli vicini: chi resta indietro recupera con le missioni, e le spedizioni le fate insieme.']],
+    src: ['dung', 'camp', 'legacy'] },
+  { id: 'path', n: 'Verso il 60', sub: 'livelli 40–60', lo: 40, hi: 60,
+    todo: [['f', 'Una cavalcatura al livello 40 (60% di velocità), una veloce al 60 (100%). Addestrati dall’istruttore della tua razza.'],
+      ['f', 'Paladini e stregoni ottengono la cavalcatura con missioni di classe.'],
+      ['f', 'Onorato con la tua fazione dà uno sconto del 10% su addestramento e cavalcature. Blizzard non ha pubblicato i prezzi esatti, e i siti non concordano.'],
+      ['t', 'Risparmia oro per il livello 40: la cavalcatura sarà la tua spesa più grande verso il 60.']],
+    prof: [['f', 'Ogni professione ha i propri oggetti da accampamento di livello 2 e 3. Il secondo oggetto di Ingegneria, Repair Bot, ripara l’equipaggiamento.'],
+      ['t', 'Tenete Cucina a 220 nel gruppo per un accampamento da 10 oggetti: all’ora delle incursioni ci sarà posto per tutti.']],
+    legacy: [['f', 'Al massimo 16 punti per personaggio, il resto va al percorso delle ricompense: un giocattolo a 15, una mascotte a 25, un tabarro a 40, una cavalcatura a 55.']],
+    group: [['f', 'Le incursioni aprono il 09.12: Barrow Deeps da 10 giocatori, Vetta di Hyjal da 20, Covo di Onyxia da 40.'],
+      ['t', 'L’incursione da 10 richiede 10 giocatori: se siete meno, trovate per tempo gli altri nella gilda.']],
+    src: ['ride', 'prof', 'legacy', 'cwg'] },
+  { id: 'raid', n: '60 e incursioni', sub: 'dal 09.12', lo: 60, hi: 60,
+    todo: [['f', 'Il 09.12 aprono Barrow Deeps (10 giocatori), Vetta di Hyjal (20) e Covo di Onyxia (40, Paludi di Acquemorte).'],
+      ['f', 'Completare ognuna delle tre incursioni dà un punto Legacy.'],
+      ['f', 'Nuovo campo di battaglia 15v15: Darkspear Islands al largo delle Paludi di Acquemorte.'],
+      ['t', 'Mentre radunate la gente per l’incursione, fate le spedizioni di livello 60 per l’equipaggiamento.']],
+    prof: [['f', 'I potenziamenti dell’accampamento sono un po’ più deboli di quelli di classe e non si sommano: Benedizione dei Re dà il 10% a tutte le caratteristiche, l’accampamento l’8%.'],
+      ['t', 'Montate l’accampamento all’ingresso dell’incursione: i suoi potenziamenti coprono ciò che manca alle vostre classi.']],
+    legacy: [['f', 'Sfide per il livello 60: spedizioni 3, incursioni 3, PvP 12. Il PvP ha gradi con un limite settimanale e miglioramenti dell’equipaggiamento con l’Onore.']],
+    group: [['f', 'Gli stessi potenziamenti di due giocatori della stessa classe si sovrappongono, quelli di classi diverse si sommano.'],
+      ['t', 'Prepara la formazione d’incursione nel creatore di gruppi e posta il link in chat.']],
+    src: ['cwg', 'prof', 'legacy'] }
+];
+const ST = Object.fromEntries(STAGES.map(s => [s.id, s]));
+const D_REL = new Date('2026-11-04T00:00:00'), D_RAID = new Date('2026-12-09T00:00:00');
+
+/* My character, saved in this browser */
+const MEKEY = 'gabella-wf-me';
+const me = { race: '', cls: '', role: '', lvl: 0, p1: '', p2: '', sec: [] };
+try { const v = JSON.parse(localStorage.getItem(MEKEY) || '{}'); if (v && typeof v === 'object') Object.keys(me).forEach(k => { if (v[k] !== undefined) me[k] = v[k]; }); } catch (e) {}
+function fixMe() {
+  if (!RC[me.race]) me.race = '';
+  if (!CL[me.cls] || (me.race && !RC[me.race].can[me.cls])) me.cls = '';
+  const ro = me.cls ? roleOpts(CL[me.cls]) : [];
+  if (!ro.includes(me.role)) me.role = (me.cls && CL[me.cls].roles.find(r => ro.includes(r))) || ro[0] || '';
+  me.lvl = Math.max(0, Math.min(60, parseInt(me.lvl, 10) || 0));
+  if (!PR[me.p1] || !PR[me.p1][2]) me.p1 = '';
+  if (!PR[me.p2] || !PR[me.p2][2] || me.p2 === me.p1) me.p2 = '';
+  me.sec = Array.isArray(me.sec) ? me.sec.filter(x => PR[x] && !PR[x][2]) : [];
+}
+function saveMe() { try { localStorage.setItem(MEKEY, JSON.stringify(me)); } catch (e) {} }
+const meSet = () => !!(me.race || me.cls || me.lvl);
+let stageSel = null, stageAuto = true;
+function autoStage() {
+  const now = new Date();
+  if (now < D_REL) return ['pre', 'Scelta in base alla data: prima del lancio del 04.11.'];
+  if (me.lvl) return [me.lvl < 15 ? 'first' : me.lvl < 40 ? 'dung' : me.lvl < 60 ? 'path' : 'raid', 'Scelta in base al livello del tuo personaggio.'];
+  if (now >= D_RAID) return ['raid', 'Scelta in base alla data: le incursioni sono aperte.'];
+  return [now < new Date('2026-11-11T00:00:00') ? 'first' : 'dung', 'Scelta in base alla data. Aggiungi il livello del tuo personaggio e la fase lo seguirà.'];
+}
+const START = { pre: 'hero_dawn-960', first: 'hero_campfire-960', dung: 'warlock-360', path: 'hunter-360', raid: 'paladin-360' };
+const pic = f => `<picture><source type="image/avif" srcset="${ROOT}assets/art/${f}.avif"><img src="${ROOT}assets/art/${f}.webp" alt="" loading="lazy" decoding="async"></picture>`;
+const tipL = () => '<span class="tl">Consiglio</span>';
+function liC(x) { return x[0] === 't' ? `<li class="tip">${tipL()}${esc(x[1])}</li>` : `<li>${esc(x[1])}</li>`; }
+function dLi(d) {
+  const mine = me.lvl && nearLvl(d, me.lvl);
+  return `<li class="${mine ? 'mine' : ''}"><b>${esc(d[0])}</b><span class="pill${mine ? ' gold' : ''}">${lvRange(d)}</span><span class="z">${esc(d[3])}${d[4] ? ' · <i>nuova</i>' : ''}${mine ? '<span class="sr"> · per il tuo livello</span>' : ''}</span></li>`;
+}
+function renderStage() {
+  const [auto, why] = autoStage();
+  if (stageAuto) stageSel = auto;
+  const s = ST[stageSel];
+  $('#stageBar').innerHTML = STAGES.map(x => `<button type="button" class="stile" role="tab" id="tab-${x.id}" data-st="${x.id}" aria-controls="stagePanel" aria-selected="${x.id === stageSel}" tabindex="${x.id === stageSel ? 0 : -1}">${pic(START[x.id])}${x.id === auto ? '<span class="now">ora</span>' : ''}<b>${esc(x.n)}</b><span class="lv">${esc(x.sub)}</span></button>`).join('');
+  let ds;
+  if (s.id === 'pre') ds = DUNGEONS.filter(d => d[1] <= 15);
+  else ds = DUNGEONS.filter(d => d[1] <= s.hi && d[2] >= s.lo);
+  if (me.lvl && s.lo <= me.lvl && me.lvl <= Math.max(s.hi, 1)) ds = ds.filter(d => nearLvl(d, me.lvl)).concat(ds.filter(d => !nearLvl(d, me.lvl)));
+  const MAXD = 6, extra = ds.length - MAXD;
+  let k = 0;
+  const steps = s.todo.map(x => x[0] === 't'
+    ? `<li class="tip"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p>${tipL()}${esc(x[1])}</p></li>`
+    : `<li><span class="n">${String(++k).padStart(2, '0')}</span><p>${esc(x[1])}</p></li>`).join('');
+  $('#stagePanel').setAttribute('aria-labelledby', 'tab-' + s.id);
+  $('#stagePanel').innerHTML = `<div class="st-head"><div class="t"><h3>${esc(s.n)}</h3><span class="pill gold">${esc(s.sub)}</span></div><p class="why">${stageAuto ? esc(why) : 'Fase scelta a mano.'}</p></div>
+    <ol class="steps-c">${steps}</ol>
+    <div class="st-cols">
+      <div><h4>Spedizioni per questo livello</h4>${s.dnote ? `<p class="small" style="margin:-4px 0 10px">${esc(s.dnote)}</p>` : ''}<ul class="dlist">${ds.slice(0, MAXD).map(dLi).join('')}</ul>
+        <a class="more-l" href="guides/dungeons/">${extra > 0 ? `Altre spedizioni nella tabella: ${extra}` : 'Tutte le 35 spedizioni'}<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+      <div style="display:grid;gap:24px;align-content:start"><div><h4>Professioni e accampamento</h4><ul class="clean">${s.prof.map(liC).join('')}</ul></div>
+        <div><h4>Vantaggi Legacy</h4><ul class="clean">${s.legacy.map(liC).join('')}</ul></div></div>
+    </div>
+    <div class="gtip"><h4 style="margin:0 0 10px;font-size:1.02rem">Consigli per il gruppo</h4><ul class="clean">${s.group.map(liC).join('')}</ul></div>
+    <p class="st-src"><span>Fonti:</span>${s.src.map(k2 => `<a href="${SRC[k2][1]}" target="_blank" rel="noopener">${esc(SRC[k2][0])}</a>`).join('')}</p>`;
+}
+function optList(items, cur, none) { return `<option value="">${esc(none)}</option>` + items.map(([v, t]) => `<option value="${v}"${v === cur ? ' selected' : ''}>${esc(t)}</option>`).join(''); }
+function renderMe() {
+  fixMe();
+  const races = f => RACES.filter(r => r.f === f).map(r => `<option value="${r.id}"${r.id === me.race ? ' selected' : ''}>${esc(r.n)}</option>`).join('');
+  $('#meRace').innerHTML = `<option value="">Non scelto</option><optgroup label="${facName('alliance')}">${races('alliance')}</optgroup><optgroup label="${facName('horde')}">${races('horde')}</optgroup>`;
+  const cls = (me.race ? Object.keys(RC[me.race].can) : CLASSES.map(c => c.id)).map(id => [id, CL[id].n]);
+  $('#meCls').innerHTML = optList(cls, me.cls, 'Non scelto');
+  $('#meRole').innerHTML = me.cls ? roleOpts(CL[me.cls]).map(x => `<option value="${x}"${x === me.role ? ' selected' : ''}>${ROLE_RU[x]}</option>`).join('') : `<option value="">Prima scegli una classe</option>`;
+  $('#meRole').disabled = !me.cls;
+  const prim = PROFS.filter(p => p[2]);
+  $('#meP1').innerHTML = optList(prim.filter(p => p[0] !== me.p2).map(p => [p[0], p[1]]), me.p1, 'Nessuna');
+  $('#meP2').innerHTML = optList(prim.filter(p => p[0] !== me.p1).map(p => [p[0], p[1]]), me.p2, 'Nessuna');
+  $('#meSec').innerHTML = PROFS.filter(p => !p[2]).map(p => `<button type="button" data-sec="${p[0]}" aria-pressed="${me.sec.includes(p[0])}">${esc(p[1])}</button>`).join('');
+  document.querySelectorAll('.lvin').forEach(i => { if (document.activeElement !== i) i.value = me.lvl || ''; });
+  const who = [me.race ? RC[me.race].n : '', me.cls ? CL[me.cls].n : ''].filter(Boolean).join(' · ');
+  const sub = me.cls ? [ROLE_RU[me.role], me.race ? facName(RC[me.race].f) : ''].filter(Boolean).join(' · ') : 'Scegli razza, classe e livello qui sotto';
+  const hero = $('#meHero');
+  hero.style.setProperty('--cc', me.cls ? CCOL[me.cls] : '#c9a54a');
+  hero.innerHTML = pic(me.cls ? `${me.cls}-600` : 'hero_campfire-960') + (me.lvl ? `<span class="lvb" aria-label="Livello ${me.lvl}">${me.lvl}</span>` : '')
+    + `<span class="k">Il mio personaggio</span><b>${who ? esc(who) : 'Non ancora creato'}</b><span class="s">${esc(sub)}</span>`;
+  let out = '';
+  if (meSet()) {
+    const b = [];
+    if (me.cls) b.push(BUFF[me.cls] ? `<li><span class="bi" style="--cc:${CCOL[me.cls]}"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></span><span><b>${esc(CL[me.cls].n)}:</b> ${esc(BUFF[me.cls])}</span></li>` : `<li><span class="bi" style="--cc:${CCOL[me.cls]}"><svg class="ico" aria-hidden="true"><use href="#i-dps"/></svg></span><span>${esc(CL[me.cls].n)}: nessun potenziamento di gruppo, danni puri.</span></li>`);
+    [me.p1, me.p2, ...me.sec].filter(Boolean).forEach(id => { const p = PR[id]; b.push(`<li><span class="bi"><svg class="ico" aria-hidden="true"><use href="#i-fire"/></svg></span><span><b>${esc(p[3])}</b> <span class="m">· ${esc(p[1])}</span><br>${esc(p[4])}</span></li>`); });
+    if (!b.length) b.push('<li><span class="bi"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></span><span>Scegli classe e professioni per vedere i tuoi potenziamenti.</span></li>');
+    out += `<div><h4>Cosa porti al gruppo</h4><ul class="buffs">${b.join('')}</ul></div>`;
+    if (me.lvl) {
+      const ds = DUNGEONS.filter(d => nearLvl(d, me.lvl));
+      out += `<div><h4>Spedizioni per il tuo livello</h4>` + (ds.length ? `<ul class="dlist">${ds.slice(0, 4).map(dLi).join('')}</ul>` : '<p class="small">Le prime spedizioni iniziano dal livello 13.</p>')
+        + `<a class="more-l" href="guides/dungeons/">${ds.length > 4 ? `Altre spedizioni nella tabella: ${ds.length - 4}` : 'Tabella spedizioni'}<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>`;
+    }
+  }
+  $('#meOut').innerHTML = out;
+  $('#meReset').disabled = !meSet() && !me.p1 && !me.p2 && !me.sec.length;
+}
+function renderJourney() { renderMe(); renderStage(); }
+function meChanged() { fixMe(); saveMe(); stageAuto = true; renderJourney(); }
+$('#meRace').addEventListener('change', e => { me.race = e.target.value; meChanged(); });
+$('#meCls').addEventListener('change', e => { me.cls = e.target.value; if (me.cls && !me.race) { const r = RACES.find(x => x.can[me.cls] && !x.paid); if (r) me.race = r.id; } meChanged(); });
+$('#meRole').addEventListener('change', e => { me.role = e.target.value; meChanged(); });
+$('#meP1').addEventListener('change', e => { me.p1 = e.target.value; meChanged(); });
+$('#meP2').addEventListener('change', e => { me.p2 = e.target.value; meChanged(); });
+$('#meSec').addEventListener('click', e => { const b = e.target.closest('[data-sec]'); if (!b) return; const id = b.dataset.sec; me.sec = me.sec.includes(id) ? me.sec.filter(x => x !== id) : me.sec.concat(id); meChanged(); });
+$('#meReset').onclick = () => { Object.assign(me, { race: '', cls: '', role: '', lvl: 0, p1: '', p2: '', sec: [] }); meChanged(); };
+document.querySelectorAll('.stepper .lvm, .stepper .lvp').forEach(b => b.addEventListener('click', () => { me.lvl = Math.max(1, Math.min(60, (me.lvl || (b.classList.contains('lvp') ? 0 : 2)) + (b.classList.contains('lvp') ? 1 : -1))); meChanged(); }));
+document.querySelectorAll('.lvin').forEach(i => {
+  i.addEventListener('change', () => { me.lvl = i.value === '' ? 0 : parseInt(i.value, 10) || 0; meChanged(); });
+  i.addEventListener('keydown', e => { if (e.key === 'Enter') i.blur(); });
+});
+$('#stageBar').addEventListener('click', e => { const b = e.target.closest('[data-st]'); if (!b) return; stageSel = b.dataset.st; stageAuto = false; renderStage(); $('#tab-' + stageSel).focus(); });
+$('#stageBar').addEventListener('keydown', e => {
+  const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key]; if (!k) return;
+  const i = (STAGES.findIndex(s => s.id === stageSel) + k + STAGES.length) % STAGES.length;
+  stageSel = STAGES[i].id; stageAuto = false; renderStage(); const t = $('#tab-' + stageSel); t.focus(); t.scrollIntoView({ block: 'nearest', inline: 'nearest' }); e.preventDefault();
+});
+if (meSet() && matchMedia('(max-width: 980px)').matches) $('#meD').open = false;
+renderJourney();
+setTimeout(() => { const t = $('#tab-' + stageSel), bar = $('#stageBar'); if (t && matchMedia('(max-width: 719px)').matches) bar.scrollLeft += t.getBoundingClientRect().left - bar.getBoundingClientRect().left - 16; }, 0);
+
+/* Theme toggle and language links */
+const themeBtns = document.querySelectorAll('.themebtn');
+function paintTheme() { const t = document.documentElement.getAttribute('data-theme'); themeBtns.forEach(b => b.querySelector('use').setAttribute('href', t === 'light' ? '#i-moon' : '#i-sun')); const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#fbfaf7' : '#07080a'); }
+themeBtns.forEach(b => b.onclick = () => { const t = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light'; document.documentElement.setAttribute('data-theme', t); try { localStorage.setItem('wf-theme', t); } catch (e) {} paintTheme(); });
+paintTheme();
+
+/* Top bar turns solid once the page is scrolled */
+const topbar = $('#topbar');
+let barTick = false;
+function paintBar() { topbar.classList.toggle('solid', window.scrollY > 24); barTick = false; }
+window.addEventListener('scroll', () => { if (!barTick) { barTick = true; requestAnimationFrame(paintBar); } }, { passive: true });
+paintBar();
+
+/* Menu sheet: all sections, language, theme */
+const dlg = $('#moreDlg');
+document.querySelectorAll('.menubtn, .morebtn').forEach(b => b.onclick = () => { if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', ''); });
+$('#moreClose').onclick = () => dlg.close();
+dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.toc a')) dlg.close(); });
+
+/* Current section in the top menu and the bottom tab bar */
+if ('IntersectionObserver' in window) {
+  const navLinks = [...document.querySelectorAll('.mainnav a')], tabLinks = [...document.querySelectorAll('.tabbar a')];
+  const mark = (links, href) => links.forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === href ? 'true' : 'false'));
+  const io = new IntersectionObserver(es => es.forEach(en => {
+    if (!en.isIntersecting) return;
+    const t = en.target, nav = t.dataset.nav || ('#' + t.id);
+    mark(navLinks, nav); mark(tabLinks, t.dataset.tab || '#guides');
+  }), { rootMargin: '-45% 0px -50% 0px' });
+  document.querySelectorAll('.hero, section.block, section.stband, footer#sources').forEach(s => io.observe(s));
+}
+</script>
+<script>
+(() => {
+  const KEY = 'gabella-lang-hint', store = () => { try { localStorage.setItem(KEY, '1'); } catch (e) {} };
+  const keepHash = a => a.addEventListener('click', () => { store(); a.href = a.getAttribute('href').split('#')[0] + location.hash; });
+  document.querySelectorAll('.langlist a, .langgrid a').forEach(keepHash);
+  const sel = document.querySelector('.langsel'), btn = sel && sel.querySelector('.langbtn'), list = sel && sel.querySelector('.langlist');
+  if (btn) {
+    const links = [...list.querySelectorAll('a')];
+    const shut = focus => { if (list.hidden) return; list.hidden = true; btn.setAttribute('aria-expanded', 'false'); if (focus) btn.focus(); };
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      list.hidden = !list.hidden; btn.setAttribute('aria-expanded', String(!list.hidden));
+      if (!list.hidden) (list.querySelector('[aria-current]') || links[0]).focus();
+    });
+    document.addEventListener('click', e => { if (!sel.contains(e.target)) shut(); });
+    sel.addEventListener('keydown', e => {
+      if (e.key === 'Escape') return shut(true);
+      const i = links.indexOf(document.activeElement);
+      if (i < 0 || !['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(e.key)) return;
+      e.preventDefault();
+      const n = e.key === 'Home' ? 0 : e.key === 'End' ? links.length - 1 : (i + (e.key === 'ArrowDown' ? 1 : -1) + links.length) % links.length;
+      links[n].focus();
+    });
+    sel.addEventListener('focusout', e => { if (!sel.contains(e.relatedTarget)) shut(); });
+  }
+  let seen = '1';
+  try { seen = localStorage.getItem(KEY); } catch (e) {}
+  if (seen) return;
+  const H = {"ru": ["Эта страница есть на русском", "Читать по-русски", "Закрыть"], "en": ["This page is available in English", "Read in English", "Close"], "uk": ["Ця сторінка є українською", "Читати українською", "Закрити"], "de": ["Diese Seite gibt es auch auf Deutsch", "Auf Deutsch lesen", "Schließen"], "fr": ["Cette page existe aussi en français", "Lire en français", "Fermer"], "es": ["Esta página también está en español", "Leer en español", "Cerrar"], "pt": ["Esta página também está em português", "Ler em português", "Fechar"], "it": ["Questa pagina è disponibile anche in italiano", "Leggi in italiano", "Chiudi"], "pl": ["Ta strona jest dostępna po polsku", "Czytaj po polsku", "Zamknij"]}, cur = document.documentElement.lang.split('-')[0];
+  const want = (navigator.languages || [navigator.language]).map(x => String(x || '').toLowerCase().split('-')[0]).find(x => x in H);
+  const to = want && want !== cur && document.querySelector(`.langlist a[data-lang="${want}"]`);
+  if (!to) return;
+  const bar = document.createElement('div');
+  bar.className = 'langhint'; bar.lang = want; bar.setAttribute('role', 'status');
+  bar.innerHTML = `<span>${H[want][0]}</span><a href="${to.getAttribute('href')}" hreflang="${to.hreflang}">${H[want][1]}</a>`
+    + `<button type="button" aria-label="${H[want][2]}"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button>`;
+  keepHash(bar.querySelector('a'));
+  bar.querySelector('button').addEventListener('click', () => { store(); bar.remove(); });
+  document.body.append(bar);
+})();
+</script>
+<script>
+if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('../sw.js').catch(() => {}));
+addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  const opts = document.querySelector('.sheet .opts');
+  if (!opts || opts.querySelector('.installbtn')) return;
+  const b = document.createElement('button');
+  b.className = 'iconbtn installbtn'; b.type = 'button'; b.style.padding = '0 14px';
+  b.setAttribute('aria-label', 'Installa la guida come app');
+  b.innerHTML = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></svg><span>Installa</span>';
+  b.onclick = async () => { e.prompt(); await e.userChoice; b.remove(); };
+  opts.append(b);
+});
+</script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
+</body>
+</html>

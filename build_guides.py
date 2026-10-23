@@ -41,11 +41,11 @@ def E(x, lang):
 
 
 def check_langs(obj, path=''):
-    """Paths of trilingual fields that miss a language (or are empty)."""
+    """Paths of trilingual fields that miss ru/en/uk (or are empty); the new languages are derived from en by langs.fill."""
     gaps = []
     if isinstance(obj, dict):
-        if set(obj) & set(LANGS) and set(obj) <= set(LANGS):
-            gaps += [f'{path}.{l}' for l in LANGS if not obj.get(l)]
+        if set(obj) & set(langs.OLD) and set(obj) <= set(langs.ALL):
+            gaps += [f'{path}.{l}' for l in langs.OLD if not obj.get(l)]
         else:
             for k, v in obj.items():
                 gaps += check_langs(v, f'{path}.{k}')
