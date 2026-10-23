@@ -82,7 +82,7 @@ def tile_links(tiles, lang, root):
         avif, webp, img = art_sets(s['art'], '@@ROOT@@')
         out.append(f'<a class="ttile" href="{root}{s["href"]}"><picture><source type="image/avif" srcset="{avif}" sizes="320px">'
                    f'<img src="{img}" srcset="{webp}" sizes="320px" alt="" loading="lazy" decoding="async"></picture>'
-                   f'<b>{E(s["t"], lang)}</b><span>{E(s["d"], lang)}</span></a>')
+                   f'<b>{E(s["t"], lang)}</b><span>{E(s["d"], lang)}</span>{build.upd_time(s.get("upd"))}</a>')
     return ''.join(out)
 
 
@@ -153,11 +153,12 @@ def render_guide(g, lang, root):
 
 
 def guide_tiles(guides):
-    return [{'t': x['title'], 'd': x['tile'], 'href': f'guides/{x["slug"]}/', 'art': x['art']} for x in guides]
+    return [{'t': x['title'], 'd': x['tile'], 'href': f'guides/{x["slug"]}/', 'art': x['art'],
+             'upd': x.get('updated') if x['slug'] != 'news' else None} for x in guides]   # the news feed refreshes itself
 
 
 def section_tiles():
-    return [{'t': x['title'], 'd': x['tile'], 'href': x['path'], 'art': x['art']} for x in HUBS]
+    return [{'t': x['title'], 'd': x['tile'], 'href': x['path'], 'art': x['art'], 'upd': x.get('updated')} for x in HUBS]
 
 
 def hub_body(lang, root):

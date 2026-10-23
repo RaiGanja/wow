@@ -256,6 +256,7 @@ section.block { scroll-margin-top: -72px; }
 .ttile:hover img, .gt:hover img { filter: none; transform: scale(1.04); }
 .ttile b, .gt b { font-weight: 700; font-size: 1.2rem; line-height: 1.2; text-shadow: 0 1px 8px rgba(0,0,0,.7); }
 .ttile span, .gt span { font-size: .9rem; line-height: 1.4; color: rgba(243,239,230,.82); }
+.ttile time, .gt time { margin-top: 4px; font-size: .78rem; color: rgba(243,239,230,.6); font-variant-numeric: tabular-nums; }
 
 /* Race roster: two factions side by side in one frame, five portraits each */
 .peoples { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 14px; }
@@ -657,6 +658,15 @@ footer .legal:first-child { padding-top: 0; border-top: 0; }
 footer .legal p { margin: 0; }
 footer .legal a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
 footer .legal a:hover { color: var(--gold); }
+footer .fmap { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px 28px; padding-top: 18px; border-top: 1px solid var(--pline); }
+footer .fmap ul { padding: 0; list-style: none; gap: 2px; }
+footer .fmap a { display: inline-block; padding: 2px 0; color: var(--muted); text-decoration: none; transition: color .15s; }
+footer .fmap .fh { margin-bottom: 6px; font-family: var(--font-display); font-weight: var(--display-w); font-size: 1.1rem; color: var(--fg); }
+footer .fmap a:hover { color: var(--gold); }
+@media (max-width: 719px) {
+  footer .fmap { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  footer .fmap a { padding: 5px 0; }
+}
 
 /* Menu sheet (all sections, language, theme) */
 dialog.sheet { border: 0; padding: 0; margin: 0 0 0 auto; width: min(360px, 88vw); max-width: none; height: 100dvh; max-height: none; background: var(--rail); color: var(--fg); border-left: 1px solid var(--line); }
@@ -925,6 +935,10 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   .others { padding: 10px; scroll-padding: 0 10px; grid-auto-columns: 120px; }
 }
 </style>
+<style>
+.rv { opacity: 0; transform: translateY(18px); }
+.rv.in { opacity: 1; transform: none; transition: opacity .6s var(--ease), transform .6s var(--ease); }
+</style>
 <link rel="manifest" href="../../../manifest-pl.webmanifest">
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
@@ -1035,7 +1049,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   <h2>Źródła</h2>
   <p>Dane zebrane <b style="color:var(--fg)">23.10.2026</b> z zamkniętej bety i patcha z 15.10.2026. Poradniki pisano przy capie na levelu 20–30, końcowe liczby mogą się zmienić. <span class="tl" style="display:inline">Porada:</span> opinia autora.</p>
   <ul><li><a href="https://www.warcrafttavern.com/forever/guides/hunter/" target="_blank" rel="noopener">Warcraft Tavern</a></li><li><a href="https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/" target="_blank" rel="noopener">Warcraft Tavern: zmiany w becie</a></li><li><a href="https://lfcarry.com/guides/wow-forever-class-changes" target="_blank" rel="noopener">LFCarry: zmiany klas z 15.10</a></li></ul>
-  <div class="legal"><p>Fanowski poradnik Gabella. Niepowiązany z Blizzard Entertainment ani przez nią niepopierany. World of Warcraft, Warcraft i Blizzard Entertainment są znakami towarowymi lub zastrzeżonymi znakami towarowymi Blizzard Entertainment, Inc. w USA i/lub innych krajach.</p><p>© 2026 Gabella<span aria-hidden="true"> · </span><a href="../../../pl/privacy/">Prywatność</a><span aria-hidden="true"> · </span>Kontakt: <a href="mailto:contact@gabella.site">contact@gabella.site</a></p></div>
+  <nav class="fmap" aria-label="Mapa strony"><div><a class="fh" href="../../../pl/classes/">Klasy</a><ul><li><a href="../../../pl/classes/warrior/">Warrior</a></li><li><a href="../../../pl/classes/paladin/">Paladin</a></li><li><a href="../../../pl/classes/hunter/">Hunter</a></li><li><a href="../../../pl/classes/rogue/">Rogue</a></li><li><a href="../../../pl/classes/priest/">Priest</a></li><li><a href="../../../pl/classes/shaman/">Shaman</a></li><li><a href="../../../pl/classes/mage/">Mage</a></li><li><a href="../../../pl/classes/warlock/">Warlock</a></li><li><a href="../../../pl/classes/druid/">Druid</a></li></ul></div><div><a class="fh" href="../../../pl/races/">Rasy</a><ul><li><a href="../../../pl/races/human/">Human</a></li><li><a href="../../../pl/races/dwarf/">Dwarf</a></li><li><a href="../../../pl/races/night-elf/">Night Elf</a></li><li><a href="../../../pl/races/gnome/">Gnome</a></li><li><a href="../../../pl/races/skyborne-alliance/">High Order Skyborne</a></li><li><a href="../../../pl/races/orc/">Orc</a></li><li><a href="../../../pl/races/undead/">Undead</a></li><li><a href="../../../pl/races/tauren/">Tauren</a></li><li><a href="../../../pl/races/troll/">Troll</a></li><li><a href="../../../pl/races/skyborne-horde/">Windshaper Skyborne</a></li></ul></div><div><a class="fh" href="../../../pl/guides/">Poradniki</a><ul><li><a href="../../../pl/guides/leveling/">Levelowanie 1–60</a></li><li><a href="../../../pl/guides/dungeons/">Dungeony i raidy</a></li><li><a href="../../../pl/guides/professions/">Profesje</a></li><li><a href="../../../pl/guides/faq/">FAQ i daty</a></li><li><a href="../../../pl/guides/news/">Newsy</a></li></ul></div><div><a class="fh" href="../../../pl/tools/">Narzędzia</a><ul><li><a href="../../../pl/tools/">Narzędzia</a></li><li><a href="../../../pl/play/">W grze</a></li></ul></div></nav><div class="legal"><p>Fanowski poradnik Gabella. Niepowiązany z Blizzard Entertainment ani przez nią niepopierany. World of Warcraft, Warcraft i Blizzard Entertainment są znakami towarowymi lub zastrzeżonymi znakami towarowymi Blizzard Entertainment, Inc. w USA i/lub innych krajach.</p><p>© 2026 Gabella<span aria-hidden="true"> · </span><a href="../../../pl/privacy/">Prywatność</a><span aria-hidden="true"> · </span>Kontakt: <a href="mailto:contact@gabella.site">contact@gabella.site</a></p></div>
 </footer>
 </div>
 </main>
@@ -1136,6 +1150,17 @@ dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.
   keepHash(bar.querySelector('a'));
   bar.querySelector('button').addEventListener('click', () => { store(); bar.remove(); });
   document.body.append(bar);
+})();
+</script>
+<script>
+(function () {
+  if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { rootMargin: '0px 0px -6% 0px' });
+  document.querySelectorAll('section.block, section.nband, section.stband:not(.ghero), .gsec, footer').forEach(function (s) {
+    if (s.getBoundingClientRect().top > innerHeight) { s.classList.add('rv'); io.observe(s); }
+  });
 })();
 </script>
 <script>

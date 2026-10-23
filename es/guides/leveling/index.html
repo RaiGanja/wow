@@ -255,6 +255,7 @@ section.block { scroll-margin-top: -72px; }
 .ttile:hover img, .gt:hover img { filter: none; transform: scale(1.04); }
 .ttile b, .gt b { font-weight: 700; font-size: 1.2rem; line-height: 1.2; text-shadow: 0 1px 8px rgba(0,0,0,.7); }
 .ttile span, .gt span { font-size: .9rem; line-height: 1.4; color: rgba(243,239,230,.82); }
+.ttile time, .gt time { margin-top: 4px; font-size: .78rem; color: rgba(243,239,230,.6); font-variant-numeric: tabular-nums; }
 
 /* Race roster: two factions side by side in one frame, five portraits each */
 .peoples { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 14px; }
@@ -656,6 +657,15 @@ footer .legal:first-child { padding-top: 0; border-top: 0; }
 footer .legal p { margin: 0; }
 footer .legal a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
 footer .legal a:hover { color: var(--gold); }
+footer .fmap { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px 28px; padding-top: 18px; border-top: 1px solid var(--pline); }
+footer .fmap ul { padding: 0; list-style: none; gap: 2px; }
+footer .fmap a { display: inline-block; padding: 2px 0; color: var(--muted); text-decoration: none; transition: color .15s; }
+footer .fmap .fh { margin-bottom: 6px; font-family: var(--font-display); font-weight: var(--display-w); font-size: 1.1rem; color: var(--fg); }
+footer .fmap a:hover { color: var(--gold); }
+@media (max-width: 719px) {
+  footer .fmap { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  footer .fmap a { padding: 5px 0; }
+}
 
 /* Menu sheet (all sections, language, theme) */
 dialog.sheet { border: 0; padding: 0; margin: 0 0 0 auto; width: min(360px, 88vw); max-width: none; height: 100dvh; max-height: none; background: var(--rail); color: var(--fg); border-left: 1px solid var(--line); }
@@ -945,6 +955,10 @@ nav.gtiles { padding: 14px; }
   .gtable td::before { content: attr(data-l); display: block; font-size: .78rem; font-weight: 400; color: var(--muted); }
 }
 </style>
+<style>
+.rv { opacity: 0; transform: translateY(18px); }
+.rv.in { opacity: 1; transform: none; transition: opacity .6s var(--ease), transform .6s var(--ease); }
+</style>
 <link rel="manifest" href="../../../manifest-es.webmanifest">
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
@@ -1007,12 +1021,12 @@ nav.gtiles { padding: 14px; }
 </main>
 
 <div class="wrap">
-<section id="more"><div class="sec-head"><h2>Otras guías</h2></div><nav class="frame ttiles gtiles" aria-label="Otras guías"><a class="ttile" href="../../guides/dungeons/"><picture><source type="image/avif" srcset="../../../assets/art/warlock-360.avif 360w, ../../../assets/art/warlock-600.avif 600w, ../../../assets/art/warlock-896.avif 896w" sizes="320px"><img src="../../../assets/art/warlock-600.webp" srcset="../../../assets/art/warlock-360.webp 360w, ../../../assets/art/warlock-600.webp 600w, ../../../assets/art/warlock-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Mazmorras y bandas</b><span>35 mazmorras por nivel, bandas, composición de grupo</span></a><a class="ttile" href="../../guides/professions/"><picture><source type="image/avif" srcset="../../../assets/art/hero_campfire-960.avif 960w, ../../../assets/art/hero_campfire-1600.avif 1600w" sizes="320px"><img src="../../../assets/art/hero_campfire-960.webp" srcset="../../../assets/art/hero_campfire-960.webp 960w, ../../../assets/art/hero_campfire-1600.webp 1600w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Profesiones</b><span>Parejas para tu clase, objetos de campamento, habilidad a 300</span></a><a class="ttile" href="../../guides/faq/"><picture><source type="image/avif" srcset="../../../assets/art/mage-360.avif 360w, ../../../assets/art/mage-600.avif 600w, ../../../assets/art/mage-896.avif 896w" sizes="320px"><img src="../../../assets/art/mage-600.webp" srcset="../../../assets/art/mage-360.webp 360w, ../../../assets/art/mage-600.webp 600w, ../../../assets/art/mage-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>FAQ y fechas</b><span>Fechas, packs, modos y respuestas</span></a><a class="ttile" href="../../guides/news/"><picture><source type="image/avif" srcset="../../../assets/art/paladin-360.avif 360w, ../../../assets/art/paladin-600.avif 600w, ../../../assets/art/paladin-896.avif 896w" sizes="320px"><img src="../../../assets/art/paladin-600.webp" srcset="../../../assets/art/paladin-360.webp 360w, ../../../assets/art/paladin-600.webp 600w, ../../../assets/art/paladin-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Noticias</b><span>Nuestras notas y el feed de Wowhead</span></a></nav></section>
+<section id="more"><div class="sec-head"><h2>Otras guías</h2></div><nav class="frame ttiles gtiles" aria-label="Otras guías"><a class="ttile" href="../../guides/dungeons/"><picture><source type="image/avif" srcset="../../../assets/art/warlock-360.avif 360w, ../../../assets/art/warlock-600.avif 600w, ../../../assets/art/warlock-896.avif 896w" sizes="320px"><img src="../../../assets/art/warlock-600.webp" srcset="../../../assets/art/warlock-360.webp 360w, ../../../assets/art/warlock-600.webp 600w, ../../../assets/art/warlock-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Mazmorras y bandas</b><span>35 mazmorras por nivel, bandas, composición de grupo</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/professions/"><picture><source type="image/avif" srcset="../../../assets/art/hero_campfire-960.avif 960w, ../../../assets/art/hero_campfire-1600.avif 1600w" sizes="320px"><img src="../../../assets/art/hero_campfire-960.webp" srcset="../../../assets/art/hero_campfire-960.webp 960w, ../../../assets/art/hero_campfire-1600.webp 1600w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Profesiones</b><span>Parejas para tu clase, objetos de campamento, habilidad a 300</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/faq/"><picture><source type="image/avif" srcset="../../../assets/art/mage-360.avif 360w, ../../../assets/art/mage-600.avif 600w, ../../../assets/art/mage-896.avif 896w" sizes="320px"><img src="../../../assets/art/mage-600.webp" srcset="../../../assets/art/mage-360.webp 360w, ../../../assets/art/mage-600.webp 600w, ../../../assets/art/mage-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>FAQ y fechas</b><span>Fechas, packs, modos y respuestas</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/news/"><picture><source type="image/avif" srcset="../../../assets/art/paladin-360.avif 360w, ../../../assets/art/paladin-600.avif 600w, ../../../assets/art/paladin-896.avif 896w" sizes="320px"><img src="../../../assets/art/paladin-600.webp" srcset="../../../assets/art/paladin-360.webp 360w, ../../../assets/art/paladin-600.webp 600w, ../../../assets/art/paladin-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Noticias</b><span>Nuestras notas y el feed de Wowhead</span></a></nav></section>
 <footer id="sources">
   <h2>Fuentes</h2>
   <ul><li><a href="https://mobalytics.gg/wow-forever/guides/zone-map-level-ranges" target="_blank" rel="noopener">Mobalytics: zonas por nivel y rutas</a></li><li><a href="https://www.icy-veins.com/wow-forever/zones-and-maps" target="_blank" rel="noopener">Icy Veins: zonas nuevas</a></li><li><a href="https://www.warcrafttavern.com/forever/guides/experience/" target="_blank" rel="noopener">Warcraft Tavern: experiencia y XP de descanso</a></li><li><a href="https://www.warcrafttavern.com/forever/guides/riding/" target="_blank" rel="noopener">Warcraft Tavern: equitación</a></li><li><a href="https://news.blizzard.com/en-gb/article/24307383" target="_blank" rel="noopener">Blizzard: Legacy</a></li><li><a href="https://www.warcrafttavern.com/forever/guides/legacy/" target="_blank" rel="noopener">Warcraft Tavern: Legacy</a></li><li><a href="https://www.warcrafttavern.com/forever/guides/camping/" target="_blank" rel="noopener">Warcraft Tavern: acampada</a></li></ul>
   <p>Actualizado el 23.10.2026. Basado en la beta cerrada; las cifras pueden cambiar antes del lanzamiento.</p>
-  <div class="legal"><p>Guía de fans de Gabella. No está afiliada a Blizzard Entertainment ni cuenta con su respaldo. World of Warcraft, Warcraft y Blizzard Entertainment son marcas comerciales o marcas registradas de Blizzard Entertainment, Inc. en EE. UU. y/u otros países.</p><p>© 2026 Gabella<span aria-hidden="true"> · </span><a href="../../../es/privacy/">Privacidad</a><span aria-hidden="true"> · </span>Contacto: <a href="mailto:contact@gabella.site">contact@gabella.site</a></p></div>
+  <nav class="fmap" aria-label="Mapa del sitio"><div><a class="fh" href="../../../es/classes/">Clases</a><ul><li><a href="../../../es/classes/warrior/">Guerrero</a></li><li><a href="../../../es/classes/paladin/">Paladín</a></li><li><a href="../../../es/classes/hunter/">Cazador</a></li><li><a href="../../../es/classes/rogue/">Pícaro</a></li><li><a href="../../../es/classes/priest/">Sacerdote</a></li><li><a href="../../../es/classes/shaman/">Chamán</a></li><li><a href="../../../es/classes/mage/">Mago</a></li><li><a href="../../../es/classes/warlock/">Brujo</a></li><li><a href="../../../es/classes/druid/">Druida</a></li></ul></div><div><a class="fh" href="../../../es/races/">Razas</a><ul><li><a href="../../../es/races/human/">Humano</a></li><li><a href="../../../es/races/dwarf/">Enano</a></li><li><a href="../../../es/races/night-elf/">Elfo de la noche</a></li><li><a href="../../../es/races/gnome/">Gnomo</a></li><li><a href="../../../es/races/skyborne-alliance/">Skyborne High Order</a></li><li><a href="../../../es/races/orc/">Orco</a></li><li><a href="../../../es/races/undead/">No-muerto</a></li><li><a href="../../../es/races/tauren/">Tauren</a></li><li><a href="../../../es/races/troll/">Trol</a></li><li><a href="../../../es/races/skyborne-horde/">Skyborne Windshaper</a></li></ul></div><div><a class="fh" href="../../../es/guides/">Guías</a><ul><li><a href="../../../es/guides/leveling/">Subir de nivel 1–60</a></li><li><a href="../../../es/guides/dungeons/">Mazmorras y bandas</a></li><li><a href="../../../es/guides/professions/">Profesiones</a></li><li><a href="../../../es/guides/faq/">FAQ y fechas</a></li><li><a href="../../../es/guides/news/">Noticias</a></li></ul></div><div><a class="fh" href="../../../es/tools/">Herramientas</a><ul><li><a href="../../../es/tools/">Herramientas</a></li><li><a href="../../../es/play/">En el juego</a></li></ul></div></nav><div class="legal"><p>Guía de fans de Gabella. No está afiliada a Blizzard Entertainment ni cuenta con su respaldo. World of Warcraft, Warcraft y Blizzard Entertainment son marcas comerciales o marcas registradas de Blizzard Entertainment, Inc. en EE. UU. y/u otros países.</p><p>© 2026 Gabella<span aria-hidden="true"> · </span><a href="../../../es/privacy/">Privacidad</a><span aria-hidden="true"> · </span>Contacto: <a href="mailto:contact@gabella.site">contact@gabella.site</a></p></div>
 </footer>
 </div>
 
@@ -1112,6 +1126,17 @@ if ('IntersectionObserver' in window && tocLinks.length) {
   keepHash(bar.querySelector('a'));
   bar.querySelector('button').addEventListener('click', () => { store(); bar.remove(); });
   document.body.append(bar);
+})();
+</script>
+<script>
+(function () {
+  if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { rootMargin: '0px 0px -6% 0px' });
+  document.querySelectorAll('section.block, section.nband, section.stband:not(.ghero), .gsec, footer').forEach(function (s) {
+    if (s.getBoundingClientRect().top > innerHeight) { s.classList.add('rv'); io.observe(s); }
+  });
 })();
 </script>
 <script>

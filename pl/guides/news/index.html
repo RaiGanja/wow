@@ -255,6 +255,7 @@ section.block { scroll-margin-top: -72px; }
 .ttile:hover img, .gt:hover img { filter: none; transform: scale(1.04); }
 .ttile b, .gt b { font-weight: 700; font-size: 1.2rem; line-height: 1.2; text-shadow: 0 1px 8px rgba(0,0,0,.7); }
 .ttile span, .gt span { font-size: .9rem; line-height: 1.4; color: rgba(243,239,230,.82); }
+.ttile time, .gt time { margin-top: 4px; font-size: .78rem; color: rgba(243,239,230,.6); font-variant-numeric: tabular-nums; }
 
 /* Race roster: two factions side by side in one frame, five portraits each */
 .peoples { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 14px; }
@@ -656,6 +657,15 @@ footer .legal:first-child { padding-top: 0; border-top: 0; }
 footer .legal p { margin: 0; }
 footer .legal a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
 footer .legal a:hover { color: var(--gold); }
+footer .fmap { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px 28px; padding-top: 18px; border-top: 1px solid var(--pline); }
+footer .fmap ul { padding: 0; list-style: none; gap: 2px; }
+footer .fmap a { display: inline-block; padding: 2px 0; color: var(--muted); text-decoration: none; transition: color .15s; }
+footer .fmap .fh { margin-bottom: 6px; font-family: var(--font-display); font-weight: var(--display-w); font-size: 1.1rem; color: var(--fg); }
+footer .fmap a:hover { color: var(--gold); }
+@media (max-width: 719px) {
+  footer .fmap { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  footer .fmap a { padding: 5px 0; }
+}
 
 /* Menu sheet (all sections, language, theme) */
 dialog.sheet { border: 0; padding: 0; margin: 0 0 0 auto; width: min(360px, 88vw); max-width: none; height: 100dvh; max-height: none; background: var(--rail); color: var(--fg); border-left: 1px solid var(--line); }
@@ -945,6 +955,10 @@ nav.gtiles { padding: 14px; }
   .gtable td::before { content: attr(data-l); display: block; font-size: .78rem; font-weight: 400; color: var(--muted); }
 }
 </style>
+<style>
+.rv { opacity: 0; transform: translateY(18px); }
+.rv.in { opacity: 1; transform: none; transition: opacity .6s var(--ease), transform .6s var(--ease); }
+</style>
 <link rel="manifest" href="../../../manifest-pl.webmanifest">
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
@@ -1004,12 +1018,12 @@ nav.gtiles { padding: 14px; }
 </main>
 
 <div class="wrap">
-<section id="more"><div class="sec-head"><h2>Inne poradniki</h2></div><nav class="frame ttiles gtiles" aria-label="Inne poradniki"><a class="ttile" href="../../guides/leveling/"><picture><source type="image/avif" srcset="../../../assets/art/hero_dawn-960.avif 960w, ../../../assets/art/hero_dawn-1440.avif 1440w, ../../../assets/art/hero_dawn-1920.avif 1920w, ../../../assets/art/hero_dawn-2560.avif 2560w" sizes="320px"><img src="../../../assets/art/hero_dawn-960.webp" srcset="../../../assets/art/hero_dawn-960.webp 960w, ../../../assets/art/hero_dawn-1440.webp 1440w, ../../../assets/art/hero_dawn-1920.webp 1920w, ../../../assets/art/hero_dawn-2560.webp 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Levelowanie 1–60</b><span>Strefy według levelu, rest, Legacy i camp</span></a><a class="ttile" href="../../guides/dungeons/"><picture><source type="image/avif" srcset="../../../assets/art/warlock-360.avif 360w, ../../../assets/art/warlock-600.avif 600w, ../../../assets/art/warlock-896.avif 896w" sizes="320px"><img src="../../../assets/art/warlock-600.webp" srcset="../../../assets/art/warlock-360.webp 360w, ../../../assets/art/warlock-600.webp 600w, ../../../assets/art/warlock-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Dungeony i raidy</b><span>35 dungeonów według levelu, raidy, skład grupy</span></a><a class="ttile" href="../../guides/professions/"><picture><source type="image/avif" srcset="../../../assets/art/hero_campfire-960.avif 960w, ../../../assets/art/hero_campfire-1600.avif 1600w" sizes="320px"><img src="../../../assets/art/hero_campfire-960.webp" srcset="../../../assets/art/hero_campfire-960.webp 960w, ../../../assets/art/hero_campfire-1600.webp 1600w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Profesje</b><span>Pary dla twojej klasy, obiekty campu, skill do 300</span></a><a class="ttile" href="../../guides/faq/"><picture><source type="image/avif" srcset="../../../assets/art/mage-360.avif 360w, ../../../assets/art/mage-600.avif 600w, ../../../assets/art/mage-896.avif 896w" sizes="320px"><img src="../../../assets/art/mage-600.webp" srcset="../../../assets/art/mage-360.webp 360w, ../../../assets/art/mage-600.webp 600w, ../../../assets/art/mage-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>FAQ i daty</b><span>Daty, pakiety, tryby i odpowiedzi</span></a></nav></section>
+<section id="more"><div class="sec-head"><h2>Inne poradniki</h2></div><nav class="frame ttiles gtiles" aria-label="Inne poradniki"><a class="ttile" href="../../guides/leveling/"><picture><source type="image/avif" srcset="../../../assets/art/hero_dawn-960.avif 960w, ../../../assets/art/hero_dawn-1440.avif 1440w, ../../../assets/art/hero_dawn-1920.avif 1920w, ../../../assets/art/hero_dawn-2560.avif 2560w" sizes="320px"><img src="../../../assets/art/hero_dawn-960.webp" srcset="../../../assets/art/hero_dawn-960.webp 960w, ../../../assets/art/hero_dawn-1440.webp 1440w, ../../../assets/art/hero_dawn-1920.webp 1920w, ../../../assets/art/hero_dawn-2560.webp 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Levelowanie 1–60</b><span>Strefy według levelu, rest, Legacy i camp</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/dungeons/"><picture><source type="image/avif" srcset="../../../assets/art/warlock-360.avif 360w, ../../../assets/art/warlock-600.avif 600w, ../../../assets/art/warlock-896.avif 896w" sizes="320px"><img src="../../../assets/art/warlock-600.webp" srcset="../../../assets/art/warlock-360.webp 360w, ../../../assets/art/warlock-600.webp 600w, ../../../assets/art/warlock-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Dungeony i raidy</b><span>35 dungeonów według levelu, raidy, skład grupy</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/professions/"><picture><source type="image/avif" srcset="../../../assets/art/hero_campfire-960.avif 960w, ../../../assets/art/hero_campfire-1600.avif 1600w" sizes="320px"><img src="../../../assets/art/hero_campfire-960.webp" srcset="../../../assets/art/hero_campfire-960.webp 960w, ../../../assets/art/hero_campfire-1600.webp 1600w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Profesje</b><span>Pary dla twojej klasy, obiekty campu, skill do 300</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/faq/"><picture><source type="image/avif" srcset="../../../assets/art/mage-360.avif 360w, ../../../assets/art/mage-600.avif 600w, ../../../assets/art/mage-896.avif 896w" sizes="320px"><img src="../../../assets/art/mage-600.webp" srcset="../../../assets/art/mage-360.webp 360w, ../../../assets/art/mage-600.webp 600w, ../../../assets/art/mage-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>FAQ i daty</b><span>Daty, pakiety, tryby i odpowiedzi</span><time datetime="2026-10-23">23.10.2026</time></a></nav></section>
 <footer id="sources">
   <h2>Źródła</h2>
   <ul><li><a href="https://www.wowhead.com/news" target="_blank" rel="noopener">Wowhead News</a></li><li><a href="https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/" target="_blank" rel="noopener">Warcraft Tavern: zmiany ras i klas</a></li><li><a href="https://classicwow.gg/forever" target="_blank" rel="noopener">ClassicWoW.gg</a></li><li><a href="https://teamoverpowered.com/forever/guides/name-reservation/" target="_blank" rel="noopener">Team Overpowered</a></li></ul>
   <p>Zaktualizowano 23.10.2026. Na podstawie zamkniętej bety; liczby mogą się zmienić przed premierą.</p>
-  <div class="legal"><p>Fanowski poradnik Gabella. Niepowiązany z Blizzard Entertainment ani przez nią niepopierany. World of Warcraft, Warcraft i Blizzard Entertainment są znakami towarowymi lub zastrzeżonymi znakami towarowymi Blizzard Entertainment, Inc. w USA i/lub innych krajach.</p><p>© 2026 Gabella<span aria-hidden="true"> · </span><a href="../../../pl/privacy/">Prywatność</a><span aria-hidden="true"> · </span>Kontakt: <a href="mailto:contact@gabella.site">contact@gabella.site</a></p></div>
+  <nav class="fmap" aria-label="Mapa strony"><div><a class="fh" href="../../../pl/classes/">Klasy</a><ul><li><a href="../../../pl/classes/warrior/">Warrior</a></li><li><a href="../../../pl/classes/paladin/">Paladin</a></li><li><a href="../../../pl/classes/hunter/">Hunter</a></li><li><a href="../../../pl/classes/rogue/">Rogue</a></li><li><a href="../../../pl/classes/priest/">Priest</a></li><li><a href="../../../pl/classes/shaman/">Shaman</a></li><li><a href="../../../pl/classes/mage/">Mage</a></li><li><a href="../../../pl/classes/warlock/">Warlock</a></li><li><a href="../../../pl/classes/druid/">Druid</a></li></ul></div><div><a class="fh" href="../../../pl/races/">Rasy</a><ul><li><a href="../../../pl/races/human/">Human</a></li><li><a href="../../../pl/races/dwarf/">Dwarf</a></li><li><a href="../../../pl/races/night-elf/">Night Elf</a></li><li><a href="../../../pl/races/gnome/">Gnome</a></li><li><a href="../../../pl/races/skyborne-alliance/">High Order Skyborne</a></li><li><a href="../../../pl/races/orc/">Orc</a></li><li><a href="../../../pl/races/undead/">Undead</a></li><li><a href="../../../pl/races/tauren/">Tauren</a></li><li><a href="../../../pl/races/troll/">Troll</a></li><li><a href="../../../pl/races/skyborne-horde/">Windshaper Skyborne</a></li></ul></div><div><a class="fh" href="../../../pl/guides/">Poradniki</a><ul><li><a href="../../../pl/guides/leveling/">Levelowanie 1–60</a></li><li><a href="../../../pl/guides/dungeons/">Dungeony i raidy</a></li><li><a href="../../../pl/guides/professions/">Profesje</a></li><li><a href="../../../pl/guides/faq/">FAQ i daty</a></li><li><a href="../../../pl/guides/news/">Newsy</a></li></ul></div><div><a class="fh" href="../../../pl/tools/">Narzędzia</a><ul><li><a href="../../../pl/tools/">Narzędzia</a></li><li><a href="../../../pl/play/">W grze</a></li></ul></div></nav><div class="legal"><p>Fanowski poradnik Gabella. Niepowiązany z Blizzard Entertainment ani przez nią niepopierany. World of Warcraft, Warcraft i Blizzard Entertainment są znakami towarowymi lub zastrzeżonymi znakami towarowymi Blizzard Entertainment, Inc. w USA i/lub innych krajach.</p><p>© 2026 Gabella<span aria-hidden="true"> · </span><a href="../../../pl/privacy/">Prywatność</a><span aria-hidden="true"> · </span>Kontakt: <a href="mailto:contact@gabella.site">contact@gabella.site</a></p></div>
 </footer>
 </div>
 
@@ -1115,6 +1129,17 @@ fetch(ROOT + 'assets/news.json').then(r => r.ok ? r.json() : []).then(items => {
   keepHash(bar.querySelector('a'));
   bar.querySelector('button').addEventListener('click', () => { store(); bar.remove(); });
   document.body.append(bar);
+})();
+</script>
+<script>
+(function () {
+  if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { rootMargin: '0px 0px -6% 0px' });
+  document.querySelectorAll('section.block, section.nband, section.stband:not(.ghero), .gsec, footer').forEach(function (s) {
+    if (s.getBoundingClientRect().top > innerHeight) { s.classList.add('rv'); io.observe(s); }
+  });
 })();
 </script>
 <script>

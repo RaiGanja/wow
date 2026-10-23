@@ -255,6 +255,7 @@ section.block { scroll-margin-top: -72px; }
 .ttile:hover img, .gt:hover img { filter: none; transform: scale(1.04); }
 .ttile b, .gt b { font-weight: 700; font-size: 1.2rem; line-height: 1.2; text-shadow: 0 1px 8px rgba(0,0,0,.7); }
 .ttile span, .gt span { font-size: .9rem; line-height: 1.4; color: rgba(243,239,230,.82); }
+.ttile time, .gt time { margin-top: 4px; font-size: .78rem; color: rgba(243,239,230,.6); font-variant-numeric: tabular-nums; }
 
 /* Race roster: two factions side by side in one frame, five portraits each */
 .peoples { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 14px; }
@@ -656,6 +657,15 @@ footer .legal:first-child { padding-top: 0; border-top: 0; }
 footer .legal p { margin: 0; }
 footer .legal a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
 footer .legal a:hover { color: var(--gold); }
+footer .fmap { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px 28px; padding-top: 18px; border-top: 1px solid var(--pline); }
+footer .fmap ul { padding: 0; list-style: none; gap: 2px; }
+footer .fmap a { display: inline-block; padding: 2px 0; color: var(--muted); text-decoration: none; transition: color .15s; }
+footer .fmap .fh { margin-bottom: 6px; font-family: var(--font-display); font-weight: var(--display-w); font-size: 1.1rem; color: var(--fg); }
+footer .fmap a:hover { color: var(--gold); }
+@media (max-width: 719px) {
+  footer .fmap { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  footer .fmap a { padding: 5px 0; }
+}
 
 /* Menu sheet (all sections, language, theme) */
 dialog.sheet { border: 0; padding: 0; margin: 0 0 0 auto; width: min(360px, 88vw); max-width: none; height: 100dvh; max-height: none; background: var(--rail); color: var(--fg); border-left: 1px solid var(--line); }
@@ -945,6 +955,10 @@ nav.gtiles { padding: 14px; }
   .gtable td::before { content: attr(data-l); display: block; font-size: .78rem; font-weight: 400; color: var(--muted); }
 }
 </style>
+<style>
+.rv { opacity: 0; transform: translateY(18px); }
+.rv.in { opacity: 1; transform: none; transition: opacity .6s var(--ease), transform .6s var(--ease); }
+</style>
 <link rel="manifest" href="../../../manifest-uk.webmanifest">
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
@@ -1009,12 +1023,12 @@ nav.gtiles { padding: 14px; }
 </main>
 
 <div class="wrap">
-<section id="more"><div class="sec-head"><h2>Інші гайди</h2></div><nav class="frame ttiles gtiles" aria-label="Інші гайди"><a class="ttile" href="../../guides/leveling/"><picture><source type="image/avif" srcset="../../../assets/art/hero_dawn-960.avif 960w, ../../../assets/art/hero_dawn-1440.avif 1440w, ../../../assets/art/hero_dawn-1920.avif 1920w, ../../../assets/art/hero_dawn-2560.avif 2560w" sizes="320px"><img src="../../../assets/art/hero_dawn-960.webp" srcset="../../../assets/art/hero_dawn-960.webp 960w, ../../../assets/art/hero_dawn-1440.webp 1440w, ../../../assets/art/hero_dawn-1920.webp 1920w, ../../../assets/art/hero_dawn-2560.webp 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Прокачування 1–60</b><span>Зони за рівнями, відпочинок, Legacy і табір</span></a><a class="ttile" href="../../guides/dungeons/"><picture><source type="image/avif" srcset="../../../assets/art/warlock-360.avif 360w, ../../../assets/art/warlock-600.avif 600w, ../../../assets/art/warlock-896.avif 896w" sizes="320px"><img src="../../../assets/art/warlock-600.webp" srcset="../../../assets/art/warlock-360.webp 360w, ../../../assets/art/warlock-600.webp 600w, ../../../assets/art/warlock-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Підземелля та рейди</b><span>35 підземель за рівнями, рейди, склад групи</span></a><a class="ttile" href="../../guides/professions/"><picture><source type="image/avif" srcset="../../../assets/art/hero_campfire-960.avif 960w, ../../../assets/art/hero_campfire-1600.avif 1600w" sizes="320px"><img src="../../../assets/art/hero_campfire-960.webp" srcset="../../../assets/art/hero_campfire-960.webp 960w, ../../../assets/art/hero_campfire-1600.webp 1600w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Професії</b><span>Пари під клас, об’єкти табору, навичка до 300</span></a><a class="ttile" href="../../guides/news/"><picture><source type="image/avif" srcset="../../../assets/art/paladin-360.avif 360w, ../../../assets/art/paladin-600.avif 600w, ../../../assets/art/paladin-896.avif 896w" sizes="320px"><img src="../../../assets/art/paladin-600.webp" srcset="../../../assets/art/paladin-360.webp 360w, ../../../assets/art/paladin-600.webp 600w, ../../../assets/art/paladin-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Новини</b><span>Наші записи та стрічка Wowhead</span></a></nav></section>
+<section id="more"><div class="sec-head"><h2>Інші гайди</h2></div><nav class="frame ttiles gtiles" aria-label="Інші гайди"><a class="ttile" href="../../guides/leveling/"><picture><source type="image/avif" srcset="../../../assets/art/hero_dawn-960.avif 960w, ../../../assets/art/hero_dawn-1440.avif 1440w, ../../../assets/art/hero_dawn-1920.avif 1920w, ../../../assets/art/hero_dawn-2560.avif 2560w" sizes="320px"><img src="../../../assets/art/hero_dawn-960.webp" srcset="../../../assets/art/hero_dawn-960.webp 960w, ../../../assets/art/hero_dawn-1440.webp 1440w, ../../../assets/art/hero_dawn-1920.webp 1920w, ../../../assets/art/hero_dawn-2560.webp 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Прокачування 1–60</b><span>Зони за рівнями, відпочинок, Legacy і табір</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/dungeons/"><picture><source type="image/avif" srcset="../../../assets/art/warlock-360.avif 360w, ../../../assets/art/warlock-600.avif 600w, ../../../assets/art/warlock-896.avif 896w" sizes="320px"><img src="../../../assets/art/warlock-600.webp" srcset="../../../assets/art/warlock-360.webp 360w, ../../../assets/art/warlock-600.webp 600w, ../../../assets/art/warlock-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Підземелля та рейди</b><span>35 підземель за рівнями, рейди, склад групи</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/professions/"><picture><source type="image/avif" srcset="../../../assets/art/hero_campfire-960.avif 960w, ../../../assets/art/hero_campfire-1600.avif 1600w" sizes="320px"><img src="../../../assets/art/hero_campfire-960.webp" srcset="../../../assets/art/hero_campfire-960.webp 960w, ../../../assets/art/hero_campfire-1600.webp 1600w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Професії</b><span>Пари під клас, об’єкти табору, навичка до 300</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/news/"><picture><source type="image/avif" srcset="../../../assets/art/paladin-360.avif 360w, ../../../assets/art/paladin-600.avif 600w, ../../../assets/art/paladin-896.avif 896w" sizes="320px"><img src="../../../assets/art/paladin-600.webp" srcset="../../../assets/art/paladin-360.webp 360w, ../../../assets/art/paladin-600.webp 600w, ../../../assets/art/paladin-896.webp 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Новини</b><span>Наші записи та стрічка Wowhead</span></a></nav></section>
 <footer id="sources">
   <h2>Джерела</h2>
   <ul><li><a href="https://classicwow.gg/forever" target="_blank" rel="noopener">ClassicWoW.gg: дати бети, імен, рейдів, відмінності від Era</a></li><li><a href="https://www.warcrafttavern.com/news/world-of-warcraft-forever-editions-skyborne-race-unlock-beta-access/" target="_blank" rel="noopener">Warcraft Tavern: набори та ціни</a></li><li><a href="https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/" target="_blank" rel="noopener">Warcraft Tavern: зміни бети від 15 жовтня</a></li><li><a href="https://www.warcrafttavern.com/forever/guides/races/" target="_blank" rel="noopener">Warcraft Tavern: раси</a></li><li><a href="https://teamoverpowered.com/forever/guides/name-reservation/" target="_blank" rel="noopener">Team Overpowered: імена та прізвища</a></li></ul>
   <p>Оновлено 23.10.2026. Дані за закритою бетою, до релізу можуть змінитися.</p>
-  <div class="legal"><p>Фанатський гід Gabella. Сайт не пов’язаний з Blizzard Entertainment і не схвалений нею. World of Warcraft, Warcraft і Blizzard Entertainment — торгові марки або зареєстровані торгові марки Blizzard Entertainment, Inc. у США та/або інших країнах.</p><p>© 2026 Gabella<span aria-hidden="true"> · </span><a href="../../../uk/privacy/">Конфіденційність</a><span aria-hidden="true"> · </span>Зв’язок: <a href="mailto:contact@gabella.site">contact@gabella.site</a></p></div>
+  <nav class="fmap" aria-label="Мапа сайту"><div><a class="fh" href="../../../uk/classes/">Класи</a><ul><li><a href="../../../uk/classes/warrior/">Воїн</a></li><li><a href="../../../uk/classes/paladin/">Паладин</a></li><li><a href="../../../uk/classes/hunter/">Мисливець</a></li><li><a href="../../../uk/classes/rogue/">Розбійник</a></li><li><a href="../../../uk/classes/priest/">Жрець</a></li><li><a href="../../../uk/classes/shaman/">Шаман</a></li><li><a href="../../../uk/classes/mage/">Маг</a></li><li><a href="../../../uk/classes/warlock/">Чорнокнижник</a></li><li><a href="../../../uk/classes/druid/">Друїд</a></li></ul></div><div><a class="fh" href="../../../uk/races/">Раси</a><ul><li><a href="../../../uk/races/human/">Людина</a></li><li><a href="../../../uk/races/dwarf/">Дворф</a></li><li><a href="../../../uk/races/night-elf/">Нічний ельф</a></li><li><a href="../../../uk/races/gnome/">Гном</a></li><li><a href="../../../uk/races/skyborne-alliance/">Високий скайборн</a></li><li><a href="../../../uk/races/orc/">Орк</a></li><li><a href="../../../uk/races/undead/">Нежить</a></li><li><a href="../../../uk/races/tauren/">Таурен</a></li><li><a href="../../../uk/races/troll/">Троль</a></li><li><a href="../../../uk/races/skyborne-horde/">Скайборн-вітрорізь</a></li></ul></div><div><a class="fh" href="../../../uk/guides/">Гайди</a><ul><li><a href="../../../uk/guides/leveling/">Прокачування 1–60</a></li><li><a href="../../../uk/guides/dungeons/">Підземелля та рейди</a></li><li><a href="../../../uk/guides/professions/">Професії</a></li><li><a href="../../../uk/guides/faq/">FAQ і дати</a></li><li><a href="../../../uk/guides/news/">Новини</a></li></ul></div><div><a class="fh" href="../../../uk/tools/">Інструменти</a><ul><li><a href="../../../uk/tools/">Інструменти</a></li><li><a href="../../../uk/play/">У грі</a></li></ul></div></nav><div class="legal"><p>Фанатський гід Gabella. Сайт не пов’язаний з Blizzard Entertainment і не схвалений нею. World of Warcraft, Warcraft і Blizzard Entertainment — торгові марки або зареєстровані торгові марки Blizzard Entertainment, Inc. у США та/або інших країнах.</p><p>© 2026 Gabella<span aria-hidden="true"> · </span><a href="../../../uk/privacy/">Конфіденційність</a><span aria-hidden="true"> · </span>Зв’язок: <a href="mailto:contact@gabella.site">contact@gabella.site</a></p></div>
 </footer>
 </div>
 
@@ -1128,6 +1142,17 @@ document.querySelectorAll('time.lt').forEach(t => {
   keepHash(bar.querySelector('a'));
   bar.querySelector('button').addEventListener('click', () => { store(); bar.remove(); });
   document.body.append(bar);
+})();
+</script>
+<script>
+(function () {
+  if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { rootMargin: '0px 0px -6% 0px' });
+  document.querySelectorAll('section.block, section.nband, section.stband:not(.ghero), .gsec, footer').forEach(function (s) {
+    if (s.getBoundingClientRect().top > innerHeight) { s.classList.add('rv'); io.observe(s); }
+  });
 })();
 </script>
 <script>

@@ -72,21 +72,45 @@ def rel(from_dir, to_dir):
 CONTACT = 'contact@gabella.site'   # Cloudflare Email Routing -> почта Вячеслава
 LEGAL = {
     'ru': ('Фанатский гид Gabella. Сайт не связан с Blizzard Entertainment и не одобрен ею. World of Warcraft, Warcraft и Blizzard Entertainment — '
-           'товарные знаки или зарегистрированные товарные знаки Blizzard Entertainment, Inc. в США и/или других странах.', 'Конфиденциальность', 'Связь'),
+           'товарные знаки или зарегистрированные товарные знаки Blizzard Entertainment, Inc. в США и/или других странах.', 'Конфиденциальность', 'Связь', 'Карта сайта'),
     'en': ('Gabella fan guide. Not affiliated with or endorsed by Blizzard Entertainment. World of Warcraft, Warcraft and Blizzard Entertainment are '
-           'trademarks or registered trademarks of Blizzard Entertainment, Inc. in the U.S. and/or other countries.', 'Privacy', 'Contact'),
+           'trademarks or registered trademarks of Blizzard Entertainment, Inc. in the U.S. and/or other countries.', 'Privacy', 'Contact', 'Site map'),
     'uk': ('Фанатський гід Gabella. Сайт не пов’язаний з Blizzard Entertainment і не схвалений нею. World of Warcraft, Warcraft і Blizzard Entertainment — '
-           'торгові марки або зареєстровані торгові марки Blizzard Entertainment, Inc. у США та/або інших країнах.', 'Конфіденційність', 'Зв’язок'),
+           'торгові марки або зареєстровані торгові марки Blizzard Entertainment, Inc. у США та/або інших країнах.', 'Конфіденційність', 'Зв’язок', 'Мапа сайту'),
 }
 
 
 langs.derive(LEGAL)
 
 
+TOOLS_T = langs.derive({'ru': 'Инструменты', 'en': 'Tools', 'uk': 'Інструменти'})
+
+
+def site_map(lang, home):
+    """Footer site map of every page: classes, races, guides, tools. home: path to the language home."""
+    from content.guides import GUIDES, HUB, HUBS, ORDER, PLAY
+    langs.fill([HUB, HUBS, PLAY] + GUIDES)
+    if not _RACES:
+        _RACES.extend(parse_races(open(os.path.join(HERE, 'index.src.html'), encoding='utf-8').read()))
+    slug = {r['id']: r['slug'] for r in RACES_PAGE}
+    hub = {h['slug']: h for h in HUBS}
+    guides = sorted(GUIDES, key=lambda g: ORDER.index(g['slug']) if g['slug'] in ORDER else len(ORDER))
+    cols = [
+        (hub['classes']['title'], 'classes/', [(f'classes/{c["id"]}/', tr(c['n'], lang)) for c in CLASSES]),
+        (hub['races']['title'], 'races/', [(f'races/{slug[r["id"]]}/', tr(r['n'], lang)) for r in _RACES]),
+        (HUB['title'], 'guides/', [(f'guides/{g["slug"]}/', g['title'][lang]) for g in guides]),
+        (TOOLS_T, 'tools/', [('tools/', TOOLS_T[lang]), ('play/', PLAY['title'][lang])]),
+    ]
+    out = ''.join(f'<div><a class="fh" href="{home}{href}">{esc(h[lang])}</a><ul>'
+                  + ''.join(f'<li><a href="{home}{u}">{esc(n)}</a></li>' for u, n in links) + '</ul></div>'
+                  for h, href, links in cols)
+    return f'<nav class="fmap" aria-label="{esc(LEGAL[lang][3])}">{out}</nav>'
+
+
 def legal(lang, root):
-    """Footer block of every page (@@LEGAL@@): trademarks, ©, privacy page, contact."""
-    text, privacy, contact = LEGAL[lang]
-    return (f'<div class="legal"><p>{text}</p><p>© 2026 Gabella<span aria-hidden="true"> · </span>'
+    """Footer block of every page (@@LEGAL@@): site map, trademarks, ©, privacy page, contact."""
+    text, privacy, contact = LEGAL[lang][:3]
+    return site_map(lang, root + page_dir(lang)) + (f'<div class="legal"><p>{text}</p><p>© 2026 Gabella<span aria-hidden="true"> · </span>'
             f'<a href="{root}{page_dir(lang, "privacy/")}">{privacy}</a><span aria-hidden="true"> · </span>'
             f'{contact}: <a href="mailto:{CONTACT}">{CONTACT}</a></p></div>')
 
@@ -203,7 +227,29 @@ def localize(html, lang, here):
         html = html.replace('content="ru_RU"', f'content="{LOCALE[lang]}"')
     if lang not in ('ru', 'uk'):                                  # Latin-script pages: preload the fonts they draw first
         html = html.replace('-cyrillic.woff2" as="font"', '-latin.woff2" as="font"')
+    html = html.replace('</head>', REVEAL_CSS + '</head>', 1).replace('</body>', REVEAL_JS + '</body>', 1)
     return pwa(html, lang, rel(here, ''))
+
+
+# Sections below the first screen fade in once when they scroll into view.
+# Without JS, with reduced motion or for what is already on screen nothing changes.
+REVEAL_CSS = """<style>
+.rv { opacity: 0; transform: translateY(18px); }
+.rv.in { opacity: 1; transform: none; transition: opacity .6s var(--ease), transform .6s var(--ease); }
+</style>
+"""
+REVEAL_JS = """<script>
+(function () {
+  if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { rootMargin: '0px 0px -6% 0px' });
+  document.querySelectorAll('section.block, section.nband, section.stband:not(.ghero), .gsec, footer').forEach(function (s) {
+    if (s.getBoundingClientRect().top > innerHeight) { s.classList.add('rv'); io.observe(s); }
+  });
+})();
+</script>
+"""
 
 
 # ---------- installable site (PWA): manifest, icons, service worker sw.js ----------
@@ -291,6 +337,17 @@ def pwa(html, lang, root):
 
 # ---------- home page ----------
 
+def upd_time(d):
+    """'23.10.2026' -> <time> line of a guide card."""
+    return f'<time datetime="{"-".join(reversed(d.split(".")))}">{d}</time>' if d else ''
+
+
+def card_dates(html):
+    """Update date at the bottom of the home guide cards (a.gt). The news feed refreshes itself, so its card has none."""
+    from content.guides import GUIDES, HUBS
+    dates = {f'guides/{g["slug"]}/': g.get('updated') for g in GUIDES if g['slug'] != 'news'} | {h['path']: h.get('updated') for h in HUBS}
+    return re.sub(r'(<a class="gt" href="([^"#]+)">.*?)(</a>)', lambda m: m[1] + upd_time(dates.get(m[2])) + m[3], html)
+
 def build_home(lang, src):
     src = src.replace('@@RACE_LEAD@@', json.dumps({r['id']: r['lead'] for r in RACES_PAGE}, ensure_ascii=False))
     src = src.replace('@@RACE_SLUG@@', json.dumps({r['id']: r['slug'] for r in RACES_PAGE}))
@@ -299,6 +356,7 @@ def build_home(lang, src):
     html = html.replace('@@ALTERNATES@@', alternates(''))
     html = localize(html, lang, here)
     html = static_links(html, lang, '')
+    html = card_dates(html)
     if lang == 'ru':
         html = auto_lang(html)
     if lang != 'ru':
