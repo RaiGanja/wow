@@ -138,6 +138,16 @@ class Align(unittest.TestCase):
         res['B'] = {'shift': 0., 'n': 0, 'total': 5, 'measured': False}
         self.assertEqual(align_tod.problems(res), [])      # unmeasured sky alone does not fail
 
+    def test_allowed_zone_shift_is_accepted_but_others_still_fail(self):
+        res = {k: {'shift': 1., 'n': 5, 'total': 5, 'measured': True} for k in 'RGAB'}
+        res['G'] = {'shift': 4.6, 'n': 5, 'total': 5, 'measured': True}
+        self.assertTrue(align_tod.problems(res))
+        self.assertEqual(align_tod.problems(res, allow='G'), [])
+        res['R']['shift'] = 3.
+        self.assertTrue(align_tod.problems(res, allow='G'))
+        res['R']['shift'], res['G']['n'] = 1., 0
+        self.assertTrue(align_tod.problems(res, allow='G'))   # allowed shift, but the zone must still be measured
+
 
 if __name__ == '__main__':
     unittest.main()

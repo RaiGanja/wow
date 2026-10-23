@@ -1,7 +1,8 @@
 """Variants of the home hero (day, dusk, night) made by editing hero_dawn in Gemini drift a few pixels; the living
 layer's mask (assets/living/hero_dawn-fx.png) must fit all of them. Aligns a variant to hero_dawn by its edges
 (lighting differs, outlines do not), then checks the residual shift inside every mask zone.
-Run: python tools/align_tod.py <wow_art> <day|dusk|night> [raw files...]   (default raw: hero_<tod>.raw*.jpg)
+Run: python tools/align_tod.py <wow_art> <day|dusk|night> [--allow=G] [raw files...]   (default raw: hero_<tod>.raw*.jpg;
+--allow lists zones whose shift a person accepted after looking at the overlay)
 Writes hero_<tod>.jpg (best aligned try, at the size of hero_dawn.jpg) and hero_<tod>-overlay.png; exit code 1 when no try passes."""
 import glob, os, sys
 import cv2, numpy as np
@@ -99,10 +100,11 @@ def check(ref, aligned, mask):
     return out
 
 
-def problems(res):
+def problems(res, allow=''):
     """Reasons a check() result fails the variant (empty list = passes). A sky zone (B) that was not measured is left
-    to a human looking at the overlay; R, G and A must have counted windows."""
-    out = [f'{k}: сдвиг {v["shift"]} px > {LIMIT}' for k, v in res.items() if v['shift'] > LIMIT]
+    to a human looking at the overlay; R, G and A must have counted windows. Zones in `allow` may be shifted: a person
+    looked at the overlay and accepted it (e.g. folds inside the banner repainted, its outline in place)."""
+    out = [f'{k}: сдвиг {v["shift"]} px > {LIMIT}' for k, v in res.items() if v['shift'] > LIMIT and k not in allow]
     out += [f'{k}: нет учтённых окон' for k, v in res.items() if k in 'RGA' and v['n'] == 0]
     return out
 
@@ -122,7 +124,8 @@ def main():
     if len(sys.argv) < 3:
         sys.exit(__doc__)
     art, tod = sys.argv[1], sys.argv[2]
-    raws = sys.argv[3:] or sorted(glob.glob(os.path.join(art, f'hero_{tod}.raw*.jpg')))
+    allow = ''.join(a.split('=', 1)[1] for a in sys.argv[3:] if a.startswith('--allow='))
+    raws = [a for a in sys.argv[3:] if not a.startswith('--')] or sorted(glob.glob(os.path.join(art, f'hero_{tod}.raw*.jpg')))
     master = cv2.imread(os.path.join(art, 'hero_dawn.jpg'))
     ref = cv2.resize(master, (W, H), interpolation=cv2.INTER_AREA)
     mask = cv2.imread(MASK, cv2.IMREAD_UNCHANGED)
@@ -132,9 +135,9 @@ def main():
         T, cc = fit(ref, img)
         aligned = warp(img, T, (W, H))
         res = check(ref, aligned, mask)
-        bad = problems(res)
+        bad = problems(res, allow)
         ok = cc > .5 and not bad
-        print(os.path.basename(p), 'ok' if ok else 'брак', f'ecc={cc:.3f}', show(res), *bad)
+        print(os.path.basename(p), ('ok' if ok else 'брак') + (f' (принято: {allow})' if ok and allow else ''), f'ecc={cc:.3f}', show(res), *bad)
         worst = max(v['shift'] for v in res.values())
         if ok and (best is None or worst < best[0]):
             best = (worst, aligned, img, T)
