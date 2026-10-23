@@ -1321,8 +1321,8 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=16576bd936" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=29ba24f05c" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=d44d3d28f5" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=799ee05770" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://gabella.site/wow/de/"},{"@type":"ListItem","position":2,"name":"Mein Profil","item":"https://gabella.site/wow/de/profile/"}]}</script>
 </head>
 <body>
@@ -1457,13 +1457,14 @@ let crestN = 0;
 function crestSvg(c, px, o = {}) {
   const P = GD.guilds.palette, id = 'gc' + (++crestN);
   const tex = GD.guilds.texture && o.texture !== false && px >= 48
-    ? `<image href="${ROOT}assets/me/crest/metal.webp" width="100" height="100" preserveAspectRatio="none" class="gl-tex"/>` : '';
+    ? `<image href="${ROOT}assets/me/crest/metal.webp?v=799ee05770" width="100" height="100" preserveAspectRatio="none" class="gl-tex"/>` : '';
   const edge = c.b !== 'none' ? `<path d="${SHIELD[c.s]}" fill="none" stroke="${BORDER[c.b]}" stroke-width="${px >= 48 ? 3 : 5}"/>` : '';
   return `<svg class="gl-crest" viewBox="0 0 100 100" width="${px}" height="${px}" role="img" aria-label="${esc(o.label || tl('crest'))}">`
     + `<defs><clipPath id="${id}"><path d="${SHIELD[c.s]}"/></clipPath></defs><g clip-path="url(#${id})">`
     + `<rect width="100" height="100" fill="${P[c.c[0]]}"/>${FIELD[c.f] ? `<path d="${FIELD[c.f]}" fill="${P[c.c[1]]}"/>` : ''}`
-    + `<use href="${ROOT}assets/me/crest/charges.svg#c-${esc(c.i)}" x="24" y="20" width="52" height="52" fill="${P[c.ic]}"/>${tex}</g>${edge}</svg>`;
+    + `<use href="${ROOT}assets/me/crest/charges.svg?v=799ee05770#c-${esc(c.i)}" x="24" y="20" width="52" height="52" fill="${P[c.ic]}"/>${tex}</g>${edge}</svg>`;
 }
+const DOWN = ['Der Profilserver antwortet nicht', 'Versuche es in ein paar Minuten erneut. Der Rest des Guides funktioniert wie gewohnt.', 'Erneut versuchen'];   // same words as the player page
 const guildName = g => g.name || fill(tl('hidden'), { n: g.id });
 const crestMini = g => `<a class="gl-mini" href="${guildUrl(g.id)}">${crestSvg(g.crest, 24, { label: guildName(g) })}<span>${esc(guildName(g))}</span></a>`;
 const dateOf = t => new Date(t).toLocaleDateString(HL);
@@ -1498,6 +1499,9 @@ function ready(cb) {
   });
 }
 
+/** Level badge on a portrait; a check mark after a level an admin has confirmed. c: {level, verified}. */
+const lvBadge = c => `<span class="lv${c.verified ? ' ver' : ''}" aria-label="Stufe ${c.level}${c.verified ? ', ' + esc(tg('verified')) : ''}">${c.level}${c.verified ? '<i aria-hidden="true">✓</i>' : ''}</span>`;
+
 /** Player card of the roster and the character lists. p: {id, nick, title, frame, rank, portrait, lfg, main, alts}. */
 function pcard(p, o) {
   o = o || {};
@@ -1512,7 +1516,7 @@ function pcard(p, o) {
   const glory = o.glory && p.glory ? `<small class="g-gl">${esc(tg('glory_n', { n: p.glory }))}</small>` : '';
   const alts = (p.alts || []).length ? `<div class="alts">Twinks: ${p.alts.map(a => `<i style="--ac:${cls(a.class).color}">${esc(a.name)}</i>`).join(', ')}</div>` : '';
   return `<article class="pcard${o.cls ? ' ' + o.cls : ''}" style="--cc:${cls(c.class).color}"${o.attrs || ''}>
-    <span class="pic">${ring(p.frame || p.rank, face(c, p.portrait))}<span class="lv${c.verified ? ' ver' : ''}" aria-label="Stufe ${c.level}${c.verified ? ', ' + esc(tg('verified')) : ''}">${c.level}${c.verified ? '<i aria-hidden="true">✓</i>' : ''}</span></span>
+    <span class="pic">${ring(p.frame || p.rank, face(c, p.portrait))}${lvBadge(c)}</span>
     <span class="fx ${f}">${esc(o.tag || FACN[f])}</span>
     <div class="nm">${p.title ? `<span class="ttl">${esc(titleName(p.title))}</span>` : ''}${name}${glory}</div>
     <span class="sub">${subline(c)}</span>
@@ -1530,13 +1534,14 @@ const verMark = c => (c.verified ? `<span class="g-ver" role="img" aria-label="$
 /** Card menu («…» with the report item) for signed-in people looking at somebody else. */
 const cardMenu = (id, cls) => `<details class="g-menu${cls ? ' ' + cls : ''}"><summary aria-label="${esc(tg('menu'))}" title="${esc(tg('menu'))}">⋯</summary><button type="button" data-report="${esc(id)}">${esc(tg('report'))}</button></details>`;
 
-/** Report dialog: what is wrong (name, motto, other), an optional reason, POST /reports; success is a quiet toast. */
-function reportDialog(M, target, name) {
+/** Report dialog: what is wrong (name, motto, other; fields = [[value, label]] for a guild), an optional reason, POST /reports; success is a quiet toast. */
+function reportDialog(M, target, name, fields) {
+  const opts = fields || ['name', 'motto', 'other'].map(k => [k, tg('report_' + k)]);
   const d = document.createElement('dialog');
   d.className = 'g-dlg';
   d.setAttribute('aria-labelledby', 'repH');
   d.innerHTML = `<form class="g-rf"><h2 id="repH">${esc(tg('report'))}: ${esc(name)}</h2>
-    <fieldset><legend>${esc(tg('report_field'))}</legend>${['name', 'motto', 'other'].map((k, i) => `<label class="g-rr"><input type="radio" name="f" value="${k}"${i ? '' : ' checked'}>${esc(tg('report_' + k))}</label>`).join('')}</fieldset>
+    <fieldset><legend>${esc(tg('report_field'))}</legend>${opts.map(([k, label], i) => `<label class="g-rr"><input type="radio" name="f" value="${k}"${i ? '' : ' checked'}>${esc(label)}</label>`).join('')}</fieldset>
     <label class="g-rl">${esc(tg('report_reason'))}<input type="text" name="r" maxlength="80" autocomplete="off"></label>
     <p class="msg err" role="alert"></p>
     <div class="row"><button type="submit" class="btn">${esc(tg('report_send'))}</button><button type="button" class="btn ghost" data-x>${esc(tg('report_cancel'))}</button></div></form>`;
@@ -1548,7 +1553,7 @@ function reportDialog(M, target, name) {
   d.addEventListener('click', e => { if (e.target === d) close(); });
   f.onsubmit = e => {
     e.preventDefault();
-    const field = f.elements.f.value, reason = f.elements.r.value.trim() || tg('report_' + field);   // the API wants a reason: the field's own name when none is typed
+    const field = f.elements.f.value, reason = f.elements.r.value.trim() || opts.find(o => o[0] === field)[1];   // the API wants a reason: the field's own name when none is typed
     ok.disabled = true; msg.textContent = '';
     M.api('/reports', { body: { target, field, reason } }).then(() => { close(); M.toast({ kind: 'note', id: 'report_sent' }); }, err => {
       ok.disabled = false;
@@ -2426,8 +2431,20 @@ function cabinet() {
   if (mn) { const cnt = () => { $('#lMottoN').textContent = fill('%n von 60', { n: [...mn.value].length }); }; mn.addEventListener('input', cnt); cnt(); }
 }
 
+/** A guest who started signing in from a guild page (gabella-back, one hour) goes back there once the cabinet is open. */
+function backToGuild() {
+  try {
+    const b = JSON.parse(localStorage.getItem('gabella-back') || 'null');
+    if (!b) return;
+    localStorage.removeItem('gabella-back');
+    const u = new URL(b.u, location.href);
+    if (Date.now() - b.t < 3600000 && u.origin === location.origin && /\/g\/$/.test(u.pathname) && /^#\d+(&join=[\w-]+)?$/.test(u.hash)) location.replace(u.href);
+  } catch (e) { /* private mode, bad value */ }
+}
+
 function render() {
   if (!m) return screen('login');
+  if (m.characters.length) backToGuild();
   if (!m.characters.length) return sec === 'account' ? accountOnly() : wizard();
   cabinet();
 }
@@ -2664,8 +2681,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=16576bd936" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=29ba24f05c" data-root="../../" data-home="../" data-lang="de" data-teaser="Dein Profil hält deinen Weg fest: Ruhm, Rahmen, Saisons" data-close="Schließen" data-page="profile/" defer></script>
+<script src="../../assets/search/search.js?v=d44d3d28f5" data-root="../../" defer></script>
+<script src="../../assets/me/me.js?v=799ee05770" data-root="../../" data-home="../" data-lang="de" data-teaser="Dein Profil hält deinen Weg fest: Ruhm, Rahmen, Saisons" data-close="Schließen" data-page="profile/" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

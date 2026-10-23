@@ -39,7 +39,8 @@ PLAY_NAME = {'ru': 'В игре', 'en': 'In game', 'uk': 'У грі'}
 ROSTER_NAME = {'ru': 'Состав', 'en': 'Roster', 'uk': 'Склад'}
 PROFILE_NAME = {'ru': 'Мой профиль', 'en': 'My profile', 'uk': 'Мій профіль'}
 PLAYER_NAME = {'ru': 'Игрок Gabella Team', 'en': 'Gabella Team player', 'uk': 'Гравець Gabella Team'}
-NOINDEX = {'profile/', 'u/'}   # personal pages: noindex in the page (build_me.py), left out of sitemap.xml
+GUILD_NAME = {'ru': 'Гильдия', 'en': 'Guild', 'uk': 'Гільдія'}
+NOINDEX = {'profile/', 'u/', 'g/'}   # personal pages: noindex in the page (build_me.py), left out of sitemap.xml
 
 
 def t(ru, en, uk):
@@ -132,6 +133,8 @@ META = {
            t('Карточка игрока Gabella Team: персонажи в WoW Forever, ранг, рамка и достижения.',
              'Gabella Team player card: WoW Forever characters, rank, frame and achievements.',
              'Картка гравця Gabella Team: персонажі у WoW Forever, ранг, рамка й досягнення.')),
+    'g/': (t('Гильдия — гид WoW Forever', 'Guild — WoW Forever Guide', 'Гільдія — гід WoW Forever'),
+           t('Страница гильдии Gabella: герб, состав и хроника.', 'Gabella guild page: crest, roster and chronicle.', 'Сторінка гільдії Gabella: герб, склад і хроніка.')),
     'privacy/': (t('Конфиденциальность — гид WoW Forever',
                    'Privacy — WoW Forever Guide',
                    'Конфіденційність — гід WoW Forever'),
@@ -150,7 +153,7 @@ RACE_D = t('{n} в WoW Forever: четыре расовые способност
            'WoW Forever {n} guide: four racial abilities, available and best classes, capital {cap}, starting zone {zone}.',
            '{n} у WoW Forever: чотири расові здібності, доступні та найкращі класи, столиця {cap}, стартова зона {zone}.')
 AND = {'ru': ' и ', 'en': ' and ', 'uk': ' і '}
-langs.fill([HOME_NAME, SITE_NAME, TOOLS_NAME, PRIVACY_NAME, PLAY_NAME, ROSTER_NAME, PROFILE_NAME, PLAYER_NAME, META, CLASS_T, CLASS_T_SHORT, CLASS_D, RACE_T, RACE_D, AND])   # new languages: i18n/<lang>.json
+langs.fill([HOME_NAME, SITE_NAME, TOOLS_NAME, PRIVACY_NAME, PLAY_NAME, ROSTER_NAME, PROFILE_NAME, PLAYER_NAME, GUILD_NAME, META, CLASS_T, CLASS_T_SHORT, CLASS_D, RACE_T, RACE_D, AND])   # new languages: i18n/<lang>.json
 
 
 def listing(xs, lang):
@@ -205,8 +208,8 @@ def crumbs(path, lang):
     parts = path.strip('/').split('/')
     top = parts[0] + '/'
     names = {'tools/': TOOLS_NAME, 'privacy/': PRIVACY_NAME, 'play/': PLAY_NAME, 'roster/': ROSTER_NAME, 'profile/': PROFILE_NAME}
-    if top == 'u/':
-        items += [(ROSTER_NAME[lang], base + 'roster/'), (PLAYER_NAME[lang], base + top)]
+    if top in ('u/', 'g/'):
+        items += [(ROSTER_NAME[lang], base + 'roster/'), ((PLAYER_NAME if top == 'u/' else GUILD_NAME)[lang], base + top)]
         return items
     if top in names:
         items.append((names[top][lang], base + top))

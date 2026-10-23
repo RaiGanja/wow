@@ -925,8 +925,20 @@ function cabinet() {
   if (mn) { const cnt = () => { $('#lMottoN').textContent = fill('%n из 60', { n: [...mn.value].length }); }; mn.addEventListener('input', cnt); cnt(); }
 }
 
+/** A guest who started signing in from a guild page (gabella-back, one hour) goes back there once the cabinet is open. */
+function backToGuild() {
+  try {
+    const b = JSON.parse(localStorage.getItem('gabella-back') || 'null');
+    if (!b) return;
+    localStorage.removeItem('gabella-back');
+    const u = new URL(b.u, location.href);
+    if (Date.now() - b.t < 3600000 && u.origin === location.origin && /\/g\/$/.test(u.pathname) && /^#\d+(&join=[\w-]+)?$/.test(u.hash)) location.replace(u.href);
+  } catch (e) { /* private mode, bad value */ }
+}
+
 function render() {
   if (!m) return screen('login');
+  if (m.characters.length) backToGuild();
   if (!m.characters.length) return sec === 'account' ? accountOnly() : wizard();
   cabinet();
 }

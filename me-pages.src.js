@@ -43,6 +43,7 @@ function crestSvg(c, px, o = {}) {
     + `<rect width="100" height="100" fill="${P[c.c[0]]}"/>${FIELD[c.f] ? `<path d="${FIELD[c.f]}" fill="${P[c.c[1]]}"/>` : ''}`
     + `<use href="${ROOT}assets/me/crest/charges.svg#c-${esc(c.i)}" x="24" y="20" width="52" height="52" fill="${P[c.ic]}"/>${tex}</g>${edge}</svg>`;
 }
+const DOWN = ['Сервер профилей не отвечает', 'Попробуйте через пару минут. Остальной гид работает как обычно.', 'Повторить'];   // same words as the player page
 const guildName = g => g.name || fill(tl('hidden'), { n: g.id });
 const crestMini = g => `<a class="gl-mini" href="${guildUrl(g.id)}">${crestSvg(g.crest, 24, { label: guildName(g) })}<span>${esc(guildName(g))}</span></a>`;
 const dateOf = t => new Date(t).toLocaleDateString(HL);
@@ -77,6 +78,9 @@ function ready(cb) {
   });
 }
 
+/** Level badge on a portrait; a check mark after a level an admin has confirmed. c: {level, verified}. */
+const lvBadge = c => `<span class="lv${c.verified ? ' ver' : ''}" aria-label="Уровень ${c.level}${c.verified ? ', ' + esc(tg('verified')) : ''}">${c.level}${c.verified ? '<i aria-hidden="true">✓</i>' : ''}</span>`;
+
 /** Player card of the roster and the character lists. p: {id, nick, title, frame, rank, portrait, lfg, main, alts}. */
 function pcard(p, o) {
   o = o || {};
@@ -91,7 +95,7 @@ function pcard(p, o) {
   const glory = o.glory && p.glory ? `<small class="g-gl">${esc(tg('glory_n', { n: p.glory }))}</small>` : '';
   const alts = (p.alts || []).length ? `<div class="alts">Твинки: ${p.alts.map(a => `<i style="--ac:${cls(a.class).color}">${esc(a.name)}</i>`).join(', ')}</div>` : '';
   return `<article class="pcard${o.cls ? ' ' + o.cls : ''}" style="--cc:${cls(c.class).color}"${o.attrs || ''}>
-    <span class="pic">${ring(p.frame || p.rank, face(c, p.portrait))}<span class="lv${c.verified ? ' ver' : ''}" aria-label="Уровень ${c.level}${c.verified ? ', ' + esc(tg('verified')) : ''}">${c.level}${c.verified ? '<i aria-hidden="true">✓</i>' : ''}</span></span>
+    <span class="pic">${ring(p.frame || p.rank, face(c, p.portrait))}${lvBadge(c)}</span>
     <span class="fx ${f}">${esc(o.tag || FACN[f])}</span>
     <div class="nm">${p.title ? `<span class="ttl">${esc(titleName(p.title))}</span>` : ''}${name}${glory}</div>
     <span class="sub">${subline(c)}</span>
@@ -109,13 +113,14 @@ const verMark = c => (c.verified ? `<span class="g-ver" role="img" aria-label="$
 /** Card menu («…» with the report item) for signed-in people looking at somebody else. */
 const cardMenu = (id, cls) => `<details class="g-menu${cls ? ' ' + cls : ''}"><summary aria-label="${esc(tg('menu'))}" title="${esc(tg('menu'))}">⋯</summary><button type="button" data-report="${esc(id)}">${esc(tg('report'))}</button></details>`;
 
-/** Report dialog: what is wrong (name, motto, other), an optional reason, POST /reports; success is a quiet toast. */
-function reportDialog(M, target, name) {
+/** Report dialog: what is wrong (name, motto, other; fields = [[value, label]] for a guild), an optional reason, POST /reports; success is a quiet toast. */
+function reportDialog(M, target, name, fields) {
+  const opts = fields || ['name', 'motto', 'other'].map(k => [k, tg('report_' + k)]);
   const d = document.createElement('dialog');
   d.className = 'g-dlg';
   d.setAttribute('aria-labelledby', 'repH');
   d.innerHTML = `<form class="g-rf"><h2 id="repH">${esc(tg('report'))}: ${esc(name)}</h2>
-    <fieldset><legend>${esc(tg('report_field'))}</legend>${['name', 'motto', 'other'].map((k, i) => `<label class="g-rr"><input type="radio" name="f" value="${k}"${i ? '' : ' checked'}>${esc(tg('report_' + k))}</label>`).join('')}</fieldset>
+    <fieldset><legend>${esc(tg('report_field'))}</legend>${opts.map(([k, label], i) => `<label class="g-rr"><input type="radio" name="f" value="${k}"${i ? '' : ' checked'}>${esc(label)}</label>`).join('')}</fieldset>
     <label class="g-rl">${esc(tg('report_reason'))}<input type="text" name="r" maxlength="80" autocomplete="off"></label>
     <p class="msg err" role="alert"></p>
     <div class="row"><button type="submit" class="btn">${esc(tg('report_send'))}</button><button type="button" class="btn ghost" data-x>${esc(tg('report_cancel'))}</button></div></form>`;
@@ -127,7 +132,7 @@ function reportDialog(M, target, name) {
   d.addEventListener('click', e => { if (e.target === d) close(); });
   f.onsubmit = e => {
     e.preventDefault();
-    const field = f.elements.f.value, reason = f.elements.r.value.trim() || tg('report_' + field);   // the API wants a reason: the field's own name when none is typed
+    const field = f.elements.f.value, reason = f.elements.r.value.trim() || opts.find(o => o[0] === field)[1];   // the API wants a reason: the field's own name when none is typed
     ok.disabled = true; msg.textContent = '';
     M.api('/reports', { body: { target, field, reason } }).then(() => { close(); M.toast({ kind: 'note', id: 'report_sent' }); }, err => {
       ok.disabled = false;

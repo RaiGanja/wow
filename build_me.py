@@ -217,8 +217,8 @@ def texts(lang):
     }, missing
 
 
-PAGES = [('roster/', 'roster.src.html'), ('profile/', 'profile.src.html'), ('u/', 'player.src.html')]
-NOINDEX = {'profile/', 'u/'}
+PAGES = [('roster/', 'roster.src.html'), ('profile/', 'profile.src.html'), ('u/', 'player.src.html'), ('g/', 'guild.src.html')]
+NOINDEX = {'profile/', 'u/', 'g/'}
 INVITE = build.DISCORD   # кнопка «Вступить в Gabella Team» на экране «не участник»
 
 

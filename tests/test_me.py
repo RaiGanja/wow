@@ -246,6 +246,18 @@ def test_guild_texts():
         assert set(t['gl']) == set(build_me.GUILD), lang
 
 
+def test_guild_page_built():
+    from langs import LANGS
+    for lang in LANGS:
+        p = os.path.join(ROOT, *(([] if lang == 'ru' else [lang]) + ['g', 'index.html']))
+        html = open(p, encoding='utf-8').read()
+        assert 'noindex' in html and 'id="gl-head"' in html, lang
+        assert re.search(r'assets/me/crest/charges\.svg\?v=\w{10}#c-', html), lang   # the sprite is versioned like me.js
+        assert not re.search(r'assets/me/crest/charges\.svg(?!\?v=)', html), lang
+    sm = open(os.path.join(ROOT, 'sitemap.xml'), encoding='utf-8').read()
+    assert '/g/' not in sm
+
+
 def test_crest_sprite():
     sprite = open(os.path.join(ROOT, 'assets', 'me', 'crest', 'charges.svg'), encoding='utf-8').read()
     ids = set(re.findall(r'<symbol id="c-([\w-]+)"', sprite))

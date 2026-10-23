@@ -147,7 +147,7 @@
       const G = T.g || {};
       el.className = 'me-toast' + (t.kind === 'rank' || t.kind === 'glory' ? ' rank' : '') + (SMALL.test(t.kind) ? ' sm' : '') + (reduced() ? '' : ' anim');
       if (SMALL.test(t.kind)) {   // one quiet line: a season step, or the first experience
-        const text = t.kind === 'step' ? fillTx(G.season_toast, { n: t.id }) : G[t.id] || '';
+        const text = t.text || (t.kind === 'step' ? fillTx(G.season_toast, { n: t.id }) : G[t.id] || '');
         el.innerHTML = `<span class="me-tt"><b>${esc(text)}</b></span>`;
       } else if (t.kind === 'glory') {
         const fr = state && state.user ? state.user.frame || state.user.rank : 'recruit';
