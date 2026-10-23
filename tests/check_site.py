@@ -1,6 +1,8 @@
-"""Проверка собранного сайта: локальные ссылки существуют, нет @@, на EN-гайдах нет кириллицы.
+"""Проверка собранного сайта: локальные ссылки существуют, нет @@, на EN-гайдах нет кириллицы,
+у каждой страницы есть title, description, canonical и JSON-LD, sitemap.xml совпадает со страницами.
 Запуск: python tests/check_site.py"""
 import json, os, re, sys
+import xml.etree.ElementTree as ET
 from urllib.parse import unquote, urlsplit
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -10,6 +12,8 @@ SRCSET = re.compile(r'srcset="([^"]+)"')
 IDS = re.compile(r'\sid="([^"]+)"')
 OG = re.compile(r'property="og:image" content="([^"]+)"')
 SITE = 'https://gabella.site/wow/'
+HEAD = {'title': r'<title>[^<]+</title>', 'description': r'<meta name="description" content="[^"]+">',
+        'canonical': r'<link rel="canonical" href="https://gabella.site/wow/[^"]*">'}
 
 
 def pages():
@@ -29,14 +33,37 @@ def targets(html):
     return out
 
 
+def check_sitemap(pages):
+    """sitemap.xml: valid XML, exactly the built pages, every hreflang alternate is a page too."""
+    ns = {'s': 'http://www.sitemaps.org/schemas/sitemap/0.9', 'x': 'http://www.w3.org/1999/xhtml'}
+    try:
+        root = ET.parse(os.path.join(ROOT, 'sitemap.xml')).getroot()
+    except (OSError, ET.ParseError) as e:
+        return [f'sitemap.xml: {e}']
+    locs = {u.findtext('s:loc', namespaces=ns) for u in root.findall('s:url', ns)}
+    alts = {a.get('href') for a in root.iter('{http://www.w3.org/1999/xhtml}link')}
+    return ([f'sitemap.xml: нет страницы {u}' for u in sorted(pages - locs)]
+            + [f'sitemap.xml: лишний адрес {u}' for u in sorted((locs | alts) - pages)])
+
+
 def main():
-    problems, n = [], 0
+    problems, n, listed = [], 0, set()
     for page in pages():
         n += 1
         html = open(page, encoding='utf-8').read()
         rel = os.path.relpath(page, ROOT).replace(os.sep, '/')
         if '@@' in html:
             problems.append(f'{rel}: остался @@')
+        problems += [f'{rel}: нет {k}' for k, rx in HEAD.items() if not re.search(rx, html)]
+        lds = re.findall(r'<script type="application/ld\+json">(.*?)</script>', html, re.S)
+        if not lds:
+            problems.append(f'{rel}: нет JSON-LD')
+        for ld in lds:
+            try:
+                json.loads(ld)
+            except ValueError as e:
+                problems.append(f'{rel}: битый JSON-LD: {e}')
+        listed.add(SITE + rel[:-len('index.html')])
         if rel.startswith('en/guides/'):
             body = re.sub(r'<(script|style)\b.*?</\1>', '', html, flags=re.S)
             body = re.sub(r'<[^>]+>', ' ', body)
@@ -67,6 +94,7 @@ def main():
         problems += [f'manifest-{lang}: нет {i["src"]}' for i in m['icons'] if not os.path.exists(os.path.join(ROOT, i['src']))]
     if "const VERSION = 'dev'" in open(os.path.join(ROOT, 'sw.js'), encoding='utf-8').read():
         problems.append('sw.js: VERSION не проставлен сборкой')
+    problems += check_sitemap(listed)
     for p in problems:
         print(p)
     if problems:

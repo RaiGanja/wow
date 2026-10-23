@@ -413,6 +413,8 @@ def main():
     build_tools.main()
     import build_guides  # guides: own builder, texts already in three languages
     build_guides.main()
+    import seo  # last: titles/descriptions for search, JSON-LD, analytics, sitemap.xml over the built pages
+    seo.main()
 
 
 if __name__ == '__main__':
