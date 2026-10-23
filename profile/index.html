@@ -925,10 +925,12 @@ main .me-ring, dialog .me-ring { --s: 64px; --room-x: 12px; --room-y: 12px; widt
 .pcard .alts i { font-style: normal; color: var(--ac); }
 .pcard .nick { grid-column: 1 / -1; font-size: .82rem; color: var(--muted); }
 .pcard .nick { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: center; }
+.pcard .nick > span:not(.team) { min-width: 0; overflow-wrap: anywhere; }   /* Discord nicks run to 32 characters: wrap, never cut */
 .team { display: inline-flex; align-items: center; gap: 5px; color: var(--gold-2); font-weight: 600; }
 .team img { display: block; }
 .pcard .mainmark { grid-column: 1 / -1; font-size: .8rem; font-weight: 600; color: var(--gold-2); }
-.pcard .mod { position: absolute; z-index: 3; right: 10px; bottom: 10px; min-height: 32px; font: inherit; font-size: .78rem; color: var(--muted); border: 1px solid var(--pline); border-radius: 6px; padding: 0 10px; background: var(--panel-2); cursor: pointer; }
+/* admin «Hide» gets its own row: pinned to the corner it covered the Discord nick */
+.pcard .mod { position: relative; z-index: 3; grid-column: 1 / -1; justify-self: end; margin-top: 4px; min-height: 32px; font: inherit; font-size: .78rem; color: var(--muted); border: 1px solid var(--pline); border-radius: 6px; padding: 0 10px; background: var(--panel-2); cursor: pointer; }
 .pcard .mod:hover { color: var(--fg); border-color: var(--gold); }
 
 /* the big card: how others see the player */
