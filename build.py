@@ -72,17 +72,9 @@ def rel(from_dir, to_dir):
 
 
 CONTACT = 'contact@gabella.site'   # Cloudflare Email Routing -> почта Вячеслава
-DISCORD = 'https://discord.gg/Zd45sNHy9x'   # постоянное приглашение на сервер Gabella Team (без срока и лимита)
-# Свои постоянные приглашения по местам ссылки (Discord считает переходы по каждому — замер воронки).
-# Discord не даёт двух бессрочных приглашений в один канал, поэтому места разведены по открытым каналам ИНФО.
-DISCORD_AT = {
-    'menu': 'https://discord.gg/CfTZa7QKAG',      # шапка и «Ещё» -> #игровые-новости
-    'guide': 'https://discord.gg/ZTwSk79Hju',     # строка в конце гайдов, классов и рас -> #wow-гид
-    'home': 'https://discord.gg/c7dANjdJnR',      # главная, блок «Группа» -> #правила
-    'faq': 'https://discord.gg/c7dANjdJnR',       # FAQ, «Где найти группу?» -> #правила
-    'profile': 'https://discord.gg/c7dANjdJnR',   # кабинет, экран «не участник» -> #правила
-    'footer': DISCORD,                            # подвал -> #объявления (общий с хабом и ботом)
-}
+DISCORD = 'https://discord.gg/ZGpznkX3Zw'   # постоянное приглашение на сервер Gabella · WoW Forever (EN/UK/RU, без срока и лимита)
+# Места ссылки: все ведут на сервер сайта одним приглашением (замер по местам был на Gabella Team).
+DISCORD_AT = {place: DISCORD for place in ('menu', 'guide', 'home', 'faq', 'profile', 'footer')}
 LEGAL = {
     'ru': ('Фанатский гид Gabella. Сайт не связан с Blizzard Entertainment и не одобрен ею. World of Warcraft, Warcraft и Blizzard Entertainment — '
            'товарные знаки или зарегистрированные товарные знаки Blizzard Entertainment, Inc. в США и/или других странах.', 'Конфиденциальность', 'Связь', 'Карта сайта'),
