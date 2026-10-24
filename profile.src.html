@@ -203,7 +203,7 @@
 <script>
 /* ---------- Profile: login, first-run wizard, cabinet sections in the hash, the character editor ---------- */
 const ERR = {
-  bad_name: 'Имя: от 2 до 12 букв, без цифр и пробелов.', bad_race: 'Выберите расу.', bad_combo: 'Такого сочетания расы и класса нет.',
+  bad_name: 'Имя: от 2 до 12 букв одного алфавита, без цифр и пробелов.', bad_race: 'Выберите расу.', bad_combo: 'Такого сочетания расы и класса нет.',
   bad_role: 'Эта роль классу недоступна.', bad_level: 'Уровень — от 1 до 60.', bad_prof: 'Две разные профессии из списка.',
   bad_skill: 'Навык — от 1 до 300 и только у выбранной профессии.', bad_playtime: 'Выберите, когда играете.', limit: 'Не больше десяти персонажей.',
   locked: 'Это ещё не открыто.', auth: 'Сессия закончилась, войдите снова.',
@@ -562,7 +562,8 @@ function formBody() {
   };
 }
 function check(b) {
-  if (!/^\p{L}{2,12}$/u.test(b.name)) return 'bad_name';
+  // one alphabet, as the API: a latin name with one cyrillic letter passes for someone else's name
+  if (!/^\p{L}{2,12}$/u.test(b.name) || [/\p{Script=Latin}/u, /\p{Script=Cyrillic}/u, /\p{Script=Greek}/u].filter(r => r.test(b.name)).length > 1) return 'bad_name';
   if (!Number.isInteger(b.level) || b.level < 1 || b.level > 60) return 'bad_level';
   if (b.prof1 && b.prof1 === b.prof2) return 'bad_prof';
   for (const s of [b.prof1_skill, b.prof2_skill]) if (s !== null && !(Number.isInteger(s) && s >= 1 && s <= 300)) return 'bad_skill';

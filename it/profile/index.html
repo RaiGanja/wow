@@ -1251,7 +1251,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/search/search.css?v=a441e33c88" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=ebeca4be5e" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=7e9daeb27b" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/it/"},{"@type":"ListItem","position":2,"name":"Il mio profilo","item":"https://gabella.site/wow/it/profile/"}]}</script>
 </head>
 <body>
@@ -1595,7 +1595,7 @@ moreDlg.addEventListener('click', e => { if (e.target === moreDlg || e.target.cl
 
 /* ---------- Profile: login, first-run wizard, cabinet sections in the hash, the character editor ---------- */
 const ERR = {
-  bad_name: 'Nome: da 2 a 12 lettere, senza cifre né spazi.', bad_race: 'Scegli una razza.', bad_combo: 'Questa combinazione di razza e classe non esiste.',
+  bad_name: 'Nome: da 2 a 12 lettere di un solo alfabeto, senza cifre né spazi.', bad_race: 'Scegli una razza.', bad_combo: 'Questa combinazione di razza e classe non esiste.',
   bad_role: 'Questa classe non può avere quel ruolo.', bad_level: 'Livello: da 1 a 60.', bad_prof: 'Due professioni diverse dall’elenco.',
   bad_skill: 'Abilità: da 1 a 300, solo per una professione scelta.', bad_playtime: 'Scegli quando giochi.', limit: 'Al massimo dieci personaggi.',
   locked: 'Non è ancora sbloccato.', auth: 'La sessione è scaduta, accedi di nuovo.',
@@ -1954,7 +1954,8 @@ function formBody() {
   };
 }
 function check(b) {
-  if (!/^\p{L}{2,12}$/u.test(b.name)) return 'bad_name';
+  // one alphabet, as the API: a latin name with one cyrillic letter passes for someone else's name
+  if (!/^\p{L}{2,12}$/u.test(b.name) || [/\p{Script=Latin}/u, /\p{Script=Cyrillic}/u, /\p{Script=Greek}/u].filter(r => r.test(b.name)).length > 1) return 'bad_name';
   if (!Number.isInteger(b.level) || b.level < 1 || b.level > 60) return 'bad_level';
   if (b.prof1 && b.prof1 === b.prof2) return 'bad_prof';
   for (const s of [b.prof1_skill, b.prof2_skill]) if (s !== null && !(Number.isInteger(s) && s >= 1 && s <= 300)) return 'bad_skill';
@@ -2424,7 +2425,7 @@ addEventListener('beforeinstallprompt', e => {
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
 <script src="../../assets/search/search.js?v=a441e33c88" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=ebeca4be5e" data-root="../../" data-home="../" data-lang="it" data-teaser="Il tuo profilo conserva i tuoi personaggi, le imprese e le cornici" data-close="Chiudi" data-page="profile/" data-look="2" defer></script>
+<script src="../../assets/me/me.js?v=7e9daeb27b" data-root="../../" data-home="../" data-lang="it" data-teaser="Il tuo profilo conserva i tuoi personaggi, le imprese e le cornici" data-close="Chiudi" data-page="profile/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

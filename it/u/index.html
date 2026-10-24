@@ -1099,6 +1099,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 .cat-h { margin-top: 6px; font-family: var(--font-body); font-size: 1.05rem; font-weight: 600; letter-spacing: 0; display: flex; gap: 10px; align-items: baseline; }
 .cat-h span { font-size: .85rem; font-weight: 500; color: var(--muted); }
 .admin { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding: 12px 18px; font-size: .9rem; color: var(--muted); }
+.admin select { min-height: 40px; max-width: 100%; border-radius: 8px; border: 1px solid var(--pline); background: var(--panel-2); color: var(--fg); padding: 0 10px; font: inherit; }
 </style>
 <style>
 .rv { opacity: 0; transform: translateY(18px); }
@@ -1110,7 +1111,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/search/search.css?v=a441e33c88" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=ebeca4be5e" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=7e9daeb27b" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/it/"},{"@type":"ListItem","position":2,"name":"Rosa","item":"https://gabella.site/wow/it/roster/"},{"@type":"ListItem","position":3,"name":"Giocatore di Gabella Team","item":"https://gabella.site/wow/it/u/"}]}</script>
 </head>
 <body>
@@ -1440,8 +1441,13 @@ function draw() {
   }).join('');
   const cmpBar = cmp ? `<div class="frame vs" role="status"><span>${fill(esc('Tu: %a · %n: %b'), { a: `<b>${mine.size}</b>`, b: `<b>${got.size}</b>`, n: esc(name) })}</span>
     <span class="small">${esc(fill('In comune: %n', { n: [...got.keys()].filter(id => mine.has(id)).length }))}</span></div>` : '';
+  // achievements only the admin grants (WoW feats); the ones the player already has are left out
+  const feats = GD.ach.filter(a => a.kind === 'admin' && !got.has(a.id));
   const admin = me && me.admin && !own ? `<div class="frame admin"><span>Admin:</span>
-    ${p.characters.map(c => `<button type="button" class="btn ghost" data-verify="${c.id}" data-name="${esc(c.name)}" data-level="${c.level}">${esc(tg('verify_level'))}: ${esc(c.name)}</button>`).join('')}<span class="msg" id="admNote" role="status"></span></div>` : '';
+    ${p.characters.map(c => `<button type="button" class="btn ghost" data-verify="${c.id}" data-name="${esc(c.name)}" data-level="${c.level}">${esc(tg('verify_level'))}: ${esc(c.name)}</button>`).join('')}
+    ${feats.length ? `<select id="admAch" aria-label="${esc(tg('grant_ach'))}">${feats.map(a => `<option value="${esc(a.id)}">${esc(achName(a.id))}</option>`).join('')}</select>
+      <button type="button" class="btn ghost" id="admGrant">${esc(tg('grant_ach'))}</button>` : ''}
+    <button type="button" class="btn ghost" id="admBan">${esc(tg('rep_ban'))}</button><span class="msg" id="admNote" role="status"></span></div>` : '';
   $('#view').innerHTML = `${bcard(Object.assign({}, p, { since: p.since }), { h: 'h2' })}
     <div class="bar-row"><button type="button" class="btn ghost" id="copy">${ico('copy')}Copia link</button>
       ${me && !own ? `<button type="button" class="btn ghost" id="cmpBtn" aria-pressed="${compare}">${compare ? 'Nascondi confronto' : 'Confronta con me'}</button>` : ''}
@@ -1468,6 +1474,17 @@ function draw() {
     M.api(`/admin/characters/${b.dataset.verify}/verify`, { body: { level: n } }).then(() => { load(); M.toast({ kind: 'note', id: 'verify_done' }); },
       e => { b.disabled = false; const nt = $('#admNote'); nt.classList.add('err'); nt.textContent = tg(e.code === 'bad_level' ? 'verify_bad' : 'err_report'); });
   });
+  const gb = $('#admGrant');
+  if (gb) gb.onclick = () => adminAct(gb, '/admin/grant', { user: p.id, ach: $('#admAch').value }, 'grant_done');
+  const bb = $('#admBan');
+  if (bb) bb.onclick = () => { if (confirm(tg('rep_ban_ask'))) adminAct(bb, `/admin/users/${p.id}/ban`, { banned: true }, 'ban_done'); };
+}
+
+/** Admin actions on this player; an error shows next to the buttons. */
+function adminAct(b, path, body, done) {
+  b.disabled = true;
+  M.api(path, { body }).then(() => { load(); M.toast({ kind: 'note', id: done }); },
+    () => { b.disabled = false; const nt = $('#admNote'); nt.classList.add('err'); nt.textContent = tg('err_admin'); });
 }
 
 function load() {
@@ -1557,7 +1574,7 @@ addEventListener('beforeinstallprompt', e => {
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
 <script src="../../assets/search/search.js?v=a441e33c88" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=ebeca4be5e" data-root="../../" data-home="../" data-lang="it" data-teaser="Il tuo profilo conserva i tuoi personaggi, le imprese e le cornici" data-close="Chiudi" data-page="u/" data-look="2" defer></script>
+<script src="../../assets/me/me.js?v=7e9daeb27b" data-root="../../" data-home="../" data-lang="it" data-teaser="Il tuo profilo conserva i tuoi personaggi, le imprese e le cornici" data-close="Chiudi" data-page="u/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>
