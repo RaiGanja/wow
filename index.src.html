@@ -166,12 +166,13 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .hero-art { z-index: -2; }
 .hero-art img { object-fit: cover; object-position: 62% 50%; }
 .hero::before { content: ""; position: absolute; inset: 0; z-index: -1; background:
-  linear-gradient(90deg, rgba(7,8,10,.92) 0%, rgba(7,8,10,.74) 30%, rgba(7,8,10,.28) 56%, rgba(7,8,10,.06) 78%),
-  linear-gradient(180deg, rgba(7,8,10,.5) 0%, rgba(7,8,10,0) 26%, rgba(7,8,10,0) 58%, rgba(7,8,10,.9) 100%); }
+  linear-gradient(90deg, rgba(7,8,10,.06) calc(50% - 800px), rgba(7,8,10,.46) calc(50% - 420px), rgba(7,8,10,.5) calc(50% + 100px), rgba(7,8,10,.16) calc(50% + 380px), rgba(7,8,10,.04) calc(50% + 600px)),
+  linear-gradient(180deg, rgba(7,8,10,.42) 0%, rgba(7,8,10,0) 26%, rgba(7,8,10,0) 58%, rgba(7,8,10,.9) 88%, var(--bg) 100%); }
 .hero-in { width: 100%; padding-top: calc(var(--top) + clamp(40px, 9vh, 110px)); padding-bottom: 40px; display: grid; gap: 22px; justify-items: start; max-width: var(--wrap); }
 .hmeta { font-size: .9rem; color: var(--ink-2); }
 .hero h1 { font-size: clamp(2.9rem, 6.2vw, 5.4rem); line-height: .98; letter-spacing: .005em; }
 .hero h1 span { display: block; color: var(--ink-gold); }
+.hero h1, .hero .lead, .hero .hmeta { text-shadow: 0 1px 2px rgba(7,8,10,.7), 0 2px 22px rgba(7,8,10,.55); }  /* the castle and the sun sit behind the text */
 .hero .lead { max-width: 46ch; font-size: clamp(1.02rem, 1.4vw, 1.15rem); color: var(--ink-2); }
 .cd { display: flex; align-items: center; flex-wrap: wrap; gap: 14px 22px; margin-top: 6px; }
 .cd .units { display: flex; align-items: stretch; gap: 6px; padding: 6px; border: 1px solid rgba(255,255,255,.12); border-radius: 10px; background: rgba(10,12,18,.62); backdrop-filter: blur(6px); }
@@ -278,9 +279,10 @@ section.block { scroll-margin-top: -72px; }
 
 /* Journey: game stages and my character, framed panels over art */
 .stband { position: relative; isolation: isolate; padding: 110px 0 24px; color: var(--fg); }
-.stband-art, .stband-art img { position: absolute; inset: 0 0 auto 0; width: 100%; height: 620px; }
+.stband-art, .stband-art img { position: absolute; inset: 0 0 auto 0; width: 100%; height: var(--band-h, 620px); }
 .stband-art { z-index: -2; }
-.stband-art img { object-fit: cover; object-position: 50% 40%; }
+.stband-art img { object-fit: cover; object-position: 50% 32%; }
+#stages { --band-h: clamp(620px, 40vw, 820px); }
 #guides.stband { padding-top: 56px; }   /* no art behind the guides band any more */
 /* Camp scene near the end: the campfire art in full, fire and embers alive (assets/living/) */
 .camp { position: relative; isolation: isolate; overflow: hidden; margin-top: 56px; min-height: clamp(520px, 56vw, 1200px);   /* close to the art's own 16:9: heads stay in frame on wide screens */ display: grid; align-content: end; color: #f1ece0; background: #08090b; }
@@ -316,7 +318,7 @@ canvas.fx.on { opacity: 1; }
 .thero .crumbs a:hover { color: var(--ink); text-decoration: underline; }
 .thero h1 { max-width: 8em; font-size: clamp(2.9rem, 6.2vw, 5.4rem); line-height: .98; color: var(--ink); text-shadow: 0 2px 18px rgba(0,0,0,.5); }
 .thero .lead { max-width: 46ch; color: var(--ink-2); font-size: clamp(1.02rem, 1.4vw, 1.15rem); text-shadow: 0 1px 10px rgba(0,0,0,.6); }
-.stband::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 620px; z-index: -1; background: linear-gradient(180deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 70%, transparent) 22%, color-mix(in srgb, var(--bg) 55%, transparent) 50%, var(--bg) 100%); }
+.stband::before { content: ""; position: absolute; inset: 0 0 auto 0; height: var(--band-h, 620px); z-index: -1; background: linear-gradient(180deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 62%, transparent) 12%, color-mix(in srgb, var(--bg) 40%, transparent) 30%, color-mix(in srgb, var(--bg) 55%, transparent) 62%, var(--bg) 100%); }
 .stband .wrap { display: grid; gap: 20px; }
 /* page-level grids: one column that may shrink, so a long word or a wide field never pushes past the screen edge */
 section.block, .hero-in, .chero-in, .thero-in, .stband .wrap { grid-template-columns: minmax(0, 1fr); }
