@@ -29,7 +29,7 @@ SITE_TILES = [
     {'t': {'ru': 'Инструменты', 'en': 'Tools', 'uk': 'Інструменти'}, 'href': 'tools/', 'art': 'rogue',
      'd': {'ru': 'Рамки, сравнение, поиск', 'en': 'Frames, compare, search', 'uk': 'Рамки, порівняння, пошук'}},
     {'t': {'ru': 'В игре', 'en': 'In game', 'uk': 'У грі'}, 'href': 'play/', 'art': 'shaman',
-     'd': {'ru': 'Второй экран: радио, уровень, таймеры, Слава и задания недели', 'en': 'Second screen: radio, level, timers, Glory and weekly tasks', 'uk': 'Другий екран: радіо, рівень, таймери, Слава й завдання тижня'}},
+     'd': {'ru': 'Второй экран: радио, уровень, таймеры', 'en': 'Second screen: radio, level, timers', 'uk': 'Другий екран: радіо, рівень, таймери'}},
 ]
 # Wide hero art; everything else is a class/race portrait cut at 360/600/896
 WIDTHS = {'hero_dawn': (960, 1440, 1920, 2560, 3840), 'hero_campfire': (960, 1600, 2560)}
@@ -324,21 +324,8 @@ def play_data(src, lang):
         'racef': {r['id']: r['f'] for r in races},
         'rn': {r['id']: build.tr(r['n'], lang) for r in races},
         'cn': {c['id']: build.tr(c['n'], lang) for c in build.CLASSES},
-        'wk': play_weekly(lang),
     }
     return dungeons_data(src) + '\nconst P = ' + json.dumps(data, ensure_ascii=False) + ';\n'
-
-
-def play_weekly(lang):
-    """Weekly tasks about one station, guide or class: task id -> [template key, item name] (the profile texts name the rest)."""
-    import build_me                                               # build_me imports this module: load it when the page is built
-    d = build_me.page_data(lang)
-    out = {}
-    for tid, w in d['prog']['weekly'].items():
-        if 'item' in w:
-            k = {'station': 'st', 'guide': 'g', 'class': 'c'}[w['key']]
-            out[tid] = [k, d['classes'][w['item']]['n'] if k == 'c' else d['items'][w['key']].get(w['item'], w['item'])]
-    return out
 
 
 def play_head(lang):
@@ -347,7 +334,7 @@ def play_head(lang):
     return ('<section class="phead" id="top"><div class="wrap"><div class="ptitle"><h1>@@TITLE@@</h1><p class="glead">@@LEAD@@</p></div>'
             '<div class="pacts"><button class="pill pwake" id="wakeBtn" type="button" aria-pressed="false" hidden>'
             f'<svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg>{x("wake")}</button></div></div></section>'
-            f'<div class="wrap"><section class="frame pway" id="pWay" aria-label="{x("way")}" hidden></section></div>')
+            f'<div class="wrap"><section class="frame pway" id="pWay" aria-label="{x("profile")}" hidden></section></div>')
 
 
 def play_body(lang, root):
@@ -464,30 +451,11 @@ addEventListener('keydown', e => {   // + / − on the keyboard: level up or dow
 addEventListener('storage', e => { if (e.key === MEKEY) renderLvl(); });
 renderLvl();
 
-/* «Your path»: Glory and the week's tasks, fresh after every radio pulse (me.js answers with the new profile). A guest gets
-   one line with the login. Names of the tasks come from the profile texts, a station, guide or class from P.wk */
+/* A guest gets one line with the login; a signed-in player has the characters in the level block already */
 function renderWay() {
   const w = $('#pWay');
-  if (!meNow) {
-    w.innerHTML = `<p class="pnote">${esc(TX.guest)}</p><a class="btn" href="${ROOT}profile/">${esc(TX.login)}</a>`;
-    w.hidden = false;
-    return;
-  }
-  GM().texts().then(T => {
-    const g = T.g || {}, gl = meNow.glory || {}, nf = new Intl.NumberFormat(document.documentElement.lang);
-    const fill = (k, o) => Object.keys(o).reduce((s, x) => s.split('{' + x + '}').join(o[x]), g[k] || k);
-    const need = gl.need || 0, into = Math.max(0, Math.min(gl.into || 0, need)), pct = need ? Math.round(100 * into / need) : 100;
-    const glory = `<div class="pgl"><div class="gh"><b>${esc(fill('glory_n', { n: gl.level || 1 }))}</b>${need ? `<span>${nf.format(into)} / ${nf.format(need)}</span>` : ''}</div>`
-      + `<div class="pbar" role="progressbar" aria-label="${esc(g.glory || '')}" aria-valuemin="0" aria-valuemax="${need || 1}" aria-valuenow="${need ? into : 1}"><i style="width:${pct}%"></i></div></div>`;
-    const tasks = ((meNow.week && meNow.week.tasks) || []).map(t => {
-      const it = P.wk[t.id], name = g['task_' + t.id] || (it ? fill('task_' + it[0], { x: it[1] }) : t.id);
-      return `<li${t.done ? ' class="ok"' : ''}><span>${esc(name)}</span><small>${t.done ? esc(g.task_done || '✓') : `${t.value} / ${t.goal}`}</small></li>`;
-    }).join('');
-    const nick = meNow.user.nick || (curChar() || {}).name || '';
-    w.innerHTML = (nick ? `<span class="pnk">${esc(nick)}</span>` : '') + glory + (tasks ? `<ul class="pwk" aria-label="${esc(g.week || '')}">${tasks}</ul>` : '')
-      + `<a href="${ROOT}profile/">${esc(TX.profile)}</a>`;
-    w.hidden = false;
-  });
+  w.hidden = !!meNow;
+  if (!meNow) w.innerHTML = `<p class="pnote">${esc(TX.guest)}</p><a class="btn" href="${ROOT}profile/">${esc(TX.login)}</a>`;
 }
 function gotMe(m) {
   if (!m && GM().logged()) return;   // signed in on this device: wait for the profile, no guest line in between

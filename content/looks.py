@@ -13,5 +13,5 @@ SEX_DEFAULT = {'human': 'm', 'dwarf': 'f', 'gnome': 'm', 'nightelf': 'f', 'skyA'
 SCENES = [('scene-tavern', 'Таверна'), ('scene-pass', 'Перевал'), ('scene-swamp', 'Топи'), ('scene-desert', 'Пустыня'),
           ('scene-nightwood', 'Ночной лес'), ('scene-harbor', 'Гавань'), ('scene-ruins', 'Руины'), ('scene-peak', 'Вершина')]
 
-# запертые фоны: id → id награды (к 04.11 пусто; сезон и достижения добавят)
+# запертые фоны: id → id награды (пусто; достижения могут добавить)
 LOCK = {}

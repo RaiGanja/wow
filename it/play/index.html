@@ -974,21 +974,9 @@ nav.gtiles { padding: 14px; }
 .gplay b { color: var(--gold-2); }
 .gplay .btn { margin-left: auto; }
 .gbody.play { padding-top: 14px; }
-/* «Your path»: Glory and the week's tasks of the signed-in visitor, one line for a guest */
+/* one line for a guest: sign in to keep the level and characters */
 .pway { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; margin-top: 16px; padding: 14px 20px; }
 .pway[hidden] { display: none; }
-.pway .pnk { font-weight: 600; }
-.pgl { display: grid; gap: 6px; flex: 1 1 200px; max-width: 300px; }
-.pgl .gh { display: flex; justify-content: space-between; gap: 12px; font-size: .88rem; }
-.pgl .gh b { color: var(--gold-2); }
-.pgl .gh span, .pwk small { color: var(--muted); font-variant-numeric: tabular-nums; }
-.pbar { height: 6px; border-radius: 3px; background: var(--panel-2); border: 1px solid var(--pline); overflow: hidden; }
-.pbar i { display: block; height: 100%; background: #c9a54a; }
-.pwk { display: flex; flex-wrap: wrap; gap: 8px 24px; list-style: none; margin: 0; padding: 0; flex: 2 1 320px; font-size: .88rem; }
-.pwk li { display: grid; gap: 2px; }
-.pwk li.ok small { color: var(--gold-2); }
-.pway > a:last-child { margin-left: auto; font-size: .9rem; }
-.pway > a:last-child:not(.btn) { color: var(--gold-2); }   /* the profile link; the guest sign-in button keeps its dark text */
 .pway .pnote { flex: 1 1 260px; }
 .pway .btn { margin-left: auto; }
 .pchars { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -1048,7 +1036,7 @@ nav.gtiles { padding: 14px; }
 .pnotify { display: flex; align-items: center; gap: 8px; font-size: .9rem; color: var(--muted); cursor: pointer; }
 .pnotify[hidden] { display: none; }
 .pnotify input { width: 18px; height: 18px; accent-color: #c9a54a; }
-@media (max-width: 719px) { .phead { padding-top: calc(var(--top) + 14px); } .pway { padding: 12px 14px; gap: 10px 20px; } .pway > a:last-child, .pway .btn { margin-left: 0; } .psec { padding: 14px; } .pform { grid-template-columns: minmax(0, 1fr) 104px; } .pform .pill { grid-column: 1 / -1; justify-content: center; } }
+@media (max-width: 719px) { .phead { padding-top: calc(var(--top) + 14px); } .pway { padding: 12px 14px; gap: 10px 20px; } .pway .btn { margin-left: 0; } .psec { padding: 14px; } .pform { grid-template-columns: minmax(0, 1fr) 104px; } .pform .pill { grid-column: 1 / -1; justify-content: center; } }
 #more { margin-top: 56px; }
 #more .sec-head { margin-bottom: 14px; }
 @media (max-width: 1023px) {
@@ -1085,8 +1073,8 @@ nav.gtiles { padding: 14px; }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=de8bc15d93" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=c30b9c1a1c" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=b52e2ac809" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=378dd2c208" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/it/"},{"@type":"ListItem","position":2,"name":"In gioco","item":"https://gabella.site/wow/it/play/"}]}</script>
 </head>
 <body class="compact">
@@ -1126,7 +1114,7 @@ nav.gtiles { padding: 14px; }
   </div>
 </div></header>
 
-<section class="phead" id="top"><div class="wrap"><div class="ptitle"><h1>In gioco</h1><p class="glead">Un secondo schermo mentre giochi: radio, zone e spedizioni per il tuo livello, timer. Dopo l’accesso: personaggi dal profilo, Gloria e compiti settimanali.</p></div><div class="pacts"><button class="pill pwake" id="wakeBtn" type="button" aria-pressed="false" hidden><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg>Schermo sempre acceso</button></div></div></section><div class="wrap"><section class="frame pway" id="pWay" aria-label="Il tuo percorso" hidden></section></div>
+<section class="phead" id="top"><div class="wrap"><div class="ptitle"><h1>In gioco</h1><p class="glead">Un secondo schermo mentre giochi: radio, zone e spedizioni per il tuo livello, timer. Dopo l’accesso: personaggi dal profilo.</p></div><div class="pacts"><button class="pill pwake" id="wakeBtn" type="button" aria-pressed="false" hidden><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg>Schermo sempre acceso</button></div></div></section><div class="wrap"><section class="frame pway" id="pWay" aria-label="Profilo" hidden></section></div>
 
 <main class="wrap gbody play solo">
   <nav class="gtoc frame" aria-label="Sezioni della guida"></nav>
@@ -1259,7 +1247,7 @@ const DUNGEONS = [
   ['Maglio Infausto: Ovest', 60, 60, 'Feralas', 0, [['Icy Veins', '56–60']]],
   ['Maglio Infausto: Nord', 60, 60, 'Feralas', 0, [['Icy Veins', '56–60']]]
 ];
-const P = {"route": {"alliance": [[1, 10, "Umano: Foresta di Elwynn. Nano e Gnomo: Dun Morogh. Elfo della Notte: Teldrassil (fino all’11). Skyborne dell’High Order: Zephras Isle (fino al 12)."], [10, 18, "Marche Occidentali o Loch Modan, gli Elfi della Notte di solito vanno a Rivafosca. Dal 15 vanno bene le Montagne Crestarossa."], [18, 30, "Boscovespro, Montagne Crestarossa e Paludi Grigie; a Kalimdor, Vette di Petrartiglio e Valtetra."], [30, 45, "Desolanda o Altopiani d’Arathi, Valle di Rovotorto. Dal 35: la nuova zona Riverglades tra Crestarossa e le Steppe Ardenti, Acquemorte, Maleterre, Palude del Dolore."], [40, 55, "Tanaris, Feralas, Entroterre, poi Gorgia Rovente, Terre Devastate, Azshara, dal 48 Cratere di Un’Goro e Vilbosco."], [50, 60, "Steppe Ardenti, Terre Infette Occidentali, Terre Infette Orientali, Fontefredda, Silitus. Il Monte Hyjal si apre al 60."]], "horde": [[1, 10, "Orco e Troll: Durotar. Tauren: Mulgore. Non Morto: Radure di Tirisfal. Skyborne Windshaper: Zephras Isle (fino al 12)."], [10, 18, "Savane o Selva Pinargento."], [18, 30, "Vette di Petrartiglio e Savane, poi Valtetra o Alture di Colletorto, dal 25 Millepicchi."], [30, 45, "Desolanda o Altopiani d’Arathi, Valle di Rovotorto. Dal 35: la nuova zona Riverglades, Acquemorte, Maleterre, Palude del Dolore."], [40, 55, "Tanaris, Feralas, Entroterre, poi Gorgia Rovente, Terre Devastate, Azshara, dal 48 Cratere di Un’Goro e Vilbosco."], [50, 60, "Steppe Ardenti, Terre Infette Occidentali, Terre Infette Orientali, Fontefredda, Silitus. Il Monte Hyjal si apre al 60."]]}, "miles": [[40, "Cavalcature: addestramento 100 monete d’oro e cavalcatura 20 (+60% di velocità)."], [60, "Cavalcature veloci: 1.000 e 200 monete d’oro (+100%). Si apre Mount Hyjal, incursioni dal 09.12.2026."]], "tx": {"radio": "Radio", "lvl": "Livello", "lvDown": "Livello giù", "lvUp": "Livello su", "noHero": "Nessun eroe impostato", "edit": "Imposta il tuo eroe", "fac": "Fazione", "alliance": "Alleanza", "horde": "Orda", "needLvl": "Imposta il livello con «+» per vedere zone e spedizioni.", "now": "Ora", "next": "Dopo", "from": "dal", "at": "al", "route": "Percorso completo", "dung": "Spedizioni per il livello", "dungNone": "Nessuna spedizione per questo livello.", "all": "Tutte le spedizioni", "new": "nuova", "timers": "Timer", "food": "Cibo", "foodNote": "+5% di esperienza dai nemici", "min": "min", "custom": "Personalizzato", "name": "Nome", "minutes": "Minuti", "start": "Avvia", "timer": "Timer", "done": "Tempo scaduto", "again": "Ancora", "remove": "Rimuovi", "noTimers": "Tocca un preset o imposta il tuo tempo. I timer continuano anche dopo aver ricaricato la pagina.", "notify": "Notifica quando la scheda è in background", "wake": "Schermo sempre acceso", "way": "Il tuo percorso", "guest": "Accedi: la radio e i compiti settimanali daranno Gloria.", "login": "Accedi", "profile": "Profilo", "chars": "Personaggi", "addChar": "Aggiungi personaggio"}, "racef": {"human": "alliance", "dwarf": "alliance", "nightelf": "alliance", "gnome": "alliance", "skyA": "alliance", "orc": "horde", "undead": "horde", "tauren": "horde", "troll": "horde", "skyH": "horde"}, "rn": {"human": "Umano", "dwarf": "Nano", "nightelf": "Elfo della Notte", "gnome": "Gnomo", "skyA": "Skyborne dell’High Order", "orc": "Orco", "undead": "Non Morto", "tauren": "Tauren", "troll": "Troll", "skyH": "Skyborne Windshaper"}, "cn": {"warrior": "Guerriero", "paladin": "Paladino", "hunter": "Cacciatore", "rogue": "Ladro", "priest": "Sacerdote", "shaman": "Sciamano", "mage": "Mago", "warlock": "Stregone", "druid": "Druido"}, "wk": {"st_morning": ["st", "Mattino nella valle"], "st_road": ["st", "La strada"], "st_forest": ["st", "Foresta antica"], "st_steppe": ["st", "Tamburi delle pianure"], "st_tavern": ["st", "Taverna"], "st_dungeon": ["st", "Spedizione"], "st_battle": ["st", "Battaglia"], "st_night": ["st", "Bivacco notturno"], "g_leveling": ["g", "Livellamento 1–60"], "g_dungeons": ["g", "Spedizioni e incursioni"], "g_professions": ["g", "Professioni"], "g_faq": ["g", "FAQ e date"], "g_news": ["g", "Notizie"], "c_warrior": ["c", "Guerriero"], "c_paladin": ["c", "Paladino"], "c_hunter": ["c", "Cacciatore"], "c_rogue": ["c", "Ladro"], "c_priest": ["c", "Sacerdote"], "c_shaman": ["c", "Sciamano"], "c_mage": ["c", "Mago"], "c_warlock": ["c", "Stregone"], "c_druid": ["c", "Druido"]}};
+const P = {"route": {"alliance": [[1, 10, "Umano: Foresta di Elwynn. Nano e Gnomo: Dun Morogh. Elfo della Notte: Teldrassil (fino all’11). Skyborne dell’High Order: Zephras Isle (fino al 12)."], [10, 18, "Marche Occidentali o Loch Modan, gli Elfi della Notte di solito vanno a Rivafosca. Dal 15 vanno bene le Montagne Crestarossa."], [18, 30, "Boscovespro, Montagne Crestarossa e Paludi Grigie; a Kalimdor, Vette di Petrartiglio e Valtetra."], [30, 45, "Desolanda o Altopiani d’Arathi, Valle di Rovotorto. Dal 35: la nuova zona Riverglades tra Crestarossa e le Steppe Ardenti, Acquemorte, Maleterre, Palude del Dolore."], [40, 55, "Tanaris, Feralas, Entroterre, poi Gorgia Rovente, Terre Devastate, Azshara, dal 48 Cratere di Un’Goro e Vilbosco."], [50, 60, "Steppe Ardenti, Terre Infette Occidentali, Terre Infette Orientali, Fontefredda, Silitus. Il Monte Hyjal si apre al 60."]], "horde": [[1, 10, "Orco e Troll: Durotar. Tauren: Mulgore. Non Morto: Radure di Tirisfal. Skyborne Windshaper: Zephras Isle (fino al 12)."], [10, 18, "Savane o Selva Pinargento."], [18, 30, "Vette di Petrartiglio e Savane, poi Valtetra o Alture di Colletorto, dal 25 Millepicchi."], [30, 45, "Desolanda o Altopiani d’Arathi, Valle di Rovotorto. Dal 35: la nuova zona Riverglades, Acquemorte, Maleterre, Palude del Dolore."], [40, 55, "Tanaris, Feralas, Entroterre, poi Gorgia Rovente, Terre Devastate, Azshara, dal 48 Cratere di Un’Goro e Vilbosco."], [50, 60, "Steppe Ardenti, Terre Infette Occidentali, Terre Infette Orientali, Fontefredda, Silitus. Il Monte Hyjal si apre al 60."]]}, "miles": [[40, "Cavalcature: addestramento 100 monete d’oro e cavalcatura 20 (+60% di velocità)."], [60, "Cavalcature veloci: 1.000 e 200 monete d’oro (+100%). Si apre Mount Hyjal, incursioni dal 09.12.2026."]], "tx": {"radio": "Radio", "lvl": "Livello", "lvDown": "Livello giù", "lvUp": "Livello su", "noHero": "Nessun eroe impostato", "edit": "Imposta il tuo eroe", "fac": "Fazione", "alliance": "Alleanza", "horde": "Orda", "needLvl": "Imposta il livello con «+» per vedere zone e spedizioni.", "now": "Ora", "next": "Dopo", "from": "dal", "at": "al", "route": "Percorso completo", "dung": "Spedizioni per il livello", "dungNone": "Nessuna spedizione per questo livello.", "all": "Tutte le spedizioni", "new": "nuova", "timers": "Timer", "food": "Cibo", "foodNote": "+5% di esperienza dai nemici", "min": "min", "custom": "Personalizzato", "name": "Nome", "minutes": "Minuti", "start": "Avvia", "timer": "Timer", "done": "Tempo scaduto", "again": "Ancora", "remove": "Rimuovi", "noTimers": "Tocca un preset o imposta il tuo tempo. I timer continuano anche dopo aver ricaricato la pagina.", "notify": "Notifica quando la scheda è in background", "wake": "Schermo sempre acceso", "guest": "Accedi per salvare livello e personaggi nel tuo profilo.", "login": "Accedi", "profile": "Profilo", "chars": "Personaggi", "addChar": "Aggiungi personaggio"}, "racef": {"human": "alliance", "dwarf": "alliance", "nightelf": "alliance", "gnome": "alliance", "skyA": "alliance", "orc": "horde", "undead": "horde", "tauren": "horde", "troll": "horde", "skyH": "horde"}, "rn": {"human": "Umano", "dwarf": "Nano", "nightelf": "Elfo della Notte", "gnome": "Gnomo", "skyA": "Skyborne dell’High Order", "orc": "Orco", "undead": "Non Morto", "tauren": "Tauren", "troll": "Troll", "skyH": "Skyborne Windshaper"}, "cn": {"warrior": "Guerriero", "paladin": "Paladino", "hunter": "Cacciatore", "rogue": "Ladro", "priest": "Sacerdote", "shaman": "Sciamano", "mage": "Mago", "warlock": "Stregone", "druid": "Druido"}};
 
 /* In game: level -> zones and the next milestones (data from the Leveling guide), dungeons near the level, timers,
    screen wake lock, the mini window. Level, race and class are the shared hero "gabella-wf-me" of the home page (the level is
@@ -1344,30 +1332,11 @@ addEventListener('keydown', e => {   // + / − on the keyboard: level up or dow
 addEventListener('storage', e => { if (e.key === MEKEY) renderLvl(); });
 renderLvl();
 
-/* «Your path»: Glory and the week's tasks, fresh after every radio pulse (me.js answers with the new profile). A guest gets
-   one line with the login. Names of the tasks come from the profile texts, a station, guide or class from P.wk */
+/* A guest gets one line with the login; a signed-in player has the characters in the level block already */
 function renderWay() {
   const w = $('#pWay');
-  if (!meNow) {
-    w.innerHTML = `<p class="pnote">${esc(TX.guest)}</p><a class="btn" href="${ROOT}profile/">${esc(TX.login)}</a>`;
-    w.hidden = false;
-    return;
-  }
-  GM().texts().then(T => {
-    const g = T.g || {}, gl = meNow.glory || {}, nf = new Intl.NumberFormat(document.documentElement.lang);
-    const fill = (k, o) => Object.keys(o).reduce((s, x) => s.split('{' + x + '}').join(o[x]), g[k] || k);
-    const need = gl.need || 0, into = Math.max(0, Math.min(gl.into || 0, need)), pct = need ? Math.round(100 * into / need) : 100;
-    const glory = `<div class="pgl"><div class="gh"><b>${esc(fill('glory_n', { n: gl.level || 1 }))}</b>${need ? `<span>${nf.format(into)} / ${nf.format(need)}</span>` : ''}</div>`
-      + `<div class="pbar" role="progressbar" aria-label="${esc(g.glory || '')}" aria-valuemin="0" aria-valuemax="${need || 1}" aria-valuenow="${need ? into : 1}"><i style="width:${pct}%"></i></div></div>`;
-    const tasks = ((meNow.week && meNow.week.tasks) || []).map(t => {
-      const it = P.wk[t.id], name = g['task_' + t.id] || (it ? fill('task_' + it[0], { x: it[1] }) : t.id);
-      return `<li${t.done ? ' class="ok"' : ''}><span>${esc(name)}</span><small>${t.done ? esc(g.task_done || '✓') : `${t.value} / ${t.goal}`}</small></li>`;
-    }).join('');
-    const nick = meNow.user.nick || (curChar() || {}).name || '';
-    w.innerHTML = (nick ? `<span class="pnk">${esc(nick)}</span>` : '') + glory + (tasks ? `<ul class="pwk" aria-label="${esc(g.week || '')}">${tasks}</ul>` : '')
-      + `<a href="${ROOT}profile/">${esc(TX.profile)}</a>`;
-    w.hidden = false;
-  });
+  w.hidden = !!meNow;
+  if (!meNow) w.innerHTML = `<p class="pnote">${esc(TX.guest)}</p><a class="btn" href="${ROOT}profile/">${esc(TX.login)}</a>`;
 }
 function gotMe(m) {
   if (!m && GM().logged()) return;   // signed in on this device: wait for the profile, no guest line in between
@@ -1554,8 +1523,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=de8bc15d93" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=c30b9c1a1c" data-root="../../" data-home="../" data-lang="it" data-teaser="Il tuo profilo conserva il tuo percorso: Gloria, riquadri, stagioni" data-close="Chiudi" data-page="play/" data-look="2" defer></script>
+<script src="../../assets/search/search.js?v=b52e2ac809" data-root="../../" defer></script>
+<script src="../../assets/me/me.js?v=378dd2c208" data-root="../../" data-home="../" data-lang="it" data-teaser="Il tuo profilo conserva i tuoi personaggi, le imprese e le cornici" data-close="Chiudi" data-page="play/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

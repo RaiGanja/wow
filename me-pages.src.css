@@ -25,7 +25,6 @@ main .me-ring, dialog .me-ring { --s: 64px; --room-x: 12px; --room-y: 12px; widt
   background: #0b0d12; border: 1px solid var(--line-2); color: #ece6d8; font-size: .78rem; font-weight: 700; font-variant-numeric: lining-nums; }
 .pcard .nm { display: grid; gap: 1px; min-width: 0; }
 .pcard .nm > :first-child { padding-right: 60px; }   /* only the top line meets the faction tag */
-.pcard .ttl { font-size: .8rem; color: var(--gold-2); }
 .pcard .nm b, .pcard .nm a { font-family: var(--font-display); font-weight: var(--display-w); font-size: 1.35rem; line-height: 1.1; color: var(--fg); text-decoration: none; overflow-wrap: break-word; }
 .pcard .nm a:hover { color: var(--gold-2); }
 .pcard .nm a::after { content: ""; position: absolute; inset: 0; border-radius: 10px; }
@@ -55,11 +54,9 @@ main .me-ring, dialog .me-ring { --s: 64px; --room-x: 12px; --room-y: 12px; widt
 .bcard::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(7,8,10,.94) 0%, rgba(7,8,10,.62) 48%, rgba(7,8,10,.3) 100%); }
 .bcard .in { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 24px; align-items: center; padding: 28px 30px; }
 .bcard .me-ring { --s: 132px; --room-x: 14px; --room-y: 16px; }
-.bcard .ttl { color: #e0c27a; font-size: .95rem; }
 .bcard h1, .bcard h2 { font-size: clamp(1.9rem, 4vw, 2.7rem); line-height: 1.05; margin: 2px 0 4px; color: #f1ece0; overflow-wrap: break-word; }
 .bcard .sub { color: var(--cc); font-size: 1.02rem; }
 .bcard .who { color: #c9c3b6; font-size: .9rem; margin: 6px 0 0; }
-.bcard .motto { color: #c9c3b6; font-style: italic; margin: 10px 0 0; max-width: 46ch; overflow-wrap: anywhere; }
 .rk { display: grid; gap: 8px; justify-items: end; text-align: right; min-width: 220px; }
 .rk .pts { font-family: var(--font-display); font-size: 2.4rem; line-height: 1; display: flex; align-items: center; gap: 10px; color: #f1ece0; font-variant-numeric: lining-nums; }
 .rk .rn { font-size: .95rem; color: #e0c27a; }
@@ -144,39 +141,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
   .rk .bar { width: 100%; max-width: 260px; }
   .ladder { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
-/* growth: Glory bar, name colours (quality colours of the game), weekly task lines, season track, chronicle */
-.g-glory { display: grid; gap: 6px; min-width: 0; }
-.g-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
-.g-lvl { color: var(--gold-2); font-size: 1.05rem; font-variant-numeric: lining-nums; }
-.g-num { color: var(--ink-2); font-size: .85rem; font-variant-numeric: lining-nums tabular-nums; }
-.g-bar { position: relative; display: block; height: 8px; border-radius: 4px; overflow: hidden; background: color-mix(in srgb, var(--fg) 12%, transparent); }
-.g-bar.g-sm { height: 4px; }
-.g-fill { position: absolute; left: 0; top: 0; height: 100%; background: linear-gradient(90deg, #a9832f, #f3d78e); }
-.g-rest { position: absolute; top: 0; height: 100%; background: #4a7fd4; }
-:root[data-theme="light"] .g-rest { background: #2f5fae; }
-.g-rtxt { color: var(--ink-2); font-size: .8rem; }
-.g-max .g-lvl { font-size: 1.2rem; }
-.q-poor { --qd: #9d9d9d; } .q-common { --qd: #e6e6e6; } .q-uncommon { --qd: #1eff00; } .q-rare { --qd: #0070dd; } .q-epic { --qd: #a335ee; } .q-legendary { --qd: #ff8000; }
-.q-poor, .q-common, .q-uncommon, .q-rare, .q-epic, .q-legendary { --q: var(--qd); color: var(--q); }   /* --qd: the dark-card colour (the big card is dark in both themes); --q: the page's own, light theme below */
-:root[data-theme="light"] .q-poor { --q: #6b6b6b; } :root[data-theme="light"] .q-common { --q: #1b1b1b; } :root[data-theme="light"] .q-uncommon { --q: #137a00; }
-:root[data-theme="light"] .q-rare { --q: #0059b0; } :root[data-theme="light"] .q-epic { --q: #7a22c0; } :root[data-theme="light"] .q-legendary { --q: #b35900; }
-.bcard h1[class^="q-"], .bcard h2[class^="q-"] { color: var(--qd); }
-.pcard .nm [class^="q-"] { color: var(--q); }
-.g-task { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 14px; align-items: center; padding: 12px 14px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); }
-.g-tt { grid-column: 1; display: flex; justify-content: space-between; align-items: baseline; gap: 12px; min-width: 0; }
-.g-tt b { font-weight: 600; min-width: 0; overflow-wrap: anywhere; }
-.g-tv { color: var(--ink-2); font-size: .85rem; font-variant-numeric: lining-nums tabular-nums; white-space: nowrap; }
-.g-done { color: var(--gold-2); font-weight: 700; }
-.g-task .g-bar { grid-column: 1; }
-.g-task .g-acts { grid-column: 2; grid-row: 1 / 3; align-self: center; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; }
-.g-task.done { opacity: .72; }
-.g-chron { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
-.g-ch { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: 12px; align-items: baseline; padding: 8px 0; border-bottom: 1px solid var(--pline); }
-.g-chd { color: var(--ink-2); font-size: .85rem; font-variant-numeric: lining-nums; }
-@media (max-width: 560px) { .g-task { grid-template-columns: minmax(0, 1fr); } .g-task .g-acts { grid-column: 1; grid-row: auto; justify-content: flex-start; } .g-ch { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
-
-/* Glory on a card, the confirmed-level check, the card menu, report dialog */
-.pcard .g-gl { font-size: .78rem; color: var(--gold-2); font-variant-numeric: lining-nums; }
+/* the confirmed-level check, the card menu, report dialog */
 .pcard .lv.ver { gap: 2px; grid-auto-flow: column; }
 .pcard .lv i { font-style: normal; font-size: .62rem; color: var(--gold-2); }
 .g-ver { margin-left: 4px; color: var(--gold-2); font-size: .85em; }
@@ -203,96 +168,16 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 .g-rf .row { display: flex; flex-wrap: wrap; gap: 10px; }
 .g-rf .msg { margin: 0; }
 
-/* roster tabs, weekly line */
+/* roster tabs */
 .g-tabs { position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: 6px; }   /* the hero art reaches under the first rows of the page */
 .g-tab { display: inline-flex; align-items: baseline; gap: 8px; min-height: 44px; padding: 0 18px; border: 1px solid var(--pline); border-radius: 8px; background: var(--panel-2); color: var(--ink-2); font: inherit; font-weight: 600; cursor: pointer; align-items: center; }
 .g-tab small { font-size: .82rem; font-weight: 500; font-variant-numeric: lining-nums; color: var(--muted); }
 .g-tab:hover { color: var(--fg); border-color: var(--gold); }
 .g-tab[aria-selected="true"] { color: var(--gold-2); border-color: var(--gold); background: color-mix(in srgb, var(--gold) 10%, var(--panel-2)); }
 .g-tab:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
-.g-wk { margin: 0; color: var(--ink-2); font-size: .9rem; overflow-wrap: anywhere; }
-.g-wk b { color: var(--gold-2); font-weight: 600; }
-.g-wk a { color: var(--ink-2); text-decoration: none; border-bottom: 1px solid var(--pline); }
-.g-wk a:hover { color: var(--fg); border-color: var(--gold); }
-.g-wk .g-ok { color: var(--gold-2); }
 
-/* player page: showcase, chronicle, admin */
-.g-pgl { padding: 14px 18px; }
-.g-showc { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin: 0; padding: 0; list-style: none; }
-.g-showc li { display: grid; justify-items: center; align-content: start; gap: 6px; padding: 14px 8px 12px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); text-align: center; min-width: 0; }
-.g-showc img { width: 56px; height: 56px; border-radius: 8px; object-fit: cover; }
-.g-showc b { font-size: .9rem; font-weight: 600; overflow-wrap: anywhere; }
-.g-showc small { color: var(--muted); font-size: .78rem; }
-.g-more { justify-self: start; }
-:root[data-theme="light"] .g-chd, :root[data-theme="light"] .g-num, :root[data-theme="light"] .g-tv { color: var(--muted); }
-@media (max-width: 719px) { .g-showc { grid-template-columns: repeat(2, minmax(0, 1fr)); } .g-showc li:last-child:nth-child(odd) { grid-column: 1 / -1; } }
-.gl-crest{display:block;flex:none}
-.gl-tex{mix-blend-mode:overlay;opacity:.35}
-.gl-mini{display:inline-flex;align-items:center;gap:6px;color:inherit;text-decoration:none;font-size:.9rem;min-width:0}
-.gl-mini span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.gl-mini:hover span{color:#c9a54a}
 @media (prefers-reduced-motion: reduce) {
   .skel, .bcard .me-ring.reveal { animation: none; }
   .g-tab { transition: none; }
 }
-/* guilds in the cabinet: guild line under a character, create/settings screen, crest constructor */
-.gl-cw { display: grid; gap: 6px; align-content: start; min-width: 0; }
-.gl-char { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; font-size: .9rem; color: var(--muted); min-width: 0; }
-.gl-char .btn, .pitem > .btn { min-height: 40px; padding: 0 14px; font-size: .9rem; }
-.gl-char .btn:disabled { opacity: .5; cursor: not-allowed; }
-.gl-set { color: var(--gold-2); text-decoration: none; border-bottom: 1px solid var(--pline); }
-.gl-ed { display: grid; gap: 18px; padding: 22px 24px; min-width: 0; }
-.gl-ed .sec-h { margin: 0; }
-.gl-form { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 26px; align-items: start; }
-.gl-pv { display: grid; place-items: center; padding: 20px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); }
-.gl-fields, .gl-rows { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; min-width: 0; }
-.gl-fld { display: grid; gap: 6px; font-size: .9rem; color: var(--muted); font-weight: 500; min-width: 0; }
-.gl-fld input, .gl-fld select { min-height: 46px; width: 100%; border-radius: 8px; border: 1px solid var(--pline); background: var(--panel-2); color: var(--fg); padding: 0 12px; font: inherit; font-size: 1rem; }
-.gl-fld input:focus, .gl-fld select:focus { outline: none; border-color: var(--gold); }
-.gl-fld input[aria-invalid="true"] { border-color: var(--horde); }
-.gl-fld .msg, .gl-fields > .msg { margin: 0; min-height: 0; }
-.gl-grp { display: grid; gap: 8px; min-width: 0; }
-.gl-lab { font-size: .9rem; color: var(--muted); font-weight: 500; }
-.gl-row { display: flex; flex-wrap: wrap; gap: 8px; }
-.gl-opt { display: grid; place-items: center; align-content: center; gap: 2px; min-width: 52px; min-height: 52px; padding: 5px; border: 1px solid var(--pline); border-radius: 8px; background: var(--panel-2); color: var(--muted); font: inherit; font-size: .72rem; line-height: 1.1; cursor: pointer; }
-.gl-opt:hover { border-color: var(--line-2); }
-.gl-opt[aria-checked="true"] { border-color: var(--gold); background: color-mix(in srgb, var(--gold) 12%, var(--panel-2)); }
-.gl-opt:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
-.gl-opt:disabled { opacity: .4; cursor: not-allowed; }
-.gl-opt small { max-width: 56px; text-align: center; }
-.gl-sw { min-width: 40px; min-height: 40px; width: 40px; height: 40px; padding: 0; border-radius: 50%; background: var(--sw); border: 2px solid var(--pline); }
-.gl-sw[aria-checked="true"] { background: var(--sw); border-color: var(--gold); box-shadow: 0 0 0 2px var(--panel-2) inset; }
-.gl-fields .row .sp { flex: 1; }
-.gl-pv { position: sticky; top: calc(var(--top, 56px) + 16px); cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; }
-.gl-pv.drag { cursor: grabbing; }
-.gl-pos { gap: 10px; }
-.gl-rng { display: grid; gap: 4px; font-size: .9rem; color: var(--muted); }
-.gl-rng output { color: var(--fg); font-variant-numeric: lining-nums tabular-nums; }
-.gl-rng input { width: 100%; max-width: 360px; min-height: 32px; margin: 0; accent-color: var(--gold); cursor: pointer; }
-.gl-rng input:disabled { opacity: .4; cursor: not-allowed; }
-.gl-pos .row { align-items: center; gap: 8px 14px; }
-.gl-pos .row small { color: var(--muted); font-size: .85rem; }
-@media (max-width: 720px) {
-  .gl-ed { padding: 18px 16px; }
-  .gl-form { grid-template-columns: minmax(0, 1fr); gap: 16px; }
-  .gl-pv { position: sticky; top: var(--top, 56px); z-index: 5; padding: 8px; background: var(--bg); box-shadow: 0 0 0 1px var(--pline); }
-  .gl-pv svg { width: 96px; height: 96px; }
-}
-@media (max-width: 340px) { #glTs { zoom: .84; } }   /* the 300px check widget must fit the form at 320 */
-/* guilds tab of the roster, mini crest on player cards */
-.gl-card { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 14px; align-items: center; padding: 14px 16px; color: var(--fg); text-decoration: none; border-radius: 10px; min-width: 0; }
-.gl-card:hover { border-color: var(--gold); }
-.gl-card:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
-.gl-card-b { display: grid; gap: 3px; min-width: 0; }
-.gl-card-b > b { font-family: var(--font-display); font-weight: var(--display-w); font-size: 1.2rem; line-height: 1.15; overflow-wrap: anywhere; }
-.gl-card-b small { color: var(--muted); font-size: .85rem; }
-.gl-motto { color: var(--ink-2); font-size: .88rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-:root[data-theme="light"] .gl-motto { color: var(--muted); }   /* --ink-2 is the pale hero ink: unreadable on light panels */
-.gl-bar { display: flex; height: 4px; margin-top: 4px; gap: 1px; border-radius: 2px; overflow: hidden; }
-.gl-bar i { display: block; min-width: 2px; }
-.gl-card-n { display: grid; justify-items: end; text-align: right; }
-.gl-card-n b { font-size: 1.5rem; font-weight: 600; color: var(--gold-2); font-variant-numeric: lining-nums; line-height: 1.1; }
-.gl-card-n small { color: var(--muted); font-size: .78rem; }
-.pcard.gl-has .pic { grid-row: 1 / 4; }
-.pcard .gl-pg { grid-column: 2; position: relative; z-index: 2; min-width: 0; }
-.rlist.list .pcard .gl-pg { display: none; }
+.pitem > .btn { min-height: 40px; padding: 0 14px; font-size: .9rem; }

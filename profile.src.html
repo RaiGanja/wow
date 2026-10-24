@@ -35,8 +35,8 @@
 .nx .go { grid-column: 1 / -1; justify-self: start; margin-top: 8px; min-height: 40px; padding: 0 14px; font-size: .9rem; }
 .path { display: flex; flex-wrap: wrap; gap: 6px 26px; padding: 12px 18px; font-size: .92rem; color: var(--muted); }
 .path b { color: var(--fg); font-weight: 600; font-variant-numeric: lining-nums tabular-nums; }
-/* cabinet blocks under the card (Glory bar, next steps, path strip, menu) keep air between them; a section title sits off its panels */
-#view > :is(.bcard, .g-box, .ask, .path, section:not(.wiz)) + :is(.g-box, .ask, .path, .lay, section:not(.wiz)) { margin-top: 18px; }
+/* cabinet blocks under the card (next steps, path strip, menu) keep air between them; a section title sits off its panels */
+#view > :is(.bcard, .ask, .path, section:not(.wiz)) + :is(.ask, .path, .lay, section:not(.wiz)) { margin-top: 18px; }
 #view > section:not(.wiz) > .sec-h { margin: 8px 0 12px; }
 .ask { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; padding: 14px 18px; }
 .ask span { flex: 1 1 260px; }
@@ -72,11 +72,6 @@
 .chk { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; color: var(--fg); font-weight: 500; cursor: pointer; }
 .chk input { width: 18px; height: 18px; accent-color: var(--gold); flex: none; }
 .frames { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 8px; }
-.bgs { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; }
-.bgs button { position: relative; aspect-ratio: 16 / 9; padding: 0; overflow: hidden; border: 1px solid var(--pline); border-radius: 8px; background: #0b0d12; cursor: pointer; }
-.bgs img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.bgs span { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 8px 5px; font-size: .74rem; color: #ece6d8; background: linear-gradient(transparent, rgba(0,0,0,.8)); text-align: left; }
-.bgs button[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset 0 0 0 2px var(--gold); }
 .cats { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 8px; }
 .cats button { display: grid; gap: 6px; padding: 12px 14px; text-align: left; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); color: var(--fg); font: inherit; cursor: pointer; }
 .cats button[aria-pressed="true"] { border-color: var(--gold); }
@@ -122,63 +117,11 @@
 .cdlg h2 { font-size: 1.5rem; }
 .cdlg p { margin: 0; color: var(--muted); }
 .cdlg input { min-height: 46px; border-radius: 8px; border: 1px solid var(--pline); background: var(--panel-2); color: var(--fg); padding: 0 12px; font: inherit; }
-/* growth: Glory, weekly tasks, season track, name colour, showcase, chronicle, reports */
-.g-box { padding: 14px 18px; }
-.g-how { margin-top: 10px; font-size: .9rem; color: var(--muted); }
-.g-how summary { cursor: pointer; width: fit-content; color: var(--gold-2); }
-.g-how ul { display: grid; gap: 4px; margin: 8px 0 0; padding-left: 18px; }
-#wkNote:empty { display: none; }
-.g-tasks { display: grid; gap: 8px; }
-.g-meta { display: flex; flex-wrap: wrap; gap: 4px 18px; margin: 0; color: var(--muted); font-size: .9rem; }
-.g-meta b { color: var(--fg); font-weight: 600; font-variant-numeric: lining-nums tabular-nums; }
-.g-go, .g-swap { min-height: 40px; padding: 0 14px; font-size: .9rem; }
-.s-sec { display: grid; gap: 12px; }
-.s-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 18px; }
-.s-head b { font-weight: 600; color: var(--gold-2); font-variant-numeric: lining-nums tabular-nums; }
-.s-head span { color: var(--muted); font-size: .9rem; }
-.s-head .g-bar { flex: 1 1 140px; align-self: center; }
-.s-track { display: flex; margin: 0; padding: 4px 2px 10px; list-style: none; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: thin; }
-.s-step { position: relative; flex: none; width: 48px; display: grid; justify-items: center; align-content: start; gap: 4px; }
-.s-step::before { content: ""; position: absolute; top: 19px; left: -50%; right: 50%; height: 2px; background: var(--pline); }
-.s-step:first-child::before { display: none; }
-.s-step.s-got::before { background: var(--gold); }
-.s-dot { position: relative; z-index: 1; display: grid; place-items: center; height: 38px; }
-.s-pt { display: grid; place-items: center; width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--line-2); background: var(--panel-2); overflow: hidden; }
-.s-pt.s-rw { width: 38px; height: 38px; border-radius: 8px; border-width: 1px; color: var(--gold-2); font-weight: 700; }
-.s-pt img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.s-pt .me-ring { --s: 34px; margin: 0; }
-.s-step:not(.s-got) .s-pt.s-rw { opacity: .6; }
-.s-step.s-got .s-pt { background: var(--gold); border-color: var(--gold); }
-.s-step.s-got .s-pt.s-rw { background: var(--panel-2); }
-.s-step.s-now .s-pt { border-color: var(--gold-2); }
-.s-step i { font-style: normal; font-size: .74rem; color: var(--muted); font-variant-numeric: lining-nums tabular-nums; }
-.s-step.s-got i, .s-step.s-now i { color: var(--gold-2); }
-.g-colors { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(150px, 100%), 1fr)); gap: 8px; }
-.g-sw { display: grid; gap: 2px; min-width: 0; padding: 12px 14px; text-align: left; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); color: var(--fg); font: inherit; cursor: pointer; }
-.g-sw b { font-size: 1.05rem; overflow-wrap: anywhere; }
-.g-sw small { color: var(--muted); }
-.g-sw:hover:not(:disabled) { border-color: var(--gold); }
-.g-sw[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset 0 0 0 1px var(--gold); }
-.g-sw:disabled { cursor: not-allowed; }
-.g-sw:disabled b { color: var(--muted); }
-.g-show { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; margin: 0; padding: 0; list-style: none; }
-.g-cell { display: grid; justify-items: center; align-content: start; gap: 6px; min-width: 0; padding: 12px 6px 8px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); text-align: center; font-size: .8rem; }
-.g-cell img { width: 46px; height: 46px; border-radius: 8px; object-fit: cover; display: block; }
-.g-cell b { font-weight: 600; line-height: 1.25; overflow-wrap: anywhere; }
-.g-cell.empty { place-items: center; align-content: center; min-height: 112px; border-style: dashed; background: none; color: var(--muted); }
-.g-cell[draggable="true"] { cursor: grab; }
-.g-cell.drag { opacity: .45; }
-.g-cell.over { border-color: var(--gold); }
-.g-ctl { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; }
-.g-ctl button { min-width: 38px; min-height: 38px; border: 1px solid var(--pline); border-radius: 8px; background: none; color: var(--fg); font: inherit; cursor: pointer; }
-.g-ctl button:hover { border-color: var(--gold); }
-.g-pick { display: flex; flex-wrap: wrap; gap: 8px; }
-.g-pick select { flex: 1 1 220px; width: auto; min-width: 0; }
+/* reports (admin) */
 .g-rep { display: grid; gap: 8px; padding: 14px 16px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); }
 .g-rep h3 { font-family: var(--font-body); font-size: 1rem; font-weight: 600; letter-spacing: 0; overflow-wrap: anywhere; }
 .g-rep p { margin: 0; color: var(--muted); font-size: .9rem; overflow-wrap: anywhere; }
 .g-rep .row .btn { min-height: 40px; padding: 0 14px; font-size: .9rem; }
-@media (max-width: 700px) { .g-show { grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); } }
 @media (max-width: 1100px) { .next { grid-template-columns: 1fr; } }
 @media (max-width: 960px) {
   .lay { grid-template-columns: 1fr; }
@@ -263,16 +206,16 @@ const ERR = {
   bad_name: 'Имя: от 2 до 12 букв, без цифр и пробелов.', bad_race: 'Выберите расу.', bad_combo: 'Такого сочетания расы и класса нет.',
   bad_role: 'Эта роль классу недоступна.', bad_level: 'Уровень — от 1 до 60.', bad_prof: 'Две разные профессии из списка.',
   bad_skill: 'Навык — от 1 до 300 и только у выбранной профессии.', bad_playtime: 'Выберите, когда играете.', limit: 'Не больше десяти персонажей.',
-  bad_motto: 'Девиз — до 60 знаков.', locked: 'Это ещё не открыто.', auth: 'Сессия закончилась, войдите снова.',
+  locked: 'Это ещё не открыто.', auth: 'Сессия закончилась, войдите снова.',
   bot: 'Проверка «не робот» не прошла. Попробуйте ещё раз.', bad_email: 'Проверьте адрес почты.', mail_down: 'Письмо не ушло. Попробуйте через пару минут.',
   last_identity: 'Это последний способ входа, его нельзя отвязать.',
 };
-/** Text of an API error code: the growth texts (err_<code>: bad_word, no_links, swap_used, task_done, bad_showcase, members_only) first, then ERR. */
+/** Text of an API error code: the MORE texts (err_<code>: bad_word, no_links, members_only) first, then ERR. */
 const errText = (e, def) => {
   const c = e && e.code;
   return (c && T.g && T.g['err_' + c]) || ERR[c] || def || 'Не получилось сохранить. Попробуйте ещё раз.';
 };
-const SECS0 = [['chars', 'Персонажи'], ['look', 'Внешний вид'], ['ach', 'Достижения'], ['frames', 'Рамки и ранги'], ['chronicle', 'Хроника'], ['account', 'Аккаунт']];
+const SECS0 = [['chars', 'Персонажи'], ['look', 'Внешний вид'], ['ach', 'Достижения'], ['frames', 'Рамки и ранги'], ['account', 'Аккаунт']];
 const secs = () => (m && m.admin ? SECS0.concat([['reports', tg('tab_reports')]]) : SECS0);   // «Reports» is for the admin only
 const DEL_WORD = 'УДАЛИТЬ';
 const CHAR_MAX = 10;   // same as LIMIT in the API (a Classic Era realm)
@@ -286,15 +229,13 @@ const ACT = {
   recruiter1: ['Ссылка для друга', 'account'], recruiter5: ['Ссылка для друга', 'account'],
 };
 let M = null, m = null, sec = 'chars', cat = '', wiz = null, edit = null, lastRank = null, reveal = false;
-const newChron = () => ({ items: [], more: false, loaded: false, loading: false });
-let chron = newChron(), reps = null, repsLoading = false, dragFrom = -1;
+let reps = null, repsLoading = false;
 
 const mainOf = () => m.characters.find(c => c.is_main) || m.characters[0];
 const have = () => new Map(m.achievements.map(a => [a.id, a]));
 const ctx = () => ({ progress: m.progress, user: m.user, chars: m.characters, have: new Set(m.achievements.map(a => a.id)) });
-const asPlayer = c => ({ id: m.user.id, nick: m.user.show_nick ? m.user.nick : null, title: m.user.title, frame: m.user.frame, rank: m.user.rank,
-  background: m.user.background, motto: m.user.motto, points: m.user.points, joined: m.user.joined_guild_at, member: m.user.member, main: c,
-  name_color: m.user.name_color });
+const asPlayer = c => ({ id: m.user.id, nick: m.user.show_nick ? m.user.nick : null, frame: m.user.frame, rank: m.user.rank,
+  points: m.user.points, joined: m.user.joined_guild_at, member: m.user.member, main: c });
 const myUrl = () => new URL(playerUrl(m.user.id), location.href).href;
 const refUrl = () => new URL(`${HOME}profile/?ref=${m.user.id}`, location.href).href;
 /* provider marks: simple-icons (CC0), one colour; the envelope is ours */
@@ -462,7 +403,7 @@ function screen(kind, arg) {
     tgConfig();
     v.innerHTML = `${noticeHtml()}<section class="frame login"><div><h2>Войдите в профиль</h2>
       <p>Пароля нет: войдите любым удобным способом. Что мы получаем от каждого — в разделе <a href="${HOME}privacy/#account">«Конфиденциальность»</a>.</p>
-      <ul><li>До десяти персонажей, основной виден в «Составе».</li><li>Достижения, ранги и рамки портрета.</li><li>Титул «Основатель» — для тех, кто успеет до старта 4 ноября.</li></ul></div>
+      <ul><li>До десяти персонажей, основной виден в «Составе».</li><li>Достижения, ранги и рамки портрета.</li><li>Рамка «Основатель» — для тех, кто успеет до старта 4 ноября.</li></ul></div>
       <div class="wayc"><div class="ways">${WAYS.map(([id, n]) => wayBtn(id, n, false)).join('')}</div>${mailForm()}</div></section>`;
   } else if (kind === 'mail') {
     v.innerHTML = `<section class="frame state"><h2>Проверьте почту</h2><p>${esc(fill('Ссылка для входа ушла на %e. Она действует 15 минут. Нет письма — загляните в «Спам».', { e: arg }))}</p>
@@ -480,7 +421,7 @@ function founderPlaque() {
   const ms = Date.parse(GD.deadline) - Date.now();
   if (ms <= 0) return '';
   const days = Math.ceil(ms / 86400000);
-  return `<div class="frame founder"><div><b>Титул «Основатель»</b><p>Добавьте персонажа до старта 4 ноября — титул и золотая рамка останутся навсегда.</p></div>
+  return `<div class="frame founder"><div><b>Рамка «Основатель»</b><p>Добавьте персонажа до старта 4 ноября — золотая рамка останется навсегда.</p></div>
     <div class="fcd">${unit(days, 'day')}<small>до закрытия окна</small></div></div>`;
 }
 const who = () => (m && m.user.nick ? fill('Вы вошли как %n', { n: m.user.nick }) : 'Вы вошли');
@@ -519,8 +460,7 @@ function wizard() {
   }
   const c = { name: w.name || '…', race: w.race || (w.f === 'horde' ? 'orc' : 'human'), class: w.cls || 'warrior', level: w.level || 1, role: w.role || 'dps', look: w.look || undefined };
   const prev = asPlayer(c);
-  prev.title = Date.now() < Date.parse(GD.deadline) ? 'founder' : null;
-  prev.frame = prev.title ? 'founder' : prev.frame;
+  if (Date.now() < Date.parse(GD.deadline)) prev.frame = 'founder';
   // no character yet means no cabinet: say who is signed in, open the account (ways to sign in, deletion) or leave
   v.innerHTML = `${noticeHtml()}<div class="signed"><span>${esc(who())}</span><a class="btn ghost" href="#account">Аккаунт</a><button type="button" class="btn ghost" data-act="logout">Выйти</button></div>
     <p class="lab">Так вас увидят в «Составе»</p>${bcard(prev, { h: 'h2' })}${founderPlaque()}
@@ -762,10 +702,10 @@ function levelAsk() {
 function secChars() {
   const n = m.characters.length;
   // the look button sits under the card, not inside it: the card is role=button and must not nest another control
-  const cards = m.characters.map(c => `<div class="pitem">${glWrap(c, pcard(Object.assign(asPlayer(c), { alts: [], lfg: c.is_main ? m.user.lfg : null, nick: null }), {
+  const cards = m.characters.map(c => `<div class="pitem">${pcard(Object.assign(asPlayer(c), { alts: [], lfg: c.is_main ? m.user.lfg : null, nick: null }), {
     link: false, cls: c.is_main ? 'main' : '', after: c.is_main ? '<div class="mainmark">Основной персонаж</div>' : '',
     attrs: ` role="button" tabindex="0" data-edit="${c.id}" aria-label="${esc(fill('Изменить: %n', { n: c.name }))}"`,
-  }))}<button type="button" class="btn ghost" data-look="${c.id}" aria-label="${esc(fill('Облик: %n', { n: c.name }))}">Облик</button></div>`).join('');
+  })}<button type="button" class="btn ghost" data-look="${c.id}" aria-label="${esc(fill('Облик: %n', { n: c.name }))}">Облик</button></div>`).join('');
   const add = n < CHAR_MAX ? `<button type="button" class="add" data-act="add"><b>${ico('plus')}Добавить персонажа</b><span>${esc(fill('Можно ещё: %n', { n: CHAR_MAX - n }))}</span></button>` : '';
   const l = m.user.lfg;
   const lfg = `<div class="frame box"><h3>Ищу группу</h3><p class="small">Основной персонаж появится в полосе «Сейчас ищут» на «Составе». Через 3 часа отметка гаснет сама.</p>
@@ -775,64 +715,12 @@ function secChars() {
     <p>Основной персонаж — в «Составе» и на карточке, остальные — строкой «Твинки». Нажмите на персонажа, чтобы изменить.</p>
     <div class="plist">${cards}${add}</div>${lfg}`;
 }
-/** Name colour: six samples of the main character's name; the ones above the Glory are grey with «From Glory N». */
-function colorBox() {
-  const u = m.user, name = mainOf().name, lvl = m.glory.level;
-  const sw = GD.prog.colors.map(([id, need]) => {
-    const open = lvl >= need;
-    return `<button type="button" class="g-sw" data-ncolor="${id}" aria-pressed="${u.name_color === id}"${open ? '' : ' disabled'}>
-      <b class="${open ? nameCls(id) : ''}">${esc(name)}</b><small>${esc(open ? tg('color_' + id) : tg('color_locked', { n: need }))}</small></button>`;
-  }).join('');
-  return `<div class="frame box"><h3>${esc(tg('name_color'))}</h3><div class="g-colors" role="group" aria-label="${esc(tg('name_color'))}">${sw}</div></div>`;
-}
-
-function showcaseList() { return (m.user.showcase || []).filter(x => typeof x === 'string'); }
-/** Showcase: five cells, up/down/remove for each (and dragging with a mouse), a list to add from what is owned. */
-function showcaseBox() {
-  const list = showcaseList(), fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
-  const cells = [];
-  for (let i = 0; i < 5; i++) {
-    const id = list[i];
-    if (!id) { cells.push(`<li class="g-cell empty">${esc(tg('showcase_empty'))}</li>`); continue; }
-    const n = esc(showName(id)), btn = (a, glyph, key, off) => `<button type="button" data-sh="${a}" data-i="${i}" aria-label="${esc(tg(key))}: ${n}"${off ? ' disabled' : ''}>${glyph}</button>`;
-    cells.push(`<li class="g-cell" data-i="${i}"${fine ? ' draggable="true"' : ''}><img src="${esc(showIcon(id))}" alt="" width="46" height="46" loading="lazy"><b>${n}</b>
-      <span class="g-ctl">${btn('up', '↑', 'showcase_up', i === 0)}${btn('down', '↓', 'showcase_down', i === list.length - 1)}${btn('del', '×', 'showcase_del')}</span></li>`);
-  }
-  const owned = m.achievements.map(a => a.id).concat(m.unlocks.filter(x => x.startsWith('badge:'))).filter(id => !list.includes(id));
-  const pick = owned.length && list.length < 5
-    ? `<div class="g-pick"><select id="shPick" aria-label="${esc(tg('showcase_add'))}">${owned.map(id => `<option value="${esc(id)}">${esc(showName(id))}</option>`).join('')}</select>
-      <button type="button" class="btn ghost" data-act="showAdd">${esc(tg('showcase_add'))}</button></div>` : '';
-  return `<div class="frame box"><h3>${esc(tg('showcase'))}</h3><ul class="g-show">${cells.join('')}</ul><p class="small">${esc(tg('showcase_hint'))}</p>${pick}</div>`;
-}
-const saveShowcase = list => put({ showcase: list }, 'lookNote');
-function moveShowcase(from, to) {
-  const list = showcaseList();
-  if (from < 0 || from >= list.length) return;
-  to = Math.max(0, Math.min(to, list.length - 1));
-  if (to === from) return;
-  list.splice(to, 0, list.splice(from, 1)[0]);
-  if (document.activeElement && document.activeElement.dataset && document.activeElement.dataset.sh) focusNext = `[data-sh="${document.activeElement.dataset.sh}"][data-i="${to}"]`;
-  return saveShowcase(list);
-}
-
 function secLook() {
   const u = m.user, c = mainOf();
   const frames = m.frames.map(f => `<button type="button" class="rstep" data-frame="${f}" aria-pressed="${(u.frame || u.rank) === f}">${ring(f, pic(c))}<b>${esc(frameName(f))}</b></button>`).join('');
-  const titles = `<option value="">Без титула</option>` + m.titles.map(t => `<option value="${t}"${u.title === t ? ' selected' : ''}>${esc(titleName(t))}</option>`).join('');
-  const bgs = GD.backgrounds.map(b => {
-    const src = /^hero_/.test(b) ? `${ROOT}assets/art/${b}-960.webp` : `${ROOT}assets/art/${b}-bg.webp`;
-    const name = lkName('bg', b);
-    return `<button type="button" data-bg="${b}" aria-pressed="${(u.background || race(c.race).slug) === b}"><img src="${src}" alt="" loading="lazy"><span>${esc(name)}</span></button>`;
-  }).join('');
   return `<div class="sec-h"><h2>Внешний вид</h2></div><p>Всё меняется сразу — карточка вверху показывает, как вас видят другие.</p>
     <div class="frame box"><h3>Рамка</h3><div class="frames">${frames}</div><p class="small">Новые рамки открываются рангами и особыми достижениями.</p></div>
-    <div class="frame box"><h3>Титул над именем</h3><select id="lTitle" aria-label="Титул над именем">${titles}</select></div>
     <div class="frame box lkbox"><h3>Облик</h3><div class="row">${ring(u.frame || u.rank, pic(c))}<div><p class="small">Пол и фон портрета — у каждого персонажа свои.</p><button type="button" class="btn ghost" data-look="${c.id}">Изменить облик</button></div></div></div>
-    <div class="frame box"><h3>Фон карточки</h3><div class="bgs">${bgs}</div></div>
-    ${colorBox()}${showcaseBox()}
-    <div class="frame box"><h3>Девиз</h3>${u.motto_hidden ? '<p class="small">Девиз скрыт администратором.</p>' : ''}${u.motto_visible ? '' : `<p class="small">${esc(tg('motto_later'))}</p>`}
-      <div class="row"><input id="lMotto" maxlength="60" value="${esc(u.motto || '')}" placeholder="Например: Сначала лечу, потом спрашиваю" aria-label="Девиз" style="flex:1 1 280px"><button type="button" class="btn ghost" data-act="motto">Сохранить девиз</button></div>
-      <span class="small" id="lMottoN"></span></div>
     ${u.nick ? `<div class="frame box"><label class="chk"><input type="checkbox" id="lNick"${u.show_nick ? ' checked' : ''}>Показывать мой ник: <b>${esc(u.nick)}</b></label></div>` : ''}
     <p class="msg" id="lookNote" role="status"></p>`;
 }
@@ -863,95 +751,17 @@ function secFrames() {
     <p>Ранг растёт от очков достижений, каждый ранг открывает свою рамку портрета. Особые рамки — только за особые достижения. Носить можно любую открытую: нажмите на неё.</p>
     <div class="ladder">${ladder}</div><div class="specials">${specials}</div><p class="msg" id="frNote" role="status"></p>`;
 }
-/* ---------- growth blocks of the cabinet ---------- */
-function gloryHtml() {
-  if (!m.glory) return '';
-  return `<div class="frame g-box">${gloryBar(m.glory)}<details class="g-how"><summary>Как растёт профиль</summary><ul>
-    <li>Слава — опыт за то, что вы пользуетесь гидом: заходы, гайды, радио, инструменты и задания недели. Открывает девиз и цвет имени.</li>
-    <li>После перерыва опыт идёт вдвое быстрее, как отдых в таверне.</li>
-    <li>Ранг — очки достижений (★). Открывает рамки портрета.</li>
-    <li>Сезон — звёзды за опыт и задания недели. Награды ступеней остаются навсегда.</li>
-  </ul></details></div>`;
-}
-
-/** «3 d 4 h» until t. */
-function until(t) {
-  const mins = Math.max(1, Math.round((t - Date.now()) / 60000)), d = Math.floor(mins / 1440), h = Math.floor((mins % 1440) / 60);
-  return d ? unit(d, 'day') + (h ? ' ' + unit(h, 'hour') : '') : h ? unit(h, 'hour') + (mins % 60 ? ' ' + unit(mins % 60, 'minute') : '') : unit(mins, 'minute');
-}
-const itemName = (k, item) => (k === 'station' ? (GD.items.station || {})[item] : k === 'guide' ? (GD.items.guide || {})[item] : null);
-function weekHtml() {
-  const w = m.week;
-  if (!w) return '';   // before the first week
-  const swap = w.swap_left > 0;
-  const rows = w.tasks.map(t => taskLine(t, T.g, {
-    itemName, extra: !t.done && swap ? `<button type="button" class="btn ghost g-swap" data-act="swap" data-task="${esc(t.id)}" aria-label="${esc(tg('week_swap') + ': ' + taskName(t, T.g, { itemName }))}">${esc(tg('week_swap'))}</button>` : '',
-  })).join('');
-  return `<section aria-labelledby="wkH"><div class="sec-h"><h2 id="wkH">${esc(tg('week'))}</h2></div>
-    <div class="frame box"><p class="g-meta"><span>${esc(tg('week_ends', { d: until(w.ends_at) }))}</span><span>${esc(tg('week_streak', { n: w.streak }))}</span></p>
-    <div class="g-tasks">${rows}</div><p class="small">${esc(tg('week_all'))}</p>${!swap && w.tasks.some(t => !t.done) ? `<p class="small">${esc(tg('week_swap_used'))}</p>` : ''}
-    <p class="msg" id="wkNote" role="alert"></p></div></section>`;
-}
-
-const rewardName = r => { const [k, id] = r.split(':'); return k === 'badge' ? tg('ch_badge') : k === 'bg' ? (T.bg || {})[id] || id : k === 'title' ? titleName(id) : frameName(id); };
-function rewardThumb(r) {
-  const [k, id] = r.split(':');
-  if (k === 'badge') return `<img src="${ROOT}assets/me/ach/${esc(id)}.webp" alt="">`;
-  if (k === 'bg') return `<img src="${ROOT}assets/art/${esc(id)}-bg.webp" alt="">`;
-  if (k === 'frame') return ring(id, pic(mainOf()));
-  return `<b aria-hidden="true">${esc([...titleName(id)][0] || '')}</b>`;
-}
-function seasonHtml() {
-  const s = m.season, track = s && GD.prog.track[s.id];
-  if (!track) return '';   // the season has not started
-  const prev = s.step ? track[s.step - 1][1] : 0;
-  const pct = s.next ? Math.round(100 * Math.max(0, s.stars - prev) / Math.max(1, s.next - prev)) : 100;
-  const steps = track.map(([n, stars, rew]) => {
-    const got = n <= s.step, label = [tg('ch_step', { n }), rew ? rewardName(rew) : '', tg('season_stars', { n: stars })].filter(Boolean).join(' · ');
-    return `<li class="s-step${got ? ' s-got' : ''}${rew ? ' s-rw' : ''}${n === s.step + 1 ? ' s-now' : ''}"${n === s.step + 1 ? ' aria-current="step"' : ''}>
-      <span class="s-dot" role="img" aria-label="${esc(label)}" title="${esc(label)}"><span class="s-pt${rew ? ' s-rw' : ''}">${rew ? rewardThumb(rew) : ''}</span></span><i>${n}</i></li>`;
-  }).join('');
-  return `<section aria-labelledby="seH"><div class="sec-h"><h2 id="seH">${esc(tg('season'))}</h2></div><div class="frame box s-sec">
-    <div class="s-head"><b>${esc(tg('season_stars', { n: s.stars }))}</b><span>${esc(tg('season_step', { n: s.step }))}</span>
-      <span class="g-bar g-sm" role="img" aria-label="${esc(tg('season_stars', { n: s.stars }))}"><i class="g-fill" style="width:${pct}%"></i></span></div>
-    <ol class="s-track" tabindex="0" aria-label="${esc(tg('season'))}">${steps}</ol><p class="small">${esc(tg('season_keep'))}</p></div></section>`;
-}
-
-function secChronicle() {
-  const c = chron;
-  const list = c.items.length ? `<ol class="g-chron">${c.items.map(it => chronicleItem(it, T.g)).join('')}</ol>`
-    : c.loading || !c.loaded ? '<div class="skel" style="min-height:120px"></div>' : `<p class="small">${esc(tg('chronicle_empty'))}</p>`;
-  return `<div class="sec-h"><h2>${esc(tg('chronicle'))}</h2></div>
-    <div class="frame box"><label class="chk"><input type="checkbox" id="cHide"${m.user.hide_chronicle ? ' checked' : ''}>${esc(tg('chronicle_hide'))}</label><p class="msg" id="chNote" role="alert"></p></div>
-    <div class="frame box">${list}${c.more ? `<div class="row"><button type="button" class="btn ghost" data-act="chronMore"${c.loading ? ' disabled' : ''}>${esc(tg('chronicle_more'))}</button></div>` : ''}</div>`;
-}
-/** Own chronicle: the owner reads it through /u/:id/chronicle even when it is hidden from others (R13). 20 lines a page. */
-function loadChron(more) {
-  const c = chron;
-  if (c.loading) return;
-  c.loading = true;
-  const before = more && c.items.length ? '?before=' + c.items[c.items.length - 1].at : '';
-  M.api(`/u/${m.user.id}/chronicle${before}`).then(r => {
-    const items = r.items || [];
-    c.items = more ? c.items.concat(items) : items;
-    c.more = !!r.more;   // the API says whether another page exists
-  }, () => { c.more = false; }).finally(() => { c.loading = false; c.loaded = true; if (m && sec === 'chronicle') cabinet(); });
-}
-
-const REP_FIELD = { name: 'report_name', motto: 'report_motto', other: 'report_other' };
-const REP_GUILD = { guild_name: 'report_name', guild_motto: 'report_motto', guild_crest: 'report_crest' };   // texts of the guild pages (T.gl)
+const REP_FIELD = { name: 'report_name', other: 'report_other' };
 function secReports() {
   const head = `<div class="sec-h"><h2>${esc(tg('tab_reports'))}</h2></div>`;
   if (reps === null) return head + '<div class="skel" style="min-height:120px"></div>';
   if (!reps.length) return head + `<p>${esc(tg('reports_empty'))}</p>`;
   return head + reps.map(g => {
-    const gl = /^g:[1-9]\d*$/.test(g.target);   // a guild target is g:<id>
-    const now = g.field === 'motto' || g.field === 'guild_motto' ? g.motto : g.field === 'name' || g.field === 'guild_name' ? g.name : null;
+    const now = g.field === 'name' ? g.name : null;
     const key = `data-t="${esc(g.target)}" data-f="${esc(g.field)}"`;
-    const link = gl ? guildUrl(Number(g.target.slice(2))) : playerUrl(g.target);
-    const what = gl ? tl(REP_GUILD[g.field] || 'report_name') : tg(REP_FIELD[g.field] || 'report_other');
-    const last = gl ? `<button type="button" class="btn danger" data-act="repDisband" ${key}>${esc(tl('disband'))}</button>` : `<button type="button" class="btn danger" data-act="repBan" ${key}>${esc(tg('rep_ban'))}</button>`;
-    return `<div class="g-rep"><h3><a href="${esc(link)}">${esc(g.name || g.target)}</a> · ${esc(what)} · ${esc(tg('reports_n', { n: g.n }))}</h3>
+    const what = tg(REP_FIELD[g.field] || 'report_other');
+    const last = `<button type="button" class="btn danger" data-act="repBan" ${key}>${esc(tg('rep_ban'))}</button>`;
+    return `<div class="g-rep"><h3><a href="${esc(playerUrl(g.target))}">${esc(g.name || g.target)}</a> · ${esc(what)} · ${esc(tg('reports_n', { n: g.n }))}</h3>
       <p>${esc(g.reasons.join('; '))}</p>${now ? `<p>${esc(tg('rep_now', { x: now }))}</p>` : ''}
       <div class="row"><button type="button" class="btn ghost" data-act="repKeep" ${key}>${esc(tg('rep_keep'))}</button>${g.field === 'other' ? '' : `<button type="button" class="btn ghost" data-act="repHide" ${key}>${esc(tg('rep_hide'))}</button>`}${last}</div></div>`;
   }).join('') + '<p class="msg" id="repNote" role="alert"></p>';
@@ -963,7 +773,6 @@ function loadReps() {
 }
 function resolveRep(b, action) {
   if (action === 'ban' && !confirm(tg('rep_ban_ask'))) return;
-  if (action === 'disband' && !confirm(`${tl('disband')}\n${fill(tl('disband_q'), { g: b.closest('.g-rep').querySelector('h3 a').textContent })}`)) return;
   b.disabled = true;
   M.api('/admin/reports/resolve', { body: { target: b.dataset.t, field: b.dataset.f, action } }).then(() => { reps = null; cabinet(); }, e => { b.disabled = false; const n = $('#repNote'); if (n) { n.textContent = errText(e); n.className = 'msg err'; } });
 }
@@ -998,342 +807,32 @@ function focusKey() {
   const el = document.activeElement;
   if (!el || !el.closest || !el.closest('#view')) return '';
   const d = el.dataset || {};
-  if (d.sh) return `[data-sh="${d.sh}"][data-i="${d.i}"]`;
-  if (d.ncolor) return `[data-ncolor="${d.ncolor}"]`;
-  if (d.act && d.task) return `[data-act="${d.act}"][data-task="${d.task}"]`;
   if (d.act) return `[data-act="${d.act}"]`;
   if (d.frame) return `[data-frame="${d.frame}"]`;
-  if (d.bg) return `[data-bg="${d.bg}"]`;
   return el.id ? '#' + el.id : '';
 }
-let focusNext = '';   // set by an action that moves its control (↑/↓ follow the item)
 function restoreFocus(sel) {
-  if (!sel) return;
-  let t = $(sel);
-  if (t && t.disabled) t = $$('button:not(:disabled)', t.closest('.g-cell') || document)[0] || null;
-  if (!t && sel.startsWith('[data-sh=')) { const cells = $$('.g-cell[data-i]'); t = cells.length ? $('[data-sh="del"]', cells[Math.min(+/data-i="(\d+)"/.exec(sel)[1], cells.length - 1)]) : $('#shPick'); }
-  if (!t && sel.includes('data-act="swap"')) t = $('[data-act="swap"]');
-  if (t) t.focus({ preventScroll: true });
+  const t = sel && $(sel);
+  if (t && !t.disabled) t.focus({ preventScroll: true });
 }
 function cabinet() {
-  const keep = focusNext || focusKey();
-  focusNext = '';
+  const keep = focusKey();
   parkForm();
   const c = mainOf(), p = asPlayer(c);
   const ach = m.achievements.length, all = GD.ach.length;
   if (!secs().some(x => x[0] === sec)) sec = 'chars';
   const nav = secs().map(([id, t]) => `<a href="#${id}"${sec === id ? ' aria-current="page"' : ''}>${esc(t)}${id === 'chars' ? `<span>${esc(fill('%n из %m', { n: m.characters.length, m: CHAR_MAX }))}</span>` : id === 'ach' ? `<span>${ach} / ${all}</span>` : ''}</a>`).join('');
-  const body = { chars: secChars, look: secLook, ach: secAch, frames: secFrames, chronicle: secChronicle, account: secAccount, reports: secReports }[sec]();
-  $('#view').innerHTML = `${noticeHtml()}<p class="lab">Карточка — как вас видят другие</p>${bcard(p, { h: 'h2', reveal })}${gloryHtml()}${levelAsk()}${nextHtml()}${weekHtml()}${playHint()}${seasonHtml()}${pathHtml()}
+  const body = { chars: secChars, look: secLook, ach: secAch, frames: secFrames, account: secAccount, reports: secReports }[sec]();
+  $('#view').innerHTML = `${noticeHtml()}<p class="lab">Карточка — как вас видят другие</p>${bcard(p, { h: 'h2', reveal })}${levelAsk()}${nextHtml()}${playHint()}${pathHtml()}
     <div class="lay"><nav class="frame pnav" aria-label="Кабинет">${nav}<hr><a class="pub" href="${playerUrl(m.user.id)}">Моя страница ↗</a></nav><section class="sec" id="sec">${body}</section></div>`;
   reveal = false;
-  const cur = $('.s-track');   // the season track opens at the step in progress
-  const at = cur && ($('.s-step.s-now', cur) || $$('.s-step.s-got', cur).pop());
-  if (at) cur.scrollLeft = Math.max(0, at.offsetLeft - cur.clientWidth / 2);
   restoreFocus(keep);
-  if (sec === 'chronicle' && !chron.loaded) loadChron(false);
   if (sec === 'reports' && reps === null) loadReps();
-  const mn = $('#lMotto');
-  if (mn) { const cnt = () => { $('#lMottoN').textContent = fill('%n из 60', { n: [...mn.value].length }); }; mn.addEventListener('input', cnt); cnt(); }
 }
-
-/** A guest who started signing in from a guild page (gabella-back, one hour) goes back there once the cabinet is open. */
-function backToGuild() {
-  try {
-    const b = JSON.parse(localStorage.getItem('gabella-back') || 'null');
-    if (!b) return;
-    localStorage.removeItem('gabella-back');
-    const u = new URL(b.u, location.href);
-    if (Date.now() - b.t < 3600000 && u.origin === location.origin && /\/g\/$/.test(u.pathname) && /^#\d+(&join=[\w-]+)?$/.test(u.hash)) location.replace(u.href);
-  } catch (e) { /* private mode, bad value */ }
-}
-
-/* ---------- Guild: create and settings screens (#guild, #guild=<id>) with the crest constructor ---------- */
-const GLD = GD.guilds, GLL = GLD.limits, GLK = Object.keys(GLD.palette);
-const glHash = h => (h === 'guild' ? { id: 0 } : /^guild=[1-9]\d{0,9}$/.test(h) ? { id: Number(h.slice(6)) } : null);
-let glv = null, glTok = 0, glChar = 0, glSt = null, tsGl = null;
-
-const lum = h => { const v = [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16) / 255).map(c => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4)); return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2]; };
-const contrast = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
-const readable = (s, ic) => (s.f === 'plain' ? [s.c[0]] : s.c).every(x => contrast(GLD.palette[ic], GLD.palette[x]) >= GLD.limits.contrast_min);
-const glClone = o => Object.assign({ s: o.s, f: o.f, c: [o.c[0], o.c[1]], i: o.i, ic: o.ic, b: o.b }, o.t ? { t: o.t.slice() } : {});
-const glCanon = o => JSON.stringify([o.s, o.f, o.c[0], o.c[1], o.i, o.ic, o.b, o.t || CREST_T]);
-const glSame = (a, b) => a[0] === b[0] && a[1] === b[1] && a[2] === b[2];
-/** The charge place `t` kept only when it is not the default (old crests and the API store no t then). */
-function glSetT(o, t) { if (glSame(t, CREST_T)) delete o.t; else o.t = t; return o; }
-/** A crest the API accepts: two different field colours (unless plain) and a charge colour that reads on them; null when no charge colour does. */
-function glSettle(o) {
-  o = glClone(o);
-  if (o.f !== 'plain' && o.c[0] === o.c[1]) o.c[1] = GLK.find(k => k !== o.c[0]);
-  if (!readable(o, o.ic)) { const k = GLK.find(x => readable(o, x)); if (!k) return null; o.ic = k; }
-  return glSetT(o, crestPlace(o, o.t || CREST_T, null));   // a new shape or charge may not hold the old place: the nearest one that fits
-}
-/** A random readable crest from the open parts (the same idea as randomCrest in the API). */
-function glRandom(unlocks) {
-  const pick = a => a[Math.floor(Math.random() * a.length)], open = GLD.charges.filter(x => !x.lock || unlocks.includes('charge:' + x.id));
-  for (let n = 0; n < 100; n++) {
-    const f = pick(GLD.fields), o = { s: pick(GLD.shapes), f, c: [pick(GLK), pick(GLK)], i: pick(open).id, ic: pick(GLK), b: pick(GLD.borders.filter(x => x !== 'none')) };
-    if ((f !== 'plain' && o.c[0] === o.c[1]) || !readable(o, o.ic)) continue;
-    return o;
-  }
-  return glClone(GLD.default_crest);
-}
-
-/** The rows of the constructor as radio groups; every thumbnail shows the crest as it would be after the pick. */
-function glRows(st) {
-  const cr = st.cr;
-  const pv = patch => { const o = glSettle(Object.assign(glClone(cr), patch)); return o ? crestSvg(o, 40, { label: '' }) : ''; };
-  const opt = (k, v, label, inner, o) => `<button type="button" role="radio" class="gl-opt${o.cls ? ' ' + o.cls : ''}" data-k="${k}" data-v="${esc(v)}" aria-checked="${!!o.on}" tabindex="${o.on ? 0 : -1}" aria-label="${esc(label)}"${o.title ? ` title="${esc(o.title)}"` : ''}${o.off ? ' disabled aria-disabled="true"' : ''}${o.style ? ` style="${o.style}"` : ''}>${inner}</button>`;
-  const grp = (id, label, body) => `<div class="gl-grp"><span class="gl-lab" id="glL-${id}">${esc(label)}</span><div class="gl-row" role="radiogroup" aria-labelledby="glL-${id}">${body}</div></div>`;
-  const cgrp = (id, label, body) => `<div class="gl-grp"><div class="gl-row" role="radiogroup" aria-label="${esc(label)}" data-g="${id}">${body}</div></div>`;
-  const swatch = (k, v, on, off, title) => opt(k, v, tl('col_' + v), '', { on, off, title, cls: 'gl-sw', style: `--sw:${GLD.palette[v]}` });
-  const plain = cr.f === 'plain';
-  const fieldColor = n => cgrp('c' + n, `${tl('field')} · ${tl('color')} ${n + 1}`, GLK.map(v => {
-    const c = cr.c.slice();
-    c[n] = v;
-    return swatch('c' + n, v, cr.c[n] === v, (!plain && v === cr.c[1 - n]) || !glSettle(Object.assign(glClone(cr), { c })));
-  }).join(''));
-  const banner = id => { const at = GLD.banner_unlocks.indexOf('charge:' + id); return at < 0 ? '' : fill(tl('unlock_at'), { n: (at + 1) * GLL.banner_every }); };
-  return [
-    grp('s', tl('shape'), GLD.shapes.map(v => opt('s', v, tl('sh_' + v), pv({ s: v }), { on: cr.s === v })).join('')),
-    grp('f', tl('field'), GLD.fields.map(v => opt('f', v, tl('fl_' + v), pv({ f: v }), { on: cr.f === v, off: !glSettle(Object.assign(glClone(cr), { f: v })) })).join('')),
-    fieldColor(0), plain ? '' : fieldColor(1),
-    grp('i', tl('charge'), GLD.charges.map(ch => {
-      const lock = ch.lock && !st.unlocks.includes('charge:' + ch.id), cap = lock ? banner(ch.id) : '';
-      return opt('i', ch.id, tl('cg_' + ch.id) + (cap ? ' · ' + cap : ''), pv({ i: ch.id }) + (cap ? `<small>${esc(cap)}</small>` : ''), { on: cr.i === ch.id, off: lock, cls: lock ? 'gl-lock' : '' });
-    }).join('')),
-    cgrp('ic', `${tl('charge')} · ${tl('color')}`, GLK.map(v => { const bad = !readable(cr, v); return swatch('ic', v, cr.ic === v, bad, bad ? tl('bad_contrast') : ''); }).join('')),
-    grp('b', tl('border'), GLD.borders.map(v => opt('b', v, v === 'none' ? tl('border_none') : tl('col_' + v), pv({ b: v }), { on: cr.b === v })).join('')),
-  ].join('');
-}
-
-function glKeep(g) { try { sessionStorage.setItem('gabella-guild-' + g.id, JSON.stringify({ t: Date.now(), g })); } catch (e) { /* private mode */ } }
-function glLoad(id) {
-  try {
-    const k = JSON.parse(sessionStorage.getItem('gabella-guild-' + id) || 'null');
-    if (k && Date.now() - k.t < 60000 && k.g.id === id) return Promise.resolve(k.g);   // the guild this tab got from its own change; GET /g/:id is cached for a minute
-  } catch (e) { /* private mode, bad value */ }
-  return M.api('/g/' + id);
-}
-const glText = e => (T.gl || {})['e_' + (e && e.code)] || (e && e.code === 'bot' ? ERR.bot : tl('e_generic'));
-
-function glState(title, text) {
-  $('#view').innerHTML = `<section class="frame state" id="glEdit" data-key="state"><h2>${esc(title)}</h2>${text ? `<p>${esc(text)}</p>` : ''}<div class="row"><a class="btn ghost" href="#chars">${esc(tl('cancel'))}</a></div></section>`;
-}
-
-/** Entry point of render() for #guild and #guild=<id>. */
-function glScreen() {
-  const id = glv.id, key = 'gl' + id, cur = $('#glEdit');
-  if (cur && cur.dataset.key === key) return;   // /me refreshed while the form is open: keep what is typed
-  parkForm();
-  scrollTo(0, 0);
-  const tok = ++glTok;
-  if (!id) {
-    if (m.characters.some(c => c.guild_rank === 'leader')) return glState(tl('e_one_leader'), '');
-    if (m.glory.level < GLL.create_glory) return glState(tl('e_glory_low'), tl('create_low'));
-    if (!m.characters.some(c => !c.guild_id)) return glState(tl('e_already_in_guild'), '');
-    return glMount(null);
-  }
-  if (!m.characters.some(c => c.guild_id === id && (c.guild_rank === 'leader' || c.guild_rank === 'officer'))) return glState(tl('e_forbidden'), '');
-  $('#view').innerHTML = '<div class="skel" style="min-height:360px"></div>';
-  glLoad(id).then(g => { if (tok === glTok && glv && glv.id === id) glMount(g); },
-    e => { if (tok === glTok) glState(e && e.status === 404 ? tl('e_not_found') : DOWN[0], e && e.status === 404 ? '' : DOWN[1]); });
-}
-
-function glMount(g) {
-  const id = g ? g.id : 0, leader = !g || m.characters.some(c => c.guild_id === id && c.guild_rank === 'leader');
-  const free = m.characters.filter(c => !c.guild_id);
-  const st = glSt = { id, g, leader, cr: g ? glClone(g.crest) : glRandom([]), unlocks: g ? (g.unlocks || []) : [] };
-  const pick = free.length > 1 ? `<label class="gl-fld">${esc(tl('pick_char'))}<select id="glChar">${free.map(c => `<option value="${c.id}"${c.id === glChar ? ' selected' : ''}>${esc(c.name)}</option>`).join('')}</select></label>` : '';
-  const title = g ? `${tl('settings')}: ${guildName(g)}` : tl('create');
-  $('#view').innerHTML = `<section class="frame gl-ed" id="glEdit" data-key="gl${id}"><div class="sec-h"><h2>${esc(title)}</h2></div>
-    <form class="gl-form" id="glForm" novalidate>
-      <div class="gl-pv" id="glPv"></div>
-      <div class="gl-fields">${pick}
-        ${leader ? `<div class="gl-fld"><label for="glName">${esc(tl('name'))}</label><input id="glName" maxlength="${GLL.name_max}" autocomplete="off" spellcheck="false" value="${esc(g ? g.name : '')}" aria-describedby="glNameE"><p class="msg err" id="glNameE" role="alert"></p></div>` : ''}
-        <div class="gl-fld"><label for="glMotto">${esc(tl('motto'))}</label><input id="glMotto" maxlength="${GLL.motto_max}" autocomplete="off" value="${esc(g ? g.motto : '')}" aria-describedby="glMottoE"><p class="msg err" id="glMottoE" role="alert"></p></div>
-        <div class="gl-rows" id="glRows"></div>
-        <div class="gl-grp gl-pos" id="glPos" role="group" aria-labelledby="glL-t"><span class="gl-lab" id="glL-t">${esc(tl('pos'))}</span>
-          <label class="gl-rng"><span>${esc(tl('scale'))} <output id="glKo"></output></span><input type="range" id="glK" data-t="2" step="1"></label>
-          <label class="gl-rng"><span>${esc(tl('shift_x'))}</span><input type="range" id="glX" data-t="0" step="1"></label>
-          <label class="gl-rng"><span>${esc(tl('shift_y'))}</span><input type="range" id="glY" data-t="1" step="1"></label>
-          <div class="row"><button type="button" class="btn ghost" id="glPosReset">${esc(tl('pos_reset'))}</button><small>${esc(tl('pos_hint'))}</small></div></div>
-        <div class="row"><button type="button" class="btn ghost" id="glRnd">${esc(tl('random'))}</button></div>
-        ${g ? '' : '<div id="glTs"></div>'}
-        <p class="msg err" id="glNote" role="alert"></p>
-        <div class="row"><button type="submit" class="btn" id="glSave">${esc(tl(g ? 'save' : 'create'))}</button>
-          <a class="btn ghost" href="${g ? guildUrl(id) : '#chars'}">${esc(tl('cancel'))}</a>${g && leader ? `<span class="sp"></span><button type="button" class="btn danger" id="glDel">${esc(tl('disband'))}</button>` : ''}</div>
-      </div></form></section>`;
-  glPaint();
-  tsGl = g ? null : tsWidget($('#glTs'));
-}
-
-/** Redraws the preview and the rows; focus stays on the same option (or its group's checked one when it became unavailable). */
-function glPaint(focus) {
-  const st = glSt;
-  glPvDraw();
-  $('#glRows').innerHTML = glRows(st);
-  if (!focus) return;
-  const t = $(`#glRows [data-k="${focus.k}"][data-v="${focus.v}"]:not(:disabled)`) || $(`#glRows [data-k="${focus.k}"][aria-checked="true"]`);
-  if (t) t.focus({ preventScroll: true });
-}
-const glPvDraw = () => { $('#glPv').innerHTML = crestSvg(glSt.cr, 160, { label: tl('crest') }); glPosSync(); };
-/** Slider limits follow the shape: each axis spans the places that fit with the other two values as they are. */
-function glPosSync() {
-  const cr = glSt.cr, t = cr.t || CREST_T, L = GLL, span = i => {
-    let lo = t[i], hi = t[i];
-    const at = v => { const q = t.slice(); q[i] = v; return crestFits(cr, q); };
-    while (lo > -L.shift_max && at(lo - 1)) lo--;
-    while (hi < L.shift_max && at(hi + 1)) hi++;
-    return [lo, hi];
-  };
-  let kHi = L.scale_max;
-  while (kHi > L.scale_min && !crestFits(cr, [0, 0, kHi])) kHi--;
-  const set = (el, lo, hi, v) => { el.min = lo; el.max = hi; el.value = v; el.disabled = lo === hi; };
-  set($('#glK'), L.scale_min, Math.max(kHi, t[2]), t[2]);
-  set($('#glX'), ...span(0), t[0]);
-  set($('#glY'), ...span(1), t[1]);
-  $('#glKo').textContent = t[2] + '%';
-  $('#glPosReset').disabled = glSame(t, CREST_T);
-}
-/** A new place from a slider or a drag: the preview follows at once, the thumbnails when the gesture ends (glPaint). */
-function glMove(want) {
-  const cr = glSt.cr, t = crestPlace(cr, want, cr.t || CREST_T);
-  if (glSame(t, cr.t || CREST_T)) return;
-  glSetT(cr, t);
-  glPvDraw();
-}
-function glPick(k, v) {
-  const st = glSt, c = st.cr.c.slice();
-  let patch;
-  if (k === 'c0' || k === 'c1') { c[k === 'c0' ? 0 : 1] = v; patch = { c }; } else patch = { [k]: v };
-  const next = glSettle(Object.assign(glClone(st.cr), patch));
-  if (!next) return;
-  st.cr = next;
-  glPaint({ k, v });
-}
-
-function glClear() {
-  $$('#glEdit .msg').forEach(n => { n.textContent = ''; });
-  $$('#glEdit input').forEach(n => n.removeAttribute('aria-invalid'));
-}
-/** The error goes under the field it is about: name or motto when only that one was sent, otherwise under the button. */
-function glFail(e, sent) {
-  const code = e && e.code, by = { bad_name: 'Name', name_taken: 'Name', rename_cooldown: 'Name', bad_motto: 'Motto' };
-  let f = by[code];
-  if (!f && (code === 'bad_word' || code === 'no_links')) f = sent.name && !sent.motto ? 'Name' : sent.motto && !sent.name ? 'Motto' : '';
-  const out = f && $('#gl' + f + 'E');
-  glClear();
-  if (out) { out.textContent = glText(e); $('#gl' + f).setAttribute('aria-invalid', 'true'); $('#gl' + f).focus(); } else $('#glNote').textContent = glText(e);
-}
-const glBusy = on => $$('#glForm button').forEach(b => { b.disabled = on; });
-const glGo = url => { M.me(true).then(() => { location.href = url; }, () => { location.href = url; }); };
-
-function glSubmit() {
-  const st = glSt, g = st.g, nameEl = $('#glName'), motto = $('#glMotto').value.trim();
-  glClear();
-  const name = nameEl ? nameEl.value.trim() : '';
-  if (nameEl && ([...name].length < GLL.name_min || [...name].length > GLL.name_max)) return glFail({ code: 'bad_name' }, {});
-  if (!g) {
-    const sel = $('#glChar'), free = m.characters.filter(c => !c.guild_id);
-    const body = { char_id: Number(sel ? sel.value : free[0].id), name, crest: st.cr }, sent = { name: true, motto: !!motto };
-    if (motto) body.motto = motto;
-    glBusy(true);
-    return tsGl.get().then(t => {
-      if (!t) { glBusy(false); return glFail({ code: 'bot' }, sent); }
-      body.turnstile = t;
-      return M.api('/guilds', { body }).then(r => { glKeep(r.guild); glGo(guildUrl(r.guild.id)); }, e => { glBusy(false); tsGl.reset(); glFail(e, sent); });
-    });
-  }
-  const body = {};
-  if (nameEl && name !== (g.name || '')) body.name = name;
-  if (motto !== (g.motto || '')) body.motto = motto;
-  if (glCanon(st.cr) !== glCanon(g.crest)) body.crest = st.cr;
-  if (!Object.keys(body).length) { location.href = guildUrl(st.id); return; }
-  glBusy(true);
-  M.api('/g/' + st.id, { method: 'PUT', body }).then(r => { glKeep(r.guild); glGo(guildUrl(st.id)); }, e => { glBusy(false); glFail(e, { name: 'name' in body, motto: 'motto' in body }); });
-}
-function glDisband() {
-  const st = glSt;
-  if (!confirm(`${tl('disband')}\n${fill(tl('disband_q'), { g: guildName(st.g) })}`)) return;
-  glBusy(true);
-  M.api('/g/' + st.id, { method: 'DELETE' }).then(() => {
-    try { sessionStorage.removeItem('gabella-guild-' + st.id); } catch (e) { /* private mode */ }
-    glGo(`${HOME}roster/#guilds`);
-  }, e => { glBusy(false); glFail(e, {}); });
-}
-
-document.addEventListener('click', e => {
-  const t = e.target;
-  if (!glv || !t.closest('#glEdit')) return;
-  const r = t.closest('[role="radio"]');
-  if (r) { if (!r.disabled) glPick(r.dataset.k, r.dataset.v); return; }
-  if (t.closest('#glRnd')) { glSt.cr = glRandom(glSt.unlocks); glPaint({ k: 's', v: glSt.cr.s }); }
-  else if (t.closest('#glPosReset')) { glSetT(glSt.cr, CREST_T); glPaint(); $('#glK').focus(); }
-  else if (t.closest('#glDel')) glDisband();
-});
-document.addEventListener('keydown', e => {
-  const r = e.target.closest && e.target.closest('#glEdit [role="radio"]'), d = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
-  if (!r || !d) return;
-  e.preventDefault();
-  const all = $$('[role="radio"]:not(:disabled)', r.parentElement), i = all.indexOf(r);
-  if (all.length > 1 && i >= 0) all[(i + d + all.length) % all.length].click();
-});
-document.addEventListener('submit', e => { if (e.target.id === 'glForm') { e.preventDefault(); glSubmit(); } });
-document.addEventListener('input', e => {
-  const i = e.target.dataset && e.target.dataset.t;
-  if (!glSt || i == null || !e.target.closest('#glPos')) return;
-  const t = (glSt.cr.t || CREST_T).slice();
-  t[i] = Number(e.target.value);
-  glMove(t);
-});
-document.addEventListener('change', e => { if (glSt && e.target.closest && e.target.closest('#glPos')) glPaint(); });
-// drag the charge on the preview (mouse, pen, finger): the pointer is captured by the box, which survives the redraws of the svg inside
-let glDrag = null;
-document.addEventListener('pointerdown', e => {
-  const pv = e.target.closest && e.target.closest('#glPv');
-  if (!pv || !glSt || e.button > 0) return;
-  const svg = $('svg', pv);
-  if (!svg) return;
-  e.preventDefault();
-  pv.setPointerCapture(e.pointerId);
-  glDrag = { id: e.pointerId, x: e.clientX, y: e.clientY, t: (glSt.cr.t || CREST_T).slice(), u: 100 / svg.getBoundingClientRect().width };
-  pv.classList.add('drag');
-});
-document.addEventListener('pointermove', e => {
-  if (!glDrag || e.pointerId !== glDrag.id || !glSt) return;
-  const d = glDrag;
-  glMove([d.t[0] + (e.clientX - d.x) * d.u, d.t[1] + (e.clientY - d.y) * d.u, d.t[2]]);
-});
-const glDrop = e => {
-  if (!glDrag || e.pointerId !== glDrag.id) return;
-  glDrag = null;
-  const pv = $('#glPv');
-  if (pv) pv.classList.remove('drag');
-  if (glSt) glPaint();
-};
-document.addEventListener('pointerup', glDrop);
-document.addEventListener('pointercancel', glDrop);
-
-/** Guild line under a character card: where the character is, or the button that starts a new guild. */
-function glLine(c) {
-  if (c.guild_id) {
-    const g = (m.guilds || {})[c.guild_id];
-    if (!g) return '';
-    const set = c.guild_rank === 'leader' || c.guild_rank === 'officer' ? `<a class="gl-set" href="#guild=${g.id}">${esc(tl('settings'))}</a>` : '';
-    return `<div class="gl-char"><span>${fill(esc(tl('char_guild')), { g: crestMini(g), r: esc(tl(c.guild_rank)) })}</span>${set}</div>`;
-  }
-  if (m.characters.some(x => x.guild_rank === 'leader')) return '';
-  const low = m.glory.level < GLL.create_glory;
-  return `<div class="gl-char"><button type="button" class="btn ghost" data-gl="create" data-char="${c.id}"${low ? ` disabled aria-describedby="glLow${c.id}"` : ''}>${esc(tl('create'))}</button>${low ? `<small id="glLow${c.id}">${esc(tl('create_low'))}</small>` : ''}</div>`;
-}
-const glWrap = (c, card) => `<div class="gl-cw">${card}${glLine(c)}</div>`;
 
 function render() {
   if (!m) return screen('login');
-  if (m.characters.length) backToGuild();
   if (!m.characters.length) return sec === 'account' ? accountOnly() : wizard();
-  if (glv) return glScreen();
   cabinet();
 }
 
@@ -1349,23 +848,12 @@ document.addEventListener('click', e => {
   if (lb) { e.stopPropagation(); return lkOpen(m.characters.find(x => x.id === +lb.dataset.look)); }
   const editCard = t.closest('[data-edit]');
   if (editCard) return openEd(m.characters.find(c => c.id === +editCard.dataset.edit));
-  const gc = t.closest('[data-gl="create"]');
-  if (gc) { if (!gc.disabled) { glChar = +gc.dataset.char; location.hash = 'guild'; } return; }
   const nav = t.closest('.pnav a[href^="#"]');
   if (nav) { e.preventDefault(); sec = nav.getAttribute('href').slice(1); history.replaceState(null, '', '#' + sec); cabinet(); $('#sec').scrollIntoView({ block: 'nearest' }); return; }
   const fr = t.closest('[data-frame]');
   if (fr) return put({ frame: fr.dataset.frame }, sec === 'look' ? 'lookNote' : 'frNote');
-  const bg = t.closest('[data-bg]');
-  if (bg) return put({ background: bg.dataset.bg }, 'lookNote');
   const ct = t.closest('[data-cat]');
   if (ct) { cat = ct.dataset.cat; return cabinet(); }
-  const nc = t.closest('[data-ncolor]');
-  if (nc) return put({ name_color: nc.dataset.ncolor }, 'lookNote');
-  const sh = t.closest('[data-sh]');
-  if (sh) {
-    const i = +sh.dataset.i, list = showcaseList();
-    return sh.dataset.sh === 'del' ? saveShowcase(list.filter((x, k) => k !== i)) : moveShowcase(i, i + (sh.dataset.sh === 'up' ? -1 : 1));
-  }
   const lg = t.closest('#lfgSeg button');
   if (lg) return M.api('/me/lfg', { method: 'PUT', body: { kind: lg.dataset.v || null } }).then(r => M.took(r), () => {});
   const a = t.closest('[data-act]');
@@ -1377,24 +865,8 @@ document.addEventListener('click', e => {
   else if (act === 'account') { sec = 'account'; history.replaceState(null, '', '#account'); cabinet(); }
   else if (act === 'card') copyText(myUrl()).then(ok => { if (ok) M.track('show_card'); a.textContent = ok ? 'Скопировано' : myUrl(); });
   else if (act === 'copyRef') copyText(refUrl()).then(ok => { $('#aRefNote').textContent = ok ? 'Скопировано' : 'Не удалось скопировать, выделите ссылку и скопируйте вручную'; });
-  else if (act === 'lfgOn') {   // the task button leads to the «Looking for group» switch; the kind is the player's choice
-    sec = 'chars'; history.replaceState(null, '', '#chars'); cabinet();
-    const b = $('#lfgSeg button:not([data-v=""])');
-    if (b) { b.scrollIntoView({ block: 'center' }); b.focus(); }
-  } else if (act === 'swap') {
-    a.disabled = true;
-    M.api('/me/weekly/swap', { body: { task_id: a.dataset.task } }).then(r => M.took(r), e => {
-      a.disabled = false;
-      const n = $('#wkNote'); if (n) { n.textContent = errText(e); n.className = 'msg err'; }
-      if (e.code === 'swap_used' || e.code === 'task_done') M.me(true);   // the page was out of date: show what the server has
-    });
-  } else if (act === 'showAdd') {
-    const id = $('#shPick') && $('#shPick').value, list = showcaseList();
-    if (id) saveShowcase(list.concat(id));
-  } else if (act === 'chronMore') loadChron(true);
-  else if (act === 'repKeep' || act === 'repHide' || act === 'repBan' || act === 'repDisband') resolveRep(a, { repKeep: 'keep', repHide: 'hide', repBan: 'ban', repDisband: 'disband' }[act]);
+  else if (act === 'repKeep' || act === 'repHide' || act === 'repBan') resolveRep(a, { repKeep: 'keep', repHide: 'hide', repBan: 'ban' }[act]);
   else if (act === 'lfgMore') M.api('/me/lfg', { method: 'PUT', body: { kind: a.dataset.v } }).then(r => M.took(r), () => {});
-  else if (act === 'motto') put({ motto: $('#lMotto').value }, 'lookNote').then(() => { const n = $('#lookNote'); if (n && !n.classList.contains('err')) n.textContent = 'Девиз сохранён'; });
   else if (act === 'lvl') {
     const c = mainOf();
     a.disabled = true;
@@ -1407,41 +879,13 @@ document.addEventListener('click', e => {
 });
 document.addEventListener('change', e => {
   if (!m) return;
-  if (e.target.id === 'lTitle') put({ title: e.target.value || null }, 'lookNote');
-  else if (e.target.id === 'lNick') put({ show_nick: e.target.checked }, 'lookNote');
-  else if (e.target.id === 'cHide') put({ hide_chronicle: e.target.checked }, 'chNote');
+  if (e.target.id === 'lNick') put({ show_nick: e.target.checked }, 'lookNote');
   else if (e.target.id === 'aSound') M.sound(e.target.checked);
 });
 document.addEventListener('keydown', e => {
   const card = e.target.closest && e.target.closest('[data-edit]');
   if (card && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); card.click(); }
 });
-
-document.addEventListener('dragstart', e => {
-  const c = e.target.closest && e.target.closest('.g-cell[data-i]');
-  if (!c) return;
-  dragFrom = +c.dataset.i;
-  e.dataTransfer.effectAllowed = 'move';
-  try { e.dataTransfer.setData('text/plain', String(dragFrom)); } catch (x) { /* old browsers */ }
-  c.classList.add('drag');
-});
-document.addEventListener('dragover', e => {
-  const c = e.target.closest && e.target.closest('.g-cell');
-  if (dragFrom < 0 || !c) return;
-  e.preventDefault();
-  $$('.g-cell.over').forEach(x => { if (x !== c) x.classList.remove('over'); });
-  c.classList.add('over');
-});
-document.addEventListener('drop', e => {
-  const c = e.target.closest && e.target.closest('.g-cell');
-  if (dragFrom < 0 || !c) return;
-  e.preventDefault();
-  const to = $$('.g-show .g-cell').indexOf(c), from = dragFrom;
-  dragFrom = -1;
-  moveShowcase(from, to);
-});
-document.addEventListener('dragend', () => { dragFrom = -1; $$('.g-cell.drag, .g-cell.over').forEach(x => x.classList.remove('drag', 'over')); });
-document.addEventListener('error', e => { if (e.target.matches && e.target.matches('.s-pt img')) e.target.remove(); }, true);   // art of a reward that is not painted yet
 
 function openDelete() {
   const d = $('#delDlg');
@@ -1472,7 +916,7 @@ function follow(fresh) {
     const was = lastRank, idx = id => GD.ranks.findIndex(r => r.id === id);
     m = state;
     if (m) { reveal = was !== null && idx(m.user.rank) > idx(was); lastRank = m.user.rank; }
-    if (!m) { closeEd(); chron = newChron(); reps = null; }
+    if (!m) { closeEd(); reps = null; }
     render();
   });
   // me.js keeps quiet when the API is unreachable: ask once more to tell «logged out» (401) from «server down»
@@ -1486,7 +930,6 @@ ready(Mx => {
   const ref = new URLSearchParams(location.search).get('ref');
   if (ref && REF.test(ref)) try { localStorage.setItem('gabella-ref', ref); } catch (e) { /* private mode */ }
   const h = location.hash.slice(1);
-  glv = glHash(h);
   if (SECS0.some(s => s[0] === h) || h === 'reports') sec = h;   // «reports» is checked against m.admin when the cabinet is drawn
   if (!M) return screen('down');
   wireForm();
@@ -1497,13 +940,7 @@ ready(Mx => {
   if (h.startsWith('tgAuthResult=')) return tgFromHash(h.slice(13));
   if (STATES[h]) notice = h;
   addEventListener('hashchange', () => {
-    const s2 = location.hash.slice(1), g2 = glHash(s2);
-    if (g2 || glv) {   // the guild screens are not cabinet sections: leaving them goes back to the section in the hash
-      glv = g2;
-      if (!g2 && secs().some(x => x[0] === s2)) sec = s2;
-      if (m) render();
-      return;
-    }
+    const s2 = location.hash.slice(1);
     if (!secs().some(x => x[0] === s2) || !m) return;
     if (!m.characters.length) { sec = s2 === 'account' ? 'account' : 'chars'; render(); scrollTo(0, 0); return; }
     sec = s2; cabinet(); $('#sec').scrollIntoView({ block: 'nearest' });

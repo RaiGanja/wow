@@ -974,21 +974,9 @@ nav.gtiles { padding: 14px; }
 .gplay b { color: var(--gold-2); }
 .gplay .btn { margin-left: auto; }
 .gbody.play { padding-top: 14px; }
-/* «Your path»: Glory and the week's tasks of the signed-in visitor, one line for a guest */
+/* one line for a guest: sign in to keep the level and characters */
 .pway { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; margin-top: 16px; padding: 14px 20px; }
 .pway[hidden] { display: none; }
-.pway .pnk { font-weight: 600; }
-.pgl { display: grid; gap: 6px; flex: 1 1 200px; max-width: 300px; }
-.pgl .gh { display: flex; justify-content: space-between; gap: 12px; font-size: .88rem; }
-.pgl .gh b { color: var(--gold-2); }
-.pgl .gh span, .pwk small { color: var(--muted); font-variant-numeric: tabular-nums; }
-.pbar { height: 6px; border-radius: 3px; background: var(--panel-2); border: 1px solid var(--pline); overflow: hidden; }
-.pbar i { display: block; height: 100%; background: #c9a54a; }
-.pwk { display: flex; flex-wrap: wrap; gap: 8px 24px; list-style: none; margin: 0; padding: 0; flex: 2 1 320px; font-size: .88rem; }
-.pwk li { display: grid; gap: 2px; }
-.pwk li.ok small { color: var(--gold-2); }
-.pway > a:last-child { margin-left: auto; font-size: .9rem; }
-.pway > a:last-child:not(.btn) { color: var(--gold-2); }   /* the profile link; the guest sign-in button keeps its dark text */
 .pway .pnote { flex: 1 1 260px; }
 .pway .btn { margin-left: auto; }
 .pchars { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -1048,7 +1036,7 @@ nav.gtiles { padding: 14px; }
 .pnotify { display: flex; align-items: center; gap: 8px; font-size: .9rem; color: var(--muted); cursor: pointer; }
 .pnotify[hidden] { display: none; }
 .pnotify input { width: 18px; height: 18px; accent-color: #c9a54a; }
-@media (max-width: 719px) { .phead { padding-top: calc(var(--top) + 14px); } .pway { padding: 12px 14px; gap: 10px 20px; } .pway > a:last-child, .pway .btn { margin-left: 0; } .psec { padding: 14px; } .pform { grid-template-columns: minmax(0, 1fr) 104px; } .pform .pill { grid-column: 1 / -1; justify-content: center; } }
+@media (max-width: 719px) { .phead { padding-top: calc(var(--top) + 14px); } .pway { padding: 12px 14px; gap: 10px 20px; } .pway .btn { margin-left: 0; } .psec { padding: 14px; } .pform { grid-template-columns: minmax(0, 1fr) 104px; } .pform .pill { grid-column: 1 / -1; justify-content: center; } }
 #more { margin-top: 56px; }
 #more .sec-head { margin-bottom: 14px; }
 @media (max-width: 1023px) {
@@ -1087,8 +1075,8 @@ nav.gtiles { padding: 14px; }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/search/search.css?v=de8bc15d93" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/me/me.css?v=c30b9c1a1c" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/search/search.css?v=b52e2ac809" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/me/me.css?v=378dd2c208" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/en/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://gabella.site/wow/en/guides/"},{"@type":"ListItem","position":3,"name":"Leveling 1–60","item":"https://gabella.site/wow/en/guides/leveling/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"WoW Forever Leveling Guide 1–60: Zones by Level","description":"Level 1 to 60 in WoW Forever: a zone-by-zone route for Alliance and Horde, rested XP and experience bonuses, solo, duo and group tips, Legacy and the camp.","inLanguage":"en","url":"https://gabella.site/wow/en/guides/leveling/","dateModified":"2026-10-23","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/Zd45sNHy9x"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/Zd45sNHy9x"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/en/"},"image":"https://gabella.site/wow/assets/og/leveling-en.jpg"}</script>
 </head>
@@ -1289,8 +1277,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../../assets/radio/radio.js" data-root="../../../" defer></script>
-<script src="../../../assets/search/search.js?v=de8bc15d93" data-root="../../../" defer></script>
-<script src="../../../assets/me/me.js?v=c30b9c1a1c" data-root="../../../" data-home="../../" data-lang="en" data-teaser="Your profile keeps your path: Glory, frames, seasons" data-close="Close" data-page="guides/leveling/" data-look="2" defer></script>
+<script src="../../../assets/search/search.js?v=b52e2ac809" data-root="../../../" defer></script>
+<script src="../../../assets/me/me.js?v=378dd2c208" data-root="../../../" data-home="../../" data-lang="en" data-teaser="Your profile keeps your characters, achievements and frames" data-close="Close" data-page="guides/leveling/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

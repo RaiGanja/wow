@@ -28,9 +28,8 @@
 .rhead select { min-height: 44px; border-radius: 8px; border: 1px solid var(--pline); background: var(--panel-2); color: var(--fg); padding: 0 12px; font: inherit; font-size: .95rem; }
 .rlist { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 12px; }
 .rlist.list { grid-template-columns: 1fr; gap: 6px; }
-.rlist.gl-grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); }
 .rlist.list .pcard { grid-template-columns: auto minmax(150px, .9fr) minmax(0, 2fr); padding: 10px 14px; }
-.rlist.list .pcard .pic { grid-row: 1 / 3; }   /* beats .pcard.gl-has .pic (1 / 4) on specificity, not on order */
+.rlist.list .pcard .pic { grid-row: 1 / 3; }
 .rlist.list .me-ring { --s: 46px; --room-x: 10px; --room-y: 6px; }
 .rlist.list .nm > :first-child { padding-right: 0; }
 .rlist.list .nm b, .rlist.list .nm a { font-size: 1.15rem; }
@@ -66,7 +65,6 @@
     <h1>Состав Gabella Team</h1>
     <p class="lead">Кто кем играет в WoW Forever. Основной персонаж — карточкой, твинки — строкой под ней.</p>
     <p class="rstat" id="stats" aria-live="polite"></p>
-    <p class="g-wk" id="wk" hidden></p>
     <div class="rcta"><a class="btn lg" id="cta" href="@@HOME@@profile/">Добавить своего персонажа</a><span id="ctaHint">Вход через Discord, Google, Battle.net, Telegram или почту</span></div>
   </div>
 </section>
@@ -75,12 +73,6 @@
   <div class="g-tabs" role="tablist" id="tabs">
     <button type="button" class="g-tab" role="tab" id="tabTeam" data-t="team" aria-controls="roster">Gabella Team <small id="nTeam"></small></button>
     <button type="button" class="g-tab" role="tab" id="tabAll" data-t="all" aria-controls="roster">Все игроки <small id="nAll"></small></button>
-    <button type="button" class="g-tab" role="tab" id="tabGuilds" data-t="guilds" aria-controls="roster"><span id="tGuilds"></span> <small id="nGuilds"></small></button>
-  </div>
-  <div class="frame fbar" id="gbar" role="search" aria-label="Фильтры" hidden>
-    <input type="search" id="gq" aria-label="" autocomplete="off" maxlength="30">
-    <div class="fgroup"><span class="flabel" id="glf">Фракция</span><div class="seg" id="gf" aria-labelledby="glf"><button type="button" data-v="">Все</button><button type="button" data-v="alliance">Альянс</button><button type="button" data-v="horde">Орда</button></div></div>
-    <div class="fgroup"><label class="flabel" for="gs">Сортировка</label><select id="gs"></select></div>
   </div>
   <div class="frame fbar" id="pbar" role="search" aria-label="Фильтры">
     <input type="search" id="fq" placeholder="Имя или ник" aria-label="Поиск по имени или нику" autocomplete="off" maxlength="30">
@@ -105,14 +97,14 @@
 <!--/body-->
 <script>
 /* ---------- Roster: filters in the hash, cards or a list, who looks for a group, the team feed ---------- */
-const F0 = { q: '', f: '', r: '', c: '', t: '', p: '', lfg: '', s: 'pts', v: 'cards', gs: 'power', gq: '' };
+const F0 = { q: '', f: '', r: '', c: '', t: '', p: '', lfg: '', s: 'pts', v: 'cards' };
 const F = Object.assign({}, F0);
-let players = null, guilds = [], failed = false, me = null, tab = 'team';   // tab: the team (members), everybody (#all) or the guilds (#guilds)
+let players = null, failed = false, me = null, tab = 'team';   // tab: the team (members) or everybody (#all)
 
 function readHash() {
   const h = new URLSearchParams(location.hash.slice(1));
   for (const k in F0) F[k] = h.get(k) || F0[k];
-  tab = h.has('guilds') ? 'guilds' : h.has('all') ? 'all' : 'team';
+  tab = h.has('all') ? 'all' : 'team';
 }
 function writeHash() {
   const h = new URLSearchParams();
@@ -135,51 +127,16 @@ function paintTabs() {
   });
   $('#nTeam').textContent = players ? players.filter(p => p.member).length : '';
   $('#nAll').textContent = players ? players.length : '';
-  $('#nGuilds').textContent = players ? guilds.length : '';
 }
 function setTab(t, focus) {
   if (t === tab) return;
   tab = t; draw();
-  if (focus) $('#tab' + { team: 'Team', all: 'All', guilds: 'Guilds' }[t]).focus();
-}
-/** Weekly tasks under the header, for signed-in people only. */
-const itemOf = (k, item) => (k === 'station' ? (GD.items.station || {})[item] : k === 'guide' ? (GD.items.guide || {})[item] : null);
-function drawWeek() {
-  const w = me && me.week, el = $('#wk');
-  el.hidden = !w || !w.tasks.length;
-  if (el.hidden) return;
-  el.innerHTML = `<b>${esc(tg('week'))}:</b> ` + w.tasks.map(t => `${esc(taskName(t, T.g, { itemName: itemOf }))} ${t.done ? `<span class="g-ok" role="img" aria-label="${esc(tg('task_done'))}">✓</span>` : esc(`${t.value}/${t.goal}`)}`).join(' · ');
+  if (focus) $('#tab' + { team: 'Team', all: 'All' }[t]).focus();
 }
 function syncControls() {
   [['ff', 'f'], ['fr', 'r'], ['ft', 't'], ['fv', 'v']].forEach(([id, k]) => $$(`#${id} button`).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === F[k]))));
   $('#fq').value = F.q; $('#fc').value = F.c; $('#fp').value = F.p; $('#fs').value = F.s; $('#fl').checked = F.lfg === '1';
   $('#freset').hidden = !['q', 'f', 'r', 'c', 't', 'p', 'lfg'].some(k => F[k]);
-  $$('#gf button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === F.f)));
-  $('#gq').value = F.gq; $('#gs').value = F.gs;
-  const g = tab === 'guilds';
-  $('#gbar').hidden = !g; $('#pbar').hidden = g; $('#pview').hidden = g;
-}
-
-// ----- guilds tab -----
-function gcard(g) {
-  const bar = Object.entries(g.classes).sort((a, b) => b[1] - a[1])
-    .map(([c, n]) => `<i style="flex:${n};background:${cls(c).color}" title="${esc(cls(c).n)} ${n}"></i>`).join('');
-  return `<a class="frame gl-card" href="${guildUrl(g.id)}">${crestSvg(g.crest, 56, { label: guildName(g) })}
-    <span class="gl-card-b"><b>${esc(guildName(g))}</b><small>${esc(FACN[g.faction])} · ${esc(sizeText(g.size))}</small>
-    ${g.motto ? `<span class="gl-motto">${esc(g.motto)}</span>` : ''}<span class="gl-bar" aria-hidden="true">${bar}</span></span>
-    <span class="gl-card-n"${g.rated ? '' : ` title="${esc(tl('unrated'))}"`}><b>${g.rated ? num(g.power) : '—'}</b><small>${esc(tl('power'))}</small></span></a>`;
-}
-const SORT = {
-  power: (a, b) => (b.rated - a.rated) || b.power - a.power,
-  banners: (a, b) => b.banners - a.banners || b.streak - a.streak,
-  new: (a, b) => b.created_at - a.created_at,
-};
-function drawGuilds(box) {
-  const q = F.gq.trim().toLowerCase();
-  const list = guilds.filter(g => (!F.f || g.faction === F.f) && (!q || guildName(g).toLowerCase().includes(q)))
-    .sort((a, b) => (SORT[F.gs] || SORT.power)(a, b) || b.id - a.id);
-  $('#count').textContent = fill('Показано: %n из %m', { n: list.length, m: guilds.length });
-  box.innerHTML = list.length ? list.map(gcard).join('') : `<div class="frame state"><h2>${esc(tl('empty'))}</h2></div>`;
 }
 
 function filtered() {
@@ -222,8 +179,7 @@ function draw() {
   writeHash(); syncControls(); paintTabs();
   if (players) { drawStats(statsOf(pool())); drawLfg(); }
   const box = $('#roster');
-  box.classList.toggle('list', F.v === 'list' && tab !== 'guilds');
-  box.classList.toggle('gl-grid', tab === 'guilds');
+  box.classList.toggle('list', F.v === 'list');
   if (failed) {
     box.innerHTML = `<div class="frame state"><h2>Состав временно недоступен</h2><p>Сервер профилей не ответил. Остальной гид работает как обычно.</p><div class="row"><button type="button" class="btn ghost" id="retry">Повторить</button></div></div>`;
     $('#retry').onclick = load;
@@ -231,7 +187,6 @@ function draw() {
     return;
   }
   if (!players) { box.innerHTML = '<div class="skel"></div>'.repeat(6); return; }
-  if (tab === 'guilds') return drawGuilds(box);
   if (!players.length) {
     box.innerHTML = `<div class="frame state"><h2>Будьте первым</h2><p>В составе пока никого. Добавьте своего персонажа — карточка появится здесь.</p><div class="row"><a class="btn" href="${HOME}profile/">Добавить персонажа</a></div></div>`;
     $('#count').textContent = '';
@@ -253,7 +208,7 @@ function draw() {
   const admin = me && me.admin;
   const uid = me && me.user && me.user.id;
   box.innerHTML = list.map(p => pcard(p, {
-    prof: F.p, glory: true,
+    prof: F.p,
     attrs: ` data-id="${esc(p.id)}"`,
     after: (admin ? `<button type="button" class="mod" data-hide="${p.main.id}">Скрыть</button>` : '') + (uid && uid !== p.id ? cardMenu(p.id, admin ? 'adm' : '') : ''),
   })).join('');
@@ -267,7 +222,6 @@ function load() {
   if (!M) { failed = true; return draw(); }
   M.api('/roster').then(r => {
     players = r.players || [];
-    guilds = r.guilds || [];
     draw();
   }, () => { failed = true; draw(); });
   M.api('/feed?limit=15').then(r => {
@@ -280,19 +234,11 @@ ready(M => {
   Object.entries(GD.profs).forEach(([id, n]) => $('#fp').insertAdjacentHTML('beforeend', `<option value="${id}">${esc(n)}</option>`));
   readHash();
   $('#tabs').setAttribute('aria-label', tg('tabs_label'));
-  $('#tGuilds').textContent = tl('tab'); $('#tabGuilds').title = tl('tab_hint');
-  $('#gq').placeholder = tl('search'); $('#gq').setAttribute('aria-label', tl('search'));
-  const sorts = ['power'].concat(GD.guilds.banner_unlocks.length ? ['banners'] : [], ['new']);   // banners wait for wave 1b
-  $('#gs').innerHTML = sorts.map(k => `<option value="${k}">${esc(tl('sort_' + k))}</option>`).join('');
-  if (!sorts.includes(F.gs)) F.gs = 'power';
-  $('#gf').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { F.f = b.dataset.v; draw(); } });
-  $('#gs').onchange = e => { F.gs = e.target.value; draw(); };
-  $('#gq').addEventListener('input', e => { clearTimeout(gt); gt = setTimeout(() => { F.gq = e.target.value.slice(0, 30); draw(); }, 150); });
   $('#tabTeam').title = tg('tab_team_hint');
   [['ff', 'f'], ['fr', 'r'], ['ft', 't'], ['fv', 'v']].forEach(([id, k]) => $(`#${id}`).addEventListener('click', e => {
     const b = e.target.closest('button'); if (!b) return; F[k] = b.dataset.v; draw();
   }));
-  let qt = 0, gt = 0;
+  let qt = 0;
   $('#fq').addEventListener('input', e => { clearTimeout(qt); qt = setTimeout(() => { F.q = e.target.value.slice(0, 30); draw(); }, 150); });
   $('#fc').onchange = e => { F.c = e.target.value; draw(); };
   $('#fp').onchange = e => { F.p = e.target.value; draw(); };
@@ -303,8 +249,8 @@ ready(M => {
   // tabs: arrows, Home and End move between them (the selected one is the only tab stop)
   $('#tabs').addEventListener('click', e => { const b = e.target.closest('.g-tab'); if (b) setTab(b.dataset.t, false); });
   $('#tabs').addEventListener('keydown', e => {
-    const order = ['team', 'all', 'guilds'], i = order.indexOf(tab);
-    const to = { ArrowRight: order[(i + 1) % order.length], ArrowLeft: order[(i + order.length - 1) % order.length], Home: 'team', End: 'guilds' }[e.key];
+    const order = ['team', 'all'], i = order.indexOf(tab);
+    const to = { ArrowRight: order[(i + 1) % order.length], ArrowLeft: order[(i + order.length - 1) % order.length], Home: 'team', End: 'all' }[e.key];
     if (!to) return;
     e.preventDefault(); setTab(to, true);
   });
@@ -326,7 +272,7 @@ ready(M => {
     }, () => { b.disabled = false; });
   });
   if (M) M.onMe(m => {
-    me = m; drawWeek();
+    me = m;
     if (m && m.characters && m.characters.length) { $('#cta').textContent = 'Мой профиль'; $('#ctaHint').hidden = true; }
     if (players) draw();
   });

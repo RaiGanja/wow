@@ -35,35 +35,23 @@ def test_achievements_rules():
                 assert it in G['sets'][r['key']], a
 
 
-def test_frames_titles_ranks():
+def test_frames_and_ranks():
     ach = {a['id'] for a in G['achievements']}
     ranks = [r['id'] for r in G['ranks']]
     pts = [r['pts'] for r in G['ranks']]
     assert pts == sorted(pts) and pts[0] == 0
     for f in G['frames']:
-        assert f.get('rank') in ranks or f.get('ach') in ach or f.get('admin') or f.get('unlock'), f
-    assert set(G['titles']) <= ach | {'pioneer'}
-    assert 'pioneer' in G['titles'] and {'id': 's1', 'unlock': 's1'} in G['frames']
+        assert f.get('rank') in ranks or f.get('ach') in ach or f.get('admin'), f
 
 
-def test_progression_catalog():
-    P = G['progression']
-    assert P['glory'] == {'max': 60, 'a': 60, 'b': 14, 'p': 1.15}
-    assert set(P['sources']) == {'visit', 'radio', 'page', 'tool'}
-    ids = [t['id'] for t in P['weekly']]
-    assert len(ids) == len(set(ids)) and len(ids) >= 30
-    for t in P['weekly']:
-        assert t['cat'] in P['weekly_cats']
-        assert t['key'] in G['sets'] or t['key'] in G['flags'] or t['key'] in ('visit', 'radio_min', 'lfg')
-        if t.get('item') is not None:
-            assert t['item'] in G['sets'][t['key']], t
-    for c in P['weekly_cats']:
-        assert sum(t['cat'] == c for t in P['weekly']) >= 4, c   # 4 недели без повторов
-    steps = P['track']['s1']
-    assert len(steps) == 30 and [s['stars'] for s in steps] == sorted(s['stars'] for s in steps)
-    rewards = [s['reward'] for s in steps if s.get('reward')]
-    assert {'badge:s1', 'title:pioneer', 'frame:s1', 'bg:s1-1', 'bg:s1-2'} <= set(rewards)
-    assert [c for c, _ in P['name_colors']] == ['poor', 'common', 'uncommon', 'rare', 'epic', 'legendary']
+def test_no_game_in_game():
+    # guilds, crests, Glory, seasons, weekly tasks, titles: gone from the catalog and the pages (24.10.2026)
+    assert not {'progression', 'guilds', 'titles'} & set(G) and G['reports_hide'] == 3
+    for name in ('me-pages.src.js', 'profile.src.html', 'roster.src.html', 'player.src.html', 'assets/me/me.js'):
+        src = open(os.path.join(ROOT, name), encoding='utf-8').read()
+        for w in ('glory', 'guild_id', 'crest', 'weekly', 'season', 'showcase', 'name_color', 'chronicle'):
+            assert w not in src, (name, w)
+    assert not os.path.exists(os.path.join(ROOT, 'g')) and not os.path.exists(os.path.join(ROOT, 'assets', 'me', 'crest'))
 
 
 def test_backgrounds_have_art():
@@ -107,24 +95,17 @@ def test_me_script_on_every_page_after_radio():
             assert name.endswith(page + 'index.html'), (name, page)
 
 
-def check_growth_texts(lang, t):
-    """Growth texts (section g): the same keys everywhere, same placeholders as the Russian source, a title for each non-achievement title,
-    a name for each season background and every weekly task (templates for the station, guide and class ones)."""
+def check_more_texts(lang, t):
+    """Texts of the MORE set (section g): the same keys everywhere, same placeholders as the Russian source."""
     import build_me
     g = t['g']
-    assert set(g) == set(build_me.GROWTH), lang
-    for k, ru in build_me.GROWTH.items():
+    assert set(g) == set(build_me.MORE), lang
+    assert not {'gl', 'wk', 'titles', 'bg'} & set(t), lang
+    for k, ru in build_me.MORE.items():
         assert g[k], (lang, k)
         assert sorted(re.findall(r'\{\w+\}', g[k])) == sorted(re.findall(r'\{\w+\}', ru)), (lang, k, g[k])
         if lang != 'ru' and lang != 'uk' and re.search('[А-Яа-яЁё]', ru):
             assert g[k] != ru and not re.search('[А-Яа-яЁё]', g[k]), (lang, k, g[k])
-    ach = {a['id'] for a in G['achievements']}
-    assert set(t['titles']) == set(G['titles']) - ach and 'pioneer' in t['titles'], lang
-    assert set(t['bg']) == {'s1-1', 's1-2'}, lang   # ids of the season backgrounds (R17)
-    # me.js sends repeats of a key that feeds an open weekly task (R15): task id -> key comes with the texts
-    assert t['wk'] == {w['id']: w['key'] for w in G['progression']['weekly']}, lang
-    for w in G['progression']['weekly']:
-        assert 'task_' + w['id'] in g or w['id'].split('_')[0] in ('st', 'g', 'c') and 'task_' + w['id'].split('_')[0] in g, (lang, w['id'])
 
 
 def test_texts_for_every_language():
@@ -138,7 +119,7 @@ def test_texts_for_every_language():
         assert set(t['frames']) == {f['id'] for f in G['frames']}, lang
         assert all(t['ui'][k] for k in ('got', 'rankUp', 'profile', 'login', 'lvlAsk', 'update', 'notNow')), lang
         assert '{n}' in t['ui']['lvlAsk'] and '{name}' in t['ui']['lvlAsk'], lang
-        check_growth_texts(lang, t)
+        check_more_texts(lang, t)
         for a in G['achievements']:
             assert len(t['ach'][a['id']]) == (3 if a['secret'] else 2), (lang, a['id'])
             if lang != 'ru':
@@ -187,11 +168,10 @@ def test_roster_in_navigation():
         assert 'https://discord.com/privacy' in html, lang
 
 
-def test_me_js_growth_hooks():
-    """R15: known() lets weekly-task keys and tool flags through; Glory and season toasts; the teaser costs no request."""
+def test_me_js_hooks():
+    """Achievement and rank toasts, three at most; the teaser costs no request."""
     me = open(os.path.join(ROOT, 'assets', 'me', 'me.js'), encoding='utf-8').read()
-    assert 'party5|raid40|compare3|share_team' in me and 'T.wk' in me and 'state.week' in me
-    for k in ("kind: 'glory'", "kind: 'step'", 'gabella-me-xp1', 'gabella-me-teaser', 'slice(0, 3)'):
+    for k in ("kind: 'ach'", "kind: 'rank'", 'gabella-me-teaser', 'slice(0, 3)'):
         assert k in me, k
     teaser = me[me.index('function teaser()'):me.index("if (PAGE === 'tools/') toolsHooks();")]
     assert 'fetch(' not in teaser and 'api(' not in teaser and 'D.teaser' in teaser
@@ -208,105 +188,6 @@ def test_radio_tells_me_js():
         assert key in me, key
     for egg in G['sets']['egg']:
         assert f"'{egg}'" in me, egg
-
-
-def _lum(h):
-    v = [int(h[i:i + 2], 16) / 255 for i in (1, 3, 5)]
-    v = [c / 12.92 if c <= 0.03928 else ((c + 0.055) / 1.055) ** 2.4 for c in v]
-    return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2]
-
-
-def contrast(a, b):
-    x, y = sorted((_lum(a), _lum(b)), reverse=True)
-    return (x + 0.05) / (y + 0.05)
-
-
-def test_guilds_catalog():
-    Gd = G['guilds']
-    L = Gd['limits']
-    assert L['members'] == 1000 and L['officers'] == 5 and L['create_glory'] == 5 and L['top'] == 10
-    assert Gd['shapes'] == ['heater', 'round', 'kite', 'banner']
-    assert Gd['fields'] == ['plain', 'pale', 'fess', 'quarterly', 'chevron', 'bend']
-    assert len(Gd['palette']) == 12 and all(len(v) == 7 and v[0] == '#' for v in Gd['palette'].values())
-    ids = [c['id'] for c in Gd['charges']]
-    assert len(ids) == len(set(ids)) and sum(not c['lock'] for c in Gd['charges']) >= 24
-    locked = {'charge:' + c['id'] for c in Gd['charges'] if c['lock']}
-    assert locked <= set(Gd['banner_unlocks'])
-    d = Gd['default_crest']
-    assert d['i'] in ids and d['s'] in Gd['shapes'] and contrast(Gd['palette'][d['ic']], Gd['palette'][d['c'][0]]) >= L['contrast_min']
-    # every colour has at least 4 readable charge colours: the constructor never runs out of choices
-    for k, v in Gd['palette'].items():
-        assert sum(contrast(v, w) >= L['contrast_min'] for w in Gd['palette'].values()) >= 4, k
-
-
-def test_guild_authors():
-    import guilds
-    a = guilds.authors()
-    assert len(a) == len(set(a)) and set(a) == {path.split('/')[0] for _, path, _ in guilds.CHARGES}
-    assert a[0] == guilds.CHARGES[0][1].split('/')[0]
-    term = {'': 'Гильдии. Название', 'en/': 'Guilds. A guild', 'uk/': 'Гільдії. Назву', 'de/': 'Gilden. Name', 'fr/': 'Guildes. Le nom',
-            'es/': 'Hermandades. El nombre', 'pt/': 'Guildas. O nome', 'it/': 'Gilde. Il nome', 'pl/': 'Gildie. Nazwa'}
-    for lang in term:
-        html = open(os.path.join(ROOT, *(lang + 'privacy/index.html').split('/')), encoding='utf-8').read()
-        assert 'game-icons.net' in html and ', '.join(a) in html, lang
-        assert term[lang] in html and '24.10.2026' in html, lang
-
-
-def test_guild_texts():
-    import build_me
-    from langs import LANGS
-    for lang in LANGS:
-        with open(os.path.join(ROOT, 'assets', 'me', f'i18n-{lang}.json'), encoding='utf-8') as f:
-            t = json.load(f)
-        assert set(t['gl']) == set(build_me.GUILD), lang
-
-
-def test_guild_page_built():
-    from langs import LANGS
-    for lang in LANGS:
-        p = os.path.join(ROOT, *(([] if lang == 'ru' else [lang]) + ['g', 'index.html']))
-        html = open(p, encoding='utf-8').read()
-        assert 'noindex' in html and 'id="gl-head"' in html, lang
-        assert re.search(r'assets/me/crest/charges\.svg\?v=\w{10}#c-', html), lang   # the sprite is versioned like me.js
-        assert not re.search(r'assets/me/crest/charges\.svg(?!\?v=)', html), lang
-    sm = open(os.path.join(ROOT, 'sitemap.xml'), encoding='utf-8').read()
-    assert '/g/' not in sm
-
-
-def test_crest_sprite():
-    sprite = open(os.path.join(ROOT, 'assets', 'me', 'crest', 'charges.svg'), encoding='utf-8').read()
-    ids = set(re.findall(r'<symbol id="c-([\w-]+)"', sprite))
-    assert ids == {c['id'] for c in G['guilds']['charges']}
-    assert 'fill=' not in sprite and len(sprite) < 120_000
-
-
-def test_crest_geometry():
-    """Every shape has a centre and an outline; the default charge place fits every shape and charge (the same check as crestFits)."""
-    Gd, L = G['guilds'], G['guilds']['limits']
-    assert set(Gd['geo']) == set(Gd['shapes'])
-    assert Gd['geo']['round']['c'] == [50, 50] and all(g['c'][1] < 50 for k, g in Gd['geo'].items() if k != 'round')
-
-    def inside(P, x, y):
-        r = False
-        for i in range(len(P)):
-            (x1, y1), (x2, y2) = P[i], P[i - 1]
-            if (y1 > y) != (y2 > y) and x < x1 + (y - y1) * (x2 - x1) / (y2 - y1):
-                r = not r
-        return r
-
-    def fits(s, ch, t):
-        g, u = Gd['geo'][s], L['charge_size'] * t[2] / 100 / 512
-        x, y = g['c'][0] + t[0], g['c'][1] + t[1]
-        w, h = ch['box'][0] * u / 2 + L['crest_pad'], ch['box'][1] * u / 2 + L['crest_pad']
-        x0, x1, y0, y1 = x - w, x + w, y - h, y + h
-        return all(inside(g['poly'], *p) for p in ((x0, y0), (x1, y0), (x0, y1), (x1, y1)))             and not any(x0 < px < x1 and y0 < py < y1 for px, py in g['poly'])
-    for s in Gd['shapes']:
-        for ch in Gd['charges']:
-            assert 0 < ch['box'][0] <= 512 and 0 < ch['box'][1] <= 512, ch
-            assert fits(s, ch, [0, 0, 100]) and fits(s, ch, [0, 0, L['scale_min']]), (s, ch['id'])
-            assert not fits(s, ch, [L['shift_max'], 0, 100]), (s, ch['id'])
-    sprite = open(os.path.join(ROOT, 'assets', 'me', 'crest', 'charges.svg'), encoding='utf-8').read()
-    assert len(re.findall(r'viewBox="-?[\d.]+ -?[\d.]+ 512 512"', sprite)) == len(Gd['charges'])   # each glyph centred in its box
 
 
 def test_looks_catalog():

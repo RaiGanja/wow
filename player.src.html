@@ -48,47 +48,23 @@ function draw() {
   }).join('');
   const cmpBar = cmp ? `<div class="frame vs" role="status"><span>${fill(esc('Вы: %a · %n: %b'), { a: `<b>${mine.size}</b>`, b: `<b>${got.size}</b>`, n: esc(name) })}</span>
     <span class="small">${esc(fill('Общих: %n', { n: [...got.keys()].filter(id => mine.has(id)).length }))}</span></div>` : '';
-  const admin = me && me.admin && !own ? `<div class="frame admin"><span>Админ:</span>${p.motto ? '<button type="button" class="btn ghost" id="hideMotto">Скрыть девиз</button>' : ''}
+  const admin = me && me.admin && !own ? `<div class="frame admin"><span>Админ:</span>
     ${p.characters.map(c => `<button type="button" class="btn ghost" data-verify="${c.id}" data-name="${esc(c.name)}" data-level="${c.level}">${esc(tg('verify_level'))}: ${esc(c.name)}</button>`).join('')}<span class="msg" id="admNote" role="status"></span></div>` : '';
-  const showc = (p.showcase || []).map(id => {
-    const r = (p.rarity || {})[id], cap = id.startsWith('badge:') || r === undefined ? '' : `<small>${esc(tg('rarity', { p: r < 1 ? '<1' : r }))}</small>`;
-    return `<li><img src="${esc(showIcon(id))}" alt="" width="56" height="56" loading="lazy"><b>${esc(showName(id))}</b>${cap}</li>`;
-  }).join('');
-  const ch = p.chronicle;
   $('#view').innerHTML = `${bcard(Object.assign({}, p, { since: p.since }), { h: 'h2' })}
-    <div class="frame g-pgl">${gloryBar({ level: p.glory, into: p.glory_into, need: p.glory_need, rested: 0 })}</div>
     <div class="bar-row"><button type="button" class="btn ghost" id="copy">${ico('copy')}Скопировать ссылку</button>
       ${me && !own ? `<button type="button" class="btn ghost" id="cmpBtn" aria-pressed="${compare}">${compare ? 'Скрыть сравнение' : 'Сравнить с собой'}</button>` : ''}
       ${me && !own ? `<button type="button" class="btn ghost" id="repBtn">${esc(tg('report'))}</button>` : ''}
       ${own ? `<a class="btn ghost" href="${HOME}profile/">Мой профиль</a>` : ''}<span class="msg" id="copyNote" role="status"></span></div>
     ${admin}
-    ${showc ? `<section class="sec" aria-labelledby="shH"><div class="sec-h"><h2 id="shH">${esc(tg('showcase'))}</h2></div><ul class="g-showc">${showc}</ul></section>` : ''}
     <section class="sec" aria-labelledby="chH"><div class="sec-h"><h2 id="chH">Персонажи</h2></div><div class="chars">${chars}</div></section>
     <section class="sec" aria-labelledby="acH"><div class="sec-h"><h2 id="acH">Достижения</h2><span class="small">${esc(fill('Очки: %n', { n: p.points }))}</span></div>
-      ${cmpBar}${cats || '<p class="small">Достижений пока нет.</p>'}</section>
-    ${ch ? `<section class="sec" aria-labelledby="chrH"><div class="sec-h"><h2 id="chrH">${esc(tg('chronicle'))}</h2></div>
-      ${ch.length ? `<ol class="g-chron" id="chron">${ch.map(x => chronicleItem(x)).join('')}</ol>` : `<p class="small">${esc(tg('chronicle_empty'))}</p>`}
-      ${p.chMore ? `<button type="button" class="btn ghost g-more" id="chMore">${esc(tg('chronicle_more'))}</button>` : ''}</section>` : ''}`;
-  if (own && ch === null && !p.chOwn) {   // hidden from others, but the owner sees it
-    p.chOwn = true;
-    M.api(`/u/${p.id}/chronicle`).then(r => { p.chronicle = r.items; p.chMore = !!r.more; draw(); }, () => {});
-  }
+      ${cmpBar}${cats || '<p class="small">Достижений пока нет.</p>'}</section>`;
   $('#copy').onclick = () => copyText(location.href).then(ok => {
     $('#copyNote').textContent = ok ? 'Ссылка скопирована' : location.href;
     if (ok && own) M.track('show_card');
   });
   const cb = $('#cmpBtn');
   if (cb) cb.onclick = () => { compare = !compare; draw(); };
-  const more = $('#chMore');
-  if (more) more.onclick = () => {
-    const last = p.chronicle[p.chronicle.length - 1];
-    more.disabled = true;
-    M.api(`/u/${p.id}/chronicle?before=${last.at}`).then(r => {
-      p.chronicle = p.chronicle.concat(r.items); p.chMore = !!r.more;
-      $('#chron').insertAdjacentHTML('beforeend', r.items.map(x => chronicleItem(x)).join(''));
-      if (p.chMore) more.disabled = false; else more.remove();
-    }, () => { more.disabled = false; });
-  };
   const rb = $('#repBtn');
   if (rb) rb.onclick = () => reportDialog(M, p.id, p.main.name);
   $$('[data-verify]').forEach(b => b.onclick = () => {
@@ -100,8 +76,6 @@ function draw() {
     M.api(`/admin/characters/${b.dataset.verify}/verify`, { body: { level: n } }).then(() => { load(); M.toast({ kind: 'note', id: 'verify_done' }); },
       e => { b.disabled = false; const nt = $('#admNote'); nt.classList.add('err'); nt.textContent = tg(e.code === 'bad_level' ? 'verify_bad' : 'err_report'); });
   });
-  const hm = $('#hideMotto');
-  if (hm) hm.onclick = () => M.api(`/admin/users/${p.id}/motto-hide`, { body: { hidden: true } }).then(() => { p.motto = null; draw(); }, () => { $('#admNote').textContent = 'Не получилось'; });
 }
 
 function load() {
@@ -110,7 +84,6 @@ function load() {
   $('#view').innerHTML = '<div class="skel" style="min-height:250px"></div>';
   M.api('/u/' + id).then(r => {
     p = r;
-    p.chMore = !!r.chronicle_more;
     document.title = `${r.main.name} — Gabella`;
     draw();
   }, e => (e.status === 404 ? notFound() : down()));

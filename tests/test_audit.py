@@ -81,7 +81,7 @@ def test_guide_heroes_own_scenes():
 
 def test_share_card_not_the_old_one():
     for lang in LANGS:
-        for sub in ('profile', 'roster', 'g', 'u'):
+        for sub in ('profile', 'roster', 'u'):
             html = page(*lang_dir(lang), sub)
             assert 'assets/og.png' not in html and f'assets/og-{lang}.jpg' in html, (lang, sub)
 

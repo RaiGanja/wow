@@ -383,8 +383,8 @@ def radio(html, lang, root):
     return html.replace('</head>', head, 1).replace('</body>', js, 1)
 
 
-TEASER = langs.derive({'ru': 'Профиль копит ваш путь: Слава, рамки, сезоны', 'en': 'Your profile keeps your path: Glory, frames, seasons',
-                       'uk': 'Профіль зберігає ваш шлях: Слава, рамки, сезони'})   # the line for signed-out readers; same words as GROWTH['teaser']
+TEASER = langs.derive({'ru': 'Профиль хранит ваших персонажей, достижения и рамки', 'en': 'Your profile keeps your characters, achievements and frames',
+                       'uk': 'Профіль зберігає ваших персонажів, досягнення й рамки'})   # the line for signed-out readers; same words as MORE['teaser']
 
 
 def me(html, lang, here):
@@ -405,10 +405,6 @@ def me_version():
     for f in sorted(os.listdir(d)):
         if f in ('me.js', 'me.css') or f.startswith('i18n-'):   # me.js passes the same version on to the texts
             h.update(open(os.path.join(d, f), 'rb').read())
-    for f in ('charges.svg', 'metal.webp'):   # crest sprite and texture: the page script draws them from the pages themselves
-        p = os.path.join(d, 'crest', f)
-        if os.path.exists(p):
-            h.update(open(p, 'rb').read())
     v = h.hexdigest()[:10]
     n = 0
     for root, dirs, files in os.walk(HERE):
@@ -417,7 +413,7 @@ def me_version():
             if f.endswith('.html') and not f.endswith('.src.html'):
                 p = os.path.join(root, f)
                 html = open(p, encoding='utf-8').read()
-                new = re.sub(r'(assets/me/(?:me\.(?:js|css)|crest/(?:charges\.svg|metal\.webp)))(?:\?v=\w+)?', rf'\1?v={v}', html)
+                new = re.sub(r'(assets/me/me\.(?:js|css))(?:\?v=\w+)?', rf'\1?v={v}', html)
                 if new != html:
                     open(p, 'w', encoding='utf-8', newline='\n').write(new)
                     n += 1

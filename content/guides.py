@@ -209,19 +209,13 @@ GUIDES.append({
                          'On this site and on Discord. Log in, add a character and turn on “Looking for group” in your profile: for 3 hours it shows in the “Looking for a group now” strip of the Roster. On the Gabella Team Discord server groups form for the 04.11 launch, and players agree on region, mode and faction.',
                          'На сайті та в Discord. Увійдіть, додайте персонажа й позначте в профілі «Шукаю групу»: на 3 години він з’явиться в смузі «Зараз шукають групу» у «Складі». На Discord-сервері Gabella Team збирають групи на старт 04.11 і домовляються про регіон, режим і фракцію.')],
                  'link': (t('Discord Gabella Team', 'Gabella Team Discord', 'Discord Gabella Team'), DISCORD)},
-                {'id': 'profile', 'q': t('Что такое Слава, ранг и сезон в профиле?', 'What are Glory, rank and season in the profile?', 'Що таке Слава, ранг і сезон у профілі?'),
-                 'a': [t('Это рост вашего профиля на сайте, к самой игре он не относится.',
-                         'This is how your profile grows on the site; it has nothing to do with the game itself.',
-                         'Це зростання вашого профілю на сайті, до самої гри воно не стосується.'),
-                       t('Слава (1–60) — опыт за то, что вы пользуетесь гидом: заходы, гайды, радио, сбор групп и задания недели. После перерыва опыт идёт вдвое быстрее, как отдых в таверне. Слава открывает девиз и цвет имени.',
-                         'Glory (1–60) is experience for using the guide: visits, guides, the radio, building groups and weekly tasks. After a break, experience comes twice as fast, like rest in a tavern. Glory unlocks a motto and name colors.',
-                         'Слава (1–60) — досвід за те, що ви користуєтеся гідом: заходи, гайди, радіо, збір груп і завдання тижня. Після перерви досвід іде вдвічі швидше, як відпочинок у таверні. Слава відкриває девіз і колір імені.'),
-                       t('Ранг растёт от очков достижений и открывает рамки портрета.',
-                         'Rank grows from achievement points and unlocks portrait frames.',
-                         'Ранг росте від очок досягнень і відкриває рамки портрета.'),
-                       t('Сезон 1 начинается 04.11: опыт и задания недели дают звёзды, звёзды открывают ступени с наградами. Всё полученное остаётся навсегда.',
-                         'Season 1 starts on 04.11: experience and weekly tasks give stars, and stars unlock steps with rewards. Everything you earn stays forever.',
-                         'Сезон 1 починається 04.11: досвід і завдання тижня дають зірки, зірки відкривають щаблі з нагородами. Усе отримане залишається назавжди.')]},
+                {'id': 'profile', 'q': t('Что такое ранг и рамки в профиле?', 'What are rank and frames in the profile?', 'Що таке ранг і рамки в профілі?'),
+                 'a': [t('Это ваш профиль на сайте, к самой игре он не относится.',
+                         'This is your profile on the site; it has nothing to do with the game itself.',
+                         'Це ваш профіль на сайті, до самої гри він не стосується.'),
+                       t('Ранг растёт от очков достижений и открывает рамки портрета. Особые рамки дают особые достижения.',
+                         'Rank grows from achievement points and unlocks portrait frames. Special frames come from special achievements.',
+                         'Ранг росте від очок досягнень і відкриває рамки портрета. Особливі рамки дають особливі досягнення.')]},
                 {'id': 'raids', 'q': t('Когда откроются рейды?', 'When do raids open?', 'Коли відкриються рейди?'),
                  'a': [t('09.12: Barrow Deeps (10 игроков), Hyjal Summit (20), Onyxia’s Lair (40). До этого есть пять недель на прокачку и подземелья.',
                          '09.12: Barrow Deeps (10 players), Hyjal Summit (20), Onyxia’s Lair (40). Until then you have five weeks for leveling and dungeons.',
@@ -898,7 +892,6 @@ HUBS = [
 # ---------- Служебные страницы: /privacy/ и 404.html. Не гайды: в список гайдов и плитки не попадают ----------
 # Политика описывает то, что сайт делает на самом деле. Появится реклама, форма или новый сторонний скрипт — сначала поправить её.
 
-from guilds import authors as _crest_authors  # noqa: E402
 from build import CONTACT  # noqa: E402  (адрес один на весь сайт, подвал берёт его оттуда же)
 _mail = f'<a href="mailto:{CONTACT}">{CONTACT}</a>'
 _cf = 'https://www.cloudflare.com/privacypolicy/'
@@ -911,8 +904,6 @@ _waylinks = ' · '.join(f'<a href="{u}" target="_blank" rel="noopener">{n}</a>' 
 _lic = ', '.join(f'<a href="{u}" target="_blank" rel="noopener">Creative Commons {n}</a>' for n, u in (
     ('BY 4.0', 'https://creativecommons.org/licenses/by/4.0/'), ('BY 3.0', 'https://creativecommons.org/licenses/by/3.0/'),
     ('CC0', 'https://creativecommons.org/publicdomain/zero/1.0/')))
-_icons = ', '.join(_crest_authors())
-_by3 = '<a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">Creative Commons BY 3.0</a>'
 _gh = 'https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement'
 
 PAGES = [
@@ -949,18 +940,15 @@ PAGES = [
              ('text', [t('Аккаунт один, а входов может быть несколько: привязать и отвязать их можно в кабинете, раздел «Аккаунт». Сами по себе входы не склеиваются: вход новым способом без привязки создаёт новый аккаунт.',
                          'One account can have several ways to sign in: link and unlink them in your profile, under Account. Ways are never merged on their own: signing in a new way without linking it creates a new account.',
                          'Акаунт один, а входів може бути кілька: прив’язати й відв’язати їх можна в кабінеті, розділ «Акаунт». Самі входи не склеюються: вхід новим способом без прив’язки створює новий акаунт.'),
-                       t('Ещё храним то, что вы указали сами: персонажей (имя, раса, класс, роль, уровень, профессии, время игры, облик: пол и фон портрета), внешний вид профиля, девиз, отметку «Ищу группу» и того, кто вас пригласил, если вы пришли по его ссылке.',
-                         'We also keep what you entered yourself: your characters (name, race, class, role, level, professions, play time, look: gender and portrait background), the look of your profile, your motto, the Looking for group mark and who invited you, if you came by their link.',
-                         'Також зберігаємо те, що ви вказали самі: персонажів (ім’я, раса, клас, роль, рівень, професії, час гри, вигляд: стать і тло портрета), вигляд профілю, девіз, позначку «Шукаю групу» і того, хто вас запросив, якщо ви прийшли за його посиланням.'),
+                       t('Ещё храним то, что вы указали сами: персонажей (имя, раса, класс, роль, уровень, профессии, время игры, облик: пол и фон портрета), рамку профиля, отметку «Ищу группу» и того, кто вас пригласил, если вы пришли по его ссылке.',
+                         'We also keep what you entered yourself: your characters (name, race, class, role, level, professions, play time, look: gender and portrait background), your profile frame, the Looking for group mark and who invited you, if you came by their link.',
+                         'Також зберігаємо те, що ви вказали самі: персонажів (ім’я, раса, клас, роль, рівень, професії, час гри, вигляд: стать і тло портрета), рамку профілю, позначку «Шукаю групу» і того, хто вас запросив, якщо ви прийшли за його посиланням.'),
                        t('Для достижений сайт ведёт счётчики: какие разделы гида вы открывали, сколько слушали радио, в какие дни заходили. Счётчики идут только после входа.',
                          'For achievements the site keeps counters: which guide sections you opened, how long you listened to the radio, which days you visited. Counters run only after you sign in.',
                          'Для досягнень сайт веде лічильники: які розділи гіда ви відкривали, скільки слухали радіо, в які дні заходили. Лічильники працюють лише після входу.'),
-                       t('Опыт Славы и задания недели — тоже счётчики по дням: сколько опыта и откуда вы получили за день и как идут три задания недели. Они удаляются вместе с профилем.',
-                         'Experience and weekly tasks are counters by day too: how much experience you earned and from what, and how the three weekly tasks are going. They are deleted with your profile.',
-                         'Досвід Слави і завдання тижня — теж лічильники за днями: скільки досвіду й звідки ви отримали за день і як ідуть три завдання тижня. Вони видаляються разом із профілем.'),
-                       t('В «Составе» и на вашей странице всем видны персонажи, достижения, рамка, девиз и ник, если вы не выключили его показ.',
-                         'In the Roster and on your page everyone can see your characters, achievements, frame, motto and nickname, unless you turned it off.',
-                         'У «Складі» і на вашій сторінці всім видно персонажів, досягнення, рамку, девіз і нік, якщо ви не вимкнули його показ.'),
+                       t('В «Составе» и на вашей странице всем видны персонажи, достижения, рамка и ник, если вы не выключили его показ.',
+                         'In the Roster and on your page everyone can see your characters, achievements, frame and nickname, unless you turned it off.',
+                         'У «Складі» і на вашій сторінці всім видно персонажів, досягнення, рамку й нік, якщо ви не вимкнули його показ.'),
                        t('После входа сайт ставит одну cookie — ключ сессии на 30 дней. Она нужна только для входа; в базе лежит не сам ключ, а его хэш. Выход удаляет сессию.',
                          'After you sign in, the site sets one cookie: a session key for 30 days. It is used only to keep you signed in; the database stores a hash of the key, not the key itself. Signing out deletes the session.',
                          'Після входу сайт ставить одну cookie — ключ сесії на 30 днів. Вона потрібна лише для входу; у базі лежить не сам ключ, а його хеш. Вихід видаляє сесію.'),
@@ -977,15 +965,12 @@ PAGES = [
              ('text', [t('Профили хранятся в Cloudflare (Workers и база D1): Cloudflare обрабатывает их по нашему поручению. Письма входа отправляет Resend (серверы в Ирландии) — тоже по нашему поручению. Храним, пока вы не удалите профиль. Не продаём и не передаём, кроме уведомления о жалобе в закрытый канал команды в Discord (см. ниже).',
                          'Profiles are stored with Cloudflare (Workers and the D1 database), which processes them on our behalf. Sign-in emails are sent by Resend (servers in Ireland), also on our behalf. We keep profiles until you delete them. We do not sell or share them, except a report notice sent to the team’s private Discord channel (see below).',
                          'Профілі зберігаються в Cloudflare (Workers і база D1): Cloudflare обробляє їх за нашим дорученням. Листи входу надсилає Resend (сервери в Ірландії) — теж за нашим дорученням. Зберігаємо, доки ви не видалите профіль. Не продаємо й не передаємо, окрім сповіщення про скаргу в закритий канал команди в Discord (див. нижче).'),
-                       t('Администратор может скрыть персонажа или девиз, нарушающие правила, и закрыть вход аккаунту за спам или оскорбления.',
-                         'An administrator can hide a character or motto that breaks the rules and close sign-in for an account that spams or insults people.',
-                         'Адміністратор може приховати персонажа або девіз, що порушують правила, і закрити вхід акаунту за спам чи образи.'),
+                       t('Администратор может скрыть персонажа, нарушающего правила, и закрыть вход аккаунту за спам или оскорбления.',
+                         'An administrator can hide a character that breaks the rules and close sign-in for an account that spams or insults people.',
+                         'Адміністратор може приховати персонажа, що порушує правила, і закрити вхід акаунту за спам чи образи.'),
                        t('Если вы пожаловались на игрока, мы храним, кто пожаловался, на кого, на что и причину. Запись остаётся со статусом решения и удаляется вместе с профилем любой из сторон. В закрытый канал команды в Discord уходит уведомление: что не так, причина и ссылка на игрока, без имени автора жалобы. Игрок не видит, кто пожаловался.',
                          'If you report a player, we keep who reported, whom, what about and the reason. The record stays with the decision status and is deleted together with the profile of either side. A notice goes to the team’s private Discord channel: what is wrong, the reason and a link to the player, without the reporter’s name. The player does not see who reported.',
-                         'Якщо ви поскаржилися на гравця, ми зберігаємо, хто поскаржився, на кого, на що й причину. Запис лишається зі статусом рішення й видаляється разом із профілем будь-якої зі сторін. У закритий канал команди в Discord надходить сповіщення: що не так, причина й посилання на гравця, без імені автора скарги. Гравець не бачить, хто поскаржився.')]),
-             ('text', [t('Гильдии. Название, герб, девиз гильдии, её состав (видимые персонажи и роли) и хроника гильдии видны всем. Заявку в гильдию видят её глава и офицеры. Выход из гильдии и удаление персонажа убирают его из состава; в хронике он остаётся как «Бывший участник» без имени.',
-                         'Guilds. A guild’s name, crest, motto, roster (visible characters and roles) and chronicle are public. A join request is seen by the guild leader and officers. Leaving a guild or deleting a character removes it from the roster; in the chronicle it stays as “Former member” without a name.',
-                         'Гільдії. Назву, герб, девіз гільдії, її склад (видимі персонажі та ролі) і хроніку гільдії бачать усі. Заявку до гільдії бачать її очільник і офіцери. Вихід із гільдії та видалення персонажа прибирають його зі складу; у хроніці він лишається як «Колишній учасник» без імені.')])]},
+                         'Якщо ви поскаржилися на гравця, ми зберігаємо, хто поскаржився, на кого, на що й причину. Запис лишається зі статусом рішення й видаляється разом із профілем будь-якої зі сторін. У закритий канал команди в Discord надходить сповіщення: що не так, причина й посилання на гравця, без імені автора скарги. Гравець не бачить, хто поскаржився.')])]},
          {'id': 'delete', 'title': t('Скачать и удалить', 'Download and delete', 'Завантажити й видалити'), 'blocks': [
              ('text', [t('В кабинете «Мой профиль», раздел «Аккаунт», можно скачать всё, что мы о вас храним, одним файлом и удалить профиль. Вместе с ним сразу удаляются персонажи, достижения, счётчики, записи в ленте и сессии. Восстановить профиль нельзя.',
                          'In My profile, under Account, you can download everything we keep about you as one file and delete your profile. Your characters, achievements, counters, feed entries and sessions are deleted with it at once. A deleted profile cannot be restored.',
@@ -1020,10 +1005,7 @@ PAGES = [
                          'Шрифти й зображення завантажуються з нашого ж сайту, без сторонніх сервісів. Музика радіо лежить у сховищі Cloudflare R2 і завантажується з нашої адреси media.gabella.site, лише коли ви ввімкнули радіо; як і під час відкриття сторінок, Cloudflare отримує IP-адресу вашого пристрою. Звуки багаття, дощу й вітру створює сам браузер. Посилання на джерела ведуть на інші сайти, у них свої правила конфіденційності.')]),
              ('raw', t(f'<p>Музыка радио: Kevin MacLeod (incompetech.com) и другие авторы с opengameart.org, лицензии {_lic}. Звук перекодирован и выровнен по громкости. Автор и лицензия каждого трека — в панели радио.</p>',
                        f'<p>Radio music: Kevin MacLeod (incompetech.com) and other authors from opengameart.org, licensed under {_lic}. The audio is re-encoded and levelled in loudness. The author and license of every track are in the radio panel.</p>',
-                       f'<p>Музика радіо: Kevin MacLeod (incompetech.com) та інші автори з opengameart.org, ліцензії {_lic}. Звук перекодовано й вирівняно за гучністю. Автор і ліцензія кожного треку — у панелі радіо.</p>')),
-             ('raw', t(f'<p>Знаки гербов — <a href="https://game-icons.net" target="_blank" rel="noopener">game-icons.net</a> ({_by3}): {_icons}.</p>',
-                       f'<p>Crest charges: <a href="https://game-icons.net" target="_blank" rel="noopener">game-icons.net</a> ({_by3}): {_icons}.</p>',
-                       f'<p>Знаки гербів — <a href="https://game-icons.net" target="_blank" rel="noopener">game-icons.net</a> ({_by3}): {_icons}.</p>'))]},
+                       f'<p>Музика радіо: Kevin MacLeod (incompetech.com) та інші автори з opengameart.org, ліцензії {_lic}. Звук перекодовано й вирівняно за гучністю. Автор і ліцензія кожного треку — у панелі радіо.</p>'))]},
          {'id': 'contact', 'title': t('Связь', 'Contact', 'Зв’язок'), 'blocks': [
              ('text', [t('С вопросами о данных, ошибками в гайде и претензиями правообладателей пишите на почту ниже. Если не можете войти, профиль удалим по письму: укажите имя основного персонажа и способ входа.',
                          'For questions about data, mistakes in the guide or copyright concerns, write to the address below. If you cannot sign in, we will delete your profile on request: include your main character’s name and how you signed in.',
@@ -1055,9 +1037,9 @@ NOT_FOUND = {
 PLAY = {
     'slug': 'play', 'path': 'play/', 'og': 'guides', 'art': 'hero_campfire', 'compact': True, 'more': False, 'js': 'play',
     'title': t('В игре', 'In game', 'У грі'),
-    'lead': t('Второй экран на время игры: радио, зоны и подземелья под ваш уровень, таймеры. После входа — персонажи из профиля, Слава и задания недели.',
-              'A second screen while you play: radio, zones and dungeons for your level, timers. After you log in: characters from your profile, Glory and weekly tasks.',
-              'Другий екран під час гри: радіо, зони й підземелля під ваш рівень, таймери. Після входу — персонажі з профілю, Слава й завдання тижня.'),
+    'lead': t('Второй экран на время игры: радио, зоны и подземелья под ваш уровень, таймеры. После входа — персонажи из профиля.',
+              'A second screen while you play: radio, zones and dungeons for your level, timers. After you log in: characters from your profile.',
+              'Другий екран під час гри: радіо, зони й підземелля під ваш рівень, таймери. Після входу — персонажі з профілю.'),
     'sections': [],
 }
 # Рубежи по уровню — только факты из гайдов (ездовое — секция pace «Прокачки», Хиджал — маршрут, рейды — «Подземелья и рейды»)
@@ -1108,10 +1090,9 @@ PLAY_TX = {
                   'Натисніть заготовку або задайте свій час. Таймери йдуть і після перезавантаження сторінки.'),
     'notify': t('Уведомление, когда вкладка в фоне', 'Notify when the tab is in the background', 'Сповіщення, коли вкладка у фоні'),
     'wake': t('Экран не гаснет', 'Keep screen on', 'Екран не гасне'),
-    'way': t('Ваш путь', 'Your path', 'Ваш шлях'),
-    'guest': t('Войдите — радио и задания недели будут копить Славу.',
-               'Log in: the radio and weekly tasks will earn Glory.',
-               'Увійдіть — радіо й завдання тижня накопичуватимуть Славу.'),
+    'guest': t('Войдите — уровень и персонажи сохранятся в профиле.',
+               'Log in to keep your level and characters in your profile.',
+               'Увійдіть — рівень і персонажі збережуться в профілі.'),
     'login': t('Войти', 'Log in', 'Увійти'),
     'profile': t('Профиль', 'Profile', 'Профіль'),
     'chars': t('Персонажи', 'Characters', 'Персонажі'),

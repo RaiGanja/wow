@@ -974,21 +974,9 @@ nav.gtiles { padding: 14px; }
 .gplay b { color: var(--gold-2); }
 .gplay .btn { margin-left: auto; }
 .gbody.play { padding-top: 14px; }
-/* «Your path»: Glory and the week's tasks of the signed-in visitor, one line for a guest */
+/* one line for a guest: sign in to keep the level and characters */
 .pway { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; margin-top: 16px; padding: 14px 20px; }
 .pway[hidden] { display: none; }
-.pway .pnk { font-weight: 600; }
-.pgl { display: grid; gap: 6px; flex: 1 1 200px; max-width: 300px; }
-.pgl .gh { display: flex; justify-content: space-between; gap: 12px; font-size: .88rem; }
-.pgl .gh b { color: var(--gold-2); }
-.pgl .gh span, .pwk small { color: var(--muted); font-variant-numeric: tabular-nums; }
-.pbar { height: 6px; border-radius: 3px; background: var(--panel-2); border: 1px solid var(--pline); overflow: hidden; }
-.pbar i { display: block; height: 100%; background: #c9a54a; }
-.pwk { display: flex; flex-wrap: wrap; gap: 8px 24px; list-style: none; margin: 0; padding: 0; flex: 2 1 320px; font-size: .88rem; }
-.pwk li { display: grid; gap: 2px; }
-.pwk li.ok small { color: var(--gold-2); }
-.pway > a:last-child { margin-left: auto; font-size: .9rem; }
-.pway > a:last-child:not(.btn) { color: var(--gold-2); }   /* the profile link; the guest sign-in button keeps its dark text */
 .pway .pnote { flex: 1 1 260px; }
 .pway .btn { margin-left: auto; }
 .pchars { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -1048,7 +1036,7 @@ nav.gtiles { padding: 14px; }
 .pnotify { display: flex; align-items: center; gap: 8px; font-size: .9rem; color: var(--muted); cursor: pointer; }
 .pnotify[hidden] { display: none; }
 .pnotify input { width: 18px; height: 18px; accent-color: #c9a54a; }
-@media (max-width: 719px) { .phead { padding-top: calc(var(--top) + 14px); } .pway { padding: 12px 14px; gap: 10px 20px; } .pway > a:last-child, .pway .btn { margin-left: 0; } .psec { padding: 14px; } .pform { grid-template-columns: minmax(0, 1fr) 104px; } .pform .pill { grid-column: 1 / -1; justify-content: center; } }
+@media (max-width: 719px) { .phead { padding-top: calc(var(--top) + 14px); } .pway { padding: 12px 14px; gap: 10px 20px; } .pway .btn { margin-left: 0; } .psec { padding: 14px; } .pform { grid-template-columns: minmax(0, 1fr) 104px; } .pform .pill { grid-column: 1 / -1; justify-content: center; } }
 #more { margin-top: 56px; }
 #more .sec-head { margin-bottom: 14px; }
 @media (max-width: 1023px) {
@@ -1085,8 +1073,8 @@ nav.gtiles { padding: 14px; }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=de8bc15d93" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=c30b9c1a1c" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=b52e2ac809" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=378dd2c208" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Головна","item":"https://gabella.site/wow/uk/"},{"@type":"ListItem","position":2,"name":"У грі","item":"https://gabella.site/wow/uk/play/"}]}</script>
 </head>
 <body class="compact">
@@ -1126,7 +1114,7 @@ nav.gtiles { padding: 14px; }
   </div>
 </div></header>
 
-<section class="phead" id="top"><div class="wrap"><div class="ptitle"><h1>У грі</h1><p class="glead">Другий екран під час гри: радіо, зони й підземелля під ваш рівень, таймери. Після входу — персонажі з профілю, Слава й завдання тижня.</p></div><div class="pacts"><button class="pill pwake" id="wakeBtn" type="button" aria-pressed="false" hidden><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg>Екран не гасне</button></div></div></section><div class="wrap"><section class="frame pway" id="pWay" aria-label="Ваш шлях" hidden></section></div>
+<section class="phead" id="top"><div class="wrap"><div class="ptitle"><h1>У грі</h1><p class="glead">Другий екран під час гри: радіо, зони й підземелля під ваш рівень, таймери. Після входу — персонажі з профілю.</p></div><div class="pacts"><button class="pill pwake" id="wakeBtn" type="button" aria-pressed="false" hidden><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg>Екран не гасне</button></div></div></section><div class="wrap"><section class="frame pway" id="pWay" aria-label="Профіль" hidden></section></div>
 
 <main class="wrap gbody play solo">
   <nav class="gtoc frame" aria-label="Розділи гайду"></nav>
@@ -1259,7 +1247,7 @@ const DUNGEONS = [
   ['Dire Maul: West', 60, 60, 'Feralas', 0, [['Icy Veins', '56–60']]],
   ['Dire Maul: North', 60, 60, 'Feralas', 0, [['Icy Veins', '56–60']]]
 ];
-const P = {"route": {"alliance": [[1, 10, "Human: Elwynn Forest. Dwarf і Gnome: Dun Morogh. Night Elf: Teldrassil (до 11). High Order Skyborne: Zephras Isle (до 12)."], [10, 18, "Westfall або Loch Modan, нічні ельфи зазвичай у Darkshore. З 15 підходять Redridge Mountains."], [18, 30, "Duskwood, Redridge Mountains і Wetlands, у Kalimdor Stonetalon Mountains і Ashenvale."], [30, 45, "Desolace або Arathi Highlands, Stranglethorn Vale. З 35: нова зона Riverglades між Redridge і Burning Steppes, Dustwallow Marsh, Badlands, Swamp of Sorrows."], [40, 55, "Tanaris, Feralas, The Hinterlands, далі Searing Gorge, Blasted Lands, Azshara, з 48 Un’Goro Crater і Felwood."], [50, 60, "Burning Steppes, Western і Eastern Plaguelands, Winterspring, Silithus. На 60 відкритий Mount Hyjal."]], "horde": [[1, 10, "Orc і Troll: Durotar. Tauren: Mulgore. Undead: Tirisfal Glades. Windshaper Skyborne: Zephras Isle (до 12)."], [10, 18, "The Barrens або Silverpine Forest."], [18, 30, "Stonetalon Mountains і The Barrens, далі Ashenvale або Hillsbrad Foothills, з 25 Thousand Needles."], [30, 45, "Desolace або Arathi Highlands, Stranglethorn Vale. З 35: нова зона Riverglades, Dustwallow Marsh, Badlands, Swamp of Sorrows."], [40, 55, "Tanaris, Feralas, The Hinterlands, далі Searing Gorge, Blasted Lands, Azshara, з 48 Un’Goro Crater і Felwood."], [50, 60, "Burning Steppes, Western і Eastern Plaguelands, Winterspring, Silithus. На 60 відкритий Mount Hyjal."]]}, "miles": [[40, "Їздова тварина: навчання 100 золотих і скакун 20 (+60% швидкості)."], [60, "Швидка їздова: 1000 і 200 золотих (+100%). Відкритий Mount Hyjal, рейди — з 09.12.2026."]], "tx": {"radio": "Радіо", "lvl": "Рівень", "lvDown": "Рівень нижче", "lvUp": "Рівень вище", "noHero": "Персонажа не вибрано", "edit": "Налаштувати персонажа", "fac": "Фракція", "alliance": "Альянс", "horde": "Орда", "needLvl": "Вкажіть рівень кнопкою «+» — підкажемо зони й підземелля.", "now": "Зараз", "next": "Далі", "from": "з", "at": "на", "route": "Весь маршрут", "dung": "Підземелля під", "dungNone": "Під цей рівень підземель немає.", "all": "Усі підземелля", "new": "нове", "timers": "Таймери", "food": "Їжа", "foodNote": "+5% досвіду за ворогів", "min": "хв", "custom": "Своє", "name": "Назва", "minutes": "Хвилин", "start": "Старт", "timer": "Таймер", "done": "Час вийшов", "again": "Ще раз", "remove": "Прибрати", "noTimers": "Натисніть заготовку або задайте свій час. Таймери йдуть і після перезавантаження сторінки.", "notify": "Сповіщення, коли вкладка у фоні", "wake": "Екран не гасне", "way": "Ваш шлях", "guest": "Увійдіть — радіо й завдання тижня накопичуватимуть Славу.", "login": "Увійти", "profile": "Профіль", "chars": "Персонажі", "addChar": "Додати персонажа"}, "racef": {"human": "alliance", "dwarf": "alliance", "nightelf": "alliance", "gnome": "alliance", "skyA": "alliance", "orc": "horde", "undead": "horde", "tauren": "horde", "troll": "horde", "skyH": "horde"}, "rn": {"human": "Людина", "dwarf": "Дворф", "nightelf": "Нічний ельф", "gnome": "Гном", "skyA": "Високий скайборн", "orc": "Орк", "undead": "Нежить", "tauren": "Таурен", "troll": "Троль", "skyH": "Скайборн-вітрорізь"}, "cn": {"warrior": "Воїн", "paladin": "Паладин", "hunter": "Мисливець", "rogue": "Розбійник", "priest": "Жрець", "shaman": "Шаман", "mage": "Маг", "warlock": "Чорнокнижник", "druid": "Друїд"}, "wk": {"st_morning": ["st", "Ранок у долині"], "st_road": ["st", "Дорога"], "st_forest": ["st", "Прадавній ліс"], "st_steppe": ["st", "Степи й барабани"], "st_tavern": ["st", "Таверна"], "st_dungeon": ["st", "Підземелля"], "st_battle": ["st", "Битва"], "st_night": ["st", "Нічний привал"], "g_leveling": ["g", "Прокачування 1–60"], "g_dungeons": ["g", "Підземелля та рейди"], "g_professions": ["g", "Професії"], "g_faq": ["g", "FAQ і дати"], "g_news": ["g", "Новини"], "c_warrior": ["c", "Воїн"], "c_paladin": ["c", "Паладин"], "c_hunter": ["c", "Мисливець"], "c_rogue": ["c", "Розбійник"], "c_priest": ["c", "Жрець"], "c_shaman": ["c", "Шаман"], "c_mage": ["c", "Маг"], "c_warlock": ["c", "Чорнокнижник"], "c_druid": ["c", "Друїд"]}};
+const P = {"route": {"alliance": [[1, 10, "Human: Elwynn Forest. Dwarf і Gnome: Dun Morogh. Night Elf: Teldrassil (до 11). High Order Skyborne: Zephras Isle (до 12)."], [10, 18, "Westfall або Loch Modan, нічні ельфи зазвичай у Darkshore. З 15 підходять Redridge Mountains."], [18, 30, "Duskwood, Redridge Mountains і Wetlands, у Kalimdor Stonetalon Mountains і Ashenvale."], [30, 45, "Desolace або Arathi Highlands, Stranglethorn Vale. З 35: нова зона Riverglades між Redridge і Burning Steppes, Dustwallow Marsh, Badlands, Swamp of Sorrows."], [40, 55, "Tanaris, Feralas, The Hinterlands, далі Searing Gorge, Blasted Lands, Azshara, з 48 Un’Goro Crater і Felwood."], [50, 60, "Burning Steppes, Western і Eastern Plaguelands, Winterspring, Silithus. На 60 відкритий Mount Hyjal."]], "horde": [[1, 10, "Orc і Troll: Durotar. Tauren: Mulgore. Undead: Tirisfal Glades. Windshaper Skyborne: Zephras Isle (до 12)."], [10, 18, "The Barrens або Silverpine Forest."], [18, 30, "Stonetalon Mountains і The Barrens, далі Ashenvale або Hillsbrad Foothills, з 25 Thousand Needles."], [30, 45, "Desolace або Arathi Highlands, Stranglethorn Vale. З 35: нова зона Riverglades, Dustwallow Marsh, Badlands, Swamp of Sorrows."], [40, 55, "Tanaris, Feralas, The Hinterlands, далі Searing Gorge, Blasted Lands, Azshara, з 48 Un’Goro Crater і Felwood."], [50, 60, "Burning Steppes, Western і Eastern Plaguelands, Winterspring, Silithus. На 60 відкритий Mount Hyjal."]]}, "miles": [[40, "Їздова тварина: навчання 100 золотих і скакун 20 (+60% швидкості)."], [60, "Швидка їздова: 1000 і 200 золотих (+100%). Відкритий Mount Hyjal, рейди — з 09.12.2026."]], "tx": {"radio": "Радіо", "lvl": "Рівень", "lvDown": "Рівень нижче", "lvUp": "Рівень вище", "noHero": "Персонажа не вибрано", "edit": "Налаштувати персонажа", "fac": "Фракція", "alliance": "Альянс", "horde": "Орда", "needLvl": "Вкажіть рівень кнопкою «+» — підкажемо зони й підземелля.", "now": "Зараз", "next": "Далі", "from": "з", "at": "на", "route": "Весь маршрут", "dung": "Підземелля під", "dungNone": "Під цей рівень підземель немає.", "all": "Усі підземелля", "new": "нове", "timers": "Таймери", "food": "Їжа", "foodNote": "+5% досвіду за ворогів", "min": "хв", "custom": "Своє", "name": "Назва", "minutes": "Хвилин", "start": "Старт", "timer": "Таймер", "done": "Час вийшов", "again": "Ще раз", "remove": "Прибрати", "noTimers": "Натисніть заготовку або задайте свій час. Таймери йдуть і після перезавантаження сторінки.", "notify": "Сповіщення, коли вкладка у фоні", "wake": "Екран не гасне", "guest": "Увійдіть — рівень і персонажі збережуться в профілі.", "login": "Увійти", "profile": "Профіль", "chars": "Персонажі", "addChar": "Додати персонажа"}, "racef": {"human": "alliance", "dwarf": "alliance", "nightelf": "alliance", "gnome": "alliance", "skyA": "alliance", "orc": "horde", "undead": "horde", "tauren": "horde", "troll": "horde", "skyH": "horde"}, "rn": {"human": "Людина", "dwarf": "Дворф", "nightelf": "Нічний ельф", "gnome": "Гном", "skyA": "Високий скайборн", "orc": "Орк", "undead": "Нежить", "tauren": "Таурен", "troll": "Троль", "skyH": "Скайборн-вітрорізь"}, "cn": {"warrior": "Воїн", "paladin": "Паладин", "hunter": "Мисливець", "rogue": "Розбійник", "priest": "Жрець", "shaman": "Шаман", "mage": "Маг", "warlock": "Чорнокнижник", "druid": "Друїд"}};
 
 /* In game: level -> zones and the next milestones (data from the Leveling guide), dungeons near the level, timers,
    screen wake lock, the mini window. Level, race and class are the shared hero "gabella-wf-me" of the home page (the level is
@@ -1344,30 +1332,11 @@ addEventListener('keydown', e => {   // + / − on the keyboard: level up or dow
 addEventListener('storage', e => { if (e.key === MEKEY) renderLvl(); });
 renderLvl();
 
-/* «Your path»: Glory and the week's tasks, fresh after every radio pulse (me.js answers with the new profile). A guest gets
-   one line with the login. Names of the tasks come from the profile texts, a station, guide or class from P.wk */
+/* A guest gets one line with the login; a signed-in player has the characters in the level block already */
 function renderWay() {
   const w = $('#pWay');
-  if (!meNow) {
-    w.innerHTML = `<p class="pnote">${esc(TX.guest)}</p><a class="btn" href="${ROOT}profile/">${esc(TX.login)}</a>`;
-    w.hidden = false;
-    return;
-  }
-  GM().texts().then(T => {
-    const g = T.g || {}, gl = meNow.glory || {}, nf = new Intl.NumberFormat(document.documentElement.lang);
-    const fill = (k, o) => Object.keys(o).reduce((s, x) => s.split('{' + x + '}').join(o[x]), g[k] || k);
-    const need = gl.need || 0, into = Math.max(0, Math.min(gl.into || 0, need)), pct = need ? Math.round(100 * into / need) : 100;
-    const glory = `<div class="pgl"><div class="gh"><b>${esc(fill('glory_n', { n: gl.level || 1 }))}</b>${need ? `<span>${nf.format(into)} / ${nf.format(need)}</span>` : ''}</div>`
-      + `<div class="pbar" role="progressbar" aria-label="${esc(g.glory || '')}" aria-valuemin="0" aria-valuemax="${need || 1}" aria-valuenow="${need ? into : 1}"><i style="width:${pct}%"></i></div></div>`;
-    const tasks = ((meNow.week && meNow.week.tasks) || []).map(t => {
-      const it = P.wk[t.id], name = g['task_' + t.id] || (it ? fill('task_' + it[0], { x: it[1] }) : t.id);
-      return `<li${t.done ? ' class="ok"' : ''}><span>${esc(name)}</span><small>${t.done ? esc(g.task_done || '✓') : `${t.value} / ${t.goal}`}</small></li>`;
-    }).join('');
-    const nick = meNow.user.nick || (curChar() || {}).name || '';
-    w.innerHTML = (nick ? `<span class="pnk">${esc(nick)}</span>` : '') + glory + (tasks ? `<ul class="pwk" aria-label="${esc(g.week || '')}">${tasks}</ul>` : '')
-      + `<a href="${ROOT}profile/">${esc(TX.profile)}</a>`;
-    w.hidden = false;
-  });
+  w.hidden = !!meNow;
+  if (!meNow) w.innerHTML = `<p class="pnote">${esc(TX.guest)}</p><a class="btn" href="${ROOT}profile/">${esc(TX.login)}</a>`;
 }
 function gotMe(m) {
   if (!m && GM().logged()) return;   // signed in on this device: wait for the profile, no guest line in between
@@ -1554,8 +1523,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=de8bc15d93" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=c30b9c1a1c" data-root="../../" data-home="../" data-lang="uk" data-teaser="Профіль зберігає ваш шлях: Слава, рамки, сезони" data-close="Закрити" data-page="play/" data-look="2" defer></script>
+<script src="../../assets/search/search.js?v=b52e2ac809" data-root="../../" defer></script>
+<script src="../../assets/me/me.js?v=378dd2c208" data-root="../../" data-home="../" data-lang="uk" data-teaser="Профіль зберігає ваших персонажів, досягнення й рамки" data-close="Закрити" data-page="play/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>
