@@ -40,7 +40,7 @@ TOOLS = {'t': langs.derive({'ru': 'Инструменты', 'en': 'Tools', 'uk':
                'pl': 'Ramki drużyny, siatka raidu, porównanie klas i ras, wyszukiwarka'}}
 langs.fill([HUB, GUIDES, HUBS])
 FOCUS = {'hero_dawn': '70%', 'hero_campfire': '88%'}   # horizontal crop of a landscape scene; the default is the right edge
-SKIP = {'leveling'}      # waits for its new scene; named on the command line it is rendered anyway
+SKIP = set()            # a card that waits for its new scene; named on the command line it is rendered anyway
 
 
 def cards():

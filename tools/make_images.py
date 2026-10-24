@@ -12,7 +12,8 @@ OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 
 CLASSES = ['warrior', 'paladin', 'hunter', 'rogue', 'priest', 'shaman', 'mage', 'warlock', 'druid']
 RACES = {'human': 'human', 'dwarf': 'dwarf', 'nightelf': 'night-elf', 'gnome': 'gnome', 'skyA': 'skyborne-alliance',
          'orc': 'orc', 'undead': 'undead', 'tauren': 'tauren', 'troll': 'troll', 'skyH': 'skyborne-horde'}
-INNER = ['hero_roster', 'hero_tools', 'hero_guides', 'hero_dungeons', 'hero_professions', 'hero_faq', 'hero_news']   # inner page heroes (.thero)
+INNER = ['hero_roster', 'hero_tools', 'hero_guides', 'hero_dungeons', 'hero_professions', 'hero_faq', 'hero_news',
+         'hero_leveling', 'hero_classes', 'hero_races', 'hero_ukrainian', 'hero_requirements']   # inner page heroes (.thero)
 SCENE_Q = 66  # wide scene art fills the screen: AVIF at 52 smears grass and fur there
 TODS = ['dawn', 'day', 'dusk', 'night']   # the home hero in the reader's time of day (tod.py); one living mask fits all
 JOBS = [(f'hero_{t}', [960, 1440, 1920, 2560, 3840]) for t in TODS] + [('hero_campfire', [960, 1600, 2560]), ('hero_road', [960, 1600, 2560])] +        [(n, [960, 1440, 1920, 2560]) for n in INNER] + [(c, [360, 600, 896]) for c in CLASSES]

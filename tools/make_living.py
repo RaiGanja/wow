@@ -9,6 +9,8 @@ One RGBA PNG per picture, half the source size, in source coordinates (1376 x 76
   hero_dungeons  R brazier, campfire and torch flames, G (unused), B night sky, A stream
   hero_professions R forge fire, G hanging herbs (0 at the beam -> 1 at the tips), B open sky, A stream
   hero_faq       R candle flames, G banners (0 at the rod -> 1 at the tip), B sunbeam from the window, A (unused)
+  hero_leveling, hero_classes, hero_races, hero_ukrainian, hero_requirements (one shader, living.js GEN):
+                 R flames, G plants in the wind (sunflowers), B open sky, A river
 Run: python tools/make_living.py [path-to-wow_art]"""
 import os, sys
 from PIL import Image, ImageDraw, ImageFilter, ImageChops
@@ -200,6 +202,61 @@ def faq():
     save('hero_faq', soft(candles, 2, 2), soft(banners, 0, 2), beam, zero)
 
 
+def flames(im, boxes, hot=200):
+    return pick(im, boxes, lambda r, g, b, x, y: r > hot and g > 110 and r - b > 110 and lum(r, g, b) > hot / 340)
+
+
+def open_area(poly, top_fade):
+    """Open sky inside a hand-drawn outline (the skyline, heads), soft edges, fading out towards the horizon."""
+    return ImageChops.multiply(shape([poly]).filter(ImageFilter.GaussianBlur(18)), sky([], top_fade))
+
+
+def leveling():
+    im = load('hero_leveling')
+    open_sky = ImageChops.multiply(pick(im, [(110, 20, 580, 270)], lambda r, g, b, x, y: lum(r, g, b) > .62 and sat(r, g, b) < .42),
+                                   sky([(0, 0, 110, H), (560, 0, W, H)], (215, 270)))   # between the trees, above the far hills
+    river = pick(im, [(290, 330, 510, 570)], lambda r, g, b, x, y: lum(r, g, b) > .62 and sat(r, g, b) < .3)
+    zero = Image.new('L', (W, H), 0)
+    save('hero_leveling', zero, zero, soft(open_sky, 1, 2), soft(river, 1, 2))
+
+
+def classes():
+    im = load('hero_classes')
+    open_sky = ImageChops.multiply(pick(im, [(0, 0, 575, 230)], lambda r, g, b, x, y: lum(r, g, b) > .66),
+                                   sky([(570, 0, W, H), (0, 200, 340, H)], (150, 215)))   # tower, walls; the peaks stay put
+    zero = Image.new('L', (W, H), 0)
+    save('hero_classes', zero, zero, soft(open_sky, 1, 2), zero)
+
+
+def races():
+    im = load('hero_races')
+    lamps = flames(im, [(218, 440, 242, 470), (388, 450, 412, 480), (446, 392, 466, 420), (728, 512, 752, 542), (242, 608, 270, 645),
+                        (618, 618, 642, 650), (140, 480, 160, 510)])
+    open_sky = ImageChops.multiply(pick(im, [(0, 0, W, 300)], lambda r, g, b, x, y: lum(r, g, b) > .62),
+                                   open_area([(0, 0), (1150, 0), (1150, 60), (1000, 110), (900, 150), (800, 200), (760, 300), (0, 300)],
+                                             (230, 300)))   # along the mountain ridge, above the heroes
+    zero = Image.new('L', (W, H), 0)
+    save('hero_races', soft(lamps, 2, 2), zero, soft(open_sky, 1, 2), zero)
+
+
+def ukrainian():
+    im = load('hero_ukrainian')
+    sunflowers = pick(im, [(0, 350, 330, 500)], lambda r, g, b, x, y: r > 165 and g > 115 and b < 90 and r > b + 90,
+                      lambda x, y: fade(y, 500, 380))   # heads sway, the stems stay rooted
+    open_sky = ImageChops.multiply(open_area([(0, 0), (W, 0), (W, 120), (680, 120), (660, 290), (560, 330),
+                                              (240, 330), (230, 225), (140, 225), (125, 270), (0, 270)], (250, 330)),
+                                   Image.new('L', (W, H), 255))   # windmill, roofs and heroes stay put
+    zero = Image.new('L', (W, H), 0)
+    save('hero_ukrainian', zero, soft(sunflowers, 1, 1.5), soft(open_sky, 1, 2), zero)
+
+
+def requirements():
+    im = load('hero_requirements')
+    fire = flames(im, [(470, 30, 530, 120), (990, 20, 1050, 110), (505, 330, 540, 375), (995, 340, 1065, 400)], 235)
+    zero = Image.new('L', (W, H), 0)
+    save('hero_requirements', soft(fire, 2, 2), zero, zero, zero)
+
+
 if __name__ == '__main__':
     dawn()
     campfire()
@@ -210,3 +267,8 @@ if __name__ == '__main__':
     dungeons()
     professions()
     faq()
+    leveling()
+    classes()
+    races()
+    ukrainian()
+    requirements()

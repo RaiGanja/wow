@@ -2,8 +2,10 @@
    god rays, dust and birds at dawn; fire, firelight, embers, smoke and stars at the camp; lantern, gate, river and mist on the road;
    hearth, candles, banners, haze and stars in the guild hall (roster); clouds, lake, mist, banner, lantern and birds in the war tent (tools);
    guide heroes: clouds, river, mist, pennant and birds on the pass (guides); gate, mist, stream, fires and stars by the dungeon (dungeons);
-   forge, anvil sparks, steam, herbs, potion and rune in the workshop (professions); sunbeam, dust, banners and candles in the library (faq).
-   A picture opts in with data-fx="dawn|camp|road|roster|tools|guides|dungeons|professions|faq" on its <picture>, data-cut its phone cut (make_images.CUTS, default .6); masks are assets/living/<art>-fx.png (tools/make_living.py),
+   forge, anvil sparks, steam, herbs, potion and rune in the workshop (professions); sunbeam, dust, banners and candles in the library (faq);
+   one shader for the newer scenes, all by their masks: clouds, river, lamp flames and sunflowers in the wind (leveling, classes, races,
+   ukrainian, requirements).
+   A picture opts in with data-fx="dawn|camp|road|roster|tools|guides|dungeons|professions|faq|leveling|classes|races|ukrainian|requirements" on its <picture>, data-cut its phone cut (make_images.CUTS, default .6); masks are assets/living/<art>-fx.png (tools/make_living.py),
    in the 1376 x 768 grid of the source art. The canvas is transparent except where something moves, so the sharp <img>
    stays visible underneath. Off with prefers-reduced-motion, Save-Data or without WebGL; paused off screen.
    Follows the time of day (assets/tod/tod.js): sun position, rays, birds by day; stars, fireflies and moon glints at night. */
@@ -13,7 +15,8 @@
   const base = me.src.replace(/living\.js.*$/, '');
   const ver = (me.src.match(/\?v=\w+/) || [''])[0];
   const ART = { dawn: 'hero_dawn', camp: 'hero_campfire', road: 'hero_road', roster: 'hero_roster', tools: 'hero_tools',
-    guides: 'hero_guides', dungeons: 'hero_dungeons', professions: 'hero_professions', faq: 'hero_faq' };
+    guides: 'hero_guides', dungeons: 'hero_dungeons', professions: 'hero_professions', faq: 'hero_faq',
+    leveling: 'hero_leveling', classes: 'hero_classes', races: 'hero_races', ukrainian: 'hero_ukrainian', requirements: 'hero_requirements' };
   const FPS = matchMedia('(pointer: coarse)').matches ? 30 : 60;
   const FORCE = /[?&]fx=force\b/.test(location.search);   // screenshots in headless Chrome
 
@@ -70,7 +73,36 @@ vec3 fireflies(vec2 P, vec4 area, int n) {
 vec2 artPx() { return (uCrop.xy + (vUv * uSize - uMap.xy) / uMap.zw * uCrop.zw) * ART; }
 `;
 
+  // The newer scenes: everything comes from the mask (tools/make_living.py), nothing is placed by hand.
+  const GEN = `
+void main() {
+  vec2 P = artPx(); acc = vec4(0.); add = vec3(0.);
+  vec4 m = mask(P);
+  // clouds drift slowly to the left
+  if (m.b > .01) over(flow(P, vec2(-8., 0.) + (n2(P * .006 + uT * .03) - .5) * vec2(5., 2.), 12., 0.), m.b);
+  // the river runs, with glints
+  if (m.a > .01) {
+    vec3 c = flow(P, vec2(6., 3.), 3.2, 0.);
+    c += vec3(1., .93, .8) * pow(n2(P * vec2(.35, .7) + vec2(uT * .8, uT * .35)), 9.) * .9;
+    over(c, m.a);
+  }
+  // plants sway in a light wind
+  if (m.g > .01) {
+    float w = m.g, ph = P.x * .02 + uT * 1.1;
+    vec2 off = vec2(sin(ph) * 1.6 + sin(uT * .7 + P.y * .03) * .7, sin(ph * 1.3) * .5) * w;
+    over(img(P - off), smoothstep(0., .1, w));
+  }
+  // lamp and forge flames flicker
+  if (m.r > .01) {
+    float fl = .55 + .45 * (n2(vec2(uT * 7., 0.)) * .6 + n2(vec2(uT * 13., 4.)) * .4);
+    over(flow(P, vec2(0., -5.), .38, n2(vec2(P.x * .3, 0.))) * (.9 + .3 * fl), m.r);
+    add += vec3(1., .72, .38) * m.r * fl * .06;
+  }
+  gl_FragColor = vec4(acc.rgb + add, acc.a);
+}`;
+
   const SCENES = {
+    leveling: GEN, classes: GEN, races: GEN, ukrainian: GEN, requirements: GEN,
     dawn: `
 void main() {
   vec2 P = artPx(); acc = vec4(0.); add = vec3(0.);
