@@ -198,6 +198,7 @@ AUTO_JS = r"""<script>
   var P = @@PATHS@@, A = { be: 'ru', kk: 'ru' }, w = null, r = document.referrer;
   try { w = localStorage.getItem('gabella-lang'); } catch (e) {}
   if (!(w in P)) {
+    w = null;
     if (r && (r.indexOf(location.origin + '/') === 0 || /^https?:\/\/([^\/]*\.)?(google|bing|yandex|ya|duckduckgo|yahoo|baidu|ecosia|naver|qwant|seznam)\.[^\/]+\//.test(r))) return;
     var L = navigator.languages || [navigator.language];
     for (var i = 0; i < L.length && !w; i++) { var b = String(L[i] || '').toLowerCase().split('-')[0]; b = A[b] || b; if (b in P) w = b; }
@@ -256,10 +257,25 @@ def localize(html, lang, here):
     else:
         html = html.replace('<html lang="ru">', f'<html lang="{HREFLANG[lang]}">')
         html = html.replace('content="ru_RU"', f'content="{LOCALE[lang]}"')
+    if lang == 'en':
+        html = en_dates(html)
     if lang not in ('ru', 'uk'):                                  # Latin-script pages: preload the fonts they draw first
         html = html.replace('-cyrillic.woff2" as="font"', '-latin.woff2" as="font"')
     html = html.replace('</head>', REVEAL_CSS + '</head>', 1).replace('</body>', REVEAL_JS + '</body>', 1)
     return me(pwa(html, lang, rel(here, '')), lang, here)
+
+
+EN_DATE = re.compile(r'(?<![\d.,:/\w-])(0[1-9]|[12]\d|3[01])\.(0[1-9]|1[0-2])(?:\.(20\d\d))?(?![\d\w]|\.\d)')
+MONTHS = 'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split()
+
+
+def en_dates(html):
+    """English pages: 04.11 reads as April 11 to a US reader, so dd.mm(.yyyy) in the text becomes «Nov 4» («Nov 4, 2026»). Styles stay."""
+    def one(m):
+        d = f'{MONTHS[int(m[2]) - 1]} {int(m[1])}'
+        return f'{d}, {m[3]}' if m[3] else d
+    parts = re.split(r'(<style\b.*?</style>)', html, flags=re.S)
+    return ''.join(p if p.startswith('<style') else EN_DATE.sub(one, p) for p in parts)
 
 
 # Sections below the first screen fade in once when they scroll into view.

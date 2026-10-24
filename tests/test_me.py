@@ -249,7 +249,7 @@ def test_guild_authors():
     for lang in term:
         html = open(os.path.join(ROOT, *(lang + 'privacy/index.html').split('/')), encoding='utf-8').read()
         assert 'game-icons.net' in html and ', '.join(a) in html, lang
-        assert term[lang] in html and '24.10.2026' in html, lang
+        assert term[lang] in html and ('Oct 24, 2026' if lang == 'en/' else '24.10.2026') in html, lang
 
 
 def test_guild_texts():

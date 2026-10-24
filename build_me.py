@@ -21,7 +21,7 @@ _ru, _en, _uk = (build.load(f'me.{l}.txt') for l in langs.OLD)
 assert len(_ru) == len(_en) == len(_uk), (len(_ru), len(_en), len(_uk))
 build.T.update({r: (e, u) for r, e, u in zip(_ru, _en, _uk)})
 
-UI = {'got': 'Достижение получено', 'rankUp': 'Новый ранг', 'profile': 'Мой профиль', 'login': 'Войти', 'pts': 'очков',
+UI = {'got': 'Достижение получено', 'rankUp': 'Новый ранг', 'profile': 'Мой профиль', 'login': 'Войти', 'pts': 'очков', 'ptsN': 'Очки: {n}',
       'lvlAsk': 'На странице «В игре» у вас {n} уровень. Обновить персонажа {name}?', 'update': 'Обновить', 'notNow': 'Не сейчас',
       'menu': 'Меню профиля', 'myPage': 'Моя страница ↗', 'chars': 'Персонажи', 'look': 'Внешний вид', 'account': 'Аккаунт',
       'newChar': 'Создать персонажа', 'noChar': 'Персонажа пока нет', 'logout': 'Выйти'}

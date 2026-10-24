@@ -239,7 +239,7 @@
     menu.setAttribute('role', 'menu');
     menu.setAttribute('aria-label', T.ui.menu || '');
     menu.innerHTML = `<div class="me-mh"><span class="me-ring fr-${esc(u.frame || u.rank)}">${img(face(state), 40)}</span>
-      <span><b>${esc(name)}</b><small>${esc((T.ranks[u.rank] || u.rank) + ' · ' + (u.points || 0) + ' ' + (T.ui.pts || ''))}</small></span></div>
+      <span><b>${esc(name)}</b><small>${esc((T.ranks[u.rank] || u.rank) + ' · ' + (T.ui.ptsN || '{n}').replace('{n}', u.points || 0))}</small></span></div>
       ${items.join('')}<hr><button type="button" role="menuitem" class="me-out">${esc(T.ui.logout || 'Log out')}</button>`;
     document.body.append(menu);
     const r = btn.getBoundingClientRect();

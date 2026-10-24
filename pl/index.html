@@ -922,8 +922,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=63caed3e78" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/me/me.css?v=e47acff0c7" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/search/search.css?v=c74efbfe5f" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/me/me.css?v=f6f2bb13e5" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Poradnik WoW Forever","alternateName":"Gabella","url":"https://gabella.site/wow/pl/","inLanguage":"pl","description":"Poradnik WoW Forever: kim grać, wybór rasy i klasy, kreator drużyny oraz poradniki do levelowania, dungeonów i profesji.","publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/Zd45sNHy9x"]}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/Zd45sNHy9x"]}</script>
 </head>
@@ -1218,7 +1218,7 @@ const CLASSES = [
     lvl:'Średnie tempo levelowania',
     lp:0,
     raid:'Totemy Strength of Earth, Windfury, Flametongue i Grace of Air buffują swoją grupę',
-    forever:'Dwarfy mogą teraz być szamanami, więc klasa pojawiła się w Alliance. Lava Burst wzmocniony, Elemental poszedł w górę w rankingach obrażeń.' },
+    forever:'Krasnoludy mogą teraz być szamanami, więc klasa pojawiła się w Alliance. Lava Burst wzmocniony, Elemental poszedł w górę w rankingach obrażeń.' },
   { id:'mage', n:'Mage', roles:['dps'],
     specs:[['Arcane','Burst, dużo many',['dps']],['Fire','Kryty i ignite',['dps']],['Frost','Obrażenia i kontrola',['dps']]],
     lvl:'Najszybsze levelowanie, ok. 8% szybciej niż średnio (ok. 12 godzin oszczędności)',
@@ -1288,7 +1288,7 @@ const RACES = [
 RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
 const CL = Object.fromEntries(CLASSES.map(c => [c.id, c]));
 const RC = Object.fromEntries(RACES.map(r => [r.id, r]));
-const RLEAD = {"human": "Najliczniejsza rasa Alliance. Wszechstronna i mocna w PvP dzięki Will to Survive.", "dwarf": "Twardzi górnicy i strzelcy z Ironforge. Pierwszy raz w Classic Alliance ma szamanów i są to dwarfy.", "nightelf": "Starożytny lud lasów. Nieuchwytni: własny sposób na ukrycie się, uniki i szybki bieg.", "gnome": "Wynalazcy z Gnomeregan. Mali, sprytni i z najlepszą zdolnością ucieczki w grze.", "skyA": "Nowa rasa w Forever. High Order: elfy wiatru szukające utraconej magii arkanów swoich przodków.", "orc": "Serce Horde. Najsilniejsi wojownicy i mistrzowie PvP dzięki Blood Fury i Hardiness.", "undead": "Forsaken: dawni ludzie, którzy wyrwali się spod władzy Lich Kinga. Odporni na fear i sen, kiedy to się liczy.", "tauren": "Pokojowe olbrzymy z równin. Najwięcej zdrowia i własne obszarowe ogłuszenie.", "troll": "Plemię Darkspear. Najwięcej klas w Horde i mocny Berserking na obrażenia.", "skyH": "Nowa rasa w Forever. Windshaper: duchowi przywódcy Skyborne, bliscy żywiołom."}; // race page leads and URL slugs, filled in by build.py
+const RLEAD = {"human": "Najliczniejsza rasa Alliance. Wszechstronna i mocna w PvP dzięki Will to Survive.", "dwarf": "Twardzi górnicy i strzelcy z Ironforge. Pierwszy raz w Classic Alliance ma szamanów i są to krasnoludy.", "nightelf": "Starożytny lud lasów. Nieuchwytni: własny sposób na ukrycie się, uniki i szybki bieg.", "gnome": "Wynalazcy z Gnomeregan. Mali, sprytni i z najlepszą zdolnością ucieczki w grze.", "skyA": "Nowa rasa w Forever. High Order: elfy wiatru szukające utraconej magii arkanów swoich przodków.", "orc": "Serce Horde. Najsilniejsi wojownicy i mistrzowie PvP dzięki Blood Fury i Hardiness.", "undead": "Forsaken: dawni ludzie, którzy wyrwali się spod władzy Lich Kinga. Odporni na fear i sen, kiedy to się liczy.", "tauren": "Pokojowe olbrzymy z równin. Najwięcej zdrowia i własne obszarowe ogłuszenie.", "troll": "Plemię Darkspear. Najwięcej klas w Horde i mocny Berserking na obrażenia.", "skyH": "Nowa rasa w Forever. Windshaper: duchowi przywódcy Skyborne, bliscy żywiołom."}; // race page leads and URL slugs, filled in by build.py
 const RSLUG = {"human": "human", "dwarf": "dwarf", "nightelf": "night-elf", "gnome": "gnome", "skyA": "skyborne-alliance", "orc": "orc", "undead": "undead", "tauren": "tauren", "troll": "troll", "skyH": "skyborne-horde"};
 
 const EN = {
@@ -1777,7 +1777,7 @@ const STAGES = [
       ['t', 'Zbieraj rest: wyloguj się w karczmie albo w campie z namiotem.']],
     prof: [['f', 'Podstawowe ognisko nie wymaga Cooking i mieści 3 obiekty. Pali się ok. 10 minut, a nowe możesz postawić po 5.'],
       ['f', 'Aby dostać buffy z campu, usiądź obok (/sit) na co najmniej minutę.'],
-      ['t', 'Zacznij zbieranie od pierwszych leveli: zioła, ruda i skóry napędzają crafting, a 150 w profesji craftingowej otwiera Legacy.']],
+      ['t', 'Zacznij zbieranie od pierwszych leveli: zioła, ruda i skóry napędzają rzemiosło, a 150 w profesji rzemieślniczej otwiera Legacy.']],
     legacy: [['f', 'Na razie bez perków: pierwszy punkt przychodzi na levelu 25 albo ze 150 w profesji.'],
       ['t', 'Gdy Legacy się otworzy, najpierw bierz perki na exp i camp: Well Rested, Field Guide, Permanence. Talented przyda się altom.']],
     group: [['t', 'Leveluj w tej samej strefie i rozbijaj camp na każdym postoju: pięć minut przy ognisku zwraca się buffami dla całej grupy.'],
@@ -1790,7 +1790,7 @@ const STAGES = [
       ['t', 'Najpierw zbierzcie questy do dungeonu całą grupą i wejdźcie, gdy wszyscy je mają.']],
     prof: [['f', 'Cooking 140 daje 5 slotów w campie, 220 daje 10.'],
       ['f', 'Każda profesja robi trzy obiekty do campu, po jednym na tier. Źródła różnią się co do skilla potrzebnego na tier 2 i 3.'],
-      ['t', 'Jeśli do levelu 25 jeszcze daleko, wbij profesję craftingową do 150: Legacy otworzy się szybciej.']],
+      ['t', 'Jeśli do levelu 25 jeszcze daleko, podnieś profesję rzemieślniczą do 150: Legacy otworzy się szybciej.']],
     legacy: [['f', 'Każde wyzwanie daje 1 punkt. Jest ich 65: klasy 27, profesje 18, PvP 12, dungeony 3, raidy 3, przygoda 2.'],
       ['t', 'Warto wziąć Reagent Economy (bez kupowanych reagentów do zdolności) i Field Guide (krótszy cooldown obiektów campu).']],
     group: [['f', 'Dungeon jest zaprojektowany na 5 graczy: tank, healer i trzech DPS-ów.'],
@@ -1804,7 +1804,7 @@ const STAGES = [
       ['t', 'Oszczędzaj złoto na level 40: jazda wierzchem będzie twoim największym wydatkiem w drodze do 60.']],
     prof: [['f', 'Każda profesja ma własne obiekty campu na tier 2 i 3. Drugi obiekt Engineering, Repair Bot, naprawia ekwipunek.'],
       ['t', 'Miejcie w grupie Cooking 220, żeby camp mieścił 10 obiektów: na raidy starczy miejsca dla wszystkich.']],
-    legacy: [['f', 'Maksymalnie 16 punktów na postać, reszta trafia na ścieżkę nagród: zabawka za 15, pet za 25, tabard za 40, wierzchowiec za 55.']],
+    legacy: [['f', 'Maksymalnie 16 punktów na postać, reszta trafia na ścieżkę nagród: zabawka za 15, zwierzak za 25, tabard za 40, wierzchowiec za 55.']],
     group: [['f', 'Raidy otwierają się 09.12: Barrow Deeps na 10 graczy, Hyjal Summit na 20, Onyxia’s Lair na 40.'],
       ['t', 'Raid na 10 graczy wymaga 10 graczy: jeśli jest was mniej, poszukajcie reszty w gildii z wyprzedzeniem.']],
     src: ['ride', 'prof', 'legacy', 'cwg'] },
@@ -2043,8 +2043,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../assets/radio/radio.js" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=63caed3e78" data-root="../" defer></script>
-<script src="../assets/me/me.js?v=e47acff0c7" data-root="../" data-home="./" data-lang="pl" data-teaser="Profil zapisuje twoją drogę: Chwała, ramki, sezony" data-close="Zamknij" data-page="" data-look="2" defer></script>
+<script src="../assets/search/search.js?v=c74efbfe5f" data-root="../" defer></script>
+<script src="../assets/me/me.js?v=f6f2bb13e5" data-root="../" data-home="./" data-lang="pl" data-teaser="Profil zapisuje twoją drogę: Chwała, ramki, sezony" data-close="Zamknij" data-page="" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

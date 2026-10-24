@@ -50,6 +50,17 @@ def test_ru_glossary():
     assert not bad, '\n'.join(bad[:40])
 
 
+def test_en_dates_month_first():
+    """04.11 reads as April 11 in the US: English pages say «Nov 4»."""
+    import build
+    assert build.en_dates('Launch 04.11.2026, names 27.10 – 03.11, $29.99, v1.12') == 'Launch Nov 4, 2026, names Oct 27 – Nov 3, $29.99, v1.12'
+    bad = []
+    for p in glob.glob(os.path.join(ROOT, 'en', '**', '*.html'), recursive=True):
+        text = re.sub(r'<style\b.*?</style>', '', open(p, encoding='utf-8').read(), flags=re.S)
+        bad += [f'{os.path.relpath(p, ROOT)}: {m[0]}' for m in build.EN_DATE.finditer(text)]
+    assert not bad, '\n'.join(bad[:20])
+
+
 if __name__ == '__main__':
     for name, fn in list(globals().items()):
         if name.startswith('test_'):

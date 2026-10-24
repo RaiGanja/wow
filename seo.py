@@ -62,7 +62,7 @@ META = {
                    'Класи WoW Forever: який клас обрати, порівняння всіх 9'),
                  t('Какой класс выбрать в WoW Forever: девять классов по три специализации, роли танк/лекарь/урон, кто качается быстрее и чем каждый полезен рейду.',
                    'Which class to pick in WoW Forever: nine classes with three specs each, tank/healer/DPS roles, which level fastest and what each brings to a raid.',
-                   'Який клас обрати у WoW Forever: дев’ять класів по три спеціалізації, ролі танк/лікар/шкода, хто качається швидше і чим кожен корисний рейду.')),
+                   'Який клас обрати у WoW Forever: дев’ять класів по три спеціалізації, ролі танк/цілитель/шкода, хто качається швидше і чим кожен корисний рейду.')),
     'races/': (t('Расы и классы WoW Forever: все 10 рас и расовые способности',
                  'WoW Forever Races: Racials and Race/Class Combos for All 10',
                  'Раси й класи WoW Forever: усі 10 рас і расові здібності'),
@@ -331,7 +331,10 @@ def main():
                 assert not cyr, (path, lang, title, desc)
             full = os.path.join(HERE, page_dir(lang, path), 'index.html')
             html = open(full, encoding='utf-8').read()
-            open(full, 'w', encoding='utf-8', newline='\n').write(apply(html, path, lang, title, desc))
+            html = apply(html, path, lang, title, desc)
+            if lang == 'en':                     # dates added after localize (cards, JSON-LD): «Nov 4», not 04.11
+                html = build.en_dates(html)
+            open(full, 'w', encoding='utf-8', newline='\n').write(html)
     with open(os.path.join(HERE, 'sitemap.xml'), 'w', encoding='utf-8', newline='\n') as f:
         f.write(sitemap({p: v for p, v in meta.items() if p not in NOINDEX}))
     print(f'seo: {sum(map(len, meta.values()))} pages, sitemap.xml, analytics {"on" if CF_BEACON_TOKEN else "off (CF_BEACON_TOKEN empty)"}', file=sys.stderr)

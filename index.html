@@ -19,6 +19,7 @@
   var P = {"ru": "./", "en": "en/", "uk": "uk/", "de": "de/", "fr": "fr/", "es": "es/", "pt": "pt/", "it": "it/", "pl": "pl/"}, A = { be: 'ru', kk: 'ru' }, w = null, r = document.referrer;
   try { w = localStorage.getItem('gabella-lang'); } catch (e) {}
   if (!(w in P)) {
+    w = null;
     if (r && (r.indexOf(location.origin + '/') === 0 || /^https?:\/\/([^\/]*\.)?(google|bing|yandex|ya|duckduckgo|yahoo|baidu|ecosia|naver|qwant|seznam)\.[^\/]+\//.test(r))) return;
     var L = navigator.languages || [navigator.language];
     for (var i = 0; i < L.length && !w; i++) { var b = String(L[i] || '').toLowerCase().split('-')[0]; b = A[b] || b; if (b in P) w = b; }
@@ -936,8 +937,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="./assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="./assets/search/search.css?v=63caed3e78" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="./assets/me/me.css?v=e47acff0c7" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="./assets/search/search.css?v=c74efbfe5f" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="./assets/me/me.css?v=f6f2bb13e5" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Гид WoW Forever","alternateName":"Gabella","url":"https://gabella.site/wow/","inLanguage":"ru","description":"Гид по WoW Forever (ВоВ Форевер): кем играть, подборщик расы и класса, сборка группы и гайды по прокачке, подземельям и профессиям.","publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/Zd45sNHy9x"]}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/Zd45sNHy9x"]}</script>
 </head>
@@ -2069,8 +2070,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="./assets/radio/radio.js" data-root="./" defer></script>
-<script src="./assets/search/search.js?v=63caed3e78" data-root="./" defer></script>
-<script src="./assets/me/me.js?v=e47acff0c7" data-root="./" data-home="./" data-lang="ru" data-teaser="Профиль копит ваш путь: Слава, рамки, сезоны" data-close="Закрыть" data-page="" data-look="2" defer></script>
+<script src="./assets/search/search.js?v=c74efbfe5f" data-root="./" defer></script>
+<script src="./assets/me/me.js?v=f6f2bb13e5" data-root="./" data-home="./" data-lang="ru" data-teaser="Профиль копит ваш путь: Слава, рамки, сезоны" data-close="Закрыть" data-page="" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

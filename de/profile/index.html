@@ -1418,8 +1418,8 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=63caed3e78" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=e47acff0c7" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=c74efbfe5f" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=f6f2bb13e5" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://gabella.site/wow/de/"},{"@type":"ListItem","position":2,"name":"Mein Profil","item":"https://gabella.site/wow/de/profile/"}]}</script>
 </head>
 <body>
@@ -1611,12 +1611,12 @@ function crestSvg(c, px, o = {}) {
   const P = GD.guilds.palette, G = GD.guilds.geo[c.s], id = 'gc' + (++crestN), t = c.t || CREST_T;
   const sz = GD.guilds.limits.charge_size * t[2] / 100, cx = G.c[0] + t[0] - sz / 2, cy = G.c[1] + t[1] - sz / 2, r = v => Math.round(v * 100) / 100;
   const tex = GD.guilds.texture && o.texture !== false && px >= 48
-    ? `<image href="${ROOT}assets/me/crest/metal.webp?v=e47acff0c7" width="100" height="100" preserveAspectRatio="none" class="gl-tex"/>` : '';
+    ? `<image href="${ROOT}assets/me/crest/metal.webp?v=f6f2bb13e5" width="100" height="100" preserveAspectRatio="none" class="gl-tex"/>` : '';
   const edge = c.b !== 'none' ? `<path d="${G.d}" fill="none" stroke="${BORDER[c.b]}" stroke-width="${px >= 48 ? 3 : 5}"/>` : '';
   return `<svg class="gl-crest" viewBox="0 0 100 100" width="${px}" height="${px}" role="img" aria-label="${esc(o.label || tl('crest'))}">`
     + `<defs><clipPath id="${id}"><path d="${G.d}"/></clipPath></defs><g clip-path="url(#${id})">`
     + `<rect width="100" height="100" fill="${P[c.c[0]]}"/>${FIELD[c.f] ? `<path d="${FIELD[c.f]}" transform="translate(0 ${G.c[1] - 50})" fill="${P[c.c[1]]}"/>` : ''}`
-    + `<use class="gl-ch" href="${ROOT}assets/me/crest/charges.svg?v=e47acff0c7#c-${esc(c.i)}" x="${r(cx)}" y="${r(cy)}" width="${r(sz)}" height="${r(sz)}" fill="${P[c.ic]}"/>${tex}</g>${edge}</svg>`;
+    + `<use class="gl-ch" href="${ROOT}assets/me/crest/charges.svg?v=f6f2bb13e5#c-${esc(c.i)}" x="${r(cx)}" y="${r(cy)}" width="${r(sz)}" height="${r(sz)}" fill="${P[c.ic]}"/>${tex}</g>${edge}</svg>`;
 }
 const DOWN = ['Der Profilserver antwortet nicht', 'Versuche es in ein paar Minuten erneut. Der Rest des Guides funktioniert wie gewohnt.', 'Erneut versuchen'];   // same words as the player page
 /** Member count: singular and the paucal form come from the page language's plural rules. */
@@ -1895,8 +1895,8 @@ const ERR = {
   bad_role: 'Diese Rolle gibt es für die Klasse nicht.', bad_level: 'Stufe: 1 bis 60.', bad_prof: 'Zwei verschiedene Berufe aus der Liste.',
   bad_skill: 'Fertigkeit: 1 bis 300, nur bei einem gewählten Beruf.', bad_playtime: 'Wähle, wann du spielst.', limit: 'Höchstens zehn Charaktere.',
   bad_motto: 'Motto: bis zu 60 Zeichen.', locked: 'Das ist noch nicht freigeschaltet.', auth: 'Deine Sitzung ist abgelaufen, bitte melde dich erneut an.',
-  bot: 'Die Prüfung „kein Roboter“ ist fehlgeschlagen. Versuchen Sie es erneut.', bad_email: 'Prüfen Sie die E-Mail-Adresse.', mail_down: 'Die E-Mail wurde nicht gesendet. Versuchen Sie es in ein paar Minuten erneut.',
-  last_identity: 'Das ist Ihre letzte Anmeldemethode, sie lässt sich nicht trennen.',
+  bot: 'Die Prüfung „kein Roboter“ ist fehlgeschlagen. Versuch es noch einmal.', bad_email: 'Prüf die E-Mail-Adresse.', mail_down: 'Die E-Mail wurde nicht gesendet. Versuch es in ein paar Minuten erneut.',
+  last_identity: 'Das ist deine letzte Anmeldemethode, sie lässt sich nicht trennen.',
 };
 /** Text of an API error code: the growth texts (err_<code>: bad_word, no_links, swap_used, task_done, bad_showcase, members_only) first, then ERR. */
 const errText = (e, def) => {
@@ -1959,14 +1959,14 @@ const mailForm = () => `<form class="mailf" id="mailF" hidden novalidate><label 
 /* ---------- messages after a redirect: #banned, #taken... shown above the login screen or the cabinet ---------- */
 const STATES = {
   banned: ['Anmeldung gesperrt', 'Ein Administrator hat dieses Konto gesperrt.'],
-  taken: ['Diese Anmeldung ist bereits vergeben', 'Sie ist mit einem anderen Gabella-Konto verknüpft. Melden Sie sich damit an, trennen Sie sie dort und verknüpfen Sie sie hier.'],
-  'already-linked': ['Diese Art der Anmeldung ist bereits verknüpft', 'Ein Konto kann eine Anmeldung jeder Art haben. Trennen Sie zuerst die alte.'],
-  'link-used': ['Der Link wurde bereits verwendet', 'Jeder Link funktioniert nur einmal. Fordern Sie einen neuen an.'],
-  'link-expired': ['Der Link ist abgelaufen', 'Ein Link gilt 15 Minuten. Fordern Sie einen neuen an.'],
-  'login-down': ['Anmeldung fehlgeschlagen', 'Der Anmeldedienst hat nicht geantwortet. Versuchen Sie es in ein paar Minuten erneut oder wählen Sie einen anderen Weg.'],
-  'discord-down': ['Discord antwortet nicht', 'Die Anmeldung konnte nicht geprüft werden. Versuchen Sie es in ein paar Minuten erneut oder wählen Sie einen anderen Weg.'],
-  'too-many': ['Zu viele neue Konten', 'Über diese Verbindung wurden innerhalb einer Stunde bereits mehrere Konten erstellt. Versuchen Sie es später.'],
-  auth: ['Die Sitzung ist abgelaufen', 'Melden Sie sich erneut an und verknüpfen Sie noch einmal.'],
+  taken: ['Diese Anmeldung ist bereits vergeben', 'Sie ist mit einem anderen Gabella-Konto verknüpft. Melde dich damit an, trenne sie dort und verknüpfe sie hier.'],
+  'already-linked': ['Diese Art der Anmeldung ist bereits verknüpft', 'Ein Konto kann eine Anmeldung jeder Art haben. Trenne zuerst die alte.'],
+  'link-used': ['Der Link wurde bereits verwendet', 'Jeder Link funktioniert nur einmal. Fordere einen neuen an.'],
+  'link-expired': ['Der Link ist abgelaufen', 'Ein Link gilt 15 Minuten. Fordere einen neuen an.'],
+  'login-down': ['Anmeldung fehlgeschlagen', 'Der Anmeldedienst hat nicht geantwortet. Versuch es in ein paar Minuten erneut oder wähle einen anderen Weg.'],
+  'discord-down': ['Discord antwortet nicht', 'Die Anmeldung konnte nicht geprüft werden. Versuch es in ein paar Minuten erneut oder wähle einen anderen Weg.'],
+  'too-many': ['Zu viele neue Konten', 'Über diese Verbindung wurden innerhalb einer Stunde bereits mehrere Konten erstellt. Versuch es später.'],
+  auth: ['Die Sitzung ist abgelaufen', 'Melde dich erneut an und verknüpfe noch einmal.'],
   'members-only': ['Anmeldung', 'Anmeldung vorerst nur für Mitglieder von Gabella Team'],   // OPEN_LOGIN is off (R11)
 };
 let notice = null;
@@ -2017,8 +2017,8 @@ document.addEventListener('submit', e => {
     return M.api('/auth/email', { body: { email: addr, lang: LANG, ref: savedRef(), link, turnstile: t } }).then(() => {
       if (!link) return screen('mail', addr);
       $('#mGo').disabled = false; tsMail.reset();
-      mailNote(fill('Der Link wurde an %e gesendet. Öffnen Sie ihn, um diese E-Mail zu verknüpfen.', { e: addr }));
-    }, e2 => { $('#mGo').disabled = false; tsMail.reset(); mailNote(errText(e2, 'Die E-Mail wurde nicht gesendet. Versuchen Sie es erneut.'), true); });
+      mailNote(fill('Der Link wurde an %e gesendet. Öffne ihn, um diese E-Mail zu verknüpfen.', { e: addr }));
+    }, e2 => { $('#mGo').disabled = false; tsMail.reset(); mailNote(errText(e2, 'Die E-Mail wurde nicht gesendet. Versuch es noch einmal.'), true); });
   });
 });
 function mailVerify(t) {
@@ -2091,12 +2091,12 @@ function screen(kind, arg) {
   const v = $('#view');
   if (kind === 'login') {
     tgConfig();
-    v.innerHTML = `${noticeHtml()}<section class="frame login"><div><h2>Melden Sie sich in Ihrem Profil an</h2>
-      <p>Ein Passwort gibt es nicht: Melden Sie sich auf beliebigem Weg an. Was wir jeweils erhalten, steht unter <a href="${HOME}privacy/#account">Datenschutz</a>.</p>
+    v.innerHTML = `${noticeHtml()}<section class="frame login"><div><h2>Melde dich in deinem Profil an</h2>
+      <p>Ein Passwort gibt es nicht: Melde dich auf beliebigem Weg an. Was wir jeweils erhalten, steht unter <a href="${HOME}privacy/#account">Datenschutz</a>.</p>
       <ul><li>Bis zu zehn Charaktere, der Hauptcharakter steht im Kader.</li><li>Erfolge, Ränge und Porträtrahmen.</li><li>Der Titel „Gründer“ für alle, die es vor dem Start am 4. November schaffen.</li></ul></div>
       <div class="wayc"><div class="ways">${WAYS.map(([id, n]) => wayBtn(id, n, false)).join('')}</div>${mailForm()}</div></section>`;
   } else if (kind === 'mail') {
-    v.innerHTML = `<section class="frame state"><h2>Prüfen Sie Ihre E-Mails</h2><p>${esc(fill('Der Anmeldelink wurde an %e gesendet. Er gilt 15 Minuten. Keine E-Mail? Sehen Sie im Spam-Ordner nach.', { e: arg }))}</p>
+    v.innerHTML = `<section class="frame state"><h2>Prüf deine E-Mails</h2><p>${esc(fill('Der Anmeldelink wurde an %e gesendet. Er gilt 15 Minuten. Keine E-Mail? Sieh im Spam-Ordner nach.', { e: arg }))}</p>
       <div class="row"><button type="button" class="btn ghost" id="mAgain">Andere Adresse</button></div></section>`;
     $('#mAgain').onclick = () => { screen('login'); openMail(false); };
   } else {
@@ -2114,7 +2114,7 @@ function founderPlaque() {
   return `<div class="frame founder"><div><b>Titel „Gründer“</b><p>Füge vor dem Start am 4. November einen Charakter hinzu, Titel und goldener Rahmen bleiben für immer.</p></div>
     <div class="fcd">${unit(days, 'day')}<small>bis das Fenster schließt</small></div></div>`;
 }
-const who = () => (m && m.user.nick ? fill('Angemeldet als %n', { n: m.user.nick }) : 'Sie sind angemeldet');
+const who = () => (m && m.user.nick ? fill('Angemeldet als %n', { n: m.user.nick }) : 'Du bist angemeldet');
 /** Account without a character: the same section as in the cabinet, the wizard one tap away. */
 function accountOnly() {
   parkForm();
@@ -2380,7 +2380,7 @@ function pathHtml() {
 }
 function playHint() {   // until the person has opened the in-game page once
   if ((m.progress || {}).play_page) return '';
-  return `<div class="frame ask"><span>Sie spielen? Öffnen Sie „Im Spiel“ neben dem Spiel: Radio, Gebiete für Ihre Stufe und Timer, die Stufe Ihres Charakters ändern Sie mit einem Tipp.</span><a class="btn ghost" href="${HOME}play/">„Im Spiel“ öffnen</a></div>`;
+  return `<div class="frame ask"><span>Du spielst? Öffne „Im Spiel“ neben dem Spiel: Radio, Gebiete für deine Stufe und Timer, die Stufe deines Charakters änderst du mit einem Tipp.</span><a class="btn ghost" href="${HOME}play/">„Im Spiel“ öffnen</a></div>`;
 }
 function levelAsk() {
   let lvl = 0;
@@ -2497,7 +2497,7 @@ function secFrames() {
 /* ---------- growth blocks of the cabinet ---------- */
 function gloryHtml() {
   if (!m.glory) return '';
-  return `<div class="frame g-box">${gloryBar(m.glory)}<details class="g-how"><summary>So wächst Ihr Profil</summary><ul>
+  return `<div class="frame g-box">${gloryBar(m.glory)}<details class="g-how"><summary>So wächst dein Profil</summary><ul>
     <li>Ruhm ist Erfahrung für die Nutzung des Guides: Besuche, Guides, Radio, Tools und Wochenaufgaben. Er schaltet ein Motto und Namensfarben frei.</li>
     <li>Nach einer Pause kommt Erfahrung doppelt so schnell, wie Erholung in einer Taverne.</li>
     <li>Der Rang kommt aus Erfolgspunkten (★). Er schaltet Porträtrahmen frei.</li>
@@ -2620,7 +2620,7 @@ function waysBox() {
       : wayBtn(id, 'Link', true).replace(/<svg.*?<\/svg>/, '').replace(' way"', '"');
     return `<div class="it">${wayIco(id)}<b>${esc(n)}</b><span class="sp"></span>${act}</div>`;
   }).join('');
-  return `<div class="frame box"><h3>Anmeldemethoden</h3><p class="small">Ein Konto: Melden Sie sich mit jeder verknüpften Methode an.</p>
+  return `<div class="frame box"><h3>Anmeldemethoden</h3><p class="small">Ein Konto: Melde dich mit jeder verknüpften Methode an.</p>
     <div class="idl">${rows}</div>${mailForm()}<p class="msg" id="idNote" role="status"></p></div>`;
 }
 
@@ -3209,8 +3209,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=63caed3e78" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=e47acff0c7" data-root="../../" data-home="../" data-lang="de" data-teaser="Dein Profil hält deinen Weg fest: Ruhm, Rahmen, Saisons" data-close="Schließen" data-page="profile/" data-look="2" defer></script>
+<script src="../../assets/search/search.js?v=c74efbfe5f" data-root="../../" defer></script>
+<script src="../../assets/me/me.js?v=f6f2bb13e5" data-root="../../" data-home="../" data-lang="de" data-teaser="Dein Profil hält deinen Weg fest: Ruhm, Rahmen, Saisons" data-close="Schließen" data-page="profile/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

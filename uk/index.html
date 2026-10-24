@@ -922,8 +922,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=63caed3e78" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/me/me.css?v=e47acff0c7" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/search/search.css?v=c74efbfe5f" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/me/me.css?v=f6f2bb13e5" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Гід WoW Forever","alternateName":"Gabella","url":"https://gabella.site/wow/uk/","inLanguage":"uk","description":"Гід по WoW Forever (ВоВ Форевер): ким грати, підбір раси й класу, збір групи і гайди з прокачки, підземель і професій.","publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/Zd45sNHy9x"]}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/Zd45sNHy9x"]}</script>
 </head>
@@ -1085,7 +1085,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     <div class="pickm" id="pickm"></div>
     <div class="detail" id="detail" aria-live="polite" aria-label="Обрана комбінація"></div>
   </div>
-  <p class="note"><b>Нові комбінації:</b> дворф-шаман і гном-жрець (Альянс), людина-мисливець, а в Орди орк-маг, троль-чорнокнижник і нежить-паладин. Паладин з’явився в Орди, шаман в Альянсі. Скайборн-вітрорізь (Орда) може бути шаманом, Високий скайборн (Альянс) магом.</p>
+  <p class="note"><b>Нові комбінації:</b> дворф-шаман і гном-жрець (Альянс), людина-мисливець, а в Орді орк-маг, троль-чорнокнижник і нежить-паладин. Паладин з’явився в Орді, шаман в Альянсі. Скайборн-вітрорізь (Орда) може бути шаманом, Високий скайборн (Альянс) магом.</p>
 </section>
 <section class="block wrap" id="builder">
   <div class="sec-head"><h2>Конструктор групи</h2>
@@ -1206,7 +1206,7 @@ const CLASSES = [
     lvl:'Середній темп прокачування',
     lp:0,
     raid:'Благословення королів тепер базове. За бета-списками Захист серед найсильніших танків, Відплата просіла після патча 15 жовтня.',
-    forever:'Священний удар з 6 рівня, Правосуддя не витрачає печатку. Нежить тепер може бути паладином, отже клас з’явився в Орди.' },
+    forever:'Священний удар з 6 рівня, Правосуддя не витрачає печатку. Нежить тепер може бути паладином, отже клас з’явився в Орді.' },
   { id:'hunter', n:'Мисливець', roles:['dps'],
     specs:[['Володіння звірами','Шкода здалеку, багато шкоди від улюбленця',['dps']],['Стрільба','Шкода здалеку',['dps']],['Виживання','Ближній і дальній бій, пастки',['dps']]],
     lvl:'Найшвидше прокачування, приблизно на 8% швидше за середнє',
@@ -1283,7 +1283,7 @@ const RACES = [
   { id:'undead', n:'Нежить', f:'horde',
     cls:['warrior','rogue','mage','priest','warlock','paladin*'],
     rac:[['a','Воля Відрікшихся','Знімає зачарування, страх і сон'],['a','Канібалізм','Відновлює 35% здоров’я та мани з часом'],['p','Підводне дихання','Дихання під водою довше'],['p','Дотик могили','Шанс висмоктати здоров’я під час атаки']],
-    tip:'Нова комбінація: паладин в Орди, де раніше цього класу не було.' },
+    tip:'Нова комбінація: паладин в Орді, де раніше цього класу не було.' },
   { id:'tauren', n:'Таурен', f:'horde',
     cls:['warrior','hunter','shaman','druid'],
     rac:[['a','Тупіт війни','Приголомшує ворогів поруч на 2 сек'],['a','Культивація','Вирощує трави, які можна зібрати без травництва'],['p','Біг рівнинами','Швидкість росте, поки ви біжите'],['p','Витривалість','+5% здоров’я та +2% до шкоди крита']],
@@ -1497,14 +1497,14 @@ render();
 const ROOT = '../';
 const DESC = {
   warrior: 'Лати, лють і перший ряд. Тримає удар як танк або рубає дворучною зброєю.',
-  paladin: 'Святий воїн у латах: лікує, танкує й б’є молотом. Тепер є й в Орди.',
+  paladin: 'Святий воїн у латах: лікує, танкує й б’є молотом. Тепер є й в Орді.',
   hunter: 'Лук, пастки й вірний звір поруч. Один із найшвидших класів у прокачці.',
   rogue: 'Отрути, клинки й тінь. Чиста шкода із засідки та контроль ворогів.',
-  priest: 'Світло й Темрява в одних руках. Головний лікар групи або темний заклинач.',
+  priest: 'Світло й Темрява в одних руках. Головний цілитель групи або темний заклинач.',
   shaman: 'Тотеми й стихії: лікує, б’є блискавкою або зброєю. Тепер є й в Альянсу.',
   mage: 'Вогонь, лід і таємна магія. Портали, їжа й вода для всієї компанії.',
   warlock: 'Прокляття, демони й вогонь. Шкода з часом і власний демон на допомогу.',
-  druid: 'Ведмідь, кіт, сова або лікар: усі три ролі на одному персонажі.'
+  druid: 'Ведмідь, кіт, сова або цілитель: усі три ролі на одному персонажі.'
 };
 const artSet = (id, ext) => [360, 600, 896].map(w => `${ROOT}assets/art/${id}-${w}.${ext} ${w}w`).join(', ');
 const ART_SIZES = '(max-width: 719px) 78vw, 440px';
@@ -1651,7 +1651,7 @@ function renderTeam() {
   else {
     const full = Array.from({ length: parties }, (_, g) => team.list.slice(g * PARTY, g * PARTY + PARTY)).filter(p => p.length === PARTY && p.some(s => s.role === 'tank') && p.some(s => s.role === 'heal')).length;
     if (full) v.push(['good', `Готових груп для підземелля: ${full} з ${parties}. У кожній є танк і цілитель.`]);
-    if (full < parties) v.push(['warn', 'Є групи, де бракує танка, лікаря або гравців. Їх підсвічено у списку.']);
+    if (full < parties) v.push(['warn', 'Є групи, де бракує танка, цілителя або гравців. Їх підсвічено у списку.']);
     RAIDS.forEach(([size, name]) => v.push([n >= size ? 'good' : '', n >= size ? `Рейд на ${size} (${name}): людей вистачає.` : `Рейд на ${size} (${name}): бракує ${size - n}.`]));
     const byCls = {}; team.list.forEach(s => byCls[s.cls] = (byCls[s.cls] || 0) + 1);
     const dup = Object.keys(byCls).filter(c => byCls[c] > 1 && BUFF[c]);
@@ -1665,7 +1665,7 @@ function renderTeam() {
   $('#buffs').innerHTML = (withB.length ? withB.map(c => `<li class="good"><span class="cdot" style="--cc:${CCOL[c]}"></span><b>${esc(CL[c].n)}:</b> ${esc(BUFF[c])}</li>`).join('') : '<li>Поки немає класів із груповими баффами.</li>')
     + (noB.length ? `<li>Без групового баффа: ${noB.map(c => CL[c].n).join(', ')}. Вони дають чисту шкоду.</li>` : '');
   $('#teamText').value = n ? Array.from({ length: parties }, (_, g) => (parties > 1 ? `Група ${g + 1}: ` : '') + team.list.slice(g * PARTY, g * PARTY + PARTY).map(s => `${raceName(RC[s.race])} ${CL[s.cls].n} (${ROLE_RU[s.role]})`).join(', ')).join('; ') + ` — ${facName(team.f)}` : '';
-  $('#qTeam').textContent = n ? `${facName(team.f)}, гравців: ${n}, танків ${cnt.tank}, лікарів ${cnt.heal}` : 'Від одного до сорока гравців';
+  $('#qTeam').textContent = n ? `${facName(team.f)}, гравців: ${n}, танків ${cnt.tank}, цілителів ${cnt.heal}` : 'Від одного до сорока гравців';
   if (teamTouched) { try { history.replaceState(null, '', n ? teamLink() : location.pathname); } catch (e) {} }
 }
 function touch() { teamTouched = true; renderTeam(); }
@@ -1780,7 +1780,7 @@ const STAGES = [
     legacy: [['f', 'Legacy відкривається з першим очком: 25 рівень, 150 у професії (не збирання) або дослідження всієї мапи.'],
       ['f', 'На старті на персонажа можна витратити не більше 16 очок, зайві йдуть у трек нагород.']],
     group: [['t', 'Домовтеся про одну фракцію та один режим: групуватися можна лише всередині режиму, а в PvP на акаунті одна фракція.'],
-      ['t', 'Зберіть склад у конструкторі: танк, лікар і різні класи заради бафів.']],
+      ['t', 'Зберіть склад у конструкторі: танк, цілитель і різні класи заради бафів.']],
     src: ['names', 'names2', 'prof', 'legacy'] },
   { id: 'first', n: 'Перші дні', sub: 'рівні 1–15', lo: 1, hi: 15,
     todo: [['f', 'Скайборн починають на острові Zephras Isle, це рівні 1–12.'],
@@ -1805,7 +1805,7 @@ const STAGES = [
       ['t', 'Якщо до 25 рівня далеко, доведіть ремесло до 150: Legacy відкриється раніше.']],
     legacy: [['f', 'Кожне випробування дає 1 очко. Усього їх 65: класи 27, професії 18, PvP 12, підземелля 3, рейди 3, пригоди 2.'],
       ['t', 'Цінні Reagent Economy (без купованих реагентів для здібностей) і Field Guide (коротший відкат об’єктів табору).']],
-    group: [['f', 'Підземелля розраховане на 5 гравців: танк, лікар і троє з уроном.'],
+    group: [['f', 'Підземелля розраховане на 5 гравців: танк, цілитель і троє зі шкодою.'],
       ['f', 'Масштабування рівнів немає, тому другові, що сильно відстав, у підземеллі буде важко.'],
       ['t', 'Тримайте рівні близько: ті, хто відстав, наздоганяють на завданнях, підземелля проходьте разом.']],
     src: ['dung', 'camp', 'legacy'] },
@@ -2055,8 +2055,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../assets/radio/radio.js" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=63caed3e78" data-root="../" defer></script>
-<script src="../assets/me/me.js?v=e47acff0c7" data-root="../" data-home="./" data-lang="uk" data-teaser="Профіль зберігає ваш шлях: Слава, рамки, сезони" data-close="Закрити" data-page="" data-look="2" defer></script>
+<script src="../assets/search/search.js?v=c74efbfe5f" data-root="../" defer></script>
+<script src="../assets/me/me.js?v=f6f2bb13e5" data-root="../" data-home="./" data-lang="uk" data-teaser="Профіль зберігає ваш шлях: Слава, рамки, сезони" data-close="Закрити" data-page="" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

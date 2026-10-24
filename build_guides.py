@@ -41,8 +41,8 @@ THERO_W = (960, 1440, 1920, 2560)
 
 
 LAUNCH_UTC = '23:00 UTC'
-YOUR = {'ru': 'по вашему времени', 'en': 'your time', 'uk': 'за вашим часом', 'de': 'Ihre Zeit', 'fr': 'votre heure',
-        'es': 'su hora', 'pt': 'seu horário', 'it': 'ora locale', 'pl': 'twój czas'}
+YOUR = {'ru': 'по вашему времени', 'en': 'your time', 'uk': 'за вашим часом', 'de': 'deine Zeit', 'fr': 'votre heure',
+        'es': 'tu hora', 'pt': 'seu horário', 'it': 'ora locale', 'pl': 'twój czas'}
 LOCAL_JS = """<script>
 document.querySelectorAll('time.lt').forEach(t => {
   const s = new Intl.DateTimeFormat(document.documentElement.lang, { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }).format(new Date(t.dateTime));
