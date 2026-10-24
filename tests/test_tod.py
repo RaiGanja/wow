@@ -6,7 +6,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ART = os.path.join(ROOT, 'assets', 'art')
 TODS = ['dawn', 'day', 'dusk', 'night']
 WIDE = (960, 1440, 1920, 2560, 3840)
-MOBILE = (600, 1000)
+MOBILE = (600, 800, 1000)
 import sys
 sys.path.insert(0, ROOT)
 
@@ -66,6 +66,8 @@ class Markup(unittest.TestCase):
             self.assertIn('window.GabellaTod', head, page)
             self.assertIn('data-tod-sw', html, page)
             self.assertNotIn('hero_dawn-1920.avif 1920w', html.split('<noscript>')[0].split('</head>')[1], page)
+            # the phone band is 100vw wide: a 412 px phone at 1.75x takes the 800 cut, not 1000 (78vh asked for 1000)
+            self.assertRegex(html, r'hero_\{tod\}-m-800\.avif[^ ]* 800w, [^"]*" sizes="100vw"', page)
 
     def test_leveling_guide_follows_time_of_day(self):
         html = open(os.path.join(ROOT, 'guides', 'leveling', 'index.html'), encoding='utf-8').read()

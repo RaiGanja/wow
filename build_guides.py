@@ -670,7 +670,7 @@ def build_page(g, lang, tpl, base_css, sprite, src):
     for k, v in rep.items():                                     # 2) тело
         html = html.replace(f'@@{k}@@', v)
     html = tod.apply(html, lang, root='@@ROOT@@', cls='stband-art', fx='dawn', mobile=True,
-                     widths=WIDTHS['hero_dawn'], sizes='100vw', img_w=1920, img_h=1072)
+                     widths=WIDTHS['hero_dawn'], sizes='100vw', img_w=1920, img_h=1072, msizes='78vh')
     html = html.replace('\n    @@TOD_SW@@', '', 1)                # other guides: no switch
     if 'data-tod-art' in html:
         html = html.replace('</head>', '<link rel="stylesheet" href="@@ROOT@@assets/tod/tod.css" media="print" onload="this.media=\'all\'">\n</head>', 1)

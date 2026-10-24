@@ -17,6 +17,7 @@ SCENE_Q = 66  # wide scene art fills the screen: AVIF at 52 smears grass and fur
 TODS = ['dawn', 'day', 'dusk', 'night']   # the home hero in the reader's time of day (tod.py); one living mask fits all
 JOBS = [(f'hero_{t}', [960, 1440, 1920, 2560, 3840]) for t in TODS] + [('hero_campfire', [960, 1600, 2560]), ('hero_road', [960, 1600, 2560])] +        [(n, [960, 1440, 1920, 2560]) for n in INNER] + [(c, [360, 600, 896]) for c in CLASSES]
 CUTS = {**{f'hero_{t}': .97 for t in TODS}, **{n: .9 for n in INNER}, 'hero_news': .85}   # phone cut of each full-screen hero: share of the free width left of it
+MOBILE_W = {**{f'hero_{t}': (600, 800, 1000) for t in TODS}}   # the home band is 100vw wide: 800 fits a 412 px phone at 1.75x (tod.MOBILE_W)
 
 
 def save(im, name, w, aq=52):
@@ -96,15 +97,15 @@ def face(src, name):
     im.save(os.path.join(OUT, f'{name}-face.webp'), quality=82, method=6)
 
 
-def hero_mobile(name='hero_dawn'):
-    """Portrait cut of a full-screen hero for phones: <name>-m-600|1000. Cut at x = CUTS[name] * (width - cut), so the
+def hero_mobile(name='hero_dawn', widths=None):
+    """Portrait cut of a full-screen hero for phones: <name>-m-600|1000 (and 800 for the home, MOBILE_W). Cut at x = CUTS[name] * (width - cut), so the
     phone view (object-position at the same share) shows exactly the same part of the picture as with the full-width file:
     the whole party, on the home hero as a band over the text (every time of day the same way), on inner pages over the text."""
     im = source(name)
     w = round(600 * im.height / 768)
     x = round(CUTS[name] * (im.width - w))
     im = im.crop((x, 0, x + w, im.height))
-    for width in (600, 1000):
+    for width in widths or MOBILE_W.get(name, (600, 1000)):
         save(im, name + '-m', width, SCENE_Q)
     print(name + '-m ok')
 
