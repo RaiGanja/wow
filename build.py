@@ -1186,7 +1186,7 @@ def report_new_langs():
 
 
 STAGE = '.build'
-STAGE_SKIP = {'.git', '.claude', '.wrangler', STAGE, 'docs', 'node_modules', '__pycache__'}
+STAGE_SKIP = {'docs', 'node_modules', '__pycache__'}   # and every dot folder: git, local tools, the stage itself
 
 
 def staged():
@@ -1194,7 +1194,7 @@ def staged():
     (an untranslated fragment, a failed check) used to leave 180 half-built pages in the tree; now it leaves nothing."""
     tmp = os.path.join(HERE, STAGE)
     shutil.rmtree(tmp, ignore_errors=True)
-    shutil.copytree(HERE, tmp, ignore=lambda d, names: [n for n in names if n in STAGE_SKIP])
+    shutil.copytree(HERE, tmp, ignore=lambda d, names: [n for n in names if n in STAGE_SKIP or n.startswith('.')])
     try:
         code = subprocess.run([sys.executable, os.path.join(tmp, 'build.py')] + sys.argv[1:], env={**os.environ, 'WF_STAGED': '1'}).returncode
         if code:
