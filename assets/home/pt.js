@@ -489,6 +489,8 @@ const ST = Object.fromEntries(STAGES.map(s => [s.id, s]));
 const D_REL = new Date('2026-11-04T23:00:00Z'), D_RAID = new Date('2026-12-09T00:00:00');
 
 /* My character, saved in this browser */
+const RR = ['tank', 'heal', 'dps'];
+function roleOpts(c) { return RR.filter(x => c.roles.includes(x) || (x === 'tank' && c.roles.includes('tank?'))); }
 const MEKEY = 'gabella-wf-me';
 const me = { race: '', cls: '', role: '', lvl: 0, p1: '', p2: '', sec: [] };
 try { const v = JSON.parse(localStorage.getItem(MEKEY) || '{}'); if (v && typeof v === 'object') Object.keys(me).forEach(k => { if (v[k] !== undefined) me[k] = v[k]; }); } catch (e) {}
