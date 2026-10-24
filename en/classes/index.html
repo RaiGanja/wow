@@ -340,6 +340,13 @@ canvas.fx.on { opacity: 1; }
 .stband .wrap { display: grid; gap: 20px; }
 /* page-level grids: one column that may shrink, so a long word or a wide field never pushes past the screen edge */
 section.block, .hero-in, .chero-in, .thero-in, .stband .wrap { grid-template-columns: minmax(0, 1fr); }
+/* Shade right behind the hero text: sky and sun in the art are light, a soft dark patch keeps the words readable (no box) */
+.hero-in, .thero-in, .ghero .wrap { position: relative; }
+.hero-in::before, .thero-in::before, .ghero .wrap::before { content: ""; position: absolute; z-index: -1; left: -14vw; width: min(1180px, 100vw); pointer-events: none;
+  background: radial-gradient(farthest-side at 42% 50%, rgb(var(--hero-fade) / .66), rgb(var(--hero-fade) / .5) 55%, rgb(var(--hero-fade) / 0)); }
+.hero-in::before { top: calc(var(--top) + clamp(40px, 9vh, 110px) - 90px); bottom: -20px; }
+.thero-in::before, .ghero .wrap::before { top: -90px; bottom: -70px; }
+.ghero .wrap::before { background: radial-gradient(farthest-side at 42% 50%, color-mix(in srgb, var(--bg) 66%, transparent), color-mix(in srgb, var(--bg) 50%, transparent) 55%, transparent); }   /* guide text follows the theme */
 .stband .sec-head p { color: var(--fg); opacity: .85; }
 .stband .sec-head .src { color: var(--fg); opacity: .7; }
 .frame { position: relative; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); box-shadow: 0 18px 48px rgba(0,0,0,.35); backdrop-filter: blur(6px); }
@@ -874,8 +881,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 /* Guide pages: hero over art, sticky contents left, frames right; tables become cards on phones */
 .ghero { padding-top: calc(var(--top) + 64px); min-height: 440px; display: flex; align-items: flex-end; }
 .ghero .wrap { width: 100%; gap: 14px; }
-.ghero .crumbs { display: flex; flex-wrap: wrap; gap: 6px 10px; font-size: .9rem; color: var(--muted); }
-.ghero .crumbs a { color: var(--muted); text-decoration: none; }
+.ghero .crumbs { display: flex; flex-wrap: wrap; gap: 6px 10px; font-size: .9rem; color: var(--fg); }   /* on the art: --muted is too faint over the light sky */
+.ghero .crumbs a { color: inherit; text-decoration: none; }
 .ghero .crumbs a:hover { color: var(--fg); text-decoration: underline; }
 .ghero h1 { font-size: clamp(2.6rem, 6vw, 4.6rem); line-height: .98; }
 .glead { max-width: 60ch; font-size: clamp(1.02rem, 1.4vw, 1.15rem); opacity: .88; }
@@ -927,6 +934,7 @@ nav.gtiles { padding: 14px; }
 .gsearch:focus-within { border-color: var(--gold); }
 .gsearch input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; color: var(--fg); font: inherit; font-size: 1.05rem; min-height: 48px; }
 .gsearch input::placeholder { color: var(--muted); }
+.gnone:not(:empty) { margin: 14px 2px 0; color: var(--muted); }
 /* In game (/play/, build_guides.play_body): no art band, always solid bar; one column on phones, two from 960px */
 .compact .topbar { background: var(--rail); border-bottom-color: var(--line); color: var(--fg); }
 .phead { padding-top: calc(var(--top) + 22px); }
@@ -1040,15 +1048,17 @@ nav.gtiles { padding: 14px; }
 .rv.in { opacity: 1; transform: none; transition: opacity .6s var(--ease), transform .6s var(--ease); }
 @media print { .rv { opacity: 1; transform: none; } }
 </style>
+<style>.skip{position:fixed;left:12px;top:-60px;z-index:100;padding:10px 16px;border-radius:10px;background:#0a0b0d;color:#c9a54a;font-weight:600;text-decoration:none;border:1px solid #c9a54a}.skip:focus{top:12px}</style>
 <link rel="manifest" href="../../manifest-en.webmanifest">
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
-<link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=474be382c7" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/radio/radio.css?v=172cc556c4" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=4d00b79945" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/me/me.css?v=9f6bfa2333" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/en/"},{"@type":"ListItem","position":2,"name":"Classes","item":"https://gabella.site/wow/en/classes/"}]}</script>
 </head>
 <body>
+<a class="skip" href="#content">Skip to content</a>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-tank" viewBox="0 0 24 24"><path d="M12 3l7 3v5.5c0 4.6-3 7.7-7 9.5-4-1.8-7-4.9-7-9.5V6z"/></symbol>
   <symbol id="i-heal" viewBox="0 0 24 24"><path d="M10 4h4v6h6v4h-6v6h-4v-6H4v-4h6z"/></symbol>
@@ -1084,9 +1094,10 @@ nav.gtiles { padding: 14px; }
     <button class="iconbtn menubtn" type="button" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg><span>More</span></button>
   </div>
 </div></header>
+<span id="content" tabindex="-1"></span>
 
 <section class="stband ghero" id="top">
-  <picture class="stband-art" aria-hidden="true"><source type="image/avif" srcset="../../assets/art/warrior-360.avif?v=6859bd26 360w, ../../assets/art/warrior-600.avif?v=778c7ed6 600w, ../../assets/art/warrior-896.avif?v=e1226902 896w" sizes="100vw"><img src="../../assets/art/warrior-896.webp?v=b36b231d" srcset="../../assets/art/warrior-360.webp?v=a184c6fb 360w, ../../assets/art/warrior-600.webp?v=f33e405c 600w, ../../assets/art/warrior-896.webp?v=b36b231d 896w" sizes="100vw" alt="" decoding="async" fetchpriority="high"></picture>
+  <picture class="stband-art" aria-hidden="true"><source type="image/avif" srcset="../../assets/art/warrior-360.avif?v=0003354e 360w, ../../assets/art/warrior-600.avif?v=0003354e 600w, ../../assets/art/warrior-896.avif?v=0003354e 896w" sizes="100vw"><img src="../../assets/art/warrior-896.webp?v=0003354e" srcset="../../assets/art/warrior-360.webp?v=0003354e 360w, ../../assets/art/warrior-600.webp?v=0003354e 600w, ../../assets/art/warrior-896.webp?v=0003354e 896w" sizes="100vw" alt="" decoding="async" fetchpriority="high"></picture>
   <div class="wrap">
     <nav class="crumbs" aria-label="Breadcrumbs"><a href="../">Guide</a><span aria-hidden="true">/</span><span>Classes</span></nav>
     <h1>Classes</h1>
@@ -1106,7 +1117,7 @@ nav.gtiles { padding: 14px; }
 
 <div class="wrap">
 <p class="dcta"><span>Launch groups, guide questions and news — on the Gabella Team Discord.</span><a class="btn ghost" href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Open Discord</a></p>
-<section id="more"><div class="sec-head"><h2>More on the site</h2></div><nav class="frame ttiles gtiles" aria-label="More on the site"><a class="ttile" href="../races/"><picture><source type="image/avif" srcset="../../assets/art/human-360.avif?v=4b83bd2a 360w, ../../assets/art/human-600.avif?v=b743f61d 600w, ../../assets/art/human-896.avif?v=42a86d2a 896w" sizes="320px"><img src="../../assets/art/human-600.webp?v=2d8182c1" srcset="../../assets/art/human-360.webp?v=f6b98610 360w, ../../assets/art/human-600.webp?v=2d8182c1 600w, ../../assets/art/human-896.webp?v=5063bb19 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Races</b><span>All races compared</span><time datetime="2026-10-23">Oct 23, 2026</time></a><a class="ttile" href="../guides/"><picture><source type="image/avif" srcset="../../assets/art/hero_campfire-960.avif?v=2654726f 960w, ../../assets/art/hero_campfire-1600.avif?v=a9d1ad39 1600w, ../../assets/art/hero_campfire-2560.avif?v=6b161175 2560w" sizes="320px"><img src="../../assets/art/hero_campfire-960.webp?v=d73f1e16" srcset="../../assets/art/hero_campfire-960.webp?v=d73f1e16 960w, ../../assets/art/hero_campfire-1600.webp?v=bef1b754 1600w, ../../assets/art/hero_campfire-2560.webp?v=08f5bedc 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Guides</b><span>Leveling, dungeons, professions and answers</span></a><a class="ttile" href="../tools/"><picture><source type="image/avif" srcset="../../assets/art/rogue-360.avif?v=0e4303b0 360w, ../../assets/art/rogue-600.avif?v=e21dd598 600w, ../../assets/art/rogue-896.avif?v=c3b868ba 896w" sizes="320px"><img src="../../assets/art/rogue-600.webp?v=d3dbeaa4" srcset="../../assets/art/rogue-360.webp?v=f8e165bf 360w, ../../assets/art/rogue-600.webp?v=d3dbeaa4 600w, ../../assets/art/rogue-896.webp?v=b44a1b62 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Tools</b><span>Frames, compare, search</span></a><a class="ttile" href="../play/"><picture><source type="image/avif" srcset="../../assets/art/shaman-360.avif?v=0dbb0972 360w, ../../assets/art/shaman-600.avif?v=f3897c65 600w, ../../assets/art/shaman-896.avif?v=bf19e5ec 896w" sizes="320px"><img src="../../assets/art/shaman-600.webp?v=685d7399" srcset="../../assets/art/shaman-360.webp?v=bebb6ed5 360w, ../../assets/art/shaman-600.webp?v=685d7399 600w, ../../assets/art/shaman-896.webp?v=c55422e9 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>In game</b><span>Second screen: radio, level, timers</span></a></nav></section>
+<section id="more"><div class="sec-head"><h2>More on the site</h2></div><nav class="frame ttiles gtiles" aria-label="More on the site"><a class="ttile" href="../races/"><picture><source type="image/avif" srcset="../../assets/art/human-360.avif?v=0003354e 360w, ../../assets/art/human-600.avif?v=0003354e 600w, ../../assets/art/human-896.avif?v=0003354e 896w" sizes="320px"><img src="../../assets/art/human-600.webp?v=0003354e" srcset="../../assets/art/human-360.webp?v=0003354e 360w, ../../assets/art/human-600.webp?v=0003354e 600w, ../../assets/art/human-896.webp?v=0003354e 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Races</b><span>All races compared</span><time datetime="2026-10-23">Oct 23, 2026</time></a><a class="ttile" href="../guides/"><picture><source type="image/avif" srcset="../../assets/art/hero_campfire-960.avif?v=2654726f 960w, ../../assets/art/hero_campfire-1600.avif?v=a9d1ad39 1600w, ../../assets/art/hero_campfire-2560.avif?v=6b161175 2560w" sizes="320px"><img src="../../assets/art/hero_campfire-960.webp?v=d73f1e16" srcset="../../assets/art/hero_campfire-960.webp?v=d73f1e16 960w, ../../assets/art/hero_campfire-1600.webp?v=bef1b754 1600w, ../../assets/art/hero_campfire-2560.webp?v=08f5bedc 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Guides</b><span>Leveling, dungeons, professions and answers</span></a><a class="ttile" href="../tools/"><picture><source type="image/avif" srcset="../../assets/art/rogue-360.avif?v=0003354e 360w, ../../assets/art/rogue-600.avif?v=0003354e 600w, ../../assets/art/rogue-896.avif?v=0003354e 896w" sizes="320px"><img src="../../assets/art/rogue-600.webp?v=0003354e" srcset="../../assets/art/rogue-360.webp?v=0003354e 360w, ../../assets/art/rogue-600.webp?v=0003354e 600w, ../../assets/art/rogue-896.webp?v=0003354e 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Tools</b><span>Frames, compare, search</span></a><a class="ttile" href="../play/"><picture><source type="image/avif" srcset="../../assets/art/shaman-360.avif?v=0003354e 360w, ../../assets/art/shaman-600.avif?v=0003354e 600w, ../../assets/art/shaman-896.avif?v=0003354e 896w" sizes="320px"><img src="../../assets/art/shaman-600.webp?v=0003354e" srcset="../../assets/art/shaman-360.webp?v=0003354e 360w, ../../assets/art/shaman-600.webp?v=0003354e 600w, ../../assets/art/shaman-896.webp?v=0003354e 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>In game</b><span>Second screen: radio, level, timers</span></a></nav></section>
 <footer id="sources">
   <h2>Sources</h2>
   <ul><li><a href="https://www.warcrafttavern.com/forever/guides/classes/" target="_blank" rel="noopener">Warcraft Tavern</a></li><li><a href="https://lfcarry.com/guides/wow-forever-classes" target="_blank" rel="noopener">LFCarry</a></li></ul>
@@ -1306,7 +1317,7 @@ function bi(ru) { return EN[ru] && EN[ru] !== ru ? `${esc(ru)} <span class="en">
 function raceEn(r) { return r.en ? ` <span class="en">/ ${esc(r.en)}</span>` : ''; }
 function facName(f) { return f === 'alliance' ? 'Alliance' : 'Horde'; }
 /* Round face avatar: assets/art/<id>-face.webp, ring colour cc */
-function face(id, cc, cls = '', title = '') { return `<span class="av ${cls}" style="--cc:${cc}"${title ? ` title="${esc(title)}"` : ''}><img src="../../assets/art/${id}-face.webp" width="160" height="160" alt="" loading="lazy" decoding="async"></span>`; }
+function face(id, cc, cls = '', title = '') { return `<span class="av ${cls}" style="--cc:${cc}"${title ? ` title="${esc(title)}"` : ''}><img src="../../assets/art/${id}-face.webp?v=0003354e" width="160" height="160" alt="" loading="lazy" decoding="async"></span>`; }
 function lvlMeter(c) {
   const p = c.lp || 0, w = Math.min(Math.abs(p) / 12 * 46, 46);
   const label = p < 0 ? `Faster by ${-p}%` : p > 0 ? `Slower by ${p}%` : 'Average pace';
@@ -1316,7 +1327,7 @@ function lvlMeter(c) {
 function renderClassRef() {
   const roles = ['tank', 'heal', 'dps'];
   const head = `<div class="cmp-h" aria-hidden="true"><span>Class</span><span class="rdots">${roles.map(x => `<span title="${ROLE_RU[x]}">${ri(x)}</span>`).join('')}</span><span>Leveling</span><span>In raids</span><span></span></div>`;
-  $('#classRef').innerHTML = head + CLASSES.map(c => `<a class="cmp-row" href="${HOME}classes/${c.id}/" style="--cc:${CCOL[c.id]};--art:url('../../assets/art/${c.id}-360.webp')">
+  $('#classRef').innerHTML = head + CLASSES.map(c => `<a class="cmp-row" href="${HOME}classes/${c.id}/" style="--cc:${CCOL[c.id]};--art:url('../../assets/art/${c.id}-360.webp?v=0003354e')">
     <span class="cmp-id">${face(c.id, CCOL[c.id])}<span><b>${esc(c.n)}</b><small>${c.specs.map(s => esc(s[0])).join(' · ')}</small></span></span>
     <span class="rdots" role="img" aria-label="Roles: ${c.roles.map(x => ROLE_RU[x]).join(', ')}">${roles.map(x => { const on = c.roles.includes(x), q = c.roles.includes(x + '?'); return `<span class="rdot${on ? ' on' : q ? ' q' : ''}" title="${ROLE_RU[q ? x + '?' : x]}">${ri(x)}</span>`; }).join('')}</span>
     ${lvlMeter(c)}
@@ -1327,7 +1338,7 @@ function renderClassRef() {
 
 function renderRaceRef() {
   const head = `<div class="cmp-h" aria-hidden="true"><span>Race</span><span>Classes</span><span class="abl">Abilities <span class="abt">active</span><span class="abt p">passive</span></span><span></span></div>`;
-  $('#raceRef').innerHTML = ['alliance', 'horde'].map(f => `<div class="rgroup ${f}"><h3>${facName(f)}</h3>${head}` + RACES.filter(r => r.f === f).map(r => `<a class="cmp-row" href="${HOME}races/${RSLUG[r.id]}/" style="--cc:var(--${f});--art:url('../../assets/art/${RSLUG[r.id]}-360.webp')">
+  $('#raceRef').innerHTML = ['alliance', 'horde'].map(f => `<div class="rgroup ${f}"><h3>${facName(f)}</h3>${head}` + RACES.filter(r => r.f === f).map(r => `<a class="cmp-row" href="${HOME}races/${RSLUG[r.id]}/" style="--cc:var(--${f});--art:url('../../assets/art/${RSLUG[r.id]}-360.webp?v=0003354e')">
     <span class="cmp-id">${face(RSLUG[r.id], `var(--${f})`)}<span><b>${esc(r.n)}${r.paid ? '<span class="paid">paid</span>' : ''}</b>${r.en ? `<small>${esc(r.en)}</small>` : ''}</span></span>
     <span class="ccl" role="img" aria-label="Classes: ${Object.keys(r.can).map(id => CL[id].n).join(', ')}">${CLASSES.map(c => { const v = r.can[c.id]; return face(c.id, CCOL[c.id], v ? (v === 'new' ? 'nw' : '') : 'off', c.n + (v === 'new' ? ', new' : v ? '' : ', not available')); }).join('')}</span>
     <span class="abs">${r.rac.map(x => `<span><b class="${x[0] === 'a' ? '' : 'p'}">${bi(x[1])}</b><span>${esc(x[2])}</span></span>`).join('')}</span>
@@ -1403,8 +1414,8 @@ addEventListener('beforeinstallprompt', e => {
   opts.append(b);
 });
 </script>
-<script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=474be382c7" data-root="../../" defer></script>
+<script src="../../assets/radio/radio.js?v=172cc556c4" data-root="../../" defer></script>
+<script src="../../assets/search/search.js?v=4d00b79945" data-root="../../" defer></script>
 <script src="../../assets/me/me.js?v=9f6bfa2333" data-root="../../" data-home="../" data-lang="en" data-teaser="Your profile keeps your characters, achievements and frames" data-close="Close" data-page="classes/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>

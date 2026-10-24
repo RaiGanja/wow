@@ -79,7 +79,45 @@ def test_home_waits_for_the_hero():
         assert home.count("document.querySelectorAll('script[data-src]')") == 1, lang
         assert home.index('assets/home/') < home.index('assets/radio/radio.js') < home.index('assets/me/me.js'), lang
     other = page('guides', 'leveling')                         # other pages load them as before
-    assert '<script src="../../assets/radio/radio.js" data-root="../../" defer>' in other and '<script data-src=' not in other
+    assert re.search(r'<script src="\.\./\.\./assets/radio/radio\.js\?v=\w+" data-root="\.\./\.\./" defer>', other)
+    assert '<script data-src=' not in other
+
+
+def test_versions_on_radio_and_portraits():
+    """assets/ live 7 days in the browser: radio files, the station list and portraits drawn by JS carry ?v= (build.radio_version,
+    build.art_version); a portrait in the HTML and the same one from a JS template are one address."""
+    for parts in [(), ('en',), ('guides', 'leveling'), ('tools',)]:
+        html = page(*parts)
+        assert re.search(r'assets/radio/radio\.js\?v=\w{10}', html) and re.search(r'assets/radio/radio\.css\?v=\w{10}', html), parts
+    assert "'assets/radio/stations.json' + VER" in open(os.path.join(ROOT, 'assets', 'radio', 'radio.js'), encoding='utf-8').read()
+    for lang in LANGS:
+        js, html = home_js(lang), page(*lang_dir(lang))
+        assert not re.search(r'assets/art/\$\{[^}]+\}-[^`"\' ]*\.(?:webp|avif|\$\{\w+\})(?!\?v=)', js), lang
+        v = set(re.findall(r'assets/art/(?:\$\{[^}]+\}|[a-z-]+)-(?:\d+|face|\$\{w\})\.(?:webp|avif|\$\{ext\})\?v=(\w+)', js + html))
+        assert len(v) == 1, (lang, v)
+    assert not re.search(r'assets/art/\$\{id\}-360\.webp(?!\?v=)', page('tools'))
+
+
+def test_skip_link_and_quiet_countdown():
+    for parts in [(), ('en',), ('classes', 'mage'), ('guides', 'faq'), ('tools',), ('profile',)]:
+        html = page(*parts)
+        m = re.search(r'<body[^>]*>\s*<a class="skip" href="#content">[^<]+</a>', html)
+        assert m and html.index('</header>') < html.index('id="content"'), parts
+    for lang in LANGS:
+        home = page(*lang_dir(lang))
+        assert '<div class="cd" id="cd"></div><p class="sr" id="cdLive" aria-live="polite"></p>' in home, lang
+        assert "$('#cdLive').textContent" in home + home_js(lang), lang
+
+
+def test_offline_page_links_home():
+    sw = open(os.path.join(ROOT, 'sw.js'), encoding='utf-8').read()
+    assert '<a href="${self.registration.scope}"' in sw and 'href="./"' not in sw
+
+
+def test_faq_says_nothing_found():
+    for lang in LANGS:
+        html = page(*lang_dir(lang), 'guides', 'faq')
+        assert "none.textContent = n ? '' :" in html and 'd.dataset.byq' in html, lang
 
 
 def test_launch_countdown_at_23_utc():

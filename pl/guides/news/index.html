@@ -340,6 +340,13 @@ canvas.fx.on { opacity: 1; }
 .stband .wrap { display: grid; gap: 20px; }
 /* page-level grids: one column that may shrink, so a long word or a wide field never pushes past the screen edge */
 section.block, .hero-in, .chero-in, .thero-in, .stband .wrap { grid-template-columns: minmax(0, 1fr); }
+/* Shade right behind the hero text: sky and sun in the art are light, a soft dark patch keeps the words readable (no box) */
+.hero-in, .thero-in, .ghero .wrap { position: relative; }
+.hero-in::before, .thero-in::before, .ghero .wrap::before { content: ""; position: absolute; z-index: -1; left: -14vw; width: min(1180px, 100vw); pointer-events: none;
+  background: radial-gradient(farthest-side at 42% 50%, rgb(var(--hero-fade) / .66), rgb(var(--hero-fade) / .5) 55%, rgb(var(--hero-fade) / 0)); }
+.hero-in::before { top: calc(var(--top) + clamp(40px, 9vh, 110px) - 90px); bottom: -20px; }
+.thero-in::before, .ghero .wrap::before { top: -90px; bottom: -70px; }
+.ghero .wrap::before { background: radial-gradient(farthest-side at 42% 50%, color-mix(in srgb, var(--bg) 66%, transparent), color-mix(in srgb, var(--bg) 50%, transparent) 55%, transparent); }   /* guide text follows the theme */
 .stband .sec-head p { color: var(--fg); opacity: .85; }
 .stband .sec-head .src { color: var(--fg); opacity: .7; }
 .frame { position: relative; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); box-shadow: 0 18px 48px rgba(0,0,0,.35); backdrop-filter: blur(6px); }
@@ -874,8 +881,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 /* Guide pages: hero over art, sticky contents left, frames right; tables become cards on phones */
 .ghero { padding-top: calc(var(--top) + 64px); min-height: 440px; display: flex; align-items: flex-end; }
 .ghero .wrap { width: 100%; gap: 14px; }
-.ghero .crumbs { display: flex; flex-wrap: wrap; gap: 6px 10px; font-size: .9rem; color: var(--muted); }
-.ghero .crumbs a { color: var(--muted); text-decoration: none; }
+.ghero .crumbs { display: flex; flex-wrap: wrap; gap: 6px 10px; font-size: .9rem; color: var(--fg); }   /* on the art: --muted is too faint over the light sky */
+.ghero .crumbs a { color: inherit; text-decoration: none; }
 .ghero .crumbs a:hover { color: var(--fg); text-decoration: underline; }
 .ghero h1 { font-size: clamp(2.6rem, 6vw, 4.6rem); line-height: .98; }
 .glead { max-width: 60ch; font-size: clamp(1.02rem, 1.4vw, 1.15rem); opacity: .88; }
@@ -927,6 +934,7 @@ nav.gtiles { padding: 14px; }
 .gsearch:focus-within { border-color: var(--gold); }
 .gsearch input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; color: var(--fg); font: inherit; font-size: 1.05rem; min-height: 48px; }
 .gsearch input::placeholder { color: var(--muted); }
+.gnone:not(:empty) { margin: 14px 2px 0; color: var(--muted); }
 /* In game (/play/, build_guides.play_body): no art band, always solid bar; one column on phones, two from 960px */
 .compact .topbar { background: var(--rail); border-bottom-color: var(--line); color: var(--fg); }
 .phead { padding-top: calc(var(--top) + 22px); }
@@ -1040,15 +1048,17 @@ nav.gtiles { padding: 14px; }
 .rv.in { opacity: 1; transform: none; transition: opacity .6s var(--ease), transform .6s var(--ease); }
 @media print { .rv { opacity: 1; transform: none; } }
 </style>
+<style>.skip{position:fixed;left:12px;top:-60px;z-index:100;padding:10px 16px;border-radius:10px;background:#0a0b0d;color:#c9a54a;font-weight:600;text-decoration:none;border:1px solid #c9a54a}.skip:focus{top:12px}</style>
 <link rel="manifest" href="../../../manifest-pl.webmanifest">
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
-<link rel="stylesheet" href="../../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/search/search.css?v=474be382c7" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/radio/radio.css?v=172cc556c4" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/search/search.css?v=4d00b79945" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../../assets/me/me.css?v=9f6bfa2333" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://gabella.site/wow/pl/"},{"@type":"ListItem","position":2,"name":"Poradniki","item":"https://gabella.site/wow/pl/guides/"},{"@type":"ListItem","position":3,"name":"Newsy","item":"https://gabella.site/wow/pl/guides/news/"}]}</script>
 </head>
 <body>
+<a class="skip" href="#content">Przejdź do treści</a>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-tank" viewBox="0 0 24 24"><path d="M12 3l7 3v5.5c0 4.6-3 7.7-7 9.5-4-1.8-7-4.9-7-9.5V6z"/></symbol>
   <symbol id="i-heal" viewBox="0 0 24 24"><path d="M10 4h4v6h6v4h-6v6h-4v-6H4v-4h6z"/></symbol>
@@ -1084,9 +1094,10 @@ nav.gtiles { padding: 14px; }
     <button class="iconbtn menubtn" type="button" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg><span>Więcej</span></button>
   </div>
 </div></header>
+<span id="content" tabindex="-1"></span>
 
 <section class="stband ghero" id="top">
-  <picture class="stband-art" aria-hidden="true"><source type="image/avif" srcset="../../../assets/art/paladin-360.avif?v=e7c176bf 360w, ../../../assets/art/paladin-600.avif?v=62bbe825 600w, ../../../assets/art/paladin-896.avif?v=f272a36e 896w" sizes="100vw"><img src="../../../assets/art/paladin-896.webp?v=0288b052" srcset="../../../assets/art/paladin-360.webp?v=d4d5d3d1 360w, ../../../assets/art/paladin-600.webp?v=ce6a9574 600w, ../../../assets/art/paladin-896.webp?v=0288b052 896w" sizes="100vw" alt="" decoding="async" fetchpriority="high"></picture>
+  <picture class="stband-art" aria-hidden="true"><source type="image/avif" srcset="../../../assets/art/paladin-360.avif?v=0003354e 360w, ../../../assets/art/paladin-600.avif?v=0003354e 600w, ../../../assets/art/paladin-896.avif?v=0003354e 896w" sizes="100vw"><img src="../../../assets/art/paladin-896.webp?v=0003354e" srcset="../../../assets/art/paladin-360.webp?v=0003354e 360w, ../../../assets/art/paladin-600.webp?v=0003354e 600w, ../../../assets/art/paladin-896.webp?v=0003354e 896w" sizes="100vw" alt="" decoding="async" fetchpriority="high"></picture>
   <div class="wrap">
     <nav class="crumbs" aria-label="Ścieżka nawigacji"><a href="../../">Poradnik</a><span aria-hidden="true">/</span><a href="../../guides/">Poradniki</a><span aria-hidden="true">/</span><span>Newsy</span></nav>
     <h1>Newsy</h1>
@@ -1105,7 +1116,7 @@ nav.gtiles { padding: 14px; }
 
 <div class="wrap">
 <p class="dcta"><span>Grupy na start, pytania o poradnik i nowości — na Discordzie Gabella Team.</span><a class="btn ghost" href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Otwórz Discord</a></p>
-<section id="more"><div class="sec-head"><h2>Inne poradniki</h2></div><nav class="frame ttiles gtiles" aria-label="Inne poradniki"><a class="ttile" href="../../guides/leveling/"><picture><source type="image/avif" srcset="../../../assets/art/hero_dawn-960.avif?v=72b3acf6 960w, ../../../assets/art/hero_dawn-1440.avif?v=4c7215d4 1440w, ../../../assets/art/hero_dawn-1920.avif?v=baf52983 1920w, ../../../assets/art/hero_dawn-2560.avif?v=78086c34 2560w, ../../../assets/art/hero_dawn-3840.avif?v=b7217b4e 3840w" sizes="320px"><img src="../../../assets/art/hero_dawn-960.webp?v=4eae2c5c" srcset="../../../assets/art/hero_dawn-960.webp?v=4eae2c5c 960w, ../../../assets/art/hero_dawn-1440.webp?v=389093cd 1440w, ../../../assets/art/hero_dawn-1920.webp?v=1d137c11 1920w, ../../../assets/art/hero_dawn-2560.webp?v=f7135c28 2560w, ../../../assets/art/hero_dawn-3840.webp?v=f48b5767 3840w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Levelowanie 1–60</b><span>Strefy według levelu, rest, Legacy i camp</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/dungeons/"><picture><source type="image/avif" srcset="../../../assets/art/warlock-360.avif?v=dd5fc7a8 360w, ../../../assets/art/warlock-600.avif?v=f1b27c51 600w, ../../../assets/art/warlock-896.avif?v=d25066c1 896w" sizes="320px"><img src="../../../assets/art/warlock-600.webp?v=a0181c77" srcset="../../../assets/art/warlock-360.webp?v=1f04d604 360w, ../../../assets/art/warlock-600.webp?v=a0181c77 600w, ../../../assets/art/warlock-896.webp?v=203a598f 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Dungeony i raidy</b><span>35 dungeonów według levelu, raidy, skład grupy</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/professions/"><picture><source type="image/avif" srcset="../../../assets/art/hero_campfire-960.avif?v=2654726f 960w, ../../../assets/art/hero_campfire-1600.avif?v=a9d1ad39 1600w, ../../../assets/art/hero_campfire-2560.avif?v=6b161175 2560w" sizes="320px"><img src="../../../assets/art/hero_campfire-960.webp?v=d73f1e16" srcset="../../../assets/art/hero_campfire-960.webp?v=d73f1e16 960w, ../../../assets/art/hero_campfire-1600.webp?v=bef1b754 1600w, ../../../assets/art/hero_campfire-2560.webp?v=08f5bedc 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Profesje</b><span>Pary dla twojej klasy, obiekty campu, skill do 300</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/faq/"><picture><source type="image/avif" srcset="../../../assets/art/mage-360.avif?v=7b69fc64 360w, ../../../assets/art/mage-600.avif?v=632283e7 600w, ../../../assets/art/mage-896.avif?v=7631e4c7 896w" sizes="320px"><img src="../../../assets/art/mage-600.webp?v=37403d76" srcset="../../../assets/art/mage-360.webp?v=f08052db 360w, ../../../assets/art/mage-600.webp?v=37403d76 600w, ../../../assets/art/mage-896.webp?v=80bd7e13 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>FAQ i daty</b><span>Daty, pakiety, tryby i odpowiedzi</span><time datetime="2026-10-23">23.10.2026</time></a></nav></section>
+<section id="more"><div class="sec-head"><h2>Inne poradniki</h2></div><nav class="frame ttiles gtiles" aria-label="Inne poradniki"><a class="ttile" href="../../guides/leveling/"><picture><source type="image/avif" srcset="../../../assets/art/hero_dawn-960.avif?v=72b3acf6 960w, ../../../assets/art/hero_dawn-1440.avif?v=4c7215d4 1440w, ../../../assets/art/hero_dawn-1920.avif?v=baf52983 1920w, ../../../assets/art/hero_dawn-2560.avif?v=78086c34 2560w, ../../../assets/art/hero_dawn-3840.avif?v=b7217b4e 3840w" sizes="320px"><img src="../../../assets/art/hero_dawn-960.webp?v=4eae2c5c" srcset="../../../assets/art/hero_dawn-960.webp?v=4eae2c5c 960w, ../../../assets/art/hero_dawn-1440.webp?v=389093cd 1440w, ../../../assets/art/hero_dawn-1920.webp?v=1d137c11 1920w, ../../../assets/art/hero_dawn-2560.webp?v=f7135c28 2560w, ../../../assets/art/hero_dawn-3840.webp?v=f48b5767 3840w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Levelowanie 1–60</b><span>Strefy według levelu, rest, Legacy i camp</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/dungeons/"><picture><source type="image/avif" srcset="../../../assets/art/warlock-360.avif?v=0003354e 360w, ../../../assets/art/warlock-600.avif?v=0003354e 600w, ../../../assets/art/warlock-896.avif?v=0003354e 896w" sizes="320px"><img src="../../../assets/art/warlock-600.webp?v=0003354e" srcset="../../../assets/art/warlock-360.webp?v=0003354e 360w, ../../../assets/art/warlock-600.webp?v=0003354e 600w, ../../../assets/art/warlock-896.webp?v=0003354e 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Dungeony i raidy</b><span>35 dungeonów według levelu, raidy, skład grupy</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/professions/"><picture><source type="image/avif" srcset="../../../assets/art/hero_campfire-960.avif?v=2654726f 960w, ../../../assets/art/hero_campfire-1600.avif?v=a9d1ad39 1600w, ../../../assets/art/hero_campfire-2560.avif?v=6b161175 2560w" sizes="320px"><img src="../../../assets/art/hero_campfire-960.webp?v=d73f1e16" srcset="../../../assets/art/hero_campfire-960.webp?v=d73f1e16 960w, ../../../assets/art/hero_campfire-1600.webp?v=bef1b754 1600w, ../../../assets/art/hero_campfire-2560.webp?v=08f5bedc 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Profesje</b><span>Pary dla twojej klasy, obiekty campu, skill do 300</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/faq/"><picture><source type="image/avif" srcset="../../../assets/art/mage-360.avif?v=0003354e 360w, ../../../assets/art/mage-600.avif?v=0003354e 600w, ../../../assets/art/mage-896.avif?v=0003354e 896w" sizes="320px"><img src="../../../assets/art/mage-600.webp?v=0003354e" srcset="../../../assets/art/mage-360.webp?v=0003354e 360w, ../../../assets/art/mage-600.webp?v=0003354e 600w, ../../../assets/art/mage-896.webp?v=0003354e 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>FAQ i daty</b><span>Daty, pakiety, tryby i odpowiedzi</span><time datetime="2026-10-23">23.10.2026</time></a></nav></section>
 <footer id="sources">
   <h2>Źródła</h2>
   <ul><li><a href="https://www.wowhead.com/news" target="_blank" rel="noopener">Wowhead News</a></li><li><a href="https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/" target="_blank" rel="noopener">Warcraft Tavern: zmiany ras i klas</a></li><li><a href="https://classicwow.gg/forever" target="_blank" rel="noopener">ClassicWoW.gg</a></li><li><a href="https://teamoverpowered.com/forever/guides/name-reservation/" target="_blank" rel="noopener">Team Overpowered</a></li></ul>
@@ -1246,8 +1257,8 @@ addEventListener('beforeinstallprompt', e => {
   opts.append(b);
 });
 </script>
-<script src="../../../assets/radio/radio.js" data-root="../../../" defer></script>
-<script src="../../../assets/search/search.js?v=474be382c7" data-root="../../../" defer></script>
+<script src="../../../assets/radio/radio.js?v=172cc556c4" data-root="../../../" defer></script>
+<script src="../../../assets/search/search.js?v=4d00b79945" data-root="../../../" defer></script>
 <script src="../../../assets/me/me.js?v=9f6bfa2333" data-root="../../../" data-home="../../" data-lang="pl" data-teaser="Profil przechowuje twoje postacie, osiągnięcia i ramki" data-close="Zamknij" data-page="guides/news/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>

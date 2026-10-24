@@ -340,6 +340,13 @@ canvas.fx.on { opacity: 1; }
 .stband .wrap { display: grid; gap: 20px; }
 /* page-level grids: one column that may shrink, so a long word or a wide field never pushes past the screen edge */
 section.block, .hero-in, .chero-in, .thero-in, .stband .wrap { grid-template-columns: minmax(0, 1fr); }
+/* Shade right behind the hero text: sky and sun in the art are light, a soft dark patch keeps the words readable (no box) */
+.hero-in, .thero-in, .ghero .wrap { position: relative; }
+.hero-in::before, .thero-in::before, .ghero .wrap::before { content: ""; position: absolute; z-index: -1; left: -14vw; width: min(1180px, 100vw); pointer-events: none;
+  background: radial-gradient(farthest-side at 42% 50%, rgb(var(--hero-fade) / .66), rgb(var(--hero-fade) / .5) 55%, rgb(var(--hero-fade) / 0)); }
+.hero-in::before { top: calc(var(--top) + clamp(40px, 9vh, 110px) - 90px); bottom: -20px; }
+.thero-in::before, .ghero .wrap::before { top: -90px; bottom: -70px; }
+.ghero .wrap::before { background: radial-gradient(farthest-side at 42% 50%, color-mix(in srgb, var(--bg) 66%, transparent), color-mix(in srgb, var(--bg) 50%, transparent) 55%, transparent); }   /* guide text follows the theme */
 .stband .sec-head p { color: var(--fg); opacity: .85; }
 .stband .sec-head .src { color: var(--fg); opacity: .7; }
 .frame { position: relative; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); box-shadow: 0 18px 48px rgba(0,0,0,.35); backdrop-filter: blur(6px); }
@@ -874,8 +881,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 /* Guide pages: hero over art, sticky contents left, frames right; tables become cards on phones */
 .ghero { padding-top: calc(var(--top) + 64px); min-height: 440px; display: flex; align-items: flex-end; }
 .ghero .wrap { width: 100%; gap: 14px; }
-.ghero .crumbs { display: flex; flex-wrap: wrap; gap: 6px 10px; font-size: .9rem; color: var(--muted); }
-.ghero .crumbs a { color: var(--muted); text-decoration: none; }
+.ghero .crumbs { display: flex; flex-wrap: wrap; gap: 6px 10px; font-size: .9rem; color: var(--fg); }   /* on the art: --muted is too faint over the light sky */
+.ghero .crumbs a { color: inherit; text-decoration: none; }
 .ghero .crumbs a:hover { color: var(--fg); text-decoration: underline; }
 .ghero h1 { font-size: clamp(2.6rem, 6vw, 4.6rem); line-height: .98; }
 .glead { max-width: 60ch; font-size: clamp(1.02rem, 1.4vw, 1.15rem); opacity: .88; }
@@ -927,6 +934,7 @@ nav.gtiles { padding: 14px; }
 .gsearch:focus-within { border-color: var(--gold); }
 .gsearch input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; color: var(--fg); font: inherit; font-size: 1.05rem; min-height: 48px; }
 .gsearch input::placeholder { color: var(--muted); }
+.gnone:not(:empty) { margin: 14px 2px 0; color: var(--muted); }
 /* In game (/play/, build_guides.play_body): no art band, always solid bar; one column on phones, two from 960px */
 .compact .topbar { background: var(--rail); border-bottom-color: var(--line); color: var(--fg); }
 .phead { padding-top: calc(var(--top) + 22px); }
@@ -1040,17 +1048,19 @@ nav.gtiles { padding: 14px; }
 .rv.in { opacity: 1; transform: none; transition: opacity .6s var(--ease), transform .6s var(--ease); }
 @media print { .rv { opacity: 1; transform: none; } }
 </style>
+<style>.skip{position:fixed;left:12px;top:-60px;z-index:100;padding:10px 16px;border-radius:10px;background:#0a0b0d;color:#c9a54a;font-weight:600;text-decoration:none;border:1px solid #c9a54a}.skip:focus{top:12px}</style>
 <link rel="manifest" href="../../../manifest-de.webmanifest">
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
-<link rel="stylesheet" href="../../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/search/search.css?v=474be382c7" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/radio/radio.css?v=172cc556c4" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/search/search.css?v=4d00b79945" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../../assets/me/me.css?v=9f6bfa2333" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://gabella.site/wow/de/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://gabella.site/wow/de/guides/"},{"@type":"ListItem","position":3,"name":"FAQ und Termine","item":"https://gabella.site/wow/de/guides/faq/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"WoW Forever FAQ: Release-Datum, Uhrzeit, Preis, Abo-Kosten","description":"Wann WoW Forever startet, ob du ein Abo brauchst, Paketpreise, Spielmodi, wann du einen Namen reservierst und wie sich Forever von Classic Era unterscheidet.","inLanguage":"de","url":"https://gabella.site/wow/de/guides/faq/","dateModified":"2026-10-23","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/ZGpznkX3Zw"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/ZGpznkX3Zw"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/de/"},"image":"https://gabella.site/wow/assets/og/faq-de.jpg"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"de","mainEntity":[{"@type":"Question","name":"Wann startet WoW Forever?","acceptedAnswer":{"@type":"Answer","text":"Am 04.11.2026 um 15:00 pazifischer Zeit, also 23:00 UTC."}},{"@type":"Question","name":"Brauche ich ein Abo?","acceptedAnswer":{"@type":"Answer","text":"Ja, ein Abo oder Spielzeit. Forever ist ein dauerhaftes Spiel neben Retail und Classic, keine Saison."}},{"@type":"Question","name":"Was kosten die Pakete, und brauche ich eins?","acceptedAnswer":{"@type":"Answer","text":"Heroic Pack 29,99 $, Epic Pack 59,99 $, Warcraft Forever Collection 79,99 $. Ein Paket brauchst du nur für das Volk Skyborne und die frühe Namensreservierung: Die anderen acht Völker und alle neun Klassen musst du nicht kaufen."}},{"@type":"Question","name":"Wann kann ich einen Namen reservieren?","acceptedAnswer":{"@type":"Answer","text":"Vom 27.10 bis 03.11, wenn du Heroic, Epic oder Collection besitzt. Bis zu drei Charaktere pro Account, wer zuerst kommt, mahlt zuerst. Das ist kein früher Zugang zum Spiel."}},{"@type":"Question","name":"Warum ein Nachname, und können zwei Leute denselben Namen haben?","acceptedAnswer":{"@type":"Answer","text":"Es gibt keine Realms, der volle Name muss also in der ganzen Region einzigartig sein. Zwei Spieler können denselben Vornamen haben, wenn ihre Nachnamen verschieden sind. Den Nachnamen kannst du ausblenden: Esc → Optionen → Namensplaketten → My Secondary Name."}},{"@type":"Question","name":"Was ist Skyborne?","acceptedAnswer":{"@type":"Answer","text":"Das neue Volk von Forever, freigeschaltet mit jedem der drei Pakete. Spielbar für beide Fraktionen, die Fraktion wählst du bei der Charaktererstellung. Beide Zweige sprechen Darnassisch und teilen sich das Startgebiet Zephras Isle."}},{"@type":"Question","name":"Was ist die Maximalstufe, und wo leveln wir?","acceptedAnswer":{"@type":"Answer","text":"Bis 60, in den Östlichen Königreichen und Kalimdor. Keine Flugreittiere und keine Stufenskalierung, wie in Classic."}},{"@type":"Question","name":"Können wir in verschiedenen Modi zusammen spielen?","acceptedAnswer":{"@type":"Answer","text":"Nein: Gruppen gehen nur innerhalb eines Modus. Modi zum Start: Normal, PvP und RP, Hardcore kommt später. Im PvP kann ein Account nur eine Fraktion haben."}},{"@type":"Question","name":"Welche Region, welchen Modus und welche Fraktion sollten wir wählen, um mit Freunden zu spielen?","acceptedAnswer":{"@type":"Answer","text":"Für alle dieselben. Die Regionen sind getrennt, regionsübergreifendes Spielen gibt es nicht, also nehmt die Region mit dem besten Ping für die meisten von euch. Gruppen gehen nur innerhalb eines Modus, und Allianz und Horde können in keinem Modus zusammen eine Gruppe bilden. Im PvP hat ein Account nur eine Fraktion, also einigt euch darauf, bevor die Namensreservierung am 27.10 beginnt."}},{"@type":"Question","name":"Wo finde ich eine Gruppe?","acceptedAnswer":{"@type":"Answer","text":"Auf dieser Seite und auf Discord. Melde dich an, lege einen Charakter an und aktiviere im Profil „Suche Gruppe“: Drei Stunden lang steht er auf der Seite „Spieler“ in der Leiste „Suchen gerade eine Gruppe“. Auf dem Discord-Server von Gabella Team bilden sich Gruppen für den Start am 04.11., und man einigt sich auf Region, Modus und Fraktion."}},{"@type":"Question","name":"Was sind Rang und Rahmen im Profil?","acceptedAnswer":{"@type":"Answer","text":"Das ist dein Profil auf der Website, mit dem Spiel selbst hat es nichts zu tun. Der Rang wächst mit den Erfolgspunkten und schaltet Porträtrahmen frei. Besondere Rahmen gibt es für besondere Erfolge."}},{"@type":"Question","name":"Wann öffnen die Raids?","acceptedAnswer":{"@type":"Answer","text":"09.12: Barrow Deeps (10 Spieler), Hyjalgipfel (20), Onyxias Hort (40). Bis dahin habt ihr fünf Wochen für Leveln und Dungeons."}},{"@type":"Question","name":"Komme ich noch in die Beta?","acceptedAnswer":{"@type":"Answer","text":"Nein. Zugang hatten Besitzer von Epic und Collection. Die Beta endete am 23.10 um 10:00 pazifischer Zeit."}},{"@type":"Question","name":"Sind alte Classic-Guides noch nützlich?","acceptedAnswer":{"@type":"Answer","text":"Nur teilweise. Werte und Gegenstände wurden geändert, alte Beutelisten sind also unzuverlässig. Es gibt 9 neue Dungeons, 2 neue Raids plus Onyxias Hort, neue Zonen und Quests, und die Klassentalente wurden überarbeitet."}},{"@type":"Question","name":"Gibt es moderne Grafik und Gamepad-Unterstützung?","acceptedAnswer":{"@type":"Answer","text":"Ja: Du kannst einen Grafikstil wählen (Classic oder modern), es gibt optionales Transmog und offizielle Gamepad-Unterstützung."}}]}</script>
 </head>
 <body>
+<a class="skip" href="#content">Zum Inhalt</a>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-tank" viewBox="0 0 24 24"><path d="M12 3l7 3v5.5c0 4.6-3 7.7-7 9.5-4-1.8-7-4.9-7-9.5V6z"/></symbol>
   <symbol id="i-heal" viewBox="0 0 24 24"><path d="M10 4h4v6h6v4h-6v6h-4v-6H4v-4h6z"/></symbol>
@@ -1086,6 +1096,7 @@ nav.gtiles { padding: 14px; }
     <button class="iconbtn menubtn" type="button" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg><span>Mehr</span></button>
   </div>
 </div></header>
+<span id="content" tabindex="-1"></span>
 
 <section class="thero" id="top">
   <picture class="thero-art" aria-hidden="true" data-fx="faq" data-cut=".9">
@@ -1117,7 +1128,7 @@ nav.gtiles { padding: 14px; }
 
 <div class="wrap">
 <p class="dcta"><span>Gruppen zum Start, Fragen zum Guide und News — im Discord von Gabella Team.</span><a class="btn ghost" href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord öffnen</a></p>
-<section id="more"><div class="sec-head"><h2>Andere Guides</h2></div><nav class="frame ttiles gtiles" aria-label="Andere Guides"><a class="ttile" href="../../guides/leveling/"><picture><source type="image/avif" srcset="../../../assets/art/hero_dawn-960.avif?v=72b3acf6 960w, ../../../assets/art/hero_dawn-1440.avif?v=4c7215d4 1440w, ../../../assets/art/hero_dawn-1920.avif?v=baf52983 1920w, ../../../assets/art/hero_dawn-2560.avif?v=78086c34 2560w, ../../../assets/art/hero_dawn-3840.avif?v=b7217b4e 3840w" sizes="320px"><img src="../../../assets/art/hero_dawn-960.webp?v=4eae2c5c" srcset="../../../assets/art/hero_dawn-960.webp?v=4eae2c5c 960w, ../../../assets/art/hero_dawn-1440.webp?v=389093cd 1440w, ../../../assets/art/hero_dawn-1920.webp?v=1d137c11 1920w, ../../../assets/art/hero_dawn-2560.webp?v=f7135c28 2560w, ../../../assets/art/hero_dawn-3840.webp?v=f48b5767 3840w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Leveln 1–60</b><span>Zonen nach Stufe, Erholung, Legacy und Lager</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/dungeons/"><picture><source type="image/avif" srcset="../../../assets/art/warlock-360.avif?v=dd5fc7a8 360w, ../../../assets/art/warlock-600.avif?v=f1b27c51 600w, ../../../assets/art/warlock-896.avif?v=d25066c1 896w" sizes="320px"><img src="../../../assets/art/warlock-600.webp?v=a0181c77" srcset="../../../assets/art/warlock-360.webp?v=1f04d604 360w, ../../../assets/art/warlock-600.webp?v=a0181c77 600w, ../../../assets/art/warlock-896.webp?v=203a598f 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Dungeons und Raids</b><span>35 Dungeons nach Stufe, Raids, Gruppenaufstellung</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/professions/"><picture><source type="image/avif" srcset="../../../assets/art/hero_campfire-960.avif?v=2654726f 960w, ../../../assets/art/hero_campfire-1600.avif?v=a9d1ad39 1600w, ../../../assets/art/hero_campfire-2560.avif?v=6b161175 2560w" sizes="320px"><img src="../../../assets/art/hero_campfire-960.webp?v=d73f1e16" srcset="../../../assets/art/hero_campfire-960.webp?v=d73f1e16 960w, ../../../assets/art/hero_campfire-1600.webp?v=bef1b754 1600w, ../../../assets/art/hero_campfire-2560.webp?v=08f5bedc 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Berufe</b><span>Paare für deine Klasse, Lagerobjekte, Skill auf 300</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/news/"><picture><source type="image/avif" srcset="../../../assets/art/paladin-360.avif?v=e7c176bf 360w, ../../../assets/art/paladin-600.avif?v=62bbe825 600w, ../../../assets/art/paladin-896.avif?v=f272a36e 896w" sizes="320px"><img src="../../../assets/art/paladin-600.webp?v=ce6a9574" srcset="../../../assets/art/paladin-360.webp?v=d4d5d3d1 360w, ../../../assets/art/paladin-600.webp?v=ce6a9574 600w, ../../../assets/art/paladin-896.webp?v=0288b052 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>News</b><span>Unsere Notizen und der Wowhead-Feed</span></a></nav></section>
+<section id="more"><div class="sec-head"><h2>Andere Guides</h2></div><nav class="frame ttiles gtiles" aria-label="Andere Guides"><a class="ttile" href="../../guides/leveling/"><picture><source type="image/avif" srcset="../../../assets/art/hero_dawn-960.avif?v=72b3acf6 960w, ../../../assets/art/hero_dawn-1440.avif?v=4c7215d4 1440w, ../../../assets/art/hero_dawn-1920.avif?v=baf52983 1920w, ../../../assets/art/hero_dawn-2560.avif?v=78086c34 2560w, ../../../assets/art/hero_dawn-3840.avif?v=b7217b4e 3840w" sizes="320px"><img src="../../../assets/art/hero_dawn-960.webp?v=4eae2c5c" srcset="../../../assets/art/hero_dawn-960.webp?v=4eae2c5c 960w, ../../../assets/art/hero_dawn-1440.webp?v=389093cd 1440w, ../../../assets/art/hero_dawn-1920.webp?v=1d137c11 1920w, ../../../assets/art/hero_dawn-2560.webp?v=f7135c28 2560w, ../../../assets/art/hero_dawn-3840.webp?v=f48b5767 3840w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Leveln 1–60</b><span>Zonen nach Stufe, Erholung, Legacy und Lager</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/dungeons/"><picture><source type="image/avif" srcset="../../../assets/art/warlock-360.avif?v=0003354e 360w, ../../../assets/art/warlock-600.avif?v=0003354e 600w, ../../../assets/art/warlock-896.avif?v=0003354e 896w" sizes="320px"><img src="../../../assets/art/warlock-600.webp?v=0003354e" srcset="../../../assets/art/warlock-360.webp?v=0003354e 360w, ../../../assets/art/warlock-600.webp?v=0003354e 600w, ../../../assets/art/warlock-896.webp?v=0003354e 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Dungeons und Raids</b><span>35 Dungeons nach Stufe, Raids, Gruppenaufstellung</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/professions/"><picture><source type="image/avif" srcset="../../../assets/art/hero_campfire-960.avif?v=2654726f 960w, ../../../assets/art/hero_campfire-1600.avif?v=a9d1ad39 1600w, ../../../assets/art/hero_campfire-2560.avif?v=6b161175 2560w" sizes="320px"><img src="../../../assets/art/hero_campfire-960.webp?v=d73f1e16" srcset="../../../assets/art/hero_campfire-960.webp?v=d73f1e16 960w, ../../../assets/art/hero_campfire-1600.webp?v=bef1b754 1600w, ../../../assets/art/hero_campfire-2560.webp?v=08f5bedc 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Berufe</b><span>Paare für deine Klasse, Lagerobjekte, Skill auf 300</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/news/"><picture><source type="image/avif" srcset="../../../assets/art/paladin-360.avif?v=0003354e 360w, ../../../assets/art/paladin-600.avif?v=0003354e 600w, ../../../assets/art/paladin-896.avif?v=0003354e 896w" sizes="320px"><img src="../../../assets/art/paladin-600.webp?v=0003354e" srcset="../../../assets/art/paladin-360.webp?v=0003354e 360w, ../../../assets/art/paladin-600.webp?v=0003354e 600w, ../../../assets/art/paladin-896.webp?v=0003354e 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>News</b><span>Unsere Notizen und der Wowhead-Feed</span></a></nav></section>
 <footer id="sources">
   <h2>Quellen</h2>
   <ul><li><a href="https://classicwow.gg/forever" target="_blank" rel="noopener">ClassicWoW.gg: Beta, Namen, Raids, Unterschiede zu Era</a></li><li><a href="https://www.warcrafttavern.com/news/world-of-warcraft-forever-editions-skyborne-race-unlock-beta-access/" target="_blank" rel="noopener">Warcraft Tavern: Editionen und Preise</a></li><li><a href="https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/" target="_blank" rel="noopener">Warcraft Tavern: Beta-Änderungen vom 15. Oktober</a></li><li><a href="https://www.warcrafttavern.com/forever/guides/races/" target="_blank" rel="noopener">Warcraft Tavern: Völker</a></li><li><a href="https://teamoverpowered.com/forever/guides/name-reservation/" target="_blank" rel="noopener">Team Overpowered: Namen und Nachnamen</a></li></ul>
@@ -1184,13 +1195,26 @@ if ('IntersectionObserver' in window && tocLinks.length) {
   }), { rootMargin: '-40% 0px -55% 0px' });
   document.querySelectorAll('.gsec').forEach(s => io.observe(s));
 }
-/* FAQ: search over questions and answers; #id opens the question */
+/* FAQ: search over questions and answers; #id opens the question. Nothing found -> a line says so;
+   questions opened by the search close again when the field is cleared (the ones opened by hand stay open) */
 const qIn = document.getElementById('faqQ');
 const qs = [...document.querySelectorAll('.gfaq details')];
-if (qIn) qIn.addEventListener('input', () => {
-  const v = qIn.value.trim().toLowerCase();
-  qs.forEach(d => { const hit = !v || d.textContent.toLowerCase().includes(v); d.hidden = !hit; if (v && hit) d.open = true; });
-});
+if (qIn) {
+  const none = document.createElement('p');
+  none.className = 'gnone'; none.setAttribute('role', 'status');   // a live region that is there from the start gets read
+  qIn.closest('label').after(none);
+  qIn.addEventListener('input', () => {
+    const v = qIn.value.trim().toLowerCase();
+    let n = 0;
+    qs.forEach(d => {
+      const hit = !v || d.textContent.toLowerCase().includes(v);
+      d.hidden = !hit; n += hit;
+      if (v && hit && !d.open) { d.open = true; d.dataset.byq = '1'; }
+      else if (!v && d.dataset.byq) { d.open = false; delete d.dataset.byq; }
+    });
+    none.textContent = n ? '' : "Nichts gefunden. Versuch ein anderes Wort oder die Seitensuche.";
+  });
+}
 function openHash() { const d = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1))); if (d && d.tagName === 'DETAILS') { d.open = true; d.scrollIntoView(); } }
 addEventListener('hashchange', openHash); openHash();
 </script>
@@ -1267,8 +1291,8 @@ addEventListener('beforeinstallprompt', e => {
   opts.append(b);
 });
 </script>
-<script src="../../../assets/radio/radio.js" data-root="../../../" defer></script>
-<script src="../../../assets/search/search.js?v=474be382c7" data-root="../../../" defer></script>
+<script src="../../../assets/radio/radio.js?v=172cc556c4" data-root="../../../" defer></script>
+<script src="../../../assets/search/search.js?v=4d00b79945" data-root="../../../" defer></script>
 <script src="../../../assets/me/me.js?v=9f6bfa2333" data-root="../../../" data-home="../../" data-lang="de" data-teaser="Dein Profil speichert deine Charaktere, Erfolge und Rahmen" data-close="Schließen" data-page="guides/faq/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>

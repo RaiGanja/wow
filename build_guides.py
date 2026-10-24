@@ -219,15 +219,37 @@ def hub_body(lang, root):
 
 JS = {}   # slug -> JS живой части; наполняется в задачах 3, 5, 7, 8, 9
 
-JS['faq'] = r'''/* FAQ: search over questions and answers; #id opens the question */
+FAQ_NONE = {'ru': 'Ничего не нашлось. Попробуйте другое слово или общий поиск по сайту.',
+            'en': 'Nothing found. Try another word or the site search.',
+            'uk': 'Нічого не знайшлося. Спробуйте інше слово або пошук по сайту.',
+            'de': 'Nichts gefunden. Versuch ein anderes Wort oder die Seitensuche.',
+            'fr': 'Aucun résultat. Essayez un autre mot ou la recherche du site.',
+            'es': 'Sin resultados. Prueba otra palabra o el buscador del sitio.',
+            'pt': 'Nada encontrado. Tente outra palavra ou a pesquisa do site.',
+            'it': 'Nessun risultato. Prova un’altra parola o la ricerca nel sito.',
+            'pl': 'Nic nie znaleziono. Spróbuj innego słowa lub wyszukiwarki serwisu.'}
+JS['faq'] = {l: r'''/* FAQ: search over questions and answers; #id opens the question. Nothing found -> a line says so;
+   questions opened by the search close again when the field is cleared (the ones opened by hand stay open) */
 const qIn = document.getElementById('faqQ');
 const qs = [...document.querySelectorAll('.gfaq details')];
-if (qIn) qIn.addEventListener('input', () => {
-  const v = qIn.value.trim().toLowerCase();
-  qs.forEach(d => { const hit = !v || d.textContent.toLowerCase().includes(v); d.hidden = !hit; if (v && hit) d.open = true; });
-});
+if (qIn) {
+  const none = document.createElement('p');
+  none.className = 'gnone'; none.setAttribute('role', 'status');   // a live region that is there from the start gets read
+  qIn.closest('label').after(none);
+  qIn.addEventListener('input', () => {
+    const v = qIn.value.trim().toLowerCase();
+    let n = 0;
+    qs.forEach(d => {
+      const hit = !v || d.textContent.toLowerCase().includes(v);
+      d.hidden = !hit; n += hit;
+      if (v && hit && !d.open) { d.open = true; d.dataset.byq = '1'; }
+      else if (!v && d.dataset.byq) { d.open = false; delete d.dataset.byq; }
+    });
+    none.textContent = n ? '' : @@NONE@@;
+  });
+}
 function openHash() { const d = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1))); if (d && d.tagName === 'DETAILS') { d.open = true; d.scrollIntoView(); } }
-addEventListener('hashchange', openHash); openHash();'''
+addEventListener('hashchange', openHash); openHash();'''.replace('@@NONE@@', json.dumps(FAQ_NONE[l], ensure_ascii=False)) for l in LANGS}
 
 
 DG_TX = {

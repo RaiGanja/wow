@@ -341,6 +341,13 @@ canvas.fx.on { opacity: 1; }
 .stband .wrap { display: grid; gap: 20px; }
 /* page-level grids: one column that may shrink, so a long word or a wide field never pushes past the screen edge */
 section.block, .hero-in, .chero-in, .thero-in, .stband .wrap { grid-template-columns: minmax(0, 1fr); }
+/* Shade right behind the hero text: sky and sun in the art are light, a soft dark patch keeps the words readable (no box) */
+.hero-in, .thero-in, .ghero .wrap { position: relative; }
+.hero-in::before, .thero-in::before, .ghero .wrap::before { content: ""; position: absolute; z-index: -1; left: -14vw; width: min(1180px, 100vw); pointer-events: none;
+  background: radial-gradient(farthest-side at 42% 50%, rgb(var(--hero-fade) / .66), rgb(var(--hero-fade) / .5) 55%, rgb(var(--hero-fade) / 0)); }
+.hero-in::before { top: calc(var(--top) + clamp(40px, 9vh, 110px) - 90px); bottom: -20px; }
+.thero-in::before, .ghero .wrap::before { top: -90px; bottom: -70px; }
+.ghero .wrap::before { background: radial-gradient(farthest-side at 42% 50%, color-mix(in srgb, var(--bg) 66%, transparent), color-mix(in srgb, var(--bg) 50%, transparent) 55%, transparent); }   /* guide text follows the theme */
 .stband .sec-head p { color: var(--fg); opacity: .85; }
 .stband .sec-head .src { color: var(--fg); opacity: .7; }
 .frame { position: relative; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); box-shadow: 0 18px 48px rgba(0,0,0,.35); backdrop-filter: blur(6px); }
@@ -1214,15 +1221,17 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 .rv.in { opacity: 1; transform: none; transition: opacity .6s var(--ease), transform .6s var(--ease); }
 @media print { .rv { opacity: 1; transform: none; } }
 </style>
+<style>.skip{position:fixed;left:12px;top:-60px;z-index:100;padding:10px 16px;border-radius:10px;background:#0a0b0d;color:#c9a54a;font-weight:600;text-decoration:none;border:1px solid #c9a54a}.skip:focus{top:12px}</style>
 <link rel="manifest" href="../../manifest-en.webmanifest">
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
-<link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=474be382c7" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/radio/radio.css?v=172cc556c4" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=4d00b79945" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/me/me.css?v=9f6bfa2333" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/en/"},{"@type":"ListItem","position":2,"name":"My profile","item":"https://gabella.site/wow/en/profile/"}]}</script>
 </head>
 <body>
+<a class="skip" href="#content">Skip to content</a>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-tank" viewBox="0 0 24 24"><path d="M12 3l7 3v5.5c0 4.6-3 7.7-7 9.5-4-1.8-7-4.9-7-9.5V6z"/></symbol>
   <symbol id="i-heal" viewBox="0 0 24 24"><path d="M10 4h4v6h6v4h-6v6h-4v-6H4v-4h6z"/></symbol>
@@ -1259,6 +1268,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
     <button class="iconbtn menubtn" type="button" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg><span>More</span></button>
   </div>
 </div></header>
+<span id="content" tabindex="-1"></span>
 
 <main class="wrap pg-top pf" id="app">
   <h1 class="sr">My profile</h1>
@@ -1353,7 +1363,7 @@ const lookOf = c => c.look || { sex: (GD.looks.races[c.race] || { sex: 'm' }).se
 /** Character portrait: transparent base, portrait background, and the old race face in case loading fails. */
 const pic = c => {
   const l = lookOf(c), s = race(c.race).slug, v = '?v=' + GD.looks.v;
-  return { src: `${ROOT}assets/me/look/base/${s}-${l.sex}.webp${v}`, bg: `${ROOT}assets/me/look/bg/${l.bg}.webp${v}`, old: `${ROOT}assets/art/${s}-face.webp` };
+  return { src: `${ROOT}assets/me/look/base/${s}-${l.sex}.webp${v}`, bg: `${ROOT}assets/me/look/bg/${l.bg}.webp${v}`, old: `${ROOT}assets/art/${s}-face.webp?v=0003354e` };
 };
 const ring = (frame, p, extra) => {
   const o = typeof p === 'string' ? { src: p } : p;
@@ -1470,7 +1480,7 @@ function rankBlock(pts) {
 /** The big card, «how others see you». p: player shape plus points, joined or since. */
 function bcard(p, o) {
   o = o || {};
-  const c = p.main, src = `${ROOT}assets/art/${race(c.race).slug}-896.webp`;
+  const c = p.main, src = `${ROOT}assets/art/${race(c.race).slug}-896.webp?v=0003354e`;
   const who = [];
   if (p.nick) who.push(esc(p.nick));
   if (p.joined) who.push(esc(fill('In Gabella Team since %d', { d: dateOf(p.joined) })));
@@ -1814,12 +1824,12 @@ function wizard() {
   let body = '';
   if (w.step === 1) {
     body = `<h2>Which side do you play?</h2><div class="facs">${['alliance', 'horde'].map(f => `<button type="button" data-f="${f}" style="--fc:var(--${f})">
-      <img src="${ROOT}assets/art/${f === 'alliance' ? 'human' : 'orc'}-600.webp" alt="" loading="lazy"><b>${esc(FACN[f])}</b></button>`).join('')}</div>`;
+      <img src="${ROOT}assets/art/${f === 'alliance' ? 'human' : 'orc'}-600.webp?v=0003354e" alt="" loading="lazy"><b>${esc(FACN[f])}</b></button>`).join('')}</div>`;
   } else if (w.step === 2) {
     const races = Object.entries(GD.races).filter(([, r]) => r.f === w.f);
     const cl = w.race ? race(w.race).cls : [];
-    body = `<h2>Race and class</h2><div class="picks" role="group" aria-label="Race">${races.map(([id, r]) => `<button type="button" data-race="${id}" aria-pressed="${w.race === id}">${ring('recruit', `${ROOT}assets/art/${r.slug}-face.webp`)}${esc(r.n)}</button>`).join('')}</div>
-      ${w.race ? `<div class="picks" role="group" aria-label="Class">${cl.map(id => `<button type="button" data-cls="${id}" aria-pressed="${w.cls === id}" style="color:${cls(id).color}">${ring('recruit', `${ROOT}assets/art/${id}-face.webp`)}${esc(cls(id).n)}</button>`).join('')}</div>` : ''}
+    body = `<h2>Race and class</h2><div class="picks" role="group" aria-label="Race">${races.map(([id, r]) => `<button type="button" data-race="${id}" aria-pressed="${w.race === id}">${ring('recruit', `${ROOT}assets/art/${r.slug}-face.webp?v=0003354e`)}${esc(r.n)}</button>`).join('')}</div>
+      ${w.race ? `<div class="picks" role="group" aria-label="Class">${cl.map(id => `<button type="button" data-cls="${id}" aria-pressed="${w.cls === id}" style="color:${cls(id).color}">${ring('recruit', `${ROOT}assets/art/${id}-face.webp?v=0003354e`)}${esc(cls(id).n)}</button>`).join('')}</div>` : ''}
       <div class="row"><button type="button" class="btn ghost" data-back>Back</button><button type="button" class="btn" data-next${w.race && w.cls ? '' : ' disabled'}>Continue</button></div>`;
   } else if (w.step === 3) {
     const c0 = { race: w.race, class: w.cls };
@@ -2391,8 +2401,8 @@ addEventListener('beforeinstallprompt', e => {
   opts.append(b);
 });
 </script>
-<script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=474be382c7" data-root="../../" defer></script>
+<script src="../../assets/radio/radio.js?v=172cc556c4" data-root="../../" defer></script>
+<script src="../../assets/search/search.js?v=4d00b79945" data-root="../../" defer></script>
 <script src="../../assets/me/me.js?v=9f6bfa2333" data-root="../../" data-home="../" data-lang="en" data-teaser="Your profile keeps your characters, achievements and frames" data-close="Close" data-page="profile/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>

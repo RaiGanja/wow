@@ -289,6 +289,21 @@ def chrome(html, nav=None, tab=None, home='@@HOME@@'):
             .replace('@@TABBAR@@', tabbar(tab, home)))
 
 
+SKIP = {'ru': 'К содержимому', 'en': 'Skip to content', 'uk': 'До вмісту', 'de': 'Zum Inhalt', 'fr': 'Aller au contenu',
+        'es': 'Ir al contenido', 'pt': 'Ir para o conteúdo', 'it': 'Vai al contenuto', 'pl': 'Przejdź do treści'}
+SKIP_CSS = ('<style>.skip{position:fixed;left:12px;top:-60px;z-index:100;padding:10px 16px;border-radius:10px;background:#0a0b0d;'
+            'color:#c9a54a;font-weight:600;text-decoration:none;border:1px solid #c9a54a}.skip:focus{top:12px}</style>\n</head>')
+
+
+def skip_link(html, lang):
+    """First Tab stop of every page: past the 15 stops of the top bar to the first thing after it."""
+    if '</header>' not in html:
+        return html
+    html = re.sub(r'(<body[^>]*>)', lambda m: m.group(1) + f'\n<a class="skip" href="#content">{SKIP[lang]}</a>', html, count=1)
+    html = html.replace('</header>', '</header>\n<span id="content" tabindex="-1"></span>', 1)
+    return html.replace('</head>', SKIP_CSS, 1)
+
+
 def localize(html, lang, here):
     """Language-specific attributes shared by all pages."""
     html = html.replace('@@LEGAL@@', legal(lang, rel(here, '')))
@@ -305,6 +320,7 @@ def localize(html, lang, here):
     if lang not in ('ru', 'uk'):                                  # Latin-script pages: preload the fonts they draw first
         html = html.replace('-cyrillic.woff2" as="font"', '-latin.woff2" as="font"')
     html = html.replace('</head>', REVEAL_CSS + '</head>', 1).replace('</body>', REVEAL_JS + '</body>', 1)
+    html = skip_link(html, lang)
     return me(pwa(html, lang, rel(here, '')), lang, here)
 
 
@@ -548,6 +564,11 @@ def script_version(folder, names):
     print(f'{folder}: v={v}', file=sys.stderr)
 
 
+def radio_version():
+    """?v=<hash> on radio.js/radio.css; radio.js passes its version on to stations.json (the hash covers the whole folder)."""
+    script_version('radio', ['radio.js', 'radio.css'])
+
+
 def living_version():
     """?v=<hash> on assets/living/living.js (art masks included; the script passes the version on to them)."""
     script_version('living', ['living.js'])
@@ -563,9 +584,19 @@ def art_version():
     for returning visitors while living.js and its masks (versioned) already move on — water and fire off their places."""
     d = os.path.join(HERE, 'assets', 'art')
     ver = {}
+    # class and race portraits (<id>-360/600/896/face) are also drawn by page JS from templates (`${c.id}-600.webp`):
+    # one version over all of them, so a template address and the same picture in the HTML stay one file for the browser
+    portrait = re.compile(r'(?!hero_|scene-)[a-z-]+-(?:360|600|896|face)\.(?:avif|webp)$')
+    h = hashlib.sha1()
+    for f in sorted(os.listdir(d)):
+        if portrait.match(f):
+            h.update(open(os.path.join(d, f), 'rb').read())
+    pv = h.hexdigest()[:8]
 
     def tag(m):
         name = m.group(2)
+        if portrait.match(name):
+            return m.group(1) + f'?v={pv}'
         if name not in ver:
             # hero_{tod}-<w>.<ext> (tod.py) is filled in by the browser: one version over all four times of day
             fs = [os.path.join(d, name.replace('{tod}', t)) for t in tod.PARTS] if '{tod}' in name else [os.path.join(d, name)]
@@ -588,6 +619,7 @@ def art_version():
                 was = html = open(p, encoding='utf-8').read()
                 html = re.sub(r'/\*ARTV\*/\{[^}]*\}', lambda _: artv(html), html)   # pic() in page JS
                 new = re.sub(r'(assets/art/([A-Za-z0-9_.{}-]+\.(?:avif|webp|jpg|png)))(?:\?v=\w+)?', tag, html)
+                new = re.sub(r'(assets/art/\$\{[^}]+\}-(?:\d+|face|\$\{\w+\})\.(?:avif|webp|\$\{\w+\}))(?:\?v=\w+)?', rf'\1?v={pv}', new)
                 if new != was:
                     open(p, 'w', encoding='utf-8', newline='\n').write(new)
                     n += 1
@@ -1161,6 +1193,7 @@ def main():
         import search  # site search index over the finished pages; it changes assets/, so the worker version is taken again
         search.main()
         me_version()
+        radio_version()
         living_version()
         tod_version()
         art_version()

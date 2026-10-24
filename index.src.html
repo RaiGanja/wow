@@ -334,6 +334,13 @@ canvas.fx.on { opacity: 1; }
 .stband .wrap { display: grid; gap: 20px; }
 /* page-level grids: one column that may shrink, so a long word or a wide field never pushes past the screen edge */
 section.block, .hero-in, .chero-in, .thero-in, .stband .wrap { grid-template-columns: minmax(0, 1fr); }
+/* Shade right behind the hero text: sky and sun in the art are light, a soft dark patch keeps the words readable (no box) */
+.hero-in, .thero-in, .ghero .wrap { position: relative; }
+.hero-in::before, .thero-in::before, .ghero .wrap::before { content: ""; position: absolute; z-index: -1; left: -14vw; width: min(1180px, 100vw); pointer-events: none;
+  background: radial-gradient(farthest-side at 42% 50%, rgb(var(--hero-fade) / .66), rgb(var(--hero-fade) / .5) 55%, rgb(var(--hero-fade) / 0)); }
+.hero-in::before { top: calc(var(--top) + clamp(40px, 9vh, 110px) - 90px); bottom: -20px; }
+.thero-in::before, .ghero .wrap::before { top: -90px; bottom: -70px; }
+.ghero .wrap::before { background: radial-gradient(farthest-side at 42% 50%, color-mix(in srgb, var(--bg) 66%, transparent), color-mix(in srgb, var(--bg) 50%, transparent) 55%, transparent); }   /* guide text follows the theme */
 .stband .sec-head p { color: var(--fg); opacity: .85; }
 .stband .sec-head .src { color: var(--fg); opacity: .7; }
 .frame { position: relative; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); box-shadow: 0 18px 48px rgba(0,0,0,.35); backdrop-filter: blur(6px); }
@@ -905,7 +912,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <div class="wrap hero-in">
     <h1>World of Warcraft <span>Forever</span></h1>
     <p class="lead">Классы, расы, сбор группы и всё, что нужно знать к старту 4 ноября. С источниками и датой.</p>
-    <div class="cd" id="cd" aria-live="polite"></div>
+    <div class="cd" id="cd"></div><p class="sr" id="cdLive" aria-live="polite"></p>
     <div class="cta">
       <a class="btn lg" href="#classes">Выбрать класс</a>
       <a class="btn lg ghost" href="#builder">Собрать группу</a>
@@ -1113,6 +1120,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 (() => {
 const $ = s => document.querySelector(s);
 /* Countdown and key dates */
+/* the digits change every minute, so the screen reader hears only a change of stage (launch day, raids) */
+let cdStage = null;
 function renderCountdown() {
   const now = new Date(), rel = new Date('2026-11-04T23:00:00Z'), raid = new Date('2026-12-09T00:00:00'), r1 = new Date('2026-10-27T00:00:00');
   let target, what, sub;
@@ -1131,6 +1140,9 @@ function renderCountdown() {
   } else {
     $('#cd').innerHTML = `<div class="what"><b>Рейды открыты</b><span>Barrow Deeps, Hyjal Summit, Onyxia’s Lair</span></div>`;
   }
+  const stage = target ? what.split(' · ')[0] : '';
+  if (cdStage !== null && stage !== cdStage) $('#cdLive').textContent = $('#cd').textContent.replace(/\s+/g, ' ').trim();
+  cdStage = stage;
   let cur = null;
   document.querySelectorAll('.hdates li').forEach(li => { const past = new Date(li.dataset.d) <= now; li.classList.toggle('past', past); li.classList.remove('cur'); if (!past && !cur) cur = li; });
   if (cur) cur.classList.add('cur');

@@ -340,6 +340,13 @@ canvas.fx.on { opacity: 1; }
 .stband .wrap { display: grid; gap: 20px; }
 /* page-level grids: one column that may shrink, so a long word or a wide field never pushes past the screen edge */
 section.block, .hero-in, .chero-in, .thero-in, .stband .wrap { grid-template-columns: minmax(0, 1fr); }
+/* Shade right behind the hero text: sky and sun in the art are light, a soft dark patch keeps the words readable (no box) */
+.hero-in, .thero-in, .ghero .wrap { position: relative; }
+.hero-in::before, .thero-in::before, .ghero .wrap::before { content: ""; position: absolute; z-index: -1; left: -14vw; width: min(1180px, 100vw); pointer-events: none;
+  background: radial-gradient(farthest-side at 42% 50%, rgb(var(--hero-fade) / .66), rgb(var(--hero-fade) / .5) 55%, rgb(var(--hero-fade) / 0)); }
+.hero-in::before { top: calc(var(--top) + clamp(40px, 9vh, 110px) - 90px); bottom: -20px; }
+.thero-in::before, .ghero .wrap::before { top: -90px; bottom: -70px; }
+.ghero .wrap::before { background: radial-gradient(farthest-side at 42% 50%, color-mix(in srgb, var(--bg) 66%, transparent), color-mix(in srgb, var(--bg) 50%, transparent) 55%, transparent); }   /* guide text follows the theme */
 .stband .sec-head p { color: var(--fg); opacity: .85; }
 .stband .sec-head .src { color: var(--fg); opacity: .7; }
 .frame { position: relative; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); box-shadow: 0 18px 48px rgba(0,0,0,.35); backdrop-filter: blur(6px); }
@@ -874,8 +881,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 /* Guide pages: hero over art, sticky contents left, frames right; tables become cards on phones */
 .ghero { padding-top: calc(var(--top) + 64px); min-height: 440px; display: flex; align-items: flex-end; }
 .ghero .wrap { width: 100%; gap: 14px; }
-.ghero .crumbs { display: flex; flex-wrap: wrap; gap: 6px 10px; font-size: .9rem; color: var(--muted); }
-.ghero .crumbs a { color: var(--muted); text-decoration: none; }
+.ghero .crumbs { display: flex; flex-wrap: wrap; gap: 6px 10px; font-size: .9rem; color: var(--fg); }   /* on the art: --muted is too faint over the light sky */
+.ghero .crumbs a { color: inherit; text-decoration: none; }
 .ghero .crumbs a:hover { color: var(--fg); text-decoration: underline; }
 .ghero h1 { font-size: clamp(2.6rem, 6vw, 4.6rem); line-height: .98; }
 .glead { max-width: 60ch; font-size: clamp(1.02rem, 1.4vw, 1.15rem); opacity: .88; }
@@ -927,6 +934,7 @@ nav.gtiles { padding: 14px; }
 .gsearch:focus-within { border-color: var(--gold); }
 .gsearch input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; color: var(--fg); font: inherit; font-size: 1.05rem; min-height: 48px; }
 .gsearch input::placeholder { color: var(--muted); }
+.gnone:not(:empty) { margin: 14px 2px 0; color: var(--muted); }
 /* In game (/play/, build_guides.play_body): no art band, always solid bar; one column on phones, two from 960px */
 .compact .topbar { background: var(--rail); border-bottom-color: var(--line); color: var(--fg); }
 .phead { padding-top: calc(var(--top) + 22px); }
@@ -1040,17 +1048,19 @@ nav.gtiles { padding: 14px; }
 .rv.in { opacity: 1; transform: none; transition: opacity .6s var(--ease), transform .6s var(--ease); }
 @media print { .rv { opacity: 1; transform: none; } }
 </style>
+<style>.skip{position:fixed;left:12px;top:-60px;z-index:100;padding:10px 16px;border-radius:10px;background:#0a0b0d;color:#c9a54a;font-weight:600;text-decoration:none;border:1px solid #c9a54a}.skip:focus{top:12px}</style>
 <link rel="manifest" href="../../../manifest-uk.webmanifest">
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
-<link rel="stylesheet" href="../../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/search/search.css?v=474be382c7" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/radio/radio.css?v=172cc556c4" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/search/search.css?v=4d00b79945" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../../assets/me/me.css?v=9f6bfa2333" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Головна","item":"https://gabella.site/wow/uk/"},{"@type":"ListItem","position":2,"name":"Гайди","item":"https://gabella.site/wow/uk/guides/"},{"@type":"ListItem","position":3,"name":"FAQ і дати","item":"https://gabella.site/wow/uk/guides/faq/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"WoW Forever FAQ: дата й час виходу, ціна, підписка","description":"Коли виходить WoW Forever, чи потрібна підписка, скільки коштують набори, які режими гри, коли бронювати ім’я та чим Forever відрізняється від Classic Era.","inLanguage":"uk","url":"https://gabella.site/wow/uk/guides/faq/","dateModified":"2026-10-23","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/ZGpznkX3Zw"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/ZGpznkX3Zw"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/uk/"},"image":"https://gabella.site/wow/assets/og/faq-uk.jpg"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"uk","mainEntity":[{"@type":"Question","name":"Коли виходить WoW Forever?","acceptedAnswer":{"@type":"Answer","text":"04.11.2026 о 15:00 за тихоокеанським, це 23:00 UTC."}},{"@type":"Question","name":"Чи потрібна підписка?","acceptedAnswer":{"@type":"Answer","text":"Так, підписка або ігровий час. Forever — постійна гра поруч із Retail і Classic, а не сезон."}},{"@type":"Question","name":"Скільки коштують набори і чи потрібні вони?","acceptedAnswer":{"@type":"Answer","text":"Heroic Pack $29.99, Epic Pack $59.99, Warcraft Forever Collection $79.99. Набір потрібен лише заради раси Скайборн і ранньої резервації імен: решту восьми рас і всі дев’ять класів докуповувати не потрібно."}},{"@type":"Question","name":"Коли бронювати ім’я?","acceptedAnswer":{"@type":"Answer","text":"З 27.10 по 03.11, якщо у вас Heroic, Epic або Collection. До трьох персонажів на акаунт, хто перший прийшов, той і зайняв. Це не ранній доступ до гри."}},{"@type":"Question","name":"Навіщо прізвище і чи можна взяти те саме ім’я, що в друга?","acceptedAnswer":{"@type":"Answer","text":"Реалмів немає, тому унікальним має бути повне ім’я у всьому регіоні. Одне ім’я у двох можливе, якщо прізвища різні. Прізвище можна приховати: Esc → Options → Nameplates → My Secondary Name."}},{"@type":"Question","name":"Що таке Скайборн?","acceptedAnswer":{"@type":"Answer","text":"Нова раса Forever, відкривається будь-яким із трьох наборів. Доступна за обидві фракції, фракцію обирають під час створення. Обидві гілки знають дарнаську, а стартова зона Zephras Isle спільна."}},{"@type":"Question","name":"До якого рівня качатися і де?","acceptedAnswer":{"@type":"Answer","text":"До 60, у Eastern Kingdoms і Kalimdor. Літаючих скакунів і масштабування рівнів немає, як і в Classic."}},{"@type":"Question","name":"Чи можна грати разом, якщо обрали різні режими?","acceptedAnswer":{"@type":"Answer","text":"Ні: групуватися можна лише в межах одного режиму. Режими на старті: звичайний, PvP і RP, Hardcore запустять пізніше. У PvP на акаунті може бути лише одна фракція."}},{"@type":"Question","name":"Який регіон, режим і фракцію обрати, щоб грати з друзями?","acceptedAnswer":{"@type":"Answer","text":"Однакові для всіх. Регіони розділені, міжрегіональної гри немає, тож беріть регіон із найкращим пінгом для більшості. Група збирається лише в межах одного режиму, а Альянс і Орда не стають в одну групу в жодному режимі. У PvP на акаунті одна фракція, тож домовтеся про неї до бронювання імен 27.10."}},{"@type":"Question","name":"Де знайти групу?","acceptedAnswer":{"@type":"Answer","text":"На сайті та в Discord. Увійдіть, додайте персонажа й позначте в профілі «Шукаю групу»: на 3 години він з’явиться в смузі «Зараз шукають групу» на сторінці «Гравці». На Discord-сервері Gabella Team збирають групи на старт 04.11 і домовляються про регіон, режим і фракцію."}},{"@type":"Question","name":"Що таке ранг і рамки в профілі?","acceptedAnswer":{"@type":"Answer","text":"Це ваш профіль на сайті, до самої гри він не стосується. Ранг росте від очок досягнень і відкриває рамки портрета. Особливі рамки дають особливі досягнення."}},{"@type":"Question","name":"Коли відкриються рейди?","acceptedAnswer":{"@type":"Answer","text":"09.12: Barrow Deeps (10 гравців), Hyjal Summit (20), Onyxia’s Lair (40). До цього є п’ять тижнів на прокачування та підземелля."}},{"@type":"Question","name":"Чи можна ще потрапити в бету?","acceptedAnswer":{"@type":"Answer","text":"Ні. Доступ мали власники Epic і Collection. Бета завершилася 23.10 о 10:00 за тихоокеанським часом."}},{"@type":"Question","name":"Чи підійдуть старі гайди по Classic?","acceptedAnswer":{"@type":"Answer","text":"Лише частково. Характеристики та предмети змінено, тому старі списки здобичі ненадійні. Додано 9 нових підземель, 2 нові рейди та Onyxia’s Lair, нові зони та завдання, у класів оновлено таланти."}},{"@type":"Question","name":"Чи буде сучасна графіка та геймпад?","acceptedAnswer":{"@type":"Answer","text":"Так: можна обрати візуальний стиль (Classic або сучасний), є опціональна трансмогрифікація та офіційна підтримка геймпада."}}]}</script>
 </head>
 <body>
+<a class="skip" href="#content">До вмісту</a>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-tank" viewBox="0 0 24 24"><path d="M12 3l7 3v5.5c0 4.6-3 7.7-7 9.5-4-1.8-7-4.9-7-9.5V6z"/></symbol>
   <symbol id="i-heal" viewBox="0 0 24 24"><path d="M10 4h4v6h6v4h-6v6h-4v-6H4v-4h6z"/></symbol>
@@ -1086,6 +1096,7 @@ nav.gtiles { padding: 14px; }
     <button class="iconbtn menubtn" type="button" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg><span>Ще</span></button>
   </div>
 </div></header>
+<span id="content" tabindex="-1"></span>
 
 <section class="thero" id="top">
   <picture class="thero-art" aria-hidden="true" data-fx="faq" data-cut=".9">
@@ -1118,7 +1129,7 @@ nav.gtiles { padding: 14px; }
 
 <div class="wrap">
 <p class="dcta"><span>Групи на старт, питання щодо гіда та новини — у Discord Gabella Team.</span><a class="btn ghost" href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Відкрити Discord</a></p>
-<section id="more"><div class="sec-head"><h2>Інші гайди</h2></div><nav class="frame ttiles gtiles" aria-label="Інші гайди"><a class="ttile" href="../../guides/leveling/"><picture><source type="image/avif" srcset="../../../assets/art/hero_dawn-960.avif?v=72b3acf6 960w, ../../../assets/art/hero_dawn-1440.avif?v=4c7215d4 1440w, ../../../assets/art/hero_dawn-1920.avif?v=baf52983 1920w, ../../../assets/art/hero_dawn-2560.avif?v=78086c34 2560w, ../../../assets/art/hero_dawn-3840.avif?v=b7217b4e 3840w" sizes="320px"><img src="../../../assets/art/hero_dawn-960.webp?v=4eae2c5c" srcset="../../../assets/art/hero_dawn-960.webp?v=4eae2c5c 960w, ../../../assets/art/hero_dawn-1440.webp?v=389093cd 1440w, ../../../assets/art/hero_dawn-1920.webp?v=1d137c11 1920w, ../../../assets/art/hero_dawn-2560.webp?v=f7135c28 2560w, ../../../assets/art/hero_dawn-3840.webp?v=f48b5767 3840w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Прокачування 1–60</b><span>Зони за рівнями, відпочинок, Legacy і табір</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/dungeons/"><picture><source type="image/avif" srcset="../../../assets/art/warlock-360.avif?v=dd5fc7a8 360w, ../../../assets/art/warlock-600.avif?v=f1b27c51 600w, ../../../assets/art/warlock-896.avif?v=d25066c1 896w" sizes="320px"><img src="../../../assets/art/warlock-600.webp?v=a0181c77" srcset="../../../assets/art/warlock-360.webp?v=1f04d604 360w, ../../../assets/art/warlock-600.webp?v=a0181c77 600w, ../../../assets/art/warlock-896.webp?v=203a598f 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Підземелля та рейди</b><span>35 підземель за рівнями, рейди, склад групи</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/professions/"><picture><source type="image/avif" srcset="../../../assets/art/hero_campfire-960.avif?v=2654726f 960w, ../../../assets/art/hero_campfire-1600.avif?v=a9d1ad39 1600w, ../../../assets/art/hero_campfire-2560.avif?v=6b161175 2560w" sizes="320px"><img src="../../../assets/art/hero_campfire-960.webp?v=d73f1e16" srcset="../../../assets/art/hero_campfire-960.webp?v=d73f1e16 960w, ../../../assets/art/hero_campfire-1600.webp?v=bef1b754 1600w, ../../../assets/art/hero_campfire-2560.webp?v=08f5bedc 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Професії</b><span>Пари під клас, об’єкти табору, навичка до 300</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/news/"><picture><source type="image/avif" srcset="../../../assets/art/paladin-360.avif?v=e7c176bf 360w, ../../../assets/art/paladin-600.avif?v=62bbe825 600w, ../../../assets/art/paladin-896.avif?v=f272a36e 896w" sizes="320px"><img src="../../../assets/art/paladin-600.webp?v=ce6a9574" srcset="../../../assets/art/paladin-360.webp?v=d4d5d3d1 360w, ../../../assets/art/paladin-600.webp?v=ce6a9574 600w, ../../../assets/art/paladin-896.webp?v=0288b052 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Новини</b><span>Наші записи та стрічка Wowhead</span></a><a class="ttile" href="../../guides/ukrainian/"><picture><source type="image/avif" srcset="../../../assets/art/priest-360.avif?v=7bd13375 360w, ../../../assets/art/priest-600.avif?v=a4c033f8 600w, ../../../assets/art/priest-896.avif?v=9657304d 896w" sizes="320px"><img src="../../../assets/art/priest-600.webp?v=c6a0304e" srcset="../../../assets/art/priest-360.webp?v=dceffb9e 360w, ../../../assets/art/priest-600.webp?v=c6a0304e 600w, ../../../assets/art/priest-896.webp?v=bfdb4bbd 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Як грати українською</b><span>Аддони перекладу: який обрати й як встановити</span><time datetime="2026-10-23">23.10.2026</time></a></nav></section>
+<section id="more"><div class="sec-head"><h2>Інші гайди</h2></div><nav class="frame ttiles gtiles" aria-label="Інші гайди"><a class="ttile" href="../../guides/leveling/"><picture><source type="image/avif" srcset="../../../assets/art/hero_dawn-960.avif?v=72b3acf6 960w, ../../../assets/art/hero_dawn-1440.avif?v=4c7215d4 1440w, ../../../assets/art/hero_dawn-1920.avif?v=baf52983 1920w, ../../../assets/art/hero_dawn-2560.avif?v=78086c34 2560w, ../../../assets/art/hero_dawn-3840.avif?v=b7217b4e 3840w" sizes="320px"><img src="../../../assets/art/hero_dawn-960.webp?v=4eae2c5c" srcset="../../../assets/art/hero_dawn-960.webp?v=4eae2c5c 960w, ../../../assets/art/hero_dawn-1440.webp?v=389093cd 1440w, ../../../assets/art/hero_dawn-1920.webp?v=1d137c11 1920w, ../../../assets/art/hero_dawn-2560.webp?v=f7135c28 2560w, ../../../assets/art/hero_dawn-3840.webp?v=f48b5767 3840w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Прокачування 1–60</b><span>Зони за рівнями, відпочинок, Legacy і табір</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/dungeons/"><picture><source type="image/avif" srcset="../../../assets/art/warlock-360.avif?v=0003354e 360w, ../../../assets/art/warlock-600.avif?v=0003354e 600w, ../../../assets/art/warlock-896.avif?v=0003354e 896w" sizes="320px"><img src="../../../assets/art/warlock-600.webp?v=0003354e" srcset="../../../assets/art/warlock-360.webp?v=0003354e 360w, ../../../assets/art/warlock-600.webp?v=0003354e 600w, ../../../assets/art/warlock-896.webp?v=0003354e 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Підземелля та рейди</b><span>35 підземель за рівнями, рейди, склад групи</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/professions/"><picture><source type="image/avif" srcset="../../../assets/art/hero_campfire-960.avif?v=2654726f 960w, ../../../assets/art/hero_campfire-1600.avif?v=a9d1ad39 1600w, ../../../assets/art/hero_campfire-2560.avif?v=6b161175 2560w" sizes="320px"><img src="../../../assets/art/hero_campfire-960.webp?v=d73f1e16" srcset="../../../assets/art/hero_campfire-960.webp?v=d73f1e16 960w, ../../../assets/art/hero_campfire-1600.webp?v=bef1b754 1600w, ../../../assets/art/hero_campfire-2560.webp?v=08f5bedc 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Професії</b><span>Пари під клас, об’єкти табору, навичка до 300</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/news/"><picture><source type="image/avif" srcset="../../../assets/art/paladin-360.avif?v=0003354e 360w, ../../../assets/art/paladin-600.avif?v=0003354e 600w, ../../../assets/art/paladin-896.avif?v=0003354e 896w" sizes="320px"><img src="../../../assets/art/paladin-600.webp?v=0003354e" srcset="../../../assets/art/paladin-360.webp?v=0003354e 360w, ../../../assets/art/paladin-600.webp?v=0003354e 600w, ../../../assets/art/paladin-896.webp?v=0003354e 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Новини</b><span>Наші записи та стрічка Wowhead</span></a><a class="ttile" href="../../guides/ukrainian/"><picture><source type="image/avif" srcset="../../../assets/art/priest-360.avif?v=0003354e 360w, ../../../assets/art/priest-600.avif?v=0003354e 600w, ../../../assets/art/priest-896.avif?v=0003354e 896w" sizes="320px"><img src="../../../assets/art/priest-600.webp?v=0003354e" srcset="../../../assets/art/priest-360.webp?v=0003354e 360w, ../../../assets/art/priest-600.webp?v=0003354e 600w, ../../../assets/art/priest-896.webp?v=0003354e 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Як грати українською</b><span>Аддони перекладу: який обрати й як встановити</span><time datetime="2026-10-23">23.10.2026</time></a></nav></section>
 <footer id="sources">
   <h2>Джерела</h2>
   <ul><li><a href="https://classicwow.gg/forever" target="_blank" rel="noopener">ClassicWoW.gg: дати бети, імен, рейдів, відмінності від Era</a></li><li><a href="https://www.warcrafttavern.com/news/world-of-warcraft-forever-editions-skyborne-race-unlock-beta-access/" target="_blank" rel="noopener">Warcraft Tavern: набори та ціни</a></li><li><a href="https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/" target="_blank" rel="noopener">Warcraft Tavern: зміни бети від 15 жовтня</a></li><li><a href="https://www.warcrafttavern.com/forever/guides/races/" target="_blank" rel="noopener">Warcraft Tavern: раси</a></li><li><a href="https://teamoverpowered.com/forever/guides/name-reservation/" target="_blank" rel="noopener">Team Overpowered: імена та прізвища</a></li></ul>
@@ -1185,13 +1196,26 @@ if ('IntersectionObserver' in window && tocLinks.length) {
   }), { rootMargin: '-40% 0px -55% 0px' });
   document.querySelectorAll('.gsec').forEach(s => io.observe(s));
 }
-/* FAQ: search over questions and answers; #id opens the question */
+/* FAQ: search over questions and answers; #id opens the question. Nothing found -> a line says so;
+   questions opened by the search close again when the field is cleared (the ones opened by hand stay open) */
 const qIn = document.getElementById('faqQ');
 const qs = [...document.querySelectorAll('.gfaq details')];
-if (qIn) qIn.addEventListener('input', () => {
-  const v = qIn.value.trim().toLowerCase();
-  qs.forEach(d => { const hit = !v || d.textContent.toLowerCase().includes(v); d.hidden = !hit; if (v && hit) d.open = true; });
-});
+if (qIn) {
+  const none = document.createElement('p');
+  none.className = 'gnone'; none.setAttribute('role', 'status');   // a live region that is there from the start gets read
+  qIn.closest('label').after(none);
+  qIn.addEventListener('input', () => {
+    const v = qIn.value.trim().toLowerCase();
+    let n = 0;
+    qs.forEach(d => {
+      const hit = !v || d.textContent.toLowerCase().includes(v);
+      d.hidden = !hit; n += hit;
+      if (v && hit && !d.open) { d.open = true; d.dataset.byq = '1'; }
+      else if (!v && d.dataset.byq) { d.open = false; delete d.dataset.byq; }
+    });
+    none.textContent = n ? '' : "Нічого не знайшлося. Спробуйте інше слово або пошук по сайту.";
+  });
+}
 function openHash() { const d = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1))); if (d && d.tagName === 'DETAILS') { d.open = true; d.scrollIntoView(); } }
 addEventListener('hashchange', openHash); openHash();
 </script>
@@ -1268,8 +1292,8 @@ addEventListener('beforeinstallprompt', e => {
   opts.append(b);
 });
 </script>
-<script src="../../../assets/radio/radio.js" data-root="../../../" defer></script>
-<script src="../../../assets/search/search.js?v=474be382c7" data-root="../../../" defer></script>
+<script src="../../../assets/radio/radio.js?v=172cc556c4" data-root="../../../" defer></script>
+<script src="../../../assets/search/search.js?v=4d00b79945" data-root="../../../" defer></script>
 <script src="../../../assets/me/me.js?v=9f6bfa2333" data-root="../../../" data-home="../../" data-lang="uk" data-teaser="Профіль зберігає ваших персонажів, досягнення й рамки" data-close="Закрити" data-page="guides/faq/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
