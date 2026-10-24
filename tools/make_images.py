@@ -88,12 +88,11 @@ FACE_Y = {'gnome': .33, 'dwarf': .27, 'skyborne-horde': .24}
 
 
 def face(src, name):
-    """Square head-and-shoulders crop for round avatars: <name>-face.avif|webp, 160 px."""
+    """Square head-and-shoulders crop for round avatars: <name>-face.webp, 160 px (pages use webp only)."""
     im = Image.open(src).convert('RGB')
     w, h = im.size
     side, cy = int(w * .44), int(h * FACE_Y.get(name, .25))
     im = im.crop((w // 2 - side // 2, cy - side // 2, w // 2 + side // 2, cy + side // 2)).resize((160, 160), Image.LANCZOS)
-    im.save(os.path.join(OUT, f'{name}-face.avif'), quality=55, speed=4)
     im.save(os.path.join(OUT, f'{name}-face.webp'), quality=82, method=6)
 
 

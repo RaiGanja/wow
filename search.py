@@ -98,7 +98,7 @@ def main():
         open(os.path.join(OUT, f'{lang}.json'), 'w', encoding='utf-8', newline='\n').write(data + '\n')
         h.update(data.encode())
     for f in ('search.js', 'search.css'):
-        h.update(open(os.path.join(OUT, f), 'rb').read())
+        h.update(build.read_norm(os.path.join(OUT, f)))   # the same version on LF and CRLF checkouts
     v = h.hexdigest()[:10]
     n = 0
     for d, dirs, files in os.walk(HERE):

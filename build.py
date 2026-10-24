@@ -1,8 +1,9 @@
 """Сборка гида: index.src.html, class.src.html, race.src.html (русские исходники) + content/classes.py, content/races.py
 + i18n/{ru,en,uk}.txt (переводы, строка в строку)
 -> index.html, en/index.html, uk/index.html, classes/<id>/index.html и races/<slug>/index.html на трёх языках.
-Запуск: python build.py [--list]  (--list печатает русские фрагменты без перевода)"""
-import hashlib, html as _html, json, os, posixpath, re, sys
+Запуск: python build.py [--list]  (--list печатает русские фрагменты без перевода)
+Сборка идёт в копии дерева .build/, на место переносятся только изменённые файлы: упавшая сборка ничего не трогает."""
+import hashlib, html as _html, json, os, posixpath, re, shutil, subprocess, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 if '--missing' in sys.argv:          # python build.py --missing de: build de without its json, print what it lacks, write nothing
@@ -511,7 +512,7 @@ def me_version():
     h = hashlib.sha1()
     for f in sorted(os.listdir(d)):
         if f in ('me.js', 'me.css') or f.startswith('i18n-'):   # me.js passes the same version on to the texts
-            h.update(open(os.path.join(d, f), 'rb').read())
+            h.update(read_norm(os.path.join(d, f)))
     v = h.hexdigest()[:10]
     n = 0
     for root, dirs, files in os.walk(HERE):
@@ -1184,5 +1185,36 @@ def report_new_langs():
         sys.exit(1)
 
 
+STAGE = '.build'
+STAGE_SKIP = {'.git', '.claude', '.wrangler', STAGE, 'docs', 'node_modules', '__pycache__'}
+
+
+def staged():
+    """Build in a copy of the tree (.build/), then move the files that changed into place. A build that fails halfway
+    (an untranslated fragment, a failed check) used to leave 180 half-built pages in the tree; now it leaves nothing."""
+    tmp = os.path.join(HERE, STAGE)
+    shutil.rmtree(tmp, ignore_errors=True)
+    shutil.copytree(HERE, tmp, ignore=lambda d, names: [n for n in names if n in STAGE_SKIP])
+    try:
+        code = subprocess.run([sys.executable, os.path.join(tmp, 'build.py')] + sys.argv[1:], env={**os.environ, 'WF_STAGED': '1'}).returncode
+        if code:
+            print(f'build failed (exit {code}): the tree is untouched', file=sys.stderr)
+            sys.exit(code)
+        n = 0
+        for d, dirs, files in os.walk(tmp):
+            dirs[:] = [x for x in dirs if x != '__pycache__']   # the inner run's bytecode is not a build result
+            for f in files:
+                src = os.path.join(d, f)
+                dst = os.path.join(HERE, os.path.relpath(src, tmp))
+                if os.path.isfile(dst) and read_norm(dst) == read_norm(src):
+                    continue
+                os.makedirs(os.path.dirname(dst), exist_ok=True)
+                os.replace(src, dst)
+                n += 1
+        print(f'staged: {n} files changed', file=sys.stderr)
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
 if __name__ == '__main__':
-    main()
+    main() if os.environ.get('WF_STAGED') else staged()

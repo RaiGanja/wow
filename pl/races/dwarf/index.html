@@ -429,20 +429,18 @@ ul.buffs .m { color: var(--muted); }
 .me .act .btn { width: 100%; border-radius: 7px; }
 .stepper input { width: 52px; min-height: 44px; border: 0; background: transparent; color: var(--fg); font: inherit; font-weight: 600; text-align: center; font-variant-numeric: tabular-nums; -moz-appearance: textfield; }
 .stepper input::-webkit-inner-spin-button, .stepper input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-.tbl-box.dg table { min-width: 0; }
 .dg td.num .alt { display: block; margin-top: 4px; color: var(--muted); font-weight: 400; font-size: .8rem; white-space: normal; }
 .dg tbody th .tag { margin-left: 8px; vertical-align: .1em; }
 .dg tr.mine > * { border-color: color-mix(in srgb, var(--gold) 60%, transparent); }
 .dg td.num .pill { min-width: 64px; justify-content: center; }
 .dg td.zone { color: var(--muted); }
 .dg tbody th .z { display: none; }
-.dg-empty td { color: var(--muted); }
 
 /* Content blocks reused by the reference sections: framed panels, plaques, tips */
 .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(290px, 100%), 1fr)); gap: 16px; }
 .grid2 > * { min-width: 0; }
-.panel, .tool, .tbl-box, .summary { border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); box-shadow: 0 14px 40px rgba(0,0,0,.28); }
-:root[data-theme="light"] .panel, :root[data-theme="light"] .tool, :root[data-theme="light"] .tbl-box, :root[data-theme="light"] .summary, :root[data-theme="light"] .frame { box-shadow: 0 10px 30px rgba(40,32,16,.08); }
+.panel, .tool, .summary { border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); box-shadow: 0 14px 40px rgba(0,0,0,.28); }
+:root[data-theme="light"] .panel, :root[data-theme="light"] .tool, :root[data-theme="light"] .summary, :root[data-theme="light"] .frame { box-shadow: 0 10px 30px rgba(40,32,16,.08); }
 .panel { padding: 22px 24px; display: grid; gap: 12px; align-content: start; }
 .panel h3 { font-size: 1.45rem; }
 .panel > .tipbox, .panel > .note { margin-top: 2px; }
@@ -451,15 +449,8 @@ ul.dots li::marker { color: var(--gold); }
 .note { padding: 14px 16px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--pline); font-size: .95rem; }
 .note b { font-weight: 600; }
 .tipbox { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 12px; align-items: start; padding: 14px 16px; border-radius: 8px; background: color-mix(in srgb, var(--gold) 9%, var(--panel-2)); border: 1px solid color-mix(in srgb, var(--gold) 30%, transparent); font-size: .95rem; }
-.tipbox .fi, .tiph .fi { width: 26px; height: 26px; margin-top: 1px; color: var(--gold-2); }
+.tipbox .fi { width: 26px; height: 26px; margin-top: 1px; color: var(--gold-2); }
 .tipbox b { font-weight: 600; }
-.panel.tipp { background: color-mix(in srgb, var(--gold) 7%, var(--panel)); border-color: color-mix(in srgb, var(--gold) 28%, transparent); }
-.tiph { display: flex; align-items: center; gap: 10px; }
-.timeline { list-style: none; margin: 0; padding: 14px; display: grid; gap: 8px; }
-.timeline li { display: grid; grid-template-columns: 170px 1fr; gap: 18px; align-items: start; padding: 16px 18px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--pline); }
-.timeline .d { font-family: var(--font-display); font-size: 1.45rem; color: var(--gold-2); line-height: 1.2; font-variant-numeric: lining-nums; }
-.timeline .t b { display: block; font-weight: 600; margin-bottom: 2px; }
-.timeline .t span { color: var(--muted); font-size: .95rem; }
 
 /* Controls */
 .filters { display: flex; flex-wrap: wrap; gap: 12px 28px; align-items: center; }
@@ -584,10 +575,7 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 .chip.new { color: var(--new); border-color: color-mix(in srgb, var(--new) 50%, transparent); }
 ul.plain { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
 ul.plain li { display: grid; gap: 1px; }
-.specname { font-weight: 600; }
 .en { font-weight: 400; color: var(--muted); font-size: .92em; }
-.specrole { color: var(--muted); font-size: .92rem; }
-.rtype { font-size: .74rem; font-weight: 600; color: var(--muted); margin-right: 8px; }
 
 /* Builder */
 .builder { display: grid; grid-template-columns: minmax(0, 1fr) 310px; gap: 24px; align-items: start; }
@@ -703,16 +691,6 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .rgroup h3 { display: flex; align-items: center; gap: 10px; padding: 0 4px 6px; font-size: 1.35rem; color: var(--fc); }
 .rgroup h3::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--fc); }
 .alliance { --fc: var(--alliance); } .horde { --fc: var(--horde); }
-
-/* Data tables: each row is a plaque inside a framed panel */
-.tbl-box { overflow-x: auto; padding: 8px 14px 10px; }
-.tbl-box table { min-width: 560px; border-spacing: 0 6px; }
-.tbl-box th, .tbl-box td { text-align: left; padding: 12px 16px; vertical-align: top; background: var(--panel-2); border-top: 1px solid var(--pline); border-bottom: 1px solid var(--pline); }
-.tbl-box tr > :first-child { border-left: 1px solid var(--pline); border-radius: 8px 0 0 8px; }
-.tbl-box tr > :last-child { border-right: 1px solid var(--pline); border-radius: 0 8px 8px 0; }
-.tbl-box thead th { background: none; border: 0; color: var(--muted); font-size: .85rem; font-weight: 600; padding-top: 6px; padding-bottom: 0; }
-.tbl-box tbody th { font-weight: 600; font-size: .96rem; }
-.tbl-box td.num { white-space: nowrap; font-weight: 600; font-variant-numeric: tabular-nums; }
 
 footer { margin-top: 96px; padding: 28px 28px 24px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); display: grid; gap: 14px; color: var(--muted); font-size: .93rem; }
 footer h2 { color: var(--fg); font-size: 1.8rem; }
@@ -834,7 +812,6 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .gt b { font-size: 1.02rem; }
   .gt span { font-size: .8rem; line-height: 1.35; }
   .gt b, .gt span { hyphens: auto; }
-  .timeline { padding: 8px; }
   .abs, .cards.two { grid-template-columns: 1fr; }
   .cmp-row > .rdots { grid-column: 1 / -1; grid-row: auto; }
   .d-head { padding: 20px 16px; min-height: 0; }
@@ -851,7 +828,6 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .slot .del { grid-row: 1; grid-column: 4; }
   .slot select.scls { grid-column: 2; }
   .slot select.srole { grid-column: 3 / 5; }
-  .timeline li { grid-template-columns: 1fr; gap: 2px; }
   .stband { padding-top: 80px; }
   .stband-art, .stband-art img, .stband::before { height: 480px; }
   .camp { min-height: 640px; align-content: start; }
@@ -865,15 +841,6 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .st-head h3 { font-size: 1.75rem; }
   .steps-c, .st-cols { grid-template-columns: 1fr; }
   .steps-c li { padding: 14px; }
-  .tbl-box { padding: 8px; }
-  .tbl-box table, .tbl-box tbody, .tbl-box tr, .tbl-box th, .tbl-box td { display: block; }
-  .tbl-box table { min-width: 0; }
-  .tbl-box thead { display: none; }
-  .tbl-box tbody { display: grid; gap: 6px; }
-  .tbl-box tr { padding: 12px 14px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--pline); }
-  .tbl-box th, .tbl-box td, .tbl-box tr > :first-child, .tbl-box tr > :last-child { padding: 0; border: 0; border-radius: 0; background: none; }
-  .tbl-box td { margin-top: 4px; font-size: .95rem; }
-  .tbl-box td + td { color: var(--muted); }
   .dg tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; align-items: center; }
   .dg td.num { margin: 0; text-align: right; }
   .dg tr.mine { border-color: color-mix(in srgb, var(--gold) 60%, transparent); }
@@ -1084,8 +1051,8 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/search/search.css?v=9e7d0d02a5" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/me/me.css?v=31a03934ef" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/search/search.css?v=474be382c7" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/me/me.css?v=9f6bfa2333" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://gabella.site/wow/pl/"},{"@type":"ListItem","position":2,"name":"Rasy","item":"https://gabella.site/wow/pl/races/"},{"@type":"ListItem","position":3,"name":"Dwarf","item":"https://gabella.site/wow/pl/races/dwarf/"}]}</script>
 </head>
 <body style="--cc:var(--alliance);--fh:#86a6d8">
@@ -1309,8 +1276,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../../assets/radio/radio.js" data-root="../../../" defer></script>
-<script src="../../../assets/search/search.js?v=9e7d0d02a5" data-root="../../../" defer></script>
-<script src="../../../assets/me/me.js?v=31a03934ef" data-root="../../../" data-home="../../" data-lang="pl" data-teaser="Profil przechowuje twoje postacie, osiągnięcia i ramki" data-close="Zamknij" data-page="races/dwarf/" data-look="2" defer></script>
+<script src="../../../assets/search/search.js?v=474be382c7" data-root="../../../" defer></script>
+<script src="../../../assets/me/me.js?v=9f6bfa2333" data-root="../../../" data-home="../../" data-lang="pl" data-teaser="Profil przechowuje twoje postacie, osiągnięcia i ramki" data-close="Zamknij" data-page="races/dwarf/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>
