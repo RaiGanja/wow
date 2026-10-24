@@ -14,7 +14,7 @@
 </style>
 <!--body-->
 <main class="wrap pg-top pl" id="app">
-  <h1 class="sr">Игрок Gabella Team</h1>
+  <h1 class="sr">Игрок WoW Forever</h1>
   <div id="view"><div class="skel" style="min-height:250px"></div></div>
 </main>
 <!--/body-->
@@ -23,8 +23,8 @@
 let M = null, p = null, me = null, compare = false;
 
 function notFound() {
-  $('#view').innerHTML = `<section class="frame state"><h2>Игрок не найден</h2><p>Такого игрока нет в «Составе» или он скрыл профиль.</p>
-    <div class="row"><a class="btn" href="${HOME}roster/">Открыть «Состав»</a></div></section>`;
+  $('#view').innerHTML = `<section class="frame state"><h2>Игрок не найден</h2><p>Такого игрока нет или он скрыл профиль.</p>
+    <div class="row"><a class="btn" href="${HOME}roster/">Все игроки</a></div></section>`;
 }
 function down() {
   $('#view').innerHTML = `<section class="frame state"><h2>Сервер профилей не отвечает</h2><p>Попробуйте через пару минут. Остальной гид работает как обычно.</p>
@@ -58,6 +58,7 @@ function draw() {
     <button type="button" class="btn ghost" id="admBan">${esc(tg('rep_ban'))}</button><span class="msg" id="admNote" role="status"></span></div>` : '';
   $('#view').innerHTML = `${bcard(Object.assign({}, p, { since: p.since }), { h: 'h2' })}
     <div class="bar-row"><button type="button" class="btn ghost" id="copy">${ico('copy')}Скопировать ссылку</button>
+      ${own ? '' : `<button type="button" class="btn ghost" id="wspBtn" title="/w ${esc(name)}">Шёпот</button>`}
       ${me && !own ? `<button type="button" class="btn ghost" id="cmpBtn" aria-pressed="${compare}">${compare ? 'Скрыть сравнение' : 'Сравнить с собой'}</button>` : ''}
       ${me && !own ? `<button type="button" class="btn ghost" id="repBtn">${esc(tg('report'))}</button>` : ''}
       ${own ? `<a class="btn ghost" href="${HOME}profile/">Мой профиль</a>` : ''}<span class="msg" id="copyNote" role="status"></span></div>
@@ -69,6 +70,8 @@ function draw() {
     $('#copyNote').textContent = ok ? 'Ссылка скопирована' : location.href;
     if (ok && own) M.track('show_card');
   });
+  const wb = $('#wspBtn');   // one realm: /w with the name reaches the player in the game chat
+  if (wb) wb.onclick = () => copyText('/w ' + name + ' ').then(ok => M.toast({ kind: 'note', text: ok ? fill('Скопировано: %c — вставьте в чат игры', { c: '/w ' + name }) : '/w ' + name }));
   const cb = $('#cmpBtn');
   if (cb) cb.onclick = () => { compare = !compare; draw(); };
   const rb = $('#repBtn');
@@ -79,7 +82,7 @@ function draw() {
     const n = Number(lv.trim());
     if (!Number.isInteger(n) || n < 1 || n > 60) { $('#admNote').textContent = tg('verify_bad'); return; }
     b.disabled = true;
-    M.api(`/admin/characters/${b.dataset.verify}/verify`, { body: { level: n } }).then(() => { load(); M.toast({ kind: 'note', id: 'verify_done' }); },
+    M.api(`/admin/characters/${b.dataset.verify}/verify`, { body: { level: n } }).then(() => { load(true); M.toast({ kind: 'note', id: 'verify_done' }); },
       e => { b.disabled = false; const nt = $('#admNote'); nt.classList.add('err'); nt.textContent = tg(e.code === 'bad_level' ? 'verify_bad' : 'err_report'); });
   });
   const gb = $('#admGrant');
@@ -91,15 +94,16 @@ function draw() {
 /** Admin actions on this player; an error shows next to the buttons. */
 function adminAct(b, path, body, done) {
   b.disabled = true;
-  M.api(path, { body }).then(() => { load(); M.toast({ kind: 'note', id: done }); },
+  M.api(path, { body }).then(() => { load(true); M.toast({ kind: 'note', id: done }); },
     () => { b.disabled = false; const nt = $('#admNote'); nt.classList.add('err'); nt.textContent = tg('err_admin'); });
 }
 
-function load() {
+/** fresh: after an admin action — past the 60-second cache of /u/ in the browser and at the edge. */
+function load(fresh) {
   const id = location.hash.slice(1);
   if (!/^(\d{1,20}|u_[0-9a-f]{16})$/.test(id)) return notFound();   // Discord ids and the new accounts (u_ + 16 hex), as USER_ID in the API
   $('#view').innerHTML = '<div class="skel" style="min-height:250px"></div>';
-  M.api('/u/' + id).then(r => {
+  M.api('/u/' + id + (fresh === true ? '?t=' + Date.now() : '')).then(r => {
     p = r;
     document.title = `${r.main.name} — Gabella`;
     draw();

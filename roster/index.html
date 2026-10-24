@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Состав Gabella Team в WoW Forever: кто кем играет</title>
-<meta name="description" content="Персонажи участников Gabella Team в WoW Forever: фракция, раса, класс, роль, профессии и время игры. Кто сейчас ищет группу и лента достижений.">
+<title>Игроки WoW Forever: найти группу и крафтера</title>
+<meta name="description" content="Игроки WoW Forever: кто сейчас ищет группу, класс, роль, профессии и время игры. Нашли — напишите в игре через /w.">
 <meta name="theme-color" content="#060708">
 <link rel="alternate" hreflang="ru" href="https://gabella.site/wow/roster/">
 <link rel="alternate" hreflang="en" href="https://gabella.site/wow/en/roster/">
@@ -29,13 +29,13 @@
 <meta property="og:locale:alternate" content="it_IT">
 <meta property="og:locale:alternate" content="pl_PL">
 <meta property="og:site_name" content="Gabella">
-<meta property="og:title" content="Состав Gabella Team в WoW Forever: кто кем играет">
-<meta property="og:description" content="Персонажи участников Gabella Team в WoW Forever: фракция, раса, класс, роль, профессии и время игры. Кто сейчас ищет группу и лента достижений.">
+<meta property="og:title" content="Игроки WoW Forever: найти группу и крафтера">
+<meta property="og:description" content="Игроки WoW Forever: кто сейчас ищет группу, класс, роль, профессии и время игры. Нашли — напишите в игре через /w.">
 <meta property="og:url" content="https://gabella.site/wow/roster/">
 <meta property="og:image" content="https://gabella.site/wow/assets/og-ru.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Состав Gabella Team в WoW Forever: кто кем играет">
+<meta property="og:image:alt" content="Игроки WoW Forever: найти группу и крафтера">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" sizes="48x48" href="../assets/icons/favicon-48.png">
 <link rel="icon" type="image/png" sizes="96x96" href="../assets/icons/favicon-96.png">
@@ -952,6 +952,10 @@ main .me-ring, dialog .me-ring { --s: 64px; --room-x: 12px; --room-y: 12px; widt
 /* admin «Hide» gets its own row: pinned to the corner it covered the Discord nick */
 .pcard .mod { position: relative; z-index: 3; grid-column: 1 / -1; justify-self: end; margin-top: 4px; min-height: 32px; font: inherit; font-size: .78rem; color: var(--muted); border: 1px solid var(--pline); border-radius: 6px; padding: 0 10px; background: var(--panel-2); cursor: pointer; }
 .pcard .mod:hover { color: var(--fg); border-color: var(--gold); }
+/* The whisper button copies /w Name: left under the card, gold like the other actions that lead into the game */
+.wsp { position: relative; z-index: 3; min-height: 32px; font: inherit; font-size: .8rem; font-weight: 600; color: var(--gold-2); border: 1px solid var(--pline); border-radius: 6px; padding: 0 10px; background: var(--panel-2); cursor: pointer; }
+.wsp:hover { color: var(--fg); border-color: var(--gold); }
+.pcard .mod.wsp { justify-self: start; color: var(--gold-2); }
 
 /* the big card: how others see the player */
 .bcard { position: relative; overflow: hidden; isolation: isolate; border-radius: 12px; border: 1px solid var(--pline); min-height: 250px; display: grid; align-items: end; background: #0b0d12; color: #ece6d8; }
@@ -1103,13 +1107,25 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 .lfgs span { display: grid; line-height: 1.3; }
 .lfgs b { font-weight: 600; }
 .lfgs small { color: var(--gold-2); font-size: .8rem; }
+.lfgi { display: flex; align-items: center; gap: 6px; flex: none; }
+.lfgi .wsp { margin: 0; }
+.lfgme { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; padding-top: 10px; border-top: 1px solid var(--pline); font-size: .92rem; }
+.lfgbar p { margin: 0; }
+.rost > *, .lfgbar > * { min-width: 0; }   /* the strip scrolls inside, the page never gets wider than the phone */
+.lfgme .seg { flex-wrap: wrap; }
+p.lfgme { display: block; }
+.fmore { display: contents; }
+.fmore[hidden] { display: none; }
+.few { display: grid; gap: 10px; padding: 16px 18px; }
+.few h2 { font-size: 1.25rem; }
+.few p { margin: 0; color: var(--ink-2); }
 .fbar { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; padding: 14px 16px; }
 .fbar select, .fbar input[type="search"] { min-height: 44px; border-radius: 8px; border: 1px solid var(--pline); background: var(--panel-2); color: var(--fg); padding: 0 12px; font: inherit; font-size: .95rem; }
 .fbar input[type="search"] { width: 220px; max-width: 100%; }
 .fbar select:focus, .fbar input:focus { outline: none; border-color: var(--gold); }
 .fbar .chk { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-weight: 500; cursor: pointer; }
 .fbar .chk input { width: 18px; height: 18px; accent-color: var(--gold); }
-.fbar .reset { min-height: 44px; }
+.fbar .reset, .fbar .fbtn { min-height: 44px; }
 .rlay { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 22px; align-items: start; }
 .rhead { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
 .rhead p { margin: 0; }
@@ -1148,9 +1164,9 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=a441e33c88" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/me/me.css?v=7e9daeb27b" media="print" onload="this.media='all'">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://gabella.site/wow/"},{"@type":"ListItem","position":2,"name":"Состав","item":"https://gabella.site/wow/roster/"}]}</script>
+<link rel="stylesheet" href="../assets/search/search.css?v=9e7d0d02a5" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/me/me.css?v=31a03934ef" media="print" onload="this.media='all'">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://gabella.site/wow/"},{"@type":"ListItem","position":2,"name":"Игроки","item":"https://gabella.site/wow/roster/"}]}</script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -1179,7 +1195,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="../" aria-label="Gabella, на главную"><img class="mark" src="../assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Гид WoW Forever</small></span></a>
   <nav class="mainnav" aria-label="Разделы">
-    <a href="../classes/">Классы</a><a href="../races/">Расы</a><a href="../guides/leveling/">Прокачка</a><a href="../guides/dungeons/">Подземелья</a><a href="../guides/">Гайды</a><a href="../tools/">Инструменты</a><a href="../play/">В игре</a><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a>
+    <a href="../classes/">Классы</a><a href="../races/">Расы</a><a href="../guides/leveling/">Прокачка</a><a href="../guides/dungeons/">Подземелья</a><a href="../guides/">Гайды</a><a href="../tools/">Инструменты</a><a href="../play/">В игре</a><a href="../roster/">Игроки</a><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a>
   </nav>
   <div class="tools">
     <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" aria-label="Язык: Русский">RU</button><ul class="langlist" hidden><li><a href="./" data-lang="ru" hreflang="ru" lang="ru" aria-current="page"><span>Русский</span><small>RU</small></a></li><li><a href="../en/roster/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../uk/roster/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../de/roster/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="../fr/roster/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="../es/roster/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="../pt/roster/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="../it/roster/" data-lang="it" hreflang="it" lang="it"><span>Italiano</span><small>IT</small></a></li><li><a href="../pl/roster/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
@@ -1199,27 +1215,31 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
     <img src="../assets/art/hero_roster-1920.webp?v=548b7251" width="1920" height="1072" alt="" fetchpriority="high" decoding="async">
   </picture>
   <div class="wrap thero-in">
-    <nav class="crumbs" aria-label="Навигация"><a href="../">Гид</a><span aria-hidden="true">/</span><span>Состав</span></nav>
-    <h1>Состав Gabella Team</h1>
-    <p class="lead">Кто кем играет в WoW Forever. Основной персонаж — карточкой, твинки — строкой под ней.</p>
+    <nav class="crumbs" aria-label="Навигация"><a href="../">Гид</a><span aria-hidden="true">/</span><span>Игроки</span></nav>
+    <h1>Игроки WoW Forever</h1>
+    <p class="lead">Найдите группу, крафтера или компанию под своё время. Кнопка «Шёпот» копирует /w с именем — вставьте в чат игры. Написать можно только своей фракции.</p>
     <p class="rstat" id="stats" aria-live="polite"></p>
     <div class="rcta"><a class="btn lg" id="cta" href="../profile/">Добавить своего персонажа</a><span id="ctaHint">Вход через Discord, Google, Battle.net, Telegram или почту</span></div>
   </div>
 </section>
 <main class="wrap rost" id="list">
-  <div class="frame lfgbar" id="lfgBar" hidden><b>Сейчас ищут группу</b><div class="lfgs" id="lfgList"></div></div>
+  <div class="frame lfgbar" id="lfgBar"><b>Сейчас ищут группу</b><div id="lfgList"></div><div id="lfgMe"></div></div>
+  <div class="frame few" id="few" hidden></div>
   <div class="g-tabs" role="tablist" id="tabs">
-    <button type="button" class="g-tab" role="tab" id="tabTeam" data-t="team" aria-controls="roster">Gabella Team <small id="nTeam"></small></button>
     <button type="button" class="g-tab" role="tab" id="tabAll" data-t="all" aria-controls="roster">Все игроки <small id="nAll"></small></button>
+    <button type="button" class="g-tab" role="tab" id="tabTeam" data-t="team" aria-controls="roster">Gabella Team <small id="nTeam"></small></button>
   </div>
   <div class="frame fbar" id="pbar" role="search" aria-label="Фильтры">
     <input type="search" id="fq" placeholder="Имя или ник" aria-label="Поиск по имени или нику" autocomplete="off" maxlength="30">
+    <label class="chk"><input type="checkbox" id="fl">Ищут группу</label>
+    <button type="button" class="btn ghost fbtn" id="fmoreBtn" aria-expanded="false" aria-controls="fmore">Фильтры</button>
+    <div class="fmore" id="fmore" hidden>
     <div class="fgroup"><span class="flabel" id="lf">Фракция</span><div class="seg" id="ff" aria-labelledby="lf"><button type="button" data-v="">Все</button><button type="button" data-v="alliance">Альянс</button><button type="button" data-v="horde">Орда</button></div></div>
     <div class="fgroup"><span class="flabel" id="lr">Роль</span><div class="seg" id="fr" aria-labelledby="lr"><button type="button" data-v="">Все</button><button type="button" data-v="tank">Танк</button><button type="button" data-v="heal">Лекарь</button><button type="button" data-v="dps">Урон</button></div></div>
     <div class="fgroup"><label class="flabel" for="fc">Класс</label><select id="fc"><option value="">Все классы</option></select></div>
     <div class="fgroup"><span class="flabel" id="lt">Время</span><div class="seg" id="ft" aria-labelledby="lt"><button type="button" data-v="">Любое</button><button type="button" data-v="morning">Утро</button><button type="button" data-v="evening">Вечер</button><button type="button" data-v="night">Ночь</button></div></div>
     <div class="fgroup"><label class="flabel" for="fp">Профессия</label><select id="fp"><option value="">Любая профессия</option></select></div>
-    <label class="chk"><input type="checkbox" id="fl">Ищут группу</label>
+    </div>
     <button type="button" class="btn ghost reset" id="freset" hidden>Сбросить</button>
   </div>
   <div class="rlay">
@@ -1229,7 +1249,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
           <div class="seg" id="fv" role="group" aria-label="Вид"><button type="button" data-v="cards">Карточки</button><button type="button" data-v="list">Список</button></div></div></div>
       <div class="rlist" id="roster" role="tabpanel"></div>
     </div>
-    <aside class="side" aria-labelledby="feedH"><h2 id="feedH">Лента команды</h2><div class="frame feed" id="feed"><div class="skel" style="min-height:120px;border:0"></div></div></aside>
+    <aside class="side" aria-labelledby="feedH"><h2 id="feedH">Лента достижений</h2><div class="frame feed" id="feed"><div class="skel" style="min-height:120px;border:0"></div></div></aside>
   </div>
 </main>
 
@@ -1250,7 +1270,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
   <nav class="toc" aria-label="Все разделы">
     <div class="grp"><div class="gh">Справочник</div><a href="../">Главная</a><a href="../classes/">Классы: сравнение</a><a href="../races/">Расы: сравнение</a><a href="../guides/leveling/">Прокачка 1–60</a><a href="../guides/dungeons/">Подземелья и рейды</a><a href="../guides/professions/">Профессии</a><a href="../guides/faq/">FAQ и даты</a><a href="../guides/news/">Новости</a><a href="../guides/">Все гайды</a></div>
     <div class="grp"><div class="gh">Инструменты</div><a href="../#picker">Подборщик</a><a href="../#builder">Конструктор группы</a><a href="../tools/">Рамки, сравнение, поиск</a><a href="../play/">В игре</a></div>
-    <div class="grp"><div class="gh">Сообщество</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="../roster/">Состав</a><a href="../profile/">Мой профиль</a></div>
+    <div class="grp"><div class="gh">Сообщество</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="../roster/">Игроки</a><a href="../profile/">Мой профиль</a></div>
   </nav>
   <div class="opts">
     <div class="langgrid" role="group" aria-label="Язык"><a href="./" data-lang="ru" hreflang="ru" lang="ru" aria-current="page">Русский</a><a href="../en/roster/" data-lang="en" hreflang="en" lang="en">English</a><a href="../uk/roster/" data-lang="uk" hreflang="uk" lang="uk">Українська</a><a href="../de/roster/" data-lang="de" hreflang="de" lang="de">Deutsch</a><a href="../fr/roster/" data-lang="fr" hreflang="fr" lang="fr">Français</a><a href="../es/roster/" data-lang="es" hreflang="es" lang="es">Español</a><a href="../pt/roster/" data-lang="pt" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a><a href="../it/roster/" data-lang="it" hreflang="it" lang="it">Italiano</a><a href="../pl/roster/" data-lang="pl" hreflang="pl" lang="pl">Polski</a></div>
@@ -1401,7 +1421,7 @@ function bcard(p, o) {
   if (p.nick) who.push(esc(p.nick));
   if (p.joined) who.push(esc(fill('В Gabella Team с %d', { d: dateOf(p.joined) })));
   else if (p.member) who.push('Gabella Team');
-  else if (p.since) who.push(esc(fill('В составе с %d', { d: dateOf(p.since) })));
+  else if (p.since) who.push(esc(fill('На сайте с %d', { d: dateOf(p.since) })));
   const h = o.h || 'h1';
   return `<section class="bcard" style="--cc:${cls(c.class).color}" aria-label="Карточка игрока">
     <img class="bg" src="${src}" alt="" decoding="async">
@@ -1490,17 +1510,20 @@ moreDlg.addEventListener('click', e => { if (e.target === moreDlg || e.target.cl
 /* ---------- Roster: filters in the hash, cards or a list, who looks for a group, the team feed ---------- */
 const F0 = { q: '', f: '', r: '', c: '', t: '', p: '', lfg: '', s: 'pts', v: 'cards' };
 const F = Object.assign({}, F0);
-let players = null, failed = false, me = null, tab = 'team';   // tab: the team (members) or everybody (#all)
+let players = null, failed = false, me = null, tab = 'all', more = false;   // tab: everybody or the team (#team: members of the Discord server)
+const FEW = 10;   // below this the page asks people to add themselves instead of offering filters
+const MORE_KEYS = ['f', 'r', 'c', 't', 'p'];   // filters behind the «Filters» button
 
 function readHash() {
   const h = new URLSearchParams(location.hash.slice(1));
   for (const k in F0) F[k] = h.get(k) || F0[k];
-  tab = h.has('all') ? 'all' : 'team';
+  tab = h.has('team') ? 'team' : 'all';
+  if (MORE_KEYS.some(k => F[k])) more = true;
 }
 function writeHash() {
   const h = new URLSearchParams();
   for (const k in F0) if (F[k] && F[k] !== F0[k]) h.set(k, F[k]);
-  const s = [tab === 'team' ? '' : tab, h.toString()].filter(Boolean).join('&');
+  const s = [tab === 'all' ? '' : tab, h.toString()].filter(Boolean).join('&');
   history.replaceState(null, '', s ? '#' + s : location.pathname + location.search);
 }
 /** Players of the open tab. */
@@ -1528,6 +1551,10 @@ function syncControls() {
   [['ff', 'f'], ['fr', 'r'], ['ft', 't'], ['fv', 'v']].forEach(([id, k]) => $$(`#${id} button`).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === F[k]))));
   $('#fq').value = F.q; $('#fc').value = F.c; $('#fp').value = F.p; $('#fs').value = F.s; $('#fl').checked = F.lfg === '1';
   $('#freset').hidden = !['q', 'f', 'r', 'c', 't', 'p', 'lfg'].some(k => F[k]);
+  const n = MORE_KEYS.filter(k => F[k]).length;
+  $('#fmore').hidden = !more;
+  $('#fmoreBtn').setAttribute('aria-expanded', String(more));
+  $('#fmoreBtn').textContent = n ? fill('Фильтры (%n)', { n }) : 'Фильтры';
 }
 
 function filtered() {
@@ -1539,7 +1566,7 @@ function filtered() {
     if (F.c && c.class !== F.c) return false;
     if (F.t && c.playtime !== F.t) return false;
     if (F.p && c.prof1 !== F.p && c.prof2 !== F.p) return false;
-    if (F.lfg && !p.lfg) return false;
+    if (F.lfg && !(p.lfg && p.lfg.until > Date.now())) return false;
     if (q && ![c.name, p.nick || ''].concat((p.alts || []).map(a => a.name)).some(s => s.toLowerCase().includes(q))) return false;
     return true;
   });
@@ -1559,27 +1586,44 @@ function drawStats(st) {
     + part('', 'Танки:', st.tank) + part('', 'Лекари:', st.heal) + part('', 'Урон:', st.dps);
 }
 
+/** The whisper button: copies /w with the name for the game chat (one realm, so the name is enough). */
+const wsp = name => `<button type="button" class="mod wsp" data-w="${esc(name)}" title="/w ${esc(name)}">Шёпот</button>`;
+
 function drawLfg() {
   const now = pool().filter(p => p.lfg && p.lfg.until > Date.now()).sort((a, b) => b.lfg.until - a.lfg.until);
-  $('#lfgBar').hidden = !now.length;
-  $('#lfgList').innerHTML = now.map(p => `<a href="${playerUrl(p.id)}">${ring(p.frame || p.rank, pic(p.main))}<span><b>${esc(p.main.name)}</b>`
-    + `<small>${esc(LFG[p.lfg.kind] || '')} · ${esc(fill('ещё %t', { t: left(p.lfg.until) }))}</small></span></a>`).join('');
+  const uid = me && me.user && me.user.id;
+  $('#lfgList').innerHTML = now.length ? `<div class="lfgs">${now.map(p => `<div class="lfgi"><a href="${playerUrl(p.id)}">${ring(p.frame || p.rank, pic(p.main))}<span><b>${esc(p.main.name)}</b>`
+    + `<small>${esc(LFG[p.lfg.kind] || '')} · ${esc(fill('ещё %t', { t: left(p.lfg.until) }))}</small></span></a>${p.id === uid ? '' : wsp(p.main.name)}</div>`).join('')}</div>`
+    : '<p class="small">Сейчас никто не ищет. Отметьтесь первым — вас увидят здесь 3 часа.</p>';
+  // the person's own mark sits right here, not only in the profile
+  const l = me && me.user.lfg;
+  $('#lfgMe').innerHTML = me && me.characters && me.characters.length
+    ? `<div class="lfgme"><span>Я ищу:</span><div class="seg" id="lfgSeg" role="group" aria-label="Ищу группу"><button type="button" data-v="" aria-pressed="${!l}">Нет</button>${Object.entries(LFG).map(([k, t]) => `<button type="button" data-v="${k}" aria-pressed="${!!l && l.kind === k}">${esc(t)}</button>`).join('')}</div><span class="small">Отметка гаснет через 3 часа.</span></div>`
+    : `<p class="small lfgme">Ищете сами? <a href="${HOME}profile/">Добавьте персонажа</a> и отметьте «Ищу группу».</p>`;
+}
+
+/** Few players yet: an honest line and the way in instead of a wall of filters over three cards. */
+function drawFew() {
+  const few = players.length < FEW, mine = !!(me && me.characters && me.characters.length);
+  $('#pbar').hidden = few; $('#pview').hidden = few;
+  $('#few').hidden = !few || mine;
+  if (few && !mine) $('#few').innerHTML = `<h2>Игроков пока немного</h2><p>Добавьте своего персонажа — вас найдут по классу, роли и времени игры.</p>`;
 }
 
 function draw() {
   writeHash(); syncControls(); paintTabs();
-  if (players) { drawStats(statsOf(pool())); drawLfg(); }
+  if (players) { drawStats(statsOf(pool())); drawLfg(); drawFew(); }
   const box = $('#roster');
   box.classList.toggle('list', F.v === 'list');
   if (failed) {
-    box.innerHTML = `<div class="frame state"><h2>Состав временно недоступен</h2><p>Сервер профилей не ответил. Остальной гид работает как обычно.</p><div class="row"><button type="button" class="btn ghost" id="retry">Повторить</button></div></div>`;
+    box.innerHTML = `<div class="frame state"><h2>Список игроков временно недоступен</h2><p>Сервер профилей не ответил. Остальной гид работает как обычно.</p><div class="row"><button type="button" class="btn ghost" id="retry">Повторить</button></div></div>`;
     $('#retry').onclick = load;
     $('#count').textContent = '';
     return;
   }
   if (!players) { box.innerHTML = '<div class="skel"></div>'.repeat(6); return; }
   if (!players.length) {
-    box.innerHTML = `<div class="frame state"><h2>Будьте первым</h2><p>В составе пока никого. Добавьте своего персонажа — карточка появится здесь.</p><div class="row"><a class="btn" href="${HOME}profile/">Добавить персонажа</a></div></div>`;
+    box.innerHTML = `<div class="frame state"><h2>Будьте первым</h2><p>Игроков пока нет. Добавьте своего персонажа — карточка появится здесь.</p><div class="row"><a class="btn" href="${HOME}profile/">Добавить персонажа</a></div></div>`;
     $('#count').textContent = '';
     return;
   }
@@ -1601,7 +1645,7 @@ function draw() {
   box.innerHTML = list.map(p => pcard(p, {
     prof: F.p,
     attrs: ` data-id="${esc(p.id)}"`,
-    after: (admin ? `<button type="button" class="mod" data-hide="${p.main.id}">Скрыть</button>` : '') + (uid && uid !== p.id ? cardMenu(p.id, admin ? 'adm' : '') : ''),
+    after: (uid !== p.id ? wsp(p.main.name) : '') + (admin ? `<button type="button" class="mod" data-hide="${p.main.id}">Скрыть</button>` : '') + (uid && uid !== p.id ? cardMenu(p.id, admin ? 'adm' : '') : ''),
   })).join('');
 }
 
@@ -1616,7 +1660,7 @@ function load() {
     draw();
   }, () => { failed = true; draw(); });
   M.api('/feed?limit=15').then(r => {
-    $('#feed').innerHTML = (r.items || []).length ? r.items.map(feedLine).join('') : '<p class="none">Здесь появятся достижения команды.</p>';
+    $('#feed').innerHTML = (r.items || []).length ? r.items.map(feedLine).join('') : '<p class="none">Здесь появятся достижения игроков.</p>';
   }, () => { $('#feed').innerHTML = '<p class="none">Лента временно недоступна.</p>'; });
 }
 
@@ -1636,17 +1680,35 @@ ready(M => {
   $('#fs').onchange = e => { F.s = e.target.value; draw(); };
   $('#fl').onchange = e => { F.lfg = e.target.checked ? '1' : ''; draw(); };
   $('#freset').onclick = reset;
+  $('#fmoreBtn').onclick = () => { more = !more; syncControls(); };
   addEventListener('hashchange', () => { readHash(); if (players) draw(); });
   // tabs: arrows, Home and End move between them (the selected one is the only tab stop)
   $('#tabs').addEventListener('click', e => { const b = e.target.closest('.g-tab'); if (b) setTab(b.dataset.t, false); });
   $('#tabs').addEventListener('keydown', e => {
-    const order = ['team', 'all'], i = order.indexOf(tab);
-    const to = { ArrowRight: order[(i + 1) % order.length], ArrowLeft: order[(i + order.length - 1) % order.length], Home: 'team', End: 'all' }[e.key];
+    const order = ['all', 'team'], i = order.indexOf(tab);
+    const to = { ArrowRight: order[(i + 1) % order.length], ArrowLeft: order[(i + order.length - 1) % order.length], Home: 'all', End: 'team' }[e.key];
     if (!to) return;
     e.preventDefault(); setTab(to, true);
   });
   document.addEventListener('click', e => { $$('.g-menu[open]').forEach(d => { if (!d.contains(e.target)) d.open = false; }); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') $$('.g-menu[open]').forEach(d => { d.open = false; }); });
+  document.addEventListener('click', e => {
+    const w = e.target.closest('[data-w]');
+    if (w) {
+      const cmd = '/w ' + w.dataset.w + ' ';
+      return copyText(cmd).then(ok => M.toast({ kind: 'note', text: ok ? fill('Скопировано: %c — вставьте в чат игры', { c: cmd.trim() }) : cmd }));
+    }
+    const lg = e.target.closest('#lfgSeg button');
+    if (!lg) return;
+    lg.disabled = true;
+    M.api('/me/lfg', { method: 'PUT', body: { kind: lg.dataset.v || null } }).then(r => {
+      M.took(r);
+      me.user.lfg = r.lfg;
+      const mine = players && players.find(p => p.id === me.user.id);
+      if (mine) mine.lfg = r.lfg;
+      draw();
+    }, () => { lg.disabled = false; });
+  });
   $('#roster').addEventListener('click', e => {
     const rb = e.target.closest('[data-report]');
     if (rb) {
@@ -1656,7 +1718,7 @@ ready(M => {
     const b = e.target.closest('[data-hide]');
     if (!b) return;
     const card = b.closest('.pcard'), name = $('.nm a', card).textContent;
-    if (!confirm(fill('Скрыть %n из «Состава»?', { n: name }))) return;
+    if (!confirm(fill('Скрыть %n из списка игроков?', { n: name }))) return;
     b.disabled = true;
     M.api(`/admin/characters/${b.dataset.hide}/hide`, { body: { hidden: true } }).then(() => {
       players = players.filter(p => p.id !== card.dataset.id); draw();
@@ -1738,8 +1800,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../assets/radio/radio.js" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=a441e33c88" data-root="../" defer></script>
-<script src="../assets/me/me.js?v=7e9daeb27b" data-root="../" data-home="../" data-lang="ru" data-teaser="Профиль хранит ваших персонажей, достижения и рамки" data-close="Закрыть" data-page="roster/" data-look="2" defer></script>
+<script src="../assets/search/search.js?v=9e7d0d02a5" data-root="../" defer></script>
+<script src="../assets/me/me.js?v=31a03934ef" data-root="../" data-home="../" data-lang="ru" data-teaser="Профиль хранит ваших персонажей, достижения и рамки" data-close="Закрыть" data-page="roster/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

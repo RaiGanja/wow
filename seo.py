@@ -36,9 +36,9 @@ SITE_NAME = {'ru': 'Гид WoW Forever', 'en': 'WoW Forever Guide', 'uk': 'Гі�
 TOOLS_NAME = {'ru': 'Инструменты', 'en': 'Tools', 'uk': 'Інструменти'}
 PRIVACY_NAME = {'ru': 'Конфиденциальность', 'en': 'Privacy', 'uk': 'Конфіденційність'}
 PLAY_NAME = {'ru': 'В игре', 'en': 'In game', 'uk': 'У грі'}
-ROSTER_NAME = {'ru': 'Состав', 'en': 'Roster', 'uk': 'Склад'}
+ROSTER_NAME = {'ru': 'Игроки', 'en': 'Players', 'uk': 'Гравці'}
 PROFILE_NAME = {'ru': 'Мой профиль', 'en': 'My profile', 'uk': 'Мій профіль'}
-PLAYER_NAME = {'ru': 'Игрок Gabella Team', 'en': 'Gabella Team player', 'uk': 'Гравець Gabella Team'}
+PLAYER_NAME = {'ru': 'Игрок WoW Forever', 'en': 'WoW Forever player', 'uk': 'Гравець WoW Forever'}
 NOINDEX = {'profile/', 'u/'}   # personal pages: noindex in the page (build_me.py), left out of sitemap.xml
 
 
@@ -118,12 +118,12 @@ META = {
               t('Держите открытым во время игры: фэнтези-радио, куда идти на вашем уровне за Альянс или Орду, подземелья под уровень и таймеры с сигналом.',
                 'Keep it open while you play: fantasy radio, where to level next for Alliance or Horde, dungeons for your level and timers with an alert.',
                 'Тримайте відкритим під час гри: фентезі-радіо, куди йти на вашому рівні за Альянс чи Орду, підземелля під рівень і таймери із сигналом.')),
-    'roster/': (t('Состав Gabella Team в WoW Forever: кто кем играет',
-                  'Gabella Team Roster in WoW Forever: Who Plays What',
-                  'Склад Gabella Team у WoW Forever: хто ким грає'),
-                t('Персонажи участников Gabella Team в WoW Forever: фракция, раса, класс, роль, профессии и время игры. Кто сейчас ищет группу и лента достижений.',
-                  'Characters of Gabella Team members in WoW Forever: faction, race, class, role, professions and play time. Who is looking for a group and the achievement feed.',
-                  'Персонажі учасників Gabella Team у WoW Forever: фракція, раса, клас, роль, професії та час гри. Хто зараз шукає групу і стрічка досягнень.')),
+    'roster/': (t('Игроки WoW Forever: найти группу и крафтера',
+                  'WoW Forever Players: Find a Group or a Crafter',
+                  'Гравці WoW Forever: знайти групу й крафтера'),
+                t('Игроки WoW Forever: кто сейчас ищет группу, класс, роль, профессии и время игры. Нашли — напишите в игре через /w.',
+                  'WoW Forever players: who is looking for a group now, class, role, professions and play time. Found someone? Whisper them in game with /w.',
+                  'Гравці WoW Forever: хто зараз шукає групу, клас, роль, професії та час гри. Знайшли — напишіть у грі через /w.')),
     'profile/': (t('Мой профиль — гид WoW Forever', 'My Profile — WoW Forever Guide', 'Мій профіль — гід WoW Forever'),
                  t('Персонажи, достижения, ранги и рамки портрета участника Gabella Team. Вход через Discord, Google, Battle.net, Telegram или почту.',
                    'Characters, achievements, ranks and portrait frames of a Gabella Team member. Log in with Discord, Google, Battle.net, Telegram or email.',

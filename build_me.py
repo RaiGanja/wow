@@ -67,7 +67,7 @@ MORE = {
     'team_empty': 'В Gabella Team пока никого',
     'menu': 'Действия',
     'close': 'Закрыть',
-    'tabs_label': 'Состав',
+    'tabs_label': 'Игроки',
 }
 
 

@@ -250,14 +250,14 @@ def tabbar(cur=None, home='@@HOME@@'):
 
 # Top menu: the same items in the same order on every page; anchors of the home page stay in its own «Ещё» group.
 NAV = (('classes/', 'Классы'), ('races/', 'Расы'), ('guides/leveling/', 'Прокачка'), ('guides/dungeons/', 'Подземелья'),
-       ('guides/', 'Гайды'), ('tools/', 'Инструменты'), ('play/', 'В игре'))
+       ('guides/', 'Гайды'), ('tools/', 'Инструменты'), ('play/', 'В игре'), ('roster/', 'Игроки'))
 # Sections sheet («Ещё»): (group, [(path from the language home, label)]); '#…' — a block of the home page.
 MORE = (
     ('Справочник', (('', 'Главная'), ('classes/', 'Классы: сравнение'), ('races/', 'Расы: сравнение'), ('guides/leveling/', 'Прокачка 1–60'),
                     ('guides/dungeons/', 'Подземелья и рейды'), ('guides/professions/', 'Профессии'), ('guides/faq/', 'FAQ и даты'),
                     ('guides/news/', 'Новости'), ('guides/', 'Все гайды'))),
     ('Инструменты', (('#picker', 'Подборщик'), ('#builder', 'Конструктор группы'), ('tools/', 'Рамки, сравнение, поиск'), ('play/', 'В игре'))),
-    ('Сообщество', (('discord', 'Discord'), ('roster/', 'Состав'), ('profile/', 'Мой профиль'))),
+    ('Сообщество', (('discord', 'Discord'), ('roster/', 'Игроки'), ('profile/', 'Мой профиль'))),
 )
 
 

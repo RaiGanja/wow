@@ -140,7 +140,7 @@ function bcard(p, o) {
   if (p.nick) who.push(esc(p.nick));
   if (p.joined) who.push(esc(fill('В Gabella Team с %d', { d: dateOf(p.joined) })));
   else if (p.member) who.push('Gabella Team');
-  else if (p.since) who.push(esc(fill('В составе с %d', { d: dateOf(p.since) })));
+  else if (p.since) who.push(esc(fill('На сайте с %d', { d: dateOf(p.since) })));
   const h = o.h || 'h1';
   return `<section class="bcard" style="--cc:${cls(c.class).color}" aria-label="Карточка игрока">
     <img class="bg" src="${src}" alt="" decoding="async">

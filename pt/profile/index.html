@@ -953,6 +953,10 @@ main .me-ring, dialog .me-ring { --s: 64px; --room-x: 12px; --room-y: 12px; widt
 /* admin «Hide» gets its own row: pinned to the corner it covered the Discord nick */
 .pcard .mod { position: relative; z-index: 3; grid-column: 1 / -1; justify-self: end; margin-top: 4px; min-height: 32px; font: inherit; font-size: .78rem; color: var(--muted); border: 1px solid var(--pline); border-radius: 6px; padding: 0 10px; background: var(--panel-2); cursor: pointer; }
 .pcard .mod:hover { color: var(--fg); border-color: var(--gold); }
+/* The whisper button copies /w Name: left under the card, gold like the other actions that lead into the game */
+.wsp { position: relative; z-index: 3; min-height: 32px; font: inherit; font-size: .8rem; font-weight: 600; color: var(--gold-2); border: 1px solid var(--pline); border-radius: 6px; padding: 0 10px; background: var(--panel-2); cursor: pointer; }
+.wsp:hover { color: var(--fg); border-color: var(--gold); }
+.pcard .mod.wsp { justify-self: start; color: var(--gold-2); }
 
 /* the big card: how others see the player */
 .bcard { position: relative; overflow: hidden; isolation: isolate; border-radius: 12px; border: 1px solid var(--pline); min-height: 250px; display: grid; align-items: end; background: #0b0d12; color: #ece6d8; }
@@ -1250,8 +1254,8 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=a441e33c88" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=7e9daeb27b" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=9e7d0d02a5" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=31a03934ef" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Início","item":"https://gabella.site/wow/pt/"},{"@type":"ListItem","position":2,"name":"Meu perfil","item":"https://gabella.site/wow/pt/profile/"}]}</script>
 </head>
 <body>
@@ -1281,7 +1285,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="../" aria-label="Gabella, para a página inicial"><img class="mark" src="../../assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Guia de WoW Forever</small></span></a>
   <nav class="mainnav" aria-label="Seções">
-    <a href="../classes/">Classes</a><a href="../races/">Raças</a><a href="../guides/leveling/">Evolução</a><a href="../guides/dungeons/">Masmorras</a><a href="../guides/">Guias</a><a href="../tools/">Ferramentas</a><a href="../play/">No jogo</a><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a>
+    <a href="../classes/">Classes</a><a href="../races/">Raças</a><a href="../guides/leveling/">Evolução</a><a href="../guides/dungeons/">Masmorras</a><a href="../guides/">Guias</a><a href="../tools/">Ferramentas</a><a href="../play/">No jogo</a><a href="../roster/">Jogadores</a><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a>
   </nav>
   <div class="tools">
     <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" aria-label="Idioma: Português (Brasil)">PT</button><ul class="langlist" hidden><li><a href="../../profile/" data-lang="ru" hreflang="ru" lang="ru"><span>Русский</span><small>RU</small></a></li><li><a href="../../en/profile/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../../uk/profile/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../../de/profile/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="../../fr/profile/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="../../es/profile/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="./" data-lang="pt" hreflang="pt-BR" lang="pt-BR" aria-current="page"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="../../it/profile/" data-lang="it" hreflang="it" lang="it"><span>Italiano</span><small>IT</small></a></li><li><a href="../../pl/profile/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
@@ -1331,7 +1335,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 <dialog class="cdlg" id="delDlg" aria-labelledby="delT">
   <form class="in" method="dialog" id="delForm">
     <h2 id="delT">Excluir perfil</h2>
-    <p>Personagens, conquistas, pontos e seu lugar no elenco sumirão para sempre. Não é possível recuperá-los.</p>
+    <p>Personagens, conquistas, pontos e seu lugar na lista de jogadores sumirão para sempre. Não é possível recuperá-los.</p>
     <label class="small" for="delWord">Para confirmar, digite a palavra <b id="delW">EXCLUIR</b></label>
     <input id="delWord" autocomplete="off" spellcheck="false">
     <p class="msg err" id="delNote" role="alert"></p>
@@ -1356,7 +1360,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
   <nav class="toc" aria-label="Todas as seções">
     <div class="grp"><div class="gh">Referência</div><a href="../">Início</a><a href="../classes/">Classes comparadas</a><a href="../races/">Raças comparadas</a><a href="../guides/leveling/">Evolução 1–60</a><a href="../guides/dungeons/">Masmorras e raides</a><a href="../guides/professions/">Profissões</a><a href="../guides/faq/">FAQ e datas</a><a href="../guides/news/">Notícias</a><a href="../guides/">Todos os guias</a></div>
     <div class="grp"><div class="gh">Ferramentas</div><a href="../#picker">Seletor</a><a href="../#builder">Montador de grupo</a><a href="../tools/">Quadros, comparar, buscar</a><a href="../play/">No jogo</a></div>
-    <div class="grp"><div class="gh">Comunidade</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="../roster/">Elenco</a><a href="../profile/">Meu perfil</a></div>
+    <div class="grp"><div class="gh">Comunidade</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="../roster/">Jogadores</a><a href="../profile/">Meu perfil</a></div>
   </nav>
   <div class="opts">
     <div class="langgrid" role="group" aria-label="Idioma"><a href="../../profile/" data-lang="ru" hreflang="ru" lang="ru">Русский</a><a href="../../en/profile/" data-lang="en" hreflang="en" lang="en">English</a><a href="../../uk/profile/" data-lang="uk" hreflang="uk" lang="uk">Українська</a><a href="../../de/profile/" data-lang="de" hreflang="de" lang="de">Deutsch</a><a href="../../fr/profile/" data-lang="fr" hreflang="fr" lang="fr">Français</a><a href="../../es/profile/" data-lang="es" hreflang="es" lang="es">Español</a><a href="./" data-lang="pt" hreflang="pt-BR" lang="pt-BR" aria-current="page">Português (Brasil)</a><a href="../../it/profile/" data-lang="it" hreflang="it" lang="it">Italiano</a><a href="../../pl/profile/" data-lang="pl" hreflang="pl" lang="pl">Polski</a></div>
@@ -1507,7 +1511,7 @@ function bcard(p, o) {
   if (p.nick) who.push(esc(p.nick));
   if (p.joined) who.push(esc(fill('Na Gabella Team desde %d', { d: dateOf(p.joined) })));
   else if (p.member) who.push('Gabella Team');
-  else if (p.since) who.push(esc(fill('No elenco desde %d', { d: dateOf(p.since) })));
+  else if (p.since) who.push(esc(fill('No site desde %d', { d: dateOf(p.since) })));
   const h = o.h || 'h1';
   return `<section class="bcard" style="--cc:${cls(c.class).color}" aria-label="Cartão do jogador">
     <img class="bg" src="${src}" alt="" decoding="async">
@@ -1804,7 +1808,7 @@ function screen(kind, arg) {
     tgConfig();
     v.innerHTML = `${noticeHtml()}<section class="frame login"><div><h2>Entre no seu perfil</h2>
       <p>Não há senha: entre como preferir. O que recebemos de cada serviço está em <a href="${HOME}privacy/#account">Privacidade</a>.</p>
-      <ul><li>Até dez personagens, o principal aparece no elenco.</li><li>Conquistas, postos e molduras de retrato.</li><li>A moldura “Fundador” para quem chegar antes do lançamento em 4 de novembro.</li></ul></div>
+      <ul><li>Até dez personagens, o principal aparece na lista de jogadores.</li><li>Conquistas, postos e molduras de retrato.</li><li>A moldura “Fundador” para quem chegar antes do lançamento em 4 de novembro.</li></ul></div>
       <div class="wayc"><div class="ways">${WAYS.map(([id, n]) => wayBtn(id, n, false)).join('')}</div>${mailForm()}</div></section>`;
   } else if (kind === 'confirm') {
     v.innerHTML = `<section class="frame state"><h2>Entrar por este link?</h2><p>${esc(arg.why)} ${esc(arg.who ? fill('Entrar como %e?', { e: arg.who }) : 'Entrar?')}</p>
@@ -1870,7 +1874,7 @@ function wizard() {
   if (Date.now() < Date.parse(GD.deadline)) prev.frame = 'founder';
   // no character yet means no cabinet: say who is signed in, open the account (ways to sign in, deletion) or leave
   v.innerHTML = `${noticeHtml()}<div class="signed"><span>${esc(who())}</span><a class="btn ghost" href="#account">Conta</a><button type="button" class="btn ghost" data-act="logout">Sair</button></div>
-    <p class="lab">É assim que o elenco vai mostrar você</p>${bcard(prev, { h: 'h2' })}${founderPlaque()}
+    <p class="lab">É assim que outros jogadores vão ver você</p>${bcard(prev, { h: 'h2' })}${founderPlaque()}
     <section class="frame wiz"><div class="wsteps">${steps}</div>${body}</section>`;
   if (w.step === 4) mountForm($('#wForm'), null);
 }
@@ -1935,7 +1939,7 @@ function fillForm(c, wizardMode) {
   const tsc = $('#tsChar');
   if (tsc) tsc.remove();
   tsChar = null;
-  if (!c && wizardMode && m && m.user.nick) $('#eNote').insertAdjacentHTML('beforebegin', `<label class="chk full"><input type="checkbox" id="eNick"${m.user.show_nick ? ' checked' : ''}>${esc(fill('Mostrar meu apelido %n no Elenco', { n: m.user.nick }))}</label>`);
+  if (!c && wizardMode && m && m.user.nick) $('#eNote').insertAdjacentHTML('beforebegin', `<label class="chk full"><input type="checkbox" id="eNick"${m.user.show_nick ? ' checked' : ''}>${esc(fill('Mostrar meu apelido %n para outros jogadores', { n: m.user.nick }))}</label>`);
   // the first character puts a person into the Roster: a «not a robot» check, usually invisible
   if (!c && wizardMode && m && !m.characters.length) {
     $('#eNote').insertAdjacentHTML('beforebegin', '<div class="full" id="tsChar"></div>');
@@ -2117,11 +2121,11 @@ function secChars() {
   })}<button type="button" class="btn ghost" data-look="${c.id}" aria-label="${esc(fill('Aparência: %n', { n: c.name }))}">Aparência</button></div>`).join('');
   const add = n < CHAR_MAX ? `<button type="button" class="add" data-act="add"><b>${ico('plus')}Adicionar personagem</b><span>${esc(fill('Ainda é possível: %n', { n: CHAR_MAX - n }))}</span></button>` : '';
   const l = m.user.lfg;
-  const lfg = `<div class="frame box"><h3>Procuro grupo</h3><p class="small">Seu personagem principal aparece na faixa “Procurando grupo agora” do elenco. A marca se apaga sozinha após 3 horas.</p>
+  const lfg = `<div class="frame box"><h3>Procuro grupo</h3><p class="small">Seu personagem principal aparece na faixa “Procurando grupo agora” da página Jogadores. A marca se apaga sozinha após 3 horas.</p>
     <div class="row"><div class="seg" id="lfgSeg" role="group" aria-label="Procuro grupo"><button type="button" data-v="" aria-pressed="${!l}">Nenhum</button>${Object.entries(LFG).map(([k, t]) => `<button type="button" data-v="${k}" aria-pressed="${!!l && l.kind === k}">${esc(t)}</button>`).join('')}</div>
     ${l ? `<span class="small">${esc(fill('Restam %t', { t: left(l.until) }))}</span><button type="button" class="btn ghost" data-act="lfgMore" data-v="${l.kind}">Estender por 3 horas</button>` : ''}</div></div>`;
   return `<div class="sec-h"><h2>Personagens</h2><span class="small">${esc(fill('%n de %m', { n, m: CHAR_MAX }))}</span></div>
-    <p>O personagem principal aparece no elenco e no cartão, os outros como alts. Toque em um personagem para editá-lo.</p>
+    <p>O personagem principal aparece na lista de jogadores e no cartão, os outros como alts. Toque em um personagem para editá-lo.</p>
     <div class="plist">${cards}${add}</div>${lfg}`;
 }
 function secLook() {
@@ -2424,8 +2428,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=a441e33c88" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=7e9daeb27b" data-root="../../" data-home="../" data-lang="pt" data-teaser="Seu perfil guarda seus personagens, conquistas e molduras" data-close="Fechar" data-page="profile/" data-look="2" defer></script>
+<script src="../../assets/search/search.js?v=9e7d0d02a5" data-root="../../" defer></script>
+<script src="../../assets/me/me.js?v=31a03934ef" data-root="../../" data-home="../" data-lang="pt" data-teaser="Seu perfil guarda seus personagens, conquistas e molduras" data-close="Fechar" data-page="profile/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

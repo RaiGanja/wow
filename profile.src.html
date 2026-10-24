@@ -192,7 +192,7 @@
 <dialog class="cdlg" id="delDlg" aria-labelledby="delT">
   <form class="in" method="dialog" id="delForm">
     <h2 id="delT">Удалить профиль</h2>
-    <p>Персонажи, достижения, очки и место в «Составе» исчезнут навсегда. Вернуть их нельзя.</p>
+    <p>Персонажи, достижения, очки и место в списке игроков исчезнут навсегда. Вернуть их нельзя.</p>
     <label class="small" for="delWord">Чтобы подтвердить, введите слово <b id="delW">УДАЛИТЬ</b></label>
     <input id="delWord" autocomplete="off" spellcheck="false">
     <p class="msg err" id="delNote" role="alert"></p>
@@ -412,7 +412,7 @@ function screen(kind, arg) {
     tgConfig();
     v.innerHTML = `${noticeHtml()}<section class="frame login"><div><h2>Войдите в профиль</h2>
       <p>Пароля нет: войдите любым удобным способом. Что мы получаем от каждого — в разделе <a href="${HOME}privacy/#account">«Конфиденциальность»</a>.</p>
-      <ul><li>До десяти персонажей, основной виден в «Составе».</li><li>Достижения, ранги и рамки портрета.</li><li>Рамка «Основатель» — для тех, кто успеет до старта 4 ноября.</li></ul></div>
+      <ul><li>До десяти персонажей, основной виден в списке игроков.</li><li>Достижения, ранги и рамки портрета.</li><li>Рамка «Основатель» — для тех, кто успеет до старта 4 ноября.</li></ul></div>
       <div class="wayc"><div class="ways">${WAYS.map(([id, n]) => wayBtn(id, n, false)).join('')}</div>${mailForm()}</div></section>`;
   } else if (kind === 'confirm') {
     v.innerHTML = `<section class="frame state"><h2>Войти по ссылке?</h2><p>${esc(arg.why)} ${esc(arg.who ? fill('Войти как %e?', { e: arg.who }) : 'Войти?')}</p>
@@ -478,7 +478,7 @@ function wizard() {
   if (Date.now() < Date.parse(GD.deadline)) prev.frame = 'founder';
   // no character yet means no cabinet: say who is signed in, open the account (ways to sign in, deletion) or leave
   v.innerHTML = `${noticeHtml()}<div class="signed"><span>${esc(who())}</span><a class="btn ghost" href="#account">Аккаунт</a><button type="button" class="btn ghost" data-act="logout">Выйти</button></div>
-    <p class="lab">Так вас увидят в «Составе»</p>${bcard(prev, { h: 'h2' })}${founderPlaque()}
+    <p class="lab">Так вас увидят другие игроки</p>${bcard(prev, { h: 'h2' })}${founderPlaque()}
     <section class="frame wiz"><div class="wsteps">${steps}</div>${body}</section>`;
   if (w.step === 4) mountForm($('#wForm'), null);
 }
@@ -543,7 +543,7 @@ function fillForm(c, wizardMode) {
   const tsc = $('#tsChar');
   if (tsc) tsc.remove();
   tsChar = null;
-  if (!c && wizardMode && m && m.user.nick) $('#eNote').insertAdjacentHTML('beforebegin', `<label class="chk full"><input type="checkbox" id="eNick"${m.user.show_nick ? ' checked' : ''}>${esc(fill('Показывать мой ник %n в «Составе»', { n: m.user.nick }))}</label>`);
+  if (!c && wizardMode && m && m.user.nick) $('#eNote').insertAdjacentHTML('beforebegin', `<label class="chk full"><input type="checkbox" id="eNick"${m.user.show_nick ? ' checked' : ''}>${esc(fill('Показывать мой ник %n другим игрокам', { n: m.user.nick }))}</label>`);
   // the first character puts a person into the Roster: a «not a robot» check, usually invisible
   if (!c && wizardMode && m && !m.characters.length) {
     $('#eNote').insertAdjacentHTML('beforebegin', '<div class="full" id="tsChar"></div>');
@@ -725,11 +725,11 @@ function secChars() {
   })}<button type="button" class="btn ghost" data-look="${c.id}" aria-label="${esc(fill('Облик: %n', { n: c.name }))}">Облик</button></div>`).join('');
   const add = n < CHAR_MAX ? `<button type="button" class="add" data-act="add"><b>${ico('plus')}Добавить персонажа</b><span>${esc(fill('Можно ещё: %n', { n: CHAR_MAX - n }))}</span></button>` : '';
   const l = m.user.lfg;
-  const lfg = `<div class="frame box"><h3>Ищу группу</h3><p class="small">Основной персонаж появится в полосе «Сейчас ищут» на «Составе». Через 3 часа отметка гаснет сама.</p>
+  const lfg = `<div class="frame box"><h3>Ищу группу</h3><p class="small">Основной персонаж появится в полосе «Сейчас ищут» на странице «Игроки». Через 3 часа отметка гаснет сама.</p>
     <div class="row"><div class="seg" id="lfgSeg" role="group" aria-label="Ищу группу"><button type="button" data-v="" aria-pressed="${!l}">Нет</button>${Object.entries(LFG).map(([k, t]) => `<button type="button" data-v="${k}" aria-pressed="${!!l && l.kind === k}">${esc(t)}</button>`).join('')}</div>
     ${l ? `<span class="small">${esc(fill('Осталось %t', { t: left(l.until) }))}</span><button type="button" class="btn ghost" data-act="lfgMore" data-v="${l.kind}">Продлить на 3 часа</button>` : ''}</div></div>`;
   return `<div class="sec-h"><h2>Персонажи</h2><span class="small">${esc(fill('%n из %m', { n, m: CHAR_MAX }))}</span></div>
-    <p>Основной персонаж — в «Составе» и на карточке, остальные — строкой «Твинки». Нажмите на персонажа, чтобы изменить.</p>
+    <p>Основной персонаж — в списке игроков и на карточке, остальные — строкой «Твинки». Нажмите на персонажа, чтобы изменить.</p>
     <div class="plist">${cards}${add}</div>${lfg}`;
 }
 function secLook() {
