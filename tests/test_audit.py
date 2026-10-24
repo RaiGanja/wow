@@ -127,7 +127,8 @@ def test_fonts_preloaded_for_the_script():
     for lang in LANGS:
         head = page(*lang_dir(lang))[:6000]
         want, other = ('cyrillic', 'latin') if lang in ('ru', 'uk') else ('latin', 'cyrillic')
-        assert f'golos-text-{want}.woff2" as="font"' in head and f'golos-text-{other}.woff2" as="font"' not in head, lang
+        pre = lambda s: re.search(rf'golos-text-{s}\.woff2(\?v=\w+)?" as="font"', head)
+        assert pre(want) and not pre(other), lang
 
 
 if __name__ == '__main__':

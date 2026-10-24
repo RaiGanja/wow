@@ -596,6 +596,27 @@ def art_version():
     print(f'art: {n} pages, {len(ver)} files', file=sys.stderr)
 
 
+def font_version():
+    """?v=<hash> on every assets/fonts/<file>.woff2 address in the pages (@font-face and preload: the same address, or the
+    preload is fetched twice) and in the worker's PRECACHE. Fonts cut again by tools/subset_fonts.py keep their names."""
+    d = os.path.join(HERE, 'assets', 'fonts')
+    ver = {f: hashlib.sha1(open(os.path.join(d, f), 'rb').read()).hexdigest()[:8] for f in os.listdir(d) if f.endswith('.woff2')}
+    rx = re.compile(r'(assets/fonts/([\w-]+\.woff2))(?:\?v=\w+)?')
+    tag = lambda m: m.group(1) + (f'?v={ver[m.group(2)]}' if m.group(2) in ver else '')
+    n = 0
+    for root, dirs, files in os.walk(HERE):
+        dirs[:] = [x for x in dirs if not x.startswith('.') and x not in ('assets', 'content', 'i18n', 'tests', 'node_modules')]
+        for f in files:
+            if f.endswith('.html') and not f.endswith('.src.html') or root == HERE and f == 'sw.js':
+                p = os.path.join(root, f)
+                was = open(p, encoding='utf-8').read()
+                new = rx.sub(tag, was)
+                if new != was:
+                    open(p, 'w', encoding='utf-8', newline='\n').write(new)
+                    n += 1
+    print(f'fonts: {n} files', file=sys.stderr)
+
+
 def home_js():
     """The page script of each language home (all but the first-screen script before it) -> assets/home/<lang>.js?v=<hash>,
     asleep in the page like the LATE_FILES. Last of the page passes (after art_version), so its texts and addresses are final."""
@@ -1145,6 +1166,7 @@ def main():
         living_version()
         tod_version()
         art_version()
+        font_version()
         home_js()
         sw_version()
 
