@@ -2,7 +2,7 @@
 and tools (og/<slug>-<lang>.jpg). Rendered from HTML with the site fonts by headless Chrome, so the type matches the site.
 Class and race pages keep their language-neutral art previews from make_images.py.
 Run: python tools/make_og.py [slug ...] [--langs=de,fr]   (no args = all cards in every built language)"""
-import os, subprocess, sys, tempfile
+import json, os, re, subprocess, sys, tempfile
 from PIL import Image
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -75,7 +75,7 @@ img{{position:absolute;display:block}}
 .por{{right:40px;top:0;height:630px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent)}}
 .shade{{position:absolute;inset:0;background:linear-gradient(90deg,#07080a 0%,rgba(7,8,10,.92) 34%,rgba(7,8,10,.35) 62%,rgba(7,8,10,0) 80%),
   linear-gradient(0deg,rgba(7,8,10,.85) 0%,rgba(7,8,10,0) 36%)}}
-.txt{{position:absolute;left:72px;top:0;bottom:0;width:640px;display:flex;flex-direction:column;justify-content:center;gap:22px}}
+.txt{{position:absolute;left:72px;top:0;bottom:0;width:640px;display:flex;flex-direction:column;justify-content:center;gap:24px}}
 .brand{{position:absolute;left:72px;top:56px;display:flex;align-items:center;gap:16px;font:600 30px/1 "Spectral SC";color:#efe9da;letter-spacing:.04em;font-variant-numeric:lining-nums}}
 .brand img{{position:static;width:56px;height:56px;border-radius:10px;box-shadow:0 0 0 1px rgba(201,165,74,.45)}}
 h1{{font:600 {'92' if len(title) <= 14 else '74'}px/1.02 "Spectral SC";letter-spacing:.02em;text-wrap:balance;font-variant-numeric:lining-nums}}
@@ -85,9 +85,38 @@ p{{font-size:30px;line-height:1.35;color:#c9c2b0;text-wrap:pretty;max-width:{"52
 <div class="brand"><img src="{url('assets/logo.png')}" alt="">{BRAND}</div>
 <div class="txt"><h1>{title}</h1><p>{lead}</p></div>
 <div class="start">{START[lang]}</div>
-<script>/* Spectral is wider than the old face: shrink the title until its longest word fits the column */
-const h=document.querySelector('h1');let n=parseFloat(getComputedStyle(h).fontSize);
-while(h.scrollWidth>h.clientWidth&&n>40){{n-=2;h.style.fontSize=n+'px'}}</script></body>'''
+<div id="res" hidden></div>
+<script>/* lay the text block out between the logo and the launch line: width first (Spectral is wide), then height */
+const R=e=>e.getBoundingClientRect(),$=s=>document.querySelector(s),h=$('h1'),p=$('p'),br=$('.brand'),st=$('.start');
+const px=()=>parseFloat(getComputedStyle(h).fontSize),LH=40.5,GAP=24;
+const fits=()=>R(h).top>=R(br).bottom+GAP&&R(p).bottom<=R(st).top-GAP;
+while(h.scrollWidth>h.clientWidth&&px()>40)h.style.fontSize=(px()-2)+'px';
+while(!fits()&&px()>48)h.style.fontSize=(px()-2)+'px';
+if(!fits()){{const sen=p.textContent.split(/(?<=[.!?])\\s+/);while(!fits()&&sen.length>1){{sen.pop();p.textContent=sen.join(' ')}}
+ const w=p.textContent.split(' ');while(!fits()&&w.length>3){{w.pop();p.textContent=w.join(' ').replace(/[,;:\u2013-]$/,'')+'\u2026'}}}}
+const box=e=>{{const r=R(e);return [r.left,r.top,r.right,r.bottom]}},bx={{brand:box(br),title:box(h),lead:box(p),start:box(st)}};
+$('#res').textContent=JSON.stringify({{boxes:bx,font:px(),wide:h.scrollWidth>h.clientWidth,lines:Math.round(R(p).height/LH),block:R(p).bottom-R(h).top}})</script></body>'''
+
+
+def chrome(src, *args):
+    return subprocess.run([CHROME, '--headless=new', '--disable-gpu', '--hide-scrollbars', '--allow-file-access-from-files',
+                           '--force-device-scale-factor=1', '--window-size=1200,630', '--virtual-time-budget=3000', *args,
+                           'file:///' + src.replace('\\', '/')], check=True, capture_output=True)
+
+
+def check(res, out):
+    """The laid-out boxes must stay inside the 48 px margins and keep 24 px between neighbours; otherwise stop and name the file."""
+    bx, names = res['boxes'], ['brand', 'title', 'lead', 'start']
+    bad = [f'{n} leaves the 48 px margin' for n in names if bx[n][0] < 48 or bx[n][1] < 48 or bx[n][2] > 1152 or bx[n][3] > 582]
+    bad += [f'{a} and {b} are closer than 24 px' for i, a in enumerate(names) for b in names[i + 1:]
+            if bx[a][0] < bx[b][2] and bx[b][0] < bx[a][2] and bx[a][1] < bx[b][3] + 24 and bx[b][1] < bx[a][3] + 24]
+    if res['wide']:
+        bad.append('the longest word of the title does not fit the column')
+    if bad:
+        raise SystemExit(f'{out}: ' + '; '.join(bad))
+
+
+METRICS = {}
 
 
 def shoot(page, out):
@@ -95,10 +124,11 @@ def shoot(page, out):
         src, png = os.path.join(tmp, 'c.html'), os.path.join(tmp, 'c.png')
         with open(src, 'w', encoding='utf-8') as f:
             f.write(page)
-        subprocess.run([CHROME, '--headless=new', '--disable-gpu', '--hide-scrollbars', '--allow-file-access-from-files',
-                        '--force-device-scale-factor=1', '--window-size=1200,630', '--virtual-time-budget=3000',
-                        f'--screenshot={png}', 'file:///' + src.replace('\\', '/')],
-                       check=True, capture_output=True)
+        dom = chrome(src, '--dump-dom').stdout.decode('utf-8')          # the page lays itself out; read what it decided
+        res = json.loads(re.search(r'<div id="res"[^>]*>(.*?)</div>', dom, re.S).group(1))
+        check(res, out)
+        METRICS[os.path.relpath(out, ROOT).replace('\\', '/')] = res
+        chrome(src, f'--screenshot={png}')
         Image.open(png).convert('RGB').save(out, quality=82, optimize=True, progressive=True)
 
 
@@ -113,6 +143,9 @@ def main():
             out = os.path.join(ROOT, 'assets', f'{name}-{lang}.jpg')
             shoot(html(art, title[lang], lead[lang], lang), out)
         print(name, 'ok')
+    if os.environ.get('OG_REPORT'):
+        with open(os.environ['OG_REPORT'], 'w') as f:
+            json.dump(METRICS, f)
 
 
 if __name__ == '__main__':
