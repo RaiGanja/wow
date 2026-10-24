@@ -13,7 +13,7 @@ Run: python tools/make_living.py [path-to-wow_art]"""
 import os, sys
 from PIL import Image, ImageDraw, ImageFilter, ImageChops
 
-SRC = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.expanduser('~'), 'gabella-bot', 'assets', 'wow_art')
+SRC = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.expanduser('~'), 'projects', 'gabella', 'bot', 'assets', 'wow_art')
 OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'assets', 'living')
 W, H = 1376, 768
 

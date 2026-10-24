@@ -1,4 +1,4 @@
-"""Web images for the guide: source art (gabella-bot/assets/wow_art) -> assets/art/*.avif|webp in several widths,
+"""Web images for the guide: source art (projects/gabella/bot/assets/wow_art) -> assets/art/*.avif|webp in several widths,
 plus class and race page extras: blurred hero backdrop assets/art/<id>-bg.webp and share preview assets/og/<id>.jpg.
 Race portraits live in wow_art/races/<race id>.jpg and are saved under the race page slug.
 Run: python tools/make_images.py [path-to-wow_art] [--classes-only | --races-only | --faces-only | --hero-mobile | --inner-heroes]"""
@@ -7,7 +7,7 @@ from PIL import Image, ImageDraw, ImageEnhance, ImageFilter
 
 ARGS = [a for a in sys.argv[1:] if not a.startswith('--')]
 PATHS = [a for a in ARGS if not a.startswith('hero_')]
-SRC = PATHS[0] if PATHS else os.path.join(os.path.expanduser('~'), 'gabella-bot', 'assets', 'wow_art')
+SRC = PATHS[0] if PATHS else os.path.join(os.path.expanduser('~'), 'projects', 'gabella', 'bot', 'assets', 'wow_art')
 OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'assets', 'art')
 CLASSES = ['warrior', 'paladin', 'hunter', 'rogue', 'priest', 'shaman', 'mage', 'warlock', 'druid']
 RACES = {'human': 'human', 'dwarf': 'dwarf', 'nightelf': 'night-elf', 'gnome': 'gnome', 'skyA': 'skyborne-alliance',

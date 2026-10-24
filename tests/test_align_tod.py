@@ -7,7 +7,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, 'tools'))
 import align_tod
 
-ART = os.path.join(os.path.expanduser('~'), 'gabella-bot', 'assets', 'wow_art', 'hero_dawn.jpg')
+ART = os.path.join(os.path.expanduser('~'), 'projects', 'gabella', 'bot', 'assets', 'wow_art', 'hero_dawn.jpg')
 MASK = os.path.join(ROOT, 'assets', 'living', 'hero_dawn-fx.png')
 
 
