@@ -2,12 +2,12 @@
 Читают сайт и API (tools/export_game.py -> assets/game.json). Числа подгоняет тест темпа gabella-api/test/pace.test.ts."""
 
 GLORY = {'max': 60, 'a': 60, 'b': 14, 'p': 1.15}            # шаг n->n+1 = round(a + b * n ** p)
-# источник: (опыт, потолок в день по МСК, удваивается отдыхом)
+# источник: (опыт, дневной потолок, удваивается отдыхом; сутки API начинаются в 21:00 UTC)
 SOURCES = {'visit': (30, 30, True), 'radio': (5, 120, True), 'page': (10, 100, True), 'tool': (20, 60, True)}
 ACH_XP = 20                                                 # за очко достижения
 WEEKLY_XP, WEEKLY_ALL_XP = 400, 600
 RESTED = {'period_h': 8, 'per_period': 0.05, 'cap': 1.5}    # доли стоимости текущего шага
-WEEK_ANCHOR = '2026-10-28T04:00:00Z'                        # среда 07:00 МСК, неделя 0
+WEEK_ANCHOR = '2026-10-28T04:00:00Z'                        # среда 04:00 UTC, неделя 0
 WEEKLY_CATS = ['radio', 'guide', 'tools', 'rhythm']
 STATIONS_KEY, GUIDE_KEY = 'station', 'guide'
 

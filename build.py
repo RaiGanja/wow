@@ -73,14 +73,15 @@ def rel(from_dir, to_dir):
 
 CONTACT = 'contact@gabella.site'   # Cloudflare Email Routing -> почта Вячеслава
 DISCORD = 'https://discord.gg/Zd45sNHy9x'   # постоянное приглашение на сервер Gabella Team (без срока и лимита)
-# Своё постоянное приглашение на каждое место ссылки: Discord считает переходы по каждому — это и есть замер воронки.
+# Свои постоянные приглашения по местам ссылки (Discord считает переходы по каждому — замер воронки).
+# Discord не даёт двух бессрочных приглашений в один канал, поэтому места разведены по открытым каналам ИНФО.
 DISCORD_AT = {
-    'menu': DISCORD,      # шапка и «Ещё»
-    'guide': DISCORD,     # строка в конце гайдов, классов и рас
-    'home': DISCORD,      # главная, блок «Группа»
-    'faq': DISCORD,       # FAQ, «Где найти группу?»
-    'profile': DISCORD,   # кабинет, экран «не участник»
-    'footer': DISCORD,    # подвал
+    'menu': 'https://discord.gg/CfTZa7QKAG',      # шапка и «Ещё» -> #игровые-новости
+    'guide': 'https://discord.gg/ZTwSk79Hju',     # строка в конце гайдов, классов и рас -> #wow-гид
+    'home': 'https://discord.gg/c7dANjdJnR',      # главная, блок «Группа» -> #правила
+    'faq': 'https://discord.gg/c7dANjdJnR',       # FAQ, «Где найти группу?» -> #правила
+    'profile': 'https://discord.gg/c7dANjdJnR',   # кабинет, экран «не участник» -> #правила
+    'footer': DISCORD,                            # подвал -> #объявления (общий с хабом и ботом)
 }
 LEGAL = {
     'ru': ('Фанатский гид Gabella. Сайт не связан с Blizzard Entertainment и не одобрен ею. World of Warcraft, Warcraft и Blizzard Entertainment — '
