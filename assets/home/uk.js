@@ -132,7 +132,7 @@ function bi(ru) { return EN[ru] && EN[ru] !== ru ? `${esc(ru)} <span class="en">
 function raceEn(r) { return r.en ? ` <span class="en">/ ${esc(r.en)}</span>` : ''; }
 function facName(f) { return f === 'alliance' ? 'Альянс' : 'Орда'; }
 /* Round face avatar: assets/art/<id>-face.webp, ring colour cc */
-function face(id, cc, cls = '', title = '') { return `<span class="av ${cls}" style="--cc:${cc}"${title ? ` title="${esc(title)}"` : ''}><img src="../assets/art/${id}-face.webp?v=0003354e" width="160" height="160" alt="" loading="lazy" decoding="async"></span>`; }
+function face(id, cc, cls = '', title = '') { return `<span class="av ${cls}" style="--cc:${cc}"${title ? ` title="${esc(title)}"` : ''}><img src="../assets/art/${id}-face.webp" width="160" height="160" alt="" loading="lazy" decoding="async"></span>`; }
 function lvlMeter(c) {
   const p = c.lp || 0, w = Math.min(Math.abs(p) / 12 * 46, 46);
   const label = p < 0 ? `Швидше на ${-p}%` : p > 0 ? `Повільніше на ${p}%` : 'Середній темп';
@@ -142,7 +142,7 @@ function lvlMeter(c) {
 function renderClassRef() {
   const roles = ['tank', 'heal', 'dps'];
   const head = `<div class="cmp-h" aria-hidden="true"><span>Клас</span><span class="rdots">${roles.map(x => `<span title="${ROLE_RU[x]}">${ri(x)}</span>`).join('')}</span><span>Прокачування</span><span>У рейді</span><span></span></div>`;
-  $('#classRef').innerHTML = head + CLASSES.map(c => `<a class="cmp-row" href="${HOME}classes/${c.id}/" style="--cc:${CCOL[c.id]};--art:url('../assets/art/${c.id}-360.webp?v=0003354e')">
+  $('#classRef').innerHTML = head + CLASSES.map(c => `<a class="cmp-row" href="${HOME}classes/${c.id}/" style="--cc:${CCOL[c.id]};--art:url('../assets/art/${c.id}-360.webp')">
     <span class="cmp-id">${face(c.id, CCOL[c.id])}<span><b>${esc(c.n)}</b><small>${c.specs.map(s => esc(s[0])).join(' · ')}</small></span></span>
     <span class="rdots" role="img" aria-label="Ролі: ${c.roles.map(x => ROLE_RU[x]).join(', ')}">${roles.map(x => { const on = c.roles.includes(x), q = c.roles.includes(x + '?'); return `<span class="rdot${on ? ' on' : q ? ' q' : ''}" title="${ROLE_RU[q ? x + '?' : x]}">${ri(x)}</span>`; }).join('')}</span>
     ${lvlMeter(c)}
@@ -153,7 +153,7 @@ function renderClassRef() {
 
 function renderRaceRef() {
   const head = `<div class="cmp-h" aria-hidden="true"><span>Раса</span><span>Класи</span><span class="abl">Здібності <span class="abt">активна</span><span class="abt p">пасивна</span></span><span></span></div>`;
-  $('#raceRef').innerHTML = ['alliance', 'horde'].map(f => `<div class="rgroup ${f}"><h3>${facName(f)}</h3>${head}` + RACES.filter(r => r.f === f).map(r => `<a class="cmp-row" href="${HOME}races/${RSLUG[r.id]}/" style="--cc:var(--${f});--art:url('../assets/art/${RSLUG[r.id]}-360.webp?v=0003354e')">
+  $('#raceRef').innerHTML = ['alliance', 'horde'].map(f => `<div class="rgroup ${f}"><h3>${facName(f)}</h3>${head}` + RACES.filter(r => r.f === f).map(r => `<a class="cmp-row" href="${HOME}races/${RSLUG[r.id]}/" style="--cc:var(--${f});--art:url('../assets/art/${RSLUG[r.id]}-360.webp')">
     <span class="cmp-id">${face(RSLUG[r.id], `var(--${f})`)}<span><b>${esc(r.n)}${r.paid ? '<span class="paid">платна</span>' : ''}</b>${r.en ? `<small>${esc(r.en)}</small>` : ''}</span></span>
     <span class="ccl" role="img" aria-label="Класи: ${Object.keys(r.can).map(id => CL[id].n).join(', ')}">${CLASSES.map(c => { const v = r.can[c.id]; return face(c.id, CCOL[c.id], v ? (v === 'new' ? 'nw' : '') : 'off', c.n + (v === 'new' ? ', нове' : v ? '' : ', недоступно')); }).join('')}</span>
     <span class="abs">${r.rac.map(x => `<span><b class="${x[0] === 'a' ? '' : 'p'}">${bi(x[1])}</b><span>${esc(x[2])}</span></span>`).join('')}</span>
@@ -241,7 +241,7 @@ function renderDetail() {
   const text = `${r.name || r.n} ${c.n} (${facName(r.f)})${r.paid ? ', потрібен набір Скайборн' : ''}`;
   $('#detail').innerHTML = `
     <div class="d-head">
-      <div class="d-art" aria-hidden="true"><img src="../assets/art/${c.id}-600.webp?v=0003354e" width="600" height="804" alt="" loading="lazy" decoding="async"></div>
+      <div class="d-art" aria-hidden="true"><img src="../assets/art/${c.id}-600.webp" width="600" height="804" alt="" loading="lazy" decoding="async"></div>
       <div class="d-avs">${face(RSLUG[r.id], `var(--${r.f})`)}${face(c.id, CCOL[c.id])}</div>
       <div class="d-title"><h3>${esc(r.n)}${raceEn(r)} · ${esc(c.n)}</h3>
         <div class="chips"><span class="tag ${r.f}">${facName(r.f)}</span>${isNew ? '<span class="tag new">Нова комбінація</span>' : ''}${r.paid ? '<span class="tag paid">Платна раса</span>' : ''}${roleChips(c)}</div></div>
@@ -312,11 +312,11 @@ const DESC = {
   warlock: 'Прокляття, демони й вогонь. Шкода з часом і власний демон на допомогу.',
   druid: 'Ведмідь, кіт, сова або цілитель: усі три ролі на одному персонажі.'
 };
-const artSet = (id, ext) => [360, 600, 896].map(w => `${ROOT}assets/art/${id}-${w}.${ext}?v=0003354e ${w}w`).join(', ');
+const artSet = (id, ext) => [360, 600, 896].map(w => `${ROOT}assets/art/${id}-${w}.${ext} ${w}w`).join(', ');
 const ART_SIZES = '(max-width: 719px) 78vw, 440px';
 function renderRoster() {
   $('#roster').innerHTML = CLASSES.map((c, i) => `<a class="hc${i === 0 ? ' on' : ''}" href="classes/${c.id}/" style="--cc:${CCOL[c.id]}">
-    <picture><source type="image/avif" srcset="${artSet(c.id, 'avif')}" sizes="${ART_SIZES}"><source type="image/webp" srcset="${artSet(c.id, 'webp')}" sizes="${ART_SIZES}"><img src="${ROOT}assets/art/${c.id}-600.webp?v=0003354e" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
+    <picture><source type="image/avif" srcset="${artSet(c.id, 'avif')}" sizes="${ART_SIZES}"><source type="image/webp" srcset="${artSet(c.id, 'webp')}" sizes="${ART_SIZES}"><img src="${ROOT}assets/art/${c.id}-600.webp" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
     <span class="vn" aria-hidden="true">${esc(c.n)}</span>
     <span class="info"><b>${esc(c.n)}</b><span class="roles">${c.roles.filter(r => !r.endsWith('?')).map(r => `<span>${ri(r)}${ROLE_RU[r]}</span>`).join('')}</span><span class="d">${esc(DESC[c.id])}</span><span class="more">Докладніше про клас</span></span>
   </a>`).join('');
@@ -326,7 +326,7 @@ renderRoster();
 function renderPeoples() {
   [['alliance', '#rosterA'], ['horde', '#rosterH']].forEach(([f, sel]) => {
     $(sel).innerHTML = RACES.filter(r => r.f === f).map((r, i) => `<a class="hc${i === 0 ? ' on' : ''}" href="races/${RSLUG[r.id]}/" style="--cc:var(--${f})">
-    <picture><source type="image/avif" srcset="${artSet(RSLUG[r.id], 'avif')}" sizes="${ART_SIZES}"><source type="image/webp" srcset="${artSet(RSLUG[r.id], 'webp')}" sizes="${ART_SIZES}"><img src="${ROOT}assets/art/${RSLUG[r.id]}-600.webp?v=0003354e" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
+    <picture><source type="image/avif" srcset="${artSet(RSLUG[r.id], 'avif')}" sizes="${ART_SIZES}"><source type="image/webp" srcset="${artSet(RSLUG[r.id], 'webp')}" sizes="${ART_SIZES}"><img src="${ROOT}assets/art/${RSLUG[r.id]}-600.webp" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
     <span class="vn" aria-hidden="true">${esc(raceName(r))}</span>
     <span class="info"><b>${esc(raceName(r))}</b>${r.paid ? '<span class="tag paid">платна</span>' : ''}<span class="d">${esc(RLEAD[r.id])}</span><span class="more">Детальніше про расу</span></span>
   </a>`).join('');
@@ -345,138 +345,10 @@ document.querySelectorAll('.go-f').forEach(b => b.addEventListener('click', () =
   document.getElementById('picker').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
 }));
 
-/* Group builder */
-const MAXT = 40, PARTY = 5;
-const SIZES = [5, 6, 8, 10, 15, 20, 25, 40];
-const RR = ['tank', 'heal', 'dps'];
-const POOL = {
-  tank: ['paladin', 'warrior', 'druid'],
-  heal: ['priest', 'shaman', 'paladin', 'druid'],
-  dps: ['mage', 'hunter', 'warlock', 'rogue', 'shaman', 'druid', 'warrior']
-};
-const RAIDS = [[10, 'Barrow Deeps'], [20, 'Hyjal Summit'], [40, 'Onyxia’s Lair']];
-const team = { f: 'alliance', list: [] };
-
-function roleOpts(c) { return RR.filter(x => c.roles.includes(x) || (x === 'tank' && c.roles.includes('tank?'))); }
-function raceFor(cls, f, k) {
-  const free = RACES.filter(r => r.f === f && !r.paid && r.can[cls]);
-  return free.length ? free[k % free.length].id : (RACES.find(r => r.f === f && r.can[cls]) || RACES.find(r => r.f === f)).id;
-}
-function partyRoles(k) {
-  if (k >= 5) return ['tank', 'heal', 'dps', 'dps', 'dps'];
-  return { 1: ['dps'], 2: ['tank', 'heal'], 3: ['tank', 'heal', 'dps'], 4: ['tank', 'heal', 'dps', 'dps'] }[k];
-}
-function autoTeam(n, f) {
-  const out = [], used = { tank: 0, heal: 0, dps: 0 };
-  for (let left = n, g = 0; left > 0; left -= PARTY, g++) {
-    partyRoles(Math.min(PARTY, left)).forEach(role => {
-      const pool = POOL[role].filter(c => RACES.some(r => r.f === f && r.can[c]));
-      const cls = pool[used[role]++ % pool.length];
-      out.push({ race: raceFor(cls, f, out.length), cls, role });
-    });
-  }
-  return out;
-}
-function fixSlot(s) {
-  const races = RACES.filter(r => r.f === team.f);
-  let r = RC[s.race]; if (!r || r.f !== team.f) r = races.find(x => x.can[s.cls]) || races[0];
-  s.race = r.id;
-  const cls = Object.keys(r.can); if (!r.can[s.cls]) s.cls = cls[0];
-  const ro = roleOpts(CL[s.cls]); if (!ro.includes(s.role)) s.role = ro[0];
-}
-function readHash() {
-  const m = location.hash.match(/^#team=([^;]+);(.*)$/);
-  if (!m || !['alliance', 'horde'].includes(m[1])) return false;
-  const list = m[2].split(',').map(x => x.split('.')).filter(x => x.length === 3 && RC[x[0]] && CL[x[1]] && RR.includes(x[2])).slice(0, MAXT);
-  if (!list.length) return false;
-  team.f = m[1]; team.list = list.map(x => ({ race: x[0], cls: x[1], role: x[2] }));
-  return true;
-}
-const fromLink = readHash();
-function teamLink() { return location.origin + location.pathname + '#team=' + team.f + ';' + team.list.map(s => `${s.race}.${s.cls}.${s.role}`).join(','); }
 function raceName(r) { return r.name || r.n; }
-function countRoles(list) { const c = { tank: 0, heal: 0, dps: 0 }; list.forEach(s => c[s.role]++); return c; }
-let teamTouched = fromLink;
-function renderTeam() {
-  team.list.forEach(fixSlot);
-  const n = team.list.length;
-  syncSeg('segBF', team.f);
-  $('#sizes').innerHTML = SIZES.map(x => `<button type="button" data-n="${x}" aria-pressed="${x === n}">${x}</button>`).join('');
-  $('#szOut').textContent = n;
-  const parties = Math.ceil(n / PARTY);
-  $('#szNote').textContent = n ? `${parties} груп по 5${n % PARTY ? ', остання неповна' : ''}` : '';
-  const races = RACES.filter(r => r.f === team.f);
-  let html = '';
-  for (let g = 0; g < parties; g++) {
-    const part = team.list.slice(g * PARTY, g * PARTY + PARTY), c = countRoles(part);
-    const need = [];
-    if (!c.tank) need.push('немає танка'); if (!c.heal) need.push('немає цілителя'); if (part.length < PARTY) need.push(`бракує ${PARTY - part.length}`);
-    const status = need.length ? `<span class="miss">${need.join(', ')}</span>` : '<span class="ok">повний склад</span>';
-    html += `<div class="party"><div class="party-h"><h4>Група ${g + 1}</h4><span class="pc"><span>${ri('tank')}${c.tank}</span><span>${ri('heal')}${c.heal}</span><span>${ri('dps')}${c.dps}</span>${status}</span></div>`;
-    part.forEach((s, k) => {
-      const i = g * PARTY + k, r = RC[s.race], ro = roleOpts(CL[s.cls]);
-      html += `<div class="slot" style="--cc:${CCOL[s.cls]}" data-i="${i}"><span class="no av"><img src="${ROOT}assets/art/${s.cls}-face.webp?v=0003354e" width="160" height="160" alt="" loading="lazy" decoding="async"><b>${i + 1}</b></span>
-      <select class="srace" aria-label="Раса гравця ${i + 1}">${races.map(x => `<option value="${x.id}"${x.id === s.race ? ' selected' : ''}>${esc(x.n)}${x.paid ? ' (платна)' : ''}</option>`).join('')}</select>
-      <select class="scls" aria-label="Клас гравця ${i + 1}">${Object.keys(r.can).map(c2 => `<option value="${c2}"${c2 === s.cls ? ' selected' : ''}>${esc(CL[c2].n)}</option>`).join('')}</select>
-      <select class="srole" aria-label="Роль гравця ${i + 1}">${ro.map(x => `<option value="${x}"${x === s.role ? ' selected' : ''}>${ROLE_RU[x]}</option>`).join('')}</select>
-      <button class="del" aria-label="Прибрати гравця ${i + 1}"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>`;
-    });
-    html += '</div>';
-  }
-  $('#slots').innerHTML = html;
-  $('#bAdd').disabled = n >= MAXT;
-  const cnt = countRoles(team.list);
-  $('#roleSum').innerHTML = RR.map(x => `<div class="rs ${cnt[x] ? 'ok' : 'zero'}"><b>${cnt[x]}</b><span>${ri(x)}${ROLE_RU[x]}</span></div>`).join('');
-  const v = [];
-  if (!n) v.push(['', 'Натисніть кількість гравців або додайте гравця.']);
-  else {
-    const full = Array.from({ length: parties }, (_, g) => team.list.slice(g * PARTY, g * PARTY + PARTY)).filter(p => p.length === PARTY && p.some(s => s.role === 'tank') && p.some(s => s.role === 'heal')).length;
-    if (full) v.push(['good', `Готових груп для підземелля: ${full} з ${parties}. У кожній є танк і цілитель.`]);
-    if (full < parties) v.push(['warn', 'Є групи, де бракує танка, цілителя або гравців. Їх підсвічено у списку.']);
-    RAIDS.forEach(([size, name]) => v.push([n >= size ? 'good' : '', n >= size ? `Рейд на ${size} (${name}): людей вистачає.` : `Рейд на ${size} (${name}): бракує ${size - n}.`]));
-    const byCls = {}; team.list.forEach(s => byCls[s.cls] = (byCls[s.cls] || 0) + 1);
-    const dup = Object.keys(byCls).filter(c => byCls[c] > 1 && BUFF[c]);
-    if (dup.length && n <= 10) v.push(['', `Однакові класи (${dup.map(c => CL[c].n).join(', ')}): їхні баффи перекриваються, користі від другого менше.`]);
-    const sky = team.list.filter(s => RC[s.race].paid).length;
-    if (sky) v.push(['', `Скайборн — платна раса: набір Heroic Pack від $29.99 потрібен ${sky} з ${n} гравцям.`]);
-  }
-  $('#verdict').innerHTML = v.map(x => `<li class="${x[0]}">${esc(x[1])}</li>`).join('');
-  const have = [...new Set(team.list.map(s => s.cls))];
-  const withB = have.filter(c => BUFF[c]), noB = have.filter(c => !BUFF[c]);
-  $('#buffs').innerHTML = (withB.length ? withB.map(c => `<li class="good"><span class="cdot" style="--cc:${CCOL[c]}"></span><b>${esc(CL[c].n)}:</b> ${esc(BUFF[c])}</li>`).join('') : '<li>Поки немає класів із груповими баффами.</li>')
-    + (noB.length ? `<li>Без групового баффа: ${noB.map(c => CL[c].n).join(', ')}. Вони дають чисту шкоду.</li>` : '');
-  $('#teamText').value = n ? Array.from({ length: parties }, (_, g) => (parties > 1 ? `Група ${g + 1}: ` : '') + team.list.slice(g * PARTY, g * PARTY + PARTY).map(s => `${raceName(RC[s.race])} ${CL[s.cls].n} (${ROLE_RU[s.role]})`).join(', ')).join('; ') + ` — ${facName(team.f)}` : '';
-  $('#qTeam').textContent = n ? `${facName(team.f)}, гравців: ${n}, танків ${cnt.tank}, цілителів ${cnt.heal}` : 'Від одного до сорока гравців';
-  if (teamTouched) { try { history.replaceState(null, '', n ? teamLink() : location.pathname); } catch (e) {} }
-}
-function touch() { teamTouched = true; renderTeam(); }
 async function copyTo(text, msgEl, ok) {
   try { await navigator.clipboard.writeText(text); msgEl.textContent = ok; } catch (e) { msgEl.textContent = 'Не вдалося скопіювати, виділіть і натисніть Ctrl+C'; }
 }
-$('#segBF').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; team.f = b.dataset.v; touch(); });
-$('#sizes').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { team.list = autoTeam(+b.dataset.n, team.f); touch(); } });
-$('#szMinus').onclick = () => { if (team.list.length > 1) { team.list.pop(); touch(); } };
-$('#szPlus').onclick = () => { if (team.list.length < MAXT) addPlayer(); };
-function addPlayer() {
-  const k = team.list.length, role = k % PARTY === 0 ? 'tank' : k % PARTY === 1 ? 'heal' : 'dps';
-  const pool = POOL[role].filter(c => RACES.some(r => r.f === team.f && r.can[c])), cls = pool[k % pool.length];
-  team.list.push({ race: raceFor(cls, team.f, k), cls, role }); touch();
-}
-$('#bClear').onclick = () => { team.list = []; touch(); };
-$('#bAdd').onclick = () => { if (team.list.length < MAXT) addPlayer(); };
-$('#slots').addEventListener('change', e => {
-  const row = e.target.closest('.slot'); if (!row) return; const s = team.list[+row.dataset.i];
-  if (e.target.classList.contains('srace')) s.race = e.target.value;
-  if (e.target.classList.contains('scls')) s.cls = e.target.value;
-  if (e.target.classList.contains('srole')) s.role = e.target.value;
-  touch();
-});
-$('#slots').addEventListener('click', e => { const d = e.target.closest('.del'); if (!d) return; team.list.splice(+d.closest('.slot').dataset.i, 1); touch(); });
-$('#copyTeam').onclick = () => copyTo($('#teamText').value, $('#teamMsg'), 'Склад скопійовано');
-$('#copyLink').onclick = () => copyTo(teamLink(), $('#teamMsg'), 'Посилання скопійовано');
-if (!fromLink) team.list = autoTeam(5, team.f);
-renderTeam();
-if (fromLink) setTimeout(() => document.getElementById('builder').scrollIntoView(), 0);
 
 /* Dungeons: [name, min, max, entrance zone, new, other sites' ranges where they differ] */
 const DUNGEONS = [

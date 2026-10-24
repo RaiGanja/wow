@@ -340,13 +340,6 @@ canvas.fx.on { opacity: 1; }
 .stband .wrap { display: grid; gap: 20px; }
 /* page-level grids: one column that may shrink, so a long word or a wide field never pushes past the screen edge */
 section.block, .hero-in, .chero-in, .thero-in, .stband .wrap { grid-template-columns: minmax(0, 1fr); }
-/* Shade right behind the hero text: sky and sun in the art are light, a soft dark patch keeps the words readable (no box) */
-.hero-in, .thero-in, .ghero .wrap { position: relative; }
-.hero-in::before, .thero-in::before, .ghero .wrap::before { content: ""; position: absolute; z-index: -1; left: -14vw; width: min(1180px, 100vw); pointer-events: none;
-  background: radial-gradient(farthest-side at 42% 50%, rgb(var(--hero-fade) / .66), rgb(var(--hero-fade) / .5) 55%, rgb(var(--hero-fade) / 0)); }
-.hero-in::before { top: calc(var(--top) + clamp(40px, 9vh, 110px) - 90px); bottom: -20px; }
-.thero-in::before, .ghero .wrap::before { top: -90px; bottom: -70px; }
-.ghero .wrap::before { background: radial-gradient(farthest-side at 42% 50%, color-mix(in srgb, var(--bg) 66%, transparent), color-mix(in srgb, var(--bg) 50%, transparent) 55%, transparent); }   /* guide text follows the theme */
 .stband .sec-head p { color: var(--fg); opacity: .85; }
 .stband .sec-head .src { color: var(--fg); opacity: .7; }
 .frame { position: relative; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); box-shadow: 0 18px 48px rgba(0,0,0,.35); backdrop-filter: blur(6px); }
@@ -445,8 +438,8 @@ ul.buffs .m { color: var(--muted); }
 /* Content blocks reused by the reference sections: framed panels, plaques, tips */
 .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(290px, 100%), 1fr)); gap: 16px; }
 .grid2 > * { min-width: 0; }
-.panel, .tool, .summary { border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); box-shadow: 0 14px 40px rgba(0,0,0,.28); }
-:root[data-theme="light"] .panel, :root[data-theme="light"] .tool, :root[data-theme="light"] .summary, :root[data-theme="light"] .frame { box-shadow: 0 10px 30px rgba(40,32,16,.08); }
+.panel, .tool { border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); box-shadow: 0 14px 40px rgba(0,0,0,.28); }
+:root[data-theme="light"] .panel, :root[data-theme="light"] .tool, :root[data-theme="light"] .frame { box-shadow: 0 10px 30px rgba(40,32,16,.08); }
 .panel { padding: 22px 24px; display: grid; gap: 12px; align-content: start; }
 .panel h3 { font-size: 1.45rem; }
 .panel > .tipbox, .panel > .note { margin-top: 2px; }
@@ -583,55 +576,15 @@ ul.plain { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
 ul.plain li { display: grid; gap: 1px; }
 .en { font-weight: 400; color: var(--muted); font-size: .92em; }
 
-/* Builder */
-.builder { display: grid; grid-template-columns: minmax(0, 1fr) 310px; gap: 24px; align-items: start; }
+/* Builder: parts the /tools/ raid frames still use */
 .steps { display: grid; gap: 24px; }
 .step { display: grid; grid-template-columns: 30px 1fr; gap: 6px 14px; align-items: start; }
-.stepn { font-family: var(--font-display); font-size: 2rem; line-height: 1; color: var(--gold-2); text-align: center; font-variant-numeric: lining-nums; }
 .step > div { display: grid; gap: 10px; min-width: 0; }
 .step b { font-size: 1.05rem; font-weight: 600; }
-.sizes { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-#sizes { gap: 2px; padding: 4px; justify-self: start; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); }
-.sizes button { min-width: 48px; min-height: 42px; padding: 0 12px; border: 0; border-radius: 7px; background: transparent; font-weight: 600; font-variant-numeric: tabular-nums; transition: background-color .15s; }
-.sizes button:hover { background: color-mix(in srgb, var(--fg) 7%, transparent); }
-.sizes button[aria-pressed="true"] { background: #c9a54a; color: #15110a; }
 .stepper { display: inline-flex; align-items: center; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); }
 .stepper button { min-width: 44px; min-height: 44px; border: 0; background: transparent; font-size: 1.2rem; }
 .stepper button:hover { color: var(--gold-2); }
 .stepper output { min-width: 48px; text-align: center; font-weight: 600; font-variant-numeric: tabular-nums; }
-.slots { display: grid; gap: 14px; }
-.party { display: grid; gap: 6px; }
-.party-h { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; padding-bottom: 4px; }
-.party-h h4 { margin: 0; font-family: var(--font-display); font-size: 1.25rem; font-weight: var(--display-w); }
-.party-h .pc { display: inline-flex; flex-wrap: wrap; gap: 12px; color: var(--muted); font-size: .88rem; font-weight: 500; }
-.party-h .pc .miss { color: var(--horde); }
-.party-h .pc .ok { color: var(--new); }
-.slot { display: grid; grid-template-columns: 54px minmax(0,1.2fr) minmax(0,1.2fr) minmax(0,.9fr) 40px; gap: 6px; align-items: center; padding: 8px 8px 8px 12px; border: 1px solid var(--pline); border-radius: 12px; background: linear-gradient(90deg, color-mix(in srgb, var(--cc) 14%, var(--panel-2)) 0%, var(--panel-2) 45%); transition: border-color .2s; }
-.slot:hover { border-color: color-mix(in srgb, var(--cc) 45%, var(--pline)); }
-.slot .no { --s: 44px; --ring-gap: var(--panel-2); }
-.slot .no b { position: absolute; right: -5px; bottom: -5px; min-width: 20px; padding: 0 4px; border-radius: 999px; background: var(--bg); border: 1px solid var(--pline); color: var(--fg); font-size: .7rem; font-weight: 700; line-height: 18px; text-align: center; font-variant-numeric: tabular-nums; }
-.slot select { width: 100%; min-width: 0; min-height: 44px; padding: 0 28px 0 10px; font: inherit; font-size: .95rem; font-weight: 600; color: var(--fg); border: 0; border-radius: 8px; background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%238d929b' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 10px center; -webkit-appearance: none; appearance: none; cursor: pointer; transition: background-color .15s; }
-.slot select:hover { background-color: color-mix(in srgb, var(--fg) 6%, transparent); }
-.slot select.scls { color: var(--cc); }
-:root[data-theme="light"] .slot select.scls { color: var(--fg); }
-.slot select.srole { font-weight: 500; color: var(--ink-2); }
-:root[data-theme="light"] .slot select.srole { color: var(--muted); }
-.slot select option { background: var(--surface); color: var(--fg); }
-.slot .del { width: 40px; height: 40px; border: 0; border-radius: 50%; background: transparent; color: var(--muted); display: grid; place-items: center; transition: background-color .15s, color .15s; }
-.slot .del:hover { color: var(--horde); background: color-mix(in srgb, var(--horde) 12%, transparent); }
-.row-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-.summary { position: sticky; top: calc(var(--top) + 16px); display: grid; overflow: hidden; }
-.summary > div { padding: 16px 18px; border-bottom: 1px solid var(--pline); }
-.summary > div:last-child { border-bottom: 0; }
-.summary h4 { margin: 0 0 8px; font-size: .9rem; font-weight: 600; color: var(--muted); }
-.roles-sum { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-.rs { display: grid; justify-items: center; gap: 2px; padding: 12px 4px 10px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); }
-.rs b { font-family: var(--font-display); font-size: 1.8rem; font-weight: 400; line-height: 1; font-variant-numeric: tabular-nums lining-nums; }
-.rs span { color: var(--muted); font-size: .8rem; }
-.rs.ok { border-color: color-mix(in srgb, var(--new) 55%, transparent); }
-.rs.ok b { color: var(--new); }
-.rs.zero { border-color: color-mix(in srgb, var(--horde) 55%, transparent); }
-.rs.zero b { color: var(--horde); }
 ul.verdict { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
 ul.verdict li { padding-left: 22px; position: relative; font-size: .93rem; }
 ul.verdict li::before { content: "·"; position: absolute; left: 6px; color: var(--muted); font-weight: 700; }
@@ -639,8 +592,6 @@ ul.verdict li.good::before { content: "✓"; color: var(--new); left: 3px; }
 ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .cdot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 7px; background: var(--cc, var(--muted)); }
 :root[data-theme="light"] .cdot { box-shadow: inset 0 0 0 1px rgba(0,0,0,.35); }
-.summary .copyrow input { flex-basis: 100%; }
-.summary .copyrow .btn { flex: 1 1 auto; }
 
 /* Comparison tables: classes and races, one row per entry, whole row opens its page */
 .cmp { display: grid; gap: 6px; }
@@ -755,8 +706,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .pfac { padding: 10px; }
 }
 @media (max-width: 980px) {
-  .builder, .journey { grid-template-columns: 1fr; }
-  .summary, .me { position: static; }
+  .journey { grid-template-columns: 1fr; }
+  .me { position: static; }
   .stiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .factions { grid-template-columns: 1fr; }
   .ttiles, .ttiles.t4 { grid-template-columns: 1fr; }
@@ -826,14 +777,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .d-body { padding: 4px 16px 18px; }
   .copyrow .btn { max-width: 100%; white-space: normal; }
   .d-avs .av { --s: 54px; }
-  .slot { grid-template-columns: 50px minmax(0, 2.6fr) minmax(0, 1fr) 40px; gap: 4px 6px; padding: 8px; }
-  .slot .no { grid-row: 1 / 3; align-self: center; }
 
-  .slot select { font-size: .9rem; padding: 0 4px; }
-  .slot select.srace { grid-column: 2 / 4; }
-  .slot .del { grid-row: 1; grid-column: 4; }
-  .slot select.scls { grid-column: 2; }
-  .slot select.srole { grid-column: 3 / 5; }
   .stband { padding-top: 80px; }
   .stband-art, .stband-art img, .stband::before { height: 480px; }
   .camp { min-height: 640px; align-content: start; }
@@ -854,7 +798,6 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .dg tbody th .z { display: block; color: var(--muted); font-weight: 400; font-size: .85rem; }
   #segD { width: 100%; }
   #segD button { flex: 1 1 auto; padding: 0 8px; }
-  dl.facts div { grid-template-columns: 1fr; gap: 0; }
   body { padding-bottom: calc(62px + env(safe-area-inset-bottom, 0px)); }
   .tabbar { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); position: fixed; inset: auto 0 0 0; z-index: 35; background: var(--rail); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px); }
   .tabbar a, .tabbar button { min-height: 60px; display: grid; justify-items: center; align-content: center; gap: 3px; padding: 0 2px; border: 0; background: none; color: var(--muted); text-decoration: none; text-align: center; font-size: .72rem; font-weight: 500; line-height: 1.2; }
@@ -880,28 +823,11 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 }
 /* Tools page: search in the hero, party and raid frames, side-by-side compare */
 .sbox { width: min(100%, 680px); margin-top: 10px; padding: 14px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
-.sfield { display: flex; align-items: center; gap: 12px; min-height: 60px; padding: 0 16px; border: 1px solid var(--pline); border-radius: 8px; background: var(--panel-2); cursor: text; transition: border-color .2s; }
-.sfield:focus-within { border-color: var(--gold); }
+.sfield { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 60px; padding: 0 16px; border: 1px solid var(--pline); border-radius: 8px; background: var(--panel-2); color: var(--muted); font: inherit; font-size: 1.15rem; text-align: left; cursor: pointer; transition: border-color .2s; }
+.sfield:hover, .sfield:focus-visible { border-color: var(--gold); }
 .sfield .ico { width: 22px; height: 22px; color: var(--gold-2); }
-.sfield input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; color: var(--fg); font: inherit; font-size: 1.15rem; min-height: 56px; }
-.sfield input::placeholder { color: var(--muted); }
-.sfield input::-webkit-search-cancel-button { filter: grayscale(1); }
+.sfield span { flex: 1; min-width: 0; }
 .sfield kbd { font: inherit; font-size: .8rem; color: var(--muted); border: 1px solid var(--pline); border-radius: 5px; padding: 1px 8px; }
-.shint { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: .9rem; color: var(--muted); }
-.shint button { min-height: 34px; padding: 0 12px; border: 1px solid var(--pline); border-radius: 999px; background: var(--panel-2); color: var(--fg); font: inherit; font-size: .88rem; }
-.shint button:hover { border-color: var(--gold); }
-.sres { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-.sres:empty { display: none; }
-.sres a { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; padding: 11px 14px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--pline); color: var(--fg); text-decoration: none; transition: border-color .2s; height: 100%; }
-.sres a:hover, .sres a:focus-visible { border-color: var(--gold); }
-.sres b { font-weight: 600; }
-.sres b mark { background: none; color: var(--gold-2); }
-.sres .k { grid-column: 2; grid-row: 1; justify-self: end; align-self: start; font-size: .74rem; font-weight: 600; color: var(--muted); padding: 2px 8px; border-radius: 999px; border: 1px solid var(--pline); white-space: nowrap; }
-.sres .s { grid-column: 1 / -1; font-size: .88rem; color: var(--muted); }
-.sres .s i { font-style: normal; color: var(--cc, inherit); }
-.smore { justify-self: start; }
-.smore[hidden] { display: none; }
-.snone { color: var(--muted); }
 
 .ttiles.t2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .tnav { margin-top: 8px; }   /* the tool tiles open the page right under the hero */
@@ -1052,7 +978,6 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
   .cpick.races { display: grid; }
 }
 @media (max-width: 719px) {
-  .sres { grid-template-columns: 1fr; }
   .sfield kbd { display: none; }
   .ttiles.t2 { grid-template-columns: 1fr; }
   .rtool { padding: 12px; }
@@ -1077,17 +1002,15 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 .rv.in { opacity: 1; transform: none; transition: opacity .6s var(--ease), transform .6s var(--ease); }
 @media print { .rv { opacity: 1; transform: none; } }
 </style>
-<style>.skip{position:fixed;left:12px;top:-60px;z-index:100;padding:10px 16px;border-radius:10px;background:#0a0b0d;color:#c9a54a;font-weight:600;text-decoration:none;border:1px solid #c9a54a}.skip:focus{top:12px}</style>
 <link rel="manifest" href="../../manifest-pt.webmanifest">
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
-<link rel="stylesheet" href="../../assets/radio/radio.css?v=172cc556c4" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=4d00b79945" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=f37c257b5b" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/me/me.css?v=9f6bfa2333" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Início","item":"https://gabella.site/wow/pt/"},{"@type":"ListItem","position":2,"name":"Ferramentas","item":"https://gabella.site/wow/pt/tools/"}]}</script>
 </head>
 <body>
-<a class="skip" href="#content">Ir para o conteúdo</a>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-tank" viewBox="0 0 24 24"><path d="M12 3l7 3v5.5c0 4.6-3 7.7-7 9.5-4-1.8-7-4.9-7-9.5V6z"/></symbol>
   <symbol id="i-heal" viewBox="0 0 24 24"><path d="M10 4h4v6h6v4h-6v6h-4v-6H4v-4h6z"/></symbol>
@@ -1124,7 +1047,6 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
     <button class="iconbtn menubtn" type="button" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg><span>Mais</span></button>
   </div>
 </div></header>
-<span id="content" tabindex="-1"></span>
 
 <section class="thero" id="top">
   <picture class="thero-art" aria-hidden="true" data-fx="tools" data-cut=".9">
@@ -1139,11 +1061,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
     <h1>Ferramentas</h1>
     <p class="lead">Busque no guia inteiro, monte quadros de grupo e raide como no jogo e compare classes e raças. A escalação fica no link, então dá para mandá-la no chat.</p>
     <div class="frame sbox" id="search" role="search">
-      <label class="sfield"><svg class="ico" aria-hidden="true"><use href="#i-search"/></svg><input id="q" type="search" placeholder="Classe, habilidade, raça, masmorra ou nível" autocomplete="off" spellcheck="false" aria-label="Busca no guia" aria-controls="sres" aria-describedby="sstat"><kbd aria-hidden="true">/</kbd></label>
-      <div class="shint" id="shint"><span>Por exemplo:</span><button type="button">Paladino</button><button type="button" lang="en">Shadow</button><button type="button">Tanque</button><button type="button">Skyborne</button><button type="button" lang="en">Onyxia</button><button type="button">24</button></div>
-      <p class="small" id="sstat" aria-live="polite"></p>
-      <ul class="sres" id="sres"></ul>
-      <button type="button" class="btn ghost smore" id="smore" hidden></button>
+      <button type="button" class="sfield sopen" aria-label="Busca no guia"><svg class="ico" aria-hidden="true"><use href="#i-search"/></svg><span>Classe, habilidade, raça, masmorra ou nível</span><kbd aria-hidden="true">Ctrl K</kbd></button>
     </div>
   </div>
 </section>
@@ -1151,8 +1069,8 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 <main>
 <div class="wrap tnav">
   <nav class="frame ttiles t2" aria-label="Ferramentas">
-      <a class="ttile" href="#raid"><picture><source type="image/avif" srcset="../../assets/art/paladin-600.avif?v=0003354e"><img src="../../assets/art/paladin-600.webp?v=0003354e" alt="" loading="lazy" decoding="async"></picture><b>Quadros de grupo e raide</b><span>Grupo de 5, raides de 10, 20 e 40, como no jogo</span></a>
-      <a class="ttile" href="#compare"><picture><source type="image/avif" srcset="../../assets/art/mage-600.avif?v=0003354e"><img src="../../assets/art/mage-600.webp?v=0003354e" alt="" loading="lazy" decoding="async"></picture><b>Comparação de classes e raças</b><span>Até três lado a lado: funções, armadura, bônus, habilidades</span></a>
+      <a class="ttile" href="#raid"><picture><source type="image/avif" srcset="../../assets/art/paladin-600.avif?v=62bbe825"><img src="../../assets/art/paladin-600.webp?v=ce6a9574" alt="" loading="lazy" decoding="async"></picture><b>Quadros de grupo e raide</b><span>Grupo de 5, raides de 10, 20 e 40, como no jogo</span></a>
+      <a class="ttile" href="#compare"><picture><source type="image/avif" srcset="../../assets/art/mage-600.avif?v=632283e7"><img src="../../assets/art/mage-600.webp?v=37403d76" alt="" loading="lazy" decoding="async"></picture><b>Comparação de classes e raças</b><span>Até três lado a lado: funções, armadura, bônus, habilidades</span></a>
     </nav>
 </div>
 <section class="block wrap" id="raid">
@@ -1220,7 +1138,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
   <nav class="toc" aria-label="Todas as seções">
     <div class="grp"><div class="gh">Esta página</div><a href="#search">Busca no guia</a><a href="#raid">Quadros de grupo e raide</a><a href="#compare">Comparação de classes e raças</a></div>
     <div class="grp"><div class="gh">Referência</div><a href="../">Início</a><a href="../classes/">Classes comparadas</a><a href="../races/">Raças comparadas</a><a href="../guides/leveling/">Evolução 1–60</a><a href="../guides/dungeons/">Masmorras e raides</a><a href="../guides/professions/">Profissões</a><a href="../guides/faq/">FAQ e datas</a><a href="../guides/news/">Notícias</a><a href="../guides/">Todos os guias</a></div>
-    <div class="grp"><div class="gh">Ferramentas</div><a href="../#picker">Seletor</a><a href="../#builder">Montador de grupo</a><a href="../tools/">Quadros, comparar, buscar</a><a href="../play/">No jogo</a></div>
+    <div class="grp"><div class="gh">Ferramentas</div><a href="../#picker">Seletor</a><a href="../tools/#raid">Montador de grupo</a><a href="../tools/">Quadros, comparar, buscar</a><a href="../play/">No jogo</a></div>
     <div class="grp"><div class="gh">Comunidade</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="../roster/">Jogadores</a><a href="../profile/">Meu perfil</a></div>
   </nav>
   <div class="opts">
@@ -1337,75 +1255,7 @@ const RACES = [
 RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
 const CL = Object.fromEntries(CLASSES.map(c => [c.id, c]));
 const RC = Object.fromEntries(RACES.map(r => [r.id, r]));
-const DUNGEONS = [
-  ['Cavernas Ígneas', 13, 18, 'Orgrimmar', 0, [], 'horde'],
-  ['Hall of Thanes', 13, 18, 'Altaforja', 1, [['Icy Veins', '13–20']]],
-  ['Ruínas de Lordaeron', 15, 20, 'Clareiras de Tirisfal', 1, [['Icy Veins', '15–22']]],
-  ['Minas Mortas', 15, 22, 'Cerro Oeste', 0, [['Icy Veins', '17–26']]],
-  ['Caverna Ululante', 17, 24, 'Sertões', 0, [['Icy Veins', '15–24']]],
-  ['Bastilha da Presa Negra', 20, 26, 'Floresta de Pinhaprata', 0, [['Icy Veins', '20–30']]],
-  ['Profundezas Negras', 22, 28, 'Vale Gris', 0, [['Sportskeeda', '22–26'], ['Icy Veins', '24–32']]],
-  ['Excavation Site: Wetlands', 24, 29, 'Pantanal', 1, [['ClassicWoW.gg', '26–31'], ['Icy Veins', '26–33']]],
-  ['O Cárcere', 25, 29, 'Ventobravo', 0, [['Icy Veins', '24–32']], 'alliance'],
-  ['City of Dalaran', 28, 33, 'Montanhas de Alterac', 1, [['Icy Veins', '28–35']]],
-  ['Gnomeregan', 29, 38, 'Dun Morogh', 0],
-  ['Urzal dos Tuscos', 29, 38, 'Sertões', 0],
-  ['Monastério Escarlate: Cemitério', 30, 38, 'Clareiras de Tirisfal', 0],
-  ['Monastério Escarlate: Biblioteca', 33, 41, 'Clareiras de Tirisfal', 0],
-  ['The Drowned City', 35, 40, 'Selva do Espinhaço', 1],
-  ['Monastério Escarlate: Arsenal', 36, 44, 'Clareiras de Tirisfal', 0],
-  ['Uldaman', 36, 45, 'Ermos', 0, [['Icy Veins', '41–51']]],
-  ['Urzal dos Mortos', 37, 46, 'Sertões', 0],
-  ['Monastério Escarlate: Catedral', 38, 46, 'Clareiras de Tirisfal', 0],
-  ["Zul’Farrak", 40, 47, 'Tanaris', 0, [['Icy Veins', '44–54']]],
-  ["Krol’dok Stronghold", 40, 45, 'Riverglades', 1],
-  ['Maraudon', 45, 51, 'Desolação', 0, [['Icy Veins', '46–55']]],
-  ['Alcaz Island Prison', 48, 53, 'Pântano Vadeoso', 1],
-  ["Templo de Atal’Hakkar", 50, 55, 'Pântano das Mágoas', 0, [['Icy Veins', '50–60']]],
-  ['Abismo Rocha Negra', 52, 60, 'Montanha Rocha Negra', 0],
-  ['Blackmaw Hold', 55, 60, 'Azshara', 1],
-  ['Pico da Rocha Negra Inferior', 57, 60, 'Montanha Rocha Negra', 0, [['Icy Veins', '55–60']]],
-  ['Gládio Cruel: Leste', 58, 60, 'Feralas', 0, [['Icy Veins', '54–60']]],
-  ["Shaper’s Terrace", 58, 60, "Cratera Un’Goro", 1],
-  ['Stratholme: vivos', 58, 60, 'Terras Pestilentas Orientais', 0],
-  ['Stratholme: mortos-vivos', 58, 60, 'Terras Pestilentas Orientais', 0],
-  ['Scolomântia', 58, 60, 'Terras Pestilentas Ocidentais', 0],
-  ['Pico da Rocha Negra Superior', 60, 60, 'Montanha Rocha Negra', 0, [['Icy Veins', '59–60']]],
-  ['Gládio Cruel: Oeste', 60, 60, 'Feralas', 0, [['Icy Veins', '56–60']]],
-  ['Gládio Cruel: Norte', 60, 60, 'Feralas', 0, [['Icy Veins', '56–60']]]
-];
-const PROFS = [
-  ['alchemy', 'Alquimia', 1, 'Mana Well', 'como Bênção de Sabedoria'],
-  ['blacksmithing', 'Ferraria', 1, 'Sharpening Wheel', 'como Totem da Força da Terra'],
-  ['enchanting', 'Encantamento', 1, 'Enchanted Lute', 'como Marca do Indomado'],
-  ['engineering', 'Engenharia', 1, 'Reagent Bot', 'vendedor de reagentes, reparos no nível 2'],
-  ['herbalism', 'Herborismo', 1, 'Incense Candle', 'como Inteligência Arcana'],
-  ['leatherworking', 'Couraria', 1, 'Camp Tent', 'mais experiência de descanso'],
-  ['mining', 'Mineração', 1, 'Magnetita', 'como Bênção do Poder'],
-  ['skinning', 'Esfolamento', 1, 'Camp Chair', 'como Aura de Luniscante'],
-  ['tailoring', 'Alfaiataria', 1, 'Faction Banner', 'como Espírito Divino'],
-  ['cooking', 'Culinária', 0, 'Fogueira Básica', 'mais espaços de objetos no acampamento'],
-  ['firstaid', 'Primeiros Socorros', 0, 'Kit de Primeiros Socorros', 'como Palavra de Poder: Fortitude'],
-  ['fishing', 'Pesca', 0, 'Fish Bowl', 'como Bênção dos Reis']
-];
-const EN = {
-  'Armas':'Armas','Fúria':'Fúria','Proteção':'Proteção','Sagrado':'Sagrado','Retribuição':'Retribuição',
-  'Domínio das Feras':'Domínio das Feras','Precisão':'Precisão','Sobrevivência':'Sobrevivência',
-  'Assassinato':'Assassinato','Combate':'Combate','Subterfúgio':'Subterfúgio',
-  'Disciplina':'Disciplina','Sombra':'Sombra','Elemental':'Elemental','Aperfeiçoamento':'Aperfeiçoamento','Restauração':'Restauração',
-  'Arcano':'Arcano','Fogo':'Fogo','Gélido':'Gélido','Suplício':'Suplício','Demonologia':'Demonologia','Destruição':'Destruição',
-  'Equilíbrio':'Equilíbrio','Combate Feral':'Combate Feral',
-  'Desejo de Sobreviver':'Desejo de Sobreviver','Percepção':'Percepção','Ruthless':'Ruthless','O Espírito Humano':'O Espírito Humano',
-  'Forma de Pedra':'Forma de Pedra','Localizar Tesouros':'Localizar Tesouros','Earth Fury':'Earth Fury','Big Game Hunter':'Big Game Hunter',
-  'Luz de Eluna':"Luz de Eluna",'Fusão Sombria':'Fusão Sombria','Rapidez':'Rapidez','Espírito de Fogo-fátuo':'Espírito de Fogo-fátuo',
-  'Artista da Fuga':'Artista da Fuga','Eureca!':'Eureca!','Mente Expansiva':'Mente Expansiva','Especialização em Engenharia':'Especialização em Engenharia',
-  'Walk on Air':'Walk on Air','Read Ley Line':'Read Ley Line','Wind Blessed':'Wind Blessed','Elemental Insight':'Elemental Insight','Skysight':'Skysight',
-  'Fúria Sangrenta':'Fúria Sangrenta','Shatter Curse':'Shatter Curse','Savage':'Savage','Robustez':'Robustez',
-  'Determinação dos Renegados':'Determinação dos Renegados','Canibalizar':'Canibalizar','Respiração Subaquática':'Respiração Subaquática','Toque do Túmulo':'Toque do Túmulo',
-  'Pisada de Guerra':'Pisada de Guerra','Cultivo':'Cultivo','Vencer Planícies':'Vencer Planícies','Resistência':'Resistência',
-  'Berserk':'Berserk','Regeneração Rápida':'Regeneração Rápida','Matança de Feras':'Matança de Feras','Regeneração':'Regeneração'
-};
-const CX = {"warrior": {"armor": "Tecido, couro, malha; placas a partir do nível 40", "weapons": "Tudo exceto varinhas; escudo", "resource": "Raiva", "lvl": "A evolução mais lenta, cerca de 12% mais longa que a média", "group": ["Brado de Batalha afeta a raide toda", "Brado Desmoralizador e Fender Armadura no chefe", "Golpes a Esmo e Redemoinho para lutas com vários alvos"], "pros": ["Melhor tanque e dano corpo a corpo forte", "Bom para PvP (Armas)", "Poucos botões, fácil de entender"], "cons": ["Evolução mais lenta", "Depende muito do equipamento", "Quase sem autocura ou controle de grupo"], "specs": [{"n": "Armas", "en": "Arms", "roles": ["dps"], "what": "Dano corpo a corpo (arma de duas mãos)", "keys": [["Golpe Mortal", "Mortal Strike", "Golpe principal que reduz a cura no alvo"], ["Golpes a Esmo", "Sweeping Strikes", "Os golpes atingem um segundo alvo, combinado com Redemoinho"], ["Feridas Profundas", "Deep Wounds", "Críticos causam sangramento"], ["Dilacerar", "Rend", "Um sangramento que libera Subjugar"], ["Bloodthrill", "Bloodthrill", "Novo talento: bônus de 4–20%, só na mão principal"]]}, {"n": "Fúria", "en": "Fury", "roles": ["dps"], "what": "Dano corpo a corpo (duas armas)", "keys": [["Desejo de Matar", "Death Wish", "Uma janela de dano extra"], ["Ímpeto", "Flurry", "Ataques mais rápidos após um crítico"], ["Enfurecer", "Enrage", "Mais dano depois de sofrer um crítico"], ["Especialização em Duas Armas", "Dual Wield Specialization", "Mão secundária mais forte"], ["Crueldade", "Cruelty", "Chance de crítico"]]}, {"n": "Proteção", "en": "Protection", "roles": ["tank"], "what": "Tanque", "keys": [["Vanguarda", "Vanguard", "Investida sem trocar de postura"], ["Último Recurso", "Last Stand", "Vida extra temporária"], ["Desafio", "Defiance", "Mais ameaça"], ["Master of Defense", "Master of Defense", "Mais resistente sob ataque"], ["Resistência", "Toughness", "Mais armadura"]]}]}, "paladin": {"armor": "Tecido, couro, malha; placas a partir do nível 40; escudo", "weapons": "Machados, maças, espadas, armas de haste a partir do nível 20", "resource": "Mana", "lvl": "Ritmo de evolução médio", "group": ["Auras de grupo: Devoção, Retribuição, Concentração", "Auras de resistência a Fogo, Gelo e Sombra para a raide toda", "Bênçãos de uma hora, bênçãos maiores para uma classe inteira", "Selo da Justiça impede os inimigos de fugir"], "pros": ["As três funções num só personagem", "Bônus de grupo fortes", "Placas e um personagem resistente"], "cons": ["Sem aproximação, lentidão ou aumento de velocidade", "Pouco controle de grupo além de Martelo da Justiça", "Retribuição caiu depois do patch"], "specs": [{"n": "Sagrado", "en": "Holy", "roles": ["heal"], "what": "Curador", "keys": [["Choque Sagrado", "Holy Shock", "Cura ou dano instantâneo"], ["Reverência", "Reverence", "Novo: parte da regeneração de mana do Espírito"], ["Solo Consagrado", "Consecrated Ground", "Novo talento de Sagrado"], ["Divine Precision", "Divine Precision", "Novo talento de Sagrado"], ["Poder Sagrado", "Holy Power", "Chance de crítico de cura"]]}, {"n": "Proteção", "en": "Protection", "roles": ["tank"], "what": "Tanque", "keys": [["Selo da Fúria", "Seal of Fury", "Novo selo: Julgamento provoca o inimigo"], ["Templar’s Bulwark", "Templar’s Bulwark", "Uma recarga defensiva forte"], ["Escudo Sagrado", "Holy Shield", "30% de chance de bloqueio (antes 20%)"], ["Reduto", "Redoubt", "Bloqueio 4–20% (antes 6–30%)"], ["Ajuste de Contas", "Reckoning", "Contra-ataques"]]}, {"n": "Retribuição", "en": "Retribution", "roles": ["dps"], "what": "Dano corpo a corpo", "keys": [["Selo de Comando", "Seal of Command", "Críticos grandes"], ["Consagração", "Consecration", "Dano em área confiável"], ["Campeão da Luz", "Champion of the Light", "Intelecto em poder mágico, reduzido para 10–30%"], ["Twist of Light", "Twist of Light", "Topo da árvore: como dois selos ao mesmo tempo"], ["Sanctified Judgement", "Sanctified Judgement", "Fortalece Julgamento"]]}]}, "hunter": {"armor": "Tecido, couro; malha a partir do nível 40", "weapons": "Arcos, bestas, armas de fogo, machados, espadas, armas de haste", "resource": "Mana; o mascote usa Foco", "lvl": "A evolução mais rápida, cerca de 8% mais rápida que a média", "group": ["Aura de Tiro Certeiro aumenta o dano à distância do grupo", "Armadilha Congelante: controle de grupo confiável", "Tiro de Dispersão interrompe conjurações", "Aspecto da Matilha acelera o grupo todo na estrada"], "pros": ["Evolução mais rápida", "Ótimo sozinho", "Armadilhas e controle de grupo"], "cons": ["Zona morta de curta distância até 8 metros", "Você precisa gerenciar o mascote", "Os talentos de Sobrevivência tinham bugs no beta"], "specs": [{"n": "Domínio das Feras", "en": "Beast Mastery", "roles": ["dps"], "what": "Dano à distância, muito dano vindo do mascote", "keys": [["Fúria Liberada", "Unleashed Fury", "Dano do mascote"], ["Ferocidade", "Ferocity", "Chance de crítico do mascote"], ["Summon Hawk", "Summon Hawk", "Novo"], ["Fogo Focalizado", "Focused Fire", "Novo, substitui Olhos da Fera Aprimorado"], ["Intimidação", "Intimidation", "O mascote ganha 100% de chance de crítico"]]}, {"n": "Precisão", "en": "Marksmanship", "roles": ["dps"], "what": "Dano à distância", "keys": [["Lobo Solitário", "Lone Wolf", "Novo: dano sem mascote"], ["Mira Cuidadosa", "Careful Aim", "Novo"], ["Matança Veloz", "Rapid Killing", "Novo, a partir do nível 30"], ["Aura de Tiro Certeiro", "Trueshot Aura", "Mais cedo na árvore, só poder de ataque à distância"], ["Barragem", "Barrage", "Agora também fortalece Tiro Certo"]]}, {"n": "Sobrevivência", "en": "Survival", "roles": ["dps"], "what": "Corpo a corpo e à distância, armadilhas", "keys": [["Expose Prey", "Expose Prey", "Novo, substitui Instinto Assassino"], ["Lacerating Strikes", "Lacerating Strikes", "Novo, substitui Picada de Mantícora"], ["Predator’s Edge", "Predator’s Edge", "Novo"], ["Strider Kick", "Strider Kick", "Novo"], ["Cilada", "Entrapment", "Sempre ativa a partir de uma armadilha"]]}]}, "rogue": {"armor": "Tecido, couro", "weapons": "Adagas, espadas, maças, armas de punho, machados de uma mão, arremesso", "resource": "Energia e pontos de combo", "lvl": "Ritmo de evolução médio", "group": ["Dano corpo a corpo puro, sem bônus para a raide toda", "Aturdir, Cegar e Golpe no Rim: muito controle de grupo", "Chute interrompe conjurações perigosas"], "pros": ["Dano muito alto que escala com o equipamento", "Furtividade e muito controle de grupo", "Liberdade na escolha de armas"], "cons": ["Depende muito do equipamento", "Sem autocura", "Só Evasão e Sumir salvam você"], "specs": [{"n": "Assassinato", "en": "Assassination", "roles": ["dps"], "what": "Dano de venenos", "keys": [["Mutilar", "Mutilate", "Novo: gera pontos de combo, só com adagas"], ["Venom", "Venom", "Novo golpe finalizador"], ["Malícia", "Malice", "Agora também chance de crítico dos venenos"], ["Venenos Aprimorados", "Improved Poisons", "50% de chance de não gastar uma carga"], ["Letalidade", "Lethality", "20% no grau máximo (antes 30%)"]]}, {"n": "Combate", "en": "Combat", "roles": ["dps"], "what": "Ataques rápidos com armas", "keys": [["Adrenalina", "Adrenaline Rush", "Energia mais rápida"], ["Rajada de Lâminas", "Blade Flurry", "Dano a um segundo alvo"], ["Carnificina", "Hack and Slash", "Qualquer tipo de arma; machados têm chance de ataque extra"], ["Flawless Execution", "Flawless Execution", "Permite usar Eviscerar sem parar"], ["Especialização em Duas Armas", "Dual Wield Specialization", "25% de dano da mão secundária"]]}, {"n": "Subterfúgio", "en": "Subtlety", "roles": ["dps"], "what": "Emboscadas, sangramentos", "keys": [["Mil Cortes", "Thousand Cuts", "Novo topo da árvore"], ["Hemorragia", "Hemorrhage", "Agora fortalece Ruptura"], ["Quietus", "Quietus", "Novo: mais dano a alvos feridos"], ["Perfídia", "Cutthroat", "Novo: Emboscar em combate"], ["Armação e Iniciativa", "Setup and Initiative", "100% de chance de um ponto de combo extra"]]}]}, "priest": {"armor": "Tecido", "weapons": "Adagas, maças, báculos, varinhas", "resource": "Mana", "lvl": "Cerca de 5% mais lenta que a média", "group": ["Espírito Divino e Palavra de Poder: Fortitude para a raide toda", "Infusão de Poder fortalece um aliado", "O principal curador do grupo"], "pros": ["Um grupo sempre precisa", "Cura ou dano de sombra", "Muitas builds"], "cons": ["Só tecido, frágil", "Poucas formas de se mover rápido", "Aceleração quase não ajuda os feitiços"], "specs": [{"n": "Disciplina", "en": "Discipline", "roles": ["heal"], "what": "Curador, escudos e absorção", "keys": [["Infusão de Poder", "Power Infusion", "Um bônus forte num aliado, os grupos valorizam"], ["Palavra de Poder: Escudo", "Power Word: Shield", "Absorve dano"], ["Concentração Interior", "Inner Focus", "Um feitiço grátis"]]}, {"n": "Sagrado", "en": "Holy", "roles": ["heal"], "what": "Curador", "keys": [["Prece da Recomposição", "Prayer of Mending", "Topo da árvore, a cura salta"], ["Litany of Light", "Litany of Light", "Devolve mana"], ["Prece de Cura", "Prayer of Healing", "Cura o grupo todo"]]}, {"n": "Sombra", "en": "Shadow", "roles": ["dps"], "what": "Dano à distância", "keys": [["Forma de Sombra", "Shadowform", "Reformulado: chance de crítico e feitiços de sombra mais baratos"], ["Palavra Sombria: Morte", "Shadow Word: Death", "Estava no beta, com o talento Early Demise"], ["Improved Mind Flay", "Improved Mind Flay", "Novo: mais dano"], ["Peste Devoradora", "Devouring Plague", "Recarga de 24 s, fortalecido em 15 de outubro"]]}]}, "shaman": {"armor": "Tecido, couro; malha a partir do nível 40; escudo", "weapons": "Maças, machados, báculos, armas de punho, adagas", "resource": "Mana", "lvl": "Ritmo de evolução médio", "group": ["Os totens Força da Terra, Fúria dos Ventos, Labaredas e Graça do Ar dão bônus ao próprio grupo", "Totem Sísmico remove medo, sono e enfeitiçamento", "Totens que purificam venenos e doenças", "Expurgar remove bônus dos inimigos"], "pros": ["Totens fortes para o grupo", "Evolução com mobilidade", "Novos talentos fortes"], "cons": ["Sem controle de grupo forte", "Mana em lutas longas", "Tanquear ainda não confirmado"], "specs": [{"n": "Elemental", "en": "Elemental", "roles": ["dps"], "what": "Dano à distância", "keys": [["Estouro de Lava", "Lava Burst", "Novo, fortalecido em 15 de outubro"], ["Raios Sobrecarregados", "Lightning Overload", "Novo: o raio é lançado de novo"], ["Mestre dos Elementos", "Elemental Mastery", "Agora um bônus de 15 s"], ["Concussão", "Concussion", "Mais dano mágico"], ["Nova de Fogo", "Fire Nova", "Explode ao redor do totem de fogo"]]}, {"n": "Aperfeiçoamento", "en": "Enhancement", "roles": ["dps", "tank?"], "what": "Dano corpo a corpo. A capacidade de tanquear ainda é incerta", "keys": [["Arma da Voragem", "Maelstrom Weapon", "Até 5 acúmulos para Raio"], ["Ataque da Tempestade", "Stormstrike", "Recarga de 8 s, não é mais o topo"], ["Rage of the Farseer", "Rage of the Farseer", "Novo topo, recarga de 3 min"], ["Lobo Fantasma", "Ghost Wolf", "Instantâneo e utilizável em ambientes fechados com o talento"]]}, {"n": "Restauração", "en": "Restoration", "roles": ["heal"], "what": "Curador", "keys": [["Contracorrente", "Riptide", "Novo topo: cura instantânea, +25% a Cura Encadeada"], ["Escudo de Água", "Water Shield", "Novo: restaura mana"], ["Mindfulness", "Mindfulness", "Novo: mana em combate"], ["Totem de Vagalhão de Mana", "Mana Tide Totem", "Movido para o meio da árvore"]]}]}, "mage": {"armor": "Tecido", "weapons": "Adagas, espadas, báculos, varinhas", "resource": "Mana", "lvl": "A evolução mais rápida, cerca de 8% mais rápida que a média (cerca de 12 horas a menos)", "group": ["Portais a partir do nível 40, teleportes a partir do 20", "Comida e água para o grupo todo", "Polimorfia: controle de grupo confiável", "Remover Maldição Inferior"], "pros": ["Evolução mais rápida", "Portais e comida para todos", "Três árvores fortes e diferentes"], "cons": ["Só tecido, frágil", "A mana acaba rápido", "Dano em área atenuado"], "specs": [{"n": "Arcano", "en": "Arcane", "roles": ["dps"], "what": "Explosão de dano, muita mana", "keys": [["Impacto Arcano", "Arcane Blast", "Novo: o feitiço principal"], ["Salva de Mísseis", "Missile Barrage", "Novo: ativações para explosão de dano"], ["Poder Arcano", "Arcane Power", "Janela de dano"], ["Mente Arcana", "Arcane Mind", "Agora dá Intelecto"]]}, {"n": "Fogo", "en": "Fire", "roles": ["dps"], "what": "Críticos e ignições", "keys": [["Embalo de Fogo", "Hotstreak", "Novo: até 3 acúmulos aceleram Ignimpacto"], ["Wake of Fire", "Wake of Fire", "Novo: Impacto de Fogo após um abate"], ["Combustão", "Combustion", "Dura até 4 críticos (antes 3)"], ["Incineração", "Incineration", "No alto da árvore, fortalece vários feitiços"]]}, {"n": "Gélido", "en": "Frost", "roles": ["dps"], "what": "Dano e controle", "keys": [["Lança de Gelo", "Ice Lance", "Novo"], ["Dedos Glaciais", "Fingers of Frost", "Novo, funciona com todos os feitiços"], ["Estilhaçar", "Shatter", "Críticos em alvos congelados"], ["Nevasca Aprimorada", "Improved Blizzard", "Lentidão de até 40%"]]}]}, "warlock": {"armor": "Tecido", "weapons": "Adagas, espadas, báculos, varinhas", "resource": "Mana; Conversão de Vida transforma vida em mana", "lvl": "Ritmo de evolução médio", "group": ["Pedra de Vida e Pedra da Alma", "Ritual de Evocação: reúne o grupo", "Maldição de Línguas deixa a conjuração 60% mais lenta", "Maldição dos Elementos: mais dano mágico no alvo"], "pros": ["Autossuficiente: um demônio e Conversão de Vida", "Muita utilidade para o grupo", "Dano ao longo do tempo forte"], "cons": ["Frágil e pouco móvel", "O dano demora para engrenar", "Sem teleporte curto nem disparada"], "specs": [{"n": "Suplício", "en": "Affliction", "roles": ["dps"], "what": "Dano de maldições e corrupção", "keys": [["Destruição", "Wrack", "Novo: feitiço canalizado, topo da árvore"], ["Pandemia", "Pandemic", "Efeitos mais fortes"], ["Sifão da Alma", "Soul Siphon", "Drenar mais forte"], ["Maldição da Exaustão", "Curse of Exhaustion", "Lentidão"]]}, {"n": "Demonologia", "en": "Demonology", "roles": ["dps"], "what": "Dano por meio de demônios", "keys": [["Pacto Demoníaco", "Demonic Pact", "Novo topo: sacrifique um demônio, mantenha o outro"], ["Poder Profano", "Unholy Power", "Dano do demônio"], ["Conhecimento Demoníaco", "Demonic Knowledge", "Bônus dos atributos do demônio"], ["Vínculo Anímico", "Soul Link", "Parte do dano vai para o demônio"]]}, {"n": "Destruição", "en": "Destruction", "roles": ["dps"], "what": "Dano direto de fogo e de sombra", "keys": [["Incinerar", "Incinerate", "Topo da árvore"], ["Conflagrar", "Conflagrate", "Golpe instantâneo"], ["Sombra e Chama", "Shadow and Flame", "Mais dano"], ["Ruína Devastadora", "Bane of Havoc", "Dano a um segundo alvo"]]}]}, "druid": {"armor": "Tecido, couro", "weapons": "Adagas, maças, báculos, armas de punho, armas de haste a partir do nível 20", "resource": "Mana; Raiva na Forma de Urso, Energia na Forma de Felino", "lvl": "Cerca de 5% mais lenta que a média", "group": ["Líder do Bando e Aura de Luniscante afetam a raide toda e se acumulam", "Renascimento: ressurreição em combate", "Avivar devolve mana a um curador", "Remove maldições e venenos"], "pros": ["As três funções num só personagem", "Ótima mobilidade", "Ressurreição em combate"], "cons": ["Sem bloqueio nem aparo para o urso", "Efeitos de cura ao longo do tempo são mais difíceis de acompanhar", "Os números finais de raide ainda são desconhecidos"], "specs": [{"n": "Equilíbrio", "en": "Balance", "roles": ["dps"], "what": "Dano à distância", "keys": [["Eclipse", "Eclipse", "Novo: a mecânica central da árvore"], ["Ira Aprimorada", "Improved Wrath", "Ira mais rápida e mais barata"], ["Forma de Luniscante", "Moonkin Form", "3% de crítico para a raide toda"], ["Nuvem de Insetos", "Insect Swarm", "Veio de Restauração para cá"]]}, {"n": "Combate Feral", "en": "Feral", "roles": ["tank", "dps"], "what": "Tanque (urso) e dano corpo a corpo (gato)", "keys": [["Berserk", "Berserk", "Novo topo: uma janela de dano"], ["Poder Cambiante", "Shifting Power", "Novo: substitui o powershifting"], ["Lacerar", "Lacerate", "Sangramento acumulável para o urso"], ["Investida Feral", "Feral Charge", "Agora também na Forma de Felino"]]}, {"n": "Restauração", "en": "Restoration", "roles": ["heal"], "what": "Curador, muita cura ao longo do tempo", "keys": [["Crescimento Silvestre", "Wild Growth", "Novo: cura em área"], ["Recomposição Rápida", "Swiftmend", "Não consome mais a cura ao longo do tempo"], ["Reviver", "Revive", "Novo: ressurreição fora de combate"], ["Dádiva da Mãe-terra", "Gift of the Earth Mother", "Talento da árvore"]]}]}};
+const CX = {"warrior": {"armor": "Tecido, couro, malha; placas a partir do nível 40", "weapons": "Tudo exceto varinhas; escudo", "resource": "Raiva", "lvl": "A evolução mais lenta, cerca de 12% mais longa que a média", "group": ["Brado de Batalha afeta a raide toda", "Brado Desmoralizador e Fender Armadura no chefe", "Golpes a Esmo e Redemoinho para lutas com vários alvos"], "pros": ["Melhor tanque e dano corpo a corpo forte", "Bom para PvP (Armas)", "Poucos botões, fácil de entender"], "cons": ["Evolução mais lenta", "Depende muito do equipamento", "Quase sem autocura ou controle de grupo"], "specs": [{"n": "Armas", "what": "Dano corpo a corpo (arma de duas mãos)"}, {"n": "Fúria", "what": "Dano corpo a corpo (duas armas)"}, {"n": "Proteção", "what": "Tanque"}]}, "paladin": {"armor": "Tecido, couro, malha; placas a partir do nível 40; escudo", "weapons": "Machados, maças, espadas, armas de haste a partir do nível 20", "resource": "Mana", "lvl": "Ritmo de evolução médio", "group": ["Auras de grupo: Devoção, Retribuição, Concentração", "Auras de resistência a Fogo, Gelo e Sombra para a raide toda", "Bênçãos de uma hora, bênçãos maiores para uma classe inteira", "Selo da Justiça impede os inimigos de fugir"], "pros": ["As três funções num só personagem", "Bônus de grupo fortes", "Placas e um personagem resistente"], "cons": ["Sem aproximação, lentidão ou aumento de velocidade", "Pouco controle de grupo além de Martelo da Justiça", "Retribuição caiu depois do patch"], "specs": [{"n": "Sagrado", "what": "Curador"}, {"n": "Proteção", "what": "Tanque"}, {"n": "Retribuição", "what": "Dano corpo a corpo"}]}, "hunter": {"armor": "Tecido, couro; malha a partir do nível 40", "weapons": "Arcos, bestas, armas de fogo, machados, espadas, armas de haste", "resource": "Mana; o mascote usa Foco", "lvl": "A evolução mais rápida, cerca de 8% mais rápida que a média", "group": ["Aura de Tiro Certeiro aumenta o dano à distância do grupo", "Armadilha Congelante: controle de grupo confiável", "Tiro de Dispersão interrompe conjurações", "Aspecto da Matilha acelera o grupo todo na estrada"], "pros": ["Evolução mais rápida", "Ótimo sozinho", "Armadilhas e controle de grupo"], "cons": ["Zona morta de curta distância até 8 metros", "Você precisa gerenciar o mascote", "Os talentos de Sobrevivência tinham bugs no beta"], "specs": [{"n": "Domínio das Feras", "what": "Dano à distância, muito dano vindo do mascote"}, {"n": "Precisão", "what": "Dano à distância"}, {"n": "Sobrevivência", "what": "Corpo a corpo e à distância, armadilhas"}]}, "rogue": {"armor": "Tecido, couro", "weapons": "Adagas, espadas, maças, armas de punho, machados de uma mão, arremesso", "resource": "Energia e pontos de combo", "lvl": "Ritmo de evolução médio", "group": ["Dano corpo a corpo puro, sem bônus para a raide toda", "Aturdir, Cegar e Golpe no Rim: muito controle de grupo", "Chute interrompe conjurações perigosas"], "pros": ["Dano muito alto que escala com o equipamento", "Furtividade e muito controle de grupo", "Liberdade na escolha de armas"], "cons": ["Depende muito do equipamento", "Sem autocura", "Só Evasão e Sumir salvam você"], "specs": [{"n": "Assassinato", "what": "Dano de venenos"}, {"n": "Combate", "what": "Ataques rápidos com armas"}, {"n": "Subterfúgio", "what": "Emboscadas, sangramentos"}]}, "priest": {"armor": "Tecido", "weapons": "Adagas, maças, báculos, varinhas", "resource": "Mana", "lvl": "Cerca de 5% mais lenta que a média", "group": ["Espírito Divino e Palavra de Poder: Fortitude para a raide toda", "Infusão de Poder fortalece um aliado", "O principal curador do grupo"], "pros": ["Um grupo sempre precisa", "Cura ou dano de sombra", "Muitas builds"], "cons": ["Só tecido, frágil", "Poucas formas de se mover rápido", "Aceleração quase não ajuda os feitiços"], "specs": [{"n": "Disciplina", "what": "Curador, escudos e absorção"}, {"n": "Sagrado", "what": "Curador"}, {"n": "Sombra", "what": "Dano à distância"}]}, "shaman": {"armor": "Tecido, couro; malha a partir do nível 40; escudo", "weapons": "Maças, machados, báculos, armas de punho, adagas", "resource": "Mana", "lvl": "Ritmo de evolução médio", "group": ["Os totens Força da Terra, Fúria dos Ventos, Labaredas e Graça do Ar dão bônus ao próprio grupo", "Totem Sísmico remove medo, sono e enfeitiçamento", "Totens que purificam venenos e doenças", "Expurgar remove bônus dos inimigos"], "pros": ["Totens fortes para o grupo", "Evolução com mobilidade", "Novos talentos fortes"], "cons": ["Sem controle de grupo forte", "Mana em lutas longas", "Tanquear ainda não confirmado"], "specs": [{"n": "Elemental", "what": "Dano à distância"}, {"n": "Aperfeiçoamento", "what": "Dano corpo a corpo. A capacidade de tanquear ainda é incerta"}, {"n": "Restauração", "what": "Curador"}]}, "mage": {"armor": "Tecido", "weapons": "Adagas, espadas, báculos, varinhas", "resource": "Mana", "lvl": "A evolução mais rápida, cerca de 8% mais rápida que a média (cerca de 12 horas a menos)", "group": ["Portais a partir do nível 40, teleportes a partir do 20", "Comida e água para o grupo todo", "Polimorfia: controle de grupo confiável", "Remover Maldição Inferior"], "pros": ["Evolução mais rápida", "Portais e comida para todos", "Três árvores fortes e diferentes"], "cons": ["Só tecido, frágil", "A mana acaba rápido", "Dano em área atenuado"], "specs": [{"n": "Arcano", "what": "Explosão de dano, muita mana"}, {"n": "Fogo", "what": "Críticos e ignições"}, {"n": "Gélido", "what": "Dano e controle"}]}, "warlock": {"armor": "Tecido", "weapons": "Adagas, espadas, báculos, varinhas", "resource": "Mana; Conversão de Vida transforma vida em mana", "lvl": "Ritmo de evolução médio", "group": ["Pedra de Vida e Pedra da Alma", "Ritual de Evocação: reúne o grupo", "Maldição de Línguas deixa a conjuração 60% mais lenta", "Maldição dos Elementos: mais dano mágico no alvo"], "pros": ["Autossuficiente: um demônio e Conversão de Vida", "Muita utilidade para o grupo", "Dano ao longo do tempo forte"], "cons": ["Frágil e pouco móvel", "O dano demora para engrenar", "Sem teleporte curto nem disparada"], "specs": [{"n": "Suplício", "what": "Dano de maldições e corrupção"}, {"n": "Demonologia", "what": "Dano por meio de demônios"}, {"n": "Destruição", "what": "Dano direto de fogo e de sombra"}]}, "druid": {"armor": "Tecido, couro", "weapons": "Adagas, maças, báculos, armas de punho, armas de haste a partir do nível 20", "resource": "Mana; Raiva na Forma de Urso, Energia na Forma de Felino", "lvl": "Cerca de 5% mais lenta que a média", "group": ["Líder do Bando e Aura de Luniscante afetam a raide toda e se acumulam", "Renascimento: ressurreição em combate", "Avivar devolve mana a um curador", "Remove maldições e venenos"], "pros": ["As três funções num só personagem", "Ótima mobilidade", "Ressurreição em combate"], "cons": ["Sem bloqueio nem aparo para o urso", "Efeitos de cura ao longo do tempo são mais difíceis de acompanhar", "Os números finais de raide ainda são desconhecidos"], "specs": [{"n": "Equilíbrio", "what": "Dano à distância"}, {"n": "Combate Feral", "what": "Tanque (urso) e dano corpo a corpo (gato)"}, {"n": "Restauração", "what": "Curador, muita cura ao longo do tempo"}]}};
 const CPROF = {"warrior": [["Ferraria + Mineração", "Para quem usa placas e corpo a corpo: faça suas próprias armas e armaduras."], ["Engenharia + Mineração", "Para PvP, engenhocas úteis e diversão. No acampamento o Reagent Bot vende reagentes e conserta equipamento no nível 2."]], "paladin": [["Ferraria + Mineração", "Para quem usa placas e corpo a corpo: faça suas próprias armas e armaduras."], ["Alquimia + Herborismo", "Poções para você e para o grupo, e para ganhar ouro. Combina com qualquer classe."]], "hunter": [["Couraria + Esfolamento", "Para quem usa couro e malha. Um coureiro coloca a Camp Tent no acampamento, que dá descanso."], ["Engenharia + Mineração", "Um engenheiro faz as próprias armas de fogo e munição."]], "rogue": [["Couraria + Esfolamento", "Para quem usa couro e malha. Um coureiro coloca a Camp Tent no acampamento, que dá descanso."], ["Engenharia + Mineração", "Para PvP, engenhocas úteis e diversão. No acampamento o Reagent Bot vende reagentes e conserta equipamento no nível 2."]], "priest": [["Alfaiataria + Encantamento", "Para quem usa tecido e para conjuradores."], ["Alquimia + Herborismo", "Poções para você e para o grupo, e para ganhar ouro. Combina com qualquer classe."]], "shaman": [["Couraria + Esfolamento", "Para quem usa couro e malha. Um coureiro coloca a Camp Tent no acampamento, que dá descanso."], ["Alquimia + Herborismo", "Poções para você e para o grupo, e para ganhar ouro. Combina com qualquer classe."]], "mage": [["Alfaiataria + Encantamento", "Para quem usa tecido e para conjuradores."], ["Alquimia + Herborismo", "Poções para você e para o grupo, e para ganhar ouro. Combina com qualquer classe."]], "warlock": [["Alfaiataria + Encantamento", "O Faction Banner do alfaiate dá Espírito para Conversão de Vida."], ["Alquimia + Herborismo", "Poções para você e para o grupo, e para ganhar ouro. Combina com qualquer classe."]], "druid": [["Alquimia + Herborismo", "Poções para você e para o grupo, e para ganhar ouro. Combina com qualquer classe."], ["Couraria + Esfolamento", "Para quem usa couro e malha. Um coureiro coloca a Camp Tent no acampamento, que dá descanso."]]};   /* recommended profession pairs per class, already in the page language (build.class_profs) */
 const $ = s => document.querySelector(s);
 const ROOT = '../../', HOME = '../';
@@ -1415,7 +1265,7 @@ function syncSeg(id, v) { document.querySelectorAll(`#${id} button`).forEach(b =
 const FAC = { alliance: 'Aliança', horde: 'Horda' };
 const RSLUG = { human: 'human', dwarf: 'dwarf', nightelf: 'night-elf', gnome: 'gnome', skyA: 'skyborne-alliance', orc: 'orc', undead: 'undead', tauren: 'tauren', troll: 'troll', skyH: 'skyborne-horde' };
 const classUrl = id => `${HOME}classes/${id}/`, raceUrl = id => `${HOME}races/${RSLUG[id]}/`;
-const art = id => `${ROOT}assets/art/${id}-360.webp?v=0003354e`;
+const art = id => `${ROOT}assets/art/${id}-360.webp`;
 async function copyTo(text, msgEl, ok) {
   try { await navigator.clipboard.writeText(text); msgEl.textContent = ok; } catch (e) { msgEl.textContent = 'Não foi possível copiar, selecione o texto e pressione Ctrl+C'; }
 }
@@ -1647,71 +1497,6 @@ $('#cPick').addEventListener('click', e => {
   const nb = document.querySelector(`#cPick [data-id="${b.dataset.id}"]`); if (nb) nb.focus();
 });
 
-/* ---------- Search ---------- */
-const KIND = { cls: 'Classe', spec: 'Especialização', abil: 'Habilidade', race: 'Raça', rac: 'Racial', dung: 'Masmorra', prof: 'Quem fabrica', sec: 'Seção' };
-const SECTIONS = [
-  ['Onde você está agora', '#stages'], ['Seletor: raça e classe', '#picker'], ['Montador de grupo', '#builder'],
-  ['Datas e pacotes', 'guides/faq/#dates'], ['Sistema Legacy', 'guides/leveling/#legacy'], ['Acampamento e profissões', 'guides/leveling/#camp'], ['Masmorras e raides', 'guides/dungeons/'], ['Como o Forever difere do Classic Era', 'guides/faq/#era']
-];
-const norm = s => String(s).toLowerCase().replace(/\u0451/g, '\u0435').replace(/[’'`]/g, '');
-const IDX = [];
-function add(kind, t, sub, u, extra, cc) { IDX.push({ kind, t, sub, u, cc, nt: norm(t), nh: norm([t, sub, extra || ''].join(' ')) }); }
-SECTIONS.forEach(([t, h]) => add('sec', t, h.startsWith('guides/') ? 'Guias' : 'Página inicial do guia', HOME + h));
-add('sec', 'Quadros de grupo e raide', 'Esta página', '#raid');
-add('sec', 'Comparação de classes e raças', 'Esta página', '#compare');
-CLASSES.forEach(c => {
-  add('cls', c.n, c.roles.map(r => ROLE_RU[r]).join(', '), classUrl(c.id), CX[c.id].specs.map(s => s.n + ' ' + s.en).join(' '), CCOL[c.id]);
-  CX[c.id].specs.forEach(s => {
-    add('spec', s.n, `${c.n} · ${s.what}`, classUrl(c.id) + '#specs', s.en + ' ' + s.roles.map(r => ROLE_RU[r]).join(' '), CCOL[c.id]);
-    s.keys.forEach(k => add('abil', k[0], `${k[0] === k[1] ? '' : k[1] + ' · '}${c.n}, ${s.n}. ${k[2]}`, classUrl(c.id) + '#specs', k[1], CCOL[c.id]));
-  });
-});
-RACES.forEach(r => {
-  add('race', raceName(r), FAC[r.f] + (r.paid ? ', paga' : '') + ' · ' + Object.keys(r.can).map(c => CL[c].n).join(', '), raceUrl(r.id), r.n);
-  r.rac.forEach(x => add('rac', x[1], `${raceName(r)} · ${x[2]}`, raceUrl(r.id), EN[x[1]]));
-});
-DUNGEONS.forEach(d => add('dung', d[0], `${d[1]}–${d[2]} · ${d[3]}`, HOME + 'guides/dungeons/#list'));
-PROFS.forEach(p => add('prof', p[1], `Acampamento: ${p[3]}, ${p[4]}`, HOME + 'guides/professions/#camp'));
-
-let sLimit = 10;
-function hl(t, terms) {
-  let h = esc(t);
-  const nt = norm(t), first = terms.find(x => nt.includes(x));
-  if (first) { const i = nt.indexOf(first); h = esc(t.slice(0, i)) + '<mark>' + esc(t.slice(i, i + first.length)) + '</mark>' + esc(t.slice(i + first.length)); }
-  return h;
-}
-function runSearch() {
-  const raw = $('#q').value.trim(), q = norm(raw);
-  const res = $('#sres'), stat = $('#sstat'), more = $('#smore');
-  $('#shint').hidden = !!q;
-  if (!q) { res.innerHTML = ''; stat.textContent = ''; more.hidden = true; return; }
-  let hits;
-  const lv = /^\d{1,2}$/.test(q) ? +q : 0;
-  if (lv) hits = DUNGEONS.filter(d => d[1] <= lv && lv <= d[2]).map(d => IDX.find(x => x.kind === 'dung' && x.t === d[0]));
-  else {
-    const terms = q.split(/\s+/);
-    hits = IDX.map(x => {
-      if (!terms.every(t => x.nh.includes(t))) return null;
-      const score = (x.nt === q ? 0 : x.nt.startsWith(q) ? 1 : x.nt.includes(q) ? 2 : terms.every(t => x.nt.includes(t)) ? 3 : 4) * 10 + Object.keys(KIND).indexOf(x.kind);
-      return [score, x];
-    }).filter(Boolean).sort((a, b) => a[0] - b[0]).map(a => a[1]);
-  }
-  const terms = q.split(/\s+/);
-  stat.textContent = hits.length ? (lv ? `Nível ${lv}, masmorras correspondentes: ${hits.length}` : `Encontrado: ${hits.length}`) : '';
-  res.innerHTML = hits.length ? hits.slice(0, sLimit).map(x => `<li><a href="${x.u}"><b>${hl(x.t, terms)}</b><span class="k">${KIND[x.kind]}</span><span class="s"${x.cc ? ` style="--cc:${x.cc}"` : ''}>${esc(x.sub)}</span></a></li>`).join('') : '<li class="snone">Nada encontrado. Tente outra palavra ou o nome em inglês.</li>';
-  more.hidden = hits.length <= sLimit;
-  more.textContent = `Mostrar tudo (${hits.length})`;
-}
-$('#q').addEventListener('input', () => { sLimit = 10; runSearch(); });
-$('#q').addEventListener('keydown', e => { if (e.key === 'Escape') { e.target.value = ''; runSearch(); } });
-$('#smore').onclick = () => { sLimit = 1000; runSearch(); };
-$('#shint').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { $('#q').value = b.textContent; sLimit = 10; runSearch(); $('#q').focus(); } });
-document.addEventListener('keydown', e => {
-  if (e.key !== '/' || e.ctrlKey || e.metaKey || e.altKey) return;
-  const t = e.target; if (t.closest('input, textarea, select, [contenteditable]') || document.querySelector('dialog[open]')) return;
-  e.preventDefault(); $('#q').focus(); $('#q').scrollIntoView({ block: 'center' });
-});
-
 /* ---------- Page chrome ---------- */
 const themeBtns = document.querySelectorAll('.themebtn');
 function paintTheme() { const t = document.documentElement.getAttribute('data-theme'); themeBtns.forEach(b => b.querySelector('use').setAttribute('href', t === 'light' ? '#i-moon' : '#i-sun')); const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#fbfaf7' : '#07080a'); }
@@ -1732,8 +1517,13 @@ readHash();
 if (!R.s.some(Boolean)) { const used = { tank: 0, heal: 0, dps: 0 }; R.s = R.s.map((_, i) => newPlayer(i, used)); }
 renderRaid(fromLink); renderPick(); renderCmp();
 if (fromLink) $('#raid').scrollIntoView();
-const q0 = new URLSearchParams(location.search).get('q');
-if (q0) { $('#q').value = q0.slice(0, 60); runSearch(); }
+$('.sopen').onclick = () => { const b = document.querySelector('.srchbtn'); if (b) b.click(); };   // the site search (assets/search/)
+const q0 = new URLSearchParams(location.search).get('q');   // tools/?q=... opens it with the query, once search.js (deferred) is in
+if (q0) addEventListener('DOMContentLoaded', () => {
+  $('.sopen').click();
+  const i = document.querySelector('dialog.srch input');
+  if (i) { i.value = q0.slice(0, 60); i.dispatchEvent(new Event('input')); }
+});
 </script>
 <script src="../../assets/living/living.js?v=90dc38be67" defer></script>
 <script>
@@ -1802,8 +1592,8 @@ addEventListener('beforeinstallprompt', e => {
   opts.append(b);
 });
 </script>
-<script src="../../assets/radio/radio.js?v=172cc556c4" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=4d00b79945" data-root="../../" defer></script>
+<script src="../../assets/radio/radio.js" data-root="../../" defer></script>
+<script src="../../assets/search/search.js?v=f37c257b5b" data-root="../../" defer></script>
 <script src="../../assets/me/me.js?v=9f6bfa2333" data-root="../../" data-home="../" data-lang="pt" data-teaser="Seu perfil guarda seus personagens, conquistas e molduras" data-close="Fechar" data-page="tools/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>

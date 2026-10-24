@@ -74,23 +74,12 @@ def dungeons(lang):
     return [(n, e[0], f'{a}–{b}' if a != b else str(a), z) for (n, a, b, z), e in zip(rows(lang), en)]
 
 
-def en_title(path):
-    """h1 of the English page: players type class, race and dungeon names in English on any language (mage, warlock)."""
-    f = os.path.join(HERE, page_dir('en', path), 'index.html')
-    h1 = os.path.isfile(f) and re.search(r'<h1[^>]*>(.*?)</h1>', open(f, encoding='utf-8').read(), re.S)
-    return text(h1[1]) if h1 else ''
-
-
 def index(lang, meta):
     items = []
     for path in (p for p in meta if lang in meta[p]):
         html = open(os.path.join(HERE, page_dir(lang, path), 'index.html'), encoding='utf-8').read()
         cr = seo.crumbs(path, lang)
-        rows = page_entries(html, path, lang, cr[-2][0] if cr else '')
-        en = en_title(path) if lang != 'en' else ''
-        if en and en.lower() != rows[0][0].lower():
-            rows[0][4] = f'{en} {rows[0][4]}'
-        items += rows
+        items += page_entries(html, path, lang, cr[-2][0] if cr else '')
     dg = next(i for i in items if i[3] == 0 and i[2] == page_dir(lang, 'guides/dungeons/'))
     for name, en, lv, zone in dungeons(lang):
         keys = ' '.join(filter(None, [en if en != name else '', ru_alias(en) if lang in ('ru', 'uk') else '']))

@@ -2,9 +2,7 @@
    The index assets/search/<lang>.json (made by search.py from the built pages) loads on the first open: pages, sections with
    anchors, FAQ questions, dungeons. Every word of the query must match: the start of a word in the title scores most, then
    anywhere in the title, the keys (where the entry is, page title and description, other names of a dungeon), the text. Text matches show
-   a short excerpt. A level number (24) lists the dungeons for that level; a level below the first dungeon says so instead of
-   matching digits in the text. When nothing matches, Russian and Ukrainian words are retried by their stem (ониксия finds
-   Ониксии), then a query typed in the wrong keyboard layout (vfu -> маг) is retried in the other one.
+   a short excerpt. A level number (24) lists the dungeons for that level. A query typed in the wrong keyboard layout (vfu -> маг) is retried in the other one when nothing matches.
    Arrows move the selection, Enter opens it, Esc closes. */
 (() => {
   const SCRIPT = document.currentScript, ROOT = SCRIPT.dataset.root || './';
@@ -13,15 +11,15 @@
   if (!btn) return;
   const LANG = (l => ['ru', 'en', 'uk', 'de', 'fr', 'es', 'pt', 'it', 'pl'].includes(l) ? l : 'en')(document.documentElement.lang.split('-')[0]);
   const L = {
-    ru: { title: 'Поиск по сайту', ph: 'Класс, раса, подземелье, вопрос…', none: 'Ничего не нашлось. Попробуйте другое слово или английское название.', go: 'Разделы', nav: 'выбрать', open: 'открыть', close: 'закрыть', err: 'Поиск не загрузился. Проверьте сеть и откройте ещё раз.', load: 'Загрузка…', lv: (n, m) => `Подземелий для уровня ${n} нет, первые — с ${m}.`, found: n => `Найдено: ${n}` },
-    en: { title: 'Search the site', ph: 'Class, race, dungeon, question…', none: 'Nothing found. Try another word.', go: 'Sections', nav: 'select', open: 'open', close: 'close', err: 'Search did not load. Check your connection and open it again.', load: 'Loading…', lv: (n, m) => `No dungeons for level ${n}. The first ones start at ${m}.`, found: n => `Found: ${n}` },
-    uk: { title: 'Пошук по сайту', ph: 'Клас, раса, підземелля, питання…', none: 'Нічого не знайшлося. Спробуйте інше слово або англійську назву.', go: 'Розділи', nav: 'вибрати', open: 'відкрити', close: 'закрити', err: 'Пошук не завантажився. Перевірте мережу й відкрийте ще раз.', load: 'Завантаження…', lv: (n, m) => `Підземель для рівня ${n} немає, перші — з ${m}.`, found: n => `Знайдено: ${n}` },
-    de: { title: 'Seite durchsuchen', ph: 'Klasse, Volk, Dungeon, Frage…', none: 'Nichts gefunden. Versuch ein anderes Wort oder den englischen Namen.', go: 'Bereiche', nav: 'wählen', open: 'öffnen', close: 'schließen', err: 'Die Suche wurde nicht geladen. Prüf die Verbindung und öffne sie erneut.', load: 'Wird geladen…', lv: (n, m) => `Für Stufe ${n} gibt es keine Dungeons, die ersten ab Stufe ${m}.`, found: n => `Gefunden: ${n}` },
-    fr: { title: 'Rechercher sur le site', ph: 'Classe, race, donjon, question…', none: 'Aucun résultat. Essayez un autre mot ou le nom anglais.', go: 'Rubriques', nav: 'choisir', open: 'ouvrir', close: 'fermer', err: 'La recherche ne s’est pas chargée. Vérifiez la connexion et rouvrez-la.', load: 'Chargement…', lv: (n, m) => `Aucun donjon pour le niveau ${n} : les premiers à partir du niveau ${m}.`, found: n => `Résultats : ${n}` },
-    es: { title: 'Buscar en el sitio', ph: 'Clase, raza, mazmorra, pregunta…', none: 'Sin resultados. Prueba otra palabra o el nombre en inglés.', go: 'Secciones', nav: 'elegir', open: 'abrir', close: 'cerrar', err: 'La búsqueda no se cargó. Revisa la conexión y vuelve a abrirla.', load: 'Cargando…', lv: (n, m) => `No hay mazmorras para el nivel ${n}; las primeras, desde el nivel ${m}.`, found: n => `Resultados: ${n}` },
-    pt: { title: 'Pesquisar no site', ph: 'Classe, raça, masmorra, pergunta…', none: 'Nada encontrado. Tente outra palavra ou o nome em inglês.', go: 'Seções', nav: 'escolher', open: 'abrir', close: 'fechar', err: 'A pesquisa não carregou. Verifique a conexão e abra de novo.', load: 'Carregando…', lv: (n, m) => `Não há masmorras para o nível ${n}; as primeiras, a partir do nível ${m}.`, found: n => `Resultados: ${n}` },
-    it: { title: 'Cerca nel sito', ph: 'Classe, razza, dungeon, domanda…', none: 'Nessun risultato. Prova un’altra parola o il nome inglese.', go: 'Sezioni', nav: 'scegli', open: 'apri', close: 'chiudi', err: 'La ricerca non si è caricata. Controlla la connessione e riaprila.', load: 'Caricamento…', lv: (n, m) => `Nessun dungeon per il livello ${n}: i primi dal livello ${m}.`, found: n => `Risultati: ${n}` },
-    pl: { title: 'Szukaj w serwisie', ph: 'Klasa, rasa, dungeon, pytanie…', none: 'Nic nie znaleziono. Spróbuj innego słowa.', go: 'Działy', nav: 'wybierz', open: 'otwórz', close: 'zamknij', err: 'Wyszukiwarka się nie wczytała. Sprawdź połączenie i otwórz ją ponownie.', load: 'Wczytywanie…', lv: (n, m) => `Brak dungeonów na poziom ${n}, pierwsze od poziomu ${m}.`, found: n => `Znaleziono: ${n}` },
+    ru: { title: 'Поиск по сайту', ph: 'Класс, раса, подземелье, вопрос…', none: 'Ничего не нашлось. Попробуйте другое слово или английское название.', go: 'Разделы', nav: 'выбрать', open: 'открыть', close: 'закрыть', err: 'Поиск не загрузился. Проверьте сеть и откройте ещё раз.', load: 'Загрузка…', found: n => `Найдено: ${n}` },
+    en: { title: 'Search the site', ph: 'Class, race, dungeon, question…', none: 'Nothing found. Try another word.', go: 'Sections', nav: 'select', open: 'open', close: 'close', err: 'Search did not load. Check your connection and open it again.', load: 'Loading…', found: n => `Found: ${n}` },
+    uk: { title: 'Пошук по сайту', ph: 'Клас, раса, підземелля, питання…', none: 'Нічого не знайшлося. Спробуйте інше слово або англійську назву.', go: 'Розділи', nav: 'вибрати', open: 'відкрити', close: 'закрити', err: 'Пошук не завантажився. Перевірте мережу й відкрийте ще раз.', load: 'Завантаження…', found: n => `Знайдено: ${n}` },
+    de: { title: 'Seite durchsuchen', ph: 'Klasse, Volk, Dungeon, Frage…', none: 'Nichts gefunden. Versuch ein anderes Wort oder den englischen Namen.', go: 'Bereiche', nav: 'wählen', open: 'öffnen', close: 'schließen', err: 'Die Suche wurde nicht geladen. Prüf die Verbindung und öffne sie erneut.', load: 'Wird geladen…', found: n => `Gefunden: ${n}` },
+    fr: { title: 'Rechercher sur le site', ph: 'Classe, race, donjon, question…', none: 'Aucun résultat. Essayez un autre mot ou le nom anglais.', go: 'Rubriques', nav: 'choisir', open: 'ouvrir', close: 'fermer', err: 'La recherche ne s’est pas chargée. Vérifiez la connexion et rouvrez-la.', load: 'Chargement…', found: n => `Résultats : ${n}` },
+    es: { title: 'Buscar en el sitio', ph: 'Clase, raza, mazmorra, pregunta…', none: 'Sin resultados. Prueba otra palabra o el nombre en inglés.', go: 'Secciones', nav: 'elegir', open: 'abrir', close: 'cerrar', err: 'La búsqueda no se cargó. Revisa la conexión y vuelve a abrirla.', load: 'Cargando…', found: n => `Resultados: ${n}` },
+    pt: { title: 'Pesquisar no site', ph: 'Classe, raça, masmorra, pergunta…', none: 'Nada encontrado. Tente outra palavra ou o nome em inglês.', go: 'Seções', nav: 'escolher', open: 'abrir', close: 'fechar', err: 'A pesquisa não carregou. Verifique a conexão e abra de novo.', load: 'Carregando…', found: n => `Resultados: ${n}` },
+    it: { title: 'Cerca nel sito', ph: 'Classe, razza, dungeon, domanda…', none: 'Nessun risultato. Prova un’altra parola o il nome inglese.', go: 'Sezioni', nav: 'scegli', open: 'apri', close: 'chiudi', err: 'La ricerca non si è caricata. Controlla la connessione e riaprila.', load: 'Caricamento…', found: n => `Risultati: ${n}` },
+    pl: { title: 'Szukaj w serwisie', ph: 'Klasa, rasa, dungeon, pytanie…', none: 'Nic nie znaleziono. Spróbuj innego słowa.', go: 'Działy', nav: 'wybierz', open: 'otwórz', close: 'zamknij', err: 'Wyszukiwarka się nie wczytała. Sprawdź połączenie i otwórz ją ponownie.', load: 'Wczytywanie…', found: n => `Znaleziono: ${n}` },
   }[LANG];
   const MAC = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
   const KEY = MAC ? '⌘K' : 'Ctrl K';
@@ -105,24 +103,15 @@
     return s + (named ? [3, 1, 2, 2][it.k] : 0);   // pages go first only when their name matches, not just their text
   }
 
-  const range = it => { const m = it.k === 3 && it.s.match(/ (\d+)(?:–(\d+))? · /); return m && [+m[1], +(m[2] || m[1])]; };
-  // stem of a Cyrillic word: without the last one or two vowels (ониксия -> оникс, ониксии -> оникс); short words stay whole
-  const stem = t => /^[а-яіїєґʼ]{5,}$/.test(t) ? t.replace(/[аеиоуыэюяйьіїє]{1,2}$/, '') : t;
-
-  function search(q, stems = false) {
-    const whole = norm(q).trim();
-    let toks = whole.split(SPLIT).filter(Boolean);
+  function search(q) {
+    const whole = norm(q).trim(), toks = whole.split(SPLIT).filter(Boolean);
     if (!toks.length) return [];
-    if (stems) {
-      const st = toks.map(stem);
-      if (st.join() === toks.join()) return [];
-      toks = st;
-    }
     if (/^\d{1,2}$/.test(whole)) {   // a level: the dungeons for it
-      const lv = +whole, hits = items.filter(it => { const r = range(it); return r && r[0] <= lv && lv <= r[1]; });
+      const lv = +whole, hits = items.filter(it => {
+        const m = it.k === 3 && it.s.match(/ (\d+)(?:–(\d+))? · /);
+        return m && +m[1] <= lv && lv <= +(m[2] || m[1]);
+      });
       if (hits.length) return hits;
-      const first = Math.min(...items.map(range).filter(Boolean).map(r => r[0]));
-      if (lv < first) return { lv, first };
     }
     return items.map(it => [score(it, toks, whole), it]).filter(r => r[0]).sort((a, b) => b[0] - a[0]).slice(0, 40).map(r => r[1]);
   }
@@ -170,20 +159,15 @@
       list.innerHTML = `<li class="srch-g" role="presentation">${esc(L.go)}</li>` + shown.map((it, i) => row(it, i, null)).join('');
       live.textContent = '';
     } else {
-      let used = q, stems = false;
+      let used = q;
       shown = search(q);
-      if (shown.lv !== undefined) { msg(L.lv(shown.lv, shown.first)); return; }
-      if (!shown.length && ['ru', 'uk'].includes(LANG)) { stems = true; shown = search(q, true); }
       if (!shown.length) {   // typed in the other keyboard layout: vfu -> маг, ьфп -> mag
         const lo = q.toLowerCase();
         used = /[а-яёієїʼ]/.test(lo) ? swap(lo, /[ієї]/.test(lo) ? UK : RU, EN) : ['ru', 'uk'].includes(LANG) ? swap(lo, EN, LANG === 'uk' ? UK : RU) : q;
-        stems = false;
         if (used !== q) shown = search(used);
-        if (!shown.length && used !== q && /[а-яіє]/.test(used)) { stems = true; shown = search(used, true); }
       }
       if (!shown.length) { msg(L.none); return; }
       toks = norm(used).trim().split(SPLIT).filter(Boolean);
-      if (stems) toks = toks.map(stem);
       list.innerHTML = shown.map((it, i) => row(it, i, toks)).join('');
       live.textContent = L.found(shown.length);
     }

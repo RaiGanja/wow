@@ -27,10 +27,6 @@ for lang in LANGS:
             problems.append(f'{lang}: {t!r} -> {u}')
         elif anchor and f' id="{anchor}"' not in open(page, encoding='utf-8').read():
             problems.append(f'{lang}: нет якоря {u}')
-    if lang != 'en':   # English names of pages are keys too: "mage" finds the mage page on any language
-        mage = next((r for r in rows if r[3] == 0 and r[2] == build.page_dir(lang, 'classes/mage/')), None)
-        if not mage or 'mage' not in (mage[0] + ' ' + mage[4]).lower():
-            problems.append(f'{lang}: mage не ищется')
 if len(set(sizes.values())) != 1:
     problems.append(f'разное число записей: {sizes}')
 

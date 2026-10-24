@@ -27,28 +27,11 @@
 @@BASE_CSS@@
 /* Tools page: search in the hero, party and raid frames, side-by-side compare */
 .sbox { width: min(100%, 680px); margin-top: 10px; padding: 14px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
-.sfield { display: flex; align-items: center; gap: 12px; min-height: 60px; padding: 0 16px; border: 1px solid var(--pline); border-radius: 8px; background: var(--panel-2); cursor: text; transition: border-color .2s; }
-.sfield:focus-within { border-color: var(--gold); }
+.sfield { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 60px; padding: 0 16px; border: 1px solid var(--pline); border-radius: 8px; background: var(--panel-2); color: var(--muted); font: inherit; font-size: 1.15rem; text-align: left; cursor: pointer; transition: border-color .2s; }
+.sfield:hover, .sfield:focus-visible { border-color: var(--gold); }
 .sfield .ico { width: 22px; height: 22px; color: var(--gold-2); }
-.sfield input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; color: var(--fg); font: inherit; font-size: 1.15rem; min-height: 56px; }
-.sfield input::placeholder { color: var(--muted); }
-.sfield input::-webkit-search-cancel-button { filter: grayscale(1); }
+.sfield span { flex: 1; min-width: 0; }
 .sfield kbd { font: inherit; font-size: .8rem; color: var(--muted); border: 1px solid var(--pline); border-radius: 5px; padding: 1px 8px; }
-.shint { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: .9rem; color: var(--muted); }
-.shint button { min-height: 34px; padding: 0 12px; border: 1px solid var(--pline); border-radius: 999px; background: var(--panel-2); color: var(--fg); font: inherit; font-size: .88rem; }
-.shint button:hover { border-color: var(--gold); }
-.sres { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-.sres:empty { display: none; }
-.sres a { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; padding: 11px 14px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--pline); color: var(--fg); text-decoration: none; transition: border-color .2s; height: 100%; }
-.sres a:hover, .sres a:focus-visible { border-color: var(--gold); }
-.sres b { font-weight: 600; }
-.sres b mark { background: none; color: var(--gold-2); }
-.sres .k { grid-column: 2; grid-row: 1; justify-self: end; align-self: start; font-size: .74rem; font-weight: 600; color: var(--muted); padding: 2px 8px; border-radius: 999px; border: 1px solid var(--pline); white-space: nowrap; }
-.sres .s { grid-column: 1 / -1; font-size: .88rem; color: var(--muted); }
-.sres .s i { font-style: normal; color: var(--cc, inherit); }
-.smore { justify-self: start; }
-.smore[hidden] { display: none; }
-.snone { color: var(--muted); }
 
 .ttiles.t2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .tnav { margin-top: 8px; }   /* the tool tiles open the page right under the hero */
@@ -199,7 +182,6 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
   .cpick.races { display: grid; }
 }
 @media (max-width: 719px) {
-  .sres { grid-template-columns: 1fr; }
   .sfield kbd { display: none; }
   .ttiles.t2 { grid-template-columns: 1fr; }
   .rtool { padding: 12px; }
@@ -247,11 +229,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
     <h1>Инструменты</h1>
     <p class="lead">Поиск по всему гиду, рамки группы и рейда как в игре и сравнение классов и рас. Состав хранится в ссылке, её можно кинуть в Discord.</p>
     <div class="frame sbox" id="search" role="search">
-      <label class="sfield"><svg class="ico" aria-hidden="true"><use href="#i-search"/></svg><input id="q" type="search" placeholder="Класс, способность, раса, подземелье или уровень" autocomplete="off" spellcheck="false" aria-label="Поиск по гиду" aria-controls="sres" aria-describedby="sstat"><kbd aria-hidden="true">/</kbd></label>
-      <div class="shint" id="shint"><span>Например:</span><button type="button">Паладин</button><button type="button" lang="en">Shadow</button><button type="button">Танк</button><button type="button">Скайборн</button><button type="button" lang="en">Onyxia</button><button type="button">24</button></div>
-      <p class="small" id="sstat" aria-live="polite"></p>
-      <ul class="sres" id="sres"></ul>
-      <button type="button" class="btn ghost smore" id="smore" hidden></button>
+      <button type="button" class="sfield sopen" aria-label="Поиск по гиду"><svg class="ico" aria-hidden="true"><use href="#i-search"/></svg><span>Класс, способность, раса, подземелье или уровень</span><kbd aria-hidden="true">Ctrl K</kbd></button>
     </div>
   </div>
 </section>
@@ -573,71 +551,6 @@ $('#cPick').addEventListener('click', e => {
   const nb = document.querySelector(`#cPick [data-id="${b.dataset.id}"]`); if (nb) nb.focus();
 });
 
-/* ---------- Search ---------- */
-const KIND = { cls: 'Класс', spec: 'Специализация', abil: 'Способность', race: 'Раса', rac: 'Расовая', dung: 'Подземелье', prof: 'Профессия', sec: 'Раздел' };
-const SECTIONS = [
-  ['Где вы сейчас', '#stages'], ['Подборщик: раса и класс', '#picker'], ['Конструктор группы', '#builder'],
-  ['Даты и наборы', 'guides/faq/#dates'], ['Система Legacy', 'guides/leveling/#legacy'], ['Лагерь и профессии', 'guides/leveling/#camp'], ['Подземелья и рейды', 'guides/dungeons/'], ['Чем Forever отличается от Classic Era', 'guides/faq/#era']
-];
-const norm = s => String(s).toLowerCase().replace(/\u0451/g, '\u0435').replace(/[’'`]/g, '');
-const IDX = [];
-function add(kind, t, sub, u, extra, cc) { IDX.push({ kind, t, sub, u, cc, nt: norm(t), nh: norm([t, sub, extra || ''].join(' ')) }); }
-SECTIONS.forEach(([t, h]) => add('sec', t, h.startsWith('guides/') ? 'Гайды' : 'Главная страница гида', HOME + h));
-add('sec', 'Рамки группы и рейда', 'Эта страница', '#raid');
-add('sec', 'Сравнение классов и рас', 'Эта страница', '#compare');
-CLASSES.forEach(c => {
-  add('cls', c.n, c.roles.map(r => ROLE_RU[r]).join(', '), classUrl(c.id), CX[c.id].specs.map(s => s.n + ' ' + s.en).join(' '), CCOL[c.id]);
-  CX[c.id].specs.forEach(s => {
-    add('spec', s.n, `${c.n} · ${s.what}`, classUrl(c.id) + '#specs', s.en + ' ' + s.roles.map(r => ROLE_RU[r]).join(' '), CCOL[c.id]);
-    s.keys.forEach(k => add('abil', k[0], `${k[0] === k[1] ? '' : k[1] + ' · '}${c.n}, ${s.n}. ${k[2]}`, classUrl(c.id) + '#specs', k[1], CCOL[c.id]));
-  });
-});
-RACES.forEach(r => {
-  add('race', raceName(r), FAC[r.f] + (r.paid ? ', платная' : '') + ' · ' + Object.keys(r.can).map(c => CL[c].n).join(', '), raceUrl(r.id), r.n);
-  r.rac.forEach(x => add('rac', x[1], `${raceName(r)} · ${x[2]}`, raceUrl(r.id), EN[x[1]]));
-});
-DUNGEONS.forEach(d => add('dung', d[0], `${d[1]}–${d[2]} · ${d[3]}`, HOME + 'guides/dungeons/#list'));
-PROFS.forEach(p => add('prof', p[1], `Лагерь: ${p[3]}, ${p[4]}`, HOME + 'guides/professions/#camp'));
-
-let sLimit = 10;
-function hl(t, terms) {
-  let h = esc(t);
-  const nt = norm(t), first = terms.find(x => nt.includes(x));
-  if (first) { const i = nt.indexOf(first); h = esc(t.slice(0, i)) + '<mark>' + esc(t.slice(i, i + first.length)) + '</mark>' + esc(t.slice(i + first.length)); }
-  return h;
-}
-function runSearch() {
-  const raw = $('#q').value.trim(), q = norm(raw);
-  const res = $('#sres'), stat = $('#sstat'), more = $('#smore');
-  $('#shint').hidden = !!q;
-  if (!q) { res.innerHTML = ''; stat.textContent = ''; more.hidden = true; return; }
-  let hits;
-  const lv = /^\d{1,2}$/.test(q) ? +q : 0;
-  if (lv) hits = DUNGEONS.filter(d => d[1] <= lv && lv <= d[2]).map(d => IDX.find(x => x.kind === 'dung' && x.t === d[0]));
-  else {
-    const terms = q.split(/\s+/);
-    hits = IDX.map(x => {
-      if (!terms.every(t => x.nh.includes(t))) return null;
-      const score = (x.nt === q ? 0 : x.nt.startsWith(q) ? 1 : x.nt.includes(q) ? 2 : terms.every(t => x.nt.includes(t)) ? 3 : 4) * 10 + Object.keys(KIND).indexOf(x.kind);
-      return [score, x];
-    }).filter(Boolean).sort((a, b) => a[0] - b[0]).map(a => a[1]);
-  }
-  const terms = q.split(/\s+/);
-  stat.textContent = hits.length ? (lv ? `Уровень ${lv}, подходящих подземелий: ${hits.length}` : `Найдено: ${hits.length}`) : '';
-  res.innerHTML = hits.length ? hits.slice(0, sLimit).map(x => `<li><a href="${x.u}"><b>${hl(x.t, terms)}</b><span class="k">${KIND[x.kind]}</span><span class="s"${x.cc ? ` style="--cc:${x.cc}"` : ''}>${esc(x.sub)}</span></a></li>`).join('') : '<li class="snone">Ничего не нашлось. Попробуйте другое слово или английское название.</li>';
-  more.hidden = hits.length <= sLimit;
-  more.textContent = `Показать все (${hits.length})`;
-}
-$('#q').addEventListener('input', () => { sLimit = 10; runSearch(); });
-$('#q').addEventListener('keydown', e => { if (e.key === 'Escape') { e.target.value = ''; runSearch(); } });
-$('#smore').onclick = () => { sLimit = 1000; runSearch(); };
-$('#shint').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { $('#q').value = b.textContent; sLimit = 10; runSearch(); $('#q').focus(); } });
-document.addEventListener('keydown', e => {
-  if (e.key !== '/' || e.ctrlKey || e.metaKey || e.altKey) return;
-  const t = e.target; if (t.closest('input, textarea, select, [contenteditable]') || document.querySelector('dialog[open]')) return;
-  e.preventDefault(); $('#q').focus(); $('#q').scrollIntoView({ block: 'center' });
-});
-
 /* ---------- Page chrome ---------- */
 const themeBtns = document.querySelectorAll('.themebtn');
 function paintTheme() { const t = document.documentElement.getAttribute('data-theme'); themeBtns.forEach(b => b.querySelector('use').setAttribute('href', t === 'light' ? '#i-moon' : '#i-sun')); const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#fbfaf7' : '#07080a'); }
@@ -658,8 +571,13 @@ readHash();
 if (!R.s.some(Boolean)) { const used = { tank: 0, heal: 0, dps: 0 }; R.s = R.s.map((_, i) => newPlayer(i, used)); }
 renderRaid(fromLink); renderPick(); renderCmp();
 if (fromLink) $('#raid').scrollIntoView();
-const q0 = new URLSearchParams(location.search).get('q');
-if (q0) { $('#q').value = q0.slice(0, 60); runSearch(); }
+$('.sopen').onclick = () => { const b = document.querySelector('.srchbtn'); if (b) b.click(); };   // the site search (assets/search/)
+const q0 = new URLSearchParams(location.search).get('q');   // tools/?q=... opens it with the query, once search.js (deferred) is in
+if (q0) addEventListener('DOMContentLoaded', () => {
+  $('.sopen').click();
+  const i = document.querySelector('dialog.srch input');
+  if (i) { i.value = q0.slice(0, 60); i.dispatchEvent(new Event('input')); }
+});
 </script>
 <script src="@@ROOT@@assets/living/living.js" defer></script>
 </body>

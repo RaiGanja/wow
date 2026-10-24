@@ -340,13 +340,6 @@ canvas.fx.on { opacity: 1; }
 .stband .wrap { display: grid; gap: 20px; }
 /* page-level grids: one column that may shrink, so a long word or a wide field never pushes past the screen edge */
 section.block, .hero-in, .chero-in, .thero-in, .stband .wrap { grid-template-columns: minmax(0, 1fr); }
-/* Shade right behind the hero text: sky and sun in the art are light, a soft dark patch keeps the words readable (no box) */
-.hero-in, .thero-in, .ghero .wrap { position: relative; }
-.hero-in::before, .thero-in::before, .ghero .wrap::before { content: ""; position: absolute; z-index: -1; left: -14vw; width: min(1180px, 100vw); pointer-events: none;
-  background: radial-gradient(farthest-side at 42% 50%, rgb(var(--hero-fade) / .66), rgb(var(--hero-fade) / .5) 55%, rgb(var(--hero-fade) / 0)); }
-.hero-in::before { top: calc(var(--top) + clamp(40px, 9vh, 110px) - 90px); bottom: -20px; }
-.thero-in::before, .ghero .wrap::before { top: -90px; bottom: -70px; }
-.ghero .wrap::before { background: radial-gradient(farthest-side at 42% 50%, color-mix(in srgb, var(--bg) 66%, transparent), color-mix(in srgb, var(--bg) 50%, transparent) 55%, transparent); }   /* guide text follows the theme */
 .stband .sec-head p { color: var(--fg); opacity: .85; }
 .stband .sec-head .src { color: var(--fg); opacity: .7; }
 .frame { position: relative; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); box-shadow: 0 18px 48px rgba(0,0,0,.35); backdrop-filter: blur(6px); }
@@ -445,8 +438,8 @@ ul.buffs .m { color: var(--muted); }
 /* Content blocks reused by the reference sections: framed panels, plaques, tips */
 .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(290px, 100%), 1fr)); gap: 16px; }
 .grid2 > * { min-width: 0; }
-.panel, .tool, .summary { border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); box-shadow: 0 14px 40px rgba(0,0,0,.28); }
-:root[data-theme="light"] .panel, :root[data-theme="light"] .tool, :root[data-theme="light"] .summary, :root[data-theme="light"] .frame { box-shadow: 0 10px 30px rgba(40,32,16,.08); }
+.panel, .tool { border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); box-shadow: 0 14px 40px rgba(0,0,0,.28); }
+:root[data-theme="light"] .panel, :root[data-theme="light"] .tool, :root[data-theme="light"] .frame { box-shadow: 0 10px 30px rgba(40,32,16,.08); }
 .panel { padding: 22px 24px; display: grid; gap: 12px; align-content: start; }
 .panel h3 { font-size: 1.45rem; }
 .panel > .tipbox, .panel > .note { margin-top: 2px; }
@@ -583,55 +576,15 @@ ul.plain { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
 ul.plain li { display: grid; gap: 1px; }
 .en { font-weight: 400; color: var(--muted); font-size: .92em; }
 
-/* Builder */
-.builder { display: grid; grid-template-columns: minmax(0, 1fr) 310px; gap: 24px; align-items: start; }
+/* Builder: parts the /tools/ raid frames still use */
 .steps { display: grid; gap: 24px; }
 .step { display: grid; grid-template-columns: 30px 1fr; gap: 6px 14px; align-items: start; }
-.stepn { font-family: var(--font-display); font-size: 2rem; line-height: 1; color: var(--gold-2); text-align: center; font-variant-numeric: lining-nums; }
 .step > div { display: grid; gap: 10px; min-width: 0; }
 .step b { font-size: 1.05rem; font-weight: 600; }
-.sizes { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-#sizes { gap: 2px; padding: 4px; justify-self: start; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); }
-.sizes button { min-width: 48px; min-height: 42px; padding: 0 12px; border: 0; border-radius: 7px; background: transparent; font-weight: 600; font-variant-numeric: tabular-nums; transition: background-color .15s; }
-.sizes button:hover { background: color-mix(in srgb, var(--fg) 7%, transparent); }
-.sizes button[aria-pressed="true"] { background: #c9a54a; color: #15110a; }
 .stepper { display: inline-flex; align-items: center; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); }
 .stepper button { min-width: 44px; min-height: 44px; border: 0; background: transparent; font-size: 1.2rem; }
 .stepper button:hover { color: var(--gold-2); }
 .stepper output { min-width: 48px; text-align: center; font-weight: 600; font-variant-numeric: tabular-nums; }
-.slots { display: grid; gap: 14px; }
-.party { display: grid; gap: 6px; }
-.party-h { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; padding-bottom: 4px; }
-.party-h h4 { margin: 0; font-family: var(--font-display); font-size: 1.25rem; font-weight: var(--display-w); }
-.party-h .pc { display: inline-flex; flex-wrap: wrap; gap: 12px; color: var(--muted); font-size: .88rem; font-weight: 500; }
-.party-h .pc .miss { color: var(--horde); }
-.party-h .pc .ok { color: var(--new); }
-.slot { display: grid; grid-template-columns: 54px minmax(0,1.2fr) minmax(0,1.2fr) minmax(0,.9fr) 40px; gap: 6px; align-items: center; padding: 8px 8px 8px 12px; border: 1px solid var(--pline); border-radius: 12px; background: linear-gradient(90deg, color-mix(in srgb, var(--cc) 14%, var(--panel-2)) 0%, var(--panel-2) 45%); transition: border-color .2s; }
-.slot:hover { border-color: color-mix(in srgb, var(--cc) 45%, var(--pline)); }
-.slot .no { --s: 44px; --ring-gap: var(--panel-2); }
-.slot .no b { position: absolute; right: -5px; bottom: -5px; min-width: 20px; padding: 0 4px; border-radius: 999px; background: var(--bg); border: 1px solid var(--pline); color: var(--fg); font-size: .7rem; font-weight: 700; line-height: 18px; text-align: center; font-variant-numeric: tabular-nums; }
-.slot select { width: 100%; min-width: 0; min-height: 44px; padding: 0 28px 0 10px; font: inherit; font-size: .95rem; font-weight: 600; color: var(--fg); border: 0; border-radius: 8px; background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%238d929b' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 10px center; -webkit-appearance: none; appearance: none; cursor: pointer; transition: background-color .15s; }
-.slot select:hover { background-color: color-mix(in srgb, var(--fg) 6%, transparent); }
-.slot select.scls { color: var(--cc); }
-:root[data-theme="light"] .slot select.scls { color: var(--fg); }
-.slot select.srole { font-weight: 500; color: var(--ink-2); }
-:root[data-theme="light"] .slot select.srole { color: var(--muted); }
-.slot select option { background: var(--surface); color: var(--fg); }
-.slot .del { width: 40px; height: 40px; border: 0; border-radius: 50%; background: transparent; color: var(--muted); display: grid; place-items: center; transition: background-color .15s, color .15s; }
-.slot .del:hover { color: var(--horde); background: color-mix(in srgb, var(--horde) 12%, transparent); }
-.row-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-.summary { position: sticky; top: calc(var(--top) + 16px); display: grid; overflow: hidden; }
-.summary > div { padding: 16px 18px; border-bottom: 1px solid var(--pline); }
-.summary > div:last-child { border-bottom: 0; }
-.summary h4 { margin: 0 0 8px; font-size: .9rem; font-weight: 600; color: var(--muted); }
-.roles-sum { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-.rs { display: grid; justify-items: center; gap: 2px; padding: 12px 4px 10px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); }
-.rs b { font-family: var(--font-display); font-size: 1.8rem; font-weight: 400; line-height: 1; font-variant-numeric: tabular-nums lining-nums; }
-.rs span { color: var(--muted); font-size: .8rem; }
-.rs.ok { border-color: color-mix(in srgb, var(--new) 55%, transparent); }
-.rs.ok b { color: var(--new); }
-.rs.zero { border-color: color-mix(in srgb, var(--horde) 55%, transparent); }
-.rs.zero b { color: var(--horde); }
 ul.verdict { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
 ul.verdict li { padding-left: 22px; position: relative; font-size: .93rem; }
 ul.verdict li::before { content: "·"; position: absolute; left: 6px; color: var(--muted); font-weight: 700; }
@@ -639,8 +592,6 @@ ul.verdict li.good::before { content: "✓"; color: var(--new); left: 3px; }
 ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .cdot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 7px; background: var(--cc, var(--muted)); }
 :root[data-theme="light"] .cdot { box-shadow: inset 0 0 0 1px rgba(0,0,0,.35); }
-.summary .copyrow input { flex-basis: 100%; }
-.summary .copyrow .btn { flex: 1 1 auto; }
 
 /* Comparison tables: classes and races, one row per entry, whole row opens its page */
 .cmp { display: grid; gap: 6px; }
@@ -755,8 +706,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .pfac { padding: 10px; }
 }
 @media (max-width: 980px) {
-  .builder, .journey { grid-template-columns: 1fr; }
-  .summary, .me { position: static; }
+  .journey { grid-template-columns: 1fr; }
+  .me { position: static; }
   .stiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .factions { grid-template-columns: 1fr; }
   .ttiles, .ttiles.t4 { grid-template-columns: 1fr; }
@@ -826,14 +777,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .d-body { padding: 4px 16px 18px; }
   .copyrow .btn { max-width: 100%; white-space: normal; }
   .d-avs .av { --s: 54px; }
-  .slot { grid-template-columns: 50px minmax(0, 2.6fr) minmax(0, 1fr) 40px; gap: 4px 6px; padding: 8px; }
-  .slot .no { grid-row: 1 / 3; align-self: center; }
 
-  .slot select { font-size: .9rem; padding: 0 4px; }
-  .slot select.srace { grid-column: 2 / 4; }
-  .slot .del { grid-row: 1; grid-column: 4; }
-  .slot select.scls { grid-column: 2; }
-  .slot select.srole { grid-column: 3 / 5; }
   .stband { padding-top: 80px; }
   .stband-art, .stband-art img, .stband::before { height: 480px; }
   .camp { min-height: 640px; align-content: start; }
@@ -854,7 +798,6 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .dg tbody th .z { display: block; color: var(--muted); font-weight: 400; font-size: .85rem; }
   #segD { width: 100%; }
   #segD button { flex: 1 1 auto; padding: 0 8px; }
-  dl.facts div { grid-template-columns: 1fr; gap: 0; }
   body { padding-bottom: calc(62px + env(safe-area-inset-bottom, 0px)); }
   .tabbar { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); position: fixed; inset: auto 0 0 0; z-index: 35; background: var(--rail); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px); }
   .tabbar a, .tabbar button { min-height: 60px; display: grid; justify-items: center; align-content: center; gap: 3px; padding: 0 2px; border: 0; background: none; color: var(--muted); text-decoration: none; text-align: center; font-size: .72rem; font-weight: 500; line-height: 1.2; }
@@ -880,28 +823,11 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 }
 /* Tools page: search in the hero, party and raid frames, side-by-side compare */
 .sbox { width: min(100%, 680px); margin-top: 10px; padding: 14px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
-.sfield { display: flex; align-items: center; gap: 12px; min-height: 60px; padding: 0 16px; border: 1px solid var(--pline); border-radius: 8px; background: var(--panel-2); cursor: text; transition: border-color .2s; }
-.sfield:focus-within { border-color: var(--gold); }
+.sfield { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 60px; padding: 0 16px; border: 1px solid var(--pline); border-radius: 8px; background: var(--panel-2); color: var(--muted); font: inherit; font-size: 1.15rem; text-align: left; cursor: pointer; transition: border-color .2s; }
+.sfield:hover, .sfield:focus-visible { border-color: var(--gold); }
 .sfield .ico { width: 22px; height: 22px; color: var(--gold-2); }
-.sfield input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; color: var(--fg); font: inherit; font-size: 1.15rem; min-height: 56px; }
-.sfield input::placeholder { color: var(--muted); }
-.sfield input::-webkit-search-cancel-button { filter: grayscale(1); }
+.sfield span { flex: 1; min-width: 0; }
 .sfield kbd { font: inherit; font-size: .8rem; color: var(--muted); border: 1px solid var(--pline); border-radius: 5px; padding: 1px 8px; }
-.shint { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: .9rem; color: var(--muted); }
-.shint button { min-height: 34px; padding: 0 12px; border: 1px solid var(--pline); border-radius: 999px; background: var(--panel-2); color: var(--fg); font: inherit; font-size: .88rem; }
-.shint button:hover { border-color: var(--gold); }
-.sres { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-.sres:empty { display: none; }
-.sres a { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; padding: 11px 14px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--pline); color: var(--fg); text-decoration: none; transition: border-color .2s; height: 100%; }
-.sres a:hover, .sres a:focus-visible { border-color: var(--gold); }
-.sres b { font-weight: 600; }
-.sres b mark { background: none; color: var(--gold-2); }
-.sres .k { grid-column: 2; grid-row: 1; justify-self: end; align-self: start; font-size: .74rem; font-weight: 600; color: var(--muted); padding: 2px 8px; border-radius: 999px; border: 1px solid var(--pline); white-space: nowrap; }
-.sres .s { grid-column: 1 / -1; font-size: .88rem; color: var(--muted); }
-.sres .s i { font-style: normal; color: var(--cc, inherit); }
-.smore { justify-self: start; }
-.smore[hidden] { display: none; }
-.snone { color: var(--muted); }
 
 .ttiles.t2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .tnav { margin-top: 8px; }   /* the tool tiles open the page right under the hero */
@@ -1052,7 +978,6 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
   .cpick.races { display: grid; }
 }
 @media (max-width: 719px) {
-  .sres { grid-template-columns: 1fr; }
   .sfield kbd { display: none; }
   .ttiles.t2 { grid-template-columns: 1fr; }
   .rtool { padding: 12px; }
@@ -1077,17 +1002,15 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 .rv.in { opacity: 1; transform: none; transition: opacity .6s var(--ease), transform .6s var(--ease); }
 @media print { .rv { opacity: 1; transform: none; } }
 </style>
-<style>.skip{position:fixed;left:12px;top:-60px;z-index:100;padding:10px 16px;border-radius:10px;background:#0a0b0d;color:#c9a54a;font-weight:600;text-decoration:none;border:1px solid #c9a54a}.skip:focus{top:12px}</style>
 <link rel="manifest" href="../manifest-ru.webmanifest">
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
-<link rel="stylesheet" href="../assets/radio/radio.css?v=172cc556c4" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=4d00b79945" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/radio/radio.css" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/search/search.css?v=f37c257b5b" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../assets/me/me.css?v=9f6bfa2333" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://gabella.site/wow/"},{"@type":"ListItem","position":2,"name":"Инструменты","item":"https://gabella.site/wow/tools/"}]}</script>
 </head>
 <body>
-<a class="skip" href="#content">К содержимому</a>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-tank" viewBox="0 0 24 24"><path d="M12 3l7 3v5.5c0 4.6-3 7.7-7 9.5-4-1.8-7-4.9-7-9.5V6z"/></symbol>
   <symbol id="i-heal" viewBox="0 0 24 24"><path d="M10 4h4v6h6v4h-6v6h-4v-6H4v-4h6z"/></symbol>
@@ -1124,7 +1047,6 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
     <button class="iconbtn menubtn" type="button" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg><span>Ещё</span></button>
   </div>
 </div></header>
-<span id="content" tabindex="-1"></span>
 
 <section class="thero" id="top">
   <picture class="thero-art" aria-hidden="true" data-fx="tools" data-cut=".9">
@@ -1139,11 +1061,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
     <h1>Инструменты</h1>
     <p class="lead">Поиск по всему гиду, рамки группы и рейда как в игре и сравнение классов и рас. Состав хранится в ссылке, её можно кинуть в Discord.</p>
     <div class="frame sbox" id="search" role="search">
-      <label class="sfield"><svg class="ico" aria-hidden="true"><use href="#i-search"/></svg><input id="q" type="search" placeholder="Класс, способность, раса, подземелье или уровень" autocomplete="off" spellcheck="false" aria-label="Поиск по гиду" aria-controls="sres" aria-describedby="sstat"><kbd aria-hidden="true">/</kbd></label>
-      <div class="shint" id="shint"><span>Например:</span><button type="button">Паладин</button><button type="button" lang="en">Shadow</button><button type="button">Танк</button><button type="button">Скайборн</button><button type="button" lang="en">Onyxia</button><button type="button">24</button></div>
-      <p class="small" id="sstat" aria-live="polite"></p>
-      <ul class="sres" id="sres"></ul>
-      <button type="button" class="btn ghost smore" id="smore" hidden></button>
+      <button type="button" class="sfield sopen" aria-label="Поиск по гиду"><svg class="ico" aria-hidden="true"><use href="#i-search"/></svg><span>Класс, способность, раса, подземелье или уровень</span><kbd aria-hidden="true">Ctrl K</kbd></button>
     </div>
   </div>
 </section>
@@ -1151,8 +1069,8 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 <main>
 <div class="wrap tnav">
   <nav class="frame ttiles t2" aria-label="Инструменты">
-      <a class="ttile" href="#raid"><picture><source type="image/avif" srcset="../assets/art/paladin-600.avif?v=0003354e"><img src="../assets/art/paladin-600.webp?v=0003354e" alt="" loading="lazy" decoding="async"></picture><b>Рамки группы и рейда</b><span>Группа на 5, рейд на 10, 20 и 40, как в игре</span></a>
-      <a class="ttile" href="#compare"><picture><source type="image/avif" srcset="../assets/art/mage-600.avif?v=0003354e"><img src="../assets/art/mage-600.webp?v=0003354e" alt="" loading="lazy" decoding="async"></picture><b>Сравнение классов и рас</b><span>До трёх рядом: роли, броня, баффы, способности</span></a>
+      <a class="ttile" href="#raid"><picture><source type="image/avif" srcset="../assets/art/paladin-600.avif?v=62bbe825"><img src="../assets/art/paladin-600.webp?v=ce6a9574" alt="" loading="lazy" decoding="async"></picture><b>Рамки группы и рейда</b><span>Группа на 5, рейд на 10, 20 и 40, как в игре</span></a>
+      <a class="ttile" href="#compare"><picture><source type="image/avif" srcset="../assets/art/mage-600.avif?v=632283e7"><img src="../assets/art/mage-600.webp?v=37403d76" alt="" loading="lazy" decoding="async"></picture><b>Сравнение классов и рас</b><span>До трёх рядом: роли, броня, баффы, способности</span></a>
     </nav>
 </div>
 <section class="block wrap" id="raid">
@@ -1220,7 +1138,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
   <nav class="toc" aria-label="Все разделы">
     <div class="grp"><div class="gh">Эта страница</div><a href="#search">Поиск по гиду</a><a href="#raid">Рамки группы и рейда</a><a href="#compare">Сравнение классов и рас</a></div>
     <div class="grp"><div class="gh">Справочник</div><a href="../">Главная</a><a href="../classes/">Классы: сравнение</a><a href="../races/">Расы: сравнение</a><a href="../guides/leveling/">Прокачка 1–60</a><a href="../guides/dungeons/">Подземелья и рейды</a><a href="../guides/professions/">Профессии</a><a href="../guides/faq/">FAQ и даты</a><a href="../guides/news/">Новости</a><a href="../guides/">Все гайды</a></div>
-    <div class="grp"><div class="gh">Инструменты</div><a href="../#picker">Подборщик</a><a href="../#builder">Конструктор группы</a><a href="../tools/">Рамки, сравнение, поиск</a><a href="../play/">В игре</a></div>
+    <div class="grp"><div class="gh">Инструменты</div><a href="../#picker">Подборщик</a><a href="../tools/#raid">Конструктор группы</a><a href="../tools/">Рамки, сравнение, поиск</a><a href="../play/">В игре</a></div>
     <div class="grp"><div class="gh">Сообщество</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="../roster/">Игроки</a><a href="../profile/">Мой профиль</a></div>
   </nav>
   <div class="opts">
@@ -1337,75 +1255,7 @@ const RACES = [
 RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
 const CL = Object.fromEntries(CLASSES.map(c => [c.id, c]));
 const RC = Object.fromEntries(RACES.map(r => [r.id, r]));
-const DUNGEONS = [
-  ['Огненная пропасть (Ragefire Chasm)', 13, 18, 'Оргриммар', 0, [], 'horde'],
-  ['Hall of Thanes', 13, 18, 'Стальгорн', 1, [['Icy Veins', '13–20']]],
-  ['Руины Лордерона (Ruins of Lordaeron)', 15, 20, 'Тирисфальские леса', 1, [['Icy Veins', '15–22']]],
-  ['Мертвые копи (The Deadmines)', 15, 22, 'Западный Край', 0, [['Icy Veins', '17–26']]],
-  ['Пещеры Стенаний (Wailing Caverns)', 17, 24, 'Степи', 0, [['Icy Veins', '15–24']]],
-  ['Крепость Темного Клыка (Shadowfang Keep)', 20, 26, 'Серебряный бор', 0, [['Icy Veins', '20–30']]],
-  ['Непроглядная Пучина (Blackfathom Deeps)', 22, 28, 'Ясеневый лес', 0, [['Sportskeeda', '22–26'], ['Icy Veins', '24–32']]],
-  ['Excavation Site: Wetlands', 24, 29, 'Болотина', 1, [['ClassicWoW.gg', '26–31'], ['Icy Veins', '26–33']]],
-  ['Тюрьма (The Stockade)', 25, 29, 'Штормград', 0, [['Icy Veins', '24–32']], 'alliance'],
-  ['City of Dalaran', 28, 33, 'Альтеракские горы', 1, [['Icy Veins', '28–35']]],
-  ['Гномреган (Gnomeregan)', 29, 38, 'Дун Морог', 0],
-  ['Лабиринты Иглошкурых (Razorfen Kraul)', 29, 38, 'Степи', 0],
-  ['Монастырь Алого ордена: кладбище (Scarlet Monastery: Graveyard)', 30, 38, 'Тирисфальские леса', 0],
-  ['Монастырь Алого ордена: библиотека (Scarlet Monastery: Library)', 33, 41, 'Тирисфальские леса', 0],
-  ['The Drowned City', 35, 40, 'Тернистая долина', 1],
-  ['Монастырь Алого ордена: оружейная (Scarlet Monastery: Armory)', 36, 44, 'Тирисфальские леса', 0],
-  ['Ульдаман (Uldaman)', 36, 45, 'Бесплодные земли', 0, [['Icy Veins', '41–51']]],
-  ['Курганы Иглошкурых (Razorfen Downs)', 37, 46, 'Степи', 0],
-  ['Монастырь Алого ордена: собор (Scarlet Monastery: Cathedral)', 38, 46, 'Тирисфальские леса', 0],
-  ["Zul'Farrak", 40, 47, 'Tanaris', 0, [['Icy Veins', '44–54']]],
-  ["Krol'dok Stronghold", 40, 45, 'Riverglades', 1],
-  ['Мародон (Maraudon)', 45, 51, 'Пустоши', 0, [['Icy Veins', '46–55']]],
-  ['Alcaz Island Prison', 48, 53, 'Пылевые топи', 1],
-  ["Temple of Atal'Hakkar", 50, 55, 'Swamp of Sorrows', 0, [['Icy Veins', '50–60']]],
-  ['Глубины Черной горы (Blackrock Depths)', 52, 60, 'Черная гора', 0],
-  ['Blackmaw Hold', 55, 60, 'Азшара', 1],
-  ['Нижняя часть Вершины Черной горы (Lower Blackrock Spire)', 57, 60, 'Черная гора', 0, [['Icy Veins', '55–60']]],
-  ['Забытый Город: восток (Dire Maul: East)', 58, 60, 'Фералас', 0, [['Icy Veins', '54–60']]],
-  ["Shaper's Terrace", 58, 60, "Un'Goro Crater", 1],
-  ['Стратхольм: живые (Stratholme: Living)', 58, 60, 'Восточные Чумные земли', 0],
-  ['Стратхольм: нежить (Stratholme: Undead)', 58, 60, 'Восточные Чумные земли', 0],
-  ['Некроситет (Scholomance)', 58, 60, 'Западные Чумные земли', 0],
-  ['Верхняя часть Вершины Черной горы (Upper Blackrock Spire)', 60, 60, 'Черная гора', 0, [['Icy Veins', '59–60']]],
-  ['Забытый Город: запад (Dire Maul: West)', 60, 60, 'Фералас', 0, [['Icy Veins', '56–60']]],
-  ['Забытый Город: север (Dire Maul: North)', 60, 60, 'Фералас', 0, [['Icy Veins', '56–60']]]
-];
-const PROFS = [
-  ['alchemy', 'Алхимия', 1, 'Mana Well', 'как Благословение мудрости'],
-  ['blacksmithing', 'Кузнечное дело', 1, 'Sharpening Wheel', 'как Тотем силы земли'],
-  ['enchanting', 'Наложение чар', 1, 'Enchanted Lute', 'как Знак дикой природы'],
-  ['engineering', 'Инженерное дело', 1, 'Reagent Bot', 'торговец реагентами, на 2 уровне ремонт'],
-  ['herbalism', 'Травничество', 1, 'Incense Candle', 'как Чародейский интеллект'],
-  ['leatherworking', 'Кожевничество', 1, 'Camp Tent', 'больше опыта от отдыха'],
-  ['mining', 'Горное дело', 1, 'Магнетит', 'как Благословение могущества'],
-  ['skinning', 'Снятие шкур', 1, 'Camp Chair', 'как аура лунного совуха'],
-  ['tailoring', 'Портняжное дело', 1, 'Faction Banner', 'как Божественный дух'],
-  ['cooking', 'Кулинария', 0, 'Обычный костер', 'больше мест для объектов в лагере'],
-  ['firstaid', 'Первая помощь', 0, 'Аптечка', 'как Слово силы: Стойкость'],
-  ['fishing', 'Рыбалка', 0, 'Fish Bowl', 'как Благословение королей']
-];
-const EN = {
-  'Оружие':'Arms','Неистовство':'Fury','Защита':'Protection','Свет':'Holy','Воздаяние':'Retribution',
-  'Повелитель зверей':'Beast Mastery','Стрельба':'Marksmanship','Выживание':'Survival',
-  'Ликвидация':'Assassination','Бой':'Combat','Скрытность':'Subtlety',
-  'Послушание':'Discipline','Темная магия':'Shadow','Стихии':'Elemental','Совершенствование':'Enhancement','Исцеление':'Restoration',
-  'Тайная магия':'Arcane','Огонь':'Fire','Лёд':'Frost','Колдовство':'Affliction','Демонология':'Demonology','Разрушение':'Destruction',
-  'Баланс':'Balance','Сила зверя':'Feral',
-  'Воля к жизни':'Will to Survive','Внимательность':'Perception','Беспощадность':'Ruthless','Человеческий дух':'The Human Spirit',
-  'Каменная форма':'Stoneform','Поиск сокровища':'Find Treasure','Ярость земли':'Earth Fury','Охотник на крупную дичь':'Big Game Hunter',
-  'Свет Элуны':"Elune’s Light",'Слиться с тенью':'Shadowmeld','Расторопность':'Quickness','Дух огонька':'Wisp Spirit',
-  'Мастер побега':'Escape Artist','Эврика!':'Eureka!','Пытливый ум':'Expansive Mind','Инженерное дело, специализация':'Engineering Specialization',
-  'Хождение по воздуху':'Walk on Air','Чтение лей-линий':'Read Ley Line','Благословение ветра':'Wind Blessed','Прозрение стихий':'Elemental Insight','Взгляд в небо':'Skysight',
-  'Кровавое неистовство':'Blood Fury','Разрушение проклятий':'Shatter Curse','Дикость':'Savage','Твердость':'Hardiness',
-  'Воля Отрекшихся':'Will of the Forsaken','Каннибализм':'Cannibalize','Подводное дыхание':'Underwater Breathing','Могильное касание':'Touch of the Grave',
-  'Громовая поступь':'War Stomp','Проращивание':'Cultivation','Бег по равнинам':'Plainsrunning','Закалка':'Endurance',
-  'Боевое исступление':'Berserking','Быстрая регенерация':'Rapid Regeneration','Убийство животных':'Beast Slaying','Регенерация':'Regeneration'
-};
-const CX = {"warrior": {"armor": "Ткань, кожа, кольчуга; латы с 40 уровня", "weapons": "Всё, кроме жезлов; щит", "resource": "Ярость", "lvl": "Самая медленная прокачка, примерно на 12% дольше среднего", "group": ["Боевой крик действует на весь рейд", "Деморализующий крик и Раскол брони на боссе", "Размашистые удары и Вихрь для боёв с толпой"], "pros": ["Лучший танк и сильный урон в ближнем бою", "Подходит для PvP (Оружие)", "Мало кнопок, понятная игра"], "cons": ["Самая медленная прокачка", "Сильно зависит от экипировки", "Почти нет самолечения и контроля"], "specs": [{"n": "Оружие", "en": "Arms", "roles": ["dps"], "what": "Урон в ближнем бою (двуручное оружие)", "keys": [["Смертельный удар", "Mortal Strike", "Главный удар и снижение лечения цели"], ["Размашистые удары", "Sweeping Strikes", "Удары задевают вторую цель, в паре с Вихрем"], ["Глубокие раны", "Deep Wounds", "Криты вызывают кровотечение"], ["Кровопускание", "Rend", "Кровотечение, которое открывает Превосходство"], ["Кровавый азарт", "Bloodthrill", "Новый талант: 4–20% бонуса, только для правой руки"]]}, {"n": "Неистовство", "en": "Fury", "roles": ["dps"], "what": "Урон в ближнем бою (два оружия)", "keys": [["Инстинкт смерти", "Death Wish", "Окно усиленного урона"], ["Шквал", "Flurry", "После крита удары быстрее"], ["Исступление", "Enrage", "Больше урона после крита по вам"], ["Специализация на бое двумя оружиями", "Dual Wield Specialization", "Сильнее левая рука"], ["Безжалостность", "Cruelty", "Шанс крита"]]}, {"n": "Защита", "en": "Protection", "roles": ["tank"], "what": "Танк", "keys": [["Авангард", "Vanguard", "Рывок без смены стойки"], ["Ни шагу назад", "Last Stand", "Временный запас здоровья"], ["Неукротимость", "Defiance", "Больше угрозы"], ["Мастер защиты", "Master of Defense", "Прочнее под ударами"], ["Крепость", "Toughness", "Больше брони"]]}]}, "paladin": {"armor": "Ткань, кожа, кольчуга; латы с 40 уровня; щит", "weapons": "Топоры, булавы, мечи, древковое с 20 уровня", "resource": "Мана", "lvl": "Средний темп прокачки", "group": ["Ауры на группу: благочестия, воздаяния, сосредоточенности", "Ауры сопротивления огню, льду и тьме на весь рейд", "Благословения на час, большие благословения на весь класс", "Печать справедливости не даёт врагам убегать"], "pros": ["Все три роли на одном персонаже", "Сильные баффы для группы", "Латы и крепкий персонаж"], "cons": ["Нет рывка, замедления и ускорения", "Мало контроля, кроме Молота правосудия", "Воздаяние просело после патча"], "specs": [{"n": "Свет", "en": "Holy", "roles": ["heal"], "what": "Лекарь", "keys": [["Шок небес", "Holy Shock", "Мгновенное лечение или урон"], ["Благоговение", "Reverence", "Новое: часть восполнения маны от духа"], ["Освященная земля", "Consecrated Ground", "Новый талант ветки Света"], ["Божественная точность", "Divine Precision", "Новый талант ветки Света"], ["Священная сила", "Holy Power", "Шанс крита лечения"]]}, {"n": "Защита", "en": "Protection", "roles": ["tank"], "what": "Танк", "keys": [["Печать ярости", "Seal of Fury", "Новая печать: Правосудие провоцирует врага"], ["Оплот храмовника", "Templar’s Bulwark", "Сильная защитная способность"], ["Щит небес", "Holy Shield", "Шанс блока 30% (было 20%)"], ["Оплот", "Redoubt", "Блок 4–20% (было 6–30%)"], ["Расплата", "Reckoning", "Ответные удары"]]}, {"n": "Воздаяние", "en": "Retribution", "roles": ["dps"], "what": "Урон в ближнем бою", "keys": [["Печать повиновения", "Seal of Command", "Крупные криты"], ["Освящение", "Consecration", "Надёжный урон по площади"], ["Воитель Света", "Champion of the Light", "Интеллект в силу заклинаний, урезано до 10–30%"], ["Изгиб Света", "Twist of Light", "Вершина ветки: как будто две печати сразу"], ["Освящённое правосудие", "Sanctified Judgement", "Усиливает Правосудие"]]}]}, "hunter": {"armor": "Ткань, кожа; кольчуга с 40 уровня", "weapons": "Луки, арбалеты, ружья, топоры, мечи, древковое", "resource": "Мана; у питомца фокус", "lvl": "Самая быстрая прокачка, примерно на 8% быстрее среднего", "group": ["Аура меткого выстрела усиливает дальний бой группы", "Замораживающая ловушка: надёжный контроль", "Дезориентирующий выстрел прерывает заклинания", "Дух стаи ускоряет всю группу в пути"], "pros": ["Самая быстрая прокачка", "Отлично играет один", "Ловушки и контроль"], "cons": ["Мёртвая зона вблизи до 8 метров", "Нужно следить за питомцем", "На бете у талантов Выживания были ошибки"], "specs": [{"n": "Повелитель зверей", "en": "Beast Mastery", "roles": ["dps"], "what": "Урон дальнего боя, много урона от питомца", "keys": [["Неудержимое неистовство", "Unleashed Fury", "Урон питомца"], ["Свирепость", "Ferocity", "Шанс крита питомца"], ["Призыв ястреба", "Summon Hawk", "Новое"], ["Направленный огонь", "Focused Fire", "Новое, вместо Улучшенного Ока зверя"], ["Устрашение", "Intimidation", "Питомец получает 100% шанс крита"]]}, {"n": "Стрельба", "en": "Marksmanship", "roles": ["dps"], "what": "Урон дальнего боя", "keys": [["Одинокий волк", "Lone Wolf", "Новое: урон без питомца"], ["Верная цель", "Careful Aim", "Новое"], ["Быстрые убийства", "Rapid Killing", "Новое, с 30 уровня"], ["Аура меткого выстрела", "Trueshot Aura", "Раньше в ветке, только сила дальнего боя"], ["Заградительный огонь", "Barrage", "Теперь усиливает и Прицельный выстрел"]]}, {"n": "Выживание", "en": "Survival", "roles": ["dps"], "what": "Ближний и дальний бой, ловушки", "keys": [["Слабость добычи", "Expose Prey", "Новое, вместо Инстинкта убийцы"], ["Рвущие удары", "Lacerating Strikes", "Новое, вместо Укуса виверны"], ["Грань хищника", "Predator’s Edge", "Новое"], ["Удар ногой", "Strider Kick", "Новое"], ["Удержание", "Entrapment", "Всегда срабатывает от ловушки"]]}]}, "rogue": {"armor": "Ткань, кожа", "weapons": "Кинжалы, мечи, булавы, кистевое, одноручные топоры, метательное", "resource": "Энергия и приёмы серии", "lvl": "Средний темп прокачки", "group": ["Чистый урон в ближнем бою без баффов на весь рейд", "Ошеломление, Ослепление и Удар по почкам: много контроля", "Пинок прерывает опасные заклинания"], "pros": ["Очень высокий урон и рост с экипировкой", "Скрытность и много контроля", "Свобода выбора оружия"], "cons": ["Сильно зависит от экипировки", "Нет самолечения", "Спасают только Ускользание и Исчезновение"], "specs": [{"n": "Ликвидация", "en": "Assassination", "roles": ["dps"], "what": "Урон ядами", "keys": [["Расправа", "Mutilate", "Новое: приём серии, только с кинжалами"], ["Отрава", "Venom", "Новый завершающий приём"], ["Злоба", "Malice", "Теперь и шанс крита ядов"], ["Улучшенные яды", "Improved Poisons", "50% шанс не тратить заряд"], ["Смертоносность", "Lethality", "20% на максимуме (было 30%)"]]}, {"n": "Бой", "en": "Combat", "roles": ["dps"], "what": "Быстрые атаки оружием", "keys": [["Выброс адреналина", "Adrenaline Rush", "Быстрее копится энергия"], ["Шквал клинков", "Blade Flurry", "Урон по второй цели"], ["Круши-руби", "Hack and Slash", "Любой тип оружия; у топоров шанс доп. атаки"], ["Безупречное исполнение", "Flawless Execution", "Можно часто жать Потрошение"], ["Специализация на бое двумя оружиями", "Dual Wield Specialization", "25% урона левой руки"]]}, {"n": "Скрытность", "en": "Subtlety", "roles": ["dps"], "what": "Засады, кровотечения", "keys": [["Тысяча порезов", "Thousand Cuts", "Новая вершина ветки"], ["Кровоизлияние", "Hemorrhage", "Теперь усиливает Рваную рану"], ["Упокоение", "Quietus", "Новое: больше урона по раненым"], ["Горлорез", "Cutthroat", "Новое: Внезапный удар в бою"], ["Выучка и Инициатива", "Setup and Initiative", "100% шанс доп. приёма серии"]]}]}, "priest": {"armor": "Ткань", "weapons": "Кинжалы, булавы, посохи, жезлы", "resource": "Мана", "lvl": "Примерно на 5% медленнее среднего", "group": ["Божественный дух и Слово силы: Стойкость на весь рейд", "Придание сил усиливает союзника", "Главный лекарь группы"], "pros": ["Всегда нужен группе", "Лечение или урон тьмой", "Много сборок"], "cons": ["Только ткань, хрупкий", "Мало способов быстро двигаться", "Скорость почти не помогает заклинаниям"], "specs": [{"n": "Послушание", "en": "Discipline", "roles": ["heal"], "what": "Лекарь, щиты и поглощение", "keys": [["Придание сил", "Power Infusion", "Сильный бафф союзнику, его ценят группы"], ["Слово силы: Щит", "Power Word: Shield", "Поглощает урон"], ["Внутреннее сосредоточение", "Inner Focus", "Бесплатное заклинание"]]}, {"n": "Свет", "en": "Holy", "roles": ["heal"], "what": "Лекарь", "keys": [["Молитва восстановления", "Prayer of Mending", "Вершина ветки, лечение прыгает"], ["Литания Света", "Litany of Light", "Возвращает ману"], ["Молитва исцеления", "Prayer of Healing", "Лечение всей группы"]]}, {"n": "Темная магия", "en": "Shadow", "roles": ["dps"], "what": "Урон дальнего боя", "keys": [["Облик Тьмы", "Shadowform", "Переработан: шанс крита и дешевле заклинания тьмы"], ["Слово Тьмы: Смерть", "Shadow Word: Death", "Был на бете, с талантом Ранняя гибель"], ["Улучшенная Пытка разума", "Improved Mind Flay", "Новое: больше урона"], ["Всепожирающая чума", "Devouring Plague", "Откат 24 сек, усилена 15 октября"]]}]}, "shaman": {"armor": "Ткань, кожа; кольчуга с 40 уровня; щит", "weapons": "Булавы, топоры, посохи, кистевое, кинжалы", "resource": "Мана", "lvl": "Средний темп прокачки", "group": ["Тотемы силы земли, неистовства ветра, языков пламени и грации воздуха усиливают свою группу", "Тотем трепета снимает страх, сон и очарование", "Тотемы очищения от ядов и болезней", "Развеивание магии снимает баффы с врагов"], "pros": ["Сильные тотемы для группы", "Мобильная прокачка", "Новые сильные таланты"], "cons": ["Нет жёсткого контроля", "Мана в долгих боях", "Танк пока под вопросом"], "specs": [{"n": "Стихии", "en": "Elemental", "roles": ["dps"], "what": "Урон дальнего боя", "keys": [["Выброс лавы", "Lava Burst", "Новое, усилено 15 октября"], ["Электрическая перегрузка", "Lightning Overload", "Новое: молния срабатывает повторно"], ["Покорение стихий", "Elemental Mastery", "Теперь бафф на 15 сек"], ["Сотрясение мозга", "Concussion", "Больше урона заклинаний"], ["Кольцо огня", "Fire Nova", "Взрыв вокруг тотема огня"]]}, {"n": "Совершенствование", "en": "Enhancement", "roles": ["dps", "tank?"], "what": "Урон в ближнем бою. Возможность танковать пока под вопросом", "keys": [["Оружие Водоворота", "Maelstrom Weapon", "До 5 зарядов для Молнии"], ["Удар бури", "Stormstrike", "Откат 8 сек, больше не вершина"], ["Ярость Провидца", "Rage of the Farseer", "Новая вершина, откат 3 мин"], ["Призрачный волк", "Ghost Wolf", "Мгновенно и в помещениях с талантом"]]}, {"n": "Исцеление", "en": "Restoration", "roles": ["heal"], "what": "Лекарь", "keys": [["Приливная хватка", "Riptide", "Новая вершина: мгновенное лечение, +25% к Цепному"], ["Водный щит", "Water Shield", "Новое: восполняет ману"], ["Осознанность", "Mindfulness", "Новое: мана в бою"], ["Тотем прилива маны", "Mana Tide Totem", "Перенесён в середину ветки"]]}]}, "mage": {"armor": "Ткань", "weapons": "Кинжалы, мечи, посохи, жезлы", "resource": "Мана", "lvl": "Самая быстрая прокачка, примерно на 8% быстрее среднего (около 12 часов экономии)", "group": ["Порталы с 40 уровня, телепорт с 20", "Еда и вода для всей компании", "Превращение: надёжный контроль", "Снятие малого проклятия"], "pros": ["Самая быстрая прокачка", "Порталы и еда для всех", "Три сильные и разные ветки"], "cons": ["Только ткань, хрупкий", "Мана быстро кончается", "Урон по площади ослаблен"], "specs": [{"n": "Тайная магия", "en": "Arcane", "roles": ["dps"], "what": "Бурст, много маны", "keys": [["Чародейская вспышка", "Arcane Blast", "Новое: главное заклинание"], ["Заградительные стрелы", "Missile Barrage", "Новое: срабатывания для бурста"], ["Мощь тайной магии", "Arcane Power", "Окно урона"], ["Чародейский ум", "Arcane Mind", "Теперь даёт интеллект"]]}, {"n": "Огонь", "en": "Fire", "roles": ["dps"], "what": "Криты и поджоги", "keys": [["Путь огня", "Hotstreak", "Новое: до 3 зарядов ускоряют Огненную глыбу"], ["След огня", "Wake of Fire", "Новое: Огненный взрыв после убийства"], ["Возгорание", "Combustion", "Длится до 4 критов (было 3)"], ["Испепеление", "Incineration", "Наверху ветки, усиливает несколько заклинаний"]]}, {"n": "Лёд", "en": "Frost", "roles": ["dps"], "what": "Урон и контроль", "keys": [["Ледяное копье", "Ice Lance", "Новое"], ["Ледяные пальцы", "Fingers of Frost", "Новое, работает со всеми заклинаниями"], ["Обледенение", "Shatter", "Криты по замороженным"], ["Улучшенная снежная буря", "Improved Blizzard", "Замедление до 40%"]]}]}, "warlock": {"armor": "Ткань", "weapons": "Кинжалы, мечи, посохи, жезлы", "resource": "Мана; Жизнеотвод меняет здоровье на ману", "lvl": "Средний темп прокачки", "group": ["Камень здоровья и Камень души", "Ритуал призыва: собирает группу", "Проклятие косноязычия замедляет заклинания на 60%", "Проклятие стихий: больше магического урона по цели"], "pros": ["Самостоятельный: демон и Жизнеотвод", "Много пользы группе", "Сильный урон со временем"], "cons": ["Хрупкий и неподвижный", "Урон раскачивается не сразу", "Нет рывка и ускорения"], "specs": [{"n": "Колдовство", "en": "Affliction", "roles": ["dps"], "what": "Урон от проклятий и порчи", "keys": [["Смятие", "Wrack", "Новое: направляемое заклинание, вершина ветки"], ["Пандемия", "Pandemic", "Эффекты сильнее"], ["Вытягивание души", "Soul Siphon", "Похищения сильнее"], ["Проклятие изнеможения", "Curse of Exhaustion", "Замедление"]]}, {"n": "Демонология", "en": "Demonology", "roles": ["dps"], "what": "Урон через демонов", "keys": [["Демонический союз", "Demonic Pact", "Новая вершина: жертва одного демона, второй остаётся"], ["Нечестивая сила", "Unholy Power", "Урон демона"], ["Демоническое знание", "Demonic Knowledge", "Бонус от характеристик демона"], ["Связка души", "Soul Link", "Часть урона уходит демону"]]}, {"n": "Разрушение", "en": "Destruction", "roles": ["dps"], "what": "Прямой урон огнём и тьмой", "keys": [["Испепеление", "Incinerate", "Вершина ветки"], ["Поджигание", "Conflagrate", "Мгновенный удар"], ["Тьма и пламя", "Shadow and Flame", "Больше урона"], ["Проклятие хаоса", "Bane of Havoc", "Урон по второй цели"]]}]}, "druid": {"armor": "Ткань, кожа", "weapons": "Кинжалы, булавы, посохи, кистевое, древковое с 20 уровня", "resource": "Мана; ярость в облике медведя, энергия в облике кошки", "lvl": "Примерно на 5% медленнее среднего", "group": ["Вожак стаи и аура лунного совуха действуют на весь рейд и складываются", "Возрождение: воскрешение в бою", "Озарение возвращает ману лекарю", "Снимает проклятия и яды"], "pros": ["Все три роли на одном персонаже", "Отличная мобильность", "Воскрешение в бою"], "cons": ["Нет блока и парирования у медведя", "Сложнее следить за эффектами лечения", "Итоговые цифры в рейдах ещё неизвестны"], "specs": [{"n": "Баланс", "en": "Balance", "roles": ["dps"], "what": "Урон дальнего боя", "keys": [["Затмение", "Eclipse", "Новое: главная механика ветки"], ["Улучшенный гнев", "Improved Wrath", "Гнев быстрее и дешевле"], ["Облик лунного совуха", "Moonkin Form", "3% крита всему рейду"], ["Рой насекомых", "Insect Swarm", "Перенесён сюда из Исцеления"]]}, {"n": "Сила зверя", "en": "Feral", "roles": ["tank", "dps"], "what": "Танк (медведь) и урон в ближнем бою (кошка)", "keys": [["Берсерк", "Berserk", "Новая вершина: окно урона"], ["Переходящая сила", "Shifting Power", "Новое: вместо смены облика ради энергии"], ["Растерзать", "Lacerate", "Кровотечение с зарядами для медведя"], ["Звериная атака", "Feral Charge", "Теперь и в облике кошки"]]}, {"n": "Исцеление", "en": "Restoration", "roles": ["heal"], "what": "Лекарь, много лечения по времени", "keys": [["Буйный рост", "Wild Growth", "Новое: лечение по площади"], ["Быстрое восстановление", "Swiftmend", "Больше не снимает эффект лечения"], ["Оживление", "Revive", "Новое: воскрешение вне боя"], ["Дар матери-земли", "Gift of the Earth Mother", "Талант ветки"]]}]}};
+const CX = {"warrior": {"armor": "Ткань, кожа, кольчуга; латы с 40 уровня", "weapons": "Всё, кроме жезлов; щит", "resource": "Ярость", "lvl": "Самая медленная прокачка, примерно на 12% дольше среднего", "group": ["Боевой крик действует на весь рейд", "Деморализующий крик и Раскол брони на боссе", "Размашистые удары и Вихрь для боёв с толпой"], "pros": ["Лучший танк и сильный урон в ближнем бою", "Подходит для PvP (Оружие)", "Мало кнопок, понятная игра"], "cons": ["Самая медленная прокачка", "Сильно зависит от экипировки", "Почти нет самолечения и контроля"], "specs": [{"n": "Оружие", "what": "Урон в ближнем бою (двуручное оружие)"}, {"n": "Неистовство", "what": "Урон в ближнем бою (два оружия)"}, {"n": "Защита", "what": "Танк"}]}, "paladin": {"armor": "Ткань, кожа, кольчуга; латы с 40 уровня; щит", "weapons": "Топоры, булавы, мечи, древковое с 20 уровня", "resource": "Мана", "lvl": "Средний темп прокачки", "group": ["Ауры на группу: благочестия, воздаяния, сосредоточенности", "Ауры сопротивления огню, льду и тьме на весь рейд", "Благословения на час, большие благословения на весь класс", "Печать справедливости не даёт врагам убегать"], "pros": ["Все три роли на одном персонаже", "Сильные баффы для группы", "Латы и крепкий персонаж"], "cons": ["Нет рывка, замедления и ускорения", "Мало контроля, кроме Молота правосудия", "Воздаяние просело после патча"], "specs": [{"n": "Свет", "what": "Лекарь"}, {"n": "Защита", "what": "Танк"}, {"n": "Воздаяние", "what": "Урон в ближнем бою"}]}, "hunter": {"armor": "Ткань, кожа; кольчуга с 40 уровня", "weapons": "Луки, арбалеты, ружья, топоры, мечи, древковое", "resource": "Мана; у питомца фокус", "lvl": "Самая быстрая прокачка, примерно на 8% быстрее среднего", "group": ["Аура меткого выстрела усиливает дальний бой группы", "Замораживающая ловушка: надёжный контроль", "Дезориентирующий выстрел прерывает заклинания", "Дух стаи ускоряет всю группу в пути"], "pros": ["Самая быстрая прокачка", "Отлично играет один", "Ловушки и контроль"], "cons": ["Мёртвая зона вблизи до 8 метров", "Нужно следить за питомцем", "На бете у талантов Выживания были ошибки"], "specs": [{"n": "Повелитель зверей", "what": "Урон дальнего боя, много урона от питомца"}, {"n": "Стрельба", "what": "Урон дальнего боя"}, {"n": "Выживание", "what": "Ближний и дальний бой, ловушки"}]}, "rogue": {"armor": "Ткань, кожа", "weapons": "Кинжалы, мечи, булавы, кистевое, одноручные топоры, метательное", "resource": "Энергия и приёмы серии", "lvl": "Средний темп прокачки", "group": ["Чистый урон в ближнем бою без баффов на весь рейд", "Ошеломление, Ослепление и Удар по почкам: много контроля", "Пинок прерывает опасные заклинания"], "pros": ["Очень высокий урон и рост с экипировкой", "Скрытность и много контроля", "Свобода выбора оружия"], "cons": ["Сильно зависит от экипировки", "Нет самолечения", "Спасают только Ускользание и Исчезновение"], "specs": [{"n": "Ликвидация", "what": "Урон ядами"}, {"n": "Бой", "what": "Быстрые атаки оружием"}, {"n": "Скрытность", "what": "Засады, кровотечения"}]}, "priest": {"armor": "Ткань", "weapons": "Кинжалы, булавы, посохи, жезлы", "resource": "Мана", "lvl": "Примерно на 5% медленнее среднего", "group": ["Божественный дух и Слово силы: Стойкость на весь рейд", "Придание сил усиливает союзника", "Главный лекарь группы"], "pros": ["Всегда нужен группе", "Лечение или урон тьмой", "Много сборок"], "cons": ["Только ткань, хрупкий", "Мало способов быстро двигаться", "Скорость почти не помогает заклинаниям"], "specs": [{"n": "Послушание", "what": "Лекарь, щиты и поглощение"}, {"n": "Свет", "what": "Лекарь"}, {"n": "Темная магия", "what": "Урон дальнего боя"}]}, "shaman": {"armor": "Ткань, кожа; кольчуга с 40 уровня; щит", "weapons": "Булавы, топоры, посохи, кистевое, кинжалы", "resource": "Мана", "lvl": "Средний темп прокачки", "group": ["Тотемы силы земли, неистовства ветра, языков пламени и грации воздуха усиливают свою группу", "Тотем трепета снимает страх, сон и очарование", "Тотемы очищения от ядов и болезней", "Развеивание магии снимает баффы с врагов"], "pros": ["Сильные тотемы для группы", "Мобильная прокачка", "Новые сильные таланты"], "cons": ["Нет жёсткого контроля", "Мана в долгих боях", "Танк пока под вопросом"], "specs": [{"n": "Стихии", "what": "Урон дальнего боя"}, {"n": "Совершенствование", "what": "Урон в ближнем бою. Возможность танковать пока под вопросом"}, {"n": "Исцеление", "what": "Лекарь"}]}, "mage": {"armor": "Ткань", "weapons": "Кинжалы, мечи, посохи, жезлы", "resource": "Мана", "lvl": "Самая быстрая прокачка, примерно на 8% быстрее среднего (около 12 часов экономии)", "group": ["Порталы с 40 уровня, телепорт с 20", "Еда и вода для всей компании", "Превращение: надёжный контроль", "Снятие малого проклятия"], "pros": ["Самая быстрая прокачка", "Порталы и еда для всех", "Три сильные и разные ветки"], "cons": ["Только ткань, хрупкий", "Мана быстро кончается", "Урон по площади ослаблен"], "specs": [{"n": "Тайная магия", "what": "Бурст, много маны"}, {"n": "Огонь", "what": "Криты и поджоги"}, {"n": "Лёд", "what": "Урон и контроль"}]}, "warlock": {"armor": "Ткань", "weapons": "Кинжалы, мечи, посохи, жезлы", "resource": "Мана; Жизнеотвод меняет здоровье на ману", "lvl": "Средний темп прокачки", "group": ["Камень здоровья и Камень души", "Ритуал призыва: собирает группу", "Проклятие косноязычия замедляет заклинания на 60%", "Проклятие стихий: больше магического урона по цели"], "pros": ["Самостоятельный: демон и Жизнеотвод", "Много пользы группе", "Сильный урон со временем"], "cons": ["Хрупкий и неподвижный", "Урон раскачивается не сразу", "Нет рывка и ускорения"], "specs": [{"n": "Колдовство", "what": "Урон от проклятий и порчи"}, {"n": "Демонология", "what": "Урон через демонов"}, {"n": "Разрушение", "what": "Прямой урон огнём и тьмой"}]}, "druid": {"armor": "Ткань, кожа", "weapons": "Кинжалы, булавы, посохи, кистевое, древковое с 20 уровня", "resource": "Мана; ярость в облике медведя, энергия в облике кошки", "lvl": "Примерно на 5% медленнее среднего", "group": ["Вожак стаи и аура лунного совуха действуют на весь рейд и складываются", "Возрождение: воскрешение в бою", "Озарение возвращает ману лекарю", "Снимает проклятия и яды"], "pros": ["Все три роли на одном персонаже", "Отличная мобильность", "Воскрешение в бою"], "cons": ["Нет блока и парирования у медведя", "Сложнее следить за эффектами лечения", "Итоговые цифры в рейдах ещё неизвестны"], "specs": [{"n": "Баланс", "what": "Урон дальнего боя"}, {"n": "Сила зверя", "what": "Танк (медведь) и урон в ближнем бою (кошка)"}, {"n": "Исцеление", "what": "Лекарь, много лечения по времени"}]}};
 const CPROF = {"warrior": [["Кузнечное дело + Горное дело", "Для латников и ближнего боя: оружие и доспехи себе сами."], ["Инженерное дело + Горное дело", "Для PvP, полезных устройств и веселья. В лагере Reagent Bot продаёт реагенты, на 2 уровне чинит экипировку."]], "paladin": [["Кузнечное дело + Горное дело", "Для латников и ближнего боя: оружие и доспехи себе сами."], ["Алхимия + Травничество", "Зелья для себя и группы и заработок золота. Подходит любому классу."]], "hunter": [["Кожевничество + Снятие шкур", "Для тех, кто носит кожу и кольчугу. Кожевник ставит в лагере Camp Tent, она даёт отдых."], ["Инженерное дело + Горное дело", "Инженер делает себе ружья и патроны."]], "rogue": [["Кожевничество + Снятие шкур", "Для тех, кто носит кожу и кольчугу. Кожевник ставит в лагере Camp Tent, она даёт отдых."], ["Инженерное дело + Горное дело", "Для PvP, полезных устройств и веселья. В лагере Reagent Bot продаёт реагенты, на 2 уровне чинит экипировку."]], "priest": [["Портняжное дело + Наложение чар", "Для тех, кто носит ткань, и заклинателей."], ["Алхимия + Травничество", "Зелья для себя и группы и заработок золота. Подходит любому классу."]], "shaman": [["Кожевничество + Снятие шкур", "Для тех, кто носит кожу и кольчугу. Кожевник ставит в лагере Camp Tent, она даёт отдых."], ["Алхимия + Травничество", "Зелья для себя и группы и заработок золота. Подходит любому классу."]], "mage": [["Портняжное дело + Наложение чар", "Для тех, кто носит ткань, и заклинателей."], ["Алхимия + Травничество", "Зелья для себя и группы и заработок золота. Подходит любому классу."]], "warlock": [["Портняжное дело + Наложение чар", "Знамя Faction Banner от портного даёт дух для Жизнеотвода."], ["Алхимия + Травничество", "Зелья для себя и группы и заработок золота. Подходит любому классу."]], "druid": [["Алхимия + Травничество", "Зелья для себя и группы и заработок золота. Подходит любому классу."], ["Кожевничество + Снятие шкур", "Для тех, кто носит кожу и кольчугу. Кожевник ставит в лагере Camp Tent, она даёт отдых."]]};   /* recommended profession pairs per class, already in the page language (build.class_profs) */
 const $ = s => document.querySelector(s);
 const ROOT = '../', HOME = '../';
@@ -1415,7 +1265,7 @@ function syncSeg(id, v) { document.querySelectorAll(`#${id} button`).forEach(b =
 const FAC = { alliance: 'Альянс', horde: 'Орда' };
 const RSLUG = { human: 'human', dwarf: 'dwarf', nightelf: 'night-elf', gnome: 'gnome', skyA: 'skyborne-alliance', orc: 'orc', undead: 'undead', tauren: 'tauren', troll: 'troll', skyH: 'skyborne-horde' };
 const classUrl = id => `${HOME}classes/${id}/`, raceUrl = id => `${HOME}races/${RSLUG[id]}/`;
-const art = id => `${ROOT}assets/art/${id}-360.webp?v=0003354e`;
+const art = id => `${ROOT}assets/art/${id}-360.webp`;
 async function copyTo(text, msgEl, ok) {
   try { await navigator.clipboard.writeText(text); msgEl.textContent = ok; } catch (e) { msgEl.textContent = 'Не удалось скопировать, выделите и нажмите Ctrl+C'; }
 }
@@ -1647,71 +1497,6 @@ $('#cPick').addEventListener('click', e => {
   const nb = document.querySelector(`#cPick [data-id="${b.dataset.id}"]`); if (nb) nb.focus();
 });
 
-/* ---------- Search ---------- */
-const KIND = { cls: 'Класс', spec: 'Специализация', abil: 'Способность', race: 'Раса', rac: 'Расовая', dung: 'Подземелье', prof: 'Профессия', sec: 'Раздел' };
-const SECTIONS = [
-  ['Где вы сейчас', '#stages'], ['Подборщик: раса и класс', '#picker'], ['Конструктор группы', '#builder'],
-  ['Даты и наборы', 'guides/faq/#dates'], ['Система Legacy', 'guides/leveling/#legacy'], ['Лагерь и профессии', 'guides/leveling/#camp'], ['Подземелья и рейды', 'guides/dungeons/'], ['Чем Forever отличается от Classic Era', 'guides/faq/#era']
-];
-const norm = s => String(s).toLowerCase().replace(/\u0451/g, '\u0435').replace(/[’'`]/g, '');
-const IDX = [];
-function add(kind, t, sub, u, extra, cc) { IDX.push({ kind, t, sub, u, cc, nt: norm(t), nh: norm([t, sub, extra || ''].join(' ')) }); }
-SECTIONS.forEach(([t, h]) => add('sec', t, h.startsWith('guides/') ? 'Гайды' : 'Главная страница гида', HOME + h));
-add('sec', 'Рамки группы и рейда', 'Эта страница', '#raid');
-add('sec', 'Сравнение классов и рас', 'Эта страница', '#compare');
-CLASSES.forEach(c => {
-  add('cls', c.n, c.roles.map(r => ROLE_RU[r]).join(', '), classUrl(c.id), CX[c.id].specs.map(s => s.n + ' ' + s.en).join(' '), CCOL[c.id]);
-  CX[c.id].specs.forEach(s => {
-    add('spec', s.n, `${c.n} · ${s.what}`, classUrl(c.id) + '#specs', s.en + ' ' + s.roles.map(r => ROLE_RU[r]).join(' '), CCOL[c.id]);
-    s.keys.forEach(k => add('abil', k[0], `${k[0] === k[1] ? '' : k[1] + ' · '}${c.n}, ${s.n}. ${k[2]}`, classUrl(c.id) + '#specs', k[1], CCOL[c.id]));
-  });
-});
-RACES.forEach(r => {
-  add('race', raceName(r), FAC[r.f] + (r.paid ? ', платная' : '') + ' · ' + Object.keys(r.can).map(c => CL[c].n).join(', '), raceUrl(r.id), r.n);
-  r.rac.forEach(x => add('rac', x[1], `${raceName(r)} · ${x[2]}`, raceUrl(r.id), EN[x[1]]));
-});
-DUNGEONS.forEach(d => add('dung', d[0], `${d[1]}–${d[2]} · ${d[3]}`, HOME + 'guides/dungeons/#list'));
-PROFS.forEach(p => add('prof', p[1], `Лагерь: ${p[3]}, ${p[4]}`, HOME + 'guides/professions/#camp'));
-
-let sLimit = 10;
-function hl(t, terms) {
-  let h = esc(t);
-  const nt = norm(t), first = terms.find(x => nt.includes(x));
-  if (first) { const i = nt.indexOf(first); h = esc(t.slice(0, i)) + '<mark>' + esc(t.slice(i, i + first.length)) + '</mark>' + esc(t.slice(i + first.length)); }
-  return h;
-}
-function runSearch() {
-  const raw = $('#q').value.trim(), q = norm(raw);
-  const res = $('#sres'), stat = $('#sstat'), more = $('#smore');
-  $('#shint').hidden = !!q;
-  if (!q) { res.innerHTML = ''; stat.textContent = ''; more.hidden = true; return; }
-  let hits;
-  const lv = /^\d{1,2}$/.test(q) ? +q : 0;
-  if (lv) hits = DUNGEONS.filter(d => d[1] <= lv && lv <= d[2]).map(d => IDX.find(x => x.kind === 'dung' && x.t === d[0]));
-  else {
-    const terms = q.split(/\s+/);
-    hits = IDX.map(x => {
-      if (!terms.every(t => x.nh.includes(t))) return null;
-      const score = (x.nt === q ? 0 : x.nt.startsWith(q) ? 1 : x.nt.includes(q) ? 2 : terms.every(t => x.nt.includes(t)) ? 3 : 4) * 10 + Object.keys(KIND).indexOf(x.kind);
-      return [score, x];
-    }).filter(Boolean).sort((a, b) => a[0] - b[0]).map(a => a[1]);
-  }
-  const terms = q.split(/\s+/);
-  stat.textContent = hits.length ? (lv ? `Уровень ${lv}, подходящих подземелий: ${hits.length}` : `Найдено: ${hits.length}`) : '';
-  res.innerHTML = hits.length ? hits.slice(0, sLimit).map(x => `<li><a href="${x.u}"><b>${hl(x.t, terms)}</b><span class="k">${KIND[x.kind]}</span><span class="s"${x.cc ? ` style="--cc:${x.cc}"` : ''}>${esc(x.sub)}</span></a></li>`).join('') : '<li class="snone">Ничего не нашлось. Попробуйте другое слово или английское название.</li>';
-  more.hidden = hits.length <= sLimit;
-  more.textContent = `Показать все (${hits.length})`;
-}
-$('#q').addEventListener('input', () => { sLimit = 10; runSearch(); });
-$('#q').addEventListener('keydown', e => { if (e.key === 'Escape') { e.target.value = ''; runSearch(); } });
-$('#smore').onclick = () => { sLimit = 1000; runSearch(); };
-$('#shint').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { $('#q').value = b.textContent; sLimit = 10; runSearch(); $('#q').focus(); } });
-document.addEventListener('keydown', e => {
-  if (e.key !== '/' || e.ctrlKey || e.metaKey || e.altKey) return;
-  const t = e.target; if (t.closest('input, textarea, select, [contenteditable]') || document.querySelector('dialog[open]')) return;
-  e.preventDefault(); $('#q').focus(); $('#q').scrollIntoView({ block: 'center' });
-});
-
 /* ---------- Page chrome ---------- */
 const themeBtns = document.querySelectorAll('.themebtn');
 function paintTheme() { const t = document.documentElement.getAttribute('data-theme'); themeBtns.forEach(b => b.querySelector('use').setAttribute('href', t === 'light' ? '#i-moon' : '#i-sun')); const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#fbfaf7' : '#07080a'); }
@@ -1732,8 +1517,13 @@ readHash();
 if (!R.s.some(Boolean)) { const used = { tank: 0, heal: 0, dps: 0 }; R.s = R.s.map((_, i) => newPlayer(i, used)); }
 renderRaid(fromLink); renderPick(); renderCmp();
 if (fromLink) $('#raid').scrollIntoView();
-const q0 = new URLSearchParams(location.search).get('q');
-if (q0) { $('#q').value = q0.slice(0, 60); runSearch(); }
+$('.sopen').onclick = () => { const b = document.querySelector('.srchbtn'); if (b) b.click(); };   // the site search (assets/search/)
+const q0 = new URLSearchParams(location.search).get('q');   // tools/?q=... opens it with the query, once search.js (deferred) is in
+if (q0) addEventListener('DOMContentLoaded', () => {
+  $('.sopen').click();
+  const i = document.querySelector('dialog.srch input');
+  if (i) { i.value = q0.slice(0, 60); i.dispatchEvent(new Event('input')); }
+});
 </script>
 <script src="../assets/living/living.js?v=90dc38be67" defer></script>
 <script>
@@ -1802,8 +1592,8 @@ addEventListener('beforeinstallprompt', e => {
   opts.append(b);
 });
 </script>
-<script src="../assets/radio/radio.js?v=172cc556c4" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=4d00b79945" data-root="../" defer></script>
+<script src="../assets/radio/radio.js" data-root="../" defer></script>
+<script src="../assets/search/search.js?v=f37c257b5b" data-root="../" defer></script>
 <script src="../assets/me/me.js?v=9f6bfa2333" data-root="../" data-home="../" data-lang="ru" data-teaser="Профиль хранит ваших персонажей, достижения и рамки" data-close="Закрыть" data-page="tools/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>

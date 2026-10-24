@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
+<script>if (location.hash.indexOf('#team=') === 0) location.replace('tools/' + location.hash);   // group links of the old home builder open on /tools/</script>
 <script>
 /* Old guide anchors moved to /guides/ pages (stage 5): keep Discord links working */
 (function () {
@@ -366,13 +367,6 @@ canvas.fx.on { opacity: 1; }
 .stband .wrap { display: grid; gap: 20px; }
 /* page-level grids: one column that may shrink, so a long word or a wide field never pushes past the screen edge */
 section.block, .hero-in, .chero-in, .thero-in, .stband .wrap { grid-template-columns: minmax(0, 1fr); }
-/* Shade right behind the hero text: sky and sun in the art are light, a soft dark patch keeps the words readable (no box) */
-.hero-in, .thero-in, .ghero .wrap { position: relative; }
-.hero-in::before, .thero-in::before, .ghero .wrap::before { content: ""; position: absolute; z-index: -1; left: -14vw; width: min(1180px, 100vw); pointer-events: none;
-  background: radial-gradient(farthest-side at 42% 50%, rgb(var(--hero-fade) / .66), rgb(var(--hero-fade) / .5) 55%, rgb(var(--hero-fade) / 0)); }
-.hero-in::before { top: calc(var(--top) + clamp(40px, 9vh, 110px) - 90px); bottom: -20px; }
-.thero-in::before, .ghero .wrap::before { top: -90px; bottom: -70px; }
-.ghero .wrap::before { background: radial-gradient(farthest-side at 42% 50%, color-mix(in srgb, var(--bg) 66%, transparent), color-mix(in srgb, var(--bg) 50%, transparent) 55%, transparent); }   /* guide text follows the theme */
 .stband .sec-head p { color: var(--fg); opacity: .85; }
 .stband .sec-head .src { color: var(--fg); opacity: .7; }
 .frame { position: relative; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); box-shadow: 0 18px 48px rgba(0,0,0,.35); backdrop-filter: blur(6px); }
@@ -471,8 +465,8 @@ ul.buffs .m { color: var(--muted); }
 /* Content blocks reused by the reference sections: framed panels, plaques, tips */
 .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(290px, 100%), 1fr)); gap: 16px; }
 .grid2 > * { min-width: 0; }
-.panel, .tool, .summary { border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); box-shadow: 0 14px 40px rgba(0,0,0,.28); }
-:root[data-theme="light"] .panel, :root[data-theme="light"] .tool, :root[data-theme="light"] .summary, :root[data-theme="light"] .frame { box-shadow: 0 10px 30px rgba(40,32,16,.08); }
+.panel, .tool { border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); box-shadow: 0 14px 40px rgba(0,0,0,.28); }
+:root[data-theme="light"] .panel, :root[data-theme="light"] .tool, :root[data-theme="light"] .frame { box-shadow: 0 10px 30px rgba(40,32,16,.08); }
 .panel { padding: 22px 24px; display: grid; gap: 12px; align-content: start; }
 .panel h3 { font-size: 1.45rem; }
 .panel > .tipbox, .panel > .note { margin-top: 2px; }
@@ -609,55 +603,15 @@ ul.plain { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
 ul.plain li { display: grid; gap: 1px; }
 .en { font-weight: 400; color: var(--muted); font-size: .92em; }
 
-/* Builder */
-.builder { display: grid; grid-template-columns: minmax(0, 1fr) 310px; gap: 24px; align-items: start; }
+/* Builder: parts the /tools/ raid frames still use */
 .steps { display: grid; gap: 24px; }
 .step { display: grid; grid-template-columns: 30px 1fr; gap: 6px 14px; align-items: start; }
-.stepn { font-family: var(--font-display); font-size: 2rem; line-height: 1; color: var(--gold-2); text-align: center; font-variant-numeric: lining-nums; }
 .step > div { display: grid; gap: 10px; min-width: 0; }
 .step b { font-size: 1.05rem; font-weight: 600; }
-.sizes { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-#sizes { gap: 2px; padding: 4px; justify-self: start; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); }
-.sizes button { min-width: 48px; min-height: 42px; padding: 0 12px; border: 0; border-radius: 7px; background: transparent; font-weight: 600; font-variant-numeric: tabular-nums; transition: background-color .15s; }
-.sizes button:hover { background: color-mix(in srgb, var(--fg) 7%, transparent); }
-.sizes button[aria-pressed="true"] { background: #c9a54a; color: #15110a; }
 .stepper { display: inline-flex; align-items: center; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); }
 .stepper button { min-width: 44px; min-height: 44px; border: 0; background: transparent; font-size: 1.2rem; }
 .stepper button:hover { color: var(--gold-2); }
 .stepper output { min-width: 48px; text-align: center; font-weight: 600; font-variant-numeric: tabular-nums; }
-.slots { display: grid; gap: 14px; }
-.party { display: grid; gap: 6px; }
-.party-h { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; padding-bottom: 4px; }
-.party-h h4 { margin: 0; font-family: var(--font-display); font-size: 1.25rem; font-weight: var(--display-w); }
-.party-h .pc { display: inline-flex; flex-wrap: wrap; gap: 12px; color: var(--muted); font-size: .88rem; font-weight: 500; }
-.party-h .pc .miss { color: var(--horde); }
-.party-h .pc .ok { color: var(--new); }
-.slot { display: grid; grid-template-columns: 54px minmax(0,1.2fr) minmax(0,1.2fr) minmax(0,.9fr) 40px; gap: 6px; align-items: center; padding: 8px 8px 8px 12px; border: 1px solid var(--pline); border-radius: 12px; background: linear-gradient(90deg, color-mix(in srgb, var(--cc) 14%, var(--panel-2)) 0%, var(--panel-2) 45%); transition: border-color .2s; }
-.slot:hover { border-color: color-mix(in srgb, var(--cc) 45%, var(--pline)); }
-.slot .no { --s: 44px; --ring-gap: var(--panel-2); }
-.slot .no b { position: absolute; right: -5px; bottom: -5px; min-width: 20px; padding: 0 4px; border-radius: 999px; background: var(--bg); border: 1px solid var(--pline); color: var(--fg); font-size: .7rem; font-weight: 700; line-height: 18px; text-align: center; font-variant-numeric: tabular-nums; }
-.slot select { width: 100%; min-width: 0; min-height: 44px; padding: 0 28px 0 10px; font: inherit; font-size: .95rem; font-weight: 600; color: var(--fg); border: 0; border-radius: 8px; background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%238d929b' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 10px center; -webkit-appearance: none; appearance: none; cursor: pointer; transition: background-color .15s; }
-.slot select:hover { background-color: color-mix(in srgb, var(--fg) 6%, transparent); }
-.slot select.scls { color: var(--cc); }
-:root[data-theme="light"] .slot select.scls { color: var(--fg); }
-.slot select.srole { font-weight: 500; color: var(--ink-2); }
-:root[data-theme="light"] .slot select.srole { color: var(--muted); }
-.slot select option { background: var(--surface); color: var(--fg); }
-.slot .del { width: 40px; height: 40px; border: 0; border-radius: 50%; background: transparent; color: var(--muted); display: grid; place-items: center; transition: background-color .15s, color .15s; }
-.slot .del:hover { color: var(--horde); background: color-mix(in srgb, var(--horde) 12%, transparent); }
-.row-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-.summary { position: sticky; top: calc(var(--top) + 16px); display: grid; overflow: hidden; }
-.summary > div { padding: 16px 18px; border-bottom: 1px solid var(--pline); }
-.summary > div:last-child { border-bottom: 0; }
-.summary h4 { margin: 0 0 8px; font-size: .9rem; font-weight: 600; color: var(--muted); }
-.roles-sum { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-.rs { display: grid; justify-items: center; gap: 2px; padding: 12px 4px 10px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); }
-.rs b { font-family: var(--font-display); font-size: 1.8rem; font-weight: 400; line-height: 1; font-variant-numeric: tabular-nums lining-nums; }
-.rs span { color: var(--muted); font-size: .8rem; }
-.rs.ok { border-color: color-mix(in srgb, var(--new) 55%, transparent); }
-.rs.ok b { color: var(--new); }
-.rs.zero { border-color: color-mix(in srgb, var(--horde) 55%, transparent); }
-.rs.zero b { color: var(--horde); }
 ul.verdict { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
 ul.verdict li { padding-left: 22px; position: relative; font-size: .93rem; }
 ul.verdict li::before { content: "·"; position: absolute; left: 6px; color: var(--muted); font-weight: 700; }
@@ -665,8 +619,6 @@ ul.verdict li.good::before { content: "✓"; color: var(--new); left: 3px; }
 ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .cdot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 7px; background: var(--cc, var(--muted)); }
 :root[data-theme="light"] .cdot { box-shadow: inset 0 0 0 1px rgba(0,0,0,.35); }
-.summary .copyrow input { flex-basis: 100%; }
-.summary .copyrow .btn { flex: 1 1 auto; }
 
 /* Comparison tables: classes and races, one row per entry, whole row opens its page */
 .cmp { display: grid; gap: 6px; }
@@ -781,8 +733,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .pfac { padding: 10px; }
 }
 @media (max-width: 980px) {
-  .builder, .journey { grid-template-columns: 1fr; }
-  .summary, .me { position: static; }
+  .journey { grid-template-columns: 1fr; }
+  .me { position: static; }
   .stiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .factions { grid-template-columns: 1fr; }
   .ttiles, .ttiles.t4 { grid-template-columns: 1fr; }
@@ -852,14 +804,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .d-body { padding: 4px 16px 18px; }
   .copyrow .btn { max-width: 100%; white-space: normal; }
   .d-avs .av { --s: 54px; }
-  .slot { grid-template-columns: 50px minmax(0, 2.6fr) minmax(0, 1fr) 40px; gap: 4px 6px; padding: 8px; }
-  .slot .no { grid-row: 1 / 3; align-self: center; }
 
-  .slot select { font-size: .9rem; padding: 0 4px; }
-  .slot select.srace { grid-column: 2 / 4; }
-  .slot .del { grid-row: 1; grid-column: 4; }
-  .slot select.scls { grid-column: 2; }
-  .slot select.srole { grid-column: 3 / 5; }
   .stband { padding-top: 80px; }
   .stband-art, .stband-art img, .stband::before { height: 480px; }
   .camp { min-height: 640px; align-content: start; }
@@ -880,7 +825,6 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .dg tbody th .z { display: block; color: var(--muted); font-weight: 400; font-size: .85rem; }
   #segD { width: 100%; }
   #segD button { flex: 1 1 auto; padding: 0 8px; }
-  dl.facts div { grid-template-columns: 1fr; gap: 0; }
   body { padding-bottom: calc(62px + env(safe-area-inset-bottom, 0px)); }
   .tabbar { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); position: fixed; inset: auto 0 0 0; z-index: 35; background: var(--rail); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px); }
   .tabbar a, .tabbar button { min-height: 60px; display: grid; justify-items: center; align-content: center; gap: 3px; padding: 0 2px; border: 0; background: none; color: var(--muted); text-decoration: none; text-align: center; font-size: .72rem; font-weight: 500; line-height: 1.2; }
@@ -911,18 +855,16 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .rv.in { opacity: 1; transform: none; transition: opacity .6s var(--ease), transform .6s var(--ease); }
 @media print { .rv { opacity: 1; transform: none; } }
 </style>
-<style>.skip{position:fixed;left:12px;top:-60px;z-index:100;padding:10px 16px;border-radius:10px;background:#0a0b0d;color:#c9a54a;font-weight:600;text-decoration:none;border:1px solid #c9a54a}.skip:focus{top:12px}</style>
 <link data-rel="manifest" href="./manifest-ru.webmanifest">
 <link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
-<link data-rel="stylesheet" href="./assets/radio/radio.css?v=172cc556c4">
-<link data-rel="stylesheet" href="./assets/search/search.css?v=4d00b79945">
+<link data-rel="stylesheet" href="./assets/radio/radio.css">
+<link data-rel="stylesheet" href="./assets/search/search.css?v=f37c257b5b">
 <link data-rel="stylesheet" href="./assets/me/me.css?v=9f6bfa2333">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Гид WoW Forever","alternateName":"Gabella","url":"https://gabella.site/wow/","inLanguage":"ru","description":"Гид по WoW Forever (ВоВ Форевер): кем играть, подборщик расы и класса, сборка группы и гайды по прокачке, подземельям и профессиям.","publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/ZGpznkX3Zw"]}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/ZGpznkX3Zw"]}</script>
 </head>
 <body>
-<a class="skip" href="#content">К содержимому</a>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-tank" viewBox="0 0 24 24"><path d="M12 3l7 3v5.5c0 4.6-3 7.7-7 9.5-4-1.8-7-4.9-7-9.5V6z"/></symbol>
   <symbol id="i-heal" viewBox="0 0 24 24"><path d="M10 4h4v6h6v4h-6v6h-4v-6H4v-4h6z"/></symbol>
@@ -958,17 +900,16 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     <button class="iconbtn menubtn" type="button" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg><span>Ещё</span></button>
   </div>
 </div></header>
-<span id="content" tabindex="-1"></span>
 
 <section class="hero" id="top">
   <picture class="hero-art" data-fx="dawn" data-tod-art><source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/avif" data-srcset="./assets/art/hero_{tod}-m-600.avif?v=67b8ab16 600w, ./assets/art/hero_{tod}-m-1000.avif?v=56dce4e9 1000w" sizes="78vh"><source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/webp" data-srcset="./assets/art/hero_{tod}-m-600.webp?v=40dedc78 600w, ./assets/art/hero_{tod}-m-1000.webp?v=1e3336eb 1000w" sizes="78vh"><source type="image/avif" data-srcset="./assets/art/hero_{tod}-960.avif?v=7c2ba2bb 960w, ./assets/art/hero_{tod}-1440.avif?v=6dfffb83 1440w, ./assets/art/hero_{tod}-1920.avif?v=69cdc3bc 1920w, ./assets/art/hero_{tod}-2560.avif?v=ed885ec3 2560w, ./assets/art/hero_{tod}-3840.avif?v=3243dec8 3840w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw"><source type="image/webp" data-srcset="./assets/art/hero_{tod}-960.webp?v=91f86913 960w, ./assets/art/hero_{tod}-1440.webp?v=6687926c 1440w, ./assets/art/hero_{tod}-1920.webp?v=9bd2353a 1920w, ./assets/art/hero_{tod}-2560.webp?v=701141f9 2560w, ./assets/art/hero_{tod}-3840.webp?v=9f832fe5 3840w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw"><img data-src="./assets/art/hero_{tod}-1920.webp?v=9bd2353a" width="1920" height="1072" alt="" fetchpriority="high" decoding="async"></picture><script>(function(p,t){p.querySelectorAll("[data-srcset]").forEach(function(e){e.srcset=e.getAttribute("data-srcset").replace(/\{tod\}/g,t)});var i=p.querySelector("img");i.src=i.getAttribute("data-src").replace(/\{tod\}/g,t)})(document.currentScript.previousElementSibling,GabellaTod.now)</script><noscript><picture class="hero-art"><source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/avif" srcset="./assets/art/hero_dawn-m-600.avif?v=5752a830 600w, ./assets/art/hero_dawn-m-1000.avif?v=2c80761e 1000w" sizes="78vh"><source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/webp" srcset="./assets/art/hero_dawn-m-600.webp?v=a11d4a2e 600w, ./assets/art/hero_dawn-m-1000.webp?v=5fe9edb1 1000w" sizes="78vh"><source type="image/avif" srcset="./assets/art/hero_dawn-960.avif?v=72b3acf6 960w, ./assets/art/hero_dawn-1440.avif?v=4c7215d4 1440w, ./assets/art/hero_dawn-1920.avif?v=baf52983 1920w, ./assets/art/hero_dawn-2560.avif?v=78086c34 2560w, ./assets/art/hero_dawn-3840.avif?v=b7217b4e 3840w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw"><source type="image/webp" srcset="./assets/art/hero_dawn-960.webp?v=4eae2c5c 960w, ./assets/art/hero_dawn-1440.webp?v=389093cd 1440w, ./assets/art/hero_dawn-1920.webp?v=1d137c11 1920w, ./assets/art/hero_dawn-2560.webp?v=f7135c28 2560w, ./assets/art/hero_dawn-3840.webp?v=f48b5767 3840w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw"><img src="./assets/art/hero_dawn-1920.webp?v=1d137c11" width="1920" height="1072" alt="" decoding="async"></picture></noscript>
   <div class="wrap hero-in">
     <h1>World of Warcraft <span>Forever</span></h1>
     <p class="lead">Классы, расы, сбор группы и всё, что нужно знать к старту 4 ноября. С источниками и датой.</p>
-    <div class="cd" id="cd"></div><p class="sr" id="cdLive" aria-live="polite"></p>
+    <div class="cd" id="cd" aria-live="polite"></div>
     <div class="cta">
       <a class="btn lg" href="#classes">Выбрать класс</a>
-      <a class="btn lg ghost" href="#builder">Собрать группу</a>
+      <a class="btn lg ghost" href="tools/#raid">Собрать группу</a>
     </div>
     <p class="hmeta">Гид Gabella · данные на 23.10.2026</p>
     <div class="todsw" data-tod-sw></div>
@@ -1013,14 +954,14 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <div class="sec-head"><h2>Альянс или Орда</h2><p>Договоритесь о фракции заранее: в PvP-режиме при создании доступна только одна. Девять классов есть у обеих сторон.</p></div>
   <div class="frame factions">
     <article class="fac alliance">
-      <picture><source type="image/avif" srcset="./assets/art/paladin-600.avif?v=0003354e 600w, ./assets/art/paladin-896.avif?v=0003354e 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><source type="image/webp" srcset="./assets/art/paladin-600.webp?v=0003354e 600w, ./assets/art/paladin-896.webp?v=0003354e 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><img src="./assets/art/paladin-600.webp?v=0003354e" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
+      <picture><source type="image/avif" srcset="./assets/art/paladin-600.avif?v=62bbe825 600w, ./assets/art/paladin-896.avif?v=f272a36e 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><source type="image/webp" srcset="./assets/art/paladin-600.webp?v=ce6a9574 600w, ./assets/art/paladin-896.webp?v=0288b052 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><img src="./assets/art/paladin-600.webp?v=ce6a9574" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
       <h3>Альянс</h3>
       <p>Человек, дворф, ночной эльф, гном и Высший скайборн.</p>
       <p><b>Новое:</b> дворф-шаман, гном-жрец и человек-охотник.</p>
       <button type="button" class="go-f" data-fac="alliance">Подобрать расу и класс<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
     </article>
     <article class="fac horde">
-      <picture><source type="image/avif" srcset="./assets/art/shaman-600.avif?v=0003354e 600w, ./assets/art/shaman-896.avif?v=0003354e 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><source type="image/webp" srcset="./assets/art/shaman-600.webp?v=0003354e 600w, ./assets/art/shaman-896.webp?v=0003354e 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><img src="./assets/art/shaman-600.webp?v=0003354e" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
+      <picture><source type="image/avif" srcset="./assets/art/shaman-600.avif?v=f3897c65 600w, ./assets/art/shaman-896.avif?v=bf19e5ec 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><source type="image/webp" srcset="./assets/art/shaman-600.webp?v=685d7399 600w, ./assets/art/shaman-896.webp?v=c55422e9 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><img src="./assets/art/shaman-600.webp?v=685d7399" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
       <h3>Орда</h3>
 
       <p>Орк, нежить, таурен, тролль и Скайборн-ветрорез.</p>
@@ -1050,10 +991,10 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <section class="block wrap" id="tools">
   <div class="sec-head"><h2>Инструменты</h2><p>Подбор расы и класса, сбор группы, а на отдельной странице рамки рейда как в игре, сравнение и поиск по гиду. Ссылкой на состав можно поделиться в чате.</p></div>
   <nav class="frame ttiles t4" aria-label="Инструменты">
-    <a class="ttile" href="#picker"><picture><source type="image/avif" srcset="./assets/art/druid-360.avif?v=0003354e 360w, ./assets/art/druid-600.avif?v=0003354e 600w" sizes="(max-width: 980px) 100vw, 400px"><source type="image/webp" srcset="./assets/art/druid-360.webp?v=0003354e 360w, ./assets/art/druid-600.webp?v=0003354e 600w" sizes="(max-width: 980px) 100vw, 400px"><img src="./assets/art/druid-600.webp?v=0003354e" alt="" loading="lazy" decoding="async"></picture><b>Подборщик расы и класса</b><span id="qPick">Все сочетания и что умеет каждое</span></a>
-    <a class="ttile" href="#builder"><picture><source type="image/avif" srcset="./assets/art/hero_campfire-960.avif?v=2654726f"><img src="./assets/art/hero_campfire-960.webp?v=d73f1e16" alt="" loading="lazy" decoding="async"></picture><b>Конструктор группы</b><span id="qTeam">От одного до сорока игроков</span></a>
-    <a class="ttile" href="tools/"><picture><source type="image/avif" srcset="./assets/art/paladin-600.avif?v=0003354e"><img src="./assets/art/paladin-600.webp?v=0003354e" alt="" loading="lazy" decoding="async"></picture><b>Рамки, сравнение, поиск</b><span>Рейдовая сетка как в игре, классы и расы рядом</span></a>
-    <a class="ttile" href="play/"><picture><source type="image/avif" srcset="./assets/art/mage-600.avif?v=0003354e"><img src="./assets/art/mage-600.webp?v=0003354e" alt="" loading="lazy" decoding="async"></picture><b>В игре</b><span>Второй экран: радио, уровень, таймеры</span></a>
+    <a class="ttile" href="#picker"><picture><source type="image/avif" srcset="./assets/art/druid-360.avif?v=ab838763 360w, ./assets/art/druid-600.avif?v=1b0c026e 600w" sizes="(max-width: 980px) 100vw, 400px"><source type="image/webp" srcset="./assets/art/druid-360.webp?v=8c2cd510 360w, ./assets/art/druid-600.webp?v=35718cc0 600w" sizes="(max-width: 980px) 100vw, 400px"><img src="./assets/art/druid-600.webp?v=35718cc0" alt="" loading="lazy" decoding="async"></picture><b>Подборщик расы и класса</b><span id="qPick">Все сочетания и что умеет каждое</span></a>
+    <a class="ttile" href="tools/#raid"><picture><source type="image/avif" srcset="./assets/art/hero_campfire-960.avif?v=2654726f"><img src="./assets/art/hero_campfire-960.webp?v=d73f1e16" alt="" loading="lazy" decoding="async"></picture><b>Конструктор группы</b><span>От одного до сорока игроков</span></a>
+    <a class="ttile" href="tools/"><picture><source type="image/avif" srcset="./assets/art/paladin-600.avif?v=62bbe825"><img src="./assets/art/paladin-600.webp?v=ce6a9574" alt="" loading="lazy" decoding="async"></picture><b>Рамки, сравнение, поиск</b><span>Рейдовая сетка как в игре, классы и расы рядом</span></a>
+    <a class="ttile" href="play/"><picture><source type="image/avif" srcset="./assets/art/mage-600.avif?v=632283e7"><img src="./assets/art/mage-600.webp?v=37403d76" alt="" loading="lazy" decoding="async"></picture><b>В игре</b><span>Второй экран: радио, уровень, таймеры</span></a>
   </nav>
 
 </section>
@@ -1083,44 +1024,18 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   </div>
   <p class="note"><b>Новые комбинации:</b> дворф-шаман и гном-жрец (Альянс), человек-охотник, а у Орды орк-маг, тролль-чернокнижник и нежить-паладин. Паладин появился у Орды, шаман у Альянса. Скайборн-ветрорез (Орда) может быть шаманом, Высший скайборн (Альянс) магом.</p>
 </section>
-<section class="block wrap" id="builder">
-  <div class="sec-head"><h2>Конструктор группы</h2>
-    <p>Три шага: фракция, сколько вас и кто за кого играет. Сразу видно, чего не хватает, какие баффы вы приносите и можно ли идти в рейд.</p></div>
-  <div class="builder">
-    <div class="tool">
-      <div class="steps">
-        <div class="step"><span class="stepn">1</span><div><b id="lbf">Фракция</b>
-          <div class="seg" id="segBF" aria-labelledby="lbf"><button data-v="alliance" aria-pressed="true">Альянс</button><button data-v="horde" aria-pressed="false">Орда</button></div></div></div>
-        <div class="step"><span class="stepn">2</span><div><b>Сколько вас?</b>
-          <p class="small">Нажмите число, и состав подберётся сам. Потом можно поменять любого игрока.</p>
-          <div class="sizes" id="sizes" role="group" aria-label="Размер компании"></div>
-          <div class="sizes"><div class="stepper"><button type="button" id="szMinus" aria-label="Меньше игроков">−</button><output id="szOut" aria-live="polite"></output><button type="button" id="szPlus" aria-label="Больше игроков">+</button></div><span class="small" id="szNote"></span></div></div></div>
-        <div class="step"><span class="stepn">3</span><div><b>Расы, классы и роли</b>
-          <p class="small">Игроки идут группами по 5, как в подземелье: 1–5, 6–10 и так далее.</p>
-          <div class="slots" id="slots"></div>
-          <div class="row-actions"><button class="btn ghost" id="bAdd">Добавить игрока</button><button class="btn ghost" id="bClear">Очистить</button></div></div></div>
-      </div>
-    </div>
-    <aside class="summary" aria-label="Итог по группе">
-      <div><h4>Роли</h4><div class="roles-sum" id="roleSum"></div></div>
-      <div><h4>Что получается</h4><ul class="verdict" id="verdict"></ul></div>
-      <div><h4>Баффы группы</h4><ul class="verdict" id="buffs"></ul></div>
-      <div class="copyrow"><input id="teamText" readonly aria-label="Состав для чата"><button class="btn" id="copyTeam"><svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg>Скопировать состав</button><button class="btn ghost" id="copyLink"><svg class="ico" aria-hidden="true"><use href="#i-link"/></svg>Ссылка</button><span class="small" id="teamMsg" role="status"></span></div>
-    </aside>
-  </div>
-</section>
 <section class="stband" id="guides">
   <div class="wrap">
     <div class="sec-head"><h2>Гайды и справочник</h2><p>Всё, что мы собрали о WoW Forever: даты, системы игры, подземелья и советы для компании.</p></div>
     <nav class="frame gtiles" aria-label="Гайды">
       <a class="gt" href="guides/leveling/"><picture><source type="image/avif" srcset="./assets/art/hero_dawn-960.avif?v=72b3acf6"><img src="./assets/art/hero_dawn-960.webp?v=4eae2c5c" alt="" loading="lazy" decoding="async"></picture><b>Прокачка 1–60</b><span>Маршрут по зонам, темп и отдых</span><time datetime="2026-10-23">23.10.2026</time></a>
-      <a class="gt" href="guides/dungeons/"><picture><source type="image/avif" srcset="./assets/art/warlock-360.avif?v=0003354e 360w, ./assets/art/warlock-600.avif?v=0003354e 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="./assets/art/warlock-360.webp?v=0003354e" srcset="./assets/art/warlock-360.webp?v=0003354e 360w, ./assets/art/warlock-600.webp?v=0003354e 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Подземелья и рейды</b><span>Все 35 подземелий по уровням и 3 рейда</span><time datetime="2026-10-23">23.10.2026</time></a>
+      <a class="gt" href="guides/dungeons/"><picture><source type="image/avif" srcset="./assets/art/warlock-360.avif?v=dd5fc7a8 360w, ./assets/art/warlock-600.avif?v=f1b27c51 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="./assets/art/warlock-360.webp?v=1f04d604" srcset="./assets/art/warlock-360.webp?v=1f04d604 360w, ./assets/art/warlock-600.webp?v=a0181c77 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Подземелья и рейды</b><span>Все 35 подземелий по уровням и 3 рейда</span><time datetime="2026-10-23">23.10.2026</time></a>
       <a class="gt" href="guides/professions/"><picture><source type="image/avif" srcset="./assets/art/hero_campfire-960.avif?v=2654726f"><img src="./assets/art/hero_campfire-960.webp?v=d73f1e16" alt="" loading="lazy" decoding="async"></picture><b>Профессии</b><span>Пары под класс и объекты лагеря</span><time datetime="2026-10-23">23.10.2026</time></a>
-      <a class="gt" href="guides/faq/"><picture><source type="image/avif" srcset="./assets/art/mage-360.avif?v=0003354e 360w, ./assets/art/mage-600.avif?v=0003354e 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="./assets/art/mage-360.webp?v=0003354e" srcset="./assets/art/mage-360.webp?v=0003354e 360w, ./assets/art/mage-600.webp?v=0003354e 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>FAQ и даты</b><span>Резерв имён, релиз, рейды и отличия от Era</span><time datetime="2026-10-23">23.10.2026</time></a>
-      <a class="gt" href="guides/news/"><picture><source type="image/avif" srcset="./assets/art/shaman-360.avif?v=0003354e 360w, ./assets/art/shaman-600.avif?v=0003354e 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="./assets/art/shaman-360.webp?v=0003354e" srcset="./assets/art/shaman-360.webp?v=0003354e 360w, ./assets/art/shaman-600.webp?v=0003354e 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Новости</b><span>Наши записи и лента Wowhead</span></a>
-      <a class="gt" href="classes/"><picture><source type="image/avif" srcset="./assets/art/warrior-360.avif?v=0003354e 360w, ./assets/art/warrior-600.avif?v=0003354e 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="./assets/art/warrior-360.webp?v=0003354e" srcset="./assets/art/warrior-360.webp?v=0003354e 360w, ./assets/art/warrior-600.webp?v=0003354e 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Классы: сравнение</b><span>Специализации, темп прокачки и что нового</span><time datetime="2026-10-24">24.10.2026</time></a>
-      <a class="gt" href="races/"><picture><source type="image/avif" srcset="./assets/art/human-360.avif?v=0003354e 360w, ./assets/art/human-600.avif?v=0003354e 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="./assets/art/human-360.webp?v=0003354e" srcset="./assets/art/human-360.webp?v=0003354e 360w, ./assets/art/human-600.webp?v=0003354e 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Расы: сравнение</b><span>Способности рас и доступные классы</span><time datetime="2026-10-23">23.10.2026</time></a>
-      <a class="gt" href="guides/leveling/#legacy"><picture><source type="image/avif" srcset="./assets/art/priest-360.avif?v=0003354e 360w, ./assets/art/priest-600.avif?v=0003354e 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="./assets/art/priest-360.webp?v=0003354e" srcset="./assets/art/priest-360.webp?v=0003354e 360w, ./assets/art/priest-600.webp?v=0003354e 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Legacy</b><span>Очки на весь аккаунт, перки и награды</span></a>
+      <a class="gt" href="guides/faq/"><picture><source type="image/avif" srcset="./assets/art/mage-360.avif?v=7b69fc64 360w, ./assets/art/mage-600.avif?v=632283e7 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="./assets/art/mage-360.webp?v=f08052db" srcset="./assets/art/mage-360.webp?v=f08052db 360w, ./assets/art/mage-600.webp?v=37403d76 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>FAQ и даты</b><span>Резерв имён, релиз, рейды и отличия от Era</span><time datetime="2026-10-23">23.10.2026</time></a>
+      <a class="gt" href="guides/news/"><picture><source type="image/avif" srcset="./assets/art/shaman-360.avif?v=0dbb0972 360w, ./assets/art/shaman-600.avif?v=f3897c65 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="./assets/art/shaman-360.webp?v=bebb6ed5" srcset="./assets/art/shaman-360.webp?v=bebb6ed5 360w, ./assets/art/shaman-600.webp?v=685d7399 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Новости</b><span>Наши записи и лента Wowhead</span></a>
+      <a class="gt" href="classes/"><picture><source type="image/avif" srcset="./assets/art/warrior-360.avif?v=6859bd26 360w, ./assets/art/warrior-600.avif?v=778c7ed6 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="./assets/art/warrior-360.webp?v=a184c6fb" srcset="./assets/art/warrior-360.webp?v=a184c6fb 360w, ./assets/art/warrior-600.webp?v=f33e405c 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Классы: сравнение</b><span>Специализации, темп прокачки и что нового</span><time datetime="2026-10-24">24.10.2026</time></a>
+      <a class="gt" href="races/"><picture><source type="image/avif" srcset="./assets/art/human-360.avif?v=4b83bd2a 360w, ./assets/art/human-600.avif?v=b743f61d 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="./assets/art/human-360.webp?v=f6b98610" srcset="./assets/art/human-360.webp?v=f6b98610 360w, ./assets/art/human-600.webp?v=2d8182c1 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Расы: сравнение</b><span>Способности рас и доступные классы</span><time datetime="2026-10-23">23.10.2026</time></a>
+      <a class="gt" href="guides/leveling/#legacy"><picture><source type="image/avif" srcset="./assets/art/priest-360.avif?v=7bd13375 360w, ./assets/art/priest-600.avif?v=a4c033f8 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="./assets/art/priest-360.webp?v=dceffb9e" srcset="./assets/art/priest-360.webp?v=dceffb9e 360w, ./assets/art/priest-600.webp?v=c6a0304e 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Legacy</b><span>Очки на весь аккаунт, перки и награды</span></a>
     </nav>
     <p><a class="more-l" href="guides/">Все гайды<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
   </div>
@@ -1130,7 +1045,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <div class="wrap camp-in">
     <h2>Найдите группу</h2>
     <p>Соберите группу в конструкторе и поделитесь ссылкой. Ищете людей — отметьте «Ищу группу» в профиле, и вас увидят в «Составе». Игроков собирают и на Discord-сервере Gabella Team.</p>
-    <div class="camp-btns"><a class="btn lg" href="#builder">Собрать группу</a><a class="btn lg ghost" href="roster/">Кто ищет группу</a><a class="btn lg ghost" href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Сервер в Discord</a></div>
+    <div class="camp-btns"><a class="btn lg" href="tools/#raid">Собрать группу</a><a class="btn lg ghost" href="roster/">Кто ищет группу</a><a class="btn lg ghost" href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Сервер в Discord</a></div>
   </div>
 </section>
 <div class="wrap">
@@ -1178,7 +1093,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <nav class="toc" aria-label="Все разделы">
     <div class="grp"><div class="gh">Эта страница</div><a href="#top">Обзор</a><a href="#stages">Где вы сейчас</a><a href="#factions">Фракции</a><a href="#classes">Классы</a><a href="#peoples">Расы</a></div>
     <div class="grp"><div class="gh">Справочник</div><a href="#top">Главная</a><a href="classes/">Классы: сравнение</a><a href="races/">Расы: сравнение</a><a href="guides/leveling/">Прокачка 1–60</a><a href="guides/dungeons/">Подземелья и рейды</a><a href="guides/professions/">Профессии</a><a href="guides/faq/">FAQ и даты</a><a href="guides/news/">Новости</a><a href="guides/">Все гайды</a></div>
-    <div class="grp"><div class="gh">Инструменты</div><a href="#picker">Подборщик</a><a href="#builder">Конструктор группы</a><a href="tools/">Рамки, сравнение, поиск</a><a href="play/">В игре</a></div>
+    <div class="grp"><div class="gh">Инструменты</div><a href="#picker">Подборщик</a><a href="tools/#raid">Конструктор группы</a><a href="tools/">Рамки, сравнение, поиск</a><a href="play/">В игре</a></div>
     <div class="grp"><div class="gh">Сообщество</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="roster/">Игроки</a><a href="profile/">Мой профиль</a></div>
   </nav>
   <div class="opts">
@@ -1193,8 +1108,6 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 (() => {
 const $ = s => document.querySelector(s);
 /* Countdown and key dates */
-/* the digits change every minute, so the screen reader hears only a change of stage (launch day, raids) */
-let cdStage = null;
 function renderCountdown() {
   const now = new Date(), rel = new Date('2026-11-04T23:00:00Z'), raid = new Date('2026-12-09T00:00:00'), r1 = new Date('2026-10-27T00:00:00');
   let target, what, sub;
@@ -1213,9 +1126,6 @@ function renderCountdown() {
   } else {
     $('#cd').innerHTML = `<div class="what"><b>Рейды открыты</b><span>Barrow Deeps, Вершина Хиджала, Логово Ониксии</span></div>`;
   }
-  const stage = target ? what.split(' · ')[0] : '';
-  if (cdStage !== null && stage !== cdStage) $('#cdLive').textContent = $('#cd').textContent.replace(/\s+/g, ' ').trim();
-  cdStage = stage;
   let cur = null;
   document.querySelectorAll('.hdates li').forEach(li => { const past = new Date(li.dataset.d) <= now; li.classList.toggle('past', past); li.classList.remove('cur'); if (!past && !cur) cur = li; });
   if (cur) cur.classList.add('cur');
@@ -1243,7 +1153,7 @@ $('#moreClose').onclick = () => dlg.close();
 dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.toc a')) dlg.close(); });
 })();
 </script>
-<script data-src="./assets/home/ru.js?v=4319428201"></script>
+<script data-src="./assets/home/ru.js?v=c4b3f345fb"></script>
 <script data-src="./assets/living/living.js?v=90dc38be67"></script>
 <link data-rel="stylesheet" href="./assets/tod/tod.css?v=616e6ec276">
 <script data-src="./assets/tod/tod.js?v=616e6ec276"></script>
@@ -1313,8 +1223,8 @@ addEventListener('beforeinstallprompt', e => {
   opts.append(b);
 });
 </script>
-<script data-src="./assets/radio/radio.js?v=172cc556c4" data-root="./"></script>
-<script data-src="./assets/search/search.js?v=4d00b79945" data-root="./"></script>
+<script data-src="./assets/radio/radio.js" data-root="./"></script>
+<script data-src="./assets/search/search.js?v=f37c257b5b" data-root="./"></script>
 <script data-src="./assets/me/me.js?v=9f6bfa2333" data-root="./" data-home="./" data-lang="ru" data-teaser="Профиль хранит ваших персонажей, достижения и рамки" data-close="Закрыть" data-page="" data-look="2"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
