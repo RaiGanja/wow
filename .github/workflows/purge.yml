@@ -1,0 +1,42 @@
+# Кэш Cloudflare: после выкатки в main ждёт сборку GitHub Pages и сбрасывает изменённые адреса (tools/purge_cache.py).
+# Вручную (Actions → purge → Run workflow, all = true) — сбросить весь сайт. Секреты: CF_API_TOKEN, CF_ZONE_ID.
+name: purge
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      all: { description: 'Сбросить весь сайт', type: boolean, default: false }
+permissions:
+  contents: read
+  pages: read
+concurrency: { group: purge, cancel-in-progress: false }   # each push purges its own files, one after another
+jobs:
+  purge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: Ждём сборку GitHub Pages этого коммита
+        env: { GH_TOKEN: '${{ github.token }}' }
+        run: |
+          for i in $(seq 1 60); do
+            read -r st sha <<< "$(gh api repos/${{ github.repository }}/pages/builds/latest --jq '.status + " " + .commit')"
+            echo "pages: $st $sha"
+            git fetch -q origin main || true
+            if [ "$st" = built ] && git merge-base --is-ancestor "${{ github.sha }}" "$sha"; then exit 0; fi
+            if [ "$st" = errored ]; then exit 1; fi
+            sleep 15
+          done
+          exit 1
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - env:
+          CF_API_TOKEN: '${{ secrets.CF_API_TOKEN }}'
+          CF_ZONE_ID: '${{ secrets.CF_ZONE_ID }}'
+        run: |
+          if [ "${{ github.event_name }}" = workflow_dispatch ] && [ "${{ inputs.all }}" = true ]; then
+            python tools/purge_cache.py https://gabella.site/wow/ --all
+          elif [ "${{ github.event_name }}" = push ]; then
+            python tools/purge_cache.py https://gabella.site/wow/ "${{ github.event.before }}" "${{ github.sha }}"
+          fi

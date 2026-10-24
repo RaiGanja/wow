@@ -1338,14 +1338,19 @@ addEventListener('beforeinstallprompt', e => {
   setTimeout(wake, 4000);   // a tab in the background paints nothing
   var img = document.querySelector('.hero-art img');
   var lcp = window.PerformanceObserver && PerformanceObserver.supportedEntryTypes && PerformanceObserver.supportedEntryTypes.indexOf('largest-contentful-paint') >= 0;
-  if (img && lcp)   // the phone: the browser reports the hero picture once it is on the screen
-    new PerformanceObserver(function (l) { if (l.getEntries().some(function (e) { return e.element === img; })) setTimeout(wake, 0); })
-      .observe({ type: 'largest-contentful-paint', buffered: true });
+  var armed = false;
   function later() {   // a wide screen, where the heading counts as the largest: a moment after the picture is drawn
+    if (armed) return; armed = true;
     var go = function () { requestAnimationFrame(function () { setTimeout(wake, 500); }); };
-    if (img && img.decode) img.decode().then(go, go); else go();
+    var start = function () { if (img && img.decode) img.decode().then(go, go); else go(); };
+    if (document.readyState === 'complete') start(); else addEventListener('load', start, { once: true });
   }
-  if (document.readyState === 'complete') later(); else addEventListener('load', later, { once: true });
+  // The browser reports a paint only once the frame is on the screen: the phone wakes on the hero picture, a wide screen
+  // starts its pause after the first one. A frame that comes late (a busy phone) then keeps the files waiting behind it.
+  if (lcp)
+    new PerformanceObserver(function (l) { if (img && l.getEntries().some(function (e) { return e.element === img; })) setTimeout(wake, 0); else later(); })
+      .observe({ type: 'largest-contentful-paint', buffered: true });
+  else later();
 })();
 </script>
 </body>
