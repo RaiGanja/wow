@@ -24,7 +24,7 @@ main .me-ring, dialog .me-ring { --s: 64px; --room-x: 12px; --room-y: 12px; widt
 .pcard .lv { position: absolute; right: -4px; bottom: -4px; z-index: 2; min-width: 26px; height: 22px; padding: 0 5px; border-radius: 6px; display: grid; place-items: center;
   background: #0b0d12; border: 1px solid var(--line-2); color: #ece6d8; font-size: .78rem; font-weight: 700; font-variant-numeric: lining-nums; }
 .pcard .nm { display: grid; gap: 1px; min-width: 0; }
-.pcard .nm > :first-child { padding-right: 60px; }   /* only the top line meets the faction tag */
+.pcard .nm { padding-right: 64px; }   /* the name sits level with the faction tag: keep it clear of the tag (padding on the inline link did not narrow the line) */
 .pcard .nm b, .pcard .nm a { font-family: var(--font-display); font-weight: var(--display-w); font-size: 1.35rem; line-height: 1.1; color: var(--fg); text-decoration: none; overflow-wrap: break-word; }
 .pcard .nm a:hover { color: var(--gold-2); }
 .pcard .nm a::after { content: ""; position: absolute; inset: 0; border-radius: 10px; }

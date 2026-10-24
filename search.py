@@ -3,7 +3,8 @@
   * страница — заголовок h1, раздел из хлебных крошек, title и description для совпадений;
   * разделы <section id> с h2 — ссылка с якорем, текст раздела для совпадений и выдержки;
   * вопросы FAQ <details id>; подземелья из DUNGEONS (на en/uk/pl англ. названия, на ru и de/fr/es/pt/it официальные + английское).
-Запись индекса: [заголовок, где (страница/раздел), путь от корня гида, вид 0 страница/1 раздел/2 вопрос/3 подземелье, ключи, текст];
+Запись индекса: [заголовок, где (страница/раздел), путь от корня гида, вид 0 страница/1 раздел/2 вопрос/3 подземелье, ключи, текст
+(строка на блок: абзац, пункт, карточка; выдержка в поиске берётся из одной строки-предложения)];
 «где» тоже ищется наравне с ключами: «паладин танк» находит разделы страницы паладина.
 Затем ставит ?v=<хэш> скриптам поиска во всех страницах: Cloudflare держит /wow/assets/ 30 дней, новый адрес обходит кэш.
 Запуск: python search.py"""
@@ -20,10 +21,19 @@ SKIP = {'top', 'more', 'others'}          # шапка страницы и пл�
 TEXT_MAX = 1500                            # хватает на совпадения и выдержку, индекс языка ~150 КБ
 
 
-def text(html):
+BLOCK = re.compile(r'<br\b[^>]*>|</?(?:p|li|ul|ol|h[1-6]|div|dl|dt|dd|tr|td|th|table|section|header|footer|nav|figure|figcaption|summary|details|article|aside|blockquote)\b[^>]*>')
+
+
+def text(html, lines=False):
+    """Plain text of a fragment. lines=True: one line per block (paragraph, list item, card), so that the excerpt in the
+    search dialog is a whole sentence, not card labels run together ("Урон Огонь Урон Лёд")."""
     html = re.sub(r'<(script|style|svg|template)\b.*?</\1>|<span class="src">.*?</span>', ' ', html, flags=re.S)
+    if lines:
+        html = BLOCK.sub('\n', html)
     s = unescape(re.sub(r'<[^>]+>', ' ', html)).replace('\xad', '')
-    return re.sub(r'\s+', ' ', s).strip()
+    if not lines:
+        return re.sub(r'\s+', ' ', s).strip()
+    return '\n'.join(filter(None, (re.sub(r'[^\S\n]+', ' ', x).strip() for x in s.split('\n'))))
 
 
 def page_entries(html, path, lang, crumb):
@@ -32,16 +42,16 @@ def page_entries(html, path, lang, crumb):
     meta = re.search(r'<title>(.*?)</title>', html)[1] + ' ' + re.search(r'<meta name="description" content="([^"]*)"', html)[1]
     url = page_dir(lang, path)
     top = re.search(r'<section\b[^>]*\sid="top"[^>]*>(.*?)</section>', html, re.S)   # шапка: подзаголовок, роли, факты
-    out = [[title, crumb, url, 0, unescape(meta), text(top[1])[:TEXT_MAX] if top else '']]
+    out = [[title, crumb, url, 0, unescape(meta), text(top[1], True)[:TEXT_MAX] if top else '']]
     for m in re.finditer(r'<section\b[^>]*\sid="([^"]+)"[^>]*>(.*?)</section>', html, re.S):
         sid, body = m[1], m[2]
         h2 = re.search(r'<h2[^>]*>(.*?)</h2>', body, re.S)
         if sid in SKIP or not h2:
             continue
         rest = body[h2.end():]
-        out.append([text(h2[1]), title, f'{url}#{sid}', 1, '', text(re.sub(r'<details\b.*?</details>', ' ', rest, flags=re.S))[:TEXT_MAX]])
+        out.append([text(h2[1]), title, f'{url}#{sid}', 1, '', text(re.sub(r'<details\b.*?</details>', ' ', rest, flags=re.S), True)[:TEXT_MAX]])
     for m in re.finditer(r'<details id="([^"]+)"><summary>(.*?)</summary>(.*?)</details>', html, re.S):
-        out.append([text(m[2]), title, f'{url}#{m[1]}', 2, '', text(m[3])[:TEXT_MAX]])
+        out.append([text(m[2]), title, f'{url}#{m[1]}', 2, '', text(m[3], True)[:TEXT_MAX]])
     return out
 
 

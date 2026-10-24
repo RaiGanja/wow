@@ -16,7 +16,7 @@
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>WoW Forever: гид Gabella</title>
-<meta name="description" content="Гид по WoW Forever: классы, расы, комбинации, Legacy, лагерь, подземелья, рейды и подбор состава группы. Данные на 23.10.2026.">
+<meta name="description" content="Гид по WoW Forever: классы, расы, комбинации, Legacy, лагерь, подземелья, рейды и подбор состава группы.">
 <meta name="theme-color" content="#060708">
 @@ALTERNATES@@
 <script>(function(){var t=null;try{t=localStorage.getItem('wf-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}document.documentElement.setAttribute('data-theme',t)})();</script>
@@ -25,7 +25,7 @@
 <meta property="og:locale" content="ru_RU">
 <meta property="og:site_name" content="Gabella">
 <meta property="og:title" content="WoW Forever: гид Gabella">
-<meta property="og:description" content="Классы, расы, Legacy, лагерь, подземелья и подбор состава группы. Данные на 23.10.2026.">
+<meta property="og:description" content="Классы, расы, Legacy, лагерь, подземелья и подбор состава группы.">
 <meta property="og:url" content="https://gabella.site/wow/">
 <meta property="og:image" content="https://gabella.site/wow/assets/og-ru.jpg">
 <meta property="og:image:width" content="1200">
@@ -180,11 +180,10 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
   linear-gradient(180deg, rgb(var(--hero-fade) / .42) 0%, rgb(var(--hero-fade) / 0) 26%, rgb(var(--hero-fade) / 0) 58%, rgb(var(--hero-fade) / .9) 88%, var(--bg) 100%);
   box-shadow: inset 0 -1px 0 var(--hero-line); }
 .hero-in { width: 100%; padding-top: calc(var(--top) + clamp(40px, 9vh, 110px)); padding-bottom: 40px; display: grid; gap: 22px; justify-items: start; max-width: var(--wrap); }
-.hmeta { font-size: .9rem; color: var(--ink-2); }
 .todsw { min-height: 44px; display: flex; align-items: center; }
 .hero h1 { font-size: clamp(2.9rem, 6.2vw, 5.4rem); line-height: .98; letter-spacing: .005em; text-shadow: var(--hero-shadow); }
 .hero h1 span { display: block; color: var(--ink-gold); }
-.hero h1, .hero .lead, .hero .hmeta { text-shadow: var(--hero-shadow); }  /* the castle and the sun sit behind the text */
+.hero h1, .hero .lead { text-shadow: var(--hero-shadow); }  /* the castle and the sun sit behind the text */
 .hero .lead { max-width: 46ch; font-size: clamp(1.02rem, 1.4vw, 1.15rem); color: var(--ink-2); }
 .cd { display: flex; align-items: center; flex-wrap: wrap; gap: 14px 22px; margin-top: 6px; }
 .cd .units { display: flex; align-items: stretch; gap: 6px; padding: 6px; border: 1px solid rgba(255,255,255,.12); border-radius: 10px; background: rgba(10,12,18,.62); backdrop-filter: blur(6px); box-shadow: inset 0 1px 0 var(--hero-edge); }
@@ -286,7 +285,7 @@ section.block { scroll-margin-top: -72px; }
 .rr .hc .info { min-width: 250px; padding: 22px 20px 24px; }
 .rr .hc .info b { font-size: 1.9rem; }
 .rr .hc .vn { font-size: 1.15rem; }
-.rr .hc .tag { justify-self: start; color: #e0c27a; }
+.rr .hc .tag { justify-self: start; color: #e0c27a; text-shadow: 0 1px 6px rgba(0,0,0,.8); }
 
 /* Guides band over the campfire art */
 .gtiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
@@ -360,7 +359,7 @@ main > .stband:first-child .stile::after { box-shadow: inset 0 1px 0 var(--hero-
 .stile[aria-selected="true"] img { filter: none; }
 .stile b { font-weight: 700; font-size: 1.12rem; line-height: 1.2; text-shadow: 0 1px 8px rgba(0,0,0,.7); }
 .stile .lv { font-size: .86rem; color: rgba(243,239,230,.8); }
-.stile .now { position: absolute; top: 10px; left: 10px; font-size: .74rem; font-weight: 700; color: #15110a; background: #e0c27a; border-radius: 4px; padding: 2px 7px; }
+.stile .now { color: #e0c27a; font-weight: 600; }   /* the current stage: a word after the levels, not a badge */
 .journey { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 20px; align-items: start; }
 .stage { padding: 26px 28px 22px; display: grid; gap: 22px; min-width: 0; }
 .st-head { display: grid; gap: 6px; }
@@ -369,11 +368,13 @@ main > .stband:first-child .stile::after { box-shadow: inset 0 1px 0 var(--hero-
 .pill { display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px; border-radius: 999px; background: var(--panel-2); border: 1px solid var(--pline); color: var(--fg); font-size: .85rem; font-weight: 600; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .pill.gold { background: #c9a54a; border-color: #c9a54a; color: #15110a; }
 .st-head .why { color: var(--muted); font-size: .9rem; }
-.steps-c { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-.steps-c li { display: grid; grid-template-columns: 46px minmax(0, 1fr); gap: 12px; align-items: start; padding: 16px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--pline); }
-.steps-c .n { font-family: var(--font-display); font-size: 1.9rem; line-height: 1; white-space: nowrap; color: var(--gold-2); font-variant-numeric: lining-nums; }
-.steps-c .fi { width: 28px; height: 28px; margin-top: 2px; color: var(--gold-2); }
-.steps-c p { font-size: .98rem; }
+.st-head .when { color: var(--muted); font-size: 1rem; font-variant-numeric: tabular-nums; }
+/* Numbered list: no cards, a gold Bona Nova figure in its own column on the first line of the text, items parted by space */
+.steps-c { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 48px; }
+.steps-c li { display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 12px; align-items: baseline; }
+.steps-c .n { font-family: var(--font-display); font-size: 1.375rem; line-height: 1; color: var(--gold-2); font-variant-numeric: lining-nums tabular-nums; }
+.steps-c .fi { width: 22px; height: 22px; align-self: start; margin-top: 2px; color: var(--gold-2); }
+.steps-c p { font-size: 1rem; }
 .tl { display: block; font-size: .78rem; font-weight: 700; color: var(--gold-2); margin-bottom: 2px; }
 .st-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 26px; }
 .st-cols > * { min-width: 0; }
@@ -388,7 +389,7 @@ ul.dlist li { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-i
 ul.dlist li b { font-weight: 600; font-size: .95rem; line-height: 1.3; }
 ul.dlist li .z { grid-column: 1; color: var(--muted); font-size: .82rem; line-height: 1.3; }
 ul.dlist li .z i { font-style: normal; color: var(--sapphire); font-weight: 600; }
-ul.dlist li .pill { grid-column: 2; grid-row: 1 / 3; }
+ul.dlist li .lvl { grid-column: 2; grid-row: 1 / 3; text-align: right; }
 ul.dlist li.mine { border-color: color-mix(in srgb, var(--gold) 60%, transparent); }
 .more-l { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-weight: 600; font-size: .92rem; }
 .gtip { padding: 16px 18px; border-radius: 8px; background: color-mix(in srgb, var(--gold) 9%, var(--panel-2)); border: 1px solid color-mix(in srgb, var(--gold) 30%, transparent); }
@@ -436,7 +437,7 @@ ul.buffs .m { color: var(--muted); }
 .dg td.num .alt { display: block; margin-top: 4px; color: var(--muted); font-weight: 400; font-size: .8rem; white-space: normal; }
 .dg tbody th .tag { margin-left: 8px; vertical-align: .1em; }
 .dg tr.mine > * { border-color: color-mix(in srgb, var(--gold) 60%, transparent); }
-.dg td.num .pill { min-width: 64px; justify-content: center; }
+.dg td.num .lvl { display: inline-block; min-width: 64px; }
 .dg td.zone { color: var(--muted); }
 .dg tbody th .z { display: none; }
 
@@ -571,7 +572,8 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 .facts3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
 .fact { display: grid; gap: 6px; align-content: start; padding: 14px 16px; border-radius: 10px; background: var(--panel); border: 1px solid var(--pline); font-size: .93rem; }
 .fact h4 { margin: 0; }
-.tag { display: inline-block; font-size: .76rem; font-weight: 600; line-height: 1.5; border-radius: 999px; padding: 2px 10px; background: color-mix(in srgb, currentColor 14%, transparent); white-space: nowrap; }
+/* Status is a word in its colour, never a capsule: new, paid, the faction */
+.tag { font-size: .8125rem; font-weight: 600; white-space: nowrap; }
 .tag.alliance { color: var(--alliance); } .tag.horde { color: var(--horde); } .tag.new { color: var(--new); } .tag.paid { color: var(--gold-2); }
 .d-title .chips { align-items: center; }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -579,6 +581,17 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 .chip.on { background: #c9a54a; color: #15110a; border-color: #c9a54a; }
 .chip.q { border-style: dashed; }
 .chip.new { color: var(--new); border-color: color-mix(in srgb, var(--new) 50%, transparent); }
+/* Under the combination name: one line of text (faction · new combination · roles), no badges */
+.d-title .chips { gap: 4px 0; font-size: .9375rem; text-shadow: 0 1px 8px rgba(0,0,0,.5); }
+.d-title .chips > * + *::before { content: "\00b7"; margin: 0 10px; color: var(--muted); font-weight: 400; }
+.detail .d-title .chip { min-height: 0; padding: 0; border: 0; border-radius: 0; background: none; font-size: inherit; font-weight: 500; color: var(--fg); }
+.detail .d-title .chip.on { color: var(--gold-2); font-weight: 600; }
+.detail .d-title .chip.q { color: var(--muted); }
+.d-title .chip .ri { margin-right: 5px; }
+.d-title .tag { font-size: inherit; }
+/* Level range: tabular figures in a column of their own, no capsule; the reader's level in gold */
+.lvl { font-size: .875rem; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--fg); }
+.lvl.gold { color: var(--gold-2); }
 ul.plain { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
 ul.plain li { display: grid; gap: 1px; }
 .en { font-weight: 400; color: var(--muted); font-size: .92em; }
@@ -656,20 +669,24 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .rgroup h3::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--fc); }
 .alliance { --fc: var(--alliance); } .horde { --fc: var(--horde); }
 
-footer { margin-top: 96px; padding: 28px 28px 24px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); display: grid; gap: 14px; color: var(--muted); font-size: .93rem; }
+/* Footer: no frame, a darker band edge to edge (the box-shadow paints past the .wrap, clip-path keeps it from spilling up or down);
+   it ends the page, so it eats the bottom padding of main. Sources are muted links, not a wall of gold. */
+footer { margin: 96px 0 -40px; padding: 48px 0 32px; background: var(--rail); box-shadow: 0 0 0 100vmax var(--rail); clip-path: inset(0 -100vmax); display: grid; gap: 14px; color: var(--muted); font-size: .93rem; }
 footer h2 { color: var(--fg); font-size: 1.8rem; }
 footer ul { margin: 0; padding-left: 18px; display: grid; gap: 5px; }
-footer ul li::marker { color: var(--gold); }
-footer .legal { display: grid; gap: 6px; padding-top: 14px; border-top: 1px solid var(--pline); font-size: .84rem; }
-footer .legal:first-child { padding-top: 0; border-top: 0; }
+footer ul li::marker { color: var(--muted); }
+footer > ul a, footer > p a { color: inherit; text-decoration: underline; text-decoration-color: var(--line-2); text-underline-offset: 3px; }
+footer > ul a:hover, footer > p a:hover { color: var(--gold-2); text-decoration-color: currentColor; }
+footer .legal { display: grid; gap: 6px; padding-top: 14px; border-top: 1px solid var(--line); font-size: .84rem; }
 footer .legal p { margin: 0; }
 footer .legal a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
 footer .legal a:hover { color: var(--gold); }
-footer .fmap { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px 28px; padding-top: 18px; border-top: 1px solid var(--pline); }
+footer .fmap { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px 28px; padding-top: 18px; border-top: 1px solid var(--line); }
 footer .fmap ul { padding: 0; list-style: none; gap: 2px; }
 footer .fmap a { display: inline-block; padding: 2px 0; color: var(--muted); text-decoration: none; transition: color .15s; }
 footer .fmap .fh { margin-bottom: 6px; font-family: var(--font-display); font-weight: var(--display-w); font-size: 1.1rem; color: var(--fg); }
 footer .fmap a:hover { color: var(--gold); }
+footer > :first-child { padding-top: 0; border-top: 0; }   /* profile pages: the map opens the footer, no line above it */
 @media (max-width: 719px) {
   footer .fmap { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   footer .fmap a { padding: 5px 0; }
@@ -682,12 +699,12 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .sheet .dh { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px 10px 20px; border-bottom: 1px solid var(--line); min-height: var(--top); }
 .sheet .dh b { font-family: var(--font-display); font-weight: 400; font-size: 1.4rem; }
 .sheet .toc { padding: 16px 8px 8px; display: grid; gap: 18px; }
-.sheet .grp { display: grid; }
+.sheet .grp { display: grid; align-content: start; }   /* the two phone columns differ in length: rows stay 44 px, not stretched */
 .sheet .gh { font-size: .8rem; color: var(--muted); font-weight: 600; padding: 0 12px 4px; }
 .sheet .toc a { display: flex; align-items: center; min-height: 44px; padding: 0 12px; color: var(--fg); text-decoration: none; border-left: 2px solid transparent; }
 .sheet .toc a:hover { background: var(--surface); border-left-color: var(--gold); }
+.upd { margin: 0; font-size: .875rem; color: var(--ink-2); font-variant-numeric: tabular-nums; text-shadow: 0 1px 8px rgba(0,0,0,.6); }   /* the update date line under a page title */
 .sheet .opts { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding: 16px 20px 28px; border-top: 1px solid var(--line); margin-top: 8px; }
-.sheet .meta { padding: 0 20px 24px; color: var(--muted); font-size: .85rem; }
 
 /* Bottom tab bar (phones) */
 .tabbar { display: none; }
@@ -805,7 +822,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .stage { padding: 20px 16px 18px; }
   .st-head h3 { font-size: 1.75rem; }
   .steps-c, .st-cols { grid-template-columns: 1fr; }
-  .steps-c li { padding: 14px; }
+  .steps-c { gap: 20px; }
   .dg tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; align-items: center; }
   .dg td.num { margin: 0; text-align: right; }
   .dg tr.mine { border-color: color-mix(in srgb, var(--gold) 60%, transparent); }
@@ -881,7 +898,6 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
       <a class="btn lg" href="#classes">Выбрать класс</a>
       <a class="btn lg ghost" href="tools/#raid">Собрать группу</a>
     </div>
-    <p class="hmeta">Гид Gabella · данные на 23.10.2026</p>
     @@TOD_SW@@
   </div>
   <ol class="hdates" aria-label="Ключевые даты">
@@ -999,13 +1015,13 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     <div class="sec-head"><h2>Гайды и справочник</h2><p>Всё, что мы собрали о WoW Forever: даты, системы игры, подземелья и советы для компании.</p></div>
     <nav class="gtiles" aria-label="Гайды">
       <a class="gt" href="guides/leveling/"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/hero_dawn-960.avif"><img src="@@ROOT@@assets/art/hero_dawn-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Прокачка 1–60</b><span>Маршрут по зонам, темп и отдых</span></a>
-      <a class="gt" href="guides/dungeons/"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/warlock-360.avif 360w, @@ROOT@@assets/art/warlock-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="@@ROOT@@assets/art/warlock-360.webp" srcset="@@ROOT@@assets/art/warlock-360.webp 360w, @@ROOT@@assets/art/warlock-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Подземелья и рейды</b><span>Все 35 подземелий по уровням и 3 рейда</span></a>
-      <a class="gt" href="guides/professions/"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/hero_campfire-960.avif"><img src="@@ROOT@@assets/art/hero_campfire-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Профессии</b><span>Пары под класс и объекты лагеря</span></a>
-      <a class="gt" href="guides/faq/"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/mage-360.avif 360w, @@ROOT@@assets/art/mage-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="@@ROOT@@assets/art/mage-360.webp" srcset="@@ROOT@@assets/art/mage-360.webp 360w, @@ROOT@@assets/art/mage-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>FAQ и даты</b><span>Резерв имён, релиз, рейды и отличия от Era</span></a>
-      <a class="gt" href="guides/news/"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/shaman-360.avif 360w, @@ROOT@@assets/art/shaman-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="@@ROOT@@assets/art/shaman-360.webp" srcset="@@ROOT@@assets/art/shaman-360.webp 360w, @@ROOT@@assets/art/shaman-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Новости</b><span>Наши записи и лента Wowhead</span></a>
-      <a class="gt" href="classes/"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/warrior-360.avif 360w, @@ROOT@@assets/art/warrior-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="@@ROOT@@assets/art/warrior-360.webp" srcset="@@ROOT@@assets/art/warrior-360.webp 360w, @@ROOT@@assets/art/warrior-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Классы: сравнение</b><span>Специализации, темп прокачки и что нового</span></a>
-      <a class="gt" href="races/"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/human-360.avif 360w, @@ROOT@@assets/art/human-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="@@ROOT@@assets/art/human-360.webp" srcset="@@ROOT@@assets/art/human-360.webp 360w, @@ROOT@@assets/art/human-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Расы: сравнение</b><span>Способности рас и доступные классы</span></a>
-      <a class="gt" href="guides/leveling/#legacy"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/priest-360.avif 360w, @@ROOT@@assets/art/priest-600.avif 600w" sizes="(max-width: 719px) 46vw, 300px"><img src="@@ROOT@@assets/art/priest-360.webp" srcset="@@ROOT@@assets/art/priest-360.webp 360w, @@ROOT@@assets/art/priest-600.webp 600w" sizes="(max-width: 719px) 46vw, 300px" alt="" loading="lazy" decoding="async"></picture><b>Legacy</b><span>Очки на весь аккаунт, перки и награды</span></a>
+      <a class="gt" href="guides/dungeons/"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/hero_dungeons-960.avif"><img src="@@ROOT@@assets/art/hero_dungeons-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Подземелья и рейды</b><span>Все 35 подземелий по уровням и 3 рейда</span></a>
+      <a class="gt" href="guides/professions/"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/hero_professions-960.avif"><img src="@@ROOT@@assets/art/hero_professions-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Профессии</b><span>Пары под класс и объекты лагеря</span></a>
+      <a class="gt" href="guides/faq/"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/hero_faq-960.avif"><img src="@@ROOT@@assets/art/hero_faq-960.webp" alt="" loading="lazy" decoding="async"></picture><b>FAQ и даты</b><span>Резерв имён, релиз, рейды и отличия от Era</span></a>
+      <a class="gt" href="guides/news/"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/hero_news-960.avif"><img src="@@ROOT@@assets/art/hero_news-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Новости</b><span>Наши записи и лента Wowhead</span></a>
+      <a class="gt" href="classes/"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/hero_roster-960.avif"><img src="@@ROOT@@assets/art/hero_roster-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Классы: сравнение</b><span>Специализации, темп прокачки и что нового</span></a>
+      <a class="gt" href="races/"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/hero_guides-960.avif"><img src="@@ROOT@@assets/art/hero_guides-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Расы: сравнение</b><span>Способности рас и доступные классы</span></a>
+      <a class="gt" href="guides/leveling/#legacy"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/hero_tools-960.avif"><img src="@@ROOT@@assets/art/hero_tools-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Legacy</b><span>Очки на весь аккаунт, перки и награды</span></a>
     </nav>
     <p><a class="more-l" href="guides/">Все гайды<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
   </div>
@@ -1021,7 +1037,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <div class="wrap">
 <footer id="sources">
   <h2>Источники и актуальность</h2>
-  <p>Данные собраны <b style="color:var(--fg)">23.10.2026</b> по закрытой бете и патчу от 15.10.2026 и сверены по нескольким источникам. До релиза Blizzard ещё может менять бету, особенно способности рас, настройку классов и перки Legacy. Если источники расходились, это отмечено в тексте. Точные числа сверяйте в игре.</p>
+  <p>Данные сверены по нескольким источникам. Если источники расходились, это отмечено в тексте. Точные числа сверяйте в игре.</p>
   <p><span class="tl" style="display:inline">Совет:</span> мнение составителя, не официальные данные.</p>
   <ul>
     <li><a href="https://www.warcrafttavern.com/forever/" target="_blank" rel="noopener">Warcraft Tavern</a>: <a href="https://www.warcrafttavern.com/forever/guides/race-class-combos/" target="_blank" rel="noopener">комбинации</a>, <a href="https://www.warcrafttavern.com/forever/guides/races/" target="_blank" rel="noopener">расы</a>, <a href="https://www.warcrafttavern.com/forever/guides/legacy/" target="_blank" rel="noopener">Legacy</a>, <a href="https://www.warcrafttavern.com/forever/guides/camping/" target="_blank" rel="noopener">лагерь</a>, <a href="https://www.warcrafttavern.com/forever/guides/dungeons/" target="_blank" rel="noopener">подземелья</a>, <a href="https://www.warcrafttavern.com/news/world-of-warcraft-forever-editions-skyborne-race-unlock-beta-access/" target="_blank" rel="noopener">наборы и цены</a></li>
@@ -1050,7 +1066,6 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     @@LANGSHEET@@
     <button class="iconbtn themebtn" type="button" aria-label="Переключить тему"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg><span>Тема</span></button>
   </div>
-  <p class="meta">Данные на 23.10.2026, закрытая бета, патч от 15.10.2026.</p>
 </dialog>
 <script>
 /* First screen, before the first paint: countdown, theme, top bar, menu. The page script after this one
@@ -1627,13 +1642,13 @@ const tipL = () => '<span class="tl">Совет</span>';
 function liC(x) { return x[0] === 't' ? `<li class="tip">${tipL()}${esc(x[1])}</li>` : `<li>${esc(x[1])}</li>`; }
 function dLi(d) {
   const mine = me.lvl && nearLvl(d, me.lvl);
-  return `<li class="${mine ? 'mine' : ''}"><b>${esc(d[0])}</b><span class="pill${mine ? ' gold' : ''}">${lvRange(d)}</span><span class="z">${esc(d[3])}${d[4] ? ' · <i>новое</i>' : ''}${mine ? '<span class="sr"> · под ваш уровень</span>' : ''}</span></li>`;
+  return `<li class="${mine ? 'mine' : ''}"><b>${esc(d[0])}</b><span class="lvl${mine ? ' gold' : ''}">${lvRange(d)}</span><span class="z">${esc(d[3])}${d[4] ? ' · <i>новое</i>' : ''}${mine ? '<span class="sr"> · под ваш уровень</span>' : ''}</span></li>`;
 }
 function renderStage() {
   const [auto, why] = autoStage();
   if (stageAuto) stageSel = auto;
   const s = ST[stageSel];
-  $('#stageBar').innerHTML = STAGES.map(x => `<button type="button" class="stile" role="tab" id="tab-${x.id}" data-st="${x.id}" aria-controls="stagePanel" aria-selected="${x.id === stageSel}" tabindex="${x.id === stageSel ? 0 : -1}">${pic(START[x.id])}${x.id === auto ? '<span class="now">сейчас</span>' : ''}<b>${esc(x.n)}</b><span class="lv">${esc(x.sub)}</span></button>`).join('');
+  $('#stageBar').innerHTML = STAGES.map(x => `<button type="button" class="stile" role="tab" id="tab-${x.id}" data-st="${x.id}" aria-controls="stagePanel" aria-selected="${x.id === stageSel}" tabindex="${x.id === stageSel ? 0 : -1}">${pic(START[x.id])}<b>${esc(x.n)}</b><span class="lv">${esc(x.sub)}${x.id === auto ? ' · <span class="now">сейчас</span>' : ''}</span></button>`).join('');
   let ds;
   if (s.id === 'pre') ds = DUNGEONS.filter(d => d[1] <= 15);
   else ds = DUNGEONS.filter(d => d[1] <= s.hi && d[2] >= s.lo);
@@ -1642,9 +1657,9 @@ function renderStage() {
   let k = 0;
   const steps = s.todo.map(x => x[0] === 't'
     ? `<li class="tip"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p>${tipL()}${esc(x[1])}</p></li>`
-    : `<li><span class="n">${String(++k).padStart(2, '0')}</span><p>${esc(x[1])}</p></li>`).join('');
+    : `<li><span class="n">${++k}</span><p>${esc(x[1])}</p></li>`).join('');
   $('#stagePanel').setAttribute('aria-labelledby', 'tab-' + s.id);
-  $('#stagePanel').innerHTML = `<div class="st-head"><div class="t"><h3>${esc(s.n)}</h3><span class="pill gold">${esc(s.sub)}</span></div><p class="why">${stageAuto ? esc(why) : 'Этап выбран вручную.'}</p></div>
+  $('#stagePanel').innerHTML = `<div class="st-head"><div class="t"><h3>${esc(s.n)}</h3><span class="when">${esc(s.sub)}</span></div><p class="why">${stageAuto ? esc(why) : 'Этап выбран вручную.'}</p></div>
     <ol class="steps-c">${steps}</ol>
     <div class="st-cols">
       <div><h4>Подземелья под уровень</h4>${s.dnote ? `<p class="small" style="margin:-4px 0 10px">${esc(s.dnote)}</p>` : ''}<ul class="dlist">${ds.slice(0, MAXD).map(dLi).join('')}</ul>

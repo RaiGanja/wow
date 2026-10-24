@@ -185,11 +185,10 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
   linear-gradient(180deg, rgb(var(--hero-fade) / .42) 0%, rgb(var(--hero-fade) / 0) 26%, rgb(var(--hero-fade) / 0) 58%, rgb(var(--hero-fade) / .9) 88%, var(--bg) 100%);
   box-shadow: inset 0 -1px 0 var(--hero-line); }
 .hero-in { width: 100%; padding-top: calc(var(--top) + clamp(40px, 9vh, 110px)); padding-bottom: 40px; display: grid; gap: 22px; justify-items: start; max-width: var(--wrap); }
-.hmeta { font-size: .9rem; color: var(--ink-2); }
 .todsw { min-height: 44px; display: flex; align-items: center; }
 .hero h1 { font-size: clamp(2.9rem, 6.2vw, 5.4rem); line-height: .98; letter-spacing: .005em; text-shadow: var(--hero-shadow); }
 .hero h1 span { display: block; color: var(--ink-gold); }
-.hero h1, .hero .lead, .hero .hmeta { text-shadow: var(--hero-shadow); }  /* the castle and the sun sit behind the text */
+.hero h1, .hero .lead { text-shadow: var(--hero-shadow); }  /* the castle and the sun sit behind the text */
 .hero .lead { max-width: 46ch; font-size: clamp(1.02rem, 1.4vw, 1.15rem); color: var(--ink-2); }
 .cd { display: flex; align-items: center; flex-wrap: wrap; gap: 14px 22px; margin-top: 6px; }
 .cd .units { display: flex; align-items: stretch; gap: 6px; padding: 6px; border: 1px solid rgba(255,255,255,.12); border-radius: 10px; background: rgba(10,12,18,.62); backdrop-filter: blur(6px); box-shadow: inset 0 1px 0 var(--hero-edge); }
@@ -291,7 +290,7 @@ section.block { scroll-margin-top: -72px; }
 .rr .hc .info { min-width: 250px; padding: 22px 20px 24px; }
 .rr .hc .info b { font-size: 1.9rem; }
 .rr .hc .vn { font-size: 1.15rem; }
-.rr .hc .tag { justify-self: start; color: #e0c27a; }
+.rr .hc .tag { justify-self: start; color: #e0c27a; text-shadow: 0 1px 6px rgba(0,0,0,.8); }
 
 /* Guides band over the campfire art */
 .gtiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
@@ -365,7 +364,7 @@ main > .stband:first-child .stile::after { box-shadow: inset 0 1px 0 var(--hero-
 .stile[aria-selected="true"] img { filter: none; }
 .stile b { font-weight: 700; font-size: 1.12rem; line-height: 1.2; text-shadow: 0 1px 8px rgba(0,0,0,.7); }
 .stile .lv { font-size: .86rem; color: rgba(243,239,230,.8); }
-.stile .now { position: absolute; top: 10px; left: 10px; font-size: .74rem; font-weight: 700; color: #15110a; background: #e0c27a; border-radius: 4px; padding: 2px 7px; }
+.stile .now { color: #e0c27a; font-weight: 600; }   /* the current stage: a word after the levels, not a badge */
 .journey { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 20px; align-items: start; }
 .stage { padding: 26px 28px 22px; display: grid; gap: 22px; min-width: 0; }
 .st-head { display: grid; gap: 6px; }
@@ -374,11 +373,13 @@ main > .stband:first-child .stile::after { box-shadow: inset 0 1px 0 var(--hero-
 .pill { display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px; border-radius: 999px; background: var(--panel-2); border: 1px solid var(--pline); color: var(--fg); font-size: .85rem; font-weight: 600; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .pill.gold { background: #c9a54a; border-color: #c9a54a; color: #15110a; }
 .st-head .why { color: var(--muted); font-size: .9rem; }
-.steps-c { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-.steps-c li { display: grid; grid-template-columns: 46px minmax(0, 1fr); gap: 12px; align-items: start; padding: 16px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--pline); }
-.steps-c .n { font-family: var(--font-display); font-size: 1.9rem; line-height: 1; white-space: nowrap; color: var(--gold-2); font-variant-numeric: lining-nums; }
-.steps-c .fi { width: 28px; height: 28px; margin-top: 2px; color: var(--gold-2); }
-.steps-c p { font-size: .98rem; }
+.st-head .when { color: var(--muted); font-size: 1rem; font-variant-numeric: tabular-nums; }
+/* Numbered list: no cards, a gold Bona Nova figure in its own column on the first line of the text, items parted by space */
+.steps-c { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 48px; }
+.steps-c li { display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 12px; align-items: baseline; }
+.steps-c .n { font-family: var(--font-display); font-size: 1.375rem; line-height: 1; color: var(--gold-2); font-variant-numeric: lining-nums tabular-nums; }
+.steps-c .fi { width: 22px; height: 22px; align-self: start; margin-top: 2px; color: var(--gold-2); }
+.steps-c p { font-size: 1rem; }
 .tl { display: block; font-size: .78rem; font-weight: 700; color: var(--gold-2); margin-bottom: 2px; }
 .st-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 26px; }
 .st-cols > * { min-width: 0; }
@@ -393,7 +394,7 @@ ul.dlist li { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-i
 ul.dlist li b { font-weight: 600; font-size: .95rem; line-height: 1.3; }
 ul.dlist li .z { grid-column: 1; color: var(--muted); font-size: .82rem; line-height: 1.3; }
 ul.dlist li .z i { font-style: normal; color: var(--sapphire); font-weight: 600; }
-ul.dlist li .pill { grid-column: 2; grid-row: 1 / 3; }
+ul.dlist li .lvl { grid-column: 2; grid-row: 1 / 3; text-align: right; }
 ul.dlist li.mine { border-color: color-mix(in srgb, var(--gold) 60%, transparent); }
 .more-l { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-weight: 600; font-size: .92rem; }
 .gtip { padding: 16px 18px; border-radius: 8px; background: color-mix(in srgb, var(--gold) 9%, var(--panel-2)); border: 1px solid color-mix(in srgb, var(--gold) 30%, transparent); }
@@ -441,7 +442,7 @@ ul.buffs .m { color: var(--muted); }
 .dg td.num .alt { display: block; margin-top: 4px; color: var(--muted); font-weight: 400; font-size: .8rem; white-space: normal; }
 .dg tbody th .tag { margin-left: 8px; vertical-align: .1em; }
 .dg tr.mine > * { border-color: color-mix(in srgb, var(--gold) 60%, transparent); }
-.dg td.num .pill { min-width: 64px; justify-content: center; }
+.dg td.num .lvl { display: inline-block; min-width: 64px; }
 .dg td.zone { color: var(--muted); }
 .dg tbody th .z { display: none; }
 
@@ -576,7 +577,8 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 .facts3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
 .fact { display: grid; gap: 6px; align-content: start; padding: 14px 16px; border-radius: 10px; background: var(--panel); border: 1px solid var(--pline); font-size: .93rem; }
 .fact h4 { margin: 0; }
-.tag { display: inline-block; font-size: .76rem; font-weight: 600; line-height: 1.5; border-radius: 999px; padding: 2px 10px; background: color-mix(in srgb, currentColor 14%, transparent); white-space: nowrap; }
+/* Status is a word in its colour, never a capsule: new, paid, the faction */
+.tag { font-size: .8125rem; font-weight: 600; white-space: nowrap; }
 .tag.alliance { color: var(--alliance); } .tag.horde { color: var(--horde); } .tag.new { color: var(--new); } .tag.paid { color: var(--gold-2); }
 .d-title .chips { align-items: center; }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -584,6 +586,17 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 .chip.on { background: #c9a54a; color: #15110a; border-color: #c9a54a; }
 .chip.q { border-style: dashed; }
 .chip.new { color: var(--new); border-color: color-mix(in srgb, var(--new) 50%, transparent); }
+/* Under the combination name: one line of text (faction · new combination · roles), no badges */
+.d-title .chips { gap: 4px 0; font-size: .9375rem; text-shadow: 0 1px 8px rgba(0,0,0,.5); }
+.d-title .chips > * + *::before { content: "\00b7"; margin: 0 10px; color: var(--muted); font-weight: 400; }
+.detail .d-title .chip { min-height: 0; padding: 0; border: 0; border-radius: 0; background: none; font-size: inherit; font-weight: 500; color: var(--fg); }
+.detail .d-title .chip.on { color: var(--gold-2); font-weight: 600; }
+.detail .d-title .chip.q { color: var(--muted); }
+.d-title .chip .ri { margin-right: 5px; }
+.d-title .tag { font-size: inherit; }
+/* Level range: tabular figures in a column of their own, no capsule; the reader's level in gold */
+.lvl { font-size: .875rem; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--fg); }
+.lvl.gold { color: var(--gold-2); }
 ul.plain { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
 ul.plain li { display: grid; gap: 1px; }
 .en { font-weight: 400; color: var(--muted); font-size: .92em; }
@@ -661,20 +674,24 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .rgroup h3::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--fc); }
 .alliance { --fc: var(--alliance); } .horde { --fc: var(--horde); }
 
-footer { margin-top: 96px; padding: 28px 28px 24px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); display: grid; gap: 14px; color: var(--muted); font-size: .93rem; }
+/* Footer: no frame, a darker band edge to edge (the box-shadow paints past the .wrap, clip-path keeps it from spilling up or down);
+   it ends the page, so it eats the bottom padding of main. Sources are muted links, not a wall of gold. */
+footer { margin: 96px 0 -40px; padding: 48px 0 32px; background: var(--rail); box-shadow: 0 0 0 100vmax var(--rail); clip-path: inset(0 -100vmax); display: grid; gap: 14px; color: var(--muted); font-size: .93rem; }
 footer h2 { color: var(--fg); font-size: 1.8rem; }
 footer ul { margin: 0; padding-left: 18px; display: grid; gap: 5px; }
-footer ul li::marker { color: var(--gold); }
-footer .legal { display: grid; gap: 6px; padding-top: 14px; border-top: 1px solid var(--pline); font-size: .84rem; }
-footer .legal:first-child { padding-top: 0; border-top: 0; }
+footer ul li::marker { color: var(--muted); }
+footer > ul a, footer > p a { color: inherit; text-decoration: underline; text-decoration-color: var(--line-2); text-underline-offset: 3px; }
+footer > ul a:hover, footer > p a:hover { color: var(--gold-2); text-decoration-color: currentColor; }
+footer .legal { display: grid; gap: 6px; padding-top: 14px; border-top: 1px solid var(--line); font-size: .84rem; }
 footer .legal p { margin: 0; }
 footer .legal a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
 footer .legal a:hover { color: var(--gold); }
-footer .fmap { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px 28px; padding-top: 18px; border-top: 1px solid var(--pline); }
+footer .fmap { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px 28px; padding-top: 18px; border-top: 1px solid var(--line); }
 footer .fmap ul { padding: 0; list-style: none; gap: 2px; }
 footer .fmap a { display: inline-block; padding: 2px 0; color: var(--muted); text-decoration: none; transition: color .15s; }
 footer .fmap .fh { margin-bottom: 6px; font-family: var(--font-display); font-weight: var(--display-w); font-size: 1.1rem; color: var(--fg); }
 footer .fmap a:hover { color: var(--gold); }
+footer > :first-child { padding-top: 0; border-top: 0; }   /* profile pages: the map opens the footer, no line above it */
 @media (max-width: 719px) {
   footer .fmap { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   footer .fmap a { padding: 5px 0; }
@@ -687,12 +704,12 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .sheet .dh { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px 10px 20px; border-bottom: 1px solid var(--line); min-height: var(--top); }
 .sheet .dh b { font-family: var(--font-display); font-weight: 400; font-size: 1.4rem; }
 .sheet .toc { padding: 16px 8px 8px; display: grid; gap: 18px; }
-.sheet .grp { display: grid; }
+.sheet .grp { display: grid; align-content: start; }   /* the two phone columns differ in length: rows stay 44 px, not stretched */
 .sheet .gh { font-size: .8rem; color: var(--muted); font-weight: 600; padding: 0 12px 4px; }
 .sheet .toc a { display: flex; align-items: center; min-height: 44px; padding: 0 12px; color: var(--fg); text-decoration: none; border-left: 2px solid transparent; }
 .sheet .toc a:hover { background: var(--surface); border-left-color: var(--gold); }
+.upd { margin: 0; font-size: .875rem; color: var(--ink-2); font-variant-numeric: tabular-nums; text-shadow: 0 1px 8px rgba(0,0,0,.6); }   /* the update date line under a page title */
 .sheet .opts { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding: 16px 20px 28px; border-top: 1px solid var(--line); margin-top: 8px; }
-.sheet .meta { padding: 0 20px 24px; color: var(--muted); font-size: .85rem; }
 
 /* Bottom tab bar (phones) */
 .tabbar { display: none; }
@@ -810,7 +827,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .stage { padding: 20px 16px 18px; }
   .st-head h3 { font-size: 1.75rem; }
   .steps-c, .st-cols { grid-template-columns: 1fr; }
-  .steps-c li { padding: 14px; }
+  .steps-c { gap: 20px; }
   .dg tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; align-items: center; }
   .dg td.num { margin: 0; text-align: right; }
   .dg tr.mine { border-color: color-mix(in srgb, var(--gold) 60%, transparent); }
@@ -1015,7 +1032,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .dgt td { padding: 0; }
   .dgt td::before { display: none !important; }
   .dgt td:nth-child(2) { display: contents; }
-  .dgt td:nth-child(2) .pill { grid-column: 2; grid-row: 1; justify-self: end; align-self: start; }
+  .dgt td:nth-child(2) .lvl { grid-column: 2; grid-row: 1; justify-self: end; align-self: start; }
   .dgt td:nth-child(2) .alt { grid-column: 1 / -1; grid-row: 3; margin-top: 2px; }
   .dgt td:nth-child(3) { grid-column: 1 / -1; grid-row: 2; color: var(--muted); font-size: .85rem; }
   .gtable td::before { content: attr(data-l); display: block; font-size: .78rem; font-weight: 400; color: var(--muted); }
@@ -1030,7 +1047,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css?v=ac976a4f75" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=85836eff10" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=92ad25c07f" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/me/me.css?v=67a11b7d3c" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Головна","item":"https://gabella.site/wow/uk/"},{"@type":"ListItem","position":2,"name":"Конфіденційність","item":"https://gabella.site/wow/uk/privacy/"}]}</script>
 </head>
@@ -1098,7 +1115,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 
 <div class="wrap">
 <p class="dcta"><span>Групи на старт, питання щодо гіда та новини — у Discord Gabella Team.</span><a class="btn ghost" href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Відкрити Discord</a></p>
-<section id="more"><div class="sec-head"><h2>Ще на сайті</h2></div><nav class="ttiles gtiles" aria-label="Ще на сайті"><a class="ttile" href="../classes/"><picture><source type="image/avif" srcset="../../assets/art/warrior-360.avif?v=6859bd26 360w, ../../assets/art/warrior-600.avif?v=778c7ed6 600w, ../../assets/art/warrior-896.avif?v=e1226902 896w" sizes="320px"><img src="../../assets/art/warrior-600.webp?v=f33e405c" srcset="../../assets/art/warrior-360.webp?v=a184c6fb 360w, ../../assets/art/warrior-600.webp?v=f33e405c 600w, ../../assets/art/warrior-896.webp?v=b36b231d 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Класи</b><span>Який клас обрати й порівняння</span><time datetime="2026-10-24">24.10.2026</time></a><a class="ttile" href="../races/"><picture><source type="image/avif" srcset="../../assets/art/human-360.avif?v=4b83bd2a 360w, ../../assets/art/human-600.avif?v=b743f61d 600w, ../../assets/art/human-896.avif?v=42a86d2a 896w" sizes="320px"><img src="../../assets/art/human-600.webp?v=2d8182c1" srcset="../../assets/art/human-360.webp?v=f6b98610 360w, ../../assets/art/human-600.webp?v=2d8182c1 600w, ../../assets/art/human-896.webp?v=5063bb19 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Раси</b><span>Порівняння всіх рас</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../guides/"><picture><source type="image/avif" srcset="../../assets/art/hero_campfire-960.avif?v=2654726f 960w, ../../assets/art/hero_campfire-1600.avif?v=a9d1ad39 1600w, ../../assets/art/hero_campfire-2560.avif?v=6b161175 2560w" sizes="320px"><img src="../../assets/art/hero_campfire-960.webp?v=d73f1e16" srcset="../../assets/art/hero_campfire-960.webp?v=d73f1e16 960w, ../../assets/art/hero_campfire-1600.webp?v=bef1b754 1600w, ../../assets/art/hero_campfire-2560.webp?v=08f5bedc 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Гайди</b><span>Прокачка, підземелля, професії та відповіді</span></a><a class="ttile" href="../tools/"><picture><source type="image/avif" srcset="../../assets/art/rogue-360.avif?v=0e4303b0 360w, ../../assets/art/rogue-600.avif?v=e21dd598 600w, ../../assets/art/rogue-896.avif?v=c3b868ba 896w" sizes="320px"><img src="../../assets/art/rogue-600.webp?v=d3dbeaa4" srcset="../../assets/art/rogue-360.webp?v=f8e165bf 360w, ../../assets/art/rogue-600.webp?v=d3dbeaa4 600w, ../../assets/art/rogue-896.webp?v=b44a1b62 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Інструменти</b><span>Рамки, порівняння, пошук</span></a><a class="ttile" href="../play/"><picture><source type="image/avif" srcset="../../assets/art/shaman-360.avif?v=0dbb0972 360w, ../../assets/art/shaman-600.avif?v=f3897c65 600w, ../../assets/art/shaman-896.avif?v=bf19e5ec 896w" sizes="320px"><img src="../../assets/art/shaman-600.webp?v=685d7399" srcset="../../assets/art/shaman-360.webp?v=bebb6ed5 360w, ../../assets/art/shaman-600.webp?v=685d7399 600w, ../../assets/art/shaman-896.webp?v=c55422e9 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>У грі</b><span>Другий екран: радіо, рівень, таймери</span></a></nav></section>
+<section id="more"><div class="sec-head"><h2>Ще на сайті</h2></div><nav class="ttiles gtiles" aria-label="Ще на сайті"><a class="ttile" href="../classes/"><picture><source type="image/avif" srcset="../../assets/art/hero_roster-960.avif?v=03526702 960w, ../../assets/art/hero_roster-1440.avif?v=abdbea2f 1440w, ../../assets/art/hero_roster-1920.avif?v=94fd86e4 1920w, ../../assets/art/hero_roster-2560.avif?v=44deae6b 2560w" sizes="320px"><img src="../../assets/art/hero_roster-960.webp?v=ee629b26" srcset="../../assets/art/hero_roster-960.webp?v=ee629b26 960w, ../../assets/art/hero_roster-1440.webp?v=7d1205ec 1440w, ../../assets/art/hero_roster-1920.webp?v=548b7251 1920w, ../../assets/art/hero_roster-2560.webp?v=425c3188 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Класи</b><span>Який клас обрати й порівняння</span></a><a class="ttile" href="../races/"><picture><source type="image/avif" srcset="../../assets/art/hero_road-960.avif?v=8276e51c 960w, ../../assets/art/hero_road-1600.avif?v=1537c86f 1600w, ../../assets/art/hero_road-2560.avif?v=a28502b7 2560w" sizes="320px"><img src="../../assets/art/hero_road-960.webp?v=ea65db11" srcset="../../assets/art/hero_road-960.webp?v=ea65db11 960w, ../../assets/art/hero_road-1600.webp?v=03e1f161 1600w, ../../assets/art/hero_road-2560.webp?v=ddac72cd 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Раси</b><span>Порівняння всіх рас</span></a><a class="ttile" href="../guides/"><picture><source type="image/avif" srcset="../../assets/art/hero_guides-960.avif?v=1eb36af0 960w, ../../assets/art/hero_guides-1440.avif?v=b6f796f9 1440w, ../../assets/art/hero_guides-1920.avif?v=53ffc74c 1920w, ../../assets/art/hero_guides-2560.avif?v=70b1c32d 2560w" sizes="320px"><img src="../../assets/art/hero_guides-960.webp?v=8b26dfb5" srcset="../../assets/art/hero_guides-960.webp?v=8b26dfb5 960w, ../../assets/art/hero_guides-1440.webp?v=342e57f4 1440w, ../../assets/art/hero_guides-1920.webp?v=b6755ace 1920w, ../../assets/art/hero_guides-2560.webp?v=c20286af 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Гайди</b><span>Прокачка, підземелля, професії та відповіді</span></a><a class="ttile" href="../tools/"><picture><source type="image/avif" srcset="../../assets/art/hero_tools-960.avif?v=902b0a04 960w, ../../assets/art/hero_tools-1440.avif?v=8aa2302d 1440w, ../../assets/art/hero_tools-1920.avif?v=943a0fd1 1920w, ../../assets/art/hero_tools-2560.avif?v=7b0019d6 2560w" sizes="320px"><img src="../../assets/art/hero_tools-960.webp?v=829ade2e" srcset="../../assets/art/hero_tools-960.webp?v=829ade2e 960w, ../../assets/art/hero_tools-1440.webp?v=206071c2 1440w, ../../assets/art/hero_tools-1920.webp?v=c59e811d 1920w, ../../assets/art/hero_tools-2560.webp?v=e394da00 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Інструменти</b><span>Рамки, порівняння, пошук</span></a><a class="ttile" href="../play/"><picture><source type="image/avif" srcset="../../assets/art/hero_campfire-960.avif?v=2654726f 960w, ../../assets/art/hero_campfire-1600.avif?v=a9d1ad39 1600w, ../../assets/art/hero_campfire-2560.avif?v=6b161175 2560w" sizes="320px"><img src="../../assets/art/hero_campfire-960.webp?v=d73f1e16" srcset="../../assets/art/hero_campfire-960.webp?v=d73f1e16 960w, ../../assets/art/hero_campfire-1600.webp?v=bef1b754 1600w, ../../assets/art/hero_campfire-2560.webp?v=08f5bedc 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>У грі</b><span>Другий екран: радіо, рівень, таймери</span></a></nav></section>
 <footer id="sources">
   
   <nav class="fmap" aria-label="Мапа сайту"><div><a class="fh" href="../../uk/classes/">Класи</a><ul><li><a href="../../uk/classes/warrior/">Воїн</a></li><li><a href="../../uk/classes/paladin/">Паладин</a></li><li><a href="../../uk/classes/hunter/">Мисливець</a></li><li><a href="../../uk/classes/rogue/">Розбійник</a></li><li><a href="../../uk/classes/priest/">Жрець</a></li><li><a href="../../uk/classes/shaman/">Шаман</a></li><li><a href="../../uk/classes/mage/">Маг</a></li><li><a href="../../uk/classes/warlock/">Чорнокнижник</a></li><li><a href="../../uk/classes/druid/">Друїд</a></li></ul></div><div><a class="fh" href="../../uk/races/">Раси</a><ul><li><a href="../../uk/races/human/">Людина</a></li><li><a href="../../uk/races/dwarf/">Дворф</a></li><li><a href="../../uk/races/night-elf/">Нічний ельф</a></li><li><a href="../../uk/races/gnome/">Гном</a></li><li><a href="../../uk/races/skyborne-alliance/">Високий скайборн</a></li><li><a href="../../uk/races/orc/">Орк</a></li><li><a href="../../uk/races/undead/">Нежить</a></li><li><a href="../../uk/races/tauren/">Таурен</a></li><li><a href="../../uk/races/troll/">Троль</a></li><li><a href="../../uk/races/skyborne-horde/">Скайборн-вітрорізь</a></li></ul></div><div><a class="fh" href="../../uk/guides/">Гайди</a><ul><li><a href="../../uk/guides/leveling/">Прокачування 1–60</a></li><li><a href="../../uk/guides/dungeons/">Підземелля та рейди</a></li><li><a href="../../uk/guides/professions/">Професії</a></li><li><a href="../../uk/guides/faq/">FAQ і дати</a></li><li><a href="../../uk/guides/requirements/">Системні вимоги</a></li><li><a href="../../uk/guides/news/">Новини</a></li><li><a href="../../uk/guides/ukrainian/">Як грати українською</a></li></ul></div><div><a class="fh" href="../../uk/tools/">Інструменти</a><ul><li><a href="../../uk/tools/">Інструменти</a></li><li><a href="../../uk/play/">У грі</a></li></ul></div></nav><div class="legal"><p>Фанатський гід Gabella. Сайт не пов’язаний з Blizzard Entertainment і не схвалений нею. World of Warcraft, Warcraft і Blizzard Entertainment — торгові марки або зареєстровані торгові марки Blizzard Entertainment, Inc. у США та/або інших країнах.</p><p>© 2026 Gabella<span aria-hidden="true"> · </span><a href="../../uk/privacy/">Конфіденційність</a><span aria-hidden="true"> · </span><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><span aria-hidden="true"> · </span><a href="https://t.me/gabella_wow" target="_blank" rel="noopener">Telegram</a><span aria-hidden="true"> · </span>Зв’язок: <a href="mailto:contact@gabella.site">contact@gabella.site</a></p></div>
@@ -1125,7 +1142,6 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     <div class="langgrid" role="group" aria-label="Мова"><a href="../../privacy/" data-lang="ru" hreflang="ru" lang="ru">Русский</a><a href="../../en/privacy/" data-lang="en" hreflang="en" lang="en">English</a><a href="./" data-lang="uk" hreflang="uk" lang="uk" aria-current="page">Українська</a><a href="../../de/privacy/" data-lang="de" hreflang="de" lang="de">Deutsch</a><a href="../../fr/privacy/" data-lang="fr" hreflang="fr" lang="fr">Français</a><a href="../../es/privacy/" data-lang="es" hreflang="es" lang="es">Español</a><a href="../../pt/privacy/" data-lang="pt" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a><a href="../../it/privacy/" data-lang="it" hreflang="it" lang="it">Italiano</a><a href="../../pl/privacy/" data-lang="pl" hreflang="pl" lang="pl">Polski</a></div>
     <button class="iconbtn themebtn" type="button" aria-label="Перемкнути тему"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg><span>Тема</span></button>
   </div>
-  <p class="meta">Дані на 23.10.2026, закрита бета, патч від 15.10.2026.</p>
 </dialog>
 
 <script>
@@ -1233,7 +1249,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js?v=ac976a4f75" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=85836eff10" data-root="../../" defer></script>
+<script src="../../assets/search/search.js?v=92ad25c07f" data-root="../../" defer></script>
 <script src="../../assets/me/me.js?v=67a11b7d3c" data-root="../../" data-home="../" data-lang="uk" data-teaser="Профіль зберігає ваших персонажів, досягнення й рамки" data-close="Закрити" data-page="privacy/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>

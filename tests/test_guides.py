@@ -34,7 +34,8 @@ def test_text_escapes():
 
 def test_steps_numbered():
     html = bg.render_block('steps', [{'t': T, 'd': T}, {'t': T, 'd': T}], 'en', '')
-    assert 'steps-c' in html and '01' in html and '02' in html and 'Hello' in html
+    assert 'steps-c' in html and '<span class="n">1</span>' in html and '<span class="n">2</span>' in html and 'Hello' in html
+    assert '01' not in html   # plain figures, not the 01-06 landing cards
 
 def test_table_has_labels_for_mobile():
     html = bg.render_block('table', {'head': [T, 'Lvl'], 'rows': [['Deadmines', '15–22']]}, 'en', '')

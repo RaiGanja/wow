@@ -521,13 +521,13 @@ const tipL = () => '<span class="tl">Tipp</span>';
 function liC(x) { return x[0] === 't' ? `<li class="tip">${tipL()}${esc(x[1])}</li>` : `<li>${esc(x[1])}</li>`; }
 function dLi(d) {
   const mine = me.lvl && nearLvl(d, me.lvl);
-  return `<li class="${mine ? 'mine' : ''}"><b>${esc(d[0])}</b><span class="pill${mine ? ' gold' : ''}">${lvRange(d)}</span><span class="z">${esc(d[3])}${d[4] ? ' · <i>neu</i>' : ''}${mine ? '<span class="sr"> · für deine Stufe</span>' : ''}</span></li>`;
+  return `<li class="${mine ? 'mine' : ''}"><b>${esc(d[0])}</b><span class="lvl${mine ? ' gold' : ''}">${lvRange(d)}</span><span class="z">${esc(d[3])}${d[4] ? ' · <i>neu</i>' : ''}${mine ? '<span class="sr"> · für deine Stufe</span>' : ''}</span></li>`;
 }
 function renderStage() {
   const [auto, why] = autoStage();
   if (stageAuto) stageSel = auto;
   const s = ST[stageSel];
-  $('#stageBar').innerHTML = STAGES.map(x => `<button type="button" class="stile" role="tab" id="tab-${x.id}" data-st="${x.id}" aria-controls="stagePanel" aria-selected="${x.id === stageSel}" tabindex="${x.id === stageSel ? 0 : -1}">${pic(START[x.id])}${x.id === auto ? '<span class="now">jetzt</span>' : ''}<b>${esc(x.n)}</b><span class="lv">${esc(x.sub)}</span></button>`).join('');
+  $('#stageBar').innerHTML = STAGES.map(x => `<button type="button" class="stile" role="tab" id="tab-${x.id}" data-st="${x.id}" aria-controls="stagePanel" aria-selected="${x.id === stageSel}" tabindex="${x.id === stageSel ? 0 : -1}">${pic(START[x.id])}<b>${esc(x.n)}</b><span class="lv">${esc(x.sub)}${x.id === auto ? ' · <span class="now">jetzt</span>' : ''}</span></button>`).join('');
   let ds;
   if (s.id === 'pre') ds = DUNGEONS.filter(d => d[1] <= 15);
   else ds = DUNGEONS.filter(d => d[1] <= s.hi && d[2] >= s.lo);
@@ -536,9 +536,9 @@ function renderStage() {
   let k = 0;
   const steps = s.todo.map(x => x[0] === 't'
     ? `<li class="tip"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p>${tipL()}${esc(x[1])}</p></li>`
-    : `<li><span class="n">${String(++k).padStart(2, '0')}</span><p>${esc(x[1])}</p></li>`).join('');
+    : `<li><span class="n">${++k}</span><p>${esc(x[1])}</p></li>`).join('');
   $('#stagePanel').setAttribute('aria-labelledby', 'tab-' + s.id);
-  $('#stagePanel').innerHTML = `<div class="st-head"><div class="t"><h3>${esc(s.n)}</h3><span class="pill gold">${esc(s.sub)}</span></div><p class="why">${stageAuto ? esc(why) : 'Phase manuell gewählt.'}</p></div>
+  $('#stagePanel').innerHTML = `<div class="st-head"><div class="t"><h3>${esc(s.n)}</h3><span class="when">${esc(s.sub)}</span></div><p class="why">${stageAuto ? esc(why) : 'Phase manuell gewählt.'}</p></div>
     <ol class="steps-c">${steps}</ol>
     <div class="st-cols">
       <div><h4>Dungeons für diese Stufe</h4>${s.dnote ? `<p class="small" style="margin:-4px 0 10px">${esc(s.dnote)}</p>` : ''}<ul class="dlist">${ds.slice(0, MAXD).map(dLi).join('')}</ul>

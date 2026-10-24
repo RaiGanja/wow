@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>@@NAME@@ в WoW Forever: гид Gabella</title>
-<meta name="description" content="@@NAME@@ в WoW Forever: расовые способности, доступные классы, что нового, столица и стартовая зона. Данные на 23.10.2026.">
+<meta name="description" content="@@NAME@@ в WoW Forever: расовые способности, доступные классы, что нового, столица и стартовая зона.">
 <meta name="theme-color" content="#060708">
 @@ALTERNATES@@
 <script>(function(){var t=null;try{t=localStorage.getItem('wf-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}document.documentElement.setAttribute('data-theme',t)})();</script>
@@ -51,7 +51,7 @@
 .block > * { min-width: 0; }
 .rclasses { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; }
 .rclasses .oc .tags { position: absolute; top: 8px; left: 8px; display: flex; gap: 4px; }
-.rclasses .oc .tag { background: rgba(7,8,10,.7); }
+.rclasses .oc .tag { text-shadow: 0 1px 6px rgba(0,0,0,.85); }   /* a word over the portrait */
 .rclasses .oc .go { color: var(--ink-2); font-size: .8rem; margin-top: 4px; }
 .rclasses .oc:hover .go { color: #e0c27a; }
 .nope { margin: 0; padding: 12px 16px; border-radius: 7px; background: var(--panel-2); border: 1px solid var(--pline); color: var(--muted); }
@@ -106,6 +106,7 @@
     <p class="ftag">@@FACTION@@@@PAID@@</p>
     <h1>@@NAME@@</h1>
     @@SUB@@
+    <p class="upd">Обновлено @@UPDATED@@</p>
     <p class="lead">@@DESC@@</p>
     <dl class="cfacts">@@FACTS@@</dl>
     <div class="cta">
@@ -159,7 +160,7 @@
 <div class="wrap">
 <footer id="sources">
   <h2>Источники</h2>
-  <p>Данные собраны <b style="color:var(--fg)">23.10.2026</b> по закрытой бете и патчу от 15.10.2026. Итоговые цифры могут измениться. <span class="tl" style="display:inline">Совет:</span> мнение составителя.</p>
+  <p>Итоговые цифры могут измениться. <span class="tl" style="display:inline">Совет:</span> мнение составителя.</p>
   <ul>@@SOURCES@@</ul>
   @@LEGAL@@
 </footer>
@@ -179,7 +180,6 @@
     @@LANGSHEET@@
     <button class="iconbtn themebtn" type="button" aria-label="Переключить тему"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg><span>Тема</span></button>
   </div>
-  <p class="meta">Данные на 23.10.2026, закрытая бета, патч от 15.10.2026.</p>
 </dialog>
 
 <script>

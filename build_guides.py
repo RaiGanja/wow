@@ -24,15 +24,16 @@ MORE_H = {'ru': 'Другие гайды', 'en': 'Other guides', 'uk': 'Інші
 MORE_SITE = {'ru': 'Ещё на сайте', 'en': 'More on the site', 'uk': 'Ще на сайті'}
 # Extra tiles under the classes/ and races/ pages: the guides hub and the tools page
 SITE_TILES = [
-    {'t': HUB['title'], 'href': 'guides/', 'art': 'hero_campfire',
+    {'t': HUB['title'], 'href': 'guides/', 'art': 'hero_guides',
      'd': {'ru': 'Прокачка, подземелья, профессии и ответы', 'en': 'Leveling, dungeons, professions and answers', 'uk': 'Прокачка, підземелля, професії та відповіді'}},
-    {'t': {'ru': 'Инструменты', 'en': 'Tools', 'uk': 'Інструменти'}, 'href': 'tools/', 'art': 'rogue',
+    {'t': {'ru': 'Инструменты', 'en': 'Tools', 'uk': 'Інструменти'}, 'href': 'tools/', 'art': 'hero_tools',
      'd': {'ru': 'Рамки, сравнение, поиск', 'en': 'Frames, compare, search', 'uk': 'Рамки, порівняння, пошук'}},
-    {'t': {'ru': 'В игре', 'en': 'In game', 'uk': 'У грі'}, 'href': 'play/', 'art': 'shaman',
+    {'t': {'ru': 'В игре', 'en': 'In game', 'uk': 'У грі'}, 'href': 'play/', 'art': 'hero_campfire',
      'd': {'ru': 'Второй экран: радио, уровень, таймеры', 'en': 'Second screen: radio, level, timers', 'uk': 'Другий екран: радіо, рівень, таймери'}},
 ]
 # Wide hero art; everything else is a class/race portrait cut at 360/600/896
-WIDTHS = {'hero_dawn': (960, 1440, 1920, 2560, 3840), 'hero_campfire': (960, 1600, 2560)}
+WIDTHS = {'hero_dawn': (960, 1440, 1920, 2560, 3840), 'hero_campfire': (960, 1600, 2560), 'hero_road': (960, 1600, 2560)}
+WIDTHS |= {f'hero_{x}': (960, 1440, 1920, 2560) for x in ('guides', 'dungeons', 'professions', 'faq', 'news', 'tools', 'roster')}
 FX = {'hero_dawn': 'dawn', 'hero_campfire': 'camp'}   # living art (assets/living/living.js) over these heroes
 # A guide with 'hero' gets the full-screen inner page hero (.thero, like roster and tools): its own scene, living art,
 # a portrait cut on phones (tools/make_images.py INNER, CUTS); 'art' stays for the tiles and the share preview.
@@ -111,7 +112,7 @@ def tile_links(tiles, lang, root):
         avif, webp, img = art_sets(s['art'], '@@ROOT@@')
         out.append(f'<a class="ttile" href="{root}{s["href"]}"><picture><source type="image/avif" srcset="{avif}" sizes="320px">'
                    f'<img src="{img}" srcset="{webp}" sizes="320px" alt="" loading="lazy" decoding="async"></picture>'
-                   f'<b>{E(s["t"], lang)}</b><span>{E(s["d"], lang)}</span>{build.upd_time(s.get("upd"))}</a>')
+                   f'<b>{E(s["t"], lang)}</b><span>{E(s["d"], lang)}</span></a>')   # the update date is on the page itself
     return ''.join(out)
 
 
@@ -121,7 +122,7 @@ def render_block(kind, data, lang, root):
     if kind == 'list':
         return '<ul>' + ''.join(f'<li>{E(p, lang)}</li>' for p in data) + '</ul>'
     if kind == 'steps':
-        cards = ''.join(f'<li><span class="n">{i:02d}</span><div><b>{E(s["t"], lang)}</b><p>{E(s["d"], lang)}</p></div></li>'
+        cards = ''.join(f'<li><span class="n">{i}</span><div><b>{E(s["t"], lang)}</b><p>{E(s["d"], lang)}</p></div></li>'
                         for i, s in enumerate(data, 1))
         return f'<ol class="steps-c">{cards}</ol>'
     if kind == 'tiles':
@@ -202,12 +203,12 @@ def render_guide(g, lang, root):
 
 
 def guide_tiles(guides):
-    return [{'t': x['title'], 'd': x['tile'], 'href': f'guides/{x["slug"]}/', 'art': x['art'],
-             'upd': x.get('updated') if x['slug'] != 'news' else None} for x in guides]   # the news feed refreshes itself
+    # a tile shows the guide's own scene when it has one: portraits stay on the class and race pages, no picture twice on a page
+    return [{'t': x['title'], 'd': x['tile'], 'href': f'guides/{x["slug"]}/', 'art': x.get('hero') or x['art']} for x in guides]
 
 
 def section_tiles():
-    return [{'t': x['title'], 'd': x['tile'], 'href': x['path'], 'art': x['art'], 'upd': x.get('updated')} for x in HUBS]
+    return [{'t': x['title'], 'd': x['tile'], 'href': x['path'], 'art': x.get('tile_art', x['art'])} for x in HUBS]
 
 
 def lang_guides(lang):
@@ -269,7 +270,7 @@ function renderDg() {
     const mine = dgLvl && nearLvl(d, dgLvl);
     const alt = (d[5] || []).map(a => `${a[0]}: ${a[1]}`).join(', ');
     return `<tr class="${mine ? 'mine' : ''}"><td data-l="${TX.h[0]}">${esc(d[0])}${d[4] ? ` <span class="tag new">${TX.new}</span>` : ''}</td>`
-      + `<td data-l="${TX.h[1]}"><span class="pill${mine ? ' gold' : ''}">${lvRange(d)}</span>${alt ? `<span class="alt">${esc(alt)}</span>` : ''}</td>`
+      + `<td data-l="${TX.h[1]}"><span class="lvl${mine ? ' gold' : ''}">${lvRange(d)}</span>${alt ? `<span class="alt">${esc(alt)}</span>` : ''}</td>`
       + `<td data-l="${TX.h[2]}">${esc(d[3])}${d[6] ? `<span class="alt">${TX.only[d[6]]}</span>` : ''}</td></tr>`;
   }).join('') : `<tr><td colspan="3">${dgLvl ? TX.none : TX.need}</td></tr>`;
   $('#dgCount').textContent = `${TX.shown} ${rows.length} ${TX.of} ${DUNGEONS.length}`;
@@ -452,14 +453,14 @@ function renderLvl() {
     return;
   }
   const route = P.route[fac], nx = route.find(r => r[0] > lv), ms = P.miles.find(x => x[0] >= lv);
-  let h = route.filter(r => lv >= r[0] && lv <= r[1]).map(r => `<div class="pnow"><span class="pill gold">${r[0]}–${r[1]}</span><p>${esc(r[2])}</p></div>`).join('');
+  let h = route.filter(r => lv >= r[0] && lv <= r[1]).map(r => `<div class="pnow"><span class="lvl gold">${r[0]}–${r[1]}</span><p>${esc(r[2])}</p></div>`).join('');
   const next = (nx ? `<li><b>${TX.from} ${nx[0]}</b>${esc(nx[2])}</li>` : '') + (ms ? `<li><b>${ms[0] === lv ? TX.now : TX.at + ' ' + ms[0]}</b>${esc(ms[1])}</li>` : '');
   if (next) h += `<h3 class="ph">${TX.next}</h3><ul class="pnext">${next}</ul>`;
   $('#pNow').innerHTML = h;
   const dg = DUNGEONS.filter(d => nearLvl(d, lv) && (!d[6] || d[6] === fac))
     .sort((a, b) => Math.abs(a[1] + a[2] - 2 * lv) - Math.abs(b[1] + b[2] - 2 * lv)).slice(0, 6).sort((a, b) => a[1] - b[1] || a[2] - b[2]);
   $('#pDg').innerHTML = dg.length ? dg.map(d => `<li><span><b>${esc(d[0])}</b>${d[4] ? ` <span class="tag new">${TX.new}</span>` : ''}<small>${esc(d[3])}</small></span>`
-    + `<span class="pill${lv >= d[1] && lv <= d[2] ? ' gold' : ''}">${lvRange(d)}</span></li>`).join('') : `<li class="pnote">${TX.dungNone}</li>`;
+    + `<span class="lvl${lv >= d[1] && lv <= d[2] ? ' gold' : ''}">${lvRange(d)}</span></li>`).join('') : `<li class="pnote">${TX.dungNone}</li>`;
 }
 $('#lvDown').addEventListener('click', () => setLvl((lvOf(rd(MEKEY)) || 2) - 1));
 $('#lvUp').addEventListener('click', () => setLvl(lvOf(rd(MEKEY)) + 1));
@@ -666,11 +667,11 @@ def build_page(g, lang, tpl, base_css, sprite, src):
         'TOC': toc, 'TOC_GRP': toc_grp, 'BODY': body, 'MORE': more,
         'SOLO': '' if toc else ' solo', 'MORE_H': (MORE_SITE if section else MORE_H)[lang],
         'SOURCES': ''.join(f'<li><a href="{u}" target="_blank" rel="noopener">{E(n, lang)}</a></li>' for n, u in g.get('sources', [])),
-        'UPDATED': g.get('updated', HUB.get('updated', '')),
         'JS': ((build.js_names(DATA[js](src, lang), lang) + '\n' if js in DATA else ref_js(src, lang) + '\n' if js in REF else '') + L(JS[js], lang)) if js else '',
     }
     for k, v in rep.items():                                     # 2) тело
         html = html.replace(f'@@{k}@@', v)
+    html = build.set_updated(html, sub)
     html = tod.apply(html, lang, root='@@ROOT@@', cls='stband-art', fx='dawn', mobile=True,
                      widths=WIDTHS['hero_dawn'], sizes='100vw', img_w=1920, img_h=1072, msizes='78vh')
     html = html.replace('\n    @@TOD_SW@@', '', 1)                # other guides: no switch

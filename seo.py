@@ -244,10 +244,9 @@ ORG = {'@type': 'Organization', 'name': BRAND, 'url': 'https://gabella.site/', '
        'sameAs': [build.DISCORD, build.TELEGRAM]}
 
 
-def guide_updated(path):
-    """'2026-10-23' for a guide page with an update date (news refreshes itself and has none), else None."""
-    g = next((g for g in GUIDES if path == f'guides/{g["slug"]}/' and g['slug'] != 'news'), None)
-    d = g and g.get('updated')
+def page_updated(path):
+    """'2026-10-24' for a guide, class, race or tools page: the same date as its «Обновлено» line (build.page_updated), else None."""
+    d = build.page_updated(path)
     return '-'.join(reversed(d.split('.'))) if d else None
 
 
@@ -263,7 +262,7 @@ def json_ld(path, lang, desc, title='', image=''):
         blocks.append({'@context': 'https://schema.org', '@type': 'BreadcrumbList',
                        'itemListElement': [{'@type': 'ListItem', 'position': i, 'name': n, 'item': u}
                                            for i, (n, u) in enumerate(items, 1)]})
-    updated = guide_updated(path)
+    updated = page_updated(path)
     if updated:
         art = {'@context': 'https://schema.org', '@type': 'Article', 'headline': title, 'description': desc,
                'inLanguage': HREFLANG[lang], 'url': SITE + page_dir(lang, path), 'dateModified': updated,

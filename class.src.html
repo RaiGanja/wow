@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>@@NAME@@ в WoW Forever: гид Gabella</title>
-<meta name="description" content="@@NAME@@ в WoW Forever: специализации, что нового, расы, польза в группе, плюсы и минусы. Данные на 23.10.2026.">
+<meta name="description" content="@@NAME@@ в WoW Forever: специализации, что нового, расы, польза в группе, плюсы и минусы.">
 <meta name="theme-color" content="#060708">
 @@ALTERNATES@@
 <script>(function(){var t=null;try{t=localStorage.getItem('wf-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}document.documentElement.setAttribute('data-theme',t)})();</script>
@@ -91,9 +91,10 @@
 .nband::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(7,8,10,.8) 0%, rgba(7,8,10,.5) 55%, rgba(7,8,10,.3) 100%); }
 .nband .wrap { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; }
 .nband .sec-head p, .nband .sec-head .src { color: var(--ink-2); }
-.news { list-style: none; margin: 0; padding: 14px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; counter-reset: n; border: 1px solid rgba(255,255,255,.1); border-radius: 10px; background: rgba(12,14,20,.72); backdrop-filter: blur(6px); }
-.news li { position: relative; padding: 16px 16px 16px 66px; border-radius: 8px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); counter-increment: n; }
-.news li::before { content: counter(n, decimal-leading-zero); position: absolute; left: 16px; top: 13px; font-family: var(--font-display); font-size: 1.9rem; line-height: 1; color: #e0c27a; font-variant-numeric: lining-nums tabular-nums; }
+/* One panel over the art; inside, a numbered list without cards: the gold figure in its own column, items parted by space */
+.news { list-style: none; margin: 0; padding: 28px 32px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 48px; counter-reset: n; border: 1px solid rgba(255,255,255,.1); border-radius: 10px; background: rgba(12,14,20,.72); backdrop-filter: blur(6px); }
+.news li { display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 12px; align-items: baseline; counter-increment: n; }
+.news li::before { content: counter(n); font-family: var(--font-display); font-size: 1.375rem; line-height: 1; color: #e0c27a; font-variant-numeric: lining-nums tabular-nums; }
 
 .fraces { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
 .fside { border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); padding: 20px 20px 18px; display: grid; gap: 10px; align-content: start; }
@@ -154,9 +155,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   .stabs button { flex: 1 1 0; min-width: 0; padding: 6px 6px; font-size: .95rem; min-height: 56px; white-space: normal; text-align: center; justify-items: center; hyphens: auto; overflow-wrap: anywhere; }
   .spanel { padding: 18px 16px; }
   .keys li { grid-template-columns: 1fr; }
-  .news { padding: 8px; gap: 8px; }
-  .news li { padding: 14px 14px 14px 56px; }
-  .news li::before { left: 12px; font-size: 1.6rem; }
+  .news { padding: 20px 16px; gap: 20px; }
   .others { grid-auto-columns: 120px; }
 }
 </style>
@@ -184,6 +183,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   <div class="wrap chero-in">
     <nav class="crumbs" aria-label="Навигация"><a href="@@HOME@@">Гид</a><span aria-hidden="true">/</span><a href="@@HOME@@classes/">Классы</a></nav>
     <h1>@@NAME@@</h1>
+    <p class="upd">Обновлено @@UPDATED@@</p>
     <p class="lead">@@DESC@@</p>
     <div class="croles">@@ROLES@@</div>
     <dl class="cfacts">@@FACTS@@</dl>
@@ -245,7 +245,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <div class="wrap">
 <footer id="sources">
   <h2>Источники</h2>
-  <p>Данные собраны <b style="color:var(--fg)">23.10.2026</b> по закрытой бете и патчу от 15.10.2026. Гайды писались при лимите 20–30 уровня, итоговые цифры могут измениться. <span class="tl" style="display:inline">Совет:</span> мнение составителя.</p>
+  <p>Гайды писались при лимите 20–30 уровня, итоговые цифры могут измениться. <span class="tl" style="display:inline">Совет:</span> мнение составителя.</p>
   <ul>@@SOURCES@@</ul>
   @@LEGAL@@
 </footer>
@@ -265,7 +265,6 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
     @@LANGSHEET@@
     <button class="iconbtn themebtn" type="button" aria-label="Переключить тему"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg><span>Тема</span></button>
   </div>
-  <p class="meta">Данные на 23.10.2026, закрытая бета, патч от 15.10.2026.</p>
 </dialog>
 
 <script>

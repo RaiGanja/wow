@@ -3,7 +3,7 @@
 -> index.html, en/index.html, uk/index.html, classes/<id>/index.html и races/<slug>/index.html на трёх языках.
 Запуск: python build.py [--list]  (--list печатает русские фрагменты без перевода)
 Сборка идёт в копии дерева .build/, на место переносятся только изменённые файлы: упавшая сборка ничего не трогает."""
-import hashlib, html as _html, json, os, posixpath, re, shutil, subprocess, sys
+import datetime, hashlib, html as _html, json, os, posixpath, re, shutil, subprocess, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 if '--missing' in sys.argv:          # python build.py --missing de: build de without its json, print what it lacks, write nothing
@@ -672,16 +672,41 @@ def pwa(html, lang, root):
 
 # ---------- home page ----------
 
-def upd_time(d):
-    """'23.10.2026' -> <time> line of a guide card."""
-    return f'<time datetime="{"-".join(reversed(d.split(".")))}">{d}</time>' if d else ''
+# «Обновлено <date>» under the title of a guide, class, race or tools page and dateModified in its JSON-LD: the day the
+# page's content sources last changed. Today while one of them has uncommitted changes, else the date of its last commit.
+GIT_ROOT = os.path.dirname(HERE) if os.environ.get('WF_STAGED') else HERE   # the staged build runs in .build/, git is one level up
+UPD_SRC = {'guides/': ('content/guides.py', 'i18n/guides.ru.txt', 'i18n/guides.en.txt', 'i18n/guides.uk.txt'),
+           'classes/': ('content/classes.py',), 'races/': ('content/races.py',),
+           'tools/': ('tools.src.html', 'i18n/tools.ru.txt', 'content/classes.py', 'content/races.py')}
+NO_UPD = {'guides/news/'}   # the news feed refreshes itself
+_SRC_DATES = {}
 
 
-def card_dates(html):
-    """Update date at the bottom of the home guide cards (a.gt). The news feed refreshes itself, so its card has none."""
-    from content.guides import GUIDES, HUBS
-    dates = {f'guides/{g["slug"]}/': g.get('updated') for g in GUIDES if g['slug'] != 'news'} | {h['path']: h.get('updated') for h in HUBS}
-    return re.sub(r'(<a class="gt" href="([^"#]+)">.*?)(</a>)', lambda m: m[1] + upd_time(dates.get(m[2])) + m[3], html)
+def src_date(files):
+    """'dd.mm.yyyy' of the last change to these files (paths from the repo root)."""
+    if files not in _SRC_DATES:
+        git = lambda *a: subprocess.run(['git', '-C', GIT_ROOT, *a, '--', *files], capture_output=True, text=True, check=True).stdout.strip()  # noqa: E731
+        try:
+            day = '' if git('status', '--porcelain') else git('log', '-1', '--format=%cs')
+        except (OSError, subprocess.CalledProcessError):
+            day = ''
+        _SRC_DATES[files] = (datetime.date.fromisoformat(day) if day else datetime.date.today()).strftime('%d.%m.%Y')
+    return _SRC_DATES[files]
+
+
+def page_updated(path):
+    """Update date of a page (site-relative directory, 'guides/faq/'), None for pages without one (home, news, play, privacy)."""
+    if path in NO_UPD:
+        return None
+    return next((src_date(f) for pre, f in UPD_SRC.items() if path.startswith(pre)), None)
+
+
+def set_updated(html, path):
+    """Fill the «Обновлено @@UPDATED@@» line (already translated) of a page, or drop it when the page has no date."""
+    d = page_updated(path)
+    if not d:
+        return re.sub(r'\n?[ \t]*<p class="upd">.*?</p>', '', html, count=1, flags=re.S)
+    return html.replace('@@UPDATED@@', f'<time datetime="{"-".join(reversed(d.split(".")))}">{d}</time>')
 
 # ru/uk home: one quiet line above the footer on how to play in the language; once closed (or followed), never again.
 GAME_HINT = {'ru': ('В игре есть русский язык.', 'Как включить', 'guides/faq/#language', 'Закрыть'),
@@ -717,7 +742,6 @@ def build_home(lang, src):
     html = html.replace('@@ALTERNATES@@', alternates(''))
     html = localize(html, lang, here)
     html = static_links(html, lang, '')
-    html = card_dates(html)
     html = home_dungeons(html, lang)
     if lang in GAME_HINT:
         html = html.replace('<footer id="sources"', game_hint(lang) + '<footer id="sources"', 1)
@@ -999,7 +1023,7 @@ def render_class(c, races, lang):
                       f'<div class="about"><p class="what">{"".join(ri(r) for r in s["roles"])}{esc(s["what"])}</p><p class="style">{esc(s["style"])}</p>'
                       f'<div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>{esc(s["tip"])}</p></div></div>'
                       f'<ul class="keys" aria-label="Ключевые способности">{keys}</ul></div>')
-    news = ''.join(f'<li>{esc(x)}</li>' for x in c['news'])
+    news = ''.join(f'<li><span>{esc(x)}</span></li>' for x in c['news'])   # one grid cell next to the number
     side = []
     for fac, title in (('alliance', 'Альянс'), ('horde', 'Орда')):
         items = []
@@ -1039,6 +1063,7 @@ def build_class(c, lang, tpl, base_css, sprite, races):
     html = html.replace('@@OTHERS@@', others).replace('@@PAGER@@', pager).replace('@@TOC_CLASSES@@', toc).replace('@@SOURCES@@', sources)
 
     html, missing = translate(html, lang)
+    html = set_updated(html, f'classes/{c["id"]}/')
     html = html.replace('@@PROFS@@', profs_panel(c['id'], lang))   # already in lang: the pairs come from the Professions guide
     html = mark_long(hyph_tabs(html))
     html = html.replace('@@NAME@@', esc(tr(c['n'], lang)))
@@ -1097,7 +1122,7 @@ def build_race(rp, lang, tpl, base_css, class_css, sprite, races, en):
     nope = [c['n'] for c in CLASSES if c['id'] not in r['can']]
     nope_html = ('<p class="nope">Недоступны: ' + ', '.join(f'<span>{esc(n)}</span>' for n in nope) + '.</p>') if nope else ''
 
-    news = ''.join(f'<li>{esc(x)}</li>' for x in rp['news'])
+    news = ''.join(f'<li><span>{esc(x)}</span></li>' for x in rp['news'])
     cn = {c['id']: c['n'] for c in CLASSES}
     best = ''.join(f'<li><a href="{classes_dir}{cid}/">{esc(cn[cid])}</a><span>{esc(why)}</span></li>' for cid, why in rp['best'])
 
@@ -1128,6 +1153,7 @@ def build_race(rp, lang, tpl, base_css, class_css, sprite, races, en):
     for k, val in v.items():
         html = html.replace(f'@@{k}@@', val)
     html, missing = translate(html, lang)
+    html = set_updated(html, f'races/{rp["slug"]}/')
     html = mark_long(html)
     html = html.replace('@@NAME@@', esc(tr(r['n'], lang)))
     html = html.replace('@@HOME@@', home)

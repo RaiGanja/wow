@@ -199,7 +199,7 @@
   .dgt td { padding: 0; }
   .dgt td::before { display: none !important; }
   .dgt td:nth-child(2) { display: contents; }
-  .dgt td:nth-child(2) .pill { grid-column: 2; grid-row: 1; justify-self: end; align-self: start; }
+  .dgt td:nth-child(2) .lvl { grid-column: 2; grid-row: 1; justify-self: end; align-self: start; }
   .dgt td:nth-child(2) .alt { grid-column: 1 / -1; grid-row: 3; margin-top: 2px; }
   .dgt td:nth-child(3) { grid-column: 1 / -1; grid-row: 2; color: var(--muted); font-size: .85rem; }
   .gtable td::before { content: attr(data-l); display: block; font-size: .78rem; font-weight: 400; color: var(--muted); }
@@ -224,6 +224,7 @@
   <div class="wrap">
     <nav class="crumbs" aria-label="Навигация"><a href="@@HOME@@">Гид</a><span aria-hidden="true">/</span>@@CRUMB@@</nav>
     <h1>@@TITLE@@</h1>
+    <p class="upd">Обновлено @@UPDATED@@</p>
     <p class="glead">@@LEAD@@</p>
     <p class="gfacts">@@PILLS@@</p>
     @@TOD_SW@@
@@ -242,8 +243,7 @@
 <section id="more"><div class="sec-head"><h2>@@MORE_H@@</h2></div><nav class="ttiles gtiles" aria-label="@@MORE_H@@">@@MORE@@</nav></section>
 <footer id="sources">
   <!--src--><h2>Источники</h2>
-  <ul>@@SOURCES@@</ul>
-  <p>Обновлено @@UPDATED@@. Данные по закрытой бете, до релиза могут измениться.</p><!--/src-->
+  <ul>@@SOURCES@@</ul><!--/src-->
   @@LEGAL@@
 </footer>
 </div>
@@ -260,7 +260,6 @@
     @@LANGSHEET@@
     <button class="iconbtn themebtn" type="button" aria-label="Переключить тему"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg><span>Тема</span></button>
   </div>
-  <p class="meta">Данные на 23.10.2026, закрытая бета, патч от 15.10.2026.</p>
 </dialog>
 
 <script>

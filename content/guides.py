@@ -2,7 +2,7 @@
 Названия игровых объектов на EN/UK английские. Факты — только из источников в 'sources'.
 Блок = (тип, данные):
   ('text', [строка, …])                                 абзацы
-  ('steps', [{'t': строка, 'd': строка}, …])           карточки 01/02/03
+  ('steps', [{'t': строка, 'd': строка}, …])           нумерованный список 1/2/3
   ('tiles', [{'t', 'd', 'href', 'art'}, …])            плитки с артом; href относительно корня гида, art = имя без размера
   ('play', {'h', 'd', 'go'})                           строка-ссылка на «В игре» (гайд «Прокачка»)
   ('table', {'head': [строка, …], 'rows': [[строка|str, …], …]})
@@ -17,7 +17,7 @@ def t(ru, en, uk):
 
 
 HUB = {
-    'slug': '', 'art': 'hero_campfire', 'hero': 'hero_guides', 'updated': '23.10.2026',
+    'slug': '', 'art': 'hero_campfire', 'hero': 'hero_guides',
     'title': t('Гайды', 'Guides', 'Гайди'),
     'lead': t('Прокачка, подземелья, профессии, ответы на вопросы и новости WoW Forever.',
               'Leveling, dungeons, professions, answers and news for WoW Forever.',
@@ -35,7 +35,7 @@ ORDER = ['leveling', 'dungeons', 'professions', 'faq', 'requirements', 'news', '
 # ---------- FAQ: даты и наборы, режимы, имена, отличия от Era (переехали с главной) + частые вопросы ----------
 
 GUIDES.append({
-    'slug': 'faq', 'art': 'mage', 'hero': 'hero_faq', 'updated': '24.10.2026', 'js': 'faq',
+    'slug': 'faq', 'art': 'mage', 'hero': 'hero_faq', 'js': 'faq',
     'title': t('FAQ и даты', 'FAQ and dates', 'FAQ і дати'),
     'lead': t('Даты до и после релиза, цены и подписка, режимы и серверы, имена, графика и ответы на частые вопросы.',
               'Dates before and after release, prices and subscription, modes and servers, names, graphics and answers to common questions.',
@@ -331,7 +331,7 @@ RAM8, RAM16 = t('8 ГБ', '8 GB', '8 ГБ'), t('16 ГБ', '16 GB', '16 ГБ')
 REQ_HEAD = ['', t('Минимум', 'Minimum', 'Мінімум'), t('Рекомендуется', 'Recommended', 'Рекомендовано')]
 
 GUIDES.append({
-    'slug': 'requirements', 'art': 'gnome', 'updated': '24.10.2026',
+    'slug': 'requirements', 'art': 'gnome',
     'title': t('Системные требования', 'System requirements', 'Системні вимоги'),
     'lead': t('Минимальные и рекомендуемые требования WoW Forever для Windows и Mac по магазину Battle.net и какие видеокарты больше не поддерживаются.',
               'Minimum and recommended WoW Forever requirements for Windows and Mac from the Battle.net shop, and which graphics cards are no longer supported.',
@@ -425,7 +425,7 @@ def _dg_filter():
 
 
 GUIDES.append({
-    'slug': 'dungeons', 'art': 'warlock', 'hero': 'hero_dungeons', 'updated': '23.10.2026', 'js': 'dungeons',
+    'slug': 'dungeons', 'art': 'warlock', 'hero': 'hero_dungeons', 'js': 'dungeons',
     'title': t('Подземелья и рейды', 'Dungeons and raids', 'Підземелля та рейди'),
     'lead': t('Все 35 подземелий по уровням с фильтром под вашего персонажа, три рейда и состав группы под любое число друзей.',
               'All 35 dungeons by level with a filter for your hero, three raids and a group lineup for any number of friends.',
@@ -542,7 +542,7 @@ GUIDES.append({
 # ---------- Прокачка 1–60 (переехали #legacy и #camp главной) ----------
 
 GUIDES.append({
-    'slug': 'leveling', 'art': 'hero_dawn', 'updated': '23.10.2026',
+    'slug': 'leveling', 'art': 'hero_dawn',
     'title': t('Прокачка 1–60', 'Leveling 1–60', 'Прокачування 1–60'),
     'lead': t('Маршрут по зонам для Альянса и Орды, отдых и бонусы опыта, советы соло, вдвоём и группой, Legacy и лагерь.',
               'A zone route for Alliance and Horde, rest and experience bonuses, tips for solo, duo and group play, Legacy and the camp.',
@@ -834,7 +834,7 @@ def _pair_tabs():
 
 
 GUIDES.append({
-    'slug': 'professions', 'art': 'hero_campfire', 'hero': 'hero_professions', 'updated': '23.10.2026', 'js': 'professions',
+    'slug': 'professions', 'art': 'hero_campfire', 'hero': 'hero_professions', 'js': 'professions',
     'title': t('Профессии', 'Professions', 'Професії'),
     'lead': t('Какие две профессии взять под ваш класс, что каждая ставит в лагерь и как прокачать навык до 300.',
               'Which two professions suit your class, what each one places in camp and how to raise the skill to 300.',
@@ -920,7 +920,7 @@ NEWS += [
 ]
 
 GUIDES.append({
-    'slug': 'news', 'art': 'paladin', 'hero': 'hero_news', 'updated': '23.10.2026', 'js': 'news',
+    'slug': 'news', 'art': 'paladin', 'hero': 'hero_news', 'js': 'news',
     'title': t('Новости', 'News', 'Новини'),
     'lead': t('Главное о WoW Forever и свежая лента Wowhead.',
               'What matters for our game in WoW Forever, plus the latest Wowhead feed.',
@@ -959,7 +959,7 @@ UAF = 'https://www.curseforge.com/wow/addons/ua-forever'
 UALL = 'https://www.curseforge.com/wow/addons/uall-forever-ukrainian-localization'
 
 GUIDES.append({
-    'slug': 'ukrainian', 'only': 'uk', 'art': 'priest', 'updated': '23.10.2026',
+    'slug': 'ukrainian', 'only': 'uk', 'art': 'priest',
     'title': u('Як грати українською'),
     'lead': u('Української мови у WoW Forever немає, перекладає гру аддон. Який обрати, як встановити й налаштувати, де побачити оригінал.'),
     'tile': u('Аддони перекладу: який обрати й як встановити'),
@@ -1042,7 +1042,7 @@ GUIDES.sort(key=lambda g: ORDER.index(g['slug']))
 # ---------- Разделы /classes/ и /races/: таблицы сравнения с главной (JS — из index.src.html, ref:start…ref:end) ----------
 
 HUBS = [
-    {'slug': 'classes', 'path': 'classes/', 'art': 'warrior', 'js': 'classref', 'updated': '24.10.2026',
+    {'slug': 'classes', 'path': 'classes/', 'art': 'warrior', 'tile_art': 'hero_roster', 'js': 'classref',
      'title': t('Классы', 'Classes', 'Класи'),
      'lead': t('Какой класс выбрать в WoW Forever: короткий ответ под вашу цель, темп прокачки по бете и сравнение девяти классов.',
                'Which class to pick in WoW Forever: a short answer for your goal, leveling pace from the beta and all nine classes compared.',
@@ -1104,7 +1104,7 @@ HUBS = [
                      'Темп прокачки взято з прогнозів по беті: у беті була стеля 30 рівня, вище оцінки проєктні. Рядок відкриває сторінку класу.')]),
          ('raw', '<div class="cmp cls" id="classRef"></div>'),
      ]}]},
-    {'slug': 'races', 'path': 'races/', 'art': 'human', 'js': 'raceref', 'updated': '23.10.2026',
+    {'slug': 'races', 'path': 'races/', 'art': 'human', 'tile_art': 'hero_road', 'js': 'raceref',
      'title': t('Расы', 'Races', 'Раси'),
      'lead': t('Пять рас за каждую фракцию: доступные классы и четыре расовые способности.',
                'Five races per faction: available classes and four racial abilities.',
@@ -1142,7 +1142,7 @@ _lic = ', '.join(f'<a href="{u}" target="_blank" rel="noopener">Creative Commons
 _gh = 'https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement'
 
 PAGES = [
-    {'slug': 'privacy', 'path': 'privacy/', 'og': 'guides', 'art': 'hero_campfire', 'updated': '24.10.2026',
+    {'slug': 'privacy', 'path': 'privacy/', 'og': 'guides', 'art': 'hero_campfire',
      'title': t('Конфиденциальность', 'Privacy', 'Конфіденційність'),
      'lead': t('Какие данные собирает сайт и что хранится у вас в браузере. Коротко: без входа мы о вас ничего не знаем, после входа храним только профиль.',
                'What data the site collects and what is stored in your browser. In short: without signing in we know nothing about you; after signing in we keep only your profile.',

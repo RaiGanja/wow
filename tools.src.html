@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Инструменты WoW Forever: гид Gabella</title>
-<meta name="description" content="Поиск по гиду, рамки группы и рейдовая сетка как в игре, сравнение классов и рас WoW Forever. Данные на 23.10.2026.">
+<meta name="description" content="Поиск по гиду, рамки группы и рейдовая сетка как в игре, сравнение классов и рас WoW Forever.">
 <meta name="theme-color" content="#060708">
 @@ALTERNATES@@
 <script>(function(){var t=null;try{t=localStorage.getItem('wf-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}document.documentElement.setAttribute('data-theme',t)})();</script>
@@ -158,8 +158,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 .crow .val .cgo { display: inline-block; margin-top: 10px; color: var(--gold-2); font-size: .88rem; text-decoration: none; }
 .crow .val .cgo:hover { text-decoration: underline; }
 .crow .val .cgo .ico { width: 14px; height: 14px; margin-left: 6px; vertical-align: -2px; }
-.crow .val .pill { margin: 0 4px 4px 0; }
-.crow .val .pill .ri { margin-right: 4px; }
+.crow .val .role { display: inline-flex; align-items: center; gap: 5px; margin: 0 14px 4px 0; white-space: nowrap; }   /* icon and word, no capsule */
 .chead .val { padding: 0; overflow: hidden; position: relative; isolation: isolate; min-height: 150px; display: grid; align-content: end; gap: 4px; padding: 14px; color: #f3efe6; background: #0b0d12; border-color: rgba(255,255,255,.1); }
 .chead .val img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: 50% 16%; }
 .chead .val::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(7,8,10,.1) 20%, rgba(7,8,10,.92) 100%); }
@@ -227,6 +226,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
   <div class="wrap thero-in">
     <nav class="crumbs" aria-label="Навигация"><a href="@@HOME@@">Гид</a><span aria-hidden="true">/</span><span>Инструменты</span></nav>
     <h1>Инструменты</h1>
+    <p class="upd">Обновлено @@UPDATED@@</p>
     <p class="lead">Поиск по всему гиду, рамки группы и рейда как в игре и сравнение классов и рас. Состав хранится в ссылке, её можно кинуть в Discord.</p>
     <div class="frame sbox" id="search" role="search">
       <button type="button" class="sfield sopen" aria-label="Поиск по гиду"><svg class="ico" aria-hidden="true"><use href="#i-search"/></svg><span>Класс, способность, раса, подземелье или уровень</span><kbd aria-hidden="true">Ctrl K</kbd></button>
@@ -276,7 +276,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 <div class="wrap">
 <footer id="sources">
   <h2>Источники</h2>
-  <p>Данные те же, что на главной и страницах классов: Warcraft Tavern, Method, ClassicWoW.gg, LFCarry, списки изменений Blizzard. Собраны <b style="color:var(--fg)">23.10.2026</b> по закрытой бете, до релиза цифры могут измениться. <span class="tl" style="display:inline">Совет:</span> мнение составителя.</p>
+  <p>Данные те же, что на главной и страницах классов: Warcraft Tavern, Method, ClassicWoW.gg, LFCarry, списки изменений Blizzard. <span class="tl" style="display:inline">Совет:</span> мнение составителя.</p>
   @@LEGAL@@
 </footer>
 </div>
@@ -305,7 +305,6 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
     @@LANGSHEET@@
     <button class="iconbtn themebtn" type="button" aria-label="Переключить тему"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg><span>Тема</span></button>
   </div>
-  <p class="meta">Данные на 23.10.2026, закрытая бета, патч от 15.10.2026.</p>
 </dialog>
 
 <script>
@@ -519,7 +518,7 @@ function renderCmp() {
   if (C.mode === 'class') {
     const ids = C.cls;
     out.push(`<div class="crow chead"><div class="lab"></div>${ids.map(id => `<div class="val" style="--cc:${CCOL[id]}"><img src="${art(id)}" alt="" loading="lazy" decoding="async"><b>${esc(CL[id].n)}</b><a href="${classUrl(id)}">Страница класса<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>`).join('')}</div>`);
-    out.push(row('Роли', ids.map(id => CL[id].roles.map(r => `<span class="pill">${ri(r)}${ROLE_RU[r]}</span>`).join(''))));
+    out.push(row('Роли', ids.map(id => CL[id].roles.map(r => `<span class="role">${ri(r)}${ROLE_RU[r]}</span>`).join(''))));
     out.push(row('Броня', ids.map(id => esc(CX[id].armor))));
     out.push(row('Вооружение', ids.map(id => esc(CX[id].weapons))));
     out.push(row('Ресурс', ids.map(id => esc(CX[id].resource))));

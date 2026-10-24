@@ -44,6 +44,7 @@ def build_tools(lang, src, tpl, base_css, sprite):
     html = build.chrome(tpl.replace('@@BASE_CSS@@', base_css).replace('@@SPRITE@@', sprite), nav='tools/')
     html = html.replace('@@DATA@@', build.js_names(home_data(src), lang) + '\n' + class_data(lang))
     html, missing = translate(html, lang)
+    html = build.set_updated(html, 'tools/')
     html = html.replace('@@CPROF@@', json.dumps({c['id']: [p[:2] for p in build.class_profs(c['id'], lang)] for c in CLASSES}, ensure_ascii=False))
     html = html.replace('@@HOME@@', rel(here, page_dir(lang)))
     html = html.replace('@@CANON@@', SITE + here)

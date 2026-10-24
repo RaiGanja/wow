@@ -185,11 +185,10 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
   linear-gradient(180deg, rgb(var(--hero-fade) / .42) 0%, rgb(var(--hero-fade) / 0) 26%, rgb(var(--hero-fade) / 0) 58%, rgb(var(--hero-fade) / .9) 88%, var(--bg) 100%);
   box-shadow: inset 0 -1px 0 var(--hero-line); }
 .hero-in { width: 100%; padding-top: calc(var(--top) + clamp(40px, 9vh, 110px)); padding-bottom: 40px; display: grid; gap: 22px; justify-items: start; max-width: var(--wrap); }
-.hmeta { font-size: .9rem; color: var(--ink-2); }
 .todsw { min-height: 44px; display: flex; align-items: center; }
 .hero h1 { font-size: clamp(2.9rem, 6.2vw, 5.4rem); line-height: .98; letter-spacing: .005em; text-shadow: var(--hero-shadow); }
 .hero h1 span { display: block; color: var(--ink-gold); }
-.hero h1, .hero .lead, .hero .hmeta { text-shadow: var(--hero-shadow); }  /* the castle and the sun sit behind the text */
+.hero h1, .hero .lead { text-shadow: var(--hero-shadow); }  /* the castle and the sun sit behind the text */
 .hero .lead { max-width: 46ch; font-size: clamp(1.02rem, 1.4vw, 1.15rem); color: var(--ink-2); }
 .cd { display: flex; align-items: center; flex-wrap: wrap; gap: 14px 22px; margin-top: 6px; }
 .cd .units { display: flex; align-items: stretch; gap: 6px; padding: 6px; border: 1px solid rgba(255,255,255,.12); border-radius: 10px; background: rgba(10,12,18,.62); backdrop-filter: blur(6px); box-shadow: inset 0 1px 0 var(--hero-edge); }
@@ -291,7 +290,7 @@ section.block { scroll-margin-top: -72px; }
 .rr .hc .info { min-width: 250px; padding: 22px 20px 24px; }
 .rr .hc .info b { font-size: 1.9rem; }
 .rr .hc .vn { font-size: 1.15rem; }
-.rr .hc .tag { justify-self: start; color: #e0c27a; }
+.rr .hc .tag { justify-self: start; color: #e0c27a; text-shadow: 0 1px 6px rgba(0,0,0,.8); }
 
 /* Guides band over the campfire art */
 .gtiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
@@ -365,7 +364,7 @@ main > .stband:first-child .stile::after { box-shadow: inset 0 1px 0 var(--hero-
 .stile[aria-selected="true"] img { filter: none; }
 .stile b { font-weight: 700; font-size: 1.12rem; line-height: 1.2; text-shadow: 0 1px 8px rgba(0,0,0,.7); }
 .stile .lv { font-size: .86rem; color: rgba(243,239,230,.8); }
-.stile .now { position: absolute; top: 10px; left: 10px; font-size: .74rem; font-weight: 700; color: #15110a; background: #e0c27a; border-radius: 4px; padding: 2px 7px; }
+.stile .now { color: #e0c27a; font-weight: 600; }   /* the current stage: a word after the levels, not a badge */
 .journey { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 20px; align-items: start; }
 .stage { padding: 26px 28px 22px; display: grid; gap: 22px; min-width: 0; }
 .st-head { display: grid; gap: 6px; }
@@ -374,11 +373,13 @@ main > .stband:first-child .stile::after { box-shadow: inset 0 1px 0 var(--hero-
 .pill { display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px; border-radius: 999px; background: var(--panel-2); border: 1px solid var(--pline); color: var(--fg); font-size: .85rem; font-weight: 600; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .pill.gold { background: #c9a54a; border-color: #c9a54a; color: #15110a; }
 .st-head .why { color: var(--muted); font-size: .9rem; }
-.steps-c { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-.steps-c li { display: grid; grid-template-columns: 46px minmax(0, 1fr); gap: 12px; align-items: start; padding: 16px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--pline); }
-.steps-c .n { font-family: var(--font-display); font-size: 1.9rem; line-height: 1; white-space: nowrap; color: var(--gold-2); font-variant-numeric: lining-nums; }
-.steps-c .fi { width: 28px; height: 28px; margin-top: 2px; color: var(--gold-2); }
-.steps-c p { font-size: .98rem; }
+.st-head .when { color: var(--muted); font-size: 1rem; font-variant-numeric: tabular-nums; }
+/* Numbered list: no cards, a gold Bona Nova figure in its own column on the first line of the text, items parted by space */
+.steps-c { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 48px; }
+.steps-c li { display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 12px; align-items: baseline; }
+.steps-c .n { font-family: var(--font-display); font-size: 1.375rem; line-height: 1; color: var(--gold-2); font-variant-numeric: lining-nums tabular-nums; }
+.steps-c .fi { width: 22px; height: 22px; align-self: start; margin-top: 2px; color: var(--gold-2); }
+.steps-c p { font-size: 1rem; }
 .tl { display: block; font-size: .78rem; font-weight: 700; color: var(--gold-2); margin-bottom: 2px; }
 .st-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 26px; }
 .st-cols > * { min-width: 0; }
@@ -393,7 +394,7 @@ ul.dlist li { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-i
 ul.dlist li b { font-weight: 600; font-size: .95rem; line-height: 1.3; }
 ul.dlist li .z { grid-column: 1; color: var(--muted); font-size: .82rem; line-height: 1.3; }
 ul.dlist li .z i { font-style: normal; color: var(--sapphire); font-weight: 600; }
-ul.dlist li .pill { grid-column: 2; grid-row: 1 / 3; }
+ul.dlist li .lvl { grid-column: 2; grid-row: 1 / 3; text-align: right; }
 ul.dlist li.mine { border-color: color-mix(in srgb, var(--gold) 60%, transparent); }
 .more-l { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-weight: 600; font-size: .92rem; }
 .gtip { padding: 16px 18px; border-radius: 8px; background: color-mix(in srgb, var(--gold) 9%, var(--panel-2)); border: 1px solid color-mix(in srgb, var(--gold) 30%, transparent); }
@@ -441,7 +442,7 @@ ul.buffs .m { color: var(--muted); }
 .dg td.num .alt { display: block; margin-top: 4px; color: var(--muted); font-weight: 400; font-size: .8rem; white-space: normal; }
 .dg tbody th .tag { margin-left: 8px; vertical-align: .1em; }
 .dg tr.mine > * { border-color: color-mix(in srgb, var(--gold) 60%, transparent); }
-.dg td.num .pill { min-width: 64px; justify-content: center; }
+.dg td.num .lvl { display: inline-block; min-width: 64px; }
 .dg td.zone { color: var(--muted); }
 .dg tbody th .z { display: none; }
 
@@ -576,7 +577,8 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 .facts3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
 .fact { display: grid; gap: 6px; align-content: start; padding: 14px 16px; border-radius: 10px; background: var(--panel); border: 1px solid var(--pline); font-size: .93rem; }
 .fact h4 { margin: 0; }
-.tag { display: inline-block; font-size: .76rem; font-weight: 600; line-height: 1.5; border-radius: 999px; padding: 2px 10px; background: color-mix(in srgb, currentColor 14%, transparent); white-space: nowrap; }
+/* Status is a word in its colour, never a capsule: new, paid, the faction */
+.tag { font-size: .8125rem; font-weight: 600; white-space: nowrap; }
 .tag.alliance { color: var(--alliance); } .tag.horde { color: var(--horde); } .tag.new { color: var(--new); } .tag.paid { color: var(--gold-2); }
 .d-title .chips { align-items: center; }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -584,6 +586,17 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 .chip.on { background: #c9a54a; color: #15110a; border-color: #c9a54a; }
 .chip.q { border-style: dashed; }
 .chip.new { color: var(--new); border-color: color-mix(in srgb, var(--new) 50%, transparent); }
+/* Under the combination name: one line of text (faction · new combination · roles), no badges */
+.d-title .chips { gap: 4px 0; font-size: .9375rem; text-shadow: 0 1px 8px rgba(0,0,0,.5); }
+.d-title .chips > * + *::before { content: "\00b7"; margin: 0 10px; color: var(--muted); font-weight: 400; }
+.detail .d-title .chip { min-height: 0; padding: 0; border: 0; border-radius: 0; background: none; font-size: inherit; font-weight: 500; color: var(--fg); }
+.detail .d-title .chip.on { color: var(--gold-2); font-weight: 600; }
+.detail .d-title .chip.q { color: var(--muted); }
+.d-title .chip .ri { margin-right: 5px; }
+.d-title .tag { font-size: inherit; }
+/* Level range: tabular figures in a column of their own, no capsule; the reader's level in gold */
+.lvl { font-size: .875rem; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--fg); }
+.lvl.gold { color: var(--gold-2); }
 ul.plain { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
 ul.plain li { display: grid; gap: 1px; }
 .en { font-weight: 400; color: var(--muted); font-size: .92em; }
@@ -661,20 +674,24 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .rgroup h3::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--fc); }
 .alliance { --fc: var(--alliance); } .horde { --fc: var(--horde); }
 
-footer { margin-top: 96px; padding: 28px 28px 24px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); display: grid; gap: 14px; color: var(--muted); font-size: .93rem; }
+/* Footer: no frame, a darker band edge to edge (the box-shadow paints past the .wrap, clip-path keeps it from spilling up or down);
+   it ends the page, so it eats the bottom padding of main. Sources are muted links, not a wall of gold. */
+footer { margin: 96px 0 -40px; padding: 48px 0 32px; background: var(--rail); box-shadow: 0 0 0 100vmax var(--rail); clip-path: inset(0 -100vmax); display: grid; gap: 14px; color: var(--muted); font-size: .93rem; }
 footer h2 { color: var(--fg); font-size: 1.8rem; }
 footer ul { margin: 0; padding-left: 18px; display: grid; gap: 5px; }
-footer ul li::marker { color: var(--gold); }
-footer .legal { display: grid; gap: 6px; padding-top: 14px; border-top: 1px solid var(--pline); font-size: .84rem; }
-footer .legal:first-child { padding-top: 0; border-top: 0; }
+footer ul li::marker { color: var(--muted); }
+footer > ul a, footer > p a { color: inherit; text-decoration: underline; text-decoration-color: var(--line-2); text-underline-offset: 3px; }
+footer > ul a:hover, footer > p a:hover { color: var(--gold-2); text-decoration-color: currentColor; }
+footer .legal { display: grid; gap: 6px; padding-top: 14px; border-top: 1px solid var(--line); font-size: .84rem; }
 footer .legal p { margin: 0; }
 footer .legal a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
 footer .legal a:hover { color: var(--gold); }
-footer .fmap { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px 28px; padding-top: 18px; border-top: 1px solid var(--pline); }
+footer .fmap { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px 28px; padding-top: 18px; border-top: 1px solid var(--line); }
 footer .fmap ul { padding: 0; list-style: none; gap: 2px; }
 footer .fmap a { display: inline-block; padding: 2px 0; color: var(--muted); text-decoration: none; transition: color .15s; }
 footer .fmap .fh { margin-bottom: 6px; font-family: var(--font-display); font-weight: var(--display-w); font-size: 1.1rem; color: var(--fg); }
 footer .fmap a:hover { color: var(--gold); }
+footer > :first-child { padding-top: 0; border-top: 0; }   /* profile pages: the map opens the footer, no line above it */
 @media (max-width: 719px) {
   footer .fmap { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   footer .fmap a { padding: 5px 0; }
@@ -687,12 +704,12 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .sheet .dh { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px 10px 20px; border-bottom: 1px solid var(--line); min-height: var(--top); }
 .sheet .dh b { font-family: var(--font-display); font-weight: 400; font-size: 1.4rem; }
 .sheet .toc { padding: 16px 8px 8px; display: grid; gap: 18px; }
-.sheet .grp { display: grid; }
+.sheet .grp { display: grid; align-content: start; }   /* the two phone columns differ in length: rows stay 44 px, not stretched */
 .sheet .gh { font-size: .8rem; color: var(--muted); font-weight: 600; padding: 0 12px 4px; }
 .sheet .toc a { display: flex; align-items: center; min-height: 44px; padding: 0 12px; color: var(--fg); text-decoration: none; border-left: 2px solid transparent; }
 .sheet .toc a:hover { background: var(--surface); border-left-color: var(--gold); }
+.upd { margin: 0; font-size: .875rem; color: var(--ink-2); font-variant-numeric: tabular-nums; text-shadow: 0 1px 8px rgba(0,0,0,.6); }   /* the update date line under a page title */
 .sheet .opts { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding: 16px 20px 28px; border-top: 1px solid var(--line); margin-top: 8px; }
-.sheet .meta { padding: 0 20px 24px; color: var(--muted); font-size: .85rem; }
 
 /* Bottom tab bar (phones) */
 .tabbar { display: none; }
@@ -810,7 +827,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .stage { padding: 20px 16px 18px; }
   .st-head h3 { font-size: 1.75rem; }
   .steps-c, .st-cols { grid-template-columns: 1fr; }
-  .steps-c li { padding: 14px; }
+  .steps-c { gap: 20px; }
   .dg tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; align-items: center; }
   .dg td.num { margin: 0; text-align: right; }
   .dg tr.mine { border-color: color-mix(in srgb, var(--gold) 60%, transparent); }
@@ -1015,7 +1032,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .dgt td { padding: 0; }
   .dgt td::before { display: none !important; }
   .dgt td:nth-child(2) { display: contents; }
-  .dgt td:nth-child(2) .pill { grid-column: 2; grid-row: 1; justify-self: end; align-self: start; }
+  .dgt td:nth-child(2) .lvl { grid-column: 2; grid-row: 1; justify-self: end; align-self: start; }
   .dgt td:nth-child(2) .alt { grid-column: 1 / -1; grid-row: 3; margin-top: 2px; }
   .dgt td:nth-child(3) { grid-column: 1 / -1; grid-row: 2; color: var(--muted); font-size: .85rem; }
   .gtable td::before { content: attr(data-l); display: block; font-size: .78rem; font-weight: 400; color: var(--muted); }
@@ -1030,10 +1047,10 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../../assets/radio/radio.css?v=ac976a4f75" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/search/search.css?v=85836eff10" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/search/search.css?v=92ad25c07f" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../../assets/me/me.css?v=67a11b7d3c" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://gabella.site/wow/de/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://gabella.site/wow/de/guides/"},{"@type":"ListItem","position":3,"name":"Dungeons und Raids","item":"https://gabella.site/wow/de/guides/dungeons/"}]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"WoW Forever Dungeons und Instanzen: alle 35 nach Stufe, Raids","description":"Alle 35 Dungeons in WoW Forever nach Stufe mit Eingängen und Filter für deine Stufe, die drei Raids mit Öffnungsterminen und die Gruppenzusammenstellung.","inLanguage":"de","url":"https://gabella.site/wow/de/guides/dungeons/","dateModified":"2026-10-23","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/de/"},"image":"https://gabella.site/wow/assets/og/dungeons-de.jpg"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"WoW Forever Dungeons und Instanzen: alle 35 nach Stufe, Raids","description":"Alle 35 Dungeons in WoW Forever nach Stufe mit Eingängen und Filter für deine Stufe, die drei Raids mit Öffnungsterminen und die Gruppenzusammenstellung.","inLanguage":"de","url":"https://gabella.site/wow/de/guides/dungeons/","dateModified":"2026-10-24","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/de/"},"image":"https://gabella.site/wow/assets/og/dungeons-de.jpg"}</script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -1083,6 +1100,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <div class="wrap thero-in">
     <nav class="crumbs" aria-label="Brotkrumen"><a href="../../">Guide</a><span aria-hidden="true">/</span><a href="../../guides/">Guides</a><span aria-hidden="true">/</span><span>Dungeons und Raids</span></nav>
     <h1>Dungeons und Raids</h1>
+    <p class="upd">Aktualisiert am <time datetime="2026-10-24">24.10.2026</time></p>
     <p class="lead">Alle 35 Dungeons nach Stufe mit Filter für deinen Helden, drei Raids und eine Gruppenaufstellung für beliebig viele Freunde.</p>
     <p class="gfacts">35 Dungeons · 9 neue · Raids ab 09.12</p>
   </div>
@@ -1092,20 +1110,19 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <nav class="gtoc frame" aria-label="Bereiche des Guides"><a href="#list">Dungeons nach Stufe</a><a href="#raids">Raids (ab 09.12.2026)</a><a href="#pvp">PvP</a><a href="#group">Gruppenzusammenstellung</a><a href="#together">Gemeinsam leveln</a></nav>
   <div class="gmain">
 <section class="frame gsec" id="list"><h2>Dungeons nach Stufe</h2><p>Alle 35 Dungeons, davon 9 neu. Die Stufen stammen von Warcraft Tavern, Sportskeeda nennt dieselben. Wo andere Seiten einen anderen Bereich angeben, steht er klein daneben. Blizzard hat keine festen Stufengrenzen veröffentlicht.</p><div id="dgBox"><div class="filters" role="group" aria-label="Dungeonfilter"><div class="seg" id="segD"><button type="button" data-v="all" aria-pressed="true">Alle</button><button type="button" data-v="mine" aria-pressed="false">Meine Stufe ±3</button><button type="button" data-v="new" aria-pressed="false">Neu</button></div><div class="fgroup"><span class="flabel" id="ldgLvl">Meine Stufe</span><div class="stepper" role="group" aria-labelledby="ldgLvl"><button type="button" class="lvm" aria-label="Stufe senken">−</button><input class="lvin" id="dgLvl" type="number" min="1" max="60" inputmode="numeric" aria-labelledby="ldgLvl" placeholder="—"><button type="button" class="lvp" aria-label="Stufe erhöhen">+</button></div></div><span class="small" id="dgCount" role="status"></span></div><table class="gtable dgt"><thead><tr><th scope="col">Dungeon</th><th scope="col">Stufen</th><th scope="col">Eingang</th></tr></thead><tbody id="dgBody"></tbody></table></div><p>Die meiste Dungeon-Erfahrung kommt aus den Questreihen, wiederholte Runs geben spürbar weniger. Jeder Gegenstand, der droppt, schaltet sein Aussehen für alle in der Gruppe frei, die ihn tragen können. Blizzard verspricht zwei weitere Dungeons im Frühling und zwei im Sommer.</p></section>
-<section class="frame gsec" id="raids"><h2>Raids (ab 09.12.2026)</h2><ol class="steps-c"><li><span class="n">01</span><div><b>Barrow Deeps</b><p>10 Spieler</p></div></li><li><span class="n">02</span><div><b>Hyjal Summit</b><p>20 Spieler</p></div></li><li><span class="n">03</span><div><b>Onyxia’s Lair</b><p>40 Spieler, in den Marschen von Dustwallow</p></div></li></ol><p>Der Abschluss jedes dieser Raids gibt einen Legacy-Punkt.</p></section>
-<section class="frame gsec" id="pvp"><h2>PvP</h2><ol class="steps-c"><li><span class="n">01</span><div><b>Darkspear Islands</b><p>Neues Schlachtfeld 15 gegen 15 vor der Küste der Marschen von Dustwallow.</p></div></li><li><span class="n">02</span><div><b>Ränge und Ehre</b><p>Ränge mit Wochenlimit, Ausrüstungsupgrades für Ehre, saisonale Legacy-Ziele.</p></div></li></ol></section>
-<section class="frame gsec" id="group"><h2>Gruppenzusammenstellung</h2><ol class="steps-c"><li><span class="n">01</span><div><b>Dungeons für 5</b><p>Dungeons sind für 5 Spieler gedacht: ein Tank, ein Heiler und drei Schadensverursacher.</p></div></li><li><span class="n">02</span><div><b>Raids für 10, 20 und 40</b><p>Wenn eure eigene Gruppe kleiner ist, füllt ihr den Rest aus einer Gilde auf.</p></div></li><li><span class="n">03</span><div><b>Wer tankt und heilt</b><p>Krieger, Paladine und Druiden können tanken; Paladine, Priester, Schamanen und Druiden können heilen.</p></div></li><li><span class="n">04</span><div><b>Paladin und Druide</b><p>Paladine und Druiden können alle drei Rollen. Sie sind die flexibelsten Klassen, wenn ihr wenige seid.</p></div></li><li><span class="n">05</span><div><b>Klassenbuffs</b><p>Gruppen und Raids bekommen Klassenbuffs: Könige vom Paladin, Schamanentotems, den Schlachtruf des Kriegers, Auren von Jäger und Druide. Portale, Essen und Wasser kommen vom Magier.</p></div></li></ol><div class="gtabs"><div role="tablist"><button type="button" class="pill" role="tab" data-tab="solo" aria-selected="true">Solo</button><button type="button" class="pill" role="tab" data-tab="p2-4" aria-selected="false">2–4 Spieler</button><button type="button" class="pill" role="tab" data-tab="p5" aria-selected="false">5 Spieler</button><button type="button" class="pill" role="tab" data-tab="p6-9" aria-selected="false">6–9 Spieler</button><button type="button" class="pill" role="tab" data-tab="p10" aria-selected="false">10 oder mehr</button></div><div role="tabpanel" data-tab="solo"><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Tipp</span>Jäger und Hexenmeister haben es am leichtesten, ihr Begleiter hält den Gegner. Paladine und Druiden sind ebenfalls zäh und können im Dungeon jede Rolle übernehmen.</p></div></div><div role="tabpanel" data-tab="p2-4" hidden><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Tipp</span>Achtet darauf, dass mindestens einer tanken oder heilen kann (Krieger, Paladin, Druide, Priester, Schamane), und füllt die Dungeongruppe auf fünf auf.</p></div></div><div role="tabpanel" data-tab="p5" hidden><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Tipp</span>Ein Tank, ein Heiler und drei Schadensverursacher, zum Beispiel Krieger, Priester, Magier, Jäger und Schurke.</p></div></div><div role="tabpanel" data-tab="p6-9" hidden><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Tipp</span>Zwei Dungeongruppen, jede braucht ihren eigenen Tank und Heiler. Hybride sind hier besonders wertvoll: Paladin, Druide, Schamane.</p></div></div><div role="tabpanel" data-tab="p10" hidden><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Tipp</span>Genug für den Raid Barrow Deeps für 10 Spieler: zwei Tanks, zwei oder drei Heiler, der Rest auf Schaden.</p></div></div></div><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Tipp</span>Nehmt verschiedene Klassen: Buffs verschiedener Klassen stapeln sich, gleiche überschneiden sich. Einer in der Gruppe nimmt Kochkunst für ein Lagerfeuer mit 10 Objekten, die anderen wählen Berufe für Lagerbuffs.</p></div></section>
-<section class="frame gsec" id="together"><h2>Gemeinsam leveln</h2><ol class="steps-c"><li><span class="n">01</span><div><b>Klassentempo</b><p>Laut Prognosen leveln Jäger und Magier am schnellsten (etwa 8 % schneller als der Durchschnitt), Krieger am langsamsten (etwa 12 %), Druide und Priester etwas langsamer als der Durchschnitt. Das sind Beta-Schätzungen, die Werte können sich ändern.</p></div></li><li><span class="n">02</span><div><b>Keine Stufenskalierung</b><p>Dungeons sind auf ihre eigenen Stufen ausgelegt, und einen zurückliegenden Freund durchzuziehen hat Blizzard unrentabel gemacht.</p></div></li><li><span class="n">03</span><div><b>Erholung sparen</b><p>Schlafsack, Well Rested und Essen mit Erfahrungsbonus stapeln sich.</p></div></li><li><span class="n">04</span><div><b>Lager beim Leveln</b><p>Du kannst das Lager direkt beim Leveln aufbauen; fünf Minuten für ein Lagerfeuer zahlen sich mit Buffs für die Gruppe aus.</p></div></li></ol><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Tipp</span>Vom 4. November bis 9. Dezember levelt gemeinsam über Dungeons, und entscheidet vorher, wer welche Klasse spielt, damit ihr nichts doppelt habt.</p></div></section>
+<section class="frame gsec" id="raids"><h2>Raids (ab 09.12.2026)</h2><ol class="steps-c"><li><span class="n">1</span><div><b>Barrow Deeps</b><p>10 Spieler</p></div></li><li><span class="n">2</span><div><b>Hyjal Summit</b><p>20 Spieler</p></div></li><li><span class="n">3</span><div><b>Onyxia’s Lair</b><p>40 Spieler, in den Marschen von Dustwallow</p></div></li></ol><p>Der Abschluss jedes dieser Raids gibt einen Legacy-Punkt.</p></section>
+<section class="frame gsec" id="pvp"><h2>PvP</h2><ol class="steps-c"><li><span class="n">1</span><div><b>Darkspear Islands</b><p>Neues Schlachtfeld 15 gegen 15 vor der Küste der Marschen von Dustwallow.</p></div></li><li><span class="n">2</span><div><b>Ränge und Ehre</b><p>Ränge mit Wochenlimit, Ausrüstungsupgrades für Ehre, saisonale Legacy-Ziele.</p></div></li></ol></section>
+<section class="frame gsec" id="group"><h2>Gruppenzusammenstellung</h2><ol class="steps-c"><li><span class="n">1</span><div><b>Dungeons für 5</b><p>Dungeons sind für 5 Spieler gedacht: ein Tank, ein Heiler und drei Schadensverursacher.</p></div></li><li><span class="n">2</span><div><b>Raids für 10, 20 und 40</b><p>Wenn eure eigene Gruppe kleiner ist, füllt ihr den Rest aus einer Gilde auf.</p></div></li><li><span class="n">3</span><div><b>Wer tankt und heilt</b><p>Krieger, Paladine und Druiden können tanken; Paladine, Priester, Schamanen und Druiden können heilen.</p></div></li><li><span class="n">4</span><div><b>Paladin und Druide</b><p>Paladine und Druiden können alle drei Rollen. Sie sind die flexibelsten Klassen, wenn ihr wenige seid.</p></div></li><li><span class="n">5</span><div><b>Klassenbuffs</b><p>Gruppen und Raids bekommen Klassenbuffs: Könige vom Paladin, Schamanentotems, den Schlachtruf des Kriegers, Auren von Jäger und Druide. Portale, Essen und Wasser kommen vom Magier.</p></div></li></ol><div class="gtabs"><div role="tablist"><button type="button" class="pill" role="tab" data-tab="solo" aria-selected="true">Solo</button><button type="button" class="pill" role="tab" data-tab="p2-4" aria-selected="false">2–4 Spieler</button><button type="button" class="pill" role="tab" data-tab="p5" aria-selected="false">5 Spieler</button><button type="button" class="pill" role="tab" data-tab="p6-9" aria-selected="false">6–9 Spieler</button><button type="button" class="pill" role="tab" data-tab="p10" aria-selected="false">10 oder mehr</button></div><div role="tabpanel" data-tab="solo"><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Tipp</span>Jäger und Hexenmeister haben es am leichtesten, ihr Begleiter hält den Gegner. Paladine und Druiden sind ebenfalls zäh und können im Dungeon jede Rolle übernehmen.</p></div></div><div role="tabpanel" data-tab="p2-4" hidden><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Tipp</span>Achtet darauf, dass mindestens einer tanken oder heilen kann (Krieger, Paladin, Druide, Priester, Schamane), und füllt die Dungeongruppe auf fünf auf.</p></div></div><div role="tabpanel" data-tab="p5" hidden><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Tipp</span>Ein Tank, ein Heiler und drei Schadensverursacher, zum Beispiel Krieger, Priester, Magier, Jäger und Schurke.</p></div></div><div role="tabpanel" data-tab="p6-9" hidden><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Tipp</span>Zwei Dungeongruppen, jede braucht ihren eigenen Tank und Heiler. Hybride sind hier besonders wertvoll: Paladin, Druide, Schamane.</p></div></div><div role="tabpanel" data-tab="p10" hidden><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Tipp</span>Genug für den Raid Barrow Deeps für 10 Spieler: zwei Tanks, zwei oder drei Heiler, der Rest auf Schaden.</p></div></div></div><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Tipp</span>Nehmt verschiedene Klassen: Buffs verschiedener Klassen stapeln sich, gleiche überschneiden sich. Einer in der Gruppe nimmt Kochkunst für ein Lagerfeuer mit 10 Objekten, die anderen wählen Berufe für Lagerbuffs.</p></div></section>
+<section class="frame gsec" id="together"><h2>Gemeinsam leveln</h2><ol class="steps-c"><li><span class="n">1</span><div><b>Klassentempo</b><p>Laut Prognosen leveln Jäger und Magier am schnellsten (etwa 8 % schneller als der Durchschnitt), Krieger am langsamsten (etwa 12 %), Druide und Priester etwas langsamer als der Durchschnitt. Das sind Beta-Schätzungen, die Werte können sich ändern.</p></div></li><li><span class="n">2</span><div><b>Keine Stufenskalierung</b><p>Dungeons sind auf ihre eigenen Stufen ausgelegt, und einen zurückliegenden Freund durchzuziehen hat Blizzard unrentabel gemacht.</p></div></li><li><span class="n">3</span><div><b>Erholung sparen</b><p>Schlafsack, Well Rested und Essen mit Erfahrungsbonus stapeln sich.</p></div></li><li><span class="n">4</span><div><b>Lager beim Leveln</b><p>Du kannst das Lager direkt beim Leveln aufbauen; fünf Minuten für ein Lagerfeuer zahlen sich mit Buffs für die Gruppe aus.</p></div></li></ol><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Tipp</span>Vom 4. November bis 9. Dezember levelt gemeinsam über Dungeons, und entscheidet vorher, wer welche Klasse spielt, damit ihr nichts doppelt habt.</p></div></section>
   </div>
 </main>
 
 <div class="wrap">
 <p class="dcta"><span>Gruppen zum Start, Fragen zum Guide und News — im Discord von Gabella Team.</span><a class="btn ghost" href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord öffnen</a></p>
-<section id="more"><div class="sec-head"><h2>Andere Guides</h2></div><nav class="ttiles gtiles" aria-label="Andere Guides"><a class="ttile" href="../../guides/leveling/"><picture><source type="image/avif" srcset="../../../assets/art/hero_dawn-960.avif?v=72b3acf6 960w, ../../../assets/art/hero_dawn-1440.avif?v=4c7215d4 1440w, ../../../assets/art/hero_dawn-1920.avif?v=baf52983 1920w, ../../../assets/art/hero_dawn-2560.avif?v=78086c34 2560w, ../../../assets/art/hero_dawn-3840.avif?v=b7217b4e 3840w" sizes="320px"><img src="../../../assets/art/hero_dawn-960.webp?v=4eae2c5c" srcset="../../../assets/art/hero_dawn-960.webp?v=4eae2c5c 960w, ../../../assets/art/hero_dawn-1440.webp?v=389093cd 1440w, ../../../assets/art/hero_dawn-1920.webp?v=1d137c11 1920w, ../../../assets/art/hero_dawn-2560.webp?v=f7135c28 2560w, ../../../assets/art/hero_dawn-3840.webp?v=f48b5767 3840w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Leveln 1–60</b><span>Zonen nach Stufe, Erholung, Legacy und Lager</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/professions/"><picture><source type="image/avif" srcset="../../../assets/art/hero_campfire-960.avif?v=2654726f 960w, ../../../assets/art/hero_campfire-1600.avif?v=a9d1ad39 1600w, ../../../assets/art/hero_campfire-2560.avif?v=6b161175 2560w" sizes="320px"><img src="../../../assets/art/hero_campfire-960.webp?v=d73f1e16" srcset="../../../assets/art/hero_campfire-960.webp?v=d73f1e16 960w, ../../../assets/art/hero_campfire-1600.webp?v=bef1b754 1600w, ../../../assets/art/hero_campfire-2560.webp?v=08f5bedc 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Berufe</b><span>Paare für deine Klasse, Lagerobjekte, Skill auf 300</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/faq/"><picture><source type="image/avif" srcset="../../../assets/art/mage-360.avif?v=7b69fc64 360w, ../../../assets/art/mage-600.avif?v=632283e7 600w, ../../../assets/art/mage-896.avif?v=7631e4c7 896w" sizes="320px"><img src="../../../assets/art/mage-600.webp?v=37403d76" srcset="../../../assets/art/mage-360.webp?v=f08052db 360w, ../../../assets/art/mage-600.webp?v=37403d76 600w, ../../../assets/art/mage-896.webp?v=80bd7e13 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>FAQ und Termine</b><span>Termine, Pakete, Modi und Antworten</span><time datetime="2026-10-24">24.10.2026</time></a><a class="ttile" href="../../guides/requirements/"><picture><source type="image/avif" srcset="../../../assets/art/gnome-360.avif?v=dcbc77f6 360w, ../../../assets/art/gnome-600.avif?v=7eafd503 600w, ../../../assets/art/gnome-896.avif?v=783012ea 896w" sizes="320px"><img src="../../../assets/art/gnome-600.webp?v=ce412e77" srcset="../../../assets/art/gnome-360.webp?v=6db74d62 360w, ../../../assets/art/gnome-600.webp?v=ce412e77 600w, ../../../assets/art/gnome-896.webp?v=660422be 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Systemanforderungen</b><span>PC und Mac: Minimum, empfohlen, Grafikkarten</span><time datetime="2026-10-24">24.10.2026</time></a><a class="ttile" href="../../guides/news/"><picture><source type="image/avif" srcset="../../../assets/art/paladin-360.avif?v=e7c176bf 360w, ../../../assets/art/paladin-600.avif?v=62bbe825 600w, ../../../assets/art/paladin-896.avif?v=f272a36e 896w" sizes="320px"><img src="../../../assets/art/paladin-600.webp?v=ce6a9574" srcset="../../../assets/art/paladin-360.webp?v=d4d5d3d1 360w, ../../../assets/art/paladin-600.webp?v=ce6a9574 600w, ../../../assets/art/paladin-896.webp?v=0288b052 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>News</b><span>Unsere Notizen und der Wowhead-Feed</span></a></nav></section>
+<section id="more"><div class="sec-head"><h2>Andere Guides</h2></div><nav class="ttiles gtiles" aria-label="Andere Guides"><a class="ttile" href="../../guides/leveling/"><picture><source type="image/avif" srcset="../../../assets/art/hero_dawn-960.avif?v=72b3acf6 960w, ../../../assets/art/hero_dawn-1440.avif?v=4c7215d4 1440w, ../../../assets/art/hero_dawn-1920.avif?v=baf52983 1920w, ../../../assets/art/hero_dawn-2560.avif?v=78086c34 2560w, ../../../assets/art/hero_dawn-3840.avif?v=b7217b4e 3840w" sizes="320px"><img src="../../../assets/art/hero_dawn-960.webp?v=4eae2c5c" srcset="../../../assets/art/hero_dawn-960.webp?v=4eae2c5c 960w, ../../../assets/art/hero_dawn-1440.webp?v=389093cd 1440w, ../../../assets/art/hero_dawn-1920.webp?v=1d137c11 1920w, ../../../assets/art/hero_dawn-2560.webp?v=f7135c28 2560w, ../../../assets/art/hero_dawn-3840.webp?v=f48b5767 3840w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Leveln 1–60</b><span>Zonen nach Stufe, Erholung, Legacy und Lager</span></a><a class="ttile" href="../../guides/professions/"><picture><source type="image/avif" srcset="../../../assets/art/hero_professions-960.avif?v=3e9fbfd1 960w, ../../../assets/art/hero_professions-1440.avif?v=ccd93607 1440w, ../../../assets/art/hero_professions-1920.avif?v=bdbf1557 1920w, ../../../assets/art/hero_professions-2560.avif?v=8ae49aef 2560w" sizes="320px"><img src="../../../assets/art/hero_professions-960.webp?v=0728e5d0" srcset="../../../assets/art/hero_professions-960.webp?v=0728e5d0 960w, ../../../assets/art/hero_professions-1440.webp?v=cd2da2cb 1440w, ../../../assets/art/hero_professions-1920.webp?v=7523218c 1920w, ../../../assets/art/hero_professions-2560.webp?v=87038702 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Berufe</b><span>Paare für deine Klasse, Lagerobjekte, Skill auf 300</span></a><a class="ttile" href="../../guides/faq/"><picture><source type="image/avif" srcset="../../../assets/art/hero_faq-960.avif?v=c2dd703f 960w, ../../../assets/art/hero_faq-1440.avif?v=ef471ee6 1440w, ../../../assets/art/hero_faq-1920.avif?v=cbbab9da 1920w, ../../../assets/art/hero_faq-2560.avif?v=3de85692 2560w" sizes="320px"><img src="../../../assets/art/hero_faq-960.webp?v=cfe38c97" srcset="../../../assets/art/hero_faq-960.webp?v=cfe38c97 960w, ../../../assets/art/hero_faq-1440.webp?v=b0a405ff 1440w, ../../../assets/art/hero_faq-1920.webp?v=080413b5 1920w, ../../../assets/art/hero_faq-2560.webp?v=377fcce8 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>FAQ und Termine</b><span>Termine, Pakete, Modi und Antworten</span></a><a class="ttile" href="../../guides/requirements/"><picture><source type="image/avif" srcset="../../../assets/art/gnome-360.avif?v=dcbc77f6 360w, ../../../assets/art/gnome-600.avif?v=7eafd503 600w, ../../../assets/art/gnome-896.avif?v=783012ea 896w" sizes="320px"><img src="../../../assets/art/gnome-600.webp?v=ce412e77" srcset="../../../assets/art/gnome-360.webp?v=6db74d62 360w, ../../../assets/art/gnome-600.webp?v=ce412e77 600w, ../../../assets/art/gnome-896.webp?v=660422be 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Systemanforderungen</b><span>PC und Mac: Minimum, empfohlen, Grafikkarten</span></a><a class="ttile" href="../../guides/news/"><picture><source type="image/avif" srcset="../../../assets/art/hero_news-960.avif?v=68ef2ef4 960w, ../../../assets/art/hero_news-1440.avif?v=d1766f9f 1440w, ../../../assets/art/hero_news-1920.avif?v=77922b3b 1920w, ../../../assets/art/hero_news-2560.avif?v=3d85d327 2560w" sizes="320px"><img src="../../../assets/art/hero_news-960.webp?v=936e8a97" srcset="../../../assets/art/hero_news-960.webp?v=936e8a97 960w, ../../../assets/art/hero_news-1440.webp?v=9ed32211 1440w, ../../../assets/art/hero_news-1920.webp?v=528002c1 1920w, ../../../assets/art/hero_news-2560.webp?v=b5a26d18 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>News</b><span>Unsere Notizen und der Wowhead-Feed</span></a></nav></section>
 <footer id="sources">
   <h2>Quellen</h2>
   <ul><li><a href="https://www.warcrafttavern.com/forever/guides/dungeons/" target="_blank" rel="noopener">Warcraft Tavern: Dungeons</a></li><li><a href="https://www.sportskeeda.com/mmo/world-warcraft-forever-all-dungeons-order-level-range" target="_blank" rel="noopener">Sportskeeda: Dungeons nach Stufe</a></li><li><a href="https://www.icy-veins.com/wow-forever/dungeons-overview" target="_blank" rel="noopener">Icy Veins: Dungeon-Überblick</a></li><li><a href="https://classicwow.gg/forever/dungeons" target="_blank" rel="noopener">ClassicWoW.gg: Dungeons</a></li><li><a href="https://www.warcrafttavern.com/forever/guides/legacy/" target="_blank" rel="noopener">Warcraft Tavern: Legacy</a></li><li><a href="https://lfcarry.com/guides/wow-forever-classes" target="_blank" rel="noopener">LFCarry: Klassen und Leveltempo</a></li></ul>
-  <p>Aktualisiert am 23.10.2026. Basiert auf der geschlossenen Beta; Zahlen können sich vor dem Release ändern.</p>
   <nav class="fmap" aria-label="Seitenübersicht"><div><a class="fh" href="../../../de/classes/">Klassen</a><ul><li><a href="../../../de/classes/warrior/">Krieger</a></li><li><a href="../../../de/classes/paladin/">Paladin</a></li><li><a href="../../../de/classes/hunter/">Jäger</a></li><li><a href="../../../de/classes/rogue/">Schurke</a></li><li><a href="../../../de/classes/priest/">Priester</a></li><li><a href="../../../de/classes/shaman/">Schamane</a></li><li><a href="../../../de/classes/mage/">Magier</a></li><li><a href="../../../de/classes/warlock/">Hexenmeister</a></li><li><a href="../../../de/classes/druid/">Druide</a></li></ul></div><div><a class="fh" href="../../../de/races/">Völker</a><ul><li><a href="../../../de/races/human/">Mensch</a></li><li><a href="../../../de/races/dwarf/">Zwerg</a></li><li><a href="../../../de/races/night-elf/">Nachtelf</a></li><li><a href="../../../de/races/gnome/">Gnom</a></li><li><a href="../../../de/races/skyborne-alliance/">High Order Skyborne</a></li><li><a href="../../../de/races/orc/">Orc</a></li><li><a href="../../../de/races/undead/">Untoter</a></li><li><a href="../../../de/races/tauren/">Tauren</a></li><li><a href="../../../de/races/troll/">Troll</a></li><li><a href="../../../de/races/skyborne-horde/">Windshaper Skyborne</a></li></ul></div><div><a class="fh" href="../../../de/guides/">Guides</a><ul><li><a href="../../../de/guides/leveling/">Leveln 1–60</a></li><li><a href="../../../de/guides/dungeons/">Dungeons und Raids</a></li><li><a href="../../../de/guides/professions/">Berufe</a></li><li><a href="../../../de/guides/faq/">FAQ und Termine</a></li><li><a href="../../../de/guides/requirements/">Systemanforderungen</a></li><li><a href="../../../de/guides/news/">News</a></li></ul></div><div><a class="fh" href="../../../de/tools/">Tools</a><ul><li><a href="../../../de/tools/">Tools</a></li><li><a href="../../../de/play/">Im Spiel</a></li></ul></div></nav><div class="legal"><p>Fan-Guide von Gabella. Nicht mit Blizzard Entertainment verbunden und nicht von Blizzard Entertainment unterstützt. World of Warcraft, Warcraft und Blizzard Entertainment sind Marken oder eingetragene Marken von Blizzard Entertainment, Inc. in den USA und/oder anderen Ländern.</p><p>© 2026 Gabella<span aria-hidden="true"> · </span><a href="../../../de/privacy/">Datenschutz</a><span aria-hidden="true"> · </span><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><span aria-hidden="true"> · </span><a href="https://t.me/gabella_wow" target="_blank" rel="noopener">Telegram</a><span aria-hidden="true"> · </span>Kontakt: <a href="mailto:contact@gabella.site">contact@gabella.site</a></p></div>
 </footer>
 </div>
@@ -1130,7 +1147,6 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     <div class="langgrid" role="group" aria-label="Sprache"><a href="../../../guides/dungeons/" data-lang="ru" hreflang="ru" lang="ru">Русский</a><a href="../../../en/guides/dungeons/" data-lang="en" hreflang="en" lang="en">English</a><a href="../../../uk/guides/dungeons/" data-lang="uk" hreflang="uk" lang="uk">Українська</a><a href="./" data-lang="de" hreflang="de" lang="de" aria-current="page">Deutsch</a><a href="../../../fr/guides/dungeons/" data-lang="fr" hreflang="fr" lang="fr">Français</a><a href="../../../es/guides/dungeons/" data-lang="es" hreflang="es" lang="es">Español</a><a href="../../../pt/guides/dungeons/" data-lang="pt" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a><a href="../../../it/guides/dungeons/" data-lang="it" hreflang="it" lang="it">Italiano</a><a href="../../../pl/guides/dungeons/" data-lang="pl" hreflang="pl" lang="pl">Polski</a></div>
     <button class="iconbtn themebtn" type="button" aria-label="Design wechseln"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg><span>Thema</span></button>
   </div>
-  <p class="meta">Stand: 23.10.2026, geschlossene Beta, Patch vom 15.10.2026.</p>
 </dialog>
 
 <script>
@@ -1222,7 +1238,7 @@ function renderDg() {
     const mine = dgLvl && nearLvl(d, dgLvl);
     const alt = (d[5] || []).map(a => `${a[0]}: ${a[1]}`).join(', ');
     return `<tr class="${mine ? 'mine' : ''}"><td data-l="${TX.h[0]}">${esc(d[0])}${d[4] ? ` <span class="tag new">${TX.new}</span>` : ''}</td>`
-      + `<td data-l="${TX.h[1]}"><span class="pill${mine ? ' gold' : ''}">${lvRange(d)}</span>${alt ? `<span class="alt">${esc(alt)}</span>` : ''}</td>`
+      + `<td data-l="${TX.h[1]}"><span class="lvl${mine ? ' gold' : ''}">${lvRange(d)}</span>${alt ? `<span class="alt">${esc(alt)}</span>` : ''}</td>`
       + `<td data-l="${TX.h[2]}">${esc(d[3])}${d[6] ? `<span class="alt">${TX.only[d[6]]}</span>` : ''}</td></tr>`;
   }).join('') : `<tr><td colspan="3">${dgLvl ? TX.none : TX.need}</td></tr>`;
   $('#dgCount').textContent = `${TX.shown} ${rows.length} ${TX.of} ${DUNGEONS.length}`;
@@ -1305,7 +1321,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../../assets/radio/radio.js?v=ac976a4f75" data-root="../../../" defer></script>
-<script src="../../../assets/search/search.js?v=85836eff10" data-root="../../../" defer></script>
+<script src="../../../assets/search/search.js?v=92ad25c07f" data-root="../../../" defer></script>
 <script src="../../../assets/me/me.js?v=67a11b7d3c" data-root="../../../" data-home="../../" data-lang="de" data-teaser="Dein Profil speichert deine Charaktere, Erfolge und Rahmen" data-close="Schließen" data-page="guides/dungeons/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>

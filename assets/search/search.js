@@ -118,20 +118,36 @@
 
   function mark(text, ntext, toks) {
     const hits = [];
-    for (const t of toks) for (let i = ntext.indexOf(t); i >= 0; i = ntext.indexOf(t, i + t.length)) hits.push([i, i + t.length]);
+    const W = /[\p{L}\p{N}]/u;   // the mark covers the whole word ("магия" for "маг"), not a cut piece of it
+    for (const t of toks) for (let i = ntext.indexOf(t); i >= 0; i = ntext.indexOf(t, i + t.length)) {
+      let a = i, b = i + t.length;
+      while (a > 0 && W.test(ntext[a - 1])) a--;
+      while (b < ntext.length && W.test(ntext[b])) b++;
+      hits.push([a, b]);
+    }
     hits.sort((a, b) => a[0] - b[0]);
     let o = '', p = 0;
     for (const [a, b] of hits) { if (a < p) continue; o += esc(text.slice(p, a)) + '<mark>' + esc(text.slice(a, b)) + '</mark>'; p = b; }
     return o + esc(text.slice(p));
   }
 
+  // The text holds one line per block (paragraph, list item, card). The excerpt is the line of sentence length with the most
+  // query words, cut to ~150 characters around the first of them; short lines (card labels, chips) are matched but never shown.
   function excerpt(it, toks) {
     if (!toks || !it.x || toks.every(t => it.nt.includes(t))) return '';
-    const at = Math.min(...toks.map(t => it.nx.indexOf(t)).filter(i => i >= 0));
-    let a = Math.max(0, at - 40), b = Math.min(it.x.length, at + 110);
-    if (a > 0) a = it.x.indexOf(' ', a) + 1 || a;
-    if (b < it.x.length) b = it.x.lastIndexOf(' ', b) > at ? it.x.lastIndexOf(' ', b) : b;
-    return (a > 0 ? '…' : '') + mark(it.x.slice(a, b), it.nx.slice(a, b), toks) + (b < it.x.length ? '…' : '');
+    let best = null;
+    for (let a = 0, b; a < it.x.length; a = b + 1) {
+      b = it.x.indexOf('\n', a);
+      if (b < 0) b = it.x.length;
+      const line = it.nx.slice(a, b), n = toks.filter(t => line.includes(t)).length;
+      if (n && b - a >= 40 && (!best || n > best[2])) best = [a, b, n];
+    }
+    if (!best) return '';
+    const [s, e] = best, at = Math.min(...toks.map(t => it.nx.indexOf(t, s)).filter(i => i >= 0 && i < e));
+    let a = Math.max(s, at - 40), b = Math.min(e, at + 110);
+    if (a > s) a = it.x.indexOf(' ', a) + 1 || a;
+    if (b < e) b = it.x.lastIndexOf(' ', b) > at ? it.x.lastIndexOf(' ', b) : b;
+    return (a > s ? '…' : '') + mark(it.x.slice(a, b), it.nx.slice(a, b), toks) + (b < e ? '…' : '');
   }
 
   const ICON = ['<path d="M4 5h16v14H4zM4 9h16"/>', '<path d="M5 7h14M5 12h14M5 17h9"/>', '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5V14M12 17.5h.01"/>',
