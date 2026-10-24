@@ -118,13 +118,18 @@ def tile_links(tiles, lang, root):
     return ''.join(out)
 
 
+def li_id(step):
+    """id attribute of a numbered-list item that other pages link to (class anchors on «Лучшая раса»)."""
+    return f' id="{step["id"]}"' if 'id' in step else ''
+
+
 def render_block(kind, data, lang, root):
     if kind == 'text':
         return ''.join(f'<p>{E(p, lang)}</p>' for p in data)
     if kind == 'list':
         return '<ul>' + ''.join(f'<li>{E(p, lang)}</li>' for p in data) + '</ul>'
     if kind == 'steps':
-        cards = ''.join(f'<li><span class="n">{i}</span><div><b>{E(s["t"], lang)}</b><p>{E(s["d"], lang)}</p></div></li>'
+        cards = ''.join(f'<li{li_id(s)}><span class="n">{i}</span><div><b>{E(s["t"], lang)}</b><p>{E(s["d"], lang)}</p></div></li>'
                         for i, s in enumerate(data, 1))
         return f'<ol class="steps-c">{cards}</ol>'
     if kind == 'tiles':

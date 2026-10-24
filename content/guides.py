@@ -29,7 +29,7 @@ GUIDES = []   # наполняется в задачах 3, 5, 6, 7, 9; кажд
 NEWS = []     # ручные записи: {'date': '2026-10-23', 'title': t(...), 'text': t(...), 'url': 'https://…'}
 from build import DISCORD_AT  # noqa: E402  (у каждого места ссылки своё приглашение)
 
-ORDER = ['leveling', 'dungeons', 'professions', 'faq', 'requirements', 'news', 'ukrainian']   # порядок плиток на хабе и в «Другие гайды»
+ORDER = ['leveling', 'best-race', 'tier-list', 'legacy', 'dungeons', 'professions', 'faq', 'requirements', 'news', 'ukrainian']   # порядок плиток на хабе и в «Другие гайды»
 
 
 # ---------- FAQ: даты и наборы, режимы, имена, отличия от Era (переехали с главной) + частые вопросы ----------
@@ -700,51 +700,11 @@ GUIDES.append({
                                 'href': 'guides/dungeons/', 'art': 'hero_dungeons'}]),
                 ]},
             ]),
+            ('tiles', [{'t': t('Тир-лист классов WoW Forever', 'WoW Forever Class Tier List', 'Тір-лист класів WoW Forever'), 'd': t('Сильные классы и спеки по данным беты', 'Strong classes and specs by beta data', 'Сильні класи й спеціалізації за даними бети'), 'href': 'guides/tier-list/', 'art': 'hero_classes'}]),
         ]},
         {'id': 'legacy', 'title': t('Система Legacy', 'Legacy system', 'Система Legacy'), 'blocks': [
-            ('text', [t('Прогресс на весь аккаунт Battle.net. Очки получают за испытания, а тратят на перки отдельно на каждом персонаже.',
-                        'Progress for the whole Battle.net account. Points are earned from challenges and spent on perks separately on each character.',
-                        'Прогрес на весь акаунт Battle.net. Очки отримують за випробування, а витрачають на перки окремо на кожному персонажі.')]),
-            ('steps', [
-                {'t': t('Первое очко', 'First point', 'Перше очко'),
-                 'd': t('Система открывается с первым очком: уровень 25 на персонаже, либо 150 в профессии (не сбор), либо исследование всей карты.',
-                        'The system unlocks with the first point: level 25 on a character, or 150 in a profession (not gathering), or exploring the whole map.',
-                        'Система відкривається з першим очком: 25 рівень на персонажі, або 150 у професії (не збирання), або дослідження всієї мапи.')},
-                {'t': t('Испытания', 'Challenges', 'Випробування'),
-                 'd': t('Каждое испытание даёт 1 очко. По данным Blizzard испытаний 65 в шести категориях: классы 27, профессии 18, PvP 12, подземелья 3, рейды 3, приключения 2.',
-                        'Each challenge gives 1 point. According to Blizzard there are 65 challenges in six categories: classes 27, professions 18, PvP 12, dungeons 3, raids 3, adventures 2.',
-                        'Кожне випробування дає 1 очко. За даними Blizzard випробувань 65 у шести категоріях: класи 27, професії 18, PvP 12, підземелля 3, рейди 3, пригоди 2.')},
-                {'t': t('На весь аккаунт', 'Account-wide', 'На весь акаунт'),
-                 'd': t('Очки действуют на всех персонажах не-Hardcore. Горячая клавиша окна: Y.', 'Points apply to all non-Hardcore characters. Window hotkey: Y.',
-                        'Очки діють на всіх персонажах не-Hardcore. Гаряча клавіша вікна: Y.')},
-                {'t': t('Лимит на запуске', 'Limit at launch', 'Ліміт на запуску'),
-                 'd': t('На персонаже можно потратить не более 16 очков. Лишние идут в трек наград.', 'You can spend no more than 16 points on a character. The excess goes to the rewards track.',
-                        'На персонажі можна витратити не більше 16 очок. Зайві йдуть у трек нагород.')},
-            ]),
-            ('table', {'head': [t('Дерево', 'Tree', 'Дерево'), t('Примеры перков (рангов)', 'Example perks (ranks)', 'Приклади перків (рангів)')], 'rows': [
-                [t('Профессии', 'Professions', 'Професії'),
-                 t('Working Overtime (5): чаще растут навыки. Bountiful Harvest (5): на 20% больше редких материалов. Master Chef (5): шанс лишнего блюда. Bartering (2): цены у торговцев ниже на 5%.',
-                   'Working Overtime (5): skills increase faster. Bountiful Harvest (5): 20% more rare materials. Master Chef (5): chance of an extra dish. Bartering (2): vendor prices are 5% lower.',
-                   'Working Overtime (5): частіше ростуть навички. Bountiful Harvest (5): на 20% більше рідкісних матеріалів. Master Chef (5): шанс зайвої страви. Bartering (2): ціни в торговців нижчі на 5%.')],
-                [t('Приключения', 'Adventures', 'Пригоди'),
-                 t('Well Rested (5): быстрее копится отдых и выше его потолок. Thrill of Adventure (5): здоровье и мана за убийство вне подземелий. Talented (5): таланты с 9 уровня вместо 10. Field Guide (3): короче откат объектов лагеря. Frequent Flier (1): перелёты на 50% дешевле.',
-                   'Well Rested (5): rest accumulates faster and its cap is higher. Thrill of Adventure (5): health and mana for kills outside dungeons. Talented (5): talents from level 9 instead of 10. Field Guide (3): shorter cooldown of camp objects. Frequent Flier (1): flights are 50% cheaper.',
-                   'Well Rested (5): швидше накопичується відпочинок і вища його стеля. Thrill of Adventure (5): здоров’я та мана за вбивство поза підземеллями. Talented (5): таланти з 9 рівня замість 10. Field Guide (3): коротше відновлення об’єктів табору. Frequent Flier (1): перельоти на 50% дешевші.')],
-                [t('Ресурсы', 'Resources', 'Ресурси'),
-                 t('Gourmand (3): еда действует на 33% дольше. Reinforce (5): на 8% меньше потеря прочности. Diplomat (5): +2% репутации. Permanence (2): дольше баффы лагеря. Reagent Economy (1): способностям класса не нужны покупные реагенты.',
-                   'Gourmand (3): food lasts 33% longer. Reinforce (5): 8% less durability loss. Diplomat (5): +2% reputation. Permanence (2): camp buffs last longer. Reagent Economy (1): class abilities need no purchased reagents.',
-                   'Gourmand (3): їжа діє на 33% довше. Reinforce (5): на 8% менше втрата міцності. Diplomat (5): +2% репутації. Permanence (2): довше баффи табору. Reagent Economy (1): здібностям класу не потрібні куповані реагенти.')],
-            ]}),
-            ('table', {'head': [t('Очки', 'Points', 'Очки'), t('Награда трека', 'Track reward', 'Нагорода треку')], 'rows': [
-                ['15', t('игрушка Holstered Replica Ironforge Air Rifle', 'toy Holstered Replica Ironforge Air Rifle', 'іграшка Holstered Replica Ironforge Air Rifle')],
-                ['25', t('питомец Spectral Bear Cub', 'pet Spectral Bear Cub', 'улюбленець Spectral Bear Cub')],
-                ['40', t('табард Spectral Bear', 'tabard Spectral Bear', 'табард Spectral Bear')],
-                ['55', t('скакун Reins of the Spectral Bear', 'mount Reins of the Spectral Bear', 'скакун Reins of the Spectral Bear')],
-            ]}),
-            ('text', [t('Это косметика, преимуществ в игре она не даёт.', 'These are cosmetics and give no advantage in the game.', 'Це косметика, переваг у грі вона не дає.')]),
-            ('tip', t('В первую очередь ценны перки лагеря и опыта (Well Rested, Field Guide, Permanence) и Reagent Economy для классов с реагентами. Один источник пишет про лимит 25 очков на дерево, Blizzard лимита на дерево не называет.',
-                      'Camp and experience perks come first (Well Rested, Field Guide, Permanence), plus Reagent Economy for classes that use reagents. One source mentions a 25-point cap per tree, Blizzard names no per-tree cap.',
-                      'Насамперед цінні перки табору й досвіду (Well Rested, Field Guide, Permanence) і Reagent Economy для класів із реагентами. Одне джерело пише про ліміт 25 очок на дерево, Blizzard ліміту на дерево не називає.')),
+            ('text', [t('Legacy — прогресс на весь аккаунт Battle.net. Очки дают за испытания: уровни, профессии, PvP, подземелья и рейды. Тратите их на перки отдельно на каждом персонаже, на старте до 16 очков.', 'Legacy is progress shared across your whole Battle.net account. Challenges give you points: levels, professions, PvP, dungeons and raids. You spend them on perks separately on each character, up to 16 points at launch.', 'Legacy — прогрес на весь обліковий запис Battle.net. Очки дають за випробування: рівні, професії, PvP, підземелля та рейди. Витрачаєте їх на перки окремо на кожному персонажі, на старті до 16.')]),
+            ('tiles', [{'t': t('Система Legacy', 'The Legacy System', 'Система Legacy'), 'd': t('Очки, испытания, перки и награды', 'Points, challenges, perks and rewards', 'Очки, випробування, перки та нагороди'), 'href': 'guides/legacy/', 'art': 'hero_guides'}]),
         ]},
         {'id': 'camp', 'title': t('Лагерь и профессии', 'Camp and professions', 'Табір і професії'), 'blocks': [
             ('text', [t('Костёр по профессии Кулинария превращается в общий лагерь: рядом можно отдыхать, получать баффы и ставить объекты своих профессий.',
@@ -1035,6 +995,371 @@ GUIDES.append({
         ]},
     ],
 })
+
+# ---------- Лучшая раса, тир-лист и Legacy (тексты 25.10.2026, переводы в i18n/*.json) ----------
+
+# ---------- best-race ----------
+
+GUIDES.append({
+    'slug': 'best-race', 'art': 'hero_races', 'hero': 'hero_races',
+    'title': t('Лучшая раса для каждого класса', 'Best Race for Every Class', 'Найкраща раса для кожного класу'),
+    'lead': t('За Альянс чаще всего выигрывают Человек, Гном и Ночной эльф, за Орду — Орк в PvE и Нежить в PvP. Разница между расами — несколько процентов: класс, спек и экипировка важнее.', 'On the Alliance side Human, Gnome and Night Elf win most often; on the Horde side it is Orc in PvE and Undead in PvP. The gap between races is a few percent: class, spec and gear matter more.', 'За Альянс найчастіше перемагають Людина, Гном і Нічний ельф, за Орду — Орк у PvE та Нежить у PvP. Різниця між расами становить кілька відсотків: клас, спеціалізація й екіпірування важать більше.'),
+    'tile': t('Какая раса сильнее для вашего класса', 'Which race is stronger for your class', 'Яка раса сильніша для вашого класу'),
+    'pills': [t('56 пар класс и раса', '56 class and race pairs', '56 пар клас і раса'), t('PvE и PvP', 'PvE and PvP', 'PvE та PvP'), t('По бете', 'Beta data', 'За бетою')],
+    'sources': [
+        (t('Warcraft Tavern: расовые способности', 'Warcraft Tavern: racial abilities', 'Warcraft Tavern: расові здібності'), 'https://www.warcrafttavern.com/forever/guides/races/'),
+        (t('Warcraft Tavern: изменения беты от 15 октября', 'Warcraft Tavern: Oct 15 beta changes', 'Warcraft Tavern: зміни бети від 15 жовтня'), 'https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/'),
+        (t('RankedBoost: расы по классам', 'RankedBoost: races by class', 'RankedBoost: раси за класами'), 'https://rankedboost.com/world-of-warcraft/forever/tier-list/'),
+        (t('wowforevertierlist: лучшая раса для класса', 'wowforevertierlist: best race for each class', 'wowforevertierlist: найкраща раса для класу'), 'https://wowforevertierlist.com/races/best-race-for-each-class'),
+        (t('ConquestCapped: тир-лист рас', 'ConquestCapped: race tier list', 'ConquestCapped: тір-лист рас'), 'https://conquestcapped.com/guides/wow-forever/wow-forever-race-tier-list/'),
+        (t('mmonster: тир-лист рас', 'mmonster: race tier list', 'mmonster: тір-лист рас'), 'https://mmonster.co/wow-forever/guides/tier-lists/race-tier-list'),
+        (t('GamesFuze: лучшая раса для класса', 'GamesFuze: best race for each class', 'GamesFuze: найкраща раса для класу'), 'https://gamesfuze.com/tier-list/world-of-warcraft-forever-best-race-for-every-class/'),
+        (t('gamer-guides: тир-лист беты', 'gamer-guides: beta tier list', 'gamer-guides: тір-лист бети'), 'https://gamer-guides.com/warcraft-forever/tier-list-beta/'),
+        (t('Wowhead Classic: Blood Fury (числа Classic)', 'Wowhead Classic: Blood Fury (Classic numbers)', 'Wowhead Classic: Blood Fury (числа Classic)'), 'https://www.wowhead.com/classic/spell=20572/blood-fury'),
+        (t('Wowhead Classic: Hardiness (числа Classic)', 'Wowhead Classic: Hardiness (Classic numbers)', 'Wowhead Classic: Hardiness (числа Classic)'), 'https://www.wowhead.com/classic/spell=20573/hardiness'),
+        (t('LFCarry: изменения классов', 'LFCarry: class changes', 'LFCarry: зміни класів'), 'https://lfcarry.com/guides/wow-forever-class-changes'),
+    ],
+    'sections': [
+        {'id': 'table', 'title': t('Сводная таблица', 'Summary table', 'Зведена таблиця'), 'blocks': [
+            ('text', [t('Данные по бете (уровень 30, сборки до 15.10). Полей боя на бете не было, поэтому PvP оценено по дуэлям и мировому PvP. «Или» — источники спорят, одного победителя нет.', 'Beta data (level 30, builds up to Oct 15). There were no battlegrounds in the beta, so PvP is judged by duels and world PvP. “Or” means the sources disagree and there is no single winner.', 'Дані за бетою (30 рівень, збірки до 15 жовтня). Полів бою в бета-версії не було, тож PvP оцінено за дуелями та світовим PvP. «Або» означає, що джерела сперечаються і єдиного переможця немає.')]),
+            ('table', {'head': [t('Класс', 'Class', 'Клас'), t('Альянс, PvE', 'Alliance, PvE', 'Альянс, PvE'), t('Орда, PvE', 'Horde, PvE', 'Орда, PvE'), t('Альянс, PvP', 'Alliance, PvP', 'Альянс, PvP'), t('Орда, PvP', 'Horde, PvP', 'Орда, PvP')], 'rows': [
+                [t('Воин', 'Warrior', 'Воїн'), t('Человек или Ночной эльф; танк — Дворф', 'Human or Night Elf; tank: Dwarf', 'Людина або Нічний ельф; танк — Дворф'), t('Орк; танк — Таурен', 'Orc; tank: Tauren', 'Орк; танк — Таурен'), t('Человек', 'Human', 'Людина'), t('Орк', 'Orc', 'Орк')],
+                [t('Паладин', 'Paladin', 'Паладин'), t('Человек; танк — Дворф', 'Human; tank: Dwarf', 'Людина; танк — Дворф'), t('Нежить (единственная)', 'Undead (the only option)', 'Нежить (єдина)'), t('Человек или Дворф', 'Human or Dwarf', 'Людина або Дворф'), t('Нежить', 'Undead', 'Нежить')],
+                [t('Охотник', 'Hunter', 'Мисливець'), t('Человек или Ночной эльф', 'Human or Night Elf', 'Людина або Нічний ельф'), t('Орк или Тролль', 'Orc or Troll', 'Орк або Троль'), t('Человек', 'Human', 'Людина'), t('Орк', 'Orc', 'Орк')],
+                [t('Разбойник', 'Rogue', 'Розбійник'), t('Ночной эльф', 'Night Elf', 'Нічний ельф'), t('Орк', 'Orc', 'Орк'), t('Человек или Гном', 'Human or Gnome', 'Людина або Гном'), t('Нежить или Орк', 'Undead or Orc', 'Нежить або Орк')],
+                [t('Жрец', 'Priest', 'Жрець'), t('Гном', 'Gnome', 'Гном'), t('Нежить или Тролль', 'Undead or Troll', 'Нежить або Троль'), t('Гном или Человек', 'Gnome or Human', 'Гном або Людина'), t('Нежить', 'Undead', 'Нежить')],
+                [t('Шаман', 'Shaman', 'Шаман'), t('Дворф (единственный)', 'Dwarf (the only option)', 'Дворф (єдиний)'), t('Орк; лекарь — Тролль', 'Orc; healer: Troll', 'Орк; цілитель — Троль'), t('Дворф (единственный)', 'Dwarf (the only option)', 'Дворф (єдиний)'), t('Орк, Таурен или Тролль', 'Orc, Tauren or Troll', 'Орк, Таурен або Троль')],
+                [t('Маг', 'Mage', 'Маг'), t('Гном', 'Gnome', 'Гном'), t('Орк', 'Orc', 'Орк'), t('Гном', 'Gnome', 'Гном'), t('Нежить', 'Undead', 'Нежить')],
+                [t('Чернокнижник', 'Warlock', 'Чорнокнижник'), t('Гном или Человек', 'Gnome or Human', 'Гном або Людина'), t('Орк или Нежить', 'Orc or Undead', 'Орк або Нежить'), t('Человек', 'Human', 'Людина'), t('Нежить', 'Undead', 'Нежить')],
+                [t('Друид', 'Druid', 'Друїд'), t('Ночной эльф', 'Night Elf', 'Нічний ельф'), t('Таурен', 'Tauren', 'Таурен'), t('Ночной эльф', 'Night Elf', 'Нічний ельф'), t('Таурен', 'Tauren', 'Таурен')],
+            ]}),
+            ('tip', t('Не можете выбрать — берите расу, которая нравится: несколько процентов урона не заменят персонажа, которым приятно играть до 60.', 'Can’t decide? Take the race you like: a few percent of damage won’t replace a character you enjoy playing all the way to 60.', 'Не можете обрати — беріть расу, яка подобається: кілька відсотків шкоди не замінять персонажа, за якого приємно грати до 60 рівня.')),
+        ]},
+        {'id': 'classes', 'title': t('По классам', 'By class', 'За класами'), 'blocks': [
+            ('steps', [
+                {'id': 'warrior', 't': t('Воин', 'Warrior', 'Воїн'),
+                 'd': t('Человек: Беспощадность даёт +2% крита любым оружием, Воля к жизни снимает оглушения. Ночной эльф: Свет Элуны, +10% крита на 15 сек. Источники делятся почти поровну. Танку — Дворф: Каменная форма снижает физический урон на 10% и снимает кровотечения. За Орду Орка ставят первым все источники: Кровавое неистовство (+10% силы атаки на 15 сек), Дикость (+1% крита), Твердость (оглушения короче на 20%). Танку — Таурен: Закалка (+5% здоровья) и Громовая поступь.', 'Human: Ruthless gives +2% crit with any weapon, Will to Survive removes stuns. Night Elf: Elune’s Light, +10% crit for 15 sec. The sources are almost evenly split. For a tank, take Dwarf: Stoneform cuts physical damage by 10% and removes bleeds. On the Horde side every source puts Orc first: Blood Fury (+10% attack power for 15 sec), Savage (+1% crit), Hardiness (stuns 20% shorter). For a tank, take Tauren: Endurance (+5% health) and War Stomp.', 'Людина: Ruthless дає +2% криту будь-якою зброєю, Will to Survive знімає приголомшення. Нічний ельф: Elune’s Light, +10% криту на 15 с. Джерела розділилися майже порівну. Танку — Дворф: Stoneform зменшує фізичну шкоду на 10% і знімає кровотечі. За Орду всі джерела ставлять першим Орка: Blood Fury (+10% сили атаки на 15 с), Savage (+1% криту), Hardiness (приголомшення коротші на 20%). Танку — Таурен: Endurance (+5% здоров’я) і War Stomp.')},
+                {'id': 'paladin', 't': t('Паладин', 'Paladin', 'Паладин'),
+                 'd': t('Человек: Беспощадность усиливает и удары, и заклинания, Воля к жизни снимает оглушения. Для Защиты — Дворф: Каменная форма и Ярость земли (+2% к силе крита). В PvP один источник из четырёх выбирает Дворфа. За Орду паладином может быть только Нежить, это новое сочетание Forever. Каннибализм возвращает ману, Воля Отрекшихся снимает страх.', 'Human: Ruthless boosts both strikes and spells, Will to Survive removes stuns. For Protection, take Dwarf: Stoneform and Earth Fury (+2% crit damage). In PvP one source out of four picks Dwarf. On the Horde side only Undead can be a paladin; this is a new Forever combination. Cannibalize restores mana, Will of the Forsaken removes fear.', 'Людина: Ruthless підсилює і удари, і закляття, Will to Survive знімає приголомшення. Для Захисту — Дворф: Stoneform і Earth Fury (+2% до шкоди криту). У PvP одне джерело з чотирьох обирає Дворфа. За Орду паладином може бути лише Нежить, це нова комбінація Forever. Cannibalize повертає ману, Will of the Forsaken знімає страх.')},
+                {'id': 'hunter', 't': t('Охотник', 'Hunter', 'Мисливець'),
+                 'd': t('Охотник-человек — новое сочетание Forever: Беспощадность даёт +2% крита, и питомец наследует крит. Ночной эльф отвечает Светом Элуны и Слиться с тенью. Один свежий источник (24.10) ставит первым Дворфа за Охотника на крупную дичь: +5% урона по зверям. За Орду — Орк (Кровавое неистовство, Дикость) или Тролль (Убийство животных, +5% по зверям). В PvP Таурену помогает Громовая поступь.', 'The human hunter is a new Forever combination: Ruthless gives +2% crit, and the pet inherits the crit. Night Elf answers with Elune’s Light and Shadowmeld. One recent source (Oct 24) puts Dwarf first for its Big Game Hunter: +5% damage against beasts. On the Horde side it is Orc (Blood Fury, Savage) or Troll (Beast Slaying, +5% against beasts). In PvP, War Stomp helps Tauren.', 'Мисливець-людина — нова комбінація Forever: Ruthless дає +2% криту, а улюбленець успадковує кріт. Нічний ельф відповідає Elune’s Light і Shadowmeld. Одне свіже джерело (24 жовтня) ставить першим Дворфа за Big Game Hunter: +5% шкоди по звірах. За Орду — Орк (Blood Fury, Savage) або Троль (Beast Slaying, +5% по звірах). У PvP Тауренові допомагає War Stomp.')},
+                {'id': 'rogue', 't': t('Разбойник', 'Rogue', 'Розбійник'),
+                 'd': t('Ночной эльф: Слиться с тенью теперь снижает угрозу и в бою, плюс Свет Элуны и Расторопность. Человек: крит любым оружием, Внимательность вскрывает чужих разбойников. В PvP Альянса единого ответа нет: Гном снимает корни и замедления Мастером побега. За Орду — Орк в PvE. В PvP чаще Нежить: Воля Отрекшихся снимает страх жрецов и чернокнижников.', 'Night Elf: Shadowmeld now lowers threat in combat too, plus Elune’s Light and Quickness. Human: crit with any weapon, and Perception reveals enemy rogues. In Alliance PvP there is no single answer: Gnome breaks roots and slows with Escape Artist. On the Horde side it is Orc in PvE. In PvP it is more often Undead: Will of the Forsaken removes fear from priests and warlocks.', 'Нічний ельф: Shadowmeld тепер знижує загрозу і в бою, плюс Elune’s Light і Quickness. Людина: кріт будь-якою зброєю, а Perception виявляє чужих розбійників. У PvP Альянсу єдиної відповіді немає: Гном знімає корені та уповільнення через Escape Artist. За Орду — Орк у PvE. У PvP частіше Нежить: Will of the Forsaken знімає страх жерців і чорнокнижників.')},
+                {'id': 'priest', 't': t('Жрец', 'Priest', 'Жрець'),
+                 'd': t('Жрец-гном — новое сочетание Forever и выбор всех источников в PvE: Эврика! усиливает и Слово силы: Щит, Пытливый ум даёт +5% маны, у гнома два своих заклинания: Confounding Flash и Contingency Plan. Для Темной магии один источник берёт Ночного эльфа. За Орду — Нежить или Тролль. Нежить сильнее в PvP: Воля Отрекшихся снимает страх, сон и очарование.', 'The gnome priest is a new Forever combination and the pick of every source in PvE: Eureka! also boosts Power Word: Shield, Expansive Mind gives +5% mana, and the gnome has two spells of its own (Confounding Flash, Contingency Plan). For Shadow, one source takes Night Elf. On the Horde side it is Undead or Troll. Undead is stronger in PvP: Will of the Forsaken removes fear, sleep and charm.', 'Жрець-гном — нова комбінація Forever і вибір усіх джерел у PvE: Eureka! підсилює й Power Word: Shield, Expansive Mind дає +5% мани, а в гнома є два власні закляття (Confounding Flash, Contingency Plan). Для Темряви одне джерело бере Нічного ельфа. За Орду — Нежить або Троль. Нежить сильніша в PvP: Will of the Forsaken знімає страх, сон і підкорення.')},
+                {'id': 'shaman', 't': t('Шаман', 'Shaman', 'Шаман'),
+                 'd': t('За Альянс шаманом может быть только Дворф, это новое сочетание Forever: Каменная форма и Ярость земли (+2% к силе крита). За Орду — Орк: Кровавое неистовство даёт и силу атаки, и силу заклинаний, поэтому подходит и Стихиям, и Совершенствованию. Лекарю один источник советует Тролля за Боевое исступление. В PvP три источника дают три разных ответа: Орк, Таурен, Тролль.', 'On the Alliance side only Dwarf can be a shaman; this is a new Forever combination: Stoneform and Earth Fury (+2% crit damage). On the Horde side it is Orc: Blood Fury gives both attack power and spell power, so it suits Elemental and Enhancement alike. For a healer one source recommends Troll for Berserking. In PvP three sources give three different answers: Orc, Tauren, Troll.', 'За Альянс шаманом може бути лише Дворф, це нова комбінація Forever: Stoneform і Earth Fury (+2% до шкоди криту). За Орду — Орк: Blood Fury дає і силу атаки, і силу заклять, тож підходить і Стихіям, і Вдосконаленню. Цілителю одне джерело радить Троля за Berserking. У PvP три джерела дають три різні відповіді: Орк, Таурен, Троль.')},
+                {'id': 'mage', 't': t('Маг', 'Mage', 'Маг'),
+                 'd': t('Гном: Эврика! на 8 сек, Пытливый ум (+5% маны), Мастер побега от корней. Один источник ставит первым Высшего скайборна за +3% к скорости заклинаний, остальные — нет. Маг-орк — новое сочетание Forever: Кровавое неистовство теперь даёт силу заклинаний. В PvP — Нежить: Воля Отрекшихся снимает страх, сон и очарование.', 'Gnome: Eureka! for 8 sec, Expansive Mind (+5% mana), Escape Artist against roots. One source puts High Order Skyborne first for +3% spell speed; the others don’t. The orc mage is a new Forever combination: Blood Fury now gives spell power. In PvP it is Undead: Will of the Forsaken removes fear, sleep and charm.', 'Гном: Eureka! на 8 с, Expansive Mind (+5% мани), Escape Artist від коренів. Одне джерело ставить першим Високого скайборна за +3% до швидкості заклять, решта — ні. Маг-орк — нова комбінація Forever: Blood Fury тепер дає силу заклять. У PvP — Нежить: Will of the Forsaken знімає страх, сон і підкорення.')},
+                {'id': 'warlock', 't': t('Чернокнижник', 'Warlock', 'Чорнокнижник'),
+                 'd': t('Гном (Эврика!, Пытливый ум) или Человек: периодический урон в Forever критует, а Беспощадность даёт +2% крита. В PvP чаще берут Человека: Воля к жизни снимает оглушения. За Орду — Орк в PvE (Кровавое неистовство даёт силу заклинаний) и Нежить в PvP. Тролль-чернокнижник — новое сочетание, но в лидеры не попадает.', 'Gnome (Eureka!, Expansive Mind) or Human: damage over time can crit in Forever, and Ruthless gives +2% crit. In PvP Human is the more common pick: Will to Survive removes stuns. On the Horde side it is Orc in PvE (Blood Fury gives spell power) and Undead in PvP. The troll warlock is a new combination but does not make the lead.', 'Гном (Eureka!, Expansive Mind) або Людина: періодична шкода у Forever може бути критичною, а Ruthless дає +2% криту. У PvP частіше беруть Людину: Will to Survive знімає приголомшення. За Орду — Орк у PvE (Blood Fury дає силу заклять) і Нежить у PvP. Чорнокнижник-троль — нова комбінація, але до лідерів не потрапляє.')},
+                {'id': 'druid', 't': t('Друид', 'Druid', 'Друїд'),
+                 'd': t('Ночной эльф: Свет Элуны (+10% крита) и Расторопность. Таурен: Закалка (+5% здоровья и +2% к силе крита), Громовая поступь работает и в формах. Скайборн-друид — новое сочетание Forever: Благословение ветра даёт +3% к скорости заклинаний и ударов в облике кошки. Часть источников ставит его первым для Силы зверя и Баланса, другие — в середину. Для скайборна нужен платный набор Heroic Pack.', 'Night Elf: Elune’s Light (+10% crit) and Quickness. Tauren: Endurance (+5% health and +2% crit damage), and War Stomp works in forms too. The Skyborne druid is a new Forever combination: Wind Blessed gives +3% spell and melee speed in cat form. Some sources put it first for Feral and Balance, others in the middle. Skyborne needs the paid Heroic Pack.', 'Нічний ельф: Elune’s Light (+10% криту) і Quickness. Таурен: Endurance (+5% здоров’я і +2% до шкоди криту), War Stomp працює й у формах. Скайборн-друїд — нова комбінація Forever: Wind Blessed дає +3% до швидкості заклять і ударів у подобі кота. Частина джерел ставить його першим для Сили звіра й Балансу, інші — в середину. Для скайборна потрібен платний набір Heroic Pack.')},
+            ]),
+        ]},
+        {'id': 'forever', 'title': t('Что изменилось против Classic', 'What changed from Classic', 'Що змінилося порівняно з Classic'), 'blocks': [
+            ('text', [t('Старые гайды Classic по расам устарели: у рас убраны оружейные специализации и сопротивления, часть способностей заменена.', 'Old Classic race guides are out of date: weapon specializations and resistances are gone from the races, and some abilities were replaced.', 'Старі гайди Classic з рас застаріли: у рас прибрали спеціалізації зброї та опір магії, частину здібностей замінили.')]),
+            ('table', {'head': [t('Раса', 'Race', 'Раса'), t('В Classic', 'In Classic', 'У Classic'), t('В Forever', 'In Forever', 'У Forever')], 'rows': [
+                [t('Все', 'All', 'Усі'), t('Специализации оружия, сопротивления', 'Weapon specializations, resistances', 'Спеціалізації зброї, опір магії'), t('Убраны, вместо них новые способности', 'Removed, replaced by new abilities', 'Прибрано, замість них нові здібності')],
+                [t('Человек', 'Human', 'Людина'), t('Специализация на мечах и булавах', 'Sword and mace specialization', 'Спеціалізація на мечах і булавах'), t('Беспощадность: +2% крита всем умениям', 'Ruthless: +2% crit on all abilities', 'Ruthless: +2% криту всім умінням')],
+                [t('Орк', 'Orc', 'Орк'), t('Кровавое неистовство: +25% базовой силы атаки, получаемое лечение −50% на 25 сек', 'Blood Fury: +25% base attack power, healing received −50% for 25 sec', 'Blood Fury: +25% базової сили атаки, отримане лікування −50% на 25 с'), t('Даёт и силу заклинаний, штрафа к лечению нет, откат 3 мин', 'Gives spell power too, no healing penalty, 3 min cooldown', 'Дає й силу заклять, штрафу до лікування немає, відкат 3 хв')],
+                [t('Орк', 'Orc', 'Орк'), t('Command: +5% урона питомцев', 'Command: +5% pet damage', 'Command: +5% шкоди улюбленців'), t('Дикость: +1% крита. Питомцы больше не повод брать Орка', 'Savage: +1% crit. Pets are no longer a reason to pick Orc', 'Savage: +1% криту. Улюбленці більше не привід брати Орка')],
+                [t('Орк', 'Orc', 'Орк'), t('Твердость: +25% к шансу сопротивиться оглушению', 'Hardiness: +25% chance to resist stuns', 'Hardiness: +25% до шансу опиратися приголомшенню'), t('Оглушения короче на 20%', 'Stuns 20% shorter', 'Приголомшення коротші на 20%')],
+                [t('Тролль', 'Troll', 'Троль'), t('Боевое исступление до +30% при низком здоровье', 'Berserking: up to +30% when at low health', 'Berserking: до +30% за низького здоров’я'), t('Ровно +10% скорости атак и заклинаний на 10 сек', 'A flat +10% attack and spell speed for 10 sec', 'Рівно +10% до швидкості атак і заклять на 10 с')],
+                [t('Дворф', 'Dwarf', 'Дворф'), t('Каменная форма: +10% брони', 'Stoneform: +10% armor', 'Stoneform: +10% броні'), t('−10% физического урона', '−10% physical damage', '−10% фізичної шкоди')],
+                [t('Гном', 'Gnome', 'Гном'), '—', t('Эврика!: 8 сек, способности дешевле и на 10% сильнее', 'Eureka!: 8 sec, abilities cost less and are 10% stronger', 'Eureka!: 8 с, здібності дешевші й на 10% сильніші')],
+                [t('Таурен', 'Tauren', 'Таурен'), t('Громовая поступь раз в 2 мин', 'War Stomp once every 2 min', 'War Stomp раз на 2 хв'), t('Раз в 90 сек, плюс Закалка и Бег по равнинам', 'Once every 90 sec, plus Endurance and Plainsrunning', 'Раз на 90 с, плюс Endurance і Plainsrunning')],
+                [t('Нежить', 'Undead', 'Нежить'), '—', t('Могильное касание: шанс вытянуть здоровье', 'Touch of the Grave: chance to drain health', 'Touch of the Grave: шанс витягнути здоров’я')],
+            ]}),
+            ('text', [t('Новые сочетания: охотник-человек, шаман-дворф, жрец-гном, паладин-нежить, маг-орк, чернокнижник-тролль, друид-скайборн.', 'New combinations: human hunter, dwarf shaman, gnome priest, undead paladin, orc mage, troll warlock, Skyborne druid.', 'Нові комбінації: мисливець-людина, шаман-дворф, жрець-гном, паладин-нежить, маг-орк, чорнокнижник-троль, друїд-скайборн.')]),
+        ]},
+        {'id': 'disputed', 'title': t('Где источники спорят', 'Where the sources disagree', 'Де джерела сперечаються'), 'blocks': [
+            ('steps', [
+                {'t': t('Воин и Охотник за Альянс', 'Alliance Warrior and Hunter', 'Воїн і Мисливець за Альянс'),
+                 'd': t('Человек или Ночной эльф, голоса делятся почти поровну. Охотнику один источник советует Дворфа.', 'Human or Night Elf, the votes are almost evenly split. For Hunter one source recommends Dwarf.', 'Людина або Нічний ельф, голоси розділилися майже порівну. Мисливцеві одне джерело радить Дворфа.')},
+                {'t': t('Чернокнижник за Альянс', 'Alliance Warlock', 'Чорнокнижник за Альянс'),
+                 'd': t('Гном или Человек.', 'Gnome or Human.', 'Гном або Людина.')},
+                {'t': t('Шаман Орды в PvP', 'Horde Shaman in PvP', 'Шаман Орди в PvP'),
+                 'd': t('три источника, три ответа.', 'three sources, three answers.', 'три джерела, три відповіді.')},
+                {'t': t('Скайборн-друид и скайборн-маг', 'Skyborne druid and Skyborne mage', 'Скайборн-друїд і скайборн-маг'),
+                 'd': t('от «лучшей расы» до «худшей в PvP» в разных списках.', 'from “best race” to “worst in PvP” depending on the list.', 'від «найкращої раси» до «найгіршої в PvP» залежно від списку.')},
+                {'t': t('PvP целиком', 'PvP as a whole', 'PvP загалом'),
+                 'd': t('полей боя на бете не было, уровни 31–60 никто не проверял. Обновим после старта 4 ноября.', 'there were no battlegrounds in the beta and nobody has tested levels 31–60. We’ll update after the Nov 4 launch.', 'полів бою в бета-версії не було, рівні 31–60 ніхто не перевіряв. Оновимо після старту 4 листопада.')},
+            ]),
+        ]},
+        {'id': 'faq', 'title': t('Частые вопросы', 'Common questions', 'Часті питання'), 'blocks': [
+            ('faq', [
+                {'id': 'q1', 'q': t('Какая раса лучше для воина в WoW Forever?', 'Which race is best for a warrior in WoW Forever?', 'Яка раса найкраща для воїна у WoW Forever?'),
+                 'a': [t('За Альянс — Человек или Ночной эльф, источники делятся почти поровну, танку — Дворф. За Орду — Орк, танку — Таурен.', 'On the Alliance side, Human or Night Elf; the sources are almost evenly split, and a tank should take Dwarf. On the Horde side, Orc; a tank should take Tauren.', 'За Альянс — Людина або Нічний ельф, джерела розділилися майже порівну, танку — Дворф. За Орду — Орк, танку — Таурен.')]},
+                {'id': 'q2', 'q': t('Сильно ли раса влияет на игру?', 'Does race make a big difference?', 'Чи сильно раса впливає на гру?'),
+                 'a': [t('Несколько процентов урона или живучести. Класс, спек и экипировка важнее, поэтому берите расу, которая нравится.', 'A few percent of damage or survivability. Class, spec and gear matter more, so take the race you like.', 'Це кілька відсотків шкоди або живучості. Клас, спеціалізація й екіпірування важать більше, тож беріть расу, яка подобається.')]},
+                {'id': 'q3', 'q': t('Какие сочетания расы и класса новые в Forever?', 'Which race and class combinations are new in Forever?', 'Які поєднання раси й класу нові у Forever?'),
+                 'a': [t('Охотник-человек, шаман-дворф, жрец-гном, паладин-нежить, маг-орк, чернокнижник-тролль и друид-скайборн.', 'Human hunter, dwarf shaman, gnome priest, undead paladin, orc mage, troll warlock and Skyborne druid.', 'Мисливець-людина, шаман-дворф, жрець-гном, паладин-нежить, маг-орк, чорнокнижник-троль і друїд-скайборн.')]},
+                {'id': 'q4', 'q': t('Подходят ли гайды Classic по расам для Forever?', 'Do Classic race guides still apply to Forever?', 'Чи годяться гайди Classic з рас для Forever?'),
+                 'a': [t('Нет. У рас убраны оружейные специализации и сопротивления, Кровавое неистовство, Боевое исступление и Каменная форма работают иначе.', 'No. Weapon specializations and resistances are gone from the races, and Blood Fury, Berserking and Stoneform work differently.', 'Ні. У рас прибрали спеціалізації зброї та опір магії, а Blood Fury, Berserking і Stoneform працюють інакше.')]},
+                {'id': 'q5', 'q': t('Какую расу взять паладину за Орду?', 'Which race should a Horde paladin take?', 'Яку расу взяти паладину за Орду?'),
+                 'a': [t('Только Нежить: другие расы Орды паладином быть не могут.', 'Only Undead: no other Horde race can be a paladin.', 'Лише Нежить: інші раси Орди паладинами бути не можуть.')]},
+            ]),
+        ]},
+        {'id': 'related', 'title': t('Смотрите также', 'See also', 'Дивіться також'), 'blocks': [
+            ('tiles', [{'t': t('Классы', 'Classes', 'Класи'), 'd': t('Какой класс выбрать и сравнение', 'Which class to pick, compared', 'Який клас обрати й порівняння'), 'href': 'classes/', 'art': 'hero_classes'}, {'t': t('Расы', 'Races', 'Раси'), 'd': t('Сравнение всех рас', 'All races compared', 'Порівняння всіх рас'), 'href': 'races/', 'art': 'hero_races'}]),
+        ]},
+    ],
+})
+
+# ---------- tier-list ----------
+
+GUIDES.append({
+    'slug': 'tier-list', 'art': 'hero_classes', 'hero': 'hero_classes',
+    'title': t('Тир-лист классов WoW Forever', 'WoW Forever Class Tier List', 'Тір-лист класів WoW Forever'),
+    'lead': t('На бете сильнее всех Паладин в PvE, Охотник и Маг на прокачке, Чернокнижник и Разбойник в PvP. Это срез беты 30 уровня, обновим после старта 4 ноября.', 'In the beta the strongest picks are Paladin in PvE, Hunter and Mage for leveling, Warlock and Rogue in PvP. This is a level 30 beta snapshot; we’ll update it after the Nov 4 launch.', 'У бета-версії найсильніші Паладин у PvE, Мисливець і Маг на прокачуванні, Чорнокнижник і Розбійник у PvP. Це зріз бети на 30 рівні, оновимо його після старту 4 листопада.'),
+    'tile': t('Сильные классы и спеки по данным беты', 'Strong classes and specs by beta data', 'Сильні класи й спеціалізації за даними бети'),
+    'pills': [t('По бете', 'Beta data', 'За бетою'), t('27 спеков', '27 specs', '27 спеціалізацій'), t('Обновим после 04.11', 'Updated after Nov 4', 'Оновимо після 4 листопада')],
+    'sources': [
+        (t('RankedBoost: тир-лист Forever', 'RankedBoost: Forever tier list', 'RankedBoost: тір-лист Forever'), 'https://rankedboost.com/world-of-warcraft/forever/tier-list/'),
+        (t('Noobtoboss: тир-лист', 'Noobtoboss: tier list', 'Noobtoboss: тір-лист'), 'https://noobtoboss.com/wowforever-tierlist/'),
+        (t('Noobtoboss: прокачка', 'Noobtoboss: leveling', 'Noobtoboss: прокачування'), 'https://noobtoboss.com/wowforever-leveling-tierlist/'),
+        (t('gamer-guides: тир-лист беты', 'gamer-guides: beta tier list', 'gamer-guides: тір-лист бети'), 'https://gamer-guides.com/warcraft-forever/tier-list-beta/'),
+        (t('Kami-labs: все 9 классов', 'Kami-labs: all 9 classes', 'Kami-labs: усі 9 класів'), 'https://kami-labs.fr/en/wow-forever/quelle-classe-choisir-wow-forever/'),
+        (t('Warcraft Tavern: итоги Forever Open', 'Warcraft Tavern: Forever Open results', 'Warcraft Tavern: підсумки Forever Open'), 'https://www.warcrafttavern.com/forever/news/warlockguy-wins-the-wow-forever-open-1v1-dueling-tournament/'),
+        (t('LFCarry: изменения классов', 'LFCarry: class changes', 'LFCarry: зміни класів'), 'https://lfcarry.com/guides/wow-forever-class-changes'),
+        (t('games.gg: какой класс выбрать', 'games.gg: which class to pick', 'games.gg: який клас обрати'), 'https://games.gg/news/wow-forever-best-class-returning-paladin/'),
+        (t('LFCarry: классы и темп прокачки (оценка по Classic, перепроверена на бете)', 'LFCarry: classes and leveling pace (Classic-based estimate, rechecked on the beta)', 'LFCarry: класи й темп прокачування (оцінка за Classic, перевірена на бета-версії)'), 'https://lfcarry.com/guides/wow-forever-classes'),
+    ],
+    'sections': [
+        {'id': 'how', 'title': t('Как читать', 'How to read it', 'Як читати'), 'blocks': [
+            ('text', [t('Тир — сводка нескольких источников, а не оценка одного сайта. S — лучшие в своей роли, C — слабее, но играть можно. Звёздочка (*) — источники расходятся на две буквы и больше.', 'The tier is a summary of several sources, not one site’s rating. S is the best in its role, C is weaker but playable. An asterisk (*) means the sources differ by two letters or more.', 'Тір — це зведення кількох джерел, а не оцінка одного сайту. S — найкращі у своїй ролі, C — слабші, але грати можна. Зірочка (*) означає, що джерела розходяться на дві літери й більше.')]),
+            ('tip', t('По бете. Бета шла с 17.09 по 21.10 на уровне 30: рейдов, полей боя и уровней 31–60 там не было. Обновим после старта 4 ноября.', 'Beta data. The beta ran from Sep 17 to Oct 21 at level 30: no raids, battlegrounds or levels 31–60. We’ll update after the Nov 4 launch.', 'За бетою. Бета тривала з 17 вересня по 21 жовтня на 30 рівні: рейдів, полів бою та рівнів 31–60 там не було. Оновимо після старту 4 листопада.')),
+        ]},
+        {'id': 'classes', 'title': t('Классы целиком', 'Whole classes', 'Класи загалом'), 'blocks': [
+            ('table', {'head': [t('Класс', 'Class', 'Клас'), t('Прокачка', 'Leveling', 'Прокачування'), 'PvE', 'PvP', t('Почему', 'Why', 'Чому')], 'rows': [
+                [t('Паладин', 'Paladin', 'Паладин'), 'A', 'S', 'B', t('Защита — лучший танк беты, даже после ослабления 15.10.', 'Protection is the best tank of the beta, even after the Oct 15 nerf.', 'Захист — найкращий танк бети, навіть після послаблення 15 жовтня.')],
+                [t('Охотник', 'Hunter', 'Мисливець'), 'S', 'A*', 'A', t('Самая быстрая прокачка и самый простой урон.', 'The fastest leveling and the simplest damage.', 'Найшвидше прокачування й найпростіша шкода.')],
+                [t('Маг', 'Mage', 'Маг'), 'S', 'A', 'A*', t('Быстрая прокачка за Лёд, сильный бурст Тайной магии.', 'Fast leveling as Frost, strong Arcane burst.', 'Швидке прокачування за Лід, потужний бурст Тайної магії.')],
+                [t('Чернокнижник', 'Warlock', 'Чорнокнижник'), 'A', 'A', 'S', t('Периодический урон критует; чернокнижники заняли два первых места на турнире Forever Open.', 'Damage over time can crit; warlocks took the top two places at the Forever Open tournament.', 'Періодична шкода може бути критичною; чорнокнижники зайняли два перші місця на турнірі Forever Open.')],
+                [t('Разбойник', 'Rogue', 'Розбійник'), 'B', 'A', 'S', t('Скрытность и контроль: в PvP самый надёжный выбор.', 'Stealth and control: the most reliable pick in PvP.', 'Непомітність і контроль: у PvP найнадійніший вибір.')],
+                [t('Жрец', 'Priest', 'Жрець'), 'C*', 'A', 'A*', t('Нужен любой группе; Послушание сильно и в PvP, Свет — нет.', 'Every group needs one; Discipline is strong in PvP too, Holy is not.', 'Потрібен будь-якій групі; Послух сильний і в PvP, Світло — ні.')],
+                [t('Шаман', 'Shaman', 'Шаман'), 'B', 'A', 'B*', t('Исцеление и Совершенствование сильные, Стихии усилены 15.10 после слабого старта.', 'Restoration and Enhancement are strong, Elemental was buffed on Oct 15 after a weak start.', 'Зцілення та Вдосконалення сильні, Стихії підсилили 15 жовтня після слабкого старту.')],
+                [t('Воин', 'Warrior', 'Воїн'), 'C', 'A', 'B', t('Самая медленная прокачка, зато Защита — сильный танк.', 'The slowest leveling, but Protection is a strong tank.', 'Найповільніше прокачування, зате Захист — сильний танк.')],
+                [t('Друид', 'Druid', 'Друїд'), 'A*', 'B', 'B*', t('Нет ведущего спека, многие ключевые умения открываются после 30 уровня.', 'No leading spec; many key abilities unlock after level 30.', 'Провідної спеціалізації немає, багато ключових умінь відкривається після 30 рівня.')],
+            ]}),
+        ]},
+        {'id': 'leveling', 'title': t('Прокачка', 'Leveling\xa0', 'Прокачування'), 'blocks': [
+            ('text', [t('Источники оценивают прокачку по классу, поэтому здесь один спек на класс. Проценты темпа — оценка LFCarry по Classic, перепроверенная на бете.', 'Sources rate leveling per class, so this table has one spec per class. The pace percentages are LFCarry’s estimate based on Classic, rechecked on the beta.', 'Джерела оцінюють прокачування за класом, тому тут одна спеціалізація на клас. Відсотки темпу — оцінка LFCarry за Classic, перевірена на бета-версії.')]),
+            ('table', {'head': [t('Тир', 'Tier', 'Тір'), t('Класс · спек', 'Class · spec', 'Клас · спеціалізація'), t('Почему', 'Why', 'Чому'), t('Где расходятся', 'Where sources differ', 'Де розходяться')], 'rows': [
+                ['S', t('Охотник · Повелитель зверей', 'Hunter · Beast Mastery', 'Мисливець · Володіння звірами'), t('Питомец танкует, примерно на 8% быстрее среднего.', 'The pet tanks; about 8% faster than average.', 'Улюбленець танкує, приблизно на 8% швидше за середнє.'), 'gamer-guides: A'],
+                ['S', t('Маг · Лёд', 'Mage · Frost', 'Маг · Лід'), t('Урон по площади, замедления, своя еда и вода, примерно на 8% быстрее среднего.', 'Area damage, slows, its own food and water; about 8% faster than average.', 'Шкода по площі, уповільнення, власні їжа й вода, приблизно на 8% швидше за середнє.'), t('gamer-guides берёт Тайную магию', 'gamer-guides picks Arcane', 'gamer-guides бере Тайну магію')],
+                ['A', t('Чернокнижник · Колдовство', 'Warlock · Affliction', 'Чорнокнижник · Прокляття'), t('Питомец держит врага, пока работает периодический урон.', 'The pet holds the enemy while damage over time works.', 'Улюбленець тримає ворога, поки діє періодична шкода.'), 'gamer-guides: S'],
+                ['A', t('Паладин · Воздаяние', 'Paladin · Retribution', 'Паладин · Відплата'), t('Легко фармит группы врагов по площади.', 'Farms groups of enemies easily with area damage.', 'Легко фармить групи ворогів шкодою по площі.'), 'gamer-guides: B'],
+                ['A*', t('Друид · Сила зверя', 'Druid · Feral', 'Друїд · Сила звіра'), t('Много ключевых умений открывается после 30, примерно на 5% медленнее среднего.', 'Many key abilities unlock after 30; about 5% slower than average.', 'Багато ключових умінь відкривається після 30, приблизно на 5% повільніше за середнє.'), 'gamer-guides: C'],
+                ['B', t('Шаман · Совершенствование', 'Shaman · Enhancement', 'Шаман · Вдосконалення'), t('До 30 уровня не хватает маны; Призрачный волк с 20 уровня.', 'Short on mana until level 30; Ghost Wolf from level 20.', 'До 30 рівня не вистачає мани; Ghost Wolf з 20 рівня.'), '—'],
+                ['B', t('Разбойник · Ликвидация или Бой', 'Rogue · Assassination or Combat', 'Розбійник · Ліквідація або Бій'), t('Средний темп.', 'Average pace.', 'Середній темп.'), 'gamer-guides: A'],
+                ['C*', t('Жрец · Темная магия', 'Priest · Shadow', 'Жрець · Темрява'), t('Примерно на 5% медленнее среднего.', 'About 5% slower than average.', 'Приблизно на 5% повільніше за середнє.'), t('gamer-guides: S для Послушания', 'gamer-guides: S for Discipline', 'gamer-guides: S для Послуху')],
+                ['C', t('Воин · Оружие или Неистовство', 'Warrior · Arms or Fury', 'Воїн · Зброя або Лють'), t('Самый медленный, примерно на 12% дольше среднего.', 'The slowest, about 12% longer than average.', 'Найповільніший, приблизно на 12% довше за середнє.'), '—'],
+            ]}),
+        ]},
+        {'id': 'pve', 'title': t('PvE по ролям', 'PvE by role', 'PvE за ролями'), 'blocks': [
+            ('text', [t('Сравнение внутри роли: танк с танками, лекарь с лекарями. Рейдовых логов нет, рейды откроются 09.12.', 'Comparison within a role: tank with tanks, healer with healers. There are no raid logs; raids open on Dec 9.', 'Порівняння всередині ролі: танк з танками, цілитель з цілителями. Рейдових логів немає, рейди відкриються 9 грудня.')]),
+            ('tabs', [
+                {'id': 'tank', 't': t('Танк', 'Tank', 'Танк'), 'blocks': [
+                    ('table', {'head': [t('Тир', 'Tier', 'Тір'), t('Спек', 'Spec', 'Спеціалізація'), t('Почему', 'Why', 'Чому'), t('Где расходятся', 'Where sources differ', 'Де розходяться')], 'rows': [
+                ['S', t('Паладин · Защита', 'Paladin · Protection', 'Паладин · Захист'), t('Лучший танк беты, Печать ярости даёт провокацию.', 'The best tank of the beta; Seal of Fury gives a taunt.', 'Найкращий танк бети, Seal of Fury дає провокацію.'), t('Ослаблен 15.10, RankedBoost (17.10) всё равно ставит S', 'Nerfed Oct 15, RankedBoost (Oct 17) still gives S', 'Послаблений 15 жовтня, RankedBoost (17 жовтня) усе одно ставить S')],
+                ['A', t('Воин · Защита', 'Warrior · Protection', 'Воїн · Захист'), t('Сильный танк для подземелий.', 'A strong dungeon tank.', 'Сильний танк для підземель.'), '—'],
+                ['B', t('Друид · Сила зверя (медведь)', 'Druid · Feral (bear)', 'Друїд · Сила звіра (ведмідь)'), t('Медведь танкует, но уступает Паладину и Воину.', 'The bear tanks, but trails Paladin and Warrior.', 'Ведмідь танкує, але поступається Паладину й Воїну.'), '—'],
+            ]}),
+                ]},
+                {'id': 'healer', 't': t('Лекарь', 'Healer', 'Цілитель'), 'blocks': [
+                    ('table', {'head': [t('Тир', 'Tier', 'Тір'), t('Спек', 'Spec', 'Спеціалізація'), t('Почему', 'Why', 'Чому'), t('Где расходятся', 'Where sources differ', 'Де розходяться')], 'rows': [
+                ['S', t('Жрец · Послушание', 'Priest · Discipline', 'Жрець · Послух'), t('Покаяние и щиты: лучший лекарь беты по двум источникам.', 'Penance and shields: the best healer of the beta according to two sources.', 'Penance і щити: найкращий цілитель бети за двома джерелами.'), '—'],
+                ['S', t('Шаман · Исцеление', 'Shaman · Restoration', 'Шаман · Зцілення'), t('Быстрина, первое место среди лекарей у RankedBoost.', 'Riptide; first among healers at RankedBoost.', 'Riptide; перше місце серед цілителів у RankedBoost.'), '—'],
+                ['A', t('Паладин · Свет', 'Paladin · Holy', 'Паладин · Світло'), t('Сильное лечение по одной цели.', 'Strong single-target healing.', 'Сильне лікування однієї цілі.'), '—'],
+                ['A', t('Друид · Исцеление', 'Druid · Restoration', 'Друїд · Зцілення'), t('Буйный рост; Kami называет спек исключительным.', 'Wild Growth; Kami calls the spec exceptional.', 'Wild Growth; Kami називає спеціалізацію винятковою.'), 'gamer-guides: S'],
+                ['B*', t('Жрец · Свет', 'Priest · Holy', 'Жрець · Світло'), t('Лучшее лечение по площади, раскрывается к 60 уровню.', 'The best area healing, comes into its own by level 60.', 'Найкраще лікування по площі, розкривається до 60 рівня.'), t('RankedBoost: B для лекаря; Noobtoboss и gamer-guides называют сильным рейдовым лекарем', 'RankedBoost: B as a healer; Noobtoboss and gamer-guides call it a strong raid healer', 'RankedBoost: B для цілителя; Noobtoboss і gamer-guides називають його сильним рейдовим цілителем')],
+            ]}),
+                ]},
+                {'id': 'dps', 't': t('Урон', 'Damage', 'Шкода'), 'blocks': [
+                    ('table', {'head': [t('Тир', 'Tier', 'Тір'), t('Спек', 'Spec', 'Спеціалізація'), t('Почему', 'Why', 'Чому'), t('Где расходятся', 'Where sources differ', 'Де розходяться')], 'rows': [
+                ['A', t('Паладин · Воздаяние', 'Paladin · Retribution', 'Паладин · Відплата'), t('Сильный, хотя ослаблен 15.10.', 'Strong, though nerfed on Oct 15.', 'Сильний, хоч і послаблений 15 жовтня.'), '—'],
+                ['A*', t('Охотник · Стрельба', 'Hunter · Marksmanship', 'Мисливець · Стрільба'), t('Лучший урон охотника, но источники спорят.', 'The hunter’s best damage, but the sources disagree.', 'Найкраща шкода мисливця, але джерела сперечаються.'), 'Noobtoboss: S, RankedBoost: A'],
+                ['A*', t('Охотник · Повелитель зверей', 'Hunter · Beast Mastery', 'Мисливець · Володіння звірами'), t('Урон делит с питомцем.', 'Shares damage with the pet.', 'Ділить шкоду з улюбленцем.'), 'Noobtoboss: S, RankedBoost: A'],
+                ['A', t('Охотник · Выживание', 'Hunter · Survival', 'Мисливець · Виживання'), t('Лидер по симуляциям, но его ждут выравнивать.', 'Leads in simulations, but a rebalance is expected.', 'Лідер за симуляціями, але його чекають вирівнювати.'), '—'],
+                ['A', t('Разбойник · Ликвидация', 'Rogue · Assassination', 'Розбійник · Ліквідація'), t('Яды.', 'Poisons.', 'Отрути.'), '—'],
+                ['A*', t('Разбойник · Бой', 'Rogue · Combat', 'Розбійник · Бій'), t('Хорош по одной цели.', 'Good against a single target.', 'Хороший по одній цілі.'), 'RankedBoost: B'],
+                ['A', t('Воин · Неистовство', 'Warrior · Fury', 'Воїн · Лють'), t('Сильный урон по нескольким целям.', 'Strong damage against several targets.', 'Сильна шкода по кількох цілях.'), '—'],
+                ['A*', t('Шаман · Совершенствование', 'Shaman · Enhancement', 'Шаман · Вдосконалення'), t('Один из лучших по урону у Noobtoboss.', 'One of the best for damage at Noobtoboss.', 'Один із найкращих за шкодою у Noobtoboss.'), 'RankedBoost: B'],
+                ['A', t('Маг · Тайная магия', 'Mage · Arcane', 'Маг · Тайна магія'), t('Чародейская вспышка переработана 15.10.', 'Arcane Blast was reworked on Oct 15.', 'Arcane Blast переробили 15 жовтня.'), '—'],
+                ['A*', t('Маг · Огонь', 'Mage · Fire', 'Маг · Вогонь'), t('Криты и поджоги.', 'Crits and ignites.', 'Криті та підпали.'), t('Noobtoboss: B для подземелий', 'Noobtoboss: B for dungeons', 'Noobtoboss: B для підземель')],
+                ['A', t('Чернокнижник · Колдовство', 'Warlock · Affliction', 'Чорнокнижник · Прокляття'), t('Периодический урон, сильнее всех соло.', 'Damage over time, the strongest solo.', 'Періодична шкода, найсильніший наодинці.'), '—'],
+                ['A', t('Чернокнижник · Демонология', 'Warlock · Demonology', 'Чорнокнижник · Демонологія'), t('Лучший спек подземелий по Noobtoboss.', 'The best dungeon spec according to Noobtoboss.', 'Найкраща спеціалізація підземель за Noobtoboss.'), '—'],
+                ['A', t('Чернокнижник · Разрушение', 'Warlock · Destruction', 'Чорнокнижник · Руйнування'), t('Бурст, данных мало.', 'Burst, little data.', 'Бурст, даних мало.'), t('только RankedBoost', 'RankedBoost only', 'лише RankedBoost')],
+                ['B', t('Воин · Оружие', 'Warrior · Arms', 'Воїн · Зброя'), t('Двуручное оружие, ветка под PvP.', 'Two-handed weapons, a PvP-oriented tree.', 'Дворучна зброя, гілка під PvP.'), '—'],
+                ['B*', t('Жрец · Темная магия', 'Priest · Shadow', 'Жрець · Темрява'), t('Усилена 15.10.', 'Buffed on Oct 15.', 'Підсилена 15 жовтня.'), t('RankedBoost: A, Noobtoboss: отстаёт', 'RankedBoost: A, Noobtoboss: lags behind', 'RankedBoost: A, Noobtoboss: відстає')],
+                ['B*', t('Шаман · Стихии', 'Shaman · Elemental', 'Шаман · Стихії'), t('Выброс лавы и Покорение стихий усилены 15.10.', 'Lava Burst and Elemental Mastery were buffed on Oct 15.', 'Lava Burst і Elemental Mastery підсилили 15 жовтня.'), 'RankedBoost: A'],
+                ['B', t('Маг · Лёд', 'Mage · Frost', 'Маг · Лід'), t('Сильнее на прокачке, чем в подземельях.', 'Stronger for leveling than in dungeons.', 'Сильніший на прокачуванні, ніж у підземеллях.'), '—'],
+                ['B', t('Друид · Сила зверя (кошка)', 'Druid · Feral (cat)', 'Друїд · Сила звіра (кіт)'), t('Масштабируется с оружием.', 'Scales with weapons.', 'Масштабується зі зброєю.'), '—'],
+                ['C', t('Разбойник · Скрытность', 'Rogue · Subtlety', 'Розбійник · Непомітність'), t('Ветка для PvP.', 'A PvP tree.', 'Гілка для PvP.'), '—'],
+                ['C', t('Друид · Баланс', 'Druid · Balance', 'Друїд · Баланс'), t('Затмение пока выглядит слабо.', 'Eclipse still looks weak.', 'Eclipse поки виглядає слабко.'), '—'],
+            ]}),
+                ]},
+            ]),
+        ]},
+        {'id': 'pvp', 'title': 'PvP', 'blocks': [
+            ('text', [t('Полей боя и арен на бете не было: оценки по дуэлям, мировому PvP и турниру Forever Open (18.10, только Орда, бой 1 на 1, уровень 30).', 'There were no battlegrounds or arenas in the beta: ratings come from duels, world PvP and the Forever Open tournament (Oct 18, Horde only, 1v1, level 30).', 'Полів бою й арен у бета-версії не було: оцінки за дуелями, світовим PvP і турніром Forever Open (18 жовтня, лише Орда, бій 1 на 1, 30 рівень).')]),
+            ('table', {'head': [t('Тир', 'Tier', 'Тір'), t('Спек', 'Spec', 'Спеціалізація'), t('Почему', 'Why', 'Чому'), t('Где расходятся', 'Where sources differ', 'Де розходяться')], 'rows': [
+                ['S', t('Разбойник · Ликвидация', 'Rogue · Assassination', 'Розбійник · Ліквідація'), t('Яды и контроль из скрытности.', 'Poisons and control from stealth.', 'Отрути й контроль із невидимості.'), '—'],
+                ['S', t('Разбойник · Скрытность', 'Rogue · Subtlety', 'Розбійник · Непомітність'), t('Лучшая PvP-ветка разбойника.', 'The rogue’s best PvP tree.', 'Найкраща PvP-гілка розбійника.'), '—'],
+                ['S', t('Жрец · Послушание', 'Priest · Discipline', 'Жрець · Послух'), t('Покаяние и щиты.', 'Penance and shields.', 'Penance і щити.'), '—'],
+                ['S', t('Чернокнижник · Колдовство', 'Warlock · Affliction', 'Чорнокнижник · Прокляття'), t('Сильнее всех кастеров соло; Kami ждёт его сильным на полях боя.', 'The strongest caster solo; Kami expects it to be strong in battlegrounds.', 'Сильніший за всіх кастерів наодинці; Kami чекає, що він буде сильним на полях бою.'), 'RankedBoost: A'],
+                ['A', t('Паладин · Воздаяние', 'Paladin · Retribution', 'Паладин · Відплата'), '—', '—'],
+                ['A', t('Охотник · Стрельба', 'Hunter · Marksmanship', 'Мисливець · Стрільба'), t('Kami считает её очень сильной.', 'Kami considers it very strong.', 'Kami вважає її дуже сильною.'), '—'],
+                ['A*', t('Охотник · Выживание', 'Hunter · Survival', 'Мисливець · Виживання'), t('Ближний бой у охотника слабее в PvP.', 'The hunter’s melee is weaker in PvP.', 'Ближній бій мисливця слабший у PvP.'), '—'],
+                ['A*', t('Разбойник · Бой', 'Rogue · Combat', 'Розбійник · Бій'), '—', t('RankedBoost: S, Kami: слабее в PvP', 'RankedBoost: S, Kami: weaker in PvP', 'RankedBoost: S, Kami: слабший у PvP')],
+                ['A', t('Жрец · Темная магия', 'Priest · Shadow', 'Жрець · Темрява'), t('Переживает бой 1 на 1.', 'Survives a 1v1 fight.', 'Переживає бій 1 на 1.'), '—'],
+                ['A*', t('Шаман · Совершенствование', 'Shaman · Enhancement', 'Шаман · Вдосконалення'), t('Мобильный, Призрачный волк.', 'Mobile, Ghost Wolf.', 'Мобільний, Ghost Wolf.'), '—'],
+                ['A*', t('Маг · Тайная магия', 'Mage · Arcane', 'Маг · Тайна магія'), t('Бурст.', 'Burst.', 'Бурст.'), 'RankedBoost: S'],
+                ['A', t('Маг · Лёд', 'Mage · Frost', 'Маг · Лід'), t('Контроль и замедления.', 'Control and slows.', 'Контроль і уповільнення.'), '—'],
+                ['A*', t('Чернокнижник · Демонология', 'Warlock · Demonology', 'Чорнокнижник · Демонологія'), t('Kami ждёт его сильным на полях боя.', 'Kami expects it to be strong in battlegrounds.', 'Kami чекає, що він буде сильним на полях бою.'), 'RankedBoost: B'],
+                ['A', t('Чернокнижник · Разрушение', 'Warlock · Destruction', 'Чорнокнижник · Руйнування'), t('Бурст.', 'Burst.', 'Бурст.'), t('только RankedBoost', 'RankedBoost only', 'лише RankedBoost')],
+                ['A', t('Друид · Баланс', 'Druid · Balance', 'Друїд · Баланс'), t('В PvP сильнее, чем в PvE.', 'Stronger in PvP than in PvE.', 'У PvP сильніший, ніж у PvE.'), '—'],
+                ['A*', t('Друид · Сила зверя', 'Druid · Feral', 'Друїд · Сила звіра'), t('Берсерк, масштабируется с оружием.', 'Berserk, scales with weapons.', 'Berserk, масштабується зі зброєю.'), 'RankedBoost: S'],
+                ['B', t('Воин · Оружие', 'Warrior · Arms', 'Воїн · Зброя'), t('В дуэлях беты слаб.', 'Weak in beta duels.', 'У дуелях бети слабкий.'), 'gamer-guides: A'],
+                ['B*', t('Воин · Неистовство', 'Warrior · Fury', 'Воїн · Лють'), '—', 'RankedBoost: A'],
+                ['B*', t('Паладин · Свет', 'Paladin · Holy', 'Паладин · Світло'), '—', 'RankedBoost: A'],
+                ['B', t('Паладин · Защита', 'Paladin · Protection', 'Паладин · Захист'), '—', '—'],
+                ['B', t('Охотник · Повелитель зверей', 'Hunter · Beast Mastery', 'Мисливець · Володіння звірами'), '—', '—'],
+                ['B*', t('Шаман · Стихии', 'Shaman · Elemental', 'Шаман · Стихії'), t('Усилены 15.10.', 'Buffed on Oct 15.\xa0', 'Підсилені 15 жовтня.'), 'RankedBoost: A'],
+                ['B', t('Шаман · Исцеление', 'Shaman · Restoration', 'Шаман · Зцілення'), '—', '—'],
+                ['B', t('Маг · Огонь', 'Mage · Fire', 'Маг · Вогонь'), '—', '—'],
+                ['B*', t('Друид · Исцеление', 'Druid · Restoration', 'Друїд · Зцілення'), '—', 'gamer-guides: A'],
+                ['C', t('Воин · Защита', 'Warrior · Protection', 'Воїн · Захист'), '—', '—'],
+                ['C*', t('Жрец · Свет', 'Priest · Holy', 'Жрець · Світло'), t('Без иммунитетов.', 'No immunities.', 'Без імунітетів.'), 'RankedBoost: D'],
+            ]}),
+            ('tip', t('Воин в дуэлях беты внизу, но турнир 1 на 1 — не поле боя. Kami ждёт, что на полях боя воин поднимется.', 'Warrior sits at the bottom in beta duels, but a 1v1 tournament is not a battleground. Kami expects warriors to rise in battlegrounds.', 'Воїн у дуелях бети внизу, але турнір 1 на 1 — не поле бою. Kami чекає, що на полях бою воїн підніметься.')),
+        ]},
+        {'id': 'disputed', 'title': t('Где источники расходятся', 'Where sources disagree', 'Де джерела розходяться'), 'blocks': [
+            ('steps', [
+                {'t': t('Охотник в PvE', 'Hunter in PvE', 'Мисливець у PvE'),
+                 'd': t('Noobtoboss ставит S, RankedBoost — A.', 'Noobtoboss gives S, RankedBoost gives A.', 'Noobtoboss ставить S, RankedBoost — A.')},
+                {'t': t('Кто сильнее, Паладин или Охотник', 'Which is stronger, Paladin or Hunter', 'Хто сильніший, Паладин чи Мисливець'),
+                 'd': t('в одном списке S только у Паладина, в другом у обоих.', 'one list gives S only to Paladin, another to both.', 'в одному списку S лише в Паладина, в іншому в обох.')},
+                {'t': t('Жрец на прокачке', 'Priest while leveling', 'Жрець на прокачуванні'),
+                 'd': t('Noobtoboss — C, gamer-guides — S для Послушания.', 'Noobtoboss says C, gamer-guides says S for Discipline.', 'Noobtoboss — C, gamer-guides — S для Послуху.')},
+                {'t': t('Жрец, Свет', 'Priest, Holy', 'Жрець, Світло'),
+                 'd': t('RankedBoost в одном списке ставит его в S, B и D.', 'RankedBoost puts it in S, B and D in a single list.', 'RankedBoost в одному списку ставить його в S, B і D.')},
+                {'t': t('Маг в PvP', 'Mage in PvP', 'Маг у PvP'),
+                 'd': t('RankedBoost ставит Тайную магию в S.', 'RankedBoost puts Arcane in S.', 'RankedBoost ставить Тайну магію в S.')},
+            ]),
+        ]},
+        {'id': 'after', 'title': t('Что изменится после старта', 'What will change after launch', 'Що зміниться після старту'), 'blocks': [
+            ('steps', [
+                {'t': t('Уровни 31–60', 'Levels 31–60', 'Рівні 31–60'),
+                 'd': t('на бете их не было, многие таланты и умения открываются выше 30.', 'they weren’t in the beta, and many talents and abilities unlock above 30.', 'у бета-версії їх не було, а багато талантів і умінь відкривається вище 30.')},
+                {'t': t('Рейды с 09.12', 'Raids from Dec 9', 'Рейди з 9 грудня'),
+                 'd': t('оценки рейдовых спеков пока без логов.', 'raid spec ratings have no logs yet.', 'оцінки рейдових спеціалізацій поки що без логів.')},
+                {'t': t('Поля боя', 'Battlegrounds', 'Поля бою'),
+                 'd': t('все PvP-оценки сейчас по дуэлям.', 'all PvP ratings are currently based on duels.', 'усі PvP-оцінки наразі за дуелями.')},
+                {'t': t('Правки баланса', 'Balance changes', 'Правки балансу'),
+                 'd': t('15.10 ослаблены Воздаяние и Защита паладина, усилены Стихии, Совершенствование и Темная магия. Noobtoboss ждёт ослабления Охотника и Паладина.', 'on Oct 15 Retribution and Paladin Protection were nerfed; Elemental, Enhancement and Shadow were buffed. Noobtoboss expects nerfs for Hunter and Paladin.', '15 жовтня послабили Відплату й Захист паладина, підсилили Стихії, Вдосконалення й Темряву. Noobtoboss чекає послаблення Мисливця та Паладина.')},
+            ]),
+        ]},
+        {'id': 'faq', 'title': t('Частые вопросы', 'Common questions', 'Часті питання'), 'blocks': [
+            ('faq', [
+                {'id': 'q1', 'q': t('Какой класс самый сильный в WoW Forever?', 'Which class is the strongest in WoW Forever?', 'Який клас найсильніший у WoW Forever?'),
+                 'a': [t('По бете — Паладин в PvE, Чернокнижник и Разбойник в PvP. Это данные 30 уровня, обновим после старта 4 ноября.', 'By beta data: Paladin in PvE, Warlock and Rogue in PvP. This is level 30 data; we’ll update it after the Nov 4 launch.', 'За бетою — Паладин у PvE, Чорнокнижник і Розбійник у PvP. Це дані 30 рівня, оновимо після старту 4 листопада.')]},
+                {'id': 'q2', 'q': t('Какой класс быстрее всех качается?', 'Which class levels fastest?', 'Який клас прокачується найшвидше?'),
+                 'a': [t('Охотник и Маг, примерно на 8% быстрее среднего. Медленнее всех Воин.', 'Hunter and Mage, about 8% faster than average. Warrior is the slowest.', 'Мисливець і Маг, приблизно на 8% швидше за середнє. Найповільніший — Воїн.')]},
+                {'id': 'q3', 'q': t('Какой лекарь лучший?', 'Which healer is the best?', 'Який цілитель найкращий?'),
+                 'a': [t('Жрец Послушания и Шаман Исцеления.', 'Discipline Priest and Restoration Shaman.', 'Жрець Послуху та Шаман Зцілення.')]},
+                {'id': 'q4', 'q': t('Какой танк лучший?', 'Which tank is the best?', 'Який танк найкращий?'),
+                 'a': [t('Паладин Защиты, следом Воин Защиты.', 'Protection Paladin, followed by Protection Warrior.', 'Паладин Захисту, далі Воїн Захисту.')]},
+                {'id': 'q5', 'q': t('Можно ли верить тир-листу до релиза?', 'Can I trust the tier list before release?', 'Чи можна вірити тір-листу до релізу?'),
+                 'a': [t('Как ориентиру: на бете не было уровней 31–60, рейдов и полей боя, к 60 уровню расклад может измениться.', 'As a guide: the beta had no levels 31–60, raids or battlegrounds, so the picture may change by level 60.', 'Як орієнтиру: у бета-версії не було рівнів 31–60, рейдів і полів бою, тож до 60 рівня розклад може змінитися.')]},
+            ]),
+        ]},
+        {'id': 'related', 'title': t('Смотрите также', 'See also', 'Дивіться також'), 'blocks': [
+            ('tiles', [{'t': t('Лучшая раса для каждого класса', 'Best Race for Every Class', 'Найкраща раса для кожного класу'), 'd': t('Какая раса сильнее для вашего класса', 'Which race is stronger for your class', 'Яка раса сильніша для вашого класу'), 'href': 'guides/best-race/', 'art': 'hero_races'}, {'t': t('Классы', 'Classes', 'Класи'), 'd': t('Какой класс выбрать и сравнение', 'Which class to pick, compared', 'Який клас обрати й порівняння'), 'href': 'classes/', 'art': 'hero_classes'}]),
+        ]},
+    ],
+})
+
+# ---------- legacy ----------
+
+GUIDES.append({
+    'slug': 'legacy', 'art': 'hero_guides', 'hero': 'hero_guides',
+    'title': t('Система Legacy', 'The Legacy System', 'Система Legacy'),
+    'lead': t('Legacy — прогресс на весь аккаунт Battle.net. Очки дают за испытания: уровни, профессии, PvP, подземелья и рейды. Тратите их на перки отдельно на каждом персонаже, на старте до 16 очков.', 'Legacy is progress shared across your whole Battle.net account. Challenges give you points: levels, professions, PvP, dungeons and raids. You spend them on perks separately on each character, up to 16 points at launch.', 'Legacy — прогрес на весь обліковий запис Battle.net. Очки дають за випробування: рівні, професії, PvP, підземелля та рейди. Витрачаєте їх на перки окремо на кожному персонажі, на старті до 16.'),
+    'tile': t('Очки, испытания, перки и награды', 'Points, challenges, perks and rewards', 'Очки, випробування, перки та нагороди'),
+    'pills': [t('65 испытаний', '65 challenges', '65 випробувань'), t('16 очков на персонажа', '16 points per character', '16 очок на персонажа'), t('Открывается на 25 уровне', 'Unlocks at level 25', 'Відкривається на 25 рівні')],
+    'sources': [
+        (t('Blizzard: система Legacy', 'Blizzard: Legacy system', 'Blizzard: система Legacy'), 'https://news.blizzard.com/en-gb/article/24307383'),
+        ('Warcraft Tavern: Legacy', 'https://www.warcrafttavern.com/forever/guides/legacy/'),
+    ],
+    'sections': [
+        {'id': 'start', 'title': t('Как открыть', 'How to unlock it', 'Як відкрити'), 'blocks': [
+            ('steps', [
+                {'t': t('Первое очко', 'First point', 'Перше очко'),
+                 'd': t('Legacy открывается с первым очком: 25 уровень на персонаже, 150 в основной профессии (не сбор) или исследование всей карты.', 'Legacy unlocks with your first point: level 25 on a character, 150 in a main profession (not gathering) or exploring the entire map.', 'Legacy відкривається з першим очком: 25 рівень на персонажі, 150 в основній професії (не збирання) або дослідження всієї мапи.')},
+                {'t': t('Окно', 'Window', 'Вікно'),
+                 'd': t('Горячая клавиша Y или значок щита в меню.', 'Hotkey Y or the shield icon in the menu.', 'Гаряча клавіша Y або значок щита в меню.')},
+                {'t': t('На весь аккаунт', 'Account-wide', 'На весь обліковий запис'),
+                 'd': t('Очки общие для всех персонажей аккаунта не-Hardcore, тратит их каждый персонаж по-своему.', 'Points are shared by all non-Hardcore characters on the account; each character spends them its own way.', 'Очки спільні для всіх персонажів облікового запису, крім Hardcore, а витрачає їх кожен персонаж по-своєму.')},
+                {'t': t('Лимит на старте', 'Limit at launch', 'Ліміт на старті'),
+                 'd': t('На персонажа не больше 16 очков. Остальные копятся на аккаунте и открывают награды.', 'No more than 16 points per character. The rest pile up on the account and unlock rewards.', 'На персонажа не більше 16 очок. Решта накопичується на обліковому записі й відкриває нагороди.')},
+            ]),
+            ('tip', t('Альты не обязательны: один персонаж без твинков может набрать до 29 очков, а потратить нужно 16.', 'Alts aren’t required: a single character without alts can earn up to 29 points, and you only need to spend 16.', 'Твінки не обов’язкові: один персонаж без твінків може набрати до 29 очок, а витратити потрібно 16.')),
+        ]},
+        {'id': 'challenges', 'title': t('Испытания: где взять очки', 'Challenges: where to get points', 'Випробування: де брати очки'), 'blocks': [
+            ('text', [t('Каждое испытание даёт 1 очко. Всего их 65 в шести категориях.', 'Each challenge gives 1 point. There are 65 of them in six categories.', 'Кожне випробування дає 1 очко. Усього їх 65 у шести категоріях.')]),
+            ('table', {'head': [t('Категория', 'Category', 'Категорія'), t('Очки', 'Points', 'Очки'), t('За что', 'For what', 'За що')], 'rows': [
+                [t('Классы', 'Classes', 'Класи'), '27', t('25, 45 и 60 уровень на каждом из 9 классов', 'Levels 25, 45 and 60 on each of the 9 classes', '25, 45 і 60 рівень на кожному з 9 класів')],
+                [t('Профессии', 'Professions', 'Професії'), '18', t('150, 225 и 300 навыка в каждой основной профессии, кроме сбора: Алхимия, Кузнечное дело, Наложение чар, Инженерное дело, Кожевничество, Портняжное дело', '150, 225 and 300 skill in each main profession except gathering: Alchemy, Blacksmithing, Enchanting, Engineering, Leatherworking, Tailoring', '150, 225 і 300 очок навички в кожній основній професії, крім збирання: Алхімія, Ковальство, Зачарування, Інженерія, Шкіряництво, Кравецтво')],
+                ['PvP', '12', t('звания 3, 7, 10, 13 и 14; «Превознесение» с репутацией каждого поля боя (Alterac Valley, Arathi Basin, Warsong Gulch, Darkspear Islands); 4, 7 и 10 неделя сезонного пути Field of Honor', 'Ranks 3, 7, 10, 13 and 14; Exalted reputation with each battleground (Alterac Valley, Arathi Basin, Warsong Gulch, Darkspear Islands); weeks 4, 7 and 10 of the seasonal Field of Honor path', 'Звання 3, 7, 10, 13 і 14; репутація Exalted на кожному полі бою (Alterac Valley, Arathi Basin, Warsong Gulch, Darkspear Islands); 4, 7 і 10 тиждень сезонного шляху Field of Honor')],
+                [t('Подземелья', 'Dungeons', 'Підземелля'), '3', t('последний босс во всех подземельях 15–25, 26–45 и 46–60 уровня', 'The last boss in all dungeons of levels 15–25, 26–45 and 46–60', 'Останній бос у всіх підземеллях 15–25, 26–45 і 46–60 рівня')],
+                [t('Рейды', 'Raids', 'Рейди'), '3', t('Onyxia; все 13 боссов Hyjal Summit; все 8 боссов Barrow Deeps', 'Onyxia; all 13 bosses of Hyjal Summit; all 8 bosses of Barrow Deeps', 'Onyxia; усі 13 босів Hyjal Summit; усі 8 босів Barrow Deeps')],
+                [t('Приключения', 'Adventures', 'Пригоди'), '2', t('вся карта мира на одном персонаже; цепочка заданий Lord Valthalak', 'The whole world map on one character; the Lord Valthalak quest chain', 'Уся мапа світу на одному персонажі; ланцюжок завдань Lord Valthalak')],
+            ]}),
+            ('tip', t('Если до 25 уровня далеко, доведите ремесло до 150: Legacy откроется раньше. Сбор (травы, руда, шкуры) очков не даёт, но кормит ремесло.', 'If level 25 is far off, get a craft to 150: Legacy will unlock sooner. Gathering (herbs, ore, hides) gives no points, but it feeds your craft.', 'Якщо до 25 рівня ще далеко, доведіть ремесло до 150: Legacy відкриється раніше. Збирання (трави, руда, шкури) очок не дає, але годує ремесло.')),
+        ]},
+        {'id': 'perks', 'title': t('Перки', 'Perks', 'Перки'), 'blocks': [
+            ('text', [t('Три дерева: Профессии, Приключения, Ресурсы. Числа рангов — по Warcraft Tavern. На бете в каждом дереве скрыты ещё два перка.', 'Three trees: Professions, Adventures, Resources. Rank counts are from Warcraft Tavern. In the beta each tree has two more hidden perks.', 'Три дерева: Професії, Пригоди, Ресурси. Числа рангів — за Warcraft Tavern. На бета-версії в кожному дереві приховано ще по два перки.')]),
+            ('table', {'head': [t('Дерево', 'Tree', 'Дерево'), t('Перки (рангов)', 'Perks (ranks)', 'Перки (рангів)')], 'rows': [
+                [t('Профессии', 'Professions', 'Професії'), t('Working Overtime (5): чаще растут навыки, включая классовые вроде Взлома замков. Bountiful Harvest (5): на 20% больше редких материалов при сборе. Master Chef (5): шанс лишнего блюда. Luremaster (2): шанс лишней рыбы с приманкой. Performance Bonus (3): шанс получить больше Merchant’s Favor за сданный ящик. Bartering (2): цены у торговцев ниже на 5%. Dedicated Study (1): раз в день +1 к самому низкому навыку профессии.', 'Working Overtime (5): skills improve more often, including class skills such as Lockpicking. Bountiful Harvest (5): 20% more rare materials when gathering. Master Chef (5): a chance for an extra dish. Luremaster (2): a chance for extra fish when using bait. Performance Bonus (3): a chance for more Merchant’s Favor for a delivered crate. Bartering (2): vendor prices 5% lower. Dedicated Study (1): once a day, +1 to your lowest profession skill.', 'Working Overtime (5): навички зростають частіше, зокрема класові, як-от злом замків. Bountiful Harvest (5): на 20% більше рідкісних матеріалів під час збирання. Master Chef (5): шанс на зайву страву. Luremaster (2): шанс на зайву рибу з принадою. Performance Bonus (3): шанс отримати більше Merchant’s Favor за зданий ящик. Bartering (2): ціни в торговців нижчі на 5%. Dedicated Study (1): раз на день +1 до найнижчої навички професії.')],
+                [t('Приключения', 'Adventures', 'Пригоди'), t('Well Rested (5): быстрее копится отдых и выше его потолок. Thrill of Adventure (5): здоровье и мана за убийство вне подземелий. Talented (5): очки талантов с 9 уровня, на 5 рангах с 5. Field Guide (3): короче откат объектов лагеря. High Alert (2): лучше видно врагов в незаметности, кроме полей боя. Field Medicine (2): короче дебафф после бинта. Frequent Flier (1): перелёты на 50% дешевле и на 20% быстрее.', 'Well Rested (5): rest builds up faster and its cap is higher. Thrill of Adventure (5): health and mana for kills outside dungeons. Talented (5): talent points from level 9, from level 5 at rank 5. Field Guide (3): shorter cooldown on camp objects. High Alert (2): enemies in stealth are easier to see, except in battlegrounds. Field Medicine (2): shorter debuff after a bandage. Frequent Flier (1): flights 50% cheaper and 20% faster.', 'Well Rested (5): швидше накопичується відпочинок і вища його стеля. Thrill of Adventure (5): здоров’я та мана за вбивство поза підземеллями. Talented (5): очки талантів з 9 рівня, на 5 рангах з 5. Field Guide (3): коротший відкат об’єктів табору. High Alert (2): краще видно ворогів у невидимості, крім полів бою. Field Medicine (2): коротший дебаф після бинта. Frequent Flier (1): перельоти на 50% дешевші й на 20% швидші.')],
+                [t('Ресурсы', 'Resources', 'Ресурси'), t('Gourmand (3): еда действует на 33% дольше. Permanence (2): баффы класса на группу и баффы лагеря длятся на 50% дольше. Reagent Economy (1): способностям класса не нужны покупные реагенты, объекты лагеря 1 уровня не требуют материалов. Reinforce (5): на 8% меньше потеря прочности. Diplomat (5): +2% репутации. For Great Honor (5): +2% Чести. The Quick and the Dead (2): быстрее бег призраком, а после воскрешения способности поддержки бесплатны минуту.', 'Gourmand (3): food lasts 33% longer. Permanence (2): class buffs on the group and camp buffs last 50% longer. Reagent Economy (1): class abilities need no bought reagents, level 1 camp objects need no materials. Reinforce (5): 8% less durability loss. Diplomat (5): +2% reputation. For Great Honor (5): +2% Honor. The Quick and the Dead (2): faster running as a ghost, and after resurrection support abilities are free for a minute.', 'Gourmand (3): їжа діє на 33% довше. Permanence (2): бафи класу на групу та бафи табору тривають на 50% довше. Reagent Economy (1): здібностям класу не потрібні куплені реагенти, об’єкти табору 1 рівня не потребують матеріалів. Reinforce (5): на 8% менша втрата міцності. Diplomat (5): +2% репутації. For Great Honor (5): +2% Честі. The Quick and the Dead (2): швидший біг привидом, а після воскресіння здібності підтримки безкоштовні протягом хвилини.')],
+            ]}),
+            ('tip', t('Первыми берите перки опыта и лагеря: Well Rested, Field Guide, Permanence. Reagent Economy ценен классам с реагентами, Talented — твинкам.', 'Take the experience and camp perks first: Well Rested, Field Guide, Permanence. Reagent Economy is worth it for classes with reagents, Talented for alts.', 'Першими беріть перки досвіду й табору: Well Rested, Field Guide, Permanence. Reagent Economy цінний класам із реагентами, Talented — твінкам.')),
+            ('text', [t('Warcraft Tavern пишет про лимит 25 очков на дерево, Blizzard лимита на дерево не называет.', 'Warcraft Tavern mentions a limit of 25 points per tree; Blizzard names no per-tree limit.', 'Warcraft Tavern пише про ліміт 25 очок на дерево, Blizzard ліміту на дерево не називає.')]),
+        ]},
+        {'id': 'rewards', 'title': t('Награды', 'Rewards', 'Нагороди'), 'blocks': [
+            ('text', [t('Награды открывает общее число очков на аккаунте, как бы вы их ни потратили. Забирать у Innkeeper Wiley в Ratchet.', 'Rewards unlock by the total number of points on the account, however you spent them. Collect them from Innkeeper Wiley in Ratchet.', 'Нагороди відкриває загальна кількість очок на обліковому записі, як би ви їх не витратили. Забирати в Innkeeper Wiley у Ratchet.')]),
+            ('table', {'head': [t('Очки', 'Points', 'Очки'), t('Награда', 'Reward', 'Нагорода')], 'rows': [
+                ['15', t('игрушка Holstered Replica Ironforge Air Rifle: оглушает других игроков и ведёт счёт попаданий', 'Toy: Holstered Replica Ironforge Air Rifle, which stuns other players and keeps a count of hits', 'іграшка Holstered Replica Ironforge Air Rifle: приголомшує інших гравців і веде лік влучань')],
+                ['25', t('питомец Spectral Bear Cub', 'Pet: Spectral Bear Cub', 'улюбленець Spectral Bear Cub')],
+                ['40', t('табард Spectral Bear Tabard', 'Tabard: Spectral Bear Tabard', 'табард Spectral Bear Tabard')],
+                ['55', t('скакун Reins of the Spectral Bear, скорость +100%', 'Mount: Reins of the Spectral Bear, +100% speed', 'скакун Reins of the Spectral Bear, швидкість +100%')],
+            ]}),
+            ('text', [t('Это косметика, преимуществ в игре она не даёт. Новые награды, испытания и перки Blizzard обещает с каждым обновлением.', 'These are cosmetic and give no in-game advantage. Blizzard promises new rewards, challenges and perks with each update.', 'Це косметика, переваг у грі вона не дає. Нові нагороди, випробування та перки Blizzard обіцяє з кожним оновленням.')]),
+        ]},
+        {'id': 'hardcore', 'title': 'Hardcore', 'blocks': [
+            ('text', [t('Hardcore на старте не будет. Когда он выйдет, испытания с обычных серверов в нём не засчитаются, а испытания из Hardcore засчитаются везде. PvP-испытания в Hardcore заменят 12 своих.', 'Hardcore won’t be available at launch. When it arrives, challenges from regular realms won’t count in it, while Hardcore challenges will count everywhere. Hardcore’s own PvP challenges will replace the 12 standard ones.', 'Hardcore на старті не буде. Коли він вийде, випробування зі звичайних серверів у ньому не зараховуватимуться, а випробування з Hardcore зараховуватимуться всюди. PvP-випробування в Hardcore замінять 12 власних.')]),
+        ]},
+        {'id': 'faq', 'title': t('Частые вопросы', 'Common questions', 'Часті питання'), 'blocks': [
+            ('faq', [
+                {'id': 'q1', 'q': t('Как открыть Legacy в WoW Forever?', 'How do I unlock Legacy in WoW Forever?', 'Як відкрити Legacy у WoW Forever?'),
+                 'a': [t('Получите первое очко: 25 уровень, 150 в основной профессии (не сбор) или исследование всей карты. Окно открывается клавишей Y.', 'Earn your first point: level 25, 150 in a main profession (not gathering) or exploring the whole map. The window opens with the Y key.', 'Отримайте перше очко: 25 рівень, 150 в основній професії (не збирання) або дослідження всієї мапи. Вікно відкривається клавішею Y.')]},
+                {'id': 'q2', 'q': t('Сколько очков Legacy можно потратить?', 'How many Legacy points can I spend?', 'Скільки очок Legacy можна витратити?'),
+                 'a': [t('На старте до 16 на персонажа. Лишние копятся на аккаунте и открывают награды.', 'Up to 16 per character at launch. The extra points pile up on the account and unlock rewards.', 'На старті до 16 на персонажа. Зайві накопичуються на обліковому записі й відкривають нагороди.')]},
+                {'id': 'q3', 'q': t('Нужно ли качать альтов ради Legacy?', 'Do I need to level alts for Legacy?', 'Чи потрібно качати твінків заради Legacy?'),
+                 'a': [t('Нет. Один персонаж может набрать до 29 очков, а потратить нужно 16.', 'No. One character can earn up to 29 points, and you only need to spend 16.', 'Ні. Один персонаж може набрати до 29 очок, а витратити потрібно 16.')]},
+                {'id': 'q4', 'q': t('Общие ли очки Legacy для всех персонажей?', 'Are Legacy points shared across all characters?', 'Чи спільні очки Legacy для всіх персонажів?'),
+                 'a': [t('Да, на весь аккаунт Battle.net, кроме Hardcore. Перки каждый персонаж выбирает сам.', 'Yes, across the whole Battle.net account, except Hardcore. Each character picks its own perks.', 'Так, на весь обліковий запис Battle.net, крім Hardcore. Перки кожен персонаж обирає сам.')]},
+                {'id': 'q5', 'q': t('Какие перки Legacy брать первыми?', 'Which Legacy perks should I take first?', 'Які перки Legacy брати першими?'),
+                 'a': [t('Перки опыта и лагеря: Well Rested, Field Guide, Permanence. Классам с реагентами — Reagent Economy.', 'Experience and camp perks: Well Rested, Field Guide, Permanence. Reagent Economy for classes with reagents.', 'Перки досвіду й табору: Well Rested, Field Guide, Permanence. Класам із реагентами — Reagent Economy.')]},
+            ]),
+        ]},
+    ],
+})
+
 
 GUIDES.sort(key=lambda g: ORDER.index(g['slug']))
 

@@ -437,7 +437,7 @@ const STAGES = [
     src: ['names', 'names2', 'prof', 'legacy'] },
   { id: 'first', n: 'First days', sub: 'levels 1–15', lo: 1, hi: 15,
     todo: [['f', 'Skyborne start on Zephras Isle, levels 1–12.'],
-      ['f', 'Talents open at level 10, or at 9 with the Legacy perk Talented.'],
+      ['f', 'Talents open at level 10, or at 9 with the Legacy perk Talented (at 5 with all 5 ranks).'],
       ['f', 'Most cooked food gives an experience bonus. It stacks with the camp and the Cozy Sleeping Bag.'],
       ['t', 'Build up rest: log out at an inn or at a camp with a tent.']],
     prof: [['f', 'The basic campfire needs no Cooking and holds 3 objects. It burns for about 10 minutes, and you can place a new one after 5.'],

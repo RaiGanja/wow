@@ -437,7 +437,7 @@ const STAGES = [
     src: ['names', 'names2', 'prof', 'legacy'] },
   { id: 'first', n: 'Primeros días', sub: 'niveles 1–15', lo: 1, hi: 15,
     todo: [['f', 'Los Skyborne empiezan en Zephras Isle, niveles 1–12.'],
-      ['f', 'Los talentos se abren al nivel 10, o al 9 con la ventaja de Legacy Talented.'],
+      ['f', 'Los talentos se abren al nivel 10, o al 9 con la ventaja de Legacy Talented (con 5 rangos, al 5).'],
       ['f', 'La mayoría de la comida cocinada da un bonus de experiencia. Se acumula con el campamento y con el Cozy Sleeping Bag.'],
       ['t', 'Acumula descanso: desconéctate en una posada o en un campamento con tienda.']],
     prof: [['f', 'La hoguera básica no necesita Cocina y admite 3 objetos. Arde unos 10 minutos, y puedes poner otra a los 5.'],

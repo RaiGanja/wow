@@ -437,7 +437,7 @@ const STAGES = [
     src: ['names', 'names2', 'prof', 'legacy'] },
   { id: 'first', n: 'Erste Tage', sub: 'Stufen 1–15', lo: 1, hi: 15,
     todo: [['f', 'Skyborne starten auf Zephras Isle, Stufen 1–12.'],
-      ['f', 'Talente öffnen sich ab Stufe 10, oder ab 9 mit dem Legacy-Vorteil Talented.'],
+      ['f', 'Talente öffnen sich ab Stufe 10, oder ab 9 mit dem Legacy-Vorteil Talented (mit 5 Rängen ab Stufe 5).'],
       ['f', 'Das meiste gekochte Essen gibt einen Erfahrungsbonus. Er stapelt sich mit dem Lager und dem Gemütlichen Schlafsack.'],
       ['t', 'Sammle Erholung: Logge dich in einem Gasthaus oder in einem Lager mit Zelt aus.']],
     prof: [['f', 'Das einfache Lagerfeuer braucht keine Kochkunst und hält 3 Objekte. Es brennt etwa 10 Minuten, ein neues kannst du nach 5 aufstellen.'],

@@ -104,6 +104,12 @@ META = {
                     t('Когда выходит WoW Forever, нужна ли подписка, сколько стоят наборы, какие режимы игры, когда занимать имя и чем Forever отличается от Classic Era.',
                       'When WoW Forever launches, whether you need a subscription, pack prices, game modes, when to reserve a name and how Forever differs from Classic Era.',
                       'Коли виходить WoW Forever, чи потрібна підписка, скільки коштують набори, які режими гри, коли бронювати ім’я та чим Forever відрізняється від Classic Era.')),
+    'guides/best-race/': (t('Лучшая раса для каждого класса в WoW Forever', 'Best Race for Every Class in WoW Forever', 'Найкраща раса для кожного класу у WoW Forever'),
+                 t('Какую расу взять под класс в WoW Forever: таблица за Альянс и Орду для PvE и PvP, расовые способности Forever и что изменилось против Classic.', 'Which race to pick for your class in WoW Forever: Alliance and Horde table for PvE and PvP, Forever racials and what changed from Classic.', 'Яку расу обрати під свій клас у WoW Forever: таблиця Альянсу й Орди для PvE та PvP, расові здібності Forever і що змінилося порівняно з Classic.')),
+    'guides/tier-list/': (t('Тир-лист классов WoW Forever: PvE, PvP и прокачка', 'WoW Forever Class Tier List: PvE, PvP and Leveling', 'Тір-лист класів WoW Forever: PvE, PvP і прокачування'),
+                 t('Какой класс выбрать в WoW Forever: тир-лист классов и спеков для прокачки, подземелий и PvP по данным беты. Обновим после старта 4 ноября.', 'Which class to pick in WoW Forever: a tier list of classes and specs for leveling, dungeons and PvP, based on beta data. Updated after the Nov 4 launch.', 'Який клас обрати у WoW Forever: тір-лист класів і спеціалізацій для прокачування, підземель та PvP за даними бети. Оновимо після старту 4 листопада.')),
+    'guides/legacy/': (t('Система Legacy в WoW Forever: очки, перки и награды', 'WoW Forever Legacy System: Points, Perks and Rewards', 'Система Legacy у WoW Forever: очки, перки та нагороди'),
+                 t('Как работает Legacy в WoW Forever: где взять очки Legacy, все 65 испытаний, перки трёх деревьев, лимит 16 очков на персонажа и награды за 15–55 очков.', 'How Legacy works in WoW Forever: where to get Legacy points, all 65 challenges, perks in three trees, the 16-point limit and rewards for 15–55 points.', 'Як працює Legacy у WoW Forever: де брати очки Legacy, усі 65 випробувань, перки трьох дерев, ліміт 16 очок на персонажа та нагороди за 15–55 очок.')),
     'guides/requirements/': (t('Системные требования WoW Forever: ПК и Mac',
                                'WoW Forever System Requirements: PC and Mac',
                                'Системні вимоги WoW Forever: ПК і Mac'),
@@ -231,9 +237,12 @@ def crumbs(path, lang):
     return items
 
 
-def faq_ld(lang):
-    faq = next(g for g in GUIDES if g['slug'] == 'faq')
-    qs = [q for s in faq['sections'] for k, d in s['blocks'] if k == 'faq' for q in d]
+def faq_ld(slug, lang):
+    """FAQPage of a guide: every question of its ('faq', …) blocks; None when the guide has none."""
+    guide = next(g for g in GUIDES if g['slug'] == slug)
+    qs = [q for s in guide['sections'] for k, d in s['blocks'] if k == 'faq' for q in d]
+    if not qs:
+        return None
     text = build.ru_plain if lang == 'ru' else str                 # ru: game names as the ruRU client shows them
     return {'@context': 'https://schema.org', '@type': 'FAQPage', 'inLanguage': HREFLANG[lang],
             'mainEntity': [{'@type': 'Question', 'name': text(q['q'][lang]),
@@ -270,8 +279,8 @@ def json_ld(path, lang, desc, title='', image=''):
         if image:
             art['image'] = image
         blocks.append(art)
-    if path == 'guides/faq/':
-        blocks.append(faq_ld(lang))
+    if path.startswith('guides/') and path != 'guides/' and (faq := faq_ld(path.split('/')[1], lang)):
+        blocks.append(faq)
     dump = lambda b: json.dumps(b, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')
     return ''.join(f'<script type="application/ld+json">{dump(b)}</script>\n' for b in blocks)
 

@@ -36,6 +36,8 @@
 .cprofs .pmore { justify-self: start; color: var(--gold-2); font-weight: 500; text-decoration: none; }
 .cprofs .pmore:hover { text-decoration: underline; }
 .cprofs .pmore .ico { width: 16px; height: 16px; margin-left: 6px; vertical-align: -3px; }
+.brace { margin: 16px 0 0; color: var(--muted); font-size: var(--fs-16); }
+.brace a { margin-left: 8px; color: var(--gold-2); font-weight: 500; white-space: nowrap; }
 @@BASE_CSS@@
 /* Class page: full-screen portrait hero, spec tabs, races, group use, other classes */
 .chero { position: relative; isolation: isolate; overflow: hidden; min-height: max(620px, 100svh); display: grid; align-content: end; color: var(--ink); background: #08090b; }
@@ -204,6 +206,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   <div>
     <div class="stabs" role="tablist" aria-label="Специализации">@@TABS@@</div>
     @@PANELS@@
+    <p class="brace">@@BEST_RACE@@<a href="@@HOME@@guides/best-race/#@@ID@@">Почему</a></p>
   </div>
 </section>
 

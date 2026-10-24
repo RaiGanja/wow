@@ -437,7 +437,7 @@ const STAGES = [
     src: ['names', 'names2', 'prof', 'legacy'] },
   { id: 'first', n: 'Pierwsze dni', sub: 'levele 1–15', lo: 1, hi: 15,
     todo: [['f', 'Skyborne zaczynają na Zephras Isle, levele 1–12.'],
-      ['f', 'Talenty otwierają się na levelu 10 albo na 9 z perkiem Legacy Talented.'],
+      ['f', 'Talenty otwierają się na levelu 10 albo na 9 z perkiem Legacy Talented (przy 5 rangach na 5).'],
       ['f', 'Większość gotowanego jedzenia daje bonus do expa. Stackuje się z campem i Cozy Sleeping Bag.'],
       ['t', 'Zbieraj rest: wyloguj się w karczmie albo w campie z namiotem.']],
     prof: [['f', 'Podstawowe ognisko nie wymaga Cooking i mieści 3 obiekty. Pali się ok. 10 minut, a nowe możesz postawić po 5.'],
