@@ -6,14 +6,16 @@ import os, sys
 from PIL import Image, ImageDraw, ImageEnhance, ImageFilter
 
 ARGS = [a for a in sys.argv[1:] if not a.startswith('--')]
-SRC = ARGS[0] if ARGS else os.path.join(os.path.expanduser('~'), 'gabella-bot', 'assets', 'wow_art')
+PATHS = [a for a in ARGS if not a.startswith('hero_')]
+SRC = PATHS[0] if PATHS else os.path.join(os.path.expanduser('~'), 'gabella-bot', 'assets', 'wow_art')
 OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'assets', 'art')
 CLASSES = ['warrior', 'paladin', 'hunter', 'rogue', 'priest', 'shaman', 'mage', 'warlock', 'druid']
 RACES = {'human': 'human', 'dwarf': 'dwarf', 'nightelf': 'night-elf', 'gnome': 'gnome', 'skyA': 'skyborne-alliance',
          'orc': 'orc', 'undead': 'undead', 'tauren': 'tauren', 'troll': 'troll', 'skyH': 'skyborne-horde'}
+INNER = ['hero_roster', 'hero_tools', 'hero_guides', 'hero_dungeons', 'hero_professions', 'hero_faq']   # inner page heroes (.thero)
 SCENE_Q = 66  # wide scene art fills the screen: AVIF at 52 smears grass and fur there
-JOBS = [('hero_dawn', [960, 1440, 1920, 2560, 3840])] + [('hero_campfire', [960, 1600, 2560]), ('hero_road', [960, 1600, 2560])] +        [('hero_roster', [960, 1440, 1920, 2560]), ('hero_tools', [960, 1440, 1920, 2560])] + [(c, [360, 600, 896]) for c in CLASSES]
-CUTS = {'hero_dawn': .6, 'hero_roster': .9, 'hero_tools': .9}   # phone cut of each full-screen hero: share of the free width left of it
+JOBS = [('hero_dawn', [960, 1440, 1920, 2560, 3840])] + [('hero_campfire', [960, 1600, 2560]), ('hero_road', [960, 1600, 2560])] +        [(n, [960, 1440, 1920, 2560]) for n in INNER] + [(c, [360, 600, 896]) for c in CLASSES]
+CUTS = {'hero_dawn': .6, **{n: .9 for n in INNER}}   # phone cut of each full-screen hero: share of the free width left of it
 
 
 def save(im, name, w, aq=52):
@@ -98,9 +100,10 @@ def main():
         for name in CUTS:
             hero_mobile(name)
         return
-    if '--inner-heroes' in sys.argv:   # roster and tools heroes only, the rest stays byte for byte
+    if '--inner-heroes' in sys.argv:   # inner page heroes only (or the ones named: --inner-heroes hero_faq), the rest stays byte for byte
+        only = [a for a in ARGS if a in INNER]
         for name, widths in JOBS:
-            if name in ('hero_roster', 'hero_tools'):
+            if name in (only or INNER):
                 im = source(name)
                 for w in widths:
                     save(im, name, w, SCENE_Q)

@@ -33,6 +33,10 @@ SITE_TILES = [
 # Wide hero art; everything else is a class/race portrait cut at 360/600/896
 WIDTHS = {'hero_dawn': (960, 1440, 1920, 2560, 3840), 'hero_campfire': (960, 1600, 2560)}
 FX = {'hero_dawn': 'dawn', 'hero_campfire': 'camp'}   # living art (assets/living/living.js) over these heroes
+# A guide with 'hero' gets the full-screen inner page hero (.thero, like roster and tools): its own scene, living art,
+# a portrait cut on phones (tools/make_images.py INNER, CUTS); 'art' stays for the tiles and the share preview.
+THERO = {'hero_guides': 'guides', 'hero_dungeons': 'dungeons', 'hero_professions': 'professions', 'hero_faq': 'faq'}
+THERO_W = (960, 1440, 1920, 2560)
 
 
 LAUNCH_UTC = '23:00 UTC'
@@ -78,6 +82,23 @@ def art_sets(art, root, big=False):
     src = lambda ext: ', '.join(f'{root}assets/art/{art}-{w}.{ext} {w}w' for w in ws)
     fb = ws[-1] if big else (ws[0] if art in WIDTHS else 600)
     return src('avif'), src('webp'), f'{root}assets/art/{art}-{fb}.webp'
+
+
+def thero(sec, hero):
+    """The guide's art band rewritten as the full-screen hero: same crumbs, title, lead and pills (still untranslated)."""
+    m = lambda ext: ', '.join(f'@@ROOT@@assets/art/{hero}-m-{w}.{ext} {w}w' for w in (600, 1000))   # noqa: E731
+    big = lambda ext: ', '.join(f'@@ROOT@@assets/art/{hero}-{w}.{ext} {w}w' for w in THERO_W)   # noqa: E731
+    phone = 'media="(max-width: 719px) and (max-aspect-ratio: 2/3)"'
+    pic = (f'<picture class="thero-art" aria-hidden="true" data-fx="{THERO[hero]}" data-cut=".9">\n'
+           f'    <source {phone} type="image/avif" srcset="{m("avif")}" sizes="78vh">\n'
+           f'    <source {phone} type="image/webp" srcset="{m("webp")}" sizes="78vh">\n'
+           f'    <source type="image/avif" srcset="{big("avif")}" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw">\n'
+           f'    <source type="image/webp" srcset="{big("webp")}" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw">\n'
+           f'    <img src="@@ROOT@@assets/art/{hero}-1920.webp" width="1920" height="1072" alt="" fetchpriority="high" decoding="async">\n'
+           '  </picture>')
+    sec = re.sub(r'<picture class="stband-art".*?</picture>', lambda _: pic, sec, count=1, flags=re.S)
+    return (sec.replace('<section class="stband ghero" id="top">', '<section class="thero" id="top">', 1)
+               .replace('<div class="wrap">', '<div class="wrap thero-in">', 1).replace('class="glead"', 'class="lead"', 1))
 
 
 def tile_links(tiles, lang, root):
@@ -611,6 +632,8 @@ def build_page(g, lang, tpl, base_css, sprite, src):
     here = page_dir(lang, sub)
     html = tpl.replace('@@BASE_CSS@@', base_css).replace('@@SPRITE@@', sprite)
     html = html.replace('@@TABBAR@@', build.tabbar({'play': 'play/'}.get(g['slug']) if 'path' in g else 'guides/'))
+    if g.get('hero'):                                             # own full-screen scene instead of the art band
+        html = re.sub(r'<section class="stband ghero" id="top">.*?</section>', lambda mt: thero(mt.group(0), g['hero']), html, count=1, flags=re.S)
     html, missing = translate(html, lang)                       # 1) обвязка
     root = rel(here, page_dir(lang))
     toc, body = render_guide(g, lang, root) if g['slug'] else hub_body(lang, root)
@@ -663,7 +686,7 @@ def build_page(g, lang, tpl, base_css, sprite, src):
     if LAUNCH_UTC in html:                                       # launch time: also in the reader's time zone
         html = re.sub(rf'{LAUNCH_UTC}(?=\.</(?:td|p)>)', f'<time class="lt" datetime="2026-11-04T23:00:00Z">{LAUNCH_UTC}</time>', html)
         html = html.replace('</body>', LOCAL_JS.replace('@@YOUR@@', YOUR[lang]) + '</body>', 1)
-    if g['art'] in FX:
+    if g['art'] in FX or g.get('hero'):
         html = html.replace('</body>', '<script src="@@ROOT@@assets/living/living.js" defer></script>\n</body>', 1)
     html = html.replace('@@CANON@@', SITE + here)
     html = html.replace('@@ALTERNATES@@', build.alternates(sub))

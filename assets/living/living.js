@@ -1,7 +1,9 @@
 /* Living art: a WebGL layer over the home page pictures — falling water, banners in the wind, drifting sky, mist,
    god rays, dust and birds at dawn; fire, firelight, embers, smoke and stars at the camp; lantern, gate, river and mist on the road;
-   hearth, candles, banners, haze and stars in the guild hall (roster); clouds, lake, mist, banner, lantern and birds in the war tent (tools).
-   A picture opts in with data-fx="dawn|camp|road|roster|tools" on its <picture>, data-cut its phone cut (make_images.CUTS, default .6); masks are assets/living/<art>-fx.png (tools/make_living.py),
+   hearth, candles, banners, haze and stars in the guild hall (roster); clouds, lake, mist, banner, lantern and birds in the war tent (tools);
+   guide heroes: clouds, river, mist, pennant and birds on the pass (guides); gate, mist, stream, fires and stars by the dungeon (dungeons);
+   forge, anvil sparks, steam, herbs, potion and rune in the workshop (professions); sunbeam, dust, banners and candles in the library (faq).
+   A picture opts in with data-fx="dawn|camp|road|roster|tools|guides|dungeons|professions|faq" on its <picture>, data-cut its phone cut (make_images.CUTS, default .6); masks are assets/living/<art>-fx.png (tools/make_living.py),
    in the 1376 x 768 grid of the source art. The canvas is transparent except where something moves, so the sharp <img>
    stays visible underneath. Off with prefers-reduced-motion, Save-Data or without WebGL; paused off screen. */
 (() => {
@@ -9,7 +11,8 @@
   if (!me || matchMedia('(prefers-reduced-motion: reduce)').matches || (navigator.connection || {}).saveData) return;
   const base = me.src.replace(/living\.js.*$/, '');
   const ver = (me.src.match(/\?v=\w+/) || [''])[0];
-  const ART = { dawn: 'hero_dawn', camp: 'hero_campfire', road: 'hero_road', roster: 'hero_roster', tools: 'hero_tools' };
+  const ART = { dawn: 'hero_dawn', camp: 'hero_campfire', road: 'hero_road', roster: 'hero_roster', tools: 'hero_tools',
+    guides: 'hero_guides', dungeons: 'hero_dungeons', professions: 'hero_professions', faq: 'hero_faq' };
   const FPS = matchMedia('(pointer: coarse)').matches ? 30 : 60;
   const FORCE = /[?&]fx=force\b/.test(location.search);   // screenshots in headless Chrome
 
@@ -270,6 +273,177 @@ void main() {
       b = max(b, bird(P, c + vec2(-fi * 16., mod(fi, 2.) * 8. - fi * 3.), 3.2 - fi * .3, sin(uT * 9. + fi * 1.7) * .5));
     }
     over(vec3(.2, .15, .17), b * .75 * smoothstep(.2, .6, m.b) * smoothstep(0., .06, t0) * smoothstep(1., .94, t0));
+  }
+  gl_FragColor = vec4(acc.rgb + add, acc.a);
+}`,
+    guides: `
+void main() {
+  vec2 P = artPx(); acc = vec4(0.); add = vec3(0.);
+  vec4 m = mask(P);
+  // clouds sail over the pass
+  if (m.b > .01) over(flow(P, vec2(-8., 0.) + (n2(P * .006 + uT * .03) - .5) * vec2(5., 2.), 12., 0.), m.b);
+  // the river catches the sunrise
+  if (m.a > .01) {
+    vec3 c = flow(P, vec2(7., 3.), 3.2, 0.);
+    c += vec3(1., .93, .8) * pow(n2(P * vec2(.35, .7) + vec2(uT * .8, uT * .35)), 9.) * .9;
+    over(c, m.a);
+  }
+  // morning mist in the valley
+  float band = smoothstep(340., 380., P.y) * smoothstep(470., 420., P.y) * smoothstep(640., 520., P.x);
+  over(vec3(.9, .9, .9), smoothstep(.48, .9, fbm(P * vec2(.006, .014) + vec2(uT * .022, 0.))) * band * .3);
+  // the pennant on the spear
+  if (m.g > .01) {
+    float w = m.g, ph = P.x * .06 + uT * 3.4;
+    vec2 off = vec2(sin(ph + 1.) * .8, sin(ph) * 2.4 + sin(P.x * .13 + uT * 5.) * 1.) * w;
+    over(img(P - off) * (1. + .14 * w * cos(ph)), smoothstep(0., .12, w));
+  }
+  // rays from the sun over the valley
+  vec2 v = P - vec2(240., 255.);
+  float ang = atan(v.y, v.x), r = length(v);
+  float ray = n2(vec2(ang * 9., uT * .07)) * n2(vec2(ang * 23., -uT * .05));
+  add += vec3(1., .86, .6) * pow(ray, 2.) * smoothstep(620., 50., r) * smoothstep(760., 560., P.x) * .1;
+  // a few birds cross the sky now and then
+  float t0 = mod(uT + 5., 42.) / 28.;
+  if (t0 < 1.) {
+    vec2 c = vec2(120. + t0 * 560., 150. + sin(t0 * 3.) * 14.);
+    float b = 0.;
+    for (int i = 0; i < 4; i++) {
+      float fi = float(i);
+      b = max(b, bird(P, c + vec2(-fi * 17., mod(fi, 2.) * 9. - fi * 3.), 3.4 - fi * .3, sin(uT * 9. + fi * 1.7) * .5));
+    }
+    over(vec3(.2, .18, .2), b * .75 * smoothstep(.2, .6, m.b) * smoothstep(0., .06, t0) * smoothstep(1., .94, t0));
+  }
+  gl_FragColor = vec4(acc.rgb + add, acc.a);
+}`,
+    dungeons: `
+void main() {
+  vec2 P = artPx(); acc = vec4(0.); add = vec3(0.);
+  vec4 m = mask(P);
+  // stars over the gorge
+  vec2 cell = floor(P / 15.), sp = (cell + .2 + .6 * vec2(h21(cell + 1.3), h21(cell + 7.1))) * 15.;
+  float hs = h21(cell);
+  if (hs > .88) add += vec3(.9, .93, 1.) * dot1(P, sp, 1.5 + (hs - .88) * 12.) * (.45 + .55 * sin(uT * (.8 + hs * 3.) + hs * 50.)) * .6 * m.b;
+  // the stream runs down from the steps
+  if (m.a > .01) {
+    vec3 c = flow(P, vec2(-2., 7.), 1.6, 0.);
+    c += vec3(.7, .85, 1.) * pow(n2(P * vec2(.5, .35) + vec2(0., -uT * 1.4)), 8.) * .8;
+    over(c, m.a);
+  }
+  // the gate breathes cold light, mist creeps out over the steps
+  vec2 G = vec2(330., 335.);
+  float pu = .5 + .5 * sin(uT * 1.1) * (.7 + .3 * n2(vec2(uT * 2., 9.)));
+  add += vec3(.35, .55, 1.) * smoothstep(150., 0., length((P - G) * vec2(1., .6))) * pu * .2;
+  float band = smoothstep(380., 430., P.y) * smoothstep(600., 520., P.y) * smoothstep(250., 300., P.x) * smoothstep(720., 560., P.x);
+  over(vec3(.55, .66, .82), smoothstep(.45, .9, fbm(P * vec2(.008, .016) + vec2(-uT * .03, uT * .01))) * band * .32);
+  // fire in the braziers, the camp and the torch
+  float fl = .55 + .45 * (n2(vec2(uT * 7., 0.)) * .6 + n2(vec2(uT * 13., 4.)) * .4);
+  if (m.r > .01) over(flow(P, vec2(0., -9.), .42, n2(vec2(P.x * .15, 0.))) * (.9 + .35 * fl), m.r);
+  vec2 F = vec2(1050., 615.);
+  float L = smoothstep(330., 0., length((P - F) * vec2(1., 1.3)));
+  L *= L;
+  add += img(P) * vec3(1., .55, .22) * L * fl * .3;
+  over(vec3(0.), L * (1. - fl) * .1);
+  for (int i = 0; i < 4; i++) {
+    vec2 c = i == 0 ? vec2(248., 450.) : i == 1 ? vec2(630., 452.) : i == 2 ? vec2(1258., 318.) : vec2(1155., 655.);
+    float f = .6 + .4 * n2(vec2(uT * (7. + float(i) * 2.), float(i) * 9.));
+    add += vec3(1., .66, .3) * (smoothstep(110., 0., length(P - c)) * .1 + smoothstep(12., 0., length(P - c)) * .2) * f;
+  }
+  // embers from the camp
+  for (int i = 0; i < 18; i++) {
+    float fi = float(i), h = h21(vec2(fi, 1.7)), k = h21(vec2(fi, 5.3));
+    float life = fract(uT / (1.8 + k * 2.2) + h);
+    vec2 c = vec2(F.x + (h - .5) * 60. + sin(life * 6. + h * 20.) * 9. * life + life * 20., 612. - life * (120. + k * 130.));
+    add += mix(vec3(1., .85, .45), vec3(1., .35, .08), life) * dot1(P, c, 1.3 + k * 1.4) * pow(1. - life, 1.4) * 1.3;
+  }
+  gl_FragColor = vec4(acc.rgb + add, acc.a);
+}`,
+    professions: `
+void main() {
+  vec2 P = artPx(); acc = vec4(0.); add = vec3(0.);
+  vec4 m = mask(P);
+  // clouds over the village
+  if (m.b > .01) over(flow(P, vec2(-6., 0.) + (n2(P * .006 + uT * .03) - .5) * vec2(4., 2.), 12., 0.), m.b);
+  // the mill stream
+  if (m.a > .01) {
+    vec3 c = flow(P, vec2(-5., 4.), 2.6, 0.);
+    c += vec3(1., .95, .85) * pow(n2(P * vec2(.4, .7) + vec2(-uT * .9, uT * .4)), 9.) * .8;
+    over(c, m.a);
+  }
+  // herbs sway under the beam
+  if (m.g > .01) {
+    float w = m.g, ph = P.y * .04 - uT * 1.3;
+    vec2 off = vec2(sin(ph) * 1.8 + sin(uT * .9 + P.x * .03) * 1.1, 0.) * w;
+    over(img(P - off), smoothstep(0., .1, w));
+  }
+  // forge fire and its light
+  float fl = .55 + .45 * (n2(vec2(uT * 7., 0.)) * .6 + n2(vec2(uT * 13., 4.)) * .4);
+  if (m.r > .01) over(flow(P, vec2(0., -9.), .42, n2(vec2(P.x * .15, 0.))) * (.9 + .35 * fl), m.r);
+  vec2 F = vec2(175., 440.);
+  float L = smoothstep(300., 0., length((P - F) * vec2(1., 1.2)));
+  L *= L;
+  add += img(P) * vec3(1., .55, .22) * L * fl * .28;
+  // steam from the quench trough
+  float sw = 30. + (640. - P.y) * .35, sx = P.x - 90. - (640. - P.y) * .25;
+  over(vec3(.82, .82, .84), smoothstep(.45, .85, fbm(vec2(P.x * .02, P.y * .015 + uT * .4))) * smoothstep(sw, 0., abs(sx))
+       * smoothstep(650., 600., P.y) * smoothstep(380., 520., P.y) * .3);
+  // sparks out of the forge
+  for (int i = 0; i < 12; i++) {
+    float fi = float(i), h = h21(vec2(fi, 2.9)), k = h21(vec2(fi, 6.1));
+    float life = fract(uT / (1.6 + k * 2.) + h);
+    vec2 c = vec2(F.x + (h - .5) * 70. + sin(life * 5. + h * 20.) * 8. * life + life * 30., 430. - life * (60. + k * 110.));
+    add += mix(vec3(1., .85, .45), vec3(1., .35, .08), life) * dot1(P, c, 1.2 + k * 1.1) * pow(1. - life, 1.5) * 1.2;
+  }
+  // the hammer strikes: a burst of sparks off the anvil and a flash on the blade
+  float beat = fract(uT / 1.3), hit = floor(uT / 1.3);
+  vec2 A = vec2(800., 605.);
+  add += vec3(1., .6, .25) * smoothstep(60., 0., length((P - A) * vec2(.8, 1.4))) * exp(-beat * 6.) * .35;
+  for (int i = 0; i < 14; i++) {
+    float fi = float(i), h = h21(vec2(fi, hit)), k = h21(vec2(fi + 3., hit));
+    float a = 3.1416 * (.1 + .8 * h), sp = 90. + k * 120., t = beat * .7;
+    vec2 c = A + vec2(cos(a), -sin(a)) * sp * t + vec2(0., 140. * t * t);
+    add += mix(vec3(1., .9, .55), vec3(1., .4, .1), beat) * dot1(P, c, 1.1 + k) * pow(1. - beat, 2.) * 1.3;
+  }
+  // the potion bubbles, the rune glows
+  vec2 Po = vec2(905., 428.);
+  float pp = .6 + .4 * sin(uT * 2.1);
+  add += vec3(.3, 1., .45) * smoothstep(70., 0., length(P - Po)) * pp * .14;
+  for (int i = 0; i < 6; i++) {
+    float fi = float(i), h = h21(vec2(fi, 7.7)), life = fract(uT * (.5 + h * .4) + h);
+    add += vec3(.6, 1., .7) * dot1(P, Po + vec2((h - .5) * 18., -life * 46.), 1.2 + h) * sin(life * 3.1416) * .8;
+  }
+  vec2 R = vec2(1135., 640.);
+  add += vec3(.35, .8, 1.) * smoothstep(80., 0., length((P - R) * vec2(.8, 1.6))) * (.55 + .45 * sin(uT * 1.4)) * .2;
+  gl_FragColor = vec4(acc.rgb + add, acc.a);
+}`,
+    faq: `
+void main() {
+  vec2 P = artPx(); acc = vec4(0.); add = vec3(0.);
+  vec4 m = mask(P);
+  // banners stir in the draught
+  if (m.g > .01) {
+    float w = m.g, ph = P.y * .03 - uT * 1.2;
+    vec2 off = vec2(sin(ph) * 2.2 + sin(uT * .7 + P.x * .02) * 1.2, 0.) * w;
+    over(img(P - off) * (1. + .08 * w * cos(ph)), smoothstep(0., .1, w));
+  }
+  // the sunbeam shimmers
+  vec2 v = P - vec2(300., 40.);
+  float ang = atan(v.y, v.x);
+  float ray = n2(vec2(ang * 30., uT * .12)) * n2(vec2(ang * 61., -uT * .08));
+  add += vec3(1., .92, .75) * pow(ray, 1.6) * m.b * .16;
+  // dust floats in the light
+  for (int i = 0; i < 40; i++) {
+    float fi = float(i), h = h21(vec2(fi, 3.1)), k = h21(vec2(fi, 9.7));
+    float life = fract(uT * (.012 + k * .018) + h);
+    vec2 c = vec2(230. + h * 380. + sin(uT * .4 + fi) * 14. + life * 50., 100. + mod(k * 900. + life * 180., 600.));
+    add += vec3(1., .93, .78) * dot1(P, c, 1.1 + k * 1.4) * sin(life * 3.1416) * (.5 + .5 * sin(uT * (1.2 + k * 2.) + fi)) * mask(c).b * .9;
+  }
+  // candle flames
+  float fl = .55 + .45 * (n2(vec2(uT * 7., 0.)) * .6 + n2(vec2(uT * 13., 4.)) * .4);
+  if (m.r > .01) over(flow(P, vec2(0., -5.), .38, n2(vec2(P.x * .3, 0.))) * (.9 + .3 * fl), m.r);
+  for (int i = 0; i < 3; i++) {
+    vec2 c = i == 0 ? vec2(43., 422.) : i == 1 ? vec2(69., 416.) : vec2(158., 432.);
+    float f = .6 + .4 * n2(vec2(uT * (8. + float(i) * 3.), float(i) * 9.));
+    add += vec3(1., .72, .38) * (smoothstep(60., 0., length(P - c)) * .1 + smoothstep(6., 0., length(P - c)) * .25) * f;
   }
   gl_FragColor = vec4(acc.rgb + add, acc.a);
 }`

@@ -1117,12 +1117,18 @@ nav.gtiles { padding: 14px; }
   </div>
 </div></header>
 
-<section class="stband ghero" id="top">
-  <picture class="stband-art" aria-hidden="true"><source type="image/avif" srcset="../../../assets/art/mage-360.avif?v=7b69fc64 360w, ../../../assets/art/mage-600.avif?v=632283e7 600w, ../../../assets/art/mage-896.avif?v=7631e4c7 896w" sizes="100vw"><img src="../../../assets/art/mage-896.webp?v=80bd7e13" srcset="../../../assets/art/mage-360.webp?v=f08052db 360w, ../../../assets/art/mage-600.webp?v=37403d76 600w, ../../../assets/art/mage-896.webp?v=80bd7e13 896w" sizes="100vw" alt="" decoding="async" fetchpriority="high"></picture>
-  <div class="wrap">
+<section class="thero" id="top">
+  <picture class="thero-art" aria-hidden="true" data-fx="faq" data-cut=".9">
+    <source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/avif" srcset="../../../assets/art/hero_faq-m-600.avif?v=9ee60d5e 600w, ../../../assets/art/hero_faq-m-1000.avif?v=af4050da 1000w" sizes="78vh">
+    <source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/webp" srcset="../../../assets/art/hero_faq-m-600.webp?v=07ff484f 600w, ../../../assets/art/hero_faq-m-1000.webp?v=0fed11d5 1000w" sizes="78vh">
+    <source type="image/avif" srcset="../../../assets/art/hero_faq-960.avif?v=c2dd703f 960w, ../../../assets/art/hero_faq-1440.avif?v=ef471ee6 1440w, ../../../assets/art/hero_faq-1920.avif?v=cbbab9da 1920w, ../../../assets/art/hero_faq-2560.avif?v=3de85692 2560w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw">
+    <source type="image/webp" srcset="../../../assets/art/hero_faq-960.webp?v=cfe38c97 960w, ../../../assets/art/hero_faq-1440.webp?v=b0a405ff 1440w, ../../../assets/art/hero_faq-1920.webp?v=080413b5 1920w, ../../../assets/art/hero_faq-2560.webp?v=377fcce8 2560w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw">
+    <img src="../../../assets/art/hero_faq-1920.webp?v=080413b5" width="1920" height="1072" alt="" fetchpriority="high" decoding="async">
+  </picture>
+  <div class="wrap thero-in">
     <nav class="crumbs" aria-label="Ścieżka nawigacji"><a href="../../">Poradnik</a><span aria-hidden="true">/</span><a href="../../guides/">Poradniki</a><span aria-hidden="true">/</span><span>FAQ i daty</span></nav>
     <h1>FAQ i daty</h1>
-    <p class="glead">Daty przed premierą i po niej, pakiety i ceny, tryby, nicki i odpowiedzi na częste pytania.</p>
+    <p class="lead">Daty przed premierą i po niej, pakiety i ceny, tryby, nicki i odpowiedzi na częste pytania.</p>
     <div class="pills"><span class="pill">Premiera 04.11.2026</span><span class="pill">Nicki od 27.10</span><span class="pill">Raidy 09.12</span></div>
   </div>
 </section>
@@ -1222,6 +1228,7 @@ document.querySelectorAll('time.lt').forEach(t => {
   t.after(` (twój czas: ${s})`);
 });
 </script>
+<script src="../../../assets/living/living.js?v=687a63a7b1" defer></script>
 <script>
 (() => {
   const KEY = 'gabella-lang-hint', store = l => { try { localStorage.setItem(KEY, '1'); if (l) localStorage.setItem('gabella-lang', l); } catch (e) {} };

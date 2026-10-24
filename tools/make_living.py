@@ -5,6 +5,10 @@ One RGBA PNG per picture, half the source size, in source coordinates (1376 x 76
   hero_road      R (unused), G (unused), B open sky, A river
   hero_roster    R hearth fire and candle flames, G banners (0 at the beam -> 1 at the tip), B night windows, A (unused)
   hero_tools     R (unused), G banner (0 at the pole -> 1 at the tip), B open sky, A lake
+  hero_guides    R (unused), G pennant (0 at the spear -> 1 at the tip), B open sky, A river
+  hero_dungeons  R brazier, campfire and torch flames, G (unused), B night sky, A stream
+  hero_professions R forge fire, G hanging herbs (0 at the beam -> 1 at the tips), B open sky, A stream
+  hero_faq       R candle flames, G banners (0 at the rod -> 1 at the tip), B sunbeam from the window, A (unused)
 Run: python tools/make_living.py [path-to-wow_art]"""
 import os, sys
 from PIL import Image, ImageDraw, ImageFilter, ImageChops
@@ -148,9 +152,58 @@ def tools():
     save('hero_tools', zero, soft(banner, 0, 1.5), soft(open_sky, 1, 2), soft(lake, 0, 3))
 
 
+def guides():
+    im = load('hero_guides')
+    pennant = pick(im, [(592, 405, 712, 528)], lambda r, g, b, x, y: lum(r, g, b) < .3 or (r > 150 and g > 110 and b < 90),
+                   lambda x, y: fade(x, 708, 610))   # black-and-gold cloth; the spear on the right stays put
+    open_sky = sky([(530, 170, 820, H), (75, 280, 305, 365), (765, 140, 925, H), (855, 160, W, H), (1140, 0, W, H), (0, 250, 560, H)],
+                   (215, 290))   # peak, castle, signpost, heroes, cliff, hills
+    river = pick(im, [(240, 330, 560, 452)], lambda r, g, b, x, y: lum(r, g, b) > .62 and sat(r, g, b) < .3 and b > g - 25)
+    zero = Image.new('L', (W, H), 0)
+    save('hero_guides', zero, soft(pennant, 1, 1.5), open_sky, soft(river, 1, 2))
+
+
+def dungeons():
+    im = load('hero_dungeons')
+    flame = lambda r, g, b, x, y: r > 200 and g > 110 and r - b > 110   # noqa: E731
+    fire = pick(im, [(215, 418, 285, 482), (600, 420, 662, 480), (1000, 555, 1105, 655), (1238, 285, 1278, 348)], flame)
+    night = pick(im, [(560, 0, 840, 250)], lambda r, g, b, x, y: b > 85 and b > r + 40)   # the cliffs are darker than the sky
+    stream = pick(im, [(270, 585, 480, 705)], lambda r, g, b, x, y: lum(r, g, b) > .3 and b > r + 15)
+    zero = Image.new('L', (W, H), 0)
+    save('hero_dungeons', soft(fire, 2, 2), zero, soft(night, 0, 2), soft(stream, 1, 2))
+
+
+def professions():
+    im = load('hero_professions')
+    flame = lambda r, g, b, x, y: r > 200 and g > 110 and r - b > 110   # noqa: E731
+    fire = pick(im, [(112, 385, 238, 478)], flame)
+    herbs = shape([[(845, 95), (900, 95), (902, 205), (870, 215), (845, 200)], [(898, 105), (935, 105), (935, 200), (900, 200)],
+                   [(925, 120), (1010, 120), (1010, 235), (925, 235)]], lambda x, y: fade(y, 100, 225))
+    open_sky = ImageChops.multiply(pick(im, [(300, 0, 760, 250)], lambda r, g, b, x, y: lum(r, g, b) > .6 and sat(r, g, b) < .35),
+                                   sky([(0, 0, 330, 210), (600, 150, 820, H), (580, 0, 800, 120), (0, 210, W, H)], (190, 250)))   # roof, house, trees
+    stream = pick(im, [(440, 365, 600, 498)], lambda r, g, b, x, y: lum(r, g, b) > .55 and sat(r, g, b) < .35 and b >= g - 15)
+    zero = Image.new('L', (W, H), 0)
+    save('hero_professions', soft(fire, 2, 2), soft(herbs, 0, 2), soft(open_sky, 1, 2), soft(stream, 1, 2))
+
+
+def faq():
+    im = load('hero_faq')
+    flame = lambda r, g, b, x, y: lum(r, g, b) > .75 and r > b + 50   # noqa: E731
+    candles = pick(im, [(30, 405, 82, 440), (148, 420, 168, 442)], flame)
+    banners = shape([[(152, 0), (244, 0), (240, 300), (198, 355), (155, 300)], [(546, 30), (612, 30), (612, 290), (580, 330), (548, 290)]],
+                    lambda x, y: fade(y, 30, 330))
+    beam = shape([[(230, 60), (385, 60), (660, 560), (610, 700), (320, 700), (205, 445)]]).filter(ImageFilter.GaussianBlur(30))
+    zero = Image.new('L', (W, H), 0)
+    save('hero_faq', soft(candles, 2, 2), soft(banners, 0, 2), beam, zero)
+
+
 if __name__ == '__main__':
     dawn()
     campfire()
     road()
     roster()
     tools()
+    guides()
+    dungeons()
+    professions()
+    faq()
