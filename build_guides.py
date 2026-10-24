@@ -130,6 +130,16 @@ def render_block(kind, data, lang, root):
         rows = ''.join('<tr>' + ''.join(f'<td data-l="{h}">{E(c, lang)}</td>' for h, c in zip(head, r)) + '</tr>'
                        for r in data['rows'])
         return f'<table class="gtable"><thead><tr>{th}</tr></thead><tbody>{rows}</tbody></table>'
+    if kind == 'picks':                                           # table whose second column links class pages
+        head = [E(h, lang) for h in data['head']]
+        name = {c['id']: build.tr(c['n'], lang) for c in build.CLASSES}
+        def cls(ids):
+            return ', '.join(f'<a href="{root}classes/{i}/">{escape(name[i])}</a>' for i in ids)
+        rows = ''.join(f'<tr><td data-l="{head[0]}">{E(r[0], lang)}</td><td data-l="{head[1]}">{cls(r[1])}</td>'
+                       + ''.join(f'<td data-l="{h}">{E(c, lang)}</td>' for h, c in zip(head[2:], r[2:])) + '</tr>'
+                       for r in data['rows'])
+        th = ''.join(f'<th scope="col">{h}</th>' for h in head)
+        return f'<table class="gtable picks"><thead><tr>{th}</tr></thead><tbody>{rows}</tbody></table>'
     if kind == 'tabs':
         btns = ''.join(f'<button type="button" class="pill" role="tab" data-tab="{x["id"]}" aria-selected="{"true" if i == 0 else "false"}">'
                        f'{E(x["t"], lang)}</button>' for i, x in enumerate(data))
