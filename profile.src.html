@@ -273,6 +273,7 @@ const STATES = {
   'already-linked': ['Такой вход уже привязан', 'У аккаунта может быть один вход каждого вида. Сначала отвяжите прежний.'],
   'link-used': ['Ссылка уже использована', 'Каждая ссылка срабатывает один раз. Запросите новую.'],
   'link-expired': ['Ссылка устарела', 'Ссылка действует 15 минут. Запросите новую.'],
+  'link-other': ['Откройте ссылку там, где вошли', 'Почта привязывается только в браузере, где открыт ваш профиль. Откройте ссылку из письма в нём: она ещё действует.'],
   'login-down': ['Вход не удался', 'Сервис входа не ответил. Попробуйте через пару минут или выберите другой способ.'],
   'discord-down': ['Discord не отвечает', 'Не удалось проверить вход. Попробуйте через пару минут или выберите другой способ.'],
   'too-many': ['Слишком много новых аккаунтов', 'С этого подключения за час создано уже несколько аккаунтов. Попробуйте позже.'],
@@ -331,9 +332,13 @@ document.addEventListener('submit', e => {
     }, e2 => { $('#mGo').disabled = false; tsMail.reset(); mailNote(errText(e2, 'Письмо не ушло. Попробуйте ещё раз.'), true); });
   });
 });
-function mailVerify(t) {
-  M.api('/auth/email/verify', { body: { t } }).then(r => arrive(r.go), e => {
-    notice = e.code === 'link_expired' ? 'link-expired' : e.code === 'link_used' ? 'link-used' : 'login-down';
+// A link opened where the letter was not asked for (another browser, or someone else's link) does not sign in silently:
+// the API answers {confirm, hint} and the person decides, seeing whose address it is.
+function mailVerify(t, confirm) {
+  M.api('/auth/email/verify', { body: confirm ? { t, confirm: true } : { t } }).then(r => (r.confirm
+    ? screen('confirm', { why: 'Ссылку открыли не в том браузере, где просили письмо.', who: r.hint, go: () => mailVerify(t, true) })
+    : arrive(r.go)), e => {
+    notice = e.code === 'link_expired' ? 'link-expired' : e.code === 'link_used' ? 'link-used' : e.code === 'link_other_browser' ? 'link-other' : 'login-down';
     follow();
   });
 }
@@ -348,7 +353,7 @@ function tgOpen(link) {
     if (n) { n.textContent = STATES['login-down'][1]; n.className = 'msg err'; return; }
     notice = 'login-down'; return render();
   }
-  try { sessionStorage.setItem('gabella-tg-link', link ? '1' : ''); } catch (e) { /* private mode */ }
+  try { sessionStorage.setItem('gabella-tg-link', link ? '1' : ''); localStorage.setItem('gabella-tg', String(Date.now())); } catch (e) { /* private mode */ }
   const url = `https://oauth.telegram.org/auth?bot_id=${tgBot}&origin=${encodeURIComponent(location.origin)}&lang=${LANG}&return_to=${encodeURIComponent(location.href.split('#')[0])}`;
   const w = 550, h = 470;   // centred on this window (`screen` here is the page's own function)
   const pop = open(url, 'telegram_oauth_bot' + tgBot, `width=${w},height=${h},left=${Math.max(0, screenX + (outerWidth - w) / 2)},top=${Math.max(0, screenY + (outerHeight - h) / 2)}`);
@@ -372,10 +377,14 @@ function tgSend(user) {
     follow();
   });
 }
+/** Telegram's answer in the hash counts only if the sign-in was started here in the last 10 minutes (the mark tgOpen leaves);
+    otherwise it may be someone else's link, and the person is asked first. */
 function tgFromHash(b64) {
-  let user = null;
+  let user = null, mine = false;
   try { user = JSON.parse(decodeURIComponent(escape(atob(b64.replace(/-/g, '+').replace(/_/g, '/'))))); } catch (e) { /* broken */ }
-  if (user) return tgSend(user);
+  try { mine = Date.now() - Number(localStorage.getItem('gabella-tg') || 0) < 600000; localStorage.removeItem('gabella-tg'); } catch (e) { /* private mode */ }
+  if (user && mine) return tgSend(user);
+  if (user) return screen('confirm', { why: 'Вход через Telegram начат не на этой странице.', who: user.username ? '@' + user.username : user.first_name, go: () => tgSend(user) });
   notice = 'login-down';
   follow();
 }
@@ -405,6 +414,12 @@ function screen(kind, arg) {
       <p>Пароля нет: войдите любым удобным способом. Что мы получаем от каждого — в разделе <a href="${HOME}privacy/#account">«Конфиденциальность»</a>.</p>
       <ul><li>До десяти персонажей, основной виден в «Составе».</li><li>Достижения, ранги и рамки портрета.</li><li>Рамка «Основатель» — для тех, кто успеет до старта 4 ноября.</li></ul></div>
       <div class="wayc"><div class="ways">${WAYS.map(([id, n]) => wayBtn(id, n, false)).join('')}</div>${mailForm()}</div></section>`;
+  } else if (kind === 'confirm') {
+    v.innerHTML = `<section class="frame state"><h2>Войти по ссылке?</h2><p>${esc(arg.why)} ${esc(arg.who ? fill('Войти как %e?', { e: arg.who }) : 'Войти?')}</p>
+      <p>Если вход просили не вы, не входите: ссылка может вести в чужой аккаунт.</p>
+      <div class="row"><button type="button" class="btn" id="cGo">Войти</button><button type="button" class="btn ghost" id="cNo">Не входить</button></div></section>`;
+    $('#cGo').onclick = () => { $('#cGo').disabled = true; arg.go(); };
+    $('#cNo').onclick = () => follow();
   } else if (kind === 'mail') {
     v.innerHTML = `<section class="frame state"><h2>Проверьте почту</h2><p>${esc(fill('Ссылка для входа ушла на %e. Она действует 15 минут. Нет письма — загляните в «Спам».', { e: arg }))}</p>
       <div class="row"><button type="button" class="btn ghost" id="mAgain">Другой адрес</button></div></section>`;
@@ -528,7 +543,7 @@ function fillForm(c, wizardMode) {
   const tsc = $('#tsChar');
   if (tsc) tsc.remove();
   tsChar = null;
-  if (!c && wizardMode && m && m.user.nick) $('#eNote').insertAdjacentHTML('beforebegin', `<label class="chk full"><input type="checkbox" id="eNick" checked>${esc(fill('Показывать мой ник %n в «Составе»', { n: m.user.nick }))}</label>`);
+  if (!c && wizardMode && m && m.user.nick) $('#eNote').insertAdjacentHTML('beforebegin', `<label class="chk full"><input type="checkbox" id="eNick"${m.user.show_nick ? ' checked' : ''}>${esc(fill('Показывать мой ник %n в «Составе»', { n: m.user.nick }))}</label>`);
   // the first character puts a person into the Roster: a «not a robot» check, usually invisible
   if (!c && wizardMode && m && !m.characters.length) {
     $('#eNote').insertAdjacentHTML('beforebegin', '<div class="full" id="tsChar"></div>');
@@ -569,13 +584,14 @@ function wireForm() {
     const b = formBody(), bad = check(b);
     if (bad) return note(ERR[bad], true);
     busy(true); note('');
-    const nick = $('#eNick'), hideNick = nick && !nick.checked, ts = !edit && tsChar;
+    // the nick is private until ticked (new accounts start with show_nick off); only a change is sent
+    const nick = $('#eNick'), setNick = nick && nick.checked !== !!m.user.show_nick ? nick.checked : null, ts = !edit && tsChar;
     (ts ? ts.get() : Promise.resolve(null)).then(t => {
       if (ts && !t) { busy(false); return note(ERR.bot, true); }
       if (t) b.turnstile = t;
       if (!edit && wiz && wiz.look) b.look = wiz.look;
       const req = edit ? M.api('/characters/' + edit, { method: 'PUT', body: b }) : M.api('/characters', { body: b });
-      return req.then(r => (hideNick ? M.api('/me', { method: 'PUT', body: { show_nick: false } }).then(r2 => Object.assign(r, { me: r2.me })) : r))
+      return req.then(r => (setNick !== null ? M.api('/me', { method: 'PUT', body: { show_nick: setNick } }).then(r2 => Object.assign(r, { me: r2.me })) : r))
         .then(r => { busy(false); if (!edit) { wiz = null; parkForm(); } closeEd(); M.took(r); },
           e2 => { busy(false); if (ts) ts.reset(); note(errText(e2), true); });
     });

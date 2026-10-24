@@ -296,7 +296,7 @@ JS['news'] = r'''/* News: automatic Wowhead feed from assets/news.json; no file 
 fetch(ROOT + 'assets/news.json').then(r => r.ok ? r.json() : []).then(items => {
   const box = document.getElementById('feedList');
   if (!box || !items.length) return;
-  box.innerHTML = items.map(n => `<a class="nitem" href="${esc(n.url)}" target="_blank" rel="noopener"><span class="pill">${esc(n.date.split('-').reverse().join('.'))}</span><b>${esc(n.title)}</b></a>`).join('');
+  box.innerHTML = items.filter(n => /^https:\/\//.test(n.url)).map(n => `<a class="nitem" href="${esc(n.url)}" target="_blank" rel="noopener"><span class="pill">${esc(n.date.split('-').reverse().join('.'))}</span><b>${esc(n.title)}</b></a>`).join('');
   box.hidden = false;
 }).catch(() => {});'''
 

@@ -1250,8 +1250,8 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=cce0dd7346" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=0ff37bbee7" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=a441e33c88" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=ebeca4be5e" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://gabella.site/wow/es/"},{"@type":"ListItem","position":2,"name":"Mi perfil","item":"https://gabella.site/wow/es/profile/"}]}</script>
 </head>
 <body>
@@ -1665,6 +1665,7 @@ const STATES = {
   'already-linked': ['Este tipo de acceso ya está vinculado', 'Una cuenta puede tener un acceso de cada tipo. Desvincula primero el anterior.'],
   'link-used': ['El enlace ya se ha usado', 'Cada enlace funciona una vez. Pide uno nuevo.'],
   'link-expired': ['El enlace ha caducado', 'Un enlace dura 15 minutos. Pide uno nuevo.'],
+  'link-other': ['Abre el enlace donde iniciaste sesión', 'El correo solo se vincula en el navegador donde está abierto tu perfil. Abre allí el enlace del correo: todavía funciona.'],
   'login-down': ['No se pudo entrar', 'El servicio de acceso no respondió. Inténtalo en un par de minutos o elige otro método.'],
   'discord-down': ['Discord no responde', 'No se pudo comprobar el acceso. Inténtalo en un par de minutos o elige otro método.'],
   'too-many': ['Demasiadas cuentas nuevas', 'Desde esta conexión ya se han creado varias cuentas en una hora. Inténtalo más tarde.'],
@@ -1723,9 +1724,13 @@ document.addEventListener('submit', e => {
     }, e2 => { $('#mGo').disabled = false; tsMail.reset(); mailNote(errText(e2, 'El correo no se ha enviado. Inténtalo de nuevo.'), true); });
   });
 });
-function mailVerify(t) {
-  M.api('/auth/email/verify', { body: { t } }).then(r => arrive(r.go), e => {
-    notice = e.code === 'link_expired' ? 'link-expired' : e.code === 'link_used' ? 'link-used' : 'login-down';
+// A link opened where the letter was not asked for (another browser, or someone else's link) does not sign in silently:
+// the API answers {confirm, hint} and the person decides, seeing whose address it is.
+function mailVerify(t, confirm) {
+  M.api('/auth/email/verify', { body: confirm ? { t, confirm: true } : { t } }).then(r => (r.confirm
+    ? screen('confirm', { why: 'El enlace se abrió en un navegador distinto del que pidió el correo.', who: r.hint, go: () => mailVerify(t, true) })
+    : arrive(r.go)), e => {
+    notice = e.code === 'link_expired' ? 'link-expired' : e.code === 'link_used' ? 'link-used' : e.code === 'link_other_browser' ? 'link-other' : 'login-down';
     follow();
   });
 }
@@ -1740,7 +1745,7 @@ function tgOpen(link) {
     if (n) { n.textContent = STATES['login-down'][1]; n.className = 'msg err'; return; }
     notice = 'login-down'; return render();
   }
-  try { sessionStorage.setItem('gabella-tg-link', link ? '1' : ''); } catch (e) { /* private mode */ }
+  try { sessionStorage.setItem('gabella-tg-link', link ? '1' : ''); localStorage.setItem('gabella-tg', String(Date.now())); } catch (e) { /* private mode */ }
   const url = `https://oauth.telegram.org/auth?bot_id=${tgBot}&origin=${encodeURIComponent(location.origin)}&lang=${LANG}&return_to=${encodeURIComponent(location.href.split('#')[0])}`;
   const w = 550, h = 470;   // centred on this window (`screen` here is the page's own function)
   const pop = open(url, 'telegram_oauth_bot' + tgBot, `width=${w},height=${h},left=${Math.max(0, screenX + (outerWidth - w) / 2)},top=${Math.max(0, screenY + (outerHeight - h) / 2)}`);
@@ -1764,10 +1769,14 @@ function tgSend(user) {
     follow();
   });
 }
+/** Telegram's answer in the hash counts only if the sign-in was started here in the last 10 minutes (the mark tgOpen leaves);
+    otherwise it may be someone else's link, and the person is asked first. */
 function tgFromHash(b64) {
-  let user = null;
+  let user = null, mine = false;
   try { user = JSON.parse(decodeURIComponent(escape(atob(b64.replace(/-/g, '+').replace(/_/g, '/'))))); } catch (e) { /* broken */ }
-  if (user) return tgSend(user);
+  try { mine = Date.now() - Number(localStorage.getItem('gabella-tg') || 0) < 600000; localStorage.removeItem('gabella-tg'); } catch (e) { /* private mode */ }
+  if (user && mine) return tgSend(user);
+  if (user) return screen('confirm', { why: 'El acceso con Telegram no se inició en esta página.', who: user.username ? '@' + user.username : user.first_name, go: () => tgSend(user) });
   notice = 'login-down';
   follow();
 }
@@ -1797,6 +1806,12 @@ function screen(kind, arg) {
       <p>No hay contraseña: entra como prefieras. Lo que recibimos de cada servicio está en <a href="${HOME}privacy/#account">Privacidad</a>.</p>
       <ul><li>Hasta diez personajes, el principal aparece en la plantilla.</li><li>Logros, rangos y marcos de retrato.</li><li>El marco «Fundador» para quien llegue antes del lanzamiento del 4 de noviembre.</li></ul></div>
       <div class="wayc"><div class="ways">${WAYS.map(([id, n]) => wayBtn(id, n, false)).join('')}</div>${mailForm()}</div></section>`;
+  } else if (kind === 'confirm') {
+    v.innerHTML = `<section class="frame state"><h2>¿Entrar con este enlace?</h2><p>${esc(arg.why)} ${esc(arg.who ? fill('¿Entrar como %e?', { e: arg.who }) : '¿Entrar?')}</p>
+      <p>Si no pediste entrar, no entres: el enlace puede llevar a la cuenta de otra persona.</p>
+      <div class="row"><button type="button" class="btn" id="cGo">Entrar</button><button type="button" class="btn ghost" id="cNo">No entrar</button></div></section>`;
+    $('#cGo').onclick = () => { $('#cGo').disabled = true; arg.go(); };
+    $('#cNo').onclick = () => follow();
   } else if (kind === 'mail') {
     v.innerHTML = `<section class="frame state"><h2>Revisa tu correo</h2><p>${esc(fill('El enlace de acceso se ha enviado a %e. Dura 15 minutos. ¿No llega? Mira en spam.', { e: arg }))}</p>
       <div class="row"><button type="button" class="btn ghost" id="mAgain">Otra dirección</button></div></section>`;
@@ -1920,7 +1935,7 @@ function fillForm(c, wizardMode) {
   const tsc = $('#tsChar');
   if (tsc) tsc.remove();
   tsChar = null;
-  if (!c && wizardMode && m && m.user.nick) $('#eNote').insertAdjacentHTML('beforebegin', `<label class="chk full"><input type="checkbox" id="eNick" checked>${esc(fill('Mostrar mi apodo %n en la Plantilla', { n: m.user.nick }))}</label>`);
+  if (!c && wizardMode && m && m.user.nick) $('#eNote').insertAdjacentHTML('beforebegin', `<label class="chk full"><input type="checkbox" id="eNick"${m.user.show_nick ? ' checked' : ''}>${esc(fill('Mostrar mi apodo %n en la Plantilla', { n: m.user.nick }))}</label>`);
   // the first character puts a person into the Roster: a «not a robot» check, usually invisible
   if (!c && wizardMode && m && !m.characters.length) {
     $('#eNote').insertAdjacentHTML('beforebegin', '<div class="full" id="tsChar"></div>');
@@ -1961,13 +1976,14 @@ function wireForm() {
     const b = formBody(), bad = check(b);
     if (bad) return note(ERR[bad], true);
     busy(true); note('');
-    const nick = $('#eNick'), hideNick = nick && !nick.checked, ts = !edit && tsChar;
+    // the nick is private until ticked (new accounts start with show_nick off); only a change is sent
+    const nick = $('#eNick'), setNick = nick && nick.checked !== !!m.user.show_nick ? nick.checked : null, ts = !edit && tsChar;
     (ts ? ts.get() : Promise.resolve(null)).then(t => {
       if (ts && !t) { busy(false); return note(ERR.bot, true); }
       if (t) b.turnstile = t;
       if (!edit && wiz && wiz.look) b.look = wiz.look;
       const req = edit ? M.api('/characters/' + edit, { method: 'PUT', body: b }) : M.api('/characters', { body: b });
-      return req.then(r => (hideNick ? M.api('/me', { method: 'PUT', body: { show_nick: false } }).then(r2 => Object.assign(r, { me: r2.me })) : r))
+      return req.then(r => (setNick !== null ? M.api('/me', { method: 'PUT', body: { show_nick: setNick } }).then(r2 => Object.assign(r, { me: r2.me })) : r))
         .then(r => { busy(false); if (!edit) { wiz = null; parkForm(); } closeEd(); M.took(r); },
           e2 => { busy(false); if (ts) ts.reset(); note(errText(e2), true); });
     });
@@ -2407,8 +2423,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=cce0dd7346" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=0ff37bbee7" data-root="../../" data-home="../" data-lang="es" data-teaser="Tu perfil guarda tus personajes, logros y marcos" data-close="Cerrar" data-page="profile/" data-look="2" defer></script>
+<script src="../../assets/search/search.js?v=a441e33c88" data-root="../../" defer></script>
+<script src="../../assets/me/me.js?v=ebeca4be5e" data-root="../../" data-home="../" data-lang="es" data-teaser="Tu perfil guarda tus personajes, logros y marcos" data-close="Cerrar" data-page="profile/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

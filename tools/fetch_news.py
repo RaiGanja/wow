@@ -7,6 +7,7 @@ from email.utils import parsedate_to_datetime
 from xml.etree import ElementTree as ET
 
 FEED = 'https://www.wowhead.com/news/rss/all'
+WOWHEAD = 'https://www.wowhead.com/'
 OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'assets', 'news.json')
 
 
@@ -17,16 +18,18 @@ def parse(xml):
         cats = ' '.join(c.text or '' for c in it.findall('category'))
         if 'forever' not in ' '.join((title, it.findtext('description') or '', cats)).lower():
             continue
+        url = (it.findtext('link') or '').strip()
+        if not url.startswith(WOWHEAD):   # only links to Wowhead itself: a javascript: or foreign link in the feed is dropped
+            continue
         when = parsedate_to_datetime(it.findtext('pubDate'))
-        out.append((when.timestamp(), {'date': when.strftime('%Y-%m-%d'), 'title': title,
-                                       'url': (it.findtext('link') or '').strip()}))
+        out.append((when.timestamp(), {'date': when.strftime('%Y-%m-%d'), 'title': title, 'url': url}))
     return [x for _, x in sorted(out, key=lambda p: p[0], reverse=True)][:30]
 
 
 def merge(new, old):
     """The feed only holds the latest posts: keep older Forever news from the file, newest first, 30 at most."""
     seen = {x['url'] for x in new}
-    return sorted(new + [x for x in old if x['url'] not in seen], key=lambda x: x['date'], reverse=True)[:30]
+    return sorted(new + [x for x in old if x['url'] not in seen and x['url'].startswith(WOWHEAD)], key=lambda x: x['date'], reverse=True)[:30]
 
 
 def main():
