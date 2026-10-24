@@ -697,7 +697,7 @@ GUIDES.append({
                     ('tiles', [{'t': t('Подземелья и рейды', 'Dungeons and raids', 'Підземелля та рейди'),
                                 'd': t('Какое подземелье под ваш уровень и кого взять в группу', 'Which dungeon fits your level and who to bring',
                                        'Яке підземелля під ваш рівень і кого взяти в групу'),
-                                'href': 'guides/dungeons/', 'art': 'warlock'}]),
+                                'href': 'guides/dungeons/', 'art': 'hero_dungeons'}]),
                 ]},
             ]),
         ]},

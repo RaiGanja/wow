@@ -195,6 +195,17 @@ def profs_table(src):
             for _id, name, _tier, obj, eff in re.findall(r"\['(\w+)', '([^']+)', (\d), '([^']+)', '([^']+)'\]", src)]
 
 
+def inline_tiles(obj):
+    """Links of the art tiles inside a guide's text (also inside tabs): those guides stay out of «Other guides» below."""
+    if isinstance(obj, tuple) and len(obj) == 2 and obj[0] == 'tiles':
+        return {x['href'] for x in obj[1]}
+    if isinstance(obj, (list, tuple)):
+        return set().union(*map(inline_tiles, obj)) if obj else set()
+    if isinstance(obj, dict):
+        return inline_tiles(list(obj.values()))
+    return set()
+
+
 def render_guide(g, lang, root):
     sections = [s for s in g['sections'] if lang in s.get('langs', (lang,))]   # 'langs': a section only in these languages
     toc = ''.join(f'<a href="#{s["id"]}">{E(s["title"], lang)}</a>' for s in sections)
@@ -652,7 +663,8 @@ def build_page(g, lang, tpl, base_css, sprite, src):
         others = [x for x in section_tiles() if x['href'] != g['path']] + SITE_TILES
         more = tile_links(others, lang, root)
     else:
-        others = [x for x in lang_guides(lang) if x['slug'] != g['slug']] if g['slug'] else []
+        shown = inline_tiles(g.get('sections', []))                # one picture once on a page
+        others = [x for x in lang_guides(lang) if x['slug'] != g['slug'] and f'guides/{x["slug"]}/' not in shown] if g['slug'] else []
         more = tile_links(guide_tiles(others), lang, root)
     avif, webp, img = art_sets(g['art'], '@@ROOT@@', big=True)
     crumb = (f'<a href="{root}guides/">{E(HUB["title"], lang)}</a><span aria-hidden="true">/</span><span>{E(g["title"], lang)}</span>'
