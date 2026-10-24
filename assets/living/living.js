@@ -500,7 +500,7 @@ void main() {
 
   function live(pic) {
     const scene = pic.dataset.fx, img = pic.querySelector('img'), cut = parseFloat(pic.dataset.cut || '.6');
-    const SUN = { dawn: [375, 210], day: [375, 210], dusk: [375, 210], night: [375, 210] };   // measured on the aligned art (tools/align_tod.py); day: above the frame
+    const SUN = { dawn: [375, 210], day: [375, 40], dusk: [380, 216], night: [389, 212] };   // measured on the aligned art (tools/align_tod.py); day: no disc, light from above the castle
     const TOD = { dawn: 0, day: 1, dusk: 2, night: 3 };
     const tod = () => (window.GabellaTod && window.GabellaTod.now) || (scene === 'dawn' ? 'dawn' : 'dusk');   // camp and road are evening scenes
     if (!SCENES[scene] || !img) return;
