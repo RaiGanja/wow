@@ -494,7 +494,7 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 #matrix tr.fh .f { margin-right: 10px; }
 .f { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; vertical-align: .05em; }
 .f.alliance { background: var(--alliance); } .f.horde { background: var(--horde); }
-.paid { font-size: .7rem; color: var(--gold-2); font-weight: 600; margin-left: 2px; border-radius: 999px; padding: 1px 8px; background: color-mix(in srgb, var(--gold) 16%, transparent); }
+.paid { font-size: .75rem; color: var(--gold-2); font-weight: 600; margin-left: 8px; }   /* a word, not a capsule */
 @media (max-width: 1199px) {
   #matrix thead th:first-child { width: 215px; }
   #matrix thead th { font-size: .7rem; }
@@ -507,8 +507,8 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 .cell i { display: grid; place-items: center; width: 10px; height: 10px; border-radius: 50%; background: var(--cc); box-shadow: 0 0 0 4px color-mix(in srgb, var(--cc) 16%, transparent); transition: transform .18s var(--ease), width .18s var(--ease), height .18s var(--ease); }
 .cell i .ico { width: 15px; height: 15px; opacity: 0; color: var(--gold-ink); }
 .cell:hover i { transform: scale(1.4); }
-.cell.new .nw { font-size: .7rem; font-weight: 700; color: var(--new); padding: 2px 8px; border-radius: 999px; background: color-mix(in srgb, var(--new) 14%, transparent); transition: background-color .15s; }
-.cell.new:hover .nw { background: color-mix(in srgb, var(--new) 26%, transparent); }
+.cell.new .nw { font-size: .75rem; font-weight: 600; color: var(--new); transition: color .15s; }   /* the word in its colour, no capsule */
+.cell.new:hover .nw { color: var(--fg); }
 .cell.no { cursor: default; }
 .cell.no::after { content: ""; width: 4px; height: 4px; border-radius: 50%; background: var(--line-2); opacity: .7; }
 .cell.dim { opacity: .22; }
@@ -519,7 +519,7 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 .legend > span { display: inline-flex; align-items: center; gap: 8px; }
 .legend .ld { width: 9px; height: 9px; border-radius: 50%; background: var(--fg); box-shadow: 0 0 0 3px color-mix(in srgb, var(--fg) 14%, transparent); }
 .legend .ld.no { width: 4px; height: 4px; background: var(--line-2); box-shadow: none; }
-.legend .n { font-size: .7rem; font-weight: 700; color: var(--new); padding: 1px 8px; border-radius: 999px; background: color-mix(in srgb, var(--new) 14%, transparent); }
+.legend .n { font-size: .75rem; font-weight: 600; color: var(--new); margin-right: 6px; }
 .pickm { display: none; gap: 14px; }
 .pickm .lbl { font-size: .9rem; color: var(--muted); margin-bottom: 8px; }
 .chiprow { display: flex; flex-wrap: wrap; gap: 6px; }
