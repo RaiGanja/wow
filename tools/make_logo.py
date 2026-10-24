@@ -1,4 +1,4 @@
-"""Logo files from the griffin-G monogram (Gemini art, gold on black): assets/brand/griffin-g-src.jpg.
+"""Logo files from the griffin-G monogram (gold on black): assets/brand/griffin-g-src.jpg.
 Makes assets/logo.png (512, on the site background; PWA icons, OG and the Discord bot read it),
 assets/brand/mark.webp (header mark) and assets/icons/favicon-64.png — both on the dark tile,
 because on the light theme the black engraving lines would vanish into the paper.

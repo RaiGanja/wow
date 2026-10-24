@@ -284,7 +284,7 @@ def build_page(lang, sub, frag, shell, base_css, sprite, me_css, me_js):
     html = html.replace('@@ALTERNATES@@', build.alternates(sub))
     if 'data-fx=' in html:                                         # living art over the hero (roster)
         html = html.replace('</body>', '<script src="@@ROOT@@assets/living/living.js" defer></script>\n</body>', 1)
-    html = build.localize(html, lang, here)
+    html = build.localize(html, lang, here).replace('assets/og.png', f'assets/og-{lang}.jpg')   # the site card (tools/make_og.py)
     return here + 'index.html', html, missing
 
 

@@ -945,9 +945,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     @@TOD_SW@@
   </div>
   <ol class="hdates" aria-label="Ключевые даты">
-    <li data-d="2026-10-27"><b>27.10</b><span>Резерв имён</span></li>
-    <li data-d="2026-11-04"><b>04.11</b><span>Релиз</span></li>
-    <li data-d="2026-12-09"><b>09.12</b><span>Рейды</span></li>
+    <li data-d="2026-10-27T00:00:00"><b>27.10</b><span>Резерв имён</span></li>
+    <li data-d="2026-11-04T23:00:00Z"><b>04.11</b><span>Релиз</span></li>
+    <li data-d="2026-12-09T00:00:00"><b>09.12</b><span>Рейды</span></li>
   </ol>
 </section>
 
@@ -1490,9 +1490,14 @@ document.querySelectorAll('.go-f').forEach(b => b.addEventListener('click', () =
 
 /* Countdown and key dates */
 function renderCountdown() {
-  const now = new Date(), rel = new Date('2026-11-04T00:00:00'), raid = new Date('2026-12-09T00:00:00'), r1 = new Date('2026-10-27T00:00:00');
+  const now = new Date(), rel = new Date('2026-11-04T23:00:00Z'), raid = new Date('2026-12-09T00:00:00'), r1 = new Date('2026-10-27T00:00:00');
   let target, what, sub;
-  if (now < rel) { target = rel; what = 'до 04.11, время старта уточняется'; sub = now < r1 ? 'Резервация имён откроется 27.10' : 'Резервация имён идёт до 03.11'; }
+  if (now < rel) {   /* launch 15:00 PT = 23:00 UTC, shown in the reader's time */
+    const today = now.toDateString() === rel.toDateString(), lang = document.documentElement.lang;
+    const when = today ? rel.toLocaleTimeString(lang, { hour: '2-digit', minute: '2-digit' })
+                       : rel.toLocaleString(lang, { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' });
+    target = rel; what = (today ? 'Сегодня старт' : 'до старта') + ' · ' + when; sub = now < r1 ? 'Резервация имён откроется 27.10' : now < new Date('2026-11-04T00:00:00') ? 'Резервация имён идёт до 03.11' : 'Рейды открываются 09.12.2026';
+  }
   else if (now < raid) { target = raid; what = 'до рейдов'; sub = 'Рейды открываются 09.12.2026'; }
   if (target) {
     const ms = target - now, d = Math.floor(ms / 864e5), h = Math.floor(ms % 864e5 / 36e5), m = Math.floor(ms % 36e5 / 6e4);
@@ -1503,7 +1508,7 @@ function renderCountdown() {
     $('#cd').innerHTML = `<div class="what"><b>Рейды открыты</b><span>Barrow Deeps, Hyjal Summit, Onyxia’s Lair</span></div>`;
   }
   let cur = null;
-  document.querySelectorAll('.hdates li').forEach(li => { const past = new Date(li.dataset.d + 'T00:00:00') <= now; li.classList.toggle('past', past); li.classList.remove('cur'); if (!past && !cur) cur = li; });
+  document.querySelectorAll('.hdates li').forEach(li => { const past = new Date(li.dataset.d) <= now; li.classList.toggle('past', past); li.classList.remove('cur'); if (!past && !cur) cur = li; });
   if (cur) cur.classList.add('cur');
 }
 renderCountdown();
@@ -1776,7 +1781,7 @@ const STAGES = [
     src: ['cwg', 'prof', 'legacy'] }
 ];
 const ST = Object.fromEntries(STAGES.map(s => [s.id, s]));
-const D_REL = new Date('2026-11-04T00:00:00'), D_RAID = new Date('2026-12-09T00:00:00');
+const D_REL = new Date('2026-11-04T23:00:00Z'), D_RAID = new Date('2026-12-09T00:00:00');
 
 /* My character, saved in this browser */
 const MEKEY = 'gabella-wf-me';

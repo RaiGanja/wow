@@ -922,7 +922,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=1c41467fa0" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/search/search.css?v=de8bc15d93" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../assets/me/me.css?v=c30b9c1a1c" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Guia de WoW Forever","alternateName":"Gabella","url":"https://gabella.site/wow/pt/","inLanguage":"pt-BR","description":"Guia de WoW Forever: quem jogar, seletor de raça e classe, montador de grupo e guias de evolução, masmorras e profissões.","publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/Zd45sNHy9x"]}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/Zd45sNHy9x"]}</script>
@@ -978,9 +978,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     <div class="todsw" data-tod-sw></div>
   </div>
   <ol class="hdates" aria-label="Datas-chave">
-    <li data-d="2026-10-27"><b>27.10</b><span>Reserva de nomes</span></li>
-    <li data-d="2026-11-04"><b>04.11</b><span>Lançamento</span></li>
-    <li data-d="2026-12-09"><b>09.12</b><span>Raides</span></li>
+    <li data-d="2026-10-27T00:00:00"><b>27.10</b><span>Reserva de nomes</span></li>
+    <li data-d="2026-11-04T23:00:00Z"><b>04.11</b><span>Lançamento</span></li>
+    <li data-d="2026-12-09T00:00:00"><b>09.12</b><span>Raides</span></li>
   </ol>
 </section>
 
@@ -1529,9 +1529,14 @@ document.querySelectorAll('.go-f').forEach(b => b.addEventListener('click', () =
 
 /* Countdown and key dates */
 function renderCountdown() {
-  const now = new Date(), rel = new Date('2026-11-04T00:00:00'), raid = new Date('2026-12-09T00:00:00'), r1 = new Date('2026-10-27T00:00:00');
+  const now = new Date(), rel = new Date('2026-11-04T23:00:00Z'), raid = new Date('2026-12-09T00:00:00'), r1 = new Date('2026-10-27T00:00:00');
   let target, what, sub;
-  if (now < rel) { target = rel; what = 'até 04.11, horário de lançamento a confirmar'; sub = now < r1 ? 'A reserva de nomes abre em 27.10' : 'A reserva de nomes vai até 03.11'; }
+  if (now < rel) {   /* launch 15:00 PT = 23:00 UTC, shown in the reader's time */
+    const today = now.toDateString() === rel.toDateString(), lang = document.documentElement.lang;
+    const when = today ? rel.toLocaleTimeString(lang, { hour: '2-digit', minute: '2-digit' })
+                       : rel.toLocaleString(lang, { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' });
+    target = rel; what = (today ? 'Lançamento hoje' : 'até o lançamento') + ' · ' + when; sub = now < r1 ? 'A reserva de nomes abre em 27.10' : now < new Date('2026-11-04T00:00:00') ? 'A reserva de nomes vai até 03.11' : 'As raides abrem em 09.12.2026';
+  }
   else if (now < raid) { target = raid; what = 'até as raides'; sub = 'As raides abrem em 09.12.2026'; }
   if (target) {
     const ms = target - now, d = Math.floor(ms / 864e5), h = Math.floor(ms % 864e5 / 36e5), m = Math.floor(ms % 36e5 / 6e4);
@@ -1542,7 +1547,7 @@ function renderCountdown() {
     $('#cd').innerHTML = `<div class="what"><b>As raides estão abertas</b><span>Barrow Deeps, Hyjal Summit, Onyxia’s Lair</span></div>`;
   }
   let cur = null;
-  document.querySelectorAll('.hdates li').forEach(li => { const past = new Date(li.dataset.d + 'T00:00:00') <= now; li.classList.toggle('past', past); li.classList.remove('cur'); if (!past && !cur) cur = li; });
+  document.querySelectorAll('.hdates li').forEach(li => { const past = new Date(li.dataset.d) <= now; li.classList.toggle('past', past); li.classList.remove('cur'); if (!past && !cur) cur = li; });
   if (cur) cur.classList.add('cur');
 }
 renderCountdown();
@@ -1815,7 +1820,7 @@ const STAGES = [
     src: ['cwg', 'prof', 'legacy'] }
 ];
 const ST = Object.fromEntries(STAGES.map(s => [s.id, s]));
-const D_REL = new Date('2026-11-04T00:00:00'), D_RAID = new Date('2026-12-09T00:00:00');
+const D_REL = new Date('2026-11-04T23:00:00Z'), D_RAID = new Date('2026-12-09T00:00:00');
 
 /* My character, saved in this browser */
 const MEKEY = 'gabella-wf-me';
@@ -2037,7 +2042,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../assets/radio/radio.js" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=1c41467fa0" data-root="../" defer></script>
+<script src="../assets/search/search.js?v=de8bc15d93" data-root="../" defer></script>
 <script src="../assets/me/me.js?v=c30b9c1a1c" data-root="../" data-home="./" data-lang="pt" data-teaser="Seu perfil guarda sua jornada: Glória, quadros, temporadas" data-close="Fechar" data-page="" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>

@@ -71,9 +71,9 @@ GUIDES.append({
                    'Included in the Heroic, Epic and Collection packs. Up to three characters per account, first come, first served. This is not early access to the game. Blizzard has not yet named the exact opening time.',
                    'Входить у набори Heroic, Epic і Collection. До трьох персонажів на акаунт, хто перший прийшов, той і зайняв. Це не ранній доступ до гри. Точний час відкриття Blizzard поки не назвала.')],
                 ['04.11', t('Релиз WoW Forever', 'WoW Forever release', 'Реліз WoW Forever'),
-                 t('Нужна подписка или игровое время. Forever — постоянная игра рядом с Retail и Classic, а не сезон. Точное время старта Blizzard пока не подтвердила. Некоторые сайты называют 15:00 по тихоокеанскому, это 23:00 UTC.',
-                   'Requires a subscription or game time. Forever is a permanent game next to Retail and Classic, not a season. Blizzard has not yet confirmed the exact launch time. Some sites name 15:00 Pacific, which is 23:00 UTC.',
-                   'Потрібна підписка або ігровий час. Forever — постійна гра поруч із Retail і Classic, а не сезон. Точний час старту Blizzard поки не підтвердила. Деякі сайти називають 15:00 за тихоокеанським, це 23:00 UTC.')],
+                 t('Нужна подписка или игровое время. Forever — постоянная игра рядом с Retail и Classic, а не сезон. Старт в 15:00 по тихоокеанскому, это 23:00 UTC.',
+                   'Requires a subscription or game time. Forever is a permanent game next to Retail and Classic, not a season. Launch is at 15:00 Pacific, which is 23:00 UTC.',
+                   'Потрібна підписка або ігровий час. Forever — постійна гра поруч із Retail і Classic, а не сезон. Старт о 15:00 за тихоокеанським, це 23:00 UTC.')],
                 ['09.12', t('Открываются рейды', 'Raids open', 'Відкриваються рейди'),
                  t('Barrow Deeps (10 игроков), Hyjal Summit (20), Onyxia’s Lair (40). До этого есть пять недель на прокачку и подземелья.',
                    'Barrow Deeps (10 players), Hyjal Summit (20), Onyxia’s Lair (40). Until then you have five weeks for leveling and dungeons.',
@@ -169,9 +169,9 @@ GUIDES.append({
                       '<label class="gsearch"><span class="sr">Пошук по питаннях</span><input type="search" id="faqQ" autocomplete="off" placeholder="Пошук по питаннях"></label>')),
             ('faq', [
                 {'id': 'release', 'q': t('Когда выходит WoW Forever?', 'When does WoW Forever launch?', 'Коли виходить WoW Forever?'),
-                 'a': [t('04.11.2026. Точное время старта Blizzard пока не подтвердила. Некоторые сайты называют 15:00 по тихоокеанскому, это 23:00 UTC.',
-                         '04.11.2026. Blizzard has not yet confirmed the exact launch time. Some sites name 15:00 Pacific, which is 23:00 UTC.',
-                         '04.11.2026. Точний час старту Blizzard поки не підтвердила. Деякі сайти називають 15:00 за тихоокеанським, це 23:00 UTC.')]},
+                 'a': [t('04.11.2026 в 15:00 по тихоокеанскому, это 23:00 UTC.',
+                         '04.11.2026 at 15:00 Pacific, which is 23:00 UTC.',
+                         '04.11.2026 о 15:00 за тихоокеанським, це 23:00 UTC.')]},
                 {'id': 'subscription', 'q': t('Нужна ли подписка?', 'Do I need a subscription?', 'Чи потрібна підписка?'),
                  'a': [t('Да, подписка или игровое время. Forever — постоянная игра рядом с Retail и Classic, а не сезон.',
                          'Yes, a subscription or game time. Forever is a permanent game next to Retail and Classic, not a season.',
@@ -1035,6 +1035,8 @@ PAGES = [
      ]},
 ]
 
+from langs import AUTONYM, HREFLANG, LANGS  # noqa: E402
+
 # 404.html в корне гида: GitHub Pages отдаёт её на любой несуществующий адрес под /wow/. Одна страница на все языки.
 NOT_FOUND = {
     'slug': '404', 'path': '', 'og': 'guides', 'art': 'hero_campfire', 'more': False,
@@ -1043,9 +1045,8 @@ NOT_FOUND = {
               'This page does not exist: the link is outdated or the address has a typo. The guide sections are below.',
               'Такої сторінки немає: посилання застаріло або в адресі помилка. Розділи гіда нижче.'),
     'sections': [{'id': 'where', 'title': t('Куда дальше', 'Where next', 'Куди далі'), 'blocks': [
-        ('raw', '<p class="nf-langs"><a href="./">Главная гида</a><span aria-hidden="true"> · </span>'
-                '<a href="en/" lang="en">Page not found — English guide</a><span aria-hidden="true"> · </span>'
-                '<a href="uk/" lang="uk">Сторінку не знайдено — гід українською</a></p>'),
+        ('raw', '<p class="nf-langs">' + '<span aria-hidden="true"> · </span>'.join(   # the guide home in every language
+            f'<a href="/wow/{"" if l == "ru" else l + "/"}" lang="{HREFLANG[l]}">{AUTONYM[l]}</a>' for l in LANGS) + '</p>'),
     ]}],
 }
 

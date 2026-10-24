@@ -97,7 +97,7 @@ def thero(sec, hero):
            f'    <source type="image/webp" srcset="{big("webp")}" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw">\n'
            f'    <img src="@@ROOT@@assets/art/{hero}-1920.webp" width="1920" height="1072" alt="" fetchpriority="high" decoding="async">\n'
            '  </picture>')
-    sec = re.sub(r'<picture class="stband-art".*?</picture>', lambda _: pic, sec, count=1, flags=re.S)
+    sec = re.sub(r'@@HERO@@|<picture class="stband-art".*?</picture>', lambda _: pic, sec, count=1, flags=re.S)   # the template's slot
     return (sec.replace('<section class="stband ghero" id="top">', '<section class="thero" id="top">', 1)
                .replace('<div class="wrap">', '<div class="wrap thero-in">', 1).replace('class="glead"', 'class="lead"', 1))
 
@@ -710,10 +710,14 @@ NOT_FOUND_JS = r"""<script>
   var m = location.pathname.match(/^\/wow\/(@@L@@)\//);
   if (!m) return;
   document.documentElement.style.visibility = 'hidden';
-  fetch('/wow/' + m[1] + '/404.html').then(function (r) { if (!r.ok) throw r; return r.text(); })
-    .then(function (h) { document.open(); document.write(h); document.close(); })
-    .catch(function () { document.documentElement.style.visibility = ''; });
+  try { sessionStorage.setItem('gabella-404', location.pathname + location.search + location.hash); } catch (e) {}
+  location.replace('/wow/' + m[1] + '/404.html');
 })();
+</script>
+"""
+# <lang>/404.html: back to the address the reader typed (the root 404 sent them here)
+NOT_FOUND_BACK = r"""<script>
+try { var p = sessionStorage.getItem('gabella-404'); if (p) { sessionStorage.removeItem('gabella-404'); history.replaceState(null, '', p); } } catch (e) {}
 </script>
 """
 
@@ -721,11 +725,12 @@ NOT_FOUND_JS = r"""<script>
 def not_found_page(tpl, base_css, sprite, src, lang='ru'):
     """404.html: the Russian page built at the guide root, served by GitHub Pages at any depth under /wow/ —
     <base> keeps its relative links working, and it is neither indexed nor canonical.
-    <lang>/404.html: the same page per language; under /wow/<lang>/ the root one swaps it in before it draws."""
+    <lang>/404.html: the same page per language; under /wow/<lang>/ the root one sends the reader there before it draws
+    (a new document, not document.write over the old one: its scripts would clash with the first page's globals)."""
     _, html, missing = build_page(NOT_FOUND, lang, tpl, base_css, sprite, src)
     html = re.sub(r'<link rel="(canonical|alternate)"[^>]*>\n', '', html)
     html = re.sub(r'<meta property="og:[^>]*>\n', '', html)
-    js = NOT_FOUND_JS.replace('@@L@@', '|'.join(l for l in LANGS if l != 'ru')) if lang == 'ru' else ''
+    js = NOT_FOUND_JS.replace('@@L@@', '|'.join(l for l in LANGS if l != 'ru')) if lang == 'ru' else NOT_FOUND_BACK
     html = html.replace('<head>', f'<head>\n<base href="/wow/{page_dir(lang)}">\n<meta name="robots" content="noindex">', 1)
     html = html.replace('<meta charset="utf-8">\n', '<meta charset="utf-8">\n' + js, 1)
     html = html.replace('data-page=""', 'data-page="404"', 1)   # me.js: the secret for getting lost

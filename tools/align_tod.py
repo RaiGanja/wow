@@ -1,4 +1,4 @@
-"""Variants of the home hero (day, dusk, night) made by editing hero_dawn in Gemini drift a few pixels; the living
+"""Variants of the home hero (day, dusk, night) made by editing hero_dawn drift a few pixels; the living
 layer's mask (assets/living/hero_dawn-fx.png) must fit all of them. Aligns a variant to hero_dawn by its edges
 (lighting differs, outlines do not), then checks the residual shift inside every mask zone.
 Run: python tools/align_tod.py <wow_art> <day|dusk|night> [--allow=G] [raw files...]   (default raw: hero_<tod>.raw*.jpg;

@@ -9,7 +9,7 @@ SEXES = ['m', 'f']
 SEX_DEFAULT = {'human': 'm', 'dwarf': 'f', 'gnome': 'm', 'nightelf': 'f', 'skyA': 'm',
                'orc': 'm', 'undead': 'm', 'tauren': 'm', 'troll': 'm', 'skyH': 'f'}
 
-# новые пустые сцены Gemini: id → русское название (фон карточки и фон портрета)
+# новые пустые сцены: id → русское название (фон карточки и фон портрета)
 SCENES = [('scene-tavern', 'Таверна'), ('scene-pass', 'Перевал'), ('scene-swamp', 'Топи'), ('scene-desert', 'Пустыня'),
           ('scene-nightwood', 'Ночной лес'), ('scene-harbor', 'Гавань'), ('scene-ruins', 'Руины'), ('scene-peak', 'Вершина')]
 
