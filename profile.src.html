@@ -19,11 +19,12 @@
 .notice h2 { font-size: 1.3rem; margin-bottom: 4px; }
 .notice p { margin: 0; color: var(--muted); }
 .idl { display: grid; }
-.idl .it { display: flex; align-items: center; gap: 12px; min-height: 52px; border-bottom: 1px solid var(--pline); }
+.idl .it { flex-wrap: wrap; display: flex; align-items: center; gap: 12px; min-height: 52px; border-bottom: 1px solid var(--pline); }
 .idl .it:last-child { border-bottom: 0; }
 .idl .it b { font-weight: 600; }
 .idl .sp { flex: 1; }
 .idl .btn { min-height: 40px; padding: 0 14px; font-size: .9rem; }
+.idl .it > .small { overflow-wrap: anywhere; }
 .next { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
 .nx { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 4px 12px; align-content: start; padding: 14px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); }
 .nx .ic { grid-row: 1 / 3; width: 44px; height: 44px; border-radius: 8px; padding: 3px; background: linear-gradient(145deg, #f0d58c, #7a5a1c 55%, #c9a54a); }
@@ -40,6 +41,8 @@
 #view > section:not(.wiz) > .sec-h { margin: 8px 0 12px; }
 .ask { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; padding: 14px 18px; }
 .ask span { flex: 1 1 260px; }
+.news-ask .btn { min-height: 40px; padding: 0 14px; font-size: .9rem; gap: 8px; }
+.news-ask .btn svg { width: 18px; height: 18px; fill: var(--gold-2); flex: none; }
 .lay { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 22px; align-items: start; }
 .pnav { position: sticky; top: calc(var(--top) + 16px); display: grid; gap: 2px; padding: 8px; }
 .pnav a { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 46px; padding: 0 14px; border-radius: 8px; color: var(--ink-2); text-decoration: none; font-weight: 500; }
@@ -210,6 +213,7 @@ const ERR = {
   locked: 'Это ещё не открыто.', auth: 'Сессия закончилась, войдите снова.',
   bot: 'Проверка «не робот» не прошла. Попробуйте ещё раз.', bad_email: 'Проверьте адрес почты.', mail_down: 'Письмо не ушло. Попробуйте через пару минут.',
   last_identity: 'Это последний способ входа, его нельзя отвязать.',
+  too_many: 'Слишком много попыток. Попробуйте через час.',
 };
 /** Text of an API error code: the MORE texts (err_<code>: bad_word, no_links, members_only) first, then ERR. */
 const errText = (e, def) => {
@@ -272,6 +276,9 @@ const STATES = {
   banned: ['Вход закрыт', 'Аккаунт заблокирован администратором.'],
   taken: ['Этот вход уже занят', 'Он привязан к другому аккаунту Gabella. Войдите им, отвяжите его там и привяжите здесь.'],
   'already-linked': ['Такой вход уже привязан', 'У аккаунта может быть один вход каждого вида. Сначала отвяжите прежний.'],
+  'news-on': ['Подписка подтверждена', 'Письмо к старту 4 ноября и раз в месяц. Отписаться — одной ссылкой в любом письме.'],
+  'news-expired': ['Ссылка устарела', 'Ссылка действует 24 часа. Подпишитесь ещё раз.'],
+  'news-down': ['Подписка не подтвердилась', 'Сервис не ответил. Откройте ссылку из письма ещё раз через пару минут.'],
   'link-used': ['Ссылка уже использована', 'Каждая ссылка срабатывает один раз. Запросите новую.'],
   'link-expired': ['Ссылка устарела', 'Ссылка действует 15 минут. Запросите новую.'],
   'link-other': ['Откройте ссылку там, где вошли', 'Почта привязывается только в браузере, где открыт ваш профиль. Откройте ссылку из письма в нём: она ещё действует.'],
@@ -802,7 +809,7 @@ function secAccount() {
     <div class="frame box"><h3>Ссылка для друга</h3><p class="small">Друг входит по ней — вам засчитывается «Вербовщик». Сейчас по вашей ссылке: ${m.user.refs || 0}.</p>
       <div class="row"><input id="aRef" readonly value="${esc(refUrl())}" aria-label="Ссылка для друга" style="flex:1 1 280px"><button type="button" class="btn ghost" data-act="copyRef">${ico('copy')}Скопировать</button></div><span class="msg" id="aRefNote" role="status"></span></div>
     <div class="frame box"><h3>Мои данные</h3><p class="small">Всё, что мы храним о вас, одним файлом JSON.</p><div class="row"><a class="btn ghost" href="${esc(M.API)}/me/export" download>Скачать мои данные</a></div></div>
-    ${waysBox()}
+    ${newsBox()}${waysBox()}
     <div class="frame box"><h3>Выход и удаление</h3><p class="small">Выход завершает сессию на этом устройстве.</p>
       <div class="row"><button type="button" class="btn ghost" data-act="logout">Выйти</button><button type="button" class="btn danger" data-act="delete">Удалить профиль и все данные</button></div></div>`;
 }
@@ -819,6 +826,91 @@ function waysBox() {
   return `<div class="frame box"><h3>Способы входа</h3><p class="small">Аккаунт один — входите любым привязанным способом.</p>
     <div class="idl">${rows}</div>${mailForm()}<p class="msg" id="idNote" role="status"></p></div>`;
 }
+/* ---------- news: the Telegram channel, letters (double opt-in), Discord; asked once after the first character ---------- */
+const NEWS_LS = 'gabella-news-asked';
+let tsNews = null;
+function newsBox() {
+  const n = m.news || {};
+  const out = (href, label) => `<a class="btn ghost" href="${esc(href)}" target="_blank" rel="noopener" data-act="newsSeen">${esc(label)}</a>`;
+  const mail = n.email ? `<span class="small">${esc(n.email)}</span><button type="button" class="btn ghost" data-act="newsOff">Отписаться</button>`
+    : '<button type="button" class="btn ghost" data-act="newsMail" aria-controls="newsF" aria-expanded="false">Подписаться</button>';
+  return `<div class="frame box" id="news"><h3>Новости</h3><div class="idl">
+    <div class="it">${wayIco('telegram')}<b>Telegram</b><span class="sp"></span>${out(GD.tg, 'Подписаться')}</div>
+    <div class="it">${wayIco('email')}<b>Почта</b><span class="sp"></span>${mail}</div>
+    <div class="it">${wayIco('discord')}<b>Discord</b><span class="sp"></span>${out(GD.invite, 'Присоединиться')}</div></div>
+    <form class="mailf" id="newsF" hidden novalidate><label class="small" for="nAddr">Почта для писем</label>
+      <input id="nAddr" type="email" autocomplete="email" inputmode="email" maxlength="254" placeholder="name@example.com" required>
+      <div id="tsNews"></div><button type="submit" class="btn" id="nGo">Прислать подтверждение</button>
+      <p class="small">Письмо к старту 4 ноября и раз в месяц. Отписаться — одной ссылкой в любом письме.</p><p class="msg" id="nNote" role="alert"></p></form>
+    <p class="msg" id="newsMsg" role="status"></p></div>`;
+}
+function newsNote(text, bad) { const n = $('#nNote'); if (n) { n.textContent = text; n.className = 'msg' + (bad ? ' err' : ''); } }
+/** Any answer to the offer (a link, the form, «Not now») hides the card for good: here and on the account's other devices. */
+function newsSeen() {
+  try { localStorage.setItem(NEWS_LS, '1'); } catch (e) { /* private mode */ }
+  if (m.news && !m.news.asked) { m.news.asked = true; M.api('/me', { method: 'PUT', body: { news_asked: true } }).catch(() => {}); }
+}
+function newsOpen() {
+  const f = $('#newsF');
+  if (!f) return;
+  f.hidden = false; newsNote('');
+  const tb = $('[data-act="newsMail"]'); if (tb) tb.setAttribute('aria-expanded', 'true');
+  if (!tsNews || tsNews.host !== $('#tsNews')) tsNews = tsWidget($('#tsNews'));
+  $('#news').scrollIntoView({ block: 'nearest' });
+  $('#nAddr').focus();
+}
+function newsAsked() { try { return localStorage.getItem(NEWS_LS) === '1'; } catch (e) { return false; } }
+/** The one-time offer above the first steps; gone for good after any answer. */
+function newsAsk() {
+  const n = m.news;
+  if (!n || n.asked || n.email || newsAsked()) return '';
+  const h = Date.now() < Date.parse(GD.deadline) ? 'Не пропустите старт 4 ноября' : 'Новости Gabella';
+  const out = (href, id, label) => `<a class="btn ghost" href="${esc(href)}" target="_blank" rel="noopener" data-act="newsSeen">${wayIco(id)}${esc(label)}</a>`;
+  return `<div class="frame ask news-ask"><span><b>${esc(h)}</b></span>${out(GD.tg, 'telegram', 'Telegram')}
+    <button type="button" class="btn ghost" data-act="newsGo">${wayIco('email')}Почта</button>
+    ${out(GD.invite, 'discord', 'Discord')}<button type="button" class="btn ghost" data-act="newsNo">Не сейчас</button></div>`;
+}
+function newsConfirm(t) {
+  M.api('/news/confirm', { body: { t } }).then(() => { notice = 'news-on'; follow(true); }, e => {
+    notice = e.code === 'link_expired' ? 'news-expired' : e.code === 'link_used' ? 'link-used' : 'news-down';
+    follow(true);
+  });
+}
+function newsClick(el) {
+  const a = el.dataset.act;
+  if (a === 'newsNo') {
+    newsSeen(); const c = $('.news-ask'); if (c) c.remove();
+    const hd = $('#sec h2'); if (hd) { hd.tabIndex = -1; hd.focus({ preventScroll: true }); }   // keep focus in the page after the card is gone
+    return;
+  }
+  if (a === 'newsGo') { newsSeen(); sec = 'account'; history.replaceState(null, '', '#account'); cabinet(); return newsOpen(); }
+  if (a === 'newsSeen') {   // the link itself opens in a new tab; the card inside .news-ask goes away once navigation has started
+    newsSeen();
+    if (el.closest('.news-ask')) setTimeout(() => { const c = $('.news-ask'); if (c) c.remove(); });
+    return;
+  }
+  if (a === 'newsMail') { newsSeen(); return newsOpen(); }
+  if (a === 'newsOff') {
+    el.disabled = true;
+    return M.api('/news/email', { method: 'DELETE' }).then(() => M.me(true)).then(() => restoreFocus('[data-act="newsMail"]'),
+      e => { el.disabled = false; const n = $('#newsMsg'); if (n) { n.textContent = errText(e); n.className = 'msg err'; } });
+  }
+}
+document.addEventListener('submit', e => {
+  if (e.target.id !== 'newsF') return;
+  e.preventDefault();
+  const addr = $('#nAddr').value.trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@.]{2,}$/.test(addr)) return newsNote(ERR.bad_email, true);
+  $('#nGo').disabled = true; newsNote('');
+  tsNews.get().then(t => {
+    if (!t) { $('#nGo').disabled = false; return newsNote(ERR.bot, true); }
+    return M.api('/news/email', { body: { email: addr, lang: LANG, turnstile: t } }).then(() => {
+      $('#nGo').disabled = false; tsNews.reset();
+      newsNote(fill('Письмо ушло на %e. Откройте его и подтвердите подписку.', { e: addr }));
+    }, e2 => { $('#nGo').disabled = false; tsNews.reset(); newsNote(errText(e2, 'Письмо не ушло. Попробуйте ещё раз.'), true); });
+  });
+});
+
 
 /** Selector of the control that has focus inside the cabinet (stable data keys), to find its twin after a redraw. */
 function focusKey() {
@@ -841,7 +933,7 @@ function cabinet() {
   if (!secs().some(x => x[0] === sec)) sec = 'chars';
   const nav = secs().map(([id, t]) => `<a href="#${id}"${sec === id ? ' aria-current="page"' : ''}>${esc(t)}${id === 'chars' ? `<span>${esc(fill('%n из %m', { n: m.characters.length, m: CHAR_MAX }))}</span>` : id === 'ach' ? `<span>${ach} / ${all}</span>` : ''}</a>`).join('');
   const body = { chars: secChars, look: secLook, ach: secAch, frames: secFrames, account: secAccount, reports: secReports }[sec]();
-  $('#view').innerHTML = `${noticeHtml()}<p class="lab">Карточка — как вас видят другие</p>${bcard(p, { h: 'h2', reveal })}${levelAsk()}${nextHtml()}${playHint()}${pathHtml()}
+  $('#view').innerHTML = `${noticeHtml()}<p class="lab">Карточка — как вас видят другие</p>${bcard(p, { h: 'h2', reveal })}${levelAsk()}${newsAsk()}${nextHtml()}${playHint()}${pathHtml()}
     <div class="lay"><nav class="frame pnav" aria-label="Кабинет">${nav}<hr><a class="pub" href="${playerUrl(m.user.id)}">Моя страница ↗</a></nav><section class="sec" id="sec">${body}</section></div>`;
   reveal = false;
   restoreFocus(keep);
@@ -862,6 +954,8 @@ function put(body, noteId) {
 document.addEventListener('click', e => {
   if (!m || !e.target.closest('#view')) return;
   const t = e.target;
+  const nw = t.closest('[data-act^="news"]');
+  if (nw) return newsClick(nw);
   const lb = t.closest('[data-look]');
   if (lb) { e.stopPropagation(); return lkOpen(m.characters.find(x => x.id === +lb.dataset.look)); }
   const editCard = t.closest('[data-edit]');
@@ -952,17 +1046,18 @@ ready(Mx => {
   if (!M) return screen('down');
   wireForm();
   // one-time hashes: the email token, Telegram's answer without a popup, messages after a redirect
-  const once = /^(email=|tgAuthResult=)/.test(h) || STATES[h] || h === 'not-member';
+  const once = /^(email=|news=|tgAuthResult=)/.test(h) || STATES[h] || h === 'not-member';
   if (once) history.replaceState(null, '', location.pathname + location.search);
-  if (h.startsWith('email=')) return mailVerify(h.slice(6));
-  if (h.startsWith('tgAuthResult=')) return tgFromHash(h.slice(13));
-  if (STATES[h]) notice = h;
   addEventListener('hashchange', () => {
     const s2 = location.hash.slice(1);
     if (!secs().some(x => x[0] === s2) || !m) return;
     if (!m.characters.length) { sec = s2 === 'account' ? 'account' : 'chars'; render(); scrollTo(0, 0); return; }
     sec = s2; cabinet(); $('#sec').scrollIntoView({ block: 'nearest' });
   });
+  if (h.startsWith('email=')) return mailVerify(h.slice(6));
+  if (h.startsWith('news=')) return newsConfirm(h.slice(5));
+  if (h.startsWith('tgAuthResult=')) return tgFromHash(h.slice(13));
+  if (STATES[h]) notice = h;
   follow();
 });
 </script>

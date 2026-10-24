@@ -235,7 +235,7 @@ def faq_ld(lang):
 
 
 ORG = {'@type': 'Organization', 'name': BRAND, 'url': 'https://gabella.site/', 'logo': SITE + 'assets/icons/icon-512.png',
-       'sameAs': [build.DISCORD]}
+       'sameAs': [build.DISCORD, build.TELEGRAM]}
 
 
 def guide_updated(path):

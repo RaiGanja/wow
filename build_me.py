@@ -119,7 +119,7 @@ def page_data(lang):
         'profs': {p: t(pn[p]) for p in g['profs']},
         'sets': g['sets'], 'cats': g['cats'], 'ach': g['achievements'], 'ranks': g['ranks'], 'frames': g['frames'],
         'backgrounds': g['backgrounds'], 'looks': g['looks'],
-        'scenes': {s: t(n) for s, n in LK.SCENES}, 'deadline': g['deadline_founder'], 'invite': INVITE,
+        'scenes': {s: t(n) for s, n in LK.SCENES}, 'deadline': g['deadline_founder'], 'invite': INVITE, 'tg': build.TELEGRAM,
     }
 
 

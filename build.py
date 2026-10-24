@@ -76,6 +76,7 @@ CONTACT = 'contact@gabella.site'   # Cloudflare Email Routing -> почта Вя
 DISCORD = 'https://discord.gg/ZGpznkX3Zw'   # постоянное приглашение на сервер Gabella · WoW Forever (EN/UK/RU, без срока и лимита)
 # Места ссылки: все ведут на сервер сайта одним приглашением (замер по местам был на Gabella Team).
 DISCORD_AT = {place: DISCORD for place in ('menu', 'guide', 'home', 'faq', 'profile', 'footer')}
+TELEGRAM = 'https://t.me/gabella_wow'   # публичный канал новостей Gabella (создан 23.10)
 LEGAL = {
     'ru': ('Фанатский гид Gabella. Сайт не связан с Blizzard Entertainment и не одобрен ею. World of Warcraft, Warcraft и Blizzard Entertainment — '
            'товарные знаки или зарегистрированные товарные знаки Blizzard Entertainment, Inc. в США и/или других странах.', 'Конфиденциальность', 'Связь', 'Карта сайта'),
@@ -119,6 +120,7 @@ def legal(lang, root):
     return site_map(lang, root + page_dir(lang)) + (f'<div class="legal"><p>{text}</p><p>© 2026 Gabella<span aria-hidden="true"> · </span>'
             f'<a href="{root}{page_dir(lang, "privacy/")}">{privacy}</a><span aria-hidden="true"> · </span>'
             f'{discord_link("footer")}<span aria-hidden="true"> · </span>'
+            f'<a href="{TELEGRAM}" target="_blank" rel="noopener">Telegram</a><span aria-hidden="true"> · </span>'
             f'{contact}: <a href="mailto:{CONTACT}">{CONTACT}</a></p></div>')
 
 

@@ -1047,11 +1047,12 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 .notice h2 { font-size: 1.3rem; margin-bottom: 4px; }
 .notice p { margin: 0; color: var(--muted); }
 .idl { display: grid; }
-.idl .it { display: flex; align-items: center; gap: 12px; min-height: 52px; border-bottom: 1px solid var(--pline); }
+.idl .it { flex-wrap: wrap; display: flex; align-items: center; gap: 12px; min-height: 52px; border-bottom: 1px solid var(--pline); }
 .idl .it:last-child { border-bottom: 0; }
 .idl .it b { font-weight: 600; }
 .idl .sp { flex: 1; }
 .idl .btn { min-height: 40px; padding: 0 14px; font-size: .9rem; }
+.idl .it > .small { overflow-wrap: anywhere; }
 .next { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
 .nx { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 4px 12px; align-content: start; padding: 14px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); }
 .nx .ic { grid-row: 1 / 3; width: 44px; height: 44px; border-radius: 8px; padding: 3px; background: linear-gradient(145deg, #f0d58c, #7a5a1c 55%, #c9a54a); }
@@ -1068,6 +1069,8 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 #view > section:not(.wiz) > .sec-h { margin: 8px 0 12px; }
 .ask { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; padding: 14px 18px; }
 .ask span { flex: 1 1 260px; }
+.news-ask .btn { min-height: 40px; padding: 0 14px; font-size: .9rem; gap: 8px; }
+.news-ask .btn svg { width: 18px; height: 18px; fill: var(--gold-2); flex: none; }
 .lay { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 22px; align-items: start; }
 .pnav { position: sticky; top: calc(var(--top) + 16px); display: grid; gap: 2px; padding: 8px; }
 .pnav a { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 46px; padding: 0 14px; border-radius: 8px; color: var(--ink-2); text-decoration: none; font-weight: 500; }
@@ -1190,7 +1193,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css?v=ac976a4f75" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=f09305de98" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=17aed7bbcf" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/me/me.css?v=9f6bfa2333" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/it/"},{"@type":"ListItem","position":2,"name":"Il mio profilo","item":"https://gabella.site/wow/it/profile/"}]}</script>
 </head>
@@ -1280,7 +1283,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 </dialog>
 
 <div class="wrap"><footer>
-  <nav class="fmap" aria-label="Mappa del sito"><div><a class="fh" href="../../it/classes/">Classi</a><ul><li><a href="../../it/classes/warrior/">Guerriero</a></li><li><a href="../../it/classes/paladin/">Paladino</a></li><li><a href="../../it/classes/hunter/">Cacciatore</a></li><li><a href="../../it/classes/rogue/">Ladro</a></li><li><a href="../../it/classes/priest/">Sacerdote</a></li><li><a href="../../it/classes/shaman/">Sciamano</a></li><li><a href="../../it/classes/mage/">Mago</a></li><li><a href="../../it/classes/warlock/">Stregone</a></li><li><a href="../../it/classes/druid/">Druido</a></li></ul></div><div><a class="fh" href="../../it/races/">Razze</a><ul><li><a href="../../it/races/human/">Umano</a></li><li><a href="../../it/races/dwarf/">Nano</a></li><li><a href="../../it/races/night-elf/">Elfo della Notte</a></li><li><a href="../../it/races/gnome/">Gnomo</a></li><li><a href="../../it/races/skyborne-alliance/">Skyborne dell’High Order</a></li><li><a href="../../it/races/orc/">Orco</a></li><li><a href="../../it/races/undead/">Non Morto</a></li><li><a href="../../it/races/tauren/">Tauren</a></li><li><a href="../../it/races/troll/">Troll</a></li><li><a href="../../it/races/skyborne-horde/">Skyborne Windshaper</a></li></ul></div><div><a class="fh" href="../../it/guides/">Guide</a><ul><li><a href="../../it/guides/leveling/">Livellamento 1–60</a></li><li><a href="../../it/guides/dungeons/">Spedizioni e incursioni</a></li><li><a href="../../it/guides/professions/">Professioni</a></li><li><a href="../../it/guides/faq/">FAQ e date</a></li><li><a href="../../it/guides/news/">Notizie</a></li></ul></div><div><a class="fh" href="../../it/tools/">Strumenti</a><ul><li><a href="../../it/tools/">Strumenti</a></li><li><a href="../../it/play/">In gioco</a></li></ul></div></nav><div class="legal"><p>Guida amatoriale di Gabella. Non affiliata né approvata da Blizzard Entertainment. World of Warcraft, Warcraft e Blizzard Entertainment sono marchi o marchi registrati di Blizzard Entertainment, Inc. negli Stati Uniti e/o in altri Paesi.</p><p>© 2026 Gabella<span aria-hidden="true"> · </span><a href="../../it/privacy/">Privacy</a><span aria-hidden="true"> · </span><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><span aria-hidden="true"> · </span>Contatti: <a href="mailto:contact@gabella.site">contact@gabella.site</a></p></div>
+  <nav class="fmap" aria-label="Mappa del sito"><div><a class="fh" href="../../it/classes/">Classi</a><ul><li><a href="../../it/classes/warrior/">Guerriero</a></li><li><a href="../../it/classes/paladin/">Paladino</a></li><li><a href="../../it/classes/hunter/">Cacciatore</a></li><li><a href="../../it/classes/rogue/">Ladro</a></li><li><a href="../../it/classes/priest/">Sacerdote</a></li><li><a href="../../it/classes/shaman/">Sciamano</a></li><li><a href="../../it/classes/mage/">Mago</a></li><li><a href="../../it/classes/warlock/">Stregone</a></li><li><a href="../../it/classes/druid/">Druido</a></li></ul></div><div><a class="fh" href="../../it/races/">Razze</a><ul><li><a href="../../it/races/human/">Umano</a></li><li><a href="../../it/races/dwarf/">Nano</a></li><li><a href="../../it/races/night-elf/">Elfo della Notte</a></li><li><a href="../../it/races/gnome/">Gnomo</a></li><li><a href="../../it/races/skyborne-alliance/">Skyborne dell’High Order</a></li><li><a href="../../it/races/orc/">Orco</a></li><li><a href="../../it/races/undead/">Non Morto</a></li><li><a href="../../it/races/tauren/">Tauren</a></li><li><a href="../../it/races/troll/">Troll</a></li><li><a href="../../it/races/skyborne-horde/">Skyborne Windshaper</a></li></ul></div><div><a class="fh" href="../../it/guides/">Guide</a><ul><li><a href="../../it/guides/leveling/">Livellamento 1–60</a></li><li><a href="../../it/guides/dungeons/">Spedizioni e incursioni</a></li><li><a href="../../it/guides/professions/">Professioni</a></li><li><a href="../../it/guides/faq/">FAQ e date</a></li><li><a href="../../it/guides/news/">Notizie</a></li></ul></div><div><a class="fh" href="../../it/tools/">Strumenti</a><ul><li><a href="../../it/tools/">Strumenti</a></li><li><a href="../../it/play/">In gioco</a></li></ul></div></nav><div class="legal"><p>Guida amatoriale di Gabella. Non affiliata né approvata da Blizzard Entertainment. World of Warcraft, Warcraft e Blizzard Entertainment sono marchi o marchi registrati di Blizzard Entertainment, Inc. negli Stati Uniti e/o in altri Paesi.</p><p>© 2026 Gabella<span aria-hidden="true"> · </span><a href="../../it/privacy/">Privacy</a><span aria-hidden="true"> · </span><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><span aria-hidden="true"> · </span><a href="https://t.me/gabella_wow" target="_blank" rel="noopener">Telegram</a><span aria-hidden="true"> · </span>Contatti: <a href="mailto:contact@gabella.site">contact@gabella.site</a></p></div>
 </footer></div>
 
 <nav class="tabbar" aria-label="Sezioni rapide">
@@ -1308,7 +1311,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 /* Profile pages (roster, profile, u): game data, the player card, the big card, achievement tiles, page chrome.
    Inlined by build_me.py before the page script; Russian strings are translated at build like the rest of the site.
    The pages talk to the API only through window.GabellaMe (me.js), which runs before DOMContentLoaded. */
-const GD = {"races":{"human":{"f":"alliance","cls":["warrior","paladin","hunter","rogue","priest","mage","warlock"],"slug":"human","n":"Umano"},"dwarf":{"f":"alliance","cls":["warrior","paladin","hunter","rogue","priest","shaman"],"slug":"dwarf","n":"Nano"},"nightelf":{"f":"alliance","cls":["warrior","hunter","rogue","priest","druid"],"slug":"night-elf","n":"Elfo della Notte"},"gnome":{"f":"alliance","cls":["warrior","rogue","mage","warlock","priest"],"slug":"gnome","n":"Gnomo"},"skyA":{"f":"alliance","cls":["warrior","hunter","rogue","mage","druid"],"slug":"skyborne-alliance","n":"Skyborne dell’High Order"},"orc":{"f":"horde","cls":["warrior","hunter","rogue","shaman","warlock","mage"],"slug":"orc","n":"Orco"},"undead":{"f":"horde","cls":["warrior","rogue","mage","priest","warlock","paladin"],"slug":"undead","n":"Non Morto"},"tauren":{"f":"horde","cls":["warrior","hunter","shaman","druid"],"slug":"tauren","n":"Tauren"},"troll":{"f":"horde","cls":["warrior","hunter","rogue","priest","shaman","mage","warlock"],"slug":"troll","n":"Troll"},"skyH":{"f":"horde","cls":["warrior","hunter","rogue","shaman","druid"],"slug":"skyborne-horde","n":"Skyborne Windshaper"}},"classes":{"warrior":{"roles":["tank","dps"],"n":"Guerriero","color":"#c79c6e"},"paladin":{"roles":["tank","heal","dps"],"n":"Paladino","color":"#f58cba"},"hunter":{"roles":["dps"],"n":"Cacciatore","color":"#abd473"},"rogue":{"roles":["dps"],"n":"Ladro","color":"#fff569"},"priest":{"roles":["heal","dps"],"n":"Sacerdote","color":"#e8e8e8"},"shaman":{"roles":["heal","dps","tank"],"n":"Sciamano","color":"#2f8cf0"},"mage":{"roles":["dps"],"n":"Mago","color":"#40c7eb"},"warlock":{"roles":["dps"],"n":"Stregone","color":"#8788ee"},"druid":{"roles":["tank","heal","dps"],"n":"Druido","color":"#ff7d0a"}},"profs":{"alchemy":"Alchimia","blacksmithing":"Forgiatura","enchanting":"Incantamento","engineering":"Ingegneria","herbalism":"Erbalismo","leatherworking":"Conciatura","mining":"Estrazione","skinning":"Scuoiatura","tailoring":"Sartoria"},"sets":{"guide":["leveling","dungeons","professions","faq","news"],"class":["warrior","paladin","hunter","rogue","priest","shaman","mage","warlock","druid"],"race":["human","dwarf","night-elf","gnome","skyborne-alliance","orc","undead","tauren","troll","skyborne-horde"],"lang":["ru","en","uk","de","fr","es","pt","it","pl"],"station":["morning","road","forest","steppe","tavern","dungeon","battle","night"],"egg":["griffin","leeroy","konami","static","404"],"hour":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]},"cats":["community","guide","radio","tools","rhythm","wow","secrets"],"ach":[{"id":"founder","cat":"community","pts":25,"kind":"auto","rule":null,"secret":false},{"id":"profile_full","cat":"community","pts":10,"kind":"auto","rule":null,"secret":false},{"id":"three_chars","cat":"community","pts":10,"kind":"auto","rule":null,"secret":false},{"id":"veteran3","cat":"community","pts":10,"kind":"auto","rule":{"days":90},"secret":false},{"id":"veteran6","cat":"community","pts":25,"kind":"auto","rule":{"days":182},"secret":false},{"id":"veteran12","cat":"community","pts":50,"kind":"auto","rule":{"days":365},"secret":false},{"id":"recruiter1","cat":"community","pts":10,"kind":"auto","rule":{"refs":1},"secret":false},{"id":"recruiter5","cat":"community","pts":50,"kind":"auto","rule":{"refs":5},"secret":false},{"id":"show_card","cat":"community","pts":5,"kind":"progress","rule":{"key":"show_card","goal":1},"secret":false},{"id":"guides3","cat":"guide","pts":5,"kind":"progress","rule":{"key":"guide","goal":3,"set":true},"secret":false},{"id":"guides_all","cat":"guide","pts":25,"kind":"progress","rule":{"key":"guide","all":true},"secret":false},{"id":"classes_all","cat":"guide","pts":10,"kind":"progress","rule":{"key":"class","all":true},"secret":false},{"id":"races_all","cat":"guide","pts":10,"kind":"progress","rule":{"key":"race","all":true},"secret":false},{"id":"polyglot","cat":"guide","pts":10,"kind":"progress","rule":{"key":"lang","goal":3,"set":true},"secret":false},{"id":"play_page","cat":"guide","pts":5,"kind":"progress","rule":{"key":"play_page","goal":1},"secret":false},{"id":"radio_on","cat":"radio","pts":5,"kind":"progress","rule":{"key":"radio_on","goal":1},"secret":false},{"id":"radio10h","cat":"radio","pts":25,"kind":"progress","rule":{"key":"radio_min","goal":600},"secret":false},{"id":"radio100h","cat":"radio","pts":50,"kind":"progress","rule":{"key":"radio_min","goal":6000},"secret":false},{"id":"stations_all","cat":"radio","pts":10,"kind":"progress","rule":{"key":"station","all":true},"secret":false},{"id":"sleep_timer","cat":"radio","pts":5,"kind":"progress","rule":{"key":"sleep_timer","goal":1},"secret":false},{"id":"party5","cat":"tools","pts":5,"kind":"progress","rule":{"key":"party5","goal":1},"secret":false},{"id":"raid40","cat":"tools","pts":25,"kind":"progress","rule":{"key":"raid40","goal":1},"secret":false},{"id":"share_team","cat":"tools","pts":5,"kind":"progress","rule":{"key":"share_team","goal":1},"secret":false},{"id":"compare3","cat":"tools","pts":5,"kind":"progress","rule":{"key":"compare3","goal":1},"secret":false},{"id":"search25","cat":"tools","pts":10,"kind":"progress","rule":{"key":"search","goal":25},"secret":false},{"id":"streak7","cat":"rhythm","pts":10,"kind":"auto","rule":{"streak":7},"secret":false},{"id":"streak30","cat":"rhythm","pts":50,"kind":"auto","rule":{"streak":30},"secret":false},{"id":"night_owl","cat":"rhythm","pts":10,"kind":"progress","rule":{"key":"hour","items":[3,4]},"secret":true},{"id":"early_bird","cat":"rhythm","pts":10,"kind":"progress","rule":{"key":"hour","items":[5,6]},"secret":true},{"id":"first60","cat":"wow","pts":50,"kind":"admin","rule":null,"secret":false},{"id":"lvl60","cat":"wow","pts":25,"kind":"admin","rule":null,"secret":false},{"id":"dungeon_night","cat":"wow","pts":10,"kind":"admin","rule":null,"secret":false},{"id":"onyxia","cat":"wow","pts":50,"kind":"admin","rule":null,"secret":false},{"id":"molten_core","cat":"wow","pts":50,"kind":"admin","rule":null,"secret":false},{"id":"raid_regular","cat":"wow","pts":25,"kind":"admin","rule":null,"secret":false},{"id":"crafter","cat":"wow","pts":25,"kind":"admin","rule":null,"secret":false},{"id":"helper","cat":"wow","pts":25,"kind":"admin","rule":null,"secret":false},{"id":"event_winner","cat":"wow","pts":25,"kind":"admin","rule":null,"secret":false},{"id":"egg_griffin","cat":"secrets","pts":10,"kind":"progress","rule":{"key":"egg","items":["griffin"]},"secret":true},{"id":"egg_leeroy","cat":"secrets","pts":10,"kind":"progress","rule":{"key":"egg","items":["leeroy"]},"secret":true},{"id":"egg_konami","cat":"secrets","pts":10,"kind":"progress","rule":{"key":"egg","items":["konami"]},"secret":true},{"id":"egg_static","cat":"secrets","pts":10,"kind":"progress","rule":{"key":"egg","items":["static"]},"secret":true},{"id":"egg_404","cat":"secrets","pts":10,"kind":"progress","rule":{"key":"egg","items":["404"]},"secret":true},{"id":"keeper","cat":"secrets","pts":25,"kind":"auto","rule":{"all_cat":"secrets"},"secret":true}],"ranks":[{"id":"recruit","pts":0},{"id":"bronze","pts":25},{"id":"silver","pts":100},{"id":"gold","pts":200},{"id":"relite","pts":350},{"id":"epic","pts":500},{"id":"legend","pts":700}],"frames":[{"id":"recruit","rank":"recruit"},{"id":"bronze","rank":"bronze"},{"id":"silver","rank":"silver"},{"id":"gold","rank":"gold"},{"id":"relite","rank":"relite"},{"id":"epic","rank":"epic"},{"id":"legend","rank":"legend"},{"id":"founder","ach":"founder"},{"id":"dragon","ach":"onyxia"},{"id":"fire","ach":"molten_core"},{"id":"secrets","ach":"keeper"},{"id":"recruiter","ach":"recruiter5"},{"id":"history","ach":"veteran12"},{"id":"ether","ach":"radio100h"},{"id":"tavern","ach":"streak30"},{"id":"scholar","ach":"guides_all"},{"id":"first60","ach":"first60"},{"id":"sixty","ach":"lvl60"},{"id":"raid","ach":"raid_regular"},{"id":"master","ach":"crafter"},{"id":"friend","ach":"helper"},{"id":"champion","ach":"event_winner"},{"id":"boss","admin":true}],"backgrounds":["human","dwarf","night-elf","gnome","skyborne-alliance","orc","undead","tauren","troll","skyborne-horde","hero_dawn","hero_campfire","scene-tavern","scene-pass","scene-swamp","scene-desert","scene-nightwood","scene-harbor","scene-ruins","scene-peak"],"looks":{"v":"2","sexes":["m","f"],"races":{"human":{"sex":"m","bg":"human"},"dwarf":{"sex":"f","bg":"dwarf"},"nightelf":{"sex":"f","bg":"night-elf"},"gnome":{"sex":"m","bg":"gnome"},"skyA":{"sex":"m","bg":"skyborne-alliance"},"orc":{"sex":"m","bg":"orc"},"undead":{"sex":"m","bg":"undead"},"tauren":{"sex":"m","bg":"tauren"},"troll":{"sex":"m","bg":"troll"},"skyH":{"sex":"f","bg":"skyborne-horde"}},"bg":{"human":{"lock":null},"dwarf":{"lock":null},"night-elf":{"lock":null},"gnome":{"lock":null},"skyborne-alliance":{"lock":null},"orc":{"lock":null},"undead":{"lock":null},"tauren":{"lock":null},"troll":{"lock":null},"skyborne-horde":{"lock":null},"hero_dawn":{"lock":null},"hero_campfire":{"lock":null},"scene-tavern":{"lock":null},"scene-pass":{"lock":null},"scene-swamp":{"lock":null},"scene-desert":{"lock":null},"scene-nightwood":{"lock":null},"scene-harbor":{"lock":null},"scene-ruins":{"lock":null},"scene-peak":{"lock":null}}},"scenes":{"scene-tavern":"Taverna","scene-pass":"Passo di montagna","scene-swamp":"Paludi","scene-desert":"Deserto","scene-nightwood":"Foresta notturna","scene-harbor":"Porto","scene-ruins":"Rovine","scene-peak":"Vetta"},"deadline":"2026-11-03T21:00:00Z","invite":"https://discord.gg/ZGpznkX3Zw"};
+const GD = {"races":{"human":{"f":"alliance","cls":["warrior","paladin","hunter","rogue","priest","mage","warlock"],"slug":"human","n":"Umano"},"dwarf":{"f":"alliance","cls":["warrior","paladin","hunter","rogue","priest","shaman"],"slug":"dwarf","n":"Nano"},"nightelf":{"f":"alliance","cls":["warrior","hunter","rogue","priest","druid"],"slug":"night-elf","n":"Elfo della Notte"},"gnome":{"f":"alliance","cls":["warrior","rogue","mage","warlock","priest"],"slug":"gnome","n":"Gnomo"},"skyA":{"f":"alliance","cls":["warrior","hunter","rogue","mage","druid"],"slug":"skyborne-alliance","n":"Skyborne dell’High Order"},"orc":{"f":"horde","cls":["warrior","hunter","rogue","shaman","warlock","mage"],"slug":"orc","n":"Orco"},"undead":{"f":"horde","cls":["warrior","rogue","mage","priest","warlock","paladin"],"slug":"undead","n":"Non Morto"},"tauren":{"f":"horde","cls":["warrior","hunter","shaman","druid"],"slug":"tauren","n":"Tauren"},"troll":{"f":"horde","cls":["warrior","hunter","rogue","priest","shaman","mage","warlock"],"slug":"troll","n":"Troll"},"skyH":{"f":"horde","cls":["warrior","hunter","rogue","shaman","druid"],"slug":"skyborne-horde","n":"Skyborne Windshaper"}},"classes":{"warrior":{"roles":["tank","dps"],"n":"Guerriero","color":"#c79c6e"},"paladin":{"roles":["tank","heal","dps"],"n":"Paladino","color":"#f58cba"},"hunter":{"roles":["dps"],"n":"Cacciatore","color":"#abd473"},"rogue":{"roles":["dps"],"n":"Ladro","color":"#fff569"},"priest":{"roles":["heal","dps"],"n":"Sacerdote","color":"#e8e8e8"},"shaman":{"roles":["heal","dps","tank"],"n":"Sciamano","color":"#2f8cf0"},"mage":{"roles":["dps"],"n":"Mago","color":"#40c7eb"},"warlock":{"roles":["dps"],"n":"Stregone","color":"#8788ee"},"druid":{"roles":["tank","heal","dps"],"n":"Druido","color":"#ff7d0a"}},"profs":{"alchemy":"Alchimia","blacksmithing":"Forgiatura","enchanting":"Incantamento","engineering":"Ingegneria","herbalism":"Erbalismo","leatherworking":"Conciatura","mining":"Estrazione","skinning":"Scuoiatura","tailoring":"Sartoria"},"sets":{"guide":["leveling","dungeons","professions","faq","news"],"class":["warrior","paladin","hunter","rogue","priest","shaman","mage","warlock","druid"],"race":["human","dwarf","night-elf","gnome","skyborne-alliance","orc","undead","tauren","troll","skyborne-horde"],"lang":["ru","en","uk","de","fr","es","pt","it","pl"],"station":["morning","road","forest","steppe","tavern","dungeon","battle","night"],"egg":["griffin","leeroy","konami","static","404"],"hour":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]},"cats":["community","guide","radio","tools","rhythm","wow","secrets"],"ach":[{"id":"founder","cat":"community","pts":25,"kind":"auto","rule":null,"secret":false},{"id":"profile_full","cat":"community","pts":10,"kind":"auto","rule":null,"secret":false},{"id":"three_chars","cat":"community","pts":10,"kind":"auto","rule":null,"secret":false},{"id":"veteran3","cat":"community","pts":10,"kind":"auto","rule":{"days":90},"secret":false},{"id":"veteran6","cat":"community","pts":25,"kind":"auto","rule":{"days":182},"secret":false},{"id":"veteran12","cat":"community","pts":50,"kind":"auto","rule":{"days":365},"secret":false},{"id":"recruiter1","cat":"community","pts":10,"kind":"auto","rule":{"refs":1},"secret":false},{"id":"recruiter5","cat":"community","pts":50,"kind":"auto","rule":{"refs":5},"secret":false},{"id":"show_card","cat":"community","pts":5,"kind":"progress","rule":{"key":"show_card","goal":1},"secret":false},{"id":"guides3","cat":"guide","pts":5,"kind":"progress","rule":{"key":"guide","goal":3,"set":true},"secret":false},{"id":"guides_all","cat":"guide","pts":25,"kind":"progress","rule":{"key":"guide","all":true},"secret":false},{"id":"classes_all","cat":"guide","pts":10,"kind":"progress","rule":{"key":"class","all":true},"secret":false},{"id":"races_all","cat":"guide","pts":10,"kind":"progress","rule":{"key":"race","all":true},"secret":false},{"id":"polyglot","cat":"guide","pts":10,"kind":"progress","rule":{"key":"lang","goal":3,"set":true},"secret":false},{"id":"play_page","cat":"guide","pts":5,"kind":"progress","rule":{"key":"play_page","goal":1},"secret":false},{"id":"radio_on","cat":"radio","pts":5,"kind":"progress","rule":{"key":"radio_on","goal":1},"secret":false},{"id":"radio10h","cat":"radio","pts":25,"kind":"progress","rule":{"key":"radio_min","goal":600},"secret":false},{"id":"radio100h","cat":"radio","pts":50,"kind":"progress","rule":{"key":"radio_min","goal":6000},"secret":false},{"id":"stations_all","cat":"radio","pts":10,"kind":"progress","rule":{"key":"station","all":true},"secret":false},{"id":"sleep_timer","cat":"radio","pts":5,"kind":"progress","rule":{"key":"sleep_timer","goal":1},"secret":false},{"id":"party5","cat":"tools","pts":5,"kind":"progress","rule":{"key":"party5","goal":1},"secret":false},{"id":"raid40","cat":"tools","pts":25,"kind":"progress","rule":{"key":"raid40","goal":1},"secret":false},{"id":"share_team","cat":"tools","pts":5,"kind":"progress","rule":{"key":"share_team","goal":1},"secret":false},{"id":"compare3","cat":"tools","pts":5,"kind":"progress","rule":{"key":"compare3","goal":1},"secret":false},{"id":"search25","cat":"tools","pts":10,"kind":"progress","rule":{"key":"search","goal":25},"secret":false},{"id":"streak7","cat":"rhythm","pts":10,"kind":"auto","rule":{"streak":7},"secret":false},{"id":"streak30","cat":"rhythm","pts":50,"kind":"auto","rule":{"streak":30},"secret":false},{"id":"night_owl","cat":"rhythm","pts":10,"kind":"progress","rule":{"key":"hour","items":[3,4]},"secret":true},{"id":"early_bird","cat":"rhythm","pts":10,"kind":"progress","rule":{"key":"hour","items":[5,6]},"secret":true},{"id":"first60","cat":"wow","pts":50,"kind":"admin","rule":null,"secret":false},{"id":"lvl60","cat":"wow","pts":25,"kind":"admin","rule":null,"secret":false},{"id":"dungeon_night","cat":"wow","pts":10,"kind":"admin","rule":null,"secret":false},{"id":"onyxia","cat":"wow","pts":50,"kind":"admin","rule":null,"secret":false},{"id":"molten_core","cat":"wow","pts":50,"kind":"admin","rule":null,"secret":false},{"id":"raid_regular","cat":"wow","pts":25,"kind":"admin","rule":null,"secret":false},{"id":"crafter","cat":"wow","pts":25,"kind":"admin","rule":null,"secret":false},{"id":"helper","cat":"wow","pts":25,"kind":"admin","rule":null,"secret":false},{"id":"event_winner","cat":"wow","pts":25,"kind":"admin","rule":null,"secret":false},{"id":"egg_griffin","cat":"secrets","pts":10,"kind":"progress","rule":{"key":"egg","items":["griffin"]},"secret":true},{"id":"egg_leeroy","cat":"secrets","pts":10,"kind":"progress","rule":{"key":"egg","items":["leeroy"]},"secret":true},{"id":"egg_konami","cat":"secrets","pts":10,"kind":"progress","rule":{"key":"egg","items":["konami"]},"secret":true},{"id":"egg_static","cat":"secrets","pts":10,"kind":"progress","rule":{"key":"egg","items":["static"]},"secret":true},{"id":"egg_404","cat":"secrets","pts":10,"kind":"progress","rule":{"key":"egg","items":["404"]},"secret":true},{"id":"keeper","cat":"secrets","pts":25,"kind":"auto","rule":{"all_cat":"secrets"},"secret":true}],"ranks":[{"id":"recruit","pts":0},{"id":"bronze","pts":25},{"id":"silver","pts":100},{"id":"gold","pts":200},{"id":"relite","pts":350},{"id":"epic","pts":500},{"id":"legend","pts":700}],"frames":[{"id":"recruit","rank":"recruit"},{"id":"bronze","rank":"bronze"},{"id":"silver","rank":"silver"},{"id":"gold","rank":"gold"},{"id":"relite","rank":"relite"},{"id":"epic","rank":"epic"},{"id":"legend","rank":"legend"},{"id":"founder","ach":"founder"},{"id":"dragon","ach":"onyxia"},{"id":"fire","ach":"molten_core"},{"id":"secrets","ach":"keeper"},{"id":"recruiter","ach":"recruiter5"},{"id":"history","ach":"veteran12"},{"id":"ether","ach":"radio100h"},{"id":"tavern","ach":"streak30"},{"id":"scholar","ach":"guides_all"},{"id":"first60","ach":"first60"},{"id":"sixty","ach":"lvl60"},{"id":"raid","ach":"raid_regular"},{"id":"master","ach":"crafter"},{"id":"friend","ach":"helper"},{"id":"champion","ach":"event_winner"},{"id":"boss","admin":true}],"backgrounds":["human","dwarf","night-elf","gnome","skyborne-alliance","orc","undead","tauren","troll","skyborne-horde","hero_dawn","hero_campfire","scene-tavern","scene-pass","scene-swamp","scene-desert","scene-nightwood","scene-harbor","scene-ruins","scene-peak"],"looks":{"v":"2","sexes":["m","f"],"races":{"human":{"sex":"m","bg":"human"},"dwarf":{"sex":"f","bg":"dwarf"},"nightelf":{"sex":"f","bg":"night-elf"},"gnome":{"sex":"m","bg":"gnome"},"skyA":{"sex":"m","bg":"skyborne-alliance"},"orc":{"sex":"m","bg":"orc"},"undead":{"sex":"m","bg":"undead"},"tauren":{"sex":"m","bg":"tauren"},"troll":{"sex":"m","bg":"troll"},"skyH":{"sex":"f","bg":"skyborne-horde"}},"bg":{"human":{"lock":null},"dwarf":{"lock":null},"night-elf":{"lock":null},"gnome":{"lock":null},"skyborne-alliance":{"lock":null},"orc":{"lock":null},"undead":{"lock":null},"tauren":{"lock":null},"troll":{"lock":null},"skyborne-horde":{"lock":null},"hero_dawn":{"lock":null},"hero_campfire":{"lock":null},"scene-tavern":{"lock":null},"scene-pass":{"lock":null},"scene-swamp":{"lock":null},"scene-desert":{"lock":null},"scene-nightwood":{"lock":null},"scene-harbor":{"lock":null},"scene-ruins":{"lock":null},"scene-peak":{"lock":null}}},"scenes":{"scene-tavern":"Taverna","scene-pass":"Passo di montagna","scene-swamp":"Paludi","scene-desert":"Deserto","scene-nightwood":"Foresta notturna","scene-harbor":"Porto","scene-ruins":"Rovine","scene-peak":"Vetta"},"deadline":"2026-11-03T21:00:00Z","invite":"https://discord.gg/ZGpznkX3Zw","tg":"https://t.me/gabella_wow"};
 const ROOT = '../../', HOME = '../', LANG = 'it', HL = document.documentElement.lang;
 const $ = (s, el) => (el || document).querySelector(s), $$ = (s, el) => [...(el || document).querySelectorAll(s)];
 const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
@@ -1541,6 +1544,7 @@ const ERR = {
   locked: 'Non è ancora sbloccato.', auth: 'La sessione è scaduta, accedi di nuovo.',
   bot: 'Il controllo “non sono un robot” non è riuscito. Riprova.', bad_email: 'Controlla l’indirizzo email.', mail_down: 'L’email non è partita. Riprova tra un paio di minuti.',
   last_identity: 'È il tuo ultimo metodo di accesso, non si può scollegare.',
+  too_many: 'Troppi tentativi. Riprova tra un’ora.',
 };
 /** Text of an API error code: the MORE texts (err_<code>: bad_word, no_links, members_only) first, then ERR. */
 const errText = (e, def) => {
@@ -1603,6 +1607,9 @@ const STATES = {
   banned: ['Accesso bloccato', 'Un amministratore ha bloccato questo account.'],
   taken: ['Questo accesso è già in uso', 'È collegato a un altro account Gabella. Accedi con esso, scollegalo lì e collegalo qui.'],
   'already-linked': ['Questo tipo di accesso è già collegato', 'Un account può avere un accesso per tipo. Scollega prima quello vecchio.'],
+  'news-on': ['Iscrizione confermata', 'Un’email per il lancio del 4 novembre, poi una al mese. Disiscriviti con un link in qualsiasi email.'],
+  'news-expired': ['Il link è scaduto', 'Il link vale 24 ore. Iscriviti di nuovo.'],
+  'news-down': ['Iscrizione non confermata', 'Il servizio non ha risposto. Riapri il link dell’email tra un paio di minuti.'],
   'link-used': ['Il link è già stato usato', 'Ogni link funziona una sola volta. Richiedine uno nuovo.'],
   'link-expired': ['Il link è scaduto', 'Un link vale 15 minuti. Richiedine uno nuovo.'],
   'link-other': ['Apri il link dove hai effettuato l’accesso', 'L’email si collega solo nel browser in cui è aperto il tuo profilo. Apri lì il link dell’email: è ancora valido.'],
@@ -2133,7 +2140,7 @@ function secAccount() {
     <div class="frame box"><h3>Link per un amico</h3><p class="small">Quando un amico accede tramite questo link, conta per «Reclutatore». Accessi dal tuo link: ${m.user.refs || 0}.</p>
       <div class="row"><input id="aRef" readonly value="${esc(refUrl())}" aria-label="Link per un amico" style="flex:1 1 280px"><button type="button" class="btn ghost" data-act="copyRef">${ico('copy')}Copia</button></div><span class="msg" id="aRefNote" role="status"></span></div>
     <div class="frame box"><h3>I miei dati</h3><p class="small">Tutto ciò che conserviamo su di te, in un file JSON.</p><div class="row"><a class="btn ghost" href="${esc(M.API)}/me/export" download>Scarica i miei dati</a></div></div>
-    ${waysBox()}
+    ${newsBox()}${waysBox()}
     <div class="frame box"><h3>Esci ed elimina</h3><p class="small">L’uscita chiude la sessione su questo dispositivo.</p>
       <div class="row"><button type="button" class="btn ghost" data-act="logout">Esci</button><button type="button" class="btn danger" data-act="delete">Elimina profilo e tutti i dati</button></div></div>`;
 }
@@ -2150,6 +2157,91 @@ function waysBox() {
   return `<div class="frame box"><h3>Metodi di accesso</h3><p class="small">Un solo account: accedi con qualsiasi metodo collegato.</p>
     <div class="idl">${rows}</div>${mailForm()}<p class="msg" id="idNote" role="status"></p></div>`;
 }
+/* ---------- news: the Telegram channel, letters (double opt-in), Discord; asked once after the first character ---------- */
+const NEWS_LS = 'gabella-news-asked';
+let tsNews = null;
+function newsBox() {
+  const n = m.news || {};
+  const out = (href, label) => `<a class="btn ghost" href="${esc(href)}" target="_blank" rel="noopener" data-act="newsSeen">${esc(label)}</a>`;
+  const mail = n.email ? `<span class="small">${esc(n.email)}</span><button type="button" class="btn ghost" data-act="newsOff">Disiscriviti</button>`
+    : '<button type="button" class="btn ghost" data-act="newsMail" aria-controls="newsF" aria-expanded="false">Iscriviti</button>';
+  return `<div class="frame box" id="news"><h3>Notizie</h3><div class="idl">
+    <div class="it">${wayIco('telegram')}<b>Telegram</b><span class="sp"></span>${out(GD.tg, 'Iscriviti')}</div>
+    <div class="it">${wayIco('email')}<b>Email</b><span class="sp"></span>${mail}</div>
+    <div class="it">${wayIco('discord')}<b>Discord</b><span class="sp"></span>${out(GD.invite, 'Unisciti')}</div></div>
+    <form class="mailf" id="newsF" hidden novalidate><label class="small" for="nAddr">Email per le novità</label>
+      <input id="nAddr" type="email" autocomplete="email" inputmode="email" maxlength="254" placeholder="name@example.com" required>
+      <div id="tsNews"></div><button type="submit" class="btn" id="nGo">Invia conferma</button>
+      <p class="small">Un’email per il lancio del 4 novembre, poi una al mese. Disiscriviti con un link in qualsiasi email.</p><p class="msg" id="nNote" role="alert"></p></form>
+    <p class="msg" id="newsMsg" role="status"></p></div>`;
+}
+function newsNote(text, bad) { const n = $('#nNote'); if (n) { n.textContent = text; n.className = 'msg' + (bad ? ' err' : ''); } }
+/** Any answer to the offer (a link, the form, «Not now») hides the card for good: here and on the account's other devices. */
+function newsSeen() {
+  try { localStorage.setItem(NEWS_LS, '1'); } catch (e) { /* private mode */ }
+  if (m.news && !m.news.asked) { m.news.asked = true; M.api('/me', { method: 'PUT', body: { news_asked: true } }).catch(() => {}); }
+}
+function newsOpen() {
+  const f = $('#newsF');
+  if (!f) return;
+  f.hidden = false; newsNote('');
+  const tb = $('[data-act="newsMail"]'); if (tb) tb.setAttribute('aria-expanded', 'true');
+  if (!tsNews || tsNews.host !== $('#tsNews')) tsNews = tsWidget($('#tsNews'));
+  $('#news').scrollIntoView({ block: 'nearest' });
+  $('#nAddr').focus();
+}
+function newsAsked() { try { return localStorage.getItem(NEWS_LS) === '1'; } catch (e) { return false; } }
+/** The one-time offer above the first steps; gone for good after any answer. */
+function newsAsk() {
+  const n = m.news;
+  if (!n || n.asked || n.email || newsAsked()) return '';
+  const h = Date.now() < Date.parse(GD.deadline) ? 'Non perderti il lancio del 4 novembre' : 'Novità di Gabella';
+  const out = (href, id, label) => `<a class="btn ghost" href="${esc(href)}" target="_blank" rel="noopener" data-act="newsSeen">${wayIco(id)}${esc(label)}</a>`;
+  return `<div class="frame ask news-ask"><span><b>${esc(h)}</b></span>${out(GD.tg, 'telegram', 'Telegram')}
+    <button type="button" class="btn ghost" data-act="newsGo">${wayIco('email')}Email</button>
+    ${out(GD.invite, 'discord', 'Discord')}<button type="button" class="btn ghost" data-act="newsNo">Non ora</button></div>`;
+}
+function newsConfirm(t) {
+  M.api('/news/confirm', { body: { t } }).then(() => { notice = 'news-on'; follow(true); }, e => {
+    notice = e.code === 'link_expired' ? 'news-expired' : e.code === 'link_used' ? 'link-used' : 'news-down';
+    follow(true);
+  });
+}
+function newsClick(el) {
+  const a = el.dataset.act;
+  if (a === 'newsNo') {
+    newsSeen(); const c = $('.news-ask'); if (c) c.remove();
+    const hd = $('#sec h2'); if (hd) { hd.tabIndex = -1; hd.focus({ preventScroll: true }); }   // keep focus in the page after the card is gone
+    return;
+  }
+  if (a === 'newsGo') { newsSeen(); sec = 'account'; history.replaceState(null, '', '#account'); cabinet(); return newsOpen(); }
+  if (a === 'newsSeen') {   // the link itself opens in a new tab; the card inside .news-ask goes away once navigation has started
+    newsSeen();
+    if (el.closest('.news-ask')) setTimeout(() => { const c = $('.news-ask'); if (c) c.remove(); });
+    return;
+  }
+  if (a === 'newsMail') { newsSeen(); return newsOpen(); }
+  if (a === 'newsOff') {
+    el.disabled = true;
+    return M.api('/news/email', { method: 'DELETE' }).then(() => M.me(true)).then(() => restoreFocus('[data-act="newsMail"]'),
+      e => { el.disabled = false; const n = $('#newsMsg'); if (n) { n.textContent = errText(e); n.className = 'msg err'; } });
+  }
+}
+document.addEventListener('submit', e => {
+  if (e.target.id !== 'newsF') return;
+  e.preventDefault();
+  const addr = $('#nAddr').value.trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@.]{2,}$/.test(addr)) return newsNote(ERR.bad_email, true);
+  $('#nGo').disabled = true; newsNote('');
+  tsNews.get().then(t => {
+    if (!t) { $('#nGo').disabled = false; return newsNote(ERR.bot, true); }
+    return M.api('/news/email', { body: { email: addr, lang: LANG, turnstile: t } }).then(() => {
+      $('#nGo').disabled = false; tsNews.reset();
+      newsNote(fill('Inviata a %e. Apri l’email e conferma.', { e: addr }));
+    }, e2 => { $('#nGo').disabled = false; tsNews.reset(); newsNote(errText(e2, 'L’email non è partita. Riprova.'), true); });
+  });
+});
+
 
 /** Selector of the control that has focus inside the cabinet (stable data keys), to find its twin after a redraw. */
 function focusKey() {
@@ -2172,7 +2264,7 @@ function cabinet() {
   if (!secs().some(x => x[0] === sec)) sec = 'chars';
   const nav = secs().map(([id, t]) => `<a href="#${id}"${sec === id ? ' aria-current="page"' : ''}>${esc(t)}${id === 'chars' ? `<span>${esc(fill('%n su %m', { n: m.characters.length, m: CHAR_MAX }))}</span>` : id === 'ach' ? `<span>${ach} / ${all}</span>` : ''}</a>`).join('');
   const body = { chars: secChars, look: secLook, ach: secAch, frames: secFrames, account: secAccount, reports: secReports }[sec]();
-  $('#view').innerHTML = `${noticeHtml()}<p class="lab">La tua scheda come la vedono gli altri</p>${bcard(p, { h: 'h2', reveal })}${levelAsk()}${nextHtml()}${playHint()}${pathHtml()}
+  $('#view').innerHTML = `${noticeHtml()}<p class="lab">La tua scheda come la vedono gli altri</p>${bcard(p, { h: 'h2', reveal })}${levelAsk()}${newsAsk()}${nextHtml()}${playHint()}${pathHtml()}
     <div class="lay"><nav class="frame pnav" aria-label="Area personale">${nav}<hr><a class="pub" href="${playerUrl(m.user.id)}">La mia pagina ↗</a></nav><section class="sec" id="sec">${body}</section></div>`;
   reveal = false;
   restoreFocus(keep);
@@ -2193,6 +2285,8 @@ function put(body, noteId) {
 document.addEventListener('click', e => {
   if (!m || !e.target.closest('#view')) return;
   const t = e.target;
+  const nw = t.closest('[data-act^="news"]');
+  if (nw) return newsClick(nw);
   const lb = t.closest('[data-look]');
   if (lb) { e.stopPropagation(); return lkOpen(m.characters.find(x => x.id === +lb.dataset.look)); }
   const editCard = t.closest('[data-edit]');
@@ -2283,17 +2377,18 @@ ready(Mx => {
   if (!M) return screen('down');
   wireForm();
   // one-time hashes: the email token, Telegram's answer without a popup, messages after a redirect
-  const once = /^(email=|tgAuthResult=)/.test(h) || STATES[h] || h === 'not-member';
+  const once = /^(email=|news=|tgAuthResult=)/.test(h) || STATES[h] || h === 'not-member';
   if (once) history.replaceState(null, '', location.pathname + location.search);
-  if (h.startsWith('email=')) return mailVerify(h.slice(6));
-  if (h.startsWith('tgAuthResult=')) return tgFromHash(h.slice(13));
-  if (STATES[h]) notice = h;
   addEventListener('hashchange', () => {
     const s2 = location.hash.slice(1);
     if (!secs().some(x => x[0] === s2) || !m) return;
     if (!m.characters.length) { sec = s2 === 'account' ? 'account' : 'chars'; render(); scrollTo(0, 0); return; }
     sec = s2; cabinet(); $('#sec').scrollIntoView({ block: 'nearest' });
   });
+  if (h.startsWith('email=')) return mailVerify(h.slice(6));
+  if (h.startsWith('news=')) return newsConfirm(h.slice(5));
+  if (h.startsWith('tgAuthResult=')) return tgFromHash(h.slice(13));
+  if (STATES[h]) notice = h;
   follow();
 });
 </script>
@@ -2364,7 +2459,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js?v=ac976a4f75" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=f09305de98" data-root="../../" defer></script>
+<script src="../../assets/search/search.js?v=17aed7bbcf" data-root="../../" defer></script>
 <script src="../../assets/me/me.js?v=9f6bfa2333" data-root="../../" data-home="../" data-lang="it" data-teaser="Il tuo profilo conserva i tuoi personaggi, le imprese e le cornici" data-close="Chiudi" data-page="profile/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
