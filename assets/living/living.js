@@ -69,6 +69,28 @@ vec3 fireflies(vec2 P, vec4 area, int n) {
   return s;
 }
 vec2 artPx() { return (uCrop.xy + (vUv * uSize - uMap.xy) / uMap.zw * uCrop.zw) * ART; }
+// Lights by the mask R (tools/make_living.py lights()): 1 open fire flows up; .75 a candle flame sways in place;
+// .5 lantern glass glows; under .43 the halo, where the light breathes on what is around.
+void lights(vec2 P, float r) {
+  float fl = .5 + .5 * (n2(vec2(uT * 6., P.x * .015)) * .6 + n2(vec2(uT * 11., P.x * .015 + 4.)) * .4);
+  // the soft edge of a hotter light passes through the lower levels: a hotter neighbour 3 px away keeps them off
+  float hi = max(max(mask(P + vec2(3., 0.)).r, mask(P - vec2(3., 0.)).r), max(mask(P + vec2(0., 3.)).r, mask(P - vec2(0., 3.)).r));
+  float fire = smoothstep(.86, .96, r), flame = smoothstep(.6, .7, r) * (1. - fire) * (1. - smoothstep(.82, .9, hi));
+  float glass = smoothstep(.43, .49, r) * (1. - smoothstep(.6, .7, r)) * (1. - smoothstep(.58, .66, hi));
+  float halo = min(r, .43) / .43 * (1. - smoothstep(.8, .95, max(hi, r)));   // open fire keeps its own look
+  if (fire > .01) {
+    over(flow(P, vec2(0., -5.), .38, n2(vec2(P.x * .3, 0.))) * (.9 + .3 * fl), fire);
+    add += vec3(1., .72, .38) * fire * fl * .06;
+  }
+  if (flame > .01) {
+    vec2 s = vec2((n2(vec2(uT * 4.5, P.x * .05)) - .5) * 1.6, (n2(vec2(uT * 7., 2.)) - .5) * .8);
+    over(mix(img(P), img(P - s), smoothstep(.6, .7, mask(P - s).r)) * (.94 + .14 * fl), flame);
+  }
+  vec3 c0 = img(P);
+  add += c0 * vec3(1., .75, .45) * glass * fl * .28;
+  // the light adds most to what is dark, so a bright flame or pane gets no rim
+  add += (vec3(1., .7, .32) * halo * .12 + c0 * vec3(1., .6, .3) * .2) * halo * fl * (1. - dot(c0, vec3(.2126, .7152, .0722)));
+}
 `;
 
   // The newer scenes: everything comes from the mask (tools/make_living.py), nothing is placed by hand.
@@ -90,12 +112,8 @@ void main() {
     vec2 off = vec2(sin(ph) * 1.6 + sin(uT * .7 + P.y * .03) * .7, sin(ph * 1.3) * .5) * w;
     over(img(P - off), smoothstep(0., .1, w));
   }
-  // lamp and forge flames flicker
-  if (m.r > .01) {
-    float fl = .55 + .45 * (n2(vec2(uT * 7., 0.)) * .6 + n2(vec2(uT * 13., 4.)) * .4);
-    over(flow(P, vec2(0., -5.), .38, n2(vec2(P.x * .3, 0.))) * (.9 + .3 * fl), m.r);
-    add += vec3(1., .72, .38) * m.r * fl * .06;
-  }
+  // fire, candles and lanterns
+  if (m.r > .01) lights(P, m.r);
   gl_FragColor = vec4(acc.rgb + add, acc.a);
 }`;
 
@@ -231,12 +249,7 @@ void main() {
   float band = smoothstep(330., 380., P.y) * smoothstep(520., 450., P.y) * smoothstep(760., 660., P.x);
   over(vec3(.6, .66, .78), smoothstep(.5, .9, fbm(P * vec2(.005, .013) + vec2(uT * .02, 0.))) * band * .3);
   // lanterns: on the signpost and in the dwarf's hand
-  float fl = .6 + .4 * (n2(vec2(uT * 6., 0.)) * .6 + n2(vec2(uT * 11., 4.)) * .4);
-  if (m.r > .01) over(flow(P, vec2(0., -4.), .3, n2(vec2(P.x * .3, 0.))) * (.9 + .3 * fl), m.r);
-  for (int i = 0; i < 2; i++) {
-    vec2 Ln = i == 0 ? vec2(841., 338.) : vec2(883., 492.);
-    add += img(P) * vec3(1., .6, .3) * smoothstep(170., 0., length((P - Ln) * vec2(1., .8))) * fl * .2;
-  }
+  if (m.r > .01) lights(P, m.r);
   if (uTod > 2.5) add += fireflies(P, vec4(120., 560., 600., 700.), 9);
   gl_FragColor = vec4(acc.rgb + add, acc.a);
 }`
