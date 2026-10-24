@@ -107,7 +107,7 @@ void main() {
 void main() {
   vec2 P = artPx(); acc = vec4(0.); add = vec3(0.);
   // floating islands drift up and down a little
-  float wb = box(P, vec4(598., 150., 752., 338.), 14.);  // stops short of the banner pole
+  float wb = box(P, vec4(436., 302., 524., 402.), 14.);
   vec2 Pb = P - vec2(0., sin(uT * .55) * 1.6 * wb);
   vec4 m = mask(Pb);
   if (wb > 0.) over(img(Pb), wb);
@@ -136,10 +136,9 @@ void main() {
     over(img(P - off) * (1. + .14 * w * cos(ph)), smoothstep(.0, .12, w));
   }
   // mist in the valley and under the falls
-  float band = smoothstep(420., 470., P.y) * smoothstep(650., 590., P.y) * smoothstep(740., 640., P.x);
+  float band = smoothstep(420., 470., P.y) * smoothstep(650., 590., P.y) * smoothstep(680., 580., P.x);
   float fog = smoothstep(.48, .9, fbm(P * vec2(.006, .013) + vec2(uT * .022, 0.))) * band * .26;
-  float spray = fbm(P * .03 - vec2(0., uT * .35)) * smoothstep(1., .2, length((P - vec2(612., 560.)) / vec2(75., 28.)));
-  spray += fbm(P * .025 - vec2(uT * .1, uT * .25)) * smoothstep(1., .2, length((P - vec2(692., 332.)) / vec2(40., 18.))) * wb;
+  float spray = fbm(P * .03 - vec2(0., uT * .35)) * smoothstep(1., .2, length((P - vec2(480., 618.)) / vec2(60., 22.)));
   over(mix(vec3(.86, .89, .93), vec3(.55, .62, .78), isT(3.)), clamp(fog * (1. + isT(3.) * .5) + spray * .5, 0., .6));
   // god rays from the sun: soft by day (it is above the frame), warm at sunset, none at night
   vec2 v = P - uSun;
@@ -167,7 +166,7 @@ void main() {
   }
   if (uTod > 2.5) {
     add += vec3(.9, .93, 1.) * stars(P, 16., .9, .6) * m.b;
-    add += fireflies(P, vec4(500., 600., 760., 740.), 10);   // the grassy ledge in front of the heroes
+    add += fireflies(P, vec4(600., 590., 900., 690.), 10);   // the grassy ledge in front of the heroes
     if (m.a > .01) add += vec3(.7, .8, 1.) * pow(n2(P * vec2(.3, .8) + vec2(uT * .5, 0.)), 10.) * .6 * m.a;   // moon glints
   }
   gl_FragColor = vec4(acc.rgb + add, acc.a);
@@ -532,7 +531,7 @@ void main() {
 
   function live(pic) {
     const scene = pic.dataset.fx, img = pic.querySelector('img'), cut = parseFloat(pic.dataset.cut || '.6');
-    const SUN = { dawn: [375, 210], day: [375, 40], dusk: [380, 216], night: [389, 212] };   // measured on the aligned art (tools/align_tod.py); day: no disc, light from above the castle
+    const SUN = { dawn: [635, 340], day: [632, 304], dusk: [634, 347], night: [641, 346] };   // measured on the aligned art (tools/align_tod.py)
     const TOD = { dawn: 0, day: 1, dusk: 2, night: 3 };
     const tod = () => (window.GabellaTod && window.GabellaTod.now) || (scene === 'dawn' ? 'dawn' : 'dusk');   // camp and road are evening scenes
     if (!SCENES[scene] || !img) return;

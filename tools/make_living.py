@@ -102,18 +102,17 @@ def dawn():
     im = load('hero_dawn')
     grey = im.convert('L')
     hp = ImageChops.subtract(grey, grey.filter(ImageFilter.GaussianBlur(6)), 1, 0).load()  # falls are streaks brighter than what is behind
-    falls = [(680, 190, 698, 335), (714, 228, 728, 330)]  # thin falls under the floating islands
-    water = pick(im, falls, lambda r, g, b, x, y: lum(r, g, b) > .55 and sat(r, g, b) < .25 and hp[x, y] > 2, lambda x, y: fade(y, 190, 212))
-    big = pick(im, [(586, 440, 646, 566), (676, 455, 694, 525)], lambda r, g, b, x, y: lum(r, g, b) > .5 and sat(r, g, b) < .25 and hp[x, y] > 1,  # the valley fall
-               lambda x, y: fade(y, 440, 454) * (1 - fade(y, 545, 566)))
-    water = ImageChops.lighter(water, big)
-    cloth = pick(im, [(778, 36, 1250, 170)], lambda r, g, b, x, y: sat(r, g, b) > .3 and (b > r + 10 or r > b + 30) and not (x > 1050 and y > 148),  # cloth and gold trim; not the sky, topknot or mohawk
-                 lambda x, y: min(1, (x - 778) / 470))  # banner: 0 at the pole -> 1 at the tail
-    open_sky = sky([(190, 95, 478, 372), (598, 150, 772, 340), (748, 0, 1262, 180), (752, 0, 800, H), (850, 0, W, H)],
-                   (200, 330))  # castle, islands, banner, pole, mountains and heroes
-    river = ImageChops.lighter(pick(im, [(520, 405, 680, 448)], lambda r, g, b, x, y: lum(r, g, b) > .78 and sat(r, g, b) < .15),  # upper bends
-                               pick(im, [(345, 585, 610, 705)], lambda r, g, b, x, y: lum(r, g, b) > .45 and sat(r, g, b) < .18))  # lower reach in shade
-    save('hero_dawn', soft(water, 1, 1.5), soft(cloth, 3, 1.2), open_sky, soft(river, 1, 2))
+    water = pick(im, [(450, 516, 508, 632)], lambda r, g, b, x, y: lum(r, g, b) > .45 and sat(r, g, b) < .25 and hp[x, y] > 1,  # the valley fall
+                 lambda x, y: fade(y, 516, 530) * (1 - fade(y, 608, 632)))
+    cloth = pick(im, [(884, 126, 1114, 204)], lambda r, g, b, x, y: sat(r, g, b) > .22 and (b > r + 10 or r > b + 30),  # cloth and gold trim, not the sky
+                 lambda x, y: min(1, (x - 884) / 226))  # banner: 0 at the pole -> 1 at the tail
+    open_sky = ImageChops.multiply(pick(im, [(0, 0, W, 340)], lambda r, g, b, x, y: lum(r, g, b) > .55),   # the floating rocks stay put
+                                   open_area([(0, 0), (W, 0), (W, 40), (1240, 98), (1122, 132), (900, 126), (898, 66), (854, 66), (854, 330),
+                                              (836, 330), (826, 250), (800, 196), (770, 150), (722, 150), (694, 200), (670, 246),
+                                              (640, 290), (620, 340), (0, 340)], (240, 312)))   # castle, banner, pole, heroes
+    river = ImageChops.lighter(pick(im, [(368, 458, 600, 514)], lambda r, g, b, x, y: lum(r, g, b) > .7 and sat(r, g, b) < .2),  # bends above the fall
+                               pick(im, [(420, 630, 560, 705)], lambda r, g, b, x, y: lum(r, g, b) > .38 and sat(r, g, b) < .2))  # below it, in shade
+    save('hero_dawn', soft(water, 1, 1.5), soft(cloth, 3, 1.2), soft(open_sky, 1, 2), soft(river, 1, 2))
 
 
 def campfire():
