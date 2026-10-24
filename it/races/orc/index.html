@@ -170,6 +170,8 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .gbtns .btn { white-space: normal; text-align: center; }
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
+.srchbtn kbd, .radiobtn .rdo-eq { display: none; }   /* on the home page search.css and radio.css come after the first paint */
+.radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: .92rem; }
 @media (max-width: 1210px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }
 
@@ -222,6 +224,8 @@ section.block { padding-top: 96px; display: grid; gap: 28px; }
 .sec-head .row { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: flex-end; justify-content: space-between; }
 .sec-head .src { font-size: .85rem; color: var(--muted); padding-bottom: 6px; }
 .sec-head p { color: var(--muted); max-width: 68ch; }
+.dcta { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; margin: 48px 0 0; padding: 18px 20px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); }
+.dcta span { max-width: 62ch; }
 section.block { scroll-margin-top: -72px; }
 
 /* Faction banners */
@@ -1080,8 +1084,8 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/search/search.css?v=b52e2ac809" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/me/me.css?v=378dd2c208" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/search/search.css?v=6bb0507e11" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/me/me.css?v=0ff37bbee7" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/it/"},{"@type":"ListItem","position":2,"name":"Razze","item":"https://gabella.site/wow/it/races/"},{"@type":"ListItem","position":3,"name":"Orco","item":"https://gabella.site/wow/it/races/orc/"}]}</script>
 </head>
 <body style="--cc:var(--horde);--fh:#d98a84">
@@ -1110,7 +1114,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="../../" aria-label="Gabella, alla pagina principale"><img class="mark" src="../../../assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Guida a WoW Forever</small></span></a>
   <nav class="mainnav" aria-label="Sezioni">
-    <a href="../../#factions">Fazioni</a><a href="../../#classes">Classi</a><a href="../../#peoples" aria-current="true">Razze</a><a href="../../#picker">Selettore</a><a href="../../#builder">Gruppo</a><a href="../../guides/">Guide</a><a href="../../tools/">Strumenti</a><a href="../../roster/">Rosa</a><a href="../../play/">In gioco</a>
+    <a href="../../classes/">Classi</a><a href="../../races/" aria-current="true">Razze</a><a href="../../guides/leveling/">Livellamento</a><a href="../../guides/dungeons/">Spedizioni</a><a href="../../guides/">Guide</a><a href="../../tools/">Strumenti</a><a href="../../play/">In gioco</a><a href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Discord</a>
   </nav>
   <div class="tools">
     <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" aria-label="Lingua: Italiano">IT</button><ul class="langlist" hidden><li><a href="../../../races/orc/" data-lang="ru" hreflang="ru" lang="ru"><span>Русский</span><small>RU</small></a></li><li><a href="../../../en/races/orc/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../../../uk/races/orc/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../../../de/races/orc/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="../../../fr/races/orc/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="../../../es/races/orc/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="../../../pt/races/orc/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="./" data-lang="it" hreflang="it" lang="it" aria-current="page"><span>Italiano</span><small>IT</small></a></li><li><a href="../../../pl/races/orc/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
@@ -1146,7 +1150,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <section class="block wrap" id="racials">
   <div class="sec-head"><div class="row"><h2>Abilità razziali</h2><span class="src">Method, Warcraft Tavern</span></div></div>
   <div class="frame">
-    <div class="racials"><article class="rcard"><div class="rt"><span class="k a">Attive</span></div><h3>Furia Sanguinaria<span class="en" lang="en">Blood Fury</span></h3><p>+10% potenza d’attacco e potere magico per 15 s</p></article><article class="rcard"><div class="rt"><span class="k a">Attive</span><span class="tag new">nuova</span></div><h3><span lang="en">Shatter Curse</span></h3><p>Immunità a maledizioni e corruzione e meno danni magici per 8 s</p></article><article class="rcard"><div class="rt"><span class="k">Passive</span><span class="tag new">nuova</span></div><h3><span lang="en">Savage</span></h3><p>+1% probabilità di critico</p></article><article class="rcard"><div class="rt"><span class="k">Passive</span></div><h3>Audacia<span class="en" lang="en">Hardiness</span></h3><p>Stordimenti più brevi del 20%</p></article></div>
+    <div class="racials"><article class="rcard"><div class="rt"><span class="k a">Attive</span></div><h3>Furia Sanguinaria<span class="en" lang="en">Blood Fury</span></h3><p>+10% potenza d’attacco e potere magico per 15 s</p></article><article class="rcard"><div class="rt"><span class="k a">Attive</span><span class="tag new">nuova</span></div><h3><span lang="en">Shatter Curse</span></h3><p>Rimuove maledizioni e corruzione, −5% di danni magici subiti per 8 s</p></article><article class="rcard"><div class="rt"><span class="k">Passive</span><span class="tag new">nuova</span></div><h3><span lang="en">Savage</span></h3><p>+1% probabilità di critico</p></article><article class="rcard"><div class="rt"><span class="k">Passive</span></div><h3>Audacia<span class="en" lang="en">Hardiness</span></h3><p>Stordimenti più brevi del 20%</p></article></div>
     
   </div>
 </section>
@@ -1174,6 +1178,8 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
     <div class="panel"><h3>Classi migliori</h3><ul class="best"><li><a href="../../classes/warrior/">Guerriero</a><span>Furia Sanguinaria per i danni, Audacia per il PvP: la preferita dei guerrieri.</span></li><li><a href="../../classes/warlock/">Stregone</a><span>Una finestra di danno e protezione dalle maledizioni nemiche.</span></li><li><a href="../../classes/shaman/">Sciamano</a><span>Il classico sciamano orco, il critico di Savage potenzia i tuoi colpi.</span></li></ul><p class="note">È l’opinione dell’autore. Qualsiasi combinazione possibile è giocabile.</p></div>
   </div>
 </section>
+
+<div class="wrap"><p class="dcta"><span>Gruppi per il lancio, domande sulla guida e novità — sul Discord di Gabella Team.</span><a class="btn ghost" href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Apri Discord</a></p></div>
 
 <section class="block wrap" id="others">
   <div class="sec-head"><h2>Altre razze</h2></div>
@@ -1203,9 +1209,10 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   <div class="dh"><b>Tutte le sezioni</b><button class="iconbtn" id="moreClose" type="button" aria-label="Chiudi"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Tutte le sezioni">
     <div class="grp"><div class="gh">Questa pagina</div><a href="#racials">Abilità razziali</a><a href="#classes">Classi che puoi giocare</a><a href="#new">Novità</a><a href="#lore">Storia e scelta</a></div>
-    <div class="grp"><div class="gh">Guida</div><a href="../../">Home</a><a href="../../#picker">Selettore</a><a href="../../#builder">Creatore di gruppi</a><a href="../../guides/">Guide</a><a href="../../tools/">Strumenti</a><a href="../../play/">In gioco</a></div>
+    <div class="grp"><div class="gh">Riferimenti</div><a href="../../">Home</a><a href="../../classes/">Classi a confronto</a><a href="../../races/">Razze a confronto</a><a href="../../guides/leveling/">Livellamento 1–60</a><a href="../../guides/dungeons/">Spedizioni e incursioni</a><a href="../../guides/professions/">Professioni</a><a href="../../guides/faq/">FAQ e date</a><a href="../../guides/news/">Notizie</a><a href="../../guides/">Tutte le guide</a></div>
+    <div class="grp"><div class="gh">Strumenti</div><a href="../../#picker">Selettore</a><a href="../../#builder">Creatore di gruppi</a><a href="../../tools/">Riquadri, confronto, ricerca</a><a href="../../play/">In gioco</a></div>
+    <div class="grp"><div class="gh">Comunità</div><a href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Discord</a><a href="../../roster/">Rosa</a><a href="../../profile/">Il mio profilo</a></div>
     <div class="grp"><div class="gh">Razze</div><a href="../human/">Umano</a><a href="../dwarf/">Nano</a><a href="../night-elf/">Elfo della Notte</a><a href="../gnome/">Gnomo</a><a href="../skyborne-alliance/">Skyborne dell’High Order</a><a href="../orc/" aria-current="page">Orco</a><a href="../undead/">Non Morto</a><a href="../tauren/">Tauren</a><a href="../troll/">Troll</a><a href="../skyborne-horde/">Skyborne Windshaper</a></div>
-    <div class="grp"><div class="gh">Squadra</div><a href="../../roster/">Rosa</a><a href="../../profile/">Il mio profilo</a></div>
   </nav>
   <div class="opts">
     <div class="langgrid" role="group" aria-label="Lingua"><a href="../../../races/orc/" data-lang="ru" hreflang="ru" lang="ru">Русский</a><a href="../../../en/races/orc/" data-lang="en" hreflang="en" lang="en">English</a><a href="../../../uk/races/orc/" data-lang="uk" hreflang="uk" lang="uk">Українська</a><a href="../../../de/races/orc/" data-lang="de" hreflang="de" lang="de">Deutsch</a><a href="../../../fr/races/orc/" data-lang="fr" hreflang="fr" lang="fr">Français</a><a href="../../../es/races/orc/" data-lang="es" hreflang="es" lang="es">Español</a><a href="../../../pt/races/orc/" data-lang="pt" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a><a href="./" data-lang="it" hreflang="it" lang="it" aria-current="page">Italiano</a><a href="../../../pl/races/orc/" data-lang="pl" hreflang="pl" lang="pl">Polski</a></div>
@@ -1302,8 +1309,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../../assets/radio/radio.js" data-root="../../../" defer></script>
-<script src="../../../assets/search/search.js?v=b52e2ac809" data-root="../../../" defer></script>
-<script src="../../../assets/me/me.js?v=378dd2c208" data-root="../../../" data-home="../../" data-lang="it" data-teaser="Il tuo profilo conserva i tuoi personaggi, le imprese e le cornici" data-close="Chiudi" data-page="races/orc/" data-look="2" defer></script>
+<script src="../../../assets/search/search.js?v=6bb0507e11" data-root="../../../" defer></script>
+<script src="../../../assets/me/me.js?v=0ff37bbee7" data-root="../../../" data-home="../../" data-lang="it" data-teaser="Il tuo profilo conserva i tuoi personaggi, le imprese e le cornici" data-close="Chiudi" data-page="races/orc/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

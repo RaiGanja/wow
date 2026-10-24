@@ -169,6 +169,8 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .gbtns .btn { white-space: normal; text-align: center; }
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
+.srchbtn kbd, .radiobtn .rdo-eq { display: none; }   /* on the home page search.css and radio.css come after the first paint */
+.radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: .92rem; }
 @media (max-width: 1210px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }
 
@@ -221,6 +223,8 @@ section.block { padding-top: 96px; display: grid; gap: 28px; }
 .sec-head .row { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: flex-end; justify-content: space-between; }
 .sec-head .src { font-size: .85rem; color: var(--muted); padding-bottom: 6px; }
 .sec-head p { color: var(--muted); max-width: 68ch; }
+.dcta { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; margin: 48px 0 0; padding: 18px 20px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); }
+.dcta span { max-width: 62ch; }
 section.block { scroll-margin-top: -72px; }
 
 /* Faction banners */
@@ -1073,8 +1077,8 @@ nav.gtiles { padding: 14px; }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/search/search.css?v=b52e2ac809" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/me/me.css?v=378dd2c208" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/search/search.css?v=6bb0507e11" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/me/me.css?v=0ff37bbee7" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://gabella.site/wow/de/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://gabella.site/wow/de/guides/"},{"@type":"ListItem","position":3,"name":"Dungeons und Raids","item":"https://gabella.site/wow/de/guides/dungeons/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"WoW Forever Dungeons und Instanzen: alle 35 nach Stufe, Raids","description":"Alle 35 Dungeons in WoW Forever nach Stufe mit Eingängen und Filter für deine Stufe, die drei Raids mit Öffnungsterminen und die Gruppenzusammenstellung.","inLanguage":"de","url":"https://gabella.site/wow/de/guides/dungeons/","dateModified":"2026-10-23","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/Zd45sNHy9x"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/Zd45sNHy9x"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/de/"},"image":"https://gabella.site/wow/assets/og/dungeons-de.jpg"}</script>
 </head>
@@ -1104,7 +1108,7 @@ nav.gtiles { padding: 14px; }
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="../../" aria-label="Gabella, zur Startseite"><img class="mark" src="../../../assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>WoW Forever Guide</small></span></a>
   <nav class="mainnav" aria-label="Abschnitte">
-    <a href="../../#factions">Fraktionen</a><a href="../../#classes">Klassen</a><a href="../../#peoples">Völker</a><a href="../../#picker">Auswahl</a><a href="../../#builder">Gruppe</a><a href="../" aria-current="true">Guides</a><a href="../../tools/">Tools</a><a href="../../roster/">Kader</a><a href="../../play/">Im Spiel</a>
+    <a href="../../classes/">Klassen</a><a href="../../races/">Völker</a><a href="../../guides/leveling/">Leveln</a><a href="../../guides/dungeons/" aria-current="true">Dungeons</a><a href="../../guides/">Guides</a><a href="../../tools/">Tools</a><a href="../../play/">Im Spiel</a><a href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Discord</a>
   </nav>
   <div class="tools">
     <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" aria-label="Sprache: Deutsch">DE</button><ul class="langlist" hidden><li><a href="../../../guides/dungeons/" data-lang="ru" hreflang="ru" lang="ru"><span>Русский</span><small>RU</small></a></li><li><a href="../../../en/guides/dungeons/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../../../uk/guides/dungeons/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="./" data-lang="de" hreflang="de" lang="de" aria-current="page"><span>Deutsch</span><small>DE</small></a></li><li><a href="../../../fr/guides/dungeons/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="../../../es/guides/dungeons/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="../../../pt/guides/dungeons/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="../../../it/guides/dungeons/" data-lang="it" hreflang="it" lang="it"><span>Italiano</span><small>IT</small></a></li><li><a href="../../../pl/guides/dungeons/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
@@ -1138,11 +1142,12 @@ nav.gtiles { padding: 14px; }
 <section class="frame gsec" id="raids"><h2>Raids (ab 09.12.2026)</h2><ol class="steps-c"><li><span class="n">01</span><div><b>Barrow Deeps</b><p>10 Spieler</p></div></li><li><span class="n">02</span><div><b>Hyjal Summit</b><p>20 Spieler</p></div></li><li><span class="n">03</span><div><b>Onyxia’s Lair</b><p>40 Spieler, in den Marschen von Dustwallow</p></div></li></ol><p>Der Abschluss jedes dieser Raids gibt einen Legacy-Punkt.</p></section>
 <section class="frame gsec" id="pvp"><h2>PvP</h2><ol class="steps-c"><li><span class="n">01</span><div><b>Darkspear Islands</b><p>Neues Schlachtfeld 15 gegen 15 vor der Küste der Marschen von Dustwallow.</p></div></li><li><span class="n">02</span><div><b>Ränge und Ehre</b><p>Ränge mit Wochenlimit, Ausrüstungsupgrades für Ehre, saisonale Legacy-Ziele.</p></div></li></ol></section>
 <section class="frame gsec" id="group"><h2>Gruppenzusammenstellung</h2><ol class="steps-c"><li><span class="n">01</span><div><b>Dungeons für 5</b><p>Dungeons sind für 5 Spieler gedacht: ein Tank, ein Heiler und drei Schadensverursacher.</p></div></li><li><span class="n">02</span><div><b>Raids für 10, 20 und 40</b><p>Wenn eure eigene Gruppe kleiner ist, füllt ihr den Rest aus einer Gilde auf.</p></div></li><li><span class="n">03</span><div><b>Wer tankt und heilt</b><p>Krieger, Paladine und Druiden können tanken; Paladine, Priester, Schamanen und Druiden können heilen.</p></div></li><li><span class="n">04</span><div><b>Paladin und Druide</b><p>Paladine und Druiden können alle drei Rollen. Sie sind die flexibelsten Klassen, wenn ihr wenige seid.</p></div></li><li><span class="n">05</span><div><b>Klassenbuffs</b><p>Gruppen und Raids bekommen Klassenbuffs: Könige vom Paladin, Schamanentotems, den Schlachtruf des Kriegers, Auren von Jäger und Druide. Portale, Essen und Wasser kommen vom Magier.</p></div></li></ol><div class="gtabs"><div role="tablist"><button type="button" class="pill" role="tab" data-tab="solo" aria-selected="true">Solo</button><button type="button" class="pill" role="tab" data-tab="p2-4" aria-selected="false">2–4 Spieler</button><button type="button" class="pill" role="tab" data-tab="p5" aria-selected="false">5 Spieler</button><button type="button" class="pill" role="tab" data-tab="p6-9" aria-selected="false">6–9 Spieler</button><button type="button" class="pill" role="tab" data-tab="p10" aria-selected="false">10 oder mehr</button></div><div role="tabpanel" data-tab="solo"><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Tipp</span>Jäger und Hexenmeister haben es am leichtesten, ihr Begleiter hält den Gegner. Paladine und Druiden sind ebenfalls zäh und können im Dungeon jede Rolle übernehmen.</p></div></div><div role="tabpanel" data-tab="p2-4" hidden><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Tipp</span>Achtet darauf, dass mindestens einer tanken oder heilen kann (Krieger, Paladin, Druide, Priester, Schamane), und füllt die Dungeongruppe auf fünf auf.</p></div></div><div role="tabpanel" data-tab="p5" hidden><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Tipp</span>Ein Tank, ein Heiler und drei Schadensverursacher, zum Beispiel Krieger, Priester, Magier, Jäger und Schurke.</p></div></div><div role="tabpanel" data-tab="p6-9" hidden><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Tipp</span>Zwei Dungeongruppen, jede braucht ihren eigenen Tank und Heiler. Hybride sind hier besonders wertvoll: Paladin, Druide, Schamane.</p></div></div><div role="tabpanel" data-tab="p10" hidden><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Tipp</span>Genug für den Raid Barrow Deeps für 10 Spieler: zwei Tanks, zwei oder drei Heiler, der Rest auf Schaden.</p></div></div></div><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Tipp</span>Nehmt verschiedene Klassen: Buffs verschiedener Klassen stapeln sich, gleiche überschneiden sich. Einer in der Gruppe nimmt Kochkunst für ein Lagerfeuer mit 10 Objekten, die anderen wählen Berufe für Lagerbuffs.</p></div></section>
-<section class="frame gsec" id="together"><h2>Gemeinsam leveln</h2><ol class="steps-c"><li><span class="n">01</span><div><b>Klassentempo</b><p>Laut Prognosen leveln Jäger und Magier am schnellsten (etwa 8 % schneller als der Durchschnitt), Krieger am langsamsten (etwa 12 %), Druide und Priester etwas langsamer als der Durchschnitt. Das sind Beta-Schätzungen, die Werte können sich ändern.</p></div></li><li><span class="n">02</span><div><b>Keine Stufenskalierung</b><p>Dungeons sind für ihre eigenen Stufen, und du kannst sie nicht laufen, indem du einen schwächeren Freund „hochziehst“.</p></div></li><li><span class="n">03</span><div><b>Erholung sparen</b><p>Schlafsack, Well Rested und Essen mit Erfahrungsbonus stapeln sich.</p></div></li><li><span class="n">04</span><div><b>Lager beim Leveln</b><p>Du kannst das Lager direkt beim Leveln aufbauen; fünf Minuten für ein Lagerfeuer zahlen sich mit Buffs für die Gruppe aus.</p></div></li></ol><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Tipp</span>Vom 4. November bis 9. Dezember levelt gemeinsam über Dungeons, und entscheidet vorher, wer welche Klasse spielt, damit ihr nichts doppelt habt.</p></div></section>
+<section class="frame gsec" id="together"><h2>Gemeinsam leveln</h2><ol class="steps-c"><li><span class="n">01</span><div><b>Klassentempo</b><p>Laut Prognosen leveln Jäger und Magier am schnellsten (etwa 8 % schneller als der Durchschnitt), Krieger am langsamsten (etwa 12 %), Druide und Priester etwas langsamer als der Durchschnitt. Das sind Beta-Schätzungen, die Werte können sich ändern.</p></div></li><li><span class="n">02</span><div><b>Keine Stufenskalierung</b><p>Dungeons sind auf ihre eigenen Stufen ausgelegt, und einen zurückliegenden Freund durchzuziehen hat Blizzard unrentabel gemacht.</p></div></li><li><span class="n">03</span><div><b>Erholung sparen</b><p>Schlafsack, Well Rested und Essen mit Erfahrungsbonus stapeln sich.</p></div></li><li><span class="n">04</span><div><b>Lager beim Leveln</b><p>Du kannst das Lager direkt beim Leveln aufbauen; fünf Minuten für ein Lagerfeuer zahlen sich mit Buffs für die Gruppe aus.</p></div></li></ol><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Tipp</span>Vom 4. November bis 9. Dezember levelt gemeinsam über Dungeons, und entscheidet vorher, wer welche Klasse spielt, damit ihr nichts doppelt habt.</p></div></section>
   </div>
 </main>
 
 <div class="wrap">
+<p class="dcta"><span>Gruppen zum Start, Fragen zum Guide und News — im Discord von Gabella Team.</span><a class="btn ghost" href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Discord öffnen</a></p>
 <section id="more"><div class="sec-head"><h2>Andere Guides</h2></div><nav class="frame ttiles gtiles" aria-label="Andere Guides"><a class="ttile" href="../../guides/leveling/"><picture><source type="image/avif" srcset="../../../assets/art/hero_dawn-960.avif?v=72b3acf6 960w, ../../../assets/art/hero_dawn-1440.avif?v=4c7215d4 1440w, ../../../assets/art/hero_dawn-1920.avif?v=baf52983 1920w, ../../../assets/art/hero_dawn-2560.avif?v=78086c34 2560w, ../../../assets/art/hero_dawn-3840.avif?v=b7217b4e 3840w" sizes="320px"><img src="../../../assets/art/hero_dawn-960.webp?v=4eae2c5c" srcset="../../../assets/art/hero_dawn-960.webp?v=4eae2c5c 960w, ../../../assets/art/hero_dawn-1440.webp?v=389093cd 1440w, ../../../assets/art/hero_dawn-1920.webp?v=1d137c11 1920w, ../../../assets/art/hero_dawn-2560.webp?v=f7135c28 2560w, ../../../assets/art/hero_dawn-3840.webp?v=f48b5767 3840w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Leveln 1–60</b><span>Zonen nach Stufe, Erholung, Legacy und Lager</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/professions/"><picture><source type="image/avif" srcset="../../../assets/art/hero_campfire-960.avif?v=2654726f 960w, ../../../assets/art/hero_campfire-1600.avif?v=a9d1ad39 1600w, ../../../assets/art/hero_campfire-2560.avif?v=6b161175 2560w" sizes="320px"><img src="../../../assets/art/hero_campfire-960.webp?v=d73f1e16" srcset="../../../assets/art/hero_campfire-960.webp?v=d73f1e16 960w, ../../../assets/art/hero_campfire-1600.webp?v=bef1b754 1600w, ../../../assets/art/hero_campfire-2560.webp?v=08f5bedc 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Berufe</b><span>Paare für deine Klasse, Lagerobjekte, Skill auf 300</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/faq/"><picture><source type="image/avif" srcset="../../../assets/art/mage-360.avif?v=7b69fc64 360w, ../../../assets/art/mage-600.avif?v=632283e7 600w, ../../../assets/art/mage-896.avif?v=7631e4c7 896w" sizes="320px"><img src="../../../assets/art/mage-600.webp?v=37403d76" srcset="../../../assets/art/mage-360.webp?v=f08052db 360w, ../../../assets/art/mage-600.webp?v=37403d76 600w, ../../../assets/art/mage-896.webp?v=80bd7e13 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>FAQ und Termine</b><span>Termine, Pakete, Modi und Antworten</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/news/"><picture><source type="image/avif" srcset="../../../assets/art/paladin-360.avif?v=e7c176bf 360w, ../../../assets/art/paladin-600.avif?v=62bbe825 600w, ../../../assets/art/paladin-896.avif?v=f272a36e 896w" sizes="320px"><img src="../../../assets/art/paladin-600.webp?v=ce6a9574" srcset="../../../assets/art/paladin-360.webp?v=d4d5d3d1 360w, ../../../assets/art/paladin-600.webp?v=ce6a9574 600w, ../../../assets/art/paladin-896.webp?v=0288b052 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>News</b><span>Unsere Notizen und der Wowhead-Feed</span></a></nav></section>
 <footer id="sources">
   <h2>Quellen</h2>
@@ -1164,8 +1169,9 @@ nav.gtiles { padding: 14px; }
   <div class="dh"><b>Alle Abschnitte</b><button class="iconbtn" id="moreClose" type="button" aria-label="Schließen"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Alle Abschnitte">
     <div class="grp"><div class="gh">Diese Seite</div><a href="#list">Dungeons nach Stufe</a><a href="#raids">Raids (ab 09.12.2026)</a><a href="#pvp">PvP</a><a href="#group">Gruppenzusammenstellung</a><a href="#together">Gemeinsam leveln</a></div>
-    <div class="grp"><div class="gh">Guide</div><a href="../../">Start</a><a href="../../#classes">Klassen</a><a href="../../#peoples">Völker</a><a href="../../#picker">Auswahl</a><a href="../../#builder">Gruppenplaner</a><a href="../../tools/">Tools</a><a href="../../play/">Im Spiel</a><a href="../">Guides</a></div>
-    <div class="grp"><div class="gh">Team</div><a href="../../roster/">Kader</a><a href="../../profile/">Mein Profil</a></div>
+    <div class="grp"><div class="gh">Nachschlagen</div><a href="../../">Start</a><a href="../../classes/">Klassen im Vergleich</a><a href="../../races/">Völker im Vergleich</a><a href="../../guides/leveling/">Leveln 1–60</a><a href="../../guides/dungeons/">Dungeons und Raids</a><a href="../../guides/professions/">Berufe</a><a href="../../guides/faq/">FAQ und Termine</a><a href="../../guides/news/">News</a><a href="../../guides/">Alle Guides</a></div>
+    <div class="grp"><div class="gh">Tools</div><a href="../../#picker">Auswahl</a><a href="../../#builder">Gruppenplaner</a><a href="../../tools/">Fenster, Vergleich, Suche</a><a href="../../play/">Im Spiel</a></div>
+    <div class="grp"><div class="gh">Gemeinschaft</div><a href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Discord</a><a href="../../roster/">Kader</a><a href="../../profile/">Mein Profil</a></div>
   </nav>
   <div class="opts">
     <div class="langgrid" role="group" aria-label="Sprache"><a href="../../../guides/dungeons/" data-lang="ru" hreflang="ru" lang="ru">Русский</a><a href="../../../en/guides/dungeons/" data-lang="en" hreflang="en" lang="en">English</a><a href="../../../uk/guides/dungeons/" data-lang="uk" hreflang="uk" lang="uk">Українська</a><a href="./" data-lang="de" hreflang="de" lang="de" aria-current="page">Deutsch</a><a href="../../../fr/guides/dungeons/" data-lang="fr" hreflang="fr" lang="fr">Français</a><a href="../../../es/guides/dungeons/" data-lang="es" hreflang="es" lang="es">Español</a><a href="../../../pt/guides/dungeons/" data-lang="pt" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a><a href="../../../it/guides/dungeons/" data-lang="it" hreflang="it" lang="it">Italiano</a><a href="../../../pl/guides/dungeons/" data-lang="pl" hreflang="pl" lang="pl">Polski</a></div>
@@ -1210,7 +1216,7 @@ if ('IntersectionObserver' in window && tocLinks.length) {
   document.querySelectorAll('.gsec').forEach(s => io.observe(s));
 }
 const DUNGEONS = [
-  ['Ragefireabgrund', 13, 18, 'Orgrimmar', 0],
+  ['Ragefireabgrund', 13, 18, 'Orgrimmar', 0, [], 'horde'],
   ['Hall of Thanes', 13, 18, 'Ironforge', 1, [['Icy Veins', '13–20']]],
   ['Ruinen von Lordaeron', 15, 20, 'Tirisfal', 1, [['Icy Veins', '15–22']]],
   ['Die Todesminen', 15, 22, 'Westfall', 0, [['Icy Veins', '17–26']]],
@@ -1218,7 +1224,7 @@ const DUNGEONS = [
   ['Burg Shadowfang', 20, 26, 'Silberwald', 0, [['Icy Veins', '20–30']]],
   ['Blackfathom-Tiefe', 22, 28, 'Ashenvale', 0, [['Sportskeeda', '22–26'], ['Icy Veins', '24–32']]],
   ['Excavation Site: Wetlands', 24, 29, 'Sumpfland', 1, [['ClassicWoW.gg', '26–31'], ['Icy Veins', '26–33']]],
-  ['Das Verlies', 25, 29, 'Stormwind', 0, [['Icy Veins', '24–32']]],
+  ['Das Verlies', 25, 29, 'Stormwind', 0, [['Icy Veins', '24–32']], 'alliance'],
   ['City of Dalaran', 28, 33, 'Alteracgebirge', 1, [['Icy Veins', '28–35']]],
   ['Gnomeregan', 29, 38, 'Dun Morogh', 0],
   ['Der Kral von Razorfen', 29, 38, 'Brachland', 0],
@@ -1247,23 +1253,24 @@ const DUNGEONS = [
   ['Düsterbruch: Nord', 60, 60, 'Feralas', 0, [['Icy Veins', '56–60']]]
 ];
 /* Dungeons: level filter seeded from "My hero" (read only, the hero is edited on the home page) */
-const TX = {"h": ["Dungeon", "Stufen", "Eingang"], "new": "neu", "shown": "Angezeigt", "of": "von", "none": "Keine Dungeons für diese Stufe.", "need": "Gib deine Stufe ein, um zu filtern."};
+const TX = {"h": ["Dungeon", "Stufen", "Eingang"], "new": "neu", "shown": "Angezeigt", "of": "von", "none": "Keine Dungeons für diese Stufe.", "need": "Gib deine Stufe ein, um zu filtern.", "only": {"alliance": "Nur Allianz", "horde": "Nur Horde"}};
 const lvRange = d => d[1] === d[2] ? String(d[1]) : `${d[1]}–${d[2]}`;
 const nearLvl = (d, lv) => lv >= d[1] - 3 && lv <= d[2] + 3;
-let dgLvl = 0;
-try { dgLvl = +(JSON.parse(localStorage.getItem('gabella-wf-me')) || {}).lvl || 0; } catch (e) {}
+const HORDE = ['orc', 'undead', 'tauren', 'troll', 'skyH'];
+let dgLvl = 0, dgFac = '';
+try { const m = JSON.parse(localStorage.getItem('gabella-wf-me')) || {}; dgLvl = +m.lvl || 0; dgFac = m.race ? (HORDE.includes(m.race) ? 'horde' : 'alliance') : ''; } catch (e) {}
 let dgMode = dgLvl ? 'mine' : 'all';
 const lvIn = $('#dgLvl');
 function renderDg() {
   let rows = DUNGEONS;
   if (dgMode === 'new') rows = rows.filter(d => d[4]);
-  if (dgMode === 'mine') rows = dgLvl ? rows.filter(d => nearLvl(d, dgLvl)) : [];
+  if (dgMode === 'mine') rows = dgLvl ? rows.filter(d => nearLvl(d, dgLvl) && (!dgFac || !d[6] || d[6] === dgFac)) : [];
   $('#dgBody').innerHTML = rows.length ? rows.map(d => {
     const mine = dgLvl && nearLvl(d, dgLvl);
     const alt = (d[5] || []).map(a => `${a[0]}: ${a[1]}`).join(', ');
     return `<tr class="${mine ? 'mine' : ''}"><td data-l="${TX.h[0]}">${esc(d[0])}${d[4] ? ` <span class="tag new">${TX.new}</span>` : ''}</td>`
       + `<td data-l="${TX.h[1]}"><span class="pill${mine ? ' gold' : ''}">${lvRange(d)}</span>${alt ? `<span class="alt">${esc(alt)}</span>` : ''}</td>`
-      + `<td data-l="${TX.h[2]}">${esc(d[3])}</td></tr>`;
+      + `<td data-l="${TX.h[2]}">${esc(d[3])}${d[6] ? `<span class="alt">${TX.only[d[6]]}</span>` : ''}</td></tr>`;
   }).join('') : `<tr><td colspan="3">${dgLvl ? TX.none : TX.need}</td></tr>`;
   $('#dgCount').textContent = `${TX.shown} ${rows.length} ${TX.of} ${DUNGEONS.length}`;
   document.querySelectorAll('#segD button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === dgMode));
@@ -1345,8 +1352,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../../assets/radio/radio.js" data-root="../../../" defer></script>
-<script src="../../../assets/search/search.js?v=b52e2ac809" data-root="../../../" defer></script>
-<script src="../../../assets/me/me.js?v=378dd2c208" data-root="../../../" data-home="../../" data-lang="de" data-teaser="Dein Profil speichert deine Charaktere, Erfolge und Rahmen" data-close="Schließen" data-page="guides/dungeons/" data-look="2" defer></script>
+<script src="../../../assets/search/search.js?v=6bb0507e11" data-root="../../../" defer></script>
+<script src="../../../assets/me/me.js?v=0ff37bbee7" data-root="../../../" data-home="../../" data-lang="de" data-teaser="Dein Profil speichert deine Charaktere, Erfolge und Rahmen" data-close="Schließen" data-page="guides/dungeons/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

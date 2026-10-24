@@ -169,6 +169,8 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .gbtns .btn { white-space: normal; text-align: center; }
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
+.srchbtn kbd, .radiobtn .rdo-eq { display: none; }   /* on the home page search.css and radio.css come after the first paint */
+.radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: .92rem; }
 @media (max-width: 1210px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }
 
@@ -221,6 +223,8 @@ section.block { padding-top: 96px; display: grid; gap: 28px; }
 .sec-head .row { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: flex-end; justify-content: space-between; }
 .sec-head .src { font-size: .85rem; color: var(--muted); padding-bottom: 6px; }
 .sec-head p { color: var(--muted); max-width: 68ch; }
+.dcta { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; margin: 48px 0 0; padding: 18px 20px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); }
+.dcta span { max-width: 62ch; }
 section.block { scroll-margin-top: -72px; }
 
 /* Faction banners */
@@ -1073,8 +1077,8 @@ nav.gtiles { padding: 14px; }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=b52e2ac809" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=378dd2c208" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=6bb0507e11" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=0ff37bbee7" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/it/"},{"@type":"ListItem","position":2,"name":"Classi","item":"https://gabella.site/wow/it/classes/"}]}</script>
 </head>
 <body>
@@ -1103,7 +1107,7 @@ nav.gtiles { padding: 14px; }
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="../" aria-label="Gabella, alla pagina principale"><img class="mark" src="../../assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Guida a WoW Forever</small></span></a>
   <nav class="mainnav" aria-label="Sezioni">
-    <a href="../#factions">Fazioni</a><a href="../#classes" aria-current="true">Classi</a><a href="../#peoples">Razze</a><a href="../#picker">Selettore</a><a href="../#builder">Gruppo</a><a href="../guides/">Guide</a><a href="../tools/">Strumenti</a><a href="../roster/">Rosa</a><a href="../play/">In gioco</a>
+    <a href="../classes/" aria-current="true">Classi</a><a href="../races/">Razze</a><a href="../guides/leveling/">Livellamento</a><a href="../guides/dungeons/">Spedizioni</a><a href="../guides/">Guide</a><a href="../tools/">Strumenti</a><a href="../play/">In gioco</a><a href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Discord</a>
   </nav>
   <div class="tools">
     <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" aria-label="Lingua: Italiano">IT</button><ul class="langlist" hidden><li><a href="../../classes/" data-lang="ru" hreflang="ru" lang="ru"><span>Русский</span><small>RU</small></a></li><li><a href="../../en/classes/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../../uk/classes/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../../de/classes/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="../../fr/classes/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="../../es/classes/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="../../pt/classes/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="./" data-lang="it" hreflang="it" lang="it" aria-current="page"><span>Italiano</span><small>IT</small></a></li><li><a href="../../pl/classes/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
@@ -1119,24 +1123,27 @@ nav.gtiles { padding: 14px; }
   <div class="wrap">
     <nav class="crumbs" aria-label="Percorso"><a href="../">Guida</a><span aria-hidden="true">/</span><span>Classi</span></nav>
     <h1>Classi</h1>
-    <p class="glead">Nove classi, tre specializzazioni ciascuna: ruoli, ritmo di livellamento e valore in incursione in un’unica tabella.</p>
+    <p class="glead">Quale classe scegliere in WoW Forever: una risposta breve per il tuo obiettivo, il ritmo di livellamento dalla beta e le nove classi a confronto.</p>
     <div class="pills"></div>
   </div>
 </section>
 
-<main class="wrap gbody solo">
-  <nav class="gtoc frame" aria-label="Sezioni della guida"></nav>
+<main class="wrap gbody">
+  <nav class="gtoc frame" aria-label="Sezioni della guida"><a href="#choose">Quale classe scegliere</a><a href="#pace">Ritmo di livellamento</a><a href="#compare">Confronto</a></nav>
   <div class="gmain">
+<section class="frame gsec" id="choose"><h2>Quale classe scegliere</h2><p>Nuovo in Classic: mago o cacciatore. Livellano più in fretta, combattono a distanza e se la cavano da soli. Per il resto scegli in base al ruolo che vuoi nel gruppo.</p><table class="gtable picks"><thead><tr><th scope="col">Cosa vuoi</th><th scope="col">Classe</th><th scope="col">Perché</th></tr></thead><tbody><tr><td data-l="Cosa vuoi">Arrivare a 60 più in fretta</td><td data-l="Classe"><a href="../classes/mage/">Mago</a>, <a href="../classes/hunter/">Cacciatore</a></td><td data-l="Perché">Il livellamento più rapido secondo le stime della beta, circa l’8% più veloce della media.</td></tr><tr><td data-l="Cosa vuoi">Giocare da solo</td><td data-l="Classe"><a href="../classes/hunter/">Cacciatore</a>, <a href="../classes/warlock/">Stregone</a>, <a href="../classes/mage/">Mago</a></td><td data-l="Perché">Il famiglio del cacciatore e dello stregone tiene impegnato il nemico, e lo stregone ha anche Conversione Vitale. Il mago evoca da sé cibo e acqua.</td></tr><tr><td data-l="Cosa vuoi">Curare</td><td data-l="Classe"><a href="../classes/priest/">Sacerdote</a>, <a href="../classes/paladin/">Paladino</a>, <a href="../classes/druid/">Druido</a>, <a href="../classes/shaman/">Sciamano</a></td><td data-l="Perché">Un sacerdote serve sempre a un gruppo. Paladino e druido possono cambiare ruolo, lo sciamano cura e piazza totem per il gruppo.</td></tr><tr><td data-l="Cosa vuoi">Difensore</td><td data-l="Classe"><a href="../classes/warrior/">Guerriero</a>, <a href="../classes/paladin/">Paladino</a>, <a href="../classes/druid/">Druido</a></td><td data-l="Perché">Il guerriero è il miglior difensore ma livella più lentamente di tutti. Paladino e druido fanno da difensori e possono curare.</td></tr><tr><td data-l="Cosa vuoi">Danni in mischia</td><td data-l="Classe"><a href="../classes/rogue/">Ladro</a>, <a href="../classes/warrior/">Guerriero</a>, <a href="../classes/shaman/">Sciamano</a></td><td data-l="Perché">Ladro: danni molto alti, furtività e controllo. Guerriero: i rami Armi e Furia. Sciamano: Potenziamento.</td></tr><tr><td data-l="Cosa vuoi">Danni a distanza</td><td data-l="Classe"><a href="../classes/mage/">Mago</a>, <a href="../classes/warlock/">Stregone</a>, <a href="../classes/hunter/">Cacciatore</a>, <a href="../classes/priest/">Sacerdote</a></td><td data-l="Perché">Mago: portali e cibo per tutti. Stregone: danni nel tempo. Sacerdote: il ramo Ombra.</td></tr><tr><td data-l="Cosa vuoi">Tutti i ruoli su un personaggio</td><td data-l="Classe"><a href="../classes/paladin/">Paladino</a>, <a href="../classes/druid/">Druido</a></td><td data-l="Perché">Difensore, guaritore e danni in una sola classe.</td></tr></tbody></table><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Consiglio</span>Prima la classe, poi la razza: una razza dà quattro abilità ma non cambia il tuo ruolo. Una riga della tabella qui sotto apre la pagina della classe con le razze adatte.</p></div></section>
+<section class="frame gsec" id="pace"><h2>Ritmo di livellamento</h2><p>Una stima dalla beta: la beta era limitata al livello 30, oltre sono previsioni. Tra la classe più veloce e la più lenta c’è circa il 20% del tempo fino a 60.</p><table class="gtable picks"><thead><tr><th scope="col">Ritmo</th><th scope="col">Classi</th></tr></thead><tbody><tr><td data-l="Ritmo">Più veloce della media, circa l’8%</td><td data-l="Classi"><a href="../classes/mage/">Mago</a>, <a href="../classes/hunter/">Cacciatore</a></td></tr><tr><td data-l="Ritmo">Nella media</td><td data-l="Classi"><a href="../classes/paladin/">Paladino</a>, <a href="../classes/rogue/">Ladro</a>, <a href="../classes/shaman/">Sciamano</a>, <a href="../classes/warlock/">Stregone</a></td></tr><tr><td data-l="Ritmo">Più lento della media, circa il 5%</td><td data-l="Classi"><a href="../classes/priest/">Sacerdote</a>, <a href="../classes/druid/">Druido</a></td></tr><tr><td data-l="Ritmo">Il più lento, circa il 12%</td><td data-l="Classi"><a href="../classes/warrior/">Guerriero</a></td></tr></tbody></table></section>
 <section class="frame gsec" id="compare"><h2>Confronto</h2><p>Il ritmo di livellamento viene dalle proiezioni della beta: la beta era limitata al livello 30, le cifre oltre sono stime. Una riga apre la pagina della classe.</p><div class="cmp cls" id="classRef"><a href="../classes/warrior/">Guerriero</a><a href="../classes/paladin/">Paladino</a><a href="../classes/hunter/">Cacciatore</a><a href="../classes/rogue/">Ladro</a><a href="../classes/priest/">Sacerdote</a><a href="../classes/shaman/">Sciamano</a><a href="../classes/mage/">Mago</a><a href="../classes/warlock/">Stregone</a><a href="../classes/druid/">Druido</a></div></section>
   </div>
 </main>
 
 <div class="wrap">
+<p class="dcta"><span>Gruppi per il lancio, domande sulla guida e novità — sul Discord di Gabella Team.</span><a class="btn ghost" href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Apri Discord</a></p>
 <section id="more"><div class="sec-head"><h2>Altro sul sito</h2></div><nav class="frame ttiles gtiles" aria-label="Altro sul sito"><a class="ttile" href="../races/"><picture><source type="image/avif" srcset="../../assets/art/human-360.avif?v=4b83bd2a 360w, ../../assets/art/human-600.avif?v=b743f61d 600w, ../../assets/art/human-896.avif?v=42a86d2a 896w" sizes="320px"><img src="../../assets/art/human-600.webp?v=2d8182c1" srcset="../../assets/art/human-360.webp?v=f6b98610 360w, ../../assets/art/human-600.webp?v=2d8182c1 600w, ../../assets/art/human-896.webp?v=5063bb19 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Razze</b><span>Tutte le razze a confronto</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../guides/"><picture><source type="image/avif" srcset="../../assets/art/hero_campfire-960.avif?v=2654726f 960w, ../../assets/art/hero_campfire-1600.avif?v=a9d1ad39 1600w, ../../assets/art/hero_campfire-2560.avif?v=6b161175 2560w" sizes="320px"><img src="../../assets/art/hero_campfire-960.webp?v=d73f1e16" srcset="../../assets/art/hero_campfire-960.webp?v=d73f1e16 960w, ../../assets/art/hero_campfire-1600.webp?v=bef1b754 1600w, ../../assets/art/hero_campfire-2560.webp?v=08f5bedc 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Guide</b><span>Livellamento, spedizioni, professioni e risposte</span></a><a class="ttile" href="../tools/"><picture><source type="image/avif" srcset="../../assets/art/rogue-360.avif?v=0e4303b0 360w, ../../assets/art/rogue-600.avif?v=e21dd598 600w, ../../assets/art/rogue-896.avif?v=c3b868ba 896w" sizes="320px"><img src="../../assets/art/rogue-600.webp?v=d3dbeaa4" srcset="../../assets/art/rogue-360.webp?v=f8e165bf 360w, ../../assets/art/rogue-600.webp?v=d3dbeaa4 600w, ../../assets/art/rogue-896.webp?v=b44a1b62 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Strumenti</b><span>Riquadri, confronto, ricerca</span></a><a class="ttile" href="../play/"><picture><source type="image/avif" srcset="../../assets/art/shaman-360.avif?v=0dbb0972 360w, ../../assets/art/shaman-600.avif?v=f3897c65 600w, ../../assets/art/shaman-896.avif?v=bf19e5ec 896w" sizes="320px"><img src="../../assets/art/shaman-600.webp?v=685d7399" srcset="../../assets/art/shaman-360.webp?v=bebb6ed5 360w, ../../assets/art/shaman-600.webp?v=685d7399 600w, ../../assets/art/shaman-896.webp?v=c55422e9 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>In gioco</b><span>Secondo schermo: radio, livello, timer</span></a></nav></section>
 <footer id="sources">
   <h2>Fonti</h2>
   <ul><li><a href="https://www.warcrafttavern.com/forever/guides/classes/" target="_blank" rel="noopener">Warcraft Tavern</a></li><li><a href="https://lfcarry.com/guides/wow-forever-classes" target="_blank" rel="noopener">LFCarry</a></li></ul>
-  <p>Aggiornato il 23.10.2026. Basato sulla beta chiusa; i numeri possono cambiare prima dell’uscita.</p>
+  <p>Aggiornato il 24.10.2026. Basato sulla beta chiusa; i numeri possono cambiare prima dell’uscita.</p>
   <nav class="fmap" aria-label="Mappa del sito"><div><a class="fh" href="../../it/classes/">Classi</a><ul><li><a href="../../it/classes/warrior/">Guerriero</a></li><li><a href="../../it/classes/paladin/">Paladino</a></li><li><a href="../../it/classes/hunter/">Cacciatore</a></li><li><a href="../../it/classes/rogue/">Ladro</a></li><li><a href="../../it/classes/priest/">Sacerdote</a></li><li><a href="../../it/classes/shaman/">Sciamano</a></li><li><a href="../../it/classes/mage/">Mago</a></li><li><a href="../../it/classes/warlock/">Stregone</a></li><li><a href="../../it/classes/druid/">Druido</a></li></ul></div><div><a class="fh" href="../../it/races/">Razze</a><ul><li><a href="../../it/races/human/">Umano</a></li><li><a href="../../it/races/dwarf/">Nano</a></li><li><a href="../../it/races/night-elf/">Elfo della Notte</a></li><li><a href="../../it/races/gnome/">Gnomo</a></li><li><a href="../../it/races/skyborne-alliance/">Skyborne dell’High Order</a></li><li><a href="../../it/races/orc/">Orco</a></li><li><a href="../../it/races/undead/">Non Morto</a></li><li><a href="../../it/races/tauren/">Tauren</a></li><li><a href="../../it/races/troll/">Troll</a></li><li><a href="../../it/races/skyborne-horde/">Skyborne Windshaper</a></li></ul></div><div><a class="fh" href="../../it/guides/">Guide</a><ul><li><a href="../../it/guides/leveling/">Livellamento 1–60</a></li><li><a href="../../it/guides/dungeons/">Spedizioni e incursioni</a></li><li><a href="../../it/guides/professions/">Professioni</a></li><li><a href="../../it/guides/faq/">FAQ e date</a></li><li><a href="../../it/guides/news/">Notizie</a></li></ul></div><div><a class="fh" href="../../it/tools/">Strumenti</a><ul><li><a href="../../it/tools/">Strumenti</a></li><li><a href="../../it/play/">In gioco</a></li></ul></div></nav><div class="legal"><p>Guida amatoriale di Gabella. Non affiliata né approvata da Blizzard Entertainment. World of Warcraft, Warcraft e Blizzard Entertainment sono marchi o marchi registrati di Blizzard Entertainment, Inc. negli Stati Uniti e/o in altri Paesi.</p><p>© 2026 Gabella<span aria-hidden="true"> · </span><a href="../../it/privacy/">Privacy</a><span aria-hidden="true"> · </span><a href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Discord</a><span aria-hidden="true"> · </span>Contatti: <a href="mailto:contact@gabella.site">contact@gabella.site</a></p></div>
 </footer>
 </div>
@@ -1152,9 +1159,10 @@ nav.gtiles { padding: 14px; }
 <dialog class="sheet" id="moreDlg" aria-label="Tutte le sezioni">
   <div class="dh"><b>Tutte le sezioni</b><button class="iconbtn" id="moreClose" type="button" aria-label="Chiudi"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Tutte le sezioni">
-    
-    <div class="grp"><div class="gh">Guida</div><a href="../">Home</a><a href="../#classes" aria-current="true">Classi</a><a href="../#peoples">Razze</a><a href="../#picker">Selettore</a><a href="../#builder">Creatore di gruppi</a><a href="../tools/">Strumenti</a><a href="../play/">In gioco</a><a href="../guides/">Guide</a></div>
-    <div class="grp"><div class="gh">Squadra</div><a href="../roster/">Rosa</a><a href="../profile/">Il mio profilo</a></div>
+    <div class="grp"><div class="gh">Questa pagina</div><a href="#choose">Quale classe scegliere</a><a href="#pace">Ritmo di livellamento</a><a href="#compare">Confronto</a></div>
+    <div class="grp"><div class="gh">Riferimenti</div><a href="../">Home</a><a href="../classes/">Classi a confronto</a><a href="../races/">Razze a confronto</a><a href="../guides/leveling/">Livellamento 1–60</a><a href="../guides/dungeons/">Spedizioni e incursioni</a><a href="../guides/professions/">Professioni</a><a href="../guides/faq/">FAQ e date</a><a href="../guides/news/">Notizie</a><a href="../guides/">Tutte le guide</a></div>
+    <div class="grp"><div class="gh">Strumenti</div><a href="../#picker">Selettore</a><a href="../#builder">Creatore di gruppi</a><a href="../tools/">Riquadri, confronto, ricerca</a><a href="../play/">In gioco</a></div>
+    <div class="grp"><div class="gh">Comunità</div><a href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Discord</a><a href="../roster/">Rosa</a><a href="../profile/">Il mio profilo</a></div>
   </nav>
   <div class="opts">
     <div class="langgrid" role="group" aria-label="Lingua"><a href="../../classes/" data-lang="ru" hreflang="ru" lang="ru">Русский</a><a href="../../en/classes/" data-lang="en" hreflang="en" lang="en">English</a><a href="../../uk/classes/" data-lang="uk" hreflang="uk" lang="uk">Українська</a><a href="../../de/classes/" data-lang="de" hreflang="de" lang="de">Deutsch</a><a href="../../fr/classes/" data-lang="fr" hreflang="fr" lang="fr">Français</a><a href="../../es/classes/" data-lang="es" hreflang="es" lang="es">Español</a><a href="../../pt/classes/" data-lang="pt" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a><a href="./" data-lang="it" hreflang="it" lang="it" aria-current="page">Italiano</a><a href="../../pl/classes/" data-lang="pl" hreflang="pl" lang="pl">Polski</a></div>
@@ -1234,14 +1242,14 @@ const CLASSES = [
     specs:[['Elementale','Danni a distanza',['dps']],['Potenziamento','Danni in mischia. Il ruolo da difensore è ancora in dubbio',['dps','tank?']],['Rigenerazione','Guaritore',['heal']]],
     lvl:'Ritmo di livellamento nella media',
     lp:0,
-    raid:'I totem Forza della Terra, Furia del Vento, Lingua di Fuoco e Grazia dell’Aria potenziano tutta l’incursione',
+    raid:'I totem Forza della Terra, Furia del Vento, Lingua di Fuoco e Grazia dell’Aria potenziano il proprio gruppo',
     forever:'I Nani ora possono essere sciamani, quindi la classe è arrivata nell’Alleanza. Getto di Lava è stata potenziata, Elementale è salito nelle classifiche dei danni.' },
   { id:'mage', n:'Mago', roles:['dps'],
     specs:[['Arcano','Danni esplosivi, molto mana',['dps']],['Fuoco','Critici e incendi',['dps']],['Gelo','Danni e controllo',['dps']]],
     lvl:'Il livellamento più veloce, circa l’8% più rapido della media (circa 12 ore risparmiate)',
     lp:-8,
     raid:'Portali, cibo e acqua per tutto il gruppo',
-    forever:'Fuoco ha ottenuto Serie Bollente, Arcano un’Esplosione Arcana rinnovata, Gelo Lancia di Ghiaccio. Palla di Fuocogelo è disponibile dal livello 40.' },
+    forever:'Fuoco ha ottenuto Serie Bollente, Arcano Detonazione Arcana, Gelo Lancia di Ghiaccio. Palla di Fuocogelo è disponibile dal livello 40.' },
   { id:'warlock', n:'Stregone', roles:['dps'],
     specs:[['Afflizione','Danni da maledizioni e corruzione',['dps']],['Demonologia','Danni tramite demoni',['dps']],['Distruzione','Danni diretti da fuoco e ombra',['dps']]],
     lvl:'Ritmo di livellamento nella media',
@@ -1255,10 +1263,10 @@ const CLASSES = [
     raid:'Capobranco e Aura del Lunagufo agiscono su tutta l’incursione e si sommano',
     forever:'Ogni specializzazione ha un ruolo chiaro, le forme funzionano con pozioni e incantamenti delle armi. Puoi essere difensore, guaritore e combattente con un solo personaggio.' }
 ];
-const ROLE_RU = { tank:'Difensore', heal:'Guaritore', dps:'Danni', 'tank?':'Difensore (incerto)' };
+const ROLE_RU = { tank:'Difensore', heal:'Guaritore', dps:'Assaltatore', 'tank?':'Difensore (incerto)' };
 const ri = r => `<svg class="ri" aria-hidden="true"><use href="#i-${r.replace('?','')}"/></svg>`;
 const CCOL = { warrior:'#c79c6e', paladin:'#f58cba', hunter:'#abd473', rogue:'#fff569', priest:'#e8e8e8', shaman:'#2f8cf0', mage:'#40c7eb', warlock:'#8788ee', druid:'#ff7d0a' };
-const BUFF = { warrior:'Urlo di Battaglia', paladin:'Benedizione dei Re', hunter:'Aura di Precisione', priest:'Spirito Divino', shaman:'Totem (Forza della Terra, Furia del Vento, Lingua di Fuoco, Grazia dell’Aria)', mage:'Portali, cibo e acqua', druid:'Capobranco e Aura del Lunagufo' };
+const BUFF = { warrior:'Urlo di Battaglia', paladin:'Benedizione dei Re', hunter:'Aura di Precisione', priest:'Parola del Potere: Fermezza, Spirito Divino', shaman:'Totem (Forza della Terra, Furia del Vento, Lingua di Fuoco, Grazia dell’Aria)', mage:'Intelletto Arcano, portali, cibo e acqua', druid:'Marchio Selvaggio, Capobranco, Aura del Lunagufo' };
 
 const RACES = [
   { id:'human', n:'Umano', f:'alliance',
@@ -1283,11 +1291,11 @@ const RACES = [
     tip:'Razza a pagamento: Heroic Pack da $29.99. Inizia nella zona di Zephras Isle (livelli 1–12).' },
   { id:'orc', n:'Orco', f:'horde',
     cls:['warrior','hunter','rogue','shaman','warlock','mage*'],
-    rac:[['a','Furia Sanguinaria','+10% potenza d’attacco e potere magico per 15 s'],['a','Shatter Curse','Immunità a maledizioni e corruzione e meno danni magici per 8 s'],['p','Savage','+1% probabilità di critico'],['p','Audacia','Stordimenti più brevi del 20%']],
+    rac:[['a','Furia Sanguinaria','+10% potenza d’attacco e potere magico per 15 s'],['a','Shatter Curse','Rimuove maledizioni e corruzione, −5% di danni magici subiti per 8 s'],['p','Savage','+1% probabilità di critico'],['p','Audacia','Stordimenti più brevi del 20%']],
     tip:'Furia Sanguinaria offre una potente finestra di danni.' },
   { id:'undead', n:'Non Morto', f:'horde',
     cls:['warrior','rogue','mage','priest','warlock','paladin*'],
-    rac:[['a','Volontà dei Reietti','Rimuove ammaliamento, paura e sonno'],['a','Cannibalismo','Ripristina nel tempo il 35% di salute e mana'],['p','Respiro Subacqueo','Respiri più a lungo sott’acqua'],['p','Tocco Tombale','5% di probabilità di sottrarre salute quando attacchi']],
+    rac:[['a','Volontà dei Reietti','Rimuove ammaliamento, paura e sonno'],['a','Cannibalismo','Ripristina nel tempo il 35% di salute e mana'],['p','Respiro Subacqueo','Respiri più a lungo sott’acqua'],['p','Tocco Tombale','Probabilità di sottrarre salute quando attacchi']],
     tip:'Nuova combinazione: un paladino per l’Orda, dove prima questa classe non esisteva.' },
   { id:'tauren', n:'Tauren', f:'horde',
     cls:['warrior','hunter','shaman','druid'],
@@ -1429,8 +1437,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=b52e2ac809" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=378dd2c208" data-root="../../" data-home="../" data-lang="it" data-teaser="Il tuo profilo conserva i tuoi personaggi, le imprese e le cornici" data-close="Chiudi" data-page="classes/" data-look="2" defer></script>
+<script src="../../assets/search/search.js?v=6bb0507e11" data-root="../../" defer></script>
+<script src="../../assets/me/me.js?v=0ff37bbee7" data-root="../../" data-home="../" data-lang="it" data-teaser="Il tuo profilo conserva i tuoi personaggi, le imprese e le cornici" data-close="Chiudi" data-page="classes/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

@@ -12,6 +12,10 @@ def page(*parts):
     return open(os.path.join(ROOT, *parts), encoding='utf-8').read()
 
 
+def home_js(lang):
+    return open(os.path.join(ROOT, 'assets', 'home', f'{lang}.js'), encoding='utf-8').read()
+
+
 def lang_dir(lang):
     return () if lang == 'ru' else (lang,)
 
@@ -61,9 +65,26 @@ def test_not_found_per_language():
         assert re.findall(r'href="([^"]+)"', links) == ['/wow/'] + [f'/wow/{l}/' for l in LANGS[1:]], lang
 
 
-def test_launch_countdown_at_23_utc():
+def test_home_waits_for_the_hero():
+    """Home: only the first screen comes with the page; its script, radio, search, profile, living art, time of day,
+    analytics and the manifest sleep until the hero is painted (build.late, build.home_js)."""
     for lang in LANGS:
         home = page(*lang_dir(lang))
+        assert "const HOME = ''" not in home and 'function renderCountdown()' in home, lang
+        root = './' if lang == 'ru' else '../'
+        assert re.search(rf'<script data-src="{re.escape(root)}assets/home/{lang}\.js\?v=\w{{10}}"></script>', home), lang
+        assert "const HOME = ''" in home_js(lang), lang
+        assert not re.search(r'<script[^>]* src="[^"]*(?:assets/(?:radio|search|me|tod|living|home)/|cloudflareinsights)', home), lang
+        assert not re.search(r'<link rel="[^"]+" href="[^"]*(?:assets/(?:radio|search|me|tod)/|webmanifest)', home), lang
+        assert home.count("document.querySelectorAll('script[data-src]')") == 1, lang
+        assert home.index('assets/home/') < home.index('assets/radio/radio.js') < home.index('assets/me/me.js'), lang
+    other = page('guides', 'leveling')                         # other pages load them as before
+    assert '<script src="../../assets/radio/radio.js" data-root="../../" defer>' in other and '<script data-src=' not in other
+
+
+def test_launch_countdown_at_23_utc():
+    for lang in LANGS:
+        home = page(*lang_dir(lang)) + home_js(lang)   # the page script lives in assets/home/ (build.home_js)
         assert "rel = new Date('2026-11-04T23:00:00Z')" in home and "const D_REL = new Date('2026-11-04T23:00:00Z')" in home, lang
         assert 'data-d="2026-11-04T23:00:00Z"' in home, lang
     for lang in LANGS:

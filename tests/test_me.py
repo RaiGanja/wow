@@ -82,7 +82,7 @@ def test_me_script_on_every_page_after_radio():
             continue
         assert html.count('assets/me/me.js') == 1 and html.count('assets/me/me.css') == 1, p
         assert html.index('assets/radio/radio.js') < html.index('assets/me/me.js'), p
-        m = re.search(r'<script src="[^"]*assets/me/me\.js\?v=\w{10}" data-root="([^"]*)" data-home="([^"]*)" data-lang="(\w+)" data-teaser="([^"]+)" data-close="([^"]+)" data-page="([^"]*)" data-look="([^"]+)"( data-solo="1")? defer>', html)
+        m = re.search(r'<script (?:data-)?src="[^"]*assets/me/me\.js\?v=\w{10}" data-root="([^"]*)" data-home="([^"]*)" data-lang="(\w+)" data-teaser="([^"]+)" data-close="([^"]+)" data-page="([^"]*)" data-look="([^"]+)"( data-solo="1")?(?: defer)?>', html)
         assert m, p
         page = m.group(6)
         assert m.group(7) == LK.V, (p, m.group(7))
@@ -151,14 +151,20 @@ def test_profile_pages():
 
 
 def test_roster_in_navigation():
-    """Every full page links roster/ in the top menu and roster/ + profile/ in the sections sheet; privacy covers accounts."""
+    """Every full page: the top menu goes to pages, not home anchors, and ends with Discord; roster/ + profile/ in the
+    sections sheet; privacy covers accounts."""
+    from build import DISCORD_AT
     for p in built_pages():
         html = open(p, encoding='utf-8').read()
         if 'class="mainnav"' not in html:
             continue
         nav = re.search(r'<nav class="mainnav".*?</nav>', html, re.S).group(0)
         toc = re.search(r'<nav class="toc".*?</nav>', html, re.S).group(0)
-        assert re.search(r'href="[^"]*roster/"', nav), p
+        hrefs = re.findall(r'href="([^"]*)"', nav)
+        assert not [h for h in hrefs if '#' in h], (p, hrefs)
+        assert [re.sub(r'^(\.\./|\./)+', '', h) for h in hrefs[:4]] == ['classes/', 'races/', 'guides/leveling/', 'guides/dungeons/'], (p, hrefs)
+        assert hrefs[-1] == DISCORD_AT['menu'], p
+        assert nav.count('aria-current') <= 1, p
         assert re.search(r'href="[^"]*roster/"', toc) and re.search(r'href="[^"]*profile/"', toc), p
     from langs import LANGS
     for lang in LANGS:

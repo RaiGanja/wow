@@ -180,6 +180,8 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .gbtns .btn { white-space: normal; text-align: center; }
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
+.srchbtn kbd, .radiobtn .rdo-eq { display: none; }   /* on the home page search.css and radio.css come after the first paint */
+.radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: .92rem; }
 @media (max-width: 1210px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }
 
@@ -232,6 +234,8 @@ section.block { padding-top: 96px; display: grid; gap: 28px; }
 .sec-head .row { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: flex-end; justify-content: space-between; }
 .sec-head .src { font-size: .85rem; color: var(--muted); padding-bottom: 6px; }
 .sec-head p { color: var(--muted); max-width: 68ch; }
+.dcta { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; margin: 48px 0 0; padding: 18px 20px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); }
+.dcta span { max-width: 62ch; }
 section.block { scroll-margin-top: -72px; }
 
 /* Faction banners */
@@ -1043,8 +1047,8 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/search/search.css?v=b52e2ac809" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/me/me.css?v=378dd2c208" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/search/search.css?v=6bb0507e11" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/me/me.css?v=0ff37bbee7" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://gabella.site/wow/fr/"},{"@type":"ListItem","position":2,"name":"Classes","item":"https://gabella.site/wow/fr/classes/"},{"@type":"ListItem","position":3,"name":"Druide","item":"https://gabella.site/wow/fr/classes/druid/"}]}</script>
 </head>
 <body style="--cc:#ff7d0a">
@@ -1073,7 +1077,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="../../" aria-label="Gabella, vers l’accueil"><img class="mark" src="../../../assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Guide WoW Forever</small></span></a>
   <nav class="mainnav" aria-label="Sections">
-    <a href="../../#factions">Factions</a><a href="../../#classes" aria-current="true">Classes</a><a href="../../#peoples">Races</a><a href="../../#picker">Sélecteur</a><a href="../../#builder">Groupe</a><a href="../../guides/">Guides</a><a href="../../tools/">Outils</a><a href="../../roster/">Effectif</a><a href="../../play/">En jeu</a>
+    <a href="../../classes/" aria-current="true">Classes</a><a href="../../races/">Races</a><a href="../../guides/leveling/">Progression</a><a href="../../guides/dungeons/">Donjons</a><a href="../../guides/">Guides</a><a href="../../tools/">Outils</a><a href="../../play/">En jeu</a><a href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Discord</a>
   </nav>
   <div class="tools">
     <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" aria-label="Langue: Français">FR</button><ul class="langlist" hidden><li><a href="../../../classes/druid/" data-lang="ru" hreflang="ru" lang="ru"><span>Русский</span><small>RU</small></a></li><li><a href="../../../en/classes/druid/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../../../uk/classes/druid/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../../../de/classes/druid/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="./" data-lang="fr" hreflang="fr" lang="fr" aria-current="page"><span>Français</span><small>FR</small></a></li><li><a href="../../../es/classes/druid/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="../../../pt/classes/druid/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="../../../it/classes/druid/" data-lang="it" hreflang="it" lang="it"><span>Italiano</span><small>IT</small></a></li><li><a href="../../../pl/classes/druid/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
@@ -1133,7 +1137,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
     <div class="panel"><h3>Apport au groupe</h3><ul class="dots"><li>Chef de la meute et Aura de sélénien affectent tout le raid et se cumulent</li><li>Renaissance : résurrection en combat</li><li>Innervation rend du mana à un soigneur</li><li>Supprime malédictions et poisons</li></ul></div>
     <div class="panel"><h3>Progression</h3><p>Environ 5% plus lent que la moyenne</p></div>
   </div>
-  <div class="panel cprofs" id="profs"><h3>Métiers</h3><ul class="cpairs"><li><b>Alchimie + Herboristerie</b><span class="d">Un druide récolte les herbes directement en Forme de voyage.</span><span class="pcamp"><svg class="ico" aria-hidden="true"><use href="#i-fire"/></svg><span>Au camp: Mana Well — comme Bénédiction de sagesse; Incense Candle — comme Intelligence des arcanes</span></span></li><li><b>Travail du cuir + Dépeçage</b><span class="d">Pour les porteurs de cuir et de mailles. Un travailleur du cuir pose la Camp Tent au camp, qui donne du repos.</span><span class="pcamp"><svg class="ico" aria-hidden="true"><use href="#i-fire"/></svg><span>Au camp: Camp Tent — plus d’expérience de repos; Camp Chair — comme Aura de sélénien</span></span></li></ul><p class="small">Les métiers n’ont pas de bonus passifs dans Forever : les caractéristiques viennent de l’équipement, des potions et des enchantements que vous fabriquez, et des buffs des objets de camp.</p><a class="pmore" href="../../guides/professions/#pairs=druid">Tous les duos, objets de camp et montée de compétence<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+  <div class="panel cprofs" id="profs"><h3>Métiers</h3><ul class="cpairs"><li><b>Alchimie + Herboristerie</b><span class="d">Des potions pour vous et le groupe, et de l’or. Convient à toutes les classes.</span><span class="pcamp"><svg class="ico" aria-hidden="true"><use href="#i-fire"/></svg><span>Au camp: Mana Well — comme Bénédiction de sagesse; Incense Candle — comme Intelligence des arcanes</span></span></li><li><b>Travail du cuir + Dépeçage</b><span class="d">Pour les porteurs de cuir et de mailles. Un travailleur du cuir pose la Camp Tent au camp, qui donne du repos.</span><span class="pcamp"><svg class="ico" aria-hidden="true"><use href="#i-fire"/></svg><span>Au camp: Camp Tent — plus d’expérience de repos; Camp Chair — comme Aura de sélénien</span></span></li></ul><p class="small">Les métiers n’ont pas de bonus passifs dans Forever : les caractéristiques viennent de l’équipement, des potions et des enchantements que vous fabriquez, et des buffs des objets de camp.</p><a class="pmore" href="../../guides/professions/#pairs=druid">Tous les duos, objets de camp et montée de compétence<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
 </section>
 
 <section class="block wrap" id="pc">
@@ -1143,6 +1147,8 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
     <div class="panel"><h3>Points faibles</h3><ul class="pm minus"><li>Ni blocage ni parade pour l’ours</li><li>Les soins sur la durée sont plus difficiles à suivre</li><li>Les chiffres finaux en raid sont encore inconnus</li></ul></div>
   </div>
 </section>
+
+<div class="wrap"><p class="dcta"><span>Groupes pour le lancement, questions sur le guide et actualités — sur le Discord Gabella Team.</span><a class="btn ghost" href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Ouvrir Discord</a></p></div>
 
 <section class="block wrap" id="others">
   <div class="sec-head"><h2>Autres classes</h2></div>
@@ -1172,9 +1178,10 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   <div class="dh"><b>Toutes les sections</b><button class="iconbtn" id="moreClose" type="button" aria-label="Fermer"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Toutes les sections">
     <div class="grp"><div class="gh">Cette page</div><a href="#specs">Spécialisations</a><a href="#new">Nouveautés</a><a href="#races">Races</a><a href="#group">En groupe</a><a href="#pc">Avantages et inconvénients</a></div>
-    <div class="grp"><div class="gh">Guide</div><a href="../../">Accueil</a><a href="../../#picker">Sélecteur</a><a href="../../#builder">Créateur de groupe</a><a href="../../guides/">Guides</a><a href="../../tools/">Outils</a><a href="../../play/">En jeu</a></div>
+    <div class="grp"><div class="gh">Référence</div><a href="../../">Accueil</a><a href="../../classes/">Classes comparées</a><a href="../../races/">Races comparées</a><a href="../../guides/leveling/">Progression 1–60</a><a href="../../guides/dungeons/">Donjons et raids</a><a href="../../guides/professions/">Métiers</a><a href="../../guides/faq/">FAQ et dates</a><a href="../../guides/news/">Actualités</a><a href="../../guides/">Tous les guides</a></div>
+    <div class="grp"><div class="gh">Outils</div><a href="../../#picker">Sélecteur</a><a href="../../#builder">Créateur de groupe</a><a href="../../tools/">Cadres, comparaison, recherche</a><a href="../../play/">En jeu</a></div>
+    <div class="grp"><div class="gh">Communauté</div><a href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Discord</a><a href="../../roster/">Effectif</a><a href="../../profile/">Mon profil</a></div>
     <div class="grp"><div class="gh">Classes</div><a href="../warrior/">Guerrier</a><a href="../paladin/">Paladin</a><a href="../hunter/">Chasseur</a><a href="../rogue/">Voleur</a><a href="../priest/">Prêtre</a><a href="../shaman/">Chaman</a><a href="../mage/">Mage</a><a href="../warlock/">Démoniste</a><a href="../druid/" aria-current="page">Druide</a></div>
-    <div class="grp"><div class="gh">Équipe</div><a href="../../roster/">Effectif</a><a href="../../profile/">Mon profil</a></div>
   </nav>
   <div class="opts">
     <div class="langgrid" role="group" aria-label="Langue"><a href="../../../classes/druid/" data-lang="ru" hreflang="ru" lang="ru">Русский</a><a href="../../../en/classes/druid/" data-lang="en" hreflang="en" lang="en">English</a><a href="../../../uk/classes/druid/" data-lang="uk" hreflang="uk" lang="uk">Українська</a><a href="../../../de/classes/druid/" data-lang="de" hreflang="de" lang="de">Deutsch</a><a href="./" data-lang="fr" hreflang="fr" lang="fr" aria-current="page">Français</a><a href="../../../es/classes/druid/" data-lang="es" hreflang="es" lang="es">Español</a><a href="../../../pt/classes/druid/" data-lang="pt" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a><a href="../../../it/classes/druid/" data-lang="it" hreflang="it" lang="it">Italiano</a><a href="../../../pl/classes/druid/" data-lang="pl" hreflang="pl" lang="pl">Polski</a></div>
@@ -1285,8 +1292,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../../assets/radio/radio.js" data-root="../../../" defer></script>
-<script src="../../../assets/search/search.js?v=b52e2ac809" data-root="../../../" defer></script>
-<script src="../../../assets/me/me.js?v=378dd2c208" data-root="../../../" data-home="../../" data-lang="fr" data-teaser="Votre profil garde vos personnages, hauts faits et cadres" data-close="Fermer" data-page="classes/druid/" data-look="2" defer></script>
+<script src="../../../assets/search/search.js?v=6bb0507e11" data-root="../../../" defer></script>
+<script src="../../../assets/me/me.js?v=0ff37bbee7" data-root="../../../" data-home="../../" data-lang="fr" data-teaser="Votre profil garde vos personnages, hauts faits et cadres" data-close="Fermer" data-page="classes/druid/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

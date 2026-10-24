@@ -170,6 +170,8 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .gbtns .btn { white-space: normal; text-align: center; }
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
+.srchbtn kbd, .radiobtn .rdo-eq { display: none; }   /* on the home page search.css and radio.css come after the first paint */
+.radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: .92rem; }
 @media (max-width: 1210px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }
 
@@ -222,6 +224,8 @@ section.block { padding-top: 96px; display: grid; gap: 28px; }
 .sec-head .row { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: flex-end; justify-content: space-between; }
 .sec-head .src { font-size: .85rem; color: var(--muted); padding-bottom: 6px; }
 .sec-head p { color: var(--muted); max-width: 68ch; }
+.dcta { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; margin: 48px 0 0; padding: 18px 20px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); }
+.dcta span { max-width: 62ch; }
 section.block { scroll-margin-top: -72px; }
 
 /* Faction banners */
@@ -1080,8 +1084,8 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=b52e2ac809" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=378dd2c208" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=6bb0507e11" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=0ff37bbee7" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://gabella.site/wow/"},{"@type":"ListItem","position":2,"name":"Расы","item":"https://gabella.site/wow/races/"},{"@type":"ListItem","position":3,"name":"Нежить","item":"https://gabella.site/wow/races/undead/"}]}</script>
 </head>
 <body style="--cc:var(--horde);--fh:#d98a84">
@@ -1110,7 +1114,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="../../" aria-label="Gabella, на главную"><img class="mark" src="../../assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Гид WoW Forever</small></span></a>
   <nav class="mainnav" aria-label="Разделы">
-    <a href="../../#factions">Фракции</a><a href="../../#classes">Классы</a><a href="../../#peoples" aria-current="true">Расы</a><a href="../../#picker">Подборщик</a><a href="../../#builder">Группа</a><a href="../../guides/">Гайды</a><a href="../../tools/">Инструменты</a><a href="../../roster/">Состав</a><a href="../../play/">В игре</a>
+    <a href="../../classes/">Классы</a><a href="../../races/" aria-current="true">Расы</a><a href="../../guides/leveling/">Прокачка</a><a href="../../guides/dungeons/">Подземелья</a><a href="../../guides/">Гайды</a><a href="../../tools/">Инструменты</a><a href="../../play/">В игре</a><a href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Discord</a>
   </nav>
   <div class="tools">
     <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" aria-label="Язык: Русский">RU</button><ul class="langlist" hidden><li><a href="./" data-lang="ru" hreflang="ru" lang="ru" aria-current="page"><span>Русский</span><small>RU</small></a></li><li><a href="../../en/races/undead/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../../uk/races/undead/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../../de/races/undead/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="../../fr/races/undead/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="../../es/races/undead/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="../../pt/races/undead/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="../../it/races/undead/" data-lang="it" hreflang="it" lang="it"><span>Italiano</span><small>IT</small></a></li><li><a href="../../pl/races/undead/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
@@ -1146,7 +1150,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <section class="block wrap" id="racials">
   <div class="sec-head"><div class="row"><h2>Расовые способности</h2><span class="src">Method, Warcraft Tavern</span></div></div>
   <div class="frame">
-    <div class="racials"><article class="rcard"><div class="rt"><span class="k a">Активная</span></div><h3>Воля Отрекшихся<span class="en" lang="en">Will of the Forsaken</span></h3><p>Снимает очарование, страх и сон</p></article><article class="rcard"><div class="rt"><span class="k a">Активная</span></div><h3>Каннибализм<span class="en" lang="en">Cannibalize</span></h3><p>Восстанавливает 35% здоровья и маны со временем</p></article><article class="rcard"><div class="rt"><span class="k">Пассивная</span></div><h3>Подводное дыхание<span class="en" lang="en">Underwater Breathing</span></h3><p>Дыхание под водой дольше</p></article><article class="rcard"><div class="rt"><span class="k">Пассивная</span><span class="tag new">новое</span></div><h3>Могильное касание<span class="en" lang="en">Touch of the Grave</span></h3><p>5% шанс высосать здоровье при атаке</p></article></div>
+    <div class="racials"><article class="rcard"><div class="rt"><span class="k a">Активная</span></div><h3>Воля Отрекшихся<span class="en" lang="en">Will of the Forsaken</span></h3><p>Снимает очарование, страх и сон</p></article><article class="rcard"><div class="rt"><span class="k a">Активная</span></div><h3>Каннибализм<span class="en" lang="en">Cannibalize</span></h3><p>Восстанавливает 35% здоровья и маны со временем</p></article><article class="rcard"><div class="rt"><span class="k">Пассивная</span></div><h3>Подводное дыхание<span class="en" lang="en">Underwater Breathing</span></h3><p>Дыхание под водой дольше</p></article><article class="rcard"><div class="rt"><span class="k">Пассивная</span><span class="tag new">новое</span></div><h3>Могильное касание<span class="en" lang="en">Touch of the Grave</span></h3><p>Шанс высосать здоровье при атаке</p></article></div>
     <p class="pspells">Свои заклинания жреца: <b>Темное жертвоприношение</b><span class="en" lang="en">Dark Sacrifice</span> <span class="tag new">новое</span>, <b>Прикосновение слабости</b><span class="en" lang="en">Touch of Weakness</span>.</p>
   </div>
 </section>
@@ -1163,7 +1167,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   <picture aria-hidden="true"><img src="../../assets/art/undead-bg.webp?v=a2dd2fe5" width="480" height="270" alt="" loading="lazy" decoding="async"></picture>
   <div class="wrap">
   <div class="sec-head"><div class="row"><h2>Что нового в Forever</h2><span class="src">Warcraft Tavern</span></div><p>По сравнению с Classic. До релиза Blizzard ещё может менять цифры.</p></div>
-  <ol class="news"><li>Новый класс: Паладин. Такого сочетания не было ни в одной версии WoW.</li><li>Могильное касание (5% шанс высосать здоровье) заменило сопротивление тёмной магии.</li></ol>
+  <ol class="news"><li>Новый класс: Паладин. Такого сочетания не было ни в одной версии WoW.</li><li>Могильное касание (шанс высосать здоровье) заменило сопротивление тёмной магии.</li></ol>
   </div>
 </section>
 
@@ -1171,9 +1175,11 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   <div class="sec-head"><h2>История и выбор</h2></div>
   <div class="grid2">
     <div class="panel"><h3>История</h3><p>Отрекшиеся когда-то были жителями Лордерона (Lordaeron), поднятыми Плетью. Королева банши Сильвана Ветрокрылая освободила их от воли Короля-лича, и теперь они строят Подгород под руинами старой столицы.</p><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>Новая комбинация: паладин у Орды, где раньше этого класса не было.</p></div></div>
-    <div class="panel"><h3>Лучшие классы</h3><ul class="best"><li><a href="../../classes/warlock/">Чернокнижник</a><span>Воля Отрекшихся снимает страх, а Каннибализм лечит между боями.</span></li><li><a href="../../classes/priest/">Жрец</a><span>Классический тёмный жрец Орды, свои заклинания жреца.</span></li><li><a href="../../classes/paladin/">Паладин</a><span>Новое сочетание: паладин впервые доступен Орде.</span></li></ul><p class="note">Это мнение составителя. Любое разрешённое сочетание играбельно.</p></div>
+    <div class="panel"><h3>Лучшие классы</h3><ul class="best"><li><a href="../../classes/warlock/">Чернокнижник</a><span>Воля Отрекшихся снимает страх, а Каннибализм лечит между боями.</span></li><li><a href="../../classes/priest/">Жрец</a><span>Классический тёмный жрец Орды, свои заклинания жреца.</span></li><li><a href="../../classes/paladin/">Паладин</a><span>Новое сочетание: паладин впервые доступен Орде.</span></li></ul><p class="note">Это мнение составителя. Играть можно любым разрешённым сочетанием.</p></div>
   </div>
 </section>
+
+<div class="wrap"><p class="dcta"><span>Группы на старт, вопросы по гиду и новости — в Discord Gabella Team.</span><a class="btn ghost" href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Открыть Discord</a></p></div>
 
 <section class="block wrap" id="others">
   <div class="sec-head"><h2>Другие расы</h2></div>
@@ -1203,9 +1209,10 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   <div class="dh"><b>Все разделы</b><button class="iconbtn" id="moreClose" type="button" aria-label="Закрыть"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Все разделы">
     <div class="grp"><div class="gh">Эта страница</div><a href="#racials">Расовые способности</a><a href="#classes">Кем можно играть</a><a href="#new">Что нового</a><a href="#lore">История и выбор</a></div>
-    <div class="grp"><div class="gh">Гид</div><a href="../../">Главная</a><a href="../../#picker">Подборщик</a><a href="../../#builder">Конструктор группы</a><a href="../../guides/">Гайды</a><a href="../../tools/">Инструменты</a><a href="../../play/">В игре</a></div>
+    <div class="grp"><div class="gh">Справочник</div><a href="../../">Главная</a><a href="../../classes/">Классы: сравнение</a><a href="../../races/">Расы: сравнение</a><a href="../../guides/leveling/">Прокачка 1–60</a><a href="../../guides/dungeons/">Подземелья и рейды</a><a href="../../guides/professions/">Профессии</a><a href="../../guides/faq/">FAQ и даты</a><a href="../../guides/news/">Новости</a><a href="../../guides/">Все гайды</a></div>
+    <div class="grp"><div class="gh">Инструменты</div><a href="../../#picker">Подборщик</a><a href="../../#builder">Конструктор группы</a><a href="../../tools/">Рамки, сравнение, поиск</a><a href="../../play/">В игре</a></div>
+    <div class="grp"><div class="gh">Сообщество</div><a href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Discord</a><a href="../../roster/">Состав</a><a href="../../profile/">Мой профиль</a></div>
     <div class="grp"><div class="gh">Расы</div><a href="../human/">Человек</a><a href="../dwarf/">Дворф</a><a href="../night-elf/">Ночной эльф</a><a href="../gnome/">Гном</a><a href="../skyborne-alliance/">Высший скайборн</a><a href="../orc/">Орк</a><a href="../undead/" aria-current="page">Нежить</a><a href="../tauren/">Таурен</a><a href="../troll/">Тролль</a><a href="../skyborne-horde/">Скайборн-ветрорез</a></div>
-    <div class="grp"><div class="gh">Команда</div><a href="../../roster/">Состав</a><a href="../../profile/">Мой профиль</a></div>
   </nav>
   <div class="opts">
     <div class="langgrid" role="group" aria-label="Язык"><a href="./" data-lang="ru" hreflang="ru" lang="ru" aria-current="page">Русский</a><a href="../../en/races/undead/" data-lang="en" hreflang="en" lang="en">English</a><a href="../../uk/races/undead/" data-lang="uk" hreflang="uk" lang="uk">Українська</a><a href="../../de/races/undead/" data-lang="de" hreflang="de" lang="de">Deutsch</a><a href="../../fr/races/undead/" data-lang="fr" hreflang="fr" lang="fr">Français</a><a href="../../es/races/undead/" data-lang="es" hreflang="es" lang="es">Español</a><a href="../../pt/races/undead/" data-lang="pt" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a><a href="../../it/races/undead/" data-lang="it" hreflang="it" lang="it">Italiano</a><a href="../../pl/races/undead/" data-lang="pl" hreflang="pl" lang="pl">Polski</a></div>
@@ -1302,8 +1309,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=b52e2ac809" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=378dd2c208" data-root="../../" data-home="../../" data-lang="ru" data-teaser="Профиль хранит ваших персонажей, достижения и рамки" data-close="Закрыть" data-page="races/undead/" data-look="2" defer></script>
+<script src="../../assets/search/search.js?v=6bb0507e11" data-root="../../" defer></script>
+<script src="../../assets/me/me.js?v=0ff37bbee7" data-root="../../" data-home="../../" data-lang="ru" data-teaser="Профиль хранит ваших персонажей, достижения и рамки" data-close="Закрыть" data-page="races/undead/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

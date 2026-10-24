@@ -41,8 +41,8 @@ THERO_W = (960, 1440, 1920, 2560)
 
 
 LAUNCH_UTC = '23:00 UTC'
-YOUR = {'ru': 'по вашему времени', 'en': 'your time', 'uk': 'за вашим часом', 'de': 'Ihre Zeit', 'fr': 'votre heure',
-        'es': 'su hora', 'pt': 'seu horário', 'it': 'ora locale', 'pl': 'twój czas'}
+YOUR = {'ru': 'по вашему времени', 'en': 'your time', 'uk': 'за вашим часом', 'de': 'deine Zeit', 'fr': 'votre heure',
+        'es': 'tu hora', 'pt': 'seu horário', 'it': 'ora locale', 'pl': 'twój czas'}
 LOCAL_JS = """<script>
 document.querySelectorAll('time.lt').forEach(t => {
   const s = new Intl.DateTimeFormat(document.documentElement.lang, { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }).format(new Date(t.dateTime));
@@ -130,6 +130,16 @@ def render_block(kind, data, lang, root):
         rows = ''.join('<tr>' + ''.join(f'<td data-l="{h}">{E(c, lang)}</td>' for h, c in zip(head, r)) + '</tr>'
                        for r in data['rows'])
         return f'<table class="gtable"><thead><tr>{th}</tr></thead><tbody>{rows}</tbody></table>'
+    if kind == 'picks':                                           # table whose second column links class pages
+        head = [E(h, lang) for h in data['head']]
+        name = {c['id']: build.tr(c['n'], lang) for c in build.CLASSES}
+        def cls(ids):
+            return ', '.join(f'<a href="{root}classes/{i}/">{escape(name[i])}</a>' for i in ids)
+        rows = ''.join(f'<tr><td data-l="{head[0]}">{E(r[0], lang)}</td><td data-l="{head[1]}">{cls(r[1])}</td>'
+                       + ''.join(f'<td data-l="{h}">{E(c, lang)}</td>' for h, c in zip(head[2:], r[2:])) + '</tr>'
+                       for r in data['rows'])
+        th = ''.join(f'<th scope="col">{h}</th>' for h in head)
+        return f'<table class="gtable picks"><thead><tr>{th}</tr></thead><tbody>{rows}</tbody></table>'
     if kind == 'tabs':
         btns = ''.join(f'<button type="button" class="pill" role="tab" data-tab="{x["id"]}" aria-selected="{"true" if i == 0 else "false"}">'
                        f'{E(x["t"], lang)}</button>' for i, x in enumerate(data))
@@ -222,30 +232,34 @@ addEventListener('hashchange', openHash); openHash();'''
 
 DG_TX = {
     'ru': {'h': ['Подземелье', 'Уровни', 'Где вход'], 'new': 'новое', 'shown': 'Показано', 'of': 'из',
-           'none': 'Под этот уровень подземелий нет.', 'need': 'Укажите свой уровень, чтобы отфильтровать.'},
+           'none': 'Под этот уровень подземелий нет.', 'need': 'Укажите свой уровень, чтобы отфильтровать.',
+           'only': {'alliance': 'Только Альянс', 'horde': 'Только Орда'}},
     'en': {'h': ['Dungeon', 'Levels', 'Entrance'], 'new': 'new', 'shown': 'Showing', 'of': 'of',
-           'none': 'No dungeons for this level.', 'need': 'Enter your level to filter.'},
+           'none': 'No dungeons for this level.', 'need': 'Enter your level to filter.',
+           'only': {'alliance': 'Alliance only', 'horde': 'Horde only'}},
     'uk': {'h': ['Підземелля', 'Рівні', 'Де вхід'], 'new': 'нове', 'shown': 'Показано', 'of': 'з',
-           'none': 'Під цей рівень підземель немає.', 'need': 'Вкажіть свій рівень, щоб відфільтрувати.'},
+           'none': 'Під цей рівень підземель немає.', 'need': 'Вкажіть свій рівень, щоб відфільтрувати.',
+           'only': {'alliance': 'Лише Альянс', 'horde': 'Лише Орда'}},
 }
 DG_JS = r'''/* Dungeons: level filter seeded from "My hero" (read only, the hero is edited on the home page) */
 const TX = @@TX@@;
 const lvRange = d => d[1] === d[2] ? String(d[1]) : `${d[1]}–${d[2]}`;
 const nearLvl = (d, lv) => lv >= d[1] - 3 && lv <= d[2] + 3;
-let dgLvl = 0;
-try { dgLvl = +(JSON.parse(localStorage.getItem('gabella-wf-me')) || {}).lvl || 0; } catch (e) {}
+const HORDE = ['orc', 'undead', 'tauren', 'troll', 'skyH'];
+let dgLvl = 0, dgFac = '';
+try { const m = JSON.parse(localStorage.getItem('gabella-wf-me')) || {}; dgLvl = +m.lvl || 0; dgFac = m.race ? (HORDE.includes(m.race) ? 'horde' : 'alliance') : ''; } catch (e) {}
 let dgMode = dgLvl ? 'mine' : 'all';
 const lvIn = $('#dgLvl');
 function renderDg() {
   let rows = DUNGEONS;
   if (dgMode === 'new') rows = rows.filter(d => d[4]);
-  if (dgMode === 'mine') rows = dgLvl ? rows.filter(d => nearLvl(d, dgLvl)) : [];
+  if (dgMode === 'mine') rows = dgLvl ? rows.filter(d => nearLvl(d, dgLvl) && (!dgFac || !d[6] || d[6] === dgFac)) : [];
   $('#dgBody').innerHTML = rows.length ? rows.map(d => {
     const mine = dgLvl && nearLvl(d, dgLvl);
     const alt = (d[5] || []).map(a => `${a[0]}: ${a[1]}`).join(', ');
     return `<tr class="${mine ? 'mine' : ''}"><td data-l="${TX.h[0]}">${esc(d[0])}${d[4] ? ` <span class="tag new">${TX.new}</span>` : ''}</td>`
       + `<td data-l="${TX.h[1]}"><span class="pill${mine ? ' gold' : ''}">${lvRange(d)}</span>${alt ? `<span class="alt">${esc(alt)}</span>` : ''}</td>`
-      + `<td data-l="${TX.h[2]}">${esc(d[3])}</td></tr>`;
+      + `<td data-l="${TX.h[2]}">${esc(d[3])}${d[6] ? `<span class="alt">${TX.only[d[6]]}</span>` : ''}</td></tr>`;
   }).join('') : `<tr><td colspan="3">${dgLvl ? TX.none : TX.need}</td></tr>`;
   $('#dgCount').textContent = `${TX.shown} ${rows.length} ${TX.of} ${DUNGEONS.length}`;
   document.querySelectorAll('#segD button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === dgMode));
@@ -429,7 +443,7 @@ function renderLvl() {
   const next = (nx ? `<li><b>${TX.from} ${nx[0]}</b>${esc(nx[2])}</li>` : '') + (ms ? `<li><b>${ms[0] === lv ? TX.now : TX.at + ' ' + ms[0]}</b>${esc(ms[1])}</li>` : '');
   if (next) h += `<h3 class="ph">${TX.next}</h3><ul class="pnext">${next}</ul>`;
   $('#pNow').innerHTML = h;
-  const dg = DUNGEONS.filter(d => nearLvl(d, lv))
+  const dg = DUNGEONS.filter(d => nearLvl(d, lv) && (!d[6] || d[6] === fac))
     .sort((a, b) => Math.abs(a[1] + a[2] - 2 * lv) - Math.abs(b[1] + b[2] - 2 * lv)).slice(0, 6).sort((a, b) => a[1] - b[1] || a[2] - b[2]);
   $('#pDg').innerHTML = dg.length ? dg.map(d => `<li><span><b>${esc(d[0])}</b>${d[4] ? ` <span class="tag new">${TX.new}</span>` : ''}<small>${esc(d[3])}</small></span>`
     + `<span class="pill${lv >= d[1] && lv <= d[2] ? ' gold' : ''}">${lvRange(d)}</span></li>`).join('') : `<li class="pnote">${TX.dungNone}</li>`;
@@ -600,7 +614,8 @@ def build_page(g, lang, tpl, base_css, sprite, src):
     sub = g['path'] if 'path' in g else (f'guides/{g["slug"]}/' if g['slug'] else 'guides/')   # path: classes/, races/, privacy/, '' (404)
     here = page_dir(lang, sub)
     html = tpl.replace('@@BASE_CSS@@', base_css).replace('@@SPRITE@@', sprite)
-    html = html.replace('@@TABBAR@@', build.tabbar({'play': 'play/'}.get(g['slug']) if 'path' in g else 'guides/'))
+    nav = (g['path'] if g['path'] in ('classes/', 'races/', 'play/') else None) if 'path' in g else         (sub if g['slug'] in ('leveling', 'dungeons') else 'guides/')   # privacy, 404: no current item
+    html = build.chrome(html, nav=nav, tab={'play': 'play/'}.get(g['slug']) if 'path' in g else 'guides/')
     if g.get('hero'):                                             # own full-screen scene instead of the art band
         html = re.sub(r'<section class="stband ghero" id="top">.*?</section>', lambda mt: thero(mt.group(0), g['hero']), html, count=1, flags=re.S)
     html, missing = translate(html, lang)                       # 1) обвязка
@@ -654,12 +669,6 @@ def build_page(g, lang, tpl, base_css, sprite, src):
     if not g.get('sources'):                                     # privacy, 404: footer without the sources list
         html = re.sub(r'<!--src-->.*?<!--/src-->', '', html, flags=re.S)
     html = html.replace('<!--src-->', '').replace('<!--/src-->', '')
-    if section:                                                  # menu: the current item is Classes / Races, not Guides
-        html = html.replace('<a href="@@GUIDES@@" aria-current="true">', '<a href="@@GUIDES@@">')
-        anchor = {'classes': '#classes', 'races': '#peoples', 'play': 'play/'}.get(g['slug'])
-        if anchor:
-            html = html.replace(f'<a href="@@HOME@@{anchor}">', f'<a href="@@HOME@@{anchor}" aria-current="true">')
-    html = html.replace('@@GUIDES@@', rel(here, page_dir(lang, 'guides/')))
     html = html.replace('@@HOME@@', root)
     html = build.static_links(html, lang, root)
     if LAUNCH_UTC in html:                                       # launch time: also in the reader's time zone

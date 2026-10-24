@@ -170,6 +170,8 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .gbtns .btn { white-space: normal; text-align: center; }
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
+.srchbtn kbd, .radiobtn .rdo-eq { display: none; }   /* on the home page search.css and radio.css come after the first paint */
+.radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: .92rem; }
 @media (max-width: 1210px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }
 
@@ -222,6 +224,8 @@ section.block { padding-top: 96px; display: grid; gap: 28px; }
 .sec-head .row { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: flex-end; justify-content: space-between; }
 .sec-head .src { font-size: .85rem; color: var(--muted); padding-bottom: 6px; }
 .sec-head p { color: var(--muted); max-width: 68ch; }
+.dcta { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; margin: 48px 0 0; padding: 18px 20px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); }
+.dcta span { max-width: 62ch; }
 section.block { scroll-margin-top: -72px; }
 
 /* Faction banners */
@@ -1080,8 +1084,8 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/search/search.css?v=b52e2ac809" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/me/me.css?v=378dd2c208" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/search/search.css?v=6bb0507e11" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/me/me.css?v=0ff37bbee7" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://gabella.site/wow/fr/"},{"@type":"ListItem","position":2,"name":"Races","item":"https://gabella.site/wow/fr/races/"},{"@type":"ListItem","position":3,"name":"Skyborne High Order","item":"https://gabella.site/wow/fr/races/skyborne-alliance/"}]}</script>
 </head>
 <body style="--cc:var(--alliance);--fh:#86a6d8">
@@ -1110,7 +1114,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="../../" aria-label="Gabella, vers l’accueil"><img class="mark" src="../../../assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Guide WoW Forever</small></span></a>
   <nav class="mainnav" aria-label="Sections">
-    <a href="../../#factions">Factions</a><a href="../../#classes">Classes</a><a href="../../#peoples" aria-current="true">Races</a><a href="../../#picker">Sélecteur</a><a href="../../#builder">Groupe</a><a href="../../guides/">Guides</a><a href="../../tools/">Outils</a><a href="../../roster/">Effectif</a><a href="../../play/">En jeu</a>
+    <a href="../../classes/">Classes</a><a href="../../races/" aria-current="true">Races</a><a href="../../guides/leveling/">Progression</a><a href="../../guides/dungeons/">Donjons</a><a href="../../guides/">Guides</a><a href="../../tools/">Outils</a><a href="../../play/">En jeu</a><a href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Discord</a>
   </nav>
   <div class="tools">
     <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" aria-label="Langue: Français">FR</button><ul class="langlist" hidden><li><a href="../../../races/skyborne-alliance/" data-lang="ru" hreflang="ru" lang="ru"><span>Русский</span><small>RU</small></a></li><li><a href="../../../en/races/skyborne-alliance/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../../../uk/races/skyborne-alliance/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../../../de/races/skyborne-alliance/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="./" data-lang="fr" hreflang="fr" lang="fr" aria-current="page"><span>Français</span><small>FR</small></a></li><li><a href="../../../es/races/skyborne-alliance/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="../../../pt/races/skyborne-alliance/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="../../../it/races/skyborne-alliance/" data-lang="it" hreflang="it" lang="it"><span>Italiano</span><small>IT</small></a></li><li><a href="../../../pl/races/skyborne-alliance/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
@@ -1175,6 +1179,8 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   </div>
 </section>
 
+<div class="wrap"><p class="dcta"><span>Groupes pour le lancement, questions sur le guide et actualités — sur le Discord Gabella Team.</span><a class="btn ghost" href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Ouvrir Discord</a></p></div>
+
 <section class="block wrap" id="others">
   <div class="sec-head"><h2>Autres races</h2></div>
   <div class="frame ofacs"><div class="ofac alliance"><h3>Alliance</h3><div class="others"><a class="oc" href="../human/" style="--cc:var(--alliance)"><picture><source type="image/avif" srcset="../../../assets/art/human-360.avif?v=4b83bd2a 360w" sizes="132px"><source type="image/webp" srcset="../../../assets/art/human-360.webp?v=f6b98610 360w" sizes="132px"><img src="../../../assets/art/human-360.webp?v=f6b98610" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture><b>Humain</b></a><a class="oc" href="../dwarf/" style="--cc:var(--alliance)"><picture><source type="image/avif" srcset="../../../assets/art/dwarf-360.avif?v=cc10d273 360w" sizes="132px"><source type="image/webp" srcset="../../../assets/art/dwarf-360.webp?v=b5d727e9 360w" sizes="132px"><img src="../../../assets/art/dwarf-360.webp?v=b5d727e9" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture><b>Nain</b></a><a class="oc" href="../night-elf/" style="--cc:var(--alliance)"><picture><source type="image/avif" srcset="../../../assets/art/night-elf-360.avif?v=e7864df9 360w" sizes="132px"><source type="image/webp" srcset="../../../assets/art/night-elf-360.webp?v=7466fc6e 360w" sizes="132px"><img src="../../../assets/art/night-elf-360.webp?v=7466fc6e" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture><b>Elfe de la nuit</b></a><a class="oc" href="../gnome/" style="--cc:var(--alliance)"><picture><source type="image/avif" srcset="../../../assets/art/gnome-360.avif?v=dcbc77f6 360w" sizes="132px"><source type="image/webp" srcset="../../../assets/art/gnome-360.webp?v=6db74d62 360w" sizes="132px"><img src="../../../assets/art/gnome-360.webp?v=6db74d62" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture><b>Gnome</b></a></div></div><div class="ofac horde"><h3>Horde</h3><div class="others"><a class="oc" href="../orc/" style="--cc:var(--horde)"><picture><source type="image/avif" srcset="../../../assets/art/orc-360.avif?v=108731d5 360w" sizes="132px"><source type="image/webp" srcset="../../../assets/art/orc-360.webp?v=666e6997 360w" sizes="132px"><img src="../../../assets/art/orc-360.webp?v=666e6997" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture><b>Orc</b></a><a class="oc" href="../undead/" style="--cc:var(--horde)"><picture><source type="image/avif" srcset="../../../assets/art/undead-360.avif?v=75233559 360w" sizes="132px"><source type="image/webp" srcset="../../../assets/art/undead-360.webp?v=e951a3ae 360w" sizes="132px"><img src="../../../assets/art/undead-360.webp?v=e951a3ae" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture><b>Mort-vivant</b></a><a class="oc" href="../tauren/" style="--cc:var(--horde)"><picture><source type="image/avif" srcset="../../../assets/art/tauren-360.avif?v=7e6ca724 360w" sizes="132px"><source type="image/webp" srcset="../../../assets/art/tauren-360.webp?v=8784277b 360w" sizes="132px"><img src="../../../assets/art/tauren-360.webp?v=8784277b" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture><b>Tauren</b></a><a class="oc" href="../troll/" style="--cc:var(--horde)"><picture><source type="image/avif" srcset="../../../assets/art/troll-360.avif?v=f8a746a0 360w" sizes="132px"><source type="image/webp" srcset="../../../assets/art/troll-360.webp?v=eedf79cd 360w" sizes="132px"><img src="../../../assets/art/troll-360.webp?v=eedf79cd" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture><b>Troll</b></a><a class="oc" href="../skyborne-horde/" style="--cc:var(--horde)"><picture><source type="image/avif" srcset="../../../assets/art/skyborne-horde-360.avif?v=a2b27c04 360w" sizes="132px"><source type="image/webp" srcset="../../../assets/art/skyborne-horde-360.webp?v=3ca619d6 360w" sizes="132px"><img src="../../../assets/art/skyborne-horde-360.webp?v=3ca619d6" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture><b class="long">Skyborne Windshaper</b></a></div></div></div>
@@ -1203,9 +1209,10 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   <div class="dh"><b>Toutes les sections</b><button class="iconbtn" id="moreClose" type="button" aria-label="Fermer"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Toutes les sections">
     <div class="grp"><div class="gh">Cette page</div><a href="#racials">Capacités raciales</a><a href="#classes">Classes jouables</a><a href="#new">Nouveautés</a><a href="#lore">Histoire et choix</a></div>
-    <div class="grp"><div class="gh">Guide</div><a href="../../">Accueil</a><a href="../../#picker">Sélecteur</a><a href="../../#builder">Créateur de groupe</a><a href="../../guides/">Guides</a><a href="../../tools/">Outils</a><a href="../../play/">En jeu</a></div>
+    <div class="grp"><div class="gh">Référence</div><a href="../../">Accueil</a><a href="../../classes/">Classes comparées</a><a href="../../races/">Races comparées</a><a href="../../guides/leveling/">Progression 1–60</a><a href="../../guides/dungeons/">Donjons et raids</a><a href="../../guides/professions/">Métiers</a><a href="../../guides/faq/">FAQ et dates</a><a href="../../guides/news/">Actualités</a><a href="../../guides/">Tous les guides</a></div>
+    <div class="grp"><div class="gh">Outils</div><a href="../../#picker">Sélecteur</a><a href="../../#builder">Créateur de groupe</a><a href="../../tools/">Cadres, comparaison, recherche</a><a href="../../play/">En jeu</a></div>
+    <div class="grp"><div class="gh">Communauté</div><a href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Discord</a><a href="../../roster/">Effectif</a><a href="../../profile/">Mon profil</a></div>
     <div class="grp"><div class="gh">Races</div><a href="../human/">Humain</a><a href="../dwarf/">Nain</a><a href="../night-elf/">Elfe de la nuit</a><a href="../gnome/">Gnome</a><a href="../skyborne-alliance/" aria-current="page">Skyborne High Order</a><a href="../orc/">Orc</a><a href="../undead/">Mort-vivant</a><a href="../tauren/">Tauren</a><a href="../troll/">Troll</a><a href="../skyborne-horde/">Skyborne Windshaper</a></div>
-    <div class="grp"><div class="gh">Équipe</div><a href="../../roster/">Effectif</a><a href="../../profile/">Mon profil</a></div>
   </nav>
   <div class="opts">
     <div class="langgrid" role="group" aria-label="Langue"><a href="../../../races/skyborne-alliance/" data-lang="ru" hreflang="ru" lang="ru">Русский</a><a href="../../../en/races/skyborne-alliance/" data-lang="en" hreflang="en" lang="en">English</a><a href="../../../uk/races/skyborne-alliance/" data-lang="uk" hreflang="uk" lang="uk">Українська</a><a href="../../../de/races/skyborne-alliance/" data-lang="de" hreflang="de" lang="de">Deutsch</a><a href="./" data-lang="fr" hreflang="fr" lang="fr" aria-current="page">Français</a><a href="../../../es/races/skyborne-alliance/" data-lang="es" hreflang="es" lang="es">Español</a><a href="../../../pt/races/skyborne-alliance/" data-lang="pt" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a><a href="../../../it/races/skyborne-alliance/" data-lang="it" hreflang="it" lang="it">Italiano</a><a href="../../../pl/races/skyborne-alliance/" data-lang="pl" hreflang="pl" lang="pl">Polski</a></div>
@@ -1302,8 +1309,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../../assets/radio/radio.js" data-root="../../../" defer></script>
-<script src="../../../assets/search/search.js?v=b52e2ac809" data-root="../../../" defer></script>
-<script src="../../../assets/me/me.js?v=378dd2c208" data-root="../../../" data-home="../../" data-lang="fr" data-teaser="Votre profil garde vos personnages, hauts faits et cadres" data-close="Fermer" data-page="races/skyborne-alliance/" data-look="2" defer></script>
+<script src="../../../assets/search/search.js?v=6bb0507e11" data-root="../../../" defer></script>
+<script src="../../../assets/me/me.js?v=0ff37bbee7" data-root="../../../" data-home="../../" data-lang="fr" data-teaser="Votre profil garde vos personnages, hauts faits et cadres" data-close="Fermer" data-page="races/skyborne-alliance/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

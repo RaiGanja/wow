@@ -180,6 +180,8 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .gbtns .btn { white-space: normal; text-align: center; }
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
+.srchbtn kbd, .radiobtn .rdo-eq { display: none; }   /* on the home page search.css and radio.css come after the first paint */
+.radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: .92rem; }
 @media (max-width: 1210px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }
 
@@ -232,6 +234,8 @@ section.block { padding-top: 96px; display: grid; gap: 28px; }
 .sec-head .row { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: flex-end; justify-content: space-between; }
 .sec-head .src { font-size: .85rem; color: var(--muted); padding-bottom: 6px; }
 .sec-head p { color: var(--muted); max-width: 68ch; }
+.dcta { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; margin: 48px 0 0; padding: 18px 20px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); }
+.dcta span { max-width: 62ch; }
 section.block { scroll-margin-top: -72px; }
 
 /* Faction banners */
@@ -1043,8 +1047,8 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=b52e2ac809" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=378dd2c208" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=6bb0507e11" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=0ff37bbee7" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://gabella.site/wow/"},{"@type":"ListItem","position":2,"name":"Классы","item":"https://gabella.site/wow/classes/"},{"@type":"ListItem","position":3,"name":"Друид","item":"https://gabella.site/wow/classes/druid/"}]}</script>
 </head>
 <body style="--cc:#ff7d0a">
@@ -1073,7 +1077,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="../../" aria-label="Gabella, на главную"><img class="mark" src="../../assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Гид WoW Forever</small></span></a>
   <nav class="mainnav" aria-label="Разделы">
-    <a href="../../#factions">Фракции</a><a href="../../#classes" aria-current="true">Классы</a><a href="../../#peoples">Расы</a><a href="../../#picker">Подборщик</a><a href="../../#builder">Группа</a><a href="../../guides/">Гайды</a><a href="../../tools/">Инструменты</a><a href="../../roster/">Состав</a><a href="../../play/">В игре</a>
+    <a href="../../classes/" aria-current="true">Классы</a><a href="../../races/">Расы</a><a href="../../guides/leveling/">Прокачка</a><a href="../../guides/dungeons/">Подземелья</a><a href="../../guides/">Гайды</a><a href="../../tools/">Инструменты</a><a href="../../play/">В игре</a><a href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Discord</a>
   </nav>
   <div class="tools">
     <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" aria-label="Язык: Русский">RU</button><ul class="langlist" hidden><li><a href="./" data-lang="ru" hreflang="ru" lang="ru" aria-current="page"><span>Русский</span><small>RU</small></a></li><li><a href="../../en/classes/druid/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../../uk/classes/druid/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../../de/classes/druid/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="../../fr/classes/druid/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="../../es/classes/druid/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="../../pt/classes/druid/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="../../it/classes/druid/" data-lang="it" hreflang="it" lang="it"><span>Italiano</span><small>IT</small></a></li><li><a href="../../pl/classes/druid/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
@@ -1133,7 +1137,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
     <div class="panel"><h3>Польза для группы</h3><ul class="dots"><li>Вожак стаи и аура лунного совуха действуют на весь рейд и складываются</li><li>Возрождение: воскрешение в бою</li><li>Озарение возвращает ману лекарю</li><li>Снимает проклятия и яды</li></ul></div>
     <div class="panel"><h3>Прокачка</h3><p>Примерно на 5% медленнее среднего</p></div>
   </div>
-  <div class="panel cprofs" id="profs"><h3>Профессии</h3><ul class="cpairs"><li><b>Алхимия + Травничество</b><span class="d">Травы друид собирает прямо в облике путешествия.</span><span class="pcamp"><svg class="ico" aria-hidden="true"><use href="#i-fire"/></svg><span>В лагере: Mana Well — как Благословение мудрости; Incense Candle — как Чародейский интеллект</span></span></li><li><b>Кожевничество + Снятие шкур</b><span class="d">Для тех, кто носит кожу и кольчугу. Кожевник ставит в лагере Camp Tent, она даёт отдых.</span><span class="pcamp"><svg class="ico" aria-hidden="true"><use href="#i-fire"/></svg><span>В лагере: Camp Tent — больше опыта от отдыха; Camp Chair — как аура лунного совуха</span></span></li></ul><p class="small">Пассивных бонусов у профессий в Forever нет: характеристики дают вещи, зелья и чары, которые вы делаете, и баффы объектов лагеря.</p><a class="pmore" href="../../guides/professions/#pairs=druid">Все пары, объекты лагеря и прокачка навыка<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+  <div class="panel cprofs" id="profs"><h3>Профессии</h3><ul class="cpairs"><li><b>Алхимия + Травничество</b><span class="d">Зелья для себя и группы и заработок золота. Подходит любому классу.</span><span class="pcamp"><svg class="ico" aria-hidden="true"><use href="#i-fire"/></svg><span>В лагере: Mana Well — как Благословение мудрости; Incense Candle — как Чародейский интеллект</span></span></li><li><b>Кожевничество + Снятие шкур</b><span class="d">Для тех, кто носит кожу и кольчугу. Кожевник ставит в лагере Camp Tent, она даёт отдых.</span><span class="pcamp"><svg class="ico" aria-hidden="true"><use href="#i-fire"/></svg><span>В лагере: Camp Tent — больше опыта от отдыха; Camp Chair — как аура лунного совуха</span></span></li></ul><p class="small">Пассивных бонусов у профессий в Forever нет: характеристики дают вещи, зелья и чары, которые вы делаете, и баффы объектов лагеря.</p><a class="pmore" href="../../guides/professions/#pairs=druid">Все пары, объекты лагеря и прокачка навыка<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
 </section>
 
 <section class="block wrap" id="pc">
@@ -1143,6 +1147,8 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
     <div class="panel"><h3>Слабые стороны</h3><ul class="pm minus"><li>Нет блока и парирования у медведя</li><li>Сложнее следить за эффектами лечения</li><li>Итоговые цифры в рейдах ещё неизвестны</li></ul></div>
   </div>
 </section>
+
+<div class="wrap"><p class="dcta"><span>Группы на старт, вопросы по гиду и новости — в Discord Gabella Team.</span><a class="btn ghost" href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Открыть Discord</a></p></div>
 
 <section class="block wrap" id="others">
   <div class="sec-head"><h2>Другие классы</h2></div>
@@ -1172,9 +1178,10 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   <div class="dh"><b>Все разделы</b><button class="iconbtn" id="moreClose" type="button" aria-label="Закрыть"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Все разделы">
     <div class="grp"><div class="gh">Эта страница</div><a href="#specs">Специализации</a><a href="#new">Что нового</a><a href="#races">Расы</a><a href="#group">В группе</a><a href="#pc">Плюсы и минусы</a></div>
-    <div class="grp"><div class="gh">Гид</div><a href="../../">Главная</a><a href="../../#picker">Подборщик</a><a href="../../#builder">Конструктор группы</a><a href="../../guides/">Гайды</a><a href="../../tools/">Инструменты</a><a href="../../play/">В игре</a></div>
+    <div class="grp"><div class="gh">Справочник</div><a href="../../">Главная</a><a href="../../classes/">Классы: сравнение</a><a href="../../races/">Расы: сравнение</a><a href="../../guides/leveling/">Прокачка 1–60</a><a href="../../guides/dungeons/">Подземелья и рейды</a><a href="../../guides/professions/">Профессии</a><a href="../../guides/faq/">FAQ и даты</a><a href="../../guides/news/">Новости</a><a href="../../guides/">Все гайды</a></div>
+    <div class="grp"><div class="gh">Инструменты</div><a href="../../#picker">Подборщик</a><a href="../../#builder">Конструктор группы</a><a href="../../tools/">Рамки, сравнение, поиск</a><a href="../../play/">В игре</a></div>
+    <div class="grp"><div class="gh">Сообщество</div><a href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Discord</a><a href="../../roster/">Состав</a><a href="../../profile/">Мой профиль</a></div>
     <div class="grp"><div class="gh">Классы</div><a href="../warrior/">Воин</a><a href="../paladin/">Паладин</a><a href="../hunter/">Охотник</a><a href="../rogue/">Разбойник</a><a href="../priest/">Жрец</a><a href="../shaman/">Шаман</a><a href="../mage/">Маг</a><a href="../warlock/">Чернокнижник</a><a href="../druid/" aria-current="page">Друид</a></div>
-    <div class="grp"><div class="gh">Команда</div><a href="../../roster/">Состав</a><a href="../../profile/">Мой профиль</a></div>
   </nav>
   <div class="opts">
     <div class="langgrid" role="group" aria-label="Язык"><a href="./" data-lang="ru" hreflang="ru" lang="ru" aria-current="page">Русский</a><a href="../../en/classes/druid/" data-lang="en" hreflang="en" lang="en">English</a><a href="../../uk/classes/druid/" data-lang="uk" hreflang="uk" lang="uk">Українська</a><a href="../../de/classes/druid/" data-lang="de" hreflang="de" lang="de">Deutsch</a><a href="../../fr/classes/druid/" data-lang="fr" hreflang="fr" lang="fr">Français</a><a href="../../es/classes/druid/" data-lang="es" hreflang="es" lang="es">Español</a><a href="../../pt/classes/druid/" data-lang="pt" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a><a href="../../it/classes/druid/" data-lang="it" hreflang="it" lang="it">Italiano</a><a href="../../pl/classes/druid/" data-lang="pl" hreflang="pl" lang="pl">Polski</a></div>
@@ -1285,8 +1292,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=b52e2ac809" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=378dd2c208" data-root="../../" data-home="../../" data-lang="ru" data-teaser="Профиль хранит ваших персонажей, достижения и рамки" data-close="Закрыть" data-page="classes/druid/" data-look="2" defer></script>
+<script src="../../assets/search/search.js?v=6bb0507e11" data-root="../../" defer></script>
+<script src="../../assets/me/me.js?v=0ff37bbee7" data-root="../../" data-home="../../" data-lang="ru" data-teaser="Профиль хранит ваших персонажей, достижения и рамки" data-close="Закрыть" data-page="classes/druid/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

@@ -163,6 +163,8 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .gbtns .btn { white-space: normal; text-align: center; }
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
+.srchbtn kbd, .radiobtn .rdo-eq { display: none; }   /* on the home page search.css and radio.css come after the first paint */
+.radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: .92rem; }
 @media (max-width: 1210px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }
 
@@ -215,6 +217,8 @@ section.block { padding-top: 96px; display: grid; gap: 28px; }
 .sec-head .row { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: flex-end; justify-content: space-between; }
 .sec-head .src { font-size: .85rem; color: var(--muted); padding-bottom: 6px; }
 .sec-head p { color: var(--muted); max-width: 68ch; }
+.dcta { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; margin: 48px 0 0; padding: 18px 20px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); }
+.dcta span { max-width: 62ch; }
 section.block { scroll-margin-top: -72px; }
 
 /* Faction banners */
@@ -921,9 +925,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="#top" aria-label="Gabella, к началу страницы"><img class="mark" src="@@ROOT@@assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Гид WoW Forever</small></span></a>
-  <nav class="mainnav" aria-label="Разделы">
-    <a href="#factions">Фракции</a><a href="#classes">Классы</a><a href="#peoples">Расы</a><a href="#picker">Подборщик</a><a href="#builder">Группа</a><a href="guides/">Гайды</a><a href="tools/">Инструменты</a><a href="roster/">Состав</a><a href="play/">В игре</a>
-  </nav>
+  @@MAINNAV@@
   <div class="tools">
     @@LANGSEL@@
     <button class="iconbtn themebtn" type="button" aria-label="Переключить тему" title="Переключить тему"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></button>
@@ -931,7 +933,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   </div>
 </div></header>
 
-<section class="hero" id="top" data-nav="#top">
+<section class="hero" id="top">
   @@TOD_HERO@@
   <div class="wrap hero-in">
     <h1>World of Warcraft <span>Forever</span></h1>
@@ -952,7 +954,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </section>
 
 <main>
-<section class="stband" id="stages" data-nav="#stages">
+<section class="stband" id="stages">
   <picture class="stband-art" data-fx="road"><source type="image/avif" srcset="@@ROOT@@assets/art/hero_road-960.avif 960w, @@ROOT@@assets/art/hero_road-1600.avif 1600w, @@ROOT@@assets/art/hero_road-2560.avif 2560w" sizes="100vw"><source type="image/webp" srcset="@@ROOT@@assets/art/hero_road-960.webp 960w, @@ROOT@@assets/art/hero_road-1600.webp 1600w, @@ROOT@@assets/art/hero_road-2560.webp 2560w" sizes="100vw"><img src="@@ROOT@@assets/art/hero_road-1600.webp" width="1600" height="893" alt="" loading="lazy" decoding="async"></picture>
   <div class="wrap">
     <div class="sec-head"><h2>Где вы сейчас</h2><p>Пять этапов от резерва имён до рейдов. Этап выбирается сам по дате, а если указать персонажа, гид подберёт подземелья под уровень и покажет ваши баффы для группы.</p></div>
@@ -980,7 +982,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   </div>
 </section>
 
-<section class="block wrap" id="factions" data-nav="#factions">
+<section class="block wrap" id="factions">
   <div class="sec-head"><h2>Альянс или Орда</h2><p>Договоритесь о фракции заранее: в PvP-режиме при создании доступна только одна. Девять классов есть у обеих сторон.</p></div>
   <div class="frame factions">
     <article class="fac alliance">
@@ -1001,14 +1003,14 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   </div>
 </section>
 
-<section class="block wrap" id="classes" data-nav="#classes">
-  <div class="sec-head"><div class="row"><h2>Кем играть</h2><span class="src">Warcraft Tavern, LFCarry</span></div><p>Наведите на портрет, чтобы раскрыть класс. Нажмите, чтобы открыть страницу класса: специализации, расы и что нового в Forever.</p></div>
+<section class="block wrap" id="classes">
+  <div class="sec-head"><div class="row"><h2>Кем играть</h2><span class="src">Warcraft Tavern, LFCarry</span></div><p>Нажмите на портрет, чтобы открыть страницу класса: специализации, расы и что нового в Forever.</p></div>
   <div class="frame roster" id="roster"></div>
   <p class="swipe">Листайте портреты в сторону.</p>
   <p><a class="more-l" href="classes/">Сравнить все классы<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
 </section>
 
-<section class="block wrap" id="peoples" data-nav="#peoples">
+<section class="block wrap" id="peoples">
   <div class="sec-head"><div class="row"><h2>За кого играть</h2><span class="src">Warcraft Tavern</span></div><p>По пять рас у каждой фракции, Скайборн есть у обеих. Нажмите на портрет, чтобы открыть страницу расы: способности, классы и история.</p></div>
   <div class="frame peoples">
     <div class="pfac alliance"><h3>Альянс</h3><div class="roster rr" id="rosterA"></div></div>
@@ -1018,13 +1020,13 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <p><a class="more-l" href="races/">Сравнить все расы<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
 </section>
 
-<section class="block wrap" id="tools" data-nav="#picker">
+<section class="block wrap" id="tools">
   <div class="sec-head"><h2>Инструменты</h2><p>Подбор расы и класса, сбор группы, а на отдельной странице рамки рейда как в игре, сравнение и поиск по гиду. Ссылкой на состав можно поделиться в чате.</p></div>
   <nav class="frame ttiles t4" aria-label="Инструменты">
     <a class="ttile" href="#picker"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/druid-360.avif 360w, @@ROOT@@assets/art/druid-600.avif 600w" sizes="(max-width: 980px) 100vw, 400px"><source type="image/webp" srcset="@@ROOT@@assets/art/druid-360.webp 360w, @@ROOT@@assets/art/druid-600.webp 600w" sizes="(max-width: 980px) 100vw, 400px"><img src="@@ROOT@@assets/art/druid-600.webp" alt="" loading="lazy" decoding="async"></picture><b>Подборщик расы и класса</b><span id="qPick">Все сочетания и что умеет каждое</span></a>
     <a class="ttile" href="#builder"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/hero_campfire-960.avif"><img src="@@ROOT@@assets/art/hero_campfire-960.webp" alt="" loading="lazy" decoding="async"></picture><b>Конструктор группы</b><span id="qTeam">От одного до сорока игроков</span></a>
     <a class="ttile" href="tools/"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/paladin-600.avif"><img src="@@ROOT@@assets/art/paladin-600.webp" alt="" loading="lazy" decoding="async"></picture><b>Рамки, сравнение, поиск</b><span>Рейдовая сетка как в игре, классы и расы рядом</span></a>
-    <a class="ttile" href="play/"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/mage-600.avif"><img src="@@ROOT@@assets/art/mage-600.webp" alt="" loading="lazy" decoding="async"></picture><b>В игре</b><span>Второй экран: радио, уровень, таймеры, Слава и задания недели</span></a>
+    <a class="ttile" href="play/"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/mage-600.avif"><img src="@@ROOT@@assets/art/mage-600.webp" alt="" loading="lazy" decoding="async"></picture><b>В игре</b><span>Второй экран: радио, уровень, таймеры</span></a>
   </nav>
 
 </section>
@@ -1043,7 +1045,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
         <div class="seg" id="segR" aria-labelledby="lr">
           <button data-v="all" aria-pressed="true">Любая</button>
           <button data-v="tank" aria-pressed="false">Танк</button>
-          <button data-v="heal" aria-pressed="false">Хил</button>
+          <button data-v="heal" aria-pressed="false">Лекарь</button>
           <button data-v="dps" aria-pressed="false">Урон</button>
         </div></div>
     </div>
@@ -1080,7 +1082,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     </aside>
   </div>
 </section>
-<section class="stband" id="guides" data-nav="#guides">
+<section class="stband" id="guides">
   <div class="wrap">
     <div class="sec-head"><h2>Гайды и справочник</h2><p>Всё, что мы собрали о WoW Forever: даты, системы игры, подземелья и советы для компании.</p></div>
     <nav class="frame gtiles" aria-label="Гайды">
@@ -1096,7 +1098,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     <p><a class="more-l" href="guides/">Все гайды<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
   </div>
 </section>
-<section class="camp" id="camp" data-nav="#guides">
+<section class="camp" id="camp">
   <picture class="camp-art" data-fx="camp"><source type="image/avif" srcset="@@ROOT@@assets/art/hero_campfire-960.avif 960w, @@ROOT@@assets/art/hero_campfire-1600.avif 1600w, @@ROOT@@assets/art/hero_campfire-2560.avif 2560w" sizes="(max-width: 719px) 300vw, 100vw"><source type="image/webp" srcset="@@ROOT@@assets/art/hero_campfire-960.webp 960w, @@ROOT@@assets/art/hero_campfire-1600.webp 1600w, @@ROOT@@assets/art/hero_campfire-2560.webp 2560w" sizes="(max-width: 719px) 300vw, 100vw"><img src="@@ROOT@@assets/art/hero_campfire-1600.webp" width="1600" height="893" alt="" loading="lazy" decoding="async"></picture>
   <div class="wrap camp-in">
     <h2>Найдите группу</h2>
@@ -1105,7 +1107,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   </div>
 </section>
 <div class="wrap">
-<footer id="sources" data-nav="#guides">
+<footer id="sources">
   <h2>Источники и актуальность</h2>
   <p>Данные собраны <b style="color:var(--fg)">23.10.2026</b> по закрытой бете и патчу от 15.10.2026 и сверены по нескольким источникам. До релиза Blizzard ещё может менять бету, особенно способности рас, настройку классов и перки Legacy. Если источники расходились, это отмечено в тексте. Точные числа сверяйте в игре.</p>
   <p><span class="tl" style="display:inline">Совет:</span> мнение составителя, не официальные данные.</p>
@@ -1129,10 +1131,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <dialog class="sheet" id="moreDlg" aria-label="Все разделы">
   <div class="dh"><b>Все разделы</b><button class="iconbtn" id="moreClose" type="button" aria-label="Закрыть"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Все разделы">
-    <div class="grp"><div class="gh">Главная</div><a href="#top">Обзор</a><a href="#stages">Где вы сейчас</a><a href="#factions">Фракции</a><a href="#classes">Классы</a><a href="#peoples">Расы</a></div>
-    <div class="grp"><div class="gh">Инструменты</div><a href="#picker">Подборщик</a><a href="#builder">Конструктор группы</a><a href="tools/">Рамки, сравнение, поиск</a><a href="play/">В игре</a></div>
-    <div class="grp"><div class="gh">Справочник</div><a href="guides/leveling/">Прокачка 1–60</a><a href="guides/dungeons/">Подземелья и рейды</a><a href="guides/professions/">Профессии</a><a href="guides/faq/">FAQ и даты</a><a href="guides/news/">Новости</a><a href="classes/">Классы: сравнение</a><a href="races/">Расы: сравнение</a><a href="#sources">Источники</a></div>
-    <div class="grp"><div class="gh">Команда</div><a href="roster/">Состав</a><a href="profile/">Мой профиль</a></div>
+    <div class="grp"><div class="gh">Эта страница</div><a href="#top">Обзор</a><a href="#stages">Где вы сейчас</a><a href="#factions">Фракции</a><a href="#classes">Классы</a><a href="#peoples">Расы</a></div>
+    @@MORENAV@@
   </nav>
   <div class="opts">
     @@LANGSHEET@@
@@ -1140,6 +1140,57 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   </div>
   <p class="meta">Данные на 23.10.2026, закрытая бета, патч от 15.10.2026.</p>
 </dialog>
+<script>
+/* First screen, before the first paint: countdown, theme, top bar, menu. The page script after this one
+   goes to assets/home/<lang>.js in the build (build.home_js) and runs once the hero is painted. */
+(() => {
+const $ = s => document.querySelector(s);
+/* Countdown and key dates */
+function renderCountdown() {
+  const now = new Date(), rel = new Date('2026-11-04T23:00:00Z'), raid = new Date('2026-12-09T00:00:00'), r1 = new Date('2026-10-27T00:00:00');
+  let target, what, sub;
+  if (now < rel) {   /* launch 15:00 PT = 23:00 UTC, shown in the reader's time */
+    const today = now.toDateString() === rel.toDateString(), lang = document.documentElement.lang;
+    const when = today ? rel.toLocaleTimeString(lang, { hour: '2-digit', minute: '2-digit' })
+                       : rel.toLocaleString(lang, { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' });
+    target = rel; what = (today ? 'Сегодня старт' : 'до старта') + ' · ' + when; sub = now < r1 ? 'Резервация имён откроется 27.10' : now < new Date('2026-11-04T00:00:00') ? 'Резервация имён идёт до 03.11' : 'Рейды открываются 09.12.2026';
+  }
+  else if (now < raid) { target = raid; what = 'до рейдов'; sub = 'Рейды открываются 09.12.2026'; }
+  if (target) {
+    const ms = target - now, d = Math.floor(ms / 864e5), h = Math.floor(ms % 864e5 / 36e5), m = Math.floor(ms % 36e5 / 6e4);
+    const p = x => String(x).padStart(2, '0');
+    $('#cd').innerHTML = `<div class="units"><div class="u"><b>${d}</b><span>дн</span></div><div class="u"><b>${p(h)}</b><span>ч</span></div><div class="u"><b>${p(m)}</b><span>мин</span></div></div>
+      <div class="what"><b>${what}</b><span>${sub}</span></div>`;
+  } else {
+    $('#cd').innerHTML = `<div class="what"><b>Рейды открыты</b><span>Barrow Deeps, Hyjal Summit, Onyxia’s Lair</span></div>`;
+  }
+  let cur = null;
+  document.querySelectorAll('.hdates li').forEach(li => { const past = new Date(li.dataset.d) <= now; li.classList.toggle('past', past); li.classList.remove('cur'); if (!past && !cur) cur = li; });
+  if (cur) cur.classList.add('cur');
+}
+renderCountdown();
+setInterval(renderCountdown, 30000);
+
+/* Theme toggle and language links */
+const themeBtns = document.querySelectorAll('.themebtn');
+function paintTheme() { const t = document.documentElement.getAttribute('data-theme'); themeBtns.forEach(b => b.querySelector('use').setAttribute('href', t === 'light' ? '#i-moon' : '#i-sun')); const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#fbfaf7' : '#07080a'); }
+themeBtns.forEach(b => b.onclick = () => { const t = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light'; document.documentElement.setAttribute('data-theme', t); try { localStorage.setItem('wf-theme', t); } catch (e) {} paintTheme(); });
+paintTheme();
+
+/* Top bar turns solid once the page is scrolled */
+const topbar = $('#topbar');
+let barTick = false;
+function paintBar() { topbar.classList.toggle('solid', window.scrollY > 24); barTick = false; }
+window.addEventListener('scroll', () => { if (!barTick) { barTick = true; requestAnimationFrame(paintBar); } }, { passive: true });
+paintBar();
+
+/* Menu sheet: all sections, language, theme */
+const dlg = $('#moreDlg');
+document.querySelectorAll('.menubtn, .morebtn').forEach(b => b.onclick = () => { if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', ''); });
+$('#moreClose').onclick = () => dlg.close();
+dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.toc a')) dlg.close(); });
+})();
+</script>
 <script>
 const HOME = '';   // language home, the classes/ and races/ pages set their own
 /* ref:start — shared with the classes/ and races/ pages (build_guides.ref_js); no $ or esc here, every page defines its own */
@@ -1178,20 +1229,20 @@ const CLASSES = [
     specs:[['Стихии','Урон дальнего боя',['dps']],['Совершенствование','Урон в ближнем бою. Возможность танковать пока под вопросом',['dps','tank?']],['Исцеление','Лекарь',['heal']]],
     lvl:'Средний темп прокачки',
     lp:0,
-    raid:'Тотемы силы земли, неистовства ветра, языков пламени и грации воздуха усиливают весь рейд',
-    forever:'Дворфы теперь могут быть шаманами, значит класс появился у Альянса. Всплеск лавы усилен, Стихии поднялись в списках урона.' },
+    raid:'Тотемы силы земли, неистовства ветра, языков пламени и грации воздуха усиливают свою группу',
+    forever:'Дворфы теперь могут быть шаманами, значит класс появился у Альянса. Выброс лавы усилен, Стихии поднялись в списках урона.' },
   { id:'mage', n:'Маг', roles:['dps'],
     specs:[['Тайная магия','Бурст, много маны',['dps']],['Огонь','Криты и поджоги',['dps']],['Лёд','Урон и контроль',['dps']]],
     lvl:'Самая быстрая прокачка, примерно на 8% быстрее среднего (около 12 часов экономии)',
     lp:-8,
     raid:'Порталы и еда с водой для всей компании',
-    forever:'Огонь получил Hotstreak, Тайная магия переработанный Чародейский взрыв, Лёд Ледяное копьё. Огненно-ледяная стрела доступна с 40 уровня.' },
+    forever:'Огонь получил Путь огня, Тайная магия — Чародейскую вспышку, Лёд — Ледяное копьё. Огненно-ледяная стрела доступна с 40 уровня.' },
   { id:'warlock', n:'Чернокнижник', roles:['dps'],
     specs:[['Колдовство','Урон от проклятий и порчи',['dps']],['Демонология','Урон через демонов',['dps']],['Разрушение','Прямой урон огнём и тьмой',['dps']]],
     lvl:'Средний темп прокачки',
     lp:0,
     raid:'Мастерство тьмы теперь даёт 2–10% урона от тьмы (было 1–5%)',
-    forever:'У Колдовства новое направляемое заклинание, демон остаётся при Жертве демона, у Разрушения появились Испепеление и АОЕ.' },
+    forever:'У Колдовства новое направляемое заклинание, демон остаётся при Жертве демона, у Разрушения появились Испепеление и урон по площади.' },
   { id:'druid', n:'Друид', roles:['tank','heal','dps'],
     specs:[['Баланс','Урон дальнего боя',['dps']],['Сила зверя','Танк (медведь) и урон в ближнем бою (кошка)',['tank','dps']],['Исцеление','Лекарь, много лечения по времени',['heal']]],
     lvl:'Примерно на 5% медленнее среднего',
@@ -1199,16 +1250,16 @@ const CLASSES = [
     raid:'Вожак стаи и аура лунного совуха действуют на весь рейд и складываются',
     forever:'Каждая специализация получила чёткую роль, формы работают с зельями и чарами на оружии. Можно быть танком, лекарем и бойцом на одном персонаже.' }
 ];
-const ROLE_RU = { tank:'Танк', heal:'Хил', dps:'Урон', 'tank?':'Танк (под вопросом)' };
+const ROLE_RU = { tank:'Танк', heal:'Лекарь', dps:'Урон', 'tank?':'Танк (под вопросом)' };
 const ri = r => `<svg class="ri" aria-hidden="true"><use href="#i-${r.replace('?','')}"/></svg>`;
 const CCOL = { warrior:'#c79c6e', paladin:'#f58cba', hunter:'#abd473', rogue:'#fff569', priest:'#e8e8e8', shaman:'#2f8cf0', mage:'#40c7eb', warlock:'#8788ee', druid:'#ff7d0a' };
-const BUFF = { warrior:'Боевой крик', paladin:'Благословение королей', hunter:'Аура меткого выстрела', priest:'Божественный дух', shaman:'Тотемы (сила земли, неистовство ветра, языки пламени, грация воздуха)', mage:'Порталы, еда и вода', druid:'Вожак стаи и аура лунного совуха' };
+const BUFF = { warrior:'Боевой крик', paladin:'Благословение королей', hunter:'Аура меткого выстрела', priest:'Слово силы: Стойкость, Божественный дух', shaman:'Тотемы (сила земли, неистовство ветра, языки пламени, грация воздуха)', mage:'Чародейский интеллект, порталы, еда и вода', druid:'Знак дикой природы, Вожак стаи, аура лунного совуха' };
 
 const RACES = [
   { id:'human', n:'Человек', f:'alliance',
     cls:['warrior','paladin','hunter*','rogue','priest','mage','warlock'],
     rac:[['a','Воля к жизни','Снимает оглушение'],['a','Внимательность','Показывает невидимых врагов на 20 сек'],['p','Беспощадность','+2% шанс крита'],['p','Человеческий дух','+5% к духу']],
-    tip:'Дух идёт в лечение Жрецу Света, так что Человек-жрец хорош для хила.' },
+    tip:'Дух идёт в лечение Жрецу Света, так что Человек-жрец хорош для лекаря.' },
   { id:'dwarf', n:'Дворф', f:'alliance',
     cls:['warrior','paladin','hunter','rogue','priest','shaman*'],
     rac:[['a','Каменная форма','Иммунитет к кровотечениям, ядам и болезням на 8 сек и снижение физического урона'],['a','Поиск сокровища','Показывает сундуки рядом'],['p','Ярость земли','+2% к урону крита и силе лечения'],['p','Охотник на крупную дичь','+5% урона по зверям']],
@@ -1227,11 +1278,11 @@ const RACES = [
     tip:'Платная раса: набор Heroic Pack от $29.99. Старт в локации Zephras Isle (1–12 уровни).' },
   { id:'orc', n:'Орк', f:'horde',
     cls:['warrior','hunter','rogue','shaman','warlock','mage*'],
-    rac:[['a','Кровавое неистовство','+10% к силе атаки и заклинаний на 15 сек'],['a','Разрушение проклятий','Иммунитет к проклятиям и порчам и меньше магического урона на 8 сек'],['p','Дикость','+1% шанс крита'],['p','Твердость','Оглушения короче на 20%']],
+    rac:[['a','Кровавое неистовство','+10% к силе атаки и заклинаний на 15 сек'],['a','Разрушение проклятий','Снимает проклятия и порчи, магический урон по вам −5% на 8 сек'],['p','Дикость','+1% шанс крита'],['p','Твердость','Оглушения короче на 20%']],
     tip:'Кровавое неистовство даёт мощное окно урона.' },
   { id:'undead', n:'Нежить', f:'horde',
     cls:['warrior','rogue','mage','priest','warlock','paladin*'],
-    rac:[['a','Воля Отрекшихся','Снимает очарование, страх и сон'],['a','Каннибализм','Восстанавливает 35% здоровья и маны со временем'],['p','Подводное дыхание','Дыхание под водой дольше'],['p','Могильное касание','5% шанс высосать здоровье при атаке']],
+    rac:[['a','Воля Отрекшихся','Снимает очарование, страх и сон'],['a','Каннибализм','Восстанавливает 35% здоровья и маны со временем'],['p','Подводное дыхание','Дыхание под водой дольше'],['p','Могильное касание','Шанс высосать здоровье при атаке']],
     tip:'Новая комбинация: паладин у Орды, где раньше этого класса не было.' },
   { id:'tauren', n:'Таурен', f:'horde',
     cls:['warrior','hunter','shaman','druid'],
@@ -1244,7 +1295,7 @@ const RACES = [
   { id:'skyH', n:'Скайборн (Орда)', f:'horde', paid:true, name:'Скайборн-ветрорез',
     cls:['warrior','hunter','rogue','shaman','druid'],
     rac:[['a','Хождение по воздуху','Планирование вниз 10 сек, нет урона от падения'],['a','Взгляд в небо','+10% к скорости бега'],['p','Благословение ветра','+3% к скорости атаки и заклинаний'],['p','Прозрение стихий','+5% урона по элементалям']],
-    tip:'Платная раса: набор Heroic Pack от $29.99. Шаманом может быть только Орда, магом только Альянс.' }
+    tip:'Платная раса: набор Heroic Pack от $29.99. Из скайборнов шаманом может быть только ветрорез (Орда), магом — только Высший орден (Альянс).' }
 ];
 RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
 const CL = Object.fromEntries(CLASSES.map(c => [c.id, c]));
@@ -1371,7 +1422,7 @@ function renderPickM() {
     return `<button type="button" data-pc="${c.id}" class="${v ? '' : 'na'}" aria-pressed="${c.id === state.cls}">${esc(c.n)}${v === 'new' ? ' · новое' : ''}</button>`;
   }).join('');
   $('#pickm').innerHTML = `<div><div class="lbl">1. Раса</div><div class="chiprow">${races}</div></div>
-    <div><div class="lbl">2. Класс (пунктиром: этой расе недоступен, нажмите, чтобы сменить расу)</div><div class="chiprow">${cls}</div></div>`;
+    <div><div class="lbl">2. Класс · пунктир — не для этой расы, нажмите, чтобы сменить расу</div><div class="chiprow">${cls}</div></div>`;
 }
 
 function renderDetail() {
@@ -1488,31 +1539,6 @@ document.querySelectorAll('.go-f').forEach(b => b.addEventListener('click', () =
   document.getElementById('picker').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
 }));
 
-/* Countdown and key dates */
-function renderCountdown() {
-  const now = new Date(), rel = new Date('2026-11-04T23:00:00Z'), raid = new Date('2026-12-09T00:00:00'), r1 = new Date('2026-10-27T00:00:00');
-  let target, what, sub;
-  if (now < rel) {   /* launch 15:00 PT = 23:00 UTC, shown in the reader's time */
-    const today = now.toDateString() === rel.toDateString(), lang = document.documentElement.lang;
-    const when = today ? rel.toLocaleTimeString(lang, { hour: '2-digit', minute: '2-digit' })
-                       : rel.toLocaleString(lang, { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' });
-    target = rel; what = (today ? 'Сегодня старт' : 'до старта') + ' · ' + when; sub = now < r1 ? 'Резервация имён откроется 27.10' : now < new Date('2026-11-04T00:00:00') ? 'Резервация имён идёт до 03.11' : 'Рейды открываются 09.12.2026';
-  }
-  else if (now < raid) { target = raid; what = 'до рейдов'; sub = 'Рейды открываются 09.12.2026'; }
-  if (target) {
-    const ms = target - now, d = Math.floor(ms / 864e5), h = Math.floor(ms % 864e5 / 36e5), m = Math.floor(ms % 36e5 / 6e4);
-    const p = x => String(x).padStart(2, '0');
-    $('#cd').innerHTML = `<div class="units"><div class="u"><b>${d}</b><span>дн</span></div><div class="u"><b>${p(h)}</b><span>ч</span></div><div class="u"><b>${p(m)}</b><span>мин</span></div></div>
-      <div class="what"><b>${what}</b><span>${sub}</span></div>`;
-  } else {
-    $('#cd').innerHTML = `<div class="what"><b>Рейды открыты</b><span>Barrow Deeps, Hyjal Summit, Onyxia’s Lair</span></div>`;
-  }
-  let cur = null;
-  document.querySelectorAll('.hdates li').forEach(li => { const past = new Date(li.dataset.d) <= now; li.classList.toggle('past', past); li.classList.remove('cur'); if (!past && !cur) cur = li; });
-  if (cur) cur.classList.add('cur');
-}
-renderCountdown();
-setInterval(renderCountdown, 30000);
 /* Group builder */
 const MAXT = 40, PARTY = 5;
 const SIZES = [5, 6, 8, 10, 15, 20, 25, 40];
@@ -1612,7 +1638,7 @@ function renderTeam() {
   const have = [...new Set(team.list.map(s => s.cls))];
   const withB = have.filter(c => BUFF[c]), noB = have.filter(c => !BUFF[c]);
   $('#buffs').innerHTML = (withB.length ? withB.map(c => `<li class="good"><span class="cdot" style="--cc:${CCOL[c]}"></span><b>${esc(CL[c].n)}:</b> ${esc(BUFF[c])}</li>`).join('') : '<li>Пока нет классов с групповыми баффами.</li>')
-    + (noB.length ? `<li>Без группового баффа: ${noB.map(c => CL[c].n).join(', ')}. Они дают чистый урон.</li>` : '');
+    + (noB.length ? `<li>Без группового баффа: ${noB.map(c => CL[c].n).join(', ')}. Только урон.</li>` : '');
   $('#teamText').value = n ? Array.from({ length: parties }, (_, g) => (parties > 1 ? `Группа ${g + 1}: ` : '') + team.list.slice(g * PARTY, g * PARTY + PARTY).map(s => `${raceName(RC[s.race])} ${CL[s.cls].n} (${ROLE_RU[s.role]})`).join(', ')).join('; ') + ` — ${facName(team.f)}` : '';
   $('#qTeam').textContent = n ? `${facName(team.f)}, игроков: ${n}, танков ${cnt.tank}, лекарей ${cnt.heal}` : 'От одного до сорока игроков';
   if (teamTouched) { try { history.replaceState(null, '', n ? teamLink() : location.pathname); } catch (e) {} }
@@ -1648,7 +1674,7 @@ if (fromLink) setTimeout(() => document.getElementById('builder').scrollIntoView
 
 /* Dungeons: [name, min, max, entrance zone, new, other sites' ranges where they differ] */
 const DUNGEONS = [
-  ['Ragefire Chasm', 13, 18, 'Orgrimmar', 0],
+  ['Ragefire Chasm', 13, 18, 'Orgrimmar', 0, [], 'horde'],
   ['Hall of Thanes', 13, 18, 'Ironforge', 1, [['Icy Veins', '13–20']]],
   ['Ruins of Lordaeron', 15, 20, 'Tirisfal Glades', 1, [['Icy Veins', '15–22']]],
   ['The Deadmines', 15, 22, 'Westfall', 0, [['Icy Veins', '17–26']]],
@@ -1656,7 +1682,7 @@ const DUNGEONS = [
   ['Shadowfang Keep', 20, 26, 'Silverpine Forest', 0, [['Icy Veins', '20–30']]],
   ['Blackfathom Deeps', 22, 28, 'Ashenvale', 0, [['Sportskeeda', '22–26'], ['Icy Veins', '24–32']]],
   ['Excavation Site: Wetlands', 24, 29, 'Wetlands', 1, [['ClassicWoW.gg', '26–31'], ['Icy Veins', '26–33']]],
-  ['The Stockade', 25, 29, 'Stormwind City', 0, [['Icy Veins', '24–32']]],
+  ['The Stockade', 25, 29, 'Stormwind City', 0, [['Icy Veins', '24–32']], 'alliance'],
   ['City of Dalaran', 28, 33, 'Alterac Mountains', 1, [['Icy Veins', '28–35']]],
   ['Gnomeregan', 29, 38, 'Dun Morogh', 0],
   ['Razorfen Kraul', 29, 38, 'The Barrens', 0],
@@ -1686,13 +1712,14 @@ const DUNGEONS = [
 ];
 const lvRange = d => d[1] === d[2] ? String(d[1]) : `${d[1]}–${d[2]}`;
 const nearLvl = (d, lv) => lv >= d[1] - 3 && lv <= d[2] + 3;
+const facOk = (d, f) => !f || !d[6] || d[6] === f;   // Ragefire Chasm and The Stockade open from a capital
 
 /* Professions: camp object (tier 1) and the class buff it stands in for */
 const PROFS = [
   ['alchemy', 'Алхимия', 1, 'Mana Well', 'как Благословение мудрости'],
   ['blacksmithing', 'Кузнечное дело', 1, 'Sharpening Wheel', 'как Тотем силы земли'],
   ['enchanting', 'Наложение чар', 1, 'Enchanted Lute', 'как Знак дикой природы'],
-  ['engineering', 'Инженерия', 1, 'Reagent Bot', 'торговец реагентами, во 2 уровне ремонт'],
+  ['engineering', 'Инженерное дело', 1, 'Reagent Bot', 'торговец реагентами, на 2 уровне ремонт'],
   ['herbalism', 'Травничество', 1, 'Incense Candle', 'как Чародейский интеллект'],
   ['leatherworking', 'Кожевничество', 1, 'Camp Tent', 'больше опыта от отдыха'],
   ['mining', 'Горное дело', 1, 'Lodestone', 'как Благословение могущества'],
@@ -1717,7 +1744,7 @@ const SRC = {
 };
 const STAGES = [
   { id: 'pre', n: 'До старта', sub: 'до 04.11', lo: 0, hi: 0,
-    todo: [['f', 'Ранняя резервация имён 27.10 – 03.11 для владельцев наборов Heroic, Epic и Collection. Первым пришёл, первым занял.'],
+    todo: [['f', 'Ранняя резервация имён 27.10 – 03.11 для владельцев наборов Heroic, Epic и Collection. Кто первым пришёл, тот и занял.'],
       ['f', 'Можно занять до трёх персонажей на аккаунт. У персонажа имя и фамилия, уникальным должно быть их сочетание в пределах региона.'],
       ['f', 'С 04.11 для игры нужна подписка или игровое время.'],
       ['t', 'Придумайте по три имени с фамилией и запасные варианты до 27.10.']],
@@ -1731,15 +1758,15 @@ const STAGES = [
       ['t', 'Соберите состав в конструкторе: танк, лекарь и разные классы ради баффов.']],
     src: ['names', 'names2', 'prof', 'legacy'] },
   { id: 'first', n: 'Первые дни', sub: 'уровни 1–15', lo: 1, hi: 15,
-    todo: [['f', 'Скайборн начинают на острове Zephras Isle, это уровни 1–12.'],
+    todo: [['f', 'Скайборн начинают на Zephras Isle, это уровни 1–12.'],
       ['f', 'Таланты открываются с 10 уровня, с перком Legacy Talented с 9.'],
-      ['f', 'Большая часть готовой еды даёт бонус к опыту. Он складывается с лагерем и спальником Cozy Sleeping Bag.'],
+      ['f', 'Большая часть готовой еды даёт бонус к опыту. Он складывается с лагерем и [[«Уютным спальным мешком»|Cozy Sleeping Bag]].'],
       ['t', 'Копите отдых: выходите из игры в трактире или у лагеря с палаткой.']],
     prof: [['f', 'Базовый костёр доступен без Кулинарии и вмещает 3 объекта. Горит около 10 минут, поставить новый можно через 5.'],
       ['f', 'Чтобы получить баффы лагеря, сядьте рядом (/sit) хотя бы на минуту.'],
       ['t', 'Берите сбор с первых уровней: травы, руда и шкуры понадобятся ремеслу, а 150 в ремесле открывает Legacy.']],
     legacy: [['f', 'Перков пока нет: первое очко даст 25 уровень или 150 в профессии.'],
-      ['t', 'Когда откроется Legacy, первыми берите перки опыта и лагеря: Well Rested, Talented, Field Guide.']],
+      ['t', 'Когда откроется Legacy, первыми берите перки опыта и лагеря: Well Rested, Field Guide, Permanence. Talented пригодится твинкам.']],
     group: [['t', 'Качайтесь в одной зоне и ставьте лагерь на привале: пять минут на костёр окупаются баффами на всю группу.'],
       ['t', 'Собирайтесь в первую пятёрку к 13–15 уровню.']],
     src: ['camp', 'legacy', 'dung'] },
@@ -1754,15 +1781,15 @@ const STAGES = [
     legacy: [['f', 'Каждое испытание даёт 1 очко. Всего их 65: классы 27, профессии 18, PvP 12, подземелья 3, рейды 3, приключения 2.'],
       ['t', 'Ценны Reagent Economy (без покупных реагентов для способностей) и Field Guide (короче откат объектов лагеря).']],
     group: [['f', 'Подземелье рассчитано на 5 игроков: танк, лекарь и трое с уроном.'],
-      ['f', 'Масштабирования уровней нет, поэтому сильно отставшего друга в подземелье не взять.'],
+      ['f', 'Масштабирования уровней нет, поэтому сильно отставшему другу в подземелье будет тяжело.'],
       ['t', 'Держите уровни близко: отставшие догоняют на заданиях, подземелья проходите вместе.']],
     src: ['dung', 'camp', 'legacy'] },
   { id: 'path', n: 'Путь к 60', sub: 'уровни 40–60', lo: 40, hi: 60,
     todo: [['f', 'Скакун с 40 уровня (скорость 60%), быстрый с 60 (100%). Учиться у тренера своей расы.'],
       ['f', 'Паладин и чернокнижник получают скакуна заданиями класса.'],
-      ['f', 'Почёт у своей фракции даёт скидку 10% на обучение езде и скакунов. Точные цены Blizzard не публиковала, у сайтов они расходятся.'],
+      ['f', 'Почёт у своей фракции даёт скидку 10% на обучение езде и скакунов. По Warcraft Tavern: 100 + 20 золотых на 40 уровне, 1000 + 200 на 60.'],
       ['t', 'Отложите золото к 40 уровню: езда будет самой крупной тратой на пути к 60.']],
-    prof: [['f', 'Объекты лагеря 2 и 3 уровня у каждой профессии свои. У Инженерии второй объект Repair Bot чинит экипировку.'],
+    prof: [['f', 'Объекты лагеря 2 и 3 уровня у каждой профессии свои. У Инженерного дела второй объект Repair Bot чинит экипировку.'],
       ['t', 'Держите в группе Кулинарию 220 ради лагеря на 10 объектов: к рейду места хватит всем.']],
     legacy: [['f', 'На персонажа не больше 16 очков, лишние идут в трек наград: игрушка за 15, питомец за 25, табард за 40, скакун за 55.']],
     group: [['f', 'Рейды откроются 09.12: Barrow Deeps на 10 игроков, Hyjal Summit на 20, Onyxia’s Lair на 40.'],
@@ -1870,7 +1897,7 @@ function renderMe() {
     if (!b.length) b.push('<li><span class="bi"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></span><span>Выберите класс и профессии, чтобы увидеть баффы.</span></li>');
     out += `<div><h4>Что вы приносите группе</h4><ul class="buffs">${b.join('')}</ul></div>`;
     if (me.lvl) {
-      const ds = DUNGEONS.filter(d => nearLvl(d, me.lvl));
+      const ds = DUNGEONS.filter(d => nearLvl(d, me.lvl) && facOk(d, me.race && RC[me.race].f));
       out += `<div><h4>Подземелья под ваш уровень</h4>` + (ds.length ? `<ul class="dlist">${ds.slice(0, 4).map(dLi).join('')}</ul>` : '<p class="small">Первые подземелья с 13 уровня.</p>')
         + `<a class="more-l" href="guides/dungeons/">${ds.length > 4 ? `Ещё подземелий в таблице: ${ds.length - 4}` : 'Таблица подземелий'}<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>`;
     }
@@ -1901,37 +1928,6 @@ $('#stageBar').addEventListener('keydown', e => {
 if (meSet() && matchMedia('(max-width: 980px)').matches) $('#meD').open = false;
 renderJourney();
 setTimeout(() => { const t = $('#tab-' + stageSel), bar = $('#stageBar'); if (t && matchMedia('(max-width: 719px)').matches) bar.scrollLeft += t.getBoundingClientRect().left - bar.getBoundingClientRect().left - 16; }, 0);
-
-/* Theme toggle and language links */
-const themeBtns = document.querySelectorAll('.themebtn');
-function paintTheme() { const t = document.documentElement.getAttribute('data-theme'); themeBtns.forEach(b => b.querySelector('use').setAttribute('href', t === 'light' ? '#i-moon' : '#i-sun')); const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#fbfaf7' : '#07080a'); }
-themeBtns.forEach(b => b.onclick = () => { const t = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light'; document.documentElement.setAttribute('data-theme', t); try { localStorage.setItem('wf-theme', t); } catch (e) {} paintTheme(); });
-paintTheme();
-
-/* Top bar turns solid once the page is scrolled */
-const topbar = $('#topbar');
-let barTick = false;
-function paintBar() { topbar.classList.toggle('solid', window.scrollY > 24); barTick = false; }
-window.addEventListener('scroll', () => { if (!barTick) { barTick = true; requestAnimationFrame(paintBar); } }, { passive: true });
-paintBar();
-
-/* Menu sheet: all sections, language, theme */
-const dlg = $('#moreDlg');
-document.querySelectorAll('.menubtn, .morebtn').forEach(b => b.onclick = () => { if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', ''); });
-$('#moreClose').onclick = () => dlg.close();
-dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.toc a')) dlg.close(); });
-
-/* Current section in the top menu */
-if ('IntersectionObserver' in window) {
-  const navLinks = [...document.querySelectorAll('.mainnav a')];
-  const mark = (links, href) => links.forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === href ? 'true' : 'false'));
-  const io = new IntersectionObserver(es => es.forEach(en => {
-    if (!en.isIntersecting) return;
-    const t = en.target, nav = t.dataset.nav || ('#' + t.id);
-    mark(navLinks, nav);
-  }), { rootMargin: '-45% 0px -50% 0px' });
-  document.querySelectorAll('.hero, section.block, section.stband, footer#sources').forEach(s => io.observe(s));
-}
 </script>
 <script src="@@ROOT@@assets/living/living.js" defer></script>
 <link rel="stylesheet" href="@@ROOT@@assets/tod/tod.css" media="print" onload="this.media='all'">

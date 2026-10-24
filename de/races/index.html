@@ -169,6 +169,8 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .gbtns .btn { white-space: normal; text-align: center; }
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
+.srchbtn kbd, .radiobtn .rdo-eq { display: none; }   /* on the home page search.css and radio.css come after the first paint */
+.radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: .92rem; }
 @media (max-width: 1210px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }
 
@@ -221,6 +223,8 @@ section.block { padding-top: 96px; display: grid; gap: 28px; }
 .sec-head .row { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: flex-end; justify-content: space-between; }
 .sec-head .src { font-size: .85rem; color: var(--muted); padding-bottom: 6px; }
 .sec-head p { color: var(--muted); max-width: 68ch; }
+.dcta { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; margin: 48px 0 0; padding: 18px 20px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); }
+.dcta span { max-width: 62ch; }
 section.block { scroll-margin-top: -72px; }
 
 /* Faction banners */
@@ -1073,8 +1077,8 @@ nav.gtiles { padding: 14px; }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=b52e2ac809" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=378dd2c208" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=6bb0507e11" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=0ff37bbee7" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://gabella.site/wow/de/"},{"@type":"ListItem","position":2,"name":"Völker","item":"https://gabella.site/wow/de/races/"}]}</script>
 </head>
 <body>
@@ -1103,7 +1107,7 @@ nav.gtiles { padding: 14px; }
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="../" aria-label="Gabella, zur Startseite"><img class="mark" src="../../assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>WoW Forever Guide</small></span></a>
   <nav class="mainnav" aria-label="Abschnitte">
-    <a href="../#factions">Fraktionen</a><a href="../#classes">Klassen</a><a href="../#peoples" aria-current="true">Völker</a><a href="../#picker">Auswahl</a><a href="../#builder">Gruppe</a><a href="../guides/">Guides</a><a href="../tools/">Tools</a><a href="../roster/">Kader</a><a href="../play/">Im Spiel</a>
+    <a href="../classes/">Klassen</a><a href="../races/" aria-current="true">Völker</a><a href="../guides/leveling/">Leveln</a><a href="../guides/dungeons/">Dungeons</a><a href="../guides/">Guides</a><a href="../tools/">Tools</a><a href="../play/">Im Spiel</a><a href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Discord</a>
   </nav>
   <div class="tools">
     <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" aria-label="Sprache: Deutsch">DE</button><ul class="langlist" hidden><li><a href="../../races/" data-lang="ru" hreflang="ru" lang="ru"><span>Русский</span><small>RU</small></a></li><li><a href="../../en/races/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../../uk/races/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="./" data-lang="de" hreflang="de" lang="de" aria-current="page"><span>Deutsch</span><small>DE</small></a></li><li><a href="../../fr/races/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="../../es/races/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="../../pt/races/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="../../it/races/" data-lang="it" hreflang="it" lang="it"><span>Italiano</span><small>IT</small></a></li><li><a href="../../pl/races/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
@@ -1127,12 +1131,13 @@ nav.gtiles { padding: 14px; }
 <main class="wrap gbody solo">
   <nav class="gtoc frame" aria-label="Bereiche des Guides"></nav>
   <div class="gmain">
-<section class="frame gsec" id="compare"><h2>Vergleich</h2><p>Jedes Volk hat vier Fähigkeiten: zwei aktive und zwei passive. Manche alten Fähigkeiten wurden durch neue ersetzt, Widerstände wurden entfernt.</p><div class="cmp rac" id="raceRef"><a href="../races/human/">Mensch</a><a href="../races/dwarf/">Zwerg</a><a href="../races/night-elf/">Nachtelf</a><a href="../races/gnome/">Gnom</a><a href="../races/skyborne-alliance/">High Order Skyborne</a><a href="../races/orc/">Orc</a><a href="../races/undead/">Untoter</a><a href="../races/tauren/">Tauren</a><a href="../races/troll/">Troll</a><a href="../races/skyborne-horde/">Windshaper Skyborne</a></div><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Tipp</span>Skyborne ist für beide Fraktionen spielbar; die Fraktion wählst du bei der Erstellung. Beide Zweige sprechen eine gemeinsame Sprache, und das Startgebiet Zephras Isle ist gemeinsam, wobei sich Feinde dort dank Layern nicht begegnen.</p></div></section>
+<section class="frame gsec" id="compare"><h2>Vergleich</h2><p>Jedes Volk hat vier Fähigkeiten: zwei aktive und zwei passive. Manche alten Fähigkeiten wurden durch neue ersetzt, Widerstände wurden entfernt.</p><div class="cmp rac" id="raceRef"><a href="../races/human/">Mensch</a><a href="../races/dwarf/">Zwerg</a><a href="../races/night-elf/">Nachtelf</a><a href="../races/gnome/">Gnom</a><a href="../races/skyborne-alliance/">High Order Skyborne</a><a href="../races/orc/">Orc</a><a href="../races/undead/">Untoter</a><a href="../races/tauren/">Tauren</a><a href="../races/troll/">Troll</a><a href="../races/skyborne-horde/">Windshaper Skyborne</a></div><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Tipp</span>Skyborne ist für beide Fraktionen spielbar; die Fraktion wählst du bei der Erstellung. Beide Zweige sprechen Darnassisch, und das Startgebiet Zephras Isle ist gemeinsam, wobei sich Feinde dort dank Layern nicht begegnen.</p></div></section>
   </div>
 </main>
 
 <div class="wrap">
-<section id="more"><div class="sec-head"><h2>Mehr auf der Seite</h2></div><nav class="frame ttiles gtiles" aria-label="Mehr auf der Seite"><a class="ttile" href="../classes/"><picture><source type="image/avif" srcset="../../assets/art/warrior-360.avif?v=6859bd26 360w, ../../assets/art/warrior-600.avif?v=778c7ed6 600w, ../../assets/art/warrior-896.avif?v=e1226902 896w" sizes="320px"><img src="../../assets/art/warrior-600.webp?v=f33e405c" srcset="../../assets/art/warrior-360.webp?v=a184c6fb 360w, ../../assets/art/warrior-600.webp?v=f33e405c 600w, ../../assets/art/warrior-896.webp?v=b36b231d 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Klassen</b><span>Alle Klassen im Vergleich</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../guides/"><picture><source type="image/avif" srcset="../../assets/art/hero_campfire-960.avif?v=2654726f 960w, ../../assets/art/hero_campfire-1600.avif?v=a9d1ad39 1600w, ../../assets/art/hero_campfire-2560.avif?v=6b161175 2560w" sizes="320px"><img src="../../assets/art/hero_campfire-960.webp?v=d73f1e16" srcset="../../assets/art/hero_campfire-960.webp?v=d73f1e16 960w, ../../assets/art/hero_campfire-1600.webp?v=bef1b754 1600w, ../../assets/art/hero_campfire-2560.webp?v=08f5bedc 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Guides</b><span>Leveln, Dungeons, Berufe und Antworten</span></a><a class="ttile" href="../tools/"><picture><source type="image/avif" srcset="../../assets/art/rogue-360.avif?v=0e4303b0 360w, ../../assets/art/rogue-600.avif?v=e21dd598 600w, ../../assets/art/rogue-896.avif?v=c3b868ba 896w" sizes="320px"><img src="../../assets/art/rogue-600.webp?v=d3dbeaa4" srcset="../../assets/art/rogue-360.webp?v=f8e165bf 360w, ../../assets/art/rogue-600.webp?v=d3dbeaa4 600w, ../../assets/art/rogue-896.webp?v=b44a1b62 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Tools</b><span>Fenster, Vergleich, Suche</span></a><a class="ttile" href="../play/"><picture><source type="image/avif" srcset="../../assets/art/shaman-360.avif?v=0dbb0972 360w, ../../assets/art/shaman-600.avif?v=f3897c65 600w, ../../assets/art/shaman-896.avif?v=bf19e5ec 896w" sizes="320px"><img src="../../assets/art/shaman-600.webp?v=685d7399" srcset="../../assets/art/shaman-360.webp?v=bebb6ed5 360w, ../../assets/art/shaman-600.webp?v=685d7399 600w, ../../assets/art/shaman-896.webp?v=c55422e9 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Im Spiel</b><span>Zweiter Bildschirm: Radio, Stufe, Timer</span></a></nav></section>
+<p class="dcta"><span>Gruppen zum Start, Fragen zum Guide und News — im Discord von Gabella Team.</span><a class="btn ghost" href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Discord öffnen</a></p>
+<section id="more"><div class="sec-head"><h2>Mehr auf der Seite</h2></div><nav class="frame ttiles gtiles" aria-label="Mehr auf der Seite"><a class="ttile" href="../classes/"><picture><source type="image/avif" srcset="../../assets/art/warrior-360.avif?v=6859bd26 360w, ../../assets/art/warrior-600.avif?v=778c7ed6 600w, ../../assets/art/warrior-896.avif?v=e1226902 896w" sizes="320px"><img src="../../assets/art/warrior-600.webp?v=f33e405c" srcset="../../assets/art/warrior-360.webp?v=a184c6fb 360w, ../../assets/art/warrior-600.webp?v=f33e405c 600w, ../../assets/art/warrior-896.webp?v=b36b231d 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Klassen</b><span>Welche Klasse, im Vergleich</span><time datetime="2026-10-24">24.10.2026</time></a><a class="ttile" href="../guides/"><picture><source type="image/avif" srcset="../../assets/art/hero_campfire-960.avif?v=2654726f 960w, ../../assets/art/hero_campfire-1600.avif?v=a9d1ad39 1600w, ../../assets/art/hero_campfire-2560.avif?v=6b161175 2560w" sizes="320px"><img src="../../assets/art/hero_campfire-960.webp?v=d73f1e16" srcset="../../assets/art/hero_campfire-960.webp?v=d73f1e16 960w, ../../assets/art/hero_campfire-1600.webp?v=bef1b754 1600w, ../../assets/art/hero_campfire-2560.webp?v=08f5bedc 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Guides</b><span>Leveln, Dungeons, Berufe und Antworten</span></a><a class="ttile" href="../tools/"><picture><source type="image/avif" srcset="../../assets/art/rogue-360.avif?v=0e4303b0 360w, ../../assets/art/rogue-600.avif?v=e21dd598 600w, ../../assets/art/rogue-896.avif?v=c3b868ba 896w" sizes="320px"><img src="../../assets/art/rogue-600.webp?v=d3dbeaa4" srcset="../../assets/art/rogue-360.webp?v=f8e165bf 360w, ../../assets/art/rogue-600.webp?v=d3dbeaa4 600w, ../../assets/art/rogue-896.webp?v=b44a1b62 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Tools</b><span>Fenster, Vergleich, Suche</span></a><a class="ttile" href="../play/"><picture><source type="image/avif" srcset="../../assets/art/shaman-360.avif?v=0dbb0972 360w, ../../assets/art/shaman-600.avif?v=f3897c65 600w, ../../assets/art/shaman-896.avif?v=bf19e5ec 896w" sizes="320px"><img src="../../assets/art/shaman-600.webp?v=685d7399" srcset="../../assets/art/shaman-360.webp?v=bebb6ed5 360w, ../../assets/art/shaman-600.webp?v=685d7399 600w, ../../assets/art/shaman-896.webp?v=c55422e9 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Im Spiel</b><span>Zweiter Bildschirm: Radio, Stufe, Timer</span></a></nav></section>
 <footer id="sources">
   <h2>Quellen</h2>
   <ul><li><a href="https://www.method.gg/wow-forever/all-new-racial-abilities-in-world-of-warcraft-forever" target="_blank" rel="noopener">Method</a></li><li><a href="https://www.warcrafttavern.com/forever/guides/races/" target="_blank" rel="noopener">Warcraft Tavern</a></li></ul>
@@ -1153,8 +1158,9 @@ nav.gtiles { padding: 14px; }
   <div class="dh"><b>Alle Abschnitte</b><button class="iconbtn" id="moreClose" type="button" aria-label="Schließen"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Alle Abschnitte">
     
-    <div class="grp"><div class="gh">Guide</div><a href="../">Start</a><a href="../#classes">Klassen</a><a href="../#peoples" aria-current="true">Völker</a><a href="../#picker">Auswahl</a><a href="../#builder">Gruppenplaner</a><a href="../tools/">Tools</a><a href="../play/">Im Spiel</a><a href="../guides/">Guides</a></div>
-    <div class="grp"><div class="gh">Team</div><a href="../roster/">Kader</a><a href="../profile/">Mein Profil</a></div>
+    <div class="grp"><div class="gh">Nachschlagen</div><a href="../">Start</a><a href="../classes/">Klassen im Vergleich</a><a href="../races/">Völker im Vergleich</a><a href="../guides/leveling/">Leveln 1–60</a><a href="../guides/dungeons/">Dungeons und Raids</a><a href="../guides/professions/">Berufe</a><a href="../guides/faq/">FAQ und Termine</a><a href="../guides/news/">News</a><a href="../guides/">Alle Guides</a></div>
+    <div class="grp"><div class="gh">Tools</div><a href="../#picker">Auswahl</a><a href="../#builder">Gruppenplaner</a><a href="../tools/">Fenster, Vergleich, Suche</a><a href="../play/">Im Spiel</a></div>
+    <div class="grp"><div class="gh">Gemeinschaft</div><a href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Discord</a><a href="../roster/">Kader</a><a href="../profile/">Mein Profil</a></div>
   </nav>
   <div class="opts">
     <div class="langgrid" role="group" aria-label="Sprache"><a href="../../races/" data-lang="ru" hreflang="ru" lang="ru">Русский</a><a href="../../en/races/" data-lang="en" hreflang="en" lang="en">English</a><a href="../../uk/races/" data-lang="uk" hreflang="uk" lang="uk">Українська</a><a href="./" data-lang="de" hreflang="de" lang="de" aria-current="page">Deutsch</a><a href="../../fr/races/" data-lang="fr" hreflang="fr" lang="fr">Français</a><a href="../../es/races/" data-lang="es" hreflang="es" lang="es">Español</a><a href="../../pt/races/" data-lang="pt" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a><a href="../../it/races/" data-lang="it" hreflang="it" lang="it">Italiano</a><a href="../../pl/races/" data-lang="pl" hreflang="pl" lang="pl">Polski</a></div>
@@ -1234,14 +1240,14 @@ const CLASSES = [
     specs:[['Elementar','Fernkampfschaden',['dps']],['Verstärkung','Nahkampfschaden. Ob er tanken kann, ist noch offen',['dps','tank?']],['Wiederherstellung','Heiler',['heal']]],
     lvl:'Durchschnittliches Leveltempo',
     lp:0,
-    raid:'Die Totems Erdstärke, Windzorn, Flammenzunge und Anmut der Luft buffen den ganzen Raid',
+    raid:'Die Totems Erdstärke, Windzorn, Flammenzunge und Anmut der Luft buffen die eigene Gruppe',
     forever:'Zwerge können jetzt Schamanen sein, so kam die Klasse zur Allianz. Lavaexplosion wurde verstärkt, Elementar ist in den Schadensranglisten gestiegen.' },
   { id:'mage', n:'Magier', roles:['dps'],
     specs:[['Arkan','Burst, viel Mana',['dps']],['Feuer','Krits und Entzünden',['dps']],['Frost','Schaden und Kontrolle',['dps']]],
     lvl:'Das schnellste Leveln, etwa 8 % schneller als der Durchschnitt (etwa 12 Stunden gespart)',
     lp:-8,
     raid:'Portale sowie Essen und Wasser für die ganze Gruppe',
-    forever:'Feuer bekam Kampfeshitze, Arkan eine überarbeitete Arkane Explosion, Frost die Eislanze. Frostfeuerblitz ist ab Stufe 40 verfügbar.' },
+    forever:'Feuer bekam Kampfeshitze, Arkan den Arkanschlag, Frost die Eislanze. Frostfeuerblitz ist ab Stufe 40 verfügbar.' },
   { id:'warlock', n:'Hexenmeister', roles:['dps'],
     specs:[['Gebrechen','Schaden durch Flüche und Verderbnis',['dps']],['Dämonologie','Schaden durch Dämonen',['dps']],['Zerstörung','Direkter Feuer- und Schattenschaden',['dps']]],
     lvl:'Durchschnittliches Leveltempo',
@@ -1258,7 +1264,7 @@ const CLASSES = [
 const ROLE_RU = { tank:'Tank', heal:'Heiler', dps:'Schaden', 'tank?':'Tank (unsicher)' };
 const ri = r => `<svg class="ri" aria-hidden="true"><use href="#i-${r.replace('?','')}"/></svg>`;
 const CCOL = { warrior:'#c79c6e', paladin:'#f58cba', hunter:'#abd473', rogue:'#fff569', priest:'#e8e8e8', shaman:'#2f8cf0', mage:'#40c7eb', warlock:'#8788ee', druid:'#ff7d0a' };
-const BUFF = { warrior:'Schlachtruf', paladin:'Segen der Könige', hunter:'Aura des Volltreffers', priest:'Göttlicher Willen', shaman:'Totems (Erdstärke, Windzorn, Flammenzunge, Anmut der Luft)', mage:'Portale, Essen und Wasser', druid:'Rudelführer und Aura des Moonkin' };
+const BUFF = { warrior:'Schlachtruf', paladin:'Segen der Könige', hunter:'Aura des Volltreffers', priest:'Machtwort: Seelenstärke, Göttlicher Willen', shaman:'Totems (Erdstärke, Windzorn, Flammenzunge, Anmut der Luft)', mage:'Arkane Intelligenz, Portale, Essen und Wasser', druid:'Mal der Wildnis, Rudelführer, Aura des Moonkin' };
 
 const RACES = [
   { id:'human', n:'Mensch', f:'alliance',
@@ -1283,11 +1289,11 @@ const RACES = [
     tip:'Bezahltes Volk: Heroic Pack ab 29,99 $. Startet im Gebiet Zephras Isle (Stufen 1–12).' },
   { id:'orc', n:'Orc', f:'horde',
     cls:['warrior','hunter','rogue','shaman','warlock','mage*'],
-    rac:[['a','Kochendes Blut','+10 % Angriffskraft und Zaubermacht für 15 Sek.'],['a','Shatter Curse','Immunität gegen Flüche und Verderbnis und weniger Magieschaden für 8 Sek.'],['p','Savage','+1 % kritische Trefferchance'],['p','Zähigkeit','Betäubungen sind 20 % kürzer']],
+    rac:[['a','Kochendes Blut','+10 % Angriffskraft und Zaubermacht für 15 Sek.'],['a','Shatter Curse','Entfernt Flüche und Verderbnis, −5 % erlittener Magieschaden für 8 Sek.'],['p','Savage','+1 % kritische Trefferchance'],['p','Zähigkeit','Betäubungen sind 20 % kürzer']],
     tip:'Kochendes Blut gibt ein starkes Schadensfenster.' },
   { id:'undead', n:'Untoter', f:'horde',
     cls:['warrior','rogue','mage','priest','warlock','paladin*'],
-    rac:[['a','Wille der Verlassenen','Entfernt Bezauberung, Furcht und Schlaf'],['a','Kannibalismus','Stellt über Zeit 35 % Gesundheit und Mana wieder her'],['p','Unterwasseratmung','Länger unter Wasser atmen'],['p','Berührung des Grabes','5 % Chance, bei Angriffen Gesundheit zu entziehen']],
+    rac:[['a','Wille der Verlassenen','Entfernt Bezauberung, Furcht und Schlaf'],['a','Kannibalismus','Stellt über Zeit 35 % Gesundheit und Mana wieder her'],['p','Unterwasseratmung','Länger unter Wasser atmen'],['p','Berührung des Grabes','Chance, bei Angriffen Gesundheit zu entziehen']],
     tip:'Neue Kombination: ein Paladin für die Horde, wo es diese Klasse vorher nicht gab.' },
   { id:'tauren', n:'Tauren', f:'horde',
     cls:['warrior','hunter','shaman','druid'],
@@ -1429,8 +1435,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=b52e2ac809" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=378dd2c208" data-root="../../" data-home="../" data-lang="de" data-teaser="Dein Profil speichert deine Charaktere, Erfolge und Rahmen" data-close="Schließen" data-page="races/" data-look="2" defer></script>
+<script src="../../assets/search/search.js?v=6bb0507e11" data-root="../../" defer></script>
+<script src="../../assets/me/me.js?v=0ff37bbee7" data-root="../../" data-home="../" data-lang="de" data-teaser="Dein Profil speichert deine Charaktere, Erfolge und Rahmen" data-close="Schließen" data-page="races/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

@@ -169,6 +169,8 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .gbtns .btn { white-space: normal; text-align: center; }
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
+.srchbtn kbd, .radiobtn .rdo-eq { display: none; }   /* on the home page search.css and radio.css come after the first paint */
+.radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: .92rem; }
 @media (max-width: 1210px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }
 
@@ -221,6 +223,8 @@ section.block { padding-top: 96px; display: grid; gap: 28px; }
 .sec-head .row { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: flex-end; justify-content: space-between; }
 .sec-head .src { font-size: .85rem; color: var(--muted); padding-bottom: 6px; }
 .sec-head p { color: var(--muted); max-width: 68ch; }
+.dcta { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; margin: 48px 0 0; padding: 18px 20px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); }
+.dcta span { max-width: 62ch; }
 section.block { scroll-margin-top: -72px; }
 
 /* Faction banners */
@@ -1073,8 +1077,8 @@ nav.gtiles { padding: 14px; }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=b52e2ac809" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/me/me.css?v=378dd2c208" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/search/search.css?v=6bb0507e11" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/me/me.css?v=0ff37bbee7" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://gabella.site/wow/"},{"@type":"ListItem","position":2,"name":"Расы","item":"https://gabella.site/wow/races/"}]}</script>
 </head>
 <body>
@@ -1103,7 +1107,7 @@ nav.gtiles { padding: 14px; }
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="../" aria-label="Gabella, на главную"><img class="mark" src="../assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Гид WoW Forever</small></span></a>
   <nav class="mainnav" aria-label="Разделы">
-    <a href="../#factions">Фракции</a><a href="../#classes">Классы</a><a href="../#peoples" aria-current="true">Расы</a><a href="../#picker">Подборщик</a><a href="../#builder">Группа</a><a href="../guides/">Гайды</a><a href="../tools/">Инструменты</a><a href="../roster/">Состав</a><a href="../play/">В игре</a>
+    <a href="../classes/">Классы</a><a href="../races/" aria-current="true">Расы</a><a href="../guides/leveling/">Прокачка</a><a href="../guides/dungeons/">Подземелья</a><a href="../guides/">Гайды</a><a href="../tools/">Инструменты</a><a href="../play/">В игре</a><a href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Discord</a>
   </nav>
   <div class="tools">
     <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" aria-label="Язык: Русский">RU</button><ul class="langlist" hidden><li><a href="./" data-lang="ru" hreflang="ru" lang="ru" aria-current="page"><span>Русский</span><small>RU</small></a></li><li><a href="../en/races/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../uk/races/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../de/races/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="../fr/races/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="../es/races/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="../pt/races/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="../it/races/" data-lang="it" hreflang="it" lang="it"><span>Italiano</span><small>IT</small></a></li><li><a href="../pl/races/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
@@ -1127,12 +1131,13 @@ nav.gtiles { padding: 14px; }
 <main class="wrap gbody solo">
   <nav class="gtoc frame" aria-label="Разделы гайда"></nav>
   <div class="gmain">
-<section class="frame gsec" id="compare"><h2>Сравнение</h2><p>У каждой расы по четыре способности: две активные и две пассивные. Часть старых способностей заменена новыми, сопротивления убраны.</p><div class="cmp rac" id="raceRef"><a href="../races/human/">Человек</a><a href="../races/dwarf/">Дворф</a><a href="../races/night-elf/">Ночной эльф</a><a href="../races/gnome/">Гном</a><a href="../races/skyborne-alliance/">Высший скайборн</a><a href="../races/orc/">Орк</a><a href="../races/undead/">Нежить</a><a href="../races/tauren/">Таурен</a><a href="../races/troll/">Тролль</a><a href="../races/skyborne-horde/">Скайборн-ветрорез</a></div><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>Скайборн играбельна за обе фракции, выбор фракции делается при создании. Обе ветки говорят на общем языке, а стартовая зона Zephras Isle общая, враги там не встречаются из-за слоёв.</p></div></section>
+<section class="frame gsec" id="compare"><h2>Сравнение</h2><p>У каждой расы по четыре способности: две активные и две пассивные. Часть старых способностей заменена новыми, сопротивления убраны.</p><div class="cmp rac" id="raceRef"><a href="../races/human/">Человек</a><a href="../races/dwarf/">Дворф</a><a href="../races/night-elf/">Ночной эльф</a><a href="../races/gnome/">Гном</a><a href="../races/skyborne-alliance/">Высший скайборн</a><a href="../races/orc/">Орк</a><a href="../races/undead/">Нежить</a><a href="../races/tauren/">Таурен</a><a href="../races/troll/">Тролль</a><a href="../races/skyborne-horde/">Скайборн-ветрорез</a></div><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>Скайборн доступна обеим фракциям, выбор фракции делается при создании. Обе ветки знают дарнасский, а стартовая зона Zephras Isle общая, враги там не встречаются из-за слоёв.</p></div></section>
   </div>
 </main>
 
 <div class="wrap">
-<section id="more"><div class="sec-head"><h2>Ещё на сайте</h2></div><nav class="frame ttiles gtiles" aria-label="Ещё на сайте"><a class="ttile" href="../classes/"><picture><source type="image/avif" srcset="../assets/art/warrior-360.avif?v=6859bd26 360w, ../assets/art/warrior-600.avif?v=778c7ed6 600w, ../assets/art/warrior-896.avif?v=e1226902 896w" sizes="320px"><img src="../assets/art/warrior-600.webp?v=f33e405c" srcset="../assets/art/warrior-360.webp?v=a184c6fb 360w, ../assets/art/warrior-600.webp?v=f33e405c 600w, ../assets/art/warrior-896.webp?v=b36b231d 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Классы</b><span>Сравнение всех классов</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../guides/"><picture><source type="image/avif" srcset="../assets/art/hero_campfire-960.avif?v=2654726f 960w, ../assets/art/hero_campfire-1600.avif?v=a9d1ad39 1600w, ../assets/art/hero_campfire-2560.avif?v=6b161175 2560w" sizes="320px"><img src="../assets/art/hero_campfire-960.webp?v=d73f1e16" srcset="../assets/art/hero_campfire-960.webp?v=d73f1e16 960w, ../assets/art/hero_campfire-1600.webp?v=bef1b754 1600w, ../assets/art/hero_campfire-2560.webp?v=08f5bedc 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Гайды</b><span>Прокачка, подземелья, профессии и ответы</span></a><a class="ttile" href="../tools/"><picture><source type="image/avif" srcset="../assets/art/rogue-360.avif?v=0e4303b0 360w, ../assets/art/rogue-600.avif?v=e21dd598 600w, ../assets/art/rogue-896.avif?v=c3b868ba 896w" sizes="320px"><img src="../assets/art/rogue-600.webp?v=d3dbeaa4" srcset="../assets/art/rogue-360.webp?v=f8e165bf 360w, ../assets/art/rogue-600.webp?v=d3dbeaa4 600w, ../assets/art/rogue-896.webp?v=b44a1b62 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Инструменты</b><span>Рамки, сравнение, поиск</span></a><a class="ttile" href="../play/"><picture><source type="image/avif" srcset="../assets/art/shaman-360.avif?v=0dbb0972 360w, ../assets/art/shaman-600.avif?v=f3897c65 600w, ../assets/art/shaman-896.avif?v=bf19e5ec 896w" sizes="320px"><img src="../assets/art/shaman-600.webp?v=685d7399" srcset="../assets/art/shaman-360.webp?v=bebb6ed5 360w, ../assets/art/shaman-600.webp?v=685d7399 600w, ../assets/art/shaman-896.webp?v=c55422e9 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>В игре</b><span>Второй экран: радио, уровень, таймеры</span></a></nav></section>
+<p class="dcta"><span>Группы на старт, вопросы по гиду и новости — в Discord Gabella Team.</span><a class="btn ghost" href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Открыть Discord</a></p>
+<section id="more"><div class="sec-head"><h2>Ещё на сайте</h2></div><nav class="frame ttiles gtiles" aria-label="Ещё на сайте"><a class="ttile" href="../classes/"><picture><source type="image/avif" srcset="../assets/art/warrior-360.avif?v=6859bd26 360w, ../assets/art/warrior-600.avif?v=778c7ed6 600w, ../assets/art/warrior-896.avif?v=e1226902 896w" sizes="320px"><img src="../assets/art/warrior-600.webp?v=f33e405c" srcset="../assets/art/warrior-360.webp?v=a184c6fb 360w, ../assets/art/warrior-600.webp?v=f33e405c 600w, ../assets/art/warrior-896.webp?v=b36b231d 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Классы</b><span>Какой класс выбрать и сравнение</span><time datetime="2026-10-24">24.10.2026</time></a><a class="ttile" href="../guides/"><picture><source type="image/avif" srcset="../assets/art/hero_campfire-960.avif?v=2654726f 960w, ../assets/art/hero_campfire-1600.avif?v=a9d1ad39 1600w, ../assets/art/hero_campfire-2560.avif?v=6b161175 2560w" sizes="320px"><img src="../assets/art/hero_campfire-960.webp?v=d73f1e16" srcset="../assets/art/hero_campfire-960.webp?v=d73f1e16 960w, ../assets/art/hero_campfire-1600.webp?v=bef1b754 1600w, ../assets/art/hero_campfire-2560.webp?v=08f5bedc 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Гайды</b><span>Прокачка, подземелья, профессии и ответы</span></a><a class="ttile" href="../tools/"><picture><source type="image/avif" srcset="../assets/art/rogue-360.avif?v=0e4303b0 360w, ../assets/art/rogue-600.avif?v=e21dd598 600w, ../assets/art/rogue-896.avif?v=c3b868ba 896w" sizes="320px"><img src="../assets/art/rogue-600.webp?v=d3dbeaa4" srcset="../assets/art/rogue-360.webp?v=f8e165bf 360w, ../assets/art/rogue-600.webp?v=d3dbeaa4 600w, ../assets/art/rogue-896.webp?v=b44a1b62 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Инструменты</b><span>Рамки, сравнение, поиск</span></a><a class="ttile" href="../play/"><picture><source type="image/avif" srcset="../assets/art/shaman-360.avif?v=0dbb0972 360w, ../assets/art/shaman-600.avif?v=f3897c65 600w, ../assets/art/shaman-896.avif?v=bf19e5ec 896w" sizes="320px"><img src="../assets/art/shaman-600.webp?v=685d7399" srcset="../assets/art/shaman-360.webp?v=bebb6ed5 360w, ../assets/art/shaman-600.webp?v=685d7399 600w, ../assets/art/shaman-896.webp?v=c55422e9 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>В игре</b><span>Второй экран: радио, уровень, таймеры</span></a></nav></section>
 <footer id="sources">
   <h2>Источники</h2>
   <ul><li><a href="https://www.method.gg/wow-forever/all-new-racial-abilities-in-world-of-warcraft-forever" target="_blank" rel="noopener">Method</a></li><li><a href="https://www.warcrafttavern.com/forever/guides/races/" target="_blank" rel="noopener">Warcraft Tavern</a></li></ul>
@@ -1153,8 +1158,9 @@ nav.gtiles { padding: 14px; }
   <div class="dh"><b>Все разделы</b><button class="iconbtn" id="moreClose" type="button" aria-label="Закрыть"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Все разделы">
     
-    <div class="grp"><div class="gh">Гид</div><a href="../">Главная</a><a href="../#classes">Классы</a><a href="../#peoples" aria-current="true">Расы</a><a href="../#picker">Подборщик</a><a href="../#builder">Конструктор группы</a><a href="../tools/">Инструменты</a><a href="../play/">В игре</a><a href="../guides/">Гайды</a></div>
-    <div class="grp"><div class="gh">Команда</div><a href="../roster/">Состав</a><a href="../profile/">Мой профиль</a></div>
+    <div class="grp"><div class="gh">Справочник</div><a href="../">Главная</a><a href="../classes/">Классы: сравнение</a><a href="../races/">Расы: сравнение</a><a href="../guides/leveling/">Прокачка 1–60</a><a href="../guides/dungeons/">Подземелья и рейды</a><a href="../guides/professions/">Профессии</a><a href="../guides/faq/">FAQ и даты</a><a href="../guides/news/">Новости</a><a href="../guides/">Все гайды</a></div>
+    <div class="grp"><div class="gh">Инструменты</div><a href="../#picker">Подборщик</a><a href="../#builder">Конструктор группы</a><a href="../tools/">Рамки, сравнение, поиск</a><a href="../play/">В игре</a></div>
+    <div class="grp"><div class="gh">Сообщество</div><a href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Discord</a><a href="../roster/">Состав</a><a href="../profile/">Мой профиль</a></div>
   </nav>
   <div class="opts">
     <div class="langgrid" role="group" aria-label="Язык"><a href="./" data-lang="ru" hreflang="ru" lang="ru" aria-current="page">Русский</a><a href="../en/races/" data-lang="en" hreflang="en" lang="en">English</a><a href="../uk/races/" data-lang="uk" hreflang="uk" lang="uk">Українська</a><a href="../de/races/" data-lang="de" hreflang="de" lang="de">Deutsch</a><a href="../fr/races/" data-lang="fr" hreflang="fr" lang="fr">Français</a><a href="../es/races/" data-lang="es" hreflang="es" lang="es">Español</a><a href="../pt/races/" data-lang="pt" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a><a href="../it/races/" data-lang="it" hreflang="it" lang="it">Italiano</a><a href="../pl/races/" data-lang="pl" hreflang="pl" lang="pl">Polski</a></div>
@@ -1234,20 +1240,20 @@ const CLASSES = [
     specs:[['Стихии','Урон дальнего боя',['dps']],['Совершенствование','Урон в ближнем бою. Возможность танковать пока под вопросом',['dps','tank?']],['Исцеление','Лекарь',['heal']]],
     lvl:'Средний темп прокачки',
     lp:0,
-    raid:'Тотемы силы земли, неистовства ветра, языков пламени и грации воздуха усиливают весь рейд',
-    forever:'Дворфы теперь могут быть шаманами, значит класс появился у Альянса. Всплеск лавы усилен, Стихии поднялись в списках урона.' },
+    raid:'Тотемы силы земли, неистовства ветра, языков пламени и грации воздуха усиливают свою группу',
+    forever:'Дворфы теперь могут быть шаманами, значит класс появился у Альянса. Выброс лавы усилен, Стихии поднялись в списках урона.' },
   { id:'mage', n:'Маг', roles:['dps'],
     specs:[['Тайная магия','Бурст, много маны',['dps']],['Огонь','Криты и поджоги',['dps']],['Лёд','Урон и контроль',['dps']]],
     lvl:'Самая быстрая прокачка, примерно на 8% быстрее среднего (около 12 часов экономии)',
     lp:-8,
     raid:'Порталы и еда с водой для всей компании',
-    forever:'Огонь получил Путь огня, Тайная магия переработанный Чародейский взрыв, Лёд Ледяное копьё. Огненно-ледяная стрела доступна с 40 уровня.' },
+    forever:'Огонь получил Путь огня, Тайная магия — Чародейскую вспышку, Лёд — Ледяное копьё. Огненно-ледяная стрела доступна с 40 уровня.' },
   { id:'warlock', n:'Чернокнижник', roles:['dps'],
     specs:[['Колдовство','Урон от проклятий и порчи',['dps']],['Демонология','Урон через демонов',['dps']],['Разрушение','Прямой урон огнём и тьмой',['dps']]],
     lvl:'Средний темп прокачки',
     lp:0,
     raid:'Мастерство тьмы теперь даёт 2–10% урона от тьмы (было 1–5%)',
-    forever:'У Колдовства новое направляемое заклинание, демон остаётся при Жертве демона, у Разрушения появились Испепеление и АОЕ.' },
+    forever:'У Колдовства новое направляемое заклинание, демон остаётся при Жертве демона, у Разрушения появились Испепеление и урон по площади.' },
   { id:'druid', n:'Друид', roles:['tank','heal','dps'],
     specs:[['Баланс','Урон дальнего боя',['dps']],['Сила зверя','Танк (медведь) и урон в ближнем бою (кошка)',['tank','dps']],['Исцеление','Лекарь, много лечения по времени',['heal']]],
     lvl:'Примерно на 5% медленнее среднего',
@@ -1255,16 +1261,16 @@ const CLASSES = [
     raid:'Вожак стаи и аура лунного совуха действуют на весь рейд и складываются',
     forever:'Каждая специализация получила чёткую роль, формы работают с зельями и чарами на оружии. Можно быть танком, лекарем и бойцом на одном персонаже.' }
 ];
-const ROLE_RU = { tank:'Танк', heal:'Хил', dps:'Урон', 'tank?':'Танк (под вопросом)' };
+const ROLE_RU = { tank:'Танк', heal:'Лекарь', dps:'Урон', 'tank?':'Танк (под вопросом)' };
 const ri = r => `<svg class="ri" aria-hidden="true"><use href="#i-${r.replace('?','')}"/></svg>`;
 const CCOL = { warrior:'#c79c6e', paladin:'#f58cba', hunter:'#abd473', rogue:'#fff569', priest:'#e8e8e8', shaman:'#2f8cf0', mage:'#40c7eb', warlock:'#8788ee', druid:'#ff7d0a' };
-const BUFF = { warrior:'Боевой крик', paladin:'Благословение королей', hunter:'Аура меткого выстрела', priest:'Божественный дух', shaman:'Тотемы (сила земли, неистовство ветра, языки пламени, грация воздуха)', mage:'Порталы, еда и вода', druid:'Вожак стаи и аура лунного совуха' };
+const BUFF = { warrior:'Боевой крик', paladin:'Благословение королей', hunter:'Аура меткого выстрела', priest:'Слово силы: Стойкость, Божественный дух', shaman:'Тотемы (сила земли, неистовство ветра, языки пламени, грация воздуха)', mage:'Чародейский интеллект, порталы, еда и вода', druid:'Знак дикой природы, Вожак стаи, аура лунного совуха' };
 
 const RACES = [
   { id:'human', n:'Человек', f:'alliance',
     cls:['warrior','paladin','hunter*','rogue','priest','mage','warlock'],
     rac:[['a','Воля к жизни','Снимает оглушение'],['a','Внимательность','Показывает невидимых врагов на 20 сек'],['p','Беспощадность','+2% шанс крита'],['p','Человеческий дух','+5% к духу']],
-    tip:'Дух идёт в лечение Жрецу Света, так что Человек-жрец хорош для хила.' },
+    tip:'Дух идёт в лечение Жрецу Света, так что Человек-жрец хорош для лекаря.' },
   { id:'dwarf', n:'Дворф', f:'alliance',
     cls:['warrior','paladin','hunter','rogue','priest','shaman*'],
     rac:[['a','Каменная форма','Иммунитет к кровотечениям, ядам и болезням на 8 сек и снижение физического урона'],['a','Поиск сокровища','Показывает сундуки рядом'],['p','Ярость земли','+2% к урону крита и силе лечения'],['p','Охотник на крупную дичь','+5% урона по зверям']],
@@ -1283,11 +1289,11 @@ const RACES = [
     tip:'Платная раса: набор Heroic Pack от $29.99. Старт в локации Zephras Isle (1–12 уровни).' },
   { id:'orc', n:'Орк', f:'horde',
     cls:['warrior','hunter','rogue','shaman','warlock','mage*'],
-    rac:[['a','Кровавое неистовство','+10% к силе атаки и заклинаний на 15 сек'],['a','Разрушение проклятий','Иммунитет к проклятиям и порчам и меньше магического урона на 8 сек'],['p','Дикость','+1% шанс крита'],['p','Твердость','Оглушения короче на 20%']],
+    rac:[['a','Кровавое неистовство','+10% к силе атаки и заклинаний на 15 сек'],['a','Разрушение проклятий','Снимает проклятия и порчи, магический урон по вам −5% на 8 сек'],['p','Дикость','+1% шанс крита'],['p','Твердость','Оглушения короче на 20%']],
     tip:'Кровавое неистовство даёт мощное окно урона.' },
   { id:'undead', n:'Нежить', f:'horde',
     cls:['warrior','rogue','mage','priest','warlock','paladin*'],
-    rac:[['a','Воля Отрекшихся','Снимает очарование, страх и сон'],['a','Каннибализм','Восстанавливает 35% здоровья и маны со временем'],['p','Подводное дыхание','Дыхание под водой дольше'],['p','Могильное касание','5% шанс высосать здоровье при атаке']],
+    rac:[['a','Воля Отрекшихся','Снимает очарование, страх и сон'],['a','Каннибализм','Восстанавливает 35% здоровья и маны со временем'],['p','Подводное дыхание','Дыхание под водой дольше'],['p','Могильное касание','Шанс высосать здоровье при атаке']],
     tip:'Новая комбинация: паладин у Орды, где раньше этого класса не было.' },
   { id:'tauren', n:'Таурен', f:'horde',
     cls:['warrior','hunter','shaman','druid'],
@@ -1300,7 +1306,7 @@ const RACES = [
   { id:'skyH', n:'Скайборн (Орда)', f:'horde', paid:true, name:'Скайборн-ветрорез',
     cls:['warrior','hunter','rogue','shaman','druid'],
     rac:[['a','Хождение по воздуху','Планирование вниз 10 сек, нет урона от падения'],['a','Взгляд в небо','+10% к скорости бега'],['p','Благословение ветра','+3% к скорости атаки и заклинаний'],['p','Прозрение стихий','+5% урона по элементалям']],
-    tip:'Платная раса: набор Heroic Pack от $29.99. Шаманом может быть только Орда, магом только Альянс.' }
+    tip:'Платная раса: набор Heroic Pack от $29.99. Из скайборнов шаманом может быть только ветрорез (Орда), магом — только Высший орден (Альянс).' }
 ];
 RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
 const CL = Object.fromEntries(CLASSES.map(c => [c.id, c]));
@@ -1429,8 +1435,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../assets/radio/radio.js" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=b52e2ac809" data-root="../" defer></script>
-<script src="../assets/me/me.js?v=378dd2c208" data-root="../" data-home="../" data-lang="ru" data-teaser="Профиль хранит ваших персонажей, достижения и рамки" data-close="Закрыть" data-page="races/" data-look="2" defer></script>
+<script src="../assets/search/search.js?v=6bb0507e11" data-root="../" defer></script>
+<script src="../assets/me/me.js?v=0ff37bbee7" data-root="../" data-home="../" data-lang="ru" data-teaser="Профиль хранит ваших персонажей, достижения и рамки" data-close="Закрыть" data-page="races/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

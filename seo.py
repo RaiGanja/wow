@@ -61,7 +61,7 @@ META = {
                    'Класи WoW Forever: який клас обрати, порівняння всіх 9'),
                  t('Какой класс выбрать в WoW Forever: девять классов по три специализации, роли танк/лекарь/урон, кто качается быстрее и чем каждый полезен рейду.',
                    'Which class to pick in WoW Forever: nine classes with three specs each, tank/healer/DPS roles, which level fastest and what each brings to a raid.',
-                   'Який клас обрати у WoW Forever: дев’ять класів по три спеціалізації, ролі танк/лікар/шкода, хто качається швидше і чим кожен корисний рейду.')),
+                   'Який клас обрати у WoW Forever: дев’ять класів по три спеціалізації, ролі танк/цілитель/шкода, хто качається швидше і чим кожен корисний рейду.')),
     'races/': (t('Расы и классы WoW Forever: все 10 рас и расовые способности',
                  'WoW Forever Races: Racials and Race/Class Combos for All 10',
                  'Раси й класи WoW Forever: усі 10 рас і расові здібності'),
@@ -77,7 +77,7 @@ META = {
     'guides/': (t('Гайды WoW Forever: прокачка, подземелья, профессии, FAQ',
                   'WoW Forever Guides: Leveling, Dungeons, Professions, FAQ',
                   'Гайди WoW Forever: прокачка, підземелля, професії, FAQ'),
-                t('Все гайды по WoW Forever (ВоВ Форевер) в одном месте: маршрут прокачки 1–60, список подземелий и рейдов, профессии под класс, ответы на вопросы и новости.',
+                t('Все гайды по WoW Forever в одном месте: маршрут прокачки 1–60, список подземелий и рейдов, профессии под класс, ответы на вопросы и новости.',
                   'All WoW Forever guides in one place: a 1–60 leveling route, the dungeon and raid list, professions for your class, answers to common questions and news.',
                   'Усі гайди по WoW Forever (ВоВ Форевер) в одному місці: маршрут прокачки 1–60, список підземель і рейдів, професії під клас, відповіді на питання та новини.')),
     'guides/leveling/': (t('Гайд по прокачке WoW Forever 1–60: зоны по уровням',
@@ -89,7 +89,7 @@ META = {
     'guides/dungeons/': (t('Подземелья WoW Forever по уровням: все 35 и рейды',
                            'WoW Forever Dungeons by Level: All 35 Dungeons and Raids',
                            'Підземелля WoW Forever за рівнями: усі 35 і рейди'),
-                         t('Все 35 подземелий WoW Forever по уровням и где вход, с фильтром под уровень вашего героя, три рейда с датами открытия и состав группы.',
+                         t('Все 35 подземелий WoW Forever по уровням и где вход, с фильтром под уровень вашего персонажа, три рейда с датами открытия и состав группы.',
                            'All 35 WoW Forever dungeons by level with entrance locations and a filter for your level, the three raids with opening dates, and group composition.',
                            'Усі 35 підземель WoW Forever за рівнями та де вхід, з фільтром під рівень вашого героя, три рейди з датами відкриття та склад групи.')),
     'guides/professions/': (t('Профессии WoW Forever: лучшие пары для каждого класса',
@@ -101,13 +101,13 @@ META = {
     'guides/faq/': (t('WoW Forever FAQ: дата и время выхода, цена, подписка',
                       'WoW Forever FAQ: Release Date and Time, Price, Subscription',
                       'WoW Forever FAQ: дата й час виходу, ціна, підписка'),
-                    t('Когда выходит WoW Forever, нужна ли подписка, сколько стоят наборы, какие режимы игры, когда бронировать имя и чем Forever отличается от Classic Era.',
+                    t('Когда выходит WoW Forever, нужна ли подписка, сколько стоят наборы, какие режимы игры, когда занимать имя и чем Forever отличается от Classic Era.',
                       'When WoW Forever launches, whether you need a subscription, pack prices, game modes, when to reserve a name and how Forever differs from Classic Era.',
                       'Коли виходить WoW Forever, чи потрібна підписка, скільки коштують набори, які режими гри, коли бронювати ім’я та чим Forever відрізняється від Classic Era.')),
     'guides/news/': (t('Новости WoW Forever: бета, релиз и патчи',
                        'WoW Forever News: Beta, Launch and Patches',
                        'Новини WoW Forever: бета, реліз і патчі'),
-                     t('Новости WoW Forever перед релизом: закрытие беты и бронь имён с 27.10, изменения рас и классов в патчах беты, Даларан и свежая лента Wowhead.',
+                     t('Новости WoW Forever перед релизом: закрытие беты и резерв имён с 27.10, изменения рас и классов в патчах беты, Даларан и свежая лента Wowhead.',
                        'WoW Forever news before launch: the beta closing and name reservations from 27.10, race and class changes in beta patches, Dalaran and the latest Wowhead feed.',
                        'Новини WoW Forever перед релізом: закриття бети й бронювання імен з 27.10, зміни рас і класів у патчах бети, Даларан і свіжа стрічка Wowhead.')),
     'guides/ukrainian/': ({'uk': 'WoW Forever українською: аддони UA_Forever і UALL Forever'},   # only uk
@@ -125,9 +125,9 @@ META = {
                   'Characters of Gabella Team members in WoW Forever: faction, race, class, role, professions and play time. Who is looking for a group and the achievement feed.',
                   'Персонажі учасників Gabella Team у WoW Forever: фракція, раса, клас, роль, професії та час гри. Хто зараз шукає групу і стрічка досягнень.')),
     'profile/': (t('Мой профиль — гид WoW Forever', 'My Profile — WoW Forever Guide', 'Мій профіль — гід WoW Forever'),
-                 t('Персонажи, достижения, ранги и рамки портрета участника Gabella Team. Вход через Discord.',
-                   'Characters, achievements, ranks and portrait frames of a Gabella Team member. Log in with Discord.',
-                   'Персонажі, досягнення, ранги й рамки портрета учасника Gabella Team. Вхід через Discord.')),
+                 t('Персонажи, достижения, ранги и рамки портрета участника Gabella Team. Вход через Discord, Google, Battle.net, Telegram или почту.',
+                   'Characters, achievements, ranks and portrait frames of a Gabella Team member. Log in with Discord, Google, Battle.net, Telegram or email.',
+                   'Персонажі, досягнення, ранги й рамки портрета учасника Gabella Team. Вхід через Discord, Google, Battle.net, Telegram або пошту.')),
     'u/': (t('Игрок Gabella Team — гид WoW Forever', 'Gabella Team Player — WoW Forever Guide', 'Гравець Gabella Team — гід WoW Forever'),
            t('Карточка игрока Gabella Team: персонажи в WoW Forever, ранг, рамка и достижения.',
              'Gabella Team player card: WoW Forever characters, rank, frame and achievements.',
@@ -135,9 +135,9 @@ META = {
     'privacy/': (t('Конфиденциальность — гид WoW Forever',
                    'Privacy — WoW Forever Guide',
                    'Конфіденційність — гід WoW Forever'),
-                 t('Какие данные собирает гид WoW Forever от Gabella: профиль участника через Discord, статистика без cookies, что хранится в браузере, как скачать и удалить данные.',
-                   'What data the Gabella WoW Forever guide collects: the Discord member profile, cookieless statistics, what is stored in your browser, how to download and delete your data.',
-                   'Які дані збирає гід WoW Forever від Gabella: профіль учасника через Discord, статистика без cookies, що зберігається в браузері, як завантажити й видалити дані.')),
+                 t('Какие данные собирает гид WoW Forever от Gabella: профиль после входа, статистика без cookies, что хранится в браузере, как скачать и удалить данные.',
+                   'What data the Gabella WoW Forever guide collects: the profile after sign-in, cookieless statistics, what is stored in your browser, how to download and delete your data.',
+                   'Які дані збирає гід WoW Forever від Gabella: профіль після входу, статистика без cookies, що зберігається в браузері, як завантажити й видалити дані.')),
 }
 
 CLASS_T = t('{n} в WoW Forever: гайд, специализации и расы', 'WoW Forever {n} Guide: Specs, Abilities and Races', '{n} у WoW Forever: гайд, спеціалізації та раси')
@@ -298,11 +298,11 @@ def apply(html, path, lang, title, desc):
     verify = ''.join(f'<meta name="{k}" content="{escape(v, quote=True)}">\n' for k, v in VERIFY.items() if v)
     og = re.search(r'<meta property="og:image" content="([^"]+)"', html)
     html = html.replace('</head>', verify + json_ld(path, lang, desc, title, og and og[1]) + '</head>', 1)
-    html = re.sub(r'<script type="module" src="https://static.cloudflareinsights.com/[^>]*></script>\n', '', html)
+    html = re.sub(r'<script type="module" (?:data-)?src="https://static.cloudflareinsights.com/[^>]*></script>\n', '', html)
     if CF_BEACON_TOKEN:
         beacon = json.dumps({'token': CF_BEACON_TOKEN})
         html = html.replace('</body>', f'<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon=\'{beacon}\'></script>\n</body>', 1)
-    return html
+    return build.late(html) if path == '' else html
 
 
 def sitemap(paths):
@@ -328,7 +328,10 @@ def main():
                 assert not cyr, (path, lang, title, desc)
             full = os.path.join(HERE, page_dir(lang, path), 'index.html')
             html = open(full, encoding='utf-8').read()
-            open(full, 'w', encoding='utf-8', newline='\n').write(apply(html, path, lang, title, desc))
+            html = apply(html, path, lang, title, desc)
+            if lang == 'en':                     # dates added after localize (cards, JSON-LD): «Nov 4», not 04.11
+                html = build.en_dates(html)
+            open(full, 'w', encoding='utf-8', newline='\n').write(html)
     with open(os.path.join(HERE, 'sitemap.xml'), 'w', encoding='utf-8', newline='\n') as f:
         f.write(sitemap({p: v for p, v in meta.items() if p not in NOINDEX}))
     print(f'seo: {sum(map(len, meta.values()))} pages, sitemap.xml, analytics {"on" if CF_BEACON_TOKEN else "off (CF_BEACON_TOKEN empty)"}', file=sys.stderr)

@@ -21,7 +21,7 @@ _ru, _en, _uk = (build.load(f'me.{l}.txt') for l in langs.OLD)
 assert len(_ru) == len(_en) == len(_uk), (len(_ru), len(_en), len(_uk))
 build.T.update({r: (e, u) for r, e, u in zip(_ru, _en, _uk)})
 
-UI = {'got': 'Достижение получено', 'rankUp': 'Новый ранг', 'profile': 'Мой профиль', 'login': 'Войти', 'pts': 'очков',
+UI = {'got': 'Достижение получено', 'rankUp': 'Новый ранг', 'profile': 'Мой профиль', 'login': 'Войти', 'pts': 'очков', 'ptsN': 'Очки: {n}',
       'lvlAsk': 'На странице «В игре» у вас {n} уровень. Обновить персонажа {name}?', 'update': 'Обновить', 'notNow': 'Не сейчас',
       'menu': 'Меню профиля', 'myPage': 'Моя страница ↗', 'chars': 'Персонажи', 'look': 'Внешний вид', 'account': 'Аккаунт',
       'newChar': 'Создать персонажа', 'noChar': 'Персонажа пока нет', 'logout': 'Выйти'}
@@ -96,7 +96,7 @@ def texts(lang):
 
 PAGES = [('roster/', 'roster.src.html'), ('profile/', 'profile.src.html'), ('u/', 'player.src.html')]
 NOINDEX = {'profile/', 'u/'}
-INVITE = build.DISCORD   # кнопка «Вступить в Gabella Team» на экране «не участник»
+INVITE = build.DISCORD_AT['profile']   # кнопка «Вступить в Gabella Team» на экране «не участник»
 
 
 def page_data(lang):
@@ -129,15 +129,13 @@ def build_page(lang, sub, frag, shell, base_css, sprite, me_css, me_js):
     here = build.page_dir(lang, sub)
     root, home = build.rel(here, ''), build.rel(here, build.page_dir(lang))
     html = shell.replace('@@BASE_CSS@@', base_css).replace('@@SPRITE@@', sprite).replace('@@ME_CSS@@', me_css)
-    html = html.replace('@@TABBAR@@', build.tabbar('profile/' if sub == 'profile/' else None))
+    html = build.chrome(html, tab='profile/' if sub == 'profile/' else None)
     html = html.replace('@@P_CSS@@', part(frag, r'<style>(.*?)</style>', 'style'))
     html = html.replace('@@P_BODY@@', part(frag, r'<!--body-->(.*?)<!--/body-->', 'body'))
     html = html.replace('@@ME_JS@@', me_js).replace('@@P_JS@@', part(frag, r'<script>(.*?)</script>', 'script'))
     name = part(frag, r'<h1[^>]*>(.*?)</h1>', 'h1')
     html = html.replace('@@P_NAME@@', re.sub('<[^>]+>', '', name))
     html = html.replace('@@P_ROBOTS@@', '<meta name="robots" content="noindex">\n' if sub in NOINDEX else '')
-    html = html.replace('@@NAV_ROSTER@@', ' aria-current="true"' if sub == 'roster/' else '')
-    html = html.replace('@@NAV_PROFILE@@', ' aria-current="true"' if sub == 'profile/' else '')
     html, missing = build.translate(html, lang)
     html = html.replace('@@GD@@', json.dumps(page_data(lang), ensure_ascii=False, separators=(',', ':')))
     html = html.replace('@@LANG@@', lang).replace('@@HOME@@', home).replace('@@CANON@@', build.SITE + here)

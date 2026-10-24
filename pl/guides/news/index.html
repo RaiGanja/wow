@@ -169,6 +169,8 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .gbtns .btn { white-space: normal; text-align: center; }
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
+.srchbtn kbd, .radiobtn .rdo-eq { display: none; }   /* on the home page search.css and radio.css come after the first paint */
+.radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: .92rem; }
 @media (max-width: 1210px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }
 
@@ -221,6 +223,8 @@ section.block { padding-top: 96px; display: grid; gap: 28px; }
 .sec-head .row { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: flex-end; justify-content: space-between; }
 .sec-head .src { font-size: .85rem; color: var(--muted); padding-bottom: 6px; }
 .sec-head p { color: var(--muted); max-width: 68ch; }
+.dcta { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; margin: 48px 0 0; padding: 18px 20px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); }
+.dcta span { max-width: 62ch; }
 section.block { scroll-margin-top: -72px; }
 
 /* Faction banners */
@@ -1073,8 +1077,8 @@ nav.gtiles { padding: 14px; }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/search/search.css?v=b52e2ac809" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/me/me.css?v=378dd2c208" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/search/search.css?v=6bb0507e11" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/me/me.css?v=0ff37bbee7" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://gabella.site/wow/pl/"},{"@type":"ListItem","position":2,"name":"Poradniki","item":"https://gabella.site/wow/pl/guides/"},{"@type":"ListItem","position":3,"name":"Newsy","item":"https://gabella.site/wow/pl/guides/news/"}]}</script>
 </head>
 <body>
@@ -1103,7 +1107,7 @@ nav.gtiles { padding: 14px; }
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="../../" aria-label="Gabella, na stronę główną"><img class="mark" src="../../../assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Poradnik WoW Forever</small></span></a>
   <nav class="mainnav" aria-label="Sekcje">
-    <a href="../../#factions">Frakcje</a><a href="../../#classes">Klasy</a><a href="../../#peoples">Rasy</a><a href="../../#picker">Wybór</a><a href="../../#builder">Drużyna</a><a href="../" aria-current="true">Poradniki</a><a href="../../tools/">Narzędzia</a><a href="../../roster/">Skład</a><a href="../../play/">W grze</a>
+    <a href="../../classes/">Klasy</a><a href="../../races/">Rasy</a><a href="../../guides/leveling/">Levelowanie</a><a href="../../guides/dungeons/">Dungeony</a><a href="../../guides/" aria-current="true">Poradniki</a><a href="../../tools/">Narzędzia</a><a href="../../play/">W grze</a><a href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Discord</a>
   </nav>
   <div class="tools">
     <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" aria-label="Język: Polski">PL</button><ul class="langlist" hidden><li><a href="../../../guides/news/" data-lang="ru" hreflang="ru" lang="ru"><span>Русский</span><small>RU</small></a></li><li><a href="../../../en/guides/news/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../../../uk/guides/news/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../../../de/guides/news/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="../../../fr/guides/news/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="../../../es/guides/news/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="../../../pt/guides/news/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="../../../it/guides/news/" data-lang="it" hreflang="it" lang="it"><span>Italiano</span><small>IT</small></a></li><li><a href="./" data-lang="pl" hreflang="pl" lang="pl" aria-current="page"><span>Polski</span><small>PL</small></a></li></ul></div>
@@ -1127,12 +1131,13 @@ nav.gtiles { padding: 14px; }
 <main class="wrap gbody">
   <nav class="gtoc frame" aria-label="Sekcje poradnika"><a href="#ours">Nasze notatki</a><a href="#feed">Feed Wowhead</a></nav>
   <div class="gmain">
-<section class="frame gsec" id="ours"><h2>Nasze notatki</h2><div class="nlist"><a class="nitem" href="https://teamoverpowered.com/forever/guides/name-reservation/" target="_blank" rel="noopener"><span class="pill">23.10.2026</span><b>Beta się zamyka, następne: nicki od 27.10</b><p>Zamknięta beta wyłącza się 23.10 o 10:00 czasu pacyficznego (20:00 w Kijowie). Od 27.10 do 03.11 posiadacze Heroic, Epic i Collection rezerwują do trzech nicków na konto, kto pierwszy, ten lepszy.</p></a><a class="nitem" href="https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/" target="_blank" rel="noopener"><span class="pill">15.10.2026</span><b>Duży patch bety: rasy i klasy</b><p>Zdolności rasowe przerobiono (specjalizacje broni zastąpiono krytami), prawie wszystkie klasy zbalansowano. Tabele ras i klas na tej stronie już uwzględniają ten patch.</p></a><a class="nitem" href="https://classicwow.gg/forever" target="_blank" rel="noopener"><span class="pill">08.10.2026</span><b>Dalaran i więcej expa z dungeonów w becie</b><p>Do bety trafiły City of Dalaran i ok. 20% więcej expa za wrogów w dungeonach.</p></a></div></section>
+<section class="frame gsec" id="ours"><h2>Nasze notatki</h2><div class="nlist"><a class="nitem" href="https://teamoverpowered.com/forever/guides/name-reservation/" target="_blank" rel="noopener"><span class="pill">23.10.2026</span><b>Beta zamknięta, następne: nicki od 27.10</b><p>Zamknięta beta wyłączyła się 23.10 o 10:00 czasu pacyficznego (17:00 UTC). Od 27.10 do 03.11 posiadacze Heroic, Epic i Collection rezerwują do trzech nicków na konto, kto pierwszy, ten lepszy.</p></a><a class="nitem" href="https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/" target="_blank" rel="noopener"><span class="pill">15.10.2026</span><b>Duży patch bety: rasy i klasy</b><p>Zdolności rasowe przerobiono (specjalizacje broni zastąpiono krytami), prawie wszystkie klasy zbalansowano. Tabele ras i klas na tej stronie już uwzględniają ten patch.</p></a><a class="nitem" href="https://classicwow.gg/forever" target="_blank" rel="noopener"><span class="pill">08.10.2026</span><b>Dalaran i więcej expa z dungeonów w becie</b><p>Do bety trafiły City of Dalaran i ok. 20% więcej expa za wrogów w dungeonach.</p></a></div></section>
 <section class="frame gsec" id="feed"><h2>Feed Wowhead</h2><p>Newsy o Forever z Wowhead, po angielsku. Lista aktualizuje się sama.</p><div class="nlist" id="feedList" hidden></div><p><a class="more-l" href="https://www.wowhead.com/news" target="_blank" rel="noopener">Wszystkie newsy Wowhead</a></p></section>
   </div>
 </main>
 
 <div class="wrap">
+<p class="dcta"><span>Grupy na start, pytania o poradnik i nowości — na Discordzie Gabella Team.</span><a class="btn ghost" href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Otwórz Discord</a></p>
 <section id="more"><div class="sec-head"><h2>Inne poradniki</h2></div><nav class="frame ttiles gtiles" aria-label="Inne poradniki"><a class="ttile" href="../../guides/leveling/"><picture><source type="image/avif" srcset="../../../assets/art/hero_dawn-960.avif?v=72b3acf6 960w, ../../../assets/art/hero_dawn-1440.avif?v=4c7215d4 1440w, ../../../assets/art/hero_dawn-1920.avif?v=baf52983 1920w, ../../../assets/art/hero_dawn-2560.avif?v=78086c34 2560w, ../../../assets/art/hero_dawn-3840.avif?v=b7217b4e 3840w" sizes="320px"><img src="../../../assets/art/hero_dawn-960.webp?v=4eae2c5c" srcset="../../../assets/art/hero_dawn-960.webp?v=4eae2c5c 960w, ../../../assets/art/hero_dawn-1440.webp?v=389093cd 1440w, ../../../assets/art/hero_dawn-1920.webp?v=1d137c11 1920w, ../../../assets/art/hero_dawn-2560.webp?v=f7135c28 2560w, ../../../assets/art/hero_dawn-3840.webp?v=f48b5767 3840w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Levelowanie 1–60</b><span>Strefy według levelu, rest, Legacy i camp</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/dungeons/"><picture><source type="image/avif" srcset="../../../assets/art/warlock-360.avif?v=dd5fc7a8 360w, ../../../assets/art/warlock-600.avif?v=f1b27c51 600w, ../../../assets/art/warlock-896.avif?v=d25066c1 896w" sizes="320px"><img src="../../../assets/art/warlock-600.webp?v=a0181c77" srcset="../../../assets/art/warlock-360.webp?v=1f04d604 360w, ../../../assets/art/warlock-600.webp?v=a0181c77 600w, ../../../assets/art/warlock-896.webp?v=203a598f 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Dungeony i raidy</b><span>35 dungeonów według levelu, raidy, skład grupy</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/professions/"><picture><source type="image/avif" srcset="../../../assets/art/hero_campfire-960.avif?v=2654726f 960w, ../../../assets/art/hero_campfire-1600.avif?v=a9d1ad39 1600w, ../../../assets/art/hero_campfire-2560.avif?v=6b161175 2560w" sizes="320px"><img src="../../../assets/art/hero_campfire-960.webp?v=d73f1e16" srcset="../../../assets/art/hero_campfire-960.webp?v=d73f1e16 960w, ../../../assets/art/hero_campfire-1600.webp?v=bef1b754 1600w, ../../../assets/art/hero_campfire-2560.webp?v=08f5bedc 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Profesje</b><span>Pary dla twojej klasy, obiekty campu, skill do 300</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/faq/"><picture><source type="image/avif" srcset="../../../assets/art/mage-360.avif?v=7b69fc64 360w, ../../../assets/art/mage-600.avif?v=632283e7 600w, ../../../assets/art/mage-896.avif?v=7631e4c7 896w" sizes="320px"><img src="../../../assets/art/mage-600.webp?v=37403d76" srcset="../../../assets/art/mage-360.webp?v=f08052db 360w, ../../../assets/art/mage-600.webp?v=37403d76 600w, ../../../assets/art/mage-896.webp?v=80bd7e13 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>FAQ i daty</b><span>Daty, pakiety, tryby i odpowiedzi</span><time datetime="2026-10-23">23.10.2026</time></a></nav></section>
 <footer id="sources">
   <h2>Źródła</h2>
@@ -1154,8 +1159,9 @@ nav.gtiles { padding: 14px; }
   <div class="dh"><b>Wszystkie sekcje</b><button class="iconbtn" id="moreClose" type="button" aria-label="Zamknij"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Wszystkie sekcje">
     <div class="grp"><div class="gh">Ta strona</div><a href="#ours">Nasze notatki</a><a href="#feed">Feed Wowhead</a></div>
-    <div class="grp"><div class="gh">Poradnik</div><a href="../../">Start</a><a href="../../#classes">Klasy</a><a href="../../#peoples">Rasy</a><a href="../../#picker">Wybór</a><a href="../../#builder">Kreator drużyny</a><a href="../../tools/">Narzędzia</a><a href="../../play/">W grze</a><a href="../">Poradniki</a></div>
-    <div class="grp"><div class="gh">Drużyna</div><a href="../../roster/">Skład</a><a href="../../profile/">Mój profil</a></div>
+    <div class="grp"><div class="gh">Kompendium</div><a href="../../">Start</a><a href="../../classes/">Porównanie klas</a><a href="../../races/">Porównanie ras</a><a href="../../guides/leveling/">Levelowanie 1–60</a><a href="../../guides/dungeons/">Dungeony i raidy</a><a href="../../guides/professions/">Profesje</a><a href="../../guides/faq/">FAQ i daty</a><a href="../../guides/news/">Newsy</a><a href="../../guides/">Wszystkie poradniki</a></div>
+    <div class="grp"><div class="gh">Narzędzia</div><a href="../../#picker">Wybór</a><a href="../../#builder">Kreator drużyny</a><a href="../../tools/">Ramki, porównanie, szukaj</a><a href="../../play/">W grze</a></div>
+    <div class="grp"><div class="gh">Społeczność</div><a href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Discord</a><a href="../../roster/">Skład</a><a href="../../profile/">Mój profil</a></div>
   </nav>
   <div class="opts">
     <div class="langgrid" role="group" aria-label="Język"><a href="../../../guides/news/" data-lang="ru" hreflang="ru" lang="ru">Русский</a><a href="../../../en/guides/news/" data-lang="en" hreflang="en" lang="en">English</a><a href="../../../uk/guides/news/" data-lang="uk" hreflang="uk" lang="uk">Українська</a><a href="../../../de/guides/news/" data-lang="de" hreflang="de" lang="de">Deutsch</a><a href="../../../fr/guides/news/" data-lang="fr" hreflang="fr" lang="fr">Français</a><a href="../../../es/guides/news/" data-lang="es" hreflang="es" lang="es">Español</a><a href="../../../pt/guides/news/" data-lang="pt" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a><a href="../../../it/guides/news/" data-lang="it" hreflang="it" lang="it">Italiano</a><a href="./" data-lang="pl" hreflang="pl" lang="pl" aria-current="page">Polski</a></div>
@@ -1274,8 +1280,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../../assets/radio/radio.js" data-root="../../../" defer></script>
-<script src="../../../assets/search/search.js?v=b52e2ac809" data-root="../../../" defer></script>
-<script src="../../../assets/me/me.js?v=378dd2c208" data-root="../../../" data-home="../../" data-lang="pl" data-teaser="Profil przechowuje twoje postacie, osiągnięcia i ramki" data-close="Zamknij" data-page="guides/news/" data-look="2" defer></script>
+<script src="../../../assets/search/search.js?v=6bb0507e11" data-root="../../../" defer></script>
+<script src="../../../assets/me/me.js?v=0ff37bbee7" data-root="../../../" data-home="../../" data-lang="pl" data-teaser="Profil przechowuje twoje postacie, osiągnięcia i ramki" data-close="Zamknij" data-page="guides/news/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

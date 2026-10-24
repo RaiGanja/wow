@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Новости WoW Forever: бета, релиз и патчи</title>
-<meta name="description" content="Новости WoW Forever перед релизом: закрытие беты и бронь имён с 27.10, изменения рас и классов в патчах беты, Даларан и свежая лента Wowhead.">
+<meta name="description" content="Новости WoW Forever перед релизом: закрытие беты и резерв имён с 27.10, изменения рас и классов в патчах беты, Даларан и свежая лента Wowhead.">
 <meta name="theme-color" content="#060708">
 <link rel="alternate" hreflang="ru" href="https://gabella.site/wow/guides/news/">
 <link rel="alternate" hreflang="en" href="https://gabella.site/wow/en/guides/news/">
@@ -30,7 +30,7 @@
 <meta property="og:locale:alternate" content="pl_PL">
 <meta property="og:site_name" content="Gabella">
 <meta property="og:title" content="Новости WoW Forever: бета, релиз и патчи">
-<meta property="og:description" content="Новости WoW Forever перед релизом: закрытие беты и бронь имён с 27.10, изменения рас и классов в патчах беты, Даларан и свежая лента Wowhead.">
+<meta property="og:description" content="Новости WoW Forever перед релизом: закрытие беты и резерв имён с 27.10, изменения рас и классов в патчах беты, Даларан и свежая лента Wowhead.">
 <meta property="og:url" content="https://gabella.site/wow/guides/news/">
 <meta property="og:image" content="https://gabella.site/wow/assets/og/news-ru.jpg">
 <meta property="og:image:width" content="1200">
@@ -169,6 +169,8 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .gbtns .btn { white-space: normal; text-align: center; }
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
+.srchbtn kbd, .radiobtn .rdo-eq { display: none; }   /* on the home page search.css and radio.css come after the first paint */
+.radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: .92rem; }
 @media (max-width: 1210px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }
 
@@ -221,6 +223,8 @@ section.block { padding-top: 96px; display: grid; gap: 28px; }
 .sec-head .row { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: flex-end; justify-content: space-between; }
 .sec-head .src { font-size: .85rem; color: var(--muted); padding-bottom: 6px; }
 .sec-head p { color: var(--muted); max-width: 68ch; }
+.dcta { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; margin: 48px 0 0; padding: 18px 20px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); }
+.dcta span { max-width: 62ch; }
 section.block { scroll-margin-top: -72px; }
 
 /* Faction banners */
@@ -1073,8 +1077,8 @@ nav.gtiles { padding: 14px; }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=b52e2ac809" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=378dd2c208" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=6bb0507e11" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=0ff37bbee7" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://gabella.site/wow/"},{"@type":"ListItem","position":2,"name":"Гайды","item":"https://gabella.site/wow/guides/"},{"@type":"ListItem","position":3,"name":"Новости","item":"https://gabella.site/wow/guides/news/"}]}</script>
 </head>
 <body>
@@ -1103,7 +1107,7 @@ nav.gtiles { padding: 14px; }
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="../../" aria-label="Gabella, на главную"><img class="mark" src="../../assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Гид WoW Forever</small></span></a>
   <nav class="mainnav" aria-label="Разделы">
-    <a href="../../#factions">Фракции</a><a href="../../#classes">Классы</a><a href="../../#peoples">Расы</a><a href="../../#picker">Подборщик</a><a href="../../#builder">Группа</a><a href="../" aria-current="true">Гайды</a><a href="../../tools/">Инструменты</a><a href="../../roster/">Состав</a><a href="../../play/">В игре</a>
+    <a href="../../classes/">Классы</a><a href="../../races/">Расы</a><a href="../../guides/leveling/">Прокачка</a><a href="../../guides/dungeons/">Подземелья</a><a href="../../guides/" aria-current="true">Гайды</a><a href="../../tools/">Инструменты</a><a href="../../play/">В игре</a><a href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Discord</a>
   </nav>
   <div class="tools">
     <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" aria-label="Язык: Русский">RU</button><ul class="langlist" hidden><li><a href="./" data-lang="ru" hreflang="ru" lang="ru" aria-current="page"><span>Русский</span><small>RU</small></a></li><li><a href="../../en/guides/news/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../../uk/guides/news/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../../de/guides/news/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="../../fr/guides/news/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="../../es/guides/news/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="../../pt/guides/news/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="../../it/guides/news/" data-lang="it" hreflang="it" lang="it"><span>Italiano</span><small>IT</small></a></li><li><a href="../../pl/guides/news/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
@@ -1119,7 +1123,7 @@ nav.gtiles { padding: 14px; }
   <div class="wrap">
     <nav class="crumbs" aria-label="Навигация"><a href="../../">Гид</a><span aria-hidden="true">/</span><a href="../../guides/">Гайды</a><span aria-hidden="true">/</span><span>Новости</span></nav>
     <h1>Новости</h1>
-    <p class="glead">Что важно для нашей игры в WoW Forever, и свежая лента Wowhead.</p>
+    <p class="glead">Главное о WoW Forever и свежая лента Wowhead.</p>
     <div class="pills"><span class="pill">Лента обновляется каждые 6 часов</span></div>
   </div>
 </section>
@@ -1127,12 +1131,13 @@ nav.gtiles { padding: 14px; }
 <main class="wrap gbody">
   <nav class="gtoc frame" aria-label="Разделы гайда"><a href="#ours">Наши записи</a><a href="#feed">Лента Wowhead</a></nav>
   <div class="gmain">
-<section class="frame gsec" id="ours"><h2>Наши записи</h2><div class="nlist"><a class="nitem" href="https://teamoverpowered.com/forever/guides/name-reservation/" target="_blank" rel="noopener"><span class="pill">23.10.2026</span><b>Бета закрывается, следующий шаг — имена с 27.10</b><p>Закрытая бета отключается 23.10 в 10:00 по тихоокеанскому времени (20:00 по Киеву). С 27.10 по 03.11 владельцы Heroic, Epic и Collection резервируют до трёх имён на аккаунт, кто первым пришёл, тот и занял.</p></a><a class="nitem" href="https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/" target="_blank" rel="noopener"><span class="pill">15.10.2026</span><b>Крупный патч беты: расы и классы</b><p>Способности рас переделаны (оружейные специализации заменены критами), настроены почти все классы. Таблицы рас и классов на сайте уже по этому патчу.</p></a><a class="nitem" href="https://classicwow.gg/forever" target="_blank" rel="noopener"><span class="pill">08.10.2026</span><b>В бете Даларан и больше опыта в подземельях</b><p>В бету добавили City of Dalaran и примерно на 20% больше опыта за врагов в подземельях.</p></a></div></section>
+<section class="frame gsec" id="ours"><h2>Наши записи</h2><div class="nlist"><a class="nitem" href="https://teamoverpowered.com/forever/guides/name-reservation/" target="_blank" rel="noopener"><span class="pill">23.10.2026</span><b>Бета закрыта, дальше — имена с 27.10</b><p>Закрытая бета закрылась 23.10 в 10:00 по тихоокеанскому времени (17:00 UTC). С 27.10 по 03.11 владельцы Heroic, Epic и Collection резервируют до трёх имён на аккаунт, кто первым пришёл, тот и занял.</p></a><a class="nitem" href="https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/" target="_blank" rel="noopener"><span class="pill">15.10.2026</span><b>Крупный патч беты: расы и классы</b><p>Способности рас переделаны (оружейные специализации заменены критами), настроены почти все классы. Таблицы рас и классов на сайте уже по этому патчу.</p></a><a class="nitem" href="https://classicwow.gg/forever" target="_blank" rel="noopener"><span class="pill">08.10.2026</span><b>В бете Даларан и больше опыта в подземельях</b><p>В бету добавили Даларан (City of Dalaran) и примерно на 20% больше опыта за врагов в подземельях.</p></a></div></section>
 <section class="frame gsec" id="feed"><h2>Лента Wowhead</h2><p>Новости про Forever с Wowhead, на английском. Список обновляется сам.</p><div class="nlist" id="feedList" hidden></div><p><a class="more-l" href="https://www.wowhead.com/news" target="_blank" rel="noopener">Все новости Wowhead</a></p></section>
   </div>
 </main>
 
 <div class="wrap">
+<p class="dcta"><span>Группы на старт, вопросы по гиду и новости — в Discord Gabella Team.</span><a class="btn ghost" href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Открыть Discord</a></p>
 <section id="more"><div class="sec-head"><h2>Другие гайды</h2></div><nav class="frame ttiles gtiles" aria-label="Другие гайды"><a class="ttile" href="../../guides/leveling/"><picture><source type="image/avif" srcset="../../assets/art/hero_dawn-960.avif?v=72b3acf6 960w, ../../assets/art/hero_dawn-1440.avif?v=4c7215d4 1440w, ../../assets/art/hero_dawn-1920.avif?v=baf52983 1920w, ../../assets/art/hero_dawn-2560.avif?v=78086c34 2560w, ../../assets/art/hero_dawn-3840.avif?v=b7217b4e 3840w" sizes="320px"><img src="../../assets/art/hero_dawn-960.webp?v=4eae2c5c" srcset="../../assets/art/hero_dawn-960.webp?v=4eae2c5c 960w, ../../assets/art/hero_dawn-1440.webp?v=389093cd 1440w, ../../assets/art/hero_dawn-1920.webp?v=1d137c11 1920w, ../../assets/art/hero_dawn-2560.webp?v=f7135c28 2560w, ../../assets/art/hero_dawn-3840.webp?v=f48b5767 3840w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Прокачка 1–60</b><span>Зоны по уровням, отдых, Legacy и лагерь</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/dungeons/"><picture><source type="image/avif" srcset="../../assets/art/warlock-360.avif?v=dd5fc7a8 360w, ../../assets/art/warlock-600.avif?v=f1b27c51 600w, ../../assets/art/warlock-896.avif?v=d25066c1 896w" sizes="320px"><img src="../../assets/art/warlock-600.webp?v=a0181c77" srcset="../../assets/art/warlock-360.webp?v=1f04d604 360w, ../../assets/art/warlock-600.webp?v=a0181c77 600w, ../../assets/art/warlock-896.webp?v=203a598f 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Подземелья и рейды</b><span>35 подземелий по уровням, рейды, состав группы</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/professions/"><picture><source type="image/avif" srcset="../../assets/art/hero_campfire-960.avif?v=2654726f 960w, ../../assets/art/hero_campfire-1600.avif?v=a9d1ad39 1600w, ../../assets/art/hero_campfire-2560.avif?v=6b161175 2560w" sizes="320px"><img src="../../assets/art/hero_campfire-960.webp?v=d73f1e16" srcset="../../assets/art/hero_campfire-960.webp?v=d73f1e16 960w, ../../assets/art/hero_campfire-1600.webp?v=bef1b754 1600w, ../../assets/art/hero_campfire-2560.webp?v=08f5bedc 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Профессии</b><span>Пары под класс, объекты лагеря, навык до 300</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/faq/"><picture><source type="image/avif" srcset="../../assets/art/mage-360.avif?v=7b69fc64 360w, ../../assets/art/mage-600.avif?v=632283e7 600w, ../../assets/art/mage-896.avif?v=7631e4c7 896w" sizes="320px"><img src="../../assets/art/mage-600.webp?v=37403d76" srcset="../../assets/art/mage-360.webp?v=f08052db 360w, ../../assets/art/mage-600.webp?v=37403d76 600w, ../../assets/art/mage-896.webp?v=80bd7e13 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>FAQ и даты</b><span>Даты, наборы, режимы и ответы на вопросы</span><time datetime="2026-10-23">23.10.2026</time></a></nav></section>
 <footer id="sources">
   <h2>Источники</h2>
@@ -1154,8 +1159,9 @@ nav.gtiles { padding: 14px; }
   <div class="dh"><b>Все разделы</b><button class="iconbtn" id="moreClose" type="button" aria-label="Закрыть"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Все разделы">
     <div class="grp"><div class="gh">Эта страница</div><a href="#ours">Наши записи</a><a href="#feed">Лента Wowhead</a></div>
-    <div class="grp"><div class="gh">Гид</div><a href="../../">Главная</a><a href="../../#classes">Классы</a><a href="../../#peoples">Расы</a><a href="../../#picker">Подборщик</a><a href="../../#builder">Конструктор группы</a><a href="../../tools/">Инструменты</a><a href="../../play/">В игре</a><a href="../">Гайды</a></div>
-    <div class="grp"><div class="gh">Команда</div><a href="../../roster/">Состав</a><a href="../../profile/">Мой профиль</a></div>
+    <div class="grp"><div class="gh">Справочник</div><a href="../../">Главная</a><a href="../../classes/">Классы: сравнение</a><a href="../../races/">Расы: сравнение</a><a href="../../guides/leveling/">Прокачка 1–60</a><a href="../../guides/dungeons/">Подземелья и рейды</a><a href="../../guides/professions/">Профессии</a><a href="../../guides/faq/">FAQ и даты</a><a href="../../guides/news/">Новости</a><a href="../../guides/">Все гайды</a></div>
+    <div class="grp"><div class="gh">Инструменты</div><a href="../../#picker">Подборщик</a><a href="../../#builder">Конструктор группы</a><a href="../../tools/">Рамки, сравнение, поиск</a><a href="../../play/">В игре</a></div>
+    <div class="grp"><div class="gh">Сообщество</div><a href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Discord</a><a href="../../roster/">Состав</a><a href="../../profile/">Мой профиль</a></div>
   </nav>
   <div class="opts">
     <div class="langgrid" role="group" aria-label="Язык"><a href="./" data-lang="ru" hreflang="ru" lang="ru" aria-current="page">Русский</a><a href="../../en/guides/news/" data-lang="en" hreflang="en" lang="en">English</a><a href="../../uk/guides/news/" data-lang="uk" hreflang="uk" lang="uk">Українська</a><a href="../../de/guides/news/" data-lang="de" hreflang="de" lang="de">Deutsch</a><a href="../../fr/guides/news/" data-lang="fr" hreflang="fr" lang="fr">Français</a><a href="../../es/guides/news/" data-lang="es" hreflang="es" lang="es">Español</a><a href="../../pt/guides/news/" data-lang="pt" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a><a href="../../it/guides/news/" data-lang="it" hreflang="it" lang="it">Italiano</a><a href="../../pl/guides/news/" data-lang="pl" hreflang="pl" lang="pl">Polski</a></div>
@@ -1274,8 +1280,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=b52e2ac809" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=378dd2c208" data-root="../../" data-home="../../" data-lang="ru" data-teaser="Профиль хранит ваших персонажей, достижения и рамки" data-close="Закрыть" data-page="guides/news/" data-look="2" defer></script>
+<script src="../../assets/search/search.js?v=6bb0507e11" data-root="../../" defer></script>
+<script src="../../assets/me/me.js?v=0ff37bbee7" data-root="../../" data-home="../../" data-lang="ru" data-teaser="Профиль хранит ваших персонажей, достижения и рамки" data-close="Закрыть" data-page="guides/news/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>
