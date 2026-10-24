@@ -1085,8 +1085,8 @@ nav.gtiles { padding: 14px; }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=de8bc15d93" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=c30b9c1a1c" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=63caed3e78" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=e47acff0c7" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://gabella.site/wow/pl/"},{"@type":"ListItem","position":2,"name":"Klasy","item":"https://gabella.site/wow/pl/classes/"}]}</script>
 </head>
 <body>
@@ -1246,14 +1246,14 @@ const CLASSES = [
     specs:[['Elemental','Obrażenia dystansowe',['dps']],['Enhancement','Obrażenia w zwarciu. Możliwość tankowania wciąż pod znakiem zapytania',['dps','tank?']],['Restoration','Healer',['heal']]],
     lvl:'Średnie tempo levelowania',
     lp:0,
-    raid:'Totemy Strength of Earth, Windfury, Flametongue i Grace of Air buffują cały raid',
+    raid:'Totemy Strength of Earth, Windfury, Flametongue i Grace of Air buffują swoją grupę',
     forever:'Dwarfy mogą teraz być szamanami, więc klasa pojawiła się w Alliance. Lava Burst wzmocniony, Elemental poszedł w górę w rankingach obrażeń.' },
   { id:'mage', n:'Mage', roles:['dps'],
     specs:[['Arcane','Burst, dużo many',['dps']],['Fire','Kryty i ignite',['dps']],['Frost','Obrażenia i kontrola',['dps']]],
     lvl:'Najszybsze levelowanie, ok. 8% szybciej niż średnio (ok. 12 godzin oszczędności)',
     lp:-8,
     raid:'Portale oraz jedzenie i woda dla całej drużyny',
-    forever:'Fire dostał Hotstreak, Arcane przerobione Arcane Explosion, Frost Ice Lance. Frostfire Bolt jest dostępny od levelu 40.' },
+    forever:'Fire dostał Hotstreak, Arcane Arcane Blast, Frost Ice Lance. Frostfire Bolt jest dostępny od levelu 40.' },
   { id:'warlock', n:'Warlock', roles:['dps'],
     specs:[['Affliction','Obrażenia od klątw i korupcji',['dps']],['Demonology','Obrażenia przez demony',['dps']],['Destruction','Bezpośrednie obrażenia od ognia i cienia',['dps']]],
     lvl:'Średnie tempo levelowania',
@@ -1270,7 +1270,7 @@ const CLASSES = [
 const ROLE_RU = { tank:'Tank', heal:'Healer', dps:'DPS', 'tank?':'Tank (niepewne)' };
 const ri = r => `<svg class="ri" aria-hidden="true"><use href="#i-${r.replace('?','')}"/></svg>`;
 const CCOL = { warrior:'#c79c6e', paladin:'#f58cba', hunter:'#abd473', rogue:'#fff569', priest:'#e8e8e8', shaman:'#2f8cf0', mage:'#40c7eb', warlock:'#8788ee', druid:'#ff7d0a' };
-const BUFF = { warrior:'Battle Shout', paladin:'Blessing of Kings', hunter:'Trueshot Aura', priest:'Divine Spirit', shaman:'Totemy (Strength of Earth, Windfury, Flametongue, Grace of Air)', mage:'Portale, jedzenie i woda', druid:'Leader of the Pack i Moonkin Aura' };
+const BUFF = { warrior:'Battle Shout', paladin:'Blessing of Kings', hunter:'Trueshot Aura', priest:'Power Word: Fortitude, Divine Spirit', shaman:'Totemy (Strength of Earth, Windfury, Flametongue, Grace of Air)', mage:'Arcane Intellect, portale, jedzenie i woda', druid:'Mark of the Wild, Leader of the Pack, Moonkin Aura' };
 
 const RACES = [
   { id:'human', n:'Human', f:'alliance',
@@ -1295,11 +1295,11 @@ const RACES = [
     tip:'Płatna rasa: Heroic Pack od $29.99. Start w lokacji Zephras Isle (levele 1–12).' },
   { id:'orc', n:'Orc', f:'horde',
     cls:['warrior','hunter','rogue','shaman','warlock','mage*'],
-    rac:[['a','Blood Fury','+10% attack power i spell power przez 15 sek.'],['a','Shatter Curse','Odporność na klątwy i korupcję oraz mniejsze obrażenia magiczne przez 8 sek.'],['p','Savage','+1% szansy na kryta'],['p','Hardiness','Ogłuszenia są o 20% krótsze']],
+    rac:[['a','Blood Fury','+10% attack power i spell power przez 15 sek.'],['a','Shatter Curse','Usuwa klątwy i korupcję, −5% otrzymywanych obrażeń magicznych przez 8 sek.'],['p','Savage','+1% szansy na kryta'],['p','Hardiness','Ogłuszenia są o 20% krótsze']],
     tip:'Blood Fury daje mocne okno na obrażenia.' },
   { id:'undead', n:'Undead', f:'horde',
     cls:['warrior','rogue','mage','priest','warlock','paladin*'],
-    rac:[['a','Will of the Forsaken','Usuwa charm, fear i sen'],['a','Cannibalize','Przywraca 35% zdrowia i many w czasie'],['p','Underwater Breathing','Dłuższe oddychanie pod wodą'],['p','Touch of the Grave','5% szansy na wyssanie zdrowia przy ataku']],
+    rac:[['a','Will of the Forsaken','Usuwa charm, fear i sen'],['a','Cannibalize','Przywraca 35% zdrowia i many w czasie'],['p','Underwater Breathing','Dłuższe oddychanie pod wodą'],['p','Touch of the Grave','Szansa na wyssanie zdrowia przy ataku']],
     tip:'Nowa kombinacja: paladyn dla Horde, w której tej klasy wcześniej nie było.' },
   { id:'tauren', n:'Tauren', f:'horde',
     cls:['warrior','hunter','shaman','druid'],
@@ -1441,8 +1441,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=de8bc15d93" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=c30b9c1a1c" data-root="../../" data-home="../" data-lang="pl" data-teaser="Profil zapisuje twoją drogę: Chwała, ramki, sezony" data-close="Zamknij" data-page="classes/" data-look="2" defer></script>
+<script src="../../assets/search/search.js?v=63caed3e78" data-root="../../" defer></script>
+<script src="../../assets/me/me.js?v=e47acff0c7" data-root="../../" data-home="../" data-lang="pl" data-teaser="Profil zapisuje twoją drogę: Chwała, ramki, sezony" data-close="Zamknij" data-page="classes/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

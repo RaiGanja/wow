@@ -1085,8 +1085,8 @@ nav.gtiles { padding: 14px; }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=de8bc15d93" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=c30b9c1a1c" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=63caed3e78" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=e47acff0c7" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/it/"},{"@type":"ListItem","position":2,"name":"Razze","item":"https://gabella.site/wow/it/races/"}]}</script>
 </head>
 <body>
@@ -1139,7 +1139,7 @@ nav.gtiles { padding: 14px; }
 <main class="wrap gbody solo">
   <nav class="gtoc frame" aria-label="Sezioni della guida"></nav>
   <div class="gmain">
-<section class="frame gsec" id="compare"><h2>Confronto</h2><p>Ogni razza ha quattro abilità: due attive e due passive. Alcune vecchie abilità sono state sostituite da nuove, le resistenze sono state rimosse.</p><div class="cmp rac" id="raceRef"><a href="../races/human/">Umano</a><a href="../races/dwarf/">Nano</a><a href="../races/night-elf/">Elfo della Notte</a><a href="../races/gnome/">Gnomo</a><a href="../races/skyborne-alliance/">Skyborne dell’High Order</a><a href="../races/orc/">Orco</a><a href="../races/undead/">Non Morto</a><a href="../races/tauren/">Tauren</a><a href="../races/troll/">Troll</a><a href="../races/skyborne-horde/">Skyborne Windshaper</a></div><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Consiglio</span>Gli Skyborne sono giocabili in entrambe le fazioni; la fazione si sceglie alla creazione. Entrambi i rami parlano una lingua comune, e la zona iniziale di Zephras Isle è condivisa, ma lì i nemici non si incontrano grazie ai livelli di fase.</p></div></section>
+<section class="frame gsec" id="compare"><h2>Confronto</h2><p>Ogni razza ha quattro abilità: due attive e due passive. Alcune vecchie abilità sono state sostituite da nuove, le resistenze sono state rimosse.</p><div class="cmp rac" id="raceRef"><a href="../races/human/">Umano</a><a href="../races/dwarf/">Nano</a><a href="../races/night-elf/">Elfo della Notte</a><a href="../races/gnome/">Gnomo</a><a href="../races/skyborne-alliance/">Skyborne dell’High Order</a><a href="../races/orc/">Orco</a><a href="../races/undead/">Non Morto</a><a href="../races/tauren/">Tauren</a><a href="../races/troll/">Troll</a><a href="../races/skyborne-horde/">Skyborne Windshaper</a></div><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Consiglio</span>Gli Skyborne sono giocabili in entrambe le fazioni; la fazione si sceglie alla creazione. Entrambi i rami parlano darnassiano, e la zona iniziale di Zephras Isle è condivisa, ma lì i nemici non si incontrano grazie ai livelli di fase.</p></div></section>
   </div>
 </main>
 
@@ -1246,14 +1246,14 @@ const CLASSES = [
     specs:[['Elementale','Danni a distanza',['dps']],['Potenziamento','Danni in mischia. Il ruolo da difensore è ancora in dubbio',['dps','tank?']],['Rigenerazione','Guaritore',['heal']]],
     lvl:'Ritmo di livellamento nella media',
     lp:0,
-    raid:'I totem Forza della Terra, Furia del Vento, Lingua di Fuoco e Grazia dell’Aria potenziano tutta l’incursione',
+    raid:'I totem Forza della Terra, Furia del Vento, Lingua di Fuoco e Grazia dell’Aria potenziano il proprio gruppo',
     forever:'I Nani ora possono essere sciamani, quindi la classe è arrivata nell’Alleanza. Getto di Lava è stata potenziata, Elementale è salito nelle classifiche dei danni.' },
   { id:'mage', n:'Mago', roles:['dps'],
     specs:[['Arcano','Danni esplosivi, molto mana',['dps']],['Fuoco','Critici e incendi',['dps']],['Gelo','Danni e controllo',['dps']]],
     lvl:'Il livellamento più veloce, circa l’8% più rapido della media (circa 12 ore risparmiate)',
     lp:-8,
     raid:'Portali, cibo e acqua per tutto il gruppo',
-    forever:'Fuoco ha ottenuto Serie Bollente, Arcano un’Esplosione Arcana rinnovata, Gelo Lancia di Ghiaccio. Palla di Fuocogelo è disponibile dal livello 40.' },
+    forever:'Fuoco ha ottenuto Serie Bollente, Arcano Detonazione Arcana, Gelo Lancia di Ghiaccio. Palla di Fuocogelo è disponibile dal livello 40.' },
   { id:'warlock', n:'Stregone', roles:['dps'],
     specs:[['Afflizione','Danni da maledizioni e corruzione',['dps']],['Demonologia','Danni tramite demoni',['dps']],['Distruzione','Danni diretti da fuoco e ombra',['dps']]],
     lvl:'Ritmo di livellamento nella media',
@@ -1270,7 +1270,7 @@ const CLASSES = [
 const ROLE_RU = { tank:'Difensore', heal:'Guaritore', dps:'Danni', 'tank?':'Difensore (incerto)' };
 const ri = r => `<svg class="ri" aria-hidden="true"><use href="#i-${r.replace('?','')}"/></svg>`;
 const CCOL = { warrior:'#c79c6e', paladin:'#f58cba', hunter:'#abd473', rogue:'#fff569', priest:'#e8e8e8', shaman:'#2f8cf0', mage:'#40c7eb', warlock:'#8788ee', druid:'#ff7d0a' };
-const BUFF = { warrior:'Urlo di Battaglia', paladin:'Benedizione dei Re', hunter:'Aura di Precisione', priest:'Spirito Divino', shaman:'Totem (Forza della Terra, Furia del Vento, Lingua di Fuoco, Grazia dell’Aria)', mage:'Portali, cibo e acqua', druid:'Capobranco e Aura del Lunagufo' };
+const BUFF = { warrior:'Urlo di Battaglia', paladin:'Benedizione dei Re', hunter:'Aura di Precisione', priest:'Parola del Potere: Fermezza, Spirito Divino', shaman:'Totem (Forza della Terra, Furia del Vento, Lingua di Fuoco, Grazia dell’Aria)', mage:'Intelletto Arcano, portali, cibo e acqua', druid:'Marchio Selvaggio, Capobranco, Aura del Lunagufo' };
 
 const RACES = [
   { id:'human', n:'Umano', f:'alliance',
@@ -1295,11 +1295,11 @@ const RACES = [
     tip:'Razza a pagamento: Heroic Pack da $29.99. Inizia nella zona di Zephras Isle (livelli 1–12).' },
   { id:'orc', n:'Orco', f:'horde',
     cls:['warrior','hunter','rogue','shaman','warlock','mage*'],
-    rac:[['a','Furia Sanguinaria','+10% potenza d’attacco e potere magico per 15 s'],['a','Shatter Curse','Immunità a maledizioni e corruzione e meno danni magici per 8 s'],['p','Savage','+1% probabilità di critico'],['p','Audacia','Stordimenti più brevi del 20%']],
+    rac:[['a','Furia Sanguinaria','+10% potenza d’attacco e potere magico per 15 s'],['a','Shatter Curse','Rimuove maledizioni e corruzione, −5% di danni magici subiti per 8 s'],['p','Savage','+1% probabilità di critico'],['p','Audacia','Stordimenti più brevi del 20%']],
     tip:'Furia Sanguinaria offre una potente finestra di danni.' },
   { id:'undead', n:'Non Morto', f:'horde',
     cls:['warrior','rogue','mage','priest','warlock','paladin*'],
-    rac:[['a','Volontà dei Reietti','Rimuove ammaliamento, paura e sonno'],['a','Cannibalismo','Ripristina nel tempo il 35% di salute e mana'],['p','Respiro Subacqueo','Respiri più a lungo sott’acqua'],['p','Tocco Tombale','5% di probabilità di sottrarre salute quando attacchi']],
+    rac:[['a','Volontà dei Reietti','Rimuove ammaliamento, paura e sonno'],['a','Cannibalismo','Ripristina nel tempo il 35% di salute e mana'],['p','Respiro Subacqueo','Respiri più a lungo sott’acqua'],['p','Tocco Tombale','Probabilità di sottrarre salute quando attacchi']],
     tip:'Nuova combinazione: un paladino per l’Orda, dove prima questa classe non esisteva.' },
   { id:'tauren', n:'Tauren', f:'horde',
     cls:['warrior','hunter','shaman','druid'],
@@ -1441,8 +1441,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=de8bc15d93" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=c30b9c1a1c" data-root="../../" data-home="../" data-lang="it" data-teaser="Il tuo profilo conserva il tuo percorso: Gloria, riquadri, stagioni" data-close="Chiudi" data-page="races/" data-look="2" defer></script>
+<script src="../../assets/search/search.js?v=63caed3e78" data-root="../../" defer></script>
+<script src="../../assets/me/me.js?v=e47acff0c7" data-root="../../" data-home="../" data-lang="it" data-teaser="Il tuo profilo conserva il tuo percorso: Gloria, riquadri, stagioni" data-close="Chiudi" data-page="races/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

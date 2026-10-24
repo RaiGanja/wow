@@ -922,8 +922,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=de8bc15d93" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/me/me.css?v=c30b9c1a1c" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/search/search.css?v=63caed3e78" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/me/me.css?v=e47acff0c7" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"WoW Forever Guide","alternateName":"Gabella","url":"https://gabella.site/wow/en/","inLanguage":"en","description":"WoW Forever guide: who to play, a race and class picker, a group builder and guides to leveling, dungeons and professions.","publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/Zd45sNHy9x"]}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/Zd45sNHy9x"]}</script>
 </head>
@@ -1217,14 +1217,14 @@ const CLASSES = [
     specs:[['Elemental','Ranged damage',['dps']],['Enhancement','Melee damage. Tanking ability is still in question',['dps','tank?']],['Restoration','Healer',['heal']]],
     lvl:'Average leveling pace',
     lp:0,
-    raid:'Strength of Earth, Windfury, Flametongue and Grace of Air totems buff the whole raid',
+    raid:'Strength of Earth, Windfury, Flametongue and Grace of Air totems buff their own party',
     forever:'Dwarves can now be shamans, so the class appeared for the Alliance. Lava Burst was buffed, Elemental rose in the damage rankings.' },
   { id:'mage', n:'Mage', roles:['dps'],
     specs:[['Arcane','Burst, lots of mana',['dps']],['Fire','Crits and ignites',['dps']],['Frost','Damage and control',['dps']]],
     lvl:'The fastest leveling, about 8% faster than average (about 12 hours saved)',
     lp:-8,
     raid:'Portals and food and water for the whole group',
-    forever:'Fire got Hotstreak, Arcane got a reworked Arcane Explosion, Frost got Ice Lance. Frostfire Bolt is available from level 40.' },
+    forever:'Fire got Hotstreak, Arcane got Arcane Blast, Frost got Ice Lance. Frostfire Bolt is available from level 40.' },
   { id:'warlock', n:'Warlock', roles:['dps'],
     specs:[['Affliction','Damage from curses and corruption',['dps']],['Demonology','Damage through demons',['dps']],['Destruction','Direct fire and shadow damage',['dps']]],
     lvl:'Average leveling pace',
@@ -1241,7 +1241,7 @@ const CLASSES = [
 const ROLE_RU = { tank:'Tank', heal:'Healer', dps:'Damage', 'tank?':'Tank (uncertain)' };
 const ri = r => `<svg class="ri" aria-hidden="true"><use href="#i-${r.replace('?','')}"/></svg>`;
 const CCOL = { warrior:'#c79c6e', paladin:'#f58cba', hunter:'#abd473', rogue:'#fff569', priest:'#e8e8e8', shaman:'#2f8cf0', mage:'#40c7eb', warlock:'#8788ee', druid:'#ff7d0a' };
-const BUFF = { warrior:'Battle Shout', paladin:'Blessing of Kings', hunter:'Trueshot Aura', priest:'Divine Spirit', shaman:'Totems (Strength of Earth, Windfury, Flametongue, Grace of Air)', mage:'Portals, food and water', druid:'Leader of the Pack and Moonkin Aura' };
+const BUFF = { warrior:'Battle Shout', paladin:'Blessing of Kings', hunter:'Trueshot Aura', priest:'Power Word: Fortitude, Divine Spirit', shaman:'Totems (Strength of Earth, Windfury, Flametongue, Grace of Air)', mage:'Arcane Intellect, portals, food and water', druid:'Mark of the Wild, Leader of the Pack, Moonkin Aura' };
 
 const RACES = [
   { id:'human', n:'Human', f:'alliance',
@@ -1266,11 +1266,11 @@ const RACES = [
     tip:'Paid race: Heroic Pack from $29.99. Starts in the Zephras Isle location (levels 1–12).' },
   { id:'orc', n:'Orc', f:'horde',
     cls:['warrior','hunter','rogue','shaman','warlock','mage*'],
-    rac:[['a','Blood Fury','+10% attack power and spell power for 15 sec'],['a','Shatter Curse','Immunity to curses and corruption and less magic damage for 8 sec'],['p','Savage','+1% crit chance'],['p','Hardiness','Stuns are 20% shorter']],
+    rac:[['a','Blood Fury','+10% attack power and spell power for 15 sec'],['a','Shatter Curse','Removes curses and corruption, −5% magic damage taken for 8 sec'],['p','Savage','+1% crit chance'],['p','Hardiness','Stuns are 20% shorter']],
     tip:'Blood Fury gives a powerful damage window.' },
   { id:'undead', n:'Undead', f:'horde',
     cls:['warrior','rogue','mage','priest','warlock','paladin*'],
-    rac:[['a','Will of the Forsaken','Removes charm, fear and sleep'],['a','Cannibalize','Restores 35% health and mana over time'],['p','Underwater Breathing','Breathe underwater longer'],['p','Touch of the Grave','5% chance to drain health on attack']],
+    rac:[['a','Will of the Forsaken','Removes charm, fear and sleep'],['a','Cannibalize','Restores 35% health and mana over time'],['p','Underwater Breathing','Breathe underwater longer'],['p','Touch of the Grave','Chance to drain health on attack']],
     tip:'New combination: a paladin for the Horde, where this class did not exist before.' },
   { id:'tauren', n:'Tauren', f:'horde',
     cls:['warrior','hunter','shaman','druid'],
@@ -1778,7 +1778,7 @@ const STAGES = [
       ['f', 'To get camp buffs, sit nearby (/sit) for at least a minute.'],
       ['t', 'Pick up gathering from the first levels: herbs, ore and hides feed crafting, and 150 in a crafting profession opens Legacy.']],
     legacy: [['f', 'No perks yet: the first point comes at level 25 or with 150 in a profession.'],
-      ['t', 'When Legacy opens, take experience and camp perks first: Well Rested, Talented, Field Guide.']],
+      ['t', 'When Legacy opens, take experience and camp perks first: Well Rested, Field Guide, Permanence. Talented helps alts.']],
     group: [['t', 'Level in the same zone and set up camp at every stop: five minutes on a campfire pay off with buffs for the whole group.'],
       ['t', 'Form your first group of five by level 13–15.']],
     src: ['camp', 'legacy', 'dung'] },
@@ -1793,13 +1793,13 @@ const STAGES = [
     legacy: [['f', 'Each challenge gives 1 point. There are 65: classes 27, professions 18, PvP 12, dungeons 3, raids 3, adventure 2.'],
       ['t', 'Reagent Economy (no bought reagents for abilities) and Field Guide (shorter camp object cooldown) are worth it.']],
     group: [['f', 'A dungeon is built for 5 players: a tank, a healer and three damage dealers.'],
-      ['f', 'There is no level scaling, so a friend who is far behind cannot join the dungeon.'],
+      ['f', 'There is no level scaling, so a friend who is far behind will struggle in the dungeon.'],
       ['t', 'Keep levels close: whoever falls behind catches up on quests, and you run dungeons together.']],
     src: ['dung', 'camp', 'legacy'] },
   { id: 'path', n: 'Road to 60', sub: 'levels 40–60', lo: 40, hi: 60,
     todo: [['f', 'A mount at level 40 (60% speed), a fast one at 60 (100%). Train with your race’s trainer.'],
       ['f', 'Paladins and warlocks get their mount through class quests.'],
-      ['f', 'Honored with your own faction gives a 10% discount on riding training and mounts. Blizzard has not published exact prices, and sites disagree.'],
+      ['f', 'Honored with your own faction gives a 10% discount on riding training and mounts. Per Warcraft Tavern: 100 + 20 gold at level 40, 1,000 + 200 at 60.'],
       ['t', 'Save gold for level 40: riding will be your biggest expense on the road to 60.']],
     prof: [['f', 'Each profession has its own tier 2 and 3 camp objects. Engineering’s second object, Repair Bot, repairs gear.'],
       ['t', 'Keep Cooking 220 in the group for a 10-object camp: by raid time there will be room for everyone.']],
@@ -2042,8 +2042,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../assets/radio/radio.js" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=de8bc15d93" data-root="../" defer></script>
-<script src="../assets/me/me.js?v=c30b9c1a1c" data-root="../" data-home="./" data-lang="en" data-teaser="Your profile keeps your path: Glory, frames, seasons" data-close="Close" data-page="" data-look="2" defer></script>
+<script src="../assets/search/search.js?v=63caed3e78" data-root="../" defer></script>
+<script src="../assets/me/me.js?v=e47acff0c7" data-root="../" data-home="./" data-lang="en" data-teaser="Your profile keeps your path: Glory, frames, seasons" data-close="Close" data-page="" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

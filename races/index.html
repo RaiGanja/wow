@@ -1085,8 +1085,8 @@ nav.gtiles { padding: 14px; }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=de8bc15d93" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/me/me.css?v=c30b9c1a1c" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/search/search.css?v=63caed3e78" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/me/me.css?v=e47acff0c7" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://gabella.site/wow/"},{"@type":"ListItem","position":2,"name":"Расы","item":"https://gabella.site/wow/races/"}]}</script>
 </head>
 <body>
@@ -1139,7 +1139,7 @@ nav.gtiles { padding: 14px; }
 <main class="wrap gbody solo">
   <nav class="gtoc frame" aria-label="Разделы гайда"></nav>
   <div class="gmain">
-<section class="frame gsec" id="compare"><h2>Сравнение</h2><p>У каждой расы по четыре способности: две активные и две пассивные. Часть старых способностей заменена новыми, сопротивления убраны.</p><div class="cmp rac" id="raceRef"><a href="../races/human/">Человек</a><a href="../races/dwarf/">Дворф</a><a href="../races/night-elf/">Ночной эльф</a><a href="../races/gnome/">Гном</a><a href="../races/skyborne-alliance/">Высший скайборн</a><a href="../races/orc/">Орк</a><a href="../races/undead/">Нежить</a><a href="../races/tauren/">Таурен</a><a href="../races/troll/">Тролль</a><a href="../races/skyborne-horde/">Скайборн-ветрорез</a></div><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>Скайборн играбельна за обе фракции, выбор фракции делается при создании. Обе ветки говорят на общем языке, а стартовая зона Zephras Isle общая, враги там не встречаются из-за слоёв.</p></div></section>
+<section class="frame gsec" id="compare"><h2>Сравнение</h2><p>У каждой расы по четыре способности: две активные и две пассивные. Часть старых способностей заменена новыми, сопротивления убраны.</p><div class="cmp rac" id="raceRef"><a href="../races/human/">Человек</a><a href="../races/dwarf/">Дворф</a><a href="../races/night-elf/">Ночной эльф</a><a href="../races/gnome/">Гном</a><a href="../races/skyborne-alliance/">Высший скайборн</a><a href="../races/orc/">Орк</a><a href="../races/undead/">Нежить</a><a href="../races/tauren/">Таурен</a><a href="../races/troll/">Тролль</a><a href="../races/skyborne-horde/">Скайборн-ветрорез</a></div><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>Скайборн доступна обеим фракциям, выбор фракции делается при создании. Обе ветки знают дарнасский, а стартовая зона Zephras Isle общая, враги там не встречаются из-за слоёв.</p></div></section>
   </div>
 </main>
 
@@ -1246,20 +1246,20 @@ const CLASSES = [
     specs:[['Стихии','Урон дальнего боя',['dps']],['Совершенствование','Урон в ближнем бою. Возможность танковать пока под вопросом',['dps','tank?']],['Исцеление','Лекарь',['heal']]],
     lvl:'Средний темп прокачки',
     lp:0,
-    raid:'Тотемы силы земли, неистовства ветра, языков пламени и грации воздуха усиливают весь рейд',
-    forever:'Дворфы теперь могут быть шаманами, значит класс появился у Альянса. Всплеск лавы усилен, Стихии поднялись в списках урона.' },
+    raid:'Тотемы силы земли, неистовства ветра, языков пламени и грации воздуха усиливают свою группу',
+    forever:'Дворфы теперь могут быть шаманами, значит класс появился у Альянса. Выброс лавы усилен, Стихии поднялись в списках урона.' },
   { id:'mage', n:'Маг', roles:['dps'],
     specs:[['Тайная магия','Бурст, много маны',['dps']],['Огонь','Криты и поджоги',['dps']],['Лёд','Урон и контроль',['dps']]],
     lvl:'Самая быстрая прокачка, примерно на 8% быстрее среднего (около 12 часов экономии)',
     lp:-8,
     raid:'Порталы и еда с водой для всей компании',
-    forever:'Огонь получил Путь огня, Тайная магия переработанный Чародейский взрыв, Лёд Ледяное копьё. Огненно-ледяная стрела доступна с 40 уровня.' },
+    forever:'Огонь получил Путь огня, Тайная магия — Чародейскую вспышку, Лёд — Ледяное копьё. Огненно-ледяная стрела доступна с 40 уровня.' },
   { id:'warlock', n:'Чернокнижник', roles:['dps'],
     specs:[['Колдовство','Урон от проклятий и порчи',['dps']],['Демонология','Урон через демонов',['dps']],['Разрушение','Прямой урон огнём и тьмой',['dps']]],
     lvl:'Средний темп прокачки',
     lp:0,
     raid:'Мастерство тьмы теперь даёт 2–10% урона от тьмы (было 1–5%)',
-    forever:'У Колдовства новое направляемое заклинание, демон остаётся при Жертве демона, у Разрушения появились Испепеление и АОЕ.' },
+    forever:'У Колдовства новое направляемое заклинание, демон остаётся при Жертве демона, у Разрушения появились Испепеление и урон по площади.' },
   { id:'druid', n:'Друид', roles:['tank','heal','dps'],
     specs:[['Баланс','Урон дальнего боя',['dps']],['Сила зверя','Танк (медведь) и урон в ближнем бою (кошка)',['tank','dps']],['Исцеление','Лекарь, много лечения по времени',['heal']]],
     lvl:'Примерно на 5% медленнее среднего',
@@ -1267,16 +1267,16 @@ const CLASSES = [
     raid:'Вожак стаи и аура лунного совуха действуют на весь рейд и складываются',
     forever:'Каждая специализация получила чёткую роль, формы работают с зельями и чарами на оружии. Можно быть танком, лекарем и бойцом на одном персонаже.' }
 ];
-const ROLE_RU = { tank:'Танк', heal:'Хил', dps:'Урон', 'tank?':'Танк (под вопросом)' };
+const ROLE_RU = { tank:'Танк', heal:'Лекарь', dps:'Урон', 'tank?':'Танк (под вопросом)' };
 const ri = r => `<svg class="ri" aria-hidden="true"><use href="#i-${r.replace('?','')}"/></svg>`;
 const CCOL = { warrior:'#c79c6e', paladin:'#f58cba', hunter:'#abd473', rogue:'#fff569', priest:'#e8e8e8', shaman:'#2f8cf0', mage:'#40c7eb', warlock:'#8788ee', druid:'#ff7d0a' };
-const BUFF = { warrior:'Боевой крик', paladin:'Благословение королей', hunter:'Аура меткого выстрела', priest:'Божественный дух', shaman:'Тотемы (сила земли, неистовство ветра, языки пламени, грация воздуха)', mage:'Порталы, еда и вода', druid:'Вожак стаи и аура лунного совуха' };
+const BUFF = { warrior:'Боевой крик', paladin:'Благословение королей', hunter:'Аура меткого выстрела', priest:'Слово силы: Стойкость, Божественный дух', shaman:'Тотемы (сила земли, неистовство ветра, языки пламени, грация воздуха)', mage:'Чародейский интеллект, порталы, еда и вода', druid:'Знак дикой природы, Вожак стаи, аура лунного совуха' };
 
 const RACES = [
   { id:'human', n:'Человек', f:'alliance',
     cls:['warrior','paladin','hunter*','rogue','priest','mage','warlock'],
     rac:[['a','Воля к жизни','Снимает оглушение'],['a','Внимательность','Показывает невидимых врагов на 20 сек'],['p','Беспощадность','+2% шанс крита'],['p','Человеческий дух','+5% к духу']],
-    tip:'Дух идёт в лечение Жрецу Света, так что Человек-жрец хорош для хила.' },
+    tip:'Дух идёт в лечение Жрецу Света, так что Человек-жрец хорош для лекаря.' },
   { id:'dwarf', n:'Дворф', f:'alliance',
     cls:['warrior','paladin','hunter','rogue','priest','shaman*'],
     rac:[['a','Каменная форма','Иммунитет к кровотечениям, ядам и болезням на 8 сек и снижение физического урона'],['a','Поиск сокровища','Показывает сундуки рядом'],['p','Ярость земли','+2% к урону крита и силе лечения'],['p','Охотник на крупную дичь','+5% урона по зверям']],
@@ -1295,11 +1295,11 @@ const RACES = [
     tip:'Платная раса: набор Heroic Pack от $29.99. Старт в локации Zephras Isle (1–12 уровни).' },
   { id:'orc', n:'Орк', f:'horde',
     cls:['warrior','hunter','rogue','shaman','warlock','mage*'],
-    rac:[['a','Кровавое неистовство','+10% к силе атаки и заклинаний на 15 сек'],['a','Разрушение проклятий','Иммунитет к проклятиям и порчам и меньше магического урона на 8 сек'],['p','Дикость','+1% шанс крита'],['p','Твердость','Оглушения короче на 20%']],
+    rac:[['a','Кровавое неистовство','+10% к силе атаки и заклинаний на 15 сек'],['a','Разрушение проклятий','Снимает проклятия и порчи, магический урон по вам −5% на 8 сек'],['p','Дикость','+1% шанс крита'],['p','Твердость','Оглушения короче на 20%']],
     tip:'Кровавое неистовство даёт мощное окно урона.' },
   { id:'undead', n:'Нежить', f:'horde',
     cls:['warrior','rogue','mage','priest','warlock','paladin*'],
-    rac:[['a','Воля Отрекшихся','Снимает очарование, страх и сон'],['a','Каннибализм','Восстанавливает 35% здоровья и маны со временем'],['p','Подводное дыхание','Дыхание под водой дольше'],['p','Могильное касание','5% шанс высосать здоровье при атаке']],
+    rac:[['a','Воля Отрекшихся','Снимает очарование, страх и сон'],['a','Каннибализм','Восстанавливает 35% здоровья и маны со временем'],['p','Подводное дыхание','Дыхание под водой дольше'],['p','Могильное касание','Шанс высосать здоровье при атаке']],
     tip:'Новая комбинация: паладин у Орды, где раньше этого класса не было.' },
   { id:'tauren', n:'Таурен', f:'horde',
     cls:['warrior','hunter','shaman','druid'],
@@ -1312,7 +1312,7 @@ const RACES = [
   { id:'skyH', n:'Скайборн (Орда)', f:'horde', paid:true, name:'Скайборн-ветрорез',
     cls:['warrior','hunter','rogue','shaman','druid'],
     rac:[['a','Хождение по воздуху','Планирование вниз 10 сек, нет урона от падения'],['a','Взгляд в небо','+10% к скорости бега'],['p','Благословение ветра','+3% к скорости атаки и заклинаний'],['p','Прозрение стихий','+5% урона по элементалям']],
-    tip:'Платная раса: набор Heroic Pack от $29.99. Шаманом может быть только Орда, магом только Альянс.' }
+    tip:'Платная раса: набор Heroic Pack от $29.99. Из скайборнов шаманом может быть только ветрорез (Орда), магом — только Высший орден (Альянс).' }
 ];
 RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
 const CL = Object.fromEntries(CLASSES.map(c => [c.id, c]));
@@ -1441,8 +1441,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../assets/radio/radio.js" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=de8bc15d93" data-root="../" defer></script>
-<script src="../assets/me/me.js?v=c30b9c1a1c" data-root="../" data-home="../" data-lang="ru" data-teaser="Профиль копит ваш путь: Слава, рамки, сезоны" data-close="Закрыть" data-page="races/" data-look="2" defer></script>
+<script src="../assets/search/search.js?v=63caed3e78" data-root="../" defer></script>
+<script src="../assets/me/me.js?v=e47acff0c7" data-root="../" data-home="../" data-lang="ru" data-teaser="Профиль копит ваш путь: Слава, рамки, сезоны" data-close="Закрыть" data-page="races/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

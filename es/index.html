@@ -922,8 +922,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=de8bc15d93" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/me/me.css?v=c30b9c1a1c" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/search/search.css?v=63caed3e78" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/me/me.css?v=e47acff0c7" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Guía de WoW Forever","alternateName":"Gabella","url":"https://gabella.site/wow/es/","inLanguage":"es","description":"Guía de WoW Forever: a quién jugar, selector de raza y clase, creador de grupos y guías de subida de nivel, mazmorras y profesiones.","publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/Zd45sNHy9x"]}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/Zd45sNHy9x"]}</script>
 </head>
@@ -1217,14 +1217,14 @@ const CLASSES = [
     specs:[['Elemental','Daño a distancia',['dps']],['Mejora','Daño cuerpo a cuerpo. Su capacidad de tanque aún está en duda',['dps','tank?']],['Restauración','Sanador',['heal']]],
     lvl:'Ritmo de subida medio',
     lp:0,
-    raid:'Los tótems Fuerza de la tierra, Viento Furioso, Lengua de Fuego y Gracia del aire mejoran a toda la banda',
+    raid:'Los tótems Fuerza de la tierra, Viento Furioso, Lengua de Fuego y Gracia del aire mejoran a su grupo',
     forever:'Los enanos ya pueden ser chamanes, así que la clase llega a la Alianza. Ráfaga de lava se mejoró y Elemental subió en las clasificaciones de daño.' },
   { id:'mage', n:'Mago', roles:['dps'],
     specs:[['Arcano','Ráfagas, mucho maná',['dps']],['Fuego','Críticos e igniciones',['dps']],['Escarcha','Daño y control',['dps']]],
     lvl:'La subida más rápida, un 8% más rápida que la media (unas 12 horas de ahorro)',
     lp:-8,
     raid:'Portales y comida y agua para todo el grupo',
-    forever:'Fuego recibió Buena racha, Arcano una Deflagración Arcana rediseñada, Escarcha Lanza de hielo. Descarga de Pirofrío está disponible desde el nivel 40.' },
+    forever:'Fuego recibió Buena racha, Arcano Explosión Arcana, Escarcha Lanza de hielo. Descarga de Pirofrío está disponible desde el nivel 40.' },
   { id:'warlock', n:'Brujo', roles:['dps'],
     specs:[['Aflicción','Daño con maldiciones y corrupción',['dps']],['Demonología','Daño a través de demonios',['dps']],['Destrucción','Daño directo de fuego y sombras',['dps']]],
     lvl:'Ritmo de subida medio',
@@ -1241,7 +1241,7 @@ const CLASSES = [
 const ROLE_RU = { tank:'Tanque', heal:'Sanador', dps:'Daño', 'tank?':'Tanque (dudoso)' };
 const ri = r => `<svg class="ri" aria-hidden="true"><use href="#i-${r.replace('?','')}"/></svg>`;
 const CCOL = { warrior:'#c79c6e', paladin:'#f58cba', hunter:'#abd473', rogue:'#fff569', priest:'#e8e8e8', shaman:'#2f8cf0', mage:'#40c7eb', warlock:'#8788ee', druid:'#ff7d0a' };
-const BUFF = { warrior:'Grito de guerra', paladin:'Bendición de los Reyes', hunter:'Aura de disparo certero', priest:'Espíritu divino', shaman:'Tótems (Fuerza de la tierra, Viento Furioso, Lengua de Fuego, Gracia del aire)', mage:'Portales, comida y agua', druid:'Líder de la manada y Aura de lechúcico lunar' };
+const BUFF = { warrior:'Grito de guerra', paladin:'Bendición de los Reyes', hunter:'Aura de disparo certero', priest:'Palabra de poder: entereza, Espíritu divino', shaman:'Tótems (Fuerza de la tierra, Viento Furioso, Lengua de Fuego, Gracia del aire)', mage:'Intelecto Arcano, portales, comida y agua', druid:'Marca de lo salvaje, Líder de la manada, Aura de lechúcico lunar' };
 
 const RACES = [
   { id:'human', n:'Humano', f:'alliance',
@@ -1266,11 +1266,11 @@ const RACES = [
     tip:'Raza de pago: Heroic Pack desde 29,99 $. Empieza en Zephras Isle (niveles 1–12).' },
   { id:'orc', n:'Orco', f:'horde',
     cls:['warrior','hunter','rogue','shaman','warlock','mage*'],
-    rac:[['a','Furia sangrienta','+10% de poder de ataque y poder con hechizos durante 15 s'],['a','Shatter Curse','Inmunidad a maldiciones y corrupción y menos daño mágico durante 8 s'],['p','Savage','+1% de probabilidad de crítico'],['p','Firmeza','Los aturdimientos duran un 20% menos']],
+    rac:[['a','Furia sangrienta','+10% de poder de ataque y poder con hechizos durante 15 s'],['a','Shatter Curse','Elimina maldiciones y corrupción, −5% de daño mágico recibido durante 8 s'],['p','Savage','+1% de probabilidad de crítico'],['p','Firmeza','Los aturdimientos duran un 20% menos']],
     tip:'Furia sangrienta da una potente ventana de daño.' },
   { id:'undead', n:'No-muerto', f:'horde',
     cls:['warrior','rogue','mage','priest','warlock','paladin*'],
-    rac:[['a','Voluntad de los Renegados','Elimina hechizos, miedo y sueño'],['a','Canibalizar','Restaura un 35% de salud y maná con el tiempo'],['p','Respiración subacuática','Respira bajo el agua más tiempo'],['p','Touch of the Grave','5% de probabilidad de drenar salud al atacar']],
+    rac:[['a','Voluntad de los Renegados','Elimina hechizos, miedo y sueño'],['a','Canibalizar','Restaura un 35% de salud y maná con el tiempo'],['p','Respiración subacuática','Respira bajo el agua más tiempo'],['p','Touch of the Grave','Probabilidad de drenar salud al atacar']],
     tip:'Combinación nueva: un paladín para la Horda, donde esta clase no existía antes.' },
   { id:'tauren', n:'Tauren', f:'horde',
     cls:['warrior','hunter','shaman','druid'],
@@ -1778,7 +1778,7 @@ const STAGES = [
       ['f', 'Para recibir los beneficios del campamento, siéntate cerca (/sit) al menos un minuto.'],
       ['t', 'Empieza con una profesión de recolección desde los primeros niveles: hierbas, mineral y pieles alimentan la fabricación, y 150 en una profesión de fabricación abre Legacy.']],
     legacy: [['f', 'Aún no hay ventajas: el primer punto llega al nivel 25 o con 150 en una profesión.'],
-      ['t', 'Cuando se abra Legacy, coge primero las ventajas de experiencia y campamento: Well Rested, Talented, Field Guide.']],
+      ['t', 'Cuando se abra Legacy, coge primero las ventajas de experiencia y campamento: Well Rested, Field Guide, Permanence. Talented sirve para los alters.']],
     group: [['t', 'Subid de nivel en la misma zona y montad campamento en cada parada: cinco minutos de hoguera se pagan con beneficios para todo el grupo.'],
       ['t', 'Formad vuestro primer grupo de cinco hacia el nivel 13–15.']],
     src: ['camp', 'legacy', 'dung'] },
@@ -1793,13 +1793,13 @@ const STAGES = [
     legacy: [['f', 'Cada desafío da 1 punto. Hay 65: clases 27, profesiones 18, JcJ 12, mazmorras 3, bandas 3, aventura 2.'],
       ['t', 'Merecen la pena Reagent Economy (sin componentes comprados para habilidades) y Field Guide (menos reutilización de los objetos de campamento).']],
     group: [['f', 'Una mazmorra está pensada para 5 jugadores: un tanque, un sanador y tres de daño.'],
-      ['f', 'No hay escalado de nivel, así que un amigo que vaya muy por detrás no puede entrar en la mazmorra.'],
+      ['f', 'No hay escalado de nivel, así que un amigo que vaya muy por detrás lo pasará mal en la mazmorra.'],
       ['t', 'Mantened los niveles parejos: quien se quede atrás se pone al día con misiones, y las mazmorras las hacéis juntos.']],
     src: ['dung', 'camp', 'legacy'] },
   { id: 'path', n: 'Camino al 60', sub: 'niveles 40–60', lo: 40, hi: 60,
     todo: [['f', 'Montura al nivel 40 (60% de velocidad), una rápida al 60 (100%). Entrena con el instructor de tu raza.'],
       ['f', 'Los paladines y los brujos consiguen su montura con misiones de clase.'],
-      ['f', 'Honorable con tu propia facción da un 10% de descuento en el entrenamiento de equitación y en monturas. Blizzard no ha publicado los precios exactos, y las webs no coinciden.'],
+      ['f', 'Honorable con tu propia facción da un 10% de descuento en el entrenamiento de equitación y en monturas. Según Warcraft Tavern: 100 + 20 de oro en el nivel 40, 1000 + 200 en el 60.'],
       ['t', 'Ahorra oro para el nivel 40: la equitación será tu mayor gasto camino al 60.']],
     prof: [['f', 'Cada profesión tiene sus propios objetos de campamento de nivel 2 y 3. El segundo objeto de Ingeniería, Repair Bot, repara el equipo.'],
       ['t', 'Mantened Cocina 220 en el grupo para un campamento de 10 objetos: para las bandas habrá sitio para todos.']],
@@ -2042,8 +2042,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../assets/radio/radio.js" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=de8bc15d93" data-root="../" defer></script>
-<script src="../assets/me/me.js?v=c30b9c1a1c" data-root="../" data-home="./" data-lang="es" data-teaser="Tu perfil guarda tu camino: Gloria, marcos, temporadas" data-close="Cerrar" data-page="" data-look="2" defer></script>
+<script src="../assets/search/search.js?v=63caed3e78" data-root="../" defer></script>
+<script src="../assets/me/me.js?v=e47acff0c7" data-root="../" data-home="./" data-lang="es" data-teaser="Tu perfil guarda tu camino: Gloria, marcos, temporadas" data-close="Cerrar" data-page="" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

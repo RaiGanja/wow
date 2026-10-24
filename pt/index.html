@@ -922,8 +922,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=de8bc15d93" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/me/me.css?v=c30b9c1a1c" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/search/search.css?v=63caed3e78" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/me/me.css?v=e47acff0c7" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Guia de WoW Forever","alternateName":"Gabella","url":"https://gabella.site/wow/pt/","inLanguage":"pt-BR","description":"Guia de WoW Forever: quem jogar, seletor de raça e classe, montador de grupo e guias de evolução, masmorras e profissões.","publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/Zd45sNHy9x"]}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/Zd45sNHy9x"]}</script>
 </head>
@@ -1217,14 +1217,14 @@ const CLASSES = [
     specs:[['Elemental','Dano à distância',['dps']],['Aperfeiçoamento','Dano corpo a corpo. A capacidade de tanquear ainda é incerta',['dps','tank?']],['Restauração','Curador',['heal']]],
     lvl:'Ritmo de evolução médio',
     lp:0,
-    raid:'Os totens Força da Terra, Fúria dos Ventos, Labaredas e Graça do Ar dão bônus à raide toda',
+    raid:'Os totens Força da Terra, Fúria dos Ventos, Labaredas e Graça do Ar dão bônus ao próprio grupo',
     forever:'Anões agora podem ser xamãs, então a classe chegou à Aliança. Estouro de Lava foi fortalecida, Elemental subiu no ranking de dano.' },
   { id:'mage', n:'Mago', roles:['dps'],
     specs:[['Arcano','Explosão de dano, muita mana',['dps']],['Fogo','Críticos e ignições',['dps']],['Gélido','Dano e controle',['dps']]],
     lvl:'A evolução mais rápida, cerca de 8% mais rápida que a média (cerca de 12 horas a menos)',
     lp:-8,
     raid:'Portais, comida e água para o grupo todo',
-    forever:'Fogo ganhou Embalo de Fogo, Arcano ganhou uma Explosão Arcana reformulada, Gélido ganhou Lança de Gelo. Seta de Fogofrio fica disponível a partir do nível 40.' },
+    forever:'Fogo ganhou Embalo de Fogo, Arcano ganhou Impacto Arcano, Gélido ganhou Lança de Gelo. Seta de Fogofrio fica disponível a partir do nível 40.' },
   { id:'warlock', n:'Bruxo', roles:['dps'],
     specs:[['Suplício','Dano de maldições e corrupção',['dps']],['Demonologia','Dano por meio de demônios',['dps']],['Destruição','Dano direto de fogo e de sombra',['dps']]],
     lvl:'Ritmo de evolução médio',
@@ -1241,7 +1241,7 @@ const CLASSES = [
 const ROLE_RU = { tank:'Tanque', heal:'Curador', dps:'Dano', 'tank?':'Tanque (incerto)' };
 const ri = r => `<svg class="ri" aria-hidden="true"><use href="#i-${r.replace('?','')}"/></svg>`;
 const CCOL = { warrior:'#c79c6e', paladin:'#f58cba', hunter:'#abd473', rogue:'#fff569', priest:'#e8e8e8', shaman:'#2f8cf0', mage:'#40c7eb', warlock:'#8788ee', druid:'#ff7d0a' };
-const BUFF = { warrior:'Brado de Batalha', paladin:'Bênção dos Reis', hunter:'Aura de Tiro Certeiro', priest:'Espírito Divino', shaman:'Totens (Força da Terra, Fúria dos Ventos, Labaredas, Graça do Ar)', mage:'Portais, comida e água', druid:'Líder do Bando e Aura de Luniscante' };
+const BUFF = { warrior:'Brado de Batalha', paladin:'Bênção dos Reis', hunter:'Aura de Tiro Certeiro', priest:'Palavra de Poder: Fortitude, Espírito Divino', shaman:'Totens (Força da Terra, Fúria dos Ventos, Labaredas, Graça do Ar)', mage:'Inteligência Arcana, portais, comida e água', druid:'Marca do Indomado, Líder do Bando, Aura de Luniscante' };
 
 const RACES = [
   { id:'human', n:'Humano', f:'alliance',
@@ -1266,11 +1266,11 @@ const RACES = [
     tip:'Raça paga: Heroic Pack a partir de $29.99. Começa na região de Zephras Isle (níveis 1–12).' },
   { id:'orc', n:'Orc', f:'horde',
     cls:['warrior','hunter','rogue','shaman','warlock','mage*'],
-    rac:[['a','Fúria Sangrenta','+10% de poder de ataque e poder mágico por 15 s'],['a','Shatter Curse','Imunidade a maldições e corrupção e menos dano mágico por 8 s'],['p','Savage','+1% de chance de crítico'],['p','Robustez','Atordoamentos duram 20% menos']],
+    rac:[['a','Fúria Sangrenta','+10% de poder de ataque e poder mágico por 15 s'],['a','Shatter Curse','Remove maldições e corrupção, −5% de dano mágico recebido por 8 s'],['p','Savage','+1% de chance de crítico'],['p','Robustez','Atordoamentos duram 20% menos']],
     tip:'Fúria Sangrenta dá uma janela de dano poderosa.' },
   { id:'undead', n:'Morto-vivo', f:'horde',
     cls:['warrior','rogue','mage','priest','warlock','paladin*'],
-    rac:[['a','Determinação dos Renegados','Remove enfeitiçamento, medo e sono'],['a','Canibalizar','Restaura 35% de vida e mana ao longo do tempo'],['p','Respiração Subaquática','Respira debaixo d’água por mais tempo'],['p','Toque do Túmulo','5% de chance de drenar vida ao atacar']],
+    rac:[['a','Determinação dos Renegados','Remove enfeitiçamento, medo e sono'],['a','Canibalizar','Restaura 35% de vida e mana ao longo do tempo'],['p','Respiração Subaquática','Respira debaixo d’água por mais tempo'],['p','Toque do Túmulo','Chance de drenar vida ao atacar']],
     tip:'Nova combinação: um paladino para a Horda, onde essa classe não existia antes.' },
   { id:'tauren', n:'Taureno', f:'horde',
     cls:['warrior','hunter','shaman','druid'],
@@ -1778,7 +1778,7 @@ const STAGES = [
       ['f', 'Para receber os bônus do acampamento, sente-se perto (/sit) por pelo menos um minuto.'],
       ['t', 'Pegue uma profissão de coleta desde os primeiros níveis: ervas, minério e couro alimentam a produção, e 150 numa profissão de produção abre o Legacy.']],
     legacy: [['f', 'Ainda sem vantagens: o primeiro ponto vem no nível 25 ou com 150 numa profissão.'],
-      ['t', 'Quando o Legacy abrir, pegue primeiro as vantagens de experiência e de acampamento: Well Rested, Talented, Field Guide.']],
+      ['t', 'Quando o Legacy abrir, pegue primeiro as vantagens de experiência e de acampamento: Well Rested, Field Guide, Permanence. Talented serve para alts.']],
     group: [['t', 'Evoluam na mesma zona e montem acampamento a cada parada: cinco minutos numa fogueira se pagam com bônus para o grupo todo.'],
       ['t', 'Formem seu primeiro grupo de cinco até o nível 13–15.']],
     src: ['camp', 'legacy', 'dung'] },
@@ -1793,13 +1793,13 @@ const STAGES = [
     legacy: [['f', 'Cada desafio dá 1 ponto. São 65: classes 27, profissões 18, PvP 12, masmorras 3, raides 3, aventura 2.'],
       ['t', 'Reagent Economy (sem reagentes comprados para habilidades) e Field Guide (recarga menor dos objetos de acampamento) valem a pena.']],
     group: [['f', 'Uma masmorra é feita para 5 jogadores: um tanque, um curador e três de dano.'],
-      ['f', 'Não há ajuste de nível, então um amigo muito atrás não consegue entrar na masmorra.'],
+      ['f', 'Não há ajuste de nível, então um amigo muito atrás vai sofrer na masmorra.'],
       ['t', 'Mantenham os níveis próximos: quem ficar para trás recupera com missões, e vocês fazem masmorras juntos.']],
     src: ['dung', 'camp', 'legacy'] },
   { id: 'path', n: 'Rumo ao 60', sub: 'níveis 40–60', lo: 40, hi: 60,
     todo: [['f', 'Montaria no nível 40 (60% de velocidade), uma rápida no 60 (100%). Treine com o instrutor da sua raça.'],
       ['f', 'Paladinos e bruxos conseguem a montaria por missões de classe.'],
-      ['f', 'Honrado com a sua própria facção dá 10% de desconto no treino de montaria e nas montarias. A Blizzard não publicou preços exatos, e os sites divergem.'],
+      ['f', 'Honrado com a sua própria facção dá 10% de desconto no treino de montaria e nas montarias. Segundo a Warcraft Tavern: 100 + 20 de ouro no nível 40, 1.000 + 200 no 60.'],
       ['t', 'Guarde ouro para o nível 40: a montaria será seu maior gasto no caminho até o 60.']],
     prof: [['f', 'Cada profissão tem seus próprios objetos de acampamento de nível 2 e 3. O segundo objeto da Engenharia, Robô de Conserto, conserta o equipamento.'],
       ['t', 'Mantenham Culinária 220 no grupo para um acampamento de 10 objetos: na hora das raides haverá espaço para todos.']],
@@ -2042,8 +2042,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../assets/radio/radio.js" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=de8bc15d93" data-root="../" defer></script>
-<script src="../assets/me/me.js?v=c30b9c1a1c" data-root="../" data-home="./" data-lang="pt" data-teaser="Seu perfil guarda sua jornada: Glória, quadros, temporadas" data-close="Fechar" data-page="" data-look="2" defer></script>
+<script src="../assets/search/search.js?v=63caed3e78" data-root="../" defer></script>
+<script src="../assets/me/me.js?v=e47acff0c7" data-root="../" data-home="./" data-lang="pt" data-teaser="Seu perfil guarda sua jornada: Glória, quadros, temporadas" data-close="Fechar" data-page="" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

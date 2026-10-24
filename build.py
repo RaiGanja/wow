@@ -679,6 +679,12 @@ def ru_names(html):
         word, en = (m[1], m[2]) if m[1] else (ru_word(m[3]), m[3])
         if en in seen:
             return word
+        s, a, b = m.string, m.start(), m.end()
+        if s[:a].endswith('(') and s[:a - 1].rstrip().endswith(word):   # «Мертвые копи (The Deadmines)» as written
+            seen.add(en)
+            return en
+        if s[b:].lstrip(' ').startswith('(') or s[:a].endswith('('):   # not «(Hyjal Summit) (20)», «(Ремонтный робот (Repair Bot))»
+            return word
         seen.add(en)
         return f'{word} ({en})'
 

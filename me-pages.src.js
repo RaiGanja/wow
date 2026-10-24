@@ -7,7 +7,7 @@ const $ = (s, el) => (el || document).querySelector(s), $$ = (s, el) => [...(el 
 const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
 const fill = (s, o) => s.replace(/%(\w)/g, (m, k) => (k in o ? o[k] : m));
 const ROLE = { tank: 'Танк', heal: 'Лекарь', dps: 'Урон' };
-const TIME = { morning: 'Утро', evening: 'Вечер', night: 'Сова' };
+const TIME = { morning: 'Утро', evening: 'Вечер', night: 'Ночь' };
 const FACN = { alliance: 'Альянс', horde: 'Орда' };
 const LFG = { dungeon: 'Подземелье', raid: 'Рейд', quest: 'Задания' };
 const TICO = { morning: 'sun', evening: 'moon', night: 'moon' };
@@ -329,7 +329,7 @@ function chronicleItem(item, texts) {
 /** Team feed line: who got what. */
 function feedLine(x) {
   const who = `<a href="${playerUrl(x.user)}">${esc(x.name)}</a>`;
-  const what = x.kind === 'rank' ? fill(esc('%n достигает ранга %r'), { n: who, r: `<em>${esc(rankName(x.ref))}</em>` })
+  const what = x.kind === 'rank' ? fill(esc('%n достигает ранга «%r»'), { n: who, r: `<em>${esc(rankName(x.ref))}</em>` })
     : x.ref === 'secret' ? fill(esc('%n находит секрет'), { n: who })
     : fill(esc('%n получает «%a»'), { n: who, a: `<em>${esc(achName(x.ref))}</em>` });
   return `<div class="it">${ring(x.frame || 'recruit', pic(x))}<span>${what}</span><small>${esc(ago(x.at))}</small></div>`;

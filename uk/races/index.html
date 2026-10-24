@@ -1085,8 +1085,8 @@ nav.gtiles { padding: 14px; }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=de8bc15d93" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=c30b9c1a1c" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=63caed3e78" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=e47acff0c7" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Головна","item":"https://gabella.site/wow/uk/"},{"@type":"ListItem","position":2,"name":"Раси","item":"https://gabella.site/wow/uk/races/"}]}</script>
 </head>
 <body>
@@ -1139,7 +1139,7 @@ nav.gtiles { padding: 14px; }
 <main class="wrap gbody solo">
   <nav class="gtoc frame" aria-label="Розділи гайду"></nav>
   <div class="gmain">
-<section class="frame gsec" id="compare"><h2>Порівняння</h2><p>У кожної раси по чотири здібності: дві активні та дві пасивні. Частину старих здібностей замінено новими, опори прибрано.</p><div class="cmp rac" id="raceRef"><a href="../races/human/">Людина</a><a href="../races/dwarf/">Дворф</a><a href="../races/night-elf/">Нічний ельф</a><a href="../races/gnome/">Гном</a><a href="../races/skyborne-alliance/">Високий скайборн</a><a href="../races/orc/">Орк</a><a href="../races/undead/">Нежить</a><a href="../races/tauren/">Таурен</a><a href="../races/troll/">Троль</a><a href="../races/skyborne-horde/">Скайборн-вітрорізь</a></div><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Порада</span>Скайборн ігрова за обидві фракції, фракцію обирають під час створення. Обидві гілки говорять спільною мовою, а стартова зона Zephras Isle спільна, вороги там не зустрічаються через шари.</p></div></section>
+<section class="frame gsec" id="compare"><h2>Порівняння</h2><p>У кожної раси по чотири здібності: дві активні та дві пасивні. Частину старих здібностей замінено новими, опори прибрано.</p><div class="cmp rac" id="raceRef"><a href="../races/human/">Людина</a><a href="../races/dwarf/">Дворф</a><a href="../races/night-elf/">Нічний ельф</a><a href="../races/gnome/">Гном</a><a href="../races/skyborne-alliance/">Високий скайборн</a><a href="../races/orc/">Орк</a><a href="../races/undead/">Нежить</a><a href="../races/tauren/">Таурен</a><a href="../races/troll/">Троль</a><a href="../races/skyborne-horde/">Скайборн-вітрорізь</a></div><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Порада</span>Скайборн ігрова за обидві фракції, фракцію обирають під час створення. Обидві гілки знають дарнаську, а стартова зона Zephras Isle спільна, вороги там не зустрічаються через шари.</p></div></section>
   </div>
 </main>
 
@@ -1246,14 +1246,14 @@ const CLASSES = [
     specs:[['Стихії','Шкода здалеку',['dps']],['Вдосконалення','Шкода в ближньому бою. Можливість танкувати поки під питанням',['dps','tank?']],['Зцілення','Цілитель',['heal']]],
     lvl:'Середній темп прокачування',
     lp:0,
-    raid:'Тотеми сили землі, несамовитості вітру, язиків полум’я та грації повітря підсилюють увесь рейд',
+    raid:'Тотеми сили землі, несамовитості вітру, язиків полум’я та грації повітря підсилюють свою групу',
     forever:'Дворфи тепер можуть бути шаманами, отже клас з’явився в Альянсі. Сплеск лави підсилено, Стихії піднялися в списках шкоди.' },
   { id:'mage', n:'Маг', roles:['dps'],
     specs:[['Тайна магія','Бурст, багато мани',['dps']],['Вогонь','Криті та підпали',['dps']],['Лід','Шкода і контроль',['dps']]],
     lvl:'Найшвидше прокачування, приблизно на 8% швидше за середнє (близько 12 годин економії)',
     lp:-8,
     raid:'Портали та їжа з водою для всієї компанії',
-    forever:'Вогонь отримав Hotstreak, Тайна магія перероблений Чародійський вибух, Лід Крижаний спис. Вогняно-крижана стріла доступна з 40 рівня.' },
+    forever:'Вогонь отримав Hotstreak, Тайна магія — Arcane Blast, Лід — Крижаний спис. Вогняно-крижана стріла доступна з 40 рівня.' },
   { id:'warlock', n:'Чорнокнижник', roles:['dps'],
     specs:[['Прокляття','Шкода від прокляттів і псування',['dps']],['Демонологія','Шкода через демонів',['dps']],['Руйнування','Пряма шкода вогнем і темрявою',['dps']]],
     lvl:'Середній темп прокачування',
@@ -1270,7 +1270,7 @@ const CLASSES = [
 const ROLE_RU = { tank:'Танк', heal:'Цілитель', dps:'Шкода', 'tank?':'Танк (під питанням)' };
 const ri = r => `<svg class="ri" aria-hidden="true"><use href="#i-${r.replace('?','')}"/></svg>`;
 const CCOL = { warrior:'#c79c6e', paladin:'#f58cba', hunter:'#abd473', rogue:'#fff569', priest:'#e8e8e8', shaman:'#2f8cf0', mage:'#40c7eb', warlock:'#8788ee', druid:'#ff7d0a' };
-const BUFF = { warrior:'Бойовий клич', paladin:'Благословення королів', hunter:'Аура влучного стрільця', priest:'Божественний дух', shaman:'Тотеми (сила землі, несамовитість вітру, язики полум’я, грація повітря)', mage:'Портали, їжа та вода', druid:'Ватажок зграї та аура місячного совиця' };
+const BUFF = { warrior:'Бойовий клич', paladin:'Благословення королів', hunter:'Аура влучного стрільця', priest:'Power Word: Fortitude, Божественний дух', shaman:'Тотеми (сила землі, несамовитість вітру, язики полум’я, грація повітря)', mage:'Arcane Intellect, портали, їжа та вода', druid:'Mark of the Wild, Ватажок зграї, аура місячного совиця' };
 
 const RACES = [
   { id:'human', n:'Людина', f:'alliance',
@@ -1295,11 +1295,11 @@ const RACES = [
     tip:'Платна раса: набір Heroic Pack від $29.99. Старт у локації Zephras Isle (1–12 рівні).' },
   { id:'orc', n:'Орк', f:'horde',
     cls:['warrior','hunter','rogue','shaman','warlock','mage*'],
-    rac:[['a','Кривава лють','+10% до сили атаки та заклять на 15 сек'],['a','Руйнування прокляттів','Імунітет до прокляттів і псування та менше магічної шкоди на 8 сек'],['p','Дикість','+1% шанс крита'],['p','Загартування','Приголомшення коротші на 20%']],
+    rac:[['a','Кривава лють','+10% до сили атаки та заклять на 15 сек'],['a','Руйнування прокляттів','Знімає прокляття і псування, магічна шкода по вас −5% на 8 сек'],['p','Дикість','+1% шанс крита'],['p','Загартування','Приголомшення коротші на 20%']],
     tip:'Кривава лють дає потужне вікно шкоди.' },
   { id:'undead', n:'Нежить', f:'horde',
     cls:['warrior','rogue','mage','priest','warlock','paladin*'],
-    rac:[['a','Воля Відрікшихся','Знімає зачарування, страх і сон'],['a','Канібалізм','Відновлює 35% здоров’я та мани з часом'],['p','Підводне дихання','Дихання під водою довше'],['p','Дотик могили','5% шанс висмоктати здоров’я під час атаки']],
+    rac:[['a','Воля Відрікшихся','Знімає зачарування, страх і сон'],['a','Канібалізм','Відновлює 35% здоров’я та мани з часом'],['p','Підводне дихання','Дихання під водою довше'],['p','Дотик могили','Шанс висмоктати здоров’я під час атаки']],
     tip:'Нова комбінація: паладин в Орди, де раніше цього класу не було.' },
   { id:'tauren', n:'Таурен', f:'horde',
     cls:['warrior','hunter','shaman','druid'],
@@ -1441,8 +1441,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=de8bc15d93" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=c30b9c1a1c" data-root="../../" data-home="../" data-lang="uk" data-teaser="Профіль зберігає ваш шлях: Слава, рамки, сезони" data-close="Закрити" data-page="races/" data-look="2" defer></script>
+<script src="../../assets/search/search.js?v=63caed3e78" data-root="../../" defer></script>
+<script src="../../assets/me/me.js?v=e47acff0c7" data-root="../../" data-home="../" data-lang="uk" data-teaser="Профіль зберігає ваш шлях: Слава, рамки, сезони" data-close="Закрити" data-page="races/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

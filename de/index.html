@@ -922,8 +922,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=de8bc15d93" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/me/me.css?v=c30b9c1a1c" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/search/search.css?v=63caed3e78" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/me/me.css?v=e47acff0c7" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"WoW Forever Guide","alternateName":"Gabella","url":"https://gabella.site/wow/de/","inLanguage":"de","description":"WoW Forever Guide: wen spielen, eine Volk- und Klassenauswahl, ein Gruppenplaner und Guides zu Leveln, Dungeons und Berufen.","publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/Zd45sNHy9x"]}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/Zd45sNHy9x"]}</script>
 </head>
@@ -1217,14 +1217,14 @@ const CLASSES = [
     specs:[['Elementar','Fernkampfschaden',['dps']],['Verstärkung','Nahkampfschaden. Ob er tanken kann, ist noch offen',['dps','tank?']],['Wiederherstellung','Heiler',['heal']]],
     lvl:'Durchschnittliches Leveltempo',
     lp:0,
-    raid:'Die Totems Erdstärke, Windzorn, Flammenzunge und Anmut der Luft buffen den ganzen Raid',
+    raid:'Die Totems Erdstärke, Windzorn, Flammenzunge und Anmut der Luft buffen die eigene Gruppe',
     forever:'Zwerge können jetzt Schamanen sein, so kam die Klasse zur Allianz. Lavaexplosion wurde verstärkt, Elementar ist in den Schadensranglisten gestiegen.' },
   { id:'mage', n:'Magier', roles:['dps'],
     specs:[['Arkan','Burst, viel Mana',['dps']],['Feuer','Krits und Entzünden',['dps']],['Frost','Schaden und Kontrolle',['dps']]],
     lvl:'Das schnellste Leveln, etwa 8 % schneller als der Durchschnitt (etwa 12 Stunden gespart)',
     lp:-8,
     raid:'Portale sowie Essen und Wasser für die ganze Gruppe',
-    forever:'Feuer bekam Kampfeshitze, Arkan eine überarbeitete Arkane Explosion, Frost die Eislanze. Frostfeuerblitz ist ab Stufe 40 verfügbar.' },
+    forever:'Feuer bekam Kampfeshitze, Arkan den Arkanschlag, Frost die Eislanze. Frostfeuerblitz ist ab Stufe 40 verfügbar.' },
   { id:'warlock', n:'Hexenmeister', roles:['dps'],
     specs:[['Gebrechen','Schaden durch Flüche und Verderbnis',['dps']],['Dämonologie','Schaden durch Dämonen',['dps']],['Zerstörung','Direkter Feuer- und Schattenschaden',['dps']]],
     lvl:'Durchschnittliches Leveltempo',
@@ -1241,7 +1241,7 @@ const CLASSES = [
 const ROLE_RU = { tank:'Tank', heal:'Heiler', dps:'Schaden', 'tank?':'Tank (unsicher)' };
 const ri = r => `<svg class="ri" aria-hidden="true"><use href="#i-${r.replace('?','')}"/></svg>`;
 const CCOL = { warrior:'#c79c6e', paladin:'#f58cba', hunter:'#abd473', rogue:'#fff569', priest:'#e8e8e8', shaman:'#2f8cf0', mage:'#40c7eb', warlock:'#8788ee', druid:'#ff7d0a' };
-const BUFF = { warrior:'Schlachtruf', paladin:'Segen der Könige', hunter:'Aura des Volltreffers', priest:'Göttlicher Willen', shaman:'Totems (Erdstärke, Windzorn, Flammenzunge, Anmut der Luft)', mage:'Portale, Essen und Wasser', druid:'Rudelführer und Aura des Moonkin' };
+const BUFF = { warrior:'Schlachtruf', paladin:'Segen der Könige', hunter:'Aura des Volltreffers', priest:'Machtwort: Seelenstärke, Göttlicher Willen', shaman:'Totems (Erdstärke, Windzorn, Flammenzunge, Anmut der Luft)', mage:'Arkane Intelligenz, Portale, Essen und Wasser', druid:'Mal der Wildnis, Rudelführer, Aura des Moonkin' };
 
 const RACES = [
   { id:'human', n:'Mensch', f:'alliance',
@@ -1266,11 +1266,11 @@ const RACES = [
     tip:'Bezahltes Volk: Heroic Pack ab 29,99 $. Startet im Gebiet Zephras Isle (Stufen 1–12).' },
   { id:'orc', n:'Orc', f:'horde',
     cls:['warrior','hunter','rogue','shaman','warlock','mage*'],
-    rac:[['a','Kochendes Blut','+10 % Angriffskraft und Zaubermacht für 15 Sek.'],['a','Shatter Curse','Immunität gegen Flüche und Verderbnis und weniger Magieschaden für 8 Sek.'],['p','Savage','+1 % kritische Trefferchance'],['p','Zähigkeit','Betäubungen sind 20 % kürzer']],
+    rac:[['a','Kochendes Blut','+10 % Angriffskraft und Zaubermacht für 15 Sek.'],['a','Shatter Curse','Entfernt Flüche und Verderbnis, −5 % erlittener Magieschaden für 8 Sek.'],['p','Savage','+1 % kritische Trefferchance'],['p','Zähigkeit','Betäubungen sind 20 % kürzer']],
     tip:'Kochendes Blut gibt ein starkes Schadensfenster.' },
   { id:'undead', n:'Untoter', f:'horde',
     cls:['warrior','rogue','mage','priest','warlock','paladin*'],
-    rac:[['a','Wille der Verlassenen','Entfernt Bezauberung, Furcht und Schlaf'],['a','Kannibalismus','Stellt über Zeit 35 % Gesundheit und Mana wieder her'],['p','Unterwasseratmung','Länger unter Wasser atmen'],['p','Berührung des Grabes','5 % Chance, bei Angriffen Gesundheit zu entziehen']],
+    rac:[['a','Wille der Verlassenen','Entfernt Bezauberung, Furcht und Schlaf'],['a','Kannibalismus','Stellt über Zeit 35 % Gesundheit und Mana wieder her'],['p','Unterwasseratmung','Länger unter Wasser atmen'],['p','Berührung des Grabes','Chance, bei Angriffen Gesundheit zu entziehen']],
     tip:'Neue Kombination: ein Paladin für die Horde, wo es diese Klasse vorher nicht gab.' },
   { id:'tauren', n:'Tauren', f:'horde',
     cls:['warrior','hunter','shaman','druid'],
@@ -1778,7 +1778,7 @@ const STAGES = [
       ['f', 'Für Lagerbuffs setz dich mindestens eine Minute in die Nähe (/sit).'],
       ['t', 'Fang ab den ersten Stufen mit Sammelberufen an: Kräuter, Erz und Leder versorgen das Handwerk, und 150 in einem Handwerksberuf öffnet Legacy.']],
     legacy: [['f', 'Noch keine Vorteile: Der erste Punkt kommt mit Stufe 25 oder mit 150 in einem Beruf.'],
-      ['t', 'Wenn Legacy offen ist, nimm zuerst Erfahrungs- und Lagervorteile: Well Rested, Talented, Field Guide.']],
+      ['t', 'Wenn Legacy offen ist, nimm zuerst Erfahrungs- und Lagervorteile: Well Rested, Field Guide, Permanence. Talented lohnt sich für Twinks.']],
     group: [['t', 'Levelt in derselben Zone und baut an jedem Halt ein Lager auf: Fünf Minuten am Lagerfeuer zahlen sich mit Buffs für die ganze Gruppe aus.'],
       ['t', 'Bildet eure erste Fünfergruppe bis Stufe 13–15.']],
     src: ['camp', 'legacy', 'dung'] },
@@ -1793,13 +1793,13 @@ const STAGES = [
     legacy: [['f', 'Jede Herausforderung gibt 1 Punkt. Es gibt 65: Klassen 27, Berufe 18, PvP 12, Dungeons 3, Raids 3, Abenteuer 2.'],
       ['t', 'Reagent Economy (keine gekauften Reagenzien für Fähigkeiten) und Field Guide (kürzere Abklingzeit für Lagerobjekte) lohnen sich.']],
     group: [['f', 'Ein Dungeon ist für 5 Spieler gebaut: ein Tank, ein Heiler und drei Schadensverursacher.'],
-      ['f', 'Es gibt keine Stufenskalierung, ein Freund, der weit zurückliegt, kann also nicht mit in den Dungeon.'],
+      ['f', 'Es gibt keine Stufenskalierung, ein Freund, der weit zurückliegt, hat es im Dungeon also schwer.'],
       ['t', 'Haltet die Stufen nah beieinander: Wer zurückfällt, holt mit Quests auf, und Dungeons lauft ihr gemeinsam.']],
     src: ['dung', 'camp', 'legacy'] },
   { id: 'path', n: 'Weg zur 60', sub: 'Stufen 40–60', lo: 40, hi: 60,
     todo: [['f', 'Ein Reittier ab Stufe 40 (60 % Tempo), ein schnelles ab 60 (100 %). Lerne es beim Lehrer deines Volkes.'],
       ['f', 'Paladine und Hexenmeister bekommen ihr Reittier über Klassenquests.'],
-      ['f', 'Wohlwollend bei deiner eigenen Fraktion gibt 10 % Rabatt auf Reitausbildung und Reittiere. Blizzard hat keine genauen Preise veröffentlicht, und die Seiten sind uneins.'],
+      ['f', 'Wohlwollend bei deiner eigenen Fraktion gibt 10 % Rabatt auf Reitausbildung und Reittiere. Laut Warcraft Tavern: 100 + 20 Gold auf Stufe 40, 1.000 + 200 auf 60.'],
       ['t', 'Spar Gold für Stufe 40: Reiten wird deine größte Ausgabe auf dem Weg zur 60.']],
     prof: [['f', 'Jeder Beruf hat eigene Lagerobjekte der Stufe 2 und 3. Das zweite Objekt der Ingenieurskunst, Reparaturbot, repariert Ausrüstung.'],
       ['t', 'Haltet Kochkunst 220 in der Gruppe für ein Lager mit 10 Objekten: Zur Raidzeit ist dann Platz für alle.']],
@@ -2042,8 +2042,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../assets/radio/radio.js" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=de8bc15d93" data-root="../" defer></script>
-<script src="../assets/me/me.js?v=c30b9c1a1c" data-root="../" data-home="./" data-lang="de" data-teaser="Dein Profil hält deinen Weg fest: Ruhm, Rahmen, Saisons" data-close="Schließen" data-page="" data-look="2" defer></script>
+<script src="../assets/search/search.js?v=63caed3e78" data-root="../" defer></script>
+<script src="../assets/me/me.js?v=e47acff0c7" data-root="../" data-home="./" data-lang="de" data-teaser="Dein Profil hält deinen Weg fest: Ruhm, Rahmen, Saisons" data-close="Schließen" data-page="" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

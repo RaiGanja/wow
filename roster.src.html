@@ -87,8 +87,8 @@
     <div class="fgroup"><span class="flabel" id="lf">Фракция</span><div class="seg" id="ff" aria-labelledby="lf"><button type="button" data-v="">Все</button><button type="button" data-v="alliance">Альянс</button><button type="button" data-v="horde">Орда</button></div></div>
     <div class="fgroup"><span class="flabel" id="lr">Роль</span><div class="seg" id="fr" aria-labelledby="lr"><button type="button" data-v="">Все</button><button type="button" data-v="tank">Танк</button><button type="button" data-v="heal">Лекарь</button><button type="button" data-v="dps">Урон</button></div></div>
     <div class="fgroup"><label class="flabel" for="fc">Класс</label><select id="fc"><option value="">Все классы</option></select></div>
-    <div class="fgroup"><span class="flabel" id="lt">Время</span><div class="seg" id="ft" aria-labelledby="lt"><button type="button" data-v="">Любое</button><button type="button" data-v="morning">Утро</button><button type="button" data-v="evening">Вечер</button><button type="button" data-v="night">Сова</button></div></div>
-    <div class="fgroup"><label class="flabel" for="fp">Кто сделает</label><select id="fp"><option value="">Любая профессия</option></select></div>
+    <div class="fgroup"><span class="flabel" id="lt">Время</span><div class="seg" id="ft" aria-labelledby="lt"><button type="button" data-v="">Любое</button><button type="button" data-v="morning">Утро</button><button type="button" data-v="evening">Вечер</button><button type="button" data-v="night">Ночь</button></div></div>
+    <div class="fgroup"><label class="flabel" for="fp">Профессия</label><select id="fp"><option value="">Любая профессия</option></select></div>
     <label class="chk"><input type="checkbox" id="fl">Ищут группу</label>
     <button type="button" class="btn ghost reset" id="freset" hidden>Сбросить</button>
   </div>
@@ -208,7 +208,7 @@ function filtered() {
 function drawStats(st) {
   const part = (cls, label, n) => `<span class="${cls}">${esc(label)} <b>${n}</b></span>`;
   $('#stats').innerHTML = part('', 'Игроков:', st.total) + part('alliance', 'Альянс:', st.alliance) + part('horde', 'Орда:', st.horde)
-    + part('', 'Танки:', st.tank) + part('', 'Лекари:', st.heal) + part('', 'Бойцы:', st.dps);
+    + part('', 'Танки:', st.tank) + part('', 'Лекари:', st.heal) + part('', 'Урон:', st.dps);
 }
 
 function drawLfg() {
