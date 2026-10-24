@@ -301,11 +301,11 @@ def apply(html, path, lang, title, desc):
     verify = ''.join(f'<meta name="{k}" content="{escape(v, quote=True)}">\n' for k, v in VERIFY.items() if v)
     og = re.search(r'<meta property="og:image" content="([^"]+)"', html)
     html = html.replace('</head>', verify + json_ld(path, lang, desc, title, og and og[1]) + '</head>', 1)
-    html = re.sub(r'<script type="module" src="https://static.cloudflareinsights.com/[^>]*></script>\n', '', html)
+    html = re.sub(r'<script type="module" (?:data-)?src="https://static.cloudflareinsights.com/[^>]*></script>\n', '', html)
     if CF_BEACON_TOKEN:
         beacon = json.dumps({'token': CF_BEACON_TOKEN})
         html = html.replace('</body>', f'<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon=\'{beacon}\'></script>\n</body>', 1)
-    return html
+    return build.late(html) if path == '' else html
 
 
 def sitemap(paths):

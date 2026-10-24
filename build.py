@@ -349,6 +349,50 @@ REVEAL_JS = """<script>
 """
 
 
+# Home page: the files the first screen does without (radio, search, profile, living art, time of day, analytics, manifest)
+# wait in the page asleep, a <link> with data-rel and a <script> with data-src, and LATE_JS wakes them once the hero
+# picture is painted, or at the first touch, key or scroll. Lighthouse counts every file that finishes before that paint.
+LATE_JS = """<script>
+(function () {
+  var done = false;
+  function wake() {
+    if (done) return; done = true;
+    document.querySelectorAll('link[data-rel]').forEach(function (l) { l.rel = l.dataset.rel; });
+    document.querySelectorAll('script[data-src]').forEach(function (s) {
+      var n = document.createElement('script');
+      for (var i = 0; i < s.attributes.length; i++) if (s.attributes[i].name !== 'data-src') n.setAttribute(s.attributes[i].name, s.attributes[i].value);
+      n.src = s.dataset.src; n.async = false;   // in page order: radio before the profile, as with defer
+      s.replaceWith(n);
+    });
+  }
+  ['pointerdown', 'keydown', 'touchstart', 'wheel', 'scroll'].forEach(function (t) { addEventListener(t, wake, { once: true, passive: true, capture: true }); });
+  if (location.hash.length > 1) return wake();   // a link to a section: the blocks above it are drawn before the jump settles
+  setTimeout(wake, 4000);   // a tab in the background paints nothing
+  var img = document.querySelector('.hero-art img');
+  var lcp = window.PerformanceObserver && PerformanceObserver.supportedEntryTypes && PerformanceObserver.supportedEntryTypes.indexOf('largest-contentful-paint') >= 0;
+  if (img && lcp)   // the phone: the browser reports the hero picture once it is on the screen
+    new PerformanceObserver(function (l) { if (l.getEntries().some(function (e) { return e.element === img; })) setTimeout(wake, 0); })
+      .observe({ type: 'largest-contentful-paint', buffered: true });
+  function later() {   // a wide screen, where the heading counts as the largest: a moment after the picture is drawn
+    var go = function () { requestAnimationFrame(function () { setTimeout(wake, 500); }); };
+    if (img && img.decode) img.decode().then(go, go); else go();
+  }
+  if (document.readyState === 'complete') later(); else addEventListener('load', later, { once: true });
+})();
+</script>
+"""
+LATE_FILES = r'assets/(?:radio|search|me|tod|living)/|manifest-\w+\.webmanifest|static\.cloudflareinsights\.com/'
+
+
+def late(html):
+    """Puts the files of LATE_FILES to sleep on a home page and adds LATE_JS (seo.apply calls it after the analytics tag)."""
+    link =lambda m: f'<link data-rel="{m[1]}" href="{m[2]}">' if re.search(LATE_FILES, m[2]) else m[0]
+    html = re.sub(r'<link rel="(stylesheet|manifest)" href="([^"]+)"(?: media="print" onload="[^"]*")?>', link, html)
+    script = lambda m: f'<script{m[1] or ""} data-src="{m[2]}"{m[3].replace(" defer", "")}></script>' if re.search(LATE_FILES, m[2]) else m[0]
+    html = re.sub(r'<script( type="module")? src="([^"]+)"([^>]*)></script>', script, html)
+    return html if 'link[data-rel]' in html else html.replace('</body>', LATE_JS + '</body>', 1)
+
+
 # ---------- installable site (PWA): manifest, icons, service worker sw.js ----------
 
 APP = {
@@ -536,8 +580,10 @@ def art_version():
                     h.update(open(f, 'rb').read())
             ver[name] = h.hexdigest()[:8] if any(os.path.isfile(f) for f in fs) else ''
         return m.group(1) + (f'?v={ver[name]}' if ver[name] else '')
-    scenes = json.dumps({f: '?v=' + hashlib.sha1(open(os.path.join(d, f), 'rb').read()).hexdigest()[:8]
-                         for f in sorted(os.listdir(d)) if f.startswith('hero_')}, separators=(',', ':'))
+    scenes = {f: '?v=' + hashlib.sha1(open(os.path.join(d, f), 'rb').read()).hexdigest()[:8]
+              for f in sorted(os.listdir(d)) if f.startswith('hero_')}
+    # pic() in page JS draws only the scenes the script names in quotes ('hero_dawn-960'): the map carries just those
+    artv = lambda html: '/*ARTV*/' + json.dumps({f: v for f, v in scenes.items() if f"'{f.rsplit('.', 1)[0]}'" in html}, separators=(',', ':'))
     n = 0
     for root, dirs, files in os.walk(HERE):
         dirs[:] = [x for x in dirs if not x.startswith('.') and x not in ('assets', 'content', 'i18n', 'tests', 'node_modules')]
@@ -545,12 +591,29 @@ def art_version():
             if f.endswith('.html') and not f.endswith('.src.html'):
                 p = os.path.join(root, f)
                 was = html = open(p, encoding='utf-8').read()
-                html = re.sub(r'/\*ARTV\*/\{[^}]*\}', lambda _: '/*ARTV*/' + scenes, html)   # pic() in page JS
+                html = re.sub(r'/\*ARTV\*/\{[^}]*\}', lambda _: artv(html), html)   # pic() in page JS
                 new = re.sub(r'(assets/art/([A-Za-z0-9_.{}-]+\.(?:avif|webp|jpg|png)))(?:\?v=\w+)?', tag, html)
                 if new != was:
                     open(p, 'w', encoding='utf-8', newline='\n').write(new)
                     n += 1
     print(f'art: {n} pages, {len(ver)} files', file=sys.stderr)
+
+
+def home_js():
+    """The page script of each language home (all but the first-screen script before it) -> assets/home/<lang>.js?v=<hash>,
+    asleep in the page like the LATE_FILES. Last of the page passes (after art_version), so its texts and addresses are final."""
+    d = os.path.join(HERE, 'assets', 'home')
+    os.makedirs(d, exist_ok=True)
+    for lang in LANGS:
+        p = os.path.join(HERE, page_dir(lang), 'index.html')
+        html = open(p, encoding='utf-8').read()
+        m = re.search(r"<script>\n(const HOME = ''.*?)</script>\n", html, re.S)
+        assert m, p
+        open(os.path.join(d, f'{lang}.js'), 'w', encoding='utf-8', newline='\n').write(m[1])
+        v = hashlib.sha1(m[1].encode('utf-8')).hexdigest()[:10]
+        tag = f'<script data-src="{rel(page_dir(lang), "")}assets/home/{lang}.js?v={v}"></script>\n'
+        open(p, 'w', encoding='utf-8', newline='\n').write(html[:m.start()] + tag + html[m.end():])
+    print(f'home: {len(LANGS)} scripts', file=sys.stderr)
 
 
 def pwa(html, lang, root):
@@ -1085,6 +1148,7 @@ def main():
         living_version()
         tod_version()
         art_version()
+        home_js()
         sw_version()
 
 

@@ -163,6 +163,8 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .gbtns .btn { white-space: normal; text-align: center; }
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
+.srchbtn kbd, .radiobtn .rdo-eq { display: none; }   /* on the home page search.css and radio.css come after the first paint */
+.radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: .92rem; }
 @media (max-width: 1210px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }
 
@@ -1139,6 +1141,57 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <p class="meta">Данные на 23.10.2026, закрытая бета, патч от 15.10.2026.</p>
 </dialog>
 <script>
+/* First screen, before the first paint: countdown, theme, top bar, menu. The page script after this one
+   goes to assets/home/<lang>.js in the build (build.home_js) and runs once the hero is painted. */
+(() => {
+const $ = s => document.querySelector(s);
+/* Countdown and key dates */
+function renderCountdown() {
+  const now = new Date(), rel = new Date('2026-11-04T23:00:00Z'), raid = new Date('2026-12-09T00:00:00'), r1 = new Date('2026-10-27T00:00:00');
+  let target, what, sub;
+  if (now < rel) {   /* launch 15:00 PT = 23:00 UTC, shown in the reader's time */
+    const today = now.toDateString() === rel.toDateString(), lang = document.documentElement.lang;
+    const when = today ? rel.toLocaleTimeString(lang, { hour: '2-digit', minute: '2-digit' })
+                       : rel.toLocaleString(lang, { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' });
+    target = rel; what = (today ? 'Сегодня старт' : 'до старта') + ' · ' + when; sub = now < r1 ? 'Резервация имён откроется 27.10' : now < new Date('2026-11-04T00:00:00') ? 'Резервация имён идёт до 03.11' : 'Рейды открываются 09.12.2026';
+  }
+  else if (now < raid) { target = raid; what = 'до рейдов'; sub = 'Рейды открываются 09.12.2026'; }
+  if (target) {
+    const ms = target - now, d = Math.floor(ms / 864e5), h = Math.floor(ms % 864e5 / 36e5), m = Math.floor(ms % 36e5 / 6e4);
+    const p = x => String(x).padStart(2, '0');
+    $('#cd').innerHTML = `<div class="units"><div class="u"><b>${d}</b><span>дн</span></div><div class="u"><b>${p(h)}</b><span>ч</span></div><div class="u"><b>${p(m)}</b><span>мин</span></div></div>
+      <div class="what"><b>${what}</b><span>${sub}</span></div>`;
+  } else {
+    $('#cd').innerHTML = `<div class="what"><b>Рейды открыты</b><span>Barrow Deeps, Hyjal Summit, Onyxia’s Lair</span></div>`;
+  }
+  let cur = null;
+  document.querySelectorAll('.hdates li').forEach(li => { const past = new Date(li.dataset.d) <= now; li.classList.toggle('past', past); li.classList.remove('cur'); if (!past && !cur) cur = li; });
+  if (cur) cur.classList.add('cur');
+}
+renderCountdown();
+setInterval(renderCountdown, 30000);
+
+/* Theme toggle and language links */
+const themeBtns = document.querySelectorAll('.themebtn');
+function paintTheme() { const t = document.documentElement.getAttribute('data-theme'); themeBtns.forEach(b => b.querySelector('use').setAttribute('href', t === 'light' ? '#i-moon' : '#i-sun')); const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#fbfaf7' : '#07080a'); }
+themeBtns.forEach(b => b.onclick = () => { const t = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light'; document.documentElement.setAttribute('data-theme', t); try { localStorage.setItem('wf-theme', t); } catch (e) {} paintTheme(); });
+paintTheme();
+
+/* Top bar turns solid once the page is scrolled */
+const topbar = $('#topbar');
+let barTick = false;
+function paintBar() { topbar.classList.toggle('solid', window.scrollY > 24); barTick = false; }
+window.addEventListener('scroll', () => { if (!barTick) { barTick = true; requestAnimationFrame(paintBar); } }, { passive: true });
+paintBar();
+
+/* Menu sheet: all sections, language, theme */
+const dlg = $('#moreDlg');
+document.querySelectorAll('.menubtn, .morebtn').forEach(b => b.onclick = () => { if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', ''); });
+$('#moreClose').onclick = () => dlg.close();
+dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.toc a')) dlg.close(); });
+})();
+</script>
+<script>
 const HOME = '';   // language home, the classes/ and races/ pages set their own
 /* ref:start — shared with the classes/ and races/ pages (build_guides.ref_js); no $ or esc here, every page defines its own */
 const CLASSES = [
@@ -1486,31 +1539,6 @@ document.querySelectorAll('.go-f').forEach(b => b.addEventListener('click', () =
   document.getElementById('picker').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
 }));
 
-/* Countdown and key dates */
-function renderCountdown() {
-  const now = new Date(), rel = new Date('2026-11-04T23:00:00Z'), raid = new Date('2026-12-09T00:00:00'), r1 = new Date('2026-10-27T00:00:00');
-  let target, what, sub;
-  if (now < rel) {   /* launch 15:00 PT = 23:00 UTC, shown in the reader's time */
-    const today = now.toDateString() === rel.toDateString(), lang = document.documentElement.lang;
-    const when = today ? rel.toLocaleTimeString(lang, { hour: '2-digit', minute: '2-digit' })
-                       : rel.toLocaleString(lang, { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' });
-    target = rel; what = (today ? 'Сегодня старт' : 'до старта') + ' · ' + when; sub = now < r1 ? 'Резервация имён откроется 27.10' : now < new Date('2026-11-04T00:00:00') ? 'Резервация имён идёт до 03.11' : 'Рейды открываются 09.12.2026';
-  }
-  else if (now < raid) { target = raid; what = 'до рейдов'; sub = 'Рейды открываются 09.12.2026'; }
-  if (target) {
-    const ms = target - now, d = Math.floor(ms / 864e5), h = Math.floor(ms % 864e5 / 36e5), m = Math.floor(ms % 36e5 / 6e4);
-    const p = x => String(x).padStart(2, '0');
-    $('#cd').innerHTML = `<div class="units"><div class="u"><b>${d}</b><span>дн</span></div><div class="u"><b>${p(h)}</b><span>ч</span></div><div class="u"><b>${p(m)}</b><span>мин</span></div></div>
-      <div class="what"><b>${what}</b><span>${sub}</span></div>`;
-  } else {
-    $('#cd').innerHTML = `<div class="what"><b>Рейды открыты</b><span>Barrow Deeps, Hyjal Summit, Onyxia’s Lair</span></div>`;
-  }
-  let cur = null;
-  document.querySelectorAll('.hdates li').forEach(li => { const past = new Date(li.dataset.d) <= now; li.classList.toggle('past', past); li.classList.remove('cur'); if (!past && !cur) cur = li; });
-  if (cur) cur.classList.add('cur');
-}
-renderCountdown();
-setInterval(renderCountdown, 30000);
 /* Group builder */
 const MAXT = 40, PARTY = 5;
 const SIZES = [5, 6, 8, 10, 15, 20, 25, 40];
@@ -1900,25 +1928,6 @@ $('#stageBar').addEventListener('keydown', e => {
 if (meSet() && matchMedia('(max-width: 980px)').matches) $('#meD').open = false;
 renderJourney();
 setTimeout(() => { const t = $('#tab-' + stageSel), bar = $('#stageBar'); if (t && matchMedia('(max-width: 719px)').matches) bar.scrollLeft += t.getBoundingClientRect().left - bar.getBoundingClientRect().left - 16; }, 0);
-
-/* Theme toggle and language links */
-const themeBtns = document.querySelectorAll('.themebtn');
-function paintTheme() { const t = document.documentElement.getAttribute('data-theme'); themeBtns.forEach(b => b.querySelector('use').setAttribute('href', t === 'light' ? '#i-moon' : '#i-sun')); const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#fbfaf7' : '#07080a'); }
-themeBtns.forEach(b => b.onclick = () => { const t = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light'; document.documentElement.setAttribute('data-theme', t); try { localStorage.setItem('wf-theme', t); } catch (e) {} paintTheme(); });
-paintTheme();
-
-/* Top bar turns solid once the page is scrolled */
-const topbar = $('#topbar');
-let barTick = false;
-function paintBar() { topbar.classList.toggle('solid', window.scrollY > 24); barTick = false; }
-window.addEventListener('scroll', () => { if (!barTick) { barTick = true; requestAnimationFrame(paintBar); } }, { passive: true });
-paintBar();
-
-/* Menu sheet: all sections, language, theme */
-const dlg = $('#moreDlg');
-document.querySelectorAll('.menubtn, .morebtn').forEach(b => b.onclick = () => { if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', ''); });
-$('#moreClose').onclick = () => dlg.close();
-dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.toc a')) dlg.close(); });
 </script>
 <script src="@@ROOT@@assets/living/living.js" defer></script>
 <link rel="stylesheet" href="@@ROOT@@assets/tod/tod.css" media="print" onload="this.media='all'">
