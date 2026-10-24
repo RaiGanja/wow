@@ -2,15 +2,10 @@
 One RGBA PNG per picture, half the source size, in source coordinates (1376 x 768 grid):
   hero_dawn      R falling water, G banner cloth (0 at the pole -> 1 at the tip), B open sky, A river
   hero_campfire  R flames, G (unused), B open sky, A river
-  hero_road      R (unused), G (unused), B open sky, A river
-  hero_roster    R hearth fire and candle flames, G banners (0 at the beam -> 1 at the tip), B night windows, A (unused)
-  hero_tools     R (unused), G banner (0 at the pole -> 1 at the tip), B open sky, A lake
-  hero_guides    R (unused), G pennant (0 at the spear -> 1 at the tip), B open sky, A river
-  hero_dungeons  R brazier, campfire and torch flames, G (unused), B night sky, A stream
-  hero_professions R forge fire, G hanging herbs (0 at the beam -> 1 at the tips), B open sky, A stream
-  hero_faq       R candle flames, G banners (0 at the rod -> 1 at the tip), B sunbeam from the window, A (unused)
+  hero_road      R lantern flames, G (unused), B open sky, A river
+  hero_roster, hero_tools, hero_guides, hero_dungeons, hero_professions, hero_faq, hero_news,
   hero_leveling, hero_classes, hero_races, hero_ukrainian, hero_requirements (one shader, living.js GEN):
-                 R flames, G plants in the wind (sunflowers), B open sky, A river
+                 R flames, G plants and hanging cloth in the wind (0 where tied -> 1 at the tips), B open sky, A river or lake
 Run: python tools/make_living.py [path-to-wow_art]"""
 import os, sys
 from PIL import Image, ImageDraw, ImageFilter, ImageChops
@@ -102,104 +97,112 @@ def dawn():
     im = load('hero_dawn')
     grey = im.convert('L')
     hp = ImageChops.subtract(grey, grey.filter(ImageFilter.GaussianBlur(6)), 1, 0).load()  # falls are streaks brighter than what is behind
-    falls = [(680, 190, 698, 335), (714, 228, 728, 330)]  # thin falls under the floating islands
-    water = pick(im, falls, lambda r, g, b, x, y: lum(r, g, b) > .55 and sat(r, g, b) < .25 and hp[x, y] > 2, lambda x, y: fade(y, 190, 212))
-    big = pick(im, [(586, 440, 646, 566), (676, 455, 694, 525)], lambda r, g, b, x, y: lum(r, g, b) > .5 and sat(r, g, b) < .25 and hp[x, y] > 1,  # the valley fall
-               lambda x, y: fade(y, 440, 454) * (1 - fade(y, 545, 566)))
-    water = ImageChops.lighter(water, big)
-    cloth = pick(im, [(778, 36, 1250, 170)], lambda r, g, b, x, y: sat(r, g, b) > .3 and (b > r + 10 or r > b + 30) and not (x > 1050 and y > 148),  # cloth and gold trim; not the sky, topknot or mohawk
-                 lambda x, y: min(1, (x - 778) / 470))  # banner: 0 at the pole -> 1 at the tail
-    open_sky = sky([(190, 95, 478, 372), (598, 150, 772, 340), (748, 0, 1262, 180), (752, 0, 800, H), (850, 0, W, H)],
-                   (200, 330))  # castle, islands, banner, pole, mountains and heroes
-    river = ImageChops.lighter(pick(im, [(520, 405, 680, 448)], lambda r, g, b, x, y: lum(r, g, b) > .78 and sat(r, g, b) < .15),  # upper bends
-                               pick(im, [(345, 585, 610, 705)], lambda r, g, b, x, y: lum(r, g, b) > .45 and sat(r, g, b) < .18))  # lower reach in shade
-    save('hero_dawn', soft(water, 1, 1.5), soft(cloth, 3, 1.2), open_sky, soft(river, 1, 2))
+    water = pick(im, [(450, 516, 508, 632)], lambda r, g, b, x, y: lum(r, g, b) > .45 and sat(r, g, b) < .25 and hp[x, y] > 1,  # the valley fall
+                 lambda x, y: fade(y, 516, 530) * (1 - fade(y, 608, 632)))
+    cloth = pick(im, [(884, 126, 1114, 204)], lambda r, g, b, x, y: sat(r, g, b) > .22 and (b > r + 10 or r > b + 30),  # cloth and gold trim, not the sky
+                 lambda x, y: min(1, (x - 884) / 226))  # banner: 0 at the pole -> 1 at the tail
+    open_sky = ImageChops.multiply(pick(im, [(0, 0, W, 340)], lambda r, g, b, x, y: lum(r, g, b) > .55),   # the floating rocks stay put
+                                   open_area([(0, 0), (W, 0), (W, 40), (1240, 98), (1122, 132), (900, 126), (898, 66), (854, 66), (854, 330),
+                                              (836, 330), (826, 250), (800, 196), (770, 150), (722, 150), (694, 200), (670, 246),
+                                              (640, 290), (620, 340), (0, 340)], (240, 312)))   # castle, banner, pole, heroes
+    river = ImageChops.lighter(pick(im, [(368, 458, 600, 514)], lambda r, g, b, x, y: lum(r, g, b) > .7 and sat(r, g, b) < .2),  # bends above the fall
+                               pick(im, [(420, 630, 560, 705)], lambda r, g, b, x, y: lum(r, g, b) > .38 and sat(r, g, b) < .2))  # below it, in shade
+    save('hero_dawn', soft(water, 1, 1.5), soft(cloth, 3, 1.2), soft(open_sky, 1, 2), soft(river, 1, 2))
 
 
 def campfire():
     im = load('hero_campfire')
-    flames = pick(im, [(855, 500, 1015, 655)], lambda r, g, b, x, y: r > 200 and g > 110 and r - b > 110)
-    open_sky = sky([(1090, 0, W, 430), (700, 180, 925, 430), (920, 160, 1100, 430), (585, 295, 725, 430)],  # rock+orc, troll, paladin, elf
-                   (300, 390))  # heads stay sharp
-    river = ImageChops.lighter(pick(im, [(180, 470, 430, 530)], lambda r, g, b, x, y: lum(r, g, b) > .5 and b >= r),  # moonlit bends
-                               pick(im, [(170, 525, 515, 602)], lambda r, g, b, x, y: lum(r, g, b) > .3 and b > r + 40))  # wide reach below
+    fire = flames(im, [(985, 480, 1095, 575)], 190)
+    open_sky = ImageChops.multiply(open_area([(0, 0), (1165, 0), (1148, 150), (1000, 160), (860, 236), (760, 246), (692, 236),
+                                              (650, 330), (0, 330)], (270, 335)), moon(365, 110, 48))   # heroes, the rock and the moon stay put
+    river = pick(im, [(320, 400, 520, 570)], lambda r, g, b, x, y: lum(r, g, b) > .42 and b > r + 20)
     zero = Image.new('L', (W, H), 0)
-    save('hero_campfire', soft(flames, 2, 2.5), zero, open_sky, soft(river, 1, 2))
+    save('hero_campfire', soft(fire, 2, 2.5), zero, soft(open_sky, 1, 2), soft(river, 1, 2))
 
 
 def road():
     im = load('hero_road')
-    open_sky = sky([(700, 100, 905, 270), (868, 40, W, 340), (1110, 115, 1315, 390), (212, 82, 282, 138)], (190, 245))  # castle, cliffs, signpost, moon
-    river = pick(im, [(340, 350, 520, 445), (556, 452, 724, 508)], lambda r, g, b, x, y: lum(r, g, b) > .4 and b >= r)
+    lamps = flames(im, [(822, 312, 860, 362), (862, 462, 905, 522)], 190)
+    open_sky = ImageChops.multiply(open_area([(0, 0), (1040, 0), (1030, 130), (950, 176), (892, 140), (872, 92), (728, 92), (705, 282),
+                                              (600, 300), (300, 290), (272, 228), (150, 222), (100, 268), (0, 268)], (232, 300)),
+                                   moon(252, 115, 40))   # signpost, tree, heroes, castle and the moon stay put
+    river = pick(im, [(355, 380, 645, 600), (110, 540, 470, 620)], lambda r, g, b, x, y: lum(r, g, b) > .32 and b > r + 25)
     zero = Image.new('L', (W, H), 0)
-    save('hero_road', zero, zero, open_sky, soft(river, 1, 2))
+    save('hero_road', soft(lamps, 2, 2), zero, soft(open_sky, 1, 2), soft(river, 1, 2))
 
 
 def roster():
     im = load('hero_roster')
-    flame = lambda r, g, b, x, y: r > 200 and g > 110 and r - b > 110   # noqa: E731
-    fire = pick(im, [(95, 395, 225, 510), (443, 386, 456, 406), (701, 394, 712, 414), (716, 402, 725, 416)], flame)
-    banners = shape([[(380, 22), (450, 22), (448, 232), (412, 264), (382, 232)], [(634, 0), (728, 0), (726, 212), (683, 245), (638, 212)]],
-                    lambda x, y: fade(y, 40, 250))   # hang from the beams: still at the top, the tips swing
-    windows = pick(im, [(912, 118, 1075, 300), (1290, 88, W, 330)], lambda r, g, b, x, y: b > r + 30)
+    fire = flames(im, [(90, 355, 255, 545), (565, 370, 595, 410), (1015, 445, 1045, 485), (1050, 435, 1080, 475)], 190)
+    banners = shape([[(132, 0), (262, 0), (262, 205), (198, 240), (134, 205)], [(376, 96), (472, 96), (470, 312), (424, 352), (378, 312)]],
+                    lambda x, y: fade(y, 20, 245) if x < 300 else fade(y, 110, 350))   # still at the rods, the tips swing
     zero = Image.new('L', (W, H), 0)
-    save('hero_roster', soft(fire, 2, 2), soft(banners, 0, 2), soft(windows, 0, 1.5), zero)
+    save('hero_roster', soft(fire, 2, 2), soft(banners, 0, 2), zero, zero)
 
 
 def tools():
     im = load('hero_tools')
-    banner = shape([[(808, 160), (872, 160), (872, 286), (840, 302), (808, 286)]], lambda x, y: fade(y, 160, 300))
-    open_sky = ImageChops.multiply(pick(im, [(90, 55, 700, 320)], lambda r, g, b, x, y: lum(r, g, b) > .5),
-                                   sky([(600, 170, 720, H)], (225, 300)))   # right cliff; peaks stay sharp
-    lake = shape([[(300, 398), (470, 398), (430, 440), (560, 462), (560, 520), (470, 545), (380, 565), (260, 615), (150, 660),
-                   (103, 663), (117, 550), (217, 510), (283, 490), (210, 417)]])
-    zero = Image.new('L', (W, H), 0)
-    save('hero_tools', zero, soft(banner, 0, 1.5), soft(open_sky, 1, 2), soft(lake, 0, 3))
+    lamp = flames(im, [(775, 170, 825, 230)], 190)
+    banner = shape([[(578, 198), (690, 198), (688, 360), (634, 400), (580, 360)]], lambda x, y: fade(y, 200, 400))
+    opening = shape([[(205, 172), (440, 165), (458, 335), (150, 345), (175, 250)]]).filter(ImageFilter.GaussianBlur(10))
+    open_sky = ImageChops.multiply(opening, pick(im, [(140, 160, 470, 350)], lambda r, g, b, x, y: lum(r, g, b) > .55))
+    lake = pick(im, [(125, 380, 470, 505)], lambda r, g, b, x, y: lum(r, g, b) > .5 and sat(r, g, b) < .35)
+    save('hero_tools', soft(lamp, 2, 2), soft(banner, 0, 1.5), soft(open_sky, 1, 2), soft(lake, 1, 2))
 
 
 def guides():
     im = load('hero_guides')
-    pennant = pick(im, [(592, 405, 712, 528)], lambda r, g, b, x, y: lum(r, g, b) < .3 or (r > 150 and g > 110 and b < 90),
-                   lambda x, y: fade(x, 708, 610))   # black-and-gold cloth; the spear on the right stays put
-    open_sky = sky([(530, 170, 820, H), (75, 280, 305, 365), (765, 140, 925, H), (855, 160, W, H), (1140, 0, W, H), (0, 250, 560, H)],
-                   (215, 290))   # peak, castle, signpost, heroes, cliff, hills
-    river = pick(im, [(240, 330, 560, 452)], lambda r, g, b, x, y: lum(r, g, b) > .62 and sat(r, g, b) < .3 and b > g - 25)
+    open_sky = open_area([(0, 0), (W, 0), (W, 165), (1252, 168), (1140, 158), (1080, 128), (958, 138), (936, 96),
+                          (920, 60), (818, 60), (758, 108), (742, 226), (712, 228), (700, 300), (0, 300)], (228, 292))   # signpost, heroes, castle
     zero = Image.new('L', (W, H), 0)
-    save('hero_guides', zero, soft(pennant, 1, 1.5), open_sky, soft(river, 1, 2))
+    save('hero_guides', zero, zero, soft(open_sky, 1, 2), zero)
 
 
 def dungeons():
     im = load('hero_dungeons')
-    flame = lambda r, g, b, x, y: r > 200 and g > 110 and r - b > 110   # noqa: E731
-    fire = pick(im, [(215, 418, 285, 482), (600, 420, 662, 480), (1000, 555, 1105, 655), (1238, 285, 1278, 348)], flame)
-    night = pick(im, [(560, 0, 840, 250)], lambda r, g, b, x, y: b > 85 and b > r + 40)   # the cliffs are darker than the sky
-    stream = pick(im, [(270, 585, 480, 705)], lambda r, g, b, x, y: lum(r, g, b) > .3 and b > r + 15)
+    fire = flames(im, [(390, 430, 450, 495), (630, 435, 682, 495), (925, 540, 1060, 650), (1108, 450, 1162, 525)], 190)
+    night = ImageChops.multiply(open_area([(250, 0), (690, 0), (660, 100), (560, 150), (420, 140), (330, 120), (260, 60)], (90, 150)),
+                                moon(462, 52, 34))   # between the cliffs; the moon stays put
+    stream = pick(im, [(450, 355, 570, 625)], lambda r, g, b, x, y: lum(r, g, b) > .38 and b > r + 25)
     zero = Image.new('L', (W, H), 0)
-    save('hero_dungeons', soft(fire, 2, 2), zero, soft(night, 0, 2), soft(stream, 1, 2))
+    save('hero_dungeons', soft(fire, 2, 2), zero, soft(night, 1, 2), soft(stream, 1, 2))
 
 
 def professions():
     im = load('hero_professions')
-    flame = lambda r, g, b, x, y: r > 200 and g > 110 and r - b > 110   # noqa: E731
-    fire = pick(im, [(112, 385, 238, 478)], flame)
-    herbs = shape([[(845, 95), (900, 95), (902, 205), (870, 215), (845, 200)], [(898, 105), (935, 105), (935, 200), (900, 200)],
-                   [(925, 120), (1010, 120), (1010, 235), (925, 235)]], lambda x, y: fade(y, 100, 225))
-    open_sky = ImageChops.multiply(pick(im, [(300, 0, 760, 250)], lambda r, g, b, x, y: lum(r, g, b) > .6 and sat(r, g, b) < .35),
-                                   sky([(0, 0, 330, 210), (600, 150, 820, H), (580, 0, 800, 120), (0, 210, W, H)], (190, 250)))   # roof, house, trees
-    stream = pick(im, [(440, 365, 600, 498)], lambda r, g, b, x, y: lum(r, g, b) > .55 and sat(r, g, b) < .35 and b >= g - 15)
-    zero = Image.new('L', (W, H), 0)
+    fire = ImageChops.lighter(flames(im, [(40, 370, 150, 465)], 190), flames(im, [(715, 535, 840, 590), (975, 405, 1000, 435)], 210))
+    herbs = shape([[(858, 140), (900, 140), (905, 245), (870, 260), (855, 240)], [(905, 150), (940, 150), (945, 255), (905, 250)],
+                   [(940, 150), (982, 150), (985, 262), (945, 262)], [(1225, 80), (1290, 80), (1295, 200), (1228, 200)]],
+                  lambda x, y: fade(y, 145, 255) if x < 1100 else fade(y, 85, 200))   # tied at the beam, the bundles swing
+    open_sky = ImageChops.multiply(pick(im, [(110, 20, 700, 280)], lambda r, g, b, x, y: lum(r, g, b) > .62 and sat(r, g, b) < .45),
+                                   open_area([(112, 30), (150, 26), (700, 108), (700, 210), (560, 232), (330, 262), (112, 262)], (200, 262)))
+    stream = pick(im, [(330, 330, 570, 405)], lambda r, g, b, x, y: lum(r, g, b) > .6 and sat(r, g, b) < .4)
     save('hero_professions', soft(fire, 2, 2), soft(herbs, 0, 2), soft(open_sky, 1, 2), soft(stream, 1, 2))
 
 
 def faq():
     im = load('hero_faq')
-    flame = lambda r, g, b, x, y: lum(r, g, b) > .75 and r > b + 50   # noqa: E731
-    candles = pick(im, [(30, 405, 82, 440), (148, 420, 168, 442)], flame)
-    banners = shape([[(152, 0), (244, 0), (240, 300), (198, 355), (155, 300)], [(546, 30), (612, 30), (612, 290), (580, 330), (548, 290)]],
-                    lambda x, y: fade(y, 30, 330))
-    beam = shape([[(230, 60), (385, 60), (660, 560), (610, 700), (320, 700), (205, 445)]]).filter(ImageFilter.GaussianBlur(30))
+    candles = flames(im, [(530, 368, 598, 412)], 180)
+    banners = shape([[(102, 40), (200, 40), (198, 300), (152, 322), (104, 300)], [(522, 165), (574, 165), (574, 318), (548, 336), (522, 318)]],
+                    lambda x, y: fade(y, 45, 320) if x < 300 else fade(y, 170, 335))
     zero = Image.new('L', (W, H), 0)
-    save('hero_faq', soft(candles, 2, 2), soft(banners, 0, 2), beam, zero)
+    save('hero_faq', soft(candles, 2, 2), soft(banners, 0, 2), zero, zero)
+
+
+def news():
+    im = load('hero_news')
+    lamp = flames(im, [(915, 145, 985, 235)], 190)
+    open_sky = open_area([(240, 0), (1100, 0), (1098, 62), (1050, 98), (1040, 48), (925, 38), (912, 112), (862, 150), (780, 150),
+                          (690, 172), (620, 205), (560, 220), (470, 118), (330, 108), (300, 58)], (110, 215))   # roofs, raven, lantern, board
+    zero = Image.new('L', (W, H), 0)
+    save('hero_news', soft(lamp, 2, 2), zero, soft(open_sky, 1, 2), zero)
+
+
+def moon(x, y, r):
+    """255 everywhere but a soft hole around the moon, so the clouds do not drag it along."""
+    m = Image.new('L', (W, H), 255)
+    ImageDraw.Draw(m).ellipse((x - r, y - r, x + r, y + r), fill=0)
+    return m.filter(ImageFilter.GaussianBlur(r / 3))
 
 
 def flames(im, boxes, hot=200):
@@ -241,11 +244,11 @@ def races():
 
 def ukrainian():
     im = load('hero_ukrainian')
-    sunflowers = pick(im, [(0, 350, 330, 500)], lambda r, g, b, x, y: r > 165 and g > 115 and b < 90 and r > b + 90,
-                      lambda x, y: fade(y, 500, 380))   # heads sway, the stems stay rooted
-    open_sky = ImageChops.multiply(open_area([(0, 0), (W, 0), (W, 120), (680, 120), (660, 290), (560, 330),
-                                              (240, 330), (230, 225), (140, 225), (125, 270), (0, 270)], (250, 330)),
-                                   Image.new('L', (W, H), 255))   # windmill, roofs and heroes stay put
+    sunflowers = pick(im, [(0, 362, 440, 500)], lambda r, g, b, x, y: r > 165 and g > 115 and b < 90 and r > b + 90 and sat(r, g, b) > .6,
+                      lambda x, y: fade(y, 500, 380))   # heads sway, the stems stay rooted; not the sunlit field behind them
+    open_sky = open_area([(0, 0), (W, 0), (W, 110), (1350, 110), (1290, 128), (1262, 134), (1180, 134), (1120, 128), (1050, 128),
+                          (1000, 206), (962, 222), (900, 214), (860, 216), (830, 250), (790, 250), (740, 236), (690, 254),
+                          (650, 270), (560, 320), (240, 320), (230, 225), (140, 225), (125, 270), (0, 270)], (250, 320))   # windmill, roofs, heads
     zero = Image.new('L', (W, H), 0)
     save('hero_ukrainian', zero, soft(sunflowers, 1, 1.5), soft(open_sky, 1, 2), zero)
 
@@ -267,6 +270,7 @@ if __name__ == '__main__':
     dungeons()
     professions()
     faq()
+    news()
     leveling()
     classes()
     races()
