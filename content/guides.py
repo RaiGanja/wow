@@ -17,7 +17,7 @@ def t(ru, en, uk):
 
 
 HUB = {
-    'slug': '', 'art': 'hero_campfire', 'updated': '23.10.2026',
+    'slug': '', 'art': 'hero_campfire', 'hero': 'hero_guides', 'updated': '23.10.2026',
     'title': t('Гайды', 'Guides', 'Гайди'),
     'lead': t('Прокачка, подземелья, профессии, ответы на вопросы и новости WoW Forever.',
               'Leveling, dungeons, professions, answers and news for WoW Forever.',
@@ -35,7 +35,7 @@ ORDER = ['leveling', 'dungeons', 'professions', 'faq', 'news', 'ukrainian']   # 
 # ---------- FAQ: даты и наборы, режимы, имена, отличия от Era (переехали с главной) + частые вопросы ----------
 
 GUIDES.append({
-    'slug': 'faq', 'art': 'mage', 'updated': '23.10.2026', 'js': 'faq',
+    'slug': 'faq', 'art': 'mage', 'hero': 'hero_faq', 'updated': '23.10.2026', 'js': 'faq',
     'title': t('FAQ и даты', 'FAQ and dates', 'FAQ і дати'),
     'lead': t('Даты до и после релиза, наборы и цены, режимы, имена и ответы на частые вопросы.',
               'Dates before and after release, packs and prices, modes, names and answers to common questions.',
@@ -269,7 +269,7 @@ def _dg_filter():
 
 
 GUIDES.append({
-    'slug': 'dungeons', 'art': 'warlock', 'updated': '23.10.2026', 'js': 'dungeons',
+    'slug': 'dungeons', 'art': 'warlock', 'hero': 'hero_dungeons', 'updated': '23.10.2026', 'js': 'dungeons',
     'title': t('Подземелья и рейды', 'Dungeons and raids', 'Підземелля та рейди'),
     'lead': t('Все 35 подземелий по уровням с фильтром под вашего героя, три рейда и состав группы под любое число друзей.',
               'All 35 dungeons by level with a filter for your hero, three raids and a group lineup for any number of friends.',
@@ -653,7 +653,7 @@ def _pair_tabs():
 
 
 GUIDES.append({
-    'slug': 'professions', 'art': 'hero_campfire', 'updated': '23.10.2026', 'js': 'professions',
+    'slug': 'professions', 'art': 'hero_campfire', 'hero': 'hero_professions', 'updated': '23.10.2026', 'js': 'professions',
     'title': t('Профессии', 'Professions', 'Професії'),
     'lead': t('Какие две профессии взять под ваш класс, что каждая ставит в лагерь и как прокачать навык до 300.',
               'Which two professions suit your class, what each one places in camp and how to raise the skill to 300.',
@@ -1107,10 +1107,6 @@ PLAY_TX = {
                   'Натисніть заготовку або задайте свій час. Таймери йдуть і після перезавантаження сторінки.'),
     'notify': t('Уведомление, когда вкладка в фоне', 'Notify when the tab is in the background', 'Сповіщення, коли вкладка у фоні'),
     'wake': t('Экран не гаснет', 'Keep screen on', 'Екран не гасне'),
-    'pip': t('Мини-окно', 'Mini window', 'Міні-вікно'),
-    'pipNote': t('Маленькое окно поверх игры: таймер, радио и уровень', 'A small window on top of the game: timer, radio and level',
-                 'Маленьке вікно поверх гри: таймер, радіо й рівень'),
-    'noTimer': t('Таймеров нет', 'No timers', 'Таймерів немає'),
     'way': t('Ваш путь', 'Your path', 'Ваш шлях'),
     'guest': t('Войдите — радио и задания недели будут копить Славу.',
                'Log in: the radio and weekly tasks will earn Glory.',

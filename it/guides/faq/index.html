@@ -81,10 +81,10 @@
 }
 /* The hero zone follows the scene's light (tod.py): only the fade into black, the title shadow, the line under the hero
    and a hairline on the first cards. Gold, black and the fonts never change. Dawn = the defaults = the look before tod. */
-:root { --hero-fade: 7 8 10; --hero-shadow: none; --hero-line: transparent; --hero-edge: transparent; }
-html[data-tod="day"]   { --hero-fade: 8 10 13; --hero-shadow: 0 2px 22px rgb(0 0 0 / .55); }
-html[data-tod="dusk"]  { --hero-fade: 12 8 6;  --hero-shadow: 0 2px 20px rgb(26 10 0 / .5); --hero-line: rgb(201 165 74 / .18); --hero-edge: rgb(201 165 74 / .10); }
-html[data-tod="night"] { --hero-fade: 5 7 12;  --hero-shadow: 0 2px 16px rgb(0 0 8 / .45);  --hero-line: rgb(126 159 220 / .14); --hero-edge: rgb(170 190 230 / .08); }
+:root { --hero-fade: 7 8 10; --hero-shadow: 0 1px 2px rgba(7,8,10,.7), 0 2px 22px rgba(7,8,10,.55); --hero-line: transparent; --hero-edge: transparent; }
+html[data-tod="day"]   { --hero-fade: 8 10 13; --hero-shadow: 0 1px 2px rgb(8 10 13 / .75), 0 2px 22px rgb(8 10 13 / .6); }
+html[data-tod="dusk"]  { --hero-fade: 12 8 6;  --hero-shadow: 0 1px 2px rgb(20 8 0 / .75), 0 2px 22px rgb(26 10 0 / .55); --hero-line: rgb(201 165 74 / .18); --hero-edge: rgb(201 165 74 / .10); }
+html[data-tod="night"] { --hero-fade: 5 7 12;  --hero-shadow: 0 1px 2px rgb(0 0 8 / .7), 0 2px 18px rgb(0 0 8 / .5);  --hero-line: rgb(126 159 220 / .14); --hero-edge: rgb(170 190 230 / .08); }
 :root[data-theme="light"] {
   --bg: #f3f2ee;
   --rail: #fbfaf7;
@@ -178,15 +178,16 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .hero-art { z-index: -2; }
 .hero-art img { object-fit: cover; object-position: 62% 50%; }
 .hero::before { content: ""; position: absolute; inset: 0; z-index: -1; background:
-  linear-gradient(90deg, rgb(var(--hero-fade) / .92) 0%, rgb(var(--hero-fade) / .74) 30%, rgb(var(--hero-fade) / .28) 56%, rgb(var(--hero-fade) / .06) 78%),
-  linear-gradient(180deg, rgb(var(--hero-fade) / .5) 0%, rgb(var(--hero-fade) / 0) 26%, rgb(var(--hero-fade) / 0) 58%, rgb(var(--hero-fade) / .9) 100%);
+  linear-gradient(90deg, rgb(var(--hero-fade) / .06) calc(50% - 800px), rgb(var(--hero-fade) / .46) calc(50% - 420px), rgb(var(--hero-fade) / .5) calc(50% + 100px), rgb(var(--hero-fade) / .16) calc(50% + 380px), rgb(var(--hero-fade) / .04) calc(50% + 600px)),
+  linear-gradient(180deg, rgb(var(--hero-fade) / .42) 0%, rgb(var(--hero-fade) / 0) 26%, rgb(var(--hero-fade) / 0) 58%, rgb(var(--hero-fade) / .9) 88%, var(--bg) 100%);
   box-shadow: inset 0 -1px 0 var(--hero-line); }
 .hero-in { width: 100%; padding-top: calc(var(--top) + clamp(40px, 9vh, 110px)); padding-bottom: 40px; display: grid; gap: 22px; justify-items: start; max-width: var(--wrap); }
 .hmeta { font-size: .9rem; color: var(--ink-2); }
 .todsw { min-height: 44px; display: flex; align-items: center; }
 .hero h1 { font-size: clamp(2.9rem, 6.2vw, 5.4rem); line-height: .98; letter-spacing: .005em; text-shadow: var(--hero-shadow); }
 .hero h1 span { display: block; color: var(--ink-gold); }
-.hero .lead { max-width: 46ch; font-size: clamp(1.02rem, 1.4vw, 1.15rem); color: var(--ink-2); text-shadow: var(--hero-shadow); }
+.hero h1, .hero .lead, .hero .hmeta { text-shadow: var(--hero-shadow); }  /* the castle and the sun sit behind the text */
+.hero .lead { max-width: 46ch; font-size: clamp(1.02rem, 1.4vw, 1.15rem); color: var(--ink-2); }
 .cd { display: flex; align-items: center; flex-wrap: wrap; gap: 14px 22px; margin-top: 6px; }
 .cd .units { display: flex; align-items: stretch; gap: 6px; padding: 6px; border: 1px solid rgba(255,255,255,.12); border-radius: 10px; background: rgba(10,12,18,.62); backdrop-filter: blur(6px); box-shadow: inset 0 1px 0 var(--hero-edge); }
 .cd .u { display: grid; gap: 4px; min-width: 76px; padding: 10px 16px 8px; border-radius: 7px; background: rgba(255,255,255,.05); }
@@ -292,9 +293,10 @@ section.block { scroll-margin-top: -72px; }
 
 /* Journey: game stages and my character, framed panels over art */
 .stband { position: relative; isolation: isolate; padding: 110px 0 24px; color: var(--fg); }
-.stband-art, .stband-art img { position: absolute; inset: 0 0 auto 0; width: 100%; height: 620px; }
+.stband-art, .stband-art img { position: absolute; inset: 0 0 auto 0; width: 100%; height: var(--band-h, 620px); }
 .stband-art { z-index: -2; }
-.stband-art img { object-fit: cover; object-position: 50% 40%; }
+.stband-art img { object-fit: cover; object-position: 50% 32%; }
+#stages { --band-h: clamp(620px, 40vw, 820px); }
 #guides.stband { padding-top: 56px; }   /* no art behind the guides band any more */
 /* Camp scene near the end: the campfire art in full, fire and embers alive (assets/living/) */
 .camp { position: relative; isolation: isolate; overflow: hidden; margin-top: 56px; min-height: clamp(520px, 56vw, 1200px);   /* close to the art's own 16:9: heads stay in frame on wide screens */ display: grid; align-content: end; color: #f1ece0; background: #08090b; }
@@ -315,7 +317,22 @@ section.block { scroll-margin-top: -72px; }
 /* Living art (assets/living/): the WebGL layer over a picture fades in once it draws */
 canvas.fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0; transition: opacity 1.6s ease; }
 canvas.fx.on { opacity: 1; }
-.stband::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 620px; z-index: -1; background: linear-gradient(180deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 70%, transparent) 22%, color-mix(in srgb, var(--bg) 55%, transparent) 50%, var(--bg) 100%); }
+/* Inner page hero (roster, tools): a scene of its own on the whole screen like the home hero, living art over it, text on the calm
+   left. The art keeps the screen height while the content under it grows (search results), so the picture is never cropped anew. */
+.thero { --hh: max(560px, 100svh); position: relative; isolation: isolate; overflow: hidden; min-height: var(--hh); display: grid; align-content: start; padding: calc(var(--top) + clamp(32px, 8vh, 96px)) 0 40px; color: var(--ink); background: #08090b; }
+.thero-art, .thero-art img, .thero::before { position: absolute; inset: 0 0 auto 0; width: 100%; height: var(--hh); }
+.thero-art { z-index: -2; }
+.thero-art img { object-fit: cover; object-position: 66% 50%; }
+.thero::before { content: ""; z-index: -1; background:
+  linear-gradient(90deg, rgba(7,8,10,.78) 0%, rgba(7,8,10,.5) 30%, rgba(7,8,10,.12) 56%, rgba(7,8,10,0) 76%),
+  linear-gradient(180deg, rgba(7,8,10,.5) 0%, rgba(7,8,10,0) 24%, rgba(7,8,10,0) 60%, #08090b 100%); }
+.thero-in { width: 100%; display: grid; gap: 18px; justify-items: start; }
+.thero .crumbs { display: flex; gap: 10px; font-size: .9rem; color: var(--ink-2); }
+.thero .crumbs a { color: var(--ink-2); text-decoration: none; }
+.thero .crumbs a:hover { color: var(--ink); text-decoration: underline; }
+.thero h1 { max-width: 8em; font-size: clamp(2.9rem, 6.2vw, 5.4rem); line-height: .98; color: var(--ink); text-shadow: 0 2px 18px rgba(0,0,0,.5); }
+.thero .lead { max-width: 46ch; color: var(--ink-2); font-size: clamp(1.02rem, 1.4vw, 1.15rem); text-shadow: 0 1px 10px rgba(0,0,0,.6); }
+.stband::before { content: ""; position: absolute; inset: 0 0 auto 0; height: var(--band-h, 620px); z-index: -1; background: linear-gradient(180deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 62%, transparent) 12%, color-mix(in srgb, var(--bg) 40%, transparent) 30%, color-mix(in srgb, var(--bg) 55%, transparent) 62%, var(--bg) 100%); }
 .stband .wrap { display: grid; gap: 20px; }
 /* page-level grids: one column that may shrink, so a long word or a wide field never pushes past the screen edge */
 section.block, .hero-in, .chero-in, .thero-in, .stband .wrap { grid-template-columns: minmax(0, 1fr); }
@@ -785,6 +802,10 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .hero::before { background:
     linear-gradient(180deg, rgb(var(--hero-fade) / .86) 0%, rgb(var(--hero-fade) / .7) 40%, rgb(var(--hero-fade) / .6) 72%, rgb(var(--hero-fade) / .94) 100%); }
   .hero-in { padding-top: calc(var(--top) + 28px); gap: 18px; }
+  .thero { --hh: max(580px, calc(100svh - 62px - env(safe-area-inset-bottom, 0px))); padding: max(calc(var(--top) + 28px), calc(var(--hh) * .5)) 0 28px; }
+  .thero-art img { object-position: 90% 50%; }   /* make_images.CUTS: the party on the upper half, the text from the middle down */
+  .thero::before { background: linear-gradient(180deg, rgba(7,8,10,.55) 0%, rgba(7,8,10,.08) 26%, rgba(7,8,10,.35) 52%, rgba(7,8,10,.9) 76%, #08090b 100%); }
+  .thero h1 { font-size: clamp(2.1rem, 10.5vw, 3.2rem); hyphens: auto; }
   .hero h1 { font-size: clamp(2.6rem, 12vw, 3.4rem); }
   .cd .u { padding: 0 14px; }
   .cta { width: 100%; }
@@ -966,7 +987,8 @@ nav.gtiles { padding: 14px; }
 .pwk { display: flex; flex-wrap: wrap; gap: 8px 24px; list-style: none; margin: 0; padding: 0; flex: 2 1 320px; font-size: .88rem; }
 .pwk li { display: grid; gap: 2px; }
 .pwk li.ok small { color: var(--gold-2); }
-.pway > a:last-child { margin-left: auto; color: var(--gold-2); font-size: .9rem; }
+.pway > a:last-child { margin-left: auto; font-size: .9rem; }
+.pway > a:last-child:not(.btn) { color: var(--gold-2); }   /* the profile link; the guest sign-in button keeps its dark text */
 .pway .pnote { flex: 1 1 260px; }
 .pway .btn { margin-left: auto; }
 .pchars { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -1063,8 +1085,8 @@ nav.gtiles { padding: 14px; }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../../assets/radio/radio.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/search/search.css?v=9da1611b67" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/me/me.css?v=36a486068d" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/search/search.css?v=1c41467fa0" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/me/me.css?v=c30b9c1a1c" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/it/"},{"@type":"ListItem","position":2,"name":"Guide","item":"https://gabella.site/wow/it/guides/"},{"@type":"ListItem","position":3,"name":"FAQ e date","item":"https://gabella.site/wow/it/guides/faq/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"FAQ di WoW Forever: data e ora di uscita, prezzo, abbonamento","description":"Quando esce WoW Forever, se serve un abbonamento, prezzi dei pacchetti, modalità di gioco, quando prenotare un nome e come Forever differisce da Classic Era.","inLanguage":"it","url":"https://gabella.site/wow/it/guides/faq/","dateModified":"2026-10-23","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/Zd45sNHy9x"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/Zd45sNHy9x"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/it/"},"image":"https://gabella.site/wow/assets/og/faq-it.jpg"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"it","mainEntity":[{"@type":"Question","name":"Quando esce WoW Forever?","acceptedAnswer":{"@type":"Answer","text":"Il 04.11.2026. Blizzard non ha ancora confermato l’orario esatto del lancio. Alcuni siti indicano le 15:00 ora del Pacifico, cioè le 23:00 UTC."}},{"@type":"Question","name":"Serve un abbonamento?","acceptedAnswer":{"@type":"Answer","text":"Sì, un abbonamento o tempo di gioco. Forever è un gioco permanente accanto a Retail e Classic, non una stagione."}},{"@type":"Question","name":"Quanto costano i pacchetti e me ne serve uno?","acceptedAnswer":{"@type":"Answer","text":"Heroic Pack $29.99, Epic Pack $59.99, Warcraft Forever Collection $79.99. Un pacchetto serve solo per la razza Skyborne e la prenotazione anticipata dei nomi: le altre otto razze e tutte e nove le classi non vanno acquistate."}},{"@type":"Question","name":"Quando posso prenotare un nome?","acceptedAnswer":{"@type":"Answer","text":"Dal 27.10 al 03.11 se possiedi Heroic, Epic o Collection. Fino a tre personaggi per account, chi prima arriva meglio alloggia. Non è un accesso anticipato al gioco."}},{"@type":"Question","name":"Perché un cognome, e due persone possono avere lo stesso nome?","acceptedAnswer":{"@type":"Answer","text":"Non ci sono reami, quindi il nome completo deve essere unico in tutta la regione. Due giocatori possono avere lo stesso nome se i cognomi sono diversi. Puoi nascondere il cognome: Esc → Opzioni → Targhette → Il mio nome secondario."}},{"@type":"Question","name":"Cosa sono gli Skyborne?","acceptedAnswer":{"@type":"Answer","text":"La nuova razza di Forever, sbloccata da uno qualsiasi dei tre pacchetti. Giocabile in entrambe le fazioni, la fazione si sceglie alla creazione del personaggio. Entrambi i rami parlano una lingua comune e condividono la zona iniziale di Zephras Isle."}},{"@type":"Question","name":"Qual è il livello massimo e dove si livella?","acceptedAnswer":{"@type":"Answer","text":"Fino al 60, nei Regni Orientali e a Kalimdor. Niente cavalcature volanti né adattamento del livello, come in Classic."}},{"@type":"Question","name":"Possiamo giocare insieme in modalità diverse?","acceptedAnswer":{"@type":"Answer","text":"No: si può fare gruppo solo nella stessa modalità. Modalità al lancio: Normale, PvP e GdR, Hardcore arriverà più tardi. Nel PvP un account può avere una sola fazione."}},{"@type":"Question","name":"Quale regione, modalità e fazione scegliere per giocare con gli amici?","acceptedAnswer":{"@type":"Answer","text":"Le stesse per tutti. Le regioni sono separate e non si gioca tra regioni diverse, quindi scegliete la regione con il ping migliore per la maggior parte di voi. Si può fare gruppo solo nella stessa modalità, e Alleanza e Orda non possono fare gruppo in nessuna modalità. Nel PvP un account ha una sola fazione, quindi mettetevi d’accordo prima che apra la prenotazione dei nomi il 27.10."}},{"@type":"Question","name":"Dove trovo un gruppo?","acceptedAnswer":{"@type":"Answer","text":"Su questo sito e su Discord. Accedi, aggiungi un personaggio e attiva «Cerco gruppo» nel profilo: per 3 ore comparirà nella fascia «Cercano un gruppo ora» della Rosa. Sul server Discord di Gabella Team si formano i gruppi per il lancio del 04.11 e si concordano regione, modalità e fazione."}},{"@type":"Question","name":"Cosa sono Gloria, grado e stagione nel profilo?","acceptedAnswer":{"@type":"Answer","text":"È la crescita del tuo profilo sul sito; non ha a che fare con il gioco. La Gloria (1–60) è esperienza per l’uso della guida: visite, guide, radio, gruppi composti e compiti settimanali. Dopo una pausa l’esperienza arriva due volte più in fretta, come il riposo in locanda. La Gloria sblocca un motto e i colori del nome. Il grado sale con i punti impresa e sblocca le cornici del ritratto. La stagione 1 inizia il 04.11: esperienza e compiti settimanali danno stelle, le stelle sbloccano gradini con ricompense. Tutto ciò che ottieni resta per sempre."}},{"@type":"Question","name":"Quando aprono le incursioni?","acceptedAnswer":{"@type":"Answer","text":"Il 09.12: Barrow Deeps (10 giocatori), Sommità di Hyjal (20), Antro di Onyxia (40). Fino ad allora hai cinque settimane per livellare e fare spedizioni."}},{"@type":"Question","name":"Posso ancora entrare nella beta?","acceptedAnswer":{"@type":"Answer","text":"No. L’accesso era per chi possiede Epic e Collection. La beta si è chiusa il 23.10 alle 10:00 ora del Pacifico."}},{"@type":"Question","name":"Le vecchie guide di Classic servono ancora?","acceptedAnswer":{"@type":"Answer","text":"Solo in parte. Caratteristiche e oggetti sono cambiati, quindi i vecchi elenchi di bottino non sono affidabili. Ci sono 9 nuove spedizioni, 3 nuove incursioni, nuove zone e missioni, e i talenti delle classi sono stati aggiornati."}},{"@type":"Question","name":"C’è la grafica moderna e il supporto al gamepad?","acceptedAnswer":{"@type":"Answer","text":"Sì: puoi scegliere lo stile grafico (Classic o moderno), c’è la trasmogrificazione facoltativa e il supporto ufficiale al gamepad."}}]}</script>
@@ -1106,12 +1128,12 @@ nav.gtiles { padding: 14px; }
   </div>
 </div></header>
 
-<section class="stband ghero" id="top">
+<section class="thero" id="top">
   <picture class="stband-art" aria-hidden="true"><source type="image/avif" srcset="../../../assets/art/mage-360.avif?v=7b69fc64 360w, ../../../assets/art/mage-600.avif?v=632283e7 600w, ../../../assets/art/mage-896.avif?v=7631e4c7 896w" sizes="100vw"><img src="../../../assets/art/mage-896.webp?v=80bd7e13" srcset="../../../assets/art/mage-360.webp?v=f08052db 360w, ../../../assets/art/mage-600.webp?v=37403d76 600w, ../../../assets/art/mage-896.webp?v=80bd7e13 896w" sizes="100vw" alt="" decoding="async" fetchpriority="high"></picture>
-  <div class="wrap">
+  <div class="wrap thero-in">
     <nav class="crumbs" aria-label="Percorso"><a href="../../">Guida</a><span aria-hidden="true">/</span><a href="../../guides/">Guide</a><span aria-hidden="true">/</span><span>FAQ e date</span></nav>
     <h1>FAQ e date</h1>
-    <p class="glead">Date prima e dopo l’uscita, pacchetti e prezzi, modalità, nomi e risposte alle domande frequenti.</p>
+    <p class="lead">Date prima e dopo l’uscita, pacchetti e prezzi, modalità, nomi e risposte alle domande frequenti.</p>
     <div class="pills"><span class="pill">Uscita 04.11.2026</span><span class="pill">Nomi dal 27.10</span><span class="pill">Incursioni 09.12</span></div>
   </div>
 </section>
@@ -1129,7 +1151,7 @@ nav.gtiles { padding: 14px; }
 </main>
 
 <div class="wrap">
-<section id="more"><div class="sec-head"><h2>Altre guide</h2></div><nav class="frame ttiles gtiles" aria-label="Altre guide"><a class="ttile" href="../../guides/leveling/"><picture><source type="image/avif" srcset="../../../assets/art/hero_dawn-960.avif?v=17dcd2c2 960w, ../../../assets/art/hero_dawn-1440.avif?v=ff4f1d9c 1440w, ../../../assets/art/hero_dawn-1920.avif?v=f7247901 1920w, ../../../assets/art/hero_dawn-2560.avif?v=44a7e5be 2560w, ../../../assets/art/hero_dawn-3840.avif?v=2ff976e6 3840w" sizes="320px"><img src="../../../assets/art/hero_dawn-960.webp?v=643f09a0" srcset="../../../assets/art/hero_dawn-960.webp?v=643f09a0 960w, ../../../assets/art/hero_dawn-1440.webp?v=043ac087 1440w, ../../../assets/art/hero_dawn-1920.webp?v=c4eed46f 1920w, ../../../assets/art/hero_dawn-2560.webp?v=8901e93a 2560w, ../../../assets/art/hero_dawn-3840.webp?v=5284ec42 3840w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Livellamento 1–60</b><span>Zone per livello, riposo, Legacy e accampamento</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/dungeons/"><picture><source type="image/avif" srcset="../../../assets/art/warlock-360.avif?v=dd5fc7a8 360w, ../../../assets/art/warlock-600.avif?v=f1b27c51 600w, ../../../assets/art/warlock-896.avif?v=d25066c1 896w" sizes="320px"><img src="../../../assets/art/warlock-600.webp?v=a0181c77" srcset="../../../assets/art/warlock-360.webp?v=1f04d604 360w, ../../../assets/art/warlock-600.webp?v=a0181c77 600w, ../../../assets/art/warlock-896.webp?v=203a598f 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Spedizioni e incursioni</b><span>35 spedizioni per livello, incursioni, formazione</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/professions/"><picture><source type="image/avif" srcset="../../../assets/art/hero_campfire-960.avif?v=2654726f 960w, ../../../assets/art/hero_campfire-1600.avif?v=a9d1ad39 1600w, ../../../assets/art/hero_campfire-2560.avif?v=6b161175 2560w" sizes="320px"><img src="../../../assets/art/hero_campfire-960.webp?v=d73f1e16" srcset="../../../assets/art/hero_campfire-960.webp?v=d73f1e16 960w, ../../../assets/art/hero_campfire-1600.webp?v=bef1b754 1600w, ../../../assets/art/hero_campfire-2560.webp?v=08f5bedc 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Professioni</b><span>Coppie per la tua classe, oggetti da accampamento, competenza a 300</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/news/"><picture><source type="image/avif" srcset="../../../assets/art/paladin-360.avif?v=e7c176bf 360w, ../../../assets/art/paladin-600.avif?v=62bbe825 600w, ../../../assets/art/paladin-896.avif?v=f272a36e 896w" sizes="320px"><img src="../../../assets/art/paladin-600.webp?v=ce6a9574" srcset="../../../assets/art/paladin-360.webp?v=d4d5d3d1 360w, ../../../assets/art/paladin-600.webp?v=ce6a9574 600w, ../../../assets/art/paladin-896.webp?v=0288b052 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Notizie</b><span>Le nostre note e il feed di Wowhead</span></a></nav></section>
+<section id="more"><div class="sec-head"><h2>Altre guide</h2></div><nav class="frame ttiles gtiles" aria-label="Altre guide"><a class="ttile" href="../../guides/leveling/"><picture><source type="image/avif" srcset="../../../assets/art/hero_dawn-960.avif?v=72b3acf6 960w, ../../../assets/art/hero_dawn-1440.avif?v=4c7215d4 1440w, ../../../assets/art/hero_dawn-1920.avif?v=baf52983 1920w, ../../../assets/art/hero_dawn-2560.avif?v=78086c34 2560w, ../../../assets/art/hero_dawn-3840.avif?v=b7217b4e 3840w" sizes="320px"><img src="../../../assets/art/hero_dawn-960.webp?v=4eae2c5c" srcset="../../../assets/art/hero_dawn-960.webp?v=4eae2c5c 960w, ../../../assets/art/hero_dawn-1440.webp?v=389093cd 1440w, ../../../assets/art/hero_dawn-1920.webp?v=1d137c11 1920w, ../../../assets/art/hero_dawn-2560.webp?v=f7135c28 2560w, ../../../assets/art/hero_dawn-3840.webp?v=f48b5767 3840w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Livellamento 1–60</b><span>Zone per livello, riposo, Legacy e accampamento</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/dungeons/"><picture><source type="image/avif" srcset="../../../assets/art/warlock-360.avif?v=dd5fc7a8 360w, ../../../assets/art/warlock-600.avif?v=f1b27c51 600w, ../../../assets/art/warlock-896.avif?v=d25066c1 896w" sizes="320px"><img src="../../../assets/art/warlock-600.webp?v=a0181c77" srcset="../../../assets/art/warlock-360.webp?v=1f04d604 360w, ../../../assets/art/warlock-600.webp?v=a0181c77 600w, ../../../assets/art/warlock-896.webp?v=203a598f 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Spedizioni e incursioni</b><span>35 spedizioni per livello, incursioni, formazione</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/professions/"><picture><source type="image/avif" srcset="../../../assets/art/hero_campfire-960.avif?v=2654726f 960w, ../../../assets/art/hero_campfire-1600.avif?v=a9d1ad39 1600w, ../../../assets/art/hero_campfire-2560.avif?v=6b161175 2560w" sizes="320px"><img src="../../../assets/art/hero_campfire-960.webp?v=d73f1e16" srcset="../../../assets/art/hero_campfire-960.webp?v=d73f1e16 960w, ../../../assets/art/hero_campfire-1600.webp?v=bef1b754 1600w, ../../../assets/art/hero_campfire-2560.webp?v=08f5bedc 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Professioni</b><span>Coppie per la tua classe, oggetti da accampamento, competenza a 300</span><time datetime="2026-10-23">23.10.2026</time></a><a class="ttile" href="../../guides/news/"><picture><source type="image/avif" srcset="../../../assets/art/paladin-360.avif?v=e7c176bf 360w, ../../../assets/art/paladin-600.avif?v=62bbe825 600w, ../../../assets/art/paladin-896.avif?v=f272a36e 896w" sizes="320px"><img src="../../../assets/art/paladin-600.webp?v=ce6a9574" srcset="../../../assets/art/paladin-360.webp?v=d4d5d3d1 360w, ../../../assets/art/paladin-600.webp?v=ce6a9574 600w, ../../../assets/art/paladin-896.webp?v=0288b052 896w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Notizie</b><span>Le nostre note e il feed di Wowhead</span></a></nav></section>
 <footer id="sources">
   <h2>Fonti</h2>
   <ul><li><a href="https://classicwow.gg/forever" target="_blank" rel="noopener">ClassicWoW.gg: beta, nomi, incursioni, differenze con Era</a></li><li><a href="https://www.warcrafttavern.com/news/world-of-warcraft-forever-editions-skyborne-race-unlock-beta-access/" target="_blank" rel="noopener">Warcraft Tavern: edizioni e prezzi</a></li><li><a href="https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/" target="_blank" rel="noopener">Warcraft Tavern: modifiche alla beta del 15 ottobre</a></li><li><a href="https://www.warcrafttavern.com/forever/guides/races/" target="_blank" rel="noopener">Warcraft Tavern: razze</a></li><li><a href="https://teamoverpowered.com/forever/guides/name-reservation/" target="_blank" rel="noopener">Team Overpowered: nomi e cognomi</a></li></ul>
@@ -1211,6 +1233,7 @@ document.querySelectorAll('time.lt').forEach(t => {
   t.after(` (ora locale: ${s})`);
 });
 </script>
+<script src="../../../assets/living/living.js?v=ea67daf371" defer></script>
 <script>
 (() => {
   const KEY = 'gabella-lang-hint', store = l => { try { localStorage.setItem(KEY, '1'); if (l) localStorage.setItem('gabella-lang', l); } catch (e) {} };
@@ -1278,8 +1301,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../../assets/radio/radio.js" data-root="../../../" defer></script>
-<script src="../../../assets/search/search.js?v=9da1611b67" data-root="../../../" defer></script>
-<script src="../../../assets/me/me.js?v=36a486068d" data-root="../../../" data-home="../../" data-lang="it" data-teaser="Il tuo profilo conserva il tuo percorso: Gloria, riquadri, stagioni" data-close="Chiudi" data-page="guides/faq/" data-look="1" defer></script>
+<script src="../../../assets/search/search.js?v=1c41467fa0" data-root="../../../" defer></script>
+<script src="../../../assets/me/me.js?v=c30b9c1a1c" data-root="../../../" data-home="../../" data-lang="it" data-teaser="Il tuo profilo conserva il tuo percorso: Gloria, riquadri, stagioni" data-close="Chiudi" data-page="guides/faq/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

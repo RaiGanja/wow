@@ -280,6 +280,35 @@ def test_crest_sprite():
     assert 'fill=' not in sprite and len(sprite) < 120_000
 
 
+def test_crest_geometry():
+    """Every shape has a centre and an outline; the default charge place fits every shape and charge (the same check as crestFits)."""
+    Gd, L = G['guilds'], G['guilds']['limits']
+    assert set(Gd['geo']) == set(Gd['shapes'])
+    assert Gd['geo']['round']['c'] == [50, 50] and all(g['c'][1] < 50 for k, g in Gd['geo'].items() if k != 'round')
+
+    def inside(P, x, y):
+        r = False
+        for i in range(len(P)):
+            (x1, y1), (x2, y2) = P[i], P[i - 1]
+            if (y1 > y) != (y2 > y) and x < x1 + (y - y1) * (x2 - x1) / (y2 - y1):
+                r = not r
+        return r
+
+    def fits(s, ch, t):
+        g, u = Gd['geo'][s], L['charge_size'] * t[2] / 100 / 512
+        x, y = g['c'][0] + t[0], g['c'][1] + t[1]
+        w, h = ch['box'][0] * u / 2 + L['crest_pad'], ch['box'][1] * u / 2 + L['crest_pad']
+        x0, x1, y0, y1 = x - w, x + w, y - h, y + h
+        return all(inside(g['poly'], *p) for p in ((x0, y0), (x1, y0), (x0, y1), (x1, y1)))             and not any(x0 < px < x1 and y0 < py < y1 for px, py in g['poly'])
+    for s in Gd['shapes']:
+        for ch in Gd['charges']:
+            assert 0 < ch['box'][0] <= 512 and 0 < ch['box'][1] <= 512, ch
+            assert fits(s, ch, [0, 0, 100]) and fits(s, ch, [0, 0, L['scale_min']]), (s, ch['id'])
+            assert not fits(s, ch, [L['shift_max'], 0, 100]), (s, ch['id'])
+    sprite = open(os.path.join(ROOT, 'assets', 'me', 'crest', 'charges.svg'), encoding='utf-8').read()
+    assert len(re.findall(r'viewBox="-?[\d.]+ -?[\d.]+ 512 512"', sprite)) == len(Gd['charges'])   # each glyph centred in its box
+
+
 def test_looks_catalog():
     L = G['looks']
     assert L['sexes'] == ['m', 'f']

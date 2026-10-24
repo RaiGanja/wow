@@ -181,6 +181,8 @@ GUILD = {
     'e_generic': 'Не получилось. Обновите страницу и попробуйте ещё раз.', 'e_forbidden': 'Нет прав на это действие.', 'e_not_found': 'Уже неактуально — обновите страницу.',
     'not_found': 'Гильдия не найдена.',
     'color': 'Цвет', 'unlock_at': 'Знамя %n', 'bad_contrast': 'Не читается на этом поле',
+    'pos': 'Положение знака', 'scale': 'Размер', 'shift_x': 'Влево и вправо', 'shift_y': 'Вверх и вниз', 'pos_reset': 'Сбросить',
+    'pos_hint': 'Знак можно перетащить на гербе',
     'sh_heater': 'Классический', 'sh_round': 'Круглый', 'sh_kite': 'Удлинённый', 'sh_banner': 'Вымпел',
     'fl_plain': 'Сплошное', 'fl_pale': 'Вертикальное', 'fl_fess': 'Горизонтальное', 'fl_quarterly': 'Четверти', 'fl_chevron': 'Шеврон', 'fl_bend': 'Перевязь',
     'cg_lion': 'Лев', 'cg_wolf': 'Волк', 'cg_dragon': 'Дракон', 'cg_skull': 'Череп', 'cg_griffin': 'Грифон', 'cg_axe': 'Топор', 'cg_sword': 'Меч', 'cg_crown': 'Корона', 'cg_moon': 'Луна', 'cg_tree': 'Дерево', 'cg_eagle': 'Орёл', 'cg_bear': 'Медведь', 'cg_boar': 'Кабан', 'cg_stag': 'Олень', 'cg_raven': 'Ворон', 'cg_serpent': 'Змея', 'cg_flame': 'Пламя', 'cg_tower': 'Башня', 'cg_hammer': 'Молот', 'cg_sun': 'Солнце', 'cg_star': 'Звезда', 'cg_rose': 'Роза', 'cg_horse': 'Конь', 'cg_fist': 'Кулак',
@@ -280,6 +282,8 @@ def build_page(lang, sub, frag, shell, base_css, sprite, me_css, me_js):
     html = html.replace('@@GD@@', json.dumps(page_data(lang), ensure_ascii=False, separators=(',', ':')))
     html = html.replace('@@LANG@@', lang).replace('@@HOME@@', home).replace('@@CANON@@', build.SITE + here)
     html = html.replace('@@ALTERNATES@@', build.alternates(sub))
+    if 'data-fx=' in html:                                         # living art over the hero (roster)
+        html = html.replace('</body>', '<script src="@@ROOT@@assets/living/living.js" defer></script>\n</body>', 1)
     html = build.localize(html, lang, here)
     return here + 'index.html', html, missing
 
