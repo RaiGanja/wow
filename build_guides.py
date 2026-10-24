@@ -222,30 +222,34 @@ addEventListener('hashchange', openHash); openHash();'''
 
 DG_TX = {
     'ru': {'h': ['Подземелье', 'Уровни', 'Где вход'], 'new': 'новое', 'shown': 'Показано', 'of': 'из',
-           'none': 'Под этот уровень подземелий нет.', 'need': 'Укажите свой уровень, чтобы отфильтровать.'},
+           'none': 'Под этот уровень подземелий нет.', 'need': 'Укажите свой уровень, чтобы отфильтровать.',
+           'only': {'alliance': 'Только Альянс', 'horde': 'Только Орда'}},
     'en': {'h': ['Dungeon', 'Levels', 'Entrance'], 'new': 'new', 'shown': 'Showing', 'of': 'of',
-           'none': 'No dungeons for this level.', 'need': 'Enter your level to filter.'},
+           'none': 'No dungeons for this level.', 'need': 'Enter your level to filter.',
+           'only': {'alliance': 'Alliance only', 'horde': 'Horde only'}},
     'uk': {'h': ['Підземелля', 'Рівні', 'Де вхід'], 'new': 'нове', 'shown': 'Показано', 'of': 'з',
-           'none': 'Під цей рівень підземель немає.', 'need': 'Вкажіть свій рівень, щоб відфільтрувати.'},
+           'none': 'Під цей рівень підземель немає.', 'need': 'Вкажіть свій рівень, щоб відфільтрувати.',
+           'only': {'alliance': 'Лише Альянс', 'horde': 'Лише Орда'}},
 }
 DG_JS = r'''/* Dungeons: level filter seeded from "My hero" (read only, the hero is edited on the home page) */
 const TX = @@TX@@;
 const lvRange = d => d[1] === d[2] ? String(d[1]) : `${d[1]}–${d[2]}`;
 const nearLvl = (d, lv) => lv >= d[1] - 3 && lv <= d[2] + 3;
-let dgLvl = 0;
-try { dgLvl = +(JSON.parse(localStorage.getItem('gabella-wf-me')) || {}).lvl || 0; } catch (e) {}
+const HORDE = ['orc', 'undead', 'tauren', 'troll', 'skyH'];
+let dgLvl = 0, dgFac = '';
+try { const m = JSON.parse(localStorage.getItem('gabella-wf-me')) || {}; dgLvl = +m.lvl || 0; dgFac = m.race ? (HORDE.includes(m.race) ? 'horde' : 'alliance') : ''; } catch (e) {}
 let dgMode = dgLvl ? 'mine' : 'all';
 const lvIn = $('#dgLvl');
 function renderDg() {
   let rows = DUNGEONS;
   if (dgMode === 'new') rows = rows.filter(d => d[4]);
-  if (dgMode === 'mine') rows = dgLvl ? rows.filter(d => nearLvl(d, dgLvl)) : [];
+  if (dgMode === 'mine') rows = dgLvl ? rows.filter(d => nearLvl(d, dgLvl) && (!dgFac || !d[6] || d[6] === dgFac)) : [];
   $('#dgBody').innerHTML = rows.length ? rows.map(d => {
     const mine = dgLvl && nearLvl(d, dgLvl);
     const alt = (d[5] || []).map(a => `${a[0]}: ${a[1]}`).join(', ');
     return `<tr class="${mine ? 'mine' : ''}"><td data-l="${TX.h[0]}">${esc(d[0])}${d[4] ? ` <span class="tag new">${TX.new}</span>` : ''}</td>`
       + `<td data-l="${TX.h[1]}"><span class="pill${mine ? ' gold' : ''}">${lvRange(d)}</span>${alt ? `<span class="alt">${esc(alt)}</span>` : ''}</td>`
-      + `<td data-l="${TX.h[2]}">${esc(d[3])}</td></tr>`;
+      + `<td data-l="${TX.h[2]}">${esc(d[3])}${d[6] ? `<span class="alt">${TX.only[d[6]]}</span>` : ''}</td></tr>`;
   }).join('') : `<tr><td colspan="3">${dgLvl ? TX.none : TX.need}</td></tr>`;
   $('#dgCount').textContent = `${TX.shown} ${rows.length} ${TX.of} ${DUNGEONS.length}`;
   document.querySelectorAll('#segD button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === dgMode));
@@ -442,7 +446,7 @@ function renderLvl() {
   const next = (nx ? `<li><b>${TX.from} ${nx[0]}</b>${esc(nx[2])}</li>` : '') + (ms ? `<li><b>${ms[0] === lv ? TX.now : TX.at + ' ' + ms[0]}</b>${esc(ms[1])}</li>` : '');
   if (next) h += `<h3 class="ph">${TX.next}</h3><ul class="pnext">${next}</ul>`;
   $('#pNow').innerHTML = h;
-  const dg = DUNGEONS.filter(d => nearLvl(d, lv))
+  const dg = DUNGEONS.filter(d => nearLvl(d, lv) && (!d[6] || d[6] === fac))
     .sort((a, b) => Math.abs(a[1] + a[2] - 2 * lv) - Math.abs(b[1] + b[2] - 2 * lv)).slice(0, 6).sort((a, b) => a[1] - b[1] || a[2] - b[2]);
   $('#pDg').innerHTML = dg.length ? dg.map(d => `<li><span><b>${esc(d[0])}</b>${d[4] ? ` <span class="tag new">${TX.new}</span>` : ''}<small>${esc(d[3])}</small></span>`
     + `<span class="pill${lv >= d[1] && lv <= d[2] ? ' gold' : ''}">${lvRange(d)}</span></li>`).join('') : `<li class="pnote">${TX.dungNone}</li>`;

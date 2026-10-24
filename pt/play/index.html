@@ -1223,7 +1223,7 @@ if ('IntersectionObserver' in window && tocLinks.length) {
   document.querySelectorAll('.gsec').forEach(s => io.observe(s));
 }
 const DUNGEONS = [
-  ['Cavernas Ígneas', 13, 18, 'Orgrimmar', 0],
+  ['Cavernas Ígneas', 13, 18, 'Orgrimmar', 0, [], 'horde'],
   ['Hall of Thanes', 13, 18, 'Altaforja', 1, [['Icy Veins', '13–20']]],
   ['Ruínas de Lordaeron', 15, 20, 'Clareiras de Tirisfal', 1, [['Icy Veins', '15–22']]],
   ['Minas Mortas', 15, 22, 'Cerro Oeste', 0, [['Icy Veins', '17–26']]],
@@ -1231,7 +1231,7 @@ const DUNGEONS = [
   ['Bastilha da Presa Negra', 20, 26, 'Floresta de Pinhaprata', 0, [['Icy Veins', '20–30']]],
   ['Profundezas Negras', 22, 28, 'Vale Gris', 0, [['Sportskeeda', '22–26'], ['Icy Veins', '24–32']]],
   ['Excavation Site: Wetlands', 24, 29, 'Pantanal', 1, [['ClassicWoW.gg', '26–31'], ['Icy Veins', '26–33']]],
-  ['O Cárcere', 25, 29, 'Ventobravo', 0, [['Icy Veins', '24–32']]],
+  ['O Cárcere', 25, 29, 'Ventobravo', 0, [['Icy Veins', '24–32']], 'alliance'],
   ['City of Dalaran', 28, 33, 'Montanhas de Alterac', 1, [['Icy Veins', '28–35']]],
   ['Gnomeregan', 29, 38, 'Dun Morogh', 0],
   ['Urzal dos Tuscos', 29, 38, 'Sertões', 0],
@@ -1322,7 +1322,7 @@ function renderLvl() {
   const next = (nx ? `<li><b>${TX.from} ${nx[0]}</b>${esc(nx[2])}</li>` : '') + (ms ? `<li><b>${ms[0] === lv ? TX.now : TX.at + ' ' + ms[0]}</b>${esc(ms[1])}</li>` : '');
   if (next) h += `<h3 class="ph">${TX.next}</h3><ul class="pnext">${next}</ul>`;
   $('#pNow').innerHTML = h;
-  const dg = DUNGEONS.filter(d => nearLvl(d, lv))
+  const dg = DUNGEONS.filter(d => nearLvl(d, lv) && (!d[6] || d[6] === fac))
     .sort((a, b) => Math.abs(a[1] + a[2] - 2 * lv) - Math.abs(b[1] + b[2] - 2 * lv)).slice(0, 6).sort((a, b) => a[1] - b[1] || a[2] - b[2]);
   $('#pDg').innerHTML = dg.length ? dg.map(d => `<li><span><b>${esc(d[0])}</b>${d[4] ? ` <span class="tag new">${TX.new}</span>` : ''}<small>${esc(d[3])}</small></span>`
     + `<span class="pill${lv >= d[1] && lv <= d[2] ? ' gold' : ''}">${lvRange(d)}</span></li>`).join('') : `<li class="pnote">${TX.dungNone}</li>`;

@@ -1687,7 +1687,7 @@ if (fromLink) setTimeout(() => document.getElementById('builder').scrollIntoView
 
 /* Dungeons: [name, min, max, entrance zone, new, other sites' ranges where they differ] */
 const DUNGEONS = [
-  ['Ragefireabgrund', 13, 18, 'Orgrimmar', 0],
+  ['Ragefireabgrund', 13, 18, 'Orgrimmar', 0, [], 'horde'],
   ['Hall of Thanes', 13, 18, 'Ironforge', 1, [['Icy Veins', '13–20']]],
   ['Ruinen von Lordaeron', 15, 20, 'Tirisfal', 1, [['Icy Veins', '15–22']]],
   ['Die Todesminen', 15, 22, 'Westfall', 0, [['Icy Veins', '17–26']]],
@@ -1695,7 +1695,7 @@ const DUNGEONS = [
   ['Burg Shadowfang', 20, 26, 'Silberwald', 0, [['Icy Veins', '20–30']]],
   ['Blackfathom-Tiefe', 22, 28, 'Ashenvale', 0, [['Sportskeeda', '22–26'], ['Icy Veins', '24–32']]],
   ['Excavation Site: Wetlands', 24, 29, 'Sumpfland', 1, [['ClassicWoW.gg', '26–31'], ['Icy Veins', '26–33']]],
-  ['Das Verlies', 25, 29, 'Stormwind', 0, [['Icy Veins', '24–32']]],
+  ['Das Verlies', 25, 29, 'Stormwind', 0, [['Icy Veins', '24–32']], 'alliance'],
   ['City of Dalaran', 28, 33, 'Alteracgebirge', 1, [['Icy Veins', '28–35']]],
   ['Gnomeregan', 29, 38, 'Dun Morogh', 0],
   ['Der Kral von Razorfen', 29, 38, 'Brachland', 0],
@@ -1725,6 +1725,7 @@ const DUNGEONS = [
 ];
 const lvRange = d => d[1] === d[2] ? String(d[1]) : `${d[1]}–${d[2]}`;
 const nearLvl = (d, lv) => lv >= d[1] - 3 && lv <= d[2] + 3;
+const facOk = (d, f) => !f || !d[6] || d[6] === f;   // Ragefire Chasm and The Stockade open from a capital
 
 /* Professions: camp object (tier 1) and the class buff it stands in for */
 const PROFS = [
@@ -1909,7 +1910,7 @@ function renderMe() {
     if (!b.length) b.push('<li><span class="bi"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></span><span>Wähle Klasse und Berufe, um deine Buffs zu sehen.</span></li>');
     out += `<div><h4>Was du der Gruppe bringst</h4><ul class="buffs">${b.join('')}</ul></div>`;
     if (me.lvl) {
-      const ds = DUNGEONS.filter(d => nearLvl(d, me.lvl));
+      const ds = DUNGEONS.filter(d => nearLvl(d, me.lvl) && facOk(d, me.race && RC[me.race].f));
       out += `<div><h4>Dungeons für deine Stufe</h4>` + (ds.length ? `<ul class="dlist">${ds.slice(0, 4).map(dLi).join('')}</ul>` : '<p class="small">Die ersten Dungeons beginnen ab Stufe 13.</p>')
         + `<a class="more-l" href="guides/dungeons/">${ds.length > 4 ? `Mehr Dungeons in der Tabelle: ${ds.length - 4}` : 'Dungeontabelle'}<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>`;
     }
