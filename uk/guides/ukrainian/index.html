@@ -840,7 +840,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .sheet .grp:last-child .gh { grid-column: 1 / -1; }
   .sheet .toc a { min-height: 44px; line-height: 1.25; }
 }
-@media (max-width: 719px) { :root h1.long { font-size: var(--fs-28); } }   /* build.long_title: an 11+ letter word */
+@media (max-width: 719px) { :root h1.long { font-size: var(--fs-28); max-width: none; } }   /* build.long_title: an 11+ letter word; the 8em cap of hero titles would break it */
 @media (max-width: 380px) {
   /* 320–380px phones: brand + search, radio, language must share one row */
   .topbar .in { gap: 10px; }
