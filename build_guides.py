@@ -150,10 +150,12 @@ def render_block(kind, data, lang, root):
                          for i, x in enumerate(data))
         return f'<div class="gtabs"><div role="tablist">{btns}</div>{panels}</div>'
     if kind == 'faq':
+        ext = lambda u: u.startswith('http')   # noqa: E731  external link: new tab and an arrow, a guide page: same tab
         items = ''.join(f'<details id="{q["id"]}"><summary>{E(q["q"], lang)}</summary>'
                         + ''.join(f'<p>{E(a, lang)}</p>' for a in q['a'])
-                        + (f'<p class="gbtns"><a class="btn ghost" href="{q["link"][1]}" target="_blank" rel="noopener">{E(q["link"][0], lang)} ↗</a></p>'
-                           if q.get('link') else '') + '</details>' for q in data)
+                        + (f'<p class="gbtns"><a class="btn ghost" href="{q["link"][1]}"'
+                           + (f' target="_blank" rel="noopener">{E(q["link"][0], lang)} ↗' if ext(q['link'][1]) else f'>{E(q["link"][0], lang)}')
+                           + '</a></p>' if q.get('link') else '') + '</details>' for q in data)
         return f'<div class="gfaq">{items}</div>'
     if kind == 'tip':
         return (f'<div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg>'
