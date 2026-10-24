@@ -575,6 +575,11 @@ def living_version():
     script_version('living', ['living.js'])
 
 
+def radio_version():
+    """?v=<hash> on radio.js/css; the script passes it on to stations.json (track lists change with tools/make_radio.py)."""
+    script_version('radio', ['radio.js', 'radio.css'])
+
+
 def tod_version():
     script_version('tod', ['tod.js', 'tod.css'])
 
@@ -1184,6 +1189,7 @@ def main():
         search.main()
         me_version()
         living_version()
+        radio_version()
         tod_version()
         art_version()
         font_version()

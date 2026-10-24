@@ -173,9 +173,9 @@ GUIDES.append({
             ]}),
         ]},
         {'id': 'questions', 'title': t('Частые вопросы', 'Common questions', 'Часті питання'), 'blocks': [
-            ('raw', t('<label class="gsearch"><span class="sr">Поиск по вопросам</span><input type="search" id="faqQ" autocomplete="off" placeholder="Поиск по вопросам"></label>',
-                      '<label class="gsearch"><span class="sr">Search questions</span><input type="search" id="faqQ" autocomplete="off" placeholder="Search questions"></label>',
-                      '<label class="gsearch"><span class="sr">Пошук по питаннях</span><input type="search" id="faqQ" autocomplete="off" placeholder="Пошук по питаннях"></label>')),
+            ('raw', t('<label class="gsearch"><span class="sr">Поиск по вопросам</span><input type="search" id="faqQ" autocomplete="off" placeholder="Поиск по вопросам"></label><p class="note" id="faqNone" hidden>Ничего не нашлось. Попробуйте другое слово или поиск по сайту (Ctrl+K).</p>',
+                      '<label class="gsearch"><span class="sr">Search questions</span><input type="search" id="faqQ" autocomplete="off" placeholder="Search questions"></label><p class="note" id="faqNone" hidden>Nothing found. Try another word or the site search (Ctrl+K).</p>',
+                      '<label class="gsearch"><span class="sr">Пошук по питаннях</span><input type="search" id="faqQ" autocomplete="off" placeholder="Пошук по питаннях"></label><p class="note" id="faqNone" hidden>Нічого не знайшлося. Спробуйте інше слово або пошук по сайту (Ctrl+K).</p>')),
             ('faq', [
                 {'id': 'release', 'q': t('Когда выходит WoW Forever?', 'When does WoW Forever launch?', 'Коли виходить WoW Forever?'),
                  'a': [t('04.11.2026 в 15:00 по тихоокеанскому, это 23:00 UTC.',

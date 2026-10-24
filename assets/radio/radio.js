@@ -8,6 +8,7 @@
    A page with #radioDock (the in-game page /play/) gets the panel built into it, always open; the header button scrolls to it. */
 (() => {
   const SCRIPT = document.currentScript, ROOT = SCRIPT.dataset.root || './';
+  const V = (SCRIPT.src.match(/[?&]v=(\w+)/) || [])[1] || '';   // ?v= of the script (build.radio_version), also for stations.json
   const btn = document.querySelector('.radiobtn'), dock = document.getElementById('radioDock');
   if (!btn) return;
   const LANG = (l => ['ru', 'en', 'uk', 'de', 'fr', 'es', 'pt', 'it', 'pl'].includes(l) ? l : 'en')(document.documentElement.lang.split('-')[0]);
@@ -84,7 +85,7 @@
   function save() { st.ts = Date.now(); try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) { /* private mode */ } }
 
   let data = null, byFile = {}, base = '';
-  const getData = () => data ? Promise.resolve(data) : fetch(ROOT + 'assets/radio/stations.json').then(r => r.json()).then(d => {
+  const getData = () => data ? Promise.resolve(data) : fetch(ROOT + 'assets/radio/stations.json' + (V ? '?v=' + V : '')).then(r => r.json()).then(d => {
     data = d;
     base = d.media ? d.media.replace(/\/?$/, '/') : ROOT + 'assets/radio/';
     d.stations.forEach(s => s.tracks.forEach(t => { byFile[t.f] = { t, s }; }));

@@ -79,7 +79,7 @@ def test_home_waits_for_the_hero():
         assert home.count("document.querySelectorAll('script[data-src]')") == 1, lang
         assert home.index('assets/home/') < home.index('assets/radio/radio.js') < home.index('assets/me/me.js'), lang
     other = page('guides', 'leveling')                         # other pages load them as before
-    assert '<script src="../../assets/radio/radio.js" data-root="../../" defer>' in other and '<script data-src=' not in other
+    assert re.search(r'<script src="\.\./\.\./assets/radio/radio\.js\?v=\w{10}" data-root="\.\./\.\./" defer>', other) and '<script data-src=' not in other
 
 
 def test_launch_countdown_at_23_utc():

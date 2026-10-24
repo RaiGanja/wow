@@ -224,9 +224,16 @@ JS = {}   # slug -> JS живой части; наполняется в зада
 JS['faq'] = r'''/* FAQ: search over questions and answers; #id opens the question */
 const qIn = document.getElementById('faqQ');
 const qs = [...document.querySelectorAll('.gfaq details')];
+const qNone = document.getElementById('faqNone');
 if (qIn) qIn.addEventListener('input', () => {
   const v = qIn.value.trim().toLowerCase();
-  qs.forEach(d => { const hit = !v || d.textContent.toLowerCase().includes(v); d.hidden = !hit; if (v && hit) d.open = true; });
+  let n = 0;
+  qs.forEach(d => {
+    const hit = !v || d.textContent.toLowerCase().includes(v); d.hidden = !hit;
+    if (v && hit) { n++; if (!d.open) { d.open = true; d.dataset.byq = '1'; } }
+    if (!v && d.dataset.byq) { d.open = false; delete d.dataset.byq; }   // clearing the field folds what the search opened
+  });
+  if (qNone) qNone.hidden = !v || n > 0;
 });
 function openHash() { const d = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1))); if (d && d.tagName === 'DETAILS') { d.open = true; d.scrollIntoView(); } }
 addEventListener('hashchange', openHash); openHash();'''
