@@ -1,7 +1,7 @@
 """Web images for the guide: source art (gabella-bot/assets/wow_art) -> assets/art/*.avif|webp in several widths,
 plus class and race page extras: blurred hero backdrop assets/art/<id>-bg.webp and share preview assets/og/<id>.jpg.
 Race portraits live in wow_art/races/<race id>.jpg and are saved under the race page slug.
-Run: python tools/make_images.py [path-to-wow_art] [--classes-only | --races-only | --faces-only | --hero-mobile]"""
+Run: python tools/make_images.py [path-to-wow_art] [--classes-only | --races-only | --faces-only | --hero-mobile | --inner-heroes]"""
 import os, sys
 from PIL import Image, ImageDraw, ImageEnhance, ImageFilter
 
@@ -12,7 +12,8 @@ CLASSES = ['warrior', 'paladin', 'hunter', 'rogue', 'priest', 'shaman', 'mage', 
 RACES = {'human': 'human', 'dwarf': 'dwarf', 'nightelf': 'night-elf', 'gnome': 'gnome', 'skyA': 'skyborne-alliance',
          'orc': 'orc', 'undead': 'undead', 'tauren': 'tauren', 'troll': 'troll', 'skyH': 'skyborne-horde'}
 SCENE_Q = 66  # wide scene art fills the screen: AVIF at 52 smears grass and fur there
-JOBS = [('hero_dawn', [960, 1440, 1920, 2560, 3840])] + [('hero_campfire', [960, 1600, 2560]), ('hero_road', [960, 1600, 2560])] + [(c, [360, 600, 896]) for c in CLASSES]
+JOBS = [('hero_dawn', [960, 1440, 1920, 2560, 3840])] + [('hero_campfire', [960, 1600, 2560]), ('hero_road', [960, 1600, 2560])] +        [('hero_roster', [960, 1440, 1920, 2560]), ('hero_tools', [960, 1440, 1920, 2560])] + [(c, [360, 600, 896]) for c in CLASSES]
+CUTS = {'hero_dawn': .6, 'hero_roster': .9, 'hero_tools': .9}   # phone cut of each full-screen hero: share of the free width left of it
 
 
 def save(im, name, w, aq=52):
@@ -78,23 +79,32 @@ def face(src, name):
     im.save(os.path.join(OUT, f'{name}-face.webp'), quality=82, method=6)
 
 
-def hero_mobile():
-    """Portrait cut of the home hero for phones: hero_dawn-m-600|1000. Cut at x = .6 * (width - 600), so the
-    phone view (object-position 60%) shows exactly the same part of the picture as with the full-width file:
-    the banner, the paladin and the elf, with no face under the title."""
-    im = source('hero_dawn')
+def hero_mobile(name='hero_dawn'):
+    """Portrait cut of a full-screen hero for phones: <name>-m-600|1000. Cut at x = CUTS[name] * (width - cut), so the
+    phone view (object-position at the same share) shows exactly the same part of the picture as with the full-width file:
+    on the home hero the banner, the paladin and the elf with no face under the title; on inner pages the party."""
+    im = source(name)
     w = round(600 * im.height / 768)
-    x = round(.6 * (im.width - w))
+    x = round(CUTS[name] * (im.width - w))
     im = im.crop((x, 0, x + w, im.height))
     for width in (600, 1000):
-        save(im, 'hero_dawn-m', width, SCENE_Q)
-    print('hero_dawn-m ok')
+        save(im, name + '-m', width, SCENE_Q)
+    print(name + '-m ok')
 
 
 def main():
     os.makedirs(OUT, exist_ok=True)
     if '--hero-mobile' in sys.argv:
-        hero_mobile()
+        for name in CUTS:
+            hero_mobile(name)
+        return
+    if '--inner-heroes' in sys.argv:   # roster and tools heroes only, the rest stays byte for byte
+        for name, widths in JOBS:
+            if name in ('hero_roster', 'hero_tools'):
+                im = source(name)
+                for w in widths:
+                    save(im, name, w, SCENE_Q)
+                hero_mobile(name)
         return
     if '--faces-only' in sys.argv:
         for cid in CLASSES:
@@ -124,7 +134,8 @@ def main():
         for w in widths:
             save(im, name, w, SCENE_Q if name.startswith('hero_') else 52)
         print(name, 'ok')
-    hero_mobile()
+    for name in CUTS:
+        hero_mobile(name)
 
 
 if __name__ == '__main__':

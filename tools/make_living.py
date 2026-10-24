@@ -3,9 +3,11 @@ One RGBA PNG per picture, half the source size, in source coordinates (1376 x 76
   hero_dawn      R falling water, G banner cloth (0 at the pole -> 1 at the tip), B open sky, A river
   hero_campfire  R flames, G (unused), B open sky, A river
   hero_road      R (unused), G (unused), B open sky, A river
+  hero_roster    R hearth fire and candle flames, G banners (0 at the beam -> 1 at the tip), B night windows, A (unused)
+  hero_tools     R (unused), G banner (0 at the pole -> 1 at the tip), B open sky, A lake
 Run: python tools/make_living.py [path-to-wow_art]"""
 import os, sys
-from PIL import Image, ImageFilter, ImageChops
+from PIL import Image, ImageDraw, ImageFilter, ImageChops
 
 SRC = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.expanduser('~'), 'gabella-bot', 'assets', 'wow_art')
 OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'assets', 'living')
@@ -67,6 +69,21 @@ def sky(boxes_out, top_fade):
     return ImageChops.multiply(m, cut)
 
 
+def shape(polys, ramp=None):
+    """Grey mask of hand-drawn polygons (cloth, a lake); ramp(x, y) scales the value inside."""
+    m = Image.new('L', (W, H), 0)
+    d = ImageDraw.Draw(m)
+    for p in polys:
+        d.polygon(p, fill=255)
+    if ramp:
+        mp = m.load()
+        for y in range(H):
+            for x in range(W):
+                if mp[x, y]:
+                    mp[x, y] = round(255 * ramp(x, y))
+    return m
+
+
 def save(name, r, g, b, a):
     os.makedirs(OUT, exist_ok=True)
     half = [c.resize((W // 2, H // 2), Image.LANCZOS) for c in (r, g, b, a)]  # one by one: RGBA resize premultiplies alpha
@@ -109,7 +126,31 @@ def road():
     save('hero_road', zero, zero, open_sky, soft(river, 1, 2))
 
 
+def roster():
+    im = load('hero_roster')
+    flame = lambda r, g, b, x, y: r > 200 and g > 110 and r - b > 110   # noqa: E731
+    fire = pick(im, [(95, 395, 225, 510), (443, 386, 456, 406), (701, 394, 712, 414), (716, 402, 725, 416)], flame)
+    banners = shape([[(380, 22), (450, 22), (448, 232), (412, 264), (382, 232)], [(634, 0), (728, 0), (726, 212), (683, 245), (638, 212)]],
+                    lambda x, y: fade(y, 40, 250))   # hang from the beams: still at the top, the tips swing
+    windows = pick(im, [(912, 118, 1075, 300), (1290, 88, W, 330)], lambda r, g, b, x, y: b > r + 30)
+    zero = Image.new('L', (W, H), 0)
+    save('hero_roster', soft(fire, 2, 2), soft(banners, 0, 2), soft(windows, 0, 1.5), zero)
+
+
+def tools():
+    im = load('hero_tools')
+    banner = shape([[(808, 160), (872, 160), (872, 286), (840, 302), (808, 286)]], lambda x, y: fade(y, 160, 300))
+    open_sky = ImageChops.multiply(pick(im, [(90, 55, 700, 320)], lambda r, g, b, x, y: lum(r, g, b) > .5),
+                                   sky([(600, 170, 720, H)], (225, 300)))   # right cliff; peaks stay sharp
+    lake = shape([[(300, 398), (470, 398), (430, 440), (560, 462), (560, 520), (470, 545), (380, 565), (260, 615), (150, 660),
+                   (103, 663), (117, 550), (217, 510), (283, 490), (210, 417)]])
+    zero = Image.new('L', (W, H), 0)
+    save('hero_tools', zero, soft(banner, 0, 1.5), soft(open_sky, 1, 2), soft(lake, 0, 3))
+
+
 if __name__ == '__main__':
     dawn()
     campfire()
     road()
+    roster()
+    tools()

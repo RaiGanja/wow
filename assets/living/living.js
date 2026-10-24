@@ -1,6 +1,7 @@
 /* Living art: a WebGL layer over the home page pictures — falling water, banners in the wind, drifting sky, mist,
-   god rays, dust and birds at dawn; fire, firelight, embers, smoke and stars at the camp; lantern, gate, river and mist on the road.
-   A picture opts in with data-fx="dawn|camp" on its <picture>; masks are assets/living/<art>-fx.png (tools/make_living.py),
+   god rays, dust and birds at dawn; fire, firelight, embers, smoke and stars at the camp; lantern, gate, river and mist on the road;
+   hearth, candles, banners, haze and stars in the guild hall (roster); clouds, lake, mist, banner, lantern and birds in the war tent (tools).
+   A picture opts in with data-fx="dawn|camp|road|roster|tools" on its <picture>, data-cut its phone cut (make_images.CUTS, default .6); masks are assets/living/<art>-fx.png (tools/make_living.py),
    in the 1376 x 768 grid of the source art. The canvas is transparent except where something moves, so the sharp <img>
    stays visible underneath. Off with prefers-reduced-motion, Save-Data or without WebGL; paused off screen. */
 (() => {
@@ -8,7 +9,7 @@
   if (!me || matchMedia('(prefers-reduced-motion: reduce)').matches || (navigator.connection || {}).saveData) return;
   const base = me.src.replace(/living\.js.*$/, '');
   const ver = (me.src.match(/\?v=\w+/) || [''])[0];
-  const ART = { dawn: 'hero_dawn', camp: 'hero_campfire', road: 'hero_road' };
+  const ART = { dawn: 'hero_dawn', camp: 'hero_campfire', road: 'hero_road', roster: 'hero_roster', tools: 'hero_tools' };
   const FPS = matchMedia('(pointer: coarse)').matches ? 30 : 60;
   const FORCE = /[?&]fx=force\b/.test(location.search);   // screenshots in headless Chrome
 
@@ -180,6 +181,97 @@ void main() {
   float pu = .5 + .5 * sin(uT * 1.3) * (.7 + .3 * n2(vec2(uT * 2., 9.)));
   add += vec3(.45, .4, 1.) * smoothstep(90., 0., length((P - G) * vec2(1., .75))) * pu * .22;
   gl_FragColor = vec4(acc.rgb + add, acc.a);
+}`,
+    roster: `
+void main() {
+  vec2 P = artPx(); acc = vec4(0.); add = vec3(0.);
+  vec4 m = mask(P);
+  // banners sway on their beams
+  if (m.g > .01) {
+    float w = m.g, ph = P.y * .03 - uT * 1.5;
+    vec2 off = vec2(sin(ph) * 2.6 + sin(uT * .8 + P.x * .02) * 1.4, 0.) * w;
+    over(img(P - off) * (1. + .1 * w * cos(ph)), smoothstep(0., .1, w));
+  }
+  // stars twinkle in the windows
+  vec2 cell = floor(P / 14.), sp = (cell + .2 + .6 * vec2(h21(cell + 1.3), h21(cell + 7.1))) * 14.;
+  float hs = h21(cell);
+  if (hs > .86) add += vec3(.85, .9, 1.) * dot1(P, sp, 1.4 + (hs - .86) * 10.) * (.4 + .6 * sin(uT * (.8 + hs * 3.) + hs * 50.)) * .55 * m.b;
+  // hearth fire and candle flames
+  float fl = .55 + .45 * (n2(vec2(uT * 7., 0.)) * .6 + n2(vec2(uT * 13., 4.)) * .4);
+  if (m.r > .01) over(flow(P, vec2(0., -9.), .45, n2(vec2(P.x * .15, 0.))) * (.9 + .35 * fl), m.r);
+  vec2 F = vec2(150., 458.);
+  float L = smoothstep(460., 0., length((P - F) * vec2(1., 1.2)));
+  L *= L;
+  add += img(P) * vec3(1., .55, .22) * L * fl * .3;
+  over(vec3(0.), L * (1. - fl) * .08);
+  for (int i = 0; i < 2; i++) {
+    vec2 c = i == 0 ? vec2(449., 397.) : vec2(706., 404.);
+    float f = .6 + .4 * n2(vec2(uT * (8. + float(i) * 3.), float(i) * 9.));
+    add += vec3(1., .7, .35) * (smoothstep(70., 0., length(P - c)) * .1 + smoothstep(7., 0., length(P - c)) * .25) * f;
+  }
+  // smoke from the hearth drifts under the beams
+  float band = smoothstep(150., 260., P.y) * smoothstep(470., 360., P.y) * smoothstep(300., 460., P.x) * smoothstep(860., 700., P.x);
+  over(vec3(.5, .5, .56), smoothstep(.5, .9, fbm(P * vec2(.008, .012) + vec2(uT * .03, -uT * .02))) * band * .2);
+  // sparks out of the fire
+  for (int i = 0; i < 14; i++) {
+    float fi = float(i), h = h21(vec2(fi, 2.9)), k = h21(vec2(fi, 6.1));
+    float life = fract(uT / (2. + k * 2.4) + h);
+    vec2 c = vec2(F.x + (h - .5) * 80. + sin(life * 5. + h * 20.) * 10. * life + life * 40., 470. - life * (70. + k * 90.));
+    add += mix(vec3(1., .85, .45), vec3(1., .35, .08), life) * dot1(P, c, 1.2 + k * 1.2) * pow(1. - life, 1.5) * 1.2;
+  }
+  // dust in the firelight
+  for (int i = 0; i < 18; i++) {
+    float fi = float(i), h = h21(vec2(fi, 4.4)), k = h21(vec2(fi, 8.8));
+    float life = fract(uT * (.02 + k * .025) + h);
+    vec2 c = vec2(230. + h * 420. + sin(uT * .5 + fi) * 16., 560. - life * 300.);
+    add += vec3(1., .82, .55) * dot1(P, c, 1.2 + k * 1.3) * sin(life * 3.1416) * smoothstep(560., 120., length(c - F)) * .5;
+  }
+  gl_FragColor = vec4(acc.rgb + add, acc.a);
+}`,
+    tools: `
+void main() {
+  vec2 P = artPx(); acc = vec4(0.); add = vec3(0.);
+  vec4 m = mask(P);
+  // clouds sail over the mountains
+  if (m.b > .01) over(flow(P, vec2(-7., 0.) + (n2(P * .006 + uT * .03) - .5) * vec2(4., 2.), 12., 0.), m.b);
+  // the lake: ripples and the sunset path
+  if (m.a > .01) {
+    vec3 c = flow(P, vec2(6., 1.5), 3.4, 0.);
+    float path = smoothstep(140., 0., abs(P.x - 335. + (P.y - 400.) * .1));
+    c += vec3(1., .78, .6) * pow(n2(P * vec2(.3, .9) + vec2(uT * .7, uT * .25)), 8.) * (.35 + .8 * path);
+    over(c, m.a);
+  }
+  // mist drifts between the peaks
+  float band = smoothstep(280., 320., P.y) * smoothstep(420., 360., P.y) * smoothstep(90., 140., P.x) * smoothstep(700., 620., P.x);
+  over(vec3(.86, .8, .8), smoothstep(.5, .9, fbm(P * vec2(.006, .014) + vec2(uT * .02, 0.))) * band * .3);
+  // warm rays from the sun behind the clouds
+  vec2 v = P - vec2(335., 265.);
+  float ang = atan(v.y, v.x), r = length(v);
+  float ray = n2(vec2(ang * 9., uT * .07)) * n2(vec2(ang * 23., -uT * .05));
+  add += vec3(1., .78, .6) * pow(ray, 2.) * smoothstep(380., 40., r) * smoothstep(90., 200., P.x) * smoothstep(700., 600., P.x) * .1;
+  // the banner on the tent pole
+  if (m.g > .01) {
+    float w = m.g, ph = P.y * .05 - uT * 2.2;
+    vec2 off = vec2(sin(ph) * 2.4 + sin(uT * 1.1) * 1.2, 0.) * w;
+    over(img(P - off) * (1. + .12 * w * cos(ph)), smoothstep(0., .1, w));
+  }
+  // lantern over the map
+  float fl = .6 + .4 * (n2(vec2(uT * 6., 0.)) * .6 + n2(vec2(uT * 11., 4.)) * .4);
+  vec2 Ln = vec2(1055., 128.);
+  add += vec3(1., .7, .32) * (smoothstep(130., 0., length(P - Ln)) * .14 + smoothstep(18., 0., length(P - Ln)) * .3) * fl;
+  add += img(P) * vec3(1., .6, .3) * smoothstep(420., 0., length((P - Ln - vec2(-60., 300.)) * vec2(.8, 1.))) * fl * .14;
+  // a few birds cross the sky over the lake now and then
+  float t0 = mod(uT + 9., 44.) / 30.;
+  if (t0 < 1.) {
+    vec2 c = vec2(160. + t0 * 470., 170. + sin(t0 * 3.) * 12.);
+    float b = 0.;
+    for (int i = 0; i < 3; i++) {
+      float fi = float(i);
+      b = max(b, bird(P, c + vec2(-fi * 16., mod(fi, 2.) * 8. - fi * 3.), 3.2 - fi * .3, sin(uT * 9. + fi * 1.7) * .5));
+    }
+    over(vec3(.2, .15, .17), b * .75 * smoothstep(.2, .6, m.b) * smoothstep(0., .06, t0) * smoothstep(1., .94, t0));
+  }
+  gl_FragColor = vec4(acc.rgb + add, acc.a);
 }`
   };
 
@@ -206,7 +298,7 @@ void main() {
   }
 
   function live(pic) {
-    const scene = pic.dataset.fx, img = pic.querySelector('img');
+    const scene = pic.dataset.fx, img = pic.querySelector('img'), cut = parseFloat(pic.dataset.cut || '.6');
     if (!SCENES[scene] || !img) return;
     const cv = document.createElement('canvas');
     cv.className = 'fx';
@@ -249,8 +341,8 @@ void main() {
       const iw = img.naturalWidth, ih = img.naturalHeight, s = Math.max(w / iw, h / ih);
       const pos = getComputedStyle(img).objectPosition.split(' ').map(v => parseFloat(v) / 100);
       const dw = iw * s, dh = ih * s;
-      // phones get a portrait cut of the dawn art (tools/make_images.py hero_mobile)
-      const crop = /hero_dawn-m-/.test(img.currentSrc) ? [.33837, 0, .43605, 1] : [0, 0, 1, 1];
+      // phones get a portrait cut of the art (tools/make_images.py hero_mobile): .43605 of the width, at data-cut of the rest
+      const crop = /hero_\w+-m-/.test(img.currentSrc) ? [cut * (1 - .43605), 0, .43605, 1] : [0, 0, 1, 1];
       gl.uniform2f(U.uSize, w, h);
       gl.uniform4f(U.uMap, (w - dw) * (isNaN(pos[0]) ? .5 : pos[0]), (h - dh) * (isNaN(pos[1]) ? .5 : pos[1]), dw, dh);
       gl.uniform4f(U.uCrop, ...crop);
@@ -294,7 +386,8 @@ void main() {
 
   // Starts on the first sign of a person (pointer, touch, scroll, key): page-speed robots never pay for WebGL.
   const start = () => document.querySelectorAll('picture[data-fx]').forEach(live);
-  const idle = window.requestIdleCallback || (f => setTimeout(f, 200));
+  // a busy page (the tools search index) may not go idle for long: start anyway after 1.5 s
+  const idle = window.requestIdleCallback ? f => requestIdleCallback(f, { timeout: 1500 }) : f => setTimeout(f, 200);
   const WAKE = ['pointermove', 'pointerdown', 'touchstart', 'wheel', 'scroll', 'keydown'];
   const wake = () => { WAKE.forEach(e => removeEventListener(e, wake, true)); idle(start); };
   const arm = () => FORCE ? idle(start) : WAKE.forEach(e => addEventListener(e, wake, { capture: true, passive: true }));

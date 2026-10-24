@@ -282,6 +282,8 @@ def build_page(lang, sub, frag, shell, base_css, sprite, me_css, me_js):
     html = html.replace('@@GD@@', json.dumps(page_data(lang), ensure_ascii=False, separators=(',', ':')))
     html = html.replace('@@LANG@@', lang).replace('@@HOME@@', home).replace('@@CANON@@', build.SITE + here)
     html = html.replace('@@ALTERNATES@@', build.alternates(sub))
+    if 'data-fx=' in html:                                         # living art over the hero (roster)
+        html = html.replace('</body>', '<script src="@@ROOT@@assets/living/living.js" defer></script>\n</body>', 1)
     html = build.localize(html, lang, here)
     return here + 'index.html', html, missing
 
