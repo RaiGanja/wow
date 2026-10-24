@@ -1,7 +1,7 @@
 /* Site search (assets/search/search.js): header button and the dialog. Colours come from the page tokens.
    The header button stays an icon: the «Ctrl K» chip no longer fits next to the login button (the shortcut still works). */
 .srchbtn kbd { display: none; }
-.srchbtn kbd, .srch kbd { font: 600 .72rem/1 var(--font-body, system-ui, sans-serif); padding: 4px 6px; border-radius: 5px;
+.srchbtn kbd, .srch kbd { font: 600 var(--fs-13)/1 var(--font-body, system-ui, sans-serif); padding: 4px 6px; border-radius: 5px;
   border: 1px solid color-mix(in srgb, currentColor 28%, transparent); opacity: .85; white-space: nowrap; }
 
 html.srch-on { overflow: hidden; }
@@ -16,7 +16,7 @@ html.srch-on { overflow: hidden; }
 
 .srch-f { display: flex; align-items: center; gap: 10px; padding: 0 10px 0 18px; border-bottom: 1px solid var(--pline, rgba(255,255,255,.08)); }
 .srch-f > .ico { flex: none; width: 20px; height: 20px; color: var(--gold, #c9a54a); }
-.srch-f input { flex: 1; min-width: 0; height: 60px; border: 0; outline: 0; background: transparent; color: inherit; font: inherit; font-size: 1.08rem; }
+.srch-f input { flex: 1; min-width: 0; height: 60px; border: 0; outline: 0; background: transparent; color: inherit; font: inherit; font-size: var(--fs-18); }
 .srch-f input::placeholder { color: var(--muted, #a3a7ae); }
 .srch-f input::-webkit-search-cancel-button { display: none; }
 .srch-x { flex: none; min-width: 44px; height: 44px; display: grid; place-items: center; border: 0; border-radius: 8px; background: transparent; color: var(--muted, #a3a7ae); cursor: pointer; }
@@ -24,7 +24,7 @@ html.srch-on { overflow: hidden; }
 .srch-x .ico { display: none; width: 20px; height: 20px; }
 
 .srch-l { list-style: none; margin: 0; padding: 8px; overflow: auto; overscroll-behavior: contain; min-height: 0; flex: 1; }
-.srch-g { padding: 8px 10px 6px; font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted, #a3a7ae); }
+.srch-g { padding: 8px 10px 6px; font-size: var(--fs-13); letter-spacing: .06em; text-transform: uppercase; color: var(--muted, #a3a7ae); }
 .srch-m { padding: 22px 12px; color: var(--muted, #a3a7ae); }
 .srch-l a { display: flex; gap: 12px; align-items: flex-start; padding: 10px 12px; border-radius: 8px; color: inherit; text-decoration: none; }
 .srch-l a > .ico { flex: none; width: 18px; height: 18px; margin-top: 2px; color: var(--muted, #a3a7ae); }
@@ -32,12 +32,12 @@ html.srch-on { overflow: hidden; }
 .srch-l [aria-selected="true"] a > .ico { color: var(--gold, #c9a54a); }
 .srch-t { display: grid; gap: 2px; min-width: 0; }
 .srch-t b { font-weight: 600; overflow-wrap: anywhere; }
-.srch-t small { font-size: .82rem; color: var(--muted, #a3a7ae); }
-.srch-x2 { font-size: .86rem; line-height: 1.45; color: var(--muted, #a3a7ae); overflow-wrap: anywhere; }
+.srch-t small { font-size: var(--fs-13); color: var(--muted, #a3a7ae); }
+.srch-x2 { font-size: var(--fs-14); line-height: 1.45; color: var(--muted, #a3a7ae); overflow-wrap: anywhere; }
 .srch mark { background: none; color: var(--gold-2, var(--gold, #c9a54a)); font-weight: 600; }
 .srch-t b mark { color: var(--gold, #c9a54a); }
 
-.srch-h { display: flex; gap: 18px; margin: 0; padding: 10px 18px; border-top: 1px solid var(--pline, rgba(255,255,255,.08)); font-size: .8rem; color: var(--muted, #a3a7ae); }
+.srch-h { display: flex; gap: 18px; margin: 0; padding: 10px 18px; border-top: 1px solid var(--pline, rgba(255,255,255,.08)); font-size: var(--fs-13); color: var(--muted, #a3a7ae); }
 .srch-h span { display: inline-flex; align-items: center; gap: 4px; }
 
 @media (max-width: 720px), (pointer: coarse) {

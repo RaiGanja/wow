@@ -304,6 +304,7 @@ def localize(html, lang, here):
         html = html.replace('content="ru_RU"', f'content="{LOCALE[lang]}"')
     if lang == 'en':
         html = en_dates(html)
+    html = long_title(html)
     if lang not in ('ru', 'uk'):                                  # Latin-script pages: preload the fonts they draw first
         html = html.replace('-cyrillic.woff2" as="font"', '-latin.woff2" as="font"')
     else:
@@ -785,6 +786,15 @@ def hyph_tabs(html):
     return re.sub(r'(role="tab"[^>]*>)([^<]+)', lambda m: m[1] + HYPH.get(m[2], m[2]), html)
 
 
+def long_title(html):
+    """A page title with an 11+ letter word gets class "long": on a phone it takes the next step of the scale (28)
+    instead of breaking inside the word (the display caps are wide)."""
+    def title(m):
+        words = re.split(r'[\s-]+', re.sub(r'<[^>]+>', ' ', m[2]))
+        return f'<h1{m[1]} class="long">' if max(map(len, words)) >= 11 and 'class=' not in m[1] else m[0]
+    return re.sub(r'<h1([^>]*)>(?=(.*?)</h1>)', title, html, count=1, flags=re.S)
+
+
 def mark_long(html):
     """Portrait cards: names with a 10+ letter word get class "long" and a smaller size (after translation, so every language)."""
     def name(m):
@@ -1065,8 +1075,8 @@ def build_class(c, lang, tpl, base_css, sprite, races):
     html, missing = translate(html, lang)
     html = set_updated(html, f'classes/{c["id"]}/')
     html = html.replace('@@PROFS@@', profs_panel(c['id'], lang))   # already in lang: the pairs come from the Professions guide
-    html = mark_long(hyph_tabs(html))
     html = html.replace('@@NAME@@', esc(tr(c['n'], lang)))
+    html = mark_long(hyph_tabs(html))
     html = html.replace('@@HOME@@', home)
     html = html.replace('@@CANON@@', SITE + here)
     html = html.replace('@@ALTERNATES@@', alternates(f'classes/{c["id"]}/'))
@@ -1154,8 +1164,8 @@ def build_race(rp, lang, tpl, base_css, class_css, sprite, races, en):
         html = html.replace(f'@@{k}@@', val)
     html, missing = translate(html, lang)
     html = set_updated(html, f'races/{rp["slug"]}/')
-    html = mark_long(html)
     html = html.replace('@@NAME@@', esc(tr(r['n'], lang)))
+    html = mark_long(html)
     html = html.replace('@@HOME@@', home)
     html = html.replace('@@CANON@@', SITE + here)
     html = html.replace('@@ALTERNATES@@', alternates(f'races/{rp["slug"]}/'))

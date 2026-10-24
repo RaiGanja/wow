@@ -4,8 +4,9 @@ only glyphs no character of the site reaches are dropped. The @font-face unicode
 Kept per file: (characters of the built pages, scripts and data + their upper/lower case + MARGIN) inside its unicode-range.
 tools/fonts-src/subset.json records what each file kept; tests/test_fonts.py checks every site character against it.
 Russian and Ukrainian pages take <family>-ru-uk.woff2 instead of -cyrillic: Cyrillic + build.CYR_FONT_CORE in one file
-(build.cyr_fonts). Its original tools/fonts-src/<family>-ru-uk.woff2 is made once by
-python tools/subset_fonts.py --ru-uk-sources <GolosText[wght].ttf from github.com/google/fonts, ofl/golostext>.
+(build.cyr_fonts). The originals in tools/fonts-src are made once by
+python tools/subset_fonts.py --ru-uk-sources <GolosText[wght].ttf from github.com/google/fonts, ofl/golostext> (Golos -ru-uk)
+python tools/subset_fonts.py --display-sources <SpectralSC-SemiBold.ttf from github.com/google/fonts, ofl/spectralsc>.
 Run after python build.py when the test asks for it, then build again (new ?v= on the fonts): python tools/subset_fonts.py
 (needs: pip install fonttools brotli)"""
 import hashlib, html, json, os, re, sys
@@ -92,7 +93,7 @@ def cut(src, dst, keep):
     opts.name_IDs = ['*']
     opts.name_languages = ['*']
     opts.notdef_outline = True
-    opts.hinting = True                         # Bona Nova SC carries TrueType hinting: Windows draws it with it
+    opts.hinting = True                         # the display face carries TrueType hinting: Windows draws it with it
     opts.drop_tables = []
     font = subset.load_font(src, opts)
     sub = subset.Subsetter(opts)
@@ -104,23 +105,42 @@ def cut(src, dst, keep):
     return hashlib.sha1(data).hexdigest()[:10]
 
 
+# the display face (Spectral SC SemiBold, static) is cut from the upstream TTF into the same files Google Fonts serves:
+# one per unicode-range of its @font-face rules, plus -ru-uk. Only titles and big figures use it (22 px and up), so it goes
+# without TrueType hinting (no visible change at those sizes, -10 KB) and keeps the features the pages ask for:
+# kerning, marks, local forms and lining figures (its default figures are old-style)
+DISPLAY = 'spectral-sc'
+DISPLAY_FEATURES = ['kern', 'mark', 'mkmk', 'ccmp', 'locl', 'lnum', 'tnum']
+
+
+def display_sources(ttf):
+    """tools/fonts-src/spectral-sc-{cyrillic,latin-ext,latin,ru-uk}.woff2 from SpectralSC-SemiBold.ttf
+    (github.com/google/fonts, ofl/spectralsc)."""
+    from fontTools import subset
+    rngs = {name[len(DISPLAY) + 1:-6]: rng for name, rng in faces().items() if name.startswith(DISPLAY + '-')}
+    for part, rng in rngs.items():
+        opts = subset.Options()
+        opts.flavor = 'woff2'
+        opts.layout_features = DISPLAY_FEATURES
+        opts.layout_scripts = ['*']
+        opts.name_IDs = ['*']
+        opts.name_languages = ['*']
+        opts.notdef_outline = True
+        opts.hinting = False
+        opts.drop_tables = ['meta']
+        font = subset.load_font(ttf, opts)
+        sub = subset.Subsetter(opts)
+        sub.populate(unicodes=sorted(rng))
+        sub.subset(font)
+        subset.save_font(font, os.path.join(SRC, f'{DISPLAY}-{part}.woff2'), opts)
+
+
 def ru_uk_sources(golos):
-    """tools/fonts-src/<family>-ru-uk.woff2: the -cyrillic and -latin originals as one font. Bona Nova SC is static and
-    merges (same metrics and hinting programs in both); Golos Text is variable, which fontTools cannot merge, so it is
-    cut from the upstream font the Google Fonts files are subsets of (same outlines), to their characters and features."""
-    import tempfile
-    from fontTools import merge, subset
+    """tools/fonts-src/golos-text-ru-uk.woff2: the -cyrillic and -latin originals as one font. Golos Text is variable,
+    which fontTools cannot merge, so it is cut from the upstream font the Google Fonts files are subsets of
+    (same outlines), to their characters and features."""
+    from fontTools import subset
     from fontTools.ttLib import TTFont
-    with tempfile.TemporaryDirectory() as tmp:
-        parts = []
-        for part in ('latin', 'cyrillic'):          # glyphs in both (A, space) keep the -latin names its kerning uses
-            t = TTFont(os.path.join(SRC, f'bona-nova-sc-{part}.woff2'))
-            t.flavor = None
-            parts.append(os.path.join(tmp, part + '.ttf'))
-            t.save(parts[-1])
-        font = merge.Merger().merge(parts)
-        font.flavor = 'woff2'
-        font.save(os.path.join(SRC, 'bona-nova-sc-ru-uk.woff2'))
     keep, feats = set(), set()
     for part in ('cyrillic', 'latin'):
         t = TTFont(os.path.join(SRC, f'golos-text-{part}.woff2'))
@@ -158,5 +178,7 @@ def main():
 if __name__ == '__main__':
     if sys.argv[1:2] == ['--ru-uk-sources']:
         ru_uk_sources(sys.argv[2])
+    elif sys.argv[1:2] == ['--display-sources']:
+        display_sources(sys.argv[2])
     else:
         main()

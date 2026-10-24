@@ -22,27 +22,27 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" sizes="48x48" href="@@ROOT@@assets/icons/favicon-48.png">
 <link rel="icon" type="image/png" sizes="96x96" href="@@ROOT@@assets/icons/favicon-96.png">
-<link rel="preload" href="@@ROOT@@assets/fonts/bona-nova-sc-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="@@ROOT@@assets/fonts/spectral-sc-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="@@ROOT@@assets/fonts/golos-text-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" type="image/avif" imagesrcset="@@ROOT@@assets/art/@@ART@@-600.avif 600w, @@ROOT@@assets/art/@@ART@@-896.avif 896w" imagesizes="(max-width: 719px) 100vw, 75vh">
 <style>
 @@BASE_CSS@@
 @@CLASS_CSS@@
 /* Race page: faction plate, racial cards, available classes as portraits */
-.chero .ftag { justify-self: start; display: inline-flex; align-items: center; gap: 8px; min-height: 34px; padding: 0 14px; border: 1px solid color-mix(in srgb, var(--fh) 45%, transparent); border-radius: 999px; background: rgba(10,12,18,.62); backdrop-filter: blur(6px); color: var(--fh); font-weight: 600; font-size: .92rem; }
+.chero .ftag { justify-self: start; display: inline-flex; align-items: center; gap: 8px; color: var(--fh); font-weight: 600; font-size: var(--fs-16); text-shadow: 0 1px 8px rgba(0,0,0,.7); }   /* the faction as a word, no capsule */
 .chero .ftag .tag { margin-left: 2px; color: #e0c27a; }
-.chero .sub { margin-top: -8px; color: var(--ink-2); font-size: 1.05rem; }
+.chero .sub { margin-top: -8px; color: var(--ink-2); font-size: var(--fs-16); }
 /* cards stand on the page, no frame around them */
 .rgrp { display: grid; gap: 12px; }
 .racials { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
 .rcard { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; align-content: start; padding: 18px 18px 20px; border: 1px solid var(--pline); border-radius: 7px; background: var(--panel-2); }
 /* the ability type and "new" as one quiet line of text, not badges */
-.rcard .rt { display: flex; flex-wrap: wrap; align-items: baseline; font-size: .85rem; font-weight: 500; color: var(--muted); }
+.rcard .rt { display: flex; flex-wrap: wrap; align-items: baseline; font-size: var(--fs-14); font-weight: 500; color: var(--muted); }
 .rcard .rt .k.a { color: var(--gold-2); }
 .rcard .rt .tag, .pspells .tag { padding: 0; border-radius: 0; background: none; font-size: inherit; line-height: inherit; }
 .rcard .rt .tag::before { content: "\00a0·\00a0"; color: var(--muted); }
-.rcard h3 { font-size: 1.5rem; line-height: 1.1; }
-.rcard .en { display: block; margin-top: 4px; font-family: var(--font-body); font-size: .85rem; color: var(--muted); }
+.rcard h3 { font-size: var(--fs-22); line-height: 1.1; }
+.rcard .en { display: block; margin-top: 4px; font-family: var(--font-body); font-size: var(--fs-14); color: var(--muted); }
 .rcard p { color: var(--fg); }
 .pspells { margin: 0; padding: 12px 16px; border-radius: 7px; background: var(--panel-2); border: 1px solid var(--pline); color: var(--muted); }
 .pspells b { color: var(--fg); font-weight: 600; }
@@ -52,17 +52,18 @@
 .rclasses { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; }
 .rclasses .oc .tags { position: absolute; top: 8px; left: 8px; display: flex; gap: 4px; }
 .rclasses .oc .tag { text-shadow: 0 1px 6px rgba(0,0,0,.85); }   /* a word over the portrait */
-.rclasses .oc .go { color: var(--ink-2); font-size: .8rem; margin-top: 4px; }
+.rclasses .oc .go { color: var(--ink-2); font-size: var(--fs-13); margin-top: 4px; }
 .rclasses .oc:hover .go { color: #e0c27a; }
 .nope { margin: 0; padding: 12px 16px; border-radius: 7px; background: var(--panel-2); border: 1px solid var(--pline); color: var(--muted); }
-.best { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
-.best li { display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 4px 16px; padding: 11px 14px; border-radius: 7px; background: var(--panel-2); border: 1px solid var(--pline); }
+.best { list-style: none; margin: 0; padding: 0; display: grid; border-radius: 6px; overflow: hidden; background: var(--panel-2); }
+.best li { display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 4px 16px; padding: 11px 14px; }
+.best li:nth-child(odd) { background: var(--zebra); }
 .best a { color: var(--fg); font-weight: 600; text-decoration: none; }
 .best a:hover { color: var(--gold-2); text-decoration: underline; }
 .best span { color: var(--muted); }
 .ofacs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 24px; }
 .ofac { min-width: 0; display: grid; gap: 10px; align-content: start; }
-.ofac h3 { font-size: 1.2rem; color: var(--fc); }
+.ofac h3 { font-size: var(--fs-18); color: var(--fc); }
 .ofac.alliance { --fc: var(--alliance); } .ofac.horde { --fc: var(--horde); }
 .ofac .others { grid-template-columns: repeat(5, minmax(0, 1fr)); padding: 0; }
 @media (max-width: 1023px) {

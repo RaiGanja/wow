@@ -25,14 +25,14 @@
 .rdo-hero::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(8,9,11,0) 20%, rgba(8,9,11,.6) 60%, rgba(8,9,11,.92)); }
 .rdo-hero + .rdo-body { padding-top: 12px; }
 .rdo-now { display: grid; gap: 2px; padding: 0 16px 10px; min-width: 0; }
-.rdo-st { font-size: .82rem; color: #e0c27a; }
-.rdo-tt { font-family: var(--font-display, Georgia, serif); font-weight: var(--display-w, 700); font-size: 1.32rem; line-height: 1.15; overflow-wrap: anywhere; }
+.rdo-st { font-size: var(--fs-13); color: #e0c27a; }
+.rdo-tt { font-family: var(--font-display, Georgia, serif); font-weight: var(--display-w, 700); font-size: var(--fs-22); line-height: 1.15; overflow-wrap: anywhere; }
 .rdo-x { position: absolute; top: 8px; right: 8px; width: 40px; height: 40px; display: grid; place-items: center; border: 0; border-radius: 8px; background: rgba(8,9,11,.5); }
 .rdo-x:hover { background: rgba(8,9,11,.75); }
 .rdo .ico { width: 20px; height: 20px; }
 
 .rdo-body { display: grid; gap: 14px; padding: 4px 16px 16px; }
-.rdo-seekrow { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; font-size: .78rem; color: var(--muted, #a3a7ae); font-variant-numeric: tabular-nums; }
+.rdo-seekrow { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; font-size: var(--fs-13); color: var(--muted, #a3a7ae); font-variant-numeric: tabular-nums; }
 
 .rdo-range { --p: 0%; -webkit-appearance: none; appearance: none; width: 100%; height: 24px; margin: 0; background: transparent; cursor: pointer; }
 .rdo-range::-webkit-slider-runnable-track { height: 4px; border-radius: 2px; background: linear-gradient(90deg, var(--gold, #c9a54a) var(--p), var(--line-2, #33373e) var(--p)); }
@@ -56,8 +56,8 @@
 .rdo-tile::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(8,9,11,0) 30%, rgba(8,9,11,.85)); }
 .rdo-tile:hover img { transform: scale(1.05); }
 .rdo-tn { display: grid; padding: 8px 10px; line-height: 1.2; }
-.rdo-tn b { font-family: var(--font-display, Georgia, serif); font-weight: var(--display-w, 700); font-size: 1.02rem; }
-.rdo-tn span { font-size: .74rem; color: #c9c3b6; }
+.rdo-tn b { font-weight: 600; font-size: var(--fs-16); }
+.rdo-tn span { font-size: var(--fs-13); color: #c9c3b6; }
 .rdo-tile[aria-pressed="true"] { border-color: var(--gold, #c9a54a); box-shadow: inset 0 0 0 1px var(--gold, #c9a54a); }
 .rdo-tile .rdo-eq, .rdo-air .rdo-eq { position: absolute; top: 8px; right: 8px; display: none; color: #e0c27a; height: 14px; }
 .rdo-tile.playing .rdo-eq, .rdo-air.playing .rdo-eq { display: flex; }
@@ -77,22 +77,22 @@
 .rdo-h .ico { width: 16px; height: 16px; color: var(--gold-2, #e0c27a); }
 .rdo-left { font-weight: 400; color: var(--gold-2, #e0c27a); font-variant-numeric: tabular-nums; }
 .rdo-chips { display: flex; gap: 6px; }
-.rdo-chip { flex: 1; min-height: 36px; padding: 0 6px; border: 1px solid var(--pline, rgba(255,255,255,.08)); border-radius: 8px; background: transparent; font-size: .86rem !important; font-variant-numeric: tabular-nums; }
+.rdo-chip { flex: 1; min-height: 36px; padding: 0 6px; border: 1px solid var(--pline, rgba(255,255,255,.08)); border-radius: 8px; background: transparent; font-size: var(--fs-14) !important; font-variant-numeric: tabular-nums; }
 .rdo-chip:hover { border-color: var(--gold, #c9a54a); }
 .rdo-chip[aria-pressed="true"] { border-color: var(--gold, #c9a54a); color: var(--gold-2, #e0c27a) !important; }
 
 .rdo-air:focus-visible, .rdo-chip:focus-visible,
 .rdo-tile:focus-visible, .rdo-b:focus-visible, .rdo-amb-t:focus-visible, .rdo-x:focus-visible { outline: 2px solid var(--gold, #c9a54a); outline-offset: 2px; }
 
-.rdo-h { margin: 2px 0 -4px; font-weight: 600; font-size: .92rem; }
+.rdo-h { margin: 2px 0 -4px; font-weight: 600; font-size: var(--fs-16); }
 .rdo-amb { display: grid; gap: 6px; }
 .rdo-amb-row { display: grid; grid-template-columns: 128px 1fr; gap: 12px; align-items: center; }
-.rdo-amb-t { min-height: 40px; display: flex; align-items: center; gap: 8px; padding: 0 12px; border: 1px solid var(--pline, rgba(255,255,255,.08)); border-radius: 8px; background: transparent; font-size: .88rem !important; }
+.rdo-amb-t { min-height: 40px; display: flex; align-items: center; gap: 8px; padding: 0 12px; border: 1px solid var(--pline, rgba(255,255,255,.08)); border-radius: 8px; background: transparent; font-size: var(--fs-14) !important; }
 .rdo-amb-t:hover { border-color: var(--gold, #c9a54a); }
 .rdo-amb-t[aria-pressed="true"] { border-color: var(--gold, #c9a54a); color: var(--gold-2, #e0c27a) !important; }
 .rdo-amb-t[aria-pressed="false"] + .rdo-range { opacity: .45; }
 
-.rdo-cr { font-size: .76rem; color: var(--muted, #a3a7ae); border-top: 1px solid var(--pline, rgba(255,255,255,.08)); padding-top: 10px; }
+.rdo-cr { font-size: var(--fs-13); color: var(--muted, #a3a7ae); border-top: 1px solid var(--pline, rgba(255,255,255,.08)); padding-top: 10px; }
 .rdo-cr summary { cursor: pointer; }
 .rdo-cr ul { margin: 8px 0 6px; padding-left: 18px; display: grid; gap: 4px; }
 .rdo-cr b { color: var(--fg, #ece6d8); font-weight: 600; }
@@ -107,13 +107,13 @@
 /* Built into a page (#radioDock on /play/): in the flow, always open, compact; stations scroll sideways */
 .rdo-docked { position: static; width: auto; max-height: none; overflow: visible; box-shadow: none; z-index: auto; }
 .rdo-docked .rdo-hero { height: 92px; border-radius: 10px 10px 0 0; overflow: hidden; }
-.rdo-docked .rdo-tt { font-size: 1.12rem; }
+.rdo-docked .rdo-tt { font-size: var(--fs-18); }
 .rdo-docked .rdo-body { gap: 12px; }
 .rdo-docked .rdo-tiles { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 132px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 4px; }
 .rdo-docked .rdo-tile { aspect-ratio: 16 / 10; scroll-snap-align: start; }
-.rdo-docked .rdo-tn b { font-size: .9rem; }
+.rdo-docked .rdo-tn b { font-size: var(--fs-14); }
 .rdo-docked .rdo-tile .rdo-tn span { display: none; }
 .rdo-more { display: grid; gap: 12px; }
-.rdo-more > summary { cursor: pointer; font-weight: 600; font-size: .92rem; color: var(--muted, #a3a7ae); }
+.rdo-more > summary { cursor: pointer; font-weight: 600; font-size: var(--fs-16); color: var(--muted, #a3a7ae); }
 .rdo-more[open] > summary { margin-bottom: 4px; }
 @media (max-width: 719px) { .rdo-docked { left: auto; right: auto; } .rdo-docked .rdo-hero { height: 84px; } }

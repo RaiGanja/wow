@@ -546,7 +546,7 @@ function renderStage() {
       <div style="display:grid;gap:24px;align-content:start"><div><h4>Profissões e acampamento</h4><ul class="clean">${s.prof.map(liC).join('')}</ul></div>
         <div><h4>Vantagens de Legacy</h4><ul class="clean">${s.legacy.map(liC).join('')}</ul></div></div>
     </div>
-    <div class="gtip"><h4 style="margin:0 0 10px;font-size:1.02rem">Dicas para o grupo</h4><ul class="clean">${s.group.map(liC).join('')}</ul></div>
+    <div class="gtip"><h4 style="margin:0 0 10px;font-size:var(--fs-16)">Dicas para o grupo</h4><ul class="clean">${s.group.map(liC).join('')}</ul></div>
     <p class="st-src"><span>Fontes:</span>${s.src.map(k2 => `<a href="${SRC[k2][1]}" target="_blank" rel="noopener">${esc(SRC[k2][0])}</a>`).join('')}</p>`;
 }
 function optList(items, cur, none) { return `<option value="">${esc(none)}</option>` + items.map(([v, t]) => `<option value="${v}"${v === cur ? ' selected' : ''}>${esc(t)}</option>`).join(''); }
