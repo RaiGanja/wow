@@ -482,7 +482,7 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 /* Equal class columns: the race column is fixed, the nine class columns share the rest */
 #matrix thead th:first-child { width: 290px; }
 #matrix th, #matrix td { padding: 0; text-align: center; }
-#matrix thead th { padding: 0 2px 12px; vertical-align: bottom; font-size: var(--fs-13); font-weight: 600; color: var(--muted); transition: opacity .2s, color .2s; }
+#matrix thead th { padding: 0 2px 12px; vertical-align: bottom; white-space: nowrap; overflow-wrap: normal;   /* a long class name (Warlock in ru/uk/pl) spills over its short neighbours instead of breaking */ font-size: var(--fs-13); font-weight: 600; color: var(--muted); transition: opacity .2s, color .2s; }
 #matrix thead th .av { --s: 38px; display: block; margin: 0 auto 8px; transition: box-shadow .2s, transform .2s var(--ease); }
 #matrix thead th.dim { opacity: .3; }
 #matrix thead th.hcol { color: var(--fg); }
@@ -838,7 +838,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .sheet .grp:last-child .gh { grid-column: 1 / -1; }
   .sheet .toc a { min-height: 44px; line-height: 1.25; }
 }
-@media (max-width: 719px) { :root h1.long { font-size: var(--fs-28); max-width: none; } }   /* build.long_title: an 11+ letter word; the 8em cap of hero titles would break it */
+:root h1.long { min-width: min-content; }   /* build.long_title: an 11+ letter word; never narrower than it, or the 8em cap of hero titles breaks it */
+@media (max-width: 719px) { :root h1.long { font-size: var(--fs-28); max-width: none; } }
 @media (max-width: 380px) {
   /* 320–380px phones: brand + search, radio, language must share one row */
   .topbar .in { gap: 10px; }
