@@ -767,7 +767,7 @@ NEWS += [
 ]
 
 GUIDES.append({
-    'slug': 'news', 'art': 'paladin', 'updated': '23.10.2026', 'js': 'news',
+    'slug': 'news', 'art': 'paladin', 'hero': 'hero_news', 'updated': '23.10.2026', 'js': 'news',
     'title': t('Новости', 'News', 'Новини'),
     'lead': t('Главное о WoW Forever и свежая лента Wowhead.',
               'What matters for our game in WoW Forever, plus the latest Wowhead feed.',

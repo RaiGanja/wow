@@ -26,15 +26,25 @@
 <style>
 @@BASE_CSS@@
 /* Guide pages: hero over art, sticky contents left, frames right; tables become cards on phones */
-.ghero { padding-top: calc(var(--top) + 64px); min-height: 440px; display: flex; align-items: flex-end; }
-.ghero .wrap { width: 100%; gap: 14px; }
-.ghero .crumbs { display: flex; flex-wrap: wrap; gap: 6px 10px; font-size: .9rem; color: var(--muted); }
-.ghero .crumbs a { color: var(--muted); text-decoration: none; }
-.ghero .crumbs a:hover { color: var(--fg); text-decoration: underline; }
-.ghero h1 { font-size: clamp(2.6rem, 6vw, 4.6rem); line-height: .98; }
-.glead { max-width: 60ch; font-size: clamp(1.02rem, 1.4vw, 1.15rem); opacity: .88; }
-.pills { display: flex; flex-wrap: wrap; gap: 8px; }
-.pills:empty { display: none; }
+/* One hero on every guide page, a scene (.thero) or a portrait band (.ghero): the same height and shade in both themes,
+   the crumbs on the dark corner, the art fades into the page and the contents run onto that fade */
+.thero, .ghero { --hh: clamp(540px, 76svh, 720px); }
+.thero { min-height: calc(var(--hh) * .66); overflow: visible; padding-bottom: 28px; background: none; }
+.thero::after { display: none; }
+.ghero { --band-h: var(--hh); min-height: calc(var(--hh) * .66); padding: calc(var(--top) + clamp(32px, 8vh, 96px)) 0 28px; display: grid; align-content: start; color: var(--ink); }
+.ghero .stband-art.por img { object-position: 50% 14%; }   /* a class or race portrait: the face, not the chest */
+.thero::before, .ghero::before { height: var(--hh); background:
+  linear-gradient(90deg, rgba(7,8,10,.8) 0%, rgba(7,8,10,.54) 32%, rgba(7,8,10,.14) 58%, rgba(7,8,10,0) 78%),
+  linear-gradient(180deg, rgba(7,8,10,.62) 0%, rgba(7,8,10,0) 26%, rgba(7,8,10,0) 48%, rgb(8 9 11 / .88) 80%, var(--bg) 100%); }
+.ghero .wrap { width: 100%; gap: 18px; justify-items: start; }
+.ghero .crumbs { display: flex; flex-wrap: wrap; gap: 6px 10px; font-size: .9rem; color: var(--ink-2); }
+.ghero .crumbs a { color: var(--ink-2); text-decoration: none; }
+.ghero .crumbs a:hover { color: var(--ink); text-decoration: underline; }
+.thero .crumbs, .ghero .crumbs, .gfacts { text-shadow: 0 1px 8px rgba(0,0,0,.7); }
+.ghero h1 { max-width: 8em; font-size: clamp(2.9rem, 6.2vw, 5.4rem); line-height: .98; color: var(--ink); text-shadow: 0 2px 18px rgba(0,0,0,.5); }
+.glead { max-width: 46ch; color: var(--ink-2); font-size: clamp(1.02rem, 1.4vw, 1.15rem); text-shadow: 0 1px 10px rgba(0,0,0,.6); }
+.gfacts { max-width: 60ch; font-size: .95rem; font-weight: 500; color: var(--ink-2); }
+.gfacts:empty { display: none; }
 .gbody { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 28px; align-items: start; padding-top: 20px; }
 .gbody.solo { grid-template-columns: minmax(0, 1fr); }
 .gbody.solo .gtoc { display: none; }
@@ -45,24 +55,29 @@
 .gmain { display: flex; flex-direction: column; gap: 24px; min-width: 0; }
 .gsec { padding: 22px 24px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; scroll-margin-top: calc(var(--top) + 16px); }
 .gsec > h2 { margin: 0; font-size: 1.9rem; }
+.gsec.bare { padding: 0; }   /* art tiles stand on the page, no frame around them */
 .gsec p { max-width: 72ch; }
 .gtiles { padding: 0; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
 .gtiles:has(> :nth-child(9):last-child) { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }   /* exactly nine: 3 x 3, no lone tile */
-nav.gtiles { padding: 14px; }
 .gtable { width: 100%; border-collapse: separate; border-spacing: 0 6px; font-size: .95rem; }
 .gtable th { text-align: left; font-weight: 600; font-size: .85rem; color: var(--muted); padding: 2px 12px; }
 .gtable td { background: var(--panel-2); padding: 11px 12px; border-block: 1px solid var(--pline); }
 .gtable td:first-child { border-radius: 8px 0 0 8px; border-left: 1px solid var(--pline); font-weight: 600; }
 .gtable td:last-child { border-radius: 0 8px 8px 0; border-right: 1px solid var(--pline); }
 .gtable tr.mine td { border-color: color-mix(in srgb, var(--gold) 55%, transparent); }
-/* News: each entry is a plaque, the date is a pill; the whole plaque opens the source */
-.nlist { display: grid; gap: 8px; }
+/* News: plain lines, no badges. Our notes: the date in a quiet column; the feed: grouped by day under a date heading */
+.nlist { display: grid; gap: 4px; }
 .nlist[hidden] { display: none; }
-.nitem { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 14px; align-items: baseline; padding: 12px 14px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--pline); color: var(--fg); text-decoration: none; }
-.nitem:hover { border-color: color-mix(in srgb, var(--gold) 55%, transparent); }
+.nitem { display: grid; grid-template-columns: 6.5em minmax(0, 1fr); gap: 2px 18px; align-items: baseline; padding: 8px 0; color: var(--fg); text-decoration: none; }
+.nitem:has(> b:first-child) { grid-template-columns: minmax(0, 1fr); padding: 5px 0; }
+.nitem:has(> b:first-child) b { font-weight: 500; }
+.nitem time { color: var(--muted); font-size: .9rem; font-variant-numeric: tabular-nums lining-nums; }
 .nitem b { font-weight: 600; }
+.nitem:hover b { color: var(--gold-2); text-decoration: underline; text-underline-offset: 3px; }
 .nitem p { grid-column: 2; margin: 0; color: var(--muted); font-size: .92rem; }
-@media (max-width: 719px) { .nitem { grid-template-columns: minmax(0, 1fr); } .nitem .pill { justify-self: start; } .nitem p { grid-column: 1; } }
+.nday { margin: 14px 0 2px; font-family: var(--font-body); font-size: .9rem; font-weight: 600; letter-spacing: 0; color: var(--muted); font-variant-numeric: tabular-nums lining-nums; }
+.nday:first-child { margin-top: 0; }
+@media (max-width: 719px) { .nitem { grid-template-columns: minmax(0, 1fr); } .nitem p { grid-column: 1; } }
 .gtable .alt { display: block; margin-top: 4px; color: var(--muted); font-size: .8rem; font-weight: 400; }
 .gtable .tag { margin-left: 6px; vertical-align: 1px; }
 #dgBox .filters { margin-bottom: 6px; }
@@ -169,8 +184,9 @@ nav.gtiles { padding: 14px; }
   .gtoc { display: none; }
 }
 @media (max-width: 719px) {
-  .ghero { min-height: 360px; padding-top: calc(var(--top) + 36px); }
-  .ghero h1 { font-size: clamp(2.1rem, 10.5vw, 2.6rem); hyphens: auto; }
+  .thero, .ghero { --hh: min(560px, 74svh); padding: max(calc(var(--top) + 28px), calc(var(--hh) * .48)) 0 24px; min-height: 0; }
+  .thero::before, .ghero::before { background: linear-gradient(180deg, rgba(7,8,10,.55) 0%, rgba(7,8,10,.08) 26%, rgba(7,8,10,.4) 50%, rgb(8 9 11 / .9) 74%, var(--bg) 100%); }
+  .ghero h1 { font-size: clamp(2.1rem, 10.5vw, 3.2rem); hyphens: auto; }
   .gsec { padding: 18px 16px; }
   .gsec > h2 { font-size: 1.6rem; }
   .steps-c { grid-template-columns: minmax(0, 1fr); }
@@ -209,7 +225,7 @@ nav.gtiles { padding: 14px; }
     <nav class="crumbs" aria-label="Навигация"><a href="@@HOME@@">Гид</a><span aria-hidden="true">/</span>@@CRUMB@@</nav>
     <h1>@@TITLE@@</h1>
     <p class="glead">@@LEAD@@</p>
-    <div class="pills">@@PILLS@@</div>
+    <p class="gfacts">@@PILLS@@</p>
     @@TOD_SW@@
   </div>
 </section>
@@ -223,7 +239,7 @@ nav.gtiles { padding: 14px; }
 
 <div class="wrap">
 <p class="dcta"><span>Группы на старт, вопросы по гиду и новости — в Discord Gabella Team.</span><a class="btn ghost" href="@@DISCORD_GUIDE@@" target="_blank" rel="noopener">Открыть Discord</a></p>
-<section id="more"><div class="sec-head"><h2>@@MORE_H@@</h2></div><nav class="frame ttiles gtiles" aria-label="@@MORE_H@@">@@MORE@@</nav></section>
+<section id="more"><div class="sec-head"><h2>@@MORE_H@@</h2></div><nav class="ttiles gtiles" aria-label="@@MORE_H@@">@@MORE@@</nav></section>
 <footer id="sources">
   <!--src--><h2>Источники</h2>
   <ul>@@SOURCES@@</ul>

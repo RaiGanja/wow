@@ -3,7 +3,7 @@
 .pf { display: grid; gap: 18px; }
 .pf .lab { margin: 0 0 8px; line-height: 1.4; font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; color: var(--gold-2); }
 .login { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 18px 28px; align-items: center; padding: 28px 30px; }
-.login h2 { font-size: 1.7rem; margin-bottom: 6px; }
+.login h2 { font-size: clamp(1.35rem, 7vw, 1.7rem); margin-bottom: 6px; }
 .login p { margin: 0; color: var(--muted); max-width: 62ch; }
 .login ul { margin: 12px 0 0; padding-left: 18px; color: var(--muted); display: grid; gap: 4px; }
 .login ul li::marker { color: var(--gold); }
@@ -129,11 +129,12 @@
   .pnav hr { display: none; }
   .pnav a { white-space: nowrap; }
   .plist { grid-template-columns: 1fr; }
-  .login, .founder { grid-template-columns: 1fr; }
+  .login, .founder { grid-template-columns: minmax(0, 1fr); }
   .founder .fcd { text-align: left; }
 }
 @media (max-width: 600px) {
   .form, .facs { grid-template-columns: 1fr; }
+  .login { padding: 20px 16px; }
   .side { width: 100vw; }
 }
 @media (prefers-reduced-motion: reduce) { .facs img { transition: none; } }

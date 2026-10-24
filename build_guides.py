@@ -36,7 +36,8 @@ WIDTHS = {'hero_dawn': (960, 1440, 1920, 2560, 3840), 'hero_campfire': (960, 160
 FX = {'hero_dawn': 'dawn', 'hero_campfire': 'camp'}   # living art (assets/living/living.js) over these heroes
 # A guide with 'hero' gets the full-screen inner page hero (.thero, like roster and tools): its own scene, living art,
 # a portrait cut on phones (tools/make_images.py INNER, CUTS); 'art' stays for the tiles and the share preview.
-THERO = {'hero_guides': 'guides', 'hero_dungeons': 'dungeons', 'hero_professions': 'professions', 'hero_faq': 'faq'}
+THERO = {'hero_guides': 'guides', 'hero_dungeons': 'dungeons', 'hero_professions': 'professions', 'hero_faq': 'faq',
+         'hero_news': None}
 THERO_W = (960, 1440, 1920, 2560)
 
 
@@ -90,7 +91,8 @@ def thero(sec, hero):
     m = lambda ext: ', '.join(f'@@ROOT@@assets/art/{hero}-m-{w}.{ext} {w}w' for w in (600, 1000))   # noqa: E731
     big = lambda ext: ', '.join(f'@@ROOT@@assets/art/{hero}-{w}.{ext} {w}w' for w in THERO_W)   # noqa: E731
     phone = 'media="(max-width: 719px) and (max-aspect-ratio: 2/3)"'
-    pic = (f'<picture class="thero-art" aria-hidden="true" data-fx="{THERO[hero]}" data-cut=".9">\n'
+    fx = f' data-fx="{THERO[hero]}" data-cut=".9"' if THERO[hero] else ''   # living layer only where a mask exists
+    pic = (f'<picture class="thero-art" aria-hidden="true"{fx}>\n'
            f'    <source {phone} type="image/avif" srcset="{m("avif")}" sizes="78vh">\n'
            f'    <source {phone} type="image/webp" srcset="{m("webp")}" sizes="78vh">\n'
            f'    <source type="image/avif" srcset="{big("avif")}" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw">\n'
@@ -163,7 +165,7 @@ def render_block(kind, data, lang, root):
         return L(data, lang)
     if kind == 'news':                                            # our notes from NEWS, newest first
         items = ''.join(f'<a class="nitem" href="{escape(n["url"])}" target="_blank" rel="noopener">'
-                        f'<span class="pill">{".".join(reversed(n["date"].split("-")))}</span>'
+                        f'<time datetime="{n["date"]}">{".".join(reversed(n["date"].split("-")))}</time>'
                         f'<b>{E(n["title"], lang)}</b><p>{E(n["text"], lang)}</p></a>'
                         for n in sorted(NEWS, key=lambda n: n['date'], reverse=True))
         return f'<div class="nlist">{items}</div>'
@@ -214,7 +216,7 @@ def lang_guides(lang):
 def hub_body(lang, root):
     """Guides first, then the classes/ and races/ sections and the tools page: two full rows of four."""
     tiles = guide_tiles(lang_guides(lang)) + section_tiles() + SITE_TILES[1:]
-    return '', f'<section class="frame gsec" id="all">{render_block("tiles", tiles, lang, root)}</section>'
+    return '', f'<section class="gsec bare" id="all">{render_block("tiles", tiles, lang, root)}</section>'
 
 
 JS = {}   # slug -> JS живой части; наполняется в задачах 3, 5, 7, 8, 9
@@ -296,7 +298,9 @@ JS['news'] = r'''/* News: automatic Wowhead feed from assets/news.json; no file 
 fetch(ROOT + 'assets/news.json').then(r => r.ok ? r.json() : []).then(items => {
   const box = document.getElementById('feedList');
   if (!box || !items.length) return;
-  box.innerHTML = items.filter(n => /^https:\/\//.test(n.url)).map(n => `<a class="nitem" href="${esc(n.url)}" target="_blank" rel="noopener"><span class="pill">${esc(n.date.split('-').reverse().join('.'))}</span><b>${esc(n.title)}</b></a>`).join('');
+  let day = '';   // grouped by day: the date once as a heading, the entries under it as plain lines
+  box.innerHTML = items.filter(n => /^https:\/\//.test(n.url)).map(n => (n.date !== day ? `<h3 class="nday">${esc((day = n.date).split('-').reverse().join('.'))}</h3>` : '')
+    + `<a class="nitem" href="${esc(n.url)}" target="_blank" rel="noopener"><b>${esc(n.title)}</b></a>`).join('');
   box.hidden = false;
 }).catch(() => {});'''
 
@@ -646,10 +650,10 @@ def build_page(g, lang, tpl, base_css, sprite, src):
     fx_attr = f' data-fx="{FX[g["art"]]}"' if g['art'] in FX else ''
     rep = {
         'HERO': ('@@TOD_HERO@@' if g['art'] == 'hero_dawn' else   # the leveling guide: the hero in the reader's time of day (tod.py)
-                 f'<picture class="stband-art" aria-hidden="true"{fx_attr}><source type="image/avif" srcset="{avif}" sizes="100vw">'
+                 f'<picture class="stband-art{"" if g["art"] in WIDTHS else " por"}" aria-hidden="true"{fx_attr}><source type="image/avif" srcset="{avif}" sizes="100vw">'
                  f'<img src="{img}" srcset="{webp}" sizes="100vw" alt="" decoding="async" fetchpriority="high"></picture>'),
         'TITLE': E(g['title'], lang), 'LEAD': E(g['lead'], lang), 'CRUMB': crumb,
-        'PILLS': ''.join(f'<span class="pill">{E(p, lang)}</span>' for p in g.get('pills', [])),
+        'PILLS': ' · '.join(E(p, lang) for p in g.get('pills', [])),   # one line of facts under the lead, no badges
         'TOC': toc, 'TOC_GRP': toc_grp, 'BODY': body, 'MORE': more,
         'SOLO': '' if toc else ' solo', 'MORE_H': (MORE_SITE if section else MORE_H)[lang],
         'SOURCES': ''.join(f'<li><a href="{u}" target="_blank" rel="noopener">{E(n, lang)}</a></li>' for n, u in g.get('sources', [])),
@@ -658,7 +662,7 @@ def build_page(g, lang, tpl, base_css, sprite, src):
     }
     for k, v in rep.items():                                     # 2) тело
         html = html.replace(f'@@{k}@@', v)
-    html = tod.apply(html, lang, root='@@ROOT@@', cls='stband-art', fx='dawn', mobile=False,
+    html = tod.apply(html, lang, root='@@ROOT@@', cls='stband-art', fx='dawn', mobile=True,
                      widths=WIDTHS['hero_dawn'], sizes='100vw', img_w=1920, img_h=1072)
     html = html.replace('\n    @@TOD_SW@@', '', 1)                # other guides: no switch
     if 'data-tod-art' in html:

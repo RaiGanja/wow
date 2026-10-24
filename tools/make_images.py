@@ -12,11 +12,11 @@ OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 
 CLASSES = ['warrior', 'paladin', 'hunter', 'rogue', 'priest', 'shaman', 'mage', 'warlock', 'druid']
 RACES = {'human': 'human', 'dwarf': 'dwarf', 'nightelf': 'night-elf', 'gnome': 'gnome', 'skyA': 'skyborne-alliance',
          'orc': 'orc', 'undead': 'undead', 'tauren': 'tauren', 'troll': 'troll', 'skyH': 'skyborne-horde'}
-INNER = ['hero_roster', 'hero_tools', 'hero_guides', 'hero_dungeons', 'hero_professions', 'hero_faq']   # inner page heroes (.thero)
+INNER = ['hero_roster', 'hero_tools', 'hero_guides', 'hero_dungeons', 'hero_professions', 'hero_faq', 'hero_news']   # inner page heroes (.thero)
 SCENE_Q = 66  # wide scene art fills the screen: AVIF at 52 smears grass and fur there
 TODS = ['dawn', 'day', 'dusk', 'night']   # the home hero in the reader's time of day (tod.py); one living mask fits all
 JOBS = [(f'hero_{t}', [960, 1440, 1920, 2560, 3840]) for t in TODS] + [('hero_campfire', [960, 1600, 2560]), ('hero_road', [960, 1600, 2560])] +        [(n, [960, 1440, 1920, 2560]) for n in INNER] + [(c, [360, 600, 896]) for c in CLASSES]
-CUTS = {**{f'hero_{t}': .6 for t in TODS}, **{n: .9 for n in INNER}}   # phone cut of each full-screen hero: share of the free width left of it
+CUTS = {**{f'hero_{t}': .97 for t in TODS}, **{n: .9 for n in INNER}, 'hero_news': .85}   # phone cut of each full-screen hero: share of the free width left of it
 
 
 def save(im, name, w, aq=52):
@@ -99,8 +99,7 @@ def face(src, name):
 def hero_mobile(name='hero_dawn'):
     """Portrait cut of a full-screen hero for phones: <name>-m-600|1000. Cut at x = CUTS[name] * (width - cut), so the
     phone view (object-position at the same share) shows exactly the same part of the picture as with the full-width file:
-    on the home hero the banner, the paladin and the elf with no face under the title (every time of day the same way);
-    on inner pages the party."""
+    the whole party, on the home hero as a band over the text (every time of day the same way), on inner pages over the text."""
     im = source(name)
     w = round(600 * im.height / 768)
     x = round(CUTS[name] * (im.width - w))

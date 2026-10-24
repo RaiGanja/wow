@@ -47,7 +47,7 @@
 .chero::before { content: ""; position: absolute; inset: 0; z-index: -1; background:
   linear-gradient(90deg, rgba(7,8,10,.9) 0%, rgba(7,8,10,.66) 34%, rgba(7,8,10,.1) 62%, rgba(7,8,10,0) 100%),
   linear-gradient(180deg, rgba(7,8,10,.55) 0%, rgba(7,8,10,0) 22%, rgba(7,8,10,0) 60%, rgba(7,8,10,.95) 100%); }
-.chero-in { padding-top: calc(var(--top) + 48px); padding-bottom: 56px; display: grid; gap: 20px; justify-items: start; width: 100%; }
+.chero-in { padding-top: calc(var(--top) + 48px); padding-bottom: calc(56px + var(--hfade)); display: grid; gap: 20px; justify-items: start; width: 100%; }
 .crumbs { display: flex; flex-wrap: wrap; gap: 6px 10px; font-size: .9rem; color: var(--ink-2); }
 .crumbs a { color: var(--ink-2); text-decoration: none; }
 .crumbs a:hover { color: var(--ink); text-decoration: underline; }
@@ -115,7 +115,7 @@ ul.pm li::before { position: absolute; left: 2px; top: 0; font-weight: 700; }
 ul.pm.plus li::before { content: "+"; color: var(--new); }
 ul.pm.minus li::before { content: "−"; color: var(--horde); }
 
-.others { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 8px; padding: 14px; }
+.others { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 8px; }
 .oc { position: relative; aspect-ratio: 3 / 4; overflow: hidden; isolation: isolate; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; color: var(--ink); text-decoration: none; display: grid; align-content: end; padding: 10px; background: #0b0c0e; }
 .oc picture, .oc img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .oc picture { z-index: -2; }
@@ -133,7 +133,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 .pager .prev .ico { transform: rotate(180deg); }
 
 @media (max-width: 1023px) {
-  .others { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 132px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 12px; scroll-padding: 0 12px; scrollbar-width: none; }
+  .others { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 132px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
   .others::-webkit-scrollbar { display: none; }
   .oc { scroll-snap-align: start; }
 }
@@ -146,7 +146,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   .chero .blur { display: none; }
   .chero .por { position: relative; right: auto; width: 100%; height: auto; aspect-ratio: 4 / 5; -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent 100%); mask-image: linear-gradient(180deg, #000 60%, transparent 100%); }
   .chero::before { background: linear-gradient(180deg, rgba(7,8,10,.5) 0%, rgba(7,8,10,0) 18%); bottom: auto; height: 60%; }
-  .chero-in { padding-top: 0; margin-top: -120px; padding-bottom: 36px; gap: 16px; }
+  .chero-in { padding-top: 0; margin-top: -120px; padding-bottom: calc(36px + var(--hfade)); gap: 16px; }
   .crumbs { order: -1; }
   .chero h1 { font-size: clamp(2.4rem, 11.5vw, 4rem); overflow-wrap: anywhere; }
   .cfacts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 16px; }
@@ -157,7 +157,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   .news { padding: 8px; gap: 8px; }
   .news li { padding: 14px 14px 14px 56px; }
   .news li::before { left: 12px; font-size: 1.6rem; }
-  .others { padding: 10px; scroll-padding: 0 10px; grid-auto-columns: 120px; }
+  .others { grid-auto-columns: 120px; }
 }
 </style>
 </head>
@@ -238,7 +238,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 
 <section class="block wrap" id="others">
   <div class="sec-head"><h2>Другие классы</h2></div>
-  <div class="frame others">@@OTHERS@@</div>
+  <div class="others">@@OTHERS@@</div>
   <div class="pager">@@PAGER@@</div>
 </section>
 

@@ -67,7 +67,7 @@ def hero(root='@@ROOT@@', cls='hero-art', fx='dawn', mobile=True, widths=(960, 1
         for ext in ('avif', 'webp'):
             out += f'<source type="image/{ext}" {attr}="{_set(root, name, widths, ext)}" sizes="{sizes}">'
         return out
-    fxa = f' data-fx="{fx}"' if fx else ''
+    fxa = f' data-fx="{fx}" data-cut=".97"' if fx else ''   # data-cut: the phone cut, make_images.CUTS
     live = (f'<picture class="{cls}"{fxa} data-tod-art>{sources("hero_{tod}", "data-srcset")}'
             f'<img data-src="{root}assets/art/hero_{{tod}}-{img_w}.webp" width="{img_w}" height="{img_h}" alt="" fetchpriority="high" decoding="async"></picture>')
     fill = ('<script>(function(p,t){p.querySelectorAll("[data-srcset]").forEach(function(e){e.srcset=e.getAttribute("data-srcset").replace(/\\{tod\\}/g,t)});'
