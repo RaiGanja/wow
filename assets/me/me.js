@@ -40,18 +40,20 @@
   const subs = [];
   function emit() { subs.forEach(cb => { try { cb(state); } catch (e) { console.error(e); } }); dispatchEvent(new CustomEvent('gabella:me', { detail: state })); }
   function onMe(cb) { subs.push(cb); if (state !== undefined && !loading) cb(state); }
-  function setMe(m) {
+  /** t: when the API gave this answer. Reusing or patching the cache keeps its time, so it still expires 10 minutes after /me. */
+  function setMe(m, t) {
     state = m;
-    if (m) { ls.set(FLAG, '1'); ss.set(CACHE, { t: Date.now(), m }); } else ss.set(CACHE, null);
+    if (m) { ls.set(FLAG, '1'); ss.set(CACHE, { t: t || Date.now(), m }); } else ss.set(CACHE, null);
     paintBtn(); emit();
     return m;
   }
+  const stamp = () => (ss.get(CACHE) || {}).t;
   function me(fresh) {
     if (!logged() && !AUTH_PAGE && !fresh) return Promise.resolve(null);
     const c = ss.get(CACHE);
-    if (!fresh && c && Date.now() - c.t < CACHE_MS) { if (state !== c.m) setMe(c.m); return Promise.resolve(c.m); }
+    if (!fresh && c && Date.now() - c.t < CACHE_MS) { if (state !== c.m) setMe(c.m, c.t); return Promise.resolve(c.m); }
     if (loading) return loading;
-    loading = api('/me').then(setMe, e => (e.status === 401 ? setMe(null) : state)).finally(() => { loading = null; });
+    loading = api('/me').then(r => setMe(r), e => (e.status === 401 ? setMe(null) : state)).finally(() => { loading = null; });
     return loading;
   }
   /** Answers of the API that change the person ({me, granted, rankUp}): store the fresh /me and celebrate.
@@ -59,7 +61,7 @@
   function took(r) {
     if (r && r.me) setMe(r.me);
     else if (r && (r.granted || []).length) me(true);   // a new achievement moves points, rank and frames: the rare full refresh
-    else if (r && state && 'lfg' in r) { state.user.lfg = r.lfg; setMe(state); }   // the lfg switch: patch, no /me
+    else if (r && state && 'lfg' in r) { state.user.lfg = r.lfg; setMe(state, stamp()); }   // the lfg switch: patch, no /me
     const list = [];
     ((r && r.granted) || []).forEach(id => list.push({ kind: 'ach', id }));
     if (r && r.rankUp) list.push({ kind: 'rank', id: r.rankUp });
@@ -89,7 +91,7 @@
         if (state && state.progress && key !== 'visit') {   // keep the cache honest without asking /me again
           const p = state.progress[key] || (state.progress[key] = { value: 0, items: item === undefined ? null : [] });
           if (item === undefined) p.value += key === 'radio_min' ? 5 : 1; else if (!p.items.includes(item)) { p.items.push(item); p.value = p.items.length; }
-          ss.set(CACHE, { t: Date.now(), m: state });
+          ss.set(CACHE, { t: stamp(), m: state });
         }
         return took(r);
       }, () => null);
@@ -336,6 +338,7 @@
   }
 
   if (PAGE === 'tools/') toolsHooks();
+  if (PAGE === 'profile/') ss.set(CACHE, null);   // the profile shows logins and characters as they are now: one fresh /me per load
   teaser();
   if (logged() || AUTH_PAGE) me().then(() => { paintBtn(); if (state) pageHooks(); });
   else paintBtn();   // a visitor who never signed in: the «Log in» button, no API request
