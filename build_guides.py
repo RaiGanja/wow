@@ -636,7 +636,8 @@ def build_page(g, lang, tpl, base_css, sprite, src):
     sub = g['path'] if 'path' in g else (f'guides/{g["slug"]}/' if g['slug'] else 'guides/')   # path: classes/, races/, privacy/, '' (404)
     here = page_dir(lang, sub)
     html = tpl.replace('@@BASE_CSS@@', base_css).replace('@@SPRITE@@', sprite)
-    html = html.replace('@@TABBAR@@', build.tabbar({'play': 'play/'}.get(g['slug']) if 'path' in g else 'guides/'))
+    nav = (g['path'] if g['path'] in ('classes/', 'races/', 'play/') else None) if 'path' in g else         (sub if g['slug'] in ('leveling', 'dungeons') else 'guides/')   # privacy, 404: no current item
+    html = build.chrome(html, nav=nav, tab={'play': 'play/'}.get(g['slug']) if 'path' in g else 'guides/')
     if g.get('hero'):                                             # own full-screen scene instead of the art band
         html = re.sub(r'<section class="stband ghero" id="top">.*?</section>', lambda mt: thero(mt.group(0), g['hero']), html, count=1, flags=re.S)
     html, missing = translate(html, lang)                       # 1) обвязка
@@ -690,12 +691,6 @@ def build_page(g, lang, tpl, base_css, sprite, src):
     if not g.get('sources'):                                     # privacy, 404: footer without the sources list
         html = re.sub(r'<!--src-->.*?<!--/src-->', '', html, flags=re.S)
     html = html.replace('<!--src-->', '').replace('<!--/src-->', '')
-    if section:                                                  # menu: the current item is Classes / Races, not Guides
-        html = html.replace('<a href="@@GUIDES@@" aria-current="true">', '<a href="@@GUIDES@@">')
-        anchor = {'classes': '#classes', 'races': '#peoples', 'play': 'play/'}.get(g['slug'])
-        if anchor:
-            html = html.replace(f'<a href="@@HOME@@{anchor}">', f'<a href="@@HOME@@{anchor}" aria-current="true">')
-    html = html.replace('@@GUIDES@@', rel(here, page_dir(lang, 'guides/')))
     html = html.replace('@@HOME@@', root)
     html = build.static_links(html, lang, root)
     if LAUNCH_UTC in html:                                       # launch time: also in the reader's time zone

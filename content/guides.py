@@ -27,7 +27,7 @@ HUB = {
 GUIDES = []   # наполняется в задачах 3, 5, 6, 7, 9; каждый гайд дописывается ниже через GUIDES.append
 
 NEWS = []     # ручные записи: {'date': '2026-10-23', 'title': t(...), 'text': t(...), 'url': 'https://…'}
-from build import DISCORD  # noqa: E402  (приглашение одно на весь сайт)
+from build import DISCORD_AT  # noqa: E402  (у каждого места ссылки своё приглашение)
 
 ORDER = ['leveling', 'dungeons', 'professions', 'faq', 'news', 'ukrainian']   # порядок плиток на хабе и в «Другие гайды»
 
@@ -208,7 +208,7 @@ GUIDES.append({
                  'a': [t('На сайте и в Discord. Войдите, добавьте персонажа и отметьте в профиле «Ищу группу»: на 3 часа он появится в полосе «Сейчас ищут группу» в «Составе». На Discord-сервере Gabella Team собирают группы на старт 04.11 и договариваются о регионе, режиме и фракции.',
                          'On this site and on Discord. Log in, add a character and turn on “Looking for group” in your profile: for 3 hours it shows in the “Looking for a group now” strip of the Roster. On the Gabella Team Discord server groups form for the 04.11 launch, and players agree on region, mode and faction.',
                          'На сайті та в Discord. Увійдіть, додайте персонажа й позначте в профілі «Шукаю групу»: на 3 години він з’явиться в смузі «Зараз шукають групу» у «Складі». На Discord-сервері Gabella Team збирають групи на старт 04.11 і домовляються про регіон, режим і фракцію.')],
-                 'link': (t('Discord Gabella Team', 'Gabella Team Discord', 'Discord Gabella Team'), DISCORD)},
+                 'link': (t('Discord Gabella Team', 'Gabella Team Discord', 'Discord Gabella Team'), DISCORD_AT['faq'])},
                 {'id': 'profile', 'q': t('Что такое Слава, ранг и сезон в профиле?', 'What are Glory, rank and season in the profile?', 'Що таке Слава, ранг і сезон у профілі?'),
                  'a': [t('Это рост вашего профиля на сайте, к самой игре он не относится.',
                          'This is how your profile grows on the site; it has nothing to do with the game itself.',

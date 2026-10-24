@@ -203,6 +203,8 @@ section.block { padding-top: 96px; display: grid; gap: 28px; }
 .sec-head .row { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: flex-end; justify-content: space-between; }
 .sec-head .src { font-size: .85rem; color: var(--muted); padding-bottom: 6px; }
 .sec-head p { color: var(--muted); max-width: 68ch; }
+.dcta { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; margin: 48px 0 0; padding: 18px 20px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); }
+.dcta span { max-width: 62ch; }
 section.block { scroll-margin-top: -72px; }
 
 /* Faction banners */
@@ -1096,7 +1098,7 @@ nav.gtiles { padding: 14px; }
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="./" aria-label="Gabella, на главную"><img class="mark" src="./assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Гид WoW Forever</small></span></a>
   <nav class="mainnav" aria-label="Разделы">
-    <a href="./#factions">Фракции</a><a href="./#classes">Классы</a><a href="./#peoples">Расы</a><a href="./#picker">Подборщик</a><a href="./#builder">Группа</a><a href="guides/">Гайды</a><a href="./tools/">Инструменты</a><a href="./roster/">Состав</a><a href="./play/">В игре</a>
+    <a href="./classes/">Классы</a><a href="./races/">Расы</a><a href="./guides/leveling/">Прокачка</a><a href="./guides/dungeons/">Подземелья</a><a href="./guides/">Гайды</a><a href="./tools/">Инструменты</a><a href="./play/">В игре</a><a href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Discord</a>
   </nav>
   <div class="tools">
     <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" aria-label="Язык: Русский">RU</button><ul class="langlist" hidden><li><a href="./" data-lang="ru" hreflang="ru" lang="ru" aria-current="page"><span>Русский</span><small>RU</small></a></li><li><a href="en/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="uk/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="de/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="fr/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="es/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="pt/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="it/" data-lang="it" hreflang="it" lang="it"><span>Italiano</span><small>IT</small></a></li><li><a href="pl/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
@@ -1125,6 +1127,7 @@ nav.gtiles { padding: 14px; }
 </main>
 
 <div class="wrap">
+<p class="dcta"><span>Группы на старт, вопросы по гиду и новости — в Discord Gabella Team.</span><a class="btn ghost" href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Открыть Discord</a></p>
 <section id="more" hidden><div class="sec-head"><h2>Ещё на сайте</h2></div><nav class="frame ttiles gtiles" aria-label="Ещё на сайте"></nav></section>
 <footer id="sources">
   
@@ -1144,8 +1147,9 @@ nav.gtiles { padding: 14px; }
   <div class="dh"><b>Все разделы</b><button class="iconbtn" id="moreClose" type="button" aria-label="Закрыть"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Все разделы">
     
-    <div class="grp"><div class="gh">Гид</div><a href="./">Главная</a><a href="./#classes">Классы</a><a href="./#peoples">Расы</a><a href="./#picker">Подборщик</a><a href="./#builder">Конструктор группы</a><a href="./tools/">Инструменты</a><a href="./play/">В игре</a><a href="guides/">Гайды</a></div>
-    <div class="grp"><div class="gh">Команда</div><a href="./roster/">Состав</a><a href="./profile/">Мой профиль</a></div>
+    <div class="grp"><div class="gh">Справочник</div><a href="./">Главная</a><a href="./classes/">Классы: сравнение</a><a href="./races/">Расы: сравнение</a><a href="./guides/leveling/">Прокачка 1–60</a><a href="./guides/dungeons/">Подземелья и рейды</a><a href="./guides/professions/">Профессии</a><a href="./guides/faq/">FAQ и даты</a><a href="./guides/news/">Новости</a><a href="./guides/">Все гайды</a></div>
+    <div class="grp"><div class="gh">Инструменты</div><a href="./#picker">Подборщик</a><a href="./#builder">Конструктор группы</a><a href="./tools/">Рамки, сравнение, поиск</a><a href="./play/">В игре</a></div>
+    <div class="grp"><div class="gh">Сообщество</div><a href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Discord</a><a href="./roster/">Состав</a><a href="./profile/">Мой профиль</a></div>
   </nav>
   <div class="opts">
     <div class="langgrid" role="group" aria-label="Язык"><a href="./" data-lang="ru" hreflang="ru" lang="ru" aria-current="page">Русский</a><a href="en/" data-lang="en" hreflang="en" lang="en">English</a><a href="uk/" data-lang="uk" hreflang="uk" lang="uk">Українська</a><a href="de/" data-lang="de" hreflang="de" lang="de">Deutsch</a><a href="fr/" data-lang="fr" hreflang="fr" lang="fr">Français</a><a href="es/" data-lang="es" hreflang="es" lang="es">Español</a><a href="pt/" data-lang="pt" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a><a href="it/" data-lang="it" hreflang="it" lang="it">Italiano</a><a href="pl/" data-lang="pl" hreflang="pl" lang="pl">Polski</a></div>

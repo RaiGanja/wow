@@ -232,6 +232,8 @@ section.block { padding-top: 96px; display: grid; gap: 28px; }
 .sec-head .row { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: flex-end; justify-content: space-between; }
 .sec-head .src { font-size: .85rem; color: var(--muted); padding-bottom: 6px; }
 .sec-head p { color: var(--muted); max-width: 68ch; }
+.dcta { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; margin: 48px 0 0; padding: 18px 20px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); }
+.dcta span { max-width: 62ch; }
 section.block { scroll-margin-top: -72px; }
 
 /* Faction banners */
@@ -953,7 +955,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="#top" aria-label="Gabella, на початок сторінки"><img class="mark" src="../assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Гід WoW Forever</small></span></a>
   <nav class="mainnav" aria-label="Розділи">
-    <a href="#factions">Фракції</a><a href="#classes">Класи</a><a href="#peoples">Раси</a><a href="#picker">Підбирач</a><a href="#builder">Група</a><a href="guides/">Гайди</a><a href="tools/">Інструменти</a><a href="roster/">Склад</a><a href="play/">У грі</a>
+    <a href="classes/">Класи</a><a href="races/">Раси</a><a href="guides/leveling/">Прокачування</a><a href="guides/dungeons/">Підземелля</a><a href="guides/">Гайди</a><a href="tools/">Інструменти</a><a href="play/">У грі</a><a href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Discord</a>
   </nav>
   <div class="tools">
     <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" aria-label="Мова: Українська">UK</button><ul class="langlist" hidden><li><a href="../" data-lang="ru" hreflang="ru" lang="ru"><span>Русский</span><small>RU</small></a></li><li><a href="../en/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="./" data-lang="uk" hreflang="uk" lang="uk" aria-current="page"><span>Українська</span><small>UK</small></a></li><li><a href="../de/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="../fr/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="../es/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="../pt/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="../it/" data-lang="it" hreflang="it" lang="it"><span>Italiano</span><small>IT</small></a></li><li><a href="../pl/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
@@ -964,7 +966,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   </div>
 </div></header>
 
-<section class="hero" id="top" data-nav="#top">
+<section class="hero" id="top">
   <picture class="hero-art" data-fx="dawn" data-tod-art><source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/avif" data-srcset="../assets/art/hero_{tod}-m-600.avif?v=67b8ab16 600w, ../assets/art/hero_{tod}-m-1000.avif?v=56dce4e9 1000w" sizes="78vh"><source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/webp" data-srcset="../assets/art/hero_{tod}-m-600.webp?v=40dedc78 600w, ../assets/art/hero_{tod}-m-1000.webp?v=1e3336eb 1000w" sizes="78vh"><source type="image/avif" data-srcset="../assets/art/hero_{tod}-960.avif?v=7c2ba2bb 960w, ../assets/art/hero_{tod}-1440.avif?v=6dfffb83 1440w, ../assets/art/hero_{tod}-1920.avif?v=69cdc3bc 1920w, ../assets/art/hero_{tod}-2560.avif?v=ed885ec3 2560w, ../assets/art/hero_{tod}-3840.avif?v=3243dec8 3840w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw"><source type="image/webp" data-srcset="../assets/art/hero_{tod}-960.webp?v=91f86913 960w, ../assets/art/hero_{tod}-1440.webp?v=6687926c 1440w, ../assets/art/hero_{tod}-1920.webp?v=9bd2353a 1920w, ../assets/art/hero_{tod}-2560.webp?v=701141f9 2560w, ../assets/art/hero_{tod}-3840.webp?v=9f832fe5 3840w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw"><img data-src="../assets/art/hero_{tod}-1920.webp?v=9bd2353a" width="1920" height="1072" alt="" fetchpriority="high" decoding="async"></picture><script>(function(p,t){p.querySelectorAll("[data-srcset]").forEach(function(e){e.srcset=e.getAttribute("data-srcset").replace(/\{tod\}/g,t)});var i=p.querySelector("img");i.src=i.getAttribute("data-src").replace(/\{tod\}/g,t)})(document.currentScript.previousElementSibling,GabellaTod.now)</script><noscript><picture class="hero-art"><source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/avif" srcset="../assets/art/hero_dawn-m-600.avif?v=5752a830 600w, ../assets/art/hero_dawn-m-1000.avif?v=2c80761e 1000w" sizes="78vh"><source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/webp" srcset="../assets/art/hero_dawn-m-600.webp?v=a11d4a2e 600w, ../assets/art/hero_dawn-m-1000.webp?v=5fe9edb1 1000w" sizes="78vh"><source type="image/avif" srcset="../assets/art/hero_dawn-960.avif?v=72b3acf6 960w, ../assets/art/hero_dawn-1440.avif?v=4c7215d4 1440w, ../assets/art/hero_dawn-1920.avif?v=baf52983 1920w, ../assets/art/hero_dawn-2560.avif?v=78086c34 2560w, ../assets/art/hero_dawn-3840.avif?v=b7217b4e 3840w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw"><source type="image/webp" srcset="../assets/art/hero_dawn-960.webp?v=4eae2c5c 960w, ../assets/art/hero_dawn-1440.webp?v=389093cd 1440w, ../assets/art/hero_dawn-1920.webp?v=1d137c11 1920w, ../assets/art/hero_dawn-2560.webp?v=f7135c28 2560w, ../assets/art/hero_dawn-3840.webp?v=f48b5767 3840w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw"><img src="../assets/art/hero_dawn-1920.webp?v=1d137c11" width="1920" height="1072" alt="" decoding="async"></picture></noscript>
   <div class="wrap hero-in">
     <h1>World of Warcraft <span>Forever</span></h1>
@@ -985,7 +987,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </section>
 
 <main>
-<section class="stband" id="stages" data-nav="#stages">
+<section class="stband" id="stages">
   <picture class="stband-art" data-fx="road"><source type="image/avif" srcset="../assets/art/hero_road-960.avif?v=8276e51c 960w, ../assets/art/hero_road-1600.avif?v=1537c86f 1600w, ../assets/art/hero_road-2560.avif?v=a28502b7 2560w" sizes="100vw"><source type="image/webp" srcset="../assets/art/hero_road-960.webp?v=ea65db11 960w, ../assets/art/hero_road-1600.webp?v=03e1f161 1600w, ../assets/art/hero_road-2560.webp?v=ddac72cd 2560w" sizes="100vw"><img src="../assets/art/hero_road-1600.webp?v=03e1f161" width="1600" height="893" alt="" loading="lazy" decoding="async"></picture>
   <div class="wrap">
     <div class="sec-head"><h2>Де ви зараз</h2><p>П’ять етапів від резерву імен до рейдів. Етап обирається сам за датою, а якщо вказати персонажа, гід підбере підземелля під рівень і покаже ваші бафи для групи.</p></div>
@@ -1013,7 +1015,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   </div>
 </section>
 
-<section class="block wrap" id="factions" data-nav="#factions">
+<section class="block wrap" id="factions">
   <div class="sec-head"><h2>Альянс чи Орда</h2><p>Домовтеся про фракцію заздалегідь: у PvP-режимі під час створення доступна лише одна. Дев’ять класів є в обох сторін.</p></div>
   <div class="frame factions">
     <article class="fac alliance">
@@ -1034,14 +1036,14 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   </div>
 </section>
 
-<section class="block wrap" id="classes" data-nav="#classes">
+<section class="block wrap" id="classes">
   <div class="sec-head"><div class="row"><h2>Ким грати</h2><span class="src">Warcraft Tavern, LFCarry</span></div><p>Наведіть на портрет, щоб розкрити клас. Натисніть, щоб відкрити сторінку класу: спеціалізації, раси й що нового у Forever.</p></div>
   <div class="frame roster" id="roster"><a href="classes/warrior/">Воїн</a><a href="classes/paladin/">Паладин</a><a href="classes/hunter/">Мисливець</a><a href="classes/rogue/">Розбійник</a><a href="classes/priest/">Жрець</a><a href="classes/shaman/">Шаман</a><a href="classes/mage/">Маг</a><a href="classes/warlock/">Чорнокнижник</a><a href="classes/druid/">Друїд</a></div>
   <p class="swipe">Гортайте портрети вбік.</p>
   <p><a class="more-l" href="classes/">Порівняти всі класи<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
 </section>
 
-<section class="block wrap" id="peoples" data-nav="#peoples">
+<section class="block wrap" id="peoples">
   <div class="sec-head"><div class="row"><h2>За кого грати</h2><span class="src">Warcraft Tavern</span></div><p>По п’ять рас у кожної фракції, Скайборн є в обох. Натисніть на портрет, щоб відкрити сторінку раси: здібності, класи та історія.</p></div>
   <div class="frame peoples">
     <div class="pfac alliance"><h3>Альянс</h3><div class="roster rr" id="rosterA"><a href="races/human/">Людина</a><a href="races/dwarf/">Дворф</a><a href="races/night-elf/">Нічний ельф</a><a href="races/gnome/">Гном</a><a href="races/skyborne-alliance/">Високий скайборн</a></div></div>
@@ -1051,7 +1053,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <p><a class="more-l" href="races/">Порівняти всі раси<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
 </section>
 
-<section class="block wrap" id="tools" data-nav="#picker">
+<section class="block wrap" id="tools">
   <div class="sec-head"><h2>Інструменти</h2><p>Підбір раси та класу, збір групи, а на окремій сторінці рамки рейду як у грі, порівняння та пошук по гіду. Посиланням на склад можна поділитися в чаті.</p></div>
   <nav class="frame ttiles t4" aria-label="Інструменти">
     <a class="ttile" href="#picker"><picture><source type="image/avif" srcset="../assets/art/druid-360.avif?v=ab838763 360w, ../assets/art/druid-600.avif?v=1b0c026e 600w" sizes="(max-width: 980px) 100vw, 400px"><source type="image/webp" srcset="../assets/art/druid-360.webp?v=8c2cd510 360w, ../assets/art/druid-600.webp?v=35718cc0 600w" sizes="(max-width: 980px) 100vw, 400px"><img src="../assets/art/druid-600.webp?v=35718cc0" alt="" loading="lazy" decoding="async"></picture><b>Підбір раси й класу</b><span id="qPick">Усі поєднання і що вміє кожне</span></a>
@@ -1113,7 +1115,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     </aside>
   </div>
 </section>
-<section class="stband" id="guides" data-nav="#guides">
+<section class="stband" id="guides">
   <div class="wrap">
     <div class="sec-head"><h2>Гайди та довідник</h2><p>Усе, що ми зібрали про WoW Forever: дати, системи гри, підземелля й поради для компанії.</p></div>
     <nav class="frame gtiles" aria-label="Гайди">
@@ -1129,7 +1131,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     <p><a class="more-l" href="guides/">Усі гайди<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
   </div>
 </section>
-<section class="camp" id="camp" data-nav="#guides">
+<section class="camp" id="camp">
   <picture class="camp-art" data-fx="camp"><source type="image/avif" srcset="../assets/art/hero_campfire-960.avif?v=2654726f 960w, ../assets/art/hero_campfire-1600.avif?v=a9d1ad39 1600w, ../assets/art/hero_campfire-2560.avif?v=6b161175 2560w" sizes="(max-width: 719px) 300vw, 100vw"><source type="image/webp" srcset="../assets/art/hero_campfire-960.webp?v=d73f1e16 960w, ../assets/art/hero_campfire-1600.webp?v=bef1b754 1600w, ../assets/art/hero_campfire-2560.webp?v=08f5bedc 2560w" sizes="(max-width: 719px) 300vw, 100vw"><img src="../assets/art/hero_campfire-1600.webp?v=bef1b754" width="1600" height="893" alt="" loading="lazy" decoding="async"></picture>
   <div class="wrap camp-in">
     <h2>Знайдіть групу</h2>
@@ -1150,7 +1152,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   bar.querySelector('button').addEventListener('click', function () { done(); bar.remove(); });
 })();
 </script>
-<footer id="sources" data-nav="#guides">
+<footer id="sources">
   <h2>Джерела та актуальність</h2>
   <p>Дані зібрано <b style="color:var(--fg)">23.10.2026</b> за закритою бетою та патчем від 15.10.2026 і звірено за кількома джерелами. До релізу Blizzard ще може змінювати бету, особливо здібності рас, налаштування класів і перки Legacy. Якщо джерела розходилися, це зазначено в тексті. Точні числа звіряйте в грі.</p>
   <p><span class="tl" style="display:inline">Порада:</span> думка укладача, не офіційні дані.</p>
@@ -1180,10 +1182,10 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <dialog class="sheet" id="moreDlg" aria-label="Усі розділи">
   <div class="dh"><b>Усі розділи</b><button class="iconbtn" id="moreClose" type="button" aria-label="Закрити"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Усі розділи">
-    <div class="grp"><div class="gh">Головна</div><a href="#top">Огляд</a><a href="#stages">Де ви зараз</a><a href="#factions">Фракції</a><a href="#classes">Класи</a><a href="#peoples">Раси</a></div>
+    <div class="grp"><div class="gh">Ця сторінка</div><a href="#top">Огляд</a><a href="#stages">Де ви зараз</a><a href="#factions">Фракції</a><a href="#classes">Класи</a><a href="#peoples">Раси</a></div>
+    <div class="grp"><div class="gh">Довідник</div><a href="#top">Головна</a><a href="classes/">Класи: порівняння</a><a href="races/">Раси: порівняння</a><a href="guides/leveling/">Прокачка 1–60</a><a href="guides/dungeons/">Підземелля та рейди</a><a href="guides/professions/">Професії</a><a href="guides/faq/">FAQ і дати</a><a href="guides/news/">Новини</a><a href="guides/">Усі гайди</a></div>
     <div class="grp"><div class="gh">Інструменти</div><a href="#picker">Підбирач</a><a href="#builder">Конструктор групи</a><a href="tools/">Рамки, порівняння, пошук</a><a href="play/">У грі</a></div>
-    <div class="grp"><div class="gh">Довідник</div><a href="guides/leveling/">Прокачка 1–60</a><a href="guides/dungeons/">Підземелля та рейди</a><a href="guides/professions/">Професії</a><a href="guides/faq/">FAQ і дати</a><a href="guides/news/">Новини</a><a href="classes/">Класи: порівняння</a><a href="races/">Раси: порівняння</a><a href="#sources">Джерела</a></div>
-    <div class="grp"><div class="gh">Команда</div><a href="roster/">Склад</a><a href="profile/">Мій профіль</a></div>
+    <div class="grp"><div class="gh">Спільнота</div><a href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Discord</a><a href="roster/">Склад</a><a href="profile/">Мій профіль</a></div>
   </nav>
   <div class="opts">
     <div class="langgrid" role="group" aria-label="Мова"><a href="../" data-lang="ru" hreflang="ru" lang="ru">Русский</a><a href="../en/" data-lang="en" hreflang="en" lang="en">English</a><a href="./" data-lang="uk" hreflang="uk" lang="uk" aria-current="page">Українська</a><a href="../de/" data-lang="de" hreflang="de" lang="de">Deutsch</a><a href="../fr/" data-lang="fr" hreflang="fr" lang="fr">Français</a><a href="../es/" data-lang="es" hreflang="es" lang="es">Español</a><a href="../pt/" data-lang="pt" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a><a href="../it/" data-lang="it" hreflang="it" lang="it">Italiano</a><a href="../pl/" data-lang="pl" hreflang="pl" lang="pl">Polski</a></div>
@@ -1972,18 +1974,6 @@ const dlg = $('#moreDlg');
 document.querySelectorAll('.menubtn, .morebtn').forEach(b => b.onclick = () => { if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', ''); });
 $('#moreClose').onclick = () => dlg.close();
 dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.toc a')) dlg.close(); });
-
-/* Current section in the top menu */
-if ('IntersectionObserver' in window) {
-  const navLinks = [...document.querySelectorAll('.mainnav a')];
-  const mark = (links, href) => links.forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === href ? 'true' : 'false'));
-  const io = new IntersectionObserver(es => es.forEach(en => {
-    if (!en.isIntersecting) return;
-    const t = en.target, nav = t.dataset.nav || ('#' + t.id);
-    mark(navLinks, nav);
-  }), { rootMargin: '-45% 0px -50% 0px' });
-  document.querySelectorAll('.hero, section.block, section.stband, footer#sources').forEach(s => io.observe(s));
-}
 </script>
 <script src="../assets/living/living.js?v=90dc38be67" defer></script>
 <link rel="stylesheet" href="../assets/tod/tod.css?v=616e6ec276" media="print" onload="this.media='all'">

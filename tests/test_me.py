@@ -170,14 +170,20 @@ def test_profile_pages():
 
 
 def test_roster_in_navigation():
-    """Every full page links roster/ in the top menu and roster/ + profile/ in the sections sheet; privacy covers accounts."""
+    """Every full page: the top menu goes to pages, not home anchors, and ends with Discord; roster/ + profile/ in the
+    sections sheet; privacy covers accounts."""
+    from build import DISCORD_AT
     for p in built_pages():
         html = open(p, encoding='utf-8').read()
         if 'class="mainnav"' not in html:
             continue
         nav = re.search(r'<nav class="mainnav".*?</nav>', html, re.S).group(0)
         toc = re.search(r'<nav class="toc".*?</nav>', html, re.S).group(0)
-        assert re.search(r'href="[^"]*roster/"', nav), p
+        hrefs = re.findall(r'href="([^"]*)"', nav)
+        assert not [h for h in hrefs if '#' in h], (p, hrefs)
+        assert [re.sub(r'^(\.\./|\./)+', '', h) for h in hrefs[:4]] == ['classes/', 'races/', 'guides/leveling/', 'guides/dungeons/'], (p, hrefs)
+        assert hrefs[-1] == DISCORD_AT['menu'], p
+        assert nav.count('aria-current') <= 1, p
         assert re.search(r'href="[^"]*roster/"', toc) and re.search(r'href="[^"]*profile/"', toc), p
     from langs import LANGS
     for lang in LANGS:

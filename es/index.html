@@ -232,6 +232,8 @@ section.block { padding-top: 96px; display: grid; gap: 28px; }
 .sec-head .row { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: flex-end; justify-content: space-between; }
 .sec-head .src { font-size: .85rem; color: var(--muted); padding-bottom: 6px; }
 .sec-head p { color: var(--muted); max-width: 68ch; }
+.dcta { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; margin: 48px 0 0; padding: 18px 20px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); }
+.dcta span { max-width: 62ch; }
 section.block { scroll-margin-top: -72px; }
 
 /* Faction banners */
@@ -953,7 +955,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="#top" aria-label="Gabella, volver arriba"><img class="mark" src="../assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Guía de WoW Forever</small></span></a>
   <nav class="mainnav" aria-label="Secciones">
-    <a href="#factions">Facciones</a><a href="#classes">Clases</a><a href="#peoples">Razas</a><a href="#picker">Selector</a><a href="#builder">Grupo</a><a href="guides/">Guías</a><a href="tools/">Herramientas</a><a href="roster/">Plantilla</a><a href="play/">En el juego</a>
+    <a href="classes/">Clases</a><a href="races/">Razas</a><a href="guides/leveling/">Subida de nivel</a><a href="guides/dungeons/">Mazmorras</a><a href="guides/">Guías</a><a href="tools/">Herramientas</a><a href="play/">En el juego</a><a href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Discord</a>
   </nav>
   <div class="tools">
     <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" aria-label="Idioma: Español">ES</button><ul class="langlist" hidden><li><a href="../" data-lang="ru" hreflang="ru" lang="ru"><span>Русский</span><small>RU</small></a></li><li><a href="../en/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../uk/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../de/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="../fr/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="./" data-lang="es" hreflang="es" lang="es" aria-current="page"><span>Español</span><small>ES</small></a></li><li><a href="../pt/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="../it/" data-lang="it" hreflang="it" lang="it"><span>Italiano</span><small>IT</small></a></li><li><a href="../pl/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
@@ -964,7 +966,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   </div>
 </div></header>
 
-<section class="hero" id="top" data-nav="#top">
+<section class="hero" id="top">
   <picture class="hero-art" data-fx="dawn" data-tod-art><source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/avif" data-srcset="../assets/art/hero_{tod}-m-600.avif?v=67b8ab16 600w, ../assets/art/hero_{tod}-m-1000.avif?v=56dce4e9 1000w" sizes="78vh"><source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/webp" data-srcset="../assets/art/hero_{tod}-m-600.webp?v=40dedc78 600w, ../assets/art/hero_{tod}-m-1000.webp?v=1e3336eb 1000w" sizes="78vh"><source type="image/avif" data-srcset="../assets/art/hero_{tod}-960.avif?v=7c2ba2bb 960w, ../assets/art/hero_{tod}-1440.avif?v=6dfffb83 1440w, ../assets/art/hero_{tod}-1920.avif?v=69cdc3bc 1920w, ../assets/art/hero_{tod}-2560.avif?v=ed885ec3 2560w, ../assets/art/hero_{tod}-3840.avif?v=3243dec8 3840w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw"><source type="image/webp" data-srcset="../assets/art/hero_{tod}-960.webp?v=91f86913 960w, ../assets/art/hero_{tod}-1440.webp?v=6687926c 1440w, ../assets/art/hero_{tod}-1920.webp?v=9bd2353a 1920w, ../assets/art/hero_{tod}-2560.webp?v=701141f9 2560w, ../assets/art/hero_{tod}-3840.webp?v=9f832fe5 3840w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw"><img data-src="../assets/art/hero_{tod}-1920.webp?v=9bd2353a" width="1920" height="1072" alt="" fetchpriority="high" decoding="async"></picture><script>(function(p,t){p.querySelectorAll("[data-srcset]").forEach(function(e){e.srcset=e.getAttribute("data-srcset").replace(/\{tod\}/g,t)});var i=p.querySelector("img");i.src=i.getAttribute("data-src").replace(/\{tod\}/g,t)})(document.currentScript.previousElementSibling,GabellaTod.now)</script><noscript><picture class="hero-art"><source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/avif" srcset="../assets/art/hero_dawn-m-600.avif?v=5752a830 600w, ../assets/art/hero_dawn-m-1000.avif?v=2c80761e 1000w" sizes="78vh"><source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/webp" srcset="../assets/art/hero_dawn-m-600.webp?v=a11d4a2e 600w, ../assets/art/hero_dawn-m-1000.webp?v=5fe9edb1 1000w" sizes="78vh"><source type="image/avif" srcset="../assets/art/hero_dawn-960.avif?v=72b3acf6 960w, ../assets/art/hero_dawn-1440.avif?v=4c7215d4 1440w, ../assets/art/hero_dawn-1920.avif?v=baf52983 1920w, ../assets/art/hero_dawn-2560.avif?v=78086c34 2560w, ../assets/art/hero_dawn-3840.avif?v=b7217b4e 3840w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw"><source type="image/webp" srcset="../assets/art/hero_dawn-960.webp?v=4eae2c5c 960w, ../assets/art/hero_dawn-1440.webp?v=389093cd 1440w, ../assets/art/hero_dawn-1920.webp?v=1d137c11 1920w, ../assets/art/hero_dawn-2560.webp?v=f7135c28 2560w, ../assets/art/hero_dawn-3840.webp?v=f48b5767 3840w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw"><img src="../assets/art/hero_dawn-1920.webp?v=1d137c11" width="1920" height="1072" alt="" decoding="async"></picture></noscript>
   <div class="wrap hero-in">
     <h1>World of Warcraft <span>Forever</span></h1>
@@ -985,7 +987,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </section>
 
 <main>
-<section class="stband" id="stages" data-nav="#stages">
+<section class="stband" id="stages">
   <picture class="stband-art" data-fx="road"><source type="image/avif" srcset="../assets/art/hero_road-960.avif?v=8276e51c 960w, ../assets/art/hero_road-1600.avif?v=1537c86f 1600w, ../assets/art/hero_road-2560.avif?v=a28502b7 2560w" sizes="100vw"><source type="image/webp" srcset="../assets/art/hero_road-960.webp?v=ea65db11 960w, ../assets/art/hero_road-1600.webp?v=03e1f161 1600w, ../assets/art/hero_road-2560.webp?v=ddac72cd 2560w" sizes="100vw"><img src="../assets/art/hero_road-1600.webp?v=03e1f161" width="1600" height="893" alt="" loading="lazy" decoding="async"></picture>
   <div class="wrap">
     <div class="sec-head"><h2>Dónde estás ahora</h2><p>Cinco etapas desde la reserva de nombres hasta las bandas. La etapa se elige según la fecha y, si añades tu personaje, la guía busca mazmorras para tu nivel y muestra los beneficios que aportas al grupo.</p></div>
@@ -1013,7 +1015,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   </div>
 </section>
 
-<section class="block wrap" id="factions" data-nav="#factions">
+<section class="block wrap" id="factions">
   <div class="sec-head"><h2>Alianza u Horda</h2><p>Poneos de acuerdo en la facción antes: en modo JcJ solo hay una disponible al crear el personaje. Las nueve clases existen en ambos bandos.</p></div>
   <div class="frame factions">
     <article class="fac alliance">
@@ -1034,14 +1036,14 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   </div>
 </section>
 
-<section class="block wrap" id="classes" data-nav="#classes">
+<section class="block wrap" id="classes">
   <div class="sec-head"><div class="row"><h2>A quién jugar</h2><span class="src">Warcraft Tavern, LFCarry</span></div><p>Pasa el cursor sobre un retrato para desplegar la clase. Haz clic para abrir la página de la clase: especializaciones, razas y novedades de Forever.</p></div>
   <div class="frame roster" id="roster"><a href="classes/warrior/">Guerrero</a><a href="classes/paladin/">Paladín</a><a href="classes/hunter/">Cazador</a><a href="classes/rogue/">Pícaro</a><a href="classes/priest/">Sacerdote</a><a href="classes/shaman/">Chamán</a><a href="classes/mage/">Mago</a><a href="classes/warlock/">Brujo</a><a href="classes/druid/">Druida</a></div>
   <p class="swipe">Desliza hacia los lados entre los retratos.</p>
   <p><a class="more-l" href="classes/">Comparar todas las clases<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
 </section>
 
-<section class="block wrap" id="peoples" data-nav="#peoples">
+<section class="block wrap" id="peoples">
   <div class="sec-head"><div class="row"><h2>A quién jugar</h2><span class="src">Warcraft Tavern</span></div><p>Cinco razas por facción, y los Skyborne están en ambos bandos. Haz clic en un retrato para abrir la página de la raza: habilidades, clases e historia.</p></div>
   <div class="frame peoples">
     <div class="pfac alliance"><h3>Alianza</h3><div class="roster rr" id="rosterA"><a href="races/human/">Humano</a><a href="races/dwarf/">Enano</a><a href="races/night-elf/">Elfo de la noche</a><a href="races/gnome/">Gnomo</a><a href="races/skyborne-alliance/">Skyborne High Order</a></div></div>
@@ -1051,7 +1053,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <p><a class="more-l" href="races/">Comparar todas las razas<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
 </section>
 
-<section class="block wrap" id="tools" data-nav="#picker">
+<section class="block wrap" id="tools">
   <div class="sec-head"><h2>Herramientas</h2><p>Selector de raza y clase y creador de grupos; en otra página hay marcos de banda como en el juego, comparativa y búsqueda en la guía. Comparte el enlace del grupo en el chat.</p></div>
   <nav class="frame ttiles t4" aria-label="Herramientas">
     <a class="ttile" href="#picker"><picture><source type="image/avif" srcset="../assets/art/druid-360.avif?v=ab838763 360w, ../assets/art/druid-600.avif?v=1b0c026e 600w" sizes="(max-width: 980px) 100vw, 400px"><source type="image/webp" srcset="../assets/art/druid-360.webp?v=8c2cd510 360w, ../assets/art/druid-600.webp?v=35718cc0 600w" sizes="(max-width: 980px) 100vw, 400px"><img src="../assets/art/druid-600.webp?v=35718cc0" alt="" loading="lazy" decoding="async"></picture><b>Selector de raza y clase</b><span id="qPick">Todas las combinaciones y qué puede hacer cada una</span></a>
@@ -1113,7 +1115,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     </aside>
   </div>
 </section>
-<section class="stband" id="guides" data-nav="#guides">
+<section class="stband" id="guides">
   <div class="wrap">
     <div class="sec-head"><h2>Guías y referencia</h2><p>Todo lo que hemos reunido sobre WoW Forever: fechas, sistemas de juego, mazmorras y consejos para un grupo de amigos.</p></div>
     <nav class="frame gtiles" aria-label="Guías">
@@ -1129,7 +1131,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     <p><a class="more-l" href="guides/">Todas las guías<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
   </div>
 </section>
-<section class="camp" id="camp" data-nav="#guides">
+<section class="camp" id="camp">
   <picture class="camp-art" data-fx="camp"><source type="image/avif" srcset="../assets/art/hero_campfire-960.avif?v=2654726f 960w, ../assets/art/hero_campfire-1600.avif?v=a9d1ad39 1600w, ../assets/art/hero_campfire-2560.avif?v=6b161175 2560w" sizes="(max-width: 719px) 300vw, 100vw"><source type="image/webp" srcset="../assets/art/hero_campfire-960.webp?v=d73f1e16 960w, ../assets/art/hero_campfire-1600.webp?v=bef1b754 1600w, ../assets/art/hero_campfire-2560.webp?v=08f5bedc 2560w" sizes="(max-width: 719px) 300vw, 100vw"><img src="../assets/art/hero_campfire-1600.webp?v=bef1b754" width="1600" height="893" alt="" loading="lazy" decoding="async"></picture>
   <div class="wrap camp-in">
     <h2>Encuentra grupo</h2>
@@ -1138,7 +1140,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   </div>
 </section>
 <div class="wrap">
-<footer id="sources" data-nav="#guides">
+<footer id="sources">
   <h2>Fuentes y vigencia</h2>
   <p>Datos recopilados el <b style="color:var(--fg)">23.10.2026</b> de la beta cerrada y del parche del 15.10.2026, y contrastados con varias fuentes. Antes del lanzamiento Blizzard aún puede cambiar la beta, sobre todo las habilidades raciales, el ajuste de clases y las ventajas de Legacy. Donde las fuentes no coincidían, se indica en el texto. Comprueba las cifras exactas en el juego.</p>
   <p><span class="tl" style="display:inline">Consejo:</span> opinión del autor, no datos oficiales.</p>
@@ -1168,10 +1170,10 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <dialog class="sheet" id="moreDlg" aria-label="Todas las secciones">
   <div class="dh"><b>Todas las secciones</b><button class="iconbtn" id="moreClose" type="button" aria-label="Cerrar"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Todas las secciones">
-    <div class="grp"><div class="gh">Inicio</div><a href="#top">Resumen</a><a href="#stages">Dónde estás ahora</a><a href="#factions">Facciones</a><a href="#classes">Clases</a><a href="#peoples">Razas</a></div>
+    <div class="grp"><div class="gh">Esta página</div><a href="#top">Resumen</a><a href="#stages">Dónde estás ahora</a><a href="#factions">Facciones</a><a href="#classes">Clases</a><a href="#peoples">Razas</a></div>
+    <div class="grp"><div class="gh">Referencia</div><a href="#top">Inicio</a><a href="classes/">Comparativa de clases</a><a href="races/">Comparativa de razas</a><a href="guides/leveling/">Subir de nivel 1–60</a><a href="guides/dungeons/">Mazmorras y bandas</a><a href="guides/professions/">Profesiones</a><a href="guides/faq/">FAQ y fechas</a><a href="guides/news/">Noticias</a><a href="guides/">Todas las guías</a></div>
     <div class="grp"><div class="gh">Herramientas</div><a href="#picker">Selector</a><a href="#builder">Creador de grupos</a><a href="tools/">Marcos, comparar, buscar</a><a href="play/">En el juego</a></div>
-    <div class="grp"><div class="gh">Referencia</div><a href="guides/leveling/">Subir de nivel 1–60</a><a href="guides/dungeons/">Mazmorras y bandas</a><a href="guides/professions/">Profesiones</a><a href="guides/faq/">FAQ y fechas</a><a href="guides/news/">Noticias</a><a href="classes/">Comparativa de clases</a><a href="races/">Comparativa de razas</a><a href="#sources">Fuentes</a></div>
-    <div class="grp"><div class="gh">Equipo</div><a href="roster/">Plantilla</a><a href="profile/">Mi perfil</a></div>
+    <div class="grp"><div class="gh">Comunidad</div><a href="https://discord.gg/Zd45sNHy9x" target="_blank" rel="noopener">Discord</a><a href="roster/">Plantilla</a><a href="profile/">Mi perfil</a></div>
   </nav>
   <div class="opts">
     <div class="langgrid" role="group" aria-label="Idioma"><a href="../" data-lang="ru" hreflang="ru" lang="ru">Русский</a><a href="../en/" data-lang="en" hreflang="en" lang="en">English</a><a href="../uk/" data-lang="uk" hreflang="uk" lang="uk">Українська</a><a href="../de/" data-lang="de" hreflang="de" lang="de">Deutsch</a><a href="../fr/" data-lang="fr" hreflang="fr" lang="fr">Français</a><a href="./" data-lang="es" hreflang="es" lang="es" aria-current="page">Español</a><a href="../pt/" data-lang="pt" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a><a href="../it/" data-lang="it" hreflang="it" lang="it">Italiano</a><a href="../pl/" data-lang="pl" hreflang="pl" lang="pl">Polski</a></div>
@@ -1960,18 +1962,6 @@ const dlg = $('#moreDlg');
 document.querySelectorAll('.menubtn, .morebtn').forEach(b => b.onclick = () => { if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', ''); });
 $('#moreClose').onclick = () => dlg.close();
 dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.toc a')) dlg.close(); });
-
-/* Current section in the top menu */
-if ('IntersectionObserver' in window) {
-  const navLinks = [...document.querySelectorAll('.mainnav a')];
-  const mark = (links, href) => links.forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === href ? 'true' : 'false'));
-  const io = new IntersectionObserver(es => es.forEach(en => {
-    if (!en.isIntersecting) return;
-    const t = en.target, nav = t.dataset.nav || ('#' + t.id);
-    mark(navLinks, nav);
-  }), { rootMargin: '-45% 0px -50% 0px' });
-  document.querySelectorAll('.hero, section.block, section.stband, footer#sources').forEach(s => io.observe(s));
-}
 </script>
 <script src="../assets/living/living.js?v=90dc38be67" defer></script>
 <link rel="stylesheet" href="../assets/tod/tod.css?v=616e6ec276" media="print" onload="this.media='all'">

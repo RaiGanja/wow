@@ -73,6 +73,15 @@ def rel(from_dir, to_dir):
 
 CONTACT = 'contact@gabella.site'   # Cloudflare Email Routing -> почта Вячеслава
 DISCORD = 'https://discord.gg/Zd45sNHy9x'   # постоянное приглашение на сервер Gabella Team (без срока и лимита)
+# Своё постоянное приглашение на каждое место ссылки: Discord считает переходы по каждому — это и есть замер воронки.
+DISCORD_AT = {
+    'menu': DISCORD,      # шапка и «Ещё»
+    'guide': DISCORD,     # строка в конце гайдов, классов и рас
+    'home': DISCORD,      # главная, блок «Группа»
+    'faq': DISCORD,       # FAQ, «Где найти группу?»
+    'profile': DISCORD,   # кабинет, экран «не участник»
+    'footer': DISCORD,    # подвал
+}
 LEGAL = {
     'ru': ('Фанатский гид Gabella. Сайт не связан с Blizzard Entertainment и не одобрен ею. World of Warcraft, Warcraft и Blizzard Entertainment — '
            'товарные знаки или зарегистрированные товарные знаки Blizzard Entertainment, Inc. в США и/или других странах.', 'Конфиденциальность', 'Связь', 'Карта сайта'),
@@ -115,7 +124,7 @@ def legal(lang, root):
     text, privacy, contact = LEGAL[lang][:3]
     return site_map(lang, root + page_dir(lang)) + (f'<div class="legal"><p>{text}</p><p>© 2026 Gabella<span aria-hidden="true"> · </span>'
             f'<a href="{root}{page_dir(lang, "privacy/")}">{privacy}</a><span aria-hidden="true"> · </span>'
-            f'<a href="{DISCORD}" target="_blank" rel="noopener">Discord</a><span aria-hidden="true"> · </span>'
+            f'{discord_link("footer")}<span aria-hidden="true"> · </span>'
             f'{contact}: <a href="mailto:{CONTACT}">{CONTACT}</a></p></div>')
 
 
@@ -246,11 +255,51 @@ def tabbar(cur=None, home='@@HOME@@'):
             '<svg class="ico" aria-hidden="true"><use href="#i-dots"/></svg>Ещё</button>\n</nav>')
 
 
+# Top menu: the same items in the same order on every page; anchors of the home page stay in its own «Ещё» group.
+NAV = (('classes/', 'Классы'), ('races/', 'Расы'), ('guides/leveling/', 'Прокачка'), ('guides/dungeons/', 'Подземелья'),
+       ('guides/', 'Гайды'), ('tools/', 'Инструменты'), ('play/', 'В игре'))
+# Sections sheet («Ещё»): (group, [(path from the language home, label)]); '#…' — a block of the home page.
+MORE = (
+    ('Справочник', (('', 'Главная'), ('classes/', 'Классы: сравнение'), ('races/', 'Расы: сравнение'), ('guides/leveling/', 'Прокачка 1–60'),
+                    ('guides/dungeons/', 'Подземелья и рейды'), ('guides/professions/', 'Профессии'), ('guides/faq/', 'FAQ и даты'),
+                    ('guides/news/', 'Новости'), ('guides/', 'Все гайды'))),
+    ('Инструменты', (('#picker', 'Подборщик'), ('#builder', 'Конструктор группы'), ('tools/', 'Рамки, сравнение, поиск'), ('play/', 'В игре'))),
+    ('Сообщество', (('discord', 'Discord'), ('roster/', 'Состав'), ('profile/', 'Мой профиль'))),
+)
+
+
+def discord_link(src, text='Discord', cls=''):
+    c = f' class="{cls}"' if cls else ''
+    return f'<a{c} href="{DISCORD_AT[src]}" target="_blank" rel="noopener">{text}</a>'
+
+
+def mainnav(cur=None, home='@@HOME@@'):
+    """Top menu markup; cur — path of the current item (NAV), home '' — the home page itself."""
+    on = ' aria-current="true"'
+    links = ''.join(f'<a href="{home}{p}"{on if p == cur else ""}>{t}</a>' for p, t in NAV)
+    return f'<nav class="mainnav" aria-label="Разделы">\n    {links}{discord_link("menu")}\n  </nav>'
+
+
+def more_groups(home='@@HOME@@'):
+    """Common groups of the sections sheet, after the page's own («Эта страница», list of classes or races)."""
+    def a(p, t):
+        if p == 'discord':
+            return discord_link('menu', t)
+        return f'<a href="{home + p if home or (p and p[0] != "#") else (p or "#top")}">{t}</a>'
+    return '\n    '.join(f'<div class="grp"><div class="gh">{g}</div>{"".join(a(p, t) for p, t in items)}</div>' for g, items in MORE)
+
+
+def chrome(html, nav=None, tab=None, home='@@HOME@@'):
+    """Menu, sections sheet and phone tab bar of a page (@@MAINNAV@@, @@MORENAV@@, @@TABBAR@@), before translate."""
+    return (html.replace('@@MAINNAV@@', mainnav(nav, home)).replace('@@MORENAV@@', more_groups(home))
+            .replace('@@TABBAR@@', tabbar(tab, home)))
+
+
 def localize(html, lang, here):
     """Language-specific attributes shared by all pages."""
     html = html.replace('@@LEGAL@@', legal(lang, rel(here, '')))
     html = html.replace('@@ROOT@@', rel(here, ''))
-    html = html.replace('@@DISCORD@@', DISCORD)
+    html = html.replace('@@DISCORD@@', DISCORD_AT['home']).replace('@@DISCORD_GUIDE@@', DISCORD_AT['guide'])
     html = lang_menu(html, lang, here)
     if lang == 'ru':
         html = ru_names(html)
@@ -553,7 +602,7 @@ def game_hint(lang):
 def build_home(lang, src):
     src = src.replace('@@RACE_LEAD@@', json.dumps({r['id']: r['lead'] for r in RACES_PAGE}, ensure_ascii=False))
     src = src.replace('@@RACE_SLUG@@', json.dumps({r['id']: r['slug'] for r in RACES_PAGE}))
-    src = src.replace('@@TABBAR@@', tabbar('', home=''))
+    src = chrome(src, tab='', home='')
     html, missing = translate(src, lang)
     html = tod.apply(html, lang)   # the hero in the reader's time of day (tod.py)
     here = page_dir(lang)
@@ -870,7 +919,7 @@ def build_class(c, lang, tpl, base_css, sprite, races):
     root = rel(here, '')
     home = rel(here, page_dir(lang))
     v = render_class(c, races, lang)
-    html = tpl.replace('@@BASE_CSS@@', base_css).replace('@@SPRITE@@', sprite).replace('@@TABBAR@@', tabbar())
+    html = chrome(tpl.replace('@@BASE_CSS@@', base_css).replace('@@SPRITE@@', sprite), nav='classes/')
     for k in ('ID', 'COLOR', 'DESC', 'ROLES', 'FACTS', 'TABS', 'PANELS', 'NEWS', 'RACES', 'RACES_TIP', 'GROUP', 'LVL', 'PROS', 'CONS'):
         html = html.replace(f'@@{k}@@', v[k])
     others = ''.join(f'<a class="oc" href="../{o["id"]}/" style="--cc:{COLOR[o["id"]]}">{pic(o["id"], root, (360,), "132px")}<b>{esc(o["n"])}</b></a>' for o in CLASSES if o['id'] != c['id'])
@@ -966,7 +1015,8 @@ def build_race(rp, lang, tpl, base_css, class_css, sprite, races, en):
         'LORE': esc(rp['lore']), 'TIP': esc(r['tip']), 'BESTLIST': best, 'OTHERS': others, 'PAGER': pager,
         'TOC_RACES': toc, 'SOURCES': sources,
     }
-    html = tpl.replace('@@BASE_CSS@@', base_css).replace('@@CLASS_CSS@@', class_css).replace('@@SPRITE@@', sprite).replace('@@TABBAR@@', tabbar())
+    html = tpl.replace('@@BASE_CSS@@', base_css).replace('@@CLASS_CSS@@', class_css).replace('@@SPRITE@@', sprite)
+    html = chrome(html, nav='races/')
     for k, val in v.items():
         html = html.replace(f'@@{k}@@', val)
     html, missing = translate(html, lang)
