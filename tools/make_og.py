@@ -63,12 +63,12 @@ def html(art, title, lead, lang):
            f'<img class="blur" src="{url(f"assets/art/{art}-bg.webp")}"><img class="por" src="{url(f"assets/art/{art}-896.webp")}">')
     fonts = ''.join(
         f'@font-face{{font-family:"{fam}";font-weight:400 700;src:url({url("assets/fonts/" + f)}) format("woff2");unicode-range:{rng}}}'
-        for fam, base in (('Bona Nova SC', 'bona-nova-sc'), ('Golos Text', 'golos-text'))
+        for fam, base in (('Spectral SC', 'spectral-sc'), ('Golos Text', 'golos-text'))
         for f, rng in ((base + '-cyrillic.woff2', 'U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116'), (base + '-latin-ext.woff2', 'U+0100-02BA,U+1E00-1E9F'),
                        (base + '-latin.woff2', 'U+0000-00FF,U+2000-206F')))
     return f'''<!doctype html><meta charset="utf-8"><style>{fonts}
 *{{margin:0;box-sizing:border-box}}
-body{{width:1200px;height:630px;overflow:hidden;background:#07080a;position:relative;font-family:"Golos Text";color:#efe9da}}
+body{{width:1200px;height:630px;overflow:hidden;background:#07080a;position:relative;font-family:"Golos Text";color:#efe9da;font-variant-numeric:lining-nums}}
 img{{position:absolute;display:block}}
 .wide{{inset:0;width:100%;height:100%;object-fit:cover;object-position:{FOCUS.get(art, '50%')} 50%}}
 .blur{{inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.8)}}
@@ -76,15 +76,18 @@ img{{position:absolute;display:block}}
 .shade{{position:absolute;inset:0;background:linear-gradient(90deg,#07080a 0%,rgba(7,8,10,.92) 34%,rgba(7,8,10,.35) 62%,rgba(7,8,10,0) 80%),
   linear-gradient(0deg,rgba(7,8,10,.85) 0%,rgba(7,8,10,0) 36%)}}
 .txt{{position:absolute;left:72px;top:0;bottom:0;width:640px;display:flex;flex-direction:column;justify-content:center;gap:22px}}
-.brand{{position:absolute;left:72px;top:56px;display:flex;align-items:center;gap:16px;font:700 30px/1 "Bona Nova SC";color:#efe9da;letter-spacing:.04em}}
+.brand{{position:absolute;left:72px;top:56px;display:flex;align-items:center;gap:16px;font:600 30px/1 "Spectral SC";color:#efe9da;letter-spacing:.04em;font-variant-numeric:lining-nums}}
 .brand img{{position:static;width:56px;height:56px;border-radius:10px;box-shadow:0 0 0 1px rgba(201,165,74,.45)}}
-h1{{font:700 {'92' if len(title) <= 14 else '74'}px/1.02 "Bona Nova SC";letter-spacing:.02em;text-wrap:balance}}
+h1{{font:600 {'92' if len(title) <= 14 else '74'}px/1.02 "Spectral SC";letter-spacing:.02em;text-wrap:balance;font-variant-numeric:lining-nums}}
 p{{font-size:30px;line-height:1.35;color:#c9c2b0;text-wrap:pretty;max-width:{"520" if wide else "600"}px}}
-.start{{position:absolute;left:72px;bottom:56px;font:700 28px/1 "Bona Nova SC";letter-spacing:.03em;color:#c9a54a}}
+.start{{position:absolute;left:72px;bottom:56px;font:600 28px/1 "Spectral SC";letter-spacing:.03em;color:#c9a54a;font-variant-numeric:lining-nums}}
 </style><body>{pic}<div class="shade"></div>
 <div class="brand"><img src="{url('assets/logo.png')}" alt="">{BRAND}</div>
 <div class="txt"><h1>{title}</h1><p>{lead}</p></div>
-<div class="start">{START[lang]}</div></body>'''
+<div class="start">{START[lang]}</div>
+<script>/* Spectral is wider than the old face: shrink the title until its longest word fits the column */
+const h=document.querySelector('h1');let n=parseFloat(getComputedStyle(h).fontSize);
+while(h.scrollWidth>h.clientWidth&&n>40){{n-=2;h.style.fontSize=n+'px'}}</script></body>'''
 
 
 def shoot(page, out):
