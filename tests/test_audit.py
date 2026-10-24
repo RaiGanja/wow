@@ -126,7 +126,7 @@ def test_no_tool_names_in_sources():
 def test_fonts_preloaded_for_the_script():
     for lang in LANGS:
         head = page(*lang_dir(lang))[:6000]
-        want, other = ('cyrillic', 'latin') if lang in ('ru', 'uk') else ('latin', 'cyrillic')
+        want, other = ('ru-uk', 'latin') if lang in ('ru', 'uk') else ('latin', 'ru-uk')
         pre = lambda s: re.search(rf'golos-text-{s}\.woff2(\?v=\w+)?" as="font"', head)
         assert pre(want) and not pre(other), lang
 

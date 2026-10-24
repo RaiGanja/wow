@@ -304,8 +304,30 @@ def localize(html, lang, here):
         html = en_dates(html)
     if lang not in ('ru', 'uk'):                                  # Latin-script pages: preload the fonts they draw first
         html = html.replace('-cyrillic.woff2" as="font"', '-latin.woff2" as="font"')
+    else:
+        html = cyr_fonts(html)
     html = html.replace('</head>', REVEAL_CSS + '</head>', 1).replace('</body>', REVEAL_JS + '</body>', 1)
     return me(pwa(html, lang, rel(here, '')), lang, here)
+
+
+# the Latin of Russian and Ukrainian text: space, digits, punctuation, quotes, dashes, Latin words (WoW, Gabella)
+CYR_FONT_CORE = 'U+0020-007E, U+00A0-00BF, U+00D7, U+00F7, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215'
+CYR_FACE = re.compile(r'@font-face \{[^}]*assets/fonts/([\w-]+)-cyrillic\.woff2[^}]*\}\r?\n')
+
+
+def cyr_fonts(html):
+    """ru/uk pages: <family>-ru-uk.woff2 (Cyrillic + CYR_FONT_CORE, tools/subset_fonts.py) in place of the -cyrillic file.
+    Its rule goes after the -latin one: of overlapping unicode-ranges the last rule wins, so the page draws its text from
+    two font files instead of four before the first frame; the -latin file comes only for rarer characters (é, ñ)."""
+    for m in list(CYR_FACE.finditer(html)):
+        fam = m[1]
+        rule = re.sub(r'unicode-range:([^;]*);', lambda r: f'unicode-range:{r[1]}, {CYR_FONT_CORE};',
+                      m[0].replace(f'{fam}-cyrillic.woff2', f'{fam}-ru-uk.woff2'))
+        html = html.replace(m[0], '', 1)
+        lat = re.search(r'@font-face \{[^}]*assets/fonts/' + fam + r'-latin\.woff2[^}]*\}\r?\n', html)
+        html = html[:lat.end()] + rule + html[lat.end():]
+        html = html.replace(f'{fam}-cyrillic.woff2" as="font"', f'{fam}-ru-uk.woff2" as="font"')
+    return html
 
 
 EN_DATE = re.compile(r'(?<![\d.,:/\w-])(0[1-9]|[12]\d|3[01])\.(0[1-9]|1[0-2])(?:\.(20\d\d))?(?![\d\w]|\.\d)')

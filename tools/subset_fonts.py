@@ -3,6 +3,9 @@ Same families, weights, wght axis, hinting and OpenType features (kern, lnum, tn
 only glyphs no character of the site reaches are dropped. The @font-face unicode-range groups in index.src.html stay.
 Kept per file: (characters of the built pages, scripts and data + their upper/lower case + MARGIN) inside its unicode-range.
 tools/fonts-src/subset.json records what each file kept; tests/test_fonts.py checks every site character against it.
+Russian and Ukrainian pages take <family>-ru-uk.woff2 instead of -cyrillic: Cyrillic + build.CYR_FONT_CORE in one file
+(build.cyr_fonts). Its original tools/fonts-src/<family>-ru-uk.woff2 is made once by
+python tools/subset_fonts.py --ru-uk-sources <GolosText[wght].ttf from github.com/google/fonts, ofl/golostext>.
 Run after python build.py when the test asks for it, then build again (new ?v= on the fonts): python tools/subset_fonts.py
 (needs: pip install fonttools brotli)"""
 import hashlib, html, json, os, re, sys
@@ -55,8 +58,14 @@ def parse_range(rng):
 def faces(root=ROOT):
     """{file name: set of code points of its unicode-range} from the @font-face rules of index.src.html."""
     css = open(os.path.join(root, 'index.src.html'), encoding='utf-8').read()
-    return {name: parse_range(rng) for name, rng in
-            re.findall(r'assets/fonts/([\w-]+\.woff2)\)[^;]*;\s*unicode-range:\s*([^;]+);', css)}
+    out = {name: parse_range(rng) for name, rng in
+           re.findall(r'assets/fonts/([\w-]+\.woff2)\)[^;]*;\s*unicode-range:\s*([^;]+);', css)}
+    sys.path.insert(0, root)
+    from build import CYR_FONT_CORE
+    for name, rng in list(out.items()):
+        if name.endswith('-cyrillic.woff2'):
+            out[name.replace('-cyrillic', '-ru-uk')] = rng | parse_range(CYR_FONT_CORE)
+    return out
 
 
 def ranges(cps):
@@ -95,6 +104,43 @@ def cut(src, dst, keep):
     return hashlib.sha1(data).hexdigest()[:10]
 
 
+def ru_uk_sources(golos):
+    """tools/fonts-src/<family>-ru-uk.woff2: the -cyrillic and -latin originals as one font. Bona Nova SC is static and
+    merges (same metrics and hinting programs in both); Golos Text is variable, which fontTools cannot merge, so it is
+    cut from the upstream font the Google Fonts files are subsets of (same outlines), to their characters and features."""
+    import tempfile
+    from fontTools import merge, subset
+    from fontTools.ttLib import TTFont
+    with tempfile.TemporaryDirectory() as tmp:
+        parts = []
+        for part in ('latin', 'cyrillic'):          # glyphs in both (A, space) keep the -latin names its kerning uses
+            t = TTFont(os.path.join(SRC, f'bona-nova-sc-{part}.woff2'))
+            t.flavor = None
+            parts.append(os.path.join(tmp, part + '.ttf'))
+            t.save(parts[-1])
+        font = merge.Merger().merge(parts)
+        font.flavor = 'woff2'
+        font.save(os.path.join(SRC, 'bona-nova-sc-ru-uk.woff2'))
+    keep, feats = set(), set()
+    for part in ('cyrillic', 'latin'):
+        t = TTFont(os.path.join(SRC, f'golos-text-{part}.woff2'))
+        keep |= set(t.getBestCmap())
+        feats |= {r.FeatureTag for tag in ('GSUB', 'GPOS') for r in t[tag].table.FeatureList.FeatureRecord}
+    opts = subset.Options()
+    opts.flavor = 'woff2'
+    opts.layout_features = sorted(feats)
+    opts.layout_scripts = ['*']
+    opts.name_IDs = ['*']
+    opts.name_languages = ['*']
+    opts.notdef_outline = True
+    opts.drop_tables = []
+    font = subset.load_font(golos, opts)
+    sub = subset.Subsetter(opts)
+    sub.populate(unicodes=sorted(keep))
+    sub.subset(font)
+    subset.save_font(font, os.path.join(SRC, 'golos-text-ru-uk.woff2'), opts)
+
+
 def main():
     from fontTools.ttLib import TTFont
     want = site_chars() | MARGIN
@@ -110,4 +156,7 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    if sys.argv[1:2] == ['--ru-uk-sources']:
+        ru_uk_sources(sys.argv[2])
+    else:
+        main()
