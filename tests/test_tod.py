@@ -69,15 +69,16 @@ class Markup(unittest.TestCase):
             # the phone band is 100vw wide: a 412 px phone at 1.75x takes the 800 cut, not 1000 (78vh asked for 1000)
             self.assertRegex(html, r'hero_\{tod\}-m-800\.avif[^ ]* 800w, [^"]*" sizes="100vw"', page)
 
-    def test_leveling_guide_follows_time_of_day(self):
+    def test_only_the_home_follows_time_of_day(self):
+        # the leveling guide has its own scene now: the home hero is not repeated on another page
+        for page in (('guides', 'leveling'), ('guides', 'professions')):
+            html = open(os.path.join(ROOT, *page, 'index.html'), encoding='utf-8').read()
+            self.assertNotIn('GabellaTod', html, page)
+            self.assertNotIn('data-tod-sw', html, page)
+            self.assertNotIn('hero_{tod}', html, page)
+            self.assertNotIn('hero_dawn', html, page)
         html = open(os.path.join(ROOT, 'guides', 'leveling', 'index.html'), encoding='utf-8').read()
-        self.assertIn('window.GabellaTod', html.split('</head>')[0])
-        self.assertIn('hero_{tod}-1440', html)
-        self.assertRegex(html, r'assets/tod/tod\.js\?v=\w{10}')
-        self.assertIn('data-tod-sw', html)
-        other = open(os.path.join(ROOT, 'guides', 'professions', 'index.html'), encoding='utf-8').read()
-        self.assertNotIn('GabellaTod', other)
-        self.assertNotIn('data-tod-sw', other)
+        self.assertIn('data-fx="leveling"', html)
 
 
 class Wiring(unittest.TestCase):

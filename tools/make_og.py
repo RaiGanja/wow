@@ -39,16 +39,17 @@ TOOLS = {'t': langs.derive({'ru': 'Инструменты', 'en': 'Tools', 'uk':
                'it': 'Riquadri del gruppo, griglia d’incursione, confronto classi e razze, ricerca',
                'pl': 'Ramki drużyny, siatka raidu, porównanie klas i ras, wyszukiwarka'}}
 langs.fill([HUB, GUIDES, HUBS])
-WIDE = ('hero_dawn', 'hero_campfire')    # landscape art fills the card; portraits stand on the right
+FOCUS = {'hero_dawn': '70%', 'hero_campfire': '88%'}   # horizontal crop of a landscape scene; the default is the right edge
+SKIP = set()            # a card that waits for its new scene; named on the command line it is rendered anyway
 
 
 def cards():
     """(file name without -lang, art, title by lang, line under the title by lang)"""
     yield 'og', 'hero_dawn', HOME['t'], HOME['d']
-    yield 'og/guides', HUB['art'], HUB['title'], HUB['lead']
+    yield 'og/guides', HUB['hero'], HUB['title'], HUB['lead']
     for g in GUIDES + HUBS:
-        yield 'og/' + g['slug'], g['art'], g['title'], g['lead']
-    yield 'og/tools', 'rogue', TOOLS['t'], TOOLS['d']
+        yield 'og/' + g['slug'], g.get('hero') or g['art'], g['title'], g['lead']      # the scene of the page itself
+    yield 'og/tools', 'hero_tools', TOOLS['t'], TOOLS['d']
 
 
 def url(path):
@@ -56,8 +57,8 @@ def url(path):
 
 
 def html(art, title, lead, lang):
-    wide = art in WIDE
-    pic = (f'<img class="wide" src="{url(f"assets/art/{art}-1440.webp" if art == "hero_dawn" else f"assets/art/{art}-1600.webp")}">'
+    wide = art.startswith('hero_')
+    pic = (f'<img class="wide" src="{url(f"assets/art/{art}-1600.webp" if art == "hero_campfire" else f"assets/art/{art}-1440.webp")}">'
            if wide else
            f'<img class="blur" src="{url(f"assets/art/{art}-bg.webp")}"><img class="por" src="{url(f"assets/art/{art}-896.webp")}">')
     fonts = ''.join(
@@ -69,7 +70,7 @@ def html(art, title, lead, lang):
 *{{margin:0;box-sizing:border-box}}
 body{{width:1200px;height:630px;overflow:hidden;background:#07080a;position:relative;font-family:"Golos Text";color:#efe9da}}
 img{{position:absolute;display:block}}
-.wide{{inset:0;width:100%;height:100%;object-fit:cover;object-position:{'70%' if art == 'hero_dawn' else '88%'} 50%}}
+.wide{{inset:0;width:100%;height:100%;object-fit:cover;object-position:{FOCUS.get(art, '50%')} 50%}}
 .blur{{inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.8)}}
 .por{{right:40px;top:0;height:630px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent)}}
 .shade{{position:absolute;inset:0;background:linear-gradient(90deg,#07080a 0%,rgba(7,8,10,.92) 34%,rgba(7,8,10,.35) 62%,rgba(7,8,10,0) 80%),
@@ -102,7 +103,8 @@ def main():
     only = {a for a in sys.argv[1:] if not a.startswith('--')}
     pick = next((a[8:].split(',') for a in sys.argv[1:] if a.startswith('--langs=')), LANGS)   # --langs=de,fr: only these
     for name, art, title, lead in cards():
-        if only and name.split('/')[-1] not in only:
+        slug = name.split('/')[-1]
+        if (only and slug not in only) or (not only and slug in SKIP):
             continue
         for lang in (l for l in pick if l in title):        # a one-language guide has one card
             out = os.path.join(ROOT, 'assets', f'{name}-{lang}.jpg')

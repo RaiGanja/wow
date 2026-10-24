@@ -32,14 +32,16 @@ SITE_TILES = [
      'd': {'ru': 'Второй экран: радио, уровень, таймеры', 'en': 'Second screen: radio, level, timers', 'uk': 'Другий екран: радіо, рівень, таймери'}},
 ]
 # Wide hero art; everything else is a class/race portrait cut at 360/600/896
-WIDTHS = {'hero_dawn': (960, 1440, 1920, 2560, 3840), 'hero_campfire': (960, 1600, 2560), 'hero_road': (960, 1600, 2560)}
-WIDTHS |= {f'hero_{x}': (960, 1440, 1920, 2560) for x in ('guides', 'dungeons', 'professions', 'faq', 'news', 'tools', 'roster')}
+WIDTHS = {'hero_dawn': (960, 1440, 1920, 2560, 3840), 'hero_campfire': (960, 1600, 2560),
+          'hero_tools': (960, 1440, 1920, 2560)}   # the tools scene is also the Tools tile
 FX = {'hero_dawn': 'dawn', 'hero_campfire': 'camp'}   # living art (assets/living/living.js) over these heroes
 # A guide with 'hero' gets the full-screen inner page hero (.thero, like roster and tools): its own scene, living art,
 # a portrait cut on phones (tools/make_images.py INNER, CUTS); 'art' stays for the tiles and the share preview.
 THERO = {'hero_guides': 'guides', 'hero_dungeons': 'dungeons', 'hero_professions': 'professions', 'hero_faq': 'faq',
-         'hero_news': None}
+         'hero_news': None, 'hero_leveling': 'leveling', 'hero_classes': 'classes', 'hero_races': 'races',
+         'hero_ukrainian': 'ukrainian', 'hero_requirements': 'requirements'}
 THERO_W = (960, 1440, 1920, 2560)
+WIDTHS.update({h: THERO_W for h in THERO})   # a page's own scene is also its tile (cut 4:3 by the tile) and share preview
 
 
 LAUNCH_UTC = '23:00 UTC'
@@ -208,7 +210,7 @@ def guide_tiles(guides):
 
 
 def section_tiles():
-    return [{'t': x['title'], 'd': x['tile'], 'href': x['path'], 'art': x.get('tile_art', x['art'])} for x in HUBS]
+    return [{'t': x['title'], 'd': x['tile'], 'href': x['path'], 'art': x['art']} for x in HUBS]
 
 
 def lang_guides(lang):

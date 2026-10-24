@@ -331,7 +331,7 @@ RAM8, RAM16 = t('8 ГБ', '8 GB', '8 ГБ'), t('16 ГБ', '16 GB', '16 ГБ')
 REQ_HEAD = ['', t('Минимум', 'Minimum', 'Мінімум'), t('Рекомендуется', 'Recommended', 'Рекомендовано')]
 
 GUIDES.append({
-    'slug': 'requirements', 'art': 'gnome',
+    'slug': 'requirements', 'art': 'hero_requirements', 'hero': 'hero_requirements',
     'title': t('Системные требования', 'System requirements', 'Системні вимоги'),
     'lead': t('Минимальные и рекомендуемые требования WoW Forever для Windows и Mac по магазину Battle.net и какие видеокарты больше не поддерживаются.',
               'Minimum and recommended WoW Forever requirements for Windows and Mac from the Battle.net shop, and which graphics cards are no longer supported.',
@@ -542,7 +542,7 @@ GUIDES.append({
 # ---------- Прокачка 1–60 (переехали #legacy и #camp главной) ----------
 
 GUIDES.append({
-    'slug': 'leveling', 'art': 'hero_dawn',
+    'slug': 'leveling', 'art': 'hero_leveling', 'hero': 'hero_leveling',
     'title': t('Прокачка 1–60', 'Leveling 1–60', 'Прокачування 1–60'),
     'lead': t('Маршрут по зонам для Альянса и Орды, отдых и бонусы опыта, советы соло, вдвоём и группой, Legacy и лагерь.',
               'A zone route for Alliance and Horde, rest and experience bonuses, tips for solo, duo and group play, Legacy and the camp.',
@@ -959,7 +959,7 @@ UAF = 'https://www.curseforge.com/wow/addons/ua-forever'
 UALL = 'https://www.curseforge.com/wow/addons/uall-forever-ukrainian-localization'
 
 GUIDES.append({
-    'slug': 'ukrainian', 'only': 'uk', 'art': 'priest',
+    'slug': 'ukrainian', 'only': 'uk', 'art': 'hero_ukrainian', 'hero': 'hero_ukrainian',
     'title': u('Як грати українською'),
     'lead': u('Української мови у WoW Forever немає, перекладає гру аддон. Який обрати, як встановити й налаштувати, де побачити оригінал.'),
     'tile': u('Аддони перекладу: який обрати й як встановити'),
@@ -1042,7 +1042,7 @@ GUIDES.sort(key=lambda g: ORDER.index(g['slug']))
 # ---------- Разделы /classes/ и /races/: таблицы сравнения с главной (JS — из index.src.html, ref:start…ref:end) ----------
 
 HUBS = [
-    {'slug': 'classes', 'path': 'classes/', 'art': 'warrior', 'tile_art': 'hero_roster', 'js': 'classref',
+    {'slug': 'classes', 'path': 'classes/', 'art': 'hero_classes', 'hero': 'hero_classes', 'js': 'classref',
      'title': t('Классы', 'Classes', 'Класи'),
      'lead': t('Какой класс выбрать в WoW Forever: короткий ответ под вашу цель, темп прокачки по бете и сравнение девяти классов.',
                'Which class to pick in WoW Forever: a short answer for your goal, leveling pace from the beta and all nine classes compared.',
@@ -1104,7 +1104,7 @@ HUBS = [
                      'Темп прокачки взято з прогнозів по беті: у беті була стеля 30 рівня, вище оцінки проєктні. Рядок відкриває сторінку класу.')]),
          ('raw', '<div class="cmp cls" id="classRef"></div>'),
      ]}]},
-    {'slug': 'races', 'path': 'races/', 'art': 'human', 'tile_art': 'hero_road', 'js': 'raceref',
+    {'slug': 'races', 'path': 'races/', 'art': 'hero_races', 'hero': 'hero_races', 'js': 'raceref',
      'title': t('Расы', 'Races', 'Раси'),
      'lead': t('Пять рас за каждую фракцию: доступные классы и четыре расовые способности.',
                'Five races per faction: available classes and four racial abilities.',
