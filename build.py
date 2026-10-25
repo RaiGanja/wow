@@ -429,9 +429,10 @@ REVEAL_JS = """<script>
 """
 
 
-# Home page: the files the first screen does without (radio, search, profile, living art, time of day, analytics, manifest)
+# Home page: the files the first screen does without (radio, search, profile, living art, time of day, analytics)
 # wait in the page asleep, a <link> with data-rel and a <script> with data-src, and LATE_JS wakes them once the hero
 # picture is painted, or at the first touch, key or scroll. Lighthouse counts every file that finishes before that paint.
+# The manifest stays a plain <link> in <head>: the browser decides on the install prompt from it, and asleep it came too late.
 LATE_JS = """<script>
 (function () {
   var done = false;
@@ -468,7 +469,7 @@ LATE_JS = """<script>
 })();
 </script>
 """
-LATE_FILES = r'assets/(?:radio|search|me|tod|living)/|manifest-\w+\.webmanifest|static\.cloudflareinsights\.com/'
+LATE_FILES = r'assets/(?:radio|search|me|tod|living)/|static\.cloudflareinsights\.com/'
 
 
 def late(html):
