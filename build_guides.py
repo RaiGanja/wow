@@ -97,7 +97,8 @@ def thero(sec, hero):
     big = lambda ext: ', '.join(f'@@ROOT@@assets/art/{hero}-{w}.{ext} {w}w' for w in THERO_W)   # noqa: E731
     phone = 'media="(max-width: 719px) and (max-aspect-ratio: 2/3)"'
     fx = f' data-fx="{THERO[hero]}" data-cut="{THERO_CUT.get(hero, ".9")}"' if THERO[hero] else ''   # living layer only where a mask exists
-    pic = (f'<picture class="thero-art" aria-hidden="true"{fx}>\n'
+    pic = (f'<img class="thero-amb" src="@@ROOT@@assets/art/{hero}-960.webp" width="960" height="536" alt="" aria-hidden="true" loading="lazy" decoding="async">\n  '   # ultrawide sides
+           f'<picture class="thero-art" aria-hidden="true"{fx}>\n'
            f'    <source {phone} type="image/avif" srcset="{m("avif")}" sizes="100vw">\n'
            f'    <source {phone} type="image/webp" srcset="{m("webp")}" sizes="100vw">\n'
            f'    <source type="image/avif" srcset="{big("avif")}" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw">\n'

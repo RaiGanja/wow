@@ -399,6 +399,13 @@ canvas.fx.on { opacity: 1; }
     left: auto; right: var(--rgap); width: min(100%, calc(var(--hh) * var(--rmax)));
     -webkit-mask-image: var(--edges); mask-image: var(--edges); }
 }
+/* the strips beside a stopped scene are not left empty: the same scene, small (960 px), blurred and dimmed, fills the band and
+   the sharp scene melts into it */
+.thero-amb { display: none; }
+@media (min-width: 720px) {
+  .thero-amb { display: block; position: absolute; inset: 0 0 auto 0; z-index: -3; width: 100%; height: var(--hh); object-fit: cover; object-position: 66% 50%;
+    filter: blur(32px) brightness(.5) saturate(1.15); clip-path: inset(0); pointer-events: none; }
+}
 .thero-in { width: 100%; display: grid; gap: 18px; justify-items: start; }
 .thero .crumbs { display: flex; gap: 10px; font-size: var(--fs-14); color: var(--ink-2); }
 .thero .crumbs a { color: var(--ink-2); text-decoration: none; }

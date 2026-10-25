@@ -394,6 +394,13 @@ canvas.fx.on { opacity: 1; }
     left: auto; right: var(--rgap); width: min(100%, calc(var(--hh) * var(--rmax)));
     -webkit-mask-image: var(--edges); mask-image: var(--edges); }
 }
+/* the strips beside a stopped scene are not left empty: the same scene, small (960 px), blurred and dimmed, fills the band and
+   the sharp scene melts into it */
+.thero-amb { display: none; }
+@media (min-width: 720px) {
+  .thero-amb { display: block; position: absolute; inset: 0 0 auto 0; z-index: -3; width: 100%; height: var(--hh); object-fit: cover; object-position: 66% 50%;
+    filter: blur(32px) brightness(.5) saturate(1.15); clip-path: inset(0); pointer-events: none; }
+}
 .thero-in { width: 100%; display: grid; gap: 18px; justify-items: start; }
 .thero .crumbs { display: flex; gap: 10px; font-size: var(--fs-14); color: var(--ink-2); }
 .thero .crumbs a { color: var(--ink-2); text-decoration: none; }
@@ -1154,10 +1161,10 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../assets/radio/radio.css?v=c5eacd57e2" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=cf57b606c3" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/search/search.css?v=f7b7ec0219" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../assets/me/me.css?v=87aca2d97f" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://gabella.site/wow/"},{"@type":"ListItem","position":2,"name":"Инструменты","item":"https://gabella.site/wow/tools/"}]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Инструменты WoW Forever: сравнение классов и рас, группа","description":"Сравнение классов и рас WoW Forever бок о бок, рамки группы и рейдовая сетка как в игре, поиск по всему гиду.","inLanguage":"ru","url":"https://gabella.site/wow/tools/","dateModified":"2026-10-25","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/"},"image":"https://gabella.site/wow/assets/og/tools-ru.jpg?v=c4384e4a"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Инструменты WoW Forever: сравнение классов и рас, группа","description":"Сравнение классов и рас WoW Forever бок о бок, рамки группы и рейдовая сетка как в игре, поиск по всему гиду.","inLanguage":"ru","url":"https://gabella.site/wow/tools/","dateModified":"2026-10-26","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/"},"image":"https://gabella.site/wow/assets/og/tools-ru.jpg?v=c4384e4a"}</script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -1199,6 +1206,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 
 <main id="main">
 <section class="thero" id="top">
+  <img class="thero-amb" src="../assets/art/hero_tools-960.webp?v=af827433" width="960" height="536" alt="" aria-hidden="true" loading="lazy" decoding="async">
   <picture class="thero-art" aria-hidden="true" data-fx="tools" data-cut=".9">
     <source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/avif" srcset="../assets/art/hero_tools-m-600.avif?v=5ad34e8d 600w, ../assets/art/hero_tools-m-800.avif?v=52a073af 800w, ../assets/art/hero_tools-m-1000.avif?v=8c77323a 1000w" sizes="100vw">
     <source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/webp" srcset="../assets/art/hero_tools-m-600.webp?v=d045407e 600w, ../assets/art/hero_tools-m-800.webp?v=afbfd96f 800w, ../assets/art/hero_tools-m-1000.webp?v=9fd751fc 1000w" sizes="100vw">
@@ -1209,7 +1217,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
   <div class="wrap thero-in">
     <nav class="crumbs" aria-label="Навигация"><a href="../">Гид</a><span aria-hidden="true">/</span><span>Инструменты</span></nav>
     <h1 class="long" style="--lw:11">Инструменты</h1>
-    <p class="upd">Обновлено <time datetime="2026-10-25">25.10.2026</time></p>
+    <p class="upd">Обновлено <time datetime="2026-10-26">26.10.2026</time></p>
     <p class="lead">Поиск по всему гиду, рамки группы и рейда как в игре и сравнение классов и рас. Состав хранится в ссылке, её можно кинуть в Discord.</p>
     <div class="frame sbox" id="search" role="search">
       <button type="button" class="sfield sopen"><svg class="ico" aria-hidden="true"><use href="#i-search"/></svg><span class="sr">Поиск по гиду</span><span>Класс, способность, раса, подземелье или уровень</span><kbd aria-hidden="true">Ctrl K</kbd></button>
@@ -1931,7 +1939,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../assets/radio/radio.js?v=c5eacd57e2" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=cf57b606c3" data-root="../" defer></script>
+<script src="../assets/search/search.js?v=f7b7ec0219" data-root="../" defer></script>
 <script src="../assets/me/me.js?v=87aca2d97f" data-root="../" data-home="../" data-lang="ru" data-ach="0" data-teaser="" data-close="Закрыть" data-page="tools/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>

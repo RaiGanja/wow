@@ -394,6 +394,13 @@ canvas.fx.on { opacity: 1; }
     left: auto; right: var(--rgap); width: min(100%, calc(var(--hh) * var(--rmax)));
     -webkit-mask-image: var(--edges); mask-image: var(--edges); }
 }
+/* the strips beside a stopped scene are not left empty: the same scene, small (960 px), blurred and dimmed, fills the band and
+   the sharp scene melts into it */
+.thero-amb { display: none; }
+@media (min-width: 720px) {
+  .thero-amb { display: block; position: absolute; inset: 0 0 auto 0; z-index: -3; width: 100%; height: var(--hh); object-fit: cover; object-position: 66% 50%;
+    filter: blur(32px) brightness(.5) saturate(1.15); clip-path: inset(0); pointer-events: none; }
+}
 .thero-in { width: 100%; display: grid; gap: 18px; justify-items: start; }
 .thero .crumbs { display: flex; gap: 10px; font-size: var(--fs-14); color: var(--ink-2); }
 .thero .crumbs a { color: var(--ink-2); text-decoration: none; }
@@ -962,8 +969,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 /* One hero on every guide page, a scene (.thero) or a portrait band (.ghero): the same height and shade in both themes,
    the crumbs on the dark corner, the art fades into the page and the contents run onto that fade */
 .thero, .ghero { --hh: clamp(540px, 76svh, 720px); }
-/* the scene band is 1920 x 720 on a full HD screen; wider, it grows with the width up to 76svh and stops at that shape (--rmax) */
-.thero { --hh: max(540px, min(76svh, max(720px, 37.5vw))); --rmax: 2.67; }
+/* the scene band keeps the shape of a ~1620 px window (2.25 : 1, the whole party with the horns and the weapons): wider, it grows
+   with the width up to 76svh and then stops at that shape (--rmax), the blurred scene (.thero-amb) fills the sides */
+.thero { --hh: max(540px, min(76svh, max(720px, 44.45vw))); --rmax: 2.25; }
 .thero { min-height: calc(var(--hh) * .66); overflow: visible; padding-bottom: 28px; background: none; }
 .thero::after { display: none; }
 .ghero { --band-h: var(--hh); min-height: calc(var(--hh) * .66); padding: calc(var(--top) + clamp(32px, 8vh, 96px)) 0 28px; display: grid; align-content: start; color: var(--ink); }
@@ -1224,7 +1232,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../../assets/radio/radio.css?v=c5eacd57e2">
-<link data-rel="stylesheet" href="../../../assets/search/search.css?v=cf57b606c3">
+<link data-rel="stylesheet" href="../../../assets/search/search.css?v=f7b7ec0219">
 <link data-rel="stylesheet" href="../../../assets/me/me.css?v=87aca2d97f">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://gabella.site/wow/de/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://gabella.site/wow/de/guides/"},{"@type":"ListItem","position":3,"name":"Systemanforderungen","item":"https://gabella.site/wow/de/guides/requirements/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"WoW Forever Systemanforderungen: PC und Mac","description":"Minimale und empfohlene Systemanforderungen von WoW Forever für Windows und Mac: CPU, Grafikkarte, RAM, SSD mit 128 GB und ältere Grafikkarten.","inLanguage":"de","url":"https://gabella.site/wow/de/guides/requirements/","dateModified":"2026-10-25","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/de/"},"image":"https://gabella.site/wow/assets/og/requirements-de.jpg?v=bf06771a"}</script>
@@ -1268,6 +1276,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 
 <main id="main">
 <section class="thero" id="top">
+  <img class="thero-amb" src="../../../assets/art/hero_requirements-960.webp?v=2efaee97" width="960" height="536" alt="" aria-hidden="true" loading="lazy" decoding="async">
   <picture class="thero-art" aria-hidden="true" data-fx="requirements" data-cut=".9">
     <source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/avif" srcset="../../../assets/art/hero_requirements-m-600.avif?v=a76f4fc5 600w, ../../../assets/art/hero_requirements-m-800.avif?v=70865e42 800w, ../../../assets/art/hero_requirements-m-1000.avif?v=bccd7a6a 1000w" sizes="100vw">
     <source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/webp" srcset="../../../assets/art/hero_requirements-m-600.webp?v=866dfe16 600w, ../../../assets/art/hero_requirements-m-800.webp?v=455ef0c4 800w, ../../../assets/art/hero_requirements-m-1000.webp?v=9d596fd5 1000w" sizes="100vw">
@@ -1446,7 +1455,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../../"></script>
-<script data-src="../../../assets/search/search.js?v=cf57b606c3" data-root="../../../"></script>
+<script data-src="../../../assets/search/search.js?v=f7b7ec0219" data-root="../../../"></script>
 <script data-src="../../../assets/me/me.js?v=87aca2d97f" data-root="../../../" data-home="../../" data-lang="de" data-ach="0" data-teaser="" data-close="Schließen" data-page="guides/requirements/" data-look="2"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
