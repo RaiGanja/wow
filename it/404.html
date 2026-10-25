@@ -909,12 +909,19 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .gtabs [role="tab"][aria-selected="true"] { background: #c9a54a; border-color: #c9a54a; color: #15110a; }
 .gtabs [role="tabpanel"] { display: grid; gap: 14px; }
 .gtabs [role="tabpanel"][hidden] { display: none; }
-.gfaq { display: grid; gap: 8px; }
-.gfaq details { background: var(--panel-2); border: 1px solid var(--pline); border-radius: 8px; padding: 12px 16px; scroll-margin-top: calc(var(--top) + 16px); }
-.gfaq details[open] { border-color: color-mix(in srgb, var(--gold) 45%, transparent); }
+/* FAQ: plain rows, no frame per question. A chevron on the right, a plate on hover, the open answer indented under it */
+.gfaq { display: grid; gap: 2px; margin: 0 -14px; }
+.gfaq details { scroll-margin-top: calc(var(--top) + 16px); }
 .gfaq details[hidden] { display: none; }
-.gfaq summary { cursor: pointer; font-weight: 600; min-height: 26px; }
-.gfaq details p { margin-top: 10px; }
+.gfaq summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 48px; padding: 10px 14px; border-radius: 6px; font-weight: 600; transition: background-color .15s; }
+.gfaq summary::-webkit-details-marker { display: none; }
+.gfaq summary::after { content: ""; flex: none; width: 8px; height: 8px; border-right: 1.5px solid var(--muted); border-bottom: 1.5px solid var(--muted); transform: translateY(-2px) rotate(45deg); transition: transform .2s var(--ease), border-color .15s; }
+.gfaq summary:hover { background: var(--zebra); }
+.gfaq details[open] > summary::after { border-color: var(--gold-2); transform: translateY(2px) rotate(-135deg); }
+.gfaq details > :not(summary) { margin: 0 14px; max-width: 72ch; }
+.gfaq details > :not(summary):first-of-type { margin-top: 2px; }
+.gfaq details > :last-child:not(summary) { margin-bottom: 14px; }
+.gfaq details > p + p { margin-top: 10px; }
 .gsearch { display: flex; align-items: center; min-height: 52px; padding: 0 16px; border: 1px solid var(--pline); border-radius: 8px; background: var(--panel-2); }
 .gsearch:focus-within { border-color: var(--gold); }
 .gsearch input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; color: var(--fg); font: inherit; font-size: var(--fs-16); min-height: 48px; }
