@@ -131,7 +131,7 @@
       el.className = 'me-toast' + (t.kind === 'rank' ? ' rank' : '') + (SMALL.test(t.kind) ? ' sm' : '') + (reduced() ? '' : ' anim');
       if (SMALL.test(t.kind)) {   // one quiet line: a report sent, a level confirmed
         el.innerHTML = `<span class="me-tt"><b>${esc(t.text || G[t.id] || '')}</b></span>`;
-      } else el.innerHTML = `<span class="me-ti">${t.kind === 'rank' ? `<span class="me-ring fr-${esc(t.id)}">${img(face(state), 40)}</span>` : `<img src="${ROOT}assets/me/ach/${esc(t.id)}.webp" alt="" width="44" height="44">`}</span>
+      } else el.innerHTML = `<span class="me-ti">${t.kind === 'rank' ? `<span class="me-ring fr-${esc(t.id)}">${img(face(state), 40)}</span>` : `<img src="${ROOT}assets/me/ach/${esc(t.id)}.webp${t.id === 'molten_core' ? '?v=2' : ''}" alt="" width="44" height="44">`}</span>
         <span class="me-tt"><small>${esc(t.kind === 'rank' ? T.ui.rankUp : T.ui.got)}</small><b>${esc(t.kind === 'rank' ? T.ranks[t.id] || t.id : a[0])}</b></span>
         ${pts ? `<span class="me-shield" aria-label="${esc(pts + ' ' + (T.ui.pts || ''))}">${pts}</span>` : ''}`;
       box.append(el);
