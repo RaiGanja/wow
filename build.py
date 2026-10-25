@@ -676,7 +676,8 @@ def pwa(html, lang, root):
 # «Обновлено <date>» under the title of a guide, class, race or tools page and dateModified in its JSON-LD: the day the
 # page's content sources last changed. Today while one of them has uncommitted changes, else the date of its last commit.
 GIT_ROOT = os.path.dirname(HERE) if os.environ.get('WF_STAGED') else HERE   # the staged build runs in .build/, git is one level up
-UPD_SRC = {'guides/': ('content/guides.py', 'i18n/guides.ru.txt', 'i18n/guides.en.txt', 'i18n/guides.uk.txt'),
+UPD_SRC = {'guides/leveling-': ('content/class_guides.py',),   # the nine class guides: their own texts (the order is checked first)
+           'guides/': ('content/guides.py', 'i18n/guides.ru.txt', 'i18n/guides.en.txt', 'i18n/guides.uk.txt'),
            'classes/': ('content/classes.py',), 'races/': ('content/races.py',),
            'tools/': ('tools.src.html', 'i18n/tools.ru.txt', 'content/classes.py', 'content/races.py')}
 NO_UPD = {'guides/news/'}   # the news feed refreshes itself
@@ -1056,6 +1057,13 @@ def render_class(c, races, lang):
     }
 
 
+def class_guide_title(cid, lang):
+    """Title of the class leveling guide (guides/leveling-<class>/) in the page language."""
+    from content.guides import GUIDES
+    g = next(x for x in GUIDES if x['slug'] == f'leveling-{cid}')
+    return langs.fill(g['title'])[lang]
+
+
 def build_class(c, lang, tpl, base_css, sprite, races):
     here = page_dir(lang, f'classes/{c["id"]}/')
     root = rel(here, '')
@@ -1074,6 +1082,7 @@ def build_class(c, lang, tpl, base_css, sprite, races):
 
     html, missing = translate(html, lang)
     html = set_updated(html, f'classes/{c["id"]}/')
+    html = html.replace('@@GUIDE@@', esc(class_guide_title(c['id'], lang)))   # «Прокачка Воина 1–60»: link to the class leveling guide
     html = html.replace('@@PROFS@@', profs_panel(c['id'], lang))   # already in lang: the pairs come from the Professions guide
     html = html.replace('@@NAME@@', esc(tr(c['n'], lang)))
     html = mark_long(hyph_tabs(html))

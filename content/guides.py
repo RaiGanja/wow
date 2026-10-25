@@ -29,7 +29,7 @@ GUIDES = []   # наполняется в задачах 3, 5, 6, 7, 9; кажд
 NEWS = []     # ручные записи: {'date': '2026-10-23', 'title': t(...), 'text': t(...), 'url': 'https://…'}
 from build import DISCORD_AT  # noqa: E402  (у каждого места ссылки своё приглашение)
 
-ORDER = ['leveling', 'best-race', 'tier-list', 'legacy', 'dungeons', 'professions', 'faq', 'requirements', 'news', 'ukrainian']   # порядок плиток на хабе и в «Другие гайды»
+ORDER = ['leveling', 'leveling-warrior', 'leveling-paladin', 'leveling-hunter', 'leveling-rogue', 'leveling-priest', 'leveling-shaman', 'leveling-mage', 'leveling-warlock', 'leveling-druid', 'best-race', 'tier-list', 'legacy', 'dungeons', 'professions', 'faq', 'requirements', 'news', 'ukrainian']   # порядок плиток на хабе и в «Другие гайды»
 
 
 # ---------- FAQ: даты и наборы, режимы, имена, отличия от Era (переехали с главной) + частые вопросы ----------
@@ -1147,15 +1147,15 @@ GUIDES.append({
         {'id': 'leveling', 'title': t('Прокачка', 'Leveling\xa0', 'Прокачування'), 'blocks': [
             ('text', [t('Источники оценивают прокачку по классу, поэтому здесь один спек на класс. Проценты темпа — оценка LFCarry по Classic, перепроверенная на бете.', 'Sources rate leveling per class, so this table has one spec per class. The pace percentages are LFCarry’s estimate based on Classic, rechecked on the beta.', 'Джерела оцінюють прокачування за класом, тому тут одна спеціалізація на клас. Відсотки темпу — оцінка LFCarry за Classic, перевірена на бета-версії.')]),
             ('table', {'head': [t('Тир', 'Tier', 'Тір'), t('Класс · спек', 'Class · spec', 'Клас · спеціалізація'), t('Почему', 'Why', 'Чому'), t('Где расходятся', 'Where sources differ', 'Де розходяться')], 'rows': [
-                ['S', t('Охотник · Повелитель зверей', 'Hunter · Beast Mastery', 'Мисливець · Володіння звірами'), t('Питомец танкует, примерно на 8% быстрее среднего.', 'The pet tanks; about 8% faster than average.', 'Улюбленець танкує, приблизно на 8% швидше за середнє.'), 'gamer-guides: A'],
-                ['S', t('Маг · Лёд', 'Mage · Frost', 'Маг · Лід'), t('Урон по площади, замедления, своя еда и вода, примерно на 8% быстрее среднего.', 'Area damage, slows, its own food and water; about 8% faster than average.', 'Шкода по площі, уповільнення, власні їжа й вода, приблизно на 8% швидше за середнє.'), t('gamer-guides берёт Тайную магию', 'gamer-guides picks Arcane', 'gamer-guides бере Тайну магію')],
-                ['A', t('Чернокнижник · Колдовство', 'Warlock · Affliction', 'Чорнокнижник · Прокляття'), t('Питомец держит врага, пока работает периодический урон.', 'The pet holds the enemy while damage over time works.', 'Улюбленець тримає ворога, поки діє періодична шкода.'), 'gamer-guides: S'],
-                ['A', t('Паладин · Воздаяние', 'Paladin · Retribution', 'Паладин · Відплата'), t('Легко фармит группы врагов по площади.', 'Farms groups of enemies easily with area damage.', 'Легко фармить групи ворогів шкодою по площі.'), 'gamer-guides: B'],
-                ['A*', t('Друид · Сила зверя', 'Druid · Feral', 'Друїд · Сила звіра'), t('Много ключевых умений открывается после 30, примерно на 5% медленнее среднего.', 'Many key abilities unlock after 30; about 5% slower than average.', 'Багато ключових умінь відкривається після 30, приблизно на 5% повільніше за середнє.'), 'gamer-guides: C'],
-                ['B', t('Шаман · Совершенствование', 'Shaman · Enhancement', 'Шаман · Вдосконалення'), t('До 30 уровня не хватает маны; Призрачный волк с 20 уровня.', 'Short on mana until level 30; Ghost Wolf from level 20.', 'До 30 рівня не вистачає мани; Ghost Wolf з 20 рівня.'), '—'],
-                ['B', t('Разбойник · Ликвидация или Бой', 'Rogue · Assassination or Combat', 'Розбійник · Ліквідація або Бій'), t('Средний темп.', 'Average pace.', 'Середній темп.'), 'gamer-guides: A'],
-                ['C*', t('Жрец · Темная магия', 'Priest · Shadow', 'Жрець · Темрява'), t('Примерно на 5% медленнее среднего.', 'About 5% slower than average.', 'Приблизно на 5% повільніше за середнє.'), t('gamer-guides: S для Послушания', 'gamer-guides: S for Discipline', 'gamer-guides: S для Послуху')],
-                ['C', t('Воин · Оружие или Неистовство', 'Warrior · Arms or Fury', 'Воїн · Зброя або Лють'), t('Самый медленный, примерно на 12% дольше среднего.', 'The slowest, about 12% longer than average.', 'Найповільніший, приблизно на 12% довше за середнє.'), '—'],
+                ['S', (t('Охотник · Повелитель зверей', 'Hunter · Beast Mastery', 'Мисливець · Володіння звірами'), 'guides/leveling-hunter/'), t('Питомец танкует, примерно на 8% быстрее среднего.', 'The pet tanks; about 8% faster than average.', 'Улюбленець танкує, приблизно на 8% швидше за середнє.'), 'gamer-guides: A'],
+                ['S', (t('Маг · Лёд', 'Mage · Frost', 'Маг · Лід'), 'guides/leveling-mage/'), t('Урон по площади, замедления, своя еда и вода, примерно на 8% быстрее среднего.', 'Area damage, slows, its own food and water; about 8% faster than average.', 'Шкода по площі, уповільнення, власні їжа й вода, приблизно на 8% швидше за середнє.'), t('gamer-guides берёт Тайную магию', 'gamer-guides picks Arcane', 'gamer-guides бере Тайну магію')],
+                ['A', (t('Чернокнижник · Колдовство', 'Warlock · Affliction', 'Чорнокнижник · Прокляття'), 'guides/leveling-warlock/'), t('Питомец держит врага, пока работает периодический урон.', 'The pet holds the enemy while damage over time works.', 'Улюбленець тримає ворога, поки діє періодична шкода.'), 'gamer-guides: S'],
+                ['A', (t('Паладин · Воздаяние', 'Paladin · Retribution', 'Паладин · Відплата'), 'guides/leveling-paladin/'), t('Легко фармит группы врагов по площади.', 'Farms groups of enemies easily with area damage.', 'Легко фармить групи ворогів шкодою по площі.'), 'gamer-guides: B'],
+                ['A*', (t('Друид · Сила зверя', 'Druid · Feral', 'Друїд · Сила звіра'), 'guides/leveling-druid/'), t('Много ключевых умений открывается после 30, примерно на 5% медленнее среднего.', 'Many key abilities unlock after 30; about 5% slower than average.', 'Багато ключових умінь відкривається після 30, приблизно на 5% повільніше за середнє.'), 'gamer-guides: C'],
+                ['B', (t('Шаман · Совершенствование', 'Shaman · Enhancement', 'Шаман · Вдосконалення'), 'guides/leveling-shaman/'), t('До 30 уровня не хватает маны; Призрачный волк с 20 уровня.', 'Short on mana until level 30; Ghost Wolf from level 20.', 'До 30 рівня не вистачає мани; Ghost Wolf з 20 рівня.'), '—'],
+                ['B', (t('Разбойник · Ликвидация или Бой', 'Rogue · Assassination or Combat', 'Розбійник · Ліквідація або Бій'), 'guides/leveling-rogue/'), t('Средний темп.', 'Average pace.', 'Середній темп.'), 'gamer-guides: A'],
+                ['C*', (t('Жрец · Темная магия', 'Priest · Shadow', 'Жрець · Темрява'), 'guides/leveling-priest/'), t('Примерно на 5% медленнее среднего.', 'About 5% slower than average.', 'Приблизно на 5% повільніше за середнє.'), t('gamer-guides: S для Послушания', 'gamer-guides: S for Discipline', 'gamer-guides: S для Послуху')],
+                ['C', (t('Воин · Оружие или Неистовство', 'Warrior · Arms or Fury', 'Воїн · Зброя або Лють'), 'guides/leveling-warrior/'), t('Самый медленный, примерно на 12% дольше среднего.', 'The slowest, about 12% longer than average.', 'Найповільніший, приблизно на 12% довше за середнє.'), '—'],
             ]}),
         ]},
         {'id': 'pve', 'title': t('PvE по ролям', 'PvE by role', 'PvE за ролями'), 'blocks': [
@@ -1706,3 +1706,11 @@ PLAY_TX = {
     'addChar': t('Добавить персонажа', 'Add a character', 'Додати персонажа'),
 }
 PAGES.append(PLAY)
+
+
+# ---------- Гайды прокачки по классам: девять страниц, раздел «Прокачка по классам» в гайде прокачки, плитка хаба (content/class_guides.py) ----------
+
+from content import class_guides  # noqa: E402
+
+class_guides.attach(GUIDES, HUBS, ORDER)
+CLASS_HUB_TILE = class_guides.HUB_TILE   # на хабе гайдов вместо девяти плиток: одна, ведёт на раздел «Прокачка по классам»

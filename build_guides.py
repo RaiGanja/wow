@@ -9,14 +9,14 @@ import build
 import tod
 from build import LANGS, SITE, page_dir, rel, localize, translate
 import langs
-from content.guides import GUIDES, HUB, HUBS, NEWS, NOT_FOUND, PAGES, PLAY_MILESTONES, PLAY_TX
+from content.guides import CLASS_HUB_TILE, GUIDES, HUB, HUBS, NEWS, NOT_FOUND, PAGES, PLAY_MILESTONES, PLAY_TX
 
 HERE = build.HERE
 
 _ru, _en, _uk = (build.load(f'guides.{l}.txt') for l in langs.OLD)
 assert len(_ru) == len(_en) == len(_uk), (len(_ru), len(_en), len(_uk))
 build.T.update({r: (e, u) for r, e, u in zip(_ru, _en, _uk)})
-langs.fill([GUIDES, HUB, HUBS, NEWS, NOT_FOUND, PAGES])   # new languages of every guide text: i18n/<lang>.json by the English one
+langs.fill([GUIDES, HUB, HUBS, NEWS, NOT_FOUND, PAGES, CLASS_HUB_TILE])   # new languages of every guide text: i18n/<lang>.json by the English one
 
 TIP = {'ru': 'Совет', 'en': 'Tip', 'uk': 'Порада'}
 THIS_PAGE = {'ru': 'Эта страница', 'en': 'This page', 'uk': 'Ця сторінка'}
@@ -123,6 +123,14 @@ def li_id(step):
     return f' id="{step["id"]}"' if 'id' in step else ''
 
 
+def cell(c, lang, root):
+    """A table cell: text, or (text, href) when the class name of a «Class · spec» cell links to its guide."""
+    if not isinstance(c, tuple):
+        return E(c, lang)
+    name, sep, rest = L(c[0], lang).partition(' · ')
+    return f'<a href="{root}{c[1]}">{escape(name, quote=True)}</a>{escape(sep + rest, quote=True)}'
+
+
 def render_block(kind, data, lang, root):
     if kind == 'text':
         return ''.join(f'<p>{E(p, lang)}</p>' for p in data)
@@ -137,7 +145,7 @@ def render_block(kind, data, lang, root):
     if kind == 'table':
         head = [E(h, lang) for h in data['head']]
         th = ''.join(f'<th scope="col">{h}</th>' for h in head)
-        rows = ''.join('<tr>' + ''.join(f'<td data-l="{h}">{E(c, lang)}</td>' for h, c in zip(head, r)) + '</tr>'
+        rows = ''.join('<tr>' + ''.join(f'<td data-l="{h}">{cell(c, lang, root)}</td>' for h, c in zip(head, r)) + '</tr>'
                        for r in data['rows'])
         return f'<table class="gtable"><thead><tr>{th}</tr></thead><tbody>{rows}</tbody></table>'
     if kind == 'picks':                                           # table whose second column links class pages
@@ -235,8 +243,11 @@ def lang_guides(lang):
 
 
 def hub_body(lang, root):
-    """Guides first, then the classes/ and races/ sections and the tools page: two full rows of four."""
-    tiles = guide_tiles(lang_guides(lang)) + section_tiles() + SITE_TILES[1:]
+    """Guides first, then the classes/ and races/ sections and the tools page. The nine class guides are one tile
+    («Leveling by class», right after the leveling guide); they have a 'hub': False."""
+    tiles = guide_tiles([g for g in lang_guides(lang) if g.get('hub', True)])
+    tiles.insert(next((i for i, x in enumerate(tiles) if x['href'] == 'guides/leveling/'), -1) + 1, CLASS_HUB_TILE)
+    tiles += section_tiles() + SITE_TILES[1:]
     return '', f'<section class="gsec bare" id="all">{render_block("tiles", tiles, lang, root)}</section>'
 
 
@@ -750,7 +761,7 @@ def not_found_page(tpl, base_css, sprite, src, lang='ru'):
 def main():
     gaps = (check_langs(HUB, 'HUB') + [p for g in GUIDES + HUBS + PAGES + [NOT_FOUND] for p in check_langs(g, g['slug'])]
             + check_langs(NEWS, 'NEWS') + check_langs(SITE_TILES, 'SITE_TILES')
-            + check_langs(PLAY_TX, 'PLAY_TX') + check_langs(PLAY_MILESTONES, 'PLAY_MILESTONES'))
+            + check_langs(CLASS_HUB_TILE, 'CLASS_HUB_TILE') + check_langs(PLAY_TX, 'PLAY_TX') + check_langs(PLAY_MILESTONES, 'PLAY_MILESTONES'))
     assert not gaps, gaps[:10]
     src = open(os.path.join(HERE, 'index.src.html'), encoding='utf-8').read()
     tpl = open(os.path.join(HERE, 'guide.src.html'), encoding='utf-8').read()
