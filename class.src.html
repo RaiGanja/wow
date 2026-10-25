@@ -287,12 +287,19 @@ function selectTab(t, focus) {
   if (focus) t.focus();
 }
 tabs.forEach((t, i) => {
-  t.addEventListener('click', () => selectTab(t));
+  t.addEventListener('click', () => { selectTab(t); history.replaceState(null, '', '#' + t.getAttribute('aria-controls')); });   // a link to the spec
   t.addEventListener('keydown', e => {
-    const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
-    if (k) { e.preventDefault(); selectTab(tabs[(i + k + tabs.length) % tabs.length], true); }
+    const n = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+    if (n !== undefined) { e.preventDefault(); selectTab(tabs[(n + tabs.length) % tabs.length], true); }
   });
 });
+/* #spec-2 in the address opens that spec */
+function tabFromHash() {
+  const t = tabs.find(x => '#' + x.getAttribute('aria-controls') === location.hash);
+  if (t) { selectTab(t); t.scrollIntoView({ block: 'center' }); }
+}
+tabFromHash();
+addEventListener('hashchange', tabFromHash);
 
 /* Theme toggle */
 const themeBtns = document.querySelectorAll('.themebtn');

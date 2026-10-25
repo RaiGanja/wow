@@ -141,7 +141,7 @@ function autoStage() {
 }
 const START = { pre: 'hero_dawn-960', first: 'hero_campfire-960', dung: 'warlock-360', path: 'hunter-360', raid: 'paladin-360' };
 const ARTV = /*ARTV*/{};   // ?v= of the scene arts, filled in by build.art_version (same names, redrawn pictures)
-const pic = f => `<picture><source type="image/avif" srcset="${ROOT}assets/art/${f}.avif${ARTV[f + '.avif'] || PV}"><img src="${ROOT}assets/art/${f}.webp${ARTV[f + '.webp'] || PV}" alt="" loading="lazy" decoding="async"></picture>`;
+const pic = f => `<picture><source type="image/avif" srcset="${ROOT}assets/art/${f}.avif${ARTV[f + '.avif'] || PV}"><img src="${ROOT}assets/art/${f}.webp${ARTV[f + '.webp'] || PV}" ${f.startsWith('hero_') ? 'width="960" height="536"' : f.endsWith('-600') ? 'width="600" height="804"' : 'width="360" height="482"'} alt="" loading="lazy" decoding="async"></picture>`;
 let tipN = 0;   // the gold «tip» word once per stage panel: the first tip carries it, the rest are plain lines
 const tipL = () => tipN++ ? '' : '<span class="tl">Совет</span>';
 function liC(x) { return x[0] === 't' ? `<li class="tip">${tipL()}${esc(x[1])}</li>` : `<li>${esc(x[1])}</li>`; }

@@ -374,7 +374,8 @@ if (qIn) qIn.addEventListener('input', () => {
     showQs(d => here.includes(d.id));
   });
 });
-function openHash() { const d = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1))); if (d && d.tagName === 'DETAILS') { d.open = true; d.scrollIntoView(); } }
+function openHash() { let id = ''; try { id = decodeURIComponent(location.hash.slice(1)); } catch (e) { return; }   // a broken #%E0 is not an error
+  const d = id && document.getElementById(id); if (d && d.tagName === 'DETAILS') { d.open = true; d.scrollIntoView(); } }
 addEventListener('hashchange', openHash); openHash();'''
 
 
@@ -797,8 +798,10 @@ def build_page(g, lang, tpl, base_css, sprite, src):
         jsec, jscript, jmiss = journey(src, lang)
         body = play_body(lang, root) + jsec
         missing += jmiss
-    if g is NOT_FOUND:
-        body += hub_body(lang, root)[1]                           # 404: every section of the guide as tiles
+    if g is NOT_FOUND:                                            # 404: the six main sections, not every tile of the guide
+        main = [x for x in section_tiles() if x['href'] in ('classes/', 'races/')]
+        main += guide_tiles([x for slug in ('leveling', 'dungeons', 'faq') for x in GUIDES if x['slug'] == slug]) + SITE_TILES[:1]
+        body += f'<section class="gsec bare" id="all">{render_block("tiles", main, lang, root)}</section>'
     if len(g.get('sections', ())) == 1:
         toc = ''                                                 # one section: no contents column
     section = 'path' in g                                         # classes/, races/, privacy/: not a guide

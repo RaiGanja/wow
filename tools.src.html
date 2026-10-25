@@ -426,7 +426,7 @@ function unitHTML(p, i) {
   if (!p) return `<button type="button" class="unit empty${cls}" data-i="${i}"><span class="up" aria-hidden="true">+</span><span class="ub"><b>Свободное место</b><span>Нажмите, чтобы добавить игрока</span></span></button>`;
   const c = CL[p.cls], r = RC[p.race];
   return `<button type="button" class="unit${cls}" data-i="${i}" draggable="true" style="--cc:${CCOL[p.cls]};--pc:${power(p)}" aria-label="${esc((p.name || `Игрок ${i + 1}`) + ', ' + raceName(r) + ' ' + c.n + ', ' + ROLE_RU[p.role])}">
-    <span class="up"><picture><source type="image/avif" srcset="${art(p.cls, 'avif')}"><img src="${art(p.cls)}" alt="" loading="lazy" decoding="async"></picture></span>
+    <span class="up"><picture><source type="image/avif" srcset="${art(p.cls, 'avif')}"><img src="${art(p.cls)}" width="360" height="482" alt="" loading="lazy" decoding="async"></picture></span>
     <span class="ub"><span class="un"><span class="ur" title="${ROLE_RU[p.role]}">${ri(p.role)}</span><b>${esc(p.name || c.n)}</b><small>${esc(raceName(r))} · ${esc(c.n)}</small></span><span class="hp"><i></i></span><span class="mp"></span></span></button>`;
 }
 function cellHTML(p, i) {
@@ -546,7 +546,7 @@ function renderPick() {
   syncSeg('cMode', C.mode);
   const box = $('#cPick'), sel = C.mode === 'class' ? C.cls : C.race;
   box.classList.toggle('races', C.mode === 'race');
-  if (C.mode === 'class') box.innerHTML = CLASSES.map(c => { const k = sel.indexOf(c.id); return `<button type="button" class="cp" data-id="${c.id}" aria-pressed="${k >= 0}"><picture><source type="image/avif" srcset="${art(c.id, 'avif')}"><img src="${art(c.id)}" alt="" loading="lazy" decoding="async"></picture><span class="no">${k + 1}</span><b${Math.max(...c.n.split(/[\s-]+/).map(w => w.length)) >= 10 ? ' class="long"' : ''}>${esc(c.n)}</b></button>`; }).join('');
+  if (C.mode === 'class') box.innerHTML = CLASSES.map(c => { const k = sel.indexOf(c.id); return `<button type="button" class="cp" data-id="${c.id}" aria-pressed="${k >= 0}"><picture><source type="image/avif" srcset="${art(c.id, 'avif')}"><img src="${art(c.id)}" width="360" height="482" alt="" loading="lazy" decoding="async"></picture><span class="no">${k + 1}</span><b${Math.max(...c.n.split(/[\s-]+/).map(w => w.length)) >= 10 ? ' class="long"' : ''}>${esc(c.n)}</b></button>`; }).join('');
   else box.innerHTML = ['alliance', 'horde'].map(f => `<div class="rside ${f}"><h3>${FAC[f]}</h3>${RACES.filter(r => r.f === f).map(r => { const k = sel.indexOf(r.id); return `<button type="button" class="rp" data-id="${r.id}" aria-pressed="${k >= 0}">${esc(raceName(r))}${r.paid ? '<span class="tag paid">платная</span>' : ''}<span class="no">${k + 1}</span></button>`; }).join('')}</div>`).join('');
   $('#cNote').textContent = `Выбрано ${sel.length} из 3`;
 }
@@ -556,7 +556,7 @@ function renderCmp() {
   const out = [];
   if (C.mode === 'class') {
     const ids = C.cls;
-    out.push(`<div class="crow chead"><div class="lab"></div>${ids.map(id => `<div class="val" style="--cc:${CCOL[id]}"><picture><source type="image/avif" srcset="${art(id, 'avif')}"><img src="${art(id)}" alt="" loading="lazy" decoding="async"></picture><b>${esc(CL[id].n)}</b><a href="${classUrl(id)}">Страница класса<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>`).join('')}</div>`);
+    out.push(`<div class="crow chead"><div class="lab"></div>${ids.map(id => `<div class="val" style="--cc:${CCOL[id]}"><picture><source type="image/avif" srcset="${art(id, 'avif')}"><img src="${art(id)}" width="360" height="482" alt="" loading="lazy" decoding="async"></picture><b>${esc(CL[id].n)}</b><a href="${classUrl(id)}">Страница класса<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>`).join('')}</div>`);
     out.push(row('Роли', ids.map(id => CL[id].roles.map(r => `<span class="role">${ri(r)}${ROLE_RU[r]}</span>`).join(''))));
     out.push(row('Броня', ids.map(id => esc(CX[id].armor))));
     out.push(row('Вооружение', ids.map(id => esc(CX[id].weapons))));

@@ -180,7 +180,8 @@ LANG_JS = """<script>
   try { seen = localStorage.getItem(KEY); } catch (e) {}
   if (seen) return;
   const H = @@HINT@@, cur = document.documentElement.lang.split('-')[0];
-  const want = (navigator.languages || [navigator.language]).map(x => String(x || '').toLowerCase().split('-')[0]).find(x => x in H);
+  const want = (navigator.languages || [navigator.language]).map(x => String(x || '').toLowerCase().split('-')[0])
+    .find(x => x in H && !(cur === 'uk' && x === 'ru'));   // a Ukrainian page never offers Russian
   const to = want && want !== cur && document.querySelector(`.langlist a[data-lang="${want}"]:not([data-list])`);
   if (!to) return;
   const bar = document.createElement('div');
@@ -291,6 +292,42 @@ def chrome(html, nav=None, tab=None, home='@@HOME@@'):
             .replace('@@TABBAR@@', tabbar(tab, home)))
 
 
+_DIMS = {}
+
+
+def webp_size(path):
+    """(width, height) of a WebP file from its header: VP8X, VP8 (lossy) or VP8L (lossless)."""
+    with open(path, 'rb') as f:
+        b = f.read(30)
+    kind = b[12:16]
+    if kind == b'VP8X':
+        return 1 + int.from_bytes(b[24:27], 'little'), 1 + int.from_bytes(b[27:30], 'little')
+    if kind == b'VP8 ':
+        return int.from_bytes(b[26:28], 'little') & 0x3fff, int.from_bytes(b[28:30], 'little') & 0x3fff
+    if kind == b'VP8L':
+        n = int.from_bytes(b[21:25], 'little')
+        return (n & 0x3fff) + 1, ((n >> 14) & 0x3fff) + 1
+    return None
+
+
+IMG_NO_SIZE = re.compile(r'<img\b(?![^>]*\bwidth=)[^>]*\b(?:data-l)?src="[^"]*?assets/art/([\w.-]+\.webp)[^"]*"[^>]*>')
+
+
+def img_dims(html):
+    """K8: width and height on every art <img> that has none (tiles, cards): the browser keeps the box before the
+    picture comes, so a late picture never shifts the page. Read from the file itself."""
+    def add(m):
+        name = m.group(1)
+        if name not in _DIMS:
+            f = os.path.join(HERE, 'assets', 'art', name)
+            _DIMS[name] = webp_size(f) if os.path.isfile(f) else None
+        if not _DIMS[name]:
+            return m.group(0)
+        w, h = _DIMS[name]
+        return m.group(0).replace('<img ', f'<img width="{w}" height="{h}" ', 1)
+    return IMG_NO_SIZE.sub(add, html)
+
+
 # Skip link, the first Tab stop of every page with <main id="main">: past the top bar (logo, menu, search, radio, theme, language)
 SKIP = {'ru': 'К содержанию', 'en': 'Skip to content', 'uk': 'До змісту', 'de': 'Zum Inhalt', 'fr': 'Aller au contenu',
         'es': 'Ir al contenido', 'pt': 'Ir para o conteúdo', 'it': 'Vai al contenuto', 'pl': 'Przejdź do treści'}
@@ -317,7 +354,7 @@ def localize(html, lang, here):
     else:
         html = cyr_fonts(html)
     html = html.replace('</head>', REVEAL_CSS + '</head>', 1).replace('</body>', REVEAL_JS + '</body>', 1)
-    return me(pwa(html, lang, rel(here, '')), lang, here)
+    return img_dims(me(pwa(html, lang, rel(here, '')), lang, here))
 
 
 # the Latin of Russian and Ukrainian text: space, digits, punctuation, quotes, dashes, Latin words (WoW, Gabella)
