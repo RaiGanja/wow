@@ -55,9 +55,9 @@
 
 /* party frames: portrait, name, health and power bars. Frames stay dark in both themes, like the game's */
 .party5 { display: grid; gap: 8px; }
-.unit { --pc: #3f7fe0; position: relative; display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 12px; align-items: center; width: 100%; padding: 8px 12px 8px 8px; border: 1px solid var(--pline); border-radius: 9px; background: linear-gradient(180deg, #14171f, #0d0f14); color: #f3efe6; text-align: left; font: inherit; cursor: pointer; transition: border-color .2s, box-shadow .2s; }
+.unit { --pc: #3f7fe0; position: relative; display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 12px; align-items: center; width: 100%; padding: 8px 12px 8px 8px; border: 1px solid var(--pline); border-radius: 9px; background: linear-gradient(180deg, #151515, #0d0d0d); color: #f3efe6; text-align: left; font: inherit; cursor: pointer; transition: border-color .2s, box-shadow .2s; }
 .unit:hover { border-color: color-mix(in srgb, var(--gold) 70%, transparent); }
-.unit .up { position: relative; width: 76px; height: 76px; border-radius: 50%; overflow: hidden; border: 2px solid #b08f45; box-shadow: 0 0 0 2px #0a0b0e, 0 0 0 3px rgba(176,143,69,.45); background: #0b0d12; }
+.unit .up { position: relative; width: 76px; height: 76px; border-radius: 50%; overflow: hidden; border: 2px solid #b08f45; box-shadow: 0 0 0 2px #0a0a0a, 0 0 0 3px rgba(176,143,69,.45); background: #0a0a0a; }
 .unit .up img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 14%; }
 /* the role: a filled mark before the name, no circle on the portrait; race and class above the bar, not on it */
 .unit .ur { flex: none; align-self: center; display: grid; color: rgba(243,239,230,.78); }
@@ -169,10 +169,10 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 .crow .val .cgo .ico { width: 14px; height: 14px; margin-left: 6px; vertical-align: -2px; }
 .crow .val .role { display: inline-flex; align-items: center; gap: 5px; margin: 0 14px 4px 0; white-space: nowrap; }   /* icon and word, no capsule */
 .crow.chead { padding: 16px 16px 4px; }
-.chead .val { overflow: hidden; position: relative; isolation: isolate; min-height: 150px; display: grid; align-content: end; gap: 4px; padding: 14px; border-radius: 6px; color: #f3efe6; background: #0b0d12; }
+.chead .val { overflow: hidden; position: relative; isolation: isolate; min-height: 150px; display: grid; align-content: end; gap: 4px; padding: 14px; border-radius: 6px; color: #f3efe6; background: #0a0a0a; }
 .chead .val img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: 50% 16%; }
 .chead .val::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(5,5,5,.1) 20%, rgba(5,5,5,.92) 100%); }
-.chead .val.race { min-height: 110px; background: linear-gradient(135deg, var(--fb), #0b0d12 75%); }
+.chead .val.race { min-height: 110px; background: linear-gradient(135deg, var(--fb), #0a0a0a 75%); }
 .chead .val.race::after { display: none; }
 .chead .val.alliance { --fb: #13284d; } .chead .val.horde { --fb: #3a1410; }
 .chead b { font-family: var(--font-display); font-weight: var(--display-w); font-size: var(--fs-28); line-height: 1.05; color: var(--cc, #f3efe6); text-shadow: 0 1px 10px rgba(0,0,0,.6); }
