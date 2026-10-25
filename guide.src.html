@@ -36,6 +36,11 @@
 .thero::before, .ghero::before { height: var(--hh); background:
   linear-gradient(90deg, rgba(7,8,10,.8) 0%, rgba(7,8,10,.54) 32%, rgba(7,8,10,.14) 58%, rgba(7,8,10,0) 78%),
   linear-gradient(180deg, rgba(7,8,10,.62) 0%, rgba(7,8,10,0) 26%, rgba(7,8,10,0) 48%, rgb(8 9 11 / .88) 80%, var(--bg) 100%); }
+:root[data-theme="light"] :is(.thero, .ghero)::before { background:   /* the art goes into the night first, the paper comes under the frames */
+  linear-gradient(90deg, rgba(7,8,10,.8) 0%, rgba(7,8,10,.54) 32%, rgba(7,8,10,.14) 58%, rgba(7,8,10,0) 78%),
+  linear-gradient(180deg, rgba(7,8,10,.62) 0%, rgba(7,8,10,0) 26%, rgba(7,8,10,0) 48%, rgb(8 9 11 / .88) 74%, rgb(8 9 11) 82%,
+    color-mix(in oklab, rgb(8 9 11), var(--bg) 6%) 85.6%, color-mix(in oklab, rgb(8 9 11), var(--bg) 22%) 89.2%,
+    color-mix(in oklab, rgb(8 9 11), var(--bg) 52%) 92.8%, color-mix(in oklab, rgb(8 9 11), var(--bg) 82%) 96.4%, var(--bg) 100%); }
 .ghero .wrap { width: 100%; gap: 18px; justify-items: start; }
 .ghero .crumbs { display: flex; flex-wrap: wrap; gap: 6px 10px; font-size: var(--fs-14); color: var(--ink-2); }
 .ghero .crumbs a { color: var(--ink-2); text-decoration: none; }
@@ -201,6 +206,10 @@
 @media (max-width: 719px) {
   .thero, .ghero { --hh: min(560px, 74svh); padding: max(calc(var(--top) + 28px), calc(var(--hh) * .48)) 0 24px; min-height: 0; }
   .thero::before, .ghero::before { background: linear-gradient(180deg, rgba(7,8,10,.55) 0%, rgba(7,8,10,.08) 26%, rgba(7,8,10,.4) 50%, rgb(8 9 11 / .9) 74%, var(--bg) 100%); }
+  /* light: the title and the lead run past the art on a phone, so the whole hero is the dark plate and the paper starts under it */
+  :root[data-theme="light"] :is(.thero, .ghero) { background: rgb(8 9 11); min-height: var(--hh); }
+  :root[data-theme="light"] :is(.thero, .ghero)::before { background: linear-gradient(180deg, rgba(7,8,10,.55) 0%, rgba(7,8,10,.08) 26%, rgba(7,8,10,.4) 50%, rgb(8 9 11 / .9) 74%, rgb(8 9 11) 100%); }
+  :root[data-theme="light"] :is(.thero, .ghero)::after { content: ""; display: block; position: absolute; z-index: -1; inset: 100% 0 auto 0; height: 48px; background: linear-gradient(180deg, var(--paper-edge)); pointer-events: none; }
   .ghero h1 { font-size: var(--fs-hero); hyphens: auto; }
   .phead h1 { font-size: var(--fs-28); }
   .gsec { padding: 18px 16px; }

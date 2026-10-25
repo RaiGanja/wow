@@ -366,13 +366,16 @@ canvas.fx.on { opacity: 1; }
 .thero .crumbs a:hover { color: var(--ink); text-decoration: underline; }
 .thero h1 { max-width: 8em; font-size: var(--fs-hero); line-height: .98; color: var(--ink); text-shadow: 0 2px 18px rgba(0,0,0,.5); }
 .thero .lead { max-width: 46ch; color: var(--ink-2); font-size: var(--fs-18); text-shadow: 0 1px 10px rgba(0,0,0,.6); }
-/* Light theme: a dark hero (home, inner pages, classes, races) fades into the paper below it instead of ending on a straight line */
+/* Light theme: the art keeps its night like on the dark theme (Icy Veins), the text stays on the dark, and only below the text
+   the dark meets the paper in a short eased edge (--paper-edge), not a long grey haze. */
 :root { --hfade: 0px; }
-:root[data-theme="light"] { --hfade: 72px; }
-:root[data-theme="light"] :is(.hero, .thero, .chero)::after { content: ""; position: absolute; inset: auto 0 0 0; z-index: -1; height: calc(var(--hfade) + 24px); background: linear-gradient(180deg, rgb(8 9 11 / 0), var(--bg)); pointer-events: none; }
+:root[data-theme="light"] { --hfade: 56px;
+  --paper-edge: rgb(8 9 11) 0%, color-mix(in oklab, rgb(8 9 11), var(--bg) 6%) 20%, color-mix(in oklab, rgb(8 9 11), var(--bg) 22%) 40%,
+    color-mix(in oklab, rgb(8 9 11), var(--bg) 52%) 60%, color-mix(in oklab, rgb(8 9 11), var(--bg) 82%) 80%, var(--bg) 100%; }
+:root[data-theme="light"] :is(.hero, .thero, .chero)::after { content: ""; position: absolute; inset: auto 0 0 0; z-index: -1; height: var(--hfade); background: linear-gradient(180deg, var(--paper-edge)); pointer-events: none; }
 :root[data-theme="light"] .hero::before { background:
   linear-gradient(90deg, rgb(var(--hero-fade) / .06) calc(50% - 800px), rgb(var(--hero-fade) / .46) calc(50% - 420px), rgb(var(--hero-fade) / .5) calc(50% + 100px), rgb(var(--hero-fade) / .16) calc(50% + 380px), rgb(var(--hero-fade) / .04) calc(50% + 600px)),
-  linear-gradient(180deg, rgb(var(--hero-fade) / .42) 0%, rgb(var(--hero-fade) / 0) 26%, rgb(var(--hero-fade) / 0) 52%, rgb(var(--hero-fade) / .92) 82%, rgb(var(--hero-fade)) 100%); }
+  linear-gradient(180deg, rgb(var(--hero-fade) / .42) 0%, rgb(var(--hero-fade) / 0) 26%, rgb(var(--hero-fade) / 0) 58%, rgb(var(--hero-fade) / .9) 88%, rgb(var(--hero-fade)) 100%); }
 .hero { padding-bottom: var(--hfade); }
 .stband::before { content: ""; position: absolute; inset: 0 0 auto 0; height: var(--band-h, 620px); z-index: -1; background: linear-gradient(180deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 62%, transparent) 12%, color-mix(in srgb, var(--bg) 40%, transparent) 30%, color-mix(in srgb, var(--bg) 55%, transparent) 62%, var(--bg) 100%); }
 .stband .wrap { display: grid; gap: 20px; }

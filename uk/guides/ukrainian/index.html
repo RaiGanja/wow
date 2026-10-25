@@ -335,13 +335,16 @@ canvas.fx.on { opacity: 1; }
 .thero .crumbs a:hover { color: var(--ink); text-decoration: underline; }
 .thero h1 { max-width: 8em; font-size: var(--fs-hero); line-height: .98; color: var(--ink); text-shadow: 0 2px 18px rgba(0,0,0,.5); }
 .thero .lead { max-width: 46ch; color: var(--ink-2); font-size: var(--fs-18); text-shadow: 0 1px 10px rgba(0,0,0,.6); }
-/* Light theme: a dark hero (home, inner pages, classes, races) fades into the paper below it instead of ending on a straight line */
+/* Light theme: the art keeps its night like on the dark theme (Icy Veins), the text stays on the dark, and only below the text
+   the dark meets the paper in a short eased edge (--paper-edge), not a long grey haze. */
 :root { --hfade: 0px; }
-:root[data-theme="light"] { --hfade: 72px; }
-:root[data-theme="light"] :is(.hero, .thero, .chero)::after { content: ""; position: absolute; inset: auto 0 0 0; z-index: -1; height: calc(var(--hfade) + 24px); background: linear-gradient(180deg, rgb(8 9 11 / 0), var(--bg)); pointer-events: none; }
+:root[data-theme="light"] { --hfade: 56px;
+  --paper-edge: rgb(8 9 11) 0%, color-mix(in oklab, rgb(8 9 11), var(--bg) 6%) 20%, color-mix(in oklab, rgb(8 9 11), var(--bg) 22%) 40%,
+    color-mix(in oklab, rgb(8 9 11), var(--bg) 52%) 60%, color-mix(in oklab, rgb(8 9 11), var(--bg) 82%) 80%, var(--bg) 100%; }
+:root[data-theme="light"] :is(.hero, .thero, .chero)::after { content: ""; position: absolute; inset: auto 0 0 0; z-index: -1; height: var(--hfade); background: linear-gradient(180deg, var(--paper-edge)); pointer-events: none; }
 :root[data-theme="light"] .hero::before { background:
   linear-gradient(90deg, rgb(var(--hero-fade) / .06) calc(50% - 800px), rgb(var(--hero-fade) / .46) calc(50% - 420px), rgb(var(--hero-fade) / .5) calc(50% + 100px), rgb(var(--hero-fade) / .16) calc(50% + 380px), rgb(var(--hero-fade) / .04) calc(50% + 600px)),
-  linear-gradient(180deg, rgb(var(--hero-fade) / .42) 0%, rgb(var(--hero-fade) / 0) 26%, rgb(var(--hero-fade) / 0) 52%, rgb(var(--hero-fade) / .92) 82%, rgb(var(--hero-fade)) 100%); }
+  linear-gradient(180deg, rgb(var(--hero-fade) / .42) 0%, rgb(var(--hero-fade) / 0) 26%, rgb(var(--hero-fade) / 0) 58%, rgb(var(--hero-fade) / .9) 88%, rgb(var(--hero-fade)) 100%); }
 .hero { padding-bottom: var(--hfade); }
 .stband::before { content: ""; position: absolute; inset: 0 0 auto 0; height: var(--band-h, 620px); z-index: -1; background: linear-gradient(180deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 62%, transparent) 12%, color-mix(in srgb, var(--bg) 40%, transparent) 30%, color-mix(in srgb, var(--bg) 55%, transparent) 62%, var(--bg) 100%); }
 .stband .wrap { display: grid; gap: 20px; }
@@ -877,6 +880,11 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .thero::before, .ghero::before { height: var(--hh); background:
   linear-gradient(90deg, rgba(7,8,10,.8) 0%, rgba(7,8,10,.54) 32%, rgba(7,8,10,.14) 58%, rgba(7,8,10,0) 78%),
   linear-gradient(180deg, rgba(7,8,10,.62) 0%, rgba(7,8,10,0) 26%, rgba(7,8,10,0) 48%, rgb(8 9 11 / .88) 80%, var(--bg) 100%); }
+:root[data-theme="light"] :is(.thero, .ghero)::before { background:   /* the art goes into the night first, the paper comes under the frames */
+  linear-gradient(90deg, rgba(7,8,10,.8) 0%, rgba(7,8,10,.54) 32%, rgba(7,8,10,.14) 58%, rgba(7,8,10,0) 78%),
+  linear-gradient(180deg, rgba(7,8,10,.62) 0%, rgba(7,8,10,0) 26%, rgba(7,8,10,0) 48%, rgb(8 9 11 / .88) 74%, rgb(8 9 11) 82%,
+    color-mix(in oklab, rgb(8 9 11), var(--bg) 6%) 85.6%, color-mix(in oklab, rgb(8 9 11), var(--bg) 22%) 89.2%,
+    color-mix(in oklab, rgb(8 9 11), var(--bg) 52%) 92.8%, color-mix(in oklab, rgb(8 9 11), var(--bg) 82%) 96.4%, var(--bg) 100%); }
 .ghero .wrap { width: 100%; gap: 18px; justify-items: start; }
 .ghero .crumbs { display: flex; flex-wrap: wrap; gap: 6px 10px; font-size: var(--fs-14); color: var(--ink-2); }
 .ghero .crumbs a { color: var(--ink-2); text-decoration: none; }
@@ -1042,6 +1050,10 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 @media (max-width: 719px) {
   .thero, .ghero { --hh: min(560px, 74svh); padding: max(calc(var(--top) + 28px), calc(var(--hh) * .48)) 0 24px; min-height: 0; }
   .thero::before, .ghero::before { background: linear-gradient(180deg, rgba(7,8,10,.55) 0%, rgba(7,8,10,.08) 26%, rgba(7,8,10,.4) 50%, rgb(8 9 11 / .9) 74%, var(--bg) 100%); }
+  /* light: the title and the lead run past the art on a phone, so the whole hero is the dark plate and the paper starts under it */
+  :root[data-theme="light"] :is(.thero, .ghero) { background: rgb(8 9 11); min-height: var(--hh); }
+  :root[data-theme="light"] :is(.thero, .ghero)::before { background: linear-gradient(180deg, rgba(7,8,10,.55) 0%, rgba(7,8,10,.08) 26%, rgba(7,8,10,.4) 50%, rgb(8 9 11 / .9) 74%, rgb(8 9 11) 100%); }
+  :root[data-theme="light"] :is(.thero, .ghero)::after { content: ""; display: block; position: absolute; z-index: -1; inset: 100% 0 auto 0; height: 48px; background: linear-gradient(180deg, var(--paper-edge)); pointer-events: none; }
   .ghero h1 { font-size: var(--fs-hero); hyphens: auto; }
   .phead h1 { font-size: var(--fs-28); }
   .gsec { padding: 18px 16px; }
