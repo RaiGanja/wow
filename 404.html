@@ -353,20 +353,28 @@ canvas.fx.on { opacity: 1; }
 .thero-art, .thero-art img, .thero::before { position: absolute; inset: 0 0 auto 0; width: 100%; height: var(--hh); }
 .thero-art { z-index: -2; }
 .thero-art img { object-fit: cover; object-position: 66% 50%; }
+/* the side shade stays by the text column: up to full HD its stops are 0/30/56/76% of the width, wider they no longer drift left */
 .thero::before { content: ""; z-index: -1; background:
-  linear-gradient(90deg, rgba(5,5,5,.78) 0%, rgba(5,5,5,.5) 30%, rgba(5,5,5,.12) 56%, rgba(5,5,5,0) 76%),
+  linear-gradient(90deg, rgba(5,5,5,.78) max(0%, 50% - 960px), rgba(5,5,5,.5) max(30%, 50% - 384px), rgba(5,5,5,.12) min(56%, 50% + 115px), rgba(5,5,5,0) min(76%, 50% + 499px)),
   linear-gradient(180deg, rgba(5,5,5,.5) 0%, rgba(5,5,5,0) 24%, rgba(5,5,5,0) 60%, #050505 100%); }
 /* Ultrawide screens: under cover a 16:9 scene grows with the width and loses its top and bottom (the flag, the heads, the feet).
-   Past --rmax (width / height) the scene stops growing: it keeps to the right where the party stands, its left edge melts into
-   the dark under the text. --hh is the scene height; up to --rmax the gap and its fade are 0, so 16:9 screens see no change.
+   Past --rmax (width / height) the scene stops growing. It keeps to the right edge where the party stands, its left edge melts
+   into the dark under the text; on 32:9 it leaves the edge too and stands by the text as on full HD (the text at ~18% of the
+   scene), both edges melting. --hh is the scene height; up to --rmax the gaps and fades are 0, so 16:9 screens see no change.
    The living layer draws inside the picture, so it follows the box. */
 .hero { --hh: max(560px, 100svh); }
 .hero, .thero { --rmax: 2; }
 @media (min-width: 720px) {
-  .hero-art, .thero-art { left: auto; right: 0; width: min(100%, calc(var(--hh) * var(--rmax)));
-    --fade: clamp(0px, calc((100vw - var(--hh) * var(--rmax)) * .5), 22%);
-    -webkit-mask-image: linear-gradient(90deg, transparent 0, rgb(0 0 0 / .5) calc(var(--fade) * .45), #000 var(--fade));
-    mask-image: linear-gradient(90deg, transparent 0, rgb(0 0 0 / .5) calc(var(--fade) * .45), #000 var(--fade)); }
+  .hero-art, .thero-art {
+    --box: min(100vw, calc(var(--hh) * var(--rmax)));
+    --rgap: clamp(0px, calc((100vw + var(--wrap)) / 2 - 20px - var(--box) * .82), calc(100vw - var(--box)));
+    --lgap: max(0px, calc(100vw - var(--box) - var(--rgap)));
+    --lf: min(calc(var(--lgap) * .5), 22%);
+    --rf: min(calc(var(--rgap) * .5), 6%);   /* the party stands near the right edge: a short fade there */
+    --edges: linear-gradient(90deg, transparent 0, rgb(0 0 0 / .5) calc(var(--lf) * .45), #000 var(--lf),
+      #000 calc(100% - var(--rf)), rgb(0 0 0 / .5) calc(100% - var(--rf) * .45), transparent 100%);
+    left: auto; right: var(--rgap); width: min(100%, calc(var(--hh) * var(--rmax)));
+    -webkit-mask-image: var(--edges); mask-image: var(--edges); }
 }
 .thero-in { width: 100%; display: grid; gap: 18px; justify-items: start; }
 .thero .crumbs { display: flex; gap: 10px; font-size: var(--fs-14); color: var(--ink-2); }
@@ -943,10 +951,10 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .ghero { --band-h: var(--hh); min-height: calc(var(--hh) * .66); padding: calc(var(--top) + clamp(32px, 8vh, 96px)) 0 28px; display: grid; align-content: start; color: var(--ink); }
 .ghero .stband-art.por img { object-position: 50% 14%; }   /* a class or race portrait: the face, not the chest */
 .thero::before, .ghero::before { height: var(--hh); background:
-  linear-gradient(90deg, rgba(5,5,5,.8) 0%, rgba(5,5,5,.54) 32%, rgba(5,5,5,.14) 58%, rgba(5,5,5,0) 78%),
+  linear-gradient(90deg, rgba(5,5,5,.8) max(0%, 50% - 960px), rgba(5,5,5,.54) max(32%, 50% - 346px), rgba(5,5,5,.14) min(58%, 50% + 154px), rgba(5,5,5,0) min(78%, 50% + 538px)),
   linear-gradient(180deg, rgba(5,5,5,.62) 0%, rgba(5,5,5,0) 26%, rgba(5,5,5,0) 48%, rgb(8 9 11 / .88) 80%, var(--bg) 100%); }
 :root[data-theme="light"] :is(.thero, .ghero)::before { background:   /* the art goes into the night first, the paper comes under the frames */
-  linear-gradient(90deg, rgba(5,5,5,.8) 0%, rgba(5,5,5,.54) 32%, rgba(5,5,5,.14) 58%, rgba(5,5,5,0) 78%),
+  linear-gradient(90deg, rgba(5,5,5,.8) max(0%, 50% - 960px), rgba(5,5,5,.54) max(32%, 50% - 346px), rgba(5,5,5,.14) min(58%, 50% + 154px), rgba(5,5,5,0) min(78%, 50% + 538px)),
   linear-gradient(180deg, rgba(5,5,5,.62) 0%, rgba(5,5,5,0) 26%, rgba(5,5,5,0) 48%, rgb(8 9 11 / .88) 74%, rgb(8 9 11) 82%,
     color-mix(in oklab, rgb(8 9 11), var(--bg) 6%) 85.6%, color-mix(in oklab, rgb(8 9 11), var(--bg) 22%) 89.2%,
     color-mix(in oklab, rgb(8 9 11), var(--bg) 52%) 92.8%, color-mix(in oklab, rgb(8 9 11), var(--bg) 82%) 96.4%, var(--bg) 100%); }
