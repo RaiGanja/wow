@@ -64,8 +64,8 @@ class Align(unittest.TestCase):
         return bad
 
     def test_near_threshold_shifts_rejected(self):
-        cases = {'valley waterfall R': (450, 516, 58, 112), 'banner tail G': (1000, 136, 114, 70), 'banner G 2': (880, 126, 120, 78),
-                 'river A': (368, 456, 232, 60), 'river below the fall A': (420, 628, 140, 76)}
+        # the river (A) no longer moves, so its alignment is not checked
+        cases = {'valley waterfall R': (450, 516, 58, 112), 'banner tail G': (1000, 136, 114, 70), 'banner G 2': (880, 126, 120, 78)}
         for name, box in cases.items():
             dx = box[4] if len(box) > 4 else 4
             aligned, _ = align_tod.align(self.ref, self.shifted(box[:4], dx))

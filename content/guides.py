@@ -1250,6 +1250,50 @@ GUIDES.append({
                  'd': t('RankedBoost ставит Тайную магию в S.', 'RankedBoost puts Arcane in S.', 'RankedBoost ставить Тайну магію в S.')},
             ]),
         ]},
+        {'id': 'gabella', 'title': t('Оценка Gabella', 'Gabella’s view', 'Оцінка Gabella'), 'blocks': [
+            ('text', [t('Мы сверили буквы источников со способностями спеков: контроль, баффы, лечение, живучесть. Урон не мерили, поэтому своих букв не ставим. Показываем только сдвиг: где по способностям спек выше или ниже, чем у источников.', 'We checked the sources’ letters against each spec’s abilities: control, buffs, healing, survivability. We haven’t measured damage, so we don’t give letters of our own. We only show the shift: where a spec’s abilities put it higher or lower than the sources do.', 'Ми звірили літери джерел зі здібностями спеціалізацій: контроль, бафи, лікування, живучість. Шкоду не міряли, тому власних літер не ставимо. Показуємо лише зсув: де за здібностями спеціалізація вища чи нижча, ніж у джерел.'),
+                      t('Спеки, которых здесь нет, — без сдвига. Спеков урона в PvE здесь нет вовсе: их место решает урон.', 'Specs not listed here have no shift. Damage specs in PvE are left out entirely: damage decides their place.', 'Спеціалізації, яких тут немає, — без зсуву. Спеціалізацій шкоди в PvE тут немає взагалі: їхнє місце визначає шкода.')]),
+            ('tip', t('По бете. После старта 4 ноября заменим живыми данными: логи, время прокачки, поля боя.', 'Beta data. After the Nov 4 launch we’ll replace it with live data: logs, leveling times, battlegrounds.', 'За бетою. Після старту 4 листопада замінимо живими даними: логи, час прокачування, поля бою.')),
+            ('tabs', [
+                {'id': 'g-leveling', 't': t('Прокачка соло', 'Solo leveling', 'Прокачування соло'), 'blocks': [
+                    ('table', {'head': [t('Спек', 'Spec', 'Спеціалізація'), 'Gabella', t('Почему', 'Why', 'Чому')], 'rows': [
+                [t('Охотник · Повелитель зверей', 'Hunter · Beast Mastery', 'Мисливець · Володіння звірами'), t('↓\xa0ниже', '↓\xa0lower', '↓\xa0нижче'), t('Нет самолечения; скорость убийства мы не мерили.', 'No self-healing; we haven’t measured kill speed.', 'Немає самолікування; швидкість убивства ми не міряли.')],
+                [t('Маг · Лёд', 'Mage · Frost', 'Маг · Лід'), t('↓\xa0ниже', '↓\xa0lower', '↓\xa0нижче'), t('Урон по площади на прокачке ослаблен, мана — слабое место.', 'Area damage is nerfed for leveling, and mana is a weak spot.', 'Шкоду по площі на прокачуванні послаблено, мана — слабке місце.')],
+                [t('Разбойник · Ликвидация или Бой', 'Rogue · Assassination or Combat', 'Розбійник · Ліквідація або Бій'), t('↓\xa0ниже', '↓\xa0lower', '↓\xa0нижче'), t('Нет самолечения: после каждого боя отдых.', 'No self-healing: rest after every fight.', 'Немає самолікування: після кожного бою відпочинок.')],
+                [t('Жрец · Темная магия', 'Priest · Shadow', 'Жрець · Темрява'), t('↑\xa0выше', '↑\xa0higher', '↑\xa0вище'), t('Самолечение и дешёвые заклинания в Облике Тьмы.', 'Self-healing and cheap spells in Shadowform.', 'Самолікування й дешеві заклинання в Shadowform.')],
+            ]}),
+                ]},
+                {'id': 'g-pve', 't': t('Танки и лекари', 'Tanks and healers', 'Танки й цілителі'), 'blocks': [
+                    ('table', {'head': [t('Спек', 'Spec', 'Спеціалізація'), 'Gabella', t('Почему', 'Why', 'Чому')], 'rows': [
+                [t('Воин · Защита', 'Warrior · Protection', 'Воїн · Захист'), t('↑\xa0выше в рейде', '↑\xa0higher in raids', '↑\xa0вище в рейді'), t('Полный набор танка, ярость не кончается в долгом бою.', 'A full tank toolkit; rage doesn’t run out in long fights.', 'Повний набір танка, ярість не закінчується в довгому бою.')],
+                [t('Друид · Сила зверя (медведь)', 'Druid · Feral (bear)', 'Друїд · Сила звіра (ведмідь)'), t('↑\xa0выше в подземельях', '↑\xa0higher in dungeons', '↑\xa0вище в підземеллях'), t('Первый медведь в группе: Вожак стаи и воскрешение в бою.', 'The first bear in a group: Leader of the Pack and a combat resurrection.', 'Перший ведмідь у групі: Leader of the Pack і воскресіння в бою.')],
+                [t('Друид · Исцеление', 'Druid · Restoration', 'Друїд · Зцілення'), t('↑\xa0выше', '↑\xa0higher', '↑\xa0вище'), t('Буйный рост, эффекты лечения складываются.', 'Wild Growth; healing effects stack.', 'Wild Growth, ефекти лікування складаються.')],
+                [t('Жрец · Свет', 'Priest · Holy', 'Жрець · Світло'), t('↑\xa0выше', '↑\xa0higher', '↑\xa0вище'), t('Полный набор лекаря: лечение по площади и возврат маны.', 'A full healer toolkit: area healing and mana return.', 'Повний набір цілителя: лікування по площі й повернення мани.')],
+            ]}),
+                ]},
+                {'id': 'g-pvp', 't': 'PvP', 'blocks': [
+                    ('text', [t('Сдвиг считаем по контролю и бурсту. Живучесть — в колонке «Почему».', 'The shift is based on control and burst. Survivability is in the “Why” column.', 'Зсув рахуємо за контролем і бурстом. Живучість — у колонці «Чому».')]),
+                    ('table', {'head': [t('Спек', 'Spec', 'Спеціалізація'), 'Gabella', t('Почему', 'Why', 'Чому')], 'rows': [
+                [t('Охотник · Стрельба', 'Hunter · Marksmanship', 'Мисливець · Стрільба'), t('↑\xa0выше', '↑\xa0higher', '↑\xa0вище'), t('Ловушки в бою и сильное окно урона; живучесть низкая.', 'Traps in combat and a strong damage window; low survivability.', 'Пастки в бою й сильне вікно шкоди; живучість низька.')],
+                [t('Охотник · Повелитель зверей', 'Hunter · Beast Mastery', 'Мисливець · Володіння звірами'), t('↑\xa0выше', '↑\xa0higher', '↑\xa0вище'), t('Ловушки в бою и Устрашение; живучесть низкая.', 'Traps in combat and Intimidation; low survivability.', 'Пастки в бою й Intimidation; живучість низька.')],
+                [t('Маг · Тайная магия', 'Mage · Arcane', 'Маг · Тайна магія'), t('↑\xa0выше', '↑\xa0higher', '↑\xa0вище'), t('Контроль мага и сильный бурст.', 'Mage control and strong burst.', 'Контроль мага й потужний бурст.')],
+                [t('Чернокнижник · Разрушение', 'Warlock · Destruction', 'Чорнокнижник · Руйнування'), t('↑\xa0выше', '↑\xa0higher', '↑\xa0вище'), t('Контроль и сильный бурст; живучесть низкая.', 'Control and strong burst; low survivability.', 'Контроль і потужний бурст; живучість низька.')],
+                [t('Жрец · Свет', 'Priest · Holy', 'Жрець · Світло'), t('↑\xa0выше', '↑\xa0higher', '↑\xa0вище'), t('Контроль, урон и живучесть средние.', 'Average control, damage and survivability.', 'Контроль, шкода й живучість середні.')],
+                [t('Жрец · Послушание', 'Priest · Discipline', 'Жрець · Послух'), t('↓\xa0ниже', '↓\xa0lower', '↓\xa0нижче'), t('Сила в щитах и Покаянии, а не в контроле; здесь источники, вероятно, точнее.', 'Its strength is shields and Penance, not control; here the sources are probably closer.', 'Сила в щитах і Penance, а не в контролі; тут джерела, імовірно, точніші.')],
+                [t('Паладин · Воздаяние', 'Paladin · Retribution', 'Паладин · Відплата'), t('↓\xa0ниже', '↓\xa0lower', '↓\xa0нижче'), t('Контроль и бурст средние.', 'Average control and burst.', 'Контроль і бурст середні.')],
+                [t('Жрец · Темная магия', 'Priest · Shadow', 'Жрець · Темрява'), t('↓\xa0ниже', '↓\xa0lower', '↓\xa0нижче'), t('Контроль и бурст средние, живучесть низкая.', 'Average control and burst; low survivability.', 'Контроль і бурст середні, живучість низька.')],
+                [t('Шаман · Совершенствование', 'Shaman · Enhancement', 'Шаман · Вдосконалення'), t('↓\xa0ниже', '↓\xa0lower', '↓\xa0нижче'), t('Контроль и бурст средние; живучесть высокая.', 'Average control and burst; high survivability.', 'Контроль і бурст середні; живучість висока.')],
+                [t('Друид · Баланс', 'Druid · Balance', 'Друїд · Баланс'), t('↓\xa0ниже', '↓\xa0lower', '↓\xa0нижче'), t('Контроль средний, одно окно урона; живучесть высокая.', 'Average control, one damage window; high survivability.', 'Контроль середній, одне вікно шкоди; живучість висока.')],
+                [t('Друид · Сила зверя', 'Druid · Feral', 'Друїд · Сила звіра'), t('↓\xa0ниже', '↓\xa0lower', '↓\xa0нижче'), t('Контроль средний, одно окно урона; живучесть высокая.', 'Average control, one damage window; high survivability.', 'Контроль середній, одне вікно шкоди; живучість висока.')],
+                [t('Воин · Неистовство', 'Warrior · Fury', 'Воїн · Лють'), t('↓\xa0ниже', '↓\xa0lower', '↓\xa0нижче'), t('Мало контроля, живучесть низкая.', 'Little control; low survivability.', 'Мало контролю, живучість низька.')],
+                [t('Паладин · Свет', 'Paladin · Holy', 'Паладин · Світло'), t('↓\xa0ниже', '↓\xa0lower', '↓\xa0нижче'), t('Ветка лечения: урона мало, зато трудно убить.', 'A healing tree: little damage, but hard to kill.', 'Гілка лікування: шкоди мало, зате важко вбити.')],
+                [t('Паладин · Защита', 'Paladin · Protection', 'Паладин · Захист'), t('↓\xa0ниже', '↓\xa0lower', '↓\xa0нижче'), t('Ветка танка: мало урона и контроля.', 'A tank tree: little damage and control.', 'Гілка танка: мало шкоди й контролю.')],
+                [t('Шаман · Исцеление', 'Shaman · Restoration', 'Шаман · Зцілення'), t('↓\xa0ниже', '↓\xa0lower', '↓\xa0нижче'), t('Ветка лечения: урона мало, зато трудно убить.', 'A healing tree: little damage, but hard to kill.', 'Гілка лікування: шкоди мало, зате важко вбити.')],
+                [t('Друид · Исцеление', 'Druid · Restoration', 'Друїд · Зцілення'), t('↓\xa0ниже', '↓\xa0lower', '↓\xa0нижче'), t('Ветка лечения: урона мало, зато трудно убить.', 'A healing tree: little damage, but hard to kill.', 'Гілка лікування: шкоди мало, зате важко вбити.')],
+            ]}),
+                ]},
+            ]),
+        ]},
         {'id': 'after', 'title': t('Что изменится после старта', 'What will change after launch', 'Що зміниться після старту'), 'blocks': [
             ('steps', [
                 {'t': t('Уровни 31–60', 'Levels 31–60', 'Рівні 31–60'),
