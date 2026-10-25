@@ -243,6 +243,9 @@ def lang_menu(html, lang, here):
 # nothing is deleted. SOCIAL = True brings it all back: menu and sheet links, the home links, the feed, the teaser,
 # roster/ back in the sitemap and indexed. Profile, login, u/ stay on either way (the mailing list and «Мой персонаж» use them).
 SOCIAL = False
+# Achievements, ranks, points and portrait frames are hidden everywhere (profile, u/, toasts, menu) except the «Founder» mark
+# (decision of 25.10). Nothing is deleted: ACHIEVEMENTS = True brings it all back; the API and its tables are untouched.
+ACHIEVEMENTS = False
 SOCIAL_TAG = re.compile(r'<(\w+)\b[^>]*\sdata-social\b[^>]*>.*?</\1>', re.S)        # shown only with SOCIAL
 NOSOCIAL_TAG = re.compile(r'<(\w+)\b[^>]*\sdata-nosocial\b[^>]*>.*?</\1>', re.S)    # shown only without it
 
@@ -254,11 +257,11 @@ def social(html):
 
 
 # Bottom tab bar on phones: the same tabs in the same order on every page (the profile button of the top bar is hidden there).
-TABS = (('', 'home', 'Главная'), ('guides/', 'book', 'Гайды'), ('play/', 'sword', 'В игре'), ('profile/', 'user', 'Профиль'))
+TABS = (('', 'home', 'Главная'), ('guides/', 'book', 'Гайды'), ('play/', 'sword', 'В игре'), ('classes/', 'users', 'Классы'))
 
 
 def tabbar(cur=None, home='@@HOME@@'):
-    """Tab bar markup; cur — path of the current tab ('', 'guides/', 'play/', 'profile/'); home '' — the home page itself."""
+    """Tab bar markup; cur — path of the current tab ('', 'guides/', 'play/', 'classes/'); home '' — the home page itself."""
     on = ' aria-current="true"'
     tabs = ''.join(f'\n  <a href="{home + p if home or p else "#top"}"{on if p == cur else ""}>'
                    f'<svg class="ico" aria-hidden="true"><use href="#i-{i}"/></svg>{t}</a>' for p, i, t in TABS)
@@ -593,7 +596,7 @@ def me(html, lang, here):
     page = here[len(page_dir(lang)):]
     solo = ' data-solo="1"' if only_lang(page) else ''   # a language-only guide is not in the guide set of game.json: me.js skips it
     head = f'<link rel="stylesheet" href="{root}assets/me/me.css" media="print" onload="this.media=\'all\'">\n</head>'
-    js = f'<script src="{root}assets/me/me.js" data-root="{root}" data-home="{home}" data-lang="{lang}" data-teaser="{_html.escape(TEASER[lang]) if SOCIAL else ''}" data-close="{_html.escape(tr('Закрыть', lang))}" data-page="{page}" data-look="{LK.V}"{solo} defer></script>\n</body>'
+    js = f'<script src="{root}assets/me/me.js" data-root="{root}" data-home="{home}" data-lang="{lang}" data-ach="{int(ACHIEVEMENTS)}" data-teaser="{_html.escape(TEASER[lang]) if SOCIAL else ''}" data-close="{_html.escape(tr('Закрыть', lang))}" data-page="{page}" data-look="{LK.V}"{solo} defer></script>\n</body>'
     return html.replace('</head>', head, 1).replace('</body>', js, 1)
 
 
@@ -1288,7 +1291,7 @@ def build_class(c, lang, tpl, base_css, sprite, races):
     root = rel(here, '')
     home = rel(here, page_dir(lang))
     v = render_class(c, races, lang)
-    html = chrome(tpl.replace('@@BASE_CSS@@', base_css).replace('@@SPRITE@@', sprite), nav='classes/')
+    html = chrome(tpl.replace('@@BASE_CSS@@', base_css).replace('@@SPRITE@@', sprite), nav='classes/', tab='classes/')
     for k in ('ID', 'COLOR', 'DESC', 'ROLES', 'FACTS', 'TABS', 'PANELS', 'NEWS', 'RACES', 'RACES_TIP', 'GROUP', 'LVL', 'BEST_RACE', 'PROS', 'CONS'):
         html = html.replace(f'@@{k}@@', v[k])
     others = ''.join(f'<a class="oc" href="../{o["id"]}/" style="--cc:{COLOR[o["id"]]}">{pic(o["id"], root, (360,), "132px")}<b>{esc(o["n"])}</b></a>' for o in CLASSES if o['id'] != c['id'])

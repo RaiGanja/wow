@@ -10,6 +10,7 @@
   const API = /^(127\.0\.0\.1|localhost)$/.test(location.hostname) ? 'http://127.0.0.1:8787' : 'https://api.gabella.site';
   const FLAG = 'gabella-me', CACHE = 'gabella-me-cache', SOUND = 'gabella-me-sound', DAY = 'gabella-me-day', CACHE_MS = 10 * 60000, RMIN = 'gabella-me-rmin';
   const TEASER = 'gabella-me-teaser';
+  const ACH = D.ach === '1';   // build.ACHIEVEMENTS: without it no achievement or rank toasts, no rank and points in the menu, one frame («Founder»)
   const AUTH_PAGE = /^(roster|profile)\/$/.test(PAGE);
   const ls = {
     get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
@@ -63,6 +64,7 @@
     else if (r && (r.granted || []).length) me(true);   // a new achievement moves points, rank and frames: the rare full refresh
     else if (r && state && 'lfg' in r) { state.user.lfg = r.lfg; setMe(state, stamp()); }   // the lfg switch: patch, no /me
     const list = [];
+    if (!ACH) return r;
     ((r && r.granted) || []).forEach(id => list.push({ kind: 'ach', id }));
     if (r && r.rankUp) list.push({ kind: 'rank', id: r.rankUp });
     list.slice(0, 3).forEach(toast);
@@ -166,6 +168,7 @@
     const s = FACE[c.race] || c.race, l = c.look || { sex: 'm', bg: s }, v = '?v=' + (D.look || '1');
     return { src: `${ROOT}assets/me/look/base/${s}-${l.sex}.webp${v}`, bg: `${ROOT}assets/me/look/bg/${l.bg}.webp${v}`, old: `${ROOT}assets/art/${s}-face.webp` };
   }
+  const ringOf = u => (ACH ? u.frame || u.rank : u.frame === 'founder' ? 'founder' : 'recruit');
   const img = (p, n) => `<img src="${p.src}" alt="" width="${n}" height="${n}"${p.bg ? ` style="background-image:url('${p.bg}')" data-old="${p.old}"` : ''}>`;
   // base failed to load: fall back to the old race face
   document.addEventListener('error', e => {
@@ -186,7 +189,7 @@
         btn.setAttribute('aria-haspopup', 'menu');
         btn.setAttribute('aria-expanded', 'false');
         btn.title = T.ui.profile || '';
-        btn.innerHTML = `<span class="me-ring fr-${esc(state.user.frame || state.user.rank)}">${img(face(state), 30)}</span>`;
+        btn.innerHTML = `<span class="me-ring fr-${esc(ringOf(state.user))}">${img(face(state), 30)}</span>`;
         btn.onclick = e => { e.preventDefault(); menu ? closeMenu() : openMenu(T); };
       } else {
         closeMenu();
@@ -212,8 +215,8 @@
     menu.className = 'me-menu';
     menu.setAttribute('role', 'menu');
     menu.setAttribute('aria-label', T.ui.menu || '');
-    menu.innerHTML = `<div class="me-mh"><span class="me-ring fr-${esc(u.frame || u.rank)}">${img(face(state), 40)}</span>
-      <span><b>${esc(name)}</b><small>${esc((T.ranks[u.rank] || u.rank) + ' · ' + (T.ui.ptsN || '{n}').replace('{n}', u.points || 0))}</small></span></div>
+    menu.innerHTML = `<div class="me-mh"><span class="me-ring fr-${esc(ringOf(u))}">${img(face(state), 40)}</span>
+      <span><b>${esc(name)}</b>${ACH ? `<small>${esc((T.ranks[u.rank] || u.rank) + ' · ' + (T.ui.ptsN || '{n}').replace('{n}', u.points || 0))}</small>` : ''}</span></div>
       ${items.join('')}<hr><button type="button" role="menuitem" class="me-out">${esc(T.ui.logout || 'Log out')}</button>`;
     document.body.append(menu);
     const r = btn.getBoundingClientRect();

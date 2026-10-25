@@ -2,6 +2,7 @@
    Inlined by build_me.py before the page script; Russian strings are translated at build like the rest of the site.
    The pages talk to the API only through window.GabellaMe (me.js), which runs before DOMContentLoaded. */
 const GD = @@GD@@;
+const ACH = @@ACH@@;   // build.ACHIEVEMENTS: achievements, ranks, points and frames are hidden except the «Founder» mark
 const ROOT = '@@ROOT@@', HOME = '@@HOME@@', LANG = '@@LANG@@', HL = document.documentElement.lang;
 const $ = (s, el) => (el || document).querySelector(s), $$ = (s, el) => [...(el || document).querySelectorAll(s)];
 const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
@@ -20,7 +21,10 @@ const pic = c => {
   const l = lookOf(c), s = race(c.race).slug, v = '?v=' + GD.looks.v;
   return { src: `${ROOT}assets/me/look/base/${s}-${l.sex}.webp${v}`, bg: `${ROOT}assets/me/look/bg/${l.bg}.webp${v}`, old: `${ROOT}assets/art/${s}-face.webp` };
 };
+const isFounder = p => p.frame === 'founder' || (p.achievements || []).some(a => a.id === 'founder');
+const shownFrame = (frame, p) => (ACH ? frame : p && isFounder(p) || frame === 'founder' ? 'founder' : 'recruit');
 const ring = (frame, p, extra) => {
+  frame = shownFrame(frame);
   const o = typeof p === 'string' ? { src: p } : p;
   return `<span class="me-ring fr-${esc(frame || 'recruit')}${extra ? ' ' + extra : ''}"><img src="${o.src}" alt="" width="64" height="64" loading="lazy" decoding="async"${o.bg ? ` style="background-image:url('${o.bg}')" data-old="${o.old}"` : ''}></span>`;
 };
@@ -79,7 +83,7 @@ function pcard(p, o) {
   const name = o.link === false ? `<b>${esc(c.name)}</b>` : `<a href="${playerUrl(p.id)}">${esc(c.name)}</a>`;
   const alts = (p.alts || []).length ? `<div class="alts">Твинки: ${p.alts.map(a => `<i style="--ac:${cls(a.class).color}">${esc(a.name)}</i>`).join(', ')}</div>` : '';
   return `<article class="pcard${o.cls ? ' ' + o.cls : ''}" style="--cc:${cls(c.class).color}"${o.attrs || ''}>
-    <span class="pic">${ring(p.frame || p.rank, pic(c))}${lvBadge(c)}</span>
+    <span class="pic">${ring(shownFrame(p.frame || p.rank, p), pic(c))}${lvBadge(c)}</span>
     <span class="fx ${f}">${esc(o.tag || FACN[f])}</span>
     <div class="nm">${name}</div>
     <span class="sub">${subline(c)}</span>
@@ -137,6 +141,7 @@ function bcard(p, o) {
   o = o || {};
   const c = p.main, src = `${ROOT}assets/art/${race(c.race).slug}-896.webp`;
   const who = [];
+  if (!ACH && isFounder(p)) who.push(esc(frameName('founder')));
   if (p.nick) who.push(esc(p.nick));
   if (p.joined) who.push(esc(fill('В Gabella Team с %d', { d: dateOf(p.joined) })));
   else if (p.member) who.push('Gabella Team');
@@ -144,11 +149,11 @@ function bcard(p, o) {
   const h = o.h || 'h1';
   return `<section class="bcard" style="--cc:${cls(c.class).color}" aria-label="Карточка игрока">
     <img class="bg" src="${src}" alt="" decoding="async">
-    <div class="in">${ring(p.frame || p.rank, pic(c), o.reveal ? 'reveal' : '')}
+    <div class="in">${ring(shownFrame(p.frame || p.rank, p), pic(c), o.reveal ? 'reveal' : '')}
       <div><${h}>${esc(c.name)}</${h}>
         <span class="sub">${subline(c)} · ${c.level}${verMark(c)} · ${esc(ROLE[c.role] || '')}</span>
         ${who.length ? `<p class="who">${who.join(' · ')}</p>` : ''}</div>
-      ${rankBlock(p.points || 0)}</div></section>`;
+      ${ACH ? rankBlock(p.points || 0) : ''}</div></section>`;
 }
 
 /** Progress of an achievement toward its goal: {v, goal, text} or null when it is all-or-nothing.
