@@ -257,8 +257,8 @@ def open_area(poly, top_fade):
 
 def leveling():
     im = load('hero_leveling')
-    open_sky = ImageChops.multiply(pick(im, [(110, 20, 580, 270)], lambda r, g, b, x, y: lum(r, g, b) > .62 and sat(r, g, b) < .42),
-                                   sky([(0, 0, 110, H), (560, 0, W, H)], (215, 270)))   # between the trees, above the far hills
+    open_sky = ImageChops.multiply(pick(im, [(110, 20, 540, 270)], lambda r, g, b, x, y: lum(r, g, b) > .62 and sat(r, g, b) < .42),
+                                   sky([(0, 0, 110, H), (525, 0, W, H)], (215, 270)))   # between the trees, above the far hills; clear of the tauren's antlers
     zero = Image.new('L', (W, H), 0)   # the river stays still
     save('hero_leveling', zero, zero, soft(open_sky, 1, 2), zero)
 
