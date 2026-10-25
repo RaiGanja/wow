@@ -886,8 +886,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .sheet .grp:last-child .gh { grid-column: 1 / -1; }
   .sheet .toc a { min-height: 44px; line-height: 1.25; }
 }
-:root h1.long { min-width: min-content; }   /* build.long_title: an 11+ letter word; never narrower than it, or the 8em cap of hero titles breaks it */
-@media (max-width: 719px) { :root h1.long { font-size: var(--fs-28); max-width: none; } }
+:root h1.long { min-width: min-content; font-size: min(var(--fs-hero), calc((100vw - 64px) / (var(--lw, 12) * .74))); }   /* build.long_title: an 11+ letter word (--lw letters, ~.72em each in the display caps); never narrower than it, and never wider than the screen («Konfidencialnost» on 768) */
+@media (max-width: 719px) { :root h1.long { font-size: min(var(--fs-28), calc((100vw - 32px) / (var(--lw, 12) * .74))); max-width: none; } }
 @media (max-width: 380px) {
   /* 320–380px phones: brand + search, radio, language must share one row */
   .topbar .in { gap: 6px; }
@@ -1172,7 +1172,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   </picture>
   <div class="wrap thero-in">
     <nav class="crumbs" aria-label="Навігація"><a href="../../">Гід</a><span aria-hidden="true">/</span><a href="../../guides/">Гайди</a><span aria-hidden="true">/</span><span>Прокачування Чорнокнижника 1–60</span></nav>
-    <h1 class="long">Прокачування Чорнокнижника 1–60</h1>
+    <h1 class="long" style="--lw:13">Прокачування Чорнокнижника 1–60</h1>
     <p class="upd">Оновлено <time datetime="2026-10-25">25.10.2026</time></p>
     <p class="lead">Чорнокнижник прокачується в середньому темпі, але майже без відпочинку: демон тримає ворога, ефекти темряви вбивають, а Life Tap і Drain Life міняють здоров’я на ману й навпаки. У Forever ефекти з часом можуть критувати.</p>
     <p class="gfacts">Спек: Прокляття · Таланти 10–60 · За бетою</p>

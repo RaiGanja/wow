@@ -886,8 +886,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .sheet .grp:last-child .gh { grid-column: 1 / -1; }
   .sheet .toc a { min-height: 44px; line-height: 1.25; }
 }
-:root h1.long { min-width: min-content; }   /* build.long_title: an 11+ letter word; never narrower than it, or the 8em cap of hero titles breaks it */
-@media (max-width: 719px) { :root h1.long { font-size: var(--fs-28); max-width: none; } }
+:root h1.long { min-width: min-content; font-size: min(var(--fs-hero), calc((100vw - 64px) / (var(--lw, 12) * .74))); }   /* build.long_title: an 11+ letter word (--lw letters, ~.72em each in the display caps); never narrower than it, and never wider than the screen («Konfidencialnost» on 768) */
+@media (max-width: 719px) { :root h1.long { font-size: min(var(--fs-28), calc((100vw - 32px) / (var(--lw, 12) * .74))); max-width: none; } }
 @media (max-width: 380px) {
   /* 320–380px phones: brand + search, radio, language must share one row */
   .topbar .in { gap: 6px; }
@@ -1164,7 +1164,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <picture class="stband-art" aria-hidden="true" data-fx="camp"><source type="image/avif" srcset="../assets/art/hero_campfire-960.avif?v=93981d6a 960w, ../assets/art/hero_campfire-1600.avif?v=170f274d 1600w, ../assets/art/hero_campfire-2560.avif?v=ab2937d5 2560w" sizes="100vw"><img src="../assets/art/hero_campfire-2560.webp?v=0cd97d33" srcset="../assets/art/hero_campfire-960.webp?v=5aa0e1b2 960w, ../assets/art/hero_campfire-1600.webp?v=f28cc311 1600w, ../assets/art/hero_campfire-2560.webp?v=0cd97d33 2560w" sizes="100vw" alt="" decoding="async" fetchpriority="high"></picture>
   <div class="wrap">
     <nav class="crumbs" aria-label="Навигация"><a href="../">Гид</a><span aria-hidden="true">/</span><span>Конфиденциальность</span></nav>
-    <h1 class="long">Конфиденциальность</h1>
+    <h1 class="long" style="--lw:18">Конфиденциальность</h1>
     <p class="glead">Какие данные собирает сайт и что хранится у вас в браузере. Коротко: без входа мы о вас ничего не знаем, после входа храним только профиль.</p>
     <p class="gfacts">Обновлено 24.10.2026</p>
   </div>

@@ -818,7 +818,8 @@ def long_title(html):
     instead of breaking inside the word (the display caps are wide)."""
     def title(m):
         words = re.split(r'[\s-]+', re.sub(r'<[^>]+>', ' ', m[2]))
-        return f'<h1{m[1]} class="long">' if max(map(len, words)) >= 11 and 'class=' not in m[1] else m[0]
+        n = max(map(len, words))
+        return f'<h1{m[1]} class="long" style="--lw:{n}">' if n >= 11 and 'class=' not in m[1] else m[0]   # --lw: the CSS fits that word to the screen
     return re.sub(r'<h1([^>]*)>(?=(.*?)</h1>)', title, html, count=1, flags=re.S)
 
 
