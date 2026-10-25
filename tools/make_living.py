@@ -153,8 +153,9 @@ def tools():
 
 def guides():
     im = load('hero_guides')
-    open_sky = open_area([(0, 0), (W, 0), (W, 165), (1252, 168), (1140, 158), (1080, 128), (958, 138), (936, 96),
-                          (920, 60), (818, 60), (758, 108), (742, 226), (712, 228), (700, 300), (0, 300)], (228, 292))   # signpost, heroes, castle
+    open_sky = open_area([(0, 0), (W, 0), (W, 230), (1340, 230), (1340, 105), (1240, 105), (1235, 135), (1150, 128), (1100, 118),
+                          (975, 148), (925, 92), (845, 56), (805, 56), (745, 92), (742, 198), (698, 198), (692, 300), (0, 300)],
+                         (228, 292))   # signpost, the druid's staff and pack, heroes, the stronghold
     zero = Image.new('L', (W, H), 0)
     save('hero_guides', zero, zero, soft(open_sky, 1, 2), zero)
 
