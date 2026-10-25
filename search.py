@@ -8,7 +8,7 @@
 «где» тоже ищется наравне с ключами: «паладин танк» находит разделы страницы паладина.
 Затем ставит ?v=<хэш> скриптам поиска во всех страницах: Cloudflare держит /wow/assets/ 30 дней, новый адрес обходит кэш.
 Запуск: python search.py"""
-import hashlib, json, os, re, sys
+import hashlib, json, os, re, sys, unicodedata
 from html import unescape
 
 import build
@@ -99,12 +99,252 @@ def index(lang, meta):
     return items
 
 
+# Словари поиска. Ключи и фразы пишутся как люди печатают; search.js сам приводит их к нижнему регистру без диакритики.
+PROFESSIONS = {'Alchemy', 'Blacksmithing', 'Enchanting', 'Engineering', 'Herbalism', 'Leatherworking', 'Mining', 'Skinning',
+               'Tailoring', 'Cooking', 'First Aid', 'Fishing'}
+RAIDS = {'Molten Core': {'ru': 'Огненные Недра', 'de': 'Geschmolzener Kern', 'fr': 'Cœur du Magma', 'es': 'Núcleo de Magma',
+                         'pt': 'Núcleo Derretido', 'it': 'Nucleo Fuso'},
+         'Onyxia’s Lair': {'ru': 'Логово Ониксии', 'de': 'Onyxias Hort', 'fr': 'Repaire d’Onyxia', 'es': 'Guarida de Onyxia',
+                           'pt': 'Covil da Onyxia', 'it': 'Antro di Onyxia'}}
+# сокращения подземелий и рейдов — одни на всех языках; значение — английское название (names.json переводит)
+ABBR = {'rfc': 'Ragefire Chasm', 'dm': 'The Deadmines', 'vc': 'The Deadmines', 'wc': 'Wailing Caverns', 'sfk': 'Shadowfang Keep',
+        'bfd': 'Blackfathom Deeps', 'stocks': 'The Stockade', 'gnomer': 'Gnomeregan', 'rfk': 'Razorfen Kraul', 'rfd': 'Razorfen Downs',
+        'sm': 'Scarlet Monastery', 'ulda': 'Uldaman', 'zf': "Zul'Farrak", 'mara': 'Maraudon', 'st': "Temple of Atal'Hakkar",
+        'brd': 'Blackrock Depths', 'lbrs': 'Lower Blackrock Spire', 'ubrs': 'Upper Blackrock Spire', 'strat': 'Stratholme',
+        'scholo': 'Scholomance', 'mc': 'Molten Core', 'ony': 'Onyxia’s Lair', 'рфк': 'Ragefire Chasm', 'мк': 'Molten Core',
+        'брд': 'Blackrock Depths', 'стратх': 'Stratholme', 'шоло': 'Scholomance',
+        'pally': 'Paladin', 'pala': 'Paladin', 'lock': 'Warlock', 'warr': 'Warrior', 'sham': 'Shaman', 'shammy': 'Shaman',
+        'hunt': 'Hunter', 'nelf': 'Night Elf', 'paly': 'Paladin'}
+# сленг и слова игроков -> слово на страницах этого языка
+SLANG = {
+    'ru': {'хил': 'лекарь', 'хилл': 'лекарь', 'хилер': 'лекарь', 'хиллер': 'лекарь', 'лекарь': 'лекарь', 'дд': 'урон', 'дпс': 'урон',
+           'рога': 'разбойник', 'рогу': 'разбойник', 'лок': 'чернокнижник', 'варлок': 'чернокнижник', 'прист': 'жрец', 'хант': 'охотник',
+           'хантер': 'охотник', 'шам': 'шаман', 'вар': 'воин', 'вара': 'воин', 'пал': 'паладин', 'пала': 'паладин', 'паля': 'паладин',
+           'дру': 'друид', 'мейдж': 'маг', 'данж': 'подземелья', 'данжи': 'подземелья', 'данжей': 'подземелья', 'инст': 'подземелья',
+           'инсты': 'подземелья', 'подземка': 'подземелья', 'профы': 'профессии', 'профа': 'профессии', 'тирлист': 'тир-лист',
+           'тир лист': 'тир-лист', 'лвл': 'уровень', 'кач': 'прокачка', 'качаться': 'прокачка', 'голда': 'золото', 'голд': 'золото',
+           'аддон': 'аддоны', 'ворлд оф варкрафт': 'world of warcraft', 'вов': 'wow', 'ночник': 'ночной эльф', 'нежить': 'нежить',
+           'андед': 'нежить', 'хуман': 'человек', 'люди': 'человек', 'skyborne': 'скайборн'},
+    'uk': {'хіл': 'цілитель', 'хілер': 'цілитель', 'лікар': 'цілитель', 'дд': 'шкода', 'дпс': 'шкода', 'рога': 'розбійник',
+           'лок': 'чорнокнижник', 'варлок': 'чорнокнижник', 'прист': 'жрець', 'хант': 'мисливець', 'шам': 'шаман', 'вар': 'воїн',
+           'пал': 'паладин', 'пала': 'паладин', 'дру': 'друїд', 'данж': 'підземелля', 'данжі': 'підземелля', 'інст': 'підземелля',
+           'профи': 'професії', 'тірліст': 'тір-лист', 'тирлист': 'тір-лист', 'лвл': 'рівень', 'кач': 'прокачування',
+           'голда': 'золото', 'вов': 'wow', 'андед': 'нежить', 'люди': 'людина', 'skyborne': 'скайборн'},
+    'en': {'pally': 'paladin', 'pal': 'paladin', 'pala': 'paladin', 'lock': 'warlock', 'wl': 'warlock', 'sham': 'shaman',
+           'shammy': 'shaman', 'hunt': 'hunter', 'warr': 'warrior', 'heals': 'healer', 'healing': 'healer', 'dps': 'damage',
+           'instance': 'dungeons', 'instances': 'dungeons', 'profs': 'professions', 'prof': 'professions', 'tierlist': 'tier list',
+           'lvl': 'level', 'levelling': 'leveling', 'ui': 'interface', 'ne': 'night elf', 'ud': 'undead', 'nelf': 'night elf'},
+    'de': {'pala': 'paladin', 'pally': 'paladin', 'hexer': 'hexenmeister', 'wl': 'hexenmeister', 'lock': 'hexenmeister',
+           'schami': 'schamane', 'dudu': 'druide', 'heal': 'heiler', 'healer': 'heiler', 'dd': 'schaden', 'dps': 'schaden',
+           'tierlist': 'tierliste', 'tier list': 'tierliste', 'instanz': 'dungeons', 'instanzen': 'dungeons', 'lvl': 'level',
+           'leveling': 'leveln', 'rasse': 'volk', 'rassen': 'völker', 'beruf': 'berufe', 'ui': 'interface', 'untote': 'untoter'},
+    'fr': {'demo': 'démoniste', 'lock': 'démoniste', 'war': 'guerrier', 'pal': 'paladin', 'pala': 'paladin', 'heal': 'soigneur',
+           'healer': 'soigneur', 'heals': 'soigneur', 'dps': 'dégâts', 'rogue': 'voleur', 'instance': 'donjons',
+           'instances': 'donjons', 'tierlist': 'tier list', 'lvl': 'niveau', 'leveling': 'progression', 'metier': 'métiers',
+           'mv': 'mort-vivant'},
+    'es': {'pala': 'paladín', 'lock': 'brujo', 'chami': 'chamán', 'heal': 'sanador', 'healer': 'sanador', 'curandero': 'sanador',
+           'dps': 'daño', 'rogue': 'pícaro', 'picaro': 'pícaro', 'tanque': 'tanque', 'instancia': 'mazmorras', 'instancias': 'mazmorras',
+           'banda': 'bandas', 'raid': 'bandas', 'tierlist': 'tier list', 'lvl': 'nivel', 'leveo': 'subir de nivel', 'profesion': 'profesiones'},
+    'pt': {'pala': 'paladino', 'lock': 'bruxo', 'heal': 'curador', 'healer': 'curador', 'curandeiro': 'curador', 'dps': 'dano',
+           'rogue': 'ladino', 'instancia': 'masmorras', 'dungeon': 'masmorras', 'raid': 'raides', 'tierlist': 'tier list',
+           'lvl': 'nível', 'upar': 'evolução', 'leveling': 'evolução', 'profissao': 'profissões'},
+    'it': {'pala': 'paladino', 'lock': 'stregone', 'heal': 'guaritore', 'healer': 'guaritore', 'tank': 'difensore', 'dps': 'assaltatore',
+           'rogue': 'ladro', 'dungeon': 'spedizioni', 'istanza': 'spedizioni', 'raid': 'incursioni', 'tierlist': 'tier list',
+           'lvl': 'livello', 'leveling': 'livellamento', 'livellare': 'livellamento', 'professione': 'professioni'},
+    'pl': {'wojownik': 'warrior', 'paladyn': 'paladin', 'łowca': 'hunter', 'lowca': 'hunter', 'łotr': 'rogue', 'lotr': 'rogue',
+           'łotrzyk': 'rogue', 'lotrzyk': 'rogue', 'kapłan': 'priest', 'kaplan': 'priest', 'szaman': 'shaman', 'czarnoksiężnik': 'warlock',
+           'czarnoksieznik': 'warlock', 'druid': 'druid', 'człowiek': 'human', 'czlowiek': 'human', 'krasnolud': 'dwarf',
+           'nocny elf': 'night elf', 'gnom': 'gnome', 'ork': 'orc', 'nieumarły': 'undead', 'nieumarly': 'undead', 'pally': 'paladin',
+           'lock': 'warlock', 'heal': 'healer', 'uzdrowiciel': 'healer', 'lochy': 'dungeony', 'instancja': 'dungeony',
+           'tierlist': 'tier lista', 'lvl': 'poziom', 'expienie': 'levelowanie', 'zawód': 'profesje', 'zawody': 'profesje'},
+}
+# служебные слова: не обязаны совпадать (вопрос «какой класс выбрать» ищет «класс выбрать»)
+STOP = {
+    'ru': 'и в во на с со для по о об от до за из к у как какой какая какое какие каким какую ли есть не что это мне я а но же бы или где когда кто кем чем сколько можно нужно нужен нужна стоит лучше',
+    'uk': 'і й та в у на з із зі для по про від до за як який яка яке які яким яку чи є не що це мені я а але де коли хто ким чим скільки можна треба',
+    'en': 'a an the of for to in on and or is are be do does did i my me we you it its what which who when where how should can there with vs',
+    'de': 'der die das den dem des ein eine einen und oder ist sind für mit von zu im in am an auf ich du wie was welche welcher welches wann wo gibt es soll kann',
+    'fr': 'le la les l un une des de du d et ou est sont pour avec en au aux dans je tu quel quelle quels quelles quand comment que qui',
+    'es': 'el la los las un una de del y o es son para con en al que qué cual cuál cuando cuándo como cómo donde dónde hay a',
+    'pt': 'o a os as um uma de do da dos das e ou é são para com em no na que qual quando como onde tem há',
+    'it': 'il lo la i gli le un una di del della e o è sono per con in nel che quale quando come dove c',
+    'pl': 'i w we na z ze do dla o od po jak jaki jaka jakie jaką czy jest są co to kiedy gdzie ile',
+}
+# вопросы новичка -> ответ: фраза срабатывает, когда каждое её слово — начало слова запроса
+ASK = {
+    'ru': [('classes/', ['какой класс', 'каким классом', 'кем играть', 'за кого играть', 'лучший класс', 'класс для новичк', 'выбрать класс', 'выбор класса']),
+           ('guides/faq/#raids', ['когда рейд', 'когда откроют рейд']),
+           ('guides/faq/#release', ['когда старт', 'когда выйд', 'когда выход', 'когда релиз', 'когда запуск', 'дата выход', 'дата релиз', 'дата старт', 'релиз']),
+           ('guides/faq/#trial', ['бесплатн']),
+           ('guides/faq/#price', ['сколько стои', 'цена', 'цены', 'стоимост', 'платн']),
+           ('guides/best-race/', ['лучшая раса', 'лучшую расу', 'какую расу', 'какая раса', 'раса для']),
+           ('guides/leveling/', ['как качат', 'как прокач', 'быстро кач', 'быстро прокач']),
+           ('guides/faq/#levels', ['максимальн уров', 'макс уров', 'до какого уровня', 'какой уровень']),
+           ('guides/faq/#language', ['русский язык', 'на русском', 'русск локализ', 'русификац', 'есть ли русск']),
+           ('guides/faq/#servers', ['русские сервер', 'русский сервер']),
+           ('guides/requirements/', ['требовани', 'пойдет ли', 'потянет'])],
+    'uk': [('classes/', ['який клас', 'яким класом', 'ким грати', 'кращий клас', 'найкращий клас', 'клас для новачк', 'обрати клас', 'вибрати клас']),
+           ('guides/faq/#raids', ['коли рейд']),
+           ('guides/faq/#release', ['коли старт', 'коли вийд', 'коли вихід', 'коли реліз', 'дата виход', 'реліз']),
+           ('guides/faq/#trial', ['безкоштовн']),
+           ('guides/faq/#price', ['скільки кошт', 'ціна', 'ціни', 'вартіст']),
+           ('guides/best-race/', ['найкраща раса', 'краща раса', 'яку расу', 'яка раса']),
+           ('guides/leveling/', ['як качат', 'як прокач', 'швидко кач']),
+           ('guides/faq/#levels', ['максимальн рів', 'який рівень']),
+           ('guides/ukrainian/', ['українськ', 'локалізац', 'переклад гри']),
+           ('guides/requirements/', ['вимоги'])],
+    'en': [('classes/', ['which class', 'what class', 'best class', 'class for beginn', 'choose class', 'class to play', 'who to play']),
+           ('guides/faq/#raids', ['when raid']),
+           ('guides/faq/#release', ['release', 'launch', 'when start', 'start date', 'when come out', 'when out']),
+           ('guides/faq/#trial', ['free']),
+           ('guides/faq/#price', ['how much', 'price', 'cost']),
+           ('guides/best-race/', ['best race', 'which race', 'what race', 'race for']),
+           ('guides/leveling/', ['how level', 'level fast', 'leveling guide']),
+           ('guides/faq/#levels', ['level cap', 'max level']),
+           ('guides/faq/#servers', ['russian', 'language']),
+           ('guides/requirements/', ['requirement', 'can i run'])],
+    'de': [('classes/', ['welche klasse', 'beste klasse', 'klasse anfang', 'klasse wahl', 'was spielen', 'wen spielen']),
+           ('guides/faq/#raids', ['wann raid']),
+           ('guides/faq/#release', ['release', 'erscheinung', 'wann start', 'wann erschein', 'wann kommt', 'starttermin', 'launch']),
+           ('guides/faq/#trial', ['kostenlos', 'gratis']),
+           ('guides/faq/#price', ['was kostet', 'kosten', 'preis', 'abo']),
+           ('guides/best-race/', ['bestes volk', 'beste rasse', 'welches volk', 'welche rasse']),
+           ('guides/leveling/', ['wie level', 'schnell level']),
+           ('guides/faq/#levels', ['maximal level', 'max level', 'levelcap']),
+           ('guides/faq/#servers', ['deutsch', 'sprache']),
+           ('guides/requirements/', ['anforderung'])],
+    'fr': [('classes/', ['quelle classe', 'meilleure classe', 'classe debut', 'choisir classe', 'que jouer']),
+           ('guides/faq/#raids', ['quand raid']),
+           ('guides/faq/#release', ['date sortie', 'sortie', 'quand sort', 'quand commence', 'lancement']),
+           ('guides/faq/#trial', ['gratuit']),
+           ('guides/faq/#price', ['prix', 'combien coute', 'cout']),
+           ('guides/best-race/', ['meilleure race', 'quelle race']),
+           ('guides/leveling/', ['monter niveau', 'comment level']),
+           ('guides/faq/#levels', ['niveau max']),
+           ('guides/faq/#servers', ['francais', 'langue']),
+           ('guides/requirements/', ['configuration', 'requise'])],
+    'es': [('classes/', ['que clase', 'cual clase', 'mejor clase', 'clase princip', 'elegir clase', 'quien jugar']),
+           ('guides/faq/#raids', ['cuando banda', 'cuando raid']),
+           ('guides/faq/#release', ['fecha lanzamiento', 'fecha salida', 'cuando sale', 'cuando empieza', 'lanzamiento']),
+           ('guides/faq/#trial', ['gratis']),
+           ('guides/faq/#price', ['precio', 'cuanto cuesta', 'cuesta']),
+           ('guides/best-race/', ['mejor raza', 'que raza', 'cual raza']),
+           ('guides/leveling/', ['como subir', 'subir rapido']),
+           ('guides/faq/#levels', ['nivel max']),
+           ('guides/faq/#servers', ['espanol', 'idioma']),
+           ('guides/requirements/', ['requisito'])],
+    'pt': [('classes/', ['qual classe', 'melhor classe', 'classe inic', 'escolher classe', 'quem jogar']),
+           ('guides/faq/#raids', ['quando raide', 'quando raid']),
+           ('guides/faq/#release', ['data lancamento', 'quando lanca', 'quando sai', 'quando comeca', 'lancamento']),
+           ('guides/faq/#trial', ['gratis', 'gratuito']),
+           ('guides/faq/#price', ['preco', 'quanto custa', 'custa']),
+           ('guides/best-race/', ['melhor raca', 'qual raca']),
+           ('guides/leveling/', ['como upar', 'upar rapido']),
+           ('guides/faq/#levels', ['nivel max']),
+           ('guides/faq/#servers', ['portugues', 'idioma']),
+           ('guides/requirements/', ['requisito'])],
+    'it': [('classes/', ['quale classe', 'migliore classe', 'classe migliore', 'classe princip', 'scegliere classe', 'chi giocare']),
+           ('guides/faq/#raids', ['quando incursion', 'quando raid']),
+           ('guides/faq/#release', ['data uscita', 'quando esce', 'quando inizia', 'uscita', 'lancio']),
+           ('guides/faq/#trial', ['gratis', 'gratuito']),
+           ('guides/faq/#price', ['prezzo', 'quanto costa', 'costa']),
+           ('guides/best-race/', ['razza migliore', 'migliore razza', 'quale razza']),
+           ('guides/leveling/', ['come livell']),
+           ('guides/faq/#levels', ['livello max']),
+           ('guides/faq/#servers', ['italiano', 'lingua']),
+           ('guides/requirements/', ['requisiti'])],
+    'pl': [('classes/', ['jaka klase', 'jaka klasa', 'najlepsza klasa', 'klasa dla poczatk', 'wybrac klase', 'kim grac']),
+           ('guides/faq/#raids', ['kiedy raid']),
+           ('guides/faq/#release', ['data premiery', 'premiera', 'kiedy start', 'kiedy wychodzi', 'kiedy premier']),
+           ('guides/faq/#trial', ['darmow', 'za darmo']),
+           ('guides/faq/#price', ['cena', 'ile kosztuje', 'koszt']),
+           ('guides/best-race/', ['najlepsza rasa', 'jaka rase', 'jaka rasa']),
+           ('guides/leveling/', ['jak levelowac', 'jak expic']),
+           ('guides/faq/#levels', ['maksymaln poziom', 'max poziom']),
+           ('guides/faq/#servers', ['polsk', 'jezyk']),
+           ('guides/requirements/', ['wymagania'])],
+}
+# пустой поиск и «ничего не нашлось»: шесть частых вопросов
+TOP_URLS = ['classes/', 'guides/faq/#release', 'guides/best-race/', 'guides/tier-list/', 'guides/leveling/']
+TOP = {lang: list(zip(t, TOP_URLS + [u])) for lang, (t, u) in {
+    'ru': (['Какой класс выбрать', 'Когда старт', 'Лучшая раса', 'Тир-лист', 'Прокачка 1–60', 'Русский язык'], 'guides/faq/#language'),
+    'uk': (['Який клас обрати', 'Коли старт', 'Найкраща раса', 'Тір-лист', 'Прокачування 1–60', 'Українська мова'], 'guides/ukrainian/'),
+    'en': (['Which class to play', 'Release date', 'Best race', 'Tier list', 'Leveling 1–60', 'Price and subscription'], 'guides/faq/#editions'),
+    'de': (['Welche Klasse spielen', 'Release-Termin', 'Bestes Volk', 'Tierliste', 'Leveln 1–60', 'Preis und Abo'], 'guides/faq/#editions'),
+    'fr': (['Quelle classe jouer', 'Date de sortie', 'Meilleure race', 'Tier list', 'Progression 1–60', 'Prix et abonnement'], 'guides/faq/#editions'),
+    'es': (['Qué clase elegir', 'Fecha de lanzamiento', 'Mejor raza', 'Tier list', 'Subir de nivel 1–60', 'Precio y suscripción'], 'guides/faq/#editions'),
+    'pt': (['Qual classe jogar', 'Data de lançamento', 'Melhor raça', 'Tier list', 'Evolução 1–60', 'Preço e assinatura'], 'guides/faq/#editions'),
+    'it': (['Quale classe scegliere', 'Data di uscita', 'Razza migliore', 'Tier list', 'Livellamento 1–60', 'Prezzo e abbonamento'], 'guides/faq/#editions'),
+    'pl': (['Jaką klasę wybrać', 'Data premiery', 'Najlepsza rasa', 'Tier lista', 'Levelowanie 1–60', 'Cena i subskrypcja'], 'guides/faq/#editions'),
+}.items()}
+
+
+def norm(s):
+    """The same as norm() in search.js: lower case without accents, ё -> е, ї -> і."""
+    o = ''
+    for ch in s.lower():
+        c = unicodedata.normalize('NFD', ch)[0]
+        o += {'ё': 'е', 'ї': 'і'}.get(c, c)
+    return o
+
+
+WORDS = re.compile(r'[^\s\-–—.,:;!?()«»"“”„\'’/·]+')
+
+
+def aliases(lang, idx):
+    """Other names a reader may type -> the name on this language's pages: the English game names of classes, races, specs,
+    zones, professions and raids (names.json; Russian ones too on ru/en/uk), class and race names of every language (page
+    titles), abbreviations (ABBR) and slang (SLANG). Only names whose every word is on the pages of the language get in:
+    an alias that finds nothing only weighs the index."""
+    vocab = {w for it in idx[lang] for w in WORDS.findall(norm(f'{it[0]} {it[1]} {it[4]} {it[5]}'))}
+    out = {}
+
+    def add(alias, local):
+        a, loc = ' '.join(WORDS.findall(norm(alias))), ' '.join(WORDS.findall(norm(local)))
+        if a and loc and a != loc and all(w in vocab for w in loc.split()):
+            out[a] = loc if out.get(a, loc) == loc else f'{out[a]}|{loc}'
+    names = json.load(open(os.path.join(HERE, 'i18n', 'names.json'), encoding='utf-8'))
+    ids = json.load(open(os.path.join(HERE, 'i18n', 'names_ids.json'), encoding='utf-8'))
+    for en, tr in names.items():
+        if 'manual' in ids.get(en, {}) or ids.get(en, {}).get('type') == 'zone' or en in PROFESSIONS:
+            local = tr.get(lang, en) if lang not in ('en', 'uk', 'pl') else en
+            for alias in (en, tr.get('ru') if lang in ('ru', 'en', 'uk') else None):   # Russian names where Russian readers are
+                if alias:
+                    add(alias, local)
+    for en, tr in RAIDS.items():
+        for alias in (en, tr.get('ru')):
+            add(alias, tr.get(lang, en))
+    titles = {}
+    for l in LANGS:   # class and race pages: the title in every language
+        p = len(page_dir(l))
+        for it in idx[l]:
+            if it[3] == 0 and re.fullmatch(r'(classes|races)/[\w-]+/', it[2][p:]):
+                titles.setdefault(it[2][p:], {})[l] = it[0]
+    for by in titles.values():
+        for t in by.values():
+            if lang in by:
+                add(t, by[lang])
+    local = {by['en']: by[lang] for by in titles.values() if 'en' in by and lang in by}   # Warrior -> Воїн on uk
+    for alias, en in ABBR.items():
+        add(alias, local.get(en) or (names.get(en, {}).get(lang, en) if lang not in ('en', 'uk', 'pl') else en))
+    for alias, local in SLANG[lang].items():
+        add(alias, local)
+    return out
+
+
 def main():
     meta = seo.page_meta()
     os.makedirs(OUT, exist_ok=True)
     h = hashlib.sha1()
+    idx = {lang: index(lang, meta) for lang in LANGS}
     for lang in LANGS:
-        data = json.dumps(index(lang, meta), ensure_ascii=False, separators=(',', ':'))
+        urls = {it[2] for it in idx[lang]}
+        ask = [[page_dir(lang, u), '|'.join(ph)] for u, ph in ASK[lang]]
+        top = [[t, page_dir(lang, u)] for t, u in TOP[lang]]
+        miss = [u for u, _ in ask + [x[::-1] for x in top] if u not in urls]
+        assert not miss, f'search {lang}: no such entry {miss}'
+        data = {'i': idx[lang], 'a': aliases(lang, idx), 'q': ask, 'p': top, 's': STOP[lang]}
+        data = json.dumps(data, ensure_ascii=False, separators=(',', ':'))
         open(os.path.join(OUT, f'{lang}.json'), 'w', encoding='utf-8', newline='\n').write(data + '\n')
         h.update(data.encode())
     for f in ('search.js', 'search.css'):

@@ -1,5 +1,6 @@
 """Поиск по сайту: индекс есть на каждом языке, записи одинаковые по числу, каждая ведёт на собранную страницу и её якорь,
-на всех страницах кнопка поиска и скрипты с одной версией ?v=. Запуск: python tests/test_search.py"""
+у каждого языка словарь других названий, вопросы и шесть популярных ссылок на свои записи, на всех страницах кнопка поиска
+и скрипты с одной версией ?v=. Качество ответов — tests/test_search_queries.py. Запуск: python tests/test_search.py"""
 import glob, json, os, re, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -13,7 +14,11 @@ LIMITED = {s['id'] for g in GUIDES for s in g['sections'] if 'langs' in s}   # s
 
 problems, sizes = [], {}
 for lang in LANGS:
-    rows = json.load(open(os.path.join(ROOT, 'assets', 'search', f'{lang}.json'), encoding='utf-8'))
+    data = json.load(open(os.path.join(ROOT, 'assets', 'search', f'{lang}.json'), encoding='utf-8'))
+    rows, urls = data['i'], {r[2] for r in data['i']}
+    if len(data['a']) < 150 or len(data['p']) != 6 or len(data['q']) < 9 or not data['s']:
+        problems.append(f'{lang}: словари {len(data["a"])} названий, {len(data["p"])} популярных, {len(data["q"])} вопросов')
+    problems += [f'{lang}: ссылка словаря без записи {u}' for u in [u for u, _ in data['q']] + [u for _, u in data['p']] if u not in urls]
     pre = build.page_dir(lang)
     sizes[lang] = sum(not build.only_lang(r[2].partition('#')[0][len(pre):]) and r[2].partition('#')[2] not in LIMITED
                       for r in rows)                             # one-language pages and ru/uk-only sections aside

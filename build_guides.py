@@ -272,19 +272,30 @@ def hub_body(lang, root):
 
 JS = {}   # slug -> JS живой части; наполняется в задачах 3, 5, 7, 8, 9
 
-JS['faq'] = r'''/* FAQ: search over questions and answers; #id opens the question */
+JS['faq'] = r'''/* FAQ: search over questions and answers, every word; when none has them all, the site search (synonyms, typos,
+   known questions) picks this page's questions; #id opens the question */
 const qIn = document.getElementById('faqQ');
 const qs = [...document.querySelectorAll('.gfaq details')];
 const qNone = document.getElementById('faqNone');
-if (qIn) qIn.addEventListener('input', () => {
-  const v = qIn.value.trim().toLowerCase();
+function showQs(hit) {   // hit(details) -> shown; null: all, folded back
   let n = 0;
   qs.forEach(d => {
-    const hit = !v || d.textContent.toLowerCase().includes(v); d.hidden = !hit;
-    if (v && hit) { n++; if (!d.open) { d.open = true; d.dataset.byq = '1'; } }
-    if (!v && d.dataset.byq) { d.open = false; delete d.dataset.byq; }   // clearing the field folds what the search opened
+    const h = !hit || hit(d); d.hidden = !h;
+    if (hit && h) { n++; if (!d.open) { d.open = true; d.dataset.byq = '1'; } }
+    if (!hit && d.dataset.byq) { d.open = false; delete d.dataset.byq; }   // clearing the field folds what the search opened
   });
-  if (qNone) qNone.hidden = !v || n > 0;
+  if (qNone) qNone.hidden = !hit || n > 0;
+  return n;
+}
+if (qIn) qIn.addEventListener('input', () => {
+  const v = qIn.value.trim().toLowerCase(), ws = v.split(/\s+/);
+  if (!v) return showQs(null);
+  if (showQs(d => { const t = d.textContent.toLowerCase(); return ws.every(w => t.includes(w)); }) || !window.gabellaFind) return;
+  window.gabellaFind(v).then(rs => {
+    if (qIn.value.trim().toLowerCase() !== v) return;
+    const here = rs.map(r => r.u.split('#')).filter(([p, id]) => id && location.pathname.endsWith('/' + p.replace(/^.*?guides\//, 'guides/'))).map(r => r[1]);
+    showQs(d => here.includes(d.id));
+  });
 });
 function openHash() { const d = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1))); if (d && d.tagName === 'DETAILS') { d.open = true; d.scrollIntoView(); } }
 addEventListener('hashchange', openHash); openHash();'''
