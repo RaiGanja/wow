@@ -819,7 +819,7 @@ def build_home(lang, src):
     src = chrome(src, tab='', home='')
     html, missing = translate(src, lang)
     html = html.replace('@@FRESH@@', fresh(lang))
-    html = sleep_art(html)
+    html = sleep_art(html).replace('<b>Gruppenplaner</b>', '<b>Gruppen&shy;planer</b>')   # 320 px tile: a hyphen, not «Gruppenplane / r»
     html = tod.apply(html, lang)   # the hero in the reader's time of day (tod.py)
     here = page_dir(lang)
     html = html.replace('@@ALTERNATES@@', alternates(''))
