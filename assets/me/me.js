@@ -6,6 +6,7 @@
 (function () {
   const S = document.currentScript, D = S.dataset;
   const ROOT = D.root || './', HOME = D.home || './', LANG = D.lang || 'ru', PAGE = D.page || '';
+  const PV = /*PV*/'?v=6114caef', AV = /*AV*/'?v=b1f2be23';   // build.py art_version (portraits) and me_version (achievement icons)
   const V = (S.src.match(/\?v=\w+/) || [''])[0];   // build.py me_version(): the same version for the texts
   const API = /^(127\.0\.0\.1|localhost)$/.test(location.hostname) ? 'http://127.0.0.1:8787' : 'https://api.gabella.site';
   const FLAG = 'gabella-me', CACHE = 'gabella-me-cache', SOUND = 'gabella-me-sound', DAY = 'gabella-me-day', CACHE_MS = 10 * 60000, RMIN = 'gabella-me-rmin';
@@ -131,7 +132,7 @@
       el.className = 'me-toast' + (t.kind === 'rank' ? ' rank' : '') + (SMALL.test(t.kind) ? ' sm' : '') + (reduced() ? '' : ' anim');
       if (SMALL.test(t.kind)) {   // one quiet line: a report sent, a level confirmed
         el.innerHTML = `<span class="me-tt"><b>${esc(t.text || G[t.id] || '')}</b></span>`;
-      } else el.innerHTML = `<span class="me-ti">${t.kind === 'rank' ? `<span class="me-ring fr-${esc(t.id)}">${img(face(state), 40)}</span>` : `<img src="${ROOT}assets/me/ach/${esc(t.id)}.webp${t.id === 'molten_core' ? '?v=2' : ''}" alt="" width="44" height="44">`}</span>
+      } else el.innerHTML = `<span class="me-ti">${t.kind === 'rank' ? `<span class="me-ring fr-${esc(t.id)}">${img(face(state), 40)}</span>` : `<img src="${ROOT}assets/me/ach/${esc(t.id)}.webp${AV}" alt="" width="44" height="44">`}</span>
         <span class="me-tt"><small>${esc(t.kind === 'rank' ? T.ui.rankUp : T.ui.got)}</small><b>${esc(t.kind === 'rank' ? T.ranks[t.id] || t.id : a[0])}</b></span>
         ${pts ? `<span class="me-shield" aria-label="${esc(pts + ' ' + (T.ui.pts || ''))}">${pts}</span>` : ''}`;
       box.append(el);
@@ -166,7 +167,7 @@
     const c = m && m.characters && (m.characters.find(x => x.is_main) || m.characters[0]);
     if (!c) return { src: ROOT + 'assets/brand/mark.webp?v=64e71bf9' };
     const s = FACE[c.race] || c.race, l = c.look || { sex: 'm', bg: s }, v = '?v=' + (D.look || '1');
-    return { src: `${ROOT}assets/me/look/base/${s}-${l.sex}.webp${v}`, bg: `${ROOT}assets/me/look/bg/${l.bg}.webp${v}`, old: `${ROOT}assets/art/${s}-face.webp` };
+    return { src: `${ROOT}assets/me/look/base/${s}-${l.sex}.webp${v}`, bg: `${ROOT}assets/me/look/bg/${l.bg}.webp${v}`, old: `${ROOT}assets/art/${s}-face.webp${PV}` };
   }
   const ringOf = u => (ACH ? u.frame || u.rank : u.frame === 'founder' ? 'founder' : 'recruit');
   const img = (p, n) => `<img src="${p.src}" alt="" width="${n}" height="${n}"${p.bg ? ` style="background-image:url('${p.bg}')" data-old="${p.old}"` : ''}>`;

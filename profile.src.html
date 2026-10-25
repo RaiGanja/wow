@@ -476,12 +476,12 @@ function wizard() {
   let body = '';
   if (w.step === 1) {
     body = `<h2>За кого играете?</h2><div class="facs">${['alliance', 'horde'].map(f => `<button type="button" data-f="${f}" style="--fc:var(--${f})">
-      <img src="${ROOT}assets/art/${f === 'alliance' ? 'human' : 'orc'}-600.webp" alt="" loading="lazy"><b>${esc(FACN[f])}</b></button>`).join('')}</div>`;
+      <img src="${ROOT}assets/art/${f === 'alliance' ? 'human' : 'orc'}-600.webp${PV}" alt="" loading="lazy"><b>${esc(FACN[f])}</b></button>`).join('')}</div>`;
   } else if (w.step === 2) {
     const races = Object.entries(GD.races).filter(([, r]) => r.f === w.f);
     const cl = w.race ? race(w.race).cls : [];
-    body = `<h2>Раса и класс</h2><div class="picks" role="group" aria-label="Раса">${races.map(([id, r]) => `<button type="button" data-race="${id}" aria-pressed="${w.race === id}">${ring('recruit', `${ROOT}assets/art/${r.slug}-face.webp`)}${esc(r.n)}</button>`).join('')}</div>
-      ${w.race ? `<div class="picks" role="group" aria-label="Класс">${cl.map(id => `<button type="button" data-cls="${id}" aria-pressed="${w.cls === id}" style="color:${cls(id).color}">${ring('recruit', `${ROOT}assets/art/${id}-face.webp`)}${esc(cls(id).n)}</button>`).join('')}</div>` : ''}
+    body = `<h2>Раса и класс</h2><div class="picks" role="group" aria-label="Раса">${races.map(([id, r]) => `<button type="button" data-race="${id}" aria-pressed="${w.race === id}">${ring('recruit', `${ROOT}assets/art/${r.slug}-face.webp${PV}`)}${esc(r.n)}</button>`).join('')}</div>
+      ${w.race ? `<div class="picks" role="group" aria-label="Класс">${cl.map(id => `<button type="button" data-cls="${id}" aria-pressed="${w.cls === id}" style="color:${cls(id).color}">${ring('recruit', `${ROOT}assets/art/${id}-face.webp${PV}`)}${esc(cls(id).n)}</button>`).join('')}</div>` : ''}
       <div class="row"><button type="button" class="btn ghost" data-back>Назад</button><button type="button" class="btn" data-next${w.race && w.cls ? '' : ' disabled'}>Дальше</button></div>`;
   } else if (w.step === 3) {
     const c0 = { race: w.race, class: w.cls };

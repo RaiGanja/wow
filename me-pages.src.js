@@ -4,6 +4,7 @@
 const GD = @@GD@@;
 const ACH = @@ACH@@;   // build.ACHIEVEMENTS: achievements, ranks, points and frames are hidden except the «Founder» mark
 const ROOT = '@@ROOT@@', HOME = '@@HOME@@', LANG = '@@LANG@@', HL = document.documentElement.lang;
+const PV = /*PV*/'', AV = /*AV*/'';   // ?v= of the class and race portraits (build.art_version) and of the achievement icons (build.me_version)
 const $ = (s, el) => (el || document).querySelector(s), $$ = (s, el) => [...(el || document).querySelectorAll(s)];
 const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
 const fill = (s, o) => s.replace(/%(\w)/g, (m, k) => (k in o ? o[k] : m));
@@ -19,7 +20,7 @@ const lookOf = c => c.look || { sex: (GD.looks.races[c.race] || { sex: 'm' }).se
 /** Character portrait: transparent base, portrait background, and the old race face in case loading fails. */
 const pic = c => {
   const l = lookOf(c), s = race(c.race).slug, v = '?v=' + GD.looks.v;
-  return { src: `${ROOT}assets/me/look/base/${s}-${l.sex}.webp${v}`, bg: `${ROOT}assets/me/look/bg/${l.bg}.webp${v}`, old: `${ROOT}assets/art/${s}-face.webp` };
+  return { src: `${ROOT}assets/me/look/base/${s}-${l.sex}.webp${v}`, bg: `${ROOT}assets/me/look/bg/${l.bg}.webp${v}`, old: `${ROOT}assets/art/${s}-face.webp${PV}` };
 };
 const isFounder = p => p.frame === 'founder' || (p.achievements || []).some(a => a.id === 'founder');
 const shownFrame = (frame, p) => (ACH ? frame : p && isFounder(p) || frame === 'founder' ? 'founder' : 'recruit');
@@ -37,8 +38,7 @@ const subline = c => `${esc(race(c.race).n)} · ${esc(cls(c.class).n)}`;
 const profLine = (c, hi) => [[c.prof1, c.prof1_skill], [c.prof2, c.prof2_skill]].filter(p => p[0])
   .map(([p, s]) => (p === hi ? '<b>' : '') + esc(GD.profs[p] || p) + (s ? ` ${s}` : '') + (p === hi ? '</b>' : '')).join(', ');
 const playerUrl = id => `${HOME}u/#${id}`;
-const ACH_V = { molten_core: 2 };   // a redrawn icon gets a new address: Cloudflare keeps /wow/assets/ for 30 days
-const achIcon = id => `${ROOT}assets/me/ach/${id}.webp${ACH_V[id] ? '?v=' + ACH_V[id] : ''}`;   // painted icons; secret.webp hides an unfound secret
+const achIcon = id => `${ROOT}assets/me/ach/${id}.webp${AV}`;   // painted icons; secret.webp hides an unfound secret
 const dateOf = t => new Date(t).toLocaleDateString(HL);
 const unit = (n, u) => new Intl.NumberFormat(HL, { style: 'unit', unit: u, unitDisplay: 'short', maximumFractionDigits: 0 }).format(n);
 function ago(t) {
@@ -140,7 +140,7 @@ function rankBlock(pts) {
 /** The big card, «how others see you». p: player shape plus points, joined or since. */
 function bcard(p, o) {
   o = o || {};
-  const c = p.main, src = `${ROOT}assets/art/${race(c.race).slug}-896.webp`;
+  const c = p.main, src = `${ROOT}assets/art/${race(c.race).slug}-896.webp${PV}`;
   const who = [];
   if (!ACH && isFounder(p)) who.push(esc(frameName('founder')));
   if (p.nick) who.push(esc(p.nick));

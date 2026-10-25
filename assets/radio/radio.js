@@ -92,7 +92,8 @@
     return d;
   });
   const stationById = id => data.stations.find(s => s.id === id);
-  const art = s => ROOT + 'assets/art/' + s.art + '.webp';
+  const PV = /*PV*/'?v=6114caef', ARTV = /*ARTV*/{"hero_campfire-960.avif":"?v=c7a06e77","hero_campfire-960.webp":"?v=19281b11","hero_dawn-960.avif":"?v=afda6d75","hero_dawn-960.webp":"?v=4b68f21c"};   // build.py art_version: portraits share one version, scenes have their own
+  const art = s => ROOT + 'assets/art/' + s.art + '.webp' + (ARTV[s.art + '.webp'] || PV);
   const now = () => byFile[st.cur];
   // what happens, for assets/me/me.js (achievements): on, station <id>, sleep, and a minute of music actually playing
   const emit = (type, id) => dispatchEvent(new CustomEvent('gabella:radio', { detail: { type, id } }));

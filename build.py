@@ -602,9 +602,49 @@ def me(html, lang, here):
     return html.replace('</head>', head, 1).replace('</body>', js, 1)
 
 
+def css_version():
+    """?v=<hash of the file> on every url(file) of the stylesheets under assets/ (the painted frames of me.css and the like):
+    the picture is fetched by the stylesheet, so its address must change with it. A stylesheet is hashed after this pass
+    (me_version, script_version), so a frame redrawn under the same name moves the stylesheet's own address too."""
+    rx = re.compile(r"url\((['\"]?)([^)'\"?#]+)(?:\?v=\w+)?\1\)")
+    n = 0
+    for d, _, fs in os.walk(os.path.join(HERE, 'assets')):
+        for f in fs:
+            if not f.endswith('.css'):
+                continue
+            p = os.path.join(d, f)
+
+            def tag(m):
+                u = m.group(2)
+                if re.match(r'(?:[a-z]+:|//)', u):
+                    return m.group(0)
+                t = os.path.normpath(os.path.join(d, u))
+                if not os.path.isfile(t):
+                    return m.group(0)
+                return f'url({m.group(1)}{u}?v={hashlib.sha1(open(t, "rb").read()).hexdigest()[:8]}{m.group(1)})'
+            was = open(p, encoding='utf-8').read()
+            new = rx.sub(tag, was)
+            if new != was:
+                open(p, 'w', encoding='utf-8', newline='\n').write(new)
+                n += 1
+    print(f'css: {n} stylesheets', file=sys.stderr)
+
+
 def me_version():
-    """?v=<hash> on me.js/me.css in every page: Cloudflare keeps /wow/assets/ for 30 days, a new address skips that cache."""
+    """?v=<hash> on me.js/me.css in every page: Cloudflare keeps /wow/assets/ for 30 days, a new address skips that cache.
+    The achievement icons (assets/me/ach/) are drawn by me.js and the profile pages by name: one version over the folder,
+    put into /*AV*/ of me.js and of the pages."""
     d = os.path.join(HERE, 'assets', 'me')
+    av = hashlib.sha1()
+    ad = os.path.join(d, 'ach')
+    for f in sorted(os.listdir(ad)):
+        av.update(f.encode() + open(os.path.join(ad, f), 'rb').read())
+    av = '?v=' + av.hexdigest()[:8]
+    mp = os.path.join(d, 'me.js')
+    js = open(mp, encoding='utf-8').read()
+    new = re.sub(r"/\*AV\*/'[^']*'", f"/*AV*/'{av}'", js)
+    if new != js:
+        open(mp, 'w', encoding='utf-8', newline='\n').write(new)
     h = hashlib.sha1()
     for f in sorted(os.listdir(d)):
         if f in ('me.js', 'me.css') or f.startswith('i18n-'):   # me.js passes the same version on to the texts
@@ -617,7 +657,8 @@ def me_version():
             if f.endswith('.html') and not f.endswith('.src.html'):
                 p = os.path.join(root, f)
                 html = open(p, encoding='utf-8').read()
-                new = re.sub(r'(assets/me/me\.(?:js|css))(?:\?v=\w+)?', rf'\1?v={v}', html)
+                new = re.sub(r"/\*AV\*/'[^']*'", f"/*AV*/'{av}'", html)   # achievement icons in the page JS
+                new = re.sub(r'(assets/me/me\.(?:js|css))(?:\?v=\w+)?', rf'\1?v={v}', new)
                 if new != html:
                     open(p, 'w', encoding='utf-8', newline='\n').write(new)
                     n += 1
@@ -685,7 +726,16 @@ def art_version():
             pv.update(f.encode() + open(os.path.join(d, f), 'rb').read())
     pv = '?v=' + pv.hexdigest()[:8]
     # pic() in page JS draws only the scenes the script names in quotes ('hero_dawn-960'): the map carries just those
-    artv = lambda html: '/*ARTV*/' + json.dumps({f: v for f, v in scenes.items() if f"'{f.rsplit('.', 1)[0]}'" in html}, separators=(',', ':'))
+    artv = lambda html, extra='': '/*ARTV*/' + json.dumps({f: v for f, v in scenes.items()
+                                                          if f"'{f.rsplit('.', 1)[0]}'" in html or f'"{f.rsplit(".", 1)[0]}"' in extra}, separators=(',', ':'))
+    # scripts of assets/ draw portraits and scenes by name too: me.js (the small portrait), radio.js (the cover is the art of a
+    # station, named in stations.json). They are hashed after this pass (me_version, radio_version).
+    for js, named in (('me/me.js', ''), ('radio/radio.js', open(os.path.join(HERE, 'assets', 'radio', 'stations.json'), encoding='utf-8').read())):
+        p = os.path.join(HERE, 'assets', js)
+        was = open(p, encoding='utf-8').read()
+        new = re.sub(r"/\*PV\*/'[^']*'", f"/*PV*/'{pv}'", re.sub(r'/\*ARTV\*/\{[^}]*\}', lambda _: artv(was, named), was))
+        if new != was:
+            open(p, 'w', encoding='utf-8', newline='\n').write(new)
     n = 0
     for root, dirs, files in os.walk(HERE):
         dirs[:] = [x for x in dirs if not x.startswith('.') and x not in ('assets', 'content', 'i18n', 'tests', 'node_modules')]
@@ -1459,11 +1509,12 @@ def main():
         import search  # site search index over the finished pages; it changes assets/, so the worker version is taken again
         search.main()
         brand_version()
+        css_version()   # before the stylesheets are hashed
+        art_version()   # before me.js and radio.js are hashed: it fills in their portrait versions
         me_version()
         living_version()
         radio_version()
         tod_version()
-        art_version()
         og_version()
         font_version()
         home_js()
