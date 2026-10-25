@@ -151,8 +151,28 @@ BLIND2 = [
     ('uk', 'вар прокачка', LV('warrior')), ('uk', 'коли реліз wow forever', START), ('de', 'dungeon liste', DUNG),
     ('de', 'pala build', BD('paladin')), ('fr', 'liste des donjons', DUNG), ('es', 'lista de mazmorras', DUNG),
 ]
+# спеки на слух и сокращениями («протекшн воин», «прот вар», «холи пал»): страница класса или его билдов (якорь спека — лучше, но не обязателен)
+def SP(c, a):
+    return [f'classes/{c}/', f'guides/builds-{c}/', f'guides/builds-{c}/#{a}']
+SPEC = [
+    ('ru', 'протекшн воин', SP('warrior', 'protection')), ('ru', 'протекшн вар', SP('warrior', 'protection')),
+    ('ru', 'прот вар', SP('warrior', 'protection')), ('ru', 'прот воин', SP('warrior', 'protection')),
+    ('ru', 'протекшн', BD('warrior') + BD('paladin')), ('ru', 'протекшн паладин', SP('paladin', 'protection')),
+    ('ru', 'прот пал', SP('paladin', 'protection')), ('ru', 'фури вар', SP('warrior', 'fury')), ('ru', 'арм вар', SP('warrior', 'arms')),
+    ('ru', 'холи пал', SP('paladin', 'holy')), ('ru', 'ретрик', SP('paladin', 'retribution')), ('ru', 'рет пал', SP('paladin', 'retribution')),
+    ('ru', 'диско прист', SP('priest', 'discipline')), ('ru', 'шадоу прист', SP('priest', 'shadow')),
+    ('ru', 'ресто друид', SP('druid', 'restoration')), ('ru', 'ресто шам', SP('shaman', 'restoration')), ('ru', 'фери друид', SP('druid', 'feral')),
+    ('ru', 'энх шам', SP('shaman', 'enhancement')), ('ru', 'элем шам', SP('shaman', 'elemental')),
+    ('ru', 'бм хант', SP('hunter', 'beast-mastery')), ('ru', 'сурв хант', SP('hunter', 'survival')),
+    ('ru', 'афлик лок', SP('warlock', 'affliction')), ('ru', 'дестро лок', SP('warlock', 'destruction')),
+    ('ru', 'фаер маг', SP('mage', 'fire')), ('ru', 'комбат рога', SP('rogue', 'combat')),
+    ('en', 'prot warrior', SP('warrior', 'protection')), ('en', 'prot war', SP('warrior', 'protection')), ('en', 'prot pal', SP('paladin', 'protection')),
+    ('en', 'holy pal', SP('paladin', 'holy')), ('en', 'ret pal', SP('paladin', 'retribution')), ('en', 'disc priest', SP('priest', 'discipline')),
+    ('uk', 'протекшн вар', SP('warrior', 'protection')), ('uk', 'прот воїн', SP('warrior', 'protection')), ('uk', 'холі пал', SP('paladin', 'holy')),
+    ('de', 'prot krieger', SP('warrior', 'protection')), ('es', 'prot guerrero', SP('warrior', 'protection')),
+]
 DIR2 = [('ru', 'вор как качать', LV('rogue')), ('ru', 'когда релиз вов форевер', START), ('en', 'dungeon list', DUNG)]
-KNOWN = {('ru', 'протекшн воин')}   # «protekshn» дальше 3 правок от «protection»: транслит на слух не ловим   # запросы, которые пока не находят нужное: [(lang, query)]
+KNOWN = set()   # запросы, которые пока не находят нужное: {(lang, query)}
 
 
 def ok(url, lang, want):
@@ -172,13 +192,13 @@ def run(js=os.path.join(ROOT, 'assets', 'search', 'engine.js'), index=os.path.jo
         print('SKIP: нет node')
         sys.exit(0)
     r = subprocess.run([node, os.path.join(ROOT, 'tests', 'search_eval.js'), js, index],
-                       input=json.dumps([[l, q] for l, q, _ in Q + HOLD + NEW + DIR + BLIND + BLIND2 + DIR2]), capture_output=True, text=True, encoding='utf-8', check=True)
+                       input=json.dumps([[l, q] for l, q, _ in Q + HOLD + NEW + DIR + BLIND + BLIND2 + DIR2 + SPEC]), capture_output=True, text=True, encoding='utf-8', check=True)
     return json.loads(r.stdout)
 
 
 if __name__ == '__main__':
     res = run(*[a for a in sys.argv[1:] if not a.startswith('-')])   # [search.js [index dir]]: another engine, e.g. the old one
-    sets = [('набор', Q), ('отложенный', HOLD), ('новый', NEW), ('директор', DIR), ('слепой', BLIND), ('слепой-2', BLIND2), ('директор-2', DIR2)]
+    sets = [('набор', Q), ('отложенный', HOLD), ('новый', NEW), ('директор', DIR), ('слепой', BLIND), ('слепой-2', BLIND2), ('директор-2', DIR2), ('спеки', SPEC)]
     allq = [q for _, qs in sets for q in qs]
     good, bad, first = [], [], 0
     for (lang, q, want), urls in zip(allq, res):

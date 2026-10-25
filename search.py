@@ -115,6 +115,40 @@ ABBR = {'rfc': 'Ragefire Chasm', 'dm': 'The Deadmines', 'vc': 'The Deadmines', '
         'брд': 'Blackrock Depths', 'стратх': 'Stratholme', 'шоло': 'Scholomance',
         'pally': 'Paladin', 'pala': 'Paladin', 'lock': 'Warlock', 'warr': 'Warrior', 'sham': 'Shaman', 'shammy': 'Shaman',
         'hunt': 'Hunter', 'nelf': 'Night Elf', 'paly': 'Paladin'}
+# спеки, как их говорят и пишут игроки: сокращения и английские слова кириллицей «на слух». Значение — английское название
+# спека (names.json переводит); на каком языке ни напечатан ключ, он ведёт к названию спека на страницах этого языка.
+# Расстоянием правок такие слова не ловятся («протекшн» дальше трёх правок от «protection»)
+SPECS = {
+    'Protection': 'prot protec protek протекшн протекшен протекшин протек протекция прот',
+    'Fury': 'фури фьюри фурия',
+    'Arms': 'армс армы арм',
+    'Retribution': 'ret retri ретри ретрик ретрибушн ретрибушен ретрибьюшн рет',
+    'Holy': 'холи холі хоули',
+    'Discipline': 'disc дисц диско діско диск',
+    'Shadow': 'шадоу шэдоу шедоу',
+    'Restoration': 'resto ресто реста',
+    'Balance': 'moonkin мунки мунк бумкин',
+    'Feral': 'фери фирал фераль',
+    'Enhancement': 'enh энх энха энхансмент энхансер',
+    'Elemental': 'ele элем эле',
+    'Beast Mastery': 'bm бм бист',
+    'Marksmanship': 'mm мм маркс',
+    'Survival': 'sv сурв сурвайвал',
+    'Affliction': 'aff афлик аффлик афф',
+    'Demonology': 'demo дэмо',
+    'Destruction': 'destro дестро',
+    'Fire': 'фаер фаир файр',
+    'Arcane': 'аркан арканка',
+    'Combat': 'комбат',
+    'Assassination': 'ассасин асса мути',
+    'Subtlety': 'sub саб сабтлети субтлети',
+}
+# названия спеков на украинских страницах (в names.json украинских нет; на pl и en страницы пишут спеки по-английски)
+UK_SPECS = {'Protection': 'Захист', 'Fury': 'Лють', 'Arms': 'Зброя', 'Retribution': 'Відплата', 'Holy': 'Світло', 'Discipline': 'Послух',
+            'Shadow': 'Темрява', 'Restoration': 'Зцілення', 'Balance': 'Баланс', 'Feral': 'Сила звіра', 'Enhancement': 'Вдосконалення',
+            'Elemental': 'Стихії', 'Beast Mastery': 'Володіння звірами', 'Marksmanship': 'Стрільба', 'Survival': 'Виживання',
+            'Affliction': 'Прокляття', 'Demonology': 'Демонологія', 'Destruction': 'Руйнування', 'Fire': 'Вогонь', 'Frost': 'Лід',
+            'Arcane': 'Тайна магія', 'Combat': 'Бій', 'Assassination': 'Ліквідація', 'Subtlety': 'Непомітність'}
 # сленг и слова игроков -> слово на страницах этого языка
 SLANG = {
     'ru': {'хил': 'лекарь', 'хилл': 'лекарь', 'хилер': 'лекарь', 'хиллер': 'лекарь', 'лекарь': 'лекарь', 'дд': 'урон', 'дпс': 'урон',
@@ -332,6 +366,10 @@ def aliases(lang, idx):
     local = {by['en']: by[lang] for by in titles.values() if 'en' in by and lang in by}   # Warrior -> Воїн on uk
     for alias, en in ABBR.items():
         add(alias, local.get(en) or (names.get(en, {}).get(lang, en) if lang not in ('en', 'uk', 'pl') else en))
+    for en, words in SPECS.items():
+        local = UK_SPECS[en] if lang == 'uk' else names[en].get(lang, en) if lang not in ('en', 'pl') else en
+        for alias in [en, *words.split()] if lang == 'uk' else words.split():   # uk: the English name finds the Ukrainian one too
+            add(alias, local)
     for alias, local in SLANG[lang].items():
         add(alias, local)
     return out
