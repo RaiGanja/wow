@@ -1629,15 +1629,15 @@ function authUrl(p, link) {
   return `${apiBase()}${p === 'discord' ? '/auth/login' : `/auth/${p}/login`}?lang=${LANG}` + (ref ? `&ref=${ref}` : '') + (link ? '&link=1' : '');
 }
 /** Discord, Google and Battle.net are plain links; Telegram and email open here. link: attach to the signed-in account.
-    main: a large gold button (the login screen leads with Discord and Google). */
+    main: a large button (the login screen leads with Discord and Google); 'gold' for the one primary button of the screen. */
 function wayBtn(id, label, link, main) {
-  const cls = main ? 'btn lg way' : 'btn ghost way';
+  const cls = main === 'gold' ? 'btn lg way' : main ? 'btn ghost lg way' : 'btn ghost way';
   if (id === 'telegram' || id === 'email') return `<button type="button" class="${cls}" data-way="${id}"${link ? ' data-link="1"' : ''}>${wayIco(id)}${esc(label)}</button>`;
   return `<a class="${cls}" href="${esc(authUrl(id, link))}">${wayIco(id)}${esc(label)}</a>`;
 }
 const MAIN_WAYS = ['discord', 'google'];
 /** The login screen: Discord and Google up front, the rest folded under «other ways». */
-const loginWays = () => `<div class="ways">${WAYS.filter(([id]) => MAIN_WAYS.includes(id)).map(([id, n]) => wayBtn(id, n, false, true)).join('')}</div>
+const loginWays = () => `<div class="ways">${WAYS.filter(([id]) => MAIN_WAYS.includes(id)).map(([id, n], i) => wayBtn(id, n, false, i ? true : 'gold')).join('')}</div>
   <details class="more" id="moreWays"><summary>Otras formas</summary><div class="ways">${WAYS.filter(([id]) => !MAIN_WAYS.includes(id)).map(([id, n]) => wayBtn(id, n, false)).join('')}</div></details>`;
 const mailForm = () => `<form class="mailf" id="mailF" hidden novalidate><label class="small" for="mAddr">Correo para el enlace de acceso</label>
   <input id="mAddr" type="email" autocomplete="email" inputmode="email" maxlength="254" placeholder="name@example.com" required>
