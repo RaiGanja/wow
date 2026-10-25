@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>WoW Forever, second écran : radio, zones, minuteurs</title>
 <meta name="description" content="Gardez-le ouvert en jouant : radio fantasy, où monter de niveau avec l’Alliance ou la Horde, donjons pour votre niveau et minuteurs avec alerte.">
-<meta name="theme-color" content="#060708">
+<meta name="theme-color" content="#050505">
 <link rel="alternate" hreflang="ru" href="https://gabella.site/wow/play/">
 <link rel="alternate" hreflang="en" href="https://gabella.site/wow/en/play/">
 <link rel="alternate" hreflang="uk" href="https://gabella.site/wow/uk/play/">
@@ -32,13 +32,13 @@
 <meta property="og:title" content="WoW Forever, second écran : radio, zones, minuteurs">
 <meta property="og:description" content="Gardez-le ouvert en jouant : radio fantasy, où monter de niveau avec l’Alliance ou la Horde, donjons pour votre niveau et minuteurs avec alerte.">
 <meta property="og:url" content="https://gabella.site/wow/fr/play/">
-<meta property="og:image" content="https://gabella.site/wow/assets/og/guides-fr.jpg?v=0e08f2e4">
+<meta property="og:image" content="https://gabella.site/wow/assets/og/guides-fr.jpg?v=56bf6945">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="WoW Forever, second écran : radio, zones, minuteurs">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" type="image/png" sizes="48x48" href="../../assets/icons/favicon-48.png">
-<link rel="icon" type="image/png" sizes="96x96" href="../../assets/icons/favicon-96.png">
+<link rel="icon" type="image/png" sizes="48x48" href="../../assets/icons/favicon-48.png?v=76679d4b">
+<link rel="icon" type="image/png" sizes="96x96" href="../../assets/icons/favicon-96.png?v=e6542ea5">
 <link rel="preload" href="../../assets/fonts/spectral-sc-latin.woff2?v=55dd1ea6" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../../assets/fonts/golos-text-latin.woff2?v=5c155680" as="font" type="font/woff2" crossorigin>
 <style>
@@ -1198,11 +1198,11 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 @media print { .rv { opacity: 1; transform: none; } }
 </style>
 <link rel="manifest" href="../../manifest-fr.webmanifest">
-<link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
+<link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css?v=a448c8a8c7" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=bf466e227d" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=92cd9c7464" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=a7f37d7ecd" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=d43cad55c8" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://gabella.site/wow/fr/"},{"@type":"ListItem","position":2,"name":"En jeu","item":"https://gabella.site/wow/fr/play/"}]}</script>
 </head>
 <body class="compact">
@@ -1229,7 +1229,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </svg>
 
 <a class="skip" href="#main">Aller au contenu</a><header class="topbar" id="topbar"><div class="in">
-  <a class="brand" href="../"><img class="mark" src="../../assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Guide WoW Forever</small></span></a>
+  <a class="brand" href="../"><img class="mark" src="../../assets/brand/mark.webp?v=64e71bf9" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Guide WoW Forever</small></span></a>
   <nav class="mainnav" aria-label="Sections">
     <a href="../classes/">Classes</a><a href="../races/">Races</a><a href="../guides/leveling/">Progression</a><a href="../guides/dungeons/">Donjons</a><a href="../guides/">Guides</a><a href="../tools/">Outils</a><a href="../play/" aria-current="true">En jeu</a><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a>
   </nav>
@@ -1538,7 +1538,7 @@ function beep() {
 }
 function notify(x) {
   if (!ps.notify || !document.hidden || !('Notification' in window) || Notification.permission !== 'granted') return;
-  const opt = { body: TX.done, icon: ROOT + 'assets/icons/icon-192.png', tag: 'play-' + x.id };
+  const opt = { body: TX.done, icon: ROOT + 'assets/icons/icon-192.png?v=5b9b0d39', tag: 'play-' + x.id };
   try { new Notification(x.name, opt); }
   catch (e) { if (navigator.serviceWorker) navigator.serviceWorker.ready.then(r => r.showNotification(x.name, opt)).catch(() => {}); }
 }
@@ -1746,7 +1746,7 @@ const PROFS = [
   ['fishing', 'Pêche', 0, 'Fish Bowl', 'comme Bénédiction des rois']
 ];
 const PR = Object.fromEntries(PROFS.map(p => [p[0], p]));
-const PV = /*PV*/'?v=0119de2a';   // ?v= of the class portraits (build.art_version)
+const PV = /*PV*/'?v=6114caef';   // ?v= of the class portraits (build.art_version)
 function facName(f) { return f === 'alliance' ? 'Alliance' : 'Horde'; }
 const lvRange = d => d[1] === d[2] ? String(d[1]) : `${d[1]}–${d[2]}`;
 const nearLvl = (d, lv) => lv >= d[1] - 3 && lv <= d[2] + 3;
@@ -2024,8 +2024,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js?v=a448c8a8c7" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=bf466e227d" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=92cd9c7464" data-root="../../" data-home="../" data-lang="fr" data-teaser="" data-close="Fermer" data-page="play/" data-look="2" defer></script>
+<script src="../../assets/search/search.js?v=a7f37d7ecd" data-root="../../" defer></script>
+<script src="../../assets/me/me.js?v=d43cad55c8" data-root="../../" data-home="../" data-lang="fr" data-teaser="" data-close="Fermer" data-page="play/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>
