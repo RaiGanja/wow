@@ -1134,7 +1134,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css?v=a448c8a8c7" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=e154702bc6" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=6948e3dcc8" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/me/me.css?v=30e53cd5c1" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://gabella.site/wow/de/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://gabella.site/wow/de/tools/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"WoW Forever Tools: Klassen- und Volksvergleich, Gruppe","description":"Vergleiche Klassen und Völker in WoW Forever nebeneinander, Gruppenfenster und Raidraster wie im Spiel, und durchsuche den ganzen Guide.","inLanguage":"de","url":"https://gabella.site/wow/de/tools/","dateModified":"2026-10-25","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/de/"},"image":"https://gabella.site/wow/assets/og/tools-de.jpg?v=84682d73"}</script>
@@ -1232,7 +1232,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 </section>
 <section class="block wrap" id="raid">
   <div class="sec-head"><h2>Gruppen- und Raidfenster</h2>
-    <p>Bau den Kader so, wie er im Spiel aussehen wird. Klick auf ein Fenster, um Volk, Klasse, Rolle und Spielernamen zu wählen. Zieh ein Fenster in eine andere Gruppe oder verschieb es mit dem Button.</p></div>
+    <p>Bau den Kader so, wie er im Spiel aussehen wird. Klick auf einen Rahmen, um Volk, Klasse, Rolle und Spielernamen zu wählen. Zieh einen Rahmen in eine andere Gruppe oder verschieb es mit dem Button.</p></div>
   <div class="frame rtool">
     <div class="rbar">
       <div class="fgroup"><span class="flabel" id="lrf">Fraktion</span><div class="seg" id="rF" aria-labelledby="lrf"><button type="button" data-v="alliance" aria-pressed="true">Allianz</button><button type="button" data-v="horde" aria-pressed="false">Horde</button></div></div>
@@ -1295,7 +1295,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
   <nav class="toc" aria-label="Alle Abschnitte">
     <div class="grp"><div class="gh">Diese Seite</div><a href="#search">Guide-Suche</a><a href="#raid">Gruppen- und Raidfenster</a><a href="#compare">Klassen- und Volksvergleich</a></div>
     <div class="grp"><div class="gh">Nachschlagen</div><a href="../">Start</a><a href="../classes/">Klassen im Vergleich</a><a href="../races/">Völker im Vergleich</a><a href="../guides/leveling/">Leveln 1–60</a><a href="../guides/dungeons/">Dungeons und Raids</a><a href="../guides/professions/">Berufe</a><a href="../guides/faq/">FAQ und Termine</a><a href="../guides/news/">News</a><a href="../guides/">Alle Guides</a></div>
-    <div class="grp"><div class="gh">Tools</div><a href="../tools/#picker">Auswahl</a><a href="../tools/#raid">Gruppenplaner</a><a href="../tools/">Fenster, Vergleich, Suche</a><a href="../play/">Im Spiel</a></div>
+    <div class="grp"><div class="gh">Tools</div><a href="../tools/#picker">Auswahl</a><a href="../tools/#raid">Gruppenplaner</a><a href="../tools/">Rahmen, Vergleich, Suche</a><a href="../play/">Im Spiel</a></div>
     <div class="grp"><div class="gh">Gemeinschaft</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="../profile/">Mein Profil</a></div>
   </nav>
   <div class="opts">
@@ -1546,7 +1546,7 @@ function renderRaid(touched = true) {
   const have = new Set(list.map(p => p.cls));
   $('#rBuffs').innerHTML = CLASSES.filter(c => BUFF[c.id]).map(c => `<li class="${have.has(c.id) ? '' : 'off'}" style="--cc:${CCOL[c.id]}"><span class="cdot"></span><span><b>${esc(c.n)}:</b> ${esc(BUFF[c.id])}</span></li>`).join('');
   const n = list.length;
-  $('#rRaids').innerHTML = n ? RAIDS.map(([size, name]) => `<li class="${n >= size ? 'good' : ''}">${n >= size ? `Raid für ${size} (${name}): genug Spieler.` : `Raid für ${size} (${name}): es fehlen ${size - n}.`}</li>`).join('') : '<li>Noch niemand hier. Drücke „Freie Plätze füllen“ oder klicke auf ein freies Fenster.</li>';
+  $('#rRaids').innerHTML = n ? RAIDS.map(([size, name]) => `<li class="${n >= size ? 'good' : ''}">${n >= size ? `Raid für ${size} (${name}): genug Spieler.` : `Raid für ${size} (${name}): es fehlen ${size - n}.`}</li>`).join('') : '<li>Noch niemand hier. Drücke „Freie Plätze füllen“ oder klicke auf einen freien Rahmen.</li>';
 
   const link = n ? teamLink() : '';
   $('#rLink').value = link;
@@ -1911,7 +1911,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js?v=a448c8a8c7" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=e154702bc6" data-root="../../" defer></script>
+<script src="../../assets/search/search.js?v=6948e3dcc8" data-root="../../" defer></script>
 <script src="../../assets/me/me.js?v=30e53cd5c1" data-root="../../" data-home="../" data-lang="de" data-ach="0" data-teaser="" data-close="Schließen" data-page="tools/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
