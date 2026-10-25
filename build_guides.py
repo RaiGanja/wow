@@ -91,13 +91,13 @@ def art_sets(art, root, big=False):
 
 def thero(sec, hero):
     """The guide's art band rewritten as the full-screen hero: same crumbs, title, lead and pills (still untranslated)."""
-    m = lambda ext: ', '.join(f'@@ROOT@@assets/art/{hero}-m-{w}.{ext} {w}w' for w in (600, 1000))   # noqa: E731
+    m = lambda ext: ', '.join(f'@@ROOT@@assets/art/{hero}-m-{w}.{ext} {w}w' for w in (600, 800, 1000))   # noqa: E731
     big = lambda ext: ', '.join(f'@@ROOT@@assets/art/{hero}-{w}.{ext} {w}w' for w in THERO_W)   # noqa: E731
     phone = 'media="(max-width: 719px) and (max-aspect-ratio: 2/3)"'
     fx = f' data-fx="{THERO[hero]}" data-cut=".9"' if THERO[hero] else ''   # living layer only where a mask exists
     pic = (f'<picture class="thero-art" aria-hidden="true"{fx}>\n'
-           f'    <source {phone} type="image/avif" srcset="{m("avif")}" sizes="78vh">\n'
-           f'    <source {phone} type="image/webp" srcset="{m("webp")}" sizes="78vh">\n'
+           f'    <source {phone} type="image/avif" srcset="{m("avif")}" sizes="100vw">\n'
+           f'    <source {phone} type="image/webp" srcset="{m("webp")}" sizes="100vw">\n'
            f'    <source type="image/avif" srcset="{big("avif")}" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw">\n'
            f'    <source type="image/webp" srcset="{big("webp")}" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw">\n'
            f'    <img src="@@ROOT@@assets/art/{hero}-1920.webp" width="1920" height="1072" alt="" fetchpriority="high" decoding="async">\n'

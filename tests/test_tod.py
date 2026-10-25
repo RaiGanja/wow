@@ -69,6 +69,15 @@ class Markup(unittest.TestCase):
             # the phone band is 100vw wide: a 412 px phone at 1.75x takes the 800 cut, not 1000 (78vh asked for 1000)
             self.assertRegex(html, r'hero_\{tod\}-m-800\.avif[^ ]* 800w, [^"]*" sizes="100vw"', page)
 
+    def test_inner_heroes_have_the_800_phone_cut(self):
+        # inner page heroes: 600/800/1000 cuts, sizes 100vw (a 412 px phone at 1.75x takes 800), files exist
+        for page in (('guides', 'leveling'), ('guides', 'faq'), ('tools',), ('roster',)):
+            html = open(os.path.join(ROOT, *page, 'index.html'), encoding='utf-8').read()
+            m = re.search(r'srcset="[^"]*hero_(\w+)-m-800\.avif[^"]*" sizes="100vw"', html)
+            self.assertTrue(m, page)
+            for ext in ('avif', 'webp'):
+                self.assertTrue(os.path.exists(os.path.join(ART, f'hero_{m.group(1)}-m-800.{ext}')), (page, ext))
+
     def test_only_the_home_follows_time_of_day(self):
         # the leveling guide has its own scene now: the home hero is not repeated on another page
         for page in (('guides', 'leveling'), ('guides', 'professions')):

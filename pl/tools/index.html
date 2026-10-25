@@ -1142,8 +1142,8 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 
 <section class="thero" id="top">
   <picture class="thero-art" aria-hidden="true" data-fx="tools" data-cut=".9">
-    <source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/avif" srcset="../../assets/art/hero_tools-m-600.avif?v=810c258c 600w, ../../assets/art/hero_tools-m-1000.avif?v=0ca6ef25 1000w" sizes="78vh">
-    <source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/webp" srcset="../../assets/art/hero_tools-m-600.webp?v=e28581ac 600w, ../../assets/art/hero_tools-m-1000.webp?v=13031e24 1000w" sizes="78vh">
+    <source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/avif" srcset="../../assets/art/hero_tools-m-600.avif?v=810c258c 600w, ../../assets/art/hero_tools-m-800.avif?v=b81151a6 800w, ../../assets/art/hero_tools-m-1000.avif?v=0ca6ef25 1000w" sizes="100vw">
+    <source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/webp" srcset="../../assets/art/hero_tools-m-600.webp?v=e28581ac 600w, ../../assets/art/hero_tools-m-800.webp?v=15e79d69 800w, ../../assets/art/hero_tools-m-1000.webp?v=13031e24 1000w" sizes="100vw">
     <source type="image/avif" srcset="../../assets/art/hero_tools-960.avif?v=b331a740 960w, ../../assets/art/hero_tools-1440.avif?v=14c7d2f5 1440w, ../../assets/art/hero_tools-1920.avif?v=7dabbb30 1920w, ../../assets/art/hero_tools-2560.avif?v=57da3cd9 2560w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw">
     <source type="image/webp" srcset="../../assets/art/hero_tools-960.webp?v=0156b7cf 960w, ../../assets/art/hero_tools-1440.webp?v=3208bb62 1440w, ../../assets/art/hero_tools-1920.webp?v=94cadc36 1920w, ../../assets/art/hero_tools-2560.webp?v=66d2077d 2560w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw">
     <img src="../../assets/art/hero_tools-1920.webp?v=94cadc36" width="1920" height="1072" alt="" fetchpriority="high" decoding="async">
@@ -1357,7 +1357,7 @@ function syncSeg(id, v) { document.querySelectorAll(`#${id} button`).forEach(b =
 const FAC = { alliance: 'Alliance', horde: 'Horde' };
 const RSLUG = { human: 'human', dwarf: 'dwarf', nightelf: 'night-elf', gnome: 'gnome', skyA: 'skyborne-alliance', orc: 'orc', undead: 'undead', tauren: 'tauren', troll: 'troll', skyH: 'skyborne-horde' };
 const classUrl = id => `${HOME}classes/${id}/`, raceUrl = id => `${HOME}races/${RSLUG[id]}/`;
-const art = id => `${ROOT}assets/art/${id}-360.webp`;
+const art = (id, ext = 'webp') => `${ROOT}assets/art/${id}-360.${ext}`;
 async function copyTo(text, msgEl, ok) {
   try { await navigator.clipboard.writeText(text); msgEl.textContent = ok; } catch (e) { msgEl.textContent = 'Nie udało się skopiować, zaznacz tekst i naciśnij Ctrl+C'; }
 }
@@ -1427,7 +1427,7 @@ function unitHTML(p, i) {
   if (!p) return `<button type="button" class="unit empty${cls}" data-i="${i}"><span class="up" aria-hidden="true">+</span><span class="ub"><b>Wolny slot</b><span>Kliknij, aby dodać gracza</span></span></button>`;
   const c = CL[p.cls], r = RC[p.race];
   return `<button type="button" class="unit${cls}" data-i="${i}" draggable="true" style="--cc:${CCOL[p.cls]};--pc:${power(p)}" aria-label="${esc((p.name || `Gracz ${i + 1}`) + ', ' + raceName(r) + ' ' + c.n + ', ' + ROLE_RU[p.role])}">
-    <span class="up"><img src="${art(p.cls)}" alt="" loading="lazy" decoding="async"></span>
+    <span class="up"><picture><source type="image/avif" srcset="${art(p.cls, \'avif\')}"><img src="${art(p.cls)}" alt="" loading="lazy" decoding="async"></picture></span>
     <span class="ub"><span class="un"><span class="ur" title="${ROLE_RU[p.role]}">${ri(p.role)}</span><b>${esc(p.name || c.n)}</b><small>${esc(raceName(r))} · ${esc(c.n)}</small></span><span class="hp"><i></i></span><span class="mp"></span></span></button>`;
 }
 function cellHTML(p, i) {
@@ -1546,7 +1546,7 @@ function renderPick() {
   syncSeg('cMode', C.mode);
   const box = $('#cPick'), sel = C.mode === 'class' ? C.cls : C.race;
   box.classList.toggle('races', C.mode === 'race');
-  if (C.mode === 'class') box.innerHTML = CLASSES.map(c => { const k = sel.indexOf(c.id); return `<button type="button" class="cp" data-id="${c.id}" aria-pressed="${k >= 0}"><img src="${art(c.id)}" alt="" loading="lazy" decoding="async"><span class="no">${k + 1}</span><b${Math.max(...c.n.split(/[\s-]+/).map(w => w.length)) >= 10 ? ' class="long"' : ''}>${esc(c.n)}</b></button>`; }).join('');
+  if (C.mode === 'class') box.innerHTML = CLASSES.map(c => { const k = sel.indexOf(c.id); return `<button type="button" class="cp" data-id="${c.id}" aria-pressed="${k >= 0}"><picture><source type="image/avif" srcset="${art(c.id, \'avif\')}"><img src="${art(c.id)}" alt="" loading="lazy" decoding="async"></picture><span class="no">${k + 1}</span><b${Math.max(...c.n.split(/[\s-]+/).map(w => w.length)) >= 10 ? ' class="long"' : ''}>${esc(c.n)}</b></button>`; }).join('');
   else box.innerHTML = ['alliance', 'horde'].map(f => `<div class="rside ${f}"><h3>${FAC[f]}</h3>${RACES.filter(r => r.f === f).map(r => { const k = sel.indexOf(r.id); return `<button type="button" class="rp" data-id="${r.id}" aria-pressed="${k >= 0}">${esc(raceName(r))}${r.paid ? '<span class="tag paid">płatna</span>' : ''}<span class="no">${k + 1}</span></button>`; }).join('')}</div>`).join('');
   $('#cNote').textContent = `Wybrano ${sel.length} z 3`;
 }
@@ -1556,7 +1556,7 @@ function renderCmp() {
   const out = [];
   if (C.mode === 'class') {
     const ids = C.cls;
-    out.push(`<div class="crow chead"><div class="lab"></div>${ids.map(id => `<div class="val" style="--cc:${CCOL[id]}"><img src="${art(id)}" alt="" loading="lazy" decoding="async"><b>${esc(CL[id].n)}</b><a href="${classUrl(id)}">Strona klasy<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>`).join('')}</div>`);
+    out.push(`<div class="crow chead"><div class="lab"></div>${ids.map(id => `<div class="val" style="--cc:${CCOL[id]}"><picture><source type="image/avif" srcset="${art(id, \'avif\')}"><img src="${art(id)}" alt="" loading="lazy" decoding="async"></picture><b>${esc(CL[id].n)}</b><a href="${classUrl(id)}">Strona klasy<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>`).join('')}</div>`);
     out.push(row('Role', ids.map(id => CL[id].roles.map(r => `<span class="role">${ri(r)}${ROLE_RU[r]}</span>`).join(''))));
     out.push(row('Pancerz', ids.map(id => esc(CX[id].armor))));
     out.push(row('Broń', ids.map(id => esc(CX[id].weapons))));

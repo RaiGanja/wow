@@ -18,7 +18,7 @@ SCENE_Q = 66  # wide scene art fills the screen: AVIF at 52 smears grass and fur
 TODS = ['dawn', 'day', 'dusk', 'night']   # the home hero in the reader's time of day (tod.py); one living mask fits all
 JOBS = [(f'hero_{t}', [960, 1440, 1920, 2560, 3840]) for t in TODS] + [('hero_campfire', [960, 1600, 2560]), ('hero_road', [960, 1600, 2560])] +        [(n, [960, 1440, 1920, 2560]) for n in INNER] + [(c, [360, 600, 896]) for c in CLASSES]
 CUTS = {**{f'hero_{t}': .95 for t in TODS}, **{n: .9 for n in INNER}}   # phone cut of each full-screen hero: share of the free width left of it
-MOBILE_W = {**{f'hero_{t}': (600, 800, 1000) for t in TODS}}   # the home band is 100vw wide: 800 fits a 412 px phone at 1.75x (tod.MOBILE_W)
+MOBILE_W = {**{f'hero_{t}': (600, 800, 1000) for t in TODS}, **{n: (600, 800, 1000) for n in INNER}}   # the home band is 100vw wide: 800 fits a 412 px phone at 1.75x (tod.MOBILE_W)
 
 
 def save(im, name, w, aq=52):
