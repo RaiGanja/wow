@@ -1145,7 +1145,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../../assets/radio/radio.css?v=a448c8a8c7" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/search/search.css?v=9b6fb9691b" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/search/search.css?v=0368013f9c" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../../assets/me/me.css?v=a34702d24d" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Головна","item":"https://gabella.site/wow/uk/"},{"@type":"ListItem","position":2,"name":"Гайди","item":"https://gabella.site/wow/uk/guides/"},{"@type":"ListItem","position":3,"name":"FAQ і дати","item":"https://gabella.site/wow/uk/guides/faq/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"WoW Forever FAQ: дата й час виходу, ціна, підписка","description":"Коли виходить WoW Forever, чи потрібна підписка, скільки коштують набори, які режими гри, коли бронювати ім’я та чим Forever відрізняється від Classic Era.","inLanguage":"uk","url":"https://gabella.site/wow/uk/guides/faq/","dateModified":"2026-10-25","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/uk/"},"image":"https://gabella.site/wow/assets/og/faq-uk.jpg?v=cb6df549"}</script>
@@ -1286,19 +1286,30 @@ if ('IntersectionObserver' in window && tocLinks.length) {
   }), { rootMargin: '-40% 0px -55% 0px' });
   document.querySelectorAll('.gsec').forEach(s => io.observe(s));
 }
-/* FAQ: search over questions and answers; #id opens the question */
+/* FAQ: search over questions and answers, every word; when none has them all, the site search (synonyms, typos,
+   known questions) picks this page's questions; #id opens the question */
 const qIn = document.getElementById('faqQ');
 const qs = [...document.querySelectorAll('.gfaq details')];
 const qNone = document.getElementById('faqNone');
-if (qIn) qIn.addEventListener('input', () => {
-  const v = qIn.value.trim().toLowerCase();
+function showQs(hit) {   // hit(details) -> shown; null: all, folded back
   let n = 0;
   qs.forEach(d => {
-    const hit = !v || d.textContent.toLowerCase().includes(v); d.hidden = !hit;
-    if (v && hit) { n++; if (!d.open) { d.open = true; d.dataset.byq = '1'; } }
-    if (!v && d.dataset.byq) { d.open = false; delete d.dataset.byq; }   // clearing the field folds what the search opened
+    const h = !hit || hit(d); d.hidden = !h;
+    if (hit && h) { n++; if (!d.open) { d.open = true; d.dataset.byq = '1'; } }
+    if (!hit && d.dataset.byq) { d.open = false; delete d.dataset.byq; }   // clearing the field folds what the search opened
   });
-  if (qNone) qNone.hidden = !v || n > 0;
+  if (qNone) qNone.hidden = !hit || n > 0;
+  return n;
+}
+if (qIn) qIn.addEventListener('input', () => {
+  const v = qIn.value.trim().toLowerCase(), ws = v.split(/\s+/);
+  if (!v) return showQs(null);
+  if (showQs(d => { const t = d.textContent.toLowerCase(); return ws.every(w => t.includes(w)); }) || !window.gabellaFind) return;
+  window.gabellaFind(v).then(rs => {
+    if (qIn.value.trim().toLowerCase() !== v) return;
+    const here = rs.map(r => r.u.split('#')).filter(([p, id]) => id && location.pathname.endsWith('/' + p.replace(/^.*?guides\//, 'guides/'))).map(r => r[1]);
+    showQs(d => here.includes(d.id));
+  });
 });
 function openHash() { const d = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1))); if (d && d.tagName === 'DETAILS') { d.open = true; d.scrollIntoView(); } }
 addEventListener('hashchange', openHash); openHash();
@@ -1377,7 +1388,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../../assets/radio/radio.js?v=a448c8a8c7" data-root="../../../" defer></script>
-<script src="../../../assets/search/search.js?v=9b6fb9691b" data-root="../../../" defer></script>
+<script src="../../../assets/search/search.js?v=0368013f9c" data-root="../../../" defer></script>
 <script src="../../../assets/me/me.js?v=a34702d24d" data-root="../../../" data-home="../../" data-lang="uk" data-teaser="Профіль зберігає ваших персонажів, досягнення й рамки" data-close="Закрити" data-page="guides/faq/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
