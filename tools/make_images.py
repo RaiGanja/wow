@@ -14,9 +14,10 @@ RACES = {'human': 'human', 'dwarf': 'dwarf', 'nightelf': 'night-elf', 'gnome': '
          'orc': 'orc', 'undead': 'undead', 'tauren': 'tauren', 'troll': 'troll', 'skyH': 'skyborne-horde'}
 INNER = ['hero_roster', 'hero_tools', 'hero_guides', 'hero_dungeons', 'hero_professions', 'hero_faq', 'hero_news',
          'hero_leveling', 'hero_classes', 'hero_races', 'hero_ukrainian', 'hero_requirements']   # inner page heroes (.thero)
+PORTRAIT_W = [360, 600, 896, 1344]   # class/race portraits (master 1792x2400): 1344 fills the 75vh page hero on a 2x screen
 SCENE_Q = 66  # wide scene art fills the screen: AVIF at 52 smears grass and fur there
 TODS = ['dawn', 'day', 'dusk', 'night']   # the home hero in the reader's time of day (tod.py); one living mask fits all
-JOBS = [(f'hero_{t}', [960, 1440, 1920, 2560, 3840]) for t in TODS] + [('hero_campfire', [960, 1600, 2560]), ('hero_road', [960, 1600, 2560])] +        [(n, [960, 1440, 1920, 2560]) for n in INNER] + [(c, [360, 600, 896]) for c in CLASSES]
+JOBS = [(f'hero_{t}', [960, 1440, 1920, 2560, 3840]) for t in TODS] + [('hero_campfire', [960, 1600, 2560]), ('hero_road', [960, 1600, 2560])] +        [(n, [960, 1440, 1920, 2560]) for n in INNER] + [(c, PORTRAIT_W) for c in CLASSES]
 CUTS = {**{f'hero_{t}': .95 for t in TODS}, **{n: .9 for n in INNER}}   # phone cut of each full-screen hero: share of the free width left of it
 MOBILE_W = {**{f'hero_{t}': (600, 800, 1000) for t in TODS}, **{n: (600, 800, 1000) for n in INNER}}   # the home band is 100vw wide: 800 fits a 412 px phone at 1.75x (tod.MOBILE_W)
 
@@ -86,7 +87,9 @@ def page_extras(cid, src=None):
 
 
 # face centre as a share of portrait height, where it differs from the default
-FACE_Y = {'gnome': .33, 'dwarf': .27, 'skyborne-horde': .24}
+FACE_Y = {'warrior': .23, 'paladin': .23, 'hunter': .21, 'rogue': .21, 'priest': .23, 'shaman': .25, 'mage': .24,
+          'warlock': .29, 'druid': .20, 'human': .20, 'dwarf': .24, 'night-elf': .21, 'gnome': .27,
+          'skyborne-alliance': .19, 'orc': .21, 'undead': .21, 'tauren': .22, 'troll': .21, 'skyborne-horde': .21}
 
 
 def face(src, name):
@@ -138,7 +141,7 @@ def main():
             src = os.path.join(SRC, 'races', rid + '.jpg')
             page_extras(slug, src)
             im = Image.open(src).convert('RGB')
-            for w in (360, 600, 896):
+            for w in PORTRAIT_W:
                 save(im, slug, w)
             face(src, slug)
             print(slug, 'ok')
@@ -146,6 +149,10 @@ def main():
     for cid in CLASSES:
         page_extras(cid)
         face(os.path.join(SRC, cid + '.jpg'), cid)
+        if '--classes-only' in sys.argv:   # the portrait widths too; a full run cuts them with the heroes below
+            im = Image.open(os.path.join(SRC, cid + '.jpg')).convert('RGB')
+            for w in PORTRAIT_W:
+                save(im, cid, w)
     print('class extras ok')
     if '--classes-only' in sys.argv:
         return

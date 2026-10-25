@@ -1162,8 +1162,8 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 <main>
 <div class="wrap tnav">
   <nav class="ttiles t2" aria-label="Tools">
-      <a class="ttile" href="#raid"><picture><source type="image/avif" srcset="../../assets/art/paladin-600.avif?v=62bbe825"><img src="../../assets/art/paladin-600.webp?v=ce6a9574" alt="" loading="lazy" decoding="async"></picture><b>Party and raid frames</b><span>Party of 5, raids of 10, 20 and 40, like in the game</span></a>
-      <a class="ttile" href="#compare"><picture><source type="image/avif" srcset="../../assets/art/mage-600.avif?v=632283e7"><img src="../../assets/art/mage-600.webp?v=37403d76" alt="" loading="lazy" decoding="async"></picture><b>Class and race comparison</b><span>Up to three side by side: roles, armor, buffs, abilities</span></a>
+      <a class="ttile" href="#raid"><picture><source type="image/avif" srcset="../../assets/art/paladin-600.avif?v=da57d115"><img src="../../assets/art/paladin-600.webp?v=742a15f3" alt="" loading="lazy" decoding="async"></picture><b>Party and raid frames</b><span>Party of 5, raids of 10, 20 and 40, like in the game</span></a>
+      <a class="ttile" href="#compare"><picture><source type="image/avif" srcset="../../assets/art/mage-600.avif?v=31bcffa4"><img src="../../assets/art/mage-600.webp?v=8ba853d5" alt="" loading="lazy" decoding="async"></picture><b>Class and race comparison</b><span>Up to three side by side: roles, armor, buffs, abilities</span></a>
     </nav>
 </div>
 <section class="block wrap" id="raid">
@@ -1357,7 +1357,8 @@ function syncSeg(id, v) { document.querySelectorAll(`#${id} button`).forEach(b =
 const FAC = { alliance: 'Alliance', horde: 'Horde' };
 const RSLUG = { human: 'human', dwarf: 'dwarf', nightelf: 'night-elf', gnome: 'gnome', skyA: 'skyborne-alliance', orc: 'orc', undead: 'undead', tauren: 'tauren', troll: 'troll', skyH: 'skyborne-horde' };
 const classUrl = id => `${HOME}classes/${id}/`, raceUrl = id => `${HOME}races/${RSLUG[id]}/`;
-const art = (id, ext = 'webp') => `${ROOT}assets/art/${id}-360.${ext}`;
+const PV = /*PV*/'?v=e4ab04d6';   // ?v= of the class and race portraits (build.art_version)
+const art = (id, ext = 'webp') => `${ROOT}assets/art/${id}-360.${ext}${PV}`;
 async function copyTo(text, msgEl, ok) {
   try { await navigator.clipboard.writeText(text); msgEl.textContent = ok; } catch (e) { msgEl.textContent = 'Could not copy, select the text and press Ctrl+C'; }
 }

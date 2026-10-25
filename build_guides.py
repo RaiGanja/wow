@@ -31,7 +31,7 @@ SITE_TILES = [
     {'t': {'ru': 'В игре', 'en': 'In game', 'uk': 'У грі'}, 'href': 'play/', 'art': 'hero_campfire',
      'd': {'ru': 'Второй экран: радио, уровень, таймеры', 'en': 'Second screen: radio, level, timers', 'uk': 'Другий екран: радіо, рівень, таймери'}},
 ]
-# Wide hero art; everything else is a class/race portrait cut at 360/600/896
+# Wide hero art; everything else is a class/race portrait cut at 360/600/896/1344
 WIDTHS = {'hero_dawn': (960, 1440, 1920, 2560, 3840), 'hero_campfire': (960, 1600, 2560),
           'hero_tools': (960, 1440, 1920, 2560)}   # the tools scene is also the Tools tile
 FX = {'hero_dawn': 'dawn', 'hero_campfire': 'camp'}   # living art (assets/living/living.js) over these heroes
@@ -83,7 +83,7 @@ def check_langs(obj, path=''):
 
 def art_sets(art, root, big=False):
     """(avif srcset, webp srcset, fallback src). big: hero fallback = widest, else a tile-sized one."""
-    ws = WIDTHS.get(art, (360, 600, 896))
+    ws = WIDTHS.get(art, (360, 600, 896, 1344))
     src = lambda ext: ', '.join(f'{root}assets/art/{art}-{w}.{ext} {w}w' for w in ws)
     fb = ws[-1] if big else (ws[0] if art in WIDTHS else 600)
     return src('avif'), src('webp'), f'{root}assets/art/{art}-{fb}.webp'

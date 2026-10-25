@@ -607,6 +607,12 @@ def art_version():
         return m.group(1) + (f'?v={ver[name]}' if ver[name] else '')
     scenes = {f: '?v=' + hashlib.sha1(open(os.path.join(d, f), 'rb').read()).hexdigest()[:8]
               for f in sorted(os.listdir(d)) if f.startswith('hero_')}
+    # page JS draws class and race portraits by id (face, cards, picker): one version over all of them
+    pv = hashlib.sha1()
+    for f in sorted(os.listdir(d)):
+        if not f.startswith(('hero_', 'scene-')):
+            pv.update(f.encode() + open(os.path.join(d, f), 'rb').read())
+    pv = '?v=' + pv.hexdigest()[:8]
     # pic() in page JS draws only the scenes the script names in quotes ('hero_dawn-960'): the map carries just those
     artv = lambda html: '/*ARTV*/' + json.dumps({f: v for f, v in scenes.items() if f"'{f.rsplit('.', 1)[0]}'" in html}, separators=(',', ':'))
     n = 0
@@ -617,6 +623,7 @@ def art_version():
                 p = os.path.join(root, f)
                 was = html = open(p, encoding='utf-8').read()
                 html = re.sub(r'/\*ARTV\*/\{[^}]*\}', lambda _: artv(html), html)   # pic() in page JS
+                html = re.sub(r"/\*PV\*/'[^']*'", f"/*PV*/'{pv}'", html)   # portraits in page JS
                 new = re.sub(r'(assets/art/([A-Za-z0-9_.{}-]+\.(?:avif|webp|jpg|png)))(?:\?v=\w+)?', tag, html)
                 if new != was:
                     open(p, 'w', encoding='utf-8', newline='\n').write(new)

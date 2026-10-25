@@ -1384,8 +1384,9 @@ const tipBox = h => `<div class="tipbox"><svg class="ico fi" aria-hidden="true">
 function bi(ru) { return EN[ru] && EN[ru] !== ru ? `${esc(ru)} <span class="en">(${esc(EN[ru])})</span>` : esc(ru); }
 function raceEn(r) { return r.en ? ` <span class="en">/ ${esc(r.en)}</span>` : ''; }
 function facName(f) { return f === 'alliance' ? 'Альянс' : 'Орда'; }
+const PV = /*PV*/'?v=e4ab04d6';   // ?v= of the class and race portraits, filled in by build.art_version (redrawn under the same names)
 /* Round face avatar: assets/art/<id>-face.webp, ring colour cc */
-function face(id, cc, cls = '', title = '') { return `<span class="av ${cls}" style="--cc:${cc}"${title ? ` title="${esc(title)}"` : ''}><img src="../../assets/art/${id}-face.webp" width="160" height="160" alt="" loading="lazy" decoding="async"></span>`; }
+function face(id, cc, cls = '', title = '') { return `<span class="av ${cls}" style="--cc:${cc}"${title ? ` title="${esc(title)}"` : ''}><img src="../../assets/art/${id}-face.webp${PV}" width="160" height="160" alt="" loading="lazy" decoding="async"></span>`; }
 function lvlMeter(c) {
   const p = c.lp || 0, w = Math.min(Math.abs(p) / 12 * 46, 46);
   const label = p < 0 ? `Швидше на ${-p}%` : p > 0 ? `Повільніше на ${p}%` : 'Середній темп';
@@ -1395,7 +1396,7 @@ function lvlMeter(c) {
 function renderClassRef() {
   const roles = ['tank', 'heal', 'dps'];
   const head = `<div class="cmp-h" aria-hidden="true"><span>Клас</span><span class="rdots">${roles.map(x => `<span title="${ROLE_RU[x]}">${ri(x)}</span>`).join('')}</span><span>Прокачування</span><span>У рейді</span><span></span></div>`;
-  $('#classRef').innerHTML = head + CLASSES.map(c => `<a class="cmp-row" href="${HOME}classes/${c.id}/" style="--cc:${CCOL[c.id]};--art:url('../../assets/art/${c.id}-360.webp')">
+  $('#classRef').innerHTML = head + CLASSES.map(c => `<a class="cmp-row" href="${HOME}classes/${c.id}/" style="--cc:${CCOL[c.id]};--art:url('../../assets/art/${c.id}-360.webp${PV}')">
     <span class="cmp-id">${face(c.id, CCOL[c.id])}<span><b>${esc(c.n)}</b><small>${c.specs.map(s => esc(s[0])).join(' · ')}</small></span></span>
     <span class="rdots" role="img" aria-label="Ролі: ${c.roles.map(x => ROLE_RU[x]).join(', ')}">${roles.map(x => { const on = c.roles.includes(x), q = c.roles.includes(x + '?'); return `<span class="rdot${on ? ' on' : q ? ' q' : ''}" title="${ROLE_RU[q ? x + '?' : x]}">${ri(x)}</span>`; }).join('')}</span>
     ${lvlMeter(c)}
@@ -1406,7 +1407,7 @@ function renderClassRef() {
 
 function renderRaceRef() {
   const head = `<div class="cmp-h" aria-hidden="true"><span>Раса</span><span>Класи</span><span class="abl">Здібності <span class="abt">активна</span><span class="abt p">пасивна</span></span><span></span></div>`;
-  $('#raceRef').innerHTML = ['alliance', 'horde'].map(f => `<div class="rgroup ${f}"><h3>${facName(f)}</h3>${head}` + RACES.filter(r => r.f === f).map(r => `<a class="cmp-row" href="${HOME}races/${RSLUG[r.id]}/" style="--cc:var(--${f});--art:url('../../assets/art/${RSLUG[r.id]}-360.webp')">
+  $('#raceRef').innerHTML = ['alliance', 'horde'].map(f => `<div class="rgroup ${f}"><h3>${facName(f)}</h3>${head}` + RACES.filter(r => r.f === f).map(r => `<a class="cmp-row" href="${HOME}races/${RSLUG[r.id]}/" style="--cc:var(--${f});--art:url('../../assets/art/${RSLUG[r.id]}-360.webp${PV}')">
     <span class="cmp-id">${face(RSLUG[r.id], `var(--${f})`)}<span><b>${esc(r.n)}${r.paid ? '<span class="paid">платна</span>' : ''}</b>${r.en ? `<small>${esc(r.en)}</small>` : ''}</span></span>
     <span class="ccl" role="img" aria-label="Класи: ${Object.keys(r.can).map(id => CL[id].n).join(', ')}">${CLASSES.map(c => { const v = r.can[c.id]; return face(c.id, CCOL[c.id], v ? (v === 'new' ? 'nw' : '') : 'off', c.n + (v === 'new' ? ', нове' : v ? '' : ', недоступно')); }).join('')}</span>
     <span class="abs">${r.rac.map(x => `<span><b class="${x[0] === 'a' ? '' : 'p'}">${bi(x[1])}</b><span>${esc(x[2])}</span></span>`).join('')}</span>
