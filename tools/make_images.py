@@ -13,7 +13,8 @@ CLASSES = ['warrior', 'paladin', 'hunter', 'rogue', 'priest', 'shaman', 'mage', 
 RACES = {'human': 'human', 'dwarf': 'dwarf', 'nightelf': 'night-elf', 'gnome': 'gnome', 'skyA': 'skyborne-alliance',
          'orc': 'orc', 'undead': 'undead', 'tauren': 'tauren', 'troll': 'troll', 'skyH': 'skyborne-horde'}
 INNER = ['hero_roster', 'hero_tools', 'hero_guides', 'hero_dungeons', 'hero_professions', 'hero_faq', 'hero_news',
-         'hero_leveling', 'hero_classes', 'hero_races', 'hero_ukrainian', 'hero_requirements']   # inner page heroes (.thero)
+         'hero_leveling', 'hero_classes', 'hero_races', 'hero_ukrainian', 'hero_requirements',
+         'hero_bestrace', 'hero_tierlist']   # inner page heroes (.thero)
 PORTRAIT_W = [360, 600, 896, 1344]   # class/race portraits (master 1792x2400): 1344 fills the 75vh page hero on a 2x screen
 SCENE_Q = 66  # wide scene art fills the screen: AVIF at 52 smears grass and fur there
 TODS = ['dawn', 'day', 'dusk', 'night']   # the home hero in the reader's time of day (tod.py); one living mask fits all

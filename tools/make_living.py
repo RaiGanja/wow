@@ -4,7 +4,8 @@ One RGBA PNG per picture, half the source size, in source coordinates (1376 x 76
   hero_campfire  R flames, G (unused), B open sky, A (none)
   hero_road      R lights (see below), G (unused), B open sky, A (none)
   hero_roster, hero_tools, hero_guides, hero_dungeons, hero_professions, hero_faq, hero_news,
-  hero_leveling, hero_classes, hero_races, hero_ukrainian, hero_requirements (one shader, living.js GEN):
+  hero_leveling, hero_classes, hero_races, hero_ukrainian, hero_requirements, hero_bestrace, hero_tierlist
+  (one shader, living.js GEN):
                  R lights, G plants and hanging cloth in the wind (0 where tied -> 1 at the tips), B open sky, A river or lake
 No water on the home page but the fall, none on leveling and tools; no fire on roster, no candle flames (faq).
 Lights (R, living.js lights()): 1 open fire that flows up (hearth, forge, braziers), .75 a candle flame that sways in place,
@@ -301,6 +302,36 @@ def requirements():
     save('hero_requirements', fire, zero, zero, zero)
 
 
+def bestrace():
+    im = load('hero_bestrace')
+    open_sky = ImageChops.multiply(pick(im, [(30, 0, 860, 260)], lambda r, g, b, x, y: lum(r, g, b) > .6),
+                                   open_area([(40, 0), (845, 0), (800, 70), (765, 150), (700, 165), (655, 120), (595, 118), (585, 158),
+                                              (520, 150), (500, 205), (400, 222), (365, 250), (262, 250), (238, 175), (222, 125),
+                                              (128, 125), (100, 170), (55, 150), (40, 100)], (190, 250)))   # cliffs and statue heads stay put
+    river = ImageChops.multiply(shape([[(398, 395), (428, 395), (432, 428), (470, 468), (520, 500), (560, 538), (605, 560), (640, 590), (612, 650),
+                                        (540, 700), (300, 712), (150, 690), (120, 640), (150, 590), (250, 555), (330, 518), (362, 478), (385, 428)]]),
+                                pick(im, [(110, 390, 650, 720)], lambda r, g, b, x, y: lum(r, g, b) > .26 and sat(r, g, b) < .32))
+    zero = Image.new('L', (W, H), 0)   # no fire: daylight in the canyon
+    save('hero_bestrace', zero, zero, soft(open_sky, 1, 2), soft(river, 1, 2))
+
+
+def tierlist():
+    im = load('hero_tierlist')
+    lamps = lights(lamps=glass(im, [(165, 178, 208, 248), (527, 278, 552, 312), (1228, 100, 1284, 178)]),
+                   spots=[(186, 212, 70), (540, 295, 40), (1256, 140, 80)])   # the glass glows, no flame
+    banners = shape([[(30, 48), (98, 48), (95, 250), (64, 285), (34, 250)], [(212, 102), (265, 102), (262, 285), (238, 300), (214, 285)],
+                     [(336, 132), (382, 132), (380, 295), (358, 312), (338, 295)], [(420, 158), (462, 158), (460, 300), (440, 318), (422, 300)]],
+                    lambda x, y: fade(y, 50, 285) if x < 150 else fade(y, 105, 300) if x < 300 else fade(y, 135, 312) if x < 400 else fade(y, 160, 318))
+    poles = Image.new('L', (W, H), 0)
+    for b in [(52, 0, 74, 60), (230, 55, 250, 110), (348, 100, 368, 140), (430, 145, 450, 165), (112, 130, 212, 260), (494, 248, 556, 320)]:
+        poles.paste(255, b)   # spear tips, lantern posts and the lamps
+    poles = ImageChops.invert(ImageChops.lighter(poles, banners.point(lambda v: 255 if v else 0)).filter(ImageFilter.MaxFilter(13)))
+    open_sky = ImageChops.multiply(open_area([(0, 0), (1222, 0), (1222, 190), (1100, 232), (1050, 190), (992, 140), (992, 40), (888, 40),
+                                              (880, 190), (868, 125), (782, 125), (758, 200), (700, 188), (600, 188), (588, 245), (560, 262),
+                                              (0, 280)], (230, 290)), poles.filter(ImageFilter.GaussianBlur(6)))   # the banners swing, the sky drifts behind them
+    save('hero_tierlist', lamps, soft(banners, 0, 2), soft(open_sky, 1, 2), Image.new('L', (W, H), 0))
+
+
 if __name__ == '__main__':
     dawn()
     campfire()
@@ -317,3 +348,5 @@ if __name__ == '__main__':
     races()
     ukrainian()
     requirements()
+    bestrace()
+    tierlist()

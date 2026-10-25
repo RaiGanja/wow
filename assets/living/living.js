@@ -2,8 +2,8 @@
    god rays, dust and birds at dawn; fire, firelight, embers, smoke and stars at the camp; lanterns, river and mist on the road;
    one shader for the inner page scenes, all by their masks: clouds, rivers and lakes, fire and lamp flames, hanging banners,
    herbs and sunflowers in the wind (roster, tools, guides, dungeons, professions, faq, news, leveling, classes, races,
-   ukrainian, requirements).
-   A picture opts in with data-fx="dawn|camp|road|roster|tools|guides|dungeons|professions|faq|news|leveling|classes|races|ukrainian|requirements" on its <picture>, data-cut its phone cut (make_images.CUTS, default .6); masks are assets/living/<art>-fx.png (tools/make_living.py),
+   ukrainian, requirements, bestrace, tierlist).
+   A picture opts in with data-fx="dawn|camp|road|roster|tools|guides|dungeons|professions|faq|news|leveling|classes|races|ukrainian|requirements|bestrace|tierlist" on its <picture>, data-cut its phone cut (make_images.CUTS, default .6); masks are assets/living/<art>-fx.png (tools/make_living.py),
    in the 1376 x 768 grid of the source art. The canvas is transparent except where something moves, so the sharp <img>
    stays visible underneath. Off with prefers-reduced-motion, Save-Data or without WebGL; paused off screen.
    Follows the time of day (assets/tod/tod.js): sun position, rays, birds by day; stars, fireflies and moon glints at night. */
@@ -14,7 +14,8 @@
   const ver = (me.src.match(/\?v=\w+/) || [''])[0];
   const ART = { dawn: 'hero_dawn', camp: 'hero_campfire', road: 'hero_road', roster: 'hero_roster', tools: 'hero_tools',
     guides: 'hero_guides', dungeons: 'hero_dungeons', professions: 'hero_professions', faq: 'hero_faq', news: 'hero_news',
-    leveling: 'hero_leveling', classes: 'hero_classes', races: 'hero_races', ukrainian: 'hero_ukrainian', requirements: 'hero_requirements' };
+    leveling: 'hero_leveling', classes: 'hero_classes', races: 'hero_races', ukrainian: 'hero_ukrainian', requirements: 'hero_requirements',
+    bestrace: 'hero_bestrace', tierlist: 'hero_tierlist' };
   const FPS = matchMedia('(pointer: coarse)').matches ? 30 : 60;
   const FORCE = /[?&]fx=force\b/.test(location.search);   // screenshots in headless Chrome
 
@@ -119,7 +120,7 @@ void main() {
 
   const SCENES = {
     roster: GEN, tools: GEN, guides: GEN, dungeons: GEN, professions: GEN, faq: GEN, news: GEN,
-    leveling: GEN, classes: GEN, races: GEN, ukrainian: GEN, requirements: GEN,
+    leveling: GEN, classes: GEN, races: GEN, ukrainian: GEN, requirements: GEN, bestrace: GEN, tierlist: GEN,
     dawn: `
 void main() {
   vec2 P = artPx(); acc = vec4(0.); add = vec3(0.);

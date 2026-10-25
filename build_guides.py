@@ -39,7 +39,8 @@ FX = {'hero_dawn': 'dawn', 'hero_campfire': 'camp'}   # living art (assets/livin
 # a portrait cut on phones (tools/make_images.py INNER, CUTS); 'art' stays for the tiles and the share preview.
 THERO = {'hero_guides': 'guides', 'hero_dungeons': 'dungeons', 'hero_professions': 'professions', 'hero_faq': 'faq',
          'hero_news': 'news', 'hero_leveling': 'leveling', 'hero_classes': 'classes', 'hero_races': 'races',
-         'hero_ukrainian': 'ukrainian', 'hero_requirements': 'requirements', 'hero_roster': 'roster'}
+         'hero_ukrainian': 'ukrainian', 'hero_requirements': 'requirements', 'hero_roster': 'roster',
+         'hero_bestrace': 'bestrace', 'hero_tierlist': 'tierlist'}
 THERO_W = (960, 1440, 1920, 2560)
 WIDTHS.update({h: THERO_W for h in THERO})   # a page's own scene is also its tile (cut 4:3 by the tile) and share preview
 

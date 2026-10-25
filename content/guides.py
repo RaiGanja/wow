@@ -702,7 +702,7 @@ GUIDES.append({
                                 'href': 'guides/dungeons/', 'art': 'hero_dungeons'}]),
                 ]},
             ]),
-            ('tiles', [{'t': t('Тир-лист классов WoW Forever', 'WoW Forever Class Tier List', 'Тір-лист класів WoW Forever'), 'd': t('Сильные классы и спеки по данным беты', 'Strong classes and specs by beta data', 'Сильні класи й спеціалізації за даними бети'), 'href': 'guides/tier-list/', 'art': 'hero_classes'}]),
+            ('tiles', [{'t': t('Тир-лист классов WoW Forever', 'WoW Forever Class Tier List', 'Тір-лист класів WoW Forever'), 'd': t('Сильные классы и спеки по данным беты', 'Strong classes and specs by beta data', 'Сильні класи й спеціалізації за даними бети'), 'href': 'guides/tier-list/', 'art': 'hero_tierlist'}]),
         ]},
         {'id': 'legacy', 'title': t('Система Legacy', 'Legacy system', 'Система Legacy'), 'blocks': [
             ('text', [t('Legacy — прогресс на весь аккаунт Battle.net. Очки дают за испытания: уровни, профессии, PvP, подземелья и рейды. Тратите их на перки отдельно на каждом персонаже, на старте до 16 очков.', 'Legacy is progress shared across your whole Battle.net account. Challenges give you points: levels, professions, PvP, dungeons and raids. You spend them on perks separately on each character, up to 16 points at launch.', 'Legacy — прогрес на весь обліковий запис Battle.net. Очки дають за випробування: рівні, професії, PvP, підземелля та рейди. Витрачаєте їх на перки окремо на кожному персонажі, на старті до 16.')]),
@@ -829,7 +829,7 @@ GUIDES.append({
             ('table', _pairs_table()),
             ('tabs', _pair_tabs()),
             ('tip', t('Кулинарию, Первую помощь и Рыбалку берут все: это вспомогательные профессии, можно взять все три, и забыть их нельзя. Пусть кто-то в группе поднимет Кулинарию до 220 ради 10 мест в лагере.', 'Everyone takes Cooking, First Aid and Fishing: they are secondary professions, you can have all three and they cannot be unlearned. Let someone in the group raise Cooking to 220 for 10 camp slots.', 'Кулінарію, Першу допомогу та Рибальство беруть усі: це допоміжні професії, можна взяти всі три, і розучити їх не можна. Нехай хтось у групі підніме Кулінарію до 220 заради 10 місць у таборі.')),
-            ('tiles', [{'t': t('Тир-лист классов WoW Forever', 'WoW Forever Class Tier List', 'Тір-лист класів WoW Forever'), 'd': t('Сильные классы и спеки по данным беты', 'Strong classes and specs by beta data', 'Сильні класи й спеціалізації за даними бети'), 'href': 'guides/tier-list/', 'art': 'hero_classes'}]),
+            ('tiles', [{'t': t('Тир-лист классов WoW Forever', 'WoW Forever Class Tier List', 'Тір-лист класів WoW Forever'), 'd': t('Сильные классы и спеки по данным беты', 'Strong classes and specs by beta data', 'Сильні класи й спеціалізації за даними бети'), 'href': 'guides/tier-list/', 'art': 'hero_tierlist'}]),
         ]},
         {'id': 'choose', 'title': t('Как выбрать пару', 'How to choose a pair', 'Як вибрати пару'), 'blocks': [
             ('steps', [
@@ -1100,7 +1100,7 @@ GUIDES.append({
 # ---------- best-race ----------
 
 GUIDES.append({
-    'slug': 'best-race', 'art': 'hero_races', 'hero': 'hero_races',
+    'slug': 'best-race', 'art': 'hero_bestrace', 'hero': 'hero_bestrace',
     'title': t('Лучшая раса для каждого класса', 'Best Race for Every Class', 'Найкраща раса для кожного класу'),
     'lead': t('За Альянс чаще всего выигрывают Человек, Гном и Ночной эльф, за Орду — Орк в PvE и Нежить в PvP. Разница между расами — несколько процентов: класс, спек и экипировка важнее.', 'On the Alliance side Human, Gnome and Night Elf win most often; on the Horde side it is Orc in PvE and Undead in PvP. The gap between races is a few percent: class, spec and gear matter more.', 'За Альянс найчастіше перемагають Людина, Гном і Нічний ельф, за Орду — Орк у PvE та Нежить у PvP. Різниця між расами становить кілька відсотків: клас, спеціалізація й екіпірування важать більше.'),
     'tile': t('Какая раса сильнее для вашего класса', 'Which race is stronger for your class', 'Яка раса сильніша для вашого класу'),
@@ -1209,7 +1209,7 @@ GUIDES.append({
 # ---------- tier-list ----------
 
 GUIDES.append({
-    'slug': 'tier-list', 'art': 'hero_classes', 'hero': 'hero_classes',
+    'slug': 'tier-list', 'art': 'hero_tierlist', 'hero': 'hero_tierlist',
     'title': t('Тир-лист классов WoW Forever', 'WoW Forever Class Tier List', 'Тір-лист класів WoW Forever'),
     'lead': t('На бете сильнее всех Паладин в PvE, Охотник и Маг на прокачке, Чернокнижник и Разбойник в PvP. Это срез беты 30 уровня, обновим после старта 4 ноября.', 'In the beta the strongest picks are Paladin in PvE, Hunter and Mage for leveling, Warlock and Rogue in PvP. This is a level 30 beta snapshot; we’ll update it after the Nov 4 launch.', 'У бета-версії найсильніші Паладин у PvE, Мисливець і Маг на прокачуванні, Чорнокнижник і Розбійник у PvP. Це зріз бети на 30 рівні, оновимо його після старту 4 листопада.'),
     'tile': t('Сильные классы и спеки по данным беты', 'Strong classes and specs by beta data', 'Сильні класи й спеціалізації за даними бети'),
@@ -1420,7 +1420,7 @@ GUIDES.append({
             ]),
         ]},
         {'id': 'related', 'title': t('Смотрите также', 'See also', 'Дивіться також'), 'blocks': [
-            ('tiles', [{'t': t('Лучшая раса для каждого класса', 'Best Race for Every Class', 'Найкраща раса для кожного класу'), 'd': t('Какая раса сильнее для вашего класса', 'Which race is stronger for your class', 'Яка раса сильніша для вашого класу'), 'href': 'guides/best-race/', 'art': 'hero_races'}, {'t': t('Классы', 'Classes', 'Класи'), 'd': t('Какой класс выбрать и сравнение', 'Which class to pick, compared', 'Який клас обрати й порівняння'), 'href': 'classes/', 'art': 'hero_classes'}]),
+            ('tiles', [{'t': t('Лучшая раса для каждого класса', 'Best Race for Every Class', 'Найкраща раса для кожного класу'), 'd': t('Какая раса сильнее для вашего класса', 'Which race is stronger for your class', 'Яка раса сильніша для вашого класу'), 'href': 'guides/best-race/', 'art': 'hero_bestrace'}, {'t': t('Классы', 'Classes', 'Класи'), 'd': t('Какой класс выбрать и сравнение', 'Which class to pick, compared', 'Який клас обрати й порівняння'), 'href': 'classes/', 'art': 'hero_classes'}]),
         ]},
     ],
 })
