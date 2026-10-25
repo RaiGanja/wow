@@ -32,7 +32,7 @@
 <meta property="og:title" content="WoW Forever Second Screen: Radio, Zones by Level, Timers">
 <meta property="og:description" content="Keep it open while you play: fantasy radio, where to level next for Alliance or Horde, dungeons for your level and timers with an alert.">
 <meta property="og:url" content="https://gabella.site/wow/en/play/">
-<meta property="og:image" content="https://gabella.site/wow/assets/og/guides-en.jpg?v=ac2ce66f">
+<meta property="og:image" content="https://gabella.site/wow/assets/og/guides-en.jpg?v=5cc117d4">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="WoW Forever Second Screen: Radio, Zones by Level, Timers">
@@ -1202,8 +1202,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../assets/radio/radio.css?v=44f8689128">
-<link data-rel="stylesheet" href="../../assets/search/search.css?v=cf57b606c3">
-<link data-rel="stylesheet" href="../../assets/me/me.css?v=68dcf3b0c0">
+<link data-rel="stylesheet" href="../../assets/search/search.css?v=83f9e76d22">
+<link data-rel="stylesheet" href="../../assets/me/me.css?v=20fae81fa3">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/en/"},{"@type":"ListItem","position":2,"name":"In game","item":"https://gabella.site/wow/en/play/"}]}</script>
 </head>
 <body class="compact">
@@ -1766,10 +1766,10 @@ const SRC = {
   cwg: ['ClassicWoW.gg: dates and raids', 'https://classicwow.gg/forever']
 };
 const STAGES = [
-  { id: 'pre', n: 'Before launch', sub: 'until Nov 4', lo: 0, hi: 0,
+  { id: 'pre', n: 'Before launch', sub: 'until Nov 4–5', lo: 0, hi: 0,
     todo: [['f', 'Early name reservation Oct 27 – Nov 3 for owners of the Heroic, Epic and Collection packs. First come, first served.'],
       ['f', 'You can reserve up to three characters per account. A character has a first name and a surname, and the pair must be unique within the region.'],
-      ['f', 'From Nov 4 a subscription or game time is required to play.'],
+      ['f', 'From Nov 4–5 a subscription or game time is required to play.'],
       ['t', 'Pick three names with surnames, plus backups, before Oct 27.']],
     dnote: 'The first dungeons open at level 13.',
     prof: [['f', 'Each character gets two primary professions plus all three secondary ones: Cooking, First Aid and Fishing.'],
@@ -1782,7 +1782,7 @@ const STAGES = [
     src: ['names', 'names2', 'prof', 'legacy'] },
   { id: 'first', n: 'First days', sub: 'levels 1–15', lo: 1, hi: 15,
     todo: [['f', 'Skyborne start on Zephras Isle, levels 1–12.'],
-      ['f', 'Talents open at level 10, or at 9 with the Legacy perk Talented (at 5 with all 5 ranks).'],
+      ['f', 'Talents open at level 10; the Legacy perk Talented unlocks them earlier than normal, up to 5 levels.'],
       ['f', 'Most cooked food gives an experience bonus. It stacks with the camp and the Cozy Sleeping Bag.'],
       ['t', 'Build up rest: log out at an inn or at a camp with a tent.']],
     prof: [['f', 'A basic campfire needs Cooking learned, but you don’t have to level the skill. It holds 3 objects, burns for about 10 minutes, and you can place a new one after 5.'],
@@ -1796,7 +1796,7 @@ const STAGES = [
   { id: 'dung', n: 'Dungeons', sub: 'levels 15–40', lo: 15, hi: 40,
     todo: [['f', 'Most dungeon experience comes from its quest chains. Repeat runs after them give noticeably less experience than questing in the world.'],
       ['f', 'Every item that drops unlocks its transmog appearance for everyone who can wear it, even if someone else got the item.'],
-      ['f', 'Legacy opens at level 25.'],
+      ['f', 'Legacy usually opens at level 25.'],
       ['t', 'Collect the dungeon quests as a group first and go in once everyone has them.']],
     prof: [['f', 'Per Warcraft Tavern, Cooking 140 gives 5 camp slots and 220 gives 10 (per Icy Veins 90 and 200; we’ll confirm at launch).'],
       ['f', 'Each profession makes three camp objects, one per tier. Sources disagree on the skill needed for tiers 2 and 3 (per Icy Veins 140 and 300).'],
@@ -1855,7 +1855,7 @@ const meSet = () => !!(me.race || me.cls || me.lvl);
 let stageSel = null, stageAuto = true;
 function autoStage() {
   const now = new Date();
-  if (now < D_REL) return ['pre', 'Picked by date: before the Nov 4 launch.'];
+  if (now < D_REL) return ['pre', 'Picked by date: before the Nov 4–5 launch.'];
   if (me.lvl) return [me.lvl < 15 ? 'first' : me.lvl < 40 ? 'dung' : me.lvl < 60 ? 'path' : 'raid', 'Picked by your character’s level.'];
   if (now >= D_RAID) return ['raid', 'Picked by date: raids are open.'];
   return [now < new Date('2026-11-11T00:00:00') ? 'first' : 'dung', 'Picked by date. Add your character’s level and the stage will follow it.'];
@@ -2025,8 +2025,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../assets/radio/radio.js?v=44f8689128" data-root="../../"></script>
-<script data-src="../../assets/search/search.js?v=cf57b606c3" data-root="../../"></script>
-<script data-src="../../assets/me/me.js?v=68dcf3b0c0" data-root="../../" data-home="../" data-lang="en" data-ach="0" data-teaser="" data-close="Close" data-page="play/" data-look="2"></script>
+<script data-src="../../assets/search/search.js?v=83f9e76d22" data-root="../../"></script>
+<script data-src="../../assets/me/me.js?v=20fae81fa3" data-root="../../" data-home="../" data-lang="en" data-ach="0" data-teaser="" data-close="Close" data-page="play/" data-look="2"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
 (function () {

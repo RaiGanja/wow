@@ -32,7 +32,7 @@
 <meta property="og:title" content="WoW Forever – drugi ekran: radio, strefy, minutniki">
 <meta property="og:description" content="Trzymaj otwarte podczas gry: radio fantasy, gdzie levelować za Przymierze lub Hordę, dungeony na twój poziom i minutniki z sygnałem.">
 <meta property="og:url" content="https://gabella.site/wow/pl/play/">
-<meta property="og:image" content="https://gabella.site/wow/assets/og/guides-pl.jpg?v=b25a8601">
+<meta property="og:image" content="https://gabella.site/wow/assets/og/guides-pl.jpg?v=3da5e06b">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="WoW Forever – drugi ekran: radio, strefy, minutniki">
@@ -1202,8 +1202,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../assets/radio/radio.css?v=44f8689128">
-<link data-rel="stylesheet" href="../../assets/search/search.css?v=cf57b606c3">
-<link data-rel="stylesheet" href="../../assets/me/me.css?v=68dcf3b0c0">
+<link data-rel="stylesheet" href="../../assets/search/search.css?v=83f9e76d22">
+<link data-rel="stylesheet" href="../../assets/me/me.css?v=20fae81fa3">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://gabella.site/wow/pl/"},{"@type":"ListItem","position":2,"name":"W grze","item":"https://gabella.site/wow/pl/play/"}]}</script>
 </head>
 <body class="compact">
@@ -1766,10 +1766,10 @@ const SRC = {
   cwg: ['ClassicWoW.gg: daty i raidy', 'https://classicwow.gg/forever']
 };
 const STAGES = [
-  { id: 'pre', n: 'Przed startem', sub: 'do 04.11', lo: 0, hi: 0,
+  { id: 'pre', n: 'Przed startem', sub: 'do 05.11', lo: 0, hi: 0,
     todo: [['f', 'Wczesna rezerwacja nicków 27.10 – 03.11 dla posiadaczy pakietów Heroic, Epic i Collection. Kto pierwszy, ten lepszy.'],
       ['f', 'Możesz zarezerwować do trzech postaci na konto. Postać ma imię i nazwisko, a para musi być unikalna w regionie.'],
-      ['f', 'Od 04.11 do gry potrzebna jest subskrypcja albo game time.'],
+      ['f', 'Od 05.11 do gry potrzebna jest subskrypcja albo game time.'],
       ['t', 'Wybierz trzy imiona z nazwiskami, plus zapasowe, przed 27.10.']],
     dnote: 'Pierwsze dungeony otwierają się na levelu 13.',
     prof: [['f', 'Każda postać dostaje dwie profesje główne plus wszystkie trzy dodatkowe: Cooking, First Aid i Fishing.'],
@@ -1782,7 +1782,7 @@ const STAGES = [
     src: ['names', 'names2', 'prof', 'legacy'] },
   { id: 'first', n: 'Pierwsze dni', sub: 'levele 1–15', lo: 1, hi: 15,
     todo: [['f', 'Skyborne zaczynają na Zephras Isle, levele 1–12.'],
-      ['f', 'Talenty otwierają się na levelu 10 albo na 9 z perkiem Legacy Talented (przy 5 rangach na 5).'],
+      ['f', 'Talenty otwierają się na levelu 10; perk Legacy Talented odblokowuje je wcześniej niż zwykle, do 5 leveli.'],
       ['f', 'Większość gotowanego jedzenia daje bonus do expa. Stackuje się z campem i Cozy Sleeping Bag.'],
       ['t', 'Zbieraj rest: wyloguj się w karczmie albo w campie z namiotem.']],
     prof: [['f', 'Podstawowe ognisko wymaga wyuczonego Gotowania, ale nie trzeba podnosić umiejętności. Mieści 3 obiekty, pali się około 10 minut, a nowe można postawić po 5.'],
@@ -1796,7 +1796,7 @@ const STAGES = [
   { id: 'dung', n: 'Dungeony', sub: 'levele 15–40', lo: 15, hi: 40,
     todo: [['f', 'Najwięcej expa z dungeonu dają jego łańcuchy questów. Powtórne runy po nich dają wyraźnie mniej expa niż questowanie w świecie.'],
       ['f', 'Każdy przedmiot, który wypadnie, odblokowuje swój wygląd do transmogu dla każdego, kto może go nosić, nawet jeśli przedmiot dostał ktoś inny.'],
-      ['f', 'Legacy otwiera się na levelu 25.'],
+      ['f', 'Legacy zwykle otwiera się na levelu 25.'],
       ['t', 'Najpierw zbierzcie questy do dungeonu całą grupą i wejdźcie, gdy wszyscy je mają.']],
     prof: [['f', 'Według Warcraft Tavern Gotowanie 140 daje 5 miejsc w obozie, a 220 daje 10 (według Icy Veins 90 i 200; wyjaśnimy na starcie).'],
       ['f', 'Każda profesja robi trzy obiekty obozu, po jednym na poziom. Źródła różnią się co do umiejętności dla poziomów 2 i 3 (według Icy Veins 140 i 300).'],
@@ -1855,7 +1855,7 @@ const meSet = () => !!(me.race || me.cls || me.lvl);
 let stageSel = null, stageAuto = true;
 function autoStage() {
   const now = new Date();
-  if (now < D_REL) return ['pre', 'Wybrane według daty: przed startem 04.11.'];
+  if (now < D_REL) return ['pre', 'Wybrane według daty: przed startem 5 listopada.'];
   if (me.lvl) return [me.lvl < 15 ? 'first' : me.lvl < 40 ? 'dung' : me.lvl < 60 ? 'path' : 'raid', 'Wybrane według levelu twojej postaci.'];
   if (now >= D_RAID) return ['raid', 'Wybrane według daty: raidy są otwarte.'];
   return [now < new Date('2026-11-11T00:00:00') ? 'first' : 'dung', 'Wybrane według daty. Dodaj level swojej postaci, a etap będzie za nim podążał.'];
@@ -2025,8 +2025,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../assets/radio/radio.js?v=44f8689128" data-root="../../"></script>
-<script data-src="../../assets/search/search.js?v=cf57b606c3" data-root="../../"></script>
-<script data-src="../../assets/me/me.js?v=68dcf3b0c0" data-root="../../" data-home="../" data-lang="pl" data-ach="0" data-teaser="" data-close="Zamknij" data-page="play/" data-look="2"></script>
+<script data-src="../../assets/search/search.js?v=83f9e76d22" data-root="../../"></script>
+<script data-src="../../assets/me/me.js?v=20fae81fa3" data-root="../../" data-home="../" data-lang="pl" data-ach="0" data-teaser="" data-close="Zamknij" data-page="play/" data-look="2"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
 (function () {

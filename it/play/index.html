@@ -32,7 +32,7 @@
 <meta property="og:title" content="WoW Forever, secondo schermo: radio, zone per livello, timer">
 <meta property="og:description" content="Tienilo aperto mentre giochi: radio fantasy, dove livellare con l’Alleanza o l’Orda, spedizioni per il tuo livello e timer con avviso.">
 <meta property="og:url" content="https://gabella.site/wow/it/play/">
-<meta property="og:image" content="https://gabella.site/wow/assets/og/guides-it.jpg?v=27f9bc9a">
+<meta property="og:image" content="https://gabella.site/wow/assets/og/guides-it.jpg?v=49ff2ccd">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="WoW Forever, secondo schermo: radio, zone per livello, timer">
@@ -1202,8 +1202,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../assets/radio/radio.css?v=44f8689128">
-<link data-rel="stylesheet" href="../../assets/search/search.css?v=cf57b606c3">
-<link data-rel="stylesheet" href="../../assets/me/me.css?v=68dcf3b0c0">
+<link data-rel="stylesheet" href="../../assets/search/search.css?v=83f9e76d22">
+<link data-rel="stylesheet" href="../../assets/me/me.css?v=20fae81fa3">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/it/"},{"@type":"ListItem","position":2,"name":"In gioco","item":"https://gabella.site/wow/it/play/"}]}</script>
 </head>
 <body class="compact">
@@ -1766,10 +1766,10 @@ const SRC = {
   cwg: ['ClassicWoW.gg: date e incursioni', 'https://classicwow.gg/forever']
 };
 const STAGES = [
-  { id: 'pre', n: 'Prima del lancio', sub: 'fino al 04.11', lo: 0, hi: 0,
+  { id: 'pre', n: 'Prima del lancio', sub: 'fino al 05.11', lo: 0, hi: 0,
     todo: [['f', 'Prenotazione anticipata dei nomi dal 27.10 al 03.11 per chi possiede i pacchetti Heroic, Epic e Collection. Chi prima arriva, meglio alloggia.'],
       ['f', 'Puoi prenotare fino a tre personaggi per account. Un personaggio ha nome e cognome, e la coppia deve essere unica nella regione.'],
-      ['f', 'Dal 04.11 per giocare serve un abbonamento o tempo di gioco.'],
+      ['f', 'Dal 05.11 per giocare servono un abbonamento o tempo di gioco.'],
       ['t', 'Scegli tre nomi con cognome, più delle riserve, prima del 27.10.']],
     dnote: 'Le prime spedizioni si aprono al livello 13.',
     prof: [['f', 'Ogni personaggio ha due professioni primarie più tutte e tre le secondarie: Cucina, Primo Soccorso e Pesca.'],
@@ -1782,7 +1782,7 @@ const STAGES = [
     src: ['names', 'names2', 'prof', 'legacy'] },
   { id: 'first', n: 'Primi giorni', sub: 'livelli 1–15', lo: 1, hi: 15,
     todo: [['f', 'Gli Skyborne iniziano su Zephras Isle, livelli 1–12.'],
-      ['f', 'I talenti si aprono al livello 10, o al 9 con il vantaggio Legacy Talented (al 5 con 5 gradi).'],
+      ['f', 'I talenti si aprono al livello 10; il vantaggio Legacy Talented li sblocca prima del normale, fino a 5 livelli.'],
       ['f', 'La maggior parte del cibo cucinato dà un bonus all’esperienza. Si somma all’accampamento e al Cozy Sleeping Bag.'],
       ['t', 'Accumula riposo: esci dal gioco in una locanda o in un accampamento con tenda.']],
     prof: [['f', 'Un falò base richiede di aver imparato Cucina, ma non serve alzare l’abilità. Contiene 3 oggetti, brucia circa 10 minuti e se ne può piazzare un altro dopo 5.'],
@@ -1796,7 +1796,7 @@ const STAGES = [
   { id: 'dung', n: 'Spedizioni', sub: 'livelli 15–40', lo: 15, hi: 40,
     todo: [['f', 'Gran parte dell’esperienza di una spedizione viene dalle sue catene di missioni. Ripeterla dopo dà molta meno esperienza delle missioni nel mondo.'],
       ['f', 'Ogni oggetto che cade sblocca il suo aspetto di trasmogrificazione per tutti quelli che possono indossarlo, anche se l’oggetto è andato a un altro.'],
-      ['f', 'Legacy si apre al livello 25.'],
+      ['f', 'Legacy di solito si apre al livello 25.'],
       ['t', 'Prima raccogliete in gruppo le missioni della spedizione ed entrate quando le hanno tutti.']],
     prof: [['f', 'Secondo Warcraft Tavern, Cucina 140 dà 5 posti nell’accampamento e 220 ne dà 10 (secondo Icy Veins 90 e 200; chiariremo al lancio).'],
       ['f', 'Ogni professione crea tre oggetti dell’accampamento, uno per livello. Le fonti differiscono sull’abilità necessaria per i livelli 2 e 3 (secondo Icy Veins 140 e 300).'],
@@ -1855,7 +1855,7 @@ const meSet = () => !!(me.race || me.cls || me.lvl);
 let stageSel = null, stageAuto = true;
 function autoStage() {
   const now = new Date();
-  if (now < D_REL) return ['pre', 'Scelta in base alla data: prima del lancio del 04.11.'];
+  if (now < D_REL) return ['pre', 'Scelto in base alla data: prima del lancio del 5 novembre.'];
   if (me.lvl) return [me.lvl < 15 ? 'first' : me.lvl < 40 ? 'dung' : me.lvl < 60 ? 'path' : 'raid', 'Scelta in base al livello del tuo personaggio.'];
   if (now >= D_RAID) return ['raid', 'Scelta in base alla data: le incursioni sono aperte.'];
   return [now < new Date('2026-11-11T00:00:00') ? 'first' : 'dung', 'Scelta in base alla data. Aggiungi il livello del tuo personaggio e la fase lo seguirà.'];
@@ -2025,8 +2025,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../assets/radio/radio.js?v=44f8689128" data-root="../../"></script>
-<script data-src="../../assets/search/search.js?v=cf57b606c3" data-root="../../"></script>
-<script data-src="../../assets/me/me.js?v=68dcf3b0c0" data-root="../../" data-home="../" data-lang="it" data-ach="0" data-teaser="" data-close="Chiudi" data-page="play/" data-look="2"></script>
+<script data-src="../../assets/search/search.js?v=83f9e76d22" data-root="../../"></script>
+<script data-src="../../assets/me/me.js?v=20fae81fa3" data-root="../../" data-home="../" data-lang="it" data-ach="0" data-teaser="" data-close="Chiudi" data-page="play/" data-look="2"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
 (function () {

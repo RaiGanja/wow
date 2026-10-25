@@ -33,7 +33,7 @@
 <meta property="og:title" content="My Profile — WoW Forever Guide">
 <meta property="og:description" content="Your characters, achievements, ranks and portrait frames in the Gabella guide. Log in with Discord, Google, Battle.net, Telegram or email.">
 <meta property="og:url" content="https://gabella.site/wow/en/profile/">
-<meta property="og:image" content="https://gabella.site/wow/assets/og-en.jpg?v=e15be353">
+<meta property="og:image" content="https://gabella.site/wow/assets/og-en.jpg?v=a58f19f6">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="My Profile — WoW Forever Guide">
@@ -1299,8 +1299,8 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css?v=44f8689128" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=cf57b606c3" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=68dcf3b0c0" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=83f9e76d22" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=20fae81fa3" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/en/"},{"@type":"ListItem","position":2,"name":"My profile","item":"https://gabella.site/wow/en/profile/"}]}</script>
 </head>
 <body>
@@ -1725,7 +1725,7 @@ const STATES = {
   banned: ['Sign-in closed', 'An administrator has blocked this account.'],
   taken: ['This sign-in is already taken', 'It is linked to another Gabella account. Sign in with it, unlink it there and link it here.'],
   'already-linked': ['This kind of sign-in is already linked', 'An account can have one sign-in of each kind. Unlink the old one first.'],
-  'news-on': ['Subscription confirmed', 'One email for the 4 November launch, then once a month. Unsubscribe with one link in any email.'],
+  'news-on': ['Subscription confirmed', 'One email for the 4–5 November launch, then once a month. Unsubscribe with one link in any email.'],
   'news-expired': ['The link has expired', 'The link works for 24 hours. Subscribe again.'],
   'news-down': ['Subscription not confirmed', 'The service did not answer. Open the link in the email again in a couple of minutes.'],
   'link-used': ['The link has already been used', 'Each link works once. Ask for a new one.'],
@@ -1869,7 +1869,7 @@ function screen(kind, arg) {
     tgConfig();
     v.innerHTML = `${noticeHtml()}<section class="frame login"><div><h2>Sign in to your profile</h2>
       <p>There is no password: sign in any way you like. What we receive from each is in <a href="${HOME}privacy/#account">Privacy</a>.</p>
-      <ul><li>Up to ten characters, the main one shows in the player list.</li>${ACH ? '<li>Achievements, ranks and portrait frames.</li>' : ''}<li>The Founder frame for those who join before launch on 4 November.</li></ul></div>
+      <ul><li>Up to ten characters, the main one shows in the player list.</li>${ACH ? '<li>Achievements, ranks and portrait frames.</li>' : ''}<li>The Founder frame for those who join before launch on 4–5 November.</li></ul></div>
       <div class="wayc">${loginWays()}${mailForm()}</div></section>`;
   } else if (kind === 'confirm') {
     v.innerHTML = `<section class="frame state"><h2>Sign in by this link?</h2><p>${esc(arg.why)} ${esc(arg.who ? fill('Sign in as %e?', { e: arg.who }) : 'Sign in?')}</p>
@@ -1893,7 +1893,7 @@ function founderPlaque() {
   const ms = Date.parse(GD.deadline) - Date.now();
   if (ms <= 0) return '';
   const days = Math.ceil(ms / 86400000);
-  return `<div class="frame founder"><div><b>The Founder frame</b><p>Add a character before launch on 4 November and keep the gold frame forever.</p></div>
+  return `<div class="frame founder"><div><b>The Founder frame</b><p>Add a character before launch on 4–5 November and keep the gold frame forever.</p></div>
     <div class="fcd">${unit(days, 'day')}<small>until the window closes</small></div></div>`;
 }
 const who = () => (m && m.user.nick ? fill('Signed in as %n', { n: m.user.nick }) : 'You are signed in');
@@ -2291,7 +2291,7 @@ function newsBox() {
     <form class="mailf" id="newsF" hidden novalidate><label class="small" for="nAddr">Email for news</label>
       <input id="nAddr" type="email" autocomplete="email" inputmode="email" maxlength="254" placeholder="name@example.com" required>
       <div id="tsNews"></div><button type="submit" class="btn" id="nGo">Send confirmation</button>
-      <p class="small">One email for the 4 November launch, then once a month. Unsubscribe with one link in any email.</p><p class="msg" id="nNote" role="alert"></p></form>
+      <p class="small">One email for the 4–5 November launch, then once a month. Unsubscribe with one link in any email.</p><p class="msg" id="nNote" role="alert"></p></form>
     <p class="msg" id="newsMsg" role="status"></p></div>`;
 }
 function newsNote(text, bad) { const n = $('#nNote'); if (n) { n.textContent = text; n.className = 'msg' + (bad ? ' err' : ''); } }
@@ -2314,7 +2314,7 @@ function newsAsked() { try { return localStorage.getItem(NEWS_LS) === '1'; } cat
 function newsAsk() {
   const n = m.news;
   if (!n || n.asked || n.email || newsAsked()) return '';
-  const h = Date.now() < Date.parse(GD.deadline) ? 'Don’t miss the 4 November launch' : 'Gabella news';
+  const h = Date.now() < Date.parse(GD.deadline) ? 'Don’t miss the 4–5 November launch' : 'Gabella news';
   const out = (href, id, label) => `<a class="btn ghost" href="${esc(href)}" target="_blank" rel="noopener" data-act="newsSeen">${wayIco(id)}${esc(label)}</a>`;
   return `<div class="frame ask news-ask"><span><b>${esc(h)}</b></span>${out(GD.tg, 'telegram', 'Telegram')}
     <button type="button" class="btn ghost" data-act="newsGo">${wayIco('email')}Email</button>
@@ -2579,8 +2579,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js?v=44f8689128" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=cf57b606c3" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=68dcf3b0c0" data-root="../../" data-home="../" data-lang="en" data-ach="0" data-teaser="" data-close="Close" data-page="profile/" data-look="2" defer></script>
+<script src="../../assets/search/search.js?v=83f9e76d22" data-root="../../" defer></script>
+<script src="../../assets/me/me.js?v=20fae81fa3" data-root="../../" data-home="../" data-lang="en" data-ach="0" data-teaser="" data-close="Close" data-page="profile/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>
