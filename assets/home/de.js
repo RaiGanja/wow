@@ -131,7 +131,7 @@ const tipBox = h => `<div class="tipbox"><svg class="ico fi" aria-hidden="true">
 function bi(ru) { return EN[ru] && EN[ru] !== ru ? `${esc(ru)} <span class="en">(${esc(EN[ru])})</span>` : esc(ru); }
 function raceEn(r) { return r.en ? ` <span class="en">/ ${esc(r.en)}</span>` : ''; }
 function facName(f) { return f === 'alliance' ? 'Allianz' : 'Horde'; }
-const PV = /*PV*/'?v=b4d0adfa';   // ?v= of the class and race portraits, filled in by build.art_version (redrawn under the same names)
+const PV = /*PV*/'?v=6e06af80';   // ?v= of the class and race portraits, filled in by build.art_version (redrawn under the same names)
 /* Round face avatar: assets/art/<id>-face.webp, ring colour cc */
 function face(id, cc, cls = '', title = '') { return `<span class="av ${cls}" style="--cc:${cc}"${title ? ` title="${esc(title)}"` : ''}><img src="../assets/art/${id}-face.webp${PV}" width="160" height="160" alt="" loading="lazy" decoding="async"></span>`; }
 function lvlMeter(c) {

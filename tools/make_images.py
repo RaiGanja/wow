@@ -88,7 +88,7 @@ def page_extras(cid, src=None):
 
 # face centre as a share of portrait height, where it differs from the default
 FACE_Y = {'warrior': .23, 'paladin': .23, 'hunter': .21, 'rogue': .21, 'priest': .23, 'shaman': .25, 'mage': .24,
-          'warlock': .29, 'druid': .20, 'human': .20, 'dwarf': .24, 'night-elf': .21, 'gnome': .27,
+          'warlock': .29, 'druid': .20, 'human': .20, 'dwarf': .24, 'night-elf': .21, 'gnome': .30,
           'skyborne-alliance': .19, 'orc': .21, 'undead': .21, 'tauren': .22, 'troll': .21, 'skyborne-horde': .21}
 
 

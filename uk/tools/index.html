@@ -1357,7 +1357,7 @@ function syncSeg(id, v) { document.querySelectorAll(`#${id} button`).forEach(b =
 const FAC = { alliance: 'Альянс', horde: 'Орда' };
 const RSLUG = { human: 'human', dwarf: 'dwarf', nightelf: 'night-elf', gnome: 'gnome', skyA: 'skyborne-alliance', orc: 'orc', undead: 'undead', tauren: 'tauren', troll: 'troll', skyH: 'skyborne-horde' };
 const classUrl = id => `${HOME}classes/${id}/`, raceUrl = id => `${HOME}races/${RSLUG[id]}/`;
-const PV = /*PV*/'?v=b4d0adfa';   // ?v= of the class and race portraits (build.art_version)
+const PV = /*PV*/'?v=6e06af80';   // ?v= of the class and race portraits (build.art_version)
 const art = (id, ext = 'webp') => `${ROOT}assets/art/${id}-360.${ext}${PV}`;
 async function copyTo(text, msgEl, ok) {
   try { await navigator.clipboard.writeText(text); msgEl.textContent = ok; } catch (e) { msgEl.textContent = 'Не вдалося скопіювати, виділіть і натисніть Ctrl+C'; }
