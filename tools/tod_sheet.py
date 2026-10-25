@@ -8,9 +8,12 @@ from PIL import Image, ImageDraw, ImageFont
 W, H = 1376, 768   # grid the hero boxes are given in (the mask's grid); scaled to the source size
 TODS = ('dawn', 'day', 'dusk', 'night')
 NAMES = {'dawn': 'Утро', 'day': 'День', 'dusk': 'Вечер', 'night': 'Ночь'}
-HEROES = {   # x0, y0, x1, y1 in the W x H grid: head and shoulders (the party on the cliff, left to right)
-    'dwarf': (770, 350, 940, 530), 'paladin': (900, 255, 1070, 430), 'elf': (1050, 285, 1180, 450),
-    'orc': (1020, 140, 1250, 370), 'troll': (1180, 170, 1376, 420), 'castle': (630, 195, 830, 415)}
+HEROES = {   # x0, y0, x1, y1 in the W x H grid: head and shoulders, left to right (dawn/day Alliance, dusk/night Horde)
+    'front': (740, 300, 940, 500),        # dwarf / troll
+    'banner': (880, 200, 1060, 360),      # paladin / orc with the banner
+    'third': (1000, 210, 1210, 370),      # night elf / tauren
+    'right': (1160, 300, 1360, 500),      # gnome / undead
+    'castle': (630, 195, 830, 415)}
 GOLD, BG = (201, 165, 74), (10, 11, 13)
 
 

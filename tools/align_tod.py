@@ -105,7 +105,7 @@ def problems(res, allow=''):
     to a human looking at the overlay; R, G and A must have counted windows. Zones in `allow` may be shifted: a person
     looked at the overlay and accepted it (e.g. folds inside the banner repainted, its outline in place)."""
     out = [f'{k}: сдвиг {v["shift"]} px > {LIMIT}' for k, v in res.items() if v['shift'] > LIMIT and k not in allow]
-    out += [f'{k}: нет учтённых окон' for k, v in res.items() if k in 'RGA' and v['n'] == 0]
+    out += [f'{k}: нет учтённых окон' for k, v in res.items() if k in 'RGA' and v['n'] == 0 and v['total']]   # an empty zone (no river on the home) has nothing to measure
     return out
 
 

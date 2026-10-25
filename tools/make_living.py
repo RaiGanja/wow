@@ -109,6 +109,7 @@ def dawn():
                                    open_area([(0, 0), (W, 0), (W, 40), (1240, 98), (1122, 132), (900, 126), (898, 66), (854, 66), (854, 330),
                                               (836, 330), (826, 250), (800, 196), (770, 150), (722, 150), (694, 200), (670, 246),
                                               (640, 290), (620, 340), (0, 340)], (240, 312)))   # castle, banner, pole, heroes
+    open_sky = ImageChops.multiply(open_sky, moon(642, 340, 44))   # the night variant's moon by the castle stays put
     zero = Image.new('L', (W, H), 0)   # the river stays still: the painted water looks better than the moving one
     save('hero_dawn', soft(water, 1, 1.5), soft(cloth, 3, 1.2), soft(open_sky, 1, 2), zero)
 
