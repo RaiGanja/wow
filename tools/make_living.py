@@ -126,10 +126,10 @@ def campfire():
 
 def road():
     im = load('hero_road')
-    lamps = lights(lamps=glass(im, [(813, 321, 842, 356), (854, 471, 886, 507)]), spots=[(828, 338, 110), (870, 490, 110)])   # signpost, dwarf's hand
-    open_sky = ImageChops.multiply(open_area([(0, 0), (1040, 0), (1030, 130), (950, 176), (892, 140), (872, 92), (728, 92), (705, 282),
-                                              (600, 300), (300, 290), (272, 228), (150, 222), (100, 268), (0, 268)], (232, 300)),
-                                   moon(252, 115, 40))   # signpost, tree, heroes, castle and the moon stay put
+    lamps = lights(lamps=glass(im, [(813, 321, 842, 356), (494, 488, 536, 560)]), spots=[(828, 338, 110), (515, 525, 120)])   # signpost, dwarf's hand
+    open_sky = ImageChops.multiply(open_area([(0, 0), (1010, 0), (1000, 110), (885, 110), (800, 82), (760, 82), (690, 122), (690, 300),
+                                              (300, 300), (272, 200), (100, 200), (90, 268), (0, 268)], (232, 300)),
+                                   moon(245, 112, 36))   # signpost, tree, heroes, castle and the moon stay put
     zero = Image.new('L', (W, H), 0)
     save('hero_road', lamps, zero, soft(open_sky, 1, 2), zero)
 
