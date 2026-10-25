@@ -29,7 +29,7 @@ globalThis.gabellaSearchEngine = (LANG, d) => {
     uk: 'ями ами ого ому ими ою ею ій ий ая яя ее ие ів ам ям ах ях ом ем а я о е и і у ю ь',
     en: 'ing ers ies es ed er s e', de: 'en er es e n s', fr: 'es s e', es: 'es os as s a o e', pt: 'es os as s a o e',
     it: 'i e a o', pl: 'ami ach ow om ego emu ej a e y i u o',
-  }[LANG].split(' ');
+  }[LANG].split(' ').map(e => norm(e));   // normalized like the text: -ий is -ии after й -> и
   // the other alphabet: Latin typed on the ru/uk pages, Cyrillic spellings of English words on every page
   const LAT = Object.entries(LANG === 'uk'
     ? { shch: 'щ', zh: 'ж', kh: 'х', ch: 'ч', sh: 'ш', ts: 'ц', ye: 'є', yi: 'і', yu: 'ю', ya: 'я', ia: 'я', iu: 'ю', a: 'а', b: 'б', v: 'в', h: 'г', g: 'г', d: 'д', e: 'е', z: 'з', y: 'и', i: 'і', j: 'и', k: 'к', l: 'л', m: 'м', n: 'н', o: 'о', p: 'п', r: 'р', s: 'с', t: 'т', u: 'у', f: 'ф', c: 'ц', w: 'в', x: 'кс', q: 'к' }
@@ -135,13 +135,13 @@ globalThis.gabellaSearchEngine = (LANG, d) => {
   // the variants of one word
   function variants(t) {
     const out = [{ toks: [t], w: 1 }];
-    const more = (k, w) => { for (const x of alias[k] || []) out.push({ toks: x, w }); };
+    const more = (k, w) => { for (const x of alias[k] || alias[stem(k)] || []) out.push({ toks: x, w }); };   // "рогу" -> «рога»
     more(t, 0.9);
     const tr = translit(t), base = [[t, 1]];
     if (tr !== t) { base.push([tr, 0.85]); out.push({ toks: [tr], w: 0.85 }); more(tr, 0.8); }
     for (const [x, w] of base) {
       const s = stem(x), c = cut(x);
-      if (s !== x) out.push({ toks: [s], w: w * 0.8 });
+      if (s !== x) out.push({ toks: [s], w: w * 0.9 });   // another form of the same word
       if (c !== x && c !== s) out.push({ toks: [c], w: w * 0.7 });
       if (!alias[x]) for (const f of fuzzy(x, x !== t)) { out.push({ toks: [f], w: w * 0.7 }); more(f, w * 0.65); }
     }
@@ -196,7 +196,7 @@ globalThis.gabellaSearchEngine = (LANG, d) => {
     const raw = words(norm(q)), last = raw[raw.length - 1];
     const forms = t => [t, translit(t)];
     const fits = (t, p) => forms(t).some(x => x.startsWith(p) || (t === last && x.length > 2 && p.startsWith(x)));
-    const named = t => [t, translit(t)].some(x => x.length > 2 && (alias[x] || names.has(stem(x))));
+    const named = t => [t, translit(t)].some(x => x.length > 1 && (alias[x] || alias[stem(x)] || names.has(stem(x))));
     const out = [];
     for (const [it, phs] of asks) {
       const met = phs.filter(ph => ph.every(p => raw.some(t => fits(t, p))));

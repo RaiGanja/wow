@@ -139,6 +139,19 @@ BLIND = [
     ('pl', 'jak levelowac maga', LV('mage')), ('it', 'talenti sacerdote', BD('priest') + LV('priest')),
     ('pt', 'melhor raça para mago', ['guides/best-race/', 'classes/mage/#races']),
 ]
+# второй слепой набор (после проверки 26.10: сленг классов в любом порядке, название игры как шум, «список» подземелий);
+# написан до правок и замерен один раз после них
+DUNG = ['guides/dungeons/']
+BLIND2 = [
+    ('ru', 'шам как прокачать', LV('shaman')), ('ru', 'дру танк', ['classes/druid/'] + BD('druid')), ('ru', 'хант билд', BD('hunter')),
+    ('ru', 'лок соло', ['classes/warlock/'] + LV('warlock')), ('ru', 'дата выхода вов', START), ('ru', 'wow forever когда старт', START),
+    ('ru', 'сколько стоит вов форевер', PRICE), ('ru', 'список подземелий', DUNG), ('ru', 'пал хил', ['classes/paladin/'] + BD('paladin')),
+    ('ru', 'шп', ['classes/priest/'] + BD('priest')), ('en', 'raid list', DUNG + ['guides/faq/#raids']),
+    ('en', 'wow forever release date', START), ('en', 'lock leveling', LV('warlock')), ('en', 'sham build', BD('shaman')),
+    ('uk', 'вар прокачка', LV('warrior')), ('uk', 'коли реліз wow forever', START), ('de', 'dungeon liste', DUNG),
+    ('de', 'pala build', BD('paladin')), ('fr', 'liste des donjons', DUNG), ('es', 'lista de mazmorras', DUNG),
+]
+DIR2 = [('ru', 'вор как качать', LV('rogue')), ('ru', 'когда релиз вов форевер', START), ('en', 'dungeon list', DUNG)]
 KNOWN = {('ru', 'протекшн воин')}   # «protekshn» дальше 3 правок от «protection»: транслит на слух не ловим   # запросы, которые пока не находят нужное: [(lang, query)]
 
 
@@ -159,13 +172,13 @@ def run(js=os.path.join(ROOT, 'assets', 'search', 'engine.js'), index=os.path.jo
         print('SKIP: нет node')
         sys.exit(0)
     r = subprocess.run([node, os.path.join(ROOT, 'tests', 'search_eval.js'), js, index],
-                       input=json.dumps([[l, q] for l, q, _ in Q + HOLD + NEW + DIR + BLIND]), capture_output=True, text=True, encoding='utf-8', check=True)
+                       input=json.dumps([[l, q] for l, q, _ in Q + HOLD + NEW + DIR + BLIND + BLIND2 + DIR2]), capture_output=True, text=True, encoding='utf-8', check=True)
     return json.loads(r.stdout)
 
 
 if __name__ == '__main__':
     res = run(*[a for a in sys.argv[1:] if not a.startswith('-')])   # [search.js [index dir]]: another engine, e.g. the old one
-    sets = [('набор', Q), ('отложенный', HOLD), ('новый', NEW), ('директор', DIR), ('слепой', BLIND)]
+    sets = [('набор', Q), ('отложенный', HOLD), ('новый', NEW), ('директор', DIR), ('слепой', BLIND), ('слепой-2', BLIND2), ('директор-2', DIR2)]
     allq = [q for _, qs in sets for q in qs]
     good, bad, first = [], [], 0
     for (lang, q, want), urls in zip(allq, res):
