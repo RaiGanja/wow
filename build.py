@@ -239,6 +239,20 @@ def lang_menu(html, lang, here):
     return html.replace('@@LANGSEL@@', sel).replace('@@LANGSHEET@@', sheet).replace('</body>', LANG_JS.replace('@@HINT@@', hint) + '</body>', 1)
 
 
+# The social layer (Players page, achievement feed, the profile teaser) is hidden until 01.12.2026 (decision of 25.10):
+# nothing is deleted. SOCIAL = True brings it all back: menu and sheet links, the home links, the feed, the teaser,
+# roster/ back in the sitemap and indexed. Profile, login, u/ stay on either way (the mailing list and «Мой персонаж» use them).
+SOCIAL = False
+SOCIAL_TAG = re.compile(r'<(\w+)\b[^>]*\sdata-social\b[^>]*>.*?</\1>', re.S)        # shown only with SOCIAL
+NOSOCIAL_TAG = re.compile(r'<(\w+)\b[^>]*\sdata-nosocial\b[^>]*>.*?</\1>', re.S)    # shown only without it
+
+
+def social(html):
+    """Drops the elements of the hidden layer (data-social) or their stand-ins (data-nosocial); the marks go away."""
+    html = (NOSOCIAL_TAG if SOCIAL else SOCIAL_TAG).sub('', html)
+    return html.replace(' data-social', '').replace(' data-nosocial', '')
+
+
 # Bottom tab bar on phones: the same tabs in the same order on every page (the profile button of the top bar is hidden there).
 TABS = (('', 'home', 'Главная'), ('guides/', 'book', 'Гайды'), ('play/', 'sword', 'В игре'), ('profile/', 'user', 'Профиль'))
 
@@ -254,14 +268,14 @@ def tabbar(cur=None, home='@@HOME@@'):
 
 # Top menu: the same items in the same order on every page; anchors of the home page stay in its own «Ещё» group.
 NAV = (('classes/', 'Классы'), ('races/', 'Расы'), ('guides/leveling/', 'Прокачка'), ('guides/dungeons/', 'Подземелья'),
-       ('guides/', 'Гайды'), ('tools/', 'Инструменты'), ('play/', 'В игре'), ('roster/', 'Игроки'))
+       ('guides/', 'Гайды'), ('tools/', 'Инструменты'), ('play/', 'В игре')) + ((('roster/', 'Игроки'),) if SOCIAL else ())
 # Sections sheet («Ещё»): (group, [(path from the language home, label)]); '#…' — a block of the home page.
 MORE = (
     ('Справочник', (('', 'Главная'), ('classes/', 'Классы: сравнение'), ('races/', 'Расы: сравнение'), ('guides/leveling/', 'Прокачка 1–60'),
                     ('guides/dungeons/', 'Подземелья и рейды'), ('guides/professions/', 'Профессии'), ('guides/faq/', 'FAQ и даты'),
                     ('guides/news/', 'Новости'), ('guides/', 'Все гайды'))),
     ('Инструменты', (('tools/#picker', 'Подборщик'), ('tools/#raid', 'Конструктор группы'), ('tools/', 'Рамки, сравнение, поиск'), ('play/', 'В игре'))),
-    ('Сообщество', (('discord', 'Discord'), ('roster/', 'Игроки'), ('profile/', 'Мой профиль'))),
+    ('Сообщество', (('discord', 'Discord'),) + ((('roster/', 'Игроки'),) if SOCIAL else ()) + (('profile/', 'Мой профиль'),)),
 )
 
 
@@ -335,7 +349,7 @@ SKIP = {'ru': 'К содержанию', 'en': 'Skip to content', 'uk': 'До з
 
 def localize(html, lang, here):
     """Language-specific attributes shared by all pages."""
-    html = html.replace('@@LEGAL@@', legal(lang, rel(here, '')))
+    html = social(html.replace('@@LEGAL@@', legal(lang, rel(here, ''))))
     html = html.replace('@@ROOT@@', rel(here, ''))
     if '<main id="main">' in html:
         html = html.replace('<header class="topbar"', f'<a class="skip" href="#main">{SKIP[lang]}</a><header class="topbar"', 1)
@@ -573,7 +587,7 @@ def me(html, lang, here):
     page = here[len(page_dir(lang)):]
     solo = ' data-solo="1"' if only_lang(page) else ''   # a language-only guide is not in the guide set of game.json: me.js skips it
     head = f'<link rel="stylesheet" href="{root}assets/me/me.css" media="print" onload="this.media=\'all\'">\n</head>'
-    js = f'<script src="{root}assets/me/me.js" data-root="{root}" data-home="{home}" data-lang="{lang}" data-teaser="{_html.escape(TEASER[lang])}" data-close="{_html.escape(tr('Закрыть', lang))}" data-page="{page}" data-look="{LK.V}"{solo} defer></script>\n</body>'
+    js = f'<script src="{root}assets/me/me.js" data-root="{root}" data-home="{home}" data-lang="{lang}" data-teaser="{_html.escape(TEASER[lang]) if SOCIAL else ''}" data-close="{_html.escape(tr('Закрыть', lang))}" data-page="{page}" data-look="{LK.V}"{solo} defer></script>\n</body>'
     return html.replace('</head>', head, 1).replace('</body>', js, 1)
 
 

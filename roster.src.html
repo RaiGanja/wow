@@ -36,6 +36,7 @@ p.lfgme { display: block; }
 .fbar .chk input { width: 18px; height: 18px; accent-color: var(--gold); }
 .fbar .reset, .fbar .fbtn { min-height: 44px; }
 .rlay { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 22px; align-items: start; }
+.rlay:not(:has(> .side)) { grid-template-columns: minmax(0, 1fr); }   /* the feed is hidden with the social layer: the list takes the row */
 .rhead { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
 .rhead p { margin: 0; }
 .rhead select { min-height: 44px; border-radius: 8px; border: 1px solid var(--pline); background: var(--panel-2); color: var(--fg); padding: 0 12px; font: inherit; font-size: .95rem; }
@@ -107,7 +108,7 @@ p.lfgme { display: block; }
           <div class="seg" id="fv" role="group" aria-label="Вид"><button type="button" data-v="cards">Карточки</button><button type="button" data-v="list">Список</button></div></div></div>
       <div class="rlist" id="roster" role="tabpanel"></div>
     </div>
-    <aside class="side" aria-labelledby="feedH"><h2 id="feedH">Лента достижений</h2><div class="frame feed" id="feed"><div class="skel" style="min-height:120px;border:0"></div></div></aside>
+    <aside class="side" aria-labelledby="feedH" data-social><h2 id="feedH">Лента достижений</h2><div class="frame feed" id="feed"><div class="skel" style="min-height:120px;border:0"></div></div></aside>
   </div>
 </main>
 <!--/body-->
@@ -264,7 +265,7 @@ function load() {
     players = r.players || [];
     draw();
   }, () => { failed = true; draw(); });
-  M.api('/feed?limit=15').then(r => {
+  if ($('#feed')) M.api('/feed?limit=15').then(r => {   // the feed is hidden with the social layer (build.SOCIAL)
     $('#feed').innerHTML = (r.items || []).length ? r.items.map(feedLine).join('') : '<p class="none">Здесь появятся достижения игроков.</p>';
   }, () => { $('#feed').innerHTML = '<p class="none">Лента временно недоступна.</p>'; });
 }

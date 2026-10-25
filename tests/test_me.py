@@ -82,7 +82,7 @@ def test_me_script_on_every_page_after_radio():
             continue
         assert html.count('assets/me/me.js') == 1 and html.count('assets/me/me.css') == 1, p
         assert html.index('assets/radio/radio.js') < html.index('assets/me/me.js'), p
-        m = re.search(r'<script (?:data-)?src="[^"]*assets/me/me\.js\?v=\w{10}" data-root="([^"]*)" data-home="([^"]*)" data-lang="(\w+)" data-teaser="([^"]+)" data-close="([^"]+)" data-page="([^"]*)" data-look="([^"]+)"( data-solo="1")?(?: defer)?>', html)
+        m = re.search(r'<script (?:data-)?src="[^"]*assets/me/me\.js\?v=\w{10}" data-root="([^"]*)" data-home="([^"]*)" data-lang="(\w+)" data-teaser="([^"]*)" data-close="([^"]+)" data-page="([^"]*)" data-look="([^"]+)"( data-solo="1")?(?: defer)?>', html)
         assert m, p
         page = m.group(6)
         assert m.group(7) == LK.V, (p, m.group(7))
@@ -140,7 +140,8 @@ def test_profile_pages():
             assert set(gd['races']) == set(G['races']) and len(gd['classes']) == 9 and len(gd['profs']) == 9, rel
             assert all(r['n'] for r in gd['races'].values()) and all(c['n'] for c in gd['classes'].values()), rel
             assert f"LANG = '{lang}'" in html and 'window.GabellaMe' in html, rel
-            hidden = sub != 'roster/'
+            from build import SOCIAL
+            hidden = sub != 'roster/' or not SOCIAL   # roster/ hides with the social layer (build.SOCIAL)
             assert ('<meta name="robots" content="noindex">' in html) == hidden, rel
             assert (f'<loc>https://gabella.site/wow/{rel}</loc>' in sitemap) != hidden, rel
             if lang != 'ru':   # Russian left only in the language menu autonyms
@@ -165,7 +166,8 @@ def test_roster_in_navigation():
         assert [re.sub(r'^(\.\./|\./)+', '', h) for h in hrefs[:4]] == ['classes/', 'races/', 'guides/leveling/', 'guides/dungeons/'], (p, hrefs)
         assert hrefs[-1] == DISCORD_AT['menu'], p
         assert nav.count('aria-current') <= 1, p
-        assert re.search(r'href="[^"]*roster/"', toc) and re.search(r'href="[^"]*profile/"', toc), p
+        from build import SOCIAL
+        assert bool(re.search(r'href="[^"]*roster/"', toc + nav)) == SOCIAL and re.search(r'href="[^"]*profile/"', toc), p
     from langs import LANGS
     for lang in LANGS:
         html = open(os.path.join(ROOT, '' if lang == 'ru' else lang, 'privacy', 'index.html'), encoding='utf-8').read()

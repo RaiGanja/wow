@@ -39,7 +39,7 @@ PLAY_NAME = {'ru': 'В игре', 'en': 'In game', 'uk': 'У грі'}
 ROSTER_NAME = {'ru': 'Игроки', 'en': 'Players', 'uk': 'Гравці'}
 PROFILE_NAME = {'ru': 'Мой профиль', 'en': 'My profile', 'uk': 'Мій профіль'}
 PLAYER_NAME = {'ru': 'Игрок WoW Forever', 'en': 'WoW Forever player', 'uk': 'Гравець WoW Forever'}
-NOINDEX = {'profile/', 'u/'}   # personal pages: noindex in the page (build_me.py), left out of sitemap.xml
+NOINDEX = {'profile/', 'u/'} | (set() if build.SOCIAL else {'roster/'})   # personal pages: noindex in the page (build_me.py), left out of sitemap.xml
 
 
 def t(ru, en, uk):
