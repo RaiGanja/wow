@@ -97,7 +97,7 @@ def main():
                 problems.append(f'{rel}: нет файла {t}')
     for lang in langs.LANGS:   # installable site: every manifest icon exists
         m = json.load(open(os.path.join(ROOT, f'manifest-{lang}.webmanifest'), encoding='utf-8'))
-        problems += [f'manifest-{lang}: нет {i["src"]}' for i in m['icons'] if not os.path.exists(os.path.join(ROOT, i['src']))]
+        problems += [f'manifest-{lang}: нет {i["src"]}' for i in m['icons'] if not os.path.exists(os.path.join(ROOT, i['src'].split('?')[0]))]
     if "const VERSION = 'dev'" in open(os.path.join(ROOT, 'sw.js'), encoding='utf-8').read():
         problems.append('sw.js: VERSION не проставлен сборкой')
     problems += check_sitemap(listed)

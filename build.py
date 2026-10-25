@@ -493,14 +493,20 @@ APP = {
 langs.derive(APP)
 
 
+def brand_src(path):
+    """assets/... path of a brand image with ?v=<hash of the file> (manifests; brand_version() does the same in the pages)."""
+    f = os.path.join(HERE, path)
+    return path + ('?v=' + hashlib.sha1(open(f, 'rb').read()).hexdigest()[:8] if os.path.isfile(f) else '')
+
+
 def manifest(lang):
     a, home = APP[lang], page_dir(lang)
-    icons = [{'src': f'assets/icons/icon-{s}.png', 'sizes': f'{s}x{s}', 'type': 'image/png', 'purpose': 'any'} for s in (192, 512)]
-    icons.append({'src': 'assets/icons/icon-maskable-512.png', 'sizes': '512x512', 'type': 'image/png', 'purpose': 'maskable'})
+    icons = [{'src': brand_src(f'assets/icons/icon-{s}.png'), 'sizes': f'{s}x{s}', 'type': 'image/png', 'purpose': 'any'} for s in (192, 512)]
+    icons.append({'src': brand_src('assets/icons/icon-maskable-512.png'), 'sizes': '512x512', 'type': 'image/png', 'purpose': 'maskable'})
     return json.dumps({
         'id': './', 'name': a['name'], 'short_name': 'Gabella WoW', 'description': a['desc'], 'lang': HREFLANG[lang], 'dir': 'ltr',
         'start_url': './' + home, 'scope': './', 'display': 'standalone', 'orientation': 'any',
-        'background_color': '#0a0b0d', 'theme_color': '#060708', 'categories': ['games', 'entertainment'], 'icons': icons,
+        'background_color': '#050505', 'theme_color': '#050505', 'categories': ['games', 'entertainment'], 'icons': icons,
         'shortcuts': [{'name': n, 'url': './' + home + u} for n, u in a['short']],
     }, ensure_ascii=False, indent=1)
 
@@ -715,6 +721,39 @@ def og_version():
                     open(p, 'w', encoding='utf-8', newline='\n').write(new)
                     n += 1
     print(f'og:{n} pages, {len(ver)} files', file=sys.stderr)
+
+
+def brand_version():
+    """?v=<hash> on the brand images that had no version: header mark, favicons, apple-touch-icon, PWA icons (pages, JSON-LD,
+    me.js, the worker's PRECACHE) and the site cards assets/og-<lang>.jpg (og:image, twitter:image). Cloudflare and browsers
+    keep these under their names, so a logo redrawn by tools/make_logo.py, make_icons.py or make_og.py would stay old."""
+    ver = {}
+    rx = re.compile(r'(assets/(?:brand/mark\.webp|icons/[A-Za-z0-9-]+\.(?:png|ico)|og-[a-z]{2}\.jpg))(?:\?v=\w+)?')
+
+    def tag(m):
+        name = m.group(1)
+        if name not in ver:
+            f = os.path.join(HERE, name)
+            ver[name] = hashlib.sha1(open(f, 'rb').read()).hexdigest()[:8] if os.path.isfile(f) else ''
+        return name + (f'?v={ver[name]}' if ver[name] else '')
+    n = 0
+    for root, dirs, files in os.walk(HERE):
+        dirs[:] = [x for x in dirs if not x.startswith('.') and x not in ('assets', 'content', 'i18n', 'tests', 'node_modules')]
+        for f in files:
+            if f.endswith('.html') and not f.endswith('.src.html') or root == HERE and f == 'sw.js':
+                p = os.path.join(root, f)
+                was = open(p, encoding='utf-8').read()
+                new = rx.sub(tag, was)
+                if new != was:
+                    open(p, 'w', encoding='utf-8', newline='\n').write(new)
+                    n += 1
+    p = os.path.join(HERE, 'assets', 'me', 'me.js')   # the profile script draws the mark by itself
+    was = open(p, encoding='utf-8').read()
+    new = rx.sub(tag, was)
+    if new != was:
+        open(p, 'w', encoding='utf-8', newline='\n').write(new)
+        n += 1
+    print(f'brand: {n} files, {len(ver)} images', file=sys.stderr)
 
 
 def font_version():
@@ -1414,6 +1453,7 @@ def main():
     if not listing:
         import search  # site search index over the finished pages; it changes assets/, so the worker version is taken again
         search.main()
+        brand_version()
         me_version()
         living_version()
         radio_version()
