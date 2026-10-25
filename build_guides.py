@@ -421,7 +421,7 @@ def play_body(lang, root):
                + ''.join(f'<button type="button" class="pill" data-min="{m}">{m} {x("min")}</button>' for m in (5, 10, 30)))
     return f'''<div class="pgrid"><div class="pcol">
 <section class="frame psec" id="level" aria-labelledby="hLvl">
-  <div class="phero"><h2 id="hLvl">{x("lvl")}</h2><span id="pWho"></span><a href="{root}#me">{x("edit")}</a></div>
+  <div class="phero"><h2 id="hLvl">{x("lvl")}</h2><span id="pWho"></span><a href="#me">{x("edit")}</a></div>
   <div class="pchars" id="pChars" role="group" aria-label="{x("chars")}" hidden></div>
   <div class="pfac" id="pFac" role="group" aria-label="{x("fac")}">{fac}</div>
   <div class="plv"><button type="button" class="lvb" id="lvDown" aria-label="{x("lvDown")}">−</button><output id="lvOut" aria-live="polite">—</output><button type="button" class="lvb" id="lvUp" aria-label="{x("lvUp")}">+</button></div>
@@ -444,13 +444,27 @@ def play_body(lang, root):
 </div></div>'''
 
 
+def journey(src, lang):
+    """/play/: game stages and my character (journey.src.html, on the home page until 25.10) with the home data (classes,
+    races, camp objects) and the home i18n -> (section, script). The script goes after the page script: it reads DUNGEONS."""
+    import build_tools
+    jsrc = open(os.path.join(HERE, 'journey.src.html'), encoding='utf-8').read()
+    jsrc = jsrc[jsrc.index('-->') + 4:]
+    i = src.index('const PROFS = [')
+    j = src.index('\n', src.index('const PR = ', i))
+    data = build.js_names(build_tools.home_data(src, build_tools.HOME_JS[:1]), lang) + '\n' + src[i:j]
+    html, missing = translate(jsrc.replace('@@DATA@@', data), lang)
+    k = html.index('<script>')
+    return html[:k], html[k:], missing
+
+
 JS['play'] = r'''/* In game: level -> zones and the next milestones (data from the Leveling guide), dungeons near the level, timers,
    screen wake lock, the mini window. Level, race and class are the shared hero "gabella-wf-me" of the home page (the level is
    written back); signed in, the hero is one of the profile characters and the level is saved to it. The chosen character,
    the faction without a race, the timers and the notification choice live in "gabella-play". */
 const TX = P.tx, MEKEY = 'gabella-wf-me', PKEY = 'gabella-play';
 const rd = k => { try { return JSON.parse(localStorage.getItem(k)) || {}; } catch (e) { return {}; } };
-const wr = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+const wr = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} if (k === MEKEY) dispatchEvent(new CustomEvent('gabella-me', { detail: 'play' })); };
 const ps = Object.assign({ fac: 'alliance', timers: [], notify: false }, rd(PKEY));
 if (!Array.isArray(ps.timers)) ps.timers = [];
 const saveP = () => wr(PKEY, ps);
@@ -490,7 +504,7 @@ function renderLvl() {
   box.hidden = !meNow;
   if (meNow) box.innerHTML = cs.length ? cs.map(c => `<button type="button" class="pill" data-c="${c.id}" aria-pressed="${c === cur}"><b>${esc(c.name)}</b>${c.level}</button>`).join('')
     : `<a href="${ROOT}profile/">${esc(TX.addChar)}</a>`;
-  $('#level .phero a').href = meNow ? ROOT + 'profile/' : ROOT + '#me';
+  $('#level .phero a').href = meNow ? ROOT + 'profile/' : '#me';
   $('#pFac').hidden = !!raceF;
   document.querySelectorAll('#pFac button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.f === fac)));
   $('#lvOut').textContent = lv || '—';
@@ -525,6 +539,7 @@ addEventListener('keydown', e => {   // + / − on the keyboard: level up or dow
   else if (e.key === '-' || e.key === '_') setLvl((lvOf(rd(MEKEY)) || 2) - 1);
 });
 addEventListener('storage', e => { if (e.key === MEKEY) renderLvl(); });
+addEventListener('gabella-me', e => { if (e.detail !== 'play') renderLvl(); });   // the character form below (journey.src.html)
 renderLvl();
 
 /* A guest gets one line with the login; a signed-in player has the characters in the level block already */
@@ -686,7 +701,9 @@ def build_page(g, lang, tpl, base_css, sprite, src):
     if g.get('compact'):                                          # /play/: small heading instead of the art band
         html = re.sub(r'<section class="stband ghero" id="top">.*?</section>', lambda _: play_head(lang), html, count=1, flags=re.S)
         html = html.replace('<body>', '<body class="compact">', 1).replace('<main class="wrap gbody', '<main class="wrap gbody play', 1)
-        body = play_body(lang, root)
+        jsec, jscript, jmiss = journey(src, lang)
+        body = play_body(lang, root) + jsec
+        missing += jmiss
     if g is NOT_FOUND:
         body += hub_body(lang, root)[1]                           # 404: every section of the guide as tiles
     if len(g.get('sections', ())) == 1:
@@ -722,6 +739,8 @@ def build_page(g, lang, tpl, base_css, sprite, src):
     }
     for k, v in rep.items():                                     # 2) тело
         html = html.replace(f'@@{k}@@', v)
+    if g.get('compact'):
+        html = html.replace('</body>', jscript + '</body>', 1)
     html = build.set_updated(html, sub)
     html = tod.apply(html, lang, root='@@ROOT@@', cls='stband-art', fx='dawn', mobile=True,
                      widths=WIDTHS['hero_dawn'], sizes='100vw', img_w=1920, img_h=1072, msizes='78vh')

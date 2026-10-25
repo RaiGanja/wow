@@ -259,7 +259,7 @@ MORE = (
     ('Справочник', (('', 'Главная'), ('classes/', 'Классы: сравнение'), ('races/', 'Расы: сравнение'), ('guides/leveling/', 'Прокачка 1–60'),
                     ('guides/dungeons/', 'Подземелья и рейды'), ('guides/professions/', 'Профессии'), ('guides/faq/', 'FAQ и даты'),
                     ('guides/news/', 'Новости'), ('guides/', 'Все гайды'))),
-    ('Инструменты', (('#picker', 'Подборщик'), ('tools/#raid', 'Конструктор группы'), ('tools/', 'Рамки, сравнение, поиск'), ('play/', 'В игре'))),
+    ('Инструменты', (('tools/#picker', 'Подборщик'), ('tools/#raid', 'Конструктор группы'), ('tools/', 'Рамки, сравнение, поиск'), ('play/', 'В игре'))),
     ('Сообщество', (('discord', 'Discord'), ('roster/', 'Игроки'), ('profile/', 'Мой профиль'))),
 )
 
@@ -377,6 +377,8 @@ LATE_JS = """<script>
   function wake() {
     if (done) return; done = true;
     document.querySelectorAll('link[data-rel]').forEach(function (l) { l.rel = l.dataset.rel; });
+    document.querySelectorAll('source[data-lsrcset]').forEach(function (x) { x.srcset = x.dataset.lsrcset; });   // build.sleep_art
+    document.querySelectorAll('img[data-lsrc]').forEach(function (x) { x.src = x.dataset.lsrc; });
     document.querySelectorAll('script[data-src]').forEach(function (s) {
       var n = document.createElement('script');
       for (var i = 0; i < s.attributes.length; i++) if (s.attributes[i].name !== 'data-src') n.setAttribute(s.attributes[i].name, s.attributes[i].value);
@@ -768,11 +770,49 @@ def game_hint(lang):
             + GAME_JS)
 
 
+def fresh(lang):
+    """«Свежее» at the bottom of the home hero: the three newest of the site updates (updates.json, the Discord feed) and our notes
+    of the news page (content.guides.NEWS), in the page language. A note opens the news page, an update its own page."""
+    from content.guides import NEWS
+    langs.fill(NEWS)
+    upd = json.load(open(os.path.join(HERE, 'updates.json'), encoding='utf-8'))['updates']
+    pick = lambda d: d[lang] if lang in d else langs.ov(d['en'], lang)
+    home = SITE + page_dir(lang)
+    items = []
+    for u in upd:
+        url = pick(u['url']) if lang in u['url'] else u['url']['en'].replace(SITE + 'en/', home)
+        href = url[len(home):] if url.startswith(home) else url
+        items.append((u['date'], pick(u['title']), pick(u['text']), href or 'guides/news/'))
+    items += [(n['date'], n['title'][lang], n['text'][lang], 'guides/news/#ours') for n in NEWS]
+    items.sort(key=lambda x: x[0], reverse=True)
+    plain = lambda x: esc(RU_MARK.sub(r'\1', x))
+    return ''.join(f'<a class="nc" href="{esc(h)}"><time datetime="{d}">{d[8:10]}.{d[5:7]}</time><b>{plain(t)}</b><span>{plain(x)}</span></a>'
+                   for d, t, x, h in items[:3])
+
+
+SLEEP_ART = ('pickban', 'guides', 'camp')   # home blocks under the first screen
+
+
+def sleep_art(html):
+    """Pictures of the SLEEP_ART blocks wait asleep (data-lsrcset, data-lsrc) and LATE_JS wakes them with the other late files.
+    The home is short now: lazy loading alone fetched them at once on a phone (Chrome loads lazy pictures up to 1250–2500 px
+    below the screen), and they shared the line with the hero picture before it was painted: −2 Lighthouse points."""
+    def nap(m):
+        return re.sub(r'<img src="', '<img data-lsrc="', re.sub(r'<source([^>]*?) srcset="', r'<source\1 data-lsrcset="', m[0]))
+    for sid in SLEEP_ART:
+        html, n = re.subn(rf'<section class="[^"]*" id="{sid}">.*?</section>', nap, html, count=1, flags=re.S)
+        assert n, sid
+    return html
+
+
 def build_home(lang, src):
     src = src.replace('@@RACE_LEAD@@', json.dumps({r['id']: r['lead'] for r in RACES_PAGE}, ensure_ascii=False))
     src = src.replace('@@RACE_SLUG@@', json.dumps({r['id']: r['slug'] for r in RACES_PAGE}))
+    src = re.sub(r'/\* data:start .*?/\* data:end \*/\n', '', src, count=1, flags=re.S)   # read by the other builds, not used here
     src = chrome(src, tab='', home='')
     html, missing = translate(src, lang)
+    html = html.replace('@@FRESH@@', fresh(lang))
+    html = sleep_art(html)
     html = tod.apply(html, lang)   # the hero in the reader's time of day (tod.py)
     here = page_dir(lang)
     html = html.replace('@@ALTERNATES@@', alternates(''))
@@ -1083,7 +1123,7 @@ def render_class(c, races, lang):
             if r['f'] != fac or c['id'] not in r['can']:
                 continue
             tags = ('<span class="tag new">новое</span>' if r['can'][c['id']] == 'new' else '') + ('<span class="tag paid">платная</span>' if r['paid'] else '')
-            items.append(f'<li><a href="@@HOME@@#pick={r["id"]}.{c["id"]}"><span class="rn">{esc(r["n"])}</span>{tags}<span class="go">В подборщик{ico("arrow")}</span></a></li>')
+            items.append(f'<li><a href="@@HOME@@tools/#pick={r["id"]}.{c["id"]}"><span class="rn">{esc(r["n"])}</span>{tags}<span class="go">В подборщик{ico("arrow")}</span></a></li>')
         body = f'<ul>{"".join(items)}</ul>' if items else '<p class="none">Нет доступных рас</p>'
         side.append(f'<div class="fside {fac}"><h3>{title}</h3>{body}</div>')
     group = ''.join(f'<li>{esc(x)}</li>' for x in c['group'])
@@ -1186,7 +1226,7 @@ def build_race(rp, lang, tpl, base_css, class_css, sprite, races, en):
         if c['id'] not in r['can']:
             continue
         tags = '<span class="tags"><span class="tag new">новое</span></span>' if r['can'][c['id']] == 'new' else ''
-        cls_cards.append(f'<a class="oc" href="@@HOME@@#pick={r["id"]}.{c["id"]}" style="--cc:{COLOR[c["id"]]}">{pic(c["id"], root, (360,), "132px")}{tags}<b>{esc(c["n"])}</b><span class="go">В подборщик</span></a>')
+        cls_cards.append(f'<a class="oc" href="@@HOME@@tools/#pick={r["id"]}.{c["id"]}" style="--cc:{COLOR[c["id"]]}">{pic(c["id"], root, (360,), "132px")}{tags}<b>{esc(c["n"])}</b><span class="go">В подборщик</span></a>')
     nope = [c['n'] for c in CLASSES if c['id'] not in r['can']]
     nope_html = ('<p class="nope">Недоступны: ' + ', '.join(f'<span>{esc(n)}</span>' for n in nope) + '.</p>') if nope else ''
 

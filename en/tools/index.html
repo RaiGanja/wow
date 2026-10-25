@@ -222,13 +222,23 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .hero .btn:hover { background: #e0c27a; border-color: #e0c27a; }
 .hero .btn.ghost { background: rgba(7,8,10,.35); color: var(--ink); border-color: rgba(241,236,224,.45); }
 .hero .btn.ghost:hover { border-color: #e0c27a; background: rgba(7,8,10,.55); }
-.hdates { list-style: none; margin: 0 auto 34px; padding: 0; max-width: calc(var(--wrap) - 40px); width: calc(100% - 40px); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
-.hdates li { padding: 14px 18px; display: grid; gap: 2px; border: 1px solid rgba(255,255,255,.12); border-radius: 10px; background: rgba(10,12,18,.62); backdrop-filter: blur(6px); }
-.hdates li.past { opacity: .62; }
-.hdates li.cur { border-color: #e0c27a; box-shadow: inset 0 0 0 1px #e0c27a; }
-.hdates b { font-family: var(--font-display); font-weight: var(--display-w); font-size: var(--fs-28); line-height: 1.1; color: var(--ink); font-variant-numeric: lining-nums; }
-.hdates li.cur b { color: var(--ink-gold); }
-.hdates span { color: var(--ink-2); font-size: var(--fs-14); }
+.hd-line { display: flex; flex-wrap: wrap; gap: 2px 0; margin: 2px 0 0; font-size: var(--fs-14); color: var(--ink-2); text-shadow: var(--hero-shadow); font-variant-numeric: lining-nums tabular-nums; }
+.hd-line span { white-space: nowrap; }
+.hd-line span + span::before { content: "·"; margin: 0 10px; color: var(--ink-2); }
+.hd-line b { color: var(--ink); font-weight: 600; }
+.hd-line .past { opacity: .62; }
+.hd-line .cur b { color: var(--ink-gold); }
+/* Fresh: the three newest notes at the bottom of the hero (build.fresh) */
+.hnews { margin: 0 auto 34px; display: grid; gap: 10px; }
+.hnews .hh { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; text-shadow: var(--hero-shadow); }
+.hnews .hh h2 { font-size: var(--fs-22); line-height: 1; color: var(--ink); }
+.hnews .hh a { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-weight: 600; color: var(--ink-gold); }
+.hnews .row3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.nc { display: grid; gap: 4px; align-content: start; padding: 14px 18px 16px; border: 1px solid rgba(255,255,255,.12); border-radius: 10px; background: rgba(10,12,18,.66); backdrop-filter: blur(6px); color: var(--ink); text-decoration: none; transition: border-color .2s; }
+.nc:hover { border-color: #e0c27a; }
+.nc time { font-size: var(--fs-13); color: var(--ink-2); font-variant-numeric: lining-nums tabular-nums; }
+.nc b { font-size: var(--fs-16); font-weight: 600; line-height: 1.3; }
+.nc span { font-size: var(--fs-14); color: var(--ink-2); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
 /* Section heads */
 main { padding-bottom: 40px; }
@@ -240,25 +250,6 @@ section.block { padding-top: 96px; display: grid; gap: 28px; }
 .dcta { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; margin: 48px 0 0; padding: 18px 20px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); }
 .dcta span { max-width: 62ch; }
 section.block { scroll-margin-top: -72px; }
-
-/* Faction banners */
-/* Art cards stand right on the night (Icy Veins), no frame around the section */
-.factions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-.fac { position: relative; overflow: hidden; isolation: isolate; min-height: 340px; padding: 30px 30px 26px; display: grid; align-content: end; gap: 12px; color: var(--ink); border: 1px solid rgba(255,255,255,.1); border-radius: 7px; background: var(--fb); transition: border-color .2s; }
-.fac:hover { border-color: #e0c27a; }
-.fac picture, .fac picture img { position: absolute; top: 0; right: 0; height: 100%; width: 62%; }
-.fac picture { z-index: -2; }
-.fac picture img { object-fit: cover; object-position: 50% 16%; transition: transform .8s var(--ease); }
-.fac:hover picture img { transform: scale(1.03); }
-.fac::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, var(--fb) 40%, color-mix(in srgb, var(--fb) 55%, transparent) 60%, transparent 85%), linear-gradient(0deg, color-mix(in srgb, var(--fb) 80%, transparent), transparent 50%); }
-.fac.alliance { --fb: #0c1830; --fl: #b39352; --fa: #e3c77e; }
-.fac.horde { --fb: #240d0a; --fl: #a8683a; --fa: #e0a36a; }
-
-.fac h3 { font-family: var(--font-display); font-weight: var(--display-w); letter-spacing: .03em; line-height: 1.1; font-size: var(--fs-h2); }
-.fac p { color: var(--ink-2); max-width: 34ch; }
-.fac p b { color: var(--ink); font-weight: 600; }
-.fac .go-f { justify-self: start; margin-top: 6px; min-height: 44px; padding: 0 16px; display: inline-flex; align-items: center; gap: 8px; border: 1px solid color-mix(in srgb, var(--fl) 80%, transparent); border-radius: 7px; background: rgba(5,6,8,.45); color: var(--ink); font-weight: 600; font-size: var(--fs-16); transition: border-color .2s, background-color .2s; }
-.fac .go-f:hover { border-color: var(--fa); background: rgba(5,6,8,.6); }
 
 /* Class roster: tall portraits, the active one expands */
 .roster { display: flex; gap: 8px; height: clamp(460px, 41vw, 580px); }
@@ -315,8 +306,34 @@ section.block { scroll-margin-top: -72px; }
 .stband-art, .stband-art img { position: absolute; inset: 0 0 auto 0; width: 100%; height: var(--band-h, 620px); }
 .stband-art { z-index: -2; }
 .stband-art img { object-fit: cover; object-position: 50% 32%; }
-#stages { --band-h: clamp(620px, 40vw, 820px); }
 #guides.stband { padding-top: 56px; }   /* no art behind the guides band any more */
+
+/* Home: classes and races in one block (tabs), the picker banner, the guides grid lower, a lower campfire */
+#classes.block { padding-top: 72px; }
+#pickban.block { padding-top: 40px; }
+.tabs2 { display: inline-flex; gap: 4px; padding: 4px; border-radius: 10px; background: var(--panel-2); border: 1px solid var(--pline); }
+.tabs2 [role="tab"] { min-height: 40px; padding: 0 18px; border: 0; border-radius: 7px; background: transparent; color: var(--muted); font: inherit; font-weight: 600; font-size: var(--fs-16); cursor: pointer; transition: color .15s, background-color .15s; }
+.tabs2 [role="tab"]:hover { color: var(--fg); }
+.tabs2 [role="tab"][aria-selected="true"] { background: var(--seg-on); color: var(--gold-2); }
+.tpanel { display: grid; gap: 20px; min-width: 0; }
+.tpanel[hidden] { display: none; }
+.tpanel > .tp { color: var(--muted); max-width: 68ch; margin-top: -8px; }
+.pickban { display: grid; grid-template-columns: 200px minmax(0, 1fr) auto; align-items: center; gap: 0 32px; overflow: hidden; padding: 0 30px 0 0; min-height: 150px; color: var(--fg); text-decoration: none; transition: border-color .2s; }
+.pickban:hover { border-color: #e0c27a; }
+.pb-art { align-self: stretch; position: relative; overflow: hidden; background: #0b0d12; }
+.pb-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 16%; }
+.pb-t { display: grid; gap: 6px; padding: 22px 0; }
+.pb-t h2 { font-size: var(--fs-28); line-height: 1.1; }
+.pb-t > span { color: var(--muted); max-width: 60ch; }
+.pickban .btn { white-space: nowrap; }
+#guides .gt { min-height: 150px; }
+#camp { margin-top: 40px; min-height: clamp(380px, 34vw, 560px); }
+#camp .camp-in { padding-bottom: clamp(40px, 5vw, 72px); }
+.fsrc { margin: 0 0 6px; }
+@media (min-width: 1024px) {
+  #classes .roster { height: clamp(380px, 30vw, 440px); }
+  #classes .rr { height: clamp(300px, 22vw, 340px); }
+}
 /* Camp scene near the end: the campfire art in full, fire and embers alive (assets/living/) */
 .camp { position: relative; isolation: isolate; overflow: hidden; margin-top: 56px; min-height: clamp(520px, 56vw, 1200px);   /* close to the art's own 16:9: heads stay in frame on wide screens */ display: grid; align-content: end; color: #f1ece0; background: #08090b; }
 .camp-art, .camp-art img { position: absolute; inset: 0; width: 100%; height: 100%; }
@@ -362,11 +379,6 @@ canvas.fx.on { opacity: 1; }
   linear-gradient(90deg, rgb(var(--hero-fade) / .06) calc(50% - 800px), rgb(var(--hero-fade) / .46) calc(50% - 420px), rgb(var(--hero-fade) / .5) calc(50% + 100px), rgb(var(--hero-fade) / .16) calc(50% + 380px), rgb(var(--hero-fade) / .04) calc(50% + 600px)),
   linear-gradient(180deg, rgb(var(--hero-fade) / .42) 0%, rgb(var(--hero-fade) / 0) 26%, rgb(var(--hero-fade) / 0) 58%, rgb(var(--hero-fade) / .9) 88%, rgb(var(--hero-fade)) 100%); }
 .stband::before { content: ""; position: absolute; inset: 0 0 auto 0; height: var(--band-h, 620px); z-index: -1; background: linear-gradient(180deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 62%, transparent) 12%, color-mix(in srgb, var(--bg) 40%, transparent) 30%, color-mix(in srgb, var(--bg) 55%, transparent) 62%, var(--bg) 100%); }
-:root[data-theme="light"] #stages::before { background: linear-gradient(180deg, #0a0b0d 0%, rgb(10 11 13 / .62) 12%, rgb(10 11 13 / .4) 30%, rgb(10 11 13 / .55) 58%, #0a0b0d 76%,
-  color-mix(in oklab, #0a0b0d, var(--bg) 6%) 80.8%, color-mix(in oklab, #0a0b0d, var(--bg) 22%) 85.6%, color-mix(in oklab, #0a0b0d, var(--bg) 52%) 90.4%,
-  color-mix(in oklab, #0a0b0d, var(--bg) 82%) 95.2%, var(--bg) 100%); }   /* light: the home hero runs on into the road at night; the paper comes under the stage panel */
-:root[data-theme="light"] #stages > .wrap > .sec-head, :root[data-theme="light"] #stages > .wrap > .sec-head :is(p, .src) { color: var(--ink); }
-:root[data-theme="light"] #stages .stiles { --pline: rgba(255,255,255,.08); background: rgba(15,18,26,.9); box-shadow: 0 18px 48px rgba(0,0,0,.35); }
 .stband .wrap { display: grid; gap: 20px; }
 /* page-level grids: one column that may shrink, so a long word or a wide field never pushes past the screen edge */
 section.block, .hero-in, .chero-in, .thero-in, .stband .wrap { grid-template-columns: minmax(0, 1fr); }
@@ -379,7 +391,6 @@ section.block, .hero-in, .chero-in, .thero-in, .stband .wrap { grid-template-col
 .stile picture { z-index: -2; }
 .stile img { object-fit: cover; object-position: 50% 22%; filter: saturate(.85) brightness(.78); transition: filter .3s, transform .6s var(--ease); }
 .stile::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(6,8,12,0) 25%, rgba(6,8,12,.9) 100%); }
-main > .stband:first-child .stile::after { box-shadow: inset 0 1px 0 var(--hero-edge); }   /* the first tiles pick up the hero light; on ::after, since the art covers the tile */
 .stile:hover img { filter: none; transform: scale(1.04); }
 .stile[aria-selected="true"] { border-color: #e0c27a; box-shadow: inset 0 0 0 1px #e0c27a; }
 .stile[aria-selected="true"] img { filter: none; }
@@ -779,7 +790,6 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .journey { grid-template-columns: 1fr; }
   .me { position: static; }
   .stiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .factions { grid-template-columns: 1fr; }
   .ttiles, .ttiles.t4 { grid-template-columns: 1fr; }
   .ttile { min-height: 160px; }
 }
@@ -828,15 +838,27 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .hero h1 { font-size: var(--fs-hero); }
   .cta { width: 100%; }
   .cta .btn { flex: 1 1 140px; padding: 0 12px; }
-  .hdates { margin-bottom: 22px; width: calc(100% - 32px); gap: 6px; }
-  .hdates li { padding: 10px 10px; }
-  .hdates b { font-size: var(--fs-22); }
-  .hdates span { font-size: var(--fs-13); line-height: 1.35; }
+  .hnews { margin-bottom: 20px; gap: 6px; }
+  .hnews .row3 { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .nc { padding: 11px 14px; }
+  .nc span { display: none; }
+  .hd-line { column-gap: 18px; }
+  .hd-line span + span::before { content: none; }   /* the line wraps on a phone: no dot at the start of the second row */
+  #classes.block { padding-top: 48px; }
+  #pickban.block { padding-top: 28px; }
+  .sec-head .row:has(.tabs2) { align-items: center; }
+  .pickban { grid-template-columns: 96px minmax(0, 1fr); gap: 0 16px; padding: 0 16px 0 0; min-height: 0; }
+  .pb-t { padding: 16px 0; gap: 4px; }
+  .pb-t h2 { font-size: var(--fs-22); }
+  .pb-t > span { font-size: var(--fs-14); }
+  .pickban .btn { grid-column: 1 / -1; margin: 0 0 16px 16px; justify-self: start; }
+  #guides .gt { min-height: 118px; }
+  #guides .gt span { display: none; }
+  #camp { min-height: 520px; }
+  .fsrc + .fmap { display: flex; flex-wrap: wrap; gap: 4px 20px; }
+  .fsrc + .fmap ul { display: none; }
+  .fsrc + .fmap .fh { margin: 0; }
   section.block { padding-top: 72px; gap: 22px; scroll-margin-top: -48px; }
-  .factions { gap: 10px; }
-  .fac { min-height: 400px; padding: 22px 20px 20px; }
-  .fac picture, .fac picture img { width: 100%; }
-  .fac::before { background: linear-gradient(0deg, var(--fb) 30%, color-mix(in srgb, var(--fb) 60%, transparent) 58%, transparent 85%); }
   .hc, .hc.on { flex-basis: 80%; }
   .hc .info, .rr .hc .info { min-width: 0; padding: 22px 20px 22px; grid-template-columns: minmax(0, 1fr); }
   .hc .info b { font-size: var(--fs-28); hyphens: auto; }
@@ -901,7 +923,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 @media (max-width: 340px) { .topbar .tools { gap: 2px; } .topbar .langbtn { padding: 0 8px; } }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .hc, .hc img, .hc .info, .fac picture img { transition: none; }
+  .hc, .hc img, .hc .info { transition: none; }
 }
 /* Tools page: search in the hero, party and raid frames, side-by-side compare */
 .sbox { width: min(100%, 680px); margin-top: 10px; padding: 14px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
@@ -1097,7 +1119,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css?v=eb6a1e02ee" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=8a2cef2f5c" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=730b7e5d73" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/me/me.css?v=a34702d24d" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/en/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://gabella.site/wow/en/tools/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"WoW Forever Tools: Class and Race Compare, Party Frames","description":"Compare WoW Forever classes and races side by side, in-game style party frames and raid grid, and search across the whole guide.","inLanguage":"en","url":"https://gabella.site/wow/en/tools/","dateModified":"2026-10-25","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/en/"},"image":"https://gabella.site/wow/assets/og/tools-en.jpg?v=a2428257"}</script>
@@ -1161,11 +1183,38 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 
 <main>
 <div class="wrap tnav">
-  <nav class="ttiles t2" aria-label="Tools">
+  <nav class="ttiles t3" aria-label="Tools">
+      <a class="ttile" href="#picker"><picture><source type="image/avif" srcset="../../assets/art/druid-600.avif?v=cb56fde9"><img src="../../assets/art/druid-600.webp?v=83c45565" alt="" loading="lazy" decoding="async"></picture><b>Race and class picker</b><span>Every combination and what each can do</span></a>
       <a class="ttile" href="#raid"><picture><source type="image/avif" srcset="../../assets/art/paladin-600.avif?v=da57d115"><img src="../../assets/art/paladin-600.webp?v=742a15f3" alt="" loading="lazy" decoding="async"></picture><b>Party and raid frames</b><span>Party of 5, raids of 10, 20 and 40, like in the game</span></a>
       <a class="ttile" href="#compare"><picture><source type="image/avif" srcset="../../assets/art/mage-600.avif?v=31bcffa4"><img src="../../assets/art/mage-600.webp?v=8ba853d5" alt="" loading="lazy" decoding="async"></picture><b>Class and race comparison</b><span>Up to three side by side: roles, armor, buffs, abilities</span></a>
     </nav>
 </div>
+<section class="block wrap" id="picker">
+  <div class="sec-head"><div class="row"><h2>Picker: race and class</h2><span class="src">Warcraft Tavern, Method</span></div>
+    <p>Choose a faction and role, look at the combinations and click a cell. Below you will see the race abilities and class roles, and your choice is copied with one button for the group chat.</p></div>
+  <div class="tool bare">
+    <div class="filters" role="group" aria-label="Filters">
+      <div class="fgroup"><span class="flabel" id="lf">Faction</span>
+        <div class="seg" id="segF" aria-labelledby="lf">
+          <button data-v="all" aria-pressed="true">Any</button>
+          <button data-v="alliance" aria-pressed="false">Alliance</button>
+          <button data-v="horde" aria-pressed="false">Horde</button>
+        </div></div>
+      <div class="fgroup"><span class="flabel" id="lr">Role</span>
+        <div class="seg" id="segR" aria-labelledby="lr">
+          <button data-v="all" aria-pressed="true">Any</button>
+          <button data-v="tank" aria-pressed="false">Tank</button>
+          <button data-v="heal" aria-pressed="false">Healer</button>
+          <button data-v="dps" aria-pressed="false">Damage</button>
+        </div></div>
+    </div>
+    <div class="matrix-box" tabindex="0" role="region" aria-label="Race and class table, scrolls horizontally"><table id="matrix"></table></div>
+    <div class="legend"><span><i class="ld"></i>allowed</span><span><i class="ld nw"></i><span class="n">new</span>the combination did not exist in Classic</span><span><i class="ld no"></i>not allowed</span></div>
+    <div class="pickm" id="pickm"></div>
+    <div class="detail" id="detail" aria-live="polite" aria-label="Selected combination"></div>
+  </div>
+  <p class="note"><b>New combinations:</b> dwarf shaman and gnome priest (Alliance), human hunter, and for the Horde orc mage, troll warlock and undead paladin. The Horde gained the paladin, the Alliance the shaman. The Windshaper Skyborne (Horde) can be a shaman, the High Order Skyborne (Alliance) a mage.</p>
+</section>
 <section class="block wrap" id="raid">
   <div class="sec-head"><h2>Party and raid frames</h2>
     <p>Build the roster the way it will look in the game. Click a frame to pick the race, class, role and player name. Drag a frame to another group or move it with the button.</p></div>
@@ -1231,7 +1280,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
   <nav class="toc" aria-label="All sections">
     <div class="grp"><div class="gh">This page</div><a href="#search">Guide search</a><a href="#raid">Party and raid frames</a><a href="#compare">Class and race comparison</a></div>
     <div class="grp"><div class="gh">Reference</div><a href="../">Home</a><a href="../classes/">Classes compared</a><a href="../races/">Races compared</a><a href="../guides/leveling/">Leveling 1–60</a><a href="../guides/dungeons/">Dungeons and raids</a><a href="../guides/professions/">Professions</a><a href="../guides/faq/">FAQ and dates</a><a href="../guides/news/">News</a><a href="../guides/">All guides</a></div>
-    <div class="grp"><div class="gh">Tools</div><a href="../#picker">Picker</a><a href="../tools/#raid">Group builder</a><a href="../tools/">Frames, compare, search</a><a href="../play/">In game</a></div>
+    <div class="grp"><div class="gh">Tools</div><a href="../tools/#picker">Picker</a><a href="../tools/#raid">Group builder</a><a href="../tools/">Frames, compare, search</a><a href="../play/">In game</a></div>
     <div class="grp"><div class="gh">Community</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="../roster/">Players</a><a href="../profile/">My profile</a></div>
   </nav>
   <div class="opts">
@@ -1347,6 +1396,24 @@ const RACES = [
 RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
 const CL = Object.fromEntries(CLASSES.map(c => [c.id, c]));
 const RC = Object.fromEntries(RACES.map(r => [r.id, r]));
+const EN = {
+  'Arms':'Arms','Fury':'Fury','Protection':'Protection','Holy':'Holy','Retribution':'Retribution',
+  'Beast Mastery':'Beast Mastery','Marksmanship':'Marksmanship','Survival':'Survival',
+  'Assassination':'Assassination','Combat':'Combat','Subtlety':'Subtlety',
+  'Discipline':'Discipline','Shadow':'Shadow','Elemental':'Elemental','Enhancement':'Enhancement','Restoration':'Restoration',
+  'Arcane':'Arcane','Fire':'Fire','Frost':'Frost','Affliction':'Affliction','Demonology':'Demonology','Destruction':'Destruction',
+  'Balance':'Balance','Feral':'Feral',
+  'Will to Survive':'Will to Survive','Perception':'Perception','Ruthless':'Ruthless','The Human Spirit':'The Human Spirit',
+  'Stoneform':'Stoneform','Find Treasure':'Find Treasure','Earth Fury':'Earth Fury','Big Game Hunter':'Big Game Hunter',
+  'Elune’s Light':"Elune’s Light",'Shadowmeld':'Shadowmeld','Quickness':'Quickness','Wisp Spirit':'Wisp Spirit',
+  'Escape Artist':'Escape Artist','Eureka!':'Eureka!','Expansive Mind':'Expansive Mind','Engineering Specialization':'Engineering Specialization',
+  'Walk on Air':'Walk on Air','Read Ley Line':'Read Ley Line','Wind Blessed':'Wind Blessed','Elemental Insight':'Elemental Insight','Skysight':'Skysight',
+  'Blood Fury':'Blood Fury','Shatter Curse':'Shatter Curse','Savage':'Savage','Hardiness':'Hardiness',
+  'Will of the Forsaken':'Will of the Forsaken','Cannibalize':'Cannibalize','Underwater Breathing':'Underwater Breathing','Touch of the Grave':'Touch of the Grave',
+  'War Stomp':'War Stomp','Cultivation':'Cultivation','Plainsrunning':'Plainsrunning','Endurance':'Endurance',
+  'Berserking':'Berserking','Rapid Regeneration':'Rapid Regeneration','Beast Slaying':'Beast Slaying','Regeneration':'Regeneration'
+};
+RC.skyA.en = 'High Order Skyborne'; RC.skyH.en = 'Windshaper Skyborne';
 const CX = {"warrior": {"armor": "Cloth, leather, mail; plate from level 40", "weapons": "Everything except wands; shield", "resource": "Rage", "lvl": "The slowest leveling, about 12% longer than average", "group": ["Battle Shout affects the whole raid", "Demoralizing Shout and Sunder Armor on the boss", "Sweeping Strikes and Whirlwind for multi-target fights"], "pros": ["Best tank and strong melee damage", "Good for PvP (Arms)", "Few buttons, easy to understand"], "cons": ["Slowest leveling", "Heavily gear dependent", "Almost no self-healing or crowd control"], "specs": [{"n": "Arms", "what": "Melee damage (two-handed weapon)"}, {"n": "Fury", "what": "Melee damage (dual wield)"}, {"n": "Protection", "what": "Tank"}]}, "paladin": {"armor": "Cloth, leather, mail; plate from level 40; shield", "weapons": "Axes, maces, swords, polearms from level 20", "resource": "Mana", "lvl": "Average leveling pace", "group": ["Party auras: Devotion, Retribution, Concentration", "Fire, Frost and Shadow resistance auras for the whole raid", "One-hour blessings, greater blessings for a whole class", "Seal of Justice stops enemies from fleeing"], "pros": ["All three roles on one character", "Strong group buffs", "Plate and a sturdy character"], "cons": ["No gap closer, slow or speed boost", "Little crowd control beyond Hammer of Justice", "Retribution dropped after the patch"], "specs": [{"n": "Holy", "what": "Healer"}, {"n": "Protection", "what": "Tank"}, {"n": "Retribution", "what": "Melee damage"}]}, "hunter": {"armor": "Cloth, leather; mail from level 40", "weapons": "Bows, crossbows, guns, axes, swords, polearms", "resource": "Mana; the pet uses Focus", "lvl": "The fastest leveling, about 8% faster than average", "group": ["Trueshot Aura boosts the group ranged damage", "Freezing Trap: reliable crowd control", "Scatter Shot interrupts casts", "Aspect of the Pack speeds up the whole group on the road"], "pros": ["Fastest leveling", "Great solo", "Traps and crowd control"], "cons": ["Close-range deadzone up to 8 yards", "You have to manage the pet", "Survival talents were buggy on the beta"], "specs": [{"n": "Beast Mastery", "what": "Ranged damage, a lot of damage from the pet"}, {"n": "Marksmanship", "what": "Ranged damage"}, {"n": "Survival", "what": "Melee and ranged, traps"}]}, "rogue": {"armor": "Cloth, leather", "weapons": "Daggers, swords, maces, fist weapons, one-handed axes, thrown", "resource": "Energy and combo points", "lvl": "Average leveling pace", "group": ["Pure melee damage with no raid-wide buffs", "Sap, Blind and Kidney Shot: lots of crowd control", "Kick interrupts dangerous casts"], "pros": ["Very high damage that scales with gear", "Stealth and lots of crowd control", "Freedom of weapon choice"], "cons": ["Heavily gear dependent", "No self-healing", "Only Evasion and Vanish save you"], "specs": [{"n": "Assassination", "what": "Poison damage"}, {"n": "Combat", "what": "Fast weapon attacks"}, {"n": "Subtlety", "what": "Ambushes, bleeds"}]}, "priest": {"armor": "Cloth", "weapons": "Daggers, maces, staves, wands", "resource": "Mana", "lvl": "About 5% slower than average", "group": ["Divine Spirit and Power Word: Fortitude for the whole raid", "Power Infusion empowers an ally", "The group main healer"], "pros": ["Always needed by a group", "Healing or shadow damage", "Many builds"], "cons": ["Cloth only, fragile", "Few ways to move fast", "Haste barely helps spells"], "specs": [{"n": "Discipline", "what": "Healer, shields and absorption"}, {"n": "Holy", "what": "Healer"}, {"n": "Shadow", "what": "Ranged damage"}]}, "shaman": {"armor": "Cloth, leather; mail from level 40; shield", "weapons": "Maces, axes, staves, fist weapons, daggers", "resource": "Mana", "lvl": "Average leveling pace", "group": ["Strength of Earth, Windfury, Flametongue and Grace of Air totems buff their own party", "Tremor Totem removes fear, sleep and charm", "Poison and disease cleansing totems", "Purge removes buffs from enemies"], "pros": ["Strong totems for the group", "Mobile leveling", "Strong new talents"], "cons": ["No hard crowd control", "Mana in long fights", "Tanking still unconfirmed"], "specs": [{"n": "Elemental", "what": "Ranged damage"}, {"n": "Enhancement", "what": "Melee damage. Tanking ability is still in question"}, {"n": "Restoration", "what": "Healer"}]}, "mage": {"armor": "Cloth", "weapons": "Daggers, swords, staves, wands", "resource": "Mana", "lvl": "The fastest leveling, about 8% faster than average (about 12 hours saved)", "group": ["Portals from level 40, teleports from 20", "Food and water for the whole group", "Polymorph: reliable crowd control", "Remove Lesser Curse"], "pros": ["Fastest leveling", "Portals and food for everyone", "Three strong and different trees"], "cons": ["Cloth only, fragile", "Mana runs out fast", "Area damage toned down"], "specs": [{"n": "Arcane", "what": "Burst, lots of mana"}, {"n": "Fire", "what": "Crits and ignites"}, {"n": "Frost", "what": "Damage and control"}]}, "warlock": {"armor": "Cloth", "weapons": "Daggers, swords, staves, wands", "resource": "Mana; Life Tap turns health into mana", "lvl": "Average leveling pace", "group": ["Healthstone and Soulstone", "Ritual of Summoning: gathers the group", "Curse of Tongues slows casting by 60%", "Curse of the Elements: more magic damage on the target"], "pros": ["Self-sufficient: a demon and Life Tap", "Lots of group utility", "Strong damage over time"], "cons": ["Fragile and immobile", "Damage takes time to ramp up", "No blink or sprint"], "specs": [{"n": "Affliction", "what": "Damage from curses and corruption"}, {"n": "Demonology", "what": "Damage through demons"}, {"n": "Destruction", "what": "Direct fire and shadow damage"}]}, "druid": {"armor": "Cloth, leather", "weapons": "Daggers, maces, staves, fist weapons, polearms from level 20", "resource": "Mana; Rage in Bear Form, Energy in Cat Form", "lvl": "About 5% slower than average", "group": ["Leader of the Pack and Moonkin Aura affect the whole raid and stack", "Rebirth: combat resurrection", "Innervate returns mana to a healer", "Removes curses and poisons"], "pros": ["All three roles on one character", "Great mobility", "Combat resurrection"], "cons": ["No block or parry for the bear", "Heal over time effects are harder to track", "Final raid numbers are still unknown"], "specs": [{"n": "Balance", "what": "Ranged damage"}, {"n": "Feral", "what": "Tank (bear) and melee damage (cat)"}, {"n": "Restoration", "what": "Healer, lots of healing over time"}]}};
 const CPROF = {"warrior": [["Leveling: Blacksmithing + Mining", ""], ["Level 60: Engineering + Mining", "A blacksmith dresses in plate and weapons, and many recipes are personal. An engineer gets the grenades and devices a warrior lacks."]], "paladin": [["Leveling: Blacksmithing + Mining", ""], ["Level 60: Protection, Retribution: Engineering + Mining. Holy: Alchemy + Herbalism", "Holy burns a lot of mana: you make your own potions, and the Mana Well in camp replaces Blessing of Wisdom."]], "hunter": [["Leveling: Leatherworking + Skinning", ""], ["Level 60: Engineering + Mining", "A leatherworker makes their own leather and mail and Armor Kits. An engineer makes scopes and guns."]], "rogue": [["Leveling: Leatherworking + Skinning", ""], ["Level 60: Engineering + Mining", "You make your own leather, and the Camp Tent gives rest. Engineering is the main profession for PvP."]], "priest": [["Leveling: Tailoring + Enchanting", ""], ["Level 60: Tailoring + Engineering or Enchanting", "A tailor makes belts with spell power from level 10, an enchanter makes wands with spell power from level 5. Tailored items get disenchanted into materials."]], "shaman": [["Leveling: Leatherworking + Skinning", ""], ["Level 60: Alchemy + Herbalism", "A leatherworker makes spell power gear for Elemental and Restoration and gear for Enhancement. Raids and groups need potions."]], "mage": [["Leveling: Tailoring + Enchanting", ""], ["Level 60: Tailoring + Enchanting; for PvP and big pulls Engineering + Mining", "A tailor provides early spell power gear, and tailored items get disenchanted. An engineer’s grenades hold big groups of enemies in place."]], "warlock": [["Leveling: Tailoring + Enchanting", ""], ["Level 60: Tailoring + Alchemy", "A tailor’s Faction Banner gives Spirit for Life Tap. Alchemy means potions and gold."]], "druid": [["Leveling: Leatherworking + Skinning or Herbalism", ""], ["Level 60: Alchemy + Herbalism", "You gather herbs in Travel Form and drink potions in any form. Mana Well and Incense Candle help Balance and Restoration."]]};   /* recommended profession pairs per class, already in the page language (build.class_profs) */
 const $ = s => document.querySelector(s);
@@ -1605,6 +1672,147 @@ document.querySelectorAll('.menubtn, .morebtn').forEach(b => b.onclick = () => {
 $('#moreClose').onclick = () => dlg.close();
 dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.toc a')) dlg.close(); });
 
+/* ---------- Picker: race and class (on the home page until Oct 25; class and race pages link tools/#pick=…) ---------- */
+function facName(f) { return f === 'alliance' ? 'Alliance' : 'Horde'; }
+function bi(ru) { return EN[ru] && EN[ru] !== ru ? `${esc(ru)} <span class="en">(${esc(EN[ru])})</span>` : esc(ru); }
+function raceEn(r) { return r.en ? ` <span class="en">/ ${esc(r.en)}</span>` : ''; }
+const tipBox = h => `<div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Tip</span>${h}</p></div>`;
+function face(id, cc, cls = '', title = '') { return `<span class="av ${cls}" style="--cc:${cc}"${title ? ` title="${esc(title)}"` : ''}><img src="${ROOT}assets/art/${id}-face.webp${PV}" width="160" height="160" alt="" loading="lazy" decoding="async"></span>`; }
+function lvlMeter(c) {
+  const p = c.lp || 0, w = Math.min(Math.abs(p) / 12 * 46, 46);
+  const label = p < 0 ? `Faster by ${-p}%` : p > 0 ? `Slower by ${p}%` : 'Average pace';
+  const bar = p ? `<i class="${p > 0 ? 'slow' : ''}" style="${p < 0 ? 'right' : 'left'}:50%;width:${w}%"></i>` : '';
+  return `<span class="lvl"><span>${label}</span><span class="bar" role="img" aria-label="${label}">${bar}</span><span class="scale" aria-hidden="true"><span>faster</span><span>slower</span></span></span>`;
+}
+const state = { f:'all', r:'all', race:'dwarf', cls:'shaman' };
+
+function roleMatch(c, role) { return role === 'all' || c.roles.includes(role); }
+function raceVisible(r) { return state.f === 'all' || r.f === state.f; }
+function roleChips(c) { return c.roles.map(x => `<span class="chip ${state.r === x ? 'on' : ''} ${x.endsWith('?') ? 'q' : ''}">${ri(x)}${ROLE_RU[x]}</span>`).join(''); }
+
+function pickValid() {
+  let r = RC[state.race];
+  if (!raceVisible(r)) { r = RACES.find(raceVisible); state.race = r.id; }
+  if (!r.can[state.cls]) { state.cls = Object.keys(r.can).find(c => roleMatch(CL[c], state.r)) || Object.keys(r.can)[0]; }
+}
+function pickClass(id) {
+  state.cls = id;
+  if (!RC[state.race].can[id]) { const r = RACES.filter(raceVisible).find(x => x.can[id]) || RACES.find(x => x.can[id]); if (r) state.race = r.id; }
+  if (!raceVisible(RC[state.race])) { state.f = 'all'; syncSeg('segF', 'all'); }
+}
+
+function renderMatrix() {
+  let h = '<thead><tr><th scope="col">Race</th>';
+  CLASSES.forEach(c => { h += `<th scope="col" class="${roleMatch(c, state.r) ? '' : 'dim'}${c.id === state.cls ? ' selc' : ''}">${face(c.id, CCOL[c.id])}${esc(c.n)}</th>`; });
+  h += '</tr></thead><tbody>';
+  ['alliance', 'horde'].forEach(f => {
+    const rows = RACES.filter(r => r.f === f && raceVisible(r));
+    if (!rows.length) return;
+    h += `<tr class="fh ${f}"><th colspan="${CLASSES.length + 1}" scope="rowgroup"><span class="f ${f}"></span>${facName(f)}</th></tr>`;
+    rows.forEach(r => {
+      h += `<tr class="${r.id === state.race ? 'rowsel' : ''}"><th scope="row"><span class="rn">${face(RSLUG[r.id], `var(--${r.f})`)}${esc(r.n)}${r.paid ? '<span class="paid">paid</span>' : ''}</span></th>`;
+      CLASSES.forEach(c => {
+        const v = r.can[c.id];
+        const dim = roleMatch(c, state.r) ? '' : ' dim';
+        if (!v) { h += `<td><span class="cell no${dim}" role="img" aria-label="${esc(r.n)} ${esc(c.n)}: not allowed"></span></td>`; return; }
+        const sel = (r.id === state.race && c.id === state.cls) ? ' sel' : '';
+        const label = `${r.n} ${c.n}${v === 'new' ? ', new combination' : ''}`;
+        const mark = '<i><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></i>';
+        h += `<td><button class="cell ${v}${dim}${sel}" style="--cc:${CCOL[c.id]}" data-r="${r.id}" data-c="${c.id}" aria-label="${esc(label)}" aria-pressed="${sel ? 'true' : 'false'}">${mark}</button></td>`;
+      });
+      h += '</tr>';
+    });
+  });
+  const mx = $('#matrix');
+  mx.innerHTML = h + '</tbody>';
+  mx._hc = -1;
+}
+/* Crosshair: the hovered cell lights up its row (CSS) and its column (here) */
+(function () {
+  const mx = document.getElementById('matrix');
+  const mark = i => {
+    if (i === mx._hc) return;
+    mx._hc = i;
+    mx.querySelectorAll('.hcol').forEach(x => x.classList.remove('hcol'));
+    if (i > 0) mx.querySelectorAll(`thead th:nth-child(${i + 1}), tbody tr:not(.fh) > :nth-child(${i + 1})`).forEach(x => x.classList.add('hcol'));
+  };
+  mx.addEventListener('mouseover', e => { const td = e.target.closest('td'); mark(td ? td.cellIndex : -1); });
+  mx.addEventListener('mouseleave', () => mark(-1));
+})();
+
+function renderPickM() {
+  const r = RC[state.race];
+  const races = RACES.filter(raceVisible).map(x => `<button type="button" data-pr="${x.id}" aria-pressed="${x.id === state.race}"><span class="f ${x.f}"></span>${esc(x.n)}</button>`).join('');
+  const cls = CLASSES.filter(c => roleMatch(c, state.r)).map(c => {
+    const v = r.can[c.id];
+    return `<button type="button" data-pc="${c.id}" class="${v ? '' : 'na'}" aria-pressed="${c.id === state.cls}">${esc(c.n)}${v === 'new' ? ' · new' : ''}</button>`;
+  }).join('');
+  $('#pickm').innerHTML = `<div><div class="lbl">1. Race</div><div class="chiprow">${races}</div></div>
+    <div><div class="lbl">2. Class (dashed: not available to this race, tap to switch race)</div><div class="chiprow">${cls}</div></div>`;
+}
+
+function renderDetail() {
+  const r = RC[state.race], c = CL[state.cls], isNew = r.can[c.id] === 'new';
+  const specs = c.specs.map(s => {
+    const hit = state.r !== 'all' && s[2].includes(state.r) ? ' on' : '';
+    return `<div class="card${hit}" style="--cc:${CCOL[c.id]}"><span class="rc">${ri(s[2][0])}</span><b>${bi(s[0])}</b><span>${esc(s[1])}</span></div>`;
+  }).join('');
+  const rac = r.rac.map(x => `<div class="card ab"><span class="abt${x[0] === 'a' ? '' : ' p'}">${x[0] === 'a' ? 'Active' : 'Passive'}</span><b>${bi(x[1])}</b><span>${esc(x[2])}</span></div>`).join('');
+  const text = `${r.name || r.n} ${c.n} (${facName(r.f)})${r.paid ? ', Skyborne pack required' : ''}`;
+  $('#detail').innerHTML = `
+    <div class="d-head">
+      <div class="d-art" aria-hidden="true"><img src="${ROOT}assets/art/${RSLUG[r.id]}-600.webp${PV}" width="600" height="804" alt="" loading="lazy" decoding="async"></div>
+      <div class="d-avs">${face(RSLUG[r.id], `var(--${r.f})`)}${face(c.id, CCOL[c.id])}</div>
+      <div class="d-title"><h3>${esc(r.n)}${raceEn(r)} · ${esc(c.n)}</h3>
+        <div class="chips"><span class="tag ${r.f}">${facName(r.f)}</span>${isNew ? '<span class="tag new">New combination</span>' : ''}${r.paid ? '<span class="tag paid">Paid race</span>' : ''}${roleChips(c)}</div></div>
+    </div>
+    <div class="d-body">
+      <div class="d-cols">
+        <div><h4>Specializations</h4><div class="cards">${specs}</div></div>
+        <div><h4>Racial abilities</h4><div class="cards two">${rac}</div></div>
+      </div>
+      <div class="facts3">
+        <div class="fact"><h4>Leveling</h4>${lvlMeter(c)}</div>
+        <div class="fact"><h4>In raids</h4><span>${esc(c.raid)}.</span></div>
+        <div class="fact"><h4>What’s new</h4><span>${esc(c.forever)}</span></div>
+      </div>
+      ${tipBox(esc(r.tip))}
+      <div class="copyrow">
+        <input id="pickText" readonly value="${esc(text)}" aria-label="My choice">
+        <button class="btn" id="copyBtn"><svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg>Copy my choice</button>
+        <span class="small" id="copyMsg" role="status"></span>
+      </div>
+    </div>`;
+  $('#copyBtn').onclick = () => copyTo($('#pickText').value, $('#copyMsg'), 'Copied');
+}
+
+function render() { pickValid(); renderMatrix(); renderPickM(); renderDetail(); }
+function toPicker() { $('#detail').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest' }); }
+
+document.addEventListener('click', e => {
+  const seg = e.target.closest('#segF button, #segR button');
+  if (seg) {
+    const which = seg.parentElement.id === 'segF' ? 'f' : 'r';
+    state[which] = seg.dataset.v; syncSeg(seg.parentElement.id, seg.dataset.v);
+    render(); return;
+  }
+  const cell = e.target.closest('button.cell');
+  if (cell) { state.race = cell.dataset.r; state.cls = cell.dataset.c; render(); toPicker(); return; }
+  const pr = e.target.closest('[data-pr]');
+  if (pr) { state.race = pr.dataset.pr; render(); return; }
+  const pc = e.target.closest('[data-pc]');
+  if (pc) { pickClass(pc.dataset.pc); render(); return; }
+});
+render();
+/* Deep link from class pages: #pick=shaman or #pick=dwarf.shaman */
+(function () {
+  const m = location.hash.match(/^#pick=(?:(\w+)\.)?(\w+)$/);
+  if (!m || !CL[m[2]]) return;
+  if (m[1] && RC[m[1]] && RC[m[1]].can[m[2]]) { state.race = m[1]; state.cls = m[2]; } else pickClass(m[2]);
+  state.f = 'all'; state.r = 'all'; syncSeg('segF', 'all'); syncSeg('segR', 'all'); render();
+  setTimeout(() => document.getElementById('picker').scrollIntoView(), 0);
+})();
+
 const fromLink = location.hash.startsWith('#team=');
 readHash();
 if (!R.s.some(Boolean)) { const used = { tank: 0, heal: 0, dps: 0 }; R.s = R.s.map((_, i) => newPlayer(i, used)); }
@@ -1686,7 +1894,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js?v=eb6a1e02ee" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=8a2cef2f5c" data-root="../../" defer></script>
+<script src="../../assets/search/search.js?v=730b7e5d73" data-root="../../" defer></script>
 <script src="../../assets/me/me.js?v=a34702d24d" data-root="../../" data-home="../" data-lang="en" data-teaser="Your profile keeps your characters, achievements and frames" data-close="Close" data-page="tools/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>

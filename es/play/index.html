@@ -222,13 +222,23 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .hero .btn:hover { background: #e0c27a; border-color: #e0c27a; }
 .hero .btn.ghost { background: rgba(7,8,10,.35); color: var(--ink); border-color: rgba(241,236,224,.45); }
 .hero .btn.ghost:hover { border-color: #e0c27a; background: rgba(7,8,10,.55); }
-.hdates { list-style: none; margin: 0 auto 34px; padding: 0; max-width: calc(var(--wrap) - 40px); width: calc(100% - 40px); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
-.hdates li { padding: 14px 18px; display: grid; gap: 2px; border: 1px solid rgba(255,255,255,.12); border-radius: 10px; background: rgba(10,12,18,.62); backdrop-filter: blur(6px); }
-.hdates li.past { opacity: .62; }
-.hdates li.cur { border-color: #e0c27a; box-shadow: inset 0 0 0 1px #e0c27a; }
-.hdates b { font-family: var(--font-display); font-weight: var(--display-w); font-size: var(--fs-28); line-height: 1.1; color: var(--ink); font-variant-numeric: lining-nums; }
-.hdates li.cur b { color: var(--ink-gold); }
-.hdates span { color: var(--ink-2); font-size: var(--fs-14); }
+.hd-line { display: flex; flex-wrap: wrap; gap: 2px 0; margin: 2px 0 0; font-size: var(--fs-14); color: var(--ink-2); text-shadow: var(--hero-shadow); font-variant-numeric: lining-nums tabular-nums; }
+.hd-line span { white-space: nowrap; }
+.hd-line span + span::before { content: "·"; margin: 0 10px; color: var(--ink-2); }
+.hd-line b { color: var(--ink); font-weight: 600; }
+.hd-line .past { opacity: .62; }
+.hd-line .cur b { color: var(--ink-gold); }
+/* Fresh: the three newest notes at the bottom of the hero (build.fresh) */
+.hnews { margin: 0 auto 34px; display: grid; gap: 10px; }
+.hnews .hh { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; text-shadow: var(--hero-shadow); }
+.hnews .hh h2 { font-size: var(--fs-22); line-height: 1; color: var(--ink); }
+.hnews .hh a { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-weight: 600; color: var(--ink-gold); }
+.hnews .row3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.nc { display: grid; gap: 4px; align-content: start; padding: 14px 18px 16px; border: 1px solid rgba(255,255,255,.12); border-radius: 10px; background: rgba(10,12,18,.66); backdrop-filter: blur(6px); color: var(--ink); text-decoration: none; transition: border-color .2s; }
+.nc:hover { border-color: #e0c27a; }
+.nc time { font-size: var(--fs-13); color: var(--ink-2); font-variant-numeric: lining-nums tabular-nums; }
+.nc b { font-size: var(--fs-16); font-weight: 600; line-height: 1.3; }
+.nc span { font-size: var(--fs-14); color: var(--ink-2); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
 /* Section heads */
 main { padding-bottom: 40px; }
@@ -240,25 +250,6 @@ section.block { padding-top: 96px; display: grid; gap: 28px; }
 .dcta { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; margin: 48px 0 0; padding: 18px 20px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); }
 .dcta span { max-width: 62ch; }
 section.block { scroll-margin-top: -72px; }
-
-/* Faction banners */
-/* Art cards stand right on the night (Icy Veins), no frame around the section */
-.factions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-.fac { position: relative; overflow: hidden; isolation: isolate; min-height: 340px; padding: 30px 30px 26px; display: grid; align-content: end; gap: 12px; color: var(--ink); border: 1px solid rgba(255,255,255,.1); border-radius: 7px; background: var(--fb); transition: border-color .2s; }
-.fac:hover { border-color: #e0c27a; }
-.fac picture, .fac picture img { position: absolute; top: 0; right: 0; height: 100%; width: 62%; }
-.fac picture { z-index: -2; }
-.fac picture img { object-fit: cover; object-position: 50% 16%; transition: transform .8s var(--ease); }
-.fac:hover picture img { transform: scale(1.03); }
-.fac::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, var(--fb) 40%, color-mix(in srgb, var(--fb) 55%, transparent) 60%, transparent 85%), linear-gradient(0deg, color-mix(in srgb, var(--fb) 80%, transparent), transparent 50%); }
-.fac.alliance { --fb: #0c1830; --fl: #b39352; --fa: #e3c77e; }
-.fac.horde { --fb: #240d0a; --fl: #a8683a; --fa: #e0a36a; }
-
-.fac h3 { font-family: var(--font-display); font-weight: var(--display-w); letter-spacing: .03em; line-height: 1.1; font-size: var(--fs-h2); }
-.fac p { color: var(--ink-2); max-width: 34ch; }
-.fac p b { color: var(--ink); font-weight: 600; }
-.fac .go-f { justify-self: start; margin-top: 6px; min-height: 44px; padding: 0 16px; display: inline-flex; align-items: center; gap: 8px; border: 1px solid color-mix(in srgb, var(--fl) 80%, transparent); border-radius: 7px; background: rgba(5,6,8,.45); color: var(--ink); font-weight: 600; font-size: var(--fs-16); transition: border-color .2s, background-color .2s; }
-.fac .go-f:hover { border-color: var(--fa); background: rgba(5,6,8,.6); }
 
 /* Class roster: tall portraits, the active one expands */
 .roster { display: flex; gap: 8px; height: clamp(460px, 41vw, 580px); }
@@ -315,8 +306,34 @@ section.block { scroll-margin-top: -72px; }
 .stband-art, .stband-art img { position: absolute; inset: 0 0 auto 0; width: 100%; height: var(--band-h, 620px); }
 .stband-art { z-index: -2; }
 .stband-art img { object-fit: cover; object-position: 50% 32%; }
-#stages { --band-h: clamp(620px, 40vw, 820px); }
 #guides.stband { padding-top: 56px; }   /* no art behind the guides band any more */
+
+/* Home: classes and races in one block (tabs), the picker banner, the guides grid lower, a lower campfire */
+#classes.block { padding-top: 72px; }
+#pickban.block { padding-top: 40px; }
+.tabs2 { display: inline-flex; gap: 4px; padding: 4px; border-radius: 10px; background: var(--panel-2); border: 1px solid var(--pline); }
+.tabs2 [role="tab"] { min-height: 40px; padding: 0 18px; border: 0; border-radius: 7px; background: transparent; color: var(--muted); font: inherit; font-weight: 600; font-size: var(--fs-16); cursor: pointer; transition: color .15s, background-color .15s; }
+.tabs2 [role="tab"]:hover { color: var(--fg); }
+.tabs2 [role="tab"][aria-selected="true"] { background: var(--seg-on); color: var(--gold-2); }
+.tpanel { display: grid; gap: 20px; min-width: 0; }
+.tpanel[hidden] { display: none; }
+.tpanel > .tp { color: var(--muted); max-width: 68ch; margin-top: -8px; }
+.pickban { display: grid; grid-template-columns: 200px minmax(0, 1fr) auto; align-items: center; gap: 0 32px; overflow: hidden; padding: 0 30px 0 0; min-height: 150px; color: var(--fg); text-decoration: none; transition: border-color .2s; }
+.pickban:hover { border-color: #e0c27a; }
+.pb-art { align-self: stretch; position: relative; overflow: hidden; background: #0b0d12; }
+.pb-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 16%; }
+.pb-t { display: grid; gap: 6px; padding: 22px 0; }
+.pb-t h2 { font-size: var(--fs-28); line-height: 1.1; }
+.pb-t > span { color: var(--muted); max-width: 60ch; }
+.pickban .btn { white-space: nowrap; }
+#guides .gt { min-height: 150px; }
+#camp { margin-top: 40px; min-height: clamp(380px, 34vw, 560px); }
+#camp .camp-in { padding-bottom: clamp(40px, 5vw, 72px); }
+.fsrc { margin: 0 0 6px; }
+@media (min-width: 1024px) {
+  #classes .roster { height: clamp(380px, 30vw, 440px); }
+  #classes .rr { height: clamp(300px, 22vw, 340px); }
+}
 /* Camp scene near the end: the campfire art in full, fire and embers alive (assets/living/) */
 .camp { position: relative; isolation: isolate; overflow: hidden; margin-top: 56px; min-height: clamp(520px, 56vw, 1200px);   /* close to the art's own 16:9: heads stay in frame on wide screens */ display: grid; align-content: end; color: #f1ece0; background: #08090b; }
 .camp-art, .camp-art img { position: absolute; inset: 0; width: 100%; height: 100%; }
@@ -362,11 +379,6 @@ canvas.fx.on { opacity: 1; }
   linear-gradient(90deg, rgb(var(--hero-fade) / .06) calc(50% - 800px), rgb(var(--hero-fade) / .46) calc(50% - 420px), rgb(var(--hero-fade) / .5) calc(50% + 100px), rgb(var(--hero-fade) / .16) calc(50% + 380px), rgb(var(--hero-fade) / .04) calc(50% + 600px)),
   linear-gradient(180deg, rgb(var(--hero-fade) / .42) 0%, rgb(var(--hero-fade) / 0) 26%, rgb(var(--hero-fade) / 0) 58%, rgb(var(--hero-fade) / .9) 88%, rgb(var(--hero-fade)) 100%); }
 .stband::before { content: ""; position: absolute; inset: 0 0 auto 0; height: var(--band-h, 620px); z-index: -1; background: linear-gradient(180deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 62%, transparent) 12%, color-mix(in srgb, var(--bg) 40%, transparent) 30%, color-mix(in srgb, var(--bg) 55%, transparent) 62%, var(--bg) 100%); }
-:root[data-theme="light"] #stages::before { background: linear-gradient(180deg, #0a0b0d 0%, rgb(10 11 13 / .62) 12%, rgb(10 11 13 / .4) 30%, rgb(10 11 13 / .55) 58%, #0a0b0d 76%,
-  color-mix(in oklab, #0a0b0d, var(--bg) 6%) 80.8%, color-mix(in oklab, #0a0b0d, var(--bg) 22%) 85.6%, color-mix(in oklab, #0a0b0d, var(--bg) 52%) 90.4%,
-  color-mix(in oklab, #0a0b0d, var(--bg) 82%) 95.2%, var(--bg) 100%); }   /* light: the home hero runs on into the road at night; the paper comes under the stage panel */
-:root[data-theme="light"] #stages > .wrap > .sec-head, :root[data-theme="light"] #stages > .wrap > .sec-head :is(p, .src) { color: var(--ink); }
-:root[data-theme="light"] #stages .stiles { --pline: rgba(255,255,255,.08); background: rgba(15,18,26,.9); box-shadow: 0 18px 48px rgba(0,0,0,.35); }
 .stband .wrap { display: grid; gap: 20px; }
 /* page-level grids: one column that may shrink, so a long word or a wide field never pushes past the screen edge */
 section.block, .hero-in, .chero-in, .thero-in, .stband .wrap { grid-template-columns: minmax(0, 1fr); }
@@ -379,7 +391,6 @@ section.block, .hero-in, .chero-in, .thero-in, .stband .wrap { grid-template-col
 .stile picture { z-index: -2; }
 .stile img { object-fit: cover; object-position: 50% 22%; filter: saturate(.85) brightness(.78); transition: filter .3s, transform .6s var(--ease); }
 .stile::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(6,8,12,0) 25%, rgba(6,8,12,.9) 100%); }
-main > .stband:first-child .stile::after { box-shadow: inset 0 1px 0 var(--hero-edge); }   /* the first tiles pick up the hero light; on ::after, since the art covers the tile */
 .stile:hover img { filter: none; transform: scale(1.04); }
 .stile[aria-selected="true"] { border-color: #e0c27a; box-shadow: inset 0 0 0 1px #e0c27a; }
 .stile[aria-selected="true"] img { filter: none; }
@@ -779,7 +790,6 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .journey { grid-template-columns: 1fr; }
   .me { position: static; }
   .stiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .factions { grid-template-columns: 1fr; }
   .ttiles, .ttiles.t4 { grid-template-columns: 1fr; }
   .ttile { min-height: 160px; }
 }
@@ -828,15 +838,27 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .hero h1 { font-size: var(--fs-hero); }
   .cta { width: 100%; }
   .cta .btn { flex: 1 1 140px; padding: 0 12px; }
-  .hdates { margin-bottom: 22px; width: calc(100% - 32px); gap: 6px; }
-  .hdates li { padding: 10px 10px; }
-  .hdates b { font-size: var(--fs-22); }
-  .hdates span { font-size: var(--fs-13); line-height: 1.35; }
+  .hnews { margin-bottom: 20px; gap: 6px; }
+  .hnews .row3 { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .nc { padding: 11px 14px; }
+  .nc span { display: none; }
+  .hd-line { column-gap: 18px; }
+  .hd-line span + span::before { content: none; }   /* the line wraps on a phone: no dot at the start of the second row */
+  #classes.block { padding-top: 48px; }
+  #pickban.block { padding-top: 28px; }
+  .sec-head .row:has(.tabs2) { align-items: center; }
+  .pickban { grid-template-columns: 96px minmax(0, 1fr); gap: 0 16px; padding: 0 16px 0 0; min-height: 0; }
+  .pb-t { padding: 16px 0; gap: 4px; }
+  .pb-t h2 { font-size: var(--fs-22); }
+  .pb-t > span { font-size: var(--fs-14); }
+  .pickban .btn { grid-column: 1 / -1; margin: 0 0 16px 16px; justify-self: start; }
+  #guides .gt { min-height: 118px; }
+  #guides .gt span { display: none; }
+  #camp { min-height: 520px; }
+  .fsrc + .fmap { display: flex; flex-wrap: wrap; gap: 4px 20px; }
+  .fsrc + .fmap ul { display: none; }
+  .fsrc + .fmap .fh { margin: 0; }
   section.block { padding-top: 72px; gap: 22px; scroll-margin-top: -48px; }
-  .factions { gap: 10px; }
-  .fac { min-height: 400px; padding: 22px 20px 20px; }
-  .fac picture, .fac picture img { width: 100%; }
-  .fac::before { background: linear-gradient(0deg, var(--fb) 30%, color-mix(in srgb, var(--fb) 60%, transparent) 58%, transparent 85%); }
   .hc, .hc.on { flex-basis: 80%; }
   .hc .info, .rr .hc .info { min-width: 0; padding: 22px 20px 22px; grid-template-columns: minmax(0, 1fr); }
   .hc .info b { font-size: var(--fs-28); hyphens: auto; }
@@ -901,7 +923,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 @media (max-width: 340px) { .topbar .tools { gap: 2px; } .topbar .langbtn { padding: 0 8px; } }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .hc, .hc img, .hc .info, .fac picture img { transition: none; }
+  .hc, .hc img, .hc .info { transition: none; }
 }
 /* Guide pages: hero over art, sticky contents left, frames right; tables become cards on phones */
 /* One hero on every guide page, a scene (.thero) or a portrait band (.ghero): the same height and shade in both themes,
@@ -1030,6 +1052,10 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .pcol { display: grid; gap: 14px; min-width: 0; }
 }
 .psec { padding: 16px 18px; display: grid; gap: 12px; align-content: start; }
+/* stages and my character under the level, radio and timers (journey.src.html) */
+.pjour { margin-top: 48px; display: grid; gap: 20px; }
+.pjour, .pjour .me { scroll-margin-top: calc(var(--top) + 16px); }
+@media (max-width: 719px) { .pjour { margin-top: 36px; } }
 .psec > h2, .phero h2 { margin: 0; font-size: var(--fs-h2); }
 #radio .rdo { border-radius: 10px; }
 .phero { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
@@ -1119,7 +1145,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css?v=eb6a1e02ee" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=8a2cef2f5c" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=730b7e5d73" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/me/me.css?v=a34702d24d" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://gabella.site/wow/es/"},{"@type":"ListItem","position":2,"name":"En el juego","item":"https://gabella.site/wow/es/play/"}]}</script>
 </head>
@@ -1167,7 +1193,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <div class="gmain">
 <div class="pgrid"><div class="pcol">
 <section class="frame psec" id="level" aria-labelledby="hLvl">
-  <div class="phero"><h2 id="hLvl">Nivel</h2><span id="pWho"></span><a href="../#me">Configura tu héroe</a></div>
+  <div class="phero"><h2 id="hLvl">Nivel</h2><span id="pWho"></span><a href="#me">Configura tu héroe</a></div>
   <div class="pchars" id="pChars" role="group" aria-label="Personajes" hidden></div>
   <div class="pfac" id="pFac" role="group" aria-label="Facción"><button type="button" class="pill" data-f="alliance" aria-pressed="false">Alianza</button><button type="button" class="pill" data-f="horde" aria-pressed="false">Horda</button></div>
   <div class="plv"><button type="button" class="lvb" id="lvDown" aria-label="Bajar nivel">−</button><output id="lvOut" aria-live="polite">—</output><button type="button" class="lvb" id="lvUp" aria-label="Subir nivel">+</button></div>
@@ -1187,7 +1213,30 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <ul class="ptl" id="tList" aria-live="polite"></ul>
   <label class="pnotify" id="tNotify" hidden><input type="checkbox"> Avisar cuando la pestaña esté en segundo plano</label>
 </section>
-</div></div>
+</div></div><section class="pjour" id="stages" aria-labelledby="hStages">
+  <div class="sec-head"><h2 id="hStages">Dónde estás ahora</h2><p>Cinco etapas desde la reserva de nombres hasta las bandas. La etapa se elige según la fecha y, si añades tu personaje, la guía busca mazmorras para tu nivel y muestra los beneficios que aportas al grupo.</p></div>
+    <div class="frame stiles" id="stageBar" role="tablist" aria-label="Etapas del juego"></div>
+    <div class="journey">
+      <div class="frame stage" id="stagePanel" role="tabpanel" tabindex="-1"></div>
+      <aside class="frame me" id="me" aria-label="Mi personaje">
+        <div class="me-hero" id="meHero"></div>
+        <details id="meD" open><summary>Configurar personaje</summary>
+          <div class="me-f">
+            <label class="fl">Raza<select id="meRace"></select></label>
+            <label class="fl">Clase<select id="meCls"></select></label>
+            <label class="fl">Rol<select id="meRole"></select></label>
+            <label class="fl">Profesión 1<select id="meP1"></select></label>
+            <label class="fl">Profesión 2<select id="meP2"></select></label>
+            <div class="fl wide"><span id="lmeSec">Profesiones secundarias</span><div class="chiprow" id="meSec" role="group" aria-labelledby="lmeSec"></div></div>
+          </div>
+          <p class="note-s">Se guarda solo en este navegador.</p>
+        </details>
+        <div class="me-out" id="meOut" aria-live="polite"></div>
+        <div class="act"><button type="button" class="btn ghost" id="meReset">Restablecer personaje</button></div>
+      </aside>
+    </div>
+</section>
+
   </div>
 </main>
 
@@ -1213,7 +1262,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <nav class="toc" aria-label="Todas las secciones">
     
     <div class="grp"><div class="gh">Referencia</div><a href="../">Inicio</a><a href="../classes/">Comparativa de clases</a><a href="../races/">Comparativa de razas</a><a href="../guides/leveling/">Subir de nivel 1–60</a><a href="../guides/dungeons/">Mazmorras y bandas</a><a href="../guides/professions/">Profesiones</a><a href="../guides/faq/">FAQ y fechas</a><a href="../guides/news/">Noticias</a><a href="../guides/">Todas las guías</a></div>
-    <div class="grp"><div class="gh">Herramientas</div><a href="../#picker">Selector</a><a href="../tools/#raid">Creador de grupos</a><a href="../tools/">Marcos, comparar, buscar</a><a href="../play/">En el juego</a></div>
+    <div class="grp"><div class="gh">Herramientas</div><a href="../tools/#picker">Selector</a><a href="../tools/#raid">Creador de grupos</a><a href="../tools/">Marcos, comparar, buscar</a><a href="../play/">En el juego</a></div>
     <div class="grp"><div class="gh">Comunidad</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="../roster/">Jugadores</a><a href="../profile/">Mi perfil</a></div>
   </nav>
   <div class="opts">
@@ -1302,7 +1351,7 @@ const P = {"route": {"alliance": [[1, 10, "Humano: Bosque de Elwynn. Enano y Gno
    the faction without a race, the timers and the notification choice live in "gabella-play". */
 const TX = P.tx, MEKEY = 'gabella-wf-me', PKEY = 'gabella-play';
 const rd = k => { try { return JSON.parse(localStorage.getItem(k)) || {}; } catch (e) { return {}; } };
-const wr = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+const wr = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} if (k === MEKEY) dispatchEvent(new CustomEvent('gabella-me', { detail: 'play' })); };
 const ps = Object.assign({ fac: 'alliance', timers: [], notify: false }, rd(PKEY));
 if (!Array.isArray(ps.timers)) ps.timers = [];
 const saveP = () => wr(PKEY, ps);
@@ -1342,7 +1391,7 @@ function renderLvl() {
   box.hidden = !meNow;
   if (meNow) box.innerHTML = cs.length ? cs.map(c => `<button type="button" class="pill" data-c="${c.id}" aria-pressed="${c === cur}"><b>${esc(c.name)}</b>${c.level}</button>`).join('')
     : `<a href="${ROOT}profile/">${esc(TX.addChar)}</a>`;
-  $('#level .phero a').href = meNow ? ROOT + 'profile/' : ROOT + '#me';
+  $('#level .phero a').href = meNow ? ROOT + 'profile/' : '#me';
   $('#pFac').hidden = !!raceF;
   document.querySelectorAll('#pFac button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.f === fac)));
   $('#lvOut').textContent = lv || '—';
@@ -1377,6 +1426,7 @@ addEventListener('keydown', e => {   // + / − on the keyboard: level up or dow
   else if (e.key === '-' || e.key === '_') setLvl((lvOf(rd(MEKEY)) || 2) - 1);
 });
 addEventListener('storage', e => { if (e.key === MEKEY) renderLvl(); });
+addEventListener('gabella-me', e => { if (e.detail !== 'play') renderLvl(); });   // the character form below (journey.src.html)
 renderLvl();
 
 /* A guest gets one line with the login; a signed-in player has the characters in the level block already */
@@ -1502,6 +1552,335 @@ if ('wakeLock' in navigator) {
   document.addEventListener('visibilitychange', () => { if (wantWake && !wl && document.visibilityState === 'visible') lock(); });
 }
 </script>
+<script>
+(() => {
+const CLASSES = [
+  { id:'warrior', n:'Guerrero', s:'Guerrero', roles:['tank','dps'],
+    specs:[['Armas','Daño cuerpo a cuerpo (arma de dos manos)',['dps']],['Furia','Daño cuerpo a cuerpo (dos armas)',['dps']],['Protección','Tanque',['tank']]],
+    lvl:'La subida más lenta, un 12% más larga que la media',
+    lp:12,
+    raid:'Grito de guerra afecta a toda la banda',
+    forever:'Más ira, mejor amenaza contra grupos de objetivos, el talento Weapon Master. Furia y Sed de sangre se han debilitado.' },
+  { id:'paladin', n:'Paladín', roles:['tank','heal','dps'],
+    specs:[['Sagrado','Sanador',['heal']],['Protección','Tanque',['tank']],['Reprensión','Daño cuerpo a cuerpo',['dps']]],
+    lvl:'Ritmo de subida medio',
+    lp:0,
+    raid:'Bendición de los Reyes ahora es básica. Según las listas de la beta, Protección está entre los tanques más fuertes, y Reprensión bajó tras el parche del 15 de octubre.',
+    forever:'Holy Strike desde el nivel 6, Sentencia no consume el sello. Los no-muertos ya pueden ser paladines, así que la clase llega a la Horda.' },
+  { id:'hunter', n:'Cazador', roles:['dps'],
+    specs:[['Bestias','Daño a distancia, mucho daño de la mascota',['dps']],['Puntería','Daño a distancia',['dps']],['Supervivencia','Cuerpo a cuerpo y a distancia, trampas',['dps']]],
+    lvl:'La subida más rápida, un 8% más rápida que la media',
+    lp:-8,
+    raid:'Aura de disparo certero afecta a toda la banda',
+    forever:'Puedes jugar sin mascota, las trampas funcionan en combate y llegan los zorros como familia de mascotas. Supervivencia puede ir cuerpo a cuerpo.' },
+  { id:'rogue', n:'Pícaro', roles:['dps'],
+    specs:[['Asesinato','Daño con venenos',['dps']],['Combate','Ataques rápidos con arma',['dps']],['Sutileza','Emboscadas, sangrados',['dps']]],
+    lvl:'Ritmo de subida medio',
+    lp:0,
+    raid:'Daño cuerpo a cuerpo puro sin beneficios para la banda',
+    forever:'Ya puede usar hachas de una mano. Asesinato se basa en venenos, Sutileza en sangrados y sigilo.' },
+  { id:'priest', n:'Sacerdote', roles:['heal','dps'],
+    specs:[['Disciplina','Sanador, escudos y absorción',['heal']],['Sagrado','Sanador',['heal']],['Sombras','Daño a distancia',['dps']]],
+    lvl:'Un 5% más lenta que la media',
+    lp:5,
+    raid:'Espíritu divino ahora es básico. El daño de Sombras y Peste devoradora (24 s de reutilización) se mejoraron con el parche del 15 de octubre.',
+    forever:'Custodia de miedo y Peste devoradora están disponibles desde el nivel 20 para cualquier raza. Cada raza tiene dos hechizos de sacerdote propios.' },
+  { id:'shaman', n:'Chamán', roles:['heal','dps','tank?'],
+    specs:[['Elemental','Daño a distancia',['dps']],['Mejora','Daño cuerpo a cuerpo. Su capacidad de tanque aún está en duda',['dps','tank?']],['Restauración','Sanador',['heal']]],
+    lvl:'Ritmo de subida medio',
+    lp:0,
+    raid:'Los tótems Fuerza de la tierra, Viento Furioso, Lengua de Fuego y Gracia del aire mejoran a su grupo',
+    forever:'Los enanos ya pueden ser chamanes, así que la clase llega a la Alianza. Ráfaga de lava se mejoró y Elemental subió en las clasificaciones de daño.' },
+  { id:'mage', n:'Mago', roles:['dps'],
+    specs:[['Arcano','Ráfagas, mucho maná',['dps']],['Fuego','Críticos e igniciones',['dps']],['Escarcha','Daño y control',['dps']]],
+    lvl:'La subida más rápida, un 8% más rápida que la media (unas 12 horas de ahorro)',
+    lp:-8,
+    raid:'Portales y comida y agua para todo el grupo',
+    forever:'Fuego recibió Buena racha, Arcano Explosión Arcana, Escarcha Lanza de hielo. Descarga de Pirofrío está disponible desde el nivel 40.' },
+  { id:'warlock', n:'Brujo', roles:['dps'],
+    specs:[['Aflicción','Daño con maldiciones y corrupción',['dps']],['Demonología','Daño a través de demonios',['dps']],['Destrucción','Daño directo de fuego y sombras',['dps']]],
+    lvl:'Ritmo de subida medio',
+    lp:0,
+    raid:'Maestría de las Sombras ahora da un 2–10% de daño de sombras (antes 1–5%)',
+    forever:'Aflicción tiene un nuevo hechizo canalizado, el demonio se queda con Sacrificio demoníaco, Destrucción gana Incinerar y daño en área.' },
+  { id:'druid', n:'Druida', roles:['tank','heal','dps'],
+    specs:[['Equilibrio','Daño a distancia',['dps']],['Combate feral','Tanque (oso) y daño cuerpo a cuerpo (gato)',['tank','dps']],['Restauración','Sanador, mucha sanación en el tiempo',['heal']]],
+    lvl:'Un 5% más lenta que la media',
+    lp:5,
+    raid:'Líder de la manada y Aura de lechúcico lunar afectan a toda la banda y se acumulan',
+    forever:'Cada especialización tiene un rol claro, las formas funcionan con pociones y encantamientos de arma. Puedes ser tanque, sanador y luchador en un solo personaje.' }
+];
+const ROLE_RU = { tank:'Tanque', heal:'Sanador', dps:'Daño', 'tank?':'Tanque (dudoso)' };
+const ri = r => `<svg class="ri" aria-hidden="true"><use href="#i-${r.replace('?','')}"/></svg>`;
+const CCOL = { warrior:'#c79c6e', paladin:'#f58cba', hunter:'#abd473', rogue:'#fff569', priest:'#e8e8e8', shaman:'#2f8cf0', mage:'#40c7eb', warlock:'#8788ee', druid:'#ff7d0a' };
+const BUFF = { warrior:'Grito de guerra', paladin:'Bendición de los Reyes', hunter:'Aura de disparo certero', priest:'Palabra de poder: entereza, Espíritu divino', shaman:'Tótems (Fuerza de la tierra, Viento Furioso, Lengua de Fuego, Gracia del aire)', mage:'Intelecto Arcano, portales, comida y agua', druid:'Marca de lo salvaje, Líder de la manada, Aura de lechúcico lunar' };
+
+const RACES = [
+  { id:'human', n:'Humano', f:'alliance',
+    cls:['warrior','paladin','hunter*','rogue','priest','mage','warlock'],
+    rac:[['a','Will to Survive','Elimina el aturdimiento'],['a','Percepción','Revela enemigos invisibles durante 20 s'],['p','Ruthless','+2% de probabilidad de crítico'],['p','El espíritu humano','+5% de espíritu']],
+    tip:'El espíritu se convierte en sanación para un Sacerdote Sagrado, así que un sacerdote humano es bueno para sanar.' },
+  { id:'dwarf', n:'Enano', f:'alliance',
+    cls:['warrior','paladin','hunter','rogue','priest','shaman*'],
+    rac:[['a','Petraforma','Inmunidad a sangrados, venenos y enfermedades durante 8 s y menos daño físico'],['a','Buscar tesoro','Muestra cofres cercanos'],['p','Earth Fury','+2% de daño crítico y poder de sanación'],['p','Big Game Hunter','+5% de daño contra bestias']],
+    tip:'Petraforma es útil para tanques y en JcJ.' },
+  { id:'nightelf', n:'Elfo de la noche', f:'alliance',
+    cls:['warrior','hunter','rogue','priest','druid'],
+    rac:[['a','Elune’s Light','+10% de probabilidad de crítico durante 15 s'],['a','Fusión de las Sombras','Invisibilidad en el sitio'],['p','Prontitud','+1% de esquiva y +2% de velocidad de carrera'],['p','Espíritu de fuego fatuo','+75% de velocidad de carrera como espíritu']],
+    tip:'La única raza de la Alianza con druida, salvo que elijas Skyborne.' },
+  { id:'gnome', n:'Gnomo', f:'alliance',
+    cls:['warrior','rogue','mage','warlock','priest*'],
+    rac:[['a','Artista del escape','Breve inmunidad a ralentizaciones e inmovilizaciones'],['a','Eureka!','Las próximas 3 habilidades cuestan menos y son un 10% más fuertes'],['p','Mente expansiva','+5% de maná, ira o energía máximos'],['p','Especialización de ingeniería','Los artefactos de ingeniería funcionan de forma más fiable']],
+    tip:'Mente expansiva ayuda sobre todo a las clases de energía.' },
+  { id:'skyA', n:'Skyborne (Alianza)', f:'alliance', paid:true, name:'Skyborne High Order',
+    cls:['warrior','hunter','rogue','mage','druid'],
+    rac:[['a','Walk on Air','Planea hacia abajo durante 10 s, sin daño por caída'],['a','Read Ley Line','+100% de regeneración de salud y maná'],['p','Wind Blessed','+3% de velocidad de ataque y de hechizos'],['p','Elemental Insight','+5% de daño contra elementales']],
+    tip:'Raza de pago: Heroic Pack desde 29,99 $. Empieza en Zephras Isle (niveles 1–12).' },
+  { id:'orc', n:'Orco', f:'horde',
+    cls:['warrior','hunter','rogue','shaman','warlock','mage*'],
+    rac:[['a','Furia sangrienta','+10% de poder de ataque y poder con hechizos durante 15 s'],['a','Shatter Curse','Elimina maldiciones y corrupción, −5% de daño mágico recibido durante 8 s'],['p','Savage','+1% de probabilidad de crítico'],['p','Firmeza','Los aturdimientos duran un 20% menos']],
+    tip:'Furia sangrienta da una potente ventana de daño.' },
+  { id:'undead', n:'No-muerto', f:'horde',
+    cls:['warrior','rogue','mage','priest','warlock','paladin*'],
+    rac:[['a','Voluntad de los Renegados','Elimina hechizos, miedo y sueño'],['a','Canibalizar','Restaura un 35% de salud y maná con el tiempo'],['p','Respiración subacuática','Respira bajo el agua más tiempo'],['p','Touch of the Grave','Probabilidad de drenar salud al atacar']],
+    tip:'Combinación nueva: un paladín para la Horda, donde esta clase no existía antes.' },
+  { id:'tauren', n:'Tauren', f:'horde',
+    cls:['warrior','hunter','shaman','druid'],
+    rac:[['a','Pisotón de guerra','Aturde a los enemigos cercanos durante 2 s'],['a','Cultivo','Cultiva hierbas que se pueden recoger sin Herboristería'],['p','Plainsrunning','La velocidad aumenta mientras corres'],['p','Robustez','+5% de salud y +2% de daño crítico']],
+    tip:'La única raza de la Horda con druida, salvo que elijas Skyborne.' },
+  { id:'troll', n:'Trol', f:'horde',
+    cls:['warrior','hunter','rogue','priest','shaman','mage','warlock*'],
+    rac:[['a','Iracundia','+10% de velocidad de ataque y de hechizos durante 10 s'],['a','Rapid Regeneration','Restaura salud con el tiempo'],['p','Matanza de bestias','+5% de daño contra bestias'],['p','Regeneración','La salud se regenera también en combate']],
+    tip:'Más opciones de clase de la Horda: siete.' },
+  { id:'skyH', n:'Skyborne (Horda)', f:'horde', paid:true, name:'Skyborne Windshaper',
+    cls:['warrior','hunter','rogue','shaman','druid'],
+    rac:[['a','Walk on Air','Planea hacia abajo durante 10 s, sin daño por caída'],['a','Skysight','+10% de velocidad de carrera'],['p','Wind Blessed','+3% de velocidad de ataque y de hechizos'],['p','Elemental Insight','+5% de daño contra elementales']],
+    tip:'Raza de pago: Heroic Pack desde 29,99 $. Solo la Horda puede tener chamán, solo la Alianza mago.' }
+];
+RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
+const CL = Object.fromEntries(CLASSES.map(c => [c.id, c]));
+const RC = Object.fromEntries(RACES.map(r => [r.id, r]));
+const PROFS = [
+  ['alchemy', 'Alquimia', 1, 'Mana Well', 'como Bendición de Sabiduría'],
+  ['blacksmithing', 'Herrería', 1, 'Sharpening Wheel', 'como Fuerza de tótem de la Tierra'],
+  ['enchanting', 'Encantamiento', 1, 'Enchanted Lute', 'como Marca de lo salvaje'],
+  ['engineering', 'Ingeniería', 1, 'Reagent Bot', 'vendedor de componentes, reparaciones en nivel 2'],
+  ['herbalism', 'Herboristería', 1, 'Incense Candle', 'como Intelecto Arcano'],
+  ['leatherworking', 'Peletería', 1, 'Camp Tent', 'más experiencia por descanso'],
+  ['mining', 'Minería', 1, 'Lodestone', 'como Bendición del poderío'],
+  ['skinning', 'Desollando', 1, 'Camp Chair', 'como Aura de lechúcico lunar'],
+  ['tailoring', 'Sastrería', 1, 'Faction Banner', 'como Espíritu divino'],
+  ['cooking', 'Cocina', 0, 'Basic Campfire', 'más huecos para objetos en el campamento'],
+  ['firstaid', 'Primeros auxilios', 0, 'First Aid Kit', 'como Palabra de poder: entereza'],
+  ['fishing', 'Pesca', 0, 'Fish Bowl', 'como Bendición de los Reyes']
+];
+const PR = Object.fromEntries(PROFS.map(p => [p[0], p]));
+const PV = /*PV*/'?v=0119de2a';   // ?v= of the class portraits (build.art_version)
+function facName(f) { return f === 'alliance' ? 'Alianza' : 'Horda'; }
+const lvRange = d => d[1] === d[2] ? String(d[1]) : `${d[1]}–${d[2]}`;
+const nearLvl = (d, lv) => lv >= d[1] - 3 && lv <= d[2] + 3;
+const facOk = (d, f) => !f || !d[6] || d[6] === f;   // Ragefire Chasm and The Stockade open from a capital
+
+
+/* Game stages: f = fact from the sources, t = our tip */
+const SRC = {
+  names: ['Icy Veins: reserva de nombres', 'https://www.icy-veins.com/wow-forever/name-reservation'],
+  names2: ['Team Overpowered: nombres y apellidos', 'https://teamoverpowered.com/forever/guides/name-reservation/'],
+  prof: ['Warcraft Tavern: profesiones', 'https://www.warcrafttavern.com/forever/guides/professions/'],
+  camp: ['Warcraft Tavern: acampada', 'https://www.warcrafttavern.com/forever/guides/camping/'],
+  legacy: ['Blizzard: Legacy', 'https://news.blizzard.com/en-gb/article/24307383'],
+  dung: ['Warcraft Tavern: mazmorras', 'https://www.warcrafttavern.com/forever/guides/dungeons/'],
+  ride: ['Warcraft Tavern: equitación', 'https://www.warcrafttavern.com/forever/guides/riding/'],
+  cwg: ['ClassicWoW.gg: fechas y bandas', 'https://classicwow.gg/forever']
+};
+const STAGES = [
+  { id: 'pre', n: 'Antes del lanzamiento', sub: 'hasta el 04.11', lo: 0, hi: 0,
+    todo: [['f', 'Reserva anticipada de nombres del 27.10 al 03.11 para quienes tengan los packs Heroic, Epic y Collection. Por orden de llegada.'],
+      ['f', 'Puedes reservar hasta tres personajes por cuenta. Un personaje tiene nombre y apellido, y la pareja debe ser única en la región.'],
+      ['f', 'Desde el 04.11 se necesita suscripción o tiempo de juego para jugar.'],
+      ['t', 'Elige tres nombres con apellido, más algunos de reserva, antes del 27.10.']],
+    dnote: 'Las primeras mazmorras abren al nivel 13.',
+    prof: [['f', 'Cada personaje tiene dos profesiones principales y las tres secundarias: Cocina, Primeros auxilios y Pesca.'],
+      ['f', 'Cada profesión coloca su propio objeto de campamento con un beneficio parecido a uno de clase.'],
+      ['t', 'Repartid las profesiones antes: uno se queda Cocina para la hoguera, los demás eligen distintas para que los beneficios del campamento no se repitan.']],
+    legacy: [['f', 'Legacy se abre con tu primer punto: nivel 25, 150 en una profesión (no de recolección) o explorar todo el mapa.'],
+      ['f', 'En el lanzamiento un personaje puede gastar como máximo 16 puntos, el resto va a la ruta de recompensas.']],
+    group: [['t', 'Poneos de acuerdo en una facción y un modo: solo podéis agruparos dentro de un modo, y en JcJ una cuenta tiene una sola facción.'],
+      ['t', 'Monta tu grupo en el creador de grupos: un tanque, un sanador y clases distintas por los beneficios.']],
+    src: ['names', 'names2', 'prof', 'legacy'] },
+  { id: 'first', n: 'Primeros días', sub: 'niveles 1–15', lo: 1, hi: 15,
+    todo: [['f', 'Los Skyborne empiezan en Zephras Isle, niveles 1–12.'],
+      ['f', 'Los talentos se abren al nivel 10, o al 9 con la ventaja de Legacy Talented (con 5 rangos, al 5).'],
+      ['f', 'La mayoría de la comida cocinada da un bonus de experiencia. Se acumula con el campamento y con el Cozy Sleeping Bag.'],
+      ['t', 'Acumula descanso: desconéctate en una posada o en un campamento con tienda.']],
+    prof: [['f', 'La hoguera básica no necesita Cocina y admite 3 objetos. Arde unos 10 minutos, y puedes poner otra a los 5.'],
+      ['f', 'Para recibir los beneficios del campamento, siéntate cerca (/sit) al menos un minuto.'],
+      ['t', 'Empieza con una profesión de recolección desde los primeros niveles: hierbas, mineral y pieles alimentan la fabricación, y 150 en una profesión de fabricación abre Legacy.']],
+    legacy: [['f', 'Aún no hay ventajas: el primer punto llega al nivel 25 o con 150 en una profesión.'],
+      ['t', 'Cuando se abra Legacy, coge primero las ventajas de experiencia y campamento: Well Rested, Field Guide, Permanence. Talented sirve para los alters.']],
+    group: [['t', 'Subid de nivel en la misma zona y montad campamento en cada parada: cinco minutos de hoguera se pagan con beneficios para todo el grupo.'],
+      ['t', 'Formad vuestro primer grupo de cinco hacia el nivel 13–15.']],
+    src: ['camp', 'legacy', 'dung'] },
+  { id: 'dung', n: 'Mazmorras', sub: 'niveles 15–40', lo: 15, hi: 40,
+    todo: [['f', 'La mayor parte de la experiencia de una mazmorra viene de sus cadenas de misiones. Repetirla después da bastante menos experiencia que hacer misiones en el mundo.'],
+      ['f', 'Cada objeto que cae desbloquea su apariencia de transfiguración para todos los que puedan llevarlo, aunque se lo quede otro.'],
+      ['f', 'Legacy se abre al nivel 25.'],
+      ['t', 'Recoged primero las misiones de la mazmorra en grupo y entrad cuando todos las tengan.']],
+    prof: [['f', 'Cocina 140 da 5 huecos de campamento, 220 da 10.'],
+      ['f', 'Cada profesión fabrica tres objetos de campamento, uno por nivel. Las fuentes no coinciden en la habilidad necesaria para los niveles 2 y 3.'],
+      ['t', 'Si el nivel 25 aún queda lejos, sube una profesión de fabricación a 150: Legacy se abrirá antes.']],
+    legacy: [['f', 'Cada desafío da 1 punto. Hay 65: clases 27, profesiones 18, JcJ 12, mazmorras 3, bandas 3, aventura 2.'],
+      ['t', 'Merecen la pena Reagent Economy (sin componentes comprados para habilidades) y Field Guide (menos reutilización de los objetos de campamento).']],
+    group: [['f', 'Una mazmorra está pensada para 5 jugadores: un tanque, un sanador y tres de daño.'],
+      ['f', 'No hay escalado de nivel, así que un amigo que vaya muy por detrás lo pasará mal en la mazmorra.'],
+      ['t', 'Mantened los niveles parejos: quien se quede atrás se pone al día con misiones, y las mazmorras las hacéis juntos.']],
+    src: ['dung', 'camp', 'legacy'] },
+  { id: 'path', n: 'Camino al 60', sub: 'niveles 40–60', lo: 40, hi: 60,
+    todo: [['f', 'Montura al nivel 40 (60% de velocidad), una rápida al 60 (100%). Entrena con el instructor de tu raza.'],
+      ['f', 'Los paladines y los brujos consiguen su montura con misiones de clase.'],
+      ['f', 'Honorable con tu propia facción da un 10% de descuento en el entrenamiento de equitación y en monturas. Según Warcraft Tavern: 100 + 20 de oro en el nivel 40, 1000 + 200 en el 60.'],
+      ['t', 'Ahorra oro para el nivel 40: la equitación será tu mayor gasto camino al 60.']],
+    prof: [['f', 'Cada profesión tiene sus propios objetos de campamento de nivel 2 y 3. El segundo objeto de Ingeniería, Repair Bot, repara el equipo.'],
+      ['t', 'Mantened Cocina 220 en el grupo para un campamento de 10 objetos: para las bandas habrá sitio para todos.']],
+    legacy: [['f', 'Como máximo 16 puntos por personaje, el resto va a la ruta de recompensas: un juguete a los 15, una mascota a los 25, un tabardo a los 40, una montura a los 55.']],
+    group: [['f', 'Las bandas abren el 09.12: Barrow Deeps para 10 jugadores, la Cima Hyjal para 20, Guarida de Onyxia para 40.'],
+      ['t', 'La banda de 10 necesita 10 jugadores: si sois menos, buscad al resto en vuestra hermandad con tiempo.']],
+    src: ['ride', 'prof', 'legacy', 'cwg'] },
+  { id: 'raid', n: '60 y bandas', sub: 'desde el 09.12', lo: 60, hi: 60,
+    todo: [['f', 'El 09.12 abren Barrow Deeps (10 jugadores), la Cima Hyjal (20) y Guarida de Onyxia (40, Marjal Revolcafango).'],
+      ['f', 'Completar cada una de las tres bandas da un punto de Legacy.'],
+      ['f', 'Nuevo campo de batalla 15c15: Darkspear Islands, frente a la costa del Marjal Revolcafango.'],
+      ['t', 'Mientras reunís gente para la banda, haced mazmorras de nivel 60 para conseguir equipo.']],
+    prof: [['f', 'Los beneficios del campamento son algo más débiles que los de clase y no se acumulan con ellos: Bendición de los Reyes da un 10% a todas las estadísticas, el campamento un 8%.'],
+      ['t', 'Montad el campamento en la entrada de la banda: sus beneficios cubren lo que les falta a vuestras clases.']],
+    legacy: [['f', 'Desafíos para el nivel 60: mazmorras 3, bandas 3, JcJ 12. El JcJ tiene rangos con tope semanal y mejoras de equipo por Honor.']],
+    group: [['f', 'Los mismos beneficios de dos jugadores de una clase se solapan; los de clases distintas se acumulan.'],
+      ['t', 'Monta tu banda en el creador de grupos y publica el enlace en el chat.']],
+    src: ['cwg', 'prof', 'legacy'] }
+];
+const ST = Object.fromEntries(STAGES.map(s => [s.id, s]));
+const D_REL = new Date('2026-11-04T23:00:00Z'), D_RAID = new Date('2026-12-09T00:00:00');
+
+/* My character, saved in this browser */
+const RR = ['tank', 'heal', 'dps'];
+function roleOpts(c) { return RR.filter(x => c.roles.includes(x) || (x === 'tank' && c.roles.includes('tank?'))); }
+const MEKEY = 'gabella-wf-me';
+const ME0 = { race: '', cls: '', role: '', lvl: 0, p1: '', p2: '', sec: [] }, me = Object.assign({}, ME0);
+function loadMe() { Object.assign(me, ME0); try { const v = JSON.parse(localStorage.getItem(MEKEY) || '{}'); if (v && typeof v === 'object') Object.keys(me).forEach(k => { if (v[k] !== undefined) me[k] = v[k]; }); } catch (e) {} }
+loadMe();
+function fixMe() {
+  if (!RC[me.race]) me.race = '';
+  if (!CL[me.cls] || (me.race && !RC[me.race].can[me.cls])) me.cls = '';
+  const ro = me.cls ? roleOpts(CL[me.cls]) : [];
+  if (!ro.includes(me.role)) me.role = (me.cls && CL[me.cls].roles.find(r => ro.includes(r))) || ro[0] || '';
+  me.lvl = Math.max(0, Math.min(60, parseInt(me.lvl, 10) || 0));
+  if (!PR[me.p1] || !PR[me.p1][2]) me.p1 = '';
+  if (!PR[me.p2] || !PR[me.p2][2] || me.p2 === me.p1) me.p2 = '';
+  me.sec = Array.isArray(me.sec) ? me.sec.filter(x => PR[x] && !PR[x][2]) : [];
+}
+function saveMe() { try { localStorage.setItem(MEKEY, JSON.stringify(me)); } catch (e) {} dispatchEvent(new CustomEvent('gabella-me', { detail: 'journey' })); }
+const meSet = () => !!(me.race || me.cls || me.lvl);
+let stageSel = null, stageAuto = true;
+function autoStage() {
+  const now = new Date();
+  if (now < D_REL) return ['pre', 'Según la fecha: antes del lanzamiento del 04.11.'];
+  if (me.lvl) return [me.lvl < 15 ? 'first' : me.lvl < 40 ? 'dung' : me.lvl < 60 ? 'path' : 'raid', 'Según el nivel de tu personaje.'];
+  if (now >= D_RAID) return ['raid', 'Según la fecha: las bandas están abiertas.'];
+  return [now < new Date('2026-11-11T00:00:00') ? 'first' : 'dung', 'Según la fecha. Añade el nivel de tu personaje y la etapa lo seguirá.'];
+}
+const START = { pre: 'hero_dawn-960', first: 'hero_campfire-960', dung: 'warlock-360', path: 'hunter-360', raid: 'paladin-360' };
+const ARTV = /*ARTV*/{"hero_campfire-960.avif":"?v=93981d6a","hero_campfire-960.webp":"?v=5aa0e1b2","hero_dawn-960.avif":"?v=447302fd","hero_dawn-960.webp":"?v=b2d0d95b"};   // ?v= of the scene arts, filled in by build.art_version (same names, redrawn pictures)
+const pic = f => `<picture><source type="image/avif" srcset="${ROOT}assets/art/${f}.avif${ARTV[f + '.avif'] || PV}"><img src="${ROOT}assets/art/${f}.webp${ARTV[f + '.webp'] || PV}" alt="" loading="lazy" decoding="async"></picture>`;
+const tipL = () => '<span class="tl">Consejo</span>';
+function liC(x) { return x[0] === 't' ? `<li class="tip">${tipL()}${esc(x[1])}</li>` : `<li>${esc(x[1])}</li>`; }
+function dLi(d) {
+  const mine = me.lvl && nearLvl(d, me.lvl);
+  return `<li class="${mine ? 'mine' : ''}"><b>${esc(d[0])}</b><span class="lvl${mine ? ' gold' : ''}">${lvRange(d)}</span><span class="z">${esc(d[3])}${d[4] ? ' · <i>nuevo</i>' : ''}${mine ? '<span class="sr"> · para tu nivel</span>' : ''}</span></li>`;
+}
+function renderStage() {
+  const [auto, why] = autoStage();
+  if (stageAuto) stageSel = auto;
+  const s = ST[stageSel];
+  $('#stageBar').innerHTML = STAGES.map(x => `<button type="button" class="stile" role="tab" id="tab-${x.id}" data-st="${x.id}" aria-controls="stagePanel" aria-selected="${x.id === stageSel}" tabindex="${x.id === stageSel ? 0 : -1}">${pic(START[x.id])}<b>${esc(x.n)}</b><span class="lv">${esc(x.sub)}${x.id === auto ? ' · <span class="now">ahora</span>' : ''}</span></button>`).join('');
+  let ds;
+  if (s.id === 'pre') ds = DUNGEONS.filter(d => d[1] <= 15);
+  else ds = DUNGEONS.filter(d => d[1] <= s.hi && d[2] >= s.lo);
+  if (me.lvl && s.lo <= me.lvl && me.lvl <= Math.max(s.hi, 1)) ds = ds.filter(d => nearLvl(d, me.lvl)).concat(ds.filter(d => !nearLvl(d, me.lvl)));
+  const MAXD = 6, extra = ds.length - MAXD;
+  let k = 0;
+  const steps = s.todo.map(x => x[0] === 't'
+    ? `<li class="tip"><p>${tipL()}${esc(x[1])}</p></li>`
+    : `<li><span class="n">${++k}</span><p>${esc(x[1])}</p></li>`).join('');
+  $('#stagePanel').setAttribute('aria-labelledby', 'tab-' + s.id);
+  $('#stagePanel').innerHTML = `<div class="st-head"><div class="t"><h3>${esc(s.n)}</h3><span class="when">${esc(s.sub)}</span></div><p class="why">${stageAuto ? esc(why) : 'Etapa elegida a mano.'}</p></div>
+    <ol class="steps-c">${steps}</ol>
+    <div class="st-cols">
+      <div><h4>Mazmorras para este nivel</h4>${s.dnote ? `<p class="small" style="margin:-4px 0 10px">${esc(s.dnote)}</p>` : ''}<ul class="dlist">${ds.slice(0, MAXD).map(dLi).join('')}</ul>
+        <a class="more-l" href="${HOME}guides/dungeons/">${extra > 0 ? `Más mazmorras en la tabla: ${extra}` : 'Las 35 mazmorras'}<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+      <div style="display:grid;gap:24px;align-content:start"><div><h4>Profesiones y campamento</h4><ul class="clean">${s.prof.map(liC).join('')}</ul></div>
+        <div><h4>Ventajas de Legacy</h4><ul class="clean">${s.legacy.map(liC).join('')}</ul></div></div>
+    </div>
+    <div class="gtip"><h4 style="margin:0 0 10px;font-size:var(--fs-16)">Consejos para el grupo</h4><ul class="clean">${s.group.map(liC).join('')}</ul></div>
+    <p class="st-src"><span>Fuentes:</span>${s.src.map(k2 => `<a href="${SRC[k2][1]}" target="_blank" rel="noopener">${esc(SRC[k2][0])}</a>`).join('')}</p>`;
+}
+function optList(items, cur, none) { return `<option value="">${esc(none)}</option>` + items.map(([v, t]) => `<option value="${v}"${v === cur ? ' selected' : ''}>${esc(t)}</option>`).join(''); }
+function renderMe() {
+  fixMe();
+  const races = f => RACES.filter(r => r.f === f).map(r => `<option value="${r.id}"${r.id === me.race ? ' selected' : ''}>${esc(r.n)}</option>`).join('');
+  $('#meRace').innerHTML = `<option value="">Sin elegir</option><optgroup label="${facName('alliance')}">${races('alliance')}</optgroup><optgroup label="${facName('horde')}">${races('horde')}</optgroup>`;
+  const cls = (me.race ? Object.keys(RC[me.race].can) : CLASSES.map(c => c.id)).map(id => [id, CL[id].n]);
+  $('#meCls').innerHTML = optList(cls, me.cls, 'Sin elegir');
+  $('#meRole').innerHTML = me.cls ? roleOpts(CL[me.cls]).map(x => `<option value="${x}"${x === me.role ? ' selected' : ''}>${ROLE_RU[x]}</option>`).join('') : `<option value="">Elige primero una clase</option>`;
+  $('#meRole').disabled = !me.cls;
+  const prim = PROFS.filter(p => p[2]);
+  $('#meP1').innerHTML = optList(prim.filter(p => p[0] !== me.p2).map(p => [p[0], p[1]]), me.p1, 'Ninguno');
+  $('#meP2').innerHTML = optList(prim.filter(p => p[0] !== me.p1).map(p => [p[0], p[1]]), me.p2, 'Ninguno');
+  $('#meSec').innerHTML = PROFS.filter(p => !p[2]).map(p => `<button type="button" data-sec="${p[0]}" aria-pressed="${me.sec.includes(p[0])}">${esc(p[1])}</button>`).join('');
+  const who = [me.race ? RC[me.race].n : '', me.cls ? CL[me.cls].n : ''].filter(Boolean).join(' · ');
+  const sub = me.cls ? [ROLE_RU[me.role], me.race ? facName(RC[me.race].f) : ''].filter(Boolean).join(' · ') : 'Elige raza, clase y nivel abajo';
+  const hero = $('#meHero');
+  hero.style.setProperty('--cc', me.cls ? CCOL[me.cls] : '#c9a54a');
+  hero.innerHTML = pic(me.cls ? `${me.cls}-600` : 'hero_campfire-960') + (me.lvl ? `<span class="lvb" aria-label="Nivel ${me.lvl}">${me.lvl}</span>` : '')
+    + `<span class="k">Mi personaje</span><b>${who ? esc(who) : 'Aún no creado'}</b><span class="s">${esc(sub)}</span>`;
+  let out = '';
+  if (meSet()) {
+    const b = [];
+    if (me.cls) b.push(BUFF[me.cls] ? `<li><span class="bi" style="--cc:${CCOL[me.cls]}"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></span><span><b>${esc(CL[me.cls].n)}:</b> ${esc(BUFF[me.cls])}</span></li>` : `<li><span class="bi" style="--cc:${CCOL[me.cls]}"><svg class="ico" aria-hidden="true"><use href="#i-dps"/></svg></span><span>${esc(CL[me.cls].n)}: sin beneficio de grupo, daño puro.</span></li>`);
+    [me.p1, me.p2, ...me.sec].filter(Boolean).forEach(id => { const p = PR[id]; b.push(`<li><span class="bi"><svg class="ico" aria-hidden="true"><use href="#i-fire"/></svg></span><span><b>${esc(p[3])}</b> <span class="m">· ${esc(p[1])}</span><br>${esc(p[4])}</span></li>`); });
+    if (!b.length) b.push('<li><span class="bi"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></span><span>Elige una clase y profesiones para ver tus beneficios.</span></li>');
+    out += `<div><h4>Qué aportas al grupo</h4><ul class="buffs">${b.join('')}</ul></div>`;
+    if (me.lvl) {
+      const ds = DUNGEONS.filter(d => nearLvl(d, me.lvl) && facOk(d, me.race && RC[me.race].f));
+      out += `<div><h4>Mazmorras para tu nivel</h4>` + (ds.length ? `<ul class="dlist">${ds.slice(0, 4).map(dLi).join('')}</ul>` : '<p class="small">Las primeras mazmorras empiezan al nivel 13.</p>')
+        + `<a class="more-l" href="${HOME}guides/dungeons/">${ds.length > 4 ? `Más mazmorras en la tabla: ${ds.length - 4}` : 'Tabla de mazmorras'}<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>`;
+    }
+  }
+  $('#meOut').innerHTML = out;
+  $('#meReset').disabled = !meSet() && !me.p1 && !me.p2 && !me.sec.length;
+}
+function renderJourney() { renderMe(); renderStage(); }
+function meChanged() { fixMe(); saveMe(); stageAuto = true; renderJourney(); }
+$('#meRace').addEventListener('change', e => { me.race = e.target.value; meChanged(); });
+$('#meCls').addEventListener('change', e => { me.cls = e.target.value; if (me.cls && !me.race) { const r = RACES.find(x => x.can[me.cls] && !x.paid); if (r) me.race = r.id; } meChanged(); });
+$('#meRole').addEventListener('change', e => { me.role = e.target.value; meChanged(); });
+$('#meP1').addEventListener('change', e => { me.p1 = e.target.value; meChanged(); });
+$('#meP2').addEventListener('change', e => { me.p2 = e.target.value; meChanged(); });
+$('#meSec').addEventListener('click', e => { const b = e.target.closest('[data-sec]'); if (!b) return; const id = b.dataset.sec; me.sec = me.sec.includes(id) ? me.sec.filter(x => x !== id) : me.sec.concat(id); meChanged(); });
+$('#meReset').onclick = () => { Object.assign(me, { race: '', cls: '', role: '', lvl: 0, p1: '', p2: '', sec: [] }); meChanged(); };
+$('#stageBar').addEventListener('click', e => { const b = e.target.closest('[data-st]'); if (!b) return; stageSel = b.dataset.st; stageAuto = false; renderStage(); $('#tab-' + stageSel).focus(); });
+$('#stageBar').addEventListener('keydown', e => {
+  const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key]; if (!k) return;
+  const i = (STAGES.findIndex(s => s.id === stageSel) + k + STAGES.length) % STAGES.length;
+  stageSel = STAGES[i].id; stageAuto = false; renderStage(); const t = $('#tab-' + stageSel); t.focus(); t.scrollIntoView({ block: 'nearest', inline: 'nearest' }); e.preventDefault();
+});
+if (meSet() && matchMedia('(max-width: 980px)').matches) $('#meD').open = false;
+renderJourney();
+setTimeout(() => { const t = $('#tab-' + stageSel), bar = $('#stageBar'); if (t && matchMedia('(max-width: 719px)').matches) bar.scrollLeft += t.getBoundingClientRect().left - bar.getBoundingClientRect().left - 16; }, 0);
+/* The level block above writes the same hero (level, or a profile character): follow it here, and in other tabs */
+addEventListener('gabella-me', e => { if (e.detail !== 'journey') { loadMe(); renderJourney(); } });
+addEventListener('storage', e => { if (e.key === MEKEY) { loadMe(); renderJourney(); } });
+})();
+</script>
 <script src="../../assets/living/living.js?v=0b7ab7756c" defer></script>
 <script>
 (() => {
@@ -1570,7 +1949,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js?v=eb6a1e02ee" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=8a2cef2f5c" data-root="../../" defer></script>
+<script src="../../assets/search/search.js?v=730b7e5d73" data-root="../../" defer></script>
 <script src="../../assets/me/me.js?v=a34702d24d" data-root="../../" data-home="../" data-lang="es" data-teaser="Tu perfil guarda tus personajes, logros y marcos" data-close="Cerrar" data-page="play/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>

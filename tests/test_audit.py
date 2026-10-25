@@ -85,8 +85,8 @@ def test_home_waits_for_the_hero():
 def test_launch_countdown_at_23_utc():
     for lang in LANGS:
         home = page(*lang_dir(lang)) + home_js(lang)   # the page script lives in assets/home/ (build.home_js)
-        assert "rel = new Date('2026-11-04T23:00:00Z')" in home and "const D_REL = new Date('2026-11-04T23:00:00Z')" in home, lang
-        assert 'data-d="2026-11-04T23:00:00Z"' in home, lang
+        assert "rel = new Date('2026-11-04T23:00:00Z')" in home and 'data-d="2026-11-04T23:00:00Z"' in home, lang
+        assert "const D_REL = new Date('2026-11-04T23:00:00Z')" in page(*lang_dir(lang), 'play'), lang   # the game stages live on /play/
     for lang in LANGS:
         faq = page(*lang_dir(lang), 'guides', 'faq')
         assert not re.search(r'(не подтвердила|not yet confirmed|не підтвердила)', faq), lang

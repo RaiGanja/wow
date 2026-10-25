@@ -1,0 +1,234 @@
+<!-- /play/: game stages and my character (on the home page until 25.10). Russian source like index.src.html: build_guides.journey()
+     translates it with the home i18n and puts it under the level, dungeons, radio and timers -->
+<section class="pjour" id="stages" aria-labelledby="hStages">
+  <div class="sec-head"><h2 id="hStages">Где вы сейчас</h2><p>Пять этапов от резерва имён до рейдов. Этап выбирается сам по дате, а если указать персонажа, гид подберёт подземелья под уровень и покажет ваши баффы для группы.</p></div>
+    <div class="frame stiles" id="stageBar" role="tablist" aria-label="Этапы игры"></div>
+    <div class="journey">
+      <div class="frame stage" id="stagePanel" role="tabpanel" tabindex="-1"></div>
+      <aside class="frame me" id="me" aria-label="Мой персонаж">
+        <div class="me-hero" id="meHero"></div>
+        <details id="meD" open><summary>Настроить персонажа</summary>
+          <div class="me-f">
+            <label class="fl">Раса<select id="meRace"></select></label>
+            <label class="fl">Класс<select id="meCls"></select></label>
+            <label class="fl">Роль<select id="meRole"></select></label>
+            <label class="fl">Профессия 1<select id="meP1"></select></label>
+            <label class="fl">Профессия 2<select id="meP2"></select></label>
+            <div class="fl wide"><span id="lmeSec">Вспомогательные профессии</span><div class="chiprow" id="meSec" role="group" aria-labelledby="lmeSec"></div></div>
+          </div>
+          <p class="note-s">Сохраняется только в этом браузере.</p>
+        </details>
+        <div class="me-out" id="meOut" aria-live="polite"></div>
+        <div class="act"><button type="button" class="btn ghost" id="meReset">Сбросить персонажа</button></div>
+      </aside>
+    </div>
+</section>
+<script>
+(() => {
+@@DATA@@
+const PV = /*PV*/'';   // ?v= of the class portraits (build.art_version)
+function facName(f) { return f === 'alliance' ? 'Альянс' : 'Орда'; }
+const lvRange = d => d[1] === d[2] ? String(d[1]) : `${d[1]}–${d[2]}`;
+const nearLvl = (d, lv) => lv >= d[1] - 3 && lv <= d[2] + 3;
+const facOk = (d, f) => !f || !d[6] || d[6] === f;   // Ragefire Chasm and The Stockade open from a capital
+
+
+/* Game stages: f = fact from the sources, t = our tip */
+const SRC = {
+  names: ['Icy Veins: резерв имён', 'https://www.icy-veins.com/wow-forever/name-reservation'],
+  names2: ['Team Overpowered: имена и фамилии', 'https://teamoverpowered.com/forever/guides/name-reservation/'],
+  prof: ['Warcraft Tavern: профессии', 'https://www.warcrafttavern.com/forever/guides/professions/'],
+  camp: ['Warcraft Tavern: лагерь', 'https://www.warcrafttavern.com/forever/guides/camping/'],
+  legacy: ['Blizzard: Legacy', 'https://news.blizzard.com/en-gb/article/24307383'],
+  dung: ['Warcraft Tavern: подземелья', 'https://www.warcrafttavern.com/forever/guides/dungeons/'],
+  ride: ['Warcraft Tavern: верховая езда', 'https://www.warcrafttavern.com/forever/guides/riding/'],
+  cwg: ['ClassicWoW.gg: даты и рейды', 'https://classicwow.gg/forever']
+};
+const STAGES = [
+  { id: 'pre', n: 'До старта', sub: 'до 04.11', lo: 0, hi: 0,
+    todo: [['f', 'Ранняя резервация имён 27.10 – 03.11 для владельцев наборов Heroic, Epic и Collection. Кто первым пришёл, тот и занял.'],
+      ['f', 'Можно занять до трёх персонажей на аккаунт. У персонажа имя и фамилия, уникальным должно быть их сочетание в пределах региона.'],
+      ['f', 'С 04.11 для игры нужна подписка или игровое время.'],
+      ['t', 'Придумайте по три имени с фамилией и запасные варианты до 27.10.']],
+    dnote: 'Первые подземелья доступны с 13 уровня.',
+    prof: [['f', 'На персонажа две основные профессии и все три вспомогательные: Кулинария, Первая помощь и Рыбалка.'],
+      ['f', 'Каждая профессия ставит в лагерь свой объект с баффом, похожим на бафф класса.'],
+      ['t', 'Распределите профессии заранее: один берёт Кулинарию ради костра, у остальных разные, чтобы баффы лагеря не повторялись.']],
+    legacy: [['f', 'Legacy открывается с первым очком: 25 уровень, 150 в профессии (не сбор) или исследование всей карты.'],
+      ['f', 'На старте на персонажа можно потратить не больше 16 очков, лишние идут в трек наград.']],
+    group: [['t', 'Договоритесь об одной фракции и одном режиме: группироваться можно только внутри режима, а в PvP на аккаунте одна фракция.'],
+      ['t', 'Соберите состав в конструкторе: танк, лекарь и разные классы ради баффов.']],
+    src: ['names', 'names2', 'prof', 'legacy'] },
+  { id: 'first', n: 'Первые дни', sub: 'уровни 1–15', lo: 1, hi: 15,
+    todo: [['f', 'Скайборн начинают на Zephras Isle, это уровни 1–12.'],
+      ['f', 'Таланты открываются с 10 уровня, с перком Legacy Talented с 9 (на 5 рангах с 5).'],
+      ['f', 'Большая часть готовой еды даёт бонус к опыту. Он складывается с лагерем и [[«Уютным спальным мешком»|Cozy Sleeping Bag]].'],
+      ['t', 'Копите отдых: выходите из игры в трактире или у лагеря с палаткой.']],
+    prof: [['f', 'Базовый костёр доступен без Кулинарии и вмещает 3 объекта. Горит около 10 минут, поставить новый можно через 5.'],
+      ['f', 'Чтобы получить баффы лагеря, сядьте рядом (/sit) хотя бы на минуту.'],
+      ['t', 'Берите сбор с первых уровней: травы, руда и шкуры понадобятся ремеслу, а 150 в ремесле открывает Legacy.']],
+    legacy: [['f', 'Перков пока нет: первое очко даст 25 уровень или 150 в профессии.'],
+      ['t', 'Когда откроется Legacy, первыми берите перки опыта и лагеря: Well Rested, Field Guide, Permanence. Talented пригодится твинкам.']],
+    group: [['t', 'Качайтесь в одной зоне и ставьте лагерь на привале: пять минут на костёр окупаются баффами на всю группу.'],
+      ['t', 'Собирайтесь в первую пятёрку к 13–15 уровню.']],
+    src: ['camp', 'legacy', 'dung'] },
+  { id: 'dung', n: 'Подземелья', sub: 'уровни 15–40', lo: 15, hi: 40,
+    todo: [['f', 'Основной опыт за подземелье дают его цепочки заданий. Повторные заходы после них приносят заметно меньше опыта, чем задания в мире.'],
+      ['f', 'Любая выпавшая вещь открывает свой облик для трансмогрификации всем, кто может её надеть, даже если вещь досталась другому.'],
+      ['f', 'На 25 уровне открывается Legacy.'],
+      ['t', 'Соберите задания подземелья всей группой заранее и идите, когда они есть у каждого.']],
+    prof: [['f', 'Кулинария 140 даёт 5 мест в лагере, 220 даёт 10.'],
+      ['f', 'Каждая профессия делает три объекта лагеря, по одному на уровень. Навык для 2 и 3 уровня у источников расходится.'],
+      ['t', 'Если до 25 уровня далеко, доведите ремесло до 150: Legacy откроется раньше.']],
+    legacy: [['f', 'Каждое испытание даёт 1 очко. Всего их 65: классы 27, профессии 18, PvP 12, подземелья 3, рейды 3, приключения 2.'],
+      ['t', 'Ценны Reagent Economy (без покупных реагентов для способностей) и Field Guide (короче откат объектов лагеря).']],
+    group: [['f', 'Подземелье рассчитано на 5 игроков: танк, лекарь и трое с уроном.'],
+      ['f', 'Масштабирования уровней нет, поэтому сильно отставшему другу в подземелье будет тяжело.'],
+      ['t', 'Держите уровни близко: отставшие догоняют на заданиях, подземелья проходите вместе.']],
+    src: ['dung', 'camp', 'legacy'] },
+  { id: 'path', n: 'Путь к 60', sub: 'уровни 40–60', lo: 40, hi: 60,
+    todo: [['f', 'Скакун с 40 уровня (скорость 60%), быстрый с 60 (100%). Учиться у тренера своей расы.'],
+      ['f', 'Паладин и чернокнижник получают скакуна заданиями класса.'],
+      ['f', 'Почёт у своей фракции даёт скидку 10% на обучение езде и скакунов. По Warcraft Tavern: 100 + 20 золотых на 40 уровне, 1000 + 200 на 60.'],
+      ['t', 'Отложите золото к 40 уровню: езда будет самой крупной тратой на пути к 60.']],
+    prof: [['f', 'Объекты лагеря 2 и 3 уровня у каждой профессии свои. У Инженерного дела второй объект Repair Bot чинит экипировку.'],
+      ['t', 'Держите в группе Кулинарию 220 ради лагеря на 10 объектов: к рейду места хватит всем.']],
+    legacy: [['f', 'На персонажа не больше 16 очков, лишние идут в трек наград: игрушка за 15, питомец за 25, табард за 40, скакун за 55.']],
+    group: [['f', 'Рейды откроются 09.12: Barrow Deeps на 10 игроков, Hyjal Summit на 20, Onyxia’s Lair на 40.'],
+      ['t', 'Для 10-местного рейда нужно 10 игроков: если вас меньше, найдите недостающих в гильдии заранее.']],
+    src: ['ride', 'prof', 'legacy', 'cwg'] },
+  { id: 'raid', n: '60 и рейды', sub: 'с 09.12', lo: 60, hi: 60,
+    todo: [['f', '09.12 открываются Barrow Deeps (10 игроков), Hyjal Summit (20) и Onyxia’s Lair (40, Dustwallow Marsh).'],
+      ['f', 'За прохождение каждого из трёх рейдов даётся очко Legacy.'],
+      ['f', 'Новое поле боя 15 на 15: Darkspear Islands у побережья [[Пылевых топей|Dustwallow Marsh]].'],
+      ['t', 'Пока набираете людей на рейд, проходите подземелья 60 уровня за экипировкой.']],
+    prof: [['f', 'Баффы лагеря немного слабее классовых и не складываются с ними: Благословение королей даёт 10% ко всем характеристикам, лагерь 8%.'],
+      ['t', 'Ставьте лагерь у входа в рейд: его баффы закроют то, чего нет у ваших классов.']],
+    legacy: [['f', 'Испытания для 60 уровня: подземелья 3, рейды 3, PvP 12. В PvP звания с недельным лимитом и улучшение экипировки за Честь.']],
+    group: [['f', 'Одинаковые баффы двух игроков одного класса перекрываются, разные классы складываются.'],
+      ['t', 'Соберите рейдовый состав в конструкторе и пошлите ссылку в чат.']],
+    src: ['cwg', 'prof', 'legacy'] }
+];
+const ST = Object.fromEntries(STAGES.map(s => [s.id, s]));
+const D_REL = new Date('2026-11-04T23:00:00Z'), D_RAID = new Date('2026-12-09T00:00:00');
+
+/* My character, saved in this browser */
+const RR = ['tank', 'heal', 'dps'];
+function roleOpts(c) { return RR.filter(x => c.roles.includes(x) || (x === 'tank' && c.roles.includes('tank?'))); }
+const MEKEY = 'gabella-wf-me';
+const ME0 = { race: '', cls: '', role: '', lvl: 0, p1: '', p2: '', sec: [] }, me = Object.assign({}, ME0);
+function loadMe() { Object.assign(me, ME0); try { const v = JSON.parse(localStorage.getItem(MEKEY) || '{}'); if (v && typeof v === 'object') Object.keys(me).forEach(k => { if (v[k] !== undefined) me[k] = v[k]; }); } catch (e) {} }
+loadMe();
+function fixMe() {
+  if (!RC[me.race]) me.race = '';
+  if (!CL[me.cls] || (me.race && !RC[me.race].can[me.cls])) me.cls = '';
+  const ro = me.cls ? roleOpts(CL[me.cls]) : [];
+  if (!ro.includes(me.role)) me.role = (me.cls && CL[me.cls].roles.find(r => ro.includes(r))) || ro[0] || '';
+  me.lvl = Math.max(0, Math.min(60, parseInt(me.lvl, 10) || 0));
+  if (!PR[me.p1] || !PR[me.p1][2]) me.p1 = '';
+  if (!PR[me.p2] || !PR[me.p2][2] || me.p2 === me.p1) me.p2 = '';
+  me.sec = Array.isArray(me.sec) ? me.sec.filter(x => PR[x] && !PR[x][2]) : [];
+}
+function saveMe() { try { localStorage.setItem(MEKEY, JSON.stringify(me)); } catch (e) {} dispatchEvent(new CustomEvent('gabella-me', { detail: 'journey' })); }
+const meSet = () => !!(me.race || me.cls || me.lvl);
+let stageSel = null, stageAuto = true;
+function autoStage() {
+  const now = new Date();
+  if (now < D_REL) return ['pre', 'Выбрано по дате: до релиза 04.11.'];
+  if (me.lvl) return [me.lvl < 15 ? 'first' : me.lvl < 40 ? 'dung' : me.lvl < 60 ? 'path' : 'raid', 'Выбрано по уровню вашего персонажа.'];
+  if (now >= D_RAID) return ['raid', 'Выбрано по дате: рейды открыты.'];
+  return [now < new Date('2026-11-11T00:00:00') ? 'first' : 'dung', 'Выбрано по дате. Укажите уровень персонажа, и этап подстроится.'];
+}
+const START = { pre: 'hero_dawn-960', first: 'hero_campfire-960', dung: 'warlock-360', path: 'hunter-360', raid: 'paladin-360' };
+const ARTV = /*ARTV*/{};   // ?v= of the scene arts, filled in by build.art_version (same names, redrawn pictures)
+const pic = f => `<picture><source type="image/avif" srcset="${ROOT}assets/art/${f}.avif${ARTV[f + '.avif'] || PV}"><img src="${ROOT}assets/art/${f}.webp${ARTV[f + '.webp'] || PV}" alt="" loading="lazy" decoding="async"></picture>`;
+const tipL = () => '<span class="tl">Совет</span>';
+function liC(x) { return x[0] === 't' ? `<li class="tip">${tipL()}${esc(x[1])}</li>` : `<li>${esc(x[1])}</li>`; }
+function dLi(d) {
+  const mine = me.lvl && nearLvl(d, me.lvl);
+  return `<li class="${mine ? 'mine' : ''}"><b>${esc(d[0])}</b><span class="lvl${mine ? ' gold' : ''}">${lvRange(d)}</span><span class="z">${esc(d[3])}${d[4] ? ' · <i>новое</i>' : ''}${mine ? '<span class="sr"> · под ваш уровень</span>' : ''}</span></li>`;
+}
+function renderStage() {
+  const [auto, why] = autoStage();
+  if (stageAuto) stageSel = auto;
+  const s = ST[stageSel];
+  $('#stageBar').innerHTML = STAGES.map(x => `<button type="button" class="stile" role="tab" id="tab-${x.id}" data-st="${x.id}" aria-controls="stagePanel" aria-selected="${x.id === stageSel}" tabindex="${x.id === stageSel ? 0 : -1}">${pic(START[x.id])}<b>${esc(x.n)}</b><span class="lv">${esc(x.sub)}${x.id === auto ? ' · <span class="now">сейчас</span>' : ''}</span></button>`).join('');
+  let ds;
+  if (s.id === 'pre') ds = DUNGEONS.filter(d => d[1] <= 15);
+  else ds = DUNGEONS.filter(d => d[1] <= s.hi && d[2] >= s.lo);
+  if (me.lvl && s.lo <= me.lvl && me.lvl <= Math.max(s.hi, 1)) ds = ds.filter(d => nearLvl(d, me.lvl)).concat(ds.filter(d => !nearLvl(d, me.lvl)));
+  const MAXD = 6, extra = ds.length - MAXD;
+  let k = 0;
+  const steps = s.todo.map(x => x[0] === 't'
+    ? `<li class="tip"><p>${tipL()}${esc(x[1])}</p></li>`
+    : `<li><span class="n">${++k}</span><p>${esc(x[1])}</p></li>`).join('');
+  $('#stagePanel').setAttribute('aria-labelledby', 'tab-' + s.id);
+  $('#stagePanel').innerHTML = `<div class="st-head"><div class="t"><h3>${esc(s.n)}</h3><span class="when">${esc(s.sub)}</span></div><p class="why">${stageAuto ? esc(why) : 'Этап выбран вручную.'}</p></div>
+    <ol class="steps-c">${steps}</ol>
+    <div class="st-cols">
+      <div><h4>Подземелья под уровень</h4>${s.dnote ? `<p class="small" style="margin:-4px 0 10px">${esc(s.dnote)}</p>` : ''}<ul class="dlist">${ds.slice(0, MAXD).map(dLi).join('')}</ul>
+        <a class="more-l" href="${HOME}guides/dungeons/">${extra > 0 ? `Ещё подземелий в таблице: ${extra}` : 'Все 35 подземелий'}<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+      <div style="display:grid;gap:24px;align-content:start"><div><h4>Профессии и лагерь</h4><ul class="clean">${s.prof.map(liC).join('')}</ul></div>
+        <div><h4>Перки Legacy</h4><ul class="clean">${s.legacy.map(liC).join('')}</ul></div></div>
+    </div>
+    <div class="gtip"><h4 style="margin:0 0 10px;font-size:var(--fs-16)">Советы группе</h4><ul class="clean">${s.group.map(liC).join('')}</ul></div>
+    <p class="st-src"><span>Источники:</span>${s.src.map(k2 => `<a href="${SRC[k2][1]}" target="_blank" rel="noopener">${esc(SRC[k2][0])}</a>`).join('')}</p>`;
+}
+function optList(items, cur, none) { return `<option value="">${esc(none)}</option>` + items.map(([v, t]) => `<option value="${v}"${v === cur ? ' selected' : ''}>${esc(t)}</option>`).join(''); }
+function renderMe() {
+  fixMe();
+  const races = f => RACES.filter(r => r.f === f).map(r => `<option value="${r.id}"${r.id === me.race ? ' selected' : ''}>${esc(r.n)}</option>`).join('');
+  $('#meRace').innerHTML = `<option value="">Не выбрана</option><optgroup label="${facName('alliance')}">${races('alliance')}</optgroup><optgroup label="${facName('horde')}">${races('horde')}</optgroup>`;
+  const cls = (me.race ? Object.keys(RC[me.race].can) : CLASSES.map(c => c.id)).map(id => [id, CL[id].n]);
+  $('#meCls').innerHTML = optList(cls, me.cls, 'Не выбран');
+  $('#meRole').innerHTML = me.cls ? roleOpts(CL[me.cls]).map(x => `<option value="${x}"${x === me.role ? ' selected' : ''}>${ROLE_RU[x]}</option>`).join('') : `<option value="">Сначала класс</option>`;
+  $('#meRole').disabled = !me.cls;
+  const prim = PROFS.filter(p => p[2]);
+  $('#meP1').innerHTML = optList(prim.filter(p => p[0] !== me.p2).map(p => [p[0], p[1]]), me.p1, 'Нет');
+  $('#meP2').innerHTML = optList(prim.filter(p => p[0] !== me.p1).map(p => [p[0], p[1]]), me.p2, 'Нет');
+  $('#meSec').innerHTML = PROFS.filter(p => !p[2]).map(p => `<button type="button" data-sec="${p[0]}" aria-pressed="${me.sec.includes(p[0])}">${esc(p[1])}</button>`).join('');
+  const who = [me.race ? RC[me.race].n : '', me.cls ? CL[me.cls].n : ''].filter(Boolean).join(' · ');
+  const sub = me.cls ? [ROLE_RU[me.role], me.race ? facName(RC[me.race].f) : ''].filter(Boolean).join(' · ') : 'Выберите расу, класс и уровень ниже';
+  const hero = $('#meHero');
+  hero.style.setProperty('--cc', me.cls ? CCOL[me.cls] : '#c9a54a');
+  hero.innerHTML = pic(me.cls ? `${me.cls}-600` : 'hero_campfire-960') + (me.lvl ? `<span class="lvb" aria-label="Уровень ${me.lvl}">${me.lvl}</span>` : '')
+    + `<span class="k">Мой персонаж</span><b>${who ? esc(who) : 'Ещё не создан'}</b><span class="s">${esc(sub)}</span>`;
+  let out = '';
+  if (meSet()) {
+    const b = [];
+    if (me.cls) b.push(BUFF[me.cls] ? `<li><span class="bi" style="--cc:${CCOL[me.cls]}"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></span><span><b>${esc(CL[me.cls].n)}:</b> ${esc(BUFF[me.cls])}</span></li>` : `<li><span class="bi" style="--cc:${CCOL[me.cls]}"><svg class="ico" aria-hidden="true"><use href="#i-dps"/></svg></span><span>${esc(CL[me.cls].n)}: без группового баффа, чистый урон.</span></li>`);
+    [me.p1, me.p2, ...me.sec].filter(Boolean).forEach(id => { const p = PR[id]; b.push(`<li><span class="bi"><svg class="ico" aria-hidden="true"><use href="#i-fire"/></svg></span><span><b>${esc(p[3])}</b> <span class="m">· ${esc(p[1])}</span><br>${esc(p[4])}</span></li>`); });
+    if (!b.length) b.push('<li><span class="bi"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></span><span>Выберите класс и профессии, чтобы увидеть баффы.</span></li>');
+    out += `<div><h4>Что вы приносите группе</h4><ul class="buffs">${b.join('')}</ul></div>`;
+    if (me.lvl) {
+      const ds = DUNGEONS.filter(d => nearLvl(d, me.lvl) && facOk(d, me.race && RC[me.race].f));
+      out += `<div><h4>Подземелья под ваш уровень</h4>` + (ds.length ? `<ul class="dlist">${ds.slice(0, 4).map(dLi).join('')}</ul>` : '<p class="small">Первые подземелья с 13 уровня.</p>')
+        + `<a class="more-l" href="${HOME}guides/dungeons/">${ds.length > 4 ? `Ещё подземелий в таблице: ${ds.length - 4}` : 'Таблица подземелий'}<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>`;
+    }
+  }
+  $('#meOut').innerHTML = out;
+  $('#meReset').disabled = !meSet() && !me.p1 && !me.p2 && !me.sec.length;
+}
+function renderJourney() { renderMe(); renderStage(); }
+function meChanged() { fixMe(); saveMe(); stageAuto = true; renderJourney(); }
+$('#meRace').addEventListener('change', e => { me.race = e.target.value; meChanged(); });
+$('#meCls').addEventListener('change', e => { me.cls = e.target.value; if (me.cls && !me.race) { const r = RACES.find(x => x.can[me.cls] && !x.paid); if (r) me.race = r.id; } meChanged(); });
+$('#meRole').addEventListener('change', e => { me.role = e.target.value; meChanged(); });
+$('#meP1').addEventListener('change', e => { me.p1 = e.target.value; meChanged(); });
+$('#meP2').addEventListener('change', e => { me.p2 = e.target.value; meChanged(); });
+$('#meSec').addEventListener('click', e => { const b = e.target.closest('[data-sec]'); if (!b) return; const id = b.dataset.sec; me.sec = me.sec.includes(id) ? me.sec.filter(x => x !== id) : me.sec.concat(id); meChanged(); });
+$('#meReset').onclick = () => { Object.assign(me, { race: '', cls: '', role: '', lvl: 0, p1: '', p2: '', sec: [] }); meChanged(); };
+$('#stageBar').addEventListener('click', e => { const b = e.target.closest('[data-st]'); if (!b) return; stageSel = b.dataset.st; stageAuto = false; renderStage(); $('#tab-' + stageSel).focus(); });
+$('#stageBar').addEventListener('keydown', e => {
+  const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key]; if (!k) return;
+  const i = (STAGES.findIndex(s => s.id === stageSel) + k + STAGES.length) % STAGES.length;
+  stageSel = STAGES[i].id; stageAuto = false; renderStage(); const t = $('#tab-' + stageSel); t.focus(); t.scrollIntoView({ block: 'nearest', inline: 'nearest' }); e.preventDefault();
+});
+if (meSet() && matchMedia('(max-width: 980px)').matches) $('#meD').open = false;
+renderJourney();
+setTimeout(() => { const t = $('#tab-' + stageSel), bar = $('#stageBar'); if (t && matchMedia('(max-width: 719px)').matches) bar.scrollLeft += t.getBoundingClientRect().left - bar.getBoundingClientRect().left - 16; }, 0);
+/* The level block above writes the same hero (level, or a profile character): follow it here, and in other tabs */
+addEventListener('gabella-me', e => { if (e.detail !== 'journey') { loadMe(); renderJourney(); } });
+addEventListener('storage', e => { if (e.key === MEKEY) { loadMe(); renderJourney(); } });
+})();
+</script>

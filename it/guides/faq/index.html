@@ -222,13 +222,23 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .hero .btn:hover { background: #e0c27a; border-color: #e0c27a; }
 .hero .btn.ghost { background: rgba(7,8,10,.35); color: var(--ink); border-color: rgba(241,236,224,.45); }
 .hero .btn.ghost:hover { border-color: #e0c27a; background: rgba(7,8,10,.55); }
-.hdates { list-style: none; margin: 0 auto 34px; padding: 0; max-width: calc(var(--wrap) - 40px); width: calc(100% - 40px); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
-.hdates li { padding: 14px 18px; display: grid; gap: 2px; border: 1px solid rgba(255,255,255,.12); border-radius: 10px; background: rgba(10,12,18,.62); backdrop-filter: blur(6px); }
-.hdates li.past { opacity: .62; }
-.hdates li.cur { border-color: #e0c27a; box-shadow: inset 0 0 0 1px #e0c27a; }
-.hdates b { font-family: var(--font-display); font-weight: var(--display-w); font-size: var(--fs-28); line-height: 1.1; color: var(--ink); font-variant-numeric: lining-nums; }
-.hdates li.cur b { color: var(--ink-gold); }
-.hdates span { color: var(--ink-2); font-size: var(--fs-14); }
+.hd-line { display: flex; flex-wrap: wrap; gap: 2px 0; margin: 2px 0 0; font-size: var(--fs-14); color: var(--ink-2); text-shadow: var(--hero-shadow); font-variant-numeric: lining-nums tabular-nums; }
+.hd-line span { white-space: nowrap; }
+.hd-line span + span::before { content: "·"; margin: 0 10px; color: var(--ink-2); }
+.hd-line b { color: var(--ink); font-weight: 600; }
+.hd-line .past { opacity: .62; }
+.hd-line .cur b { color: var(--ink-gold); }
+/* Fresh: the three newest notes at the bottom of the hero (build.fresh) */
+.hnews { margin: 0 auto 34px; display: grid; gap: 10px; }
+.hnews .hh { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; text-shadow: var(--hero-shadow); }
+.hnews .hh h2 { font-size: var(--fs-22); line-height: 1; color: var(--ink); }
+.hnews .hh a { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-weight: 600; color: var(--ink-gold); }
+.hnews .row3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.nc { display: grid; gap: 4px; align-content: start; padding: 14px 18px 16px; border: 1px solid rgba(255,255,255,.12); border-radius: 10px; background: rgba(10,12,18,.66); backdrop-filter: blur(6px); color: var(--ink); text-decoration: none; transition: border-color .2s; }
+.nc:hover { border-color: #e0c27a; }
+.nc time { font-size: var(--fs-13); color: var(--ink-2); font-variant-numeric: lining-nums tabular-nums; }
+.nc b { font-size: var(--fs-16); font-weight: 600; line-height: 1.3; }
+.nc span { font-size: var(--fs-14); color: var(--ink-2); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
 /* Section heads */
 main { padding-bottom: 40px; }
@@ -240,25 +250,6 @@ section.block { padding-top: 96px; display: grid; gap: 28px; }
 .dcta { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; margin: 48px 0 0; padding: 18px 20px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); }
 .dcta span { max-width: 62ch; }
 section.block { scroll-margin-top: -72px; }
-
-/* Faction banners */
-/* Art cards stand right on the night (Icy Veins), no frame around the section */
-.factions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-.fac { position: relative; overflow: hidden; isolation: isolate; min-height: 340px; padding: 30px 30px 26px; display: grid; align-content: end; gap: 12px; color: var(--ink); border: 1px solid rgba(255,255,255,.1); border-radius: 7px; background: var(--fb); transition: border-color .2s; }
-.fac:hover { border-color: #e0c27a; }
-.fac picture, .fac picture img { position: absolute; top: 0; right: 0; height: 100%; width: 62%; }
-.fac picture { z-index: -2; }
-.fac picture img { object-fit: cover; object-position: 50% 16%; transition: transform .8s var(--ease); }
-.fac:hover picture img { transform: scale(1.03); }
-.fac::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, var(--fb) 40%, color-mix(in srgb, var(--fb) 55%, transparent) 60%, transparent 85%), linear-gradient(0deg, color-mix(in srgb, var(--fb) 80%, transparent), transparent 50%); }
-.fac.alliance { --fb: #0c1830; --fl: #b39352; --fa: #e3c77e; }
-.fac.horde { --fb: #240d0a; --fl: #a8683a; --fa: #e0a36a; }
-
-.fac h3 { font-family: var(--font-display); font-weight: var(--display-w); letter-spacing: .03em; line-height: 1.1; font-size: var(--fs-h2); }
-.fac p { color: var(--ink-2); max-width: 34ch; }
-.fac p b { color: var(--ink); font-weight: 600; }
-.fac .go-f { justify-self: start; margin-top: 6px; min-height: 44px; padding: 0 16px; display: inline-flex; align-items: center; gap: 8px; border: 1px solid color-mix(in srgb, var(--fl) 80%, transparent); border-radius: 7px; background: rgba(5,6,8,.45); color: var(--ink); font-weight: 600; font-size: var(--fs-16); transition: border-color .2s, background-color .2s; }
-.fac .go-f:hover { border-color: var(--fa); background: rgba(5,6,8,.6); }
 
 /* Class roster: tall portraits, the active one expands */
 .roster { display: flex; gap: 8px; height: clamp(460px, 41vw, 580px); }
@@ -315,8 +306,34 @@ section.block { scroll-margin-top: -72px; }
 .stband-art, .stband-art img { position: absolute; inset: 0 0 auto 0; width: 100%; height: var(--band-h, 620px); }
 .stband-art { z-index: -2; }
 .stband-art img { object-fit: cover; object-position: 50% 32%; }
-#stages { --band-h: clamp(620px, 40vw, 820px); }
 #guides.stband { padding-top: 56px; }   /* no art behind the guides band any more */
+
+/* Home: classes and races in one block (tabs), the picker banner, the guides grid lower, a lower campfire */
+#classes.block { padding-top: 72px; }
+#pickban.block { padding-top: 40px; }
+.tabs2 { display: inline-flex; gap: 4px; padding: 4px; border-radius: 10px; background: var(--panel-2); border: 1px solid var(--pline); }
+.tabs2 [role="tab"] { min-height: 40px; padding: 0 18px; border: 0; border-radius: 7px; background: transparent; color: var(--muted); font: inherit; font-weight: 600; font-size: var(--fs-16); cursor: pointer; transition: color .15s, background-color .15s; }
+.tabs2 [role="tab"]:hover { color: var(--fg); }
+.tabs2 [role="tab"][aria-selected="true"] { background: var(--seg-on); color: var(--gold-2); }
+.tpanel { display: grid; gap: 20px; min-width: 0; }
+.tpanel[hidden] { display: none; }
+.tpanel > .tp { color: var(--muted); max-width: 68ch; margin-top: -8px; }
+.pickban { display: grid; grid-template-columns: 200px minmax(0, 1fr) auto; align-items: center; gap: 0 32px; overflow: hidden; padding: 0 30px 0 0; min-height: 150px; color: var(--fg); text-decoration: none; transition: border-color .2s; }
+.pickban:hover { border-color: #e0c27a; }
+.pb-art { align-self: stretch; position: relative; overflow: hidden; background: #0b0d12; }
+.pb-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 16%; }
+.pb-t { display: grid; gap: 6px; padding: 22px 0; }
+.pb-t h2 { font-size: var(--fs-28); line-height: 1.1; }
+.pb-t > span { color: var(--muted); max-width: 60ch; }
+.pickban .btn { white-space: nowrap; }
+#guides .gt { min-height: 150px; }
+#camp { margin-top: 40px; min-height: clamp(380px, 34vw, 560px); }
+#camp .camp-in { padding-bottom: clamp(40px, 5vw, 72px); }
+.fsrc { margin: 0 0 6px; }
+@media (min-width: 1024px) {
+  #classes .roster { height: clamp(380px, 30vw, 440px); }
+  #classes .rr { height: clamp(300px, 22vw, 340px); }
+}
 /* Camp scene near the end: the campfire art in full, fire and embers alive (assets/living/) */
 .camp { position: relative; isolation: isolate; overflow: hidden; margin-top: 56px; min-height: clamp(520px, 56vw, 1200px);   /* close to the art's own 16:9: heads stay in frame on wide screens */ display: grid; align-content: end; color: #f1ece0; background: #08090b; }
 .camp-art, .camp-art img { position: absolute; inset: 0; width: 100%; height: 100%; }
@@ -362,11 +379,6 @@ canvas.fx.on { opacity: 1; }
   linear-gradient(90deg, rgb(var(--hero-fade) / .06) calc(50% - 800px), rgb(var(--hero-fade) / .46) calc(50% - 420px), rgb(var(--hero-fade) / .5) calc(50% + 100px), rgb(var(--hero-fade) / .16) calc(50% + 380px), rgb(var(--hero-fade) / .04) calc(50% + 600px)),
   linear-gradient(180deg, rgb(var(--hero-fade) / .42) 0%, rgb(var(--hero-fade) / 0) 26%, rgb(var(--hero-fade) / 0) 58%, rgb(var(--hero-fade) / .9) 88%, rgb(var(--hero-fade)) 100%); }
 .stband::before { content: ""; position: absolute; inset: 0 0 auto 0; height: var(--band-h, 620px); z-index: -1; background: linear-gradient(180deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 62%, transparent) 12%, color-mix(in srgb, var(--bg) 40%, transparent) 30%, color-mix(in srgb, var(--bg) 55%, transparent) 62%, var(--bg) 100%); }
-:root[data-theme="light"] #stages::before { background: linear-gradient(180deg, #0a0b0d 0%, rgb(10 11 13 / .62) 12%, rgb(10 11 13 / .4) 30%, rgb(10 11 13 / .55) 58%, #0a0b0d 76%,
-  color-mix(in oklab, #0a0b0d, var(--bg) 6%) 80.8%, color-mix(in oklab, #0a0b0d, var(--bg) 22%) 85.6%, color-mix(in oklab, #0a0b0d, var(--bg) 52%) 90.4%,
-  color-mix(in oklab, #0a0b0d, var(--bg) 82%) 95.2%, var(--bg) 100%); }   /* light: the home hero runs on into the road at night; the paper comes under the stage panel */
-:root[data-theme="light"] #stages > .wrap > .sec-head, :root[data-theme="light"] #stages > .wrap > .sec-head :is(p, .src) { color: var(--ink); }
-:root[data-theme="light"] #stages .stiles { --pline: rgba(255,255,255,.08); background: rgba(15,18,26,.9); box-shadow: 0 18px 48px rgba(0,0,0,.35); }
 .stband .wrap { display: grid; gap: 20px; }
 /* page-level grids: one column that may shrink, so a long word or a wide field never pushes past the screen edge */
 section.block, .hero-in, .chero-in, .thero-in, .stband .wrap { grid-template-columns: minmax(0, 1fr); }
@@ -379,7 +391,6 @@ section.block, .hero-in, .chero-in, .thero-in, .stband .wrap { grid-template-col
 .stile picture { z-index: -2; }
 .stile img { object-fit: cover; object-position: 50% 22%; filter: saturate(.85) brightness(.78); transition: filter .3s, transform .6s var(--ease); }
 .stile::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(6,8,12,0) 25%, rgba(6,8,12,.9) 100%); }
-main > .stband:first-child .stile::after { box-shadow: inset 0 1px 0 var(--hero-edge); }   /* the first tiles pick up the hero light; on ::after, since the art covers the tile */
 .stile:hover img { filter: none; transform: scale(1.04); }
 .stile[aria-selected="true"] { border-color: #e0c27a; box-shadow: inset 0 0 0 1px #e0c27a; }
 .stile[aria-selected="true"] img { filter: none; }
@@ -779,7 +790,6 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .journey { grid-template-columns: 1fr; }
   .me { position: static; }
   .stiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .factions { grid-template-columns: 1fr; }
   .ttiles, .ttiles.t4 { grid-template-columns: 1fr; }
   .ttile { min-height: 160px; }
 }
@@ -828,15 +838,27 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .hero h1 { font-size: var(--fs-hero); }
   .cta { width: 100%; }
   .cta .btn { flex: 1 1 140px; padding: 0 12px; }
-  .hdates { margin-bottom: 22px; width: calc(100% - 32px); gap: 6px; }
-  .hdates li { padding: 10px 10px; }
-  .hdates b { font-size: var(--fs-22); }
-  .hdates span { font-size: var(--fs-13); line-height: 1.35; }
+  .hnews { margin-bottom: 20px; gap: 6px; }
+  .hnews .row3 { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .nc { padding: 11px 14px; }
+  .nc span { display: none; }
+  .hd-line { column-gap: 18px; }
+  .hd-line span + span::before { content: none; }   /* the line wraps on a phone: no dot at the start of the second row */
+  #classes.block { padding-top: 48px; }
+  #pickban.block { padding-top: 28px; }
+  .sec-head .row:has(.tabs2) { align-items: center; }
+  .pickban { grid-template-columns: 96px minmax(0, 1fr); gap: 0 16px; padding: 0 16px 0 0; min-height: 0; }
+  .pb-t { padding: 16px 0; gap: 4px; }
+  .pb-t h2 { font-size: var(--fs-22); }
+  .pb-t > span { font-size: var(--fs-14); }
+  .pickban .btn { grid-column: 1 / -1; margin: 0 0 16px 16px; justify-self: start; }
+  #guides .gt { min-height: 118px; }
+  #guides .gt span { display: none; }
+  #camp { min-height: 520px; }
+  .fsrc + .fmap { display: flex; flex-wrap: wrap; gap: 4px 20px; }
+  .fsrc + .fmap ul { display: none; }
+  .fsrc + .fmap .fh { margin: 0; }
   section.block { padding-top: 72px; gap: 22px; scroll-margin-top: -48px; }
-  .factions { gap: 10px; }
-  .fac { min-height: 400px; padding: 22px 20px 20px; }
-  .fac picture, .fac picture img { width: 100%; }
-  .fac::before { background: linear-gradient(0deg, var(--fb) 30%, color-mix(in srgb, var(--fb) 60%, transparent) 58%, transparent 85%); }
   .hc, .hc.on { flex-basis: 80%; }
   .hc .info, .rr .hc .info { min-width: 0; padding: 22px 20px 22px; grid-template-columns: minmax(0, 1fr); }
   .hc .info b { font-size: var(--fs-28); hyphens: auto; }
@@ -901,7 +923,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 @media (max-width: 340px) { .topbar .tools { gap: 2px; } .topbar .langbtn { padding: 0 8px; } }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .hc, .hc img, .hc .info, .fac picture img { transition: none; }
+  .hc, .hc img, .hc .info { transition: none; }
 }
 /* Guide pages: hero over art, sticky contents left, frames right; tables become cards on phones */
 /* One hero on every guide page, a scene (.thero) or a portrait band (.ghero): the same height and shade in both themes,
@@ -1030,6 +1052,10 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .pcol { display: grid; gap: 14px; min-width: 0; }
 }
 .psec { padding: 16px 18px; display: grid; gap: 12px; align-content: start; }
+/* stages and my character under the level, radio and timers (journey.src.html) */
+.pjour { margin-top: 48px; display: grid; gap: 20px; }
+.pjour, .pjour .me { scroll-margin-top: calc(var(--top) + 16px); }
+@media (max-width: 719px) { .pjour { margin-top: 36px; } }
 .psec > h2, .phero h2 { margin: 0; font-size: var(--fs-h2); }
 #radio .rdo { border-radius: 10px; }
 .phero { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
@@ -1119,7 +1145,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../../assets/radio/radio.css?v=eb6a1e02ee" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/search/search.css?v=8a2cef2f5c" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/search/search.css?v=730b7e5d73" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../../assets/me/me.css?v=a34702d24d" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/it/"},{"@type":"ListItem","position":2,"name":"Guide","item":"https://gabella.site/wow/it/guides/"},{"@type":"ListItem","position":3,"name":"FAQ e date","item":"https://gabella.site/wow/it/guides/faq/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"FAQ di WoW Forever: data di uscita, prezzo, abbonamento","description":"Quando esce WoW Forever, se serve un abbonamento, prezzi dei pacchetti, modalità di gioco, quando prenotare un nome e come Forever differisce da Classic Era.","inLanguage":"it","url":"https://gabella.site/wow/it/guides/faq/","dateModified":"2026-10-25","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/it/"},"image":"https://gabella.site/wow/assets/og/faq-it.jpg?v=e174d332"}</script>
@@ -1197,7 +1223,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <section id="more"><div class="sec-head"><h2>Altre guide</h2></div><nav class="ttiles gtiles" aria-label="Altre guide"><a class="ttile" href="../../guides/leveling/"><picture><source type="image/avif" srcset="../../../assets/art/hero_leveling-960.avif?v=2f7da17c 960w, ../../../assets/art/hero_leveling-1440.avif?v=e15c07e2 1440w, ../../../assets/art/hero_leveling-1920.avif?v=6adb3d0c 1920w, ../../../assets/art/hero_leveling-2560.avif?v=36cf966b 2560w" sizes="320px"><img src="../../../assets/art/hero_leveling-960.webp?v=a931a8c0" srcset="../../../assets/art/hero_leveling-960.webp?v=a931a8c0 960w, ../../../assets/art/hero_leveling-1440.webp?v=3a6b73f9 1440w, ../../../assets/art/hero_leveling-1920.webp?v=55173f64 1920w, ../../../assets/art/hero_leveling-2560.webp?v=5ae79d95 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Livellamento 1–60</b><span>Zone per livello, riposo, Legacy e accampamento</span></a><a class="ttile" href="../../guides/leveling-warrior/"><picture><source type="image/avif" srcset="../../../assets/art/warrior-360.avif?v=124b6c10 360w, ../../../assets/art/warrior-600.avif?v=845723ba 600w, ../../../assets/art/warrior-896.avif?v=2d057349 896w, ../../../assets/art/warrior-1344.avif?v=507b74ab 1344w" sizes="320px"><img src="../../../assets/art/warrior-600.webp?v=68ffc7f9" srcset="../../../assets/art/warrior-360.webp?v=d2a085c3 360w, ../../../assets/art/warrior-600.webp?v=68ffc7f9 600w, ../../../assets/art/warrior-896.webp?v=6bc7ed6e 896w, ../../../assets/art/warrior-1344.webp?v=50792336 1344w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Livellare un Guerriero 1–60</b><span>Protezione, talenti per livello e rotazione</span></a><a class="ttile" href="../../guides/leveling-paladin/"><picture><source type="image/avif" srcset="../../../assets/art/paladin-360.avif?v=3b16ed84 360w, ../../../assets/art/paladin-600.avif?v=da57d115 600w, ../../../assets/art/paladin-896.avif?v=ce04ab2e 896w, ../../../assets/art/paladin-1344.avif?v=8d94038d 1344w" sizes="320px"><img src="../../../assets/art/paladin-600.webp?v=742a15f3" srcset="../../../assets/art/paladin-360.webp?v=60d51b81 360w, ../../../assets/art/paladin-600.webp?v=742a15f3 600w, ../../../assets/art/paladin-896.webp?v=d5a54f12 896w, ../../../assets/art/paladin-1344.webp?v=a7286e23 1344w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Livellare un Paladino 1–60</b><span>Castigo, sigilli e talenti per livello</span></a><a class="ttile" href="../../guides/leveling-hunter/"><picture><source type="image/avif" srcset="../../../assets/art/hunter-360.avif?v=26f08c29 360w, ../../../assets/art/hunter-600.avif?v=09cb113d 600w, ../../../assets/art/hunter-896.avif?v=866bd43c 896w, ../../../assets/art/hunter-1344.avif?v=9fe6a839 1344w" sizes="320px"><img src="../../../assets/art/hunter-600.webp?v=d63ff7cf" srcset="../../../assets/art/hunter-360.webp?v=1be23d76 360w, ../../../assets/art/hunter-600.webp?v=d63ff7cf 600w, ../../../assets/art/hunter-896.webp?v=6281161a 896w, ../../../assets/art/hunter-1344.webp?v=6571abd1 1344w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Livellare un Cacciatore 1–60</b><span>Affinità Animale, animale e talenti</span></a><a class="ttile" href="../../guides/leveling-rogue/"><picture><source type="image/avif" srcset="../../../assets/art/rogue-360.avif?v=1044ff82 360w, ../../../assets/art/rogue-600.avif?v=937d3cdc 600w, ../../../assets/art/rogue-896.avif?v=e7226468 896w, ../../../assets/art/rogue-1344.avif?v=583c717d 1344w" sizes="320px"><img src="../../../assets/art/rogue-600.webp?v=9e2011b7" srcset="../../../assets/art/rogue-360.webp?v=5a7561d6 360w, ../../../assets/art/rogue-600.webp?v=9e2011b7 600w, ../../../assets/art/rogue-896.webp?v=c6bcff39 896w, ../../../assets/art/rogue-1344.webp?v=0f42ccc1 1344w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Livellare un Ladro 1–60</b><span>Combattimento, veleni e talenti per livello</span></a><a class="ttile" href="../../guides/leveling-priest/"><picture><source type="image/avif" srcset="../../../assets/art/priest-360.avif?v=401407ed 360w, ../../../assets/art/priest-600.avif?v=72b1618d 600w, ../../../assets/art/priest-896.avif?v=6b9dae93 896w, ../../../assets/art/priest-1344.avif?v=2e8c427a 1344w" sizes="320px"><img src="../../../assets/art/priest-600.webp?v=469d21d4" srcset="../../../assets/art/priest-360.webp?v=a76cdc74 360w, ../../../assets/art/priest-600.webp?v=469d21d4 600w, ../../../assets/art/priest-896.webp?v=f12f085f 896w, ../../../assets/art/priest-1344.webp?v=42186e9d 1344w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Livellare un Sacerdote 1–60</b><span>Ombra, bacchetta e talenti per livello</span></a><a class="ttile" href="../../guides/leveling-shaman/"><picture><source type="image/avif" srcset="../../../assets/art/shaman-360.avif?v=b289e5e3 360w, ../../../assets/art/shaman-600.avif?v=201b2ba6 600w, ../../../assets/art/shaman-896.avif?v=3a3f5768 896w, ../../../assets/art/shaman-1344.avif?v=615e9541 1344w" sizes="320px"><img src="../../../assets/art/shaman-600.webp?v=90557c05" srcset="../../../assets/art/shaman-360.webp?v=756495a2 360w, ../../../assets/art/shaman-600.webp?v=90557c05 600w, ../../../assets/art/shaman-896.webp?v=d673306f 896w, ../../../assets/art/shaman-1344.webp?v=d6d4cd1f 1344w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Livellare uno Sciamano 1–60</b><span>Potenziamento, totem e talenti</span></a><a class="ttile" href="../../guides/leveling-warlock/"><picture><source type="image/avif" srcset="../../../assets/art/warlock-360.avif?v=5d3b8b46 360w, ../../../assets/art/warlock-600.avif?v=34ababe9 600w, ../../../assets/art/warlock-896.avif?v=0685be38 896w, ../../../assets/art/warlock-1344.avif?v=74b78249 1344w" sizes="320px"><img src="../../../assets/art/warlock-600.webp?v=5f1aab02" srcset="../../../assets/art/warlock-360.webp?v=19c8a350 360w, ../../../assets/art/warlock-600.webp?v=5f1aab02 600w, ../../../assets/art/warlock-896.webp?v=a0586382 896w, ../../../assets/art/warlock-1344.webp?v=7da89e6d 1344w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Livellare uno Stregone 1–60</b><span>Afflizione, demoni e talenti per livello</span></a><a class="ttile" href="../../guides/leveling-druid/"><picture><source type="image/avif" srcset="../../../assets/art/druid-360.avif?v=1888cade 360w, ../../../assets/art/druid-600.avif?v=cb56fde9 600w, ../../../assets/art/druid-896.avif?v=5053685b 896w, ../../../assets/art/druid-1344.avif?v=ba9b1c44 1344w" sizes="320px"><img src="../../../assets/art/druid-600.webp?v=83c45565" srcset="../../../assets/art/druid-360.webp?v=aa40bd04 360w, ../../../assets/art/druid-600.webp?v=83c45565 600w, ../../../assets/art/druid-896.webp?v=095335cc 896w, ../../../assets/art/druid-1344.webp?v=13f2658a 1344w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Livellare un Druido 1–60</b><span>Aggressore Ferino, forme e talenti per livello</span></a><a class="ttile" href="../../guides/best-race/"><picture><source type="image/avif" srcset="../../../assets/art/hero_bestrace-960.avif?v=9663c962 960w, ../../../assets/art/hero_bestrace-1440.avif?v=088703d3 1440w, ../../../assets/art/hero_bestrace-1920.avif?v=529cbaab 1920w, ../../../assets/art/hero_bestrace-2560.avif?v=b9621837 2560w" sizes="320px"><img src="../../../assets/art/hero_bestrace-960.webp?v=91ffd836" srcset="../../../assets/art/hero_bestrace-960.webp?v=91ffd836 960w, ../../../assets/art/hero_bestrace-1440.webp?v=87ba7275 1440w, ../../../assets/art/hero_bestrace-1920.webp?v=0ff4953e 1920w, ../../../assets/art/hero_bestrace-2560.webp?v=0f6db68c 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>La razza migliore per ogni classe</b><span>Quale razza è più forte per la tua classe</span></a><a class="ttile" href="../../guides/tier-list/"><picture><source type="image/avif" srcset="../../../assets/art/hero_tierlist-960.avif?v=e7553229 960w, ../../../assets/art/hero_tierlist-1440.avif?v=5421076b 1440w, ../../../assets/art/hero_tierlist-1920.avif?v=cb5247b9 1920w, ../../../assets/art/hero_tierlist-2560.avif?v=ff7dd570 2560w" sizes="320px"><img src="../../../assets/art/hero_tierlist-960.webp?v=42c49d75" srcset="../../../assets/art/hero_tierlist-960.webp?v=42c49d75 960w, ../../../assets/art/hero_tierlist-1440.webp?v=1e3ccf1d 1440w, ../../../assets/art/hero_tierlist-1920.webp?v=596d99f9 1920w, ../../../assets/art/hero_tierlist-2560.webp?v=98afe03c 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Tier list delle classi di WoW Forever</b><span>Classi e specializzazioni forti secondo la beta</span></a><a class="ttile" href="../../guides/legacy/"><picture><source type="image/avif" srcset="../../../assets/art/hero_guides-960.avif?v=a70c025d 960w, ../../../assets/art/hero_guides-1440.avif?v=8182fb35 1440w, ../../../assets/art/hero_guides-1920.avif?v=a5a004f6 1920w, ../../../assets/art/hero_guides-2560.avif?v=30afd362 2560w" sizes="320px"><img src="../../../assets/art/hero_guides-960.webp?v=cb97d423" srcset="../../../assets/art/hero_guides-960.webp?v=cb97d423 960w, ../../../assets/art/hero_guides-1440.webp?v=921f5a2f 1440w, ../../../assets/art/hero_guides-1920.webp?v=15ddcc29 1920w, ../../../assets/art/hero_guides-2560.webp?v=ae8307d8 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Il sistema Legacy</b><span>Punti, sfide, vantaggi e premi</span></a><a class="ttile" href="../../guides/dungeons/"><picture><source type="image/avif" srcset="../../../assets/art/hero_dungeons-960.avif?v=517eca51 960w, ../../../assets/art/hero_dungeons-1440.avif?v=bd91fa79 1440w, ../../../assets/art/hero_dungeons-1920.avif?v=15a558fd 1920w, ../../../assets/art/hero_dungeons-2560.avif?v=5e494c1d 2560w" sizes="320px"><img src="../../../assets/art/hero_dungeons-960.webp?v=8d258c73" srcset="../../../assets/art/hero_dungeons-960.webp?v=8d258c73 960w, ../../../assets/art/hero_dungeons-1440.webp?v=ad5042da 1440w, ../../../assets/art/hero_dungeons-1920.webp?v=be71955c 1920w, ../../../assets/art/hero_dungeons-2560.webp?v=dd0ad0c7 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Spedizioni e incursioni</b><span>35 spedizioni per livello, incursioni, formazione</span></a><a class="ttile" href="../../guides/professions/"><picture><source type="image/avif" srcset="../../../assets/art/hero_professions-960.avif?v=54aac595 960w, ../../../assets/art/hero_professions-1440.avif?v=2b5334dd 1440w, ../../../assets/art/hero_professions-1920.avif?v=ab9d0696 1920w, ../../../assets/art/hero_professions-2560.avif?v=0a04ecc8 2560w" sizes="320px"><img src="../../../assets/art/hero_professions-960.webp?v=92e0feaa" srcset="../../../assets/art/hero_professions-960.webp?v=92e0feaa 960w, ../../../assets/art/hero_professions-1440.webp?v=8bfd3ca0 1440w, ../../../assets/art/hero_professions-1920.webp?v=ffca0179 1920w, ../../../assets/art/hero_professions-2560.webp?v=99fc2ac3 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Professioni</b><span>Coppie per classe, oro, oggetti da accampamento</span></a><a class="ttile" href="../../guides/requirements/"><picture><source type="image/avif" srcset="../../../assets/art/hero_requirements-960.avif?v=1d287ad4 960w, ../../../assets/art/hero_requirements-1440.avif?v=33db2a5e 1440w, ../../../assets/art/hero_requirements-1920.avif?v=f223ed9d 1920w, ../../../assets/art/hero_requirements-2560.avif?v=f23fa2a0 2560w" sizes="320px"><img src="../../../assets/art/hero_requirements-960.webp?v=fd43acaa" srcset="../../../assets/art/hero_requirements-960.webp?v=fd43acaa 960w, ../../../assets/art/hero_requirements-1440.webp?v=ff88cdde 1440w, ../../../assets/art/hero_requirements-1920.webp?v=f82a4f84 1920w, ../../../assets/art/hero_requirements-2560.webp?v=d1534ad3 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Requisiti di sistema</b><span>PC e Mac: minimi, consigliati, schede video</span></a><a class="ttile" href="../../guides/news/"><picture><source type="image/avif" srcset="../../../assets/art/hero_news-960.avif?v=aabf2696 960w, ../../../assets/art/hero_news-1440.avif?v=ffbd3df0 1440w, ../../../assets/art/hero_news-1920.avif?v=dadb4711 1920w, ../../../assets/art/hero_news-2560.avif?v=c071042d 2560w" sizes="320px"><img src="../../../assets/art/hero_news-960.webp?v=d07a62f9" srcset="../../../assets/art/hero_news-960.webp?v=d07a62f9 960w, ../../../assets/art/hero_news-1440.webp?v=1a10a520 1440w, ../../../assets/art/hero_news-1920.webp?v=3930f92b 1920w, ../../../assets/art/hero_news-2560.webp?v=725c5096 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Notizie</b><span>Le nostre note e il feed di Wowhead</span></a></nav></section>
 <footer id="sources">
   <h2>Fonti</h2>
-  <ul><li><a href="https://classicwow.gg/forever" target="_blank" rel="noopener">ClassicWoW.gg: beta, nomi, incursioni, differenze con Era</a></li><li><a href="https://www.warcrafttavern.com/news/world-of-warcraft-forever-editions-skyborne-race-unlock-beta-access/" target="_blank" rel="noopener">Warcraft Tavern: edizioni e prezzi</a></li><li><a href="https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/" target="_blank" rel="noopener">Warcraft Tavern: modifiche alla beta del 15 ottobre</a></li><li><a href="https://www.warcrafttavern.com/forever/guides/races/" target="_blank" rel="noopener">Warcraft Tavern: razze</a></li><li><a href="https://teamoverpowered.com/forever/guides/name-reservation/" target="_blank" rel="noopener">Team Overpowered: nomi e cognomi</a></li><li><a href="https://eu.shop.battle.net/en-gb/product/world-of-warcraft-forever" target="_blank" rel="noopener">Battle.net: Forever, pacchetti, regioni</a></li><li><a href="https://us.shop.battle.net/en-us/product/world-of-warcraft-subscription" target="_blank" rel="noopener">Battle.net: prezzi dell’abbonamento</a></li><li><a href="https://news.blizzard.com/en-us/article/24301508" target="_blank" rel="noopener">Blizzard: lancio e codici Invite-A-Friend</a></li><li><a href="https://us.forums.blizzard.com/en/wow/t/the-roleplay-pvp-ruleset-is-coming-to-wow-forever/2389502" target="_blank" rel="noopener">Blizzard: modalità GdR-PvP al lancio</a></li><li><a href="https://www.method.gg/wow-forever/choosing-your-character-name-and-ruleset-in-wow-forever" target="_blank" rel="noopener">Method: server e modalità</a></li><li><a href="https://conquestcapped.com/guides/wow-forever/wow-forever-classic-look/" target="_blank" rel="noopener">Conquest Capped: Classic o Enhanced</a></li></ul>
+  <ul><li><a href="https://classicwow.gg/forever" target="_blank" rel="noopener">ClassicWoW.gg: beta, nomi, incursioni, differenze con Era</a></li><li><a href="https://www.warcrafttavern.com/news/world-of-warcraft-forever-editions-skyborne-race-unlock-beta-access/" target="_blank" rel="noopener">Warcraft Tavern: edizioni e prezzi</a></li><li><a href="https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/" target="_blank" rel="noopener">Warcraft Tavern: modifiche alla beta del 15 ottobre</a></li><li><a href="https://www.warcrafttavern.com/forever/guides/races/" target="_blank" rel="noopener">Warcraft Tavern: razze</a></li><li><a href="https://teamoverpowered.com/forever/guides/name-reservation/" target="_blank" rel="noopener">Team Overpowered: nomi e cognomi</a></li><li><a href="https://eu.shop.battle.net/en-gb/product/world-of-warcraft-forever" target="_blank" rel="noopener">Battle.net: Forever, pacchetti, regioni</a></li><li><a href="https://us.shop.battle.net/en-us/product/world-of-warcraft-subscription" target="_blank" rel="noopener">Battle.net: prezzi dell’abbonamento</a></li><li><a href="https://news.blizzard.com/en-us/article/24301508" target="_blank" rel="noopener">Blizzard: lancio e codici Invite-A-Friend</a></li><li><a href="https://us.forums.blizzard.com/en/wow/t/the-roleplay-pvp-ruleset-is-coming-to-wow-forever/2389502" target="_blank" rel="noopener">Blizzard: modalità GdR-PvP al lancio</a></li><li><a href="https://www.method.gg/wow-forever/choosing-your-character-name-and-ruleset-in-wow-forever" target="_blank" rel="noopener">Method: server e modalità</a></li><li><a href="https://conquestcapped.com/guides/wow-forever/wow-forever-classic-look/" target="_blank" rel="noopener">Conquest Capped: Classic o Enhanced</a></li><li><a href="https://www.warcrafttavern.com/forever/guides/race-class-combos/" target="_blank" rel="noopener">Warcraft Tavern: combinazioni di razza e classe</a></li><li><a href="https://www.method.gg/wow-forever/all-class-and-race-combinations-in-world-of-warcraft-forever" target="_blank" rel="noopener">Method: tutte le combinazioni e abilità razziali</a></li><li><a href="https://news.blizzard.com/en-gb/article/24307383" target="_blank" rel="noopener">Blizzard: sistema Legacy</a></li><li><a href="https://lfcarry.com/guides/wow-forever-classes" target="_blank" rel="noopener">LFCarry: classi e ritmo di livellamento</a></li><li><a href="https://www.wowhead.com/forever" target="_blank" rel="noopener">Wowhead</a></li></ul>
   <nav class="fmap" aria-label="Mappa del sito"><div><a class="fh" href="../../../it/classes/">Classi</a><ul><li><a href="../../../it/classes/warrior/">Guerriero</a></li><li><a href="../../../it/classes/paladin/">Paladino</a></li><li><a href="../../../it/classes/hunter/">Cacciatore</a></li><li><a href="../../../it/classes/rogue/">Ladro</a></li><li><a href="../../../it/classes/priest/">Sacerdote</a></li><li><a href="../../../it/classes/shaman/">Sciamano</a></li><li><a href="../../../it/classes/mage/">Mago</a></li><li><a href="../../../it/classes/warlock/">Stregone</a></li><li><a href="../../../it/classes/druid/">Druido</a></li></ul></div><div><a class="fh" href="../../../it/races/">Razze</a><ul><li><a href="../../../it/races/human/">Umano</a></li><li><a href="../../../it/races/dwarf/">Nano</a></li><li><a href="../../../it/races/night-elf/">Elfo della Notte</a></li><li><a href="../../../it/races/gnome/">Gnomo</a></li><li><a href="../../../it/races/skyborne-alliance/">Skyborne dell’High Order</a></li><li><a href="../../../it/races/orc/">Orco</a></li><li><a href="../../../it/races/undead/">Non Morto</a></li><li><a href="../../../it/races/tauren/">Tauren</a></li><li><a href="../../../it/races/troll/">Troll</a></li><li><a href="../../../it/races/skyborne-horde/">Skyborne Windshaper</a></li></ul></div><div><a class="fh" href="../../../it/guides/">Guide</a><ul><li><a href="../../../it/guides/leveling/">Livellamento 1–60</a></li><li><a href="../../../it/guides/best-race/">La razza migliore per ogni classe</a></li><li><a href="../../../it/guides/tier-list/">Tier list delle classi di WoW Forever</a></li><li><a href="../../../it/guides/legacy/">Il sistema Legacy</a></li><li><a href="../../../it/guides/dungeons/">Spedizioni e incursioni</a></li><li><a href="../../../it/guides/professions/">Professioni</a></li><li><a href="../../../it/guides/addons/">Addon e interfaccia</a></li><li><a href="../../../it/guides/faq/">FAQ e date</a></li><li><a href="../../../it/guides/requirements/">Requisiti di sistema</a></li><li><a href="../../../it/guides/news/">Notizie</a></li></ul></div><div><a class="fh" href="../../../it/tools/">Strumenti</a><ul><li><a href="../../../it/tools/">Strumenti</a></li><li><a href="../../../it/play/">In gioco</a></li></ul></div></nav><div class="legal"><p>Guida amatoriale di Gabella. Non affiliata né approvata da Blizzard Entertainment. World of Warcraft, Warcraft e Blizzard Entertainment sono marchi o marchi registrati di Blizzard Entertainment, Inc. negli Stati Uniti e/o in altri Paesi.</p><p>© 2026 Gabella<span aria-hidden="true"> · </span><a href="../../../it/privacy/">Privacy</a><span aria-hidden="true"> · </span><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><span aria-hidden="true"> · </span><a href="https://t.me/gabella_wow" target="_blank" rel="noopener">Telegram</a><span aria-hidden="true"> · </span>Contatti: <a href="mailto:contact@gabella.site">contact@gabella.site</a></p></div>
 </footer>
 </div>
@@ -1215,7 +1241,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <nav class="toc" aria-label="Tutte le sezioni">
     <div class="grp"><div class="gh">Questa pagina</div><a href="#dates">Date</a><a href="#editions">Prezzi e abbonamento</a><a href="#modes">Modalità e server</a><a href="#names">Nomi e cognomi</a><a href="#era">Come Forever differisce da Classic Era</a><a href="#graphics">Classic o Enhanced</a><a href="#questions">Domande frequenti</a></div>
     <div class="grp"><div class="gh">Riferimenti</div><a href="../../">Home</a><a href="../../classes/">Classi a confronto</a><a href="../../races/">Razze a confronto</a><a href="../../guides/leveling/">Livellamento 1–60</a><a href="../../guides/dungeons/">Spedizioni e incursioni</a><a href="../../guides/professions/">Professioni</a><a href="../../guides/faq/">FAQ e date</a><a href="../../guides/news/">Notizie</a><a href="../../guides/">Tutte le guide</a></div>
-    <div class="grp"><div class="gh">Strumenti</div><a href="../../#picker">Selettore</a><a href="../../tools/#raid">Creatore di gruppi</a><a href="../../tools/">Riquadri, confronto, ricerca</a><a href="../../play/">In gioco</a></div>
+    <div class="grp"><div class="gh">Strumenti</div><a href="../../tools/#picker">Selettore</a><a href="../../tools/#raid">Creatore di gruppi</a><a href="../../tools/">Riquadri, confronto, ricerca</a><a href="../../play/">In gioco</a></div>
     <div class="grp"><div class="gh">Comunità</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="../../roster/">Giocatori</a><a href="../../profile/">Il mio profilo</a></div>
   </nav>
   <div class="opts">
@@ -1350,7 +1376,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../../assets/radio/radio.js?v=eb6a1e02ee" data-root="../../../" defer></script>
-<script src="../../../assets/search/search.js?v=8a2cef2f5c" data-root="../../../" defer></script>
+<script src="../../../assets/search/search.js?v=730b7e5d73" data-root="../../../" defer></script>
 <script src="../../../assets/me/me.js?v=a34702d24d" data-root="../../../" data-home="../../" data-lang="it" data-teaser="Il tuo profilo conserva i tuoi personaggi, le imprese e le cornici" data-close="Chiudi" data-page="guides/faq/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>

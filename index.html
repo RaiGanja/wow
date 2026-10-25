@@ -2,7 +2,17 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<script>if (location.hash.indexOf('#team=') === 0) location.replace('tools/' + location.hash);   // group links of the old home builder open on /tools/</script>
+<script>
+/* Blocks that left the home: group links (#team=) and the picker (#picker, #pick=) open on /tools/, the stages and my character
+   on /play/; the old faction and tools blocks land on the races tab and the guides grid */
+(function () {
+  var h = location.hash, m = { '#picker': 'tools/#picker', '#stages': 'play/#stages', '#me': 'play/#me', '#factions': '#peoples', '#tools': '#guides' };
+  if (/^#(team|pick)=/.test(h)) location.replace('tools/' + h);
+  else if (m[h] && m[h].charAt(0) !== '#') location.replace(m[h]);
+  else { if (m[h]) history.replaceState(null, '', m[h]); return; }
+  window.wfMoved = 1;
+})();
+</script>
 <script>
 /* Old guide anchors moved to /guides/ pages (stage 5): keep Discord links working */
 (function () {
@@ -249,13 +259,23 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .hero .btn:hover { background: #e0c27a; border-color: #e0c27a; }
 .hero .btn.ghost { background: rgba(7,8,10,.35); color: var(--ink); border-color: rgba(241,236,224,.45); }
 .hero .btn.ghost:hover { border-color: #e0c27a; background: rgba(7,8,10,.55); }
-.hdates { list-style: none; margin: 0 auto 34px; padding: 0; max-width: calc(var(--wrap) - 40px); width: calc(100% - 40px); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
-.hdates li { padding: 14px 18px; display: grid; gap: 2px; border: 1px solid rgba(255,255,255,.12); border-radius: 10px; background: rgba(10,12,18,.62); backdrop-filter: blur(6px); }
-.hdates li.past { opacity: .62; }
-.hdates li.cur { border-color: #e0c27a; box-shadow: inset 0 0 0 1px #e0c27a; }
-.hdates b { font-family: var(--font-display); font-weight: var(--display-w); font-size: var(--fs-28); line-height: 1.1; color: var(--ink); font-variant-numeric: lining-nums; }
-.hdates li.cur b { color: var(--ink-gold); }
-.hdates span { color: var(--ink-2); font-size: var(--fs-14); }
+.hd-line { display: flex; flex-wrap: wrap; gap: 2px 0; margin: 2px 0 0; font-size: var(--fs-14); color: var(--ink-2); text-shadow: var(--hero-shadow); font-variant-numeric: lining-nums tabular-nums; }
+.hd-line span { white-space: nowrap; }
+.hd-line span + span::before { content: "·"; margin: 0 10px; color: var(--ink-2); }
+.hd-line b { color: var(--ink); font-weight: 600; }
+.hd-line .past { opacity: .62; }
+.hd-line .cur b { color: var(--ink-gold); }
+/* Fresh: the three newest notes at the bottom of the hero (build.fresh) */
+.hnews { margin: 0 auto 34px; display: grid; gap: 10px; }
+.hnews .hh { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; text-shadow: var(--hero-shadow); }
+.hnews .hh h2 { font-size: var(--fs-22); line-height: 1; color: var(--ink); }
+.hnews .hh a { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-weight: 600; color: var(--ink-gold); }
+.hnews .row3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.nc { display: grid; gap: 4px; align-content: start; padding: 14px 18px 16px; border: 1px solid rgba(255,255,255,.12); border-radius: 10px; background: rgba(10,12,18,.66); backdrop-filter: blur(6px); color: var(--ink); text-decoration: none; transition: border-color .2s; }
+.nc:hover { border-color: #e0c27a; }
+.nc time { font-size: var(--fs-13); color: var(--ink-2); font-variant-numeric: lining-nums tabular-nums; }
+.nc b { font-size: var(--fs-16); font-weight: 600; line-height: 1.3; }
+.nc span { font-size: var(--fs-14); color: var(--ink-2); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
 /* Section heads */
 main { padding-bottom: 40px; }
@@ -267,25 +287,6 @@ section.block { padding-top: 96px; display: grid; gap: 28px; }
 .dcta { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; margin: 48px 0 0; padding: 18px 20px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel); }
 .dcta span { max-width: 62ch; }
 section.block { scroll-margin-top: -72px; }
-
-/* Faction banners */
-/* Art cards stand right on the night (Icy Veins), no frame around the section */
-.factions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-.fac { position: relative; overflow: hidden; isolation: isolate; min-height: 340px; padding: 30px 30px 26px; display: grid; align-content: end; gap: 12px; color: var(--ink); border: 1px solid rgba(255,255,255,.1); border-radius: 7px; background: var(--fb); transition: border-color .2s; }
-.fac:hover { border-color: #e0c27a; }
-.fac picture, .fac picture img { position: absolute; top: 0; right: 0; height: 100%; width: 62%; }
-.fac picture { z-index: -2; }
-.fac picture img { object-fit: cover; object-position: 50% 16%; transition: transform .8s var(--ease); }
-.fac:hover picture img { transform: scale(1.03); }
-.fac::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, var(--fb) 40%, color-mix(in srgb, var(--fb) 55%, transparent) 60%, transparent 85%), linear-gradient(0deg, color-mix(in srgb, var(--fb) 80%, transparent), transparent 50%); }
-.fac.alliance { --fb: #0c1830; --fl: #b39352; --fa: #e3c77e; }
-.fac.horde { --fb: #240d0a; --fl: #a8683a; --fa: #e0a36a; }
-
-.fac h3 { font-family: var(--font-display); font-weight: var(--display-w); letter-spacing: .03em; line-height: 1.1; font-size: var(--fs-h2); }
-.fac p { color: var(--ink-2); max-width: 34ch; }
-.fac p b { color: var(--ink); font-weight: 600; }
-.fac .go-f { justify-self: start; margin-top: 6px; min-height: 44px; padding: 0 16px; display: inline-flex; align-items: center; gap: 8px; border: 1px solid color-mix(in srgb, var(--fl) 80%, transparent); border-radius: 7px; background: rgba(5,6,8,.45); color: var(--ink); font-weight: 600; font-size: var(--fs-16); transition: border-color .2s, background-color .2s; }
-.fac .go-f:hover { border-color: var(--fa); background: rgba(5,6,8,.6); }
 
 /* Class roster: tall portraits, the active one expands */
 .roster { display: flex; gap: 8px; height: clamp(460px, 41vw, 580px); }
@@ -342,8 +343,34 @@ section.block { scroll-margin-top: -72px; }
 .stband-art, .stband-art img { position: absolute; inset: 0 0 auto 0; width: 100%; height: var(--band-h, 620px); }
 .stband-art { z-index: -2; }
 .stband-art img { object-fit: cover; object-position: 50% 32%; }
-#stages { --band-h: clamp(620px, 40vw, 820px); }
 #guides.stband { padding-top: 56px; }   /* no art behind the guides band any more */
+
+/* Home: classes and races in one block (tabs), the picker banner, the guides grid lower, a lower campfire */
+#classes.block { padding-top: 72px; }
+#pickban.block { padding-top: 40px; }
+.tabs2 { display: inline-flex; gap: 4px; padding: 4px; border-radius: 10px; background: var(--panel-2); border: 1px solid var(--pline); }
+.tabs2 [role="tab"] { min-height: 40px; padding: 0 18px; border: 0; border-radius: 7px; background: transparent; color: var(--muted); font: inherit; font-weight: 600; font-size: var(--fs-16); cursor: pointer; transition: color .15s, background-color .15s; }
+.tabs2 [role="tab"]:hover { color: var(--fg); }
+.tabs2 [role="tab"][aria-selected="true"] { background: var(--seg-on); color: var(--gold-2); }
+.tpanel { display: grid; gap: 20px; min-width: 0; }
+.tpanel[hidden] { display: none; }
+.tpanel > .tp { color: var(--muted); max-width: 68ch; margin-top: -8px; }
+.pickban { display: grid; grid-template-columns: 200px minmax(0, 1fr) auto; align-items: center; gap: 0 32px; overflow: hidden; padding: 0 30px 0 0; min-height: 150px; color: var(--fg); text-decoration: none; transition: border-color .2s; }
+.pickban:hover { border-color: #e0c27a; }
+.pb-art { align-self: stretch; position: relative; overflow: hidden; background: #0b0d12; }
+.pb-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 16%; }
+.pb-t { display: grid; gap: 6px; padding: 22px 0; }
+.pb-t h2 { font-size: var(--fs-28); line-height: 1.1; }
+.pb-t > span { color: var(--muted); max-width: 60ch; }
+.pickban .btn { white-space: nowrap; }
+#guides .gt { min-height: 150px; }
+#camp { margin-top: 40px; min-height: clamp(380px, 34vw, 560px); }
+#camp .camp-in { padding-bottom: clamp(40px, 5vw, 72px); }
+.fsrc { margin: 0 0 6px; }
+@media (min-width: 1024px) {
+  #classes .roster { height: clamp(380px, 30vw, 440px); }
+  #classes .rr { height: clamp(300px, 22vw, 340px); }
+}
 /* Camp scene near the end: the campfire art in full, fire and embers alive (assets/living/) */
 .camp { position: relative; isolation: isolate; overflow: hidden; margin-top: 56px; min-height: clamp(520px, 56vw, 1200px);   /* close to the art's own 16:9: heads stay in frame on wide screens */ display: grid; align-content: end; color: #f1ece0; background: #08090b; }
 .camp-art, .camp-art img { position: absolute; inset: 0; width: 100%; height: 100%; }
@@ -389,11 +416,6 @@ canvas.fx.on { opacity: 1; }
   linear-gradient(90deg, rgb(var(--hero-fade) / .06) calc(50% - 800px), rgb(var(--hero-fade) / .46) calc(50% - 420px), rgb(var(--hero-fade) / .5) calc(50% + 100px), rgb(var(--hero-fade) / .16) calc(50% + 380px), rgb(var(--hero-fade) / .04) calc(50% + 600px)),
   linear-gradient(180deg, rgb(var(--hero-fade) / .42) 0%, rgb(var(--hero-fade) / 0) 26%, rgb(var(--hero-fade) / 0) 58%, rgb(var(--hero-fade) / .9) 88%, rgb(var(--hero-fade)) 100%); }
 .stband::before { content: ""; position: absolute; inset: 0 0 auto 0; height: var(--band-h, 620px); z-index: -1; background: linear-gradient(180deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 62%, transparent) 12%, color-mix(in srgb, var(--bg) 40%, transparent) 30%, color-mix(in srgb, var(--bg) 55%, transparent) 62%, var(--bg) 100%); }
-:root[data-theme="light"] #stages::before { background: linear-gradient(180deg, #0a0b0d 0%, rgb(10 11 13 / .62) 12%, rgb(10 11 13 / .4) 30%, rgb(10 11 13 / .55) 58%, #0a0b0d 76%,
-  color-mix(in oklab, #0a0b0d, var(--bg) 6%) 80.8%, color-mix(in oklab, #0a0b0d, var(--bg) 22%) 85.6%, color-mix(in oklab, #0a0b0d, var(--bg) 52%) 90.4%,
-  color-mix(in oklab, #0a0b0d, var(--bg) 82%) 95.2%, var(--bg) 100%); }   /* light: the home hero runs on into the road at night; the paper comes under the stage panel */
-:root[data-theme="light"] #stages > .wrap > .sec-head, :root[data-theme="light"] #stages > .wrap > .sec-head :is(p, .src) { color: var(--ink); }
-:root[data-theme="light"] #stages .stiles { --pline: rgba(255,255,255,.08); background: rgba(15,18,26,.9); box-shadow: 0 18px 48px rgba(0,0,0,.35); }
 .stband .wrap { display: grid; gap: 20px; }
 /* page-level grids: one column that may shrink, so a long word or a wide field never pushes past the screen edge */
 section.block, .hero-in, .chero-in, .thero-in, .stband .wrap { grid-template-columns: minmax(0, 1fr); }
@@ -406,7 +428,6 @@ section.block, .hero-in, .chero-in, .thero-in, .stband .wrap { grid-template-col
 .stile picture { z-index: -2; }
 .stile img { object-fit: cover; object-position: 50% 22%; filter: saturate(.85) brightness(.78); transition: filter .3s, transform .6s var(--ease); }
 .stile::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(6,8,12,0) 25%, rgba(6,8,12,.9) 100%); }
-main > .stband:first-child .stile::after { box-shadow: inset 0 1px 0 var(--hero-edge); }   /* the first tiles pick up the hero light; on ::after, since the art covers the tile */
 .stile:hover img { filter: none; transform: scale(1.04); }
 .stile[aria-selected="true"] { border-color: #e0c27a; box-shadow: inset 0 0 0 1px #e0c27a; }
 .stile[aria-selected="true"] img { filter: none; }
@@ -806,7 +827,6 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .journey { grid-template-columns: 1fr; }
   .me { position: static; }
   .stiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .factions { grid-template-columns: 1fr; }
   .ttiles, .ttiles.t4 { grid-template-columns: 1fr; }
   .ttile { min-height: 160px; }
 }
@@ -855,15 +875,27 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .hero h1 { font-size: var(--fs-hero); }
   .cta { width: 100%; }
   .cta .btn { flex: 1 1 140px; padding: 0 12px; }
-  .hdates { margin-bottom: 22px; width: calc(100% - 32px); gap: 6px; }
-  .hdates li { padding: 10px 10px; }
-  .hdates b { font-size: var(--fs-22); }
-  .hdates span { font-size: var(--fs-13); line-height: 1.35; }
+  .hnews { margin-bottom: 20px; gap: 6px; }
+  .hnews .row3 { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .nc { padding: 11px 14px; }
+  .nc span { display: none; }
+  .hd-line { column-gap: 18px; }
+  .hd-line span + span::before { content: none; }   /* the line wraps on a phone: no dot at the start of the second row */
+  #classes.block { padding-top: 48px; }
+  #pickban.block { padding-top: 28px; }
+  .sec-head .row:has(.tabs2) { align-items: center; }
+  .pickban { grid-template-columns: 96px minmax(0, 1fr); gap: 0 16px; padding: 0 16px 0 0; min-height: 0; }
+  .pb-t { padding: 16px 0; gap: 4px; }
+  .pb-t h2 { font-size: var(--fs-22); }
+  .pb-t > span { font-size: var(--fs-14); }
+  .pickban .btn { grid-column: 1 / -1; margin: 0 0 16px 16px; justify-self: start; }
+  #guides .gt { min-height: 118px; }
+  #guides .gt span { display: none; }
+  #camp { min-height: 520px; }
+  .fsrc + .fmap { display: flex; flex-wrap: wrap; gap: 4px 20px; }
+  .fsrc + .fmap ul { display: none; }
+  .fsrc + .fmap .fh { margin: 0; }
   section.block { padding-top: 72px; gap: 22px; scroll-margin-top: -48px; }
-  .factions { gap: 10px; }
-  .fac { min-height: 400px; padding: 22px 20px 20px; }
-  .fac picture, .fac picture img { width: 100%; }
-  .fac::before { background: linear-gradient(0deg, var(--fb) 30%, color-mix(in srgb, var(--fb) 60%, transparent) 58%, transparent 85%); }
   .hc, .hc.on { flex-basis: 80%; }
   .hc .info, .rr .hc .info { min-width: 0; padding: 22px 20px 22px; grid-template-columns: minmax(0, 1fr); }
   .hc .info b { font-size: var(--fs-28); hyphens: auto; }
@@ -928,7 +960,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 @media (max-width: 340px) { .topbar .tools { gap: 2px; } .topbar .langbtn { padding: 0 8px; } }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .hc, .hc img, .hc .info, .fac picture img { transition: none; }
+  .hc, .hc img, .hc .info { transition: none; }
 }
 </style>
 <script>(function(){var D={"B": [6, 11, 17, 23], "N": {"dawn": "Утро", "day": "День", "dusk": "Вечер", "night": "Ночь"}, "X": {"auto": "по вашему времени", "reset": "По времени", "label": "Время суток"}, "A": [["image/avif", "(max-width: 719px) and (max-aspect-ratio: 2/3)", "./assets/art/hero_{tod}-m-600.avif?v=f4940071 600w, ./assets/art/hero_{tod}-m-800.avif?v=c6536008 800w, ./assets/art/hero_{tod}-m-1000.avif?v=599f06fe 1000w", "100vw"], ["image/avif", "not all and (max-width: 719px) and (max-aspect-ratio: 2/3)", "./assets/art/hero_{tod}-960.avif?v=0a833a7e 960w, ./assets/art/hero_{tod}-1440.avif?v=8cf0c146 1440w, ./assets/art/hero_{tod}-1920.avif?v=e2a42d9c 1920w, ./assets/art/hero_{tod}-2560.avif?v=5afad1ae 2560w, ./assets/art/hero_{tod}-3840.avif?v=0b39dd3a 3840w", "(max-aspect-ratio: 16/9) 180vh, 100vw"]]},B=D.B,K="gabella-tod",P=["dawn","day","dusk","night"],d=document.documentElement;function part(h){return h>=B[0]&&h<B[1]?'dawn':h>=B[1]&&h<B[2]?'day':h>=B[2]&&h<B[3]?'dusk':'night'};var q=(location.search.match(/[?&]tod=(dawn|day|dusk|night)\b/)||[])[1],s=null;try{s=localStorage.getItem(K)}catch(e){}if(P.indexOf(s)<0)s=null;var t=q||s||part(new Date().getHours());d.setAttribute("data-tod",t);window.GabellaTod={part:part,bounds:B,now:t,pinned:!!(q||s),url:!!q,key:K,names:D.N,text:D.X};D.A.forEach(function(a){var l=document.createElement("link");l.rel="preload";l.as="image";l.type=a[0];if(a[1])l.media=a[1];l.setAttribute("fetchpriority","high");l.setAttribute("imagesrcset",a[2].replace(/\{tod\}/g,t));l.setAttribute("imagesizes",a[3]);document.head.appendChild(l)})})();</script>
@@ -941,7 +973,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="./assets/radio/radio.css?v=eb6a1e02ee">
-<link data-rel="stylesheet" href="./assets/search/search.css?v=8a2cef2f5c">
+<link data-rel="stylesheet" href="./assets/search/search.css?v=730b7e5d73">
 <link data-rel="stylesheet" href="./assets/me/me.css?v=a34702d24d">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Гид WoW Forever","alternateName":"Gabella","url":"https://gabella.site/wow/","inLanguage":"ru","description":"Гид по WoW Forever (ВоВ Форевер): кем играть, подборщик расы и класса, сборка группы и гайды по прокачке, подземельям и профессиям.","publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]}</script>
@@ -993,136 +1025,57 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
       <a class="btn lg" href="#classes">Выбрать класс</a>
       <a class="btn lg ghost" href="tools/#raid">Собрать группу</a>
     </div>
+    <p class="hd-line"><span data-d="2026-10-27T00:00:00"><b>27.10</b> Резерв имён</span><span data-d="2026-11-04T23:00:00Z"><b>04.11</b> Релиз</span><span data-d="2026-12-09T00:00:00"><b>09.12</b> Рейды</span></p>
     <div class="todsw" data-tod-sw></div>
   </div>
-  <ol class="hdates" aria-label="Ключевые даты">
-    <li data-d="2026-10-27T00:00:00"><b>27.10</b><span>Резерв имён</span></li>
-    <li data-d="2026-11-04T23:00:00Z"><b>04.11</b><span>Релиз</span></li>
-    <li data-d="2026-12-09T00:00:00"><b>09.12</b><span>Рейды</span></li>
-  </ol>
+  <div class="hnews wrap"><div class="hh"><h2>Свежее</h2><a href="guides/news/">Все новости<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div><div class="row3"><a class="nc" href="guides/leveling/#classes"><time datetime="2026-10-25">25.10</time><b>Гайды по прокачке для всех девяти классов</b><span>Спек, таланты по уровням, способности у тренера и ротация для каждого класса, 1–60.</span></a><a class="nc" href="guides/news/"><time datetime="2026-10-24">24.10</time><b>Discord-сервер Gabella</b><span>Чат, поиск группы и новости на английском, украинском и русском.</span></a><a class="nc" href="guides/news/#ours"><time datetime="2026-10-23">23.10</time><b>Бета закрыта, дальше — имена с 27.10</b><span>Закрытая бета закрылась 23.10 в 10:00 по тихоокеанскому времени (17:00 UTC). С 27.10 по 03.11 владельцы Heroic, Epic и Collection резервируют до трёх имён на аккаунт, кто первым пришёл, тот и занял.</span></a></div></div>
 </section>
 
 <main>
-<section class="stband" id="stages">
-  <picture class="stband-art" data-fx="road"><source type="image/avif" srcset="./assets/art/hero_road-960.avif?v=81ab1530 960w, ./assets/art/hero_road-1600.avif?v=d076353a 1600w, ./assets/art/hero_road-2560.avif?v=fb4962bd 2560w" sizes="100vw"><source type="image/webp" srcset="./assets/art/hero_road-960.webp?v=8f11859f 960w, ./assets/art/hero_road-1600.webp?v=b41d3512 1600w, ./assets/art/hero_road-2560.webp?v=5c0c6bdb 2560w" sizes="100vw"><img src="./assets/art/hero_road-1600.webp?v=b41d3512" width="1600" height="893" alt="" loading="lazy" fetchpriority="low" decoding="async"></picture>
-  <div class="wrap">
-    <div class="sec-head"><h2>Где вы сейчас</h2><p>Пять этапов от резерва имён до рейдов. Этап выбирается сам по дате, а если указать персонажа, гид подберёт подземелья под уровень и покажет ваши баффы для группы.</p></div>
-    <div class="frame stiles" id="stageBar" role="tablist" aria-label="Этапы игры"></div>
-    <div class="journey">
-      <div class="frame stage" id="stagePanel" role="tabpanel" tabindex="-1"></div>
-      <aside class="frame me" id="me" aria-label="Мой персонаж">
-        <div class="me-hero" id="meHero"></div>
-        <details id="meD" open><summary>Настроить персонажа</summary>
-          <div class="me-f">
-            <label class="fl">Раса<select id="meRace"></select></label>
-            <label class="fl">Класс<select id="meCls"></select></label>
-            <label class="fl">Роль<select id="meRole"></select></label>
-            <div class="fl"><span id="lmeLvl">Уровень</span><div class="stepper" role="group" aria-labelledby="lmeLvl"><button type="button" class="lvm" aria-label="Уровень ниже">−</button><input class="lvin" id="meLvl" type="number" min="1" max="60" inputmode="numeric" aria-labelledby="lmeLvl" placeholder="—"><button type="button" class="lvp" aria-label="Уровень выше">+</button></div></div>
-            <label class="fl">Профессия 1<select id="meP1"></select></label>
-            <label class="fl">Профессия 2<select id="meP2"></select></label>
-            <div class="fl wide"><span id="lmeSec">Вспомогательные профессии</span><div class="chiprow" id="meSec" role="group" aria-labelledby="lmeSec"></div></div>
-          </div>
-          <p class="note-s">Сохраняется только в этом браузере.</p>
-        </details>
-        <div class="me-out" id="meOut" aria-live="polite"></div>
-        <div class="act"><button type="button" class="btn ghost" id="meReset">Сбросить персонажа</button></div>
-      </aside>
-    </div>
-  </div>
-</section>
-
-<section class="block wrap" id="factions">
-  <div class="sec-head"><h2>Альянс или Орда</h2><p>Договоритесь о фракции заранее: в PvP-режиме при создании доступна только одна. Девять классов есть у обеих сторон.</p></div>
-  <div class="factions">
-    <article class="fac alliance">
-      <picture><source type="image/avif" srcset="./assets/art/paladin-600.avif?v=da57d115 600w, ./assets/art/paladin-896.avif?v=ce04ab2e 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><source type="image/webp" srcset="./assets/art/paladin-600.webp?v=742a15f3 600w, ./assets/art/paladin-896.webp?v=d5a54f12 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><img src="./assets/art/paladin-600.webp?v=742a15f3" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
-      <h3>Альянс</h3>
-      <p>Человек, дворф, ночной эльф, гном и Высший скайборн.</p>
-      <p><b>Новое:</b> дворф-шаман, гном-жрец и человек-охотник.</p>
-      <button type="button" class="go-f" data-fac="alliance">Подобрать расу и класс<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
-    </article>
-    <article class="fac horde">
-      <picture><source type="image/avif" srcset="./assets/art/shaman-600.avif?v=201b2ba6 600w, ./assets/art/shaman-896.avif?v=3a3f5768 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><source type="image/webp" srcset="./assets/art/shaman-600.webp?v=90557c05 600w, ./assets/art/shaman-896.webp?v=d673306f 896w" sizes="(max-width: 719px) 100vw, (max-width: 980px) 62vw, 400px"><img src="./assets/art/shaman-600.webp?v=90557c05" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
-      <h3>Орда</h3>
-
-      <p>Орк, нежить, таурен, тролль и Скайборн-ветрорез.</p>
-      <p><b>Новое:</b> нежить-паладин, орк-маг и тролль-чернокнижник.</p>
-      <button type="button" class="go-f" data-fac="horde">Подобрать расу и класс<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
-    </article>
-  </div>
-</section>
-
 <section class="block wrap" id="classes">
-  <div class="sec-head"><div class="row"><h2>Кем играть</h2><span class="src">Warcraft Tavern, LFCarry</span></div><p>Нажмите на портрет, чтобы открыть страницу класса: специализации, расы и что нового в Forever.</p></div>
-  <div class="roster" id="roster"><a href="classes/warrior/">Воин</a><a href="classes/paladin/">Паладин</a><a href="classes/hunter/">Охотник</a><a href="classes/rogue/">Разбойник</a><a href="classes/priest/">Жрец</a><a href="classes/shaman/">Шаман</a><a href="classes/mage/">Маг</a><a href="classes/warlock/">Чернокнижник</a><a href="classes/druid/">Друид</a></div>
-  <p class="swipe">Листайте портреты в сторону.</p>
-  <p><a class="more-l" href="classes/">Сравнить все классы<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
-</section>
-
-<section class="block wrap" id="peoples">
-  <div class="sec-head"><div class="row"><h2>За кого играть</h2><span class="src">Warcraft Tavern</span></div><p>По пять рас у каждой фракции, Скайборн есть у обеих. Нажмите на портрет, чтобы открыть страницу расы: способности, классы и история.</p></div>
-  <div class="peoples">
-    <div class="pfac alliance"><h3>Альянс</h3><div class="roster rr" id="rosterA"><a href="races/human/">Человек</a><a href="races/dwarf/">Дворф</a><a href="races/night-elf/">Ночной эльф</a><a href="races/gnome/">Гном</a><a href="races/skyborne-alliance/">Высший скайборн</a></div></div>
-    <div class="pfac horde"><h3>Орда</h3><div class="roster rr" id="rosterH"><a href="races/orc/">Орк</a><a href="races/undead/">Нежить</a><a href="races/tauren/">Таурен</a><a href="races/troll/">Тролль</a><a href="races/skyborne-horde/">Скайборн-ветрорез</a></div></div>
+  <div class="sec-head"><div class="row"><h2>Кем играть</h2><div class="tabs2" role="tablist" aria-label="Кем играть"><button type="button" role="tab" id="tabC" aria-controls="pCls" aria-selected="true">Классы</button><button type="button" role="tab" id="tabR" aria-controls="peoples" aria-selected="false" tabindex="-1">Расы</button></div></div></div>
+  <div class="tpanel" id="pCls" role="tabpanel" aria-labelledby="tabC">
+    <p class="tp">Нажмите на портрет, чтобы открыть страницу класса: специализации, расы и что нового в Forever.</p>
+    <div class="roster" id="roster"><a href="classes/warrior/">Воин</a><a href="classes/paladin/">Паладин</a><a href="classes/hunter/">Охотник</a><a href="classes/rogue/">Разбойник</a><a href="classes/priest/">Жрец</a><a href="classes/shaman/">Шаман</a><a href="classes/mage/">Маг</a><a href="classes/warlock/">Чернокнижник</a><a href="classes/druid/">Друид</a></div>
+    <p class="swipe">Листайте портреты в сторону.</p>
+    <p><a class="more-l" href="classes/">Сравнить все классы<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
   </div>
-  <p class="swipe">Листайте портреты в сторону.</p>
-  <p><a class="more-l" href="races/">Сравнить все расы<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
-</section>
-
-<section class="block wrap" id="tools">
-  <div class="sec-head"><h2>Инструменты</h2><p>Подбор расы и класса, сбор группы, а на отдельной странице рамки рейда как в игре, сравнение и поиск по гиду. Ссылкой на состав можно поделиться в чате.</p></div>
-  <nav class="ttiles t4" aria-label="Инструменты">
-    <a class="ttile" href="#picker"><picture><source type="image/avif" srcset="./assets/art/druid-360.avif?v=1888cade 360w, ./assets/art/druid-600.avif?v=cb56fde9 600w" sizes="(max-width: 980px) 100vw, 400px"><source type="image/webp" srcset="./assets/art/druid-360.webp?v=aa40bd04 360w, ./assets/art/druid-600.webp?v=83c45565 600w" sizes="(max-width: 980px) 100vw, 400px"><img src="./assets/art/druid-600.webp?v=83c45565" alt="" loading="lazy" decoding="async"></picture><b>Подборщик расы и класса</b><span id="qPick">Все сочетания и что умеет каждое</span></a>
-    <a class="ttile" href="tools/#raid"><picture><source type="image/avif" srcset="./assets/art/hero_campfire-960.avif?v=93981d6a"><img src="./assets/art/hero_campfire-960.webp?v=5aa0e1b2" alt="" loading="lazy" decoding="async"></picture><b>Конструктор группы</b><span>От одного до сорока игроков</span></a>
-    <a class="ttile" href="tools/"><picture><source type="image/avif" srcset="./assets/art/paladin-600.avif?v=da57d115"><img src="./assets/art/paladin-600.webp?v=742a15f3" alt="" loading="lazy" decoding="async"></picture><b>Рамки, сравнение, поиск</b><span>Рейдовая сетка как в игре, классы и расы рядом</span></a>
-    <a class="ttile" href="play/"><picture><source type="image/avif" srcset="./assets/art/mage-600.avif?v=31bcffa4"><img src="./assets/art/mage-600.webp?v=8ba853d5" alt="" loading="lazy" decoding="async"></picture><b>В игре</b><span>Второй экран: радио, уровень, таймеры</span></a>
-  </nav>
-
-</section>
-<section class="block wrap" id="picker">
-  <div class="sec-head"><div class="row"><h2>Подборщик: раса и класс</h2><span class="src">Warcraft Tavern, Method</span></div>
-    <p>Выберите фракцию и роль, посмотрите сочетания и нажмите на клетку. Ниже появятся способности расы и роли класса, а выбор копируется одной кнопкой для общего чата.</p></div>
-  <div class="tool bare">
-    <div class="filters" role="group" aria-label="Фильтры">
-      <div class="fgroup"><span class="flabel" id="lf">Фракция</span>
-        <div class="seg" id="segF" aria-labelledby="lf">
-          <button data-v="all" aria-pressed="true">Любая</button>
-          <button data-v="alliance" aria-pressed="false">Альянс</button>
-          <button data-v="horde" aria-pressed="false">Орда</button>
-        </div></div>
-      <div class="fgroup"><span class="flabel" id="lr">Роль</span>
-        <div class="seg" id="segR" aria-labelledby="lr">
-          <button data-v="all" aria-pressed="true">Любая</button>
-          <button data-v="tank" aria-pressed="false">Танк</button>
-          <button data-v="heal" aria-pressed="false">Лекарь</button>
-          <button data-v="dps" aria-pressed="false">Урон</button>
-        </div></div>
+  <div class="tpanel" id="peoples" role="tabpanel" aria-labelledby="tabR" hidden>
+    <p class="tp">По пять рас у каждой фракции, Скайборн есть у обеих. Нажмите на портрет, чтобы открыть страницу расы: способности, классы и история.</p>
+    <div class="peoples">
+      <div class="pfac alliance"><h3>Альянс</h3><div class="roster rr" id="rosterA"><a href="races/human/">Человек</a><a href="races/dwarf/">Дворф</a><a href="races/night-elf/">Ночной эльф</a><a href="races/gnome/">Гном</a><a href="races/skyborne-alliance/">Высший скайборн</a></div></div>
+      <div class="pfac horde"><h3>Орда</h3><div class="roster rr" id="rosterH"><a href="races/orc/">Орк</a><a href="races/undead/">Нежить</a><a href="races/tauren/">Таурен</a><a href="races/troll/">Тролль</a><a href="races/skyborne-horde/">Скайборн-ветрорез</a></div></div>
     </div>
-    <div class="matrix-box" tabindex="0" role="region" aria-label="Таблица рас и классов, прокручивается по горизонтали"><table id="matrix"></table></div>
-    <div class="legend"><span><i class="ld"></i>можно</span><span><i class="ld nw"></i><span class="n">новое</span>комбинации не было в Classic</span><span><i class="ld no"></i>нельзя</span></div>
-    <div class="pickm" id="pickm"></div>
-    <div class="detail" id="detail" aria-live="polite" aria-label="Выбранная комбинация"></div>
+    <p class="swipe">Листайте портреты в сторону.</p>
+    <p><a class="more-l" href="races/">Сравнить все расы<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
   </div>
-  <p class="note"><b>Новые комбинации:</b> дворф-шаман и гном-жрец (Альянс), человек-охотник, а у Орды орк-маг, тролль-чернокнижник и нежить-паладин. Паладин появился у Орды, шаман у Альянса. Скайборн-ветрорез (Орда) может быть шаманом, Высший скайборн (Альянс) магом.</p>
+</section>
+
+<section class="block wrap" id="pickban">
+  <a class="frame pickban" href="tools/#picker">
+    <span class="pb-art" aria-hidden="true"><picture><source type="image/avif" data-lsrcset="./assets/art/dwarf-360.avif?v=26087647 360w, ./assets/art/dwarf-600.avif?v=a4adc65b 600w" sizes="(max-width: 719px) 100vw, 320px"><source type="image/webp" data-lsrcset="./assets/art/dwarf-360.webp?v=3f9e1aa4 360w, ./assets/art/dwarf-600.webp?v=0fd338bf 600w" sizes="(max-width: 719px) 100vw, 320px"><img data-lsrc="./assets/art/dwarf-600.webp?v=0fd338bf" width="600" height="804" alt="" loading="lazy" fetchpriority="low" decoding="async"></picture></span>
+    <span class="pb-t"><h2>Подборщик: раса и класс</h2><span>Все сочетания рас и классов, способности рас и роли. Выбор копируется для общего чата.</span></span>
+    <span class="btn">Открыть подборщик<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+  </a>
 </section>
 <section class="stband" id="guides">
   <div class="wrap">
-    <div class="sec-head"><h2>Гайды и справочник</h2><p>Всё, что мы собрали о WoW Forever: даты, системы игры, подземелья и советы для компании.</p></div>
-    <nav class="gtiles" aria-label="Гайды">
-      <a class="gt" href="guides/leveling/"><picture><source type="image/avif" srcset="./assets/art/hero_leveling-960.avif?v=2f7da17c"><img src="./assets/art/hero_leveling-960.webp?v=a931a8c0" alt="" loading="lazy" decoding="async"></picture><b>Прокачка 1–60</b><span>Маршрут по зонам, темп и отдых</span></a>
-      <a class="gt" href="guides/dungeons/"><picture><source type="image/avif" srcset="./assets/art/hero_dungeons-960.avif?v=517eca51"><img src="./assets/art/hero_dungeons-960.webp?v=8d258c73" alt="" loading="lazy" decoding="async"></picture><b>Подземелья и рейды</b><span>Все 35 подземелий по уровням и 3 рейда</span></a>
-      <a class="gt" href="guides/professions/"><picture><source type="image/avif" srcset="./assets/art/hero_professions-960.avif?v=54aac595"><img src="./assets/art/hero_professions-960.webp?v=92e0feaa" alt="" loading="lazy" decoding="async"></picture><b>Профессии</b><span>Пары под класс и объекты лагеря</span></a>
-      <a class="gt" href="guides/faq/"><picture><source type="image/avif" srcset="./assets/art/hero_faq-960.avif?v=65a3542d"><img src="./assets/art/hero_faq-960.webp?v=f1a74f56" alt="" loading="lazy" decoding="async"></picture><b>FAQ и даты</b><span>Резерв имён, релиз, рейды и отличия от Era</span></a>
-      <a class="gt" href="guides/news/"><picture><source type="image/avif" srcset="./assets/art/hero_news-960.avif?v=aabf2696"><img src="./assets/art/hero_news-960.webp?v=d07a62f9" alt="" loading="lazy" decoding="async"></picture><b>Новости</b><span>Наши записи и лента Wowhead</span></a>
-      <a class="gt" href="classes/"><picture><source type="image/avif" srcset="./assets/art/hero_classes-960.avif?v=386f493c"><img src="./assets/art/hero_classes-960.webp?v=089876b1" alt="" loading="lazy" decoding="async"></picture><b>Классы: сравнение</b><span>Специализации, темп прокачки и что нового</span></a>
-      <a class="gt" href="races/"><picture><source type="image/avif" srcset="./assets/art/hero_races-960.avif?v=4fad89fd"><img src="./assets/art/hero_races-960.webp?v=f9b537ef" alt="" loading="lazy" decoding="async"></picture><b>Расы: сравнение</b><span>Способности рас и доступные классы</span></a>
-      <a class="gt" href="guides/leveling/#legacy"><picture><source type="image/avif" srcset="./assets/art/hero_tools-960.avif?v=b331a740"><img src="./assets/art/hero_tools-960.webp?v=0156b7cf" alt="" loading="lazy" decoding="async"></picture><b>Legacy</b><span>Очки на весь аккаунт, перки и награды</span></a>
+    <div class="sec-head"><h2>Гайды и инструменты</h2></div>
+    <nav class="gtiles" aria-label="Гайды и инструменты">
+      <a class="gt" href="guides/leveling/"><picture><source type="image/avif" data-lsrcset="./assets/art/hero_leveling-960.avif?v=2f7da17c"><img data-lsrc="./assets/art/hero_leveling-960.webp?v=a931a8c0" alt="" loading="lazy" fetchpriority="low" decoding="async"></picture><b>Прокачка 1–60</b><span>Маршрут по зонам, темп и отдых</span></a>
+      <a class="gt" href="guides/dungeons/"><picture><source type="image/avif" data-lsrcset="./assets/art/hero_dungeons-960.avif?v=517eca51"><img data-lsrc="./assets/art/hero_dungeons-960.webp?v=8d258c73" alt="" loading="lazy" fetchpriority="low" decoding="async"></picture><b>Подземелья и рейды</b><span>Все 35 подземелий по уровням и 3 рейда</span></a>
+      <a class="gt" href="guides/professions/"><picture><source type="image/avif" data-lsrcset="./assets/art/hero_professions-960.avif?v=54aac595"><img data-lsrc="./assets/art/hero_professions-960.webp?v=92e0feaa" alt="" loading="lazy" fetchpriority="low" decoding="async"></picture><b>Профессии</b><span>Пары под класс и объекты лагеря</span></a>
+      <a class="gt" href="guides/faq/"><picture><source type="image/avif" data-lsrcset="./assets/art/hero_faq-960.avif?v=65a3542d"><img data-lsrc="./assets/art/hero_faq-960.webp?v=f1a74f56" alt="" loading="lazy" fetchpriority="low" decoding="async"></picture><b>FAQ и даты</b><span>Резерв имён, релиз, рейды и отличия от Era</span></a>
+      <a class="gt" href="tools/#raid"><picture><source type="image/avif" data-lsrcset="./assets/art/hero_roster-960.avif?v=a3600468"><img data-lsrc="./assets/art/hero_roster-960.webp?v=9a02a1cc" alt="" loading="lazy" fetchpriority="low" decoding="async"></picture><b>Конструктор группы</b><span>От одного до сорока игроков</span></a>
+      <a class="gt" href="tools/"><picture><source type="image/avif" data-lsrcset="./assets/art/hero_tools-960.avif?v=b331a740"><img data-lsrc="./assets/art/hero_tools-960.webp?v=0156b7cf" alt="" loading="lazy" fetchpriority="low" decoding="async"></picture><b>Рамки, сравнение, поиск</b><span>Рейдовая сетка как в игре, классы и расы рядом</span></a>
+      <a class="gt" href="play/"><picture><source type="image/avif" data-lsrcset="./assets/art/hero_requirements-960.avif?v=1d287ad4"><img data-lsrc="./assets/art/hero_requirements-960.webp?v=fd43acaa" alt="" loading="lazy" fetchpriority="low" decoding="async"></picture><b>В игре</b><span>Второй экран: этапы, персонаж, таймеры</span></a>
+      <a class="gt" href="guides/leveling/#legacy"><picture><source type="image/avif" data-lsrcset="./assets/art/hero_guides-960.avif?v=a70c025d"><img data-lsrc="./assets/art/hero_guides-960.webp?v=cb97d423" alt="" loading="lazy" fetchpriority="low" decoding="async"></picture><b>Legacy</b><span>Очки на весь аккаунт, перки и награды</span></a>
     </nav>
     <p><a class="more-l" href="guides/">Все гайды<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
   </div>
 </section>
 <section class="camp" id="camp">
-  <picture class="camp-art" data-fx="camp"><source type="image/avif" srcset="./assets/art/hero_campfire-960.avif?v=93981d6a 960w, ./assets/art/hero_campfire-1600.avif?v=170f274d 1600w, ./assets/art/hero_campfire-2560.avif?v=ab2937d5 2560w" sizes="(max-width: 719px) 300vw, 100vw"><source type="image/webp" srcset="./assets/art/hero_campfire-960.webp?v=5aa0e1b2 960w, ./assets/art/hero_campfire-1600.webp?v=f28cc311 1600w, ./assets/art/hero_campfire-2560.webp?v=0cd97d33 2560w" sizes="(max-width: 719px) 300vw, 100vw"><img src="./assets/art/hero_campfire-1600.webp?v=f28cc311" width="1600" height="893" alt="" loading="lazy" decoding="async"></picture>
+  <picture class="camp-art" data-fx="camp"><source type="image/avif" data-lsrcset="./assets/art/hero_campfire-960.avif?v=93981d6a 960w, ./assets/art/hero_campfire-1600.avif?v=170f274d 1600w, ./assets/art/hero_campfire-2560.avif?v=ab2937d5 2560w" sizes="(max-width: 719px) 220vw, 100vw"><source type="image/webp" data-lsrcset="./assets/art/hero_campfire-960.webp?v=5aa0e1b2 960w, ./assets/art/hero_campfire-1600.webp?v=f28cc311 1600w, ./assets/art/hero_campfire-2560.webp?v=0cd97d33 2560w" sizes="(max-width: 719px) 220vw, 100vw"><img data-lsrc="./assets/art/hero_campfire-1600.webp?v=f28cc311" width="1600" height="893" alt="" loading="lazy" fetchpriority="low" decoding="async"></picture>
   <div class="wrap camp-in">
     <h2>Найдите группу</h2>
     <p>Соберите группу в конструкторе и поделитесь ссылкой. Ищете людей — отметьте «Ищу группу» в профиле, и вас увидят в «Составе». Игроков собирают и на Discord-сервере Gabella Team.</p>
@@ -1143,19 +1096,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 })();
 </script>
 <footer id="sources">
-  <h2>Источники и актуальность</h2>
-  <p>Данные сверены по нескольким источникам. Если источники расходились, это отмечено в тексте. Точные числа сверяйте в игре.</p>
-  <p><span class="tl" style="display:inline">Совет:</span> мнение составителя, не официальные данные.</p>
-  <ul>
-    <li><a href="https://www.warcrafttavern.com/forever/" target="_blank" rel="noopener">Warcraft Tavern</a>: <a href="https://www.warcrafttavern.com/forever/guides/race-class-combos/" target="_blank" rel="noopener">комбинации</a>, <a href="https://www.warcrafttavern.com/forever/guides/races/" target="_blank" rel="noopener">расы</a>, <a href="https://www.warcrafttavern.com/forever/guides/legacy/" target="_blank" rel="noopener">Legacy</a>, <a href="https://www.warcrafttavern.com/forever/guides/camping/" target="_blank" rel="noopener">лагерь</a>, <a href="https://www.warcrafttavern.com/forever/guides/dungeons/" target="_blank" rel="noopener">подземелья</a>, <a href="https://www.warcrafttavern.com/news/world-of-warcraft-forever-editions-skyborne-race-unlock-beta-access/" target="_blank" rel="noopener">наборы и цены</a></li>
-    <li><a href="https://www.method.gg/wow-forever" target="_blank" rel="noopener">Method</a>: <a href="https://www.method.gg/wow-forever/all-class-and-race-combinations-in-world-of-warcraft-forever" target="_blank" rel="noopener">все комбинации</a>, <a href="https://www.method.gg/wow-forever/all-new-racial-abilities-in-world-of-warcraft-forever" target="_blank" rel="noopener">способности рас</a></li>
-    <li><a href="https://classicwow.gg/forever" target="_blank" rel="noopener">ClassicWoW.gg</a>: даты беты, резервации имён, рейдов, отличия от Era</li>
-    <li><a href="https://news.blizzard.com/en-gb/article/24307383" target="_blank" rel="noopener">Blizzard: система Legacy</a></li>
-    <li><a href="https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/" target="_blank" rel="noopener">Warcraft Tavern: изменения беты от 15 октября</a></li>
-    <li>Подземелья и этапы: <a href="https://www.warcrafttavern.com/forever/guides/dungeons/" target="_blank" rel="noopener">Warcraft Tavern</a>, <a href="https://www.sportskeeda.com/mmo/world-warcraft-forever-all-dungeons-order-level-range" target="_blank" rel="noopener">Sportskeeda</a>, <a href="https://www.icy-veins.com/wow-forever/dungeons-overview" target="_blank" rel="noopener">Icy Veins</a>, <a href="https://classicwow.gg/forever/dungeons" target="_blank" rel="noopener">ClassicWoW.gg</a>, <a href="https://www.warcrafttavern.com/forever/guides/riding/" target="_blank" rel="noopener">верховая езда</a>, <a href="https://www.warcrafttavern.com/forever/guides/professions/" target="_blank" rel="noopener">профессии</a>, <a href="https://teamoverpowered.com/forever/guides/name-reservation/" target="_blank" rel="noopener">имена и фамилии</a></li>
-    <li><a href="https://www.wowhead.com/forever" target="_blank" rel="noopener">Wowhead</a>: новости и справочник</li>
-    <li>Описание классов, темп прокачки: <a href="https://www.warcrafttavern.com/forever/guides/classes/" target="_blank" rel="noopener">Warcraft Tavern</a>, <a href="https://lfcarry.com/guides/wow-forever-classes" target="_blank" rel="noopener">LFCarry</a></li>
-  </ul>
+  <p class="fsrc">Данные сверены по нескольким источникам. Список есть на каждой странице гайда и в <a href="guides/faq/#sources">FAQ</a>.</p>
   <nav class="fmap" aria-label="Карта сайта"><div><a class="fh" href="./classes/">Классы</a><ul><li><a href="./classes/warrior/">Воин</a></li><li><a href="./classes/paladin/">Паладин</a></li><li><a href="./classes/hunter/">Охотник</a></li><li><a href="./classes/rogue/">Разбойник</a></li><li><a href="./classes/priest/">Жрец</a></li><li><a href="./classes/shaman/">Шаман</a></li><li><a href="./classes/mage/">Маг</a></li><li><a href="./classes/warlock/">Чернокнижник</a></li><li><a href="./classes/druid/">Друид</a></li></ul></div><div><a class="fh" href="./races/">Расы</a><ul><li><a href="./races/human/">Человек</a></li><li><a href="./races/dwarf/">Дворф</a></li><li><a href="./races/night-elf/">Ночной эльф</a></li><li><a href="./races/gnome/">Гном</a></li><li><a href="./races/skyborne-alliance/">Высший скайборн</a></li><li><a href="./races/orc/">Орк</a></li><li><a href="./races/undead/">Нежить</a></li><li><a href="./races/tauren/">Таурен</a></li><li><a href="./races/troll/">Тролль</a></li><li><a href="./races/skyborne-horde/">Скайборн-ветрорез</a></li></ul></div><div><a class="fh" href="./guides/">Гайды</a><ul><li><a href="./guides/leveling/">Прокачка 1–60</a></li><li><a href="./guides/best-race/">Лучшая раса для каждого класса</a></li><li><a href="./guides/tier-list/">Тир-лист классов WoW Forever</a></li><li><a href="./guides/legacy/">Система Legacy</a></li><li><a href="./guides/dungeons/">Подземелья и рейды</a></li><li><a href="./guides/professions/">Профессии</a></li><li><a href="./guides/addons/">Аддоны и интерфейс</a></li><li><a href="./guides/faq/">FAQ и даты</a></li><li><a href="./guides/requirements/">Системные требования</a></li><li><a href="./guides/news/">Новости</a></li></ul></div><div><a class="fh" href="./tools/">Инструменты</a><ul><li><a href="./tools/">Инструменты</a></li><li><a href="./play/">В игре</a></li></ul></div></nav><div class="legal"><p>Фанатский гид Gabella. Сайт не связан с Blizzard Entertainment и не одобрен ею. World of Warcraft, Warcraft и Blizzard Entertainment — товарные знаки или зарегистрированные товарные знаки Blizzard Entertainment, Inc. в США и/или других странах.</p><p>© 2026 Gabella<span aria-hidden="true"> · </span><a href="./privacy/">Конфиденциальность</a><span aria-hidden="true"> · </span><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><span aria-hidden="true"> · </span><a href="https://t.me/gabella_wow" target="_blank" rel="noopener">Telegram</a><span aria-hidden="true"> · </span>Связь: <a href="mailto:contact@gabella.site">contact@gabella.site</a></p></div>
 </footer>
 </div>
@@ -1172,9 +1113,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <dialog class="sheet" id="moreDlg" aria-label="Все разделы">
   <div class="dh"><b>Все разделы</b><button class="iconbtn" id="moreClose" type="button" aria-label="Закрыть"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Все разделы">
-    <div class="grp"><div class="gh">Эта страница</div><a href="#top">Обзор</a><a href="#stages">Где вы сейчас</a><a href="#factions">Фракции</a><a href="#classes">Классы</a><a href="#peoples">Расы</a></div>
+    <div class="grp"><div class="gh">Эта страница</div><a href="#top">Обзор</a><a href="#classes">Классы</a><a href="#peoples">Расы</a><a href="#guides">Гайды</a></div>
     <div class="grp"><div class="gh">Справочник</div><a href="#top">Главная</a><a href="classes/">Классы: сравнение</a><a href="races/">Расы: сравнение</a><a href="guides/leveling/">Прокачка 1–60</a><a href="guides/dungeons/">Подземелья и рейды</a><a href="guides/professions/">Профессии</a><a href="guides/faq/">FAQ и даты</a><a href="guides/news/">Новости</a><a href="guides/">Все гайды</a></div>
-    <div class="grp"><div class="gh">Инструменты</div><a href="#picker">Подборщик</a><a href="tools/#raid">Конструктор группы</a><a href="tools/">Рамки, сравнение, поиск</a><a href="play/">В игре</a></div>
+    <div class="grp"><div class="gh">Инструменты</div><a href="tools/#picker">Подборщик</a><a href="tools/#raid">Конструктор группы</a><a href="tools/">Рамки, сравнение, поиск</a><a href="play/">В игре</a></div>
     <div class="grp"><div class="gh">Сообщество</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="roster/">Игроки</a><a href="profile/">Мой профиль</a></div>
   </nav>
   <div class="opts">
@@ -1207,7 +1148,7 @@ function renderCountdown() {
     $('#cd').innerHTML = `<div class="what"><b>Рейды открыты</b><span>Barrow Deeps, Вершина Хиджала, Логово Ониксии</span></div>`;
   }
   let cur = null;
-  document.querySelectorAll('.hdates li').forEach(li => { const past = new Date(li.dataset.d) <= now; li.classList.toggle('past', past); li.classList.remove('cur'); if (!past && !cur) cur = li; });
+  document.querySelectorAll('.hd-line [data-d]').forEach(li => { const past = new Date(li.dataset.d) <= now; li.classList.toggle('past', past); li.classList.remove('cur'); if (!past && !cur) cur = li; });
   if (cur) cur.classList.add('cur');
 }
 renderCountdown();
@@ -1233,7 +1174,7 @@ $('#moreClose').onclick = () => dlg.close();
 dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.toc a')) dlg.close(); });
 })();
 </script>
-<script data-src="./assets/home/ru.js?v=04cb3fa8a0"></script>
+<script data-src="./assets/home/ru.js?v=6e8484bea3"></script>
 <script data-src="./assets/living/living.js?v=0b7ab7756c"></script>
 <link data-rel="stylesheet" href="./assets/tod/tod.css?v=aa7d7b1ae4">
 <script data-src="./assets/tod/tod.js?v=aa7d7b1ae4"></script>
@@ -1304,7 +1245,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="./assets/radio/radio.js?v=eb6a1e02ee" data-root="./"></script>
-<script data-src="./assets/search/search.js?v=8a2cef2f5c" data-root="./"></script>
+<script data-src="./assets/search/search.js?v=730b7e5d73" data-root="./"></script>
 <script data-src="./assets/me/me.js?v=a34702d24d" data-root="./" data-home="./" data-lang="ru" data-teaser="Профиль хранит ваших персонажей, достижения и рамки" data-close="Закрыть" data-page="" data-look="2"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
@@ -1313,6 +1254,8 @@ addEventListener('beforeinstallprompt', e => {
   function wake() {
     if (done) return; done = true;
     document.querySelectorAll('link[data-rel]').forEach(function (l) { l.rel = l.dataset.rel; });
+    document.querySelectorAll('source[data-lsrcset]').forEach(function (x) { x.srcset = x.dataset.lsrcset; });   // build.sleep_art
+    document.querySelectorAll('img[data-lsrc]').forEach(function (x) { x.src = x.dataset.lsrc; });
     document.querySelectorAll('script[data-src]').forEach(function (s) {
       var n = document.createElement('script');
       for (var i = 0; i < s.attributes.length; i++) if (s.attributes[i].name !== 'data-src') n.setAttribute(s.attributes[i].name, s.attributes[i].value);

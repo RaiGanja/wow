@@ -246,11 +246,38 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 
 <main>
 <div class="wrap tnav">
-  <nav class="ttiles t2" aria-label="Инструменты">
+  <nav class="ttiles t3" aria-label="Инструменты">
+      <a class="ttile" href="#picker"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/druid-600.avif"><img src="@@ROOT@@assets/art/druid-600.webp" alt="" loading="lazy" decoding="async"></picture><b>Подборщик расы и класса</b><span>Все сочетания и что умеет каждое</span></a>
       <a class="ttile" href="#raid"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/paladin-600.avif"><img src="@@ROOT@@assets/art/paladin-600.webp" alt="" loading="lazy" decoding="async"></picture><b>Рамки группы и рейда</b><span>Группа на 5, рейд на 10, 20 и 40, как в игре</span></a>
       <a class="ttile" href="#compare"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/mage-600.avif"><img src="@@ROOT@@assets/art/mage-600.webp" alt="" loading="lazy" decoding="async"></picture><b>Сравнение классов и рас</b><span>До трёх рядом: роли, броня, баффы, способности</span></a>
     </nav>
 </div>
+<section class="block wrap" id="picker">
+  <div class="sec-head"><div class="row"><h2>Подборщик: раса и класс</h2><span class="src">Warcraft Tavern, Method</span></div>
+    <p>Выберите фракцию и роль, посмотрите сочетания и нажмите на клетку. Ниже появятся способности расы и роли класса, а выбор копируется одной кнопкой для общего чата.</p></div>
+  <div class="tool bare">
+    <div class="filters" role="group" aria-label="Фильтры">
+      <div class="fgroup"><span class="flabel" id="lf">Фракция</span>
+        <div class="seg" id="segF" aria-labelledby="lf">
+          <button data-v="all" aria-pressed="true">Любая</button>
+          <button data-v="alliance" aria-pressed="false">Альянс</button>
+          <button data-v="horde" aria-pressed="false">Орда</button>
+        </div></div>
+      <div class="fgroup"><span class="flabel" id="lr">Роль</span>
+        <div class="seg" id="segR" aria-labelledby="lr">
+          <button data-v="all" aria-pressed="true">Любая</button>
+          <button data-v="tank" aria-pressed="false">Танк</button>
+          <button data-v="heal" aria-pressed="false">Лекарь</button>
+          <button data-v="dps" aria-pressed="false">Урон</button>
+        </div></div>
+    </div>
+    <div class="matrix-box" tabindex="0" role="region" aria-label="Таблица рас и классов, прокручивается по горизонтали"><table id="matrix"></table></div>
+    <div class="legend"><span><i class="ld"></i>можно</span><span><i class="ld nw"></i><span class="n">новое</span>комбинации не было в Classic</span><span><i class="ld no"></i>нельзя</span></div>
+    <div class="pickm" id="pickm"></div>
+    <div class="detail" id="detail" aria-live="polite" aria-label="Выбранная комбинация"></div>
+  </div>
+  <p class="note"><b>Новые комбинации:</b> дворф-шаман и гном-жрец (Альянс), человек-охотник, а у Орды орк-маг, тролль-чернокнижник и нежить-паладин. Паладин появился у Орды, шаман у Альянса. Скайборн-ветрорез (Орда) может быть шаманом, Высший скайборн (Альянс) магом.</p>
+</section>
 <section class="block wrap" id="raid">
   <div class="sec-head"><h2>Рамки группы и рейда</h2>
     <p>Соберите состав так, как он будет выглядеть в игре. Нажмите на рамку, чтобы выбрать расу, класс, роль и имя игрока. Рамку можно перетащить в другую группу или переставить кнопкой.</p></div>
@@ -575,6 +602,147 @@ const dlg = $('#moreDlg');
 document.querySelectorAll('.menubtn, .morebtn').forEach(b => b.onclick = () => { if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', ''); });
 $('#moreClose').onclick = () => dlg.close();
 dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.toc a')) dlg.close(); });
+
+/* ---------- Picker: race and class (on the home page until 25.10; class and race pages link tools/#pick=…) ---------- */
+function facName(f) { return f === 'alliance' ? 'Альянс' : 'Орда'; }
+function bi(ru) { return EN[ru] && EN[ru] !== ru ? `${esc(ru)} <span class="en">(${esc(EN[ru])})</span>` : esc(ru); }
+function raceEn(r) { return r.en ? ` <span class="en">/ ${esc(r.en)}</span>` : ''; }
+const tipBox = h => `<div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>${h}</p></div>`;
+function face(id, cc, cls = '', title = '') { return `<span class="av ${cls}" style="--cc:${cc}"${title ? ` title="${esc(title)}"` : ''}><img src="${ROOT}assets/art/${id}-face.webp${PV}" width="160" height="160" alt="" loading="lazy" decoding="async"></span>`; }
+function lvlMeter(c) {
+  const p = c.lp || 0, w = Math.min(Math.abs(p) / 12 * 46, 46);
+  const label = p < 0 ? `Быстрее на ${-p}%` : p > 0 ? `Медленнее на ${p}%` : 'Средний темп';
+  const bar = p ? `<i class="${p > 0 ? 'slow' : ''}" style="${p < 0 ? 'right' : 'left'}:50%;width:${w}%"></i>` : '';
+  return `<span class="lvl"><span>${label}</span><span class="bar" role="img" aria-label="${label}">${bar}</span><span class="scale" aria-hidden="true"><span>быстрее</span><span>медленнее</span></span></span>`;
+}
+const state = { f:'all', r:'all', race:'dwarf', cls:'shaman' };
+
+function roleMatch(c, role) { return role === 'all' || c.roles.includes(role); }
+function raceVisible(r) { return state.f === 'all' || r.f === state.f; }
+function roleChips(c) { return c.roles.map(x => `<span class="chip ${state.r === x ? 'on' : ''} ${x.endsWith('?') ? 'q' : ''}">${ri(x)}${ROLE_RU[x]}</span>`).join(''); }
+
+function pickValid() {
+  let r = RC[state.race];
+  if (!raceVisible(r)) { r = RACES.find(raceVisible); state.race = r.id; }
+  if (!r.can[state.cls]) { state.cls = Object.keys(r.can).find(c => roleMatch(CL[c], state.r)) || Object.keys(r.can)[0]; }
+}
+function pickClass(id) {
+  state.cls = id;
+  if (!RC[state.race].can[id]) { const r = RACES.filter(raceVisible).find(x => x.can[id]) || RACES.find(x => x.can[id]); if (r) state.race = r.id; }
+  if (!raceVisible(RC[state.race])) { state.f = 'all'; syncSeg('segF', 'all'); }
+}
+
+function renderMatrix() {
+  let h = '<thead><tr><th scope="col">Раса</th>';
+  CLASSES.forEach(c => { h += `<th scope="col" class="${roleMatch(c, state.r) ? '' : 'dim'}${c.id === state.cls ? ' selc' : ''}">${face(c.id, CCOL[c.id])}${esc(c.n)}</th>`; });
+  h += '</tr></thead><tbody>';
+  ['alliance', 'horde'].forEach(f => {
+    const rows = RACES.filter(r => r.f === f && raceVisible(r));
+    if (!rows.length) return;
+    h += `<tr class="fh ${f}"><th colspan="${CLASSES.length + 1}" scope="rowgroup"><span class="f ${f}"></span>${facName(f)}</th></tr>`;
+    rows.forEach(r => {
+      h += `<tr class="${r.id === state.race ? 'rowsel' : ''}"><th scope="row"><span class="rn">${face(RSLUG[r.id], `var(--${r.f})`)}${esc(r.n)}${r.paid ? '<span class="paid">платная</span>' : ''}</span></th>`;
+      CLASSES.forEach(c => {
+        const v = r.can[c.id];
+        const dim = roleMatch(c, state.r) ? '' : ' dim';
+        if (!v) { h += `<td><span class="cell no${dim}" role="img" aria-label="${esc(r.n)} ${esc(c.n)}: нельзя"></span></td>`; return; }
+        const sel = (r.id === state.race && c.id === state.cls) ? ' sel' : '';
+        const label = `${r.n} ${c.n}${v === 'new' ? ', новая комбинация' : ''}`;
+        const mark = '<i><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></i>';
+        h += `<td><button class="cell ${v}${dim}${sel}" style="--cc:${CCOL[c.id]}" data-r="${r.id}" data-c="${c.id}" aria-label="${esc(label)}" aria-pressed="${sel ? 'true' : 'false'}">${mark}</button></td>`;
+      });
+      h += '</tr>';
+    });
+  });
+  const mx = $('#matrix');
+  mx.innerHTML = h + '</tbody>';
+  mx._hc = -1;
+}
+/* Crosshair: the hovered cell lights up its row (CSS) and its column (here) */
+(function () {
+  const mx = document.getElementById('matrix');
+  const mark = i => {
+    if (i === mx._hc) return;
+    mx._hc = i;
+    mx.querySelectorAll('.hcol').forEach(x => x.classList.remove('hcol'));
+    if (i > 0) mx.querySelectorAll(`thead th:nth-child(${i + 1}), tbody tr:not(.fh) > :nth-child(${i + 1})`).forEach(x => x.classList.add('hcol'));
+  };
+  mx.addEventListener('mouseover', e => { const td = e.target.closest('td'); mark(td ? td.cellIndex : -1); });
+  mx.addEventListener('mouseleave', () => mark(-1));
+})();
+
+function renderPickM() {
+  const r = RC[state.race];
+  const races = RACES.filter(raceVisible).map(x => `<button type="button" data-pr="${x.id}" aria-pressed="${x.id === state.race}"><span class="f ${x.f}"></span>${esc(x.n)}</button>`).join('');
+  const cls = CLASSES.filter(c => roleMatch(c, state.r)).map(c => {
+    const v = r.can[c.id];
+    return `<button type="button" data-pc="${c.id}" class="${v ? '' : 'na'}" aria-pressed="${c.id === state.cls}">${esc(c.n)}${v === 'new' ? ' · новое' : ''}</button>`;
+  }).join('');
+  $('#pickm').innerHTML = `<div><div class="lbl">1. Раса</div><div class="chiprow">${races}</div></div>
+    <div><div class="lbl">2. Класс · пунктир — не для этой расы, нажмите, чтобы сменить расу</div><div class="chiprow">${cls}</div></div>`;
+}
+
+function renderDetail() {
+  const r = RC[state.race], c = CL[state.cls], isNew = r.can[c.id] === 'new';
+  const specs = c.specs.map(s => {
+    const hit = state.r !== 'all' && s[2].includes(state.r) ? ' on' : '';
+    return `<div class="card${hit}" style="--cc:${CCOL[c.id]}"><span class="rc">${ri(s[2][0])}</span><b>${bi(s[0])}</b><span>${esc(s[1])}</span></div>`;
+  }).join('');
+  const rac = r.rac.map(x => `<div class="card ab"><span class="abt${x[0] === 'a' ? '' : ' p'}">${x[0] === 'a' ? 'Активная' : 'Пассивная'}</span><b>${bi(x[1])}</b><span>${esc(x[2])}</span></div>`).join('');
+  const text = `${r.name || r.n} ${c.n} (${facName(r.f)})${r.paid ? ', нужен набор Скайборн' : ''}`;
+  $('#detail').innerHTML = `
+    <div class="d-head">
+      <div class="d-art" aria-hidden="true"><img src="${ROOT}assets/art/${RSLUG[r.id]}-600.webp${PV}" width="600" height="804" alt="" loading="lazy" decoding="async"></div>
+      <div class="d-avs">${face(RSLUG[r.id], `var(--${r.f})`)}${face(c.id, CCOL[c.id])}</div>
+      <div class="d-title"><h3>${esc(r.n)}${raceEn(r)} · ${esc(c.n)}</h3>
+        <div class="chips"><span class="tag ${r.f}">${facName(r.f)}</span>${isNew ? '<span class="tag new">Новая комбинация</span>' : ''}${r.paid ? '<span class="tag paid">Платная раса</span>' : ''}${roleChips(c)}</div></div>
+    </div>
+    <div class="d-body">
+      <div class="d-cols">
+        <div><h4>Специализации</h4><div class="cards">${specs}</div></div>
+        <div><h4>Способности расы</h4><div class="cards two">${rac}</div></div>
+      </div>
+      <div class="facts3">
+        <div class="fact"><h4>Прокачка</h4>${lvlMeter(c)}</div>
+        <div class="fact"><h4>В рейде</h4><span>${esc(c.raid)}.</span></div>
+        <div class="fact"><h4>Что нового</h4><span>${esc(c.forever)}</span></div>
+      </div>
+      ${tipBox(esc(r.tip))}
+      <div class="copyrow">
+        <input id="pickText" readonly value="${esc(text)}" aria-label="Мой выбор">
+        <button class="btn" id="copyBtn"><svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg>Скопировать мой выбор</button>
+        <span class="small" id="copyMsg" role="status"></span>
+      </div>
+    </div>`;
+  $('#copyBtn').onclick = () => copyTo($('#pickText').value, $('#copyMsg'), 'Скопировано');
+}
+
+function render() { pickValid(); renderMatrix(); renderPickM(); renderDetail(); }
+function toPicker() { $('#detail').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest' }); }
+
+document.addEventListener('click', e => {
+  const seg = e.target.closest('#segF button, #segR button');
+  if (seg) {
+    const which = seg.parentElement.id === 'segF' ? 'f' : 'r';
+    state[which] = seg.dataset.v; syncSeg(seg.parentElement.id, seg.dataset.v);
+    render(); return;
+  }
+  const cell = e.target.closest('button.cell');
+  if (cell) { state.race = cell.dataset.r; state.cls = cell.dataset.c; render(); toPicker(); return; }
+  const pr = e.target.closest('[data-pr]');
+  if (pr) { state.race = pr.dataset.pr; render(); return; }
+  const pc = e.target.closest('[data-pc]');
+  if (pc) { pickClass(pc.dataset.pc); render(); return; }
+});
+render();
+/* Deep link from class pages: #pick=shaman or #pick=dwarf.shaman */
+(function () {
+  const m = location.hash.match(/^#pick=(?:(\w+)\.)?(\w+)$/);
+  if (!m || !CL[m[2]]) return;
+  if (m[1] && RC[m[1]] && RC[m[1]].can[m[2]]) { state.race = m[1]; state.cls = m[2]; } else pickClass(m[2]);
+  state.f = 'all'; state.r = 'all'; syncSeg('segF', 'all'); syncSeg('segR', 'all'); render();
+  setTimeout(() => document.getElementById('picker').scrollIntoView(), 0);
+})();
 
 const fromLink = location.hash.startsWith('#team=');
 readHash();

@@ -14,13 +14,13 @@ _ru, _en, _uk = (build.load(f'tools.{l}.txt') for l in langs.OLD)
 assert len(_ru) == len(_en) == len(_uk), (len(_ru), len(_en), len(_uk))
 build.T.update({r: (e, u) for r, e, u in zip(_ru, _en, _uk)})
 
-# Home page data blocks reused as is: classes, roles, colours, buffs, races, dungeons, professions
-HOME_JS = [(r'const CLASSES = \[', r'^const RC = .*$')]
+# Home page data blocks reused as is: classes, roles, colours, buffs, races; English spec and racial names
+HOME_JS = [(r'const CLASSES = \[', r'^const RC = .*$'), (r'const EN = \{', r'^RC\.skyA\.en = .*$')]   # + English names of specs and racials (the picker)
 
 
-def home_data(src):
+def home_data(src, blocks=HOME_JS):
     out = []
-    for start, end in HOME_JS:
+    for start, end in blocks:
         i = re.search(start, src).start()
         j = re.compile(end, re.M).search(src, i).end()
         out.append(src[i:j])

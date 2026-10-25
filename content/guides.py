@@ -66,6 +66,14 @@ GUIDES.append({
          'https://www.method.gg/wow-forever/choosing-your-character-name-and-ruleset-in-wow-forever'),
         (t('Conquest Capped: Classic или Enhanced', 'Conquest Capped: Classic or Enhanced', 'Conquest Capped: Classic чи Enhanced'),
          'https://conquestcapped.com/guides/wow-forever/wow-forever-classic-look/'),
+        # the home page list of sources lives here since 25.10 (the home has one line with a link)
+        (t('Warcraft Tavern: комбинации рас и классов', 'Warcraft Tavern: race and class combinations', 'Warcraft Tavern: поєднання рас і класів'),
+         'https://www.warcrafttavern.com/forever/guides/race-class-combos/'),
+        (t('Method: все комбинации и способности рас', 'Method: all combinations and racial abilities', 'Method: усі поєднання та здібності рас'),
+         'https://www.method.gg/wow-forever/all-class-and-race-combinations-in-world-of-warcraft-forever'),
+        (t('Blizzard: система Legacy', 'Blizzard: Legacy system', 'Blizzard: система Legacy'), 'https://news.blizzard.com/en-gb/article/24307383'),
+        (t('LFCarry: классы и темп прокачки', 'LFCarry: classes and leveling pace', 'LFCarry: класи та темп прокачування'), 'https://lfcarry.com/guides/wow-forever-classes'),
+        ('Wowhead', 'https://www.wowhead.com/forever'),
     ],
     'sections': [
         {'id': 'dates', 'title': t('Даты', 'Dates', 'Дати'), 'blocks': [
