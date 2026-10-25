@@ -54,6 +54,7 @@
   --panel-2: #161a24;
   --pline: rgba(255,255,255,.08);
   --zebra: rgba(255,255,255,.035);   /* every other row of a table or list on its plate */
+  --seg-on: rgba(255,255,255,.09);   /* the active segment, tab or toggle: a plate and gold text, never a gold fill */
   --font-display: "Spectral SC", Georgia, "Times New Roman", serif;
   --display-w: 600;
   --font-body: "Golos Text", "Segoe UI", system-ui, sans-serif;
@@ -93,6 +94,7 @@ html[data-tod="night"] { --hero-fade: 5 7 12;  --hero-shadow: 0 1px 2px rgb(0 0 
   --panel-2: #f6f4ef;
   --pline: #e2ddd2;
   --zebra: rgba(40,32,16,.045);
+  --seg-on: rgba(40,32,16,.08);
   color-scheme: light;
 }
 * { box-sizing: border-box; }
@@ -415,7 +417,7 @@ ul.dlist li.mine { background: color-mix(in srgb, var(--gold) 14%, transparent);
 .me-f .stepper button { min-width: 36px; }
 .me-f .stepper input { flex: 1; width: auto; min-width: 0; }
 .me-f .chiprow button { border-radius: 7px; border-color: var(--pline); background: var(--panel-2); color: var(--fg); font-size: var(--fs-14); }
-.me-f .chiprow button[aria-pressed="true"] { background: #c9a54a; border-color: #c9a54a; color: #15110a; }
+.me-f .chiprow button[aria-pressed="true"] { background: var(--seg-on); border-color: transparent; color: var(--gold-2); }
 .me .note-s { padding: 0 18px 16px; color: var(--muted); font-size: var(--fs-13); }
 .me-out { padding: 16px 18px; border-top: 1px solid var(--pline); display: grid; gap: 14px; }
 .me-out:empty { display: none; }
@@ -458,14 +460,15 @@ ul.dots li::marker { color: var(--gold); }
 .filters { display: flex; flex-wrap: wrap; gap: 12px 28px; align-items: center; }
 .fgroup { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-width: 0; }
 .flabel { font-size: var(--fs-14); color: var(--muted); font-weight: 500; }
-.seg { display: inline-flex; flex-wrap: wrap; gap: 4px; padding: 4px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); }
-.seg button { border: 0; border-radius: 7px; background: transparent; padding: 0 15px; min-height: 44px; font-weight: 600; font-size: var(--fs-16); }
+/* Segments: no frame around the group; the active one is a plate with gold text (Maxroll), one gold per screen stays the button's */
+.seg { display: inline-flex; flex-wrap: wrap; gap: 4px; }
+.seg button { border: 0; border-radius: 6px; background: transparent; padding: 0 14px; min-height: 44px; font-weight: 600; font-size: var(--fs-16); transition: background-color .15s, color .15s; }
 /* Level stepper next to a segment: same height and inner frame as .seg */
 .filters .stepper { padding: 4px; gap: 2px; }
 .filters .stepper button { min-width: 40px; border-radius: 7px; }
 .filters .stepper button:hover { background: color-mix(in srgb, var(--fg) 7%, transparent); }
-.seg button:hover { background: color-mix(in srgb, var(--fg) 7%, transparent); }
-.seg button[aria-pressed="true"] { background: #c9a54a; color: #15110a; }
+.seg button:hover { background: var(--zebra); }
+.seg button[aria-pressed="true"] { background: var(--seg-on); color: var(--gold-2); }
 .copyrow { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
 .copyrow input { flex: 1 1 220px; min-width: 0; font: inherit; min-height: 44px; padding: 0 12px; border: 1px solid var(--pline); border-radius: 7px; background: var(--panel-2); color: var(--fg); }
 .copyrow .small { flex-basis: 100%; min-height: 1.4em; }
@@ -534,7 +537,7 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 .pickm .lbl { font-size: var(--fs-14); color: var(--muted); margin-bottom: 8px; }
 .chiprow { display: flex; flex-wrap: wrap; gap: 6px; }
 .chiprow button { min-height: 44px; padding: 0 12px; border: 1px solid var(--pline); border-radius: 7px; background: var(--panel-2); font-size: var(--fs-16); font-weight: 500; }
-.chiprow button[aria-pressed="true"] { background: #c9a54a; border-color: #c9a54a; color: #15110a; }
+.chiprow button[aria-pressed="true"] { background: var(--seg-on); border-color: transparent; color: var(--gold-2); }
 .chiprow button.na { color: var(--muted); border-style: dashed; }
 .chiprow button .f { margin-right: 6px; }
 /* Selected combination: art header, specs and racials as cards, three facts */
@@ -577,7 +580,7 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 .d-title .chips { align-items: center; }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .chip { display: inline-flex; align-items: center; min-height: 26px; font-size: var(--fs-14); font-weight: 600; padding: 0 10px; border-radius: 999px; border: 1px solid var(--pline); background: var(--panel-2); white-space: nowrap; }
-.chip.on { background: #c9a54a; color: #15110a; border-color: #c9a54a; }
+.chip.on { background: var(--seg-on); border-color: transparent; color: var(--gold-2); }
 .chip.q { border-style: dashed; }
 .chip.new { color: var(--new); border-color: color-mix(in srgb, var(--new) 50%, transparent); }
 /* Under the combination name: one line of text (faction · new combination · roles), no badges */
@@ -910,9 +913,10 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .gtable .alt { display: block; margin-top: 4px; color: var(--muted); font-size: var(--fs-13); font-weight: 400; }
 .gtable .tag { margin-left: 6px; vertical-align: 1px; }
 #dgBox .filters { margin-bottom: 6px; }
-.gtabs [role="tablist"] { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
-.gtabs [role="tab"] { min-height: 38px; padding: 0 14px; cursor: pointer; font: inherit; font-weight: 600; }
-.gtabs [role="tab"][aria-selected="true"] { background: #c9a54a; border-color: #c9a54a; color: #15110a; }
+.gtabs [role="tablist"] { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 14px; }
+.gtabs [role="tab"] { min-height: 44px; padding: 0 14px; border: 0; border-radius: 6px; background: transparent; cursor: pointer; font: inherit; font-weight: 600; transition: background-color .15s, color .15s; }   /* a segment, not capsules */
+.gtabs [role="tab"]:hover { background: var(--zebra); }
+.gtabs [role="tab"][aria-selected="true"] { background: var(--seg-on); color: var(--gold-2); }
 .gtabs [role="tabpanel"] { display: grid; gap: 14px; }
 .gtabs [role="tabpanel"][hidden] { display: none; }
 /* FAQ: plain rows, no frame per question. A chevron on the right, a plate on hover, the open answer indented under it */
@@ -943,7 +947,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .pacts:not(:has(> :not([hidden]))) { display: none; }
 .pwake { gap: 6px; min-height: 36px; padding: 0 14px; cursor: pointer; font: inherit; font-size: var(--fs-14); }
 .pwake .ico { width: 16px; height: 16px; }
-.pwake[aria-pressed="true"] { background: #c9a54a; border-color: #c9a54a; color: #15110a; }
+.pwake[aria-pressed="true"] { background: var(--seg-on); border-color: transparent; color: var(--gold-2); }
 .gplay { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding: 14px 18px; color: inherit; text-decoration: none; transition: border-color .2s; }
 .gplay:hover { border-color: var(--gold); }
 .gsec .gplay { border: 0; border-radius: 6px; box-shadow: none; background: var(--panel-2); backdrop-filter: none; transition: background-color .15s; }   /* inside a section: a plate, not a second frame */
@@ -960,7 +964,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .pchars { display: flex; flex-wrap: wrap; gap: 8px; }
 .pchars[hidden] { display: none; }
 .pchars .pill { min-height: 36px; padding: 0 14px; cursor: pointer; font: inherit; font-size: var(--fs-16); }
-.pchars .pill[aria-pressed="true"] { background: #c9a54a; border-color: #c9a54a; color: #15110a; }
+.pchars .pill[aria-pressed="true"] { background: var(--seg-on); border-color: transparent; color: var(--gold-2); }
 .pchars .pill b { font-weight: 600; margin-right: 6px; }
 .pchars a { align-self: center; color: var(--gold-2); font-size: var(--fs-14); }
 .pgrid { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
@@ -981,7 +985,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .pfac { display: flex; gap: 8px; }
 .pfac[hidden] { display: none; }
 .pfac .pill, .ppre .pill, .pform .pill { min-height: 36px; padding: 0 14px; cursor: pointer; font: inherit; font-size: var(--fs-16); }
-.pfac .pill[aria-pressed="true"] { background: #c9a54a; border-color: #c9a54a; color: #15110a; }
+.pfac .pill[aria-pressed="true"] { background: var(--seg-on); border-color: transparent; color: var(--gold-2); }
 .plv { display: flex; align-items: center; justify-content: center; gap: 22px; }
 .lvb { width: 56px; height: 56px; border-radius: 50%; border: 1px solid var(--pline); background: var(--panel-2); color: var(--fg); font: inherit; font-size: var(--fs-28); line-height: 1; cursor: pointer; }
 .lvb:hover { border-color: var(--gold); }
