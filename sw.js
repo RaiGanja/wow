@@ -39,7 +39,7 @@ async function put(name, req, res, max) {
 }
 
 async function page(e) {
-  const req = e.request, net = fetch(req);
+  const req = e.request, net = fetch(req, { cache: 'no-cache' });   // revalidate: the HTML may sit in the HTTP cache for hours
   e.waitUntil(net.then(res => put(PAGES, req, res.clone(), MAX_PAGES)).catch(() => {}));
   const saved = await caches.match(req, { ignoreSearch: true });
   if (!saved) return net.catch(() => new Response(OFFLINE, { headers: { 'Content-Type': 'text/html; charset=utf-8' } }));
