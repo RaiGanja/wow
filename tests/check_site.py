@@ -75,7 +75,7 @@ def main():
             if cyr:
                 problems.append(f'{rel}: кириллица: {cyr[:3]}')
         for u in OG.findall(html):   # share preview: absolute URL of a file in this repo
-            if not u.startswith(SITE) or not os.path.exists(os.path.join(ROOT, u[len(SITE):])):
+            if not u.startswith(SITE) or not os.path.exists(os.path.join(ROOT, u[len(SITE):].split('?')[0])):   # ?v=<hash> from og_version
                 problems.append(f'{rel}: нет картинки превью {u}')
         if 'rel="manifest"' not in html or 'serviceWorker' not in html:
             problems.append(f'{rel}: нет манифеста или service worker')
