@@ -101,7 +101,7 @@ def site_map(lang, home):
         _RACES.extend(parse_races(open(os.path.join(HERE, 'index.src.html'), encoding='utf-8').read()))
     slug = {r['id']: r['slug'] for r in RACES_PAGE}
     hub = {h['slug']: h for h in HUBS}
-    guides = sorted((g for g in GUIDES if g.get('only', lang) == lang), key=lambda g: ORDER.index(g['slug']) if g['slug'] in ORDER else len(ORDER))
+    guides = sorted((g for g in GUIDES if g.get('only', lang) == lang and g.get('hub') is not False), key=lambda g: ORDER.index(g['slug']) if g['slug'] in ORDER else len(ORDER))   # hub False (the nine class guides): off the footer too
     cols = [
         (hub['classes']['title'], 'classes/', [(f'classes/{c["id"]}/', tr(c['n'], lang)) for c in CLASSES]),
         (hub['races']['title'], 'races/', [(f'races/{slug[r["id"]]}/', tr(r['n'], lang)) for r in _RACES]),

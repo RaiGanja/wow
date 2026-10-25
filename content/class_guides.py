@@ -39,13 +39,13 @@ CLASSES_TILE = tx('Спек, таланты и ротация для девят�
                   de='Skillung, Talente und Rotation für alle neun Klassen', es='Especialización, talentos y rotación de las nueve clases',
                   fr='Spécialisation, talents et rotation des neuf classes', it='Specializzazione, talenti e rotazione per tutte le nove classi',
                   pl='Specjalizacja, talenty i rotacja dla wszystkich dziewięciu klas', pt='Especialização, talentos e rotação das nove classes')
-HUB_TILE = {'t': CLASSES_TITLE, 'd': CLASSES_TILE, 'href': 'guides/leveling/#classes', 'art': 'hero_classes'}
+HUB_TILE = {'t': CLASSES_TITLE, 'd': CLASSES_TILE, 'href': 'guides/leveling/#classes', 'art': 'warrior'}   # hero_classes is the tier list's tile on the same hub
 
 
 def _related(cid, labels):
     """End-of-page tiles: the class page, the leveling guide, the best race (anchor of the class), the tier list. 'd' is filled by attach()."""
     return [{'t': labels[0], 'd': None, 'href': f'classes/{cid}/', 'art': cid},
-            {'t': labels[1], 'd': None, 'href': 'guides/leveling/', 'art': 'hero_leveling'},
+            {'t': labels[1], 'd': None, 'href': 'guides/leveling/', 'art': 'hero_dawn'},   # hero_leveling is this page's own hero
             {'t': labels[2], 'd': None, 'href': f'guides/best-race/#{cid}', 'art': 'hero_races'},
             {'t': labels[3], 'd': None, 'href': 'guides/tier-list/', 'art': 'hero_classes'}]
 
@@ -1263,6 +1263,7 @@ def attach(guides, hubs, order):
     tiles = []
     for g in CLASS_GUIDES:
         cid = g['slug'].removeprefix('leveling-')
+        g['tile_art'] = cid                                  # «Другие гайды»: the class art, not nine copies of hero_leveling
         sec = g['sections'][-1]
         assert sec['id'] == 'related'
         for x in sec['blocks'][0][1]:

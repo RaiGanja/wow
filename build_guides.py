@@ -211,7 +211,7 @@ def profs_table(src):
 def inline_tiles(obj):
     """Links of the art tiles inside a guide's text (also inside tabs): those guides stay out of «Other guides» below."""
     if isinstance(obj, tuple) and len(obj) == 2 and obj[0] == 'tiles':
-        return {x['href'] for x in obj[1]}
+        return {x['href'].split('#')[0] for x in obj[1]}          # «Лучшая раса» #warrior is still that guide
     if isinstance(obj, (list, tuple)):
         return set().union(*map(inline_tiles, obj)) if obj else set()
     if isinstance(obj, dict):
@@ -230,7 +230,7 @@ def render_guide(g, lang, root):
 
 def guide_tiles(guides):
     # a tile shows the guide's own scene when it has one: portraits stay on the class and race pages, no picture twice on a page
-    return [{'t': x['title'], 'd': x['tile'], 'href': f'guides/{x["slug"]}/', 'art': x.get('hero') or x['art']} for x in guides]
+    return [{'t': x['title'], 'd': x['tile'], 'href': f'guides/{x["slug"]}/', 'art': x.get('tile_art') or x.get('hero') or x['art']} for x in guides]
 
 
 def section_tiles():
