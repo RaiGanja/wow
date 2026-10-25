@@ -522,11 +522,12 @@ function openEditor(i) {
   edI = i; $('#edName').value = R.s[i].name || ''; fillEditor();
   if (ed.showModal) ed.showModal(); else ed.setAttribute('open', '');
 }
+const edP = () => ed.open && R.s[edI];   // the player in the open editor; autofill can fire input on the closed one
 function edChanged() { fixPlayer(R.s[edI]); fillEditor(); renderRaid(); }
-$('#edName').addEventListener('input', e => { R.s[edI].name = cleanName(e.target.value); renderRaid(); });
-$('#edRace').onchange = e => { R.s[edI].race = e.target.value; edChanged(); };
-$('#edCls').onchange = e => { R.s[edI].cls = e.target.value; edChanged(); };
-$('#edRole').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { R.s[edI].role = b.dataset.v; edChanged(); } });
+$('#edName').addEventListener('input', e => { const p = edP(); if (!p) return; p.name = cleanName(e.target.value); renderRaid(); });
+$('#edRace').onchange = e => { const p = edP(); if (!p) return; p.race = e.target.value; edChanged(); };
+$('#edCls').onchange = e => { const p = edP(); if (!p) return; p.cls = e.target.value; edChanged(); };
+$('#edRole').addEventListener('click', e => { const b = e.target.closest('button'); const p = edP(); if (b && p) { p.role = b.dataset.v; edChanged(); } });
 $('#edDel').onclick = () => { R.s[edI] = null; ed.close(); };
 $('#edMove').onclick = () => { R.moving = edI; ed.close(); };
 $('#edOk').onclick = $('#edClose').onclick = () => ed.close();
