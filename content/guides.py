@@ -786,7 +786,7 @@ CLASS_PAIRS = [   # (id, имя класса, прокачка, 60 уровен�
      t('Кожевник делает вещи с силой заклинаний для Стихий и Исцеления и экипировку для Совершенствования. В рейде и группе нужны зелья.', 'A leatherworker makes spell power gear for Elemental and Restoration and gear for Enhancement. Raids and groups need potions.', 'Шкіряник робить речі із силою заклинань для Стихій і Зцілення та спорядження для Вдосконалення. У рейді й групі потрібні зілля.')),
     ('mage', t('Маг', 'Mage', 'Маг'),
      (t('Портняжное дело + Наложение чар', 'Tailoring + Enchanting', 'Кравецтво + Зачарування'), ('tailoring', 'enchanting')),
-     (t('То же; для PvP и больших пулов Инженерное дело + Горное дело', 'Same; for PvP and big pulls Engineering + Mining', 'Те саме; для PvP і великих пулів Інженерія + Гірництво'), ('tailoring', 'enchanting', 'engineering', 'mining')),
+     (t('Портняжное дело + Наложение чар; для PvP и больших пулов Инженерное дело + Горное дело', 'Tailoring + Enchanting; for PvP and big pulls Engineering + Mining', 'Кравецтво + Зачарування; для PvP і великих пулів Інженерія + Гірництво'), ('tailoring', 'enchanting', 'engineering', 'mining')),
      t('Портной даёт раннюю экипировку с силой заклинаний, сшитое распыляют. Гранаты инженера держат на месте большие группы врагов.', 'A tailor provides early spell power gear, and tailored items get disenchanted. An engineer’s grenades hold big groups of enemies in place.', 'Кравець дає раннє спорядження із силою заклинань, пошите розщеплюють. Гранати інженера втримують на місці великі групи ворогів.')),
     ('warlock', t('Чернокнижник', 'Warlock', 'Чорнокнижник'),
      (t('Портняжное дело + Наложение чар', 'Tailoring + Enchanting', 'Кравецтво + Зачарування'), ('tailoring', 'enchanting')),
