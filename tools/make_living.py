@@ -324,11 +324,11 @@ def tierlist():
                     lambda x, y: fade(y, 50, 285) if x < 150 else fade(y, 105, 300) if x < 300 else fade(y, 135, 312) if x < 400 else fade(y, 160, 318))
     poles = Image.new('L', (W, H), 0)
     for b in [(52, 0, 74, 60), (230, 55, 250, 110), (348, 100, 368, 140), (430, 145, 450, 165), (112, 130, 212, 260), (494, 248, 556, 320),
-              (895, 30, 1000, 205), (850, 125, 910, 205), (1222, 30, 1376, 300)]:
-        poles.paste(255, b)   # spear tips, lantern posts and the lamps, the dwarf's axe
+              (895, 30, 1000, 205), (845, 110, 910, 205), (1222, 30, 1376, 300)]:
+        poles.paste(255, b)   # spear tips, lantern posts and the lamps, the paladin's raised hammer
     poles = ImageChops.invert(ImageChops.lighter(poles, banners.point(lambda v: 255 if v else 0)).filter(ImageFilter.MaxFilter(13)))
-    open_sky = ImageChops.multiply(open_area([(0, 0), (1222, 0), (1222, 190), (1100, 232), (1050, 190), (992, 140), (992, 40), (888, 40),
-                                              (880, 190), (868, 125), (782, 125), (758, 200), (700, 188), (600, 188), (588, 245), (560, 262),
+    open_sky = ImageChops.multiply(open_area([(0, 0), (1222, 0), (1222, 190), (1120, 232), (1060, 160), (1000, 118), (995, 28), (895, 28),
+                                              (845, 150), (845, 200), (700, 200), (600, 188), (588, 245), (560, 262),
                                               (0, 280)], (230, 290)), poles.filter(ImageFilter.GaussianBlur(6)))   # the banners swing, the sky drifts behind them
     save('hero_tierlist', lamps, soft(banners, 0, 2), soft(open_sky, 1, 2), Image.new('L', (W, H), 0))
 
