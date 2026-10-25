@@ -20,8 +20,9 @@ def test_titles_fit_the_results_page():
         if path in seo.NOINDEX:
             continue
         for lang, (title, desc) in by_lang.items():
-            assert len(title) <= 65, (path, lang, len(title), title)
+            assert len(title) <= 60, (path, lang, len(title), title)
             assert 'WoW Forever' in title, (path, lang, title)
+            assert len(desc) <= 160, (path, lang, len(desc), desc)
 
 
 def test_titles_follow_real_queries():

@@ -47,7 +47,7 @@ def t(ru, en, uk):
 
 
 # ---------- titles and descriptions: by page path (site-relative, without language prefix) ----------
-# Под реальные запросы, по факту содержимого страницы. Длина: title до ~65, description 120–160 символов.
+# Под реальные запросы, по факту содержимого страницы. Длина: title до 60, description 120–155 символов (у переводов тоже: i18n/<lang>.json).
 
 META = {
     '': (t('Гид WoW Forever: классы, расы, прокачка и подземелья',
@@ -68,9 +68,9 @@ META = {
                t('Пять рас за Альянс и пять за Орду, включая новых Скайборнов: какие классы доступны каждой расе и что дают её четыре расовые способности.',
                  'Five races per faction, including the new Skyborne: which classes each race can play and what its four racial abilities do.',
                  'П’ять рас за Альянс і п’ять за Орду, разом із новими Скайборнами: які класи доступні кожній расі та що дають її чотири расові здібності.')),
-    'tools/': (t('Инструменты WoW Forever: сравнение классов и рас, рамки группы',
+    'tools/': (t('Инструменты WoW Forever: сравнение классов и рас, группа',
                  'WoW Forever Tools: Class and Race Compare, Party Frames',
-                 'Інструменти WoW Forever: порівняння класів і рас, рамки групи'),
+                 'Інструменти WoW Forever: порівняння класів і рас, група'),
                t('Сравнение классов и рас WoW Forever бок о бок, рамки группы и рейдовая сетка как в игре, поиск по всему гиду.',
                  'Compare WoW Forever classes and races side by side, in-game style party frames and raid grid, and search across the whole guide.',
                  'Порівняння класів і рас WoW Forever пліч-о-пліч, рамки групи та рейдова сітка як у грі, пошук по всьому гіду.')),
@@ -101,7 +101,7 @@ META = {
     'guides/leveling-mage/': (t('Прокачка Мага в WoW Forever: Лёд, таланты 1–60', 'Mage Leveling Guide 1–60 in WoW Forever: Frost', 'Гайд з прокачування Мага 1–60 у WoW Forever: Лід'),
                                       t('Как качать Мага в WoW Forever: почему Лёд, таланты по уровням 10–60, Ледяное копьё и Ледяные пальцы, ротация соло и по площади, отличия от Classic. По бете.', 'How to level a Mage in WoW Forever: Frost, talents by level 10–60, Ice Lance, differences from Classic. Beta data.', 'Як прокачувати Мага у WoW Forever: Лід, таланти за рівнями 10–60, Ice Lance, відмінності від Classic. За бетою.')),
     'guides/leveling-warlock/': (t('Прокачка Чернокнижника в WoW Forever: Колдовство, таланты', 'Warlock Leveling Guide 1–60 in WoW Forever: Affliction', 'Гайд з прокачування Чорнокнижника 1–60 у WoW Forever'),
-                                      t('Как качать Чернокнижника в WoW Forever: Колдовство, таланты по уровням 10–60, демоны и задания на них, Жизнеотвод и Похищение жизни, отличия от Classic. По бете.', 'How to level a Warlock in WoW Forever: Affliction, talents by level 10–60, demons, differences from Classic. Beta data.', 'Як прокачувати Чорнокнижника у WoW Forever: Прокляття, таланти за рівнями 10–60, демони, відмінності від Classic. За бетою.')),
+                                      t('Как качать Чернокнижника в WoW Forever: Колдовство, таланты по уровням 10–60, демоны и задания, Жизнеотвод и Похищение жизни, отличия от Classic. По бете.', 'How to level a Warlock in WoW Forever: Affliction, talents by level 10–60, demons, differences from Classic. Beta data.', 'Як прокачувати Чорнокнижника у WoW Forever: Прокляття, таланти за рівнями 10–60, демони, відмінності від Classic. За бетою.')),
     'guides/leveling-druid/': (t('Прокачка Друида в WoW Forever: Сила зверя, таланты 1–60', 'Druid Leveling Guide 1–60 in WoW Forever: Feral', 'Гайд з прокачування Друїда 1–60 у WoW Forever: Сила звіра'),
                                       t('Как качать Друида в WoW Forever: кошка и медведь, таланты по уровням 10–60, облики и задания на них, ротация соло и в группе, отличия от Classic. По бете.', 'How to level a Druid in WoW Forever: Feral, talents by level 10–60, forms, differences from Classic. Beta data.', 'Як прокачувати Друїда у WoW Forever: Сила звіра, таланти за рівнями 10–60, форми, відмінності від Classic. За бетою.')),
     'guides/dungeons/': (t('Подземелья WoW Forever по уровням: все 35 и рейды',
@@ -164,7 +164,7 @@ META = {
                    'Privacy — WoW Forever Guide',
                    'Конфіденційність — гід WoW Forever'),
                  t('Какие данные собирает гид WoW Forever от Gabella: профиль после входа, статистика без cookies, что хранится в браузере, как скачать и удалить данные.',
-                   'What data the Gabella WoW Forever guide collects: the profile after sign-in, cookieless statistics, what is stored in your browser, how to download and delete your data.',
+                   'What data the Gabella WoW Forever guide collects: profile after sign-in, cookieless statistics, browser storage, and how to download and delete your data.',
                    'Які дані збирає гід WoW Forever від Gabella: профіль після входу, статистика без cookies, що зберігається в браузері, як завантажити й видалити дані.')),
 }
 
@@ -174,11 +174,12 @@ CLASS_D = t('{n} в WoW Forever: {specs} — ключевые способнос
             'WoW Forever {n} guide: {specs} specs, key abilities, races, group value, pros and cons, and what is new.',
             '{n} у WoW Forever: {specs} — ключові здібності, раси, користь у групі, плюси, мінуси та що нового.')
 RACE_T = t('{n} в WoW Forever: расовые способности и классы', 'WoW Forever {n} Racials and Classes Guide', '{n} у WoW Forever: расові здібності та класи')
+RACE_T_SHORT = t('{n} в WoW Forever: расовые способности, классы', 'WoW Forever {n}: Racials and Classes', '{n} у WoW Forever: расові здібності, класи')   # when the full one is over 60
 RACE_D = t('{n} в WoW Forever: четыре расовые способности, доступные и лучшие классы, столица {cap}, стартовая зона {zone}.',
            'WoW Forever {n} guide: four racial abilities, available and best classes, capital {cap}, starting zone {zone}.',
            '{n} у WoW Forever: чотири расові здібності, доступні та найкращі класи, столиця {cap}, стартова зона {zone}.')
 AND = {'ru': ' и ', 'en': ' and ', 'uk': ' і '}
-langs.fill([HOME_NAME, SITE_NAME, TOOLS_NAME, PRIVACY_NAME, PLAY_NAME, ROSTER_NAME, PROFILE_NAME, PLAYER_NAME, META, CLASS_T, CLASS_T_SHORT, CLASS_D, RACE_T, RACE_D, AND])   # new languages: i18n/<lang>.json
+langs.fill([HOME_NAME, SITE_NAME, TOOLS_NAME, PRIVACY_NAME, PLAY_NAME, ROSTER_NAME, PROFILE_NAME, PLAYER_NAME, META, CLASS_T, CLASS_T_SHORT, CLASS_D, RACE_T, RACE_T_SHORT, RACE_D, AND])   # new languages: i18n/<lang>.json
 
 
 def listing(xs, lang):
@@ -195,7 +196,7 @@ def page_meta():
             specs = [s['en'] if l == 'en' else tr(s['n'], l) for s in c['specs']]
             sp = ', '.join(specs) if l == 'en' else listing(specs, l)
             title = CLASS_T[l].format(n=n, specs=sp)
-            if len(title) > 65:
+            if len(title) > 60:
                 title = CLASS_T_SHORT[l].format(n=n, specs=sp)
             out[f'classes/{c["id"]}/'][l] = (title, CLASS_D[l].format(n=n, specs=listing(specs, l)))
     names = race_names()
@@ -206,7 +207,10 @@ def page_meta():
         for l in LANGS:
             n = tr(names[rp['id']], l)
             fact = lambda k: build.ru_word(build.fact_ru(k, facts[k])) if l == 'ru' else tr(facts[k], l)   # places as the ruRU client shows them
-            out[p][l] = (RACE_T[l].format(n=n), RACE_D[l].format(n=n, cap=fact('Столица'), zone=fact('Стартовая зона')))
+            title = RACE_T[l].format(n=n)
+            if len(title) > 60:
+                title = RACE_T_SHORT[l].format(n=n)
+            out[p][l] = (title, RACE_D[l].format(n=n, cap=fact('Столица'), zone=fact('Стартовая зона')))
     return out
 
 
