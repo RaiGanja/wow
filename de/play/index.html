@@ -1202,7 +1202,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../assets/radio/radio.css?v=44f8689128">
-<link data-rel="stylesheet" href="../../assets/search/search.css?v=e154702bc6">
+<link data-rel="stylesheet" href="../../assets/search/search.css?v=6948e3dcc8">
 <link data-rel="stylesheet" href="../../assets/me/me.css?v=30e53cd5c1">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://gabella.site/wow/de/"},{"@type":"ListItem","position":2,"name":"Im Spiel","item":"https://gabella.site/wow/de/play/"}]}</script>
 </head>
@@ -1251,7 +1251,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <div class="gmain">
 <div class="pgrid"><div class="pcol">
 <section class="frame psec" id="level" aria-labelledby="hLvl">
-  <div class="phero"><h2 id="hLvl">Stufe</h2><span id="pWho"></span><a href="#me">Held einrichten</a></div>
+  <div class="phero"><h2 id="hLvl">Stufe</h2><span id="pWho"></span><a href="#me">Charakter einrichten</a></div>
   <div class="pchars" id="pChars" role="group" aria-label="Charaktere" hidden></div>
   <div class="pfac" id="pFac" role="group" aria-label="Fraktion"><button type="button" class="pill" data-f="alliance" aria-pressed="false">Allianz</button><button type="button" class="pill" data-f="horde" aria-pressed="false">Horde</button></div>
   <div class="plv"><button type="button" class="lvb" id="lvDown" aria-label="Stufe runter">−</button><output id="lvOut" aria-live="polite">—</output><button type="button" class="lvb" id="lvUp" aria-label="Stufe hoch">+</button></div>
@@ -1324,7 +1324,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <nav class="toc" aria-label="Alle Abschnitte">
     
     <div class="grp"><div class="gh">Nachschlagen</div><a href="../">Start</a><a href="../classes/">Klassen im Vergleich</a><a href="../races/">Völker im Vergleich</a><a href="../guides/leveling/">Leveln 1–60</a><a href="../guides/dungeons/">Dungeons und Raids</a><a href="../guides/professions/">Berufe</a><a href="../guides/faq/">FAQ und Termine</a><a href="../guides/news/">News</a><a href="../guides/">Alle Guides</a></div>
-    <div class="grp"><div class="gh">Tools</div><a href="../tools/#picker">Auswahl</a><a href="../tools/#raid">Gruppenplaner</a><a href="../tools/">Fenster, Vergleich, Suche</a><a href="../play/">Im Spiel</a></div>
+    <div class="grp"><div class="gh">Tools</div><a href="../tools/#picker">Auswahl</a><a href="../tools/#raid">Gruppenplaner</a><a href="../tools/">Rahmen, Vergleich, Suche</a><a href="../play/">Im Spiel</a></div>
     <div class="grp"><div class="gh">Gemeinschaft</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="../profile/">Mein Profil</a></div>
   </nav>
   <div class="opts">
@@ -1416,7 +1416,7 @@ const DUNGEONS = [
   ['Düsterbruch: West', 60, 60, 'Feralas', 0, [['Icy Veins', '56–60']]],
   ['Düsterbruch: Nord', 60, 60, 'Feralas', 0, [['Icy Veins', '56–60']]]
 ];
-const P = {"route": {"alliance": [[1, 10, "Mensch: Wald von Elwynn. Zwerg und Gnom: Dun Morogh. Nachtelf: Teldrassil (bis 11). High Order Skyborne: Zephras Isle (bis 12)."], [10, 18, "Westfall oder Loch Modan, Nachtelfen gehen meist an die Dunkelküste. Ab 15 passt das Rotkammgebirge."], [18, 30, "Dämmerwald, Rotkammgebirge und Sumpfland; in Kalimdor Steinkrallengebirge und Ashenvale."], [30, 45, "Desolace oder Arathihochland, Schlingendorntal. Ab 35: die neue Zone Riverglades zwischen Rotkammgebirge und Brennender Steppe, Marschen von Dustwallow, Ödland, Sümpfe des Elends."], [40, 55, "Tanaris, Feralas, Hinterland, dann Sengende Schlucht, Verwüstete Lande, Azshara, ab 48 Krater von Un’Goro und Teufelswald."], [50, 60, "Brennende Steppe, Westliche und Östliche Pestländer, Winterspring, Silithus. Hyjal öffnet ab 60."]], "horde": [[1, 10, "Orc und Troll: Durotar. Tauren: Mulgore. Untote: Tirisfal. Windshaper Skyborne: Zephras Isle (bis 12)."], [10, 18, "Das Brachland oder der Silberwald."], [18, 30, "Steinkrallengebirge und Brachland, dann Ashenvale oder Vorgebirge von Hillsbrad, ab 25 Tausend Nadeln."], [30, 45, "Desolace oder Arathihochland, Schlingendorntal. Ab 35: die neue Zone Riverglades, Marschen von Dustwallow, Ödland, Sümpfe des Elends."], [40, 55, "Tanaris, Feralas, Hinterland, dann Sengende Schlucht, Verwüstete Lande, Azshara, ab 48 Krater von Un’Goro und Teufelswald."], [50, 60, "Brennende Steppe, Westliche und Östliche Pestländer, Winterspring, Silithus. Hyjal öffnet ab 60."]]}, "miles": [[40, "Reiten: Ausbildung 100 Gold und ein Reittier 20 (+60 % Tempo)."], [60, "Schnelles Reiten: 1.000 und 200 Gold (+100 %). Mount Hyjal öffnet, Raids ab 09.12.2026."]], "tx": {"radio": "Radio", "lvl": "Stufe", "lvDown": "Stufe runter", "lvUp": "Stufe hoch", "noHero": "Kein Held festgelegt", "edit": "Held einrichten", "fac": "Fraktion", "alliance": "Allianz", "horde": "Horde", "needLvl": "Stell deine Stufe mit „+“ ein, um Gebiete und Dungeons zu sehen.", "now": "Jetzt", "next": "Danach", "from": "ab", "at": "mit", "route": "Ganze Route", "dung": "Dungeons nach Stufe", "dungNone": "Keine Dungeons für diese Stufe.", "all": "Alle Dungeons", "new": "neu", "timers": "Timer", "food": "Essen", "foodNote": "+5 % Erfahrung durch Gegner", "min": "Min.", "custom": "Eigener", "name": "Name", "minutes": "Minuten", "start": "Start", "timer": "Timer", "done": "Zeit ist um", "again": "Nochmal", "remove": "Entfernen", "noTimers": "Tippe auf eine Vorlage oder stell eine eigene Zeit ein. Timer laufen auch nach dem Neuladen der Seite weiter.", "notify": "Benachrichtigen, wenn der Tab im Hintergrund ist", "wake": "Bildschirm anlassen", "guest": "Melde dich an, damit Stufe und Charaktere in deinem Profil bleiben.", "login": "Anmelden", "profile": "Profil", "chars": "Charaktere", "addChar": "Charakter hinzufügen"}, "racef": {"human": "alliance", "dwarf": "alliance", "nightelf": "alliance", "gnome": "alliance", "skyA": "alliance", "orc": "horde", "undead": "horde", "tauren": "horde", "troll": "horde", "skyH": "horde"}, "rn": {"human": "Mensch", "dwarf": "Zwerg", "nightelf": "Nachtelf", "gnome": "Gnom", "skyA": "High Order Skyborne", "orc": "Orc", "undead": "Untoter", "tauren": "Tauren", "troll": "Troll", "skyH": "Windshaper Skyborne"}, "cn": {"warrior": "Krieger", "paladin": "Paladin", "hunter": "Jäger", "rogue": "Schurke", "priest": "Priester", "shaman": "Schamane", "mage": "Magier", "warlock": "Hexenmeister", "druid": "Druide"}};
+const P = {"route": {"alliance": [[1, 10, "Mensch: Wald von Elwynn. Zwerg und Gnom: Dun Morogh. Nachtelf: Teldrassil (bis 11). High Order Skyborne: Zephras Isle (bis 12)."], [10, 18, "Westfall oder Loch Modan, Nachtelfen gehen meist an die Dunkelküste. Ab 15 passt das Rotkammgebirge."], [18, 30, "Dämmerwald, Rotkammgebirge und Sumpfland; in Kalimdor Steinkrallengebirge und Ashenvale."], [30, 45, "Desolace oder Arathihochland, Schlingendorntal. Ab 35: die neue Zone Riverglades zwischen Rotkammgebirge und Brennender Steppe, Marschen von Dustwallow, Ödland, Sümpfe des Elends."], [40, 55, "Tanaris, Feralas, Hinterland, dann Sengende Schlucht, Verwüstete Lande, Azshara, ab 48 Krater von Un’Goro und Teufelswald."], [50, 60, "Brennende Steppe, Westliche und Östliche Pestländer, Winterspring, Silithus. Hyjal öffnet ab 60."]], "horde": [[1, 10, "Orc und Troll: Durotar. Tauren: Mulgore. Untote: Tirisfal. Windshaper Skyborne: Zephras Isle (bis 12)."], [10, 18, "Das Brachland oder der Silberwald."], [18, 30, "Steinkrallengebirge und Brachland, dann Ashenvale oder Vorgebirge von Hillsbrad, ab 25 Tausend Nadeln."], [30, 45, "Desolace oder Arathihochland, Schlingendorntal. Ab 35: die neue Zone Riverglades, Marschen von Dustwallow, Ödland, Sümpfe des Elends."], [40, 55, "Tanaris, Feralas, Hinterland, dann Sengende Schlucht, Verwüstete Lande, Azshara, ab 48 Krater von Un’Goro und Teufelswald."], [50, 60, "Brennende Steppe, Westliche und Östliche Pestländer, Winterspring, Silithus. Hyjal öffnet ab 60."]]}, "miles": [[40, "Reiten: Ausbildung 100 Gold und ein Reittier 20 (+60 % Tempo)."], [60, "Schnelles Reiten: 1.000 und 200 Gold (+100 %). Mount Hyjal öffnet, Raids ab 09.12.2026."]], "tx": {"radio": "Radio", "lvl": "Stufe", "lvDown": "Stufe runter", "lvUp": "Stufe hoch", "noHero": "Kein Charakter festgelegt", "edit": "Charakter einrichten", "fac": "Fraktion", "alliance": "Allianz", "horde": "Horde", "needLvl": "Stell deine Stufe mit „+“ ein, um Gebiete und Dungeons zu sehen.", "now": "Jetzt", "next": "Danach", "from": "ab", "at": "mit", "route": "Ganze Route", "dung": "Dungeons nach Stufe", "dungNone": "Keine Dungeons für diese Stufe.", "all": "Alle Dungeons", "new": "neu", "timers": "Timer", "food": "Essen", "foodNote": "+5 % Erfahrung durch Gegner", "min": "Min.", "custom": "Eigener", "name": "Name", "minutes": "Minuten", "start": "Start", "timer": "Timer", "done": "Zeit ist um", "again": "Nochmal", "remove": "Entfernen", "noTimers": "Tippe auf eine Vorlage oder stell eine eigene Zeit ein. Timer laufen auch nach dem Neuladen der Seite weiter.", "notify": "Benachrichtigen, wenn der Tab im Hintergrund ist", "wake": "Bildschirm anlassen", "guest": "Melde dich an, damit Stufe und Charaktere in deinem Profil bleiben.", "login": "Anmelden", "profile": "Profil", "chars": "Charaktere", "addChar": "Charakter hinzufügen"}, "racef": {"human": "alliance", "dwarf": "alliance", "nightelf": "alliance", "gnome": "alliance", "skyA": "alliance", "orc": "horde", "undead": "horde", "tauren": "horde", "troll": "horde", "skyH": "horde"}, "rn": {"human": "Mensch", "dwarf": "Zwerg", "nightelf": "Nachtelf", "gnome": "Gnom", "skyA": "High Order Skyborne", "orc": "Orc", "undead": "Untoter", "tauren": "Tauren", "troll": "Troll", "skyH": "Windshaper Skyborne"}, "cn": {"warrior": "Krieger", "paladin": "Paladin", "hunter": "Jäger", "rogue": "Schurke", "priest": "Priester", "shaman": "Schamane", "mage": "Magier", "warlock": "Hexenmeister", "druid": "Druide"}};
 
 /* In game: level -> zones and the next milestones (data from the Leveling guide), dungeons near the level, timers,
    screen wake lock, the mini window. Level, race and class are the shared hero "gabella-wf-me" of the home page (the level is
@@ -1777,8 +1777,8 @@ const STAGES = [
       ['t', 'Verteilt die Berufe vorher: Einer nimmt Kochkunst fürs Lagerfeuer, die anderen wählen verschiedene, damit sich Lagerbuffs nicht wiederholen.']],
     legacy: [['f', 'Legacy öffnet sich mit deinem ersten Punkt: Stufe 25, 150 in einem Beruf (kein Sammelberuf) oder die ganze Karte erkunden.'],
       ['f', 'Zum Start kann ein Charakter höchstens 16 Punkte ausgeben, der Rest geht in die Belohnungsleiste.']],
-    group: [['t', 'Einigt euch auf eine Fraktion und einen Modus: Gruppen gehen nur innerhalb eines Modus, und im PvP hat ein Account eine Fraktion.'],
-      ['t', 'Stellt euren Kader im Gruppenplaner zusammen: ein Tank, ein Heiler und verschiedene Klassen für Buffs.']],
+    group: [['t', 'Sprich eine Fraktion und einen Modus ab: Gruppen gehen nur innerhalb eines Modus, und im PvP hat ein Account eine Fraktion.'],
+      ['t', 'Stell deinen Kader im Gruppenplaner zusammen: ein Tank, ein Heiler und verschiedene Klassen für Buffs.']],
     src: ['names', 'names2', 'prof', 'legacy'] },
   { id: 'first', n: 'Erste Tage', sub: 'Stufen 1–15', lo: 1, hi: 15,
     todo: [['f', 'Skyborne starten auf Zephras Isle, Stufen 1–12.'],
@@ -1791,7 +1791,7 @@ const STAGES = [
     legacy: [['f', 'Noch keine Vorteile: Der erste Punkt kommt mit Stufe 25 oder mit 150 in einem Beruf.'],
       ['t', 'Wenn Legacy offen ist, nimm zuerst Erfahrungs- und Lagervorteile: Well Rested, Field Guide, Permanence. Talented lohnt sich für Twinks.']],
     group: [['t', 'Levelt in derselben Zone und baut an jedem Halt ein Lager auf: Fünf Minuten am Lagerfeuer zahlen sich mit Buffs für die ganze Gruppe aus.'],
-      ['t', 'Bildet eure erste Fünfergruppe bis Stufe 13–15.']],
+      ['t', 'Bilde deine erste Fünfergruppe bis Stufe 13–15.']],
     src: ['camp', 'legacy', 'dung'] },
   { id: 'dung', n: 'Dungeons', sub: 'Stufen 15–40', lo: 15, hi: 40,
     todo: [['f', 'Die meiste Dungeon-Erfahrung kommt aus den Questreihen. Wiederholte Runs danach geben spürbar weniger Erfahrung als Questen in der Welt.'],
@@ -1805,7 +1805,7 @@ const STAGES = [
       ['t', 'Reagent Economy (keine gekauften Reagenzien für Fähigkeiten) und Field Guide (kürzere Abklingzeit für Lagerobjekte) lohnen sich.']],
     group: [['f', 'Ein Dungeon ist für 5 Spieler gebaut: ein Tank, ein Heiler und drei Schadensverursacher.'],
       ['f', 'Es gibt keine Stufenskalierung, ein Freund, der weit zurückliegt, hat es im Dungeon also schwer.'],
-      ['t', 'Haltet die Stufen nah beieinander: Wer zurückfällt, holt mit Quests auf, und Dungeons lauft ihr gemeinsam.']],
+      ['t', 'Halte die Stufen in der Gruppe nah beieinander: Wer zurückfällt, holt mit Quests auf, und Dungeons geht die Gruppe gemeinsam an.']],
     src: ['dung', 'camp', 'legacy'] },
   { id: 'path', n: 'Weg zur 60', sub: 'Stufen 40–60', lo: 40, hi: 60,
     todo: [['f', 'Ein Reittier ab Stufe 40 (60 % Tempo), ein schnelles ab 60 (100 %). Lerne es beim Lehrer deines Volkes.'],
@@ -1816,18 +1816,18 @@ const STAGES = [
       ['t', 'Halte Kochen 200–220 in der Gruppe bereit, für ein Lager mit 10 Objekten: Bis zum Schlachtzug ist dann für alle Platz.']],
     legacy: [['f', 'Höchstens 16 Punkte pro Charakter, der Rest geht in die Belohnungsleiste: ein Spielzeug bei 15, ein Haustier bei 25, ein Wappenrock bei 40, ein Reittier bei 55.']],
     group: [['f', 'Raids öffnen am 09.12: Barrow Deeps für 10 Spieler, Hyjalgipfel für 20, Onyxias Hort für 40.'],
-      ['t', 'Der Raid für 10 Spieler braucht 10 Spieler: Wenn ihr weniger seid, sucht den Rest früh in eurer Gilde.']],
+      ['t', 'Der Raid für 10 Spieler braucht 10 Spieler: Wenn deine Gruppe kleiner ist, such den Rest früh in deiner Gilde.']],
     src: ['ride', 'prof', 'legacy', 'cwg'] },
   { id: 'raid', n: '60 und Raids', sub: 'ab 09.12', lo: 60, hi: 60,
     todo: [['f', 'Am 09.12 öffnen Barrow Deeps (10 Spieler), Hyjalgipfel (20) und Onyxias Hort (40, Marschen von Dustwallow).'],
       ['f', 'Jeder der drei Raids gibt beim Abschluss einen Legacy-Punkt.'],
       ['f', 'Neues Schlachtfeld 15 gegen 15: Darkspear Islands vor der Küste der Marschen von Dustwallow.'],
-      ['t', 'Während ihr Leute für den Raid sammelt, lauft Dungeons der Stufe 60 für Ausrüstung.']],
+      ['t', 'Während du Leute für den Raid sammelst, lauf Dungeons der Stufe 60 für Ausrüstung.']],
     prof: [['f', 'Lagerbuffs sind etwas schwächer als Klassenbuffs und stapeln sich nicht mit ihnen: Segen der Könige gibt 10 % auf alle Werte, das Lager 8 %.'],
-      ['t', 'Baut das Lager am Raideingang auf: Seine Buffs decken ab, was euren Klassen fehlt.']],
+      ['t', 'Bau das Lager am Raideingang auf: Seine Buffs decken ab, was den Klassen deiner Gruppe fehlt.']],
     legacy: [['f', 'Auf Stufe 60 bleiben die Herausforderungen für Dungeons 46–60, 3 für Schlachtzüge und PvP (ab Stufe 30). PvP hat Ränge mit Wochenlimit und Ausrüstungsverbesserungen für Ehre.']],
     group: [['f', 'Gleiche Buffs von zwei Spielern derselben Klasse überschneiden sich, verschiedene Klassen stapeln sich.'],
-      ['t', 'Stellt euren Raidkader im Gruppenplaner zusammen und postet den Link im Chat.']],
+      ['t', 'Stell deinen Raidkader im Gruppenplaner zusammen und poste den Link im Chat.']],
     src: ['cwg', 'prof', 'legacy'] }
 ];
 const ST = Object.fromEntries(STAGES.map(s => [s.id, s]));
@@ -2025,7 +2025,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../assets/radio/radio.js?v=44f8689128" data-root="../../"></script>
-<script data-src="../../assets/search/search.js?v=e154702bc6" data-root="../../"></script>
+<script data-src="../../assets/search/search.js?v=6948e3dcc8" data-root="../../"></script>
 <script data-src="../../assets/me/me.js?v=30e53cd5c1" data-root="../../" data-home="../" data-lang="de" data-ach="0" data-teaser="" data-close="Schließen" data-page="play/" data-look="2"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
