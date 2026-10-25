@@ -710,6 +710,7 @@ def pwa(html, lang, root):
 # page's content sources last changed. Today while one of them has uncommitted changes, else the date of its last commit.
 GIT_ROOT = os.path.dirname(HERE) if os.environ.get('WF_STAGED') else HERE   # the staged build runs in .build/, git is one level up
 UPD_SRC = {'guides/leveling-': ('content/class_guides.py',),   # the nine class guides: their own texts (the order is checked first)
+           'guides/builds-': ('content/spec_builds.py',),
            'guides/': ('content/guides.py', 'i18n/guides.ru.txt', 'i18n/guides.en.txt', 'i18n/guides.uk.txt'),
            'classes/': ('content/classes.py',), 'races/': ('content/races.py',),
            'tools/': ('tools.src.html', 'i18n/tools.ru.txt', 'content/classes.py', 'content/races.py')}
@@ -919,12 +920,12 @@ def ru_names(html):
 
     def name(m):
         word, en = (m[1], m[2]) if m[1] else (ru_word(m[3]), m[3])
-        if en in seen:
-            return word
         s, a, b = m.string, m.start(), m.end()
-        if s[:a].endswith('(') and s[:a - 1].rstrip().endswith(word):   # «Мертвые копи (The Deadmines)» as written
+        if s[:a].endswith('(') and s[:a - 1].rstrip().endswith(word):   # «Мертвые копи (The Deadmines)» as written, every time
             seen.add(en)
             return en
+        if en in seen:
+            return word
         if s[b:].lstrip(' ').startswith('(') or s[:a].endswith('('):   # not «(Hyjal Summit) (20)», «(Ремонтный робот (Repair Bot))»
             return word
         seen.add(en)
@@ -1104,6 +1105,13 @@ def class_guide_title(cid, lang):
     return langs.fill(g['title'])[lang]
 
 
+def class_builds_link(cid, lang):
+    """Line with the link to guides/builds-<class>/ in the page language, '' while the class has no builds page."""
+    from content.guides import GUIDES
+    g = next((x for x in GUIDES if x['slug'] == f'builds-{cid}'), None)
+    return f'\n    <p class="brace bguide"><a href="@@HOME@@guides/builds-{cid}/">{esc(langs.fill(g["title"])[lang])}</a></p>' if g else ''
+
+
 def build_class(c, lang, tpl, base_css, sprite, races):
     here = page_dir(lang, f'classes/{c["id"]}/')
     root = rel(here, '')
@@ -1123,6 +1131,7 @@ def build_class(c, lang, tpl, base_css, sprite, races):
     html, missing = translate(html, lang)
     html = set_updated(html, f'classes/{c["id"]}/')
     html = html.replace('@@GUIDE@@', esc(class_guide_title(c['id'], lang)))   # «Прокачка Воина 1–60»: link to the class leveling guide
+    html = html.replace('@@BUILDS@@', class_builds_link(c['id'], lang))   # «Билды Воина»: only classes that have a builds page
     html = html.replace('@@PROFS@@', profs_panel(c['id'], lang))   # already in lang: the pairs come from the Professions guide
     html = html.replace('@@NAME@@', esc(tr(c['n'], lang)))
     html = mark_long(hyph_tabs(html))

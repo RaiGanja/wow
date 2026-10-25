@@ -29,7 +29,7 @@ GUIDES = []   # наполняется в задачах 3, 5, 6, 7, 9; кажд
 NEWS = []     # ручные записи: {'date': '2026-10-23', 'title': t(...), 'text': t(...), 'url': 'https://…'}
 from build import DISCORD_AT  # noqa: E402  (у каждого места ссылки своё приглашение)
 
-ORDER = ['leveling', 'leveling-warrior', 'leveling-paladin', 'leveling-hunter', 'leveling-rogue', 'leveling-priest', 'leveling-shaman', 'leveling-mage', 'leveling-warlock', 'leveling-druid', 'best-race', 'tier-list', 'legacy', 'dungeons', 'professions', 'addons', 'faq', 'requirements', 'news', 'ukrainian']   # порядок плиток на хабе и в «Другие гайды»
+ORDER = ['leveling', 'leveling-warrior', 'leveling-paladin', 'leveling-hunter', 'leveling-rogue', 'leveling-priest', 'leveling-shaman', 'leveling-mage', 'leveling-warlock', 'leveling-druid', 'builds-warrior', 'builds-paladin', 'builds-mage', 'best-race', 'tier-list', 'legacy', 'dungeons', 'professions', 'addons', 'faq', 'requirements', 'news', 'ukrainian']   # порядок плиток на хабе и в «Другие гайды»
 
 
 # ---------- FAQ: даты и наборы, режимы, имена, отличия от Era (переехали с главной) + частые вопросы ----------
@@ -1957,3 +1957,11 @@ from content import class_guides  # noqa: E402
 
 class_guides.attach(GUIDES, HUBS, ORDER)
 CLASS_HUB_TILE = class_guides.HUB_TILE   # на хабе гайдов вместо девяти плиток: одна, ведёт на раздел «Прокачка по классам»
+
+
+# ---------- Билды спеков: страницы builds-<класс>, раздел «Билды по классам» и ссылки спеков в тир-листе, плитка хаба (content/spec_builds.py) ----------
+
+from content import spec_builds  # noqa: E402
+
+spec_builds.attach(GUIDES, HUBS, ORDER)
+BUILDS_HUB_TILE = spec_builds.HUB_TILE   # на хабе одна плитка, ведёт на раздел «Билды по классам» тир-листа

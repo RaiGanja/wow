@@ -9,14 +9,14 @@ import build
 import tod
 from build import LANGS, SITE, page_dir, rel, localize, translate
 import langs
-from content.guides import CLASS_HUB_TILE, GUIDES, HUB, HUBS, NEWS, NOT_FOUND, PAGES, PLAY_MILESTONES, PLAY_TX
+from content.guides import BUILDS_HUB_TILE, CLASS_HUB_TILE, GUIDES, HUB, HUBS, NEWS, NOT_FOUND, PAGES, PLAY_MILESTONES, PLAY_TX
 
 HERE = build.HERE
 
 _ru, _en, _uk = (build.load(f'guides.{l}.txt') for l in langs.OLD)
 assert len(_ru) == len(_en) == len(_uk), (len(_ru), len(_en), len(_uk))
 build.T.update({r: (e, u) for r, e, u in zip(_ru, _en, _uk)})
-langs.fill([GUIDES, HUB, HUBS, NEWS, NOT_FOUND, PAGES, CLASS_HUB_TILE])   # new languages of every guide text: i18n/<lang>.json by the English one
+langs.fill([GUIDES, HUB, HUBS, NEWS, NOT_FOUND, PAGES, CLASS_HUB_TILE, BUILDS_HUB_TILE])   # new languages of every guide text: i18n/<lang>.json by the English one
 
 TIP = {'ru': 'Совет', 'en': 'Tip', 'uk': 'Порада'}
 THIS_PAGE = {'ru': 'Эта страница', 'en': 'This page', 'uk': 'Ця сторінка'}
@@ -226,6 +226,17 @@ def inline_tiles(obj):
     return set()
 
 
+def inline_arts(obj):
+    """Pictures of the art tiles inside a guide's text: «Other guides» below does not repeat them."""
+    if isinstance(obj, tuple) and len(obj) == 2 and obj[0] == 'tiles':
+        return {x['art'] for x in obj[1]}
+    if isinstance(obj, (list, tuple)):
+        return set().union(*map(inline_arts, obj)) if obj else set()
+    if isinstance(obj, dict):
+        return inline_arts(list(obj.values()))
+    return set()
+
+
 def render_guide(g, lang, root):
     sections = [s for s in g['sections'] if lang in s.get('langs', (lang,))]   # 'langs': a section only in these languages
     toc = ''.join(f'<a href="#{s["id"]}">{E(s["title"], lang)}</a>' for s in sections)
@@ -253,7 +264,8 @@ def hub_body(lang, root):
     """Guides first, then the classes/ and races/ sections and the tools page. The nine class guides are one tile
     («Leveling by class», right after the leveling guide); they have a 'hub': False."""
     tiles = guide_tiles([g for g in lang_guides(lang) if g.get('hub', True)])
-    tiles.insert(next((i for i, x in enumerate(tiles) if x['href'] == 'guides/leveling/'), -1) + 1, CLASS_HUB_TILE)
+    at = next((i for i, x in enumerate(tiles) if x['href'] == 'guides/leveling/'), -1) + 1
+    tiles[at:at] = [CLASS_HUB_TILE, BUILDS_HUB_TILE]   # «Builds by class» leads to the tier list section
     tiles += section_tiles() + SITE_TILES[1:]
     return '', f'<section class="gsec bare" id="all">{render_block("tiles", tiles, lang, root)}</section>'
 
@@ -688,7 +700,9 @@ def build_page(g, lang, tpl, base_css, sprite, src):
     else:
         shown = inline_tiles(g.get('sections', []))                # one picture once on a page
         others = [x for x in lang_guides(lang) if x['slug'] != g['slug'] and f'guides/{x["slug"]}/' not in shown] if g['slug'] else []
-        more = tile_links(guide_tiles(others), lang, root)
+        seen = {g.get('hero'), g['art']} | inline_arts(g.get('sections', []))   # a class art once: leveling-mage and builds-mage share it
+        tiles = [x for x in guide_tiles(others) if not (x['art'] in seen or seen.add(x['art']))]
+        more = tile_links(tiles, lang, root)
     avif, webp, img = art_sets(g['art'], '@@ROOT@@', big=True)
     crumb = (f'<a href="{root}guides/">{E(HUB["title"], lang)}</a><span aria-hidden="true">/</span><span>{E(g["title"], lang)}</span>'
              if g['slug'] and not section else f'<span>{E(g["title"], lang)}</span>')
@@ -768,7 +782,7 @@ def not_found_page(tpl, base_css, sprite, src, lang='ru'):
 def main():
     gaps = (check_langs(HUB, 'HUB') + [p for g in GUIDES + HUBS + PAGES + [NOT_FOUND] for p in check_langs(g, g['slug'])]
             + check_langs(NEWS, 'NEWS') + check_langs(SITE_TILES, 'SITE_TILES')
-            + check_langs(CLASS_HUB_TILE, 'CLASS_HUB_TILE') + check_langs(PLAY_TX, 'PLAY_TX') + check_langs(PLAY_MILESTONES, 'PLAY_MILESTONES'))
+            + check_langs(CLASS_HUB_TILE, 'CLASS_HUB_TILE') + check_langs(BUILDS_HUB_TILE, 'BUILDS_HUB_TILE') + check_langs(PLAY_TX, 'PLAY_TX') + check_langs(PLAY_MILESTONES, 'PLAY_MILESTONES'))
     assert not gaps, gaps[:10]
     src = open(os.path.join(HERE, 'index.src.html'), encoding='utf-8').read()
     tpl = open(os.path.join(HERE, 'guide.src.html'), encoding='utf-8').read()
