@@ -54,10 +54,18 @@
 .cprofs .pmore { justify-self: start; color: var(--gold-2); font-weight: 500; text-decoration: none; }
 .cprofs .pmore:hover { text-decoration: underline; }
 .cprofs .pmore .ico { width: 16px; height: 16px; margin-left: 6px; vertical-align: -3px; }
-.brace { margin: 16px 0 0; color: var(--muted); font-size: var(--fs-16); }
-.brace a { margin-left: 8px; color: var(--gold-2); font-weight: 500; white-space: nowrap; }
-.brace + .brace { margin-top: 8px; }
-.brace.bguide a { margin-left: 0; white-space: normal; }
+/* I3 Quick start: four facts in a row and the class guides under them, right under the hero */
+.qstart { margin-top: 28px; }
+.qs { display: grid; gap: 16px; padding: 22px 24px; }
+.qs h2 { font-size: var(--fs-22); }
+.qsl { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px 24px; margin: 0; }
+.qsl div { display: grid; gap: 3px; align-content: start; min-width: 0; }
+.qsl dt { color: var(--muted); font-size: var(--fs-13); }
+.qsl dd { margin: 0; font-weight: 600; font-size: var(--fs-16); line-height: 1.35; }
+.qsa { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 0; padding-top: 14px; border-top: 1px solid var(--line); }
+.qsa a { min-height: 32px; display: inline-flex; align-items: center; color: var(--gold-2); font-weight: 600; text-underline-offset: 3px; }
+@media (max-width: 899px) { .qsl { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 719px) { .qstart { margin-top: 20px; } .qs { padding: 18px 16px; } }
 /* Game-portal layout: full-screen art hero, faction banners, class portrait roster, tools, guides band. Night + gold, light paper theme for content. */
 @font-face { font-family: "Spectral SC"; font-style: normal; font-weight: 400 700; font-display: swap; src: url(../../../assets/fonts/spectral-sc-cyrillic.woff2?v=f78bcdc2) format("woff2"); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
 @font-face { font-family: "Spectral SC"; font-style: normal; font-weight: 400 700; font-display: swap; src: url(../../../assets/fonts/spectral-sc-latin-ext.woff2?v=1ba52ac6) format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
@@ -155,6 +163,8 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .ri { width: 1.05em; height: 1.05em; vertical-align: -.17em; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; margin-right: 4px; }
 .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 max(20px, env(safe-area-inset-left, 0px)); }
 
+.skip { position: fixed; left: 16px; top: 8px; z-index: 80; padding: 10px 16px; border: 1px solid var(--gold); border-radius: 8px; background: var(--panel-2); color: var(--fg); font-weight: 600; text-decoration: none; }
+.skip:not(:focus) { width: 1px; height: 1px; padding: 0; border: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }   /* seen only from the keyboard */
 /* Top bar: transparent over the hero, solid after scrolling */
 .topbar { position: fixed; inset: 0 0 auto 0; z-index: 30; height: var(--top); color: var(--ink); background: linear-gradient(rgba(5,6,8,.62), rgba(5,6,8,0)); border-bottom: 1px solid transparent; transition: background-color .25s, border-color .25s, color .25s; }
 .topbar.solid { background: var(--rail); border-bottom-color: var(--line); color: var(--fg); }
@@ -202,7 +212,7 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .srchbtn kbd, .radiobtn .rdo-eq { display: none; }   /* on the home page search.css and radio.css come after the first paint */
 .radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: var(--fs-16); }
-@media (max-width: 1210px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }
+@media (max-width: 1260px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }   /* es «Iniciar sesión» ran 21 px off a 1215 px screen */
 
 /* Hero */
 .hero { position: relative; min-height: max(560px, 100svh); display: grid; align-content: space-between; color: var(--ink); background: #08090b; isolation: isolate; overflow: hidden; }
@@ -228,6 +238,7 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .cd .u span { font-size: var(--fs-13); color: var(--ink-2); }
 .cd .what { display: grid; gap: 1px; font-size: var(--fs-16); color: var(--ink-2); }
 .cd .what b { color: var(--ink); font-weight: 600; }
+.hero .lead, .cd .u span, .cd .what { color: #e8e2d4; }   /* light enough on the bright day sky (axe: incomplete contrast) */
 .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap; background: var(--gold); color: var(--gold-ink); border: 1px solid var(--gold); border-radius: 7px; padding: 0 18px; font-weight: 600; min-height: 44px; text-decoration: none; transition: background-color .2s, border-color .2s, color .2s; }
 .btn:hover { background: var(--gold-2); border-color: var(--gold-2); }
@@ -299,7 +310,7 @@ section.block { scroll-margin-top: -72px; }
 .ttile::after, .gt::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(5,5,5,0) 22%, rgba(5,5,5,.92) 100%); }
 .ttile:hover, .gt:hover { border-color: #e0c27a; }
 .ttile:hover img, .gt:hover img { filter: none; transform: scale(1.04); }
-.ttile b, .gt b { font-weight: 700; font-size: var(--fs-18); line-height: 1.2; text-shadow: 0 1px 8px rgba(0,0,0,.7); }
+.ttile b, .gt b { font-weight: 700; font-size: var(--fs-18); line-height: 1.2; text-shadow: 0 1px 8px rgba(0,0,0,.7); hyphens: auto; }   /* «Gruppenplaner» on 320: a hyphen, not a cut letter */
 .ttile span, .gt span { font-size: var(--fs-14); line-height: 1.4; color: rgba(243,239,230,.82); }
 .ttile time, .gt time { margin-top: 4px; font-size: var(--fs-13); color: rgba(243,239,230,.6); font-variant-numeric: tabular-nums; }
 
@@ -367,6 +378,14 @@ section.block { scroll-margin-top: -72px; }
 .camp .btn:hover { background: #e0c27a; border-color: #e0c27a; }
 .camp .btn.ghost { background: rgba(5,5,5,.35); color: #f1ece0; border-color: rgba(241,236,224,.45); }
 .camp .btn.ghost:hover { border-color: #e0c27a; background: rgba(5,5,5,.55); }
+@media (max-width: 719px) {   /* phone: one gold button, the other two as plain links under it */
+  .camp-btns { gap: 4px 22px; align-items: center; }
+  .camp-btns::after { content: ""; flex-basis: 100%; order: 1; }   /* a line break after the gold button */
+  .camp-btns .btn:first-child { margin-bottom: 6px; }
+  .camp-btns .btn.ghost { order: 2; }
+  .camp .btn.ghost { min-height: 44px; padding: 0; border: 0; background: none; font-size: var(--fs-16); text-decoration: underline; text-decoration-color: rgba(241,236,224,.45); text-underline-offset: 4px; }
+  .camp .btn.ghost:hover { background: none; text-decoration-color: currentColor; }
+}
 /* Living art (assets/living/): the WebGL layer over a picture fades in once it draws */
 canvas.fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0; transition: opacity 1.6s ease; }
 canvas.fx.on { opacity: 1; }
@@ -391,7 +410,7 @@ canvas.fx.on { opacity: 1; }
 :root[data-theme="light"] { --hfade: 56px;
   --paper-edge: rgb(8 9 11) 0%, color-mix(in oklab, rgb(8 9 11), var(--bg) 6%) 20%, color-mix(in oklab, rgb(8 9 11), var(--bg) 22%) 40%,
     color-mix(in oklab, rgb(8 9 11), var(--bg) 52%) 60%, color-mix(in oklab, rgb(8 9 11), var(--bg) 82%) 80%, var(--bg) 100%; }
-:root[data-theme="light"] :is(.thero, .chero)::after { content: ""; position: absolute; inset: auto 0 0 0; z-index: -1; height: var(--hfade); background: linear-gradient(180deg, var(--paper-edge)); pointer-events: none; }
+:root[data-theme="light"] :is(.thero, .chero, .phead)::after { content: ""; position: absolute; inset: auto 0 0 0; z-index: -1; height: var(--hfade); background: linear-gradient(180deg, var(--paper-edge)); pointer-events: none; }
 :root[data-theme="light"] .hero::before { background:
   linear-gradient(90deg, rgb(var(--hero-fade) / .06) calc(50% - 800px), rgb(var(--hero-fade) / .46) calc(50% - 420px), rgb(var(--hero-fade) / .5) calc(50% + 100px), rgb(var(--hero-fade) / .16) calc(50% + 380px), rgb(var(--hero-fade) / .04) calc(50% + 600px)),
   linear-gradient(180deg, rgb(var(--hero-fade) / .42) 0%, rgb(var(--hero-fade) / 0) 26%, rgb(var(--hero-fade) / 0) 58%, rgb(var(--hero-fade) / .9) 88%, rgb(var(--hero-fade)) 100%); }
@@ -470,6 +489,7 @@ ul.dlist li.mine { background: color-mix(in srgb, var(--gold) 14%, transparent);
 .me-f .fl { display: grid; gap: 5px; min-width: 0; font-size: var(--fs-13); color: var(--muted); font-weight: 600; }
 .me-f .wide { grid-column: 1 / -1; }
 .me-f select { width: 100%; min-width: 0; font: inherit; font-size: var(--fs-16); font-weight: 500; padding: 0 8px; min-height: 44px; border: 1px solid var(--pline); border-radius: 7px; background: var(--panel-2); color: var(--fg); }
+@media (max-width: 380px) { .me-f { grid-template-columns: minmax(0, 1fr); } }   /* «Night Elf», «Engineering» stay whole in the selects */
 .me-f .stepper { display: flex; width: 100%; border-radius: 7px; border-color: var(--pline); background: var(--panel-2); }
 .me-f .stepper button { min-width: 36px; }
 .me-f .stepper input { flex: 1; width: auto; min-width: 0; }
@@ -727,8 +747,8 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .lvl .bar i { position: absolute; top: 0; bottom: 0; border-radius: 999px; background: var(--new); }
 .lvl .bar i.slow { background: var(--horde); }
 .lvl .scale { display: flex; justify-content: space-between; color: var(--muted); font-size: var(--fs-13); }
-.ccl { display: flex; gap: 6px; flex-wrap: wrap; }
-.ccl .av { --s: 28px; transition: opacity .2s, filter .2s; }
+.ccl { display: flex; gap: 7px; min-width: 0; }   /* nine classes in one row: the faces shrink on a narrow card instead of one dropping to a line of its own */
+.ccl .av { --s: 28px; flex: 0 1 var(--s); width: auto; height: auto; min-width: 0; aspect-ratio: 1; transition: opacity .2s, filter .2s; }
 .ccl .av.off { opacity: .16; filter: grayscale(1); box-shadow: none; }
 .ccl .av.nw::after { content: ""; position: absolute; right: -3px; top: -3px; width: 9px; height: 9px; border-radius: 50%; background: var(--new); box-shadow: 0 0 0 2px var(--panel); }
 .abs { display: grid; align-items: start; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 22px; }
@@ -762,10 +782,11 @@ footer .fmap a { display: inline-block; padding: 2px 0; color: var(--muted); tex
 footer .fmap .fh { margin-bottom: 6px; font-weight: 600; font-size: var(--fs-16); color: var(--fg); }
 footer .fmap a:hover { color: var(--gold); }
 footer > :first-child { padding-top: 0; border-top: 0; }   /* profile pages: the map opens the footer, no line above it */
-@media (max-width: 719px) {
-  footer .fmap { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  footer .fmap a { padding: 5px 0; }
-  footer .fmap a { hyphens: auto; }
+@media (max-width: 719px) {   /* phone: the same short footer on every page, section names only (the full map is in the More sheet) */
+  footer { margin-top: 64px; }
+  footer .fmap { display: flex; flex-wrap: wrap; gap: 4px 20px; }
+  footer .fmap ul { display: none; }
+  footer .fmap .fh { margin: 0; padding: 8px 0; }
 }
 
 /* Menu sheet (all sections, language, theme) */
@@ -828,7 +849,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 @media (max-width: 719px) {
   :root { --top: 56px; --fs-h2: var(--fs-28); --fs-hero: var(--fs-40); }
   .wrap, .topbar .in { padding-left: 16px; padding-right: 16px; }
-  .menubtn, .topbar .themebtn { display: none; }
+  .menubtn { display: none; }   /* the tab bar has the More sheet; the theme button stays in sight */
   .topbar .langbtn { padding: 0 10px; }
   .topbar .langbtn::after { display: none; }
   .topbar .langsel { order: 1; }
@@ -872,9 +893,6 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   #guides .gt { min-height: 118px; }
   #guides .gt span { display: none; }
   #camp { min-height: 520px; }
-  .fsrc + .fmap { display: flex; flex-wrap: wrap; gap: 4px 20px; }
-  .fsrc + .fmap ul { display: none; }
-  .fsrc + .fmap .fh { margin: 0; }
   section.block { padding-top: 72px; gap: 22px; scroll-margin-top: -48px; }
   .hc, .hc.on { flex-basis: 80%; }
   .hc .info, .rr .hc .info { min-width: 0; padding: 22px 20px 22px; grid-template-columns: minmax(0, 1fr); }
@@ -927,17 +945,18 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 }
 :root h1.long { min-width: min-content; font-size: min(var(--fs-hero), calc((100vw - 64px) / (var(--lw, 12) * .74))); }   /* build.long_title: an 11+ letter word (--lw letters, ~.72em each in the display caps); never narrower than it, and never wider than the screen («Konfidencialnost» on 768) */
 @media (max-width: 719px) { :root h1.long { font-size: min(var(--fs-28), calc((100vw - 32px) / (var(--lw, 12) * .74))); max-width: none; } }
-@media (max-width: 380px) {
-  /* 320–380px phones: brand + search, radio, language must share one row */
+@media (max-width: 479px) {
+  /* 320–479px phones: brand + search, radio, theme, language must share one row («Poradnik WoW Forever» is the longest) */
   .topbar .in { gap: 6px; }
-  .topbar .tools { gap: 4px; }
-  .topbar .iconbtn, .topbar .langbtn { min-width: 40px; }
+  .topbar .tools { gap: 3px; }
+  .topbar .iconbtn, .topbar .langbtn { min-width: 38px; min-height: 40px; }
+  .topbar .langbtn { padding: 0 8px; }
   .brand { gap: 7px; }
   .mark { width: 32px; height: 32px; }
   .brand b { font-size: 18px; }
   .bt small { font-size: 11px; letter-spacing: .01em; }   /* «Poradnik WoW Forever», «Guía de WoW Forever» pushed the language button off a 320 px screen */
 }
-@media (max-width: 340px) { .topbar .tools { gap: 2px; } .topbar .langbtn { padding: 0 8px; } }
+@media (max-width: 359px) { .bt small { display: none; } }   /* 320: four buttons; the subtitle gives way, «Gabella» and the mark stay */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .hc, .hc img, .hc .info { transition: none; }
@@ -1077,8 +1096,8 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../../assets/radio/radio.css?v=a448c8a8c7" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/search/search.css?v=7039f5f416" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/me/me.css?v=a34702d24d" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/search/search.css?v=c09f233b32" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/me/me.css?v=92cd9c7464" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/it/"},{"@type":"ListItem","position":2,"name":"Classi","item":"https://gabella.site/wow/it/classes/"},{"@type":"ListItem","position":3,"name":"Sacerdote","item":"https://gabella.site/wow/it/classes/priest/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Guida Sacerdote in WoW Forever: specializzazioni e razze","description":"Guida Sacerdote in WoW Forever: specializzazioni Disciplina, Sacro e Ombra, abilità chiave, razze, valore per il gruppo, pro e contro.","inLanguage":"it","url":"https://gabella.site/wow/it/classes/priest/","dateModified":"2026-10-25","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/it/"},"image":"https://gabella.site/wow/assets/og/priest.jpg?v=5815ff53"}</script>
 </head>
@@ -1105,13 +1124,13 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
 </svg>
 
-<header class="topbar" id="topbar"><div class="in">
-  <a class="brand" href="../../" aria-label="Gabella, alla pagina principale"><img class="mark" src="../../../assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Guida a WoW Forever</small></span></a>
+<a class="skip" href="#main">Vai al contenuto</a><header class="topbar" id="topbar"><div class="in">
+  <a class="brand" href="../../"><img class="mark" src="../../../assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Guida a WoW Forever</small></span></a>
   <nav class="mainnav" aria-label="Sezioni">
     <a href="../../classes/" aria-current="true">Classi</a><a href="../../races/">Razze</a><a href="../../guides/leveling/">Livellamento</a><a href="../../guides/dungeons/">Spedizioni</a><a href="../../guides/">Guide</a><a href="../../tools/">Strumenti</a><a href="../../play/">In gioco</a><a href="../../roster/">Giocatori</a><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a>
   </nav>
   <div class="tools">
-    <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" aria-label="Lingua: Italiano">IT</button><ul class="langlist" hidden><li><a href="../../../classes/priest/" data-lang="ru" hreflang="ru" lang="ru"><span>Русский</span><small>RU</small></a></li><li><a href="../../../en/classes/priest/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../../../uk/classes/priest/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../../../de/classes/priest/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="../../../fr/classes/priest/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="../../../es/classes/priest/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="../../../pt/classes/priest/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="./" data-lang="it" hreflang="it" lang="it" aria-current="page"><span>Italiano</span><small>IT</small></a></li><li><a href="../../../pl/classes/priest/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
+    <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" >IT<span class="sr">, Lingua: Italiano</span></button><ul class="langlist" hidden><li><a href="../../../classes/priest/" data-lang="ru" hreflang="ru" lang="ru"><span>Русский</span><small>RU</small></a></li><li><a href="../../../en/classes/priest/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../../../uk/classes/priest/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../../../de/classes/priest/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="../../../fr/classes/priest/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="../../../es/classes/priest/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="../../../pt/classes/priest/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="./" data-lang="it" hreflang="it" lang="it" aria-current="page"><span>Italiano</span><small>IT</small></a></li><li><a href="../../../pl/classes/priest/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
     <button class="iconbtn srchbtn" type="button" aria-label="Cerca nel sito" aria-haspopup="dialog"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><kbd>Ctrl K</kbd></button>
     <button class="iconbtn radiobtn" type="button" aria-label="Radio" title="Radio" aria-expanded="false" aria-controls="radioPanel" aria-pressed="false"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg><span class="rdo-eq" aria-hidden="true"><i></i><i></i><i></i></span></button>
     <button class="iconbtn themebtn" type="button" aria-label="Cambia tema" title="Cambia tema"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></button>
@@ -1119,6 +1138,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   </div>
 </div></header>
 
+<main id="main">
 <section class="chero" id="top">
   <picture class="blur" aria-hidden="true"><img src="../../../assets/art/priest-bg.webp?v=a2bb77fe" width="480" height="270" alt="" decoding="async"></picture>
   <picture class="por">
@@ -1140,15 +1160,13 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   </div>
 </section>
 
-<main>
+<section class="wrap qstart" aria-labelledby="hQs"><div class="panel qs"><h2 id="hQs">Avvio rapido</h2><dl class="qsl"><div><dt>Spec per livellare</dt><dd>Ombra</dd></div><div><dt>Professioni per livellare</dt><dd>Sartoria + Incantamento</dd></div><div><dt>Razza dell’Alleanza</dt><dd>Gnomo</dd></div><div><dt>Razza dell’Orda</dt><dd>Non Morto o Troll</dd></div></dl><p class="qsa"><a href="../../guides/leveling-priest/">Livellare un Sacerdote 1–60</a><a href="../../guides/builds-priest/">Build del Sacerdote</a><a href="../../guides/best-race/#priest">Razza migliore</a></p></div></section>
+
 <section class="block wrap" id="specs">
   <div class="sec-head"><h2>Specializzazioni</h2></div>
   <div>
     <div class="stabs" role="tablist" aria-label="Specializzazioni"><button type="button" role="tab" id="tab-0" aria-controls="spec-0" aria-selected="true" tabindex="0">Disci&shy;pli&shy;na<small>Guaritore</small></button><button type="button" role="tab" id="tab-1" aria-controls="spec-1" aria-selected="false" tabindex="-1">Sacro<small>Guaritore</small></button><button type="button" role="tab" id="tab-2" aria-controls="spec-2" aria-selected="false" tabindex="-1">Ombra<small>Assaltatore</small></button></div>
     <div class="spanel" role="tabpanel" id="spec-0" aria-labelledby="tab-0" tabindex="0"><div class="about"><p class="what"><svg class="ri" aria-hidden="true"><use href="#i-heal"/></svg>Guaritore, scudi e assorbimento</p><p class="style">Scudi e cure più forti nei combattimenti lunghi.</p><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Consiglio</span>Di solito un albero di supporto per Sacro od Ombra.</p></div></div><ul class="keys" aria-label="Abilità chiave"><li><div><b>Infusione di Potere</b><span class="en" lang="en">Power Infusion</span></div><span class="d">Un forte potenziamento su un alleato, i gruppi lo apprezzano</span></li><li><div><b>Parola del Potere: Scudo</b><span class="en" lang="en">Power Word: Shield</span></div><span class="d">Assorbe danni</span></li><li><div><b>Concentrazione Interiore</b><span class="en" lang="en">Inner Focus</span></div><span class="d">Un incantesimo gratuito</span></li></ul></div><div class="spanel" role="tabpanel" id="spec-1" aria-labelledby="tab-1" tabindex="0" hidden><div class="about"><p class="what"><svg class="ri" aria-hidden="true"><use href="#i-heal"/></svg>Guaritore</p><p class="style">Cure di gruppo; ha talenti per i danni di Punizione.</p><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Consiglio</span>Il guaritore classico per spedizioni e incursioni.</p></div></div><ul class="keys" aria-label="Abilità chiave"><li><div><b>Preghiera di Guarigione</b><span class="en" lang="en">Prayer of Mending</span></div><span class="d">Talento finale dell’albero, la cura rimbalza</span></li><li><div><b lang="en">Litany of Light</b></div><span class="d">Restituisce mana</span></li><li><div><b>Preghiera di Cura</b><span class="en" lang="en">Prayer of Healing</span></div><span class="d">Cura tutto il gruppo</span></li></ul></div><div class="spanel" role="tabpanel" id="spec-2" aria-labelledby="tab-2" tabindex="0" hidden><div class="about"><p class="what"><svg class="ri" aria-hidden="true"><use href="#i-dps"/></svg>Danni a distanza</p><p class="style">Danni da incantesimi d’ombra e danni nel tempo.</p><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Consiglio</span>Tocco Vampirico non è tra le abilità note.</p></div></div><ul class="keys" aria-label="Abilità chiave"><li><div><b>Forma d’Ombra</b><span class="en" lang="en">Shadowform</span></div><span class="d">Rinnovato: probabilità di critico e incantesimi d’ombra meno costosi</span></li><li><div><b>Parola d’Ombra: Morte</b><span class="en" lang="en">Shadow Word: Death</span></div><span class="d">Era nella beta, con il talento Early Demise</span></li><li><div><b lang="en">Improved Mind Flay</b></div><span class="d">Nuovo: più danni</span></li><li><div><b>Piaga Divoratrice</b><span class="en" lang="en">Devouring Plague</span></div><span class="d">Recupero di 24 s, potenziato il 15 ottobre</span></li></ul></div>
-    <p class="brace">Razza migliore: Gnomo nell’Alleanza, Non Morto o Troll nell’Orda.<a href="../../guides/best-race/#priest">Perché</a></p>
-    <p class="brace bguide"><a href="../../guides/leveling-priest/">Livellare un Sacerdote 1–60</a></p>
-    <p class="brace bguide"><a href="../../guides/builds-priest/">Build del Sacerdote</a></p>
   </div>
 </section>
 
@@ -1194,7 +1212,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <div class="wrap">
 <footer id="sources">
   <h2>Fonti</h2>
-  <p>Le guide sono state scritte con il limite ai livelli 20–30, i numeri finali possono cambiare. <span class="tl" style="display:inline">Consiglio:</span> opinione dell’autore.</p>
+  <p>Le guide sono state scritte con il limite ai livelli 20–30, i numeri finali possono cambiare. <span>I consigli sono l’opinione dell’autore.</span></p>
   <ul><li><a href="https://www.warcrafttavern.com/forever/guides/priest/" target="_blank" rel="noopener">Warcraft Tavern</a></li><li><a href="https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/" target="_blank" rel="noopener">Warcraft Tavern: modifiche alla beta</a></li><li><a href="https://lfcarry.com/guides/wow-forever-class-changes" target="_blank" rel="noopener">LFCarry: modifiche alle classi del 15.10</a></li></ul>
   <nav class="fmap" aria-label="Mappa del sito"><div><a class="fh" href="../../../it/classes/">Classi</a><ul><li><a href="../../../it/classes/warrior/">Guerriero</a></li><li><a href="../../../it/classes/paladin/">Paladino</a></li><li><a href="../../../it/classes/hunter/">Cacciatore</a></li><li><a href="../../../it/classes/rogue/">Ladro</a></li><li><a href="../../../it/classes/priest/">Sacerdote</a></li><li><a href="../../../it/classes/shaman/">Sciamano</a></li><li><a href="../../../it/classes/mage/">Mago</a></li><li><a href="../../../it/classes/warlock/">Stregone</a></li><li><a href="../../../it/classes/druid/">Druido</a></li></ul></div><div><a class="fh" href="../../../it/races/">Razze</a><ul><li><a href="../../../it/races/human/">Umano</a></li><li><a href="../../../it/races/dwarf/">Nano</a></li><li><a href="../../../it/races/night-elf/">Elfo della Notte</a></li><li><a href="../../../it/races/gnome/">Gnomo</a></li><li><a href="../../../it/races/skyborne-alliance/">Skyborne dell’High Order</a></li><li><a href="../../../it/races/orc/">Orco</a></li><li><a href="../../../it/races/undead/">Non Morto</a></li><li><a href="../../../it/races/tauren/">Tauren</a></li><li><a href="../../../it/races/troll/">Troll</a></li><li><a href="../../../it/races/skyborne-horde/">Skyborne Windshaper</a></li></ul></div><div><a class="fh" href="../../../it/guides/">Guide</a><ul><li><a href="../../../it/guides/leveling/">Livellamento 1–60</a></li><li><a href="../../../it/guides/best-race/">La razza migliore per ogni classe</a></li><li><a href="../../../it/guides/tier-list/">Tier list delle classi di WoW Forever</a></li><li><a href="../../../it/guides/legacy/">Il sistema Legacy</a></li><li><a href="../../../it/guides/dungeons/">Spedizioni e incursioni</a></li><li><a href="../../../it/guides/professions/">Professioni</a></li><li><a href="../../../it/guides/addons/">Addon e interfaccia</a></li><li><a href="../../../it/guides/faq/">FAQ e date</a></li><li><a href="../../../it/guides/requirements/">Requisiti di sistema</a></li><li><a href="../../../it/guides/news/">Notizie</a></li></ul></div><div><a class="fh" href="../../../it/tools/">Strumenti</a><ul><li><a href="../../../it/tools/">Strumenti</a></li><li><a href="../../../it/play/">In gioco</a></li></ul></div></nav><div class="legal"><p>Guida amatoriale di Gabella. Non affiliata né approvata da Blizzard Entertainment. World of Warcraft, Warcraft e Blizzard Entertainment sono marchi o marchi registrati di Blizzard Entertainment, Inc. negli Stati Uniti e/o in altri Paesi.</p><p>© 2026 Gabella<span aria-hidden="true"> · </span><a href="../../../it/privacy/">Privacy</a><span aria-hidden="true"> · </span><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><span aria-hidden="true"> · </span><a href="https://t.me/gabella_wow" target="_blank" rel="noopener">Telegram</a><span aria-hidden="true"> · </span>Contatti: <a href="mailto:contact@gabella.site">contact@gabella.site</a></p></div>
 </footer>
@@ -1334,8 +1352,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../../assets/radio/radio.js?v=a448c8a8c7" data-root="../../../" defer></script>
-<script src="../../../assets/search/search.js?v=7039f5f416" data-root="../../../" defer></script>
-<script src="../../../assets/me/me.js?v=a34702d24d" data-root="../../../" data-home="../../" data-lang="it" data-teaser="Il tuo profilo conserva i tuoi personaggi, le imprese e le cornici" data-close="Chiudi" data-page="classes/priest/" data-look="2" defer></script>
+<script src="../../../assets/search/search.js?v=c09f233b32" data-root="../../../" defer></script>
+<script src="../../../assets/me/me.js?v=92cd9c7464" data-root="../../../" data-home="../../" data-lang="it" data-teaser="Il tuo profilo conserva i tuoi personaggi, le imprese e le cornici" data-close="Chiudi" data-page="classes/priest/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

@@ -140,6 +140,8 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .ri { width: 1.05em; height: 1.05em; vertical-align: -.17em; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; margin-right: 4px; }
 .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 max(20px, env(safe-area-inset-left, 0px)); }
 
+.skip { position: fixed; left: 16px; top: 8px; z-index: 80; padding: 10px 16px; border: 1px solid var(--gold); border-radius: 8px; background: var(--panel-2); color: var(--fg); font-weight: 600; text-decoration: none; }
+.skip:not(:focus) { width: 1px; height: 1px; padding: 0; border: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }   /* seen only from the keyboard */
 /* Top bar: transparent over the hero, solid after scrolling */
 .topbar { position: fixed; inset: 0 0 auto 0; z-index: 30; height: var(--top); color: var(--ink); background: linear-gradient(rgba(5,6,8,.62), rgba(5,6,8,0)); border-bottom: 1px solid transparent; transition: background-color .25s, border-color .25s, color .25s; }
 .topbar.solid { background: var(--rail); border-bottom-color: var(--line); color: var(--fg); }
@@ -187,7 +189,7 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .srchbtn kbd, .radiobtn .rdo-eq { display: none; }   /* on the home page search.css and radio.css come after the first paint */
 .radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: var(--fs-16); }
-@media (max-width: 1210px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }
+@media (max-width: 1260px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }   /* es «Iniciar sesión» ran 21 px off a 1215 px screen */
 
 /* Hero */
 .hero { position: relative; min-height: max(560px, 100svh); display: grid; align-content: space-between; color: var(--ink); background: #08090b; isolation: isolate; overflow: hidden; }
@@ -213,6 +215,7 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .cd .u span { font-size: var(--fs-13); color: var(--ink-2); }
 .cd .what { display: grid; gap: 1px; font-size: var(--fs-16); color: var(--ink-2); }
 .cd .what b { color: var(--ink); font-weight: 600; }
+.hero .lead, .cd .u span, .cd .what { color: #e8e2d4; }   /* light enough on the bright day sky (axe: incomplete contrast) */
 .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap; background: var(--gold); color: var(--gold-ink); border: 1px solid var(--gold); border-radius: 7px; padding: 0 18px; font-weight: 600; min-height: 44px; text-decoration: none; transition: background-color .2s, border-color .2s, color .2s; }
 .btn:hover { background: var(--gold-2); border-color: var(--gold-2); }
@@ -284,7 +287,7 @@ section.block { scroll-margin-top: -72px; }
 .ttile::after, .gt::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(5,5,5,0) 22%, rgba(5,5,5,.92) 100%); }
 .ttile:hover, .gt:hover { border-color: #e0c27a; }
 .ttile:hover img, .gt:hover img { filter: none; transform: scale(1.04); }
-.ttile b, .gt b { font-weight: 700; font-size: var(--fs-18); line-height: 1.2; text-shadow: 0 1px 8px rgba(0,0,0,.7); }
+.ttile b, .gt b { font-weight: 700; font-size: var(--fs-18); line-height: 1.2; text-shadow: 0 1px 8px rgba(0,0,0,.7); hyphens: auto; }   /* «Gruppenplaner» on 320: a hyphen, not a cut letter */
 .ttile span, .gt span { font-size: var(--fs-14); line-height: 1.4; color: rgba(243,239,230,.82); }
 .ttile time, .gt time { margin-top: 4px; font-size: var(--fs-13); color: rgba(243,239,230,.6); font-variant-numeric: tabular-nums; }
 
@@ -352,6 +355,14 @@ section.block { scroll-margin-top: -72px; }
 .camp .btn:hover { background: #e0c27a; border-color: #e0c27a; }
 .camp .btn.ghost { background: rgba(5,5,5,.35); color: #f1ece0; border-color: rgba(241,236,224,.45); }
 .camp .btn.ghost:hover { border-color: #e0c27a; background: rgba(5,5,5,.55); }
+@media (max-width: 719px) {   /* phone: one gold button, the other two as plain links under it */
+  .camp-btns { gap: 4px 22px; align-items: center; }
+  .camp-btns::after { content: ""; flex-basis: 100%; order: 1; }   /* a line break after the gold button */
+  .camp-btns .btn:first-child { margin-bottom: 6px; }
+  .camp-btns .btn.ghost { order: 2; }
+  .camp .btn.ghost { min-height: 44px; padding: 0; border: 0; background: none; font-size: var(--fs-16); text-decoration: underline; text-decoration-color: rgba(241,236,224,.45); text-underline-offset: 4px; }
+  .camp .btn.ghost:hover { background: none; text-decoration-color: currentColor; }
+}
 /* Living art (assets/living/): the WebGL layer over a picture fades in once it draws */
 canvas.fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0; transition: opacity 1.6s ease; }
 canvas.fx.on { opacity: 1; }
@@ -376,7 +387,7 @@ canvas.fx.on { opacity: 1; }
 :root[data-theme="light"] { --hfade: 56px;
   --paper-edge: rgb(8 9 11) 0%, color-mix(in oklab, rgb(8 9 11), var(--bg) 6%) 20%, color-mix(in oklab, rgb(8 9 11), var(--bg) 22%) 40%,
     color-mix(in oklab, rgb(8 9 11), var(--bg) 52%) 60%, color-mix(in oklab, rgb(8 9 11), var(--bg) 82%) 80%, var(--bg) 100%; }
-:root[data-theme="light"] :is(.thero, .chero)::after { content: ""; position: absolute; inset: auto 0 0 0; z-index: -1; height: var(--hfade); background: linear-gradient(180deg, var(--paper-edge)); pointer-events: none; }
+:root[data-theme="light"] :is(.thero, .chero, .phead)::after { content: ""; position: absolute; inset: auto 0 0 0; z-index: -1; height: var(--hfade); background: linear-gradient(180deg, var(--paper-edge)); pointer-events: none; }
 :root[data-theme="light"] .hero::before { background:
   linear-gradient(90deg, rgb(var(--hero-fade) / .06) calc(50% - 800px), rgb(var(--hero-fade) / .46) calc(50% - 420px), rgb(var(--hero-fade) / .5) calc(50% + 100px), rgb(var(--hero-fade) / .16) calc(50% + 380px), rgb(var(--hero-fade) / .04) calc(50% + 600px)),
   linear-gradient(180deg, rgb(var(--hero-fade) / .42) 0%, rgb(var(--hero-fade) / 0) 26%, rgb(var(--hero-fade) / 0) 58%, rgb(var(--hero-fade) / .9) 88%, rgb(var(--hero-fade)) 100%); }
@@ -455,6 +466,7 @@ ul.dlist li.mine { background: color-mix(in srgb, var(--gold) 14%, transparent);
 .me-f .fl { display: grid; gap: 5px; min-width: 0; font-size: var(--fs-13); color: var(--muted); font-weight: 600; }
 .me-f .wide { grid-column: 1 / -1; }
 .me-f select { width: 100%; min-width: 0; font: inherit; font-size: var(--fs-16); font-weight: 500; padding: 0 8px; min-height: 44px; border: 1px solid var(--pline); border-radius: 7px; background: var(--panel-2); color: var(--fg); }
+@media (max-width: 380px) { .me-f { grid-template-columns: minmax(0, 1fr); } }   /* «Night Elf», «Engineering» stay whole in the selects */
 .me-f .stepper { display: flex; width: 100%; border-radius: 7px; border-color: var(--pline); background: var(--panel-2); }
 .me-f .stepper button { min-width: 36px; }
 .me-f .stepper input { flex: 1; width: auto; min-width: 0; }
@@ -712,8 +724,8 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .lvl .bar i { position: absolute; top: 0; bottom: 0; border-radius: 999px; background: var(--new); }
 .lvl .bar i.slow { background: var(--horde); }
 .lvl .scale { display: flex; justify-content: space-between; color: var(--muted); font-size: var(--fs-13); }
-.ccl { display: flex; gap: 6px; flex-wrap: wrap; }
-.ccl .av { --s: 28px; transition: opacity .2s, filter .2s; }
+.ccl { display: flex; gap: 7px; min-width: 0; }   /* nine classes in one row: the faces shrink on a narrow card instead of one dropping to a line of its own */
+.ccl .av { --s: 28px; flex: 0 1 var(--s); width: auto; height: auto; min-width: 0; aspect-ratio: 1; transition: opacity .2s, filter .2s; }
 .ccl .av.off { opacity: .16; filter: grayscale(1); box-shadow: none; }
 .ccl .av.nw::after { content: ""; position: absolute; right: -3px; top: -3px; width: 9px; height: 9px; border-radius: 50%; background: var(--new); box-shadow: 0 0 0 2px var(--panel); }
 .abs { display: grid; align-items: start; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 22px; }
@@ -747,10 +759,11 @@ footer .fmap a { display: inline-block; padding: 2px 0; color: var(--muted); tex
 footer .fmap .fh { margin-bottom: 6px; font-weight: 600; font-size: var(--fs-16); color: var(--fg); }
 footer .fmap a:hover { color: var(--gold); }
 footer > :first-child { padding-top: 0; border-top: 0; }   /* profile pages: the map opens the footer, no line above it */
-@media (max-width: 719px) {
-  footer .fmap { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  footer .fmap a { padding: 5px 0; }
-  footer .fmap a { hyphens: auto; }
+@media (max-width: 719px) {   /* phone: the same short footer on every page, section names only (the full map is in the More sheet) */
+  footer { margin-top: 64px; }
+  footer .fmap { display: flex; flex-wrap: wrap; gap: 4px 20px; }
+  footer .fmap ul { display: none; }
+  footer .fmap .fh { margin: 0; padding: 8px 0; }
 }
 
 /* Menu sheet (all sections, language, theme) */
@@ -813,7 +826,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 @media (max-width: 719px) {
   :root { --top: 56px; --fs-h2: var(--fs-28); --fs-hero: var(--fs-40); }
   .wrap, .topbar .in { padding-left: 16px; padding-right: 16px; }
-  .menubtn, .topbar .themebtn { display: none; }
+  .menubtn { display: none; }   /* the tab bar has the More sheet; the theme button stays in sight */
   .topbar .langbtn { padding: 0 10px; }
   .topbar .langbtn::after { display: none; }
   .topbar .langsel { order: 1; }
@@ -857,9 +870,6 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   #guides .gt { min-height: 118px; }
   #guides .gt span { display: none; }
   #camp { min-height: 520px; }
-  .fsrc + .fmap { display: flex; flex-wrap: wrap; gap: 4px 20px; }
-  .fsrc + .fmap ul { display: none; }
-  .fsrc + .fmap .fh { margin: 0; }
   section.block { padding-top: 72px; gap: 22px; scroll-margin-top: -48px; }
   .hc, .hc.on { flex-basis: 80%; }
   .hc .info, .rr .hc .info { min-width: 0; padding: 22px 20px 22px; grid-template-columns: minmax(0, 1fr); }
@@ -912,17 +922,18 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 }
 :root h1.long { min-width: min-content; font-size: min(var(--fs-hero), calc((100vw - 64px) / (var(--lw, 12) * .74))); }   /* build.long_title: an 11+ letter word (--lw letters, ~.72em each in the display caps); never narrower than it, and never wider than the screen («Konfidencialnost» on 768) */
 @media (max-width: 719px) { :root h1.long { font-size: min(var(--fs-28), calc((100vw - 32px) / (var(--lw, 12) * .74))); max-width: none; } }
-@media (max-width: 380px) {
-  /* 320–380px phones: brand + search, radio, language must share one row */
+@media (max-width: 479px) {
+  /* 320–479px phones: brand + search, radio, theme, language must share one row («Poradnik WoW Forever» is the longest) */
   .topbar .in { gap: 6px; }
-  .topbar .tools { gap: 4px; }
-  .topbar .iconbtn, .topbar .langbtn { min-width: 40px; }
+  .topbar .tools { gap: 3px; }
+  .topbar .iconbtn, .topbar .langbtn { min-width: 38px; min-height: 40px; }
+  .topbar .langbtn { padding: 0 8px; }
   .brand { gap: 7px; }
   .mark { width: 32px; height: 32px; }
   .brand b { font-size: 18px; }
   .bt small { font-size: 11px; letter-spacing: .01em; }   /* «Poradnik WoW Forever», «Guía de WoW Forever» pushed the language button off a 320 px screen */
 }
-@media (max-width: 340px) { .topbar .tools { gap: 2px; } .topbar .langbtn { padding: 0 8px; } }
+@media (max-width: 359px) { .bt small { display: none; } }   /* 320: four buttons; the subtitle gives way, «Gabella» and the mark stay */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .hc, .hc img, .hc .info { transition: none; }
@@ -1114,8 +1125,8 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css?v=a448c8a8c7" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=7039f5f416" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=a34702d24d" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=c09f233b32" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=92cd9c7464" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://gabella.site/wow/"},{"@type":"ListItem","position":2,"name":"Расы","item":"https://gabella.site/wow/races/"},{"@type":"ListItem","position":3,"name":"Гном","item":"https://gabella.site/wow/races/gnome/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Гном в WoW Forever: расовые способности и классы","description":"Гном в WoW Forever: четыре расовые способности, доступные и лучшие классы, столица Стальгорн, стартовая зона Дун Морог.","inLanguage":"ru","url":"https://gabella.site/wow/races/gnome/","dateModified":"2026-10-24","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/"},"image":"https://gabella.site/wow/assets/og/gnome.jpg?v=7f41ec05"}</script>
 </head>
@@ -1142,13 +1153,13 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
 </svg>
 
-<header class="topbar" id="topbar"><div class="in">
-  <a class="brand" href="../../" aria-label="Gabella, на главную"><img class="mark" src="../../assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Гид WoW Forever</small></span></a>
+<a class="skip" href="#main">К содержанию</a><header class="topbar" id="topbar"><div class="in">
+  <a class="brand" href="../../"><img class="mark" src="../../assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Гид WoW Forever</small></span></a>
   <nav class="mainnav" aria-label="Разделы">
     <a href="../../classes/">Классы</a><a href="../../races/" aria-current="true">Расы</a><a href="../../guides/leveling/">Прокачка</a><a href="../../guides/dungeons/">Подземелья</a><a href="../../guides/">Гайды</a><a href="../../tools/">Инструменты</a><a href="../../play/">В игре</a><a href="../../roster/">Игроки</a><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a>
   </nav>
   <div class="tools">
-    <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" aria-label="Язык: Русский">RU</button><ul class="langlist" hidden><li><a href="./" data-lang="ru" hreflang="ru" lang="ru" aria-current="page"><span>Русский</span><small>RU</small></a></li><li><a href="../../en/races/gnome/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../../uk/races/gnome/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../../de/races/gnome/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="../../fr/races/gnome/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="../../es/races/gnome/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="../../pt/races/gnome/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="../../it/races/gnome/" data-lang="it" hreflang="it" lang="it"><span>Italiano</span><small>IT</small></a></li><li><a href="../../pl/races/gnome/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
+    <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" >RU<span class="sr">, Язык: Русский</span></button><ul class="langlist" hidden><li><a href="./" data-lang="ru" hreflang="ru" lang="ru" aria-current="page"><span>Русский</span><small>RU</small></a></li><li><a href="../../en/races/gnome/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../../uk/races/gnome/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../../de/races/gnome/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="../../fr/races/gnome/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="../../es/races/gnome/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="../../pt/races/gnome/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="../../it/races/gnome/" data-lang="it" hreflang="it" lang="it"><span>Italiano</span><small>IT</small></a></li><li><a href="../../pl/races/gnome/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
     <button class="iconbtn srchbtn" type="button" aria-label="Поиск по сайту" aria-haspopup="dialog"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><kbd>Ctrl K</kbd></button>
     <button class="iconbtn radiobtn" type="button" aria-label="Радио" title="Радио" aria-expanded="false" aria-controls="radioPanel" aria-pressed="false"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg><span class="rdo-eq" aria-hidden="true"><i></i><i></i><i></i></span></button>
     <button class="iconbtn themebtn" type="button" aria-label="Переключить тему" title="Переключить тему"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></button>
@@ -1156,6 +1167,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   </div>
 </div></header>
 
+<main id="main">
 <section class="chero" id="top">
   <picture class="blur" aria-hidden="true"><img src="../../assets/art/gnome-bg.webp?v=f2892691" width="480" height="270" alt="" decoding="async"></picture>
   <picture class="por">
@@ -1178,7 +1190,6 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   </div>
 </section>
 
-<main>
 <section class="block wrap" id="racials">
   <div class="sec-head"><div class="row"><h2>Расовые способности</h2><span class="src">Method, Warcraft Tavern</span></div></div>
   <div class="rgrp">
@@ -1222,7 +1233,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <div class="wrap">
 <footer id="sources">
   <h2>Источники</h2>
-  <p>Итоговые цифры могут измениться. <span class="tl" style="display:inline">Совет:</span> мнение составителя.</p>
+  <p>Итоговые цифры могут измениться. <span>Советы — мнение составителя.</span></p>
   <ul><li><a href="https://www.warcrafttavern.com/forever/guides/gnome/" target="_blank" rel="noopener">Warcraft Tavern</a></li><li><a href="https://www.warcrafttavern.com/forever/guides/gnome-racials/" target="_blank" rel="noopener">Warcraft Tavern: расовые способности</a></li><li><a href="https://www.warcrafttavern.com/forever/guides/races/" target="_blank" rel="noopener">Warcraft Tavern: все расы</a></li></ul>
   <nav class="fmap" aria-label="Карта сайта"><div><a class="fh" href="../../classes/">Классы</a><ul><li><a href="../../classes/warrior/">Воин</a></li><li><a href="../../classes/paladin/">Паладин</a></li><li><a href="../../classes/hunter/">Охотник</a></li><li><a href="../../classes/rogue/">Разбойник</a></li><li><a href="../../classes/priest/">Жрец</a></li><li><a href="../../classes/shaman/">Шаман</a></li><li><a href="../../classes/mage/">Маг</a></li><li><a href="../../classes/warlock/">Чернокнижник</a></li><li><a href="../../classes/druid/">Друид</a></li></ul></div><div><a class="fh" href="../../races/">Расы</a><ul><li><a href="../../races/human/">Человек</a></li><li><a href="../../races/dwarf/">Дворф</a></li><li><a href="../../races/night-elf/">Ночной эльф</a></li><li><a href="../../races/gnome/">Гном</a></li><li><a href="../../races/skyborne-alliance/">Высший скайборн</a></li><li><a href="../../races/orc/">Орк</a></li><li><a href="../../races/undead/">Нежить</a></li><li><a href="../../races/tauren/">Таурен</a></li><li><a href="../../races/troll/">Тролль</a></li><li><a href="../../races/skyborne-horde/">Скайборн-ветрорез</a></li></ul></div><div><a class="fh" href="../../guides/">Гайды</a><ul><li><a href="../../guides/leveling/">Прокачка 1–60</a></li><li><a href="../../guides/best-race/">Лучшая раса для каждого класса</a></li><li><a href="../../guides/tier-list/">Тир-лист классов WoW Forever</a></li><li><a href="../../guides/legacy/">Система Legacy</a></li><li><a href="../../guides/dungeons/">Подземелья и рейды</a></li><li><a href="../../guides/professions/">Профессии</a></li><li><a href="../../guides/addons/">Аддоны и интерфейс</a></li><li><a href="../../guides/faq/">FAQ и даты</a></li><li><a href="../../guides/requirements/">Системные требования</a></li><li><a href="../../guides/news/">Новости</a></li></ul></div><div><a class="fh" href="../../tools/">Инструменты</a><ul><li><a href="../../tools/">Инструменты</a></li><li><a href="../../play/">В игре</a></li></ul></div></nav><div class="legal"><p>Фанатский гид Gabella. Сайт не связан с Blizzard Entertainment и не одобрен ею. World of Warcraft, Warcraft и Blizzard Entertainment — товарные знаки или зарегистрированные товарные знаки Blizzard Entertainment, Inc. в США и/или других странах.</p><p>© 2026 Gabella<span aria-hidden="true"> · </span><a href="../../privacy/">Конфиденциальность</a><span aria-hidden="true"> · </span><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><span aria-hidden="true"> · </span><a href="https://t.me/gabella_wow" target="_blank" rel="noopener">Telegram</a><span aria-hidden="true"> · </span>Связь: <a href="mailto:contact@gabella.site">contact@gabella.site</a></p></div>
 </footer>
@@ -1341,8 +1352,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js?v=a448c8a8c7" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=7039f5f416" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=a34702d24d" data-root="../../" data-home="../../" data-lang="ru" data-teaser="Профиль хранит ваших персонажей, достижения и рамки" data-close="Закрыть" data-page="races/gnome/" data-look="2" defer></script>
+<script src="../../assets/search/search.js?v=c09f233b32" data-root="../../" defer></script>
+<script src="../../assets/me/me.js?v=92cd9c7464" data-root="../../" data-home="../../" data-lang="ru" data-teaser="Профиль хранит ваших персонажей, достижения и рамки" data-close="Закрыть" data-page="races/gnome/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>
