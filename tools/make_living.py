@@ -184,7 +184,7 @@ def professions():
 
 
 def faq():
-    banners = shape([[(102, 40), (200, 40), (198, 300), (152, 322), (104, 300)], [(522, 165), (574, 165), (574, 318), (548, 336), (522, 318)]],
+    banners = shape([[(100, 44), (198, 44), (196, 300), (150, 318), (102, 300)], [(515, 165), (574, 165), (574, 320), (545, 338), (517, 320)]],
                     lambda x, y: fade(y, 45, 320) if x < 300 else fade(y, 170, 335))
     zero = Image.new('L', (W, H), 0)
     save('hero_faq', zero, soft(banners, 0, 2), zero, zero)   # the candles stay as painted
