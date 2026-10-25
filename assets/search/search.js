@@ -314,7 +314,7 @@
     if (!q.trim()) {
       const go = items.filter(it => {
         const rel = (LANG === 'ru' ? it.u : it.u.slice(LANG.length + 1)).split('/').filter(Boolean);
-        return it.k === 0 && (rel.length === 1 && rel[0] !== 'privacy' || rel.length === 2 && rel[0] === 'guides');
+        return it.k === 0 && (rel.length === 1 && rel[0] !== 'privacy' || rel.length === 2 && rel[0] === 'guides') && !popular.some(p => p.u === it.u);
       });
       shown = [...popular, ...go];
       list.innerHTML = group(L.pop, 0, popular, null) + group(L.go, popular.length, go, null);
