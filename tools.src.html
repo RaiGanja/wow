@@ -68,7 +68,7 @@
 .unit .un b { flex: 0 1 auto; min-width: 0; }
 .unit .un small { margin-left: auto; color: rgba(243,239,230,.7); font-size: var(--fs-13); white-space: nowrap; }
 .unit .hp { position: relative; height: 16px; border-radius: 2px; background: #050608; overflow: hidden; }
-.unit .hp i { position: absolute; inset: 0; background: linear-gradient(180deg, color-mix(in srgb, var(--cc) 62%, #111317), color-mix(in srgb, var(--cc) 48%, #08090b)); }
+.unit .hp i { position: absolute; inset: 0; background: linear-gradient(180deg, color-mix(in srgb, var(--cc) 62%, #0f0f0f), color-mix(in srgb, var(--cc) 48%, #08090b)); }
 .unit .mp { height: 3px; border-radius: 1px; background: var(--pc); opacity: .85; }
 .unit.empty { background: transparent; border-style: dashed; color: var(--muted); }
 .unit.empty .up { display: grid; place-items: center; border: 2px dashed var(--pline); box-shadow: none; background: transparent; font-size: var(--fs-28); color: var(--muted); }
@@ -85,14 +85,14 @@
 .rg-h b { color: var(--fg); font-weight: 600; font-size: var(--fs-14); }
 .rg-h .warn { color: var(--horde); }
 .rc { --pc: #3f7fe0; position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-content: center; gap: 0 4px; height: 50px; padding: 3px 7px 5px; border: 1px solid #000; border-radius: 2px; overflow: hidden; isolation: isolate; color: #fff; text-align: left; font: inherit; cursor: pointer;
-  background: linear-gradient(180deg, color-mix(in srgb, var(--cc) 62%, #111317), color-mix(in srgb, var(--cc) 46%, #08090b)); transition: filter .15s, box-shadow .15s; }
+  background: linear-gradient(180deg, color-mix(in srgb, var(--cc) 62%, #0f0f0f), color-mix(in srgb, var(--cc) 46%, #08090b)); transition: filter .15s, box-shadow .15s; }
 .rc::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--pc); }
 .rc:hover { filter: brightness(1.12); box-shadow: 0 0 0 1px #e0c27a; }
 .rc b, .rc small { text-shadow: 0 0 2px #000, 0 1px 1px #000, 0 0 1px #000; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .rc b { font-weight: 600; font-size: var(--fs-14); line-height: 1.25; }
 .rc small { grid-column: 1; font-size: var(--fs-13); line-height: 1.2; color: rgba(255,255,255,.72); font-weight: 500; }
 .rc .ri { grid-column: 2; grid-row: 1; align-self: start; margin: 1px 0 0; width: 12px; height: 12px; stroke-width: 2.4; color: rgba(255,255,255,.85); filter: drop-shadow(0 0 1px #000); }
-.rc.empty { background: #111317; border: 1px dashed rgba(255,255,255,.14); color: rgba(243,239,230,.6); display: flex; align-items: center; justify-content: center; gap: 6px; font-size: var(--fs-14); }
+.rc.empty { background: #0f0f0f; border: 1px dashed rgba(255,255,255,.14); color: rgba(243,239,230,.6); display: flex; align-items: center; justify-content: center; gap: 6px; font-size: var(--fs-14); }
 .rc.empty::after { display: none; }
 .rc.empty:hover { box-shadow: none; border-color: var(--gold); color: var(--fg); filter: none; }
 
@@ -129,7 +129,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 .cpick.races { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .cp { position: relative; aspect-ratio: 3 / 4; overflow: hidden; isolation: isolate; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; padding: 8px; display: grid; align-content: end; background: #0b0c0e; color: #f3efe6; font: inherit; text-align: left; cursor: pointer; }
 .cp img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: 50% 18%; filter: saturate(.7) brightness(.6); transition: filter .3s, transform .6s var(--ease); }
-.cp::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(7,8,10,0) 45%, rgba(7,8,10,.92) 100%); }
+.cp::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(5,5,5,0) 45%, rgba(5,5,5,.92) 100%); }
 .cp { container-type: inline-size; }
 .cp b { font-weight: 600; font-size: var(--fs-16); line-height: 1.2; text-shadow: 0 1px 6px rgba(0,0,0,.8); }
 .cp b.long { font-size: var(--fs-14); }
@@ -171,7 +171,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 .crow.chead { padding: 16px 16px 4px; }
 .chead .val { overflow: hidden; position: relative; isolation: isolate; min-height: 150px; display: grid; align-content: end; gap: 4px; padding: 14px; border-radius: 6px; color: #f3efe6; background: #0b0d12; }
 .chead .val img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: 50% 16%; }
-.chead .val::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(7,8,10,.1) 20%, rgba(7,8,10,.92) 100%); }
+.chead .val::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(5,5,5,.1) 20%, rgba(5,5,5,.92) 100%); }
 .chead .val.race { min-height: 110px; background: linear-gradient(135deg, var(--fb), #0b0d12 75%); }
 .chead .val.race::after { display: none; }
 .chead .val.alliance { --fb: #13284d; } .chead .val.horde { --fb: #3a1410; }
@@ -591,7 +591,7 @@ $('#cPick').addEventListener('click', e => {
 
 /* ---------- Page chrome ---------- */
 const themeBtns = document.querySelectorAll('.themebtn');
-function paintTheme() { const t = document.documentElement.getAttribute('data-theme'); themeBtns.forEach(b => b.querySelector('use').setAttribute('href', t === 'light' ? '#i-moon' : '#i-sun')); const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#fbfaf7' : '#07080a'); }
+function paintTheme() { const t = document.documentElement.getAttribute('data-theme'); themeBtns.forEach(b => b.querySelector('use').setAttribute('href', t === 'light' ? '#i-moon' : '#i-sun')); const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#fbfaf7' : '#030303'); }
 themeBtns.forEach(b => b.onclick = () => { const t = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light'; document.documentElement.setAttribute('data-theme', t); try { localStorage.setItem('wf-theme', t); } catch (e) {} paintTheme(); });
 paintTheme();
 const topbar = $('#topbar');
