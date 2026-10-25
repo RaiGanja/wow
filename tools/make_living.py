@@ -287,9 +287,9 @@ def ukrainian():
     im = load('hero_ukrainian')
     sunflowers = pick(im, [(0, 362, 440, 500)], lambda r, g, b, x, y: r > 165 and g > 115 and b < 90 and r > b + 90 and sat(r, g, b) > .6,
                       lambda x, y: fade(y, 500, 380))   # heads sway, the stems stay rooted; not the sunlit field behind them
-    open_sky = open_area([(0, 0), (W, 0), (W, 110), (1350, 110), (1290, 128), (1262, 134), (1180, 134), (1120, 128), (1050, 128),
-                          (1000, 206), (962, 222), (900, 214), (860, 216), (830, 250), (790, 250), (740, 236), (690, 254),
-                          (650, 270), (560, 320), (240, 320), (230, 225), (140, 225), (125, 270), (0, 270)], (250, 320))   # windmill, roofs, heads
+    open_sky = open_area([(0, 0), (W, 0), (W, 215), (1262, 215), (1262, 86), (1160, 86), (1100, 94), (900, 124), (900, 196),
+                          (780, 196), (765, 148), (712, 148), (690, 196), (600, 214), (560, 222), (430, 222), (420, 320), (245, 320),
+                          (240, 212), (132, 212), (118, 270), (0, 270)], (250, 320))   # windmill, roofs, heads
     zero = Image.new('L', (W, H), 0)
     save('hero_ukrainian', zero, soft(sunflowers, 1, 1.5), soft(open_sky, 1, 2), zero)
 
