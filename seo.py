@@ -39,6 +39,8 @@ PLAY_NAME = {'ru': 'В игре', 'en': 'In game', 'uk': 'У грі'}
 ROSTER_NAME = {'ru': 'Игроки', 'en': 'Players', 'uk': 'Гравці'}
 PROFILE_NAME = {'ru': 'Мой профиль', 'en': 'My profile', 'uk': 'Мій профіль'}
 PLAYER_NAME = {'ru': 'Игрок WoW Forever', 'en': 'WoW Forever player', 'uk': 'Гравець WoW Forever'}
+# Inner pages whose radio, search, profile and analytics files wait for the hero picture like on the home (build.late)
+LATE_INNER = ('play/', 'guides/', 'classes/', 'races/')
 NOINDEX = {'profile/', 'u/'} | (set() if build.SOCIAL else {'roster/'})   # personal pages: noindex in the page (build_me.py), left out of sitemap.xml
 
 
@@ -372,7 +374,9 @@ def apply(html, path, lang, title, desc):
     if CF_BEACON_TOKEN:
         beacon = json.dumps({'token': CF_BEACON_TOKEN})
         html = html.replace('</body>', f'<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon=\'{beacon}\'></script>\n</body>', 1)
-    return build.late(html) if path == '' else html
+    if path == '':
+        return build.late(html)
+    return build.late(html, 'img[fetchpriority="high"]') if path.startswith(LATE_INNER) else html
 
 
 def sitemap(paths):

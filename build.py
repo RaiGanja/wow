@@ -451,7 +451,7 @@ LATE_JS = """<script>
   ['pointerdown', 'keydown', 'touchstart', 'wheel', 'scroll'].forEach(function (t) { addEventListener(t, wake, { once: true, passive: true, capture: true }); });
   if (location.hash.length > 1) return wake();   // a link to a section: the blocks above it are drawn before the jump settles
   setTimeout(wake, 4000);   // a tab in the background paints nothing
-  var img = document.querySelector('.hero-art img');
+  var img = document.querySelector('@@HERO@@');
   var lcp = window.PerformanceObserver && PerformanceObserver.supportedEntryTypes && PerformanceObserver.supportedEntryTypes.indexOf('largest-contentful-paint') >= 0;
   var armed = false;
   function later() {   // a wide screen, where the heading counts as the largest: a moment after the picture is drawn
@@ -472,13 +472,14 @@ LATE_JS = """<script>
 LATE_FILES = r'assets/(?:radio|search|me|tod|living)/|static\.cloudflareinsights\.com/'
 
 
-def late(html):
-    """Puts the files of LATE_FILES to sleep on a home page and adds LATE_JS (seo.apply calls it after the analytics tag)."""
+def late(html, hero='.hero-art img'):
+    """Puts the files of LATE_FILES to sleep on a home page and adds LATE_JS (seo.apply calls it after the analytics tag).
+    Inner pages (seo.LATE_INNER) do the same and wait for their own hero picture."""
     link =lambda m: f'<link data-rel="{m[1]}" href="{m[2]}">' if re.search(LATE_FILES, m[2]) else m[0]
     html = re.sub(r'<link rel="(stylesheet|manifest)" href="([^"]+)"(?: media="print" onload="[^"]*")?>', link, html)
     script = lambda m: f'<script{m[1] or ""} data-src="{m[2]}"{m[3].replace(" defer", "")}></script>' if re.search(LATE_FILES, m[2]) else m[0]
     html = re.sub(r'<script( type="module")? src="([^"]+)"([^>]*)></script>', script, html)
-    return html if 'link[data-rel]' in html else html.replace('</body>', LATE_JS + '</body>', 1)
+    return html if 'link[data-rel]' in html else html.replace('</body>', LATE_JS.replace('@@HERO@@', hero) + '</body>', 1)
 
 
 # ---------- installable site (PWA): manifest, icons, service worker sw.js ----------
