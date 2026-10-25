@@ -47,6 +47,10 @@ GUIDES.append({
     'sources': [
         (t('ClassicWoW.gg: даты беты, имён, рейдов, отличия от Era', 'ClassicWoW.gg: beta, names, raids, Era differences',
            'ClassicWoW.gg: дати бети, імен, рейдів, відмінності від Era'), 'https://classicwow.gg/forever'),
+        (t('Icy Veins: время резерва имён по регионам', 'Icy Veins: name reservation times by region', 'Icy Veins: час резерву імен за регіонами'),
+         'https://www.icy-veins.com/wow-forever/news/wow-forever-early-name-reservation-dates-amounts-and-times-revealed/'),
+        (t('Icy Veins: время закрытия беты', 'Icy Veins: beta end time', 'Icy Veins: час закриття бети'),
+         'https://www.icy-veins.com/wow-forever/news/wow-forever-beta-end-time-and-stress-test-starting-times-by-time-zone/'),
         (t('Warcraft Tavern: наборы и цены', 'Warcraft Tavern: editions and prices', 'Warcraft Tavern: набори та ціни'),
          'https://www.warcrafttavern.com/news/world-of-warcraft-forever-editions-skyborne-race-unlock-beta-access/'),
         (t('Warcraft Tavern: изменения беты от 15 октября', 'Warcraft Tavern: 15 October beta changes', 'Warcraft Tavern: зміни бети від 15 жовтня'),
@@ -87,9 +91,9 @@ GUIDES.append({
                    'Racial abilities were reworked (weapon specializations replaced with crits) and almost all classes were tuned.',
                    'Переробили здібності рас (спеціалізації зброї замінили критами) і налаштували майже всі класи.')],
                 ['27.10 – 03.11', t('Ранняя резервация имён', 'Early name reservation', 'Рання резервація імен'),
-                 t('Входит в наборы Heroic, Epic и Collection. До трёх персонажей на аккаунт, кто первым пришёл, тот и занял. Это не ранний доступ в игру. Точное время открытия Blizzard пока не назвала.',
-                   'Included in the Heroic, Epic and Collection packs. Up to three characters per account, first come, first served. This is not early access to the game. Blizzard has not yet named the exact opening time.',
-                   'Входить у набори Heroic, Epic і Collection. До трьох персонажів на акаунт, хто перший прийшов, той і зайняв. Це не ранній доступ до гри. Точний час відкриття Blizzard поки не назвала.')],
+                 t('Входит в наборы Heroic, Epic и Collection. До трёх персонажей на аккаунт, кто первым пришёл, тот и занял. Это не ранний доступ в игру. Открывается 27.10: Европа в 18:00 CET (17:00 UTC), Америка в 13:00 PDT (20:00 UTC), Корея и Тайвань 28.10 в 07:00. Конец резерва 03.11.',
+                   'Included in the Heroic, Epic and Collection packs. Up to three characters per account, first come, first served. This is not early access to the game. It opens on 27.10: Europe at 18:00 CET (17:00 UTC), the Americas at 13:00 PDT (20:00 UTC), Korea and Taiwan on 28.10 at 07:00. Reservation ends on 03.11.',
+                   'Входить у набори Heroic, Epic і Collection. До трьох персонажів на акаунт, хто перший прийшов, той і зайняв. Це не ранній доступ до гри. Відкривається 27.10: Європа о 18:00 CET (17:00 UTC), Америка о 13:00 PDT (20:00 UTC), Корея й Тайвань 28.10 о 07:00. Кінець резерву 03.11.')],
                 ['04.11', t('Релиз WoW Forever', 'WoW Forever release', 'Реліз WoW Forever'),
                  t('Нужна подписка или игровое время. Forever — постоянная игра рядом с Retail и Classic, а не сезон. Старт в 15:00 по тихоокеанскому, это 23:00 UTC.',
                    'Requires a subscription or game time. Forever is a permanent game next to Retail and Classic, not a season. Launch is at 15:00 Pacific, which is 23:00 UTC.',
@@ -354,6 +358,10 @@ GUIDES.append({
          'https://news.blizzard.com/en-us/article/24301512'),
         (t('Warcraft Tavern: установка Forever', 'Warcraft Tavern: installing Forever', 'Warcraft Tavern: встановлення Forever'),
          'https://www.warcrafttavern.com/forever/guides/beta/'),
+        (t('esports.gg: системные требования', 'esports.gg: system requirements', 'esports.gg: системні вимоги'),
+         'https://esports.gg/guides/world-of-warcraft/can-your-pc-or-mac-run-wow-forever-here-are-the-system-requirements/'),
+        (t('System Requirements Lab: WoW Forever', 'System Requirements Lab: WoW Forever', 'System Requirements Lab: WoW Forever'),
+         'https://www.systemrequirementslab.com/requirements/wow-forever/30743'),
     ],
     'sections': [
         {'id': 'windows', 'title': 'Windows', 'blocks': [
@@ -395,8 +403,8 @@ GUIDES.append({
             ('table', {'head': [t('Производитель', 'Maker', 'Виробник'), t('Не старше', 'This or newer', 'Не старша'), t('Запустится', 'Will start', 'Запуститься'),
                                 t('Не запустится', 'Will not start', 'Не запуститься')], 'rows': [
                 ['AMD', 'Graphics Core Next 1 (2012)', 'Radeon HD 7850', 'Radeon HD 6950'],
-                ['NVIDIA', 'Maxwell (2014)', '—', 'GeForce GTX 760'],
-                ['Intel', 'Skylake (2015)', 'HD Graphics 530', '—'],
+                ['NVIDIA', 'Maxwell (2014)', 'GeForce GTX 9xx, GTX 750 / 750 Ti', 'GeForce GTX 760, GTX 770 / 780, 8xxM'],
+                ['Intel', 'Skylake (2015)', 'HD Graphics 530', 'Intel HD Graphics 6000'],
             ]}),
             ('tip', t('Такая видеокарта только запускает игру, до минимума выше ей далеко. Покупать железо стоит по столбцу «Минимум».',
                       'Such a card only starts the game and is still far below the minimum above. When buying hardware, go by the Minimum column.',
@@ -527,9 +535,9 @@ GUIDES.append({
         {'id': 'together', 'title': t('Прокачка вместе', 'Leveling together', 'Прокачування разом'), 'blocks': [
             ('steps', [
                 {'t': t('Темп классов', 'Class pace', 'Темп класів'),
-                 'd': t('По прогнозам Охотник и Маг прокачиваются быстрее всего (примерно на 8% быстрее среднего), Воин медленнее всех (около 12%), Друид и Жрец чуть медленнее среднего. Это оценки для беты, цифры могут измениться.',
-                        'By forecasts, Hunter and Mage level fastest (about 8% faster than average), Warrior slowest (about 12%), Druid and Priest slightly slower than average. These are beta estimates, the figures may change.',
-                        'За прогнозами Мисливець і Маг прокачуються найшвидше (приблизно на 8% швидше за середнє), Воїн повільніше за всіх (близько 12%), Друїд і Жрець трохи повільніше за середнє. Це оцінки для бети, цифри можуть змінитися.')},
+                 'd': t('По оценке LFCarry Охотник и Маг прокачиваются быстрее всего (примерно на 8% быстрее среднего), Воин медленнее всех (около 12%), Друид и Жрец чуть медленнее среднего. Это оценки для беты, цифры могут измениться.',
+                        'By LFCarry’s estimate, Hunter and Mage level fastest (about 8% faster than average), Warrior slowest (about 12%), Druid and Priest slightly slower than average. These are beta estimates, the figures may change.',
+                        'За оцінкою LFCarry Мисливець і Маг прокачуються найшвидше (приблизно на 8% швидше за середнє), Воїн повільніше за всіх (близько 12%), Друїд і Жрець трохи повільніше за середнє. Це оцінки для бети, цифри можуть змінитися.')},
                 {'t': t('Без масштабирования', 'No level scaling', 'Без масштабування'),
                  'd': t('Подземелья рассчитаны на свои уровни, а протаскивать отставшего друга Blizzard сделала невыгодным.', 'Dungeons are built for their own levels, and Blizzard made boosting a friend who lags behind unprofitable.',
                         'Підземелля розраховані на свої рівні, а протягувати друга, що відстав, Blizzard зробила невигідним.')},
@@ -584,9 +592,9 @@ GUIDES.append({
                         'Your race’s starting zone quests up to level 10, then the route below. Talents unlock at level 10.',
                         'Завдання стартової зони своєї раси до 10 рівня, далі — маршрут нижче. Таланти відкриваються на 10 рівні.')},
                 {'t': t('Кулинария сразу', 'Cooking right away', 'Кулінарія одразу'),
-                 'd': t('Костёр по Кулинарии становится лагерем: 140 навыка дают 5 мест, 220 — 10. Готовая еда даёт +5% опыта за врагов.',
-                        'A Cooking campfire becomes a camp: 140 skill gives 5 slots, 220 gives 10. Cooked food gives +5% experience from enemies.',
-                        'Вогнище з Кулінарії стає табором: 140 навички дають 5 місць, 220 — 10. Готова їжа дає +5% досвіду за ворогів.')},
+                 'd': t('Костёр по Кулинарии становится лагерем: по Warcraft Tavern 140 навыка дают 5 мест, 220 — 10 (по Icy Veins 90 и 200, уточним на старте). Готовая еда даёт +5% опыта за врагов.',
+                        'A Cooking campfire becomes a camp: per Warcraft Tavern, 140 skill gives 5 slots and 220 gives 10 (per Icy Veins 90 and 200; we’ll confirm at launch). Cooked food gives +5% experience from enemies.',
+                        'Вогнище з Кулінарії стає табором: за Warcraft Tavern 140 навички дають 5 місць, 220 — 10 (за Icy Veins 90 і 200, уточнимо на старті). Готова їжа дає +5% досвіду за ворогів.')},
                 {'t': t('Две профессии', 'Two professions', 'Дві професії'),
                  'd': t('Травничество, Горное дело и Снятие шкур кормят деньгами и ставят свои объекты в лагере. Пары под класс — в гайде по профессиям.',
                         'Herbalism, Mining and Skinning bring in money and place their own camp objects. Pairs for your class are in the professions guide.',
@@ -726,9 +734,9 @@ GUIDES.append({
                         'The campfire is single-use: it takes a few seconds to build, burns for about 10 minutes, with a 5 minute cooldown to place.',
                         'Вогнище одноразове: будується кілька секунд, горить близько 10 хвилин, відновлення на встановлення 5 хвилин.')},
                 {'t': t('Места', 'Slots', 'Місця'),
-                 'd': t('Базовый костёр доступен без Кулинарии, на 3 объекта. Кулинария 140 даёт 5 мест, 220 — 10.',
-                        'A basic campfire is available without Cooking, with 3 objects. Cooking 140 gives 5 slots, 220 gives 10.',
-                        'Базове вогнище доступне без Кулінарії, на 3 об’єкти. Кулінарія 140 дає 5 слотів, 220 дає 10.')},
+                 'd': t('Для базового костра на 3 объекта нужна выученная Кулинария, прокачивать навык не обязательно. По Warcraft Tavern Кулинария 140 даёт 5 мест, 220 — 10 (по Icy Veins 90 и 200, уточним на старте).',
+                        'A basic campfire with 3 objects needs the Cooking profession learned, but you don’t have to level the skill. Per Warcraft Tavern, Cooking 140 gives 5 slots and 220 gives 10 (per Icy Veins 90 and 200; we’ll confirm at launch).',
+                        'Для базового вогнища на 3 об’єкти потрібна вивчена Кулінарія, прокачувати навичку не обов’язково. За Warcraft Tavern Кулінарія 140 дає 5 слотів, 220 дає 10 (за Icy Veins 90 і 200, уточнимо на старті).')},
                 {'t': t('Общий лагерь', 'Shared camp', 'Спільний табір'),
                  'd': t('Каждый персонаж ставит один объект, откат на объект 1 час. Вместе делают общий лагерь.',
                         'Each character places one object, with a 1 hour cooldown per object. Together you make a shared camp.',
@@ -752,9 +760,9 @@ GUIDES.append({
                 [t('Инженерное дело', 'Engineering', 'Інженерія'), 'Reagent Bot', t('торговец, на 2 уровне ремонт (Repair Bot)', 'a vendor, at level 2 repairs (Repair Bot)', 'торговець, на 2 рівні ремонт (Repair Bot)')],
                 [t('Кулинария', 'Cooking', 'Кулінарія'), 'Basic Campfire', t('без баффа, добавляет места в лагере', 'no buff, adds camp slots', 'без баффа, додає слоти табору')],
             ]}),
-            ('text', [t('Каждая профессия делает по три объекта, по одному на уровень. Источники расходятся в навыке для объектов 2 и 3 уровня (один пишет 140 и 300), поэтому сверяйте в игре.',
-                        'Each profession makes three objects, one per level. Sources disagree on the skill needed for level 2 and 3 objects (one says 140 and 300), so check in the game.',
-                        'Кожна професія робить по три об’єкти, по одному на рівень. Джерела розходяться в навичці для об’єктів 2 і 3 рівня (одне пише 140 і 300), тому звіряйте в грі.')]),
+            ('text', [t('Каждая профессия делает по три объекта, по одному на уровень. По Icy Veins навык для объектов 1, 2 и 3 уровня — 20, 140 и 300 (другие источники расходятся), поэтому сверяйте в игре.',
+                        'Each profession makes three objects, one per level. Per Icy Veins the skill for level 1, 2 and 3 objects is 20, 140 and 300 (other sources differ), so check in the game.',
+                        'Кожна професія робить по три об’єкти, по одному на рівень. За Icy Veins навичка для об’єктів 1, 2 і 3 рівня — 20, 140 і 300 (інші джерела розходяться), тому звіряйте в грі.')]),
             ('tip', t('Палатка Camp Tent от кожевника даёт отдых, как в таверне, на час и не пропадает после смерти. Перки Legacy Field Guide, Permanence и Reagent Economy улучшают лагерь.',
                       'The leatherworker’s Camp Tent gives rest like an inn for an hour and stays after death. The Legacy perks Field Guide, Permanence and Reagent Economy improve the camp.',
                       'Намет Camp Tent від шкіряника дає відпочинок, як у таверні, на годину й не зникає після смерті. Перки Legacy Field Guide, Permanence і Reagent Economy покращують табір.')),
@@ -858,7 +866,7 @@ GUIDES.append({
             ('tiles', [{'t': t('Прокачка 1–60', 'Leveling 1–60', 'Прокачування 1–60'), 'd': t('Маршрут и лагерь на прокачке', 'Route and camp while leveling', 'Маршрут і табір на прокачуванні'), 'href': 'guides/leveling/#camp', 'art': 'hero_leveling'}]),
         ]},
         {'id': 'gold', 'title': t('Профессии для золота', 'Professions for gold', 'Професії для золота'), 'blocks': [
-            ('text', [t('WoW Token в Forever нет: всё золото на сервере добывают игроки. Ремесло в основном одевает вас самого, а продают в первую очередь материалы.', 'There is no WoW Token in Forever: all the gold on the server is earned by players. A craft mostly dresses you, so what sells first of all is materials.', 'WoW Token у Forever немає: усе золото на сервері здобувають гравці. Ремесло здебільшого одягає вас самого, а продають насамперед матеріали.')]),
+            ('text', [t('WoW Token в Forever нет и пока не планируется (разработчики, сентябрь 2026): всё золото на сервере добывают игроки. Ремесло в основном одевает вас самого, а продают в первую очередь материалы.', 'There is no WoW Token in Forever and none is planned for now (developers, September 2026): all the gold on the server is earned by players. A craft mostly dresses you, so what sells first of all is materials.', 'WoW Token у Forever немає й поки не планується (розробники, вересень 2026): усе золото на сервері здобувають гравці. Ремесло здебільшого одягає вас самого, а продають насамперед матеріали.')]),
             ('table', {'head': [t('Профессия', 'Profession', 'Професія'), t('Что продают', 'What sells', 'Що продають'), t('Важно', 'Good to know', 'Важливо')], 'rows': [
                 [t('Травничество', 'Herbalism', 'Травництво'), t('Травы, семена, редкие материалы', 'Herbs, seeds, rare materials', 'Трави, насіння, рідкісні матеріали'), t('Обычные травы быстро дешевеют, редкие держат цену.', 'Common herbs get cheap fast, rare ones hold their price.', 'Звичайні трави швидко дешевшають, рідкісні тримають ціну.')],
                 [t('Горное дело', 'Mining', 'Гірництво'), t('Руда, слитки, редкие материалы', 'Ore, bars, rare materials', 'Руда, зливки, рідкісні матеріали'), t('Руду берут кузнецы и инженеры.', 'Blacksmiths and engineers buy the ore.', 'Руду беруть ковалі та інженери.')],
@@ -1115,6 +1123,7 @@ GUIDES.append({
     'tile': t('Какая раса сильнее для вашего класса', 'Which race is stronger for your class', 'Яка раса сильніша для вашого класу'),
     'pills': [t('56 пар класс и раса', '56 class and race pairs', '56 пар клас і раса'), t('PvE и PvP', 'PvE and PvP', 'PvE та PvP'), t('По бете', 'Beta data', 'За бетою')],
     'sources': [
+        (t('Icy Veins: расы Forever', 'Icy Veins: Forever races', 'Icy Veins: раси Forever'), 'https://www.icy-veins.com/wow-forever/race-guide'),
         (t('Warcraft Tavern: расовые способности', 'Warcraft Tavern: racial abilities', 'Warcraft Tavern: расові здібності'), 'https://www.warcrafttavern.com/forever/guides/races/'),
         (t('Warcraft Tavern: изменения беты от 15 октября', 'Warcraft Tavern: Oct 15 beta changes', 'Warcraft Tavern: зміни бети від 15 жовтня'), 'https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/'),
         (t('RankedBoost: расы по классам', 'RankedBoost: races by class', 'RankedBoost: раси за класами'), 'https://rankedboost.com/world-of-warcraft/forever/tier-list/'),
@@ -1170,10 +1179,10 @@ GUIDES.append({
             ('table', {'head': [t('Раса', 'Race', 'Раса'), t('В Classic', 'In Classic', 'У Classic'), t('В Forever', 'In Forever', 'У Forever')], 'rows': [
                 [t('Все', 'All', 'Усі'), t('Специализации оружия, сопротивления', 'Weapon specializations, resistances', 'Спеціалізації зброї, опір магії'), t('Убраны, вместо них новые способности', 'Removed, replaced by new abilities', 'Прибрано, замість них нові здібності')],
                 [t('Человек', 'Human', 'Людина'), t('Специализация на мечах и булавах', 'Sword and mace specialization', 'Спеціалізація на мечах і булавах'), t('Беспощадность: +2% крита всем умениям', 'Ruthless: +2% crit on all abilities', 'Ruthless: +2% криту всім умінням')],
-                [t('Орк', 'Orc', 'Орк'), t('Кровавое неистовство: +25% базовой силы атаки, получаемое лечение −50% на 25 сек', 'Blood Fury: +25% base attack power, healing received −50% for 25 sec', 'Blood Fury: +25% базової сили атаки, отримане лікування −50% на 25 с'), t('Даёт и силу заклинаний, штрафа к лечению нет, откат 3 мин', 'Gives spell power too, no healing penalty, 3 min cooldown', 'Дає й силу заклять, штрафу до лікування немає, відкат 3 хв')],
+                [t('Орк', 'Orc', 'Орк'), t('Кровавое неистовство: +25% базовой силы атаки на 15 сек, получаемое лечение −50% на 25 сек', 'Blood Fury: +25% base attack power for 15 sec, healing received −50% for 25 sec', 'Blood Fury: +25% базової сили атаки на 15 с, отримане лікування −50% на 25 с'), t('Даёт и силу заклинаний, штрафа к лечению нет, откат 3 мин', 'Gives spell power too, no healing penalty, 3 min cooldown', 'Дає й силу заклять, штрафу до лікування немає, відкат 3 хв')],
                 [t('Орк', 'Orc', 'Орк'), t('Command: +5% урона питомцев', 'Command: +5% pet damage', 'Command: +5% шкоди улюбленців'), t('Дикость: +1% крита. Питомцы больше не повод брать Орка', 'Savage: +1% crit. Pets are no longer a reason to pick Orc', 'Savage: +1% криту. Улюбленці більше не привід брати Орка')],
                 [t('Орк', 'Orc', 'Орк'), t('Твердость: +25% к шансу сопротивиться оглушению', 'Hardiness: +25% chance to resist stuns', 'Hardiness: +25% до шансу опиратися приголомшенню'), t('Оглушения короче на 20%', 'Stuns 20% shorter', 'Приголомшення коротші на 20%')],
-                [t('Тролль', 'Troll', 'Троль'), t('Боевое исступление до +30% при низком здоровье', 'Berserking: up to +30% when at low health', 'Berserking: до +30% за низького здоров’я'), t('Ровно +10% скорости атак и заклинаний на 10 сек', 'A flat +10% attack and spell speed for 10 sec', 'Рівно +10% до швидкості атак і заклять на 10 с')],
+                [t('Тролль', 'Troll', 'Троль'), t('Боевое исступление до +30% при низком здоровье', 'Berserking: up to +30% when at low health', 'Berserking: до +30% за низького здоров’я'), t('Ровно +10% скорости атак и заклинаний, на 10–12 сек (источники расходятся)', 'A flat +10% attack and spell speed for 10–12 sec (sources differ)', 'Рівно +10% до швидкості атак і заклять на 10–12 с (джерела розходяться)')],
                 [t('Дворф', 'Dwarf', 'Дворф'), t('Каменная форма: +10% брони', 'Stoneform: +10% armor', 'Stoneform: +10% броні'), t('−10% физического урона', '−10% physical damage', '−10% фізичної шкоди')],
                 [t('Гном', 'Gnome', 'Гном'), '—', t('Эврика!: 8 сек, способности дешевле и на 10% сильнее', 'Eureka!: 8 sec, abilities cost less and are 10% stronger', 'Eureka!: 8 с, здібності дешевші й на 10% сильніші')],
                 [t('Таурен', 'Tauren', 'Таурен'), t('Громовая поступь раз в 2 мин', 'War Stomp once every 2 min', 'War Stomp раз на 2 хв'), t('Раз в 90 сек, плюс Закалка и Бег по равнинам', 'Once every 90 sec, plus Endurance and Plainsrunning', 'Раз на 90 с, плюс Endurance і Plainsrunning')],
@@ -1238,7 +1247,7 @@ GUIDES.append({
     'sections': [
         {'id': 'how', 'title': t('Как читать', 'How to read it', 'Як читати'), 'blocks': [
             ('text', [t('Тир — сводка нескольких источников, а не оценка одного сайта. S — лучшие в своей роли, C — слабее, но играть можно. Звёздочка (*) — источники расходятся на две буквы и больше.', 'The tier is a summary of several sources, not one site’s rating. S is the best in its role, C is weaker but playable. An asterisk (*) means the sources differ by two letters or more.', 'Тір — це зведення кількох джерел, а не оцінка одного сайту. S — найкращі у своїй ролі, C — слабші, але грати можна. Зірочка (*) означає, що джерела розходяться на дві літери й більше.')]),
-            ('tip', t('По бете. Бета шла с 17.09 по 21.10 на уровне 30: рейдов, полей боя и уровней 31–60 там не было. Обновим после старта 4 ноября.', 'Beta data. The beta ran from Sep 17 to Oct 21 at level 30: no raids, battlegrounds or levels 31–60. We’ll update after the Nov 4 launch.', 'За бетою. Бета тривала з 17 вересня по 21 жовтня на 30 рівні: рейдів, полів бою та рівнів 31–60 там не було. Оновимо після старту 4 листопада.')),
+            ('tip', t('По бете. Бета шла с 17.09 по 23.10 на уровне 30: рейдов, полей боя и уровней 31–60 там не было. Обновим после старта 4 ноября.', 'Beta data. The beta ran from Sep 17 to Oct 23 at level 30: no raids, battlegrounds or levels 31–60. We’ll update after the Nov 4 launch.', 'За бетою. Бета тривала з 17 вересня по 23 жовтня на 30 рівні: рейдів, полів бою та рівнів 31–60 там не було. Оновимо після старту 4 листопада.')),
         ]},
         {'id': 'classes', 'title': t('Классы целиком', 'Whole classes', 'Класи загалом'), 'blocks': [
             ('table', {'head': [t('Класс', 'Class', 'Клас'), t('Прокачка', 'Leveling', 'Прокачування'), 'PvE', 'PvP', t('Почему', 'Why', 'Чому')], 'rows': [
@@ -1478,7 +1487,7 @@ GUIDES.append({
             ('table', {'head': [t('Дерево', 'Tree', 'Дерево'), t('Перки (рангов)', 'Perks (ranks)', 'Перки (рангів)')], 'rows': [
                 [t('Профессии', 'Professions', 'Професії'), t('Working Overtime (5): чаще растут навыки, включая классовые вроде Взлома замков. Bountiful Harvest (5): на 20% больше редких материалов при сборе. Master Chef (5): шанс лишнего блюда. Luremaster (2): шанс лишней рыбы с приманкой. Performance Bonus (3): шанс получить больше Merchant’s Favor за сданный ящик. Bartering (2): цены у торговцев ниже на 5%. Dedicated Study (1): раз в день +1 к самому низкому навыку профессии.', 'Working Overtime (5): skills improve more often, including class skills such as Lockpicking. Bountiful Harvest (5): 20% more rare materials when gathering. Master Chef (5): a chance for an extra dish. Luremaster (2): a chance for extra fish when using bait. Performance Bonus (3): a chance for more Merchant’s Favor for a delivered crate. Bartering (2): vendor prices 5% lower. Dedicated Study (1): once a day, +1 to your lowest profession skill.', 'Working Overtime (5): навички зростають частіше, зокрема класові, як-от злом замків. Bountiful Harvest (5): на 20% більше рідкісних матеріалів під час збирання. Master Chef (5): шанс на зайву страву. Luremaster (2): шанс на зайву рибу з принадою. Performance Bonus (3): шанс отримати більше Merchant’s Favor за зданий ящик. Bartering (2): ціни в торговців нижчі на 5%. Dedicated Study (1): раз на день +1 до найнижчої навички професії.')],
                 [t('Приключения', 'Adventures', 'Пригоди'), t('Well Rested (5): быстрее копится отдых и выше его потолок. Thrill of Adventure (5): здоровье и мана за убийство вне подземелий. Talented (5): очки талантов с 9 уровня, на 5 рангах с 5. Field Guide (3): короче откат объектов лагеря. High Alert (2): лучше видно врагов в незаметности, кроме полей боя. Field Medicine (2): короче дебафф после бинта. Frequent Flier (1): перелёты на 50% дешевле и на 20% быстрее.', 'Well Rested (5): rest builds up faster and its cap is higher. Thrill of Adventure (5): health and mana for kills outside dungeons. Talented (5): talent points from level 9, from level 5 at rank 5. Field Guide (3): shorter cooldown on camp objects. High Alert (2): enemies in stealth are easier to see, except in battlegrounds. Field Medicine (2): shorter debuff after a bandage. Frequent Flier (1): flights 50% cheaper and 20% faster.', 'Well Rested (5): швидше накопичується відпочинок і вища його стеля. Thrill of Adventure (5): здоров’я та мана за вбивство поза підземеллями. Talented (5): очки талантів з 9 рівня, на 5 рангах з 5. Field Guide (3): коротший відкат об’єктів табору. High Alert (2): краще видно ворогів у невидимості, крім полів бою. Field Medicine (2): коротший дебаф після бинта. Frequent Flier (1): перельоти на 50% дешевші й на 20% швидші.')],
-                [t('Ресурсы', 'Resources', 'Ресурси'), t('Gourmand (3): еда действует на 33% дольше. Permanence (2): баффы класса на группу и баффы лагеря длятся на 50% дольше. Reagent Economy (1): способностям класса не нужны покупные реагенты, объекты лагеря 1 уровня не требуют материалов. Reinforce (5): на 8% меньше потеря прочности. Diplomat (5): +2% репутации. For Great Honor (5): +2% Чести. The Quick and the Dead (2): быстрее бег призраком, а после воскрешения способности поддержки бесплатны минуту.', 'Gourmand (3): food lasts 33% longer. Permanence (2): class buffs on the group and camp buffs last 50% longer. Reagent Economy (1): class abilities need no bought reagents, level 1 camp objects need no materials. Reinforce (5): 8% less durability loss. Diplomat (5): +2% reputation. For Great Honor (5): +2% Honor. The Quick and the Dead (2): faster running as a ghost, and after resurrection support abilities are free for a minute.', 'Gourmand (3): їжа діє на 33% довше. Permanence (2): бафи класу на групу та бафи табору тривають на 50% довше. Reagent Economy (1): здібностям класу не потрібні куплені реагенти, об’єкти табору 1 рівня не потребують матеріалів. Reinforce (5): на 8% менша втрата міцності. Diplomat (5): +2% репутації. For Great Honor (5): +2% Честі. The Quick and the Dead (2): швидший біг привидом, а після воскресіння здібності підтримки безкоштовні протягом хвилини.')],
+                [t('Ресурсы', 'Resources', 'Ресурси'), t('Gourmand (3): еда действует дольше, на 33% за ранг, до +100%. Permanence (2): баффы класса на группу и баффы лагеря длятся дольше, на 50% за ранг, до +100%. Reagent Economy (1): способностям класса не нужны покупные реагенты, объекты лагеря 1 уровня не требуют материалов. Reinforce (5): на 8% меньше потеря прочности. Diplomat (5): +2% репутации. For Great Honor (5): +2% Чести. The Quick and the Dead (2): быстрее бег призраком, а после воскрешения способности поддержки бесплатны минуту.', 'Gourmand (3): food lasts longer, 33% per rank, up to +100%. Permanence (2): class buffs on the group and camp buffs last longer, 50% per rank, up to +100%. Reagent Economy (1): class abilities need no bought reagents, level 1 camp objects need no materials. Reinforce (5): 8% less durability loss. Diplomat (5): +2% reputation. For Great Honor (5): +2% Honor. The Quick and the Dead (2): faster running as a ghost, and after resurrection support abilities are free for a minute.', 'Gourmand (3): їжа діє довше, на 33% за ранг, до +100%. Permanence (2): бафи класу на групу та бафи табору тривають довше, на 50% за ранг, до +100%. Reagent Economy (1): здібностям класу не потрібні куплені реагенти, об’єкти табору 1 рівня не потребують матеріалів. Reinforce (5): на 8% менша втрата міцності. Diplomat (5): +2% репутації. For Great Honor (5): +2% Честі. The Quick and the Dead (2): швидший біг привидом, а після воскресіння здібності підтримки безкоштовні протягом хвилини.')],
             ]}),
             ('tip', t('Первыми берите перки опыта и лагеря: Well Rested, Field Guide, Permanence. Reagent Economy ценен классам с реагентами, Talented — твинкам.', 'Take the experience and camp perks first: Well Rested, Field Guide, Permanence. Reagent Economy is worth it for classes with reagents, Talented for alts.', 'Першими беріть перки досвіду й табору: Well Rested, Field Guide, Permanence. Reagent Economy цінний класам із реагентами, Talented — твінкам.')),
             ('text', [t('Warcraft Tavern пишет про лимит 25 очков на дерево, Blizzard лимита на дерево не называет.', 'Warcraft Tavern mentions a limit of 25 points per tree; Blizzard names no per-tree limit.', 'Warcraft Tavern пише про ліміт 25 очок на дерево, Blizzard ліміту на дерево не називає.')]),
@@ -1494,7 +1503,7 @@ GUIDES.append({
             ('text', [t('Это косметика, преимуществ в игре она не даёт. Новые награды, испытания и перки Blizzard обещает с каждым обновлением.', 'These are cosmetic and give no in-game advantage. Blizzard promises new rewards, challenges and perks with each update.', 'Це косметика, переваг у грі вона не дає. Нові нагороди, випробування та перки Blizzard обіцяє з кожним оновленням.')]),
         ]},
         {'id': 'hardcore', 'title': 'Hardcore', 'blocks': [
-            ('text', [t('Hardcore на старте не будет. Когда он выйдет, испытания с обычных серверов в нём не засчитаются, а испытания из Hardcore засчитаются везде. PvP-испытания в Hardcore заменят 12 своих.', 'Hardcore won’t be available at launch. When it arrives, challenges from regular realms won’t count in it, while Hardcore challenges will count everywhere. Hardcore’s own PvP challenges will replace the 12 standard ones.', 'Hardcore на старті не буде. Коли він вийде, випробування зі звичайних серверів у ньому не зараховуватимуться, а випробування з Hardcore зараховуватимуться всюди. PvP-випробування в Hardcore замінять 12 власних.')]),
+            ('text', [t('Hardcore на старте не будет. Когда он выйдет, испытания с обычных серверов в нём не засчитаются, а испытания из Hardcore засчитаются везде. PvP-испытания в Hardcore выполнить нельзя, зато к его старту добавят 12 новых испытаний, особых для Hardcore.', 'Hardcore won’t be available at launch. When it arrives, challenges from regular realms won’t count in it, while Hardcore challenges will count everywhere. PvP challenges can’t be completed in Hardcore, but 12 new challenges made for Hardcore will be added by its launch.', 'Hardcore на старті не буде. Коли він вийде, випробування зі звичайних серверів у ньому не зараховуватимуться, а випробування з Hardcore зараховуватимуться всюди. PvP-випробування в Hardcore виконати не можна, зате до його старту додадуть 12 нових випробувань, особливих для Hardcore.')]),
         ]},
         {'id': 'faq', 'title': t('Частые вопросы', 'Common questions', 'Часті питання'), 'blocks': [
             ('faq', [
@@ -1674,14 +1683,14 @@ HUBS = [
                  ('LFCarry', 'https://lfcarry.com/guides/wow-forever-classes')],
      'sections': [
         {'id': 'choose', 'title': t('Какой класс выбрать', 'Which class to pick', 'Який клас обрати'), 'blocks': [
-            ('text', [t('Впервые в Classic — маг или охотник: они быстрее всех качаются, бьют издалека и уверенно играют одни. Дальше выбирайте по роли, которую хотите в группе.',
-                        'New to Classic: mage or hunter. They level fastest, fight at range and do well solo. Beyond that, pick by the role you want in a group.',
-                        'Вперше в Classic — маг або мисливець: вони найшвидше качаються, б’ють здалеку й упевнено грають самі. Далі обирайте за роллю, яку хочете в групі.')]),
+            ('text', [t('Новичку в WoW — маг или охотник: они быстрее всех качаются, бьют издалека и уверенно играют одни. Дальше выбирайте по роли, которую хотите в группе.',
+                        'New to WoW: mage or hunter. They level fastest, fight at range and do well solo. Beyond that, pick by the role you want in a group.',
+                        'Новачку в WoW — маг або мисливець: вони найшвидше качаються, б’ють здалеку й упевнено грають самі. Далі обирайте за роллю, яку хочете в групі.')]),
             ('picks', {'head': [t('Что хотите', 'What you want', 'Що хочете'), t('Класс', 'Class', 'Клас'), t('Почему', 'Why', 'Чому')], 'rows': [
                 (t('Быстрее до 60', 'Reach 60 fastest', 'Швидше до 60'), ['mage', 'hunter'],
-                 t('Самая быстрая прокачка по прогнозам беты, примерно на 8% быстрее среднего.',
-                   'The fastest leveling in beta projections, about 8% faster than average.',
-                   'Найшвидша прокачка за прогнозами бети, приблизно на 8% швидше за середню.')),
+                 t('Самая быстрая прокачка по оценке LFCarry, примерно на 8% быстрее среднего.',
+                   'The fastest leveling by LFCarry’s estimate, about 8% faster than average.',
+                   'Найшвидша прокачка за оцінкою LFCarry, приблизно на 8% швидше за середню.')),
                 (t('Играть одному', 'Play solo', 'Грати самому'), ['hunter', 'warlock', 'mage'],
                  t('У охотника и чернокнижника питомец держит врага, у чернокнижника ещё Жизнеотвод. Маг сам делает еду и воду.',
                    'The hunter and warlock pet holds the enemy, and the warlock also has Life Tap. The mage conjures their own food and water.',
@@ -1710,9 +1719,9 @@ HUBS = [
                       'Спершу клас, потім раса: раса дає чотири здібності, але не змінює роль. Рядок таблиці нижче відкриває сторінку класу з расами, що йому пасують.')),
         ]},
         {'id': 'pace', 'title': t('Темп прокачки', 'Leveling pace', 'Темп прокачки'), 'blocks': [
-            ('text', [t('Прогноз по бете: в бете был потолок 30 уровня, выше оценки проектные. Разница между самым быстрым и самым медленным классом — около 20% времени до 60.',
-                        'A beta projection: the beta was capped at level 30, figures above that are estimates. The gap between the fastest and slowest class is about 20% of the time to 60.',
-                        'Прогноз за бетою: у беті була стеля 30 рівня, вище оцінки проєктні. Різниця між найшвидшим і найповільнішим класом — близько 20% часу до 60.')]),
+            ('text', [t('Оценка LFCarry: в бете был потолок 30 уровня, выше цифры проектные. Разница между самым быстрым и самым медленным классом — около 20% времени до 60.',
+                        'LFCarry’s estimate: the beta was capped at level 30, figures above that are projections. The gap between the fastest and slowest class is about 20% of the time to 60.',
+                        'Оцінка LFCarry: у беті була стеля 30 рівня, вище цифри проєктні. Різниця між найшвидшим і найповільнішим класом — близько 20% часу до 60.')]),
             ('picks', {'head': [t('Темп', 'Pace', 'Темп'), t('Классы', 'Classes', 'Класи')], 'rows': [
                 (t('Быстрее среднего, около 8%', 'Faster than average, about 8%', 'Швидше за середній, близько 8%'), ['mage', 'hunter']),
                 (t('Средний', 'Average', 'Середній'), ['paladin', 'rogue', 'shaman', 'warlock']),
