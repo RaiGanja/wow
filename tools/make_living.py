@@ -117,8 +117,9 @@ def dawn():
 def campfire():
     im = load('hero_campfire')
     fire = flames(im, [(985, 480, 1095, 575)], 190)
-    open_sky = ImageChops.multiply(open_area([(0, 0), (1165, 0), (1148, 150), (1000, 160), (860, 236), (760, 246), (692, 236),
-                                              (650, 330), (0, 330)], (270, 335)), moon(365, 110, 48))   # heroes, the rock and the moon stay put
+    open_sky = ImageChops.multiply(open_area([(0, 0), (1165, 0), (1148, 132), (990, 132), (900, 200), (770, 200), (700, 222),
+                                              (600, 222), (540, 236), (505, 250), (495, 330), (0, 330)], (270, 335)),
+                                   moon(365, 110, 48))   # the Horde party (troll's totem, mohawk, orc's top-knot, horns), the rock and the moon stay put
     zero = Image.new('L', (W, H), 0)
     save('hero_campfire', soft(fire, 2, 2.5), zero, soft(open_sky, 1, 2), zero)
 
