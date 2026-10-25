@@ -418,10 +418,16 @@ def play_data(src, lang):
 def play_head(lang):
     """Title and lead on the left, the screen buttons on the right (each shows up only where the browser can do it)."""
     x = lambda k: E(PLAY_TX[k], lang)
-    return ('<section class="phead" id="top"><div class="wrap"><div class="ptitle"><h1>@@TITLE@@</h1><p class="glead">@@LEAD@@</p></div>'
+    road = lambda ext: ', '.join(f'@@ROOT@@assets/art/hero_road-{w}.{ext} {w}w' for w in (960, 1600, 2560))   # noqa: E731
+    art = ('<picture class="phead-art" aria-hidden="true">'   # the evening road: a ready scene seen nowhere else on the site
+           f'<source type="image/avif" srcset="{road("avif")}" sizes="100vw"><source type="image/webp" srcset="{road("webp")}" sizes="100vw">'
+           '<img src="@@ROOT@@assets/art/hero_road-1600.webp" width="1600" height="893" alt="" fetchpriority="high" decoding="async"></picture>')
+    return ('<section class="phead" id="top">' + art + '<div class="wrap"><div class="ptitle"><h1>@@TITLE@@</h1><p class="glead">@@LEAD@@</p></div>'
             '<div class="pacts"><button class="pill pwake" id="wakeBtn" type="button" aria-pressed="false" hidden>'
             f'<svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg>{x("wake")}</button></div></div></section>'
-            f'<div class="wrap"><section class="frame pway" id="pWay" aria-label="{x("profile")}" hidden></section></div>')
+            f'<div class="wrap"><section class="frame pway" id="pWay" aria-label="{x("profile")}"><p class="pnote">{x("guest")}</p><a class="btn ghost" href="@@ROOT@@profile/">{x("login")}</a></section></div>'
+            # the guest line is in the page from the start (no jump when me.js comes); signed in on this device: hidden at once
+            '<script>try{if(localStorage.getItem("gabella-me")==="1")document.getElementById("pWay").hidden=true}catch(e){}</script>')
 
 
 def play_body(lang, root):
@@ -440,7 +446,7 @@ def play_body(lang, root):
   {render_block('tip', tip, lang, root)}
   <a class="pmore" href="{root}guides/leveling/#route">{x("route")}</a>
 </section>
-<section class="frame psec" id="dung" aria-labelledby="hDg"><h2 id="hDg">{x("dung")} <span id="dgLv">…</span></h2><ul class="pdg" id="pDg"></ul>
+<section class="frame psec" id="dung" aria-labelledby="hDg"><h2 id="hDg">{x("dung")}</h2><ul class="pdg" id="pDg"></ul>
   <a class="pmore" href="{root}guides/dungeons/#list">{x("all")}</a></section>
 </div><div class="pcol">
 <section class="frame psec" id="radio" aria-labelledby="hRadio"><h2 id="hRadio">{x("radio")}</h2><div id="radioDock"></div></section>
@@ -519,7 +525,6 @@ function renderLvl() {
   $('#pFac').hidden = !!raceF;
   document.querySelectorAll('#pFac button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.f === fac)));
   $('#lvOut').textContent = lv || '—';
-  $('#dgLv').textContent = lv || '…';
   if (!lv) {
     $('#pNow').innerHTML = `<p class="pnote">${esc(TX.needLvl)}</p>`;
     $('#pDg').innerHTML = `<li class="pnote">${esc(TX.needLvl)}</li>`;
@@ -557,7 +562,7 @@ renderLvl();
 function renderWay() {
   const w = $('#pWay');
   w.hidden = !!meNow;
-  if (!meNow) w.innerHTML = `<p class="pnote">${esc(TX.guest)}</p><a class="btn" href="${ROOT}profile/">${esc(TX.login)}</a>`;
+  if (!meNow) w.innerHTML = `<p class="pnote">${esc(TX.guest)}</p><a class="btn ghost" href="${ROOT}profile/">${esc(TX.login)}</a>`;
 }
 function gotMe(m) {
   if (!m && GM().logged()) return;   // signed in on this device: wait for the profile, no guest line in between
@@ -711,7 +716,7 @@ def build_page(g, lang, tpl, base_css, sprite, src):
     toc, body = render_guide(g, lang, root) if g['slug'] else hub_body(lang, root)
     if g.get('compact'):                                          # /play/: small heading instead of the art band
         html = re.sub(r'<section class="stband ghero" id="top">.*?</section>', lambda _: play_head(lang), html, count=1, flags=re.S)
-        html = html.replace('<body>', '<body class="compact">', 1).replace('<main class="wrap gbody', '<main class="wrap gbody play', 1)
+        html = html.replace('<body>', '<body class="compact">', 1).replace('<div class="wrap gbody', '<div class="wrap gbody play', 1)
         jsec, jscript, jmiss = journey(src, lang)
         body = play_body(lang, root) + jsec
         missing += jmiss

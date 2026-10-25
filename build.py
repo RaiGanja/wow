@@ -232,7 +232,7 @@ def lang_menu(html, lang, here):
         return f'<a href="{rel(here, page_dir(l, to))}" data-lang="{l}" hreflang="{HREFLANG[l]}" lang="{HREFLANG[l]}"{cur}{lst}>{inner}</a>'
     items = ''.join(f'<li>{link(l, f"<span>{AUTONYM[l]}</span><small>{l.upper()}</small>")}</li>' for l in LANGS)
     sel = (f'<div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" '
-           f'aria-label="{label}: {AUTONYM[lang]}">{lang.upper()}</button><ul class="langlist" hidden>{items}</ul></div>')
+           f'>{lang.upper()}<span class="sr">, {label}: {AUTONYM[lang]}</span></button><ul class="langlist" hidden>{items}</ul></div>')
     sheet = f'<div class="langgrid" role="group" aria-label="{label}">{"".join(link(l, AUTONYM[l]) for l in LANGS)}</div>'
     hint = json.dumps({l: HINT[l] for l in LANGS}, ensure_ascii=False)
     return html.replace('@@LANGSEL@@', sel).replace('@@LANGSHEET@@', sheet).replace('</body>', LANG_JS.replace('@@HINT@@', hint) + '</body>', 1)
@@ -291,10 +291,17 @@ def chrome(html, nav=None, tab=None, home='@@HOME@@'):
             .replace('@@TABBAR@@', tabbar(tab, home)))
 
 
+# Skip link, the first Tab stop of every page with <main id="main">: past the top bar (logo, menu, search, radio, theme, language)
+SKIP = {'ru': 'К содержанию', 'en': 'Skip to content', 'uk': 'До змісту', 'de': 'Zum Inhalt', 'fr': 'Aller au contenu',
+        'es': 'Ir al contenido', 'pt': 'Ir para o conteúdo', 'it': 'Vai al contenuto', 'pl': 'Przejdź do treści'}
+
+
 def localize(html, lang, here):
     """Language-specific attributes shared by all pages."""
     html = html.replace('@@LEGAL@@', legal(lang, rel(here, '')))
     html = html.replace('@@ROOT@@', rel(here, ''))
+    if '<main id="main">' in html:
+        html = html.replace('<header class="topbar"', f'<a class="skip" href="#main">{SKIP[lang]}</a><header class="topbar"', 1)
     html = html.replace('@@DISCORD@@', DISCORD_AT['home']).replace('@@DISCORD_GUIDE@@', DISCORD_AT['guide'])
     html = lang_menu(html, lang, here)
     if lang == 'ru':

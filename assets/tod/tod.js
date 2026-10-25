@@ -88,7 +88,7 @@
     const name = G.names[G.now];
     const keep = () => { if (had) (box.querySelector('[aria-pressed="true"]') || box.querySelector('button')).focus(); };
     if (!open) {
-      box.innerHTML = `<button type="button" aria-expanded="false" aria-label="${G.text.label}: ${name}">`
+      box.innerHTML = `<button type="button" aria-expanded="false"><span class="sr">${G.text.label}: </span>`
         + `<b>${name}</b>${G.pinned ? '' : `<span> · ${G.text.auto}</span>`}</button>`;
       box.firstChild.addEventListener('click', () => { open = true; render(); box.querySelector('[aria-pressed="true"]').focus(); });
       keep();

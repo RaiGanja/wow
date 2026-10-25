@@ -114,12 +114,18 @@
 /* In game (/play/, build_guides.play_body): no art band, always solid bar; one column on phones, two from 960px */
 .compact .topbar { background: var(--rail); border-bottom-color: var(--line); color: var(--fg); }
 :root[data-theme="light"] .compact .topbar :is(.bt small, .mainnav a[aria-current="true"]) { color: var(--gold-2); }   /* pale hero gold on the paper bar */
-.phead { padding-top: calc(var(--top) + 22px); }
-.phead .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; }
-.ptitle { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; flex: 1 1 520px; min-width: 0; }
-.phead h1 { font-size: var(--fs-40); line-height: 1; }
-.phead .glead { flex: 1 1 320px; margin: 0; font-size: var(--fs-16); color: var(--muted); opacity: 1; }
-:root[data-theme="light"] .phead .glead { text-shadow: none; }   /* the hero shadow is a grey smudge on the paper */
+.phead { position: relative; isolation: isolate; overflow: hidden; min-height: 440px; display: grid; align-content: end; padding: calc(var(--top) + 40px) 0 calc(28px + var(--hfade, 0px)); color: var(--ink); background: #050505; }
+.phead-art, .phead-art img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.phead-art { z-index: -2; }
+.phead-art img { object-fit: cover; object-position: 50% 32%; }
+.phead::before { content: ""; position: absolute; inset: 0; z-index: -1; background:
+  linear-gradient(90deg, rgb(5 5 5 / .72) 0%, rgb(5 5 5 / .42) 38%, rgb(5 5 5 / 0) 62%),
+  linear-gradient(180deg, rgb(5 5 5 / .5) 0%, rgb(5 5 5 / 0) 28%, rgb(5 5 5 / .15) 62%, rgb(5 5 5) 100%); }
+.phead .wrap { width: 100%; display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px 24px; }
+.ptitle { display: grid; gap: 8px; flex: 1 1 520px; max-width: 640px; min-width: 0; }
+.phead h1 { font-size: var(--fs-40); line-height: 1; color: var(--ink); text-shadow: 0 2px 18px rgba(0,0,0,.5); }
+.phead .glead { margin: 0; font-size: var(--fs-16); color: var(--ink); opacity: .86; text-shadow: 0 1px 2px rgba(0,0,0,.6); }
+.phead .pill { color: var(--ink); border-color: rgb(241 236 224 / .3); background: rgb(5 5 5 / .35); }
 .pacts { display: flex; flex-wrap: wrap; gap: 8px; }
 .pacts:not(:has(> :not([hidden]))) { display: none; }
 .pwake { gap: 6px; min-height: 36px; padding: 0 14px; cursor: pointer; font: inherit; font-size: var(--fs-14); }
@@ -147,6 +153,9 @@
 .pgrid { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
 .pcol { display: contents; }   /* phone: one column, radio first */
 #radio { order: 1; } #level { order: 2; } #dung { order: 3; } #timers { order: 4; }
+#radioDock { min-height: 515px; }   /* the player comes after load: its place is kept, so nothing below jumps (CLS) */
+@media (max-width: 719px) { #radioDock { min-height: 568px; } }
+@media (max-width: 359px) { #radioDock { min-height: 630px; } }
 @media (min-width: 960px) {   /* two independent columns: level + dungeons | radio + timers */
   .pgrid { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: start; }
   .pcol { display: grid; gap: 14px; min-width: 0; }
@@ -202,7 +211,11 @@
 .pnotify { display: flex; align-items: center; gap: 8px; font-size: var(--fs-14); color: var(--muted); cursor: pointer; }
 .pnotify[hidden] { display: none; }
 .pnotify input { width: 18px; height: 18px; accent-color: #c9a54a; }
-@media (max-width: 719px) { .phead { padding-top: calc(var(--top) + 14px); } .pway { padding: 12px 14px; gap: 10px 20px; } .pway .btn { margin-left: 0; } .psec { padding: 14px; } .pform { grid-template-columns: minmax(0, 1fr) 104px; } .pform .pill { grid-column: 1 / -1; justify-content: center; } }
+@media (max-width: 719px) {   /* phone: the party on the road on top, the title below it on the dark */
+  .phead { min-height: 0; padding-top: calc(var(--top) + 170px); }
+  .phead-art img { object-position: 80% 0; height: calc(var(--top) + 300px); }
+  .phead::before { background: linear-gradient(180deg, rgb(5 5 5 / .5) 0%, rgb(5 5 5 / 0) 16%, rgb(5 5 5 / 0) calc(var(--top) + 150px), rgb(5 5 5 / .9) calc(var(--top) + 250px), rgb(5 5 5) calc(var(--top) + 300px)); } }
+@media (max-width: 719px) { .pway { padding: 12px 14px; gap: 10px 20px; } .pway .btn { margin-left: 0; } .psec { padding: 14px; } .pform { grid-template-columns: minmax(0, 1fr) 104px; } .pform .pill { grid-column: 1 / -1; justify-content: center; } }
 #more { margin-top: 56px; }
 #more .sec-head { margin-bottom: 14px; }
 @media (max-width: 1023px) {
@@ -241,7 +254,7 @@
 @@SPRITE@@
 
 <header class="topbar" id="topbar"><div class="in">
-  <a class="brand" href="@@HOME@@" aria-label="Gabella, на главную"><img class="mark" src="@@ROOT@@assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Гид WoW Forever</small></span></a>
+  <a class="brand" href="@@HOME@@"><img class="mark" src="@@ROOT@@assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Гид WoW Forever</small></span></a>
   @@MAINNAV@@
   <div class="tools">
     @@LANGSEL@@
@@ -250,6 +263,7 @@
   </div>
 </div></header>
 
+<main id="main">
 <section class="stband ghero" id="top">
   @@HERO@@
   <div class="wrap">
@@ -262,16 +276,20 @@
   </div>
 </section>
 
-<main class="wrap gbody@@SOLO@@">
+<div class="wrap gbody@@SOLO@@">
   <nav class="gtoc frame" aria-label="Разделы гайда">@@TOC@@</nav>
   <div class="gmain">
 @@BODY@@
   </div>
-</main>
+</div>
 
 <div class="wrap">
 <p class="dcta"><span>Группы на старт, вопросы по гиду и новости — в Discord Gabella Team.</span><a class="btn ghost" href="@@DISCORD_GUIDE@@" target="_blank" rel="noopener">Открыть Discord</a></p>
 <section id="more"><div class="sec-head"><h2>@@MORE_H@@</h2></div><nav class="ttiles gtiles" aria-label="@@MORE_H@@">@@MORE@@</nav></section>
+</div>
+</main>
+
+<div class="wrap">
 <footer id="sources">
   <!--src--><h2>Источники</h2>
   <ul>@@SOURCES@@</ul><!--/src-->

@@ -142,8 +142,10 @@ function autoStage() {
 const START = { pre: 'hero_dawn-960', first: 'hero_campfire-960', dung: 'warlock-360', path: 'hunter-360', raid: 'paladin-360' };
 const ARTV = /*ARTV*/{};   // ?v= of the scene arts, filled in by build.art_version (same names, redrawn pictures)
 const pic = f => `<picture><source type="image/avif" srcset="${ROOT}assets/art/${f}.avif${ARTV[f + '.avif'] || PV}"><img src="${ROOT}assets/art/${f}.webp${ARTV[f + '.webp'] || PV}" alt="" loading="lazy" decoding="async"></picture>`;
-const tipL = () => '<span class="tl">Совет</span>';
+let tipN = 0;   // the gold «tip» word once per stage panel: the first tip carries it, the rest are plain lines
+const tipL = () => tipN++ ? '' : '<span class="tl">Совет</span>';
 function liC(x) { return x[0] === 't' ? `<li class="tip">${tipL()}${esc(x[1])}</li>` : `<li>${esc(x[1])}</li>`; }
+function liG(x) { return `<li>${esc(x[1])}</li>`; }   // «group tips» box: its heading already says so
 function dLi(d) {
   const mine = me.lvl && nearLvl(d, me.lvl);
   return `<li class="${mine ? 'mine' : ''}"><b>${esc(d[0])}</b><span class="lvl${mine ? ' gold' : ''}">${lvRange(d)}</span><span class="z">${esc(d[3])}${d[4] ? ' · <i>новое</i>' : ''}${mine ? '<span class="sr"> · под ваш уровень</span>' : ''}</span></li>`;
@@ -159,6 +161,7 @@ function renderStage() {
   if (me.lvl && s.lo <= me.lvl && me.lvl <= Math.max(s.hi, 1)) ds = ds.filter(d => nearLvl(d, me.lvl)).concat(ds.filter(d => !nearLvl(d, me.lvl)));
   const MAXD = 6, extra = ds.length - MAXD;
   let k = 0;
+  tipN = 0;
   const steps = s.todo.map(x => x[0] === 't'
     ? `<li class="tip"><p>${tipL()}${esc(x[1])}</p></li>`
     : `<li><span class="n">${++k}</span><p>${esc(x[1])}</p></li>`).join('');
@@ -171,7 +174,7 @@ function renderStage() {
       <div style="display:grid;gap:24px;align-content:start"><div><h4>Профессии и лагерь</h4><ul class="clean">${s.prof.map(liC).join('')}</ul></div>
         <div><h4>Перки Legacy</h4><ul class="clean">${s.legacy.map(liC).join('')}</ul></div></div>
     </div>
-    <div class="gtip"><h4 style="margin:0 0 10px;font-size:var(--fs-16)">Советы группе</h4><ul class="clean">${s.group.map(liC).join('')}</ul></div>
+    <div class="gtip"><h4 style="margin:0 0 10px;font-size:var(--fs-16)">Советы группе</h4><ul class="clean">${s.group.map(liG).join('')}</ul></div>
     <p class="st-src"><span>Источники:</span>${s.src.map(k2 => `<a href="${SRC[k2][1]}" target="_blank" rel="noopener">${esc(SRC[k2][0])}</a>`).join('')}</p>`;
 }
 function optList(items, cur, none) { return `<option value="">${esc(none)}</option>` + items.map(([v, t]) => `<option value="${v}"${v === cur ? ' selected' : ''}>${esc(t)}</option>`).join(''); }
@@ -181,7 +184,7 @@ function renderMe() {
   $('#meRace').innerHTML = `<option value="">Не выбрана</option><optgroup label="${facName('alliance')}">${races('alliance')}</optgroup><optgroup label="${facName('horde')}">${races('horde')}</optgroup>`;
   const cls = (me.race ? Object.keys(RC[me.race].can) : CLASSES.map(c => c.id)).map(id => [id, CL[id].n]);
   $('#meCls').innerHTML = optList(cls, me.cls, 'Не выбран');
-  $('#meRole').innerHTML = me.cls ? roleOpts(CL[me.cls]).map(x => `<option value="${x}"${x === me.role ? ' selected' : ''}>${ROLE_RU[x]}</option>`).join('') : `<option value="">Сначала класс</option>`;
+  $('#meRole').innerHTML = me.cls ? roleOpts(CL[me.cls]).map(x => `<option value="${x}"${x === me.role ? ' selected' : ''}>${ROLE_RU[x]}</option>`).join('') : `<option value="">—</option>`;
   $('#meRole').disabled = !me.cls;
   const prim = PROFS.filter(p => p[2]);
   $('#meP1').innerHTML = optList(prim.filter(p => p[0] !== me.p2).map(p => [p[0], p[1]]), me.p1, 'Нет');
@@ -191,7 +194,7 @@ function renderMe() {
   const sub = me.cls ? [ROLE_RU[me.role], me.race ? facName(RC[me.race].f) : ''].filter(Boolean).join(' · ') : 'Выберите расу, класс и уровень ниже';
   const hero = $('#meHero');
   hero.style.setProperty('--cc', me.cls ? CCOL[me.cls] : '#c9a54a');
-  hero.innerHTML = pic(me.cls ? `${me.cls}-600` : 'hero_campfire-960') + (me.lvl ? `<span class="lvb" aria-label="Уровень ${me.lvl}">${me.lvl}</span>` : '')
+  hero.innerHTML = pic(me.cls ? `${me.cls}-600` : 'hero_night-960') + (me.lvl ? `<span class="lvb" aria-label="Уровень ${me.lvl}">${me.lvl}</span>` : '')
     + `<span class="k">Мой персонаж</span><b>${who ? esc(who) : 'Ещё не создан'}</b><span class="s">${esc(sub)}</span>`;
   let out = '';
   if (meSet()) {

@@ -28,8 +28,8 @@
 /* top bar: portrait or the login button (roster and profile pages only) */
 .mebtn, .mebtn:hover { padding: 0; overflow: visible; text-decoration: none; }   /* a link styled as a button: no underline */
 .mebtn .me-ring { width: 34px; height: 34px; }
-.mebtn.guest { padding: 0 14px; width: auto; white-space: nowrap; font-weight: 600; font-size: var(--fs-14); color: var(--gold-ink); background: var(--gold); border-color: var(--gold); }
-.mebtn.guest:hover { background: var(--gold-2); }
+.mebtn.guest { padding: 0 14px; width: auto; white-space: nowrap; font-weight: 600; font-size: var(--fs-14); color: inherit; background: transparent; border-color: color-mix(in srgb, currentColor 30%, transparent); }   /* outline: one gold button per screen */
+.mebtn.guest:hover { border-color: var(--gold); }
 /* account menu under the portrait */
 .me-menu { position: fixed; z-index: 60; width: 260px; padding: 6px; border: 1px solid var(--line-2); border-radius: 10px; background: var(--panel); color: var(--fg);
   box-shadow: 0 18px 40px rgba(0,0,0,.45); display: grid; }
