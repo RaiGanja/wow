@@ -46,6 +46,15 @@ vec3 flow(vec2 P, vec2 d, float period, float jit) {
   float f1 = fract(uT / period + jit), f2 = fract(f1 + .5);
   return mix(img(P - d * f1), img(P - d * f2), abs(2. * f1 - 1.));
 }
+// Clouds: flow, but a sample that lands on something else (a pole, a sign, a bow the sky mask brushes) keeps the
+// still pixel, or the layer paints a shifted copy of it beside the original.
+vec3 drift(vec2 P, vec2 d, float period) {
+  float f1 = fract(uT / period), f2 = fract(f1 + .5);
+  vec3 c = img(P), a = img(P - d * f1), b = img(P - d * f2);
+  a = mix(a, c, smoothstep(.05, .14, length(a - c)));
+  b = mix(b, c, smoothstep(.05, .14, length(b - c)));
+  return mix(a, b, abs(2. * f1 - 1.));
+}
 void over(vec3 c, float w) { acc = vec4(c * w + acc.rgb * (1. - w), w + acc.a * (1. - w)); }
 float dot1(vec2 P, vec2 c, float r) { return smoothstep(r, 0., length(P - c) * uPx); }  // r in css px
 float seg(vec2 p, vec2 a, vec2 b) { vec2 pa = p - a, ba = b - a; return length(pa - ba * clamp(dot(pa, ba) / dot(ba, ba), 0., 1.)); }
@@ -101,7 +110,7 @@ void main() {
   vec2 P = artPx(); acc = vec4(0.); add = vec3(0.);
   vec4 m = mask(P);
   // clouds drift slowly to the left
-  if (m.b > .01) over(flow(P, vec2(-8., 0.) + (n2(P * .006 + uT * .03) - .5) * vec2(5., 2.), 12., 0.), m.b);
+  if (m.b > .01) over(drift(P, vec2(-8., 0.) + (n2(P * .006 + uT * .03) - .5) * vec2(5., 2.), 12.), m.b);
   // the river runs, with glints
   if (m.a > .01) {
     vec3 c = flow(P, vec2(6., 3.), 3.2, 0.);
@@ -133,7 +142,7 @@ void main() {
   // sky: clouds sail slowly to the left
   if (m.b > .01) {
     vec2 d = vec2(-9., 0.) + (vec2(n2(P * .006 + uT * .03), n2(P * .006 - 7.)) - .5) * vec2(5., 3.);
-    over(flow(P, d, 11., 0.), m.b);
+    over(drift(P, d, 11.), m.b);
   }
   // falling water
   if (m.r > .01) {
@@ -152,7 +161,11 @@ void main() {
   if (m.g > .01) {
     float w = m.g, ph = P.x * .045 - uT * 3.2;
     vec2 off = vec2(sin(ph + 1.) * .8, sin(ph) * 2.6 + sin(P.x * .11 - uT * 5.1) * 1.1) * w;
-    over(img(P - off) * (1. + .14 * w * cos(ph)), smoothstep(.0, .12, w));
+    // the folds catch the light on the cloth only: the mask is grown 3 px around it, and shading that margin
+    // would put a light or dark rim on the sky beside the banner
+    vec2 S = P - off;
+    float ws = mask(S).g, core = min(min(mask(S + vec2(3.5, 0.)).g, mask(S - vec2(3.5, 0.)).g), min(mask(S + vec2(0., 3.5)).g, mask(S - vec2(0., 3.5)).g));
+    over(img(S) * (1. + .14 * w * cos(ph) * smoothstep(.55, .9, core / max(ws, .01))), smoothstep(.0, .12, w));
   }
   // mist in the valley and under the falls
   float band = smoothstep(420., 470., P.y) * smoothstep(650., 590., P.y) * smoothstep(680., 580., P.x);
@@ -194,7 +207,7 @@ void main() {
 void main() {
   vec2 P = artPx(); acc = vec4(0.); add = vec3(0.);
   vec4 m = mask(P);
-  if (m.b > .01) over(flow(P, vec2(-6., 0.) + (n2(P * .006 + uT * .03) - .5) * vec2(4., 2.), 12., 0.), m.b);
+  if (m.b > .01) over(drift(P, vec2(-6., 0.) + (n2(P * .006 + uT * .03) - .5) * vec2(4., 2.), 12.), m.b);
   // stars
   vec2 cell = floor(P / 16.), sp = (cell + .2 + .6 * vec2(h21(cell + 1.3), h21(cell + 7.1))) * 16.;
   float hs = h21(cell);
@@ -236,7 +249,7 @@ void main() {
 void main() {
   vec2 P = artPx(); acc = vec4(0.); add = vec3(0.);
   vec4 m = mask(P);
-  if (m.b > .01) over(flow(P, vec2(-5., 0.) + (n2(P * .006 + uT * .03) - .5) * vec2(4., 2.), 13., 0.), m.b);
+  if (m.b > .01) over(drift(P, vec2(-5., 0.) + (n2(P * .006 + uT * .03) - .5) * vec2(4., 2.), 13.), m.b);
   // stars
   vec2 cell = floor(P / 18.), sp = (cell + .2 + .6 * vec2(h21(cell + 1.3), h21(cell + 7.1))) * 18.;
   float hs = h21(cell);
