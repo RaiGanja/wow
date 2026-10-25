@@ -295,9 +295,9 @@ def ukrainian():
 
 def requirements():
     im = load('hero_requirements')
-    fire = lights(soft(flames(im, [(995, 340, 1065, 400)], 235), 2, 2),   # the furnace
-                  lamps=glass(im, [(476, 42, 535, 107), (992, 52, 1041, 100), (515, 342, 539, 375)]),
-                  spots=[(505, 75, 100), (1016, 76, 90), (527, 358, 50)])
+    fire = lights(soft(flames(im, [(1008, 330, 1062, 392)], 235), 2, 2),   # the furnace (not the dwarf's shoulder beside it)
+                  lamps=glass(im, [(474, 36, 538, 118), (990, 36, 1044, 108)]),
+                  spots=[(505, 78, 100), (1017, 72, 90)])   # the two hanging lanterns
     zero = Image.new('L', (W, H), 0)
     save('hero_requirements', fire, zero, zero, zero)
 
