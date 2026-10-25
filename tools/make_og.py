@@ -68,13 +68,13 @@ def html(art, title, lead, lang):
                        (base + '-latin.woff2', 'U+0000-00FF,U+2000-206F')))
     return f'''<!doctype html><meta charset="utf-8"><style>{fonts}
 *{{margin:0;box-sizing:border-box}}
-body{{width:1200px;height:630px;overflow:hidden;background:#07080a;position:relative;font-family:"Golos Text";color:#efe9da;font-variant-numeric:lining-nums}}
+body{{width:1200px;height:630px;overflow:hidden;background:#050505;position:relative;font-family:"Golos Text";color:#efe9da;font-variant-numeric:lining-nums}}
 img{{position:absolute;display:block}}
 .wide{{inset:0;width:100%;height:100%;object-fit:cover;object-position:{FOCUS.get(art, '50%')} 50%}}
 .blur{{inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.8)}}
 .por{{right:40px;top:0;height:630px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent)}}
-.shade{{position:absolute;inset:0;background:linear-gradient(90deg,#07080a 0%,rgba(7,8,10,.92) 34%,rgba(7,8,10,.35) 62%,rgba(7,8,10,0) 80%),
-  linear-gradient(0deg,rgba(7,8,10,.85) 0%,rgba(7,8,10,0) 36%)}}
+.shade{{position:absolute;inset:0;background:linear-gradient(90deg,#050505 0%,rgba(5,5,5,.92) 34%,rgba(5,5,5,.35) 62%,rgba(5,5,5,0) 80%),
+  linear-gradient(0deg,rgba(5,5,5,.85) 0%,rgba(5,5,5,0) 36%)}}
 .txt{{position:absolute;left:72px;top:0;bottom:0;width:640px;display:flex;flex-direction:column;justify-content:center;gap:24px}}
 .brand{{position:absolute;left:72px;top:56px;display:flex;align-items:center;gap:16px;font:600 30px/1 "Spectral SC";color:#efe9da;letter-spacing:.04em;font-variant-numeric:lining-nums}}
 .brand img{{position:static;width:56px;height:56px;border-radius:10px;box-shadow:0 0 0 1px rgba(201,165,74,.45)}}
