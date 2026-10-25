@@ -191,7 +191,7 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 @media (max-width: 1260px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }   /* es «Iniciar sesión» ran 21 px off a 1215 px screen */
 
 /* Hero */
-.hero { position: relative; min-height: max(560px, 100svh); display: grid; align-content: space-between; color: var(--ink); background: #08090b; isolation: isolate; overflow: hidden; }
+.hero { position: relative; min-height: max(560px, 100svh); display: grid; align-content: space-between; color: var(--ink); background: #050505; isolation: isolate; overflow: hidden; }
 .hero-art, .hero-art img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .hero-art { z-index: -2; }
 .hero-art img { object-fit: cover; object-position: 62% 50%; }
@@ -257,7 +257,7 @@ section.block { scroll-margin-top: -72px; }
 
 /* Class roster: tall portraits, the active one expands */
 .roster { display: flex; gap: 8px; height: clamp(460px, 41vw, 580px); }
-.hc { display: block; text-decoration: none; position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; isolation: isolate; padding: 0; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; background: #0b0c0e; color: var(--ink); text-align: left; transition: flex-grow .55s var(--ease), border-color .3s; }
+.hc { display: block; text-decoration: none; position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; isolation: isolate; padding: 0; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; background: #0f0f0f; color: var(--ink); text-align: left; transition: flex-grow .55s var(--ease), border-color .3s; }
 .hc.on { flex-grow: 3.6; border-color: #e0c27a; box-shadow: inset 0 0 0 1px #e0c27a; }
 .hc picture, .hc img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .hc picture { z-index: -2; }
@@ -339,7 +339,7 @@ section.block { scroll-margin-top: -72px; }
   #classes .rr { height: clamp(300px, 22vw, 340px); }
 }
 /* Camp scene near the end: the campfire art in full, fire and embers alive (assets/living/) */
-.camp { position: relative; isolation: isolate; overflow: hidden; margin-top: 56px; min-height: clamp(520px, 56vw, 1200px);   /* close to the art's own 16:9: heads stay in frame on wide screens */ display: grid; align-content: end; color: #f1ece0; background: #08090b; }
+.camp { position: relative; isolation: isolate; overflow: hidden; margin-top: 56px; min-height: clamp(520px, 56vw, 1200px);   /* close to the art's own 16:9: heads stay in frame on wide screens */ display: grid; align-content: end; color: #f1ece0; background: #050505; }
 .camp-art, .camp-art img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .camp-art { z-index: -2; }
 .camp-art img { object-fit: cover; object-position: 66% 30%; }
@@ -367,13 +367,13 @@ canvas.fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-eve
 canvas.fx.on { opacity: 1; }
 /* Inner page hero (roster, tools): a scene of its own on the whole screen like the home hero, living art over it, text on the calm
    left. The art keeps the screen height while the content under it grows (search results), so the picture is never cropped anew. */
-.thero { --hh: max(560px, 100svh); position: relative; isolation: isolate; overflow: hidden; min-height: var(--hh); display: grid; align-content: start; padding: calc(var(--top) + clamp(32px, 8vh, 96px)) 0 calc(40px + var(--hfade)); color: var(--ink); background: #08090b; }
+.thero { --hh: max(560px, 100svh); position: relative; isolation: isolate; overflow: hidden; min-height: var(--hh); display: grid; align-content: start; padding: calc(var(--top) + clamp(32px, 8vh, 96px)) 0 calc(40px + var(--hfade)); color: var(--ink); background: #050505; }
 .thero-art, .thero-art img, .thero::before { position: absolute; inset: 0 0 auto 0; width: 100%; height: var(--hh); }
 .thero-art { z-index: -2; }
 .thero-art img { object-fit: cover; object-position: 66% 50%; }
 .thero::before { content: ""; z-index: -1; background:
   linear-gradient(90deg, rgba(5,5,5,.78) 0%, rgba(5,5,5,.5) 30%, rgba(5,5,5,.12) 56%, rgba(5,5,5,0) 76%),
-  linear-gradient(180deg, rgba(5,5,5,.5) 0%, rgba(5,5,5,0) 24%, rgba(5,5,5,0) 60%, #08090b 100%); }
+  linear-gradient(180deg, rgba(5,5,5,.5) 0%, rgba(5,5,5,0) 24%, rgba(5,5,5,0) 60%, #050505 100%); }
 .thero-in { width: 100%; display: grid; gap: 18px; justify-items: start; }
 .thero .crumbs { display: flex; gap: 10px; font-size: var(--fs-14); color: var(--ink-2); }
 .thero .crumbs a { color: var(--ink-2); text-decoration: none; }
@@ -838,7 +838,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .hero-in { padding-top: calc(var(--top) + 28px); gap: 18px; }
   .thero { --hh: max(580px, calc(100svh - 62px - env(safe-area-inset-bottom, 0px))); padding: max(calc(var(--top) + 28px), calc(var(--hh) * .5)) 0 calc(28px + var(--hfade)); }
   .thero-art img { object-position: 90% 50%; }   /* make_images.CUTS: the party on the upper half, the text from the middle down */
-  .thero::before { background: linear-gradient(180deg, rgba(5,5,5,.55) 0%, rgba(5,5,5,.08) 26%, rgba(5,5,5,.35) 52%, rgba(5,5,5,.9) 76%, #08090b 100%); }
+  .thero::before { background: linear-gradient(180deg, rgba(5,5,5,.55) 0%, rgba(5,5,5,.08) 26%, rgba(5,5,5,.35) 52%, rgba(5,5,5,.9) 76%, #050505 100%); }
   .thero h1 { font-size: var(--fs-hero); hyphens: auto; }
 }
 /* Phones upright: the home hero shows the whole party (make_images.CUTS) as a band on top, the text starts at their knees */
@@ -981,7 +981,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .unit .un b { flex: 0 1 auto; min-width: 0; }
 .unit .un small { margin-left: auto; color: rgba(243,239,230,.7); font-size: var(--fs-13); white-space: nowrap; }
 .unit .hp { position: relative; height: 16px; border-radius: 2px; background: #050608; overflow: hidden; }
-.unit .hp i { position: absolute; inset: 0; background: linear-gradient(180deg, color-mix(in srgb, var(--cc) 62%, #0f0f0f), color-mix(in srgb, var(--cc) 48%, #08090b)); }
+.unit .hp i { position: absolute; inset: 0; background: linear-gradient(180deg, color-mix(in srgb, var(--cc) 62%, #0f0f0f), color-mix(in srgb, var(--cc) 48%, #050505)); }
 .unit .mp { height: 3px; border-radius: 1px; background: var(--pc); opacity: .85; }
 .unit.empty { background: transparent; border-style: dashed; color: var(--muted); }
 .unit.empty .up { display: grid; place-items: center; border: 2px dashed var(--pline); box-shadow: none; background: transparent; font-size: var(--fs-28); color: var(--muted); }
@@ -998,7 +998,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .rg-h b { color: var(--fg); font-weight: 600; font-size: var(--fs-14); }
 .rg-h .warn { color: var(--horde); }
 .rc { --pc: #3f7fe0; position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-content: center; gap: 0 4px; height: 50px; padding: 3px 7px 5px; border: 1px solid #000; border-radius: 2px; overflow: hidden; isolation: isolate; color: #fff; text-align: left; font: inherit; cursor: pointer;
-  background: linear-gradient(180deg, color-mix(in srgb, var(--cc) 62%, #0f0f0f), color-mix(in srgb, var(--cc) 46%, #08090b)); transition: filter .15s, box-shadow .15s; }
+  background: linear-gradient(180deg, color-mix(in srgb, var(--cc) 62%, #0f0f0f), color-mix(in srgb, var(--cc) 46%, #050505)); transition: filter .15s, box-shadow .15s; }
 .rc::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--pc); }
 .rc:hover { filter: brightness(1.12); box-shadow: 0 0 0 1px #e0c27a; }
 .rc b, .rc small { text-shadow: 0 0 2px #000, 0 1px 1px #000, 0 0 1px #000; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -1040,7 +1040,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 .cbar { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; }
 .cpick { padding: 12px; display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 8px; }
 .cpick.races { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-.cp { position: relative; aspect-ratio: 3 / 4; overflow: hidden; isolation: isolate; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; padding: 8px; display: grid; align-content: end; background: #0b0c0e; color: #f3efe6; font: inherit; text-align: left; cursor: pointer; }
+.cp { position: relative; aspect-ratio: 3 / 4; overflow: hidden; isolation: isolate; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; padding: 8px; display: grid; align-content: end; background: #0f0f0f; color: #f3efe6; font: inherit; text-align: left; cursor: pointer; }
 .cp img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: 50% 18%; filter: saturate(.7) brightness(.6); transition: filter .3s, transform .6s var(--ease); }
 .cp::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(5,5,5,0) 45%, rgba(5,5,5,.92) 100%); }
 .cp { container-type: inline-size; }
@@ -1133,7 +1133,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 <link rel="manifest" href="../../manifest-fr.webmanifest">
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
-<link rel="stylesheet" href="../../assets/radio/radio.css?v=a448c8a8c7" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/radio/radio.css?v=44f8689128" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/search/search.css?v=e154702bc6" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/me/me.css?v=30e53cd5c1" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://gabella.site/wow/fr/"},{"@type":"ListItem","position":2,"name":"Outils","item":"https://gabella.site/wow/fr/tools/"}]}</script>
@@ -1910,7 +1910,7 @@ addEventListener('beforeinstallprompt', e => {
   opts.append(b);
 });
 </script>
-<script src="../../assets/radio/radio.js?v=a448c8a8c7" data-root="../../" defer></script>
+<script src="../../assets/radio/radio.js?v=44f8689128" data-root="../../" defer></script>
 <script src="../../assets/search/search.js?v=e154702bc6" data-root="../../" defer></script>
 <script src="../../assets/me/me.js?v=30e53cd5c1" data-root="../../" data-home="../" data-lang="fr" data-ach="0" data-teaser="" data-close="Fermer" data-page="tools/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>

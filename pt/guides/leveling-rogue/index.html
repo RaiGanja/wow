@@ -191,7 +191,7 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 @media (max-width: 1260px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }   /* es «Iniciar sesión» ran 21 px off a 1215 px screen */
 
 /* Hero */
-.hero { position: relative; min-height: max(560px, 100svh); display: grid; align-content: space-between; color: var(--ink); background: #08090b; isolation: isolate; overflow: hidden; }
+.hero { position: relative; min-height: max(560px, 100svh); display: grid; align-content: space-between; color: var(--ink); background: #050505; isolation: isolate; overflow: hidden; }
 .hero-art, .hero-art img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .hero-art { z-index: -2; }
 .hero-art img { object-fit: cover; object-position: 62% 50%; }
@@ -257,7 +257,7 @@ section.block { scroll-margin-top: -72px; }
 
 /* Class roster: tall portraits, the active one expands */
 .roster { display: flex; gap: 8px; height: clamp(460px, 41vw, 580px); }
-.hc { display: block; text-decoration: none; position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; isolation: isolate; padding: 0; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; background: #0b0c0e; color: var(--ink); text-align: left; transition: flex-grow .55s var(--ease), border-color .3s; }
+.hc { display: block; text-decoration: none; position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; isolation: isolate; padding: 0; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; background: #0f0f0f; color: var(--ink); text-align: left; transition: flex-grow .55s var(--ease), border-color .3s; }
 .hc.on { flex-grow: 3.6; border-color: #e0c27a; box-shadow: inset 0 0 0 1px #e0c27a; }
 .hc picture, .hc img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .hc picture { z-index: -2; }
@@ -339,7 +339,7 @@ section.block { scroll-margin-top: -72px; }
   #classes .rr { height: clamp(300px, 22vw, 340px); }
 }
 /* Camp scene near the end: the campfire art in full, fire and embers alive (assets/living/) */
-.camp { position: relative; isolation: isolate; overflow: hidden; margin-top: 56px; min-height: clamp(520px, 56vw, 1200px);   /* close to the art's own 16:9: heads stay in frame on wide screens */ display: grid; align-content: end; color: #f1ece0; background: #08090b; }
+.camp { position: relative; isolation: isolate; overflow: hidden; margin-top: 56px; min-height: clamp(520px, 56vw, 1200px);   /* close to the art's own 16:9: heads stay in frame on wide screens */ display: grid; align-content: end; color: #f1ece0; background: #050505; }
 .camp-art, .camp-art img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .camp-art { z-index: -2; }
 .camp-art img { object-fit: cover; object-position: 66% 30%; }
@@ -367,13 +367,13 @@ canvas.fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-eve
 canvas.fx.on { opacity: 1; }
 /* Inner page hero (roster, tools): a scene of its own on the whole screen like the home hero, living art over it, text on the calm
    left. The art keeps the screen height while the content under it grows (search results), so the picture is never cropped anew. */
-.thero { --hh: max(560px, 100svh); position: relative; isolation: isolate; overflow: hidden; min-height: var(--hh); display: grid; align-content: start; padding: calc(var(--top) + clamp(32px, 8vh, 96px)) 0 calc(40px + var(--hfade)); color: var(--ink); background: #08090b; }
+.thero { --hh: max(560px, 100svh); position: relative; isolation: isolate; overflow: hidden; min-height: var(--hh); display: grid; align-content: start; padding: calc(var(--top) + clamp(32px, 8vh, 96px)) 0 calc(40px + var(--hfade)); color: var(--ink); background: #050505; }
 .thero-art, .thero-art img, .thero::before { position: absolute; inset: 0 0 auto 0; width: 100%; height: var(--hh); }
 .thero-art { z-index: -2; }
 .thero-art img { object-fit: cover; object-position: 66% 50%; }
 .thero::before { content: ""; z-index: -1; background:
   linear-gradient(90deg, rgba(5,5,5,.78) 0%, rgba(5,5,5,.5) 30%, rgba(5,5,5,.12) 56%, rgba(5,5,5,0) 76%),
-  linear-gradient(180deg, rgba(5,5,5,.5) 0%, rgba(5,5,5,0) 24%, rgba(5,5,5,0) 60%, #08090b 100%); }
+  linear-gradient(180deg, rgba(5,5,5,.5) 0%, rgba(5,5,5,0) 24%, rgba(5,5,5,0) 60%, #050505 100%); }
 .thero-in { width: 100%; display: grid; gap: 18px; justify-items: start; }
 .thero .crumbs { display: flex; gap: 10px; font-size: var(--fs-14); color: var(--ink-2); }
 .thero .crumbs a { color: var(--ink-2); text-decoration: none; }
@@ -838,7 +838,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .hero-in { padding-top: calc(var(--top) + 28px); gap: 18px; }
   .thero { --hh: max(580px, calc(100svh - 62px - env(safe-area-inset-bottom, 0px))); padding: max(calc(var(--top) + 28px), calc(var(--hh) * .5)) 0 calc(28px + var(--hfade)); }
   .thero-art img { object-position: 90% 50%; }   /* make_images.CUTS: the party on the upper half, the text from the middle down */
-  .thero::before { background: linear-gradient(180deg, rgba(5,5,5,.55) 0%, rgba(5,5,5,.08) 26%, rgba(5,5,5,.35) 52%, rgba(5,5,5,.9) 76%, #08090b 100%); }
+  .thero::before { background: linear-gradient(180deg, rgba(5,5,5,.55) 0%, rgba(5,5,5,.08) 26%, rgba(5,5,5,.35) 52%, rgba(5,5,5,.9) 76%, #050505 100%); }
   .thero h1 { font-size: var(--fs-hero); hyphens: auto; }
 }
 /* Phones upright: the home hero shows the whole party (make_images.CUTS) as a band on top, the text starts at their knees */
@@ -1201,9 +1201,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="manifest" href="../../../manifest-pt.webmanifest">
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
-<link rel="stylesheet" href="../../../assets/radio/radio.css?v=a448c8a8c7" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/search/search.css?v=e154702bc6" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/me/me.css?v=30e53cd5c1" media="print" onload="this.media='all'">
+<link data-rel="stylesheet" href="../../../assets/radio/radio.css?v=44f8689128">
+<link data-rel="stylesheet" href="../../../assets/search/search.css?v=e154702bc6">
+<link data-rel="stylesheet" href="../../../assets/me/me.css?v=30e53cd5c1">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Início","item":"https://gabella.site/wow/pt/"},{"@type":"ListItem","position":2,"name":"Guias","item":"https://gabella.site/wow/pt/guides/"},{"@type":"ListItem","position":3,"name":"Evoluir um Ladino de 1 a 60","item":"https://gabella.site/wow/pt/guides/leveling-rogue/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Guia de nível do Ladino 1–60 em WoW Forever: Combate","description":"Como evoluir um Ladino em WoW Forever: Combate, talentos por nível 10–60, venenos, diferenças do Classic. Dados da beta.","inLanguage":"pt-BR","url":"https://gabella.site/wow/pt/guides/leveling-rogue/","dateModified":"2026-10-25","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/pt/"},"image":"https://gabella.site/wow/assets/og/leveling-rogue-pt.jpg?v=cd161bd6"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"pt-BR","mainEntity":[{"@type":"Question","name":"Qual especialização do Ladino usar em WoW Forever?","acceptedAnswer":{"@type":"Answer","text":"Combate: Mobalytics e Icy Veins a recomendam. A Warcraft Tavern não destaca uma árvore, mas desaconselha Assassinato como início."}},{"@type":"Question","name":"Quando aparecem os venenos?","acceptedAnswer":{"@type":"Answer","text":"No nível 20, depois da missão de classe."}},{"@type":"Question","name":"Por que o Ladino evolui mais devagar que o Caçador e o Mago?","acceptedAnswer":{"@type":"Answer","text":"Ele quase não tem dano em área nem autocura. Ajudam Primeiros Socorros e, a partir do nível 30, Rajada de Lâminas."}},{"@type":"Question","name":"Qual arma pegar para Combate?","acceptedAnswer":{"@type":"Answer","text":"Qualquer uma: Carnificina funciona com todos os tipos. A arma rápida vai na mão secundária (Mobalytics)."}},{"@type":"Question","name":"Os pontos de combo somem ao trocar de alvo?","acceptedAnswer":{"@type":"Answer","text":"Não, ficam no alvo anterior. A passagem para um novo alvo as fontes descrevem de formas diferentes: vamos conferir depois de 4 de novembro."}}]}</script>
@@ -1361,7 +1361,7 @@ if ('IntersectionObserver' in window && tocLinks.length) {
 }
 
 </script>
-<script src="../../../assets/living/living.js?v=b105663afc" defer></script>
+<script data-src="../../../assets/living/living.js?v=b105663afc"></script>
 <script>
 (() => {
   const KEY = 'gabella-lang-hint', store = l => { try { localStorage.setItem(KEY, '1'); if (l) localStorage.setItem('gabella-lang', l); } catch (e) {} };
@@ -1429,9 +1429,44 @@ addEventListener('beforeinstallprompt', e => {
   opts.append(b);
 });
 </script>
-<script src="../../../assets/radio/radio.js?v=a448c8a8c7" data-root="../../../" defer></script>
-<script src="../../../assets/search/search.js?v=e154702bc6" data-root="../../../" defer></script>
-<script src="../../../assets/me/me.js?v=30e53cd5c1" data-root="../../../" data-home="../../" data-lang="pt" data-ach="0" data-teaser="" data-close="Fechar" data-page="guides/leveling-rogue/" data-look="2" defer></script>
-<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
+<script data-src="../../../assets/radio/radio.js?v=44f8689128" data-root="../../../"></script>
+<script data-src="../../../assets/search/search.js?v=e154702bc6" data-root="../../../"></script>
+<script data-src="../../../assets/me/me.js?v=30e53cd5c1" data-root="../../../" data-home="../../" data-lang="pt" data-ach="0" data-teaser="" data-close="Fechar" data-page="guides/leveling-rogue/" data-look="2"></script>
+<script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
+<script>
+(function () {
+  var done = false;
+  function wake() {
+    if (done) return; done = true;
+    document.querySelectorAll('link[data-rel]').forEach(function (l) { l.rel = l.dataset.rel; });
+    document.querySelectorAll('source[data-lsrcset]').forEach(function (x) { x.srcset = x.dataset.lsrcset; });   // build.sleep_art
+    document.querySelectorAll('img[data-lsrc]').forEach(function (x) { x.src = x.dataset.lsrc; });
+    document.querySelectorAll('script[data-src]').forEach(function (s) {
+      var n = document.createElement('script');
+      for (var i = 0; i < s.attributes.length; i++) if (s.attributes[i].name !== 'data-src') n.setAttribute(s.attributes[i].name, s.attributes[i].value);
+      n.src = s.dataset.src; n.async = false;   // in page order: radio before the profile, as with defer
+      s.replaceWith(n);
+    });
+  }
+  ['pointerdown', 'keydown', 'touchstart', 'wheel', 'scroll'].forEach(function (t) { addEventListener(t, wake, { once: true, passive: true, capture: true }); });
+  if (location.hash.length > 1) return wake();   // a link to a section: the blocks above it are drawn before the jump settles
+  setTimeout(wake, 4000);   // a tab in the background paints nothing
+  var img = document.querySelector('img[fetchpriority="high"]');
+  var lcp = window.PerformanceObserver && PerformanceObserver.supportedEntryTypes && PerformanceObserver.supportedEntryTypes.indexOf('largest-contentful-paint') >= 0;
+  var armed = false;
+  function later() {   // a wide screen, where the heading counts as the largest: a moment after the picture is drawn
+    if (armed) return; armed = true;
+    var go = function () { requestAnimationFrame(function () { setTimeout(wake, 500); }); };
+    var start = function () { if (img && img.decode) img.decode().then(go, go); else go(); };
+    if (document.readyState === 'complete') start(); else addEventListener('load', start, { once: true });
+  }
+  // The browser reports a paint only once the frame is on the screen: the phone wakes on the hero picture, a wide screen
+  // starts its pause after the first one. A frame that comes late (a busy phone) then keeps the files waiting behind it.
+  if (lcp)
+    new PerformanceObserver(function (l) { if (img && l.getEntries().some(function (e) { return e.element === img; })) setTimeout(wake, 0); else later(); })
+      .observe({ type: 'largest-contentful-paint', buffered: true });
+  else later();
+})();
+</script>
 </body>
 </html>
