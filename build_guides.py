@@ -41,6 +41,7 @@ THERO = {'hero_guides': 'guides', 'hero_dungeons': 'dungeons', 'hero_professions
          'hero_news': 'news', 'hero_leveling': 'leveling', 'hero_classes': 'classes', 'hero_races': 'races',
          'hero_ukrainian': 'ukrainian', 'hero_requirements': 'requirements', 'hero_roster': 'roster',
          'hero_bestrace': 'bestrace', 'hero_tierlist': 'tierlist'}
+THERO_CUT = {'hero_bestrace': '.5', 'hero_tierlist': '.65'}   # phone cut other than .9 (tools/make_images.CUTS)
 THERO_W = (960, 1440, 1920, 2560)
 WIDTHS.update({h: THERO_W for h in THERO})   # a page's own scene is also its tile (cut 4:3 by the tile) and share preview
 
@@ -95,7 +96,7 @@ def thero(sec, hero):
     m = lambda ext: ', '.join(f'@@ROOT@@assets/art/{hero}-m-{w}.{ext} {w}w' for w in (600, 800, 1000))   # noqa: E731
     big = lambda ext: ', '.join(f'@@ROOT@@assets/art/{hero}-{w}.{ext} {w}w' for w in THERO_W)   # noqa: E731
     phone = 'media="(max-width: 719px) and (max-aspect-ratio: 2/3)"'
-    fx = f' data-fx="{THERO[hero]}" data-cut=".9"' if THERO[hero] else ''   # living layer only where a mask exists
+    fx = f' data-fx="{THERO[hero]}" data-cut="{THERO_CUT.get(hero, ".9")}"' if THERO[hero] else ''   # living layer only where a mask exists
     pic = (f'<picture class="thero-art" aria-hidden="true"{fx}>\n'
            f'    <source {phone} type="image/avif" srcset="{m("avif")}" sizes="100vw">\n'
            f'    <source {phone} type="image/webp" srcset="{m("webp")}" sizes="100vw">\n'

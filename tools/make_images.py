@@ -19,7 +19,8 @@ PORTRAIT_W = [360, 600, 896, 1344]   # class/race portraits (master 1792x2400): 
 SCENE_Q = 66  # wide scene art fills the screen: AVIF at 52 smears grass and fur there
 TODS = ['dawn', 'day', 'dusk', 'night']   # the home hero in the reader's time of day (tod.py); one living mask fits all
 JOBS = [(f'hero_{t}', [960, 1440, 1920, 2560, 3840]) for t in TODS] + [('hero_campfire', [960, 1600, 2560]), ('hero_road', [960, 1600, 2560])] +        [(n, [960, 1440, 1920, 2560]) for n in INNER] + [(c, PORTRAIT_W) for c in CLASSES]
-CUTS = {**{f'hero_{t}': .95 for t in TODS}, **{n: .9 for n in INNER}}   # phone cut of each full-screen hero: share of the free width left of it
+CUTS = {**{f'hero_{t}': .95 for t in TODS}, **{n: .9 for n in INNER},   # phone cut of each full-screen hero: share of the free width left of it
+        'hero_bestrace': .5, 'hero_tierlist': .65}   # the statues; the dwarf on the podium with the orc and the troll (build_guides.THERO_CUT)
 MOBILE_W = {**{f'hero_{t}': (600, 800, 1000) for t in TODS}, **{n: (600, 800, 1000) for n in INNER}}   # the home band is 100vw wide: 800 fits a 412 px phone at 1.75x (tod.MOBILE_W)
 
 

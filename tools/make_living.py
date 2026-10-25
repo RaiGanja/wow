@@ -308,11 +308,11 @@ def bestrace():
                                    open_area([(40, 0), (845, 0), (800, 70), (765, 150), (700, 165), (655, 120), (595, 118), (585, 158),
                                               (520, 150), (500, 205), (400, 222), (365, 250), (262, 250), (238, 175), (222, 125),
                                               (128, 125), (100, 170), (55, 150), (40, 100)], (190, 250)))   # cliffs and statue heads stay put
-    river = ImageChops.multiply(shape([[(398, 395), (428, 395), (432, 428), (470, 468), (520, 500), (560, 538), (605, 560), (640, 590), (612, 650),
-                                        (540, 700), (300, 712), (150, 690), (120, 640), (150, 590), (250, 555), (330, 518), (362, 478), (385, 428)]]),
+    river = ImageChops.multiply(shape([[(398, 395), (428, 395), (432, 428), (470, 468), (505, 495), (530, 525), (550, 560), (560, 595), (550, 625),
+                                        (525, 645), (500, 660), (300, 672), (150, 685), (120, 640), (150, 590), (250, 555), (330, 518), (362, 478), (385, 428)]]),
                                 pick(im, [(110, 390, 650, 720)], lambda r, g, b, x, y: lum(r, g, b) > .26 and sat(r, g, b) < .32))
     zero = Image.new('L', (W, H), 0)   # no fire: daylight in the canyon
-    save('hero_bestrace', zero, zero, soft(open_sky, 1, 2), soft(river, 1, 2))
+    save('hero_bestrace', zero, zero, soft(open_sky, 1, 2), soft(river, 1, 2))   # the water ends at the rock under the heroes
 
 
 def tierlist():
@@ -323,8 +323,9 @@ def tierlist():
                      [(336, 132), (382, 132), (380, 295), (358, 312), (338, 295)], [(420, 158), (462, 158), (460, 300), (440, 318), (422, 300)]],
                     lambda x, y: fade(y, 50, 285) if x < 150 else fade(y, 105, 300) if x < 300 else fade(y, 135, 312) if x < 400 else fade(y, 160, 318))
     poles = Image.new('L', (W, H), 0)
-    for b in [(52, 0, 74, 60), (230, 55, 250, 110), (348, 100, 368, 140), (430, 145, 450, 165), (112, 130, 212, 260), (494, 248, 556, 320)]:
-        poles.paste(255, b)   # spear tips, lantern posts and the lamps
+    for b in [(52, 0, 74, 60), (230, 55, 250, 110), (348, 100, 368, 140), (430, 145, 450, 165), (112, 130, 212, 260), (494, 248, 556, 320),
+              (895, 30, 1000, 205), (850, 125, 910, 205), (1222, 30, 1376, 300)]:
+        poles.paste(255, b)   # spear tips, lantern posts and the lamps, the dwarf's axe
     poles = ImageChops.invert(ImageChops.lighter(poles, banners.point(lambda v: 255 if v else 0)).filter(ImageFilter.MaxFilter(13)))
     open_sky = ImageChops.multiply(open_area([(0, 0), (1222, 0), (1222, 190), (1100, 232), (1050, 190), (992, 140), (992, 40), (888, 40),
                                               (880, 190), (868, 125), (782, 125), (758, 200), (700, 188), (600, 188), (588, 245), (560, 262),
