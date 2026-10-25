@@ -29,7 +29,7 @@ GUIDES = []   # наполняется в задачах 3, 5, 6, 7, 9; кажд
 NEWS = []     # ручные записи: {'date': '2026-10-23', 'title': t(...), 'text': t(...), 'url': 'https://…'}
 from build import DISCORD_AT  # noqa: E402  (у каждого места ссылки своё приглашение)
 
-ORDER = ['leveling', 'leveling-warrior', 'leveling-paladin', 'leveling-hunter', 'leveling-rogue', 'leveling-priest', 'leveling-shaman', 'leveling-mage', 'leveling-warlock', 'leveling-druid', 'builds-warrior', 'builds-paladin', 'builds-mage', 'best-race', 'tier-list', 'legacy', 'dungeons', 'professions', 'addons', 'faq', 'requirements', 'news', 'ukrainian']   # порядок плиток на хабе и в «Другие гайды»
+ORDER = ['leveling', 'leveling-warrior', 'leveling-paladin', 'leveling-hunter', 'leveling-rogue', 'leveling-priest', 'leveling-shaman', 'leveling-mage', 'leveling-warlock', 'leveling-druid', 'builds-warrior', 'builds-paladin', 'builds-hunter', 'builds-rogue', 'builds-priest', 'builds-shaman', 'builds-mage', 'builds-warlock', 'builds-druid', 'best-race', 'tier-list', 'legacy', 'dungeons', 'professions', 'addons', 'faq', 'requirements', 'news', 'ukrainian']   # порядок плиток на хабе и в «Другие гайды»
 
 
 # ---------- FAQ: даты и наборы, режимы, имена, отличия от Era (переехали с главной) + частые вопросы ----------
