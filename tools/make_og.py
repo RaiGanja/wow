@@ -87,6 +87,7 @@ p{{font-size:30px;line-height:1.35;color:#c9c2b0;text-wrap:pretty;max-width:{"52
 <div class="start">{START[lang]}</div>
 <div id="res" hidden></div>
 <script>/* lay the text block out between the logo and the launch line: width first (Spectral is wide), then height */
+document.fonts.ready.then(()=>{{   /* measure in Spectral, not in the fallback that is there before the font arrives */
 const R=e=>e.getBoundingClientRect(),$=s=>document.querySelector(s),h=$('h1'),p=$('p'),br=$('.brand'),st=$('.start');
 const px=()=>parseFloat(getComputedStyle(h).fontSize),LH=40.5,GAP=24;
 const fits=()=>R(h).top>=R(br).bottom+GAP&&R(p).bottom<=R(st).top-GAP;
@@ -95,7 +96,7 @@ while(!fits()&&px()>48)h.style.fontSize=(px()-2)+'px';
 if(!fits()){{const sen=p.textContent.split(/(?<=[.!?])\\s+/);while(!fits()&&sen.length>1){{sen.pop();p.textContent=sen.join(' ')}}
  const w=p.textContent.split(' ');while(!fits()&&w.length>3){{w.pop();p.textContent=w.join(' ').replace(/[,;:\u2013-]$/,'')+'\u2026'}}}}
 const box=e=>{{const r=R(e);return [r.left,r.top,r.right,r.bottom]}},bx={{brand:box(br),title:box(h),lead:box(p),start:box(st)}};
-$('#res').textContent=JSON.stringify({{boxes:bx,font:px(),wide:h.scrollWidth>h.clientWidth,lines:Math.round(R(p).height/LH),block:R(p).bottom-R(h).top}})</script></body>'''
+$('#res').textContent=JSON.stringify({{boxes:bx,font:px(),wide:h.scrollWidth>h.clientWidth,lines:Math.round(R(p).height/LH),block:R(p).bottom-R(h).top}})}})</script></body>'''
 
 
 def chrome(src, *args):
