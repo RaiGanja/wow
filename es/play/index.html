@@ -1244,7 +1244,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </div></header>
 
 <main id="main">
-<section class="phead" id="top"><picture class="phead-art" aria-hidden="true"><source type="image/avif" srcset="../../assets/art/hero_road-960.avif?v=81ab1530 960w, ../../assets/art/hero_road-1600.avif?v=d076353a 1600w, ../../assets/art/hero_road-2560.avif?v=fb4962bd 2560w" sizes="100vw"><source type="image/webp" srcset="../../assets/art/hero_road-960.webp?v=8f11859f 960w, ../../assets/art/hero_road-1600.webp?v=b41d3512 1600w, ../../assets/art/hero_road-2560.webp?v=5c0c6bdb 2560w" sizes="100vw"><img src="../../assets/art/hero_road-1600.webp?v=b41d3512" width="1600" height="893" alt="" fetchpriority="high" decoding="async"></picture><div class="wrap"><div class="ptitle"><h1>En el juego</h1><p class="glead">Una segunda pantalla mientras juegas: radio, zonas y mazmorras para tu nivel, temporizadores. Con sesión iniciada: personajes del perfil.</p></div><div class="pacts"><button class="pill pwake" id="wakeBtn" type="button" aria-pressed="false" hidden><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg>Pantalla siempre encendida</button></div></div></section><div class="wrap"><section class="frame pway" id="pWay" aria-label="Perfil"><p class="pnote">Inicia sesión para guardar tu nivel y tus personajes en tu perfil.</p><a class="btn ghost" href="../../profile/">Entrar</a></section></div><script>try{if(localStorage.getItem("gabella-me")==="1")document.getElementById("pWay").hidden=true}catch(e){}</script>
+<section class="phead" id="top"><picture class="phead-art" aria-hidden="true"><source type="image/avif" srcset="../../assets/art/hero_road-960.avif?v=f581693d 960w, ../../assets/art/hero_road-1600.avif?v=f0ac73e7 1600w, ../../assets/art/hero_road-2560.avif?v=68e2d884 2560w" sizes="100vw"><source type="image/webp" srcset="../../assets/art/hero_road-960.webp?v=73f79540 960w, ../../assets/art/hero_road-1600.webp?v=25456252 1600w, ../../assets/art/hero_road-2560.webp?v=1e28c4f2 2560w" sizes="100vw"><img src="../../assets/art/hero_road-1600.webp?v=25456252" width="1600" height="893" alt="" fetchpriority="high" decoding="async"></picture><div class="wrap"><div class="ptitle"><h1>En el juego</h1><p class="glead">Una segunda pantalla mientras juegas: radio, zonas y mazmorras para tu nivel, temporizadores. Con sesión iniciada: personajes del perfil.</p></div><div class="pacts"><button class="pill pwake" id="wakeBtn" type="button" aria-pressed="false" hidden><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg>Pantalla siempre encendida</button></div></div></section><div class="wrap"><section class="frame pway" id="pWay" aria-label="Perfil"><p class="pnote">Inicia sesión para guardar tu nivel y tus personajes en tu perfil.</p><a class="btn ghost" href="../../profile/">Entrar</a></section></div><script>try{if(localStorage.getItem("gabella-me")==="1")document.getElementById("pWay").hidden=true}catch(e){}</script>
 
 <div class="wrap gbody play solo">
   <nav class="gtoc frame" aria-label="Secciones de la guía"></nav>
@@ -1861,7 +1861,7 @@ function autoStage() {
   return [now < new Date('2026-11-11T00:00:00') ? 'first' : 'dung', 'Según la fecha. Añade el nivel de tu personaje y la etapa lo seguirá.'];
 }
 const START = { pre: 'hero_dawn-960', first: 'hero_campfire-960', dung: 'warlock-360', path: 'hunter-360', raid: 'paladin-360' };
-const ARTV = /*ARTV*/{"hero_campfire-960.avif":"?v=93981d6a","hero_campfire-960.webp":"?v=5aa0e1b2","hero_dawn-960.avif":"?v=447302fd","hero_dawn-960.webp":"?v=b2d0d95b","hero_night-960.avif":"?v=25250449","hero_night-960.webp":"?v=21b81441"};   // ?v= of the scene arts, filled in by build.art_version (same names, redrawn pictures)
+const ARTV = /*ARTV*/{"hero_campfire-960.avif":"?v=c7a06e77","hero_campfire-960.webp":"?v=19281b11","hero_dawn-960.avif":"?v=afda6d75","hero_dawn-960.webp":"?v=4b68f21c","hero_night-960.avif":"?v=4f36be8b","hero_night-960.webp":"?v=def04f9e"};   // ?v= of the scene arts, filled in by build.art_version (same names, redrawn pictures)
 const pic = f => `<picture><source type="image/avif" srcset="${ROOT}assets/art/${f}.avif${ARTV[f + '.avif'] || PV}"><img src="${ROOT}assets/art/${f}.webp${ARTV[f + '.webp'] || PV}" ${f.startsWith('hero_') ? 'width="960" height="536"' : f.endsWith('-600') ? 'width="600" height="804"' : 'width="360" height="482"'} alt="" loading="lazy" decoding="async"></picture>`;
 let tipN = 0;   // the gold «tip» word once per stage panel: the first tip carries it, the rest are plain lines
 const tipL = () => tipN++ ? '' : '<span class="tl">Consejo</span>';
@@ -1956,7 +1956,7 @@ addEventListener('gabella-me', e => { if (e.detail !== 'journey') { loadMe(); re
 addEventListener('storage', e => { if (e.key === MEKEY) { loadMe(); renderJourney(); } });
 })();
 </script>
-<script data-src="../../assets/living/living.js?v=b105663afc"></script>
+<script data-src="../../assets/living/living.js?v=8f1634894e"></script>
 <script>
 (() => {
   const KEY = 'gabella-lang-hint', store = l => { try { localStorage.setItem(KEY, '1'); if (l) localStorage.setItem('gabella-lang', l); } catch (e) {} };
