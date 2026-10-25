@@ -29,7 +29,7 @@ GUIDES = []   # наполняется в задачах 3, 5, 6, 7, 9; кажд
 NEWS = []     # ручные записи: {'date': '2026-10-23', 'title': t(...), 'text': t(...), 'url': 'https://…'}
 from build import DISCORD_AT  # noqa: E402  (у каждого места ссылки своё приглашение)
 
-ORDER = ['leveling', 'leveling-warrior', 'leveling-paladin', 'leveling-hunter', 'leveling-rogue', 'leveling-priest', 'leveling-shaman', 'leveling-mage', 'leveling-warlock', 'leveling-druid', 'best-race', 'tier-list', 'legacy', 'dungeons', 'professions', 'faq', 'requirements', 'news', 'ukrainian']   # порядок плиток на хабе и в «Другие гайды»
+ORDER = ['leveling', 'leveling-warrior', 'leveling-paladin', 'leveling-hunter', 'leveling-rogue', 'leveling-priest', 'leveling-shaman', 'leveling-mage', 'leveling-warlock', 'leveling-druid', 'best-race', 'tier-list', 'legacy', 'dungeons', 'professions', 'addons', 'faq', 'requirements', 'news', 'ukrainian']   # порядок плиток на хабе и в «Другие гайды»
 
 
 # ---------- FAQ: даты и наборы, режимы, имена, отличия от Era (переехали с главной) + частые вопросы ----------
@@ -235,6 +235,7 @@ GUIDES.append({
             ('tip', t('Режим редактирования возвращает рамкам старые места, но не старый рисунок: классический вид интерфейса дают только аддоны.',
                       'Edit Mode puts the frames back in their old places, but not their old look: the classic interface art comes only with addons.',
                       'Режим редагування повертає рамкам старі місця, але не старий вигляд: класичний вигляд інтерфейсу дають лише аддони.')),
+            ('tiles', [{'t': t('Аддоны и интерфейс', 'Addons and Interface', 'Аддони та інтерфейс'), 'd': t('Что работает, что встроено, как ставить', 'What works, what is built in, how to install', 'Що працює, що вбудовано, як ставити'), 'href': 'guides/addons/', 'art': 'hero_roster'}]),
         ]},
         {'id': 'questions', 'title': t('Частые вопросы', 'Common questions', 'Часті питання'), 'blocks': [
             ('raw', t('<label class="gsearch"><span class="sr">Поиск по вопросам</span><input type="search" id="faqQ" autocomplete="off" placeholder="Поиск по вопросам"></label><p class="note" id="faqNone" hidden>Ничего не нашлось. Попробуйте другое слово или поиск по сайту (Ctrl+K).</p>',
@@ -644,6 +645,7 @@ GUIDES.append({
             ('tip', t('Новая зона Shen’Dralas лежит между [[Пустошами|Desolace]] и [[Фераласом|Feralas]], в ней задания для [[Мародона|Maraudon]] и [[Курганов Иглошкурых|Razorfen Downs]]. Уровень зоны источники пока не называют.',
                       'The new Shen’Dralas zone lies between Desolace and Feralas and has quests for Maraudon and Razorfen Downs. Sources do not give its level yet.',
                       'Нова зона Shen’Dralas лежить між Desolace і Feralas, у ній завдання для Maraudon і Razorfen Downs. Рівень зони джерела поки не називають.')),
+            ('tiles', [{'t': t('Аддоны и интерфейс', 'Addons and Interface', 'Аддони та інтерфейс'), 'd': t('Questie, RestedXP и карта для прокачки', 'Questie, RestedXP and maps for leveling', 'Questie, RestedXP і мапа для прокачування'), 'href': 'guides/addons/', 'art': 'hero_roster'}]),
         ]},
         {'id': 'pace', 'title': t('Темп и отдых', 'Pace and rest', 'Темп і відпочинок'), 'blocks': [
             ('steps', [
@@ -967,6 +969,7 @@ GUIDES.append({
                 {'t': u('Перевірка'), 'd': u('Якщо гра вже запущена, введіть /reload у чаті. Підказки й вікна завдань мають стати українськими.')},
             ]),
             ('tip', u('Вмикайте один аддон перекладу. Обидва підміняють ті самі вікна й заважають один одному.')),
+            ('tiles', [{'t': u('Аддони та інтерфейс'), 'd': u('Що працює, що вбудовано, як ставити'), 'href': 'guides/addons/', 'art': 'hero_roster'}]),
         ]},
         {'id': 'setup', 'title': u('Налаштування й оригінал'), 'blocks': [
             ('table', {'head': [u(''), u('UA_Forever'), u('UALL Forever')], 'rows': [
@@ -1399,6 +1402,150 @@ GUIDES.append({
                  'a': [t('Да, на весь аккаунт Battle.net, кроме Hardcore. Перки каждый персонаж выбирает сам.', 'Yes, across the whole Battle.net account, except Hardcore. Each character picks its own perks.', 'Так, на весь обліковий запис Battle.net, крім Hardcore. Перки кожен персонаж обирає сам.')]},
                 {'id': 'q5', 'q': t('Какие перки Legacy брать первыми?', 'Which Legacy perks should I take first?', 'Які перки Legacy брати першими?'),
                  'a': [t('Перки опыта и лагеря: Well Rested, Field Guide, Permanence. Классам с реагентами — Reagent Economy.', 'Experience and camp perks: Well Rested, Field Guide, Permanence. Reagent Economy for classes with reagents.', 'Перки досвіду й табору: Well Rested, Field Guide, Permanence. Класам із реагентами — Reagent Economy.')]},
+            ]),
+        ]},
+    ],
+})
+
+
+# ---------- addons (текст 25.10.2026, переводы в i18n/*.json) ----------
+
+def _tile(slug, href=None, d=None, art=None, title=None):
+    g = next(x for x in GUIDES if x['slug'] == slug)
+    return {'t': title or g['title'], 'd': d or g['tile'], 'href': href or f'guides/{slug}/', 'art': art or g.get('hero') or g['art']}
+
+
+GUIDES.append({
+    'slug': 'addons', 'art': 'hero_roster', 'hero': 'hero_roster',
+    'title': t('Аддоны и интерфейс', 'Addons and Interface', 'Аддони та інтерфейс'),
+    'lead': t('Аддоны в Forever есть, но работают по правилам современного WoW, а не Classic. Старые аддоны Classic не грузятся, нужен файл под Forever. Ниже — что уже встроено в игру, что ставить для прокачки и группы и как это установить.', 'Addons exist in Forever, but they follow the rules of modern WoW, not Classic. Old Classic addons won’t load: you need a file made for Forever. Below: what is already built into the game, what to install for leveling and groups, and how to install it.', 'Аддони у Forever є, але працюють за правилами сучасного WoW, а не Classic. Старі аддони Classic не завантажуються, потрібен файл під Forever. Нижче — що вже вбудовано в гру, що ставити для прокачування та групи і як це встановити.'),
+    'tile': t('Что работает, что встроено, как ставить', 'What works, what is built in, how to install', 'Що працює, що вбудовано, як ставити'),
+    'pills': [t('Нужна версия Forever', 'Forever version required', 'Потрібна версія Forever'), t('Боевой журнал закрыт', 'Combat log closed', 'Бойовий журнал закритий'), t('CurseForge и Wago', 'CurseForge and Wago', 'CurseForge і Wago')],
+    'sources': [
+        (t('Icy Veins: Blizzard об аддонах в Forever', 'Icy Veins: Blizzard on addons in Forever', 'Icy Veins: Blizzard про аддони у Forever'), 'https://www.icy-veins.com/wow-forever/news/addons-in-wow-forever-blizzard-devs-just-addressed-the-big-question/'),
+        (t('Icy Veins: 9 аддонов для Forever', 'Icy Veins: 9 addons for Forever', 'Icy Veins: 9 аддонів для Forever'), 'https://www.icy-veins.com/wow-forever/news/set-up-your-wow-forever-ui-before-launch-with-these-9-addons/'),
+        (t('Gfinity: интерфейс и аддоны Forever', 'Gfinity: Forever interface and addons', 'Gfinity: інтерфейс і аддони Forever'), 'https://www.gfinityesports.com/article/world-of-warcraft-forever-ui-addons-setup-guide'),
+        (t('Kami Labs: аддоны WoW Forever', 'Kami Labs: WoW Forever addons', 'Kami Labs: аддони WoW Forever'), 'https://kami-labs.fr/en/addons-wow-forever/'),
+        (t('LFCarry: аддоны WoW Forever', 'LFCarry: WoW Forever addons', 'LFCarry: аддони WoW Forever'), 'https://lfcarry.com/guides/wow-forever-addons'),
+        (t('CurseForge: страницы аддонов, версия WoW Forever', 'CurseForge: addon pages, WoW Forever version', 'CurseForge: сторінки аддонів, версія WoW Forever'), 'https://www.curseforge.com/wow/addons'),
+    ],
+    'sections': [
+        {'id': 'rules', 'title': t('Как работают аддоны в Forever', 'How addons work in Forever', 'Як працюють аддони у Forever'), 'blocks': [
+            ('text', [t('Интерфейс Forever построен на клиенте современного WoW: по словам Blizzard, это архитектура Mainline и почти весь API версии 12.1.5, с теми же ограничениями, что в Midnight.', 'The Forever interface is built on the modern WoW client: according to Blizzard, it is the Mainline architecture and nearly the entire API of version 12.1.5, with the same restrictions as in Midnight.', 'Інтерфейс Forever побудований на клієнті сучасного WoW: за словами Blizzard, це архітектура Mainline і майже весь API версії 12.1.5, з тими самими обмеженнями, що й у Midnight.')]),
+            ('table', {'head': ['', t('Можно', 'Allowed', 'Можна'), t('Нельзя', 'Not allowed', 'Не можна')], 'rows': [
+                [t('Вид интерфейса', 'Look of the interface', 'Вигляд інтерфейсу'), t('Двигать и перерисовывать рамки, панели, сумки, карту', 'Move and redraw frames, panels, bags, the map', 'Рухати й перемальовувати рамки, панелі, сумки, мапу'), t('—', '—', '—')],
+                [t('Информация', 'Information', 'Інформація'), t('Показывать то, что игра и так отдаёт: задания, координаты, цены, встроенный счётчик урона', 'Show what the game already provides: quests, coordinates, prices, the built-in damage meter', 'Показувати те, що гра й так віддає: завдання, координати, ціни, вбудований лічильник шкоди'), t('Читать боевой журнал', 'Read the combat log', 'Читати бойовий журнал')],
+                [t('Бой', 'Combat', 'Бій'), t('Таймеры боссов, свои кулдауны и баффы', 'Boss timers, your own cooldowns and buffs', 'Таймери босів, власні кулдауни та баффи'), t('Видеть скрытые в бою значения: часть здоровья, угрозы и аур врагов', 'See values hidden in combat: part of enemy health, threat and auras', 'Бачити приховані в бою значення: частину здоров’я, загрози та аур ворогів')],
+            ]}),
+            ('tip', t('Ищите на CurseForge версию «WoW Forever». Файл для Classic даже со знакомым названием в Forever не загрузится.', 'Look on CurseForge for the “WoW Forever” version. A Classic file won’t load in Forever even if the name looks familiar.', 'Шукайте на CurseForge версію «WoW Forever». Файл для Classic навіть зі знайомою назвою у Forever не завантажиться.')),
+        ]},
+        {'id': 'builtin', 'title': t('Что уже есть в игре', 'What is already in the game', 'Що вже є в грі'), 'blocks': [
+            ('text', [t('Часть того, ради чего раньше ставили аддоны, в Forever встроена. Начните с настроек, аддоны добавляйте под то, чего не хватает.', 'Some of the things people used to install addons for are built into Forever. Start with the settings and add addons for whatever is still missing.', 'Частину того, заради чого раніше ставили аддони, у Forever вбудовано. Почніть з налаштувань, аддони додавайте під те, чого бракує.')]),
+            ('table', {'head': [t('Что', 'What', 'Що'), t('Где включить', 'Where to enable', 'Де ввімкнути'), t('Аддон нужен?', 'Addon needed?', 'Чи потрібен аддон?')], 'rows': [
+                [t('Счётчик урона и лечения', 'Damage and healing meter', 'Лічильник шкоди та лікування'), t('Настройки, затем место на экране в Edit Mode', 'Settings, then place it on screen in Edit Mode', 'Налаштування, потім місце на екрані в Edit Mode'), t('Нет. Угроза и подробности — Details!', 'No. Threat and details: Details!', 'Ні. Загроза й подробиці — Details!')],
+                [t('Cooldown Manager: свои кулдауны и баффы', 'Cooldown Manager: your own cooldowns and buffs', 'Cooldown Manager: власні кулдауни та баффи'), t('Options → Gameplay Enhancement, по умолчанию выключен', 'Options → Gameplay Enhancement, off by default', 'Options → Gameplay Enhancement, за замовчуванням вимкнено'), t('Нет, вместо WeakAuras для своих кулдаунов', 'No, it replaces WeakAuras for your own cooldowns', 'Ні, замість WeakAuras для власних кулдаунів')],
+                [t('Перестановка панелей и рамок', 'Rearranging panels and frames', 'Перестановка панелей і рамок'), t('Esc → Edit Mode', 'Esc → Edit Mode', 'Esc → Edit Mode'), t('Нет. Старый рисунок Classic — только аддоны', 'No. The old Classic look comes only from addons', 'Ні. Старий вигляд Classic дають лише аддони')],
+                [t('Цели заданий на карте', 'Quest objectives on the map', 'Цілі завдань на мапі'), t('Фильтр карты мира', 'World map filter', 'Фільтр мапи світу'), t('Для отметок на миникарте и сдачи заданий — Questie', 'For minimap markers and turning in quests: Questie', 'Для позначок на мінімапі та здавання завдань — Questie')],
+                [t('Одна общая сумка', 'One shared bag', 'Одна спільна сумка'), t('Настройки управления', 'Controls settings', 'Налаштування керування'), t('Для категорий и сортировки — Baganator', 'For categories and sorting: Baganator', 'Для категорій і сортування — Baganator')],
+                [t('Каст по клику на рамку', 'Click casting on a frame', 'Каст по кліку на рамку'), t('Назначение клавиш → Click Casting', 'Key Bindings → Click Casting', 'Призначення клавіш → Click Casting'), t('Нет', 'No', 'Ні')],
+                [t('Таймер автоатаки, текст боя', 'Auto-attack timer, combat text', 'Таймер автоатаки, текст бою'), t('Настройки', 'Settings', 'Налаштування'), t('Нет', 'No', 'Ні')],
+            ]}),
+            ('tiles', [_tile('faq', 'guides/faq/#graphics', title=t('**Частые вопросы: Classic или Enhanced** → guides/faq/#graphics', 'FAQ: Classic or Enhanced', 'FAQ: Classic чи Enhanced'))]),
+        ]},
+        {'id': 'list', 'title': t('Аддоны для прокачки и группы', 'Addons for leveling and groups', 'Аддони для прокачування та групи'), 'blocks': [
+            ('text', [t('У всех аддонов ниже на CurseForge есть файл «WoW Forever» (проверено 25.10.2026). Ставьте три-четыре и добавляйте по мере надобности: каждый лишний аддон — ещё один источник ошибок после патча.', 'Every addon below has a “WoW Forever” file on CurseForge (checked on October 25, 2026). Install three or four and add more as you need them: every extra addon is one more source of errors after a patch.', 'У всіх аддонів нижче на CurseForge є файл «WoW Forever» (перевірено 25 жовтня 2026 року). Ставте три-чотири й додавайте за потреби: кожен зайвий аддон — ще одне джерело помилок після патча.')]),
+            ('tabs', [
+                {'id': 'quests', 't': t('Задания и карта', 'Quests and map', 'Завдання та мапа'), 'blocks': [
+                    ('table', {'head': [t('Аддон', 'Addon', 'Аддон'), t('Зачем', 'What for', 'Навіщо')], 'rows': [
+                        [('Questie', 'https://www.curseforge.com/wow/addons/questie'), t('Задания, места целей и сдачи на карте и миникарте. Обновлён под новые зоны Forever.', 'Quests, objective and turn-in locations on the map and minimap. Updated for the new Forever zones.', 'Завдання, місця цілей і здавання на мапі та мінімапі. Оновлено під нові зони Forever.')],
+                        [('RestedXP Guide', 'https://www.curseforge.com/wow/addons/restedxp-guide'), t('Маршрут прокачки по шагам, стрелка к цели, авто-приём и сдача заданий. Полный маршрут платный.', 'Step-by-step leveling route, arrow to the objective, auto-accept and turn-in of quests. The full route is paid.', 'Маршрут прокачування крок за кроком, стрілка до цілі, авто-прийом і здавання завдань. Повний маршрут платний.')],
+                        [('Leatrix Maps', 'https://www.curseforge.com/wow/addons/leatrix-maps'), t('Координаты, значки подземелий и рейдов на карте мира.', 'Coordinates, dungeon and raid icons on the world map.', 'Координати, значки підземель і рейдів на мапі світу.')],
+                        [('TomTom', 'https://www.curseforge.com/wow/addons/tomtom'), t('Стрелка к точке по координатам из гайдов (/way).', 'An arrow to a point from the coordinates in guides (/way).', 'Стрілка до точки за координатами з гайдів (/way).')],
+                        [('OpenMap', 'https://www.curseforge.com/wow/addons/openmap'), t('Сплошная карта мира в стиле Classic. Пока бета-версия.', 'A Classic-style continuous world map. Still a beta version.', 'Суцільна мапа світу в стилі Classic. Поки що бета-версія.')],
+                    ]}),
+                ]},
+                {'id': 'bags', 't': t('Сумки и аукцион', 'Bags and auction', 'Сумки та аукціон'), 'blocks': [
+                    ('table', {'head': [t('Аддон', 'Addon', 'Аддон'), t('Зачем', 'What for', 'Навіщо')], 'rows': [
+                        [('Baganator', 'https://www.curseforge.com/wow/addons/baganator'), t('Сумки одним окном или по категориям, сортировка.', 'Bags in one window or by category, sorting.', 'Сумки одним вікном або за категоріями, сортування.')],
+                        [('Bagnon', 'https://www.curseforge.com/wow/addons/bagnon'), t('Все сумки в одном окне. Выбирайте один из двух.', 'All bags in one window. Pick one of the two.', 'Усі сумки в одному вікні. Обирайте один із двох.')],
+                        [('Auctionator', 'https://www.curseforge.com/wow/addons/auctionator'), t('Быстрый поиск по аукциону, цены и выставление лотов.', 'Fast auction search, prices and posting items.', 'Швидкий пошук на аукціоні, ціни та виставлення лотів.')],
+                        [('Leatrix Plus', 'https://www.curseforge.com/wow/addons/leatrix-plus'), t('Мелкая автоматизация: ремонт, продажа серого, приём приглашений. Часть опций в Forever недоступна.', 'Small automations: repair, selling grey items, accepting invites. Some options are unavailable in Forever.', 'Дрібна автоматизація: ремонт, продаж сірого, прийом запрошень. Частина опцій у Forever недоступна.')],
+                    ]}),
+                ]},
+                {'id': 'group', 't': t('Группа и бой', 'Group and combat', 'Група та бій'), 'blocks': [
+                    ('table', {'head': [t('Аддон', 'Addon', 'Аддон'), t('Зачем', 'What for', 'Навіщо')], 'rows': [
+                        [('Details! Damage Meter', 'https://www.curseforge.com/wow/addons/details'), t('Урон, лечение и угроза. В Classic-механике угроза важна танку и всей группе.', 'Damage, healing and threat. With Classic mechanics, threat matters to the tank and the whole group.', 'Шкода, лікування та загроза. У Classic-механіці загроза важлива танку й усій групі.')],
+                        [('ThreatClassic2', 'https://www.curseforge.com/wow/addons/threatclassic2'), t('Отдельное окно угрозы. Режима «цель цели» для лекаря нет.', 'A separate threat window. There is no “target of target” mode for healers.', 'Окреме вікно загрози. Режиму «ціль цілі» для лікаря немає.')],
+                        [('Forever Meter', 'https://www.curseforge.com/wow/addons/forever-meter'), t('Счётчик урона и угрозы, сделанный под Forever: берёт данные встроенного счётчика.', 'A damage and threat meter made for Forever: it takes its data from the built-in meter.', 'Лічильник шкоди й загрози, зроблений під Forever: бере дані вбудованого лічильника.')],
+                        [('DBM - Deadly Boss Mods', 'https://www.curseforge.com/wow/addons/deadly-boss-mods'), t('Предупреждения и таймеры боссов.', 'Boss warnings and timers.', 'Попередження та таймери босів.')],
+                        [('BigWigs', 'https://www.curseforge.com/wow/addons/big-wigs'), t('То же, что DBM. Ставьте один из двух.', 'The same as DBM. Install one of the two.', 'Те саме, що DBM. Ставте один із двох.')],
+                        [('Platynator', 'https://www.curseforge.com/wow/addons/platynator'), t('Индикаторы над врагами; отмечает мобов, нужных для заданий.', 'Indicators over enemies; marks the mobs you need for quests.', 'Індикатори над ворогами; позначає мобів, потрібних для завдань.')],
+                    ]}),
+                ]},
+                {'id': 'ui', 't': t('Интерфейс', 'Interface', 'Інтерфейс'), 'blocks': [
+                    ('table', {'head': [t('Аддон', 'Addon', 'Аддон'), t('Зачем', 'What for', 'Навіщо')], 'rows': [
+                        [('EllesmereUI', 'https://www.curseforge.com/wow/addons/ellesmereui'), t('Перерисовывает весь интерфейс, настройка правым кликом по элементу. Свой Cooldown Manager и карта.', 'Redraws the whole interface, set up by right-clicking an element. Its own Cooldown Manager and map.', 'Перемальовує весь інтерфейс, налаштування правим кліком по елементу. Власні Cooldown Manager і мапа.')],
+                        [('BugSack', 'https://www.curseforge.com/wow/addons/bugsack'), t('Ловит ошибки Lua и показывает, какой аддон сломался. Нужен вместе с BugGrabber.', 'Catches Lua errors and shows which addon broke. Needs BugGrabber alongside.', 'Ловить помилки Lua й показує, який аддон зламався. Потрібен разом із BugGrabber.')],
+                    ]}),
+                ]},
+            ]),
+            ('tiles', [_tile('leveling'), _tile('dungeons'), _tile('professions')]),
+            ('tip', t('Модули DBM и BigWigs под рейды Forever проверьте ближе к открытию рейдов 09.12: на бете их наборы различались.', 'Check the DBM and BigWigs modules for Forever raids closer to the raids opening on December 9: their sets differed in the beta.', 'Модулі DBM і BigWigs під рейди Forever перевірте ближче до відкриття рейдів 9 грудня: на бета-тесті їхні набори різнилися.')),
+        ]},
+        {'id': 'broken', 'title': t('Что не работает', 'What doesn’t work', 'Що не працює'), 'blocks': [
+            ('text', [t('Не ставьте аддоны, которые читают боевой журнал или живут только в Classic. На 25.10.2026 без версии Forever или бесполезны:', 'Don’t install addons that read the combat log or live only in Classic. As of October 25, 2026, these either have no Forever version or are useless:', 'Не ставте аддони, які читають бойовий журнал або живуть лише в Classic. На 25 жовтня 2026 року без версії Forever або марні:')]),
+            ('table', {'head': [t('Аддон', 'Addon', 'Аддон'), t('Почему', 'Why', 'Чому'), t('Чем заменить', 'What to use instead', 'Чим замінити')], 'rows': [
+                [t('WeakAuras', 'WeakAuras', 'WeakAuras'), t('Нет версии Forever', 'No Forever version', 'Немає версії Forever'), t('Cooldown Manager', 'Cooldown Manager', 'Cooldown Manager')],
+                [t('OmniCC, OmniCD, OmniBar, Hekili', 'OmniCC, OmniCD, OmniBar, Hekili', 'OmniCC, OmniCD, OmniBar, Hekili'), t('Боевой журнал и скрытые значения', 'Combat log and hidden values', 'Бойовий журнал і приховані значення'), t('Cooldown Manager', 'Cooldown Manager', 'Cooldown Manager')],
+                [t('Skada, Recount', 'Skada, Recount', 'Skada, Recount'), t('Боевой журнал', 'Combat log', 'Бойовий журнал'), t('Встроенный счётчик, Details!', 'The built-in meter, Details!', 'Вбудований лічильник, Details!')],
+                [t('AdiBags', 'AdiBags', 'AdiBags'), t('Нет версии Forever', 'No Forever version', 'Немає версії Forever'), t('Baganator, Bagnon', 'Baganator, Bagnon', 'Baganator, Bagnon')],
+                [t('Auctioneer', 'Auctioneer', 'Auctioneer'), t('Только Classic', 'Classic only', 'Лише Classic'), t('Auctionator', 'Auctionator', 'Auctionator')],
+                [t('Quartz, Postal, Nova World Buffs', 'Quartz, Postal, Nova World Buffs', 'Quartz, Postal, Nova World Buffs'), t('Нет версии Forever', 'No Forever version', 'Немає версії Forever'), t('—', '—', '—')],
+            ]}),
+            ('tip', t('Список меняется с каждым обновлением. Перед установкой смотрите на CurseForge, есть ли у аддона файл «WoW Forever».', 'The list changes with every update. Before installing, check on CurseForge whether the addon has a “WoW Forever” file.', 'Список змінюється з кожним оновленням. Перед встановленням дивіться на CurseForge, чи є в аддона файл «WoW Forever».')),
+        ]},
+        {'id': 'install', 'title': t('Как установить', 'How to install', 'Як встановити'), 'blocks': [
+            ('steps', [
+                {'t': t('Менеджер', 'Manager', 'Менеджер'),
+                 'd': t('Поставьте приложение CurseForge или Wago App, выберите World of Warcraft и версию Forever. Нужную папку менеджер найдёт сам и будет обновлять аддоны. Пользуйтесь одним менеджером.', 'Install the CurseForge app or Wago App, choose World of Warcraft and the Forever version. The manager finds the right folder by itself and keeps your addons updated. Use only one manager.', 'Встановіть застосунок CurseForge або Wago App, оберіть World of Warcraft і версію Forever. Потрібну теку менеджер знайде сам і оновлюватиме аддони. Користуйтеся одним менеджером.')},
+                {'t': t('Или вручную', 'Or manually', 'Або вручну'),
+                 'd': t('На странице аддона скачайте архив (Download file manually) и распакуйте так, чтобы папка аддона лежала в Interface\\AddOns в папке Forever, не Classic и не Retail. Папку игры открывает Battle.net: шестерёнка у кнопки «Играть» → Show in Explorer.', 'On the addon page download the archive (Download file manually) and unpack it so the addon folder sits in Interface\\AddOns inside the Forever folder, not Classic and not Retail. Battle.net opens the game folder: the gear next to the Play button → Show in Explorer.', 'На сторінці аддона завантажте архів (Download file manually) і розпакуйте так, щоб тека аддона лежала в Interface\\AddOns у теці Forever, а не Classic чи Retail. Теку гри відкриває Battle.net: шестірня біля кнопки «Грати» → Show in Explorer.')},
+                {'t': t('Включение', 'Enabling', 'Вмикання'),
+                 'd': t('Esc → AddOns или кнопка AddOns на выборе персонажа. Поставьте галочку и нажмите Reload UI.', 'Esc → AddOns, or the AddOns button on the character screen. Tick the box and press Reload UI.', 'Esc → AddOns або кнопка AddOns на виборі персонажа. Поставте галочку й натисніть Reload UI.')},
+                {'t': t('Если аддона нет в списке', 'If the addon is not in the list', 'Якщо аддона немає в списку'),
+                 'd': t('Перезапустите игру полностью: новые папки она видит только при запуске.', 'Restart the game completely: it only sees new folders at launch.', 'Перезапустіть гру повністю: нові теки вона бачить лише під час запуску.')},
+                {'t': t('Обновление', 'Updating', 'Оновлення'),
+                 'd': t('После обновления аддона обычно хватает команды /reload.', 'After an addon update the /reload command is usually enough.', 'Після оновлення аддона зазвичай досить команди /reload.')},
+            ]),
+            ('tip', t('Load out of date AddOns загружает устаревшие файлы. Включайте только для аддонов, у которых есть файл Forever, но игра считает его старым.', 'Load out of date AddOns loads outdated files. Enable it only for addons that have a Forever file that the game considers old.', 'Load out of date AddOns завантажує застарілі файли. Вмикайте лише для аддонів, у яких є файл Forever, але гра вважає його старим.')),
+            ('text', [t('На бете аддоны лежали в World of Warcraft\\_classic_beta_\\Interface\\AddOns. Папку для релиза Blizzard не называла: после 04.11 проверьте путь через Show in Explorer или доверьте его менеджеру.', 'In the beta, addons lived in World of Warcraft\\_classic_beta_\\Interface\\AddOns. Blizzard has not named the release folder: after November 4, check the path through Show in Explorer or leave it to the manager.', 'На бета-тесті аддони лежали в World of Warcraft\\_classic_beta_\\Interface\\AddOns. Теку для релізу Blizzard не назвала: після 4 листопада перевірте шлях через Show in Explorer або довірте його менеджеру.')]),
+        ]},
+        {'id': 'problems', 'title': t('Частые проблемы', 'Common problems', 'Часті проблеми'), 'blocks': [
+            ('table', {'head': [t('Проблема', 'Problem', 'Проблема'), t('Что делать', 'What to do', 'Що робити')], 'rows': [
+                [t('Ошибки Lua при входе', 'Lua errors on login', 'Помилки Lua під час входу'), t('Выключите все аддоны и включайте по одному. BugSack покажет, какой виноват.', 'Disable all addons and enable them one by one. BugSack shows which one is guilty.', 'Вимкніть усі аддони й вмикайте по одному. BugSack покаже, який винен.')],
+                [t('Аддона нет в списке', 'The addon is not in the list', 'Аддона немає в списку'), t('Полный перезапуск игры. Проверьте, что папка аддона лежит прямо в Interface\\AddOns, а не во вложенной папке из архива.', 'Fully restart the game. Make sure the addon folder sits directly in Interface\\AddOns, not in a nested folder from the archive.', 'Повний перезапуск гри. Перевірте, що тека аддона лежить прямо в Interface\\AddOns, а не у вкладеній теці з архіву.')],
+                [t('Аддон помечен устаревшим', 'The addon is marked out of date', 'Аддон позначено застарілим'), t('Нужен файл «WoW Forever». Load out of date AddOns — только если такой файл уже стоит.', 'You need the “WoW Forever” file. Load out of date AddOns only if such a file is already installed.', 'Потрібен файл «WoW Forever». Load out of date AddOns — лише якщо такий файл уже стоїть.')],
+                [t('Счётчик урона или таймеры пустые', 'The damage meter or timers are empty', 'Лічильник шкоди або таймери порожні'), t('Аддон читает боевой журнал. Возьмите версию Forever или встроенный счётчик. Details! с пустыми окнами чинили альфа-версией.', 'The addon reads the combat log. Get the Forever version or use the built-in meter. Details! with empty windows was fixed with an alpha version.', 'Аддон читає бойовий журнал. Візьміть версію Forever або вбудований лічильник. Details! з порожніми вікнами лагодили альфа-версією.')],
+                [t('Угроза босса пропадает в бою', 'Boss threat disappears in combat', 'Загроза боса зникає в бою'), t('Ограничение игры, не ошибка аддона. Пока вы не в списке угрозы врага, её не видно.', 'A game limitation, not an addon bug. Until you are on the enemy’s threat list, its threat is not visible.', 'Обмеження гри, не помилка аддона. Поки ви не в списку загрози ворога, її не видно.')],
+                [t('Всё сломалось после патча', 'Everything broke after a patch', 'Усе зламалося після патча'), t('Сначала обновите аддоны, потом трогайте настройки.', 'Update your addons first, only then touch the settings.', 'Спершу оновіть аддони, потім чіпайте налаштування.')],
+                [t('Две карты или две сумки конфликтуют', 'Two maps or two bag addons conflict', 'Дві мапи чи дві сумки конфліктують'), t('Оставьте один аддон карты мира и один аддон сумок.', 'Keep one world map addon and one bag addon.', 'Залиште один аддон мапи світу й один аддон сумок.')],
+            ]}),
+            ('tip', t('Раскладку Edit Mode экспортируйте строкой и храните вне папки игры: файлом она не переносится.', 'Export your Edit Mode layout as a string and keep it outside the game folder: it does not transfer as a file.', 'Розкладку Edit Mode експортуйте рядком і зберігайте поза текою гри: файлом вона не переноситься.')),
+        ]},
+        {'id': 'faq', 'title': t('Частые вопросы', 'Common questions', 'Часті питання'), 'blocks': [
+            ('faq', [
+                {'id': 'works', 'q': t('Работают ли аддоны в WoW Forever?', 'Do addons work in WoW Forever?', 'Чи працюють аддони у WoW Forever?'),
+                 'a': [t('Да. Forever использует API современного WoW с ограничениями Midnight. Аддоны Classic не грузятся, нужен файл «WoW Forever» на CurseForge.', 'Yes. Forever uses the modern WoW API with the Midnight restrictions. Classic addons won’t load: you need a “WoW Forever” file on CurseForge.', 'Так. Forever використовує API сучасного WoW з обмеженнями Midnight. Аддони Classic не завантажуються, потрібен файл «WoW Forever» на CurseForge.')]},
+                {'id': 'questie', 'q': t('Работает ли Questie в WoW Forever?', 'Does Questie work in WoW Forever?', 'Чи працює Questie у WoW Forever?'),
+                 'a': [t('Да, у Questie есть версия для Forever, обновлённая под новые зоны. Цели заданий на карте есть и без аддона, в фильтре карты мира.', 'Yes, Questie has a Forever version, updated for the new zones. Quest objectives are on the map even without an addon, in the world map filter.', 'Так, у Questie є версія для Forever, оновлена під нові зони. Цілі завдань на мапі є й без аддона, у фільтрі мапи світу.')]},
+                {'id': 'weakauras', 'q': t('Есть ли WeakAuras в WoW Forever?', 'Is there WeakAuras in WoW Forever?', 'Чи є WeakAuras у WoW Forever?'),
+                 'a': [t('Нет, версии Forever у WeakAuras нет. Свои кулдауны и баффы показывает встроенный Cooldown Manager: Options → Gameplay Enhancement.', 'No, WeakAuras has no Forever version. Your own cooldowns and buffs are shown by the built-in Cooldown Manager: Options → Gameplay Enhancement.', 'Ні, версії Forever у WeakAuras немає. Власні кулдауни та баффи показує вбудований Cooldown Manager: Options → Gameplay Enhancement.')]},
+                {'id': 'meter', 'q': t('Нужен ли счётчик урона в WoW Forever?', 'Do I need a damage meter in WoW Forever?', 'Чи потрібен лічильник шкоди у WoW Forever?'),
+                 'a': [t('Встроенный есть. Details! или Forever Meter добавляют угрозу и подробности. Аддоны, которые читают боевой журнал (Skada, Recount), не работают.', 'There is a built-in one. Details! or Forever Meter add threat and details. Addons that read the combat log (Skada, Recount) don’t work.', 'Вбудований є. Details! або Forever Meter додають загрозу й подробиці. Аддони, що читають бойовий журнал (Skada, Recount), не працюють.')]},
+                {'id': 'where', 'q': t('Куда ставить аддоны WoW Forever?', 'Where do I install WoW Forever addons?', 'Куди ставити аддони WoW Forever?'),
+                 'a': [t('В Interface\\AddOns в папке Forever. Проще всего через CurseForge или Wago App с выбранной версией Forever.', 'In Interface\\AddOns inside the Forever folder. The easiest way is through CurseForge or Wago App with the Forever version selected.', 'У Interface\\AddOns у теці Forever. Найпростіше через CurseForge або Wago App з обраною версією Forever.')]},
+                {'id': 'missing', 'q': t('Почему аддон не появляется в игре?', 'Why doesn’t the addon show up in the game?', 'Чому аддон не з’являється в грі?'),
+                 'a': [t('У него нет файла Forever, папка лежит не там или игра не перезапускалась. Новые аддоны видны только после полного перезапуска.', 'It has no Forever file, the folder is in the wrong place, or the game was not restarted. New addons appear only after a full restart.', 'У нього немає файлу Forever, тека лежить не там або гру не перезапускали. Нові аддони видно лише після повного перезапуску.')]},
             ]),
         ]},
     ],

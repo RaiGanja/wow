@@ -116,6 +116,8 @@ META = {
                             t('Какие две профессии взять в WoW Forever под каждый класс, что каждая профессия ставит в лагерь и как прокачать навык до 300.',
                               'Which two professions to take in WoW Forever for each class, what every profession places in the camp, and how to raise your skill to 300.',
                               'Які дві професії взяти у WoW Forever під кожен клас, що кожна професія ставить у табір і як прокачати навичку до 300.')),
+    'guides/addons/': (t('Аддоны для WoW Forever: что работает и как установить', 'WoW Forever Addons: What Works and How to Install', 'Аддони для WoW Forever: що працює та як встановити'),
+                       t('Какие аддоны работают в WoW Forever: Questie, Details!, DBM, Auctionator, Baganator. Что уже встроено в игру, как установить и почему аддон не грузится.', 'Which addons work in WoW Forever: Questie, Details!, DBM, Auctionator, Baganator. What is built in, how to install them and why an addon won’t load.', 'Які аддони працюють у WoW Forever: Questie, Details!, DBM, Auctionator, Baganator. Що вже вбудовано в гру, як встановити та чому аддон не завантажується.')),
     'guides/faq/': (t('WoW Forever FAQ: дата и время выхода, цена, подписка',
                       'WoW Forever FAQ: Release Date and Time, Price, Subscription',
                       'WoW Forever FAQ: дата й час виходу, ціна, підписка'),
