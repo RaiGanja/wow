@@ -923,7 +923,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .gsec.bare { padding: 0; }   /* art tiles stand on the page, no frame around them */
 .gsec p { max-width: 72ch; }
 .gtiles { padding: 0; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
-.gtiles:has(> :nth-child(9):last-child) { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }   /* exactly nine: 3 x 3, no lone tile */
+.gtiles:has(> :nth-child(9):last-child) { grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); }   /* exactly nine: 3 x 3, no lone tile; one column on a 320 px phone */
 /* Tables: one plate, rows told apart by a zebra, no lines (raider.io). The reader's rows (dungeons at my level) are tinted gold */
 .gtable { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 6px; overflow: hidden; background: var(--panel-2); font-size: var(--fs-14); font-variant-numeric: tabular-nums lining-nums; }
 .gtable th { text-align: left; vertical-align: bottom; font-weight: 500; font-size: var(--fs-13); color: var(--muted); padding: 12px 14px 8px; }
