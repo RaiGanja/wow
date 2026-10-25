@@ -535,7 +535,7 @@ function renderStage() {
   const MAXD = 6, extra = ds.length - MAXD;
   let k = 0;
   const steps = s.todo.map(x => x[0] === 't'
-    ? `<li class="tip"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p>${tipL()}${esc(x[1])}</p></li>`
+    ? `<li class="tip"><p>${tipL()}${esc(x[1])}</p></li>`
     : `<li><span class="n">${++k}</span><p>${esc(x[1])}</p></li>`).join('');
   $('#stagePanel').setAttribute('aria-labelledby', 'tab-' + s.id);
   $('#stagePanel').innerHTML = `<div class="st-head"><div class="t"><h3>${esc(s.n)}</h3><span class="when">${esc(s.sub)}</span></div><p class="why">${stageAuto ? esc(why) : 'Этап выбран вручную.'}</p></div>

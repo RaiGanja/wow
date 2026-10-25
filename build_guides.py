@@ -131,7 +131,8 @@ def cell(c, lang, root):
     return f'<a href="{root}{c[1]}">{escape(name, quote=True)}</a>{escape(sep + rest, quote=True)}'
 
 
-def render_block(kind, data, lang, root):
+def render_block(kind, data, lang, root, inner=False):
+    """inner: a block inside a tab panel. A tip there is the word only, no plate and no icon: one boxed tip per section."""
     if kind == 'text':
         return ''.join(f'<p>{E(p, lang)}</p>' for p in data)
     if kind == 'list':
@@ -162,7 +163,7 @@ def render_block(kind, data, lang, root):
         btns = ''.join(f'<button type="button" class="pill" role="tab" data-tab="{x["id"]}" aria-selected="{"true" if i == 0 else "false"}">'
                        f'{E(x["t"], lang)}</button>' for i, x in enumerate(data))
         panels = ''.join(f'<div role="tabpanel" data-tab="{x["id"]}"{"" if i == 0 else " hidden"}>'
-                         + ''.join(render_block(k, d, lang, root) for k, d in x['blocks']) + '</div>'
+                         + ''.join(render_block(k, d, lang, root, True) for k, d in x['blocks']) + '</div>'
                          for i, x in enumerate(data))
         return f'<div class="gtabs"><div role="tablist">{btns}</div>{panels}</div>'
     if kind == 'faq':
@@ -173,6 +174,8 @@ def render_block(kind, data, lang, root):
                            + (f' target="_blank" rel="noopener">{E(q["link"][0], lang)} ↗' if ext(q['link'][1]) else f'>{E(q["link"][0], lang)}')
                            + '</a></p>' if q.get('link') else '') + '</details>' for q in data)
         return f'<div class="gfaq">{items}</div>'
+    if kind == 'tip' and inner:
+        return f'<p class="tipl"><span class="tl">{TIP[lang]}</span>{E(data, lang)}</p>'
     if kind == 'tip':
         return (f'<div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg>'
                 f'<p><span class="tl">{TIP[lang]}</span>{E(data, lang)}</p></div>')

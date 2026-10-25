@@ -399,7 +399,6 @@ main > .stband:first-child .stile::after { box-shadow: inset 0 1px 0 var(--hero-
 .steps-c { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 48px; }
 .steps-c li { display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 12px; align-items: baseline; }
 .steps-c .n { font-family: var(--font-display); font-size: var(--fs-22); line-height: 1; color: var(--gold-2); font-variant-numeric: lining-nums tabular-nums; }
-.steps-c .fi { width: 22px; height: 22px; align-self: start; margin-top: 2px; color: var(--gold-2); }
 .steps-c p { font-size: var(--fs-16); }
 .tl { display: block; font-size: var(--fs-13); font-weight: 700; color: var(--gold-2); margin-bottom: 2px; }
 .st-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 26px; }
@@ -484,6 +483,9 @@ ul.dots li::marker { color: var(--gold); }
 /* inner blocks (tip, note) are a tinted plate without a frame: only the outermost panel has one */
 .tipbox { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 12px; align-items: start; padding: 14px 16px; border-radius: 6px; background: color-mix(in srgb, var(--gold) 9%, var(--panel-2)); font-size: var(--fs-16); }
 .tipbox .fi { width: 26px; height: 26px; margin-top: 1px; color: var(--gold-2); }
+/* a tip inside a list or a tab: the word only, no plate and no icon (one boxed tip per section) */
+.tipl .tl, .steps-c li.tip .tl { display: inline; margin-right: 8px; font-size: inherit; font-weight: 600; }
+.steps-c li.tip { display: block; }
 .tipbox b { font-weight: 600; }
 
 /* Controls */
@@ -1188,7 +1190,7 @@ $('#moreClose').onclick = () => dlg.close();
 dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.toc a')) dlg.close(); });
 })();
 </script>
-<script data-src="../assets/home/uk.js?v=f482d722fa"></script>
+<script data-src="../assets/home/uk.js?v=f42f38f891"></script>
 <script data-src="../assets/living/living.js?v=8e66e6af4d"></script>
 <link data-rel="stylesheet" href="../assets/tod/tod.css?v=b5f4744aee">
 <script data-src="../assets/tod/tod.js?v=b5f4744aee"></script>
