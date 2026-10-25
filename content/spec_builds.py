@@ -171,9 +171,9 @@ SPEC_BUILDS.append({
                 ['Sacred Arbiter', '1', t('Священный удар сильнее и обновляет Правосудие на цели', 'Holy Strike hits harder and refreshes Judgement on the target', 'Holy Strike сильніший і оновлює Judgement на цілі')],
             ]}),
             ('text', [
-                t('Здесь Icy Veins и Wowhead совпадают почти полностью. С пятью очками перка Legacy Talented оба берут Отмщение (Vengeance), Специализацию на двуручном оружии и одно очко Воитель Света (Champion of the Light): часть интеллекта идёт в силу заклинаний. Завершающий талант ветки — Изгиб Света (Twist of Light): после смены печати следующий удар ещё раз применяет старую.',
-                  'Here Icy Veins and Wowhead match almost fully. With the five points of the Legacy Talented perk, both take Vengeance, Two-Handed Weapon Specialization and one point in Champion of the Light: part of your Intellect becomes spell power. The last talent of the tree is Twist of Light: after you switch seals, your next hit applies the old one once more.',
-                  'Тут Icy Veins і Wowhead збігаються майже повністю. З п’ятьма очками перка Legacy Talented обидва беруть Vengeance, Two-Handed Weapon Specialization і одне очко Champion of the Light: частина інтелекту йде в силу заклинань. Останній талант гілки — Twist of Light: після зміни печатки наступний удар ще раз застосовує стару.'),
+                t('Здесь Icy Veins и Wowhead совпадают почти полностью. Остальные 6 очков из 26 (21 на 30 уровне и 5 от перка Legacy Talented) оба кладут так: Отмщение (Vengeance) 3 и одно очко Воитель Света (Champion of the Light) — часть интеллекта идёт в силу заклинаний. Последнее очко расходится: Icy Veins берёт Repentance, Wowhead — второе очко Специализации на двуручном оружии; первое берут оба. Завершающий талант ветки — Изгиб Света (Twist of Light): после смены печати следующий удар ещё раз применяет старую.',
+                  'Here Icy Veins and Wowhead match almost fully. Both spend the other 6 of their 26 points (21 at level 30 plus 5 from the Legacy Talented perk) like this: Vengeance 3 and one point in Champion of the Light, which turns part of your Intellect into spell power. The last point differs: Icy Veins takes Repentance, Wowhead a second point in Two-Handed Weapon Specialization; both take the first. The last talent of the tree is Twist of Light: after you switch seals, your next hit applies the old one once more.',
+                  'Тут Icy Veins і Wowhead збігаються майже повністю. Решту 6 очок із 26 (21 на 30 рівні та 5 від перка Legacy Talented) обидва кладуть так: Vengeance 3 і одне очко Champion of the Light — частина інтелекту йде в силу заклинань. Останнє очко розходиться: Icy Veins бере Repentance, Wowhead — друге очко Two-Handed Weapon Specialization; перше беруть обидва. Останній талант гілки — Twist of Light: після зміни печатки наступний удар ще раз застосовує стару.'),
             ]),
             ('steps', [
                 {'t': t('Печать', 'Seal', 'Печатка'),
@@ -254,7 +254,7 @@ SPEC_BUILDS.append({
                 [t('Улучшенный удар грома (Improved Thunder Clap)', 'Improved Thunder Clap', 'Improved Thunder Clap'), '3', t('Удар грома дешевле на 6 Ярости', 'Thunder Clap costs 6 less Rage', 'Thunder Clap дешевший на 6 Люті')],
                 [t('Мастер защиты (Master of Defense)', 'Master of Defense', 'Master of Defense'), '2', t('5 Ярости за уклонение или парирование со щитом', '5 Rage on a dodge or parry with a shield', '5 Люті за ухилення або парирування зі щитом')],
                 [t('Авангард (Vanguard)', 'Vanguard', 'Vanguard'), '1', t('Рывок в оборонительной стойке', 'Charge in Defensive Stance', 'Ривок в оборонній стійці')],
-                [t('Улучшенное кровопускание (Improved Rend)', 'Improved Rend', 'Improved Rend'), '3', t('Урон Кровопускания', 'Rend damage', 'Шкода Rend')],
+                [t('Улучшенное кровопускание (Improved Rend)', 'Improved Rend', 'Improved Rend'), '3', t('Урон Кровопускания; талант ветки Оружия', 'Rend damage; an Arms tree talent', 'Шкода Rend; талант гілки Зброї')],
                 [t('Неукротимость (Defiance)', 'Defiance', 'Defiance'), '3', t('Больше угрозы в оборонительной стойке со щитом', 'More threat in Defensive Stance with a shield', 'Більше загрози в оборонній стійці зі щитом')],
             ]}),
             ('text', [
@@ -331,9 +331,9 @@ SPEC_BUILDS.append({
                 [t('Размашистые удары (Sweeping Strikes)', 'Sweeping Strikes', 'Sweeping Strikes'), '1', t('Следующие 5 атак бьют ещё одну цель рядом', 'Your next 5 attacks also hit a nearby target', 'Наступні 5 атак б’ють ще одну ціль поруч')],
             ]}),
             ('text', [
-                t('Сходятся Icy Veins и Wowhead. Расходятся: Icy Veins берёт Отражение (Deflection), Wowhead — Improved Heroic Strike и Impale. Пять очков перка Legacy Talented оба отдают в Кровавый азарт (Bloodthrill): удары по цели с Кровопусканием иногда открывают Превосходство.',
-                  'Icy Veins and Wowhead agree. They differ: Icy Veins takes Deflection, Wowhead takes Improved Heroic Strike and Impale. Both put the five Legacy Talented points into Bloodthrill: hits on a target with Rend sometimes enable Overpower.',
-                  'Сходяться Icy Veins і Wowhead. Розходяться: Icy Veins бере Deflection, Wowhead — Improved Heroic Strike та Impale. П’ять очок перка Legacy Talented обидва віддають у Bloodthrill: удари по цілі з Rend іноді відкривають Overpower.'),
+                t('Сходятся Icy Veins и Wowhead. Расходятся: Icy Veins берёт Отражение (Deflection), Wowhead — Improved Heroic Strike и Impale. Очки перка Legacy Talented оба отдают в Кровавый азарт (Bloodthrill): Icy Veins все 5, Wowhead 3, а 2 — в Специализацию на двуручном оружии. Удары по цели с Кровопусканием иногда открывают Превосходство.',
+                  'Icy Veins and Wowhead agree. They differ: Icy Veins takes Deflection, Wowhead takes Improved Heroic Strike and Impale. Both spend the Legacy Talented points on Bloodthrill: Icy Veins all 5, Wowhead 3, with 2 into Two-Handed Weapon Specialization. Hits on a target with Rend sometimes enable Overpower.',
+                  'Сходяться Icy Veins і Wowhead. Розходяться: Icy Veins бере Deflection, Wowhead — Improved Heroic Strike та Impale. Очки перка Legacy Talented обидва віддають у Bloodthrill: Icy Veins усі 5, Wowhead 3, а 2 — у Two-Handed Weapon Specialization. Удари по цілі з Rend іноді відкривають Overpower.'),
             ]),
             ('steps', [
                 {'t': t('Боевой крик', 'Battle Shout', 'Battle Shout'),
@@ -447,9 +447,9 @@ SPEC_BUILDS.append({
                 ['Heating Up', '1', t('Заряды от критов ускоряют Огненную глыбу', 'Crit stacks speed up Pyroblast', 'Заряди від критів пришвидшують Pyroblast')],
             ]}),
             ('text', [
-                t('Сходятся Icy Veins и Wowhead. Воспламенение (Ignite) берут оба, но с разным числом очков. Улучшенный ожог (Improved Scorch) Wowhead берёт уже на 30, Icy Veins называет его почти обязательным к 60 для PvE. Расходятся: Icy Veins берёт Master of Elements, Wowhead — Critical Mass и Точность стихии (Elemental Precision).',
-                  'Icy Veins and Wowhead agree. Both take Ignite, but with a different number of points. Wowhead takes Improved Scorch at 30 already, and Icy Veins calls it close to mandatory for PvE at 60. They differ: Icy Veins takes Master of Elements, Wowhead takes Critical Mass and Elemental Precision.',
-                  'Сходяться Icy Veins і Wowhead. Ignite беруть обидва, але з різною кількістю очок. Improved Scorch Wowhead бере вже на 30, Icy Veins називає його майже обов’язковим до 60 для PvE. Розходяться: Icy Veins бере Master of Elements, Wowhead — Critical Mass і Elemental Precision.'),
+                t('Сходятся Icy Veins и Wowhead. Воспламенение (Ignite) берут оба, но с разным числом очков. Улучшенный ожог (Improved Scorch) Wowhead берёт уже на 30, Icy Veins называет его почти обязательным к 60 для PvE. Расходятся: Icy Veins берёт Master of Elements, Wowhead — Critical Mass и Точность стихии (Elemental Precision) из ветки Льда.',
+                  'Icy Veins and Wowhead agree. Both take Ignite, but with a different number of points. Wowhead takes Improved Scorch at 30 already, and Icy Veins calls it close to mandatory for PvE at 60. They differ: Icy Veins takes Master of Elements, Wowhead takes Critical Mass and Elemental Precision from the Frost tree.',
+                  'Сходяться Icy Veins і Wowhead. Ignite беруть обидва, але з різною кількістю очок. Improved Scorch Wowhead бере вже на 30, Icy Veins називає його майже обов’язковим до 60 для PvE. Розходяться: Icy Veins бере Master of Elements, Wowhead — Critical Mass і Elemental Precision з гілки Льоду.'),
             ]),
             ('steps', [
                 {'t': t('Ожог', 'Scorch', 'Scorch'),
