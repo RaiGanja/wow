@@ -866,12 +866,15 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 @media (max-width: 719px) { :root h1.long { font-size: var(--fs-28); max-width: none; } }
 @media (max-width: 380px) {
   /* 320–380px phones: brand + search, radio, language must share one row */
-  .topbar .in { gap: 10px; }
+  .topbar .in { gap: 6px; }
   .topbar .tools { gap: 4px; }
   .topbar .iconbtn, .topbar .langbtn { min-width: 40px; }
-  .brand { gap: 8px; }
-  .mark { width: 34px; height: 34px; }
+  .brand { gap: 7px; }
+  .mark { width: 32px; height: 32px; }
+  .brand b { font-size: 18px; }
+  .bt small { font-size: 11px; letter-spacing: .01em; }   /* «Poradnik WoW Forever», «Guía de WoW Forever» pushed the language button off a 320 px screen */
 }
+@media (max-width: 340px) { .topbar .tools { gap: 2px; } .topbar .langbtn { padding: 0 8px; } }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .hc, .hc img, .hc .info, .fac picture img { transition: none; }
