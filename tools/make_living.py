@@ -162,7 +162,7 @@ def guides():
 def dungeons():
     im = load('hero_dungeons')
     fire = lights(soft(flames(im, [(390, 430, 450, 495), (630, 435, 682, 495), (925, 540, 1060, 650)], 190), 2, 2),   # braziers, campfire
-                  lamps=glass(im, [(1116, 469, 1158, 509)]), spots=[(1137, 489, 100)])   # the lantern by the troll
+                  lamps=glass(im, [(1076, 462, 1120, 524)]), spots=[(1098, 492, 100)])   # the dwarf's lantern
     night = ImageChops.multiply(open_area([(250, 0), (690, 0), (660, 100), (560, 150), (420, 140), (330, 120), (260, 60)], (90, 150)),
                                 moon(462, 52, 34))   # between the cliffs; the moon stays put
     stream = pick(im, [(450, 355, 570, 625)], lambda r, g, b, x, y: lum(r, g, b) > .38 and b > r + 25)
