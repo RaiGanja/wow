@@ -937,6 +937,7 @@ main .me-ring, dialog .me-ring { --s: 64px; --room-x: 12px; --room-y: 12px; widt
 .pcard .meta { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 8px; padding-top: 10px; border-top: 1px solid var(--pline); font-size: .86rem; color: var(--muted); }
 .pcard .meta span { display: inline-flex; align-items: center; gap: 6px; }
 .pcard .meta .ico { width: 16px; height: 16px; color: var(--ink-2); }
+:root[data-theme="light"] .pcard .meta .ico { color: var(--muted); }
 .pcard .meta .lfg { color: var(--gold-2); font-weight: 600; }
 .pcard .alts { grid-column: 1 / -1; font-size: .84rem; color: var(--muted); }
 .pcard .alts i { font-style: normal; color: var(--ac); }
@@ -1075,6 +1076,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 /* roster tabs */
 .g-tabs { position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: 6px; }   /* the hero art reaches under the first rows of the page */
 .g-tab { display: inline-flex; align-items: baseline; gap: 8px; min-height: 44px; padding: 0 18px; border: 1px solid var(--pline); border-radius: 8px; background: var(--panel-2); color: var(--ink-2); font: inherit; font-weight: 600; cursor: pointer; align-items: center; }
+:root[data-theme="light"] .g-tab:not(:hover, [aria-selected="true"]) { color: var(--muted); }   /* ink-2 is for the art: on the paper it was 1.6:1 */
 .g-tab small { font-size: .82rem; font-weight: 500; font-variant-numeric: lining-nums; color: var(--muted); }
 .g-tab:hover { color: var(--fg); border-color: var(--gold); }
 .g-tab[aria-selected="true"] { color: var(--gold-2); border-color: var(--gold); background: color-mix(in srgb, var(--gold) 10%, var(--panel-2)); }

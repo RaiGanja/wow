@@ -113,11 +113,13 @@
 .gsearch input::placeholder { color: var(--muted); }
 /* In game (/play/, build_guides.play_body): no art band, always solid bar; one column on phones, two from 960px */
 .compact .topbar { background: var(--rail); border-bottom-color: var(--line); color: var(--fg); }
+:root[data-theme="light"] .compact .topbar :is(.bt small, .mainnav a[aria-current="true"]) { color: var(--gold-2); }   /* pale hero gold on the paper bar */
 .phead { padding-top: calc(var(--top) + 22px); }
 .phead .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; }
 .ptitle { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; flex: 1 1 520px; min-width: 0; }
 .phead h1 { font-size: var(--fs-40); line-height: 1; }
 .phead .glead { flex: 1 1 320px; margin: 0; font-size: var(--fs-16); color: var(--muted); opacity: 1; }
+:root[data-theme="light"] .phead .glead { text-shadow: none; }   /* the hero shadow is a grey smudge on the paper */
 .pacts { display: flex; flex-wrap: wrap; gap: 8px; }
 .pacts:not(:has(> :not([hidden]))) { display: none; }
 .pwake { gap: 6px; min-height: 36px; padding: 0 14px; cursor: pointer; font: inherit; font-size: var(--fs-14); }
