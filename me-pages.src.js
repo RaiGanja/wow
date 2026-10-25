@@ -37,7 +37,8 @@ const subline = c => `${esc(race(c.race).n)} · ${esc(cls(c.class).n)}`;
 const profLine = (c, hi) => [[c.prof1, c.prof1_skill], [c.prof2, c.prof2_skill]].filter(p => p[0])
   .map(([p, s]) => (p === hi ? '<b>' : '') + esc(GD.profs[p] || p) + (s ? ` ${s}` : '') + (p === hi ? '</b>' : '')).join(', ');
 const playerUrl = id => `${HOME}u/#${id}`;
-const achIcon = id => `${ROOT}assets/me/ach/${id}.webp`;   // painted icons; secret.webp hides an unfound secret
+const ACH_V = { molten_core: 2 };   // a redrawn icon gets a new address: Cloudflare keeps /wow/assets/ for 30 days
+const achIcon = id => `${ROOT}assets/me/ach/${id}.webp${ACH_V[id] ? '?v=' + ACH_V[id] : ''}`;   // painted icons; secret.webp hides an unfound secret
 const dateOf = t => new Date(t).toLocaleDateString(HL);
 const unit = (n, u) => new Intl.NumberFormat(HL, { style: 'unit', unit: u, unitDisplay: 'short', maximumFractionDigits: 0 }).format(n);
 function ago(t) {
