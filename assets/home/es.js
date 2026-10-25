@@ -3,7 +3,7 @@ const HOME = '';   // language home, the classes/ and races/ pages set their own
 const CLASSES = [
   { id:'warrior', n:'Guerrero', s:'Guerrero', roles:['tank','dps'],
     specs:[['Armas','Daño cuerpo a cuerpo (arma de dos manos)',['dps']],['Furia','Daño cuerpo a cuerpo (dos armas)',['dps']],['Protección','Tanque',['tank']]],
-    lvl:'La subida más lenta, un 12% más larga que la media',
+    lvl:'La subida más lenta, cerca de un 12 % más larga que la media (estimación de LFCarry)',
     lp:12,
     raid:'Grito de guerra afecta a toda la banda',
     forever:'Más ira, mejor amenaza contra grupos de objetivos, el talento Weapon Master. Furia y Sed de sangre se han debilitado.' },
@@ -15,7 +15,7 @@ const CLASSES = [
     forever:'Holy Strike desde el nivel 6, Sentencia no consume el sello. Los no-muertos ya pueden ser paladines, así que la clase llega a la Horda.' },
   { id:'hunter', n:'Cazador', roles:['dps'],
     specs:[['Bestias','Daño a distancia, mucho daño de la mascota',['dps']],['Puntería','Daño a distancia',['dps']],['Supervivencia','Cuerpo a cuerpo y a distancia, trampas',['dps']]],
-    lvl:'La subida más rápida, un 8% más rápida que la media',
+    lvl:'La subida más rápida, cerca de un 8 % más rápida que la media (estimación de LFCarry)',
     lp:-8,
     raid:'Aura de disparo certero afecta a toda la banda',
     forever:'Puedes jugar sin mascota, las trampas funcionan en combate y llegan los zorros como familia de mascotas. Supervivencia puede ir cuerpo a cuerpo.' },
@@ -27,7 +27,7 @@ const CLASSES = [
     forever:'Ya puede usar hachas de una mano. Asesinato se basa en venenos, Sutileza en sangrados y sigilo.' },
   { id:'priest', n:'Sacerdote', roles:['heal','dps'],
     specs:[['Disciplina','Sanador, escudos y absorción',['heal']],['Sagrado','Sanador',['heal']],['Sombras','Daño a distancia',['dps']]],
-    lvl:'Un 5% más lenta que la media',
+    lvl:'Cerca de un 5 % más lento que la media (estimación de LFCarry)',
     lp:5,
     raid:'Espíritu divino ahora es básico. El daño de Sombras y Peste devoradora (24 s de reutilización) se mejoraron con el parche del 15 de octubre.',
     forever:'Custodia de miedo y Peste devoradora están disponibles desde el nivel 20 para cualquier raza. Cada raza tiene dos hechizos de sacerdote propios.' },
@@ -39,7 +39,7 @@ const CLASSES = [
     forever:'Los enanos ya pueden ser chamanes, así que la clase llega a la Alianza. Ráfaga de lava se mejoró y Elemental subió en las clasificaciones de daño.' },
   { id:'mage', n:'Mago', roles:['dps'],
     specs:[['Arcano','Ráfagas, mucho maná',['dps']],['Fuego','Críticos e igniciones',['dps']],['Escarcha','Daño y control',['dps']]],
-    lvl:'La subida más rápida, un 8% más rápida que la media (unas 12 horas de ahorro)',
+    lvl:'La subida más rápida, cerca de un 8 % más rápida que la media, unas 12 horas ahorradas (estimación de LFCarry)',
     lp:-8,
     raid:'Portales y comida y agua para todo el grupo',
     forever:'Fuego recibió Buena racha, Arcano Explosión Arcana, Escarcha Lanza de hielo. Descarga de Pirofrío está disponible desde el nivel 40.' },
@@ -47,11 +47,11 @@ const CLASSES = [
     specs:[['Aflicción','Daño con maldiciones y corrupción',['dps']],['Demonología','Daño a través de demonios',['dps']],['Destrucción','Daño directo de fuego y sombras',['dps']]],
     lvl:'Ritmo de subida medio',
     lp:0,
-    raid:'Maestría de las Sombras ahora da un 2–10% de daño de sombras (antes 1–5%)',
+    raid:'Maestría oscura da un 2–10 % de daño de las Sombras, como en Classic (en la beta temprana, 1–5 %)',
     forever:'Aflicción tiene un nuevo hechizo canalizado, el demonio se queda con Sacrificio demoníaco, Destrucción gana Incinerar y daño en área.' },
   { id:'druid', n:'Druida', roles:['tank','heal','dps'],
     specs:[['Equilibrio','Daño a distancia',['dps']],['Combate feral','Tanque (oso) y daño cuerpo a cuerpo (gato)',['tank','dps']],['Restauración','Sanador, mucha sanación en el tiempo',['heal']]],
-    lvl:'Un 5% más lenta que la media',
+    lvl:'Cerca de un 5 % más lento que la media (estimación de LFCarry)',
     lp:5,
     raid:'Líder de la manada y Aura de lechúcico lunar afectan a toda la banda y se acumulan',
     forever:'Cada especialización tiene un rol claro, las formas funcionan con pociones y encantamientos de arma. Puedes ser tanque, sanador y luchador en un solo personaje.' }
@@ -72,7 +72,7 @@ const RACES = [
     tip:'Petraforma es útil para tanques y en JcJ.' },
   { id:'nightelf', n:'Elfo de la noche', f:'alliance',
     cls:['warrior','hunter','rogue','priest','druid'],
-    rac:[['a','Elune’s Light','+10% de probabilidad de crítico durante 15 s'],['a','Fusión de las Sombras','Invisibilidad en el sitio'],['p','Prontitud','+1% de esquiva y +2% de velocidad de carrera'],['p','Espíritu de fuego fatuo','+75% de velocidad de carrera como espíritu']],
+    rac:[['a','Elune’s Light','+10% de probabilidad de crítico durante 15 s'],['a','Fusión de las Sombras','Invisibilidad en el sitio'],['p','Prontitud','+1–2 % de esquiva (las fuentes difieren) y +2 % de velocidad de carrera'],['p','Espíritu de fuego fatuo','+75% de velocidad de carrera como espíritu']],
     tip:'La única raza de la Alianza con druida, salvo que elijas Skyborne.' },
   { id:'gnome', n:'Gnomo', f:'alliance',
     cls:['warrior','rogue','mage','warlock','priest*'],
@@ -80,7 +80,7 @@ const RACES = [
     tip:'Mente expansiva ayuda sobre todo a las clases de energía.' },
   { id:'skyA', n:'Skyborne (Alianza)', f:'alliance', paid:true, name:'Skyborne High Order',
     cls:['warrior','hunter','rogue','mage','druid'],
-    rac:[['a','Walk on Air','Planea hacia abajo durante 10 s, sin daño por caída'],['a','Read Ley Line','+100% de regeneración de salud y maná'],['p','Wind Blessed','+3% de velocidad de ataque y de hechizos'],['p','Elemental Insight','+5% de daño contra elementales']],
+    rac:[['a','Walk on Air','Planea hacia abajo durante 10 s, sin daño por caída'],['a','Read Ley Line','Regeneración de salud y maná: +100 % según Warcraft Tavern, +10 % según Icy Veins'],['p','Wind Blessed','+3% de velocidad de ataque y de hechizos'],['p','Elemental Insight','+5% de daño contra elementales']],
     tip:'Raza de pago: Heroic Pack desde 29,99 $. Empieza en Zephras Isle (niveles 1–12).' },
   { id:'orc', n:'Orco', f:'horde',
     cls:['warrior','hunter','rogue','shaman','warlock','mage*'],
@@ -96,7 +96,7 @@ const RACES = [
     tip:'La única raza de la Horda con druida, salvo que elijas Skyborne.' },
   { id:'troll', n:'Trol', f:'horde',
     cls:['warrior','hunter','rogue','priest','shaman','mage','warlock*'],
-    rac:[['a','Iracundia','+10% de velocidad de ataque y de hechizos durante 10 s'],['a','Rapid Regeneration','Restaura salud con el tiempo'],['p','Matanza de bestias','+5% de daño contra bestias'],['p','Regeneración','La salud se regenera también en combate']],
+    rac:[['a','Iracundia','+10 % de velocidad de ataque y de hechizo durante 10–12 s (las fuentes difieren)'],['a','Rapid Regeneration','Restaura salud con el tiempo'],['p','Matanza de bestias','+5% de daño contra bestias'],['p','Regeneración','La salud se regenera también en combate']],
     tip:'Más opciones de clase de la Horda: siete.' },
   { id:'skyH', n:'Skyborne (Horda)', f:'horde', paid:true, name:'Skyborne Windshaper',
     cls:['warrior','hunter','rogue','shaman','druid'],
@@ -106,7 +106,7 @@ const RACES = [
 RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
 const CL = Object.fromEntries(CLASSES.map(c => [c.id, c]));
 const RC = Object.fromEntries(RACES.map(r => [r.id, r]));
-const RLEAD = {"human": "La raza más numerosa de la Alianza. Versátil y fuerte en JcJ gracias a Will to Survive.", "dwarf": "Robustos mineros y fusileros de Forjaz. Por primera vez en Classic la Alianza tiene chamanes, y son enanos.", "nightelf": "Un pueblo antiguo de los bosques. Escurridizos: su propia forma de esconderse, esquiva y carrera rápida.", "gnome": "Los inventores de Gnomeregan. Pequeños, astutos y con la mejor habilidad de escape del juego.", "skyA": "Una raza nueva en Forever. Los High Order: elfos del viento que buscan la magia arcana perdida de sus ancestros.", "orc": "El corazón de la Horda. Los guerreros más fuertes y maestros del JcJ gracias a Furia sangrienta y Firmeza.", "undead": "Los Renegados: antiguos humanos que se liberaron del Rey Exánime. Inmunes al miedo y al sueño cuando importa.", "tauren": "Gigantes pacíficos de las llanuras. La mayor salud y su propio aturdimiento en área.", "troll": "La tribu Lanza Negra. Más clases que nadie en la Horda y una potente Iracundia para el daño.", "skyH": "Una raza nueva en Forever. Los Windshaper: líderes espirituales de los Skyborne, cercanos a los elementos."}; // race page leads and URL slugs, filled in by build.py
+const RLEAD = {"human": "La raza más numerosa de la Alianza. Versátil y fuerte en JcJ gracias a Will to Survive.", "dwarf": "Mineros y fusileros recios de Forjaz. Por primera vez la Alianza tiene chamanes, y son enanos: en Classic no los había.", "nightelf": "Un pueblo antiguo de los bosques. Escurridizos: su propia forma de esconderse, esquiva y carrera rápida.", "gnome": "Los inventores de Gnomeregan. Pequeños, astutos y con la mejor habilidad de escape del juego.", "skyA": "Una raza nueva en Forever. Los High Order: elfos del viento que buscan la magia arcana perdida de sus ancestros.", "orc": "El corazón de la Horda. Los guerreros más fuertes y maestros del JcJ gracias a Furia sangrienta y Firmeza.", "undead": "Los Renegados: antiguos humanos que se liberaron del Rey Exánime. Inmunes al miedo y al sueño cuando importa.", "tauren": "Gigantes pacíficos de las llanuras. La mayor salud y su propio aturdimiento en área.", "troll": "La tribu Lanza Negra. Más clases que nadie en la Horda y una potente Iracundia para el daño.", "skyH": "Una raza nueva en Forever. Los Windshaper: líderes espirituales de los Skyborne, cercanos a los elementos."}; // race page leads and URL slugs, filled in by build.py
 const RSLUG = {"human": "human", "dwarf": "dwarf", "nightelf": "night-elf", "gnome": "gnome", "skyA": "skyborne-alliance", "orc": "orc", "undead": "undead", "tauren": "tauren", "troll": "troll", "skyH": "skyborne-horde"};
 
 const EN = {
@@ -131,7 +131,7 @@ const tipBox = h => `<div class="tipbox"><svg class="ico fi" aria-hidden="true">
 function bi(ru) { return EN[ru] && EN[ru] !== ru ? `${esc(ru)} <span class="en">(${esc(EN[ru])})</span>` : esc(ru); }
 function raceEn(r) { return r.en ? ` <span class="en">/ ${esc(r.en)}</span>` : ''; }
 function facName(f) { return f === 'alliance' ? 'Alianza' : 'Horda'; }
-const PV = /*PV*/'?v=0119de2a';   // ?v= of the class and race portraits, filled in by build.art_version (redrawn under the same names)
+const PV = /*PV*/'?v=6114caef';   // ?v= of the class and race portraits, filled in by build.art_version (redrawn under the same names)
 /* Round face avatar: assets/art/<id>-face.webp, ring colour cc */
 function face(id, cc, cls = '', title = '') { return `<span class="av ${cls}" style="--cc:${cc}"${title ? ` title="${esc(title)}"` : ''}><img src="../assets/art/${id}-face.webp${PV}" width="160" height="160" alt="" loading="lazy" decoding="async"></span>`; }
 function lvlMeter(c) {

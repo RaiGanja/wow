@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>WoW Forever, second écran : radio, zones, minuteurs</title>
 <meta name="description" content="Gardez-le ouvert en jouant : radio fantasy, où monter de niveau avec l’Alliance ou la Horde, donjons pour votre niveau et minuteurs avec alerte.">
-<meta name="theme-color" content="#060708">
+<meta name="theme-color" content="#050505">
 <link rel="alternate" hreflang="ru" href="https://gabella.site/wow/play/">
 <link rel="alternate" hreflang="en" href="https://gabella.site/wow/en/play/">
 <link rel="alternate" hreflang="uk" href="https://gabella.site/wow/uk/play/">
@@ -32,13 +32,13 @@
 <meta property="og:title" content="WoW Forever, second écran : radio, zones, minuteurs">
 <meta property="og:description" content="Gardez-le ouvert en jouant : radio fantasy, où monter de niveau avec l’Alliance ou la Horde, donjons pour votre niveau et minuteurs avec alerte.">
 <meta property="og:url" content="https://gabella.site/wow/fr/play/">
-<meta property="og:image" content="https://gabella.site/wow/assets/og/guides-fr.jpg?v=0e08f2e4">
+<meta property="og:image" content="https://gabella.site/wow/assets/og/guides-fr.jpg?v=56bf6945">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="WoW Forever, second écran : radio, zones, minuteurs">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" type="image/png" sizes="48x48" href="../../assets/icons/favicon-48.png">
-<link rel="icon" type="image/png" sizes="96x96" href="../../assets/icons/favicon-96.png">
+<link rel="icon" type="image/png" sizes="48x48" href="../../assets/icons/favicon-48.png?v=76679d4b">
+<link rel="icon" type="image/png" sizes="96x96" href="../../assets/icons/favicon-96.png?v=e6542ea5">
 <link rel="preload" href="../../assets/fonts/spectral-sc-latin.woff2?v=55dd1ea6" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../../assets/fonts/golos-text-latin.woff2?v=5c155680" as="font" type="font/woff2" crossorigin>
 <style>
@@ -139,6 +139,8 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .ri { width: 1.05em; height: 1.05em; vertical-align: -.17em; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; margin-right: 4px; }
 .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 max(20px, env(safe-area-inset-left, 0px)); }
 
+.skip { position: fixed; left: 16px; top: 8px; z-index: 80; padding: 10px 16px; border: 1px solid var(--gold); border-radius: 8px; background: var(--panel-2); color: var(--fg); font-weight: 600; text-decoration: none; }
+.skip:not(:focus) { width: 1px; height: 1px; padding: 0; border: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }   /* seen only from the keyboard */
 /* Top bar: transparent over the hero, solid after scrolling */
 .topbar { position: fixed; inset: 0 0 auto 0; z-index: 30; height: var(--top); color: var(--ink); background: linear-gradient(rgba(5,6,8,.62), rgba(5,6,8,0)); border-bottom: 1px solid transparent; transition: background-color .25s, border-color .25s, color .25s; }
 .topbar.solid { background: var(--rail); border-bottom-color: var(--line); color: var(--fg); }
@@ -163,16 +165,17 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .langlist { position: absolute; right: 0; top: calc(100% + 8px); z-index: 60; min-width: 230px; margin: 0; padding: 6px; list-style: none; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); color: var(--fg); box-shadow: 0 18px 48px rgba(0,0,0,.35); }
 .langlist a { display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 40px; padding: 0 12px; border-radius: 7px; color: inherit; text-decoration: none; font-size: var(--fs-16); }
 .langlist a small { opacity: .55; font-size: var(--fs-13); font-weight: 600; letter-spacing: .06em; }
-.langlist a:hover, .langlist a:focus-visible { background: color-mix(in srgb, var(--gold) 12%, transparent); }
+.langlist a:hover, .langlist a:focus-visible { background: var(--seg-on); }
 .langlist a[aria-current="page"] { color: var(--gold-2); font-weight: 600; }
 .langgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; width: 100%; }
 .langgrid a { min-height: 44px; display: grid; place-items: center; padding: 4px 6px; text-align: center; line-height: 1.15; border: 1px solid var(--pline); border-radius: 8px; color: inherit; text-decoration: none; font-size: var(--fs-14); }
-.langgrid a[aria-current="page"] { background: var(--gold); color: var(--gold-ink); border-color: transparent; font-weight: 600; }
+.langgrid a[aria-current="page"] { background: var(--seg-on); color: var(--gold-2); border-color: transparent; font-weight: 600; }
 .langhint { position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); z-index: 70; display: flex; align-items: center; gap: 12px; width: max-content; max-width: calc(100% - 32px); padding: 6px 6px 6px 16px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); color: var(--fg); box-shadow: 0 18px 48px rgba(0,0,0,.35); font-size: var(--fs-14); }
 .langhint a { color: var(--gold-2); font-weight: 600; white-space: nowrap; }
 .langhint button { flex: none; width: 36px; height: 36px; display: grid; place-items: center; border: 0; border-radius: 7px; background: transparent; color: inherit; cursor: pointer; }
 .langhint button:hover { background: color-mix(in srgb, currentColor 10%, transparent); }
 @media print { .langhint { display: none; } }
+@media (max-width: 359px) { .langhint { gap: 6px; padding-left: 14px; } .langhint span { display: none; } }   /* 320: the link and the close button, one line */
 .gamehint { display: flex; align-items: center; gap: 12px; margin: 0 0 16px; padding: 6px 6px 6px 16px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); font-size: var(--fs-14); }
 .gamehint[hidden] { display: none; }
 .gamehint span { flex: 1; min-width: 0; }
@@ -185,10 +188,10 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .srchbtn kbd, .radiobtn .rdo-eq { display: none; }   /* on the home page search.css and radio.css come after the first paint */
 .radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: var(--fs-16); }
-@media (max-width: 1210px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }
+@media (max-width: 1260px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }   /* es «Iniciar sesión» ran 21 px off a 1215 px screen */
 
 /* Hero */
-.hero { position: relative; min-height: max(560px, 100svh); display: grid; align-content: space-between; color: var(--ink); background: #08090b; isolation: isolate; overflow: hidden; }
+.hero { position: relative; min-height: max(560px, 100svh); display: grid; align-content: space-between; color: var(--ink); background: #050505; isolation: isolate; overflow: hidden; }
 .hero-art, .hero-art img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .hero-art { z-index: -2; }
 .hero-art img { object-fit: cover; object-position: 62% 50%; }
@@ -211,6 +214,7 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .cd .u span { font-size: var(--fs-13); color: var(--ink-2); }
 .cd .what { display: grid; gap: 1px; font-size: var(--fs-16); color: var(--ink-2); }
 .cd .what b { color: var(--ink); font-weight: 600; }
+.hero .lead, .cd .u span, .cd .what { color: #e8e2d4; }   /* light enough on the bright day sky (axe: incomplete contrast) */
 .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap; background: var(--gold); color: var(--gold-ink); border: 1px solid var(--gold); border-radius: 7px; padding: 0 18px; font-weight: 600; min-height: 44px; text-decoration: none; transition: background-color .2s, border-color .2s, color .2s; }
 .btn:hover { background: var(--gold-2); border-color: var(--gold-2); }
@@ -253,7 +257,7 @@ section.block { scroll-margin-top: -72px; }
 
 /* Class roster: tall portraits, the active one expands */
 .roster { display: flex; gap: 8px; height: clamp(460px, 41vw, 580px); }
-.hc { display: block; text-decoration: none; position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; isolation: isolate; padding: 0; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; background: #0b0c0e; color: var(--ink); text-align: left; transition: flex-grow .55s var(--ease), border-color .3s; }
+.hc { display: block; text-decoration: none; position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; isolation: isolate; padding: 0; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; background: #0f0f0f; color: var(--ink); text-align: left; transition: flex-grow .55s var(--ease), border-color .3s; }
 .hc.on { flex-grow: 3.6; border-color: #e0c27a; box-shadow: inset 0 0 0 1px #e0c27a; }
 .hc picture, .hc img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .hc picture { z-index: -2; }
@@ -282,7 +286,7 @@ section.block { scroll-margin-top: -72px; }
 .ttile::after, .gt::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(5,5,5,0) 22%, rgba(5,5,5,.92) 100%); }
 .ttile:hover, .gt:hover { border-color: #e0c27a; }
 .ttile:hover img, .gt:hover img { filter: none; transform: scale(1.04); }
-.ttile b, .gt b { font-weight: 700; font-size: var(--fs-18); line-height: 1.2; text-shadow: 0 1px 8px rgba(0,0,0,.7); }
+.ttile b, .gt b { font-weight: 700; font-size: var(--fs-18); line-height: 1.2; text-shadow: 0 1px 8px rgba(0,0,0,.7); hyphens: auto; }   /* «Gruppenplaner» on 320: a hyphen, not a cut letter */
 .ttile span, .gt span { font-size: var(--fs-14); line-height: 1.4; color: rgba(243,239,230,.82); }
 .ttile time, .gt time { margin-top: 4px; font-size: var(--fs-13); color: rgba(243,239,230,.6); font-variant-numeric: tabular-nums; }
 
@@ -335,7 +339,7 @@ section.block { scroll-margin-top: -72px; }
   #classes .rr { height: clamp(300px, 22vw, 340px); }
 }
 /* Camp scene near the end: the campfire art in full, fire and embers alive (assets/living/) */
-.camp { position: relative; isolation: isolate; overflow: hidden; margin-top: 56px; min-height: clamp(520px, 56vw, 1200px);   /* close to the art's own 16:9: heads stay in frame on wide screens */ display: grid; align-content: end; color: #f1ece0; background: #08090b; }
+.camp { position: relative; isolation: isolate; overflow: hidden; margin-top: 56px; min-height: clamp(520px, 56vw, 1200px);   /* close to the art's own 16:9: heads stay in frame on wide screens */ display: grid; align-content: end; color: #f1ece0; background: #050505; }
 .camp-art, .camp-art img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .camp-art { z-index: -2; }
 .camp-art img { object-fit: cover; object-position: 66% 30%; }
@@ -350,18 +354,26 @@ section.block { scroll-margin-top: -72px; }
 .camp .btn:hover { background: #e0c27a; border-color: #e0c27a; }
 .camp .btn.ghost { background: rgba(5,5,5,.35); color: #f1ece0; border-color: rgba(241,236,224,.45); }
 .camp .btn.ghost:hover { border-color: #e0c27a; background: rgba(5,5,5,.55); }
+@media (max-width: 719px) {   /* phone: one gold button, the other two as plain links under it */
+  .camp-btns { gap: 4px 22px; align-items: center; }
+  .camp-btns::after { content: ""; flex-basis: 100%; order: 1; }   /* a line break after the gold button */
+  .camp-btns .btn:first-child { margin-bottom: 6px; }
+  .camp-btns .btn.ghost { order: 2; }
+  .camp .btn.ghost { min-height: 44px; padding: 0; border: 0; background: none; font-size: var(--fs-16); text-decoration: underline; text-decoration-color: rgba(241,236,224,.45); text-underline-offset: 4px; }
+  .camp .btn.ghost:hover { background: none; text-decoration-color: currentColor; }
+}
 /* Living art (assets/living/): the WebGL layer over a picture fades in once it draws */
 canvas.fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0; transition: opacity 1.6s ease; }
 canvas.fx.on { opacity: 1; }
 /* Inner page hero (roster, tools): a scene of its own on the whole screen like the home hero, living art over it, text on the calm
    left. The art keeps the screen height while the content under it grows (search results), so the picture is never cropped anew. */
-.thero { --hh: max(560px, 100svh); position: relative; isolation: isolate; overflow: hidden; min-height: var(--hh); display: grid; align-content: start; padding: calc(var(--top) + clamp(32px, 8vh, 96px)) 0 calc(40px + var(--hfade)); color: var(--ink); background: #08090b; }
+.thero { --hh: max(560px, 100svh); position: relative; isolation: isolate; overflow: hidden; min-height: var(--hh); display: grid; align-content: start; padding: calc(var(--top) + clamp(32px, 8vh, 96px)) 0 calc(40px + var(--hfade)); color: var(--ink); background: #050505; }
 .thero-art, .thero-art img, .thero::before { position: absolute; inset: 0 0 auto 0; width: 100%; height: var(--hh); }
 .thero-art { z-index: -2; }
 .thero-art img { object-fit: cover; object-position: 66% 50%; }
 .thero::before { content: ""; z-index: -1; background:
   linear-gradient(90deg, rgba(5,5,5,.78) 0%, rgba(5,5,5,.5) 30%, rgba(5,5,5,.12) 56%, rgba(5,5,5,0) 76%),
-  linear-gradient(180deg, rgba(5,5,5,.5) 0%, rgba(5,5,5,0) 24%, rgba(5,5,5,0) 60%, #08090b 100%); }
+  linear-gradient(180deg, rgba(5,5,5,.5) 0%, rgba(5,5,5,0) 24%, rgba(5,5,5,0) 60%, #050505 100%); }
 .thero-in { width: 100%; display: grid; gap: 18px; justify-items: start; }
 .thero .crumbs { display: flex; gap: 10px; font-size: var(--fs-14); color: var(--ink-2); }
 .thero .crumbs a { color: var(--ink-2); text-decoration: none; }
@@ -374,7 +386,7 @@ canvas.fx.on { opacity: 1; }
 :root[data-theme="light"] { --hfade: 56px;
   --paper-edge: rgb(8 9 11) 0%, color-mix(in oklab, rgb(8 9 11), var(--bg) 6%) 20%, color-mix(in oklab, rgb(8 9 11), var(--bg) 22%) 40%,
     color-mix(in oklab, rgb(8 9 11), var(--bg) 52%) 60%, color-mix(in oklab, rgb(8 9 11), var(--bg) 82%) 80%, var(--bg) 100%; }
-:root[data-theme="light"] :is(.thero, .chero)::after { content: ""; position: absolute; inset: auto 0 0 0; z-index: -1; height: var(--hfade); background: linear-gradient(180deg, var(--paper-edge)); pointer-events: none; }
+:root[data-theme="light"] :is(.thero, .chero, .phead)::after { content: ""; position: absolute; inset: auto 0 0 0; z-index: -1; height: var(--hfade); background: linear-gradient(180deg, var(--paper-edge)); pointer-events: none; }
 :root[data-theme="light"] .hero::before { background:
   linear-gradient(90deg, rgb(var(--hero-fade) / .06) calc(50% - 800px), rgb(var(--hero-fade) / .46) calc(50% - 420px), rgb(var(--hero-fade) / .5) calc(50% + 100px), rgb(var(--hero-fade) / .16) calc(50% + 380px), rgb(var(--hero-fade) / .04) calc(50% + 600px)),
   linear-gradient(180deg, rgb(var(--hero-fade) / .42) 0%, rgb(var(--hero-fade) / 0) 26%, rgb(var(--hero-fade) / 0) 58%, rgb(var(--hero-fade) / .9) 88%, rgb(var(--hero-fade)) 100%); }
@@ -428,9 +440,9 @@ ul.dlist li b { font-weight: 600; font-size: var(--fs-16); line-height: 1.3; }
 ul.dlist li .z { grid-column: 1; color: var(--muted); font-size: var(--fs-13); line-height: 1.3; }
 ul.dlist li .z i { font-style: normal; color: var(--sapphire); font-weight: 600; }
 ul.dlist li .lvl { grid-column: 2; grid-row: 1 / 3; text-align: right; }
-ul.dlist li.mine { background: color-mix(in srgb, var(--gold) 14%, transparent); }
+ul.dlist li.mine { background: var(--seg-on); }
 .more-l { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-weight: 600; font-size: var(--fs-16); }
-.gtip { padding: 16px 18px; border-radius: 6px; background: color-mix(in srgb, var(--gold) 9%, var(--panel-2)); }
+.gtip { padding: 16px 18px; border-radius: 6px; background: var(--panel-2); }   /* black and grey plates; a tip is the gold word and the fire, not a gold-tinted plate */
 .st-src { color: var(--muted); font-size: var(--fs-14); display: flex; flex-wrap: wrap; gap: 4px 14px; }
 .st-src a { color: var(--muted); }
 .st-src a:hover { color: var(--gold-2); }
@@ -453,6 +465,7 @@ ul.dlist li.mine { background: color-mix(in srgb, var(--gold) 14%, transparent);
 .me-f .fl { display: grid; gap: 5px; min-width: 0; font-size: var(--fs-13); color: var(--muted); font-weight: 600; }
 .me-f .wide { grid-column: 1 / -1; }
 .me-f select { width: 100%; min-width: 0; font: inherit; font-size: var(--fs-16); font-weight: 500; padding: 0 8px; min-height: 44px; border: 1px solid var(--pline); border-radius: 7px; background: var(--panel-2); color: var(--fg); }
+@media (max-width: 380px) { .me-f { grid-template-columns: minmax(0, 1fr); } }   /* «Night Elf», «Engineering» stay whole in the selects */
 .me-f .stepper { display: flex; width: 100%; border-radius: 7px; border-color: var(--pline); background: var(--panel-2); }
 .me-f .stepper button { min-width: 36px; }
 .me-f .stepper input { flex: 1; width: auto; min-width: 0; }
@@ -493,7 +506,7 @@ ul.dots li::marker { color: var(--gold); }
 .note { padding: 14px 16px; border-radius: 6px; background: var(--panel-2); font-size: var(--fs-16); }
 .note b { font-weight: 600; }
 /* inner blocks (tip, note) are a tinted plate without a frame: only the outermost panel has one */
-.tipbox { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 12px; align-items: start; padding: 14px 16px; border-radius: 6px; background: color-mix(in srgb, var(--gold) 9%, var(--panel-2)); font-size: var(--fs-16); }
+.tipbox { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 12px; align-items: start; padding: 14px 16px; border-radius: 6px; background: var(--panel-2); font-size: var(--fs-16); }
 .tipbox .fi { width: 26px; height: 26px; margin-top: 1px; color: var(--gold-2); }
 /* a tip inside a list or a tab: the word only, no plate and no icon (one boxed tip per section) */
 .tipl .tl, .steps-c li.tip .tl { display: inline; margin-right: 8px; font-size: inherit; font-weight: 600; }
@@ -575,7 +588,7 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 .cell.no { cursor: default; }
 .cell.no::after { content: ""; width: 4px; height: 4px; border-radius: 50%; background: var(--line-2); opacity: .7; }
 .cell.dim { opacity: .22; }
-.cell.sel i { width: 28px; height: 28px; background: var(--gold-2); box-shadow: 0 0 0 5px color-mix(in srgb, var(--gold) 22%, transparent); transform: none; }
+.cell.sel i { width: 28px; height: 28px; background: var(--gold-2); box-shadow: 0 0 0 5px var(--seg-on); transform: none; }
 .cell.sel i .ico { opacity: 1; }
 :root[data-theme="light"] .cell i:not(.sel i) { background: var(--class-ink); box-shadow: 0 0 0 4px color-mix(in srgb, var(--class-ink) 14%, transparent); }
 :root[data-theme="light"] .cell.new i:not(.sel i) { background: var(--class-ink); box-shadow: 0 0 0 2.5px var(--panel), 0 0 0 4px var(--new); }
@@ -710,8 +723,8 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .lvl .bar i { position: absolute; top: 0; bottom: 0; border-radius: 999px; background: var(--new); }
 .lvl .bar i.slow { background: var(--horde); }
 .lvl .scale { display: flex; justify-content: space-between; color: var(--muted); font-size: var(--fs-13); }
-.ccl { display: flex; gap: 6px; flex-wrap: wrap; }
-.ccl .av { --s: 28px; transition: opacity .2s, filter .2s; }
+.ccl { display: flex; gap: 7px; min-width: 0; }   /* nine classes in one row: the faces shrink on a narrow card instead of one dropping to a line of its own */
+.ccl .av { --s: 28px; flex: 0 1 var(--s); width: auto; height: auto; min-width: 0; aspect-ratio: 1; transition: opacity .2s, filter .2s; }
 .ccl .av.off { opacity: .16; filter: grayscale(1); box-shadow: none; }
 .ccl .av.nw::after { content: ""; position: absolute; right: -3px; top: -3px; width: 9px; height: 9px; border-radius: 50%; background: var(--new); box-shadow: 0 0 0 2px var(--panel); }
 .abs { display: grid; align-items: start; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 22px; }
@@ -745,10 +758,11 @@ footer .fmap a { display: inline-block; padding: 2px 0; color: var(--muted); tex
 footer .fmap .fh { margin-bottom: 6px; font-weight: 600; font-size: var(--fs-16); color: var(--fg); }
 footer .fmap a:hover { color: var(--gold); }
 footer > :first-child { padding-top: 0; border-top: 0; }   /* profile pages: the map opens the footer, no line above it */
-@media (max-width: 719px) {
-  footer .fmap { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  footer .fmap a { padding: 5px 0; }
-  footer .fmap a { hyphens: auto; }
+@media (max-width: 719px) {   /* phone: the same short footer on every page, section names only (the full map is in the More sheet) */
+  footer { margin-top: 64px; }
+  footer .fmap { display: flex; flex-wrap: wrap; gap: 4px 20px; }
+  footer .fmap ul { display: none; }
+  footer .fmap .fh { margin: 0; padding: 8px 0; }
 }
 
 /* Menu sheet (all sections, language, theme) */
@@ -811,7 +825,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 @media (max-width: 719px) {
   :root { --top: 56px; --fs-h2: var(--fs-28); --fs-hero: var(--fs-40); }
   .wrap, .topbar .in { padding-left: 16px; padding-right: 16px; }
-  .menubtn, .topbar .themebtn { display: none; }
+  .menubtn { display: none; }   /* the tab bar has the More sheet; the theme button stays in sight */
   .topbar .langbtn { padding: 0 10px; }
   .topbar .langbtn::after { display: none; }
   .topbar .langsel { order: 1; }
@@ -824,7 +838,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .hero-in { padding-top: calc(var(--top) + 28px); gap: 18px; }
   .thero { --hh: max(580px, calc(100svh - 62px - env(safe-area-inset-bottom, 0px))); padding: max(calc(var(--top) + 28px), calc(var(--hh) * .5)) 0 calc(28px + var(--hfade)); }
   .thero-art img { object-position: 90% 50%; }   /* make_images.CUTS: the party on the upper half, the text from the middle down */
-  .thero::before { background: linear-gradient(180deg, rgba(5,5,5,.55) 0%, rgba(5,5,5,.08) 26%, rgba(5,5,5,.35) 52%, rgba(5,5,5,.9) 76%, #08090b 100%); }
+  .thero::before { background: linear-gradient(180deg, rgba(5,5,5,.55) 0%, rgba(5,5,5,.08) 26%, rgba(5,5,5,.35) 52%, rgba(5,5,5,.9) 76%, #050505 100%); }
   .thero h1 { font-size: var(--fs-hero); hyphens: auto; }
 }
 /* Phones upright: the home hero shows the whole party (make_images.CUTS) as a band on top, the text starts at their knees */
@@ -855,9 +869,6 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   #guides .gt { min-height: 118px; }
   #guides .gt span { display: none; }
   #camp { min-height: 520px; }
-  .fsrc + .fmap { display: flex; flex-wrap: wrap; gap: 4px 20px; }
-  .fsrc + .fmap ul { display: none; }
-  .fsrc + .fmap .fh { margin: 0; }
   section.block { padding-top: 72px; gap: 22px; scroll-margin-top: -48px; }
   .hc, .hc.on { flex-basis: 80%; }
   .hc .info, .rr .hc .info { min-width: 0; padding: 22px 20px 22px; grid-template-columns: minmax(0, 1fr); }
@@ -901,6 +912,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .tabbar { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); position: fixed; inset: auto 0 0 0; z-index: 35; background: var(--rail); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px); }
   .tabbar a, .tabbar button { min-height: 60px; display: grid; justify-items: center; align-content: center; gap: 3px; padding: 0 2px; border: 0; background: none; color: var(--muted); text-decoration: none; text-align: center; font-size: var(--fs-13); font-weight: 500; line-height: 1.2; }
   .tabbar .ico { width: 22px; height: 22px; }
+  @media (max-width: 359px) { .tabbar a, .tabbar button { font-size: 11.5px; padding: 0; } }   /* 320 px: «En el juego» (es) stays on one line */
   .tabbar [aria-current="true"] { color: var(--gold-2); }
   dialog.sheet { margin: auto 0 0 0; width: 100%; height: auto; max-height: 86dvh; border-left: 0; border-top: 1px solid var(--line); border-radius: 10px 10px 0 0; padding-bottom: env(safe-area-inset-bottom, 0px); }
   .sheet .toc { grid-template-columns: 1fr 1fr; gap: 14px 6px; }
@@ -910,17 +922,18 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 }
 :root h1.long { min-width: min-content; font-size: min(var(--fs-hero), calc((100vw - 64px) / (var(--lw, 12) * .74))); }   /* build.long_title: an 11+ letter word (--lw letters, ~.72em each in the display caps); never narrower than it, and never wider than the screen («Konfidencialnost» on 768) */
 @media (max-width: 719px) { :root h1.long { font-size: min(var(--fs-28), calc((100vw - 32px) / (var(--lw, 12) * .74))); max-width: none; } }
-@media (max-width: 380px) {
-  /* 320–380px phones: brand + search, radio, language must share one row */
+@media (max-width: 479px) {
+  /* 320–479px phones: brand + search, radio, theme, language must share one row («Poradnik WoW Forever» is the longest) */
   .topbar .in { gap: 6px; }
-  .topbar .tools { gap: 4px; }
-  .topbar .iconbtn, .topbar .langbtn { min-width: 40px; }
+  .topbar .tools { gap: 3px; }
+  .topbar .iconbtn, .topbar .langbtn { min-width: 38px; min-height: 40px; }
+  .topbar .langbtn { padding: 0 8px; }
   .brand { gap: 7px; }
   .mark { width: 32px; height: 32px; }
   .brand b { font-size: 18px; }
   .bt small { font-size: 11px; letter-spacing: .01em; }   /* «Poradnik WoW Forever», «Guía de WoW Forever» pushed the language button off a 320 px screen */
 }
-@media (max-width: 340px) { .topbar .tools { gap: 2px; } .topbar .langbtn { padding: 0 8px; } }
+@media (max-width: 359px) { .bt small { display: none; } }   /* 320: four buttons; the subtitle gives way, «Gabella» and the mark stay */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .hc, .hc img, .hc .info { transition: none; }
@@ -971,7 +984,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .gtable td { height: 44px; padding: 10px 14px; vertical-align: top; line-height: 1.5; }
 .gtable td:first-child { font-weight: 600; }
 .gtable tbody tr:nth-child(odd) { background: var(--zebra); }
-.gtable tr.mine, .gtable tbody tr.mine:nth-child(odd) { background: color-mix(in srgb, var(--gold) 14%, transparent); }
+.gtable tr.mine, .gtable tbody tr.mine:nth-child(odd) { background: var(--seg-on); }
 /* News: plain lines, no badges. Our notes: the date in a quiet column; the feed: grouped by day under a date heading */
 .nlist { display: grid; gap: 4px; }
 .nlist[hidden] { display: none; }
@@ -994,6 +1007,17 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .gtabs [role="tab"][aria-selected="true"] { background: var(--seg-on); color: var(--gold-2); }
 .gtabs [role="tabpanel"] { display: grid; gap: 14px; }
 .gtabs [role="tabpanel"][hidden] { display: none; }
+/* I2: tier grid — a big letter, the class portraits of that tier beside it */
+.tgrid { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.tgrid li { display: grid; grid-template-columns: 48px minmax(0, 1fr); align-items: center; gap: 16px; padding: 12px 16px; border-radius: 6px; background: var(--panel-2); }
+.tgl { font-family: var(--font-display); font-weight: var(--display-w); font-size: var(--fs-40); line-height: 1; text-align: center; color: var(--muted); }
+.tgl.tS { color: var(--gold-2); }
+.tgl.tA { color: var(--fg); }
+.tgr { display: flex; flex-wrap: wrap; gap: 12px 18px; }
+.tgc { display: grid; justify-items: center; gap: 7px; min-width: 60px; color: var(--fg); text-decoration: none; font-size: var(--fs-13); font-weight: 600; line-height: 1.2; white-space: nowrap; }
+.tgc .av { --s: 48px; --ring-gap: var(--panel-2); }
+.tgc:hover .tgn, .tgc:focus-visible .tgn { color: var(--gold-2); }
+.tgn sup { margin-left: 1px; color: var(--gold-2); }
 /* FAQ: plain rows, no frame per question. A chevron on the right, a plate on hover, the open answer indented under it */
 .gfaq { display: grid; gap: 2px; margin: 0 -14px; }
 .gfaq details { scroll-margin-top: calc(var(--top) + 16px); }
@@ -1014,12 +1038,18 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 /* In game (/play/, build_guides.play_body): no art band, always solid bar; one column on phones, two from 960px */
 .compact .topbar { background: var(--rail); border-bottom-color: var(--line); color: var(--fg); }
 :root[data-theme="light"] .compact .topbar :is(.bt small, .mainnav a[aria-current="true"]) { color: var(--gold-2); }   /* pale hero gold on the paper bar */
-.phead { padding-top: calc(var(--top) + 22px); }
-.phead .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; }
-.ptitle { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; flex: 1 1 520px; min-width: 0; }
-.phead h1 { font-size: var(--fs-40); line-height: 1; }
-.phead .glead { flex: 1 1 320px; margin: 0; font-size: var(--fs-16); color: var(--muted); opacity: 1; }
-:root[data-theme="light"] .phead .glead { text-shadow: none; }   /* the hero shadow is a grey smudge on the paper */
+.phead { position: relative; isolation: isolate; overflow: hidden; min-height: 440px; display: grid; align-content: end; padding: calc(var(--top) + 40px) 0 calc(28px + var(--hfade, 0px)); color: var(--ink); background: #050505; }
+.phead-art, .phead-art img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.phead-art { z-index: -2; }
+.phead-art img { object-fit: cover; object-position: 50% 32%; }
+.phead::before { content: ""; position: absolute; inset: 0; z-index: -1; background:
+  linear-gradient(90deg, rgb(5 5 5 / .72) 0%, rgb(5 5 5 / .42) 38%, rgb(5 5 5 / 0) 62%),
+  linear-gradient(180deg, rgb(5 5 5 / .5) 0%, rgb(5 5 5 / 0) 28%, rgb(5 5 5 / .15) 62%, rgb(5 5 5) 100%); }
+.phead .wrap { width: 100%; display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px 24px; }
+.ptitle { display: grid; gap: 8px; flex: 1 1 520px; max-width: 640px; min-width: 0; }
+.phead h1 { font-size: var(--fs-40); line-height: 1; color: var(--ink); text-shadow: 0 2px 18px rgba(0,0,0,.5); }
+.phead .glead { margin: 0; font-size: var(--fs-16); color: var(--ink); opacity: .86; text-shadow: 0 1px 2px rgba(0,0,0,.6); }
+.phead .pill { color: var(--ink); border-color: rgb(241 236 224 / .3); background: rgb(5 5 5 / .35); }
 .pacts { display: flex; flex-wrap: wrap; gap: 8px; }
 .pacts:not(:has(> :not([hidden]))) { display: none; }
 .pwake { gap: 6px; min-height: 36px; padding: 0 14px; cursor: pointer; font: inherit; font-size: var(--fs-14); }
@@ -1047,6 +1077,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .pgrid { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
 .pcol { display: contents; }   /* phone: one column, radio first */
 #radio { order: 1; } #level { order: 2; } #dung { order: 3; } #timers { order: 4; }
+#radioDock { min-height: 515px; }   /* the player comes after load: its place is kept, so nothing below jumps (CLS) */
+@media (max-width: 719px) { #radioDock { min-height: 568px; } }
+@media (max-width: 359px) { #radioDock { min-height: 630px; } }
 @media (min-width: 960px) {   /* two independent columns: level + dungeons | radio + timers */
   .pgrid { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: start; }
   .pcol { display: grid; gap: 14px; min-width: 0; }
@@ -1095,14 +1128,18 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .ptl .tn { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ptl .tt { font-family: var(--font-display); font-weight: var(--display-w); font-size: var(--fs-22); font-variant-numeric: lining-nums tabular-nums; }
 .ptl .iconbtn { width: 36px; height: 36px; }
-.ptl li.done, .ptl li.done:nth-child(odd) { background: color-mix(in srgb, var(--gold) 14%, transparent); }
+.ptl li.done, .ptl li.done:nth-child(odd) { background: var(--seg-on); }
 .ptl li.done .tt { color: var(--gold-2); font-family: inherit; font-size: var(--fs-16); animation: pdone 1s steps(2) 6; }
 @keyframes pdone { 50% { opacity: .35; } }
 @media (prefers-reduced-motion: reduce) { .ptl li.done .tt { animation: none; } }
 .pnotify { display: flex; align-items: center; gap: 8px; font-size: var(--fs-14); color: var(--muted); cursor: pointer; }
 .pnotify[hidden] { display: none; }
 .pnotify input { width: 18px; height: 18px; accent-color: #c9a54a; }
-@media (max-width: 719px) { .phead { padding-top: calc(var(--top) + 14px); } .pway { padding: 12px 14px; gap: 10px 20px; } .pway .btn { margin-left: 0; } .psec { padding: 14px; } .pform { grid-template-columns: minmax(0, 1fr) 104px; } .pform .pill { grid-column: 1 / -1; justify-content: center; } }
+@media (max-width: 719px) {   /* phone: the party on the road on top, the title below it on the dark */
+  .phead { min-height: 0; padding-top: calc(var(--top) + 170px); }
+  .phead-art img { object-position: 80% 0; height: calc(var(--top) + 300px); }
+  .phead::before { background: linear-gradient(180deg, rgb(5 5 5 / .5) 0%, rgb(5 5 5 / 0) 16%, rgb(5 5 5 / 0) calc(var(--top) + 150px), rgb(5 5 5 / .9) calc(var(--top) + 250px), rgb(5 5 5) calc(var(--top) + 300px)); } }
+@media (max-width: 719px) { .pway { padding: 12px 14px; gap: 10px 20px; } .pway .btn { margin-left: 0; } .psec { padding: 14px; } .pform { grid-template-columns: minmax(0, 1fr) 104px; } .pform .pill { grid-column: 1 / -1; justify-content: center; } }
 #more { margin-top: 56px; }
 #more .sec-head { margin-bottom: 14px; }
 @media (max-width: 1023px) {
@@ -1120,10 +1157,29 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .phead h1 { font-size: var(--fs-28); }
   .gsec { padding: 18px 16px; }
   .steps-c { grid-template-columns: minmax(0, 1fr); }
+  /* T4: «Other guides» under «See also» is a short list on a phone, not four screens of pictures again */
+  #more .gtiles { grid-template-columns: minmax(0, 1fr); gap: 2px; border-radius: 8px; overflow: hidden; }
+  #more .ttile { min-height: 0; padding: 11px 14px; gap: 1px; border: 0; border-radius: 0; background: var(--panel-2); color: var(--fg); }
+  #more .ttile:nth-child(odd) { background: color-mix(in srgb, var(--fg) 3%, var(--panel-2)); }
+  #more .ttile picture, #more .ttile::after { display: none; }
+  #more .ttile b { font-size: var(--fs-16); text-shadow: none; }
+  #more .ttile span { color: var(--muted); font-size: var(--fs-13); }
+  #more .ttile:hover b { color: var(--gold-2); }
+  /* T1: a row is a compact card — the name, short cells with their labels in one line, the long ones under it */
+  .tgrid li { grid-template-columns: 30px minmax(0, 1fr); gap: 10px; padding: 10px 12px; }
+  .tgl { font-size: var(--fs-28); }
+  .tgr { gap: 10px 12px; }
+  .tgc { min-width: 52px; }
+  .tgc .av { --s: 40px; }
   .gtable thead { display: none; }
-  .gtable, .gtable tbody, .gtable tr, .gtable td { display: block; width: 100%; }
-  .gtable tr { padding: 10px 0; }
-  .gtable td { height: auto; padding: 2px 14px; }
+  .gtable, .gtable tbody { display: block; width: 100%; }
+  .gtable tr { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; padding: 10px 14px; }
+  .gtable td { display: block; flex: 1 1 100%; min-width: 0; height: auto; padding: 0; }
+  .gtable td.s { flex: none; }
+  .gtable td.k.s + td.k { flex: 1 1 0; }
+  .gtable td.k { font-weight: 600; }
+  .gtable td.t.k { min-width: 1.3em; font-family: var(--font-display); font-weight: var(--display-w); font-size: var(--fs-22); line-height: 1; color: var(--gold-2); }
+  .gtable td.nil { display: none; }
   .dgt tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; padding: 10px 14px; }
   .dgt td { padding: 0; }
   .dgt td::before { display: none !important; }
@@ -1132,7 +1188,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .dgt td:nth-child(2) .alt { grid-column: 1 / -1; grid-row: 3; margin-top: 2px; }
   .dgt td:nth-child(3) { grid-column: 1 / -1; grid-row: 2; color: var(--muted); font-size: var(--fs-14); }
   .gtable td::before { content: attr(data-l); display: block; font-size: var(--fs-13); font-weight: 400; color: var(--muted); }
-  .gtable td + td { margin-top: 4px; }
+  .gtable td.s::before { display: inline; margin-right: 6px; }
+  .gtable td.k::before, .gtable td.m::before { display: none; }
   .dgt td + td { margin-top: 0; }
 }
 </style>
@@ -1142,18 +1199,18 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 @media print { .rv { opacity: 1; transform: none; } }
 </style>
 <link rel="manifest" href="../../manifest-fr.webmanifest">
-<link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png">
+<link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
-<link rel="stylesheet" href="../../assets/radio/radio.css?v=a448c8a8c7" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=7039f5f416" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=a34702d24d" media="print" onload="this.media='all'">
+<link data-rel="stylesheet" href="../../assets/radio/radio.css?v=44f8689128">
+<link data-rel="stylesheet" href="../../assets/search/search.css?v=c71c6dbeaa">
+<link data-rel="stylesheet" href="../../assets/me/me.css?v=30e53cd5c1">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://gabella.site/wow/fr/"},{"@type":"ListItem","position":2,"name":"En jeu","item":"https://gabella.site/wow/fr/play/"}]}</script>
 </head>
 <body class="compact">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-tank" viewBox="0 0 24 24"><g fill="currentColor" stroke="none"><path d="M12 2.2V21.8C7.2 20 3.8 16.1 3.8 11.1V5z"/><path d="M12 2.2 20.2 5v6.1c0 5-3.4 8.9-8.2 10.7z" opacity=".6"/></g></symbol>
   <symbol id="i-heal" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M9.6 2.8h4.8a.8.8 0 0 1 .8.8v5h5a.8.8 0 0 1 .8.8v5.2a.8.8 0 0 1-.8.8h-5v5a.8.8 0 0 1-.8.8H9.6a.8.8 0 0 1-.8-.8v-5h-5a.8.8 0 0 1-.8-.8V9.4a.8.8 0 0 1 .8-.8h5v-5a.8.8 0 0 1 .8-.8z"/></symbol>
-  <symbol id="i-dps" viewBox="0 0 24 24"><g fill="currentColor" stroke="none" transform="rotate(45 12 12)"><path d="M12 .6V14H9.5V3.6z"/><path d="M12 .6l2.5 3V14H12z" opacity=".6"/><rect x="5.6" y="14" width="12.8" height="3" rx="1.5"/><rect x="10.6" y="17" width="2.8" height="3.4"/><circle cx="12" cy="21.6" r="2"/></g></symbol>
+  <symbol id="i-dps" viewBox="0 0 24 24"><g fill="currentColor" stroke="none" transform="rotate(45 12 12) translate(12 12.2) scale(1.14) translate(-12 -12.2)"><path d="M12 .8V14H8.9V4.1z"/><path d="M12 .8l3.1 3.3V14H12z" opacity=".6"/><rect x="5.2" y="14" width="13.6" height="3.4" rx="1.7"/><rect x="10.4" y="17.2" width="3.2" height="3.2"/><circle cx="12" cy="21.4" r="2.2"/></g></symbol>
   <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
   <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></symbol>
   <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></symbol>
@@ -1172,13 +1229,13 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
 </svg>
 
-<header class="topbar" id="topbar"><div class="in">
-  <a class="brand" href="../" aria-label="Gabella, vers l’accueil"><img class="mark" src="../../assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Guide WoW Forever</small></span></a>
+<a class="skip" href="#main">Aller au contenu</a><header class="topbar" id="topbar"><div class="in">
+  <a class="brand" href="../"><img class="mark" src="../../assets/brand/mark.webp?v=64e71bf9" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Guide WoW Forever</small></span></a>
   <nav class="mainnav" aria-label="Sections">
-    <a href="../classes/">Classes</a><a href="../races/">Races</a><a href="../guides/leveling/">Progression</a><a href="../guides/dungeons/">Donjons</a><a href="../guides/">Guides</a><a href="../tools/">Outils</a><a href="../play/" aria-current="true">En jeu</a><a href="../roster/">Joueurs</a><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a>
+    <a href="../classes/">Classes</a><a href="../races/">Races</a><a href="../guides/leveling/">Progression</a><a href="../guides/dungeons/">Donjons</a><a href="../guides/">Guides</a><a href="../tools/">Outils</a><a href="../play/" aria-current="true">En jeu</a><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a>
   </nav>
   <div class="tools">
-    <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" aria-label="Langue: Français">FR</button><ul class="langlist" hidden><li><a href="../../play/" data-lang="ru" hreflang="ru" lang="ru"><span>Русский</span><small>RU</small></a></li><li><a href="../../en/play/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../../uk/play/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../../de/play/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="./" data-lang="fr" hreflang="fr" lang="fr" aria-current="page"><span>Français</span><small>FR</small></a></li><li><a href="../../es/play/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="../../pt/play/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="../../it/play/" data-lang="it" hreflang="it" lang="it"><span>Italiano</span><small>IT</small></a></li><li><a href="../../pl/play/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
+    <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" >FR<span class="sr">, Langue: Français</span></button><ul class="langlist" hidden><li><a href="../../play/" data-lang="ru" hreflang="ru" lang="ru"><span>Русский</span><small>RU</small></a></li><li><a href="../../en/play/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../../uk/play/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../../de/play/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="./" data-lang="fr" hreflang="fr" lang="fr" aria-current="page"><span>Français</span><small>FR</small></a></li><li><a href="../../es/play/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="../../pt/play/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="../../it/play/" data-lang="it" hreflang="it" lang="it"><span>Italiano</span><small>IT</small></a></li><li><a href="../../pl/play/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
     <button class="iconbtn srchbtn" type="button" aria-label="Rechercher sur le site" aria-haspopup="dialog"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><kbd>Ctrl K</kbd></button>
     <button class="iconbtn radiobtn" type="button" aria-label="Radio" title="Radio" aria-expanded="false" aria-controls="radioPanel" aria-pressed="false"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg><span class="rdo-eq" aria-hidden="true"><i></i><i></i><i></i></span></button>
     <button class="iconbtn themebtn" type="button" aria-label="Changer de thème" title="Changer de thème"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></button>
@@ -1186,14 +1243,15 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   </div>
 </div></header>
 
-<section class="phead" id="top"><div class="wrap"><div class="ptitle"><h1>En jeu</h1><p class="glead">Un second écran pendant que vous jouez : radio, zones et donjons pour votre niveau, minuteurs. Une fois connecté : personnages du profil.</p></div><div class="pacts"><button class="pill pwake" id="wakeBtn" type="button" aria-pressed="false" hidden><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg>Garder l’écran allumé</button></div></div></section><div class="wrap"><section class="frame pway" id="pWay" aria-label="Profil" hidden></section></div>
+<main id="main">
+<section class="phead" id="top"><picture class="phead-art" aria-hidden="true"><source type="image/avif" srcset="../../assets/art/hero_road-960.avif?v=81ab1530 960w, ../../assets/art/hero_road-1600.avif?v=d076353a 1600w, ../../assets/art/hero_road-2560.avif?v=fb4962bd 2560w" sizes="100vw"><source type="image/webp" srcset="../../assets/art/hero_road-960.webp?v=8f11859f 960w, ../../assets/art/hero_road-1600.webp?v=b41d3512 1600w, ../../assets/art/hero_road-2560.webp?v=5c0c6bdb 2560w" sizes="100vw"><img src="../../assets/art/hero_road-1600.webp?v=b41d3512" width="1600" height="893" alt="" fetchpriority="high" decoding="async"></picture><div class="wrap"><div class="ptitle"><h1>En jeu</h1><p class="glead">Un second écran pendant que vous jouez : radio, zones et donjons pour votre niveau, minuteurs. Une fois connecté : personnages du profil.</p></div><div class="pacts"><button class="pill pwake" id="wakeBtn" type="button" aria-pressed="false" hidden><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg>Garder l’écran allumé</button></div></div></section><div class="wrap"><section class="frame pway" id="pWay" aria-label="Profil"><p class="pnote">Connectez-vous pour garder votre niveau et vos personnages dans votre profil.</p><a class="btn ghost" href="../../profile/">Se connecter</a></section></div><script>try{if(localStorage.getItem("gabella-me")==="1")document.getElementById("pWay").hidden=true}catch(e){}</script>
 
-<main class="wrap gbody play solo">
+<div class="wrap gbody play solo">
   <nav class="gtoc frame" aria-label="Sections du guide"></nav>
   <div class="gmain">
 <div class="pgrid"><div class="pcol">
 <section class="frame psec" id="level" aria-labelledby="hLvl">
-  <div class="phero"><h2 id="hLvl">Niveau</h2><span id="pWho"></span><a href="#me">Configurer votre héros</a></div>
+  <div class="phero"><h2 id="hLvl">Niveau</h2><span id="pWho"></span><a href="#me">Configurer votre personnage</a></div>
   <div class="pchars" id="pChars" role="group" aria-label="Personnages" hidden></div>
   <div class="pfac" id="pFac" role="group" aria-label="Faction"><button type="button" class="pill" data-f="alliance" aria-pressed="false">Alliance</button><button type="button" class="pill" data-f="horde" aria-pressed="false">Horde</button></div>
   <div class="plv"><button type="button" class="lvb" id="lvDown" aria-label="Niveau précédent">−</button><output id="lvOut" aria-live="polite">—</output><button type="button" class="lvb" id="lvUp" aria-label="Niveau suivant">+</button></div>
@@ -1201,7 +1259,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Conseil</span>Déconnectez-vous dans une auberge, une capitale ou sur le sac de couchage : la soirée suivante commence avec une expérience doublée sur les ennemis. Nourriture, sac de couchage et repos se cumulent.</p></div>
   <a class="pmore" href="../guides/leveling/#route">Itinéraire complet</a>
 </section>
-<section class="frame psec" id="dung" aria-labelledby="hDg"><h2 id="hDg">Donjons pour le niveau <span id="dgLv">…</span></h2><ul class="pdg" id="pDg"></ul>
+<section class="frame psec" id="dung" aria-labelledby="hDg"><h2 id="hDg">Donjons par niveau</h2><ul class="pdg" id="pDg"></ul>
   <a class="pmore" href="../guides/dungeons/#list">Tous les donjons</a></section>
 </div><div class="pcol">
 <section class="frame psec" id="radio" aria-labelledby="hRadio"><h2 id="hRadio">Radio</h2><div id="radioDock"></div></section>
@@ -1238,11 +1296,15 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </section>
 
   </div>
+</div>
+
+<div class="wrap">
+<p class="dcta"><span>Groupes pour le lancement, questions sur le guide et actualités — sur le Discord Gabella.</span><a class="btn ghost" href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Ouvrir Discord</a></p>
+<section id="more" hidden><div class="sec-head"><h2>Plus sur le site</h2></div><nav class="ttiles gtiles" aria-label="Plus sur le site"></nav></section>
+</div>
 </main>
 
 <div class="wrap">
-<p class="dcta"><span>Groupes pour le lancement, questions sur le guide et actualités — sur le Discord Gabella Team.</span><a class="btn ghost" href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Ouvrir Discord</a></p>
-<section id="more" hidden><div class="sec-head"><h2>Plus sur le site</h2></div><nav class="ttiles gtiles" aria-label="Plus sur le site"></nav></section>
 <footer id="sources">
   
   <nav class="fmap" aria-label="Plan du site"><div><a class="fh" href="../../fr/classes/">Classes</a><ul><li><a href="../../fr/classes/warrior/">Guerrier</a></li><li><a href="../../fr/classes/paladin/">Paladin</a></li><li><a href="../../fr/classes/hunter/">Chasseur</a></li><li><a href="../../fr/classes/rogue/">Voleur</a></li><li><a href="../../fr/classes/priest/">Prêtre</a></li><li><a href="../../fr/classes/shaman/">Chaman</a></li><li><a href="../../fr/classes/mage/">Mage</a></li><li><a href="../../fr/classes/warlock/">Démoniste</a></li><li><a href="../../fr/classes/druid/">Druide</a></li></ul></div><div><a class="fh" href="../../fr/races/">Races</a><ul><li><a href="../../fr/races/human/">Humain</a></li><li><a href="../../fr/races/dwarf/">Nain</a></li><li><a href="../../fr/races/night-elf/">Elfe de la nuit</a></li><li><a href="../../fr/races/gnome/">Gnome</a></li><li><a href="../../fr/races/skyborne-alliance/">Skyborne High Order</a></li><li><a href="../../fr/races/orc/">Orc</a></li><li><a href="../../fr/races/undead/">Mort-vivant</a></li><li><a href="../../fr/races/tauren/">Tauren</a></li><li><a href="../../fr/races/troll/">Troll</a></li><li><a href="../../fr/races/skyborne-horde/">Skyborne Windshaper</a></li></ul></div><div><a class="fh" href="../../fr/guides/">Guides</a><ul><li><a href="../../fr/guides/leveling/">Progression 1–60</a></li><li><a href="../../fr/guides/best-race/">La meilleure race pour chaque classe</a></li><li><a href="../../fr/guides/tier-list/">Tier list des classes de WoW Forever</a></li><li><a href="../../fr/guides/legacy/">Le système Legacy</a></li><li><a href="../../fr/guides/dungeons/">Donjons et raids</a></li><li><a href="../../fr/guides/professions/">Métiers</a></li><li><a href="../../fr/guides/addons/">Addons et interface</a></li><li><a href="../../fr/guides/faq/">FAQ et dates</a></li><li><a href="../../fr/guides/requirements/">Configuration requise</a></li><li><a href="../../fr/guides/news/">Actualités</a></li></ul></div><div><a class="fh" href="../../fr/tools/">Outils</a><ul><li><a href="../../fr/tools/">Outils</a></li><li><a href="../../fr/play/">En jeu</a></li></ul></div></nav><div class="legal"><p>Guide de fan de Gabella. Non affilié à Blizzard Entertainment ni approuvé par celle-ci. World of Warcraft, Warcraft et Blizzard Entertainment sont des marques commerciales ou des marques déposées de Blizzard Entertainment, Inc. aux États-Unis et/ou dans d’autres pays.</p><p>© 2026 Gabella<span aria-hidden="true"> · </span><a href="../../fr/privacy/">Confidentialité</a><span aria-hidden="true"> · </span><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><span aria-hidden="true"> · </span><a href="https://t.me/gabella_wow" target="_blank" rel="noopener">Telegram</a><span aria-hidden="true"> · </span>Contact: <a href="mailto:contact@gabella.site">contact@gabella.site</a></p></div>
@@ -1253,7 +1315,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <a href="../"><svg class="ico" aria-hidden="true"><use href="#i-home"/></svg>Accueil</a>
   <a href="../guides/"><svg class="ico" aria-hidden="true"><use href="#i-book"/></svg>Guides</a>
   <a href="../play/" aria-current="true"><svg class="ico" aria-hidden="true"><use href="#i-sword"/></svg>En jeu</a>
-  <a href="../profile/"><svg class="ico" aria-hidden="true"><use href="#i-user"/></svg>Profil</a>
+  <a href="../classes/"><svg class="ico" aria-hidden="true"><use href="#i-users"/></svg>Classes</a>
   <button type="button" class="morebtn" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-dots"/></svg>Plus</button>
 </nav>
 
@@ -1263,7 +1325,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     
     <div class="grp"><div class="gh">Référence</div><a href="../">Accueil</a><a href="../classes/">Classes comparées</a><a href="../races/">Races comparées</a><a href="../guides/leveling/">Progression 1–60</a><a href="../guides/dungeons/">Donjons et raids</a><a href="../guides/professions/">Métiers</a><a href="../guides/faq/">FAQ et dates</a><a href="../guides/news/">Actualités</a><a href="../guides/">Tous les guides</a></div>
     <div class="grp"><div class="gh">Outils</div><a href="../tools/#picker">Sélecteur</a><a href="../tools/#raid">Créateur de groupe</a><a href="../tools/">Cadres, comparaison, recherche</a><a href="../play/">En jeu</a></div>
-    <div class="grp"><div class="gh">Communauté</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="../roster/">Joueurs</a><a href="../profile/">Mon profil</a></div>
+    <div class="grp"><div class="gh">Communauté</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="../profile/">Mon profil</a></div>
   </nav>
   <div class="opts">
     <div class="langgrid" role="group" aria-label="Langue"><a href="../../play/" data-lang="ru" hreflang="ru" lang="ru">Русский</a><a href="../../en/play/" data-lang="en" hreflang="en" lang="en">English</a><a href="../../uk/play/" data-lang="uk" hreflang="uk" lang="uk">Українська</a><a href="../../de/play/" data-lang="de" hreflang="de" lang="de">Deutsch</a><a href="./" data-lang="fr" hreflang="fr" lang="fr" aria-current="page">Français</a><a href="../../es/play/" data-lang="es" hreflang="es" lang="es">Español</a><a href="../../pt/play/" data-lang="pt" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a><a href="../../it/play/" data-lang="it" hreflang="it" lang="it">Italiano</a><a href="../../pl/play/" data-lang="pl" hreflang="pl" lang="pl">Polski</a></div>
@@ -1278,7 +1340,7 @@ function esc(s) { return String(s).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&l
 
 /* ---------- Page chrome ---------- */
 const themeBtns = document.querySelectorAll('.themebtn');
-function paintTheme() { const t = document.documentElement.getAttribute('data-theme'); themeBtns.forEach(b => b.querySelector('use').setAttribute('href', t === 'light' ? '#i-moon' : '#i-sun')); const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#fbfaf7' : '#030303'); }
+function paintTheme() { const t = document.documentElement.getAttribute('data-theme'); themeBtns.forEach(b => b.querySelector('use').setAttribute('href', t === 'light' ? '#i-moon' : '#i-sun')); const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#fbfaf7' : '#050505'); }
 themeBtns.forEach(b => b.onclick = () => { const t = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light'; document.documentElement.setAttribute('data-theme', t); try { localStorage.setItem('wf-theme', t); } catch (e) {} paintTheme(); });
 paintTheme();
 const topbar = $('#topbar');
@@ -1294,10 +1356,21 @@ dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.
 /* Guides: tabs, contents highlight; live parts switch on per page */
 document.querySelectorAll('.gtabs').forEach(box => {
   const btns = box.querySelectorAll('[role="tab"]'), panels = box.querySelectorAll('[role="tabpanel"]');
-  btns.forEach(b => b.addEventListener('click', () => {
-    btns.forEach(x => x.setAttribute('aria-selected', x === b));
+  const pick = b => {
+    btns.forEach(x => { x.setAttribute('aria-selected', x === b); x.tabIndex = x === b ? 0 : -1; });
     panels.forEach(p => p.hidden = p.dataset.tab !== b.dataset.tab);
-  }));
+  };
+  btns.forEach((b, i) => {
+    b.tabIndex = b.getAttribute('aria-selected') === 'true' ? 0 : -1;
+    b.addEventListener('click', () => pick(b));
+    b.addEventListener('keydown', e => {   // arrows, Home and End move along the tabs
+      const n = { ArrowRight: i + 1, ArrowDown: i + 1, ArrowLeft: i - 1, ArrowUp: i - 1, Home: 0, End: btns.length - 1 }[e.key];
+      if (n === undefined) return;
+      e.preventDefault();
+      const to = btns[(n + btns.length) % btns.length];
+      pick(to); to.focus();
+    });
+  });
 });
 const tocLinks = [...document.querySelectorAll('.gtoc a')];
 if ('IntersectionObserver' in window && tocLinks.length) {
@@ -1343,7 +1416,7 @@ const DUNGEONS = [
   ['Hache-tripes : Ouest', 60, 60, 'Feralas', 0, [['Icy Veins', '56–60']]],
   ['Hache-tripes : Nord', 60, 60, 'Feralas', 0, [['Icy Veins', '56–60']]]
 ];
-const P = {"route": {"alliance": [[1, 10, "Humain : Forêt d’Elwynn. Nain et Gnome : Dun Morogh. Elfe de la nuit : Teldrassil (jusqu’au 11). Skyborne High Order : Zephras Isle (jusqu’au 12)."], [10, 18, "Marche de l’Ouest ou Loch Modan, les elfes de la nuit vont généralement à Sombrivage. Dès le 15, les Carmines conviennent."], [18, 30, "Bois de la Pénombre, les Carmines et les Paluns ; à Kalimdor, les Serres-Rocheuses et Orneval."], [30, 45, "Désolace ou Hautes-terres d’Arathi, Vallée de Strangleronce. Dès le 35 : la nouvelle zone Riverglades entre les Carmines et les Steppes ardentes, Marécage d’Âprefange, Terres ingrates, Marais des Chagrins."], [40, 55, "Tanaris, Feralas, les Hinterlands, puis Gorge des Vents brûlants, Terres foudroyées, Azshara, dès le 48 Cratère d’Un’Goro et Gangrebois."], [50, 60, "Steppes ardentes, Maleterres de l’Ouest et de l’Est, Berceau-de-l’Hiver, Silithus. Le Mont Hyjal ouvre au 60."]], "horde": [[1, 10, "Orc et Troll : Durotar. Tauren : Mulgore. Mort-vivant : Clairières de Tirisfal. Skyborne Windshaper : Zephras Isle (jusqu’au 12)."], [10, 18, "Les Tarides ou la Forêt des Pins argentés."], [18, 30, "Les Serres-Rocheuses et les Tarides, puis Orneval ou les Contreforts d’Hillsbrad, dès le 25 Mille pointes."], [30, 45, "Désolace ou Hautes-terres d’Arathi, Vallée de Strangleronce. Dès le 35 : la nouvelle zone Riverglades, Marécage d’Âprefange, Terres ingrates, Marais des Chagrins."], [40, 55, "Tanaris, Feralas, les Hinterlands, puis Gorge des Vents brûlants, Terres foudroyées, Azshara, dès le 48 Cratère d’Un’Goro et Gangrebois."], [50, 60, "Steppes ardentes, Maleterres de l’Ouest et de l’Est, Berceau-de-l’Hiver, Silithus. Le Mont Hyjal ouvre au 60."]]}, "miles": [[40, "Monte : apprentissage 100 pièces d’or et monture 20 (+60 % de vitesse)."], [60, "Monte rapide : 1 000 et 200 pièces d’or (+100 %). Mount Hyjal s’ouvre, raids dès le 09.12.2026."]], "tx": {"radio": "Radio", "lvl": "Niveau", "lvDown": "Niveau précédent", "lvUp": "Niveau suivant", "noHero": "Aucun héros choisi", "edit": "Configurer votre héros", "fac": "Faction", "alliance": "Alliance", "horde": "Horde", "needLvl": "Indiquez votre niveau avec « + » pour voir les zones et les donjons.", "now": "Maintenant", "next": "Ensuite", "from": "dès", "at": "au", "route": "Itinéraire complet", "dung": "Donjons pour le niveau", "dungNone": "Aucun donjon pour ce niveau.", "all": "Tous les donjons", "new": "nouveau", "timers": "Minuteurs", "food": "Nourriture", "foodNote": "+5 % d’expérience sur les ennemis", "min": "min", "custom": "Personnalisé", "name": "Nom", "minutes": "Minutes", "start": "Lancer", "timer": "Minuteur", "done": "Temps écoulé", "again": "Relancer", "remove": "Retirer", "noTimers": "Touchez un préréglage ou choisissez votre durée. Les minuteurs continuent après le rechargement de la page.", "notify": "Notifier quand l’onglet est en arrière-plan", "wake": "Garder l’écran allumé", "guest": "Connectez-vous pour garder votre niveau et vos personnages dans votre profil.", "login": "Se connecter", "profile": "Profil", "chars": "Personnages", "addChar": "Ajouter un personnage"}, "racef": {"human": "alliance", "dwarf": "alliance", "nightelf": "alliance", "gnome": "alliance", "skyA": "alliance", "orc": "horde", "undead": "horde", "tauren": "horde", "troll": "horde", "skyH": "horde"}, "rn": {"human": "Humain", "dwarf": "Nain", "nightelf": "Elfe de la nuit", "gnome": "Gnome", "skyA": "Skyborne High Order", "orc": "Orc", "undead": "Mort-vivant", "tauren": "Tauren", "troll": "Troll", "skyH": "Skyborne Windshaper"}, "cn": {"warrior": "Guerrier", "paladin": "Paladin", "hunter": "Chasseur", "rogue": "Voleur", "priest": "Prêtre", "shaman": "Chaman", "mage": "Mage", "warlock": "Démoniste", "druid": "Druide"}};
+const P = {"route": {"alliance": [[1, 10, "Humain : Forêt d’Elwynn. Nain et Gnome : Dun Morogh. Elfe de la nuit : Teldrassil (jusqu’au 11). Skyborne High Order : Zephras Isle (jusqu’au 12)."], [10, 18, "Marche de l’Ouest ou Loch Modan, les elfes de la nuit vont généralement à Sombrivage. Dès le 15, les Carmines conviennent."], [18, 30, "Bois de la Pénombre, les Carmines et les Paluns ; à Kalimdor, les Serres-Rocheuses et Orneval."], [30, 45, "Désolace ou Hautes-terres d’Arathi, Vallée de Strangleronce. Dès le 35 : la nouvelle zone Riverglades entre les Carmines et les Steppes ardentes, Marécage d’Âprefange, Terres ingrates, Marais des Chagrins."], [40, 55, "Tanaris, Feralas, les Hinterlands, puis Gorge des Vents brûlants, Terres foudroyées, Azshara, dès le 48 Cratère d’Un’Goro et Gangrebois."], [50, 60, "Steppes ardentes, Maleterres de l’Ouest et de l’Est, Berceau-de-l’Hiver, Silithus. Le Mont Hyjal ouvre au 60."]], "horde": [[1, 10, "Orc et Troll : Durotar. Tauren : Mulgore. Mort-vivant : Clairières de Tirisfal. Skyborne Windshaper : Zephras Isle (jusqu’au 12)."], [10, 18, "Les Tarides ou la Forêt des Pins argentés."], [18, 30, "Les Serres-Rocheuses et les Tarides, puis Orneval ou les Contreforts d’Hillsbrad, dès le 25 Mille pointes."], [30, 45, "Désolace ou Hautes-terres d’Arathi, Vallée de Strangleronce. Dès le 35 : la nouvelle zone Riverglades, Marécage d’Âprefange, Terres ingrates, Marais des Chagrins."], [40, 55, "Tanaris, Feralas, les Hinterlands, puis Gorge des Vents brûlants, Terres foudroyées, Azshara, dès le 48 Cratère d’Un’Goro et Gangrebois."], [50, 60, "Steppes ardentes, Maleterres de l’Ouest et de l’Est, Berceau-de-l’Hiver, Silithus. Le Mont Hyjal ouvre au 60."]]}, "miles": [[40, "Monte : apprentissage 100 pièces d’or et monture 20 (+60 % de vitesse)."], [60, "Monte rapide : 1 000 et 200 pièces d’or (+100 %). Mount Hyjal s’ouvre, raids dès le 09.12.2026."]], "tx": {"radio": "Radio", "lvl": "Niveau", "lvDown": "Niveau précédent", "lvUp": "Niveau suivant", "noHero": "Aucun personnage choisi", "edit": "Configurer votre personnage", "fac": "Faction", "alliance": "Alliance", "horde": "Horde", "needLvl": "Indiquez votre niveau avec « + » pour voir les zones et les donjons.", "now": "Maintenant", "next": "Ensuite", "from": "dès", "at": "au", "route": "Itinéraire complet", "dung": "Donjons par niveau", "dungNone": "Aucun donjon pour ce niveau.", "all": "Tous les donjons", "new": "nouveau", "timers": "Minuteurs", "food": "Nourriture", "foodNote": "+5 % d’expérience sur les ennemis", "min": "min", "custom": "Personnalisé", "name": "Nom", "minutes": "Minutes", "start": "Lancer", "timer": "Minuteur", "done": "Temps écoulé", "again": "Relancer", "remove": "Retirer", "noTimers": "Touchez un préréglage ou choisissez votre durée. Les minuteurs continuent après le rechargement de la page.", "notify": "Notifier quand l’onglet est en arrière-plan", "wake": "Garder l’écran allumé", "guest": "Connectez-vous pour garder votre niveau et vos personnages dans votre profil.", "login": "Se connecter", "profile": "Profil", "chars": "Personnages", "addChar": "Ajouter un personnage"}, "racef": {"human": "alliance", "dwarf": "alliance", "nightelf": "alliance", "gnome": "alliance", "skyA": "alliance", "orc": "horde", "undead": "horde", "tauren": "horde", "troll": "horde", "skyH": "horde"}, "rn": {"human": "Humain", "dwarf": "Nain", "nightelf": "Elfe de la nuit", "gnome": "Gnome", "skyA": "Skyborne High Order", "orc": "Orc", "undead": "Mort-vivant", "tauren": "Tauren", "troll": "Troll", "skyH": "Skyborne Windshaper"}, "cn": {"warrior": "Guerrier", "paladin": "Paladin", "hunter": "Chasseur", "rogue": "Voleur", "priest": "Prêtre", "shaman": "Chaman", "mage": "Mage", "warlock": "Démoniste", "druid": "Druide"}};
 
 /* In game: level -> zones and the next milestones (data from the Leveling guide), dungeons near the level, timers,
    screen wake lock, the mini window. Level, race and class are the shared hero "gabella-wf-me" of the home page (the level is
@@ -1395,7 +1468,6 @@ function renderLvl() {
   $('#pFac').hidden = !!raceF;
   document.querySelectorAll('#pFac button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.f === fac)));
   $('#lvOut').textContent = lv || '—';
-  $('#dgLv').textContent = lv || '…';
   if (!lv) {
     $('#pNow').innerHTML = `<p class="pnote">${esc(TX.needLvl)}</p>`;
     $('#pDg').innerHTML = `<li class="pnote">${esc(TX.needLvl)}</li>`;
@@ -1433,7 +1505,7 @@ renderLvl();
 function renderWay() {
   const w = $('#pWay');
   w.hidden = !!meNow;
-  if (!meNow) w.innerHTML = `<p class="pnote">${esc(TX.guest)}</p><a class="btn" href="${ROOT}profile/">${esc(TX.login)}</a>`;
+  if (!meNow) w.innerHTML = `<p class="pnote">${esc(TX.guest)}</p><a class="btn ghost" href="${ROOT}profile/">${esc(TX.login)}</a>`;
 }
 function gotMe(m) {
   if (!m && GM().logged()) return;   // signed in on this device: wait for the profile, no guest line in between
@@ -1467,7 +1539,7 @@ function beep() {
 }
 function notify(x) {
   if (!ps.notify || !document.hidden || !('Notification' in window) || Notification.permission !== 'granted') return;
-  const opt = { body: TX.done, icon: ROOT + 'assets/icons/icon-192.png', tag: 'play-' + x.id };
+  const opt = { body: TX.done, icon: ROOT + 'assets/icons/icon-192.png?v=5b9b0d39', tag: 'play-' + x.id };
   try { new Notification(x.name, opt); }
   catch (e) { if (navigator.serviceWorker) navigator.serviceWorker.ready.then(r => r.showNotification(x.name, opt)).catch(() => {}); }
 }
@@ -1557,7 +1629,7 @@ if ('wakeLock' in navigator) {
 const CLASSES = [
   { id:'warrior', n:'Guerrier', s:'Guerrier', roles:['tank','dps'],
     specs:[['Armes','Dégâts en mêlée (arme à deux mains)',['dps']],['Fureur','Dégâts en mêlée (deux armes)',['dps']],['Protection','Tank',['tank']]],
-    lvl:'La progression la plus lente, environ 12% plus longue que la moyenne',
+    lvl:'La montée la plus lente, environ 12 % plus longue que la moyenne (estimation de LFCarry)',
     lp:12,
     raid:'Cri de guerre affecte tout le raid',
     forever:'Plus de rage, meilleure menace sur les groupes de cibles, le talent Weapon Master. Fureur et Sanguinaire sont affaiblis.' },
@@ -1569,7 +1641,7 @@ const CLASSES = [
     forever:'Frappe sacrée dès le niveau 6, Jugement ne consomme pas le sceau. Les morts-vivants peuvent désormais être paladins, la classe arrive donc dans la Horde.' },
   { id:'hunter', n:'Chasseur', roles:['dps'],
     specs:[['Maîtrise des bêtes','Dégâts à distance, beaucoup de dégâts du familier',['dps']],['Précision','Dégâts à distance',['dps']],['Survie','Mêlée et distance, pièges',['dps']]],
-    lvl:'La progression la plus rapide, environ 8% plus rapide que la moyenne',
+    lvl:'La montée la plus rapide, environ 8 % plus vite que la moyenne (estimation de LFCarry)',
     lp:-8,
     raid:'Aura de précision affecte tout le raid',
     forever:'Vous pouvez jouer sans familier, les pièges fonctionnent en combat, les renards arrivent comme famille de familiers. Survie peut jouer en mêlée.' },
@@ -1581,7 +1653,7 @@ const CLASSES = [
     forever:'Les haches à une main sont désormais utilisables. Assassinat repose sur les poisons, Finesse sur les saignements et le camouflage.' },
   { id:'priest', n:'Prêtre', roles:['heal','dps'],
     specs:[['Discipline','Soigneur, boucliers et absorption',['heal']],['Sacré','Soigneur',['heal']],['Ombre','Dégâts à distance',['dps']]],
-    lvl:'Environ 5% plus lent que la moyenne',
+    lvl:'Environ 5 % plus lent que la moyenne (estimation de LFCarry)',
     lp:5,
     raid:'Esprit divin est désormais de base. Les dégâts d’ombre et Peste dévorante (24 s de temps de recharge) ont été renforcés par le patch du 15 octobre.',
     forever:'Gardien de peur et Peste dévorante sont disponibles dès le niveau 20 pour toutes les races. Chaque race a deux sorts de prêtre qui lui sont propres.' },
@@ -1593,7 +1665,7 @@ const CLASSES = [
     forever:'Les nains peuvent désormais être chamans, la classe arrive donc dans l’Alliance. Explosion de lave a été renforcée, Élémentaire est monté dans les classements de dégâts.' },
   { id:'mage', n:'Mage', roles:['dps'],
     specs:[['Arcanes','Pics de dégâts, beaucoup de mana',['dps']],['Feu','Critiques et enflammer',['dps']],['Givre','Dégâts et contrôle',['dps']]],
-    lvl:'La progression la plus rapide, environ 8% plus rapide que la moyenne (environ 12 heures gagnées)',
+    lvl:'La montée la plus rapide, environ 8 % plus vite que la moyenne, environ 12 heures gagnées (estimation de LFCarry)',
     lp:-8,
     raid:'Portails, nourriture et eau pour tout le groupe',
     forever:'Feu reçoit Chaleur continue, Arcanes Déflagration des arcanes, Givre Javelot de glace. Éclair de givrefeu est disponible dès le niveau 40.' },
@@ -1601,11 +1673,11 @@ const CLASSES = [
     specs:[['Affliction','Dégâts des malédictions et de la corruption',['dps']],['Démonologie','Dégâts par les démons',['dps']],['Destruction','Dégâts directs de feu et d’ombre',['dps']]],
     lvl:'Rythme de progression moyen',
     lp:0,
-    raid:'Maîtrise de l’ombre donne désormais 2–10% de dégâts d’ombre (avant 1–5%)',
+    raid:'Maîtrise des ténèbres donne 2–10 % de dégâts d’Ombre, comme dans Classic (1–5 % au début de la bêta)',
     forever:'Affliction a un nouveau sort canalisé, le démon reste avec Sacrifice démoniaque, Destruction gagne Incinérer et des dégâts de zone.' },
   { id:'druid', n:'Druide', roles:['tank','heal','dps'],
     specs:[['Équilibre','Dégâts à distance',['dps']],['Combat farouche','Tank (ours) et dégâts en mêlée (félin)',['tank','dps']],['Restauration','Soigneur, beaucoup de soins sur la durée',['heal']]],
-    lvl:'Environ 5% plus lent que la moyenne',
+    lvl:'Environ 5 % plus lent que la moyenne (estimation de LFCarry)',
     lp:5,
     raid:'Chef de la meute et Aura de sélénien affectent tout le raid et se cumulent',
     forever:'Chaque spécialisation a reçu un rôle clair, les formes fonctionnent avec les potions et les enchantements d’arme. Vous pouvez être tank, soigneur et combattant sur un seul personnage.' }
@@ -1626,7 +1698,7 @@ const RACES = [
     tip:'Forme de pierre est utile aux tanks et en JcJ.' },
   { id:'nightelf', n:'Elfe de la nuit', f:'alliance',
     cls:['warrior','hunter','rogue','priest','druid'],
-    rac:[['a','Lumière d’Élune','+10% de chances de critique pendant 15 s'],['a','Camouflage dans l’ombre','Invisibilité sur place'],['p','Rapidité','+1% d’esquive et +2% de vitesse de course'],['p','Esprit feu follet','+75% de vitesse de course sous forme d’esprit']],
+    rac:[['a','Lumière d’Élune','+10% de chances de critique pendant 15 s'],['a','Camouflage dans l’ombre','Invisibilité sur place'],['p','Rapidité','+1–2 % d’esquive (les sources divergent) et +2 % de vitesse de course'],['p','Esprit feu follet','+75% de vitesse de course sous forme d’esprit']],
     tip:'La seule race de l’Alliance avec un druide, à moins de prendre un Skyborne.' },
   { id:'gnome', n:'Gnome', f:'alliance',
     cls:['warrior','rogue','mage','warlock','priest*'],
@@ -1634,7 +1706,7 @@ const RACES = [
     tip:'Pensée expansive aide surtout les classes à énergie.' },
   { id:'skyA', n:'Skyborne (Alliance)', f:'alliance', paid:true, name:'Skyborne High Order',
     cls:['warrior','hunter','rogue','mage','druid'],
-    rac:[['a','Walk on Air','Planez pendant 10 s, sans dégâts de chute'],['a','Read Ley Line','+100% de régénération de vie et de mana'],['p','Wind Blessed','+3% de vitesse d’attaque et d’incantation'],['p','Elemental Insight','+5% de dégâts contre les élémentaires']],
+    rac:[['a','Walk on Air','Planez pendant 10 s, sans dégâts de chute'],['a','Read Ley Line','Régénération de vie et de mana : +100 % selon Warcraft Tavern, +10 % selon Icy Veins'],['p','Wind Blessed','+3% de vitesse d’attaque et d’incantation'],['p','Elemental Insight','+5% de dégâts contre les élémentaires']],
     tip:'Race payante : pack Héroïque dès $29.99. Débute sur Zephras Isle (niveaux 1–12).' },
   { id:'orc', n:'Orc', f:'horde',
     cls:['warrior','hunter','rogue','shaman','warlock','mage*'],
@@ -1650,7 +1722,7 @@ const RACES = [
     tip:'La seule race de la Horde avec un druide, à moins de prendre un Skyborne.' },
   { id:'troll', n:'Troll', f:'horde',
     cls:['warrior','hunter','rogue','priest','shaman','mage','warlock*'],
-    rac:[['a','Berserker','+10% de vitesse d’attaque et d’incantation pendant 10 s'],['a','Régénération rapide','Rend de la vie sur la durée'],['p','Tueur de bêtes','+5% de dégâts contre les bêtes'],['p','Régénération','La vie se régénère aussi en combat']],
+    rac:[['a','Berserker','+10 % de vitesse d’attaque et d’incantation pendant 10–12 s (les sources divergent)'],['a','Régénération rapide','Rend de la vie sur la durée'],['p','Tueur de bêtes','+5% de dégâts contre les bêtes'],['p','Régénération','La vie se régénère aussi en combat']],
     tip:'Le plus de choix de classes dans la Horde : sept.' },
   { id:'skyH', n:'Skyborne (Horde)', f:'horde', paid:true, name:'Skyborne Windshaper',
     cls:['warrior','hunter','rogue','shaman','druid'],
@@ -1675,7 +1747,7 @@ const PROFS = [
   ['fishing', 'Pêche', 0, 'Fish Bowl', 'comme Bénédiction des rois']
 ];
 const PR = Object.fromEntries(PROFS.map(p => [p[0], p]));
-const PV = /*PV*/'?v=0119de2a';   // ?v= of the class portraits (build.art_version)
+const PV = /*PV*/'?v=6114caef';   // ?v= of the class portraits (build.art_version)
 function facName(f) { return f === 'alliance' ? 'Alliance' : 'Horde'; }
 const lvRange = d => d[1] === d[2] ? String(d[1]) : `${d[1]}–${d[2]}`;
 const nearLvl = (d, lv) => lv >= d[1] - 3 && lv <= d[2] + 3;
@@ -1713,7 +1785,7 @@ const STAGES = [
       ['f', 'Les talents s’ouvrent au niveau 10, ou au 9 avec le bonus Legacy Talented (au niveau 5 avec 5 rangs).'],
       ['f', 'La plupart des plats cuisinés donnent un bonus d’expérience. Il se cumule avec le camp et le Sac de couchage douillet.'],
       ['t', 'Accumulez du repos : déconnectez-vous dans une auberge ou dans un camp avec une tente.']],
-    prof: [['f', 'Le feu de camp de base ne demande pas Cuisine et accueille 3 objets. Il brûle environ 10 minutes, et vous pouvez en poser un nouveau après 5.'],
+    prof: [['f', 'Un feu de camp de base demande d’avoir appris la Cuisine, mais pas de monter la compétence. Il contient 3 objets, brûle environ 10 minutes, et on peut en poser un nouveau après 5.'],
       ['f', 'Pour recevoir les améliorations du camp, asseyez-vous à côté (/sit) pendant au moins une minute.'],
       ['t', 'Prenez un métier de récolte dès les premiers niveaux : herbes, minerai et peaux nourrissent l’artisanat, et 150 dans un métier d’artisanat ouvre Legacy.']],
     legacy: [['f', 'Pas encore de bonus : le premier point arrive au niveau 25 ou avec 150 dans un métier.'],
@@ -1726,8 +1798,8 @@ const STAGES = [
       ['f', 'Chaque objet obtenu débloque son apparence de transmogrification pour tous ceux qui peuvent le porter, même si quelqu’un d’autre a reçu l’objet.'],
       ['f', 'Legacy s’ouvre au niveau 25.'],
       ['t', 'Récupérez d’abord les quêtes du donjon en groupe et entrez une fois que tout le monde les a.']],
-    prof: [['f', 'Cuisine 140 donne 5 emplacements de camp, 220 en donne 10.'],
-      ['f', 'Chaque métier fabrique trois objets de camp, un par rang. Les sources divergent sur la compétence requise pour les rangs 2 et 3.'],
+    prof: [['f', 'Selon Warcraft Tavern, Cuisine 140 donne 5 places de camp et 220 en donne 10 (selon Icy Veins 90 et 200 ; nous préciserons au lancement).'],
+      ['f', 'Chaque métier fabrique trois objets de camp, un par niveau. Les sources divergent sur la compétence requise pour les niveaux 2 et 3 (selon Icy Veins 140 et 300).'],
       ['t', 'Si le niveau 25 est encore loin, montez un métier d’artisanat à 150 : Legacy s’ouvrira plus tôt.']],
     legacy: [['f', 'Chaque défi rapporte 1 point. Il y en a 65 : classes 27, métiers 18, JcJ 12, donjons 3, raids 3, aventure 2.'],
       ['t', 'Reagent Economy (pas de composants achetés pour les techniques) et Field Guide (temps de recharge réduit des objets de camp) valent le coup.']],
@@ -1741,7 +1813,7 @@ const STAGES = [
       ['f', 'Honoré auprès de votre propre faction donne 10% de réduction sur l’apprentissage de la monte et les montures. Selon Warcraft Tavern : 100 + 20 pièces d’or au niveau 40, 1 000 + 200 au niveau 60.'],
       ['t', 'Économisez de l’or pour le niveau 40 : la monte sera votre plus grosse dépense sur la route du 60.']],
     prof: [['f', 'Chaque métier a ses propres objets de camp de rang 2 et 3. Le deuxième objet de l’Ingénierie, Robot réparateur, répare l’équipement.'],
-      ['t', 'Gardez Cuisine 220 dans le groupe pour un camp à 10 objets : à l’heure des raids, il y aura de la place pour tous.']],
+      ['t', 'Gardez la Cuisine 200–220 dans le groupe pour un camp de 10 objets : au moment du raid, il y aura de la place pour tous.']],
     legacy: [['f', 'Au plus 16 points par personnage, le reste va dans la piste de récompenses : un jouet à 15, une mascotte à 25, un tabard à 40, une monture à 55.']],
     group: [['f', 'Les raids ouvrent le 09.12 : Barrow Deeps pour 10 joueurs, Sommet d’Hyjal pour 20, Repaire d’Onyxia pour 40.'],
       ['t', 'Le raid à 10 demande 10 joueurs : si vous êtes moins nombreux, trouvez les autres dans votre guilde à l’avance.']],
@@ -1753,7 +1825,7 @@ const STAGES = [
       ['t', 'Pendant que vous réunissez du monde pour le raid, faites les donjons de niveau 60 pour l’équipement.']],
     prof: [['f', 'Les améliorations de camp sont un peu plus faibles que celles de classe et ne s’y cumulent pas : Bénédiction des rois donne 10% à toutes les caractéristiques, le camp 8%.'],
       ['t', 'Installez le camp à l’entrée du raid : ses améliorations couvrent ce qui manque à vos classes.']],
-    legacy: [['f', 'Défis du niveau 60 : donjons 3, raids 3, JcJ 12. Le JcJ a des rangs avec un plafond hebdomadaire et des améliorations d’équipement contre de l’Honneur.']],
+    legacy: [['f', 'Au niveau 60, il reste les défis de donjons 46–60, 3 défis de raid et le JcJ (dès le niveau 30). Le JcJ a des rangs avec limite hebdomadaire et des améliorations d’équipement contre de l’Honneur.']],
     group: [['f', 'Les mêmes améliorations venant de deux joueurs d’une même classe se chevauchent, celles de classes différentes se cumulent.'],
       ['t', 'Composez votre raid dans le créateur de groupe et postez le lien dans le chat.']],
     src: ['cwg', 'prof', 'legacy'] }
@@ -1789,10 +1861,12 @@ function autoStage() {
   return [now < new Date('2026-11-11T00:00:00') ? 'first' : 'dung', 'Choisi selon la date. Ajoutez le niveau de votre personnage et l’étape le suivra.'];
 }
 const START = { pre: 'hero_dawn-960', first: 'hero_campfire-960', dung: 'warlock-360', path: 'hunter-360', raid: 'paladin-360' };
-const ARTV = /*ARTV*/{"hero_campfire-960.avif":"?v=93981d6a","hero_campfire-960.webp":"?v=5aa0e1b2","hero_dawn-960.avif":"?v=447302fd","hero_dawn-960.webp":"?v=b2d0d95b"};   // ?v= of the scene arts, filled in by build.art_version (same names, redrawn pictures)
-const pic = f => `<picture><source type="image/avif" srcset="${ROOT}assets/art/${f}.avif${ARTV[f + '.avif'] || PV}"><img src="${ROOT}assets/art/${f}.webp${ARTV[f + '.webp'] || PV}" alt="" loading="lazy" decoding="async"></picture>`;
-const tipL = () => '<span class="tl">Conseil</span>';
+const ARTV = /*ARTV*/{"hero_campfire-960.avif":"?v=93981d6a","hero_campfire-960.webp":"?v=5aa0e1b2","hero_dawn-960.avif":"?v=447302fd","hero_dawn-960.webp":"?v=b2d0d95b","hero_night-960.avif":"?v=25250449","hero_night-960.webp":"?v=21b81441"};   // ?v= of the scene arts, filled in by build.art_version (same names, redrawn pictures)
+const pic = f => `<picture><source type="image/avif" srcset="${ROOT}assets/art/${f}.avif${ARTV[f + '.avif'] || PV}"><img src="${ROOT}assets/art/${f}.webp${ARTV[f + '.webp'] || PV}" ${f.startsWith('hero_') ? 'width="960" height="536"' : f.endsWith('-600') ? 'width="600" height="804"' : 'width="360" height="482"'} alt="" loading="lazy" decoding="async"></picture>`;
+let tipN = 0;   // the gold «tip» word once per stage panel: the first tip carries it, the rest are plain lines
+const tipL = () => tipN++ ? '' : '<span class="tl">Conseil</span>';
 function liC(x) { return x[0] === 't' ? `<li class="tip">${tipL()}${esc(x[1])}</li>` : `<li>${esc(x[1])}</li>`; }
+function liG(x) { return `<li>${esc(x[1])}</li>`; }   // «group tips» box: its heading already says so
 function dLi(d) {
   const mine = me.lvl && nearLvl(d, me.lvl);
   return `<li class="${mine ? 'mine' : ''}"><b>${esc(d[0])}</b><span class="lvl${mine ? ' gold' : ''}">${lvRange(d)}</span><span class="z">${esc(d[3])}${d[4] ? ' · <i>nouveau</i>' : ''}${mine ? '<span class="sr"> · pour votre niveau</span>' : ''}</span></li>`;
@@ -1808,6 +1882,7 @@ function renderStage() {
   if (me.lvl && s.lo <= me.lvl && me.lvl <= Math.max(s.hi, 1)) ds = ds.filter(d => nearLvl(d, me.lvl)).concat(ds.filter(d => !nearLvl(d, me.lvl)));
   const MAXD = 6, extra = ds.length - MAXD;
   let k = 0;
+  tipN = 0;
   const steps = s.todo.map(x => x[0] === 't'
     ? `<li class="tip"><p>${tipL()}${esc(x[1])}</p></li>`
     : `<li><span class="n">${++k}</span><p>${esc(x[1])}</p></li>`).join('');
@@ -1820,7 +1895,7 @@ function renderStage() {
       <div style="display:grid;gap:24px;align-content:start"><div><h4>Métiers et camp</h4><ul class="clean">${s.prof.map(liC).join('')}</ul></div>
         <div><h4>Bonus Legacy</h4><ul class="clean">${s.legacy.map(liC).join('')}</ul></div></div>
     </div>
-    <div class="gtip"><h4 style="margin:0 0 10px;font-size:var(--fs-16)">Conseils pour le groupe</h4><ul class="clean">${s.group.map(liC).join('')}</ul></div>
+    <div class="gtip"><h4 style="margin:0 0 10px;font-size:var(--fs-16)">Conseils pour le groupe</h4><ul class="clean">${s.group.map(liG).join('')}</ul></div>
     <p class="st-src"><span>Sources :</span>${s.src.map(k2 => `<a href="${SRC[k2][1]}" target="_blank" rel="noopener">${esc(SRC[k2][0])}</a>`).join('')}</p>`;
 }
 function optList(items, cur, none) { return `<option value="">${esc(none)}</option>` + items.map(([v, t]) => `<option value="${v}"${v === cur ? ' selected' : ''}>${esc(t)}</option>`).join(''); }
@@ -1830,7 +1905,7 @@ function renderMe() {
   $('#meRace').innerHTML = `<option value="">Non choisi</option><optgroup label="${facName('alliance')}">${races('alliance')}</optgroup><optgroup label="${facName('horde')}">${races('horde')}</optgroup>`;
   const cls = (me.race ? Object.keys(RC[me.race].can) : CLASSES.map(c => c.id)).map(id => [id, CL[id].n]);
   $('#meCls').innerHTML = optList(cls, me.cls, 'Non choisi');
-  $('#meRole').innerHTML = me.cls ? roleOpts(CL[me.cls]).map(x => `<option value="${x}"${x === me.role ? ' selected' : ''}>${ROLE_RU[x]}</option>`).join('') : `<option value="">Choisissez d’abord une classe</option>`;
+  $('#meRole').innerHTML = me.cls ? roleOpts(CL[me.cls]).map(x => `<option value="${x}"${x === me.role ? ' selected' : ''}>${ROLE_RU[x]}</option>`).join('') : `<option value="">—</option>`;
   $('#meRole').disabled = !me.cls;
   const prim = PROFS.filter(p => p[2]);
   $('#meP1').innerHTML = optList(prim.filter(p => p[0] !== me.p2).map(p => [p[0], p[1]]), me.p1, 'Aucun');
@@ -1840,7 +1915,7 @@ function renderMe() {
   const sub = me.cls ? [ROLE_RU[me.role], me.race ? facName(RC[me.race].f) : ''].filter(Boolean).join(' · ') : 'Choisissez la race, la classe et le niveau ci-dessous';
   const hero = $('#meHero');
   hero.style.setProperty('--cc', me.cls ? CCOL[me.cls] : '#c9a54a');
-  hero.innerHTML = pic(me.cls ? `${me.cls}-600` : 'hero_campfire-960') + (me.lvl ? `<span class="lvb" aria-label="Niveau ${me.lvl}">${me.lvl}</span>` : '')
+  hero.innerHTML = pic(me.cls ? `${me.cls}-600` : 'hero_night-960') + (me.lvl ? `<span class="lvb" aria-label="Niveau ${me.lvl}">${me.lvl}</span>` : '')
     + `<span class="k">Mon personnage</span><b>${who ? esc(who) : 'Pas encore créé'}</b><span class="s">${esc(sub)}</span>`;
   let out = '';
   if (meSet()) {
@@ -1881,7 +1956,7 @@ addEventListener('gabella-me', e => { if (e.detail !== 'journey') { loadMe(); re
 addEventListener('storage', e => { if (e.key === MEKEY) { loadMe(); renderJourney(); } });
 })();
 </script>
-<script src="../../assets/living/living.js?v=b105663afc" defer></script>
+<script data-src="../../assets/living/living.js?v=b105663afc"></script>
 <script>
 (() => {
   const KEY = 'gabella-lang-hint', store = l => { try { localStorage.setItem(KEY, '1'); if (l) localStorage.setItem('gabella-lang', l); } catch (e) {} };
@@ -1911,7 +1986,8 @@ addEventListener('storage', e => { if (e.key === MEKEY) { loadMe(); renderJourne
   try { seen = localStorage.getItem(KEY); } catch (e) {}
   if (seen) return;
   const H = {"ru": ["Эта страница есть на русском", "Читать по-русски", "Закрыть"], "en": ["This page is available in English", "Read in English", "Close"], "uk": ["Ця сторінка є українською", "Читати українською", "Закрити"], "de": ["Diese Seite gibt es auch auf Deutsch", "Auf Deutsch lesen", "Schließen"], "fr": ["Cette page existe aussi en français", "Lire en français", "Fermer"], "es": ["Esta página también está en español", "Leer en español", "Cerrar"], "pt": ["Esta página também está em português", "Ler em português", "Fechar"], "it": ["Questa pagina è disponibile anche in italiano", "Leggi in italiano", "Chiudi"], "pl": ["Ta strona jest dostępna po polsku", "Czytaj po polsku", "Zamknij"]}, cur = document.documentElement.lang.split('-')[0];
-  const want = (navigator.languages || [navigator.language]).map(x => String(x || '').toLowerCase().split('-')[0]).find(x => x in H);
+  const want = (navigator.languages || [navigator.language]).map(x => String(x || '').toLowerCase().split('-')[0])
+    .find(x => x in H && !(cur === 'uk' && x === 'ru'));   // a Ukrainian page never offers Russian
   const to = want && want !== cur && document.querySelector(`.langlist a[data-lang="${want}"]:not([data-list])`);
   if (!to) return;
   const bar = document.createElement('div');
@@ -1948,9 +2024,44 @@ addEventListener('beforeinstallprompt', e => {
   opts.append(b);
 });
 </script>
-<script src="../../assets/radio/radio.js?v=a448c8a8c7" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=7039f5f416" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=a34702d24d" data-root="../../" data-home="../" data-lang="fr" data-teaser="Votre profil garde vos personnages, hauts faits et cadres" data-close="Fermer" data-page="play/" data-look="2" defer></script>
-<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
+<script data-src="../../assets/radio/radio.js?v=44f8689128" data-root="../../"></script>
+<script data-src="../../assets/search/search.js?v=c71c6dbeaa" data-root="../../"></script>
+<script data-src="../../assets/me/me.js?v=30e53cd5c1" data-root="../../" data-home="../" data-lang="fr" data-ach="0" data-teaser="" data-close="Fermer" data-page="play/" data-look="2"></script>
+<script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
+<script>
+(function () {
+  var done = false;
+  function wake() {
+    if (done) return; done = true;
+    document.querySelectorAll('link[data-rel]').forEach(function (l) { l.rel = l.dataset.rel; });
+    document.querySelectorAll('source[data-lsrcset]').forEach(function (x) { x.srcset = x.dataset.lsrcset; });   // build.sleep_art
+    document.querySelectorAll('img[data-lsrc]').forEach(function (x) { x.src = x.dataset.lsrc; });
+    document.querySelectorAll('script[data-src]').forEach(function (s) {
+      var n = document.createElement('script');
+      for (var i = 0; i < s.attributes.length; i++) if (s.attributes[i].name !== 'data-src') n.setAttribute(s.attributes[i].name, s.attributes[i].value);
+      n.src = s.dataset.src; n.async = false;   // in page order: radio before the profile, as with defer
+      s.replaceWith(n);
+    });
+  }
+  ['pointerdown', 'keydown', 'touchstart', 'wheel', 'scroll'].forEach(function (t) { addEventListener(t, wake, { once: true, passive: true, capture: true }); });
+  if (location.hash.length > 1) return wake();   // a link to a section: the blocks above it are drawn before the jump settles
+  setTimeout(wake, 4000);   // a tab in the background paints nothing
+  var img = document.querySelector('img[fetchpriority="high"]');
+  var lcp = window.PerformanceObserver && PerformanceObserver.supportedEntryTypes && PerformanceObserver.supportedEntryTypes.indexOf('largest-contentful-paint') >= 0;
+  var armed = false;
+  function later() {   // a wide screen, where the heading counts as the largest: a moment after the picture is drawn
+    if (armed) return; armed = true;
+    var go = function () { requestAnimationFrame(function () { setTimeout(wake, 500); }); };
+    var start = function () { if (img && img.decode) img.decode().then(go, go); else go(); };
+    if (document.readyState === 'complete') start(); else addEventListener('load', start, { once: true });
+  }
+  // The browser reports a paint only once the frame is on the screen: the phone wakes on the hero picture, a wide screen
+  // starts its pause after the first one. A frame that comes late (a busy phone) then keeps the files waiting behind it.
+  if (lcp)
+    new PerformanceObserver(function (l) { if (img && l.getEntries().some(function (e) { return e.element === img; })) setTimeout(wake, 0); else later(); })
+      .observe({ type: 'largest-contentful-paint', buffered: true });
+  else later();
+})();
+</script>
 </body>
 </html>

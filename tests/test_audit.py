@@ -67,7 +67,7 @@ def test_not_found_per_language():
 
 def test_home_waits_for_the_hero():
     """Home: only the first screen comes with the page; its script, radio, search, profile, living art, time of day,
-    analytics and the manifest sleep until the hero is painted (build.late, build.home_js)."""
+    analytics sleep until the hero is painted (build.late, build.home_js); the manifest stays a plain link (P-1)."""
     for lang in LANGS:
         home = page(*lang_dir(lang))
         assert "const HOME = ''" not in home and 'function renderCountdown()' in home, lang
@@ -75,11 +75,17 @@ def test_home_waits_for_the_hero():
         assert re.search(rf'<script data-src="{re.escape(root)}assets/home/{lang}\.js\?v=\w{{10}}"></script>', home), lang
         assert "const HOME = ''" in home_js(lang), lang
         assert not re.search(r'<script[^>]* src="[^"]*(?:assets/(?:radio|search|me|tod|living|home)/|cloudflareinsights)', home), lang
-        assert not re.search(r'<link rel="[^"]+" href="[^"]*(?:assets/(?:radio|search|me|tod)/|webmanifest)', home), lang
+        assert not re.search(r'<link rel="[^"]+" href="[^"]*assets/(?:radio|search|me|tod)/', home), lang
+        assert re.search(r'<link rel="manifest" href="[^"]*manifest-%s\.webmanifest">' % lang, home), lang
         assert home.count("document.querySelectorAll('script[data-src]')") == 1, lang
         assert home.index('assets/home/') < home.index('assets/radio/radio.js') < home.index('assets/me/me.js'), lang
-    other = page('guides', 'leveling')                         # other pages load them as before
-    assert re.search(r'<script src="\.\./\.\./assets/radio/radio\.js\?v=\w{10}" data-root="\.\./\.\./" defer>', other) and '<script data-src=' not in other
+    other = page('tools')                                     # pages outside seo.LATE_INNER load them as before
+    assert re.search(r'<script src="\.\./assets/radio/radio\.js\?v=\w{10}" data-root="\.\./" defer>', other) and '<script data-src=' not in other
+    for parts in (('guides', 'leveling'), ('play',)):           # inner pages wait for their hero picture like the home
+        inner = page(*parts)
+        assert re.search(r'<script data-src="[^"]*assets/radio/radio\.js\?v=\w{10}"', inner) and 'cloudflareinsights' in inner, parts
+        assert not re.search(r'<script[^>]* src="[^"]*(?:assets/(?:radio|search|me|living)/|cloudflareinsights)', inner), parts
+        assert "document.querySelector('img[fetchpriority=\"high\"]')" in inner and 'rel="manifest" href=' in inner, parts
 
 
 def test_launch_countdown_at_23_utc():

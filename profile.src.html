@@ -228,7 +228,7 @@ const errText = (e, def) => {
   const c = e && e.code;
   return (c && T.g && T.g['err_' + c]) || ERR[c] || def || 'Не получилось сохранить. Попробуйте ещё раз.';
 };
-const SECS0 = [['chars', 'Персонажи'], ['look', 'Внешний вид'], ['ach', 'Достижения'], ['frames', 'Рамки и ранги'], ['account', 'Аккаунт']];
+const SECS0 = [['chars', 'Персонажи'], ['look', 'Внешний вид']].concat(ACH ? [['ach', 'Достижения'], ['frames', 'Рамки и ранги']] : [], [['account', 'Аккаунт']]);
 const secs = () => (m && m.admin ? SECS0.concat([['reports', tg('tab_reports')]]) : SECS0);   // «Reports» is for the admin only
 const DEL_WORD = 'УДАЛИТЬ';
 const CHAR_MAX = 10;   // same as LIMIT in the API (a Classic Era realm)
@@ -248,7 +248,7 @@ const mainOf = () => m.characters.find(c => c.is_main) || m.characters[0];
 const have = () => new Map(m.achievements.map(a => [a.id, a]));
 const ctx = () => ({ progress: m.progress, user: m.user, chars: m.characters, have: new Set(m.achievements.map(a => a.id)) });
 const asPlayer = c => ({ id: m.user.id, nick: m.user.show_nick ? m.user.nick : null, frame: m.user.frame, rank: m.user.rank,
-  points: m.user.points, joined: m.user.joined_guild_at, member: m.user.member, main: c });
+  points: m.user.points, achievements: m.achievements, joined: m.user.joined_guild_at, member: m.user.member, main: c });
 const myUrl = () => new URL(playerUrl(m.user.id), location.href).href;
 const refUrl = () => new URL(`${HOME}profile/?ref=${m.user.id}`, location.href).href;
 /* provider marks: simple-icons (CC0), one colour; the envelope is ours */
@@ -434,7 +434,7 @@ function screen(kind, arg) {
     tgConfig();
     v.innerHTML = `${noticeHtml()}<section class="frame login"><div><h2>Войдите в профиль</h2>
       <p>Пароля нет: войдите любым удобным способом. Что мы получаем от каждого — в разделе <a href="${HOME}privacy/#account">«Конфиденциальность»</a>.</p>
-      <ul><li>До десяти персонажей, основной виден в списке игроков.</li><li>Достижения, ранги и рамки портрета.</li><li>Рамка «Основатель» — для тех, кто успеет до старта 4 ноября.</li></ul></div>
+      <ul><li>До десяти персонажей, основной виден в списке игроков.</li>${ACH ? '<li>Достижения, ранги и рамки портрета.</li>' : ''}<li>Рамка «Основатель» — для тех, кто успеет до старта 4 ноября.</li></ul></div>
       <div class="wayc">${loginWays()}${mailForm()}</div></section>`;
   } else if (kind === 'confirm') {
     v.innerHTML = `<section class="frame state"><h2>Войти по ссылке?</h2><p>${esc(arg.why)} ${esc(arg.who ? fill('Войти как %e?', { e: arg.who }) : 'Войти?')}</p>
@@ -705,7 +705,7 @@ function nextUp() {
   return out.slice(0, 3);
 }
 function nextHtml() {
-  const list = nextUp();
+  const list = ACH ? nextUp() : [];
   if (!list.length) return '';
   return `<section aria-labelledby="nxH"><div class="sec-h"><h2 id="nxH">${fresh() ? 'Первые шаги' : 'Что дальше'}</h2></div><div class="next">${list.map(({ a, pr, key }) => {
     const act = ACT[key];
@@ -719,6 +719,7 @@ function nextHtml() {
   }).join('')}</div></section>`;
 }
 function pathHtml() {
+  if (!ACH) return '';
   const u = m.user, P = m.progress || {};
   const radio = Math.floor(((P.radio_min || {}).value || 0) / 60);
   const guides = ((P.guide || {}).items || []).filter(x => GD.sets.guide.includes(x)).length;
@@ -758,7 +759,7 @@ function secLook() {
   const u = m.user, c = mainOf();
   const frames = m.frames.map(f => `<button type="button" class="rstep" data-frame="${f}" aria-pressed="${(u.frame || u.rank) === f}">${ring(f, pic(c))}<b>${esc(frameName(f))}</b></button>`).join('');
   return `<div class="sec-h"><h2>Внешний вид</h2></div><p>Всё меняется сразу — карточка вверху показывает, как вас видят другие.</p>
-    <div class="frame box"><h3>Рамка</h3><div class="frames">${frames}</div><p class="small">Новые рамки открываются рангами и особыми достижениями.</p></div>
+    ${ACH ? `<div class="frame box"><h3>Рамка</h3><div class="frames">${frames}</div><p class="small">Новые рамки открываются рангами и особыми достижениями.</p></div>` : ''}
     <div class="frame box lkbox"><h3>Облик</h3><div class="row">${ring(u.frame || u.rank, pic(c))}<div><p class="small">Пол и фон портрета — у каждого персонажа свои.</p><button type="button" class="btn ghost" data-look="${c.id}">Изменить облик</button></div></div></div>
     ${u.nick ? `<div class="frame box"><label class="chk"><input type="checkbox" id="lNick"${u.show_nick ? ' checked' : ''}>Показывать мой ник: <b>${esc(u.nick)}</b></label></div>` : ''}
     <p class="msg" id="lookNote" role="status"></p>`;
@@ -819,9 +820,9 @@ function resolveRep(b, action) {
 function secAccount() {
   const on = M.sound();
   return `<div class="sec-h"><h2>Аккаунт</h2></div>
-    <div class="frame box"><label class="chk"><input type="checkbox" id="aSound"${on ? ' checked' : ''}>Звук при новом достижении</label></div>
-    <div class="frame box"><h3>Ссылка для друга</h3><p class="small">Друг входит по ней — вам засчитывается «Вербовщик». Сейчас по вашей ссылке: ${m.user.refs || 0}.</p>
-      <div class="row"><input id="aRef" readonly value="${esc(refUrl())}" aria-label="Ссылка для друга" style="flex:1 1 280px"><button type="button" class="btn ghost" data-act="copyRef">${ico('copy')}Скопировать</button></div><span class="msg" id="aRefNote" role="status"></span></div>
+    ${ACH ? `<div class="frame box"><label class="chk"><input type="checkbox" id="aSound"${on ? ' checked' : ''}>Звук при новом достижении</label></div>` : ''}
+    ${ACH ? `<div class="frame box"><h3>Ссылка для друга</h3><p class="small">Друг входит по ней — вам засчитывается «Вербовщик». Сейчас по вашей ссылке: ${m.user.refs || 0}.</p>
+      <div class="row"><input id="aRef" readonly value="${esc(refUrl())}" aria-label="Ссылка для друга" style="flex:1 1 280px"><button type="button" class="btn ghost" data-act="copyRef">${ico('copy')}Скопировать</button></div><span class="msg" id="aRefNote" role="status"></span></div>` : ''}
     <div class="frame box"><h3>Мои данные</h3><p class="small">Всё, что мы храним о вас, одним файлом JSON.</p><div class="row"><a class="btn ghost" href="${esc(M.API)}/me/export" download>Скачать мои данные</a></div></div>
     ${newsBox()}${waysBox()}
     <div class="frame box"><h3>Выход и удаление</h3><p class="small">Выход завершает сессию на этом устройстве.</p>

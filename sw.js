@@ -4,15 +4,15 @@
    GitHub Pages lets browsers keep files only 10 minutes, so repeat visits come from here instead.
    VERSION is written by build.py from the contents of assets/ and the manifests: any changed file gives
    a new worker, which drops the old caches on activate. */
-const VERSION = 'aaa639fa68';
+const VERSION = '853d07df85';
 const PAGES = 'pages-' + VERSION, FILES = 'files-' + VERSION;
 const PRECACHE = ['./', 'assets/fonts/spectral-sc-ru-uk.woff2?v=5fb5d8ed', 'assets/fonts/spectral-sc-latin.woff2?v=55dd1ea6',
-  'assets/fonts/golos-text-ru-uk.woff2?v=893747b6', 'assets/fonts/golos-text-latin.woff2?v=5c155680', 'assets/icons/icon-192.png'];
+  'assets/fonts/golos-text-ru-uk.woff2?v=893747b6', 'assets/fonts/golos-text-latin.woff2?v=5c155680', 'assets/icons/icon-192.png?v=5b9b0d39'];
 const MAX_FILES = 250, MAX_PAGES = 80;
 const SLOW = 3000;
 
 const OFFLINE = `<!doctype html><html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>WoW Forever</title><body style="margin:0;min-height:100vh;display:grid;place-items:center;background:#0a0b0d;color:#efe9da;font:17px/1.5 system-ui,sans-serif;text-align:center;padding:24px">
+<title>WoW Forever</title><body style="margin:0;min-height:100vh;display:grid;place-items:center;background:#050505;color:#efe9da;font:17px/1.5 system-ui,sans-serif;text-align:center;padding:24px">
 <div><p style="font:700 40px Georgia,serif;color:#c9a54a;margin:0">G</p><p>Нет сети, а эту страницу вы ещё не открывали.<br>No connection, and this page has not been saved yet.<br>Немає мережі, а цю сторінку ви ще не відкривали.</p>
 <p><a href="./" style="color:#c9a54a">WoW Forever</a></p></div></body></html>`;
 
@@ -39,7 +39,7 @@ async function put(name, req, res, max) {
 }
 
 async function page(e) {
-  const req = e.request, net = fetch(req);
+  const req = e.request, net = fetch(req, { cache: 'no-cache' });   // revalidate: the HTML may sit in the HTTP cache for hours
   e.waitUntil(net.then(res => put(PAGES, req, res.clone(), MAX_PAGES)).catch(() => {}));
   const saved = await caches.match(req, { ignoreSearch: true });
   if (!saved) return net.catch(() => new Response(OFFLINE, { headers: { 'Content-Type': 'text/html; charset=utf-8' } }));

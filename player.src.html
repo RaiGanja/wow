@@ -24,7 +24,7 @@ let M = null, p = null, me = null, compare = false;
 
 function notFound() {
   $('#view').innerHTML = `<section class="frame state"><h2>Игрок не найден</h2><p>Такого игрока нет или он скрыл профиль.</p>
-    <div class="row"><a class="btn" href="${HOME}roster/">Все игроки</a></div></section>`;
+    <div class="row"><a class="btn" href="${HOME}roster/" data-social>Все игроки</a></div></section>`;
 }
 function down() {
   $('#view').innerHTML = `<section class="frame state"><h2>Сервер профилей не отвечает</h2><p>Попробуйте через пару минут. Остальной гид работает как обычно.</p>
@@ -39,7 +39,7 @@ function draw() {
   const chars = p.characters.map((c, i) => pcard(Object.assign({}, p, { main: c, alts: [], nick: null, lfg: i === 0 ? p.lfg : null }), {
     link: false, after: i === 0 ? '<div class="mainmark">Основной персонаж</div>' : '',
   })).join('');
-  const cmp = compare && me && !own;
+  const cmp = ACH && compare && me && !own;
   const name = p.main.name;
   const cats = GD.cats.map(k => {
     const list = GD.ach.filter(a => a.cat === k && (got.has(a.id) || (cmp && mine.has(a.id))));
@@ -50,7 +50,7 @@ function draw() {
   const cmpBar = cmp ? `<div class="frame vs" role="status"><span>${fill(esc('Вы: %a · %n: %b'), { a: `<b>${mine.size}</b>`, b: `<b>${got.size}</b>`, n: esc(name) })}</span>
     <span class="small">${esc(fill('Общих: %n', { n: [...got.keys()].filter(id => mine.has(id)).length }))}</span></div>` : '';
   // achievements only the admin grants (WoW feats); the ones the player already has are left out
-  const feats = GD.ach.filter(a => a.kind === 'admin' && !got.has(a.id));
+  const feats = ACH ? GD.ach.filter(a => a.kind === 'admin' && !got.has(a.id)) : [];
   const admin = me && me.admin && !own ? `<div class="frame admin"><span>Админ:</span>
     ${p.characters.map(c => `<button type="button" class="btn ghost" data-verify="${c.id}" data-name="${esc(c.name)}" data-level="${c.level}">${esc(tg('verify_level'))}: ${esc(c.name)}</button>`).join('')}
     ${feats.length ? `<select id="admAch" aria-label="${esc(tg('grant_ach'))}">${feats.map(a => `<option value="${esc(a.id)}">${esc(achName(a.id))}</option>`).join('')}</select>
@@ -59,13 +59,13 @@ function draw() {
   $('#view').innerHTML = `${bcard(Object.assign({}, p, { since: p.since }), { h: 'h2' })}
     <div class="bar-row"><button type="button" class="btn ghost" id="copy">${ico('copy')}Скопировать ссылку</button>
       ${own ? '' : `<button type="button" class="btn ghost" id="wspBtn" title="/w ${esc(name)}">Шёпот</button>`}
-      ${me && !own ? `<button type="button" class="btn ghost" id="cmpBtn" aria-pressed="${compare}">${compare ? 'Скрыть сравнение' : 'Сравнить с собой'}</button>` : ''}
+      ${ACH && me && !own ? `<button type="button" class="btn ghost" id="cmpBtn" aria-pressed="${compare}">${compare ? 'Скрыть сравнение' : 'Сравнить с собой'}</button>` : ''}
       ${me && !own ? `<button type="button" class="btn ghost" id="repBtn">${esc(tg('report'))}</button>` : ''}
       ${own ? `<a class="btn ghost" href="${HOME}profile/">Мой профиль</a>` : ''}<span class="msg" id="copyNote" role="status"></span></div>
     ${admin}
     <section class="sec" aria-labelledby="chH"><div class="sec-h"><h2 id="chH">Персонажи</h2></div><div class="chars">${chars}</div></section>
-    <section class="sec" aria-labelledby="acH"><div class="sec-h"><h2 id="acH">Достижения</h2><span class="small">${esc(fill('Очки: %n', { n: p.points }))}</span></div>
-      ${cmpBar}${cats || '<p class="small">Достижений пока нет.</p>'}</section>`;
+    ${ACH ? `<section class="sec" aria-labelledby="acH"><div class="sec-h"><h2 id="acH">Достижения</h2><span class="small">${esc(fill('Очки: %n', { n: p.points }))}</span></div>
+      ${cmpBar}${cats || '<p class="small">Достижений пока нет.</p>'}</section>` : ''}`;
   $('#copy').onclick = () => copyText(location.href).then(ok => {
     $('#copyNote').textContent = ok ? 'Ссылка скопирована' : location.href;
     if (ok && own) M.track('show_card');

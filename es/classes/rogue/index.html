@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Guía de Pícaro en WoW Forever: especializaciones y razas</title>
 <meta name="description" content="Guía de Pícaro en WoW Forever: especializaciones Asesinato, Combate y Sutileza, habilidades clave, razas, aporte al grupo, pros y contras.">
-<meta name="theme-color" content="#060708">
+<meta name="theme-color" content="#050505">
 <link rel="alternate" hreflang="ru" href="https://gabella.site/wow/classes/rogue/">
 <link rel="alternate" hreflang="en" href="https://gabella.site/wow/en/classes/rogue/">
 <link rel="alternate" hreflang="uk" href="https://gabella.site/wow/uk/classes/rogue/">
@@ -37,8 +37,8 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Guía de Pícaro en WoW Forever: especializaciones y razas">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" type="image/png" sizes="48x48" href="../../../assets/icons/favicon-48.png">
-<link rel="icon" type="image/png" sizes="96x96" href="../../../assets/icons/favicon-96.png">
+<link rel="icon" type="image/png" sizes="48x48" href="../../../assets/icons/favicon-48.png?v=76679d4b">
+<link rel="icon" type="image/png" sizes="96x96" href="../../../assets/icons/favicon-96.png?v=e6542ea5">
 <link rel="preload" href="../../../assets/fonts/spectral-sc-latin.woff2?v=55dd1ea6" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../../../assets/fonts/golos-text-latin.woff2?v=5c155680" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" type="image/avif" imagesrcset="../../../assets/art/rogue-600.avif?v=937d3cdc 600w, ../../../assets/art/rogue-896.avif?v=e7226468 896w, ../../../assets/art/rogue-1344.avif?v=583c717d 1344w" imagesizes="(max-width: 719px) 100vw, 75vh">
@@ -54,10 +54,18 @@
 .cprofs .pmore { justify-self: start; color: var(--gold-2); font-weight: 500; text-decoration: none; }
 .cprofs .pmore:hover { text-decoration: underline; }
 .cprofs .pmore .ico { width: 16px; height: 16px; margin-left: 6px; vertical-align: -3px; }
-.brace { margin: 16px 0 0; color: var(--muted); font-size: var(--fs-16); }
-.brace a { margin-left: 8px; color: var(--gold-2); font-weight: 500; white-space: nowrap; }
-.brace + .brace { margin-top: 8px; }
-.brace.bguide a { margin-left: 0; white-space: normal; }
+/* I3 Quick start: four facts in a row and the class guides under them, right under the hero */
+.qstart { margin-top: 28px; }
+.qs { display: grid; gap: 16px; padding: 22px 24px; }
+.qs h2 { font-size: var(--fs-22); }
+.qsl { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px 24px; margin: 0; }
+.qsl div { display: grid; gap: 3px; align-content: start; min-width: 0; }
+.qsl dt { color: var(--muted); font-size: var(--fs-13); }
+.qsl dd { margin: 0; font-weight: 600; font-size: var(--fs-16); line-height: 1.35; }
+.qsa { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 0; padding-top: 14px; border-top: 1px solid var(--line); }
+.qsa a { min-height: 32px; display: inline-flex; align-items: center; color: var(--gold-2); font-weight: 600; text-underline-offset: 3px; }
+@media (max-width: 899px) { .qsl { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 719px) { .qstart { margin-top: 20px; } .qs { padding: 18px 16px; } }
 /* Game-portal layout: full-screen art hero, faction banners, class portrait roster, tools, guides band. Night + gold, light paper theme for content. */
 @font-face { font-family: "Spectral SC"; font-style: normal; font-weight: 400 700; font-display: swap; src: url(../../../assets/fonts/spectral-sc-cyrillic.woff2?v=f78bcdc2) format("woff2"); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
 @font-face { font-family: "Spectral SC"; font-style: normal; font-weight: 400 700; font-display: swap; src: url(../../../assets/fonts/spectral-sc-latin-ext.woff2?v=1ba52ac6) format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
@@ -155,6 +163,8 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .ri { width: 1.05em; height: 1.05em; vertical-align: -.17em; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; margin-right: 4px; }
 .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 max(20px, env(safe-area-inset-left, 0px)); }
 
+.skip { position: fixed; left: 16px; top: 8px; z-index: 80; padding: 10px 16px; border: 1px solid var(--gold); border-radius: 8px; background: var(--panel-2); color: var(--fg); font-weight: 600; text-decoration: none; }
+.skip:not(:focus) { width: 1px; height: 1px; padding: 0; border: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }   /* seen only from the keyboard */
 /* Top bar: transparent over the hero, solid after scrolling */
 .topbar { position: fixed; inset: 0 0 auto 0; z-index: 30; height: var(--top); color: var(--ink); background: linear-gradient(rgba(5,6,8,.62), rgba(5,6,8,0)); border-bottom: 1px solid transparent; transition: background-color .25s, border-color .25s, color .25s; }
 .topbar.solid { background: var(--rail); border-bottom-color: var(--line); color: var(--fg); }
@@ -179,16 +189,17 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .langlist { position: absolute; right: 0; top: calc(100% + 8px); z-index: 60; min-width: 230px; margin: 0; padding: 6px; list-style: none; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); color: var(--fg); box-shadow: 0 18px 48px rgba(0,0,0,.35); }
 .langlist a { display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 40px; padding: 0 12px; border-radius: 7px; color: inherit; text-decoration: none; font-size: var(--fs-16); }
 .langlist a small { opacity: .55; font-size: var(--fs-13); font-weight: 600; letter-spacing: .06em; }
-.langlist a:hover, .langlist a:focus-visible { background: color-mix(in srgb, var(--gold) 12%, transparent); }
+.langlist a:hover, .langlist a:focus-visible { background: var(--seg-on); }
 .langlist a[aria-current="page"] { color: var(--gold-2); font-weight: 600; }
 .langgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; width: 100%; }
 .langgrid a { min-height: 44px; display: grid; place-items: center; padding: 4px 6px; text-align: center; line-height: 1.15; border: 1px solid var(--pline); border-radius: 8px; color: inherit; text-decoration: none; font-size: var(--fs-14); }
-.langgrid a[aria-current="page"] { background: var(--gold); color: var(--gold-ink); border-color: transparent; font-weight: 600; }
+.langgrid a[aria-current="page"] { background: var(--seg-on); color: var(--gold-2); border-color: transparent; font-weight: 600; }
 .langhint { position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); z-index: 70; display: flex; align-items: center; gap: 12px; width: max-content; max-width: calc(100% - 32px); padding: 6px 6px 6px 16px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); color: var(--fg); box-shadow: 0 18px 48px rgba(0,0,0,.35); font-size: var(--fs-14); }
 .langhint a { color: var(--gold-2); font-weight: 600; white-space: nowrap; }
 .langhint button { flex: none; width: 36px; height: 36px; display: grid; place-items: center; border: 0; border-radius: 7px; background: transparent; color: inherit; cursor: pointer; }
 .langhint button:hover { background: color-mix(in srgb, currentColor 10%, transparent); }
 @media print { .langhint { display: none; } }
+@media (max-width: 359px) { .langhint { gap: 6px; padding-left: 14px; } .langhint span { display: none; } }   /* 320: the link and the close button, one line */
 .gamehint { display: flex; align-items: center; gap: 12px; margin: 0 0 16px; padding: 6px 6px 6px 16px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); font-size: var(--fs-14); }
 .gamehint[hidden] { display: none; }
 .gamehint span { flex: 1; min-width: 0; }
@@ -201,10 +212,10 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .srchbtn kbd, .radiobtn .rdo-eq { display: none; }   /* on the home page search.css and radio.css come after the first paint */
 .radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: var(--fs-16); }
-@media (max-width: 1210px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }
+@media (max-width: 1260px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }   /* es «Iniciar sesión» ran 21 px off a 1215 px screen */
 
 /* Hero */
-.hero { position: relative; min-height: max(560px, 100svh); display: grid; align-content: space-between; color: var(--ink); background: #08090b; isolation: isolate; overflow: hidden; }
+.hero { position: relative; min-height: max(560px, 100svh); display: grid; align-content: space-between; color: var(--ink); background: #050505; isolation: isolate; overflow: hidden; }
 .hero-art, .hero-art img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .hero-art { z-index: -2; }
 .hero-art img { object-fit: cover; object-position: 62% 50%; }
@@ -227,6 +238,7 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .cd .u span { font-size: var(--fs-13); color: var(--ink-2); }
 .cd .what { display: grid; gap: 1px; font-size: var(--fs-16); color: var(--ink-2); }
 .cd .what b { color: var(--ink); font-weight: 600; }
+.hero .lead, .cd .u span, .cd .what { color: #e8e2d4; }   /* light enough on the bright day sky (axe: incomplete contrast) */
 .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap; background: var(--gold); color: var(--gold-ink); border: 1px solid var(--gold); border-radius: 7px; padding: 0 18px; font-weight: 600; min-height: 44px; text-decoration: none; transition: background-color .2s, border-color .2s, color .2s; }
 .btn:hover { background: var(--gold-2); border-color: var(--gold-2); }
@@ -269,7 +281,7 @@ section.block { scroll-margin-top: -72px; }
 
 /* Class roster: tall portraits, the active one expands */
 .roster { display: flex; gap: 8px; height: clamp(460px, 41vw, 580px); }
-.hc { display: block; text-decoration: none; position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; isolation: isolate; padding: 0; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; background: #0b0c0e; color: var(--ink); text-align: left; transition: flex-grow .55s var(--ease), border-color .3s; }
+.hc { display: block; text-decoration: none; position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; isolation: isolate; padding: 0; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; background: #0f0f0f; color: var(--ink); text-align: left; transition: flex-grow .55s var(--ease), border-color .3s; }
 .hc.on { flex-grow: 3.6; border-color: #e0c27a; box-shadow: inset 0 0 0 1px #e0c27a; }
 .hc picture, .hc img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .hc picture { z-index: -2; }
@@ -298,7 +310,7 @@ section.block { scroll-margin-top: -72px; }
 .ttile::after, .gt::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(5,5,5,0) 22%, rgba(5,5,5,.92) 100%); }
 .ttile:hover, .gt:hover { border-color: #e0c27a; }
 .ttile:hover img, .gt:hover img { filter: none; transform: scale(1.04); }
-.ttile b, .gt b { font-weight: 700; font-size: var(--fs-18); line-height: 1.2; text-shadow: 0 1px 8px rgba(0,0,0,.7); }
+.ttile b, .gt b { font-weight: 700; font-size: var(--fs-18); line-height: 1.2; text-shadow: 0 1px 8px rgba(0,0,0,.7); hyphens: auto; }   /* «Gruppenplaner» on 320: a hyphen, not a cut letter */
 .ttile span, .gt span { font-size: var(--fs-14); line-height: 1.4; color: rgba(243,239,230,.82); }
 .ttile time, .gt time { margin-top: 4px; font-size: var(--fs-13); color: rgba(243,239,230,.6); font-variant-numeric: tabular-nums; }
 
@@ -351,7 +363,7 @@ section.block { scroll-margin-top: -72px; }
   #classes .rr { height: clamp(300px, 22vw, 340px); }
 }
 /* Camp scene near the end: the campfire art in full, fire and embers alive (assets/living/) */
-.camp { position: relative; isolation: isolate; overflow: hidden; margin-top: 56px; min-height: clamp(520px, 56vw, 1200px);   /* close to the art's own 16:9: heads stay in frame on wide screens */ display: grid; align-content: end; color: #f1ece0; background: #08090b; }
+.camp { position: relative; isolation: isolate; overflow: hidden; margin-top: 56px; min-height: clamp(520px, 56vw, 1200px);   /* close to the art's own 16:9: heads stay in frame on wide screens */ display: grid; align-content: end; color: #f1ece0; background: #050505; }
 .camp-art, .camp-art img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .camp-art { z-index: -2; }
 .camp-art img { object-fit: cover; object-position: 66% 30%; }
@@ -366,18 +378,26 @@ section.block { scroll-margin-top: -72px; }
 .camp .btn:hover { background: #e0c27a; border-color: #e0c27a; }
 .camp .btn.ghost { background: rgba(5,5,5,.35); color: #f1ece0; border-color: rgba(241,236,224,.45); }
 .camp .btn.ghost:hover { border-color: #e0c27a; background: rgba(5,5,5,.55); }
+@media (max-width: 719px) {   /* phone: one gold button, the other two as plain links under it */
+  .camp-btns { gap: 4px 22px; align-items: center; }
+  .camp-btns::after { content: ""; flex-basis: 100%; order: 1; }   /* a line break after the gold button */
+  .camp-btns .btn:first-child { margin-bottom: 6px; }
+  .camp-btns .btn.ghost { order: 2; }
+  .camp .btn.ghost { min-height: 44px; padding: 0; border: 0; background: none; font-size: var(--fs-16); text-decoration: underline; text-decoration-color: rgba(241,236,224,.45); text-underline-offset: 4px; }
+  .camp .btn.ghost:hover { background: none; text-decoration-color: currentColor; }
+}
 /* Living art (assets/living/): the WebGL layer over a picture fades in once it draws */
 canvas.fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0; transition: opacity 1.6s ease; }
 canvas.fx.on { opacity: 1; }
 /* Inner page hero (roster, tools): a scene of its own on the whole screen like the home hero, living art over it, text on the calm
    left. The art keeps the screen height while the content under it grows (search results), so the picture is never cropped anew. */
-.thero { --hh: max(560px, 100svh); position: relative; isolation: isolate; overflow: hidden; min-height: var(--hh); display: grid; align-content: start; padding: calc(var(--top) + clamp(32px, 8vh, 96px)) 0 calc(40px + var(--hfade)); color: var(--ink); background: #08090b; }
+.thero { --hh: max(560px, 100svh); position: relative; isolation: isolate; overflow: hidden; min-height: var(--hh); display: grid; align-content: start; padding: calc(var(--top) + clamp(32px, 8vh, 96px)) 0 calc(40px + var(--hfade)); color: var(--ink); background: #050505; }
 .thero-art, .thero-art img, .thero::before { position: absolute; inset: 0 0 auto 0; width: 100%; height: var(--hh); }
 .thero-art { z-index: -2; }
 .thero-art img { object-fit: cover; object-position: 66% 50%; }
 .thero::before { content: ""; z-index: -1; background:
   linear-gradient(90deg, rgba(5,5,5,.78) 0%, rgba(5,5,5,.5) 30%, rgba(5,5,5,.12) 56%, rgba(5,5,5,0) 76%),
-  linear-gradient(180deg, rgba(5,5,5,.5) 0%, rgba(5,5,5,0) 24%, rgba(5,5,5,0) 60%, #08090b 100%); }
+  linear-gradient(180deg, rgba(5,5,5,.5) 0%, rgba(5,5,5,0) 24%, rgba(5,5,5,0) 60%, #050505 100%); }
 .thero-in { width: 100%; display: grid; gap: 18px; justify-items: start; }
 .thero .crumbs { display: flex; gap: 10px; font-size: var(--fs-14); color: var(--ink-2); }
 .thero .crumbs a { color: var(--ink-2); text-decoration: none; }
@@ -390,7 +410,7 @@ canvas.fx.on { opacity: 1; }
 :root[data-theme="light"] { --hfade: 56px;
   --paper-edge: rgb(8 9 11) 0%, color-mix(in oklab, rgb(8 9 11), var(--bg) 6%) 20%, color-mix(in oklab, rgb(8 9 11), var(--bg) 22%) 40%,
     color-mix(in oklab, rgb(8 9 11), var(--bg) 52%) 60%, color-mix(in oklab, rgb(8 9 11), var(--bg) 82%) 80%, var(--bg) 100%; }
-:root[data-theme="light"] :is(.thero, .chero)::after { content: ""; position: absolute; inset: auto 0 0 0; z-index: -1; height: var(--hfade); background: linear-gradient(180deg, var(--paper-edge)); pointer-events: none; }
+:root[data-theme="light"] :is(.thero, .chero, .phead)::after { content: ""; position: absolute; inset: auto 0 0 0; z-index: -1; height: var(--hfade); background: linear-gradient(180deg, var(--paper-edge)); pointer-events: none; }
 :root[data-theme="light"] .hero::before { background:
   linear-gradient(90deg, rgb(var(--hero-fade) / .06) calc(50% - 800px), rgb(var(--hero-fade) / .46) calc(50% - 420px), rgb(var(--hero-fade) / .5) calc(50% + 100px), rgb(var(--hero-fade) / .16) calc(50% + 380px), rgb(var(--hero-fade) / .04) calc(50% + 600px)),
   linear-gradient(180deg, rgb(var(--hero-fade) / .42) 0%, rgb(var(--hero-fade) / 0) 26%, rgb(var(--hero-fade) / 0) 58%, rgb(var(--hero-fade) / .9) 88%, rgb(var(--hero-fade)) 100%); }
@@ -444,9 +464,9 @@ ul.dlist li b { font-weight: 600; font-size: var(--fs-16); line-height: 1.3; }
 ul.dlist li .z { grid-column: 1; color: var(--muted); font-size: var(--fs-13); line-height: 1.3; }
 ul.dlist li .z i { font-style: normal; color: var(--sapphire); font-weight: 600; }
 ul.dlist li .lvl { grid-column: 2; grid-row: 1 / 3; text-align: right; }
-ul.dlist li.mine { background: color-mix(in srgb, var(--gold) 14%, transparent); }
+ul.dlist li.mine { background: var(--seg-on); }
 .more-l { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-weight: 600; font-size: var(--fs-16); }
-.gtip { padding: 16px 18px; border-radius: 6px; background: color-mix(in srgb, var(--gold) 9%, var(--panel-2)); }
+.gtip { padding: 16px 18px; border-radius: 6px; background: var(--panel-2); }   /* black and grey plates; a tip is the gold word and the fire, not a gold-tinted plate */
 .st-src { color: var(--muted); font-size: var(--fs-14); display: flex; flex-wrap: wrap; gap: 4px 14px; }
 .st-src a { color: var(--muted); }
 .st-src a:hover { color: var(--gold-2); }
@@ -469,6 +489,7 @@ ul.dlist li.mine { background: color-mix(in srgb, var(--gold) 14%, transparent);
 .me-f .fl { display: grid; gap: 5px; min-width: 0; font-size: var(--fs-13); color: var(--muted); font-weight: 600; }
 .me-f .wide { grid-column: 1 / -1; }
 .me-f select { width: 100%; min-width: 0; font: inherit; font-size: var(--fs-16); font-weight: 500; padding: 0 8px; min-height: 44px; border: 1px solid var(--pline); border-radius: 7px; background: var(--panel-2); color: var(--fg); }
+@media (max-width: 380px) { .me-f { grid-template-columns: minmax(0, 1fr); } }   /* «Night Elf», «Engineering» stay whole in the selects */
 .me-f .stepper { display: flex; width: 100%; border-radius: 7px; border-color: var(--pline); background: var(--panel-2); }
 .me-f .stepper button { min-width: 36px; }
 .me-f .stepper input { flex: 1; width: auto; min-width: 0; }
@@ -509,7 +530,7 @@ ul.dots li::marker { color: var(--gold); }
 .note { padding: 14px 16px; border-radius: 6px; background: var(--panel-2); font-size: var(--fs-16); }
 .note b { font-weight: 600; }
 /* inner blocks (tip, note) are a tinted plate without a frame: only the outermost panel has one */
-.tipbox { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 12px; align-items: start; padding: 14px 16px; border-radius: 6px; background: color-mix(in srgb, var(--gold) 9%, var(--panel-2)); font-size: var(--fs-16); }
+.tipbox { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 12px; align-items: start; padding: 14px 16px; border-radius: 6px; background: var(--panel-2); font-size: var(--fs-16); }
 .tipbox .fi { width: 26px; height: 26px; margin-top: 1px; color: var(--gold-2); }
 /* a tip inside a list or a tab: the word only, no plate and no icon (one boxed tip per section) */
 .tipl .tl, .steps-c li.tip .tl { display: inline; margin-right: 8px; font-size: inherit; font-weight: 600; }
@@ -591,7 +612,7 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 .cell.no { cursor: default; }
 .cell.no::after { content: ""; width: 4px; height: 4px; border-radius: 50%; background: var(--line-2); opacity: .7; }
 .cell.dim { opacity: .22; }
-.cell.sel i { width: 28px; height: 28px; background: var(--gold-2); box-shadow: 0 0 0 5px color-mix(in srgb, var(--gold) 22%, transparent); transform: none; }
+.cell.sel i { width: 28px; height: 28px; background: var(--gold-2); box-shadow: 0 0 0 5px var(--seg-on); transform: none; }
 .cell.sel i .ico { opacity: 1; }
 :root[data-theme="light"] .cell i:not(.sel i) { background: var(--class-ink); box-shadow: 0 0 0 4px color-mix(in srgb, var(--class-ink) 14%, transparent); }
 :root[data-theme="light"] .cell.new i:not(.sel i) { background: var(--class-ink); box-shadow: 0 0 0 2.5px var(--panel), 0 0 0 4px var(--new); }
@@ -726,8 +747,8 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .lvl .bar i { position: absolute; top: 0; bottom: 0; border-radius: 999px; background: var(--new); }
 .lvl .bar i.slow { background: var(--horde); }
 .lvl .scale { display: flex; justify-content: space-between; color: var(--muted); font-size: var(--fs-13); }
-.ccl { display: flex; gap: 6px; flex-wrap: wrap; }
-.ccl .av { --s: 28px; transition: opacity .2s, filter .2s; }
+.ccl { display: flex; gap: 7px; min-width: 0; }   /* nine classes in one row: the faces shrink on a narrow card instead of one dropping to a line of its own */
+.ccl .av { --s: 28px; flex: 0 1 var(--s); width: auto; height: auto; min-width: 0; aspect-ratio: 1; transition: opacity .2s, filter .2s; }
 .ccl .av.off { opacity: .16; filter: grayscale(1); box-shadow: none; }
 .ccl .av.nw::after { content: ""; position: absolute; right: -3px; top: -3px; width: 9px; height: 9px; border-radius: 50%; background: var(--new); box-shadow: 0 0 0 2px var(--panel); }
 .abs { display: grid; align-items: start; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 22px; }
@@ -761,10 +782,11 @@ footer .fmap a { display: inline-block; padding: 2px 0; color: var(--muted); tex
 footer .fmap .fh { margin-bottom: 6px; font-weight: 600; font-size: var(--fs-16); color: var(--fg); }
 footer .fmap a:hover { color: var(--gold); }
 footer > :first-child { padding-top: 0; border-top: 0; }   /* profile pages: the map opens the footer, no line above it */
-@media (max-width: 719px) {
-  footer .fmap { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  footer .fmap a { padding: 5px 0; }
-  footer .fmap a { hyphens: auto; }
+@media (max-width: 719px) {   /* phone: the same short footer on every page, section names only (the full map is in the More sheet) */
+  footer { margin-top: 64px; }
+  footer .fmap { display: flex; flex-wrap: wrap; gap: 4px 20px; }
+  footer .fmap ul { display: none; }
+  footer .fmap .fh { margin: 0; padding: 8px 0; }
 }
 
 /* Menu sheet (all sections, language, theme) */
@@ -827,7 +849,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 @media (max-width: 719px) {
   :root { --top: 56px; --fs-h2: var(--fs-28); --fs-hero: var(--fs-40); }
   .wrap, .topbar .in { padding-left: 16px; padding-right: 16px; }
-  .menubtn, .topbar .themebtn { display: none; }
+  .menubtn { display: none; }   /* the tab bar has the More sheet; the theme button stays in sight */
   .topbar .langbtn { padding: 0 10px; }
   .topbar .langbtn::after { display: none; }
   .topbar .langsel { order: 1; }
@@ -840,7 +862,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .hero-in { padding-top: calc(var(--top) + 28px); gap: 18px; }
   .thero { --hh: max(580px, calc(100svh - 62px - env(safe-area-inset-bottom, 0px))); padding: max(calc(var(--top) + 28px), calc(var(--hh) * .5)) 0 calc(28px + var(--hfade)); }
   .thero-art img { object-position: 90% 50%; }   /* make_images.CUTS: the party on the upper half, the text from the middle down */
-  .thero::before { background: linear-gradient(180deg, rgba(5,5,5,.55) 0%, rgba(5,5,5,.08) 26%, rgba(5,5,5,.35) 52%, rgba(5,5,5,.9) 76%, #08090b 100%); }
+  .thero::before { background: linear-gradient(180deg, rgba(5,5,5,.55) 0%, rgba(5,5,5,.08) 26%, rgba(5,5,5,.35) 52%, rgba(5,5,5,.9) 76%, #050505 100%); }
   .thero h1 { font-size: var(--fs-hero); hyphens: auto; }
 }
 /* Phones upright: the home hero shows the whole party (make_images.CUTS) as a band on top, the text starts at their knees */
@@ -871,9 +893,6 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   #guides .gt { min-height: 118px; }
   #guides .gt span { display: none; }
   #camp { min-height: 520px; }
-  .fsrc + .fmap { display: flex; flex-wrap: wrap; gap: 4px 20px; }
-  .fsrc + .fmap ul { display: none; }
-  .fsrc + .fmap .fh { margin: 0; }
   section.block { padding-top: 72px; gap: 22px; scroll-margin-top: -48px; }
   .hc, .hc.on { flex-basis: 80%; }
   .hc .info, .rr .hc .info { min-width: 0; padding: 22px 20px 22px; grid-template-columns: minmax(0, 1fr); }
@@ -917,6 +936,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .tabbar { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); position: fixed; inset: auto 0 0 0; z-index: 35; background: var(--rail); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px); }
   .tabbar a, .tabbar button { min-height: 60px; display: grid; justify-items: center; align-content: center; gap: 3px; padding: 0 2px; border: 0; background: none; color: var(--muted); text-decoration: none; text-align: center; font-size: var(--fs-13); font-weight: 500; line-height: 1.2; }
   .tabbar .ico { width: 22px; height: 22px; }
+  @media (max-width: 359px) { .tabbar a, .tabbar button { font-size: 11.5px; padding: 0; } }   /* 320 px: «En el juego» (es) stays on one line */
   .tabbar [aria-current="true"] { color: var(--gold-2); }
   dialog.sheet { margin: auto 0 0 0; width: 100%; height: auto; max-height: 86dvh; border-left: 0; border-top: 1px solid var(--line); border-radius: 10px 10px 0 0; padding-bottom: env(safe-area-inset-bottom, 0px); }
   .sheet .toc { grid-template-columns: 1fr 1fr; gap: 14px 6px; }
@@ -926,23 +946,24 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 }
 :root h1.long { min-width: min-content; font-size: min(var(--fs-hero), calc((100vw - 64px) / (var(--lw, 12) * .74))); }   /* build.long_title: an 11+ letter word (--lw letters, ~.72em each in the display caps); never narrower than it, and never wider than the screen («Konfidencialnost» on 768) */
 @media (max-width: 719px) { :root h1.long { font-size: min(var(--fs-28), calc((100vw - 32px) / (var(--lw, 12) * .74))); max-width: none; } }
-@media (max-width: 380px) {
-  /* 320–380px phones: brand + search, radio, language must share one row */
+@media (max-width: 479px) {
+  /* 320–479px phones: brand + search, radio, theme, language must share one row («Poradnik WoW Forever» is the longest) */
   .topbar .in { gap: 6px; }
-  .topbar .tools { gap: 4px; }
-  .topbar .iconbtn, .topbar .langbtn { min-width: 40px; }
+  .topbar .tools { gap: 3px; }
+  .topbar .iconbtn, .topbar .langbtn { min-width: 38px; min-height: 40px; }
+  .topbar .langbtn { padding: 0 8px; }
   .brand { gap: 7px; }
   .mark { width: 32px; height: 32px; }
   .brand b { font-size: 18px; }
   .bt small { font-size: 11px; letter-spacing: .01em; }   /* «Poradnik WoW Forever», «Guía de WoW Forever» pushed the language button off a 320 px screen */
 }
-@media (max-width: 340px) { .topbar .tools { gap: 2px; } .topbar .langbtn { padding: 0 8px; } }
+@media (max-width: 359px) { .bt small { display: none; } }   /* 320: four buttons; the subtitle gives way, «Gabella» and the mark stay */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .hc, .hc img, .hc .info { transition: none; }
 }
 /* Class page: full-screen portrait hero, spec tabs, races, group use, other classes */
-.chero { position: relative; isolation: isolate; overflow: hidden; min-height: max(620px, 100svh); display: grid; align-content: end; color: var(--ink); background: #08090b; }
+.chero { position: relative; isolation: isolate; overflow: hidden; min-height: max(620px, 100svh); display: grid; align-content: end; color: var(--ink); background: #050505; }
 .chero .blur, .chero .blur img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .chero .blur { z-index: -3; }
 .chero .blur img { object-fit: cover; opacity: .7; }
@@ -990,7 +1011,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .keys .en { display: block; font-size: var(--fs-14); }
 .keys span.d { color: var(--muted); font-size: var(--fs-16); }
 
-.nband { position: relative; isolation: isolate; overflow: hidden; margin-top: 110px; padding: 88px 0 80px; color: var(--ink); background: #08090b; }
+.nband { position: relative; isolation: isolate; overflow: hidden; margin-top: 110px; padding: 88px 0 80px; color: var(--ink); background: #050505; }
 .nband > picture, .nband > picture img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .nband > picture { z-index: -2; }
 .nband > picture img { object-fit: cover; }
@@ -1024,7 +1045,7 @@ ul.pm.plus li::before { content: "+"; color: var(--new); }
 ul.pm.minus li::before { content: "−"; color: var(--horde); }
 
 .others { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 8px; }
-.oc { position: relative; aspect-ratio: 3 / 4; overflow: hidden; isolation: isolate; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; color: var(--ink); text-decoration: none; display: grid; align-content: end; padding: 10px; background: #0b0c0e; }
+.oc { position: relative; aspect-ratio: 3 / 4; overflow: hidden; isolation: isolate; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; color: var(--ink); text-decoration: none; display: grid; align-content: end; padding: 10px; background: #0f0f0f; }
 .oc picture, .oc img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .oc picture { z-index: -2; }
 .oc img { object-fit: cover; object-position: 50% 20%; filter: saturate(.8) brightness(.75); transition: filter .3s, transform .6s var(--ease); }
@@ -1073,19 +1094,19 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 @media print { .rv { opacity: 1; transform: none; } }
 </style>
 <link rel="manifest" href="../../../manifest-es.webmanifest">
-<link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
+<link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
-<link rel="stylesheet" href="../../../assets/radio/radio.css?v=a448c8a8c7" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/search/search.css?v=7039f5f416" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/me/me.css?v=a34702d24d" media="print" onload="this.media='all'">
+<link data-rel="stylesheet" href="../../../assets/radio/radio.css?v=44f8689128">
+<link data-rel="stylesheet" href="../../../assets/search/search.css?v=c71c6dbeaa">
+<link data-rel="stylesheet" href="../../../assets/me/me.css?v=30e53cd5c1">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://gabella.site/wow/es/"},{"@type":"ListItem","position":2,"name":"Clases","item":"https://gabella.site/wow/es/classes/"},{"@type":"ListItem","position":3,"name":"Pícaro","item":"https://gabella.site/wow/es/classes/rogue/"}]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Guía de Pícaro en WoW Forever: especializaciones y razas","description":"Guía de Pícaro en WoW Forever: especializaciones Asesinato, Combate y Sutileza, habilidades clave, razas, aporte al grupo, pros y contras.","inLanguage":"es","url":"https://gabella.site/wow/es/classes/rogue/","dateModified":"2026-10-25","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/es/"},"image":"https://gabella.site/wow/assets/og/rogue.jpg?v=7a47dc0a"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Guía de Pícaro en WoW Forever: especializaciones y razas","description":"Guía de Pícaro en WoW Forever: especializaciones Asesinato, Combate y Sutileza, habilidades clave, razas, aporte al grupo, pros y contras.","inLanguage":"es","url":"https://gabella.site/wow/es/classes/rogue/","dateModified":"2026-10-25","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/es/"},"image":"https://gabella.site/wow/assets/og/rogue.jpg?v=7a47dc0a"}</script>
 </head>
 <body style="--cc:#fff569">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-tank" viewBox="0 0 24 24"><g fill="currentColor" stroke="none"><path d="M12 2.2V21.8C7.2 20 3.8 16.1 3.8 11.1V5z"/><path d="M12 2.2 20.2 5v6.1c0 5-3.4 8.9-8.2 10.7z" opacity=".6"/></g></symbol>
   <symbol id="i-heal" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M9.6 2.8h4.8a.8.8 0 0 1 .8.8v5h5a.8.8 0 0 1 .8.8v5.2a.8.8 0 0 1-.8.8h-5v5a.8.8 0 0 1-.8.8H9.6a.8.8 0 0 1-.8-.8v-5h-5a.8.8 0 0 1-.8-.8V9.4a.8.8 0 0 1 .8-.8h5v-5a.8.8 0 0 1 .8-.8z"/></symbol>
-  <symbol id="i-dps" viewBox="0 0 24 24"><g fill="currentColor" stroke="none" transform="rotate(45 12 12)"><path d="M12 .6V14H9.5V3.6z"/><path d="M12 .6l2.5 3V14H12z" opacity=".6"/><rect x="5.6" y="14" width="12.8" height="3" rx="1.5"/><rect x="10.6" y="17" width="2.8" height="3.4"/><circle cx="12" cy="21.6" r="2"/></g></symbol>
+  <symbol id="i-dps" viewBox="0 0 24 24"><g fill="currentColor" stroke="none" transform="rotate(45 12 12) translate(12 12.2) scale(1.14) translate(-12 -12.2)"><path d="M12 .8V14H8.9V4.1z"/><path d="M12 .8l3.1 3.3V14H12z" opacity=".6"/><rect x="5.2" y="14" width="13.6" height="3.4" rx="1.7"/><rect x="10.4" y="17.2" width="3.2" height="3.2"/><circle cx="12" cy="21.4" r="2.2"/></g></symbol>
   <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
   <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></symbol>
   <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></symbol>
@@ -1104,13 +1125,13 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
 </svg>
 
-<header class="topbar" id="topbar"><div class="in">
-  <a class="brand" href="../../" aria-label="Gabella, a la página de inicio"><img class="mark" src="../../../assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Guía de WoW Forever</small></span></a>
+<a class="skip" href="#main">Ir al contenido</a><header class="topbar" id="topbar"><div class="in">
+  <a class="brand" href="../../"><img class="mark" src="../../../assets/brand/mark.webp?v=64e71bf9" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Guía de WoW Forever</small></span></a>
   <nav class="mainnav" aria-label="Secciones">
-    <a href="../../classes/" aria-current="true">Clases</a><a href="../../races/">Razas</a><a href="../../guides/leveling/">Subida de nivel</a><a href="../../guides/dungeons/">Mazmorras</a><a href="../../guides/">Guías</a><a href="../../tools/">Herramientas</a><a href="../../play/">En el juego</a><a href="../../roster/">Jugadores</a><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a>
+    <a href="../../classes/" aria-current="true">Clases</a><a href="../../races/">Razas</a><a href="../../guides/leveling/">Subida de nivel</a><a href="../../guides/dungeons/">Mazmorras</a><a href="../../guides/">Guías</a><a href="../../tools/">Herramientas</a><a href="../../play/">En el juego</a><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a>
   </nav>
   <div class="tools">
-    <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" aria-label="Idioma: Español">ES</button><ul class="langlist" hidden><li><a href="../../../classes/rogue/" data-lang="ru" hreflang="ru" lang="ru"><span>Русский</span><small>RU</small></a></li><li><a href="../../../en/classes/rogue/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../../../uk/classes/rogue/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../../../de/classes/rogue/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="../../../fr/classes/rogue/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="./" data-lang="es" hreflang="es" lang="es" aria-current="page"><span>Español</span><small>ES</small></a></li><li><a href="../../../pt/classes/rogue/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="../../../it/classes/rogue/" data-lang="it" hreflang="it" lang="it"><span>Italiano</span><small>IT</small></a></li><li><a href="../../../pl/classes/rogue/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
+    <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" >ES<span class="sr">, Idioma: Español</span></button><ul class="langlist" hidden><li><a href="../../../classes/rogue/" data-lang="ru" hreflang="ru" lang="ru"><span>Русский</span><small>RU</small></a></li><li><a href="../../../en/classes/rogue/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../../../uk/classes/rogue/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../../../de/classes/rogue/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="../../../fr/classes/rogue/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="./" data-lang="es" hreflang="es" lang="es" aria-current="page"><span>Español</span><small>ES</small></a></li><li><a href="../../../pt/classes/rogue/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="../../../it/classes/rogue/" data-lang="it" hreflang="it" lang="it"><span>Italiano</span><small>IT</small></a></li><li><a href="../../../pl/classes/rogue/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
     <button class="iconbtn srchbtn" type="button" aria-label="Buscar en el sitio" aria-haspopup="dialog"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><kbd>Ctrl K</kbd></button>
     <button class="iconbtn radiobtn" type="button" aria-label="Radio" title="Radio" aria-expanded="false" aria-controls="radioPanel" aria-pressed="false"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg><span class="rdo-eq" aria-hidden="true"><i></i><i></i><i></i></span></button>
     <button class="iconbtn themebtn" type="button" aria-label="Cambiar tema" title="Cambiar tema"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></button>
@@ -1118,6 +1139,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   </div>
 </div></header>
 
+<main id="main">
 <section class="chero" id="top">
   <picture class="blur" aria-hidden="true"><img src="../../../assets/art/rogue-bg.webp?v=741fdd34" width="480" height="270" alt="" decoding="async"></picture>
   <picture class="por">
@@ -1139,15 +1161,13 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   </div>
 </section>
 
-<main>
+<section class="wrap qstart" aria-labelledby="hQs"><div class="panel qs"><h2 id="hQs">Inicio rápido</h2><dl class="qsl"><div><dt>Espec. para subir</dt><dd>Asesinato o Combate</dd></div><div><dt>Profesiones para subir</dt><dd>Peletería + Desollando</dd></div><div><dt>Raza de la Alianza</dt><dd>Elfo de la noche</dd></div><div><dt>Raza de la Horda</dt><dd>Orco</dd></div></dl><p class="qsa"><a href="../../guides/leveling-rogue/">Subir de nivel un Pícaro 1–60</a><a href="../../guides/builds-rogue/">Builds de Pícaro</a><a href="../../guides/best-race/#rogue">Mejor raza</a></p></div></section>
+
 <section class="block wrap" id="specs">
   <div class="sec-head"><h2>Especializaciones</h2></div>
   <div>
     <div class="stabs" role="tablist" aria-label="Especializaciones"><button type="button" role="tab" id="tab-0" aria-controls="spec-0" aria-selected="true" tabindex="0">Asesinato<small>Daño</small></button><button type="button" role="tab" id="tab-1" aria-controls="spec-1" aria-selected="false" tabindex="-1">Combate<small>Daño</small></button><button type="button" role="tab" id="tab-2" aria-controls="spec-2" aria-selected="false" tabindex="-1">Sutileza<small>Daño</small></button></div>
     <div class="spanel" role="tabpanel" id="spec-0" aria-labelledby="tab-0" tabindex="0"><div class="about"><p class="what"><svg class="ri" aria-hidden="true"><use href="#i-dps"/></svg>Daño con venenos</p><p class="style">Impregna las hojas de veneno y saca su daño de ahí.</p><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Consejo</span>Mantén los venenos activos.</p></div></div><ul class="keys" aria-label="Habilidades clave"><li><div><b>Mutilar</b><span class="en" lang="en">Mutilate</span></div><span class="d">Nuevo: generador de puntos de combo, solo dagas</span></li><li><div><b lang="en">Venom</b></div><span class="d">Nuevo movimiento final</span></li><li><div><b>Maldad</b><span class="en" lang="en">Malice</span></div><span class="d">Ahora también probabilidad de crítico de los venenos</span></li><li><div><b>Venenos mejorados</b><span class="en" lang="en">Improved Poisons</span></div><span class="d">50% de probabilidad de no gastar una carga</span></li><li><div><b>Letalidad</b><span class="en" lang="en">Lethality</span></div><span class="d">20% en el rango máximo (antes 30%)</span></li></ul></div><div class="spanel" role="tabpanel" id="spec-1" aria-labelledby="tab-1" tabindex="0" hidden><div class="about"><p class="what"><svg class="ri" aria-hidden="true"><use href="#i-dps"/></svg>Ataques rápidos con arma</p><p class="style">Golpes implacables y libertad para elegir arma.</p><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Consejo</span>Menos necesidad de cambiar talentos al cambiar de arma.</p></div></div><ul class="keys" aria-label="Habilidades clave"><li><div><b>Subidón de adrenalina</b><span class="en" lang="en">Adrenaline Rush</span></div><span class="d">Energía más rápida</span></li><li><div><b>Ráfaga con espada</b><span class="en" lang="en">Blade Flurry</span></div><span class="d">Daño a un segundo objetivo</span></li><li><div><b>Hachazos y cuchillazos</b><span class="en" lang="en">Hack and Slash</span></div><span class="d">Cualquier tipo de arma; las hachas tienen probabilidad de ataque extra</span></li><li><div><b lang="en">Flawless Execution</b></div><span class="d">Permite repetir Eviscerar sin parar</span></li><li><div><b>Especialización en doble empuñadura</b><span class="en" lang="en">Dual Wield Specialization</span></div><span class="d">25% de daño con la mano secundaria</span></li></ul></div><div class="spanel" role="tabpanel" id="spec-2" aria-labelledby="tab-2" tabindex="0" hidden><div class="about"><p class="what"><svg class="ri" aria-hidden="true"><use href="#i-dps"/></svg>Emboscadas, sangrados</p><p class="style">Dos builds: sangrados o puñaladas desde el sigilo.</p><div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Consejo</span>La build de sangrados puede competir en JcE.</p></div></div><ul class="keys" aria-label="Habilidades clave"><li><div><b>Mil cortes</b><span class="en" lang="en">Thousand Cuts</span></div><span class="d">Nuevo talento final del árbol</span></li><li><div><b>Hemorragia</b><span class="en" lang="en">Hemorrhage</span></div><span class="d">Ahora potencia Ruptura</span></li><li><div><b lang="en">Quietus</b></div><span class="d">Nuevo: más daño contra objetivos heridos</span></li><li><div><b>Degollador</b><span class="en" lang="en">Cutthroat</span></div><span class="d">Nuevo: Emboscada en combate</span></li><li><div><b>Establecer e Iniciativa</b><span class="en" lang="en">Setup and Initiative</span></div><span class="d">100% de probabilidad de un punto de combo extra</span></li></ul></div>
-    <p class="brace">Mejor raza: Elfo de la noche en la Alianza, Orco en la Horda; en JcJ, No-muerto.<a href="../../guides/best-race/#rogue">Por qué</a></p>
-    <p class="brace bguide"><a href="../../guides/leveling-rogue/">Subir de nivel un Pícaro 1–60</a></p>
-    <p class="brace bguide"><a href="../../guides/builds-rogue/">Builds de Pícaro</a></p>
   </div>
 </section>
 
@@ -1182,18 +1202,18 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   </div>
 </section>
 
-<div class="wrap"><p class="dcta"><span>Grupos para el lanzamiento, dudas sobre la guía y noticias — en el Discord de Gabella Team.</span><a class="btn ghost" href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Abrir Discord</a></p></div>
+<div class="wrap"><p class="dcta"><span>Grupos para el lanzamiento, dudas sobre la guía y noticias — en el Discord de Gabella.</span><a class="btn ghost" href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Abrir Discord</a></p></div>
 
 <section class="block wrap" id="others">
   <div class="sec-head"><h2>Otras clases</h2></div>
-  <div class="others"><a class="oc" href="../warrior/" style="--cc:#c79c6e"><picture><source type="image/avif" srcset="../../../assets/art/warrior-360.avif?v=124b6c10 360w" sizes="132px"><source type="image/webp" srcset="../../../assets/art/warrior-360.webp?v=d2a085c3 360w" sizes="132px"><img src="../../../assets/art/warrior-360.webp?v=d2a085c3" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture><b>Guerrero</b></a><a class="oc" href="../paladin/" style="--cc:#f58cba"><picture><source type="image/avif" srcset="../../../assets/art/paladin-360.avif?v=3b16ed84 360w" sizes="132px"><source type="image/webp" srcset="../../../assets/art/paladin-360.webp?v=60d51b81 360w" sizes="132px"><img src="../../../assets/art/paladin-360.webp?v=60d51b81" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture><b>Paladín</b></a><a class="oc" href="../hunter/" style="--cc:#abd473"><picture><source type="image/avif" srcset="../../../assets/art/hunter-360.avif?v=26f08c29 360w" sizes="132px"><source type="image/webp" srcset="../../../assets/art/hunter-360.webp?v=1be23d76 360w" sizes="132px"><img src="../../../assets/art/hunter-360.webp?v=1be23d76" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture><b>Cazador</b></a><a class="oc" href="../priest/" style="--cc:#e8e8e8"><picture><source type="image/avif" srcset="../../../assets/art/priest-360.avif?v=401407ed 360w" sizes="132px"><source type="image/webp" srcset="../../../assets/art/priest-360.webp?v=a76cdc74 360w" sizes="132px"><img src="../../../assets/art/priest-360.webp?v=a76cdc74" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture><b>Sacerdote</b></a><a class="oc" href="../shaman/" style="--cc:#2f8cf0"><picture><source type="image/avif" srcset="../../../assets/art/shaman-360.avif?v=b289e5e3 360w" sizes="132px"><source type="image/webp" srcset="../../../assets/art/shaman-360.webp?v=756495a2 360w" sizes="132px"><img src="../../../assets/art/shaman-360.webp?v=756495a2" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture><b>Chamán</b></a><a class="oc" href="../mage/" style="--cc:#40c7eb"><picture><source type="image/avif" srcset="../../../assets/art/mage-360.avif?v=17f98d52 360w" sizes="132px"><source type="image/webp" srcset="../../../assets/art/mage-360.webp?v=87c6cf8f 360w" sizes="132px"><img src="../../../assets/art/mage-360.webp?v=87c6cf8f" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture><b>Mago</b></a><a class="oc" href="../warlock/" style="--cc:#8788ee"><picture><source type="image/avif" srcset="../../../assets/art/warlock-360.avif?v=5d3b8b46 360w" sizes="132px"><source type="image/webp" srcset="../../../assets/art/warlock-360.webp?v=19c8a350 360w" sizes="132px"><img src="../../../assets/art/warlock-360.webp?v=19c8a350" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture><b>Brujo</b></a><a class="oc" href="../druid/" style="--cc:#ff7d0a"><picture><source type="image/avif" srcset="../../../assets/art/druid-360.avif?v=1888cade 360w" sizes="132px"><source type="image/webp" srcset="../../../assets/art/druid-360.webp?v=aa40bd04 360w" sizes="132px"><img src="../../../assets/art/druid-360.webp?v=aa40bd04" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture><b>Druida</b></a></div>
+  <div class="others"><a class="oc" href="../warrior/" style="--cc:#c79c6e"><picture><source type="image/avif" srcset="../../../assets/art/warrior-360.avif?v=124b6c10 360w" sizes="132px"><source type="image/webp" srcset="../../../assets/art/warrior-360.webp?v=d2a085c3 360w" sizes="132px"><img src="../../../assets/art/warrior-360.webp?v=d2a085c3" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture><b>Guerrero</b></a><a class="oc" href="../paladin/" style="--cc:#f58cba"><picture><source type="image/avif" srcset="../../../assets/art/paladin-360.avif?v=3b16ed84 360w" sizes="132px"><source type="image/webp" srcset="../../../assets/art/paladin-360.webp?v=60d51b81 360w" sizes="132px"><img src="../../../assets/art/paladin-360.webp?v=60d51b81" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture><b>Paladín</b></a><a class="oc" href="../hunter/" style="--cc:#abd473"><picture><source type="image/avif" srcset="../../../assets/art/hunter-360.avif?v=26f08c29 360w" sizes="132px"><source type="image/webp" srcset="../../../assets/art/hunter-360.webp?v=1be23d76 360w" sizes="132px"><img src="../../../assets/art/hunter-360.webp?v=1be23d76" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture><b>Cazador</b></a><a class="oc" href="../priest/" style="--cc:#e8e8e8"><picture><source type="image/avif" srcset="../../../assets/art/priest-360.avif?v=401407ed 360w" sizes="132px"><source type="image/webp" srcset="../../../assets/art/priest-360.webp?v=a76cdc74 360w" sizes="132px"><img src="../../../assets/art/priest-360.webp?v=a76cdc74" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture><b>Sacerdote</b></a><a class="oc" href="../shaman/" style="--cc:#2f8cf0"><picture><source type="image/avif" srcset="../../../assets/art/shaman-360.avif?v=b289e5e3 360w" sizes="132px"><source type="image/webp" srcset="../../../assets/art/shaman-360.webp?v=756495a2 360w" sizes="132px"><img src="../../../assets/art/shaman-360.webp?v=756495a2" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture><b>Chamán</b></a><a class="oc" href="../mage/" style="--cc:#40c7eb"><picture><source type="image/avif" srcset="../../../assets/art/mage-360.avif?v=6a3834c0 360w" sizes="132px"><source type="image/webp" srcset="../../../assets/art/mage-360.webp?v=2cc5cf03 360w" sizes="132px"><img src="../../../assets/art/mage-360.webp?v=2cc5cf03" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture><b>Mago</b></a><a class="oc" href="../warlock/" style="--cc:#8788ee"><picture><source type="image/avif" srcset="../../../assets/art/warlock-360.avif?v=5d3b8b46 360w" sizes="132px"><source type="image/webp" srcset="../../../assets/art/warlock-360.webp?v=19c8a350 360w" sizes="132px"><img src="../../../assets/art/warlock-360.webp?v=19c8a350" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture><b>Brujo</b></a><a class="oc" href="../druid/" style="--cc:#ff7d0a"><picture><source type="image/avif" srcset="../../../assets/art/druid-360.avif?v=1888cade 360w" sizes="132px"><source type="image/webp" srcset="../../../assets/art/druid-360.webp?v=aa40bd04 360w" sizes="132px"><img src="../../../assets/art/druid-360.webp?v=aa40bd04" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture><b>Druida</b></a></div>
   <div class="pager"><a class="prev" href="../hunter/"><svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg>Cazador</a><a class="next" href="../priest/">Sacerdote<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
 </section>
 
 <div class="wrap">
 <footer id="sources">
   <h2>Fuentes</h2>
-  <p>Las guías se escribieron con un tope de nivel 20–30, las cifras finales pueden cambiar. <span class="tl" style="display:inline">Consejo:</span> opinión del autor.</p>
+  <p>Las guías se escribieron con un tope de nivel 20–30, las cifras finales pueden cambiar. <span>Los consejos son la opinión del autor.</span></p>
   <ul><li><a href="https://www.warcrafttavern.com/forever/guides/rogue/" target="_blank" rel="noopener">Warcraft Tavern</a></li><li><a href="https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/" target="_blank" rel="noopener">Warcraft Tavern: cambios de la beta</a></li><li><a href="https://lfcarry.com/guides/wow-forever-class-changes" target="_blank" rel="noopener">LFCarry: cambios de clases del 15.10</a></li></ul>
   <nav class="fmap" aria-label="Mapa del sitio"><div><a class="fh" href="../../../es/classes/">Clases</a><ul><li><a href="../../../es/classes/warrior/">Guerrero</a></li><li><a href="../../../es/classes/paladin/">Paladín</a></li><li><a href="../../../es/classes/hunter/">Cazador</a></li><li><a href="../../../es/classes/rogue/">Pícaro</a></li><li><a href="../../../es/classes/priest/">Sacerdote</a></li><li><a href="../../../es/classes/shaman/">Chamán</a></li><li><a href="../../../es/classes/mage/">Mago</a></li><li><a href="../../../es/classes/warlock/">Brujo</a></li><li><a href="../../../es/classes/druid/">Druida</a></li></ul></div><div><a class="fh" href="../../../es/races/">Razas</a><ul><li><a href="../../../es/races/human/">Humano</a></li><li><a href="../../../es/races/dwarf/">Enano</a></li><li><a href="../../../es/races/night-elf/">Elfo de la noche</a></li><li><a href="../../../es/races/gnome/">Gnomo</a></li><li><a href="../../../es/races/skyborne-alliance/">Skyborne High Order</a></li><li><a href="../../../es/races/orc/">Orco</a></li><li><a href="../../../es/races/undead/">No-muerto</a></li><li><a href="../../../es/races/tauren/">Tauren</a></li><li><a href="../../../es/races/troll/">Trol</a></li><li><a href="../../../es/races/skyborne-horde/">Skyborne Windshaper</a></li></ul></div><div><a class="fh" href="../../../es/guides/">Guías</a><ul><li><a href="../../../es/guides/leveling/">Subir de nivel 1–60</a></li><li><a href="../../../es/guides/best-race/">La mejor raza para cada clase</a></li><li><a href="../../../es/guides/tier-list/">Tier list de clases de WoW Forever</a></li><li><a href="../../../es/guides/legacy/">El sistema Legacy</a></li><li><a href="../../../es/guides/dungeons/">Mazmorras y bandas</a></li><li><a href="../../../es/guides/professions/">Profesiones</a></li><li><a href="../../../es/guides/addons/">Addons e interfaz</a></li><li><a href="../../../es/guides/faq/">FAQ y fechas</a></li><li><a href="../../../es/guides/requirements/">Requisitos del sistema</a></li><li><a href="../../../es/guides/news/">Noticias</a></li></ul></div><div><a class="fh" href="../../../es/tools/">Herramientas</a><ul><li><a href="../../../es/tools/">Herramientas</a></li><li><a href="../../../es/play/">En el juego</a></li></ul></div></nav><div class="legal"><p>Guía de fans de Gabella. No está afiliada a Blizzard Entertainment ni cuenta con su respaldo. World of Warcraft, Warcraft y Blizzard Entertainment son marcas comerciales o marcas registradas de Blizzard Entertainment, Inc. en EE. UU. y/u otros países.</p><p>© 2026 Gabella<span aria-hidden="true"> · </span><a href="../../../es/privacy/">Privacidad</a><span aria-hidden="true"> · </span><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><span aria-hidden="true"> · </span><a href="https://t.me/gabella_wow" target="_blank" rel="noopener">Telegram</a><span aria-hidden="true"> · </span>Contacto: <a href="mailto:contact@gabella.site">contact@gabella.site</a></p></div>
 </footer>
@@ -1204,7 +1224,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   <a href="../../"><svg class="ico" aria-hidden="true"><use href="#i-home"/></svg>Inicio</a>
   <a href="../../guides/"><svg class="ico" aria-hidden="true"><use href="#i-book"/></svg>Guías</a>
   <a href="../../play/"><svg class="ico" aria-hidden="true"><use href="#i-sword"/></svg>En el juego</a>
-  <a href="../../profile/"><svg class="ico" aria-hidden="true"><use href="#i-user"/></svg>Perfil</a>
+  <a href="../../classes/" aria-current="true"><svg class="ico" aria-hidden="true"><use href="#i-users"/></svg>Clases</a>
   <button type="button" class="morebtn" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-dots"/></svg>Más</button>
 </nav>
 
@@ -1214,7 +1234,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
     <div class="grp"><div class="gh">Esta página</div><a href="#specs">Especializaciones</a><a href="#new">Novedades</a><a href="#races">Razas</a><a href="#group">En grupo</a><a href="#pc">Pros y contras</a></div>
     <div class="grp"><div class="gh">Referencia</div><a href="../../">Inicio</a><a href="../../classes/">Comparativa de clases</a><a href="../../races/">Comparativa de razas</a><a href="../../guides/leveling/">Subir de nivel 1–60</a><a href="../../guides/dungeons/">Mazmorras y bandas</a><a href="../../guides/professions/">Profesiones</a><a href="../../guides/faq/">FAQ y fechas</a><a href="../../guides/news/">Noticias</a><a href="../../guides/">Todas las guías</a></div>
     <div class="grp"><div class="gh">Herramientas</div><a href="../../tools/#picker">Selector</a><a href="../../tools/#raid">Creador de grupos</a><a href="../../tools/">Marcos, comparar, buscar</a><a href="../../play/">En el juego</a></div>
-    <div class="grp"><div class="gh">Comunidad</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="../../roster/">Jugadores</a><a href="../../profile/">Mi perfil</a></div>
+    <div class="grp"><div class="gh">Comunidad</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="../../profile/">Mi perfil</a></div>
     <div class="grp"><div class="gh">Clases</div><a href="../warrior/">Guerrero</a><a href="../paladin/">Paladín</a><a href="../hunter/">Cazador</a><a href="../rogue/" aria-current="page">Pícaro</a><a href="../priest/">Sacerdote</a><a href="../shaman/">Chamán</a><a href="../mage/">Mago</a><a href="../warlock/">Brujo</a><a href="../druid/">Druida</a></div>
   </nav>
   <div class="opts">
@@ -1232,16 +1252,23 @@ function selectTab(t, focus) {
   if (focus) t.focus();
 }
 tabs.forEach((t, i) => {
-  t.addEventListener('click', () => selectTab(t));
+  t.addEventListener('click', () => { selectTab(t); history.replaceState(null, '', '#' + t.getAttribute('aria-controls')); });   // a link to the spec
   t.addEventListener('keydown', e => {
-    const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
-    if (k) { e.preventDefault(); selectTab(tabs[(i + k + tabs.length) % tabs.length], true); }
+    const n = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+    if (n !== undefined) { e.preventDefault(); selectTab(tabs[(n + tabs.length) % tabs.length], true); }
   });
 });
+/* #spec-2 in the address opens that spec */
+function tabFromHash() {
+  const t = tabs.find(x => '#' + x.getAttribute('aria-controls') === location.hash);
+  if (t) { selectTab(t); t.scrollIntoView({ block: 'center' }); }
+}
+tabFromHash();
+addEventListener('hashchange', tabFromHash);
 
 /* Theme toggle */
 const themeBtns = document.querySelectorAll('.themebtn');
-function paintTheme() { const t = document.documentElement.getAttribute('data-theme'); themeBtns.forEach(b => b.querySelector('use').setAttribute('href', t === 'light' ? '#i-moon' : '#i-sun')); const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#fbfaf7' : '#030303'); }
+function paintTheme() { const t = document.documentElement.getAttribute('data-theme'); themeBtns.forEach(b => b.querySelector('use').setAttribute('href', t === 'light' ? '#i-moon' : '#i-sun')); const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#fbfaf7' : '#050505'); }
 themeBtns.forEach(b => b.onclick = () => { const t = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light'; document.documentElement.setAttribute('data-theme', t); try { localStorage.setItem('wf-theme', t); } catch (e) {} paintTheme(); });
 paintTheme();
 
@@ -1287,7 +1314,8 @@ dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.
   try { seen = localStorage.getItem(KEY); } catch (e) {}
   if (seen) return;
   const H = {"ru": ["Эта страница есть на русском", "Читать по-русски", "Закрыть"], "en": ["This page is available in English", "Read in English", "Close"], "uk": ["Ця сторінка є українською", "Читати українською", "Закрити"], "de": ["Diese Seite gibt es auch auf Deutsch", "Auf Deutsch lesen", "Schließen"], "fr": ["Cette page existe aussi en français", "Lire en français", "Fermer"], "es": ["Esta página también está en español", "Leer en español", "Cerrar"], "pt": ["Esta página também está em português", "Ler em português", "Fechar"], "it": ["Questa pagina è disponibile anche in italiano", "Leggi in italiano", "Chiudi"], "pl": ["Ta strona jest dostępna po polsku", "Czytaj po polsku", "Zamknij"]}, cur = document.documentElement.lang.split('-')[0];
-  const want = (navigator.languages || [navigator.language]).map(x => String(x || '').toLowerCase().split('-')[0]).find(x => x in H);
+  const want = (navigator.languages || [navigator.language]).map(x => String(x || '').toLowerCase().split('-')[0])
+    .find(x => x in H && !(cur === 'uk' && x === 'ru'));   // a Ukrainian page never offers Russian
   const to = want && want !== cur && document.querySelector(`.langlist a[data-lang="${want}"]:not([data-list])`);
   if (!to) return;
   const bar = document.createElement('div');
@@ -1324,9 +1352,44 @@ addEventListener('beforeinstallprompt', e => {
   opts.append(b);
 });
 </script>
-<script src="../../../assets/radio/radio.js?v=a448c8a8c7" data-root="../../../" defer></script>
-<script src="../../../assets/search/search.js?v=7039f5f416" data-root="../../../" defer></script>
-<script src="../../../assets/me/me.js?v=a34702d24d" data-root="../../../" data-home="../../" data-lang="es" data-teaser="Tu perfil guarda tus personajes, logros y marcos" data-close="Cerrar" data-page="classes/rogue/" data-look="2" defer></script>
-<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
+<script data-src="../../../assets/radio/radio.js?v=44f8689128" data-root="../../../"></script>
+<script data-src="../../../assets/search/search.js?v=c71c6dbeaa" data-root="../../../"></script>
+<script data-src="../../../assets/me/me.js?v=30e53cd5c1" data-root="../../../" data-home="../../" data-lang="es" data-ach="0" data-teaser="" data-close="Cerrar" data-page="classes/rogue/" data-look="2"></script>
+<script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
+<script>
+(function () {
+  var done = false;
+  function wake() {
+    if (done) return; done = true;
+    document.querySelectorAll('link[data-rel]').forEach(function (l) { l.rel = l.dataset.rel; });
+    document.querySelectorAll('source[data-lsrcset]').forEach(function (x) { x.srcset = x.dataset.lsrcset; });   // build.sleep_art
+    document.querySelectorAll('img[data-lsrc]').forEach(function (x) { x.src = x.dataset.lsrc; });
+    document.querySelectorAll('script[data-src]').forEach(function (s) {
+      var n = document.createElement('script');
+      for (var i = 0; i < s.attributes.length; i++) if (s.attributes[i].name !== 'data-src') n.setAttribute(s.attributes[i].name, s.attributes[i].value);
+      n.src = s.dataset.src; n.async = false;   // in page order: radio before the profile, as with defer
+      s.replaceWith(n);
+    });
+  }
+  ['pointerdown', 'keydown', 'touchstart', 'wheel', 'scroll'].forEach(function (t) { addEventListener(t, wake, { once: true, passive: true, capture: true }); });
+  if (location.hash.length > 1) return wake();   // a link to a section: the blocks above it are drawn before the jump settles
+  setTimeout(wake, 4000);   // a tab in the background paints nothing
+  var img = document.querySelector('img[fetchpriority="high"]');
+  var lcp = window.PerformanceObserver && PerformanceObserver.supportedEntryTypes && PerformanceObserver.supportedEntryTypes.indexOf('largest-contentful-paint') >= 0;
+  var armed = false;
+  function later() {   // a wide screen, where the heading counts as the largest: a moment after the picture is drawn
+    if (armed) return; armed = true;
+    var go = function () { requestAnimationFrame(function () { setTimeout(wake, 500); }); };
+    var start = function () { if (img && img.decode) img.decode().then(go, go); else go(); };
+    if (document.readyState === 'complete') start(); else addEventListener('load', start, { once: true });
+  }
+  // The browser reports a paint only once the frame is on the screen: the phone wakes on the hero picture, a wide screen
+  // starts its pause after the first one. A frame that comes late (a busy phone) then keeps the files waiting behind it.
+  if (lcp)
+    new PerformanceObserver(function (l) { if (img && l.getEntries().some(function (e) { return e.element === img; })) setTimeout(wake, 0); else later(); })
+      .observe({ type: 'largest-contentful-paint', buffered: true });
+  else later();
+})();
+</script>
 </body>
 </html>

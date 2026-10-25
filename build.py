@@ -180,7 +180,8 @@ LANG_JS = """<script>
   try { seen = localStorage.getItem(KEY); } catch (e) {}
   if (seen) return;
   const H = @@HINT@@, cur = document.documentElement.lang.split('-')[0];
-  const want = (navigator.languages || [navigator.language]).map(x => String(x || '').toLowerCase().split('-')[0]).find(x => x in H);
+  const want = (navigator.languages || [navigator.language]).map(x => String(x || '').toLowerCase().split('-')[0])
+    .find(x => x in H && !(cur === 'uk' && x === 'ru'));   // a Ukrainian page never offers Russian
   const to = want && want !== cur && document.querySelector(`.langlist a[data-lang="${want}"]:not([data-list])`);
   if (!to) return;
   const bar = document.createElement('div');
@@ -232,18 +233,35 @@ def lang_menu(html, lang, here):
         return f'<a href="{rel(here, page_dir(l, to))}" data-lang="{l}" hreflang="{HREFLANG[l]}" lang="{HREFLANG[l]}"{cur}{lst}>{inner}</a>'
     items = ''.join(f'<li>{link(l, f"<span>{AUTONYM[l]}</span><small>{l.upper()}</small>")}</li>' for l in LANGS)
     sel = (f'<div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" '
-           f'aria-label="{label}: {AUTONYM[lang]}">{lang.upper()}</button><ul class="langlist" hidden>{items}</ul></div>')
+           f'>{lang.upper()}<span class="sr">, {label}: {AUTONYM[lang]}</span></button><ul class="langlist" hidden>{items}</ul></div>')
     sheet = f'<div class="langgrid" role="group" aria-label="{label}">{"".join(link(l, AUTONYM[l]) for l in LANGS)}</div>'
     hint = json.dumps({l: HINT[l] for l in LANGS}, ensure_ascii=False)
     return html.replace('@@LANGSEL@@', sel).replace('@@LANGSHEET@@', sheet).replace('</body>', LANG_JS.replace('@@HINT@@', hint) + '</body>', 1)
 
 
+# The social layer (Players page, achievement feed, the profile teaser) is hidden until 01.12.2026 (decision of 25.10):
+# nothing is deleted. SOCIAL = True brings it all back: menu and sheet links, the home links, the feed, the teaser,
+# roster/ back in the sitemap and indexed. Profile, login, u/ stay on either way (the mailing list and «Мой персонаж» use them).
+SOCIAL = False
+# Achievements, ranks, points and portrait frames are hidden everywhere (profile, u/, toasts, menu) except the «Founder» mark
+# (decision of 25.10). Nothing is deleted: ACHIEVEMENTS = True brings it all back; the API and its tables are untouched.
+ACHIEVEMENTS = False
+SOCIAL_TAG = re.compile(r'<(\w+)\b[^>]*\sdata-social\b[^>]*>.*?</\1>', re.S)        # shown only with SOCIAL
+NOSOCIAL_TAG = re.compile(r'<(\w+)\b[^>]*\sdata-nosocial\b[^>]*>.*?</\1>', re.S)    # shown only without it
+
+
+def social(html):
+    """Drops the elements of the hidden layer (data-social) or their stand-ins (data-nosocial); the marks go away."""
+    html = (NOSOCIAL_TAG if SOCIAL else SOCIAL_TAG).sub('', html)
+    return html.replace(' data-social', '').replace(' data-nosocial', '')
+
+
 # Bottom tab bar on phones: the same tabs in the same order on every page (the profile button of the top bar is hidden there).
-TABS = (('', 'home', 'Главная'), ('guides/', 'book', 'Гайды'), ('play/', 'sword', 'В игре'), ('profile/', 'user', 'Профиль'))
+TABS = (('', 'home', 'Главная'), ('guides/', 'book', 'Гайды'), ('play/', 'sword', 'В игре'), ('classes/', 'users', 'Классы'))
 
 
 def tabbar(cur=None, home='@@HOME@@'):
-    """Tab bar markup; cur — path of the current tab ('', 'guides/', 'play/', 'profile/'); home '' — the home page itself."""
+    """Tab bar markup; cur — path of the current tab ('', 'guides/', 'play/', 'classes/'); home '' — the home page itself."""
     on = ' aria-current="true"'
     tabs = ''.join(f'\n  <a href="{home + p if home or p else "#top"}"{on if p == cur else ""}>'
                    f'<svg class="ico" aria-hidden="true"><use href="#i-{i}"/></svg>{t}</a>' for p, i, t in TABS)
@@ -253,14 +271,14 @@ def tabbar(cur=None, home='@@HOME@@'):
 
 # Top menu: the same items in the same order on every page; anchors of the home page stay in its own «Ещё» group.
 NAV = (('classes/', 'Классы'), ('races/', 'Расы'), ('guides/leveling/', 'Прокачка'), ('guides/dungeons/', 'Подземелья'),
-       ('guides/', 'Гайды'), ('tools/', 'Инструменты'), ('play/', 'В игре'), ('roster/', 'Игроки'))
+       ('guides/', 'Гайды'), ('tools/', 'Инструменты'), ('play/', 'В игре')) + ((('roster/', 'Игроки'),) if SOCIAL else ())
 # Sections sheet («Ещё»): (group, [(path from the language home, label)]); '#…' — a block of the home page.
 MORE = (
     ('Справочник', (('', 'Главная'), ('classes/', 'Классы: сравнение'), ('races/', 'Расы: сравнение'), ('guides/leveling/', 'Прокачка 1–60'),
                     ('guides/dungeons/', 'Подземелья и рейды'), ('guides/professions/', 'Профессии'), ('guides/faq/', 'FAQ и даты'),
                     ('guides/news/', 'Новости'), ('guides/', 'Все гайды'))),
     ('Инструменты', (('tools/#picker', 'Подборщик'), ('tools/#raid', 'Конструктор группы'), ('tools/', 'Рамки, сравнение, поиск'), ('play/', 'В игре'))),
-    ('Сообщество', (('discord', 'Discord'), ('roster/', 'Игроки'), ('profile/', 'Мой профиль'))),
+    ('Сообщество', (('discord', 'Discord'),) + ((('roster/', 'Игроки'),) if SOCIAL else ()) + (('profile/', 'Мой профиль'),)),
 )
 
 
@@ -291,10 +309,53 @@ def chrome(html, nav=None, tab=None, home='@@HOME@@'):
             .replace('@@TABBAR@@', tabbar(tab, home)))
 
 
+_DIMS = {}
+
+
+def webp_size(path):
+    """(width, height) of a WebP file from its header: VP8X, VP8 (lossy) or VP8L (lossless)."""
+    with open(path, 'rb') as f:
+        b = f.read(30)
+    kind = b[12:16]
+    if kind == b'VP8X':
+        return 1 + int.from_bytes(b[24:27], 'little'), 1 + int.from_bytes(b[27:30], 'little')
+    if kind == b'VP8 ':
+        return int.from_bytes(b[26:28], 'little') & 0x3fff, int.from_bytes(b[28:30], 'little') & 0x3fff
+    if kind == b'VP8L':
+        n = int.from_bytes(b[21:25], 'little')
+        return (n & 0x3fff) + 1, ((n >> 14) & 0x3fff) + 1
+    return None
+
+
+IMG_NO_SIZE = re.compile(r'<img\b(?![^>]*\bwidth=)[^>]*\b(?:data-l)?src="[^"]*?assets/art/([\w.-]+\.webp)[^"]*"[^>]*>')
+
+
+def img_dims(html):
+    """K8: width and height on every art <img> that has none (tiles, cards): the browser keeps the box before the
+    picture comes, so a late picture never shifts the page. Read from the file itself."""
+    def add(m):
+        name = m.group(1)
+        if name not in _DIMS:
+            f = os.path.join(HERE, 'assets', 'art', name)
+            _DIMS[name] = webp_size(f) if os.path.isfile(f) else None
+        if not _DIMS[name]:
+            return m.group(0)
+        w, h = _DIMS[name]
+        return m.group(0).replace('<img ', f'<img width="{w}" height="{h}" ', 1)
+    return IMG_NO_SIZE.sub(add, html)
+
+
+# Skip link, the first Tab stop of every page with <main id="main">: past the top bar (logo, menu, search, radio, theme, language)
+SKIP = {'ru': 'К содержанию', 'en': 'Skip to content', 'uk': 'До змісту', 'de': 'Zum Inhalt', 'fr': 'Aller au contenu',
+        'es': 'Ir al contenido', 'pt': 'Ir para o conteúdo', 'it': 'Vai al contenuto', 'pl': 'Przejdź do treści'}
+
+
 def localize(html, lang, here):
     """Language-specific attributes shared by all pages."""
-    html = html.replace('@@LEGAL@@', legal(lang, rel(here, '')))
+    html = social(html.replace('@@LEGAL@@', legal(lang, rel(here, ''))))
     html = html.replace('@@ROOT@@', rel(here, ''))
+    if '<main id="main">' in html:
+        html = html.replace('<header class="topbar"', f'<a class="skip" href="#main">{SKIP[lang]}</a><header class="topbar"', 1)
     html = html.replace('@@DISCORD@@', DISCORD_AT['home']).replace('@@DISCORD_GUIDE@@', DISCORD_AT['guide'])
     html = lang_menu(html, lang, here)
     if lang == 'ru':
@@ -310,7 +371,7 @@ def localize(html, lang, here):
     else:
         html = cyr_fonts(html)
     html = html.replace('</head>', REVEAL_CSS + '</head>', 1).replace('</body>', REVEAL_JS + '</body>', 1)
-    return me(pwa(html, lang, rel(here, '')), lang, here)
+    return img_dims(me(pwa(html, lang, rel(here, '')), lang, here))
 
 
 # the Latin of Russian and Ukrainian text: space, digits, punctuation, quotes, dashes, Latin words (WoW, Gabella)
@@ -368,9 +429,10 @@ REVEAL_JS = """<script>
 """
 
 
-# Home page: the files the first screen does without (radio, search, profile, living art, time of day, analytics, manifest)
+# Home page: the files the first screen does without (radio, search, profile, living art, time of day, analytics)
 # wait in the page asleep, a <link> with data-rel and a <script> with data-src, and LATE_JS wakes them once the hero
 # picture is painted, or at the first touch, key or scroll. Lighthouse counts every file that finishes before that paint.
+# The manifest stays a plain <link> in <head>: the browser decides on the install prompt from it, and asleep it came too late.
 LATE_JS = """<script>
 (function () {
   var done = false;
@@ -389,7 +451,7 @@ LATE_JS = """<script>
   ['pointerdown', 'keydown', 'touchstart', 'wheel', 'scroll'].forEach(function (t) { addEventListener(t, wake, { once: true, passive: true, capture: true }); });
   if (location.hash.length > 1) return wake();   // a link to a section: the blocks above it are drawn before the jump settles
   setTimeout(wake, 4000);   // a tab in the background paints nothing
-  var img = document.querySelector('.hero-art img');
+  var img = document.querySelector('@@HERO@@');
   var lcp = window.PerformanceObserver && PerformanceObserver.supportedEntryTypes && PerformanceObserver.supportedEntryTypes.indexOf('largest-contentful-paint') >= 0;
   var armed = false;
   function later() {   // a wide screen, where the heading counts as the largest: a moment after the picture is drawn
@@ -407,16 +469,17 @@ LATE_JS = """<script>
 })();
 </script>
 """
-LATE_FILES = r'assets/(?:radio|search|me|tod|living)/|manifest-\w+\.webmanifest|static\.cloudflareinsights\.com/'
+LATE_FILES = r'assets/(?:radio|search|me|tod|living)/|static\.cloudflareinsights\.com/'
 
 
-def late(html):
-    """Puts the files of LATE_FILES to sleep on a home page and adds LATE_JS (seo.apply calls it after the analytics tag)."""
+def late(html, hero='.hero-art img'):
+    """Puts the files of LATE_FILES to sleep on a home page and adds LATE_JS (seo.apply calls it after the analytics tag).
+    Inner pages (seo.LATE_INNER) do the same and wait for their own hero picture."""
     link =lambda m: f'<link data-rel="{m[1]}" href="{m[2]}">' if re.search(LATE_FILES, m[2]) else m[0]
     html = re.sub(r'<link rel="(stylesheet|manifest)" href="([^"]+)"(?: media="print" onload="[^"]*")?>', link, html)
     script = lambda m: f'<script{m[1] or ""} data-src="{m[2]}"{m[3].replace(" defer", "")}></script>' if re.search(LATE_FILES, m[2]) else m[0]
     html = re.sub(r'<script( type="module")? src="([^"]+)"([^>]*)></script>', script, html)
-    return html if 'link[data-rel]' in html else html.replace('</body>', LATE_JS + '</body>', 1)
+    return html if 'link[data-rel]' in html else html.replace('</body>', LATE_JS.replace('@@HERO@@', hero) + '</body>', 1)
 
 
 # ---------- installable site (PWA): manifest, icons, service worker sw.js ----------
@@ -435,14 +498,20 @@ APP = {
 langs.derive(APP)
 
 
+def brand_src(path):
+    """assets/... path of a brand image with ?v=<hash of the file> (manifests; brand_version() does the same in the pages)."""
+    f = os.path.join(HERE, path)
+    return path + ('?v=' + hashlib.sha1(open(f, 'rb').read()).hexdigest()[:8] if os.path.isfile(f) else '')
+
+
 def manifest(lang):
     a, home = APP[lang], page_dir(lang)
-    icons = [{'src': f'assets/icons/icon-{s}.png', 'sizes': f'{s}x{s}', 'type': 'image/png', 'purpose': 'any'} for s in (192, 512)]
-    icons.append({'src': 'assets/icons/icon-maskable-512.png', 'sizes': '512x512', 'type': 'image/png', 'purpose': 'maskable'})
+    icons = [{'src': brand_src(f'assets/icons/icon-{s}.png'), 'sizes': f'{s}x{s}', 'type': 'image/png', 'purpose': 'any'} for s in (192, 512)]
+    icons.append({'src': brand_src('assets/icons/icon-maskable-512.png'), 'sizes': '512x512', 'type': 'image/png', 'purpose': 'maskable'})
     return json.dumps({
         'id': './', 'name': a['name'], 'short_name': 'Gabella WoW', 'description': a['desc'], 'lang': HREFLANG[lang], 'dir': 'ltr',
         'start_url': './' + home, 'scope': './', 'display': 'standalone', 'orientation': 'any',
-        'background_color': '#0a0b0d', 'theme_color': '#060708', 'categories': ['games', 'entertainment'], 'icons': icons,
+        'background_color': '#050505', 'theme_color': '#050505', 'categories': ['games', 'entertainment'], 'icons': icons,
         'shortcuts': [{'name': n, 'url': './' + home + u} for n, u in a['short']],
     }, ensure_ascii=False, indent=1)
 
@@ -529,7 +598,7 @@ def me(html, lang, here):
     page = here[len(page_dir(lang)):]
     solo = ' data-solo="1"' if only_lang(page) else ''   # a language-only guide is not in the guide set of game.json: me.js skips it
     head = f'<link rel="stylesheet" href="{root}assets/me/me.css" media="print" onload="this.media=\'all\'">\n</head>'
-    js = f'<script src="{root}assets/me/me.js" data-root="{root}" data-home="{home}" data-lang="{lang}" data-teaser="{_html.escape(TEASER[lang])}" data-close="{_html.escape(tr('Закрыть', lang))}" data-page="{page}" data-look="{LK.V}"{solo} defer></script>\n</body>'
+    js = f'<script src="{root}assets/me/me.js" data-root="{root}" data-home="{home}" data-lang="{lang}" data-ach="{int(ACHIEVEMENTS)}" data-teaser="{_html.escape(TEASER[lang]) if SOCIAL else ''}" data-close="{_html.escape(tr('Закрыть', lang))}" data-page="{page}" data-look="{LK.V}"{solo} defer></script>\n</body>'
     return html.replace('</head>', head, 1).replace('</body>', js, 1)
 
 
@@ -657,6 +726,39 @@ def og_version():
                     open(p, 'w', encoding='utf-8', newline='\n').write(new)
                     n += 1
     print(f'og:{n} pages, {len(ver)} files', file=sys.stderr)
+
+
+def brand_version():
+    """?v=<hash> on the brand images that had no version: header mark, favicons, apple-touch-icon, PWA icons (pages, JSON-LD,
+    me.js, the worker's PRECACHE) and the site cards assets/og-<lang>.jpg (og:image, twitter:image). Cloudflare and browsers
+    keep these under their names, so a logo redrawn by tools/make_logo.py, make_icons.py or make_og.py would stay old."""
+    ver = {}
+    rx = re.compile(r'(assets/(?:brand/mark\.webp|icons/[A-Za-z0-9-]+\.(?:png|ico)|og-[a-z]{2}\.jpg))(?:\?v=\w+)?')
+
+    def tag(m):
+        name = m.group(1)
+        if name not in ver:
+            f = os.path.join(HERE, name)
+            ver[name] = hashlib.sha1(open(f, 'rb').read()).hexdigest()[:8] if os.path.isfile(f) else ''
+        return name + (f'?v={ver[name]}' if ver[name] else '')
+    n = 0
+    for root, dirs, files in os.walk(HERE):
+        dirs[:] = [x for x in dirs if not x.startswith('.') and x not in ('assets', 'content', 'i18n', 'tests', 'node_modules')]
+        for f in files:
+            if f.endswith('.html') and not f.endswith('.src.html') or root == HERE and f == 'sw.js':
+                p = os.path.join(root, f)
+                was = open(p, encoding='utf-8').read()
+                new = rx.sub(tag, was)
+                if new != was:
+                    open(p, 'w', encoding='utf-8', newline='\n').write(new)
+                    n += 1
+    p = os.path.join(HERE, 'assets', 'me', 'me.js')   # the profile script draws the mark by itself
+    was = open(p, encoding='utf-8').read()
+    new = rx.sub(tag, was)
+    if new != was:
+        open(p, 'w', encoding='utf-8', newline='\n').write(new)
+        n += 1
+    print(f'brand: {n} files, {len(ver)} images', file=sys.stderr)
 
 
 def font_version():
@@ -812,7 +914,7 @@ def build_home(lang, src):
     src = chrome(src, tab='', home='')
     html, missing = translate(src, lang)
     html = html.replace('@@FRESH@@', fresh(lang))
-    html = sleep_art(html)
+    html = sleep_art(html).replace('<b>Gruppenplaner</b>', '<b>Gruppen&shy;planer</b>')   # 320 px tile: a hyphen, not «Gruppenplane / r»
     html = tod.apply(html, lang)   # the hero in the reader's time of day (tod.py)
     here = page_dir(lang)
     html = html.replace('@@ALTERNATES@@', alternates(''))
@@ -1145,11 +1247,45 @@ def class_guide_title(cid, lang):
     return langs.fill(g['title'])[lang]
 
 
-def class_builds_link(cid, lang):
-    """Line with the link to guides/builds-<class>/ in the page language, '' while the class has no builds page."""
+QS = {   # I3 «Quick start» plate on a class page: heading, then the four labels
+    'ru': ('Быстрый старт', 'Спек для прокачки', 'Профессии на прокачке', 'Раса за Альянс', 'Раса за Орду'),
+    'en': ('Quick start', 'Leveling spec', 'Leveling professions', 'Alliance race', 'Horde race'),
+    'uk': ('Швидкий старт', 'Спек для прокачування', 'Професії на прокачуванні', 'Раса за Альянс', 'Раса за Орду'),
+    'de': ('Schnellstart', 'Skillung zum Leveln', 'Berufe beim Leveln', 'Volk der Allianz', 'Volk der Horde'),
+    'fr': ('Démarrage rapide', 'Spé pour monter', 'Métiers pour monter', 'Race de l’Alliance', 'Race de la Horde'),
+    'es': ('Inicio rápido', 'Espec. para subir', 'Profesiones para subir', 'Raza de la Alianza', 'Raza de la Horda'),
+    'it': ('Avvio rapido', 'Spec per livellare', 'Professioni per livellare', 'Razza dell’Alleanza', 'Razza dell’Orda'),
+    'pt': ('Início rápido', 'Espec. para upar', 'Profissões para upar', 'Raça da Aliança', 'Raça da Horda'),
+    'pl': ('Szybki start', 'Spec do levelowania', 'Profesje do levelowania', 'Rasa Przymierza', 'Rasa Hordy'),
+}
+
+
+def quick_start(cid, lang):
+    """I3: one plate under the class hero — the leveling spec (tier list), the best race of each faction for PvE
+    (best-race summary), the leveling professions (Professions guide) and the links to the class guides.
+    Everything comes from the guides themselves, so the plate never disagrees with them."""
     from content.guides import GUIDES
-    g = next((x for x in GUIDES if x['slug'] == f'builds-{cid}'), None)
-    return f'\n    <p class="brace bguide"><a href="@@HOME@@guides/builds-{cid}/">{esc(langs.fill(g["title"])[lang])}</a></p>' if g else ''
+    g = {x['slug']: x for x in GUIDES}
+    L = lambda d: langs.derive(d)[lang] if isinstance(d, dict) else d   # noqa: E731
+    def rows(slug, sec):
+        for kind, data in next(x for x in g[slug]['sections'] if x['id'] == sec)['blocks']:
+            if kind == 'table':
+                return data['rows']
+    lvl = next(r[1] for r in rows('tier-list', 'leveling') if isinstance(r[1], tuple) and r[1][1] == f'guides/leveling-{cid}/')
+    spec = L(lvl[0]).partition(' · ')[2]
+    race = next(r for r in rows('best-race', 'table') if r[0]['ru'] == next(c['n'] for c in CLASSES if c['id'] == cid))
+    steps, _why = class_profs(cid, lang)
+    h, *labels = QS[lang]
+    vals = (spec, steps[0][1], L(race[1]), L(race[2]))
+    dl = ''.join(f'<div><dt>{esc(k)}</dt><dd>{esc(v)}</dd></div>' for k, v in zip(labels, vals))
+    links = [(f'guides/leveling-{cid}/', class_guide_title(cid, lang))]
+    b = next((x for x in GUIDES if x['slug'] == f'builds-{cid}'), None)
+    if b:
+        links.append((f'guides/builds-{cid}/', langs.fill(b['title'])[lang]))
+    links.append((f'guides/best-race/#{cid}', langs.fill(g['best-race']['crumb'])[lang]))
+    a = ''.join(f'<a href="@@HOME@@{u}">{esc(t)}</a>' for u, t in links)
+    return (f'<section class="wrap qstart" aria-labelledby="hQs"><div class="panel qs"><h2 id="hQs">{esc(h)}</h2>'
+            f'<dl class="qsl">{dl}</dl><p class="qsa">{a}</p></div></section>')
 
 
 def build_class(c, lang, tpl, base_css, sprite, races):
@@ -1157,7 +1293,7 @@ def build_class(c, lang, tpl, base_css, sprite, races):
     root = rel(here, '')
     home = rel(here, page_dir(lang))
     v = render_class(c, races, lang)
-    html = chrome(tpl.replace('@@BASE_CSS@@', base_css).replace('@@SPRITE@@', sprite), nav='classes/')
+    html = chrome(tpl.replace('@@BASE_CSS@@', base_css).replace('@@SPRITE@@', sprite), nav='classes/', tab='classes/')
     for k in ('ID', 'COLOR', 'DESC', 'ROLES', 'FACTS', 'TABS', 'PANELS', 'NEWS', 'RACES', 'RACES_TIP', 'GROUP', 'LVL', 'BEST_RACE', 'PROS', 'CONS'):
         html = html.replace(f'@@{k}@@', v[k])
     others = ''.join(f'<a class="oc" href="../{o["id"]}/" style="--cc:{COLOR[o["id"]]}">{pic(o["id"], root, (360,), "132px")}<b>{esc(o["n"])}</b></a>' for o in CLASSES if o['id'] != c['id'])
@@ -1170,8 +1306,7 @@ def build_class(c, lang, tpl, base_css, sprite, races):
 
     html, missing = translate(html, lang)
     html = set_updated(html, f'classes/{c["id"]}/')
-    html = html.replace('@@GUIDE@@', esc(class_guide_title(c['id'], lang)))   # «Прокачка Воина 1–60»: link to the class leveling guide
-    html = html.replace('@@BUILDS@@', class_builds_link(c['id'], lang))   # «Билды Воина»: only classes that have a builds page
+    html = html.replace('@@QSTART@@', quick_start(c['id'], lang))
     html = html.replace('@@PROFS@@', profs_panel(c['id'], lang))   # already in lang: the pairs come from the Professions guide
     html = html.replace('@@NAME@@', esc(tr(c['n'], lang)))
     html = mark_long(hyph_tabs(html))
@@ -1323,6 +1458,7 @@ def main():
     if not listing:
         import search  # site search index over the finished pages; it changes assets/, so the worker version is taken again
         search.main()
+        brand_version()
         me_version()
         living_version()
         radio_version()

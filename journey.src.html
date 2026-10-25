@@ -64,7 +64,7 @@ const STAGES = [
       ['f', 'Таланты открываются с 10 уровня, с перком Legacy Talented с 9 (на 5 рангах с 5).'],
       ['f', 'Большая часть готовой еды даёт бонус к опыту. Он складывается с лагерем и [[«Уютным спальным мешком»|Cozy Sleeping Bag]].'],
       ['t', 'Копите отдых: выходите из игры в трактире или у лагеря с палаткой.']],
-    prof: [['f', 'Базовый костёр доступен без Кулинарии и вмещает 3 объекта. Горит около 10 минут, поставить новый можно через 5.'],
+    prof: [['f', 'Для базового костра нужна выученная Кулинария, навык прокачивать не обязательно. Он вмещает 3 объекта, горит около 10 минут, новый можно поставить через 5.'],
       ['f', 'Чтобы получить баффы лагеря, сядьте рядом (/sit) хотя бы на минуту.'],
       ['t', 'Берите сбор с первых уровней: травы, руда и шкуры понадобятся ремеслу, а 150 в ремесле открывает Legacy.']],
     legacy: [['f', 'Перков пока нет: первое очко даст 25 уровень или 150 в профессии.'],
@@ -77,8 +77,8 @@ const STAGES = [
       ['f', 'Любая выпавшая вещь открывает свой облик для трансмогрификации всем, кто может её надеть, даже если вещь досталась другому.'],
       ['f', 'На 25 уровне открывается Legacy.'],
       ['t', 'Соберите задания подземелья всей группой заранее и идите, когда они есть у каждого.']],
-    prof: [['f', 'Кулинария 140 даёт 5 мест в лагере, 220 даёт 10.'],
-      ['f', 'Каждая профессия делает три объекта лагеря, по одному на уровень. Навык для 2 и 3 уровня у источников расходится.'],
+    prof: [['f', 'По Warcraft Tavern Кулинария 140 даёт 5 мест в лагере, 220 даёт 10 (по Icy Veins 90 и 200, на старте уточним).'],
+      ['f', 'Каждая профессия делает три объекта лагеря, по одному на уровень. Навык для 2 и 3 уровня у источников расходится (по Icy Veins 140 и 300).'],
       ['t', 'Если до 25 уровня далеко, доведите ремесло до 150: Legacy откроется раньше.']],
     legacy: [['f', 'Каждое испытание даёт 1 очко. Всего их 65: классы 27, профессии 18, PvP 12, подземелья 3, рейды 3, приключения 2.'],
       ['t', 'Ценны Reagent Economy (без покупных реагентов для способностей) и Field Guide (короче откат объектов лагеря).']],
@@ -92,7 +92,7 @@ const STAGES = [
       ['f', 'Почёт у своей фракции даёт скидку 10% на обучение езде и скакунов. По Warcraft Tavern: 100 + 20 золотых на 40 уровне, 1000 + 200 на 60.'],
       ['t', 'Отложите золото к 40 уровню: езда будет самой крупной тратой на пути к 60.']],
     prof: [['f', 'Объекты лагеря 2 и 3 уровня у каждой профессии свои. У Инженерного дела второй объект Repair Bot чинит экипировку.'],
-      ['t', 'Держите в группе Кулинарию 220 ради лагеря на 10 объектов: к рейду места хватит всем.']],
+      ['t', 'Держите в группе Кулинарию 200–220 ради лагеря на 10 объектов: к рейду места хватит всем.']],
     legacy: [['f', 'На персонажа не больше 16 очков, лишние идут в трек наград: игрушка за 15, питомец за 25, табард за 40, скакун за 55.']],
     group: [['f', 'Рейды откроются 09.12: Barrow Deeps на 10 игроков, Hyjal Summit на 20, Onyxia’s Lair на 40.'],
       ['t', 'Для 10-местного рейда нужно 10 игроков: если вас меньше, найдите недостающих в гильдии заранее.']],
@@ -104,7 +104,7 @@ const STAGES = [
       ['t', 'Пока набираете людей на рейд, проходите подземелья 60 уровня за экипировкой.']],
     prof: [['f', 'Баффы лагеря немного слабее классовых и не складываются с ними: Благословение королей даёт 10% ко всем характеристикам, лагерь 8%.'],
       ['t', 'Ставьте лагерь у входа в рейд: его баффы закроют то, чего нет у ваших классов.']],
-    legacy: [['f', 'Испытания для 60 уровня: подземелья 3, рейды 3, PvP 12. В PvP звания с недельным лимитом и улучшение экипировки за Честь.']],
+    legacy: [['f', 'На 60 уровне остаются испытания подземелий 46–60, рейдов 3 и PvP (с 30 уровня). В PvP звания с недельным лимитом и улучшение экипировки за Честь.']],
     group: [['f', 'Одинаковые баффы двух игроков одного класса перекрываются, разные классы складываются.'],
       ['t', 'Соберите рейдовый состав в конструкторе и пошлите ссылку в чат.']],
     src: ['cwg', 'prof', 'legacy'] }
@@ -141,9 +141,11 @@ function autoStage() {
 }
 const START = { pre: 'hero_dawn-960', first: 'hero_campfire-960', dung: 'warlock-360', path: 'hunter-360', raid: 'paladin-360' };
 const ARTV = /*ARTV*/{};   // ?v= of the scene arts, filled in by build.art_version (same names, redrawn pictures)
-const pic = f => `<picture><source type="image/avif" srcset="${ROOT}assets/art/${f}.avif${ARTV[f + '.avif'] || PV}"><img src="${ROOT}assets/art/${f}.webp${ARTV[f + '.webp'] || PV}" alt="" loading="lazy" decoding="async"></picture>`;
-const tipL = () => '<span class="tl">Совет</span>';
+const pic = f => `<picture><source type="image/avif" srcset="${ROOT}assets/art/${f}.avif${ARTV[f + '.avif'] || PV}"><img src="${ROOT}assets/art/${f}.webp${ARTV[f + '.webp'] || PV}" ${f.startsWith('hero_') ? 'width="960" height="536"' : f.endsWith('-600') ? 'width="600" height="804"' : 'width="360" height="482"'} alt="" loading="lazy" decoding="async"></picture>`;
+let tipN = 0;   // the gold «tip» word once per stage panel: the first tip carries it, the rest are plain lines
+const tipL = () => tipN++ ? '' : '<span class="tl">Совет</span>';
 function liC(x) { return x[0] === 't' ? `<li class="tip">${tipL()}${esc(x[1])}</li>` : `<li>${esc(x[1])}</li>`; }
+function liG(x) { return `<li>${esc(x[1])}</li>`; }   // «group tips» box: its heading already says so
 function dLi(d) {
   const mine = me.lvl && nearLvl(d, me.lvl);
   return `<li class="${mine ? 'mine' : ''}"><b>${esc(d[0])}</b><span class="lvl${mine ? ' gold' : ''}">${lvRange(d)}</span><span class="z">${esc(d[3])}${d[4] ? ' · <i>новое</i>' : ''}${mine ? '<span class="sr"> · под ваш уровень</span>' : ''}</span></li>`;
@@ -159,6 +161,7 @@ function renderStage() {
   if (me.lvl && s.lo <= me.lvl && me.lvl <= Math.max(s.hi, 1)) ds = ds.filter(d => nearLvl(d, me.lvl)).concat(ds.filter(d => !nearLvl(d, me.lvl)));
   const MAXD = 6, extra = ds.length - MAXD;
   let k = 0;
+  tipN = 0;
   const steps = s.todo.map(x => x[0] === 't'
     ? `<li class="tip"><p>${tipL()}${esc(x[1])}</p></li>`
     : `<li><span class="n">${++k}</span><p>${esc(x[1])}</p></li>`).join('');
@@ -171,7 +174,7 @@ function renderStage() {
       <div style="display:grid;gap:24px;align-content:start"><div><h4>Профессии и лагерь</h4><ul class="clean">${s.prof.map(liC).join('')}</ul></div>
         <div><h4>Перки Legacy</h4><ul class="clean">${s.legacy.map(liC).join('')}</ul></div></div>
     </div>
-    <div class="gtip"><h4 style="margin:0 0 10px;font-size:var(--fs-16)">Советы группе</h4><ul class="clean">${s.group.map(liC).join('')}</ul></div>
+    <div class="gtip"><h4 style="margin:0 0 10px;font-size:var(--fs-16)">Советы группе</h4><ul class="clean">${s.group.map(liG).join('')}</ul></div>
     <p class="st-src"><span>Источники:</span>${s.src.map(k2 => `<a href="${SRC[k2][1]}" target="_blank" rel="noopener">${esc(SRC[k2][0])}</a>`).join('')}</p>`;
 }
 function optList(items, cur, none) { return `<option value="">${esc(none)}</option>` + items.map(([v, t]) => `<option value="${v}"${v === cur ? ' selected' : ''}>${esc(t)}</option>`).join(''); }
@@ -181,7 +184,7 @@ function renderMe() {
   $('#meRace').innerHTML = `<option value="">Не выбрана</option><optgroup label="${facName('alliance')}">${races('alliance')}</optgroup><optgroup label="${facName('horde')}">${races('horde')}</optgroup>`;
   const cls = (me.race ? Object.keys(RC[me.race].can) : CLASSES.map(c => c.id)).map(id => [id, CL[id].n]);
   $('#meCls').innerHTML = optList(cls, me.cls, 'Не выбран');
-  $('#meRole').innerHTML = me.cls ? roleOpts(CL[me.cls]).map(x => `<option value="${x}"${x === me.role ? ' selected' : ''}>${ROLE_RU[x]}</option>`).join('') : `<option value="">Сначала класс</option>`;
+  $('#meRole').innerHTML = me.cls ? roleOpts(CL[me.cls]).map(x => `<option value="${x}"${x === me.role ? ' selected' : ''}>${ROLE_RU[x]}</option>`).join('') : `<option value="">—</option>`;
   $('#meRole').disabled = !me.cls;
   const prim = PROFS.filter(p => p[2]);
   $('#meP1').innerHTML = optList(prim.filter(p => p[0] !== me.p2).map(p => [p[0], p[1]]), me.p1, 'Нет');
@@ -191,7 +194,7 @@ function renderMe() {
   const sub = me.cls ? [ROLE_RU[me.role], me.race ? facName(RC[me.race].f) : ''].filter(Boolean).join(' · ') : 'Выберите расу, класс и уровень ниже';
   const hero = $('#meHero');
   hero.style.setProperty('--cc', me.cls ? CCOL[me.cls] : '#c9a54a');
-  hero.innerHTML = pic(me.cls ? `${me.cls}-600` : 'hero_campfire-960') + (me.lvl ? `<span class="lvb" aria-label="Уровень ${me.lvl}">${me.lvl}</span>` : '')
+  hero.innerHTML = pic(me.cls ? `${me.cls}-600` : 'hero_night-960') + (me.lvl ? `<span class="lvb" aria-label="Уровень ${me.lvl}">${me.lvl}</span>` : '')
     + `<span class="k">Мой персонаж</span><b>${who ? esc(who) : 'Ещё не создан'}</b><span class="s">${esc(sub)}</span>`;
   let out = '';
   if (meSet()) {

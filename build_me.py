@@ -99,7 +99,7 @@ def texts(lang):
 
 
 PAGES = [('roster/', 'roster.src.html'), ('profile/', 'profile.src.html'), ('u/', 'player.src.html')]
-NOINDEX = {'profile/', 'u/'}
+NOINDEX = {'profile/', 'u/'} | (set() if build.SOCIAL else {'roster/'})   # roster/: hidden with the social layer
 INVITE = build.DISCORD_AT['profile']   # кнопка «Вступить в Gabella Team» на экране «не участник»
 
 
@@ -133,14 +133,16 @@ def build_page(lang, sub, frag, shell, base_css, sprite, me_css, me_js):
     here = build.page_dir(lang, sub)
     root, home = build.rel(here, ''), build.rel(here, build.page_dir(lang))
     html = shell.replace('@@BASE_CSS@@', base_css).replace('@@SPRITE@@', sprite).replace('@@ME_CSS@@', me_css)
-    html = build.chrome(html, tab='profile/' if sub == 'profile/' else None)
+    html = build.chrome(html, tab=None)
     html = html.replace('@@P_CSS@@', part(frag, r'<style>(.*?)</style>', 'style'))
     html = html.replace('@@P_BODY@@', part(frag, r'<!--body-->(.*?)<!--/body-->', 'body'))
     html = html.replace('@@ME_JS@@', me_js).replace('@@P_JS@@', part(frag, r'<script>(.*?)</script>', 'script'))
     name = part(frag, r'<h1[^>]*>(.*?)</h1>', 'h1')
     html = html.replace('@@P_NAME@@', re.sub('<[^>]+>', '', name))
     html = html.replace('@@P_ROBOTS@@', '<meta name="robots" content="noindex">\n' if sub in NOINDEX else '')
+    html = build.social(html)
     html, missing = build.translate(html, lang)
+    html = html.replace('@@ACH@@', 'true' if build.ACHIEVEMENTS else 'false')
     html = html.replace('@@GD@@', json.dumps(page_data(lang), ensure_ascii=False, separators=(',', ':')))
     html = html.replace('@@LANG@@', lang).replace('@@HOME@@', home).replace('@@CANON@@', build.SITE + here)
     html = html.replace('@@ALTERNATES@@', build.alternates(sub))

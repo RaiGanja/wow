@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Инструменты WoW Forever: гид Gabella</title>
 <meta name="description" content="Поиск по гиду, рамки группы и рейдовая сетка как в игре, сравнение классов и рас WoW Forever.">
-<meta name="theme-color" content="#060708">
+<meta name="theme-color" content="#050505">
 @@ALTERNATES@@
 <script>(function(){var t=null;try{t=localStorage.getItem('wf-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}document.documentElement.setAttribute('data-theme',t)})();</script>
 <link rel="canonical" href="@@CANON@@">
@@ -68,7 +68,7 @@
 .unit .un b { flex: 0 1 auto; min-width: 0; }
 .unit .un small { margin-left: auto; color: rgba(243,239,230,.7); font-size: var(--fs-13); white-space: nowrap; }
 .unit .hp { position: relative; height: 16px; border-radius: 2px; background: #050608; overflow: hidden; }
-.unit .hp i { position: absolute; inset: 0; background: linear-gradient(180deg, color-mix(in srgb, var(--cc) 62%, #0f0f0f), color-mix(in srgb, var(--cc) 48%, #08090b)); }
+.unit .hp i { position: absolute; inset: 0; background: linear-gradient(180deg, color-mix(in srgb, var(--cc) 62%, #0f0f0f), color-mix(in srgb, var(--cc) 48%, #050505)); }
 .unit .mp { height: 3px; border-radius: 1px; background: var(--pc); opacity: .85; }
 .unit.empty { background: transparent; border-style: dashed; color: var(--muted); }
 .unit.empty .up { display: grid; place-items: center; border: 2px dashed var(--pline); box-shadow: none; background: transparent; font-size: var(--fs-28); color: var(--muted); }
@@ -85,7 +85,7 @@
 .rg-h b { color: var(--fg); font-weight: 600; font-size: var(--fs-14); }
 .rg-h .warn { color: var(--horde); }
 .rc { --pc: #3f7fe0; position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-content: center; gap: 0 4px; height: 50px; padding: 3px 7px 5px; border: 1px solid #000; border-radius: 2px; overflow: hidden; isolation: isolate; color: #fff; text-align: left; font: inherit; cursor: pointer;
-  background: linear-gradient(180deg, color-mix(in srgb, var(--cc) 62%, #0f0f0f), color-mix(in srgb, var(--cc) 46%, #08090b)); transition: filter .15s, box-shadow .15s; }
+  background: linear-gradient(180deg, color-mix(in srgb, var(--cc) 62%, #0f0f0f), color-mix(in srgb, var(--cc) 46%, #050505)); transition: filter .15s, box-shadow .15s; }
 .rc::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--pc); }
 .rc:hover { filter: brightness(1.12); box-shadow: 0 0 0 1px #e0c27a; }
 .rc b, .rc small { text-shadow: 0 0 2px #000, 0 1px 1px #000, 0 0 1px #000; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -127,7 +127,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 .cbar { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; }
 .cpick { padding: 12px; display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 8px; }
 .cpick.races { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-.cp { position: relative; aspect-ratio: 3 / 4; overflow: hidden; isolation: isolate; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; padding: 8px; display: grid; align-content: end; background: #0b0c0e; color: #f3efe6; font: inherit; text-align: left; cursor: pointer; }
+.cp { position: relative; aspect-ratio: 3 / 4; overflow: hidden; isolation: isolate; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; padding: 8px; display: grid; align-content: end; background: #0f0f0f; color: #f3efe6; font: inherit; text-align: left; cursor: pointer; }
 .cp img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: 50% 18%; filter: saturate(.7) brightness(.6); transition: filter .3s, transform .6s var(--ease); }
 .cp::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(5,5,5,0) 45%, rgba(5,5,5,.92) 100%); }
 .cp { container-type: inline-size; }
@@ -192,6 +192,8 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 }
 @media (max-width: 719px) {
   .sfield kbd { display: none; }
+  .sfield { min-height: 52px; font-size: var(--fs-16); }
+  .sfield span:not(.sr) { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }   /* a search hint in one line, like a field, not a paragraph */
   .ttiles.t2 { grid-template-columns: 1fr; }
   .rtool { padding: 12px; }
   .rbar .act { margin-left: 0; }
@@ -216,7 +218,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></symbol><symbol id="i-swap" viewBox="0 0 24 24"><path d="M7 4 3 8l4 4M3 8h14M17 20l4-4-4-4M21 16H7"/></symbol></svg>
 
 <header class="topbar" id="topbar"><div class="in">
-  <a class="brand" href="@@HOME@@" aria-label="Gabella, на главную"><img class="mark" src="@@ROOT@@assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Гид WoW Forever</small></span></a>
+  <a class="brand" href="@@HOME@@"><img class="mark" src="@@ROOT@@assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Гид WoW Forever</small></span></a>
   @@MAINNAV@@
   <div class="tools">
     @@LANGSEL@@
@@ -225,6 +227,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
   </div>
 </div></header>
 
+<main id="main">
 <section class="thero" id="top">
   <picture class="thero-art" aria-hidden="true" data-fx="tools" data-cut=".9">
     <source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/avif" srcset="@@ROOT@@assets/art/hero_tools-m-600.avif 600w, @@ROOT@@assets/art/hero_tools-m-800.avif 800w, @@ROOT@@assets/art/hero_tools-m-1000.avif 1000w" sizes="100vw">
@@ -239,17 +242,16 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
     <p class="upd">Обновлено @@UPDATED@@</p>
     <p class="lead">Поиск по всему гиду, рамки группы и рейда как в игре и сравнение классов и рас. Состав хранится в ссылке, её можно кинуть в Discord.</p>
     <div class="frame sbox" id="search" role="search">
-      <button type="button" class="sfield sopen" aria-label="Поиск по гиду"><svg class="ico" aria-hidden="true"><use href="#i-search"/></svg><span>Класс, способность, раса, подземелье или уровень</span><kbd aria-hidden="true">Ctrl K</kbd></button>
+      <button type="button" class="sfield sopen"><svg class="ico" aria-hidden="true"><use href="#i-search"/></svg><span class="sr">Поиск по гиду</span><span>Класс, способность, раса, подземелье или уровень</span><kbd aria-hidden="true">Ctrl K</kbd></button>
     </div>
   </div>
 </section>
 
-<main>
 <div class="wrap tnav">
   <nav class="ttiles t3" aria-label="Инструменты">
       <a class="ttile" href="#picker"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/druid-600.avif"><img src="@@ROOT@@assets/art/druid-600.webp" alt="" loading="lazy" decoding="async"></picture><b>Подборщик расы и класса</b><span>Все сочетания и что умеет каждое</span></a>
-      <a class="ttile" href="#raid"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/paladin-600.avif"><img src="@@ROOT@@assets/art/paladin-600.webp" alt="" loading="lazy" decoding="async"></picture><b>Рамки группы и рейда</b><span>Группа на 5, рейд на 10, 20 и 40, как в игре</span></a>
-      <a class="ttile" href="#compare"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/mage-600.avif"><img src="@@ROOT@@assets/art/mage-600.webp" alt="" loading="lazy" decoding="async"></picture><b>Сравнение классов и рас</b><span>До трёх рядом: роли, броня, баффы, способности</span></a>
+      <a class="ttile" href="#raid"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/warrior-600.avif"><img src="@@ROOT@@assets/art/warrior-600.webp" alt="" loading="lazy" decoding="async"></picture><b>Рамки группы и рейда</b><span>Группа на 5, рейд на 10, 20 и 40, как в игре</span></a>
+      <a class="ttile" href="#compare"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/gnome-600.avif"><img src="@@ROOT@@assets/art/gnome-600.webp" alt="" loading="lazy" decoding="async"></picture><b>Сравнение классов и рас</b><span>До трёх рядом: роли, броня, баффы, способности</span></a>
     </nav>
 </div>
 <section class="block wrap" id="picker">
@@ -313,7 +315,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 <div class="wrap">
 <footer id="sources">
   <h2>Источники</h2>
-  <p>Данные те же, что на главной и страницах классов: Warcraft Tavern, Method, ClassicWoW.gg, LFCarry, списки изменений Blizzard. <span class="tl" style="display:inline">Совет:</span> мнение составителя.</p>
+  <p>Данные те же, что на главной и страницах классов: Warcraft Tavern, Method, ClassicWoW.gg, LFCarry, списки изменений Blizzard. <span>Советы — мнение составителя.</span></p>
   @@LEGAL@@
 </footer>
 </div>
@@ -426,7 +428,7 @@ function unitHTML(p, i) {
   if (!p) return `<button type="button" class="unit empty${cls}" data-i="${i}"><span class="up" aria-hidden="true">+</span><span class="ub"><b>Свободное место</b><span>Нажмите, чтобы добавить игрока</span></span></button>`;
   const c = CL[p.cls], r = RC[p.race];
   return `<button type="button" class="unit${cls}" data-i="${i}" draggable="true" style="--cc:${CCOL[p.cls]};--pc:${power(p)}" aria-label="${esc((p.name || `Игрок ${i + 1}`) + ', ' + raceName(r) + ' ' + c.n + ', ' + ROLE_RU[p.role])}">
-    <span class="up"><picture><source type="image/avif" srcset="${art(p.cls, 'avif')}"><img src="${art(p.cls)}" alt="" loading="lazy" decoding="async"></picture></span>
+    <span class="up"><picture><source type="image/avif" srcset="${art(p.cls, 'avif')}"><img src="${art(p.cls)}" width="360" height="482" alt="" loading="lazy" decoding="async"></picture></span>
     <span class="ub"><span class="un"><span class="ur" title="${ROLE_RU[p.role]}">${ri(p.role)}</span><b>${esc(p.name || c.n)}</b><small>${esc(raceName(r))} · ${esc(c.n)}</small></span><span class="hp"><i></i></span><span class="mp"></span></span></button>`;
 }
 function cellHTML(p, i) {
@@ -546,7 +548,7 @@ function renderPick() {
   syncSeg('cMode', C.mode);
   const box = $('#cPick'), sel = C.mode === 'class' ? C.cls : C.race;
   box.classList.toggle('races', C.mode === 'race');
-  if (C.mode === 'class') box.innerHTML = CLASSES.map(c => { const k = sel.indexOf(c.id); return `<button type="button" class="cp" data-id="${c.id}" aria-pressed="${k >= 0}"><picture><source type="image/avif" srcset="${art(c.id, 'avif')}"><img src="${art(c.id)}" alt="" loading="lazy" decoding="async"></picture><span class="no">${k + 1}</span><b${Math.max(...c.n.split(/[\s-]+/).map(w => w.length)) >= 10 ? ' class="long"' : ''}>${esc(c.n)}</b></button>`; }).join('');
+  if (C.mode === 'class') box.innerHTML = CLASSES.map(c => { const k = sel.indexOf(c.id); return `<button type="button" class="cp" data-id="${c.id}" aria-pressed="${k >= 0}"><picture><source type="image/avif" srcset="${art(c.id, 'avif')}"><img src="${art(c.id)}" width="360" height="482" alt="" loading="lazy" decoding="async"></picture><span class="no">${k + 1}</span><b${Math.max(...c.n.split(/[\s-]+/).map(w => w.length)) >= 10 ? ' class="long"' : ''}>${esc(c.n)}</b></button>`; }).join('');
   else box.innerHTML = ['alliance', 'horde'].map(f => `<div class="rside ${f}"><h3>${FAC[f]}</h3>${RACES.filter(r => r.f === f).map(r => { const k = sel.indexOf(r.id); return `<button type="button" class="rp" data-id="${r.id}" aria-pressed="${k >= 0}">${esc(raceName(r))}${r.paid ? '<span class="tag paid">платная</span>' : ''}<span class="no">${k + 1}</span></button>`; }).join('')}</div>`).join('');
   $('#cNote').textContent = `Выбрано ${sel.length} из 3`;
 }
@@ -556,7 +558,7 @@ function renderCmp() {
   const out = [];
   if (C.mode === 'class') {
     const ids = C.cls;
-    out.push(`<div class="crow chead"><div class="lab"></div>${ids.map(id => `<div class="val" style="--cc:${CCOL[id]}"><picture><source type="image/avif" srcset="${art(id, 'avif')}"><img src="${art(id)}" alt="" loading="lazy" decoding="async"></picture><b>${esc(CL[id].n)}</b><a href="${classUrl(id)}">Страница класса<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>`).join('')}</div>`);
+    out.push(`<div class="crow chead"><div class="lab"></div>${ids.map(id => `<div class="val" style="--cc:${CCOL[id]}"><picture><source type="image/avif" srcset="${art(id, 'avif')}"><img src="${art(id)}" width="360" height="482" alt="" loading="lazy" decoding="async"></picture><b>${esc(CL[id].n)}</b><a href="${classUrl(id)}">Страница класса<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>`).join('')}</div>`);
     out.push(row('Роли', ids.map(id => CL[id].roles.map(r => `<span class="role">${ri(r)}${ROLE_RU[r]}</span>`).join(''))));
     out.push(row('Броня', ids.map(id => esc(CX[id].armor))));
     out.push(row('Вооружение', ids.map(id => esc(CX[id].weapons))));
@@ -591,7 +593,7 @@ $('#cPick').addEventListener('click', e => {
 
 /* ---------- Page chrome ---------- */
 const themeBtns = document.querySelectorAll('.themebtn');
-function paintTheme() { const t = document.documentElement.getAttribute('data-theme'); themeBtns.forEach(b => b.querySelector('use').setAttribute('href', t === 'light' ? '#i-moon' : '#i-sun')); const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#fbfaf7' : '#030303'); }
+function paintTheme() { const t = document.documentElement.getAttribute('data-theme'); themeBtns.forEach(b => b.querySelector('use').setAttribute('href', t === 'light' ? '#i-moon' : '#i-sun')); const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#fbfaf7' : '#050505'); }
 themeBtns.forEach(b => b.onclick = () => { const t = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light'; document.documentElement.setAttribute('data-theme', t); try { localStorage.setItem('wf-theme', t); } catch (e) {} paintTheme(); });
 paintTheme();
 const topbar = $('#topbar');

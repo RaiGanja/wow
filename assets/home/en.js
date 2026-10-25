@@ -3,7 +3,7 @@ const HOME = '';   // language home, the classes/ and races/ pages set their own
 const CLASSES = [
   { id:'warrior', n:'Warrior', s:'Warrior', roles:['tank','dps'],
     specs:[['Arms','Melee damage (two-handed weapon)',['dps']],['Fury','Melee damage (dual wield)',['dps']],['Protection','Tank',['tank']]],
-    lvl:'The slowest leveling, about 12% longer than average',
+    lvl:'Slowest leveling, about 12% longer than average (LFCarry estimate)',
     lp:12,
     raid:'Battle Shout affects the whole raid',
     forever:'More Rage, better threat on groups of targets, the Weapon Master talent. Fury and Bloodthirst are weakened.' },
@@ -15,7 +15,7 @@ const CLASSES = [
     forever:'Holy Strike from level 6, Judgement does not consume the seal. Undead can now be paladins, so the class appeared for the Horde.' },
   { id:'hunter', n:'Hunter', roles:['dps'],
     specs:[['Beast Mastery','Ranged damage, a lot of damage from the pet',['dps']],['Marksmanship','Ranged damage',['dps']],['Survival','Melee and ranged, traps',['dps']]],
-    lvl:'The fastest leveling, about 8% faster than average',
+    lvl:'Fastest leveling, about 8% faster than average (LFCarry estimate)',
     lp:-8,
     raid:'Trueshot Aura affects the whole raid',
     forever:'You can play without a pet, traps work in combat, foxes appeared as a pet family. Survival can go melee.' },
@@ -27,7 +27,7 @@ const CLASSES = [
     forever:'One-handed axes can now be used. Assassination is built on poisons, Subtlety on bleeds and stealth.' },
   { id:'priest', n:'Priest', roles:['heal','dps'],
     specs:[['Discipline','Healer, shields and absorption',['heal']],['Holy','Healer',['heal']],['Shadow','Ranged damage',['dps']]],
-    lvl:'About 5% slower than average',
+    lvl:'About 5% slower than average (LFCarry estimate)',
     lp:5,
     raid:'Divine Spirit is now baseline. Shadow damage and Devouring Plague (24 sec cooldown) were buffed by the 15 October patch.',
     forever:'Fear Ward and Devouring Plague are available from level 20 to any race. Each race has two of its own priest spells.' },
@@ -39,7 +39,7 @@ const CLASSES = [
     forever:'Dwarves can now be shamans, so the class appeared for the Alliance. Lava Burst was buffed, Elemental rose in the damage rankings.' },
   { id:'mage', n:'Mage', roles:['dps'],
     specs:[['Arcane','Burst, lots of mana',['dps']],['Fire','Crits and ignites',['dps']],['Frost','Damage and control',['dps']]],
-    lvl:'The fastest leveling, about 8% faster than average (about 12 hours saved)',
+    lvl:'Fastest leveling, about 8% faster than average, around 12 hours saved (LFCarry estimate)',
     lp:-8,
     raid:'Portals and food and water for the whole group',
     forever:'Fire got Hotstreak, Arcane got Arcane Blast, Frost got Ice Lance. Frostfire Bolt is available from level 40.' },
@@ -47,11 +47,11 @@ const CLASSES = [
     specs:[['Affliction','Damage from curses and corruption',['dps']],['Demonology','Damage through demons',['dps']],['Destruction','Direct fire and shadow damage',['dps']]],
     lvl:'Average leveling pace',
     lp:0,
-    raid:'Shadow Mastery now gives 2–10% shadow damage (was 1–5%)',
+    raid:'Dark Mastery gives 2–10% shadow damage, same as in Classic (1–5% in the early beta)',
     forever:'Affliction has a new channeled spell, the demon stays with Demonic Sacrifice, Destruction gained Incinerate and AoE.' },
   { id:'druid', n:'Druid', roles:['tank','heal','dps'],
     specs:[['Balance','Ranged damage',['dps']],['Feral','Tank (bear) and melee damage (cat)',['tank','dps']],['Restoration','Healer, lots of healing over time',['heal']]],
-    lvl:'About 5% slower than average',
+    lvl:'About 5% slower than average (LFCarry estimate)',
     lp:5,
     raid:'Leader of the Pack and Moonkin Aura affect the whole raid and stack',
     forever:'Each specialization got a clear role, forms work with potions and weapon enchants. You can be a tank, healer and fighter on one character.' }
@@ -72,7 +72,7 @@ const RACES = [
     tip:'Stoneform is useful for tanks and in PvP.' },
   { id:'nightelf', n:'Night Elf', f:'alliance',
     cls:['warrior','hunter','rogue','priest','druid'],
-    rac:[['a','Elune’s Light','+10% crit chance for 15 sec'],['a','Shadowmeld','Invisibility on the spot'],['p','Quickness','+1% dodge and +2% run speed'],['p','Wisp Spirit','+75% run speed as a spirit']],
+    rac:[['a','Elune’s Light','+10% crit chance for 15 sec'],['a','Shadowmeld','Invisibility on the spot'],['p','Quickness','+1–2% dodge (sources differ) and +2% run speed'],['p','Wisp Spirit','+75% run speed as a spirit']],
     tip:'The only Alliance race with a druid, unless you take Skyborne.' },
   { id:'gnome', n:'Gnome', f:'alliance',
     cls:['warrior','rogue','mage','warlock','priest*'],
@@ -80,7 +80,7 @@ const RACES = [
     tip:'Expansive Mind especially helps energy classes.' },
   { id:'skyA', n:'Skyborne (Alliance)', f:'alliance', paid:true, name:'High Order Skyborne',
     cls:['warrior','hunter','rogue','mage','druid'],
-    rac:[['a','Walk on Air','Glide down for 10 sec, no fall damage'],['a','Read Ley Line','+100% health and mana regeneration'],['p','Wind Blessed','+3% attack and spell speed'],['p','Elemental Insight','+5% damage to elementals']],
+    rac:[['a','Walk on Air','Glide down for 10 sec, no fall damage'],['a','Read Ley Line','Health and mana regeneration: +100% per Warcraft Tavern, +10% per Icy Veins'],['p','Wind Blessed','+3% attack and spell speed'],['p','Elemental Insight','+5% damage to elementals']],
     tip:'Paid race: Heroic Pack from $29.99. Starts in the Zephras Isle location (levels 1–12).' },
   { id:'orc', n:'Orc', f:'horde',
     cls:['warrior','hunter','rogue','shaman','warlock','mage*'],
@@ -96,7 +96,7 @@ const RACES = [
     tip:'The only Horde race with a druid, unless you take Skyborne.' },
   { id:'troll', n:'Troll', f:'horde',
     cls:['warrior','hunter','rogue','priest','shaman','mage','warlock*'],
-    rac:[['a','Berserking','+10% attack and spell speed for 10 sec'],['a','Rapid Regeneration','Restores health over time'],['p','Beast Slaying','+5% damage to beasts'],['p','Regeneration','Health regenerates in combat too']],
+    rac:[['a','Berserking','+10% attack and spell speed for 10–12 sec (sources differ)'],['a','Rapid Regeneration','Restores health over time'],['p','Beast Slaying','+5% damage to beasts'],['p','Regeneration','Health regenerates in combat too']],
     tip:'The most class options in the Horde: seven.' },
   { id:'skyH', n:'Skyborne (Horde)', f:'horde', paid:true, name:'Windshaper Skyborne',
     cls:['warrior','hunter','rogue','shaman','druid'],
@@ -106,7 +106,7 @@ const RACES = [
 RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
 const CL = Object.fromEntries(CLASSES.map(c => [c.id, c]));
 const RC = Object.fromEntries(RACES.map(r => [r.id, r]));
-const RLEAD = {"human": "The most numerous race of the Alliance. Versatile and strong in PvP thanks to Will to Survive.", "dwarf": "Sturdy miners and riflemen of Ironforge. For the first time in Classic the Alliance has shamans, and they are dwarves.", "nightelf": "An ancient people of the forests. Elusive: their own way to hide, dodge and fast running.", "gnome": "The inventors of Gnomeregan. Small, cunning and with the best escape ability in the game.", "skyA": "A new race in Forever. The High Order: wind elves seeking the lost arcane magic of their ancestors.", "orc": "The heart of the Horde. The strongest warriors and PvP masters thanks to Blood Fury and Hardiness.", "undead": "The Forsaken: former humans who broke free of the Lich King. Immune to fear and sleep when it counts.", "tauren": "Peaceful giants of the plains. The most health and their own area stun.", "troll": "The Darkspear tribe. The most classes in the Horde and a strong Berserking for damage.", "skyH": "A new race in Forever. The Windshapers: spiritual leaders of the Skyborne, close to the elements."}; // race page leads and URL slugs, filled in by build.py
+const RLEAD = {"human": "The most numerous race of the Alliance. Versatile and strong in PvP thanks to Will to Survive.", "dwarf": "Sturdy miners and riflemen of Ironforge. For the first time the Alliance has shamans, and they are dwarves: Classic had none.", "nightelf": "An ancient people of the forests. Elusive: their own way to hide, dodge and fast running.", "gnome": "The inventors of Gnomeregan. Small, cunning and with the best escape ability in the game.", "skyA": "A new race in Forever. The High Order: wind elves seeking the lost arcane magic of their ancestors.", "orc": "The heart of the Horde. The strongest warriors and PvP masters thanks to Blood Fury and Hardiness.", "undead": "The Forsaken: former humans who broke free of the Lich King. Immune to fear and sleep when it counts.", "tauren": "Peaceful giants of the plains. The most health and their own area stun.", "troll": "The Darkspear tribe. The most classes in the Horde and a strong Berserking for damage.", "skyH": "A new race in Forever. The Windshapers: spiritual leaders of the Skyborne, close to the elements."}; // race page leads and URL slugs, filled in by build.py
 const RSLUG = {"human": "human", "dwarf": "dwarf", "nightelf": "night-elf", "gnome": "gnome", "skyA": "skyborne-alliance", "orc": "orc", "undead": "undead", "tauren": "tauren", "troll": "troll", "skyH": "skyborne-horde"};
 
 const EN = {
@@ -131,7 +131,7 @@ const tipBox = h => `<div class="tipbox"><svg class="ico fi" aria-hidden="true">
 function bi(ru) { return EN[ru] && EN[ru] !== ru ? `${esc(ru)} <span class="en">(${esc(EN[ru])})</span>` : esc(ru); }
 function raceEn(r) { return r.en ? ` <span class="en">/ ${esc(r.en)}</span>` : ''; }
 function facName(f) { return f === 'alliance' ? 'Alliance' : 'Horde'; }
-const PV = /*PV*/'?v=0119de2a';   // ?v= of the class and race portraits, filled in by build.art_version (redrawn under the same names)
+const PV = /*PV*/'?v=6114caef';   // ?v= of the class and race portraits, filled in by build.art_version (redrawn under the same names)
 /* Round face avatar: assets/art/<id>-face.webp, ring colour cc */
 function face(id, cc, cls = '', title = '') { return `<span class="av ${cls}" style="--cc:${cc}"${title ? ` title="${esc(title)}"` : ''}><img src="../assets/art/${id}-face.webp${PV}" width="160" height="160" alt="" loading="lazy" decoding="async"></span>`; }
 function lvlMeter(c) {

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>@@TITLE@@ · Гид WoW Forever</title>
 <meta name="description" content="@@LEAD@@">
-<meta name="theme-color" content="#060708">
+<meta name="theme-color" content="#050505">
 @@ALTERNATES@@
 <script>(function(){var t=null;try{t=localStorage.getItem('wf-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}document.documentElement.setAttribute('data-theme',t)})();</script>
 <link rel="canonical" href="@@CANON@@">
@@ -71,7 +71,7 @@
 .gtable td { height: 44px; padding: 10px 14px; vertical-align: top; line-height: 1.5; }
 .gtable td:first-child { font-weight: 600; }
 .gtable tbody tr:nth-child(odd) { background: var(--zebra); }
-.gtable tr.mine, .gtable tbody tr.mine:nth-child(odd) { background: color-mix(in srgb, var(--gold) 14%, transparent); }
+.gtable tr.mine, .gtable tbody tr.mine:nth-child(odd) { background: var(--seg-on); }
 /* News: plain lines, no badges. Our notes: the date in a quiet column; the feed: grouped by day under a date heading */
 .nlist { display: grid; gap: 4px; }
 .nlist[hidden] { display: none; }
@@ -94,6 +94,17 @@
 .gtabs [role="tab"][aria-selected="true"] { background: var(--seg-on); color: var(--gold-2); }
 .gtabs [role="tabpanel"] { display: grid; gap: 14px; }
 .gtabs [role="tabpanel"][hidden] { display: none; }
+/* I2: tier grid — a big letter, the class portraits of that tier beside it */
+.tgrid { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.tgrid li { display: grid; grid-template-columns: 48px minmax(0, 1fr); align-items: center; gap: 16px; padding: 12px 16px; border-radius: 6px; background: var(--panel-2); }
+.tgl { font-family: var(--font-display); font-weight: var(--display-w); font-size: var(--fs-40); line-height: 1; text-align: center; color: var(--muted); }
+.tgl.tS { color: var(--gold-2); }
+.tgl.tA { color: var(--fg); }
+.tgr { display: flex; flex-wrap: wrap; gap: 12px 18px; }
+.tgc { display: grid; justify-items: center; gap: 7px; min-width: 60px; color: var(--fg); text-decoration: none; font-size: var(--fs-13); font-weight: 600; line-height: 1.2; white-space: nowrap; }
+.tgc .av { --s: 48px; --ring-gap: var(--panel-2); }
+.tgc:hover .tgn, .tgc:focus-visible .tgn { color: var(--gold-2); }
+.tgn sup { margin-left: 1px; color: var(--gold-2); }
 /* FAQ: plain rows, no frame per question. A chevron on the right, a plate on hover, the open answer indented under it */
 .gfaq { display: grid; gap: 2px; margin: 0 -14px; }
 .gfaq details { scroll-margin-top: calc(var(--top) + 16px); }
@@ -114,12 +125,18 @@
 /* In game (/play/, build_guides.play_body): no art band, always solid bar; one column on phones, two from 960px */
 .compact .topbar { background: var(--rail); border-bottom-color: var(--line); color: var(--fg); }
 :root[data-theme="light"] .compact .topbar :is(.bt small, .mainnav a[aria-current="true"]) { color: var(--gold-2); }   /* pale hero gold on the paper bar */
-.phead { padding-top: calc(var(--top) + 22px); }
-.phead .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; }
-.ptitle { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; flex: 1 1 520px; min-width: 0; }
-.phead h1 { font-size: var(--fs-40); line-height: 1; }
-.phead .glead { flex: 1 1 320px; margin: 0; font-size: var(--fs-16); color: var(--muted); opacity: 1; }
-:root[data-theme="light"] .phead .glead { text-shadow: none; }   /* the hero shadow is a grey smudge on the paper */
+.phead { position: relative; isolation: isolate; overflow: hidden; min-height: 440px; display: grid; align-content: end; padding: calc(var(--top) + 40px) 0 calc(28px + var(--hfade, 0px)); color: var(--ink); background: #050505; }
+.phead-art, .phead-art img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.phead-art { z-index: -2; }
+.phead-art img { object-fit: cover; object-position: 50% 32%; }
+.phead::before { content: ""; position: absolute; inset: 0; z-index: -1; background:
+  linear-gradient(90deg, rgb(5 5 5 / .72) 0%, rgb(5 5 5 / .42) 38%, rgb(5 5 5 / 0) 62%),
+  linear-gradient(180deg, rgb(5 5 5 / .5) 0%, rgb(5 5 5 / 0) 28%, rgb(5 5 5 / .15) 62%, rgb(5 5 5) 100%); }
+.phead .wrap { width: 100%; display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px 24px; }
+.ptitle { display: grid; gap: 8px; flex: 1 1 520px; max-width: 640px; min-width: 0; }
+.phead h1 { font-size: var(--fs-40); line-height: 1; color: var(--ink); text-shadow: 0 2px 18px rgba(0,0,0,.5); }
+.phead .glead { margin: 0; font-size: var(--fs-16); color: var(--ink); opacity: .86; text-shadow: 0 1px 2px rgba(0,0,0,.6); }
+.phead .pill { color: var(--ink); border-color: rgb(241 236 224 / .3); background: rgb(5 5 5 / .35); }
 .pacts { display: flex; flex-wrap: wrap; gap: 8px; }
 .pacts:not(:has(> :not([hidden]))) { display: none; }
 .pwake { gap: 6px; min-height: 36px; padding: 0 14px; cursor: pointer; font: inherit; font-size: var(--fs-14); }
@@ -147,6 +164,9 @@
 .pgrid { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
 .pcol { display: contents; }   /* phone: one column, radio first */
 #radio { order: 1; } #level { order: 2; } #dung { order: 3; } #timers { order: 4; }
+#radioDock { min-height: 515px; }   /* the player comes after load: its place is kept, so nothing below jumps (CLS) */
+@media (max-width: 719px) { #radioDock { min-height: 568px; } }
+@media (max-width: 359px) { #radioDock { min-height: 630px; } }
 @media (min-width: 960px) {   /* two independent columns: level + dungeons | radio + timers */
   .pgrid { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: start; }
   .pcol { display: grid; gap: 14px; min-width: 0; }
@@ -195,14 +215,18 @@
 .ptl .tn { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ptl .tt { font-family: var(--font-display); font-weight: var(--display-w); font-size: var(--fs-22); font-variant-numeric: lining-nums tabular-nums; }
 .ptl .iconbtn { width: 36px; height: 36px; }
-.ptl li.done, .ptl li.done:nth-child(odd) { background: color-mix(in srgb, var(--gold) 14%, transparent); }
+.ptl li.done, .ptl li.done:nth-child(odd) { background: var(--seg-on); }
 .ptl li.done .tt { color: var(--gold-2); font-family: inherit; font-size: var(--fs-16); animation: pdone 1s steps(2) 6; }
 @keyframes pdone { 50% { opacity: .35; } }
 @media (prefers-reduced-motion: reduce) { .ptl li.done .tt { animation: none; } }
 .pnotify { display: flex; align-items: center; gap: 8px; font-size: var(--fs-14); color: var(--muted); cursor: pointer; }
 .pnotify[hidden] { display: none; }
 .pnotify input { width: 18px; height: 18px; accent-color: #c9a54a; }
-@media (max-width: 719px) { .phead { padding-top: calc(var(--top) + 14px); } .pway { padding: 12px 14px; gap: 10px 20px; } .pway .btn { margin-left: 0; } .psec { padding: 14px; } .pform { grid-template-columns: minmax(0, 1fr) 104px; } .pform .pill { grid-column: 1 / -1; justify-content: center; } }
+@media (max-width: 719px) {   /* phone: the party on the road on top, the title below it on the dark */
+  .phead { min-height: 0; padding-top: calc(var(--top) + 170px); }
+  .phead-art img { object-position: 80% 0; height: calc(var(--top) + 300px); }
+  .phead::before { background: linear-gradient(180deg, rgb(5 5 5 / .5) 0%, rgb(5 5 5 / 0) 16%, rgb(5 5 5 / 0) calc(var(--top) + 150px), rgb(5 5 5 / .9) calc(var(--top) + 250px), rgb(5 5 5) calc(var(--top) + 300px)); } }
+@media (max-width: 719px) { .pway { padding: 12px 14px; gap: 10px 20px; } .pway .btn { margin-left: 0; } .psec { padding: 14px; } .pform { grid-template-columns: minmax(0, 1fr) 104px; } .pform .pill { grid-column: 1 / -1; justify-content: center; } }
 #more { margin-top: 56px; }
 #more .sec-head { margin-bottom: 14px; }
 @media (max-width: 1023px) {
@@ -220,10 +244,29 @@
   .phead h1 { font-size: var(--fs-28); }
   .gsec { padding: 18px 16px; }
   .steps-c { grid-template-columns: minmax(0, 1fr); }
+  /* T4: «Other guides» under «See also» is a short list on a phone, not four screens of pictures again */
+  #more .gtiles { grid-template-columns: minmax(0, 1fr); gap: 2px; border-radius: 8px; overflow: hidden; }
+  #more .ttile { min-height: 0; padding: 11px 14px; gap: 1px; border: 0; border-radius: 0; background: var(--panel-2); color: var(--fg); }
+  #more .ttile:nth-child(odd) { background: color-mix(in srgb, var(--fg) 3%, var(--panel-2)); }
+  #more .ttile picture, #more .ttile::after { display: none; }
+  #more .ttile b { font-size: var(--fs-16); text-shadow: none; }
+  #more .ttile span { color: var(--muted); font-size: var(--fs-13); }
+  #more .ttile:hover b { color: var(--gold-2); }
+  /* T1: a row is a compact card — the name, short cells with their labels in one line, the long ones under it */
+  .tgrid li { grid-template-columns: 30px minmax(0, 1fr); gap: 10px; padding: 10px 12px; }
+  .tgl { font-size: var(--fs-28); }
+  .tgr { gap: 10px 12px; }
+  .tgc { min-width: 52px; }
+  .tgc .av { --s: 40px; }
   .gtable thead { display: none; }
-  .gtable, .gtable tbody, .gtable tr, .gtable td { display: block; width: 100%; }
-  .gtable tr { padding: 10px 0; }
-  .gtable td { height: auto; padding: 2px 14px; }
+  .gtable, .gtable tbody { display: block; width: 100%; }
+  .gtable tr { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; padding: 10px 14px; }
+  .gtable td { display: block; flex: 1 1 100%; min-width: 0; height: auto; padding: 0; }
+  .gtable td.s { flex: none; }
+  .gtable td.k.s + td.k { flex: 1 1 0; }
+  .gtable td.k { font-weight: 600; }
+  .gtable td.t.k { min-width: 1.3em; font-family: var(--font-display); font-weight: var(--display-w); font-size: var(--fs-22); line-height: 1; color: var(--gold-2); }
+  .gtable td.nil { display: none; }
   .dgt tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; padding: 10px 14px; }
   .dgt td { padding: 0; }
   .dgt td::before { display: none !important; }
@@ -232,7 +275,8 @@
   .dgt td:nth-child(2) .alt { grid-column: 1 / -1; grid-row: 3; margin-top: 2px; }
   .dgt td:nth-child(3) { grid-column: 1 / -1; grid-row: 2; color: var(--muted); font-size: var(--fs-14); }
   .gtable td::before { content: attr(data-l); display: block; font-size: var(--fs-13); font-weight: 400; color: var(--muted); }
-  .gtable td + td { margin-top: 4px; }
+  .gtable td.s::before { display: inline; margin-right: 6px; }
+  .gtable td.k::before, .gtable td.m::before { display: none; }
   .dgt td + td { margin-top: 0; }
 }
 </style>
@@ -241,7 +285,7 @@
 @@SPRITE@@
 
 <header class="topbar" id="topbar"><div class="in">
-  <a class="brand" href="@@HOME@@" aria-label="Gabella, на главную"><img class="mark" src="@@ROOT@@assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Гид WoW Forever</small></span></a>
+  <a class="brand" href="@@HOME@@"><img class="mark" src="@@ROOT@@assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Гид WoW Forever</small></span></a>
   @@MAINNAV@@
   <div class="tools">
     @@LANGSEL@@
@@ -250,6 +294,7 @@
   </div>
 </div></header>
 
+<main id="main">
 <section class="stband ghero" id="top">
   @@HERO@@
   <div class="wrap">
@@ -262,16 +307,20 @@
   </div>
 </section>
 
-<main class="wrap gbody@@SOLO@@">
+<div class="wrap gbody@@SOLO@@">
   <nav class="gtoc frame" aria-label="Разделы гайда">@@TOC@@</nav>
   <div class="gmain">
 @@BODY@@
   </div>
+</div>
+
+<div class="wrap">
+<p class="dcta"><span>Группы на старт, вопросы по гиду и новости — в Discord Gabella.</span><a class="btn ghost" href="@@DISCORD_GUIDE@@" target="_blank" rel="noopener">Открыть Discord</a></p>
+<section id="more"><div class="sec-head"><h2>@@MORE_H@@</h2></div><nav class="ttiles gtiles" aria-label="@@MORE_H@@">@@MORE@@</nav></section>
+</div>
 </main>
 
 <div class="wrap">
-<p class="dcta"><span>Группы на старт, вопросы по гиду и новости — в Discord Gabella Team.</span><a class="btn ghost" href="@@DISCORD_GUIDE@@" target="_blank" rel="noopener">Открыть Discord</a></p>
-<section id="more"><div class="sec-head"><h2>@@MORE_H@@</h2></div><nav class="ttiles gtiles" aria-label="@@MORE_H@@">@@MORE@@</nav></section>
 <footer id="sources">
   <!--src--><h2>Источники</h2>
   <ul>@@SOURCES@@</ul><!--/src-->
@@ -300,7 +349,7 @@ function esc(s) { return String(s).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&l
 
 /* ---------- Page chrome ---------- */
 const themeBtns = document.querySelectorAll('.themebtn');
-function paintTheme() { const t = document.documentElement.getAttribute('data-theme'); themeBtns.forEach(b => b.querySelector('use').setAttribute('href', t === 'light' ? '#i-moon' : '#i-sun')); const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#fbfaf7' : '#030303'); }
+function paintTheme() { const t = document.documentElement.getAttribute('data-theme'); themeBtns.forEach(b => b.querySelector('use').setAttribute('href', t === 'light' ? '#i-moon' : '#i-sun')); const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#fbfaf7' : '#050505'); }
 themeBtns.forEach(b => b.onclick = () => { const t = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light'; document.documentElement.setAttribute('data-theme', t); try { localStorage.setItem('wf-theme', t); } catch (e) {} paintTheme(); });
 paintTheme();
 const topbar = $('#topbar');
@@ -316,10 +365,21 @@ dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.
 /* Guides: tabs, contents highlight; live parts switch on per page */
 document.querySelectorAll('.gtabs').forEach(box => {
   const btns = box.querySelectorAll('[role="tab"]'), panels = box.querySelectorAll('[role="tabpanel"]');
-  btns.forEach(b => b.addEventListener('click', () => {
-    btns.forEach(x => x.setAttribute('aria-selected', x === b));
+  const pick = b => {
+    btns.forEach(x => { x.setAttribute('aria-selected', x === b); x.tabIndex = x === b ? 0 : -1; });
     panels.forEach(p => p.hidden = p.dataset.tab !== b.dataset.tab);
-  }));
+  };
+  btns.forEach((b, i) => {
+    b.tabIndex = b.getAttribute('aria-selected') === 'true' ? 0 : -1;
+    b.addEventListener('click', () => pick(b));
+    b.addEventListener('keydown', e => {   // arrows, Home and End move along the tabs
+      const n = { ArrowRight: i + 1, ArrowDown: i + 1, ArrowLeft: i - 1, ArrowUp: i - 1, Home: 0, End: btns.length - 1 }[e.key];
+      if (n === undefined) return;
+      e.preventDefault();
+      const to = btns[(n + btns.length) % btns.length];
+      pick(to); to.focus();
+    });
+  });
 });
 const tocLinks = [...document.querySelectorAll('.gtoc a')];
 if ('IntersectionObserver' in window && tocLinks.length) {
