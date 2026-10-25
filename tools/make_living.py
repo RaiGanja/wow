@@ -266,7 +266,7 @@ def leveling():
 def classes():
     im = load('hero_classes')
     open_sky = ImageChops.multiply(pick(im, [(0, 0, 575, 230)], lambda r, g, b, x, y: lum(r, g, b) > .66),
-                                   sky([(570, 0, W, H), (0, 200, 340, H)], (150, 215)))   # tower, walls; the peaks stay put
+                                   sky([(570, 0, W, H), (0, 200, 340, H)], (95, 150)))   # tower, walls; the peaks stay put
     zero = Image.new('L', (W, H), 0)
     save('hero_classes', zero, zero, soft(open_sky, 1, 2), zero)
 
