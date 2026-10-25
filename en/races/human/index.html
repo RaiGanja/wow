@@ -118,6 +118,11 @@ html[data-tod="night"] { --hero-fade: 5 7 12;  --hero-shadow: 0 1px 2px rgb(0 0 
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: calc(var(--top) + 12px); -webkit-text-size-adjust: 100%; }
+/* Grain: a faint texture over the page and the art, so painting and interface meet without a plastic seam (D4).
+   Sparse light specks on the dark theme, dark ones on the light; the average colour stays the same */
+body::after { content: ""; position: fixed; inset: 0; z-index: 100; pointer-events: none; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 2.4 -1.1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E") 0 0 / 180px 180px; opacity: .05; }
+:root[data-theme="light"] body::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2.4 -1.1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"); opacity: .04; }
+@media print { body::after { display: none; } }
 body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: var(--fs-16); line-height: 1.6; overflow-x: clip; overflow-wrap: break-word; }
 h1, h2, h3 { font-family: var(--font-display); font-weight: var(--display-w); letter-spacing: .03em; overflow-wrap: break-word; margin: 0; line-height: 1.1; text-wrap: balance; font-variant-numeric: lining-nums; }
 h2 { font-size: var(--fs-h2); }
