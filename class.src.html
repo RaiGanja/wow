@@ -37,10 +37,18 @@
 .cprofs .pmore { justify-self: start; color: var(--gold-2); font-weight: 500; text-decoration: none; }
 .cprofs .pmore:hover { text-decoration: underline; }
 .cprofs .pmore .ico { width: 16px; height: 16px; margin-left: 6px; vertical-align: -3px; }
-.brace { margin: 16px 0 0; color: var(--muted); font-size: var(--fs-16); }
-.brace a { margin-left: 8px; color: var(--gold-2); font-weight: 500; white-space: nowrap; }
-.brace + .brace { margin-top: 8px; }
-.brace.bguide a { margin-left: 0; white-space: normal; }
+/* I3 Quick start: four facts in a row and the class guides under them, right under the hero */
+.qstart { margin-top: 28px; }
+.qs { display: grid; gap: 16px; padding: 22px 24px; }
+.qs h2 { font-size: var(--fs-22); }
+.qsl { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px 24px; margin: 0; }
+.qsl div { display: grid; gap: 3px; align-content: start; min-width: 0; }
+.qsl dt { color: var(--muted); font-size: var(--fs-13); }
+.qsl dd { margin: 0; font-weight: 600; font-size: var(--fs-16); line-height: 1.35; }
+.qsa { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 0; padding-top: 14px; border-top: 1px solid var(--line); }
+.qsa a { min-height: 32px; display: inline-flex; align-items: center; color: var(--gold-2); font-weight: 600; text-underline-offset: 3px; }
+@media (max-width: 899px) { .qsl { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 719px) { .qstart { margin-top: 20px; } .qs { padding: 18px 16px; } }
 @@BASE_CSS@@
 /* Class page: full-screen portrait hero, spec tabs, races, group use, other classes */
 .chero { position: relative; isolation: isolate; overflow: hidden; min-height: max(620px, 100svh); display: grid; align-content: end; color: var(--ink); background: #08090b; }
@@ -204,13 +212,13 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
   </div>
 </section>
 
+@@QSTART@@
+
 <section class="block wrap" id="specs">
   <div class="sec-head"><h2>Специализации</h2></div>
   <div>
     <div class="stabs" role="tablist" aria-label="Специализации">@@TABS@@</div>
     @@PANELS@@
-    <p class="brace">@@BEST_RACE@@<a href="@@HOME@@guides/best-race/#@@ID@@">Почему</a></p>
-    <p class="brace bguide"><a href="@@HOME@@guides/leveling-@@ID@@/">@@GUIDE@@</a></p>@@BUILDS@@
   </div>
 </section>
 

@@ -1189,11 +1189,45 @@ def class_guide_title(cid, lang):
     return langs.fill(g['title'])[lang]
 
 
-def class_builds_link(cid, lang):
-    """Line with the link to guides/builds-<class>/ in the page language, '' while the class has no builds page."""
+QS = {   # I3 «Quick start» plate on a class page: heading, then the four labels
+    'ru': ('Быстрый старт', 'Спек для прокачки', 'Профессии на прокачке', 'Раса за Альянс', 'Раса за Орду'),
+    'en': ('Quick start', 'Leveling spec', 'Leveling professions', 'Alliance race', 'Horde race'),
+    'uk': ('Швидкий старт', 'Спек для прокачування', 'Професії на прокачуванні', 'Раса за Альянс', 'Раса за Орду'),
+    'de': ('Schnellstart', 'Skillung zum Leveln', 'Berufe beim Leveln', 'Volk der Allianz', 'Volk der Horde'),
+    'fr': ('Démarrage rapide', 'Spé pour monter', 'Métiers pour monter', 'Race de l’Alliance', 'Race de la Horde'),
+    'es': ('Inicio rápido', 'Espec. para subir', 'Profesiones para subir', 'Raza de la Alianza', 'Raza de la Horda'),
+    'it': ('Avvio rapido', 'Spec per livellare', 'Professioni per livellare', 'Razza dell’Alleanza', 'Razza dell’Orda'),
+    'pt': ('Início rápido', 'Espec. para upar', 'Profissões para upar', 'Raça da Aliança', 'Raça da Horda'),
+    'pl': ('Szybki start', 'Spec do levelowania', 'Profesje do levelowania', 'Rasa Przymierza', 'Rasa Hordy'),
+}
+
+
+def quick_start(cid, lang):
+    """I3: one plate under the class hero — the leveling spec (tier list), the best race of each faction for PvE
+    (best-race summary), the leveling professions (Professions guide) and the links to the class guides.
+    Everything comes from the guides themselves, so the plate never disagrees with them."""
     from content.guides import GUIDES
-    g = next((x for x in GUIDES if x['slug'] == f'builds-{cid}'), None)
-    return f'\n    <p class="brace bguide"><a href="@@HOME@@guides/builds-{cid}/">{esc(langs.fill(g["title"])[lang])}</a></p>' if g else ''
+    g = {x['slug']: x for x in GUIDES}
+    L = lambda d: langs.derive(d)[lang] if isinstance(d, dict) else d   # noqa: E731
+    def rows(slug, sec):
+        for kind, data in next(x for x in g[slug]['sections'] if x['id'] == sec)['blocks']:
+            if kind == 'table':
+                return data['rows']
+    lvl = next(r[1] for r in rows('tier-list', 'leveling') if isinstance(r[1], tuple) and r[1][1] == f'guides/leveling-{cid}/')
+    spec = L(lvl[0]).partition(' · ')[2]
+    race = next(r for r in rows('best-race', 'table') if r[0]['ru'] == next(c['n'] for c in CLASSES if c['id'] == cid))
+    steps, _why = class_profs(cid, lang)
+    h, *labels = QS[lang]
+    vals = (spec, steps[0][1], L(race[1]), L(race[2]))
+    dl = ''.join(f'<div><dt>{esc(k)}</dt><dd>{esc(v)}</dd></div>' for k, v in zip(labels, vals))
+    links = [(f'guides/leveling-{cid}/', class_guide_title(cid, lang))]
+    b = next((x for x in GUIDES if x['slug'] == f'builds-{cid}'), None)
+    if b:
+        links.append((f'guides/builds-{cid}/', langs.fill(b['title'])[lang]))
+    links.append((f'guides/best-race/#{cid}', langs.fill(g['best-race']['crumb'])[lang]))
+    a = ''.join(f'<a href="@@HOME@@{u}">{esc(t)}</a>' for u, t in links)
+    return (f'<section class="wrap qstart" aria-labelledby="hQs"><div class="panel qs"><h2 id="hQs">{esc(h)}</h2>'
+            f'<dl class="qsl">{dl}</dl><p class="qsa">{a}</p></div></section>')
 
 
 def build_class(c, lang, tpl, base_css, sprite, races):
@@ -1214,8 +1248,7 @@ def build_class(c, lang, tpl, base_css, sprite, races):
 
     html, missing = translate(html, lang)
     html = set_updated(html, f'classes/{c["id"]}/')
-    html = html.replace('@@GUIDE@@', esc(class_guide_title(c['id'], lang)))   # «Прокачка Воина 1–60»: link to the class leveling guide
-    html = html.replace('@@BUILDS@@', class_builds_link(c['id'], lang))   # «Билды Воина»: only classes that have a builds page
+    html = html.replace('@@QSTART@@', quick_start(c['id'], lang))
     html = html.replace('@@PROFS@@', profs_panel(c['id'], lang))   # already in lang: the pairs come from the Professions guide
     html = html.replace('@@NAME@@', esc(tr(c['n'], lang)))
     html = mark_long(hyph_tabs(html))
