@@ -3,7 +3,7 @@ const HOME = '';   // language home, the classes/ and races/ pages set their own
 const CLASSES = [
   { id:'warrior', n:'Guerrier', s:'Guerrier', roles:['tank','dps'],
     specs:[['Armes','Dégâts en mêlée (arme à deux mains)',['dps']],['Fureur','Dégâts en mêlée (deux armes)',['dps']],['Protection','Tank',['tank']]],
-    lvl:'La progression la plus lente, environ 12% plus longue que la moyenne',
+    lvl:'La montée la plus lente, environ 12 % plus longue que la moyenne (estimation de LFCarry)',
     lp:12,
     raid:'Cri de guerre affecte tout le raid',
     forever:'Plus de rage, meilleure menace sur les groupes de cibles, le talent Weapon Master. Fureur et Sanguinaire sont affaiblis.' },
@@ -15,7 +15,7 @@ const CLASSES = [
     forever:'Frappe sacrée dès le niveau 6, Jugement ne consomme pas le sceau. Les morts-vivants peuvent désormais être paladins, la classe arrive donc dans la Horde.' },
   { id:'hunter', n:'Chasseur', roles:['dps'],
     specs:[['Maîtrise des bêtes','Dégâts à distance, beaucoup de dégâts du familier',['dps']],['Précision','Dégâts à distance',['dps']],['Survie','Mêlée et distance, pièges',['dps']]],
-    lvl:'La progression la plus rapide, environ 8% plus rapide que la moyenne',
+    lvl:'La montée la plus rapide, environ 8 % plus vite que la moyenne (estimation de LFCarry)',
     lp:-8,
     raid:'Aura de précision affecte tout le raid',
     forever:'Vous pouvez jouer sans familier, les pièges fonctionnent en combat, les renards arrivent comme famille de familiers. Survie peut jouer en mêlée.' },
@@ -27,7 +27,7 @@ const CLASSES = [
     forever:'Les haches à une main sont désormais utilisables. Assassinat repose sur les poisons, Finesse sur les saignements et le camouflage.' },
   { id:'priest', n:'Prêtre', roles:['heal','dps'],
     specs:[['Discipline','Soigneur, boucliers et absorption',['heal']],['Sacré','Soigneur',['heal']],['Ombre','Dégâts à distance',['dps']]],
-    lvl:'Environ 5% plus lent que la moyenne',
+    lvl:'Environ 5 % plus lent que la moyenne (estimation de LFCarry)',
     lp:5,
     raid:'Esprit divin est désormais de base. Les dégâts d’ombre et Peste dévorante (24 s de temps de recharge) ont été renforcés par le patch du 15 octobre.',
     forever:'Gardien de peur et Peste dévorante sont disponibles dès le niveau 20 pour toutes les races. Chaque race a deux sorts de prêtre qui lui sont propres.' },
@@ -39,7 +39,7 @@ const CLASSES = [
     forever:'Les nains peuvent désormais être chamans, la classe arrive donc dans l’Alliance. Explosion de lave a été renforcée, Élémentaire est monté dans les classements de dégâts.' },
   { id:'mage', n:'Mage', roles:['dps'],
     specs:[['Arcanes','Pics de dégâts, beaucoup de mana',['dps']],['Feu','Critiques et enflammer',['dps']],['Givre','Dégâts et contrôle',['dps']]],
-    lvl:'La progression la plus rapide, environ 8% plus rapide que la moyenne (environ 12 heures gagnées)',
+    lvl:'La montée la plus rapide, environ 8 % plus vite que la moyenne, environ 12 heures gagnées (estimation de LFCarry)',
     lp:-8,
     raid:'Portails, nourriture et eau pour tout le groupe',
     forever:'Feu reçoit Chaleur continue, Arcanes Déflagration des arcanes, Givre Javelot de glace. Éclair de givrefeu est disponible dès le niveau 40.' },
@@ -47,11 +47,11 @@ const CLASSES = [
     specs:[['Affliction','Dégâts des malédictions et de la corruption',['dps']],['Démonologie','Dégâts par les démons',['dps']],['Destruction','Dégâts directs de feu et d’ombre',['dps']]],
     lvl:'Rythme de progression moyen',
     lp:0,
-    raid:'Maîtrise de l’ombre donne désormais 2–10% de dégâts d’ombre (avant 1–5%)',
+    raid:'Maîtrise des ténèbres donne 2–10 % de dégâts d’Ombre, comme dans Classic (1–5 % au début de la bêta)',
     forever:'Affliction a un nouveau sort canalisé, le démon reste avec Sacrifice démoniaque, Destruction gagne Incinérer et des dégâts de zone.' },
   { id:'druid', n:'Druide', roles:['tank','heal','dps'],
     specs:[['Équilibre','Dégâts à distance',['dps']],['Combat farouche','Tank (ours) et dégâts en mêlée (félin)',['tank','dps']],['Restauration','Soigneur, beaucoup de soins sur la durée',['heal']]],
-    lvl:'Environ 5% plus lent que la moyenne',
+    lvl:'Environ 5 % plus lent que la moyenne (estimation de LFCarry)',
     lp:5,
     raid:'Chef de la meute et Aura de sélénien affectent tout le raid et se cumulent',
     forever:'Chaque spécialisation a reçu un rôle clair, les formes fonctionnent avec les potions et les enchantements d’arme. Vous pouvez être tank, soigneur et combattant sur un seul personnage.' }
@@ -72,7 +72,7 @@ const RACES = [
     tip:'Forme de pierre est utile aux tanks et en JcJ.' },
   { id:'nightelf', n:'Elfe de la nuit', f:'alliance',
     cls:['warrior','hunter','rogue','priest','druid'],
-    rac:[['a','Lumière d’Élune','+10% de chances de critique pendant 15 s'],['a','Camouflage dans l’ombre','Invisibilité sur place'],['p','Rapidité','+1% d’esquive et +2% de vitesse de course'],['p','Esprit feu follet','+75% de vitesse de course sous forme d’esprit']],
+    rac:[['a','Lumière d’Élune','+10% de chances de critique pendant 15 s'],['a','Camouflage dans l’ombre','Invisibilité sur place'],['p','Rapidité','+1–2 % d’esquive (les sources divergent) et +2 % de vitesse de course'],['p','Esprit feu follet','+75% de vitesse de course sous forme d’esprit']],
     tip:'La seule race de l’Alliance avec un druide, à moins de prendre un Skyborne.' },
   { id:'gnome', n:'Gnome', f:'alliance',
     cls:['warrior','rogue','mage','warlock','priest*'],
@@ -80,7 +80,7 @@ const RACES = [
     tip:'Pensée expansive aide surtout les classes à énergie.' },
   { id:'skyA', n:'Skyborne (Alliance)', f:'alliance', paid:true, name:'Skyborne High Order',
     cls:['warrior','hunter','rogue','mage','druid'],
-    rac:[['a','Walk on Air','Planez pendant 10 s, sans dégâts de chute'],['a','Read Ley Line','+100% de régénération de vie et de mana'],['p','Wind Blessed','+3% de vitesse d’attaque et d’incantation'],['p','Elemental Insight','+5% de dégâts contre les élémentaires']],
+    rac:[['a','Walk on Air','Planez pendant 10 s, sans dégâts de chute'],['a','Read Ley Line','Régénération de vie et de mana : +100 % selon Warcraft Tavern, +10 % selon Icy Veins'],['p','Wind Blessed','+3% de vitesse d’attaque et d’incantation'],['p','Elemental Insight','+5% de dégâts contre les élémentaires']],
     tip:'Race payante : pack Héroïque dès $29.99. Débute sur Zephras Isle (niveaux 1–12).' },
   { id:'orc', n:'Orc', f:'horde',
     cls:['warrior','hunter','rogue','shaman','warlock','mage*'],
@@ -96,7 +96,7 @@ const RACES = [
     tip:'La seule race de la Horde avec un druide, à moins de prendre un Skyborne.' },
   { id:'troll', n:'Troll', f:'horde',
     cls:['warrior','hunter','rogue','priest','shaman','mage','warlock*'],
-    rac:[['a','Berserker','+10% de vitesse d’attaque et d’incantation pendant 10 s'],['a','Régénération rapide','Rend de la vie sur la durée'],['p','Tueur de bêtes','+5% de dégâts contre les bêtes'],['p','Régénération','La vie se régénère aussi en combat']],
+    rac:[['a','Berserker','+10 % de vitesse d’attaque et d’incantation pendant 10–12 s (les sources divergent)'],['a','Régénération rapide','Rend de la vie sur la durée'],['p','Tueur de bêtes','+5% de dégâts contre les bêtes'],['p','Régénération','La vie se régénère aussi en combat']],
     tip:'Le plus de choix de classes dans la Horde : sept.' },
   { id:'skyH', n:'Skyborne (Horde)', f:'horde', paid:true, name:'Skyborne Windshaper',
     cls:['warrior','hunter','rogue','shaman','druid'],
@@ -106,7 +106,7 @@ const RACES = [
 RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
 const CL = Object.fromEntries(CLASSES.map(c => [c.id, c]));
 const RC = Object.fromEntries(RACES.map(r => [r.id, r]));
-const RLEAD = {"human": "La race la plus nombreuse de l’Alliance. Polyvalente et forte en JcJ grâce à Volonté de survie.", "dwarf": "Robustes mineurs et fusiliers de Ironforge. Pour la première fois dans Classic, l’Alliance a des chamans, et ce sont des nains.", "nightelf": "Un peuple ancien des forêts. Insaisissables : leur propre façon de se cacher, d’esquiver et de courir vite.", "gnome": "Les inventeurs de Gnomeregan. Petits, rusés et avec la meilleure capacité d’évasion du jeu.", "skyA": "Une nouvelle race dans Forever. Le High Order : des elfes du vent en quête de la magie des arcanes perdue de leurs ancêtres.", "orc": "Le cœur de la Horde. Les meilleurs guerriers et maîtres du JcJ grâce à Fureur sanguinaire et Solidité.", "undead": "Les Réprouvés : d’anciens humains libérés du roi-liche. Immunisés contre la peur et le sommeil quand ça compte.", "tauren": "Paisibles géants des plaines. Le plus de vie et leur propre étourdissement de zone.", "troll": "La tribu Sombrelance. Le plus de classes de la Horde et un puissant Berserker pour les dégâts.", "skyH": "Une nouvelle race dans Forever. Les Windshapers : guides spirituels des Skyborne, proches des éléments."}; // race page leads and URL slugs, filled in by build.py
+const RLEAD = {"human": "La race la plus nombreuse de l’Alliance. Polyvalente et forte en JcJ grâce à Volonté de survie.", "dwarf": "Robustes mineurs et fusiliers de Forgefer. Pour la première fois, l’Alliance a des chamans, et ce sont des nains : Classic n’en avait pas.", "nightelf": "Un peuple ancien des forêts. Insaisissables : leur propre façon de se cacher, d’esquiver et de courir vite.", "gnome": "Les inventeurs de Gnomeregan. Petits, rusés et avec la meilleure capacité d’évasion du jeu.", "skyA": "Une nouvelle race dans Forever. Le High Order : des elfes du vent en quête de la magie des arcanes perdue de leurs ancêtres.", "orc": "Le cœur de la Horde. Les meilleurs guerriers et maîtres du JcJ grâce à Fureur sanguinaire et Solidité.", "undead": "Les Réprouvés : d’anciens humains libérés du roi-liche. Immunisés contre la peur et le sommeil quand ça compte.", "tauren": "Paisibles géants des plaines. Le plus de vie et leur propre étourdissement de zone.", "troll": "La tribu Sombrelance. Le plus de classes de la Horde et un puissant Berserker pour les dégâts.", "skyH": "Une nouvelle race dans Forever. Les Windshapers : guides spirituels des Skyborne, proches des éléments."}; // race page leads and URL slugs, filled in by build.py
 const RSLUG = {"human": "human", "dwarf": "dwarf", "nightelf": "night-elf", "gnome": "gnome", "skyA": "skyborne-alliance", "orc": "orc", "undead": "undead", "tauren": "tauren", "troll": "troll", "skyH": "skyborne-horde"};
 
 const EN = {

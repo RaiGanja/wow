@@ -3,7 +3,7 @@ const HOME = '';   // language home, the classes/ and races/ pages set their own
 const CLASSES = [
   { id:'warrior', n:'Guerriero', s:'Guerriero', roles:['tank','dps'],
     specs:[['Armi','Danni in mischia (arma a due mani)',['dps']],['Furia','Danni in mischia (due armi)',['dps']],['Protezione','Difensore',['tank']]],
-    lvl:'Il livellamento più lento, circa il 12% più lungo della media',
+    lvl:'Il livellamento più lento, circa il 12% più lungo della media (stima di LFCarry)',
     lp:12,
     raid:'Urlo di Battaglia agisce su tutta l’incursione',
     forever:'Più Rabbia, minaccia migliore su gruppi di bersagli, il talento Weapon Master. Furia e Sete di Sangue sono indebolite.' },
@@ -15,7 +15,7 @@ const CLASSES = [
     forever:'Assalto Sacro dal livello 6, Giudizio non consuma il sigillo. I Non Morti ora possono essere paladini, quindi la classe è arrivata nell’Orda.' },
   { id:'hunter', n:'Cacciatore', roles:['dps'],
     specs:[['Affinità Animale','Danni a distanza, molti danni dal famiglio',['dps']],['Precisione','Danni a distanza',['dps']],['Sopravvivenza','Mischia e distanza, trappole',['dps']]],
-    lvl:'Il livellamento più veloce, circa l’8% più rapido della media',
+    lvl:'Il livellamento più veloce, circa l’8% più rapido della media (stima di LFCarry)',
     lp:-8,
     raid:'Aura di Precisione agisce su tutta l’incursione',
     forever:'Puoi giocare senza famiglio, le trappole funzionano in combattimento, le volpi sono arrivate come famiglia di famigli. Sopravvivenza può giocare in mischia.' },
@@ -27,7 +27,7 @@ const CLASSES = [
     forever:'Ora può usare asce a una mano. Assassinio si basa sui veleni, Scaltrezza su sanguinamenti e furtività.' },
   { id:'priest', n:'Sacerdote', roles:['heal','dps'],
     specs:[['Disciplina','Guaritore, scudi e assorbimento',['heal']],['Sacro','Guaritore',['heal']],['Ombra','Danni a distanza',['dps']]],
-    lvl:'Circa il 5% più lento della media',
+    lvl:'Circa il 5% più lento della media (stima di LFCarry)',
     lp:5,
     raid:'Spirito Divino ora è di base. I danni d’Ombra e Piaga Divoratrice (recupero di 24 s) sono stati potenziati dalla patch del 15 ottobre.',
     forever:'Protezione dalla Paura e Piaga Divoratrice sono disponibili dal livello 20 per tutte le razze. Ogni razza ha due incantesimi da sacerdote propri.' },
@@ -39,7 +39,7 @@ const CLASSES = [
     forever:'I Nani ora possono essere sciamani, quindi la classe è arrivata nell’Alleanza. Getto di Lava è stata potenziata, Elementale è salito nelle classifiche dei danni.' },
   { id:'mage', n:'Mago', roles:['dps'],
     specs:[['Arcano','Danni esplosivi, molto mana',['dps']],['Fuoco','Critici e incendi',['dps']],['Gelo','Danni e controllo',['dps']]],
-    lvl:'Il livellamento più veloce, circa l’8% più rapido della media (circa 12 ore risparmiate)',
+    lvl:'Il livellamento più veloce, circa l’8% più rapido della media, circa 12 ore risparmiate (stima di LFCarry)',
     lp:-8,
     raid:'Portali, cibo e acqua per tutto il gruppo',
     forever:'Fuoco ha ottenuto Serie Bollente, Arcano Detonazione Arcana, Gelo Lancia di Ghiaccio. Palla di Fuocogelo è disponibile dal livello 40.' },
@@ -47,11 +47,11 @@ const CLASSES = [
     specs:[['Afflizione','Danni da maledizioni e corruzione',['dps']],['Demonologia','Danni tramite demoni',['dps']],['Distruzione','Danni diretti da fuoco e ombra',['dps']]],
     lvl:'Ritmo di livellamento nella media',
     lp:0,
-    raid:'Maestria dell’Ombra ora dà il 2–10% di danni d’ombra (prima 1–5%)',
+    raid:'Maestria oscura dà il 2–10% di danni Ombra, come in Classic (nella prima beta 1–5%)',
     forever:'Afflizione ha un nuovo incantesimo canalizzato, il demone resta con Sacrificio Demoniaco, Distruzione ha ottenuto Incenerimento e danni ad area.' },
   { id:'druid', n:'Druido', roles:['tank','heal','dps'],
     specs:[['Equilibrio','Danni a distanza',['dps']],['Aggressore Ferino','Difensore (orso) e danni in mischia (gatto)',['tank','dps']],['Rigenerazione','Guaritore, molte cure nel tempo',['heal']]],
-    lvl:'Circa il 5% più lento della media',
+    lvl:'Circa il 5% più lento della media (stima di LFCarry)',
     lp:5,
     raid:'Capobranco e Aura del Lunagufo agiscono su tutta l’incursione e si sommano',
     forever:'Ogni specializzazione ha un ruolo chiaro, le forme funzionano con pozioni e incantamenti delle armi. Puoi essere difensore, guaritore e combattente con un solo personaggio.' }
@@ -72,7 +72,7 @@ const RACES = [
     tip:'Forma di Pietra è utile ai difensori e nel PvP.' },
   { id:'nightelf', n:'Elfo della Notte', f:'alliance',
     cls:['warrior','hunter','rogue','priest','druid'],
-    rac:[['a','Luce di Elune','+10% probabilità di critico per 15 s'],['a','Fondersi nelle Ombre','Invisibilità sul posto'],['p','Rapidità','+1% schivata e +2% velocità di corsa'],['p','Spirito di Fuoco Fatuo','+75% velocità di corsa da spirito']],
+    rac:[['a','Luce di Elune','+10% probabilità di critico per 15 s'],['a','Fondersi nelle Ombre','Invisibilità sul posto'],['p','Rapidità','+1–2% di schivata (le fonti differiscono) e +2% di velocità di corsa'],['p','Spirito di Fuoco Fatuo','+75% velocità di corsa da spirito']],
     tip:'L’unica razza dell’Alleanza con il druido, a meno di scegliere gli Skyborne.' },
   { id:'gnome', n:'Gnomo', f:'alliance',
     cls:['warrior','rogue','mage','warlock','priest*'],
@@ -80,7 +80,7 @@ const RACES = [
     tip:'Apertura Mentale aiuta soprattutto le classi a energia.' },
   { id:'skyA', n:'Skyborne (Alleanza)', f:'alliance', paid:true, name:'Skyborne dell’High Order',
     cls:['warrior','hunter','rogue','mage','druid'],
-    rac:[['a','Walk on Air','Plani per 10 s, senza danni da caduta'],['a','Read Ley Line','+100% rigenerazione di salute e mana'],['p','Wind Blessed','+3% velocità d’attacco e degli incantesimi'],['p','Elemental Insight','+5% danni agli elementali']],
+    rac:[['a','Walk on Air','Plani per 10 s, senza danni da caduta'],['a','Read Ley Line','Rigenerazione di salute e mana: +100% secondo Warcraft Tavern, +10% secondo Icy Veins'],['p','Wind Blessed','+3% velocità d’attacco e degli incantesimi'],['p','Elemental Insight','+5% danni agli elementali']],
     tip:'Razza a pagamento: Heroic Pack da $29.99. Inizia nella zona di Zephras Isle (livelli 1–12).' },
   { id:'orc', n:'Orco', f:'horde',
     cls:['warrior','hunter','rogue','shaman','warlock','mage*'],
@@ -96,7 +96,7 @@ const RACES = [
     tip:'L’unica razza dell’Orda con il druido, a meno di scegliere gli Skyborne.' },
   { id:'troll', n:'Troll', f:'horde',
     cls:['warrior','hunter','rogue','priest','shaman','mage','warlock*'],
-    rac:[['a','Berserker','+10% velocità d’attacco e degli incantesimi per 10 s'],['a','Rapid Regeneration','Ripristina salute nel tempo'],['p','Cacciatore di Bestie','+5% danni alle bestie'],['p','Rigenerazione','La salute si rigenera anche in combattimento']],
+    rac:[['a','Berserker','+10% di velocità di attacco e incantesimi per 10–12 s (le fonti differiscono)'],['a','Rapid Regeneration','Ripristina salute nel tempo'],['p','Cacciatore di Bestie','+5% danni alle bestie'],['p','Rigenerazione','La salute si rigenera anche in combattimento']],
     tip:'Più scelte di classe di tutta l’Orda: sette.' },
   { id:'skyH', n:'Skyborne (Orda)', f:'horde', paid:true, name:'Skyborne Windshaper',
     cls:['warrior','hunter','rogue','shaman','druid'],
@@ -106,7 +106,7 @@ const RACES = [
 RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
 const CL = Object.fromEntries(CLASSES.map(c => [c.id, c]));
 const RC = Object.fromEntries(RACES.map(r => [r.id, r]));
-const RLEAD = {"human": "La razza più numerosa dell’Alleanza. Versatile e forte nel PvP grazie a Volontà di Sopravvivenza.", "dwarf": "Robusti minatori e fucilieri di Forgiardente. Per la prima volta in Classic l’Alleanza ha gli sciamani, e sono nani.", "nightelf": "Un antico popolo delle foreste. Sfuggenti: un modo tutto loro per nascondersi, schivate e corsa veloce.", "gnome": "Gli inventori di Gnomeregan. Piccoli, astuti e con la migliore abilità di fuga del gioco.", "skyA": "Una nuova razza di Forever. L’High Order: elfi del vento in cerca della magia arcana perduta dei loro antenati.", "orc": "Il cuore dell’Orda. I guerrieri più forti e maestri del PvP grazie a Furia Sanguinaria e Audacia.", "undead": "I Reietti: ex umani liberatisi dal Re dei Lich. Immuni a paura e sonno quando conta.", "tauren": "Pacifici giganti delle pianure. La salute più alta e uno stordimento ad area tutto loro.", "troll": "La tribù Lanciascura. Più classi di tutta l’Orda e un potente Berserker per i danni.", "skyH": "Una nuova razza di Forever. I Windshaper: guide spirituali degli Skyborne, vicini agli elementi."}; // race page leads and URL slugs, filled in by build.py
+const RLEAD = {"human": "La razza più numerosa dell’Alleanza. Versatile e forte nel PvP grazie a Volontà di Sopravvivenza.", "dwarf": "Robusti minatori e fucilieri di Forgiardente. Per la prima volta l’Alleanza ha degli sciamani, e sono nani: in Classic non c’erano.", "nightelf": "Un antico popolo delle foreste. Sfuggenti: un modo tutto loro per nascondersi, schivate e corsa veloce.", "gnome": "Gli inventori di Gnomeregan. Piccoli, astuti e con la migliore abilità di fuga del gioco.", "skyA": "Una nuova razza di Forever. L’High Order: elfi del vento in cerca della magia arcana perduta dei loro antenati.", "orc": "Il cuore dell’Orda. I guerrieri più forti e maestri del PvP grazie a Furia Sanguinaria e Audacia.", "undead": "I Reietti: ex umani liberatisi dal Re dei Lich. Immuni a paura e sonno quando conta.", "tauren": "Pacifici giganti delle pianure. La salute più alta e uno stordimento ad area tutto loro.", "troll": "La tribù Lanciascura. Più classi di tutta l’Orda e un potente Berserker per i danni.", "skyH": "Una nuova razza di Forever. I Windshaper: guide spirituali degli Skyborne, vicini agli elementi."}; // race page leads and URL slugs, filled in by build.py
 const RSLUG = {"human": "human", "dwarf": "dwarf", "nightelf": "night-elf", "gnome": "gnome", "skyA": "skyborne-alliance", "orc": "orc", "undead": "undead", "tauren": "tauren", "troll": "troll", "skyH": "skyborne-horde"};
 
 const EN = {

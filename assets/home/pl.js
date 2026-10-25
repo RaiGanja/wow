@@ -3,7 +3,7 @@ const HOME = '';   // language home, the classes/ and races/ pages set their own
 const CLASSES = [
   { id:'warrior', n:'Warrior', s:'Warrior', roles:['tank','dps'],
     specs:[['Arms','Obrażenia w zwarciu (broń dwuręczna)',['dps']],['Fury','Obrażenia w zwarciu (dual wield)',['dps']],['Protection','Tank',['tank']]],
-    lvl:'Najwolniejsze levelowanie, ok. 12% dłużej niż średnio',
+    lvl:'Najwolniejszy leveling, około 12% dłużej niż średnia (szacunek LFCarry)',
     lp:12,
     raid:'Battle Shout działa na cały raid',
     forever:'Więcej Rage, lepsze aggro na grupach celów, talent Weapon Master. Fury i Bloodthirst osłabione.' },
@@ -15,7 +15,7 @@ const CLASSES = [
     forever:'Holy Strike od levelu 6, Judgement nie zużywa seala. Undead mogą teraz być paladynami, więc klasa pojawiła się w Horde.' },
   { id:'hunter', n:'Hunter', roles:['dps'],
     specs:[['Beast Mastery','Obrażenia dystansowe, dużo obrażeń od peta',['dps']],['Marksmanship','Obrażenia dystansowe',['dps']],['Survival','Zwarcie i dystans, pułapki',['dps']]],
-    lvl:'Najszybsze levelowanie, ok. 8% szybciej niż średnio',
+    lvl:'Najszybszy leveling, około 8% szybciej niż średnia (szacunek LFCarry)',
     lp:-8,
     raid:'Trueshot Aura działa na cały raid',
     forever:'Można grać bez peta, pułapki działają w walce, pojawiła się rodzina petów lisy. Survival może grać w zwarciu.' },
@@ -27,7 +27,7 @@ const CLASSES = [
     forever:'Można teraz używać jednoręcznych toporów. Assassination opiera się na truciznach, Subtlety na krwawieniach i stealthu.' },
   { id:'priest', n:'Priest', roles:['heal','dps'],
     specs:[['Discipline','Healer, tarcze i absorpcja',['heal']],['Holy','Healer',['heal']],['Shadow','Obrażenia dystansowe',['dps']]],
-    lvl:'Ok. 5% wolniej niż średnio',
+    lvl:'Około 5% wolniej niż średnia (szacunek LFCarry)',
     lp:5,
     raid:'Divine Spirit jest teraz bazowe. Obrażenia Shadow i Devouring Plague (24 sek. cooldownu) zostały wzmocnione w patchu z 15 października.',
     forever:'Fear Ward i Devouring Plague są dostępne od levelu 20 dla każdej rasy. Każda rasa ma dwa własne zaklęcia priesta.' },
@@ -39,7 +39,7 @@ const CLASSES = [
     forever:'Krasnoludy mogą teraz być szamanami, więc klasa pojawiła się w Alliance. Lava Burst wzmocniony, Elemental poszedł w górę w rankingach obrażeń.' },
   { id:'mage', n:'Mage', roles:['dps'],
     specs:[['Arcane','Burst, dużo many',['dps']],['Fire','Kryty i ignite',['dps']],['Frost','Obrażenia i kontrola',['dps']]],
-    lvl:'Najszybsze levelowanie, ok. 8% szybciej niż średnio (ok. 12 godzin oszczędności)',
+    lvl:'Najszybszy leveling, około 8% szybciej niż średnia, oszczędność około 12 godzin (szacunek LFCarry)',
     lp:-8,
     raid:'Portale oraz jedzenie i woda dla całej drużyny',
     forever:'Fire dostał Hotstreak, Arcane Arcane Blast, Frost Ice Lance. Frostfire Bolt jest dostępny od levelu 40.' },
@@ -47,11 +47,11 @@ const CLASSES = [
     specs:[['Affliction','Obrażenia od klątw i korupcji',['dps']],['Demonology','Obrażenia przez demony',['dps']],['Destruction','Bezpośrednie obrażenia od ognia i cienia',['dps']]],
     lvl:'Średnie tempo levelowania',
     lp:0,
-    raid:'Shadow Mastery daje teraz 2–10% obrażeń od cienia (było 1–5%)',
+    raid:'Mistrzostwo Mroku daje 2–10% obrażeń od Cienia, tak jak w Classic (we wczesnej becie 1–5%)',
     forever:'Affliction ma nowe zaklęcie channelowane, demon zostaje przy Demonic Sacrifice, Destruction dostał Incinerate i AoE.' },
   { id:'druid', n:'Druid', roles:['tank','heal','dps'],
     specs:[['Balance','Obrażenia dystansowe',['dps']],['Feral','Tank (miś) i obrażenia w zwarciu (kot)',['tank','dps']],['Restoration','Healer, dużo leczenia w czasie',['heal']]],
-    lvl:'Ok. 5% wolniej niż średnio',
+    lvl:'Około 5% wolniej niż średnia (szacunek LFCarry)',
     lp:5,
     raid:'Leader of the Pack i Moonkin Aura działają na cały raid i się stackują',
     forever:'Każda specjalizacja dostała jasną rolę, formy działają z miksturami i enchantami broni. Na jednej postaci możesz być tankiem, healerem i DPS-em.' }
@@ -72,7 +72,7 @@ const RACES = [
     tip:'Stoneform przydaje się tankom i w PvP.' },
   { id:'nightelf', n:'Night Elf', f:'alliance',
     cls:['warrior','hunter','rogue','priest','druid'],
-    rac:[['a','Elune’s Light','+10% szansy na kryta przez 15 sek.'],['a','Shadowmeld','Niewidzialność w miejscu'],['p','Quickness','+1% uniku i +2% szybkości biegu'],['p','Wisp Spirit','+75% szybkości biegu jako duch']],
+    rac:[['a','Elune’s Light','+10% szansy na kryta przez 15 sek.'],['a','Shadowmeld','Niewidzialność w miejscu'],['p','Quickness','+1–2% do uniku (źródła się różnią) i +2% do szybkości biegu'],['p','Wisp Spirit','+75% szybkości biegu jako duch']],
     tip:'Jedyna rasa Alliance z druidem, chyba że weźmiesz Skyborne.' },
   { id:'gnome', n:'Gnome', f:'alliance',
     cls:['warrior','rogue','mage','warlock','priest*'],
@@ -80,7 +80,7 @@ const RACES = [
     tip:'Expansive Mind szczególnie pomaga klasom na energii.' },
   { id:'skyA', n:'Skyborne (Alliance)', f:'alliance', paid:true, name:'High Order Skyborne',
     cls:['warrior','hunter','rogue','mage','druid'],
-    rac:[['a','Walk on Air','Szybowanie w dół przez 10 sek., bez obrażeń od upadku'],['a','Read Ley Line','+100% regeneracji zdrowia i many'],['p','Wind Blessed','+3% szybkości ataku i rzucania zaklęć'],['p','Elemental Insight','+5% obrażeń przeciw żywiołakom']],
+    rac:[['a','Walk on Air','Szybowanie w dół przez 10 sek., bez obrażeń od upadku'],['a','Read Ley Line','Regeneracja zdrowia i many: +100% według Warcraft Tavern, +10% według Icy Veins'],['p','Wind Blessed','+3% szybkości ataku i rzucania zaklęć'],['p','Elemental Insight','+5% obrażeń przeciw żywiołakom']],
     tip:'Płatna rasa: Heroic Pack od $29.99. Start w lokacji Zephras Isle (levele 1–12).' },
   { id:'orc', n:'Orc', f:'horde',
     cls:['warrior','hunter','rogue','shaman','warlock','mage*'],
@@ -96,7 +96,7 @@ const RACES = [
     tip:'Jedyna rasa Horde z druidem, chyba że weźmiesz Skyborne.' },
   { id:'troll', n:'Troll', f:'horde',
     cls:['warrior','hunter','rogue','priest','shaman','mage','warlock*'],
-    rac:[['a','Berserking','+10% szybkości ataku i rzucania zaklęć przez 10 sek.'],['a','Rapid Regeneration','Przywraca zdrowie w czasie'],['p','Beast Slaying','+5% obrażeń przeciw bestiom'],['p','Regeneration','Zdrowie regeneruje się także w walce']],
+    rac:[['a','Berserking','+10% do szybkości ataku i czarów przez 10–12 s (źródła się różnią)'],['a','Rapid Regeneration','Przywraca zdrowie w czasie'],['p','Beast Slaying','+5% obrażeń przeciw bestiom'],['p','Regeneration','Zdrowie regeneruje się także w walce']],
     tip:'Najwięcej opcji klas w Horde: siedem.' },
   { id:'skyH', n:'Skyborne (Horde)', f:'horde', paid:true, name:'Windshaper Skyborne',
     cls:['warrior','hunter','rogue','shaman','druid'],
@@ -106,7 +106,7 @@ const RACES = [
 RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
 const CL = Object.fromEntries(CLASSES.map(c => [c.id, c]));
 const RC = Object.fromEntries(RACES.map(r => [r.id, r]));
-const RLEAD = {"human": "Najliczniejsza rasa Alliance. Wszechstronna i mocna w PvP dzięki Will to Survive.", "dwarf": "Twardzi górnicy i strzelcy z Ironforge. Pierwszy raz w Classic Alliance ma szamanów i są to krasnoludy.", "nightelf": "Starożytny lud lasów. Nieuchwytni: własny sposób na ukrycie się, uniki i szybki bieg.", "gnome": "Wynalazcy z Gnomeregan. Mali, sprytni i z najlepszą zdolnością ucieczki w grze.", "skyA": "Nowa rasa w Forever. High Order: elfy wiatru szukające utraconej magii arkanów swoich przodków.", "orc": "Serce Horde. Najsilniejsi wojownicy i mistrzowie PvP dzięki Blood Fury i Hardiness.", "undead": "Forsaken: dawni ludzie, którzy wyrwali się spod władzy Lich Kinga. Odporni na fear i sen, kiedy to się liczy.", "tauren": "Pokojowe olbrzymy z równin. Najwięcej zdrowia i własne obszarowe ogłuszenie.", "troll": "Plemię Darkspear. Najwięcej klas w Horde i mocny Berserking na obrażenia.", "skyH": "Nowa rasa w Forever. Windshaper: duchowi przywódcy Skyborne, bliscy żywiołom."}; // race page leads and URL slugs, filled in by build.py
+const RLEAD = {"human": "Najliczniejsza rasa Alliance. Wszechstronna i mocna w PvP dzięki Will to Survive.", "dwarf": "Twardzi górnicy i strzelcy z Ironforge. Po raz pierwszy Przymierze ma szamanów, i są to krasnoludy: w Classic ich nie było.", "nightelf": "Starożytny lud lasów. Nieuchwytni: własny sposób na ukrycie się, uniki i szybki bieg.", "gnome": "Wynalazcy z Gnomeregan. Mali, sprytni i z najlepszą zdolnością ucieczki w grze.", "skyA": "Nowa rasa w Forever. High Order: elfy wiatru szukające utraconej magii arkanów swoich przodków.", "orc": "Serce Horde. Najsilniejsi wojownicy i mistrzowie PvP dzięki Blood Fury i Hardiness.", "undead": "Forsaken: dawni ludzie, którzy wyrwali się spod władzy Lich Kinga. Odporni na fear i sen, kiedy to się liczy.", "tauren": "Pokojowe olbrzymy z równin. Najwięcej zdrowia i własne obszarowe ogłuszenie.", "troll": "Plemię Darkspear. Najwięcej klas w Horde i mocny Berserking na obrażenia.", "skyH": "Nowa rasa w Forever. Windshaper: duchowi przywódcy Skyborne, bliscy żywiołom."}; // race page leads and URL slugs, filled in by build.py
 const RSLUG = {"human": "human", "dwarf": "dwarf", "nightelf": "night-elf", "gnome": "gnome", "skyA": "skyborne-alliance", "orc": "orc", "undead": "undead", "tauren": "tauren", "troll": "troll", "skyH": "skyborne-horde"};
 
 const EN = {

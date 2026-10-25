@@ -1201,8 +1201,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css?v=a448c8a8c7" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=a7f37d7ecd" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=d43cad55c8" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=e154702bc6" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=9664093d84" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/en/"},{"@type":"ListItem","position":2,"name":"In game","item":"https://gabella.site/wow/en/play/"}]}</script>
 </head>
 <body class="compact">
@@ -1628,7 +1628,7 @@ if ('wakeLock' in navigator) {
 const CLASSES = [
   { id:'warrior', n:'Warrior', s:'Warrior', roles:['tank','dps'],
     specs:[['Arms','Melee damage (two-handed weapon)',['dps']],['Fury','Melee damage (dual wield)',['dps']],['Protection','Tank',['tank']]],
-    lvl:'The slowest leveling, about 12% longer than average',
+    lvl:'Slowest leveling, about 12% longer than average (LFCarry estimate)',
     lp:12,
     raid:'Battle Shout affects the whole raid',
     forever:'More Rage, better threat on groups of targets, the Weapon Master talent. Fury and Bloodthirst are weakened.' },
@@ -1640,7 +1640,7 @@ const CLASSES = [
     forever:'Holy Strike from level 6, Judgement does not consume the seal. Undead can now be paladins, so the class appeared for the Horde.' },
   { id:'hunter', n:'Hunter', roles:['dps'],
     specs:[['Beast Mastery','Ranged damage, a lot of damage from the pet',['dps']],['Marksmanship','Ranged damage',['dps']],['Survival','Melee and ranged, traps',['dps']]],
-    lvl:'The fastest leveling, about 8% faster than average',
+    lvl:'Fastest leveling, about 8% faster than average (LFCarry estimate)',
     lp:-8,
     raid:'Trueshot Aura affects the whole raid',
     forever:'You can play without a pet, traps work in combat, foxes appeared as a pet family. Survival can go melee.' },
@@ -1652,7 +1652,7 @@ const CLASSES = [
     forever:'One-handed axes can now be used. Assassination is built on poisons, Subtlety on bleeds and stealth.' },
   { id:'priest', n:'Priest', roles:['heal','dps'],
     specs:[['Discipline','Healer, shields and absorption',['heal']],['Holy','Healer',['heal']],['Shadow','Ranged damage',['dps']]],
-    lvl:'About 5% slower than average',
+    lvl:'About 5% slower than average (LFCarry estimate)',
     lp:5,
     raid:'Divine Spirit is now baseline. Shadow damage and Devouring Plague (24 sec cooldown) were buffed by the 15 October patch.',
     forever:'Fear Ward and Devouring Plague are available from level 20 to any race. Each race has two of its own priest spells.' },
@@ -1664,7 +1664,7 @@ const CLASSES = [
     forever:'Dwarves can now be shamans, so the class appeared for the Alliance. Lava Burst was buffed, Elemental rose in the damage rankings.' },
   { id:'mage', n:'Mage', roles:['dps'],
     specs:[['Arcane','Burst, lots of mana',['dps']],['Fire','Crits and ignites',['dps']],['Frost','Damage and control',['dps']]],
-    lvl:'The fastest leveling, about 8% faster than average (about 12 hours saved)',
+    lvl:'Fastest leveling, about 8% faster than average, around 12 hours saved (LFCarry estimate)',
     lp:-8,
     raid:'Portals and food and water for the whole group',
     forever:'Fire got Hotstreak, Arcane got Arcane Blast, Frost got Ice Lance. Frostfire Bolt is available from level 40.' },
@@ -1672,11 +1672,11 @@ const CLASSES = [
     specs:[['Affliction','Damage from curses and corruption',['dps']],['Demonology','Damage through demons',['dps']],['Destruction','Direct fire and shadow damage',['dps']]],
     lvl:'Average leveling pace',
     lp:0,
-    raid:'Shadow Mastery now gives 2–10% shadow damage (was 1–5%)',
+    raid:'Dark Mastery gives 2–10% shadow damage, same as in Classic (1–5% in the early beta)',
     forever:'Affliction has a new channeled spell, the demon stays with Demonic Sacrifice, Destruction gained Incinerate and AoE.' },
   { id:'druid', n:'Druid', roles:['tank','heal','dps'],
     specs:[['Balance','Ranged damage',['dps']],['Feral','Tank (bear) and melee damage (cat)',['tank','dps']],['Restoration','Healer, lots of healing over time',['heal']]],
-    lvl:'About 5% slower than average',
+    lvl:'About 5% slower than average (LFCarry estimate)',
     lp:5,
     raid:'Leader of the Pack and Moonkin Aura affect the whole raid and stack',
     forever:'Each specialization got a clear role, forms work with potions and weapon enchants. You can be a tank, healer and fighter on one character.' }
@@ -1697,7 +1697,7 @@ const RACES = [
     tip:'Stoneform is useful for tanks and in PvP.' },
   { id:'nightelf', n:'Night Elf', f:'alliance',
     cls:['warrior','hunter','rogue','priest','druid'],
-    rac:[['a','Elune’s Light','+10% crit chance for 15 sec'],['a','Shadowmeld','Invisibility on the spot'],['p','Quickness','+1% dodge and +2% run speed'],['p','Wisp Spirit','+75% run speed as a spirit']],
+    rac:[['a','Elune’s Light','+10% crit chance for 15 sec'],['a','Shadowmeld','Invisibility on the spot'],['p','Quickness','+1–2% dodge (sources differ) and +2% run speed'],['p','Wisp Spirit','+75% run speed as a spirit']],
     tip:'The only Alliance race with a druid, unless you take Skyborne.' },
   { id:'gnome', n:'Gnome', f:'alliance',
     cls:['warrior','rogue','mage','warlock','priest*'],
@@ -1705,7 +1705,7 @@ const RACES = [
     tip:'Expansive Mind especially helps energy classes.' },
   { id:'skyA', n:'Skyborne (Alliance)', f:'alliance', paid:true, name:'High Order Skyborne',
     cls:['warrior','hunter','rogue','mage','druid'],
-    rac:[['a','Walk on Air','Glide down for 10 sec, no fall damage'],['a','Read Ley Line','+100% health and mana regeneration'],['p','Wind Blessed','+3% attack and spell speed'],['p','Elemental Insight','+5% damage to elementals']],
+    rac:[['a','Walk on Air','Glide down for 10 sec, no fall damage'],['a','Read Ley Line','Health and mana regeneration: +100% per Warcraft Tavern, +10% per Icy Veins'],['p','Wind Blessed','+3% attack and spell speed'],['p','Elemental Insight','+5% damage to elementals']],
     tip:'Paid race: Heroic Pack from $29.99. Starts in the Zephras Isle location (levels 1–12).' },
   { id:'orc', n:'Orc', f:'horde',
     cls:['warrior','hunter','rogue','shaman','warlock','mage*'],
@@ -1721,7 +1721,7 @@ const RACES = [
     tip:'The only Horde race with a druid, unless you take Skyborne.' },
   { id:'troll', n:'Troll', f:'horde',
     cls:['warrior','hunter','rogue','priest','shaman','mage','warlock*'],
-    rac:[['a','Berserking','+10% attack and spell speed for 10 sec'],['a','Rapid Regeneration','Restores health over time'],['p','Beast Slaying','+5% damage to beasts'],['p','Regeneration','Health regenerates in combat too']],
+    rac:[['a','Berserking','+10% attack and spell speed for 10–12 sec (sources differ)'],['a','Rapid Regeneration','Restores health over time'],['p','Beast Slaying','+5% damage to beasts'],['p','Regeneration','Health regenerates in combat too']],
     tip:'The most class options in the Horde: seven.' },
   { id:'skyH', n:'Skyborne (Horde)', f:'horde', paid:true, name:'Windshaper Skyborne',
     cls:['warrior','hunter','rogue','shaman','druid'],
@@ -1784,7 +1784,7 @@ const STAGES = [
       ['f', 'Talents open at level 10, or at 9 with the Legacy perk Talented (at 5 with all 5 ranks).'],
       ['f', 'Most cooked food gives an experience bonus. It stacks with the camp and the Cozy Sleeping Bag.'],
       ['t', 'Build up rest: log out at an inn or at a camp with a tent.']],
-    prof: [['f', 'The basic campfire needs no Cooking and holds 3 objects. It burns for about 10 minutes, and you can place a new one after 5.'],
+    prof: [['f', 'A basic campfire needs Cooking learned, but you don’t have to level the skill. It holds 3 objects, burns for about 10 minutes, and you can place a new one after 5.'],
       ['f', 'To get camp buffs, sit nearby (/sit) for at least a minute.'],
       ['t', 'Pick up gathering from the first levels: herbs, ore and hides feed crafting, and 150 in a crafting profession opens Legacy.']],
     legacy: [['f', 'No perks yet: the first point comes at level 25 or with 150 in a profession.'],
@@ -1797,8 +1797,8 @@ const STAGES = [
       ['f', 'Every item that drops unlocks its transmog appearance for everyone who can wear it, even if someone else got the item.'],
       ['f', 'Legacy opens at level 25.'],
       ['t', 'Collect the dungeon quests as a group first and go in once everyone has them.']],
-    prof: [['f', 'Cooking 140 gives 5 camp slots, 220 gives 10.'],
-      ['f', 'Each profession makes three camp objects, one per tier. Sources disagree on the skill needed for tiers 2 and 3.'],
+    prof: [['f', 'Per Warcraft Tavern, Cooking 140 gives 5 camp slots and 220 gives 10 (per Icy Veins 90 and 200; we’ll confirm at launch).'],
+      ['f', 'Each profession makes three camp objects, one per tier. Sources disagree on the skill needed for tiers 2 and 3 (per Icy Veins 140 and 300).'],
       ['t', 'If level 25 is still far off, take a crafting profession to 150: Legacy will open sooner.']],
     legacy: [['f', 'Each challenge gives 1 point. There are 65: classes 27, professions 18, PvP 12, dungeons 3, raids 3, adventure 2.'],
       ['t', 'Reagent Economy (no bought reagents for abilities) and Field Guide (shorter camp object cooldown) are worth it.']],
@@ -1812,7 +1812,7 @@ const STAGES = [
       ['f', 'Honored with your own faction gives a 10% discount on riding training and mounts. Per Warcraft Tavern: 100 + 20 gold at level 40, 1,000 + 200 at 60.'],
       ['t', 'Save gold for level 40: riding will be your biggest expense on the road to 60.']],
     prof: [['f', 'Each profession has its own tier 2 and 3 camp objects. Engineering’s second object, Repair Bot, repairs gear.'],
-      ['t', 'Keep Cooking 220 in the group for a 10-object camp: by raid time there will be room for everyone.']],
+      ['t', 'Keep Cooking 200–220 in the group for a 10-object camp: by raid time there will be room for everyone.']],
     legacy: [['f', 'At most 16 points per character, the rest go to the reward track: a toy at 15, a pet at 25, a tabard at 40, a mount at 55.']],
     group: [['f', 'Raids open on Dec 9: Barrow Deeps for 10 players, Hyjal Summit for 20, Onyxia’s Lair for 40.'],
       ['t', 'The 10-player raid needs 10 players: if you have fewer, find the rest in your guild early.']],
@@ -1824,7 +1824,7 @@ const STAGES = [
       ['t', 'While you gather people for the raid, run level 60 dungeons for gear.']],
     prof: [['f', 'Camp buffs are a bit weaker than class buffs and do not stack with them: Blessing of Kings gives 10% to all stats, the camp gives 8%.'],
       ['t', 'Set up camp at the raid entrance: its buffs cover what your classes lack.']],
-    legacy: [['f', 'Challenges for level 60: dungeons 3, raids 3, PvP 12. PvP has ranks with a weekly cap and gear upgrades for Honor.']],
+    legacy: [['f', 'At level 60 you still have the 46–60 dungeon challenges, 3 raid challenges and PvP (from level 30). PvP has ranks with a weekly cap and gear upgrades for Honor.']],
     group: [['f', 'The same buffs from two players of one class overlap, different classes stack.'],
       ['t', 'Build your raid roster in the group builder and post the link in chat.']],
     src: ['cwg', 'prof', 'legacy'] }
@@ -2024,8 +2024,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js?v=a448c8a8c7" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=a7f37d7ecd" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=d43cad55c8" data-root="../../" data-home="../" data-lang="en" data-teaser="" data-close="Close" data-page="play/" data-look="2" defer></script>
+<script src="../../assets/search/search.js?v=e154702bc6" data-root="../../" defer></script>
+<script src="../../assets/me/me.js?v=9664093d84" data-root="../../" data-home="../" data-lang="en" data-teaser="" data-close="Close" data-page="play/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

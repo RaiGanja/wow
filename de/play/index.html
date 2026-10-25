@@ -1201,8 +1201,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css?v=a448c8a8c7" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=a7f37d7ecd" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=d43cad55c8" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=e154702bc6" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=9664093d84" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://gabella.site/wow/de/"},{"@type":"ListItem","position":2,"name":"Im Spiel","item":"https://gabella.site/wow/de/play/"}]}</script>
 </head>
 <body class="compact">
@@ -1628,7 +1628,7 @@ if ('wakeLock' in navigator) {
 const CLASSES = [
   { id:'warrior', n:'Krieger', s:'Krieger', roles:['tank','dps'],
     specs:[['Waffen','Nahkampfschaden (Zweihandwaffe)',['dps']],['Furor','Nahkampfschaden (zwei Waffen)',['dps']],['Schutz','Tank',['tank']]],
-    lvl:'Das langsamste Leveln, etwa 12 % länger als der Durchschnitt',
+    lvl:'Langsamstes Leveln, etwa 12 % länger als der Durchschnitt (Schätzung von LFCarry)',
     lp:12,
     raid:'Schlachtruf wirkt auf den ganzen Raid',
     forever:'Mehr Wut, bessere Bedrohung gegen mehrere Ziele, das Talent Weapon Master. Furor und Blutdurst wurden abgeschwächt.' },
@@ -1640,7 +1640,7 @@ const CLASSES = [
     forever:'Heiliger Stoß ab Stufe 6, Richturteil verbraucht das Siegel nicht. Untote können jetzt Paladine sein, so kam die Klasse zur Horde.' },
   { id:'hunter', n:'Jäger', roles:['dps'],
     specs:[['Tierherrschaft','Fernkampfschaden, viel Schaden vom Begleiter',['dps']],['Treffsicherheit','Fernkampfschaden',['dps']],['Überleben','Nah- und Fernkampf, Fallen',['dps']]],
-    lvl:'Das schnellste Leveln, etwa 8 % schneller als der Durchschnitt',
+    lvl:'Schnellstes Leveln, etwa 8 % schneller als der Durchschnitt (Schätzung von LFCarry)',
     lp:-8,
     raid:'Aura des Volltreffers wirkt auf den ganzen Raid',
     forever:'Du kannst ohne Begleiter spielen, Fallen funktionieren im Kampf, Füchse sind als Begleiterfamilie dazugekommen. Überleben kann in den Nahkampf gehen.' },
@@ -1652,7 +1652,7 @@ const CLASSES = [
     forever:'Einhandäxte sind jetzt nutzbar. Meucheln baut auf Gifte, Täuschung auf Blutungen und Verstohlenheit.' },
   { id:'priest', n:'Priester', roles:['heal','dps'],
     specs:[['Disziplin','Heiler, Schilde und Absorption',['heal']],['Heilig','Heiler',['heal']],['Schatten','Fernkampfschaden',['dps']]],
-    lvl:'Etwa 5 % langsamer als der Durchschnitt',
+    lvl:'Etwa 5 % langsamer als der Durchschnitt (Schätzung von LFCarry)',
     lp:5,
     raid:'Göttlicher Willen ist jetzt Grundfähigkeit. Schattenschaden und Verschlingende Seuche (24 Sek. Abklingzeit) wurden mit dem Patch vom 15. Oktober verstärkt.',
     forever:'Furchtzauberschutz und Verschlingende Seuche sind ab Stufe 20 für jedes Volk verfügbar. Jedes Volk hat zwei eigene Priesterzauber.' },
@@ -1664,7 +1664,7 @@ const CLASSES = [
     forever:'Zwerge können jetzt Schamanen sein, so kam die Klasse zur Allianz. Lavaexplosion wurde verstärkt, Elementar ist in den Schadensranglisten gestiegen.' },
   { id:'mage', n:'Magier', roles:['dps'],
     specs:[['Arkan','Burst, viel Mana',['dps']],['Feuer','Krits und Entzünden',['dps']],['Frost','Schaden und Kontrolle',['dps']]],
-    lvl:'Das schnellste Leveln, etwa 8 % schneller als der Durchschnitt (etwa 12 Stunden gespart)',
+    lvl:'Schnellstes Leveln, etwa 8 % schneller als der Durchschnitt, rund 12 Stunden gespart (Schätzung von LFCarry)',
     lp:-8,
     raid:'Portale sowie Essen und Wasser für die ganze Gruppe',
     forever:'Feuer bekam Kampfeshitze, Arkan den Arkanschlag, Frost die Eislanze. Frostfeuerblitz ist ab Stufe 40 verfügbar.' },
@@ -1672,11 +1672,11 @@ const CLASSES = [
     specs:[['Gebrechen','Schaden durch Flüche und Verderbnis',['dps']],['Dämonologie','Schaden durch Dämonen',['dps']],['Zerstörung','Direkter Feuer- und Schattenschaden',['dps']]],
     lvl:'Durchschnittliches Leveltempo',
     lp:0,
-    raid:'Schattenbeherrschung gibt jetzt 2–10 % Schattenschaden (vorher 1–5 %)',
+    raid:'Dunkle Meisterschaft gibt 2–10 % Schattenschaden, wie in Classic (in der frühen Beta 1–5 %)',
     forever:'Gebrechen hat einen neuen kanalisierten Zauber, der Dämon bleibt bei Dämonischer Opferung, Zerstörung bekam Verbrennen und Flächenschaden.' },
   { id:'druid', n:'Druide', roles:['tank','heal','dps'],
     specs:[['Gleichgewicht','Fernkampfschaden',['dps']],['Wilder Kampf','Tank (Bär) und Nahkampfschaden (Katze)',['tank','dps']],['Wiederherstellung','Heiler, viel Heilung über Zeit',['heal']]],
-    lvl:'Etwa 5 % langsamer als der Durchschnitt',
+    lvl:'Etwa 5 % langsamer als der Durchschnitt (Schätzung von LFCarry)',
     lp:5,
     raid:'Rudelführer und Aura des Moonkin wirken auf den ganzen Raid und sind stapelbar',
     forever:'Jede Spezialisierung hat eine klare Rolle, Gestalten funktionieren mit Tränken und Waffenverzauberungen. Du kannst Tank, Heiler und Kämpfer auf einem Charakter sein.' }
@@ -1697,7 +1697,7 @@ const RACES = [
     tip:'Steingestalt ist nützlich für Tanks und im PvP.' },
   { id:'nightelf', n:'Nachtelf', f:'alliance',
     cls:['warrior','hunter','rogue','priest','druid'],
-    rac:[['a','Elunes Licht','+10 % kritische Trefferchance für 15 Sek.'],['a','Schattenmimik','Unsichtbarkeit auf der Stelle'],['p','Schnelligkeit','+1 % Ausweichen und +2 % Laufgeschwindigkeit'],['p','Irrwischgeist','+75 % Laufgeschwindigkeit als Geist']],
+    rac:[['a','Elunes Licht','+10 % kritische Trefferchance für 15 Sek.'],['a','Schattenmimik','Unsichtbarkeit auf der Stelle'],['p','Schnelligkeit','+1–2 % Ausweichen (Quellen weichen ab) und +2 % Laufgeschwindigkeit'],['p','Irrwischgeist','+75 % Laufgeschwindigkeit als Geist']],
     tip:'Das einzige Allianzvolk mit Druiden, außer du nimmst Skyborne.' },
   { id:'gnome', n:'Gnom', f:'alliance',
     cls:['warrior','rogue','mage','warlock','priest*'],
@@ -1705,7 +1705,7 @@ const RACES = [
     tip:'Wacher Geist hilft besonders Energieklassen.' },
   { id:'skyA', n:'Skyborne (Allianz)', f:'alliance', paid:true, name:'High Order Skyborne',
     cls:['warrior','hunter','rogue','mage','druid'],
-    rac:[['a','Walk on Air','10 Sek. nach unten gleiten, kein Fallschaden'],['a','Read Ley Line','+100 % Gesundheits- und Manaregeneration'],['p','Wind Blessed','+3 % Angriffs- und Zaubertempo'],['p','Elemental Insight','+5 % Schaden gegen Elementare']],
+    rac:[['a','Walk on Air','10 Sek. nach unten gleiten, kein Fallschaden'],['a','Read Ley Line','Gesundheits- und Manaregeneration: +100 % laut Warcraft Tavern, +10 % laut Icy Veins'],['p','Wind Blessed','+3 % Angriffs- und Zaubertempo'],['p','Elemental Insight','+5 % Schaden gegen Elementare']],
     tip:'Bezahltes Volk: Heroic Pack ab 29,99 $. Startet im Gebiet Zephras Isle (Stufen 1–12).' },
   { id:'orc', n:'Orc', f:'horde',
     cls:['warrior','hunter','rogue','shaman','warlock','mage*'],
@@ -1721,7 +1721,7 @@ const RACES = [
     tip:'Das einzige Hordevolk mit Druiden, außer du nimmst Skyborne.' },
   { id:'troll', n:'Troll', f:'horde',
     cls:['warrior','hunter','rogue','priest','shaman','mage','warlock*'],
-    rac:[['a','Berserker','+10 % Angriffs- und Zaubertempo für 10 Sek.'],['a','Rasche Regeneration','Stellt über Zeit Gesundheit wieder her'],['p','Wildtierschlächter','+5 % Schaden gegen Wildtiere'],['p','Regeneration','Gesundheit regeneriert auch im Kampf']],
+    rac:[['a','Berserker','+10 % Angriffs- und Zaubertempo für 10–12 Sek. (Quellen weichen ab)'],['a','Rasche Regeneration','Stellt über Zeit Gesundheit wieder her'],['p','Wildtierschlächter','+5 % Schaden gegen Wildtiere'],['p','Regeneration','Gesundheit regeneriert auch im Kampf']],
     tip:'Die meisten Klassenoptionen der Horde: sieben.' },
   { id:'skyH', n:'Skyborne (Horde)', f:'horde', paid:true, name:'Windshaper Skyborne',
     cls:['warrior','hunter','rogue','shaman','druid'],
@@ -1784,7 +1784,7 @@ const STAGES = [
       ['f', 'Talente öffnen sich ab Stufe 10, oder ab 9 mit dem Legacy-Vorteil Talented (mit 5 Rängen ab Stufe 5).'],
       ['f', 'Das meiste gekochte Essen gibt einen Erfahrungsbonus. Er stapelt sich mit dem Lager und dem Gemütlichen Schlafsack.'],
       ['t', 'Sammle Erholung: Logge dich in einem Gasthaus oder in einem Lager mit Zelt aus.']],
-    prof: [['f', 'Das einfache Lagerfeuer braucht keine Kochkunst und hält 3 Objekte. Es brennt etwa 10 Minuten, ein neues kannst du nach 5 aufstellen.'],
+    prof: [['f', 'Ein einfaches Lagerfeuer braucht erlerntes Kochen, die Fertigkeit musst du aber nicht steigern. Es fasst 3 Objekte, brennt etwa 10 Minuten, und nach 5 kannst du ein neues aufstellen.'],
       ['f', 'Für Lagerbuffs setz dich mindestens eine Minute in die Nähe (/sit).'],
       ['t', 'Fang ab den ersten Stufen mit Sammelberufen an: Kräuter, Erz und Leder versorgen das Handwerk, und 150 in einem Handwerksberuf öffnet Legacy.']],
     legacy: [['f', 'Noch keine Vorteile: Der erste Punkt kommt mit Stufe 25 oder mit 150 in einem Beruf.'],
@@ -1797,8 +1797,8 @@ const STAGES = [
       ['f', 'Jeder Gegenstand, der droppt, schaltet sein Transmog-Aussehen für alle frei, die ihn tragen können, auch wenn jemand anders ihn bekommen hat.'],
       ['f', 'Legacy öffnet sich ab Stufe 25.'],
       ['t', 'Sammelt die Dungeonquests zuerst als Gruppe und geht rein, wenn alle sie haben.']],
-    prof: [['f', 'Kochkunst 140 gibt 5 Lagerplätze, 220 gibt 10.'],
-      ['f', 'Jeder Beruf stellt drei Lagerobjekte her, eins pro Stufe. Die Quellen sind uneins, welcher Skill für Stufe 2 und 3 nötig ist.'],
+    prof: [['f', 'Laut Warcraft Tavern geben Kochen 140 5 Lagerplätze und 220 10 (laut Icy Veins 90 und 200; wir klären es zum Start).'],
+      ['f', 'Jeder Beruf stellt drei Lagerobjekte her, eines pro Stufe. Quellen weichen bei der nötigen Fertigkeit für Stufe 2 und 3 ab (laut Icy Veins 140 und 300).'],
       ['t', 'Wenn Stufe 25 noch weit weg ist, bring einen Handwerksberuf auf 150: Legacy öffnet sich früher.']],
     legacy: [['f', 'Jede Herausforderung gibt 1 Punkt. Es gibt 65: Klassen 27, Berufe 18, PvP 12, Dungeons 3, Raids 3, Abenteuer 2.'],
       ['t', 'Reagent Economy (keine gekauften Reagenzien für Fähigkeiten) und Field Guide (kürzere Abklingzeit für Lagerobjekte) lohnen sich.']],
@@ -1812,7 +1812,7 @@ const STAGES = [
       ['f', 'Wohlwollend bei deiner eigenen Fraktion gibt 10 % Rabatt auf Reitausbildung und Reittiere. Laut Warcraft Tavern: 100 + 20 Gold auf Stufe 40, 1.000 + 200 auf 60.'],
       ['t', 'Spar Gold für Stufe 40: Reiten wird deine größte Ausgabe auf dem Weg zur 60.']],
     prof: [['f', 'Jeder Beruf hat eigene Lagerobjekte der Stufe 2 und 3. Das zweite Objekt der Ingenieurskunst, Reparaturbot, repariert Ausrüstung.'],
-      ['t', 'Haltet Kochkunst 220 in der Gruppe für ein Lager mit 10 Objekten: Zur Raidzeit ist dann Platz für alle.']],
+      ['t', 'Halte Kochen 200–220 in der Gruppe bereit, für ein Lager mit 10 Objekten: Bis zum Schlachtzug ist dann für alle Platz.']],
     legacy: [['f', 'Höchstens 16 Punkte pro Charakter, der Rest geht in die Belohnungsleiste: ein Spielzeug bei 15, ein Haustier bei 25, ein Wappenrock bei 40, ein Reittier bei 55.']],
     group: [['f', 'Raids öffnen am 09.12: Barrow Deeps für 10 Spieler, Hyjalgipfel für 20, Onyxias Hort für 40.'],
       ['t', 'Der Raid für 10 Spieler braucht 10 Spieler: Wenn ihr weniger seid, sucht den Rest früh in eurer Gilde.']],
@@ -1824,7 +1824,7 @@ const STAGES = [
       ['t', 'Während ihr Leute für den Raid sammelt, lauft Dungeons der Stufe 60 für Ausrüstung.']],
     prof: [['f', 'Lagerbuffs sind etwas schwächer als Klassenbuffs und stapeln sich nicht mit ihnen: Segen der Könige gibt 10 % auf alle Werte, das Lager 8 %.'],
       ['t', 'Baut das Lager am Raideingang auf: Seine Buffs decken ab, was euren Klassen fehlt.']],
-    legacy: [['f', 'Herausforderungen für Stufe 60: Dungeons 3, Raids 3, PvP 12. PvP hat Ränge mit Wochenlimit und Ausrüstungsupgrades für Ehre.']],
+    legacy: [['f', 'Auf Stufe 60 bleiben die Herausforderungen für Dungeons 46–60, 3 für Schlachtzüge und PvP (ab Stufe 30). PvP hat Ränge mit Wochenlimit und Ausrüstungsverbesserungen für Ehre.']],
     group: [['f', 'Gleiche Buffs von zwei Spielern derselben Klasse überschneiden sich, verschiedene Klassen stapeln sich.'],
       ['t', 'Stellt euren Raidkader im Gruppenplaner zusammen und postet den Link im Chat.']],
     src: ['cwg', 'prof', 'legacy'] }
@@ -2024,8 +2024,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js?v=a448c8a8c7" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=a7f37d7ecd" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=d43cad55c8" data-root="../../" data-home="../" data-lang="de" data-teaser="" data-close="Schließen" data-page="play/" data-look="2" defer></script>
+<script src="../../assets/search/search.js?v=e154702bc6" data-root="../../" defer></script>
+<script src="../../assets/me/me.js?v=9664093d84" data-root="../../" data-home="../" data-lang="de" data-teaser="" data-close="Schließen" data-page="play/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

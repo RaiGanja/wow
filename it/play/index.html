@@ -1201,8 +1201,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css?v=a448c8a8c7" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=a7f37d7ecd" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=d43cad55c8" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=e154702bc6" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=9664093d84" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/it/"},{"@type":"ListItem","position":2,"name":"In gioco","item":"https://gabella.site/wow/it/play/"}]}</script>
 </head>
 <body class="compact">
@@ -1628,7 +1628,7 @@ if ('wakeLock' in navigator) {
 const CLASSES = [
   { id:'warrior', n:'Guerriero', s:'Guerriero', roles:['tank','dps'],
     specs:[['Armi','Danni in mischia (arma a due mani)',['dps']],['Furia','Danni in mischia (due armi)',['dps']],['Protezione','Difensore',['tank']]],
-    lvl:'Il livellamento più lento, circa il 12% più lungo della media',
+    lvl:'Il livellamento più lento, circa il 12% più lungo della media (stima di LFCarry)',
     lp:12,
     raid:'Urlo di Battaglia agisce su tutta l’incursione',
     forever:'Più Rabbia, minaccia migliore su gruppi di bersagli, il talento Weapon Master. Furia e Sete di Sangue sono indebolite.' },
@@ -1640,7 +1640,7 @@ const CLASSES = [
     forever:'Assalto Sacro dal livello 6, Giudizio non consuma il sigillo. I Non Morti ora possono essere paladini, quindi la classe è arrivata nell’Orda.' },
   { id:'hunter', n:'Cacciatore', roles:['dps'],
     specs:[['Affinità Animale','Danni a distanza, molti danni dal famiglio',['dps']],['Precisione','Danni a distanza',['dps']],['Sopravvivenza','Mischia e distanza, trappole',['dps']]],
-    lvl:'Il livellamento più veloce, circa l’8% più rapido della media',
+    lvl:'Il livellamento più veloce, circa l’8% più rapido della media (stima di LFCarry)',
     lp:-8,
     raid:'Aura di Precisione agisce su tutta l’incursione',
     forever:'Puoi giocare senza famiglio, le trappole funzionano in combattimento, le volpi sono arrivate come famiglia di famigli. Sopravvivenza può giocare in mischia.' },
@@ -1652,7 +1652,7 @@ const CLASSES = [
     forever:'Ora può usare asce a una mano. Assassinio si basa sui veleni, Scaltrezza su sanguinamenti e furtività.' },
   { id:'priest', n:'Sacerdote', roles:['heal','dps'],
     specs:[['Disciplina','Guaritore, scudi e assorbimento',['heal']],['Sacro','Guaritore',['heal']],['Ombra','Danni a distanza',['dps']]],
-    lvl:'Circa il 5% più lento della media',
+    lvl:'Circa il 5% più lento della media (stima di LFCarry)',
     lp:5,
     raid:'Spirito Divino ora è di base. I danni d’Ombra e Piaga Divoratrice (recupero di 24 s) sono stati potenziati dalla patch del 15 ottobre.',
     forever:'Protezione dalla Paura e Piaga Divoratrice sono disponibili dal livello 20 per tutte le razze. Ogni razza ha due incantesimi da sacerdote propri.' },
@@ -1664,7 +1664,7 @@ const CLASSES = [
     forever:'I Nani ora possono essere sciamani, quindi la classe è arrivata nell’Alleanza. Getto di Lava è stata potenziata, Elementale è salito nelle classifiche dei danni.' },
   { id:'mage', n:'Mago', roles:['dps'],
     specs:[['Arcano','Danni esplosivi, molto mana',['dps']],['Fuoco','Critici e incendi',['dps']],['Gelo','Danni e controllo',['dps']]],
-    lvl:'Il livellamento più veloce, circa l’8% più rapido della media (circa 12 ore risparmiate)',
+    lvl:'Il livellamento più veloce, circa l’8% più rapido della media, circa 12 ore risparmiate (stima di LFCarry)',
     lp:-8,
     raid:'Portali, cibo e acqua per tutto il gruppo',
     forever:'Fuoco ha ottenuto Serie Bollente, Arcano Detonazione Arcana, Gelo Lancia di Ghiaccio. Palla di Fuocogelo è disponibile dal livello 40.' },
@@ -1672,11 +1672,11 @@ const CLASSES = [
     specs:[['Afflizione','Danni da maledizioni e corruzione',['dps']],['Demonologia','Danni tramite demoni',['dps']],['Distruzione','Danni diretti da fuoco e ombra',['dps']]],
     lvl:'Ritmo di livellamento nella media',
     lp:0,
-    raid:'Maestria dell’Ombra ora dà il 2–10% di danni d’ombra (prima 1–5%)',
+    raid:'Maestria oscura dà il 2–10% di danni Ombra, come in Classic (nella prima beta 1–5%)',
     forever:'Afflizione ha un nuovo incantesimo canalizzato, il demone resta con Sacrificio Demoniaco, Distruzione ha ottenuto Incenerimento e danni ad area.' },
   { id:'druid', n:'Druido', roles:['tank','heal','dps'],
     specs:[['Equilibrio','Danni a distanza',['dps']],['Aggressore Ferino','Difensore (orso) e danni in mischia (gatto)',['tank','dps']],['Rigenerazione','Guaritore, molte cure nel tempo',['heal']]],
-    lvl:'Circa il 5% più lento della media',
+    lvl:'Circa il 5% più lento della media (stima di LFCarry)',
     lp:5,
     raid:'Capobranco e Aura del Lunagufo agiscono su tutta l’incursione e si sommano',
     forever:'Ogni specializzazione ha un ruolo chiaro, le forme funzionano con pozioni e incantamenti delle armi. Puoi essere difensore, guaritore e combattente con un solo personaggio.' }
@@ -1697,7 +1697,7 @@ const RACES = [
     tip:'Forma di Pietra è utile ai difensori e nel PvP.' },
   { id:'nightelf', n:'Elfo della Notte', f:'alliance',
     cls:['warrior','hunter','rogue','priest','druid'],
-    rac:[['a','Luce di Elune','+10% probabilità di critico per 15 s'],['a','Fondersi nelle Ombre','Invisibilità sul posto'],['p','Rapidità','+1% schivata e +2% velocità di corsa'],['p','Spirito di Fuoco Fatuo','+75% velocità di corsa da spirito']],
+    rac:[['a','Luce di Elune','+10% probabilità di critico per 15 s'],['a','Fondersi nelle Ombre','Invisibilità sul posto'],['p','Rapidità','+1–2% di schivata (le fonti differiscono) e +2% di velocità di corsa'],['p','Spirito di Fuoco Fatuo','+75% velocità di corsa da spirito']],
     tip:'L’unica razza dell’Alleanza con il druido, a meno di scegliere gli Skyborne.' },
   { id:'gnome', n:'Gnomo', f:'alliance',
     cls:['warrior','rogue','mage','warlock','priest*'],
@@ -1705,7 +1705,7 @@ const RACES = [
     tip:'Apertura Mentale aiuta soprattutto le classi a energia.' },
   { id:'skyA', n:'Skyborne (Alleanza)', f:'alliance', paid:true, name:'Skyborne dell’High Order',
     cls:['warrior','hunter','rogue','mage','druid'],
-    rac:[['a','Walk on Air','Plani per 10 s, senza danni da caduta'],['a','Read Ley Line','+100% rigenerazione di salute e mana'],['p','Wind Blessed','+3% velocità d’attacco e degli incantesimi'],['p','Elemental Insight','+5% danni agli elementali']],
+    rac:[['a','Walk on Air','Plani per 10 s, senza danni da caduta'],['a','Read Ley Line','Rigenerazione di salute e mana: +100% secondo Warcraft Tavern, +10% secondo Icy Veins'],['p','Wind Blessed','+3% velocità d’attacco e degli incantesimi'],['p','Elemental Insight','+5% danni agli elementali']],
     tip:'Razza a pagamento: Heroic Pack da $29.99. Inizia nella zona di Zephras Isle (livelli 1–12).' },
   { id:'orc', n:'Orco', f:'horde',
     cls:['warrior','hunter','rogue','shaman','warlock','mage*'],
@@ -1721,7 +1721,7 @@ const RACES = [
     tip:'L’unica razza dell’Orda con il druido, a meno di scegliere gli Skyborne.' },
   { id:'troll', n:'Troll', f:'horde',
     cls:['warrior','hunter','rogue','priest','shaman','mage','warlock*'],
-    rac:[['a','Berserker','+10% velocità d’attacco e degli incantesimi per 10 s'],['a','Rapid Regeneration','Ripristina salute nel tempo'],['p','Cacciatore di Bestie','+5% danni alle bestie'],['p','Rigenerazione','La salute si rigenera anche in combattimento']],
+    rac:[['a','Berserker','+10% di velocità di attacco e incantesimi per 10–12 s (le fonti differiscono)'],['a','Rapid Regeneration','Ripristina salute nel tempo'],['p','Cacciatore di Bestie','+5% danni alle bestie'],['p','Rigenerazione','La salute si rigenera anche in combattimento']],
     tip:'Più scelte di classe di tutta l’Orda: sette.' },
   { id:'skyH', n:'Skyborne (Orda)', f:'horde', paid:true, name:'Skyborne Windshaper',
     cls:['warrior','hunter','rogue','shaman','druid'],
@@ -1784,7 +1784,7 @@ const STAGES = [
       ['f', 'I talenti si aprono al livello 10, o al 9 con il vantaggio Legacy Talented (al 5 con 5 gradi).'],
       ['f', 'La maggior parte del cibo cucinato dà un bonus all’esperienza. Si somma all’accampamento e al Cozy Sleeping Bag.'],
       ['t', 'Accumula riposo: esci dal gioco in una locanda o in un accampamento con tenda.']],
-    prof: [['f', 'Il fuoco da campo base non richiede Cucina e regge 3 oggetti. Arde per circa 10 minuti, e puoi accenderne uno nuovo dopo 5.'],
+    prof: [['f', 'Un falò base richiede di aver imparato Cucina, ma non serve alzare l’abilità. Contiene 3 oggetti, brucia circa 10 minuti e se ne può piazzare un altro dopo 5.'],
       ['f', 'Per ottenere i potenziamenti dell’accampamento, siediti vicino (/sit) per almeno un minuto.'],
       ['t', 'Inizia a raccogliere fin dai primi livelli: erbe, minerali e pelli alimentano la produzione, e 150 in una professione di produzione apre Legacy.']],
     legacy: [['f', 'Ancora nessun vantaggio: il primo punto arriva al livello 25 o con 150 in una professione.'],
@@ -1797,8 +1797,8 @@ const STAGES = [
       ['f', 'Ogni oggetto che cade sblocca il suo aspetto di trasmogrificazione per tutti quelli che possono indossarlo, anche se l’oggetto è andato a un altro.'],
       ['f', 'Legacy si apre al livello 25.'],
       ['t', 'Prima raccogliete in gruppo le missioni della spedizione ed entrate quando le hanno tutti.']],
-    prof: [['f', 'Cucina a 140 dà 5 posti nell’accampamento, a 220 ne dà 10.'],
-      ['f', 'Ogni professione crea tre oggetti da accampamento, uno per livello. Le fonti non concordano sulla competenza necessaria per i livelli 2 e 3.'],
+    prof: [['f', 'Secondo Warcraft Tavern, Cucina 140 dà 5 posti nell’accampamento e 220 ne dà 10 (secondo Icy Veins 90 e 200; chiariremo al lancio).'],
+      ['f', 'Ogni professione crea tre oggetti dell’accampamento, uno per livello. Le fonti differiscono sull’abilità necessaria per i livelli 2 e 3 (secondo Icy Veins 140 e 300).'],
       ['t', 'Se il livello 25 è ancora lontano, porta una professione di produzione a 150: Legacy si aprirà prima.']],
     legacy: [['f', 'Ogni sfida dà 1 punto. Sono 65: classi 27, professioni 18, PvP 12, spedizioni 3, incursioni 3, avventura 2.'],
       ['t', 'Reagent Economy (niente reagenti comprati per le abilità) e Field Guide (recupero più breve degli oggetti da accampamento) valgono la pena.']],
@@ -1812,7 +1812,7 @@ const STAGES = [
       ['f', 'Onorato con la tua fazione dà uno sconto del 10% su addestramento e cavalcature. Secondo Warcraft Tavern: 100 + 20 monete d’oro al livello 40, 1.000 + 200 al 60.'],
       ['t', 'Risparmia oro per il livello 40: la cavalcatura sarà la tua spesa più grande verso il 60.']],
     prof: [['f', 'Ogni professione ha i propri oggetti da accampamento di livello 2 e 3. Il secondo oggetto di Ingegneria, Riparabot, ripara l’equipaggiamento.'],
-      ['t', 'Tenete Cucina a 220 nel gruppo per un accampamento da 10 oggetti: all’ora delle incursioni ci sarà posto per tutti.']],
+      ['t', 'Tieni Cucina 200–220 nel gruppo per un accampamento da 10 oggetti: al raid ci sarà posto per tutti.']],
     legacy: [['f', 'Al massimo 16 punti per personaggio, il resto va al percorso delle ricompense: un giocattolo a 15, una mascotte a 25, un tabarro a 40, una cavalcatura a 55.']],
     group: [['f', 'Le incursioni aprono il 09.12: Barrow Deeps da 10 giocatori, Sommità di Hyjal da 20, Antro di Onyxia da 40.'],
       ['t', 'L’incursione da 10 richiede 10 giocatori: se siete meno, trovate per tempo gli altri nella gilda.']],
@@ -1824,7 +1824,7 @@ const STAGES = [
       ['t', 'Mentre radunate la gente per l’incursione, fate le spedizioni di livello 60 per l’equipaggiamento.']],
     prof: [['f', 'I potenziamenti dell’accampamento sono un po’ più deboli di quelli di classe e non si sommano: Benedizione dei Re dà il 10% a tutte le caratteristiche, l’accampamento l’8%.'],
       ['t', 'Montate l’accampamento all’ingresso dell’incursione: i suoi potenziamenti coprono ciò che manca alle vostre classi.']],
-    legacy: [['f', 'Sfide per il livello 60: spedizioni 3, incursioni 3, PvP 12. Il PvP ha gradi con un limite settimanale e miglioramenti dell’equipaggiamento con l’Onore.']],
+    legacy: [['f', 'A livello 60 restano le sfide dei dungeon 46–60, 3 sfide dei raid e il PvP (dal livello 30). Il PvP ha gradi con limite settimanale e potenziamenti dell’equipaggiamento in cambio di Onore.']],
     group: [['f', 'Gli stessi potenziamenti di due giocatori della stessa classe si sovrappongono, quelli di classi diverse si sommano.'],
       ['t', 'Prepara la formazione d’incursione nel creatore di gruppi e posta il link in chat.']],
     src: ['cwg', 'prof', 'legacy'] }
@@ -2024,8 +2024,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js?v=a448c8a8c7" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=a7f37d7ecd" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=d43cad55c8" data-root="../../" data-home="../" data-lang="it" data-teaser="" data-close="Chiudi" data-page="play/" data-look="2" defer></script>
+<script src="../../assets/search/search.js?v=e154702bc6" data-root="../../" defer></script>
+<script src="../../assets/me/me.js?v=9664093d84" data-root="../../" data-home="../" data-lang="it" data-teaser="" data-close="Chiudi" data-page="play/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

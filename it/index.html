@@ -970,8 +970,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../assets/radio/radio.css?v=a448c8a8c7">
-<link data-rel="stylesheet" href="../assets/search/search.css?v=a7f37d7ecd">
-<link data-rel="stylesheet" href="../assets/me/me.css?v=d43cad55c8">
+<link data-rel="stylesheet" href="../assets/search/search.css?v=e154702bc6">
+<link data-rel="stylesheet" href="../assets/me/me.css?v=9664093d84">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Guida a WoW Forever","alternateName":"Gabella","url":"https://gabella.site/wow/it/","inLanguage":"it","description":"Guida a WoW Forever: chi giocare, un selettore di razza e classe, un creatore di gruppi e guide su livellamento, spedizioni e professioni.","publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]}</script>
 </head>
@@ -1023,7 +1023,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
       <a class="btn lg" href="#classes">Scegli una classe</a>
       <a class="btn lg ghost" href="tools/#raid">Crea un gruppo</a>
     </div>
-    <p class="hd-line"><span data-d="2026-10-27T00:00:00"><b>27.10</b> Prenotazione nomi</span><span data-d="2026-11-04T23:00:00Z"><b>04.11</b> Lancio</span><span data-d="2026-12-09T00:00:00"><b>09.12</b> Incursioni</span></p>
+    <p class="hd-line"><span data-d="2026-10-27T17:00:00Z"><b>27.10</b> Prenotazione nomi</span><span data-d="2026-11-04T23:00:00Z"><b>04.11</b> Lancio</span><span data-d="2026-12-09T00:00:00"><b>09.12</b> Incursioni</span></p>
     <div class="todsw" data-tod-sw></div>
   </div>
   <div class="hnews wrap"><div class="hh"><h2>Novità</h2><a href="guides/news/">Tutte le notizie<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div><div class="row3"><a class="nc" href="guides/tier-list/#builds"><time datetime="2026-10-25">25.10</time><b>Build per tutte e nove le classi</b><span>Talenti chiave, priorità in gruppo e statistiche di ogni specializzazione, in base alla beta di livello 30.</span></a><a class="nc" href="guides/leveling/#classes"><time datetime="2026-10-25">25.10</time><b>Guide al livellamento per tutte le nove classi</b><span>Specializzazione, talenti per livello, abilità dall’istruttore e rotazione per ogni classe, 1–60.</span></a><a class="nc" href="guides/news/"><time datetime="2026-10-24">24.10</time><b>Server Discord di Gabella</b><span>Chat, ricerca gruppo e notizie in inglese, ucraino e russo.</span></a></div></div>
@@ -1115,23 +1115,27 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 const $ = s => document.querySelector(s);
 /* Countdown and key dates */
 function renderCountdown() {
-  const now = new Date(), rel = new Date('2026-11-04T23:00:00Z'), raid = new Date('2026-12-09T00:00:00'), r1 = new Date('2026-10-27T00:00:00');
-  let target, what, sub;
+  const now = new Date(), rel = new Date('2026-11-04T23:00:00Z'), raid = new Date('2026-12-09T00:00:00'), r1 = new Date('2026-10-27T17:00:00Z'), r2 = new Date('2026-10-27T20:00:00Z');
+  let target, what, sub, html;
   if (now < rel) {   /* launch 15:00 PT = 23:00 UTC, shown in the reader's time */
     const today = now.toDateString() === rel.toDateString(), lang = document.documentElement.lang;
     const when = today ? rel.toLocaleTimeString(lang, { hour: '2-digit', minute: '2-digit' })
                        : rel.toLocaleString(lang, { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' });
-    target = rel; what = (today ? 'Lancio oggi' : 'al lancio') + ' · ' + when; sub = now < r1 ? 'La prenotazione nomi apre il 27.10' : now < new Date('2026-11-04T00:00:00') ? 'La prenotazione nomi dura fino al 03.11' : 'Le incursioni aprono il 09.12.2026';
+    const rsv = d => d.toLocaleString(lang, { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+    target = rel; what = (today ? 'Lancio oggi' : 'al lancio') + ' · ' + when; sub = now < r1 ? 'Prenotazione nomi' + ': ' + 'Europa' + ' — ' + rsv(r1) + ' · ' + 'Americhe' + ' — ' + rsv(r2) : 'La prenotazione nomi dura fino al 03.11';
   }
-  else if (now < raid) { target = raid; what = 'alle incursioni'; sub = 'Le incursioni aprono il 09.12.2026'; }
+  else if (now < raid) {   /* the raid hour is not announced: date only, no countdown */
+    html = `<div class="what"><b>Le incursioni aprono il 09.12.2026</b><span>chiariremo l’orario esatto al lancio</span></div>`;
+  }
   if (target) {
     const ms = target - now, d = Math.floor(ms / 864e5), h = Math.floor(ms % 864e5 / 36e5), m = Math.floor(ms % 36e5 / 6e4);
     const p = x => String(x).padStart(2, '0');
-    $('#cd').innerHTML = `<div class="units"><div class="u"><b>${d}</b><span>g</span></div><div class="u"><b>${p(h)}</b><span>h</span></div><div class="u"><b>${p(m)}</b><span>min</span></div></div>
+    html = `<div class="units"><div class="u"><b>${d}</b><span>g</span></div><div class="u"><b>${p(h)}</b><span>h</span></div><div class="u"><b>${p(m)}</b><span>min</span></div></div>
       <div class="what"><b>${what}</b><span>${sub}</span></div>`;
-  } else {
-    $('#cd').innerHTML = `<div class="what"><b>Le incursioni sono aperte</b><span>Barrow Deeps, Hyjal Summit, Onyxia’s Lair</span></div>`;
+  } else if (!html) {
+    html = `<div class="what"><b>Le incursioni sono aperte</b><span>Barrow Deeps, Hyjal Summit, Onyxia’s Lair</span></div>`;
   }
+  $('#cd').innerHTML = html;
   let cur = null;
   document.querySelectorAll('.hd-line [data-d]').forEach(li => { const past = new Date(li.dataset.d) <= now; li.classList.toggle('past', past); li.classList.remove('cur'); if (!past && !cur) cur = li; });
   if (cur) cur.classList.add('cur');
@@ -1159,7 +1163,7 @@ $('#moreClose').onclick = () => dlg.close();
 dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.toc a')) dlg.close(); });
 })();
 </script>
-<script data-src="../assets/home/it.js?v=8e1ef8add0"></script>
+<script data-src="../assets/home/it.js?v=0964006462"></script>
 <script data-src="../assets/living/living.js?v=b105663afc"></script>
 <link data-rel="stylesheet" href="../assets/tod/tod.css?v=9db945948b">
 <script data-src="../assets/tod/tod.js?v=9db945948b"></script>
@@ -1231,8 +1235,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../assets/radio/radio.js?v=a448c8a8c7" data-root="../"></script>
-<script data-src="../assets/search/search.js?v=a7f37d7ecd" data-root="../"></script>
-<script data-src="../assets/me/me.js?v=d43cad55c8" data-root="../" data-home="./" data-lang="it" data-teaser="" data-close="Chiudi" data-page="" data-look="2"></script>
+<script data-src="../assets/search/search.js?v=e154702bc6" data-root="../"></script>
+<script data-src="../assets/me/me.js?v=9664093d84" data-root="../" data-home="./" data-lang="it" data-teaser="" data-close="Chiudi" data-page="" data-look="2"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
 (function () {

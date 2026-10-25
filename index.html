@@ -985,8 +985,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="./assets/radio/radio.css?v=a448c8a8c7">
-<link data-rel="stylesheet" href="./assets/search/search.css?v=a7f37d7ecd">
-<link data-rel="stylesheet" href="./assets/me/me.css?v=d43cad55c8">
+<link data-rel="stylesheet" href="./assets/search/search.css?v=e154702bc6">
+<link data-rel="stylesheet" href="./assets/me/me.css?v=9664093d84">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Гид WoW Forever","alternateName":"Gabella","url":"https://gabella.site/wow/","inLanguage":"ru","description":"Гид по WoW Forever (ВоВ Форевер): кем играть, подборщик расы и класса, сборка группы и гайды по прокачке, подземельям и профессиям.","publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]}</script>
 </head>
@@ -1038,7 +1038,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
       <a class="btn lg" href="#classes">Выбрать класс</a>
       <a class="btn lg ghost" href="tools/#raid">Собрать группу</a>
     </div>
-    <p class="hd-line"><span data-d="2026-10-27T00:00:00"><b>27.10</b> Резерв имён</span><span data-d="2026-11-04T23:00:00Z"><b>04.11</b> Релиз</span><span data-d="2026-12-09T00:00:00"><b>09.12</b> Рейды</span></p>
+    <p class="hd-line"><span data-d="2026-10-27T17:00:00Z"><b>27.10</b> Резерв имён</span><span data-d="2026-11-04T23:00:00Z"><b>04.11</b> Релиз</span><span data-d="2026-12-09T00:00:00"><b>09.12</b> Рейды</span></p>
     <div class="todsw" data-tod-sw></div>
   </div>
   <div class="hnews wrap"><div class="hh"><h2>Свежее</h2><a href="guides/news/">Все новости<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div><div class="row3"><a class="nc" href="guides/tier-list/#builds"><time datetime="2026-10-25">25.10</time><b>Билды всех девяти классов</b><span>Ключевые таланты, приоритет в группе и характеристики каждого спека по бете 30 уровня.</span></a><a class="nc" href="guides/leveling/#classes"><time datetime="2026-10-25">25.10</time><b>Гайды по прокачке для всех девяти классов</b><span>Спек, таланты по уровням, способности у тренера и ротация для каждого класса, 1–60.</span></a><a class="nc" href="guides/news/"><time datetime="2026-10-24">24.10</time><b>Discord-сервер Gabella</b><span>Чат, поиск группы и новости на английском, украинском и русском.</span></a></div></div>
@@ -1142,23 +1142,27 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 const $ = s => document.querySelector(s);
 /* Countdown and key dates */
 function renderCountdown() {
-  const now = new Date(), rel = new Date('2026-11-04T23:00:00Z'), raid = new Date('2026-12-09T00:00:00'), r1 = new Date('2026-10-27T00:00:00');
-  let target, what, sub;
+  const now = new Date(), rel = new Date('2026-11-04T23:00:00Z'), raid = new Date('2026-12-09T00:00:00'), r1 = new Date('2026-10-27T17:00:00Z'), r2 = new Date('2026-10-27T20:00:00Z');
+  let target, what, sub, html;
   if (now < rel) {   /* launch 15:00 PT = 23:00 UTC, shown in the reader's time */
     const today = now.toDateString() === rel.toDateString(), lang = document.documentElement.lang;
     const when = today ? rel.toLocaleTimeString(lang, { hour: '2-digit', minute: '2-digit' })
                        : rel.toLocaleString(lang, { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' });
-    target = rel; what = (today ? 'Сегодня старт' : 'до старта') + ' · ' + when; sub = now < r1 ? 'Резервация имён откроется 27.10' : now < new Date('2026-11-04T00:00:00') ? 'Резервация имён идёт до 03.11' : 'Рейды открываются 09.12.2026';
+    const rsv = d => d.toLocaleString(lang, { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+    target = rel; what = (today ? 'Сегодня старт' : 'до старта') + ' · ' + when; sub = now < r1 ? 'Резерв имён' + ': ' + 'Европа' + ' — ' + rsv(r1) + ' · ' + 'Америка' + ' — ' + rsv(r2) : 'Резервация имён идёт до 03.11';
   }
-  else if (now < raid) { target = raid; what = 'до рейдов'; sub = 'Рейды открываются 09.12.2026'; }
+  else if (now < raid) {   /* the raid hour is not announced: date only, no countdown */
+    html = `<div class="what"><b>Рейды открываются 09.12.2026</b><span>точное время на старте уточним</span></div>`;
+  }
   if (target) {
     const ms = target - now, d = Math.floor(ms / 864e5), h = Math.floor(ms % 864e5 / 36e5), m = Math.floor(ms % 36e5 / 6e4);
     const p = x => String(x).padStart(2, '0');
-    $('#cd').innerHTML = `<div class="units"><div class="u"><b>${d}</b><span>дн</span></div><div class="u"><b>${p(h)}</b><span>ч</span></div><div class="u"><b>${p(m)}</b><span>мин</span></div></div>
+    html = `<div class="units"><div class="u"><b>${d}</b><span>дн</span></div><div class="u"><b>${p(h)}</b><span>ч</span></div><div class="u"><b>${p(m)}</b><span>мин</span></div></div>
       <div class="what"><b>${what}</b><span>${sub}</span></div>`;
-  } else {
-    $('#cd').innerHTML = `<div class="what"><b>Рейды открыты</b><span>Barrow Deeps, Вершина Хиджала, Логово Ониксии</span></div>`;
+  } else if (!html) {
+    html = `<div class="what"><b>Рейды открыты</b><span>Barrow Deeps, Вершина Хиджала, Логово Ониксии</span></div>`;
   }
+  $('#cd').innerHTML = html;
   let cur = null;
   document.querySelectorAll('.hd-line [data-d]').forEach(li => { const past = new Date(li.dataset.d) <= now; li.classList.toggle('past', past); li.classList.remove('cur'); if (!past && !cur) cur = li; });
   if (cur) cur.classList.add('cur');
@@ -1186,7 +1190,7 @@ $('#moreClose').onclick = () => dlg.close();
 dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.toc a')) dlg.close(); });
 })();
 </script>
-<script data-src="./assets/home/ru.js?v=5166f8fa56"></script>
+<script data-src="./assets/home/ru.js?v=d1f5ca076e"></script>
 <script data-src="./assets/living/living.js?v=b105663afc"></script>
 <link data-rel="stylesheet" href="./assets/tod/tod.css?v=9db945948b">
 <script data-src="./assets/tod/tod.js?v=9db945948b"></script>
@@ -1258,8 +1262,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="./assets/radio/radio.js?v=a448c8a8c7" data-root="./"></script>
-<script data-src="./assets/search/search.js?v=a7f37d7ecd" data-root="./"></script>
-<script data-src="./assets/me/me.js?v=d43cad55c8" data-root="./" data-home="./" data-lang="ru" data-teaser="" data-close="Закрыть" data-page="" data-look="2"></script>
+<script data-src="./assets/search/search.js?v=e154702bc6" data-root="./"></script>
+<script data-src="./assets/me/me.js?v=9664093d84" data-root="./" data-home="./" data-lang="ru" data-teaser="" data-close="Закрыть" data-page="" data-look="2"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
 (function () {
