@@ -5,11 +5,12 @@
    ukrainian, requirements, bestrace, tierlist).
    A picture opts in with data-fx="dawn|camp|road|roster|tools|guides|dungeons|professions|faq|news|leveling|classes|races|ukrainian|requirements|bestrace|tierlist" on its <picture>, data-cut its phone cut (make_images.CUTS, default .6); masks are assets/living/<art>-fx.png (tools/make_living.py),
    in the 1376 x 768 grid of the source art. The canvas is transparent except where something moves, so the sharp <img>
-   stays visible underneath. Off with prefers-reduced-motion, Save-Data or without WebGL; paused off screen.
+   stays visible underneath. Off with prefers-reduced-motion, Save-Data, ?fx=off, without WebGL or on a device too slow for it;
+   paused off screen, rebuilt after a lost WebGL context.
    Follows the time of day (assets/tod/tod.js): sun position, rays, birds by day; stars, fireflies and moon glints at night. */
 (() => {
   const me = document.currentScript;
-  if (!me || matchMedia('(prefers-reduced-motion: reduce)').matches || (navigator.connection || {}).saveData) return;
+  if (!me || matchMedia('(prefers-reduced-motion: reduce)').matches || (navigator.connection || {}).saveData || /[?&]fx=off\b/.test(location.search)) return;
   const base = me.src.replace(/living\.js.*$/, '');
   const ver = (me.src.match(/\?v=\w+/) || [''])[0];
   const ART = { dawn: 'hero_dawn', camp: 'hero_campfire', road: 'hero_road', roster: 'hero_roster', tools: 'hero_tools',
@@ -264,8 +265,8 @@ void main() {
     return s;
   }
 
-  function texture(gl, unit, src) {
-    const t = gl.createTexture();
+  function texture(gl, unit, src, t) {
+    t = t || gl.createTexture();
     gl.activeTexture(gl.TEXTURE0 + unit);
     gl.bindTexture(gl.TEXTURE_2D, t);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, src);
@@ -277,6 +278,9 @@ void main() {
   function ready(img) {
     return img.complete && img.naturalWidth ? Promise.resolve() : new Promise(r => img.addEventListener('load', r, { once: true }));
   }
+
+  // phones get a portrait cut of the art (tools/make_images.py hero_mobile)
+  const phone = s => /hero_\w+-m-/.test(s);
 
   function live(pic) {
     const scene = pic.dataset.fx, img = pic.querySelector('img'), cut = parseFloat(pic.dataset.cut || '.6');
@@ -292,41 +296,52 @@ void main() {
     // Software WebGL (no GPU: weak devices, page-speed robots) would stall the page compiling the shader.
     const dbg = gl.getExtension('WEBGL_debug_renderer_info');
     if (dbg && /swiftshader|llvmpipe|software|basic render/i.test(gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL)) && !FORCE) return;
-    let prog;
-    try {
-      prog = gl.createProgram();
-      gl.attachShader(prog, shader(gl, gl.VERTEX_SHADER, VS));
-      gl.attachShader(prog, shader(gl, gl.FRAGMENT_SHADER, COMMON + SCENES[scene]));
-      gl.linkProgram(prog);
-      if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
-    } catch (e) { return; }
-    gl.useProgram(prog);
-    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
-    gl.enableVertexAttribArray(0);
-    gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
     const U = {};
-    for (const n of ['uImg', 'uMask', 'uSize', 'uMap', 'uCrop', 'uT', 'uPx', 'uTod', 'uSun']) U[n] = gl.getUniformLocation(prog, n);
-    gl.uniform1i(U.uImg, 0);
-    gl.uniform1i(U.uMask, 1);
+    let tex = null;
+    // program, geometry and textures: once at the start and again after a lost context comes back
+    function setup() {
+      let prog;
+      try {
+        prog = gl.createProgram();
+        gl.attachShader(prog, shader(gl, gl.VERTEX_SHADER, VS));
+        gl.attachShader(prog, shader(gl, gl.FRAGMENT_SHADER, COMMON + SCENES[scene]));
+        gl.linkProgram(prog);
+        if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
+      } catch (e) { return false; }
+      gl.useProgram(prog);
+      gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+      gl.enableVertexAttribArray(0);
+      gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+      for (const n of ['uImg', 'uMask', 'uSize', 'uMap', 'uCrop', 'uT', 'uPx', 'uTod', 'uSun']) U[n] = gl.getUniformLocation(prog, n);
+      gl.uniform1i(U.uImg, 0);
+      gl.uniform1i(U.uMask, 1);
+      tex = null;
+      upload();
+      texture(gl, 1, mk);
+      return true;
+    }
 
     const mk = new Image();
     mk.src = base + ART[scene] + '-fx.png' + ver;
-    let on = false, shown = false, raf = 0, last = 0, src = '';
+    let on = false, shown = false, raf = 0, last = 0, lost = false;
+    let src = '', iw = 0, ih = 0;   // the picture in the texture: its address and size
+    let want = '', hold = false;    // a new picture on its way (another width or time of day); hold: the old one does not fit it
+    let n = 0, t1 = 0, slow = 0;    // frame rate check
     const t0 = performance.now() - Math.random() * 20000;
 
     function layout() {
       const w = cv.clientWidth, h = cv.clientHeight;
-      if (!w || !h) return false;
+      if (!w || !h || !iw) return false;
       const k = Math.min(devicePixelRatio || 1, 1.5, Math.sqrt(3.2e6 / (w * h)));
       cv.width = Math.round(w * k);
       cv.height = Math.round(h * k);
       gl.viewport(0, 0, cv.width, cv.height);
-      const iw = img.naturalWidth, ih = img.naturalHeight, s = Math.max(w / iw, h / ih);
+      const s = Math.max(w / iw, h / ih);
       const pos = getComputedStyle(img).objectPosition.split(' ').map(v => parseFloat(v) / 100);
       const dw = iw * s, dh = ih * s;
-      // phones get a portrait cut of the art (tools/make_images.py hero_mobile): .43605 of the width, at data-cut of the rest
-      const crop = /hero_\w+-m-/.test(img.currentSrc) ? [cut * (1 - .43605), 0, .43605, 1] : [0, 0, 1, 1];
+      // the phone cut is .43605 of the width, at data-cut of the rest
+      const crop = phone(src) ? [cut * (1 - .43605), 0, .43605, 1] : [0, 0, 1, 1];
       gl.uniform2f(U.uSize, w, h);
       gl.uniform4f(U.uMap, (w - dw) * (isNaN(pos[0]) ? .5 : pos[0]), (h - dh) * (isNaN(pos[1]) ? .5 : pos[1]), dw, dh);
       gl.uniform4f(U.uCrop, ...crop);
@@ -336,7 +351,26 @@ void main() {
 
     function upload() {
       src = img.currentSrc;
-      texture(gl, 0, img);
+      iw = img.naturalWidth;
+      ih = img.naturalHeight;
+      tex = texture(gl, 0, img, tex);
+    }
+
+    // The browser picks another file for a new window width before it has loaded: currentSrc changes while the
+    // picture is still coming, and uploading it then leaves an empty texture (black sky, banner, waterfall).
+    // Keep the old texture until the new file is decoded.
+    function swap(next) {
+      want = next;
+      hold = phone(next) !== phone(src);
+      img.decode().catch(() => {}).then(() => {
+        if (want !== next || lost) return;   // an even newer file is on its way
+        if (img.currentSrc !== next) { want = ''; hold = false; return; }
+        if (!img.complete || !img.naturalWidth) return;   // broken: stay on the old one
+        want = '';
+        hold = false;
+        upload();
+        layout();
+      });
     }
 
     function frame(now) {
@@ -344,32 +378,50 @@ void main() {
       if (!on || document.hidden) return;
       raf = requestAnimationFrame(frame);
       if (now - last < 1000 / FPS - 2) return;
+      const gap = now - last;
       last = now;
-      if (img.currentSrc !== src) { upload(); layout(); }
+      const cur = img.currentSrc;
+      if (cur && cur !== src && cur !== want) swap(cur);
+      if (hold) { gl.clear(gl.COLOR_BUFFER_BIT); return; }
       gl.uniform1f(U.uT, ((now - t0) / 1000) % 3600);
       const t = tod();
       gl.uniform1f(U.uTod, TOD[t]);
       gl.uniform2f(U.uSun, ...SUN[t]);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
-      if (!shown) { shown = true; requestAnimationFrame(() => cv.classList.add('on')); }
+      if (!shown && !want) { shown = true; requestAnimationFrame(() => cv.classList.add('on')); }
+      // A device that cannot keep up gets the still picture: under half the frame rate for two 4 s spans in a row.
+      if (gap > 500) { n = 0; t1 = now; return; }   // back from a pause
+      if (++n, now - t1 < 4000) return;
+      slow = n * 1000 / (now - t1) < FPS * .45 ? slow + 1 : 0;
+      n = 0;
+      t1 = now;
+      if (slow >= 2) { on = false; lost = true; cv.remove(); }
     }
 
     function run(v) {
-      on = v;
-      if (on && !raf) raf = requestAnimationFrame(frame);
+      on = v && !lost;
+      if (on && !raf) { t1 = performance.now(); n = 0; raf = requestAnimationFrame(frame); }
     }
 
     Promise.all([ready(img), mk.decode()]).then(() => {
       pic.appendChild(cv);
-      upload();
-      texture(gl, 1, mk);
-      if (!layout()) return;
+      if (!setup() || !layout()) return;
       new ResizeObserver(() => layout()).observe(cv);
-      new IntersectionObserver(es => run(es[0].isIntersecting)).observe(pic);
+      let seen = false;
+      new IntersectionObserver(es => run(seen = es[0].isIntersecting)).observe(pic);
       document.addEventListener('visibilitychange', () => run(on));
-      cv.addEventListener('webglcontextlost', () => { on = false; cv.remove(); });
+      // Phones drop the context in the background: keep the canvas, rebuild everything when it comes back.
+      cv.addEventListener('webglcontextlost', e => { e.preventDefault(); lost = true; on = false; shown = false; cv.classList.remove('on'); });
+      cv.addEventListener('webglcontextrestored', () => {
+        if (!cv.isConnected) return;
+        lost = false;
+        want = '';
+        hold = false;
+        if (!setup() || !layout()) { lost = true; cv.remove(); return; }
+        run(seen);
+      });
       document.addEventListener('gabella:tod-start', () => cv.classList.remove('on'));
-      document.addEventListener('gabella:tod', () => { shown = false; });   // the next frame re-uploads the new picture and fades in
+      document.addEventListener('gabella:tod', () => { shown = false; });   // the next frame uploads the new picture once decoded and fades in
     }).catch(() => {});
   }
 
