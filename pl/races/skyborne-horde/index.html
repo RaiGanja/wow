@@ -589,6 +589,8 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 .d-art { position: absolute; z-index: -1; inset: 0 0 0 auto; width: min(62%, 640px); overflow: hidden; }
 .d-art img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 18%; opacity: .62; -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 55%), linear-gradient(0deg, transparent 0%, #000 40%); mask-image: linear-gradient(90deg, transparent 0%, #000 55%); }
 .d-head::after { content: ""; position: absolute; z-index: -1; inset: auto 0 0 0; height: 60px; background: linear-gradient(0deg, var(--panel-2), transparent); }
+:root[data-theme="light"] .d-title h3, :root[data-theme="light"] .d-title .chips { text-shadow: none; }   /* a dark haze around dark letters on the paper */
+@media (min-width: 720px) { :root[data-theme="light"] .d-art img { opacity: 1; } }   /* the portrait at full strength beside the title, not a milky ghost */
 .d-avs { display: flex; align-items: center; }
 .d-avs .av { --s: 66px; --ring-gap: var(--panel-2); }
 .d-avs .av + .av { margin-left: -14px; }
