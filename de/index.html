@@ -552,17 +552,19 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 .cell i { display: grid; place-items: center; width: 10px; height: 10px; border-radius: 50%; background: var(--cc); box-shadow: 0 0 0 4px color-mix(in srgb, var(--cc) 16%, transparent); transition: transform .18s var(--ease), width .18s var(--ease), height .18s var(--ease); }
 .cell i .ico { width: 15px; height: 15px; opacity: 0; color: var(--gold-ink); }
 .cell:hover i { transform: scale(1.4); }
-.cell.new .nw { font-size: var(--fs-13); font-weight: 600; color: var(--new); transition: color .15s; }   /* the word in its colour, no capsule */
-.cell.new:hover .nw { color: var(--fg); }
+/* a combination new in Forever: the same dot with a thin ring in the --new colour, the word only in the legend */
+.cell.new i { box-shadow: 0 0 0 2.5px var(--panel), 0 0 0 4px var(--new); }
 .cell.no { cursor: default; }
 .cell.no::after { content: ""; width: 4px; height: 4px; border-radius: 50%; background: var(--line-2); opacity: .7; }
 .cell.dim { opacity: .22; }
 .cell.sel i { width: 28px; height: 28px; background: var(--gold-2); box-shadow: 0 0 0 5px color-mix(in srgb, var(--gold) 22%, transparent); transform: none; }
 .cell.sel i .ico { opacity: 1; }
 :root[data-theme="light"] .cell i:not(.sel i) { box-shadow: inset 0 0 0 1px rgba(0,0,0,.3), 0 0 0 4px color-mix(in srgb, var(--cc) 18%, transparent); }
+:root[data-theme="light"] .cell.new i:not(.sel i) { box-shadow: inset 0 0 0 1px rgba(0,0,0,.3), 0 0 0 2.5px var(--panel), 0 0 0 4px var(--new); }
 .legend { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: center; color: var(--muted); font-size: var(--fs-14); }
 .legend > span { display: inline-flex; align-items: center; gap: 8px; }
 .legend .ld { width: 9px; height: 9px; border-radius: 50%; background: var(--fg); box-shadow: 0 0 0 3px color-mix(in srgb, var(--fg) 14%, transparent); }
+.legend .ld.nw { background: var(--fg); box-shadow: 0 0 0 2.5px var(--bg), 0 0 0 4px var(--new); }
 .legend .ld.no { width: 4px; height: 4px; background: var(--line-2); box-shadow: none; }
 .legend .n { font-size: var(--fs-13); font-weight: 600; color: var(--new); margin-right: 6px; }
 .pickm { display: none; gap: 14px; }
@@ -1056,7 +1058,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
         </div></div>
     </div>
     <div class="matrix-box" tabindex="0" role="region" aria-label="Tabelle Volk und Klasse, horizontal scrollbar"><table id="matrix"></table></div>
-    <div class="legend"><span><i class="ld"></i>erlaubt</span><span><span class="n">neu</span>die Kombination gab es in Classic nicht</span><span><i class="ld no"></i>nicht erlaubt</span></div>
+    <div class="legend"><span><i class="ld"></i>erlaubt</span><span><i class="ld nw"></i><span class="n">neu</span>die Kombination gab es in Classic nicht</span><span><i class="ld no"></i>nicht erlaubt</span></div>
     <div class="pickm" id="pickm"></div>
     <div class="detail" id="detail" aria-live="polite" aria-label="Gewählte Kombination"></div>
   </div>
@@ -1178,7 +1180,7 @@ $('#moreClose').onclick = () => dlg.close();
 dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.toc a')) dlg.close(); });
 })();
 </script>
-<script data-src="../assets/home/de.js?v=56e3c63c83"></script>
+<script data-src="../assets/home/de.js?v=b4bc817543"></script>
 <script data-src="../assets/living/living.js?v=8e66e6af4d"></script>
 <link data-rel="stylesheet" href="../assets/tod/tod.css?v=b5f4744aee">
 <script data-src="../assets/tod/tod.js?v=b5f4744aee"></script>
