@@ -94,6 +94,17 @@
 .gtabs [role="tab"][aria-selected="true"] { background: var(--seg-on); color: var(--gold-2); }
 .gtabs [role="tabpanel"] { display: grid; gap: 14px; }
 .gtabs [role="tabpanel"][hidden] { display: none; }
+/* I2: tier grid — a big letter, the class portraits of that tier beside it */
+.tgrid { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.tgrid li { display: grid; grid-template-columns: 48px minmax(0, 1fr); align-items: center; gap: 16px; padding: 12px 16px; border-radius: 6px; background: var(--panel-2); }
+.tgl { font-family: var(--font-display); font-weight: var(--display-w); font-size: var(--fs-40); line-height: 1; text-align: center; color: var(--muted); }
+.tgl.tS { color: var(--gold-2); }
+.tgl.tA { color: var(--fg); }
+.tgr { display: flex; flex-wrap: wrap; gap: 12px 18px; }
+.tgc { display: grid; justify-items: center; gap: 7px; min-width: 60px; color: var(--fg); text-decoration: none; font-size: var(--fs-13); font-weight: 600; line-height: 1.2; white-space: nowrap; }
+.tgc .av { --s: 48px; --ring-gap: var(--panel-2); }
+.tgc:hover .tgn, .tgc:focus-visible .tgn { color: var(--gold-2); }
+.tgn sup { margin-left: 1px; color: var(--gold-2); }
 /* FAQ: plain rows, no frame per question. A chevron on the right, a plate on hover, the open answer indented under it */
 .gfaq { display: grid; gap: 2px; margin: 0 -14px; }
 .gfaq details { scroll-margin-top: calc(var(--top) + 16px); }
@@ -233,10 +244,29 @@
   .phead h1 { font-size: var(--fs-28); }
   .gsec { padding: 18px 16px; }
   .steps-c { grid-template-columns: minmax(0, 1fr); }
+  /* T4: «Other guides» under «See also» is a short list on a phone, not four screens of pictures again */
+  #more .gtiles { grid-template-columns: minmax(0, 1fr); gap: 2px; border-radius: 8px; overflow: hidden; }
+  #more .ttile { min-height: 0; padding: 11px 14px; gap: 1px; border: 0; border-radius: 0; background: var(--panel-2); color: var(--fg); }
+  #more .ttile:nth-child(odd) { background: color-mix(in srgb, var(--fg) 3%, var(--panel-2)); }
+  #more .ttile picture, #more .ttile::after { display: none; }
+  #more .ttile b { font-size: var(--fs-16); text-shadow: none; }
+  #more .ttile span { color: var(--muted); font-size: var(--fs-13); }
+  #more .ttile:hover b { color: var(--gold-2); }
+  /* T1: a row is a compact card — the name, short cells with their labels in one line, the long ones under it */
+  .tgrid li { grid-template-columns: 30px minmax(0, 1fr); gap: 10px; padding: 10px 12px; }
+  .tgl { font-size: var(--fs-28); }
+  .tgr { gap: 10px 12px; }
+  .tgc { min-width: 52px; }
+  .tgc .av { --s: 40px; }
   .gtable thead { display: none; }
-  .gtable, .gtable tbody, .gtable tr, .gtable td { display: block; width: 100%; }
-  .gtable tr { padding: 10px 0; }
-  .gtable td { height: auto; padding: 2px 14px; }
+  .gtable, .gtable tbody { display: block; width: 100%; }
+  .gtable tr { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; padding: 10px 14px; }
+  .gtable td { display: block; flex: 1 1 100%; min-width: 0; height: auto; padding: 0; }
+  .gtable td.s { flex: none; }
+  .gtable td.k.s + td.k { flex: 1 1 0; }
+  .gtable td.k { font-weight: 600; }
+  .gtable td.t.k { min-width: 1.3em; font-family: var(--font-display); font-weight: var(--display-w); font-size: var(--fs-22); line-height: 1; color: var(--gold-2); }
+  .gtable td.nil { display: none; }
   .dgt tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; padding: 10px 14px; }
   .dgt td { padding: 0; }
   .dgt td::before { display: none !important; }
@@ -245,7 +275,8 @@
   .dgt td:nth-child(2) .alt { grid-column: 1 / -1; grid-row: 3; margin-top: 2px; }
   .dgt td:nth-child(3) { grid-column: 1 / -1; grid-row: 2; color: var(--muted); font-size: var(--fs-14); }
   .gtable td::before { content: attr(data-l); display: block; font-size: var(--fs-13); font-weight: 400; color: var(--muted); }
-  .gtable td + td { margin-top: 4px; }
+  .gtable td.s::before { display: inline; margin-right: 6px; }
+  .gtable td.k::before, .gtable td.m::before { display: none; }
   .dgt td + td { margin-top: 0; }
 }
 </style>
@@ -334,10 +365,21 @@ dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.
 /* Guides: tabs, contents highlight; live parts switch on per page */
 document.querySelectorAll('.gtabs').forEach(box => {
   const btns = box.querySelectorAll('[role="tab"]'), panels = box.querySelectorAll('[role="tabpanel"]');
-  btns.forEach(b => b.addEventListener('click', () => {
-    btns.forEach(x => x.setAttribute('aria-selected', x === b));
+  const pick = b => {
+    btns.forEach(x => { x.setAttribute('aria-selected', x === b); x.tabIndex = x === b ? 0 : -1; });
     panels.forEach(p => p.hidden = p.dataset.tab !== b.dataset.tab);
-  }));
+  };
+  btns.forEach((b, i) => {
+    b.tabIndex = b.getAttribute('aria-selected') === 'true' ? 0 : -1;
+    b.addEventListener('click', () => pick(b));
+    b.addEventListener('keydown', e => {   // arrows, Home and End move along the tabs
+      const n = { ArrowRight: i + 1, ArrowDown: i + 1, ArrowLeft: i - 1, ArrowUp: i - 1, Home: 0, End: btns.length - 1 }[e.key];
+      if (n === undefined) return;
+      e.preventDefault();
+      const to = btns[(n + btns.length) % btns.length];
+      pick(to); to.focus();
+    });
+  });
 });
 const tocLinks = [...document.querySelectorAll('.gtoc a')];
 if ('IntersectionObserver' in window && tocLinks.length) {

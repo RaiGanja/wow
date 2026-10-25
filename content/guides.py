@@ -1110,6 +1110,7 @@ GUIDES.append({
 GUIDES.append({
     'slug': 'best-race', 'art': 'hero_bestrace', 'hero': 'hero_bestrace',
     'title': t('Лучшая раса для каждого класса', 'Best Race for Every Class', 'Найкраща раса для кожного класу'),
+    'crumb': t('Лучшая раса', 'Best race', 'Найкраща раса'),   # breadcrumb: the long title left «класса» alone on a 375 px line
     'lead': t('За Альянс чаще всего выигрывают Человек, Гном и Ночной эльф, за Орду — Орк в PvE и Нежить в PvP. Разница между расами — несколько процентов: класс, спек и экипировка важнее.', 'On the Alliance side Human, Gnome and Night Elf win most often; on the Horde side it is Orc in PvE and Undead in PvP. The gap between races is a few percent: class, spec and gear matter more.', 'За Альянс найчастіше перемагають Людина, Гном і Нічний ельф, за Орду — Орк у PvE та Нежить у PvP. Різниця між расами становить кілька відсотків: клас, спеціалізація й екіпірування важать більше.'),
     'tile': t('Какая раса сильнее для вашего класса', 'Which race is stronger for your class', 'Яка раса сильніша для вашого класу'),
     'pills': [t('56 пар класс и раса', '56 class and race pairs', '56 пар клас і раса'), t('PvE и PvP', 'PvE and PvP', 'PvE та PvP'), t('По бете', 'Beta data', 'За бетою')],
@@ -1219,6 +1220,7 @@ GUIDES.append({
 GUIDES.append({
     'slug': 'tier-list', 'art': 'hero_tierlist', 'hero': 'hero_tierlist',
     'title': t('Тир-лист классов WoW Forever', 'WoW Forever Class Tier List', 'Тір-лист класів WoW Forever'),
+    'crumb': t('Тир-лист', 'Tier list', 'Тір-лист'),
     'lead': t('На бете сильнее всех Паладин в PvE, Охотник и Маг на прокачке, Чернокнижник и Разбойник в PvP. Это срез беты 30 уровня, обновим после старта 4 ноября.', 'In the beta the strongest picks are Paladin in PvE, Hunter and Mage for leveling, Warlock and Rogue in PvP. This is a level 30 beta snapshot; we’ll update it after the Nov 4 launch.', 'У бета-версії найсильніші Паладин у PvE, Мисливець і Маг на прокачуванні, Чорнокнижник і Розбійник у PvP. Це зріз бети на 30 рівні, оновимо його після старту 4 листопада.'),
     'tile': t('Сильные классы и спеки по данным беты', 'Strong classes and specs by beta data', 'Сильні класи й спеціалізації за даними бети'),
     'pills': [t('По бете', 'Beta data', 'За бетою'), t('27 спеков', '27 specs', '27 спеціалізацій'), t('Обновим после 04.11', 'Updated after Nov 4', 'Оновимо після 4 листопада')],

@@ -135,6 +135,77 @@ def cell(c, lang, root):
     return f'<a href="{root}{c[1]}">{escape(name, quote=True)}</a>{escape(sep + rest, quote=True)}'
 
 
+CLS_ID = {c['n']: c['id'] for c in build.CLASSES}   # «Паладин» -> paladin
+TIERS = ('S', 'A', 'B', 'C')
+
+
+def cls_cells(blocks):
+    """Tier list: every «Class · spec» or «Class» cell links its class page (the leveling table links the class guides),
+    so the class name is a link in every table of the page. Returns new blocks, the content stays as is."""
+    def cell_(c):
+        cid = isinstance(c, dict) and CLS_ID.get(c['ru'].split(' · ')[0])
+        return (c, f'classes/{cid}/') if cid else c
+    out = []
+    for kind, data in blocks:
+        if kind == 'table':
+            data = dict(data, rows=[[cell_(c) for c in r] for r in data['rows']])
+        elif kind == 'tabs':
+            data = [dict(x, blocks=cls_cells(x['blocks'])) for x in data]
+        out.append((kind, data))
+    return out
+
+
+def tier_grid(table, lang, root):
+    """I2: the «Whole classes» table as a tier grid — S/A/B/C rows of class portraits, one tab per column
+    (Leveling / PvE / PvP). A star: the sources differ by two letters or more."""
+    head = [E(h, lang) for h in table['head']]
+    ids = [CLS_ID[r[0]['ru']] for r in table['rows']]
+    name = {c['id']: escape(build.tr(c['n'], lang)) for c in build.CLASSES}
+    btns, panels = '', ''
+    for i, col in enumerate((1, 2, 3)):
+        rows = ''
+        for t in TIERS:
+            got = [(cid, r[col]) for cid, r in zip(ids, table['rows']) if r[col].rstrip('*') == t]
+            if not got:
+                continue
+            faces = ''.join(f'<a class="tgc" href="{root}classes/{cid}/" style="--cc:{build.COLOR[cid]}">'
+                            '<span class="av"><img src="@@ROOT@@assets/art/' + cid + '-face.webp" width="160" height="160" alt="" loading="lazy" decoding="async"></span>'
+                            f'<span class="tgn">{name[cid]}{"<sup>*</sup>" if v.endswith("*") else ""}</span></a>'
+                            for cid, v in got)
+            rows += f'<li><b class="tgl t{t}">{t}</b><div class="tgr">{faces}</div></li>'
+        first = i == 0
+        btns += (f'<button type="button" class="pill" role="tab" data-tab="tg{col}" aria-selected="{"true" if first else "false"}"'
+                 + ('' if first else ' tabindex="-1"') + f'>{head[col]}</button>')
+        panels += f'<div role="tabpanel" data-tab="tg{col}"' + ('' if first else ' hidden') + f'><ol class="tgrid">{rows}</ol></div>'
+    return f'<div class="gtabs tgbox"><div role="tablist" aria-label="{head[0]}">{btns}</div>{panels}</div>'
+
+
+def short(c, lang):
+    """A cell of up to five letters («S», «A*», «10–14», «5»): on a phone it sits in a line with its label."""
+    return len(re.sub(r'<[^>]+>', '', str(L(c[0] if isinstance(c, tuple) else c, lang))).strip()) <= 5
+
+
+def tier_letter(c, lang):
+    return isinstance(c, str) and re.fullmatch(r'[SABC]\*?', c.strip()) is not None
+
+
+def td(h, html, i, row, lang):
+    """T1, phones: a row is one compact card — the first cell (and the second after a short first, «S · Hunter · BM»)
+    without a label, short cells in a line with theirs, long ones under it; an empty «—» is not shown at all."""
+    cls = []
+    if i == 0 or (i == 1 and tier_letter(row[0], lang)):
+        cls.append('k')
+    if short(row[i], lang):
+        cls.append('s')
+        if tier_letter(row[i], lang):
+            cls.append('t')                                       # a tier letter: the big one at the start of the card
+    if html.strip() in ('—', '-', ''):
+        cls.append('nil')
+    elif 'k' not in cls and 's' not in cls and all(j == 0 or short(row[j], lang) or (j == 1 and tier_letter(row[0], lang)) for j in range(i)):
+        cls.append('m')                                           # the first long text of the row («Why»): no label over it
+    return f'<td data-l="{h}"' + (f' class="{" ".join(cls)}"' if cls else '') + f'>{html}</td>'
+
+
 def render_block(kind, data, lang, root, inner=False):
     """inner: a block inside a tab panel. A tip there is the word only, no plate and no icon: one boxed tip per section."""
     if kind == 'text':
@@ -150,7 +221,7 @@ def render_block(kind, data, lang, root, inner=False):
     if kind == 'table':
         head = [E(h, lang) for h in data['head']]
         th = ''.join(f'<th scope="col">{h}</th>' for h in head)
-        rows = ''.join('<tr>' + ''.join(f'<td data-l="{h}">{cell(c, lang, root)}</td>' for h, c in zip(head, r)) + '</tr>'
+        rows = ''.join('<tr>' + ''.join(td(h, cell(c, lang, root), i, r, lang) for i, (h, c) in enumerate(zip(head, r))) + '</tr>'
                        for r in data['rows'])
         return f'<table class="gtable"><thead><tr>{th}</tr></thead><tbody>{rows}</tbody></table>'
     if kind == 'picks':                                           # table whose second column links class pages
@@ -240,9 +311,15 @@ def inline_arts(obj):
 def render_guide(g, lang, root):
     sections = [s for s in g['sections'] if lang in s.get('langs', (lang,))]   # 'langs': a section only in these languages
     toc = ''.join(f'<a href="#{s["id"]}">{E(s["title"], lang)}</a>' for s in sections)
-    body = '\n'.join(f'<section class="frame gsec" id="{s["id"]}"><h2>{E(s["title"], lang)}</h2>'
-                     + ''.join(render_block(k, d, lang, root) for k, d in s['blocks']) + '</section>'
-                     for s in sections)
+    tier = g['slug'] == 'tier-list'
+    def blocks(s):
+        bl = cls_cells(s['blocks']) if tier else s['blocks']
+        html = ''.join(render_block(k, d, lang, root) for k, d in bl)
+        if tier and s['id'] == 'classes':                       # the grid opens the section, the table with the reasons follows
+            html = tier_grid(next(d for k, d in s['blocks'] if k == 'table'), lang, root) + html
+        return html
+    body = '\n'.join(f'<section class="frame gsec" id="{s["id"]}"><h2>{E(s["title"], lang)}</h2>' + blocks(s) + '</section>'
+                      for s in sections)
     return toc, body
 
 
@@ -737,7 +814,7 @@ def build_page(g, lang, tpl, base_css, sprite, src):
         tiles = [x for x in guide_tiles(others) if not (x['art'] in seen or seen.add(x['art']))]
         more = tile_links(tiles, lang, root)
     avif, webp, img = art_sets(g['art'], '@@ROOT@@', big=True)
-    crumb = (f'<a href="{root}guides/">{E(HUB["title"], lang)}</a><span aria-hidden="true">/</span><span>{E(g["title"], lang)}</span>'
+    crumb = (f'<a href="{root}guides/">{E(HUB["title"], lang)}</a><span aria-hidden="true">/</span><span>{E(g.get("crumb") or g["title"], lang)}</span>'
              if g['slug'] and not section else f'<span>{E(g["title"], lang)}</span>')
     toc_grp = f'<div class="grp"><div class="gh">{THIS_PAGE[lang]}</div>{toc}</div>' if toc else ''
     js = g.get('js')
