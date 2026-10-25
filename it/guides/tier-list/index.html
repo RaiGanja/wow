@@ -1441,6 +1441,8 @@ addEventListener('beforeinstallprompt', e => {
   var done = false;
   function wake() {
     if (done) return; done = true;
+    var lf = document.getElementById('late-fonts');   // build.late_fonts
+    if (lf) { lf.media = 'all'; try { localStorage.setItem('gab-fonts', '1'); } catch (e) {} }
     document.querySelectorAll('link[data-rel]').forEach(function (l) { l.rel = l.dataset.rel; });
     document.querySelectorAll('source[data-lsrcset]').forEach(function (x) { x.srcset = x.dataset.lsrcset; });   // build.sleep_art
     document.querySelectorAll('img[data-lsrc]').forEach(function (x) { x.src = x.dataset.lsrc; });

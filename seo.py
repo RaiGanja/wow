@@ -375,7 +375,7 @@ def apply(html, path, lang, title, desc):
         beacon = json.dumps({'token': CF_BEACON_TOKEN})
         html = html.replace('</body>', f'<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon=\'{beacon}\'></script>\n</body>', 1)
     if path == '':
-        return build.late(html)
+        return build.late(build.late_fonts(html))
     return build.late(html, 'img[fetchpriority="high"]') if path.startswith(LATE_INNER) else html
 
 
