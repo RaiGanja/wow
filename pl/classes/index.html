@@ -912,6 +912,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .tabbar { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); position: fixed; inset: auto 0 0 0; z-index: 35; background: var(--rail); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px); }
   .tabbar a, .tabbar button { min-height: 60px; display: grid; justify-items: center; align-content: center; gap: 3px; padding: 0 2px; border: 0; background: none; color: var(--muted); text-decoration: none; text-align: center; font-size: var(--fs-13); font-weight: 500; line-height: 1.2; }
   .tabbar .ico { width: 22px; height: 22px; }
+  @media (max-width: 359px) { .tabbar a, .tabbar button { font-size: 11.5px; padding: 0; } }   /* 320 px: «En el juego» (es) stays on one line */
   .tabbar [aria-current="true"] { color: var(--gold-2); }
   dialog.sheet { margin: auto 0 0 0; width: 100%; height: auto; max-height: 86dvh; border-left: 0; border-top: 1px solid var(--line); border-radius: 10px 10px 0 0; padding-bottom: env(safe-area-inset-bottom, 0px); }
   .sheet .toc { grid-template-columns: 1fr 1fr; gap: 14px 6px; }
@@ -1288,7 +1289,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <a href="../"><svg class="ico" aria-hidden="true"><use href="#i-home"/></svg>Start</a>
   <a href="../guides/"><svg class="ico" aria-hidden="true"><use href="#i-book"/></svg>Poradniki</a>
   <a href="../play/"><svg class="ico" aria-hidden="true"><use href="#i-sword"/></svg>W grze</a>
-  <a href="../classes/"><svg class="ico" aria-hidden="true"><use href="#i-users"/></svg>Klasy</a>
+  <a href="../classes/" aria-current="true"><svg class="ico" aria-hidden="true"><use href="#i-users"/></svg>Klasy</a>
   <button type="button" class="morebtn" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-dots"/></svg>Więcej</button>
 </nav>
 

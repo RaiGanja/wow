@@ -786,7 +786,7 @@ def build_page(g, lang, tpl, base_css, sprite, src):
     here = page_dir(lang, sub)
     html = tpl.replace('@@BASE_CSS@@', base_css).replace('@@SPRITE@@', sprite)
     nav = (g['path'] if g['path'] in ('classes/', 'races/', 'play/') else None) if 'path' in g else         (sub if g['slug'] in ('leveling', 'dungeons') else 'guides/')   # privacy, 404: no current item
-    html = build.chrome(html, nav=nav, tab={'play': 'play/'}.get(g['slug']) if 'path' in g else 'guides/')
+    html = build.chrome(html, nav=nav, tab={'play': 'play/', 'classes': 'classes/'}.get(g['slug']) if 'path' in g else 'guides/')
     if g.get('hero'):                                             # own full-screen scene instead of the art band
         html = re.sub(r'<section class="stband ghero" id="top">.*?</section>', lambda mt: thero(mt.group(0), g['hero']), html, count=1, flags=re.S)
     html, missing = translate(html, lang)                       # 1) обвязка
