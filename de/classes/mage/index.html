@@ -189,11 +189,11 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .langlist { position: absolute; right: 0; top: calc(100% + 8px); z-index: 60; min-width: 230px; margin: 0; padding: 6px; list-style: none; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); color: var(--fg); box-shadow: 0 18px 48px rgba(0,0,0,.35); }
 .langlist a { display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 40px; padding: 0 12px; border-radius: 7px; color: inherit; text-decoration: none; font-size: var(--fs-16); }
 .langlist a small { opacity: .55; font-size: var(--fs-13); font-weight: 600; letter-spacing: .06em; }
-.langlist a:hover, .langlist a:focus-visible { background: color-mix(in srgb, var(--gold) 12%, transparent); }
+.langlist a:hover, .langlist a:focus-visible { background: var(--seg-on); }
 .langlist a[aria-current="page"] { color: var(--gold-2); font-weight: 600; }
 .langgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; width: 100%; }
 .langgrid a { min-height: 44px; display: grid; place-items: center; padding: 4px 6px; text-align: center; line-height: 1.15; border: 1px solid var(--pline); border-radius: 8px; color: inherit; text-decoration: none; font-size: var(--fs-14); }
-.langgrid a[aria-current="page"] { background: var(--gold); color: var(--gold-ink); border-color: transparent; font-weight: 600; }
+.langgrid a[aria-current="page"] { background: var(--seg-on); color: var(--gold-2); border-color: transparent; font-weight: 600; }
 .langhint { position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); z-index: 70; display: flex; align-items: center; gap: 12px; width: max-content; max-width: calc(100% - 32px); padding: 6px 6px 6px 16px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); color: var(--fg); box-shadow: 0 18px 48px rgba(0,0,0,.35); font-size: var(--fs-14); }
 .langhint a { color: var(--gold-2); font-weight: 600; white-space: nowrap; }
 .langhint button { flex: none; width: 36px; height: 36px; display: grid; place-items: center; border: 0; border-radius: 7px; background: transparent; color: inherit; cursor: pointer; }
@@ -464,9 +464,9 @@ ul.dlist li b { font-weight: 600; font-size: var(--fs-16); line-height: 1.3; }
 ul.dlist li .z { grid-column: 1; color: var(--muted); font-size: var(--fs-13); line-height: 1.3; }
 ul.dlist li .z i { font-style: normal; color: var(--sapphire); font-weight: 600; }
 ul.dlist li .lvl { grid-column: 2; grid-row: 1 / 3; text-align: right; }
-ul.dlist li.mine { background: color-mix(in srgb, var(--gold) 14%, transparent); }
+ul.dlist li.mine { background: var(--seg-on); }
 .more-l { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-weight: 600; font-size: var(--fs-16); }
-.gtip { padding: 16px 18px; border-radius: 6px; background: color-mix(in srgb, var(--gold) 9%, var(--panel-2)); }
+.gtip { padding: 16px 18px; border-radius: 6px; background: var(--panel-2); }   /* black and grey plates; a tip is the gold word and the fire, not a gold-tinted plate */
 .st-src { color: var(--muted); font-size: var(--fs-14); display: flex; flex-wrap: wrap; gap: 4px 14px; }
 .st-src a { color: var(--muted); }
 .st-src a:hover { color: var(--gold-2); }
@@ -530,7 +530,7 @@ ul.dots li::marker { color: var(--gold); }
 .note { padding: 14px 16px; border-radius: 6px; background: var(--panel-2); font-size: var(--fs-16); }
 .note b { font-weight: 600; }
 /* inner blocks (tip, note) are a tinted plate without a frame: only the outermost panel has one */
-.tipbox { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 12px; align-items: start; padding: 14px 16px; border-radius: 6px; background: color-mix(in srgb, var(--gold) 9%, var(--panel-2)); font-size: var(--fs-16); }
+.tipbox { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 12px; align-items: start; padding: 14px 16px; border-radius: 6px; background: var(--panel-2); font-size: var(--fs-16); }
 .tipbox .fi { width: 26px; height: 26px; margin-top: 1px; color: var(--gold-2); }
 /* a tip inside a list or a tab: the word only, no plate and no icon (one boxed tip per section) */
 .tipl .tl, .steps-c li.tip .tl { display: inline; margin-right: 8px; font-size: inherit; font-weight: 600; }
@@ -612,7 +612,7 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 .cell.no { cursor: default; }
 .cell.no::after { content: ""; width: 4px; height: 4px; border-radius: 50%; background: var(--line-2); opacity: .7; }
 .cell.dim { opacity: .22; }
-.cell.sel i { width: 28px; height: 28px; background: var(--gold-2); box-shadow: 0 0 0 5px color-mix(in srgb, var(--gold) 22%, transparent); transform: none; }
+.cell.sel i { width: 28px; height: 28px; background: var(--gold-2); box-shadow: 0 0 0 5px var(--seg-on); transform: none; }
 .cell.sel i .ico { opacity: 1; }
 :root[data-theme="light"] .cell i:not(.sel i) { background: var(--class-ink); box-shadow: 0 0 0 4px color-mix(in srgb, var(--class-ink) 14%, transparent); }
 :root[data-theme="light"] .cell.new i:not(.sel i) { background: var(--class-ink); box-shadow: 0 0 0 2.5px var(--panel), 0 0 0 4px var(--new); }
@@ -1096,7 +1096,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../../assets/radio/radio.css?v=a448c8a8c7" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../../assets/search/search.css?v=c09f233b32" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../../assets/search/search.css?v=bf466e227d" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../../assets/me/me.css?v=92cd9c7464" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://gabella.site/wow/de/"},{"@type":"ListItem","position":2,"name":"Klassen","item":"https://gabella.site/wow/de/classes/"},{"@type":"ListItem","position":3,"name":"Magier","item":"https://gabella.site/wow/de/classes/mage/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"WoW Forever Magier Guide: Specs, Fähigkeiten, Völker","description":"WoW Forever Magier Guide: Arkan, Feuer und Frost Specs, Schlüsselfähigkeiten, Völker, Gruppennutzen, Vor- und Nachteile, Neuerungen.","inLanguage":"de","url":"https://gabella.site/wow/de/classes/mage/","dateModified":"2026-10-25","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/de/"},"image":"https://gabella.site/wow/assets/og/mage.jpg?v=d05de505"}</script>
@@ -1127,7 +1127,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <a class="skip" href="#main">Zum Inhalt</a><header class="topbar" id="topbar"><div class="in">
   <a class="brand" href="../../"><img class="mark" src="../../../assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>WoW Forever Guide</small></span></a>
   <nav class="mainnav" aria-label="Abschnitte">
-    <a href="../../classes/" aria-current="true">Klassen</a><a href="../../races/">Völker</a><a href="../../guides/leveling/">Leveln</a><a href="../../guides/dungeons/">Dungeons</a><a href="../../guides/">Guides</a><a href="../../tools/">Tools</a><a href="../../play/">Im Spiel</a><a href="../../roster/">Spieler</a><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a>
+    <a href="../../classes/" aria-current="true">Klassen</a><a href="../../races/">Völker</a><a href="../../guides/leveling/">Leveln</a><a href="../../guides/dungeons/">Dungeons</a><a href="../../guides/">Guides</a><a href="../../tools/">Tools</a><a href="../../play/">Im Spiel</a><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a>
   </nav>
   <div class="tools">
     <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" >DE<span class="sr">, Sprache: Deutsch</span></button><ul class="langlist" hidden><li><a href="../../../classes/mage/" data-lang="ru" hreflang="ru" lang="ru"><span>Русский</span><small>RU</small></a></li><li><a href="../../../en/classes/mage/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../../../uk/classes/mage/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="./" data-lang="de" hreflang="de" lang="de" aria-current="page"><span>Deutsch</span><small>DE</small></a></li><li><a href="../../../fr/classes/mage/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="../../../es/classes/mage/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="../../../pt/classes/mage/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="../../../it/classes/mage/" data-lang="it" hreflang="it" lang="it"><span>Italiano</span><small>IT</small></a></li><li><a href="../../../pl/classes/mage/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
@@ -1233,7 +1233,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
     <div class="grp"><div class="gh">Diese Seite</div><a href="#specs">Spezialisierungen</a><a href="#new">Was ist neu</a><a href="#races">Völker</a><a href="#group">In der Gruppe</a><a href="#pc">Vor- und Nachteile</a></div>
     <div class="grp"><div class="gh">Nachschlagen</div><a href="../../">Start</a><a href="../../classes/">Klassen im Vergleich</a><a href="../../races/">Völker im Vergleich</a><a href="../../guides/leveling/">Leveln 1–60</a><a href="../../guides/dungeons/">Dungeons und Raids</a><a href="../../guides/professions/">Berufe</a><a href="../../guides/faq/">FAQ und Termine</a><a href="../../guides/news/">News</a><a href="../../guides/">Alle Guides</a></div>
     <div class="grp"><div class="gh">Tools</div><a href="../../tools/#picker">Auswahl</a><a href="../../tools/#raid">Gruppenplaner</a><a href="../../tools/">Fenster, Vergleich, Suche</a><a href="../../play/">Im Spiel</a></div>
-    <div class="grp"><div class="gh">Gemeinschaft</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="../../roster/">Spieler</a><a href="../../profile/">Mein Profil</a></div>
+    <div class="grp"><div class="gh">Gemeinschaft</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="../../profile/">Mein Profil</a></div>
     <div class="grp"><div class="gh">Klassen</div><a href="../warrior/">Krieger</a><a href="../paladin/">Paladin</a><a href="../hunter/">Jäger</a><a href="../rogue/">Schurke</a><a href="../priest/">Priester</a><a href="../shaman/">Schamane</a><a href="../mage/" aria-current="page">Magier</a><a href="../warlock/">Hexenmeister</a><a href="../druid/">Druide</a></div>
   </nav>
   <div class="opts">
@@ -1352,8 +1352,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../../assets/radio/radio.js?v=a448c8a8c7" data-root="../../../" defer></script>
-<script src="../../../assets/search/search.js?v=c09f233b32" data-root="../../../" defer></script>
-<script src="../../../assets/me/me.js?v=92cd9c7464" data-root="../../../" data-home="../../" data-lang="de" data-teaser="Dein Profil speichert deine Charaktere, Erfolge und Rahmen" data-close="Schließen" data-page="classes/mage/" data-look="2" defer></script>
+<script src="../../../assets/search/search.js?v=bf466e227d" data-root="../../../" defer></script>
+<script src="../../../assets/me/me.js?v=92cd9c7464" data-root="../../../" data-home="../../" data-lang="de" data-teaser="" data-close="Schließen" data-page="classes/mage/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>
