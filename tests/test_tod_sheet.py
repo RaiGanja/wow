@@ -20,7 +20,7 @@ class Sheet(unittest.TestCase):
 
     def test_heroes_at_full_size(self):
         out = tod_sheet.heroes(self.ims)
-        x0, y0, x1, y1 = tod_sheet.HEROES['paladin']
+        x0, y0, x1, y1 = tod_sheet.HEROES['banner']
         cw = max(b[2] - b[0] for b in tod_sheet.HEROES.values()) * 2   # 2752 = 2 x grid: crops are not scaled
         self.assertEqual(out.width, 4 * cw + 3 * 6)
         self.assertEqual(out.getpixel((5, 40)), (200, 0, 0))
