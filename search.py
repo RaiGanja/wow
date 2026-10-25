@@ -99,7 +99,7 @@ def index(lang, meta):
     return items
 
 
-# Словари поиска. Ключи и фразы пишутся как люди печатают; search.js сам приводит их к нижнему регистру без диакритики.
+# Словари поиска. Ключи и фразы пишутся как люди печатают; engine.js сам приводит их к нижнему регистру без диакритики.
 PROFESSIONS = {'Alchemy', 'Blacksmithing', 'Enchanting', 'Engineering', 'Herbalism', 'Leatherworking', 'Mining', 'Skinning',
                'Tailoring', 'Cooking', 'First Aid', 'Fishing'}
 RAIDS = {'Molten Core': {'ru': 'Огненные Недра', 'de': 'Geschmolzener Kern', 'fr': 'Cœur du Magma', 'es': 'Núcleo de Magma',
@@ -160,8 +160,8 @@ SLANG = {
 }
 # служебные слова: не обязаны совпадать (вопрос «какой класс выбрать» ищет «класс выбрать»)
 STOP = {
-    'ru': 'и в во на с со для по о об от до за из к у как какой какая какое какие каким какую ли есть не что это мне я а но же бы или где когда кто кем чем сколько можно нужно нужен нужна стоит лучше',
-    'uk': 'і й та в у на з із зі для по про від до за як який яка яке які яким яку чи є не що це мені я а але де коли хто ким чим скільки можна треба',
+    'ru': 'и в во на с со для по о об от до за из к у как какой какая какое какие каким какую ли есть не что такое такой такая это мне я а но же бы или где когда кто кем чем сколько можно нужно нужен нужна стоит лучше',
+    'uk': 'і й та в у на з із зі для по про від до за як який яка яке які яким яку чи є не що це таке такий така мені я а але де коли хто ким чим скільки можна треба',
     'en': 'a an the of for to in on and or is are be do does did i my me we you it its what which who when where how should can there with vs',
     'de': 'der die das den dem des ein eine einen und oder ist sind für mit von zu im in am an auf ich du wie was welche welcher welches wann wo gibt es soll kann',
     'fr': 'le la les l un une des de du d et ou est sont pour avec en au aux dans je tu quel quelle quels quelles quand comment que qui',
@@ -188,7 +188,7 @@ ASK = {
            ('guides/faq/#release', ['коли старт', 'коли вийд', 'коли вихід', 'коли реліз', 'дата виход', 'реліз']),
            ('guides/faq/#trial', ['безкоштовн']),
            ('guides/faq/#price', ['скільки кошт', 'ціна', 'ціни', 'вартіст']),
-           ('guides/best-race/', ['найкраща раса', 'краща раса', 'яку расу', 'яка раса']),
+           ('guides/best-race/', ['найкраща раса', 'краща раса', 'яку расу', 'яка раса', 'раса для']),
            ('guides/leveling/', ['як качат', 'як прокач', 'швидко кач']),
            ('guides/faq/#levels', ['максимальн рів', 'який рівень']),
            ('guides/ukrainian/', ['українськ', 'локалізац', 'переклад гри']),
@@ -264,23 +264,24 @@ ASK = {
            ('guides/faq/#servers', ['polsk', 'jezyk']),
            ('guides/requirements/', ['wymagania'])],
 }
-# пустой поиск и «ничего не нашлось»: шесть частых вопросов
-TOP_URLS = ['classes/', 'guides/faq/#release', 'guides/best-race/', 'guides/tier-list/', 'guides/leveling/']
+# пустой поиск и «ничего не нашлось»: шесть частых вопросов, один порядок на всех языках —
+# класс, старт, раса, прокачка, цена, язык (ru и uk — язык клиента, остальные — серверы и языки)
+TOP_URLS = ['classes/', 'guides/faq/#release', 'guides/best-race/', 'guides/leveling/', 'guides/faq/#editions']
 TOP = {lang: list(zip(t, TOP_URLS + [u])) for lang, (t, u) in {
-    'ru': (['Какой класс выбрать', 'Когда старт', 'Лучшая раса', 'Тир-лист', 'Прокачка 1–60', 'Русский язык'], 'guides/faq/#language'),
-    'uk': (['Який клас обрати', 'Коли старт', 'Найкраща раса', 'Тір-лист', 'Прокачування 1–60', 'Українська мова'], 'guides/ukrainian/'),
-    'en': (['Which class to play', 'Release date', 'Best race', 'Tier list', 'Leveling 1–60', 'Price and subscription'], 'guides/faq/#editions'),
-    'de': (['Welche Klasse spielen', 'Release-Termin', 'Bestes Volk', 'Tierliste', 'Leveln 1–60', 'Preis und Abo'], 'guides/faq/#editions'),
-    'fr': (['Quelle classe jouer', 'Date de sortie', 'Meilleure race', 'Tier list', 'Progression 1–60', 'Prix et abonnement'], 'guides/faq/#editions'),
-    'es': (['Qué clase elegir', 'Fecha de lanzamiento', 'Mejor raza', 'Tier list', 'Subir de nivel 1–60', 'Precio y suscripción'], 'guides/faq/#editions'),
-    'pt': (['Qual classe jogar', 'Data de lançamento', 'Melhor raça', 'Tier list', 'Evolução 1–60', 'Preço e assinatura'], 'guides/faq/#editions'),
-    'it': (['Quale classe scegliere', 'Data di uscita', 'Razza migliore', 'Tier list', 'Livellamento 1–60', 'Prezzo e abbonamento'], 'guides/faq/#editions'),
-    'pl': (['Jaką klasę wybrać', 'Data premiery', 'Najlepsza rasa', 'Tier lista', 'Levelowanie 1–60', 'Cena i subskrypcja'], 'guides/faq/#editions'),
+    'ru': (['Какой класс выбрать', 'Когда старт', 'Лучшая раса', 'Прокачка 1–60', 'Цена и подписка', 'Русский язык'], 'guides/faq/#language'),
+    'uk': (['Який клас обрати', 'Коли старт', 'Найкраща раса', 'Прокачування 1–60', 'Ціна й підписка', 'Українська мова'], 'guides/ukrainian/'),
+    'en': (['Which class to play', 'Release date', 'Best race', 'Leveling 1–60', 'Price and subscription', 'Servers and languages'], 'guides/faq/#servers'),
+    'de': (['Welche Klasse spielen', 'Release-Termin', 'Bestes Volk', 'Leveln 1–60', 'Preis und Abo', 'Server und Sprachen'], 'guides/faq/#servers'),
+    'fr': (['Quelle classe jouer', 'Date de sortie', 'Meilleure race', 'Progression 1–60', 'Prix et abonnement', 'Serveurs et langues'], 'guides/faq/#servers'),
+    'es': (['Qué clase elegir', 'Fecha de lanzamiento', 'Mejor raza', 'Subir de nivel 1–60', 'Precio y suscripción', 'Servidores e idiomas'], 'guides/faq/#servers'),
+    'pt': (['Qual classe jogar', 'Data de lançamento', 'Melhor raça', 'Evolução 1–60', 'Preço e assinatura', 'Servidores e idiomas'], 'guides/faq/#servers'),
+    'it': (['Quale classe scegliere', 'Data di uscita', 'Razza migliore', 'Livellamento 1–60', 'Prezzo e abbonamento', 'Server e lingue'], 'guides/faq/#servers'),
+    'pl': (['Jaką klasę wybrać', 'Data premiery', 'Najlepsza rasa', 'Levelowanie 1–60', 'Cena i subskrypcja', 'Serwery i języki'], 'guides/faq/#servers'),
 }.items()}
 
 
 def norm(s):
-    """The same as norm() in search.js: lower case without accents, ё -> е, ї -> і."""
+    """The same as norm() in engine.js: lower case without accents, ё -> е, ї -> і."""
     o = ''
     for ch in s.lower():
         c = unicodedata.normalize('NFD', ch)[0]
@@ -347,7 +348,7 @@ def main():
         data = json.dumps(data, ensure_ascii=False, separators=(',', ':'))
         open(os.path.join(OUT, f'{lang}.json'), 'w', encoding='utf-8', newline='\n').write(data + '\n')
         h.update(data.encode())
-    for f in ('search.js', 'search.css'):
+    for f in ('search.js', 'engine.js', 'search.css'):
         h.update(build.read_norm(os.path.join(OUT, f)))   # the same version on LF and CRLF checkouts
     v = h.hexdigest()[:10]
     n = 0

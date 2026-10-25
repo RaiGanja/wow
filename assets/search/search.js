@@ -1,12 +1,8 @@
 /* Site search of the guide: the header button .srchbtn (put in by build.py pwa()), Ctrl+K / ⌘K or "/" open a dialog over the page.
-   The index assets/search/<lang>.json (made by search.py from the built pages) loads on the first open: entries (pages, sections
-   with anchors, FAQ questions, dungeons), aliases (other names -> the name on these pages), questions (phrase -> answer), the
-   popular links and the stop words. Every word of the query but the stop words must match, as itself, its stem, an alias or,
-   when no title has a word starting with it, the nearest title word (one typo up to 6 letters, two from 7): the start of a word
-   in the title scores most, then the keys (where the entry is, page title and description, other names of a dungeon), inside a
-   word, the text. Text matches show a short excerpt. A query that asks a known question puts its answer first. A level number
-   (24, "dungeons 24") lists the dungeons for that level. A query typed in the wrong keyboard layout (vfu -> маг) is retried in
-   the other one when nothing matches. An empty query and a query with no answer show the popular links.
+   The first open (or the pointer over the button) loads the index assets/search/<lang>.json (made by search.py from the built
+   pages) and the engine assets/search/engine.js, which finds the entries: pages, sections with anchors, FAQ questions,
+   dungeons. Text matches show a short excerpt. An empty query and a query with no answer show the popular links.
+   Without the network the dialog says so and loads when the network is back.
    Arrows move the selection, Enter opens it, Esc closes. */
 (() => {
   const SCRIPT = document.currentScript, ROOT = SCRIPT.dataset.root || './';
@@ -33,51 +29,27 @@
   if (kb) kb.textContent = KEY;
 
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
-  // lower case without accents, ё -> е; one output character per input character, so positions match the original text
-  const norm = s => {
-    let o = '';
-    for (const ch of s) {
-      const c = ch.toLowerCase().normalize('NFD')[0];
-      o += (c === 'ё' ? 'е' : c === 'ї' ? 'і' : c) + (ch.length > 1 ? ' ' : '');
-    }
-    return o;
-  };
-  const SPLIT = /[\s\-–—.,:;!?()«»"“”„'’/·]+/;
-  const EN = '`qwertyuiop[]asdfghjkl;\'zxcvbnm,.', RU = 'ёйцукенгшщзхъфывапролджэячсмитьбю', UK = 'ʼйцукенгшщзхїфівапролджєячсмитьбю';
-  const swap = (s, from, to) => [...s].map(c => { const i = from.indexOf(c); return i < 0 ? c : to[i]; }).join('');
-
-  const words = s => s.split(SPLIT).filter(Boolean);
-  // endings cut off for the stem ("мага" -> "маг", "choosing" -> "choos"); the stem keeps at least 3 letters
-  const END = {
-    ru: 'ями ами ого его ому ему ыми ими ой ей ий ый ая яя ое ее ые ие ую юю ов ев ам ям ах ях ом ем а я о е ы и у ю ь',
-    uk: 'ями ами ого ому ими ою ею ій ий ая яя ее ие ів ам ям ах ях ом ем а я о е и і у ю ь',
-    en: 'ing ers ies es ed er s e', de: 'en er es e n s', fr: 'es s e', es: 'es os as s a o e', pt: 'es os as s a o e',
-    it: 'i e a o', pl: 'ami ach ow om ego emu ej a e y i u o',
-  }[LANG].split(' ');
-
-  let items = null, alias = {}, asks = [], popular = [], stop = new Set(), vocab = [], loading = null;
+  let eng = null, items = null, popular = [], loading = null;
   let dlg, input, list, foot, live, sel = -1, shown = [], opener = null;
 
+  const script = src => new Promise((ok, no) => { const el = document.createElement('script'); el.src = src; el.onload = ok; el.onerror = no; document.head.append(el); });
+
+  // the index and the engine (engine.js) come together on the first open: the page itself carries only this dialog
   function load() {
     if (loading) return loading;
-    const ctl = typeof AbortController === 'function' ? new AbortController() : null;
-    const slow = setTimeout(() => ctl && ctl.abort(), 8000);   // a stalled request (no network behind the service worker) ends in a message
-    loading = fetch(`${ROOT}assets/search/${LANG}.json${V ? '?v=' + V : ''}`, ctl ? { signal: ctl.signal } : {})
-      .then(r => { if (!r.ok) throw r; return r.json(); })
-      .then(d => {
-        clearTimeout(slow);
-        items = d.i.map(([t, s, u, k, keys, x]) => ({ t, s, u, k, x, nt: norm(t), nk: norm(s + ' ' + keys), nx: norm(x) }));
-        for (const it of items) it.ntw = words(it.nt).join(' ');
-        for (const [a, v] of Object.entries(d.a)) alias[norm(a)] = v.split('|').map(words);
-        asks = d.q.map(([u, ph]) => [items.find(it => it.u === u), ph.split('|').map(p => words(norm(p)))]);
-        popular = d.p.map(([t, u]) => { const it = items.find(x => x.u === u); return { ...it, t, nt: norm(t), x: '', s: it.k ? it.s : '' }; });
-        stop = new Set(words(norm(d.s)));
-        const w = new Set(Object.keys(alias).flatMap(words));
-        for (const it of items) for (const x of words(it.nt + ' ' + it.nk)) if (x.length > 2) w.add(x);
-        vocab = [...w].sort();
-        render();
-      })
-      .catch(() => { clearTimeout(slow); loading = null; if (dlg && dlg.open) msg(navigator.onLine === false || (ctl && ctl.signal.aborted) ? L.off : L.err); });
+    const ctl = typeof AbortController === 'function' ? new AbortController() : null, q = V ? '?v=' + V : '';
+    let late = false;
+    const slow = setTimeout(() => { late = true; if (ctl) ctl.abort(); }, 8000);   // a stalled request (no network behind the service worker) ends in a message
+    loading = Promise.all([
+      fetch(`${ROOT}assets/search/${LANG}.json${q}`, ctl ? { signal: ctl.signal } : {}).then(r => { if (!r.ok) throw r; return r.json(); }),
+      globalThis.gabellaSearchEngine || script(`${ROOT}assets/search/engine.js${q}`),
+    ]).then(([d]) => {
+      if (late) throw new Error('late');
+      clearTimeout(slow);
+      eng = globalThis.gabellaSearchEngine(LANG, d);
+      ({ items, popular } = eng);
+      render();
+    }).catch(() => { clearTimeout(slow); loading = null; if (dlg && dlg.open) msg(navigator.onLine === false || late ? L.off : L.err); });
     return loading;
   }
   addEventListener('online', () => { if (!items && dlg && dlg.open) load(); });
@@ -114,150 +86,6 @@
     input.select();
   }
   function close() { if (dlg && dlg.open) dlg.close(); }
-
-  // where a token is in a string: 2 at the start of a word, 1 inside a word, 0 nowhere
-  function at(s, t) {
-    let i = s.indexOf(t);
-    if (i < 0) return 0;
-    for (; i >= 0; i = s.indexOf(t, i + 1)) if (i === 0 || SPLIT.test(s[i - 1])) return 2;
-    return 1;
-  }
-
-  // one token against an entry: [score, matched the name or the keys]
-  function hit(it, t) {
-    const a = at(it.nt, t);
-    if (a === 2) return [10, true];
-    const b = at(it.nk, t);
-    if (b === 2) return [5, true];
-    if (a && t.length > 3) return [3, true];   // inside a word: "мак" is not "Шамана"
-    if (b && t.length > 3) return [2, true];
-    const c = at(it.nx, t);
-    return c === 2 || (c && t.length > 4) ? [1, false] : [0, false];
-  }
-
-  const stem = t => { if (t.length > 3) for (const e of END) if (t.endsWith(e) && t.length - e.length >= 3) return t.slice(0, -e.length); return t; };
-
-  // a title word starts with the token (binary search in the sorted vocabulary)
-  function known(t) {
-    let a = 0, b = vocab.length;
-    while (a < b) { const m = (a + b) >> 1; if (vocab[m] < t) a = m + 1; else b = m; }
-    return a < vocab.length && vocab[a].startsWith(t);
-  }
-
-  // edit distance (with swapped neighbours) from a to the nearest start of b; more than k -> k + 1
-  function dist(a, b, k) {
-    const n = a.length, m = Math.min(b.length, n + k);
-    if (m < n - k) return k + 1;
-    let p2 = null, p = Array.from({ length: m + 1 }, (_, j) => j);
-    for (let i = 1; i <= n; i++) {
-      const c = [i];
-      let low = i;
-      for (let j = 1; j <= m; j++) {
-        let v = Math.min(p[j] + 1, c[j - 1] + 1, p[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
-        if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) v = Math.min(v, p2[j - 2] + 1);
-        c.push(v);
-        if (v < low) low = v;
-      }
-      if (low > k) return k + 1;
-      p2 = p; p = c;
-    }
-    return Math.min(...p.slice(Math.max(0, n - k)));
-  }
-
-  // a typo: the title words nearest to the token, only when no title word starts with it
-  function fuzzy(t) {
-    if (t.length < 4 || /\d/.test(t) || known(t)) return [];
-    const k = t.length >= 7 ? 2 : 1;
-    let best = k + 1, out = [];
-    for (const w of vocab) {
-      if (Math.abs(w.length - t.length) > k && w.length < t.length) continue;
-      const d = dist(t, w, Math.min(k, best));
-      if (d < best) { best = d; out = [w]; } else if (d === best && d <= k && out.length < 6) out.push(w);
-    }
-    return best <= k ? out : [];
-  }
-
-  // the query as terms; a term is met by any of its variants, a variant is a list of tokens that all have to match
-  function terms(q) {
-    const raw = words(norm(q)), out = [];
-    for (let i = 0; i < raw.length;) {
-      let n = Math.min(3, raw.length - i);
-      while (n > 1 && !alias[raw.slice(i, i + n).join(' ')]) n--;
-      const t = raw.slice(i, i + n), key = t.join(' '), alts = [{ toks: t, w: 1 }];
-      i += n;
-      const more = (k, w) => { for (const x of alias[k] || []) alts.push({ toks: x, w }); };
-      more(key, 0.9);
-      if (n === 1) {
-        const s = stem(key);
-        if (s !== key) alts.push({ toks: [s], w: 0.8 });
-        if (!alias[key]) for (const f of fuzzy(key)) { alts.push({ toks: [f], w: 0.7 }); more(f, 0.65); }
-      }
-      out.push({ alts, stop: n === 1 && stop.has(key) });
-    }
-    const keep = out.filter(x => !x.stop);
-    return keep.length ? keep : out;
-  }
-
-  function score(it, T, whole) {
-    let s = 0, miss = 0, named = false;
-    for (const term of T) {
-      let best = 0, nm = false;
-      for (const a of term.alts) {
-        let sum = 0, n = false;
-        for (const t of a.toks) { const [v, x] = hit(it, t); if (!v) { sum = 0; break; } sum += v; n = n || x; }
-        let v = sum / a.toks.length * a.w;
-        if (v && T.length === 1 && a.toks.join(' ') === it.ntw) v += 20 * a.w;   // the name itself: "warrior" -> «Воин», not «Прокачка Воина»
-        if (v > best) { best = v; nm = n; }
-      }
-      if (best) { s += best; named = named || nm; } else miss++;
-    }
-    if (it.nt === whole) s += 30;
-    else if (it.nt.startsWith(whole)) s += 12;
-    return [s + (named ? [3, 1, 2, 2][it.k] : 0), miss, named];   // pages go first only when their name matches, not just their text
-  }
-
-  function level(lv) {   // the dungeons for a level
-    return items.filter(it => {
-      const m = it.k === 3 && it.s.match(/ (\d+)(?:–(\d+))? · /);
-      return m && +m[1] <= lv && lv <= +(m[2] || m[1]);
-    });
-  }
-
-  // a known question: its answers, the phrase with the most words first
-  function asked(q) {
-    const raw = words(norm(q)), last = raw[raw.length - 1];
-    const has = p => raw.some(t => t.startsWith(p) || (t === last && t.length > 2 && p.startsWith(t)));
-    return asks.map(([it, phs]) => [it, Math.max(0, ...phs.filter(ph => ph.every(has)).map(ph => ph.length))])
-      .filter(r => r[1]).sort((a, b) => b[1] - a[1]).slice(0, 2).map(r => r[0]);
-  }
-
-  function search(q) {
-    const whole = norm(q).trim(), raw = words(whole);
-    if (!raw.length || !/[\p{L}\p{N}]/u.test(whole)) return [];
-    if (/^\d{1,2}$/.test(whole)) return level(+whole);
-    const T = terms(q), lv = raw.find(t => /^\d{1,2}$/.test(t)), top = asked(q);
-    let rows = items.map(it => [it, ...score(it, T, whole)]);
-    let hits = rows.filter(r => r[1] && !r[2]);
-    if (!hits.length && T.length > 1) hits = rows.filter(r => r[2] === 1 && r[3]).map(r => [r[0], r[1] - 5]);   // all words but one
-    hits = hits.sort((a, b) => b[1] - a[1] || a[0].t.length - b[0].t.length).map(r => r[0]);
-    if (lv && +lv <= 60) {   // "подземелья 20": the dungeons of the level right after the list itself
-      const words2 = T.filter(t => !t.alts.some(a => a.toks.includes(lv)));
-      const dg = items.find(it => it.k === 0 && it.u.endsWith('guides/dungeons/'));
-      if (words2.length && dg && !score(dg, words2, '')[1]) top.push(dg, ...level(+lv));
-    }
-    return [...new Set([...top, ...hits])].slice(0, 40);
-  }
-
-  // the search as the dialog runs it: when nothing matches, the query is retried in the other keyboard layout (vfu -> маг, ьфп -> mag)
-  function find(q) {
-    let shown = search(q), used = q;
-    if (!shown.length && /\p{L}/u.test(q)) {
-      const lo = q.toLowerCase();
-      used = /[а-яёієїʼ]/.test(lo) ? swap(lo, /[ієї]/.test(lo) ? UK : RU, EN) : ['ru', 'uk'].includes(LANG) ? swap(lo, EN, LANG === 'uk' ? UK : RU) : q;
-      if (used !== q) shown = search(used);
-    }
-    return Object.assign(shown, { used });
-  }
 
   function mark(text, ntext, toks) {
     const hits = [];
@@ -317,12 +145,12 @@
         return it.k === 0 && (rel.length === 1 && rel[0] !== 'privacy' || rel.length === 2 && rel[0] === 'guides') && !popular.some(p => p.u === it.u);
       });
       shown = [...popular, ...go];
-      list.innerHTML = group(L.pop, 0, popular, null) + group(L.go, popular.length, go, null);
+      list.innerHTML = group(L.pop, 0, popular, null) + group(L.go, popular.length, go.map(it => ({ ...it, s: '' })), null);   // no «Home» under every section
       live.textContent = '';
       pick(0, false);
       return;
     }
-    shown = find(q);
+    shown = eng.find(q);
     if (!shown.length) {   // nothing: the popular questions instead of a dead end
       shown = popular;
       list.innerHTML = `<li class="srch-m">${esc(L.none)}</li>` + group(L.pop, 0, popular, null);
@@ -330,7 +158,7 @@
       pick(-1, false);
       return;
     }
-    const toks = [...new Set(terms(shown.used).flatMap(t => t.alts.flatMap(a => a.toks)))];
+    const toks = [...new Set(eng.terms(shown.used).flatMap(t => t.alts.flatMap(a => a.toks)))];
     list.innerHTML = shown.map((it, i) => row(it, i, toks)).join('');
     live.textContent = L.found(shown.length);
     pick(0, false);
@@ -359,7 +187,7 @@
     }
   }
 
-  globalThis.gabellaFind = q => load().then(() => (items ? find(q) : []));   // the same search for the FAQ filter (build_guides.py)
+  globalThis.gabellaFind = q => load().then(() => (eng ? eng.find(q) : []));   // the same search for the FAQ filter (build_guides.py)
   btn.addEventListener('click', open);
   btn.addEventListener('pointerenter', () => { if (!items) load(); }, { once: true });
   addEventListener('keydown', e => {

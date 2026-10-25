@@ -96,7 +96,50 @@ HOLD = [
     ('pl', 'kapłan', ['classes/priest/']), ('pl', 'łowca', ['classes/hunter/']), ('pl', 'czarnoksiężnik', ['classes/warlock/']),
     ('pl', 'warrior', ['classes/warrior/']), ('pl', 'krasnolud', ['races/dwarf/']),
 ]
-KNOWN = set()   # запросы, которые пока не находят нужное: [(lang, query)]
+LV = lambda c: [f'guides/leveling-{c}/']
+BD = lambda c: [f'guides/builds-{c}/']
+# третий набор (после проверки директора): связки «гайд + класс», транслит, английские слова кириллицей, опечатки в
+# начале и середине, падежи; придуман до правок движка и замерен ДО/ПОСЛЕ. DIR — пять провалов из его проверки.
+NEW = [
+    # класс + гайд
+    ('ru', 'билд на жреца', BD('priest')), ('ru', 'как качать охотника', LV('hunter')),
+    ('ru', 'таланты разбойника', BD('rogue') + LV('rogue')), ('en', 'how to level a priest', LV('priest')),
+    ('en', 'druid talents', BD('druid') + LV('druid')), ('de', 'schamane leveln', LV('shaman')),
+    ('uk', 'білд воїна', BD('warrior')), ('uk', 'як прокачати чорнокнижника', LV('warlock')),
+    ('ru', 'билды шамана', BD('shaman')), ('uk', 'таланти жерця', BD('priest') + LV('priest')),
+    # транслит латиницей
+    ('ru', 'okhotnik', ['classes/hunter/']), ('ru', 'razboinik', ['classes/rogue/']), ('ru', 'chernoknizhnik', ['classes/warlock/']),
+    ('ru', 'prokachka maga', LV('mage')), ('ru', 'podzemelya', ['guides/dungeons/']), ('uk', 'myslyvets', ['classes/hunter/']),
+    # английские слова кириллицей
+    ('ru', 'ретрибушен', ['classes/paladin/'] + BD('paladin')), ('ru', 'протекшн воин', ['classes/warrior/'] + BD('warrior')),
+    ('ru', 'энхансер', ['classes/shaman/'] + BD('shaman')), ('ru', 'хардкор', ['guides/legacy/', 'guides/faq/#modes']),
+    ('en', 'аддоны', ['guides/addons/']),
+    # опечатки в начале и середине
+    ('ru', 'кожевнечество', ['guides/professions/']), ('ru', 'шоман', ['classes/shaman/']), ('ru', 'чирнокнижник', ['classes/warlock/']),
+    ('en', 'enchnting', ['guides/professions/']), ('en', 'tailorng', ['guides/professions/']), ('de', 'schamanne', ['classes/shaman/']),
+    ('ru', 'ночьной эльф', ['races/night-elf/']),
+    # падежи
+    ('uk', 'раса для мага', ['guides/best-race/', 'classes/mage/#races']), ('ru', 'подземелья для 30 уровня', ['guides/dungeons/']),
+]
+DIR = [  # провалы из проверки директора
+    ('ru', 'как прокачать вара', LV('warrior')), ('ru', 'kak prokachat shamana', LV('shaman')),
+    ('ru', 'алхемия', ['guides/professions/']), ('ru', 'что такое легаси', ['guides/legacy/']), ('uk', 'прокачка мисливця', LV('hunter')),
+]
+# слепой набор: написан после всех правок и замерен один раз, под него не подгонялось
+BLIND = [
+    ('ru', 'прокачка разбойника', LV('rogue')), ('ru', 'какие таланты взять магу', BD('mage') + LV('mage')),
+    ('ru', 'кузнечное дело', ['guides/professions/']), ('ru', 'gnomeregan', ['guides/dungeons/']),
+    ('ru', 'glubiny chernoi gory', ['guides/dungeons/']), ('ru', 'druid tank', ['classes/druid/'] + BD('druid')),
+    ('ru', 'фрост маг', ['classes/mage/'] + BD('mage')), ('ru', 'скока стоит подписка', PRICE),
+    ('ru', 'когда выходит игра', START), ('ru', 'травнечество', ['guides/professions/']),
+    ('uk', 'прокачка шамана', LV('shaman')), ('uk', 'білди друїда', BD('druid')), ('uk', 'koly start', START),
+    ('en', 'best race for warlock', ['guides/best-race/']), ('en', 'hunter pet', ['classes/hunter/'] + LV('hunter')),
+    ('en', 'preist build', BD('priest')), ('de', 'beste klasse für anfänger', CLASS),
+    ('fr', 'monter de niveau chasseur', LV('hunter')), ('es', 'talentos de brujo', BD('warlock') + LV('warlock')),
+    ('pl', 'jak levelowac maga', LV('mage')), ('it', 'talenti sacerdote', BD('priest') + LV('priest')),
+    ('pt', 'melhor raça para mago', ['guides/best-race/', 'classes/mage/#races']),
+]
+KNOWN = {('ru', 'протекшн воин')}   # «protekshn» дальше 3 правок от «protection»: транслит на слух не ловим   # запросы, которые пока не находят нужное: [(lang, query)]
 
 
 def ok(url, lang, want):
@@ -110,29 +153,34 @@ def ok(url, lang, want):
     return False
 
 
-def run(js=os.path.join(ROOT, 'assets', 'search', 'search.js'), index=os.path.join(ROOT, 'assets', 'search')):
+def run(js=os.path.join(ROOT, 'assets', 'search', 'engine.js'), index=os.path.join(ROOT, 'assets', 'search')):
     node = shutil.which('node')
     if not node:
         print('SKIP: нет node')
         sys.exit(0)
     r = subprocess.run([node, os.path.join(ROOT, 'tests', 'search_eval.js'), js, index],
-                       input=json.dumps([[l, q] for l, q, _ in Q + HOLD]), capture_output=True, text=True, encoding='utf-8', check=True)
+                       input=json.dumps([[l, q] for l, q, _ in Q + HOLD + NEW + DIR + BLIND]), capture_output=True, text=True, encoding='utf-8', check=True)
     return json.loads(r.stdout)
 
 
 if __name__ == '__main__':
     res = run(*[a for a in sys.argv[1:] if not a.startswith('-')])   # [search.js [index dir]]: another engine, e.g. the old one
+    sets = [('набор', Q), ('отложенный', HOLD), ('новый', NEW), ('директор', DIR), ('слепой', BLIND)]
+    allq = [q for _, qs in sets for q in qs]
     good, bad, first = [], [], 0
-    for i, ((lang, q, want), urls) in enumerate(zip(Q + HOLD, res)):
-        (good if any(ok(u, lang, want) for u in urls[:3]) else bad).append((lang, q, urls[:3], i < len(Q)))
+    for (lang, q, want), urls in zip(allq, res):
+        (good if any(ok(u, lang, want) for u in urls[:3]) else bad).append((lang, q, urls[:3]))
         first += bool(urls) and ok(urls[0], lang, want)
     if '-v' in sys.argv:
         for x in good:
-            print('+', *x[:3])
+            print('+', *x)
     for x in bad:
-        print('-', *x[:3])
+        print('-', *x)
     new = [b for b in bad if b[:2] not in KNOWN]
-    main = sum(g[3] for g in good)
-    print(f'набор {main}/{len(Q)}, отложенный {len(good) - main}/{len(HOLD)}, всего {len(good)}/{len(Q) + len(HOLD)} '
-          f'({100 * len(good) // (len(Q) + len(HOLD))}%), первым {first}')
+    keys = [(l, q) for l, q, _ in allq]
+    per, at = [], 0
+    for name, qs in sets:
+        n = sum((l, q) in {g[:2] for g in good} for l, q, _ in qs)
+        per.append(f'{name} {n}/{len(qs)}')
+    print(', '.join(per) + f'; всего {len(good)}/{len(allq)} ({100 * len(good) // len(allq)}%), первым {first}')
     assert not new, f'не нашлось: {len(new)}'
