@@ -29,6 +29,8 @@
 /* One hero on every guide page, a scene (.thero) or a portrait band (.ghero): the same height and shade in both themes,
    the crumbs on the dark corner, the art fades into the page and the contents run onto that fade */
 .thero, .ghero { --hh: clamp(540px, 76svh, 720px); }
+/* the scene band is 1920 x 720 on a full HD screen; wider, it grows with the width up to 76svh and stops at that shape (--rmax) */
+.thero { --hh: max(540px, min(76svh, max(720px, 37.5vw))); --rmax: 2.67; }
 .thero { min-height: calc(var(--hh) * .66); overflow: visible; padding-bottom: 28px; background: none; }
 .thero::after { display: none; }
 .ghero { --band-h: var(--hh); min-height: calc(var(--hh) * .66); padding: calc(var(--top) + clamp(32px, 8vh, 96px)) 0 28px; display: grid; align-content: start; color: var(--ink); }
