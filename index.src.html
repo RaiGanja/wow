@@ -449,6 +449,7 @@ ul.dlist li.mine { background: color-mix(in srgb, var(--gold) 14%, transparent);
 ul.buffs { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
 ul.buffs li { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 10px; align-items: center; font-size: var(--fs-14); line-height: 1.35; }
 ul.buffs .bi { width: 30px; height: 30px; border-radius: 6px; display: grid; place-items: center; background: var(--panel-2); border: 1px solid var(--cc, var(--pline)); color: var(--cc, var(--gold-2)); }
+:root[data-theme="light"] ul.buffs .bi { border-color: var(--class-ink, var(--pline)); color: var(--class-ink, var(--gold-2)); }
 ul.buffs .bi .ico { width: 16px; height: 16px; }
 ul.buffs b { font-weight: 600; }
 ul.buffs .m { color: var(--muted); }
@@ -507,7 +508,13 @@ ul.dots li::marker { color: var(--gold); }
 .matrix-box { overflow-x: auto; padding-top: 8px; }
 table { border-collapse: separate; border-spacing: 0; width: 100%; }
 /* Round portrait avatar with a ring in the class or faction colour */
+/* Class colour (rule 14): the game colour on the dark theme; on the paper --class-ink, the same hue at one lightness
+   (OKLCH L .48, >= 4.5:1 on --bg and --surface-2 for all nine) — for names, dots, rings and bars, never a large fill */
+[style*="--cc"], .pcard, .bcard { --class-ink: var(--cc); }
+:root[data-theme="light"] :is([style*="--cc"], .pcard, .bcard) { --class-ink: color-mix(in srgb, var(--cc) 42%, #000); }
+@supports (color: oklch(from red l c h)) { :root[data-theme="light"] :is([style*="--cc"], .pcard, .bcard) { --class-ink: oklch(from var(--cc) .48 c h); } }
 .av { --s: 40px; position: relative; width: var(--s); height: var(--s); flex: none; display: inline-block; border-radius: 50%; background: #0b0d12; box-shadow: 0 0 0 2px var(--ring-gap, var(--panel)), 0 0 0 3.5px var(--cc, var(--pline)); }
+:root[data-theme="light"] .av { box-shadow: 0 0 0 2px var(--ring-gap, var(--panel)), 0 0 0 3.5px var(--class-ink, var(--pline)); }
 .av img { display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
 #matrix { min-width: 860px; border-spacing: 0 2px; table-layout: fixed; }
 /* Equal class columns: the race column is fixed, the nine class columns share the rest */
@@ -554,8 +561,8 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 .cell.dim { opacity: .22; }
 .cell.sel i { width: 28px; height: 28px; background: var(--gold-2); box-shadow: 0 0 0 5px color-mix(in srgb, var(--gold) 22%, transparent); transform: none; }
 .cell.sel i .ico { opacity: 1; }
-:root[data-theme="light"] .cell i:not(.sel i) { box-shadow: inset 0 0 0 1px rgba(0,0,0,.3), 0 0 0 4px color-mix(in srgb, var(--cc) 18%, transparent); }
-:root[data-theme="light"] .cell.new i:not(.sel i) { box-shadow: inset 0 0 0 1px rgba(0,0,0,.3), 0 0 0 2.5px var(--panel), 0 0 0 4px var(--new); }
+:root[data-theme="light"] .cell i:not(.sel i) { background: var(--class-ink); box-shadow: 0 0 0 4px color-mix(in srgb, var(--class-ink) 14%, transparent); }
+:root[data-theme="light"] .cell.new i:not(.sel i) { background: var(--class-ink); box-shadow: 0 0 0 2.5px var(--panel), 0 0 0 4px var(--new); }
 .legend { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: center; color: var(--muted); font-size: var(--fs-14); }
 .legend > span { display: inline-flex; align-items: center; gap: 8px; }
 .legend .ld { width: 9px; height: 9px; border-radius: 50%; background: var(--fg); box-shadow: 0 0 0 3px color-mix(in srgb, var(--fg) 14%, transparent); }
@@ -642,7 +649,7 @@ ul.verdict li::before { content: "·"; position: absolute; left: 6px; color: var
 ul.verdict li.good::before { content: "✓"; color: var(--new); left: 3px; }
 ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .cdot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 7px; background: var(--cc, var(--muted)); }
-:root[data-theme="light"] .cdot { box-shadow: inset 0 0 0 1px rgba(0,0,0,.35); }
+:root[data-theme="light"] .cdot { background: var(--class-ink, var(--muted)); }
 
 /* Comparison tables: classes and races, one row per entry, whole row opens its page */
 .cmp { display: grid; gap: 6px; }
@@ -677,6 +684,8 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .rdot .ri { width: 16px; height: 16px; margin: 0; }
 .rdot.on { background: color-mix(in srgb, var(--cc) 20%, transparent); color: var(--fg); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--cc) 55%, transparent); }
 .rdot.q { color: var(--fg); background: transparent; box-shadow: none; border: 1px dashed color-mix(in srgb, var(--cc) 70%, transparent); }
+:root[data-theme="light"] .rdot.on { background: color-mix(in srgb, var(--class-ink) 12%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--class-ink) 55%, transparent); }
+:root[data-theme="light"] .rdot.q { border-color: color-mix(in srgb, var(--class-ink) 70%, transparent); }
 .lvl { display: grid; gap: 8px; font-size: var(--fs-14); }
 .lvl .bar { position: relative; height: 6px; border-radius: 999px; background: color-mix(in srgb, var(--fg) 8%, transparent); }
 .lvl .bar::before { content: ""; position: absolute; left: 50%; top: -4px; bottom: -4px; width: 2px; margin-left: -1px; border-radius: 2px; background: color-mix(in srgb, var(--fg) 30%, transparent); }

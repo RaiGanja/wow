@@ -28,7 +28,7 @@ main .me-ring, dialog .me-ring { --s: 64px; --room-x: 12px; --room-y: 12px; widt
 .pcard .nm a:hover { color: var(--gold-2); }
 .pcard .nm a::after { content: ""; position: absolute; inset: 0; border-radius: 10px; }
 .pcard .sub { font-size: .9rem; color: var(--cc); }
-:root[data-theme="light"] .pcard .sub { color: color-mix(in srgb, var(--cc) 55%, #000); }   /* rogue yellow and priest white on cream */
+:root[data-theme="light"] :is(.pcard, .bcard) .sub { color: var(--class-ink); }   /* rogue yellow and priest white on cream */
 .pcard .fx { grid-column: 2; grid-row: 3; font-size: .8125rem; font-weight: 600; }   /* the faction: a third line under race and class, never over a long name */
 .fx.alliance { color: var(--alliance); } .fx.horde { color: var(--horde); }
 .pcard .meta { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 8px; padding-top: 10px; border-top: 1px solid var(--pline); font-size: .86rem; color: var(--muted); }
