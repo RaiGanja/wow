@@ -9,7 +9,7 @@ from PIL import Image
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, 'assets', 'brand', 'griffin-g-src.jpg')
-BG = (10, 11, 13)
+BG = (5, 5, 5)
 
 
 def transparent(im):
@@ -30,17 +30,27 @@ def square(im, pad):
     return out
 
 
+def quant(im):
+    """96-colour palette with the background colour exact (the quantizer lands one step off on near-black)."""
+    q = im.quantize(96, Image.Quantize.FASTOCTREE)
+    pal = q.getpalette()
+    i = min(range(len(pal) // 3), key=lambda k: sum(abs(pal[3 * k + c] - BG[c]) for c in range(3)))
+    pal[3 * i:3 * i + 3] = list(BG)
+    q.putpalette(pal)
+    return q
+
+
 def main():
     mark = transparent(Image.open(SRC).convert('RGB'))
     logo = Image.new('RGBA', (512, 512), BG + (255,))
     inner = square(mark, .12).resize((512, 512), Image.LANCZOS)
     logo.alpha_composite(inner)
-    logo.convert('RGB').quantize(96, Image.Quantize.FASTOCTREE).save(os.path.join(ROOT, 'assets', 'logo.png'), optimize=True)
+    quant(logo.convert('RGB')).save(os.path.join(ROOT, 'assets', 'logo.png'), optimize=True)
     logo = logo.convert('RGB')
     small = logo.resize((96, 96), Image.LANCZOS)
     small.save(os.path.join(ROOT, 'assets', 'brand', 'mark.webp'), quality=90)
     icons = os.path.join(ROOT, 'assets', 'icons')
-    logo.resize((64, 64), Image.LANCZOS).quantize(96, Image.Quantize.FASTOCTREE).save(os.path.join(icons, 'favicon-64.png'), optimize=True)
+    quant(logo.resize((64, 64), Image.LANCZOS)).save(os.path.join(icons, 'favicon-64.png'), optimize=True)
     # Google search shows a favicon only in sizes that are multiples of 48; favicon.ico goes to the hub root too
     for size in (48, 96):
         logo.resize((size, size), Image.LANCZOS).save(os.path.join(icons, f'favicon-{size}.png'), optimize=True)
