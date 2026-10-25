@@ -192,6 +192,8 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 }
 @media (max-width: 719px) {
   .sfield kbd { display: none; }
+  .sfield { min-height: 52px; font-size: var(--fs-16); }
+  .sfield span:not(.sr) { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }   /* a search hint in one line, like a field, not a paragraph */
   .ttiles.t2 { grid-template-columns: 1fr; }
   .rtool { padding: 12px; }
   .rbar .act { margin-left: 0; }
