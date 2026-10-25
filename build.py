@@ -1003,8 +1003,6 @@ def pic(cid, root, widths, sizes, cls='', lazy=True):
 
 # ---------- professions on a class page and in the compare tool: pairs of the Professions guide + camp objects of the home PROFS ----------
 
-PAIR_PROFS = {'bs': ('blacksmithing', 'mining'), 'eng': ('engineering', 'mining'), 'lw': ('leatherworking', 'skinning'),
-              'tail': ('tailoring', 'enchanting'), 'alch': ('alchemy', 'herbalism')}
 PROF_T = langs.fill({
     'h': {'ru': 'Профессии', 'en': 'Professions', 'uk': 'Професії'},
     'camp': {'ru': 'В лагере', 'en': 'In camp', 'uk': 'У таборі'},
@@ -1026,24 +1024,32 @@ def camp_objects():
 
 
 def class_profs(cid, lang):
-    """Recommended pairs of a class in lang: [(pair, why, [(camp object, effect), …])]."""
-    from content.guides import PAIRS, CLASS_PAIRS
+    """Recommended pairs of a class in lang: ([(step label, pair, [(camp object, effect), …])] for leveling and level 60, why)."""
+    from content.guides import CLASS_PAIRS, PAIR_HEAD
     L = lambda d: langs.derive(d)[lang]
     camp = camp_objects()
-    pairs = next(p for c, _n, p in CLASS_PAIRS if c == cid)
-    return [(L(PAIRS[p][0]), L(why or PAIRS[p][1]), [(camp[x][0], camp[x][1] if lang == 'ru' else t_of(camp[x][1], lang)) for x in PAIR_PROFS[p]])
-            for p, why in pairs]
+    _c, _n, lvl, cap, why = next(p for p in CLASS_PAIRS if p[0] == cid)
+    steps = [(L(PAIR_HEAD[i]), L(pair[0]), [(camp[x][0], camp[x][1] if lang == 'ru' else t_of(camp[x][1], lang)) for x in pair[1]])
+             for i, pair in ((1, lvl), (2, cap))]
+    return steps, L(why)
+
+
+def class_profs_short(cid, lang):
+    """Compare tool: [[«step: pair», ''], [«step: pair», why]] — the shared reason goes under the last pair."""
+    steps, why = class_profs(cid, lang)
+    return [[f'{label}: {pair}', why if i == len(steps) - 1 else ''] for i, (label, pair, _camp) in enumerate(steps)]
 
 
 def profs_panel(cid, lang):
-    """Class page panel «Профессии»: two pairs, their camp buffs, the no-passives note and a link to this class in the guide."""
+    """Class page panel «Профессии»: pairs for leveling and level 60, why, their camp buffs, the no-passives note and a link to this class in the guide."""
     tx = {k: v[lang] for k, v in PROF_T.items()}
-    items = ''.join(f'<li><b>{esc(pair)}</b><span class="d">{esc(why)}</span>'
+    steps, why = class_profs(cid, lang)
+    items = ''.join(f'<li><b>{esc(label)}: {esc(pair)}</b>'
                     f'<span class="pcamp"><svg class="ico" aria-hidden="true"><use href="#i-fire"/></svg><span>{tx["camp"]}: '
                     + '; '.join(f'{esc(o)} — {esc(e)}' for o, e in camp) + '</span></span></li>'
-                    for pair, why, camp in class_profs(cid, lang))
+                    for label, pair, camp in steps)
     return (f'<div class="panel cprofs" id="profs"><h3>{tx["h"]}</h3><ul class="cpairs">{items}</ul>'
-            f'<p class="small">{esc(tx["note"])}</p>'
+            f'<p class="cwhy">{esc(why)}</p><p class="small">{esc(tx["note"])}</p>'
             f'<a class="pmore" href="@@HOME@@guides/professions/#pairs={cid}">{tx["more"]}{ico("arrow")}</a></div>')
 
 

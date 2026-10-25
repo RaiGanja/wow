@@ -756,69 +756,137 @@ GUIDES.append({
 
 # ---------- Профессии ----------
 
-# Пары по Warcraft Tavern («Best for»); у класса своя причина там, где её даёт content/classes.py
-PAIRS = {
-    'bs': (t('Кузнечное дело + Горное дело', 'Blacksmithing + Mining', 'Ковальство + Гірництво'),
-           t('Для латников и ближнего боя: оружие и доспехи себе сами.', 'For plate wearers and melee: make your own weapons and armor.',
-             'Для латників і ближнього бою: зброя та обладунки собі самі.')),
-    'eng': (t('Инженерное дело + Горное дело', 'Engineering + Mining', 'Інженерія + Гірництво'),
-            t('Для PvP, полезных устройств и веселья. В лагере Reagent Bot продаёт реагенты, на 2 уровне чинит экипировку.',
-              'For PvP, useful gadgets and fun. In camp the Reagent Bot sells reagents and repairs gear at tier 2.',
-              'Для PvP, корисних пристроїв і розваги. У таборі Reagent Bot продає реагенти, на 2 рівні лагодить спорядження.')),
-    'lw': (t('Кожевничество + Снятие шкур', 'Leatherworking + Skinning', 'Шкіряництво + Знімання шкур'),
-           t('Для тех, кто носит кожу и кольчугу. Кожевник ставит в лагере Camp Tent, она даёт отдых.',
-             'For leather and mail wearers. A leatherworker places the Camp Tent in camp, which gives rest.',
-             'Для тих, хто носить шкіру й кольчугу. Шкіряник ставить у таборі Camp Tent, він дає відпочинок.')),
-    'tail': (t('Портняжное дело + Наложение чар', 'Tailoring + Enchanting', 'Кравецтво + Зачарування'),
-             t('Для тех, кто носит ткань, и заклинателей.', 'For cloth wearers and spellcasters.', 'Для тих, хто носить тканину, і заклинателів.')),
-    'alch': (t('Алхимия + Травничество', 'Alchemy + Herbalism', 'Алхімія + Травництво'),
-             t('Зелья для себя и группы и заработок золота. Подходит любому классу.', 'Potions for yourself and the group, and gold making. Fits any class.',
-               'Зілля для себе й групи та заробіток золота. Підходить будь-якому класу.')),
-}
-CLASS_PAIRS = [   # (id, имя класса, [(пара, своя причина или None), …])
-    ('warrior', t('Воин', 'Warrior', 'Воїн'), [('bs', None), ('eng', None)]),
-    ('paladin', t('Паладин', 'Paladin', 'Паладин'), [('bs', None), ('alch', None)]),
-    ('hunter', t('Охотник', 'Hunter', 'Мисливець'), [('lw', None), ('eng', t('Инженер делает себе ружья и патроны.', 'An engineer makes their own guns and ammo.',
-                                                                        'Інженер робить собі рушниці й набої.'))]),
-    ('rogue', t('Разбойник', 'Rogue', 'Розбійник'), [('lw', None), ('eng', None)]),
-    ('priest', t('Жрец', 'Priest', 'Жрець'), [('tail', None), ('alch', None)]),
-    ('shaman', t('Шаман', 'Shaman', 'Шаман'), [('lw', None), ('alch', None)]),
-    ('mage', t('Маг', 'Mage', 'Маг'), [('tail', None), ('alch', None)]),
-    ('warlock', t('Чернокнижник', 'Warlock', 'Чорнокнижник'), [('tail', t('Знамя Faction Banner от портного даёт дух для [[Жизнеотвода|Life Tap]].', 'The tailor’s Faction Banner gives Spirit for Life Tap.',
-                                                                           'Прапор Faction Banner від кравця дає дух для Life Tap.')), ('alch', None)]),
-    ('druid', t('Друид', 'Druid', 'Друїд'), [('alch', None), ('lw', None)]),
+# Пары по Warcraft Tavern, Icy Veins и Gfinity (25.10.2026): прокачка и 60 уровень. Пары для 60 уровня — прогноз гайдов по бете, на старте их никто не проверил
+PAIR_HEAD = [t('Класс', 'Class', 'Клас'), t('Прокачка', 'Leveling', 'Прокачування'), t('60 уровень', 'Level 60', '60 рівень'), t('Почему', 'Why', 'Чому')]   # Класс · Прокачка · 60 уровень · Почему
+
+CLASS_PAIRS = [   # (id, имя класса, прокачка, 60 уровень, почему); пара = (текст, профессии для объектов лагеря)
+    ('warrior', t('Воин', 'Warrior', 'Воїн'),
+     (t('Кузнечное дело + Горное дело', 'Blacksmithing + Mining', 'Ковальство + Гірництво'), ('blacksmithing', 'mining')),
+     (t('Инженерное дело + Горное дело', 'Engineering + Mining', 'Інженерія + Гірництво'), ('engineering', 'mining')),
+     t('Кузнец одевает себя в латы и оружие, многие рецепты персональные. Инженеру — гранаты и устройства, которых воину не хватает.', 'A blacksmith dresses in plate and weapons, and many recipes are personal. An engineer gets the grenades and devices a warrior lacks.', 'Коваль одягає себе в лати й зброю, багато рецептів персональні. Інженеру — гранати й пристрої, яких воїну бракує.')),
+    ('paladin', t('Паладин', 'Paladin', 'Паладин'),
+     (t('Кузнечное дело + Горное дело', 'Blacksmithing + Mining', 'Ковальство + Гірництво'), ('blacksmithing', 'mining')),
+     (t('Защита, Воздаяние: Инженерное дело + Горное дело. Свет: Алхимия + Травничество', 'Protection, Retribution: Engineering + Mining. Holy: Alchemy + Herbalism', 'Захист, Відплата: Інженерія + Гірництво. Світло: Алхімія + Травництво'), ('engineering', 'mining', 'alchemy', 'herbalism')),
+     t('Свет тратит много маны: зелья свои, а Mana Well в лагере заменяет Благословение мудрости.', 'Holy burns a lot of mana: you make your own potions, and the Mana Well in camp replaces Blessing of Wisdom.', 'Світло витрачає багато мани: зілля свої, а Mana Well у таборі замінює Благословення мудрості.')),
+    ('hunter', t('Охотник', 'Hunter', 'Мисливець'),
+     (t('Кожевничество + Снятие шкур', 'Leatherworking + Skinning', 'Шкіряництво + Знімання шкур'), ('leatherworking', 'skinning')),
+     (t('Инженерное дело + Горное дело', 'Engineering + Mining', 'Інженерія + Гірництво'), ('engineering', 'mining')),
+     t('Кожевник шьёт себе кожу и кольчугу и Armor Kit. Инженер делает прицелы и ружья.', 'A leatherworker makes their own leather and mail and Armor Kits. An engineer makes scopes and guns.', 'Шкіряник шиє собі шкіру й кольчугу та Armor Kit. Інженер робить приціли й рушниці.')),
+    ('rogue', t('Разбойник', 'Rogue', 'Розбійник'),
+     (t('Кожевничество + Снятие шкур', 'Leatherworking + Skinning', 'Шкіряництво + Знімання шкур'), ('leatherworking', 'skinning')),
+     (t('Инженерное дело + Горное дело', 'Engineering + Mining', 'Інженерія + Гірництво'), ('engineering', 'mining')),
+     t('Кожа своя, Camp Tent даёт отдых. Инженерное дело — главное для PvP.', 'You make your own leather, and the Camp Tent gives rest. Engineering is the main profession for PvP.', 'Шкіра своя, Camp Tent дає відпочинок. Інженерія — головна професія для PvP.')),
+    ('priest', t('Жрец', 'Priest', 'Жрець'),
+     (t('Портняжное дело + Наложение чар', 'Tailoring + Enchanting', 'Кравецтво + Зачарування'), ('tailoring', 'enchanting')),
+     (t('Портняжное дело + Инженерное дело или Наложение чар', 'Tailoring + Engineering or Enchanting', 'Кравецтво + Інженерія або Зачарування'), ('tailoring', 'engineering', 'enchanting')),
+     t('Портной делает пояса с силой заклинаний с 10 уровня, зачарователь — жезлы с силой заклинаний с 5. Сшитое распыляют на материалы.', 'A tailor makes belts with spell power from level 10, an enchanter makes wands with spell power from level 5. Tailored items get disenchanted into materials.', 'Кравець робить пояси із силою заклинань від 10 рівня, зачарувальник — жезли із силою заклинань від 5. Пошите розщеплюють на матеріали.')),
+    ('shaman', t('Шаман', 'Shaman', 'Шаман'),
+     (t('Кожевничество + Снятие шкур', 'Leatherworking + Skinning', 'Шкіряництво + Знімання шкур'), ('leatherworking', 'skinning')),
+     (t('Алхимия + Травничество', 'Alchemy + Herbalism', 'Алхімія + Травництво'), ('alchemy', 'herbalism')),
+     t('Кожевник делает вещи с силой заклинаний для Стихий и Исцеления и экипировку для Совершенствования. В рейде и группе нужны зелья.', 'A leatherworker makes spell power gear for Elemental and Restoration and gear for Enhancement. Raids and groups need potions.', 'Шкіряник робить речі із силою заклинань для Стихій і Зцілення та спорядження для Вдосконалення. У рейді й групі потрібні зілля.')),
+    ('mage', t('Маг', 'Mage', 'Маг'),
+     (t('Портняжное дело + Наложение чар', 'Tailoring + Enchanting', 'Кравецтво + Зачарування'), ('tailoring', 'enchanting')),
+     (t('То же; для PvP и больших пулов Инженерное дело + Горное дело', 'Same; for PvP and big pulls Engineering + Mining', 'Те саме; для PvP і великих пулів Інженерія + Гірництво'), ('tailoring', 'enchanting', 'engineering', 'mining')),
+     t('Портной даёт раннюю экипировку с силой заклинаний, сшитое распыляют. Гранаты инженера держат на месте большие группы врагов.', 'A tailor provides early spell power gear, and tailored items get disenchanted. An engineer’s grenades hold big groups of enemies in place.', 'Кравець дає раннє спорядження із силою заклинань, пошите розщеплюють. Гранати інженера втримують на місці великі групи ворогів.')),
+    ('warlock', t('Чернокнижник', 'Warlock', 'Чорнокнижник'),
+     (t('Портняжное дело + Наложение чар', 'Tailoring + Enchanting', 'Кравецтво + Зачарування'), ('tailoring', 'enchanting')),
+     (t('Портняжное дело + Алхимия', 'Tailoring + Alchemy', 'Кравецтво + Алхімія'), ('tailoring', 'alchemy')),
+     t('Faction Banner портного даёт дух для Жизнеотвода. Алхимия — зелья и золото.', 'A tailor’s Faction Banner gives Spirit for Life Tap. Alchemy means potions and gold.', 'Faction Banner кравця дає дух для Life Tap. Алхімія — зілля й золото.')),
+    ('druid', t('Друид', 'Druid', 'Друїд'),
+     (t('Кожевничество + Снятие шкур или Травничество', 'Leatherworking + Skinning or Herbalism', 'Шкіряництво + Знімання шкур або Травництво'), ('leatherworking', 'skinning', 'herbalism')),
+     (t('Алхимия + Травничество', 'Alchemy + Herbalism', 'Алхімія + Травництво'), ('alchemy', 'herbalism')),
+     t('Травы собирают в Походном облике, зелья пьют в любом облике. Mana Well и Incense Candle — для Баланса и Исцеления.', 'You gather herbs in Travel Form and drink potions in any form. Mana Well and Incense Candle help Balance and Restoration.', 'Трави збирають у Travel Form, зілля п’ють у будь-якому вигляді. Mana Well і Incense Candle — для Балансу й Зцілення.')),
 ]
 
 
+def _pairs_table():
+    return {'head': PAIR_HEAD[:3], 'rows': [[name, lvl[0], cap[0]] for _c, name, lvl, cap, _w in CLASS_PAIRS]}
+
+
 def _pair_tabs():
-    return [{'id': cid, 't': name, 'blocks': [('steps', [{'t': PAIRS[p][0], 'd': why or PAIRS[p][1]} for p, why in pairs])]}
-            for cid, name, pairs in CLASS_PAIRS]
+    return [{'id': cid, 't': name, 'blocks': [('steps', [{'t': PAIR_HEAD[1], 'd': lvl[0]}, {'t': PAIR_HEAD[2], 'd': cap[0]}]), ('text', [why])]}
+            for cid, name, lvl, cap, why in CLASS_PAIRS]
 
 
 GUIDES.append({
     'slug': 'professions', 'art': 'hero_campfire', 'hero': 'hero_professions', 'js': 'professions',
     'title': t('Профессии', 'Professions', 'Професії'),
-    'lead': t('Какие две профессии взять под ваш класс, что каждая ставит в лагерь и как прокачать навык до 300.',
-              'Which two professions suit your class, what each one places in camp and how to raise the skill to 300.',
-              'Які дві професії взяти під ваш клас, що кожна ставить у табір і як прокачати навичку до 300.'),
-    'tile': t('Пары под класс, объекты лагеря, навык до 300', 'Pairs for your class, camp objects, skill to 300', 'Пари під клас, об’єкти табору, навичка до 300'),
-    'pills': [t('2 основные + 3 вспомогательные', '2 primary + 3 secondary', '2 основні + 3 допоміжні'), t('Навык до 300', 'Skill to 300', 'Навичка до 300'),
-              t('36 объектов лагеря', '36 camp objects', '36 об’єктів табору')],
+    'lead': t('Какие две профессии взять под ваш класс на прокачке и на 60 уровне, на чём заработать золото, что каждая профессия ставит в лагерь и как прокачать навык до 300.', 'Which two professions to pick for your class while leveling and at level 60, how to make gold, what each profession places in camp and how to raise the skill to 300.', 'Які дві професії взяти під ваш клас на прокачуванні та на 60 рівні, на чому заробити золото, що кожна професія ставить у табір і як прокачати навичку до 300.'),
+    'tile': t('Пары под класс, золото, объекты лагеря', 'Class pairs, gold, camp objects', 'Пари під клас, золото, об’єкти табору'),
+    'pills': [t('9 классов', '9 classes', '9 класів'), t('Прокачка и 60 уровень', 'Leveling and level 60', 'Прокачування й 60 рівень'), t('36 объектов лагеря', '36 camp objects', '36 об’єктів табору')],
     'sources': [
         (t('Warcraft Tavern: профессии', 'Warcraft Tavern: professions', 'Warcraft Tavern: професії'), 'https://www.warcrafttavern.com/forever/guides/professions/'),
+        (t('Warcraft Tavern: Алхимия', 'Warcraft Tavern: Alchemy', 'Warcraft Tavern: Алхімія'), 'https://www.warcrafttavern.com/forever/guides/alchemy/'),
         (t('Warcraft Tavern: объекты и баффы лагеря', 'Warcraft Tavern: camp objects and buffs', 'Warcraft Tavern: об’єкти та баффи табору'),
          'https://www.warcrafttavern.com/forever/guides/camping-objects-buffs/'),
         (t('Warcraft Tavern: лагерь', 'Warcraft Tavern: camping', 'Warcraft Tavern: табір'), 'https://www.warcrafttavern.com/forever/guides/camping/'),
+        (t('Icy Veins: профессии', 'Icy Veins: professions', 'Icy Veins: професії'), 'https://www.icy-veins.com/wow-forever/professions-overview'),
+        (t('Mobalytics: ящики Waylaid Crate', 'Mobalytics: Waylaid Crates', 'Mobalytics: ящики Waylaid Crate'), 'https://mobalytics.gg/wow-forever/guides/waylaid-crates-explained'),
     ],
     'sections': [
         {'id': 'pairs', 'title': t('Пары под класс', 'Pairs for your class', 'Пари під клас'), 'blocks': [
-            ('text', [t('Основных профессий у персонажа две. Обычно ремесло берут вместе с подходящим сбором, чтобы добывать материалы самому. Если вы заполнили «Мой персонаж» на главной, сразу откроется ваш класс.',
-                        'A character has two primary professions. A craft is usually paired with its matching gathering profession so you collect materials yourself. If you filled in “My hero” on the home page, your class opens right away.',
-                        'Основних професій у персонажа дві. Зазвичай ремесло беруть разом із відповідним збиранням, щоб добувати матеріали самому. Якщо ви заповнили «Мій персонаж» на головній, одразу відкриється ваш клас.')]),
+            ('text', [t('Основных профессий две. На прокачке ремесло берут вместе со сбором для него: материалы свои, а вещи с рецептов обновляют экипировку. На 60 уровне многие меняют одно из двух на Инженерное дело или Алхимию. Пары для 60 уровня — по гайдам на данных беты, до старта их никто не проверил. Если вы заполнили «Мой персонаж» на главной, сразу откроется ваш класс.', 'There are two primary professions. While leveling, take a craft together with the gathering profession that feeds it: you get the materials yourself, and recipe items refresh your gear. At level 60 many players swap one of the two for Engineering or Alchemy. The level 60 pairs come from guides based on beta data, and nobody has tested them before launch. If you filled in “My hero” on the home page, your class opens right away.', 'Основних професій дві. На прокачуванні ремесло беруть разом зі збиранням для нього: матеріали свої, а речі з рецептів оновлюють спорядження. На 60 рівні багато хто міняє одну з двох на Інженерію або Алхімію. Пари для 60 рівня — за гайдами на даних бети, до старту їх ніхто не перевірив. Якщо ви заповнили «Мій персонаж» на головній, одразу відкриється ваш клас.')]),
+            ('table', _pairs_table()),
             ('tabs', _pair_tabs()),
-            ('tip', t('Кулинарию, Первую помощь и Рыбалку берут все: это вспомогательные профессии, можно взять все три, и забыть их нельзя. Пусть кто-то в группе поднимет Кулинарию до 220 ради 10 мест в лагере.',
-                      'Everyone takes Cooking, First Aid and Fishing: they are secondary professions, you can have all three and they cannot be unlearned. Let someone in the group raise Cooking to 220 for 10 camp slots.',
-                      'Кулінарію, Першу допомогу та Рибальство беруть усі: це допоміжні професії, їх може бути всі три одразу, і розучити їх не можна. Нехай хтось у групі підніме Кулінарію до 220 заради 10 місць у таборі.')),
+            ('tip', t('Кулинарию, Первую помощь и Рыбалку берут все: это вспомогательные профессии, можно взять все три, и забыть их нельзя. Пусть кто-то в группе поднимет Кулинарию до 220 ради 10 мест в лагере.', 'Everyone takes Cooking, First Aid and Fishing: they are secondary professions, you can have all three and they cannot be unlearned. Let someone in the group raise Cooking to 220 for 10 camp slots.', 'Кулінарію, Першу допомогу та Рибальство беруть усі: це допоміжні професії, можна взяти всі три, і розучити їх не можна. Нехай хтось у групі підніме Кулінарію до 220 заради 10 місць у таборі.')),
+            ('tiles', [{'t': t('Тир-лист классов WoW Forever', 'WoW Forever Class Tier List', 'Тір-лист класів WoW Forever'), 'd': t('Сильные классы и спеки по данным беты', 'Strong classes and specs by beta data', 'Сильні класи й спеціалізації за даними бети'), 'href': 'guides/tier-list/', 'art': 'hero_classes'}]),
+        ]},
+        {'id': 'choose', 'title': t('Как выбрать пару', 'How to choose a pair', 'Як вибрати пару'), 'blocks': [
+            ('steps', [
+                {'t': t('Ремесло по броне', 'A craft for your armor', 'Ремесло за бронею'),
+                 'd': t('Кузнечное дело для лат, Кожевничество для кожи и кольчуги, Портняжное дело для ткани.', 'Blacksmithing for plate, Leatherworking for leather and mail, Tailoring for cloth.', 'Ковальство для лат, Шкіряництво для шкіри й кольчуги, Кравецтво для тканини.')},
+                {'t': t('Сбор к ремеслу', 'Gathering for the craft', 'Збирання до ремесла'),
+                 'd': t('Горное дело кормит Кузнечное и Инженерное дело, Травничество — Алхимию, Снятие шкур — Кожевничество. Портняжному делу сбор не нужен: ткань падает с гуманоидов, поэтому его берут с Наложением чар.', 'Mining feeds Blacksmithing and Engineering, Herbalism feeds Alchemy, Skinning feeds Leatherworking. Tailoring needs no gathering: cloth drops from humanoids, which is why it is paired with Enchanting.', 'Гірництво живить Ковальство та Інженерію, Травництво — Алхімію, Знімання шкур — Шкіряництво. Кравецтву збирання не потрібне: тканина падає з гуманоїдів, тому його беруть із Зачаруванням.')},
+                {'t': t('Рецепты для себя', 'Recipes for yourself', 'Рецепти для себе'),
+                 'd': t('Многие вещи с рецептов персональные: они становятся вашими при создании, купить их на аукционе нельзя. Нужная вещь — повод взять профессию самому.', 'Many recipe items are personal: they become yours when crafted and cannot be bought at the auction house. An item you need is a reason to take the profession yourself.', 'Багато речей з рецептів персональні: вони стають вашими під час створення, купити їх на аукціоні не можна. Потрібна річ — привід узяти професію самому.')},
+                {'t': t('PvP', 'PvP', 'PvP'),
+                 'd': t('Инженерное дело: гранаты, бомбы, устройства и свои аксессуары. Специализацию Гоблинов или Гномов выбирают с 200 навыка.', 'Engineering: grenades, bombs, devices and its own trinkets. The Goblin or Gnome specialization is chosen at skill 200.', 'Інженерія: гранати, бомби, пристрої та власні аксесуари. Спеціалізацію Гоблінів або Гномів обирають з навички 200.')},
+                {'t': t('Рейд', 'Raid', 'Рейд'),
+                 'd': t('Алхимия: эликсиры, а флаконы теперь варят в переносной Alchemy Laboratory, без похода в [[Некроситет|Scholomance]].', 'Alchemy: elixirs, and flasks are now brewed in the portable Alchemy Laboratory, with no trip to Scholomance.', 'Алхімія: еліксири, а флакони тепер варять у переносній Alchemy Laboratory, без походу до Scholomance.')},
+                {'t': t('Два ремесла', 'Two crafts', 'Два ремесла'),
+                 'd': t('Когда персонажей несколько и золото есть, второе ремесло вместо сбора: материалы носит твинк или аукцион.', 'When you have several characters and some gold, take a second craft instead of gathering: an alt or the auction house supplies the materials.', 'Коли персонажів кілька і золото є, друге ремесло замість збирання: матеріали носить твінк або аукціон.')},
+            ]),
+            ('tip', t('Отказ от профессии стирает навык и рецепты, учить заново с нуля. Меняйте сбор на ремесло ближе к 60 уровню, когда сбор уже окупился.', 'Unlearning a profession wipes the skill and recipes, and you start over from zero. Swap gathering for a craft closer to level 60, once the gathering has paid off.', 'Відмова від професії стирає навичку й рецепти, вчити знову з нуля. Міняйте збирання на ремесло ближче до 60 рівня, коли збирання вже окупилося.')),
+            ('tiles', [{'t': t('Прокачка 1–60', 'Leveling 1–60', 'Прокачування 1–60'), 'd': t('Маршрут и лагерь на прокачке', 'Route and camp while leveling', 'Маршрут і табір на прокачуванні'), 'href': 'guides/leveling/#camp', 'art': 'hero_leveling'}]),
+        ]},
+        {'id': 'gold', 'title': t('Профессии для золота', 'Professions for gold', 'Професії для золота'), 'blocks': [
+            ('text', [t('WoW Token в Forever нет: всё золото на сервере добывают игроки. Ремесло в основном одевает вас самого, а продают в первую очередь материалы.', 'There is no WoW Token in Forever: all the gold on the server is earned by players. A craft mostly dresses you, so what sells first of all is materials.', 'WoW Token у Forever немає: усе золото на сервері здобувають гравці. Ремесло здебільшого одягає вас самого, а продають насамперед матеріали.')]),
+            ('table', {'head': [t('Профессия', 'Profession', 'Професія'), t('Что продают', 'What sells', 'Що продають'), t('Важно', 'Good to know', 'Важливо')], 'rows': [
+                [t('Травничество', 'Herbalism', 'Травництво'), t('Травы, семена, редкие материалы', 'Herbs, seeds, rare materials', 'Трави, насіння, рідкісні матеріали'), t('Обычные травы быстро дешевеют, редкие держат цену.', 'Common herbs get cheap fast, rare ones hold their price.', 'Звичайні трави швидко дешевшають, рідкісні тримають ціну.')],
+                [t('Горное дело', 'Mining', 'Гірництво'), t('Руда, слитки, редкие материалы', 'Ore, bars, rare materials', 'Руда, зливки, рідкісні матеріали'), t('Руду берут кузнецы и инженеры.', 'Blacksmiths and engineers buy the ore.', 'Руду беруть ковалі та інженери.')],
+                [t('Снятие шкур', 'Skinning', 'Знімання шкур'), t('Кожа, шкуры, редкие материалы', 'Leather, hides, rare materials', 'Шкіра, шкури, рідкісні матеріали'), t('Одна из самых доходных профессий для золота, по Warcraft Tavern.', 'One of the most profitable professions for gold, according to Warcraft Tavern.', 'Одна з найприбутковіших професій для золота, за Warcraft Tavern.')],
+                [t('Алхимия', 'Alchemy', 'Алхімія'), t('Эликсиры, флаконы, трансмутации', 'Elixirs, flasks, transmutations', 'Еліксири, флакони, трансмутації'), t('Лечебные зелья теперь у Первой помощи, их варит кто угодно.', 'Healing potions now belong to First Aid, so anyone can brew them.', 'Лікувальні зілля тепер у Першої допомоги, їх варить будь-хто.')],
+                [t('Наложение чар', 'Enchanting', 'Зачарування'), t('Чары на чужие вещи', 'Enchants for other people’s gear', 'Чари на чужі речі'), t('Редкие чары дороже.', 'Rare enchants cost more.', 'Рідкісні чари дорожчі.')],
+                [t('Инженерное дело', 'Engineering', 'Інженерія'), t('Мало', 'Little', 'Мало'), t('Польза в устройствах, а не в заработке.', 'Its value is in devices, not in income.', 'Користь у пристроях, а не в заробітку.')],
+            ]}),
+            ('steps', [
+                {'t': t('Два сбора', 'Two gathering professions', 'Два збирання'),
+                 'd': t('Самый простой заработок на старте: почти без вложений, всё, что собрали, идёт на аукцион.', 'The easiest income at the start: almost no investment, and everything you gather goes to the auction house.', 'Найпростіший заробіток на старті: майже без вкладень, усе, що зібрали, йде на аукціон.')},
+                {'t': t('Редкие материалы', 'Rare materials', 'Рідкісні матеріали'),
+                 'd': t('Сбор иногда даёт редкие материалы (Frilled Lichen, Rosecaps и другие) для красок и чар. Перк Legacy Bountiful Harvest даёт их на 20% больше.', 'Gathering sometimes gives rare materials (Frilled Lichen, Rosecaps and others) for dyes and enchants. The Legacy Bountiful Harvest perk gives 20% more of them.', 'Збирання іноді дає рідкісні матеріали (Frilled Lichen, Rosecaps та інші) для фарб і чар. Перк Legacy Bountiful Harvest дає їх на 20% більше.')},
+                {'t': t('Ящики', 'Crates', 'Ящики'),
+                 'd': t('Waylaid Crate падает с врагов и продаётся на аукционе. Ящик, который не будете сдавать, продайте.', 'Waylaid Crate drops from enemies and sells at the auction house. A crate you will not turn in, sell.', 'Waylaid Crate падає з ворогів і продається на аукціоні. Ящик, який не здаватимете, продайте.')},
+                {'t': t('Не продавайте вслепую', 'Do not sell blindly', 'Не продавайте наосліп'),
+                 'd': t('Сначала посмотрите, для чего предмет и сколько он стоит на аукционе. Дорогие покупки отложите до 60 уровня.', 'First check what an item is for and what it costs at the auction house. Put expensive purchases off until level 60.', 'Спершу подивіться, для чого предмет і скільки він коштує на аукціоні. Дорогі покупки відкладіть до 60 рівня.')},
+            ]),
+            ('tip', t('Цен по бете не пишем: на бете был лимит уровня, своя экономика на старте сложится заново.', 'We give no beta prices: the beta had a level cap, and the economy will form anew at launch.', 'Цін з бети не пишемо: на беті був ліміт рівня, власна економіка на старті складеться заново.')),
+            ('tiles', [{'t': t('Система Legacy', 'The Legacy System', 'Система Legacy'), 'd': t('Перки профессий: Bountiful Harvest, Performance Bonus', 'Profession perks: Bountiful Harvest, Performance Bonus', 'Перки професій: Bountiful Harvest, Performance Bonus'), 'href': 'guides/legacy/', 'art': 'hero_guides'}]),
+        ]},
+        {'id': 'crates', 'title': t('Ящики и Merchant’s Favor', 'Crates and Merchant’s Favor', 'Ящики та Merchant’s Favor'), 'blocks': [
+            ('text', [t('Новое в Forever: рецепты за валюту Merchant’s Favor. Её дают за ящики Waylaid Crate, заполненные материалами профессий.', 'New in Forever: recipes for the Merchant’s Favor currency. You earn it by turning in Waylaid Crates filled with profession materials.', 'Нове у Forever: рецепти за валюту Merchant’s Favor. Її дають за ящики Waylaid Crate, заповнені матеріалами професій.')]),
+            ('steps', [
+                {'t': t('Ящик', 'The crate', 'Ящик'),
+                 'd': t('Waylaid Crate падает с врагов в открытом мире, его можно купить на аукционе. Заполнить нужно одну связку из списка ящика.', 'Waylaid Crate drops from enemies in the open world, and you can buy it at the auction house. You need to fill one bundle from the crate’s list.', 'Waylaid Crate падає з ворогів у відкритому світі, його можна купити на аукціоні. Заповнити потрібно один набір зі списку ящика.')},
+                {'t': t('Куда сдавать', 'Where to turn it in', 'Куди здавати'),
+                 'd': t('Орда: Dokimi у западных ворот Crossroads в [[Степях|The Barrens]]. Альянс: Marcy Baker на Three Corners, на западе [[Красногорья|Redridge Mountains]]. Рядом стоят продавцы рецептов.', 'Horde: Dokimi at the west gate of Crossroads in The Barrens. Alliance: Marcy Baker at Three Corners, in the west of Redridge Mountains. Recipe vendors stand nearby.', 'Орда: Dokimi біля західної брами Crossroads у The Barrens. Альянс: Marcy Baker на Three Corners, на заході Redridge Mountains. Поруч стоять продавці рецептів.')},
+                {'t': t('Первый ящик', 'The first crate', 'Перший ящик'),
+                 'd': t('Первая сдача даёт бонус 50 Merchant’s Favor: хватает на рецепт сразу.', 'The first turn-in gives a bonus of 50 Merchant’s Favor: enough for a recipe right away.', 'Перша здача дає бонус 50 Merchant’s Favor: вистачає на рецепт одразу.')},
+                {'t': t('Репутация', 'Reputation', 'Репутація'),
+                 'd': t('Сдача ящиков даёт репутацию у лагеря (Durotar Supply and Logistics у Орды, Azeroth Commerce Authority у Альянса). Рецепты выше 35 уровня требуют репутации.', 'Turning in crates earns reputation with the camp (Durotar Supply and Logistics for the Horde, Azeroth Commerce Authority for the Alliance). Recipes above level 35 require reputation.', 'Здача ящиків дає репутацію в таборі (Durotar Supply and Logistics в Орди, Azeroth Commerce Authority в Альянсу). Рецепти вище 35 рівня потребують репутації.')},
+                {'t': t('Рецепты', 'Recipes', 'Рецепти'),
+                 'd': t('Вещи с них персональные. Покупайте рецепт под самую слабую часть экипировки.', 'Items from them are personal. Buy a recipe for your weakest gear slot.', 'Речі з них персональні. Купуйте рецепт під найслабший слот спорядження.')},
+            ]),
+            ('tip', t('Merchant’s Favor у каждого персонажа свой. Перк Legacy Performance Bonus иногда даёт больше Favor за ящик.', 'Merchant’s Favor is separate for each character. The Legacy Performance Bonus perk sometimes gives more Favor per crate.', 'Merchant’s Favor у кожного персонажа свій. Перк Legacy Performance Bonus іноді дає більше Favor за ящик.')),
         ]},
         {'id': 'camp', 'title': t('Объекты лагеря', 'Camp objects', 'Об’єкти табору'), 'blocks': [
             ('text', [t('У каждой профессии три объекта лагеря, по одному на уровень. Ниже объект первого уровня и бафф класса, на который похож его эффект.',
@@ -857,6 +925,34 @@ GUIDES.append({
             ('tip', t('Если отказаться от профессии, весь её прогресс пропадёт, а игра просит подтвердить это вводом слова. Пассивных бонусов у профессий в Forever нет: польза в том, что вы делаете и собираете, и в баффах лагеря.',
                       'Unlearning a profession wipes all its progress, and the game asks you to type a confirmation. Professions in Forever have no passive bonuses: the value is in what you craft and gather, and in camp buffs.',
                       'Розучивши професію, ви втрачаєте весь її прогрес, а гра просить підтвердити це введенням слова. Пасивних бонусів у професій у Forever немає: користь у тому, що ви робите й збираєте, і в баффах табору.')),
+        ]},
+        {'id': 'changes', 'title': t('Что изменилось против Classic', 'What changed compared to Classic', 'Що змінилося проти Classic'), 'blocks': [
+            ('table', {'head': [t('Что', 'What', 'Що'), t('В Forever', 'In Forever', 'У Forever')], 'rows': [
+                [t('Лечебные зелья', 'Healing potions', 'Лікувальні зілля'), t('Перешли из Алхимии в Первую помощь', 'Moved from Alchemy to First Aid', 'Перейшли з Алхімії до Першої допомоги')],
+                [t('Алхимия', 'Alchemy', 'Алхімія'), t('Переносная Alchemy Laboratory для флаконов, краски, Rage Potion теперь и для друидов', 'Portable Alchemy Laboratory for flasks, dyes, Rage Potion now for druids too', 'Переносна Alchemy Laboratory для флаконів, фарби, Rage Potion тепер і для друїдів')],
+                [t('Наложение чар', 'Enchanting', 'Зачарування'), t('Делает посохи, реликвии, идолы и тотемы, новые чары на ожерелье, жезлы с силой заклинаний', 'Makes staves, relics, idols and totems, new enchants for the neck, wands with spell power', 'Робить посохи, реліквії, ідоли й тотеми, нові чари на намисто, жезли із силою заклинань')],
+                [t('Кожевничество', 'Leatherworking', 'Шкіряництво'), t('Armor Kit для бойцов и для заклинателей отдельно', 'Armor Kit for fighters and, separately, for casters', 'Armor Kit для бійців і окремо для заклиначів')],
+                [t('Инженерное дело', 'Engineering', 'Інженерія'), t('Безопасные для всех гранаты Saf T. Инженерная специализация гномов теперь снижает шанс сбоя устройств', 'Saf T grenades, safe for everyone. The gnome engineering specialization now lowers the chance of devices failing', 'Безпечні для всіх гранати Saf T. Інженерна спеціалізація гномів тепер знижує шанс збою пристроїв')],
+                [t('Травничество', 'Herbalism', 'Травництво'), t('Семена и теплица в лагере', 'Seeds and a greenhouse in camp', 'Насіння й теплиця в таборі')],
+                [t('Рецепты', 'Recipes', 'Рецепти'), t('Больше 600 новых, в основном из материалов Classic', 'Over 600 new ones, mostly from Classic materials', 'Понад 600 нових, здебільшого з матеріалів Classic')],
+                [t('Сумки', 'Bags', 'Сумки'), t('Отдельная ячейка для сумки с реагентами', 'A separate slot for a reagent bag', 'Окрема комірка для сумки з реагентами')],
+            ]}),
+        ]},
+        {'id': 'questions', 'title': t('Частые вопросы', 'Frequently asked questions', 'Часті питання'), 'blocks': [
+            ('faq', [
+                {'id': 'best-gold', 'q': t('Какие профессии лучше для золота в WoW Forever?', 'Which professions are best for gold in WoW Forever?', 'Які професії найкращі для золота у WoW Forever?'),
+                 'a': [t('Два сбора: Травничество, Горное дело или Снятие шкур. Вложений почти нет, материалы нужны всем ремесленникам. Из ремёсел для золота советуют Алхимию в паре с Травничеством.', 'Two gathering professions: Herbalism, Mining or Skinning. There is almost no investment, and every crafter needs the materials. Of the crafts, players recommend Alchemy paired with Herbalism for gold.', 'Два збирання: Травництво, Гірництво або Знімання шкур. Вкладень майже немає, матеріали потрібні всім ремісникам. З ремесел для золота радять Алхімію в парі з Травництвом.')]},
+                {'id': 'warrior', 'q': t('Какую профессию взять воину?', 'Which profession should a warrior take?', 'Яку професію взяти воїну?'),
+                 'a': [t('Кузнечное дело и Горное дело на прокачке: кузнец сам делает себе латы и оружие. На 60 уровне Кузнечное дело часто меняют на Инженерное.', 'Blacksmithing and Mining while leveling: a blacksmith makes their own plate and weapons. At level 60 Blacksmithing is often swapped for Engineering.', 'Ковальство та Гірництво на прокачуванні: коваль сам робить собі лати й зброю. На 60 рівні Ковальство часто міняють на Інженерію.')]},
+                {'id': 'pvp', 'q': t('Нужно ли Инженерное дело для PvP?', 'Do you need Engineering for PvP?', 'Чи потрібна Інженерія для PvP?'),
+                 'a': [t('Да, для PvP его берут почти все классы: гранаты, бомбы и устройства дают контроль и подвижность, которых у класса нет.', 'Yes, almost every class takes it for PvP: grenades, bombs and devices give control and mobility the class lacks.', 'Так, для PvP її беруть майже всі класи: гранати, бомби та пристрої дають контроль і рухливість, яких у класу бракує.')]},
+                {'id': 'potions', 'q': t('Кто теперь делает лечебные зелья?', 'Who makes healing potions now?', 'Хто тепер робить лікувальні зілля?'),
+                 'a': [t('Первая помощь. Это вспомогательная профессия, её может взять любой персонаж без траты основного места. Алхимия оставила себе эликсиры, флаконы и трансмутации.', 'First Aid. It is a secondary profession that any character can take without using a primary slot. Alchemy kept elixirs, flasks and transmutations.', 'Перша допомога. Це допоміжна професія, її може взяти будь-який персонаж, не витрачаючи основне місце. Алхімія залишила собі еліксири, флакони й трансмутації.')]},
+                {'id': 'change', 'q': t('Можно ли сменить профессию?', 'Can you change a profession?', 'Чи можна змінити професію?'),
+                 'a': [t('Да, в любой момент, но навык и рецепты пропадут, прокачивать придётся с нуля. Вспомогательные профессии забыть нельзя.', 'Yes, at any time, but the skill and recipes are lost and you level from zero. Secondary professions cannot be unlearned.', 'Так, будь-коли, але навичка й рецепти зникнуть, прокачувати доведеться з нуля. Допоміжні професії розучити не можна.')]},
+                {'id': 'favor', 'q': t('Что такое Merchant’s Favor?', 'What is Merchant’s Favor?', 'Що таке Merchant’s Favor?'),
+                 'a': [t('Валюта за сданные ящики Waylaid Crate. На неё покупают рецепты, вещи с которых персональные. У каждого персонажа своя.', 'A currency for turned-in Waylaid Crates. You buy recipes with it, and items from them are personal. Each character has their own.', 'Валюта за здані ящики Waylaid Crate. За неї купують рецепти, речі з яких персональні. У кожного персонажа своя.')]},
+            ]),
         ]},
     ],
 })

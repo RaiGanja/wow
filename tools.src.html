@@ -536,7 +536,7 @@ function renderCmp() {
     out.push(row('Специализации', ids.map(id => ul(CX[id].specs.map(s => `<b>${esc(s.n)}</b>${SPEC_SEP}<span class="sub">${esc(s.what)}</span>`)))));
     out.push(row('Бафф для рейда', ids.map(id => BUFF[id] ? esc(BUFF[id]) : '<span class="none">Нет</span>')));
     out.push(row('В группе', ids.map(id => ul(CX[id].group.map(esc)))));
-    out.push(row('Профессии', ids.map(id => ul(CPROF[id].map(p => `<b>${esc(p[0])}</b><br><span class="sub">${esc(p[1])}</span>`)) + `<a class="cgo" href="${HOME}guides/professions/#pairs=${id}">Объекты лагеря и прокачка<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>`)));
+    out.push(row('Профессии', ids.map(id => ul(CPROF[id].map(p => `<b>${esc(p[0])}</b>${p[1] ? `<br><span class="sub">${esc(p[1])}</span>` : ''}`)) + `<a class="cgo" href="${HOME}guides/professions/#pairs=${id}">Объекты лагеря и прокачка<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a>`)));
     out.push(row('Сильные стороны', ids.map(id => ul(CX[id].pros.map(esc), 'plus'))));
     out.push(row('Слабые стороны', ids.map(id => ul(CX[id].cons.map(esc), 'minus'))));
     ['alliance', 'horde'].forEach(f => out.push(row(`Расы: ${FAC[f]}`, ids.map(id => { const rs = RACES.filter(r => r.f === f && r.can[id]); return rs.length ? rs.map(r => `<a href="${raceUrl(r.id)}">${esc(raceName(r))}</a>`).join(', ') : '<span class="none">Нет</span>'; }))));
