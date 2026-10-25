@@ -172,9 +172,9 @@ def dungeons():
 
 def professions():
     im = load('hero_professions')
-    fire = lights(soft(ImageChops.lighter(flames(im, [(40, 370, 150, 465)], 190), flames(im, [(715, 535, 840, 590)], 210)), 2, 2),   # forge, hot iron
+    fire = lights(soft(ImageChops.lighter(flames(im, [(35, 325, 165, 460)], 190), flames(im, [(715, 535, 840, 590)], 210)), 2, 2),   # forge, hot iron
                   flame(im, [(979.5, 410, 424, 4.5)]), spots=[(980, 418, 30)])   # the burner under the flask
-    herbs = shape([[(858, 140), (900, 140), (905, 245), (870, 260), (855, 240)], [(905, 150), (940, 150), (945, 255), (905, 250)],
+    herbs = shape([[(858, 140), (900, 140), (905, 245), (870, 260), (855, 240)], [(905, 150), (940, 150), (942, 198), (906, 198)],   # the bundle in the elf's hand: only above her fingers
                    [(940, 150), (982, 150), (985, 262), (945, 262)], [(1225, 80), (1290, 80), (1295, 200), (1228, 200)]],
                   lambda x, y: fade(y, 145, 255) if x < 1100 else fade(y, 85, 200))   # tied at the beam, the bundles swing
     open_sky = ImageChops.multiply(pick(im, [(110, 20, 700, 280)], lambda r, g, b, x, y: lum(r, g, b) > .62 and sat(r, g, b) < .45),
