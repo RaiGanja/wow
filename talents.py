@@ -72,7 +72,35 @@ UI = {
     'order': {'ru': 'Порядок по уровням', 'en': 'Order by level', 'uk': 'Порядок за рівнями', 'de': 'Reihenfolge nach Stufe',
               'es': 'Orden por nivel', 'fr': 'Ordre par niveau', 'it': 'Ordine per livello', 'pl': 'Kolejność wg poziomu',
               'pt': 'Ordem por nível'},
+    # The build switcher (see BUILDS below): one button per build, shown only when the spec has data for it
+    'bs': {'ru': 'Сборка', 'en': 'Build', 'uk': 'Збірка', 'de': 'Build', 'es': 'Build', 'fr': 'Build', 'it': 'Build',
+           'pl': 'Build', 'pt': 'Build'},
+    'b_general': {'ru': 'Общая', 'en': 'General', 'uk': 'Загальна', 'de': 'Allgemein', 'es': 'General', 'fr': 'Général',
+                  'it': 'Generale', 'pl': 'Ogólna', 'pt': 'Geral'},
+    'b_leveling': {'ru': 'Прокачка', 'en': 'Leveling', 'uk': 'Прокачка', 'de': 'Leveln', 'es': 'Subida de nivel',
+                   'fr': 'Progression', 'it': 'Livellamento', 'pl': 'Levelowanie', 'pt': 'Evolução'},
+    'b_dungeons': {'ru': 'Подземелья', 'en': 'Dungeons', 'uk': 'Підземелля', 'de': 'Dungeons', 'es': 'Mazmorras',
+                   'fr': 'Donjons', 'it': 'Spedizioni', 'pl': 'Dungeony', 'pt': 'Masmorras'},
+    'b_raid': {'ru': 'Рейд', 'en': 'Raid', 'uk': 'Рейд', 'de': 'Schlachtzug', 'es': 'Banda', 'fr': 'Raid', 'it': 'Incursione',
+               'pl': 'Raid', 'pt': 'Raide'},
+    'b_pvp': {'ru': 'PvP', 'en': 'PvP', 'uk': 'PvP', 'de': 'PvP', 'es': 'JcJ', 'fr': 'JcJ', 'it': 'PvP', 'pl': 'PvP', 'pt': 'PvP'},
+    'lvh': {'ru': 'Порядок по уровням, 10–60', 'en': 'Order by level, 10–60', 'uk': 'Порядок за рівнями, 10–60',
+            'de': 'Reihenfolge nach Stufe, 10–60', 'es': 'Orden por nivel, 10–60', 'fr': 'Ordre par niveau, 10–60',
+            'it': 'Ordine per livello, 10–60', 'pl': 'Kolejność wg poziomu, 10–60', 'pt': 'Ordem por nível, 10–60'},
+    'lvnote': {'ru': 'Уровни 31–60 на бете закрыты: порядок взят из гайда прокачки класса, проверим после старта.',
+               'en': 'Levels 31–60 are closed on the beta: the order comes from the class leveling guide, and we will check it after launch.',
+               'uk': 'Рівні 31–60 у беті закриті: порядок узято з гайда прокачування класу, перевіримо після старту.',
+               'de': 'Die Stufen 31–60 sind in der Beta gesperrt: Die Reihenfolge stammt aus dem Level-Guide der Klasse, wir prüfen sie nach dem Start.',
+               'es': 'Los niveles 31–60 están cerrados en la beta: el orden viene de la guía de subida de la clase y lo revisaremos tras el lanzamiento.',
+               'fr': 'Les niveaux 31–60 sont fermés en bêta : l’ordre vient du guide de progression de la classe, nous le vérifierons après le lancement.',
+               'it': 'I livelli 31–60 sono chiusi nella beta: l’ordine viene dalla guida al livellamento della classe, lo verificheremo dopo il lancio.',
+               'pl': 'Poziomy 31–60 są w becie zamknięte: kolejność pochodzi z poradnika levelowania klasy, sprawdzimy ją po starcie.',
+               'pt': 'Os níveis 31–60 estão fechados na beta: a ordem vem do guia de evolução da classe e vamos conferi-la após o lançamento.'},
+    'lvg': {'ru': 'Гайд по прокачке класса', 'en': 'Class leveling guide', 'uk': 'Гайд із прокачування класу',
+            'de': 'Level-Guide der Klasse', 'es': 'Guía de subida de la clase', 'fr': 'Guide de progression de la classe',
+            'it': 'Guida al livellamento della classe', 'pl': 'Poradnik levelowania klasy', 'pt': 'Guia de evolução da classe'},
 }
+JS_SKIP = ('hint', 'beta', 'classic', 'wh', 'perk', 'bs', 'b_general', 'b_leveling', 'b_dungeons', 'b_raid', 'b_pvp', 'lvh', 'lvnote', 'lvg')
 EN_NAMES = ('en', 'uk', 'pl')              # the site keeps English talent names on these pages (content/spec_builds.py)
 WH_LANGS = ('ru', 'de', 'es', 'fr', 'it', 'pt')            # Wowhead's own interface languages (www.wowhead.com/forever/<lang>/…)
 
@@ -85,15 +113,21 @@ def day(iso, lang):
 
 
 def wowhead(cid, data, rows, lang):
-    """A link to the spec in the Wowhead Forever calculator: our points per talent, in the calculator's own URL format
-    (v2 + one digit per talent of each tree in row/column order, trees joined by '-', trailing zeros cut, _t0 = no Legacy perk).
-    The calculator drops a talent whose row is not open yet, so a gap our table leaves (points the sources do not agree on) is
-    put into the first free talent of an open row of that tree, the same «your pick» the order by level shows."""
-    pts, picks = {}, []
+    """A link to the spec in the Wowhead Forever calculator (see wowhead_ids); rows: (table cell, points) of the general build."""
+    picks = []
     for cell, n in rows:
         tree, t = match(data, cell)
         if t:
             picks.append((tree, t, int(n)))
+    return wowhead_ids(cid, data, picks, lang, perk(data, rows))
+
+
+def wowhead_ids(cid, data, picks, lang, pk):
+    """The calculator's own URL format: v2 + one digit per talent of each tree in row/column order, trees joined by '-', trailing
+    zeros cut, _t<n> = ranks of the Legacy perk. picks: (tree, talent, points). The calculator drops a talent whose row is not open
+    yet, so a gap our table leaves (points the sources do not agree on) is put into the first free talent of an open row of that
+    tree, the same «your pick» the order by level shows."""
+    pts = {}
     spent = {}
     for tree, t, n in sorted(picks, key=lambda x: x[1]['r']):
         need = ROW_POINTS * (t['r'] - 1) - spent.get(tree['key'], 0)
@@ -113,7 +147,7 @@ def wowhead(cid, data, rows, lang):
     while code and not code[-1]:
         code.pop()
     return (f'https://www.wowhead.com/forever/{lang + "/" if lang in WH_LANGS else ""}talent-calc/{cid}/v2{"-".join(code)}'
-            f'_t{perk(data, rows)}')
+            f'_t{pk}')
 
 _names = None
 
@@ -202,6 +236,84 @@ def plan(data, rows, first=FIRST_LEVEL):
     return {t['id']: pts for _, t, pts in picks}, steps, spent, unknown
 
 
+# ---- Build switcher: the general build (the table of the spec) plus one tab per extra build that has data -------------------------
+# A build is a dict: picked {talent id: ranks}, steps [(talent, points, first level, last level)], spent {tree key: points},
+# at {talent id: 'levels text'}, main (tree key shown first), picks [(tree, talent, ranks)] for the calculator link, pk,
+# head/note/guide (UI keys). A provider returns None when the spec has no data: no data, no tab, never an empty tab.
+# Leveling 10-60 comes from the leveling guides (content/class_guides.py, one spec per class); dungeons / raid / pvp get a provider
+# once level 60 data with a source exists (after the launch).
+BUILD_IDS = ('leveling', 'dungeons', 'raid', 'pvp')                  # tab order; the ids are also the URL anchors (#protection-leveling)
+LEVEL_SPEC = {'warrior': 'protection', 'paladin': 'retribution', 'hunter': 'beast-mastery', 'rogue': 'combat',
+              'priest': 'shadow', 'shaman': 'enhancement', 'mage': 'frost', 'warlock': 'affliction', 'druid': 'feral'}
+LEVEL_CAP = 60
+
+
+def _find(data, cell):
+    """The talent of a leveling table row by its English name (apostrophes unified)."""
+    def n(x):
+        return re.sub(r'\s*\(.*\)$', '', x.replace('’', "'")).strip().lower()
+    en = cell['en'] if isinstance(cell, dict) else cell
+    for tree in data['trees']:
+        for t in tree['talents']:
+            if n(t['n'].get('en', '')) == n(en):
+                return tree, t
+    return None, None
+
+
+def _level_rows(cid):
+    from content import class_guides
+    for g in class_guides.CLASS_GUIDES:
+        if g['slug'] == f'leveling-{cid}':
+            for s in g['sections']:
+                if s['id'] == 'talents':
+                    return next((b['rows'] for k, b in s['blocks'] if k == 'table'), [])
+    return []
+
+
+def leveling(cid, spec, data):
+    """The order of the 51 points by level 10-60 from the class leveling guide. The table's number is the rank the talent has after
+    the row. Every step is checked against the tree: the rows must follow each other from level 10 to 60, the ranks must add up
+    to the levels, each talent's row must be open (5 points per row spent in the tree) and its prerequisite at full rank. Any
+    break -> None: a spec whose source order cannot be taken in this tree gets no tab rather than a wrong one."""
+    if LEVEL_SPEC.get(cid) != spec:
+        return None
+    rows = _level_rows(cid)
+    by = {t['id']: t for tr in data['trees'] for t in tr['talents']}
+    rank, spent, steps, spans, level = {}, {}, [], {}, FIRST_LEVEL
+    for r in rows:
+        m = re.match(r'^(\d+)(?:–(\d+))?$', str(r[0]))
+        if not m:
+            return None
+        a, b = int(m.group(1)), int(m.group(2) or m.group(1))
+        tree, t = _find(data, r[1])
+        if a != level or t is None:
+            return None
+        level = b + 1
+        goal = int(str(r[2]).split('/')[0])
+        add = goal - rank.get(t['id'], 0)
+        if add != b - a + 1 or goal > t['m'] or spent.get(tree['key'], 0) < ROW_POINTS * (t['r'] - 1):
+            return None
+        if t.get('req') and rank.get(t['req'], 0) < by[t['req']]['m']:
+            return None
+        rank[t['id']] = goal
+        spent[tree['key']] = spent.get(tree['key'], 0) + add
+        steps.append((t, add, a, b))
+        spans.setdefault(t['id'], []).append(_span(a, b))
+    if level - 1 != LEVEL_CAP or not steps:
+        return None
+    trees = {t['id']: tr for tr in data['trees'] for t in tr['talents']}
+    return {'picked': rank, 'steps': steps, 'spent': spent, 'at': {k: ', '.join(v) for k, v in spans.items()},
+            'main': max(spent, key=spent.get), 'pk': 0, 'picks': [(trees[k], by[k], n) for k, n in rank.items()],
+            'head': 'lvh', 'note': 'lvnote', 'guide': 'lvg'}
+
+
+PROVIDERS = {'leveling': leveling}
+
+
+def extra_builds(cid, spec, data):
+    return [(bid, b) for bid in BUILD_IDS if PROVIDERS.get(bid) for b in [PROVIDERS[bid](cid, spec, data)] if b]
+
+
 def sprite_v(cid):
     """?v=<hash> of the class sprite: assets are cached for days by Cloudflare and the browser (gabella_site_tech)."""
     import hashlib
@@ -227,7 +339,7 @@ def _letters(name):
     return (w[0][:2] if len(w) < 2 else w[0][0] + w[1][0]).capitalize() if w else '?'
 
 
-def _arrows(tree, picked):
+def _arrows(tree, picked, ends=False):
     """Lines from a prerequisite to its talent: straight down, straight across, or across then down (an elbow).
     --r/--c: the row and the leftmost column of the line, --n: how many rows or columns it spans (the CSS does the rest)."""
     by = {t['id']: t for t in tree['talents']}
@@ -237,16 +349,17 @@ def _arrows(tree, picked):
         if not src:
             continue
         on = ' on' if t['id'] in picked and src['id'] in picked else ''
+        e = f' data-s="{src["id"]}" data-d="{t["id"]}"' if ends else ''      # the script re-colours the line for another build
         r1, c1, r2, c2 = src['r'], src['c'], t['r'], t['c']
         if c1 == c2:                                               # down
-            out.append(f'<i class="tt-ar v{on}" style="--r:{r1};--c:{c1};--n:{r2 - r1}"></i>')
+            out.append(f'<i class="tt-ar v{on}"{e} style="--r:{r1};--c:{c1};--n:{r2 - r1}"></i>')
             continue
         side = 'r' if c2 > c1 else 'l'
         if r1 == r2:                                               # across
-            out.append(f'<i class="tt-ar h {side}{on}" style="--r:{r1};--c:{min(c1, c2)};--n:{abs(c2 - c1)}"></i>')
+            out.append(f'<i class="tt-ar h {side}{on}"{e} style="--r:{r1};--c:{min(c1, c2)};--n:{abs(c2 - c1)}"></i>')
             continue
-        out.append(f'<i class="tt-ar e {side}{on}" style="--r:{r1};--c:{min(c1, c2)};--n:{abs(c2 - c1)}"></i>'
-                   f'<i class="tt-ar v m{on}" style="--r:{r1};--c:{c2};--n:{r2 - r1}"></i>')
+        out.append(f'<i class="tt-ar e {side}{on}"{e} style="--r:{r1};--c:{min(c1, c2)};--n:{abs(c2 - c1)}"></i>'
+                   f'<i class="tt-ar v m{on}"{e} style="--r:{r1};--c:{c2};--n:{r2 - r1}"></i>')
     return ''.join(out)
 
 
@@ -257,10 +370,28 @@ def _l(x, lang):
 PAGE = {}   # (class, lang) -> the talents of the page for the card, written once per page by page()
 
 
+def _rib(steps, lang, pre='f'):
+    """The order by level: one cell per step (a run of points the sources do not agree on is a «?» cell)."""
+    rib = []
+    for i, (t, n, a, b) in enumerate(steps):
+        if t is None:
+            rib.append(f'<li><span>{_span(a, b)}</span><button type="button" class="tt-t free" data-k="{pre}{i}" aria-label="{UI["free"][lang]}">'
+                       f'<i class="tt-ic no">?</i></button><b>×{n}</b></li>')
+            continue
+        name = tname(t, lang)
+        ic = f' style="--i:{t["icon"]}"' if t.get('icon') is not None else ''
+        rib.append(f'<li><span>{_span(a, b)}</span><button type="button" class="tt-t on"{ic} data-k="{t["id"]}" aria-label="{escape(name)}">'
+                   f'{_icon(t, _letters(t["n"].get("en") or name))}</button><b>×{n}</b></li>')
+    return f'<ol class="tt-rib">{"".join(rib)}</ol>'
+
+
 def render(cid, spec, rows, titles, lang, root):
     """The tree block of one spec section. rows: the spec's talent table rows [name cell, points, why],
     titles: {tree key: name, a t() dict}. '' when the class has no data yet. The card texts live in one JSON per page
-    (page()), the block carries only its points: data-p = {talent id: [points, first level, last level, our line]}."""
+    (page()), the block carries only its points: data-p = {talent id: [points, first level, last level, our line]}.
+    When the spec has data for more builds (extra_builds), a switcher sits on top: the tree is drawn once for the general build and
+    the script re-colours it for the chosen build from data-b = {build id: {p: points, m: main tree}}; each build has its own order
+    by level in the page (hidden until chosen), so nothing needs the script but the switch itself."""
     data = load(cid)
     if not data:
         return ''
@@ -272,12 +403,13 @@ def render(cid, spec, rows, titles, lang, root):
         if t:
             why[t['id']] = _l(r[2], lang)
     titles = {k: _l(v, lang).split(':')[0].strip() for k, v in titles.items()}
-    PAGE[(cid, lang)] = {'u': {k: v[lang] for k, v in UI.items() if k not in ('hint', 'beta', 'classic', 'wh', 'perk')},
+    PAGE[(cid, lang)] = {'u': {k: v[lang] for k, v in UI.items() if k not in JS_SKIP},
                          't': {t['id']: [tname(t, lang), t['m'], t['r'], desc(t, lang)] for tr in data['trees'] for t in tr['talents']}}
     pts = {}
     for i, (t, n, a, b) in enumerate(steps):
         pts[t['id'] if t else f'f{i}'] = [n, a, b, why.get(t['id'], '')] if t else [n, a, b]
     main = spec if spec in spent or not spent else max(spent, key=spent.get)
+    extra = extra_builds(cid, spec, data)
     tabs, trees = [], []
     for tree in data['trees']:
         key = tree['key']
@@ -296,29 +428,45 @@ def render(cid, spec, rows, titles, lang, root):
         rows_n = max(t['r'] for t in tree['talents'])
         trees.append(f'<div class="tt-tree{" on" if on else ""}" data-t="{key}" role="group" aria-label="{title}">'
                      f'<h3>{title}<span{" class=on" if n else ""}>{n}</span></h3>'
-                     f'<div class="tt-grid" style="--rows:{rows_n}">{_arrows(tree, picked)}{"".join(cells)}</div></div>')
-    rib = []
-    for i, (t, n, a, b) in enumerate(steps):
-        if t is None:
-            rib.append(f'<li><span>{_span(a, b)}</span><button type="button" class="tt-t free" data-k="f{i}" aria-label="{UI["free"][lang]}">'
-                       f'<i class="tt-ic no">?</i></button><b>×{n}</b></li>')
-            continue
-        name = tname(t, lang)
-        ic = f' style="--i:{t["icon"]}"' if t.get('icon') is not None else ''
-        rib.append(f'<li><span>{_span(a, b)}</span><button type="button" class="tt-t on"{ic} data-k="{t["id"]}" aria-label="{escape(name)}">'
-                   f'{_icon(t, _letters(t["n"].get("en") or name))}</button><b>×{n}</b></li>')
+                     f'<div class="tt-grid" style="--rows:{rows_n}">{_arrows(tree, picked, bool(extra))}{"".join(cells)}</div></div>')
     p_attr = escape(json.dumps(pts, ensure_ascii=False, separators=(',', ':')))
     pk_html = f' <span class="tt-pk">{UI["perk"][lang].format(n=pk)}</span>' if pk else ''
     basis = data.get('basis')                                     # before launch: one line over the tree says where it comes from
     note = f'<p class="tt-note">{UI[basis][lang]} · {day(data["date"], lang)}</p>' if basis in ('beta', 'classic') else ''
-    link = (f'<p class="tt-ext"><a href="{escape(wowhead(cid, data, [(r[0], r[1]) for r in rows], lang))}" target="_blank" '
-            f'rel="noopener">{UI["wh"][lang]} ↗</a></p>')
-    return (f'<div class="tt" data-c="{cid}" data-l="{lang}" data-p="{p_attr}" '
-            f'style="--n:{max(data.get("sprite", 0), 2)};--sp:url(@@ROOT@@assets/talents/{cid}.webp{sprite_v(cid)})">{note}'
-            f'<div class="tt-tabs" role="tablist">{"".join(tabs)}</div><div class="tt-trees">{"".join(trees)}</div>'
-            f'<div class="tt-card" aria-live="polite"><p class="tt-hint">{UI["hint"][lang]}</p></div>'
-            f'<h3 class="tt-oh">{UI["order"][lang]}{"" if basis else " @@BETA@@"}'
-            f'{pk_html}</h3><ol class="tt-rib">{"".join(rib)}</ol>{link}</div>')
+    link = (f'<a href="{escape(wowhead(cid, data, [(r[0], r[1]) for r in rows], lang))}" target="_blank" '
+            f'rel="noopener">{UI["wh"][lang]} ↗</a>')
+    head = (f'<h3 class="tt-oh">{UI["order"][lang]}{"" if basis else " @@BETA@@"}'
+            f'{pk_html}</h3>{_rib(steps, lang)}<p class="tt-ext">{link}</p>')
+    box = (f'<div class="tt" data-c="{cid}" data-l="{lang}" data-p="{p_attr}"@@B@@ '
+           f'style="--n:{max(data.get("sprite", 0), 2)};--sp:url(@@ROOT@@assets/talents/{cid}.webp{sprite_v(cid)})">')
+    tabs_html = f'<div class="tt-tabs" role="tablist">{"".join(tabs)}</div>'
+    hint = f'<div class="tt-card" aria-live="polite"><p class="tt-hint">{UI["hint"][lang]}</p></div>'
+    if not extra:
+        return f'{box.replace("@@B@@", "")}{note}{tabs_html}<div class="tt-trees">{"".join(trees)}</div>{hint}{head}</div>'
+    # the switcher: a tablist (arrows, Home/End), the anchor of a tab is <spec>-<build id>, e.g. #protection-leveling
+    ids = [('general', {'main': main})] + extra
+    sw, ows, bdata = [], [f'<div class="tt-ow" data-b="general">{head}</div>'], {}
+    for bid, b in ids:
+        on = bid == 'general'
+        sw.append(f'<button type="button" role="tab" class="tt-b" id="{spec}-{bid}" data-b="{bid}" data-m="{b["main"]}" '
+                  f'aria-selected="{"true" if on else "false"}" aria-controls="tt-{spec}"{"" if on else " tabindex=-1"}>{UI["b_" + bid][lang]}</button>')
+        if on:
+            continue
+        bp = {k: [n, 0, 0, '', b['at'][k]] for k, n in b['picked'].items()}
+        for i, (t, n, a, z) in enumerate(b['steps']):
+            if t is None:
+                bp[f'f{bid}{i}'] = [n, a, z]
+        bdata[bid] = {'p': bp, 'm': b['main']}
+        wh = wowhead_ids(cid, data, b['picks'], lang, b['pk'])
+        ows.append(f'<div class="tt-ow" data-b="{bid}" hidden><p class="tt-note">{UI[b["note"]][lang]}</p>'
+                   f'<h3 class="tt-oh">{UI[b["head"]][lang]}</h3>{_rib(b["steps"], lang, "f" + bid)}'
+                   f'<p class="tt-ext"><a href="{escape(wh)}" target="_blank" rel="noopener">{UI["wh"][lang]} ↗</a>'
+                   f'<a href="{root}guides/leveling-{cid}/#talents">{UI[b["guide"]][lang]}</a></p></div>')
+    b_attr = escape(json.dumps(bdata, ensure_ascii=False, separators=(',', ':')))
+    return (f'{box.replace("@@B@@", " data-b=" + chr(34) + b_attr + chr(34))}'
+            f'<div class="tt-bs" role="tablist" aria-label="{UI["bs"][lang]}">{"".join(sw)}</div>{note}'
+            f'<div class="tt-pane" id="tt-{spec}" role="tabpanel" aria-labelledby="{spec}-general">'
+            f'{tabs_html}<div class="tt-trees">{"".join(trees)}</div>{hint}{"".join(ows)}</div></div>')
 
 
 CSS = """/* Talent trees (talents.py): three trees in a row when there is room, else the spec's tree and tabs; icons from one sprite */
@@ -359,7 +507,15 @@ CSS = """/* Talent trees (talents.py): three trees in a row when there is room, 
 .tt-ar.h.l::after { content: ""; position: absolute; left: -1px; top: -3px; border: 4px solid transparent; border-left: 0; border-right: 5px solid currentColor; }
 .tt-note { margin: 0; color: var(--muted); font-size: var(--fs-13); }
 .tt-pk { color: var(--muted); font-size: var(--fs-13); font-weight: 400; }
-.tt-ext { margin: 0; font-size: var(--fs-14); }
+.tt-ext { display: flex; flex-wrap: wrap; gap: 4px 18px; margin: 0; font-size: var(--fs-14); }
+.tt-bs { display: flex; flex-wrap: wrap; gap: 4px; width: fit-content; max-width: 100%; padding: 4px; border: 1px solid var(--line); border-radius: 8px; }
+.tt-b { min-height: 44px; padding: 0 16px; border: 0; border-radius: 6px; background: transparent; color: var(--muted); cursor: pointer; font: inherit; font-weight: 600; }
+.tt-b:hover { background: var(--zebra); }
+.tt-b[aria-selected="true"] { background: var(--seg-on); color: var(--gold-2); }
+.tt-b:focus-visible { outline: 2px solid var(--gold-2); outline-offset: 2px; }
+.tt-pane, .tt-ow { display: grid; gap: 14px; min-width: 0; }
+.tt-ow[hidden] { display: none; }
+.tt-ow .tt-oh { margin-top: 0; }
 .tt-card { min-height: 48px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; }
 .tt-card .h { display: block; margin: 0 0 2px; font-family: var(--font-body); font-size: var(--fs-16); font-weight: 600; line-height: 1.3; letter-spacing: 0; color: var(--fg); }
 .tt-card .m { margin: 0 0 6px; font-size: var(--fs-13); color: var(--gold-2); }
@@ -391,7 +547,8 @@ JS = r"""<script>
   function f(s, o) { return s.replace(/\{(\w)\}/g, function (_, k) { return o[k]; }); }
   function lv(a, b) { return f(U.lv, { a: b > a ? a + '–' + b : a }); }
   document.querySelectorAll('.tt').forEach(function (w) {
-    var card = w.querySelector('.tt-card'), P = JSON.parse(w.dataset.p), cur = null;
+    var card = w.querySelector('.tt-card'), P0 = JSON.parse(w.dataset.p), P = P0, cur = null, hint = card.innerHTML;
+    var B = w.dataset.b ? JSON.parse(w.dataset.b) : null, bs = w.querySelector('.tt-bs');
     function line(cls, text) { var e = document.createElement(cls === 'h' ? 'b' : 'p'); e.className = cls; e.textContent = text; card.appendChild(e); }
     function show(b) {
       var k = b.dataset.k, p = P[k], t = D.t[k], meta = [];
@@ -400,23 +557,76 @@ JS = r"""<script>
       card.textContent = '';
       if (!t) { line('h', U.free); line('m', lv(p[1], p[2])); line('w', U.free_d); return; }
       meta.push(p ? f(U.take, { p: p[0], m: t[1] }) : f(U.skip, { m: t[1] }));
-      if (p) meta.push(lv(p[1], p[2]));
+      if (p) meta.push(p[4] ? f(U.lv, { a: p[4] }) : lv(p[1], p[2]));
       if (t[2] > 1) meta.push(f(U.row, { n: 5 * (t[2] - 1) }));
       line('h', t[0]); line('m', meta.join(' · '));
       if ((p && p[3]) || t[3]) line('w', (p && p[3]) || t[3]);
     }
+    function pickTree(key) {
+      w.querySelectorAll('.tt-tab').forEach(function (x) { x.setAttribute('aria-selected', x.dataset.t === key ? 'true' : 'false'); });
+      w.querySelectorAll('.tt-tree').forEach(function (x) { x.classList.toggle('on', x.dataset.t === key); });
+    }
+    /* Build switcher: re-colour the one drawn tree for the chosen build (points, golden lines, counts), show that build's order */
+    function setBuild(id, focus) {
+      var tab = bs.querySelector('[data-b="' + id + '"]');
+      if (!tab) return;
+      P = id === 'general' ? P0 : B[id].p;
+      var sum = {};
+      Object.keys(P).forEach(function (k) { if (D.t[k]) { var tr = k.replace(/-\d+$/, ''); sum[tr] = (sum[tr] || 0) + P[k][0]; } });
+      w.querySelectorAll('.tt-grid [data-k]').forEach(function (b) {
+        var k = b.dataset.k, n = P[k] ? P[k][0] : 0, nb = b.querySelector('b');
+        b.classList.toggle('on', n > 0);
+        b.setAttribute('aria-label', D.t[k][0] + (n ? ' ' + n + '/' + D.t[k][1] : ''));
+        if (n && !nb) { nb = document.createElement('b'); b.appendChild(nb); }
+        if (nb) { if (n) nb.textContent = n; else nb.remove(); }
+      });
+      w.querySelectorAll('.tt-ar').forEach(function (a) { a.classList.toggle('on', !!(P[a.dataset.s] && P[a.dataset.d])); });
+      w.querySelectorAll('.tt-tab').forEach(function (x) { x.querySelector('span').textContent = sum[x.dataset.t] || 0; });
+      w.querySelectorAll('.tt-tree h3 span').forEach(function (x) {
+        var n = sum[x.parentNode.parentNode.dataset.t] || 0; x.textContent = n; x.classList.toggle('on', n > 0);
+      });
+      pickTree(tab.dataset.m);
+      bs.querySelectorAll('.tt-b').forEach(function (x) {
+        var on = x === tab; x.setAttribute('aria-selected', on ? 'true' : 'false'); x.tabIndex = on ? 0 : -1;
+      });
+      w.querySelector('.tt-pane').setAttribute('aria-labelledby', tab.id);
+      w.querySelectorAll('.tt-ow').forEach(function (x) { x.hidden = x.dataset.b !== id; });
+      cur = null; card.innerHTML = hint;
+      if (focus) tab.focus();
+    }
+    if (bs) {
+      var tabs = [].slice.call(bs.querySelectorAll('.tt-b'));
+      var go = function (t, focus) {
+        setBuild(t.dataset.b, focus);
+        try { history.replaceState(null, '', t.dataset.b === 'general' ? '#' + t.id.replace(/-general$/, '') : '#' + t.id); } catch (x) {}
+      };
+      bs.addEventListener('click', function (e) { var t = e.target.closest('.tt-b'); if (t) go(t); });
+      bs.addEventListener('keydown', function (e) {
+        var i = tabs.indexOf(document.activeElement), j = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? i + 1
+          : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? i - 1 : e.key === 'Home' ? 0 : e.key === 'End' ? tabs.length - 1 : -1;
+        if (i < 0 || j < 0) return;
+        e.preventDefault();
+        go(tabs[(j + tabs.length) % tabs.length], true);
+      });
+      w.setBuildByHash = function (h) {
+        var t = tabs.filter(function (x) { return x.id === h || x.id === h + '-general'; })[0];
+        if (t && t.getAttribute('aria-selected') !== 'true') setBuild(t.dataset.b);
+      };
+    }
     w.addEventListener('click', function (e) {
       var tab = e.target.closest('.tt-tab');
-      if (tab) {
-        w.querySelectorAll('.tt-tab').forEach(function (x) { x.setAttribute('aria-selected', x === tab ? 'true' : 'false'); });
-        w.querySelectorAll('.tt-tree').forEach(function (x) { x.classList.toggle('on', x.dataset.t === tab.dataset.t); });
-        return;
-      }
+      if (tab) { pickTree(tab.dataset.t); return; }
       var b = e.target.closest('[data-k]');
       if (b) show(b);
     });
     if (hover) w.addEventListener('mouseover', function (e) { var b = e.target.closest('[data-k]'); if (b && b !== cur) show(b); });
   });
+  function fromHash() {
+    var h = ''; try { h = decodeURIComponent(location.hash.slice(1)); } catch (x) {}
+    document.querySelectorAll('.tt').forEach(function (w) { if (w.setBuildByHash) w.setBuildByHash(h); });
+  }
+  fromHash();
+  window.addEventListener('hashchange', fromHash);
   var all = document.querySelectorAll('.tt');
   if (!('IntersectionObserver' in window)) { all.forEach(function (w) { w.classList.add('ld'); }); return; }
   var io = new IntersectionObserver(function (es) {
@@ -435,5 +645,5 @@ def page(html):
         return html
     data = json.dumps(PAGE[(m.group(1), m.group(2))], ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')
     html = html.replace('</style>', CSS + '</style>', 1)
-    html = html.replace('</head>', '<noscript><style>.tt .tt-ic:not(.no){background-image:var(--sp)}</style></noscript></head>', 1)
+    html = html.replace('</head>', '<noscript><style>.tt .tt-ic:not(.no){background-image:var(--sp)}.tt-bs{display:none}</style></noscript></head>', 1)
     return html.replace('</body>', f'<script type="application/json" id="ttData">{data}</script>\n' + JS + '</body>', 1)
