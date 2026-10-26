@@ -72,7 +72,7 @@ const RACES = [
     tip:'Steingestalt ist nützlich für Tanks und im PvP.' },
   { id:'nightelf', n:'Nachtelf', f:'alliance',
     cls:['warrior','hunter','rogue','priest','druid'],
-    rac:[['a','Elunes Licht','+10 % kritische Trefferchance für 15 Sek.'],['a','Schattenmimik','Unsichtbarkeit auf der Stelle'],['p','Schnelligkeit','+1–2 % Ausweichen (Quellen weichen ab) und +2 % Laufgeschwindigkeit'],['p','Irrwischgeist','+75 % Laufgeschwindigkeit als Geist']],
+    rac:[['a','Elunes Licht','+10 % kritische Trefferchance für 15 Sek.'],['a','Schattenmimik','Unsichtbarkeit auf der Stelle'],['p','Schnelligkeit','+1–2 % Ausweichen (Quellen weichen ab) und +2 % Laufgeschwindigkeit'],['p','Irrwischgeist','+75 % Laufgeschwindigkeit als Geist {beta}']],
     tip:'Das einzige Allianzvolk mit Druiden, außer du nimmst Skyborne.' },
   { id:'gnome', n:'Gnom', f:'alliance',
     cls:['warrior','rogue','mage','warlock','priest*'],
@@ -105,6 +105,8 @@ const RACES = [
 ];
 RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
 const CL = Object.fromEntries(CLASSES.map(c => [c.id, c]));
+const BETA = '<span class="beta-note">laut Beta-Daten</span>';
+const racx = s => esc(s).replace('{beta}', BETA);
 const RC = Object.fromEntries(RACES.map(r => [r.id, r]));
 const RLEAD = {"human": "Das zahlreichste Volk der Allianz. Vielseitig und stark im PvP dank Überlebenswille.", "dwarf": "Robuste Bergleute und Schützen aus Eisenschmiede. Zum ersten Mal hat die Allianz Schamanen, und das sind Zwerge: In Classic gab es sie nicht.", "nightelf": "Ein uraltes Volk der Wälder. Schwer zu fassen: eigenes Verstecken, Ausweichen und schnelles Laufen.", "gnome": "Die Erfinder von Gnomeregan. Klein, gerissen und mit der besten Fluchtfähigkeit im Spiel.", "skyA": "Ein neues Volk in Forever. Der High Order: Windelfen auf der Suche nach der verlorenen Arkanmagie ihrer Vorfahren.", "orc": "Das Herz der Horde. Die stärksten Krieger und PvP-Meister dank Kochendem Blut und Zähigkeit.", "undead": "Die Verlassenen: ehemalige Menschen, die sich vom Lichkönig befreit haben. Immun gegen Furcht und Schlaf, wenn es darauf ankommt.", "tauren": "Friedliche Riesen der Ebenen. Die meiste Gesundheit und eine eigene Flächenbetäubung.", "troll": "Der Stamm der Dunkelspeere. Die meisten Klassen der Horde und ein starkes Berserker für Schaden.", "skyH": "Ein neues Volk in Forever. Die Windshapers: spirituelle Anführer der Skyborne, den Elementen nah."}; // race page leads and URL slugs, filled in by build.py
 const RSLUG = {"human": "human", "dwarf": "dwarf", "nightelf": "night-elf", "gnome": "gnome", "skyA": "skyborne-alliance", "orc": "orc", "undead": "undead", "tauren": "tauren", "troll": "troll", "skyH": "skyborne-horde"};
@@ -157,7 +159,7 @@ function renderRaceRef() {
   $('#raceRef').innerHTML = ['alliance', 'horde'].map(f => `<div class="rgroup ${f}"><h3>${facName(f)}</h3>${head}` + RACES.filter(r => r.f === f).map(r => `<a class="cmp-row" href="${HOME}races/${RSLUG[r.id]}/" style="--cc:var(--${f});--art:url('../assets/art/${RSLUG[r.id]}-360.webp${PV}')">
     <span class="cmp-id">${face(RSLUG[r.id], `var(--${f})`)}<span><b>${esc(r.n)}${r.paid ? '<span class="paid">bezahlt</span>' : ''}</b>${r.en ? `<small>${esc(r.en)}</small>` : ''}</span></span>
     <span class="ccl" role="img" aria-label="Klassen: ${Object.keys(r.can).map(id => CL[id].n).join(', ')}">${CLASSES.map(c => { const v = r.can[c.id]; return face(c.id, CCOL[c.id], v ? (v === 'new' ? 'nw' : '') : 'off', c.n + (v === 'new' ? ', neu' : v ? '' : ', nicht verfügbar')); }).join('')}</span>
-    <span class="abs">${r.rac.map(x => `<span><b class="${x[0] === 'a' ? '' : 'p'}">${bi(x[1])}</b><span>${esc(x[2])}</span></span>`).join('')}</span>
+    <span class="abs">${r.rac.map(x => `<span><b class="${x[0] === 'a' ? '' : 'p'}">${bi(x[1])}</b><span>${racx(x[2])}</span></span>`).join('')}</span>
     <span class="go" aria-hidden="true"><svg class="ico"><use href="#i-arrow"/></svg></span>
   </a>`).join('') + '</div>').join('');
 }

@@ -1013,6 +1013,14 @@ def esc(s):
     return s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')
 
 
+BETA_SPAN = '<span class="beta-note">по данным беты</span>'   # the one mark for facts the beta shows and Blizzard has not confirmed
+
+
+def esc_b(s):
+    """esc() plus: a {beta} marker in the text becomes the beta mark (the marker splits the translation segment, the key stays)."""
+    return esc(s).replace('{beta}', BETA_SPAN)
+
+
 # soft hyphen points for long spec names: the engraved caps font is wide and three spec tabs share a phone screen
 HYPH = {w.replace('-', ''): w.replace('-', '&shy;') for w in (
     'Совер-шен-ство-вание', 'Вдо-ско-на-лен-ня', 'Не-по-міт-ність', 'Не-ис-тов-ство', 'Де-мо-но-ло-гия', 'Де-мо-но-ло-гія',
@@ -1282,7 +1290,7 @@ def profs_panel(cid, lang):
 def render_class(c, races, lang):
     i = next(k for k, x in enumerate(CLASSES) if x['id'] == c['id'])
     roles = ''.join(f'<span class="{"q" if r.endswith("?") else ""}">{ri(r)}{ROLE[r]}</span>' for r in c['roles'])
-    facts = ''.join(f'<div><dt>{k}</dt><dd>{esc(v)}</dd></div>' for k, v in (('Броня', c['armor']), ('Вооружение', c['weapons']), ('Ресурс', c['resource']), ('Прокачка', c['lvl'])))
+    facts = ''.join(f'<div><dt>{k}</dt><dd>{esc_b(v)}</dd></div>' for k, v in (('Броня', c['armor']), ('Вооружение', c['weapons']), ('Ресурс', c['resource']), ('Прокачка', c['lvl'])))
     tabs, panels = [], []
     for k, s in enumerate(c['specs']):
         on = k == 0
@@ -1425,7 +1433,7 @@ def build_race(rp, lang, tpl, base_css, class_css, sprite, races, en):
     for kind, ru, what in r['rac']:
         name = ability(ru, en.get(ru, ru), lang, tag='')
         new = '<span class="tag new">новое</span>' if ru in NEW_RACIALS else ''
-        cards.append(f'<article class="rcard"><div class="rt"><span class="k{" a" if kind == "a" else ""}">{"Активная" if kind == "a" else "Пассивная"}</span>{new}</div><h3>{name}</h3><p>{esc(what)}</p></article>')
+        cards.append(f'<article class="rcard"><div class="rt"><span class="k{" a" if kind == "a" else ""}">{"Активная" if kind == "a" else "Пассивная"}</span>{new}</div><h3>{name}</h3><p>{esc_b(what)}</p></article>')
     priest = ''
     if rp['priest']:
         sp = ', '.join(ability(n, n, lang) + (' <span class="tag new">новое</span>' if nw else '') for n, nw in rp['priest'])
@@ -1440,7 +1448,7 @@ def build_race(rp, lang, tpl, base_css, class_css, sprite, races, en):
     nope = [c['n'] for c in CLASSES if c['id'] not in r['can']]
     nope_html = ('<p class="nope">Недоступны: ' + ', '.join(f'<span>{esc(n)}</span>' for n in nope) + '.</p>') if nope else ''
 
-    news = ''.join(f'<li><span>{esc(x)}</span></li>' for x in rp['news'])
+    news = ''.join(f'<li><span>{esc_b(x)}</span></li>' for x in rp['news'])
     cn = {c['id']: c['n'] for c in CLASSES}
     best = ''.join(f'<li><a href="{classes_dir}{cid}/">{esc(cn[cid])}</a><span>{esc(why)}</span></li>' for cid, why in rp['best'])
 

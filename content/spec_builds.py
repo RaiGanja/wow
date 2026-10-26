@@ -8,7 +8,7 @@ Icy Veins и Wowhead (их билды 30 уровня, сверены по ка�
 Раскладку на 51 очко к 60 дадим после старта 05.11.
 Источник текстов: docs/wow/specs/texts-2026-10-25-spec-builds (не в репо). attach() подключает страницы к GUIDES,
 раздел «Билды по классам» в тир-листе, ссылки из тир-листа на разделы спеков и плитку хаба."""
-from content.class_guides import t, tx
+from content.class_guides import t, tx, bt
 
 SPEC_BUILDS = []
 
@@ -1372,9 +1372,9 @@ SPEC_BUILDS.append({
         ]},
         {'id': 'feral', 'title': t('Сила зверя: урон и танк', 'Feral: damage and tank', 'Сила звіра: шкода й танк'), 'blocks': [
             ('text', [
-                t('Сила зверя — одна ветка на две роли: кошка бьёт, медведь танкует. Новый талант Переходящая сила превращает ману в энергию в облике кошки. Облик медведя даётся за задание класса на 10 уровне, облик кошки — на 20 (Icy Veins). Урона по площади у кошки на 30 уровне почти нет (Wowhead).',
+                bt(t('Сила зверя — одна ветка на две роли: кошка бьёт, медведь танкует. Новый талант Переходящая сила превращает ману в энергию в облике кошки. Облик медведя даётся за задание класса на 10 уровне, облик кошки — на 20 (Icy Veins). Урона по площади у кошки на 30 уровне почти нет (Wowhead).',
                   'Feral is one tree for two roles: the cat deals damage, the bear tanks. The new Shifting Power talent turns mana into Energy in Cat Form. Bear Form comes from a class quest at level 10, Cat Form at 20 (Icy Veins). At level 30 the cat has almost no area damage (Wowhead).',
-                  'Сила звіра — одна гілка на дві ролі: кіт б’є, ведмідь танкує. Новий талант Shifting Power перетворює ману на енергію в Cat Form. Bear Form дають за завдання класу на 10 рівні, Cat Form — на 20 (Icy Veins). Шкоди по площі в кота на 30 рівні майже немає (Wowhead).'),
+                  'Сила звіра — одна гілка на дві ролі: кіт б’є, ведмідь танкує. Новий талант Shifting Power перетворює ману на енергію в Cat Form. Bear Form дають за завдання класу на 10 рівні, Cat Form — на 20 (Icy Veins). Шкоди по площі в кота на 30 рівні майже немає (Wowhead).'), 3),
             ]),
             ('table', {'head': H_TAL, 'rows': [
                 [t('Свирепость (Ferocity)', 'Ferocity', 'Ferocity'), '5', t('Трепка, Primal Bite, Размах, Когти и Глубокая рана дешевле', 'Cheaper Maul, Primal Bite, Swipe, Claw and Rake', 'Дешевші Maul, Primal Bite, Swipe, Claw і Rake')],

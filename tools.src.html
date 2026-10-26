@@ -579,8 +579,8 @@ function renderCmp() {
     const ids = C.cls;
     out.push(`<div class="crow chead"><div class="lab"></div>${ids.map(id => `<div class="val" style="--cc:${CCOL[id]}"><picture><source type="image/avif" srcset="${art(id, 'avif')}"><img src="${art(id)}" width="360" height="482" alt="" loading="lazy" decoding="async"></picture><b>${esc(CL[id].n)}</b><a href="${classUrl(id)}">Страница класса<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>`).join('')}</div>`);
     out.push(row('Роли', ids.map(id => CL[id].roles.map(r => `<span class="role">${ri(r)}${ROLE_RU[r]}</span>`).join(''))));
-    out.push(row('Броня', ids.map(id => esc(CX[id].armor))));
-    out.push(row('Вооружение', ids.map(id => esc(CX[id].weapons))));
+    out.push(row('Броня', ids.map(id => racx(CX[id].armor))));
+    out.push(row('Вооружение', ids.map(id => racx(CX[id].weapons))));
     out.push(row('Ресурс', ids.map(id => esc(CX[id].resource))));
     out.push(row('Прокачка', ids.map(id => esc(CX[id].lvl))));
     out.push(row('Специализации', ids.map(id => ul(CX[id].specs.map(s => `<b>${esc(s.n)}</b>${SPEC_SEP}<span class="sub">${esc(s.what)}</span>`)))));
@@ -594,8 +594,8 @@ function renderCmp() {
     const ids = C.race;
     out.push(`<div class="crow chead"><div class="lab"></div>${ids.map(id => { const r = RC[id]; return `<div class="val race ${r.f}"><span class="fx">${FAC[r.f]}${r.paid ? ' · платная' : ''}</span><b>${esc(raceName(r))}</b><a href="${raceUrl(id)}">Страница расы<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>`; }).join('')}</div>`);
     out.push(row('Классы', ids.map(id => ul(Object.keys(RC[id].can).map(c => `<span style="color:${CCOL[c]}">●</span> ${esc(CL[c].n)}${RC[id].can[c] === 'new' ? ' <span class="tag new">новое</span>' : ''}`)))));
-    out.push(row('Активные способности', ids.map(id => ul(RC[id].rac.filter(x => x[0] === 'a').map(x => `<b>${esc(x[1])}</b><br><span class="sub">${esc(x[2])}</span>`)))));
-    out.push(row('Пассивные способности', ids.map(id => ul(RC[id].rac.filter(x => x[0] === 'p').map(x => `<b>${esc(x[1])}</b><br><span class="sub">${esc(x[2])}</span>`)))));
+    out.push(row('Активные способности', ids.map(id => ul(RC[id].rac.filter(x => x[0] === 'a').map(x => `<b>${esc(x[1])}</b><br><span class="sub">${racx(x[2])}</span>`)))));
+    out.push(row('Пассивные способности', ids.map(id => ul(RC[id].rac.filter(x => x[0] === 'p').map(x => `<b>${esc(x[1])}</b><br><span class="sub">${racx(x[2])}</span>`)))));
     out.push(row('Совет', ids.map(id => esc(RC[id].tip)), 'tiprow'));
   }
   const box = $('#cmp');
@@ -710,7 +710,7 @@ function renderDetail() {
     const hit = state.r !== 'all' && s[2].includes(state.r) ? ' on' : '';
     return `<div class="card${hit}" style="--cc:${CCOL[c.id]}"><span class="rc">${ri(s[2][0])}</span><b>${bi(s[0])}</b><span>${esc(s[1])}</span></div>`;
   }).join('');
-  const rac = r.rac.map(x => `<div class="card ab"><span class="abt${x[0] === 'a' ? '' : ' p'}">${x[0] === 'a' ? 'Активная' : 'Пассивная'}</span><b>${bi(x[1])}</b><span>${esc(x[2])}</span></div>`).join('');
+  const rac = r.rac.map(x => `<div class="card ab"><span class="abt${x[0] === 'a' ? '' : ' p'}">${x[0] === 'a' ? 'Активная' : 'Пассивная'}</span><b>${bi(x[1])}</b><span>${racx(x[2])}</span></div>`).join('');
   const text = `${r.name || r.n} ${c.n} (${facName(r.f)})${r.paid ? ', нужен набор Скайборн' : ''}`;
   $('#detail').innerHTML = `
     <div class="d-head">

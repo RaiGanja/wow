@@ -165,6 +165,8 @@ img { display: block; max-width: 100%; }
 code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-radius: 3px; }
 .num, .tab { font-variant-numeric: tabular-nums lining-nums; }
 .small { color: var(--muted); font-size: var(--fs-14); }
+.beta-note { color: var(--muted); font-size: var(--fs-13); font-weight: 400; font-style: normal; }
+.beta-note::before { content: "("; } .beta-note::after { content: ")"; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .ico { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 .ri { width: 1.05em; height: 1.05em; vertical-align: -.17em; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; margin-right: 4px; }
@@ -1049,7 +1051,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../assets/radio/radio.css?v=c5eacd57e2">
-<link data-rel="stylesheet" href="../assets/search/search.css?v=c581134ad7">
+<link data-rel="stylesheet" href="../assets/search/search.css?v=a1440e8d90">
 <link data-rel="stylesheet" href="../assets/me/me.css?v=f0bb3b6c1b">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Guida a WoW Forever","alternateName":"Gabella","url":"https://gabella.site/wow/it/","inLanguage":"it","description":"Guida a WoW Forever: chi giocare, un selettore di razza e classe, un creatore di gruppi e guide su livellamento, spedizioni e professioni.","publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]}</script>
@@ -1243,7 +1245,7 @@ $('#moreClose').onclick = () => dlg.close();
 dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.toc a')) dlg.close(); });
 })();
 </script>
-<script data-src="../assets/home/it.js?v=3e9ee13a14"></script>
+<script data-src="../assets/home/it.js?v=dba1de3069"></script>
 <script data-src="../assets/living/living.js?v=c1c7830120"></script>
 <link data-rel="stylesheet" href="../assets/tod/tod.css?v=666a74a16c">
 <script data-src="../assets/tod/tod.js?v=666a74a16c"></script>
@@ -1315,7 +1317,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../assets/radio/radio.js?v=c5eacd57e2" data-root="../"></script>
-<script data-src="../assets/search/search.js?v=c581134ad7" data-root="../"></script>
+<script data-src="../assets/search/search.js?v=a1440e8d90" data-root="../"></script>
 <script data-src="../assets/me/me.js?v=f0bb3b6c1b" data-root="../" data-home="./" data-lang="it" data-ach="0" data-teaser="" data-close="Chiudi" data-page="" data-look="2"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>

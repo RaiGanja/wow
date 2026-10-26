@@ -72,7 +72,7 @@ const RACES = [
     tip:'Кам’яна форма корисна танку й у PvP.' },
   { id:'nightelf', n:'Нічний ельф', f:'alliance',
     cls:['warrior','hunter','rogue','priest','druid'],
-    rac:[['a','Світло Елуни','+10% до шансу крита на 15 сек'],['a','Злиття з тінню','Невидимість на місці'],['p','Спритність','+1–2% до ухилення (джерела розходяться) і +2% до швидкості бігу'],['p','Дух-вогник','+75% до швидкості бігу у вигляді духу']],
+    rac:[['a','Світло Елуни','+10% до шансу крита на 15 сек'],['a','Злиття з тінню','Невидимість на місці'],['p','Спритність','+1–2% до ухилення (джерела розходяться) і +2% до швидкості бігу'],['p','Дух-вогник','+75% до швидкості бігу у вигляді духу {beta}']],
     tip:'Єдина раса Альянсу з друїдом, якщо не брати Скайборн.' },
   { id:'gnome', n:'Гном', f:'alliance',
     cls:['warrior','rogue','mage','warlock','priest*'],
@@ -105,6 +105,8 @@ const RACES = [
 ];
 RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
 const CL = Object.fromEntries(CLASSES.map(c => [c.id, c]));
+const BETA = '<span class="beta-note">за даними бети</span>';
+const racx = s => esc(s).replace('{beta}', BETA);
 const RC = Object.fromEntries(RACES.map(r => [r.id, r]));
 const RLEAD = {"human": "Найчисленніша раса Альянсу. Універсальна й сильна в PvP завдяки Will to Survive.", "dwarf": "Міцні гірники та стрільці Ironforge. Уперше Альянс має шаманів, і це дворфи: у Classic такого не було.", "nightelf": "Давній народ лісів. Невловимі: власний спосіб сховатися, ухилення та швидкий біг.", "gnome": "Винахідники Gnomeregan. Маленькі, хитрі й з найкращою здібністю втечі в грі.", "skyA": "Нова раса Forever. Вищий орден: ельфи вітру, які шукають втрачену таємну магію предків.", "orc": "Серце Орди. Найсильніші воїни та майстри PvP завдяки Blood Fury і Hardiness.", "undead": "Відреклі: колишні люди, що вирвалися з-під влади Короля-ліча. Не бояться страху та сну.", "tauren": "Мирні велетні рівнин. Найбільше здоров’я та власний масовий оглушливий удар.", "troll": "Плем’я Darkspear. Найбільше класів в Орді та сильний Berserking для шкоди.", "skyH": "Нова раса Forever. Вітрорізи: духовні лідери скайборнів, близькі до стихій."}; // race page leads and URL slugs, filled in by build.py
 const RSLUG = {"human": "human", "dwarf": "dwarf", "nightelf": "night-elf", "gnome": "gnome", "skyA": "skyborne-alliance", "orc": "orc", "undead": "undead", "tauren": "tauren", "troll": "troll", "skyH": "skyborne-horde"};
@@ -157,7 +159,7 @@ function renderRaceRef() {
   $('#raceRef').innerHTML = ['alliance', 'horde'].map(f => `<div class="rgroup ${f}"><h3>${facName(f)}</h3>${head}` + RACES.filter(r => r.f === f).map(r => `<a class="cmp-row" href="${HOME}races/${RSLUG[r.id]}/" style="--cc:var(--${f});--art:url('../assets/art/${RSLUG[r.id]}-360.webp${PV}')">
     <span class="cmp-id">${face(RSLUG[r.id], `var(--${f})`)}<span><b>${esc(r.n)}${r.paid ? '<span class="paid">платна</span>' : ''}</b>${r.en ? `<small>${esc(r.en)}</small>` : ''}</span></span>
     <span class="ccl" role="img" aria-label="Класи: ${Object.keys(r.can).map(id => CL[id].n).join(', ')}">${CLASSES.map(c => { const v = r.can[c.id]; return face(c.id, CCOL[c.id], v ? (v === 'new' ? 'nw' : '') : 'off', c.n + (v === 'new' ? ', нове' : v ? '' : ', недоступно')); }).join('')}</span>
-    <span class="abs">${r.rac.map(x => `<span><b class="${x[0] === 'a' ? '' : 'p'}">${bi(x[1])}</b><span>${esc(x[2])}</span></span>`).join('')}</span>
+    <span class="abs">${r.rac.map(x => `<span><b class="${x[0] === 'a' ? '' : 'p'}">${bi(x[1])}</b><span>${racx(x[2])}</span></span>`).join('')}</span>
     <span class="go" aria-hidden="true"><svg class="ico"><use href="#i-arrow"/></svg></span>
   </a>`).join('') + '</div>').join('');
 }

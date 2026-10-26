@@ -72,7 +72,7 @@ const RACES = [
     tip:'Stoneform przydaje się tankom i w PvP.' },
   { id:'nightelf', n:'Night Elf', f:'alliance',
     cls:['warrior','hunter','rogue','priest','druid'],
-    rac:[['a','Elune’s Light','+10% szansy na kryta przez 15 sek.'],['a','Shadowmeld','Niewidzialność w miejscu'],['p','Quickness','+1–2% do uniku (źródła się różnią) i +2% do szybkości biegu'],['p','Wisp Spirit','+75% szybkości biegu jako duch']],
+    rac:[['a','Elune’s Light','+10% szansy na kryta przez 15 sek.'],['a','Shadowmeld','Niewidzialność w miejscu'],['p','Quickness','+1–2% do uniku (źródła się różnią) i +2% do szybkości biegu'],['p','Wisp Spirit','+75% szybkości biegu jako duch {beta}']],
     tip:'Jedyna rasa Alliance z druidem, chyba że weźmiesz Skyborne.' },
   { id:'gnome', n:'Gnome', f:'alliance',
     cls:['warrior','rogue','mage','warlock','priest*'],
@@ -105,6 +105,8 @@ const RACES = [
 ];
 RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
 const CL = Object.fromEntries(CLASSES.map(c => [c.id, c]));
+const BETA = '<span class="beta-note">wg danych z bety</span>';
+const racx = s => esc(s).replace('{beta}', BETA);
 const RC = Object.fromEntries(RACES.map(r => [r.id, r]));
 const RLEAD = {"human": "Najliczniejsza rasa Alliance. Wszechstronna i mocna w PvP dzięki Will to Survive.", "dwarf": "Twardzi górnicy i strzelcy z Ironforge. Po raz pierwszy Przymierze ma szamanów, i są to krasnoludy: w Classic ich nie było.", "nightelf": "Starożytny lud lasów. Nieuchwytni: własny sposób na ukrycie się, uniki i szybki bieg.", "gnome": "Wynalazcy z Gnomeregan. Mali, sprytni i z najlepszą zdolnością ucieczki w grze.", "skyA": "Nowa rasa w Forever. High Order: elfy wiatru szukające utraconej magii arkanów swoich przodków.", "orc": "Serce Horde. Najsilniejsi wojownicy i mistrzowie PvP dzięki Blood Fury i Hardiness.", "undead": "Forsaken: dawni ludzie, którzy wyrwali się spod władzy Lich Kinga. Odporni na fear i sen, kiedy to się liczy.", "tauren": "Pokojowe olbrzymy z równin. Najwięcej zdrowia i własne obszarowe ogłuszenie.", "troll": "Plemię Darkspear. Najwięcej klas w Horde i mocny Berserking na obrażenia.", "skyH": "Nowa rasa w Forever. Windshaper: duchowi przywódcy Skyborne, bliscy żywiołom."}; // race page leads and URL slugs, filled in by build.py
 const RSLUG = {"human": "human", "dwarf": "dwarf", "nightelf": "night-elf", "gnome": "gnome", "skyA": "skyborne-alliance", "orc": "orc", "undead": "undead", "tauren": "tauren", "troll": "troll", "skyH": "skyborne-horde"};
@@ -157,7 +159,7 @@ function renderRaceRef() {
   $('#raceRef').innerHTML = ['alliance', 'horde'].map(f => `<div class="rgroup ${f}"><h3>${facName(f)}</h3>${head}` + RACES.filter(r => r.f === f).map(r => `<a class="cmp-row" href="${HOME}races/${RSLUG[r.id]}/" style="--cc:var(--${f});--art:url('../assets/art/${RSLUG[r.id]}-360.webp${PV}')">
     <span class="cmp-id">${face(RSLUG[r.id], `var(--${f})`)}<span><b>${esc(r.n)}${r.paid ? '<span class="paid">płatna</span>' : ''}</b>${r.en ? `<small>${esc(r.en)}</small>` : ''}</span></span>
     <span class="ccl" role="img" aria-label="Klasy: ${Object.keys(r.can).map(id => CL[id].n).join(', ')}">${CLASSES.map(c => { const v = r.can[c.id]; return face(c.id, CCOL[c.id], v ? (v === 'new' ? 'nw' : '') : 'off', c.n + (v === 'new' ? ', nowe' : v ? '' : ', niedostępne')); }).join('')}</span>
-    <span class="abs">${r.rac.map(x => `<span><b class="${x[0] === 'a' ? '' : 'p'}">${bi(x[1])}</b><span>${esc(x[2])}</span></span>`).join('')}</span>
+    <span class="abs">${r.rac.map(x => `<span><b class="${x[0] === 'a' ? '' : 'p'}">${bi(x[1])}</b><span>${racx(x[2])}</span></span>`).join('')}</span>
     <span class="go" aria-hidden="true"><svg class="ico"><use href="#i-arrow"/></svg></span>
   </a>`).join('') + '</div>').join('');
 }

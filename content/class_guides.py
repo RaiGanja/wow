@@ -7,6 +7,8 @@ tx(ru, en, uk, de=…) — то же, но с явным переводом дл
 Источник текстов: docs/wow/specs/texts-2026-10-26-class-leveling (не в репо). Данные собраны скриптом, правятся здесь.
 Блоки и разделы — как в докстринге guides.py. attach() подключает страницы к GUIDES, раздел «Прокачка по классам»
 в гайде прокачки и плитку хаба."""
+import re
+
 
 
 def t(ru, en, uk):
@@ -16,6 +18,36 @@ def t(ru, en, uk):
 def tx(ru, en, uk, **other):
     """t() with the translations that must not come from the json (key already used for another meaning)."""
     return {'ru': ru, 'en': en, 'uk': uk, **other}
+
+
+# Facts the beta shows and Blizzard has not confirmed (decision 26.10): one mark on all nine languages, in brackets after the claim.
+BETA = {'ru': 'по данным беты', 'en': 'per beta data', 'uk': 'за даними бети', 'de': 'laut Beta-Daten', 'fr': 'd’après la bêta',
+        'es': 'según los datos de la beta', 'pt': 'segundo os dados da beta', 'it': 'secondo i dati della beta', 'pl': 'wg danych z bety'}
+BETA_TRAINER = {'ru': 'Уровни способностей у тренера — по данным беты.', 'en': 'Trainer ability levels: per beta data.',
+                'uk': 'Рівні здібностей у тренера — за даними бети.', 'de': 'Fähigkeitsstufen beim Lehrer: laut Beta-Daten.',
+                'fr': 'Niveaux des compétences chez l’instructeur : d’après la bêta.',
+                'es': 'Niveles de las habilidades del instructor: según los datos de la beta.',
+                'pt': 'Níveis das habilidades do instrutor: segundo os dados da beta.',
+                'it': 'Livelli delle abilità dall’istruttore: secondo i dati della beta.',
+                'pl': 'Poziomy umiejętności u trenera: wg danych z bety.'}
+
+
+def bt(d, n=1):
+    """t()/tx() text with the beta mark in brackets before the period that ends sentence number n (at the end when there is none).
+    The new languages take the json translation of the English text, so no new json keys are needed."""
+    import langs
+    out = {}
+    for lang in langs.ALL:
+        text = d.get(lang)
+        if text is None:
+            if lang in langs.OLD or langs.OV.get(lang) is None:
+                continue
+            text = langs.ov(d['en'], lang)
+        ends = [m.start() for m in re.finditer(r'\.(?=\s|$)', text)]
+        at = ends[n - 1] if len(ends) >= n else len(text)
+        head = text[:at]
+        out[lang] = (f'{head}, {BETA[lang]}' if head.endswith(')') else f'{head} ({BETA[lang]})') + text[at:]   # no nested brackets
+    return out
 
 
 CLASS_GUIDES = []
@@ -111,6 +143,7 @@ CLASS_GUIDES.append({
             ('text', [
                 t('Ходите к тренеру каждые два уровня: новые ранги способностей важнее брони, особенно Боевой крик, Кровопускание и Реванш. Новый тип оружия сначала покачайте на слабых врагах: с низким навыком вы промахиваетесь.', 'Visit the trainer every two levels: new ability ranks matter more than armor, especially Battle Shout, Rend and Revenge. Level a new weapon type on weak enemies first: with low skill you miss.', 'Ходіть до тренера кожні два рівні: нові ранги здібностей важливіші за броню, особливо Battle Shout, Rend і Revenge. Новий тип зброї спершу прокачайте на слабких ворогах: з низькою навичкою ви промахуєтеся.'),
             ]),
+            ('text', [BETA_TRAINER]),
             ('table', {'head': [t('Уровень', 'Level', 'Рівень'), t('Что взять', 'What to take', 'Що взяти'), tx('Зачем', 'Why', 'Навіщо', de='Wozu', es='Para qué', it='A cosa serve', pl='Po co', pt='Para quê')], 'rows': [
                 ['4', t('Рывок, Кровопускание', 'Charge, Rend', 'Charge, Rend'), t('Вход в бой с Яростью и кровотечение', 'Open a fight with Rage, and a bleed', 'Вхід у бій з Люттю та кровотеча')],
                 ['8', t('Подрезать сухожилия', 'Hamstring', 'Hamstring'), t('Замедлить бегущего врага', 'Slow a fleeing enemy', 'Уповільнити ворога, що тікає')],
@@ -244,6 +277,7 @@ CLASS_GUIDES.append({
             ('tip', t('Mobalytics (17.10) начинает с защиты и крита: Отражение 5/5, Приговор 5/5, затем Погоня за справедливостью (+15% к скорости) и Печать повиновения. Icy Veins сначала берёт экономию маны (Благодарение). Оба пути рабочие. Перк Legacy Talented даёт таланты до 5 уровней раньше.', 'Mobalytics (Oct 17) starts with defense and crit: Deflection 5/5, Conviction 5/5, then Pursuit of Justice (+15% speed) and Seal of Command. Icy Veins takes mana savings (Benediction) first. Both paths work. The Legacy Talented perk gives talents up to 5 levels earlier.', 'Mobalytics (17 жовтня) починає із захисту й крита: Deflection 5/5, Conviction 5/5, потім Pursuit of Justice (+15% до швидкості) і Seal of Command. Icy Veins спершу бере економію мани (Benediction). Обидва шляхи робочі. Перк Legacy Talented дає таланти до 5 рівнів раніше.')),
         ]},
         {'id': 'abilities', 'title': t('Способности и тренер', 'Abilities and trainer', 'Здібності й тренер'), 'blocks': [
+            ('text', [BETA_TRAINER]),
             ('table', {'head': [t('Уровень', 'Level', 'Рівень'), t('Что взять', 'What to take', 'Що взяти'), tx('Зачем', 'Why', 'Навіщо', de='Wozu', es='Para qué', it='A cosa serve', pl='Po co', pt='Para quê')], 'rows': [
                 ['1', t('Печать праведности, Свет небес, Аура благочестия', 'Seal of Righteousness, Holy Light, Devotion Aura', 'Seal of Righteousness, Holy Light, Devotion Aura'), t('Урон, лечение, броня', 'Damage, healing, armor', 'Шкода, лікування, броня')],
                 ['4', t('Правосудие, Благословение могущества', 'Judgement, Blessing of Might', 'Judgement, Blessing of Might'), t('Правосудие и сила атаки', 'Judgement and attack power', 'Правосуддя та сила атаки')],
@@ -375,10 +409,11 @@ CLASS_GUIDES.append({
         ]},
         {'id': 'pet', 'title': t('Питомец', 'Pet', 'Улюбленець'), 'blocks': [
             ('text', [
-                t('Приручение открывается на 10 уровне заданием класса в стартовой зоне. Warcraft Tavern советует для прокачки кошку (быстрые атаки, высокий урон) или кабана (крепче, Рывок быстро набирает угрозу). В Forever появилось новое семейство — лисы, у многих зверей новые способности. Питомец получает баффы лагеря, если призвать его у костра.', 'Taming opens at level 10 through a class quest in the starting zone. For leveling, Warcraft Tavern recommends a cat (fast attacks, high damage) or a boar (sturdier, Charge builds threat quickly). Forever added a new family, foxes, and many beasts have new abilities. The pet gets camp buffs if you summon it at the campfire.', 'Приборкання відкривається на 10 рівні завданням класу в стартовій зоні. Warcraft Tavern радить для прокачування кішку (швидкі атаки, висока шкода) або кабана (витриваліший, Charge швидко набирає загрозу). У Forever з’явилася нова родина — лисиці, а в багатьох звірів нові здібності. Улюбленець отримує бафи табору, якщо прикликати його біля багаття.'),
+                bt(t('Приручение открывается на 10 уровне заданием класса в стартовой зоне. Warcraft Tavern советует для прокачки кошку (быстрые атаки, высокий урон) или кабана (крепче, Рывок быстро набирает угрозу). В Forever появилось новое семейство — лисы, у многих зверей новые способности. Питомец получает баффы лагеря, если призвать его у костра.', 'Taming opens at level 10 through a class quest in the starting zone. For leveling, Warcraft Tavern recommends a cat (fast attacks, high damage) or a boar (sturdier, Charge builds threat quickly). Forever added a new family, foxes, and many beasts have new abilities. The pet gets camp buffs if you summon it at the campfire.', 'Приборкання відкривається на 10 рівні завданням класу в стартовій зоні. Warcraft Tavern радить для прокачування кішку (швидкі атаки, висока шкода) або кабана (витриваліший, Charge швидко набирає загрозу). У Forever з’явилася нова родина — лисиці, а в багатьох звірів нові здібності. Улюбленець отримує бафи табору, якщо прикликати його біля багаття.'), 1),
             ]),
         ]},
         {'id': 'abilities', 'title': t('Способности и тренер', 'Abilities and trainer', 'Здібності й тренер'), 'blocks': [
+            ('text', [BETA_TRAINER]),
             ('table', {'head': [t('Уровень', 'Level', 'Рівень'), t('Что взять', 'What to take', 'Що взяти'), tx('Зачем', 'Why', 'Навіщо', de='Wozu', es='Para qué', it='A cosa serve', pl='Po co', pt='Para quê')], 'rows': [
                 ['4', t('Укус змеи, Дух обезьяны', 'Serpent Sting, Aspect of the Monkey', 'Serpent Sting, Aspect of the Monkey'), t('Яд на цель, уклонение вблизи', 'A poison on the target, dodge in melee', 'Отрута на ціль, ухилення зблизька')],
                 ['6', t('Чародейский выстрел, Метка охотника', "Arcane Shot, Hunter's Mark", "Arcane Shot, Hunter's Mark"), t('Мгновенный выстрел', 'An instant shot', 'Миттєвий постріл')],
@@ -408,7 +443,7 @@ CLASS_GUIDES.append({
         ]},
         {'id': 'play', 'title': t('Соло, вдвоём, в группе', 'Solo, duo, group', 'Соло, удвох, у групі'), 'blocks': [
             ('tabs', [
-                {'id': 'solo', 't': tx('Соло', 'Solo', 'Соло', es='En solitario', pt='Solo'), 'blocks': [('text', [t('Убивайте врагов по одному: питомец плохо держит нескольких, а урон по площади снимет угрозу с него. До 10 уровня питомца нет: стреляйте, отходите, вблизи добивайте врага (Удар ящера). Всегда держите запас стрел или пуль и воды. Если всё плохо — Притвориться мертвым, потом вернитесь с живым питомцем.', 'Kill enemies one at a time: the pet holds several poorly, and area damage will pull threat off it. Until level 10 you have no pet: shoot, step back, and finish the enemy in melee (Raptor Strike). Always keep a reserve of arrows or bullets and water. If it goes badly, Feign Death, then come back with the pet alive.', 'Убивайте ворогів по одному: улюбленець погано тримає кількох, а шкода по площі зніме з нього загрозу. До 10 рівня улюбленця немає: стріляйте, відходьте, зблизька добивайте ворога (Raptor Strike). Завжди майте запас стріл чи куль і воду. Якщо все погано — Feign Death, потім повертайтеся з живим улюбленцем.')])]},
+                {'id': 'solo', 't': tx('Соло', 'Solo', 'Соло', es='En solitario', pt='Solo'), 'blocks': [('text', [bt(t('Убивайте врагов по одному: питомец плохо держит нескольких, а урон по площади снимет угрозу с него. До 10 уровня питомца нет: стреляйте, отходите, вблизи добивайте врага (Удар ящера). Всегда держите запас стрел или пуль и воды. Если всё плохо — Притвориться мертвым, потом вернитесь с живым питомцем.', 'Kill enemies one at a time: the pet holds several poorly, and area damage will pull threat off it. Until level 10 you have no pet: shoot, step back, and finish the enemy in melee (Raptor Strike). Always keep a reserve of arrows or bullets and water. If it goes badly, Feign Death, then come back with the pet alive.', 'Убивайте ворогів по одному: улюбленець погано тримає кількох, а шкода по площі зніме з нього загрозу. До 10 рівня улюбленця немає: стріляйте, відходьте, зблизька добивайте ворога (Raptor Strike). Завжди майте запас стріл чи куль і воду. Якщо все погано — Feign Death, потім повертайтеся з живим улюбленцем.'), 2)])]},
                 {'id': 'duo', 't': tx('Вдвоём', 'Duo', 'Удвох', de='Zu zweit', es='En pareja', fr='À deux', it='In coppia', pl='We dwoje', pt='Em dupla'), 'blocks': [('text', [t('С любым напарником: питомец может держать врага для пары без танка. Не отправляйте его на цель, которую танкует напарник.', 'With any partner: the pet can hold an enemy for a pair without a tank. Don’t send it at a target your partner is tanking.', 'З будь-яким напарником: улюбленець може тримати ворога для пари без танка. Не посилайте його на ціль, яку танкує напарник.')])]},
                 {'id': 'party', 't': t('Группа', 'Group', 'Група'), 'blocks': [('text', [t('Дух стаи ускоряет группу в пути, но ошеломляет любого, по кому попадёт враг (Warcraft Tavern). В бою выключайте.', 'Aspect of the Pack speeds up the group on the road, but dazes anyone the enemy hits (Warcraft Tavern). Turn it off in combat.', 'Aspect of the Pack прискорює групу в дорозі, але ошелешує будь-кого, по кому влучить ворог (Warcraft Tavern). У бою вимикайте.')])]},
             ]),
@@ -437,7 +472,7 @@ CLASS_GUIDES.append({
                 {'id': 'q2', 'q': t('Какого питомца взять?', 'Which pet should I take?', 'Якого улюбленця взяти?'),
                  'a': [t('Для прокачки кошку или кабана (Warcraft Tavern). Кошка бьёт сильнее, кабан крепче.', 'For leveling, a cat or a boar (Warcraft Tavern). The cat hits harder, the boar is sturdier.', 'Для прокачування кішку або кабана (Warcraft Tavern). Кішка б’є сильніше, кабан витриваліший.')]},
                 {'id': 'q3', 'q': t('Когда появляется питомец?', 'When do I get a pet?', 'Коли з’являється улюбленець?'),
-                 'a': [t('На 10 уровне, после задания класса в стартовой зоне.', 'At level 10, after the class quest in the starting zone.', 'На 10 рівні, після завдання класу в стартовій зоні.')]},
+                 'a': [bt(t('На 10 уровне, после задания класса в стартовой зоне.', 'At level 10, after the class quest in the starting zone.', 'На 10 рівні, після завдання класу в стартовій зоні.'), 1)]},
                 {'id': 'q4', 'q': t('Нужен ли Охотнику бой вблизи?', 'Does a Hunter need melee?', 'Чи потрібен Мисливцю ближній бій?'),
                  'a': [t('На прокачке почти нет: питомец держит врага. Вблизи выручают Удар ящера, Подрезать крылья и Дух обезьяны.', 'Almost not while leveling: the pet holds the enemy. Raptor Strike, Wing Clip and Aspect of the Monkey help in melee.', 'На прокачуванні майже ні: улюбленець тримає ворога. Зблизька виручають Raptor Strike, Wing Clip та Aspect of the Monkey.')]},
                 {'id': 'q5', 'q': t('Почему Охотник так быстро качается?', 'Why does a Hunter level so fast?', 'Чому Мисливець так швидко прокачується?'),
@@ -513,6 +548,7 @@ CLASS_GUIDES.append({
             ('tip', t('Mobalytics не берёт Молниеносные рефлексы и Безупречное исполнение: вместо них Улучшенный спринт и Специализация на бое двумя оружиями 5/5 до 30 уровня. Перк Legacy Talented даёт таланты до 5 уровней раньше.', 'Mobalytics does not take Lightning Reflexes and Flawless Execution: instead it takes Improved Sprint and Dual Wield Specialization 5/5 before level 30. The Legacy Talented perk gives talents up to 5 levels earlier.', 'Mobalytics не бере Lightning Reflexes і Flawless Execution: замість них Improved Sprint та Dual Wield Specialization 5/5 до 30 рівня. Перк Legacy Talented дає таланти до 5 рівнів раніше.')),
         ]},
         {'id': 'abilities', 'title': t('Способности и тренер', 'Abilities and trainer', 'Здібності й тренер'), 'blocks': [
+            ('text', [BETA_TRAINER]),
             ('table', {'head': [t('Уровень', 'Level', 'Рівень'), t('Что взять', 'What to take', 'Що взяти'), tx('Зачем', 'Why', 'Навіщо', de='Wozu', es='Para qué', it='A cosa serve', pl='Po co', pt='Para quê')], 'rows': [
                 ['1', t('Коварный удар, Потрошение, Незаметность', 'Sinister Strike, Eviscerate, Stealth', 'Sinister Strike, Eviscerate, Stealth'), t('Приём серии и завершающий удар', 'A combo point builder and a finisher', 'Прийом серії й завершальний удар')],
                 ['4', t('Удар в спину', 'Backstab', 'Backstab'), t('Сильный удар кинжалом со спины', 'A strong dagger strike from behind', 'Сильний удар кинджалом у спину')],
@@ -645,6 +681,7 @@ CLASS_GUIDES.append({
             ('tip', t('Mobalytics (22.10) до 30 уровня идёт почти так же, но не берёт Улучшенный взрыв разума и Dark Inspiration: вместо них Средоточие Тьмы 3/5, Предел Тьмы 2/2 и Плетение Тьмы 3/3. Если жезла к 10 уровню нет, первые 2 очка сразу в Темную магию. Перк Legacy Talented даёт таланты до 5 уровней раньше.', 'Mobalytics (Oct 22) goes almost the same way up to level 30, but does not take Improved Mind Blast and Dark Inspiration: instead Shadow Focus 3/5, Shadow Reach 2/2 and Shadow Weaving 3/3. If you have no wand by level 10, put the first 2 points straight into Shadow. The Legacy Talented perk gives talents up to 5 levels earlier.', 'Mobalytics (22 жовтня) до 30 рівня йде майже так само, але не бере Improved Mind Blast і Dark Inspiration: замість них Shadow Focus 3/5, Shadow Reach 2/2 і Shadow Weaving 3/3. Якщо палички до 10 рівня немає, перші 2 очки одразу в Темряву. Перк Legacy Talented дає таланти до 5 рівнів раніше.')),
         ]},
         {'id': 'abilities', 'title': t('Способности и тренер', 'Abilities and trainer', 'Здібності й тренер'), 'blocks': [
+            ('text', [BETA_TRAINER]),
             ('table', {'head': [t('Уровень', 'Level', 'Рівень'), t('Что взять', 'What to take', 'Що взяти'), tx('Зачем', 'Why', 'Навіщо', de='Wozu', es='Para qué', it='A cosa serve', pl='Po co', pt='Para quê')], 'rows': [
                 ['1', t('Кара, Малое исцеление, Слово силы: Стойкость', 'Smite, Lesser Heal, Power Word: Fortitude', 'Smite, Lesser Heal, Power Word: Fortitude'), t('Урон, лечение, выносливость', 'Damage, healing, Stamina', 'Шкода, лікування, витривалість')],
                 ['4', t('Слово Тьмы: Боль', 'Shadow Word: Pain', 'Shadow Word: Pain'), t('Урон со временем', 'Damage over time', 'Шкода з часом')],
@@ -773,9 +810,10 @@ CLASS_GUIDES.append({
                 ['53–57', t('Конвекция (Convection)', 'Convection', 'Convection'), '5'],
                 ['58–60', t('Опустошение Духов стихии (Elemental Devastation)', 'Elemental Devastation', 'Elemental Devastation'), '3'],
             ]}),
-            ('tip', t('Призрачный волк появляется только на 20 уровне. Mobalytics советует до 20 взять Улучшенный щит молний 2/2 и сбросить таланты на 20: на бете это стоило 1 серебряную, на старте будет 1 золотая. Перк Legacy Talented даёт таланты до 5 уровней раньше.', 'Ghost Wolf appears only at level 20. Mobalytics advises taking Improved Lightning Shield 2/2 before 20 and respeccing at 20: on the beta that cost 1 silver, at launch it will be 1 gold. The Legacy Talented perk gives talents up to 5 levels earlier.', 'Ghost Wolf з’являється лише на 20 рівні. Mobalytics радить до 20 взяти Improved Lightning Shield 2/2 і скинути таланти на 20: у беті це коштувало 1 срібний, на старті буде 1 золотий. Перк Legacy Talented дає таланти до 5 рівнів раніше.')),
+            ('tip', bt(t('Призрачный волк появляется только на 20 уровне. Mobalytics советует до 20 взять Улучшенный щит молний 2/2 и сбросить таланты на 20: на бете это стоило 1 серебряную, на старте будет 1 золотая. Перк Legacy Talented даёт таланты до 5 уровней раньше.', 'Ghost Wolf appears only at level 20. Mobalytics advises taking Improved Lightning Shield 2/2 before 20 and respeccing at 20: on the beta that cost 1 silver, at launch it will be 1 gold. The Legacy Talented perk gives talents up to 5 levels earlier.', 'Ghost Wolf з’являється лише на 20 рівні. Mobalytics радить до 20 взяти Improved Lightning Shield 2/2 і скинути таланти на 20: у беті це коштувало 1 срібний, на старті буде 1 золотий. Перк Legacy Talented дає таланти до 5 рівнів раніше.'), 2)),
         ]},
         {'id': 'abilities', 'title': t('Способности и тренер', 'Abilities and trainer', 'Здібності й тренер'), 'blocks': [
+            ('text', [BETA_TRAINER]),
             ('table', {'head': [t('Уровень', 'Level', 'Рівень'), t('Что взять', 'What to take', 'Що взяти'), tx('Зачем', 'Why', 'Навіщо', de='Wozu', es='Para qué', it='A cosa serve', pl='Po co', pt='Para quê')], 'rows': [
                 ['1', t('Оружие Камнедробителя, Молния', 'Rockbiter Weapon, Lightning Bolt', 'Rockbiter Weapon, Lightning Bolt'), t('Чары на оружие, вытягивать врагов', 'A weapon enchant, pulling enemies', 'Чари на зброю, витягувати ворогів')],
                 ['4', t('Земной шок; задание на тотем земли', 'Earth Shock; the earth totem quest', 'Earth Shock; завдання на тотем землі'), t('Урон и прерывание', 'Damage and an interrupt', 'Шкода та переривання')],
@@ -838,7 +876,7 @@ CLASS_GUIDES.append({
                 {'id': 'q3', 'q': t('Когда появляется Призрачный волк?', 'When does Ghost Wolf appear?', 'Коли з’являється Ghost Wolf?'),
                  'a': [t('На 20 уровне. С талантом Улучшенный призрачный волк он мгновенный и работает в помещениях.', 'At level 20. With the Improved Ghost Wolf talent it is instant and works indoors.', 'На 20 рівні. З талантом Improved Ghost Wolf він миттєвий і працює в приміщеннях.')]},
                 {'id': 'q4', 'q': t('Где взять тотемы?', 'Where do I get totems?', 'Де взяти тотеми?'),
-                 'a': [t('Заданиями класса: тотем земли на 4 уровне, огня на 10, воды на 20, воздуха на 30.', 'From class quests: the earth totem at level 4, fire at 10, water at 20, air at 30.', 'Завданнями класу: тотем землі на 4 рівні, вогню на 10, води на 20, повітря на 30.')]},
+                 'a': [bt(t('Заданиями класса: тотем земли на 4 уровне, огня на 10, воды на 20, воздуха на 30.', 'From class quests: the earth totem at level 4, fire at 10, water at 20, air at 30.', 'Завданнями класу: тотем землі на 4 рівні, вогню на 10, води на 20, повітря на 30.'), 1)]},
                 {'id': 'q5', 'q': t('Может ли Шаман танковать?', 'Can a Shaman tank?', 'Чи може Шаман танкувати?'),
                  'a': [t('Mobalytics даёт советы для танка со щитом, а новый талант Spirit Weapons даёт парирование и угрозу. Насколько такой танк надёжен, станет ясно после старта.', 'Mobalytics gives tips for a shield tank, and the new Spirit Weapons talent gives parry and threat. How reliable such a tank is will become clear after launch.', 'Mobalytics дає поради для танка зі щитом, а новий талант Spirit Weapons дає парирування й загрозу. Наскільки надійний такий танк, стане ясно після старту.')]},
             ]),
@@ -911,6 +949,7 @@ CLASS_GUIDES.append({
             ('tip', t('Mobalytics (18.10) до 30 уровня не берёт Заградительные стрелы, Направленная сила льда и Ледяная глыба: вместо них Пронзающий лед 3/3 и Улучшенная снежная буря, а Ледяные пальцы — уже на 30. Перк Legacy Talented даёт таланты до 5 уровней раньше.', 'Mobalytics (Oct 18) does not take Missile Barrage, Frost Channeling and Ice Block before level 30: instead Piercing Ice 3/3 and Improved Blizzard, and Fingers of Frost already at 30. The Legacy Talented perk gives talents up to 5 levels earlier.', 'Mobalytics (18 жовтня) до 30 рівня не бере Missile Barrage, Frost Channeling і Ice Block: замість них Piercing Ice 3/3 та Improved Blizzard, а Fingers of Frost — уже на 30. Перк Legacy Talented дає таланти до 5 рівнів раніше.')),
         ]},
         {'id': 'abilities', 'title': t('Способности и тренер', 'Abilities and trainer', 'Здібності й тренер'), 'blocks': [
+            ('text', [BETA_TRAINER]),
             ('table', {'head': [t('Уровень', 'Level', 'Рівень'), t('Что взять', 'What to take', 'Що взяти'), tx('Зачем', 'Why', 'Навіщо', de='Wozu', es='Para qué', it='A cosa serve', pl='Po co', pt='Para quê')], 'rows': [
                 ['1', t('Огненный шар, Морозный доспех, Чародейский интеллект', 'Fireball, Frost Armor, Arcane Intellect', 'Fireball, Frost Armor, Arcane Intellect'), t('Урон до 4 уровня, броня, бафф', 'Damage until level 4, armor, a buff', 'Шкода до 4 рівня, броня, бафф')],
                 ['4', t('Ледяная стрела, Сотворение воды', 'Frostbolt, Conjure Water', 'Frostbolt, Conjure Water'), t('Главное заклинание, своя вода', 'The main spell, your own water', 'Головне заклинання, своя вода')],
@@ -1036,6 +1075,7 @@ CLASS_GUIDES.append({
             ('tip', t('Icy Veins (21.10) идёт иначе: Подавление с 10 уровня, Вытягивание жизни на 30, затем Демонология (талант Демоническое жертвоприношение на 41), вершина Колдовства — Смятие на 51, а таланты на Похищение жизни — только к 53–60. Выбирайте один путь и не смешивайте. Перк Legacy Talented даёт таланты с 5 уровня вместо 10.', 'Icy Veins (Oct 21) goes differently: Suppression from level 10, Siphon Life at 30, then Demonology (Demonic Sacrifice at 41), the top of Affliction, Wrack, at 51, and talents for Drain Life only by 53–60. Pick one path and don’t mix them. The Legacy Talented perk gives talents from level 5 instead of 10.', 'Icy Veins (21 жовтня) іде інакше: Suppression з 10 рівня, Siphon Life на 30, потім Демонологія (талант Demonic Sacrifice на 41), вершина Прокляття — Wrack на 51, а таланти на Drain Life — лише до 53–60. Обирайте один шлях і не змішуйте. Перк Legacy Talented дає таланти з 5 рівня замість 10.')),
         ]},
         {'id': 'abilities', 'title': t('Способности и тренер', 'Abilities and trainer', 'Здібності й тренер'), 'blocks': [
+            ('text', [BETA_TRAINER]),
             ('table', {'head': [t('Уровень', 'Level', 'Рівень'), t('Что взять', 'What to take', 'Що взяти'), tx('Зачем', 'Why', 'Навіщо', de='Wozu', es='Para qué', it='A cosa serve', pl='Po co', pt='Para quê')], 'rows': [
                 ['1', t('Призыв беса (задание), Стрела Тьмы, Жертвенный огонь, Шкура демона', 'Summon Imp (quest), Shadow Bolt, Immolate, Demon Skin', 'Summon Imp (завдання), Shadow Bolt, Immolate, Demon Skin'), t('Первый демон и урон', 'The first demon and damage', 'Перший демон і шкода')],
                 ['4', t('Порча', 'Corruption', 'Corruption'), t('Главный эффект тьмы', 'The main shadow effect', 'Головний ефект темряви')],
@@ -1072,7 +1112,7 @@ CLASS_GUIDES.append({
         ]},
         {'id': 'gear', 'title': t('Характеристики и снаряжение', 'Stats and gear', 'Характеристики та спорядження'), 'blocks': [
             ('text', [
-                t("Выносливость Чернокнижнику ценнее, чем другим заклинателям: чем больше здоровья, тем больше маны даёт Жизнеотвод (Warcraft Tavern). На 20 уровне — заданием Staff of Soran'ruk (+34 к урону от тьмы и огня, +14 выносливости) или Orb of Soran'ruk, для сферы нужны осколки из Blackfathom Deeps и Shadowfang Keep. Жезл — Gravestone Scepter (29 урона в секунду).", "Stamina is worth more to a Warlock than to other casters: the more health you have, the more mana Life Tap gives (Warcraft Tavern). At level 20, a quest gives Staff of Soran'ruk (+34 shadow and fire damage, +14 Stamina) or Orb of Soran'ruk; the orb needs shards from Blackfathom Deeps and Shadowfang Keep. The wand is Gravestone Scepter (29 damage per second).", "Витривалість Чорнокнижнику цінніша, ніж іншим заклиначам: що більше здоров’я, то більше мани дає Life Tap (Warcraft Tavern). На 20 рівні завданням — Staff of Soran'ruk (+34 до шкоди від темряви й вогню, +14 витривалості) або Orb of Soran'ruk, для сфери потрібні уламки з Blackfathom Deeps і Shadowfang Keep. Паличка — Gravestone Scepter (29 шкоди на секунду)."),
+                bt(t("Выносливость Чернокнижнику ценнее, чем другим заклинателям: чем больше здоровья, тем больше маны даёт Жизнеотвод (Warcraft Tavern). На 20 уровне — заданием Staff of Soran'ruk (+34 к урону от тьмы и огня, +14 выносливости) или Orb of Soran'ruk, для сферы нужны осколки из Blackfathom Deeps и Shadowfang Keep. Жезл — Gravestone Scepter (29 урона в секунду).", "Stamina is worth more to a Warlock than to other casters: the more health you have, the more mana Life Tap gives (Warcraft Tavern). At level 20, a quest gives Staff of Soran'ruk (+34 shadow and fire damage, +14 Stamina) or Orb of Soran'ruk; the orb needs shards from Blackfathom Deeps and Shadowfang Keep. The wand is Gravestone Scepter (29 damage per second).", "Витривалість Чорнокнижнику цінніша, ніж іншим заклиначам: що більше здоров’я, то більше мани дає Life Tap (Warcraft Tavern). На 20 рівні завданням — Staff of Soran'ruk (+34 до шкоди від темряви й вогню, +14 витривалості) або Orb of Soran'ruk, для сфери потрібні уламки з Blackfathom Deeps і Shadowfang Keep. Паличка — Gravestone Scepter (29 шкоди на секунду)."), 2),
                 t('Профессии: Портняжное дело даёт персональное снаряжение на тьму за Merchant’s Favor. Пары под класс и объекты лагеря — в гайде по профессиям.', 'Professions: Tailoring gives personal shadow gear for Merchant’s Favor. Class pairings and camp objects are in the professions guide.', 'Професії: Кравецтво дає персональне спорядження на темряву за Merchant’s Favor. Пари під клас і об’єкти табору — у гайді з професій.'),
             ]),
         ]},
@@ -1171,6 +1211,7 @@ CLASS_GUIDES.append({
             ('tip', t('Mobalytics (09.10, до патча 15.10) после Свирепость 5/5 берёт Сердце дикой природы 3/5, а Feral Swiftness — раньше: +30% к скорости в облике кошки, уклонение во всех обликах. Warcraft Tavern пропускает Shredding Attacks. Перк Legacy Talented даёт таланты до 5 уровней раньше.', 'Mobalytics (Oct 9, before the Oct 15 patch) takes Heart of the Wild 3/5 after Ferocity 5/5, and Feral Swiftness earlier: +30% speed in cat form, dodge in all forms. Warcraft Tavern skips Shredding Attacks. The Legacy Talented perk gives talents up to 5 levels earlier.', 'Mobalytics (9 жовтня, до патча 15 жовтня) після Ferocity 5/5 бере Heart of the Wild 3/5, а Feral Swiftness — раніше: +30% до швидкості у формі кота, ухилення в усіх формах. Warcraft Tavern пропускає Shredding Attacks. Перк Legacy Talented дає таланти до 5 рівнів раніше.')),
         ]},
         {'id': 'abilities', 'title': t('Способности и тренер', 'Abilities and trainer', 'Здібності й тренер'), 'blocks': [
+            ('text', [BETA_TRAINER]),
             ('table', {'head': [t('Уровень', 'Level', 'Рівень'), t('Что взять', 'What to take', 'Що взяти'), tx('Зачем', 'Why', 'Навіщо', de='Wozu', es='Para qué', it='A cosa serve', pl='Po co', pt='Para quê')], 'rows': [
                 ['1', t('Гнев, Знак дикой природы, Целительное прикосновение', 'Wrath, Mark of the Wild, Healing Touch', 'Wrath, Mark of the Wild, Healing Touch'), t('Урон, бафф, лечение', 'Damage, a buff, healing', 'Шкода, бафф, лікування')],
                 ['4', t('Лунный огонь, Омоложение', 'Moonfire, Rejuvenation', 'Moonfire, Rejuvenation'), t('Мгновенный урон и лечение', 'Instant damage and healing', 'Миттєва шкода й лікування')],
@@ -1221,7 +1262,7 @@ CLASS_GUIDES.append({
                 [t('Облики', 'Forms', 'Форми'), t('Урон кошки и медведя растёт от урона оружия, есть свой навык оружия. В облике можно пить зелья.', 'Cat and bear damage scales with weapon damage, and there is its own weapon skill. You can drink potions in form.', 'Шкода кота й ведмедя росте від шкоди зброї, є власна навичка зброї. У формі можна пити зілля.')],
                 [t('Волшебный огонь и Природный захват', "Faerie Fire and Nature's Grasp", "Faerie Fire і Nature's Grasp"), t('Базовые у тренера, таланты не нужны.', 'Baseline from the trainer, no talents needed.', 'Базові в тренера, таланти не потрібні.')],
                 [t('Гнев деревьев', 'Entangling Roots', 'Entangling Roots'), t('Работает в помещениях.', 'Works indoors.', 'Працює в приміщеннях.')],
-                [t('Оружие', 'Weapons', 'Зброя'), t('Древковое с 20 уровня.', 'Polearms from level 20.', 'Держакова з 20 рівня.')],
+                [t('Оружие', 'Weapons', 'Зброя'), bt(t('Древковое с 20 уровня.', 'Polearms from level 20.', 'Держакова з 20 рівня.'), 1)],
                 [t('Оживление', 'Revive', 'Revive'), t('Новое: воскрешение вне боя с 12 уровня.', 'New: out-of-combat resurrection from level 12.', 'Нове: воскресіння поза боєм з 12 рівня.')],
                 [tx('Восстановление', 'Regeneration', 'Відновлення', pl='Regeneracja'), t('Мана и энергия восстанавливаются ровно, без рывков раз в 2 секунды.', 'Mana and energy regenerate smoothly, without a jump every 2 seconds.', 'Мана й енергія відновлюються рівно, без ривків раз на 2 секунди.')],
                 [t('Очки серии', 'Combo points', 'Бали серії'), t('По Mobalytics переходят на новую цель. Icy Veins (о разбойнике) пишет, что остаются на прежней: проверим на старте.', 'Per Mobalytics they carry over to the new target. Icy Veins (about the Rogue) writes that they stay on the previous one: we will check at launch.', 'За Mobalytics переходять на нову ціль. Icy Veins (про розбійника) пише, що лишаються на попередній: перевіримо на старті.')],
@@ -1234,7 +1275,7 @@ CLASS_GUIDES.append({
                 {'id': 'q1', 'q': t('Какой спек Друида качать в WoW Forever?', 'Which Druid spec should I level in WoW Forever?', 'Який спек Друїда прокачувати у WoW Forever?'),
                  'a': [t('Силу зверя кошкой: так советуют Warcraft Tavern, Mobalytics и Icy Veins.', 'Feral as a cat: Warcraft Tavern, Mobalytics and Icy Veins recommend it.', 'Силу звіра котом: так радять Warcraft Tavern, Mobalytics та Icy Veins.')]},
                 {'id': 'q2', 'q': t('Когда появляются облики?', 'When do the forms appear?', 'Коли з’являються форми?'),
-                 'a': [t('Медведь на 10 уровне (задание), водный облик на 16 (задание), кошка на 20 (задание), Походный облик на 30.', 'The bear at level 10 (quest), aquatic form at 16 (quest), the cat at 20 (quest), Travel Form at 30.', 'Ведмідь на 10 рівні (завдання), водна форма на 16 (завдання), кіт на 20 (завдання), Travel Form на 30.')]},
+                 'a': [bt(t('Медведь на 10 уровне (задание), водный облик на 16 (задание), кошка на 20 (задание), Походный облик на 30.', 'The bear at level 10 (quest), aquatic form at 16 (quest), the cat at 20 (quest), Travel Form at 30.', 'Ведмідь на 10 рівні (завдання), водна форма на 16 (завдання), кіт на 20 (завдання), Travel Form на 30.'), 1)]},
                 {'id': 'q3', 'q': t('Кошка или медведь?', 'Cat or bear?', 'Кіт чи ведмідь?'),
                  'a': [t('Кошка против одного врага, медведь против нескольких (Icy Veins).', 'The cat against one enemy, the bear against several (Icy Veins).', 'Кіт проти одного ворога, ведмідь проти кількох (Icy Veins).')]},
                 {'id': 'q4', 'q': t('Почему Друид медленный в начале?', 'Why is the Druid slow at the start?', 'Чому Друїд повільний на початку?'),
