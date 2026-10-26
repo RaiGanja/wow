@@ -43,6 +43,7 @@ THERO = {'hero_guides': 'guides', 'hero_dungeons': 'dungeons', 'hero_professions
          'hero_bestrace': 'bestrace', 'hero_tierlist': 'tierlist'}
 THERO_CUT = {'hero_bestrace': '.5', 'hero_tierlist': '.65'}   # phone cut other than .9 (tools/make_images.CUTS)
 THERO_W = (960, 1440, 1920, 2560)
+THERO_BIG = THERO_W + (3840,)   # the hero picture itself: 3440 and 4K screens take the 3840
 WIDTHS.update({h: THERO_W for h in THERO})   # a page's own scene is also its tile (cut 4:3 by the tile) and share preview
 
 
@@ -94,7 +95,7 @@ def art_sets(art, root, big=False):
 def thero(sec, hero):
     """The guide's art band rewritten as the full-screen hero: same crumbs, title, lead and pills (still untranslated)."""
     m = lambda ext: ', '.join(f'@@ROOT@@assets/art/{hero}-m-{w}.{ext} {w}w' for w in (600, 800, 1000))   # noqa: E731
-    big = lambda ext: ', '.join(f'@@ROOT@@assets/art/{hero}-{w}.{ext} {w}w' for w in THERO_W)   # noqa: E731
+    big = lambda ext: ', '.join(f'@@ROOT@@assets/art/{hero}-{w}.{ext} {w}w' for w in THERO_BIG)   # noqa: E731
     phone = 'media="(max-width: 719px) and (max-aspect-ratio: 2/3)"'
     fx = f' data-fx="{THERO[hero]}" data-cut="{THERO_CUT.get(hero, ".9")}"' if THERO[hero] else ''   # living layer only where a mask exists
     pic = (f'<img class="thero-amb" src="@@ROOT@@assets/art/{hero}-960.webp" width="960" height="536" alt="" aria-hidden="true" loading="lazy" decoding="async">\n  '   # ultrawide sides
