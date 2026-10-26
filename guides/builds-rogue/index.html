@@ -265,6 +265,18 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .hd-line .past { opacity: .62; }
 .hd-line .cur b { color: var(--ink-gold); }
 /* Fresh: the three newest notes at the bottom of the hero (build.fresh) */
+.hask { width: 100%; min-width: 0; margin: 0 auto 30px; display: grid; gap: 12px; justify-items: start; }
+.hsrch { display: flex; align-items: center; gap: 12px; width: min(100%, 620px); min-height: 54px; padding: 0 12px 0 18px; border: 1px solid rgba(241,236,224,.32); border-radius: 10px; background: rgba(5,5,5,.6); backdrop-filter: blur(6px); color: var(--ink-2); font-size: var(--fs-16); text-decoration: none; transition: border-color .15s; }
+.hsrch:hover, .hsrch:focus-visible { border-color: #e0c27a; color: var(--ink); }
+.hsrch .ico { width: 20px; height: 20px; color: var(--ink-gold); }
+.hsrch span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hsrch kbd { flex: none; padding: 3px 8px; border: 1px solid rgba(241,236,224,.25); border-radius: 5px; font: inherit; font-size: var(--fs-13); color: var(--ink-2); }
+.hq { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 14px; margin: -4px 0 0; font-size: var(--fs-14); color: var(--ink-2); text-shadow: var(--hero-shadow); }
+.hq a { min-height: 36px; display: inline-flex; align-items: center; color: var(--ink); text-decoration: underline; text-decoration-color: rgba(241,236,224,.4); text-underline-offset: 3px; }
+.hq a:hover { text-decoration-color: #e0c27a; }
+.htasks { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.htasks a { min-height: 44px; display: inline-flex; align-items: center; padding: 0 16px; border: 1px solid rgba(241,236,224,.3); border-radius: 7px; background: rgba(5,5,5,.45); color: var(--ink); font-weight: 600; font-size: var(--fs-16); text-decoration: none; transition: border-color .15s; }
+.htasks a:hover { border-color: #e0c27a; }
 .hnews { margin: 0 auto 34px; display: grid; gap: 10px; }
 .hnews .hh { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; text-shadow: var(--hero-shadow); }
 .hnews .hh h2 { font-size: var(--fs-22); line-height: 1; color: var(--ink); }
@@ -932,6 +944,10 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 @media (max-width: 719px) {
   .hero h1 { font-size: var(--fs-hero); }
   .cta { width: 100%; }
+  .cta .hdc, .hsrch kbd { display: none; }
+  .htasks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
+  .htasks a { justify-content: center; padding: 0 10px; text-align: center; }
+  .htasks a:last-child { grid-column: 1 / -1; }
   .cta .btn { flex: 1 1 140px; padding: 0 12px; }
   .hnews { margin-bottom: 20px; gap: 6px; }
   .hnews .row3 { grid-template-columns: minmax(0, 1fr); gap: 8px; }
@@ -990,10 +1006,10 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   #segD button { flex: 1 1 auto; padding: 0 8px; }
   body { padding-bottom: calc(62px + env(safe-area-inset-bottom, 0px)); }
   .tabbar { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); position: fixed; inset: auto 0 0 0; z-index: 35; background: var(--rail); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px); }
-  .tabbar a, .tabbar button { min-height: 60px; display: grid; justify-items: center; align-content: center; gap: 3px; padding: 0 2px; border: 0; background: none; color: var(--muted); text-decoration: none; text-align: center; font-size: var(--fs-13); font-weight: 500; line-height: 1.2; }
+  .tabbar a, .tabbar button { min-height: 60px; display: grid; justify-items: center; align-content: center; gap: 3px; padding: 0; border: 0; background: none; color: var(--muted); text-decoration: none; text-align: center; font-size: min(var(--fs-13), 3.15vw); font-weight: 500; line-height: 1.2; }   /* the longest words (ru, it) fit a fifth of 320–375 px */
   .tabbar .ico { width: 22px; height: 22px; }
-  @media (max-width: 359px) { .tabbar a, .tabbar button { font-size: 11.5px; padding: 0; } }   /* 320 px: «En el juego» (es) stays on one line */
   .tabbar [aria-current="true"] { color: var(--gold-2); }
+  .sheet .toc a.tbd { display: none; }   /* the tab bar has these pages */
   dialog.sheet { margin: auto 0 0 0; width: 100%; height: auto; max-height: 86dvh; border-left: 0; border-top: 1px solid var(--line); border-radius: 10px 10px 0 0; padding-bottom: env(safe-area-inset-bottom, 0px); }
   .sheet .toc { grid-template-columns: 1fr 1fr; gap: 14px 6px; }
   .sheet .grp:last-child { grid-column: 1 / -1; grid-template-columns: 1fr 1fr; column-gap: 6px; }
@@ -1269,6 +1285,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .pfac .pill, .ppre .pill, .pform .pill { min-height: 36px; padding: 0 14px; cursor: pointer; font: inherit; font-size: var(--fs-16); }
 .pfac .pill[aria-pressed="true"] { background: var(--seg-on); border-color: transparent; color: var(--gold-2); }
 .plv { display: flex; align-items: center; justify-content: center; gap: 22px; }
+.plvq { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; }
+.plvq .pill { min-height: 44px; padding: 0; justify-content: center; cursor: pointer; font: inherit; font-size: var(--fs-16); font-variant-numeric: lining-nums tabular-nums; }
+.plvq .pill[aria-pressed="true"] { background: var(--seg-on); border-color: transparent; color: var(--gold-2); }
 .lvb { width: 56px; height: 56px; border-radius: 50%; border: 1px solid var(--pline); background: var(--panel-2); color: var(--fg); font: inherit; font-size: var(--fs-28); line-height: 1; cursor: pointer; }
 .lvb:hover { border-color: var(--gold); }
 .lvb:active { transform: scale(.96); }
@@ -1370,8 +1389,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../assets/radio/radio.css?v=c5eacd57e2">
-<link data-rel="stylesheet" href="../../assets/search/search.css?v=f786458c9b">
-<link data-rel="stylesheet" href="../../assets/me/me.css?v=afeb3269f8">
+<link data-rel="stylesheet" href="../../assets/search/search.css?v=c8c77e27f2">
+<link data-rel="stylesheet" href="../../assets/me/me.css?v=d6ef450f05">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://gabella.site/wow/"},{"@type":"ListItem","position":2,"name":"Гайды","item":"https://gabella.site/wow/guides/"},{"@type":"ListItem","position":3,"name":"Билды Разбойника","item":"https://gabella.site/wow/guides/builds-rogue/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Билды Разбойника в WoW Forever: таланты и приоритет","description":"Билды Разбойника в WoW Forever: Ликвидация, Бой и Скрытность — ключевые таланты, приоритет в группе, характеристики. По бете, обновим после старта.","inLanguage":"ru","url":"https://gabella.site/wow/guides/builds-rogue/","dateModified":"2026-10-26","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/"},"image":"https://gabella.site/wow/assets/og/builds-rogue-ru.jpg?v=ef9f0d21"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"ru","mainEntity":[{"@type":"Question","name":"Какой спек разбойника лучший для подземелий?","acceptedAnswer":{"@type":"Answer","text":"В тир-листе беты Ликвидация — A, Бой — A* (у RankedBoost B), Скрытность — C."}},{"@type":"Question","name":"Нужны ли кинжалы для Ликвидации?","acceptedAnswer":{"@type":"Answer","text":"Да: Расправа требует два кинжала (Icy Veins). Бою подходят и мечи, и топоры; с кинжалом он бьёт Ударом в спину."}},{"@type":"Question","name":"Какие яды ставить?","acceptedAnswer":{"@type":"Answer","text":"Icy Veins перед боем ставит Быстродействующий яд на оба оружия. Смертельный яд Ликвидация получает на 30 уровне (Wowhead)."}},{"@type":"Question","name":"Когда будет полный билд на 60?","acceptedAnswer":{"@type":"Answer","text":"После старта 5 ноября: на бете был открыт только 30 уровень, рейды откроются 09.12. Тогда добавим раскладку на все 51 очко."}}]}</script>
@@ -1394,8 +1413,11 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5.5C6.5 4 9.5 4 12 5.5v14c-2.5-1.5-5.5-1.5-8 0zM20 5.5C17.5 4 14.5 4 12 5.5v14c2.5-1.5 5.5-1.5 8 0z"/></symbol>
   <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></symbol>
   <symbol id="i-sword" viewBox="0 0 24 24"><path d="M20 4h-4.5L7 12.5l4.5 4.5L20 8.5zM5 14.5l4.5 4.5M7.3 16.7 4 20"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="M3.5 17.5l6-6 4 4 7-7.5M15 8h5.5v5.5"/></symbol>
+  <symbol id="i-gate" viewBox="0 0 24 24"><path d="M5 20.5V10a7 7 0 0 1 14 0v10.5M3 20.5h18M9.5 20.5V15a2.5 2.5 0 0 1 5 0v5.5"/></symbol>
   <symbol id="i-dots" viewBox="0 0 24 24"><path d="M5 12h.01M12 12h.01M19 12h.01"/></symbol>
   <symbol id="i-fire" viewBox="0 0 24 24"><path d="M12 2.5c1 4 5.5 6 5.5 11a5.5 5.5 0 0 1-11 0c0-2.2 1.1-3.8 2.2-4.8 0 2 .9 3.2 2.1 3.2 0-3.2-1-6 1.2-9.4z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
   <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
 </svg>
 
@@ -1408,6 +1430,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" >RU<span class="sr">, Язык: Русский</span></button><ul class="langlist" hidden><li><a href="./" data-lang="ru" hreflang="ru" lang="ru" aria-current="page"><span>Русский</span><small>RU</small></a></li><li><a href="../../en/guides/builds-rogue/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../../uk/guides/builds-rogue/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../../de/guides/builds-rogue/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="../../fr/guides/builds-rogue/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="../../es/guides/builds-rogue/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="../../pt/guides/builds-rogue/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="../../it/guides/builds-rogue/" data-lang="it" hreflang="it" lang="it"><span>Italiano</span><small>IT</small></a></li><li><a href="../../pl/guides/builds-rogue/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
     <button class="iconbtn srchbtn" type="button" aria-label="Поиск по сайту" aria-haspopup="dialog"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><kbd>Ctrl K</kbd></button>
     <button class="iconbtn radiobtn" type="button" aria-label="Радио" title="Радио" aria-expanded="false" aria-controls="radioPanel" aria-pressed="false"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg><span class="rdo-eq" aria-hidden="true"><i></i><i></i><i></i></span></button>
+    <a class="iconbtn mebtn" href="../../profile/" aria-label="Мой профиль" title="Мой профиль"><svg class="ico" aria-hidden="true"><use href="#i-user"/></svg></a>
     <button class="iconbtn themebtn" type="button" aria-label="Переключить тему" title="Переключить тему"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></button>
     <button class="iconbtn menubtn" type="button" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg><span>Ещё</span></button>
   </div>
@@ -1454,15 +1477,15 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <footer id="sources">
   <h2>Источники</h2>
   <ul><li><a href="https://www.icy-veins.com/wow-forever/assassination-rogue-melee-dps-pve-guide" target="_blank" rel="noopener">Icy Veins: Assassination Rogue Guide</a></li><li><a href="https://www.icy-veins.com/wow-forever/combat-rogue-melee-dps-pve-guide" target="_blank" rel="noopener">Icy Veins: Combat Rogue Guide</a></li><li><a href="https://www.icy-veins.com/wow-forever/subtlety-rogue-melee-dps-pve-guide" target="_blank" rel="noopener">Icy Veins: Subtlety Rogue Guide</a></li><li><a href="https://www.icy-veins.com/wow-forever/rogue-talent-calculator" target="_blank" rel="noopener">Icy Veins: Rogue Talent Calculator</a></li><li><a href="https://www.wowhead.com/forever/guide/classes/rogue/assassination/level-30-dps-overview" target="_blank" rel="noopener">Wowhead: Level 30 Assassination Rogue</a></li><li><a href="https://www.wowhead.com/forever/guide/classes/rogue/combat/level-30-dps-overview" target="_blank" rel="noopener">Wowhead: Level 30 Combat Rogue</a></li><li><a href="https://www.wowhead.com/forever/guide/classes/rogue/subtlety/level-30-dps-overview" target="_blank" rel="noopener">Wowhead: Level 30 Subtlety Rogue</a></li><li><a href="https://www.wowhead.com/forever/talent-calc/rogue" target="_blank" rel="noopener">Wowhead: Rogue Talent Calculator</a></li></ul>
-  <nav class="fmap" aria-label="Карта сайта"><div><a class="fh" href="../../classes/">Классы</a><ul><li><a href="../../classes/warrior/">Воин</a></li><li><a href="../../classes/paladin/">Паладин</a></li><li><a href="../../classes/hunter/">Охотник</a></li><li><a href="../../classes/rogue/">Разбойник</a></li><li><a href="../../classes/priest/">Жрец</a></li><li><a href="../../classes/shaman/">Шаман</a></li><li><a href="../../classes/mage/">Маг</a></li><li><a href="../../classes/warlock/">Чернокнижник</a></li><li><a href="../../classes/druid/">Друид</a></li></ul></div><div><a class="fh" href="../../races/">Расы</a><ul><li><a href="../../races/human/">Человек</a></li><li><a href="../../races/dwarf/">Дворф</a></li><li><a href="../../races/night-elf/">Ночной эльф</a></li><li><a href="../../races/gnome/">Гном</a></li><li><a href="../../races/skyborne-alliance/">Высший скайборн</a></li><li><a href="../../races/orc/">Орк</a></li><li><a href="../../races/undead/">Нежить</a></li><li><a href="../../races/tauren/">Таурен</a></li><li><a href="../../races/troll/">Тролль</a></li><li><a href="../../races/skyborne-horde/">Скайборн-ветрорез</a></li></ul></div><div><a class="fh" href="../../guides/">Гайды</a><ul><li><a href="../../guides/launch-checklist/">День 1: чек-лист старта</a></li><li><a href="../../guides/launch-day/">День старта: время, очереди, статус</a></li><li><a href="../../guides/leveling/">Прокачка 1–60</a></li><li><a href="../../guides/best-race/">Лучшая раса для каждого класса</a></li><li><a href="../../guides/tier-list/">Тир-лист классов WoW Forever</a></li><li><a href="../../guides/legacy/">Система Legacy</a></li><li><a href="../../guides/dungeons/">Подземелья и рейды</a></li><li><a href="../../guides/professions/">Профессии</a></li><li><a href="../../guides/addons/">Аддоны и интерфейс</a></li><li><a href="../../guides/faq/">FAQ и даты</a></li><li><a href="../../guides/requirements/">Системные требования</a></li><li><a href="../../guides/news/">Новости</a></li></ul></div><div><a class="fh" href="../../tools/">Инструменты</a><ul><li><a href="../../tools/">Инструменты</a></li><li><a href="../../play/">В игре</a></li></ul></div></nav><div class="legal"><p>Фанатский гид Gabella. Сайт не связан с Blizzard Entertainment и не одобрен ею. World of Warcraft, Warcraft и Blizzard Entertainment — товарные знаки или зарегистрированные товарные знаки Blizzard Entertainment, Inc. в США и/или других странах.</p><p>© 2026 Gabella<span aria-hidden="true"> · </span><a href="../../privacy/">Конфиденциальность</a><span aria-hidden="true"> · </span><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><span aria-hidden="true"> · </span><a href="https://t.me/gabella_wow" target="_blank" rel="noopener">Telegram</a><span aria-hidden="true"> · </span>Связь: <a href="mailto:contact@gabella.site">contact@gabella.site</a></p></div>
+  <nav class="fmap" aria-label="Карта сайта"><div><a class="fh" href="../../classes/">Классы</a><ul><li><a href="../../classes/warrior/">Воин</a></li><li><a href="../../classes/paladin/">Паладин</a></li><li><a href="../../classes/hunter/">Охотник</a></li><li><a href="../../classes/rogue/">Разбойник</a></li><li><a href="../../classes/priest/">Жрец</a></li><li><a href="../../classes/shaman/">Шаман</a></li><li><a href="../../classes/mage/">Маг</a></li><li><a href="../../classes/warlock/">Чернокнижник</a></li><li><a href="../../classes/druid/">Друид</a></li></ul></div><div><a class="fh" href="../../races/">Расы</a><ul><li><a href="../../races/human/">Человек</a></li><li><a href="../../races/dwarf/">Дворф</a></li><li><a href="../../races/night-elf/">Ночной эльф</a></li><li><a href="../../races/gnome/">Гном</a></li><li><a href="../../races/skyborne-alliance/">Высший скайборн</a></li><li><a href="../../races/orc/">Орк</a></li><li><a href="../../races/undead/">Нежить</a></li><li><a href="../../races/tauren/">Таурен</a></li><li><a href="../../races/troll/">Тролль</a></li><li><a href="../../races/skyborne-horde/">Скайборн-ветрорез</a></li></ul></div><div><a class="fh" href="../../guides/">Гайды</a><ul><li><a href="../../guides/launch-checklist/">День 1: чек-лист старта</a></li><li><a href="../../guides/launch-day/">День старта: время, очереди, статус</a></li><li><a href="../../guides/leveling/">Прокачка 1–60</a></li><li><a href="../../guides/builds/">Билды по классам</a></li><li><a href="../../guides/best-race/">Лучшая раса для каждого класса</a></li><li><a href="../../guides/tier-list/">Тир-лист классов WoW Forever</a></li><li><a href="../../guides/legacy/">Система Legacy</a></li><li><a href="../../guides/dungeons/">Подземелья и рейды</a></li><li><a href="../../guides/professions/">Профессии</a></li><li><a href="../../guides/addons/">Аддоны и интерфейс</a></li><li><a href="../../guides/faq/">FAQ и даты</a></li><li><a href="../../guides/requirements/">Системные требования</a></li><li><a href="../../guides/news/">Новости</a></li></ul></div><div><a class="fh" href="../../tools/">Инструменты</a><ul><li><a href="../../tools/">Инструменты</a></li><li><a href="../../play/">В игре</a></li></ul></div></nav><div class="legal"><p>Фанатский гид Gabella. Сайт не связан с Blizzard Entertainment и не одобрен ею. World of Warcraft, Warcraft и Blizzard Entertainment — товарные знаки или зарегистрированные товарные знаки Blizzard Entertainment, Inc. в США и/или других странах.</p><p>© 2026 Gabella<span aria-hidden="true"> · </span><a href="../../privacy/">Конфиденциальность</a><span aria-hidden="true"> · </span><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><span aria-hidden="true"> · </span><a href="https://t.me/gabella_wow" target="_blank" rel="noopener">Telegram</a><span aria-hidden="true"> · </span>Связь: <a href="mailto:contact@gabella.site">contact@gabella.site</a></p></div>
 </footer>
 </div>
 
 <nav class="tabbar" aria-label="Быстрые разделы">
   <a href="../../"><svg class="ico" aria-hidden="true"><use href="#i-home"/></svg>Главная</a>
-  <a href="../../guides/" aria-current="true"><svg class="ico" aria-hidden="true"><use href="#i-book"/></svg>Гайды</a>
-  <a href="../../play/"><svg class="ico" aria-hidden="true"><use href="#i-sword"/></svg>В игре</a>
   <a href="../../classes/"><svg class="ico" aria-hidden="true"><use href="#i-users"/></svg>Классы</a>
+  <a href="../../guides/leveling/"><svg class="ico" aria-hidden="true"><use href="#i-up"/></svg>Прокачка</a>
+  <a href="../../guides/dungeons/"><svg class="ico" aria-hidden="true"><use href="#i-gate"/></svg>Подземелья</a>
   <button type="button" class="morebtn" aria-haspopup="dialog" aria-controls="moreDlg"><svg class="ico" aria-hidden="true"><use href="#i-dots"/></svg>Ещё</button>
 </nav>
 
@@ -1470,8 +1493,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <div class="dh"><b>Все разделы</b><button class="iconbtn" id="moreClose" type="button" aria-label="Закрыть"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Все разделы">
     <div class="grp"><div class="gh">Эта страница</div><a href="#roles">Спеки и роли</a><a href="#assassination">Ликвидация: урон</a><a href="#combat">Бой: урон</a><a href="#subtlety">Скрытность: урон</a><a href="#faq">Вопросы</a><a href="#related">Смотрите также</a></div>
-    <div class="grp"><div class="gh">Справочник</div><a href="../../">Главная</a><a href="../../classes/">Классы: сравнение</a><a href="../../races/">Расы: сравнение</a><a href="../../guides/leveling/">Прокачка 1–60</a><a href="../../guides/dungeons/">Подземелья и рейды</a><a href="../../guides/professions/">Профессии</a><a href="../../guides/faq/">FAQ и даты</a><a href="../../guides/news/">Новости</a><a href="../../guides/">Все гайды</a></div>
-    <div class="grp"><div class="gh">Инструменты</div><a href="../../tools/#picker">Подборщик</a><a href="../../tools/#raid">Конструктор группы</a><a href="../../tools/">Рамки, сравнение, поиск</a><a href="../../play/">В игре</a></div>
+    <div class="grp"><div class="gh">Справочник</div><a class="tbd" href="../../classes/">Классы</a><a href="../../classes/#choose">Какой класс выбрать</a><a href="../../races/">Расы</a><a href="../../guides/builds/">Билды</a><a class="tbd" href="../../guides/leveling/">Прокачка 1–60</a><a class="tbd" href="../../guides/dungeons/">Подземелья и рейды</a><a href="../../guides/professions/">Профессии</a><a href="../../guides/faq/">FAQ и даты</a><a href="../../guides/news/">Новости</a><a href="../../guides/">Все гайды</a></div>
+    <div class="grp"><div class="gh">Инструменты</div><a href="../../tools/#picker">Раса и класс</a><a href="../../tools/#raid">Состав группы и LFG</a><a href="../../play/">В игре</a></div>
     <div class="grp"><div class="gh">Сообщество</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="../../profile/">Мой профиль</a></div>
   </nav>
   <div class="opts">
@@ -1597,8 +1620,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../"></script>
-<script data-src="../../assets/search/search.js?v=f786458c9b" data-root="../../"></script>
-<script data-src="../../assets/me/me.js?v=afeb3269f8" data-root="../../" data-home="../../" data-lang="ru" data-ach="0" data-teaser="" data-close="Закрыть" data-page="guides/builds-rogue/" data-look="2"></script>
+<script data-src="../../assets/search/search.js?v=c8c77e27f2" data-root="../../"></script>
+<script data-src="../../assets/me/me.js?v=d6ef450f05" data-root="../../" data-home="../../" data-lang="ru" data-ach="0" data-teaser="" data-close="Закрыть" data-page="guides/builds-rogue/" data-look="2"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
 (function () {

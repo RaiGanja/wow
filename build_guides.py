@@ -389,7 +389,7 @@ def hub_body(lang, root):
     («Leveling by class», right after the leveling guide); they have a 'hub': False."""
     tiles = guide_tiles([g for g in lang_guides(lang) if g.get('hub', True)])
     at = next((i for i, x in enumerate(tiles) if x['href'] == 'guides/leveling/'), -1) + 1
-    tiles[at:at] = [CLASS_HUB_TILE, BUILDS_HUB_TILE]   # «Builds by class» leads to the tier list section
+    tiles[at:at] = [CLASS_HUB_TILE, BUILDS_HUB_TILE]   # «Builds by class» leads to /guides/builds/
     tiles += section_tiles() + SITE_TILES[1:]
     for href in ('guides/launch-day/', 'guides/launch-checklist/'):   # «Day 1» and «Launch day» head the page as two banners: the other 16 fill whole rows
         top = next((i for i, x in enumerate(tiles) if x['href'] == href), None)
@@ -604,6 +604,7 @@ def play_body(lang, root):
   <div class="pchars" id="pChars" role="group" aria-label="{x("chars")}" hidden></div>
   <div class="pfac" id="pFac" role="group" aria-label="{x("fac")}">{fac}</div>
   <div class="plv"><button type="button" class="lvb" id="lvDown" aria-label="{x("lvDown")}">−</button><output id="lvOut" aria-live="polite">—</output><button type="button" class="lvb" id="lvUp" aria-label="{x("lvUp")}">+</button></div>
+  <div class="plvq" id="lvQuick" role="group" aria-label="{x("lvQuick")}">{"".join(f'<button type="button" class="pill" data-lv="{n}" aria-pressed="false">{n}</button>' for n in (10, 20, 30, 40, 50, 60))}</div>
   <div id="pNow"></div>
   {render_block('tip', tip, lang, root)}
   <a class="pmore" href="{root}guides/leveling/#route">{x("route")}</a>
@@ -687,6 +688,7 @@ function renderLvl() {
   $('#pFac').hidden = !!raceF;
   document.querySelectorAll('#pFac button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.f === fac)));
   $('#lvOut').textContent = lv || '—';
+  document.querySelectorAll('#lvQuick button').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.lv === lv)));
   if (!lv) {
     $('#pNow').innerHTML = `<p class="pnote">${esc(TX.needLvl)}</p>`;
     $('#pDg').innerHTML = `<li class="pnote">${esc(TX.needLvl)}</li>`;
@@ -700,10 +702,16 @@ function renderLvl() {
   const dg = DUNGEONS.filter(d => nearLvl(d, lv) && (!d[6] || d[6] === fac))
     .sort((a, b) => Math.abs(a[1] + a[2] - 2 * lv) - Math.abs(b[1] + b[2] - 2 * lv)).slice(0, 6).sort((a, b) => a[1] - b[1] || a[2] - b[2]);
   $('#pDg').innerHTML = dg.length ? dg.map(d => `<li><span><b>${esc(d[0])}</b>${d[4] ? ` <span class="tag new">${TX.new}</span>` : ''}<small>${esc(d[3])}</small></span>`
-    + `<span class="lvl${lv >= d[1] && lv <= d[2] ? ' gold' : ''}">${lvRange(d)}</span></li>`).join('') : `<li class="pnote">${TX.dungNone}</li>`;
+    + `<span class="lvl${lv >= d[1] && lv <= d[2] ? ' gold' : ''}">${lvRange(d)}</span></li>`).join('') : dgSoon(lv, fac);
+}
+/* Below the first dungeon: the three nearest ones above the level, not an empty «none» */
+function dgSoon(lv, fac) {
+  const up = DUNGEONS.filter(d => d[1] > lv && (!d[6] || d[6] === fac)).sort((a, b) => a[1] - b[1] || a[2] - b[2]).slice(0, 3);
+  return `<li class="pnote">${TX.dungNone}</li>` + up.map(d => `<li><span><b>${esc(d[0])}</b><small>${esc(d[3])}</small></span><span class="lvl">${lvRange(d)}</span></li>`).join('');
 }
 $('#lvDown').addEventListener('click', () => setLvl((lvOf(rd(MEKEY)) || 2) - 1));
 $('#lvUp').addEventListener('click', () => setLvl(lvOf(rd(MEKEY)) + 1));
+$('#lvQuick').addEventListener('click', e => { const b = e.target.closest('button[data-lv]'); if (b) setLvl(+b.dataset.lv); });
 $('#pChars').addEventListener('click', e => {
   const b = e.target.closest('button[data-c]'), c = b && chars().find(x => String(x.id) === b.dataset.c);
   if (!c) return;
@@ -858,7 +866,8 @@ def build_page(g, lang, tpl, base_css, sprite, src):
     here = page_dir(lang, sub)
     html = tpl.replace('@@BASE_CSS@@', base_css).replace('@@SPRITE@@', sprite)
     nav = (g['path'] if g['path'] in ('classes/', 'races/', 'play/') else None) if 'path' in g else         (sub if g['slug'] in ('leveling', 'dungeons') else 'guides/')   # privacy, 404: no current item
-    html = build.chrome(html, nav=nav, tab={'play': 'play/', 'classes': 'classes/'}.get(g['slug']) if 'path' in g else 'guides/')
+    tab = ('classes/' if g['slug'] == 'classes' else None) if 'path' in g else         'guides/leveling/' if g['slug'].startswith('leveling') else 'guides/dungeons/' if g['slug'] == 'dungeons' else None
+    html = build.chrome(html, nav=nav, tab=tab)
     if g.get('hero'):                                             # own full-screen scene instead of the art band
         html = re.sub(r'<section class="stband ghero" id="top">.*?</section>', lambda mt: thero(mt.group(0), g['hero']), html, count=1, flags=re.S)
     html, missing = translate(html, lang)                       # 1) обвязка

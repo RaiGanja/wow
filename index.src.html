@@ -267,6 +267,18 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .hd-line .past { opacity: .62; }
 .hd-line .cur b { color: var(--ink-gold); }
 /* Fresh: the three newest notes at the bottom of the hero (build.fresh) */
+.hask { width: 100%; min-width: 0; margin: 0 auto 30px; display: grid; gap: 12px; justify-items: start; }
+.hsrch { display: flex; align-items: center; gap: 12px; width: min(100%, 620px); min-height: 54px; padding: 0 12px 0 18px; border: 1px solid rgba(241,236,224,.32); border-radius: 10px; background: rgba(5,5,5,.6); backdrop-filter: blur(6px); color: var(--ink-2); font-size: var(--fs-16); text-decoration: none; transition: border-color .15s; }
+.hsrch:hover, .hsrch:focus-visible { border-color: #e0c27a; color: var(--ink); }
+.hsrch .ico { width: 20px; height: 20px; color: var(--ink-gold); }
+.hsrch span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hsrch kbd { flex: none; padding: 3px 8px; border: 1px solid rgba(241,236,224,.25); border-radius: 5px; font: inherit; font-size: var(--fs-13); color: var(--ink-2); }
+.hq { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 14px; margin: -4px 0 0; font-size: var(--fs-14); color: var(--ink-2); text-shadow: var(--hero-shadow); }
+.hq a { min-height: 36px; display: inline-flex; align-items: center; color: var(--ink); text-decoration: underline; text-decoration-color: rgba(241,236,224,.4); text-underline-offset: 3px; }
+.hq a:hover { text-decoration-color: #e0c27a; }
+.htasks { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.htasks a { min-height: 44px; display: inline-flex; align-items: center; padding: 0 16px; border: 1px solid rgba(241,236,224,.3); border-radius: 7px; background: rgba(5,5,5,.45); color: var(--ink); font-weight: 600; font-size: var(--fs-16); text-decoration: none; transition: border-color .15s; }
+.htasks a:hover { border-color: #e0c27a; }
 .hnews { margin: 0 auto 34px; display: grid; gap: 10px; }
 .hnews .hh { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; text-shadow: var(--hero-shadow); }
 .hnews .hh h2 { font-size: var(--fs-22); line-height: 1; color: var(--ink); }
@@ -934,6 +946,10 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 @media (max-width: 719px) {
   .hero h1 { font-size: var(--fs-hero); }
   .cta { width: 100%; }
+  .cta .hdc, .hsrch kbd { display: none; }
+  .htasks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
+  .htasks a { justify-content: center; padding: 0 10px; text-align: center; }
+  .htasks a:last-child { grid-column: 1 / -1; }
   .cta .btn { flex: 1 1 140px; padding: 0 12px; }
   .hnews { margin-bottom: 20px; gap: 6px; }
   .hnews .row3 { grid-template-columns: minmax(0, 1fr); gap: 8px; }
@@ -992,10 +1008,10 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   #segD button { flex: 1 1 auto; padding: 0 8px; }
   body { padding-bottom: calc(62px + env(safe-area-inset-bottom, 0px)); }
   .tabbar { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); position: fixed; inset: auto 0 0 0; z-index: 35; background: var(--rail); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px); }
-  .tabbar a, .tabbar button { min-height: 60px; display: grid; justify-items: center; align-content: center; gap: 3px; padding: 0 2px; border: 0; background: none; color: var(--muted); text-decoration: none; text-align: center; font-size: var(--fs-13); font-weight: 500; line-height: 1.2; }
+  .tabbar a, .tabbar button { min-height: 60px; display: grid; justify-items: center; align-content: center; gap: 3px; padding: 0; border: 0; background: none; color: var(--muted); text-decoration: none; text-align: center; font-size: min(var(--fs-13), 3.15vw); font-weight: 500; line-height: 1.2; }   /* the longest words (ru, it) fit a fifth of 320–375 px */
   .tabbar .ico { width: 22px; height: 22px; }
-  @media (max-width: 359px) { .tabbar a, .tabbar button { font-size: 11.5px; padding: 0; } }   /* 320 px: «En el juego» (es) stays on one line */
   .tabbar [aria-current="true"] { color: var(--gold-2); }
+  .sheet .toc a.tbd { display: none; }   /* the tab bar has these pages */
   dialog.sheet { margin: auto 0 0 0; width: 100%; height: auto; max-height: 86dvh; border-left: 0; border-top: 1px solid var(--line); border-radius: 10px 10px 0 0; padding-bottom: env(safe-area-inset-bottom, 0px); }
   .sheet .toc { grid-template-columns: 1fr 1fr; gap: 14px 6px; }
   .sheet .grp:last-child { grid-column: 1 / -1; grid-template-columns: 1fr 1fr; column-gap: 6px; }
@@ -1040,8 +1056,11 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5.5C6.5 4 9.5 4 12 5.5v14c-2.5-1.5-5.5-1.5-8 0zM20 5.5C17.5 4 14.5 4 12 5.5v14c2.5-1.5 5.5-1.5 8 0z"/></symbol>
   <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></symbol>
   <symbol id="i-sword" viewBox="0 0 24 24"><path d="M20 4h-4.5L7 12.5l4.5 4.5L20 8.5zM5 14.5l4.5 4.5M7.3 16.7 4 20"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="M3.5 17.5l6-6 4 4 7-7.5M15 8h5.5v5.5"/></symbol>
+  <symbol id="i-gate" viewBox="0 0 24 24"><path d="M5 20.5V10a7 7 0 0 1 14 0v10.5M3 20.5h18M9.5 20.5V15a2.5 2.5 0 0 1 5 0v5.5"/></symbol>
   <symbol id="i-dots" viewBox="0 0 24 24"><path d="M5 12h.01M12 12h.01M19 12h.01"/></symbol>
   <symbol id="i-fire" viewBox="0 0 24 24"><path d="M12 2.5c1 4 5.5 6 5.5 11a5.5 5.5 0 0 1-11 0c0-2.2 1.1-3.8 2.2-4.8 0 2 .9 3.2 2.1 3.2 0-3.2-1-6 1.2-9.4z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
   <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
 </svg>
 
@@ -1063,13 +1082,19 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     <p class="lead">Классы, расы, сбор группы и всё, что нужно знать к старту 5 ноября. С источниками и датой.</p>
     <div class="cd" id="cd" aria-live="polite"></div>
     <div class="cta">
-      <a class="btn lg" href="#classes">Выбрать класс</a>
-      <a class="btn lg ghost" href="tools/#raid">Собрать группу</a>
+      <a class="btn lg" href="classes/#choose">Выбрать класс</a>
+      <a class="btn lg ghost" href="tools/#raid">Собрать состав</a>
+      <a class="btn lg ghost hdc" href="@@DISCORD@@" target="_blank" rel="noopener">Найти игроков (Discord)</a>
     </div>
     <p class="hd-line"><span data-d="2026-10-27T17:00:00Z"><b>27.10</b> Резерв имён</span><span data-d="2026-11-04T23:00:00Z"><b>04.11</b> Релиз</span><span data-d="2026-12-09T00:00:00"><b>09.12</b> Рейды</span></p>
   </div>
+  <div class="hask wrap">
+    <a class="hsrch" href="tools/" data-q=""><svg class="ico" aria-hidden="true"><use href="#i-search"/></svg><span>Класс, раса, подземелье, вопрос</span><kbd>Ctrl K</kbd></a>
+    <p class="hq">Например: <a href="tools/" data-q="таланты мага">таланты мага</a><a href="tools/" data-q="подземелья 30">подземелья 30</a><a href="tools/" data-q="профессии воина">профессии воина</a></p>
+    <nav class="htasks" aria-label="Быстрые ответы"><a href="classes/#choose">Кем играть</a><a href="guides/leveling/">Прокачка</a><a href="guides/dungeons/">Подземелья</a><a href="guides/professions/">Профессии</a><a href="#camp">Найти группу</a></nav>
+  </div>
   @@TOD_SW@@
-  <div class="hnews wrap"><div class="hh"><h2>Свежее</h2><a href="guides/news/">Все новости<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div><div class="row3">@@FRESH@@</div></div>
+  <div class="hnews wrap"><div class="hh"><h2>Свежее</h2><a href="guides/news/">Все новости<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div><div class="row3" data-feed="@@ROOT@@assets/news.json">@@FRESH@@</div></div>
 </section>
 
 <section class="block wrap" id="classes">
@@ -1094,7 +1119,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <section class="block wrap" id="pickban">
   <a class="frame pickban" href="tools/#picker">
     <span class="pb-art" aria-hidden="true"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/dwarf-360.avif 360w, @@ROOT@@assets/art/dwarf-600.avif 600w" sizes="(max-width: 719px) 100vw, 320px"><source type="image/webp" srcset="@@ROOT@@assets/art/dwarf-360.webp 360w, @@ROOT@@assets/art/dwarf-600.webp 600w" sizes="(max-width: 719px) 100vw, 320px"><img src="@@ROOT@@assets/art/dwarf-600.webp" width="600" height="804" alt="" loading="lazy" fetchpriority="low" decoding="async"></picture></span>
-    <span class="pb-t"><h2>Подборщик: раса и класс</h2><span>Все сочетания рас и классов, способности рас и роли. Выбор копируется для общего чата.</span></span>
+    <span class="pb-t"><h2>Раса и класс</h2><span>Все сочетания рас и классов, способности рас и роли. Выбор копируется для общего чата.</span></span>
     <span class="btn">Открыть подборщик<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></span>
   </a>
 </section>
@@ -1106,8 +1131,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
       <a class="gt" href="guides/dungeons/"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/hero_dungeons-960.avif"><img src="@@ROOT@@assets/art/hero_dungeons-960.webp" alt="" loading="lazy" fetchpriority="low" decoding="async"></picture><b>Подземелья и рейды</b><span>Все 35 подземелий по уровням и 3 рейда</span></a>
       <a class="gt" href="guides/professions/"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/hero_professions-960.avif"><img src="@@ROOT@@assets/art/hero_professions-960.webp" alt="" loading="lazy" fetchpriority="low" decoding="async"></picture><b>Профессии</b><span>Пары под класс и объекты лагеря</span></a>
       <a class="gt" href="guides/faq/"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/hero_faq-960.avif"><img src="@@ROOT@@assets/art/hero_faq-960.webp" alt="" loading="lazy" fetchpriority="low" decoding="async"></picture><b>FAQ и даты</b><span>Резерв имён, релиз, рейды и отличия от Era</span></a>
-      <a class="gt" href="tools/#raid"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/hero_roster-960.avif"><img src="@@ROOT@@assets/art/hero_roster-960.webp" alt="" loading="lazy" fetchpriority="low" decoding="async"></picture><b>Конструктор группы</b><span>От одного до сорока игроков</span></a>
-      <a class="gt" href="tools/"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/hero_tools-960.avif"><img src="@@ROOT@@assets/art/hero_tools-960.webp" alt="" loading="lazy" fetchpriority="low" decoding="async"></picture><b>Рамки, сравнение, поиск</b><span>Рейдовая сетка как в игре, классы и расы рядом</span></a>
+      <a class="gt" href="tools/#raid"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/hero_roster-960.avif"><img src="@@ROOT@@assets/art/hero_roster-960.webp" alt="" loading="lazy" fetchpriority="low" decoding="async"></picture><b>Состав группы и LFG</b><span>От одного до сорока игроков</span></a>
+      <a class="gt" href="guides/builds/"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/hero_tierlist-960.avif"><img src="@@ROOT@@assets/art/hero_tierlist-960.webp" alt="" loading="lazy" fetchpriority="low" decoding="async"></picture><b>Билды</b><span>Таланты и приоритет спеков к 60</span></a>
       <a class="gt" href="play/"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/hero_requirements-960.avif"><img src="@@ROOT@@assets/art/hero_requirements-960.webp" alt="" loading="lazy" fetchpriority="low" decoding="async"></picture><b>В игре</b><span>Второй экран: этапы, персонаж, таймеры</span></a>
       <a class="gt" href="guides/leveling/#legacy"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/hero_guides-960.avif"><img src="@@ROOT@@assets/art/hero_guides-960.webp" alt="" loading="lazy" fetchpriority="low" decoding="async"></picture><b>Legacy</b><span>Очки на весь аккаунт, перки и награды</span></a>
     </nav>
@@ -1119,7 +1144,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <div class="wrap camp-in">
     <h2>Найдите группу</h2>
     <p data-social>Соберите группу в конструкторе и поделитесь ссылкой. Ищете людей — отметьте «Ищу группу» в профиле, и вас увидят в «Составе». Игроков собирают и на Discord-сервере Gabella.</p><p data-nosocial>Соберите группу в конструкторе и поделитесь ссылкой. Игроков собирают и на Discord-сервере Gabella.</p>
-    <div class="camp-btns"><a class="btn lg" href="tools/#raid">Собрать группу</a><a class="btn lg ghost" href="roster/" data-social>Кто ищет группу</a><a class="btn lg ghost" href="@@DISCORD@@" target="_blank" rel="noopener">Сервер в Discord</a></div>
+    <div class="camp-btns"><a class="btn lg" href="tools/#raid">Собрать состав</a><a class="btn lg ghost" href="roster/" data-social>Кто ищет группу</a><a class="btn lg ghost" href="@@DISCORD@@" target="_blank" rel="noopener">Сервер в Discord</a></div>
   </div>
 </section>
 <div class="wrap">
@@ -1135,7 +1160,6 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <dialog class="sheet" id="moreDlg" aria-label="Все разделы">
   <div class="dh"><b>Все разделы</b><button class="iconbtn" id="moreClose" type="button" aria-label="Закрыть"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Все разделы">
-    <div class="grp"><div class="gh">Эта страница</div><a href="#top">Обзор</a><a href="#classes">Классы</a><a href="#peoples">Расы</a><a href="#guides">Гайды</a></div>
     @@MORENAV@@
   </nav>
   <div class="opts">
@@ -1440,6 +1464,27 @@ TABS.forEach((t, i) => {
     e.preventDefault(); showTab(TABS[(k + TABS.length) % TABS.length], true);
   });
 });
+document.addEventListener('click', e => {
+  const a = e.target.closest('[data-q]');
+  if (!a || e.ctrlKey || e.metaKey) return;
+  e.preventDefault();
+  const q = a.dataset.q, b = document.querySelector('.srchbtn');
+  if (!globalThis.gabellaFind || !b) { location.href = a.getAttribute('href') + (q ? '?q=' + encodeURIComponent(q) : ''); return; }
+  b.click();
+  const i = document.querySelector('dialog.srch input');
+  if (i && q) { i.value = q; i.dispatchEvent(new Event('input')); }
+});
+(() => {
+  const row = document.querySelector('.hnews .row3');
+  if (!row || !row.dataset.feed) return;
+  fetch(row.dataset.feed).then(r => (r.ok ? r.json() : [])).then(feed => {
+    const ours = [...row.querySelectorAll('.nc')].map(n => ({ d: n.querySelector('time').getAttribute('datetime'), html: n.outerHTML }));
+    const lang = document.documentElement.lang;
+    const wh = feed.slice(0, 2).map(x => ({ d: x.date, html: `<a class="nc" href="${esc(x.url)}" target="_blank" rel="noopener"><time datetime="${esc(x.date)}">${x.date.slice(8, 10)}.${x.date.slice(5, 7)}</time><b lang="en">${esc(x.title)}</b><span>${'Wowhead, на английском'}</span></a>` }));
+    const all = ours.concat(wh).sort((a, b) => (a.d < b.d ? 1 : a.d > b.d ? -1 : 0)).slice(0, 3);
+    if (all.some(x => wh.includes(x))) row.innerHTML = all.map(x => x.html).join('');
+  }).catch(() => {});
+})();
 function hashTab() { if (location.hash === '#peoples') { showTab(TABS[1]); document.getElementById('classes').scrollIntoView(); } }
 addEventListener('hashchange', hashTab);
 hashTab();

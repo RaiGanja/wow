@@ -182,7 +182,7 @@
     if (!theme) return;
     if (!state && loading) return;   // still asking /me: keep what is drawn (v4: everyone can sign in, so no state = the login button)
     texts().then(T => {
-      if (!btn) { btn = document.createElement('a'); theme.before(btn); }
+      if (!btn) { btn = document.querySelector('.topbar .mebtn'); if (!btn) { btn = document.createElement('a'); theme.before(btn); } }   // the build draws it
       btn.href = HOME + 'profile/';
       if (state) {
         btn.className = 'iconbtn mebtn';
@@ -194,10 +194,11 @@
         btn.onclick = e => { e.preventDefault(); menu ? closeMenu() : openMenu(T); };
       } else {
         closeMenu();
-        btn.className = 'iconbtn mebtn guest';   // not «login»: the profile page has its own .login block
-        btn.removeAttribute('title'); btn.removeAttribute('aria-label'); btn.removeAttribute('aria-haspopup'); btn.removeAttribute('aria-expanded');
+        btn.className = 'iconbtn mebtn';   // an icon like search and radio; the profile page has its own .login block
+        btn.removeAttribute('aria-haspopup'); btn.removeAttribute('aria-expanded');
+        btn.setAttribute('aria-label', T.ui.profile || 'Profile'); btn.title = T.ui.profile || '';
         btn.onclick = null;
-        btn.textContent = T.ui.login || 'Log in';
+        btn.innerHTML = '<svg class="ico" aria-hidden="true"><use href="#i-user"/></svg>';
       }
     });
   }

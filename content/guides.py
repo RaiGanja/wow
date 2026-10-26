@@ -29,7 +29,7 @@ GUIDES = []   # наполняется в задачах 3, 5, 6, 7, 9; кажд
 NEWS = []     # ручные записи: {'date': '2026-10-23', 'title': t(...), 'text': t(...), 'url': 'https://…'}
 from build import DISCORD_AT  # noqa: E402  (у каждого места ссылки своё приглашение)
 
-ORDER = ['launch-checklist', 'launch-day', 'leveling', 'leveling-warrior', 'leveling-paladin', 'leveling-hunter', 'leveling-rogue', 'leveling-priest', 'leveling-shaman', 'leveling-mage', 'leveling-warlock', 'leveling-druid', 'builds-warrior', 'builds-paladin', 'builds-hunter', 'builds-rogue', 'builds-priest', 'builds-shaman', 'builds-mage', 'builds-warlock', 'builds-druid', 'best-race', 'tier-list', 'legacy', 'dungeons', 'professions', 'addons', 'faq', 'requirements', 'news', 'ukrainian']   # порядок плиток на хабе и в «Другие гайды»
+ORDER = ['launch-checklist', 'launch-day', 'leveling', 'leveling-warrior', 'leveling-paladin', 'leveling-hunter', 'leveling-rogue', 'leveling-priest', 'leveling-shaman', 'leveling-mage', 'leveling-warlock', 'leveling-druid', 'builds', 'builds-warrior', 'builds-paladin', 'builds-hunter', 'builds-rogue', 'builds-priest', 'builds-shaman', 'builds-mage', 'builds-warlock', 'builds-druid', 'best-race', 'tier-list', 'legacy', 'dungeons', 'professions', 'addons', 'faq', 'requirements', 'news', 'ukrainian']   # порядок плиток на хабе и в «Другие гайды»
 
 
 # ---------- FAQ: даты и наборы, режимы, имена, отличия от Era (переехали с главной) + частые вопросы ----------
@@ -2208,16 +2208,17 @@ PLAY_TX = {
     'fac': t('Фракция', 'Faction', 'Фракція'),
     'alliance': t('Альянс', 'Alliance', 'Альянс'),
     'horde': t('Орда', 'Horde', 'Орда'),
-    'needLvl': t('Укажите уровень кнопкой «+» — подскажем зоны и подземелья.',
-                 'Set your level with “+” to see zones and dungeons.',
-                 'Вкажіть рівень кнопкою «+» — підкажемо зони й підземелля.'),
+    'needLvl': t('Выберите уровень — подскажем зоны и подземелья.',
+                 'Pick your level to see zones and dungeons.',
+                 'Оберіть рівень — підкажемо зони й підземелля.'),
+    'lvQuick': t('Уровень одним нажатием', 'Level in one tap', 'Рівень одним натисканням'),
     'now': t('Сейчас', 'Now', 'Зараз'),
     'next': t('Дальше', 'Next', 'Далі'),
     'from': t('с', 'from', 'з'),
     'at': t('на', 'at', 'на'),
     'route': t('Весь маршрут', 'Full route', 'Весь маршрут'),
     'dung': t('Подземелья по уровню', 'Dungeons by level', 'Підземелля за рівнем'),
-    'dungNone': t('Под этот уровень подземелий нет.', 'No dungeons for this level.', 'Під цей рівень підземель немає.'),
+    'dungNone': t('Под этот уровень подземелий ещё нет. Ближайшие:', 'No dungeons at this level yet. The nearest:', 'Під цей рівень підземель ще немає. Найближчі:'),
     'all': t('Все подземелья', 'All dungeons', 'Усі підземелля'),
     'new': t('новое', 'new', 'нове'),
     'timers': t('Таймеры', 'Timers', 'Таймери'),
@@ -2265,4 +2266,17 @@ CLASS_HUB_TILE = class_guides.HUB_TILE   # на хабе гайдов вмест
 from content import spec_builds  # noqa: E402
 
 spec_builds.attach(GUIDES, HUBS, ORDER)
-BUILDS_HUB_TILE = spec_builds.HUB_TILE   # на хабе одна плитка, ведёт на раздел «Билды по классам» тир-листа
+# /guides/builds/: девять плиток билдов на своей странице (хаб, «Ещё» и подвал ведут сюда, а не в середину тир-листа)
+_tl = next(g for g in GUIDES if g['slug'] == 'tier-list')['sections']
+GUIDES.append({
+    'slug': 'builds', 'art': 'paladin', 'hub': False, 'footer': True,
+    'title': spec_builds.BUILDS_TITLE, 'lead': spec_builds.BUILDS_LEAD, 'tile': spec_builds.BUILDS_TILE,
+    'pills': [spec_builds.BETA, t('9 классов, 27 спеков', '9 classes, 27 specs', '9 класів, 27 спеціалізацій'), spec_builds.LATER],
+    'sources': [('Wowhead: Forever Talent Calculator', 'https://www.wowhead.com/forever/talent-calc'),
+                ('Wowhead: Forever Class Guides', 'https://www.wowhead.com/forever/guides/classes')]
+               + [x for g in spec_builds.SPEC_BUILDS for x in g['sources'] if x[0].startswith('Icy Veins') and x[0].endswith('Talent Calculator')],
+    'sections': [{'id': 'classes', 'title': t('Девять классов', 'Nine classes', 'Дев’ять класів'),
+                  'blocks': [next(s for s in _tl if s['id'] == 'builds')['blocks'][1]]}],
+})
+GUIDES.sort(key=lambda g: ORDER.index(g['slug']))
+BUILDS_HUB_TILE = dict(spec_builds.HUB_TILE, href='guides/builds/')   # на хабе одна плитка «Билды по классам»

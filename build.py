@@ -101,7 +101,7 @@ def site_map(lang, home):
         _RACES.extend(parse_races(open(os.path.join(HERE, 'index.src.html'), encoding='utf-8').read()))
     slug = {r['id']: r['slug'] for r in RACES_PAGE}
     hub = {h['slug']: h for h in HUBS}
-    guides = sorted((g for g in GUIDES if g.get('only', lang) == lang and g.get('hub') is not False), key=lambda g: ORDER.index(g['slug']) if g['slug'] in ORDER else len(ORDER))   # hub False (the nine class guides): off the footer too
+    guides = sorted((g for g in GUIDES if g.get('only', lang) == lang and (g.get('hub') is not False or g.get('footer'))), key=lambda g: ORDER.index(g['slug']) if g['slug'] in ORDER else len(ORDER))   # hub False (the nine class guides): off the footer too
     cols = [
         (hub['classes']['title'], 'classes/', [(f'classes/{c["id"]}/', tr(c['n'], lang)) for c in CLASSES]),
         (hub['races']['title'], 'races/', [(f'races/{slug[r["id"]]}/', tr(r['n'], lang)) for r in _RACES]),
@@ -257,11 +257,11 @@ def social(html):
 
 
 # Bottom tab bar on phones: the same tabs in the same order on every page (the profile button of the top bar is hidden there).
-TABS = (('', 'home', 'Главная'), ('guides/', 'book', 'Гайды'), ('play/', 'sword', 'В игре'), ('classes/', 'users', 'Классы'))
+TABS = (('', 'home', 'Главная'), ('classes/', 'users', 'Классы'), ('guides/leveling/', 'up', 'Прокачка'), ('guides/dungeons/', 'gate', 'Подземелья'))
 
 
 def tabbar(cur=None, home='@@HOME@@'):
-    """Tab bar markup; cur — path of the current tab ('', 'guides/', 'play/', 'classes/'); home '' — the home page itself."""
+    """Tab bar markup; cur — path of the current tab (a TABS path); home '' — the home page itself."""
     on = ' aria-current="true"'
     tabs = ''.join(f'\n  <a href="{home + p if home or p else "#top"}"{on if p == cur else ""}>'
                    f'<svg class="ico" aria-hidden="true"><use href="#i-{i}"/></svg>{t}</a>' for p, i, t in TABS)
@@ -273,13 +273,16 @@ def tabbar(cur=None, home='@@HOME@@'):
 NAV = (('classes/', 'Классы'), ('races/', 'Расы'), ('guides/leveling/', 'Прокачка'), ('guides/dungeons/', 'Подземелья'),
        ('guides/', 'Гайды'), ('tools/', 'Инструменты'), ('play/', 'В игре')) + ((('roster/', 'Игроки'),) if SOCIAL else ())
 # Sections sheet («Ещё»): (group, [(path from the language home, label)]); '#…' — a block of the home page.
+# TAB_DUP: pages the phone tab bar already has — the sheet hides them below 720 px (the sheet keeps them for 720–1210 px, no menu there).
 MORE = (
-    ('Справочник', (('', 'Главная'), ('classes/', 'Классы: сравнение'), ('races/', 'Расы: сравнение'), ('guides/leveling/', 'Прокачка 1–60'),
-                    ('guides/dungeons/', 'Подземелья и рейды'), ('guides/professions/', 'Профессии'), ('guides/faq/', 'FAQ и даты'),
-                    ('guides/news/', 'Новости'), ('guides/', 'Все гайды'))),
-    ('Инструменты', (('tools/#picker', 'Подборщик'), ('tools/#raid', 'Конструктор группы'), ('tools/', 'Рамки, сравнение, поиск'), ('play/', 'В игре'))),
+    ('Справочник', (('classes/', 'Классы'), ('classes/#choose', 'Какой класс выбрать'), ('races/', 'Расы'), ('guides/builds/', 'Билды'),
+                    ('guides/leveling/', 'Прокачка 1–60'), ('guides/dungeons/', 'Подземелья и рейды'), ('guides/professions/', 'Профессии'),
+                    ('guides/faq/', 'FAQ и даты'), ('guides/news/', 'Новости'), ('guides/', 'Все гайды'))),
+    ('Инструменты', (('tools/#picker', 'Раса и класс'), ('tools/#raid', 'Состав группы и LFG'), ('play/', 'В игре'))),
     ('Сообщество', (('discord', 'Discord'),) + ((('roster/', 'Игроки'),) if SOCIAL else ()) + (('profile/', 'Мой профиль'),)),
 )
+TAB_DUP = {p for p, _, _ in TABS if p}
+TAB_SHORT = {'uk': {'Прокачування': 'Прокачка'}}   # a word too long for a fifth of a 320–375 px screen
 
 
 def discord_link(src, text='Discord', cls=''):
@@ -299,7 +302,8 @@ def more_groups(home='@@HOME@@'):
     def a(p, t):
         if p == 'discord':
             return discord_link('menu', t)
-        return f'<a href="{home + p if home or (p and p[0] != "#") else (p or "#top")}">{t}</a>'
+        dup = ' class="tbd"' if p in TAB_DUP else ''
+        return f'<a{dup} href="{home + p if home or (p and p[0] != "#") else (p or "#top")}">{t}</a>'
     return '\n    '.join(f'<div class="grp"><div class="gh">{g}</div>{"".join(a(p, t) for p, t in items)}</div>' for g, items in MORE)
 
 
@@ -358,6 +362,8 @@ def localize(html, lang, here):
         html = html.replace('<header class="topbar"', f'<a class="skip" href="#main">{SKIP[lang]}</a><header class="topbar"', 1)
     html = html.replace('@@DISCORD@@', DISCORD_AT['home']).replace('@@DISCORD_GUIDE@@', DISCORD_AT['guide'])
     html = lang_menu(html, lang, here)
+    for word, short in TAB_SHORT.get(lang, {}).items():   # the phone tab bar: one short word per tab
+        html = html.replace(f'</svg>{word}</a>', f'</svg>{short}</a>', 1) if '<nav class="tabbar"' in html else html
     if lang == 'ru':
         html = ru_names(html)
     else:
@@ -617,6 +623,9 @@ def me(html, lang, here):
     root, home = rel(here, ''), rel(here, page_dir(lang))
     page = here[len(page_dir(lang)):]
     solo = ' data-solo="1"' if only_lang(page) else ''   # a language-only guide is not in the guide set of game.json: me.js skips it
+    label = _html.escape(tr('Мой профиль', lang))   # drawn with the page, like search and radio; me.js swaps in the portrait once signed in
+    html = html.replace('<button class="iconbtn themebtn"', f'<a class="iconbtn mebtn" href="{home}profile/" aria-label="{label}" title="{label}">'
+                        '<svg class="ico" aria-hidden="true"><use href="#i-user"/></svg></a>\n    <button class="iconbtn themebtn"', 1)
     head = f'<link rel="stylesheet" href="{root}assets/me/me.css" media="print" onload="this.media=\'all\'">\n</head>'
     js = f'<script src="{root}assets/me/me.js" data-root="{root}" data-home="{home}" data-lang="{lang}" data-ach="{int(ACHIEVEMENTS)}" data-teaser="{_html.escape(TEASER[lang]) if SOCIAL else ''}" data-close="{_html.escape(tr('Закрыть', lang))}" data-page="{page}" data-look="{LK.V}"{solo} defer></script>\n</body>'
     return html.replace('</head>', head, 1).replace('</body>', js, 1)
@@ -943,23 +952,15 @@ def game_hint(lang):
 
 
 def fresh(lang):
-    """«Свежее» at the bottom of the home hero: the three newest of the site updates (updates.json, the Discord feed) and our notes
-    of the news page (content.guides.NEWS), in the page language. A note opens the news page, an update its own page."""
+    """«Свежее» at the bottom of the home hero: the three newest of our notes on the game (content.guides.NEWS), in the page
+    language and their source; each opens its place on the news page. The page script merges the newest Wowhead headlines in (assets/news.json).
+    The site updates (updates.json) stay the Discord feed and the news page."""
     from content.guides import NEWS
     langs.fill(NEWS)
-    upd = json.load(open(os.path.join(HERE, 'updates.json'), encoding='utf-8'))['updates']
-    pick = lambda d: d[lang] if lang in d else langs.ov(d['en'], lang)
-    home = SITE + page_dir(lang)
-    items = []
-    for u in upd:
-        url = pick(u['url']) if lang in u['url'] else u['url']['en'].replace(SITE + 'en/', home)
-        href = url[len(home):] if url.startswith(home) else url
-        items.append((u['date'], pick(u['title']), pick(u['text']), href or 'guides/news/'))
-    items += [(n['date'], n['title'][lang], n['text'][lang], 'guides/news/#ours') for n in NEWS]
-    items.sort(key=lambda x: x[0], reverse=True)
-    plain = lambda x: esc(RU_MARK.sub(r'\1', x))
-    return ''.join(f'<a class="nc" href="{esc(h)}"><time datetime="{d}">{d[8:10]}.{d[5:7]}</time><b>{plain(t)}</b><span>{plain(x)}</span></a>'
-                   for d, t, x, h in items[:3])
+    items = sorted(((n['date'], n['title'][lang], n['url']) for n in NEWS), reverse=True)
+    host = lambda u: re.sub(r'^www\.', '', u.split('/')[2])   # the source of the note, like «Wowhead» on the feed cards
+    return ''.join(f'<a class="nc" href="guides/news/#ours"><time datetime="{d}">{d[8:10]}.{d[5:7]}</time><b>{esc(RU_MARK.sub(r"\1", t))}</b><span>{host(u)}</span></a>'
+                   for d, t, u in items[:3])
 
 
 SLEEP_ART = ('pickban', 'guides', 'camp')   # home blocks under the first screen

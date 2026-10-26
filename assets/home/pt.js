@@ -238,6 +238,27 @@ TABS.forEach((t, i) => {
     e.preventDefault(); showTab(TABS[(k + TABS.length) % TABS.length], true);
   });
 });
+document.addEventListener('click', e => {
+  const a = e.target.closest('[data-q]');
+  if (!a || e.ctrlKey || e.metaKey) return;
+  e.preventDefault();
+  const q = a.dataset.q, b = document.querySelector('.srchbtn');
+  if (!globalThis.gabellaFind || !b) { location.href = a.getAttribute('href') + (q ? '?q=' + encodeURIComponent(q) : ''); return; }
+  b.click();
+  const i = document.querySelector('dialog.srch input');
+  if (i && q) { i.value = q; i.dispatchEvent(new Event('input')); }
+});
+(() => {
+  const row = document.querySelector('.hnews .row3');
+  if (!row || !row.dataset.feed) return;
+  fetch(row.dataset.feed).then(r => (r.ok ? r.json() : [])).then(feed => {
+    const ours = [...row.querySelectorAll('.nc')].map(n => ({ d: n.querySelector('time').getAttribute('datetime'), html: n.outerHTML }));
+    const lang = document.documentElement.lang;
+    const wh = feed.slice(0, 2).map(x => ({ d: x.date, html: `<a class="nc" href="${esc(x.url)}" target="_blank" rel="noopener"><time datetime="${esc(x.date)}">${x.date.slice(8, 10)}.${x.date.slice(5, 7)}</time><b lang="en">${esc(x.title)}</b><span>${'Wowhead, em inglês'}</span></a>` }));
+    const all = ours.concat(wh).sort((a, b) => (a.d < b.d ? 1 : a.d > b.d ? -1 : 0)).slice(0, 3);
+    if (all.some(x => wh.includes(x))) row.innerHTML = all.map(x => x.html).join('');
+  }).catch(() => {});
+})();
 function hashTab() { if (location.hash === '#peoples') { showTab(TABS[1]); document.getElementById('classes').scrollIntoView(); } }
 addEventListener('hashchange', hashTab);
 hashTab();
