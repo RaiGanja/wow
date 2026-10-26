@@ -43,15 +43,44 @@ def _set(root, name, widths, ext):
     return ', '.join(f'{root}assets/art/{name}-{w}.{ext} {w}w' for w in widths)
 
 
-def head_js(lang, root='@@ROOT@@', mobile=True, widths=(960, 1440, 1920, 2560, 3840), sizes='(max-aspect-ratio: 16/9) 180vh, 100vw', msizes='100vw'):
+def _lqip(name, w):
+    """A tiny blurred copy of a hero cut as a data URI: painted under the picture until the real one arrives (cold load)."""
+    try:
+        import base64, io
+        from PIL import Image, ImageFilter
+        with Image.open(os.path.join(HERE, 'assets', 'art', name)) as im:
+            im = im.convert('RGB')
+            im = im.resize((w, max(1, round(w * im.height / im.width))), Image.LANCZOS).filter(ImageFilter.GaussianBlur(.6))
+            buf = io.BytesIO()
+            im.save(buf, 'WEBP', quality=45, method=6)
+        return 'data:image/webp;base64,' + base64.b64encode(buf.getvalue()).decode()
+    except Exception:
+        return ''
+
+
+_LQ = {}
+
+
+def lqip():
+    """{tod: [wide, phone]} for the home hero (index.src.html .hero-art background)."""
+    if not _LQ:
+        for t in PARTS:
+            _LQ[t] = [_lqip(f'hero_{t}-960.webp', 32), _lqip(f'hero_{t}-m-600.webp', 20)]
+    return _LQ
+
+
+def head_js(lang, root='@@ROOT@@', mobile=True, widths=(960, 1440, 1920, 2560, 3840), sizes='(max-aspect-ratio: 16/9) 180vh, 100vw', msizes='100vw', lq=False):
     pre = [['image/avif', 'not all and ' + MOBILE_MEDIA if mobile else '', _set(root, 'hero_{tod}', widths, 'avif'), sizes]]
     if mobile:
         pre.insert(0, ['image/avif', MOBILE_MEDIA, _set(root, 'hero_{tod}-m', MOBILE_W, 'avif'), msizes])
     data = {'B': bounds(), 'N': names(lang), 'X': TEXT[lang], 'A': pre}
+    if lq:
+        data['L'] = lqip()
     return ('<script>(function(){var D=' + json.dumps(data, ensure_ascii=False) + ',B=D.B,K="gabella-tod",P=["dawn","day","dusk","night"],d=document.documentElement;'
             + PART_JS + ';var q=(location.search.match(/[?&]tod=(dawn|day|dusk|night)\\b/)||[])[1],s=null;'
             'try{s=localStorage.getItem(K)}catch(e){}if(P.indexOf(s)<0)s=null;'
             'var t=q||s||part(new Date().getHours());d.setAttribute("data-tod",t);'
+            'var L=D.L&&D.L[t];if(L&&L[0])d.style.setProperty("--lq","url("+L[0]+")"),d.style.setProperty("--lqm","url("+(L[1]||L[0])+")");'
             'window.GabellaTod={part:part,bounds:B,now:t,pinned:!!(q||s),url:!!q,key:K,names:D.N,text:D.X};'
             'D.A.forEach(function(a){var l=document.createElement("link");l.rel="preload";l.as="image";l.type=a[0];'
             'if(a[1])l.media=a[1];l.setAttribute("fetchpriority","high");l.setAttribute("imagesrcset",a[2].replace(/\\{tod\\}/g,t));'
@@ -89,6 +118,7 @@ def apply(html, lang, **kw):
     if '@@TOD_HERO@@' not in html:
         return html
     head_kw = {k: kw[k] for k in ('root', 'mobile', 'widths', 'sizes', 'msizes') if k in kw}
+    head_kw['lq'] = kw.get('cls', 'hero-art') == 'hero-art'   # the home hero only: its CSS paints --lq
     html = html.replace('</head>', head_js(lang, **head_kw) + '</head>', 1)
     html = html.replace('@@TOD_HERO@@', hero(**kw), 1)
     return html.replace('@@TOD_SW@@', '<div class="todsw" data-tod-sw></div>', 1)

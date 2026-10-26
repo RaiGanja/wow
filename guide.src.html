@@ -68,6 +68,18 @@
 .gsec p { max-width: 72ch; }
 .gtiles { padding: 0; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
 .gtiles:has(> :nth-child(9):last-child) { grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); }   /* exactly nine: 3 x 3, no lone tile; one column on a 320 px phone */
+/* Wide screens: full rows whatever the width (the column grows on ultrawide, auto-fill would leave one tile in the last row) */
+@media (min-width: 1280px) { .gtiles { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+@media (min-width: 1100px) {
+  .gtiles:is(:has(> :nth-child(16):last-child), :has(> :nth-child(12):last-child), :has(> :nth-child(8):last-child)) { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .gtiles:is(:has(> :nth-child(9):last-child), :has(> :nth-child(6):last-child)) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 2200px) { .gtiles .ttile { min-height: 260px; } }
+/* titles and captions on one line across a row: two lines kept for each, the caption cut after two */
+@media (min-width: 720px) {
+  .gtiles .ttile b { min-height: 2.4em; display: flex; align-items: flex-end; }
+  .gtiles .ttile span { min-height: 2.8em; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; }
+}
 /* Tables: one plate, rows told apart by a zebra, no lines (raider.io). The reader's rows (dungeons at my level) are tinted gold */
 .gtable { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 6px; overflow: hidden; background: var(--panel-2); font-size: var(--fs-14); font-variant-numeric: tabular-nums lining-nums; }
 .gtable th { text-align: left; vertical-align: bottom; font-weight: 500; font-size: var(--fs-13); color: var(--muted); padding: 12px 14px 8px; }

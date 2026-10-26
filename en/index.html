@@ -113,6 +113,10 @@
   --ease: cubic-bezier(.2, .7, .2, 1);
   color-scheme: dark;
 }
+/* Ultrawide (21:9 at 3440 and up): a 1240 px column is a third of the screen. The column and the type grow a step;
+   up to 2199 px nothing changes. The hero masks (--rgap) and the top bar follow --wrap. */
+@media (min-width: 2200px) { :root { --wrap: 1560px; } html { font-size: 17px; } }
+@media (min-width: 3000px) { :root { --wrap: 1720px; } html { font-size: 18px; } }
 /* The hero zone follows the scene's light (tod.py): only the fade into black, the title shadow, the line under the hero
    and a hairline on the first cards. Gold, black and the fonts never change. Dawn = the defaults = the look before tod. */
 :root { --hero-fade: 5 5 5; --hero-shadow: 0 1px 2px rgba(5,5,5,.7), 0 2px 22px rgba(5,5,5,.55); --hero-line: transparent; --hero-edge: transparent; }
@@ -220,9 +224,9 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 /* Hero */
 .hero { position: relative; min-height: max(560px, 100svh); display: grid; align-content: space-between; color: var(--ink); background: #050505; isolation: isolate; overflow: hidden; }
 .hero-art, .hero-art img { position: absolute; inset: 0; width: 100%; height: 100%; }
-.hero-art { z-index: -2; }
+.hero-art { z-index: -2; background: var(--lq) 62% 50% / cover no-repeat; }   /* --lq (tod.py): a tiny blurred copy of the scene until the art arrives */
 .hero-art img { object-fit: cover; object-position: 62% 50%; }
-@media (max-width: 1279px) { .hero-art img { object-position: 96% 50%; } }   /* tablets and small laptops: the whole party, the castle gives way */
+@media (max-width: 1279px) { .hero-art img { object-position: 96% 50%; } .hero-art { background-position: 96% 50%; } }   /* tablets and small laptops: the whole party, the castle gives way */
 .hero::before { content: ""; position: absolute; inset: 0; z-index: -1; background:
   linear-gradient(90deg, rgb(var(--hero-fade) / .06) calc(50% - 800px), rgb(var(--hero-fade) / .46) calc(50% - 420px), rgb(var(--hero-fade) / .5) calc(50% + 100px), rgb(var(--hero-fade) / .16) calc(50% + 380px), rgb(var(--hero-fade) / .04) calc(50% + 600px)),
   linear-gradient(180deg, rgb(var(--hero-fade) / .42) 0%, rgb(var(--hero-fade) / 0) 26%, rgb(var(--hero-fade) / 0) 58%, rgb(var(--hero-fade) / .9) 88%, var(--bg) 100%);
@@ -436,7 +440,7 @@ canvas.fx.on { opacity: 1; }
 @media (min-width: 720px) {
   .thero-amb { display: block; position: absolute; inset: 0 0 auto 0; z-index: -3; width: 100%; height: var(--hh); object-fit: cover; object-position: 66% 50%;
     filter: blur(32px) brightness(.5) saturate(1.15); clip-path: inset(0); pointer-events: none; }
-  .hero-amb { display: block; position: absolute; inset: 0; z-index: -3; width: 100%; height: 100%; object-fit: cover; object-position: 62% 50%;   /* the home hero, in the time of day of the scene */
+  .hero-amb { display: block; position: absolute; inset: 0; z-index: -3; width: 100%; height: 100%; object-fit: cover; object-position: 62% 50%; background: var(--lq) 62% 50% / cover no-repeat;   /* the home hero, in the time of day of the scene */
     filter: blur(32px) brightness(.5) saturate(1.15); clip-path: inset(0); pointer-events: none; }
 }
 .thero-in { width: 100%; display: grid; gap: 18px; justify-items: start; }
@@ -790,7 +794,8 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .lvl .scale { display: flex; justify-content: space-between; color: var(--muted); font-size: var(--fs-13); }
 .ccl { display: flex; gap: 7px; min-width: 0; }   /* nine classes in one row: the faces shrink on a narrow card instead of one dropping to a line of its own */
 .ccl .av { --s: 28px; flex: 0 1 var(--s); width: auto; height: auto; min-width: 0; aspect-ratio: 1; transition: opacity .2s, filter .2s; }
-.ccl .av.off { opacity: .16; filter: grayscale(1); box-shadow: none; }
+.ccl .av.off { background: transparent; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--fg) 18%, transparent); }   /* a class the race cannot take: an empty ring, not a grey broken face */
+.ccl .av.off img { visibility: hidden; }
 .ccl .av.nw::after { content: ""; position: absolute; right: -3px; top: -3px; width: 9px; height: 9px; border-radius: 50%; background: var(--new); box-shadow: 0 0 0 2px var(--panel); }
 .abs { display: grid; align-items: start; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 22px; }
 .abs > span { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: 1px; min-width: 0; font-size: var(--fs-14); line-height: 1.4; }
@@ -900,6 +905,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .brand b { font-size: var(--fs-18); }
   .hero { min-height: max(580px, calc(100svh - 62px - env(safe-area-inset-bottom, 0px))); }
   .hero-art img { object-position: 60% 50%; }
+  .hero-art { background-position: 60% 50%; }
   .hero::before { background:
     linear-gradient(180deg, rgb(var(--hero-fade) / .86) 0%, rgb(var(--hero-fade) / .7) 40%, rgb(var(--hero-fade) / .6) 72%, rgb(var(--hero-fade) / .94) 100%); }
   .hero-in { padding-top: calc(var(--top) + 28px); gap: 18px; }
@@ -910,7 +916,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 }
 /* Phones upright: the home hero shows the whole party (make_images.CUTS) as a band on top, the text starts at their knees */
 @media (max-width: 719px) and (max-aspect-ratio: 2/3) {
-  .hero-art { inset: 0 0 auto 0; height: auto; aspect-ratio: 600 / 768; }
+  .hero-art { inset: 0 0 auto 0; height: auto; aspect-ratio: 600 / 768; background-image: var(--lqm); background-position: 50% 50%; }
   .hero-art img { object-position: 50% 50%; }
   html .hero::before, :root[data-theme="light"] .hero::before { background: linear-gradient(180deg, rgb(var(--hero-fade) / .6) 0, rgb(var(--hero-fade) / 0) 18vw, rgb(var(--hero-fade) / 0) 62vw, rgb(var(--hero-fade) / .88) 100vw, rgb(var(--hero-fade)) 128vw); }
   .hero-in { padding-top: 70vw; }
@@ -1005,7 +1011,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .hc, .hc img, .hc .info { transition: none; }
 }
 </style>
-<script>(function(){var D={"B": [6, 11, 17, 23], "N": {"dawn": "Morning", "day": "Day", "dusk": "Evening", "night": "Night"}, "X": {"auto": "by your local time", "reset": "Local time", "label": "Time of day"}, "A": [["image/avif", "(max-width: 719px) and (max-aspect-ratio: 2/3)", "../assets/art/hero_{tod}-m-600.avif?v=fcf18cb5 600w, ../assets/art/hero_{tod}-m-800.avif?v=843a4bfa 800w, ../assets/art/hero_{tod}-m-1000.avif?v=890ba12b 1000w", "100vw"], ["image/avif", "not all and (max-width: 719px) and (max-aspect-ratio: 2/3)", "../assets/art/hero_{tod}-960.avif?v=98ea6210 960w, ../assets/art/hero_{tod}-1440.avif?v=a6526477 1440w, ../assets/art/hero_{tod}-1920.avif?v=43d550ca 1920w, ../assets/art/hero_{tod}-2560.avif?v=6d4f88f2 2560w, ../assets/art/hero_{tod}-3840.avif?v=9ea455b2 3840w", "(max-aspect-ratio: 16/9) 180vh, 100vw"]]},B=D.B,K="gabella-tod",P=["dawn","day","dusk","night"],d=document.documentElement;function part(h){return h>=B[0]&&h<B[1]?'dawn':h>=B[1]&&h<B[2]?'day':h>=B[2]&&h<B[3]?'dusk':'night'};var q=(location.search.match(/[?&]tod=(dawn|day|dusk|night)\b/)||[])[1],s=null;try{s=localStorage.getItem(K)}catch(e){}if(P.indexOf(s)<0)s=null;var t=q||s||part(new Date().getHours());d.setAttribute("data-tod",t);window.GabellaTod={part:part,bounds:B,now:t,pinned:!!(q||s),url:!!q,key:K,names:D.N,text:D.X};D.A.forEach(function(a){var l=document.createElement("link");l.rel="preload";l.as="image";l.type=a[0];if(a[1])l.media=a[1];l.setAttribute("fetchpriority","high");l.setAttribute("imagesrcset",a[2].replace(/\{tod\}/g,t));l.setAttribute("imagesizes",a[3]);document.head.appendChild(l)})})();</script>
+<script>(function(){var D={"B": [6, 11, 17, 23], "N": {"dawn": "Morning", "day": "Day", "dusk": "Evening", "night": "Night"}, "X": {"auto": "by your local time", "reset": "Local time", "label": "Time of day"}, "A": [["image/avif", "(max-width: 719px) and (max-aspect-ratio: 2/3)", "../assets/art/hero_{tod}-m-600.avif?v=fcf18cb5 600w, ../assets/art/hero_{tod}-m-800.avif?v=843a4bfa 800w, ../assets/art/hero_{tod}-m-1000.avif?v=890ba12b 1000w", "100vw"], ["image/avif", "not all and (max-width: 719px) and (max-aspect-ratio: 2/3)", "../assets/art/hero_{tod}-960.avif?v=98ea6210 960w, ../assets/art/hero_{tod}-1440.avif?v=a6526477 1440w, ../assets/art/hero_{tod}-1920.avif?v=43d550ca 1920w, ../assets/art/hero_{tod}-2560.avif?v=6d4f88f2 2560w, ../assets/art/hero_{tod}-3840.avif?v=9ea455b2 3840w", "(max-aspect-ratio: 16/9) 180vh, 100vw"]], "L": {"dawn": ["data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAADwBACdASogABIAPt1cpEyopSMiMBgMARAbiWMAAI94ABKfmBQzdhqXg+AKZ9ca+kAA/rFmHa762NpjPXfsx5reojMEA22J3uwDReENQdRxR7QatemuSnysfHnj83b5xf0Gw39G311ybPgPa4DoHqdOSsDKNIaC8AA=", "data:image/webp;base64,UklGRpoAAABXRUJQVlA4II4AAADwBQCdASoUABoAPt1eqU4opSOiMBgIARAbiWMArDNVwbQlJQDEtMEgo1dW8MnK0+Vlqe8J6bT7gAD+rn4fGwgSLCopi9LTUgZHlwOmpNxsb2ojGVBf9kK74OWMUhjLKNX41TNSeIAMK5UQ0qoiwvMMmRovXSUNJtS/OXW9tZk9Cn/7kFkkOu1HrEsTwAAA"], "day": ["data:image/webp;base64,UklGRpAAAABXRUJQVlA4IIQAAAAwBQCdASogABIAPt1eqE6opKOiMBgIARAbiWIAAI94CZwXrYD38Tqm4JmmjAdEesThcAD+1P6i0GAgbckxiTu+66YyCz/5+9TwG/iFTGwa7O/f9yZFPOYcDsDx6c/Y1eYKgrO40GIbCi2FUOrHyrdJndUDwoIOr7xKhBgFEvBf4EpgAAA=", "data:image/webp;base64,UklGRqYAAABXRUJQVlA4IJoAAABwBQCdASoUABoAPt1aqU6opKOiMBgIARAbiWIArAAPL+gZc0VAMHDos/pSABKRHLhkPiaAAP6vjOClIvlHAm+hGIdXlw+wCQEBkFGdNoo4KgGbhMl4a3exvBCPfZfJ7pVjuBt6ubDJ9RPOtGYrSExdfvxVkGtZ5g/jpfiNZi1uuQxYUEmVq4Ei7lxPu+25lGKVzG60iRUJAAAA"], "dusk": ["data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAAAwBQCdASogABIAPtVYokyoJSMiMAwBABqJZgCdMtDCqChZ4aU1agO7r3NW9rDDRObegADKjtLCCVi2QLJmMDGGzP+JK4W32H7Qz0MuIDPj49vOqVVmxOBFw/cTLzxcQgFm0z+ov1peiTFsjGLZVkQW281Gxy3IB/VbvkoxYgdTj3AA", "data:image/webp;base64,UklGRpQAAABXRUJQVlA4IIgAAABQBQCdASoUABoAPt1ipk6opaMiKA1REBuJYgCsOUFWAAubP2aze2nPnH7CfJg1EbbA9AAA3UA8Oy2zPdFSCP/QCLy72qM9/2iUVaICclHwEf5AXZsTz3kFUTMF2gQxDbyagYqzHaLneW2JsBhPKk8zqaz8Aw4r6k5pposBjXukExqhBDztAAAA"], "night": ["data:image/webp;base64,UklGRngAAABXRUJQVlA4IGwAAAAQBACdASogABIAPtlYoEyoJSMiMAwBABsJYwCdACHYIpqiUDUI/PiEAAD+7D2gPqcZqMUyWe2BblKG2lXpo/EXesnxuQpoQxLCmtzw/mZ00ARV+t91WincUYaQ8n8SRZ1u2EK6QSKYsHpwwAA=", "data:image/webp;base64,UklGRnYAAABXRUJQVlA4IGoAAACwBACdASoUABoAPt1cqE0opSQiKA1REBuJYwCxHy/BqLCxy1WJh8O3teLq6fAAAP7pNxvqjHF0VxIGcAPEBkJyjXyfHDCIeO8/vbrUI3I7cMMvT4LnBt6d4HcxMZ1dbs2aW1kiNlTP27QA"]}},B=D.B,K="gabella-tod",P=["dawn","day","dusk","night"],d=document.documentElement;function part(h){return h>=B[0]&&h<B[1]?'dawn':h>=B[1]&&h<B[2]?'day':h>=B[2]&&h<B[3]?'dusk':'night'};var q=(location.search.match(/[?&]tod=(dawn|day|dusk|night)\b/)||[])[1],s=null;try{s=localStorage.getItem(K)}catch(e){}if(P.indexOf(s)<0)s=null;var t=q||s||part(new Date().getHours());d.setAttribute("data-tod",t);var L=D.L&&D.L[t];if(L&&L[0])d.style.setProperty("--lq","url("+L[0]+")"),d.style.setProperty("--lqm","url("+(L[1]||L[0])+")");window.GabellaTod={part:part,bounds:B,now:t,pinned:!!(q||s),url:!!q,key:K,names:D.N,text:D.X};D.A.forEach(function(a){var l=document.createElement("link");l.rel="preload";l.as="image";l.type=a[0];if(a[1])l.media=a[1];l.setAttribute("fetchpriority","high");l.setAttribute("imagesrcset",a[2].replace(/\{tod\}/g,t));l.setAttribute("imagesizes",a[3]);document.head.appendChild(l)})})();</script>
 <style>
 .rv { opacity: 0; transform: translateY(18px); }
 .rv.in { opacity: 1; transform: none; transition: opacity .6s var(--ease), transform .6s var(--ease); }
