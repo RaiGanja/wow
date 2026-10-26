@@ -1110,6 +1110,29 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .gplay b { color: var(--gold-2); }
 .gplay .btn { margin-left: auto; }
 .gbody.play { padding-top: 14px; }
+.pday { margin-bottom: 14px; }   /* In game: the launch checklist in one line above the columns */
+/* Launch checklist (guides/launch-checklist/): rows on one plate like the tables, a square tick, the link to our page on the right */
+.dbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; font-variant-numeric: lining-nums tabular-nums; }
+.dbar[hidden] { display: none; }
+.dbar b { color: var(--gold-2); }
+.dmeter { flex: 1 1 180px; height: 6px; border-radius: 3px; background: var(--panel-2); overflow: hidden; }
+.dmeter i { display: block; width: 0; height: 100%; background: var(--gold); transition: width .25s var(--ease); }
+.dbar .pill { min-height: 36px; padding: 0 14px; cursor: pointer; font: inherit; font-size: var(--fs-14); }
+.dbar .pill[hidden] { display: none; }
+.dchk { list-style: none; margin: 0; padding: 0; display: grid; border-radius: 6px; overflow: hidden; background: var(--panel-2); }
+.dchk li { display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; gap: 2px 14px; align-items: start; padding: 12px 16px; }
+.dchk li:nth-child(odd) { background: var(--zebra); }
+.dchk input { appearance: none; -webkit-appearance: none; display: grid; place-content: center; width: 22px; height: 22px; margin: 1px 0 0; border: 1.5px solid var(--pline); border-radius: 5px; background: transparent; cursor: pointer; transition: background-color .15s, border-color .15s; }
+.dchk input::before { content: ""; width: 10px; height: 5px; border-left: 2px solid #0a0b0d; border-bottom: 2px solid #0a0b0d; transform: translateY(-1px) rotate(-45deg); opacity: 0; }
+.dchk input:hover { border-color: var(--gold); }
+.dchk input:checked { background: var(--gold); border-color: var(--gold); }
+.dchk input:checked::before { opacity: 1; }
+.dchk input:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.dchk label { grid-column: 2; font-weight: 600; cursor: pointer; }
+.dchk p { grid-column: 2; margin: 0; color: var(--muted); font-size: var(--fs-14); line-height: 1.5; }
+.dchk input:checked ~ label { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--gold); }
+.dgo { grid-column: 3; grid-row: 1 / span 2; align-self: center; color: var(--gold-2); font-size: var(--fs-14); white-space: nowrap; }
+@media (max-width: 719px) { .dchk li { grid-template-columns: 24px minmax(0, 1fr); padding: 12px 14px; } .dgo { grid-column: 2; grid-row: auto; margin-top: 4px; white-space: normal; } }
 /* one line for a guest: sign in to keep the level and characters */
 .pway { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; margin-top: 16px; padding: 14px 20px; }
 .pway[hidden] { display: none; }
@@ -1249,7 +1272,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../assets/radio/radio.css?v=c5eacd57e2" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=b1092a36e0" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/search/search.css?v=3979b8e3bb" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../assets/me/me.css?v=f0bb3b6c1b" media="print" onload="this.media='all'">
 </head>
 <body>
@@ -1316,7 +1339,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <div class="wrap">
 <footer id="sources">
   
-  <nav class="fmap" aria-label="Mapa del sitio"><div><a class="fh" href="../es/classes/">Clases</a><ul><li><a href="../es/classes/warrior/">Guerrero</a></li><li><a href="../es/classes/paladin/">Paladín</a></li><li><a href="../es/classes/hunter/">Cazador</a></li><li><a href="../es/classes/rogue/">Pícaro</a></li><li><a href="../es/classes/priest/">Sacerdote</a></li><li><a href="../es/classes/shaman/">Chamán</a></li><li><a href="../es/classes/mage/">Mago</a></li><li><a href="../es/classes/warlock/">Brujo</a></li><li><a href="../es/classes/druid/">Druida</a></li></ul></div><div><a class="fh" href="../es/races/">Razas</a><ul><li><a href="../es/races/human/">Humano</a></li><li><a href="../es/races/dwarf/">Enano</a></li><li><a href="../es/races/night-elf/">Elfo de la noche</a></li><li><a href="../es/races/gnome/">Gnomo</a></li><li><a href="../es/races/skyborne-alliance/">Skyborne High Order</a></li><li><a href="../es/races/orc/">Orco</a></li><li><a href="../es/races/undead/">No-muerto</a></li><li><a href="../es/races/tauren/">Tauren</a></li><li><a href="../es/races/troll/">Trol</a></li><li><a href="../es/races/skyborne-horde/">Skyborne Windshaper</a></li></ul></div><div><a class="fh" href="../es/guides/">Guías</a><ul><li><a href="../es/guides/leveling/">Subir de nivel 1–60</a></li><li><a href="../es/guides/best-race/">La mejor raza para cada clase</a></li><li><a href="../es/guides/tier-list/">Tier list de clases de WoW Forever</a></li><li><a href="../es/guides/legacy/">El sistema Legacy</a></li><li><a href="../es/guides/dungeons/">Mazmorras y bandas</a></li><li><a href="../es/guides/professions/">Profesiones</a></li><li><a href="../es/guides/addons/">Addons e interfaz</a></li><li><a href="../es/guides/faq/">FAQ y fechas</a></li><li><a href="../es/guides/requirements/">Requisitos del sistema</a></li><li><a href="../es/guides/news/">Noticias</a></li></ul></div><div><a class="fh" href="../es/tools/">Herramientas</a><ul><li><a href="../es/tools/">Herramientas</a></li><li><a href="../es/play/">En el juego</a></li></ul></div></nav><div class="legal"><p>Guía de fans de Gabella. No está afiliada a Blizzard Entertainment ni cuenta con su respaldo. World of Warcraft, Warcraft y Blizzard Entertainment son marcas comerciales o marcas registradas de Blizzard Entertainment, Inc. en EE. UU. y/u otros países.</p><p>© 2026 Gabella<span aria-hidden="true"> · </span><a href="../es/privacy/">Privacidad</a><span aria-hidden="true"> · </span><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><span aria-hidden="true"> · </span><a href="https://t.me/gabella_wow" target="_blank" rel="noopener">Telegram</a><span aria-hidden="true"> · </span>Contacto: <a href="mailto:contact@gabella.site">contact@gabella.site</a></p></div>
+  <nav class="fmap" aria-label="Mapa del sitio"><div><a class="fh" href="../es/classes/">Clases</a><ul><li><a href="../es/classes/warrior/">Guerrero</a></li><li><a href="../es/classes/paladin/">Paladín</a></li><li><a href="../es/classes/hunter/">Cazador</a></li><li><a href="../es/classes/rogue/">Pícaro</a></li><li><a href="../es/classes/priest/">Sacerdote</a></li><li><a href="../es/classes/shaman/">Chamán</a></li><li><a href="../es/classes/mage/">Mago</a></li><li><a href="../es/classes/warlock/">Brujo</a></li><li><a href="../es/classes/druid/">Druida</a></li></ul></div><div><a class="fh" href="../es/races/">Razas</a><ul><li><a href="../es/races/human/">Humano</a></li><li><a href="../es/races/dwarf/">Enano</a></li><li><a href="../es/races/night-elf/">Elfo de la noche</a></li><li><a href="../es/races/gnome/">Gnomo</a></li><li><a href="../es/races/skyborne-alliance/">Skyborne High Order</a></li><li><a href="../es/races/orc/">Orco</a></li><li><a href="../es/races/undead/">No-muerto</a></li><li><a href="../es/races/tauren/">Tauren</a></li><li><a href="../es/races/troll/">Trol</a></li><li><a href="../es/races/skyborne-horde/">Skyborne Windshaper</a></li></ul></div><div><a class="fh" href="../es/guides/">Guías</a><ul><li><a href="../es/guides/launch-checklist/">Día 1: lista para el lanzamiento</a></li><li><a href="../es/guides/leveling/">Subir de nivel 1–60</a></li><li><a href="../es/guides/best-race/">La mejor raza para cada clase</a></li><li><a href="../es/guides/tier-list/">Tier list de clases de WoW Forever</a></li><li><a href="../es/guides/legacy/">El sistema Legacy</a></li><li><a href="../es/guides/dungeons/">Mazmorras y bandas</a></li><li><a href="../es/guides/professions/">Profesiones</a></li><li><a href="../es/guides/addons/">Addons e interfaz</a></li><li><a href="../es/guides/faq/">FAQ y fechas</a></li><li><a href="../es/guides/requirements/">Requisitos del sistema</a></li><li><a href="../es/guides/news/">Noticias</a></li></ul></div><div><a class="fh" href="../es/tools/">Herramientas</a><ul><li><a href="../es/tools/">Herramientas</a></li><li><a href="../es/play/">En el juego</a></li></ul></div></nav><div class="legal"><p>Guía de fans de Gabella. No está afiliada a Blizzard Entertainment ni cuenta con su respaldo. World of Warcraft, Warcraft y Blizzard Entertainment son marcas comerciales o marcas registradas de Blizzard Entertainment, Inc. en EE. UU. y/u otros países.</p><p>© 2026 Gabella<span aria-hidden="true"> · </span><a href="../es/privacy/">Privacidad</a><span aria-hidden="true"> · </span><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><span aria-hidden="true"> · </span><a href="https://t.me/gabella_wow" target="_blank" rel="noopener">Telegram</a><span aria-hidden="true"> · </span>Contacto: <a href="mailto:contact@gabella.site">contact@gabella.site</a></p></div>
 </footer>
 </div>
 
@@ -1459,7 +1482,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../assets/radio/radio.js?v=c5eacd57e2" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=b1092a36e0" data-root="../" defer></script>
+<script src="../assets/search/search.js?v=3979b8e3bb" data-root="../" defer></script>
 <script src="../assets/me/me.js?v=f0bb3b6c1b" data-root="../" data-home="./" data-lang="es" data-ach="0" data-teaser="" data-close="Cerrar" data-page="404" data-look="2" defer></script>
 </body>
 </html>
