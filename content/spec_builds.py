@@ -1502,6 +1502,14 @@ def attach(guides, hubs, order):
             h = x['href'].split('#')[0]
             x['d'] = desc['classes/'] if h.startswith('classes/') else by[h.removeprefix('guides/').strip('/')]['tile'] if h.startswith('guides/leveling-') else desc[h]
         tiles.append({'t': g['title'], 'd': g['tile'], 'href': f'guides/{g["slug"]}/', 'art': cid})
+        titles = {s['id']: s['title'] for s in g['sections']}       # «Защита: танк» -> the tree «Защита» (talents.py cuts at the colon)
+        for s in g['sections']:                                   # the talent tree opens the table of the spec (talents.py: nothing without data)
+            if any(kind == 'tree' for kind, _ in s['blocks']):        # attach() may run twice (build.py and build_guides import it)
+                continue
+            for i, (kind, data) in enumerate(s['blocks']):
+                if kind == 'table' and data['head'] is H_TAL:
+                    s['blocks'].insert(i, ('tree', {'cls': cid, 'spec': s['id'], 'rows': data['rows'], 'titles': titles}))
+                    break
     guides.extend(SPEC_BUILDS)
     tl = by['tier-list']['sections']
     pve = next(s for s in tl if s['id'] == 'pve')

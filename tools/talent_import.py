@@ -1,0 +1,151 @@
+"""SavedVariables of the GabellaTalents addon (tools/talent_dump) -> content/talents/<class>.json for talents.py.
+
+    python tools/talent_import.py "<WoW>/_forever_/WTF/Account/<account>/SavedVariables/GabellaTalents.lua" [--out DIR] [--fixture]
+
+Rows, columns, arrows, ranks and the icon file id come from the client (the addon API); the names and tooltip lines from every
+client language that was dumped. Icon names and the sprite are added later by tools/talent_icons.py and survive a re-import.
+--fixture marks test data (tests/fixtures/talents): tests refuse such a file in content/talents."""
+import argparse, json, os, re, sys
+
+HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, HERE)
+from talents import TREES  # noqa: E402
+
+LOCALES = {'ruRU': 'ru', 'enUS': 'en', 'enGB': 'en', 'deDE': 'de', 'esES': 'es', 'esMX': 'es', 'frFR': 'fr', 'itIT': 'it', 'ptBR': 'pt'}
+
+
+def parse_lua(src):
+    """The subset of Lua that SavedVariables use: tables, ["key"] = / [1] = / list items, strings, numbers, booleans, nil, -- comments."""
+    src = re.sub(r'--[^\n]*', '', src)
+    pos = 0
+
+    def ws():
+        nonlocal pos
+        while pos < len(src) and src[pos] in ' \t\r\n':
+            pos += 1
+
+    def value():
+        nonlocal pos
+        ws()
+        ch = src[pos]
+        if ch == '{':
+            pos += 1
+            out, arr = {}, []
+            while True:
+                ws()
+                if src[pos] == '}':
+                    pos += 1
+                    break
+                if src[pos] == '[':
+                    pos += 1
+                    k = value()
+                    ws()
+                    assert src[pos] == ']', src[pos - 20:pos + 20]
+                    pos += 1
+                    ws()
+                    assert src[pos] == '='
+                    pos += 1
+                    out[k] = value()
+                else:
+                    m = re.match(r'([A-Za-z_]\w*)\s*=(?!=)', src[pos:])
+                    if m:
+                        pos += m.end()
+                        out[m.group(1)] = value()
+                    else:
+                        arr.append(value())
+                ws()
+                if src[pos] in ',;':
+                    pos += 1
+            if arr:
+                for i, v in enumerate(arr, 1):
+                    out.setdefault(i, v)
+            if out and all(isinstance(k, int) for k in out):
+                return [out.get(i) for i in range(1, max(out) + 1)]
+            return out
+        if ch == '"':
+            pos += 1
+            buf = []
+            while src[pos] != '"':
+                if src[pos] == '\\':
+                    pos += 1
+                    buf.append({'n': '\n', 't': '\t'}.get(src[pos], src[pos]))
+                else:
+                    buf.append(src[pos])
+                pos += 1
+            pos += 1
+            return ''.join(buf)
+        m = re.match(r'-?\d+(\.\d+)?', src[pos:])
+        if m:
+            pos += m.end()
+            return float(m.group(0)) if m.group(1) else int(m.group(0))
+        for word, v in (('true', True), ('false', False), ('nil', None)):
+            if src.startswith(word, pos):
+                pos += len(word)
+                return v
+        raise ValueError(f'lua at {pos}: {src[pos:pos + 40]!r}')
+
+    out = {}
+    while True:
+        ws()
+        if pos >= len(src):
+            return out
+        m = re.match(r'([A-Za-z_]\w*)\s*=', src[pos:])
+        assert m, src[pos:pos + 40]
+        pos += m.end()
+        out[m.group(1)] = value()
+
+
+def convert(cid, by_locale, old=None, fixture=False):
+    """One class: the dumps of each client language -> our JSON (old: the previous file, its icons are kept)."""
+    keys = TREES[cid]
+    base = by_locale.get('enUS') or next(iter(by_locale.values()))
+    icons = {t['id']: (t.get('icon'), t.get('iname')) for tr in (old or {}).get('trees', []) for t in tr['talents']}
+    trees = []
+    for ti, tree in enumerate(base['trees']):
+        key = keys[ti]
+        talents = []
+        for i, t in enumerate(tree['talents'], 1):
+            tid = f'{key}-{i}'
+            x = {'id': tid, 'n': {}, 'r': int(t['row']), 'c': int(t['col']), 'm': int(t['maxRank']),
+                 'spells': [t['spellId']] if t.get('spellId') else [], 'file': t.get('icon'), 'tip': {}}
+            for loc, d in by_locale.items():
+                lang = LOCALES.get(loc)
+                tt = d['trees'][ti]['talents'][i - 1]
+                if lang:
+                    x['n'][lang] = tt['name']
+                    x['tip'][lang] = tt.get('tip') or []
+            if t.get('req'):
+                pr, pc = t['req']
+                x['req'] = next(f'{key}-{j}' for j, s in enumerate(tree['talents'], 1) if int(s['row']) == pr and int(s['col']) == pc)
+            icon, iname = icons.get(tid, (None, None))
+            if icon is not None:
+                x['icon'], x['iname'] = icon, iname
+            talents.append(x)
+        trees.append({'key': key, 'talents': talents})
+    out = {'class': cid, 'client': base.get('build'), 'source': 'GabellaTalents addon (client addon API)',
+           'trees': trees, 'sprite': (old or {}).get('sprite', 0)}
+    if fixture:
+        out['fixture'] = True
+    return out
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument('saved')
+    ap.add_argument('--out', default=os.path.join(HERE, 'content', 'talents'))
+    ap.add_argument('--fixture', action='store_true')
+    a = ap.parse_args()
+    db = parse_lua(open(a.saved, encoding='utf-8').read())['GabellaTalentsDB']
+    os.makedirs(a.out, exist_ok=True)
+    for cls, by_locale in db.items():
+        cid = cls.lower()
+        p = os.path.join(a.out, f'{cid}.json')
+        old = json.load(open(p, encoding='utf-8')) if os.path.isfile(p) else None
+        data = convert(cid, by_locale, old, a.fixture)
+        json.dump(data, open(p, 'w', encoding='utf-8', newline='\n'), ensure_ascii=False, indent=1)
+        n = sum(len(t['talents']) for t in data['trees'])
+        print(f'{cid}: {n} talents, languages {sorted(LOCALES[l] for l in by_locale if l in LOCALES)} -> {p}')
+
+
+if __name__ == '__main__':
+    main()

@@ -6,6 +6,7 @@ import json, os, re, sys
 from html import escape
 
 import build
+import talents
 import tod
 from build import LANGS, SITE, page_dir, rel, localize, translate
 import langs
@@ -272,6 +273,8 @@ def render_block(kind, data, lang, root, inner=False):
     if kind == 'play':                                            # Leveling: the in-game page in one line
         return (f'<a class="gplay frame" href="{root}play/"><span><b>{E(data["h"], lang)}</b> {E(data["d"], lang)}</span>'
                 f'<span class="btn ghost">{E(data["go"], lang)}</span></a>')
+    if kind == 'tree':                                            # spec guides: the talent tree with our path (talents.py)
+        return talents.render(data['cls'], data['spec'], data['rows'], data['titles'], lang, root)
     if kind == 'raw':
         return L(data, lang)
     if kind == 'news':                                            # our notes from NEWS, newest first
@@ -930,6 +933,7 @@ def build_page(g, lang, tpl, base_css, sprite, src):
     html = html.replace('@@CANON@@', SITE + here)
     html = html.replace('@@ALTERNATES@@', build.alternates(sub))
     html = html.replace('{beta}', f'<span class="beta-note">{BETA_TX[lang]}</span>')
+    html = talents.page(html).replace('@@BETA@@', f'<span class="beta-note">{BETA_TX[lang]}</span>')
     html = localize(html, lang, here).replace('assets/og.png', f'assets/og/{g.get("og") or g["slug"] or "guides"}-{lang}.jpg')   # tools/make_og.py
     return here + 'index.html', html, missing
 

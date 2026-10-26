@@ -1,5 +1,6 @@
 -- Сохраняет деревья талантов своего класса через игровое API аддонов (GetTalentInfo / GetTalentPrereqs).
--- Нужен один персонаж каждого класса (уровень 1 хватает): зайти, набрать /gtd, выйти из игры —
+-- Нужен один персонаж каждого класса (уровень 1 хватает): зайти, набрать /gtd, выйти из игры; ещё раз с английским
+-- текстом клиента (имена для en/uk/pl) —
 -- данные лягут в WTF/Account/<аккаунт>/SavedVariables/GabellaTalents.lua.
 GabellaTalentsDB = GabellaTalentsDB or {}
 
@@ -34,8 +35,9 @@ local function dump()
     end
     d.trees[tab] = tree
   end
-  GabellaTalentsDB[class] = d
-  print("|cffc9a54aGabella|r: " .. class .. " saved (" .. GetNumTalentTabs() .. " trees). Log out to write the file.")
+  GabellaTalentsDB[class] = GabellaTalentsDB[class] or {}
+  GabellaTalentsDB[class][d.locale] = d
+  print("|cffc9a54aGabella|r: " .. class .. " (" .. d.locale .. ") saved (" .. GetNumTalentTabs() .. " trees). Log out to write the file.")
 end
 
 SLASH_GABELLATALENTS1 = "/gtd"
