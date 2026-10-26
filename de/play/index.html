@@ -32,7 +32,7 @@
 <meta property="og:title" content="WoW Forever – zweiter Bildschirm: Radio, Gebiete, Timer">
 <meta property="og:description" content="Lass es beim Spielen offen: Fantasy-Radio, wo du als Allianz oder Horde weiterlevelst, Dungeons für deine Stufe und Timer mit Signal.">
 <meta property="og:url" content="https://gabella.site/wow/de/play/">
-<meta property="og:image" content="https://gabella.site/wow/assets/og/guides-de.jpg?v=76b4c19c">
+<meta property="og:image" content="https://gabella.site/wow/assets/og/guides-de.jpg?v=854fac05">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="WoW Forever – zweiter Bildschirm: Radio, Gebiete, Timer">
@@ -1232,8 +1232,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../assets/radio/radio.css?v=c5eacd57e2">
-<link data-rel="stylesheet" href="../../assets/search/search.css?v=f7b7ec0219">
-<link data-rel="stylesheet" href="../../assets/me/me.css?v=87aca2d97f">
+<link data-rel="stylesheet" href="../../assets/search/search.css?v=78a8683def">
+<link data-rel="stylesheet" href="../../assets/me/me.css?v=f0bb3b6c1b">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://gabella.site/wow/de/"},{"@type":"ListItem","position":2,"name":"Im Spiel","item":"https://gabella.site/wow/de/play/"}]}</script>
 </head>
 <body class="compact">
@@ -1796,10 +1796,10 @@ const SRC = {
   cwg: ['ClassicWoW.gg: Termine und Raids', 'https://classicwow.gg/forever']
 };
 const STAGES = [
-  { id: 'pre', n: 'Vor dem Start', sub: 'bis 04.11', lo: 0, hi: 0,
+  { id: 'pre', n: 'Vor dem Start', sub: 'bis 5.11.', lo: 0, hi: 0,
     todo: [['f', 'Frühe Namensreservierung 27.10 – 03.11 für Besitzer des Heroic, Epic und Collection Pack. Wer zuerst kommt, mahlt zuerst.'],
       ['f', 'Du kannst bis zu drei Charaktere pro Account reservieren. Ein Charakter hat Vor- und Nachnamen, und das Paar muss in der Region einzigartig sein.'],
-      ['f', 'Ab 04.11 brauchst du zum Spielen ein Abo oder Spielzeit.'],
+      ['f', 'Ab dem 5.11. brauchst du zum Spielen ein Abo oder Spielzeit.'],
       ['t', 'Such dir vor dem 27.10 drei Namen mit Nachnamen aus, plus Reserve.']],
     dnote: 'Die ersten Dungeons öffnen ab Stufe 13.',
     prof: [['f', 'Jeder Charakter bekommt zwei Hauptberufe plus alle drei Nebenberufe: Kochkunst, Erste Hilfe und Angeln.'],
@@ -1812,7 +1812,7 @@ const STAGES = [
     src: ['names', 'names2', 'prof', 'legacy'] },
   { id: 'first', n: 'Erste Tage', sub: 'Stufen 1–15', lo: 1, hi: 15,
     todo: [['f', 'Skyborne starten auf Zephras Isle, Stufen 1–12.'],
-      ['f', 'Talente öffnen sich ab Stufe 10, oder ab 9 mit dem Legacy-Vorteil Talented (mit 5 Rängen ab Stufe 5).'],
+      ['f', 'Talente öffnen sich ab Stufe 10; der Legacy-Vorteil Talented schaltet sie früher als normal frei, bis zu 5 Stufen.'],
       ['f', 'Das meiste gekochte Essen gibt einen Erfahrungsbonus. Er stapelt sich mit dem Lager und dem Gemütlichen Schlafsack.'],
       ['t', 'Sammle Erholung: Logge dich in einem Gasthaus oder in einem Lager mit Zelt aus.']],
     prof: [['f', 'Ein einfaches Lagerfeuer braucht erlerntes Kochen, die Fertigkeit musst du aber nicht steigern. Es fasst 3 Objekte, brennt etwa 10 Minuten, und nach 5 kannst du ein neues aufstellen.'],
@@ -1826,7 +1826,7 @@ const STAGES = [
   { id: 'dung', n: 'Dungeons', sub: 'Stufen 15–40', lo: 15, hi: 40,
     todo: [['f', 'Die meiste Dungeon-Erfahrung kommt aus den Questreihen. Wiederholte Runs danach geben spürbar weniger Erfahrung als Questen in der Welt.'],
       ['f', 'Jeder Gegenstand, der droppt, schaltet sein Transmog-Aussehen für alle frei, die ihn tragen können, auch wenn jemand anders ihn bekommen hat.'],
-      ['f', 'Legacy öffnet sich ab Stufe 25.'],
+      ['f', 'Legacy öffnet sich meist auf Stufe 25.'],
       ['t', 'Sammelt die Dungeonquests zuerst als Gruppe und geht rein, wenn alle sie haben.']],
     prof: [['f', 'Laut Warcraft Tavern geben Kochen 140 5 Lagerplätze und 220 10 (laut Icy Veins 90 und 200; wir klären es zum Start).'],
       ['f', 'Jeder Beruf stellt drei Lagerobjekte her, eines pro Stufe. Quellen weichen bei der nötigen Fertigkeit für Stufe 2 und 3 ab (laut Icy Veins 140 und 300).'],
@@ -1885,7 +1885,7 @@ const meSet = () => !!(me.race || me.cls || me.lvl);
 let stageSel = null, stageAuto = true;
 function autoStage() {
   const now = new Date();
-  if (now < D_REL) return ['pre', 'Nach Datum gewählt: vor dem Start am 04.11.'];
+  if (now < D_REL) return ['pre', 'Nach Datum gewählt: vor dem Start am 5. November.'];
   if (me.lvl) return [me.lvl < 15 ? 'first' : me.lvl < 40 ? 'dung' : me.lvl < 60 ? 'path' : 'raid', 'Nach der Stufe deines Charakters gewählt.'];
   if (now >= D_RAID) return ['raid', 'Nach Datum gewählt: Raids sind offen.'];
   return [now < new Date('2026-11-11T00:00:00') ? 'first' : 'dung', 'Nach Datum gewählt. Trag die Stufe deines Charakters ein, dann folgt die Phase ihr.'];
@@ -2055,8 +2055,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../"></script>
-<script data-src="../../assets/search/search.js?v=f7b7ec0219" data-root="../../"></script>
-<script data-src="../../assets/me/me.js?v=87aca2d97f" data-root="../../" data-home="../" data-lang="de" data-ach="0" data-teaser="" data-close="Schließen" data-page="play/" data-look="2"></script>
+<script data-src="../../assets/search/search.js?v=78a8683def" data-root="../../"></script>
+<script data-src="../../assets/me/me.js?v=f0bb3b6c1b" data-root="../../" data-home="../" data-lang="de" data-ach="0" data-teaser="" data-close="Schließen" data-page="play/" data-look="2"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
 (function () {

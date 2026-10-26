@@ -32,7 +32,7 @@
 <meta property="og:title" content="WoW Forever: второй экран — радио, зоны по уровню, таймеры">
 <meta property="og:description" content="Держите открытым во время игры: фэнтези-радио, куда идти на вашем уровне за Альянс или Орду, подземелья под уровень и таймеры с сигналом.">
 <meta property="og:url" content="https://gabella.site/wow/play/">
-<meta property="og:image" content="https://gabella.site/wow/assets/og/guides-ru.jpg?v=7d055d63">
+<meta property="og:image" content="https://gabella.site/wow/assets/og/guides-ru.jpg?v=75187710">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="WoW Forever: второй экран — радио, зоны по уровню, таймеры">
@@ -1232,8 +1232,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../assets/radio/radio.css?v=c5eacd57e2">
-<link data-rel="stylesheet" href="../assets/search/search.css?v=f7b7ec0219">
-<link data-rel="stylesheet" href="../assets/me/me.css?v=87aca2d97f">
+<link data-rel="stylesheet" href="../assets/search/search.css?v=78a8683def">
+<link data-rel="stylesheet" href="../assets/me/me.css?v=f0bb3b6c1b">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://gabella.site/wow/"},{"@type":"ListItem","position":2,"name":"В игре","item":"https://gabella.site/wow/play/"}]}</script>
 </head>
 <body class="compact">
@@ -1796,10 +1796,10 @@ const SRC = {
   cwg: ['ClassicWoW.gg: даты и рейды', 'https://classicwow.gg/forever']
 };
 const STAGES = [
-  { id: 'pre', n: 'До старта', sub: 'до 04.11', lo: 0, hi: 0,
+  { id: 'pre', n: 'До старта', sub: 'до 05.11', lo: 0, hi: 0,
     todo: [['f', 'Ранняя резервация имён 27.10 – 03.11 для владельцев наборов Heroic, Epic и Collection. Кто первым пришёл, тот и занял.'],
       ['f', 'Можно занять до трёх персонажей на аккаунт. У персонажа имя и фамилия, уникальным должно быть их сочетание в пределах региона.'],
-      ['f', 'С 04.11 для игры нужна подписка или игровое время.'],
+      ['f', 'С 05.11 для игры нужна подписка или игровое время.'],
       ['t', 'Придумайте по три имени с фамилией и запасные варианты до 27.10.']],
     dnote: 'Первые подземелья доступны с 13 уровня.',
     prof: [['f', 'На персонажа две основные профессии и все три вспомогательные: Кулинария, Первая помощь и Рыбалка.'],
@@ -1812,7 +1812,7 @@ const STAGES = [
     src: ['names', 'names2', 'prof', 'legacy'] },
   { id: 'first', n: 'Первые дни', sub: 'уровни 1–15', lo: 1, hi: 15,
     todo: [['f', 'Скайборн начинают на Zephras Isle, это уровни 1–12.'],
-      ['f', 'Таланты открываются с 10 уровня, с перком Legacy Talented с 9 (на 5 рангах с 5).'],
+      ['f', 'Таланты открываются с 10 уровня; перк Legacy Talented открывает их раньше нормы, до 5 уровней.'],
       ['f', 'Большая часть готовой еды даёт бонус к опыту. Он складывается с лагерем и «Уютным спальным мешком».'],
       ['t', 'Копите отдых: выходите из игры в трактире или у лагеря с палаткой.']],
     prof: [['f', 'Для базового костра нужна выученная Кулинария, навык прокачивать не обязательно. Он вмещает 3 объекта, горит около 10 минут, новый можно поставить через 5.'],
@@ -1826,7 +1826,7 @@ const STAGES = [
   { id: 'dung', n: 'Подземелья', sub: 'уровни 15–40', lo: 15, hi: 40,
     todo: [['f', 'Основной опыт за подземелье дают его цепочки заданий. Повторные заходы после них приносят заметно меньше опыта, чем задания в мире.'],
       ['f', 'Любая выпавшая вещь открывает свой облик для трансмогрификации всем, кто может её надеть, даже если вещь досталась другому.'],
-      ['f', 'На 25 уровне открывается Legacy.'],
+      ['f', 'Обычно на 25 уровне открывается Legacy.'],
       ['t', 'Соберите задания подземелья всей группой заранее и идите, когда они есть у каждого.']],
     prof: [['f', 'По Warcraft Tavern Кулинария 140 даёт 5 мест в лагере, 220 даёт 10 (по Icy Veins 90 и 200, на старте уточним).'],
       ['f', 'Каждая профессия делает три объекта лагеря, по одному на уровень. Навык для 2 и 3 уровня у источников расходится (по Icy Veins 140 и 300).'],
@@ -1885,7 +1885,7 @@ const meSet = () => !!(me.race || me.cls || me.lvl);
 let stageSel = null, stageAuto = true;
 function autoStage() {
   const now = new Date();
-  if (now < D_REL) return ['pre', 'Выбрано по дате: до релиза 04.11.'];
+  if (now < D_REL) return ['pre', 'Выбрано по дате: до релиза 05.11.'];
   if (me.lvl) return [me.lvl < 15 ? 'first' : me.lvl < 40 ? 'dung' : me.lvl < 60 ? 'path' : 'raid', 'Выбрано по уровню вашего персонажа.'];
   if (now >= D_RAID) return ['raid', 'Выбрано по дате: рейды открыты.'];
   return [now < new Date('2026-11-11T00:00:00') ? 'first' : 'dung', 'Выбрано по дате. Укажите уровень персонажа, и этап подстроится.'];
@@ -2055,8 +2055,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../assets/radio/radio.js?v=c5eacd57e2" data-root="../"></script>
-<script data-src="../assets/search/search.js?v=f7b7ec0219" data-root="../"></script>
-<script data-src="../assets/me/me.js?v=87aca2d97f" data-root="../" data-home="../" data-lang="ru" data-ach="0" data-teaser="" data-close="Закрыть" data-page="play/" data-look="2"></script>
+<script data-src="../assets/search/search.js?v=78a8683def" data-root="../"></script>
+<script data-src="../assets/me/me.js?v=f0bb3b6c1b" data-root="../" data-home="../" data-lang="ru" data-ach="0" data-teaser="" data-close="Закрыть" data-page="play/" data-look="2"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
 (function () {
