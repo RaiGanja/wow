@@ -1,18 +1,20 @@
-"""Talent icons for content/talents/<class>.json: the icon name from the Blizzard Game Data API, the picture from Blizzard's
-render CDN, one sprite per class (assets/talents/<class>.webp, one row of 56 x 56 cells: the CDN has no bigger size).
+"""Talent icons for content/talents/<class>.json: pictures from Blizzard's render CDN, one sprite per class
+(assets/talents/<class>.webp, one row of 56 x 56 cells: the CDN has no bigger size).
 
-    python tools/talent_icons.py [paladin ...]            # icon names from the API (key in ~/.secrets/bnet.env)
+    python tools/talent_icons.py [paladin ...]            # by the client's icon file id (from the addon), API as a fallback
     python tools/talent_icons.py paladin --map icons.json  # icon names from a file {talent id: icon name} (tests)
 
-The key file holds two lines, BNET_ID=... and BNET_SECRET=... (a client of develop.battle.net); its values are never printed.
-A talent is matched by the spell ids we know (the client's, i18n/names_ids.json); the API answer also carries the icon's file id,
-which must be the client's own (from the addon), so a wrong spell id does not slip in. The API's names in de/es/fr/it/pt fill
-the languages the client dump lacks. Not found -> no icon: talents.py draws two letters on a plate, the list is printed.
+The CDN serves an icon by its file id as well as by name (render.worldofwarcraft.com/eu/icons/56/135972.jpg, checked 26.10),
+so the addon's file id is enough and needs no key. The Game Data API knows only retail spells (11 of the 147 talents of our
+tables on 26.10), so it is only the fallback for a talent without a file id, and it fills the de/es/fr/it/pt names it knows.
+The key file (~/.gabella-keys/blizzard.env: BLIZZARD_CLIENT_ID=, BLIZZARD_CLIENT_SECRET=) is the site's Battle.net client:
+read-only client_credentials calls only, never print the values, never touch the client on develop.battle.net (it signs readers in).
+Not found -> no icon: talents.py draws two letters on a plate, the list is printed.
 Never from wow.zamimg.com (Wowhead) or Icy Veins: their terms forbid it."""
 import argparse, base64, io, json, os, sys, urllib.error, urllib.parse, urllib.request
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-KEY = os.path.join(os.path.expanduser('~'), '.secrets', 'bnet.env')
+KEY = os.environ.get('GABELLA_BNET_KEY') or os.path.join(os.path.expanduser('~'), '.gabella-keys', 'blizzard.env')
 CACHE = os.path.join(HERE, 'tools', '.talent-icons')
 CDN = 'https://render.worldofwarcraft.com/eu/icons/56/{}.jpg'
 API = 'https://eu.api.blizzard.com'
@@ -26,14 +28,15 @@ def get(url, token=None):
         with urllib.request.urlopen(req, timeout=20) as r:
             return r.read()
     except urllib.error.HTTPError as e:
-        if e.code == 404:
+        if e.code in (403, 404):                                # the CDN answers 403 for an unknown icon
             return None
         raise
 
 
 def token():
     env = dict(l.strip().split('=', 1) for l in open(KEY, encoding='utf-8') if '=' in l)
-    auth = base64.b64encode(f'{env["BNET_ID"]}:{env["BNET_SECRET"]}'.encode()).decode()
+    cid, sec = env.get('BLIZZARD_CLIENT_ID') or env['BNET_ID'], env.get('BLIZZARD_CLIENT_SECRET') or env['BNET_SECRET']
+    auth = base64.b64encode(f'{cid}:{sec}'.encode()).decode()
     req = urllib.request.Request('https://oauth.battle.net/token', data=b'grant_type=client_credentials',
                                  headers={'Authorization': f'Basic {auth}', 'Content-Type': 'application/x-www-form-urlencoded'})
     with urllib.request.urlopen(req, timeout=20) as r:
@@ -118,15 +121,18 @@ def main():
     ap.add_argument('--map')
     a = ap.parse_args()
     cids = a.classes or sorted(f[:-5] for f in os.listdir(a.data) if f.endswith('.json'))
-    tok = None if a.map else token()
+    tok = None
     for cid in cids:
         p = os.path.join(a.data, f'{cid}.json')
         data = json.load(open(p, encoding='utf-8'))
         if a.map:
-            icons, miss = json.load(open(a.map, encoding='utf-8')), []
-            icons = {k: v for k, v in icons.items() if v}
+            icons = {k: v for k, v in json.load(open(a.map, encoding='utf-8')).items() if v}
         else:
-            icons, miss = from_api(data, tok)
+            talents = [t for tr in data['trees'] for t in tr['talents']]
+            icons = {t['id']: str(t['file']) for t in talents if t.get('file') and picture(str(t['file']))}
+            if len(icons) < len(talents):                     # no file id or the CDN does not have it: ask the API
+                tok = tok or token()
+                icons = {**from_api(data, tok)[0], **icons}
         n, size = sprite(cid, data, icons, a.assets)
         json.dump(data, open(p, 'w', encoding='utf-8', newline='\n'), ensure_ascii=False, indent=1)
         left = [f'{t["id"]} {t["n"].get("en") or t["n"].get("ru")}' for tr in data['trees'] for t in tr['talents'] if t.get('icon') is None]
