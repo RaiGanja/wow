@@ -151,8 +151,8 @@ GUIDES.append({
                         'До набору додається код Invite-A-Friend: з ним друг грає з 04.11 по 11.11 без підписки. Heroic дає 1 код, Epic і Collection — 3. Коди приходять на пошту з 20.10, до подарункових покупок їх немає.')},
             ]),
         ]},
-        {'id': 'language', 'langs': ('ru', 'uk'),   # только ru и uk: язык клиента и аддоны перевода
-         'title': {'ru': 'Играть на русском', 'uk': 'Грати українською'}, 'blocks': [
+        {'id': 'language', 'langs': ('ru', 'uk', 'pl'),   # ru, uk и pl: язык клиента и аддоны перевода (pl: клиента нет, по магазину Battle.net)
+         'title': {'ru': 'Играть на русском', 'uk': 'Грати українською', 'pl': 'Czy WoW Forever jest po polsku?'}, 'blocks': [
             ('raw', {
                 'ru': '<p>У WoW Forever есть русский клиент. В лаунчере Battle.net откройте настройки игры и выберите язык «Русский». Русификатор не нужен.</p>'
                       '<p>Русская озвучка заданий, истории зон и книг — аддон Wayfarer — Russian VoiceOver. Работает только с русским клиентом. Запасной вариант — Russian Quests Voiceover.</p>'
@@ -161,6 +161,9 @@ GUIDES.append({
                 'uk': '<p>Українського клієнта у WoW Forever немає. Українською грають з аддоном UA_Forever: він перекладає завдання, підказки й вікна поверх клієнта.</p>'
                       '<p class="gbtns"><a class="btn ghost" href="https://www.curseforge.com/wow/addons/ua-forever" target="_blank" rel="noopener">Відкрити на CurseForge ↗</a>'
                       '<a class="btn ghost" href="../ukrainian/">Як грати українською</a></p>',
+                'pl': '<p>Nie. Sklep Battle.net podaje dla WoW Forever 10 wersji językowych: angielską, hiszpańską, portugalską (Brazylia), niemiecką, francuską, rosyjską, koreańską i chińską tradycyjną. Polskiej wśród nich nie ma.</p>'
+                      '<p>W Polsce gra się na kliencie angielskim. Dlatego nazwy zadań, lochów i umiejętności podajemy tu po angielsku, tak jak w grze.</p>'
+                      '<p class="gbtns"><a class="btn ghost" href="https://eu.shop.battle.net/en-gb/product/world-of-warcraft-forever" target="_blank" rel="noopener">Battle.net: języki gry ↗</a></p>',
             }),
         ]},
         {'id': 'modes', 'title': t('Режимы и серверы', 'Modes and servers', 'Режими та сервери'), 'blocks': [
@@ -265,10 +268,10 @@ GUIDES.append({
                  'a': [t('Да, подписка или игровое время, та же, что для WoW и Classic: от $14.99 или €12.99 в месяц, дешевле при оплате на 3–12 месяцев. Forever — постоянная игра рядом с Retail и Classic, а не сезон.',
                          'Yes, a subscription or game time, the same one as for WoW and Classic: from $14.99 or €12.99 a month, cheaper when paid for 3–12 months. Forever is a permanent game next to Retail and Classic, not a season.',
                          'Так, підписка або ігровий час, та сама, що для WoW і Classic: від $14.99 або €12.99 на місяць, дешевше при оплаті на 3–12 місяців. Forever — постійна гра поруч із Retail і Classic, а не сезон.')]},
-                {'id': 'trial', 'q': t('Можно ли попробовать бесплатно?', 'Can I try it for free?', 'Чи можна спробувати безкоштовно?'),
+                {'id': 'trial', 'q': t('Можно ли попробовать бесплатно?', 'Can I try it for free?', 'Чи безкоштовна WoW Forever?'),
                  'a': [t('Только по коду друга. Владелец набора получает коды Invite-A-Friend, по такому коду играют с 04.11 по 11.11 без подписки. Heroic даёт 1 код, Epic и Collection — 3.',
                          'Only with a friend’s code. Pack owners get Invite-A-Friend codes, and with one you play from 04.11 to 11.11 without a subscription. Heroic gives 1 code, Epic and Collection give 3.',
-                         'Лише за кодом друга. Власник набору отримує коди Invite-A-Friend, з таким кодом грають з 04.11 по 11.11 без підписки. Heroic дає 1 код, Epic і Collection — 3.')]},
+                         'Ні, потрібна підписка або ігровий час. Безкоштовно грають лише за кодом друга Invite-A-Friend: з ним — з 04.11 по 11.11 без підписки. Власник Heroic отримує 1 код, Epic і Collection — 3.')]},
                 {'id': 'price', 'q': t('Сколько стоят наборы и нужны ли они?', 'How much are the packs, and do I need one?', 'Скільки коштують набори і чи потрібні вони?'),
                  'a': [t('Heroic Pack $29.99, Epic Pack $59.99, Warcraft Forever Collection $79.99. Набор нужен только ради расы Скайборн и ранней резервации имён: остальные восемь рас и все девять классов докупать не нужно.',
                          'Heroic Pack $29.99, Epic Pack $59.99, Warcraft Forever Collection $79.99. A pack is only needed for the Skyborne race and early name reservation: the other eight races and all nine classes do not need to be bought.',
@@ -1855,7 +1858,7 @@ GUIDES.append({
     'crumb': t('День старта', 'Launch day', 'День старту'),
     'lead': t('Когда открывается WoW Forever по вашему времени, чего ждать в первые часы и где Blizzard сообщает о сбоях.',
               'When WoW Forever opens in your time zone, what to expect in the first hours and where Blizzard reports outages.',
-              'Коли відкривається WoW Forever за вашим часом, чого чекати в перші години та де Blizzard повідомляє про збої.'),
+              'WoW Forever стартує 5 листопада о 01:00 за Києвом (04.11, 23:00 UTC). Чого чекати в перші години та де Blizzard повідомляє про збої.'),
     'tile': t('Время старта, очереди и где смотреть статус серверов', 'Launch time, queues and where to check server status', 'Час старту, черги та де дивитися статус серверів'),
     'pills': [t('Старт 04.11.2026, 23:00 UTC', 'Launch 04.11.2026, 23:00 UTC', 'Старт 04.11.2026, 23:00 UTC'),
               t('Статус — только каналы Blizzard', 'Status: Blizzard channels only', 'Статус — лише канали Blizzard')],
