@@ -269,6 +269,15 @@ def render_block(kind, data, lang, root, inner=False):
         return f'<div class="nlist">{items}</div>'
     if kind == 'profs':
         return render_block('table', {'head': PROF_HEAD, 'rows': profs_table(home_src())}, lang, root)
+    if kind == 'ckbar':                                           # launch checklist: ticks counter, filled by JS['checklist']
+        return (f'<div class="dbar" id="ckBar" hidden><span>{E(data["done"], lang)} <b id="ckN">0</b> / <span id="ckT">0</span></span>'
+                f'<span class="dmeter" aria-hidden="true"><i id="ckFill"></i></span>'
+                f'<button type="button" class="pill" id="ckReset" hidden>{E(data["reset"], lang)}</button></div>')
+    if kind == 'checks':                                          # launch checklist: a tick, the step, a link to our page
+        items = [x for x in data if lang in x.get('langs', (lang,))]
+        return '<ul class="dchk">' + ''.join(
+            f'<li><input type="checkbox" id="ck-{x["id"]}" data-ck="{x["id"]}"><label for="ck-{x["id"]}">{E(x["t"], lang)}</label>'
+            f'<p>{E(x["d"], lang)}</p><a class="dgo" href="{root}{x["href"]}">{E(x["go"], lang)}</a></li>' for x in items) + '</ul>'
     raise ValueError(f'unknown block {kind!r}')
 
 
@@ -462,6 +471,25 @@ def ref_js(src, lang):
     return translate(js, lang)[0]
 
 
+JS['checklist'] = r'''/* Launch checklist: the ticks live in this browser ("gabella-day1" = {id: 1}), other tabs follow through the storage event */
+const CK = 'gabella-day1', ckBoxes = [...document.querySelectorAll('.dchk input[data-ck]')];
+const ckRead = () => { try { return JSON.parse(localStorage.getItem(CK)) || {}; } catch (e) { return {}; } };
+let ckState = ckRead();
+function ckSave() { try { localStorage.setItem(CK, JSON.stringify(ckState)); } catch (e) {} }
+function ckPaint() {
+  ckBoxes.forEach(b => { b.checked = !!ckState[b.dataset.ck]; });
+  const n = ckBoxes.filter(b => b.checked).length;
+  $('#ckN').textContent = n; $('#ckT').textContent = ckBoxes.length;
+  $('#ckFill').style.width = (ckBoxes.length ? n * 100 / ckBoxes.length : 0) + '%';
+  $('#ckReset').hidden = !n; $('#ckBar').hidden = false;
+}
+ckBoxes.forEach(b => b.addEventListener('change', () => {
+  if (b.checked) ckState[b.dataset.ck] = 1; else delete ckState[b.dataset.ck];
+  ckSave(); ckPaint();
+}));
+$('#ckReset').addEventListener('click', () => { ckState = {}; ckSave(); ckPaint(); });
+addEventListener('storage', e => { if (e.key === CK) { ckState = ckRead(); ckPaint(); } });
+ckPaint();'''
 JS['classref'] = 'renderClassRef();'
 JS['raceref'] = 'renderRaceRef();'
 
@@ -516,7 +544,9 @@ def play_body(lang, root):
     fac = ''.join(f'<button type="button" class="pill" data-f="{f}" aria-pressed="false">{x(f)}</button>' for f in ('alliance', 'horde'))
     presets = (f'<button type="button" class="pill" data-min="15" data-name="{x("food")}" title="{x("foodNote")}">{x("food")} · 15 {x("min")}</button>'
                + ''.join(f'<button type="button" class="pill" data-min="{m}">{m} {x("min")}</button>' for m in (5, 10, 30)))
-    return f'''<div class="pgrid"><div class="pcol">
+    day1 = (f'<a class="gplay frame pday" href="{root}guides/launch-checklist/"><span><b>{x("day1")}</b> {x("day1d")}</span>'   # launch checklist, one line
+            f'<span class="btn ghost">{x("day1go")}</span></a>')
+    return day1 + f'''<div class="pgrid"><div class="pcol">
 <section class="frame psec" id="level" aria-labelledby="hLvl">
   <div class="phero"><h2 id="hLvl">{x("lvl")}</h2><span id="pWho"></span><a href="#me">{x("edit")}</a></div>
   <div class="pchars" id="pChars" role="group" aria-label="{x("chars")}" hidden></div>

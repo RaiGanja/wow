@@ -29,7 +29,7 @@ GUIDES = []   # наполняется в задачах 3, 5, 6, 7, 9; кажд
 NEWS = []     # ручные записи: {'date': '2026-10-23', 'title': t(...), 'text': t(...), 'url': 'https://…'}
 from build import DISCORD_AT  # noqa: E402  (у каждого места ссылки своё приглашение)
 
-ORDER = ['leveling', 'leveling-warrior', 'leveling-paladin', 'leveling-hunter', 'leveling-rogue', 'leveling-priest', 'leveling-shaman', 'leveling-mage', 'leveling-warlock', 'leveling-druid', 'builds-warrior', 'builds-paladin', 'builds-hunter', 'builds-rogue', 'builds-priest', 'builds-shaman', 'builds-mage', 'builds-warlock', 'builds-druid', 'best-race', 'tier-list', 'legacy', 'dungeons', 'professions', 'addons', 'faq', 'requirements', 'news', 'ukrainian']   # порядок плиток на хабе и в «Другие гайды»
+ORDER = ['launch-checklist', 'leveling', 'leveling-warrior', 'leveling-paladin', 'leveling-hunter', 'leveling-rogue', 'leveling-priest', 'leveling-shaman', 'leveling-mage', 'leveling-warlock', 'leveling-druid', 'builds-warrior', 'builds-paladin', 'builds-hunter', 'builds-rogue', 'builds-priest', 'builds-shaman', 'builds-mage', 'builds-warlock', 'builds-druid', 'best-race', 'tier-list', 'legacy', 'dungeons', 'professions', 'addons', 'faq', 'requirements', 'news', 'ukrainian']   # порядок плиток на хабе и в «Другие гайды»
 
 
 # ---------- FAQ: даты и наборы, режимы, имена, отличия от Era (переехали с главной) + частые вопросы ----------
@@ -1667,6 +1667,163 @@ GUIDES.append({
 })
 
 
+# ---------- День 1: чек-лист старта (26.10). Только факты, которые уже есть в гайдах; отметки — localStorage gabella-day1 ----------
+# Пункт = {'id', 't', 'd', 'href', 'go'}; 'langs' — пункт только на этих языках. Блок ('checks', [пункты]), счётчик ('ckbar', {...}).
+
+def _ck(id_, title, d, href, go, langs=None):
+    item = {'id': id_, 't': title, 'd': d, 'href': href, 'go': go}
+    if langs:
+        item['langs'] = langs
+    return item
+
+
+GUIDES.append({
+    'slug': 'launch-checklist', 'art': 'hero_campfire', 'hero': 'hero_guides', 'tile_art': 'hero_campfire', 'og': 'guides', 'js': 'checklist',
+    'title': t('День 1: чек-лист старта', 'Day 1: Launch Checklist', 'День 1: чек-лист старту'),
+    'crumb': t('День 1', 'Day 1', 'День 1'),
+    'lead': t('Что сделать до старта WoW Forever, в первые часы и в первый вечер. Отметки сохраняются в этом браузере.',
+              'What to do before the WoW Forever launch, in the first hours and on the first evening. Your ticks are saved in this browser.',
+              'Що зробити до старту WoW Forever, у перші години та першого вечора. Позначки зберігаються в цьому браузері.'),
+    'tile': t('Что сделать до старта и в первый вечер', 'What to do before launch and on the first evening', 'Що зробити до старту й першого вечора'),
+    'pills': [t('Старт 05.11.2026', 'Launch 04.11 / 05.11.2026', 'Старт 05.11.2026'),
+              t('Отметки в браузере', 'Ticks saved in your browser', 'Позначки в браузері')],
+    'sources': [
+        (t('Blizzard: старт и коды Invite-A-Friend', 'Blizzard: launch and Invite-A-Friend codes', 'Blizzard: старт і коди Invite-A-Friend'),
+         'https://news.blizzard.com/en-us/article/24301508'),
+        (t('Blizzard: система Legacy', 'Blizzard: Legacy system', 'Blizzard: система Legacy'), 'https://news.blizzard.com/en-gb/article/24307383'),
+        (t('Battle.net Shop: системные требования WoW Forever', 'Battle.net Shop: WoW Forever system requirements', 'Battle.net Shop: системні вимоги WoW Forever'), SHOP),
+        (t('Icy Veins: Blizzard об аддонах в Forever', 'Icy Veins: Blizzard on addons in Forever', 'Icy Veins: Blizzard про аддони у Forever'),
+         'https://www.icy-veins.com/wow-forever/news/addons-in-wow-forever-blizzard-devs-just-addressed-the-big-question/'),
+        (t('Warcraft Tavern: опыт и отдых', 'Warcraft Tavern: experience and rested XP', 'Warcraft Tavern: досвід і відпочинок'),
+         'https://www.warcrafttavern.com/forever/guides/experience/'),
+    ],
+    'sections': [
+        {'id': 'before', 'title': t('До старта', 'Before launch', 'До старту'), 'blocks': [
+            ('ckbar', {'done': t('Отмечено', 'Ticked', 'Відмічено'), 'reset': t('Снять отметки', 'Clear ticks', 'Зняти позначки')}),
+            ('checks', [
+                _ck('time', t('Время старта', 'Launch time', 'Час старту'),
+                    t('В Европе 05.11, в Америке 04.11. Старт в 15:00 по тихоокеанскому, это 23:00 UTC.', '04.11 in the Americas, 05.11 in Europe. Launch is at 15:00 Pacific, which is 23:00 UTC.', 'У Європі 05.11, в Америці 04.11. Старт о 15:00 за тихоокеанським, це 23:00 UTC.'),
+                    'guides/faq/#dates', t('Даты', 'Dates', 'Дати')),
+                _ck('sub', t('Подписка или игровое время', 'Subscription or game time', 'Підписка або ігровий час'),
+                    t('Forever входит в подписку WoW, отдельно игру покупать не нужно. В Epic Pack и Collection есть 30 дней игрового времени, их начислят в день старта.',
+                      'Forever is included in the WoW subscription, you do not buy the game separately. The Epic Pack and Collection include 30 days of game time, added on launch day.',
+                      'Forever входить у підписку WoW, окремо гру купувати не потрібно. В Epic Pack і Collection є 30 днів ігрового часу, їх нарахують у день старту.'),
+                    'guides/faq/#editions', t('Цены и подписка', 'Prices and subscription', 'Ціни та підписка')),
+                _ck('pc', t('Battle.net и место на диске', 'Battle.net and disk space', 'Battle.net і місце на диску'),
+                    t('Нужны приложение Battle.net и 128 ГБ на SSD. Старые видеокарты игру не запустят: сверьте свою с таблицей.',
+                      'You need the Battle.net app and 128 GB on an SSD. Older graphics cards will not start the game: check yours against the table.',
+                      'Потрібні застосунок Battle.net і 128 ГБ на SSD. Старі відеокарти гру не запустять: звірте свою з таблицею.'),
+                    'guides/requirements/', t('Системные требования', 'System requirements', 'Системні вимоги')),
+                _ck('mode', t('Регион, режим и фракция', 'Region, mode and faction', 'Регіон, режим і фракція'),
+                    t('Решите с друзьями заранее. Режим выбирают один раз, группа собирается только внутри режима, в PvP на аккаунте одна фракция.',
+                      'Agree with your friends in advance. The mode is chosen once, groups form only within a mode, and in PvP an account has one faction.',
+                      'Вирішіть із друзями заздалегідь. Режим обирають один раз, група збирається лише в межах режиму, у PvP на акаунті одна фракція.'),
+                    'guides/faq/#modes', t('Режимы и серверы', 'Modes and servers', 'Режими та сервери')),
+                _ck('class', t('Класс', 'Class', 'Клас'),
+                    t('Тир-лист сравнивает классы и спеки для прокачки, подземелий и PvP по данным беты.',
+                      'The tier list compares classes and specs for leveling, dungeons and PvP, based on beta data.',
+                      'Тір-лист порівнює класи й спеціалізації для прокачування, підземель і PvP за даними бети.'),
+                    'guides/tier-list/', t('Тир-лист', 'Tier list', 'Тір-лист')),
+                _ck('race', t('Раса под класс', 'Race for your class', 'Раса під клас'),
+                    t('Способности рас в Forever переделаны. Какую расу взять под класс за Альянс и Орду — в отдельном гайде.',
+                      'Racial abilities were reworked in Forever. Which race to take for your class on the Alliance and Horde is in a separate guide.',
+                      'Здібності рас у Forever перероблено. Яку расу взяти під клас за Альянс і Орду — в окремому гайді.'),
+                    'guides/best-race/', t('Лучшая раса', 'Best race', 'Найкраща раса')),
+                _ck('name', t('Имя и фамилия', 'First name and surname', 'Ім’я та прізвище'),
+                    t('Полное имя уникально во всём регионе. Владельцы Heroic, Epic и Collection занимают до трёх имён с 27.10 по 03.11. Держите два-три запасных варианта.',
+                      'The full name is unique across the whole region. Heroic, Epic and Collection owners can claim up to three names from 27.10 to 03.11. Keep two or three backups.',
+                      'Повне ім’я унікальне в усьому регіоні. Власники Heroic, Epic і Collection займають до трьох імен з 27.10 по 03.11. Тримайте два-три запасні варіанти.'),
+                    'guides/faq/#names', t('Имена и фамилии', 'Names and surnames', 'Імена та прізвища')),
+                _ck('iaf', t('Код для друга', 'A code for a friend', 'Код для друга'),
+                    t('С набором приходят коды Invite-A-Friend: по коду друг играет с 04.11 по 11.11 без подписки. Heroic даёт 1 код, Epic и Collection — 3. Коды приходят на почту.',
+                      'Packs come with Invite-A-Friend codes: with one, a friend plays from 04.11 to 11.11 without a subscription. Heroic gives 1 code, Epic and Collection give 3. The codes arrive by email.',
+                      'З набором приходять коди Invite-A-Friend: з кодом друг грає з 04.11 по 11.11 без підписки. Heroic дає 1 код, Epic і Collection — 3. Коди приходять на пошту.'),
+                    'guides/faq/#editions', t('Неделя для друга', 'A week for a friend', 'Тиждень для друга')),
+                _ck('group', t('Группа на старт', 'A group for launch', 'Група на старт'),
+                    t('Соберите состав в конструкторе группы и отправьте ссылку друзьям.',
+                      'Build the party in the group builder and send the link to your friends.',
+                      'Зберіть склад у конструкторі групи й надішліть посилання друзям.'),
+                    'tools/#raid', t('Конструктор группы', 'Group builder', 'Конструктор групи')),
+                _ck('addons', t('Аддоны', 'Addons', 'Аддони'),
+                    t('Поставьте CurseForge или Wago App и выберите версию Forever. Файлы для Classic в Forever не грузятся.',
+                      'Install CurseForge or Wago App and choose the Forever version. Classic files will not load in Forever.',
+                      'Встановіть CurseForge або Wago App і оберіть версію Forever. Файли для Classic у Forever не завантажуються.'),
+                    'guides/addons/#list', t('Аддоны и интерфейс', 'Addons and Interface', 'Аддони та інтерфейс')),
+                _ck('lang', {'ru': 'Русский клиент'},
+                    {'ru': 'В Battle.net откройте настройки игры и выберите язык «Русский». Русификатор не нужен.'},
+                    'guides/faq/#language', {'ru': 'Играть на русском'}, ('ru',)),
+                _ck('lang', {'uk': 'Українська мова'},
+                    {'uk': 'Українського клієнта у Forever немає. Українською грають з аддоном UA_Forever поверх клієнта.'},
+                    'guides/ukrainian/', {'uk': 'Як грати українською'}, ('uk',)),
+            ]),
+        ]},
+        {'id': 'hours', 'title': t('Первые часы', 'First hours', 'Перші години'), 'blocks': [
+            ('checks', [
+                _ck('look', t('Classic или Enhanced', 'Classic or Enhanced', 'Classic чи Enhanced'),
+                    t('При первом входе игра предлагает набор настроек. Экран выбора больше не появится, но каждую настройку можно поменять отдельно.',
+                      'On first login the game offers a set of settings. The choice screen will not come back, but every setting can be changed on its own.',
+                      'Під час першого входу гра пропонує набір налаштувань. Екран вибору більше не з’явиться, але кожне налаштування можна змінити окремо.'),
+                    'guides/faq/#graphics', t('Что меняет набор', 'What the set changes', 'Що змінює набір')),
+                _ck('start', t('Стартовая зона', 'Starting zone', 'Стартова зона'),
+                    t('Задания стартовой зоны своей расы до 10 уровня. На 10 уровне открываются таланты.',
+                      'Your race’s starting zone quests up to level 10. Talents unlock at level 10.',
+                      'Завдання стартової зони своєї раси до 10 рівня. На 10 рівні відкриваються таланти.'),
+                    'guides/leveling/#route', t('Маршрут по зонам', 'Zone route', 'Маршрут зонами')),
+                _ck('cooking', t('Кулинария сразу', 'Cooking right away', 'Кулінарія одразу'),
+                    t('Костёр по Кулинарии становится лагерем, а готовая еда даёт +5% опыта за врагов. Для базового костра хватит выученной профессии.',
+                      'A Cooking campfire becomes a camp, and cooked food gives +5% experience from enemies. A basic campfire only needs the profession learned.',
+                      'Вогнище з Кулінарії стає табором, а готова їжа дає +5% досвіду за ворогів. Для базового вогнища досить вивченої професії.'),
+                    'guides/leveling/#camp', t('Лагерь и профессии', 'Camp and professions', 'Табір і професії')),
+                _ck('profs', t('Две профессии', 'Two professions', 'Дві професії'),
+                    t('Сбор кормит деньгами и ремеслом. Пары под ваш класс — в гайде по профессиям.',
+                      'Gathering brings in money and feeds a craft. Pairs for your class are in the professions guide.',
+                      'Збирання дає гроші й годує ремесло. Пари під ваш клас — у гайді з професій.'),
+                    'guides/professions/#pairs', t('Пары под класс', 'Pairs for your class', 'Пари під клас')),
+                _ck('cdm', 'Cooldown Manager',
+                    t('Встроенная панель своих кулдаунов и баффов вместо WeakAuras. По умолчанию выключена: Options → Gameplay Enhancement.',
+                      'The built-in panel for your own cooldowns and buffs instead of WeakAuras. Off by default: Options → Gameplay Enhancement.',
+                      'Вбудована панель власних кулдаунів і баффів замість WeakAuras. За замовчуванням вимкнена: Options → Gameplay Enhancement.'),
+                    'guides/addons/#builtin', t('Что уже есть в игре', 'What is already in the game', 'Що вже є в грі')),
+                _ck('folder', t('Папка аддонов', 'Addon folder', 'Тека аддонів'),
+                    t('Папку для релиза Blizzard не называла. Проверьте путь: шестерёнка у кнопки «Играть» в Battle.net → Show in Explorer, аддоны лежат в Interface\\AddOns.',
+                      'Blizzard has not named the release folder. Check the path: the gear next to the Play button in Battle.net → Show in Explorer, addons go in Interface\\AddOns.',
+                      'Теку для релізу Blizzard не назвала. Перевірте шлях: шестірня біля кнопки «Грати» в Battle.net → Show in Explorer, аддони лежать в Interface\\AddOns.'),
+                    'guides/addons/#install', t('Как установить', 'How to install', 'Як встановити')),
+                _ck('play', t('Второй экран', 'Second screen', 'Другий екран'),
+                    t('Откройте «В игре» на телефоне или втором мониторе: зоны под ваш уровень, подземелья, таймер еды и радио.',
+                      'Open “In game” on your phone or a second monitor: zones for your level, dungeons, a food timer and radio.',
+                      'Відкрийте «У грі» на телефоні або другому моніторі: зони під ваш рівень, підземелля, таймер їжі й радіо.'),
+                    'play/', t('Открыть «В игре»', 'Open “In game”', 'Відкрити «У грі»')),
+            ]),
+        ]},
+        {'id': 'evening', 'title': t('Первый вечер', 'First evening', 'Перший вечір'), 'blocks': [
+            ('checks', [
+                _ck('duo', t('Вдвоём — уровни рядом', 'Duo: keep levels close', 'Удвох — рівні поруч'),
+                    t('Берите задания вместе и сдавайте одновременно: за задание каждый получает полный опыт, а опыт за врагов делится.',
+                      'Pick up quests together and turn them in at the same time: each player gets full experience for a quest, while experience from enemies is shared.',
+                      'Беріть завдання разом і здавайте одночасно: за завдання кожен отримує повний досвід, а досвід за ворогів ділиться.'),
+                    'guides/leveling/#group', t('Соло, вдвоём или группой', 'Solo, duo or group', 'Соло, удвох чи групою')),
+                _ck('dungeon', t('Первое подземелье', 'First dungeon', 'Перше підземелля'),
+                    t('Подземелья рассчитаны на 5 игроков: танк, лекарь, трое с уроном. Фильтр покажет, что подходит вашему уровню.',
+                      'Dungeons are designed for 5 players: a tank, a healer and three damage dealers. The filter shows what fits your level.',
+                      'Підземелля розраховані на 5 гравців: танк, цілитель, троє зі шкодою. Фільтр покаже, що підходить вашому рівню.'),
+                    'guides/dungeons/#list', t('Подземелья по уровням', 'Dungeons by level', 'Підземелля за рівнями')),
+                _ck('legacy', t('Первое очко Legacy', 'First Legacy point', 'Перше очко Legacy'),
+                    t('Legacy открывается с первым очком: 25 уровень, 150 в основной профессии (не сбор) или вся карта мира. Окно — клавиша Y.',
+                      'Legacy unlocks with your first point: level 25, 150 in a main profession (not gathering) or the whole world map. The window opens with Y.',
+                      'Legacy відкривається з першим очком: 25 рівень, 150 в основній професії (не збирання) або вся мапа світу. Вікно — клавіша Y.'),
+                    'guides/legacy/#start', t('Система Legacy', 'The Legacy System', 'Система Legacy')),
+                _ck('logout', t('Выход в таверне', 'Log out at an inn', 'Вихід у таверні'),
+                    t('Выходите из игры в таверне, столице или на спальнике: следующий вечер начнётся с двойного опыта за врагов. Еда, спальник и отдых складываются.',
+                      'Log out in an inn, a capital or on the bedroll: the next evening starts with double experience from enemies. Food, the bedroll and rest stack.',
+                      'Виходьте з гри в таверні, столиці або на спальнику: наступний вечір почнеться з подвійного досвіду за ворогів. Їжа, спальник і відпочинок складаються.'),
+                    'guides/leveling/#pace', t('Темп и отдых', 'Pace and rest', 'Темп і відпочинок')),
+            ]),
+        ]},
+    ],
+})
+
+
 GUIDES.sort(key=lambda g: ORDER.index(g['slug']))
 
 
@@ -1778,7 +1935,7 @@ PAGES = [
      'lead': t('Какие данные собирает сайт и что хранится у вас в браузере. Коротко: без входа мы о вас ничего не знаем, после входа храним только профиль.',
                'What data the site collects and what is stored in your browser. In short: without signing in we know nothing about you; after signing in we keep only your profile.',
                'Які дані збирає сайт і що зберігається у вашому браузері. Коротко: без входу ми нічого про вас не знаємо, після входу зберігаємо лише профіль.'),
-     'pills': [t('Обновлено 24.10.2026', 'Updated 24.10.2026', 'Оновлено 24.10.2026')],
+     'pills': [t('Обновлено 26.10.2026', 'Updated 26.10.2026', 'Оновлено 26.10.2026')],
      'sections': [
          {'id': 'short', 'title': t('Коротко', 'In short', 'Коротко'), 'blocks': [
              ('text', [t('Гид читается без входа: тогда сайт не ставит cookies и не знает, кто вы. Вход нужен только для профиля и «Состава». Рекламы и комментариев на сайте нет.',
@@ -1865,6 +2022,9 @@ PAGES = [
              ('text', [t('В памяти браузера (localStorage) сайт запоминает выбранную тему, вашего персонажа — расу, класс, уровень и профессии, если вы их указали, — и настройки радио: станцию, трек, очередь треков, громкость, таймер сна и звуки вокруг, а на странице «В игре» — ваши таймеры, фракцию и выбранного персонажа. Чтобы гид открывался без сети, браузер хранит копии страниц. После входа добавляются отметка о входе и выключатель звука достижений, а копия профиля для быстрой загрузки лежит в памяти вкладки (sessionStorage) и стирается с её закрытием. Ещё сайт помнит выбранный язык, кто вас пригласил, если вы пришли по ссылке, страницу, на которую вернуться после входа, и время начала входа через Telegram.',
                          'In browser storage (localStorage) the site remembers your chosen theme, your character (race, class, level and professions) if you entered them, and the radio settings: station, track, the queue of tracks, volume, sleep timer and ambient sounds, and on the In game page your timers, faction and chosen character. To open the guide offline, the browser keeps copies of the pages. After you sign in, it also keeps a signed-in mark and the achievement sound switch, while a copy of your profile for faster loading lives in the tab’s memory (sessionStorage) and is erased when you close it. The site also remembers your chosen language, who invited you if you came by their link, the page to return to after signing in, and when a Telegram sign-in was started.',
                          'У пам’яті браузера (localStorage) сайт запам’ятовує вибрану тему, вашого героя — расу, клас, рівень і професії, якщо ви їх вказали, — і налаштування радіо: станцію, трек, чергу треків, гучність, таймер сну і звуки довкола, а на сторінці «У грі» — ваші таймери, фракцію та вибраного персонажа. Щоб гід відкривався без мережі, браузер зберігає копії сторінок. Після входу додаються позначка входу й вимикач звуку досягнень, а копія профілю для швидкого завантаження лежить у пам’яті вкладки (sessionStorage) і стирається з її закриттям. Ще сайт пам’ятає вибрану мову, хто вас запросив, якщо ви прийшли за посиланням, сторінку, на яку повернутися після входу, і час початку входу через Telegram.'),
+                       t('На странице «День 1» там же хранятся ваши отметки чек-листа.',
+                         'On the Day 1 page, your checklist ticks are stored there too.',
+                         'На сторінці «День 1» там само зберігаються ваші позначки чек-листа.'),
                        t('Эти данные остаются на вашем устройстве и никуда не отправляются. Удалить их можно, очистив данные сайта в настройках браузера.',
                          'This data stays on your device and is not sent anywhere. You can delete it by clearing the site data in your browser settings.',
                          'Ці дані залишаються на вашому пристрої й нікуди не надсилаються. Видалити їх можна, очистивши дані сайту в налаштуваннях браузера.')])]},
@@ -1965,6 +2125,11 @@ PLAY_TX = {
     'profile': t('Профиль', 'Profile', 'Профіль'),
     'chars': t('Персонажи', 'Characters', 'Персонажі'),
     'addChar': t('Добавить персонажа', 'Add a character', 'Додати персонажа'),
+    'day1': t('День 1', 'Day 1', 'День 1'),
+    'day1d': t('Чек-лист: что сделать до старта, в первые часы и в первый вечер.',
+               'Checklist: what to do before launch, in the first hours and on the first evening.',
+               'Чек-лист: що зробити до старту, у перші години та першого вечора.'),
+    'day1go': t('Открыть чек-лист', 'Open the checklist', 'Відкрити чек-лист'),
 }
 PAGES.append(PLAY)
 
