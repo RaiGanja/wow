@@ -1117,7 +1117,7 @@ function card() {
   box.innerHTML = `<img class="bgi" src="${bgUrl(l.bg)}" alt="" width="1600" height="900" decoding="async">`
     + `<img class="por" src="${base(me)}" alt="" decoding="async" onerror="this.remove()">`
     + `<div class="who"><span class="k">${esc(TX.title)}</span><h2>${esc(HC.rn[me.race])} · ${esc(HC.cn[me.cls])}</h2><span class="s">${esc(sub)}</span>`
-    + `<div class="row"><button type="button" class="btn ghost" data-go="2">${esc(TX.edit)}</button><button type="button" class="btn ghost" data-go="5">${esc(TX.lvl)}, ${esc(TX.reg).toLowerCase()}</button></div>`
+    + `<div class="row"><button type="button" class="btn ghost" data-go="2">${esc(TX.edit)}</button><button type="button" class="btn ghost" data-go="5">${esc(TX.lvlReg)}</button></div>`
     + `<p class="mnote">${esc(TX.local)}</p></div>`;
 }
 const H_FAC = { alliance: '', horde: '' };
