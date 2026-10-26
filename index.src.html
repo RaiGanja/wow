@@ -362,9 +362,16 @@ section.block { scroll-margin-top: -72px; }
 #classes.block { padding-top: 72px; }
 #pickban.block { padding-top: 40px; }
 .tabs2 { display: inline-flex; gap: 4px; padding: 4px; border-radius: 10px; background: var(--panel-2); border: 1px solid var(--pline); }
-.tabs2 [role="tab"] { min-height: 40px; padding: 0 18px; border: 0; border-radius: 7px; background: transparent; color: var(--muted); font: inherit; font-weight: 600; font-size: var(--fs-16); cursor: pointer; transition: color .15s, background-color .15s; }
-.tabs2 [role="tab"]:hover { color: var(--fg); }
+.tabs2 [role="tab"], .tabs2 [role="radio"] { min-height: 40px; padding: 0 18px; border: 0; border-radius: 7px; background: transparent; color: var(--muted); font: inherit; font-weight: 600; font-size: var(--fs-16); cursor: pointer; transition: color .15s, background-color .15s; }
+.tabs2 [role="tab"]:hover, .tabs2 [role="radio"]:hover { color: var(--fg); }
 .tabs2 [role="tab"][aria-selected="true"] { background: var(--seg-on); color: var(--gold-2); }
+.tabs2 [role="radio"][aria-checked="true"] { background: var(--seg-on); color: var(--gold-2); }
+.tabctl { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; }
+.sidesw { visibility: hidden; }   /* the space is kept, so nothing moves when the script shows it; no script: no switch */
+.sidesw.on { visibility: visible; }
+.sidesw[hidden] { display: none; }
+.sidesw [role="radio"][data-f="alliance"][aria-checked="true"] { color: var(--alliance); }
+.sidesw [role="radio"][data-f="horde"][aria-checked="true"] { color: var(--horde); }
 .tpanel { display: grid; gap: 20px; min-width: 0; }
 .tpanel[hidden] { display: none; }
 .tpanel > .tp { color: var(--muted); max-width: 68ch; margin-top: -8px; }
@@ -1102,7 +1109,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <section class="wrap" id="myHome" aria-live="polite" hidden></section>
 
 <section class="block wrap" id="classes">
-  <div class="sec-head"><div class="row"><h2>Кем играть</h2><div class="tabs2" role="tablist" aria-label="Кем играть"><button type="button" role="tab" id="tabC" aria-controls="pCls" aria-selected="true">Классы</button><button type="button" role="tab" id="tabR" aria-controls="peoples" aria-selected="false" tabindex="-1">Расы</button></div></div></div>
+  <div class="sec-head"><div class="row"><h2>Кем играть</h2><div class="tabctl"><div class="tabs2" role="tablist" aria-label="Кем играть"><button type="button" role="tab" id="tabC" aria-controls="pCls" aria-selected="true">Классы</button><button type="button" role="tab" id="tabR" aria-controls="peoples" aria-selected="false" tabindex="-1">Расы</button></div><div class="tabs2 sidesw" id="sidesw" role="radiogroup" aria-label="Фракция"><button type="button" role="radio" data-f="alliance" aria-checked="false" tabindex="-1">Альянс</button><button type="button" role="radio" data-f="horde" aria-checked="false" tabindex="-1">Орда</button></div></div></div></div>
   <div class="tpanel" id="pCls" role="tabpanel" aria-labelledby="tabC">
     <p class="tp">Нажмите на портрет, чтобы открыть страницу класса: специализации, расы и что нового в Forever.</p>
     <div class="roster" id="roster"></div>
@@ -1459,10 +1466,29 @@ document.querySelectorAll('.roster').forEach(ro => {
   ro.addEventListener('focusin', e => activate(e.target.closest('.hc')));
 });
 
+/* Side switch of the class portraits: GabellaPor is the one source (a hero's side, else a side chosen here, else the time of day) */
+const SIDESW = $('#sidesw'), SIDEBTN = [...SIDESW.querySelectorAll('[role="radio"]')];
+function syncSide() {
+  const f = window.GabellaPor ? GabellaPor.fac() : 'alliance';
+  SIDEBTN.forEach(b => { const on = b.dataset.f === f; b.setAttribute('aria-checked', on); b.tabIndex = on ? 0 : -1; });
+}
+if (window.GabellaPor) {
+  SIDESW.classList.add('on'); syncSide();
+  ['gabella-side', 'gabella-me'].forEach(n => addEventListener(n, syncSide)); document.addEventListener('gabella:tod', syncSide);
+  SIDEBTN.forEach((b, i) => {
+    b.addEventListener('click', () => { GabellaPor.set(b.dataset.f); syncSide(); });
+    b.addEventListener('keydown', e => {
+      const k = { ArrowRight: i + 1, ArrowDown: i + 1, ArrowLeft: i - 1, ArrowUp: i - 1, Home: 0, End: 1 }[e.key];
+      if (k === undefined) return;
+      e.preventDefault(); const n = SIDEBTN[(k + 2) % 2]; GabellaPor.set(n.dataset.f); syncSide(); n.focus();
+    });
+  });
+}
 /* Classes / races: one block, two tabs (arrow keys, Home, End); #peoples (menu, old links) opens the races */
 const TABS = [...document.querySelectorAll('#classes [role="tab"]')];
 function showTab(t, focus) {
   TABS.forEach(x => { const on = x === t; x.setAttribute('aria-selected', on); x.tabIndex = on ? 0 : -1; document.getElementById(x.getAttribute('aria-controls')).hidden = !on; });
+  SIDESW.hidden = t !== TABS[0];   // the races show both sides: no switch there
   if (focus) t.focus();
 }
 TABS.forEach((t, i) => {

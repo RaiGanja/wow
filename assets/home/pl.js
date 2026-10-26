@@ -229,10 +229,29 @@ document.querySelectorAll('.roster').forEach(ro => {
   ro.addEventListener('focusin', e => activate(e.target.closest('.hc')));
 });
 
+/* Side switch of the class portraits: GabellaPor is the one source (a hero's side, else a side chosen here, else the time of day) */
+const SIDESW = $('#sidesw'), SIDEBTN = [...SIDESW.querySelectorAll('[role="radio"]')];
+function syncSide() {
+  const f = window.GabellaPor ? GabellaPor.fac() : 'alliance';
+  SIDEBTN.forEach(b => { const on = b.dataset.f === f; b.setAttribute('aria-checked', on); b.tabIndex = on ? 0 : -1; });
+}
+if (window.GabellaPor) {
+  SIDESW.classList.add('on'); syncSide();
+  ['gabella-side', 'gabella-me'].forEach(n => addEventListener(n, syncSide)); document.addEventListener('gabella:tod', syncSide);
+  SIDEBTN.forEach((b, i) => {
+    b.addEventListener('click', () => { GabellaPor.set(b.dataset.f); syncSide(); });
+    b.addEventListener('keydown', e => {
+      const k = { ArrowRight: i + 1, ArrowDown: i + 1, ArrowLeft: i - 1, ArrowUp: i - 1, Home: 0, End: 1 }[e.key];
+      if (k === undefined) return;
+      e.preventDefault(); const n = SIDEBTN[(k + 2) % 2]; GabellaPor.set(n.dataset.f); syncSide(); n.focus();
+    });
+  });
+}
 /* Classes / races: one block, two tabs (arrow keys, Home, End); #peoples (menu, old links) opens the races */
 const TABS = [...document.querySelectorAll('#classes [role="tab"]')];
 function showTab(t, focus) {
   TABS.forEach(x => { const on = x === t; x.setAttribute('aria-selected', on); x.tabIndex = on ? 0 : -1; document.getElementById(x.getAttribute('aria-controls')).hidden = !on; });
+  SIDESW.hidden = t !== TABS[0];   // the races show both sides: no switch there
   if (focus) t.focus();
 }
 TABS.forEach((t, i) => {

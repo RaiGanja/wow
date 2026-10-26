@@ -660,13 +660,17 @@ def por_js():
     """window.GabellaPor in <head> of every page: which side's class portraits the reader sees. The side of the hero of this
     browser (gabella-wf-me), else the home hero's time of day: dawn and day — the Alliance, dusk and night — the Horde
     (as on the home page). Art names "{<class>}" in data-por-src / data-por-srcset (and in page JS through url()) become
-    the portrait of that side; build.art_version tags them with one ?v= over both files. A new hero (the switch sheet, another
-    tab) or another time of day on the home page swaps them at once."""
+    the portrait of that side; build.art_version tags them with one ?v= over both files. A side chosen by hand (the home switch,
+    gabella-side) beats the time of day but lasts only for the hero it was made with: a new hero brings his own side back.
+    A new hero (the switch sheet, another tab), the switch or another time of day on the home page swaps them at once."""
     if _PORJS:
         return _PORJS[0]
     data = json.dumps({'m': portraits(), 'r': race_sides(), 'b': tod.bounds()}, separators=(',', ':'))
-    _PORJS.append('<script>(function(){var D=' + data + ',M=D.m,R=D.r,B=D.b;'
-            'function fac(){var h=null;try{h=JSON.parse(localStorage.getItem("gabella-wf-me"))}catch(e){}if(h&&R[h.race])return R[h.race];'
+    _PORJS.append('<script>(function(){var D=' + data + ',M=D.m,R=D.r,B=D.b,K="gabella-side";'
+            'function rd(k){var v=null;try{v=JSON.parse(localStorage.getItem(k))}catch(e){}return v}'
+            'function st(h){return h&&R[h.race]?h.race+"."+h.cls:""}'
+            'function fac(){var h=rd("gabella-wf-me"),m=rd(K);'
+            'if(m&&(m.f=="alliance"||m.f=="horde")&&m.h===st(h))return m.f;if(h&&R[h.race])return R[h.race];'
             'var t=document.documentElement.getAttribute("data-tod"),s=null;if(!t){try{s=localStorage.getItem("gabella-tod")}catch(e){}'
             'var H=new Date().getHours();t=/^(dawn|day|dusk|night)$/.test(s)?s:H>=B[0]&&H<B[2]?"day":"night"}'
             'return t=="dusk"||t=="night"?"horde":"alliance"}'
@@ -674,9 +678,11 @@ def por_js():
             r'function url(s,f){return s.replace(/\{(\w+)\}/g,function(x,c){return M[c]?id(c,f):x})}'
             'function fill(el,f){el=el||document;el.querySelectorAll("[data-por-srcset]").forEach(function(e){var v=url(e.getAttribute("data-por-srcset"),f);if(e.getAttribute("srcset")!==v)e.setAttribute("srcset",v)});'
             'el.querySelectorAll("[data-por-src]").forEach(function(e){var v=url(e.getAttribute("data-por-src"),f);if(e.getAttribute("src")!==v)e.setAttribute("src",v)})}'
-            'window.GabellaPor={map:M,side:R,fac:fac,id:id,url:url,fill:fill};'
+            'function set(f){try{localStorage.setItem(K,JSON.stringify({f:f,h:st(rd("gabella-wf-me"))}))}catch(e){}'
+            'fill();dispatchEvent(new Event("gabella-side"))}'
+            'window.GabellaPor={map:M,side:R,fac:fac,id:id,url:url,fill:fill,set:set};'
             'var re=function(){fill()};document.addEventListener("DOMContentLoaded",re);addEventListener("gabella-me",re);document.addEventListener("gabella:tod",re);'
-            'addEventListener("storage",function(e){if(e.key=="gabella-wf-me")re()})})();</script>\n')
+            'addEventListener("storage",function(e){if(e.key=="gabella-wf-me"||e.key==K){re();dispatchEvent(new Event("gabella-side"))}})})();</script>\n')
     return _PORJS[0]
 
 

@@ -65,7 +65,7 @@
 <link rel="icon" type="image/png" sizes="48x48" href="../assets/icons/favicon-48.png?v=76679d4b">
 <link rel="icon" type="image/png" sizes="96x96" href="../assets/icons/favicon-96.png?v=e6542ea5">
 <link rel="preload" href="../assets/fonts/golos-text-latin.woff2?v=5c155680" as="font" type="font/woff2" crossorigin>
-<script>(function(){var D={"m":{"warrior":{"alliance":"warrior-human","horde":"warrior-orc"},"paladin":{"alliance":"paladin-human","horde":"paladin-undead"},"hunter":{"alliance":"hunter-nightelf","horde":"hunter-orc"},"rogue":{"alliance":"rogue-nightelf","horde":"rogue-orc"},"priest":{"alliance":"priest-gnome","horde":"priest-undead"},"shaman":{"alliance":"shaman-dwarf","horde":"shaman-orc"},"mage":{"alliance":"mage-gnome","horde":"mage-orc"},"warlock":{"alliance":"warlock-gnome","horde":"warlock-orc"},"druid":{"alliance":"druid-nightelf","horde":"druid-tauren"}},"r":{"human":"alliance","dwarf":"alliance","nightelf":"alliance","gnome":"alliance","skyA":"alliance","orc":"horde","undead":"horde","tauren":"horde","troll":"horde","skyH":"horde"},"b":[6,11,17,23]},M=D.m,R=D.r,B=D.b;function fac(){var h=null;try{h=JSON.parse(localStorage.getItem("gabella-wf-me"))}catch(e){}if(h&&R[h.race])return R[h.race];var t=document.documentElement.getAttribute("data-tod"),s=null;if(!t){try{s=localStorage.getItem("gabella-tod")}catch(e){}var H=new Date().getHours();t=/^(dawn|day|dusk|night)$/.test(s)?s:H>=B[0]&&H<B[2]?"day":"night"}return t=="dusk"||t=="night"?"horde":"alliance"}function id(c,f){return M[c]?M[c][f||fac()]:c}function url(s,f){return s.replace(/\{(\w+)\}/g,function(x,c){return M[c]?id(c,f):x})}function fill(el,f){el=el||document;el.querySelectorAll("[data-por-srcset]").forEach(function(e){var v=url(e.getAttribute("data-por-srcset"),f);if(e.getAttribute("srcset")!==v)e.setAttribute("srcset",v)});el.querySelectorAll("[data-por-src]").forEach(function(e){var v=url(e.getAttribute("data-por-src"),f);if(e.getAttribute("src")!==v)e.setAttribute("src",v)})}window.GabellaPor={map:M,side:R,fac:fac,id:id,url:url,fill:fill};var re=function(){fill()};document.addEventListener("DOMContentLoaded",re);addEventListener("gabella-me",re);document.addEventListener("gabella:tod",re);addEventListener("storage",function(e){if(e.key=="gabella-wf-me")re()})})();</script>
+<script>(function(){var D={"m":{"warrior":{"alliance":"warrior-human","horde":"warrior-orc"},"paladin":{"alliance":"paladin-human","horde":"paladin-undead"},"hunter":{"alliance":"hunter-nightelf","horde":"hunter-orc"},"rogue":{"alliance":"rogue-nightelf","horde":"rogue-orc"},"priest":{"alliance":"priest-gnome","horde":"priest-undead"},"shaman":{"alliance":"shaman-dwarf","horde":"shaman-orc"},"mage":{"alliance":"mage-gnome","horde":"mage-orc"},"warlock":{"alliance":"warlock-gnome","horde":"warlock-orc"},"druid":{"alliance":"druid-nightelf","horde":"druid-tauren"}},"r":{"human":"alliance","dwarf":"alliance","nightelf":"alliance","gnome":"alliance","skyA":"alliance","orc":"horde","undead":"horde","tauren":"horde","troll":"horde","skyH":"horde"},"b":[6,11,17,23]},M=D.m,R=D.r,B=D.b,K="gabella-side";function rd(k){var v=null;try{v=JSON.parse(localStorage.getItem(k))}catch(e){}return v}function st(h){return h&&R[h.race]?h.race+"."+h.cls:""}function fac(){var h=rd("gabella-wf-me"),m=rd(K);if(m&&(m.f=="alliance"||m.f=="horde")&&m.h===st(h))return m.f;if(h&&R[h.race])return R[h.race];var t=document.documentElement.getAttribute("data-tod"),s=null;if(!t){try{s=localStorage.getItem("gabella-tod")}catch(e){}var H=new Date().getHours();t=/^(dawn|day|dusk|night)$/.test(s)?s:H>=B[0]&&H<B[2]?"day":"night"}return t=="dusk"||t=="night"?"horde":"alliance"}function id(c,f){return M[c]?M[c][f||fac()]:c}function url(s,f){return s.replace(/\{(\w+)\}/g,function(x,c){return M[c]?id(c,f):x})}function fill(el,f){el=el||document;el.querySelectorAll("[data-por-srcset]").forEach(function(e){var v=url(e.getAttribute("data-por-srcset"),f);if(e.getAttribute("srcset")!==v)e.setAttribute("srcset",v)});el.querySelectorAll("[data-por-src]").forEach(function(e){var v=url(e.getAttribute("data-por-src"),f);if(e.getAttribute("src")!==v)e.setAttribute("src",v)})}function set(f){try{localStorage.setItem(K,JSON.stringify({f:f,h:st(rd("gabella-wf-me"))}))}catch(e){}fill();dispatchEvent(new Event("gabella-side"))}window.GabellaPor={map:M,side:R,fac:fac,id:id,url:url,fill:fill,set:set};var re=function(){fill()};document.addEventListener("DOMContentLoaded",re);addEventListener("gabella-me",re);document.addEventListener("gabella:tod",re);addEventListener("storage",function(e){if(e.key=="gabella-wf-me"||e.key==K){re();dispatchEvent(new Event("gabella-side"))}})})();</script>
 <style id="late-fonts" media="print">
 @font-face { font-family: "Spectral SC"; font-style: normal; font-weight: 400 700; font-display: swap; src: url(../assets/fonts/spectral-sc-cyrillic.woff2?v=f78bcdc2) format("woff2"); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
 @font-face { font-family: "Spectral SC"; font-style: normal; font-weight: 400 700; font-display: swap; src: url(../assets/fonts/spectral-sc-latin-ext.woff2?v=1ba52ac6) format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
@@ -385,9 +385,16 @@ section.block { scroll-margin-top: -72px; }
 #classes.block { padding-top: 72px; }
 #pickban.block { padding-top: 40px; }
 .tabs2 { display: inline-flex; gap: 4px; padding: 4px; border-radius: 10px; background: var(--panel-2); border: 1px solid var(--pline); }
-.tabs2 [role="tab"] { min-height: 40px; padding: 0 18px; border: 0; border-radius: 7px; background: transparent; color: var(--muted); font: inherit; font-weight: 600; font-size: var(--fs-16); cursor: pointer; transition: color .15s, background-color .15s; }
-.tabs2 [role="tab"]:hover { color: var(--fg); }
+.tabs2 [role="tab"], .tabs2 [role="radio"] { min-height: 40px; padding: 0 18px; border: 0; border-radius: 7px; background: transparent; color: var(--muted); font: inherit; font-weight: 600; font-size: var(--fs-16); cursor: pointer; transition: color .15s, background-color .15s; }
+.tabs2 [role="tab"]:hover, .tabs2 [role="radio"]:hover { color: var(--fg); }
 .tabs2 [role="tab"][aria-selected="true"] { background: var(--seg-on); color: var(--gold-2); }
+.tabs2 [role="radio"][aria-checked="true"] { background: var(--seg-on); color: var(--gold-2); }
+.tabctl { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; }
+.sidesw { visibility: hidden; }   /* the space is kept, so nothing moves when the script shows it; no script: no switch */
+.sidesw.on { visibility: visible; }
+.sidesw[hidden] { display: none; }
+.sidesw [role="radio"][data-f="alliance"][aria-checked="true"] { color: var(--alliance); }
+.sidesw [role="radio"][data-f="horde"][aria-checked="true"] { color: var(--horde); }
 .tpanel { display: grid; gap: 20px; min-width: 0; }
 .tpanel[hidden] { display: none; }
 .tpanel > .tp { color: var(--muted); max-width: 68ch; margin-top: -8px; }
@@ -1073,7 +1080,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../assets/radio/radio.css?v=f3d4c694a3">
-<link data-rel="stylesheet" href="../assets/search/search.css?v=42d46f540c">
+<link data-rel="stylesheet" href="../assets/search/search.css?v=ca42109e4c">
 <link data-rel="stylesheet" href="../assets/me/me.css?v=b13be6705d">
 <link data-rel="stylesheet" href="../assets/hero/hero.css?v=cfb7f0ee0f">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Guide WoW Forever","alternateName":"Gabella","url":"https://gabella.site/wow/fr/","inLanguage":"fr","description":"Guide WoW Forever : que jouer, un sélecteur de race et de classe, un créateur de groupe et des guides de progression, de donjons et de métiers.","publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]}}</script>
@@ -1145,7 +1152,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <section class="wrap" id="myHome" aria-live="polite" hidden></section>
 
 <section class="block wrap" id="classes">
-  <div class="sec-head"><div class="row"><h2>Que jouer</h2><div class="tabs2" role="tablist" aria-label="Que jouer"><button type="button" role="tab" id="tabC" aria-controls="pCls" aria-selected="true">Classes</button><button type="button" role="tab" id="tabR" aria-controls="peoples" aria-selected="false" tabindex="-1">Races</button></div></div></div>
+  <div class="sec-head"><div class="row"><h2>Que jouer</h2><div class="tabctl"><div class="tabs2" role="tablist" aria-label="Que jouer"><button type="button" role="tab" id="tabC" aria-controls="pCls" aria-selected="true">Classes</button><button type="button" role="tab" id="tabR" aria-controls="peoples" aria-selected="false" tabindex="-1">Races</button></div><div class="tabs2 sidesw" id="sidesw" role="radiogroup" aria-label="Faction"><button type="button" role="radio" data-f="alliance" aria-checked="false" tabindex="-1">Alliance</button><button type="button" role="radio" data-f="horde" aria-checked="false" tabindex="-1">Horde</button></div></div></div></div>
   <div class="tpanel" id="pCls" role="tabpanel" aria-labelledby="tabC">
     <p class="tp">Cliquez sur un portrait pour ouvrir la page de la classe : spécialisations, races et nouveautés de Forever.</p>
     <div class="roster" id="roster"><a href="classes/warrior/">Guerrier</a><a href="classes/paladin/">Paladin</a><a href="classes/hunter/">Chasseur</a><a href="classes/rogue/">Voleur</a><a href="classes/priest/">Prêtre</a><a href="classes/shaman/">Chaman</a><a href="classes/mage/">Mage</a><a href="classes/warlock/">Démoniste</a><a href="classes/druid/">Druide</a></div>
@@ -1278,7 +1285,7 @@ $('#moreClose').onclick = () => dlg.close();
 dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.toc a')) dlg.close(); });
 })();
 </script>
-<script data-src="../assets/home/fr.js?v=d618bc766b"></script>
+<script data-src="../assets/home/fr.js?v=1464cf5834"></script>
 <script data-src="../assets/living/living.js?v=99328f012a"></script>
 <link data-rel="stylesheet" href="../assets/tod/tod.css?v=4ca4fca9aa">
 <script data-src="../assets/tod/tod.js?v=4ca4fca9aa"></script>
@@ -1350,7 +1357,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../assets/radio/radio.js?v=f3d4c694a3" data-root="../"></script>
-<script data-src="../assets/search/search.js?v=42d46f540c" data-root="../"></script>
+<script data-src="../assets/search/search.js?v=ca42109e4c" data-root="../"></script>
 <script data-src="../assets/me/me.js?v=b13be6705d" data-root="../" data-home="./" data-lang="fr" data-ach="0" data-teaser="" data-close="Fermer" data-page="" data-look="2"></script>
 <script data-src="../assets/hero/hero.js?v=cfb7f0ee0f" data-root="../" data-home="./" data-data="../assets/hero/fr.json?v=cfb7f0ee0f"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>

@@ -44,7 +44,7 @@
 <link rel="icon" type="image/png" sizes="96x96" href="../../../assets/icons/favicon-96.png?v=e6542ea5">
 <link rel="preload" href="../../../assets/fonts/spectral-sc-ru-uk.woff2?v=5fb5d8ed" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../../../assets/fonts/golos-text-ru-uk.woff2?v=893747b6" as="font" type="font/woff2" crossorigin>
-<script>(function(){var D={"m":{"warrior":{"alliance":"warrior-human","horde":"warrior-orc"},"paladin":{"alliance":"paladin-human","horde":"paladin-undead"},"hunter":{"alliance":"hunter-nightelf","horde":"hunter-orc"},"rogue":{"alliance":"rogue-nightelf","horde":"rogue-orc"},"priest":{"alliance":"priest-gnome","horde":"priest-undead"},"shaman":{"alliance":"shaman-dwarf","horde":"shaman-orc"},"mage":{"alliance":"mage-gnome","horde":"mage-orc"},"warlock":{"alliance":"warlock-gnome","horde":"warlock-orc"},"druid":{"alliance":"druid-nightelf","horde":"druid-tauren"}},"r":{"human":"alliance","dwarf":"alliance","nightelf":"alliance","gnome":"alliance","skyA":"alliance","orc":"horde","undead":"horde","tauren":"horde","troll":"horde","skyH":"horde"},"b":[6,11,17,23]},M=D.m,R=D.r,B=D.b;function fac(){var h=null;try{h=JSON.parse(localStorage.getItem("gabella-wf-me"))}catch(e){}if(h&&R[h.race])return R[h.race];var t=document.documentElement.getAttribute("data-tod"),s=null;if(!t){try{s=localStorage.getItem("gabella-tod")}catch(e){}var H=new Date().getHours();t=/^(dawn|day|dusk|night)$/.test(s)?s:H>=B[0]&&H<B[2]?"day":"night"}return t=="dusk"||t=="night"?"horde":"alliance"}function id(c,f){return M[c]?M[c][f||fac()]:c}function url(s,f){return s.replace(/\{(\w+)\}/g,function(x,c){return M[c]?id(c,f):x})}function fill(el,f){el=el||document;el.querySelectorAll("[data-por-srcset]").forEach(function(e){var v=url(e.getAttribute("data-por-srcset"),f);if(e.getAttribute("srcset")!==v)e.setAttribute("srcset",v)});el.querySelectorAll("[data-por-src]").forEach(function(e){var v=url(e.getAttribute("data-por-src"),f);if(e.getAttribute("src")!==v)e.setAttribute("src",v)})}window.GabellaPor={map:M,side:R,fac:fac,id:id,url:url,fill:fill};var re=function(){fill()};document.addEventListener("DOMContentLoaded",re);addEventListener("gabella-me",re);document.addEventListener("gabella:tod",re);addEventListener("storage",function(e){if(e.key=="gabella-wf-me")re()})})();</script>
+<script>(function(){var D={"m":{"warrior":{"alliance":"warrior-human","horde":"warrior-orc"},"paladin":{"alliance":"paladin-human","horde":"paladin-undead"},"hunter":{"alliance":"hunter-nightelf","horde":"hunter-orc"},"rogue":{"alliance":"rogue-nightelf","horde":"rogue-orc"},"priest":{"alliance":"priest-gnome","horde":"priest-undead"},"shaman":{"alliance":"shaman-dwarf","horde":"shaman-orc"},"mage":{"alliance":"mage-gnome","horde":"mage-orc"},"warlock":{"alliance":"warlock-gnome","horde":"warlock-orc"},"druid":{"alliance":"druid-nightelf","horde":"druid-tauren"}},"r":{"human":"alliance","dwarf":"alliance","nightelf":"alliance","gnome":"alliance","skyA":"alliance","orc":"horde","undead":"horde","tauren":"horde","troll":"horde","skyH":"horde"},"b":[6,11,17,23]},M=D.m,R=D.r,B=D.b,K="gabella-side";function rd(k){var v=null;try{v=JSON.parse(localStorage.getItem(k))}catch(e){}return v}function st(h){return h&&R[h.race]?h.race+"."+h.cls:""}function fac(){var h=rd("gabella-wf-me"),m=rd(K);if(m&&(m.f=="alliance"||m.f=="horde")&&m.h===st(h))return m.f;if(h&&R[h.race])return R[h.race];var t=document.documentElement.getAttribute("data-tod"),s=null;if(!t){try{s=localStorage.getItem("gabella-tod")}catch(e){}var H=new Date().getHours();t=/^(dawn|day|dusk|night)$/.test(s)?s:H>=B[0]&&H<B[2]?"day":"night"}return t=="dusk"||t=="night"?"horde":"alliance"}function id(c,f){return M[c]?M[c][f||fac()]:c}function url(s,f){return s.replace(/\{(\w+)\}/g,function(x,c){return M[c]?id(c,f):x})}function fill(el,f){el=el||document;el.querySelectorAll("[data-por-srcset]").forEach(function(e){var v=url(e.getAttribute("data-por-srcset"),f);if(e.getAttribute("srcset")!==v)e.setAttribute("srcset",v)});el.querySelectorAll("[data-por-src]").forEach(function(e){var v=url(e.getAttribute("data-por-src"),f);if(e.getAttribute("src")!==v)e.setAttribute("src",v)})}function set(f){try{localStorage.setItem(K,JSON.stringify({f:f,h:st(rd("gabella-wf-me"))}))}catch(e){}fill();dispatchEvent(new Event("gabella-side"))}window.GabellaPor={map:M,side:R,fac:fac,id:id,url:url,fill:fill,set:set};var re=function(){fill()};document.addEventListener("DOMContentLoaded",re);addEventListener("gabella-me",re);document.addEventListener("gabella:tod",re);addEventListener("storage",function(e){if(e.key=="gabella-wf-me"||e.key==K){re();dispatchEvent(new Event("gabella-side"))}})})();</script>
 <script>(function(){var l=document.createElement("link");l.rel="preload";l.as="image";l.type="image/avif";l.setAttribute("fetchpriority","high");l.setAttribute("imagesrcset",GabellaPor.url("../../../assets/art/{rogue}-600.avif?v=7a740a2a 600w, ../../../assets/art/{rogue}-896.avif?v=5b3b2a3e 896w, ../../../assets/art/{rogue}-1344.avif?v=ae7aa51d 1344w"));l.setAttribute("imagesizes","(max-width: 719px) 100vw, 75vh");document.head.appendChild(l)})()</script>
 <style>
 .cprofs { margin-top: -12px; }   /* section gap 28px -> the 16px of the panels above */
@@ -385,9 +385,16 @@ section.block { scroll-margin-top: -72px; }
 #classes.block { padding-top: 72px; }
 #pickban.block { padding-top: 40px; }
 .tabs2 { display: inline-flex; gap: 4px; padding: 4px; border-radius: 10px; background: var(--panel-2); border: 1px solid var(--pline); }
-.tabs2 [role="tab"] { min-height: 40px; padding: 0 18px; border: 0; border-radius: 7px; background: transparent; color: var(--muted); font: inherit; font-weight: 600; font-size: var(--fs-16); cursor: pointer; transition: color .15s, background-color .15s; }
-.tabs2 [role="tab"]:hover { color: var(--fg); }
+.tabs2 [role="tab"], .tabs2 [role="radio"] { min-height: 40px; padding: 0 18px; border: 0; border-radius: 7px; background: transparent; color: var(--muted); font: inherit; font-weight: 600; font-size: var(--fs-16); cursor: pointer; transition: color .15s, background-color .15s; }
+.tabs2 [role="tab"]:hover, .tabs2 [role="radio"]:hover { color: var(--fg); }
 .tabs2 [role="tab"][aria-selected="true"] { background: var(--seg-on); color: var(--gold-2); }
+.tabs2 [role="radio"][aria-checked="true"] { background: var(--seg-on); color: var(--gold-2); }
+.tabctl { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; }
+.sidesw { visibility: hidden; }   /* the space is kept, so nothing moves when the script shows it; no script: no switch */
+.sidesw.on { visibility: visible; }
+.sidesw[hidden] { display: none; }
+.sidesw [role="radio"][data-f="alliance"][aria-checked="true"] { color: var(--alliance); }
+.sidesw [role="radio"][data-f="horde"][aria-checked="true"] { color: var(--horde); }
 .tpanel { display: grid; gap: 20px; min-width: 0; }
 .tpanel[hidden] { display: none; }
 .tpanel > .tp { color: var(--muted); max-width: 68ch; margin-top: -8px; }
@@ -1198,7 +1205,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../../assets/radio/radio.css?v=f3d4c694a3">
-<link data-rel="stylesheet" href="../../../assets/search/search.css?v=42d46f540c">
+<link data-rel="stylesheet" href="../../../assets/search/search.css?v=ca42109e4c">
 <link data-rel="stylesheet" href="../../../assets/me/me.css?v=b13be6705d">
 <link data-rel="stylesheet" href="../../../assets/hero/hero.css?v=cfb7f0ee0f">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Головна","item":"https://gabella.site/wow/uk/"},{"@type":"ListItem","position":2,"name":"Класи","item":"https://gabella.site/wow/uk/classes/"},{"@type":"ListItem","position":3,"name":"Розбійник","item":"https://gabella.site/wow/uk/classes/rogue/"}]}</script>
@@ -1459,7 +1466,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../../assets/radio/radio.js?v=f3d4c694a3" data-root="../../../"></script>
-<script data-src="../../../assets/search/search.js?v=42d46f540c" data-root="../../../"></script>
+<script data-src="../../../assets/search/search.js?v=ca42109e4c" data-root="../../../"></script>
 <script data-src="../../../assets/me/me.js?v=b13be6705d" data-root="../../../" data-home="../../" data-lang="uk" data-ach="0" data-teaser="" data-close="Закрити" data-page="classes/rogue/" data-look="2"></script>
 <script data-src="../../../assets/hero/hero.js?v=cfb7f0ee0f" data-root="../../../" data-home="../../" data-data="../../../assets/hero/uk.json?v=cfb7f0ee0f"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
