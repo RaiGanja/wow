@@ -434,7 +434,7 @@ function screen(kind, arg) {
     tgConfig();
     v.innerHTML = `${noticeHtml()}<section class="frame login"><div><h2>Войдите в профиль</h2>
       <p>Пароля нет: войдите любым удобным способом. Что мы получаем от каждого — в разделе <a href="${HOME}privacy/#account">«Конфиденциальность»</a>.</p>
-      <ul><li>До десяти персонажей, основной виден в списке игроков.</li>${ACH ? '<li>Достижения, ранги и рамки портрета.</li>' : ''}<li>Рамка «Основатель» — для тех, кто успеет до старта 5 ноября.</li></ul></div>
+      <ul><li>До десяти персонажей. Профиль хранит ваших персонажей и подписку на новости.</li>${ACH ? '<li>Достижения, ранги и рамки портрета.</li>' : ''}<li>Рамка «Основатель» — для тех, кто успеет до 3 ноября, 21:00 UTC.</li></ul></div>
       <div class="wayc">${loginWays()}${mailForm()}</div></section>`;
   } else if (kind === 'confirm') {
     v.innerHTML = `<section class="frame state"><h2>Войти по ссылке?</h2><p>${esc(arg.why)} ${esc(arg.who ? fill('Войти как %e?', { e: arg.who }) : 'Войти?')}</p>
@@ -458,7 +458,7 @@ function founderPlaque() {
   const ms = Date.parse(GD.deadline) - Date.now();
   if (ms <= 0) return '';
   const days = Math.ceil(ms / 86400000);
-  return `<div class="frame founder"><div><b>Рамка «Основатель»</b><p>Добавьте персонажа до старта 5 ноября — золотая рамка останется навсегда.</p></div>
+  return `<div class="frame founder"><div><b>Рамка «Основатель»</b><p>Добавьте персонажа до 3 ноября, 21:00 UTC — золотая рамка останется навсегда.</p></div>
     <div class="fcd">${unit(days, 'day')}<small>до закрытия окна</small></div></div>`;
 }
 const who = () => (m && m.user.nick ? fill('Вы вошли как %n', { n: m.user.nick }) : 'Вы вошли');
@@ -752,8 +752,8 @@ function secChars() {
     <div class="row"><div class="seg" id="lfgSeg" role="group" aria-label="Ищу группу"><button type="button" data-v="" aria-pressed="${!l}">Нет</button>${Object.entries(LFG).map(([k, t]) => `<button type="button" data-v="${k}" aria-pressed="${!!l && l.kind === k}">${esc(t)}</button>`).join('')}</div>
     ${l ? `<span class="small">${esc(fill('Осталось %t', { t: left(l.until) }))}</span><button type="button" class="btn ghost" data-act="lfgMore" data-v="${l.kind}">Продлить на 3 часа</button>` : ''}</div></div>`;
   return `<div class="sec-h"><h2>Персонажи</h2><span class="small">${esc(fill('%n из %m', { n, m: CHAR_MAX }))}</span></div>
-    <p>Основной персонаж — в списке игроков и на карточке, остальные — строкой «Твинки». Нажмите на персонажа, чтобы изменить.</p>
-    <div class="plist">${cards}${add}</div>${lfg}`;
+    <p>Основной персонаж отмечен меткой. Нажмите на персонажа, чтобы изменить.</p>
+    <div class="plist">${cards}${add}</div>${SOC ? lfg : ''}`;
 }
 function secLook() {
   const u = m.user, c = mainOf();

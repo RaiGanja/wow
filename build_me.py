@@ -142,7 +142,7 @@ def build_page(lang, sub, frag, shell, base_css, sprite, me_css, me_js):
     html = html.replace('@@P_ROBOTS@@', '<meta name="robots" content="noindex">\n' if sub in NOINDEX else '')
     html = build.social(html)
     html, missing = build.translate(html, lang)
-    html = html.replace('@@ACH@@', 'true' if build.ACHIEVEMENTS else 'false')
+    html = html.replace('@@ACH@@', 'true' if build.ACHIEVEMENTS else 'false').replace('@@SOC@@', 'true' if build.SOCIAL else 'false')
     html = html.replace('@@GD@@', json.dumps(page_data(lang), ensure_ascii=False, separators=(',', ':')))
     html = html.replace('@@LANG@@', lang).replace('@@HOME@@', home).replace('@@CANON@@', build.SITE + here)
     html = html.replace('@@ALTERNATES@@', build.alternates(sub))

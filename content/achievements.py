@@ -11,7 +11,7 @@ CATS = [('community', 'Сообщество'), ('guide', 'Гид'), ('radio', '�
 # rule: None | {'key': ..., 'goal': N} (счётчик) | {'key': ..., 'all': True} (весь набор) | {'key': ..., 'goal': N, 'set': True}
 ACH = [
     # Сообщество
-    ('founder', 'community', 25, 'auto', None, 'Основатель', 'Создать персонажа до старта WoW Forever 5 ноября. Открывает рамку «Основатель».'),
+    ('founder', 'community', 25, 'auto', None, 'Основатель', 'Создать персонажа до 3 ноября, 21:00 UTC. Открывает рамку «Основатель».'),
     ('profile_full', 'community', 10, 'auto', None, 'Свой человек', 'Заполнить основного персонажа: роль, время игры и две профессии.'),
     ('three_chars', 'community', 10, 'auto', None, 'Три лица', 'Завести трёх персонажей.'),
     ('veteran3', 'community', 10, 'auto', {'days': 90}, 'Ветеран', 'Три месяца на сервере Gabella Team.'),

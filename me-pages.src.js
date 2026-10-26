@@ -2,6 +2,7 @@
    Inlined by build_me.py before the page script; Russian strings are translated at build like the rest of the site.
    The pages talk to the API only through window.GabellaMe (me.js), which runs before DOMContentLoaded. */
 const GD = @@GD@@;
+const SOC = @@SOC@@;   // build.SOCIAL: the Players page and everything that points to it are hidden
 const ACH = @@ACH@@;   // build.ACHIEVEMENTS: achievements, ranks, points and frames are hidden except the «Founder» mark
 const ROOT = '@@ROOT@@', HOME = '@@HOME@@', LANG = '@@LANG@@', HL = document.documentElement.lang;
 const PV = /*PV*/'', AV = /*AV*/'';   // ?v= of the class and race portraits (build.art_version) and of the achievement icons (build.me_version)
