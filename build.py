@@ -438,6 +438,8 @@ LATE_JS = """<script>
   var done = false;
   function wake() {
     if (done) return; done = true;
+    var lf = document.getElementById('late-fonts');   // build.late_fonts
+    if (lf) { lf.media = 'all'; try { localStorage.setItem('gab-fonts', '1'); } catch (e) {} }
     document.querySelectorAll('link[data-rel]').forEach(function (l) { l.rel = l.dataset.rel; });
     document.querySelectorAll('source[data-lsrcset]').forEach(function (x) { x.srcset = x.dataset.lsrcset; });   // build.sleep_art
     document.querySelectorAll('img[data-lsrc]').forEach(function (x) { x.src = x.dataset.lsrc; });
@@ -480,6 +482,24 @@ def late(html, hero='.hero-art img'):
     script = lambda m: f'<script{m[1] or ""} data-src="{m[2]}"{m[3].replace(" defer", "")}></script>' if re.search(LATE_FILES, m[2]) else m[0]
     html = re.sub(r'<script( type="module")? src="([^"]+)"([^>]*)></script>', script, html)
     return html if 'link[data-rel]' in html else html.replace('</body>', LATE_JS.replace('@@HERO@@', hero) + '</body>', 1)
+
+
+
+# Home page: the display face (Spectral SC: titles, brand, big figures) is not among the bytes before the hero picture.
+# Its @font-face rules sit in a <style media="print"> the browser does not apply, LATE_JS switches it on with the other
+# late files, and the titles change from the Georgia fallback to Spectral SC then. A visitor who has it already
+# (localStorage gab-fonts, the worker keeps the file) gets it from the first frame.
+LATE_FONTS = 'spectral-sc'
+LATE_FONTS_JS = ("<script>try { if (localStorage.getItem('gab-fonts')) document.getElementById('late-fonts').media = 'all'; }"
+                 " catch (e) {}</script>\n")
+
+
+def late_fonts(html):
+    face = re.compile(r'@font-face \{[^}]*assets/fonts/' + LATE_FONTS + r'-[\w-]+\.woff2[^}]*\}\r?\n')
+    rules = ''.join(face.findall(html))
+    html = face.sub('', html)
+    html = re.sub(r'<link rel="preload" href="[^"]*assets/fonts/' + LATE_FONTS + r'-[^"]*"[^>]*>\r?\n', '', html)
+    return html.replace('<style>', f'<style id="late-fonts" media="print">\n{rules}</style>\n{LATE_FONTS_JS}<style>', 1)
 
 
 # ---------- installable site (PWA): manifest, icons, service worker sw.js ----------
