@@ -51,11 +51,11 @@
 @media (max-width: 719px) { .qstart { margin-top: 20px; } .qs { padding: 18px 16px; } }
 @@BASE_CSS@@
 /* Class page: full-screen portrait hero, spec tabs, races, group use, other classes */
-.chero { position: relative; isolation: isolate; overflow: hidden; min-height: max(620px, 100svh); display: grid; align-content: end; color: var(--ink); background: #050505; }
+.chero { position: relative; isolation: isolate; overflow: hidden; min-height: max(620px, min(100svh, 880px)); display: grid; align-content: end; color: var(--ink); background: #050505; }
 .chero .blur, .chero .blur img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .chero .blur { z-index: -3; }
-.chero .blur img { object-fit: cover; opacity: .7; }
-.chero .por { position: absolute; z-index: -2; top: 0; bottom: 0; right: max(0px, calc((100vw - var(--wrap)) / 2 - 40px)); aspect-ratio: 3 / 4; height: 100%; -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 24%, #000 82%, transparent 100%); mask-image: linear-gradient(90deg, transparent 0, #000 24%, #000 82%, transparent 100%); }
+.chero .blur img { object-fit: cover; filter: blur(40px) brightness(.55); transform: scale(1.1); }   /* as .thero-amb: no seam where the portrait ends */
+.chero .por { position: absolute; z-index: -2; top: 0; bottom: 0; right: max(0px, calc((100vw - var(--wrap)) / 2 - 40px)); aspect-ratio: 3 / 4; height: 100%; -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 35%, #000 70%, transparent 100%); mask-image: linear-gradient(90deg, transparent 0, #000 35%, #000 70%, transparent 100%); }
 .chero .por img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; }
 .chero::before { content: ""; position: absolute; inset: 0; z-index: -1; background:
   linear-gradient(90deg, rgba(5,5,5,.9) 0%, rgba(5,5,5,.66) 34%, rgba(5,5,5,.1) 62%, rgba(5,5,5,0) 100%),
@@ -71,7 +71,7 @@
 .croles span { display: inline-flex; align-items: center; min-height: 34px; padding: 0 14px; border: 1px solid rgba(255,255,255,.14); border-radius: 999px; background: rgba(10,10,10,.62); backdrop-filter: blur(6px); color: #e8d6a6; font-size: var(--fs-16); font-weight: 500; }
 .croles span.q { border-style: dashed; color: var(--ink-2); }
 /* facts as a definition list in two columns on one shaded plate, no tile per fact */
-.cfacts { margin: 4px 0 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 28px; padding: 16px 20px; max-width: 580px; width: 100%; border-radius: 10px; background: rgba(10,10,10,.62); backdrop-filter: blur(6px); }
+.cfacts { margin: 4px 0 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 28px; padding: 16px 20px; max-width: 580px; width: 100%; border: 1px solid rgba(255,255,255,.08); border-radius: 10px; background: rgb(8 8 8 / .9); backdrop-filter: blur(6px); }   /* the hero stays night in the light theme too: a dark plate */
 .cfacts div { grid-template-columns: minmax(0, 1fr); align-content: start; display: grid; gap: 2px; }
 .cfacts dt { font-size: var(--fs-13); color: var(--ink-2); }
 .cfacts dd { margin: 0; font-size: var(--fs-16); color: var(--ink); }
