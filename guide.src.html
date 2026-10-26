@@ -71,7 +71,7 @@
 /* Wide screens: full rows whatever the width (the column grows on ultrawide, auto-fill would leave one tile in the last row) */
 @media (min-width: 1280px) { .gtiles { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
 @media (min-width: 1100px) {
-  .gtiles:is(:has(> :nth-child(16):last-child), :has(> :nth-child(12):last-child), :has(> :nth-child(8):last-child), :has(> .wide:first-child):has(> :nth-child(17):last-child)) { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .gtiles:is(:has(> :nth-child(16):last-child), :has(> :nth-child(12):last-child), :has(> :nth-child(8):last-child), :has(> .wide:first-child):has(> :nth-child(17):last-child), :has(> .wide + .wide:nth-child(2)):has(> :nth-child(18):last-child)) { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .gtiles:is(:has(> :nth-child(9):last-child), :has(> :nth-child(6):last-child)) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (min-width: 2200px) { .gtiles .ttile { min-height: 260px; } }
@@ -80,6 +80,10 @@
 .gtiles > .wide img { object-position: 50% 42%; }
 .gtiles > .wide b { font-size: var(--fs-22); }
 @media (min-width: 2200px) { .gtiles > .wide { min-height: 320px; } }
+/* two banners («Launch day» and «Day 1»): side by side, half a row each, over the 4 x 4 grid; stacked and lower below 1100 px */
+.gtiles > .wide:has(+ .wide), .gtiles > .wide + .wide { min-height: 200px; }
+@media (min-width: 1100px) { .gtiles > .wide:has(+ .wide), .gtiles > .wide + .wide { grid-column: span 2; min-height: 250px; } }
+@media (min-width: 2200px) { .gtiles > .wide:has(+ .wide), .gtiles > .wide + .wide { min-height: 320px; } }
 /* titles and captions on one line across a row: two lines kept for each, the caption cut after two */
 @media (min-width: 720px) {
   .gtiles .ttile b { min-height: 2.4em; display: flex; align-items: flex-end; }
@@ -182,6 +186,19 @@
 .gplay b { color: var(--gold-2); }
 .gplay .btn { margin-left: auto; }
 .gbody.play { padding-top: 14px; }
+/* the beta mark after a fact Blizzard has not confirmed ({beta} in a guide text, as on the home page) */
+.beta-note { color: var(--muted); font-size: var(--fs-13); font-weight: 400; font-style: normal; white-space: nowrap; }
+.beta-note::before { content: "("; } .beta-note::after { content: ")"; }
+/* Launch day: the countdown (days, hours, minutes) and the launch moment in the reader's time, like the home hero */
+.lcd { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 40px; padding: 18px 20px; border-radius: 6px; background: var(--panel-2); }
+.lcu { display: flex; gap: 26px; }
+.lcu div { display: grid; gap: 6px; min-width: 2.2ch; }
+.lcu b { font-family: var(--font-display); font-weight: var(--display-w); font-size: var(--fs-40); line-height: .9; color: var(--gold-2); font-variant-numeric: tabular-nums lining-nums; }
+.lcu span, .lcw span { font-size: var(--fs-13); color: var(--muted); }
+.lcw { display: grid; gap: 2px; }
+.lcw b { font-size: var(--fs-22); font-weight: 600; font-variant-numeric: lining-nums; }
+.lcw span[hidden] { display: none; }
+.lcd.out .lcu { display: none; }
 .pday { margin-bottom: 14px; }   /* In game: the launch checklist in one line above the columns */
 /* Launch checklist (guides/launch-checklist/): rows on one plate like the tables, a square tick, the link to our page on the right */
 .dbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; font-variant-numeric: lining-nums tabular-nums; }

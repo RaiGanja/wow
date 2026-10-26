@@ -40,7 +40,7 @@ FX = {'hero_dawn': 'dawn'}   # living art (assets/living/living.js) over these h
 THERO = {'hero_guides': 'guides', 'hero_dungeons': 'dungeons', 'hero_professions': 'professions', 'hero_faq': 'faq',
          'hero_news': 'news', 'hero_leveling': 'leveling', 'hero_classes': 'classes', 'hero_races': 'races',
          'hero_ukrainian': 'ukrainian', 'hero_requirements': None, 'hero_roster': 'roster',
-         'hero_bestrace': 'bestrace', 'hero_tierlist': 'tierlist'}
+         'hero_bestrace': 'bestrace', 'hero_tierlist': 'tierlist', 'hero_night': None}   # hero_night: the home night scene (Launch day)
 THERO_CUT = {'hero_bestrace': '.5', 'hero_tierlist': '.65'}   # phone cut other than .9 (tools/make_images.CUTS)
 THERO_W = (960, 1440, 1920, 2560)
 THERO_BIG = THERO_W + (3840,)   # the hero picture itself: 3440 and 4K screens take the 3840
@@ -291,6 +291,11 @@ def render_block(kind, data, lang, root, inner=False):
         return '<ul class="dchk">' + ''.join(
             f'<li><input type="checkbox" id="ck-{x["id"]}" data-ck="{x["id"]}"><label for="ck-{x["id"]}">{E(x["t"], lang)}</label>'
             f'<p>{E(x["d"], lang)}</p><a class="dgo" href="{root}{x["href"]}">{E(x["go"], lang)}</a></li>' for x in items) + '</ul>'
+    if kind == 'launch':                                          # Launch day: the countdown in the reader's time, filled by JS['launchday']
+        units = ''.join(f'<div><b id="lc{k.upper()}">–</b><span>{E(data[k], lang)}</span></div>' for k in ('d', 'h', 'm'))
+        return (f'<div class="lcd" id="lcd"><div class="lcu">{units}</div>'
+                f'<div class="lcw"><span id="lcL" data-out="{E(data["out"], lang)}">{E(data["left"], lang)}</span>'
+                f'<b id="lcWhen">04.11.2026, 23:00 UTC</b><span id="lcY" hidden>{E(data["your"], lang)}</span></div></div>')
     raise ValueError(f'unknown block {kind!r}')
 
 
@@ -368,9 +373,10 @@ def hub_body(lang, root):
     at = next((i for i, x in enumerate(tiles) if x['href'] == 'guides/leveling/'), -1) + 1
     tiles[at:at] = [CLASS_HUB_TILE, BUILDS_HUB_TILE]   # «Builds by class» leads to the tier list section
     tiles += section_tiles() + SITE_TILES[1:]
-    day1 = next((i for i, x in enumerate(tiles) if x['href'] == 'guides/launch-checklist/'), None)
-    if day1 is not None:                                          # «Day 1» heads the page as a wide banner: the other 16 fill whole rows
-        tiles.insert(0, dict(tiles.pop(day1), wide=True))
+    for href in ('guides/launch-day/', 'guides/launch-checklist/'):   # «Day 1» and «Launch day» head the page as two banners: the other 16 fill whole rows
+        top = next((i for i, x in enumerate(tiles) if x['href'] == href), None)
+        if top is not None:
+            tiles.insert(0, dict(tiles.pop(top), wide=True))
     return '', f'<section class="gsec bare" id="all">{render_block("tiles", tiles, lang, root)}</section>'
 
 
@@ -448,7 +454,8 @@ document.querySelectorAll('#dgBox .lvm, #dgBox .lvp').forEach(b => b.addEventLis
   dgLvl = Math.max(1, Math.min(60, (dgLvl || (up ? 0 : 2)) + (up ? 1 : -1))); dgMode = 'mine'; renderDg();
 }));
 renderDg();'''
-langs.fill([TIP, THIS_PAGE, MORE_H, MORE_SITE, SITE_TILES, PROF_HEAD, DG_TX, PLAY_TX, PLAY_MILESTONES])
+BETA_TX = {'ru': 'по данным беты', 'en': 'per beta data', 'uk': 'за даними бети'}   # {beta} in a guide text: the site's one beta mark (build.BETA_SPAN)
+langs.fill([BETA_TX, TIP, THIS_PAGE, MORE_H, MORE_SITE, SITE_TILES, PROF_HEAD, DG_TX, PLAY_TX, PLAY_MILESTONES])
 JS['dungeons'] = {l: DG_JS.replace('@@TX@@', json.dumps(DG_TX[l], ensure_ascii=False)) for l in LANGS}
 
 
@@ -506,6 +513,17 @@ ckBoxes.forEach(b => b.addEventListener('change', () => {
 $('#ckReset').addEventListener('click', () => { ckState = {}; ckSave(); ckPaint(); });
 addEventListener('storage', e => { if (e.key === CK) { ckState = ckRead(); ckPaint(); } });
 ckPaint();'''
+JS['launchday'] = r'''/* Launch day: days, hours and minutes to 23:00 UTC 04.11 and the moment in the reader's own time zone */
+const lcAt = new Date('2026-11-04T23:00:00Z');
+function lcPaint() {
+  const ms = lcAt - new Date(), p = x => String(x).padStart(2, '0');
+  $('#lcWhen').textContent = new Intl.DateTimeFormat(document.documentElement.lang, { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }).format(lcAt);
+  $('#lcY').hidden = false;
+  if (ms <= 0) { $('#lcd').classList.add('out'); $('#lcL').textContent = $('#lcL').dataset.out; return; }
+  $('#lcD').textContent = Math.floor(ms / 864e5); $('#lcH').textContent = p(Math.floor(ms % 864e5 / 36e5)); $('#lcM').textContent = p(Math.floor(ms % 36e5 / 6e4));
+}
+lcPaint();
+setInterval(lcPaint, 30000);'''
 JS['classref'] = 'renderClassRef();'
 JS['raceref'] = 'renderRaceRef();'
 
@@ -896,6 +914,7 @@ def build_page(g, lang, tpl, base_css, sprite, src):
         html = html.replace('</body>', '<script src="@@ROOT@@assets/living/living.js" defer></script>\n</body>', 1)
     html = html.replace('@@CANON@@', SITE + here)
     html = html.replace('@@ALTERNATES@@', build.alternates(sub))
+    html = html.replace('{beta}', f'<span class="beta-note">{BETA_TX[lang]}</span>')
     html = localize(html, lang, here).replace('assets/og.png', f'assets/og/{g.get("og") or g["slug"] or "guides"}-{lang}.jpg')   # tools/make_og.py
     return here + 'index.html', html, missing
 

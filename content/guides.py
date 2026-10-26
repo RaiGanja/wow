@@ -29,7 +29,7 @@ GUIDES = []   # наполняется в задачах 3, 5, 6, 7, 9; кажд
 NEWS = []     # ручные записи: {'date': '2026-10-23', 'title': t(...), 'text': t(...), 'url': 'https://…'}
 from build import DISCORD_AT  # noqa: E402  (у каждого места ссылки своё приглашение)
 
-ORDER = ['launch-checklist', 'leveling', 'leveling-warrior', 'leveling-paladin', 'leveling-hunter', 'leveling-rogue', 'leveling-priest', 'leveling-shaman', 'leveling-mage', 'leveling-warlock', 'leveling-druid', 'builds-warrior', 'builds-paladin', 'builds-hunter', 'builds-rogue', 'builds-priest', 'builds-shaman', 'builds-mage', 'builds-warlock', 'builds-druid', 'best-race', 'tier-list', 'legacy', 'dungeons', 'professions', 'addons', 'faq', 'requirements', 'news', 'ukrainian']   # порядок плиток на хабе и в «Другие гайды»
+ORDER = ['launch-checklist', 'launch-day', 'leveling', 'leveling-warrior', 'leveling-paladin', 'leveling-hunter', 'leveling-rogue', 'leveling-priest', 'leveling-shaman', 'leveling-mage', 'leveling-warlock', 'leveling-druid', 'builds-warrior', 'builds-paladin', 'builds-hunter', 'builds-rogue', 'builds-priest', 'builds-shaman', 'builds-mage', 'builds-warlock', 'builds-druid', 'best-race', 'tier-list', 'legacy', 'dungeons', 'professions', 'addons', 'faq', 'requirements', 'news', 'ukrainian']   # порядок плиток на хабе и в «Другие гайды»
 
 
 # ---------- FAQ: даты и наборы, режимы, имена, отличия от Era (переехали с главной) + частые вопросы ----------
@@ -1824,6 +1824,114 @@ GUIDES.append({
                       'Виходьте з гри в таверні, столиці або на спальнику: наступний вечір почнеться з подвійного досвіду за ворогів. Їжа, спальник і відпочинок складаються.'),
                     'guides/leveling/#pace', t('Темп и отдых', 'Pace and rest', 'Темп і відпочинок')),
             ]),
+        ]},
+    ],
+})
+
+
+# ---------- День старта: время по часам читателя, очереди и слои, официальные каналы статуса. Чек-лист «День 1» не повторяет ----------
+
+GUIDES.append({
+    'slug': 'launch-day', 'art': 'hero_campfire', 'hero': 'hero_night', 'tile_art': 'hero_night', 'og': 'guides', 'js': 'launchday',
+    'title': t('День старта: время, очереди, статус', 'Launch Day: Time, Queues, Status', 'День старту: час, черги, статус'),
+    'crumb': t('День старта', 'Launch day', 'День старту'),
+    'lead': t('Когда открывается WoW Forever по вашему времени, чего ждать в первые часы и где Blizzard сообщает о сбоях.',
+              'When WoW Forever opens in your time zone, what to expect in the first hours and where Blizzard reports outages.',
+              'Коли відкривається WoW Forever за вашим часом, чого чекати в перші години та де Blizzard повідомляє про збої.'),
+    'tile': t('Время старта, очереди и где смотреть статус серверов', 'Launch time, queues and where to check server status', 'Час старту, черги та де дивитися статус серверів'),
+    'pills': [t('Старт 04.11.2026, 23:00 UTC', 'Launch 04.11.2026, 23:00 UTC', 'Старт 04.11.2026, 23:00 UTC'),
+              t('Статус — только каналы Blizzard', 'Status: Blizzard channels only', 'Статус — лише канали Blizzard')],
+    'sources': [
+        (t('Blizzard: дата и время старта', 'Blizzard: launch date and time', 'Blizzard: дата й час старту'), 'https://news.blizzard.com/en-us/article/24301508'),
+        (t('GameSpot: заявление Blizzard о слоях', 'GameSpot: Blizzard statement on layering', 'GameSpot: заява Blizzard про шари'),
+         'https://www.gamespot.com/articles/wow-forevers-divisive-layering-will-see-major-improvements-for-launch-blizzard-says/'),
+        (t('Bolverk Games: очереди и отключения в бете', 'Bolverk Games: beta queues and disconnects', 'Bolverk Games: черги й відключення в беті'),
+         'https://bolverkgames.com/wow/wow-forever-beta-hits-hour-long-queues-blizzard-scrambles-to-fix-disconnects/'),
+        (t('Mein-MMO: слои в конце беты', 'Mein-MMO: layering at the end of the beta', 'Mein-MMO: шари наприкінці бети'),
+         'https://mein-mmo.de/wow-forever-beta-endet-community-noch-sorgen/'),
+    ],
+    'sections': [
+        {'id': 'time', 'title': t('Время старта', 'Launch time', 'Час старту'), 'blocks': [
+            ('launch', {'left': t('до старта', 'until launch', 'до старту'), 'out': t('Игра вышла', 'The game is out', 'Гра вийшла'),
+                        'your': t('по вашему времени', 'your time', 'за вашим часом'),
+                        'd': t('дн', 'd', 'дн'), 'h': t('ч', 'h', 'год'), 'm': t('мин', 'min', 'хв')}),
+            ('text', [t('Blizzard: WoW Forever выходит во всём мире 04.11.2026 в 15:00 по тихоокеанскому времени (PST), это 23:00 UTC 04.11.',
+                        'Blizzard: WoW Forever launches worldwide on 04.11.2026 at 15:00 Pacific time (PST), which is 23:00 UTC on 04.11.',
+                        'Blizzard: WoW Forever виходить у всьому світі 04.11.2026 о 15:00 за тихоокеанським часом (PST), це 23:00 UTC 04.11.'),
+                      t('В Европе это уже 5 ноября. Великобритания, Ирландия и Португалия встречают старт в 23:00 04.11.',
+                        'In most of Europe it is already 5 November. The UK, Ireland and Portugal get the launch at 23:00 on 04.11.',
+                        'У Європі це вже 5 листопада. Велика Британія, Ірландія та Португалія зустрічають старт о 23:00 04.11.')]),
+            ('table', {'head': [t('Город', 'City', 'Місто'), t('Старт по местному времени', 'Launch, local time', 'Старт за місцевим часом')], 'rows': [
+                [t('Лос-Анджелес, Ванкувер', 'Los Angeles, Vancouver', 'Лос-Анджелес, Ванкувер'), '04.11, 15:00'],
+                [t('Нью-Йорк, Торонто', 'New York, Toronto', 'Нью-Йорк, Торонто'), '04.11, 18:00'],
+                [t('Сан-Паулу', 'São Paulo', 'Сан-Паулу'), '04.11, 20:00'],
+                [t('Лондон, Лиссабон', 'London, Lisbon', 'Лондон, Лісабон'), '04.11, 23:00'],
+                [t('Берлин, Париж, Варшава', 'Berlin, Paris, Warsaw', 'Берлін, Париж, Варшава'), '05.11, 00:00'],
+                [t('Киев', 'Kyiv', 'Київ'), '05.11, 01:00'],
+                [t('Тайбэй', 'Taipei', 'Тайбей'), '05.11, 07:00'],
+                [t('Сеул', 'Seoul', 'Сеул'), '05.11, 08:00'],
+                [t('Сидней', 'Sydney', 'Сідней'), '05.11, 10:00'],
+            ]}),
+        ]},
+        {'id': 'expect', 'title': t('Чего ждать', 'What to expect', 'Чого чекати'), 'blocks': [
+            ('table', {'head': [t('Что', 'What', 'Що'), t('Что известно', 'What is known', 'Що відомо')], 'rows': [
+                [t('Очередь на вход', 'Login queue', 'Черга на вхід'),
+                 t('Blizzard не называла ни вместимость, ни меры против очередей. В бете очередь доходила до часа и дольше. {beta}',
+                   'Blizzard has named neither the capacity nor any measures against queues. In the beta the queue ran to an hour and longer. {beta}',
+                   'Blizzard не називала ні місткість, ні заходи проти черг. У беті черга сягала години й довше. {beta}')],
+                [t('Отключения', 'Disconnects', 'Відключення'),
+                 t('В бете многих отключало сразу после очереди и ставило в конец новой. {beta}',
+                   'In the beta many players were disconnected right after the queue and sent to the back of a new one. {beta}',
+                   'У беті багатьох відключало одразу після черги й ставило в кінець нової. {beta}')],
+                [t('Слои', 'Layering', 'Шари'),
+                 t('Blizzard: слои останутся, полностью их не уберут. До старта чинят два случая: игроков разводит по разным слоям после загрузки на корабле или дирижабле, а большие группы — при входе в столицу и выходе из неё.',
+                   'Blizzard: layering stays and will not go away completely. Before launch they are fixing two cases: players split into different layers after the loading screen on a boat or zeppelin, and large groups split when entering or leaving a capital.',
+                   'Blizzard: шари залишаться, повністю їх не приберуть. До старту виправляють два випадки: гравців розводить по різних шарах після завантаження на кораблі чи дирижаблі, а великі групи — під час входу в столицю й виходу з неї.')],
+                [t('Слои в бете', 'Layering in the beta', 'Шари в беті'),
+                 t('На границах зон игроки пропадали из вида, группы раскидывало. {beta}',
+                   'Players vanished from sight at zone borders and groups were split. {beta}',
+                   'На межах зон гравці зникали з поля зору, групи розкидало. {beta}')],
+            ]}),
+            ('tip', t('Что делать в очереди и при высоком пинге — в советнике «Пинг и очередь» на странице инструментов.',
+                      'What to do in the queue and with high ping is in the Ping and queue advisor on the tools page.',
+                      'Що робити в черзі та з високим пінгом — у порадникові «Пінг і черга» на сторінці інструментів.')),
+        ]},
+        {'id': 'status', 'title': t('Где смотреть статус', 'Where to check status', 'Де дивитися статус'), 'blocks': [
+            ('text', [t('Только официальные каналы Blizzard. Отдельной страницы статуса Forever Blizzard не объявляла.',
+                        'Official Blizzard channels only. Blizzard has not announced a separate status page for Forever.',
+                        'Лише офіційні канали Blizzard. Окремої сторінки статусу Forever Blizzard не оголошувала.')]),
+            ('table', {'head': [t('Канал', 'Channel', 'Канал'), t('Что там', 'What is there', 'Що там')], 'rows': [
+                [('@BlizzardCS', 'https://x.com/BlizzardCS'),
+                 t('Поддержка Blizzard в X для Америки: сбои, работы на серверах, известные проблемы.',
+                   'Blizzard support on X for the Americas: outages, server maintenance, known issues.',
+                   'Підтримка Blizzard в X для Америки: збої, роботи на серверах, відомі проблеми.')],
+                [('@BlizzardCSEU_EN', 'https://x.com/BlizzardCSEU_EN'),
+                 t('Поддержка Blizzard в X для Европы, на английском.',
+                   'Blizzard support on X for Europe, in English.',
+                   'Підтримка Blizzard в X для Європи, англійською.')],
+                [(t('Форум WoW: Forever, Европа', 'WoW: Forever forum, Europe', 'Форум WoW: Forever, Європа'), 'https://eu.forums.blizzard.com/en/wow/c/wow-forever/359'),
+                 t('Официальный раздел Forever: объявления и ответы разработчиков.',
+                   'The official Forever section: announcements and developer replies.',
+                   'Офіційний розділ Forever: оголошення та відповіді розробників.')],
+                [(t('Форум WoW: Forever, Америка', 'WoW: Forever forum, Americas', 'Форум WoW: Forever, Америка'), 'https://us.forums.blizzard.com/en/wow/c/wow-forever/346'),
+                 t('То же для Америки и Океании.', 'The same for the Americas and Oceania.', 'Те саме для Америки та Океанії.')],
+                [(t('Статус реалмов WoW', 'WoW realm status', 'Статус реалмів WoW'), 'https://worldofwarcraft.blizzard.com/en-gb/worldsoul/eu/server-status'),
+                 t('Официальная страница статуса. На 26.10 Forever в ней нет: в Forever режимы вместо реалмов. Появится ли — уточним на старте.',
+                   'The official status page. As of 26.10 Forever is not on it: Forever has modes instead of realms. Whether it appears, we will confirm at launch.',
+                   'Офіційна сторінка статусу. На 26.10 Forever у ній немає: у Forever режими замість реалмів. Чи з’явиться — уточнимо на старті.')],
+            ]}),
+        ]},
+        {'id': 'wait', 'title': t('Пока ждёте', 'While you wait', 'Поки чекаєте'), 'blocks': [
+            ('table', {'head': [t('Страница', 'Page', 'Сторінка'), t('Зачем', 'What for', 'Навіщо')], 'rows': [
+                [(t('Чек-лист «День 1»', 'Day 1 checklist', 'Чек-лист «День 1»'), 'guides/launch-checklist/'),
+                 t('Что сделать до старта, в первые часы и в первый вечер.', 'What to do before launch, in the first hours and on the first evening.', 'Що зробити до старту, у перші години та першого вечора.')],
+                [(t('Пинг и очередь', 'Ping and queue', 'Пінг і черга'), 'tools/#ping'),
+                 t('Ваш регион, что делать при высоком пинге и как не потерять место в очереди.', 'Your region, what to do about high ping and how not to lose your place in the queue.', 'Ваш регіон, що робити з високим пінгом і як не втратити місце в черзі.')],
+                [(t('Конструктор группы', 'Group builder', 'Конструктор групи'), 'tools/#raid'),
+                 t('Состав для друзей по ссылке и готовый текст для поиска группы в игре.', 'A party to share by link and a ready text for the in-game group finder list.', 'Склад для друзів за посиланням і готовий текст для пошуку групи в грі.')],
+                [(t('Тир-лист', 'Tier list', 'Тір-лист'), 'guides/tier-list/'),
+                 t('Если класс ещё не выбран: классы и спеки по данным беты.', 'If you have not picked a class yet: classes and specs based on beta data.', 'Якщо клас ще не обрано: класи й спеціалізації за даними бети.')],
+            ]}),
         ]},
     ],
 })
