@@ -194,7 +194,8 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .gbtns .btn { white-space: normal; text-align: center; }
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
-.srchbtn kbd, .radiobtn .rdo-eq { display: none; }   /* on the home page search.css and radio.css come after the first paint */
+.srchbtn kbd, .radiobtn .rdo-eq { display: none; }
+@media (max-width: 719px) { .topbar .themebtn { display: none; } }   /* phone: the top bar keeps My character (assets/hero/), the theme is in the sections sheet */   /* on the home page search.css and radio.css come after the first paint */
 .radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: var(--fs-16); }
 @media (max-width: 1260px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }   /* es «Iniciar sesión» ran 21 px off a 1215 px screen */
@@ -1398,8 +1399,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../../assets/radio/radio.css?v=c5eacd57e2">
-<link data-rel="stylesheet" href="../../../assets/search/search.css?v=6325abe5dd">
-<link data-rel="stylesheet" href="../../../assets/me/me.css?v=d6ef450f05">
+<link data-rel="stylesheet" href="../../../assets/search/search.css?v=5fe1eeb596">
+<link data-rel="stylesheet" href="../../../assets/me/me.css?v=5cac046565">
+<link data-rel="stylesheet" href="../../../assets/hero/hero.css?v=c2be7ce5b5">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/en/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://gabella.site/wow/en/guides/"},{"@type":"ListItem","position":3,"name":"Rogue Leveling 1–60","item":"https://gabella.site/wow/en/guides/leveling-rogue/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Rogue Leveling Guide 1–60 in WoW Forever: Combat","description":"How to level a Rogue in WoW Forever: Combat, talents by level 10–60, poisons, differences from Classic. Beta data.","inLanguage":"en","url":"https://gabella.site/wow/en/guides/leveling-rogue/","dateModified":"2026-10-26","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/en/"},"image":"https://gabella.site/wow/assets/og/leveling-rogue-en.jpg?v=19b2607f"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"en","mainEntity":[{"@type":"Question","name":"Which Rogue spec should I level in WoW Forever?","acceptedAnswer":{"@type":"Answer","text":"Combat: Mobalytics and Icy Veins recommend it. Warcraft Tavern doesn’t single out one tree, but advises against Assassination as a start."}},{"@type":"Question","name":"When do poisons appear?","acceptedAnswer":{"@type":"Answer","text":"At level 20, after the class quest."}},{"@type":"Question","name":"Why does the Rogue level slower than the Hunter and Mage?","acceptedAnswer":{"@type":"Answer","text":"It has almost no area damage or self-healing. First Aid and, from level 30, Blade Flurry help."}},{"@type":"Question","name":"Which weapon should I take for Combat?","acceptedAnswer":{"@type":"Answer","text":"Any: Hack and Slash works with any type. Put the fast weapon in the off hand (Mobalytics)."}},{"@type":"Question","name":"Do combo points expire when I switch targets?","acceptedAnswer":{"@type":"Answer","text":"No, they stay on the previous target. The sources describe the transfer to a new target differently: we will check after Nov 4–5."}}]}</script>
@@ -1631,8 +1633,9 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../../"></script>
-<script data-src="../../../assets/search/search.js?v=6325abe5dd" data-root="../../../"></script>
-<script data-src="../../../assets/me/me.js?v=d6ef450f05" data-root="../../../" data-home="../../" data-lang="en" data-ach="0" data-teaser="" data-close="Close" data-page="guides/leveling-rogue/" data-look="2"></script>
+<script data-src="../../../assets/search/search.js?v=5fe1eeb596" data-root="../../../"></script>
+<script data-src="../../../assets/me/me.js?v=5cac046565" data-root="../../../" data-home="../../" data-lang="en" data-ach="0" data-teaser="" data-close="Close" data-page="guides/leveling-rogue/" data-look="2"></script>
+<script data-src="../../../assets/hero/hero.js?v=c2be7ce5b5" data-root="../../../" data-home="../../" data-data="../../../assets/hero/en.json?v=c2be7ce5b5"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
 (function () {

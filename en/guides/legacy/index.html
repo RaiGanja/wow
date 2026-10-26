@@ -194,7 +194,8 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .gbtns .btn { white-space: normal; text-align: center; }
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
-.srchbtn kbd, .radiobtn .rdo-eq { display: none; }   /* on the home page search.css and radio.css come after the first paint */
+.srchbtn kbd, .radiobtn .rdo-eq { display: none; }
+@media (max-width: 719px) { .topbar .themebtn { display: none; } }   /* phone: the top bar keeps My character (assets/hero/), the theme is in the sections sheet */   /* on the home page search.css and radio.css come after the first paint */
 .radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: var(--fs-16); }
 @media (max-width: 1260px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }   /* es «Iniciar sesión» ran 21 px off a 1215 px screen */
@@ -1398,8 +1399,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../../assets/radio/radio.css?v=c5eacd57e2">
-<link data-rel="stylesheet" href="../../../assets/search/search.css?v=6325abe5dd">
-<link data-rel="stylesheet" href="../../../assets/me/me.css?v=d6ef450f05">
+<link data-rel="stylesheet" href="../../../assets/search/search.css?v=5fe1eeb596">
+<link data-rel="stylesheet" href="../../../assets/me/me.css?v=5cac046565">
+<link data-rel="stylesheet" href="../../../assets/hero/hero.css?v=c2be7ce5b5">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/en/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://gabella.site/wow/en/guides/"},{"@type":"ListItem","position":3,"name":"The Legacy System","item":"https://gabella.site/wow/en/guides/legacy/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"WoW Forever Legacy System: Points, Perks and Rewards","description":"How Legacy works in WoW Forever: where to get Legacy points, all 65 challenges, perks in three trees, the 16-point limit at launch and four rewards.","inLanguage":"en","url":"https://gabella.site/wow/en/guides/legacy/","dateModified":"2026-10-26","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/en/"},"image":"https://gabella.site/wow/assets/og/legacy-en.jpg?v=bfed728c"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"en","mainEntity":[{"@type":"Question","name":"How do I unlock Legacy in WoW Forever?","acceptedAnswer":{"@type":"Answer","text":"Earn your first point: level 25, 150 in a main profession (not gathering) or exploring the whole map. The window opens with the Y key."}},{"@type":"Question","name":"How many Legacy points can I spend?","acceptedAnswer":{"@type":"Answer","text":"Up to 16 per character at launch. The extra points pile up on the account and unlock rewards."}},{"@type":"Question","name":"Do I need to level alts for Legacy?","acceptedAnswer":{"@type":"Answer","text":"No. One character can earn up to 29 points, and you only need to spend 16."}},{"@type":"Question","name":"Are Legacy points shared across all characters?","acceptedAnswer":{"@type":"Answer","text":"Yes, across the whole Battle.net account, except Hardcore. Each character picks its own perks."}},{"@type":"Question","name":"Which Legacy perks should I take first?","acceptedAnswer":{"@type":"Answer","text":"Experience and camp perks: Well Rested, Field Guide, Permanence. Reagent Economy for classes with reagents."}}]}</script>
@@ -1629,8 +1631,9 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../../"></script>
-<script data-src="../../../assets/search/search.js?v=6325abe5dd" data-root="../../../"></script>
-<script data-src="../../../assets/me/me.js?v=d6ef450f05" data-root="../../../" data-home="../../" data-lang="en" data-ach="0" data-teaser="" data-close="Close" data-page="guides/legacy/" data-look="2"></script>
+<script data-src="../../../assets/search/search.js?v=5fe1eeb596" data-root="../../../"></script>
+<script data-src="../../../assets/me/me.js?v=5cac046565" data-root="../../../" data-home="../../" data-lang="en" data-ach="0" data-teaser="" data-close="Close" data-page="guides/legacy/" data-look="2"></script>
+<script data-src="../../../assets/hero/hero.js?v=c2be7ce5b5" data-root="../../../" data-home="../../" data-data="../../../assets/hero/en.json?v=c2be7ce5b5"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
 (function () {

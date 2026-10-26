@@ -194,7 +194,8 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .gbtns .btn { white-space: normal; text-align: center; }
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
-.srchbtn kbd, .radiobtn .rdo-eq { display: none; }   /* on the home page search.css and radio.css come after the first paint */
+.srchbtn kbd, .radiobtn .rdo-eq { display: none; }
+@media (max-width: 719px) { .topbar .themebtn { display: none; } }   /* phone: the top bar keeps My character (assets/hero/), the theme is in the sections sheet */   /* on the home page search.css and radio.css come after the first paint */
 .radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: var(--fs-16); }
 @media (max-width: 1260px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }   /* es «Iniciar sesión» ran 21 px off a 1215 px screen */
@@ -1398,8 +1399,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../../assets/radio/radio.css?v=c5eacd57e2">
-<link data-rel="stylesheet" href="../../../assets/search/search.css?v=6325abe5dd">
-<link data-rel="stylesheet" href="../../../assets/me/me.css?v=d6ef450f05">
+<link data-rel="stylesheet" href="../../../assets/search/search.css?v=5fe1eeb596">
+<link data-rel="stylesheet" href="../../../assets/me/me.css?v=5cac046565">
+<link data-rel="stylesheet" href="../../../assets/hero/hero.css?v=c2be7ce5b5">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Головна","item":"https://gabella.site/wow/uk/"},{"@type":"ListItem","position":2,"name":"Гайди","item":"https://gabella.site/wow/uk/guides/"},{"@type":"ListItem","position":3,"name":"Професії","item":"https://gabella.site/wow/uk/guides/professions/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Найкращі професії WoW Forever: пари під клас і золото","description":"Які дві професії взяти в WoW Forever: пари для прокачування й 60 рівня на 9 класів, що продавати, ящики Waylaid Crate і Merchant’s Favor.","inLanguage":"uk","url":"https://gabella.site/wow/uk/guides/professions/","dateModified":"2026-10-26","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/uk/"},"image":"https://gabella.site/wow/assets/og/professions-uk.jpg?v=ea65b84c"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"uk","mainEntity":[{"@type":"Question","name":"Які професії найкращі для золота у WoW Forever?","acceptedAnswer":{"@type":"Answer","text":"Два збирання: Травництво, Гірництво або Знімання шкур. Вкладень майже немає, матеріали потрібні всім ремісникам. З ремесел для золота радять Алхімію в парі з Травництвом."}},{"@type":"Question","name":"Яку професію взяти воїну?","acceptedAnswer":{"@type":"Answer","text":"Ковальство та Гірництво на прокачуванні: коваль сам робить собі лати й зброю. На 60 рівні Ковальство часто міняють на Інженерію."}},{"@type":"Question","name":"Чи потрібна Інженерія для PvP?","acceptedAnswer":{"@type":"Answer","text":"Так, для PvP її беруть майже всі класи: гранати, бомби та пристрої дають контроль і рухливість, яких у класу бракує."}},{"@type":"Question","name":"Хто тепер робить лікувальні зілля?","acceptedAnswer":{"@type":"Answer","text":"Перша допомога. Це допоміжна професія, її може взяти будь-який персонаж, не витрачаючи основне місце. Алхімія залишила собі еліксири, флакони й трансмутації."}},{"@type":"Question","name":"Чи можна змінити професію?","acceptedAnswer":{"@type":"Answer","text":"Так, будь-коли, але навичка й рецепти зникнуть, прокачувати доведеться з нуля. Допоміжні професії розучити не можна."}},{"@type":"Question","name":"Що таке Merchant’s Favor?","acceptedAnswer":{"@type":"Answer","text":"Валюта за здані ящики Waylaid Crate. За неї купують рецепти, речі з яких персональні. У кожного персонажа своя."}}]}</script>
@@ -1638,8 +1640,9 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../../"></script>
-<script data-src="../../../assets/search/search.js?v=6325abe5dd" data-root="../../../"></script>
-<script data-src="../../../assets/me/me.js?v=d6ef450f05" data-root="../../../" data-home="../../" data-lang="uk" data-ach="0" data-teaser="" data-close="Закрити" data-page="guides/professions/" data-look="2"></script>
+<script data-src="../../../assets/search/search.js?v=5fe1eeb596" data-root="../../../"></script>
+<script data-src="../../../assets/me/me.js?v=5cac046565" data-root="../../../" data-home="../../" data-lang="uk" data-ach="0" data-teaser="" data-close="Закрити" data-page="guides/professions/" data-look="2"></script>
+<script data-src="../../../assets/hero/hero.js?v=c2be7ce5b5" data-root="../../../" data-home="../../" data-data="../../../assets/hero/uk.json?v=c2be7ce5b5"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
 (function () {

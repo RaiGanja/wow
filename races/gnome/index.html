@@ -195,7 +195,8 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .gbtns .btn { white-space: normal; text-align: center; }
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
-.srchbtn kbd, .radiobtn .rdo-eq { display: none; }   /* on the home page search.css and radio.css come after the first paint */
+.srchbtn kbd, .radiobtn .rdo-eq { display: none; }
+@media (max-width: 719px) { .topbar .themebtn { display: none; } }   /* phone: the top bar keeps My character (assets/hero/), the theme is in the sections sheet */   /* on the home page search.css and radio.css come after the first paint */
 .radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: var(--fs-16); }
 @media (max-width: 1260px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }   /* es «Iniciar sesión» ran 21 px off a 1215 px screen */
@@ -1224,8 +1225,9 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../assets/radio/radio.css?v=c5eacd57e2">
-<link data-rel="stylesheet" href="../../assets/search/search.css?v=6325abe5dd">
-<link data-rel="stylesheet" href="../../assets/me/me.css?v=d6ef450f05">
+<link data-rel="stylesheet" href="../../assets/search/search.css?v=5fe1eeb596">
+<link data-rel="stylesheet" href="../../assets/me/me.css?v=5cac046565">
+<link data-rel="stylesheet" href="../../assets/hero/hero.css?v=c2be7ce5b5">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://gabella.site/wow/"},{"@type":"ListItem","position":2,"name":"Расы","item":"https://gabella.site/wow/races/"},{"@type":"ListItem","position":3,"name":"Гном","item":"https://gabella.site/wow/races/gnome/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Гном в WoW Forever: расовые способности и классы","description":"Гном в WoW Forever: четыре расовые способности, доступные и лучшие классы, столица Стальгорн, стартовая зона Дун Морог.","inLanguage":"ru","url":"https://gabella.site/wow/races/gnome/","dateModified":"2026-10-26","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/"},"image":"https://gabella.site/wow/assets/og/gnome.jpg?v=7f41ec05"}</script>
 </head>
@@ -1454,8 +1456,9 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../"></script>
-<script data-src="../../assets/search/search.js?v=6325abe5dd" data-root="../../"></script>
-<script data-src="../../assets/me/me.js?v=d6ef450f05" data-root="../../" data-home="../../" data-lang="ru" data-ach="0" data-teaser="" data-close="Закрыть" data-page="races/gnome/" data-look="2"></script>
+<script data-src="../../assets/search/search.js?v=5fe1eeb596" data-root="../../"></script>
+<script data-src="../../assets/me/me.js?v=5cac046565" data-root="../../" data-home="../../" data-lang="ru" data-ach="0" data-teaser="" data-close="Закрыть" data-page="races/gnome/" data-look="2"></script>
+<script data-src="../../assets/hero/hero.js?v=c2be7ce5b5" data-root="../../" data-home="../../" data-data="../../assets/hero/ru.json?v=c2be7ce5b5"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
 (function () {

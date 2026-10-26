@@ -194,7 +194,8 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .gbtns .btn { white-space: normal; text-align: center; }
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
-.srchbtn kbd, .radiobtn .rdo-eq { display: none; }   /* on the home page search.css and radio.css come after the first paint */
+.srchbtn kbd, .radiobtn .rdo-eq { display: none; }
+@media (max-width: 719px) { .topbar .themebtn { display: none; } }   /* phone: the top bar keeps My character (assets/hero/), the theme is in the sections sheet */   /* on the home page search.css and radio.css come after the first paint */
 .radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: var(--fs-16); }
 @media (max-width: 1260px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }   /* es «Iniciar sesión» ran 21 px off a 1215 px screen */
@@ -1398,8 +1399,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../../assets/radio/radio.css?v=c5eacd57e2">
-<link data-rel="stylesheet" href="../../../assets/search/search.css?v=6325abe5dd">
-<link data-rel="stylesheet" href="../../../assets/me/me.css?v=d6ef450f05">
+<link data-rel="stylesheet" href="../../../assets/search/search.css?v=5fe1eeb596">
+<link data-rel="stylesheet" href="../../../assets/me/me.css?v=5cac046565">
+<link data-rel="stylesheet" href="../../../assets/hero/hero.css?v=c2be7ce5b5">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://gabella.site/wow/de/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://gabella.site/wow/de/guides/"},{"@type":"ListItem","position":3,"name":"Das Legacy-System","item":"https://gabella.site/wow/de/guides/legacy/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Legacy-System in WoW Forever: Punkte, Vorteile, Belohnungen","description":"So funktioniert Legacy in WoW Forever: Punkte, alle 65 Herausforderungen, Vorteile in drei Bäumen, Limit von 16 Punkten zum Start und vier Belohnungen.","inLanguage":"de","url":"https://gabella.site/wow/de/guides/legacy/","dateModified":"2026-10-26","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/de/"},"image":"https://gabella.site/wow/assets/og/legacy-de.jpg?v=81f75db1"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"de","mainEntity":[{"@type":"Question","name":"Wie schalte ich Legacy in WoW Forever frei?","acceptedAnswer":{"@type":"Answer","text":"Hol dir den ersten Punkt: Stufe 25, 150 in einem Hauptberuf (kein Sammelberuf) oder die ganze Karte erkunden. Das Fenster öffnest du mit der Taste Y."}},{"@type":"Question","name":"Wie viele Legacy-Punkte kann ich ausgeben?","acceptedAnswer":{"@type":"Answer","text":"Zum Start bis zu 16 pro Charakter. Überzählige Punkte sammeln sich auf dem Account und schalten Belohnungen frei."}},{"@type":"Question","name":"Muss ich für Legacy Zweitcharaktere leveln?","acceptedAnswer":{"@type":"Answer","text":"Nein. Ein Charakter kann bis zu 29 Punkte erreichen, ausgeben musst du nur 16."}},{"@type":"Question","name":"Gelten die Legacy-Punkte für alle Charaktere?","acceptedAnswer":{"@type":"Answer","text":"Ja, für den ganzen Battle.net-Account, außer Hardcore. Die Vorteile wählt jeder Charakter selbst."}},{"@type":"Question","name":"Welche Legacy-Vorteile soll ich zuerst nehmen?","acceptedAnswer":{"@type":"Answer","text":"Die für Erfahrung und Lager: Well Rested, Field Guide, Permanence. Für Klassen mit Reagenzien Reagent Economy."}}]}</script>
@@ -1629,8 +1631,9 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../../"></script>
-<script data-src="../../../assets/search/search.js?v=6325abe5dd" data-root="../../../"></script>
-<script data-src="../../../assets/me/me.js?v=d6ef450f05" data-root="../../../" data-home="../../" data-lang="de" data-ach="0" data-teaser="" data-close="Schließen" data-page="guides/legacy/" data-look="2"></script>
+<script data-src="../../../assets/search/search.js?v=5fe1eeb596" data-root="../../../"></script>
+<script data-src="../../../assets/me/me.js?v=5cac046565" data-root="../../../" data-home="../../" data-lang="de" data-ach="0" data-teaser="" data-close="Schließen" data-page="guides/legacy/" data-look="2"></script>
+<script data-src="../../../assets/hero/hero.js?v=c2be7ce5b5" data-root="../../../" data-home="../../" data-data="../../../assets/hero/de.json?v=c2be7ce5b5"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
 (function () {

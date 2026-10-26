@@ -194,7 +194,8 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .gbtns .btn { white-space: normal; text-align: center; }
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
-.srchbtn kbd, .radiobtn .rdo-eq { display: none; }   /* on the home page search.css and radio.css come after the first paint */
+.srchbtn kbd, .radiobtn .rdo-eq { display: none; }
+@media (max-width: 719px) { .topbar .themebtn { display: none; } }   /* phone: the top bar keeps My character (assets/hero/), the theme is in the sections sheet */   /* on the home page search.css and radio.css come after the first paint */
 .radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: var(--fs-16); }
 @media (max-width: 1260px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }   /* es «Iniciar sesión» ran 21 px off a 1215 px screen */
@@ -1398,8 +1399,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../../assets/radio/radio.css?v=c5eacd57e2">
-<link data-rel="stylesheet" href="../../../assets/search/search.css?v=6325abe5dd">
-<link data-rel="stylesheet" href="../../../assets/me/me.css?v=d6ef450f05">
+<link data-rel="stylesheet" href="../../../assets/search/search.css?v=5fe1eeb596">
+<link data-rel="stylesheet" href="../../../assets/me/me.css?v=5cac046565">
+<link data-rel="stylesheet" href="../../../assets/hero/hero.css?v=c2be7ce5b5">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Início","item":"https://gabella.site/wow/pt/"},{"@type":"ListItem","position":2,"name":"Guias","item":"https://gabella.site/wow/pt/guides/"},{"@type":"ListItem","position":3,"name":"Evoluir um Paladino de 1 a 60","item":"https://gabella.site/wow/pt/guides/leveling-paladin/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Guia de nível do Paladino 1–60 em WoW Forever: Retribuição","description":"Como evoluir um Paladino em WoW Forever: Retribuição, talentos por nível 10–60, selos, diferenças do Classic. Dados da beta.","inLanguage":"pt-BR","url":"https://gabella.site/wow/pt/guides/leveling-paladin/","dateModified":"2026-10-26","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/pt/"},"image":"https://gabella.site/wow/assets/og/leveling-paladin-pt.jpg?v=9e132f63"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"pt-BR","mainEntity":[{"@type":"Question","name":"Qual especialização do Paladino usar em WoW Forever?","acceptedAnswer":{"@type":"Answer","text":"Retribuição: Warcraft Tavern, Mobalytics e Icy Veins a recomendam. Proteção é boa se você bate em vários inimigos de uma vez com Consagração."}},{"@type":"Question","name":"Qual selo manter?","acceptedAnswer":{"@type":"Answer","text":"Selo de Comando com uma arma lenta de duas mãos, Selo da Retidão até o nível 20 ou com uma arma de uma mão. Golpe Sagrado e Selo de Comando crescem com o dano da arma, então entre duas armas parecidas pegue a mais lenta."}},{"@type":"Question","name":"Dá para subir de nível com Sagrado?","acceptedAnswer":{"@type":"Answer","text":"Dá: a Warcraft Tavern chama esse Sagrado de surpreendentemente forte com equipamento de poder mágico, mas ele só se abre depois do talento Choque Sagrado. Para jogar solo, Mobalytics e Icy Veins recomendam Retribuição."}},{"@type":"Question","name":"Retribuição foi enfraquecida?","acceptedAnswer":{"@type":"Answer","text":"Sim, em 15 de outubro: Campeão da Luz e Consagração ficaram mais fracos. Na lista de tiers de evolução o Paladino continua sendo classe A."}},{"@type":"Question","name":"Onde conseguir a montaria?","acceptedAnswer":{"@type":"Answer","text":"No nível 40, com uma missão de classe; não precisa comprar."}}]}</script>
@@ -1631,8 +1633,9 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../../"></script>
-<script data-src="../../../assets/search/search.js?v=6325abe5dd" data-root="../../../"></script>
-<script data-src="../../../assets/me/me.js?v=d6ef450f05" data-root="../../../" data-home="../../" data-lang="pt" data-ach="0" data-teaser="" data-close="Fechar" data-page="guides/leveling-paladin/" data-look="2"></script>
+<script data-src="../../../assets/search/search.js?v=5fe1eeb596" data-root="../../../"></script>
+<script data-src="../../../assets/me/me.js?v=5cac046565" data-root="../../../" data-home="../../" data-lang="pt" data-ach="0" data-teaser="" data-close="Fechar" data-page="guides/leveling-paladin/" data-look="2"></script>
+<script data-src="../../../assets/hero/hero.js?v=c2be7ce5b5" data-root="../../../" data-home="../../" data-data="../../../assets/hero/pt.json?v=c2be7ce5b5"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
 (function () {

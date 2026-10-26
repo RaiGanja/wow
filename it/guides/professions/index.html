@@ -194,7 +194,8 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .gbtns .btn { white-space: normal; text-align: center; }
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
-.srchbtn kbd, .radiobtn .rdo-eq { display: none; }   /* on the home page search.css and radio.css come after the first paint */
+.srchbtn kbd, .radiobtn .rdo-eq { display: none; }
+@media (max-width: 719px) { .topbar .themebtn { display: none; } }   /* phone: the top bar keeps My character (assets/hero/), the theme is in the sections sheet */   /* on the home page search.css and radio.css come after the first paint */
 .radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: var(--fs-16); }
 @media (max-width: 1260px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }   /* es «Iniciar sesión» ran 21 px off a 1215 px screen */
@@ -1398,8 +1399,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../../assets/radio/radio.css?v=c5eacd57e2">
-<link data-rel="stylesheet" href="../../../assets/search/search.css?v=6325abe5dd">
-<link data-rel="stylesheet" href="../../../assets/me/me.css?v=d6ef450f05">
+<link data-rel="stylesheet" href="../../../assets/search/search.css?v=5fe1eeb596">
+<link data-rel="stylesheet" href="../../../assets/me/me.css?v=5cac046565">
+<link data-rel="stylesheet" href="../../../assets/hero/hero.css?v=c2be7ce5b5">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/it/"},{"@type":"ListItem","position":2,"name":"Guide","item":"https://gabella.site/wow/it/guides/"},{"@type":"ListItem","position":3,"name":"Professioni","item":"https://gabella.site/wow/it/guides/professions/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Migliori professioni WoW Forever: coppie per classe e oro","description":"Quali due professioni scegliere in WoW Forever: coppie per salire di livello e per il 60 su 9 classi, cosa vendere, Waylaid Crates e Merchant’s Favor.","inLanguage":"it","url":"https://gabella.site/wow/it/guides/professions/","dateModified":"2026-10-26","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/it/"},"image":"https://gabella.site/wow/assets/og/professions-it.jpg?v=2c965d97"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"it","mainEntity":[{"@type":"Question","name":"Quali professioni sono le migliori per l’oro in WoW Forever?","acceptedAnswer":{"@type":"Answer","text":"Due raccolte: Erbalismo, Estrazione o Scuoiatura. Quasi non c’è investimento, e i materiali servono a ogni artigiano. Tra le produzioni, per l’oro si consiglia l’Alchimia insieme all’Erbalismo."}},{"@type":"Question","name":"Quale professione deve prendere un guerriero?","acceptedAnswer":{"@type":"Answer","text":"Forgiatura ed Estrazione mentre sale di livello: il fabbro si fa da solo piastre e armi. Al livello 60 la Forgiatura si cambia spesso con l’Ingegneria."}},{"@type":"Question","name":"Serve l’Ingegneria per il PvP?","acceptedAnswer":{"@type":"Answer","text":"Sì, per il PvP la prendono quasi tutte le classi: granate, bombe e congegni danno controllo e mobilità che alla classe mancano."}},{"@type":"Question","name":"Chi prepara ora le pozioni curative?","acceptedAnswer":{"@type":"Answer","text":"Il Primo Soccorso. È una professione secondaria, che qualsiasi personaggio può prendere senza usare uno slot di professione primaria. L’Alchimia ha tenuto elisir, fiale e trasmutazioni."}},{"@type":"Question","name":"Si può cambiare professione?","acceptedAnswer":{"@type":"Answer","text":"Sì, in qualsiasi momento, ma competenza e ricette si perdono e si riparte da zero. Le professioni secondarie non si possono disimparare."}},{"@type":"Question","name":"Cos’è il Merchant’s Favor?","acceptedAnswer":{"@type":"Answer","text":"Una valuta per le Waylaid Crate consegnate. Ci si comprano ricette i cui oggetti sono personali. Ogni personaggio ha la sua."}}]}</script>
@@ -1638,8 +1640,9 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../../"></script>
-<script data-src="../../../assets/search/search.js?v=6325abe5dd" data-root="../../../"></script>
-<script data-src="../../../assets/me/me.js?v=d6ef450f05" data-root="../../../" data-home="../../" data-lang="it" data-ach="0" data-teaser="" data-close="Chiudi" data-page="guides/professions/" data-look="2"></script>
+<script data-src="../../../assets/search/search.js?v=5fe1eeb596" data-root="../../../"></script>
+<script data-src="../../../assets/me/me.js?v=5cac046565" data-root="../../../" data-home="../../" data-lang="it" data-ach="0" data-teaser="" data-close="Chiudi" data-page="guides/professions/" data-look="2"></script>
+<script data-src="../../../assets/hero/hero.js?v=c2be7ce5b5" data-root="../../../" data-home="../../" data-data="../../../assets/hero/it.json?v=c2be7ce5b5"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
 (function () {

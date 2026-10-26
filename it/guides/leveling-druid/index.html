@@ -194,7 +194,8 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .gbtns .btn { white-space: normal; text-align: center; }
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
-.srchbtn kbd, .radiobtn .rdo-eq { display: none; }   /* on the home page search.css and radio.css come after the first paint */
+.srchbtn kbd, .radiobtn .rdo-eq { display: none; }
+@media (max-width: 719px) { .topbar .themebtn { display: none; } }   /* phone: the top bar keeps My character (assets/hero/), the theme is in the sections sheet */   /* on the home page search.css and radio.css come after the first paint */
 .radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: var(--fs-16); }
 @media (max-width: 1260px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }   /* es «Iniciar sesión» ran 21 px off a 1215 px screen */
@@ -1398,8 +1399,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../../assets/radio/radio.css?v=c5eacd57e2">
-<link data-rel="stylesheet" href="../../../assets/search/search.css?v=6325abe5dd">
-<link data-rel="stylesheet" href="../../../assets/me/me.css?v=d6ef450f05">
+<link data-rel="stylesheet" href="../../../assets/search/search.css?v=5fe1eeb596">
+<link data-rel="stylesheet" href="../../../assets/me/me.css?v=5cac046565">
+<link data-rel="stylesheet" href="../../../assets/hero/hero.css?v=c2be7ce5b5">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/it/"},{"@type":"ListItem","position":2,"name":"Guide","item":"https://gabella.site/wow/it/guides/"},{"@type":"ListItem","position":3,"name":"Livellare un Druido 1–60","item":"https://gabella.site/wow/it/guides/leveling-druid/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Guida al livellamento del Druido 1–60 in WoW Forever","description":"Come livellare un Druido in WoW Forever: Aggressore Ferino, talenti per livello 10–60, forme, differenze da Classic. Dati della beta.","inLanguage":"it","url":"https://gabella.site/wow/it/guides/leveling-druid/","dateModified":"2026-10-26","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/it/"},"image":"https://gabella.site/wow/assets/og/leveling-druid-it.jpg?v=5f1f13e5"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"it","mainEntity":[{"@type":"Question","name":"Quale specializzazione del Druido livellare in WoW Forever?","acceptedAnswer":{"@type":"Answer","text":"Aggressore Ferino come gatto: lo consigliano Warcraft Tavern, Mobalytics e Icy Veins."}},{"@type":"Question","name":"Quando compaiono le forme?","acceptedAnswer":{"@type":"Answer","text":"L’orso al livello 10 (missione), la forma acquatica al 16 (missione), il gatto al 20 (missione), Forma Celere al 30 (secondo i dati della beta)."}},{"@type":"Question","name":"Gatto o orso?","acceptedAnswer":{"@type":"Answer","text":"Il gatto contro un nemico, l’orso contro più nemici (Icy Veins)."}},{"@type":"Question","name":"Perché il Druido è lento all’inizio?","acceptedAnswer":{"@type":"Answer","text":"Fino ai livelli 10 e 20 non ci sono forme, bisogna colpire con gli incantesimi e spendere mana. Dopo il 20 il ritmo cresce nettamente."}},{"@type":"Question","name":"Un Druido può fare il difensore, il guaritore e il danno?","acceptedAnswer":{"@type":"Answer","text":"Sì. Dal livello 40 la seconda specializzazione permette di tenere, ad esempio, Aggressore Ferino e Rigenerazione."}}]}</script>
@@ -1631,8 +1633,9 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../../"></script>
-<script data-src="../../../assets/search/search.js?v=6325abe5dd" data-root="../../../"></script>
-<script data-src="../../../assets/me/me.js?v=d6ef450f05" data-root="../../../" data-home="../../" data-lang="it" data-ach="0" data-teaser="" data-close="Chiudi" data-page="guides/leveling-druid/" data-look="2"></script>
+<script data-src="../../../assets/search/search.js?v=5fe1eeb596" data-root="../../../"></script>
+<script data-src="../../../assets/me/me.js?v=5cac046565" data-root="../../../" data-home="../../" data-lang="it" data-ach="0" data-teaser="" data-close="Chiudi" data-page="guides/leveling-druid/" data-look="2"></script>
+<script data-src="../../../assets/hero/hero.js?v=c2be7ce5b5" data-root="../../../" data-home="../../" data-data="../../../assets/hero/it.json?v=c2be7ce5b5"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
 (function () {

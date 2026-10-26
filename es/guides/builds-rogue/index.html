@@ -194,7 +194,8 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .gbtns .btn { white-space: normal; text-align: center; }
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
-.srchbtn kbd, .radiobtn .rdo-eq { display: none; }   /* on the home page search.css and radio.css come after the first paint */
+.srchbtn kbd, .radiobtn .rdo-eq { display: none; }
+@media (max-width: 719px) { .topbar .themebtn { display: none; } }   /* phone: the top bar keeps My character (assets/hero/), the theme is in the sections sheet */   /* on the home page search.css and radio.css come after the first paint */
 .radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: var(--fs-16); }
 @media (max-width: 1260px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }   /* es «Iniciar sesión» ran 21 px off a 1215 px screen */
@@ -1398,8 +1399,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../../assets/radio/radio.css?v=c5eacd57e2">
-<link data-rel="stylesheet" href="../../../assets/search/search.css?v=6325abe5dd">
-<link data-rel="stylesheet" href="../../../assets/me/me.css?v=d6ef450f05">
+<link data-rel="stylesheet" href="../../../assets/search/search.css?v=5fe1eeb596">
+<link data-rel="stylesheet" href="../../../assets/me/me.css?v=5cac046565">
+<link data-rel="stylesheet" href="../../../assets/hero/hero.css?v=c2be7ce5b5">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://gabella.site/wow/es/"},{"@type":"ListItem","position":2,"name":"Guías","item":"https://gabella.site/wow/es/guides/"},{"@type":"ListItem","position":3,"name":"Builds de Pícaro","item":"https://gabella.site/wow/es/guides/builds-rogue/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Builds de Pícaro WoW Forever: Asesinato, Combate, Sutileza","description":"Builds de Pícaro en WoW Forever: Asesinato, Combate, Sutileza — talentos clave, prioridades en grupo y atributos. Según la beta, se actualizarán.","inLanguage":"es","url":"https://gabella.site/wow/es/guides/builds-rogue/","dateModified":"2026-10-26","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/es/"},"image":"https://gabella.site/wow/assets/og/builds-rogue-es.jpg?v=88a187e2"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"es","mainEntity":[{"@type":"Question","name":"¿Qué especialización de pícaro es la mejor para mazmorras?","acceptedAnswer":{"@type":"Answer","text":"En la tier list de la beta, Asesinato es A, Combate A* (B en RankedBoost) y Sutileza C."}},{"@type":"Question","name":"¿Asesinato necesita dagas?","acceptedAnswer":{"@type":"Answer","text":"Sí: Mutilar requiere dos dagas (Icy Veins). Combate funciona también con espadas y hachas; con daga usa Puñalada."}},{"@type":"Question","name":"¿Qué venenos usar?","acceptedAnswer":{"@type":"Answer","text":"Icy Veins pone Veneno instantáneo en ambas armas antes del combate. Asesinato obtiene Veneno mortal en el nivel 30 (Wowhead)."}},{"@type":"Question","name":"¿Cuándo saldrá el build completo de nivel 60?","acceptedAnswer":{"@type":"Answer","text":"Tras el lanzamiento del 5 de noviembre: la beta solo llegaba al nivel 30 y las bandas abren el 09.12. Entonces añadiremos el reparto de los 51 puntos."}}]}</script>
@@ -1629,8 +1631,9 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../../"></script>
-<script data-src="../../../assets/search/search.js?v=6325abe5dd" data-root="../../../"></script>
-<script data-src="../../../assets/me/me.js?v=d6ef450f05" data-root="../../../" data-home="../../" data-lang="es" data-ach="0" data-teaser="" data-close="Cerrar" data-page="guides/builds-rogue/" data-look="2"></script>
+<script data-src="../../../assets/search/search.js?v=5fe1eeb596" data-root="../../../"></script>
+<script data-src="../../../assets/me/me.js?v=5cac046565" data-root="../../../" data-home="../../" data-lang="es" data-ach="0" data-teaser="" data-close="Cerrar" data-page="guides/builds-rogue/" data-look="2"></script>
+<script data-src="../../../assets/hero/hero.js?v=c2be7ce5b5" data-root="../../../" data-home="../../" data-data="../../../assets/hero/es.json?v=c2be7ce5b5"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
 (function () {

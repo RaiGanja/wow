@@ -194,7 +194,8 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .gbtns .btn { white-space: normal; text-align: center; }
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
-.srchbtn kbd, .radiobtn .rdo-eq { display: none; }   /* on the home page search.css and radio.css come after the first paint */
+.srchbtn kbd, .radiobtn .rdo-eq { display: none; }
+@media (max-width: 719px) { .topbar .themebtn { display: none; } }   /* phone: the top bar keeps My character (assets/hero/), the theme is in the sections sheet */   /* on the home page search.css and radio.css come after the first paint */
 .radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: var(--fs-16); }
 @media (max-width: 1260px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }   /* es «Iniciar sesión» ran 21 px off a 1215 px screen */
@@ -1398,8 +1399,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../../assets/radio/radio.css?v=c5eacd57e2">
-<link data-rel="stylesheet" href="../../../assets/search/search.css?v=6325abe5dd">
-<link data-rel="stylesheet" href="../../../assets/me/me.css?v=d6ef450f05">
+<link data-rel="stylesheet" href="../../../assets/search/search.css?v=5fe1eeb596">
+<link data-rel="stylesheet" href="../../../assets/me/me.css?v=5cac046565">
+<link data-rel="stylesheet" href="../../../assets/hero/hero.css?v=c2be7ce5b5">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Início","item":"https://gabella.site/wow/pt/"},{"@type":"ListItem","position":2,"name":"Guias","item":"https://gabella.site/wow/pt/guides/"},{"@type":"ListItem","position":3,"name":"Evoluir um Ladino de 1 a 60","item":"https://gabella.site/wow/pt/guides/leveling-rogue/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Guia de nível do Ladino 1–60 em WoW Forever: Combate","description":"Como evoluir um Ladino em WoW Forever: Combate, talentos por nível 10–60, venenos, diferenças do Classic. Dados da beta.","inLanguage":"pt-BR","url":"https://gabella.site/wow/pt/guides/leveling-rogue/","dateModified":"2026-10-26","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/pt/"},"image":"https://gabella.site/wow/assets/og/leveling-rogue-pt.jpg?v=4adc2205"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"pt-BR","mainEntity":[{"@type":"Question","name":"Qual especialização do Ladino usar em WoW Forever?","acceptedAnswer":{"@type":"Answer","text":"Combate: Mobalytics e Icy Veins a recomendam. A Warcraft Tavern não destaca uma árvore, mas desaconselha Assassinato como início."}},{"@type":"Question","name":"Quando aparecem os venenos?","acceptedAnswer":{"@type":"Answer","text":"No nível 20, depois da missão de classe."}},{"@type":"Question","name":"Por que o Ladino evolui mais devagar que o Caçador e o Mago?","acceptedAnswer":{"@type":"Answer","text":"Ele quase não tem dano em área nem autocura. Ajudam Primeiros Socorros e, a partir do nível 30, Rajada de Lâminas."}},{"@type":"Question","name":"Qual arma pegar para Combate?","acceptedAnswer":{"@type":"Answer","text":"Qualquer uma: Carnificina funciona com todos os tipos. A arma rápida vai na mão secundária (Mobalytics)."}},{"@type":"Question","name":"Os pontos de combo somem ao trocar de alvo?","acceptedAnswer":{"@type":"Answer","text":"Não, ficam no alvo anterior. A passagem para um novo alvo as fontes descrevem de formas diferentes: vamos conferir depois de 5 de novembro."}}]}</script>
@@ -1631,8 +1633,9 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../../"></script>
-<script data-src="../../../assets/search/search.js?v=6325abe5dd" data-root="../../../"></script>
-<script data-src="../../../assets/me/me.js?v=d6ef450f05" data-root="../../../" data-home="../../" data-lang="pt" data-ach="0" data-teaser="" data-close="Fechar" data-page="guides/leveling-rogue/" data-look="2"></script>
+<script data-src="../../../assets/search/search.js?v=5fe1eeb596" data-root="../../../"></script>
+<script data-src="../../../assets/me/me.js?v=5cac046565" data-root="../../../" data-home="../../" data-lang="pt" data-ach="0" data-teaser="" data-close="Fechar" data-page="guides/leveling-rogue/" data-look="2"></script>
+<script data-src="../../../assets/hero/hero.js?v=c2be7ce5b5" data-root="../../../" data-home="../../" data-data="../../../assets/hero/pt.json?v=c2be7ce5b5"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
 (function () {

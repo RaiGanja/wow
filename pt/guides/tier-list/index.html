@@ -194,7 +194,8 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .gbtns .btn { white-space: normal; text-align: center; }
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
-.srchbtn kbd, .radiobtn .rdo-eq { display: none; }   /* on the home page search.css and radio.css come after the first paint */
+.srchbtn kbd, .radiobtn .rdo-eq { display: none; }
+@media (max-width: 719px) { .topbar .themebtn { display: none; } }   /* phone: the top bar keeps My character (assets/hero/), the theme is in the sections sheet */   /* on the home page search.css and radio.css come after the first paint */
 .radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: var(--fs-16); }
 @media (max-width: 1260px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }   /* es «Iniciar sesión» ran 21 px off a 1215 px screen */
@@ -1398,8 +1399,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../../assets/radio/radio.css?v=c5eacd57e2">
-<link data-rel="stylesheet" href="../../../assets/search/search.css?v=6325abe5dd">
-<link data-rel="stylesheet" href="../../../assets/me/me.css?v=d6ef450f05">
+<link data-rel="stylesheet" href="../../../assets/search/search.css?v=5fe1eeb596">
+<link data-rel="stylesheet" href="../../../assets/me/me.css?v=5cac046565">
+<link data-rel="stylesheet" href="../../../assets/hero/hero.css?v=c2be7ce5b5">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Início","item":"https://gabella.site/wow/pt/"},{"@type":"ListItem","position":2,"name":"Guias","item":"https://gabella.site/wow/pt/guides/"},{"@type":"ListItem","position":3,"name":"Tier list de classes do WoW Forever","item":"https://gabella.site/wow/pt/guides/tier-list/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Tier list de classes do WoW Forever: PvE, PvP e evolução","description":"Qual classe escolher em WoW Forever: tier list de classes e especializações para evolução, masmorras e PvP segundo o beta. Atualiza após 5 de novembro.","inLanguage":"pt-BR","url":"https://gabella.site/wow/pt/guides/tier-list/","dateModified":"2026-10-26","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/pt/"},"image":"https://gabella.site/wow/assets/og/tier-list-pt.jpg?v=e82c99d5"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"pt-BR","mainEntity":[{"@type":"Question","name":"Qual é a classe mais forte no WoW Forever?","acceptedAnswer":{"@type":"Answer","text":"Segundo o beta: Paladino no PvE, Bruxo e Ladino no PvP. São dados do nível 30; vamos atualizá-los depois do lançamento de 5 de novembro."}},{"@type":"Question","name":"Qual classe evolui mais rápido?","acceptedAnswer":{"@type":"Answer","text":"O Caçador e o Mago, cerca de 8% mais rápido que a média. O mais lento é o Guerreiro."}},{"@type":"Question","name":"Qual é o melhor curador?","acceptedAnswer":{"@type":"Answer","text":"O sacerdote de Disciplina e o xamã de Restauração."}},{"@type":"Question","name":"Qual é o melhor tanque?","acceptedAnswer":{"@type":"Answer","text":"O paladino de Proteção, seguido do guerreiro de Proteção."}},{"@type":"Question","name":"Dá para confiar na tier list antes do lançamento?","acceptedAnswer":{"@type":"Answer","text":"Como referência: o beta não tinha níveis 31–60, raides nem campos de batalha, então o cenário pode mudar até o nível 60."}}]}</script>
@@ -1634,8 +1636,9 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../../"></script>
-<script data-src="../../../assets/search/search.js?v=6325abe5dd" data-root="../../../"></script>
-<script data-src="../../../assets/me/me.js?v=d6ef450f05" data-root="../../../" data-home="../../" data-lang="pt" data-ach="0" data-teaser="" data-close="Fechar" data-page="guides/tier-list/" data-look="2"></script>
+<script data-src="../../../assets/search/search.js?v=5fe1eeb596" data-root="../../../"></script>
+<script data-src="../../../assets/me/me.js?v=5cac046565" data-root="../../../" data-home="../../" data-lang="pt" data-ach="0" data-teaser="" data-close="Fechar" data-page="guides/tier-list/" data-look="2"></script>
+<script data-src="../../../assets/hero/hero.js?v=c2be7ce5b5" data-root="../../../" data-home="../../" data-data="../../../assets/hero/pt.json?v=c2be7ce5b5"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
 (function () {

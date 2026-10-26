@@ -218,7 +218,8 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .gbtns .btn { white-space: normal; text-align: center; }
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
-.srchbtn kbd, .radiobtn .rdo-eq { display: none; }   /* on the home page search.css and radio.css come after the first paint */
+.srchbtn kbd, .radiobtn .rdo-eq { display: none; }
+@media (max-width: 719px) { .topbar .themebtn { display: none; } }   /* phone: the top bar keeps My character (assets/hero/), the theme is in the sections sheet */   /* on the home page search.css and radio.css come after the first paint */
 .radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: var(--fs-16); }
 @media (max-width: 1260px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }   /* es «Iniciar sesión» ran 21 px off a 1215 px screen */
@@ -1071,8 +1072,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../assets/radio/radio.css?v=c5eacd57e2">
-<link data-rel="stylesheet" href="../assets/search/search.css?v=6325abe5dd">
-<link data-rel="stylesheet" href="../assets/me/me.css?v=d6ef450f05">
+<link data-rel="stylesheet" href="../assets/search/search.css?v=5fe1eeb596">
+<link data-rel="stylesheet" href="../assets/me/me.css?v=5cac046565">
+<link data-rel="stylesheet" href="../assets/hero/hero.css?v=c2be7ce5b5">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Guía de WoW Forever","alternateName":"Gabella","url":"https://gabella.site/wow/es/","inLanguage":"es","description":"Guía de WoW Forever: a quién jugar, selector de raza y clase, creador de grupos y guías de subida de nivel, mazmorras y profesiones.","publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]}</script>
 </head>
@@ -1139,6 +1141,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <div class="todsw" data-tod-sw></div>
   <div class="hnews wrap"><div class="hh"><h2>Novedades</h2><a href="guides/news/">Todas las noticias<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div><div class="row3" data-feed="../assets/news.json"><a class="nc" href="guides/news/#ours"><time datetime="2026-10-23">23.10</time><b>Cerró la beta, lo siguiente: nombres desde el 27.10</b><span>teamoverpowered.com</span></a><a class="nc" href="guides/news/#ours"><time datetime="2026-10-15">15.10</time><b>Gran parche de la beta: razas y clases</b><span>warcrafttavern.com</span></a><a class="nc" href="guides/news/#ours"><time datetime="2026-10-08">08.10</time><b>Dalaran y más experiencia en mazmorras en la beta</b><span>classicwow.gg</span></a></div></div>
 </section>
+<section class="wrap" id="myHome" aria-live="polite" hidden></section>
 
 <section class="block wrap" id="classes">
   <div class="sec-head"><div class="row"><h2>A quién jugar</h2><div class="tabs2" role="tablist" aria-label="A quién jugar"><button type="button" role="tab" id="tabC" aria-controls="pCls" aria-selected="true">Clases</button><button type="button" role="tab" id="tabR" aria-controls="peoples" aria-selected="false" tabindex="-1">Razas</button></div></div></div>
@@ -1163,7 +1166,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <div class="frame pickban">
     <span class="pb-art" aria-hidden="true"><picture><source type="image/avif" data-lsrcset="../assets/art/dwarf-360.avif?v=26087647 360w, ../assets/art/dwarf-600.avif?v=a4adc65b 600w" sizes="(max-width: 719px) 100vw, 320px"><source type="image/webp" data-lsrcset="../assets/art/dwarf-360.webp?v=3f9e1aa4 360w, ../assets/art/dwarf-600.webp?v=0fd338bf 600w" sizes="(max-width: 719px) 100vw, 320px"><img data-lsrc="../assets/art/dwarf-600.webp?v=0fd338bf" width="600" height="804" alt="" loading="lazy" fetchpriority="low" decoding="async"></picture></span>
     <span class="pb-t"><h2 id="mePlH">Mi personaje</h2><span id="mePlD">Clase, especialización y raza en un minuto: la guía te muestra tu build, profesiones y mazmorras.</span></span>
-    <span class="pb-a"><a class="btn" id="mePlGo" href="character/">Crear personaje<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a><a class="more-l" id="mePlAlt" href="tools/#picker">Selector: raza y clase</a></span>
+    <span class="pb-a"><a class="btn" id="mePlGo" href="character/" data-hero-open>Arma tu personaje<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a><a class="more-l" id="mePlAlt" href="tools/#picker">Selector: raza y clase</a></span>
   </div>
 </section>
 <section class="stband" id="guides">
@@ -1274,7 +1277,7 @@ $('#moreClose').onclick = () => dlg.close();
 dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.toc a')) dlg.close(); });
 })();
 </script>
-<script data-src="../assets/home/es.js?v=4ba2a238bd"></script>
+<script data-src="../assets/home/es.js?v=70f0eff6b6"></script>
 <script data-src="../assets/living/living.js?v=99328f012a"></script>
 <link data-rel="stylesheet" href="../assets/tod/tod.css?v=4ca4fca9aa">
 <script data-src="../assets/tod/tod.js?v=4ca4fca9aa"></script>
@@ -1346,8 +1349,9 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../assets/radio/radio.js?v=c5eacd57e2" data-root="../"></script>
-<script data-src="../assets/search/search.js?v=6325abe5dd" data-root="../"></script>
-<script data-src="../assets/me/me.js?v=d6ef450f05" data-root="../" data-home="./" data-lang="es" data-ach="0" data-teaser="" data-close="Cerrar" data-page="" data-look="2"></script>
+<script data-src="../assets/search/search.js?v=5fe1eeb596" data-root="../"></script>
+<script data-src="../assets/me/me.js?v=5cac046565" data-root="../" data-home="./" data-lang="es" data-ach="0" data-teaser="" data-close="Cerrar" data-page="" data-look="2"></script>
+<script data-src="../assets/hero/hero.js?v=c2be7ce5b5" data-root="../" data-home="./" data-data="../assets/hero/es.json?v=c2be7ce5b5"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
 (function () {

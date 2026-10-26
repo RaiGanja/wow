@@ -194,7 +194,8 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .gbtns .btn { white-space: normal; text-align: center; }
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
-.srchbtn kbd, .radiobtn .rdo-eq { display: none; }   /* on the home page search.css and radio.css come after the first paint */
+.srchbtn kbd, .radiobtn .rdo-eq { display: none; }
+@media (max-width: 719px) { .topbar .themebtn { display: none; } }   /* phone: the top bar keeps My character (assets/hero/), the theme is in the sections sheet */   /* on the home page search.css and radio.css come after the first paint */
 .radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: var(--fs-16); }
 @media (max-width: 1260px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }   /* es «Iniciar sesión» ran 21 px off a 1215 px screen */
@@ -1398,8 +1399,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../../assets/radio/radio.css?v=c5eacd57e2">
-<link data-rel="stylesheet" href="../../../assets/search/search.css?v=6325abe5dd">
-<link data-rel="stylesheet" href="../../../assets/me/me.css?v=d6ef450f05">
+<link data-rel="stylesheet" href="../../../assets/search/search.css?v=5fe1eeb596">
+<link data-rel="stylesheet" href="../../../assets/me/me.css?v=5cac046565">
+<link data-rel="stylesheet" href="../../../assets/hero/hero.css?v=c2be7ce5b5">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://gabella.site/wow/es/"},{"@type":"ListItem","position":2,"name":"Guías","item":"https://gabella.site/wow/es/guides/"},{"@type":"ListItem","position":3,"name":"Profesiones","item":"https://gabella.site/wow/es/guides/professions/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Mejores profesiones de WoW Forever: parejas y oro","description":"Qué dos profesiones elegir en WoW Forever: parejas para subir y para el nivel 60 en 9 clases, qué vender, Waylaid Crates y Merchant’s Favor.","inLanguage":"es","url":"https://gabella.site/wow/es/guides/professions/","dateModified":"2026-10-26","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/es/"},"image":"https://gabella.site/wow/assets/og/professions-es.jpg?v=5361372a"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"es","mainEntity":[{"@type":"Question","name":"¿Qué profesiones son mejores para el oro en WoW Forever?","acceptedAnswer":{"@type":"Answer","text":"Dos de recolección: Herboristería, Minería o Desollando. Casi no hay inversión, y los materiales los necesita todo artesano. De las de fabricación, para el oro se aconseja Alquimia junto con Herboristería."}},{"@type":"Question","name":"¿Qué profesión debe tomar un guerrero?","acceptedAnswer":{"@type":"Answer","text":"Herrería y Minería al subir de nivel: el herrero se hace sus propias placas y armas. En el nivel 60 la Herrería suele cambiarse por Ingeniería."}},{"@type":"Question","name":"¿Hace falta Ingeniería para el PvP?","acceptedAnswer":{"@type":"Answer","text":"Sí, para el PvP la toman casi todas las clases: granadas, bombas y artilugios dan control y movilidad que a la clase le faltan."}},{"@type":"Question","name":"¿Quién prepara ahora las pociones de curación?","acceptedAnswer":{"@type":"Answer","text":"Primeros auxilios. Es una profesión secundaria que cualquier personaje puede tomar sin gastar un hueco de principal. Alquimia se quedó con los elixires, los frascos y las transmutaciones."}},{"@type":"Question","name":"¿Se puede cambiar de profesión?","acceptedAnswer":{"@type":"Answer","text":"Sí, en cualquier momento, pero la habilidad y las recetas se pierden y hay que subir desde cero. Las profesiones secundarias no se pueden olvidar."}},{"@type":"Question","name":"¿Qué es Merchant’s Favor?","acceptedAnswer":{"@type":"Answer","text":"Una moneda por las Waylaid Crates entregadas. Con ella se compran recetas cuyos objetos son personales. Cada personaje tiene la suya."}}]}</script>
@@ -1638,8 +1640,9 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../../"></script>
-<script data-src="../../../assets/search/search.js?v=6325abe5dd" data-root="../../../"></script>
-<script data-src="../../../assets/me/me.js?v=d6ef450f05" data-root="../../../" data-home="../../" data-lang="es" data-ach="0" data-teaser="" data-close="Cerrar" data-page="guides/professions/" data-look="2"></script>
+<script data-src="../../../assets/search/search.js?v=5fe1eeb596" data-root="../../../"></script>
+<script data-src="../../../assets/me/me.js?v=5cac046565" data-root="../../../" data-home="../../" data-lang="es" data-ach="0" data-teaser="" data-close="Cerrar" data-page="guides/professions/" data-look="2"></script>
+<script data-src="../../../assets/hero/hero.js?v=c2be7ce5b5" data-root="../../../" data-home="../../" data-data="../../../assets/hero/es.json?v=c2be7ce5b5"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
 (function () {
