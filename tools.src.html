@@ -145,6 +145,11 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 
 /* Compare */
 .cbar { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; }
+.pickm { display: grid; margin-bottom: 18px; }   /* class -> spec -> race, above the matrix on every width */
+.pstar { color: var(--gold-2); }
+.pwhy { margin: 10px 0 0; color: var(--muted); }
+.pwhy b { color: var(--gold-2); font-weight: 600; }
+.plinks { display: flex; flex-wrap: wrap; gap: 10px; }
 .cpick { padding: 12px; display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 8px; }
 .cpick.races { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .cp { position: relative; aspect-ratio: 3 / 4; overflow: hidden; isolation: isolate; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; padding: 8px; display: grid; align-content: end; background: #0f0f0f; color: #f3efe6; font: inherit; text-align: left; cursor: pointer; }
@@ -291,9 +296,9 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
           <button data-v="dps" aria-pressed="false">Урон</button>
         </div></div>
     </div>
+    <div class="pickm" id="pickm"></div>
     <div class="matrix-box" tabindex="0" role="region" aria-label="Таблица рас и классов, прокручивается по горизонтали"><table id="matrix"></table></div>
     <div class="legend"><span><i class="ld"></i>можно</span><span><i class="ld nw"></i><span class="n">новое</span>комбинации не было в Classic</span><span><i class="ld no"></i>нельзя</span></div>
-    <div class="pickm" id="pickm"></div>
     <div class="detail" id="detail" aria-live="polite" aria-label="Выбранная комбинация"></div>
   </div>
   <p class="note"><b>Новые комбинации:</b> дворф-шаман и гном-жрец (Альянс), человек-охотник, а у Орды орк-маг, тролль-чернокнижник и нежить-паладин. Паладин появился у Орды, шаман у Альянса. Скайборн-ветрорез (Орда) может быть шаманом, Высший скайборн (Альянс) магом.</p>
@@ -408,6 +413,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 
 <script>
 @@DATA@@
+@@HERO@@
 const CPROF = @@CPROF@@;   /* recommended profession pairs per class, already in the page language (build.class_profs) */
 const $ = s => document.querySelector(s);
 const ROOT = '@@ROOT@@', HOME = '@@HOME@@';
@@ -755,7 +761,7 @@ function lvlMeter(c) {
   const bar = p ? `<i class="${p > 0 ? 'slow' : ''}" style="${p < 0 ? 'right' : 'left'}:50%;width:${w}%"></i>` : '';
   return `<span class="lvl"><span>${label}</span><span class="bar" role="img" aria-label="${label}">${bar}</span><span class="scale" aria-hidden="true"><span>быстрее</span><span>медленнее</span></span></span>`;
 }
-const state = { f:'all', r:'all', race:'dwarf', cls:'shaman' };
+const state = { f:'all', r:'all', race:'dwarf', cls:'shaman', spec:'elemental' };
 
 function roleMatch(c, role) { return role === 'all' || c.roles.includes(role); }
 function raceVisible(r) { return state.f === 'all' || r.f === state.f; }
@@ -765,10 +771,16 @@ function pickValid() {
   let r = RC[state.race];
   if (!raceVisible(r)) { r = RACES.find(raceVisible); state.race = r.id; }
   if (!r.can[state.cls]) { state.cls = Object.keys(r.can).find(c => roleMatch(CL[c], state.r)) || Object.keys(r.can)[0]; }
+  const sid = HC.sid[state.cls];   // the spec: kept when it is the class's, else the first one of the chosen role
+  if (!sid.includes(state.spec)) state.spec = sid[CL[state.cls].specs.findIndex(s => state.r === 'all' || s[2].includes(state.r))] || sid[0];
 }
+/* Best race of the class and spec on a faction (the Best race guide): the picker stars it and says why in one line */
+const pickBest = f => { const b = bestOf(state.cls, f, state.spec); return b ? b[0] : []; };
 function pickClass(id) {
   state.cls = id;
+  if (!HC.sid[id].includes(state.spec)) state.spec = '';
   if (!RC[state.race].can[id]) { const r = RACES.filter(raceVisible).find(x => x.can[id]) || RACES.find(x => x.can[id]); if (r) state.race = r.id; }
+  pickRace();
   if (!raceVisible(RC[state.race])) { state.f = 'all'; syncSeg('segF', 'all'); }
 }
 
@@ -811,15 +823,23 @@ function renderMatrix() {
   mx.addEventListener('mouseleave', () => mark(-1));
 })();
 
+/* After a class or spec: the best race of the shown faction (of the current race's faction when both are shown) */
+function pickRace() {
+  pickValid();
+  const f = state.f !== 'all' ? state.f : RC[state.race].f, best = pickBest(f);
+  if (best.length && !best.includes(state.race)) state.race = best[0];
+}
 function renderPickM() {
-  const r = RC[state.race];
-  const races = RACES.filter(raceVisible).map(x => `<button type="button" data-pr="${x.id}" aria-pressed="${x.id === state.race}"><span class="f ${x.f}"></span>${esc(x.n)}</button>`).join('');
-  const cls = CLASSES.filter(c => roleMatch(c, state.r)).map(c => {
-    const v = r.can[c.id];
-    return `<button type="button" data-pc="${c.id}" class="${v ? '' : 'na'}" aria-pressed="${c.id === state.cls}">${esc(c.n)}${v === 'new' ? ' · новое' : ''}</button>`;
-  }).join('');
-  $('#pickm').innerHTML = `<div><div class="lbl">1. Раса</div><div class="chiprow">${races}</div></div>
-    <div><div class="lbl">2. Класс · пунктир — не для этой расы, нажмите, чтобы сменить расу</div><div class="chiprow">${cls}</div></div>`;
+  const TXH = HC.tx, c = CL[state.cls], sid = HC.sid[state.cls];
+  const cls = CLASSES.filter(x => roleMatch(x, state.r)).map(x => `<button type="button" data-pc="${x.id}" aria-pressed="${x.id === state.cls}">${esc(x.n)}</button>`).join('');
+  const specs = c.specs.map((s, i) => `<button type="button" data-ps="${sid[i]}" aria-pressed="${sid[i] === state.spec}">${esc(HC.sn[state.cls][i])}</button>`).join('');
+  const races = RACES.filter(x => raceVisible(x) && x.can[state.cls]).map(x => { const b = pickBest(x.f).includes(x.id);
+    return `<button type="button" data-pr="${x.id}" aria-pressed="${x.id === state.race}"><span class="f ${x.f}"></span>${esc(x.n)}${b ? ` <span class="pstar" title="${esc(TXH.best)}">★</span>` : ''}</button>`; }).join('');
+  const f = RC[state.race].f, bo = bestOf(state.cls, f, state.spec), sn = HC.sn[state.cls][sid.indexOf(state.spec)];
+  const why = bo ? `<p class="pwhy"><b>★ ${esc(TXH.bestFor.replace('%s', sn))}${state.f === 'all' ? ` (${esc(HC.fn[f])})` : ''}: ${esc(bo[0].map(x => HC.rn[x]).join(` ${TXH.or} `))}.</b> ${esc(bo[1])}</p>` : '';
+  $('#pickm').innerHTML = `<div><div class="lbl">1. ${esc(TXH.cls)}</div><div class="chiprow">${cls}</div></div>
+    <div><div class="lbl">2. ${esc(TXH.spec)}</div><div class="chiprow">${specs}</div></div>
+    <div><div class="lbl">3. ${esc(TXH.race)}</div><div class="chiprow">${races}</div>${why}</div>`;
 }
 
 function renderDetail() {
@@ -848,6 +868,7 @@ function renderDetail() {
         <div class="fact"><h4>Что нового</h4><span>${esc(c.forever)}</span></div>
       </div>
       ${tipBox(esc(r.tip))}
+      ${pickLinks(r, c)}
       <div class="copyrow">
         <input id="pickText" readonly value="${esc(text)}" aria-label="Мой выбор">
         <button class="btn" id="copyBtn"><svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg>Скопировать мой выбор</button>
@@ -857,6 +878,14 @@ function renderDetail() {
   $('#copyBtn').onclick = () => copyTo($('#pickText').value, $('#copyMsg'), 'Скопировано');
 }
 
+/* Three ways on from the chosen combination and «make it my character» (character/#set=, the hero of this browser) */
+function pickLinks(r, c) {
+  const TXH = HC.tx, sn = HC.sn[c.id][HC.sid[c.id].indexOf(state.spec)], h = readHero();
+  const mine = h && h.race === r.id && h.cls === c.id && h.spec === state.spec;
+  const a = (href, t) => `<a class="btn ghost" href="${HOME}${href}">${esc(t)}</a>`;
+  return `<div class="plinks">${a(`guides/best-race/#${c.id}`, TXH.bestR)}${a(`guides/professions/#pairs=${c.id}`, TXH.pairs)}${a(`guides/builds-${c.id}/#${state.spec}`, `${TXH.build}: ${sn}`)}`
+    + (mine ? `<a class="btn" href="${HOME}character/">${esc(TXH.made)}</a>` : `<a class="btn" href="${HOME}character/#set=${r.id}.${c.id}.${state.spec}">${esc(TXH.make)}</a>`) + '</div>';
+}
 function render() { pickValid(); renderMatrix(); renderPickM(); renderDetail(); }
 function toPicker() { $('#detail').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest' }); }
 
@@ -871,11 +900,15 @@ document.addEventListener('click', e => {
   if (cell) { state.race = cell.dataset.r; state.cls = cell.dataset.c; render(); toPicker(); return; }
   const pr = e.target.closest('[data-pr]');
   if (pr) { state.race = pr.dataset.pr; render(); return; }
+  const ps = e.target.closest('[data-ps]');
+  if (ps) { state.spec = ps.dataset.ps; pickRace(); render(); return; }
   const pc = e.target.closest('[data-pc]');
   if (pc) { pickClass(pc.dataset.pc); render(); return; }
 });
+{ const h = readHero(); if (h && RC[h.race] && RC[h.race].can[h.cls]) Object.assign(state, { race: h.race, cls: h.cls, spec: h.spec || '' }); }
 render();
-/* ---------- Ping and queue advisor: where the player is -> the WoW Forever region (Blizzard: Americas+Oceania, Europe, Korea, Taiwan) ---------- */
+/* ---------- Ping and queue advisor
+: where the player is -> the WoW Forever region (Blizzard: Americas+Oceania, Europe, Korea, Taiwan) ---------- */
 const PG = {
   eu: ['Европа', ''],
   cas: ['Европа', 'Своего региона у Кавказа и Средней Азии нет, ближайший — Европа.'],

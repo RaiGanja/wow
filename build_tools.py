@@ -63,6 +63,8 @@ def build_tools(lang, src, tpl, base_css, sprite):
     html, missing = translate(html, lang)
     html = build.set_updated(html, 'tools/')
     html = html.replace('@@LFG@@', lfg_data(src, lang))
+    import build_guides   # the hero of this browser: names, best races, labels (after translate: it is in the page language already)
+    html = html.replace('@@HERO@@', build_guides.hero_js(lang))
     html = html.replace('@@CPROF@@', json.dumps({c['id']: build.class_profs_short(c['id'], lang) for c in CLASSES}, ensure_ascii=False))
     html = html.replace('@@HOME@@', rel(here, page_dir(lang)))
     html = html.replace('@@CANON@@', SITE + here)

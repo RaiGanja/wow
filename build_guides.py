@@ -987,6 +987,7 @@ HERO_CSS = '''<style>
 .mcopy { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
 .mcopy input { min-width: 0; min-height: 44px; padding: 0 12px; border: 1px solid var(--pline); border-radius: 7px; background: var(--panel-2); color: var(--fg); font: inherit; }
 .mbox .pdg { margin: 0; }
+.mbox .btn { white-space: normal; text-align: center; max-width: 100%; }
 @media (max-width: 719px) {
   .mhead { padding-top: calc(var(--top) + 18px); }
   .mcard { min-height: 340px; padding: 18px; }
@@ -998,6 +999,8 @@ HERO_CSS = '''<style>
   .mpicks { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
   .mpicks img { width: 60px; height: 60px; }
   .mcopy { grid-template-columns: minmax(0, 1fr); }
+  .mlinks { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .mlinks a { padding: 12px; }
 }
 </style>'''
 
