@@ -1832,7 +1832,7 @@ GUIDES.append({
 # ---------- День старта: время по часам читателя, очереди и слои, официальные каналы статуса. Чек-лист «День 1» не повторяет ----------
 
 GUIDES.append({
-    'slug': 'launch-day', 'art': 'hero_campfire', 'hero': 'hero_night', 'tile_art': 'hero_night', 'og': 'guides', 'js': 'launchday',
+    'slug': 'launch-day', 'art': 'hero_night', 'hero': 'hero_night', 'tile_art': 'hero_night', 'og': 'guides', 'js': 'launchday',
     'title': t('День старта: время, очереди, статус', 'Launch Day: Time, Queues, Status', 'День старту: час, черги, статус'),
     'crumb': t('День старта', 'Launch day', 'День старту'),
     'lead': t('Когда открывается WoW Forever по вашему времени, чего ждать в первые часы и где Blizzard сообщает о сбоях.',
