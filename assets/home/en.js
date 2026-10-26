@@ -199,6 +199,23 @@ function renderPeoples() {
   });
 }
 renderPeoples();
+/* Card titles fit the card (CSS: font-size = room / --k). --k is the width in em of the longest word of the name, or of the whole vertical label, measured in the real font; the words are never broken. */
+function fitCards() {
+  const m = document.createElement('span');
+  m.style.cssText = 'position:absolute;left:-9999px;top:0;visibility:hidden;white-space:pre;line-height:1;font-size:100px';
+  document.body.append(m);
+  const k = (t, v) => { m.textContent = t; m.style.writingMode = v ? 'vertical-rl' : 'horizontal-tb'; const r = m.getBoundingClientRect(); return (v ? r.height : r.width) / 100; };   // vertical labels are measured vertically: ’ and the like stand upright there
+  document.querySelectorAll('.hc .info b, .hc .vn').forEach(el => {
+    const cs = getComputedStyle(el), whole = el.classList.contains('vn');
+    m.style.fontFamily = cs.fontFamily; m.style.fontWeight = cs.fontWeight;
+    m.style.letterSpacing = (parseFloat(cs.letterSpacing) || 0) / parseFloat(cs.fontSize) * 100 + 'px';
+    const parts = whole ? [el.textContent] : el.textContent.match(/[^\s-]+-?/g) || [''];
+    el.style.setProperty('--k', Math.max(...parts.map(t => k(t, whole))).toFixed(3));
+  });
+  m.remove();
+}
+fitCards();
+if (document.fonts) { document.fonts.ready.then(fitCards); document.fonts.addEventListener('loadingdone', fitCards); }
 function activate(card) { if (!card || card.classList.contains('on')) return; card.parentElement.querySelectorAll('.hc.on').forEach(x => x.classList.remove('on')); card.classList.add('on'); }
 document.querySelectorAll('.roster').forEach(ro => {
   ro.addEventListener('mouseover', e => activate(e.target.closest('.hc')));
