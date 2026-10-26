@@ -1958,7 +1958,6 @@ PLAY_TX = {
                   'Tap a preset or set your own time. Timers keep running after the page reloads.',
                   'Натисніть заготовку або задайте свій час. Таймери йдуть і після перезавантаження сторінки.'),
     'notify': t('Уведомление, когда вкладка в фоне', 'Notify when the tab is in the background', 'Сповіщення, коли вкладка у фоні'),
-    'wake': t('Экран не гаснет', 'Keep screen on', 'Екран не гасне'),
     'guest': t('Войдите — уровень и персонажи сохранятся в профиле.',
                'Log in to keep your level and characters in your profile.',
                'Увійдіть — рівень і персонажі збережуться в профілі.'),

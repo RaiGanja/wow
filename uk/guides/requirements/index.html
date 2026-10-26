@@ -1111,11 +1111,6 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .phead h1 { font-size: var(--fs-40); line-height: 1; color: var(--ink); text-shadow: 0 2px 18px rgba(0,0,0,.5); }
 .phead .glead { margin: 0; font-size: var(--fs-16); color: var(--ink); opacity: .86; text-shadow: 0 1px 2px rgba(0,0,0,.6); }
 .phead .pill { color: var(--ink); border-color: rgb(241 236 224 / .3); background: rgb(5 5 5 / .35); }
-.pacts { display: flex; flex-wrap: wrap; gap: 8px; }
-.pacts:not(:has(> :not([hidden]))) { display: none; }
-.pwake { gap: 6px; min-height: 36px; padding: 0 14px; cursor: pointer; font: inherit; font-size: var(--fs-14); }
-.pwake .ico { width: 16px; height: 16px; }
-.pwake[aria-pressed="true"] { background: var(--seg-on); border-color: transparent; color: var(--gold-2); }
 .gplay { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding: 14px 18px; color: inherit; text-decoration: none; transition: border-color .2s; }
 .gplay:hover { border-color: var(--gold); }
 .gsec .gplay { border: 0; border-radius: 6px; box-shadow: none; background: var(--panel-2); backdrop-filter: none; transition: background-color .15s; }   /* inside a section: a plate, not a second frame */
@@ -1263,7 +1258,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../../assets/radio/radio.css?v=c5eacd57e2">
-<link data-rel="stylesheet" href="../../../assets/search/search.css?v=78a8683def">
+<link data-rel="stylesheet" href="../../../assets/search/search.css?v=b1092a36e0">
 <link data-rel="stylesheet" href="../../../assets/me/me.css?v=f0bb3b6c1b">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Головна","item":"https://gabella.site/wow/uk/"},{"@type":"ListItem","position":2,"name":"Гайди","item":"https://gabella.site/wow/uk/guides/"},{"@type":"ListItem","position":3,"name":"Системні вимоги","item":"https://gabella.site/wow/uk/guides/requirements/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Системні вимоги WoW Forever: ПК і Mac","description":"Мінімальні й рекомендовані системні вимоги WoW Forever (ВоВ Форевер) для Windows і Mac: процесор, відеокарта, ОЗП, SSD на 128 ГБ, старі відеокарти.","inLanguage":"uk","url":"https://gabella.site/wow/uk/guides/requirements/","dateModified":"2026-10-26","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/uk/"},"image":"https://gabella.site/wow/assets/og/requirements-uk.jpg?v=7c5bc350"}</script>
@@ -1308,7 +1303,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <main id="main">
 <section class="thero" id="top">
   <img class="thero-amb" src="../../../assets/art/hero_requirements-960.webp?v=2efaee97" width="960" height="536" alt="" aria-hidden="true" loading="lazy" decoding="async">
-  <picture class="thero-art" aria-hidden="true" data-fx="requirements" data-cut=".9">
+  <picture class="thero-art" aria-hidden="true">
     <source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/avif" srcset="../../../assets/art/hero_requirements-m-600.avif?v=a76f4fc5 600w, ../../../assets/art/hero_requirements-m-800.avif?v=70865e42 800w, ../../../assets/art/hero_requirements-m-1000.avif?v=bccd7a6a 1000w" sizes="100vw">
     <source media="(max-width: 719px) and (max-aspect-ratio: 2/3)" type="image/webp" srcset="../../../assets/art/hero_requirements-m-600.webp?v=866dfe16 600w, ../../../assets/art/hero_requirements-m-800.webp?v=455ef0c4 800w, ../../../assets/art/hero_requirements-m-1000.webp?v=9d596fd5 1000w" sizes="100vw">
     <source type="image/avif" srcset="../../../assets/art/hero_requirements-960.avif?v=253a1dcf 960w, ../../../assets/art/hero_requirements-1440.avif?v=fdab1213 1440w, ../../../assets/art/hero_requirements-1920.avif?v=ca04f2ef 1920w, ../../../assets/art/hero_requirements-2560.avif?v=f98b2643 2560w, ../../../assets/art/hero_requirements-3840.avif?v=b246def6 3840w" sizes="(max-aspect-ratio: 16/9) 180vh, 100vw">
@@ -1417,7 +1412,7 @@ if ('IntersectionObserver' in window && tocLinks.length) {
 }
 
 </script>
-<script data-src="../../../assets/living/living.js?v=8f1634894e"></script>
+<script data-src="../../../assets/living/living.js?v=c1c7830120"></script>
 <script>
 (() => {
   const KEY = 'gabella-lang-hint', store = l => { try { localStorage.setItem(KEY, '1'); if (l) localStorage.setItem('gabella-lang', l); } catch (e) {} };
@@ -1486,7 +1481,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../../"></script>
-<script data-src="../../../assets/search/search.js?v=78a8683def" data-root="../../../"></script>
+<script data-src="../../../assets/search/search.js?v=b1092a36e0" data-root="../../../"></script>
 <script data-src="../../../assets/me/me.js?v=f0bb3b6c1b" data-root="../../../" data-home="../../" data-lang="uk" data-ach="0" data-teaser="" data-close="Закрити" data-page="guides/requirements/" data-look="2"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>

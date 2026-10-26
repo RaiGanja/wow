@@ -90,7 +90,14 @@ def shape(polys, ramp=None):
 
 
 def save(name, r, g, b, a):
+    """Only the waterfall (R of hero_dawn), the campfire (R of hero_campfire), banners and plants (G) and the sky (B) move:
+    every other light, flame and river is cleared, and a picture with nothing left has no mask (hero_requirements)."""
     os.makedirs(OUT, exist_ok=True)
+    zero = Image.new('L', (W, H), 0)
+    r = r if name in ('hero_dawn', 'hero_campfire') else zero
+    a = zero
+    if not any(c.getbbox() for c in (r, g, b)):
+        return
     half = [c.resize((W // 2, H // 2), Image.LANCZOS) for c in (r, g, b, a)]  # one by one: RGBA resize premultiplies alpha
     im = Image.merge('RGBA', half)
     im.save(os.path.join(OUT, f'{name}-fx.png'), optimize=True)

@@ -39,7 +39,7 @@ FX = {'hero_dawn': 'dawn', 'hero_campfire': 'camp'}   # living art (assets/livin
 # a portrait cut on phones (tools/make_images.py INNER, CUTS); 'art' stays for the tiles and the share preview.
 THERO = {'hero_guides': 'guides', 'hero_dungeons': 'dungeons', 'hero_professions': 'professions', 'hero_faq': 'faq',
          'hero_news': 'news', 'hero_leveling': 'leveling', 'hero_classes': 'classes', 'hero_races': 'races',
-         'hero_ukrainian': 'ukrainian', 'hero_requirements': 'requirements', 'hero_roster': 'roster',
+         'hero_ukrainian': 'ukrainian', 'hero_requirements': None, 'hero_roster': 'roster',
          'hero_bestrace': 'bestrace', 'hero_tierlist': 'tierlist'}
 THERO_CUT = {'hero_bestrace': '.5', 'hero_tierlist': '.65'}   # phone cut other than .9 (tools/make_images.CUTS)
 THERO_W = (960, 1440, 1920, 2560)
@@ -504,8 +504,7 @@ def play_head(lang):
            f'<source type="image/avif" srcset="{road("avif")}" sizes="min(100vw, 1620px)"><source type="image/webp" srcset="{road("webp")}" sizes="min(100vw, 1620px)">'
            '<img src="@@ROOT@@assets/art/hero_road-1600.webp" width="1600" height="893" alt="" fetchpriority="high" decoding="async"></picture>')
     return ('<section class="phead" id="top">' + art + '<div class="wrap"><div class="ptitle"><h1>@@TITLE@@</h1><p class="glead">@@LEAD@@</p></div>'
-            '<div class="pacts"><button class="pill pwake" id="wakeBtn" type="button" aria-pressed="false" hidden>'
-            f'<svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg>{x("wake")}</button></div></div></section>'
+            '</div></section>'
             f'<div class="wrap"><section class="frame pway" id="pWay" aria-label="{x("profile")}"><p class="pnote">{x("guest")}</p><a class="btn ghost" href="@@ROOT@@profile/">{x("login")}</a></section></div>'
             # the guest line is in the page from the start (no jump when me.js comes); signed in on this device: hidden at once
             '<script>try{if(localStorage.getItem("gabella-me")==="1")document.getElementById("pWay").hidden=true}catch(e){}</script>')
@@ -557,7 +556,7 @@ def journey(src, lang):
 
 
 JS['play'] = r'''/* In game: level -> zones and the next milestones (data from the Leveling guide), dungeons near the level, timers,
-   screen wake lock, the mini window. Level, race and class are the shared hero "gabella-wf-me" of the home page (the level is
+   the mini window. Level, race and class are the shared hero "gabella-wf-me" of the home page (the level is
    written back); signed in, the hero is one of the profile characters and the level is saved to it. The chosen character,
    the faction without a race, the timers and the notification choice live in "gabella-play". */
 const TX = P.tx, MEKEY = 'gabella-wf-me', PKEY = 'gabella-play';
@@ -748,19 +747,7 @@ if ('Notification' in window) {
 }
 renderTimers();
 setInterval(tick, 500);
-
-/* Keep the screen on (a phone or tablet next to the keyboard); the browser drops the lock when the tab is hidden */
-const wb = $('#wakeBtn');
-let wl = null, wantWake = false;
-const paintWake = () => wb.setAttribute('aria-pressed', String(wantWake));
-function lock() {
-  navigator.wakeLock.request('screen').then(l => { wl = l; l.addEventListener('release', () => { wl = null; }); }, () => { wantWake = false; paintWake(); });
-}
-if ('wakeLock' in navigator) {
-  wb.hidden = false;
-  wb.addEventListener('click', () => { wantWake = !wantWake; paintWake(); if (wantWake) lock(); else if (wl) wl.release(); });
-  document.addEventListener('visibilitychange', () => { if (wantWake && !wl && document.visibilityState === 'visible') lock(); });
-}'''
+'''
 
 DATA = {'dungeons': dungeons_data, 'play': play_data}   # js key -> data blocks (from index.src.html and content)
 REF = ('classref', 'raceref')        # js keys fed by ref_js (language-specific)

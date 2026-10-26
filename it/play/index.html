@@ -1111,11 +1111,6 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .phead h1 { font-size: var(--fs-40); line-height: 1; color: var(--ink); text-shadow: 0 2px 18px rgba(0,0,0,.5); }
 .phead .glead { margin: 0; font-size: var(--fs-16); color: var(--ink); opacity: .86; text-shadow: 0 1px 2px rgba(0,0,0,.6); }
 .phead .pill { color: var(--ink); border-color: rgb(241 236 224 / .3); background: rgb(5 5 5 / .35); }
-.pacts { display: flex; flex-wrap: wrap; gap: 8px; }
-.pacts:not(:has(> :not([hidden]))) { display: none; }
-.pwake { gap: 6px; min-height: 36px; padding: 0 14px; cursor: pointer; font: inherit; font-size: var(--fs-14); }
-.pwake .ico { width: 16px; height: 16px; }
-.pwake[aria-pressed="true"] { background: var(--seg-on); border-color: transparent; color: var(--gold-2); }
 .gplay { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding: 14px 18px; color: inherit; text-decoration: none; transition: border-color .2s; }
 .gplay:hover { border-color: var(--gold); }
 .gsec .gplay { border: 0; border-radius: 6px; box-shadow: none; background: var(--panel-2); backdrop-filter: none; transition: background-color .15s; }   /* inside a section: a plate, not a second frame */
@@ -1263,7 +1258,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../assets/radio/radio.css?v=c5eacd57e2">
-<link data-rel="stylesheet" href="../../assets/search/search.css?v=78a8683def">
+<link data-rel="stylesheet" href="../../assets/search/search.css?v=b1092a36e0">
 <link data-rel="stylesheet" href="../../assets/me/me.css?v=f0bb3b6c1b">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/it/"},{"@type":"ListItem","position":2,"name":"In gioco","item":"https://gabella.site/wow/it/play/"}]}</script>
 </head>
@@ -1305,7 +1300,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </div></header>
 
 <main id="main">
-<section class="phead" id="top"><img class="phead-amb" src="../../assets/art/hero_road-960.webp?v=73f79540" width="960" height="536" alt="" aria-hidden="true" loading="lazy" decoding="async"><picture class="phead-art" aria-hidden="true"><source type="image/avif" srcset="../../assets/art/hero_road-960.avif?v=f581693d 960w, ../../assets/art/hero_road-1600.avif?v=f0ac73e7 1600w, ../../assets/art/hero_road-2560.avif?v=68e2d884 2560w" sizes="min(100vw, 1620px)"><source type="image/webp" srcset="../../assets/art/hero_road-960.webp?v=73f79540 960w, ../../assets/art/hero_road-1600.webp?v=25456252 1600w, ../../assets/art/hero_road-2560.webp?v=1e28c4f2 2560w" sizes="min(100vw, 1620px)"><img src="../../assets/art/hero_road-1600.webp?v=25456252" width="1600" height="893" alt="" fetchpriority="high" decoding="async"></picture><div class="wrap"><div class="ptitle"><h1>In gioco</h1><p class="glead">Un secondo schermo mentre giochi: radio, zone e spedizioni per il tuo livello, timer. Dopo l’accesso: personaggi dal profilo.</p></div><div class="pacts"><button class="pill pwake" id="wakeBtn" type="button" aria-pressed="false" hidden><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg>Schermo sempre acceso</button></div></div></section><div class="wrap"><section class="frame pway" id="pWay" aria-label="Profilo"><p class="pnote">Accedi per salvare livello e personaggi nel tuo profilo.</p><a class="btn ghost" href="../../profile/">Accedi</a></section></div><script>try{if(localStorage.getItem("gabella-me")==="1")document.getElementById("pWay").hidden=true}catch(e){}</script>
+<section class="phead" id="top"><img class="phead-amb" src="../../assets/art/hero_road-960.webp?v=73f79540" width="960" height="536" alt="" aria-hidden="true" loading="lazy" decoding="async"><picture class="phead-art" aria-hidden="true"><source type="image/avif" srcset="../../assets/art/hero_road-960.avif?v=f581693d 960w, ../../assets/art/hero_road-1600.avif?v=f0ac73e7 1600w, ../../assets/art/hero_road-2560.avif?v=68e2d884 2560w" sizes="min(100vw, 1620px)"><source type="image/webp" srcset="../../assets/art/hero_road-960.webp?v=73f79540 960w, ../../assets/art/hero_road-1600.webp?v=25456252 1600w, ../../assets/art/hero_road-2560.webp?v=1e28c4f2 2560w" sizes="min(100vw, 1620px)"><img src="../../assets/art/hero_road-1600.webp?v=25456252" width="1600" height="893" alt="" fetchpriority="high" decoding="async"></picture><div class="wrap"><div class="ptitle"><h1>In gioco</h1><p class="glead">Un secondo schermo mentre giochi: radio, zone e spedizioni per il tuo livello, timer. Dopo l’accesso: personaggi dal profilo.</p></div></div></section><div class="wrap"><section class="frame pway" id="pWay" aria-label="Profilo"><p class="pnote">Accedi per salvare livello e personaggi nel tuo profilo.</p><a class="btn ghost" href="../../profile/">Accedi</a></section></div><script>try{if(localStorage.getItem("gabella-me")==="1")document.getElementById("pWay").hidden=true}catch(e){}</script>
 
 <div class="wrap gbody play solo">
   <nav class="gtoc frame" aria-label="Sezioni della guida"></nav>
@@ -1477,10 +1472,10 @@ const DUNGEONS = [
   ['Maglio Infausto: Ovest', 60, 60, 'Feralas', 0, [['Icy Veins', '56–60']]],
   ['Maglio Infausto: Nord', 60, 60, 'Feralas', 0, [['Icy Veins', '56–60']]]
 ];
-const P = {"route": {"alliance": [[1, 10, "Umano: Foresta di Elwynn. Nano e Gnomo: Dun Morogh. Elfo della Notte: Teldrassil (fino all’11). Skyborne dell’High Order: Zephras Isle (fino al 12)."], [10, 18, "Marche Occidentali o Loch Modan, gli Elfi della Notte di solito vanno a Rivafosca. Dal 15 vanno bene le Montagne Crestarossa."], [18, 30, "Boscovespro, Montagne Crestarossa e Paludi Grigie; a Kalimdor, Vette di Petrartiglio e Valtetra."], [30, 45, "Desolanda o Altopiani d’Arathi, Valle di Rovotorto. Dal 35: la nuova zona Riverglades tra Crestarossa e le Steppe Ardenti, Acquemorte, Maleterre, Palude del Dolore."], [40, 55, "Tanaris, Feralas, Entroterre, poi Gorgia Rovente, Terre Devastate, Azshara, dal 48 Cratere di Un’Goro e Vilbosco."], [50, 60, "Steppe Ardenti, Terre Infette Occidentali, Terre Infette Orientali, Fontefredda, Silitus. Il Monte Hyjal si apre al 60."]], "horde": [[1, 10, "Orco e Troll: Durotar. Tauren: Mulgore. Non Morto: Radure di Tirisfal. Skyborne Windshaper: Zephras Isle (fino al 12)."], [10, 18, "Savane o Selva Pinargento."], [18, 30, "Vette di Petrartiglio e Savane, poi Valtetra o Alture di Colletorto, dal 25 Millepicchi."], [30, 45, "Desolanda o Altopiani d’Arathi, Valle di Rovotorto. Dal 35: la nuova zona Riverglades, Acquemorte, Maleterre, Palude del Dolore."], [40, 55, "Tanaris, Feralas, Entroterre, poi Gorgia Rovente, Terre Devastate, Azshara, dal 48 Cratere di Un’Goro e Vilbosco."], [50, 60, "Steppe Ardenti, Terre Infette Occidentali, Terre Infette Orientali, Fontefredda, Silitus. Il Monte Hyjal si apre al 60."]]}, "miles": [[40, "Cavalcature: addestramento 100 monete d’oro e cavalcatura 20 (+60% di velocità)."], [60, "Cavalcature veloci: 1.000 e 200 monete d’oro (+100%). Si apre Mount Hyjal, incursioni dal 09.12.2026."]], "tx": {"radio": "Radio", "lvl": "Livello", "lvDown": "Livello giù", "lvUp": "Livello su", "noHero": "Nessun personaggio impostato", "edit": "Imposta il tuo personaggio", "fac": "Fazione", "alliance": "Alleanza", "horde": "Orda", "needLvl": "Imposta il livello con «+» per vedere zone e spedizioni.", "now": "Ora", "next": "Dopo", "from": "dal", "at": "al", "route": "Percorso completo", "dung": "Spedizioni per livello", "dungNone": "Nessuna spedizione per questo livello.", "all": "Tutte le spedizioni", "new": "nuova", "timers": "Timer", "food": "Cibo", "foodNote": "+5% di esperienza dai nemici", "min": "min", "custom": "Personalizzato", "name": "Nome", "minutes": "Minuti", "start": "Avvia", "timer": "Timer", "done": "Tempo scaduto", "again": "Ancora", "remove": "Rimuovi", "noTimers": "Tocca un preset o imposta il tuo tempo. I timer continuano anche dopo aver ricaricato la pagina.", "notify": "Notifica quando la scheda è in background", "wake": "Schermo sempre acceso", "guest": "Accedi per salvare livello e personaggi nel tuo profilo.", "login": "Accedi", "profile": "Profilo", "chars": "Personaggi", "addChar": "Aggiungi personaggio"}, "racef": {"human": "alliance", "dwarf": "alliance", "nightelf": "alliance", "gnome": "alliance", "skyA": "alliance", "orc": "horde", "undead": "horde", "tauren": "horde", "troll": "horde", "skyH": "horde"}, "rn": {"human": "Umano", "dwarf": "Nano", "nightelf": "Elfo della Notte", "gnome": "Gnomo", "skyA": "Skyborne dell’High Order", "orc": "Orco", "undead": "Non Morto", "tauren": "Tauren", "troll": "Troll", "skyH": "Skyborne Windshaper"}, "cn": {"warrior": "Guerriero", "paladin": "Paladino", "hunter": "Cacciatore", "rogue": "Ladro", "priest": "Sacerdote", "shaman": "Sciamano", "mage": "Mago", "warlock": "Stregone", "druid": "Druido"}};
+const P = {"route": {"alliance": [[1, 10, "Umano: Foresta di Elwynn. Nano e Gnomo: Dun Morogh. Elfo della Notte: Teldrassil (fino all’11). Skyborne dell’High Order: Zephras Isle (fino al 12)."], [10, 18, "Marche Occidentali o Loch Modan, gli Elfi della Notte di solito vanno a Rivafosca. Dal 15 vanno bene le Montagne Crestarossa."], [18, 30, "Boscovespro, Montagne Crestarossa e Paludi Grigie; a Kalimdor, Vette di Petrartiglio e Valtetra."], [30, 45, "Desolanda o Altopiani d’Arathi, Valle di Rovotorto. Dal 35: la nuova zona Riverglades tra Crestarossa e le Steppe Ardenti, Acquemorte, Maleterre, Palude del Dolore."], [40, 55, "Tanaris, Feralas, Entroterre, poi Gorgia Rovente, Terre Devastate, Azshara, dal 48 Cratere di Un’Goro e Vilbosco."], [50, 60, "Steppe Ardenti, Terre Infette Occidentali, Terre Infette Orientali, Fontefredda, Silitus. Il Monte Hyjal si apre al 60."]], "horde": [[1, 10, "Orco e Troll: Durotar. Tauren: Mulgore. Non Morto: Radure di Tirisfal. Skyborne Windshaper: Zephras Isle (fino al 12)."], [10, 18, "Savane o Selva Pinargento."], [18, 30, "Vette di Petrartiglio e Savane, poi Valtetra o Alture di Colletorto, dal 25 Millepicchi."], [30, 45, "Desolanda o Altopiani d’Arathi, Valle di Rovotorto. Dal 35: la nuova zona Riverglades, Acquemorte, Maleterre, Palude del Dolore."], [40, 55, "Tanaris, Feralas, Entroterre, poi Gorgia Rovente, Terre Devastate, Azshara, dal 48 Cratere di Un’Goro e Vilbosco."], [50, 60, "Steppe Ardenti, Terre Infette Occidentali, Terre Infette Orientali, Fontefredda, Silitus. Il Monte Hyjal si apre al 60."]]}, "miles": [[40, "Cavalcature: addestramento 100 monete d’oro e cavalcatura 20 (+60% di velocità)."], [60, "Cavalcature veloci: 1.000 e 200 monete d’oro (+100%). Si apre Mount Hyjal, incursioni dal 09.12.2026."]], "tx": {"radio": "Radio", "lvl": "Livello", "lvDown": "Livello giù", "lvUp": "Livello su", "noHero": "Nessun personaggio impostato", "edit": "Imposta il tuo personaggio", "fac": "Fazione", "alliance": "Alleanza", "horde": "Orda", "needLvl": "Imposta il livello con «+» per vedere zone e spedizioni.", "now": "Ora", "next": "Dopo", "from": "dal", "at": "al", "route": "Percorso completo", "dung": "Spedizioni per livello", "dungNone": "Nessuna spedizione per questo livello.", "all": "Tutte le spedizioni", "new": "nuova", "timers": "Timer", "food": "Cibo", "foodNote": "+5% di esperienza dai nemici", "min": "min", "custom": "Personalizzato", "name": "Nome", "minutes": "Minuti", "start": "Avvia", "timer": "Timer", "done": "Tempo scaduto", "again": "Ancora", "remove": "Rimuovi", "noTimers": "Tocca un preset o imposta il tuo tempo. I timer continuano anche dopo aver ricaricato la pagina.", "notify": "Notifica quando la scheda è in background", "guest": "Accedi per salvare livello e personaggi nel tuo profilo.", "login": "Accedi", "profile": "Profilo", "chars": "Personaggi", "addChar": "Aggiungi personaggio"}, "racef": {"human": "alliance", "dwarf": "alliance", "nightelf": "alliance", "gnome": "alliance", "skyA": "alliance", "orc": "horde", "undead": "horde", "tauren": "horde", "troll": "horde", "skyH": "horde"}, "rn": {"human": "Umano", "dwarf": "Nano", "nightelf": "Elfo della Notte", "gnome": "Gnomo", "skyA": "Skyborne dell’High Order", "orc": "Orco", "undead": "Non Morto", "tauren": "Tauren", "troll": "Troll", "skyH": "Skyborne Windshaper"}, "cn": {"warrior": "Guerriero", "paladin": "Paladino", "hunter": "Cacciatore", "rogue": "Ladro", "priest": "Sacerdote", "shaman": "Sciamano", "mage": "Mago", "warlock": "Stregone", "druid": "Druido"}};
 
 /* In game: level -> zones and the next milestones (data from the Leveling guide), dungeons near the level, timers,
-   screen wake lock, the mini window. Level, race and class are the shared hero "gabella-wf-me" of the home page (the level is
+   the mini window. Level, race and class are the shared hero "gabella-wf-me" of the home page (the level is
    written back); signed in, the hero is one of the profile characters and the level is saved to it. The chosen character,
    the faction without a race, the timers and the notification choice live in "gabella-play". */
 const TX = P.tx, MEKEY = 'gabella-wf-me', PKEY = 'gabella-play';
@@ -1672,18 +1667,6 @@ if ('Notification' in window) {
 renderTimers();
 setInterval(tick, 500);
 
-/* Keep the screen on (a phone or tablet next to the keyboard); the browser drops the lock when the tab is hidden */
-const wb = $('#wakeBtn');
-let wl = null, wantWake = false;
-const paintWake = () => wb.setAttribute('aria-pressed', String(wantWake));
-function lock() {
-  navigator.wakeLock.request('screen').then(l => { wl = l; l.addEventListener('release', () => { wl = null; }); }, () => { wantWake = false; paintWake(); });
-}
-if ('wakeLock' in navigator) {
-  wb.hidden = false;
-  wb.addEventListener('click', () => { wantWake = !wantWake; paintWake(); if (wantWake) lock(); else if (wl) wl.release(); });
-  document.addEventListener('visibilitychange', () => { if (wantWake && !wl && document.visibilityState === 'visible') lock(); });
-}
 </script>
 <script>
 (() => {
@@ -2017,7 +2000,7 @@ addEventListener('gabella-me', e => { if (e.detail !== 'journey') { loadMe(); re
 addEventListener('storage', e => { if (e.key === MEKEY) { loadMe(); renderJourney(); } });
 })();
 </script>
-<script data-src="../../assets/living/living.js?v=8f1634894e"></script>
+<script data-src="../../assets/living/living.js?v=c1c7830120"></script>
 <script>
 (() => {
   const KEY = 'gabella-lang-hint', store = l => { try { localStorage.setItem(KEY, '1'); if (l) localStorage.setItem('gabella-lang', l); } catch (e) {} };
@@ -2086,7 +2069,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../"></script>
-<script data-src="../../assets/search/search.js?v=78a8683def" data-root="../../"></script>
+<script data-src="../../assets/search/search.js?v=b1092a36e0" data-root="../../"></script>
 <script data-src="../../assets/me/me.js?v=f0bb3b6c1b" data-root="../../" data-home="../" data-lang="it" data-ach="0" data-teaser="" data-close="Chiudi" data-page="play/" data-look="2"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>

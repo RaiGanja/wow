@@ -132,7 +132,7 @@ def test_play_page_built():
     for d in ('', 'en/', 'uk/'):
         html = open(os.path.join(bg.HERE, d + 'play', 'index.html'), encoding='utf-8').read()
         assert 'id="radioDock"' in html and 'const P = ' in html and '<body class="compact">' in html
-        assert 'class="stband ghero"' not in html and 'id="wakeBtn"' in html
+        assert 'class="stband ghero"' not in html and 'wakeLock' not in html and 'wakeBtn' not in html
         assert 'assets/radio/radio.js' in html
 
 if __name__ == '__main__':

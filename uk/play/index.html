@@ -1111,11 +1111,6 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .phead h1 { font-size: var(--fs-40); line-height: 1; color: var(--ink); text-shadow: 0 2px 18px rgba(0,0,0,.5); }
 .phead .glead { margin: 0; font-size: var(--fs-16); color: var(--ink); opacity: .86; text-shadow: 0 1px 2px rgba(0,0,0,.6); }
 .phead .pill { color: var(--ink); border-color: rgb(241 236 224 / .3); background: rgb(5 5 5 / .35); }
-.pacts { display: flex; flex-wrap: wrap; gap: 8px; }
-.pacts:not(:has(> :not([hidden]))) { display: none; }
-.pwake { gap: 6px; min-height: 36px; padding: 0 14px; cursor: pointer; font: inherit; font-size: var(--fs-14); }
-.pwake .ico { width: 16px; height: 16px; }
-.pwake[aria-pressed="true"] { background: var(--seg-on); border-color: transparent; color: var(--gold-2); }
 .gplay { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding: 14px 18px; color: inherit; text-decoration: none; transition: border-color .2s; }
 .gplay:hover { border-color: var(--gold); }
 .gsec .gplay { border: 0; border-radius: 6px; box-shadow: none; background: var(--panel-2); backdrop-filter: none; transition: background-color .15s; }   /* inside a section: a plate, not a second frame */
@@ -1263,7 +1258,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../assets/radio/radio.css?v=c5eacd57e2">
-<link data-rel="stylesheet" href="../../assets/search/search.css?v=78a8683def">
+<link data-rel="stylesheet" href="../../assets/search/search.css?v=b1092a36e0">
 <link data-rel="stylesheet" href="../../assets/me/me.css?v=f0bb3b6c1b">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Головна","item":"https://gabella.site/wow/uk/"},{"@type":"ListItem","position":2,"name":"У грі","item":"https://gabella.site/wow/uk/play/"}]}</script>
 </head>
@@ -1305,7 +1300,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </div></header>
 
 <main id="main">
-<section class="phead" id="top"><img class="phead-amb" src="../../assets/art/hero_road-960.webp?v=73f79540" width="960" height="536" alt="" aria-hidden="true" loading="lazy" decoding="async"><picture class="phead-art" aria-hidden="true"><source type="image/avif" srcset="../../assets/art/hero_road-960.avif?v=f581693d 960w, ../../assets/art/hero_road-1600.avif?v=f0ac73e7 1600w, ../../assets/art/hero_road-2560.avif?v=68e2d884 2560w" sizes="min(100vw, 1620px)"><source type="image/webp" srcset="../../assets/art/hero_road-960.webp?v=73f79540 960w, ../../assets/art/hero_road-1600.webp?v=25456252 1600w, ../../assets/art/hero_road-2560.webp?v=1e28c4f2 2560w" sizes="min(100vw, 1620px)"><img src="../../assets/art/hero_road-1600.webp?v=25456252" width="1600" height="893" alt="" fetchpriority="high" decoding="async"></picture><div class="wrap"><div class="ptitle"><h1>У грі</h1><p class="glead">Другий екран під час гри: радіо, зони й підземелля під ваш рівень, таймери. Після входу — персонажі з профілю.</p></div><div class="pacts"><button class="pill pwake" id="wakeBtn" type="button" aria-pressed="false" hidden><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg>Екран не гасне</button></div></div></section><div class="wrap"><section class="frame pway" id="pWay" aria-label="Профіль"><p class="pnote">Увійдіть — рівень і персонажі збережуться в профілі.</p><a class="btn ghost" href="../../profile/">Увійти</a></section></div><script>try{if(localStorage.getItem("gabella-me")==="1")document.getElementById("pWay").hidden=true}catch(e){}</script>
+<section class="phead" id="top"><img class="phead-amb" src="../../assets/art/hero_road-960.webp?v=73f79540" width="960" height="536" alt="" aria-hidden="true" loading="lazy" decoding="async"><picture class="phead-art" aria-hidden="true"><source type="image/avif" srcset="../../assets/art/hero_road-960.avif?v=f581693d 960w, ../../assets/art/hero_road-1600.avif?v=f0ac73e7 1600w, ../../assets/art/hero_road-2560.avif?v=68e2d884 2560w" sizes="min(100vw, 1620px)"><source type="image/webp" srcset="../../assets/art/hero_road-960.webp?v=73f79540 960w, ../../assets/art/hero_road-1600.webp?v=25456252 1600w, ../../assets/art/hero_road-2560.webp?v=1e28c4f2 2560w" sizes="min(100vw, 1620px)"><img src="../../assets/art/hero_road-1600.webp?v=25456252" width="1600" height="893" alt="" fetchpriority="high" decoding="async"></picture><div class="wrap"><div class="ptitle"><h1>У грі</h1><p class="glead">Другий екран під час гри: радіо, зони й підземелля під ваш рівень, таймери. Після входу — персонажі з профілю.</p></div></div></section><div class="wrap"><section class="frame pway" id="pWay" aria-label="Профіль"><p class="pnote">Увійдіть — рівень і персонажі збережуться в профілі.</p><a class="btn ghost" href="../../profile/">Увійти</a></section></div><script>try{if(localStorage.getItem("gabella-me")==="1")document.getElementById("pWay").hidden=true}catch(e){}</script>
 
 <div class="wrap gbody play solo">
   <nav class="gtoc frame" aria-label="Розділи гайду"></nav>
@@ -1477,10 +1472,10 @@ const DUNGEONS = [
   ['Dire Maul: West', 60, 60, 'Feralas', 0, [['Icy Veins', '56–60']]],
   ['Dire Maul: North', 60, 60, 'Feralas', 0, [['Icy Veins', '56–60']]]
 ];
-const P = {"route": {"alliance": [[1, 10, "Human: Elwynn Forest. Dwarf і Gnome: Dun Morogh. Night Elf: Teldrassil (до 11). High Order Skyborne: Zephras Isle (до 12)."], [10, 18, "Westfall або Loch Modan, нічні ельфи зазвичай у Darkshore. З 15 підходять Redridge Mountains."], [18, 30, "Duskwood, Redridge Mountains і Wetlands, у Kalimdor Stonetalon Mountains і Ashenvale."], [30, 45, "Desolace або Arathi Highlands, Stranglethorn Vale. З 35: нова зона Riverglades між Redridge і Burning Steppes, Dustwallow Marsh, Badlands, Swamp of Sorrows."], [40, 55, "Tanaris, Feralas, The Hinterlands, далі Searing Gorge, Blasted Lands, Azshara, з 48 Un’Goro Crater і Felwood."], [50, 60, "Burning Steppes, Western і Eastern Plaguelands, Winterspring, Silithus. На 60 відкритий Mount Hyjal."]], "horde": [[1, 10, "Orc і Troll: Durotar. Tauren: Mulgore. Undead: Tirisfal Glades. Windshaper Skyborne: Zephras Isle (до 12)."], [10, 18, "The Barrens або Silverpine Forest."], [18, 30, "Stonetalon Mountains і The Barrens, далі Ashenvale або Hillsbrad Foothills, з 25 Thousand Needles."], [30, 45, "Desolace або Arathi Highlands, Stranglethorn Vale. З 35: нова зона Riverglades, Dustwallow Marsh, Badlands, Swamp of Sorrows."], [40, 55, "Tanaris, Feralas, The Hinterlands, далі Searing Gorge, Blasted Lands, Azshara, з 48 Un’Goro Crater і Felwood."], [50, 60, "Burning Steppes, Western і Eastern Plaguelands, Winterspring, Silithus. На 60 відкритий Mount Hyjal."]]}, "miles": [[40, "Їздова тварина: навчання 100 золотих і скакун 20 (+60% швидкості)."], [60, "Швидка їздова: 1000 і 200 золотих (+100%). Відкритий Mount Hyjal, рейди — з 09.12.2026."]], "tx": {"radio": "Радіо", "lvl": "Рівень", "lvDown": "Рівень нижче", "lvUp": "Рівень вище", "noHero": "Персонажа не вибрано", "edit": "Налаштувати персонажа", "fac": "Фракція", "alliance": "Альянс", "horde": "Орда", "needLvl": "Вкажіть рівень кнопкою «+» — підкажемо зони й підземелля.", "now": "Зараз", "next": "Далі", "from": "з", "at": "на", "route": "Весь маршрут", "dung": "Підземелля за рівнем", "dungNone": "Під цей рівень підземель немає.", "all": "Усі підземелля", "new": "нове", "timers": "Таймери", "food": "Їжа", "foodNote": "+5% досвіду за ворогів", "min": "хв", "custom": "Своє", "name": "Назва", "minutes": "Хвилин", "start": "Старт", "timer": "Таймер", "done": "Час вийшов", "again": "Ще раз", "remove": "Прибрати", "noTimers": "Натисніть заготовку або задайте свій час. Таймери йдуть і після перезавантаження сторінки.", "notify": "Сповіщення, коли вкладка у фоні", "wake": "Екран не гасне", "guest": "Увійдіть — рівень і персонажі збережуться в профілі.", "login": "Увійти", "profile": "Профіль", "chars": "Персонажі", "addChar": "Додати персонажа"}, "racef": {"human": "alliance", "dwarf": "alliance", "nightelf": "alliance", "gnome": "alliance", "skyA": "alliance", "orc": "horde", "undead": "horde", "tauren": "horde", "troll": "horde", "skyH": "horde"}, "rn": {"human": "Людина", "dwarf": "Дворф", "nightelf": "Нічний ельф", "gnome": "Гном", "skyA": "Високий скайборн", "orc": "Орк", "undead": "Нежить", "tauren": "Таурен", "troll": "Троль", "skyH": "Скайборн-вітрорізь"}, "cn": {"warrior": "Воїн", "paladin": "Паладин", "hunter": "Мисливець", "rogue": "Розбійник", "priest": "Жрець", "shaman": "Шаман", "mage": "Маг", "warlock": "Чорнокнижник", "druid": "Друїд"}};
+const P = {"route": {"alliance": [[1, 10, "Human: Elwynn Forest. Dwarf і Gnome: Dun Morogh. Night Elf: Teldrassil (до 11). High Order Skyborne: Zephras Isle (до 12)."], [10, 18, "Westfall або Loch Modan, нічні ельфи зазвичай у Darkshore. З 15 підходять Redridge Mountains."], [18, 30, "Duskwood, Redridge Mountains і Wetlands, у Kalimdor Stonetalon Mountains і Ashenvale."], [30, 45, "Desolace або Arathi Highlands, Stranglethorn Vale. З 35: нова зона Riverglades між Redridge і Burning Steppes, Dustwallow Marsh, Badlands, Swamp of Sorrows."], [40, 55, "Tanaris, Feralas, The Hinterlands, далі Searing Gorge, Blasted Lands, Azshara, з 48 Un’Goro Crater і Felwood."], [50, 60, "Burning Steppes, Western і Eastern Plaguelands, Winterspring, Silithus. На 60 відкритий Mount Hyjal."]], "horde": [[1, 10, "Orc і Troll: Durotar. Tauren: Mulgore. Undead: Tirisfal Glades. Windshaper Skyborne: Zephras Isle (до 12)."], [10, 18, "The Barrens або Silverpine Forest."], [18, 30, "Stonetalon Mountains і The Barrens, далі Ashenvale або Hillsbrad Foothills, з 25 Thousand Needles."], [30, 45, "Desolace або Arathi Highlands, Stranglethorn Vale. З 35: нова зона Riverglades, Dustwallow Marsh, Badlands, Swamp of Sorrows."], [40, 55, "Tanaris, Feralas, The Hinterlands, далі Searing Gorge, Blasted Lands, Azshara, з 48 Un’Goro Crater і Felwood."], [50, 60, "Burning Steppes, Western і Eastern Plaguelands, Winterspring, Silithus. На 60 відкритий Mount Hyjal."]]}, "miles": [[40, "Їздова тварина: навчання 100 золотих і скакун 20 (+60% швидкості)."], [60, "Швидка їздова: 1000 і 200 золотих (+100%). Відкритий Mount Hyjal, рейди — з 09.12.2026."]], "tx": {"radio": "Радіо", "lvl": "Рівень", "lvDown": "Рівень нижче", "lvUp": "Рівень вище", "noHero": "Персонажа не вибрано", "edit": "Налаштувати персонажа", "fac": "Фракція", "alliance": "Альянс", "horde": "Орда", "needLvl": "Вкажіть рівень кнопкою «+» — підкажемо зони й підземелля.", "now": "Зараз", "next": "Далі", "from": "з", "at": "на", "route": "Весь маршрут", "dung": "Підземелля за рівнем", "dungNone": "Під цей рівень підземель немає.", "all": "Усі підземелля", "new": "нове", "timers": "Таймери", "food": "Їжа", "foodNote": "+5% досвіду за ворогів", "min": "хв", "custom": "Своє", "name": "Назва", "minutes": "Хвилин", "start": "Старт", "timer": "Таймер", "done": "Час вийшов", "again": "Ще раз", "remove": "Прибрати", "noTimers": "Натисніть заготовку або задайте свій час. Таймери йдуть і після перезавантаження сторінки.", "notify": "Сповіщення, коли вкладка у фоні", "guest": "Увійдіть — рівень і персонажі збережуться в профілі.", "login": "Увійти", "profile": "Профіль", "chars": "Персонажі", "addChar": "Додати персонажа"}, "racef": {"human": "alliance", "dwarf": "alliance", "nightelf": "alliance", "gnome": "alliance", "skyA": "alliance", "orc": "horde", "undead": "horde", "tauren": "horde", "troll": "horde", "skyH": "horde"}, "rn": {"human": "Людина", "dwarf": "Дворф", "nightelf": "Нічний ельф", "gnome": "Гном", "skyA": "Високий скайборн", "orc": "Орк", "undead": "Нежить", "tauren": "Таурен", "troll": "Троль", "skyH": "Скайборн-вітрорізь"}, "cn": {"warrior": "Воїн", "paladin": "Паладин", "hunter": "Мисливець", "rogue": "Розбійник", "priest": "Жрець", "shaman": "Шаман", "mage": "Маг", "warlock": "Чорнокнижник", "druid": "Друїд"}};
 
 /* In game: level -> zones and the next milestones (data from the Leveling guide), dungeons near the level, timers,
-   screen wake lock, the mini window. Level, race and class are the shared hero "gabella-wf-me" of the home page (the level is
+   the mini window. Level, race and class are the shared hero "gabella-wf-me" of the home page (the level is
    written back); signed in, the hero is one of the profile characters and the level is saved to it. The chosen character,
    the faction without a race, the timers and the notification choice live in "gabella-play". */
 const TX = P.tx, MEKEY = 'gabella-wf-me', PKEY = 'gabella-play';
@@ -1672,18 +1667,6 @@ if ('Notification' in window) {
 renderTimers();
 setInterval(tick, 500);
 
-/* Keep the screen on (a phone or tablet next to the keyboard); the browser drops the lock when the tab is hidden */
-const wb = $('#wakeBtn');
-let wl = null, wantWake = false;
-const paintWake = () => wb.setAttribute('aria-pressed', String(wantWake));
-function lock() {
-  navigator.wakeLock.request('screen').then(l => { wl = l; l.addEventListener('release', () => { wl = null; }); }, () => { wantWake = false; paintWake(); });
-}
-if ('wakeLock' in navigator) {
-  wb.hidden = false;
-  wb.addEventListener('click', () => { wantWake = !wantWake; paintWake(); if (wantWake) lock(); else if (wl) wl.release(); });
-  document.addEventListener('visibilitychange', () => { if (wantWake && !wl && document.visibilityState === 'visible') lock(); });
-}
 </script>
 <script>
 (() => {
@@ -2017,7 +2000,7 @@ addEventListener('gabella-me', e => { if (e.detail !== 'journey') { loadMe(); re
 addEventListener('storage', e => { if (e.key === MEKEY) { loadMe(); renderJourney(); } });
 })();
 </script>
-<script data-src="../../assets/living/living.js?v=8f1634894e"></script>
+<script data-src="../../assets/living/living.js?v=c1c7830120"></script>
 <script>
 (() => {
   const KEY = 'gabella-lang-hint', store = l => { try { localStorage.setItem(KEY, '1'); if (l) localStorage.setItem('gabella-lang', l); } catch (e) {} };
@@ -2086,7 +2069,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../"></script>
-<script data-src="../../assets/search/search.js?v=78a8683def" data-root="../../"></script>
+<script data-src="../../assets/search/search.js?v=b1092a36e0" data-root="../../"></script>
 <script data-src="../../assets/me/me.js?v=f0bb3b6c1b" data-root="../../" data-home="../" data-lang="uk" data-ach="0" data-teaser="" data-close="Закрити" data-page="play/" data-look="2"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
