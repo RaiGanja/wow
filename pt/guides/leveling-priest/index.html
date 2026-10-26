@@ -373,6 +373,8 @@ section.block { scroll-margin-top: -72px; }
 .pb-t h2 { font-size: var(--fs-28); line-height: 1.1; }
 .pb-t > span { color: var(--muted); max-width: 60ch; }
 .pickban .btn { white-space: nowrap; }
+.pb-a { display: grid; gap: 10px; justify-items: start; }
+.pb-a .more-l { font-size: var(--fs-14); }
 #guides .gt { min-height: 150px; }
 #camp { margin-top: 40px; min-height: clamp(380px, 34vw, 560px); }
 #camp .camp-in { padding-bottom: clamp(40px, 5vw, 72px); }
@@ -962,7 +964,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .pb-t { padding: 16px 0; gap: 4px; }
   .pb-t h2 { font-size: var(--fs-22); }
   .pb-t > span { font-size: var(--fs-14); }
-  .pickban .btn { grid-column: 1 / -1; margin: 0 0 16px 16px; justify-self: start; }
+  .pickban .pb-a { grid-column: 1 / -1; margin: 0 0 16px 16px; }
   #guides .gt { min-height: 118px; }
   #guides .gt span { display: none; }
   #camp { min-height: 520px; }
@@ -1208,7 +1210,14 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .lcw b { font-size: var(--fs-22); font-weight: 600; font-variant-numeric: lining-nums; }
 .lcw span[hidden] { display: none; }
 .lcd.out .lcu { display: none; }
-.pday { margin-bottom: 14px; }   /* In game: the launch checklist in one line above the columns */
+.pday { margin-bottom: 14px; }
+/* the hero of this browser (character/): a gold line, no badge */
+.nmine { display: block; margin-top: 2px; color: var(--gold-2); font-size: var(--fs-13); font-weight: 600; }
+.nitem time ~ .nmine { grid-column: 2; }
+.dme { grid-column: 2; margin: 4px 0 0; font-size: var(--fs-14); }
+.dme a, .dmehead a { color: var(--gold-2); }
+.dmehead { margin: 0 0 12px; }
+#tReset small { color: var(--muted); font-size: var(--fs-13); }   /* In game: the launch checklist in one line above the columns */
 /* Launch checklist (guides/launch-checklist/): rows on one plate like the tables, a square tick, the link to our page on the right */
 .dbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; font-variant-numeric: lining-nums tabular-nums; }
 .dbar[hidden] { display: none; }
@@ -1389,7 +1398,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../../assets/radio/radio.css?v=c5eacd57e2">
-<link data-rel="stylesheet" href="../../../assets/search/search.css?v=c8c77e27f2">
+<link data-rel="stylesheet" href="../../../assets/search/search.css?v=6325abe5dd">
 <link data-rel="stylesheet" href="../../../assets/me/me.css?v=d6ef450f05">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Início","item":"https://gabella.site/wow/pt/"},{"@type":"ListItem","position":2,"name":"Guias","item":"https://gabella.site/wow/pt/guides/"},{"@type":"ListItem","position":3,"name":"Evoluir um Sacerdote de 1 a 60","item":"https://gabella.site/wow/pt/guides/leveling-priest/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Guia de nível do Sacerdote 1–60 em WoW Forever: Sombra","description":"Como evoluir um Sacerdote em WoW Forever: Sombra, talentos por nível 10–60, varinha, diferenças do Classic. Dados da beta.","inLanguage":"pt-BR","url":"https://gabella.site/wow/pt/guides/leveling-priest/","dateModified":"2026-10-26","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/pt/"},"image":"https://gabella.site/wow/assets/og/leveling-priest-pt.jpg?v=ebf0ad76"}</script>
@@ -1496,7 +1505,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <nav class="toc" aria-label="Todas as seções">
     <div class="grp"><div class="gh">Esta página</div><a href="#spec">Qual especialização usar</a><a href="#talents">Talentos por nível</a><a href="#abilities">Habilidades e instrutor</a><a href="#play">Solo, em dupla, em grupo</a><a href="#gear">Atributos e equipamento</a><a href="#forever">Em que o Forever difere do Classic</a><a href="#faq">Perguntas</a><a href="#related">Veja também</a></div>
     <div class="grp"><div class="gh">Referência</div><a class="tbd" href="../../classes/">Classes</a><a href="../../classes/#choose">Qual classe escolher</a><a href="../../races/">Raças</a><a href="../../guides/builds/">Builds</a><a class="tbd" href="../../guides/leveling/">Evolução 1–60</a><a class="tbd" href="../../guides/dungeons/">Masmorras e raides</a><a href="../../guides/professions/">Profissões</a><a href="../../guides/faq/">FAQ e datas</a><a href="../../guides/news/">Notícias</a><a href="../../guides/">Todos os guias</a></div>
-    <div class="grp"><div class="gh">Ferramentas</div><a href="../../tools/#picker">Raça e classe</a><a href="../../tools/#raid">Grupo e LFG</a><a href="../../play/">No jogo</a></div>
+    <div class="grp"><div class="gh">Ferramentas</div><a href="../../character/">Meu personagem</a><a href="../../tools/#picker">Raça e classe</a><a href="../../tools/#raid">Grupo e LFG</a><a href="../../play/">No jogo</a></div>
     <div class="grp"><div class="gh">Comunidade</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="../../profile/">Meu perfil</a></div>
   </nav>
   <div class="opts">
@@ -1622,7 +1631,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../../"></script>
-<script data-src="../../../assets/search/search.js?v=c8c77e27f2" data-root="../../../"></script>
+<script data-src="../../../assets/search/search.js?v=6325abe5dd" data-root="../../../"></script>
 <script data-src="../../../assets/me/me.js?v=d6ef450f05" data-root="../../../" data-home="../../" data-lang="pt" data-ach="0" data-teaser="" data-close="Fechar" data-page="guides/leveling-priest/" data-look="2"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>

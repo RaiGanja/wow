@@ -373,6 +373,8 @@ section.block { scroll-margin-top: -72px; }
 .pb-t h2 { font-size: var(--fs-28); line-height: 1.1; }
 .pb-t > span { color: var(--muted); max-width: 60ch; }
 .pickban .btn { white-space: nowrap; }
+.pb-a { display: grid; gap: 10px; justify-items: start; }
+.pb-a .more-l { font-size: var(--fs-14); }
 #guides .gt { min-height: 150px; }
 #camp { margin-top: 40px; min-height: clamp(380px, 34vw, 560px); }
 #camp .camp-in { padding-bottom: clamp(40px, 5vw, 72px); }
@@ -962,7 +964,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .pb-t { padding: 16px 0; gap: 4px; }
   .pb-t h2 { font-size: var(--fs-22); }
   .pb-t > span { font-size: var(--fs-14); }
-  .pickban .btn { grid-column: 1 / -1; margin: 0 0 16px 16px; justify-self: start; }
+  .pickban .pb-a { grid-column: 1 / -1; margin: 0 0 16px 16px; }
   #guides .gt { min-height: 118px; }
   #guides .gt span { display: none; }
   #camp { min-height: 520px; }
@@ -1208,7 +1210,14 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .lcw b { font-size: var(--fs-22); font-weight: 600; font-variant-numeric: lining-nums; }
 .lcw span[hidden] { display: none; }
 .lcd.out .lcu { display: none; }
-.pday { margin-bottom: 14px; }   /* In game: the launch checklist in one line above the columns */
+.pday { margin-bottom: 14px; }
+/* the hero of this browser (character/): a gold line, no badge */
+.nmine { display: block; margin-top: 2px; color: var(--gold-2); font-size: var(--fs-13); font-weight: 600; }
+.nitem time ~ .nmine { grid-column: 2; }
+.dme { grid-column: 2; margin: 4px 0 0; font-size: var(--fs-14); }
+.dme a, .dmehead a { color: var(--gold-2); }
+.dmehead { margin: 0 0 12px; }
+#tReset small { color: var(--muted); font-size: var(--fs-13); }   /* In game: the launch checklist in one line above the columns */
 /* Launch checklist (guides/launch-checklist/): rows on one plate like the tables, a square tick, the link to our page on the right */
 .dbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; font-variant-numeric: lining-nums tabular-nums; }
 .dbar[hidden] { display: none; }
@@ -1389,7 +1398,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../assets/radio/radio.css?v=c5eacd57e2">
-<link data-rel="stylesheet" href="../../assets/search/search.css?v=c8c77e27f2">
+<link data-rel="stylesheet" href="../../assets/search/search.css?v=6325abe5dd">
 <link data-rel="stylesheet" href="../../assets/me/me.css?v=d6ef450f05">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://gabella.site/wow/"},{"@type":"ListItem","position":2,"name":"Гайды","item":"https://gabella.site/wow/guides/"},{"@type":"ListItem","position":3,"name":"Новости","item":"https://gabella.site/wow/guides/news/"}]}</script>
 </head>
@@ -1455,7 +1464,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <div class="wrap gbody">
   <nav class="gtoc frame" aria-label="Разделы гайда"><a href="#ours">Наши записи</a><a href="#feed">Лента Wowhead</a></nav>
   <div class="gmain">
-<section class="frame gsec" id="ours"><h2>Наши записи</h2><div class="nlist"><a class="nitem" href="https://teamoverpowered.com/forever/guides/name-reservation/" target="_blank" rel="noopener"><time datetime="2026-10-23">23.10.2026</time><b>Бета закрыта, дальше — имена с 27.10</b><p>Закрытая бета закрылась 23.10 в 10:00 по тихоокеанскому времени (17:00 UTC). С 27.10 по 03.11 владельцы Heroic, Epic и Collection резервируют до трёх имён на аккаунт, кто первым пришёл, тот и занял.</p></a><a class="nitem" href="https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/" target="_blank" rel="noopener"><time datetime="2026-10-15">15.10.2026</time><b>Крупный патч беты: расы и классы</b><p>Способности рас переделаны (оружейные специализации заменены критами), настроены почти все классы. Таблицы рас и классов на сайте уже по этому патчу.</p></a><a class="nitem" href="https://classicwow.gg/forever" target="_blank" rel="noopener"><time datetime="2026-10-08">08.10.2026</time><b>В бете Даларан и больше опыта в подземельях</b><p>В бету добавили Даларан (City of Dalaran) и примерно на 20% больше опыта за врагов в подземельях.</p></a></div></section>
+<section class="frame gsec" id="ours"><h2>Наши записи</h2><div class="nlist"><a class="nitem" href="https://teamoverpowered.com/forever/guides/name-reservation/" target="_blank" rel="noopener"><time datetime="2026-10-23">23.10.2026</time><b>Бета закрыта, дальше — имена с 27.10</b><p>Закрытая бета закрылась 23.10 в 10:00 по тихоокеанскому времени (17:00 UTC). С 27.10 по 03.11 владельцы Heroic, Epic и Collection резервируют до трёх имён на аккаунт, кто первым пришёл, тот и занял.</p></a><a class="nitem" href="https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/" target="_blank" rel="noopener" data-cls="all"><time datetime="2026-10-15">15.10.2026</time><b>Крупный патч беты: расы и классы</b><p>Способности рас переделаны (оружейные специализации заменены критами), настроены почти все классы. Таблицы рас и классов на сайте уже по этому патчу.</p></a><a class="nitem" href="https://classicwow.gg/forever" target="_blank" rel="noopener"><time datetime="2026-10-08">08.10.2026</time><b>В бете Даларан и больше опыта в подземельях</b><p>В бету добавили Даларан (City of Dalaran) и примерно на 20% больше опыта за врагов в подземельях.</p></a></div></section>
 <section class="frame gsec" id="feed"><h2>Лента Wowhead</h2><p>Новости про Forever с Wowhead, на английском. Список обновляется сам.</p><div class="nlist" id="feedList" hidden></div><p><a class="more-l" href="https://www.wowhead.com/news" target="_blank" rel="noopener">Все новости Wowhead</a></p></section>
   </div>
 </div>
@@ -1487,7 +1496,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <nav class="toc" aria-label="Все разделы">
     <div class="grp"><div class="gh">Эта страница</div><a href="#ours">Наши записи</a><a href="#feed">Лента Wowhead</a></div>
     <div class="grp"><div class="gh">Справочник</div><a class="tbd" href="../../classes/">Классы</a><a href="../../classes/#choose">Какой класс выбрать</a><a href="../../races/">Расы</a><a href="../../guides/builds/">Билды</a><a class="tbd" href="../../guides/leveling/">Прокачка 1–60</a><a class="tbd" href="../../guides/dungeons/">Подземелья и рейды</a><a href="../../guides/professions/">Профессии</a><a href="../../guides/faq/">FAQ и даты</a><a href="../../guides/news/">Новости</a><a href="../../guides/">Все гайды</a></div>
-    <div class="grp"><div class="gh">Инструменты</div><a href="../../tools/#picker">Раса и класс</a><a href="../../tools/#raid">Состав группы и LFG</a><a href="../../play/">В игре</a></div>
+    <div class="grp"><div class="gh">Инструменты</div><a href="../../character/">Мой персонаж</a><a href="../../tools/#picker">Раса и класс</a><a href="../../tools/#raid">Состав группы и LFG</a><a href="../../play/">В игре</a></div>
     <div class="grp"><div class="gh">Сообщество</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="../../profile/">Мой профиль</a></div>
   </nav>
   <div class="opts">
@@ -1542,6 +1551,27 @@ if ('IntersectionObserver' in window && tocLinks.length) {
   }), { rootMargin: '-40% 0px -55% 0px' });
   document.querySelectorAll('.gsec').forEach(s => io.observe(s));
 }
+const HC = {"tx":{"title":"Мой персонаж","lead":"Без входа и пароля: выберите класс, спек и расу, и гид подстроится под вас.","local":"Сохраняется только в этом браузере.","none":"Персонаж ещё не создан","create":"Создать персонажа","edit":"Изменить","reset":"Удалить персонажа","resetQ":"Удалить персонажа из этого браузера?","steps":["Сторона","Класс и спек","Раса","Облик","Детали"],"side":"За кого играете?","cls":"Класс","spec":"Спек","race":"Раса","bestFor":"Лучшая раса для спека «%s»","best":"лучшая","paid":"платная","sex":"Пол","m":"Мужской","f":"Женский","bg":"Фон портрета","lvl":"Уровень","reg":"Регион","lvlReg":"Уровень и регион","regs":{"us":"Америка и Океания","eu":"Европа","kr":"Корея","tw":"Тайвань"},"p1":"Профессия 1","p2":"Профессия 2","secP":"Вспомогательные профессии","noP":"Нет","role":"Роль","back":"Назад","next":"Дальше","done":"Готово","cancel":"Отмена","later":"Можно заполнить позже.","levelN":"%n уровень","build":"Моя сборка талантов","buildD":"Таланты спека «%s» по уровням.","pairs":"Пары профессий","pairsD":"Какие профессии взять классу.","bestR":"Лучшие расы","bestRD":"Раса под класс за обе фракции.","lvlG":"Прокачка класса","lvlGD":"Маршрут и таланты 1–60.","day1":"День 1 под персонажа","day1D":"Чек-лист старта с вашим классом и расой.","play":"В игре","playD":"Зоны и подземелья под уровень, таймеры, радио.","dung":"Подземелья под уровень","dungNo":"Укажите уровень, и подберём подземелья.","dungFirst":"Первые подземелья с 13 уровня.","resetH":"Сброс недели","resetIn":"через %s","resetNote":"Время сброса Forever Blizzard ещё не объявила. Показано, как в других версиях WoW этого региона: сверим на старте.","resetUnk":"Для этого региона время сброса уточним на старте.","resetNoReg":"Укажите регион, и покажем сброс недели.","resetWhy":"Рейды открываются 09.12, у них недельное сохранение.","lfg":"Текст для поиска группы","lfgD":"Вставьте в чат LookingForGroup. Названия как в игре.","lfgT":"Ищу группу в %d: %c, %r, %l уровень.","lfgT0":"Ищу группу: %c, %r.","allD":"Все подземелья","copy":"Скопировать","copied":"Скопировано","sync":"Синхронизировать между устройствами","syncD":"Вход нужен только для этого: персонаж будет на телефоне и на ПК, а письмо к старту придёт на почту, если подпишетесь.","mine":"Касается вашего класса","make":"Сделать моим персонажем","made":"Это ваш персонаж","plaqueH":"Мой персонаж","plaqueD":"Класс, спек и раса за минуту: гид покажет вашу сборку, профессии и подземелья.","day1Mine":"Под вашего персонажа","ckClass":"Ваш спек «%s»: сборка талантов по уровням.","ckRaceOk":"%r — лучшая раса под ваш спек.","ckRaceAlt":"Лучшая раса под ваш спек: %r.","ckProfs":"Пары профессий для класса «%s».","ckStart":"Прокачка за класс «%s»: маршрут и первые таланты.","ckPing":"Ваш регион: %s.","or":"или"},"best":{"warrior":{"alliance":{"*":[["human","nightelf"],"Человек: +2% крита любым оружием. Ночной эльф: +10% крита на 15 сек. Источники делятся почти поровну."],"protection":[["dwarf"],"Каменная форма снижает физический урон на 10% и снимает кровотечения."]},"horde":{"*":[["orc"],"Кровавое неистовство: +10% силы атаки на 15 сек, Дикость: +1% крита. Первым его ставят все источники."],"protection":[["tauren"],"Закалка даёт +5% здоровья, Громовая поступь оглушает врагов рядом."]}},"paladin":{"alliance":{"*":[["human"],"Беспощадность усиливает и удары, и заклинания, Воля к жизни снимает оглушения."],"protection":[["dwarf"],"Каменная форма и Ярость земли: +2% к силе крита."]},"horde":{"*":[["undead"],"За Орду паладином может быть только Нежить. Каннибализм возвращает ману, Воля Отрекшихся снимает страх."]}},"hunter":{"alliance":{"*":[["human","nightelf"],"Человек: +2% крита, и питомец наследует крит. Ночной эльф: Свет Элуны и Слиться с тенью."]},"horde":{"*":[["orc","troll"],"Орк: Кровавое неистовство и Дикость. Тролль: +5% урона по зверям."]}},"rogue":{"alliance":{"*":[["nightelf"],"Слиться с тенью снижает угрозу и в бою, плюс Свет Элуны и Расторопность."]},"horde":{"*":[["orc"],"Кровавое неистовство: +10% силы атаки на 15 сек."]}},"priest":{"alliance":{"*":[["gnome"],"Выбор всех источников: Эврика! усиливает и Слово силы: Щит, Пытливый ум даёт +5% маны."]},"horde":{"*":[["undead","troll"],"Источники делятся. Нежить сильнее в PvP: Воля Отрекшихся снимает страх, сон и очарование."]}},"shaman":{"alliance":{"*":[["dwarf"],"За Альянс шаманом может быть только Дворф: Каменная форма и Ярость земли."]},"horde":{"*":[["orc"],"Кровавое неистовство даёт и силу атаки, и силу заклинаний: подходит и Стихиям, и Совершенствованию."],"restoration":[["troll"],"Лекарю источник советует Тролля: Боевое исступление, +10% к скорости заклинаний на 12 сек."]}},"mage":{"alliance":{"*":[["gnome"],"Эврика! на 8 сек, Пытливый ум: +5% маны, Мастер побега снимает корни."]},"horde":{"*":[["orc"],"Маг-орк — новое сочетание Forever: Кровавое неистовство теперь даёт силу заклинаний."]}},"warlock":{"alliance":{"*":[["gnome","human"],"Гном: Эврика! и Пытливый ум. Человек: периодический урон критует, Беспощадность даёт +2% крита."]},"horde":{"*":[["orc","undead"],"Орк: Кровавое неистовство даёт силу заклинаний. Нежить чаще берут в PvP."]}},"druid":{"alliance":{"*":[["nightelf"],"Свет Элуны: +10% крита на 15 сек, и Расторопность."]},"horde":{"*":[["tauren"],"Закалка: +5% здоровья и +2% к силе крита, Громовая поступь работает и в формах."]}}},"sid":{"warrior":["arms","fury","protection"],"paladin":["holy","protection","retribution"],"hunter":["beast-mastery","marksmanship","survival"],"rogue":["assassination","combat","subtlety"],"priest":["discipline","holy","shadow"],"shaman":["elemental","enhancement","restoration"],"mage":["arcane","fire","frost"],"warlock":["affliction","demonology","destruction"],"druid":["balance","feral","restoration"]},"sn":{"warrior":["Оружие","Неистовство","Защита"],"paladin":["Свет","Защита","Воздаяние"],"hunter":["Повелитель зверей","Стрельба","Выживание"],"rogue":["Ликвидация","Бой","Скрытность"],"priest":["Послушание","Свет","Темная магия"],"shaman":["Стихии","Совершенствование","Исцеление"],"mage":["Тайная магия","Огонь","Лёд"],"warlock":["Колдовство","Демонология","Разрушение"],"druid":["Баланс","Сила зверя","Исцеление"]},"fn":{"alliance":"Альянс","horde":"Орда"},"reset":{"us":[2,15],"eu":[3,4],"kr":null,"tw":null},"rn":{"human":"Человек","dwarf":"Дворф","nightelf":"Ночной эльф","gnome":"Гном","skyA":"Высший скайборн","orc":"Орк","undead":"Нежить","tauren":"Таурен","troll":"Тролль","skyH":"Скайборн-ветрорез"},"rf":{"human":"alliance","dwarf":"alliance","nightelf":"alliance","gnome":"alliance","skyA":"alliance","orc":"horde","undead":"horde","tauren":"horde","troll":"horde","skyH":"horde"},"cn":{"warrior":"Воин","paladin":"Паладин","hunter":"Охотник","rogue":"Разбойник","priest":"Жрец","shaman":"Шаман","mage":"Маг","warlock":"Чернокнижник","druid":"Друид"},"cen":{"warrior":"Warrior","paladin":"Paladin","hunter":"Hunter","rogue":"Rogue","priest":"Priest","shaman":"Shaman","mage":"Mage","warlock":"Warlock","druid":"Druid"}};
+function readHero() {
+  let m = {};
+  try { m = JSON.parse(localStorage.getItem('gabella-wf-me')) || {}; } catch (e) { m = {}; }
+  if (!m || typeof m !== 'object' || !HC.cn[m.cls]) return null;
+  const sid = HC.sid[m.cls], spec = sid.includes(m.spec) ? m.spec : '';
+  return Object.assign({}, m, { spec, specN: spec ? HC.sn[m.cls][sid.indexOf(spec)] : '', clsN: HC.cn[m.cls], raceN: HC.rn[m.race] || '', fac: HC.rf[m.race] || '' });
+}
+function bestOf(cls, fac, spec) { const b = (HC.best[cls] || {})[fac]; return b ? (b[spec] || b['*']) : null; }
+function nextReset(reg) {   // the region's weekly reset [weekday UTC, hour UTC] -> the next moment after now; null: not known
+  const r = HC.reset[reg]; if (!r) return null;
+  const now = new Date(), d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), r[1]));
+  d.setUTCDate(d.getUTCDate() + (r[0] - d.getUTCDay() + 7) % 7);
+  if (d <= now) d.setUTCDate(d.getUTCDate() + 7);
+  return d;
+}
+function leftTxt(ms) {
+  const u = (n, k) => new Intl.NumberFormat(document.documentElement.lang, { style: 'unit', unit: k, unitDisplay: 'short', maximumFractionDigits: 0 }).format(n);
+  const m = Math.max(1, Math.round(ms / 6e4)), d = Math.floor(m / 1440), h = Math.floor(m % 1440 / 60);
+  return d ? `${u(d, 'day')} ${u(h, 'hour')}` : h ? `${u(h, 'hour')} ${u(m % 60, 'minute')}` : u(m, 'minute');
+}
 /* News: automatic Wowhead feed from assets/news.json; no file -> the list stays hidden */
 fetch(ROOT + 'assets/news.json').then(r => r.ok ? r.json() : []).then(items => {
   const box = document.getElementById('feedList');
@@ -1550,7 +1580,19 @@ fetch(ROOT + 'assets/news.json').then(r => r.ok ? r.json() : []).then(items => {
   box.innerHTML = items.filter(n => /^https:\/\//.test(n.url)).map(n => (n.date !== day ? `<h3 class="nday">${esc((day = n.date).split('-').reverse().join('.'))}</h3>` : '')
     + `<a class="nitem" href="${esc(n.url)}" target="_blank" rel="noopener"><b>${esc(n.title)}</b></a>`).join('');
   box.hidden = false;
+  markMine();
 }).catch(() => {});
+/* «About your class»: our notes by their data-cls ('all' or class ids), the English feed by the class name in the title */
+function markMine() {
+  const h = readHero(); if (!h) return;
+  const rx = new RegExp('\\b' + HC.cen[h.cls] + 's?\\b', 'i');
+  document.querySelectorAll('.nitem').forEach(a => {
+    const c = a.dataset.cls, b = a.querySelector('b');
+    const mine = c ? c === 'all' || c.split(' ').includes(h.cls) : rx.test(b ? b.textContent : '');
+    if (mine && b && !a.querySelector('.nmine')) b.insertAdjacentHTML('afterend', `<span class="nmine">${esc(HC.tx.mine)}: ${esc(h.clsN)}</span>`);
+  });
+}
+markMine();
 </script>
 <script data-src="../../assets/living/living.js?v=99328f012a"></script>
 <script>
@@ -1621,7 +1663,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../"></script>
-<script data-src="../../assets/search/search.js?v=c8c77e27f2" data-root="../../"></script>
+<script data-src="../../assets/search/search.js?v=6325abe5dd" data-root="../../"></script>
 <script data-src="../../assets/me/me.js?v=d6ef450f05" data-root="../../" data-home="../../" data-lang="ru" data-ach="0" data-teaser="" data-close="Закрыть" data-page="guides/news/" data-look="2"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>

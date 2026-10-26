@@ -373,6 +373,8 @@ section.block { scroll-margin-top: -72px; }
 .pb-t h2 { font-size: var(--fs-28); line-height: 1.1; }
 .pb-t > span { color: var(--muted); max-width: 60ch; }
 .pickban .btn { white-space: nowrap; }
+.pb-a { display: grid; gap: 10px; justify-items: start; }
+.pb-a .more-l { font-size: var(--fs-14); }
 #guides .gt { min-height: 150px; }
 #camp { margin-top: 40px; min-height: clamp(380px, 34vw, 560px); }
 #camp .camp-in { padding-bottom: clamp(40px, 5vw, 72px); }
@@ -962,7 +964,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .pb-t { padding: 16px 0; gap: 4px; }
   .pb-t h2 { font-size: var(--fs-22); }
   .pb-t > span { font-size: var(--fs-14); }
-  .pickban .btn { grid-column: 1 / -1; margin: 0 0 16px 16px; justify-self: start; }
+  .pickban .pb-a { grid-column: 1 / -1; margin: 0 0 16px 16px; }
   #guides .gt { min-height: 118px; }
   #guides .gt span { display: none; }
   #camp { min-height: 520px; }
@@ -1208,7 +1210,14 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .lcw b { font-size: var(--fs-22); font-weight: 600; font-variant-numeric: lining-nums; }
 .lcw span[hidden] { display: none; }
 .lcd.out .lcu { display: none; }
-.pday { margin-bottom: 14px; }   /* In game: the launch checklist in one line above the columns */
+.pday { margin-bottom: 14px; }
+/* the hero of this browser (character/): a gold line, no badge */
+.nmine { display: block; margin-top: 2px; color: var(--gold-2); font-size: var(--fs-13); font-weight: 600; }
+.nitem time ~ .nmine { grid-column: 2; }
+.dme { grid-column: 2; margin: 4px 0 0; font-size: var(--fs-14); }
+.dme a, .dmehead a { color: var(--gold-2); }
+.dmehead { margin: 0 0 12px; }
+#tReset small { color: var(--muted); font-size: var(--fs-13); }   /* In game: the launch checklist in one line above the columns */
 /* Launch checklist (guides/launch-checklist/): rows on one plate like the tables, a square tick, the link to our page on the right */
 .dbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; font-variant-numeric: lining-nums tabular-nums; }
 .dbar[hidden] { display: none; }
@@ -1389,7 +1398,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../../assets/radio/radio.css?v=c5eacd57e2">
-<link data-rel="stylesheet" href="../../../assets/search/search.css?v=c8c77e27f2">
+<link data-rel="stylesheet" href="../../../assets/search/search.css?v=6325abe5dd">
 <link data-rel="stylesheet" href="../../../assets/me/me.css?v=d6ef450f05">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://gabella.site/wow/de/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://gabella.site/wow/de/guides/"},{"@type":"ListItem","position":3,"name":"Tag 1: Checkliste zum Start","item":"https://gabella.site/wow/de/guides/launch-checklist/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"WoW Forever Checkliste zum Start: Was an Tag 1 zu tun ist","description":"Checkliste zum Start von WoW Forever am 4./5. Nov.: Abo, Client, Modus, Klasse und Name vor dem Start, dann die ersten Stunden und der erste Abend.","inLanguage":"de","url":"https://gabella.site/wow/de/guides/launch-checklist/","dateModified":"2026-10-26","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/de/"},"image":"https://gabella.site/wow/assets/og/guides-de.jpg?v=854fac05"}</script>
@@ -1490,7 +1499,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <nav class="toc" aria-label="Alle Abschnitte">
     <div class="grp"><div class="gh">Diese Seite</div><a href="#before">Vor dem Start</a><a href="#hours">Erste Stunden</a><a href="#evening">Erster Abend</a></div>
     <div class="grp"><div class="gh">Nachschlagen</div><a class="tbd" href="../../classes/">Klassen</a><a href="../../classes/#choose">Welche Klasse spielen</a><a href="../../races/">Völker</a><a href="../../guides/builds/">Builds</a><a class="tbd" href="../../guides/leveling/">Leveln 1–60</a><a class="tbd" href="../../guides/dungeons/">Dungeons und Raids</a><a href="../../guides/professions/">Berufe</a><a href="../../guides/faq/">FAQ und Termine</a><a href="../../guides/news/">News</a><a href="../../guides/">Alle Guides</a></div>
-    <div class="grp"><div class="gh">Tools</div><a href="../../tools/#picker">Volk und Klasse</a><a href="../../tools/#raid">Gruppe und LFG</a><a href="../../play/">Im Spiel</a></div>
+    <div class="grp"><div class="gh">Tools</div><a href="../../character/">Mein Charakter</a><a href="../../tools/#picker">Volk und Klasse</a><a href="../../tools/#raid">Gruppe und LFG</a><a href="../../play/">Im Spiel</a></div>
     <div class="grp"><div class="gh">Gemeinschaft</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="../../profile/">Mein Profil</a></div>
   </nav>
   <div class="opts">
@@ -1545,6 +1554,27 @@ if ('IntersectionObserver' in window && tocLinks.length) {
   }), { rootMargin: '-40% 0px -55% 0px' });
   document.querySelectorAll('.gsec').forEach(s => io.observe(s));
 }
+const HC = {"tx":{"title":"Mein Charakter","lead":"Ohne Login und Passwort: Wähle Klasse, Spezialisierung und Volk, und der Guide passt sich dir an.","local":"Nur in diesem Browser gespeichert.","none":"Noch kein Charakter","create":"Charakter erstellen","edit":"Bearbeiten","reset":"Charakter löschen","resetQ":"Charakter aus diesem Browser löschen?","steps":["Seite","Klasse und Spezialisierung","Volk","Aussehen","Details"],"side":"Für wen spielst du?","cls":"Klasse","spec":"Spezialisierung","race":"Volk","bestFor":"Bestes Volk für %s","best":"beste","paid":"bezahlt","sex":"Geschlecht","m":"Männlich","f":"Weiblich","bg":"Porträt-Hintergrund","lvl":"Stufe","reg":"Region","lvlReg":"Stufe und Region","regs":{"us":"Amerika und Ozeanien","eu":"Europa","kr":"Korea","tw":"Taiwan"},"p1":"Beruf 1","p2":"Beruf 2","secP":"Nebenberufe","noP":"Keine","role":"Rolle","back":"Zurück","next":"Weiter","done":"Fertig","cancel":"Abbrechen","later":"Kannst du auch später ausfüllen.","levelN":"Stufe %n","build":"Mein Talent-Build","buildD":"Talente für %s nach Stufe.","pairs":"Berufspaare","pairsD":"Welche Berufe zu deiner Klasse passen.","bestR":"Beste Völker","bestRD":"Volk für deine Klasse in beiden Fraktionen.","lvlG":"Klassen-Leveling","lvlGD":"Route und Talente 1–60.","day1":"Tag 1 für deinen Charakter","day1D":"Die Start-Checkliste mit deiner Klasse und deinem Volk.","play":"Im Spiel","playD":"Zonen und Dungeons für deine Stufe, Timer, Radio.","dung":"Dungeons für deine Stufe","dungNo":"Gib deine Stufe an, dann suchen wir Dungeons aus.","dungFirst":"Die ersten Dungeons öffnen ab Stufe 13.","resetH":"Wöchentlicher Reset","resetIn":"in %s","resetNote":"Blizzard hat die Reset-Zeit von Forever noch nicht bekannt gegeben. Angezeigt wie in anderen WoW-Versionen dieser Region: Wir prüfen es zum Start.","resetUnk":"Die Reset-Zeit für diese Region bestätigen wir zum Start.","resetNoReg":"Gib deine Region an, um den wöchentlichen Reset zu sehen.","resetWhy":"Schlachtzüge öffnen am 09.12 und haben eine wöchentliche ID.","lfg":"Text für die Gruppensuche","lfgD":"Füge ihn in den Chat LookingForGroup ein. Namen wie im Spiel.","lfgT":"LFG %d: %c, %r, Stufe %l.","lfgT0":"LFG: %c, %r.","allD":"Alle Dungeons","copy":"Kopieren","copied":"Kopiert","sync":"Zwischen Geräten synchronisieren","syncD":"Ein Login ist nur dafür nötig: Der Charakter ist dann auf Handy und PC, und die Start-Mail kommt per E-Mail, wenn du sie abonnierst.","mine":"Betrifft deine Klasse","make":"Zu meinem Charakter machen","made":"Das ist dein Charakter","plaqueH":"Mein Charakter","plaqueD":"Klasse, Spezialisierung und Volk in einer Minute: Der Guide zeigt deinen Build, deine Berufe und Dungeons.","day1Mine":"Für deinen Charakter","ckClass":"Deine Spezialisierung, %s: der Talent-Build nach Stufe.","ckRaceOk":"%r ist das beste Volk für deine Spezialisierung.","ckRaceAlt":"Bestes Volk für deine Spezialisierung: %r.","ckProfs":"Berufspaare für %s.","ckStart":"Leveln als %s: Route und erste Talente.","ckPing":"Deine Region: %s.","or":"oder"},"best":{"warrior":{"alliance":{"*":[["human","nightelf"],"Mensch: +2 % kritische Trefferchance mit jeder Waffe. Nachtelf: +10 % für 15 Sek. Die Quellen sind fast gleich verteilt."],"protection":[["dwarf"],"Steingestalt senkt körperlichen Schaden um 10 % und entfernt Blutungen."]},"horde":{"*":[["orc"],"Kochendes Blut: +10 % Angriffskraft für 15 Sek., Savagery: +1 % kritische Trefferchance. Alle Quellen setzen es an die Spitze."],"protection":[["tauren"],"Zähigkeit gibt +5 % Gesundheit, Kriegsdonner betäubt Gegner in der Nähe."]}},"paladin":{"alliance":{"*":[["human"],"Ruthless verstärkt Schläge und Zauber, Überlebenswille entfernt Betäubungen."],"protection":[["dwarf"],"Steingestalt und Earthen Fury: +2 % kritischer Schaden."]},"horde":{"*":[["undead"],"In der Horde kann nur der Untote Paladin sein. Kannibalismus stellt Mana wieder her, Wille der Verlassenen entfernt Furcht."]}},"hunter":{"alliance":{"*":[["human","nightelf"],"Mensch: +2 % kritische Trefferchance, das Tier erbt sie. Nachtelf: Elunes Anmut und Schattenmimik."]},"horde":{"*":[["orc","troll"],"Ork: Kochendes Blut und Savagery. Troll: +5 % Schaden gegen Wildtiere."]}},"rogue":{"alliance":{"*":[["nightelf"],"Schattenmimik senkt die Bedrohung jetzt auch im Kampf, dazu Elunes Anmut und Schnelligkeit."]},"horde":{"*":[["orc"],"Kochendes Blut: +10 % Angriffskraft für 15 Sek."]}},"priest":{"alliance":{"*":[["gnome"],"Alle Quellen wählen es: Heureka! verstärkt auch Machtwort: Schild, Inquisitive Mind gibt +5 % Mana."]},"horde":{"*":[["undead","troll"],"Die Quellen sind uneins. Untote sind im PvP stärker: Wille der Verlassenen entfernt Furcht, Schlaf und Bezauberung."]}},"shaman":{"alliance":{"*":[["dwarf"],"In der Allianz kann nur der Zwerg Schamane sein: Steingestalt und Earthen Fury."]},"horde":{"*":[["orc"],"Kochendes Blut gibt Angriffskraft und Zaubermacht: gut für Elementar und Verstärkung."],"restoration":[["troll"],"Für Heiler empfiehlt eine Quelle den Troll: Berserker, +10 % Zaubertempo für 12 Sek."]}},"mage":{"alliance":{"*":[["gnome"],"Heureka! für 8 Sek., Inquisitive Mind: +5 % Mana, Entfesselungskünstler löst Wurzeln."]},"horde":{"*":[["orc"],"Ork-Magier ist eine neue Kombination in Forever: Kochendes Blut gibt jetzt Zaubermacht."]}},"warlock":{"alliance":{"*":[["gnome","human"],"Gnom: Heureka! und Inquisitive Mind. Mensch: Schaden über Zeit kann kritisch treffen, Ruthless gibt +2 % kritische Trefferchance."]},"horde":{"*":[["orc","undead"],"Ork: Kochendes Blut gibt Zaubermacht. Untote werden im PvP öfter gewählt."]}},"druid":{"alliance":{"*":[["nightelf"],"Elunes Anmut: +10 % kritische Trefferchance für 15 Sek., dazu Schnelligkeit."]},"horde":{"*":[["tauren"],"Zähigkeit: +5 % Gesundheit und +2 % kritischer Schaden, Kriegsdonner wirkt auch in Gestalten."]}}},"sid":{"warrior":["arms","fury","protection"],"paladin":["holy","protection","retribution"],"hunter":["beast-mastery","marksmanship","survival"],"rogue":["assassination","combat","subtlety"],"priest":["discipline","holy","shadow"],"shaman":["elemental","enhancement","restoration"],"mage":["arcane","fire","frost"],"warlock":["affliction","demonology","destruction"],"druid":["balance","feral","restoration"]},"sn":{"warrior":["Waffen","Furor","Schutz"],"paladin":["Heilig","Schutz","Vergeltung"],"hunter":["Tierherrschaft","Treffsicherheit","Überleben"],"rogue":["Meucheln","Kampf","Täuschung"],"priest":["Disziplin","Heilig","Schatten"],"shaman":["Elementar","Verstärkung","Wiederherstellung"],"mage":["Arkan","Feuer","Frost"],"warlock":["Gebrechen","Dämonologie","Zerstörung"],"druid":["Gleichgewicht","Wilder Kampf","Wiederherstellung"]},"fn":{"alliance":"Allianz","horde":"Horde"},"reset":{"us":[2,15],"eu":[3,4],"kr":null,"tw":null},"rn":{"human":"Mensch","dwarf":"Zwerg","nightelf":"Nachtelf","gnome":"Gnom","skyA":"High Order Skyborne","orc":"Orc","undead":"Untoter","tauren":"Tauren","troll":"Troll","skyH":"Windshaper Skyborne"},"rf":{"human":"alliance","dwarf":"alliance","nightelf":"alliance","gnome":"alliance","skyA":"alliance","orc":"horde","undead":"horde","tauren":"horde","troll":"horde","skyH":"horde"},"cn":{"warrior":"Krieger","paladin":"Paladin","hunter":"Jäger","rogue":"Schurke","priest":"Priester","shaman":"Schamane","mage":"Magier","warlock":"Hexenmeister","druid":"Druide"},"cen":{"warrior":"Warrior","paladin":"Paladin","hunter":"Hunter","rogue":"Rogue","priest":"Priest","shaman":"Shaman","mage":"Mage","warlock":"Warlock","druid":"Druid"}};
+function readHero() {
+  let m = {};
+  try { m = JSON.parse(localStorage.getItem('gabella-wf-me')) || {}; } catch (e) { m = {}; }
+  if (!m || typeof m !== 'object' || !HC.cn[m.cls]) return null;
+  const sid = HC.sid[m.cls], spec = sid.includes(m.spec) ? m.spec : '';
+  return Object.assign({}, m, { spec, specN: spec ? HC.sn[m.cls][sid.indexOf(spec)] : '', clsN: HC.cn[m.cls], raceN: HC.rn[m.race] || '', fac: HC.rf[m.race] || '' });
+}
+function bestOf(cls, fac, spec) { const b = (HC.best[cls] || {})[fac]; return b ? (b[spec] || b['*']) : null; }
+function nextReset(reg) {   // the region's weekly reset [weekday UTC, hour UTC] -> the next moment after now; null: not known
+  const r = HC.reset[reg]; if (!r) return null;
+  const now = new Date(), d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), r[1]));
+  d.setUTCDate(d.getUTCDate() + (r[0] - d.getUTCDay() + 7) % 7);
+  if (d <= now) d.setUTCDate(d.getUTCDate() + 7);
+  return d;
+}
+function leftTxt(ms) {
+  const u = (n, k) => new Intl.NumberFormat(document.documentElement.lang, { style: 'unit', unit: k, unitDisplay: 'short', maximumFractionDigits: 0 }).format(n);
+  const m = Math.max(1, Math.round(ms / 6e4)), d = Math.floor(m / 1440), h = Math.floor(m % 1440 / 60);
+  return d ? `${u(d, 'day')} ${u(h, 'hour')}` : h ? `${u(h, 'hour')} ${u(m % 60, 'minute')}` : u(m, 'minute');
+}
 /* Launch checklist: the ticks live in this browser ("gabella-day1" = {id: 1}), other tabs follow through the storage event */
 const CK = 'gabella-day1', ckBoxes = [...document.querySelectorAll('.dchk input[data-ck]')];
 const ckRead = () => { try { return JSON.parse(localStorage.getItem(CK)) || {}; } catch (e) { return {}; } };
@@ -1564,6 +1594,19 @@ ckBoxes.forEach(b => b.addEventListener('change', () => {
 $('#ckReset').addEventListener('click', () => { ckState = {}; ckSave(); ckPaint(); });
 addEventListener('storage', e => { if (e.key === CK) { ckState = ckRead(); ckPaint(); } });
 ckPaint();
+/* The hero of this browser: a line with its own link under the class, race, professions, start and ping steps */
+(() => {
+  const h = readHero(); if (!h) return;
+  const T = HC.tx, f = (s, o) => s.replace(/%(\w)/g, (m, k) => (k in o ? o[k] : m)), best = bestOf(h.cls, h.fac, h.spec);
+  const add = (id, text, href) => { const i = document.querySelector(`.dchk input[data-ck="${id}"]`); if (i && text) i.closest('li').insertAdjacentHTML('beforeend', `<p class="dme"><a href="${HOME}${href}">${esc(text)}</a></p>`); };
+  add('class', h.spec ? f(T.ckClass, { s: h.specN }) : '', `guides/builds-${h.cls}/#${h.spec}`);
+  if (best && h.raceN) add('race', best[0].includes(h.race) ? f(T.ckRaceOk, { r: h.raceN }) : f(T.ckRaceAlt, { r: best[0].map(r => HC.rn[r]).join(` ${T.or} `) }), `guides/best-race/#${h.cls}`);
+  add('profs', f(T.ckProfs, { s: h.clsN }), `guides/professions/#pairs=${h.cls}`);
+  add('start', f(T.ckStart, { s: h.clsN }), `guides/leveling-${h.cls}/`);
+  if (T.regs[h.reg]) add('ping', f(T.ckPing, { s: T.regs[h.reg] }), 'tools/#ping');
+  const list = document.querySelector('.dchk');
+  if (list) list.insertAdjacentHTML('beforebegin', `<p class="dmehead"><b>${esc(T.day1Mine)}:</b> <a href="${HOME}character/">${esc([h.raceN, h.clsN, h.specN].filter(Boolean).join(' · '))}</a></p>`);
+})();
 </script>
 <script>
 document.querySelectorAll('time.lt').forEach(t => {
@@ -1640,7 +1683,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../../"></script>
-<script data-src="../../../assets/search/search.js?v=c8c77e27f2" data-root="../../../"></script>
+<script data-src="../../../assets/search/search.js?v=6325abe5dd" data-root="../../../"></script>
 <script data-src="../../../assets/me/me.js?v=d6ef450f05" data-root="../../../" data-home="../../" data-lang="de" data-ach="0" data-teaser="" data-close="Schließen" data-page="guides/launch-checklist/" data-look="2"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>

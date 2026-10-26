@@ -397,6 +397,8 @@ section.block { scroll-margin-top: -72px; }
 .pb-t h2 { font-size: var(--fs-28); line-height: 1.1; }
 .pb-t > span { color: var(--muted); max-width: 60ch; }
 .pickban .btn { white-space: nowrap; }
+.pb-a { display: grid; gap: 10px; justify-items: start; }
+.pb-a .more-l { font-size: var(--fs-14); }
 #guides .gt { min-height: 150px; }
 #camp { margin-top: 40px; min-height: clamp(380px, 34vw, 560px); }
 #camp .camp-in { padding-bottom: clamp(40px, 5vw, 72px); }
@@ -986,7 +988,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .pb-t { padding: 16px 0; gap: 4px; }
   .pb-t h2 { font-size: var(--fs-22); }
   .pb-t > span { font-size: var(--fs-14); }
-  .pickban .btn { grid-column: 1 / -1; margin: 0 0 16px 16px; justify-self: start; }
+  .pickban .pb-a { grid-column: 1 / -1; margin: 0 0 16px 16px; }
   #guides .gt { min-height: 118px; }
   #guides .gt span { display: none; }
   #camp { min-height: 520px; }
@@ -1069,7 +1071,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../assets/radio/radio.css?v=c5eacd57e2">
-<link data-rel="stylesheet" href="../assets/search/search.css?v=c8c77e27f2">
+<link data-rel="stylesheet" href="../assets/search/search.css?v=6325abe5dd">
 <link data-rel="stylesheet" href="../assets/me/me.css?v=d6ef450f05">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Guía de WoW Forever","alternateName":"Gabella","url":"https://gabella.site/wow/es/","inLanguage":"es","description":"Guía de WoW Forever: a quién jugar, selector de raza y clase, creador de grupos y guías de subida de nivel, mazmorras y profesiones.","publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]}</script>
@@ -1158,11 +1160,11 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </section>
 
 <section class="block wrap" id="pickban">
-  <a class="frame pickban" href="tools/#picker">
+  <div class="frame pickban">
     <span class="pb-art" aria-hidden="true"><picture><source type="image/avif" data-lsrcset="../assets/art/dwarf-360.avif?v=26087647 360w, ../assets/art/dwarf-600.avif?v=a4adc65b 600w" sizes="(max-width: 719px) 100vw, 320px"><source type="image/webp" data-lsrcset="../assets/art/dwarf-360.webp?v=3f9e1aa4 360w, ../assets/art/dwarf-600.webp?v=0fd338bf 600w" sizes="(max-width: 719px) 100vw, 320px"><img data-lsrc="../assets/art/dwarf-600.webp?v=0fd338bf" width="600" height="804" alt="" loading="lazy" fetchpriority="low" decoding="async"></picture></span>
-    <span class="pb-t"><h2>Raza y clase</h2><span>Todas las combinaciones de raza y clase, habilidades raciales y roles. Copia tu elección para el chat del grupo.</span></span>
-    <span class="btn">Abrir el selector<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></span>
-  </a>
+    <span class="pb-t"><h2 id="mePlH">Mi personaje</h2><span id="mePlD">Clase, especialización y raza en un minuto: la guía te muestra tu build, profesiones y mazmorras.</span></span>
+    <span class="pb-a"><a class="btn" id="mePlGo" href="character/">Crear personaje<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a><a class="more-l" id="mePlAlt" href="tools/#picker">Selector: raza y clase</a></span>
+  </div>
 </section>
 <section class="stband" id="guides">
   <div class="wrap">
@@ -1208,7 +1210,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <div class="dh"><b>Todas las secciones</b><button class="iconbtn" id="moreClose" type="button" aria-label="Cerrar"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Todas las secciones">
     <div class="grp"><div class="gh">Referencia</div><a class="tbd" href="classes/">Clases</a><a href="classes/#choose">Qué clase elegir</a><a href="races/">Razas</a><a href="guides/builds/">Builds</a><a class="tbd" href="guides/leveling/">Subir de nivel 1–60</a><a class="tbd" href="guides/dungeons/">Mazmorras y bandas</a><a href="guides/professions/">Profesiones</a><a href="guides/faq/">FAQ y fechas</a><a href="guides/news/">Noticias</a><a href="guides/">Todas las guías</a></div>
-    <div class="grp"><div class="gh">Herramientas</div><a href="tools/#picker">Raza y clase</a><a href="tools/#raid">Grupo y LFG</a><a href="play/">En el juego</a></div>
+    <div class="grp"><div class="gh">Herramientas</div><a href="character/">Mi personaje</a><a href="tools/#picker">Raza y clase</a><a href="tools/#raid">Grupo y LFG</a><a href="play/">En el juego</a></div>
     <div class="grp"><div class="gh">Comunidad</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="profile/">Mi perfil</a></div>
   </nav>
   <div class="opts">
@@ -1272,7 +1274,7 @@ $('#moreClose').onclick = () => dlg.close();
 dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.toc a')) dlg.close(); });
 })();
 </script>
-<script data-src="../assets/home/es.js?v=70f0eff6b6"></script>
+<script data-src="../assets/home/es.js?v=4ba2a238bd"></script>
 <script data-src="../assets/living/living.js?v=99328f012a"></script>
 <link data-rel="stylesheet" href="../assets/tod/tod.css?v=4ca4fca9aa">
 <script data-src="../assets/tod/tod.js?v=4ca4fca9aa"></script>
@@ -1344,7 +1346,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../assets/radio/radio.js?v=c5eacd57e2" data-root="../"></script>
-<script data-src="../assets/search/search.js?v=c8c77e27f2" data-root="../"></script>
+<script data-src="../assets/search/search.js?v=6325abe5dd" data-root="../"></script>
 <script data-src="../assets/me/me.js?v=d6ef450f05" data-root="../" data-home="./" data-lang="es" data-ach="0" data-teaser="" data-close="Cerrar" data-page="" data-look="2"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>

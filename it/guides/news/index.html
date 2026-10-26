@@ -373,6 +373,8 @@ section.block { scroll-margin-top: -72px; }
 .pb-t h2 { font-size: var(--fs-28); line-height: 1.1; }
 .pb-t > span { color: var(--muted); max-width: 60ch; }
 .pickban .btn { white-space: nowrap; }
+.pb-a { display: grid; gap: 10px; justify-items: start; }
+.pb-a .more-l { font-size: var(--fs-14); }
 #guides .gt { min-height: 150px; }
 #camp { margin-top: 40px; min-height: clamp(380px, 34vw, 560px); }
 #camp .camp-in { padding-bottom: clamp(40px, 5vw, 72px); }
@@ -962,7 +964,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .pb-t { padding: 16px 0; gap: 4px; }
   .pb-t h2 { font-size: var(--fs-22); }
   .pb-t > span { font-size: var(--fs-14); }
-  .pickban .btn { grid-column: 1 / -1; margin: 0 0 16px 16px; justify-self: start; }
+  .pickban .pb-a { grid-column: 1 / -1; margin: 0 0 16px 16px; }
   #guides .gt { min-height: 118px; }
   #guides .gt span { display: none; }
   #camp { min-height: 520px; }
@@ -1208,7 +1210,14 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .lcw b { font-size: var(--fs-22); font-weight: 600; font-variant-numeric: lining-nums; }
 .lcw span[hidden] { display: none; }
 .lcd.out .lcu { display: none; }
-.pday { margin-bottom: 14px; }   /* In game: the launch checklist in one line above the columns */
+.pday { margin-bottom: 14px; }
+/* the hero of this browser (character/): a gold line, no badge */
+.nmine { display: block; margin-top: 2px; color: var(--gold-2); font-size: var(--fs-13); font-weight: 600; }
+.nitem time ~ .nmine { grid-column: 2; }
+.dme { grid-column: 2; margin: 4px 0 0; font-size: var(--fs-14); }
+.dme a, .dmehead a { color: var(--gold-2); }
+.dmehead { margin: 0 0 12px; }
+#tReset small { color: var(--muted); font-size: var(--fs-13); }   /* In game: the launch checklist in one line above the columns */
 /* Launch checklist (guides/launch-checklist/): rows on one plate like the tables, a square tick, the link to our page on the right */
 .dbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; font-variant-numeric: lining-nums tabular-nums; }
 .dbar[hidden] { display: none; }
@@ -1389,7 +1398,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../../assets/radio/radio.css?v=c5eacd57e2">
-<link data-rel="stylesheet" href="../../../assets/search/search.css?v=c8c77e27f2">
+<link data-rel="stylesheet" href="../../../assets/search/search.css?v=6325abe5dd">
 <link data-rel="stylesheet" href="../../../assets/me/me.css?v=d6ef450f05">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/it/"},{"@type":"ListItem","position":2,"name":"Guide","item":"https://gabella.site/wow/it/guides/"},{"@type":"ListItem","position":3,"name":"Notizie","item":"https://gabella.site/wow/it/guides/news/"}]}</script>
 </head>
@@ -1455,7 +1464,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <div class="wrap gbody">
   <nav class="gtoc frame" aria-label="Sezioni della guida"><a href="#ours">Le nostre note</a><a href="#feed">Feed di Wowhead</a></nav>
   <div class="gmain">
-<section class="frame gsec" id="ours"><h2>Le nostre note</h2><div class="nlist"><a class="nitem" href="https://teamoverpowered.com/forever/guides/name-reservation/" target="_blank" rel="noopener"><time datetime="2026-10-23">23.10.2026</time><b>La beta ha chiuso, poi i nomi dal 27.10</b><p>La beta chiusa è andata offline il 23.10 alle 10:00 ora del Pacifico (17:00 UTC). Dal 27.10 al 03.11 chi possiede Heroic, Epic e Collection prenota fino a tre nomi per account, chi prima arriva meglio alloggia.</p></a><a class="nitem" href="https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/" target="_blank" rel="noopener"><time datetime="2026-10-15">15.10.2026</time><b>Grande patch della beta: razze e classi</b><p>Le abilità razziali sono state rinnovate (le specializzazioni nelle armi sostituite dal critico), quasi tutte le classi sono state bilanciate. Le tabelle di razze e classi di questo sito seguono già questa patch.</p></a><a class="nitem" href="https://classicwow.gg/forever" target="_blank" rel="noopener"><time datetime="2026-10-08">08.10.2026</time><b>Dalaran e più esperienza nelle spedizioni della beta</b><p>La beta ha ricevuto Dalaran e circa il 20% di esperienza in più per i nemici nelle spedizioni.</p></a></div></section>
+<section class="frame gsec" id="ours"><h2>Le nostre note</h2><div class="nlist"><a class="nitem" href="https://teamoverpowered.com/forever/guides/name-reservation/" target="_blank" rel="noopener"><time datetime="2026-10-23">23.10.2026</time><b>La beta ha chiuso, poi i nomi dal 27.10</b><p>La beta chiusa è andata offline il 23.10 alle 10:00 ora del Pacifico (17:00 UTC). Dal 27.10 al 03.11 chi possiede Heroic, Epic e Collection prenota fino a tre nomi per account, chi prima arriva meglio alloggia.</p></a><a class="nitem" href="https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/" target="_blank" rel="noopener" data-cls="all"><time datetime="2026-10-15">15.10.2026</time><b>Grande patch della beta: razze e classi</b><p>Le abilità razziali sono state rinnovate (le specializzazioni nelle armi sostituite dal critico), quasi tutte le classi sono state bilanciate. Le tabelle di razze e classi di questo sito seguono già questa patch.</p></a><a class="nitem" href="https://classicwow.gg/forever" target="_blank" rel="noopener"><time datetime="2026-10-08">08.10.2026</time><b>Dalaran e più esperienza nelle spedizioni della beta</b><p>La beta ha ricevuto Dalaran e circa il 20% di esperienza in più per i nemici nelle spedizioni.</p></a></div></section>
 <section class="frame gsec" id="feed"><h2>Feed di Wowhead</h2><p>Notizie su Forever da Wowhead, in inglese. L’elenco si aggiorna da solo.</p><div class="nlist" id="feedList" hidden></div><p><a class="more-l" href="https://www.wowhead.com/news" target="_blank" rel="noopener">Tutte le notizie di Wowhead</a></p></section>
   </div>
 </div>
@@ -1487,7 +1496,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <nav class="toc" aria-label="Tutte le sezioni">
     <div class="grp"><div class="gh">Questa pagina</div><a href="#ours">Le nostre note</a><a href="#feed">Feed di Wowhead</a></div>
     <div class="grp"><div class="gh">Riferimenti</div><a class="tbd" href="../../classes/">Classi</a><a href="../../classes/#choose">Quale classe scegliere</a><a href="../../races/">Razze</a><a href="../../guides/builds/">Build</a><a class="tbd" href="../../guides/leveling/">Livellamento 1–60</a><a class="tbd" href="../../guides/dungeons/">Spedizioni e incursioni</a><a href="../../guides/professions/">Professioni</a><a href="../../guides/faq/">FAQ e date</a><a href="../../guides/news/">Notizie</a><a href="../../guides/">Tutte le guide</a></div>
-    <div class="grp"><div class="gh">Strumenti</div><a href="../../tools/#picker">Razza e classe</a><a href="../../tools/#raid">Gruppo e LFG</a><a href="../../play/">In gioco</a></div>
+    <div class="grp"><div class="gh">Strumenti</div><a href="../../character/">Il mio personaggio</a><a href="../../tools/#picker">Razza e classe</a><a href="../../tools/#raid">Gruppo e LFG</a><a href="../../play/">In gioco</a></div>
     <div class="grp"><div class="gh">Comunità</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="../../profile/">Il mio profilo</a></div>
   </nav>
   <div class="opts">
@@ -1542,6 +1551,27 @@ if ('IntersectionObserver' in window && tocLinks.length) {
   }), { rootMargin: '-40% 0px -55% 0px' });
   document.querySelectorAll('.gsec').forEach(s => io.observe(s));
 }
+const HC = {"tx":{"title":"Il mio personaggio","lead":"Senza login né password: scegli classe, specializzazione e razza, e la guida si adatta a te.","local":"Salvato solo in questo browser.","none":"Ancora nessun personaggio","create":"Crea un personaggio","edit":"Modifica","reset":"Elimina personaggio","resetQ":"Eliminare il personaggio da questo browser?","steps":["Schieramento","Classe e specializzazione","Razza","Aspetto","Dettagli"],"side":"Per chi giochi?","cls":"Classe","spec":"Specializzazione","race":"Razza","bestFor":"Razza migliore per %s","best":"la migliore","paid":"a pagamento","sex":"Sesso","m":"Maschile","f":"Femminile","bg":"Sfondo del ritratto","lvl":"Livello","reg":"Regione","lvlReg":"Livello e regione","regs":{"us":"Americhe e Oceania","eu":"Europa","kr":"Corea","tw":"Taiwan"},"p1":"Professione 1","p2":"Professione 2","secP":"Professioni secondarie","noP":"Nessuna","role":"Ruolo","back":"Indietro","next":"Continua","done":"Fatto","cancel":"Annulla","later":"Puoi compilarlo più tardi.","levelN":"Livello %n","build":"La mia build di talenti","buildD":"Talenti %s per livello.","pairs":"Coppie di professioni","pairsD":"Quali professioni si addicono alla tua classe.","bestR":"Razze migliori","bestRD":"Razza per la tua classe in entrambe le fazioni.","lvlG":"Livellamento della classe","lvlGD":"Percorso e talenti 1–60.","day1":"Giorno 1 per il tuo personaggio","day1D":"La checklist del lancio con la tua classe e razza.","play":"In gioco","playD":"Zone e spedizioni per il tuo livello, timer, radio.","dung":"Spedizioni per il tuo livello","dungNo":"Indica il tuo livello e sceglieremo le spedizioni.","dungFirst":"Le prime spedizioni si aprono al livello 13.","resetH":"Reset settimanale","resetIn":"tra %s","resetNote":"Blizzard non ha ancora annunciato l’orario di reset di Forever. Mostrato come nelle altre versioni di WoW di questa regione: verificheremo al lancio.","resetUnk":"Confermeremo l’orario di reset di questa regione al lancio.","resetNoReg":"Indica la tua regione per vedere il reset settimanale.","resetWhy":"Le incursioni aprono il 09.12 e hanno un blocco settimanale.","lfg":"Testo per cercare un gruppo","lfgD":"Incollalo nella chat LookingForGroup. Nomi come nel gioco.","lfgT":"LFG %d: %c, %r, livello %l.","lfgT0":"LFG: %c, %r.","allD":"Tutte le spedizioni","copy":"Copia","copied":"Copiato","sync":"Sincronizza tra dispositivi","syncD":"Il login serve solo a questo: il personaggio sarà sul telefono e sul PC, e la lettera del lancio arriva per e-mail se ti iscrivi.","mine":"Riguarda la tua classe","make":"Rendilo il mio personaggio","made":"È il tuo personaggio","plaqueH":"Il mio personaggio","plaqueD":"Classe, specializzazione e razza in un minuto: la guida mostra la tua build, le professioni e le spedizioni.","day1Mine":"Per il tuo personaggio","ckClass":"La tua specializzazione, %s: la build di talenti per livello.","ckRaceOk":"%r è la razza migliore per la tua specializzazione.","ckRaceAlt":"Razza migliore per la tua specializzazione: %r.","ckProfs":"Coppie di professioni per %s.","ckStart":"Livellamento %s: percorso e primi talenti.","ckPing":"La tua regione: %s.","or":"o"},"best":{"warrior":{"alliance":{"*":[["human","nightelf"],"Umano: +2% di critico con qualsiasi arma. Elfo della Notte: +10% di critico per 15 s. Le fonti sono divise quasi a metà."],"protection":[["dwarf"],"Forma di Pietra riduce i danni fisici del 10% e rimuove i sanguinamenti."]},"horde":{"*":[["orc"],"Furia Sanguinaria: +10% di potere d’attacco per 15 s, Savagery: +1% di critico. Tutte le fonti la mettono al primo posto."],"protection":[["tauren"],"Robustezza dà +5% di salute, Urto di Guerra stordisce i nemici vicini."]}},"paladin":{"alliance":{"*":[["human"],"Ruthless potenzia colpi e incantesimi, Volontà di Sopravvivenza rimuove gli stordimenti."],"protection":[["dwarf"],"Forma di Pietra ed Earthen Fury: +2% di danni critici."]},"horde":{"*":[["undead"],"Nell’Orda solo il Non Morto può essere paladino. Cannibalismo ripristina mana, Volontà dei Reietti rimuove la paura."]}},"hunter":{"alliance":{"*":[["human","nightelf"],"Umano: +2% di critico, e il famiglio lo eredita. Elfo della Notte: Grazia di Elune e Fondersi nelle Ombre."]},"horde":{"*":[["orc","troll"],"Orco: Furia Sanguinaria e Savagery. Troll: +5% di danni contro le bestie."]}},"rogue":{"alliance":{"*":[["nightelf"],"Fondersi nelle Ombre ora riduce la minaccia anche in combattimento, più Grazia di Elune e Rapidità."]},"horde":{"*":[["orc"],"Furia Sanguinaria: +10% di potere d’attacco per 15 s."]}},"priest":{"alliance":{"*":[["gnome"],"Tutte le fonti la scelgono: Eureka! potenzia anche Parola del Potere: Scudo, Inquisitive Mind dà +5% di mana."]},"horde":{"*":[["undead","troll"],"Le fonti sono divise. Il Non Morto è più forte nel PvP: Volontà dei Reietti rimuove paura, sonno e ammaliamento."]}},"shaman":{"alliance":{"*":[["dwarf"],"Nell’Alleanza solo il Nano può essere sciamano: Forma di Pietra ed Earthen Fury."]},"horde":{"*":[["orc"],"Furia Sanguinaria dà potere d’attacco e potere magico: va bene sia per Elementale sia per Potenziamento."],"restoration":[["troll"],"Per un guaritore una fonte consiglia il Troll: Berserker, +10% di velocità di lancio per 12 s."]}},"mage":{"alliance":{"*":[["gnome"],"Eureka! per 8 s, Inquisitive Mind: +5% di mana, Artista della Fuga spezza le radici."]},"horde":{"*":[["orc"],"L’orco mago è una nuova combinazione di Forever: Furia Sanguinaria ora dà potere magico."]}},"warlock":{"alliance":{"*":[["gnome","human"],"Gnomo: Eureka! e Inquisitive Mind. Umano: i danni periodici possono essere critici e Ruthless dà +2% di critico."]},"horde":{"*":[["orc","undead"],"Orco: Furia Sanguinaria dà potere magico. Il Non Morto si sceglie più spesso nel PvP."]}},"druid":{"alliance":{"*":[["nightelf"],"Grazia di Elune: +10% di critico per 15 s, e Rapidità."]},"horde":{"*":[["tauren"],"Robustezza: +5% di salute e +2% di danni critici, Urto di Guerra funziona anche nelle forme."]}}},"sid":{"warrior":["arms","fury","protection"],"paladin":["holy","protection","retribution"],"hunter":["beast-mastery","marksmanship","survival"],"rogue":["assassination","combat","subtlety"],"priest":["discipline","holy","shadow"],"shaman":["elemental","enhancement","restoration"],"mage":["arcane","fire","frost"],"warlock":["affliction","demonology","destruction"],"druid":["balance","feral","restoration"]},"sn":{"warrior":["Armi","Furia","Protezione"],"paladin":["Sacro","Protezione","Castigo"],"hunter":["Affinità Animale","Precisione","Sopravvivenza"],"rogue":["Assassinio","Combattimento","Scaltrezza"],"priest":["Disciplina","Sacro","Ombra"],"shaman":["Elementale","Potenziamento","Rigenerazione"],"mage":["Arcano","Fuoco","Gelo"],"warlock":["Afflizione","Demonologia","Distruzione"],"druid":["Equilibrio","Aggressore Ferino","Rigenerazione"]},"fn":{"alliance":"Alleanza","horde":"Orda"},"reset":{"us":[2,15],"eu":[3,4],"kr":null,"tw":null},"rn":{"human":"Umano","dwarf":"Nano","nightelf":"Elfo della Notte","gnome":"Gnomo","skyA":"Skyborne dell’High Order","orc":"Orco","undead":"Non Morto","tauren":"Tauren","troll":"Troll","skyH":"Skyborne Windshaper"},"rf":{"human":"alliance","dwarf":"alliance","nightelf":"alliance","gnome":"alliance","skyA":"alliance","orc":"horde","undead":"horde","tauren":"horde","troll":"horde","skyH":"horde"},"cn":{"warrior":"Guerriero","paladin":"Paladino","hunter":"Cacciatore","rogue":"Ladro","priest":"Sacerdote","shaman":"Sciamano","mage":"Mago","warlock":"Stregone","druid":"Druido"},"cen":{"warrior":"Warrior","paladin":"Paladin","hunter":"Hunter","rogue":"Rogue","priest":"Priest","shaman":"Shaman","mage":"Mage","warlock":"Warlock","druid":"Druid"}};
+function readHero() {
+  let m = {};
+  try { m = JSON.parse(localStorage.getItem('gabella-wf-me')) || {}; } catch (e) { m = {}; }
+  if (!m || typeof m !== 'object' || !HC.cn[m.cls]) return null;
+  const sid = HC.sid[m.cls], spec = sid.includes(m.spec) ? m.spec : '';
+  return Object.assign({}, m, { spec, specN: spec ? HC.sn[m.cls][sid.indexOf(spec)] : '', clsN: HC.cn[m.cls], raceN: HC.rn[m.race] || '', fac: HC.rf[m.race] || '' });
+}
+function bestOf(cls, fac, spec) { const b = (HC.best[cls] || {})[fac]; return b ? (b[spec] || b['*']) : null; }
+function nextReset(reg) {   // the region's weekly reset [weekday UTC, hour UTC] -> the next moment after now; null: not known
+  const r = HC.reset[reg]; if (!r) return null;
+  const now = new Date(), d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), r[1]));
+  d.setUTCDate(d.getUTCDate() + (r[0] - d.getUTCDay() + 7) % 7);
+  if (d <= now) d.setUTCDate(d.getUTCDate() + 7);
+  return d;
+}
+function leftTxt(ms) {
+  const u = (n, k) => new Intl.NumberFormat(document.documentElement.lang, { style: 'unit', unit: k, unitDisplay: 'short', maximumFractionDigits: 0 }).format(n);
+  const m = Math.max(1, Math.round(ms / 6e4)), d = Math.floor(m / 1440), h = Math.floor(m % 1440 / 60);
+  return d ? `${u(d, 'day')} ${u(h, 'hour')}` : h ? `${u(h, 'hour')} ${u(m % 60, 'minute')}` : u(m, 'minute');
+}
 /* News: automatic Wowhead feed from assets/news.json; no file -> the list stays hidden */
 fetch(ROOT + 'assets/news.json').then(r => r.ok ? r.json() : []).then(items => {
   const box = document.getElementById('feedList');
@@ -1550,7 +1580,19 @@ fetch(ROOT + 'assets/news.json').then(r => r.ok ? r.json() : []).then(items => {
   box.innerHTML = items.filter(n => /^https:\/\//.test(n.url)).map(n => (n.date !== day ? `<h3 class="nday">${esc((day = n.date).split('-').reverse().join('.'))}</h3>` : '')
     + `<a class="nitem" href="${esc(n.url)}" target="_blank" rel="noopener"><b>${esc(n.title)}</b></a>`).join('');
   box.hidden = false;
+  markMine();
 }).catch(() => {});
+/* «About your class»: our notes by their data-cls ('all' or class ids), the English feed by the class name in the title */
+function markMine() {
+  const h = readHero(); if (!h) return;
+  const rx = new RegExp('\\b' + HC.cen[h.cls] + 's?\\b', 'i');
+  document.querySelectorAll('.nitem').forEach(a => {
+    const c = a.dataset.cls, b = a.querySelector('b');
+    const mine = c ? c === 'all' || c.split(' ').includes(h.cls) : rx.test(b ? b.textContent : '');
+    if (mine && b && !a.querySelector('.nmine')) b.insertAdjacentHTML('afterend', `<span class="nmine">${esc(HC.tx.mine)}: ${esc(h.clsN)}</span>`);
+  });
+}
+markMine();
 </script>
 <script data-src="../../../assets/living/living.js?v=99328f012a"></script>
 <script>
@@ -1621,7 +1663,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../../"></script>
-<script data-src="../../../assets/search/search.js?v=c8c77e27f2" data-root="../../../"></script>
+<script data-src="../../../assets/search/search.js?v=6325abe5dd" data-root="../../../"></script>
 <script data-src="../../../assets/me/me.js?v=d6ef450f05" data-root="../../../" data-home="../../" data-lang="it" data-ach="0" data-teaser="" data-close="Chiudi" data-page="guides/news/" data-look="2"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>

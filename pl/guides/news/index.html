@@ -373,6 +373,8 @@ section.block { scroll-margin-top: -72px; }
 .pb-t h2 { font-size: var(--fs-28); line-height: 1.1; }
 .pb-t > span { color: var(--muted); max-width: 60ch; }
 .pickban .btn { white-space: nowrap; }
+.pb-a { display: grid; gap: 10px; justify-items: start; }
+.pb-a .more-l { font-size: var(--fs-14); }
 #guides .gt { min-height: 150px; }
 #camp { margin-top: 40px; min-height: clamp(380px, 34vw, 560px); }
 #camp .camp-in { padding-bottom: clamp(40px, 5vw, 72px); }
@@ -962,7 +964,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .pb-t { padding: 16px 0; gap: 4px; }
   .pb-t h2 { font-size: var(--fs-22); }
   .pb-t > span { font-size: var(--fs-14); }
-  .pickban .btn { grid-column: 1 / -1; margin: 0 0 16px 16px; justify-self: start; }
+  .pickban .pb-a { grid-column: 1 / -1; margin: 0 0 16px 16px; }
   #guides .gt { min-height: 118px; }
   #guides .gt span { display: none; }
   #camp { min-height: 520px; }
@@ -1208,7 +1210,14 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .lcw b { font-size: var(--fs-22); font-weight: 600; font-variant-numeric: lining-nums; }
 .lcw span[hidden] { display: none; }
 .lcd.out .lcu { display: none; }
-.pday { margin-bottom: 14px; }   /* In game: the launch checklist in one line above the columns */
+.pday { margin-bottom: 14px; }
+/* the hero of this browser (character/): a gold line, no badge */
+.nmine { display: block; margin-top: 2px; color: var(--gold-2); font-size: var(--fs-13); font-weight: 600; }
+.nitem time ~ .nmine { grid-column: 2; }
+.dme { grid-column: 2; margin: 4px 0 0; font-size: var(--fs-14); }
+.dme a, .dmehead a { color: var(--gold-2); }
+.dmehead { margin: 0 0 12px; }
+#tReset small { color: var(--muted); font-size: var(--fs-13); }   /* In game: the launch checklist in one line above the columns */
 /* Launch checklist (guides/launch-checklist/): rows on one plate like the tables, a square tick, the link to our page on the right */
 .dbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; font-variant-numeric: lining-nums tabular-nums; }
 .dbar[hidden] { display: none; }
@@ -1389,7 +1398,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../../assets/radio/radio.css?v=c5eacd57e2">
-<link data-rel="stylesheet" href="../../../assets/search/search.css?v=c8c77e27f2">
+<link data-rel="stylesheet" href="../../../assets/search/search.css?v=6325abe5dd">
 <link data-rel="stylesheet" href="../../../assets/me/me.css?v=d6ef450f05">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://gabella.site/wow/pl/"},{"@type":"ListItem","position":2,"name":"Poradniki","item":"https://gabella.site/wow/pl/guides/"},{"@type":"ListItem","position":3,"name":"Newsy","item":"https://gabella.site/wow/pl/guides/news/"}]}</script>
 </head>
@@ -1455,7 +1464,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <div class="wrap gbody">
   <nav class="gtoc frame" aria-label="Sekcje poradnika"><a href="#ours">Nasze notatki</a><a href="#feed">Feed Wowhead</a></nav>
   <div class="gmain">
-<section class="frame gsec" id="ours"><h2>Nasze notatki</h2><div class="nlist"><a class="nitem" href="https://teamoverpowered.com/forever/guides/name-reservation/" target="_blank" rel="noopener"><time datetime="2026-10-23">23.10.2026</time><b>Beta zamknięta, następne: nicki od 27.10</b><p>Zamknięta beta wyłączyła się 23.10 o 10:00 czasu pacyficznego (17:00 UTC). Od 27.10 do 03.11 posiadacze Heroic, Epic i Collection rezerwują do trzech nicków na konto, kto pierwszy, ten lepszy.</p></a><a class="nitem" href="https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/" target="_blank" rel="noopener"><time datetime="2026-10-15">15.10.2026</time><b>Duży patch bety: rasy i klasy</b><p>Zdolności rasowe przerobiono (specjalizacje broni zastąpiono krytami), prawie wszystkie klasy zbalansowano. Tabele ras i klas na tej stronie już uwzględniają ten patch.</p></a><a class="nitem" href="https://classicwow.gg/forever" target="_blank" rel="noopener"><time datetime="2026-10-08">08.10.2026</time><b>Dalaran i więcej expa z dungeonów w becie</b><p>Do bety trafiły City of Dalaran i ok. 20% więcej expa za wrogów w dungeonach.</p></a></div></section>
+<section class="frame gsec" id="ours"><h2>Nasze notatki</h2><div class="nlist"><a class="nitem" href="https://teamoverpowered.com/forever/guides/name-reservation/" target="_blank" rel="noopener"><time datetime="2026-10-23">23.10.2026</time><b>Beta zamknięta, następne: nicki od 27.10</b><p>Zamknięta beta wyłączyła się 23.10 o 10:00 czasu pacyficznego (17:00 UTC). Od 27.10 do 03.11 posiadacze Heroic, Epic i Collection rezerwują do trzech nicków na konto, kto pierwszy, ten lepszy.</p></a><a class="nitem" href="https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/" target="_blank" rel="noopener" data-cls="all"><time datetime="2026-10-15">15.10.2026</time><b>Duży patch bety: rasy i klasy</b><p>Zdolności rasowe przerobiono (specjalizacje broni zastąpiono krytami), prawie wszystkie klasy zbalansowano. Tabele ras i klas na tej stronie już uwzględniają ten patch.</p></a><a class="nitem" href="https://classicwow.gg/forever" target="_blank" rel="noopener"><time datetime="2026-10-08">08.10.2026</time><b>Dalaran i więcej expa z dungeonów w becie</b><p>Do bety trafiły City of Dalaran i ok. 20% więcej expa za wrogów w dungeonach.</p></a></div></section>
 <section class="frame gsec" id="feed"><h2>Feed Wowhead</h2><p>Newsy o Forever z Wowhead, po angielsku. Lista aktualizuje się sama.</p><div class="nlist" id="feedList" hidden></div><p><a class="more-l" href="https://www.wowhead.com/news" target="_blank" rel="noopener">Wszystkie newsy Wowhead</a></p></section>
   </div>
 </div>
@@ -1487,7 +1496,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <nav class="toc" aria-label="Wszystkie sekcje">
     <div class="grp"><div class="gh">Ta strona</div><a href="#ours">Nasze notatki</a><a href="#feed">Feed Wowhead</a></div>
     <div class="grp"><div class="gh">Kompendium</div><a class="tbd" href="../../classes/">Klasy</a><a href="../../classes/#choose">Jaką klasę wybrać</a><a href="../../races/">Rasy</a><a href="../../guides/builds/">Buildy</a><a class="tbd" href="../../guides/leveling/">Levelowanie 1–60</a><a class="tbd" href="../../guides/dungeons/">Dungeony i raidy</a><a href="../../guides/professions/">Profesje</a><a href="../../guides/faq/">FAQ i daty</a><a href="../../guides/news/">Newsy</a><a href="../../guides/">Wszystkie poradniki</a></div>
-    <div class="grp"><div class="gh">Narzędzia</div><a href="../../tools/#picker">Rasa i klasa</a><a href="../../tools/#raid">Skład grupy i LFG</a><a href="../../play/">W grze</a></div>
+    <div class="grp"><div class="gh">Narzędzia</div><a href="../../character/">Moja postać</a><a href="../../tools/#picker">Rasa i klasa</a><a href="../../tools/#raid">Skład grupy i LFG</a><a href="../../play/">W grze</a></div>
     <div class="grp"><div class="gh">Społeczność</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="../../profile/">Mój profil</a></div>
   </nav>
   <div class="opts">
@@ -1542,6 +1551,27 @@ if ('IntersectionObserver' in window && tocLinks.length) {
   }), { rootMargin: '-40% 0px -55% 0px' });
   document.querySelectorAll('.gsec').forEach(s => io.observe(s));
 }
+const HC = {"tx":{"title":"Moja postać","lead":"Bez logowania i hasła: wybierz klasę, specjalizację i rasę, a przewodnik dopasuje się do ciebie.","local":"Zapisane tylko w tej przeglądarce.","none":"Brak postaci","create":"Stwórz postać","edit":"Edytuj","reset":"Usuń postać","resetQ":"Usunąć postać z tej przeglądarki?","steps":["Strona","Klasa i specjalizacja","Rasa","Wygląd","Szczegóły"],"side":"Po czyjej stronie grasz?","cls":"Klasa","spec":"Specjalizacja","race":"Rasa","bestFor":"Najlepsza rasa dla %s","best":"najlepsza","paid":"płatna","sex":"Płeć","m":"Mężczyzna","f":"Kobieta","bg":"Tło portretu","lvl":"Level","reg":"Region","lvlReg":"Level i region","regs":{"us":"Ameryka i Oceania","eu":"Europa","kr":"Korea","tw":"Tajwan"},"p1":"Profesja 1","p2":"Profesja 2","secP":"Profesje dodatkowe","noP":"Brak","role":"Rola","back":"Wstecz","next":"Dalej","done":"Gotowe","cancel":"Anuluj","later":"Możesz uzupełnić później.","levelN":"Level %n","build":"Mój build talentów","buildD":"Talenty %s według levelu.","pairs":"Pary profesji","pairsD":"Jakie profesje pasują do twojej klasy.","bestR":"Najlepsze rasy","bestRD":"Rasa pod klasę w obu frakcjach.","lvlG":"Levelowanie klasy","lvlGD":"Trasa i talenty 1–60.","day1":"Dzień 1 dla twojej postaci","day1D":"Checklista startu z twoją klasą i rasą.","play":"W grze","playD":"Strefy i dungeony na twój level, timery, radio.","dung":"Dungeony na twój level","dungNo":"Podaj level, a dobierzemy dungeony.","dungFirst":"Pierwsze dungeony otwierają się na levelu 13.","resetH":"Tygodniowy reset","resetIn":"za %s","resetNote":"Blizzard nie ogłosił jeszcze godziny resetu Forever. Pokazujemy jak w innych wersjach WoW w tym regionie: sprawdzimy na starcie.","resetUnk":"Godzinę resetu dla tego regionu potwierdzimy na starcie.","resetNoReg":"Podaj region, a pokażemy tygodniowy reset.","resetWhy":"Rajdy startują 09.12 i mają tygodniowy lockout.","lfg":"Tekst do szukania grupy","lfgD":"Wklej na czat LookingForGroup. Nazwy jak w grze.","lfgT":"LFG %d: %c, %r, level %l.","lfgT0":"LFG: %c, %r.","allD":"Wszystkie dungeony","copy":"Kopiuj","copied":"Skopiowano","sync":"Synchronizuj między urządzeniami","syncD":"Logowanie jest potrzebne tylko do tego: postać będzie na telefonie i PC, a list na start przyjdzie mailem, jeśli się zapiszesz.","mine":"Dotyczy twojej klasy","make":"Ustaw jako moją postać","made":"To twoja postać","plaqueH":"Moja postać","plaqueD":"Klasa, specjalizacja i rasa w minutę: przewodnik pokaże twój build, profesje i dungeony.","day1Mine":"Dla twojej postaci","ckClass":"Twoja specjalizacja, %s: build talentów według levelu.","ckRaceOk":"%r to najlepsza rasa dla twojej specjalizacji.","ckRaceAlt":"Najlepsza rasa dla twojej specjalizacji: %r.","ckProfs":"Pary profesji dla klasy %s.","ckStart":"Levelowanie: %s, trasa i pierwsze talenty.","ckPing":"Twój region: %s.","or":"lub"},"best":{"warrior":{"alliance":{"*":[["human","nightelf"],"Człowiek: +2% kryta każdą bronią. Nocny elf: +10% kryta na 15 s. Źródła dzielą się prawie po równo."],"protection":[["dwarf"],"Stoneform zmniejsza obrażenia fizyczne o 10% i zdejmuje krwawienia."]},"horde":{"*":[["orc"],"Blood Fury: +10% attack power na 15 s, Savagery: +1% kryta. Wszystkie źródła stawiają ją na pierwszym miejscu."],"protection":[["tauren"],"Toughness daje +5% zdrowia, War Stomp ogłusza wrogów w pobliżu."]}},"paladin":{"alliance":{"*":[["human"],"Ruthless wzmacnia ciosy i zaklęcia, Will to Survive zdejmuje ogłuszenia."],"protection":[["dwarf"],"Stoneform i Earthen Fury: +2% obrażeń krytycznych."]},"horde":{"*":[["undead"],"W Horde paladynem może być tylko nieumarły. Cannibalize odnawia manę, Will of the Forsaken zdejmuje strach."]}},"hunter":{"alliance":{"*":[["human","nightelf"],"Człowiek: +2% kryta, a pet dziedziczy kryt. Nocny elf: Elune’s Grace i Shadowmeld."]},"horde":{"*":[["orc","troll"],"Ork: Blood Fury i Savagery. Troll: +5% obrażeń przeciw bestiom."]}},"rogue":{"alliance":{"*":[["nightelf"],"Shadowmeld zbija teraz aggro także w walce, do tego Elune’s Grace i Quickness."]},"horde":{"*":[["orc"],"Blood Fury: +10% attack power na 15 s."]}},"priest":{"alliance":{"*":[["gnome"],"Wybór wszystkich źródeł: Eureka! wzmacnia też Power Word: Shield, Inquisitive Mind daje +5% many."]},"horde":{"*":[["undead","troll"],"Źródła są podzielone. Nieumarły jest mocniejszy w PvP: Will of the Forsaken zdejmuje strach, sen i urok."]}},"shaman":{"alliance":{"*":[["dwarf"],"W Alliance szamanem może być tylko krasnolud: Stoneform i Earthen Fury."]},"horde":{"*":[["orc"],"Blood Fury daje attack power i spell power: pasuje i Elemental, i Enhancement."],"restoration":[["troll"],"Healerowi jedno źródło poleca trolla: Berserking, +10% szybkości rzucania na 12 s."]}},"mage":{"alliance":{"*":[["gnome"],"Eureka! na 8 s, Inquisitive Mind: +5% many, Escape Artist zdejmuje unieruchomienie."]},"horde":{"*":[["orc"],"Ork mag to nowa kombinacja Forever: Blood Fury daje teraz spell power."]}},"warlock":{"alliance":{"*":[["gnome","human"],"Gnom: Eureka! i Inquisitive Mind. Człowiek: obrażenia okresowe mogą trafić krytycznie, a Ruthless daje +2% kryta."]},"horde":{"*":[["orc","undead"],"Ork: Blood Fury daje spell power. Nieumarłego częściej wybiera się do PvP."]}},"druid":{"alliance":{"*":[["nightelf"],"Elune’s Grace: +10% kryta na 15 s, plus Quickness."]},"horde":{"*":[["tauren"],"Toughness: +5% zdrowia i +2% obrażeń krytycznych, War Stomp działa też w formach."]}}},"sid":{"warrior":["arms","fury","protection"],"paladin":["holy","protection","retribution"],"hunter":["beast-mastery","marksmanship","survival"],"rogue":["assassination","combat","subtlety"],"priest":["discipline","holy","shadow"],"shaman":["elemental","enhancement","restoration"],"mage":["arcane","fire","frost"],"warlock":["affliction","demonology","destruction"],"druid":["balance","feral","restoration"]},"sn":{"warrior":["Arms","Fury","Protection"],"paladin":["Holy","Protection","Retribution"],"hunter":["Beast Mastery","Marksmanship","Survival"],"rogue":["Assassination","Combat","Subtlety"],"priest":["Discipline","Holy","Shadow"],"shaman":["Elemental","Enhancement","Restoration"],"mage":["Arcane","Fire","Frost"],"warlock":["Affliction","Demonology","Destruction"],"druid":["Balance","Feral","Restoration"]},"fn":{"alliance":"Alliance","horde":"Horde"},"reset":{"us":[2,15],"eu":[3,4],"kr":null,"tw":null},"rn":{"human":"Human","dwarf":"Dwarf","nightelf":"Night Elf","gnome":"Gnome","skyA":"High Order Skyborne","orc":"Orc","undead":"Undead","tauren":"Tauren","troll":"Troll","skyH":"Windshaper Skyborne"},"rf":{"human":"alliance","dwarf":"alliance","nightelf":"alliance","gnome":"alliance","skyA":"alliance","orc":"horde","undead":"horde","tauren":"horde","troll":"horde","skyH":"horde"},"cn":{"warrior":"Warrior","paladin":"Paladin","hunter":"Hunter","rogue":"Rogue","priest":"Priest","shaman":"Shaman","mage":"Mage","warlock":"Warlock","druid":"Druid"},"cen":{"warrior":"Warrior","paladin":"Paladin","hunter":"Hunter","rogue":"Rogue","priest":"Priest","shaman":"Shaman","mage":"Mage","warlock":"Warlock","druid":"Druid"}};
+function readHero() {
+  let m = {};
+  try { m = JSON.parse(localStorage.getItem('gabella-wf-me')) || {}; } catch (e) { m = {}; }
+  if (!m || typeof m !== 'object' || !HC.cn[m.cls]) return null;
+  const sid = HC.sid[m.cls], spec = sid.includes(m.spec) ? m.spec : '';
+  return Object.assign({}, m, { spec, specN: spec ? HC.sn[m.cls][sid.indexOf(spec)] : '', clsN: HC.cn[m.cls], raceN: HC.rn[m.race] || '', fac: HC.rf[m.race] || '' });
+}
+function bestOf(cls, fac, spec) { const b = (HC.best[cls] || {})[fac]; return b ? (b[spec] || b['*']) : null; }
+function nextReset(reg) {   // the region's weekly reset [weekday UTC, hour UTC] -> the next moment after now; null: not known
+  const r = HC.reset[reg]; if (!r) return null;
+  const now = new Date(), d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), r[1]));
+  d.setUTCDate(d.getUTCDate() + (r[0] - d.getUTCDay() + 7) % 7);
+  if (d <= now) d.setUTCDate(d.getUTCDate() + 7);
+  return d;
+}
+function leftTxt(ms) {
+  const u = (n, k) => new Intl.NumberFormat(document.documentElement.lang, { style: 'unit', unit: k, unitDisplay: 'short', maximumFractionDigits: 0 }).format(n);
+  const m = Math.max(1, Math.round(ms / 6e4)), d = Math.floor(m / 1440), h = Math.floor(m % 1440 / 60);
+  return d ? `${u(d, 'day')} ${u(h, 'hour')}` : h ? `${u(h, 'hour')} ${u(m % 60, 'minute')}` : u(m, 'minute');
+}
 /* News: automatic Wowhead feed from assets/news.json; no file -> the list stays hidden */
 fetch(ROOT + 'assets/news.json').then(r => r.ok ? r.json() : []).then(items => {
   const box = document.getElementById('feedList');
@@ -1550,7 +1580,19 @@ fetch(ROOT + 'assets/news.json').then(r => r.ok ? r.json() : []).then(items => {
   box.innerHTML = items.filter(n => /^https:\/\//.test(n.url)).map(n => (n.date !== day ? `<h3 class="nday">${esc((day = n.date).split('-').reverse().join('.'))}</h3>` : '')
     + `<a class="nitem" href="${esc(n.url)}" target="_blank" rel="noopener"><b>${esc(n.title)}</b></a>`).join('');
   box.hidden = false;
+  markMine();
 }).catch(() => {});
+/* «About your class»: our notes by their data-cls ('all' or class ids), the English feed by the class name in the title */
+function markMine() {
+  const h = readHero(); if (!h) return;
+  const rx = new RegExp('\\b' + HC.cen[h.cls] + 's?\\b', 'i');
+  document.querySelectorAll('.nitem').forEach(a => {
+    const c = a.dataset.cls, b = a.querySelector('b');
+    const mine = c ? c === 'all' || c.split(' ').includes(h.cls) : rx.test(b ? b.textContent : '');
+    if (mine && b && !a.querySelector('.nmine')) b.insertAdjacentHTML('afterend', `<span class="nmine">${esc(HC.tx.mine)}: ${esc(h.clsN)}</span>`);
+  });
+}
+markMine();
 </script>
 <script data-src="../../../assets/living/living.js?v=99328f012a"></script>
 <script>
@@ -1621,7 +1663,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../../"></script>
-<script data-src="../../../assets/search/search.js?v=c8c77e27f2" data-root="../../../"></script>
+<script data-src="../../../assets/search/search.js?v=6325abe5dd" data-root="../../../"></script>
 <script data-src="../../../assets/me/me.js?v=d6ef450f05" data-root="../../../" data-home="../../" data-lang="pl" data-ach="0" data-teaser="" data-close="Zamknij" data-page="guides/news/" data-look="2"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>

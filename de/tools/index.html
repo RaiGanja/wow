@@ -373,6 +373,8 @@ section.block { scroll-margin-top: -72px; }
 .pb-t h2 { font-size: var(--fs-28); line-height: 1.1; }
 .pb-t > span { color: var(--muted); max-width: 60ch; }
 .pickban .btn { white-space: nowrap; }
+.pb-a { display: grid; gap: 10px; justify-items: start; }
+.pb-a .more-l { font-size: var(--fs-14); }
 #guides .gt { min-height: 150px; }
 #camp { margin-top: 40px; min-height: clamp(380px, 34vw, 560px); }
 #camp .camp-in { padding-bottom: clamp(40px, 5vw, 72px); }
@@ -962,7 +964,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .pb-t { padding: 16px 0; gap: 4px; }
   .pb-t h2 { font-size: var(--fs-22); }
   .pb-t > span { font-size: var(--fs-14); }
-  .pickban .btn { grid-column: 1 / -1; margin: 0 0 16px 16px; justify-self: start; }
+  .pickban .pb-a { grid-column: 1 / -1; margin: 0 0 16px 16px; }
   #guides .gt { min-height: 118px; }
   #guides .gt span { display: none; }
   #camp { min-height: 520px; }
@@ -1154,6 +1156,11 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 
 /* Compare */
 .cbar { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; }
+.pickm { display: grid; margin-bottom: 18px; }   /* class -> spec -> race, above the matrix on every width */
+.pstar { color: var(--gold-2); }
+.pwhy { margin: 10px 0 0; color: var(--muted); }
+.pwhy b { color: var(--gold-2); font-weight: 600; }
+.plinks { display: flex; flex-wrap: wrap; gap: 10px; }
 .cpick { padding: 12px; display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 8px; }
 .cpick.races { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .cp { position: relative; aspect-ratio: 3 / 4; overflow: hidden; isolation: isolate; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; padding: 8px; display: grid; align-content: end; background: #0f0f0f; color: #f3efe6; font: inherit; text-align: left; cursor: pointer; }
@@ -1248,7 +1255,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css?v=c5eacd57e2" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=c8c77e27f2" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=6325abe5dd" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/me/me.css?v=d6ef450f05" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://gabella.site/wow/de/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://gabella.site/wow/de/tools/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"WoW Forever Tools: Klassen- und Volksvergleich, Gruppe","description":"Vergleiche Klassen und Völker in WoW Forever nebeneinander, Gruppenfenster und Raidraster wie im Spiel, und durchsuche den ganzen Guide.","inLanguage":"de","url":"https://gabella.site/wow/de/tools/","dateModified":"2026-10-26","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/de/"},"image":"https://gabella.site/wow/assets/og/tools-de.jpg?v=f8f40877"}</script>
@@ -1341,9 +1348,9 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
           <button data-v="dps" aria-pressed="false">Schaden</button>
         </div></div>
     </div>
+    <div class="pickm" id="pickm"></div>
     <div class="matrix-box" tabindex="0" role="region" aria-label="Tabelle Volk und Klasse, horizontal scrollbar"><table id="matrix"></table></div>
     <div class="legend"><span><i class="ld"></i>erlaubt</span><span><i class="ld nw"></i><span class="n">neu</span>die Kombination gab es in Classic nicht</span><span><i class="ld no"></i>nicht erlaubt</span></div>
-    <div class="pickm" id="pickm"></div>
     <div class="detail" id="detail" aria-live="polite" aria-label="Gewählte Kombination"></div>
   </div>
   <p class="note"><b>Neue Kombinationen:</b> Zwergen-Schamane und Gnomen-Priester (Allianz), Menschen-Jäger, und bei der Horde Orc-Magier, Troll-Hexenmeister und untoter Paladin. Die Horde bekam den Paladin, die Allianz den Schamanen. Die Windshaper Skyborne (Horde) können Schamanen sein, die High Order Skyborne (Allianz) Magier.</p>
@@ -1455,7 +1462,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
   <nav class="toc" aria-label="Alle Abschnitte">
     <div class="grp"><div class="gh">Diese Seite</div><a href="#search">Guide-Suche</a><a href="#raid">Gruppen- und Raidfenster</a><a href="#ping">Ping und Warteschlange</a><a href="#compare">Klassen- und Volksvergleich</a></div>
     <div class="grp"><div class="gh">Nachschlagen</div><a class="tbd" href="../classes/">Klassen</a><a href="../classes/#choose">Welche Klasse spielen</a><a href="../races/">Völker</a><a href="../guides/builds/">Builds</a><a class="tbd" href="../guides/leveling/">Leveln 1–60</a><a class="tbd" href="../guides/dungeons/">Dungeons und Raids</a><a href="../guides/professions/">Berufe</a><a href="../guides/faq/">FAQ und Termine</a><a href="../guides/news/">News</a><a href="../guides/">Alle Guides</a></div>
-    <div class="grp"><div class="gh">Tools</div><a href="../tools/#picker">Volk und Klasse</a><a href="../tools/#raid">Gruppe und LFG</a><a href="../play/">Im Spiel</a></div>
+    <div class="grp"><div class="gh">Tools</div><a href="../character/">Mein Charakter</a><a href="../tools/#picker">Volk und Klasse</a><a href="../tools/#raid">Gruppe und LFG</a><a href="../play/">Im Spiel</a></div>
     <div class="grp"><div class="gh">Gemeinschaft</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="../profile/">Mein Profil</a></div>
   </nav>
   <div class="opts">
@@ -1592,6 +1599,28 @@ const EN = {
 };
 RC.skyA.en = 'High Order Skyborne'; RC.skyH.en = 'Windshaper Skyborne';
 const CX = {"warrior": {"armor": "Stoff, Leder, Schwere Rüstung; Platte ab Stufe 40 {beta}", "weapons": "Alles außer Zauberstäben; Schild", "resource": "Wut", "lvl": "Langsamstes Leveln, etwa 12 % länger als der Durchschnitt (Schätzung von LFCarry)", "group": ["Schlachtruf wirkt auf den ganzen Raid", "Demoralisierungsruf und Rüstung zerreißen auf dem Boss", "Weitreichende Stöße und Wirbelwind für Kämpfe gegen mehrere Ziele"], "pros": ["Bester Tank und starker Nahkampfschaden", "Gut fürs PvP (Waffen)", "Wenige Tasten, leicht zu verstehen"], "cons": ["Langsamstes Leveln", "Stark von Ausrüstung abhängig", "Kaum Selbstheilung oder Gruppenkontrolle"], "specs": [{"n": "Waffen", "what": "Nahkampfschaden (Zweihandwaffe)"}, {"n": "Furor", "what": "Nahkampfschaden (zwei Waffen)"}, {"n": "Schutz", "what": "Tank"}]}, "paladin": {"armor": "Stoff, Leder, Schwere Rüstung; Platte ab Stufe 40; Schild {beta}", "weapons": "Äxte, Streitkolben, Schwerter, Stangenwaffen ab Stufe 20 {beta}", "resource": "Mana", "lvl": "Durchschnittliches Leveltempo", "group": ["Gruppenauren: Hingabe, Vergeltung, Konzentration", "Widerstandsauren gegen Feuer, Frost und Schatten für den ganzen Raid", "Segen für eine Stunde, große Segen für eine ganze Klasse", "Siegel der Gerechtigkeit hindert Gegner an der Flucht"], "pros": ["Alle drei Rollen auf einem Charakter", "Starke Gruppenbuffs", "Platte und ein zäher Charakter"], "cons": ["Kein Ranspringen, keine Verlangsamung, kein Tempoboost", "Wenig Kontrolle außer Hammer der Gerechtigkeit", "Vergeltung ist nach dem Patch abgerutscht"], "specs": [{"n": "Heilig", "what": "Heiler"}, {"n": "Schutz", "what": "Tank"}, {"n": "Vergeltung", "what": "Nahkampfschaden"}]}, "hunter": {"armor": "Stoff, Leder; Schwere Rüstung ab Stufe 40 {beta}", "weapons": "Bögen, Armbrüste, Schusswaffen, Äxte, Schwerter, Stangenwaffen", "resource": "Mana; der Begleiter nutzt Fokus", "lvl": "Schnellstes Leveln, etwa 8 % schneller als der Durchschnitt (Schätzung von LFCarry)", "group": ["Aura des Volltreffers erhöht den Fernkampfschaden der Gruppe", "Eiskältefalle: zuverlässige Kontrolle", "Streuschuss unterbricht Zauber", "Aspekt des Rudels macht die ganze Gruppe unterwegs schneller"], "pros": ["Schnellstes Leveln", "Super solo", "Fallen und Kontrolle"], "cons": ["Tote Zone im Nahbereich bis 8 Meter", "Du musst den Begleiter steuern", "Überleben-Talente waren in der Beta verbuggt"], "specs": [{"n": "Tierherrschaft", "what": "Fernkampfschaden, viel Schaden vom Begleiter"}, {"n": "Treffsicherheit", "what": "Fernkampfschaden"}, {"n": "Überleben", "what": "Nah- und Fernkampf, Fallen"}]}, "rogue": {"armor": "Stoff, Leder", "weapons": "Dolche, Schwerter, Streitkolben, Faustwaffen, Einhandäxte, Wurfwaffen", "resource": "Energie und Combopunkte", "lvl": "Durchschnittliches Leveltempo", "group": ["Reiner Nahkampfschaden ohne raidweite Buffs", "Kopfnuss, Blenden und Nierenhieb: viel Kontrolle", "Tritt unterbricht gefährliche Zauber"], "pros": ["Sehr hoher Schaden, der mit der Ausrüstung skaliert", "Verstohlenheit und viel Kontrolle", "Freie Waffenwahl"], "cons": ["Stark von Ausrüstung abhängig", "Keine Selbstheilung", "Nur Entrinnen und Verschwinden retten dich"], "specs": [{"n": "Meucheln", "what": "Giftschaden"}, {"n": "Kampf", "what": "Schnelle Waffenangriffe"}, {"n": "Täuschung", "what": "Hinterhalte, Blutungen"}]}, "priest": {"armor": "Stoff", "weapons": "Dolche, Streitkolben, Stäbe, Zauberstäbe", "resource": "Mana", "lvl": "Etwa 5 % langsamer als der Durchschnitt (Schätzung von LFCarry)", "group": ["Göttlicher Willen und Machtwort: Seelenstärke für den ganzen Raid", "Seele der Macht verstärkt einen Verbündeten", "Der Hauptheiler der Gruppe"], "pros": ["Wird von jeder Gruppe gebraucht", "Heilung oder Schattenschaden", "Viele Skillungen"], "cons": ["Nur Stoff, zerbrechlich", "Wenig Möglichkeiten, schnell zu sein", "Tempo hilft Zaubern kaum"], "specs": [{"n": "Disziplin", "what": "Heiler, Schilde und Absorption"}, {"n": "Heilig", "what": "Heiler"}, {"n": "Schatten", "what": "Fernkampfschaden"}]}, "shaman": {"armor": "Stoff, Leder; Schwere Rüstung ab Stufe 40; Schild {beta}", "weapons": "Streitkolben, Äxte, Stäbe, Faustwaffen, Dolche", "resource": "Mana", "lvl": "Durchschnittliches Leveltempo", "group": ["Die Totems Erdstärke, Windzorn, Flammenzunge und Anmut der Luft buffen die eigene Gruppe", "Totem des Erdstoßes entfernt Furcht, Schlaf und Bezauberung", "Totems gegen Gifte und Krankheiten", "Reinigen entfernt Buffs von Gegnern"], "pros": ["Starke Totems für die Gruppe", "Mobiles Leveln", "Starke neue Talente"], "cons": ["Keine harte Kontrolle", "Mana in langen Kämpfen", "Tanken noch unbestätigt"], "specs": [{"n": "Elementar", "what": "Fernkampfschaden"}, {"n": "Verstärkung", "what": "Nahkampfschaden. Ob er tanken kann, ist noch offen"}, {"n": "Wiederherstellung", "what": "Heiler"}]}, "mage": {"armor": "Stoff", "weapons": "Dolche, Schwerter, Stäbe, Zauberstäbe", "resource": "Mana", "lvl": "Schnellstes Leveln, etwa 8 % schneller als der Durchschnitt, rund 12 Stunden gespart (Schätzung von LFCarry)", "group": ["Portale ab Stufe 40, Teleports ab 20", "Essen und Wasser für die ganze Gruppe", "Verwandlung: zuverlässige Kontrolle", "Geringen Fluch aufheben"], "pros": ["Schnellstes Leveln", "Portale und Essen für alle", "Drei starke und unterschiedliche Bäume"], "cons": ["Nur Stoff, zerbrechlich", "Mana geht schnell aus", "Flächenschaden abgeschwächt"], "specs": [{"n": "Arkan", "what": "Burst, viel Mana"}, {"n": "Feuer", "what": "Krits und Entzünden"}, {"n": "Frost", "what": "Schaden und Kontrolle"}]}, "warlock": {"armor": "Stoff", "weapons": "Dolche, Schwerter, Stäbe, Zauberstäbe", "resource": "Mana; Aderlass wandelt Gesundheit in Mana", "lvl": "Durchschnittliches Leveltempo", "group": ["Gesundheitsstein und Seelenstein", "Ritual der Beschwörung: holt die Gruppe zusammen", "Fluch der Sprachen verlangsamt das Zaubern um 60 %", "Fluch der Elemente: mehr Magieschaden am Ziel"], "pros": ["Selbstständig: ein Dämon und Aderlass", "Viel Nutzen für die Gruppe", "Starker Schaden über Zeit"], "cons": ["Zerbrechlich und unbeweglich", "Der Schaden braucht Zeit zum Anlaufen", "Kein Blinzeln, kein Sprint"], "specs": [{"n": "Gebrechen", "what": "Schaden durch Flüche und Verderbnis"}, {"n": "Dämonologie", "what": "Schaden durch Dämonen"}, {"n": "Zerstörung", "what": "Direkter Feuer- und Schattenschaden"}]}, "druid": {"armor": "Stoff, Leder", "weapons": "Dolche, Streitkolben, Stäbe, Faustwaffen, Stangenwaffen ab Stufe 20 {beta}", "resource": "Mana; Wut in Bärengestalt, Energie in Katzengestalt", "lvl": "Etwa 5 % langsamer als der Durchschnitt (Schätzung von LFCarry)", "group": ["Rudelführer und Aura des Moonkin wirken auf den ganzen Raid und sind stapelbar", "Wiedergeburt: Wiederbelebung im Kampf", "Anregen gibt einem Heiler Mana zurück", "Entfernt Flüche und Gifte"], "pros": ["Alle drei Rollen auf einem Charakter", "Super mobil", "Wiederbelebung im Kampf"], "cons": ["Kein Blocken oder Parieren für den Bären", "Heilung über Zeit ist schwerer im Blick zu behalten", "Endgültige Raidzahlen sind noch unbekannt"], "specs": [{"n": "Gleichgewicht", "what": "Fernkampfschaden"}, {"n": "Wilder Kampf", "what": "Tank (Bär) und Nahkampfschaden (Katze)"}, {"n": "Wiederherstellung", "what": "Heiler, viel Heilung über Zeit"}]}};
+const HC = {"tx":{"title":"Mein Charakter","lead":"Ohne Login und Passwort: Wähle Klasse, Spezialisierung und Volk, und der Guide passt sich dir an.","local":"Nur in diesem Browser gespeichert.","none":"Noch kein Charakter","create":"Charakter erstellen","edit":"Bearbeiten","reset":"Charakter löschen","resetQ":"Charakter aus diesem Browser löschen?","steps":["Seite","Klasse und Spezialisierung","Volk","Aussehen","Details"],"side":"Für wen spielst du?","cls":"Klasse","spec":"Spezialisierung","race":"Volk","bestFor":"Bestes Volk für %s","best":"beste","paid":"bezahlt","sex":"Geschlecht","m":"Männlich","f":"Weiblich","bg":"Porträt-Hintergrund","lvl":"Stufe","reg":"Region","lvlReg":"Stufe und Region","regs":{"us":"Amerika und Ozeanien","eu":"Europa","kr":"Korea","tw":"Taiwan"},"p1":"Beruf 1","p2":"Beruf 2","secP":"Nebenberufe","noP":"Keine","role":"Rolle","back":"Zurück","next":"Weiter","done":"Fertig","cancel":"Abbrechen","later":"Kannst du auch später ausfüllen.","levelN":"Stufe %n","build":"Mein Talent-Build","buildD":"Talente für %s nach Stufe.","pairs":"Berufspaare","pairsD":"Welche Berufe zu deiner Klasse passen.","bestR":"Beste Völker","bestRD":"Volk für deine Klasse in beiden Fraktionen.","lvlG":"Klassen-Leveling","lvlGD":"Route und Talente 1–60.","day1":"Tag 1 für deinen Charakter","day1D":"Die Start-Checkliste mit deiner Klasse und deinem Volk.","play":"Im Spiel","playD":"Zonen und Dungeons für deine Stufe, Timer, Radio.","dung":"Dungeons für deine Stufe","dungNo":"Gib deine Stufe an, dann suchen wir Dungeons aus.","dungFirst":"Die ersten Dungeons öffnen ab Stufe 13.","resetH":"Wöchentlicher Reset","resetIn":"in %s","resetNote":"Blizzard hat die Reset-Zeit von Forever noch nicht bekannt gegeben. Angezeigt wie in anderen WoW-Versionen dieser Region: Wir prüfen es zum Start.","resetUnk":"Die Reset-Zeit für diese Region bestätigen wir zum Start.","resetNoReg":"Gib deine Region an, um den wöchentlichen Reset zu sehen.","resetWhy":"Schlachtzüge öffnen am 09.12 und haben eine wöchentliche ID.","lfg":"Text für die Gruppensuche","lfgD":"Füge ihn in den Chat LookingForGroup ein. Namen wie im Spiel.","lfgT":"LFG %d: %c, %r, Stufe %l.","lfgT0":"LFG: %c, %r.","allD":"Alle Dungeons","copy":"Kopieren","copied":"Kopiert","sync":"Zwischen Geräten synchronisieren","syncD":"Ein Login ist nur dafür nötig: Der Charakter ist dann auf Handy und PC, und die Start-Mail kommt per E-Mail, wenn du sie abonnierst.","mine":"Betrifft deine Klasse","make":"Zu meinem Charakter machen","made":"Das ist dein Charakter","plaqueH":"Mein Charakter","plaqueD":"Klasse, Spezialisierung und Volk in einer Minute: Der Guide zeigt deinen Build, deine Berufe und Dungeons.","day1Mine":"Für deinen Charakter","ckClass":"Deine Spezialisierung, %s: der Talent-Build nach Stufe.","ckRaceOk":"%r ist das beste Volk für deine Spezialisierung.","ckRaceAlt":"Bestes Volk für deine Spezialisierung: %r.","ckProfs":"Berufspaare für %s.","ckStart":"Leveln als %s: Route und erste Talente.","ckPing":"Deine Region: %s.","or":"oder"},"best":{"warrior":{"alliance":{"*":[["human","nightelf"],"Mensch: +2 % kritische Trefferchance mit jeder Waffe. Nachtelf: +10 % für 15 Sek. Die Quellen sind fast gleich verteilt."],"protection":[["dwarf"],"Steingestalt senkt körperlichen Schaden um 10 % und entfernt Blutungen."]},"horde":{"*":[["orc"],"Kochendes Blut: +10 % Angriffskraft für 15 Sek., Savagery: +1 % kritische Trefferchance. Alle Quellen setzen es an die Spitze."],"protection":[["tauren"],"Zähigkeit gibt +5 % Gesundheit, Kriegsdonner betäubt Gegner in der Nähe."]}},"paladin":{"alliance":{"*":[["human"],"Ruthless verstärkt Schläge und Zauber, Überlebenswille entfernt Betäubungen."],"protection":[["dwarf"],"Steingestalt und Earthen Fury: +2 % kritischer Schaden."]},"horde":{"*":[["undead"],"In der Horde kann nur der Untote Paladin sein. Kannibalismus stellt Mana wieder her, Wille der Verlassenen entfernt Furcht."]}},"hunter":{"alliance":{"*":[["human","nightelf"],"Mensch: +2 % kritische Trefferchance, das Tier erbt sie. Nachtelf: Elunes Anmut und Schattenmimik."]},"horde":{"*":[["orc","troll"],"Ork: Kochendes Blut und Savagery. Troll: +5 % Schaden gegen Wildtiere."]}},"rogue":{"alliance":{"*":[["nightelf"],"Schattenmimik senkt die Bedrohung jetzt auch im Kampf, dazu Elunes Anmut und Schnelligkeit."]},"horde":{"*":[["orc"],"Kochendes Blut: +10 % Angriffskraft für 15 Sek."]}},"priest":{"alliance":{"*":[["gnome"],"Alle Quellen wählen es: Heureka! verstärkt auch Machtwort: Schild, Inquisitive Mind gibt +5 % Mana."]},"horde":{"*":[["undead","troll"],"Die Quellen sind uneins. Untote sind im PvP stärker: Wille der Verlassenen entfernt Furcht, Schlaf und Bezauberung."]}},"shaman":{"alliance":{"*":[["dwarf"],"In der Allianz kann nur der Zwerg Schamane sein: Steingestalt und Earthen Fury."]},"horde":{"*":[["orc"],"Kochendes Blut gibt Angriffskraft und Zaubermacht: gut für Elementar und Verstärkung."],"restoration":[["troll"],"Für Heiler empfiehlt eine Quelle den Troll: Berserker, +10 % Zaubertempo für 12 Sek."]}},"mage":{"alliance":{"*":[["gnome"],"Heureka! für 8 Sek., Inquisitive Mind: +5 % Mana, Entfesselungskünstler löst Wurzeln."]},"horde":{"*":[["orc"],"Ork-Magier ist eine neue Kombination in Forever: Kochendes Blut gibt jetzt Zaubermacht."]}},"warlock":{"alliance":{"*":[["gnome","human"],"Gnom: Heureka! und Inquisitive Mind. Mensch: Schaden über Zeit kann kritisch treffen, Ruthless gibt +2 % kritische Trefferchance."]},"horde":{"*":[["orc","undead"],"Ork: Kochendes Blut gibt Zaubermacht. Untote werden im PvP öfter gewählt."]}},"druid":{"alliance":{"*":[["nightelf"],"Elunes Anmut: +10 % kritische Trefferchance für 15 Sek., dazu Schnelligkeit."]},"horde":{"*":[["tauren"],"Zähigkeit: +5 % Gesundheit und +2 % kritischer Schaden, Kriegsdonner wirkt auch in Gestalten."]}}},"sid":{"warrior":["arms","fury","protection"],"paladin":["holy","protection","retribution"],"hunter":["beast-mastery","marksmanship","survival"],"rogue":["assassination","combat","subtlety"],"priest":["discipline","holy","shadow"],"shaman":["elemental","enhancement","restoration"],"mage":["arcane","fire","frost"],"warlock":["affliction","demonology","destruction"],"druid":["balance","feral","restoration"]},"sn":{"warrior":["Waffen","Furor","Schutz"],"paladin":["Heilig","Schutz","Vergeltung"],"hunter":["Tierherrschaft","Treffsicherheit","Überleben"],"rogue":["Meucheln","Kampf","Täuschung"],"priest":["Disziplin","Heilig","Schatten"],"shaman":["Elementar","Verstärkung","Wiederherstellung"],"mage":["Arkan","Feuer","Frost"],"warlock":["Gebrechen","Dämonologie","Zerstörung"],"druid":["Gleichgewicht","Wilder Kampf","Wiederherstellung"]},"fn":{"alliance":"Allianz","horde":"Horde"},"reset":{"us":[2,15],"eu":[3,4],"kr":null,"tw":null},"rn":{"human":"Mensch","dwarf":"Zwerg","nightelf":"Nachtelf","gnome":"Gnom","skyA":"High Order Skyborne","orc":"Orc","undead":"Untoter","tauren":"Tauren","troll":"Troll","skyH":"Windshaper Skyborne"},"rf":{"human":"alliance","dwarf":"alliance","nightelf":"alliance","gnome":"alliance","skyA":"alliance","orc":"horde","undead":"horde","tauren":"horde","troll":"horde","skyH":"horde"},"cn":{"warrior":"Krieger","paladin":"Paladin","hunter":"Jäger","rogue":"Schurke","priest":"Priester","shaman":"Schamane","mage":"Magier","warlock":"Hexenmeister","druid":"Druide"},"cen":{"warrior":"Warrior","paladin":"Paladin","hunter":"Hunter","rogue":"Rogue","priest":"Priest","shaman":"Shaman","mage":"Mage","warlock":"Warlock","druid":"Druid"}};
+function readHero() {
+  let m = {};
+  try { m = JSON.parse(localStorage.getItem('gabella-wf-me')) || {}; } catch (e) { m = {}; }
+  if (!m || typeof m !== 'object' || !HC.cn[m.cls]) return null;
+  const sid = HC.sid[m.cls], spec = sid.includes(m.spec) ? m.spec : '';
+  return Object.assign({}, m, { spec, specN: spec ? HC.sn[m.cls][sid.indexOf(spec)] : '', clsN: HC.cn[m.cls], raceN: HC.rn[m.race] || '', fac: HC.rf[m.race] || '' });
+}
+function bestOf(cls, fac, spec) { const b = (HC.best[cls] || {})[fac]; return b ? (b[spec] || b['*']) : null; }
+function nextReset(reg) {   // the region's weekly reset [weekday UTC, hour UTC] -> the next moment after now; null: not known
+  const r = HC.reset[reg]; if (!r) return null;
+  const now = new Date(), d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), r[1]));
+  d.setUTCDate(d.getUTCDate() + (r[0] - d.getUTCDay() + 7) % 7);
+  if (d <= now) d.setUTCDate(d.getUTCDate() + 7);
+  return d;
+}
+function leftTxt(ms) {
+  const u = (n, k) => new Intl.NumberFormat(document.documentElement.lang, { style: 'unit', unit: k, unitDisplay: 'short', maximumFractionDigits: 0 }).format(n);
+  const m = Math.max(1, Math.round(ms / 6e4)), d = Math.floor(m / 1440), h = Math.floor(m % 1440 / 60);
+  return d ? `${u(d, 'day')} ${u(h, 'hour')}` : h ? `${u(h, 'hour')} ${u(m % 60, 'minute')}` : u(m, 'minute');
+}
+
 const CPROF = {"warrior": [["Leveln: Schmiedekunst + Bergbau", ""], ["Stufe 60: Ingenieurskunst + Bergbau", "Ein Schmied stattet sich mit Platte und Waffen aus, viele Rezepte sind persönlich. Der Ingenieur bekommt Granaten und Gadgets, die dem Krieger fehlen."]], "paladin": [["Leveln: Schmiedekunst + Bergbau", ""], ["Stufe 60: Schutz, Vergeltung: Ingenieurskunst + Bergbau. Heilig: Alchimie + Kräuterkunde", "Heilig verbraucht viel Mana: Die Tränke machst du selbst, und das Mana Well im Lager ersetzt Segen der Weisheit."]], "hunter": [["Leveln: Lederverarbeitung + Kürschnerei", ""], ["Stufe 60: Ingenieurskunst + Bergbau", "Ein Lederverarbeiter näht sich Leder und Kette und Armor Kits. Der Ingenieur baut Zielfernrohre und Gewehre."]], "rogue": [["Leveln: Lederverarbeitung + Kürschnerei", ""], ["Stufe 60: Ingenieurskunst + Bergbau", "Das Leder machst du selbst, das Camp Tent gibt Erholung. Ingenieurskunst ist der wichtigste Beruf fürs PvP."]], "priest": [["Leveln: Schneiderei + Verzauberkunst", ""], ["Stufe 60: Schneiderei + Ingenieurskunst oder Verzauberkunst", "Der Schneider näht ab Stufe 10 Gürtel mit Zaubermacht, der Verzauberer ab Stufe 5 Zauberstäbe mit Zaubermacht. Genähtes wird zu Materialien entzaubert."]], "shaman": [["Leveln: Lederverarbeitung + Kürschnerei", ""], ["Stufe 60: Alchimie + Kräuterkunde", "Der Lederverarbeiter macht Zaubermacht-Ausrüstung für Elementar und Wiederherstellung und Ausrüstung für Verstärkung. Im Raid und in der Gruppe braucht man Tränke."]], "mage": [["Leveln: Schneiderei + Verzauberkunst", ""], ["Stufe 60: Schneiderei + Verzauberkunst; fürs PvP und große Pulls Ingenieurskunst + Bergbau", "Der Schneider liefert frühe Ausrüstung mit Zaubermacht, Genähtes wird entzaubert. Die Granaten des Ingenieurs halten große Gegnergruppen an Ort und Stelle."]], "warlock": [["Leveln: Schneiderei + Verzauberkunst", ""], ["Stufe 60: Schneiderei + Alchimie", "Das Faction Banner des Schneiders gibt Willenskraft für Aderlass. Alchimie bedeutet Tränke und Gold."]], "druid": [["Leveln: Lederverarbeitung + Kürschnerei oder Kräuterkunde", ""], ["Stufe 60: Alchimie + Kräuterkunde", "Kräuter sammelst du in Reisegestalt, Tränke trinkst du in jeder Gestalt. Mana Well und Incense Candle helfen Gleichgewicht und Wiederherstellung."]]};   /* recommended profession pairs per class, already in the page language (build.class_profs) */
 const $ = s => document.querySelector(s);
 const ROOT = '../../', HOME = '../';
@@ -1939,7 +1968,7 @@ function lvlMeter(c) {
   const bar = p ? `<i class="${p > 0 ? 'slow' : ''}" style="${p < 0 ? 'right' : 'left'}:50%;width:${w}%"></i>` : '';
   return `<span class="lvl"><span>${label}</span><span class="bar" role="img" aria-label="${label}">${bar}</span><span class="scale" aria-hidden="true"><span>schneller</span><span>langsamer</span></span></span>`;
 }
-const state = { f:'all', r:'all', race:'dwarf', cls:'shaman' };
+const state = { f:'all', r:'all', race:'dwarf', cls:'shaman', spec:'elemental' };
 
 function roleMatch(c, role) { return role === 'all' || c.roles.includes(role); }
 function raceVisible(r) { return state.f === 'all' || r.f === state.f; }
@@ -1949,10 +1978,16 @@ function pickValid() {
   let r = RC[state.race];
   if (!raceVisible(r)) { r = RACES.find(raceVisible); state.race = r.id; }
   if (!r.can[state.cls]) { state.cls = Object.keys(r.can).find(c => roleMatch(CL[c], state.r)) || Object.keys(r.can)[0]; }
+  const sid = HC.sid[state.cls];   // the spec: kept when it is the class's, else the first one of the chosen role
+  if (!sid.includes(state.spec)) state.spec = sid[CL[state.cls].specs.findIndex(s => state.r === 'all' || s[2].includes(state.r))] || sid[0];
 }
+/* Best race of the class and spec on a faction (the Best race guide): the picker stars it and says why in one line */
+const pickBest = f => { const b = bestOf(state.cls, f, state.spec); return b ? b[0] : []; };
 function pickClass(id) {
   state.cls = id;
+  if (!HC.sid[id].includes(state.spec)) state.spec = '';
   if (!RC[state.race].can[id]) { const r = RACES.filter(raceVisible).find(x => x.can[id]) || RACES.find(x => x.can[id]); if (r) state.race = r.id; }
+  pickRace();
   if (!raceVisible(RC[state.race])) { state.f = 'all'; syncSeg('segF', 'all'); }
 }
 
@@ -1995,15 +2030,23 @@ function renderMatrix() {
   mx.addEventListener('mouseleave', () => mark(-1));
 })();
 
+/* After a class or spec: the best race of the shown faction (of the current race's faction when both are shown) */
+function pickRace() {
+  pickValid();
+  const f = state.f !== 'all' ? state.f : RC[state.race].f, best = pickBest(f);
+  if (best.length && !best.includes(state.race)) state.race = best[0];
+}
 function renderPickM() {
-  const r = RC[state.race];
-  const races = RACES.filter(raceVisible).map(x => `<button type="button" data-pr="${x.id}" aria-pressed="${x.id === state.race}"><span class="f ${x.f}"></span>${esc(x.n)}</button>`).join('');
-  const cls = CLASSES.filter(c => roleMatch(c, state.r)).map(c => {
-    const v = r.can[c.id];
-    return `<button type="button" data-pc="${c.id}" class="${v ? '' : 'na'}" aria-pressed="${c.id === state.cls}">${esc(c.n)}${v === 'new' ? ' · neu' : ''}</button>`;
-  }).join('');
-  $('#pickm').innerHTML = `<div><div class="lbl">1. Volk</div><div class="chiprow">${races}</div></div>
-    <div><div class="lbl">2. Klasse (gestrichelt: für dieses Volk nicht verfügbar, tippen wechselt das Volk)</div><div class="chiprow">${cls}</div></div>`;
+  const TXH = HC.tx, c = CL[state.cls], sid = HC.sid[state.cls];
+  const cls = CLASSES.filter(x => roleMatch(x, state.r)).map(x => `<button type="button" data-pc="${x.id}" aria-pressed="${x.id === state.cls}">${esc(x.n)}</button>`).join('');
+  const specs = c.specs.map((s, i) => `<button type="button" data-ps="${sid[i]}" aria-pressed="${sid[i] === state.spec}">${esc(HC.sn[state.cls][i])}</button>`).join('');
+  const races = RACES.filter(x => raceVisible(x) && x.can[state.cls]).map(x => { const b = pickBest(x.f).includes(x.id);
+    return `<button type="button" data-pr="${x.id}" aria-pressed="${x.id === state.race}"><span class="f ${x.f}"></span>${esc(x.n)}${b ? ` <span class="pstar" title="${esc(TXH.best)}">★</span>` : ''}</button>`; }).join('');
+  const f = RC[state.race].f, bo = bestOf(state.cls, f, state.spec), sn = HC.sn[state.cls][sid.indexOf(state.spec)];
+  const why = bo ? `<p class="pwhy"><b>★ ${esc(TXH.bestFor.replace('%s', sn))}${state.f === 'all' ? ` (${esc(HC.fn[f])})` : ''}: ${esc(bo[0].map(x => HC.rn[x]).join(` ${TXH.or} `))}.</b> ${esc(bo[1])}</p>` : '';
+  $('#pickm').innerHTML = `<div><div class="lbl">1. ${esc(TXH.cls)}</div><div class="chiprow">${cls}</div></div>
+    <div><div class="lbl">2. ${esc(TXH.spec)}</div><div class="chiprow">${specs}</div></div>
+    <div><div class="lbl">3. ${esc(TXH.race)}</div><div class="chiprow">${races}</div>${why}</div>`;
 }
 
 function renderDetail() {
@@ -2032,6 +2075,7 @@ function renderDetail() {
         <div class="fact"><h4>Was ist neu</h4><span>${esc(c.forever)}</span></div>
       </div>
       ${tipBox(esc(r.tip))}
+      ${pickLinks(r, c)}
       <div class="copyrow">
         <input id="pickText" readonly value="${esc(text)}" aria-label="Meine Wahl">
         <button class="btn" id="copyBtn"><svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg>Meine Wahl kopieren</button>
@@ -2041,6 +2085,14 @@ function renderDetail() {
   $('#copyBtn').onclick = () => copyTo($('#pickText').value, $('#copyMsg'), 'Kopiert');
 }
 
+/* Three ways on from the chosen combination and «make it my character» (character/#set=, the hero of this browser) */
+function pickLinks(r, c) {
+  const TXH = HC.tx, sn = HC.sn[c.id][HC.sid[c.id].indexOf(state.spec)], h = readHero();
+  const mine = h && h.race === r.id && h.cls === c.id && h.spec === state.spec;
+  const a = (href, t) => `<a class="btn ghost" href="${HOME}${href}">${esc(t)}</a>`;
+  return `<div class="plinks">${a(`guides/best-race/#${c.id}`, TXH.bestR)}${a(`guides/professions/#pairs=${c.id}`, TXH.pairs)}${a(`guides/builds-${c.id}/#${state.spec}`, `${TXH.build}: ${sn}`)}`
+    + (mine ? `<a class="btn" href="${HOME}character/">${esc(TXH.made)}</a>` : `<a class="btn" href="${HOME}character/#set=${r.id}.${c.id}.${state.spec}">${esc(TXH.make)}</a>`) + '</div>';
+}
 function render() { pickValid(); renderMatrix(); renderPickM(); renderDetail(); }
 function toPicker() { $('#detail').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest' }); }
 
@@ -2055,11 +2107,15 @@ document.addEventListener('click', e => {
   if (cell) { state.race = cell.dataset.r; state.cls = cell.dataset.c; render(); toPicker(); return; }
   const pr = e.target.closest('[data-pr]');
   if (pr) { state.race = pr.dataset.pr; render(); return; }
+  const ps = e.target.closest('[data-ps]');
+  if (ps) { state.spec = ps.dataset.ps; pickRace(); render(); return; }
   const pc = e.target.closest('[data-pc]');
   if (pc) { pickClass(pc.dataset.pc); render(); return; }
 });
+{ const h = readHero(); if (h && RC[h.race] && RC[h.race].can[h.cls]) Object.assign(state, { race: h.race, cls: h.cls, spec: h.spec || '' }); }
 render();
-/* ---------- Ping and queue advisor: where the player is -> the WoW Forever region (Blizzard: Americas+Oceania, Europe, Korea, Taiwan) ---------- */
+/* ---------- Ping and queue advisor
+: where the player is -> the WoW Forever region (Blizzard: Americas+Oceania, Europe, Korea, Taiwan) ---------- */
 const PG = {
   eu: ['Europa', ''],
   cas: ['Europa', 'Kaukasus und Zentralasien haben keine eigene Region, am nächsten liegt Europa.'],
@@ -2176,7 +2232,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=c8c77e27f2" data-root="../../" defer></script>
+<script src="../../assets/search/search.js?v=6325abe5dd" data-root="../../" defer></script>
 <script src="../../assets/me/me.js?v=d6ef450f05" data-root="../../" data-home="../" data-lang="de" data-ach="0" data-teaser="" data-close="Schließen" data-page="tools/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>

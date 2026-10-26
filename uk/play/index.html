@@ -373,6 +373,8 @@ section.block { scroll-margin-top: -72px; }
 .pb-t h2 { font-size: var(--fs-28); line-height: 1.1; }
 .pb-t > span { color: var(--muted); max-width: 60ch; }
 .pickban .btn { white-space: nowrap; }
+.pb-a { display: grid; gap: 10px; justify-items: start; }
+.pb-a .more-l { font-size: var(--fs-14); }
 #guides .gt { min-height: 150px; }
 #camp { margin-top: 40px; min-height: clamp(380px, 34vw, 560px); }
 #camp .camp-in { padding-bottom: clamp(40px, 5vw, 72px); }
@@ -962,7 +964,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .pb-t { padding: 16px 0; gap: 4px; }
   .pb-t h2 { font-size: var(--fs-22); }
   .pb-t > span { font-size: var(--fs-14); }
-  .pickban .btn { grid-column: 1 / -1; margin: 0 0 16px 16px; justify-self: start; }
+  .pickban .pb-a { grid-column: 1 / -1; margin: 0 0 16px 16px; }
   #guides .gt { min-height: 118px; }
   #guides .gt span { display: none; }
   #camp { min-height: 520px; }
@@ -1208,7 +1210,14 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .lcw b { font-size: var(--fs-22); font-weight: 600; font-variant-numeric: lining-nums; }
 .lcw span[hidden] { display: none; }
 .lcd.out .lcu { display: none; }
-.pday { margin-bottom: 14px; }   /* In game: the launch checklist in one line above the columns */
+.pday { margin-bottom: 14px; }
+/* the hero of this browser (character/): a gold line, no badge */
+.nmine { display: block; margin-top: 2px; color: var(--gold-2); font-size: var(--fs-13); font-weight: 600; }
+.nitem time ~ .nmine { grid-column: 2; }
+.dme { grid-column: 2; margin: 4px 0 0; font-size: var(--fs-14); }
+.dme a, .dmehead a { color: var(--gold-2); }
+.dmehead { margin: 0 0 12px; }
+#tReset small { color: var(--muted); font-size: var(--fs-13); }   /* In game: the launch checklist in one line above the columns */
 /* Launch checklist (guides/launch-checklist/): rows on one plate like the tables, a square tick, the link to our page on the right */
 .dbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; font-variant-numeric: lining-nums tabular-nums; }
 .dbar[hidden] { display: none; }
@@ -1389,7 +1398,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../assets/radio/radio.css?v=c5eacd57e2">
-<link data-rel="stylesheet" href="../../assets/search/search.css?v=c8c77e27f2">
+<link data-rel="stylesheet" href="../../assets/search/search.css?v=6325abe5dd">
 <link data-rel="stylesheet" href="../../assets/me/me.css?v=d6ef450f05">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Головна","item":"https://gabella.site/wow/uk/"},{"@type":"ListItem","position":2,"name":"У грі","item":"https://gabella.site/wow/uk/play/"}]}</script>
 </head>
@@ -1442,7 +1451,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <div class="gmain">
 <a class="gplay frame pday" href="../guides/launch-checklist/"><span><b>День 1</b> Чек-лист: що зробити до старту, у перші години та першого вечора.</span><span class="btn ghost">Відкрити чек-лист</span></a><div class="pgrid"><div class="pcol">
 <section class="frame psec" id="level" aria-labelledby="hLvl">
-  <div class="phero"><h2 id="hLvl">Рівень</h2><span id="pWho"></span><a href="#me">Налаштувати персонажа</a></div>
+  <div class="phero"><h2 id="hLvl">Рівень</h2><span id="pWho"></span><a href="../character/">Налаштувати персонажа</a></div>
   <div class="pchars" id="pChars" role="group" aria-label="Персонажі" hidden></div>
   <div class="pfac" id="pFac" role="group" aria-label="Фракція"><button type="button" class="pill" data-f="alliance" aria-pressed="false">Альянс</button><button type="button" class="pill" data-f="horde" aria-pressed="false">Орда</button></div>
   <div class="plv"><button type="button" class="lvb" id="lvDown" aria-label="Рівень нижче">−</button><output id="lvOut" aria-live="polite">—</output><button type="button" class="lvb" id="lvUp" aria-label="Рівень вище">+</button></div>
@@ -1460,6 +1469,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     <button type="submit" class="pill gold">Старт</button></form>
   <ul class="ptl" id="tList" aria-live="polite"></ul>
   <label class="pnotify" id="tNotify" hidden><input type="checkbox"> Сповіщення, коли вкладка у фоні</label>
+  <p class="pnote" id="tReset" hidden></p>
 </section>
 </div><div class="pcol">
 <section class="frame psec" id="radio" aria-labelledby="hRadio"><h2 id="hRadio">Радіо</h2><div id="radioDock"><div class="rskel" aria-hidden="true"><i class="ra"></i><i class="rl"></i><span class="rc"><i></i><i></i><i></i><i class="rv"></i></span><i class="rl rs"></i><span class="rt"><i></i><i></i><i></i><i></i><i></i></span></div></div></section>
@@ -1516,7 +1526,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <nav class="toc" aria-label="Усі розділи">
     
     <div class="grp"><div class="gh">Довідник</div><a class="tbd" href="../classes/">Класи</a><a href="../classes/#choose">Який клас обрати</a><a href="../races/">Раси</a><a href="../guides/builds/">Білди</a><a class="tbd" href="../guides/leveling/">Прокачка 1–60</a><a class="tbd" href="../guides/dungeons/">Підземелля та рейди</a><a href="../guides/professions/">Професії</a><a href="../guides/faq/">FAQ і дати</a><a href="../guides/news/">Новини</a><a href="../guides/">Усі гайди</a></div>
-    <div class="grp"><div class="gh">Інструменти</div><a href="../tools/#picker">Раса і клас</a><a href="../tools/#raid">Склад групи та LFG</a><a href="../play/">У грі</a></div>
+    <div class="grp"><div class="gh">Інструменти</div><a href="../character/">Мій персонаж</a><a href="../tools/#picker">Раса і клас</a><a href="../tools/#raid">Склад групи та LFG</a><a href="../play/">У грі</a></div>
     <div class="grp"><div class="gh">Спільнота</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="../profile/">Мій профіль</a></div>
   </nav>
   <div class="opts">
@@ -1570,6 +1580,27 @@ if ('IntersectionObserver' in window && tocLinks.length) {
     if (e.isIntersecting) tocLinks.forEach(a => a.setAttribute('aria-current', a.hash === '#' + e.target.id));
   }), { rootMargin: '-40% 0px -55% 0px' });
   document.querySelectorAll('.gsec').forEach(s => io.observe(s));
+}
+const HC = {"tx":{"title":"Мій персонаж","lead":"Без входу й пароля: виберіть клас, спек і расу, і гід підлаштується під вас.","local":"Зберігається лише в цьому браузері.","none":"Персонажа ще не створено","create":"Створити персонажа","edit":"Змінити","reset":"Видалити персонажа","resetQ":"Видалити персонажа з цього браузера?","steps":["Сторона","Клас і спек","Раса","Вигляд","Деталі"],"side":"За кого граєте?","cls":"Клас","spec":"Спек","race":"Раса","bestFor":"Найкраща раса для спеку «%s»","best":"найкраща","paid":"платна","sex":"Стать","m":"Чоловіча","f":"Жіноча","bg":"Тло портрета","lvl":"Рівень","reg":"Регіон","lvlReg":"Рівень і регіон","regs":{"us":"Америка й Океанія","eu":"Європа","kr":"Корея","tw":"Тайвань"},"p1":"Професія 1","p2":"Професія 2","secP":"Допоміжні професії","noP":"Немає","role":"Роль","back":"Назад","next":"Далі","done":"Готово","cancel":"Скасувати","later":"Можна заповнити пізніше.","levelN":"%n рівень","build":"Моя збірка талантів","buildD":"Таланти спеку «%s» за рівнями.","pairs":"Пари професій","pairsD":"Які професії взяти класу.","bestR":"Найкращі раси","bestRD":"Раса під клас за обидві фракції.","lvlG":"Прокачування класу","lvlGD":"Маршрут і таланти 1–60.","day1":"День 1 під персонажа","day1D":"Чек-лист старту з вашим класом і расою.","play":"У грі","playD":"Зони й підземелля під рівень, таймери, радіо.","dung":"Підземелля під рівень","dungNo":"Вкажіть рівень, і доберемо підземелля.","dungFirst":"Перші підземелля з 13 рівня.","resetH":"Скидання тижня","resetIn":"через %s","resetNote":"Час скидання Forever Blizzard ще не оголосила. Показано, як в інших версіях WoW цього регіону: звіримо на старті.","resetUnk":"Для цього регіону час скидання уточнимо на старті.","resetNoReg":"Вкажіть регіон, і покажемо скидання тижня.","resetWhy":"Рейди відкриваються 09.12, у них тижневе збереження.","lfg":"Текст для пошуку групи","lfgD":"Вставте в чат LookingForGroup. Назви як у грі.","lfgT":"Шукаю групу в %d: %c, %r, %l рівень.","lfgT0":"Шукаю групу: %c, %r.","allD":"Усі підземелля","copy":"Скопіювати","copied":"Скопійовано","sync":"Синхронізувати між пристроями","syncD":"Вхід потрібен лише для цього: персонаж буде на телефоні й на ПК, а лист до старту прийде на пошту, якщо підпишетеся.","mine":"Стосується вашого класу","make":"Зробити моїм персонажем","made":"Це ваш персонаж","plaqueH":"Мій персонаж","plaqueD":"Клас, спек і раса за хвилину: гід покаже вашу збірку, професії й підземелля.","day1Mine":"Під вашого персонажа","ckClass":"Ваш спек «%s»: збірка талантів за рівнями.","ckRaceOk":"%r — найкраща раса під ваш спек.","ckRaceAlt":"Найкраща раса під ваш спек: %r.","ckProfs":"Пари професій для класу «%s».","ckStart":"Прокачування за клас «%s»: маршрут і перші таланти.","ckPing":"Ваш регіон: %s.","or":"або"},"best":{"warrior":{"alliance":{"*":[["human","nightelf"],"Людина: +2% криту будь-якою зброєю. Нічний ельф: +10% криту на 15 сек. Джерела діляться майже порівну."],"protection":[["dwarf"],"Stoneform знижує фізичну шкоду на 10% і знімає кровотечі."]},"horde":{"*":[["orc"],"Blood Fury: +10% сили атаки на 15 сек, Savagery: +1% криту. Першим його ставлять усі джерела."],"protection":[["tauren"],"Toughness дає +5% здоров’я, War Stomp оглушує ворогів поруч."]}},"paladin":{"alliance":{"*":[["human"],"Ruthless підсилює і удари, і заклинання, Will to Survive знімає оглушення."],"protection":[["dwarf"],"Stoneform і Earthen Fury: +2% до сили криту."]},"horde":{"*":[["undead"],"За Орду паладином може бути лише Нежить. Cannibalize повертає ману, Will of the Forsaken знімає страх."]}},"hunter":{"alliance":{"*":[["human","nightelf"],"Людина: +2% криту, і улюбленець успадковує крит. Нічний ельф: Elune’s Grace і Shadowmeld."]},"horde":{"*":[["orc","troll"],"Орк: Blood Fury і Savagery. Троль: +5% шкоди по звірах."]}},"rogue":{"alliance":{"*":[["nightelf"],"Shadowmeld тепер знижує загрозу й у бою, плюс Elune’s Grace і Quickness."]},"horde":{"*":[["orc"],"Blood Fury: +10% сили атаки на 15 сек."]}},"priest":{"alliance":{"*":[["gnome"],"Вибір усіх джерел: Eureka! підсилює й Power Word: Shield, Inquisitive Mind дає +5% мани."]},"horde":{"*":[["undead","troll"],"Джерела діляться. Нежить сильніша в PvP: Will of the Forsaken знімає страх, сон і зачарування."]}},"shaman":{"alliance":{"*":[["dwarf"],"За Альянс шаманом може бути лише Дворф: Stoneform і Earthen Fury."]},"horde":{"*":[["orc"],"Blood Fury дає і силу атаки, і силу заклинань: підходить і Стихіям, і Вдосконаленню."],"restoration":[["troll"],"Цілителю джерело радить Троля: Berserking, +10% до швидкості заклинань на 12 сек."]}},"mage":{"alliance":{"*":[["gnome"],"Eureka! на 8 сек, Inquisitive Mind: +5% мани, Escape Artist знімає корені."]},"horde":{"*":[["orc"],"Маг-орк — нове поєднання Forever: Blood Fury тепер дає силу заклинань."]}},"warlock":{"alliance":{"*":[["gnome","human"],"Гном: Eureka! та Inquisitive Mind. Людина: періодична шкода критує, Ruthless дає +2% криту."]},"horde":{"*":[["orc","undead"],"Орк: Blood Fury дає силу заклинань. Нежить частіше беруть у PvP."]}},"druid":{"alliance":{"*":[["nightelf"],"Elune’s Grace: +10% криту на 15 сек, і Quickness."]},"horde":{"*":[["tauren"],"Toughness: +5% здоров’я і +2% до сили криту, War Stomp працює й у формах."]}}},"sid":{"warrior":["arms","fury","protection"],"paladin":["holy","protection","retribution"],"hunter":["beast-mastery","marksmanship","survival"],"rogue":["assassination","combat","subtlety"],"priest":["discipline","holy","shadow"],"shaman":["elemental","enhancement","restoration"],"mage":["arcane","fire","frost"],"warlock":["affliction","demonology","destruction"],"druid":["balance","feral","restoration"]},"sn":{"warrior":["Зброя","Лють","Захист"],"paladin":["Світло","Захист","Відплата"],"hunter":["Володіння звірами","Стрільба","Виживання"],"rogue":["Ліквідація","Бій","Непомітність"],"priest":["Послух","Світло","Темрява"],"shaman":["Стихії","Вдосконалення","Зцілення"],"mage":["Тайна магія","Вогонь","Лід"],"warlock":["Прокляття","Демонологія","Руйнування"],"druid":["Баланс","Сила звіра","Зцілення"]},"fn":{"alliance":"Альянс","horde":"Орда"},"reset":{"us":[2,15],"eu":[3,4],"kr":null,"tw":null},"rn":{"human":"Людина","dwarf":"Дворф","nightelf":"Нічний ельф","gnome":"Гном","skyA":"Високий скайборн","orc":"Орк","undead":"Нежить","tauren":"Таурен","troll":"Троль","skyH":"Скайборн-вітрорізь"},"rf":{"human":"alliance","dwarf":"alliance","nightelf":"alliance","gnome":"alliance","skyA":"alliance","orc":"horde","undead":"horde","tauren":"horde","troll":"horde","skyH":"horde"},"cn":{"warrior":"Воїн","paladin":"Паладин","hunter":"Мисливець","rogue":"Розбійник","priest":"Жрець","shaman":"Шаман","mage":"Маг","warlock":"Чорнокнижник","druid":"Друїд"},"cen":{"warrior":"Warrior","paladin":"Paladin","hunter":"Hunter","rogue":"Rogue","priest":"Priest","shaman":"Shaman","mage":"Mage","warlock":"Warlock","druid":"Druid"}};
+function readHero() {
+  let m = {};
+  try { m = JSON.parse(localStorage.getItem('gabella-wf-me')) || {}; } catch (e) { m = {}; }
+  if (!m || typeof m !== 'object' || !HC.cn[m.cls]) return null;
+  const sid = HC.sid[m.cls], spec = sid.includes(m.spec) ? m.spec : '';
+  return Object.assign({}, m, { spec, specN: spec ? HC.sn[m.cls][sid.indexOf(spec)] : '', clsN: HC.cn[m.cls], raceN: HC.rn[m.race] || '', fac: HC.rf[m.race] || '' });
+}
+function bestOf(cls, fac, spec) { const b = (HC.best[cls] || {})[fac]; return b ? (b[spec] || b['*']) : null; }
+function nextReset(reg) {   // the region's weekly reset [weekday UTC, hour UTC] -> the next moment after now; null: not known
+  const r = HC.reset[reg]; if (!r) return null;
+  const now = new Date(), d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), r[1]));
+  d.setUTCDate(d.getUTCDate() + (r[0] - d.getUTCDay() + 7) % 7);
+  if (d <= now) d.setUTCDate(d.getUTCDate() + 7);
+  return d;
+}
+function leftTxt(ms) {
+  const u = (n, k) => new Intl.NumberFormat(document.documentElement.lang, { style: 'unit', unit: k, unitDisplay: 'short', maximumFractionDigits: 0 }).format(n);
+  const m = Math.max(1, Math.round(ms / 6e4)), d = Math.floor(m / 1440), h = Math.floor(m % 1440 / 60);
+  return d ? `${u(d, 'day')} ${u(h, 'hour')}` : h ? `${u(h, 'hour')} ${u(m % 60, 'minute')}` : u(m, 'minute');
 }
 const DUNGEONS = [
   ['Ragefire Chasm', 13, 18, 'Orgrimmar', 0, [], 'horde'],
@@ -1656,7 +1687,7 @@ function renderLvl() {
   box.hidden = !meNow;
   if (meNow) box.innerHTML = cs.length ? cs.map(c => `<button type="button" class="pill" data-c="${c.id}" aria-pressed="${c === cur}"><b>${esc(c.name)}</b>${c.level}</button>`).join('')
     : `<a href="${ROOT}profile/">${esc(TX.addChar)}</a>`;
-  $('#level .phero a').href = meNow ? ROOT + 'profile/' : '#me';
+  $('#level .phero a').href = meNow ? ROOT + 'profile/' : ROOT + 'character/';
   $('#pFac').hidden = !!raceF;
   document.querySelectorAll('#pFac button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.f === fac)));
   $('#lvOut').textContent = lv || '—';
@@ -1809,6 +1840,17 @@ if ('Notification' in window) {
 }
 renderTimers();
 setInterval(tick, 500);
+/* The weekly reset of the region set on «My character» (the time Forever will use is not announced: said so) */
+function renderReset() {
+  const h = readHero(), T = HC.tx, box = $('#tReset');
+  if (!h || !h.reg || !T.regs[h.reg]) { box.hidden = true; return; }
+  const r = nextReset(h.reg);
+  box.innerHTML = `<b>${esc(T.resetH)} · ${esc(T.regs[h.reg])}</b> ${esc(r ? T.resetIn.replace('%s', leftTxt(r - new Date())) : T.resetUnk)}${r ? `<br><small>${esc(T.resetNote)}</small>` : ''}`;
+  box.hidden = false;
+}
+renderReset();
+setInterval(renderReset, 60000);
+addEventListener('storage', e => { if (e.key === MEKEY) renderReset(); });
 
 </script>
 <script>
@@ -2026,7 +2068,7 @@ const D_REL = new Date('2026-11-04T23:00:00Z'), D_RAID = new Date('2026-12-09T00
 const RR = ['tank', 'heal', 'dps'];
 function roleOpts(c) { return RR.filter(x => c.roles.includes(x) || (x === 'tank' && c.roles.includes('tank?'))); }
 const MEKEY = 'gabella-wf-me';
-const ME0 = { race: '', cls: '', role: '', lvl: 0, p1: '', p2: '', sec: [] }, me = Object.assign({}, ME0);
+const ME0 = { race: '', cls: '', role: '', lvl: 0, p1: '', p2: '', sec: [], spec: '', sex: '', bg: '', reg: '' }, me = Object.assign({}, ME0);   // spec, look and region: set on character/, kept here
 function loadMe() { Object.assign(me, ME0); try { const v = JSON.parse(localStorage.getItem(MEKEY) || '{}'); if (v && typeof v === 'object') Object.keys(me).forEach(k => { if (v[k] !== undefined) me[k] = v[k]; }); } catch (e) {} }
 loadMe();
 function fixMe() {
@@ -2130,7 +2172,7 @@ $('#meRole').addEventListener('change', e => { me.role = e.target.value; meChang
 $('#meP1').addEventListener('change', e => { me.p1 = e.target.value; meChanged(); });
 $('#meP2').addEventListener('change', e => { me.p2 = e.target.value; meChanged(); });
 $('#meSec').addEventListener('click', e => { const b = e.target.closest('[data-sec]'); if (!b) return; const id = b.dataset.sec; me.sec = me.sec.includes(id) ? me.sec.filter(x => x !== id) : me.sec.concat(id); meChanged(); });
-$('#meReset').onclick = () => { Object.assign(me, { race: '', cls: '', role: '', lvl: 0, p1: '', p2: '', sec: [] }); meChanged(); };
+$('#meReset').onclick = () => { Object.assign(me, ME0, { sec: [] }); meChanged(); };
 $('#stageBar').addEventListener('click', e => { const b = e.target.closest('[data-st]'); if (!b) return; stageSel = b.dataset.st; stageAuto = false; renderStage(); $('#tab-' + stageSel).focus(); });
 $('#stageBar').addEventListener('keydown', e => {
   const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key]; if (!k) return;
@@ -2213,7 +2255,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../"></script>
-<script data-src="../../assets/search/search.js?v=c8c77e27f2" data-root="../../"></script>
+<script data-src="../../assets/search/search.js?v=6325abe5dd" data-root="../../"></script>
 <script data-src="../../assets/me/me.js?v=d6ef450f05" data-root="../../" data-home="../" data-lang="uk" data-ach="0" data-teaser="" data-close="Закрити" data-page="play/" data-look="2"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>

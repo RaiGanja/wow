@@ -190,6 +190,27 @@ function renderRoster() {
   </a>`).join('');
 }
 renderRoster();
+/* My character (character/): the hero of this browser names the plaque under the classes and leads to its talent build;
+   none, or no localStorage: the plaque invites to make one */
+(() => {
+  let h = null;
+  try { h = JSON.parse(localStorage.getItem('gabella-wf-me')); } catch (e) { h = null; }
+  if (!h || !CL[h.cls] || !RC[h.race]) return;
+  const SID = { warrior: ['arms', 'fury', 'protection'], paladin: ['holy', 'protection', 'retribution'], hunter: ['beast-mastery', 'marksmanship', 'survival'],
+    rogue: ['assassination', 'combat', 'subtlety'], priest: ['discipline', 'holy', 'shadow'], shaman: ['elemental', 'enhancement', 'restoration'],
+    mage: ['arcane', 'fire', 'frost'], warlock: ['affliction', 'demonology', 'destruction'], druid: ['balance', 'feral', 'restoration'] };
+  const i = SID[h.cls].indexOf(h.spec), spec = i >= 0 ? CL[h.cls].specs[i][0] : '';
+  $('#mePlH').textContent = raceName(RC[h.race]) + ' · ' + CL[h.cls].n;
+  $('#mePlD').textContent = [spec, h.role && ROLE_RU[h.role], RC[h.race].f === 'horde' ? 'Орда' : 'Альянс'].filter(Boolean).join(' · ');
+  const go = $('#mePlGo');
+  go.firstChild.textContent = 'Моя сборка талантов';
+  go.href = 'guides/builds-' + h.cls + '/' + (i >= 0 ? '#' + SID[h.cls][i] : '');
+  const alt = $('#mePlAlt');
+  alt.textContent = 'Мой персонаж'; alt.href = 'character/';
+  const img = document.querySelector('#pickban img'), srcs = document.querySelectorAll('#pickban source');
+  srcs.forEach(x => { x.srcset = x.dataset.lsrcset = artSet(h.cls, x.type === 'image/avif' ? 'avif' : 'webp'); });   // asleep or awake (build.sleep_art)
+  img.src = img.dataset.lsrc = ROOT + 'assets/art/' + h.cls + '-600.webp' + PV;
+})();
 /* Race roster: one row of portraits per faction, links to the race pages */
 function renderPeoples() {
   [['alliance', '#rosterA'], ['horde', '#rosterH']].forEach(([f, sel]) => {

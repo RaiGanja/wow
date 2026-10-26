@@ -374,6 +374,8 @@ section.block { scroll-margin-top: -72px; }
 .pb-t h2 { font-size: var(--fs-28); line-height: 1.1; }
 .pb-t > span { color: var(--muted); max-width: 60ch; }
 .pickban .btn { white-space: nowrap; }
+.pb-a { display: grid; gap: 10px; justify-items: start; }
+.pb-a .more-l { font-size: var(--fs-14); }
 #guides .gt { min-height: 150px; }
 #camp { margin-top: 40px; min-height: clamp(380px, 34vw, 560px); }
 #camp .camp-in { padding-bottom: clamp(40px, 5vw, 72px); }
@@ -963,7 +965,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .pb-t { padding: 16px 0; gap: 4px; }
   .pb-t h2 { font-size: var(--fs-22); }
   .pb-t > span { font-size: var(--fs-14); }
-  .pickban .btn { grid-column: 1 / -1; margin: 0 0 16px 16px; justify-self: start; }
+  .pickban .pb-a { grid-column: 1 / -1; margin: 0 0 16px 16px; }
   #guides .gt { min-height: 118px; }
   #guides .gt span { display: none; }
   #camp { min-height: 520px; }
@@ -1243,7 +1245,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css?v=c5eacd57e2" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=c8c77e27f2" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=6325abe5dd" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/me/me.css?v=d6ef450f05" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://gabella.site/wow/fr/"},{"@type":"ListItem","position":2,"name":"Joueurs","item":"https://gabella.site/wow/fr/roster/"},{"@type":"ListItem","position":3,"name":"Joueur de WoW Forever","item":"https://gabella.site/wow/fr/u/"}]}</script>
 </head>
@@ -1310,7 +1312,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
   <div class="dh"><b>Toutes les sections</b><button class="iconbtn" id="moreClose" type="button" aria-label="Fermer"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Toutes les sections">
     <div class="grp"><div class="gh">Référence</div><a class="tbd" href="../classes/">Classes</a><a href="../classes/#choose">Quelle classe jouer</a><a href="../races/">Races</a><a href="../guides/builds/">Builds</a><a class="tbd" href="../guides/leveling/">Progression 1–60</a><a class="tbd" href="../guides/dungeons/">Donjons et raids</a><a href="../guides/professions/">Métiers</a><a href="../guides/faq/">FAQ et dates</a><a href="../guides/news/">Actualités</a><a href="../guides/">Tous les guides</a></div>
-    <div class="grp"><div class="gh">Outils</div><a href="../tools/#picker">Race et classe</a><a href="../tools/#raid">Groupe et LFG</a><a href="../play/">En jeu</a></div>
+    <div class="grp"><div class="gh">Outils</div><a href="../character/">Mon personnage</a><a href="../tools/#picker">Race et classe</a><a href="../tools/#raid">Groupe et LFG</a><a href="../play/">En jeu</a></div>
     <div class="grp"><div class="gh">Communauté</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="../profile/">Mon profil</a></div>
   </nav>
   <div class="opts">
@@ -1722,7 +1724,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=c8c77e27f2" data-root="../../" defer></script>
+<script src="../../assets/search/search.js?v=6325abe5dd" data-root="../../" defer></script>
 <script src="../../assets/me/me.js?v=d6ef450f05" data-root="../../" data-home="../" data-lang="fr" data-ach="0" data-teaser="" data-close="Fermer" data-page="u/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>

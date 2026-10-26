@@ -374,6 +374,8 @@ section.block { scroll-margin-top: -72px; }
 .pb-t h2 { font-size: var(--fs-28); line-height: 1.1; }
 .pb-t > span { color: var(--muted); max-width: 60ch; }
 .pickban .btn { white-space: nowrap; }
+.pb-a { display: grid; gap: 10px; justify-items: start; }
+.pb-a .more-l { font-size: var(--fs-14); }
 #guides .gt { min-height: 150px; }
 #camp { margin-top: 40px; min-height: clamp(380px, 34vw, 560px); }
 #camp .camp-in { padding-bottom: clamp(40px, 5vw, 72px); }
@@ -963,7 +965,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .pb-t { padding: 16px 0; gap: 4px; }
   .pb-t h2 { font-size: var(--fs-22); }
   .pb-t > span { font-size: var(--fs-14); }
-  .pickban .btn { grid-column: 1 / -1; margin: 0 0 16px 16px; justify-self: start; }
+  .pickban .pb-a { grid-column: 1 / -1; margin: 0 0 16px 16px; }
   #guides .gt { min-height: 118px; }
   #guides .gt span { display: none; }
   #camp { min-height: 520px; }
@@ -1395,7 +1397,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css?v=c5eacd57e2" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=c8c77e27f2" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=6325abe5dd" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/me/me.css?v=d6ef450f05" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Início","item":"https://gabella.site/wow/pt/"},{"@type":"ListItem","position":2,"name":"Meu perfil","item":"https://gabella.site/wow/pt/profile/"}]}</script>
 </head>
@@ -1504,7 +1506,7 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
   <div class="dh"><b>Todas as seções</b><button class="iconbtn" id="moreClose" type="button" aria-label="Fechar"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Todas as seções">
     <div class="grp"><div class="gh">Referência</div><a class="tbd" href="../classes/">Classes</a><a href="../classes/#choose">Qual classe escolher</a><a href="../races/">Raças</a><a href="../guides/builds/">Builds</a><a class="tbd" href="../guides/leveling/">Evolução 1–60</a><a class="tbd" href="../guides/dungeons/">Masmorras e raides</a><a href="../guides/professions/">Profissões</a><a href="../guides/faq/">FAQ e datas</a><a href="../guides/news/">Notícias</a><a href="../guides/">Todos os guias</a></div>
-    <div class="grp"><div class="gh">Ferramentas</div><a href="../tools/#picker">Raça e classe</a><a href="../tools/#raid">Grupo e LFG</a><a href="../play/">No jogo</a></div>
+    <div class="grp"><div class="gh">Ferramentas</div><a href="../character/">Meu personagem</a><a href="../tools/#picker">Raça e classe</a><a href="../tools/#raid">Grupo e LFG</a><a href="../play/">No jogo</a></div>
     <div class="grp"><div class="gh">Comunidade</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="../profile/">Meu perfil</a></div>
   </nav>
   <div class="opts">
@@ -2004,9 +2006,20 @@ function accountOnly() {
   $('#view').innerHTML = `${noticeHtml()}<div class="signed"><span>${esc(who())}</span><a class="btn ghost" href="#chars">Criar personagem</a></div>
     <section class="sec" id="sec">${secAccount()}</section>`;
 }
+/** The character of this browser (gabella-wf-me, «My character» page): the wizard starts from it, only the name is left;
+    in the cabinet #sync opens the new-character form with it. null: none, or not a combination the profile knows. */
+function heroWiz() {
+  let h = null;
+  try { h = JSON.parse(localStorage.getItem('gabella-wf-me')); } catch (e) { /* private mode */ }
+  if (!h || !GD.races[h.race] || !race(h.race).cls.includes(h.cls)) return null;
+  const d = GD.looks.races[h.race] || {}, bgOk = GD.backgrounds.includes(h.bg) && !GD.looks.bg[h.bg].lock;
+  return { step: 4, f: race(h.race).f, race: h.race, cls: h.cls, look: { sex: GD.looks.sexes.includes(h.sex) ? h.sex : d.sex, bg: bgOk ? h.bg : d.bg },
+    level: Math.max(1, Math.min(60, parseInt(h.lvl, 10) || 1)), role: h.role || '', p1: h.p1 || '', p2: h.p2 || '' };
+}
+let syncHero = null;   // #sync in the cabinet: the form for a new character is filled from the character of this browser
 function wizard() {
   parkForm();
-  wiz = wiz || { step: 1, f: '', race: '', cls: '', look: null };
+  wiz = wiz || heroWiz() || { step: 1, f: '', race: '', cls: '', look: null };
   const w = wiz, v = $('#view');
   const steps = ['Lado', 'Raça e classe', 'Aparência', 'Personagem'].map((s, i) => `<span${w.step === i + 1 ? ' aria-current="step"' : ''}>${i + 1}. ${esc(s)}</span>`).join('<span aria-hidden="true">·</span>');
   let body = '';
@@ -2083,13 +2096,13 @@ function fillProfs() {
 function skillState() { ['1', '2'].forEach(i => { const on = !!$('#eP' + i).value; $('#eS' + i).disabled = !on; if (!on) $('#eS' + i).value = ''; }); }
 function fillForm(c, wizardMode) {
   edit = c ? c.id : null;
-  const w = wizardMode && !c ? wiz : null;
+  const w = c ? null : wizardMode ? wiz : syncHero;
   const f = c ? race(c.race).f : w ? w.f : 'alliance';
-  segSet('eF', f); fillRaces(f, c ? c.race : w && w.race); fillClasses(c ? c.class : w && w.cls); fillRoles(c ? c.role : 'dps'); fillProfs();
+  segSet('eF', f); fillRaces(f, c ? c.race : w && w.race); fillClasses(c ? c.class : w && w.cls); fillRoles(c ? c.role : (w && w.role) || 'dps'); fillProfs();
   $('#eName').value = c ? c.name : (w && w.name) || '';
-  $('#eLvl').value = c ? c.level : 1;
+  $('#eLvl').value = c ? c.level : (w && w.level) || 1;
   segSet('eT', c ? c.playtime : 'evening');
-  $('#eP1').value = c && c.prof1 || ''; $('#eP2').value = c && c.prof2 || '';
+  $('#eP1').value = c ? c.prof1 || '' : (w && w.p1) || ''; $('#eP2').value = c ? c.prof2 || '' : (w && w.p2) || '';
   $('#eS1').value = c && c.prof1_skill || ''; $('#eS2').value = c && c.prof2_skill || '';
   skillState();
   $('#eNote').textContent = ''; $('#eNote').className = 'msg full';
@@ -2495,6 +2508,11 @@ function render() {
   if (!m) return screen('login');
   if (!m.characters.length) return sec === 'account' ? accountOnly() : wizard();
   cabinet();
+  if (location.hash === '#sync') {   // from «My character»: add it unless the profile has it already
+    history.replaceState(null, '', location.pathname + location.search);
+    const h = heroWiz();
+    if (h && !m.characters.some(c => c.race === h.race && c.class === h.cls)) { syncHero = h; openEd(null); syncHero = null; }
+  }
 }
 
 function put(body, noteId) {
@@ -2680,7 +2698,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=c8c77e27f2" data-root="../../" defer></script>
+<script src="../../assets/search/search.js?v=6325abe5dd" data-root="../../" defer></script>
 <script src="../../assets/me/me.js?v=d6ef450f05" data-root="../../" data-home="../" data-lang="pt" data-ach="0" data-teaser="" data-close="Fechar" data-page="profile/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
