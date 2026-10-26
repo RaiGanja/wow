@@ -196,7 +196,8 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .gbtns .btn { white-space: normal; text-align: center; }
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
-.srchbtn kbd, .radiobtn .rdo-eq { display: none; }   /* on the home page search.css and radio.css come after the first paint */
+.srchbtn kbd, .radiobtn .rdo-eq { display: none; }
+@media (max-width: 719px) { .topbar .themebtn { display: none; } }   /* phone: the top bar keeps My character (assets/hero/), the theme is in the sections sheet */   /* on the home page search.css and radio.css come after the first paint */
 .radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: var(--fs-16); }
 @media (max-width: 1260px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }   /* es «Iniciar sesión» ran 21 px off a 1215 px screen */
@@ -1098,6 +1099,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   @@TOD_SW@@
   <div class="hnews wrap"><div class="hh"><h2>Свежее</h2><a href="guides/news/">Все новости<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div><div class="row3" data-feed="@@ROOT@@assets/news.json">@@FRESH@@</div></div>
 </section>
+<section class="wrap" id="myHome" aria-live="polite" hidden></section>
 
 <section class="block wrap" id="classes">
   <div class="sec-head"><div class="row"><h2>Кем играть</h2><div class="tabs2" role="tablist" aria-label="Кем играть"><button type="button" role="tab" id="tabC" aria-controls="pCls" aria-selected="true">Классы</button><button type="button" role="tab" id="tabR" aria-controls="peoples" aria-selected="false" tabindex="-1">Расы</button></div></div></div>
@@ -1122,7 +1124,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <div class="frame pickban">
     <span class="pb-art" aria-hidden="true"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/dwarf-360.avif 360w, @@ROOT@@assets/art/dwarf-600.avif 600w" sizes="(max-width: 719px) 100vw, 320px"><source type="image/webp" srcset="@@ROOT@@assets/art/dwarf-360.webp 360w, @@ROOT@@assets/art/dwarf-600.webp 600w" sizes="(max-width: 719px) 100vw, 320px"><img src="@@ROOT@@assets/art/dwarf-600.webp" width="600" height="804" alt="" loading="lazy" fetchpriority="low" decoding="async"></picture></span>
     <span class="pb-t"><h2 id="mePlH">Мой персонаж</h2><span id="mePlD">Класс, спек и раса за минуту: гид покажет вашу сборку, профессии и подземелья.</span></span>
-    <span class="pb-a"><a class="btn" id="mePlGo" href="character/">Создать персонажа<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a><a class="more-l" id="mePlAlt" href="tools/#picker">Подборщик: раса и класс</a></span>
+    <span class="pb-a"><a class="btn" id="mePlGo" href="character/" data-hero-open>Собрать персонажа<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a><a class="more-l" id="mePlAlt" href="tools/#picker">Подборщик: раса и класс</a></span>
   </div>
 </section>
 <section class="stband" id="guides">
@@ -1418,27 +1420,6 @@ function renderRoster() {
   </a>`).join('');
 }
 renderRoster();
-/* My character (character/): the hero of this browser names the plaque under the classes and leads to its talent build;
-   none, or no localStorage: the plaque invites to make one */
-(() => {
-  let h = null;
-  try { h = JSON.parse(localStorage.getItem('gabella-wf-me')); } catch (e) { h = null; }
-  if (!h || !CL[h.cls] || !RC[h.race]) return;
-  const SID = { warrior: ['arms', 'fury', 'protection'], paladin: ['holy', 'protection', 'retribution'], hunter: ['beast-mastery', 'marksmanship', 'survival'],
-    rogue: ['assassination', 'combat', 'subtlety'], priest: ['discipline', 'holy', 'shadow'], shaman: ['elemental', 'enhancement', 'restoration'],
-    mage: ['arcane', 'fire', 'frost'], warlock: ['affliction', 'demonology', 'destruction'], druid: ['balance', 'feral', 'restoration'] };
-  const i = SID[h.cls].indexOf(h.spec), spec = i >= 0 ? CL[h.cls].specs[i][0] : '';
-  $('#mePlH').textContent = raceName(RC[h.race]) + ' · ' + CL[h.cls].n;
-  $('#mePlD').textContent = [spec, h.role && ROLE_RU[h.role], RC[h.race].f === 'horde' ? 'Орда' : 'Альянс'].filter(Boolean).join(' · ');
-  const go = $('#mePlGo');
-  go.firstChild.textContent = 'Моя сборка талантов';
-  go.href = 'guides/builds-' + h.cls + '/' + (i >= 0 ? '#' + SID[h.cls][i] : '');
-  const alt = $('#mePlAlt');
-  alt.textContent = 'Мой персонаж'; alt.href = 'character/';
-  const img = document.querySelector('#pickban img'), srcs = document.querySelectorAll('#pickban source');
-  srcs.forEach(x => { x.srcset = x.dataset.lsrcset = artSet(h.cls, x.type === 'image/avif' ? 'avif' : 'webp'); });   // asleep or awake (build.sleep_art)
-  img.src = img.dataset.lsrc = ROOT + 'assets/art/' + h.cls + '-600.webp' + PV;
-})();
 /* Race roster: one row of portraits per faction, links to the race pages */
 function renderPeoples() {
   [['alliance', '#rosterA'], ['horde', '#rosterH']].forEach(([f, sel]) => {

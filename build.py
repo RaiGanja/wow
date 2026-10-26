@@ -377,7 +377,7 @@ def localize(html, lang, here):
     else:
         html = cyr_fonts(html)
     html = html.replace('</head>', REVEAL_CSS + '</head>', 1).replace('</body>', REVEAL_JS + '</body>', 1)
-    return img_dims(me(pwa(html, lang, rel(here, '')), lang, here))
+    return img_dims(hero(me(pwa(html, lang, rel(here, '')), lang, here), lang, here))
 
 
 # the Latin of Russian and Ukrainian text: space, digits, punctuation, quotes, dashes, Latin words (WoW, Gabella)
@@ -477,7 +477,7 @@ LATE_JS = """<script>
 })();
 </script>
 """
-LATE_FILES = r'assets/(?:radio|search|me|tod|living)/|static\.cloudflareinsights\.com/'
+LATE_FILES = r'assets/(?:radio|search|me|hero|tod|living)/|static\.cloudflareinsights\.com/'
 
 
 def late(html, hero='.hero-art img'):
@@ -631,6 +631,20 @@ def me(html, lang, here):
     return html.replace('</head>', head, 1).replace('</body>', js, 1)
 
 
+def hero(html, lang, here):
+    """My character (assets/hero/): the switch behind the top-bar profile button of a reader without a login, and the home
+    block. After me.js (it hands the button over); the texts and game data are assets/hero/<lang>.json (build_guides.hero_json)."""
+    root, home = rel(here, ''), rel(here, page_dir(lang))
+    head = f'<link rel="stylesheet" href="{root}assets/hero/hero.css" media="print" onload="this.media=\'all\'">\n</head>'
+    js = (f'<script src="{root}assets/hero/hero.js" data-root="{root}" data-home="{home}" data-data="{root}assets/hero/{lang}.json" '
+          f'defer></script>\n</body>')
+    return html.replace('</head>', head, 1).replace('</body>', js, 1)
+
+
+def hero_version():
+    script_version('hero', ['hero.js', 'hero.css'] + [f'{l}.json' for l in LANGS])
+
+
 def css_version():
     """?v=<hash of the file> on every url(file) of the stylesheets under assets/ (the painted frames of me.css and the like):
     the picture is fetched by the stylesheet, so its address must change with it. A stylesheet is hashed after this pass
@@ -759,7 +773,7 @@ def art_version():
                                                           if f"'{f.rsplit('.', 1)[0]}'" in html or f'"{f.rsplit(".", 1)[0]}"' in extra}, separators=(',', ':'))
     # scripts of assets/ draw portraits and scenes by name too: me.js (the small portrait), radio.js (the cover is the art of a
     # station, named in stations.json). They are hashed after this pass (me_version, radio_version).
-    for js, named in (('me/me.js', ''), ('radio/radio.js', open(os.path.join(HERE, 'assets', 'radio', 'stations.json'), encoding='utf-8').read())):
+    for js, named in (('me/me.js', ''), ('hero/hero.js', ''), ('radio/radio.js', open(os.path.join(HERE, 'assets', 'radio', 'stations.json'), encoding='utf-8').read())):
         p = os.path.join(HERE, 'assets', js)
         was = open(p, encoding='utf-8').read()
         new = re.sub(r"/\*PV\*/'[^']*'", f"/*PV*/'{pv}'", re.sub(r'/\*ARTV\*/\{[^}]*\}', lambda _: artv(was, named), was))
@@ -1549,6 +1563,7 @@ def main():
         living_version()
         radio_version()
         tod_version()
+        hero_version()
         og_version()
         font_version()
         home_js()

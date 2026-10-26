@@ -1,0 +1,54 @@
+/* My character (hero.js): the top-bar face, the switch sheet and the home block «Your <class>». Site tokens, no badges. */
+.herobtn img { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; display: block; }
+.herobtn:has(img) { padding: 0; overflow: hidden; }
+
+dialog.hsheet { border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px 20px; width: min(560px, 94vw); max-height: 88dvh; overflow: auto; background: var(--rail); color: var(--fg); }
+dialog.hsheet::backdrop { background: rgba(0,0,0,.6); }
+.hs-h { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.hs-h b { font-family: var(--font-display); font-weight: var(--display-w); font-size: var(--fs-22); }
+.hs-d { margin: 6px 0 0; color: var(--muted); font-size: var(--fs-14); }
+.hs-l { margin: 16px 0 8px; color: var(--muted); font-size: var(--fs-13); font-weight: 600; }
+.hs-cls { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(92px, 100%), 1fr)); gap: 8px; }
+.hs-cls button { display: grid; justify-items: center; gap: 6px; padding: 10px 4px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); color: var(--fg); font: inherit; font-size: var(--fs-13); font-weight: 600; cursor: pointer; }
+.hs-cls img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 2px var(--cc); }
+.hs-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.hs-row button { min-height: 44px; padding: 0 14px; border: 1px solid var(--pline); border-radius: 7px; background: var(--panel-2); color: var(--fg); font: inherit; font-size: var(--fs-14); cursor: pointer; }
+.hs-row small { margin-left: 6px; color: var(--muted); }
+.hs-cls button:hover, .hs-row button:hover { border-color: var(--gold); }
+.hs-cls button[aria-pressed="true"], .hs-row button[aria-pressed="true"] { border-color: var(--gold); background: var(--seg-on); color: var(--gold-2); }
+.hs-f { display: inline-block; width: 8px; height: 8px; margin-right: 6px; border-radius: 50%; background: var(--alliance); vertical-align: middle; }
+.hs-f.horde { background: var(--horde); }
+.hs-star { color: var(--gold-2); }
+.hs-why { margin: 10px 0 0; color: var(--muted); font-size: var(--fs-14); }
+.hs-why b { color: var(--gold-2); font-weight: 600; }
+.hs-a { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 18px; }
+.hs-a a { color: var(--gold-2); font-size: var(--fs-14); }
+@media (max-width: 719px) {
+  dialog.hsheet { margin: auto 0 0 0; width: 100%; max-width: none; max-height: 88dvh; border-radius: 12px 12px 0 0; padding: 16px 16px calc(16px + env(safe-area-inset-bottom, 0px)); }
+  .hs-cls { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+#myHome { padding-top: 28px; }
+#myHome[hidden] { display: none; }
+.mh { display: grid; grid-template-columns: 96px minmax(0, 1fr) auto; grid-template-areas: "f t ch" "f b b" "f l l" "f x x"; gap: 6px 22px; align-items: center; padding: 20px 22px; }
+.mh-face { grid-area: f; align-self: start; width: 96px; height: 96px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 2px var(--cc); }
+.mh-t { grid-area: t; min-width: 0; }
+.mh-t h2 { margin: 0; font-size: var(--fs-28); line-height: 1.1; }
+.mh-s { margin: 4px 0 0; color: var(--muted); }
+.mh-ch { grid-area: ch; justify-self: end; border: 0; background: none; padding: 8px 0; color: var(--gold-2); font: inherit; font-size: var(--fs-14); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.mh-b { grid-area: b; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.mh-lfg { grid-area: l; margin: 2px 0 0; color: var(--gold-2); font-size: var(--fs-14); }
+.mh-lfg[hidden] { display: none; }
+.mh-f { grid-area: x; display: grid; gap: 4px; margin-top: 6px; color: var(--fg); font-size: var(--fs-14); }
+.mh-f b { font-weight: 600; }
+.mh-f a { color: var(--gold-2); }
+.mh-m { color: var(--muted); }
+@media (max-width: 719px) {
+  #myHome { padding-top: 20px; }
+  .mh { grid-template-columns: 64px minmax(0, 1fr); grid-template-areas: "f t" "ch ch" "b b" "l l" "x x"; gap: 6px 14px; padding: 16px; }
+  .mh-face { width: 64px; height: 64px; }
+  .mh-t h2 { font-size: var(--fs-22); }
+  .mh-ch { justify-self: start; padding: 4px 0; }
+  .mh-b { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mh-b .btn { white-space: normal; text-align: center; }
+}

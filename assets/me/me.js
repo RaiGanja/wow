@@ -194,6 +194,7 @@
         btn.onclick = e => { e.preventDefault(); menu ? closeMenu() : openMenu(T); };
       } else {
         closeMenu();
+        if (window.GabellaHero) return window.GabellaHero.btn(btn);   // no login: the button switches the hero of this browser (assets/hero/)
         btn.className = 'iconbtn mebtn';   // an icon like search and radio; the profile page has its own .login block
         btn.removeAttribute('aria-haspopup'); btn.removeAttribute('aria-expanded');
         btn.setAttribute('aria-label', T.ui.profile || 'Profile'); btn.title = T.ui.profile || '';

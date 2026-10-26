@@ -513,6 +513,17 @@ function markMine() {
     const mine = c ? c === 'all' || c.split(' ').includes(h.cls) : rx.test(b ? b.textContent : '');
     if (mine && b && !a.querySelector('.nmine')) b.insertAdjacentHTML('afterend', `<span class="nmine">${esc(HC.tx.mine)}: ${esc(h.clsN)}</span>`);
   });
+  /* the class's notes and headlines once more on top of the page (#mine: the «News» button of the home block) */
+  const items = [...document.querySelectorAll('.gsec:not(#mine) .nitem')].filter(a => a.querySelector('.nmine'));
+  let top = document.getElementById('mine');
+  if (!items.length) { if (top) top.remove(); return; }
+  if (!top) {
+    top = document.createElement('section'); top.className = 'gsec'; top.id = 'mine';
+    const first = document.querySelector('.gsec'); first.parentNode.insertBefore(top, first);
+  }
+  top.innerHTML = `<h2>${esc(HC.tx.mine)}: ${esc(h.clsN)}</h2><div class="nlist">${items.map(a => a.outerHTML).join('')}</div>`;
+  top.querySelectorAll('.nmine').forEach(x => x.remove());
+  if (location.hash === '#mine' && !top.dataset.seen) { top.dataset.seen = '1'; top.scrollIntoView(); }
 }
 markMine();'''
 
@@ -944,6 +955,32 @@ def me_tr(ru, lang):
     return en if lang == 'en' else uk if lang == 'uk' else langs.ov(en, lang)
 
 
+def hero_json(lang):
+    """assets/hero/<lang>.json for assets/hero/hero.js (the top-bar switch on every page and the home block): the hero_js
+    core plus what the switch draws without the page data — classes and their spec roles, races and what they can play,
+    portrait slugs, the class profession pairs, the number of Day 1 steps."""
+    src = home_src()
+    core = hero_core(lang)
+    roles = {}
+    for m in re.finditer(r"\{ id:'(\w+)'[^\n]*\n\s*specs:\[(.*?)\],\n", src[src.index('const CLASSES = ['):src.index('const ROLE_RU')]):
+        roles[m.group(1)] = [re.findall(r"'(tank|heal|dps)'", rs) for rs in re.findall(r"\['[^']*','[^']*',\[([^\]]*)\]\]", m.group(2))]
+    assert all(len(roles.get(c, ())) == 3 for c in HERO.SPEC_IDS), roles
+    ck = next(g for g in GUIDES if g['slug'] == 'launch-checklist')
+    n = sum(1 for sec in ck['sections'] for k, d in sec['blocks'] if k == 'checks' for x in d if lang in x.get('langs', (lang,)))
+    profs = {}
+    for c in build.CLASSES:
+        steps, why = build.class_profs(c['id'], lang)
+        profs[c['id']] = [[label, pair] for label, pair, _ in steps] + [why]
+    core.update({
+        'cls': [c['id'] for c in build.CLASSES], 'color': build.COLOR, 'sr': roles,
+        'role': {'tank': build.tr('Танк', lang), 'heal': build.tr('Лекарь', lang), 'dps': build.tr('Урон', lang)},
+        'races': [[r['id'], r['f'], list(r['can']), int(r['paid'])] for r in build.parse_races(src)],
+        'slug': {r['id']: r['slug'] for r in build.RACES_PAGE}, 'prof': profs, 'ck': n,
+        'lfg': json.loads(__import__('build_tools').lfg_data(src, lang))['d'],
+    })
+    return json.dumps(core, ensure_ascii=False, separators=(',', ':'))
+
+
 def hero_data(src, lang):
     """Script data of character/: the home classes, races, professions and dungeons (Russian, translated with the page),
     plus H: portraits and looks, the LFG names and the hero_js core."""
@@ -1234,7 +1271,7 @@ function lfgText() {
   const lv = +me.lvl || 0, f = facOf(me.race);
   const ds = lv ? H.lfg.d.filter(d => lv >= d[1] - 2 && lv <= d[2] && (!d[3] || d[3] === f)) : [];
   const near = ds.sort((a, c) => Math.abs(a[1] + a[2] - 2 * lv) - Math.abs(c[1] + c[2] - 2 * lv))[0];
-  return fill(near ? TX.lfgT : TX.lfgT0, { d: near ? near[0] : '', r: ROLE_RU[me.role] || '', c: HC.cn[me.cls], l: lv });
+  return fill(near ? TX.lfgT : TX.lfgT0, { p: fill(TX.lfgP[me.role] || TX.lfgP.dps, { c: HC.cn[me.cls] }), d: near ? near[0] : '', l: lv });
 }
 function out() {
   const box = $('#hcOut');
@@ -1455,6 +1492,7 @@ def main():
 
     pages, allmissing = [], []
     for lang in LANGS:
+        pages.append((f'assets/hero/{lang}.json', hero_json(lang)))   # assets/hero/hero.js: the top-bar switch and the home block
         for g in [HUB] + lang_guides(lang) + HUBS + PAGES:
             path, html, missing = build_page(g, lang, tpl, base_css, sprite, src)
             assert '@@' not in html, (path, re.findall(r'@@\w+@@', html)[:5])
