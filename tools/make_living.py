@@ -1,7 +1,6 @@
 """Masks for the living art (assets/living/living.js): which parts of a picture move and how.
 One RGBA PNG per picture, half the source size, in source coordinates (1376 x 768 grid):
   hero_dawn      R falling water, G banner cloth (0 at the pole -> 1 at the tip), B open sky, A (none: only the fall moves)
-  hero_campfire  R flames, G (unused), B open sky, A (none)
   hero_road      R lights (see below), G (unused), B open sky, A (none)
   hero_roster, hero_tools, hero_guides, hero_dungeons, hero_professions, hero_faq, hero_news,
   hero_leveling, hero_classes, hero_races, hero_ukrainian, hero_requirements, hero_bestrace, hero_tierlist
@@ -90,11 +89,11 @@ def shape(polys, ramp=None):
 
 
 def save(name, r, g, b, a):
-    """Only the waterfall (R of hero_dawn), the campfire (R of hero_campfire), banners and plants (G) and the sky (B) move:
+    """Only the waterfall (R of hero_dawn), banners and plants (G) and the sky (B) move:
     every other light, flame and river is cleared, and a picture with nothing left has no mask (hero_requirements)."""
     os.makedirs(OUT, exist_ok=True)
     zero = Image.new('L', (W, H), 0)
-    r = r if name in ('hero_dawn', 'hero_campfire') else zero
+    r = r if name == 'hero_dawn' else zero
     a = zero
     if not any(c.getbbox() for c in (r, g, b)):
         return
@@ -119,16 +118,6 @@ def dawn():
     open_sky = ImageChops.multiply(open_sky, moon(642, 340, 44))   # the night variant's moon by the castle stays put
     zero = Image.new('L', (W, H), 0)   # the river stays still: the painted water looks better than the moving one
     save('hero_dawn', soft(water, 1, 1.5), soft(cloth, 3, 1.2), soft(open_sky, 1, 2), zero)
-
-
-def campfire():
-    im = load('hero_campfire')
-    fire = flames(im, [(985, 480, 1095, 575)], 190)
-    open_sky = ImageChops.multiply(open_area([(0, 0), (1165, 0), (1148, 132), (990, 132), (900, 200), (770, 200), (700, 222),
-                                              (600, 222), (540, 236), (505, 250), (495, 330), (0, 330)], (270, 335)),
-                                   moon(365, 110, 48))   # the Horde party (troll's totem, mohawk, orc's top-knot, horns), the rock and the moon stay put
-    zero = Image.new('L', (W, H), 0)
-    save('hero_campfire', soft(fire, 2, 2.5), zero, soft(open_sky, 1, 2), zero)
 
 
 def road():
@@ -343,7 +332,6 @@ def tierlist():
 
 if __name__ == '__main__':
     dawn()
-    campfire()
     road()
     roster()
     tools()

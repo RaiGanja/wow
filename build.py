@@ -722,7 +722,7 @@ def tod_version():
 def art_version():
     """?v=<hash> on every assets/art/<file> address in the pages: Cloudflare and the browser keep /wow/assets/ for days
     (7 in the browser, plus the service worker), so a picture redrawn under the same name would otherwise stay old
-    for returning visitors while living.js and its masks (versioned) already move on — water and fire off their places."""
+    for returning visitors while living.js and its masks (versioned) already move on — water off its place."""
     d = os.path.join(HERE, 'assets', 'art')
     ver = {}
 

@@ -1,6 +1,6 @@
 /* Living art: a WebGL layer over the page pictures. Only what moves on purpose: the waterfall, banners and plants in the
-   wind, clouds, mist, god rays and dust in the air, and the campfire at the bottom of the home page.
-   A picture opts in with data-fx="dawn|camp|road|roster|tools|guides|dungeons|professions|faq|news|leveling|classes|races|ukrainian|bestrace|tierlist" on its <picture>, data-cut its phone cut (make_images.CUTS, default .6); masks are assets/living/<art>-fx.png (tools/make_living.py),
+   wind, clouds, mist, god rays and dust in the air.
+   A picture opts in with data-fx="dawn|road|roster|tools|guides|dungeons|professions|faq|news|leveling|classes|races|ukrainian|bestrace|tierlist" on its <picture>, data-cut its phone cut (make_images.CUTS, default .6); masks are assets/living/<art>-fx.png (tools/make_living.py),
    in the 1376 x 768 grid of the source art. The canvas is transparent except where something moves, so the sharp <img>
    stays visible underneath. Off with prefers-reduced-motion, Save-Data, ?fx=off, without WebGL or on a device too slow for it;
    paused off screen, rebuilt after a lost WebGL context.
@@ -10,7 +10,7 @@
   if (!me || matchMedia('(prefers-reduced-motion: reduce)').matches || (navigator.connection || {}).saveData || /[?&]fx=off\b/.test(location.search)) return;
   const base = me.src.replace(/living\.js.*$/, '');
   const ver = (me.src.match(/\?v=\w+/) || [''])[0];
-  const ART = { dawn: 'hero_dawn', camp: 'hero_campfire', road: 'hero_road', roster: 'hero_roster', tools: 'hero_tools',
+  const ART = { dawn: 'hero_dawn', road: 'hero_road', roster: 'hero_roster', tools: 'hero_tools',
     guides: 'hero_guides', dungeons: 'hero_dungeons', professions: 'hero_professions', faq: 'hero_faq', news: 'hero_news',
     leveling: 'hero_leveling', classes: 'hero_classes', races: 'hero_races', ukrainian: 'hero_ukrainian',
     bestrace: 'hero_bestrace', tierlist: 'hero_tierlist' };
@@ -122,19 +122,6 @@ void main() {
   }
   gl_FragColor = vec4(acc.rgb + add, acc.a);
 }`,
-    camp: `
-void main() {
-  vec2 P = artPx(); acc = vec4(0.); add = vec3(0.);
-  vec4 m = mask(P);
-  if (m.b > .01) over(drift(P, vec2(-6., 0.) + (n2(P * .006 + uT * .03) - .5) * vec2(4., 2.), 12.), m.b);
-  // mist over the valley
-  float band = smoothstep(380., 430., P.y) * smoothstep(620., 560., P.y) * smoothstep(580., 460., P.x);
-  over(vec3(.62, .64, .78), smoothstep(.5, .9, fbm(P * vec2(.006, .014) + vec2(uT * .02, 0.))) * band * .25);
-  // the campfire
-  float fl = .55 + .45 * (n2(vec2(uT * 7., 0.)) * .6 + n2(vec2(uT * 13., 4.)) * .4);
-  if (m.r > .01) over(flow(P, vec2(0., -10.), .42, n2(vec2(P.x * .15, 0.))) * (.9 + .35 * fl), m.r);
-  gl_FragColor = vec4(acc.rgb + add, acc.a);
-}`,
     road: `
 void main() {
   vec2 P = artPx(); acc = vec4(0.); add = vec3(0.);
@@ -176,7 +163,7 @@ void main() {
     const scene = pic.dataset.fx, img = pic.querySelector('img'), cut = parseFloat(pic.dataset.cut || '.6');
     const SUN = { dawn: [635, 340], day: [632, 304], dusk: [634, 347], night: [641, 346] };   // measured on the aligned art (tools/align_tod.py)
     const TOD = { dawn: 0, day: 1, dusk: 2, night: 3 };
-    const tod = () => (window.GabellaTod && window.GabellaTod.now) || (scene === 'dawn' ? 'dawn' : 'dusk');   // camp and road are evening scenes
+    const tod = () => (window.GabellaTod && window.GabellaTod.now) || (scene === 'dawn' ? 'dawn' : 'dusk');   // road is an evening scene
     if (!SCENES[scene] || !img) return;
     const cv = document.createElement('canvas');
     cv.className = 'fx';
