@@ -217,7 +217,16 @@ RACE_D = t('{n} в WoW Forever: четыре расовые способност
            'WoW Forever {n} guide: four racial abilities, available and best classes, capital {cap}, starting zone {zone}.',
            '{n} у WoW Forever: чотири расові здібності, доступні та найкращі класи, столиця {cap}, стартова зона {zone}.')
 AND = {'ru': ' и ', 'en': ' and ', 'uk': ' і '}
-langs.fill([HOME_NAME, SITE_NAME, TOOLS_NAME, PRIVACY_NAME, PLAY_NAME, ROSTER_NAME, PROFILE_NAME, PLAYER_NAME, META, CLASS_T, CLASS_T_SHORT, CLASS_D, RACE_T, RACE_T_SHORT, RACE_D, AND])   # new languages: i18n/<lang>.json
+# Link previews (og:*, twitter:*) that differ from the search title and description: what a player sees in Discord and chats
+OG = {
+    '': (t('WoW Forever: Legacy, тир-лист, конструктор группы',
+           'WoW Forever: Legacy, Tier List, Group Builder',
+           'WoW Forever: Legacy, тір-лист, конструктор групи'),
+         t('Legacy: 65 испытаний и перки трёх деревьев. Тир-лист классов по бете, конструктор группы и рейда, новости. Старт 04.11 в 23:00 UTC (по Киеву 5.11, 01:00).',
+           'Legacy: 65 challenges and perks in three trees. Class tier list from beta data, group and raid builder, news. Launch Nov 4 at 23:00 UTC.',
+           'Legacy: 65 випробувань і перки трьох дерев. Тір-лист класів за бетою, конструктор групи й рейду, новини. Старт 04.11 о 23:00 UTC (за Києвом 5.11, 01:00).')),
+}
+langs.fill([HOME_NAME, SITE_NAME, TOOLS_NAME, PRIVACY_NAME, PLAY_NAME, ROSTER_NAME, PROFILE_NAME, PLAYER_NAME, META, CLASS_T, CLASS_T_SHORT, CLASS_D, RACE_T, RACE_T_SHORT, RACE_D, AND, OG])   # new languages: i18n/<lang>.json
 
 
 def listing(xs, lang):
@@ -356,12 +365,19 @@ def apply(html, path, lang, title, desc):
     d = escape(desc, quote=True)
     html = set_attr(html, r'(<title>).*?(</title>)', a, path)
     html = set_attr(html, r'(<meta name="description" content=")[^"]*(">)', d, path)
+    if path in OG and lang in OG[path][0]:
+        a, d = escape(OG[path][0][lang], quote=True), escape(OG[path][1][lang], quote=True)
     html = set_attr(html, r'(<meta property="og:title" content=")[^"]*(">)', a, path)
     html = set_attr(html, r'(<meta property="og:description" content=")[^"]*(">)', d, path)
     if 'og:image:alt' in html:
         html = set_attr(html, r'(<meta property="og:image:alt" content=")[^"]*(">)', a, path)
     else:
         html = html.replace('<meta name="twitter:card"', f'<meta property="og:image:alt" content="{a}">\n<meta name="twitter:card"', 1)
+    img = re.search(r'<meta property="og:image" content="([^"]+)"', html)
+    html = re.sub(r'<meta name="twitter:(?:title|description|image)" content="[^"]*">\n', '', html)
+    tw = f'<meta name="twitter:title" content="{a}">\n<meta name="twitter:description" content="{d}">\n'
+    tw += f'<meta name="twitter:image" content="{img[1]}">\n' if img else ''
+    html = re.sub(r'(<meta name="twitter:card"[^>]*>\n)', lambda m: m[1] + tw, html, count=1)
     alt = ''.join(f'<meta property="og:locale:alternate" content="{LOCALE[l]}">\n' for l in LANGS if l != lang and not build.only_lang(path))
     html = re.sub(r'<meta property="og:locale:alternate"[^>]*>\n', '', html)
     html = html.replace('<meta property="og:site_name"', alt + '<meta property="og:site_name"', 1)
