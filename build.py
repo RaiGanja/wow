@@ -1060,7 +1060,7 @@ def long_title(html):
     """A page title with an 11+ letter word gets class "long": on a phone it takes the next step of the scale (28)
     instead of breaking inside the word (the display caps are wide)."""
     def title(m):
-        words = re.split(r'[\s-]+', re.sub(r'<[^>]+>', ' ', m[2]))
+        words = re.split(r'\s+', re.sub(r'<[^>]+>', ' ', m[2]).strip())   # a hyphenated word never breaks (HYPHENED below), so it counts whole
         n = max(map(len, words))
         return f'<h1{m[1]} class="long" style="--lw:{n}">' if n >= 11 and 'class=' not in m[1] else m[0]   # --lw: the CSS fits that word to the screen
     html = re.sub(r'<h1([^>]*)>(?=(.*?)</h1>)', title, html, count=1, flags=re.S)

@@ -665,11 +665,11 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 @media (max-width: 1199px) {
   #matrix thead th:first-child { width: 215px; }
   #matrix thead th { font-size: var(--fs-13); }
-  /* paid badge drops under the race name so the race column can stay narrow */
-  #matrix tbody th .rn:has(.paid) { display: inline-grid; grid-template-columns: auto auto; column-gap: 12px; row-gap: 2px; align-items: center; justify-items: start; }
-  #matrix tbody th .rn:has(.paid) .av { grid-row: span 2; }
-  #matrix tbody th .paid { margin-left: 0; }
 }
+/* paid badge sits under the race name at every width: on one line it ran out of the race column in it/de/pt */
+#matrix tbody th .rn:has(.paid) { display: inline-grid; grid-template-columns: auto auto; column-gap: 12px; row-gap: 2px; align-items: center; justify-items: start; }
+#matrix tbody th .rn:has(.paid) .av { grid-row: span 2; }
+#matrix tbody th .paid { margin-left: 0; }
 .cell { width: 100%; height: 100%; min-height: 46px; border: 0; background: transparent; display: grid; place-items: center; padding: 0; transition: opacity .2s; }
 .cell i { display: grid; place-items: center; width: 10px; height: 10px; border-radius: 50%; background: var(--cc); box-shadow: 0 0 0 4px color-mix(in srgb, var(--cc) 16%, transparent); transition: transform .18s var(--ease), width .18s var(--ease), height .18s var(--ease); }
 .cell i .ico { width: 15px; height: 15px; opacity: 0; color: var(--gold-ink); }
@@ -1409,7 +1409,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link data-rel="stylesheet" href="../../../assets/radio/radio.css?v=c5eacd57e2">
 <link data-rel="stylesheet" href="../../../assets/search/search.css?v=f98ddb91f4">
 <link data-rel="stylesheet" href="../../../assets/me/me.css?v=5cac046565">
-<link data-rel="stylesheet" href="../../../assets/hero/hero.css?v=c2be7ce5b5">
+<link data-rel="stylesheet" href="../../../assets/hero/hero.css?v=786381f8f8">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Головна","item":"https://gabella.site/wow/uk/"},{"@type":"ListItem","position":2,"name":"Гайди","item":"https://gabella.site/wow/uk/guides/"},{"@type":"ListItem","position":3,"name":"Прокачування Мисливця 1–60","item":"https://gabella.site/wow/uk/guides/leveling-hunter/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Гайд з прокачування Мисливця 1–60 у WoW Forever","description":"Як прокачувати Мисливця у WoW Forever: Володіння звірами, таланти за рівнями 10–60, улюбленці, відмінності від Classic. За бетою.","inLanguage":"uk","url":"https://gabella.site/wow/uk/guides/leveling-hunter/","dateModified":"2026-10-26","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/uk/"},"image":"https://gabella.site/wow/assets/og/leveling-hunter-uk.jpg?v=ef27cc95"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"uk","mainEntity":[{"@type":"Question","name":"Який спек Мисливця найкращий для прокачування у WoW Forever?","acceptedAnswer":{"@type":"Answer","text":"Володіння звірами: його радять Warcraft Tavern, Mobalytics та Icy Veins. Стрільба сильніша в групах."}},{"@type":"Question","name":"Якого улюбленця взяти?","acceptedAnswer":{"@type":"Answer","text":"Для прокачування кішку або кабана (Warcraft Tavern). Кішка б’є сильніше, кабан витриваліший."}},{"@type":"Question","name":"Коли з’являється улюбленець?","acceptedAnswer":{"@type":"Answer","text":"На 10 рівні, після завдання класу в стартовій зоні (за даними бети)."}},{"@type":"Question","name":"Чи потрібен Мисливцю ближній бій?","acceptedAnswer":{"@type":"Answer","text":"На прокачуванні майже ні: улюбленець тримає ворога. Зблизька виручають Raptor Strike, Wing Clip та Aspect of the Monkey."}},{"@type":"Question","name":"Чому Мисливець так швидко прокачується?","acceptedAnswer":{"@type":"Answer","text":"Він убиває майже без відпочинку: улюбленець танкує, а мана витрачається мало. За LFCarry, Мисливець приблизно на 8% швидший за середній показник."}}]}</script>
@@ -1644,7 +1644,7 @@ addEventListener('beforeinstallprompt', e => {
 <script data-src="../../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../../"></script>
 <script data-src="../../../assets/search/search.js?v=f98ddb91f4" data-root="../../../"></script>
 <script data-src="../../../assets/me/me.js?v=5cac046565" data-root="../../../" data-home="../../" data-lang="uk" data-ach="0" data-teaser="" data-close="Закрити" data-page="guides/leveling-hunter/" data-look="2"></script>
-<script data-src="../../../assets/hero/hero.js?v=c2be7ce5b5" data-root="../../../" data-home="../../" data-data="../../../assets/hero/uk.json?v=c2be7ce5b5"></script>
+<script data-src="../../../assets/hero/hero.js?v=786381f8f8" data-root="../../../" data-home="../../" data-data="../../../assets/hero/uk.json?v=786381f8f8"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
 (function () {

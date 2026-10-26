@@ -665,11 +665,11 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 @media (max-width: 1199px) {
   #matrix thead th:first-child { width: 215px; }
   #matrix thead th { font-size: var(--fs-13); }
-  /* paid badge drops under the race name so the race column can stay narrow */
-  #matrix tbody th .rn:has(.paid) { display: inline-grid; grid-template-columns: auto auto; column-gap: 12px; row-gap: 2px; align-items: center; justify-items: start; }
-  #matrix tbody th .rn:has(.paid) .av { grid-row: span 2; }
-  #matrix tbody th .paid { margin-left: 0; }
 }
+/* paid badge sits under the race name at every width: on one line it ran out of the race column in it/de/pt */
+#matrix tbody th .rn:has(.paid) { display: inline-grid; grid-template-columns: auto auto; column-gap: 12px; row-gap: 2px; align-items: center; justify-items: start; }
+#matrix tbody th .rn:has(.paid) .av { grid-row: span 2; }
+#matrix tbody th .paid { margin-left: 0; }
 .cell { width: 100%; height: 100%; min-height: 46px; border: 0; background: transparent; display: grid; place-items: center; padding: 0; transition: opacity .2s; }
 .cell i { display: grid; place-items: center; width: 10px; height: 10px; border-radius: 50%; background: var(--cc); box-shadow: 0 0 0 4px color-mix(in srgb, var(--cc) 16%, transparent); transition: transform .18s var(--ease), width .18s var(--ease), height .18s var(--ease); }
 .cell i .ico { width: 15px; height: 15px; opacity: 0; color: var(--gold-ink); }
@@ -1409,7 +1409,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link data-rel="stylesheet" href="../../../assets/radio/radio.css?v=c5eacd57e2">
 <link data-rel="stylesheet" href="../../../assets/search/search.css?v=f98ddb91f4">
 <link data-rel="stylesheet" href="../../../assets/me/me.css?v=5cac046565">
-<link data-rel="stylesheet" href="../../../assets/hero/hero.css?v=c2be7ce5b5">
+<link data-rel="stylesheet" href="../../../assets/hero/hero.css?v=786381f8f8">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://gabella.site/wow/es/"},{"@type":"ListItem","position":2,"name":"Guías","item":"https://gabella.site/wow/es/guides/"},{"@type":"ListItem","position":3,"name":"Subir de nivel un Paladín 1–60","item":"https://gabella.site/wow/es/guides/leveling-paladin/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Guía de nivel del Paladín 1–60 en WoW Forever: Reprensión","description":"Cómo subir de nivel un Paladín en WoW Forever: Reprensión, talentos por nivel 10–60, sellos, diferencias con Classic. Datos de la beta.","inLanguage":"es","url":"https://gabella.site/wow/es/guides/leveling-paladin/","dateModified":"2026-10-26","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/es/"},"image":"https://gabella.site/wow/assets/og/leveling-paladin-es.jpg?v=b53b8b1f"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"es","mainEntity":[{"@type":"Question","name":"¿Qué especialización de Paladín subir en WoW Forever?","acceptedAnswer":{"@type":"Answer","text":"Reprensión: la recomiendan Warcraft Tavern, Mobalytics e Icy Veins. Protección es buena si golpeas a varios enemigos a la vez con Consagración."}},{"@type":"Question","name":"¿Qué sello mantener?","acceptedAnswer":{"@type":"Answer","text":"Sello de orden con un arma lenta a dos manos, Sello de rectitud hasta el nivel 20 o con un arma a una mano. Golpe Sagrado y Sello de orden escalan con el daño del arma, así que de dos armas parecidas elige la más lenta."}},{"@type":"Question","name":"¿Se puede subir con Sagrado?","acceptedAnswer":{"@type":"Answer","text":"Se puede: Warcraft Tavern llama a ese Sagrado sorprendentemente fuerte con equipo de poder con hechizos, pero se desbloquea solo tras el talento Choque Sagrado. Para jugar en solitario, Mobalytics e Icy Veins aconsejan Reprensión."}},{"@type":"Question","name":"¿Debilitaron Reprensión?","acceptedAnswer":{"@type":"Answer","text":"Sí, el 15 de octubre: Campeón de la Luz y Consagración quedaron más débiles. En la lista de tiers de subida de nivel el Paladín sigue siendo clase A."}},{"@type":"Question","name":"¿Dónde conseguir la montura?","acceptedAnswer":{"@type":"Answer","text":"En el nivel 40 con una misión de clase; no hace falta comprarla."}}]}</script>
@@ -1643,7 +1643,7 @@ addEventListener('beforeinstallprompt', e => {
 <script data-src="../../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../../"></script>
 <script data-src="../../../assets/search/search.js?v=f98ddb91f4" data-root="../../../"></script>
 <script data-src="../../../assets/me/me.js?v=5cac046565" data-root="../../../" data-home="../../" data-lang="es" data-ach="0" data-teaser="" data-close="Cerrar" data-page="guides/leveling-paladin/" data-look="2"></script>
-<script data-src="../../../assets/hero/hero.js?v=c2be7ce5b5" data-root="../../../" data-home="../../" data-data="../../../assets/hero/es.json?v=c2be7ce5b5"></script>
+<script data-src="../../../assets/hero/hero.js?v=786381f8f8" data-root="../../../" data-home="../../" data-data="../../../assets/hero/es.json?v=786381f8f8"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
 (function () {

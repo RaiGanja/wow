@@ -665,11 +665,11 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 @media (max-width: 1199px) {
   #matrix thead th:first-child { width: 215px; }
   #matrix thead th { font-size: var(--fs-13); }
-  /* paid badge drops under the race name so the race column can stay narrow */
-  #matrix tbody th .rn:has(.paid) { display: inline-grid; grid-template-columns: auto auto; column-gap: 12px; row-gap: 2px; align-items: center; justify-items: start; }
-  #matrix tbody th .rn:has(.paid) .av { grid-row: span 2; }
-  #matrix tbody th .paid { margin-left: 0; }
 }
+/* paid badge sits under the race name at every width: on one line it ran out of the race column in it/de/pt */
+#matrix tbody th .rn:has(.paid) { display: inline-grid; grid-template-columns: auto auto; column-gap: 12px; row-gap: 2px; align-items: center; justify-items: start; }
+#matrix tbody th .rn:has(.paid) .av { grid-row: span 2; }
+#matrix tbody th .paid { margin-left: 0; }
 .cell { width: 100%; height: 100%; min-height: 46px; border: 0; background: transparent; display: grid; place-items: center; padding: 0; transition: opacity .2s; }
 .cell i { display: grid; place-items: center; width: 10px; height: 10px; border-radius: 50%; background: var(--cc); box-shadow: 0 0 0 4px color-mix(in srgb, var(--cc) 16%, transparent); transition: transform .18s var(--ease), width .18s var(--ease), height .18s var(--ease); }
 .cell i .ico { width: 15px; height: 15px; opacity: 0; color: var(--gold-ink); }
@@ -1409,7 +1409,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link data-rel="stylesheet" href="../../../assets/radio/radio.css?v=c5eacd57e2">
 <link data-rel="stylesheet" href="../../../assets/search/search.css?v=f98ddb91f4">
 <link data-rel="stylesheet" href="../../../assets/me/me.css?v=5cac046565">
-<link data-rel="stylesheet" href="../../../assets/hero/hero.css?v=c2be7ce5b5">
+<link data-rel="stylesheet" href="../../../assets/hero/hero.css?v=786381f8f8">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://gabella.site/wow/de/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://gabella.site/wow/de/guides/"},{"@type":"ListItem","position":3,"name":"Das Legacy-System","item":"https://gabella.site/wow/de/guides/legacy/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Legacy-System in WoW Forever: Punkte, Vorteile, Belohnungen","description":"So funktioniert Legacy in WoW Forever: Punkte, alle 65 Herausforderungen, Vorteile in drei Bäumen, Limit von 16 Punkten zum Start und vier Belohnungen.","inLanguage":"de","url":"https://gabella.site/wow/de/guides/legacy/","dateModified":"2026-10-26","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/de/"},"image":"https://gabella.site/wow/assets/og/legacy-de.jpg?v=81f75db1"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"de","mainEntity":[{"@type":"Question","name":"Wie schalte ich Legacy in WoW Forever frei?","acceptedAnswer":{"@type":"Answer","text":"Hol dir den ersten Punkt: Stufe 25, 150 in einem Hauptberuf (kein Sammelberuf) oder die ganze Karte erkunden. Das Fenster öffnest du mit der Taste Y."}},{"@type":"Question","name":"Wie viele Legacy-Punkte kann ich ausgeben?","acceptedAnswer":{"@type":"Answer","text":"Zum Start bis zu 16 pro Charakter. Überzählige Punkte sammeln sich auf dem Account und schalten Belohnungen frei."}},{"@type":"Question","name":"Muss ich für Legacy Zweitcharaktere leveln?","acceptedAnswer":{"@type":"Answer","text":"Nein. Ein Charakter kann bis zu 29 Punkte erreichen, ausgeben musst du nur 16."}},{"@type":"Question","name":"Gelten die Legacy-Punkte für alle Charaktere?","acceptedAnswer":{"@type":"Answer","text":"Ja, für den ganzen Battle.net-Account, außer Hardcore. Die Vorteile wählt jeder Charakter selbst."}},{"@type":"Question","name":"Welche Legacy-Vorteile soll ich zuerst nehmen?","acceptedAnswer":{"@type":"Answer","text":"Die für Erfahrung und Lager: Well Rested, Field Guide, Permanence. Für Klassen mit Reagenzien Reagent Economy."}}]}</script>
@@ -1467,7 +1467,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   </picture>
   <div class="wrap thero-in">
     <nav class="crumbs" aria-label="Brotkrumen"><a href="../../">Guide</a><span aria-hidden="true">/</span><a href="../../guides/">Guides</a><span aria-hidden="true">/</span><span>Das Legacy-System</span></nav>
-    <h1>Das <span style="white-space:nowrap">Legacy-System</span></h1>
+    <h1 class="long" style="--lw:13">Das <span style="white-space:nowrap">Legacy-System</span></h1>
     <p class="upd">Aktualisiert am <time datetime="2026-10-26">26.10.2026</time></p>
     <p class="lead">Legacy ist ein Fortschritt für deinen ganzen Battle.net-Account. Punkte gibt es für Herausforderungen: Stufen, Berufe, PvP, Dungeons und Raids. Du gibst sie auf jedem Charakter einzeln für Vorteile aus, zum Start bis zu 16.</p>
     <p class="gfacts">65 Herausforderungen · Bis zu 16 Punkte pro Charakter zum Start · Öffnet sich mit dem ersten Punkt (meist Stufe 25)</p>
@@ -1641,7 +1641,7 @@ addEventListener('beforeinstallprompt', e => {
 <script data-src="../../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../../"></script>
 <script data-src="../../../assets/search/search.js?v=f98ddb91f4" data-root="../../../"></script>
 <script data-src="../../../assets/me/me.js?v=5cac046565" data-root="../../../" data-home="../../" data-lang="de" data-ach="0" data-teaser="" data-close="Schließen" data-page="guides/legacy/" data-look="2"></script>
-<script data-src="../../../assets/hero/hero.js?v=c2be7ce5b5" data-root="../../../" data-home="../../" data-data="../../../assets/hero/de.json?v=c2be7ce5b5"></script>
+<script data-src="../../../assets/hero/hero.js?v=786381f8f8" data-root="../../../" data-home="../../" data-data="../../../assets/hero/de.json?v=786381f8f8"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
 (function () {

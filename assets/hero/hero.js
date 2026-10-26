@@ -58,6 +58,7 @@
       }
       drawSheet();
       if (sheet.showModal) sheet.showModal(); else sheet.setAttribute('open', '');
+      fitNames();
     });
   }
   function save() {   // a full combination only: the role follows the spec (a two-role spec keeps the chosen one)
@@ -73,7 +74,7 @@
   }
   function drawSheet() {
     const T = D.tx, d = draft, has = valid(read());
-    const cls = D.cls.map(c => `<button type="button" data-c="${c}" aria-pressed="${d.cls === c}" style="--cc:${D.color[c]}"><img src="${face(c)}" alt="" width="48" height="48" loading="lazy">${esc(D.cn[c])}</button>`).join('');
+    const cls = D.cls.map(c => `<button type="button" data-c="${c}" aria-pressed="${d.cls === c}" style="--cc:${D.color[c]}"><img src="${face(c)}" alt="" width="48" height="48" loading="lazy"><span class="hs-n">${esc(D.cn[c])}</span></button>`).join('');
     let h = `<div class="hs-h"><b>${esc(has ? T.change : T.collect)}</b><button type="button" class="iconbtn" data-x aria-label="${esc(T.close)}"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>`
       + (has ? '' : `<p class="hs-d">${esc(T.collectD)}</p>`)
       + `<div class="hs-l">${esc(T.cls)}</div><div class="hs-cls">${cls}</div>`;
@@ -89,7 +90,27 @@
     }
     h += `<div class="hs-a"><a href="${HOME}character/">${esc(T.allSet)}</a><button type="button" class="btn" data-x${d.cls && d.spec ? '' : ' disabled'}>${esc(T.done)}</button></div>`;
     sheet.innerHTML = h;
+    if (sheet.open) fitNames();
   }
+  /* Class names fit their tile: the font shrinks to the longest word (measured in the real font), never below 10.5px; below that the word may break at a syllable */
+  function fitNames() {
+    const els = sheet.querySelectorAll('.hs-cls .hs-n');
+    if (!els.length) return;
+    const m = document.createElement('span');
+    m.style.cssText = 'position:absolute;left:-9999px;top:0;visibility:hidden;white-space:pre;line-height:1;font-size:100px';
+    document.body.append(m);
+    els.forEach(el => {
+      const b = el.parentElement, cs = getComputedStyle(b), base = parseFloat(cs.fontSize);
+      m.style.fontFamily = cs.fontFamily; m.style.fontWeight = cs.fontWeight;
+      const k = Math.max(...(el.textContent.match(/[^\s-]+-?/g) || ['']).map(t => (m.textContent = t, m.getBoundingClientRect().width / 100)));
+      const room = b.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight) - parseFloat(cs.borderLeftWidth) - parseFloat(cs.borderRightWidth);
+      const fs = Math.max(10.5, Math.min(base, room * .98 / k));
+      el.style.fontSize = fs.toFixed(2) + 'px';
+    });
+    m.remove();
+  }
+  window.addEventListener('resize', () => { if (sheet && sheet.open) fitNames(); });
+  if (document.fonts) document.fonts.addEventListener('loadingdone', () => { if (sheet && sheet.open) fitNames(); });
   function onSheet(e) {
     if (e.target === sheet) return sheet.close();
     const b = e.target.closest('button'); if (!b) return;

@@ -665,11 +665,11 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 @media (max-width: 1199px) {
   #matrix thead th:first-child { width: 215px; }
   #matrix thead th { font-size: var(--fs-13); }
-  /* paid badge drops under the race name so the race column can stay narrow */
-  #matrix tbody th .rn:has(.paid) { display: inline-grid; grid-template-columns: auto auto; column-gap: 12px; row-gap: 2px; align-items: center; justify-items: start; }
-  #matrix tbody th .rn:has(.paid) .av { grid-row: span 2; }
-  #matrix tbody th .paid { margin-left: 0; }
 }
+/* paid badge sits under the race name at every width: on one line it ran out of the race column in it/de/pt */
+#matrix tbody th .rn:has(.paid) { display: inline-grid; grid-template-columns: auto auto; column-gap: 12px; row-gap: 2px; align-items: center; justify-items: start; }
+#matrix tbody th .rn:has(.paid) .av { grid-row: span 2; }
+#matrix tbody th .paid { margin-left: 0; }
 .cell { width: 100%; height: 100%; min-height: 46px; border: 0; background: transparent; display: grid; place-items: center; padding: 0; transition: opacity .2s; }
 .cell i { display: grid; place-items: center; width: 10px; height: 10px; border-radius: 50%; background: var(--cc); box-shadow: 0 0 0 4px color-mix(in srgb, var(--cc) 16%, transparent); transition: transform .18s var(--ease), width .18s var(--ease), height .18s var(--ease); }
 .cell i .ico { width: 15px; height: 15px; opacity: 0; color: var(--gold-ink); }
@@ -1409,7 +1409,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link data-rel="stylesheet" href="../../../assets/radio/radio.css?v=c5eacd57e2">
 <link data-rel="stylesheet" href="../../../assets/search/search.css?v=f98ddb91f4">
 <link data-rel="stylesheet" href="../../../assets/me/me.css?v=5cac046565">
-<link data-rel="stylesheet" href="../../../assets/hero/hero.css?v=c2be7ce5b5">
+<link data-rel="stylesheet" href="../../../assets/hero/hero.css?v=786381f8f8">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://gabella.site/wow/es/"},{"@type":"ListItem","position":2,"name":"Guías","item":"https://gabella.site/wow/es/guides/"},{"@type":"ListItem","position":3,"name":"El sistema Legacy","item":"https://gabella.site/wow/es/guides/legacy/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Sistema Legacy de WoW Forever: puntos, ventajas, recompensas","description":"Cómo funciona Legacy en WoW Forever: puntos, los 65 desafíos, ventajas en tres árboles, límite de 16 puntos en el lanzamiento y cuatro recompensas.","inLanguage":"es","url":"https://gabella.site/wow/es/guides/legacy/","dateModified":"2026-10-26","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/es/"},"image":"https://gabella.site/wow/assets/og/legacy-es.jpg?v=2ddc7c42"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"es","mainEntity":[{"@type":"Question","name":"¿Cómo se abre Legacy en WoW Forever?","acceptedAnswer":{"@type":"Answer","text":"Consigue el primer punto: nivel 25, 150 en una profesión principal (que no sea de recolección) o explorar todo el mapa. La ventana se abre con la tecla Y."}},{"@type":"Question","name":"¿Cuántos puntos de Legacy se pueden gastar?","acceptedAnswer":{"@type":"Answer","text":"Hasta 16 por personaje al inicio. Los puntos sobrantes se acumulan en la cuenta y abren recompensas."}},{"@type":"Question","name":"¿Hace falta subir alters por Legacy?","acceptedAnswer":{"@type":"Answer","text":"No. Un personaje puede reunir hasta 29 puntos, y solo hay que gastar 16."}},{"@type":"Question","name":"¿Los puntos de Legacy son comunes a todos los personajes?","acceptedAnswer":{"@type":"Answer","text":"Sí, para toda la cuenta de Battle.net, excepto Hardcore. Cada personaje elige sus ventajas."}},{"@type":"Question","name":"¿Qué ventajas de Legacy conviene coger primero?","acceptedAnswer":{"@type":"Answer","text":"Las de experiencia y de campamento: Well Rested, Field Guide, Permanence. Para clases con componentes, Reagent Economy."}}]}</script>
@@ -1641,7 +1641,7 @@ addEventListener('beforeinstallprompt', e => {
 <script data-src="../../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../../"></script>
 <script data-src="../../../assets/search/search.js?v=f98ddb91f4" data-root="../../../"></script>
 <script data-src="../../../assets/me/me.js?v=5cac046565" data-root="../../../" data-home="../../" data-lang="es" data-ach="0" data-teaser="" data-close="Cerrar" data-page="guides/legacy/" data-look="2"></script>
-<script data-src="../../../assets/hero/hero.js?v=c2be7ce5b5" data-root="../../../" data-home="../../" data-data="../../../assets/hero/es.json?v=c2be7ce5b5"></script>
+<script data-src="../../../assets/hero/hero.js?v=786381f8f8" data-root="../../../" data-home="../../" data-data="../../../assets/hero/es.json?v=786381f8f8"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
 (function () {
