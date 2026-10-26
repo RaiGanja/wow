@@ -5,7 +5,7 @@
 Правило текста: бета закрыта на 30 уровне, поэтому в таблицах только таланты и очки, в которых сходятся
 Icy Veins и Wowhead (их билды 30 уровня, сверены по калькуляторам 25.10). Где они расходятся — это сказано словами,
 без очков; если оба берут талант с разным числом очков, в таблице меньшее, а большее названо в тексте.
-Раскладку на 51 очко к 60 дадим после старта 04.11.
+Раскладку на 51 очко к 60 дадим после старта 05.11.
 Источник текстов: docs/wow/specs/texts-2026-10-25-spec-builds (не в репо). attach() подключает страницы к GUIDES,
 раздел «Билды по классам» в тир-листе, ссылки из тир-листа на разделы спеков и плитку хаба."""
 from content.class_guides import t, tx
@@ -14,7 +14,7 @@ SPEC_BUILDS = []
 
 BETA = tx('По бете', 'Beta data', 'За бетою', de='Betadaten', fr='Données de la bêta', pt='Dados da beta')
 SPECS3 = t('3 спека', '3 specs', '3 спеціалізації')
-LATER = t('Обновим после 04.11', 'Updated after Nov 4', 'Оновимо після 4 листопада')
+LATER = t('Обновим после 05.11', 'Updated after Nov 4–5', 'Оновимо після 5 листопада')
 H_TAL = [t('Талант', 'Talent', 'Талант'), t('Очки', 'Points', 'Очки'),
          tx('Зачем', 'Why', 'Навіщо', de='Wozu', es='Para qué', it='A cosa serve', pl='Po co', pt='Para quê')]
 H_ROLES = [tx('Спек', 'Spec', 'Спек', de='Skillung', es='Espec.', fr='Spé', it='Spec.', pl='Spec', pt='Espec.'),
@@ -22,9 +22,9 @@ H_ROLES = [tx('Спек', 'Spec', 'Спек', de='Skillung', es='Espec.', fr='Sp
 TANK, HEALER, DPS = t('Танк', 'Tank', 'Танк'), t('Лекарь', 'Healer', 'Цілитель'), t('Урон', 'Damage', 'Шкода')
 FAQ_T = t('Вопросы', 'Questions', 'Питання')
 WHEN_Q = t('Когда будет полный билд на 60?', 'When will the full level 60 build be out?', 'Коли буде повний білд на 60?')
-WHEN_A = t('После старта 4 ноября: на бете был открыт только 30 уровень, рейды откроются 09.12. Тогда добавим раскладку на все 51 очко.',
-           'After the Nov 4 launch: the beta only went up to level 30, and raids open on Dec 9. Then we will add the layout for all 51 points.',
-           'Після старту 4 листопада: у беті був відкритий лише 30 рівень, рейди відкриються 9 грудня. Тоді додамо розкладку на всі 51 очко.')
+WHEN_A = t('После старта 5 ноября: на бете был открыт только 30 уровень, рейды откроются 09.12. Тогда добавим раскладку на все 51 очко.',
+           'After the Nov 4–5 launch: the beta only went up to level 30, and raids open on Dec 9. Then we will add the layout for all 51 points.',
+           'Після старту 5 листопада: у беті був відкритий лише 30 рівень, рейди відкриються 9 грудня. Тоді додамо розкладку на всі 51 очко.')
 ROLES_NOTE = t('Тиры — из тир-листа беты. В таблицах талантов только то, в чём сходятся Icy Veins и Wowhead; у каждого спека сказано, где они расходятся.',
                'Tiers come from the beta tier list. The talent tables show only what Icy Veins and Wowhead agree on; each spec says where they differ.',
                'Тіри — з тір-листа бети. У таблицях талантів лише те, у чому сходяться Icy Veins і Wowhead; для кожної спеціалізації сказано, де вони розходяться.')

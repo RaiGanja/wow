@@ -15,9 +15,9 @@ import langs  # noqa: E402
 CHROME = r'C:\Program Files\Google\Chrome\Application\chrome.exe'
 LANGS = langs.LANGS
 BRAND = 'Gabella'
-START = {'ru': 'Старт 4 ноября 2026', 'en': 'Launch November 4, 2026', 'uk': 'Старт 4 листопада 2026',
-         'de': 'Start am 4. November 2026', 'fr': 'Lancement le 4 novembre 2026', 'es': 'Lanzamiento: 4 de noviembre de 2026',
-         'pt': 'Lançamento em 4 de novembro de 2026', 'it': 'Uscita il 4 novembre 2026', 'pl': 'Start 4 listopada 2026'}
+START = {'ru': 'Старт 5 ноября 2026', 'en': 'Launch November 4–5, 2026', 'uk': 'Старт 5 листопада 2026',
+         'de': 'Start am 5. November 2026', 'fr': 'Lancement le 5 novembre 2026', 'es': 'Lanzamiento: 5 de noviembre de 2026',
+         'pt': 'Lançamento em 5 de novembro de 2026', 'it': 'Uscita il 5 novembre 2026', 'pl': 'Start 5 listopada 2026'}
 HOME = {'t': {l: 'WoW Forever' for l in langs.ALL},
         'd': {'ru': 'Гид: классы, расы, подземелья, прокачка и сборка группы',
               'en': 'Guide: classes, races, dungeons, leveling and party building',

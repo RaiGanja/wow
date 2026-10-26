@@ -80,7 +80,7 @@ CLASS_GUIDES.append({
         ]},
         {'id': 'talents', 'title': t('Таланты по уровням', 'Talents by level', 'Таланти за рівнями'), 'blocks': [
             ('text', [
-                t('Порядок Icy Veins для Защиты (обновлён 21.10). До 30 уровня его подтверждает бета. Уровни 31–60 на бете закрыты: это план источника по талантам Forever, проверим после старта 04.11.', 'Icy Veins order for Protection (updated Oct 21). The beta confirms it up to level 30. Levels 31–60 are closed on the beta: this is the source’s plan for Forever talents, and we will check it after the Nov 4 launch.', 'Порядок Icy Veins для Захисту (оновлено 21 жовтня). До 30 рівня його підтверджує бета. Рівні 31–60 у беті закриті: це план джерела щодо талантів Forever, перевіримо після старту 4 листопада.'),
+                t('Порядок Icy Veins для Защиты (обновлён 21.10). До 30 уровня его подтверждает бета. Уровни 31–60 на бете закрыты: это план источника по талантам Forever, проверим после старта 05.11.', 'Icy Veins order for Protection (updated Oct 21). The beta confirms it up to level 30. Levels 31–60 are closed on the beta: this is the source’s plan for Forever talents, and we will check it after the Nov 4–5 launch.', 'Порядок Icy Veins для Захисту (оновлено 21 жовтня). До 30 рівня його підтверджує бета. Рівні 31–60 у беті закриті: це план джерела щодо талантів Forever, перевіримо після старту 5 листопада.'),
             ]),
             ('table', {'head': [t('Уровни', 'Levels', 'Рівні'), t('Талант', 'Talent', 'Талант'), t('Очки', 'Points', 'Очки')], 'rows': [
                 ['10–14', t('Специализация на щитах (Shield Specialization)', 'Shield Specialization', 'Shield Specialization'), '5'],
@@ -214,7 +214,7 @@ CLASS_GUIDES.append({
         ]},
         {'id': 'talents', 'title': t('Таланты по уровням', 'Talents by level', 'Таланти за рівнями'), 'blocks': [
             ('text', [
-                t('Порядок Icy Veins для Воздаяния (обновлён 17.10). До 30 уровня его подтверждает бета. Уровни 31–60 на бете закрыты: это план источника, проверим после старта 04.11.', 'Icy Veins order for Retribution (updated Oct 17). The beta confirms it up to level 30. Levels 31–60 are closed on the beta: this is the source’s plan, and we will check it after the Nov 4 launch.', 'Порядок Icy Veins для Відплати (оновлено 17 жовтня). До 30 рівня його підтверджує бета. Рівні 31–60 у беті закриті: це план джерела, перевіримо після старту 4 листопада.'),
+                t('Порядок Icy Veins для Воздаяния (обновлён 17.10). До 30 уровня его подтверждает бета. Уровни 31–60 на бете закрыты: это план источника, проверим после старта 05.11.', 'Icy Veins order for Retribution (updated Oct 17). The beta confirms it up to level 30. Levels 31–60 are closed on the beta: this is the source’s plan, and we will check it after the Nov 4–5 launch.', 'Порядок Icy Veins для Відплати (оновлено 17 жовтня). До 30 рівня його підтверджує бета. Рівні 31–60 у беті закриті: це план джерела, перевіримо після старту 5 листопада.'),
             ]),
             ('table', {'head': [t('Уровни', 'Levels', 'Рівні'), t('Талант', 'Talent', 'Талант'), t('Очки', 'Points', 'Очки')], 'rows': [
                 ['10–14', t('Благодарение (Benediction)', 'Benediction', 'Benediction'), '5'],
@@ -347,7 +347,7 @@ CLASS_GUIDES.append({
         ]},
         {'id': 'talents', 'title': t('Таланты по уровням', 'Talents by level', 'Таланти за рівнями'), 'blocks': [
             ('text', [
-                t('Порядок Icy Veins (обновлён 17.10). Mobalytics (18.10) до 30 уровня берёт те же таланты в другом порядке. Уровни 31–60 на бете закрыты: это план источника, проверим после старта 04.11.', 'Icy Veins order (updated Oct 17). Mobalytics (Oct 18) takes the same talents up to level 30 in a different order. Levels 31–60 are closed on the beta: this is the source’s plan, and we will check it after the Nov 4 launch.', 'Порядок Icy Veins (оновлено 17 жовтня). Mobalytics (18 жовтня) до 30 рівня бере ті самі таланти в іншому порядку. Рівні 31–60 у беті закриті: це план джерела, перевіримо після старту 4 листопада.'),
+                t('Порядок Icy Veins (обновлён 17.10). Mobalytics (18.10) до 30 уровня берёт те же таланты в другом порядке. Уровни 31–60 на бете закрыты: это план источника, проверим после старта 05.11.', 'Icy Veins order (updated Oct 17). Mobalytics (Oct 18) takes the same talents up to level 30 in a different order. Levels 31–60 are closed on the beta: this is the source’s plan, and we will check it after the Nov 4–5 launch.', 'Порядок Icy Veins (оновлено 17 жовтня). Mobalytics (18 жовтня) до 30 рівня бере ті самі таланти в іншому порядку. Рівні 31–60 у беті закриті: це план джерела, перевіримо після старту 5 листопада.'),
             ]),
             ('table', {'head': [t('Уровни', 'Levels', 'Рівні'), t('Талант', 'Talent', 'Талант'), t('Очки', 'Points', 'Очки')], 'rows': [
                 ['10–14', 'Deadly Aspects', '5'],
@@ -482,7 +482,7 @@ CLASS_GUIDES.append({
         ]},
         {'id': 'talents', 'title': t('Таланты по уровням', 'Talents by level', 'Таланти за рівнями'), 'blocks': [
             ('text', [
-                t('Порядок Icy Veins для Боя (обновлён 17.10). Mobalytics (18.10) до 30 уровня почти тот же. Уровни 31–60 на бете закрыты: это план источника, проверим после старта 04.11.', 'Icy Veins order for Combat (updated Oct 17). Mobalytics (Oct 18) is almost the same up to level 30. Levels 31–60 are closed on the beta: this is the source’s plan, and we will check it after the Nov 4 launch.', 'Порядок Icy Veins для Бою (оновлено 17 жовтня). Mobalytics (18 жовтня) до 30 рівня майже той самий. Рівні 31–60 у беті закриті: це план джерела, перевіримо після старту 4 листопада.'),
+                t('Порядок Icy Veins для Боя (обновлён 17.10). Mobalytics (18.10) до 30 уровня почти тот же. Уровни 31–60 на бете закрыты: это план источника, проверим после старта 05.11.', 'Icy Veins order for Combat (updated Oct 17). Mobalytics (Oct 18) is almost the same up to level 30. Levels 31–60 are closed on the beta: this is the source’s plan, and we will check it after the Nov 4–5 launch.', 'Порядок Icy Veins для Бою (оновлено 17 жовтня). Mobalytics (18 жовтня) до 30 рівня майже той самий. Рівні 31–60 у беті закриті: це план джерела, перевіримо після старту 5 листопада.'),
             ]),
             ('table', {'head': [t('Уровни', 'Levels', 'Рівні'), t('Талант', 'Talent', 'Талант'), t('Очки', 'Points', 'Очки')], 'rows': [
                 ['10–11', t('Улучшенный коварный удар (Improved Sinister Strike)', 'Improved Sinister Strike', 'Improved Sinister Strike'), '2'],
@@ -576,7 +576,7 @@ CLASS_GUIDES.append({
                 {'id': 'q4', 'q': t('Какое оружие брать для Боя?', 'Which weapon should I take for Combat?', 'Яку зброю брати для Бою?'),
                  'a': [t('Любое: Круши-руби работает с любым типом. Быстрое оружие кладите в левую руку (Mobalytics).', 'Any: Hack and Slash works with any type. Put the fast weapon in the off hand (Mobalytics).', 'Будь-яку: Hack and Slash працює з будь-яким типом. Швидку зброю кладіть у ліву руку (Mobalytics).')]},
                 {'id': 'q5', 'q': t('Сгорают ли очки серии при смене цели?', 'Do combo points expire when I switch targets?', 'Чи згоряють бали серії при зміні цілі?'),
-                 'a': [t('Нет, остаются на прежней цели. Перенос на новую цель источники описывают по-разному: проверим после 04.11.', 'No, they stay on the previous target. The sources describe the transfer to a new target differently: we will check after Nov 4.', 'Ні, вони лишаються на попередній цілі. Перенесення на нову ціль джерела описують по-різному: перевіримо після 4 листопада.')]},
+                 'a': [t('Нет, остаются на прежней цели. Перенос на новую цель источники описывают по-разному: проверим после 05.11.', 'No, they stay on the previous target. The sources describe the transfer to a new target differently: we will check after Nov 4–5.', 'Ні, вони лишаються на попередній цілі. Перенесення на нову ціль джерела описують по-різному: перевіримо після 5 листопада.')]},
             ]),
         ]},
         {'id': 'related', 'title': t('Смотрите также', 'See also', 'Дивіться також'), 'blocks': [
@@ -617,7 +617,7 @@ CLASS_GUIDES.append({
         ]},
         {'id': 'talents', 'title': t('Таланты по уровням', 'Talents by level', 'Таланти за рівнями'), 'blocks': [
             ('text', [
-                t('Порядок Icy Veins для Темной магии (обновлён 17.10). Уровни 31–60 на бете закрыты: это план источника, проверим после старта 04.11.', 'Icy Veins order for Shadow (updated Oct 17). Levels 31–60 are closed on the beta: this is the source’s plan, and we will check it after the Nov 4 launch.', 'Порядок Icy Veins для Темряви (оновлено 17 жовтня). Рівні 31–60 у беті закриті: це план джерела, перевіримо після старту 4 листопада.'),
+                t('Порядок Icy Veins для Темной магии (обновлён 17.10). Уровни 31–60 на бете закрыты: это план источника, проверим после старта 05.11.', 'Icy Veins order for Shadow (updated Oct 17). Levels 31–60 are closed on the beta: this is the source’s plan, and we will check it after the Nov 4–5 launch.', 'Порядок Icy Veins для Темряви (оновлено 17 жовтня). Рівні 31–60 у беті закриті: це план джерела, перевіримо після старту 5 листопада.'),
             ]),
             ('table', {'head': [t('Уровни', 'Levels', 'Рівні'), t('Талант', 'Talent', 'Талант'), t('Очки', 'Points', 'Очки')], 'rows': [
                 ['10–11', t('Специализация на жезлах (Wand Specialization)', 'Wand Specialization', 'Wand Specialization'), '2'],
@@ -749,7 +749,7 @@ CLASS_GUIDES.append({
         ]},
         {'id': 'talents', 'title': t('Таланты по уровням', 'Talents by level', 'Таланти за рівнями'), 'blocks': [
             ('text', [
-                t('Порядок Icy Veins для Совершенствования (обновлён 17.10). Уровни 31–60 на бете закрыты: это план источника, проверим после старта 04.11.', 'Icy Veins order for Enhancement (updated Oct 17). Levels 31–60 are closed on the beta: this is the source’s plan, and we will check it after the Nov 4 launch.', 'Порядок Icy Veins для Вдосконалення (оновлено 17 жовтня). Рівні 31–60 у беті закриті: це план джерела, перевіримо після старту 4 листопада.'),
+                t('Порядок Icy Veins для Совершенствования (обновлён 17.10). Уровни 31–60 на бете закрыты: это план источника, проверим после старта 05.11.', 'Icy Veins order for Enhancement (updated Oct 17). Levels 31–60 are closed on the beta: this is the source’s plan, and we will check it after the Nov 4–5 launch.', 'Порядок Icy Veins для Вдосконалення (оновлено 17 жовтня). Рівні 31–60 у беті закриті: це план джерела, перевіримо після старту 5 листопада.'),
             ]),
             ('table', {'head': [t('Уровни', 'Levels', 'Рівні'), t('Талант', 'Talent', 'Талант'), t('Очки', 'Points', 'Очки')], 'rows': [
                 ['10–14', t('Грохочущие удары (Thundering Strikes)', 'Thundering Strikes', 'Thundering Strikes'), '5'],
@@ -881,7 +881,7 @@ CLASS_GUIDES.append({
         ]},
         {'id': 'talents', 'title': t('Таланты по уровням', 'Talents by level', 'Таланти за рівнями'), 'blocks': [
             ('text', [
-                t('Порядок Icy Veins для Льда (обновлён 16.10). Уровни 31–60 на бете закрыты: это план источника, проверим после старта 04.11.', 'Icy Veins order for Frost (updated Oct 16). Levels 31–60 are closed on the beta: this is the source’s plan, and we will check it after the Nov 4 launch.', 'Порядок Icy Veins для Льоду (оновлено 16 жовтня). Рівні 31–60 у беті закриті: це план джерела, перевіримо після старту 4 листопада.'),
+                t('Порядок Icy Veins для Льда (обновлён 16.10). Уровни 31–60 на бете закрыты: это план источника, проверим после старта 05.11.', 'Icy Veins order for Frost (updated Oct 16). Levels 31–60 are closed on the beta: this is the source’s plan, and we will check it after the Nov 4–5 launch.', 'Порядок Icy Veins для Льоду (оновлено 16 жовтня). Рівні 31–60 у беті закриті: це план джерела, перевіримо після старту 5 листопада.'),
             ]),
             ('table', {'head': [t('Уровни', 'Levels', 'Рівні'), t('Талант', 'Talent', 'Талант'), t('Очки', 'Points', 'Очки')], 'rows': [
                 ['10–14', t('Улучшенная ледяная стрела (Improved Frostbolt)', 'Improved Frostbolt', 'Improved Frostbolt'), '5'],
@@ -1012,7 +1012,7 @@ CLASS_GUIDES.append({
         ]},
         {'id': 'talents', 'title': t('Таланты по уровням', 'Talents by level', 'Таланти за рівнями'), 'blocks': [
             ('text', [
-                t('Порядок Mobalytics «танк через Похищение жизни» (обновлён 23.10). Warcraft Tavern идёт тем же путём: сначала Улучшенная порча и Подавление, с 30 уровня таланты на Похищение жизни. Уровни 31–60 на бете закрыты: это план источника, проверим после старта 04.11.', 'The Mobalytics "tank through Drain Life" order (updated Oct 23). Warcraft Tavern goes the same way: first Improved Corruption and Suppression, and from level 30 talents for Drain Life. Levels 31–60 are closed on the beta: this is the source’s plan, and we will check it after the Nov 4 launch.', 'Порядок Mobalytics «танк через Drain Life» (оновлено 23 жовтня). Warcraft Tavern іде тим самим шляхом: спочатку Improved Corruption і Suppression, з 30 рівня таланти на Drain Life. Рівні 31–60 у беті закриті: це план джерела, перевіримо після старту 4 листопада.'),
+                t('Порядок Mobalytics «танк через Похищение жизни» (обновлён 23.10). Warcraft Tavern идёт тем же путём: сначала Улучшенная порча и Подавление, с 30 уровня таланты на Похищение жизни. Уровни 31–60 на бете закрыты: это план источника, проверим после старта 05.11.', 'The Mobalytics "tank through Drain Life" order (updated Oct 23). Warcraft Tavern goes the same way: first Improved Corruption and Suppression, and from level 30 talents for Drain Life. Levels 31–60 are closed on the beta: this is the source’s plan, and we will check it after the Nov 4–5 launch.', 'Порядок Mobalytics «танк через Drain Life» (оновлено 23 жовтня). Warcraft Tavern іде тим самим шляхом: спочатку Improved Corruption і Suppression, з 30 рівня таланти на Drain Life. Рівні 31–60 у беті закриті: це план джерела, перевіримо після старту 5 листопада.'),
             ]),
             ('table', {'head': [t('Уровни', 'Levels', 'Рівні'), t('Талант', 'Talent', 'Талант'), t('Очки', 'Points', 'Очки')], 'rows': [
                 ['10–14', t('Улучшенная порча (Improved Corruption)', 'Improved Corruption', 'Improved Corruption'), '5'],
@@ -1141,7 +1141,7 @@ CLASS_GUIDES.append({
         ]},
         {'id': 'talents', 'title': t('Таланты по уровням', 'Talents by level', 'Таланти за рівнями'), 'blocks': [
             ('text', [
-                t('Порядок Icy Veins для Силы зверя (обновлён 18.10). Уровни 31–60 на бете закрыты: это план источника, проверим после старта 04.11.', 'Icy Veins order for Feral (updated Oct 18). Levels 31–60 are closed on the beta: this is the source’s plan, and we will check it after the Nov 4 launch.', 'Порядок Icy Veins для Сили звіра (оновлено 18 жовтня). Рівні 31–60 у беті закриті: це план джерела, перевіримо після старту 4 листопада.'),
+                t('Порядок Icy Veins для Силы зверя (обновлён 18.10). Уровни 31–60 на бете закрыты: это план источника, проверим после старта 05.11.', 'Icy Veins order for Feral (updated Oct 18). Levels 31–60 are closed on the beta: this is the source’s plan, and we will check it after the Nov 4–5 launch.', 'Порядок Icy Veins для Сили звіра (оновлено 18 жовтня). Рівні 31–60 у беті закриті: це план джерела, перевіримо після старту 5 листопада.'),
             ]),
             ('table', {'head': [t('Уровни', 'Levels', 'Рівні'), t('Талант', 'Talent', 'Талант'), t('Очки', 'Points', 'Очки')], 'rows': [
                 ['10–14', t('Свирепость (Ferocity)', 'Ferocity', 'Ferocity'), '5'],
