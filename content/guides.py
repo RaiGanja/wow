@@ -26,7 +26,10 @@ HUB = {
 
 GUIDES = []   # наполняется в задачах 3, 5, 6, 7, 9; каждый гайд дописывается ниже через GUIDES.append
 
-NEWS = []     # ручные записи: {'date': '2026-10-23', 'title': t(...), 'text': t(...), 'url': 'https://…', 'cls'?: 'all' | 'mage priest'} — cls: «касается вашего класса»
+NEWS = []     # записи «Новостей», шаблон и порядок выпуска: tools/blue_watch.py (TEMPLATE)
+# {'date': '2026-10-23', 'title': t(...), 'text': t(3–5 строк сути), 'so'?: t(что это значит для игрока), 'url': 'https://…' — первоисточник Blizzard,
+#  'cls'?: 'all' | 'mage priest'} — cls: «касается вашего класса» для «Моего персонажа»
+NEWS_SO = t('Для игрока', 'For you', 'Для гравця')   # подпись строки 'so'
 from build import DISCORD_AT  # noqa: E402  (у каждого места ссылки своё приглашение)
 
 ORDER = ['launch-checklist', 'launch-day', 'leveling', 'leveling-warrior', 'leveling-paladin', 'leveling-hunter', 'leveling-rogue', 'leveling-priest', 'leveling-shaman', 'leveling-mage', 'leveling-warlock', 'leveling-druid', 'builds', 'builds-warrior', 'builds-paladin', 'builds-hunter', 'builds-rogue', 'builds-priest', 'builds-shaman', 'builds-mage', 'builds-warlock', 'builds-druid', 'best-race', 'tier-list', 'legacy', 'dungeons', 'professions', 'addons', 'faq', 'requirements', 'news', 'ukrainian']   # порядок плиток на хабе и в «Другие гайды»
@@ -979,11 +982,22 @@ GUIDES.append({
 # ---------- Новости: наши записи (новые сверху) + автолента Wowhead из assets/news.json ----------
 
 NEWS += [
-    {'date': '2026-10-23', 'url': 'https://teamoverpowered.com/forever/guides/name-reservation/',
-     'title': t('Бета закрыта, дальше — имена с 27.10', 'Beta closed, next up: names from 27.10', 'Бету закрито, далі — імена з 27.10'),
-     'text': t('Закрытая бета закрылась 23.10 в 10:00 по тихоокеанскому времени (17:00 UTC). С 27.10 по 03.11 владельцы Heroic, Epic и Collection резервируют до трёх имён на аккаунт, кто первым пришёл, тот и занял.',
-               'The closed beta went offline on 23.10 at 10:00 Pacific time (17:00 UTC). From 27.10 to 03.11 Heroic, Epic and Collection owners reserve up to three names per account, first come, first served.',
-               'Закрита бета вимкнулася 23.10 о 10:00 за тихоокеанським часом (17:00 UTC). З 27.10 по 03.11 власники Heroic, Epic і Collection резервують до трьох імен на акаунт, хто перший прийшов, той і зайняв.')},
+    {'date': '2026-10-23', 'url': 'https://worldofwarcraft.blizzard.com/en-us/news/24313106',
+     'title': t('Резерв имён: время открытия по регионам', 'Name reservation: opening times by region', 'Резерв імен: час відкриття за регіонами'),
+     'text': t('Резерв имён идёт с 27.10 по 03.11. Европа — 27.10 в 18:00 CET (17:00 UTC), Америка — 27.10 в 13:00 PDT (20:00 UTC), Корея и Тайвань — 28.10 в 07:00 по местному времени. Резерв — для предзаказа Skyborne Heroic, Skyborne Epic или Warcraft Forever Collection: до трёх персонажей на аккаунт во всех режимах вместе.',
+               'Name reservation runs from 27.10 to 03.11. Europe: 27.10 at 18:00 CET (17:00 UTC), the Americas: 27.10 at 13:00 PDT (20:00 UTC), Korea and Taiwan: 28.10 at 07:00 local time. It is for Skyborne Heroic, Skyborne Epic or Warcraft Forever Collection pre-purchases: up to three characters per account across all rulesets.',
+               'Резерв імен триває з 27.10 по 03.11. Європа — 27.10 о 18:00 CET (17:00 UTC), Америка — 27.10 о 13:00 PDT (20:00 UTC), Корея й Тайвань — 28.10 о 07:00 за місцевим часом. Резерв — для передзамовлення Skyborne Heroic, Skyborne Epic або Warcraft Forever Collection: до трьох персонажів на акаунт у всіх режимах разом.'),
+     'so': t('Имена занимают по принципу «кто первый», поэтому редкое имя лучше брать в первый час.',
+             'Names go first come, first served, so take a rare name in the first hour.',
+             'Імена займають за принципом «хто перший», тому рідкісне ім’я краще брати в першу годину.')},
+    {'date': '2026-10-23', 'url': 'https://eu.forums.blizzard.com/en/wow/t/637228',
+     'title': t('Бета закрыта, старт 04.11', 'Beta closed, launch on 04.11', 'Бету закрито, старт 04.11'),
+     'text': t('Blizzard закрыла бету 23.10 в 10:00 по тихоокеанскому времени (17:00 UTC). До 27.10 команда чинит главные ошибки и серверы. С 27.10 открывается создание персонажей: режим и имя выбирают заранее. Старт игры — 04.11.',
+               'Blizzard closed the beta on 23.10 at 10:00 Pacific time (17:00 UTC). Until 27.10 the team fixes priority issues and the game service. From 27.10 character creation opens: the ruleset and the name are chosen in advance. The game launches on 04.11.',
+               'Blizzard закрила бету 23.10 о 10:00 за тихоокеанським часом (17:00 UTC). До 27.10 команда виправляє головні помилки й сервери. З 27.10 відкривається створення персонажів: режим та ім’я обирають заздалегідь. Старт гри — 04.11.'),
+     'so': t('Режим и имя выбираются до старта, а не в день запуска.',
+             'The ruleset and the name are chosen before launch, not on launch day.',
+             'Режим та ім’я обирають до старту, а не в день запуску.')},
     {'date': '2026-10-15', 'cls': 'all', 'url': 'https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/',
      'title': t('Крупный патч беты: расы и классы', 'Major beta patch: races and classes', 'Великий патч бети: раси та класи'),
      'text': t('Способности рас переделаны (оружейные специализации заменены критами), настроены почти все классы. Таблицы рас и классов на сайте уже по этому патчу.',
@@ -1009,7 +1023,8 @@ GUIDES.append({
         (t('Warcraft Tavern: изменения рас и классов', 'Warcraft Tavern: racial and class changes', 'Warcraft Tavern: зміни рас і класів'),
          'https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/'),
         ('ClassicWoW.gg', 'https://classicwow.gg/forever'),
-        ('Team Overpowered', 'https://teamoverpowered.com/forever/guides/name-reservation/'),
+        (t('Blizzard: резерв имён по регионам', 'Blizzard: name reservation by region', 'Blizzard: резерв імен за регіонами'), 'https://worldofwarcraft.blizzard.com/en-us/news/24313106'),
+        (t('Blizzard: бета закрыта', 'Blizzard: the beta is closed', 'Blizzard: бету закрито'), 'https://eu.forums.blizzard.com/en/wow/t/637228'),
     ],
     'sections': [
         {'id': 'ours', 'title': t('Наши записи', 'Our notes', 'Наші записи'), 'blocks': [('news', None)]},

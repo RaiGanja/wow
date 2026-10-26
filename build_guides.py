@@ -11,14 +11,14 @@ import tod
 from build import LANGS, SITE, page_dir, rel, localize, translate
 import langs
 from content import hero as HERO, looks as LK
-from content.guides import BUILDS_HUB_TILE, CLASS_HUB_TILE, GUIDES, HUB, HUBS, NEWS, NOT_FOUND, ORDER, PAGES, PLAY_MILESTONES, PLAY_TX
+from content.guides import BUILDS_HUB_TILE, CLASS_HUB_TILE, GUIDES, HUB, HUBS, NEWS, NEWS_SO, NOT_FOUND, ORDER, PAGES, PLAY_MILESTONES, PLAY_TX
 
 HERE = build.HERE
 
 _ru, _en, _uk = (build.load(f'guides.{l}.txt') for l in langs.OLD)
 assert len(_ru) == len(_en) == len(_uk), (len(_ru), len(_en), len(_uk))
 build.T.update({r: (e, u) for r, e, u in zip(_ru, _en, _uk)})
-langs.fill([GUIDES, HUB, HUBS, NEWS, NOT_FOUND, PAGES, CLASS_HUB_TILE, BUILDS_HUB_TILE, HERO.TX, HERO.BEST])   # new languages of every guide text: i18n/<lang>.json by the English one
+langs.fill([GUIDES, HUB, HUBS, NEWS, NEWS_SO, NOT_FOUND, PAGES, CLASS_HUB_TILE, BUILDS_HUB_TILE, HERO.TX, HERO.BEST])   # new languages of every guide text: i18n/<lang>.json by the English one
 
 TIP = {'ru': 'Совет', 'en': 'Tip', 'uk': 'Порада'}
 THIS_PAGE = {'ru': 'Эта страница', 'en': 'This page', 'uk': 'Ця сторінка'}
@@ -281,7 +281,8 @@ def render_block(kind, data, lang, root, inner=False):
     if kind == 'news':                                            # our notes from NEWS, newest first
         items = ''.join(f'<a class="nitem" href="{escape(n["url"])}" target="_blank" rel="noopener"' + (f' data-cls="{n["cls"]}"' if n.get('cls') else '') + '>'
                         f'<time datetime="{n["date"]}">{".".join(reversed(n["date"].split("-")))}</time>'
-                        f'<b>{E(n["title"], lang)}</b><p>{E(n["text"], lang)}</p></a>'
+                        f'<b>{E(n["title"], lang)}</b><p>{E(n["text"], lang)}</p>'
+                        + (f'<p>{E(NEWS_SO, lang)}. {E(n["so"], lang)}</p>' if n.get('so') else '') + '</a>'
                         for n in sorted(NEWS, key=lambda n: n['date'], reverse=True))
         return f'<div class="nlist">{items}</div>'
     if kind == 'profs':
