@@ -468,8 +468,8 @@ canvas.fx.on { opacity: 1; }
 .thero .lead { max-width: 46ch; color: var(--ink-2); font-size: var(--fs-18); text-shadow: 0 1px 10px rgba(0,0,0,.6); }
 /* Light theme: the art keeps its night like on the dark theme (Icy Veins), the text stays on the dark, and only below the text
    the dark meets the paper in a short eased edge (--paper-edge), not a long grey haze. */
-:root { --hfade: 0px; }
-:root[data-theme="light"] { --hfade: 56px;
+:root { --hfade: 56px; }   /* the same reserve under the hero text in both themes: the height and the title never depend on the theme */
+:root[data-theme="light"] {
   --paper-edge: rgb(8 9 11) 0%, color-mix(in oklab, rgb(8 9 11), var(--bg) 6%) 20%, color-mix(in oklab, rgb(8 9 11), var(--bg) 22%) 40%,
     color-mix(in oklab, rgb(8 9 11), var(--bg) 52%) 60%, color-mix(in oklab, rgb(8 9 11), var(--bg) 82%) 80%, var(--bg) 100%; }
 :root[data-theme="light"] :is(.thero, .chero, .phead)::after { content: ""; position: absolute; inset: auto 0 0 0; z-index: -1; height: var(--hfade); background: linear-gradient(180deg, var(--paper-edge)); pointer-events: none; }
@@ -1190,6 +1190,14 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .ptitle { display: grid; gap: 8px; flex: 1 1 520px; max-width: 640px; min-width: 0; }
 .phead h1 { font-size: var(--fs-40); line-height: 1; color: var(--ink); text-shadow: 0 2px 18px rgba(0,0,0,.5); }
 .phead .glead { margin: 0; font-size: var(--fs-16); color: var(--ink); opacity: .86; text-shadow: 0 1px 2px rgba(0,0,0,.6); }
+/* Light, wide: the art keeps the night under the text, then dissolves into the paper inside the reserve (--hfade), not into black */
+@media (min-width: 720px) {
+  :root[data-theme="light"] .phead::before { background:
+    linear-gradient(90deg, rgb(5 5 5 / .72) max(0%, 50% - 810px), rgb(5 5 5 / .42) max(38%, 50% - 194px), rgb(5 5 5 / 0) min(62%, 50% + 194px)),
+    linear-gradient(180deg, rgb(5 5 5 / .5) 0%, rgb(5 5 5 / 0) 28%, rgb(5 5 5 / .15) 45%, rgb(5 5 5 / .68) calc(100% - var(--hfade) - 70px), rgb(5 5 5 / .68) 100%); }
+  :root[data-theme="light"] .phead::after { background: linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--bg) 8%, transparent) 20%,
+    color-mix(in srgb, var(--bg) 30%, transparent) 40%, color-mix(in srgb, var(--bg) 60%, transparent) 60%, color-mix(in srgb, var(--bg) 86%, transparent) 80%, var(--bg) 100%); }
+}
 .phead .pill { color: var(--ink); border-color: rgb(241 236 224 / .3); background: rgb(5 5 5 / .35); }
 .gplay { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding: 14px 18px; color: inherit; text-decoration: none; transition: border-color .2s; }
 .gplay:hover { border-color: var(--gold); }
@@ -1345,10 +1353,10 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .gtoc { display: none; }
 }
 @media (max-width: 719px) {
-  .thero, .ghero { --hh: min(560px, 74svh); padding: max(calc(var(--top) + 28px), calc(var(--hh) * .48)) 0 24px; min-height: 0; }
+  .thero, .ghero { --hh: min(560px, 74svh); padding: max(calc(var(--top) + 28px), calc(var(--hh) * .48)) 0 24px; min-height: var(--hh); }
   .thero::before, .ghero::before { background: linear-gradient(180deg, rgba(5,5,5,.55) 0%, rgba(5,5,5,.08) 26%, rgba(5,5,5,.4) 50%, rgb(8 9 11 / .9) 74%, var(--bg) 100%); }
   /* light: the title and the lead run past the art on a phone, so the whole hero is the dark plate and the paper starts under it */
-  :root[data-theme="light"] :is(.thero, .ghero) { background: rgb(8 9 11); min-height: var(--hh); }
+  :root[data-theme="light"] :is(.thero, .ghero) { background: rgb(8 9 11); }
   :root[data-theme="light"] :is(.thero, .ghero)::before { background: linear-gradient(180deg, rgba(5,5,5,.55) 0%, rgba(5,5,5,.08) 26%, rgba(5,5,5,.4) 50%, rgb(8 9 11 / .9) 74%, rgb(8 9 11) 100%); }
   :root[data-theme="light"] :is(.thero, .ghero)::after { content: ""; display: block; position: absolute; z-index: -1; inset: 100% 0 auto 0; height: 48px; background: linear-gradient(180deg, var(--paper-edge)); pointer-events: none; }
   .ghero h1 { font-size: var(--fs-hero); hyphens: auto; }

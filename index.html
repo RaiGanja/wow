@@ -506,8 +506,8 @@ canvas.fx.on { opacity: 1; }
 .thero .lead { max-width: 46ch; color: var(--ink-2); font-size: var(--fs-18); text-shadow: 0 1px 10px rgba(0,0,0,.6); }
 /* Light theme: the art keeps its night like on the dark theme (Icy Veins), the text stays on the dark, and only below the text
    the dark meets the paper in a short eased edge (--paper-edge), not a long grey haze. */
-:root { --hfade: 0px; }
-:root[data-theme="light"] { --hfade: 56px;
+:root { --hfade: 56px; }   /* the same reserve under the hero text in both themes: the height and the title never depend on the theme */
+:root[data-theme="light"] {
   --paper-edge: rgb(8 9 11) 0%, color-mix(in oklab, rgb(8 9 11), var(--bg) 6%) 20%, color-mix(in oklab, rgb(8 9 11), var(--bg) 22%) 40%,
     color-mix(in oklab, rgb(8 9 11), var(--bg) 52%) 60%, color-mix(in oklab, rgb(8 9 11), var(--bg) 82%) 80%, var(--bg) 100%; }
 :root[data-theme="light"] :is(.thero, .chero, .phead)::after { content: ""; position: absolute; inset: auto 0 0 0; z-index: -1; height: var(--hfade); background: linear-gradient(180deg, var(--paper-edge)); pointer-events: none; }
