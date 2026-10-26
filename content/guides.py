@@ -2280,3 +2280,10 @@ GUIDES.append({
 })
 GUIDES.sort(key=lambda g: ORDER.index(g['slug']))
 BUILDS_HUB_TILE = dict(spec_builds.HUB_TILE, href='guides/builds/')   # на хабе одна плитка «Билды по классам»
+
+
+# ---------- «Мой персонаж» без входа: страница character/ (content/hero.py, сборка build_guides.hero_*) ----------
+
+from content import hero  # noqa: E402
+
+PAGES.append(hero.PAGE)

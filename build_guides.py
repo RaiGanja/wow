@@ -10,6 +10,7 @@ import talents
 import tod
 from build import LANGS, SITE, page_dir, rel, localize, translate
 import langs
+from content import hero as HERO, looks as LK
 from content.guides import BUILDS_HUB_TILE, CLASS_HUB_TILE, GUIDES, HUB, HUBS, NEWS, NOT_FOUND, ORDER, PAGES, PLAY_MILESTONES, PLAY_TX
 
 HERE = build.HERE
@@ -17,7 +18,7 @@ HERE = build.HERE
 _ru, _en, _uk = (build.load(f'guides.{l}.txt') for l in langs.OLD)
 assert len(_ru) == len(_en) == len(_uk), (len(_ru), len(_en), len(_uk))
 build.T.update({r: (e, u) for r, e, u in zip(_ru, _en, _uk)})
-langs.fill([GUIDES, HUB, HUBS, NEWS, NOT_FOUND, PAGES, CLASS_HUB_TILE, BUILDS_HUB_TILE])   # new languages of every guide text: i18n/<lang>.json by the English one
+langs.fill([GUIDES, HUB, HUBS, NEWS, NOT_FOUND, PAGES, CLASS_HUB_TILE, BUILDS_HUB_TILE, HERO.TX, HERO.BEST])   # new languages of every guide text: i18n/<lang>.json by the English one
 
 TIP = {'ru': 'Совет', 'en': 'Tip', 'uk': 'Порада'}
 THIS_PAGE = {'ru': 'Эта страница', 'en': 'This page', 'uk': 'Ця сторінка'}
@@ -839,6 +840,418 @@ renderTimers();
 setInterval(tick, 500);
 '''
 
+# ---------- character/ «Мой персонаж»: the hero of this browser (gabella-wf-me) without a login, content/hero.py ----------
+
+def deep(x, lang):
+    """A content value in one language: {'ru','en','uk',…} dicts become strings, lists and other dicts are walked."""
+    if isinstance(x, dict):
+        return x[lang] if set(langs.OLD) <= set(x) else {k: deep(v, lang) for k, v in x.items()}
+    if isinstance(x, (list, tuple)):
+        return [deep(v, lang) for v in x]
+    return x
+
+
+def hero_core(lang):
+    """Language data every page that follows the hero needs: race/class/spec names, best races, labels (hero_js)."""
+    src = home_src()
+    races = build.parse_races(src)
+    specs = {}
+    for m in re.finditer(r"\{ id:'(\w+)'[^\n]*\n\s*specs:\[(.*?)\],\n", src[src.index('const CLASSES = ['):src.index('const ROLE_RU')]):
+        specs[m.group(1)] = [build.tr(n, lang) for n in re.findall(r"\['([^']+)','[^']*',\[", m.group(2))]
+    assert all(len(specs.get(c, ())) == 3 for c in HERO.SPEC_IDS), specs
+    return {
+        'tx': deep(HERO.TX, lang), 'best': deep(HERO.BEST, lang), 'sid': HERO.SPEC_IDS, 'sn': specs,
+        'fn': {'alliance': build.tr('Альянс', lang), 'horde': build.tr('Орда', lang)},
+        'rn': {r['id']: build.tr(r['n'], lang) for r in races}, 'rf': {r['id']: r['f'] for r in races},
+        'cn': {c['id']: build.tr(c['n'], lang) for c in build.CLASSES}, 'cen': {c['id']: build.t_of(c['n'], 'en') if c['n'] in build.T else c['id'] for c in build.CLASSES},
+    }
+
+
+def hero_js(lang):
+    """const HC = {…} and readHero(): the hero of this browser for the news, the checklist and the other pages that follow it.
+    No localStorage (private mode, blocked): an empty hero, the page stays as it is."""
+    return ('const HC = ' + json.dumps(hero_core(lang), ensure_ascii=False, separators=(',', ':')) + ';\n'
+            + r'''function readHero() {
+  let m = {};
+  try { m = JSON.parse(localStorage.getItem('gabella-wf-me')) || {}; } catch (e) { m = {}; }
+  if (!m || typeof m !== 'object' || !HC.cn[m.cls]) return null;
+  const sid = HC.sid[m.cls], spec = sid.includes(m.spec) ? m.spec : '';
+  return Object.assign({}, m, { spec, specN: spec ? HC.sn[m.cls][sid.indexOf(spec)] : '', clsN: HC.cn[m.cls], raceN: HC.rn[m.race] || '', fac: HC.rf[m.race] || '' });
+}
+function bestOf(cls, fac, spec) { const b = (HC.best[cls] || {})[fac]; return b ? (b[spec] || b['*']) : null; }
+''')
+
+
+_ME_T = {}
+
+
+def me_tr(ru, lang):
+    """A Russian string of the profile pages (i18n/me.*.txt): the scene names of the portrait backgrounds."""
+    if not _ME_T:
+        _ME_T.update({r: (e, u) for r, e, u in zip(*(build.load(f'me.{l}.txt') for l in langs.OLD))})
+    if lang == 'ru' or ru not in _ME_T:
+        return ru
+    en, uk = _ME_T[ru]
+    return en if lang == 'en' else uk if lang == 'uk' else langs.ov(en, lang)
+
+
+def hero_data(src, lang):
+    """Script data of character/: the home classes, races, professions and dungeons (Russian, translated with the page),
+    plus H: portraits and looks, the LFG names and the hero_js core."""
+    import build_tools
+    sys.path.insert(0, os.path.join(HERE, 'tools'))
+    import export_game
+    g = export_game.game()
+    i = src.index('const PROFS = [')
+    data = build.js_names(build_tools.home_data(src, build_tools.HOME_JS[:1]) + '\n' + dungeons_data(src), lang) + '\n' + src[i:src.index('\n', src.index('const PR = ', i))]
+    scenes = dict(LK.SCENES)
+    bgs = [[b, b] for b in g['backgrounds'] if not g['looks']['bg'][b]['lock']]
+    rn = {r['id']: r['n'] for r in build.parse_races(src)}
+    for x in bgs:   # portrait backgrounds: race arts by race name, scenes by their own
+        b = x[0]
+        rid = next((rid for rid, r in g['races'].items() if r['slug'] == b or (b == 'skyborne' and r['slug'].startswith('skyborne'))), None)
+        x[1] = me_tr(scenes[b] if b in scenes else {'hero_dawn': 'Рассвет', 'hero_campfire': 'Привал'}[b], lang) if b in scenes or b.startswith('hero_') else build.tr(rn[rid], lang) if rid else b
+    h = {
+        'slug': {rid: r['slug'] for rid, r in g['races'].items()}, 'paid': [r['id'] for r in build.parse_races(src) if r.get('paid')],
+        'look': {'v': g['looks']['v'], 'sexes': g['looks']['sexes'], 'races': g['looks']['races'], 'bgs': bgs},
+        'lfg': json.loads(build_tools.lfg_data(src, lang)), 'reset': HERO.RESET,
+    }
+    js, missing = translate(data, lang)
+    return js + '\n' + hero_js(lang) + 'const H = ' + json.dumps(h, ensure_ascii=False, separators=(',', ':')) + ';\n', missing
+
+
+HERO_CSS = '''<style>
+.mhead { padding: calc(var(--top) + 28px) 0 8px; }
+.mhead h1 { margin: 0; font-size: var(--fs-hero); line-height: 1.05; }
+.mhead .glead { margin: 10px 0 0; max-width: 60ch; }
+.mch { display: grid; gap: 18px; margin-top: 18px; }
+.mcard { position: relative; isolation: isolate; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1fr); align-content: end; min-height: 300px; padding: 22px; color: #f3efe6; background: #0a0a0a; }
+.mcard > .bgi { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; }
+.mcard::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(5,5,5,.92) 0%, rgba(5,5,5,.55) 55%, rgba(5,5,5,.15) 100%); }
+.mcard .por { position: absolute; right: 4%; bottom: 0; z-index: -1; height: 112%; max-width: 46%; width: auto; object-fit: contain; object-position: bottom; }
+.mcard .who { display: grid; gap: 6px; max-width: 34rem; }
+.mcard .k { color: #e0c27a; font-size: var(--fs-14); font-weight: 600; letter-spacing: .02em; }
+.mcard h2 { margin: 0; font-size: var(--fs-40); line-height: 1.05; }
+.mcard .s { color: #d8d2c4; }
+.mcard .row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+.mcard .btn.ghost { background: rgba(10,10,10,.6); color: #f3efe6; border-color: rgba(255,255,255,.18); }
+.mcard .mnote { margin: 6px 0 0; color: #bdb6a6; font-size: var(--fs-13); }
+.mwiz { padding: 20px; display: grid; gap: 16px; }
+.mwiz[hidden], .mcard[hidden] { display: none; }
+.msteps { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 0; padding: 0; list-style: none; font-size: var(--fs-14); color: var(--muted); }
+.msteps button { all: unset; cursor: pointer; }
+.msteps button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.msteps [aria-current] { color: var(--gold-2); font-weight: 600; }
+.mwiz h2 { margin: 0; font-size: var(--fs-28); }
+.mwiz h3 { margin: 4px 0 0; font-size: var(--fs-18); }
+.mpicks { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(112px, 100%), 1fr)); gap: 10px; }
+.mpicks button { position: relative; display: grid; justify-items: center; gap: 8px; padding: 12px 8px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); color: var(--fg); font: inherit; font-weight: 600; cursor: pointer; text-align: center; }
+.mpicks button:hover { border-color: var(--gold); }
+.mpicks button[aria-pressed="true"], .mpicks button[aria-checked="true"] { border-color: var(--gold); background: var(--seg-on); color: var(--gold-2); }
+.mpicks img { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; background: #111 center / cover no-repeat; }
+.mpicks small { color: var(--muted); font-weight: 500; font-size: var(--fs-13); }
+.mpicks .star { position: absolute; top: 6px; right: 8px; color: var(--gold-2); }
+.mfacs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.mfacs button { position: relative; overflow: hidden; display: grid; align-content: end; min-height: 220px; padding: 16px; border: 1px solid var(--pline); border-radius: 10px; background: #0a0a0a; color: #f3efe6; font: inherit; font-size: var(--fs-22); font-weight: 600; cursor: pointer; text-align: left; }
+.mfacs button img { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; }
+.mfacs button::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(5,5,5,.9)); }
+.mfacs button b { position: relative; z-index: 1; }
+.mfacs button:hover, .mfacs button[aria-pressed="true"] { border-color: var(--gold); }
+.mspec { display: flex; flex-wrap: wrap; gap: 8px; }
+.mspec button { min-height: 44px; padding: 0 16px; border: 1px solid var(--pline); border-radius: 7px; background: var(--panel-2); color: var(--fg); font: inherit; cursor: pointer; }
+.mspec button[aria-pressed="true"] { background: var(--seg-on); border-color: transparent; color: var(--gold-2); }
+.mspec button small { color: var(--muted); margin-left: 6px; }
+.mwhy { margin: 0; padding: 12px 14px; border-radius: 8px; background: var(--panel-2); }
+.mwhy b { color: var(--gold-2); }
+.mrow { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.mrow .sp { flex: 1; }
+.mform { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr)); gap: 14px; }
+.mform label, .mform .fl { display: grid; gap: 6px; font-size: var(--fs-14); color: var(--muted); }
+.mform select { min-height: 44px; padding: 0 10px; border: 1px solid var(--pline); border-radius: 7px; background: var(--panel-2); color: var(--fg); font: inherit; font-size: var(--fs-16); }
+.mform .wide { grid-column: 1 / -1; }
+.mlv { display: flex; align-items: center; gap: 14px; }
+.mlv output { min-width: 2.4ch; text-align: center; font-family: var(--font-display); font-size: var(--fs-28); color: var(--gold-2); font-variant-numeric: lining-nums tabular-nums; }
+.mlv button { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--pline); background: var(--panel-2); color: var(--fg); font: inherit; font-size: var(--fs-22); cursor: pointer; }
+.mout { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 960px) { .mout { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; } .mout .wide { grid-column: 1 / -1; } }
+.mlinks { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr)); gap: 10px; }
+.mlinks a { display: grid; gap: 4px; padding: 14px 16px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); color: var(--fg); text-decoration: none; }
+.mlinks a:hover { border-color: var(--gold); }
+.mlinks a b { color: var(--gold-2); }
+.mlinks a span { color: var(--muted); font-size: var(--fs-14); }
+.mbox { padding: 16px 18px; display: grid; gap: 10px; align-content: start; }
+.mbox h3 { margin: 0; font-size: var(--fs-22); }
+.mbox p { margin: 0; }
+.mbox .m { color: var(--muted); font-size: var(--fs-14); }
+.mreset { font-size: var(--fs-28); font-weight: 600; color: var(--gold-2); font-variant-numeric: lining-nums tabular-nums; }
+.mcopy { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
+.mcopy input { min-width: 0; min-height: 44px; padding: 0 12px; border: 1px solid var(--pline); border-radius: 7px; background: var(--panel-2); color: var(--fg); font: inherit; }
+.mbox .pdg { margin: 0; }
+@media (max-width: 719px) {
+  .mhead { padding-top: calc(var(--top) + 18px); }
+  .mcard { min-height: 340px; padding: 18px; }
+  .mcard::after { background: linear-gradient(180deg, rgba(5,5,5,.05) 20%, rgba(5,5,5,.94) 78%); }
+  .mcard .por { right: 50%; transform: translateX(50%); height: 78%; max-width: 92%; top: 0; bottom: auto; object-position: top; }
+  .mcard h2 { font-size: var(--fs-28); }
+  .mfacs button { min-height: 170px; }
+  .mwiz { padding: 16px; }
+  .mpicks { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .mpicks img { width: 60px; height: 60px; }
+  .mcopy { grid-template-columns: minmax(0, 1fr); }
+}
+</style>'''
+
+
+def hero_head(lang):
+    return (f'<section class="mhead" id="top"><div class="wrap"><h1>@@TITLE@@</h1><p class="glead">@@LEAD@@</p></div></section>')
+
+
+def hero_body(lang, root):
+    """The card (or the empty one), the wizard and the blocks for the hero; all drawn by JS['hero'] from the hero of this browser."""
+    tx = deep(HERO.TX, lang)
+    return (HERO_CSS + '<div class="mch" id="hc">'
+            f'<section class="frame mcard" id="hcCard" aria-live="polite"><div class="who"><span class="k">{escape(tx["title"])}</span>'
+            f'<h2>{escape(tx["none"])}</h2><p class="mnote">{escape(tx["local"])}</p></div></section>'
+            '<section class="frame mwiz" id="hcWiz" hidden></section>'
+            '<div class="mout" id="hcOut"></div></div>')
+
+
+JS['hero'] = r'''/* My character: the hero of this browser ("gabella-wf-me") made in a wizard without a login, and what the guide
+   offers for it. The wizard: side -> class and spec -> race (the best one starred, from the Best race guide) -> look
+   (sex and portrait background, the profile art) -> level, region, professions. #set=race.class.spec (the picker of
+   tools/) makes a hero at once. No localStorage: the hero lives in this tab only, nothing breaks. */
+const TX = HC.tx, MEKEY = 'gabella-wf-me';
+const ME0 = { race: '', cls: '', spec: '', role: '', lvl: 0, p1: '', p2: '', sec: [], sex: '', bg: '', reg: '' };
+let me = null, wiz = null;
+function load() {
+  let v = null;
+  try { v = JSON.parse(localStorage.getItem(MEKEY) || 'null'); } catch (e) { v = null; }
+  return v && typeof v === 'object' ? Object.assign({}, ME0, v) : null;
+}
+function save(h) {
+  let all = {};
+  try { all = JSON.parse(localStorage.getItem(MEKEY) || '{}') || {}; } catch (e) { all = {}; }
+  me = Object.assign({}, all, h);
+  try { localStorage.setItem(MEKEY, JSON.stringify(me)); } catch (e) {}
+  dispatchEvent(new CustomEvent('gabella-me', { detail: 'hero' }));
+}
+const fill = (s, o) => s.replace(/%(\w)/g, (m, k) => (k in o ? o[k] : m));
+const sidx = (c, s) => HC.sid[c].indexOf(s);
+const specRoles = (c, s) => { const x = CL[c].specs[sidx(c, s)]; return x ? x[2].filter(r => !r.endsWith('?')) : []; };
+const lookOf = h => ({ sex: h.sex || (H.look.races[h.race] || {}).sex || 'm', bg: h.bg || (H.look.races[h.race] || {}).bg || H.slug[h.race] });
+const LV = () => '?v=' + H.look.v;
+const base = h => `${ROOT}assets/me/look/base/${H.slug[h.race]}-${lookOf(h).sex}.webp${LV()}`;
+const bgUrl = b => `${ROOT}assets/me/look/bg/${b}.webp${LV()}`;
+const face = id => `${ROOT}assets/art/${id}-face.webp${PV}`;
+const PV = /*PV*/'';
+const valid = h => !!(h && CL[h.cls] && RC[h.race] && RC[h.race].can[h.cls]);
+const bestRaces = (c, f, s) => { const b = bestOf(c, f, s); return b ? b[0] : []; };
+function facOf(r) { return RC[r] ? RC[r].f : ''; }
+
+/* ---------- the card ---------- */
+function card() {
+  const box = $('#hcCard');
+  box.hidden = !!wiz;
+  if (wiz) return;
+  if (!valid(me)) {
+    box.innerHTML = `<div class="who"><span class="k">${esc(TX.title)}</span><h2>${esc(TX.none)}</h2><p class="s">${esc(TX.plaqueD)}</p>`
+      + `<div class="row"><button type="button" class="btn lg" data-go="1">${esc(TX.create)}</button></div><p class="mnote">${esc(TX.local)}</p></div>`;
+    return;
+  }
+  const l = lookOf(me), sn = me.spec && sidx(me.cls, me.spec) >= 0 ? HC.sn[me.cls][sidx(me.cls, me.spec)] : '';
+  const sub = [sn, me.role ? ROLE_RU[me.role] : '', facOf(me.race) === 'horde' ? H_FAC.horde : H_FAC.alliance,
+    me.lvl ? fill(TX.levelN, { n: me.lvl }) : '', me.reg && TX.regs[me.reg] ? TX.regs[me.reg] : ''].filter(Boolean).join(' · ');
+  box.style.setProperty('--cc', CCOL[me.cls]);
+  box.innerHTML = `<img class="bgi" src="${bgUrl(l.bg)}" alt="" width="1600" height="900" decoding="async">`
+    + `<img class="por" src="${base(me)}" alt="" decoding="async" onerror="this.remove()">`
+    + `<div class="who"><span class="k">${esc(TX.title)}</span><h2>${esc(HC.rn[me.race])} · ${esc(HC.cn[me.cls])}</h2><span class="s">${esc(sub)}</span>`
+    + `<div class="row"><button type="button" class="btn ghost" data-go="2">${esc(TX.edit)}</button><button type="button" class="btn ghost" data-go="5">${esc(TX.lvl)}, ${esc(TX.reg).toLowerCase()}</button></div>`
+    + `<p class="mnote">${esc(TX.local)}</p></div>`;
+}
+const H_FAC = { alliance: '', horde: '' };
+
+/* ---------- the wizard ---------- */
+function openWiz(step) {
+  const h = valid(me) ? me : {};
+  wiz = Object.assign({}, ME0, h, { step, f: facOf(h.race) || '' });
+  if (!wiz.f) wiz.step = 1;
+  else if (step > 2 && !wiz.cls) wiz.step = 2;
+  draw();
+  const w = $('#hcWiz'); w.scrollIntoView({ block: 'start', behavior: 'auto' }); w.focus({ preventScroll: true });
+}
+function stepsBar() {
+  const done = [!!wiz.f, !!(wiz.cls && wiz.spec), !!wiz.race, !!wiz.race, false];
+  return `<ol class="msteps">${TX.steps.map((s, i) => {
+    const n = i + 1, cur = n === wiz.step, can = n < wiz.step || done.slice(0, n - 1).every(Boolean);
+    return `<li>${can && !cur ? `<button type="button" data-step="${n}">${n}. ${esc(s)}</button>` : `<span${cur ? ' aria-current="step"' : ''}>${n}. ${esc(s)}</span>`}</li>`;
+  }).join('')}</ol>`;
+}
+function nav(next, doneBtn) {
+  return `<div class="mrow">${wiz.step > 1 ? `<button type="button" class="btn ghost" data-back>${esc(TX.back)}</button>` : ''}`
+    + (valid(me) ? `<button type="button" class="btn ghost" data-cancel>${esc(TX.cancel)}</button>` : '')
+    + `<span class="sp"></span>${next ? `<button type="button" class="btn" data-next${next === 'off' ? ' disabled' : ''}>${esc(TX.next)}</button>` : ''}`
+    + (doneBtn ? `<button type="button" class="btn" data-done${doneBtn === 'off' ? ' disabled' : ''}>${esc(TX.done)}</button>` : '') + '</div>';
+}
+function draw() {
+  card();
+  const w = $('#hcWiz');
+  w.hidden = !wiz;
+  out();
+  if (!wiz) { w.innerHTML = ''; return; }
+  w.setAttribute('aria-label', TX.title); w.tabIndex = -1;
+  let b = '';
+  if (wiz.step === 1) {
+    b = `<h2>${esc(TX.side)}</h2><div class="mfacs">${['alliance', 'horde'].map(f => `<button type="button" data-f="${f}" aria-pressed="${wiz.f === f}">`
+      + `<img src="${ROOT}assets/art/${f === 'alliance' ? 'human' : 'orc'}-600.webp${PV}" alt="" width="600" height="804" loading="lazy" decoding="async"><b>${esc(H_FAC[f])}</b></button>`).join('')}</div>` + nav(wiz.f ? 'on' : '', '');
+  } else if (wiz.step === 2) {
+    const cls = CLASSES.filter(c => RACES.some(r => r.f === wiz.f && r.can[c.id]));
+    b = `<h2>${esc(TX.cls)}</h2><div class="mpicks" role="group" aria-label="${esc(TX.cls)}">${cls.map(c => `<button type="button" data-cls="${c.id}" aria-pressed="${wiz.cls === c.id}" style="color:${wiz.cls === c.id ? '' : CCOL[c.id]}">`
+      + `<img src="${face(c.id)}" alt="" width="72" height="72" loading="lazy" decoding="async">${esc(HC.cn[c.id])}</button>`).join('')}</div>`;
+    if (wiz.cls) b += `<h3>${esc(TX.spec)}</h3><div class="mspec" role="group" aria-label="${esc(TX.spec)}">${CL[wiz.cls].specs.map((s, i) => `<button type="button" data-spec="${HC.sid[wiz.cls][i]}" aria-pressed="${wiz.spec === HC.sid[wiz.cls][i]}">`
+      + `${esc(HC.sn[wiz.cls][i])}<small>${esc(s[2].filter(r => !r.endsWith('?')).map(r => ROLE_RU[r]).join(', '))}</small></button>`).join('')}</div>`;
+    b += nav(wiz.cls && wiz.spec ? 'on' : 'off', '');
+  } else if (wiz.step === 3) {
+    const best = bestRaces(wiz.cls, wiz.f, wiz.spec), bo = bestOf(wiz.cls, wiz.f, wiz.spec);
+    const rs = RACES.filter(r => r.f === wiz.f && r.can[wiz.cls]).sort((a, c) => best.includes(c.id) - best.includes(a.id));
+    const sn = HC.sn[wiz.cls][sidx(wiz.cls, wiz.spec)];
+    b = `<h2>${esc(TX.race)}</h2>` + (bo ? `<p class="mwhy"><b>★ ${esc(fill(TX.bestFor, { s: sn }))}: ${esc(best.map(r => HC.rn[r]).join(` ${TX.or} `))}.</b> ${esc(bo[1])}</p>` : '')
+      + `<div class="mpicks" role="group" aria-label="${esc(TX.race)}">${rs.map(r => `<button type="button" data-race="${r.id}" aria-pressed="${wiz.race === r.id}">`
+      + (best.includes(r.id) ? `<span class="star" aria-hidden="true">★</span>` : '')
+      + `<img src="${face(H.slug[r.id])}" alt="" width="72" height="72" loading="lazy" decoding="async">${esc(HC.rn[r.id])}`
+      + (best.includes(r.id) ? `<small>${esc(TX.best)}</small>` : H.paid.includes(r.id) ? `<small>${esc(TX.paid)}</small>` : '') + '</button>').join('')}</div>`
+      + nav(wiz.race ? 'on' : 'off', wiz.race ? 'on' : '');
+  } else if (wiz.step === 4) {
+    const l = lookOf(wiz);
+    const tile = (k, v, name) => { const t = Object.assign({}, wiz, { [k]: v }), lt = lookOf(t);
+      return `<button type="button" role="radio" aria-checked="${l[k] === v}" data-lk="${k}" data-v="${v}"><img src="${base(t)}" alt="" width="72" height="72" loading="lazy" decoding="async" style="background-image:url('${bgUrl(lt.bg)}')">${esc(name)}</button>`; };
+    b = `<h2>${esc(TX.steps[3])}</h2><h3>${esc(TX.sex)}</h3><div class="mpicks" role="radiogroup" aria-label="${esc(TX.sex)}">${H.look.sexes.map(s => tile('sex', s, TX[s])).join('')}</div>`
+      + `<h3>${esc(TX.bg)}</h3><div class="mpicks" role="radiogroup" aria-label="${esc(TX.bg)}">${H.look.bgs.map(([v, n]) => tile('bg', v, n)).join('')}</div>` + nav('on', 'on');
+  } else {
+    const prim = PROFS.filter(p => p[2]), opt = (v, list) => `<option value="">${esc(TX.noP)}</option>` + list.map(p => `<option value="${p[0]}"${p[0] === v ? ' selected' : ''}>${esc(p[1])}</option>`).join('');
+    const ro = specRoles(wiz.cls, wiz.spec);
+    b = `<h2>${esc(TX.steps[4])}</h2><p class="m small">${esc(TX.later)}</p><div class="mform">`
+      + `<div class="fl"><span id="hLvL">${esc(TX.lvl)}</span><div class="mlv" role="group" aria-labelledby="hLvL"><button type="button" data-lv="-1" aria-label="−1">−</button><output id="hLv">${wiz.lvl || '—'}</output><button type="button" data-lv="1" aria-label="+1">+</button></div></div>`
+      + `<label>${esc(TX.reg)}<select id="hReg"><option value="">—</option>${Object.keys(TX.regs).map(k => `<option value="${k}"${wiz.reg === k ? ' selected' : ''}>${esc(TX.regs[k])}</option>`).join('')}</select></label>`
+      + (ro.length > 1 ? `<label>${esc(TX.role)}<select id="hRole">${ro.map(r => `<option value="${r}"${wiz.role === r ? ' selected' : ''}>${esc(ROLE_RU[r])}</option>`).join('')}</select></label>` : '')
+      + `<label>${esc(TX.p1)}<select id="hP1">${opt(wiz.p1, prim.filter(p => p[0] !== wiz.p2))}</select></label>`
+      + `<label>${esc(TX.p2)}<select id="hP2">${opt(wiz.p2, prim.filter(p => p[0] !== wiz.p1))}</select></label>`
+      + `<div class="fl wide"><span id="hSecL">${esc(TX.secP)}</span><div class="chiprow" role="group" aria-labelledby="hSecL">${PROFS.filter(p => !p[2]).map(p => `<button type="button" data-sec="${p[0]}" aria-pressed="${(wiz.sec || []).includes(p[0])}">${esc(p[1])}</button>`).join('')}</div></div>`
+      + '</div>' + nav('', 'on');
+  }
+  w.innerHTML = stepsBar() + b;
+}
+function finish() {
+  const ro = specRoles(wiz.cls, wiz.spec);
+  const h = { race: wiz.race, cls: wiz.cls, spec: wiz.spec, role: ro.includes(wiz.role) ? wiz.role : ro[0] || CL[wiz.cls].roles[0],
+    lvl: Math.max(0, Math.min(60, +wiz.lvl || 0)), p1: wiz.p1 || '', p2: wiz.p2 || '', sec: wiz.sec || [], sex: wiz.sex || '', bg: wiz.bg || '', reg: wiz.reg || '' };
+  wiz = null; save(h); draw();
+  $('#hcCard').scrollIntoView({ block: 'start' });
+}
+document.addEventListener('click', e => {
+  const go = e.target.closest('#hcCard [data-go]');
+  if (go) return openWiz(+go.dataset.go);
+  if (!wiz || !e.target.closest('#hcWiz')) return;
+  const b = e.target.closest('button'); if (!b) return;
+  const d = b.dataset;
+  if (d.f) { if (wiz.f !== d.f) Object.assign(wiz, { race: '', cls: '', spec: '' }); wiz.f = d.f; wiz.step = 2; }
+  else if (d.cls) { if (wiz.cls !== d.cls) wiz.spec = ''; wiz.cls = d.cls; if (wiz.race && !RC[wiz.race].can[wiz.cls]) wiz.race = ''; }
+  else if (d.spec) { wiz.spec = d.spec; wiz.step = 3; }
+  else if (d.race) { if (wiz.race !== d.race) { wiz.sex = ''; wiz.bg = ''; } wiz.race = d.race; wiz.step = 4; }
+  else if (d.lk) { wiz[d.lk] = d.v; draw(); const t = $(`#hcWiz [data-lk="${d.lk}"][data-v="${d.v}"]`); if (t) t.focus(); return; }
+  else if (d.lv) { wiz.lvl = Math.max(0, Math.min(60, (+wiz.lvl || (+d.lv > 0 ? 0 : 2)) + +d.lv)); $('#hLv').textContent = wiz.lvl || '—'; return; }
+  else if (d.sec) { const s = wiz.sec || []; wiz.sec = s.includes(d.sec) ? s.filter(x => x !== d.sec) : s.concat(d.sec); b.setAttribute('aria-pressed', String(wiz.sec.includes(d.sec))); return; }
+  else if (d.step) wiz.step = +d.step;
+  else if ('back' in d) wiz.step--;
+  else if ('next' in d) wiz.step++;
+  else if ('done' in d) return finish();
+  else if ('cancel' in d) wiz = null;
+  else return;
+  draw();
+  if (wiz) { const w = $('#hcWiz'); if (w.getBoundingClientRect().top < 0) w.scrollIntoView({ block: 'start' }); }
+});
+document.addEventListener('change', e => {
+  if (!wiz) return;
+  const id = e.target.id;
+  if (id === 'hReg') wiz.reg = e.target.value;
+  else if (id === 'hRole') wiz.role = e.target.value;
+  else if (id === 'hP1' || id === 'hP2') { wiz[id === 'hP1' ? 'p1' : 'p2'] = e.target.value; draw(); $('#' + id).focus(); }
+});
+
+/* ---------- what the guide offers for the hero ---------- */
+function nextReset(reg) {   // [weekday UTC, hour UTC] -> the next moment after now
+  const r = H.reset[reg]; if (!r) return null;
+  const now = new Date(), d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), r[1]));
+  d.setUTCDate(d.getUTCDate() + (r[0] - d.getUTCDay() + 7) % 7);
+  if (d <= now) d.setUTCDate(d.getUTCDate() + 7);
+  return d;
+}
+function leftTxt(ms) {
+  const u = (n, k) => new Intl.NumberFormat(document.documentElement.lang, { style: 'unit', unit: k, unitDisplay: 'short', maximumFractionDigits: 0 }).format(n);
+  const m = Math.max(1, Math.round(ms / 6e4)), d = Math.floor(m / 1440), h = Math.floor(m % 1440 / 60);
+  return d ? `${u(d, 'day')} ${u(h, 'hour')}` : h ? `${u(h, 'hour')} ${u(m % 60, 'minute')}` : u(m, 'minute');
+}
+function lfgText() {
+  const lv = +me.lvl || 0, f = facOf(me.race);
+  const ds = lv ? H.lfg.d.filter(d => lv >= d[1] - 2 && lv <= d[2] && (!d[3] || d[3] === f)) : [];
+  const near = ds.sort((a, c) => Math.abs(a[1] + a[2] - 2 * lv) - Math.abs(c[1] + c[2] - 2 * lv))[0];
+  return fill(near ? TX.lfgT : TX.lfgT0, { d: near ? near[0] : '', r: ROLE_RU[me.role] || '', c: HC.cn[me.cls], l: lv });
+}
+function out() {
+  const box = $('#hcOut');
+  if (wiz || !valid(me)) { box.innerHTML = ''; return; }
+  const c = me.cls, sn = me.spec && sidx(c, me.spec) >= 0 ? HC.sn[c][sidx(c, me.spec)] : '';
+  const link = (href, t, d) => `<a href="${HOME}${href}"><b>${esc(t)}</b><span>${esc(d)}</span></a>`;
+  let h = `<nav class="mlinks wide" aria-label="${esc(TX.title)}">`
+    + link(`guides/builds-${c}/${me.spec ? '#' + me.spec : ''}`, TX.build, sn ? fill(TX.buildD, { s: sn }) : HC.cn[c])
+    + link(`guides/professions/#pairs=${c}`, TX.pairs, TX.pairsD)
+    + link(`guides/best-race/#${c}`, TX.bestR, TX.bestRD)
+    + link(`guides/leveling-${c}/`, TX.lvlG, TX.lvlGD)
+    + link('guides/launch-checklist/', TX.day1, TX.day1D)
+    + link('play/', TX.play, TX.playD) + '</nav>';
+  const lv = +me.lvl || 0, f = facOf(me.race);
+  const ds = lv ? DUNGEONS.filter(d => lv >= d[1] - 3 && lv <= d[2] + 3 && (!d[6] || d[6] === f)).slice(0, 4) : [];
+  h += `<section class="frame mbox"><h3>${esc(TX.dung)}</h3>` + (!lv ? `<p class="m">${esc(TX.dungNo)}</p>` : ds.length
+    ? `<ul class="pdg">${ds.map(d => `<li><span><b>${esc(d[0])}</b><small>${esc(d[3])}</small></span><span class="lvl${lv >= d[1] && lv <= d[2] ? ' gold' : ''}">${d[1] === d[2] ? d[1] : d[1] + '–' + d[2]}</span></li>`).join('')}</ul>`
+    : `<p class="m">${esc(TX.dungFirst)}</p>`) + `<a class="pmore" href="${HOME}guides/dungeons/#list">${esc(TX.allD)}</a></section>`;
+  const nr = me.reg && nextReset(me.reg);
+  h += `<section class="frame mbox" id="hReset"><h3>${esc(TX.resetH)}${me.reg && TX.regs[me.reg] ? ` · ${esc(TX.regs[me.reg])}` : ''}</h3>`
+    + (!me.reg ? `<p class="m">${esc(TX.resetNoReg)}</p>` : !nr ? `<p class="m">${esc(TX.resetUnk)}</p>`
+      : `<p class="mreset" id="hResetIn">${esc(fill(TX.resetIn, { s: leftTxt(nr - new Date()) }))}</p><p>${esc(new Intl.DateTimeFormat(document.documentElement.lang, { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }).format(nr))}</p><p class="m">${esc(TX.resetNote)}</p>`)
+    + `<p class="m">${esc(TX.resetWhy)}</p></section>`;
+  h += `<section class="frame mbox"><h3>${esc(TX.lfg)}</h3><p class="m">${esc(TX.lfgD)}</p><div class="mcopy"><input id="hLfg" readonly value="${esc(lfgText())}" aria-label="${esc(TX.lfg)}">`
+    + `<button type="button" class="btn" id="hLfgCopy">${esc(TX.copy)}</button></div><p class="m" id="hLfgMsg" role="status"></p></section>`;
+  h += `<section class="frame mbox" id="hSync"><h3>${esc(TX.sync)}</h3><p class="m">${esc(TX.syncD)}</p><div class="mrow"><a class="btn ghost" href="${ROOT}profile/#sync">${esc(TX.sync)}</a>`
+    + `<span class="sp"></span><button type="button" class="btn ghost" id="hDel">${esc(TX.reset)}</button></div></section>`;
+  box.innerHTML = h;
+}
+document.addEventListener('click', e => {
+  if (e.target.id === 'hLfgCopy') {
+    const v = $('#hLfg').value, done = () => { $('#hLfgMsg').textContent = TX.copied; };
+    if (navigator.clipboard) navigator.clipboard.writeText(v).then(done, () => { $('#hLfg').select(); });
+    else { $('#hLfg').select(); try { document.execCommand('copy'); done(); } catch (x) {} }
+  } else if (e.target.id === 'hDel') {
+    if (!confirm(TX.resetQ)) return;
+    try { localStorage.removeItem(MEKEY); } catch (x) {}
+    me = null; dispatchEvent(new CustomEvent('gabella-me', { detail: 'hero' })); draw();
+  }
+});
+setInterval(() => { const n = $('#hResetIn'), r = me && me.reg && nextReset(me.reg); if (n && r) n.textContent = fill(TX.resetIn, { s: leftTxt(r - new Date()) }); }, 60000);
+
+/* ---------- start: #set= from the picker, else the saved hero, else the wizard ---------- */
+H_FAC.alliance = HC.fn.alliance; H_FAC.horde = HC.fn.horde;
+me = load();
+const set = location.hash.match(/^#set=(\w+)\.(\w+)(?:\.([\w-]+))?$/);
+if (set && RC[set[1]] && RC[set[1]].can[set[2]]) {
+  const spec = HC.sid[set[2]].includes(set[3]) ? set[3] : HC.sid[set[2]][0];
+  const keep = me && me.race === set[1] && me.cls === set[2] ? me : {};
+  save(Object.assign({}, ME0, keep, { race: set[1], cls: set[2], spec, role: specRoles(set[2], spec)[0] || '' }));
+  history.replaceState(null, '', location.pathname + location.search);
+}
+if (!valid(me)) wiz = Object.assign({}, ME0, { step: 1, f: '' });
+draw();
+addEventListener('storage', e => { if (e.key === MEKEY && !wiz) { me = load(); draw(); } });'''
+
+
 DATA = {'dungeons': dungeons_data, 'play': play_data}   # js key -> data blocks (from index.src.html and content)
 REF = ('classref', 'raceref')        # js keys fed by ref_js (language-specific)
 
@@ -873,7 +1286,11 @@ def build_page(g, lang, tpl, base_css, sprite, src):
     html, missing = translate(html, lang)                       # 1) обвязка
     root = rel(here, page_dir(lang))
     toc, body = render_guide(g, lang, root) if g['slug'] else hub_body(lang, root)
-    if g.get('compact'):                                          # /play/: small heading instead of the art band
+    if g.get('compact') == 'hero':                                # character/: a title line, the hero card is the picture
+        html = re.sub(r'<section class="stband ghero" id="top">.*?</section>', lambda _: hero_head(lang), html, count=1, flags=re.S)
+        html = html.replace('<body>', '<body class="compact">', 1).replace('<div class="wrap gbody', '<div class="wrap gbody play', 1)
+        body = hero_body(lang, root)
+    elif g.get('compact'):                                        # /play/: small heading instead of the art band
         html = re.sub(r'<section class="stband ghero" id="top">.*?</section>', lambda _: play_head(lang), html, count=1, flags=re.S)
         html = html.replace('<body>', '<body class="compact">', 1).replace('<div class="wrap gbody', '<div class="wrap gbody play', 1)
         jsec, jscript, jmiss = journey(src, lang)
@@ -902,6 +1319,10 @@ def build_page(g, lang, tpl, base_css, sprite, src):
              if g['slug'] and not section else f'<span>{E(g["title"], lang)}</span>')
     toc_grp = f'<div class="grp"><div class="gh">{THIS_PAGE[lang]}</div>{toc}</div>' if toc else ''
     js = g.get('js')
+    hero_js_data = ''
+    if js == 'hero':
+        hero_js_data, hmiss = hero_data(src, lang)
+        missing += hmiss
     fx_attr = f' data-fx="{FX[g["art"]]}"' if g['art'] in FX else ''
     rep = {
         'HERO': ('@@TOD_HERO@@' if g['art'] == 'hero_dawn' else   # the leveling guide: the hero in the reader's time of day (tod.py)
@@ -914,11 +1335,11 @@ def build_page(g, lang, tpl, base_css, sprite, src):
         'TOC': toc, 'TOC_GRP': toc_grp, 'BODY': body, 'MORE': more,
         'SOLO': '' if toc else ' solo', 'MORE_H': (MORE_SITE if section else MORE_H)[lang],
         'SOURCES': ''.join(f'<li><a href="{u}" target="_blank" rel="noopener">{E(n, lang)}</a></li>' for n, u in g.get('sources', [])),
-        'JS': ((build.js_names(DATA[js](src, lang), lang) + '\n' if js in DATA else ref_js(src, lang) + '\n' if js in REF else '') + L(JS[js], lang)) if js else '',
+        'JS': ((hero_js_data + '\n' if js == 'hero' else build.js_names(DATA[js](src, lang), lang) + '\n' if js in DATA else ref_js(src, lang) + '\n' if js in REF else '') + L(JS[js], lang)) if js else '',
     }
     for k, v in rep.items():                                     # 2) тело
         html = html.replace(f'@@{k}@@', v)
-    if g.get('compact'):
+    if g.get('compact') is True:
         html = html.replace('</body>', jscript + '</body>', 1)
     html = build.set_updated(html, sub)
     html = tod.apply(html, lang, root='@@ROOT@@', cls='stband-art', fx='dawn', mobile=True,
