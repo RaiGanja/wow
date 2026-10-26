@@ -116,7 +116,7 @@ const D_REL = new Date('2026-11-04T23:00:00Z'), D_RAID = new Date('2026-12-09T00
 const RR = ['tank', 'heal', 'dps'];
 function roleOpts(c) { return RR.filter(x => c.roles.includes(x) || (x === 'tank' && c.roles.includes('tank?'))); }
 const MEKEY = 'gabella-wf-me';
-const ME0 = { race: '', cls: '', role: '', lvl: 0, p1: '', p2: '', sec: [] }, me = Object.assign({}, ME0);
+const ME0 = { race: '', cls: '', role: '', lvl: 0, p1: '', p2: '', sec: [], spec: '', sex: '', bg: '', reg: '' }, me = Object.assign({}, ME0);   // spec, look and region: set on character/, kept here
 function loadMe() { Object.assign(me, ME0); try { const v = JSON.parse(localStorage.getItem(MEKEY) || '{}'); if (v && typeof v === 'object') Object.keys(me).forEach(k => { if (v[k] !== undefined) me[k] = v[k]; }); } catch (e) {} }
 loadMe();
 function fixMe() {
@@ -220,7 +220,7 @@ $('#meRole').addEventListener('change', e => { me.role = e.target.value; meChang
 $('#meP1').addEventListener('change', e => { me.p1 = e.target.value; meChanged(); });
 $('#meP2').addEventListener('change', e => { me.p2 = e.target.value; meChanged(); });
 $('#meSec').addEventListener('click', e => { const b = e.target.closest('[data-sec]'); if (!b) return; const id = b.dataset.sec; me.sec = me.sec.includes(id) ? me.sec.filter(x => x !== id) : me.sec.concat(id); meChanged(); });
-$('#meReset').onclick = () => { Object.assign(me, { race: '', cls: '', role: '', lvl: 0, p1: '', p2: '', sec: [] }); meChanged(); };
+$('#meReset').onclick = () => { Object.assign(me, ME0, { sec: [] }); meChanged(); };
 $('#stageBar').addEventListener('click', e => { const b = e.target.closest('[data-st]'); if (!b) return; stageSel = b.dataset.st; stageAuto = false; renderStage(); $('#tab-' + stageSel).focus(); });
 $('#stageBar').addEventListener('keydown', e => {
   const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key]; if (!k) return;

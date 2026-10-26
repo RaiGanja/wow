@@ -279,7 +279,7 @@ def render_block(kind, data, lang, root, inner=False):
     if kind == 'raw':
         return L(data, lang)
     if kind == 'news':                                            # our notes from NEWS, newest first
-        items = ''.join(f'<a class="nitem" href="{escape(n["url"])}" target="_blank" rel="noopener">'
+        items = ''.join(f'<a class="nitem" href="{escape(n["url"])}" target="_blank" rel="noopener"' + (f' data-cls="{n["cls"]}"' if n.get('cls') else '') + '>'
                         f'<time datetime="{n["date"]}">{".".join(reversed(n["date"].split("-")))}</time>'
                         f'<b>{E(n["title"], lang)}</b><p>{E(n["text"], lang)}</p></a>'
                         for n in sorted(NEWS, key=lambda n: n['date'], reverse=True))
@@ -502,7 +502,19 @@ fetch(ROOT + 'assets/news.json').then(r => r.ok ? r.json() : []).then(items => {
   box.innerHTML = items.filter(n => /^https:\/\//.test(n.url)).map(n => (n.date !== day ? `<h3 class="nday">${esc((day = n.date).split('-').reverse().join('.'))}</h3>` : '')
     + `<a class="nitem" href="${esc(n.url)}" target="_blank" rel="noopener"><b>${esc(n.title)}</b></a>`).join('');
   box.hidden = false;
-}).catch(() => {});'''
+  markMine();
+}).catch(() => {});
+/* «About your class»: our notes by their data-cls ('all' or class ids), the English feed by the class name in the title */
+function markMine() {
+  const h = readHero(); if (!h) return;
+  const rx = new RegExp('\\b' + HC.cen[h.cls] + 's?\\b', 'i');
+  document.querySelectorAll('.nitem').forEach(a => {
+    const c = a.dataset.cls, b = a.querySelector('b');
+    const mine = c ? c === 'all' || c.split(' ').includes(h.cls) : rx.test(b ? b.textContent : '');
+    if (mine && b && !a.querySelector('.nmine')) b.insertAdjacentHTML('afterend', `<span class="nmine">${esc(HC.tx.mine)}: ${esc(h.clsN)}</span>`);
+  });
+}
+markMine();'''
 
 
 def ref_js(src, lang):
@@ -531,7 +543,20 @@ ckBoxes.forEach(b => b.addEventListener('change', () => {
 }));
 $('#ckReset').addEventListener('click', () => { ckState = {}; ckSave(); ckPaint(); });
 addEventListener('storage', e => { if (e.key === CK) { ckState = ckRead(); ckPaint(); } });
-ckPaint();'''
+ckPaint();
+/* The hero of this browser: a line with its own link under the class, race, professions, start and ping steps */
+(() => {
+  const h = readHero(); if (!h) return;
+  const T = HC.tx, f = (s, o) => s.replace(/%(\w)/g, (m, k) => (k in o ? o[k] : m)), best = bestOf(h.cls, h.fac, h.spec);
+  const add = (id, text, href) => { const i = document.querySelector(`.dchk input[data-ck="${id}"]`); if (i && text) i.closest('li').insertAdjacentHTML('beforeend', `<p class="dme"><a href="${HOME}${href}">${esc(text)}</a></p>`); };
+  add('class', h.spec ? f(T.ckClass, { s: h.specN }) : '', `guides/builds-${h.cls}/#${h.spec}`);
+  if (best && h.raceN) add('race', best[0].includes(h.race) ? f(T.ckRaceOk, { r: h.raceN }) : f(T.ckRaceAlt, { r: best[0].map(r => HC.rn[r]).join(` ${T.or} `) }), `guides/best-race/#${h.cls}`);
+  add('profs', f(T.ckProfs, { s: h.clsN }), `guides/professions/#pairs=${h.cls}`);
+  add('start', f(T.ckStart, { s: h.clsN }), `guides/leveling-${h.cls}/`);
+  if (T.regs[h.reg]) add('ping', f(T.ckPing, { s: T.regs[h.reg] }), 'tools/#ping');
+  const list = document.querySelector('.dchk');
+  if (list) list.insertAdjacentHTML('beforebegin', `<p class="dmehead"><b>${esc(T.day1Mine)}:</b> <a href="${HOME}character/">${esc([h.raceN, h.clsN, h.specN].filter(Boolean).join(' · '))}</a></p>`);
+})();'''
 JS['launchday'] = r'''/* Launch day: days, hours and minutes to 23:00 UTC 04.11 and the moment in the reader's own time zone */
 const lcAt = new Date('2026-11-04T23:00:00Z');
 function lcPaint() {
@@ -601,7 +626,7 @@ def play_body(lang, root):
             f'<span class="btn ghost">{x("day1go")}</span></a>')
     return day1 + f'''<div class="pgrid"><div class="pcol">
 <section class="frame psec" id="level" aria-labelledby="hLvl">
-  <div class="phero"><h2 id="hLvl">{x("lvl")}</h2><span id="pWho"></span><a href="#me">{x("edit")}</a></div>
+  <div class="phero"><h2 id="hLvl">{x("lvl")}</h2><span id="pWho"></span><a href="{root}character/">{x("edit")}</a></div>
   <div class="pchars" id="pChars" role="group" aria-label="{x("chars")}" hidden></div>
   <div class="pfac" id="pFac" role="group" aria-label="{x("fac")}">{fac}</div>
   <div class="plv"><button type="button" class="lvb" id="lvDown" aria-label="{x("lvDown")}">−</button><output id="lvOut" aria-live="polite">—</output><button type="button" class="lvb" id="lvUp" aria-label="{x("lvUp")}">+</button></div>
@@ -619,6 +644,7 @@ def play_body(lang, root):
     <button type="submit" class="pill gold">{x("start")}</button></form>
   <ul class="ptl" id="tList" aria-live="polite"></ul>
   <label class="pnotify" id="tNotify" hidden><input type="checkbox"> {x("notify")}</label>
+  <p class="pnote" id="tReset" hidden></p>
 </section>
 </div><div class="pcol">
 <section class="frame psec" id="radio" aria-labelledby="hRadio"><h2 id="hRadio">{x("radio")}</h2><div id="radioDock"><div class="rskel" aria-hidden="true"><i class="ra"></i><i class="rl"></i><span class="rc"><i></i><i></i><i></i><i class="rv"></i></span><i class="rl rs"></i><span class="rt"><i></i><i></i><i></i><i></i><i></i></span></div></div></section>
@@ -685,7 +711,7 @@ function renderLvl() {
   box.hidden = !meNow;
   if (meNow) box.innerHTML = cs.length ? cs.map(c => `<button type="button" class="pill" data-c="${c.id}" aria-pressed="${c === cur}"><b>${esc(c.name)}</b>${c.level}</button>`).join('')
     : `<a href="${ROOT}profile/">${esc(TX.addChar)}</a>`;
-  $('#level .phero a').href = meNow ? ROOT + 'profile/' : '#me';
+  $('#level .phero a').href = meNow ? ROOT + 'profile/' : ROOT + 'character/';
   $('#pFac').hidden = !!raceF;
   document.querySelectorAll('#pFac button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.f === fac)));
   $('#lvOut').textContent = lv || '—';
@@ -838,6 +864,17 @@ if ('Notification' in window) {
 }
 renderTimers();
 setInterval(tick, 500);
+/* The weekly reset of the region set on «My character» (the time Forever will use is not announced: said so) */
+function renderReset() {
+  const h = readHero(), T = HC.tx, box = $('#tReset');
+  if (!h || !h.reg || !T.regs[h.reg]) { box.hidden = true; return; }
+  const r = nextReset(h.reg);
+  box.innerHTML = `<b>${esc(T.resetH)} · ${esc(T.regs[h.reg])}</b> ${esc(r ? T.resetIn.replace('%s', leftTxt(r - new Date())) : T.resetUnk)}${r ? `<br><small>${esc(T.resetNote)}</small>` : ''}`;
+  box.hidden = false;
+}
+renderReset();
+setInterval(renderReset, 60000);
+addEventListener('storage', e => { if (e.key === MEKEY) renderReset(); });
 '''
 
 # ---------- character/ «Мой персонаж»: the hero of this browser (gabella-wf-me) without a login, content/hero.py ----------
@@ -861,7 +898,7 @@ def hero_core(lang):
     assert all(len(specs.get(c, ())) == 3 for c in HERO.SPEC_IDS), specs
     return {
         'tx': deep(HERO.TX, lang), 'best': deep(HERO.BEST, lang), 'sid': HERO.SPEC_IDS, 'sn': specs,
-        'fn': {'alliance': build.tr('Альянс', lang), 'horde': build.tr('Орда', lang)},
+        'fn': {'alliance': build.tr('Альянс', lang), 'horde': build.tr('Орда', lang)}, 'reset': HERO.RESET,
         'rn': {r['id']: build.tr(r['n'], lang) for r in races}, 'rf': {r['id']: r['f'] for r in races},
         'cn': {c['id']: build.tr(c['n'], lang) for c in build.CLASSES}, 'cen': {c['id']: build.t_of(c['n'], 'en') if c['n'] in build.T else c['id'] for c in build.CLASSES},
     }
@@ -879,6 +916,18 @@ def hero_js(lang):
   return Object.assign({}, m, { spec, specN: spec ? HC.sn[m.cls][sid.indexOf(spec)] : '', clsN: HC.cn[m.cls], raceN: HC.rn[m.race] || '', fac: HC.rf[m.race] || '' });
 }
 function bestOf(cls, fac, spec) { const b = (HC.best[cls] || {})[fac]; return b ? (b[spec] || b['*']) : null; }
+function nextReset(reg) {   // the region's weekly reset [weekday UTC, hour UTC] -> the next moment after now; null: not known
+  const r = HC.reset[reg]; if (!r) return null;
+  const now = new Date(), d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), r[1]));
+  d.setUTCDate(d.getUTCDate() + (r[0] - d.getUTCDay() + 7) % 7);
+  if (d <= now) d.setUTCDate(d.getUTCDate() + 7);
+  return d;
+}
+function leftTxt(ms) {
+  const u = (n, k) => new Intl.NumberFormat(document.documentElement.lang, { style: 'unit', unit: k, unitDisplay: 'short', maximumFractionDigits: 0 }).format(n);
+  const m = Math.max(1, Math.round(ms / 6e4)), d = Math.floor(m / 1440), h = Math.floor(m % 1440 / 60);
+  return d ? `${u(d, 'day')} ${u(h, 'hour')}` : h ? `${u(h, 'hour')} ${u(m % 60, 'minute')}` : u(m, 'minute');
+}
 ''')
 
 
@@ -914,7 +963,7 @@ def hero_data(src, lang):
     h = {
         'slug': {rid: r['slug'] for rid, r in g['races'].items()}, 'paid': [r['id'] for r in build.parse_races(src) if r.get('paid')],
         'look': {'v': g['looks']['v'], 'sexes': g['looks']['sexes'], 'races': g['looks']['races'], 'bgs': bgs},
-        'lfg': json.loads(build_tools.lfg_data(src, lang)), 'reset': HERO.RESET,
+        'lfg': json.loads(build_tools.lfg_data(src, lang)),
     }
     js, missing = translate(data, lang)
     return js + '\n' + hero_js(lang) + 'const H = ' + json.dumps(h, ensure_ascii=False, separators=(',', ':')) + ';\n', missing
@@ -1181,18 +1230,6 @@ document.addEventListener('change', e => {
 });
 
 /* ---------- what the guide offers for the hero ---------- */
-function nextReset(reg) {   // [weekday UTC, hour UTC] -> the next moment after now
-  const r = H.reset[reg]; if (!r) return null;
-  const now = new Date(), d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), r[1]));
-  d.setUTCDate(d.getUTCDate() + (r[0] - d.getUTCDay() + 7) % 7);
-  if (d <= now) d.setUTCDate(d.getUTCDate() + 7);
-  return d;
-}
-function leftTxt(ms) {
-  const u = (n, k) => new Intl.NumberFormat(document.documentElement.lang, { style: 'unit', unit: k, unitDisplay: 'short', maximumFractionDigits: 0 }).format(n);
-  const m = Math.max(1, Math.round(ms / 6e4)), d = Math.floor(m / 1440), h = Math.floor(m % 1440 / 60);
-  return d ? `${u(d, 'day')} ${u(h, 'hour')}` : h ? `${u(h, 'hour')} ${u(m % 60, 'minute')}` : u(m, 'minute');
-}
 function lfgText() {
   const lv = +me.lvl || 0, f = facOf(me.race);
   const ds = lv ? H.lfg.d.filter(d => lv >= d[1] - 2 && lv <= d[2] && (!d[3] || d[3] === f)) : [];
@@ -1255,6 +1292,7 @@ draw();
 addEventListener('storage', e => { if (e.key === MEKEY && !wiz) { me = load(); draw(); } });'''
 
 
+HERO_FOLLOW = ('news', 'checklist', 'play')   # pages that follow the hero of this browser (hero_js before their script)
 DATA = {'dungeons': dungeons_data, 'play': play_data}   # js key -> data blocks (from index.src.html and content)
 REF = ('classref', 'raceref')        # js keys fed by ref_js (language-specific)
 
@@ -1338,7 +1376,7 @@ def build_page(g, lang, tpl, base_css, sprite, src):
         'TOC': toc, 'TOC_GRP': toc_grp, 'BODY': body, 'MORE': more,
         'SOLO': '' if toc else ' solo', 'MORE_H': (MORE_SITE if section else MORE_H)[lang],
         'SOURCES': ''.join(f'<li><a href="{u}" target="_blank" rel="noopener">{E(n, lang)}</a></li>' for n, u in g.get('sources', [])),
-        'JS': ((hero_js_data + '\n' if js == 'hero' else build.js_names(DATA[js](src, lang), lang) + '\n' if js in DATA else ref_js(src, lang) + '\n' if js in REF else '') + L(JS[js], lang)) if js else '',
+        'JS': ((hero_js_data + '\n' if js == 'hero' else hero_js(lang) + (build.js_names(DATA[js](src, lang), lang) + '\n' if js in DATA else '') if js in HERO_FOLLOW else build.js_names(DATA[js](src, lang), lang) + '\n' if js in DATA else ref_js(src, lang) + '\n' if js in REF else '') + L(JS[js], lang)) if js else '',
     }
     for k, v in rep.items():                                     # 2) тело
         html = html.replace(f'@@{k}@@', v)

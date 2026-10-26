@@ -468,9 +468,20 @@ function accountOnly() {
   $('#view').innerHTML = `${noticeHtml()}<div class="signed"><span>${esc(who())}</span><a class="btn ghost" href="#chars">Создать персонажа</a></div>
     <section class="sec" id="sec">${secAccount()}</section>`;
 }
+/** The character of this browser (gabella-wf-me, «My character» page): the wizard starts from it, only the name is left;
+    in the cabinet #sync opens the new-character form with it. null: none, or not a combination the profile knows. */
+function heroWiz() {
+  let h = null;
+  try { h = JSON.parse(localStorage.getItem('gabella-wf-me')); } catch (e) { /* private mode */ }
+  if (!h || !GD.races[h.race] || !race(h.race).cls.includes(h.cls)) return null;
+  const d = GD.looks.races[h.race] || {}, bgOk = GD.backgrounds.includes(h.bg) && !GD.looks.bg[h.bg].lock;
+  return { step: 4, f: race(h.race).f, race: h.race, cls: h.cls, look: { sex: GD.looks.sexes.includes(h.sex) ? h.sex : d.sex, bg: bgOk ? h.bg : d.bg },
+    level: Math.max(1, Math.min(60, parseInt(h.lvl, 10) || 1)), role: h.role || '', p1: h.p1 || '', p2: h.p2 || '' };
+}
+let syncHero = null;   // #sync in the cabinet: the form for a new character is filled from the character of this browser
 function wizard() {
   parkForm();
-  wiz = wiz || { step: 1, f: '', race: '', cls: '', look: null };
+  wiz = wiz || heroWiz() || { step: 1, f: '', race: '', cls: '', look: null };
   const w = wiz, v = $('#view');
   const steps = ['Сторона', 'Раса и класс', 'Облик', 'Персонаж'].map((s, i) => `<span${w.step === i + 1 ? ' aria-current="step"' : ''}>${i + 1}. ${esc(s)}</span>`).join('<span aria-hidden="true">·</span>');
   let body = '';
@@ -547,13 +558,13 @@ function fillProfs() {
 function skillState() { ['1', '2'].forEach(i => { const on = !!$('#eP' + i).value; $('#eS' + i).disabled = !on; if (!on) $('#eS' + i).value = ''; }); }
 function fillForm(c, wizardMode) {
   edit = c ? c.id : null;
-  const w = wizardMode && !c ? wiz : null;
+  const w = c ? null : wizardMode ? wiz : syncHero;
   const f = c ? race(c.race).f : w ? w.f : 'alliance';
-  segSet('eF', f); fillRaces(f, c ? c.race : w && w.race); fillClasses(c ? c.class : w && w.cls); fillRoles(c ? c.role : 'dps'); fillProfs();
+  segSet('eF', f); fillRaces(f, c ? c.race : w && w.race); fillClasses(c ? c.class : w && w.cls); fillRoles(c ? c.role : (w && w.role) || 'dps'); fillProfs();
   $('#eName').value = c ? c.name : (w && w.name) || '';
-  $('#eLvl').value = c ? c.level : 1;
+  $('#eLvl').value = c ? c.level : (w && w.level) || 1;
   segSet('eT', c ? c.playtime : 'evening');
-  $('#eP1').value = c && c.prof1 || ''; $('#eP2').value = c && c.prof2 || '';
+  $('#eP1').value = c ? c.prof1 || '' : (w && w.p1) || ''; $('#eP2').value = c ? c.prof2 || '' : (w && w.p2) || '';
   $('#eS1').value = c && c.prof1_skill || ''; $('#eS2').value = c && c.prof2_skill || '';
   skillState();
   $('#eNote').textContent = ''; $('#eNote').className = 'msg full';
@@ -959,6 +970,11 @@ function render() {
   if (!m) return screen('login');
   if (!m.characters.length) return sec === 'account' ? accountOnly() : wizard();
   cabinet();
+  if (location.hash === '#sync') {   // from «My character»: add it unless the profile has it already
+    history.replaceState(null, '', location.pathname + location.search);
+    const h = heroWiz();
+    if (h && !m.characters.some(c => c.race === h.race && c.class === h.cls)) { syncHero = h; openEd(null); syncHero = null; }
+  }
 }
 
 function put(body, noteId) {

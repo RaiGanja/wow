@@ -26,7 +26,7 @@ HUB = {
 
 GUIDES = []   # наполняется в задачах 3, 5, 6, 7, 9; каждый гайд дописывается ниже через GUIDES.append
 
-NEWS = []     # ручные записи: {'date': '2026-10-23', 'title': t(...), 'text': t(...), 'url': 'https://…'}
+NEWS = []     # ручные записи: {'date': '2026-10-23', 'title': t(...), 'text': t(...), 'url': 'https://…', 'cls'?: 'all' | 'mage priest'} — cls: «касается вашего класса»
 from build import DISCORD_AT  # noqa: E402  (у каждого места ссылки своё приглашение)
 
 ORDER = ['launch-checklist', 'launch-day', 'leveling', 'leveling-warrior', 'leveling-paladin', 'leveling-hunter', 'leveling-rogue', 'leveling-priest', 'leveling-shaman', 'leveling-mage', 'leveling-warlock', 'leveling-druid', 'builds', 'builds-warrior', 'builds-paladin', 'builds-hunter', 'builds-rogue', 'builds-priest', 'builds-shaman', 'builds-mage', 'builds-warlock', 'builds-druid', 'best-race', 'tier-list', 'legacy', 'dungeons', 'professions', 'addons', 'faq', 'requirements', 'news', 'ukrainian']   # порядок плиток на хабе и в «Другие гайды»
@@ -984,7 +984,7 @@ NEWS += [
      'text': t('Закрытая бета закрылась 23.10 в 10:00 по тихоокеанскому времени (17:00 UTC). С 27.10 по 03.11 владельцы Heroic, Epic и Collection резервируют до трёх имён на аккаунт, кто первым пришёл, тот и занял.',
                'The closed beta went offline on 23.10 at 10:00 Pacific time (17:00 UTC). From 27.10 to 03.11 Heroic, Epic and Collection owners reserve up to three names per account, first come, first served.',
                'Закрита бета вимкнулася 23.10 о 10:00 за тихоокеанським часом (17:00 UTC). З 27.10 по 03.11 власники Heroic, Epic і Collection резервують до трьох імен на акаунт, хто перший прийшов, той і зайняв.')},
-    {'date': '2026-10-15', 'url': 'https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/',
+    {'date': '2026-10-15', 'cls': 'all', 'url': 'https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/',
      'title': t('Крупный патч беты: расы и классы', 'Major beta patch: races and classes', 'Великий патч бети: раси та класи'),
      'text': t('Способности рас переделаны (оружейные специализации заменены критами), настроены почти все классы. Таблицы рас и классов на сайте уже по этому патчу.',
                'Racial abilities were reworked (weapon specializations replaced with crits), almost all classes were tuned. The race and class tables on this site already follow this patch.',
