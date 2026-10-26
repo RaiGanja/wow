@@ -1436,7 +1436,15 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .tt-ar.h.l::after { content: ""; position: absolute; left: -1px; top: -3px; border: 4px solid transparent; border-left: 0; border-right: 5px solid currentColor; }
 .tt-note { margin: 0; color: var(--muted); font-size: var(--fs-13); }
 .tt-pk { color: var(--muted); font-size: var(--fs-13); font-weight: 400; }
-.tt-ext { margin: 0; font-size: var(--fs-14); }
+.tt-ext { display: flex; flex-wrap: wrap; gap: 4px 18px; margin: 0; font-size: var(--fs-14); }
+.tt-bs { display: flex; flex-wrap: wrap; gap: 4px; width: fit-content; max-width: 100%; padding: 4px; border: 1px solid var(--line); border-radius: 8px; }
+.tt-b { min-height: 44px; padding: 0 16px; border: 0; border-radius: 6px; background: transparent; color: var(--muted); cursor: pointer; font: inherit; font-weight: 600; }
+.tt-b:hover { background: var(--zebra); }
+.tt-b[aria-selected="true"] { background: var(--seg-on); color: var(--gold-2); }
+.tt-b:focus-visible { outline: 2px solid var(--gold-2); outline-offset: 2px; }
+.tt-pane, .tt-ow { display: grid; gap: 14px; min-width: 0; }
+.tt-ow[hidden] { display: none; }
+.tt-ow .tt-oh { margin-top: 0; }
 .tt-card { min-height: 48px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; }
 .tt-card .h { display: block; margin: 0 0 2px; font-family: var(--font-body); font-size: var(--fs-16); font-weight: 600; line-height: 1.3; letter-spacing: 0; color: var(--fg); }
 .tt-card .m { margin: 0 0 6px; font-size: var(--fs-13); color: var(--gold-2); }
@@ -1458,7 +1466,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .tt-tree h3 { display: none; }
 }
 </style>
-<noscript><style>.tt .tt-ic:not(.no){background-image:var(--sp)}</style></noscript><style>
+<noscript><style>.tt .tt-ic:not(.no){background-image:var(--sp)}.tt-bs{display:none}</style></noscript><style>
 .rv { opacity: 0; transform: translateY(18px); }
 .rv.in { opacity: 1; transform: none; transition: opacity .6s var(--ease), transform .6s var(--ease); }
 @media print { .rv { opacity: 1; transform: none; } }
@@ -1467,7 +1475,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../../assets/radio/radio.css?v=f3d4c694a3">
-<link data-rel="stylesheet" href="../../../assets/search/search.css?v=5db07bbab9">
+<link data-rel="stylesheet" href="../../../assets/search/search.css?v=42d46f540c">
 <link data-rel="stylesheet" href="../../../assets/me/me.css?v=b13be6705d">
 <link data-rel="stylesheet" href="../../../assets/hero/hero.css?v=cfb7f0ee0f">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/en/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://gabella.site/wow/en/guides/"},{"@type":"ListItem","position":3,"name":"Warlock Builds","item":"https://gabella.site/wow/en/guides/builds-warlock/"}]}</script>
@@ -1641,7 +1649,8 @@ if ('IntersectionObserver' in window && tocLinks.length) {
   function f(s, o) { return s.replace(/\{(\w)\}/g, function (_, k) { return o[k]; }); }
   function lv(a, b) { return f(U.lv, { a: b > a ? a + '–' + b : a }); }
   document.querySelectorAll('.tt').forEach(function (w) {
-    var card = w.querySelector('.tt-card'), P = JSON.parse(w.dataset.p), cur = null;
+    var card = w.querySelector('.tt-card'), P0 = JSON.parse(w.dataset.p), P = P0, cur = null, hint = card.innerHTML;
+    var B = w.dataset.b ? JSON.parse(w.dataset.b) : null, bs = w.querySelector('.tt-bs');
     function line(cls, text) { var e = document.createElement(cls === 'h' ? 'b' : 'p'); e.className = cls; e.textContent = text; card.appendChild(e); }
     function show(b) {
       var k = b.dataset.k, p = P[k], t = D.t[k], meta = [];
@@ -1650,23 +1659,76 @@ if ('IntersectionObserver' in window && tocLinks.length) {
       card.textContent = '';
       if (!t) { line('h', U.free); line('m', lv(p[1], p[2])); line('w', U.free_d); return; }
       meta.push(p ? f(U.take, { p: p[0], m: t[1] }) : f(U.skip, { m: t[1] }));
-      if (p) meta.push(lv(p[1], p[2]));
+      if (p) meta.push(p[4] ? f(U.lv, { a: p[4] }) : lv(p[1], p[2]));
       if (t[2] > 1) meta.push(f(U.row, { n: 5 * (t[2] - 1) }));
       line('h', t[0]); line('m', meta.join(' · '));
       if ((p && p[3]) || t[3]) line('w', (p && p[3]) || t[3]);
     }
+    function pickTree(key) {
+      w.querySelectorAll('.tt-tab').forEach(function (x) { x.setAttribute('aria-selected', x.dataset.t === key ? 'true' : 'false'); });
+      w.querySelectorAll('.tt-tree').forEach(function (x) { x.classList.toggle('on', x.dataset.t === key); });
+    }
+    /* Build switcher: re-colour the one drawn tree for the chosen build (points, golden lines, counts), show that build's order */
+    function setBuild(id, focus) {
+      var tab = bs.querySelector('[data-b="' + id + '"]');
+      if (!tab) return;
+      P = id === 'general' ? P0 : B[id].p;
+      var sum = {};
+      Object.keys(P).forEach(function (k) { if (D.t[k]) { var tr = k.replace(/-\d+$/, ''); sum[tr] = (sum[tr] || 0) + P[k][0]; } });
+      w.querySelectorAll('.tt-grid [data-k]').forEach(function (b) {
+        var k = b.dataset.k, n = P[k] ? P[k][0] : 0, nb = b.querySelector('b');
+        b.classList.toggle('on', n > 0);
+        b.setAttribute('aria-label', D.t[k][0] + (n ? ' ' + n + '/' + D.t[k][1] : ''));
+        if (n && !nb) { nb = document.createElement('b'); b.appendChild(nb); }
+        if (nb) { if (n) nb.textContent = n; else nb.remove(); }
+      });
+      w.querySelectorAll('.tt-ar').forEach(function (a) { a.classList.toggle('on', !!(P[a.dataset.s] && P[a.dataset.d])); });
+      w.querySelectorAll('.tt-tab').forEach(function (x) { x.querySelector('span').textContent = sum[x.dataset.t] || 0; });
+      w.querySelectorAll('.tt-tree h3 span').forEach(function (x) {
+        var n = sum[x.parentNode.parentNode.dataset.t] || 0; x.textContent = n; x.classList.toggle('on', n > 0);
+      });
+      pickTree(tab.dataset.m);
+      bs.querySelectorAll('.tt-b').forEach(function (x) {
+        var on = x === tab; x.setAttribute('aria-selected', on ? 'true' : 'false'); x.tabIndex = on ? 0 : -1;
+      });
+      w.querySelector('.tt-pane').setAttribute('aria-labelledby', tab.id);
+      w.querySelectorAll('.tt-ow').forEach(function (x) { x.hidden = x.dataset.b !== id; });
+      cur = null; card.innerHTML = hint;
+      if (focus) tab.focus();
+    }
+    if (bs) {
+      var tabs = [].slice.call(bs.querySelectorAll('.tt-b'));
+      var go = function (t, focus) {
+        setBuild(t.dataset.b, focus);
+        try { history.replaceState(null, '', t.dataset.b === 'general' ? '#' + t.id.replace(/-general$/, '') : '#' + t.id); } catch (x) {}
+      };
+      bs.addEventListener('click', function (e) { var t = e.target.closest('.tt-b'); if (t) go(t); });
+      bs.addEventListener('keydown', function (e) {
+        var i = tabs.indexOf(document.activeElement), j = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? i + 1
+          : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? i - 1 : e.key === 'Home' ? 0 : e.key === 'End' ? tabs.length - 1 : -1;
+        if (i < 0 || j < 0) return;
+        e.preventDefault();
+        go(tabs[(j + tabs.length) % tabs.length], true);
+      });
+      w.setBuildByHash = function (h) {
+        var t = tabs.filter(function (x) { return x.id === h || x.id === h + '-general'; })[0];
+        if (t && t.getAttribute('aria-selected') !== 'true') setBuild(t.dataset.b);
+      };
+    }
     w.addEventListener('click', function (e) {
       var tab = e.target.closest('.tt-tab');
-      if (tab) {
-        w.querySelectorAll('.tt-tab').forEach(function (x) { x.setAttribute('aria-selected', x === tab ? 'true' : 'false'); });
-        w.querySelectorAll('.tt-tree').forEach(function (x) { x.classList.toggle('on', x.dataset.t === tab.dataset.t); });
-        return;
-      }
+      if (tab) { pickTree(tab.dataset.t); return; }
       var b = e.target.closest('[data-k]');
       if (b) show(b);
     });
     if (hover) w.addEventListener('mouseover', function (e) { var b = e.target.closest('[data-k]'); if (b && b !== cur) show(b); });
   });
+  function fromHash() {
+    var h = ''; try { h = decodeURIComponent(location.hash.slice(1)); } catch (x) {}
+    document.querySelectorAll('.tt').forEach(function (w) { if (w.setBuildByHash) w.setBuildByHash(h); });
+  }
+  fromHash();
+  window.addEventListener('hashchange', fromHash);
   var all = document.querySelectorAll('.tt');
   if (!('IntersectionObserver' in window)) { all.forEach(function (w) { w.classList.add('ld'); }); return; }
   var io = new IntersectionObserver(function (es) {
@@ -1743,7 +1805,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../../assets/radio/radio.js?v=f3d4c694a3" data-root="../../../"></script>
-<script data-src="../../../assets/search/search.js?v=5db07bbab9" data-root="../../../"></script>
+<script data-src="../../../assets/search/search.js?v=42d46f540c" data-root="../../../"></script>
 <script data-src="../../../assets/me/me.js?v=b13be6705d" data-root="../../../" data-home="../../" data-lang="en" data-ach="0" data-teaser="" data-close="Close" data-page="guides/builds-warlock/" data-look="2"></script>
 <script data-src="../../../assets/hero/hero.js?v=cfb7f0ee0f" data-root="../../../" data-home="../../" data-data="../../../assets/hero/en.json?v=cfb7f0ee0f"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
