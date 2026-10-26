@@ -1929,6 +1929,8 @@ GUIDES.append({
                  t('Ваш регион, что делать при высоком пинге и как не потерять место в очереди.', 'Your region, what to do about high ping and how not to lose your place in the queue.', 'Ваш регіон, що робити з високим пінгом і як не втратити місце в черзі.')],
                 [(t('Конструктор группы', 'Group builder', 'Конструктор групи'), 'tools/#raid'),
                  t('Состав для друзей по ссылке и готовый текст для поиска группы в игре.', 'A party to share by link and a ready text for the in-game group finder list.', 'Склад для друзів за посиланням і готовий текст для пошуку групи в грі.')],
+                [(t('Подборщик расы и класса', 'Race and class picker', 'Підбір раси й класу'), 'tools/#picker'),
+                 t('Все сочетания расы и класса в Forever и что умеет каждое.', 'Every race and class combination in Forever and what each can do.', 'Усі поєднання раси й класу у Forever і що вміє кожне.')],
                 [(t('Тир-лист', 'Tier list', 'Тір-лист'), 'guides/tier-list/'),
                  t('Если класс ещё не выбран: классы и спеки по данным беты.', 'If you have not picked a class yet: classes and specs based on beta data.', 'Якщо клас ще не обрано: класи й спеціалізації за даними бети.')],
             ]}),
