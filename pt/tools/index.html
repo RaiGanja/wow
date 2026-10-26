@@ -1232,7 +1232,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css?v=c5eacd57e2" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=714b839f4d" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=f786458c9b" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/me/me.css?v=afeb3269f8" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Início","item":"https://gabella.site/wow/pt/"},{"@type":"ListItem","position":2,"name":"Ferramentas","item":"https://gabella.site/wow/pt/tools/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Ferramentas de WoW Forever: comparar classes e raças","description":"Compare classes e raças de WoW Forever lado a lado, quadros de grupo e grade de raide no estilo do jogo, e busque no guia inteiro.","inLanguage":"pt-BR","url":"https://gabella.site/wow/pt/tools/","dateModified":"2026-10-26","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/pt/"},"image":"https://gabella.site/wow/assets/og/tools-pt.jpg?v=b41b8376"}</script>
@@ -1517,15 +1517,15 @@ const RACES = [
     tip:'Forma de Pedra é útil para tanques e no PvP.' },
   { id:'nightelf', n:'Elfo Noturno', f:'alliance',
     cls:['warrior','hunter','rogue','priest','druid'],
-    rac:[['a','Luz de Eluna','+10% de chance de crítico por 15 s'],['a','Fusão Sombria','Invisibilidade sem sair do lugar'],['p','Rapidez','+1–2% de esquiva (as fontes divergem) e +2% de velocidade de corrida'],['p','Espírito de Fogo-fátuo','+75% de velocidade de corrida como espírito {beta}']],
+    rac:[['a','Luz de Eluna','+10% de chance de crítico por 15 s'],['a','Fusão Sombria','Invisibilidade sem sair do lugar'],['p','Rapidez','+2% de esquiva e de velocidade de corrida (o Warcraft Tavern indica 1% de esquiva) {beta}'],['p','Espírito de Fogo-fátuo','+75% de velocidade de corrida como espírito (o Warcraft Tavern indica 25%) {beta}']],
     tip:'A única raça da Aliança com druida, a menos que você pegue Skyborne.' },
   { id:'gnome', n:'Gnomo', f:'alliance',
     cls:['warrior','rogue','mage','warlock','priest*'],
-    rac:[['a','Artista da Fuga','Breve imunidade a lentidão e enraizamento'],['a','Eureca!','As próximas 3 habilidades custam menos e ficam 10% mais fortes'],['p','Mente Expansiva','+5% de mana, raiva ou energia máxima'],['p','Especialização em Engenharia','Dispositivos de engenharia funcionam com mais confiabilidade']],
+    rac:[['a','Artista da Fuga','Breve imunidade a lentidão e enraizamento'],['a','Eureca!','Por 8 s, as habilidades custam menos e ficam 10% mais fortes {beta}'],['p','Mente Expansiva','+5% de mana, raiva ou energia máxima'],['p','Especialização em Engenharia','Dispositivos de engenharia funcionam com mais confiabilidade']],
     tip:'Mente Expansiva ajuda especialmente as classes de energia.' },
   { id:'skyA', n:'Skyborne (Aliança)', f:'alliance', paid:true, name:'Skyborne da High Order',
     cls:['warrior','hunter','rogue','mage','druid'],
-    rac:[['a','Walk on Air','Plana para baixo por 10 s, sem dano de queda'],['a','Read Ley Line','Regeneração de vida e mana: +100% segundo o Warcraft Tavern, +10% segundo o Icy Veins'],['p','Wind Blessed','+3% de velocidade de ataque e de feitiços'],['p','Elemental Insight','+5% de dano contra elementais']],
+    rac:[['a','Walk on Air','Plana para baixo por 10 s, sem dano de queda'],['a','Read Ley Line','Regeneração de vida e mana: +100% (Blizzard, Warcraft Tavern, Icy Veins)'],['p','Wind Blessed','+3% de velocidade de ataque e de feitiços'],['p','Elemental Insight','+5% de dano contra elementais']],
     tip:'Raça paga: Heroic Pack a partir de $29.99. Começa na região de Zephras Isle (níveis 1–12).' },
   { id:'orc', n:'Orc', f:'horde',
     cls:['warrior','hunter','rogue','shaman','warlock','mage*'],
@@ -1541,7 +1541,7 @@ const RACES = [
     tip:'A única raça da Horda com druida, a menos que você pegue Skyborne.' },
   { id:'troll', n:'Troll', f:'horde',
     cls:['warrior','hunter','rogue','priest','shaman','mage','warlock*'],
-    rac:[['a','Berserk','+10% de velocidade de ataque e de feitiço por 10–12 s (as fontes divergem)'],['a','Regeneração Rápida','Restaura vida ao longo do tempo'],['p','Matança de Feras','+5% de dano contra feras'],['p','Regeneração','A vida se regenera também em combate']],
+    rac:[['a','Berserk','+10% de velocidade de ataque e de feitiço por 12 s, recarga de 3 min'],['a','Regeneração Rápida','Restaura vida ao longo do tempo'],['p','Matança de Feras','+5% de dano contra feras'],['p','Regeneração','A vida se regenera também em combate']],
     tip:'O maior número de classes na Horda: sete.' },
   { id:'skyH', n:'Skyborne (Horda)', f:'horde', paid:true, name:'Skyborne Windshaper',
     cls:['warrior','hunter','rogue','shaman','druid'],
@@ -2156,7 +2156,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=714b839f4d" data-root="../../" defer></script>
+<script src="../../assets/search/search.js?v=f786458c9b" data-root="../../" defer></script>
 <script src="../../assets/me/me.js?v=afeb3269f8" data-root="../../" data-home="../" data-lang="pt" data-ach="0" data-teaser="" data-close="Fechar" data-page="tools/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>

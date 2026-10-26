@@ -1370,7 +1370,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../assets/radio/radio.css?v=c5eacd57e2">
-<link data-rel="stylesheet" href="../../assets/search/search.css?v=714b839f4d">
+<link data-rel="stylesheet" href="../../assets/search/search.css?v=f786458c9b">
 <link data-rel="stylesheet" href="../../assets/me/me.css?v=afeb3269f8">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://gabella.site/wow/es/"},{"@type":"ListItem","position":2,"name":"Clases","item":"https://gabella.site/wow/es/classes/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Clases de WoW Forever: qué clase elegir, las 9 comparadas","description":"Qué clase elegir en WoW Forever: nueve clases con tres especializaciones, roles de tanque/sanador/DPS, cuáles suben más rápido y qué aporta cada una.","inLanguage":"es","url":"https://gabella.site/wow/es/classes/","dateModified":"2026-10-26","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/es/"},"image":"https://gabella.site/wow/assets/og/classes-es.jpg?v=d22d8180"}</script>
@@ -1595,15 +1595,15 @@ const RACES = [
     tip:'Petraforma es útil para tanques y en JcJ.' },
   { id:'nightelf', n:'Elfo de la noche', f:'alliance',
     cls:['warrior','hunter','rogue','priest','druid'],
-    rac:[['a','Elune’s Light','+10% de probabilidad de crítico durante 15 s'],['a','Fusión de las Sombras','Invisibilidad en el sitio'],['p','Prontitud','+1–2 % de esquiva (las fuentes difieren) y +2 % de velocidad de carrera'],['p','Espíritu de fuego fatuo','+75% de velocidad de carrera como espíritu <span class="beta-note">según los datos de la beta</span>']],
+    rac:[['a','Elune’s Light','+10% de probabilidad de crítico durante 15 s'],['a','Fusión de las Sombras','Invisibilidad en el sitio'],['p','Prontitud','+2 % de esquiva y de velocidad de carrera (Warcraft Tavern indica un 1 % de esquiva) <span class="beta-note">según los datos de la beta</span>'],['p','Espíritu de fuego fatuo','+75 % de velocidad de carrera como espíritu (Warcraft Tavern indica 25 %) <span class="beta-note">según los datos de la beta</span>']],
     tip:'La única raza de la Alianza con druida, salvo que elijas Skyborne.' },
   { id:'gnome', n:'Gnomo', f:'alliance',
     cls:['warrior','rogue','mage','warlock','priest*'],
-    rac:[['a','Artista del escape','Breve inmunidad a ralentizaciones e inmovilizaciones'],['a','Eureka!','Las próximas 3 habilidades cuestan menos y son un 10% más fuertes'],['p','Mente expansiva','+5% de maná, ira o energía máximos'],['p','Especialización de ingeniería','Los artefactos de ingeniería funcionan de forma más fiable']],
+    rac:[['a','Artista del escape','Breve inmunidad a ralentizaciones e inmovilizaciones'],['a','Eureka!','Durante 8 s, las habilidades cuestan menos y son un 10 % más fuertes <span class="beta-note">según los datos de la beta</span>'],['p','Mente expansiva','+5% de maná, ira o energía máximos'],['p','Especialización de ingeniería','Los artefactos de ingeniería funcionan de forma más fiable']],
     tip:'Mente expansiva ayuda sobre todo a las clases de energía.' },
   { id:'skyA', n:'Skyborne (Alianza)', f:'alliance', paid:true, name:'Skyborne High Order',
     cls:['warrior','hunter','rogue','mage','druid'],
-    rac:[['a','Walk on Air','Planea hacia abajo durante 10 s, sin daño por caída'],['a','Read Ley Line','Regeneración de salud y maná: +100 % según Warcraft Tavern, +10 % según Icy Veins'],['p','Wind Blessed','+3% de velocidad de ataque y de hechizos'],['p','Elemental Insight','+5% de daño contra elementales']],
+    rac:[['a','Walk on Air','Planea hacia abajo durante 10 s, sin daño por caída'],['a','Read Ley Line','Regeneración de salud y maná: +100 % (Blizzard, Warcraft Tavern, Icy Veins)'],['p','Wind Blessed','+3% de velocidad de ataque y de hechizos'],['p','Elemental Insight','+5% de daño contra elementales']],
     tip:'Raza de pago: Heroic Pack desde 29,99 $. Empieza en Zephras Isle (niveles 1–12).' },
   { id:'orc', n:'Orco', f:'horde',
     cls:['warrior','hunter','rogue','shaman','warlock','mage*'],
@@ -1619,7 +1619,7 @@ const RACES = [
     tip:'La única raza de la Horda con druida, salvo que elijas Skyborne.' },
   { id:'troll', n:'Trol', f:'horde',
     cls:['warrior','hunter','rogue','priest','shaman','mage','warlock*'],
-    rac:[['a','Iracundia','+10 % de velocidad de ataque y de hechizo durante 10–12 s (las fuentes difieren)'],['a','Rapid Regeneration','Restaura salud con el tiempo'],['p','Matanza de bestias','+5% de daño contra bestias'],['p','Regeneración','La salud se regenera también en combate']],
+    rac:[['a','Iracundia','+10 % de velocidad de ataque y de hechizo durante 12 s, reutilización de 3 min'],['a','Rapid Regeneration','Restaura salud con el tiempo'],['p','Matanza de bestias','+5% de daño contra bestias'],['p','Regeneración','La salud se regenera también en combate']],
     tip:'Más opciones de clase de la Horda: siete.' },
   { id:'skyH', n:'Skyborne (Horda)', f:'horde', paid:true, name:'Skyborne Windshaper',
     cls:['warrior','hunter','rogue','shaman','druid'],
@@ -1758,7 +1758,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../"></script>
-<script data-src="../../assets/search/search.js?v=714b839f4d" data-root="../../"></script>
+<script data-src="../../assets/search/search.js?v=f786458c9b" data-root="../../"></script>
 <script data-src="../../assets/me/me.js?v=afeb3269f8" data-root="../../" data-home="../" data-lang="es" data-ach="0" data-teaser="" data-close="Cerrar" data-page="classes/" data-look="2"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>

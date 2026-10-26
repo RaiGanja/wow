@@ -1370,7 +1370,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../assets/radio/radio.css?v=c5eacd57e2">
-<link data-rel="stylesheet" href="../../assets/search/search.css?v=714b839f4d">
+<link data-rel="stylesheet" href="../../assets/search/search.css?v=f786458c9b">
 <link data-rel="stylesheet" href="../../assets/me/me.css?v=afeb3269f8">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://gabella.site/wow/fr/"},{"@type":"ListItem","position":2,"name":"Classes","item":"https://gabella.site/wow/fr/classes/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Classes WoW Forever : quelle choisir ? Les 9 comparées","description":"Quelle classe choisir dans WoW Forever : neuf classes de trois spécialisations, rôles tank/soigneur/DPS, vitesse de progression et apport en raid.","inLanguage":"fr","url":"https://gabella.site/wow/fr/classes/","dateModified":"2026-10-26","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/fr/"},"image":"https://gabella.site/wow/assets/og/classes-fr.jpg?v=619e7f36"}</script>
@@ -1595,15 +1595,15 @@ const RACES = [
     tip:'Forme de pierre est utile aux tanks et en JcJ.' },
   { id:'nightelf', n:'Elfe de la nuit', f:'alliance',
     cls:['warrior','hunter','rogue','priest','druid'],
-    rac:[['a','Lumière d’Élune','+10% de chances de critique pendant 15 s'],['a','Camouflage dans l’ombre','Invisibilité sur place'],['p','Rapidité','+1–2 % d’esquive (les sources divergent) et +2 % de vitesse de course'],['p','Esprit feu follet','+75% de vitesse de course sous forme d’esprit <span class="beta-note">d’après la bêta</span>']],
+    rac:[['a','Lumière d’Élune','+10% de chances de critique pendant 15 s'],['a','Camouflage dans l’ombre','Invisibilité sur place'],['p','Rapidité','+2 % d’esquive et de vitesse de course (Warcraft Tavern indique 1 % d’esquive) <span class="beta-note">d’après la bêta</span>'],['p','Esprit feu follet','+75 % de vitesse de course sous forme d’esprit (Warcraft Tavern indique 25 %) <span class="beta-note">d’après la bêta</span>']],
     tip:'La seule race de l’Alliance avec un druide, à moins de prendre un Skyborne.' },
   { id:'gnome', n:'Gnome', f:'alliance',
     cls:['warrior','rogue','mage','warlock','priest*'],
-    rac:[['a','Maître de l’évasion','Brève immunité aux ralentissements et immobilisations'],['a','Eureka!','Les 3 prochaines techniques coûtent moins cher et sont 10% plus fortes'],['p','Pensée expansive','+5% de mana, rage ou énergie maximum'],['p','Spécialisation en ingénierie','Les appareils d’ingénierie fonctionnent de façon plus fiable']],
+    rac:[['a','Maître de l’évasion','Brève immunité aux ralentissements et immobilisations'],['a','Eureka!','Pendant 8 s, les techniques coûtent moins cher et sont 10 % plus fortes <span class="beta-note">d’après la bêta</span>'],['p','Pensée expansive','+5% de mana, rage ou énergie maximum'],['p','Spécialisation en ingénierie','Les appareils d’ingénierie fonctionnent de façon plus fiable']],
     tip:'Pensée expansive aide surtout les classes à énergie.' },
   { id:'skyA', n:'Skyborne (Alliance)', f:'alliance', paid:true, name:'Skyborne High Order',
     cls:['warrior','hunter','rogue','mage','druid'],
-    rac:[['a','Walk on Air','Planez pendant 10 s, sans dégâts de chute'],['a','Read Ley Line','Régénération de vie et de mana : +100 % selon Warcraft Tavern, +10 % selon Icy Veins'],['p','Wind Blessed','+3% de vitesse d’attaque et d’incantation'],['p','Elemental Insight','+5% de dégâts contre les élémentaires']],
+    rac:[['a','Walk on Air','Planez pendant 10 s, sans dégâts de chute'],['a','Read Ley Line','Régénération de vie et de mana : +100 % (Blizzard, Warcraft Tavern, Icy Veins)'],['p','Wind Blessed','+3% de vitesse d’attaque et d’incantation'],['p','Elemental Insight','+5% de dégâts contre les élémentaires']],
     tip:'Race payante : pack Héroïque dès $29.99. Débute sur Zephras Isle (niveaux 1–12).' },
   { id:'orc', n:'Orc', f:'horde',
     cls:['warrior','hunter','rogue','shaman','warlock','mage*'],
@@ -1619,7 +1619,7 @@ const RACES = [
     tip:'La seule race de la Horde avec un druide, à moins de prendre un Skyborne.' },
   { id:'troll', n:'Troll', f:'horde',
     cls:['warrior','hunter','rogue','priest','shaman','mage','warlock*'],
-    rac:[['a','Berserker','+10 % de vitesse d’attaque et d’incantation pendant 10–12 s (les sources divergent)'],['a','Régénération rapide','Rend de la vie sur la durée'],['p','Tueur de bêtes','+5% de dégâts contre les bêtes'],['p','Régénération','La vie se régénère aussi en combat']],
+    rac:[['a','Berserker','+10 % de vitesse d’attaque et d’incantation pendant 12 s, récupération de 3 min'],['a','Régénération rapide','Rend de la vie sur la durée'],['p','Tueur de bêtes','+5% de dégâts contre les bêtes'],['p','Régénération','La vie se régénère aussi en combat']],
     tip:'Le plus de choix de classes dans la Horde : sept.' },
   { id:'skyH', n:'Skyborne (Horde)', f:'horde', paid:true, name:'Skyborne Windshaper',
     cls:['warrior','hunter','rogue','shaman','druid'],
@@ -1758,7 +1758,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../"></script>
-<script data-src="../../assets/search/search.js?v=714b839f4d" data-root="../../"></script>
+<script data-src="../../assets/search/search.js?v=f786458c9b" data-root="../../"></script>
 <script data-src="../../assets/me/me.js?v=afeb3269f8" data-root="../../" data-home="../" data-lang="fr" data-ach="0" data-teaser="" data-close="Fermer" data-page="classes/" data-look="2"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>

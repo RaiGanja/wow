@@ -1370,7 +1370,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../assets/radio/radio.css?v=c5eacd57e2">
-<link data-rel="stylesheet" href="../../assets/search/search.css?v=714b839f4d">
+<link data-rel="stylesheet" href="../../assets/search/search.css?v=f786458c9b">
 <link data-rel="stylesheet" href="../../assets/me/me.css?v=afeb3269f8">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://gabella.site/wow/pl/"},{"@type":"ListItem","position":2,"name":"Klasy","item":"https://gabella.site/wow/pl/classes/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Klasy WoW Forever: którą wybrać, porównanie wszystkich 9","description":"Jaką klasę wybrać w WoW Forever: dziewięć klas po trzy speki, role tank/healer/DPS, które levelują najszybciej i co każda wnosi na raid.","inLanguage":"pl","url":"https://gabella.site/wow/pl/classes/","dateModified":"2026-10-26","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/pl/"},"image":"https://gabella.site/wow/assets/og/classes-pl.jpg?v=1558d967"}</script>
@@ -1595,15 +1595,15 @@ const RACES = [
     tip:'Stoneform przydaje się tankom i w PvP.' },
   { id:'nightelf', n:'Night Elf', f:'alliance',
     cls:['warrior','hunter','rogue','priest','druid'],
-    rac:[['a','Elune’s Light','+10% szansy na kryta przez 15 sek.'],['a','Shadowmeld','Niewidzialność w miejscu'],['p','Quickness','+1–2% do uniku (źródła się różnią) i +2% do szybkości biegu'],['p','Wisp Spirit','+75% szybkości biegu jako duch <span class="beta-note">wg danych z bety</span>']],
+    rac:[['a','Elune’s Light','+10% szansy na kryta przez 15 sek.'],['a','Shadowmeld','Niewidzialność w miejscu'],['p','Quickness','+2% do uniku i do szybkości biegu (Warcraft Tavern podaje 1% uniku) <span class="beta-note">wg danych z bety</span>'],['p','Wisp Spirit','+75% szybkości biegu jako duch (Warcraft Tavern podaje 25%) <span class="beta-note">wg danych z bety</span>']],
     tip:'Jedyna rasa Alliance z druidem, chyba że weźmiesz Skyborne.' },
   { id:'gnome', n:'Gnome', f:'alliance',
     cls:['warrior','rogue','mage','warlock','priest*'],
-    rac:[['a','Escape Artist','Krótka odporność na spowolnienia i unieruchomienia'],['a','Eureka!','Następne 3 zdolności są tańsze i o 10% silniejsze'],['p','Expansive Mind','+5% maksymalnej many, rage lub energii'],['p','Engineering Specialization','Urządzenia inżynieryjne działają bardziej niezawodnie']],
+    rac:[['a','Escape Artist','Krótka odporność na spowolnienia i unieruchomienia'],['a','Eureka!','Przez 8 s zdolności są tańsze i o 10% silniejsze <span class="beta-note">wg danych z bety</span>'],['p','Expansive Mind','+5% maksymalnej many, rage lub energii'],['p','Engineering Specialization','Urządzenia inżynieryjne działają bardziej niezawodnie']],
     tip:'Expansive Mind szczególnie pomaga klasom na energii.' },
   { id:'skyA', n:'Skyborne (Alliance)', f:'alliance', paid:true, name:'High Order Skyborne',
     cls:['warrior','hunter','rogue','mage','druid'],
-    rac:[['a','Walk on Air','Szybowanie w dół przez 10 sek., bez obrażeń od upadku'],['a','Read Ley Line','Regeneracja zdrowia i many: +100% według Warcraft Tavern, +10% według Icy Veins'],['p','Wind Blessed','+3% szybkości ataku i rzucania zaklęć'],['p','Elemental Insight','+5% obrażeń przeciw żywiołakom']],
+    rac:[['a','Walk on Air','Szybowanie w dół przez 10 sek., bez obrażeń od upadku'],['a','Read Ley Line','Regeneracja zdrowia i many: +100% (Blizzard, Warcraft Tavern, Icy Veins)'],['p','Wind Blessed','+3% szybkości ataku i rzucania zaklęć'],['p','Elemental Insight','+5% obrażeń przeciw żywiołakom']],
     tip:'Płatna rasa: Heroic Pack od $29.99. Start w lokacji Zephras Isle (levele 1–12).' },
   { id:'orc', n:'Orc', f:'horde',
     cls:['warrior','hunter','rogue','shaman','warlock','mage*'],
@@ -1619,7 +1619,7 @@ const RACES = [
     tip:'Jedyna rasa Horde z druidem, chyba że weźmiesz Skyborne.' },
   { id:'troll', n:'Troll', f:'horde',
     cls:['warrior','hunter','rogue','priest','shaman','mage','warlock*'],
-    rac:[['a','Berserking','+10% do szybkości ataku i czarów przez 10–12 s (źródła się różnią)'],['a','Rapid Regeneration','Przywraca zdrowie w czasie'],['p','Beast Slaying','+5% obrażeń przeciw bestiom'],['p','Regeneration','Zdrowie regeneruje się także w walce']],
+    rac:[['a','Berserking','+10% do szybkości ataku i czarów przez 12 s, odnowienie 3 min'],['a','Rapid Regeneration','Przywraca zdrowie w czasie'],['p','Beast Slaying','+5% obrażeń przeciw bestiom'],['p','Regeneration','Zdrowie regeneruje się także w walce']],
     tip:'Najwięcej opcji klas w Horde: siedem.' },
   { id:'skyH', n:'Skyborne (Horde)', f:'horde', paid:true, name:'Windshaper Skyborne',
     cls:['warrior','hunter','rogue','shaman','druid'],
@@ -1758,7 +1758,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../"></script>
-<script data-src="../../assets/search/search.js?v=714b839f4d" data-root="../../"></script>
+<script data-src="../../assets/search/search.js?v=f786458c9b" data-root="../../"></script>
 <script data-src="../../assets/me/me.js?v=afeb3269f8" data-root="../../" data-home="../" data-lang="pl" data-ach="0" data-teaser="" data-close="Zamknij" data-page="classes/" data-look="2"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
