@@ -9,7 +9,7 @@ import build
 import tod
 from build import LANGS, SITE, page_dir, rel, localize, translate
 import langs
-from content.guides import BUILDS_HUB_TILE, CLASS_HUB_TILE, GUIDES, HUB, HUBS, NEWS, NOT_FOUND, PAGES, PLAY_MILESTONES, PLAY_TX
+from content.guides import BUILDS_HUB_TILE, CLASS_HUB_TILE, GUIDES, HUB, HUBS, NEWS, NOT_FOUND, ORDER, PAGES, PLAY_MILESTONES, PLAY_TX
 
 HERE = build.HERE
 
@@ -355,6 +355,21 @@ def render_guide(g, lang, root):
 def guide_tiles(guides):
     # a tile shows the guide's own scene when it has one: portraits stay on the class and race pages, no picture twice on a page
     return [{'t': x['title'], 'd': x['tile'], 'href': f'guides/{x["slug"]}/', 'art': x.get('tile_art') or x.get('hero') or x['art']} for x in guides]
+
+
+PINNED = ('launch-checklist', 'launch-day')   # «Other guides»: the two launch pages first, then the guides after this one
+
+
+def more_order(others, slug):
+    """«Other guides» in reading order: the launch pages, then the guides that follow this one in ORDER, wrapping round."""
+    at = ORDER.index(slug) if slug in ORDER else 0
+    return sorted(others, key=lambda x: (x['slug'] not in PINNED, (ORDER.index(x['slug']) - at) % len(ORDER)))
+
+
+def full_rows(tiles):
+    """Only as many tiles as fill whole rows of the .gtiles grid at 1280 px and wider: 12, 8 (4 columns), 9, 6 (3), 10, 5 (5)."""
+    n = next((k for k in (12, 10, 9, 8, 6, 5) if len(tiles) >= k), len(tiles))
+    return tiles[:n]
 
 
 def section_tiles():
@@ -868,8 +883,8 @@ def build_page(g, lang, tpl, base_css, sprite, src):
         shown = inline_tiles(g.get('sections', []))                # one picture once on a page
         others = [x for x in lang_guides(lang) if x['slug'] != g['slug'] and f'guides/{x["slug"]}/' not in shown] if g['slug'] else []
         seen = {g.get('hero'), g['art']} | inline_arts(g.get('sections', []))   # a class art once: leveling-mage and builds-mage share it
-        tiles = [x for x in guide_tiles(others) if not (x['art'] in seen or seen.add(x['art']))]
-        more = tile_links(tiles, lang, root)
+        tiles = [x for x in guide_tiles(more_order(others, g['slug'])) if not (x['art'] in seen or seen.add(x['art']))]
+        more = tile_links(full_rows(tiles), lang, root)
     avif, webp, img = art_sets(g['art'], '@@ROOT@@', big=True)
     crumb = (f'<a href="{root}guides/">{E(HUB["title"], lang)}</a><span aria-hidden="true">/</span><span>{E(g.get("crumb") or g["title"], lang)}</span>'
              if g['slug'] and not section else f'<span>{E(g["title"], lang)}</span>')
