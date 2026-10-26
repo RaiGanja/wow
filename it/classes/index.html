@@ -244,6 +244,8 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .cd .u span { font-size: var(--fs-13); color: var(--ink-2); }
 .cd .what { display: grid; gap: 1px; font-size: var(--fs-16); color: var(--ink-2); }
 .cd .what b { color: var(--ink); font-weight: 600; }
+.cd .what a { color: inherit; text-decoration: underline; text-decoration-color: var(--gold); text-decoration-thickness: 1px; text-underline-offset: 4px; }   /* the launch moment leads to the Launch day guide */
+.cd .what a:hover { color: var(--ink-gold); }
 .hero .lead, .cd .u span, .cd .what { color: #e8e2d4; }   /* light enough on the bright day sky (axe: incomplete contrast) */
 .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap; background: var(--gold); color: var(--gold-ink); border: 1px solid var(--gold); border-radius: 7px; padding: 0 18px; font-weight: 600; min-height: 44px; text-decoration: none; transition: background-color .2s, border-color .2s, color .2s; }
@@ -1062,7 +1064,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 /* Wide screens: full rows whatever the width (the column grows on ultrawide, auto-fill would leave one tile in the last row) */
 @media (min-width: 1280px) { .gtiles { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
 @media (min-width: 1100px) {
-  .gtiles:is(:has(> :nth-child(16):last-child), :has(> :nth-child(12):last-child), :has(> :nth-child(8):last-child), :has(> .wide:first-child):has(> :nth-child(17):last-child)) { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .gtiles:is(:has(> :nth-child(16):last-child), :has(> :nth-child(12):last-child), :has(> :nth-child(8):last-child), :has(> .wide:first-child):has(> :nth-child(17):last-child), :has(> .wide + .wide:nth-child(2)):has(> :nth-child(18):last-child)) { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .gtiles:is(:has(> :nth-child(9):last-child), :has(> :nth-child(6):last-child)) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (min-width: 2200px) { .gtiles .ttile { min-height: 260px; } }
@@ -1071,6 +1073,10 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .gtiles > .wide img { object-position: 50% 42%; }
 .gtiles > .wide b { font-size: var(--fs-22); }
 @media (min-width: 2200px) { .gtiles > .wide { min-height: 320px; } }
+/* two banners («Launch day» and «Day 1»): side by side, half a row each, over the 4 x 4 grid; stacked and lower below 1100 px */
+.gtiles > .wide:has(+ .wide), .gtiles > .wide + .wide { min-height: 200px; }
+@media (min-width: 1100px) { .gtiles > .wide:has(+ .wide), .gtiles > .wide + .wide { grid-column: span 2; min-height: 250px; } }
+@media (min-width: 2200px) { .gtiles > .wide:has(+ .wide), .gtiles > .wide + .wide { min-height: 320px; } }
 /* titles and captions on one line across a row: two lines kept for each, the caption cut after two */
 @media (min-width: 720px) {
   .gtiles .ttile b { min-height: 2.4em; display: flex; align-items: flex-end; }
@@ -1173,6 +1179,19 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .gplay b { color: var(--gold-2); }
 .gplay .btn { margin-left: auto; }
 .gbody.play { padding-top: 14px; }
+/* the beta mark after a fact Blizzard has not confirmed (<span class="beta-note">secondo i dati della beta</span> in a guide text, as on the home page) */
+.beta-note { color: var(--muted); font-size: var(--fs-13); font-weight: 400; font-style: normal; white-space: nowrap; }
+.beta-note::before { content: "("; } .beta-note::after { content: ")"; }
+/* Launch day: the countdown (days, hours, minutes) and the launch moment in the reader's time, like the home hero */
+.lcd { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 40px; padding: 18px 20px; border-radius: 6px; background: var(--panel-2); }
+.lcu { display: flex; gap: 26px; }
+.lcu div { display: grid; gap: 6px; min-width: 2.2ch; }
+.lcu b { font-family: var(--font-display); font-weight: var(--display-w); font-size: var(--fs-40); line-height: .9; color: var(--gold-2); font-variant-numeric: tabular-nums lining-nums; }
+.lcu span, .lcw span { font-size: var(--fs-13); color: var(--muted); }
+.lcw { display: grid; gap: 2px; }
+.lcw b { font-size: var(--fs-22); font-weight: 600; font-variant-numeric: lining-nums; }
+.lcw span[hidden] { display: none; }
+.lcd.out .lcu { display: none; }
 .pday { margin-bottom: 14px; }   /* In game: the launch checklist in one line above the columns */
 /* Launch checklist (guides/launch-checklist/): rows on one plate like the tables, a square tick, the link to our page on the right */
 .dbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; font-variant-numeric: lining-nums tabular-nums; }
@@ -1351,7 +1370,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../assets/radio/radio.css?v=c5eacd57e2">
-<link data-rel="stylesheet" href="../../assets/search/search.css?v=ec5b7ab820">
+<link data-rel="stylesheet" href="../../assets/search/search.css?v=da29e3d05c">
 <link data-rel="stylesheet" href="../../assets/me/me.css?v=f0bb3b6c1b">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/it/"},{"@type":"ListItem","position":2,"name":"Classi","item":"https://gabella.site/wow/it/classes/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Classi di WoW Forever: quale scegliere, le 9 a confronto","description":"Quale classe scegliere in WoW Forever: nove classi con tre specializzazioni, ruoli difensore/guaritore/DPS, chi sale più in fretta e cosa porta in incursione.","inLanguage":"it","url":"https://gabella.site/wow/it/classes/","dateModified":"2026-10-26","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/it/"},"image":"https://gabella.site/wow/assets/og/classes-it.jpg?v=f372ebc6"}</script>
@@ -1431,7 +1450,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <footer id="sources">
   <h2>Fonti</h2>
   <ul><li><a href="https://www.warcrafttavern.com/forever/guides/classes/" target="_blank" rel="noopener">Warcraft Tavern</a></li><li><a href="https://lfcarry.com/guides/wow-forever-classes" target="_blank" rel="noopener">LFCarry</a></li></ul>
-  <nav class="fmap" aria-label="Mappa del sito"><div><a class="fh" href="../../it/classes/">Classi</a><ul><li><a href="../../it/classes/warrior/">Guerriero</a></li><li><a href="../../it/classes/paladin/">Paladino</a></li><li><a href="../../it/classes/hunter/">Cacciatore</a></li><li><a href="../../it/classes/rogue/">Ladro</a></li><li><a href="../../it/classes/priest/">Sacerdote</a></li><li><a href="../../it/classes/shaman/">Sciamano</a></li><li><a href="../../it/classes/mage/">Mago</a></li><li><a href="../../it/classes/warlock/">Stregone</a></li><li><a href="../../it/classes/druid/">Druido</a></li></ul></div><div><a class="fh" href="../../it/races/">Razze</a><ul><li><a href="../../it/races/human/">Umano</a></li><li><a href="../../it/races/dwarf/">Nano</a></li><li><a href="../../it/races/night-elf/">Elfo della Notte</a></li><li><a href="../../it/races/gnome/">Gnomo</a></li><li><a href="../../it/races/skyborne-alliance/">Skyborne dell’High Order</a></li><li><a href="../../it/races/orc/">Orco</a></li><li><a href="../../it/races/undead/">Non Morto</a></li><li><a href="../../it/races/tauren/">Tauren</a></li><li><a href="../../it/races/troll/">Troll</a></li><li><a href="../../it/races/skyborne-horde/">Skyborne Windshaper</a></li></ul></div><div><a class="fh" href="../../it/guides/">Guide</a><ul><li><a href="../../it/guides/launch-checklist/">Giorno 1: checklist del lancio</a></li><li><a href="../../it/guides/leveling/">Livellamento 1–60</a></li><li><a href="../../it/guides/best-race/">La razza migliore per ogni classe</a></li><li><a href="../../it/guides/tier-list/">Tier list delle classi di WoW Forever</a></li><li><a href="../../it/guides/legacy/">Il sistema Legacy</a></li><li><a href="../../it/guides/dungeons/">Spedizioni e incursioni</a></li><li><a href="../../it/guides/professions/">Professioni</a></li><li><a href="../../it/guides/addons/">Addon e interfaccia</a></li><li><a href="../../it/guides/faq/">FAQ e date</a></li><li><a href="../../it/guides/requirements/">Requisiti di sistema</a></li><li><a href="../../it/guides/news/">Notizie</a></li></ul></div><div><a class="fh" href="../../it/tools/">Strumenti</a><ul><li><a href="../../it/tools/">Strumenti</a></li><li><a href="../../it/play/">In gioco</a></li></ul></div></nav><div class="legal"><p>Guida amatoriale di Gabella. Non affiliata né approvata da Blizzard Entertainment. World of Warcraft, Warcraft e Blizzard Entertainment sono marchi o marchi registrati di Blizzard Entertainment, Inc. negli Stati Uniti e/o in altri Paesi.</p><p>© 2026 Gabella<span aria-hidden="true"> · </span><a href="../../it/privacy/">Privacy</a><span aria-hidden="true"> · </span><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><span aria-hidden="true"> · </span><a href="https://t.me/gabella_wow" target="_blank" rel="noopener">Telegram</a><span aria-hidden="true"> · </span>Contatti: <a href="mailto:contact@gabella.site">contact@gabella.site</a></p></div>
+  <nav class="fmap" aria-label="Mappa del sito"><div><a class="fh" href="../../it/classes/">Classi</a><ul><li><a href="../../it/classes/warrior/">Guerriero</a></li><li><a href="../../it/classes/paladin/">Paladino</a></li><li><a href="../../it/classes/hunter/">Cacciatore</a></li><li><a href="../../it/classes/rogue/">Ladro</a></li><li><a href="../../it/classes/priest/">Sacerdote</a></li><li><a href="../../it/classes/shaman/">Sciamano</a></li><li><a href="../../it/classes/mage/">Mago</a></li><li><a href="../../it/classes/warlock/">Stregone</a></li><li><a href="../../it/classes/druid/">Druido</a></li></ul></div><div><a class="fh" href="../../it/races/">Razze</a><ul><li><a href="../../it/races/human/">Umano</a></li><li><a href="../../it/races/dwarf/">Nano</a></li><li><a href="../../it/races/night-elf/">Elfo della Notte</a></li><li><a href="../../it/races/gnome/">Gnomo</a></li><li><a href="../../it/races/skyborne-alliance/">Skyborne dell’High Order</a></li><li><a href="../../it/races/orc/">Orco</a></li><li><a href="../../it/races/undead/">Non Morto</a></li><li><a href="../../it/races/tauren/">Tauren</a></li><li><a href="../../it/races/troll/">Troll</a></li><li><a href="../../it/races/skyborne-horde/">Skyborne Windshaper</a></li></ul></div><div><a class="fh" href="../../it/guides/">Guide</a><ul><li><a href="../../it/guides/launch-checklist/">Giorno 1: checklist del lancio</a></li><li><a href="../../it/guides/launch-day/">Giorno del lancio: orario, code, stato</a></li><li><a href="../../it/guides/leveling/">Livellamento 1–60</a></li><li><a href="../../it/guides/best-race/">La razza migliore per ogni classe</a></li><li><a href="../../it/guides/tier-list/">Tier list delle classi di WoW Forever</a></li><li><a href="../../it/guides/legacy/">Il sistema Legacy</a></li><li><a href="../../it/guides/dungeons/">Spedizioni e incursioni</a></li><li><a href="../../it/guides/professions/">Professioni</a></li><li><a href="../../it/guides/addons/">Addon e interfaccia</a></li><li><a href="../../it/guides/faq/">FAQ e date</a></li><li><a href="../../it/guides/requirements/">Requisiti di sistema</a></li><li><a href="../../it/guides/news/">Notizie</a></li></ul></div><div><a class="fh" href="../../it/tools/">Strumenti</a><ul><li><a href="../../it/tools/">Strumenti</a></li><li><a href="../../it/play/">In gioco</a></li></ul></div></nav><div class="legal"><p>Guida amatoriale di Gabella. Non affiliata né approvata da Blizzard Entertainment. World of Warcraft, Warcraft e Blizzard Entertainment sono marchi o marchi registrati di Blizzard Entertainment, Inc. negli Stati Uniti e/o in altri Paesi.</p><p>© 2026 Gabella<span aria-hidden="true"> · </span><a href="../../it/privacy/">Privacy</a><span aria-hidden="true"> · </span><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><span aria-hidden="true"> · </span><a href="https://t.me/gabella_wow" target="_blank" rel="noopener">Telegram</a><span aria-hidden="true"> · </span>Contatti: <a href="mailto:contact@gabella.site">contact@gabella.site</a></p></div>
 </footer>
 </div>
 
@@ -1576,7 +1595,7 @@ const RACES = [
     tip:'Forma di Pietra è utile ai difensori e nel PvP.' },
   { id:'nightelf', n:'Elfo della Notte', f:'alliance',
     cls:['warrior','hunter','rogue','priest','druid'],
-    rac:[['a','Luce di Elune','+10% probabilità di critico per 15 s'],['a','Fondersi nelle Ombre','Invisibilità sul posto'],['p','Rapidità','+1–2% di schivata (le fonti differiscono) e +2% di velocità di corsa'],['p','Spirito di Fuoco Fatuo','+75% velocità di corsa da spirito {beta}']],
+    rac:[['a','Luce di Elune','+10% probabilità di critico per 15 s'],['a','Fondersi nelle Ombre','Invisibilità sul posto'],['p','Rapidità','+1–2% di schivata (le fonti differiscono) e +2% di velocità di corsa'],['p','Spirito di Fuoco Fatuo','+75% velocità di corsa da spirito <span class="beta-note">secondo i dati della beta</span>']],
     tip:'L’unica razza dell’Alleanza con il druido, a meno di scegliere gli Skyborne.' },
   { id:'gnome', n:'Gnomo', f:'alliance',
     cls:['warrior','rogue','mage','warlock','priest*'],
@@ -1610,7 +1629,7 @@ const RACES = [
 RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
 const CL = Object.fromEntries(CLASSES.map(c => [c.id, c]));
 const BETA = '<span class="beta-note">secondo i dati della beta</span>';
-const racx = s => esc(s).replace('{beta}', BETA);
+const racx = s => esc(s).replace('<span class="beta-note">secondo i dati della beta</span>', BETA);
 const RC = Object.fromEntries(RACES.map(r => [r.id, r]));
 const RLEAD = {"human": "La razza più numerosa dell’Alleanza. Versatile e forte nel PvP grazie a Volontà di Sopravvivenza.", "dwarf": "Robusti minatori e fucilieri di Forgiardente. Per la prima volta l’Alleanza ha degli sciamani, e sono nani: in Classic non c’erano.", "nightelf": "Un antico popolo delle foreste. Sfuggenti: un modo tutto loro per nascondersi, schivate e corsa veloce.", "gnome": "Gli inventori di Gnomeregan. Piccoli, astuti e con la migliore abilità di fuga del gioco.", "skyA": "Una nuova razza di Forever. L’High Order: elfi del vento in cerca della magia arcana perduta dei loro antenati.", "orc": "Il cuore dell’Orda. I guerrieri più forti e maestri del PvP grazie a Furia Sanguinaria e Audacia.", "undead": "I Reietti: ex umani liberatisi dal Re dei Lich. Immuni a paura e sonno quando conta.", "tauren": "Pacifici giganti delle pianure. La salute più alta e uno stordimento ad area tutto loro.", "troll": "La tribù Lanciascura. Più classi di tutta l’Orda e un potente Berserker per i danni.", "skyH": "Una nuova razza di Forever. I Windshaper: guide spirituali degli Skyborne, vicini agli elementi."}; // race page leads and URL slugs, filled in by build.py
 const RSLUG = {"human": "human", "dwarf": "dwarf", "nightelf": "night-elf", "gnome": "gnome", "skyA": "skyborne-alliance", "orc": "orc", "undead": "undead", "tauren": "tauren", "troll": "troll", "skyH": "skyborne-horde"};
@@ -1739,7 +1758,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../"></script>
-<script data-src="../../assets/search/search.js?v=ec5b7ab820" data-root="../../"></script>
+<script data-src="../../assets/search/search.js?v=da29e3d05c" data-root="../../"></script>
 <script data-src="../../assets/me/me.js?v=f0bb3b6c1b" data-root="../../" data-home="../" data-lang="it" data-ach="0" data-teaser="" data-close="Chiudi" data-page="classes/" data-look="2"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
