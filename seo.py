@@ -38,10 +38,11 @@ PRIVACY_NAME = {'ru': 'Конфиденциальность', 'en': 'Privacy', '
 PLAY_NAME = {'ru': 'В игре', 'en': 'In game', 'uk': 'У грі'}
 ROSTER_NAME = {'ru': 'Игроки', 'en': 'Players', 'uk': 'Гравці'}
 PROFILE_NAME = {'ru': 'Мой профиль', 'en': 'My profile', 'uk': 'Мій профіль'}
+CHAR_NAME = {'ru': 'Мой персонаж', 'en': 'My character', 'uk': 'Мій персонаж'}
 PLAYER_NAME = {'ru': 'Игрок WoW Forever', 'en': 'WoW Forever player', 'uk': 'Гравець WoW Forever'}
 # Inner pages whose radio, search, profile and analytics files wait for the hero picture like on the home (build.late)
 LATE_INNER = ('play/', 'guides/', 'classes/', 'races/')
-NOINDEX = {'profile/', 'u/'} | (set() if build.SOCIAL else {'roster/'})   # personal pages: noindex in the page (build_me.py), left out of sitemap.xml
+NOINDEX = {'profile/', 'u/', 'character/'} | (set() if build.SOCIAL else {'roster/'})   # personal pages: noindex in the page (build_me.py), left out of sitemap.xml
 
 
 def t(ru, en, uk):
@@ -206,6 +207,10 @@ META = {
                  t('Ваши персонажи, достижения, ранги и рамки портрета в гиде Gabella. Вход через Discord, Google, Battle.net, Telegram или почту.',
                    'Your characters, achievements, ranks and portrait frames in the Gabella guide. Log in with Discord, Google, Battle.net, Telegram or email.',
                    'Ваші персонажі, досягнення, ранги й рамки портрета в гіді Gabella. Вхід через Discord, Google, Battle.net, Telegram або пошту.')),
+    'character/': (t('Мой персонаж — гид WoW Forever', 'My Character — WoW Forever Guide', 'Мій персонаж — гід WoW Forever'),
+                   t('Персонаж без входа: класс, спек и раса со звездой лучшей по источникам. Гид покажет сборку талантов, пары профессий, подземелья под уровень и сброс недели.',
+                     'A character without a login: class, spec and race with the best one starred by the sources. The guide shows your talent build, profession pairs, dungeons for your level and the weekly reset.',
+                     'Персонаж без входу: клас, спек і раса із зіркою найкращої за джерелами. Гід покаже збірку талантів, пари професій, підземелля під рівень і скидання тижня.')),
     'u/': (t('Игрок — гид WoW Forever', 'Player — WoW Forever Guide', 'Гравець — гід WoW Forever'),
            t('Карточка игрока в гиде Gabella: персонажи в WoW Forever, ранг, рамка и достижения.',
              'Player card in the Gabella guide: WoW Forever characters, rank, frame and achievements.',
@@ -238,7 +243,7 @@ OG = {
            'Legacy: 65 challenges and perks in three trees. Class tier list from beta data, group and raid builder, news. Launch Nov 4 at 23:00 UTC.',
            'Legacy: 65 випробувань і перки трьох дерев. Тір-лист класів за бетою, конструктор групи й рейду, новини. Старт 04.11 о 23:00 UTC (за Києвом 5.11, 01:00).')),
 }
-langs.fill([HOME_NAME, SITE_NAME, TOOLS_NAME, PRIVACY_NAME, PLAY_NAME, ROSTER_NAME, PROFILE_NAME, PLAYER_NAME, META, CLASS_T, CLASS_T_SHORT, CLASS_D, RACE_T, RACE_T_SHORT, RACE_D, AND, OG])   # new languages: i18n/<lang>.json
+langs.fill([HOME_NAME, SITE_NAME, TOOLS_NAME, PRIVACY_NAME, PLAY_NAME, ROSTER_NAME, PROFILE_NAME, CHAR_NAME, PLAYER_NAME, META, CLASS_T, CLASS_T_SHORT, CLASS_D, RACE_T, RACE_T_SHORT, RACE_D, AND, OG])   # new languages: i18n/<lang>.json
 
 
 def listing(xs, lang):
@@ -295,7 +300,7 @@ def crumbs(path, lang):
     sec = {'classes/': HUBS[0], 'races/': HUBS[1], 'guides/': HUB}
     parts = path.strip('/').split('/')
     top = parts[0] + '/'
-    names = {'tools/': TOOLS_NAME, 'privacy/': PRIVACY_NAME, 'play/': PLAY_NAME, 'roster/': ROSTER_NAME, 'profile/': PROFILE_NAME}
+    names = {'tools/': TOOLS_NAME, 'privacy/': PRIVACY_NAME, 'play/': PLAY_NAME, 'roster/': ROSTER_NAME, 'profile/': PROFILE_NAME, 'character/': CHAR_NAME}
     if top == 'u/':
         items += [(ROSTER_NAME[lang], base + 'roster/'), (PLAYER_NAME[lang], base + top)]
         return items

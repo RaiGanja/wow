@@ -375,6 +375,8 @@ section.block { scroll-margin-top: -72px; }
 .pb-t h2 { font-size: var(--fs-28); line-height: 1.1; }
 .pb-t > span { color: var(--muted); max-width: 60ch; }
 .pickban .btn { white-space: nowrap; }
+.pb-a { display: grid; gap: 10px; justify-items: start; }
+.pb-a .more-l { font-size: var(--fs-14); }
 #guides .gt { min-height: 150px; }
 #camp { margin-top: 40px; min-height: clamp(380px, 34vw, 560px); }
 #camp .camp-in { padding-bottom: clamp(40px, 5vw, 72px); }
@@ -964,7 +966,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .pb-t { padding: 16px 0; gap: 4px; }
   .pb-t h2 { font-size: var(--fs-22); }
   .pb-t > span { font-size: var(--fs-14); }
-  .pickban .btn { grid-column: 1 / -1; margin: 0 0 16px 16px; justify-self: start; }
+  .pickban .pb-a { grid-column: 1 / -1; margin: 0 0 16px 16px; }
   #guides .gt { min-height: 118px; }
   #guides .gt span { display: none; }
   #camp { min-height: 520px; }
@@ -1117,11 +1119,11 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </section>
 
 <section class="block wrap" id="pickban">
-  <a class="frame pickban" href="tools/#picker">
+  <div class="frame pickban">
     <span class="pb-art" aria-hidden="true"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/dwarf-360.avif 360w, @@ROOT@@assets/art/dwarf-600.avif 600w" sizes="(max-width: 719px) 100vw, 320px"><source type="image/webp" srcset="@@ROOT@@assets/art/dwarf-360.webp 360w, @@ROOT@@assets/art/dwarf-600.webp 600w" sizes="(max-width: 719px) 100vw, 320px"><img src="@@ROOT@@assets/art/dwarf-600.webp" width="600" height="804" alt="" loading="lazy" fetchpriority="low" decoding="async"></picture></span>
-    <span class="pb-t"><h2>Раса и класс</h2><span>Все сочетания рас и классов, способности рас и роли. Выбор копируется для общего чата.</span></span>
-    <span class="btn">Открыть подборщик<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></span>
-  </a>
+    <span class="pb-t"><h2 id="mePlH">Мой персонаж</h2><span id="mePlD">Класс, спек и раса за минуту: гид покажет вашу сборку, профессии и подземелья.</span></span>
+    <span class="pb-a"><a class="btn" id="mePlGo" href="character/">Создать персонажа<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a><a class="more-l" id="mePlAlt" href="tools/#picker">Подборщик: раса и класс</a></span>
+  </div>
 </section>
 <section class="stband" id="guides">
   <div class="wrap">
@@ -1416,6 +1418,27 @@ function renderRoster() {
   </a>`).join('');
 }
 renderRoster();
+/* My character (character/): the hero of this browser names the plaque under the classes and leads to its talent build;
+   none, or no localStorage: the plaque invites to make one */
+(() => {
+  let h = null;
+  try { h = JSON.parse(localStorage.getItem('gabella-wf-me')); } catch (e) { h = null; }
+  if (!h || !CL[h.cls] || !RC[h.race]) return;
+  const SID = { warrior: ['arms', 'fury', 'protection'], paladin: ['holy', 'protection', 'retribution'], hunter: ['beast-mastery', 'marksmanship', 'survival'],
+    rogue: ['assassination', 'combat', 'subtlety'], priest: ['discipline', 'holy', 'shadow'], shaman: ['elemental', 'enhancement', 'restoration'],
+    mage: ['arcane', 'fire', 'frost'], warlock: ['affliction', 'demonology', 'destruction'], druid: ['balance', 'feral', 'restoration'] };
+  const i = SID[h.cls].indexOf(h.spec), spec = i >= 0 ? CL[h.cls].specs[i][0] : '';
+  $('#mePlH').textContent = raceName(RC[h.race]) + ' · ' + CL[h.cls].n;
+  $('#mePlD').textContent = [spec, h.role && ROLE_RU[h.role], RC[h.race].f === 'horde' ? 'Орда' : 'Альянс'].filter(Boolean).join(' · ');
+  const go = $('#mePlGo');
+  go.firstChild.textContent = 'Моя сборка талантов';
+  go.href = 'guides/builds-' + h.cls + '/' + (i >= 0 ? '#' + SID[h.cls][i] : '');
+  const alt = $('#mePlAlt');
+  alt.textContent = 'Мой персонаж'; alt.href = 'character/';
+  const img = document.querySelector('#pickban img'), srcs = document.querySelectorAll('#pickban source');
+  srcs.forEach(x => { x.srcset = x.dataset.lsrcset = artSet(h.cls, x.type === 'image/avif' ? 'avif' : 'webp'); });   // asleep or awake (build.sleep_art)
+  img.src = img.dataset.lsrc = ROOT + 'assets/art/' + h.cls + '-600.webp' + PV;
+})();
 /* Race roster: one row of portraits per faction, links to the race pages */
 function renderPeoples() {
   [['alliance', '#rosterA'], ['horde', '#rosterH']].forEach(([f, sel]) => {

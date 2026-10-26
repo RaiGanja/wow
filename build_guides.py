@@ -1091,9 +1091,9 @@ const fill = (s, o) => s.replace(/%(\w)/g, (m, k) => (k in o ? o[k] : m));
 const sidx = (c, s) => HC.sid[c].indexOf(s);
 const specRoles = (c, s) => { const x = CL[c].specs[sidx(c, s)]; return x ? x[2].filter(r => !r.endsWith('?')) : []; };
 const lookOf = h => ({ sex: h.sex || (H.look.races[h.race] || {}).sex || 'm', bg: h.bg || (H.look.races[h.race] || {}).bg || H.slug[h.race] });
-const LV = () => '?v=' + H.look.v;
-const base = h => `${ROOT}assets/me/look/base/${H.slug[h.race]}-${lookOf(h).sex}.webp${LV()}`;
-const bgUrl = b => `${ROOT}assets/me/look/bg/${b}.webp${LV()}`;
+const ver = '?v=' + H.look.v;   // the profile looks (content/looks.V)
+const base = h => `${ROOT}assets/me/look/base/${H.slug[h.race]}-${lookOf(h).sex}.webp${ver}`;
+const bgUrl = b => `${ROOT}assets/me/look/bg/${b}.webp${ver}`;
 const face = id => `${ROOT}assets/art/${id}-face.webp${PV}`;
 const PV = /*PV*/'';
 const valid = h => !!(h && CL[h.cls] && RC[h.race] && RC[h.race].can[h.cls]);
@@ -1331,6 +1331,7 @@ def build_page(g, lang, tpl, base_css, sprite, src):
         html = re.sub(r'<section class="stband ghero" id="top">.*?</section>', lambda _: hero_head(lang), html, count=1, flags=re.S)
         html = html.replace('<body>', '<body class="compact">', 1).replace('<div class="wrap gbody', '<div class="wrap gbody play', 1)
         body = hero_body(lang, root)
+        html = html.replace('<head>', '<head>\n<meta name="robots" content="noindex">', 1)   # personal page, like profile/ (seo.NOINDEX)
     elif g.get('compact'):                                        # /play/: small heading instead of the art band
         html = re.sub(r'<section class="stband ghero" id="top">.*?</section>', lambda _: play_head(lang), html, count=1, flags=re.S)
         html = html.replace('<body>', '<body class="compact">', 1).replace('<div class="wrap gbody', '<div class="wrap gbody play', 1)
