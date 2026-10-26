@@ -103,8 +103,8 @@
     }
     const b = (id, label, on) => `<button type="button" data-t="${id}" aria-pressed="${on}">${label}</button>`;
     box.innerHTML = `<div role="group" aria-label="${G.text.label}">`
-      + PARTS.map(t => b(t, G.names[t], G.pinned && G.now === t)).join('<i aria-hidden="true">·</i>')
-      + '<i aria-hidden="true">·</i>' + b('auto', G.text.reset, !G.pinned) + '</div>';
+      + PARTS.map(t => b(t, G.names[t], G.pinned && G.now === t)).join('')
+      + b('auto', G.text.reset, !G.pinned) + '</div>';
     box.querySelectorAll('button').forEach(x => x.addEventListener('click', () => pick(x.dataset.t)));
     keep();
   }
