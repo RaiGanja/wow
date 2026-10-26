@@ -13,6 +13,7 @@ sys.path.insert(0, os.path.join(HERE, 'content'))
 from classes import CLASSES, SOURCES  # noqa: E402
 from races import RACES_PAGE, SOURCES as RACE_SOURCES, NEW_RACIALS  # noqa: E402
 import langs  # noqa: E402
+from content.hero import SPEC_IDS  # noqa: E402
 import tod  # noqa: E402
 import looks as LK  # noqa: E402
 from langs import LANGS, AUTONYM, HREFLANG, LOCALE, NAMED  # noqa: E402
@@ -271,16 +272,17 @@ def tabbar(cur=None, home='@@HOME@@'):
 
 # Top menu: the same items in the same order on every page; anchors of the home page stay in its own «Ещё» group.
 NAV = (('classes/', 'Классы'), ('races/', 'Расы'), ('guides/leveling/', 'Прокачка'), ('guides/dungeons/', 'Подземелья'),
-       ('guides/', 'Гайды'), ('tools/', 'Инструменты'), ('play/', 'В игре')) + ((('roster/', 'Игроки'),) if SOCIAL else ())
+       ('guides/builds/', 'Таланты'), ('guides/', 'Гайды'), ('tools/', 'Инструменты'), ('play/', 'В игре')) + ((('roster/', 'Игроки'),) if SOCIAL else ())
 # Sections sheet («Ещё»): (group, [(path from the language home, label)]); '#…' — a block of the home page.
 # TAB_DUP: pages the phone tab bar already has — the sheet hides them below 720 px (the sheet keeps them for 720–1210 px, no menu there).
 MORE = (
-    ('Справочник', (('classes/', 'Классы'), ('classes/#choose', 'Какой класс выбрать'), ('races/', 'Расы'), ('guides/builds/', 'Билды'),
+    ('Справочник', (('guides/builds/', 'Таланты'), ('classes/', 'Классы'), ('classes/#choose', 'Какой класс выбрать'), ('races/', 'Расы'),
                     ('guides/leveling/', 'Прокачка 1–60'), ('guides/dungeons/', 'Подземелья и рейды'), ('guides/professions/', 'Профессии'),
                     ('guides/faq/', 'FAQ и даты'), ('guides/news/', 'Новости'), ('guides/', 'Все гайды'))),
     ('Инструменты', (('character/', 'Мой персонаж'), ('tools/#picker', 'Раса и класс'), ('tools/#raid', 'Состав группы и LFG'), ('play/', 'В игре'))),
     ('Сообщество', (('discord', 'Discord'),) + ((('roster/', 'Игроки'),) if SOCIAL else ()) + (('profile/', 'Мой профиль'),)),
 )
+TALENTS, TL = 'guides/builds/', ' data-tl'   # the «Talents» item: hero.js points it at the saved character's spec tree
 TAB_DUP = {p for p, _, _ in TABS if p}
 TAB_SHORT = {'uk': {'Прокачування': 'Прокачка'}}   # a word too long for a fifth of a 320–375 px screen
 
@@ -293,7 +295,7 @@ def discord_link(src, text='Discord', cls=''):
 def mainnav(cur=None, home='@@HOME@@'):
     """Top menu markup; cur — path of the current item (NAV), home '' — the home page itself."""
     on = ' aria-current="true"'
-    links = ''.join(f'<a href="{home}{p}"{on if p == cur else ""}>{t}</a>' for p, t in NAV)
+    links = ''.join(f'<a href="{home}{p}"{on if p == cur else ""}{TL if p == TALENTS else ""}>{t}</a>' for p, t in NAV)
     return f'<nav class="mainnav" aria-label="Разделы">\n    {links}{discord_link("menu")}\n  </nav>'
 
 
@@ -303,7 +305,7 @@ def more_groups(home='@@HOME@@'):
         if p == 'discord':
             return discord_link('menu', t)
         dup = ' class="tbd"' if p in TAB_DUP else ''
-        return f'<a{dup} href="{home + p if home or (p and p[0] != "#") else (p or "#top")}">{t}</a>'
+        return f'<a{dup}{TL if p == TALENTS else ""} href="{home + p if home or (p and p[0] != "#") else (p or "#top")}">{t}</a>'
     return '\n    '.join(f'<div class="grp"><div class="gh">{g}</div>{"".join(a(p, t) for p, t in items)}</div>' for g, items in MORE)
 
 
@@ -1313,7 +1315,8 @@ def render_class(c, races, lang):
         keys = ''.join(f'<li><div>{ability(ru, en, lang)}</div><span class="d">{esc(d)}</span></li>' for ru, en, d in s['keys'])
         panels.append(f'<div class="spanel" role="tabpanel" id="spec-{k}" aria-labelledby="tab-{k}" tabindex="0"{"" if on else " hidden"}>'
                       f'<div class="about"><p class="what">{"".join(ri(r) for r in s["roles"])}{esc(s["what"])}</p><p class="style">{esc(s["style"])}</p>'
-                      f'<div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>{esc(s["tip"])}</p></div></div>'
+                      f'<div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>{esc(s["tip"])}</p></div>'
+                      f'<a class="btn ghost ttree" href="@@HOME@@guides/builds-{c["id"]}/#{SPEC_IDS[c["id"]][k]}">Дерево талантов</a></div>'
                       f'<ul class="keys" aria-label="Ключевые способности">{keys}</ul></div>')
     news = ''.join(f'<li><span>{esc(x)}</span></li>' for x in c['news'])   # one grid cell next to the number
     side = []

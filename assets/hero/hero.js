@@ -172,10 +172,18 @@
     }
   });
 
-  function paint() { paintBtn(); if (document.getElementById('myHome')) data().then(paintHome, () => {}); }
+  /* «Talents» in the menu and the sheet: the tree of the saved spec, else the list of all builds */
+  function paintTalents() {
+    const h = read(), ok = h && D && valid(h);
+    document.querySelectorAll('a[data-tl]').forEach(a => {
+      a.dataset.tl = a.dataset.tl || a.getAttribute('href');
+      a.setAttribute('href', ok ? `${HOME}guides/builds-${h.cls}/${D.sid[h.cls].includes(h.spec) ? '#' + h.spec : ''}` : a.dataset.tl);
+    });
+  }
+  function paint() { paintBtn(); paintTalents(); if (document.getElementById('myHome')) data().then(paintHome, () => {}); }
   window.GabellaHero = { btn: paintBtn, open };
   addEventListener('storage', e => { if (e.key === KEY || e.key === DAY1) paint(); });
   addEventListener('gabella-me', e => { if (e.detail !== 'hero') paint(); });
   paint();
-  data().then(() => { paintBtn(); }, () => {});
+  data().then(() => { paintBtn(); paintTalents(); }, () => {});
 })();
