@@ -280,7 +280,7 @@ section.block { padding-top: 96px; display: grid; gap: 28px; }
 section.block { scroll-margin-top: -72px; }
 
 /* Class roster: tall portraits, the active one expands */
-.roster { display: flex; gap: 8px; height: clamp(460px, 41vw, 580px); }
+.roster { display: flex; gap: 8px; height: clamp(460px, 41vw, 580px); --n: 9; --pad: 28px; --ts: var(--fs-40); --vs: var(--fs-22); }
 .hc { display: block; text-decoration: none; position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; isolation: isolate; padding: 0; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; background: #0f0f0f; color: var(--ink); text-align: left; transition: flex-grow .55s var(--ease), border-color .3s; }
 .hc.on { flex-grow: 3.6; border-color: #e0c27a; box-shadow: inset 0 0 0 1px #e0c27a; }
 .hc picture, .hc img { position: absolute; inset: 0; width: 100%; height: 100%; }
@@ -288,12 +288,13 @@ section.block { scroll-margin-top: -72px; }
 .hc img { object-fit: cover; object-position: 50% 22%; filter: saturate(.75) brightness(.62); transition: filter .45s, transform .9s var(--ease); }
 .hc.on img { filter: none; transform: scale(1.02); }
 .hc::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(5,5,5,0) 42%, rgba(5,5,5,.94) 100%); }
-.hc .vn { position: absolute; left: 50%; bottom: 26px; writing-mode: vertical-rl; transform: translateX(-50%) rotate(180deg); font-family: var(--font-display); font-size: var(--fs-22); white-space: nowrap; transition: opacity .25s; }
+.hc .vn { position: absolute; left: 50%; bottom: 26px; writing-mode: vertical-rl; transform: translateX(-50%) rotate(180deg); font-family: var(--font-display); font-size: min(var(--vs), calc(var(--vh, 1000px) / var(--k, 1))); white-space: nowrap; transition: opacity .25s; }
 .hc.on .vn { opacity: 0; }
 .hc .info { position: absolute; left: 0; bottom: 0; width: 100%; min-width: 320px; padding: 26px 28px 28px; display: grid; gap: 10px; opacity: 0; transform: translateY(12px); transition: opacity .3s, transform .4s var(--ease); }
 .hc.on .info { opacity: 1; transform: none; transition-delay: .15s; }
 
-.hc .info b { font-family: var(--font-display); font-weight: var(--display-w); font-size: var(--fs-40); line-height: 1; }
+/* Titles fit the card: --k (set by fitCards) is the longest word of the name in em, --tw the room for it; no cut, no hyphen, no dots */
+.hc .info b { font-family: var(--font-display); font-weight: var(--display-w); font-size: min(var(--ts), calc(var(--tw, 1000px) * .98 / var(--k, 1))); line-height: 1; hyphens: none; overflow-wrap: normal; }
 .hc .roles { display: flex; flex-wrap: wrap; gap: 4px 14px; color: #dcc78f; font-size: var(--fs-14); font-weight: 500; }
 .hc .d { color: var(--ink-2); font-size: var(--fs-16); max-width: 36ch; }
 .hc .more { color: var(--ink-gold); font-weight: 600; font-size: var(--fs-16); margin-top: 4px; }
@@ -319,10 +320,8 @@ section.block { scroll-margin-top: -72px; }
 .pfac { min-width: 0; display: grid; gap: 12px; align-content: start; }
 .pfac.alliance { --fc: var(--alliance); --ft: rgba(43,74,124,.45); } .pfac.horde { --fc: var(--horde); --ft: rgba(110,43,29,.45); }
 .pfac h3 { color: var(--fc); font-size: var(--fs-22); line-height: 1; }
-.rr { height: clamp(400px, 36vw, 520px); padding: 0; }
-.rr .hc .info { min-width: 250px; padding: 22px 20px 24px; }
-.rr .hc .info b { font-size: var(--fs-28); }
-.rr .hc .vn { font-size: var(--fs-18); }
+.rr { height: clamp(400px, 36vw, 520px); padding: 0; --n: 5; --pad: 20px; --ts: var(--fs-28); --vs: var(--fs-18); }
+.rr .hc .info { padding: 22px 20px 24px; }
 .rr .hc .tag { justify-self: start; color: #e0c27a; text-shadow: 0 1px 6px rgba(0,0,0,.8); }
 
 /* Guides band over the campfire art */
@@ -360,7 +359,17 @@ section.block { scroll-margin-top: -72px; }
 .fsrc { margin: 0 0 6px; }
 @media (min-width: 1024px) {
   #classes .roster { height: clamp(380px, 30vw, 440px); }
+}
+@media (min-width: 1024px) and (max-width: 1199px) {   /* narrow race cards: the text of the open one is tall, the card gets the room (fr, pl) */
+  #classes .rr { height: clamp(460px, 46vw, 520px); }
+}
+@media (min-width: 1200px) {
   #classes .rr { height: clamp(300px, 22vw, 340px); }
+}
+/* Desktop roster: the open card is always (row − gaps) × 3.6 / (n + 2.6) wide, so the text block gets that final width at once (no reflow while the card grows), and the roster is the size container for titles (cqi) and vertical labels (cqh) */
+@media (min-width: 1024px) {
+  .roster { container-type: size; --aw: calc((100cqi - (var(--n) - 1) * 8px) * 3.6 / (var(--n) + 2.6) - 2px); --tw: calc(var(--aw) - 2 * var(--pad)); --vh: calc(100cqh - 26px - 16px); }
+  .hc .info { width: var(--aw); min-width: 0; }
 }
 /* Camp scene near the end: the campfire art in full, fire and embers alive (assets/living/) */
 .camp { position: relative; isolation: isolate; overflow: hidden; margin-top: 56px; min-height: clamp(520px, 56vw, 1200px);   /* close to the art's own 16:9: heads stay in frame on wide screens */ display: grid; align-content: end; color: #f1ece0; background: #050505; }
@@ -734,7 +743,7 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 :root[data-theme="light"] .cdot { background: var(--class-ink, var(--muted)); }
 
 /* Comparison tables: classes and races, one row per entry, whole row opens its page */
-.cmp { display: grid; gap: 6px; }
+.cmp { display: grid; gap: 6px; container-type: inline-size; }
 .cmp-h, .cmp-row { display: grid; gap: 22px; align-items: center; }
 .cmp.cls .cmp-h, .cmp.cls .cmp-row { grid-template-columns: minmax(240px, 1.2fr) 122px 190px minmax(0, 1.9fr) 22px; }
 .cmp.rac .cmp-h, .cmp.rac .cmp-row { grid-template-columns: minmax(200px, .9fr) 314px minmax(0, 2.2fr) 22px; }
@@ -779,8 +788,8 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .ccl .av.off { opacity: .16; filter: grayscale(1); box-shadow: none; }
 .ccl .av.nw::after { content: ""; position: absolute; right: -3px; top: -3px; width: 9px; height: 9px; border-radius: 50%; background: var(--new); box-shadow: 0 0 0 2px var(--panel); }
 .abs { display: grid; align-items: start; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 22px; }
-.abs > span { display: grid; align-content: start; gap: 1px; min-width: 0; font-size: var(--fs-14); line-height: 1.4; }
-.abs b { display: block; padding-left: 16px; text-indent: -16px; font-weight: 600; font-size: var(--fs-16); }
+.abs > span { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: 1px; min-width: 0; font-size: var(--fs-14); line-height: 1.4; }
+.abs b { display: block; padding-left: 16px; text-indent: -16px; font-weight: 600; font-size: var(--fs-16); hyphens: auto; overflow-wrap: break-word; }   /* «Ingenieursspezialisierung» in a 135 px half column */
 .abs b::before { content: ""; display: inline-block; width: 8px; height: 8px; margin-right: 8px; vertical-align: .08em; border-radius: 50%; background: var(--gold-2); }
 .abs b .en { font-weight: 400; font-size: var(--fs-14); }
 .abs b.p::before { background: transparent; box-shadow: inset 0 0 0 1.5px var(--gold-2); }
@@ -844,8 +853,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .hc, .hc.on { flex: 0 0 min(78%, 330px); aspect-ratio: 3 / 4; scroll-snap-align: start; border-color: rgba(255,255,255,.1); box-shadow: none; }
   .hc img, .hc.on img { filter: none; transform: none; }
   .hc .vn { display: none; }
+  .hc { container-type: inline-size; --ts: var(--fs-28); --pad: 20px; --tw: calc(100cqi - 2px - 2 * var(--pad)); }
   .hc .info { min-width: 0; padding: 20px; opacity: 1; transform: none; }
-  .hc .info b { font-size: var(--fs-28); }
   .hc::after { background: linear-gradient(180deg, rgba(5,5,5,0) 30%, rgba(5,5,5,.72) 55%, rgba(5,5,5,.96) 100%); }
   .swipe { display: block; }
   .peoples { grid-template-columns: 1fr; gap: 28px; }
@@ -861,6 +870,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 @media (max-width: 860px) {
   .matrix-box, .legend { display: none; }
   .pickm { display: grid; }
+  .facts3 { grid-template-columns: 1fr; }
+}
+@container (max-width: 860px) {   /* the compact row follows the width of the table, not of the window: at 1024–1200 the sidebar leaves it 700–840 px and the text column collapsed to nothing */
   .cmp-h { display: none; }
   .cmp.cls .cmp-row, .cmp.rac .cmp-row { grid-template-columns: minmax(0, 1fr) auto auto; gap: 14px; padding: 16px; }
   .cmp-row > * { grid-column: 1 / -1; }
@@ -871,7 +883,6 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .cmp-row > .rdots { grid-column: 2; grid-row: 1; }
   .cmp-row > .go { grid-column: 3; grid-row: 1; }
   .cmp-row::before { width: 80%; }
-  .facts3 { grid-template-columns: 1fr; }
 }
 @media (max-width: 719px) {
   :root { --top: 56px; --fs-h2: var(--fs-28); --fs-hero: var(--fs-40); }
@@ -923,7 +934,6 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   section.block { padding-top: 72px; gap: 22px; scroll-margin-top: -48px; }
   .hc, .hc.on { flex-basis: 80%; }
   .hc .info, .rr .hc .info { min-width: 0; padding: 22px 20px 22px; grid-template-columns: minmax(0, 1fr); }
-  .hc .info b { font-size: var(--fs-28); hyphens: auto; }
   h2, h3 { hyphens: auto; }
   .tool:not(.bare) { padding: 16px; }
   .gtiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
