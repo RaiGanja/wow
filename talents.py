@@ -49,11 +49,71 @@ UI = {
                'it': 'Qui Icy Veins e Wowhead divergono: le opzioni sono nel testo qui sotto.',
                'pl': 'Tu Icy Veins i Wowhead się różnią: opcje są w tekście poniżej.',
                'pt': 'Aqui o Icy Veins e o Wowhead divergem: as opções estão no texto abaixo.'},
+    'beta': {'ru': 'По данным беты Forever, уточним после старта', 'en': 'Forever beta data, we’ll update it after launch',
+             'uk': 'За даними бети Forever, уточнимо після старту', 'de': 'Nach Daten der Forever-Beta, wir aktualisieren nach dem Start',
+             'es': 'Según la beta de Forever, lo actualizaremos tras el lanzamiento',
+             'fr': 'D’après la bêta de Forever, mis à jour après le lancement',
+             'it': 'Secondo la beta di Forever, aggiorneremo dopo il lancio', 'pl': 'Według bety Forever, zaktualizujemy po starcie',
+             'pt': 'Segundo a beta do Forever, atualizaremos após o lançamento'},
+    'classic': {'ru': 'Как в Classic, Forever уточним после старта', 'en': 'As in Classic, we’ll update it for Forever after launch',
+                'uk': 'Як у Classic, Forever уточнимо після старту', 'de': 'Wie in Classic, für Forever aktualisieren wir nach dem Start',
+                'es': 'Como en Classic, lo actualizaremos para Forever tras el lanzamiento',
+                'fr': 'Comme dans Classic, mis à jour pour Forever après le lancement',
+                'it': 'Come in Classic, aggiorneremo per Forever dopo il lancio', 'pl': 'Jak w Classic, dla Forever zaktualizujemy po starcie',
+                'pt': 'Como no Classic, atualizaremos para o Forever após o lançamento'},
+    'wh': {'ru': 'Открыть в калькуляторе Wowhead', 'en': 'Open in the Wowhead calculator', 'uk': 'Відкрити в калькуляторі Wowhead',
+           'de': 'Im Wowhead-Rechner öffnen', 'es': 'Abrir en la calculadora de Wowhead', 'fr': 'Ouvrir dans le calculateur Wowhead',
+           'it': 'Apri nel calcolatore di Wowhead', 'pl': 'Otwórz w kalkulatorze Wowhead', 'pt': 'Abrir na calculadora do Wowhead'},
+    'perk': {'ru': 'с перком Legacy Talented ({n}/5)', 'en': 'with the Legacy Talented perk ({n}/5)',
+             'uk': 'з перком Legacy Talented ({n}/5)', 'de': 'mit dem Legacy-Vorteil Talented ({n}/5)',
+             'es': 'con la ventaja Legacy Talented ({n}/5)', 'fr': 'avec l’avantage Legacy Talented ({n}/5)',
+             'it': 'con il vantaggio Legacy Talented ({n}/5)', 'pl': 'z atutem Legacy Talented ({n}/5)',
+             'pt': 'com a vantagem Legacy Talented ({n}/5)'},
     'order': {'ru': 'Порядок по уровням', 'en': 'Order by level', 'uk': 'Порядок за рівнями', 'de': 'Reihenfolge nach Stufe',
               'es': 'Orden por nivel', 'fr': 'Ordre par niveau', 'it': 'Ordine per livello', 'pl': 'Kolejność wg poziomu',
               'pt': 'Ordem por nível'},
 }
 EN_NAMES = ('en', 'uk', 'pl')              # the site keeps English talent names on these pages (content/spec_builds.py)
+WH_LANGS = ('ru', 'de', 'es', 'fr', 'it', 'pt')            # Wowhead's own interface languages (www.wowhead.com/forever/<lang>/…)
+
+
+def day(iso, lang):
+    y, m, d = iso.split('-')
+    if lang == 'en':
+        return f'{("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")[int(m) - 1]} {int(d)}, {y}'
+    return f'{d}{"/" if lang in ("es", "fr", "it", "pt") else "."}{m}{"/" if lang in ("es", "fr", "it", "pt") else "."}{y}'
+
+
+def wowhead(cid, data, rows, lang):
+    """A link to the spec in the Wowhead Forever calculator: our points per talent, in the calculator's own URL format
+    (v2 + one digit per talent of each tree in row/column order, trees joined by '-', trailing zeros cut, _t0 = no Legacy perk).
+    The calculator drops a talent whose row is not open yet, so a gap our table leaves (points the sources do not agree on) is
+    put into the first free talent of an open row of that tree, the same «your pick» the order by level shows."""
+    pts, picks = {}, []
+    for cell, n in rows:
+        tree, t = match(data, cell)
+        if t:
+            picks.append((tree, t, int(n)))
+    spent = {}
+    for tree, t, n in sorted(picks, key=lambda x: x[1]['r']):
+        need = ROW_POINTS * (t['r'] - 1) - spent.get(tree['key'], 0)
+        for f in sorted(tree['talents'], key=lambda x: (x['r'], x['c'])):
+            if need <= 0:
+                break
+            if f['r'] < t['r'] and not f.get('req') and f['id'] not in {p[1]['id'] for p in picks}:
+                k = min(need, f['m'] - pts.get(f['id'], 0))
+                if k > 0 and spent.get(tree['key'], 0) >= ROW_POINTS * (f['r'] - 1):
+                    pts[f['id']] = pts.get(f['id'], 0) + k
+                    spent[tree['key']] = spent.get(tree['key'], 0) + k
+                    need -= k
+        pts[t['id']] = pts.get(t['id'], 0) + n
+        spent[tree['key']] = spent.get(tree['key'], 0) + n
+    code = [''.join(str(pts.get(t['id'], 0)) for t in sorted(tr['talents'], key=lambda x: (x['r'], x['c']))).rstrip('0')
+            for tr in data['trees']]
+    while code and not code[-1]:
+        code.pop()
+    return (f'https://www.wowhead.com/forever/{lang + "/" if lang in WH_LANGS else ""}talent-calc/{cid}/v2{"-".join(code)}'
+            f'_t{perk(data, rows)}')
 
 _names = None
 
@@ -106,7 +166,15 @@ def match(data, cell):
     return None, None
 
 
-def plan(data, rows):
+def perk(data, rows):
+    """Ranks of the Legacy Talented perk (one more point per rank, from level 9 down to 5) a table needs to fit level 30:
+    some beta builds of the sources count those 5 points (21 + 5). 0 when the table fits the 21 points of level 30."""
+    steps = plan(data, rows)[1]
+    named_end = max((b for t, _, _, b in steps if t), default=FIRST_LEVEL)
+    return max(0, min(5, named_end - CAP_LEVEL))
+
+
+def plan(data, rows, first=FIRST_LEVEL):
     """Our points on the tree and the order by level. rows: (table cell, points) in table order.
     Returns ({talent id: points}, steps). A step is (talent or None, points, first level, last level); None is a run of points
     the sources do not agree on: a row of the tree needs 5 points per row spent in it first, and the tail up to level 30."""
@@ -118,7 +186,7 @@ def plan(data, rows):
             continue
         picks.append((tree['key'], t, int(pts)))
     order = sorted(range(len(picks)), key=lambda i: (picks[i][1]['r'], i))
-    spent, steps, level = {}, [], FIRST_LEVEL
+    spent, steps, level = {}, [], first
     for i in order:
         key, t, pts = picks[i]
         need = ROW_POINTS * (t['r'] - 1) - spent.get(key, 0)
@@ -132,6 +200,13 @@ def plan(data, rows):
     if level <= CAP_LEVEL:
         steps.append((None, CAP_LEVEL - level + 1, level, CAP_LEVEL))
     return {t['id']: pts for _, t, pts in picks}, steps, spent, unknown
+
+
+def sprite_v(cid):
+    """?v=<hash> of the class sprite: assets are cached for days by Cloudflare and the browser (gabella_site_tech)."""
+    import hashlib
+    f = os.path.join(HERE, 'assets', 'talents', f'{cid}.webp')
+    return '?v=' + hashlib.sha1(open(f, 'rb').read()).hexdigest()[:8] if os.path.isfile(f) else ''
 
 
 def lv(a, b, lang):
@@ -189,14 +264,15 @@ def render(cid, spec, rows, titles, lang, root):
     data = load(cid)
     if not data:
         return ''
-    picked, steps, spent, _ = plan(data, [(r[0], r[1]) for r in rows])
+    pk = perk(data, [(r[0], r[1]) for r in rows])
+    picked, steps, spent, _ = plan(data, [(r[0], r[1]) for r in rows], FIRST_LEVEL - pk)
     why = {}
     for r in rows:
         _, t = match(data, r[0])
         if t:
             why[t['id']] = _l(r[2], lang)
     titles = {k: _l(v, lang).split(':')[0].strip() for k, v in titles.items()}
-    PAGE[(cid, lang)] = {'u': {k: v[lang] for k, v in UI.items() if k != 'hint'},
+    PAGE[(cid, lang)] = {'u': {k: v[lang] for k, v in UI.items() if k not in ('hint', 'beta', 'classic', 'wh', 'perk')},
                          't': {t['id']: [tname(t, lang), t['m'], t['r'], desc(t, lang)] for tr in data['trees'] for t in tr['talents']}}
     pts = {}
     for i, (t, n, a, b) in enumerate(steps):
@@ -216,7 +292,7 @@ def render(cid, spec, rows, titles, lang, root):
             p = picked.get(t['id'], 0)
             ic = f';--i:{t["icon"]}' if t.get('icon') is not None else ''
             cells.append(f'<button type="button" class="tt-t{" on" if p else ""}" style="--r:{t["r"]};--c:{t["c"]}{ic}" data-k="{t["id"]}" '
-                         f'aria-label="{escape(name)}{f" {p}/{t["m"]}" if p else ""}">{_icon(t, _letters(name))}{f"<b>{p}</b>" if p else ""}</button>')
+                         f'aria-label="{escape(name)}{f" {p}/{t["m"]}" if p else ""}">{_icon(t, _letters(t["n"].get("en") or name))}{f"<b>{p}</b>" if p else ""}</button>')
         rows_n = max(t['r'] for t in tree['talents'])
         trees.append(f'<div class="tt-tree{" on" if on else ""}" data-t="{key}" role="group" aria-label="{title}">'
                      f'<h3>{title}<span{" class=on" if n else ""}>{n}</span></h3>'
@@ -230,13 +306,19 @@ def render(cid, spec, rows, titles, lang, root):
         name = tname(t, lang)
         ic = f' style="--i:{t["icon"]}"' if t.get('icon') is not None else ''
         rib.append(f'<li><span>{_span(a, b)}</span><button type="button" class="tt-t on"{ic} data-k="{t["id"]}" aria-label="{escape(name)}">'
-                   f'{_icon(t, _letters(name))}</button><b>×{n}</b></li>')
+                   f'{_icon(t, _letters(t["n"].get("en") or name))}</button><b>×{n}</b></li>')
     p_attr = escape(json.dumps(pts, ensure_ascii=False, separators=(',', ':')))
+    pk_html = f' <span class="tt-pk">{UI["perk"][lang].format(n=pk)}</span>' if pk else ''
+    basis = data.get('basis')                                     # before launch: one line over the tree says where it comes from
+    note = f'<p class="tt-note">{UI[basis][lang]} · {day(data["date"], lang)}</p>' if basis in ('beta', 'classic') else ''
+    link = (f'<p class="tt-ext"><a href="{escape(wowhead(cid, data, [(r[0], r[1]) for r in rows], lang))}" target="_blank" '
+            f'rel="noopener">{UI["wh"][lang]} ↗</a></p>')
     return (f'<div class="tt" data-c="{cid}" data-l="{lang}" data-p="{p_attr}" '
-            f'style="--n:{max(data.get("sprite", 0), 2)};--sp:url({root}assets/talents/{cid}.webp)">'
+            f'style="--n:{max(data.get("sprite", 0), 2)};--sp:url(@@ROOT@@assets/talents/{cid}.webp{sprite_v(cid)})">{note}'
             f'<div class="tt-tabs" role="tablist">{"".join(tabs)}</div><div class="tt-trees">{"".join(trees)}</div>'
             f'<div class="tt-card" aria-live="polite"><p class="tt-hint">{UI["hint"][lang]}</p></div>'
-            f'<h3 class="tt-oh">{UI["order"][lang]} @@BETA@@</h3><ol class="tt-rib">{"".join(rib)}</ol></div>')
+            f'<h3 class="tt-oh">{UI["order"][lang]}{"" if basis else " @@BETA@@"}'
+            f'{pk_html}</h3><ol class="tt-rib">{"".join(rib)}</ol>{link}</div>')
 
 
 CSS = """/* Talent trees (talents.py): three trees in a row when there is room, else the spec's tree and tabs; icons from one sprite */
@@ -275,6 +357,9 @@ CSS = """/* Talent trees (talents.py): three trees in a row when there is room, 
 .tt-ar.v::after { content: ""; position: absolute; left: -3px; bottom: -1px; border: 4px solid transparent; border-bottom: 0; border-top: 5px solid currentColor; }
 .tt-ar.h.r::after { content: ""; position: absolute; right: -1px; top: -3px; border: 4px solid transparent; border-right: 0; border-left: 5px solid currentColor; }
 .tt-ar.h.l::after { content: ""; position: absolute; left: -1px; top: -3px; border: 4px solid transparent; border-left: 0; border-right: 5px solid currentColor; }
+.tt-note { margin: 0; color: var(--muted); font-size: var(--fs-13); }
+.tt-pk { color: var(--muted); font-size: var(--fs-13); font-weight: 400; }
+.tt-ext { margin: 0; font-size: var(--fs-14); }
 .tt-card { min-height: 48px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; }
 .tt-card .h { display: block; margin: 0 0 2px; font-family: var(--font-body); font-size: var(--fs-16); font-weight: 600; line-height: 1.3; letter-spacing: 0; color: var(--fg); }
 .tt-card .m { margin: 0 0 6px; font-size: var(--fs-13); color: var(--gold-2); }
@@ -288,8 +373,8 @@ CSS = """/* Talent trees (talents.py): three trees in a row when there is room, 
 .tt-rib b { font-family: var(--font-body); font-size: var(--fs-14); font-weight: 600; line-height: 1; letter-spacing: 0; color: var(--muted); font-variant-numeric: tabular-nums; }
 @container (max-width: 759px) {
   .tt-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .tt-tab { padding: 4px; font-size: var(--fs-14); line-height: 1.2; }
-  .tt-tab span { display: inline-block; margin-left: 5px; white-space: nowrap; }
+  .tt-tab { padding: 4px 2px; font-size: min(var(--fs-14), 3.5vw); line-height: 1.2; hyphens: auto; overflow-wrap: anywhere; }
+  .tt-tab span { display: block; margin: 2px 0 0; white-space: nowrap; }
   .tt-trees { grid-template-columns: minmax(0, 1fr); }
   .tt-tree:not(.on) { display: none; }
   .tt-tree { --s: 44px; --g: min(26px, calc((100cqi - 24px - 4 * var(--s)) / 3)); }
@@ -350,4 +435,5 @@ def page(html):
         return html
     data = json.dumps(PAGE[(m.group(1), m.group(2))], ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')
     html = html.replace('</style>', CSS + '</style>', 1)
+    html = html.replace('</head>', '<noscript><style>.tt .tt-ic:not(.no){background-image:var(--sp)}</style></noscript></head>', 1)
     return html.replace('</body>', f'<script type="application/json" id="ttData">{data}</script>\n' + JS + '</body>', 1)

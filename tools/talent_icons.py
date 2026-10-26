@@ -127,6 +127,12 @@ def main():
         data = json.load(open(p, encoding='utf-8'))
         if a.map:
             icons = {k: v for k, v in json.load(open(a.map, encoding='utf-8')).items() if v}
+        elif data.get('basis'):                               # before launch (tools/talent_beta.py): icon names, CDN by name
+            talents = [t for tr in data['trees'] for t in tr['talents']]
+            icons = {t['id']: t['iname0'] for t in talents if t.get('iname0') and picture(t['iname0'])}
+            for t in talents:
+                if t.get('iname0') and t['id'] not in icons:
+                    print(f'  {cid}: CDN has no icon {t["iname0"]} ({t["n"]["en"]})')
         else:
             talents = [t for tr in data['trees'] for t in tr['talents']]
             icons = {t['id']: str(t['file']) for t in talents if t.get('file') and picture(str(t['file']))}

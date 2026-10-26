@@ -95,13 +95,47 @@ def test_shipped_data():
         assert not d.get('fixture'), f'{f}: test data must not ship'
         assert [t['key'] for t in d['trees']] == talents.TREES[cid], f
         for s, x in tree_blocks(cid):
-            _, steps, _, unknown = talents.plan(d, [(r[0], r[1]) for r in x['rows']])
+            rows = [(r[0], r[1]) for r in x['rows']]
+            _, steps, _, unknown = talents.plan(d, rows, talents.FIRST_LEVEL - talents.perk(d, rows))
             assert unknown == [], (cid, s['id'], unknown)
             assert steps[-1][3] <= talents.CAP_LEVEL, (cid, s['id'], steps[-1])
         icons = [t['icon'] for tr in d['trees'] for t in tr['talents'] if t.get('icon') is not None]
         assert all(0 <= i < d['sprite'] for i in icons), f
         if icons:
             assert os.path.isfile(os.path.join(ROOT, 'assets', 'talents', f'{cid}.webp')), cid
+
+
+def test_wowhead_links():
+    """The calculator link of every spec is a legal build: each talent's row is open, its prerequisite is at full rank,
+    and every talent of our table keeps its points (the calculator drops what is not legal)."""
+    import re
+    for f in sorted(os.listdir(talents.DATA)) if os.path.isdir(talents.DATA) else []:
+        cid = f[:-5]
+        d = talents.load(cid)
+        for s, x in tree_blocks(cid):
+            url = talents.wowhead(cid, d, [(r[0], r[1]) for r in x['rows']], 'ru')
+            pk = talents.perk(d, [(r[0], r[1]) for r in x['rows']])
+            assert url.startswith(f'https://www.wowhead.com/forever/ru/talent-calc/{cid}/v2') and url.endswith(f'_t{pk}'), url
+            code = re.search(r'/v2(.*)_t\d$', url).group(1).split('-')
+            pts = {}
+            for tr, c in zip(d['trees'], code + [''] * 3):
+                for t, n in zip(sorted(tr['talents'], key=lambda t: (t['r'], t['c'])), c):
+                    pts[t['id']] = int(n)
+            for tr in d['trees']:
+                by = {t['id']: t for t in tr['talents']}
+                for t in tr['talents']:
+                    n = pts.get(t['id'], 0)
+                    if not n:
+                        continue
+                    below = sum(pts.get(u['id'], 0) for u in tr['talents'] if u['r'] < t['r'])
+                    assert below >= talents.ROW_POINTS * (t['r'] - 1), (cid, s['id'], t['n']['en'], below)
+                    assert n <= t['m'], (cid, s['id'], t['n']['en'])
+                    if t.get('req'):
+                        assert pts.get(t['req'], 0) == by[t['req']]['m'], (cid, s['id'], t['n']['en'], 'prerequisite')
+            for r in x['rows']:
+                _, t = talents.match(d, r[0])
+                assert pts.get(t['id'], 0) >= int(r[1]), (cid, s['id'], t['n']['en'])
+            assert sum(pts.values()) <= talents.CAP_LEVEL - talents.FIRST_LEVEL + 1 + pk, (cid, s['id'], sum(pts.values()))
 
 
 if __name__ == '__main__':
