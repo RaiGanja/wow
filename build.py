@@ -1040,7 +1040,12 @@ def long_title(html):
         words = re.split(r'[\s-]+', re.sub(r'<[^>]+>', ' ', m[2]))
         n = max(map(len, words))
         return f'<h1{m[1]} class="long" style="--lw:{n}">' if n >= 11 and 'class=' not in m[1] else m[0]   # --lw: the CSS fits that word to the screen
-    return re.sub(r'<h1([^>]*)>(?=(.*?)</h1>)', title, html, count=1, flags=re.S)
+    html = re.sub(r'<h1([^>]*)>(?=(.*?)</h1>)', title, html, count=1, flags=re.S)
+    return re.sub(r'(<h1[^>]*>)(.*?)(</h1>)', lambda m: m[1] + HYPHENED.sub(r'<span style="white-space:nowrap">\1</span>', m[2]) + m[3], html, count=1, flags=re.S)
+
+
+# «Чек-лист» in a title: the line breaks around the word, never at its hyphen («ЧЕК- / ЛИСТ» in the display caps); not inside a tag
+HYPHENED = re.compile(r'(?<![\w-])([^\W\d_]+(?:-[^\W\d_]+)+)(?![^<>]*>)')
 
 
 def mark_long(html):

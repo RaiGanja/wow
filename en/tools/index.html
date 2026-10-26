@@ -196,6 +196,24 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: var(--fs-16); }
 @media (max-width: 1260px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }   /* es «Iniciar sesión» ran 21 px off a 1215 px screen */
+/* the top bar grows with the type: bar height, logo, buttons and menu spacing (px elsewhere), the menu stays centred in one line */
+@media (min-width: 2200px) {
+  :root { --top: 68px; }
+  .topbar .in { gap: 15px; }
+  .mark { width: 43px; height: 43px; }
+  .mainnav a { padding: 0 10px; }
+  .tools { gap: 9px; }
+  .iconbtn, .langbtn { min-width: 47px; min-height: 47px; }
+  .iconbtn .ico { width: 19px; height: 19px; }
+}
+@media (min-width: 3000px) {
+  :root { --top: 72px; }
+  .topbar .in { gap: 16px; }
+  .mark { width: 45px; height: 45px; }
+  .mainnav a { padding: 0 11px; min-height: 50px; }
+  .iconbtn, .langbtn { min-width: 50px; min-height: 50px; border-radius: 9px; }
+  .iconbtn .ico { width: 20px; height: 20px; }
+}
 
 /* Hero */
 .hero { position: relative; min-height: max(560px, 100svh); display: grid; align-content: space-between; color: var(--ink); background: #050505; isolation: isolate; overflow: hidden; }
@@ -210,7 +228,7 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .hero-in { width: 100%; padding-top: calc(var(--top) + clamp(40px, 9vh, 110px)); padding-bottom: 40px; display: grid; gap: 22px; justify-items: start; max-width: var(--wrap); }
 .todsw { min-height: 44px; display: flex; align-items: center; }
 .hero > .todsw { position: absolute; z-index: 1; top: calc(var(--top) + 8px); right: max(20px, calc((100% - var(--wrap)) / 2 + 20px)); font-size: var(--fs-13); text-shadow: var(--hero-shadow); }   /* the scene caption, out of the text column */
-@media (max-width: 719px) { .hero > .todsw { left: 20px; right: auto; } }
+@media (max-width: 719px) { .hero > .todsw { left: 20px; right: auto; min-height: 0; } .hero > .todsw button { min-height: 32px; padding: 0 10px; border-radius: 6px; background: rgb(5 5 5 / .5); } }
 .hd-line .dup { display: none; }   /* a date the countdown already says */
 .hero h1 { font-size: var(--fs-hero); line-height: .98; letter-spacing: .005em; text-shadow: var(--hero-shadow); }
 .hero h1 span { display: block; color: var(--ink-gold); }
@@ -756,7 +774,8 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .cmp-id .av { --s: 52px; }
 .cmp-id b { display: block; font-family: var(--font-display); font-weight: var(--display-w); font-size: var(--fs-22); line-height: 1.1; }
 .cmp-id small { display: block; margin-top: 3px; color: var(--muted); font-size: var(--fs-14); line-height: 1.4; }
-.cmp-id .paid { margin-left: 8px; vertical-align: .3em; }
+.cmp-id > span { min-width: 0; }
+.cmp-id .paid { display: block; margin: 3px 0 0; font-family: var(--font-body); line-height: 1.3; }   /* under the name: «Skyborn (Alliance) paid» ran into the class faces at 1920 */
 .cmp-row .go { color: var(--muted); transition: transform .2s var(--ease), color .2s; }
 .cmp-row .go .ico { width: 18px; height: 18px; }
 .cmp-row:hover .go { color: var(--gold-2); transform: translateX(3px); }
@@ -1002,7 +1021,12 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .sfield kbd { font: inherit; font-size: var(--fs-13); color: var(--muted); border: 1px solid var(--pline); border-radius: 5px; padding: 1px 8px; }
 
 .ttiles.t2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.tnav { margin-top: 8px; }   /* the tool tiles open the page right under the hero */
+/* the three tools on the first screen, under the search, in its column: the party on the art stays in view */
+.ttiles.ttop { width: min(100%, 680px); gap: 10px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.ttop .ttile { min-height: 172px; padding: 0 14px 12px; }
+.ttop .ttile b { font-size: var(--fs-16); }
+.ttop .ttile span { font-size: var(--fs-13); }
+@media (max-width: 719px) { .ttiles.ttop { grid-template-columns: minmax(0, 1fr); } .ttop .ttile { min-height: 112px; } }
 
 /* Frames */
 .rtool { padding: 18px; display: grid; gap: 18px; }
@@ -1187,7 +1211,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css?v=c5eacd57e2" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=3979b8e3bb" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=2e83e0e7f8" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/me/me.css?v=f0bb3b6c1b" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/en/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://gabella.site/wow/en/tools/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"WoW Forever Tools: Class and Race Compare, Party Frames","description":"Compare WoW Forever classes and races side by side, in-game style party frames and raid grid, and search across the whole guide.","inLanguage":"en","url":"https://gabella.site/wow/en/tools/","dateModified":"2026-10-26","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/en/"},"image":"https://gabella.site/wow/assets/og/tools-en.jpg?v=827093c3"}</script>
@@ -1248,16 +1272,15 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
     <div class="frame sbox" id="search" role="search">
       <button type="button" class="sfield sopen"><svg class="ico" aria-hidden="true"><use href="#i-search"/></svg><span class="sr">Guide search</span><span>Class, ability, race, dungeon or level</span><kbd aria-hidden="true">Ctrl K</kbd></button>
     </div>
-  </div>
-</section>
-
-<div class="wrap tnav">
-  <nav class="ttiles t3" aria-label="Tools">
+    <nav class="ttiles t3 ttop" aria-label="Tools">
       <a class="ttile" href="#picker"><picture><source type="image/avif" srcset="../../assets/art/druid-600.avif?v=cb56fde9"><img width="600" height="804" src="../../assets/art/druid-600.webp?v=83c45565" alt="" loading="lazy" decoding="async"></picture><b>Race and class picker</b><span>Every combination and what each can do</span></a>
       <a class="ttile" href="#raid"><picture><source type="image/avif" srcset="../../assets/art/warrior-600.avif?v=845723ba"><img width="600" height="804" src="../../assets/art/warrior-600.webp?v=68ffc7f9" alt="" loading="lazy" decoding="async"></picture><b>Party and raid frames</b><span>Party of 5, raids of 10, 20 and 40, like in the game</span></a>
       <a class="ttile" href="#compare"><picture><source type="image/avif" srcset="../../assets/art/gnome-600.avif?v=9c8ae6ad"><img width="600" height="804" src="../../assets/art/gnome-600.webp?v=c02fa60a" alt="" loading="lazy" decoding="async"></picture><b>Class and race comparison</b><span>Up to three side by side: roles, armor, buffs, abilities</span></a>
     </nav>
-</div>
+  </div>
+</section>
+
+
 <section class="block wrap" id="picker">
   <div class="sec-head"><div class="row"><h2>Picker: race and class</h2><span class="src">Warcraft Tavern, Method</span></div>
     <p>Choose a faction and role, look at the combinations and click a cell. Below you will see the race abilities and class roles, and your choice is copied with one button for the group chat.</p></div>
@@ -1981,7 +2004,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=3979b8e3bb" data-root="../../" defer></script>
+<script src="../../assets/search/search.js?v=2e83e0e7f8" data-root="../../" defer></script>
 <script src="../../assets/me/me.js?v=f0bb3b6c1b" data-root="../../" data-home="../" data-lang="en" data-ach="0" data-teaser="" data-close="Close" data-page="tools/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>

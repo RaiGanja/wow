@@ -34,7 +34,12 @@
 .sfield kbd { font: inherit; font-size: var(--fs-13); color: var(--muted); border: 1px solid var(--pline); border-radius: 5px; padding: 1px 8px; }
 
 .ttiles.t2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.tnav { margin-top: 8px; }   /* the tool tiles open the page right under the hero */
+/* the three tools on the first screen, under the search, in its column: the party on the art stays in view */
+.ttiles.ttop { width: min(100%, 680px); gap: 10px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.ttop .ttile { min-height: 172px; padding: 0 14px 12px; }
+.ttop .ttile b { font-size: var(--fs-16); }
+.ttop .ttile span { font-size: var(--fs-13); }
+@media (max-width: 719px) { .ttiles.ttop { grid-template-columns: minmax(0, 1fr); } .ttop .ttile { min-height: 112px; } }
 
 /* Frames */
 .rtool { padding: 18px; display: grid; gap: 18px; }
@@ -243,16 +248,15 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
     <div class="frame sbox" id="search" role="search">
       <button type="button" class="sfield sopen"><svg class="ico" aria-hidden="true"><use href="#i-search"/></svg><span class="sr">Поиск по гиду</span><span>Класс, способность, раса, подземелье или уровень</span><kbd aria-hidden="true">Ctrl K</kbd></button>
     </div>
-  </div>
-</section>
-
-<div class="wrap tnav">
-  <nav class="ttiles t3" aria-label="Инструменты">
+    <nav class="ttiles t3 ttop" aria-label="Инструменты">
       <a class="ttile" href="#picker"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/druid-600.avif"><img src="@@ROOT@@assets/art/druid-600.webp" alt="" loading="lazy" decoding="async"></picture><b>Подборщик расы и класса</b><span>Все сочетания и что умеет каждое</span></a>
       <a class="ttile" href="#raid"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/warrior-600.avif"><img src="@@ROOT@@assets/art/warrior-600.webp" alt="" loading="lazy" decoding="async"></picture><b>Рамки группы и рейда</b><span>Группа на 5, рейд на 10, 20 и 40, как в игре</span></a>
       <a class="ttile" href="#compare"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/gnome-600.avif"><img src="@@ROOT@@assets/art/gnome-600.webp" alt="" loading="lazy" decoding="async"></picture><b>Сравнение классов и рас</b><span>До трёх рядом: роли, броня, баффы, способности</span></a>
     </nav>
-</div>
+  </div>
+</section>
+
+
 <section class="block wrap" id="picker">
   <div class="sec-head"><div class="row"><h2>Подборщик: раса и класс</h2><span class="src">Warcraft Tavern, Method</span></div>
     <p>Выберите фракцию и роль, посмотрите сочетания и нажмите на клетку. Ниже появятся способности расы и роли класса, а выбор копируется одной кнопкой для общего чата.</p></div>

@@ -197,6 +197,24 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: var(--fs-16); }
 @media (max-width: 1260px) { .mainnav { display: none; } .menubtn { display: inline-grid; } }   /* es «Iniciar sesión» ran 21 px off a 1215 px screen */
+/* the top bar grows with the type: bar height, logo, buttons and menu spacing (px elsewhere), the menu stays centred in one line */
+@media (min-width: 2200px) {
+  :root { --top: 68px; }
+  .topbar .in { gap: 15px; }
+  .mark { width: 43px; height: 43px; }
+  .mainnav a { padding: 0 10px; }
+  .tools { gap: 9px; }
+  .iconbtn, .langbtn { min-width: 47px; min-height: 47px; }
+  .iconbtn .ico { width: 19px; height: 19px; }
+}
+@media (min-width: 3000px) {
+  :root { --top: 72px; }
+  .topbar .in { gap: 16px; }
+  .mark { width: 45px; height: 45px; }
+  .mainnav a { padding: 0 11px; min-height: 50px; }
+  .iconbtn, .langbtn { min-width: 50px; min-height: 50px; border-radius: 9px; }
+  .iconbtn .ico { width: 20px; height: 20px; }
+}
 
 /* Hero */
 .hero { position: relative; min-height: max(560px, 100svh); display: grid; align-content: space-between; color: var(--ink); background: #050505; isolation: isolate; overflow: hidden; }
@@ -211,7 +229,7 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .hero-in { width: 100%; padding-top: calc(var(--top) + clamp(40px, 9vh, 110px)); padding-bottom: 40px; display: grid; gap: 22px; justify-items: start; max-width: var(--wrap); }
 .todsw { min-height: 44px; display: flex; align-items: center; }
 .hero > .todsw { position: absolute; z-index: 1; top: calc(var(--top) + 8px); right: max(20px, calc((100% - var(--wrap)) / 2 + 20px)); font-size: var(--fs-13); text-shadow: var(--hero-shadow); }   /* the scene caption, out of the text column */
-@media (max-width: 719px) { .hero > .todsw { left: 20px; right: auto; } }
+@media (max-width: 719px) { .hero > .todsw { left: 20px; right: auto; min-height: 0; } .hero > .todsw button { min-height: 32px; padding: 0 10px; border-radius: 6px; background: rgb(5 5 5 / .5); } }
 .hd-line .dup { display: none; }   /* a date the countdown already says */
 .hero h1 { font-size: var(--fs-hero); line-height: .98; letter-spacing: .005em; text-shadow: var(--hero-shadow); }
 .hero h1 span { display: block; color: var(--ink-gold); }
@@ -757,7 +775,8 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .cmp-id .av { --s: 52px; }
 .cmp-id b { display: block; font-family: var(--font-display); font-weight: var(--display-w); font-size: var(--fs-22); line-height: 1.1; }
 .cmp-id small { display: block; margin-top: 3px; color: var(--muted); font-size: var(--fs-14); line-height: 1.4; }
-.cmp-id .paid { margin-left: 8px; vertical-align: .3em; }
+.cmp-id > span { min-width: 0; }
+.cmp-id .paid { display: block; margin: 3px 0 0; font-family: var(--font-body); line-height: 1.3; }   /* under the name: «Skyborn (Alliance) paid» ran into the class faces at 1920 */
 .cmp-row .go { color: var(--muted); transition: transform .2s var(--ease), color .2s; }
 .cmp-row .go .ico { width: 18px; height: 18px; }
 .cmp-row:hover .go { color: var(--gold-2); transform: translateX(3px); }
@@ -1181,7 +1200,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../../assets/radio/radio.css?v=c5eacd57e2">
-<link data-rel="stylesheet" href="../../../assets/search/search.css?v=3979b8e3bb">
+<link data-rel="stylesheet" href="../../../assets/search/search.css?v=2e83e0e7f8">
 <link data-rel="stylesheet" href="../../../assets/me/me.css?v=f0bb3b6c1b">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/en/"},{"@type":"ListItem","position":2,"name":"Races","item":"https://gabella.site/wow/en/races/"},{"@type":"ListItem","position":3,"name":"Night Elf","item":"https://gabella.site/wow/en/races/night-elf/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"WoW Forever Night Elf Racials and Classes Guide","description":"WoW Forever Night Elf guide: four racial abilities, available and best classes, capital Darnassus, starting zone Teldrassil.","inLanguage":"en","url":"https://gabella.site/wow/en/races/night-elf/","dateModified":"2026-10-25","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/en/"},"image":"https://gabella.site/wow/assets/og/night-elf.jpg?v=a9ab0590"}</script>
@@ -1408,7 +1427,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../../"></script>
-<script data-src="../../../assets/search/search.js?v=3979b8e3bb" data-root="../../../"></script>
+<script data-src="../../../assets/search/search.js?v=2e83e0e7f8" data-root="../../../"></script>
 <script data-src="../../../assets/me/me.js?v=f0bb3b6c1b" data-root="../../../" data-home="../../" data-lang="en" data-ach="0" data-teaser="" data-close="Close" data-page="races/night-elf/" data-look="2"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>

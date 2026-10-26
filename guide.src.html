@@ -71,10 +71,15 @@
 /* Wide screens: full rows whatever the width (the column grows on ultrawide, auto-fill would leave one tile in the last row) */
 @media (min-width: 1280px) { .gtiles { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
 @media (min-width: 1100px) {
-  .gtiles:is(:has(> :nth-child(16):last-child), :has(> :nth-child(12):last-child), :has(> :nth-child(8):last-child)) { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .gtiles:is(:has(> :nth-child(16):last-child), :has(> :nth-child(12):last-child), :has(> :nth-child(8):last-child), :has(> .wide:first-child):has(> :nth-child(17):last-child)) { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .gtiles:is(:has(> :nth-child(9):last-child), :has(> :nth-child(6):last-child)) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (min-width: 2200px) { .gtiles .ttile { min-height: 260px; } }
+/* a wide banner tile over the grid («Day 1» on /guides/, build_guides.hub_body) */
+.gtiles > .wide { grid-column: 1 / -1; min-height: 250px; }
+.gtiles > .wide img { object-position: 50% 42%; }
+.gtiles > .wide b { font-size: var(--fs-22); }
+@media (min-width: 2200px) { .gtiles > .wide { min-height: 320px; } }
 /* titles and captions on one line across a row: two lines kept for each, the caption cut after two */
 @media (min-width: 720px) {
   .gtiles .ttile b { min-height: 2.4em; display: flex; align-items: flex-end; }
@@ -156,6 +161,7 @@
     --edges: linear-gradient(90deg, transparent 0, rgb(0 0 0 / .5) calc(var(--lf) * .45), #000 var(--lf), #000 calc(100% - var(--rf)), rgb(0 0 0 / .5) calc(100% - var(--rf) * .45), transparent 100%);
     left: auto; right: var(--rgap); width: var(--box); -webkit-mask-image: var(--edges); mask-image: var(--edges); }
   .phead-art { --box: min(100vw, 1620px); }
+  @media (min-width: 2200px) { .phead-art { --box: min(100vw, 2400px); } .phead { min-height: 640px; } }   /* ultrawide: a wider scene and taller, the party framed as at 1620 x 440 */
   .ghero .stband-art:not(.por) { --box: min(100vw, calc(var(--hh) * 2.25)); }
   .phead-amb { display: block; position: absolute; inset: 0; z-index: -3; width: 100%; height: 100%; object-fit: cover; object-position: 66% 32%;
     filter: blur(32px) brightness(.5) saturate(1.15); pointer-events: none; }
@@ -216,7 +222,23 @@
 #radioDock { min-height: 515px; }   /* the player comes after load: its place is kept, so nothing below jumps (CLS) */
 @media (max-width: 719px) { #radioDock { min-height: 568px; } }
 @media (max-width: 359px) { #radioDock { min-height: 630px; } }
-@media (min-width: 960px) {   /* two independent columns: level + dungeons | radio + timers */
+/* until radio.js builds the player: its outline in the same place (art strip, bar, buttons, stations), not an empty black box */
+.rskel { display: grid; gap: 16px; align-content: start; }
+#radioDock:has(.rdo) .rskel { display: none; }
+.rskel i { display: block; border-radius: 8px; background: var(--panel-2); }
+.rskel .ra { height: 110px; background: linear-gradient(100deg, var(--panel-2) 30%, color-mix(in srgb, var(--gold) 14%, var(--panel-2)) 100%); }
+.rskel .rl { height: 6px; border-radius: 3px; }
+.rskel .rs { width: 46%; height: 12px; }
+.rskel .rc { display: flex; align-items: center; gap: 18px; }
+.rskel .rc i { width: 28px; height: 28px; border-radius: 50%; }
+.rskel .rc i:nth-child(2) { width: 44px; height: 44px; background: color-mix(in srgb, var(--gold) 45%, var(--panel-2)); }
+.rskel .rc .rv { flex: 1; height: 6px; border-radius: 3px; }
+.rskel .rt { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+.rskel .rt i { aspect-ratio: 3 / 2; }
+@media (max-width: 719px) { .rskel .rt { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (prefers-reduced-motion: no-preference) { .rskel { animation: rpulse 1.6s ease-in-out infinite alternate; } }
+@keyframes rpulse { from { opacity: 1; } to { opacity: .55; } }
+@media (min-width: 960px) {   /* two independent columns: level + dungeons + timers | radio (about the same height) */
   .pgrid { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: start; }
   .pcol { display: grid; gap: 14px; min-width: 0; }
 }

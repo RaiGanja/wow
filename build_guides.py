@@ -116,8 +116,9 @@ def tile_links(tiles, lang, root):
     out = []
     for s in tiles:
         avif, webp, img = art_sets(s['art'], '@@ROOT@@')
-        out.append(f'<a class="ttile" href="{root}{s["href"]}"><picture><source type="image/avif" srcset="{avif}" sizes="320px">'
-                   f'<img src="{img}" srcset="{webp}" sizes="320px" alt="" loading="lazy" decoding="async"></picture>'
+        cls, sz = ('ttile wide', '(min-width: 1280px) 1240px, 100vw') if s.get('wide') else ('ttile', '320px')
+        out.append(f'<a class="{cls}" href="{root}{s["href"]}"><picture><source type="image/avif" srcset="{avif}" sizes="{sz}">'
+                   f'<img src="{img}" srcset="{webp}" sizes="{sz}" alt="" loading="lazy" decoding="async"></picture>'
                    f'<b>{E(s["t"], lang)}</b><span>{E(s["d"], lang)}</span></a>')   # the update date is on the page itself
     return ''.join(out)
 
@@ -367,6 +368,9 @@ def hub_body(lang, root):
     at = next((i for i, x in enumerate(tiles) if x['href'] == 'guides/leveling/'), -1) + 1
     tiles[at:at] = [CLASS_HUB_TILE, BUILDS_HUB_TILE]   # «Builds by class» leads to the tier list section
     tiles += section_tiles() + SITE_TILES[1:]
+    day1 = next((i for i, x in enumerate(tiles) if x['href'] == 'guides/launch-checklist/'), None)
+    if day1 is not None:                                          # «Day 1» heads the page as a wide banner: the other 16 fill whole rows
+        tiles.insert(0, dict(tiles.pop(day1), wide=True))
     return '', f'<section class="gsec bare" id="all">{render_block("tiles", tiles, lang, root)}</section>'
 
 
@@ -570,8 +574,6 @@ def play_body(lang, root):
 </section>
 <section class="frame psec" id="dung" aria-labelledby="hDg"><h2 id="hDg">{x("dung")}</h2><ul class="pdg" id="pDg"></ul>
   <a class="pmore" href="{root}guides/dungeons/#list">{x("all")}</a></section>
-</div><div class="pcol">
-<section class="frame psec" id="radio" aria-labelledby="hRadio"><h2 id="hRadio">{x("radio")}</h2><div id="radioDock"></div></section>
 <section class="frame psec" id="timers" aria-labelledby="hT"><h2 id="hT">{x("timers")}</h2>
   <div class="ppre" id="tPre">{presets}</div>
   <form class="pform" id="tForm" novalidate><input id="tName" maxlength="40" placeholder="{x("name")}" aria-label="{x("name")}">
@@ -580,6 +582,8 @@ def play_body(lang, root):
   <ul class="ptl" id="tList" aria-live="polite"></ul>
   <label class="pnotify" id="tNotify" hidden><input type="checkbox"> {x("notify")}</label>
 </section>
+</div><div class="pcol">
+<section class="frame psec" id="radio" aria-labelledby="hRadio"><h2 id="hRadio">{x("radio")}</h2><div id="radioDock"><div class="rskel" aria-hidden="true"><i class="ra"></i><i class="rl"></i><span class="rc"><i></i><i></i><i></i><i class="rv"></i></span><i class="rl rs"></i><span class="rt"><i></i><i></i><i></i><i></i><i></i></span></div></div></section>
 </div></div>'''
 
 
