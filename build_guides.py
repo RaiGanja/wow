@@ -134,7 +134,19 @@ def cell(c, lang, root):
     if c[1].startswith('http'):                                   # an addon on CurseForge: a new tab, like the sources
         return f'<a href="{escape(c[1])}" target="_blank" rel="noopener">{E(c[0], lang)}</a>'
     name, sep, rest = L(c[0], lang).partition(' · ')
+    cid = CLS_HREF.search(c[1])
+    if cid:
+        return clink(cid.group(1), escape(name, quote=True), f'{root}{c[1]}') + escape(sep + rest, quote=True)
     return f'<a href="{root}{c[1]}">{escape(name, quote=True)}</a>{escape(sep + rest, quote=True)}'
+
+
+CLS_HREF = re.compile(r'(?:^|[/-])(' + '|'.join(build.COLOR) + r')/(?:#[\w-]*)?$')   # classes/mage/, guides/leveling-mage/
+
+
+def clink(cid, name, href):
+    """A class name in a table or a list: its game colour and a small portrait (index.src.html .clink)."""
+    return (f'<a class="clink" href="{href}" style="--cc:{build.COLOR[cid]}"><span class="av"><img src="@@ROOT@@assets/art/{cid}-face.webp"'
+            f' width="160" height="160" alt="" loading="lazy" decoding="async"></span>{name}</a>')
 
 
 CLS_ID = {c['n']: c['id'] for c in build.CLASSES}   # «Паладин» -> paladin
@@ -230,7 +242,7 @@ def render_block(kind, data, lang, root, inner=False):
         head = [E(h, lang) for h in data['head']]
         name = {c['id']: build.tr(c['n'], lang) for c in build.CLASSES}
         def cls(ids):
-            return ', '.join(f'<a href="{root}classes/{i}/">{escape(name[i])}</a>' for i in ids)
+            return ', '.join(clink(i, escape(name[i]), f'{root}classes/{i}/') for i in ids)
         rows = ''.join(f'<tr><td data-l="{head[0]}">{E(r[0], lang)}</td><td data-l="{head[1]}">{cls(r[1])}</td>'
                        + ''.join(f'<td data-l="{h}">{E(c, lang)}</td>' for h, c in zip(head[2:], r[2:])) + '</tr>'
                        for r in data['rows'])

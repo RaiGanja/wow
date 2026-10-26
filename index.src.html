@@ -211,10 +211,13 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
   box-shadow: inset 0 -1px 0 var(--hero-line); }
 .hero-in { width: 100%; padding-top: calc(var(--top) + clamp(40px, 9vh, 110px)); padding-bottom: 40px; display: grid; gap: 22px; justify-items: start; max-width: var(--wrap); }
 .todsw { min-height: 44px; display: flex; align-items: center; }
+.hero > .todsw { position: absolute; z-index: 1; top: calc(var(--top) + 8px); right: max(20px, calc((100% - var(--wrap)) / 2 + 20px)); font-size: var(--fs-13); text-shadow: var(--hero-shadow); }   /* the scene caption, out of the text column */
+@media (max-width: 719px) { .hero > .todsw { left: 20px; right: auto; } }
+.hd-line .dup { display: none; }   /* a date the countdown already says */
 .hero h1 { font-size: var(--fs-hero); line-height: .98; letter-spacing: .005em; text-shadow: var(--hero-shadow); }
 .hero h1 span { display: block; color: var(--ink-gold); }
 .hero h1, .hero .lead { text-shadow: var(--hero-shadow); }  /* the castle and the sun sit behind the text */
-.hero .lead { max-width: 46ch; font-size: var(--fs-18); color: var(--ink-2); }
+.hero .lead { max-width: 34rem; font-size: var(--fs-18); color: var(--ink-2); }
 /* Countdown: big figures straight on the art, captions under them, no tiles (Blizzard, D4) */
 .cd { display: flex; align-items: center; flex-wrap: wrap; gap: 14px 36px; margin-top: 6px; text-shadow: var(--hero-shadow); }
 .cd .units { display: flex; align-items: flex-start; gap: 26px; }
@@ -237,7 +240,7 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .hero .btn.ghost:hover { border-color: #e0c27a; background: rgba(5,5,5,.55); }
 .hd-line { display: flex; flex-wrap: wrap; gap: 2px 0; margin: 2px 0 0; font-size: var(--fs-14); color: var(--ink-2); text-shadow: var(--hero-shadow); font-variant-numeric: lining-nums tabular-nums; }
 .hd-line span { white-space: nowrap; }
-.hd-line span + span::before { content: "·"; margin: 0 10px; color: var(--ink-2); }
+.hd-line span:not(.dup) ~ span:not(.dup)::before { content: "·"; margin: 0 10px; color: var(--ink-2); }
 .hd-line b { color: var(--ink); font-weight: 600; }
 .hd-line .past { opacity: .62; }
 .hd-line .cur b { color: var(--ink-gold); }
@@ -592,6 +595,10 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 .av { --s: 40px; position: relative; width: var(--s); height: var(--s); flex: none; display: inline-block; border-radius: 50%; background: #0a0a0a; box-shadow: 0 0 0 2px var(--ring-gap, var(--panel)), 0 0 0 3.5px var(--cc, var(--pline)); }
 :root[data-theme="light"] .av { box-shadow: 0 0 0 2px var(--ring-gap, var(--panel)), 0 0 0 3.5px var(--class-ink, var(--pline)); }
 .av img { display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+/* A class name in a table: game colour and a small portrait (build_guides.clink) */
+.clink { display: inline-flex; align-items: center; gap: 7px; vertical-align: top; white-space: nowrap; color: var(--class-ink); font-weight: 600; text-decoration: none; }
+:root .clink .av { --s: 22px; box-shadow: 0 0 0 1.5px var(--class-ink); }
+.clink:hover, .clink:focus-visible { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 #matrix { min-width: 860px; border-spacing: 0 2px; table-layout: fixed; }
 /* Equal class columns: the race column is fixed, the nine class columns share the rest */
 #matrix thead th:first-child { width: 290px; }
@@ -1035,8 +1042,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
       <a class="btn lg ghost" href="tools/#raid">Собрать группу</a>
     </div>
     <p class="hd-line"><span data-d="2026-10-27T17:00:00Z"><b>27.10</b> Резерв имён</span><span data-d="2026-11-04T23:00:00Z"><b>04.11</b> Релиз</span><span data-d="2026-12-09T00:00:00"><b>09.12</b> Рейды</span></p>
-    @@TOD_SW@@
   </div>
+  @@TOD_SW@@
   <div class="hnews wrap"><div class="hh"><h2>Свежее</h2><a href="guides/news/">Все новости<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div><div class="row3">@@FRESH@@</div></div>
 </section>
 
@@ -1140,7 +1147,8 @@ function renderCountdown() {
   }
   $('#cd').innerHTML = html;
   let cur = null;
-  document.querySelectorAll('.hd-line [data-d]').forEach(li => { const past = new Date(li.dataset.d) <= now; li.classList.toggle('past', past); li.classList.remove('cur'); if (!past && !cur) cur = li; });
+  document.querySelectorAll('.hd-line [data-d]').forEach(li => { const d = new Date(li.dataset.d), past = d <= now; li.classList.toggle('past', past); li.classList.remove('cur');
+    li.classList.toggle('dup', past || now >= rel || +d === +r1 || +d === +rel); if (!li.classList.contains('dup') && !cur) cur = li; });   /* the countdown says the reserve and the start itself */
   if (cur) cur.classList.add('cur');
 }
 renderCountdown();
