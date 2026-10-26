@@ -1114,8 +1114,8 @@ function card() {
   const sub = [sn, me.role ? ROLE_RU[me.role] : '', facOf(me.race) === 'horde' ? H_FAC.horde : H_FAC.alliance,
     me.lvl ? fill(TX.levelN, { n: me.lvl }) : '', me.reg && TX.regs[me.reg] ? TX.regs[me.reg] : ''].filter(Boolean).join(' · ');
   box.style.setProperty('--cc', CCOL[me.cls]);
-  box.innerHTML = `<img class="bgi" src="${bgUrl(l.bg)}" alt="" width="1600" height="900" decoding="async">`
-    + `<img class="por" src="${base(me)}" alt="" decoding="async" onerror="this.remove()">`
+  box.innerHTML = `<img class="bgi" src="${bgUrl(l.bg)}" alt="" width="1600" height="900" fetchpriority="high" decoding="async">`
+    + `<img class="por" src="${base(me)}" alt="" fetchpriority="high" decoding="async" onerror="this.remove()">`
     + `<div class="who"><span class="k">${esc(TX.title)}</span><h2>${esc(HC.rn[me.race])} · ${esc(HC.cn[me.cls])}</h2><span class="s">${esc(sub)}</span>`
     + `<div class="row"><button type="button" class="btn ghost" data-go="2">${esc(TX.edit)}</button><button type="button" class="btn ghost" data-go="5">${esc(TX.lvlReg)}</button></div>`
     + `<p class="mnote">${esc(TX.local)}</p></div>`;
@@ -1154,7 +1154,7 @@ function draw() {
   let b = '';
   if (wiz.step === 1) {
     b = `<h2>${esc(TX.side)}</h2><div class="mfacs">${['alliance', 'horde'].map(f => `<button type="button" data-f="${f}" aria-pressed="${wiz.f === f}">`
-      + `<img src="${ROOT}assets/art/${f === 'alliance' ? 'human' : 'orc'}-600.webp${PV}" alt="" width="600" height="804" loading="lazy" decoding="async"><b>${esc(H_FAC[f])}</b></button>`).join('')}</div>` + nav(wiz.f ? 'on' : '', '');
+      + `<img src="${ROOT}assets/art/${f === 'alliance' ? 'human' : 'orc'}-600.webp${PV}" alt="" width="600" height="804" fetchpriority="high" decoding="async"><b>${esc(H_FAC[f])}</b></button>`).join('')}</div>` + nav(wiz.f ? 'on' : '', '');
   } else if (wiz.step === 2) {
     const cls = CLASSES.filter(c => RACES.some(r => r.f === wiz.f && r.can[c.id]));
     b = `<h2>${esc(TX.cls)}</h2><div class="mpicks" role="group" aria-label="${esc(TX.cls)}">${cls.map(c => `<button type="button" data-cls="${c.id}" aria-pressed="${wiz.cls === c.id}" style="color:${wiz.cls === c.id ? '' : CCOL[c.id]}">`
