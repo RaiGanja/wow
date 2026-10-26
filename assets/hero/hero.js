@@ -5,7 +5,7 @@
 (function () {
   const S = document.currentScript;
   const ROOT = S.dataset.root, HOME = S.dataset.home, DATA = S.dataset.data;
-  const PV = /*PV*/'?v=f30afcca';   // ?v= of the class portraits (build.art_version)
+  const PV = /*PV*/'?v=a29ccccf';   // ?v= of the class portraits (build.art_version)
   const KEY = 'gabella-wf-me', DAY1 = 'gabella-day1';
   let mem = null, D = null, sheet = null;
   const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));

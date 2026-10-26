@@ -45,6 +45,7 @@
 <link rel="icon" type="image/png" sizes="96x96" href="../../assets/icons/favicon-96.png?v=e6542ea5">
 <link rel="preload" href="../../assets/fonts/spectral-sc-latin.woff2?v=55dd1ea6" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../../assets/fonts/golos-text-latin.woff2?v=5c155680" as="font" type="font/woff2" crossorigin>
+<script>(function(){var D={"m":{"warrior":{"alliance":"warrior-human","horde":"warrior-orc"},"paladin":{"alliance":"paladin-human","horde":"paladin-undead"},"hunter":{"alliance":"hunter-nightelf","horde":"hunter-orc"},"rogue":{"alliance":"rogue-nightelf","horde":"rogue-orc"},"priest":{"alliance":"priest-gnome","horde":"priest-undead"},"shaman":{"alliance":"shaman-dwarf","horde":"shaman-orc"},"mage":{"alliance":"mage-gnome","horde":"mage-orc"},"warlock":{"alliance":"warlock-gnome","horde":"warlock-orc"},"druid":{"alliance":"druid-nightelf","horde":"druid-tauren"}},"r":{"human":"alliance","dwarf":"alliance","nightelf":"alliance","gnome":"alliance","skyA":"alliance","orc":"horde","undead":"horde","tauren":"horde","troll":"horde","skyH":"horde"},"b":[6,11,17,23]},M=D.m,R=D.r,B=D.b;function fac(){var h=null;try{h=JSON.parse(localStorage.getItem("gabella-wf-me"))}catch(e){}if(h&&R[h.race])return R[h.race];var t=document.documentElement.getAttribute("data-tod"),s=null;if(!t){try{s=localStorage.getItem("gabella-tod")}catch(e){}var H=new Date().getHours();t=/^(dawn|day|dusk|night)$/.test(s)?s:H>=B[0]&&H<B[2]?"day":"night"}return t=="dusk"||t=="night"?"horde":"alliance"}function id(c,f){return M[c]?M[c][f||fac()]:c}function url(s,f){return s.replace(/\{(\w+)\}/g,function(x,c){return M[c]?id(c,f):x})}function fill(el,f){el=el||document;el.querySelectorAll("[data-por-srcset]").forEach(function(e){var v=url(e.getAttribute("data-por-srcset"),f);if(e.getAttribute("srcset")!==v)e.setAttribute("srcset",v)});el.querySelectorAll("[data-por-src]").forEach(function(e){var v=url(e.getAttribute("data-por-src"),f);if(e.getAttribute("src")!==v)e.setAttribute("src",v)})}window.GabellaPor={map:M,side:R,fac:fac,id:id,url:url,fill:fill};var re=function(){fill()};document.addEventListener("DOMContentLoaded",re);addEventListener("gabella-me",re);document.addEventListener("gabella:tod",re);addEventListener("storage",function(e){if(e.key=="gabella-wf-me")re()})})();</script>
 <style>
 /* Game-portal layout: full-screen art hero, faction banners, class portrait roster, tools, guides band. Night + gold, light paper theme for content. */
 @font-face { font-family: "Spectral SC"; font-style: normal; font-weight: 400 700; font-display: swap; src: url(../../assets/fonts/spectral-sc-cyrillic.woff2?v=f78bcdc2) format("woff2"); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
@@ -1397,10 +1398,10 @@ button.rstep[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset
 <link rel="manifest" href="../../manifest-de.webmanifest">
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
-<link rel="stylesheet" href="../../assets/radio/radio.css?v=c5eacd57e2" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/radio/radio.css?v=f3d4c694a3" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/search/search.css?v=5db07bbab9" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=5cac046565" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/hero/hero.css?v=da2f24ceed" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=b13be6705d" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/hero/hero.css?v=cfb7f0ee0f" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://gabella.site/wow/de/"},{"@type":"ListItem","position":2,"name":"Mein Profil","item":"https://gabella.site/wow/de/profile/"}]}</script>
 </head>
 <body>
@@ -1525,7 +1526,7 @@ const GD = {"races":{"human":{"f":"alliance","cls":["warrior","paladin","hunter"
 const SOC = false;   // build.SOCIAL: the Players page and everything that points to it are hidden
 const ACH = false;   // build.ACHIEVEMENTS: achievements, ranks, points and frames are hidden except the «Founder» mark
 const ROOT = '../../', HOME = '../', LANG = 'de', HL = document.documentElement.lang;
-const PV = /*PV*/'?v=6114caef', AV = /*AV*/'?v=b1f2be23';   // ?v= of the class and race portraits (build.art_version) and of the achievement icons (build.me_version)
+const PV = /*PV*/'?v=a29ccccf', AV = /*AV*/'?v=b1f2be23';   // ?v= of the class and race portraits (build.art_version) and of the achievement icons (build.me_version)
 const $ = (s, el) => (el || document).querySelector(s), $$ = (s, el) => [...(el || document).querySelectorAll(s)];
 const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
 const fill = (s, o) => s.replace(/%(\w)/g, (m, k) => (k in o ? o[k] : m));
@@ -2032,7 +2033,7 @@ function wizard() {
     const races = Object.entries(GD.races).filter(([, r]) => r.f === w.f);
     const cl = w.race ? race(w.race).cls : [];
     body = `<h2>Volk und Klasse</h2><div class="picks" role="group" aria-label="Volk">${races.map(([id, r]) => `<button type="button" data-race="${id}" aria-pressed="${w.race === id}">${ring('recruit', `${ROOT}assets/art/${r.slug}-face.webp${PV}`)}${esc(r.n)}</button>`).join('')}</div>
-      ${w.race ? `<div class="picks" role="group" aria-label="Klasse">${cl.map(id => `<button type="button" data-cls="${id}" aria-pressed="${w.cls === id}" style="color:${cls(id).color}">${ring('recruit', `${ROOT}assets/art/${id}-face.webp${PV}`)}${esc(cls(id).n)}</button>`).join('')}</div>` : ''}
+      ${w.race ? `<div class="picks" role="group" aria-label="Klasse">${cl.map(id => `<button type="button" data-cls="${id}" aria-pressed="${w.cls === id}" style="color:${cls(id).color}">${ring('recruit', `${ROOT}assets/art/${window.GabellaPor ? GabellaPor.id(id, GabellaPor.side[w.race]) : id}-face.webp${PV}`)}${esc(cls(id).n)}</button>`).join('')}</div>` : ''}
       <div class="row"><button type="button" class="btn ghost" data-back>Zurück</button><button type="button" class="btn" data-next${w.race && w.cls ? '' : ' disabled'}>Weiter</button></div>`;
   } else if (w.step === 3) {
     const c0 = { race: w.race, class: w.cls };
@@ -2699,10 +2700,10 @@ addEventListener('beforeinstallprompt', e => {
   opts.append(b);
 });
 </script>
-<script src="../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../" defer></script>
+<script src="../../assets/radio/radio.js?v=f3d4c694a3" data-root="../../" defer></script>
 <script src="../../assets/search/search.js?v=5db07bbab9" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=5cac046565" data-root="../../" data-home="../" data-lang="de" data-ach="0" data-teaser="" data-close="Schließen" data-page="profile/" data-look="2" defer></script>
-<script src="../../assets/hero/hero.js?v=da2f24ceed" data-root="../../" data-home="../" data-data="../../assets/hero/de.json?v=da2f24ceed" defer></script>
+<script src="../../assets/me/me.js?v=b13be6705d" data-root="../../" data-home="../" data-lang="de" data-ach="0" data-teaser="" data-close="Schließen" data-page="profile/" data-look="2" defer></script>
+<script src="../../assets/hero/hero.js?v=cfb7f0ee0f" data-root="../../" data-home="../" data-data="../../assets/hero/de.json?v=cfb7f0ee0f" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>
