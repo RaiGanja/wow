@@ -429,9 +429,11 @@ canvas.fx.on { opacity: 1; }
 }
 /* the strips beside a stopped scene are not left empty: the same scene, small (960 px), blurred and dimmed, fills the band and
    the sharp scene melts into it */
-.thero-amb { display: none; }
+.thero-amb, .hero-amb { display: none; }
 @media (min-width: 720px) {
   .thero-amb { display: block; position: absolute; inset: 0 0 auto 0; z-index: -3; width: 100%; height: var(--hh); object-fit: cover; object-position: 66% 50%;
+    filter: blur(32px) brightness(.5) saturate(1.15); clip-path: inset(0); pointer-events: none; }
+  .hero-amb { display: block; position: absolute; inset: 0; z-index: -3; width: 100%; height: 100%; object-fit: cover; object-position: 62% 50%;   /* the home hero, in the time of day of the scene */
     filter: blur(32px) brightness(.5) saturate(1.15); clip-path: inset(0); pointer-events: none; }
 }
 .thero-in { width: 100%; display: grid; gap: 18px; justify-items: start; }

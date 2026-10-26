@@ -1,6 +1,7 @@
 /* Time of day (assets/tod/tod.js): the next variant fading in over the hero, and the quiet switch under the buttons (the .todsw slot itself is in the critical CSS of the home page) */
 .tod-next { opacity: 0; transition: opacity 20s cubic-bezier(.45, 0, .55, 1); z-index: -2; pointer-events: none; }
 .tod-next.in { opacity: 1; }
+.hero-amb.tod-next { z-index: -3; }
 .todsw button { min-height: 44px; padding: 0; border: 0; background: none; color: var(--ink-2); cursor: pointer;
   font: 400 var(--fs-13)/1 var(--font-body); }   /* a quiet caption, not a spaced-caps kicker */
 .todsw button b { font-weight: 600; color: var(--gold); }

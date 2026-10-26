@@ -6,6 +6,8 @@
 (() => {
   const G = window.GabellaTod, pic = document.querySelector('picture[data-tod-art]');
   if (!G || !pic) return;
+  const amb = document.querySelector('img[data-tod-amb]');   // the blurred sides of an ultrawide hero follow the hero
+  const ambSrc = t => amb.getAttribute('data-src').replace(/\{tod\}/g, t);
   const PARTS = ['dawn', 'day', 'dusk', 'night'];
   const STILL = matchMedia('(prefers-reduced-motion: reduce)');
   const fill = (root, t) => {
@@ -29,19 +31,24 @@
     next.querySelectorAll('canvas').forEach(c => c.remove());
     next.classList.add('tod-next');
     const img = fill(next, to);
+    let ambNext = null;
+    if (amb) { ambNext = amb.cloneNode(); ambNext.removeAttribute('data-tod-amb'); ambNext.className = 'hero-amb tod-next'; ambNext.src = ambSrc(to); }
     busy = ready(img).then(() => new Promise(done => {
       emit('gabella:tod-start', { from, to });
       ms = STILL.matches ? 0 : ms;
       next.style.transitionDuration = ms + 'ms';
       pic.after(next);
-      requestAnimationFrame(() => requestAnimationFrame(() => next.classList.add('in')));
+      if (ambNext) amb.after(ambNext);
+      requestAnimationFrame(() => requestAnimationFrame(() => { next.classList.add('in'); if (ambNext) ambNext.classList.add('in'); }));
       setTimeout(() => {
         fill(pic, to);
+        if (amb) amb.src = ambSrc(to);
         const base = pic.querySelector('img');
         const swap = () => {
           G.now = to;
           document.documentElement.setAttribute('data-tod', to);
           next.remove();
+          if (ambNext) ambNext.remove();
           busy = null;
           render();
           emit('gabella:tod', { from, to });

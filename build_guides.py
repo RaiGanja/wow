@@ -498,8 +498,9 @@ def play_head(lang):
     """Title and lead on the left, the screen buttons on the right (each shows up only where the browser can do it)."""
     x = lambda k: E(PLAY_TX[k], lang)
     road = lambda ext: ', '.join(f'@@ROOT@@assets/art/hero_road-{w}.{ext} {w}w' for w in (960, 1600, 2560))   # noqa: E731
-    art = ('<picture class="phead-art" aria-hidden="true">'   # the evening road: a ready scene seen nowhere else on the site
-           f'<source type="image/avif" srcset="{road("avif")}" sizes="100vw"><source type="image/webp" srcset="{road("webp")}" sizes="100vw">'
+    art = ('<img class="phead-amb" src="@@ROOT@@assets/art/hero_road-960.webp" width="960" height="536" alt="" aria-hidden="true" loading="lazy" decoding="async">'   # ultrawide sides
+           '<picture class="phead-art" aria-hidden="true">'   # the evening road: a ready scene seen nowhere else on the site
+           f'<source type="image/avif" srcset="{road("avif")}" sizes="min(100vw, 1620px)"><source type="image/webp" srcset="{road("webp")}" sizes="min(100vw, 1620px)">'
            '<img src="@@ROOT@@assets/art/hero_road-1600.webp" width="1600" height="893" alt="" fetchpriority="high" decoding="async"></picture>')
     return ('<section class="phead" id="top">' + art + '<div class="wrap"><div class="ptitle"><h1>@@TITLE@@</h1><p class="glead">@@LEAD@@</p></div>'
             '<div class="pacts"><button class="pill pwake" id="wakeBtn" type="button" aria-pressed="false" hidden>'
@@ -825,6 +826,8 @@ def build_page(g, lang, tpl, base_css, sprite, src):
     fx_attr = f' data-fx="{FX[g["art"]]}"' if g['art'] in FX else ''
     rep = {
         'HERO': ('@@TOD_HERO@@' if g['art'] == 'hero_dawn' else   # the leveling guide: the hero in the reader's time of day (tod.py)
+                 (f'<img class="thero-amb" src="@@ROOT@@assets/art/{g["art"]}-960.webp" width="960" height="536" alt="" aria-hidden="true" loading="lazy" decoding="async">'   # ultrawide sides
+                  if g['art'] in WIDTHS else '') +
                  f'<picture class="stband-art{"" if g["art"] in WIDTHS else " por"}" aria-hidden="true"{fx_attr}><source type="image/avif" srcset="{avif}" sizes="100vw">'
                  f'<img src="{img}" srcset="{webp}" sizes="100vw" alt="" decoding="async" fetchpriority="high"></picture>'),
         'TITLE': E(g['title'], lang), 'LEAD': E(g['lead'], lang), 'CRUMB': crumb,

@@ -405,9 +405,11 @@ canvas.fx.on { opacity: 1; }
 }
 /* the strips beside a stopped scene are not left empty: the same scene, small (960 px), blurred and dimmed, fills the band and
    the sharp scene melts into it */
-.thero-amb { display: none; }
+.thero-amb, .hero-amb { display: none; }
 @media (min-width: 720px) {
   .thero-amb { display: block; position: absolute; inset: 0 0 auto 0; z-index: -3; width: 100%; height: var(--hh); object-fit: cover; object-position: 66% 50%;
+    filter: blur(32px) brightness(.5) saturate(1.15); clip-path: inset(0); pointer-events: none; }
+  .hero-amb { display: block; position: absolute; inset: 0; z-index: -3; width: 100%; height: 100%; object-fit: cover; object-position: 62% 50%;   /* the home hero, in the time of day of the scene */
     filter: blur(32px) brightness(.5) saturate(1.15); clip-path: inset(0); pointer-events: none; }
 }
 .thero-in { width: 100%; display: grid; gap: 18px; justify-items: start; }
@@ -1082,8 +1084,24 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .phead-art, .phead-art img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .phead-art { z-index: -2; }
 .phead-art img { object-fit: cover; object-position: 50% 32%; }
+/* Ultrawide: the road scene keeps the frame of a ~1620 px window (the party with the sign, nothing cut) and stands where the text is, as
+   in the scene bands (.thero); the same scene, small, blurred and dimmed (.phead-amb) fills the strips beside it, the edges melt into it.
+   The plain scene band of 404 and Privacy (.ghero > .stband-art) does the same at its own shape (2.25 : 1), its sides are .thero-amb */
+.phead-amb { display: none; }
+@media (min-width: 720px) {
+  .phead-art, .ghero .stband-art:not(.por) {
+    --rgap: clamp(0px, calc((100vw + var(--wrap)) / 2 - 20px - var(--box) * .82), calc(100vw - var(--box)));
+    --lgap: max(0px, calc(100vw - var(--box) - var(--rgap)));
+    --lf: min(calc(var(--lgap) * .5), 22%); --rf: min(calc(var(--rgap) * .5), 6%);
+    --edges: linear-gradient(90deg, transparent 0, rgb(0 0 0 / .5) calc(var(--lf) * .45), #000 var(--lf), #000 calc(100% - var(--rf)), rgb(0 0 0 / .5) calc(100% - var(--rf) * .45), transparent 100%);
+    left: auto; right: var(--rgap); width: var(--box); -webkit-mask-image: var(--edges); mask-image: var(--edges); }
+  .phead-art { --box: min(100vw, 1620px); }
+  .ghero .stband-art:not(.por) { --box: min(100vw, calc(var(--hh) * 2.25)); }
+  .phead-amb { display: block; position: absolute; inset: 0; z-index: -3; width: 100%; height: 100%; object-fit: cover; object-position: 66% 32%;
+    filter: blur(32px) brightness(.5) saturate(1.15); pointer-events: none; }
+}
 .phead::before { content: ""; position: absolute; inset: 0; z-index: -1; background:
-  linear-gradient(90deg, rgb(5 5 5 / .72) 0%, rgb(5 5 5 / .42) 38%, rgb(5 5 5 / 0) 62%),
+  linear-gradient(90deg, rgb(5 5 5 / .72) max(0%, 50% - 810px), rgb(5 5 5 / .42) max(38%, 50% - 194px), rgb(5 5 5 / 0) min(62%, 50% + 194px)),
   linear-gradient(180deg, rgb(5 5 5 / .5) 0%, rgb(5 5 5 / 0) 28%, rgb(5 5 5 / .15) 62%, rgb(5 5 5) 100%); }
 .phead .wrap { width: 100%; display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px 24px; }
 .ptitle { display: grid; gap: 8px; flex: 1 1 520px; max-width: 640px; min-width: 0; }
@@ -1284,7 +1302,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </div></header>
 
 <main id="main">
-<section class="phead" id="top"><picture class="phead-art" aria-hidden="true"><source type="image/avif" srcset="../../assets/art/hero_road-960.avif?v=f581693d 960w, ../../assets/art/hero_road-1600.avif?v=f0ac73e7 1600w, ../../assets/art/hero_road-2560.avif?v=68e2d884 2560w" sizes="100vw"><source type="image/webp" srcset="../../assets/art/hero_road-960.webp?v=73f79540 960w, ../../assets/art/hero_road-1600.webp?v=25456252 1600w, ../../assets/art/hero_road-2560.webp?v=1e28c4f2 2560w" sizes="100vw"><img src="../../assets/art/hero_road-1600.webp?v=25456252" width="1600" height="893" alt="" fetchpriority="high" decoding="async"></picture><div class="wrap"><div class="ptitle"><h1>У грі</h1><p class="glead">Другий екран під час гри: радіо, зони й підземелля під ваш рівень, таймери. Після входу — персонажі з профілю.</p></div><div class="pacts"><button class="pill pwake" id="wakeBtn" type="button" aria-pressed="false" hidden><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg>Екран не гасне</button></div></div></section><div class="wrap"><section class="frame pway" id="pWay" aria-label="Профіль"><p class="pnote">Увійдіть — рівень і персонажі збережуться в профілі.</p><a class="btn ghost" href="../../profile/">Увійти</a></section></div><script>try{if(localStorage.getItem("gabella-me")==="1")document.getElementById("pWay").hidden=true}catch(e){}</script>
+<section class="phead" id="top"><img class="phead-amb" src="../../assets/art/hero_road-960.webp?v=73f79540" width="960" height="536" alt="" aria-hidden="true" loading="lazy" decoding="async"><picture class="phead-art" aria-hidden="true"><source type="image/avif" srcset="../../assets/art/hero_road-960.avif?v=f581693d 960w, ../../assets/art/hero_road-1600.avif?v=f0ac73e7 1600w, ../../assets/art/hero_road-2560.avif?v=68e2d884 2560w" sizes="min(100vw, 1620px)"><source type="image/webp" srcset="../../assets/art/hero_road-960.webp?v=73f79540 960w, ../../assets/art/hero_road-1600.webp?v=25456252 1600w, ../../assets/art/hero_road-2560.webp?v=1e28c4f2 2560w" sizes="min(100vw, 1620px)"><img src="../../assets/art/hero_road-1600.webp?v=25456252" width="1600" height="893" alt="" fetchpriority="high" decoding="async"></picture><div class="wrap"><div class="ptitle"><h1>У грі</h1><p class="glead">Другий екран під час гри: радіо, зони й підземелля під ваш рівень, таймери. Після входу — персонажі з профілю.</p></div><div class="pacts"><button class="pill pwake" id="wakeBtn" type="button" aria-pressed="false" hidden><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg>Екран не гасне</button></div></div></section><div class="wrap"><section class="frame pway" id="pWay" aria-label="Профіль"><p class="pnote">Увійдіть — рівень і персонажі збережуться в профілі.</p><a class="btn ghost" href="../../profile/">Увійти</a></section></div><script>try{if(localStorage.getItem("gabella-me")==="1")document.getElementById("pWay").hidden=true}catch(e){}</script>
 
 <div class="wrap gbody play solo">
   <nav class="gtoc frame" aria-label="Розділи гайду"></nav>

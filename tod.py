@@ -59,7 +59,7 @@ def head_js(lang, root='@@ROOT@@', mobile=True, widths=(960, 1440, 1920, 2560, 3
 
 
 def hero(root='@@ROOT@@', cls='hero-art', fx='dawn', mobile=True, widths=(960, 1440, 1920, 2560, 3840),
-         sizes='(max-aspect-ratio: 16/9) 180vh, 100vw', img_w=1920, img_h=1072, msizes='100vw'):
+         sizes='(max-aspect-ratio: 16/9) 180vh, 100vw', img_w=1920, img_h=1072, msizes='100vw', amb=False):
     # msizes: the phone cut's width. The home band is the full screen width (aspect 600/768 on top), not 78vh tall
     def sources(name, attr):
         out = ''
@@ -76,7 +76,12 @@ def hero(root='@@ROOT@@', cls='hero-art', fx='dawn', mobile=True, widths=(960, 1
             'var i=p.querySelector("img");i.src=i.getAttribute("data-src").replace(/\\{tod\\}/g,t)})(document.currentScript.previousElementSibling,GabellaTod.now)</script>')
     still = (f'<noscript><picture class="{cls}">{sources("hero_dawn", "srcset")}'
              f'<img src="{root}assets/art/hero_dawn-{img_w}.webp" width="{img_w}" height="{img_h}" alt="" decoding="async"></picture></noscript>')
-    return live + fill + still
+    ambi = ''
+    if amb:   # ultrawide sides: the same scene, small and blurred (index.src.html .hero-amb); tod.js changes it with the hero
+        ambi = ('<img class="hero-amb" data-tod-amb data-src="' + root + 'assets/art/hero_{tod}-960.webp" width="960" height="536" alt="" aria-hidden="true" loading="lazy" decoding="async">'
+                '<script>(function(i,t){i.src=i.getAttribute("data-src").replace(/\\{tod\\}/g,t)})(document.currentScript.previousElementSibling,GabellaTod.now)</script>')
+        still += f'<noscript><img class="hero-amb" src="{root}assets/art/hero_dawn-960.webp" width="960" height="536" alt="" aria-hidden="true" decoding="async"></noscript>'
+    return live + fill + ambi + still
 
 
 def apply(html, lang, **kw):
