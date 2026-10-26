@@ -7,6 +7,7 @@ sys.path.insert(0, ROOT)
 import langs
 
 R1, R2 = '2026-10-27T17:00:00Z', '2026-10-27T20:00:00Z'   # резерв имён: Европа 17:00 UTC, Америка 20:00 UTC
+REL = '2026-11-04T23:00:00Z'   # старт игры 15:00 PT = 23:00 UTC
 RSV = "{ day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }"
 
 
@@ -41,6 +42,27 @@ class Countdown(unittest.TestCase):
             self.assertEqual(r['html'].count('class="u"'), 3, lang)
             self.assertIn(r['r1'], r['html'], lang)
             self.assertIn(r['r2'], r['html'], lang)
+
+    def test_start_time_in_page_source(self):
+        for lang in langs.ALL:
+            self.assertIn(f"rel = new Date('{REL}')", home(lang), lang)
+
+    def test_countdown_digits_follow_start_time(self):
+        for lang in langs.ALL:
+            h = home(lang)
+            for now, dhm in (('2026-11-04T21:30:00Z', ('0', '01', '30')), ('2026-10-26T12:00:00Z', ('9', '11', '00'))):
+                nums = re.findall(r'<div class="u"><b>(\d+)</b>', render(h, lang, now)['html'])
+                self.assertEqual(tuple(nums), dhm, (lang, now))
+
+    def test_reserve_line_switches_exactly_at_r1(self):
+        for lang in langs.ALL:
+            h = home(lang)
+            before = render(h, lang, '2026-10-27T16:59:00Z')
+            after = render(h, lang, '2026-10-27T17:00:00Z')
+            self.assertIn(before['r1'], before['html'], lang)
+            self.assertIn(before['r2'], before['html'], lang)
+            self.assertNotIn(after['r1'], after['html'], lang)
+            self.assertNotIn(after['r2'], after['html'], lang)
 
     def test_raids_have_no_countdown(self):
         for lang in langs.ALL:
