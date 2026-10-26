@@ -114,6 +114,11 @@ ul.rbuffs .cdot { width: 10px; height: 10px; border-radius: 50%; background: var
 ul.rbuffs li.off .cdot { background: transparent; box-shadow: inset 0 0 0 1.5px var(--muted); }
 .rshare { padding: 18px 20px; display: grid; gap: 12px; }
 .rshare .copyrow .btn { min-height: 44px; }
+.rshare + .rshare { margin-top: 16px; }
+.rshare .lead { margin: 0; color: var(--muted); font-size: var(--fs-16); max-width: 72ch; }
+.lfgbar select { font: inherit; font-size: var(--fs-16); font-weight: 500; min-height: 44px; min-width: 0; max-width: 100%; padding: 0 10px; border: 1px solid var(--pline); border-radius: 7px; background: var(--panel-2); color: var(--fg); }
+.lfgbar .fgroup { max-width: 100%; }
+@media (max-width: 719px) { .lfgbar .fgroup, .lfgbar select { width: 100%; } }
 
 dialog.edlg { border: 1px solid var(--pline); border-radius: 12px; padding: 0; width: min(440px, calc(100vw - 32px)); background: var(--surface); color: var(--fg); box-shadow: 0 30px 80px rgba(0,0,0,.6); }
 dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
@@ -305,6 +310,15 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
     <h3>Поделиться составом</h3>
     <div class="copyrow"><input id="rLink" readonly aria-label="Ссылка на состав"><button type="button" class="btn" id="rCopyLink"><svg class="ico" aria-hidden="true"><use href="#i-link"/></svg>Скопировать ссылку</button><button type="button" class="btn ghost" id="rCopyText"><svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg>Скопировать текстом</button><p class="small" id="rMsg" aria-live="polite"></p></div>
   </div>
+  <div class="panel rshare" id="lfg">
+    <h3>Объявление для LFG</h3>
+    <p class="lead">Строка для списка поиска группы и чата: кого не хватает, стиль игры и короткая ссылка на этот состав. Автоподбора группы в WoW Forever нет, только список LFG.</p>
+    <div class="rbar lfgbar">
+      <div class="fgroup"><label class="flabel" for="lfgD" id="lfgDL">Подземелье</label><select id="lfgD"></select></div>
+      <div class="fgroup"><span class="flabel" id="lls">Стиль игры</span><div class="seg" id="lfgS" aria-labelledby="lls"><button type="button" data-v="Learning" aria-pressed="false">Learning</button><button type="button" data-v="Relaxed" aria-pressed="false">Relaxed</button><button type="button" data-v="Competitive" aria-pressed="false">Competitive</button><button type="button" data-v="Carry Offered" aria-pressed="false">Carry Offered</button></div></div>
+    </div>
+    <div class="copyrow"><input id="rLfg" readonly aria-label="Текст для LFG"><button type="button" class="btn" id="rCopyLfg"><svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg>Текст для LFG</button><p class="small" id="rLfgMsg" aria-live="polite"></p></div>
+  </div>
 </section>
 
 <section class="block wrap" id="compare">
@@ -426,6 +440,63 @@ function teamText() {
   return out.length ? out.join('\n') + `\n${FAC[R.f]}, ${R.size}` : '';
 }
 
+/* LFG line: the dungeon or raid, the missing roles, the play style and a short link (#t=); kept under the 255-byte chat limit */
+const LFG = @@LFG@@;   // dungeons [name, min, max, entrance faction] and raids {size: name} in the client's language (build_tools)
+const CHAT_MAX = 255, CANON = '@@CANON@@'.replace(/^https?:\/\//, '');
+const RK = ['human', 'dwarf', 'nightelf', 'gnome', 'skyA', 'orc', 'undead', 'tauren', 'troll', 'skyH'];
+const CK = ['warrior', 'paladin', 'hunter', 'rogue', 'priest', 'shaman', 'mage', 'warlock', 'druid'];
+const L = { d: '', s: '' };
+function shortHash() {   // two base-36 characters a slot: race, class and role; names stay in the long link only
+  let last = R.s.length; while (last > 0 && !R.s[last - 1]) last--;
+  const code = R.s.slice(0, last).map(p => (p ? (RK.indexOf(p.race) * CK.length + CK.indexOf(p.cls)) * RR.length + RR.indexOf(p.role) + 1 : 0).toString(36).padStart(2, '0')).join('');
+  return `#t=${R.f[0]}${SIZES.indexOf(R.size)}${code}`;
+}
+function readShort() {
+  const m = location.hash.match(/^#t=([ah])([0-3])((?:[0-9a-z]{2})*)$/);
+  if (!m) return false;
+  const items = (m[3].match(/../g) || []).map(x => {
+    let v = parseInt(x, 36) - 1; if (v < 0) return null;
+    const role = RR[v % RR.length]; v = Math.floor(v / RR.length);
+    const cls = CK[v % CK.length], race = RK[Math.floor(v / CK.length)];
+    return RC[race] && CL[cls] ? { race, cls, role, name: '' } : null;
+  });
+  R.f = m[1] === 'h' ? 'horde' : 'alliance';
+  R.size = Math.max(SIZES[+m[2]], SIZES.find(x => x >= items.length) || 40);
+  R.s = Array.from({ length: R.size }, (_, i) => items[i] || null);
+  return true;
+}
+function lfgPlaces() { return R.size === 5 ? LFG.d.filter(d => !d[3] || d[3] === R.f).map(d => [d[0], `${d[0]} (${d[1]}–${d[2]})`]) : (LFG.r[R.size] ? [[LFG.r[R.size], LFG.r[R.size]]] : []); }
+function lfgNeed() {
+  const list = R.s.filter(Boolean), cnt = countRoles(list), rec = REC[R.size];
+  let free = R.size - list.length;
+  const need = RR.map((x, k) => { const n = Math.min(Math.max(rec[k] - cnt[x], 0), free); free -= n; return n; });
+  need[2] += free;   // places left once the roles are covered go to damage
+  return need;
+}
+function lfgText() {
+  const need = lfgNeed();
+  if (!need.some(Boolean) || !R.s.some(Boolean)) return '';
+  const roles = RR.map((x, k) => need[k] ? ROLE_RU[x] + (need[k] > 1 ? ` ×${need[k]}` : '') : '').filter(Boolean).join(', ');
+  const head = (L.d ? '%d — нужны: %n.' : 'Нужны в группу: %n.').replace('%d', L.d).replace('%n', roles);
+  const parts = [head, L.s ? 'Стиль: %s.'.replace('%s', L.s) : '', CANON + shortHash()].filter(Boolean);
+  const bytes = t => new TextEncoder().encode(t).length;
+  let text = parts.join(' ');
+  if (bytes(text) > CHAT_MAX) text = parts.slice(0, -1).join(' ');   // a long raid code would not fit: the link goes first
+  return text;
+}
+function renderLfg() {
+  const places = lfgPlaces(), sel = $('#lfgD');
+  if (!places.some(p => p[0] === L.d)) L.d = R.size === 5 ? '' : (places[0] || [''])[0];
+  $('#lfgDL').textContent = R.size === 5 ? 'Подземелье' : 'Рейд';
+  sel.innerHTML = (R.size === 5 ? '<option value="">Любое подземелье</option>' : '') + places.map(([v, t]) => `<option value="${esc(v)}"${v === L.d ? ' selected' : ''}>${esc(t)}</option>`).join('');
+  syncSeg('lfgS', L.s);
+  const text = lfgText();
+  $('#rLfg').value = text;
+  $('#rCopyLfg').disabled = !text;
+  $('#rLfgMsg').textContent = text ? lfgLen(text) : R.s.some(Boolean) ? 'Все места заняты.' : 'Добавьте в состав хотя бы одного игрока.';
+}
+function lfgLen(t) { return 'Знаков: %n из %m (лимит строки чата).'.replace('%n', t.length).replace('%m', CHAT_MAX); }
+
 function unitHTML(p, i) {
   const cls = R.moving === i ? ' src' : '';
   if (!p) return `<button type="button" class="unit empty${cls}" data-i="${i}"><span class="up" aria-hidden="true">+</span><span class="ub"><b>Свободное место</b><span>Нажмите, чтобы добавить игрока</span></span></button>`;
@@ -474,6 +545,7 @@ function renderRaid(touched = true) {
   $('#rCopyLink').disabled = $('#rCopyText').disabled = !n;
   // the link follows the roster only once it has been edited, so #compare and other anchors keep working on load
   if (touched) try { history.replaceState(null, '', n ? hashStr() : location.pathname + location.search); } catch (e) {}
+  renderLfg();
 }
 
 function setSize(size) {
@@ -492,6 +564,9 @@ $('#rFill').onclick = () => {
 $('#rClear').onclick = () => { R.s = Array(R.size).fill(null); R.moving = -1; renderRaid(); };
 $('#rCopyLink').onclick = () => copyTo(teamLink(), $('#rMsg'), 'Ссылка скопирована');
 $('#rCopyText').onclick = () => copyTo(teamText(), $('#rMsg'), 'Состав скопирован');
+$('#lfgD').onchange = e => { L.d = e.target.value; renderLfg(); };
+$('#lfgS').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { L.s = L.s === b.dataset.v ? '' : b.dataset.v; renderLfg(); } });
+$('#rCopyLfg').onclick = () => { const t = lfgText(); copyTo(t, $('#rLfgMsg'), 'Текст скопирован. ' + lfgLen(t)); };
 
 function swap(a, b) { const t = R.s[a]; R.s[a] = R.s[b]; R.s[b] = t; }
 $('#rview').addEventListener('click', e => {
@@ -766,8 +841,8 @@ render();
   setTimeout(() => document.getElementById('picker').scrollIntoView(), 0);
 })();
 
-const fromLink = location.hash.startsWith('#team=');
-readHash();
+const fromLink = /^#(team|t)=/.test(location.hash);
+if (!readShort()) readHash();
 if (!R.s.some(Boolean)) { const used = { tank: 0, heal: 0, dps: 0 }; R.s = R.s.map((_, i) => newPlayer(i, used)); }
 renderRaid(fromLink); renderPick(); renderCmp();
 if (fromLink) $('#raid').scrollIntoView();

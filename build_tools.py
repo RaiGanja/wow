@@ -39,12 +39,30 @@ def class_data(lang):
     return 'const CX = ' + json.dumps(cx, ensure_ascii=False) + ';'
 
 
+def game_name(en, lang):
+    """A dungeon or raid name as the game client shows it: ruRU on ru, the official one on de/fr/es/pt/it, English elsewhere."""
+    return (langs.NAMES.get(en, {}).get('ru') or en) if lang == 'ru' else langs.name(en, lang)
+
+
+LFG_RAIDS = {10: 'Barrow Deeps', 20: 'Hyjal Summit', 40: 'Onyxia’s Lair'}   # the raids of tools.src.html RAIDS by size
+
+
+def lfg_data(src, lang):
+    """Places for the LFG line of the group builder: dungeons [name, min, max, entrance faction] from DUNGEONS, raids by size."""
+    i = src.index('const DUNGEONS = [')
+    rows = re.findall(r"""^\s*\[(['"])(.+?)\1, (\d+), (\d+), .*?(?:, '(horde|alliance)')?\],?$""", src[i:src.index('\n];', i)], re.M)
+    assert len(rows) > 30, len(rows)
+    d = [[game_name(n, lang), int(lo), int(hi), f or 0] for _, n, lo, hi, f in rows]
+    return json.dumps({'d': d, 'r': {k: game_name(v, lang) for k, v in LFG_RAIDS.items()}}, ensure_ascii=False)
+
+
 def build_tools(lang, src, tpl, base_css, sprite):
     here = page_dir(lang, 'tools/')
     html = build.chrome(tpl.replace('@@BASE_CSS@@', base_css).replace('@@SPRITE@@', sprite), nav='tools/')
     html = html.replace('@@DATA@@', build.js_names(home_data(src), lang) + '\n' + class_data(lang))
     html, missing = translate(html, lang)
     html = build.set_updated(html, 'tools/')
+    html = html.replace('@@LFG@@', lfg_data(src, lang))
     html = html.replace('@@CPROF@@', json.dumps({c['id']: build.class_profs_short(c['id'], lang) for c in CLASSES}, ensure_ascii=False))
     html = html.replace('@@HOME@@', rel(here, page_dir(lang)))
     html = html.replace('@@CANON@@', SITE + here)
