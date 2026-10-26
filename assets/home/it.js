@@ -133,9 +133,11 @@ const tipBox = h => `<div class="tipbox"><svg class="ico fi" aria-hidden="true">
 function bi(ru) { return EN[ru] && EN[ru] !== ru ? `${esc(ru)} <span class="en">(${esc(EN[ru])})</span>` : esc(ru); }
 function raceEn(r) { return r.en ? ` <span class="en">/ ${esc(r.en)}</span>` : ''; }
 function facName(f) { return f === 'alliance' ? 'Alleanza' : 'Orda'; }
-const PV = /*PV*/'?v=6114caef';   // ?v= of the class and race portraits, filled in by build.art_version (redrawn under the same names)
+const PV = /*PV*/'?v=f30afcca';   // ?v= of the class and race portraits, filled in by build.art_version (redrawn under the same names)
 /* Round face avatar: assets/art/<id>-face.webp, ring colour cc */
-function face(id, cc, cls = '', title = '') { return `<span class="av ${cls}" style="--cc:${cc}"${title ? ` title="${esc(title)}"` : ''}><img src="../assets/art/${id}-face.webp${PV}" width="160" height="160" alt="" loading="lazy" decoding="async"></span>`; }
+/* A class face follows the reader's side (GabellaPor, build.por_js); f: a fixed side (the class faces of a race row) */
+function face(id, cc, cls = '', title = '', f = '') { const P = window.GabellaPor, t = `../assets/art/{${id}}-face.webp${PV}`, live = P && P.map[id] && !f;
+  return `<span class="av ${cls}" style="--cc:${cc}"${title ? ` title="${esc(title)}"` : ''}><img src="../assets/art/${P ? P.id(id, f) : id}-face.webp${PV}"${live ? ` data-por-src="${t}"` : ''} width="160" height="160" alt="" loading="lazy" decoding="async"></span>`; }
 function lvlMeter(c) {
   const p = c.lp || 0, w = Math.min(Math.abs(p) / 12 * 46, 46);
   const label = p < 0 ? `Più veloce del ${-p}%` : p > 0 ? `Più lento del ${p}%` : 'Ritmo nella media';
@@ -145,7 +147,7 @@ function lvlMeter(c) {
 function renderClassRef() {
   const roles = ['tank', 'heal', 'dps'];
   const head = `<div class="cmp-h" aria-hidden="true"><span>Classe</span><span class="rdots">${roles.map(x => `<span title="${ROLE_RU[x]}">${ri(x)}</span>`).join('')}</span><span>Livellamento</span><span>In incursione</span><span></span></div>`;
-  $('#classRef').innerHTML = head + CLASSES.map(c => `<a class="cmp-row" href="${HOME}classes/${c.id}/" style="--cc:${CCOL[c.id]};--art:url('../assets/art/${c.id}-360.webp${PV}')">
+  $('#classRef').innerHTML = head + CLASSES.map(c => `<a class="cmp-row" href="${HOME}classes/${c.id}/" style="--cc:${CCOL[c.id]};--art:url('../assets/art/${window.GabellaPor ? GabellaPor.id(c.id) : c.id}-360.webp${PV}')">
     <span class="cmp-id">${face(c.id, CCOL[c.id])}<span><b>${esc(c.n)}</b><small>${c.specs.map(s => esc(s[0])).join(' · ')}</small></span></span>
     <span class="rdots" role="img" aria-label="Ruoli: ${c.roles.map(x => ROLE_RU[x]).join(', ')}">${roles.map(x => { const on = c.roles.includes(x), q = c.roles.includes(x + '?'); return `<span class="rdot${on ? ' on' : q ? ' q' : ''}" title="${ROLE_RU[q ? x + '?' : x]}">${ri(x)}</span>`; }).join('')}</span>
     ${lvlMeter(c)}
@@ -158,7 +160,7 @@ function renderRaceRef() {
   const head = `<div class="cmp-h" aria-hidden="true"><span>Razza</span><span>Classi</span><span class="abl">Abilità <span class="abt">attiva</span><span class="abt p">passiva</span></span><span></span></div>`;
   $('#raceRef').innerHTML = ['alliance', 'horde'].map(f => `<div class="rgroup ${f}"><h3>${facName(f)}</h3>${head}` + RACES.filter(r => r.f === f).map(r => `<a class="cmp-row" href="${HOME}races/${RSLUG[r.id]}/" style="--cc:var(--${f});--art:url('../assets/art/${RSLUG[r.id]}-360.webp${PV}')">
     <span class="cmp-id">${face(RSLUG[r.id], `var(--${f})`)}<span><b>${esc(r.n)}${r.paid ? '<span class="paid">a pagamento</span>' : ''}</b>${r.en ? `<small>${esc(r.en)}</small>` : ''}</span></span>
-    <span class="ccl" role="img" aria-label="Classi: ${Object.keys(r.can).map(id => CL[id].n).join(', ')}">${CLASSES.map(c => { const v = r.can[c.id]; return face(c.id, CCOL[c.id], v ? (v === 'new' ? 'nw' : '') : 'off', c.n + (v === 'new' ? ', nuova' : v ? '' : ', non disponibile')); }).join('')}</span>
+    <span class="ccl" role="img" aria-label="Classi: ${Object.keys(r.can).map(id => CL[id].n).join(', ')}">${CLASSES.map(c => { const v = r.can[c.id]; return face(c.id, CCOL[c.id], v ? (v === 'new' ? 'nw' : '') : 'off', c.n + (v === 'new' ? ', nuova' : v ? '' : ', non disponibile'), f); }).join('')}</span>
     <span class="abs">${r.rac.map(x => `<span><b class="${x[0] === 'a' ? '' : 'p'}">${bi(x[1])}</b><span>${racx(x[2])}</span></span>`).join('')}</span>
     <span class="go" aria-hidden="true"><svg class="ico"><use href="#i-arrow"/></svg></span>
   </a>`).join('') + '</div>').join('');
@@ -181,10 +183,13 @@ const DESC = {
   druid: 'Orso, gatto, gufo o guaritore: tutti e tre i ruoli in un solo personaggio.'
 };
 const artSet = (id, ext) => [360, 600, 896].map(w => `${ROOT}assets/art/${id}-${w}.${ext}${PV} ${w}w`).join(', ');
+/* A class portrait of the reader's side: the best race of that side (build.portraits), swapped by GabellaPor when the side changes */
+const porPic = id => { const P = window.GabellaPor, u = s => (P ? P.url(s) : s.replace(/[{}]/g, '')), t = `{${id}}`, img = `${ROOT}assets/art/${t}-600.webp${PV}`;
+  return `<picture>${['avif', 'webp'].map(e => `<source type="image/${e}" srcset="${u(artSet(t, e))}" data-por-srcset="${artSet(t, e)}" sizes="${ART_SIZES}">`).join('')}<img src="${u(img)}" data-por-src="${img}" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>`; };
 const ART_SIZES = '(max-width: 719px) 78vw, 440px';
 function renderRoster() {
   $('#roster').innerHTML = CLASSES.map((c, i) => `<a class="hc${i === 0 ? ' on' : ''}" href="classes/${c.id}/" style="--cc:${CCOL[c.id]}">
-    <picture><source type="image/avif" srcset="${artSet(c.id, 'avif')}" sizes="${ART_SIZES}"><source type="image/webp" srcset="${artSet(c.id, 'webp')}" sizes="${ART_SIZES}"><img src="${ROOT}assets/art/${c.id}-600.webp${PV}" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>
+    ${porPic(c.id)}
     <span class="vn" aria-hidden="true">${esc(c.n)}</span>
     <span class="info"><b>${esc(c.n)}</b><span class="roles">${c.roles.filter(r => !r.endsWith('?')).map(r => `<span>${ri(r)}${ROLE_RU[r]}</span>`).join('')}</span><span class="d">${esc(DESC[c.id])}</span><span class="more">Di più sulla classe</span></span>
   </a>`).join('');

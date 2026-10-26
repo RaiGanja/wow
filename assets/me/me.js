@@ -6,7 +6,7 @@
 (function () {
   const S = document.currentScript, D = S.dataset;
   const ROOT = D.root || './', HOME = D.home || './', LANG = D.lang || 'ru', PAGE = D.page || '';
-  const PV = /*PV*/'?v=6114caef', AV = /*AV*/'?v=b1f2be23';   // build.py art_version (portraits) and me_version (achievement icons)
+  const PV = /*PV*/'?v=f30afcca', AV = /*AV*/'?v=b1f2be23';   // build.py art_version (portraits) and me_version (achievement icons)
   const V = (S.src.match(/\?v=\w+/) || [''])[0];   // build.py me_version(): the same version for the texts
   const API = /^(127\.0\.0\.1|localhost)$/.test(location.hostname) ? 'http://127.0.0.1:8787' : 'https://api.gabella.site';
   const FLAG = 'gabella-me', CACHE = 'gabella-me-cache', SOUND = 'gabella-me-sound', DAY = 'gabella-me-day', CACHE_MS = 10 * 60000, RMIN = 'gabella-me-rmin';
