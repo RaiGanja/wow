@@ -1124,6 +1124,16 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 .eda .ok { margin-left: auto; }
 .eda .del:hover { border-color: var(--horde); color: var(--horde); }
 
+/* Ping and queue advisor */
+.ptool { padding: 20px 24px; display: grid; gap: 16px; }
+.ptool select { font: inherit; font-size: var(--fs-16); font-weight: 500; min-height: 44px; max-width: 100%; padding: 0 10px; border: 1px solid var(--pline); border-radius: 7px; background: var(--panel-2); color: var(--fg); }
+.pres { display: grid; gap: 10px; }
+.pres .preg { margin: 0; font-family: var(--font-display); font-weight: var(--display-w); font-size: var(--fs-22); line-height: 1.2; color: var(--gold-2); font-variant-numeric: lining-nums; }
+.pgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
+.psrc { margin: 14px 0 0; color: var(--muted); }
+.psrc a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+@media (max-width: 719px) { .pgrid { grid-template-columns: minmax(0, 1fr); } .ptool { padding: 16px; } }
+
 /* Compare */
 .cbar { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; }
 .cpick { padding: 12px; display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 8px; }
@@ -1220,7 +1230,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css?v=c5eacd57e2" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=aed2df3fa0" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=ec5b7ab820" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/me/me.css?v=f0bb3b6c1b" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/en/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://gabella.site/wow/en/tools/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"WoW Forever Tools: Class and Race Compare, Party Frames","description":"Compare WoW Forever classes and races side by side, in-game style party frames and raid grid, and search across the whole guide.","inLanguage":"en","url":"https://gabella.site/wow/en/tools/","dateModified":"2026-10-26","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/en/"},"image":"https://gabella.site/wow/assets/og/tools-en.jpg?v=827093c3"}</script>
@@ -1349,6 +1359,39 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
   </div>
 </section>
 
+<section class="block wrap" id="ping">
+  <div class="sec-head"><h2>Ping and queue</h2>
+    <p>Choose where you play from. Below are your WoW Forever region and what to do about high ping and in the login queue.</p></div>
+  <div class="frame ptool">
+    <div class="fgroup"><label class="flabel" for="pgW">Where you play from</label><select id="pgW">
+      <option value="">Choose a country or region</option>
+      <option value="eu">Europe, including Ukraine</option>
+      <option value="cas">Caucasus and Central Asia</option>
+      <option value="mea">Middle East and Africa</option>
+      <option value="na">USA and Canada</option>
+      <option value="la">Latin America</option>
+      <option value="oce">Australia and New Zealand</option>
+      <option value="kr">Korea</option>
+      <option value="tw">Taiwan</option>
+      <option value="asia">Other countries in Asia</option>
+    </select></div>
+    <div class="pres" id="pgOut" aria-live="polite"></div>
+  </div>
+  <div class="pgrid">
+    <div class="panel"><h3>High ping</h3><ul class="verdict">
+      <li>Latency is shown in the tooltip of the game menu button: Home and World. World is the one that matters in combat.</li>
+      <li>Esc → Options → Network: untick “Optimize Network for Speed” and restart the game. <span class="beta-note">per beta data</span></li>
+      <li>A VPN is the last resort. In the beta the servers were in the US only, and players from Europe were helped by a VPN with a US server. <span class="beta-note">per beta data</span> At launch Europe has its own region. If you still need a VPN, pick its server near the game region, not near you. A VPN does not guarantee lower latency.</li>
+    </ul></div>
+    <div class="panel"><h3>Login queue</h3><ul class="verdict">
+      <li>Do not leave the queue: when you log in again you go to the back of it.</li>
+      <li>In the beta many players were disconnected after the queue and put at the back of a new one. <span class="beta-note">per beta data</span> If you are disconnected, log in again right away.</li>
+      <li>Heroic, Epic and Collection owners claim their name in advance, from Oct 27 to Nov 3: on launch day nobody takes it while you wait in the queue.</li>
+    </ul></div>
+  </div>
+  <p class="small psrc">Sources: <a href="https://news.blizzard.com/en-us/article/24302070/" target="_blank" rel="noopener">Blizzard: rulesets instead of realms</a>, <a href="https://us.forums.blizzard.com/en/wow/t/wow-forever-stress-test-october-21/2383617" target="_blank" rel="noopener">Blizzard forums: stress test regions</a>, <a href="https://www.warcrafttavern.com/forever/news/wow-forever-beta-lag-issues-solved-with-a-vpn/" target="_blank" rel="noopener">Warcraft Tavern: VPN in the beta</a>, <a href="https://xboxplay.games/world-of-warcraft-forever/how-to-fix-world-of-warcraft-forever-high-ping-latency-76118" target="_blank" rel="noopener">Xbox Play: Optimize Network for Speed</a>, <a href="https://bolverkgames.com/wow/wow-forever-beta-hits-hour-long-queues-blizzard-scrambles-to-fix-disconnects/" target="_blank" rel="noopener">Bolverk Games: beta queues</a>.</p>
+</section>
+
 <section class="block wrap" id="compare">
   <div class="sec-head"><h2>Class and race comparison</h2>
     <p>Pick up to three classes or races. Rows sit side by side, so it is easier to decide what to play.</p></div>
@@ -1388,7 +1431,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 <dialog class="sheet" id="moreDlg" aria-label="All sections">
   <div class="dh"><b>All sections</b><button class="iconbtn" id="moreClose" type="button" aria-label="Close"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="All sections">
-    <div class="grp"><div class="gh">This page</div><a href="#search">Guide search</a><a href="#raid">Party and raid frames</a><a href="#compare">Class and race comparison</a></div>
+    <div class="grp"><div class="gh">This page</div><a href="#search">Guide search</a><a href="#raid">Party and raid frames</a><a href="#ping">Ping and queue</a><a href="#compare">Class and race comparison</a></div>
     <div class="grp"><div class="gh">Reference</div><a href="../">Home</a><a href="../classes/">Classes compared</a><a href="../races/">Races compared</a><a href="../guides/leveling/">Leveling 1–60</a><a href="../guides/dungeons/">Dungeons and raids</a><a href="../guides/professions/">Professions</a><a href="../guides/faq/">FAQ and dates</a><a href="../guides/news/">News</a><a href="../guides/">All guides</a></div>
     <div class="grp"><div class="gh">Tools</div><a href="../tools/#picker">Picker</a><a href="../tools/#raid">Group builder</a><a href="../tools/">Frames, compare, search</a><a href="../play/">In game</a></div>
     <div class="grp"><div class="gh">Community</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="../profile/">My profile</a></div>
@@ -1994,6 +2037,32 @@ document.addEventListener('click', e => {
   if (pc) { pickClass(pc.dataset.pc); render(); return; }
 });
 render();
+/* ---------- Ping and queue advisor: where the player is -> the WoW Forever region (Blizzard: Americas+Oceania, Europe, Korea, Taiwan) ---------- */
+const PG = {
+  eu: ['Europe', ''],
+  cas: ['Europe', 'The Caucasus and Central Asia have no region of their own; the nearest is Europe.'],
+  mea: ['Europe', 'The Middle East and Africa have no region of their own; the nearest is Europe.'],
+  na: ['Americas and Oceania', ''],
+  la: ['Americas and Oceania', 'Latin America plays in the Americas region.'],
+  oce: ['Americas and Oceania', 'Blizzard groups Oceania with the Americas in one region. Blizzard has not said whether there are servers in Oceania itself.'],
+  kr: ['Korea', ''],
+  tw: ['Taiwan', ''],
+  asia: ['', 'There is no region of your own. The nearest on the map are Taiwan and Korea. Pick the one with lower World latency.'],
+};
+function renderPing() {
+  const v = $('#pgW').value, r = PG[v];
+  try { if (v) localStorage.setItem('gabella-ping', v); } catch (e) {}
+  if (!r) { $('#pgOut').innerHTML = ''; return; }
+  $('#pgOut').innerHTML = (r[0] ? `<p class="preg">Your region: ${esc(r[0])}</p>` : '') + '<ul class="verdict">'
+    + (r[1] ? `<li>${esc(r[1])}</li>` : '')
+    + '<li>There are no realms: you choose a region and a ruleset, not a server. The region is chosen in Battle.net before you start the game.</li>'
+    + '<li>Each region has its own characters and names. You can only play together within one region.</li>'
+    + '<li>Blizzard has not said where the region servers are located.</li></ul>';
+}
+$('#pgW').onchange = renderPing;
+try { const v = localStorage.getItem('gabella-ping'); if (v && PG[v]) $('#pgW').value = v; } catch (e) {}
+renderPing();
+
 /* Deep link from class pages: #pick=shaman or #pick=dwarf.shaman */
 (function () {
   const m = location.hash.match(/^#pick=(?:(\w+)\.)?(\w+)$/);
@@ -2085,7 +2154,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js?v=c5eacd57e2" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=aed2df3fa0" data-root="../../" defer></script>
+<script src="../../assets/search/search.js?v=ec5b7ab820" data-root="../../" defer></script>
 <script src="../../assets/me/me.js?v=f0bb3b6c1b" data-root="../../" data-home="../" data-lang="en" data-ach="0" data-teaser="" data-close="Close" data-page="tools/" data-look="2" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
