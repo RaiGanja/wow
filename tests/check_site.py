@@ -32,7 +32,12 @@ def targets(html):
         if '${' in s:   # JS template srcset: commas inside ${...} break the split
             continue
         out += [p.strip().split(' ')[0] for p in s.split(',') if p.strip()]
-    return [t for t in out if '{tod}' not in t]   # tod.py templates: the variant is filled in by the browser (files: tests/test_tod.py)
+    out = [t for t in out if '{tod}' not in t]   # tod.py templates: the variant is filled in by the browser (files: tests/test_tod.py)
+    # build.por_js: "{<class>}" is the class portrait of the reader's side — both files of the page's map must exist
+    m = re.search(r'var D=(\{"m":\{.*?\}\}),"r"', html)
+    por = json.loads(m.group(1) + '}')['m'] if m else {}
+    return [re.sub(r'\{(\w+)\}', lambda x: por[x.group(1)][side] if x.group(1) in por else x.group(0), t)
+            for t in out for side in (('alliance', 'horde') if re.search(r'\{\w+\}', t) else ('alliance',))]
 
 
 def check_sitemap(pages):

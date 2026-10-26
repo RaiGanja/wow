@@ -24,7 +24,7 @@
 <link rel="icon" type="image/png" sizes="96x96" href="@@ROOT@@assets/icons/favicon-96.png">
 <link rel="preload" href="@@ROOT@@assets/fonts/spectral-sc-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="@@ROOT@@assets/fonts/golos-text-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" as="image" type="image/avif" imagesrcset="@@ROOT@@assets/art/@@ID@@-600.avif 600w, @@ROOT@@assets/art/@@ID@@-896.avif 896w, @@ROOT@@assets/art/@@ID@@-1344.avif 1344w" imagesizes="(max-width: 719px) 100vw, 75vh">
+<script>(function(){var l=document.createElement("link");l.rel="preload";l.as="image";l.type="image/avif";l.setAttribute("fetchpriority","high");l.setAttribute("imagesrcset",GabellaPor.url("@@ROOT@@assets/art/{@@ID@@}-600.avif 600w, @@ROOT@@assets/art/{@@ID@@}-896.avif 896w, @@ROOT@@assets/art/{@@ID@@}-1344.avif 1344w"));l.setAttribute("imagesizes","(max-width: 719px) 100vw, 75vh");document.head.appendChild(l)})()</script>
 <style>
 .cprofs { margin-top: -12px; }   /* section gap 28px -> the 16px of the panels above */
 @media (max-width: 719px) { .cprofs { margin-top: -6px; } }
@@ -193,12 +193,13 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 
 <main id="main">
 <section class="chero" id="top">
-  <picture class="blur" aria-hidden="true"><img src="@@ROOT@@assets/art/@@ID@@-bg.webp" width="480" height="270" alt="" decoding="async"></picture>
+  <picture class="blur" aria-hidden="true"><img data-por-src="@@ROOT@@assets/art/{@@ID@@}-bg.webp" width="480" height="270" alt="" decoding="async"></picture>
   <picture class="por">
-    <source type="image/avif" srcset="@@ROOT@@assets/art/@@ID@@-600.avif 600w, @@ROOT@@assets/art/@@ID@@-896.avif 896w, @@ROOT@@assets/art/@@ID@@-1344.avif 1344w" sizes="(max-width: 719px) 100vw, 75vh">
-    <source type="image/webp" srcset="@@ROOT@@assets/art/@@ID@@-600.webp 600w, @@ROOT@@assets/art/@@ID@@-896.webp 896w, @@ROOT@@assets/art/@@ID@@-1344.webp 1344w" sizes="(max-width: 719px) 100vw, 75vh">
-    <img src="@@ROOT@@assets/art/@@ID@@-896.webp" width="896" height="1200" alt="" fetchpriority="high" decoding="async">
-  </picture>
+    <source type="image/avif" data-por-srcset="@@ROOT@@assets/art/{@@ID@@}-600.avif 600w, @@ROOT@@assets/art/{@@ID@@}-896.avif 896w, @@ROOT@@assets/art/{@@ID@@}-1344.avif 1344w" sizes="(max-width: 719px) 100vw, 75vh">
+    <source type="image/webp" data-por-srcset="@@ROOT@@assets/art/{@@ID@@}-600.webp 600w, @@ROOT@@assets/art/{@@ID@@}-896.webp 896w, @@ROOT@@assets/art/{@@ID@@}-1344.webp 1344w" sizes="(max-width: 719px) 100vw, 75vh">
+    <img data-por-src="@@ROOT@@assets/art/{@@ID@@}-896.webp" width="896" height="1200" alt="" fetchpriority="high" decoding="async">
+  </picture><script>GabellaPor.fill(document.currentScript.parentNode)</script>
+  <noscript><picture class="blur" aria-hidden="true"><img src="@@ROOT@@assets/art/@@POR_A@@-bg.webp" width="480" height="270" alt="" decoding="async"></picture><picture class="por"><source type="image/avif" srcset="@@ROOT@@assets/art/@@POR_A@@-600.avif 600w, @@ROOT@@assets/art/@@POR_A@@-896.avif 896w, @@ROOT@@assets/art/@@POR_A@@-1344.avif 1344w" sizes="(max-width: 719px) 100vw, 75vh"><img src="@@ROOT@@assets/art/@@POR_A@@-896.webp" width="896" height="1200" alt="" decoding="async"></picture></noscript>
   <div class="wrap chero-in">
     <nav class="crumbs" aria-label="Навигация"><a href="@@HOME@@">Гид</a><span aria-hidden="true">/</span><a href="@@HOME@@classes/">Классы</a></nav>
     <h1>@@NAME@@</h1>
@@ -224,7 +225,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 </section>
 
 <section class="nband" id="new">
-  <picture aria-hidden="true"><img src="@@ROOT@@assets/art/@@ID@@-bg.webp" width="480" height="270" alt="" loading="lazy" decoding="async"></picture>
+  <picture aria-hidden="true"><img src="@@ROOT@@assets/art/@@POR_A@@-bg.webp" data-por-src="@@ROOT@@assets/art/{@@ID@@}-bg.webp" width="480" height="270" alt="" loading="lazy" decoding="async"></picture>
   <div class="wrap">
   <div class="sec-head"><div class="row"><h2>Что нового в Forever</h2><span class="src">Warcraft Tavern, LFCarry</span></div><p>По сравнению с Classic. До релиза Blizzard ещё может менять цифры.</p></div>
   <ol class="news">@@NEWS@@</ol>

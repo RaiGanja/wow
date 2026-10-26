@@ -148,8 +148,15 @@ CLS_HREF = re.compile(r'(?:^|[/-])(' + '|'.join(build.COLOR) + r')/(?:#[\w-]*)?$
 
 def clink(cid, name, href):
     """A class name in a table or a list: its game colour and a small portrait (index.src.html .clink)."""
-    return (f'<a class="clink" href="{href}" style="--cc:{build.COLOR[cid]}"><span class="av"><img src="@@ROOT@@assets/art/{cid}-face.webp"'
-            f' width="160" height="160" alt="" loading="lazy" decoding="async"></span>{name}</a>')
+    return (f'<a class="clink" href="{href}" style="--cc:{build.COLOR[cid]}"><span class="av">{face_img(cid)}</span>{name}</a>')
+
+
+def face_img(cid):
+    """The round face of a class: the portrait of the reader's side (build.portraits; the Alliance one in the page,
+    GabellaPor swaps it for the Horde before it loads, build.por_js)."""
+    a = build.portraits()[cid]['alliance']
+    return (f'<img src="@@ROOT@@assets/art/{a}-face.webp" data-por-src="@@ROOT@@assets/art/{{{cid}}}-face.webp"'
+            ' width="160" height="160" alt="" loading="lazy" decoding="async">')
 
 
 CLS_ID = {c['n']: c['id'] for c in build.CLASSES}   # «Паладин» -> paladin
@@ -186,7 +193,7 @@ def tier_grid(table, lang, root):
             if not got:
                 continue
             faces = ''.join(f'<a class="tgc" href="{root}classes/{cid}/" style="--cc:{build.COLOR[cid]}">'
-                            '<span class="av"><img src="@@ROOT@@assets/art/' + cid + '-face.webp" width="160" height="160" alt="" loading="lazy" decoding="async"></span>'
+                            '<span class="av">' + face_img(cid) + '</span>'
                             f'<span class="tgn">{name[cid]}{"<sup>*</sup>" if v.endswith("*") else ""}</span></a>'
                             for cid, v in got)
             rows += f'<li><b class="tgl t{t}">{t}</b><div class="tgr">{faces}</div></li>'
@@ -1132,7 +1139,7 @@ const lookOf = h => ({ sex: h.sex || (H.look.races[h.race] || {}).sex || 'm', bg
 const ver = '?v=' + H.look.v;   // the profile looks (content/looks.V)
 const base = h => `${ROOT}assets/me/look/base/${H.slug[h.race]}-${lookOf(h).sex}.webp${ver}`;
 const bgUrl = b => `${ROOT}assets/me/look/bg/${b}.webp${ver}`;
-const face = id => `${ROOT}assets/art/${id}-face.webp${PV}`;
+const face = (id, f) => `${ROOT}assets/art/${window.GabellaPor ? GabellaPor.id(id, f) : id}-face.webp${PV}`;   // a class: the portrait of side f (build.por_js)
 const PV = /*PV*/'';
 const valid = h => !!(h && CL[h.cls] && RC[h.race] && RC[h.race].can[h.cls]);
 const bestRaces = (c, f, s) => { const b = bestOf(c, f, s); return b ? b[0] : []; };
@@ -1196,7 +1203,7 @@ function draw() {
   } else if (wiz.step === 2) {
     const cls = CLASSES.filter(c => RACES.some(r => r.f === wiz.f && r.can[c.id]));
     b = `<h2>${esc(TX.cls)}</h2><div class="mpicks" role="group" aria-label="${esc(TX.cls)}">${cls.map(c => `<button type="button" data-cls="${c.id}" aria-pressed="${wiz.cls === c.id}" style="color:${wiz.cls === c.id ? '' : CCOL[c.id]}">`
-      + `<img src="${face(c.id)}" alt="" width="72" height="72" loading="lazy" decoding="async">${esc(HC.cn[c.id])}</button>`).join('')}</div>`;
+      + `<img src="${face(c.id, wiz.f)}" alt="" width="72" height="72" loading="lazy" decoding="async">${esc(HC.cn[c.id])}</button>`).join('')}</div>`;
     if (wiz.cls) b += `<h3>${esc(TX.spec)}</h3><div class="mspec" role="group" aria-label="${esc(TX.spec)}">${CL[wiz.cls].specs.map((s, i) => `<button type="button" data-spec="${HC.sid[wiz.cls][i]}" aria-pressed="${wiz.spec === HC.sid[wiz.cls][i]}">`
       + `${esc(HC.sn[wiz.cls][i])}<small>${esc(s[2].filter(r => !r.endsWith('?')).map(r => ROLE_RU[r]).join(', '))}</small></button>`).join('')}</div>`;
     b += nav(wiz.cls && wiz.spec ? 'on' : 'off', '');

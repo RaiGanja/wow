@@ -5,7 +5,7 @@
 (function () {
   const S = document.currentScript;
   const ROOT = S.dataset.root, HOME = S.dataset.home, DATA = S.dataset.data;
-  const PV = /*PV*/'?v=6114caef';   // ?v= of the class portraits (build.art_version)
+  const PV = /*PV*/'?v=f30afcca';   // ?v= of the class portraits (build.art_version)
   const KEY = 'gabella-wf-me', DAY1 = 'gabella-day1';
   let mem = null, D = null, sheet = null;
   const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
@@ -25,7 +25,8 @@
   const raceOf = id => D.races.find(r => r[0] === id);
   const valid = h => !!(h && D.cn[h.cls] && raceOf(h.race) && raceOf(h.race)[2].includes(h.cls));
   const specIx = h => D.sid[h.cls].indexOf(h.spec);
-  const face = id => `${ROOT}assets/art/${id}-face.webp${PV}`;
+  // a class face: the portrait of side f (the best race of that side, build.portraits), else of the reader's side (build.por_js)
+  const face = (id, f) => `${ROOT}assets/art/${window.GabellaPor ? GabellaPor.id(id, f || undefined) : id}-face.webp${PV}`;
   const bestOf = (c, f, s) => { const b = (D.best[c] || {})[f]; return b ? (b[s] || b['*']) : null; };
 
   /* ---------- the top-bar button: a reader without a login ---------- */
@@ -67,14 +68,14 @@
     write({ race: draft.race, cls: draft.cls, spec: draft.spec, role: roles.includes(old.role) && old.cls === draft.cls ? old.role : roles[0] });
   }
   function pickRace() {   // the race keeps the side: the best one of the class and spec, else the first that can play it
-    const f = draft.f || (draft.race && raceOf(draft.race)[1]) || 'alliance';   // no side yet: the Alliance, as on the rest of the site
+    const f = draft.f || (draft.race && raceOf(draft.race)[1]) || (window.GabellaPor ? GabellaPor.fac() : 'alliance');   // no side yet: the side whose portraits the tiles show (by the time of day, as the home page)
     if (draft.race && raceOf(draft.race)[2].includes(draft.cls) && (!f || raceOf(draft.race)[1] === f)) return;
     const b = f && bestOf(draft.cls, f, draft.spec), can = D.races.filter(r => r[2].includes(draft.cls) && (!f || r[1] === f) && !r[3]);
     draft.race = (b && b[0][0]) || (can[0] || [''])[0];
   }
   function drawSheet() {
     const T = D.tx, d = draft, has = valid(read());
-    const cls = D.cls.map(c => `<button type="button" data-c="${c}" aria-pressed="${d.cls === c}" style="--cc:${D.color[c]}"><img src="${face(c)}" alt="" width="48" height="48" loading="lazy"><span class="hs-n">${esc(D.cn[c])}</span></button>`).join('');
+    const cls = D.cls.map(c => `<button type="button" data-c="${c}" aria-pressed="${d.cls === c}" style="--cc:${D.color[c]}"><img src="${face(c, d.f)}" alt="" width="48" height="48" loading="lazy"><span class="hs-n">${esc(D.cn[c])}</span></button>`).join('');
     let h = `<div class="hs-h"><b>${esc(has ? T.change : T.collect)}</b><button type="button" class="iconbtn" data-x aria-label="${esc(T.close)}"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>`
       + (has ? '' : `<p class="hs-d">${esc(T.collectD)}</p>`)
       + `<div class="hs-l">${esc(T.cls)}</div><div class="hs-cls">${cls}</div>`;
@@ -142,7 +143,7 @@
     const facts = [`<span><b>${esc(T.profsL)}:</b> ${pr.slice(0, -1).map(x => `${esc(x[0])}: ${esc(x[1])}`).join('. ')}. <a href="${HOME}guides/professions/#pairs=${h.cls}">${esc(T.pairs)}</a></span>`,
       `<a href="${HOME}guides/launch-checklist/">${esc(fill(T.day1n, { n: day1(), t: D.ck }))}</a>`];
     if (r) facts.push(`<span>${esc(T.resetH)} · ${esc(T.regs[h.reg])}: ${esc(fill(T.resetIn, { s: leftTxt(r - new Date()) }))}</span>`);
-    box.innerHTML = `<div class="mh frame" style="--cc:${D.color[h.cls]}"><img class="mh-face" src="${face(h.cls)}" alt="" width="96" height="96">`
+    box.innerHTML = `<div class="mh frame" style="--cc:${D.color[h.cls]}"><img class="mh-face" src="${face(h.cls, raceOf(h.race)[1])}" alt="" width="96" height="96">`
       + `<div class="mh-t"><h2>${esc(fill(T.yourCls, { s: D.cn[h.cls] }))}</h2><p class="mh-s">${esc(meta)}</p></div>`
       + `<button type="button" class="mh-ch" data-hero-open>${esc(T.change)}</button>`
       + `<nav class="mh-b" aria-label="${esc(fill(T.yourCls, { s: D.cn[h.cls] }))}">${a(`guides/builds-${h.cls}/${i >= 0 ? '#' + h.spec : ''}`, T.bTalents, ' ')}${a('play/', T.bLevel)}`

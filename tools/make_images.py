@@ -1,7 +1,7 @@
 """Web images for the guide: source art (projects/gabella/bot/assets/wow_art) -> assets/art/*.avif|webp in several widths,
 plus class and race page extras: blurred hero backdrop assets/art/<id>-bg.webp and share preview assets/og/<id>.jpg.
 Race portraits live in wow_art/races/<race id>.jpg and are saved under the race page slug.
-Run: python tools/make_images.py [path-to-wow_art] [--classes-only | --races-only | --faces-only | --hero-mobile | --inner-heroes]"""
+Run: python tools/make_images.py [path-to-wow_art] [--portraits | --classes-only | --races-only | --faces-only | --hero-mobile | --inner-heroes]"""
 import os, re, sys
 from PIL import Image, ImageDraw, ImageEnhance, ImageFilter
 
@@ -71,9 +71,10 @@ def backdrop(im, w, h):
     return ImageEnhance.Brightness(bg).enhance(.55)
 
 
-def page_extras(cid, src=None):
+def page_extras(cid, src=None, og_only=False):
     im = Image.open(src or os.path.join(SRC, cid + '.jpg')).convert('RGB')
-    backdrop(im, 480, 270).save(os.path.join(OUT, f'{cid}-bg.webp'), quality=70, method=6)
+    if not og_only:
+        backdrop(im, 480, 270).save(os.path.join(OUT, f'{cid}-bg.webp'), quality=70, method=6)
     # share preview 1200x630: backdrop + centered portrait with soft side edges
     og = backdrop(im, 1200, 630)
     por = im.resize((round(im.width * 630 / im.height), 630), Image.LANCZOS)
@@ -89,19 +90,47 @@ def page_extras(cid, src=None):
     og.save(os.path.join(os.path.dirname(OUT), 'og', f'{cid}.jpg'), quality=84, optimize=True, progressive=True)
 
 
-# face centre as a share of portrait height, where it differs from the default
+# face centre as a share of portrait height, where it differs from the default (the old class portraits <class>.jpg)
 FACE_Y = {'warrior': .23, 'paladin': .23, 'hunter': .21, 'rogue': .21, 'priest': .28, 'shaman': .25, 'mage': .23,
-          'warlock': .29, 'druid': .20, 'human': .20, 'dwarf': .24, 'night-elf': .21, 'gnome': .30,
-          'skyborne-alliance': .19, 'orc': .21, 'undead': .21, 'tauren': .22, 'troll': .21, 'skyborne-horde': .21}
+          'warlock': .29, 'druid': .20}
+# One frame for every class and race portrait since 26.10 (masters <class>-<race>.jpg and races/<race>.jpg): the eyes at 30%
+# of the height, the head (crown to chin) 20% of it, the face in the middle — so the round face sits at the same place in all
+FRAME_FACE_Y = .31
 
 
 def face(src, name):
     """Square head-and-shoulders crop for round avatars: <name>-face.webp, 160 px (pages use webp only)."""
     im = Image.open(src).convert('RGB')
     w, h = im.size
-    side, cy = int(w * .44), int(h * FACE_Y.get(name, .25))
+    side, cy = int(w * .44), int(h * FACE_Y.get(name, FRAME_FACE_Y))
     im = im.crop((w // 2 - side // 2, cy - side // 2, w // 2 + side // 2, cy + side // 2)).resize((160, 160), Image.LANCZOS)
     im.save(os.path.join(OUT, f'{name}-face.webp'), quality=82, method=6)
+
+
+def class_portraits():
+    """Masters <class>-<race>.jpg (one per side: the best race of content/hero.BEST, build.portraits picks them by the
+    face file) -> assets/art/<class>-<race>-<w>.avif|webp, -face.webp, -bg.webp. The share preview of a class page
+    (og/<class>.jpg) shows its Alliance portrait, the one a page without JS shows too."""
+    sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))   # the repo: content/hero.py
+    from content import hero as H
+    for cid in CLASSES:
+        first = None
+        for side in ('alliance', 'horde'):
+            for race in H.BEST[cid][side]['*'][0]:
+                src = os.path.join(SRC, f'{cid}-{race}.jpg')
+                if not os.path.exists(src):
+                    continue
+                name = f'{cid}-{race}'
+                im = Image.open(src).convert('RGB')
+                for w in PORTRAIT_W:
+                    save(im, name, w)
+                face(src, name)
+                backdrop(im, 480, 270).save(os.path.join(OUT, f'{name}-bg.webp'), quality=70, method=6)
+                first = first or src
+                print(name, 'ok')
+                break
+        if first:
+            page_extras(cid, first, og_only=True)
 
 
 def hero_mobile(name='hero_dawn', widths=None):
@@ -132,6 +161,9 @@ def main():
                     save(im, name, w, SCENE_Q)
                 hero_mobile(name)
         return
+    if '--portraits' in sys.argv:   # the class portraits of both sides and the race portraits, nothing else
+        class_portraits()
+        sys.argv.append('--races-only')
     if '--faces-only' in sys.argv:
         for cid in CLASSES:
             face(os.path.join(SRC, cid + '.jpg'), cid)

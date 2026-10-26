@@ -425,7 +425,8 @@ const FAC = { alliance: 'Альянс', horde: 'Орда' };
 const RSLUG = { human: 'human', dwarf: 'dwarf', nightelf: 'night-elf', gnome: 'gnome', skyA: 'skyborne-alliance', orc: 'orc', undead: 'undead', tauren: 'tauren', troll: 'troll', skyH: 'skyborne-horde' };
 const classUrl = id => `${HOME}classes/${id}/`, raceUrl = id => `${HOME}races/${RSLUG[id]}/`;
 const PV = /*PV*/'';   // ?v= of the class and race portraits (build.art_version)
-const art = (id, ext = 'webp') => `${ROOT}assets/art/${id}-360.${ext}${PV}`;
+const porId = (id, f) => (window.GabellaPor ? GabellaPor.id(id, f) : id);   // a class: the portrait of side f, else of the reader's side (build.por_js)
+const art = (id, ext = 'webp', f) => `${ROOT}assets/art/${porId(id, f)}-360.${ext}${PV}`;
 async function copyTo(text, msgEl, ok) {
   try { await navigator.clipboard.writeText(text); msgEl.textContent = ok; } catch (e) { msgEl.textContent = 'Не удалось скопировать, выделите и нажмите Ctrl+C'; }
 }
@@ -552,7 +553,7 @@ function unitHTML(p, i) {
   if (!p) return `<button type="button" class="unit empty${cls}" data-i="${i}"><span class="up" aria-hidden="true">+</span><span class="ub"><b>Свободное место</b><span>Нажмите, чтобы добавить игрока</span></span></button>`;
   const c = CL[p.cls], r = RC[p.race];
   return `<button type="button" class="unit${cls}" data-i="${i}" draggable="true" style="--cc:${CCOL[p.cls]};--pc:${power(p)}" aria-label="${esc((p.name || `Игрок ${i + 1}`) + ', ' + raceName(r) + ' ' + c.n + ', ' + ROLE_RU[p.role])}">
-    <span class="up"><picture><source type="image/avif" srcset="${art(p.cls, 'avif')}"><img src="${art(p.cls)}" width="360" height="482" alt="" loading="lazy" decoding="async"></picture></span>
+    <span class="up"><picture><source type="image/avif" srcset="${art(p.cls, 'avif', window.GabellaPor && GabellaPor.side[p.race])}"><img src="${art(p.cls, 'webp', window.GabellaPor && GabellaPor.side[p.race])}" width="360" height="482" alt="" loading="lazy" decoding="async"></picture></span>
     <span class="ub"><span class="un"><span class="ur" title="${ROLE_RU[p.role]}">${ri(p.role)}</span><b>${esc(p.name || c.n)}</b><small>${esc(raceName(r))} · ${esc(c.n)}</small></span><span class="hp"><i></i></span><span class="mp"></span></span></button>`;
 }
 function cellHTML(p, i) {
@@ -755,7 +756,7 @@ function facName(f) { return f === 'alliance' ? 'Альянс' : 'Орда'; }
 function bi(ru) { return EN[ru] && EN[ru] !== ru ? `${esc(ru)} <span class="en">(${esc(EN[ru])})</span>` : esc(ru); }
 function raceEn(r) { return r.en ? ` <span class="en">/ ${esc(r.en)}</span>` : ''; }
 const tipBox = h => `<div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>${h}</p></div>`;
-function face(id, cc, cls = '', title = '') { return `<span class="av ${cls}" style="--cc:${cc}"${title ? ` title="${esc(title)}"` : ''}><img src="${ROOT}assets/art/${id}-face.webp${PV}" width="160" height="160" alt="" loading="lazy" decoding="async"></span>`; }
+function face(id, cc, cls = '', title = '', f) { return `<span class="av ${cls}" style="--cc:${cc}"${title ? ` title="${esc(title)}"` : ''}><img src="${ROOT}assets/art/${porId(id, f)}-face.webp${PV}" width="160" height="160" alt="" loading="lazy" decoding="async"></span>`; }
 function lvlMeter(c) {
   const p = c.lp || 0, w = Math.min(Math.abs(p) / 12 * 46, 46);
   const label = p < 0 ? `Быстрее на ${-p}%` : p > 0 ? `Медленнее на ${p}%` : 'Средний темп';
@@ -854,7 +855,7 @@ function renderDetail() {
   $('#detail').innerHTML = `
     <div class="d-head">
       <div class="d-art" aria-hidden="true"><img src="${ROOT}assets/art/${RSLUG[r.id]}-600.webp${PV}" width="600" height="804" alt="" loading="lazy" decoding="async"></div>
-      <div class="d-avs">${face(RSLUG[r.id], `var(--${r.f})`)}${face(c.id, CCOL[c.id])}</div>
+      <div class="d-avs">${face(RSLUG[r.id], `var(--${r.f})`)}${face(c.id, CCOL[c.id], '', '', r.f)}</div>
       <div class="d-title"><h3>${esc(r.n)}${raceEn(r)} · ${esc(c.n)}</h3>
         <div class="chips"><span class="tag ${r.f}">${facName(r.f)}</span>${isNew ? '<span class="tag new">Новая комбинация</span>' : ''}${r.paid ? '<span class="tag paid">Платная раса</span>' : ''}${roleChips(c)}</div></div>
     </div>

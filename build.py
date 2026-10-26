@@ -379,7 +379,7 @@ def localize(html, lang, here):
     else:
         html = cyr_fonts(html)
     html = html.replace('</head>', REVEAL_CSS + '</head>', 1).replace('</body>', REVEAL_JS + '</body>', 1)
-    return img_dims(hero(me(pwa(html, lang, rel(here, '')), lang, here), lang, here))
+    return img_dims(por(hero(me(pwa(html, lang, rel(here, '')), lang, here), lang, here)))
 
 
 # the Latin of Russian and Ukrainian text: space, digits, punctuation, quotes, dashes, Latin words (WoW, Gabella)
@@ -633,6 +633,64 @@ def me(html, lang, here):
     return html.replace('</head>', head, 1).replace('</body>', js, 1)
 
 
+SIDES = ('alliance', 'horde')
+_POR, _PORJS = {}, []
+
+
+def portraits():
+    """Class portrait of each side (decision 26.10): the first best race of content/hero.BEST[class][side]['*'] that has a
+    picture assets/art/<class>-<race>-face.webp (tools/make_images.py cuts it); none drawn yet: the old class portrait <class>.
+    The names follow the data of the best-race guide, nothing is set by hand here."""
+    if not _POR:
+        from content import hero as H
+        d = os.path.join(HERE, 'assets', 'art')
+        for c in CLASSES:
+            _POR[c['id']] = {f: next((f'{c["id"]}-{r}' for r in H.BEST[c['id']][f]['*'][0]
+                                      if os.path.isfile(os.path.join(d, f'{c["id"]}-{r}-face.webp'))), c['id']) for f in SIDES}
+    return _POR
+
+
+def race_sides():
+    if not _RACES:
+        _RACES.extend(parse_races(open(os.path.join(HERE, 'index.src.html'), encoding='utf-8').read()))
+    return {r['id']: r['f'] for r in _RACES}
+
+
+def por_js():
+    """window.GabellaPor in <head> of every page: which side's class portraits the reader sees. The side of the hero of this
+    browser (gabella-wf-me), else the home hero's time of day: dawn and day — the Alliance, dusk and night — the Horde
+    (as on the home page). Art names "{<class>}" in data-por-src / data-por-srcset (and in page JS through url()) become
+    the portrait of that side; build.art_version tags them with one ?v= over both files. A new hero (the switch sheet, another
+    tab) or another time of day on the home page swaps them at once."""
+    if _PORJS:
+        return _PORJS[0]
+    data = json.dumps({'m': portraits(), 'r': race_sides(), 'b': tod.bounds()}, separators=(',', ':'))
+    _PORJS.append('<script>(function(){var D=' + data + ',M=D.m,R=D.r,B=D.b;'
+            'function fac(){var h=null;try{h=JSON.parse(localStorage.getItem("gabella-wf-me"))}catch(e){}if(h&&R[h.race])return R[h.race];'
+            'var t=document.documentElement.getAttribute("data-tod"),s=null;if(!t){try{s=localStorage.getItem("gabella-tod")}catch(e){}'
+            'var H=new Date().getHours();t=/^(dawn|day|dusk|night)$/.test(s)?s:H>=B[0]&&H<B[2]?"day":"night"}'
+            'return t=="dusk"||t=="night"?"horde":"alliance"}'
+            'function id(c,f){return M[c]?M[c][f||fac()]:c}'
+            r'function url(s,f){return s.replace(/\{(\w+)\}/g,function(x,c){return M[c]?id(c,f):x})}'
+            'function fill(el,f){el=el||document;el.querySelectorAll("[data-por-srcset]").forEach(function(e){var v=url(e.getAttribute("data-por-srcset"),f);if(e.getAttribute("srcset")!==v)e.setAttribute("srcset",v)});'
+            'el.querySelectorAll("[data-por-src]").forEach(function(e){var v=url(e.getAttribute("data-por-src"),f);if(e.getAttribute("src")!==v)e.setAttribute("src",v)})}'
+            'window.GabellaPor={map:M,side:R,fac:fac,id:id,url:url,fill:fill};'
+            'var re=function(){fill()};document.addEventListener("DOMContentLoaded",re);addEventListener("gabella-me",re);document.addEventListener("gabella:tod",re);'
+            'addEventListener("storage",function(e){if(e.key=="gabella-wf-me")re()})})();</script>\n')
+    return _PORJS[0]
+
+
+def por(html):
+    """GabellaPor in <head> before any script of the page that draws a class portrait: after the font preloads (they stay
+    in the first bytes, tests/test_audit.py), else right after the viewport meta."""
+    head = html[:html.find('</head>')]
+    fonts = list(re.finditer(r'<link rel="preload"[^>]*as="font"[^>]*>\n?', head))
+    if fonts:
+        i = fonts[-1].end()
+        return html[:i] + por_js() + html[i:]
+    return re.sub(r'(<meta name="viewport"[^>]*>\n?)', lambda m: m.group(1) + por_js(), html, count=1)
+
+
 def hero(html, lang, here):
     """My character (assets/hero/): the switch behind the top-bar profile button of a reader without a login, and the home
     block. After me.js (it hands the button over); the texts and game data are assets/hero/<lang>.json (build_guides.hero_json)."""
@@ -756,6 +814,9 @@ def art_version():
         if name not in ver:
             # hero_{tod}-<w>.<ext> (tod.py) is filled in by the browser: one version over all four times of day
             fs = [os.path.join(d, name.replace('{tod}', t)) for t in tod.PARTS] if '{tod}' in name else [os.path.join(d, name)]
+            pm = re.fullmatch(r'\{(\w+)\}(.*)', name)
+            if pm and pm.group(1) in portraits():   # {<class>}-<w>.<ext> (por_js): the portrait of the reader's side, one version over both
+                fs = [os.path.join(d, portraits()[pm.group(1)][f] + pm.group(2)) for f in SIDES]
             h = hashlib.sha1()
             for f in fs:
                 if os.path.isfile(f):
@@ -1246,10 +1307,16 @@ def parse_en(src):
     return {ru: a or b for ru, a, b in re.findall(r"'([^']+)':(?:'([^']+)'|\"([^\"]+)\")", block)}
 
 
-def pic(cid, root, widths, sizes, cls='', lazy=True):
-    srcs = ''.join(f'<source type="image/{ext}" srcset="{", ".join(f"{root}assets/art/{cid}-{w}.{ext} {w}w" for w in widths)}" sizes="{sizes}">' for ext in ('avif', 'webp'))
+def pic(cid, root, widths, sizes, cls='', lazy=True, side=None):
+    """A class or race portrait. A class with side='alliance'/'horde': the portrait of that side (portraits());
+    side='': the reader's side — the Alliance one in the page, swapped by GabellaPor (por_js) for the Horde before it loads."""
+    art = portraits()[cid][side or 'alliance'] if cid in portraits() and side is not None else cid
+    tpl = lambda ext, n: ', '.join(f'{root}assets/art/{n}-{w}.{ext} {w}w' for w in widths)
+    swap = side == '' and cid in portraits()
+    srcs = ''.join(f'<source type="image/{ext}" srcset="{tpl(ext, art)}"' + (f' data-por-srcset="{tpl(ext, "{" + cid + "}")}"' if swap else '') + f' sizes="{sizes}">' for ext in ('avif', 'webp'))
     load = ' loading="lazy"' if lazy else ''
-    return f'<picture{cls}>{srcs}<img src="{root}assets/art/{cid}-{widths[-1]}.webp" width="896" height="1200" alt=""{load} decoding="async"></picture>'
+    dsrc = f' data-por-src="{root}assets/art/{{{cid}}}-{widths[-1]}.webp"' if swap else ''
+    return f'<picture{cls}>{srcs}<img src="{root}assets/art/{art}-{widths[-1]}.webp"{dsrc} width="896" height="1200" alt=""{load} decoding="async"></picture>'
 
 
 # ---------- professions on a class page and in the compare tool: pairs of the Professions guide + camp objects of the home PROFS ----------
@@ -1395,9 +1462,10 @@ def build_class(c, lang, tpl, base_css, sprite, races):
     home = rel(here, page_dir(lang))
     v = render_class(c, races, lang)
     html = chrome(tpl.replace('@@BASE_CSS@@', base_css).replace('@@SPRITE@@', sprite), nav='classes/', tab='classes/')
+    html = html.replace('@@POR_A@@', portraits()[c['id']]['alliance'])   # no JS: the Alliance portrait
     for k in ('ID', 'COLOR', 'DESC', 'ROLES', 'FACTS', 'TABS', 'PANELS', 'NEWS', 'RACES', 'RACES_TIP', 'GROUP', 'LVL', 'BEST_RACE', 'PROS', 'CONS'):
         html = html.replace(f'@@{k}@@', v[k])
-    others = ''.join(f'<a class="oc" href="../{o["id"]}/" style="--cc:{COLOR[o["id"]]}">{pic(o["id"], root, (360,), "132px")}<b>{esc(o["n"])}</b></a>' for o in CLASSES if o['id'] != c['id'])
+    others = ''.join(f'<a class="oc" href="../{o["id"]}/" style="--cc:{COLOR[o["id"]]}">{pic(o["id"], root, (360,), "132px", side="")}<b>{esc(o["n"])}</b></a>' for o in CLASSES if o['id'] != c['id'])
     pager = (f'<a class="prev" href="../{v["PREV"]["id"]}/">{ico("arrow")}{esc(v["PREV"]["n"])}</a>'
              f'<a class="next" href="../{v["NEXT"]["id"]}/">{esc(v["NEXT"]["n"])}{ico("arrow")}</a>')
     toc = ''.join(f'<a href="../{o["id"]}/"{" aria-current=\"page\"" if o["id"] == c["id"] else ""}>{esc(o["n"])}</a>' for o in CLASSES)
@@ -1462,7 +1530,7 @@ def build_race(rp, lang, tpl, base_css, class_css, sprite, races, en):
         if c['id'] not in r['can']:
             continue
         tags = '<span class="tags"><span class="tag new">новое</span></span>' if r['can'][c['id']] == 'new' else ''
-        cls_cards.append(f'<a class="oc" href="@@HOME@@tools/#pick={r["id"]}.{c["id"]}" style="--cc:{COLOR[c["id"]]}">{pic(c["id"], root, (360,), "132px")}{tags}<b>{esc(c["n"])}</b><span class="go">В подборщик</span></a>')
+        cls_cards.append(f'<a class="oc" href="@@HOME@@tools/#pick={r["id"]}.{c["id"]}" style="--cc:{COLOR[c["id"]]}">{pic(c["id"], root, (360,), "132px", side=r["f"])}{tags}<b>{esc(c["n"])}</b><span class="go">В подборщик</span></a>')
     nope = [c['n'] for c in CLASSES if c['id'] not in r['can']]
     nope_html = ('<p class="nope">Недоступны: ' + ', '.join(f'<span>{esc(n)}</span>' for n in nope) + '.</p>') if nope else ''
 
