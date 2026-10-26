@@ -243,7 +243,7 @@ def render_block(kind, data, lang, root, inner=False):
         head = [E(h, lang) for h in data['head']]
         name = {c['id']: build.tr(c['n'], lang) for c in build.CLASSES}
         def cls(ids):
-            return ', '.join(clink(i, escape(name[i]), f'{root}classes/{i}/') for i in ids)
+            return '<span class="clinks">' + ''.join(clink(i, escape(name[i]), f'{root}classes/{i}/') for i in ids) + '</span>'
         rows = ''.join(f'<tr><td data-l="{head[0]}">{E(r[0], lang)}</td><td data-l="{head[1]}">{cls(r[1])}</td>'
                        + ''.join(f'<td data-l="{h}">{E(c, lang)}</td>' for h, c in zip(head[2:], r[2:])) + '</tr>'
                        for r in data['rows'])
