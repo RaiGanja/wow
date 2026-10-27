@@ -39,6 +39,8 @@ pages = [p for p in glob.glob(os.path.join(ROOT, '**', '*.html'), recursive=True
          if not p.endswith('.src.html') and not re.search(r'(^|[\\/])(\.|node_modules|mock-)', os.path.relpath(p, ROOT))]
 versions = set()
 for p in pages:
+    if p == os.path.join(ROOT, '404.html'):   # the root 404 is a light page without the site chrome
+        continue
     html = open(p, encoding='utf-8').read()
     v = re.findall(r'assets/search/search\.(?:js|css)\?v=(\w+)', html)
     if 'class="iconbtn srchbtn"' not in html or len(v) != 2:

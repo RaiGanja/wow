@@ -58,7 +58,7 @@
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css?v=ef0b5f769c" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=71aff20fe3" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=a3c05da314" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/me/me.css?v=54eabcfa53" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/hero/hero.css?v=57ee9de9b6" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://gabella.site/wow/de/"},{"@type":"ListItem","position":2,"name":"Spieler","item":"https://gabella.site/wow/de/roster/"}]}</script>
@@ -126,8 +126,8 @@
   <div class="frame lfgbar" id="lfgBar"><b>Suchen gerade eine Gruppe</b><div id="lfgList"></div><div id="lfgMe"></div></div>
   <div class="frame few" id="few" hidden></div>
   <div class="g-tabs" role="tablist" id="tabs">
-    <button type="button" class="g-tab" role="tab" id="tabAll" data-t="all" aria-controls="roster">Alle Spieler <small id="nAll"></small></button>
-    <button type="button" class="g-tab" role="tab" id="tabTeam" data-t="team" aria-controls="roster">Gabella Team <small id="nTeam"></small></button>
+    <button type="button" class="g-tab" role="tab" id="tabAll" data-t="all" aria-controls="rlist">Alle Spieler <small id="nAll"></small></button>
+    <button type="button" class="g-tab" role="tab" id="tabTeam" data-t="team" aria-controls="rlist">Gabella Team <small id="nTeam"></small></button>
   </div>
   <div class="frame fbar" id="pbar" role="search" aria-label="Filter">
     <input type="search" id="fq" placeholder="Name oder Nickname" aria-label="Nach Name oder Nickname suchen" autocomplete="off" maxlength="30">
@@ -147,7 +147,7 @@
       <div class="rhead"><p class="small" id="count" aria-live="polite"></p>
         <div class="fgroup" id="pview"><label class="flabel" for="fs">Sortierung</label><select id="fs"><option value="pts">Nach Punkten</option><option value="lvl">Nach Stufe</option><option value="name">Nach Name</option><option value="new">Neu</option></select>
           <div class="seg" id="fv" role="group" aria-label="Ansicht"><button type="button" data-v="cards">Karten</button><button type="button" data-v="list">Liste</button></div></div></div>
-      <div class="rlist" id="roster" role="tabpanel"></div>
+      <div class="rlist" id="rlist" role="tabpanel"></div>
     </div>
     
   </div>
@@ -444,7 +444,7 @@ function paintTabs() {
   $$('#tabs .g-tab').forEach(b => {
     const on = b.dataset.t === tab;
     b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1;
-    if (on) $('#roster').setAttribute('aria-labelledby', b.id);
+    if (on) $('#rlist').setAttribute('aria-labelledby', b.id);
   });
   $('#nTeam').textContent = players ? players.filter(p => p.member).length : '';
   $('#nAll').textContent = players ? players.length : '';
@@ -520,7 +520,7 @@ function drawFew() {
 function draw() {
   writeHash(); syncControls(); paintTabs();
   if (players) { drawStats(statsOf(pool())); drawLfg(); drawFew(); }
-  const box = $('#roster');
+  const box = $('#rlist');
   box.classList.toggle('list', F.v === 'list');
   if (failed) {
     box.innerHTML = `<div class="frame state"><h2>Die Spielerliste ist vorübergehend nicht verfügbar</h2><p>Der Profilserver hat nicht geantwortet. Der Rest des Guides funktioniert wie gewohnt.</p><div class="row"><button type="button" class="btn ghost" id="retry">Erneut versuchen</button></div></div>`;
@@ -616,7 +616,7 @@ ready(M => {
       draw();
     }, () => { lg.disabled = false; });
   });
-  $('#roster').addEventListener('click', e => {
+  $('#rlist').addEventListener('click', e => {
     const rb = e.target.closest('[data-report]');
     if (rb) {
       rb.closest('details').open = false;
@@ -715,7 +715,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js?v=ef0b5f769c" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=71aff20fe3" data-root="../../" defer></script>
+<script src="../../assets/search/search.js?v=a3c05da314" data-root="../../" defer></script>
 <script src="../../assets/me/me.js?v=54eabcfa53" data-root="../../" data-home="../" data-lang="de" data-ach="0" data-teaser="" data-close="Schließen" data-page="roster/" data-look="2" defer></script>
 <script src="../../assets/hero/hero.js?v=57ee9de9b6" data-root="../../" data-home="../" data-data="../../assets/hero/de.json?v=57ee9de9b6" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
