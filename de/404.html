@@ -180,7 +180,7 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
   .topbar .srchbtn .sl { display: block; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--fs-14); font-weight: 500; opacity: .82; }
 }
 @media (min-width: 375px) and (max-width: 1260px), (min-width: 1600px) { .topbar:not(.solid) .srchbtn { background: rgb(5 6 8 / .4); } }
-@media (min-width: 375px) and (max-width: 719px) { .topbar .bt { display: none; } }   /* the wordmark steps aside for the field; the logo stays, the link keeps its name */
+@media (min-width: 375px) and (max-width: 719px) { .topbar .bt { display: none; } .topbar .brand { padding: 0 6px; margin: 0 -6px; } }   /* the wordmark steps aside for the field; the logo stays, the link keeps its name and a 44 px tap box (padding offset by margin: the layout does not move) */
 @media (min-width: 1600px) {
   .topbar .srchbtn { width: 200px; display: flex; align-items: center; justify-content: flex-start; gap: 8px; padding: 0 10px 0 12px; }
   .topbar .srchbtn .ico { flex: none; }
@@ -223,7 +223,7 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .hero-in { width: 100%; padding-top: calc(var(--top) + clamp(40px, 9vh, 110px)); padding-bottom: 40px; display: grid; gap: 22px; justify-items: start; max-width: var(--wrap); }
 .todsw { min-height: 44px; display: flex; align-items: center; }
 .hero > .todsw { position: absolute; z-index: 1; top: calc(var(--top) + 8px); right: max(20px, calc((100% - var(--wrap)) / 2 + 20px)); font-size: var(--fs-13); text-shadow: var(--hero-shadow); }   /* the scene caption, out of the text column */
-@media (max-width: 719px) { .hero > .todsw { left: 20px; right: auto; min-height: 0; } .hero > .todsw button:not([data-t]) { min-height: 32px; padding: 0 10px; border-radius: 6px; background: rgb(5 5 5 / .5); } }
+@media (max-width: 719px) { .hero > .todsw { left: 20px; right: auto; min-height: 0; } .hero > .todsw button:not([data-t]) { min-height: 44px; padding: 0 10px; border-radius: 6px; background: rgb(5 5 5 / .5); } }
 .hd-line .dup { display: none; }   /* a date the countdown already says */
 .hero h1 { font-size: var(--fs-hero); line-height: .98; letter-spacing: .005em; text-shadow: var(--hero-shadow); }
 .hero h1 span { display: block; color: var(--ink-gold); }
@@ -1041,14 +1041,14 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   /* 320–479px phones: brand + search, radio, theme, language must share one row («Poradnik WoW Forever» is the longest) */
   .topbar .in { gap: 6px; }
   .topbar .tools { gap: 3px; }
-  .topbar .iconbtn, .topbar .langbtn { min-width: 38px; min-height: 44px; }   /* 360: 44 px tall; four 44 px widths do not fit next to «Poradnik WoW Forever» */
+  .topbar .iconbtn, .topbar .langbtn { min-width: 38px; min-height: 44px; }   /* 320–359: 44 px tall; four 44 px widths do not fit next to the mark and «Gabella» */
   .topbar .langbtn { padding: 0 8px; }
   .brand { gap: 7px; }
   .mark { width: 32px; height: 32px; }
   .brand b { font-size: 18px; }
   .bt small { font-size: 11px; letter-spacing: .01em; }   /* «Poradnik WoW Forever», «Guía de WoW Forever» pushed the language button off a 320 px screen */
 }
-@media (min-width: 375px) and (max-width: 479px) { .topbar .iconbtn, .topbar .langbtn { min-width: 44px; min-height: 44px; } .topbar .tools { gap: 4px; } }   /* 375+: header buttons reach 44 px */
+@media (min-width: 360px) and (max-width: 479px) { .topbar .iconbtn, .topbar .langbtn { min-width: 44px; min-height: 44px; } .topbar .tools { gap: 4px; } }   /* 360+: header buttons are 44 x 44 */
 @media (max-width: 719px) {   /* phone tap targets: 44 px, the look stays */
   .tabs2 [role="tab"], .tabs2 [role="radio"] { min-height: 44px; }
   .crumbs a { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: 0 10px; margin: -11px -10px; }
@@ -1057,11 +1057,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   footer .fmap .fh { padding: 11px 6px; margin: 0 -6px; }
   .clinks .clink { min-height: 44px; }
   .cd .what a, .gamehint a, .langhint a { padding-block: 14px; }   /* inline links: a 44 px touch area, the line stays */
-  .hero > .todsw button:not([data-t]) { position: relative; }
-  .hero > .todsw button:not([data-t])::after { content: ""; position: absolute; inset: -6px 0; }   /* the 32 px pill takes taps 44 px tall */
   .clinks { gap: 0 14px; }
 }
-@media (max-width: 359px) { .bt small { display: none; } }   /* 320: four buttons; the subtitle gives way, «Gabella» and the mark stay */
+@media (max-width: 374px) { .bt small { display: none; } }   /* 320–374: four buttons (44 px from 360); the subtitle gives way, «Gabella» and the mark stay */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .hc, .hc img, .hc .info { transition: none; }
@@ -1495,9 +1493,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../assets/radio/radio.css?v=ef0b5f769c" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=d143d181a8" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/me/me.css?v=b13be6705d" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/hero/hero.css?v=560253db91" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/search/search.css?v=8c167d5804" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/me/me.css?v=297cf9b7d8" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/hero/hero.css?v=34379ebcc7" media="print" onload="this.media='all'">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -1709,8 +1707,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../assets/radio/radio.js?v=ef0b5f769c" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=d143d181a8" data-root="../" defer></script>
-<script src="../assets/me/me.js?v=b13be6705d" data-root="../" data-home="./" data-lang="de" data-ach="0" data-teaser="" data-close="Schließen" data-page="404" data-look="2" defer></script>
-<script src="../assets/hero/hero.js?v=560253db91" data-root="../" data-home="./" data-data="../assets/hero/de.json?v=560253db91" defer></script>
+<script src="../assets/search/search.js?v=8c167d5804" data-root="../" defer></script>
+<script src="../assets/me/me.js?v=297cf9b7d8" data-root="../" data-home="./" data-lang="de" data-ach="0" data-teaser="" data-close="Schließen" data-page="404" data-look="2" defer></script>
+<script src="../assets/hero/hero.js?v=34379ebcc7" data-root="../" data-home="./" data-data="../assets/hero/de.json?v=34379ebcc7" defer></script>
 </body>
 </html>

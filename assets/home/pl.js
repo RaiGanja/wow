@@ -36,7 +36,7 @@ const CLASSES = [
     lvl:'Średnie tempo levelowania',
     lp:0,
     raid:'Totemy Strength of Earth, Windfury, Flametongue i Grace of Air buffują swoją grupę',
-    forever:'Krasnoludy mogą teraz być szamanami, więc klasa pojawiła się w Alliance. Lava Burst wzmocniony, Elemental poszedł w górę w rankingach obrażeń.' },
+    forever:'Krasnoludy mogą teraz być shamanami, więc klasa pojawiła się w Alliance. Lava Burst wzmocniony, Elemental poszedł w górę w rankingach obrażeń.' },
   { id:'mage', n:'Mage', roles:['dps'],
     specs:[['Arcane','Burst, dużo many',['dps']],['Fire','Kryty i ignite',['dps']],['Frost','Obrażenia i kontrola',['dps']]],
     lvl:'Najszybszy leveling, około 8% szybciej niż średnia, oszczędność około 12 godzin (szacunek LFCarry)',
@@ -96,12 +96,12 @@ const RACES = [
     tip:'Jedyna rasa Horde z druidem, chyba że weźmiesz Skyborne.' },
   { id:'troll', n:'Troll', f:'horde',
     cls:['warrior','hunter','rogue','priest','shaman','mage','warlock*'],
-    rac:[['a','Berserking','+10% do szybkości ataku i czarów przez 12 s, odnowienie 3 min'],['a','Rapid Regeneration','Przywraca zdrowie w czasie'],['p','Beast Slaying','+5% obrażeń przeciw bestiom'],['p','Regeneration','Zdrowie regeneruje się także w walce']],
+    rac:[['a','Berserking','+10% do szybkości ataku i czarów przez 12 s, cooldown 3 min'],['a','Rapid Regeneration','Przywraca zdrowie w czasie'],['p','Beast Slaying','+5% obrażeń przeciw bestiom'],['p','Regeneration','Zdrowie regeneruje się także w walce']],
     tip:'Najwięcej opcji klas w Horde: siedem.' },
   { id:'skyH', n:'Skyborne (Horde)', f:'horde', paid:true, name:'Windshaper Skyborne',
     cls:['warrior','hunter','rogue','shaman','druid'],
     rac:[['a','Walk on Air','Szybowanie w dół przez 10 sek., bez obrażeń od upadku'],['a','Skysight','+10% szybkości biegu'],['p','Wind Blessed','+3% szybkości ataku i rzucania zaklęć'],['p','Elemental Insight','+5% obrażeń przeciw żywiołakom']],
-    tip:'Płatna rasa: Heroic Pack od $29.99. Tylko Horde może mieć szamana, tylko Alliance maga.' }
+    tip:'Płatna rasa: Heroic Pack od $29.99. Tylko Horde może mieć shamana, tylko Alliance maga.' }
 ];
 RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
 const CL = Object.fromEntries(CLASSES.map(c => [c.id, c]));
@@ -109,7 +109,7 @@ const BETA = '<span class="beta-note">wg danych z bety</span>';
 const BMARK = '{' + 'beta}';   // split so the guide build (which swaps the marker for the span everywhere) leaves it alone
 const racx = s => String(s).split(BETA).join(BMARK).split(BMARK).map(esc).join(BETA);
 const RC = Object.fromEntries(RACES.map(r => [r.id, r]));
-const RLEAD = {"human": "Najliczniejsza rasa Alliance. Wszechstronna i mocna w PvP dzięki Will to Survive.", "dwarf": "Twardzi górnicy i strzelcy z Ironforge. Po raz pierwszy Przymierze ma szamanów, i są to krasnoludy: w Classic ich nie było.", "nightelf": "Starożytny lud lasów. Nieuchwytni: własny sposób na ukrycie się, uniki i szybki bieg.", "gnome": "Wynalazcy z Gnomeregan. Mali, sprytni i z najlepszą zdolnością ucieczki w grze.", "skyA": "Nowa rasa w Forever. High Order: elfy wiatru szukające utraconej magii arkanów swoich przodków.", "orc": "Serce Horde. Najsilniejsi wojownicy i mistrzowie PvP dzięki Blood Fury i Hardiness.", "undead": "Forsaken: dawni ludzie, którzy wyrwali się spod władzy Lich Kinga. Odporni na fear i sen, kiedy to się liczy.", "tauren": "Pokojowe olbrzymy z równin. Najwięcej zdrowia i własne obszarowe ogłuszenie.", "troll": "Plemię Darkspear. Najwięcej klas w Horde i mocny Berserking na obrażenia.", "skyH": "Nowa rasa w Forever. Windshaper: duchowi przywódcy Skyborne, bliscy żywiołom."}; // race page leads and URL slugs, filled in by build.py
+const RLEAD = {"human": "Najliczniejsza rasa Alliance. Wszechstronna i mocna w PvP dzięki Will to Survive.", "dwarf": "Twardzi górnicy i strzelcy z Ironforge. Po raz pierwszy Alliance ma shamanów, i są to krasnoludy: w Classic ich nie było.", "nightelf": "Starożytny lud lasów. Nieuchwytni: własny sposób na ukrycie się, uniki i szybki bieg.", "gnome": "Wynalazcy z Gnomeregan. Mali, sprytni i z najlepszą zdolnością ucieczki w grze.", "skyA": "Nowa rasa w Forever. High Order: elfy wiatru szukające utraconej magii arkanów swoich przodków.", "orc": "Serce Horde. Najsilniejsi wojownicy i mistrzowie PvP dzięki Blood Fury i Hardiness.", "undead": "Forsaken: dawni ludzie, którzy wyrwali się spod władzy Lich Kinga. Odporni na fear i sen, kiedy to się liczy.", "tauren": "Pokojowe olbrzymy z równin. Najwięcej zdrowia i własne obszarowe ogłuszenie.", "troll": "Plemię Darkspear. Najwięcej klas w Horde i mocny Berserking na obrażenia.", "skyH": "Nowa rasa w Forever. Windshaper: duchowi przywódcy Skyborne, bliscy żywiołom."}; // race page leads and URL slugs, filled in by build.py
 const RSLUG = {"human": "human", "dwarf": "dwarf", "nightelf": "night-elf", "gnome": "gnome", "skyA": "skyborne-alliance", "orc": "orc", "undead": "undead", "tauren": "tauren", "troll": "troll", "skyH": "skyborne-horde"};
 
 const EN = {
@@ -177,9 +177,9 @@ const DESC = {
   paladin: 'Święty wojownik w plate: leczy, tankuje i wymachuje młotem. Teraz także w Horde.',
   hunter: 'Łuk, pułapki i wierna bestia u boku. Jedna z najszybciej levelujących klas.',
   rogue: 'Trucizny, ostrza i cień. Czyste obrażenia z zasadzki i kontrola tłumu.',
-  priest: 'Światło i Cień w jednych rękach. Główny healer drużyny albo mroczny caster.',
+  priest: 'Światło i Cień w jednych rękach. Główny healer grupy albo mroczny caster.',
   shaman: 'Totemy i żywioły: leczy, uderza piorunami albo bronią. Teraz także w Alliance.',
-  mage: 'Magia ognia, mrozu i arkanów. Portale, jedzenie i woda dla drużyny.',
+  mage: 'Magia ognia, mrozu i arkanów. Portale, jedzenie i woda dla grupy.',
   warlock: 'Klątwy, demony i ogień. Obrażenia w czasie i własny demon do pomocy.',
   druid: 'Miś, kot, sowa albo healer: wszystkie trzy role na jednej postaci.'
 };
