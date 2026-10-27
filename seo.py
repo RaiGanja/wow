@@ -175,7 +175,7 @@ META = {
                    'Чек-лист до старту WoW Forever 05.11: підписка, клієнт, режим, клас та ім’я до старту, далі перші години й перший вечір. Позначки зберігаються в браузері.')),
     'guides/launch-day/': (t('Старт WoW Forever: время, очереди и статус серверов', 'WoW Forever Launch Time, Queues and Server Status', 'Коли вийде WoW Forever: час старту за Києвом, черги'),
                  t('Во сколько старт WoW Forever: 04.11 в 15:00 PST (23:00 UTC), в Европе 5 ноября. Время по городам, отсчёт, очереди и где проверить, не упали ли серверы.',
-                   'WoW Forever launch time in every time zone: Nov 4, 3:00 PM PST (23:00 UTC), Nov 5 in Europe. Countdown, login queues and where to check if servers are down.',
+                   'WoW Forever launch time in every time zone: Nov 4, 15:00 PST (23:00 UTC), Nov 5 in Europe. Countdown, login queues and where to check if servers are down.',
                    'WoW Forever виходить 5 листопада о 01:00 за Києвом (04.11, 23:00 UTC). Зворотний відлік, черги, шари й де перевірити, чи не впали сервери.')),
     'guides/server-status/': (t('Статус серверов WoW Forever: очередь и техработы', 'WoW Forever Server Status: Login Queue and Maintenance', 'Статус серверів WoW Forever: черга й техроботи'),
                  t('Статус серверов WoW Forever и очередь на вход: официальные каналы Blizzard, как работают очереди и слои, техработы и что известно о времени ожидания.',

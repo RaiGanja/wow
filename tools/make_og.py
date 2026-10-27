@@ -20,7 +20,7 @@ REF = {'ru': 'Справочник', 'uk': 'Довідник', 'en': 'Reference'
 START = {'ru': 'Старт 05.11, 01:00 по Киеву', 'en': 'Launch Nov 4, 23:00 UTC', 'uk': 'Старт 05.11, 01:00 за Києвом',
          'de': 'Start 5. Nov., 00:00 MEZ', 'fr': 'Lancement 5 nov., 00 h 00 à Paris', 'es': 'Lanzamiento 5 nov., 00:00 en Madrid',
          'pt': 'Lançamento 4 nov., 20:00 em Brasília', 'it': 'Uscita 5 nov., ore 00:00', 'pl': 'Start 04.11, 23:00 UTC'}   # the moment, not a bare date (04.11 23:00 UTC)
-EXACT = {'launch-day': {'ru': '04.11, 23:00 UTC · Киев 05.11, 01:00', 'en': 'Nov 4, 3:00 PM PST · 23:00 UTC',
+EXACT = {'launch-day': {'ru': '04.11, 23:00 UTC · Киев 05.11, 01:00', 'en': 'Nov 4, 15:00 PST · 23:00 UTC',
                         'uk': 'Старт 04.11, 23:00 UTC · 15:00 PST', 'de': '5. November, 00:00 MEZ',
                         'fr': '5 novembre, minuit à Paris', 'es': '4 nov., 23:00 UTC · Madrid 00:00',
                         'pt': '4 de novembro, 20:00 em Brasília', 'it': '5 novembre, ore 00:00 in Italia',
