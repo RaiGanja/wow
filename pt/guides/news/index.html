@@ -226,6 +226,25 @@ function leftTxt(ms) {
   const m = Math.max(1, Math.round(ms / 6e4)), d = Math.floor(m / 1440), h = Math.floor(m % 1440 / 60);
   return d ? `${u(d, 'day')} ${u(h, 'hour')}` : h ? `${u(h, 'hour')} ${u(m % 60, 'minute')}` : u(m, 'minute');
 }
+/* News: official Blizzard notes from data/official.json (level 1 of the news automation) on top of our notes */
+fetch(ROOT + 'data/official.json').then(r => r.ok ? r.json() : []).then(items => {
+  const list = document.querySelector('#ours .nlist');
+  if (!list || !Array.isArray(items) || !items.length) return;
+  const lang = (document.documentElement.lang || 'en').slice(0, 2);
+  const pk = u => ((u || '').match(/\/t\/(?:[^/]+\/)?(\d+)\/(\d+)/) || []).slice(1).join('-') || u;   /* forum post: topic-post, any slug */
+  const have = new Set([...list.querySelectorAll('.nitem')].map(a => pk(a.getAttribute('href'))));
+  const html = items.filter(x => /^https:\/\//.test(x.url) && x.t && !have.has(pk(x.url))).map(x => {
+    const t = x.t[lang] || x.t.en;
+    return `<a class="nitem" href="${esc(x.url)}" target="_blank" rel="noopener" data-off="${esc(x.id)}"><time datetime="${esc(x.date)}">${esc(x.date.split('-').reverse().join('.'))}</time>`
+      + (t.en ? `<b lang="en">${esc(t.h)}</b>` : `<b>${esc(t.h)}</b><p lang="en">${esc(x.title_en)}</p>`) + `<p>${esc(t.upd ? t.src + ' · ' + t.upd : t.src)}</p></a>`;
+  });
+  if (!html.length) return;
+  /* merged by date with our notes: newest first */
+  const all = [...list.querySelectorAll('.nitem')].map(a => [a.querySelector('time').getAttribute('datetime'), a.outerHTML]);
+  html.forEach(h => all.push([h.match(/datetime="([^"]+)"/)[1], h]));
+  list.innerHTML = all.sort((a, b) => (a[0] < b[0] ? 1 : a[0] > b[0] ? -1 : 0)).map(x => x[1]).join('');
+  markMine();
+}).catch(() => {});
 /* News: automatic Wowhead feed from assets/news.json; no file -> the list stays hidden */
 fetch(ROOT + 'assets/news.json').then(r => r.ok ? r.json() : []).then(items => {
   const box = document.getElementById('feedList');
