@@ -593,15 +593,16 @@ RADIO_BTN = ('<button class="iconbtn radiobtn" type="button" aria-label="@@L@@" 
 
 SEARCH = {'ru': 'Поиск по сайту', 'en': 'Search the site', 'uk': 'Пошук по сайту', 'de': 'Seite durchsuchen', 'fr': 'Rechercher sur le site',
           'es': 'Buscar en el sitio', 'pt': 'Pesquisar no site', 'it': 'Cerca nel sito', 'pl': 'Szukaj w serwisie'}
+SEARCH_SHORT = {'ru': 'Поиск', 'en': 'Search', 'uk': 'Пошук', 'de': 'Suche', 'fr': 'Recherche', 'es': 'Buscar', 'pt': 'Pesquisar', 'it': 'Cerca', 'pl': 'Szukaj'}
 SEARCH_BTN = ('<button class="iconbtn srchbtn" type="button" aria-label="@@L@@" aria-haspopup="dialog">'
               '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
-              '<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><kbd>Ctrl K</kbd></button>\n    ')
+              '<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><span class="sl">@@S@@</span><kbd>Ctrl K</kbd></button>\n    ')
 
 
 def search(html, lang, root):
     """Site search (assets/search/, search.py): button before the radio button, styles without blocking the page, script.
     search.py adds ?v=<hash> to both files after the index is written."""
-    html = html.replace('<button class="iconbtn radiobtn"', SEARCH_BTN.replace('@@L@@', SEARCH[lang]) + '<button class="iconbtn radiobtn"', 1)
+    html = html.replace('<button class="iconbtn radiobtn"', SEARCH_BTN.replace('@@L@@', SEARCH[lang]).replace('@@S@@', SEARCH_SHORT[lang]) + '<button class="iconbtn radiobtn"', 1)
     head = f'<link rel="stylesheet" href="{root}assets/search/search.css" media="print" onload="this.media=\'all\'">\n</head>'
     js = f'<script src="{root}assets/search/search.js" data-root="{root}" defer></script>\n</body>'
     return html.replace('</head>', head, 1).replace('</body>', js, 1)

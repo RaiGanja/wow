@@ -197,6 +197,22 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
 .srchbtn kbd, .radiobtn .rdo-eq { display: none; }
+.srchbtn .sl { display: none; }
+/* search field in the top bar (build.SEARCH_BTN, assets/search/): a phone and a tablet get the field in place of the icon, a wide screen too; 1261-1599 has no room (9 menu links) and keeps the icon */
+@media (min-width: 375px) and (max-width: 1260px) {
+  .topbar .tools { flex: 1; min-width: 0; }
+  .topbar .srchbtn { flex: 1 1 0; min-width: 0; max-width: 380px; margin-right: auto; display: flex; align-items: center; justify-content: flex-start; gap: 8px; padding: 0 12px; }
+  .topbar .srchbtn .ico { flex: none; }
+  .topbar .srchbtn .sl { display: block; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--fs-14); font-weight: 500; opacity: .82; }
+}
+@media (min-width: 375px) and (max-width: 1260px), (min-width: 1600px) { .topbar:not(.solid) .srchbtn { background: rgb(5 6 8 / .4); } }
+@media (min-width: 375px) and (max-width: 719px) { .topbar .bt { display: none; } }   /* the wordmark steps aside for the field; the logo stays, the link keeps its name */
+@media (min-width: 1600px) {
+  .topbar .srchbtn { width: 200px; display: flex; align-items: center; justify-content: flex-start; gap: 8px; padding: 0 10px 0 12px; }
+  .topbar .srchbtn .ico { flex: none; }
+  .topbar .srchbtn .sl { display: block; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--fs-14); font-weight: 500; text-align: left; opacity: .82; }
+  .topbar .srchbtn kbd { display: block; }
+}
 @media (max-width: 719px) { .topbar .themebtn { display: none; } }   /* phone: the top bar keeps My character (assets/hero/), the theme is in the sections sheet */   /* on the home page search.css and radio.css come after the first paint */
 .radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: var(--fs-16); }
@@ -1085,7 +1101,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </svg>
 
 <header class="topbar" id="topbar"><div class="in">
-  <a class="brand" href="#top"><img class="mark" src="@@ROOT@@assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Гид WoW Forever</small></span></a>
+  <a class="brand" aria-label="Gabella" href="#top"><img class="mark" src="@@ROOT@@assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Гид WoW Forever</small></span></a>
   @@MAINNAV@@
   <div class="tools">
     @@LANGSEL@@

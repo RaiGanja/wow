@@ -197,6 +197,22 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
 .srchbtn kbd, .radiobtn .rdo-eq { display: none; }
+.srchbtn .sl { display: none; }
+/* search field in the top bar (build.SEARCH_BTN, assets/search/): a phone and a tablet get the field in place of the icon, a wide screen too; 1261-1599 has no room (9 menu links) and keeps the icon */
+@media (min-width: 375px) and (max-width: 1260px) {
+  .topbar .tools { flex: 1; min-width: 0; }
+  .topbar .srchbtn { flex: 1 1 0; min-width: 0; max-width: 380px; margin-right: auto; display: flex; align-items: center; justify-content: flex-start; gap: 8px; padding: 0 12px; }
+  .topbar .srchbtn .ico { flex: none; }
+  .topbar .srchbtn .sl { display: block; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--fs-14); font-weight: 500; opacity: .82; }
+}
+@media (min-width: 375px) and (max-width: 1260px), (min-width: 1600px) { .topbar:not(.solid) .srchbtn { background: rgb(5 6 8 / .4); } }
+@media (min-width: 375px) and (max-width: 719px) { .topbar .bt { display: none; } }   /* the wordmark steps aside for the field; the logo stays, the link keeps its name */
+@media (min-width: 1600px) {
+  .topbar .srchbtn { width: 200px; display: flex; align-items: center; justify-content: flex-start; gap: 8px; padding: 0 10px 0 12px; }
+  .topbar .srchbtn .ico { flex: none; }
+  .topbar .srchbtn .sl { display: block; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--fs-14); font-weight: 500; text-align: left; opacity: .82; }
+  .topbar .srchbtn kbd { display: block; }
+}
 @media (max-width: 719px) { .topbar .themebtn { display: none; } }   /* phone: the top bar keeps My character (assets/hero/), the theme is in the sections sheet */   /* on the home page search.css and radio.css come after the first paint */
 .radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: var(--fs-16); }
@@ -1244,7 +1260,7 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../../assets/radio/radio.css?v=f3d4c694a3">
-<link data-rel="stylesheet" href="../../../assets/search/search.css?v=685b6c0abf">
+<link data-rel="stylesheet" href="../../../assets/search/search.css?v=ff0bc2e957">
 <link data-rel="stylesheet" href="../../../assets/me/me.css?v=b13be6705d">
 <link data-rel="stylesheet" href="../../../assets/hero/hero.css?v=cfb7f0ee0f">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://gabella.site/wow/es/"},{"@type":"ListItem","position":2,"name":"Razas","item":"https://gabella.site/wow/es/races/"},{"@type":"ListItem","position":3,"name":"Humano","item":"https://gabella.site/wow/es/races/human/"}]}</script>
@@ -1277,13 +1293,13 @@ ul.pm.minus li::before { content: "−"; color: var(--horde); }
 </svg>
 
 <a class="skip" href="#main">Ir al contenido</a><header class="topbar" id="topbar"><div class="in">
-  <a class="brand" href="../../"><img class="mark" src="../../../assets/brand/mark.webp?v=64e71bf9" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Guía de WoW Forever</small></span></a>
+  <a class="brand" aria-label="Gabella" href="../../"><img class="mark" src="../../../assets/brand/mark.webp?v=64e71bf9" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Guía de WoW Forever</small></span></a>
   <nav class="mainnav" aria-label="Secciones">
     <a href="../../classes/">Clases</a><a href="../../races/" aria-current="true">Razas</a><a href="../../guides/leveling/">Subida de nivel</a><a href="../../guides/dungeons/">Mazmorras</a><a href="../../guides/builds/" data-tl>Talentos</a><a href="../../guides/">Guías</a><a href="../../tools/">Herramientas</a><a href="../../play/">En el juego</a><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a>
   </nav>
   <div class="tools">
     <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" >ES<span class="sr">, Idioma: Español</span></button><ul class="langlist" hidden><li><a href="../../../races/human/" data-lang="ru" hreflang="ru" lang="ru"><span>Русский</span><small>RU</small></a></li><li><a href="../../../en/races/human/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../../../uk/races/human/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../../../de/races/human/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="../../../fr/races/human/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="./" data-lang="es" hreflang="es" lang="es" aria-current="page"><span>Español</span><small>ES</small></a></li><li><a href="../../../pt/races/human/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="../../../it/races/human/" data-lang="it" hreflang="it" lang="it"><span>Italiano</span><small>IT</small></a></li><li><a href="../../../pl/races/human/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
-    <button class="iconbtn srchbtn" type="button" aria-label="Buscar en el sitio" aria-haspopup="dialog"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><kbd>Ctrl K</kbd></button>
+    <button class="iconbtn srchbtn" type="button" aria-label="Buscar en el sitio" aria-haspopup="dialog"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><span class="sl">Buscar</span><kbd>Ctrl K</kbd></button>
     <button class="iconbtn radiobtn" type="button" aria-label="Radio" title="Radio" aria-expanded="false" aria-controls="radioPanel" aria-pressed="false"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg><span class="rdo-eq" aria-hidden="true"><i></i><i></i><i></i></span></button>
     <a class="iconbtn mebtn" href="../../profile/" aria-label="Mi perfil" title="Mi perfil"><svg class="ico" aria-hidden="true"><use href="#i-user"/></svg></a>
     <button class="iconbtn themebtn" type="button" aria-label="Cambiar tema" title="Cambiar tema"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></button>
@@ -1475,7 +1491,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../../assets/radio/radio.js?v=f3d4c694a3" data-root="../../../"></script>
-<script data-src="../../../assets/search/search.js?v=685b6c0abf" data-root="../../../"></script>
+<script data-src="../../../assets/search/search.js?v=ff0bc2e957" data-root="../../../"></script>
 <script data-src="../../../assets/me/me.js?v=b13be6705d" data-root="../../../" data-home="../../" data-lang="es" data-ach="0" data-teaser="" data-close="Cerrar" data-page="races/human/" data-look="2"></script>
 <script data-src="../../../assets/hero/hero.js?v=cfb7f0ee0f" data-root="../../../" data-home="../../" data-data="../../../assets/hero/es.json?v=cfb7f0ee0f"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
