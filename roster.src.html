@@ -86,8 +86,8 @@ p.lfgme { display: block; }
   <div class="frame lfgbar" id="lfgBar"><b>Сейчас ищут группу</b><div id="lfgList"></div><div id="lfgMe"></div></div>
   <div class="frame few" id="few" hidden></div>
   <div class="g-tabs" role="tablist" id="tabs">
-    <button type="button" class="g-tab" role="tab" id="tabAll" data-t="all" aria-controls="roster">Все игроки <small id="nAll"></small></button>
-    <button type="button" class="g-tab" role="tab" id="tabTeam" data-t="team" aria-controls="roster">Gabella Team <small id="nTeam"></small></button>
+    <button type="button" class="g-tab" role="tab" id="tabAll" data-t="all" aria-controls="rlist">Все игроки <small id="nAll"></small></button>
+    <button type="button" class="g-tab" role="tab" id="tabTeam" data-t="team" aria-controls="rlist">Gabella Team <small id="nTeam"></small></button>
   </div>
   <div class="frame fbar" id="pbar" role="search" aria-label="Фильтры">
     <input type="search" id="fq" placeholder="Имя или ник" aria-label="Поиск по имени или нику" autocomplete="off" maxlength="30">
@@ -107,7 +107,7 @@ p.lfgme { display: block; }
       <div class="rhead"><p class="small" id="count" aria-live="polite"></p>
         <div class="fgroup" id="pview"><label class="flabel" for="fs">Сортировка</label><select id="fs"><option value="pts">По очкам</option><option value="lvl">По уровню</option><option value="name">По имени</option><option value="new">Новые</option></select>
           <div class="seg" id="fv" role="group" aria-label="Вид"><button type="button" data-v="cards">Карточки</button><button type="button" data-v="list">Список</button></div></div></div>
-      <div class="rlist" id="roster" role="tabpanel"></div>
+      <div class="rlist" id="rlist" role="tabpanel"></div>
     </div>
     <aside class="side" aria-labelledby="feedH" data-social><h2 id="feedH">Лента достижений</h2><div class="frame feed" id="feed"><div class="skel" style="min-height:120px;border:0"></div></div></aside>
   </div>
@@ -144,7 +144,7 @@ function paintTabs() {
   $$('#tabs .g-tab').forEach(b => {
     const on = b.dataset.t === tab;
     b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1;
-    if (on) $('#roster').setAttribute('aria-labelledby', b.id);
+    if (on) $('#rlist').setAttribute('aria-labelledby', b.id);
   });
   $('#nTeam').textContent = players ? players.filter(p => p.member).length : '';
   $('#nAll').textContent = players ? players.length : '';
@@ -220,7 +220,7 @@ function drawFew() {
 function draw() {
   writeHash(); syncControls(); paintTabs();
   if (players) { drawStats(statsOf(pool())); drawLfg(); drawFew(); }
-  const box = $('#roster');
+  const box = $('#rlist');
   box.classList.toggle('list', F.v === 'list');
   if (failed) {
     box.innerHTML = `<div class="frame state"><h2>Список игроков временно недоступен</h2><p>Сервер профилей не ответил. Остальной сайт работает как обычно.</p><div class="row"><button type="button" class="btn ghost" id="retry">Повторить</button></div></div>`;
@@ -316,7 +316,7 @@ ready(M => {
       draw();
     }, () => { lg.disabled = false; });
   });
-  $('#roster').addEventListener('click', e => {
+  $('#rlist').addEventListener('click', e => {
     const rb = e.target.closest('[data-report]');
     if (rb) {
       rb.closest('details').open = false;
