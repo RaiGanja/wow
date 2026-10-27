@@ -2239,6 +2239,18 @@ PAGES = [
 
 from langs import AUTONYM, HREFLANG, LANGS  # noqa: E402
 
+NF_FIND = {'ru': ('Поиск по сайту', 'Найти'), 'en': ('Search the site', 'Search'), 'uk': ('Пошук по сайту', 'Знайти'),
+           'de': ('Seite durchsuchen', 'Suchen'), 'fr': ('Rechercher sur le site', 'Chercher'), 'es': ('Buscar en el sitio', 'Buscar'),
+           'pt': ('Pesquisar no site', 'Buscar'), 'it': ('Cerca nel sito', 'Cerca'), 'pl': ('Szukaj w serwisie', 'Szukaj')}
+
+
+def NF_SEARCH(lang):
+    """404: a search box; the form opens tools/?q=, where the site search starts with the query."""
+    label, go = NF_FIND[lang]
+    return (f'<form class="nf-find" role="search" action="tools/" method="get"><input type="search" name="q" autocomplete="off" '
+            f'aria-label="{label}" placeholder="{label}"><button class="btn" type="submit">{go}</button></form>')
+
+
 # 404.html в корне гида: GitHub Pages отдаёт её на любой несуществующий адрес под /wow/. Одна страница на все языки.
 NOT_FOUND = {
     'slug': '404', 'path': '', 'og': 'guides', 'art': 'hero_campfire', 'more': False,
@@ -2247,6 +2259,7 @@ NOT_FOUND = {
               'This page does not exist: the link is outdated or the address has a typo. The guide sections are below.',
               'Такої сторінки немає: посилання застаріло або в адресі помилка. Розділи гіда нижче.'),
     'sections': [{'id': 'where', 'title': t('Куда дальше', 'Where next', 'Куди далі'), 'blocks': [
+        ('raw', {l: NF_SEARCH(l) for l in LANGS}),
         ('raw', '<p class="nf-langs">' + '<span aria-hidden="true"> · </span>'.join(   # the guide home in every language
             f'<a href="/wow/{"" if l == "ru" else l + "/"}" lang="{HREFLANG[l]}">{AUTONYM[l]}</a>' for l in LANGS) + '</p>'),
     ]}],

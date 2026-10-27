@@ -1393,7 +1393,7 @@ def build_page(g, lang, tpl, base_css, sprite, src):
         missing += jmiss
     if g is NOT_FOUND:                                            # 404: the six main sections, not every tile of the guide
         main = [x for x in section_tiles() if x['href'] in ('classes/', 'races/')]
-        main += guide_tiles([x for slug in ('leveling', 'dungeons', 'faq') for x in GUIDES if x['slug'] == slug]) + SITE_TILES[:1]
+        main += guide_tiles([x for slug in ('tier-list', 'launch-day', 'leveling', 'dungeons') for x in GUIDES if x['slug'] == slug])
         body += f'<section class="gsec bare" id="all">{render_block("tiles", main, lang, root)}</section>'
     if len(g.get('sections', ())) == 1:
         toc = ''                                                 # one section: no contents column

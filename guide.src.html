@@ -143,6 +143,10 @@
 .gfaq details[hidden] { display: none; }
 .gfaq summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 48px; padding: 10px 14px; border-radius: 6px; font-weight: 600; transition: background-color .15s; }
 .gfaq summary::-webkit-details-marker { display: none; }
+/* 404: search box above the language links */
+.nf-find { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 16px; }
+.nf-find input { flex: 1 1 220px; min-width: 0; font: inherit; font-size: var(--fs-16); min-height: 44px; padding: 0 12px; border: 1px solid var(--fline); border-radius: 7px; background: var(--panel-2); color: var(--fg); }
+.nf-langs { line-height: 2; }
 .gfaq summary::after { content: ""; flex: none; width: 8px; height: 8px; border-right: 1.5px solid var(--muted); border-bottom: 1.5px solid var(--muted); transform: translateY(-2px) rotate(45deg); transition: transform .2s var(--ease), border-color .15s; }
 .gfaq summary:hover { background: var(--zebra); }
 .gfaq details[open] > summary::after { border-color: var(--gold-2); transform: translateY(2px) rotate(-135deg); }
