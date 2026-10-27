@@ -1,6 +1,6 @@
 /* Service worker of the guide (scope: the site root next to this file).
    Pages: network first, the saved copy when offline or the network is slow (3 s).
-   assets/news.json: network first. Other files of the site (art, fonts, icons, manifests): the saved copy, fetched once.
+   assets/news.json and data/official.json: network first. Other files of the site (art, fonts, icons, manifests): the saved copy, fetched once.
    GitHub Pages lets browsers keep files only 10 minutes, so repeat visits come from here instead.
    VERSION is written by build.py from the contents of assets/ and the manifests: any changed file gives
    a new worker, which drops the old caches on activate. */
@@ -71,7 +71,7 @@ self.addEventListener('fetch', e => {
   const req = e.request, url = new URL(req.url);
   if (req.method !== 'GET' || url.origin !== location.origin || !url.pathname.startsWith(new URL('./', location).pathname)) return;
   if (req.mode === 'navigate') return e.respondWith(page(e));
-  if (url.pathname.endsWith('/news.json')) return e.respondWith(fresh(e));
+  if (url.pathname.endsWith('/news.json') || url.pathname.endsWith('/data/official.json')) return e.respondWith(fresh(e));
   if (req.headers.has('range')) return;
   e.respondWith(file(e));
 });

@@ -1,0 +1,27 @@
+# Level 2, approved by the owner: the commit of a news/<key>@<sha8> branch goes to main as it is, with its tag.
+# Only after his «да» to the notice of news-gate:  gh workflow run news-approve -R RaiGanja/wow -f branch=news/<key>@<sha8>
+name: news-approve
+on:
+  workflow_dispatch:
+    inputs:
+      branch: { description: 'news/<key>@<sha8>', required: true }
+permissions:
+  contents: write
+jobs:
+  approve:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: '${{ inputs.branch }}', fetch-depth: 0 }
+      - name: To main with the tag
+        env: { BRANCH: '${{ inputs.branch }}' }
+        run: |
+          case "$BRANCH" in news/*@*) ;; *) echo "not a news branch"; exit 1;; esac
+          git fetch -q origin main
+          n=$(git rev-list --count origin/main..HEAD)
+          [ "$n" = 1 ] || { echo "commits over main: $n (must be 1: rebase and squash)"; exit 1; }
+          git merge-base --is-ancestor origin/main HEAD || { echo "main moved: rebase the branch"; exit 1; }
+          git tag -f "$BRANCH" HEAD
+          git push origin HEAD:main "refs/tags/$BRANCH"
+          git push origin --delete "$BRANCH"

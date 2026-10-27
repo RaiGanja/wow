@@ -75,8 +75,12 @@ def forum_records(f, cfg, ledger, region):
     cursors = ledger.setdefault('topics', {})
     watch = set(cfg.get('watch_topics', {}).get(region, []))
     todo = {t: None for t in watch}
-    for path in fcfg['categories']:
-        d = f.get(f'{region}:c/{path}', f'{base}/c/{path}.json')
+    lists = []
+    for path in fcfg['categories']:     # bumped order (new replies) and created order (a new staff topic stays visible under busy threads)
+        lists.append(f.get(f'{region}:c/{path}', f'{base}/c/{path}.json'))
+        if cfg.get('created_order', True):
+            lists.append(f.get(f'{region}:c/{path}/new', f'{base}/c/{path}/l/latest.json?order=created'))
+    for d in lists:
         if not d:
             continue
         for t in d.get('topic_list', {}).get('topics', []):
@@ -265,6 +269,10 @@ def entry(e):
             'detected_at': iso(now_utc())}
 
 
+def entry_name(r):
+    return f"{(r['created_at'] or iso(now_utc()))[:10]}-{r['key']}-{r['sha'][:8]}.json"
+
+
 def save(state, ledger, events, test=False):
     os.makedirs(os.path.join(state, 'entries'), exist_ok=True)
     written = []
@@ -276,7 +284,7 @@ def save(state, ledger, events, test=False):
                                  ensure_ascii=False) + '\n')
             if e['event'] == 'baseline':
                 continue
-            name = f"{(r['created_at'] or iso(now_utc()))[:10]}-{r['key']}-{r['sha'][:8]}.json"
+            name = entry_name(r)
             p = os.path.join(state, 'entries', name)
             with open(p, 'w', encoding='utf-8', newline='\n') as fh:
                 json.dump(entry(e), fh, ensure_ascii=False, indent=1)
@@ -293,7 +301,31 @@ def issue_body(e):
     head = (f"Blizzard ({r['role'] or r['author']}), {'правка поста' if e['event'] == 'edit' else 'новый пост'}: {r['url']}\n"
             f"Пост: {s['at'].replace('T', ' ').rstrip('Z')} UTC · тип {s['kind']}{' · бета' if s['beta'] else ''} · хэш {r['sha'][:16]}\n"
             + (f"Тот же текст: {', '.join(e.get('also', []))}\n" if e.get('also') else ''))
-    return head + '\n' + (e['res']['summary'] or 'Изменений с названиями нет.') + '\n\nОригинал читать по ссылке; на сайт — только сверенные числа.\n'
+    facts = [c for c in e['res']['changes'] if not e['res']['new_lines'] or c['h'] in set(e['res']['new_lines'])]
+    lines = []
+    for c in facts:
+        subj = c['subject'].get('id', 'general') + ('/' + c['subject']['spec'] if c['subject'].get('spec') else '')
+        pr = ', '.join(f"{p['old']}{p['old_unit']} → {p['new']}{p['unit']}" for p in c['pairs'])
+        lines.append(f"- `{subj}` · {', '.join(c['abilities']) or '—'} · {c['kind']}{' · ' + pr if pr else ''}\n  > {c['text']}")
+    data = {'key': r['key'], 'sha': r['sha'], 'url': r['url'], 'title': r['title'], 'at': s['at'], 'kind': s['kind'], 'beta': s['beta'],
+            'event': e['event'], 'facts': [{k: c[k] for k in ('h', 'subject', 'abilities', 'kind', 'pairs', 'nums', 'text')} for c in facts],
+            'outdated': e['res']['outdated'], 'to_check': e['res']['to_check'], 'entry': 'news-data:entries/' + entry_name(r)}
+    body = (head + '\n' + (e['res']['summary'] or 'Изменений с названиями нет.')
+            + f"\n\n## Факты поста ({len(facts)})\nСписок изменений из поста Blizzard (для правки сайта; первоисточник — ссылка выше, на сайт идут наши слова и сверенные числа).\n\n"
+            + '\n'.join(lines))
+    blob = '\n\n<details><summary>news-facts (для tools/news_gate.py)</summary>\n\n```json\n' + json.dumps(data, ensure_ascii=False) + '\n```\n</details>\n'
+    if len(blob) > 50000:      # a huge patch: the facts stay in the entry of the news-data branch (git show origin/news-data:entries/…)
+        data['facts'] = None
+        blob = '\n\n<details><summary>news-facts (для tools/news_gate.py)</summary>\n\n```json\n' + json.dumps(data, ensure_ascii=False) + '\n```\n</details>\n'
+    if len(body) + len(blob) > 64000:
+        body = body[:64000 - len(blob) - 40] + '\n…(список обрезан, полный — в блоке news-facts)'
+    return body + blob
+
+
+def facts_from_issue(body):
+    """The news-facts JSON block of an issue body (the editor and the gate read the facts from here, not from the forum)."""
+    m = re.search(r'```json\n(\{.*?\})\n```', body or '', re.S)
+    return json.loads(m.group(1)) if m else None
 
 
 def gh(method, path, token, body=None):

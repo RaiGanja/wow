@@ -12,8 +12,8 @@ import news_check as nc      # noqa: E402
 import news_watch as nw      # noqa: E402
 
 FX = os.path.join(HERE, 'fixtures', 'news')
-P7 = open(os.path.join(FX, 'us-2360696-7.html'), encoding='utf-8').read()
-P6 = open(os.path.join(FX, 'us-2360696-6-part.html'), encoding='utf-8').read()
+P7 = open(os.path.join(FX, 'us-2360696-7.cooked'), encoding='utf-8').read()
+P6 = open(os.path.join(FX, 'us-2360696-6-part.cooked'), encoding='utf-8').read()
 
 
 def by_name(items, name, kind=None):
@@ -131,19 +131,28 @@ ev = nw.run(json.loads(json.dumps(CFG)), ledger, 48, Fake(site_pages(P7, created
 assert [e['event'] for e in ev] == ['new', 'new'] and ev[1]['twin_of'] == 'us-10-1' and ev[0]['also'], ev   # EU copy = one story
 assert ev[0]['rec']['beta'] and nw.short_news(ev[0]['rec'])['kind'] == 'dev-notes'
 assert len(ev[0]['res']['outdated']) >= 0 and len(ev[0]['res']['changes']) == 14
-edited = P7.replace('by 1% (was 2%)', 'by 1.5% (was 2%)')
+INTRO = '<p>As we approach the launch, we have been reflecting on feedback about racial traits.</p>'
+edited = INTRO + P7.replace('by 1% (was 2%)', 'by 1.5% (was 2%)')
 upd = (NOW - timedelta(hours=1)).strftime('%Y-%m-%dT%H:%M:%S.000Z')
 ev = nw.run(json.loads(json.dumps(CFG)), ledger, 48, Fake(site_pages(edited, created, eu=False, updated=upd)))
 assert [e['event'] for e in ev] == ['edit'] and len(ev[0]['res']['new_lines']) == 1 and len(ev[0]['res']['gone_lines']) == 1, ev
 assert ev[0]['res']['check'][0]['ability'] == 'Ruthless'                         # only the changed line is checked again
 with tempfile.TemporaryDirectory() as d:
     files = nw.save(d, ledger, ev, test=True)
-    text = open(files[0], encoding='utf-8').read() + open(os.path.join(d, 'ledger.json'), encoding='utf-8').read()
-    assert 'Ruthless now increases' not in text and 'critical chance by' not in text     # sentences of the post are not stored
+    entry_text = open(files[0], encoding='utf-8').read()
+    ledger_text = open(os.path.join(d, 'ledger.json'), encoding='utf-8').read()
+    assert 'reflecting on feedback' not in entry_text + ledger_text          # the prose of the post is never kept
+    assert 'Ruthless now increases' not in ledger_text                       # the ledger keeps hashes only
+    assert 'Ruthless now increases critical chance by 1.5% (was 2%).' in entry_text   # the change line travels with the event
     log = [json.loads(x) for x in open(os.path.join(d, 'log.jsonl'), encoding='utf-8')]
     assert log[0]['event'] == 'edit' and log[0]['test'] is True
     body = nw.issue_body(ev[0])
     assert 'правка поста' in body and 'https://us.example/en/wow/t/dev-notes/10/1' in body
+    facts = nw.facts_from_issue(body)            # the editor reads the facts from the issue, not from the forum
+    assert facts['key'] == 'us-10-1' and len(facts['facts']) == 1 and facts['facts'][0]['pairs'][0] == {'new': 1.5, 'old': 2, 'unit': '%', 'old_unit': '%'}
+    assert facts['facts'][0]['nums'] == [1.5, 2] and facts['entry'].startswith('news-data:entries/')
+    assert 'reflecting on feedback' not in body
+    entries_saved = [json.load(open(p, encoding='utf-8')) for p in files]
 
 # a network failure is counted, not fatal
 led = {}
@@ -164,6 +173,83 @@ nw.run(json.loads(json.dumps(CFG)), {}, None, fake)
 assert not any('/groups/' in u for u in fake.urls)
 src = json.load(open(os.path.join(ROOT, 'tools', 'news_sources.json'), encoding='utf-8'))
 assert src['tracker']['enabled'] is False
+
+# ---------- level 1: the short note in 9 languages (tools/news_publish.py) ----------
+import news_publish as pb      # noqa: E402
+import news_gate as ng         # noqa: E402
+import news_notify as nn       # noqa: E402
+ev = nw.run(json.loads(json.dumps(CFG)), {}, 48, Fake(site_pages(P7, '2026-10-26T20:35:27.223Z')))
+ents = [nw.entry(e) for e in ev]
+led = {}
+notes, changed = pb.apply(ents, [], led)
+assert len(notes) == 1 and changed[0][0] == 'us-10-1', changed                      # the EU copy is not a second note
+t = notes[0]['t']
+assert set(t) == set(pb.LANGS)
+assert t['ru']['h'] == 'Заметки разработчиков от 26.10 (бета)' and t['en']['h'] == 'Developer notes of Oct 26 (beta)'
+assert t['de']['h'] == 'Entwicklerhinweise vom 26.10 (Beta)' and t['pl']['h'] == 'Notatki deweloperów z 26.10 (beta)'
+assert notes[0]['url'].startswith('https://us.example/') and notes[0]['title_en'].startswith('WoW Forever Beta Development Notes')
+assert pb.apply(ents, notes, led)[1] == []                                          # the same post again: nothing
+assert pb.apply(ents, [], led)[1] == []                                             # reverted note: does not come back
+e2 = dict(ents[0], event='edit', sha='f' * 64, detected_at='2026-10-26T21:10:00Z')
+n2, ch2 = pb.apply([e2], notes, led)
+assert ch2 and n2[0]['t']['ru']['upd'] == 'обновлено 26.10' and n2[0]['t']['en']['upd'] == 'updated Oct 26'
+tech = dict(ents[0], key='us-11-1', title='Beta Realm Restart Today At 2:00 p.m. PDT')
+assert not pb.publishable(tech)                                                     # technical posts are not news
+reply = dict(ents[0], key='us-12-5', post=5, short_news=dict(ents[0]['short_news'], kind='post'))
+assert not pb.publishable(reply)                                                    # a reply inside a topic: issue only
+assert pb.texts('hotfixes', False, '2026-11-06T18:00:00Z')['fr']['h'] == 'Correctifs du 06.11'
+art = pb.texts('article', False, '2026-10-26T17:00:00Z', title='Watch the WoW: Forever Short Story')
+assert art['ru'] == {'h': 'Watch the WoW: Forever Short Story', 'en': 1, 'src': 'Blizzard, на английском'}   # an article keeps its English title
+
+# ---------- level 2: number gate on a real git commit (tools/news_gate.py) ----------
+import subprocess                                                                   # noqa: E402
+fx = {'key': 'us-10-1', 'sha': 'ab' * 32, 'facts': [c for c in ents[0]['changes'] if c['abilities'] and c['abilities'][0] in ('Ruthless', 'Human Spirit')]}
+with tempfile.TemporaryDirectory() as d:
+    g = lambda *a: subprocess.run(['git', '-C', d, *a], check=True, capture_output=True)   # noqa: E731
+    g('init', '-q', '-b', 'main')
+    os.makedirs(os.path.join(d, 'content'))
+    os.makedirs(os.path.join(d, 'i18n'))
+    os.makedirs(os.path.join(d, 'tools'))
+    open(os.path.join(d, 'content', 'races.py'), 'w', encoding='utf-8').write("R = t('Ruthless: +2% к шансу крита', 'Ruthless: +2% crit chance', 'Ruthless: +2% криту')\nH = 'The Human Spirit: +5% spirit, since 15.10.2026'\n")
+    open(os.path.join(d, 'i18n', 'de.json'), 'w', encoding='utf-8').write('{\n "Ruthless: +2% crit chance": "Ruthless: +2 % Krit"\n}\n')
+    g('add', '-A'); g('-c', 'user.name=t', '-c', 'user.email=t@t', 'commit', '-qm', 'base'); g('branch', 'base')
+    ng.ROOT = d
+
+    def commit(races, de, extra=None):
+        g('checkout', '-q', '-B', 'work', 'base')
+        open(os.path.join(d, 'content', 'races.py'), 'w', encoding='utf-8').write(races)
+        open(os.path.join(d, 'i18n', 'de.json'), 'w', encoding='utf-8').write(de)
+        if extra:
+            open(os.path.join(d, extra), 'w', encoding='utf-8').write('x = 1\n')
+        g('add', '-A'); g('-c', 'user.name=t', '-c', 'user.email=t@t', 'commit', '-qm', 'edit')
+        return ng.gate(fx, 'base', 'work')
+    good = ("R = t('Ruthless: +1% к шансу крита', 'Ruthless: +1% crit chance', 'Ruthless: +1% криту')\n"
+            "H = 'The Human Spirit: +10% spirit, since 26.10.2026'\n")
+    res = commit(good, '{\n "Ruthless: +1% crit chance": "Ruthless: +1 % Krit"\n}\n')
+    assert res['ok'], res                                                           # numbers of the post, dates do not count
+    res = commit(good.replace('+10% spirit', '+12% spirit'), '{\n "Ruthless: +1% crit chance": "Ruthless: +1 % Krit"\n}\n')
+    assert not res['ok'] and any('12' in x for x in res['fails']), res              # 12 is not in the post
+    res = commit(good, '{\n "Ruthless: +1% crit chance": "Ruthless: mehr Krit"\n}\n')
+    assert not res['ok'] and any('old 2 is gone' in x for x in res['fails']), res   # de lost the new value
+    res = commit(good, '{\n "Ruthless: +1% crit chance": "Ruthless: +1 % Krit"\n}\n', extra='tools/x.py')
+    assert not res['ok'] and any('not a text edit' in x for x in res['fails'])      # code is never auto-merged
+    g('checkout', '-q', '-B', 'two', 'base')
+    for i in (1, 2):
+        open(os.path.join(d, 'content', 'races.py'), 'a', encoding='utf-8').write(f'# {i}\n')
+        g('-c', 'user.name=t', '-c', 'user.email=t@t', 'commit', '-qam', f'c{i}')
+    assert any('exactly 1' in x for x in ng.gate(fx, 'base', 'two')['fails'])     # one commit = one revert
+    ng.ROOT = ROOT
+
+# ---------- notice: Discord first, Resend second, secrets never printed ----------
+sent = []
+nn.post = lambda url, body, headers=None: (sent.append((url, body, headers)), 204 if 'discord' in url else 200)[1]
+import io, contextlib                                                               # noqa: E402
+buf = io.StringIO()
+with contextlib.redirect_stdout(buf):
+    assert nn.notify('t', 'x', env={'SITE_WEBHOOK_NOTES': 'https://discord.example/api/webhooks/SECRET1'}) == 'discord'
+    assert nn.notify('t', 'x', env={'RESEND_API_KEY': 'SECRET2', 'NOTIFY_TO': 'a@b.c'}) == 'resend'
+    assert nn.notify('t', 'x', env={}) is None
+assert 'SECRET' not in buf.getvalue() and sent[0][1]['allowed_mentions'] == {'parse': []}
 
 # ---------- full real topics, if the samples are on this computer ----------
 for base in (os.path.join(ROOT, '..', '..', '..', '..', 'docs', 'wow', 'news-auto', 'samples'),

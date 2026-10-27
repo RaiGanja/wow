@@ -327,8 +327,12 @@ def changes(src):
 
 
 def structured(items):
-    """What the watcher stores in public: no sentences, only fields and the line hash."""
-    return [{k: c[k] for k in ('path', 'subject', 'abilities', 'kind', 'pairs', 'h')} for c in items]
+    """What the watcher stores: the facts of each change line (the bullet itself, its numbers, old -> new) and the line hash.
+    Only the list of changes is kept, never the prose around it: the cloud editor cannot open the Blizzard forum
+    (403 from its proxy), so the facts travel with the event; the site itself never shows these lines."""
+    return [{'path': c['path'], 'subject': c['subject'], 'abilities': c['abilities'], 'kind': c['kind'], 'pairs': c['pairs'],
+             'nums': sorted({v for v, _ in c['numbers']}, key=float), 'text': c['text'], 'h': c['h']}
+            for c in items if c['kind'] != 'note' or c['abilities']]
 
 
 def load(path, post=None):

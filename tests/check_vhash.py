@@ -2,13 +2,13 @@
 HTML отдаётся no-cache, а /wow/assets/ браузер держит 7 дней (edge 30): файл, заменённый под тем же именем и
 подгруженный без версии, у посетителей остаётся старым. Проверяем HTML (атрибуты, inline-скрипты и стили), CSS (url())
 и JS в assets/: у каждого адреса файла должен быть ?v= (в JS допустимо: версия пришла в рантайме — +V, ${ver}, ${q}).
-Не под долгим кэшем и потому не проверяются: sw.js, manifest-*.webmanifest, updates.json, assets/news.json, внешние хосты."""
+Не под долгим кэшем и потому не проверяются: sw.js, manifest-*.webmanifest, updates.json, assets/news.json, data/official.json (Cloudflare не кэширует data/), внешние хосты."""
 import os, re, sys
 
 HERE = os.environ.get('CHECK_ROOT') or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 EXT = r'(?:webp|avif|png|jpe?g|gif|svg|ico|woff2?|mp3|ogg|m4a|wav|json|js|css|webmanifest)'
 SKIP_DIRS = {'.git', '.build', 'node_modules', 'docs', 'content', 'i18n', 'tests', 'tools', '__pycache__'}
-NOCACHE = re.compile(r'(?:^|/)(?:sw\.js|manifest-[\w-]+\.webmanifest|updates\.json|news\.json|sitemap\.xml)$')
+NOCACHE = re.compile(r'(?:^|/)(?:sw\.js|manifest-[\w-]+\.webmanifest|updates\.json|news\.json|official\.json|sitemap\.xml)$')
 # a version in the tail of the match: ?v=, ${V} / ${ver} / ${q}, + V / + ver / + q (the script got it from its own address)
 RT_VER = r'(?:\$\{\s*(?:V|v|ver|q|vq|PV|AV|ARTV)\b|[\'"`]\s*\)?\s*\+\s*\(?\s*(?:V|v|ver|q|vq|PV|AV|ARTV)\b)'
 # a path-looking token ending in an extension

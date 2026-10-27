@@ -1,24 +1,29 @@
-# Official Blizzard posts about Forever -> hash, structured changes, check against the site (tools/news_watch.py).
+# Official Blizzard posts about Forever (tools/news_watch.py): hash, facts of the changes, check against the site.
 # State and log: branch news-data (ledger.json, log.jsonl, entries/). Pushing there does not rebuild Pages (Pages builds from main).
-# Switch: repository variable NEWS_AUTO=on (scheduled runs); off or missing = only manual runs.
+# Switch: repository variable NEWS_AUTO=on (scheduled runs and the Cloudflare alarm); off or missing = only manual runs with a mode.
 #   gh variable set NEWS_AUTO -b off -R RaiGanja/wow
-# Mode: NEWS_AUTO_MODE=dry (log only) | issues (+ an issue with label news-auto per story). Manual run: gh workflow run news-auto -f mode=dry
-# No secrets: only the automatic GITHUB_TOKEN. Logs are public: they hold titles, links and hashes only.
+# Mode (variable NEWS_AUTO_MODE or the manual input):
+#   dry    - log only;
+#   issues - + an issue with label news-auto per story (facts for the editor, outdated pages);
+#   live   - + level 1: the short note in data/official.json, its own commit in main with the tag news/<key>@<sha8>.
+# No secrets: only the automatic GITHUB_TOKEN. Logs are public: titles, links and hashes only.
 name: news-auto
 on:
   schedule: [{ cron: '1,11,21,31,41,51 * * * *' }]
   workflow_dispatch:
     inputs:
-      mode: { description: 'dry | issues', default: 'dry' }
+      mode: { description: 'dry | issues | live (empty: as NEWS_AUTO_MODE, only when NEWS_AUTO=on)', default: '' }
 permissions:
   contents: write
   issues: write
 concurrency: { group: news-auto, cancel-in-progress: false }
 jobs:
   watch:
-    if: vars.NEWS_AUTO == 'on' || github.event_name == 'workflow_dispatch'
+    if: vars.NEWS_AUTO == 'on' || inputs.mode != ''
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 12
+    env:
+      MODE: ${{ inputs.mode || vars.NEWS_AUTO_MODE || 'dry' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -28,12 +33,32 @@ jobs:
           if git fetch --depth=1 origin news-data; then git worktree add state FETCH_HEAD; git -C state switch -c news-data
           else git worktree add --orphan -b news-data state; fi
       - name: Watch
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          MODE: ${{ github.event.inputs.mode || vars.NEWS_AUTO_MODE || 'dry' }}
-        run: python tools/news_watch.py --state state $([ "$MODE" = issues ] && echo --issues)
-      - name: Save state
+        env: { GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}' }
+        run: python tools/news_watch.py --state state $([ "$MODE" != dry ] && echo --issues)
+      - name: Level 1 - short note on the site
+        if: env.MODE == 'live'
         run: |
+          python tools/news_publish.py --state state
+          [ -s state/published.txt ] || exit 0
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/official.json
+          git diff --cached --quiet && exit 0
+          git commit -q -m "Новости Blizzard: $(head -1 state/published.txt | cut -f2 | cut -c1-80)"
+          tags=$(cut -f1 state/published.txt | sed 's|^|news/|')
+          for i in 1 2 3; do
+            if git pull -q --rebase origin main; then
+              for t in $tags; do git tag -f "$t"; done
+              git push origin HEAD:main $(for t in $tags; do echo "refs/tags/$t"; done) && exit 0
+            else git rebase --abort || true; fi
+            sleep 5
+          done
+          python tools/news_publish.py --state state --unmark
+          exit 1
+      - name: Save state
+        if: always()
+        run: |
+          rm -f state/published.txt
           cd state
           git add -A
           git diff --cached --quiet && exit 0
