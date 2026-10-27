@@ -177,6 +177,22 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
 .srchbtn kbd, .radiobtn .rdo-eq { display: none; }
+.srchbtn .sl { display: none; }
+/* search field in the top bar (build.SEARCH_BTN, assets/search/): a phone and a tablet get the field in place of the icon, a wide screen too; 1261-1599 has no room (9 menu links) and keeps the icon */
+@media (min-width: 375px) and (max-width: 1260px) {
+  .topbar .tools { flex: 1; min-width: 0; }
+  .topbar .srchbtn { flex: 1 1 0; min-width: 0; max-width: 380px; margin-right: auto; display: flex; align-items: center; justify-content: flex-start; gap: 8px; padding: 0 12px; }
+  .topbar .srchbtn .ico { flex: none; }
+  .topbar .srchbtn .sl { display: block; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--fs-14); font-weight: 500; opacity: .82; }
+}
+@media (min-width: 375px) and (max-width: 1260px), (min-width: 1600px) { .topbar:not(.solid) .srchbtn { background: rgb(5 6 8 / .4); } }
+@media (min-width: 375px) and (max-width: 719px) { .topbar .bt { display: none; } }   /* the wordmark steps aside for the field; the logo stays, the link keeps its name */
+@media (min-width: 1600px) {
+  .topbar .srchbtn { width: 200px; display: flex; align-items: center; justify-content: flex-start; gap: 8px; padding: 0 10px 0 12px; }
+  .topbar .srchbtn .ico { flex: none; }
+  .topbar .srchbtn .sl { display: block; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--fs-14); font-weight: 500; text-align: left; opacity: .82; }
+  .topbar .srchbtn kbd { display: block; }
+}
 @media (max-width: 719px) { .topbar .themebtn { display: none; } }   /* phone: the top bar keeps My character (assets/hero/), the theme is in the sections sheet */   /* on the home page search.css and radio.css come after the first paint */
 .radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: var(--fs-16); }
@@ -882,6 +898,23 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .peoples { grid-template-columns: 1fr; gap: 28px; }
   .rr { padding: 0; scroll-padding: 0; }
 }
+@media (max-width: 1023px) {   /* classes: a 3x3 grid instead of the carousel, nine classes on one screen, a tap opens the class */
+  #roster { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; overflow: visible; scroll-snap-type: none; }
+  #roster .hc, #roster .hc.on { aspect-ratio: 1 / 1; border: 2px solid var(--cc); border-radius: 12px; box-shadow: none; --ts: var(--fs-22); --pad: 8px; }
+  #roster .hc .info, #roster .hc.on .info { padding: 8px; gap: 2px; justify-items: center; text-align: center; }
+  #roster .hc .roles { justify-content: center; font-size: var(--fs-13); gap: 2px 10px; }
+  #roster .hc .d, #roster .hc .more { display: none; }
+  #roster .hc::after { background: linear-gradient(180deg, rgba(5,5,5,0) 38%, rgba(5,5,5,.9) 100%); }
+  #roster .hc img { object-position: 50% 18%; }
+  #pCls .swipe { display: none; }
+}
+@media (max-width: 719px) {
+  #roster { gap: 6px; }
+  #roster .hc, #roster .hc.on { aspect-ratio: 3 / 4; border-radius: 10px; --ts: var(--fs-14); --pad: 4px; }
+  #roster .hc .info, #roster .hc.on .info { padding: 6px 4px 8px; }
+  #roster .hc .roles { display: none; }
+  #pCls .tp { display: none; }
+}
 @media (max-width: 980px) {
   .journey { grid-template-columns: 1fr; }
   .me { position: static; }
@@ -921,8 +954,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .hero::before { background:
     linear-gradient(180deg, rgb(var(--hero-fade) / .86) 0%, rgb(var(--hero-fade) / .7) 40%, rgb(var(--hero-fade) / .6) 72%, rgb(var(--hero-fade) / .94) 100%); }
   .hero-in { padding-top: calc(var(--top) + 28px); gap: 18px; }
-  .thero { --hh: max(580px, calc(100svh - 62px - env(safe-area-inset-bottom, 0px))); padding: max(calc(var(--top) + 28px), calc(var(--hh) * .5)) 0 calc(28px + var(--hfade)); }
-  .thero-art img { object-position: 90% 50%; }   /* make_images.CUTS: the party on the upper half, the text from the middle down */
+  .thero { --hh: 380px; padding: calc(var(--top) + 100px) 0 calc(28px + var(--hfade)); }   /* slim art band: ~160 px of scene above the text (was ~300) */
+  .thero-art img { object-position: 90% 0; }   /* make_images.CUTS: the party on the upper half, the text from the middle down */
   .thero::before { background: linear-gradient(180deg, rgba(5,5,5,.55) 0%, rgba(5,5,5,.08) 26%, rgba(5,5,5,.35) 52%, rgba(5,5,5,.9) 76%, #050505 100%); }
   .thero h1 { font-size: var(--fs-hero); hyphens: auto; }
 }
@@ -1233,7 +1266,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .pday { margin-bottom: 14px; }
 /* the hero of this browser (character/): a gold line, no badge */
 .nmine { display: block; margin-top: 2px; color: var(--gold-2); font-size: var(--fs-13); font-weight: 600; }
-.nitem time ~ .nmine { grid-column: 2; }
+@media (min-width: 720px) { .nitem time ~ .nmine { grid-column: 2; } }   /* phone: one column, the pill stays in it */
 .dme { grid-column: 2; margin: 4px 0 0; font-size: var(--fs-14); }
 .dme a, .dmehead a { color: var(--gold-2); }
 .dmehead { margin: 0 0 12px; }
@@ -1352,9 +1385,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .pnotify[hidden] { display: none; }
 .pnotify input { width: 18px; height: 18px; accent-color: #c9a54a; }
 @media (max-width: 719px) {   /* phone: the party on the road on top, the title below it on the dark */
-  .phead { min-height: 0; padding-top: calc(var(--top) + 170px); }
-  .phead-art img { object-position: 80% 0; height: calc(var(--top) + 300px); }
-  .phead::before { background: linear-gradient(180deg, rgb(5 5 5 / .5) 0%, rgb(5 5 5 / 0) 16%, rgb(5 5 5 / 0) calc(var(--top) + 150px), rgb(5 5 5 / .9) calc(var(--top) + 250px), rgb(5 5 5) calc(var(--top) + 300px)); } }
+  .phead { min-height: 0; padding-top: calc(var(--top) + 84px); }
+  .phead-art img { object-position: 80% 0; height: calc(var(--top) + 190px); }
+  .phead::before { background: linear-gradient(180deg, rgb(5 5 5 / .5) 0%, rgb(5 5 5 / 0) 16%, rgb(5 5 5 / 0) calc(var(--top) + 80px), rgb(5 5 5 / .9) calc(var(--top) + 150px), rgb(5 5 5) calc(var(--top) + 190px)); } }
 @media (max-width: 719px) { .pway { padding: 12px 14px; gap: 10px 20px; } .pway .btn { margin-left: 0; } .psec { padding: 14px; } .pform { grid-template-columns: minmax(0, 1fr) 104px; } .pform .pill { grid-column: 1 / -1; justify-content: center; } }
 @media (max-width: 719px) {   /* phone: pills and small links are 44 px to tap */
   .dbar .pill, .pfac .pill, .ppre .pill, .pform .pill, .pchars .pill { min-height: 44px; }
@@ -1367,7 +1400,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .gtoc { display: none; }
 }
 @media (max-width: 719px) {
-  .thero, .ghero { --hh: min(560px, 74svh); padding: max(calc(var(--top) + 28px), calc(var(--hh) * .48)) 0 24px; min-height: var(--hh); }
+  .thero, .ghero { --hh: 380px; padding: calc(var(--top) + 100px) 0 24px; min-height: 0; }   /* slim art band: ~160 px of scene above the text (was ~300) */
+  .thero-art img { object-position: 90% 0; }
   .thero::before, .ghero::before { background: linear-gradient(180deg, rgba(5,5,5,.55) 0%, rgba(5,5,5,.08) 26%, rgba(5,5,5,.4) 50%, rgb(8 9 11 / .9) 74%, var(--bg) 100%); }
   /* light: the title and the lead run past the art on a phone, so the whole hero is the dark plate and the paper starts under it */
   :root[data-theme="light"] :is(.thero, .ghero) { background: rgb(8 9 11); }
@@ -1422,7 +1456,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="./assets/radio/radio.css?v=ef0b5f769c" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="./assets/search/search.css?v=ee40f4761d" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="./assets/search/search.css?v=422cc929eb" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="./assets/me/me.css?v=b13be6705d" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="./assets/hero/hero.css?v=0514d07246" media="print" onload="this.media='all'">
 </head>
@@ -1453,13 +1487,13 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </svg>
 
 <a class="skip" href="#main">К содержанию</a><header class="topbar" id="topbar"><div class="in">
-  <a class="brand" href="./"><img class="mark" src="./assets/brand/mark.webp?v=64e71bf9" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Гид WoW Forever</small></span></a>
+  <a class="brand" aria-label="Gabella" href="./"><img class="mark" src="./assets/brand/mark.webp?v=64e71bf9" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Гид WoW Forever</small></span></a>
   <nav class="mainnav" aria-label="Разделы">
     <a href="./classes/">Классы</a><a href="./races/">Расы</a><a href="./guides/leveling/">Прокачка</a><a href="./guides/dungeons/">Подземелья</a><a href="./guides/builds/" data-tl>Таланты</a><a href="./guides/">Гайды</a><a href="./tools/">Инструменты</a><a href="./play/">В игре</a><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a>
   </nav>
   <div class="tools">
     <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" >RU<span class="sr">, Язык: Русский</span></button><ul class="langlist" hidden><li><a href="./" data-lang="ru" hreflang="ru" lang="ru" aria-current="page"><span>Русский</span><small>RU</small></a></li><li><a href="en/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="uk/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="de/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="fr/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="es/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="pt/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="it/" data-lang="it" hreflang="it" lang="it"><span>Italiano</span><small>IT</small></a></li><li><a href="pl/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
-    <button class="iconbtn srchbtn" type="button" aria-label="Поиск по сайту" aria-haspopup="dialog"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><kbd>Ctrl K</kbd></button>
+    <button class="iconbtn srchbtn" type="button" aria-label="Поиск по сайту" aria-haspopup="dialog"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><span class="sl">Поиск</span><kbd>Ctrl K</kbd></button>
     <button class="iconbtn radiobtn" type="button" aria-label="Радио" title="Радио" aria-expanded="false" aria-controls="radioPanel" aria-pressed="false"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg><span class="rdo-eq" aria-hidden="true"><i></i><i></i><i></i></span></button>
     <a class="iconbtn mebtn" href="./profile/" aria-label="Мой профиль" title="Мой профиль"><svg class="ico" aria-hidden="true"><use href="#i-user"/></svg></a>
     <button class="iconbtn themebtn" type="button" aria-label="Переключить тему" title="Переключить тему"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg></button>
@@ -1636,7 +1670,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="./assets/radio/radio.js?v=ef0b5f769c" data-root="./" defer></script>
-<script src="./assets/search/search.js?v=ee40f4761d" data-root="./" defer></script>
+<script src="./assets/search/search.js?v=422cc929eb" data-root="./" defer></script>
 <script src="./assets/me/me.js?v=b13be6705d" data-root="./" data-home="./" data-lang="ru" data-ach="0" data-teaser="" data-close="Закрыть" data-page="404" data-look="2" defer></script>
 <script src="./assets/hero/hero.js?v=0514d07246" data-root="./" data-home="./" data-data="./assets/hero/ru.json?v=0514d07246" defer></script>
 </body>
