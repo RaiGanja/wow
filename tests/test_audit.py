@@ -52,16 +52,19 @@ def test_launch_time_local_not_kyiv():
 
 
 def test_not_found_per_language():
+    """Root 404.html (GitHub Pages serves it for any bad address): a light page, no redirect, a block of text per language that shows
+    without JS; the head script only picks the block of the address or the browser. <lang>/404.html: the full page, noindex."""
     root = page('404.html')
-    assert '<base href="/wow/">' in root and "location.replace('/wow/' + m[1] + '/404.html')" in root
-    assert 'document.write' not in root                       # writing over the page clashes with its globals
+    assert 'noindex' in root and 'location.replace' not in root and 'sessionStorage' not in root
+    assert len(root.encode('utf-8')) < 8000, len(root)
+    assert re.findall(r'<section lang="[^"]+" data-k="(\w+)"', root) == list(LANGS)
+    for lang in LANGS:
+        assert f':root[data-l="{lang}"] section[data-k="{lang}"]' in root, lang
+        assert re.search(rf'data-k="{lang}"><h1>[^<]+</h1><p><a href="/wow/{"" if lang == "ru" else lang + "/"}">', root), lang
     for lang in LANGS[1:]:
         nf = page(lang, '404.html')
         assert f'<base href="/wow/{lang}/">' in nf and 'noindex' in nf and 'location.replace(' not in nf, lang
-        assert "history.replaceState(null, '', p)" in nf, lang
-    for lang in LANGS:                                         # "where next": absolute links to every home, not ./en/ under <base>
-        nf = page(*lang_dir(lang), '404.html')
-        links = re.search(r'<p class="nf-langs">(.*?)</p>', nf).group(1)
+        links = re.search(r'<p class="nf-langs">(.*?)</p>', nf).group(1)   # "where next": absolute links to every home, not ./en/ under <base>
         assert re.findall(r'href="([^"]+)"', links) == ['/wow/'] + [f'/wow/{l}/' for l in LANGS[1:]], lang
 
 

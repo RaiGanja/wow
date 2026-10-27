@@ -1618,34 +1618,67 @@ def build_page(g, lang, tpl, base_css, sprite, src):
     return here + 'index.html', html, missing
 
 
-NOT_FOUND_JS = r"""<script>
+# 404.html at the root: GitHub Pages serves it for any bad address, in one language for everybody. A light page (no site chrome, no
+# redirect): every language holds its own block of text, a head script only picks the one for the path (/wow/<lang>/...) or the browser;
+# without JS all blocks show as a short list. The full localized pages stay at <lang>/404.html.
+NOT_FOUND_LIGHT = r"""<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>@@TITLE@@ · Gabella</title>
+<link rel="icon" type="image/png" sizes="48x48" href="/wow/assets/icons/favicon-48.png">
+<script>
 (function () {
-  var m = location.pathname.match(/^\/wow\/(@@L@@)\//);
-  if (!m) return;
-  document.documentElement.style.visibility = 'hidden';
-  try { sessionStorage.setItem('gabella-404', location.pathname + location.search + location.hash); } catch (e) {}
-  location.replace('/wow/' + m[1] + '/404.html');
+  var L = '@@LANGS@@'.split(' '), m = location.pathname.match(/^\/wow\/([a-z]{2})\//), l = m && L.indexOf(m[1]) > -1 ? m[1] : '';
+  for (var i = 0, n = navigator.languages || [navigator.language || '']; !l && i < n.length; i++) { var c = String(n[i]).toLowerCase().slice(0, 2); if (L.indexOf(c) > -1) l = c; }
+  if (l) document.documentElement.setAttribute('data-l', l);
 })();
 </script>
+<style>
+:root { color-scheme: dark light; --bg: #0a0b0d; --fg: #ece6d8; --muted: #a8a294; --gold: #c9a54a; --line: #2a2820; }
+@media (prefers-color-scheme: light) { :root { --bg: #f6f1e6; --fg: #1d1a14; --muted: #5f594b; --gold: #7a5a14; --line: #d8cfba; } }
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 24px 16px; background: var(--bg); color: var(--fg); font: 1rem/1.5 Georgia, "Times New Roman", serif; }
+main { width: 100%; max-width: 520px; }
+.brand { margin: 0 0 20px; font-size: .85rem; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
+section { padding: 14px 0; border-top: 1px solid var(--line); }
+h1 { margin: 0 0 4px; font-size: 1.5rem; font-weight: 600; line-height: 1.2; }
+a { color: var(--gold); text-underline-offset: 3px; }
+:root[data-l] section { display: none; border-top: 0; padding-top: 0; }
+@@SHOW@@
+</style>
+</head>
+<body>
+<main>
+<p class="brand">Gabella · WoW Forever</p>
+@@BLOCKS@@
+</main>
+</body>
+</html>
 """
-# <lang>/404.html: back to the address the reader typed (the root 404 sent them here)
-NOT_FOUND_BACK = r"""<script>
-try { var p = sessionStorage.getItem('gabella-404'); if (p) { sessionStorage.removeItem('gabella-404'); history.replaceState(null, '', p); } } catch (e) {}
-</script>
-"""
+
+
+def not_found_light():
+    """The root 404.html: one block per language (title and the way home), see NOT_FOUND_LIGHT."""
+    blocks = '\n'.join(
+        f'<section lang="{langs.HREFLANG[l]}" data-k="{l}"><h1>{NOT_FOUND["title"][l]}</h1><p><a href="/wow/{"" if l == "ru" else l + "/"}">{langs.AUTONYM[l]} · gabella.site/wow/</a></p></section>'
+        for l in LANGS)
+    html = NOT_FOUND_LIGHT.replace('@@TITLE@@', NOT_FOUND['title']['ru']).replace('@@LANGS@@', ' '.join(LANGS)).replace('@@BLOCKS@@', blocks)
+    html = html.replace('@@SHOW@@', '\n'.join(f':root[data-l="{l}"] section[data-k="{l}"] {{ display: block; }}' for l in LANGS))
+    return html
 
 
 def not_found_page(tpl, base_css, sprite, src, lang='ru'):
-    """404.html: the Russian page built at the guide root, served by GitHub Pages at any depth under /wow/ —
-    <base> keeps its relative links working, and it is neither indexed nor canonical.
-    <lang>/404.html: the same page per language; under /wow/<lang>/ the root one sends the reader there before it draws
-    (a new document, not document.write over the old one: its scripts would clash with the first page's globals)."""
+    """404.html at the root: the light page for every language (GitHub Pages serves it at any depth under /wow/).
+    <lang>/404.html: the full page per language, noindex, not canonical; <base> keeps its relative links working."""
+    if lang == 'ru':
+        return '404.html', not_found_light(), []
     _, html, missing = build_page(NOT_FOUND, lang, tpl, base_css, sprite, src)
     html = re.sub(r'<link rel="(canonical|alternate)"[^>]*>\n', '', html)
     html = re.sub(r'<meta property="og:[^>]*>\n', '', html)
-    js = NOT_FOUND_JS.replace('@@L@@', '|'.join(l for l in LANGS if l != 'ru')) if lang == 'ru' else NOT_FOUND_BACK
     html = html.replace('<head>', f'<head>\n<base href="/wow/{page_dir(lang)}">\n<meta name="robots" content="noindex">', 1)
-    html = html.replace('<meta charset="utf-8">\n', '<meta charset="utf-8">\n' + js, 1)
     html = html.replace('data-page=""', 'data-page="404"', 1)   # me.js: the secret for getting lost
     return page_dir(lang, '404.html'), html, missing
 
