@@ -1,0 +1,55 @@
+# Level 2: the editor pushes ONE commit to a branch news/<key>@<sha8> (texts + build). This gate (tools/news_gate.py) checks the
+# numbers against the facts of the post and the original (the runner can read the forum):
+#   green -> the commit goes to main as it is, with the tag news/<key>@<sha8> (rollback: git revert news/<key>@<sha8>);
+#   red   -> nothing goes to main; a notice to the closed 📝notes channel (SITE_WEBHOOK_NOTES) or by e-mail (RESEND_API_KEY),
+#            approve by hand: gh workflow run news-approve -R RaiGanja/wow -f branch=news/<key>@<sha8>
+# Secret values are never printed; a missing secret only skips the notice.
+name: news-gate
+on:
+  push:
+    branches: ['news/**']
+permissions:
+  contents: write
+concurrency: { group: news-gate-${{ github.ref_name }}, cancel-in-progress: true }
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: Facts of the post (news-data entry)
+        id: facts
+        run: |
+          tag="${GITHUB_REF_NAME#news/}"; key="${tag%@*}"; sha="${tag#*@}"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          git fetch -q origin news-data main
+          f=$(git ls-tree --name-only origin/news-data entries/ | grep -- "-$key-$sha" | head -1)
+          [ -n "$f" ] || { echo "no entry for $tag"; echo "ok=no" >> "$GITHUB_OUTPUT"; exit 0; }
+          git show "origin/news-data:$f" > "$RUNNER_TEMP/entry.json"
+      - name: Gate
+        id: gate
+        run: |
+          if [ -s "$RUNNER_TEMP/entry.json" ] && python tools/news_gate.py --entry "$RUNNER_TEMP/entry.json" --fetch-original --base origin/main --head HEAD --json "$RUNNER_TEMP/gate.json" | tee "$RUNNER_TEMP/gate.txt"; then
+            echo "ok=yes" >> "$GITHUB_OUTPUT"
+          else echo "ok=no" >> "$GITHUB_OUTPUT"; fi
+      - name: Green - to main with the tag
+        if: steps.gate.outputs.ok == 'yes'
+        run: |
+          git tag -f "news/${{ steps.facts.outputs.tag }}" HEAD
+          git push origin HEAD:main "refs/tags/news/${{ steps.facts.outputs.tag }}" && git push origin --delete "$GITHUB_REF_NAME" && exit 0
+          echo "main moved: rebase the branch on main and push it again" > "$RUNNER_TEMP/gate.txt"; exit 1
+      - name: Red - notice
+        if: failure() || steps.gate.outputs.ok != 'yes'
+        env:
+          SITE_WEBHOOK_NOTES: ${{ secrets.SITE_WEBHOOK_NOTES }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          NOTIFY_TO: ${{ vars.NOTIFY_TO }}
+          NOTIFY_FROM: ${{ vars.NOTIFY_FROM }}
+        run: |
+          { echo "Ворота чисел не пропустили правку ${GITHUB_REF_NAME}."; echo; head -c 3000 "$RUNNER_TEMP/gate.txt" 2>/dev/null || echo "нет записи поста в news-data"
+            echo; echo "Сравнить: https://github.com/${GITHUB_REPOSITORY}/compare/main...${GITHUB_REF_NAME}"
+            echo "Разрешить как есть: gh workflow run news-approve -R ${GITHUB_REPOSITORY} -f branch=${GITHUB_REF_NAME}"; } > "$RUNNER_TEMP/notice.txt"
+          python tools/news_notify.py --title "Gabella: правка ждёт «да» — ${GITHUB_REF_NAME}" --text-file "$RUNNER_TEMP/notice.txt" --url "https://github.com/${GITHUB_REPOSITORY}/compare/main...${GITHUB_REF_NAME}"

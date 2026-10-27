@@ -1152,7 +1152,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     <nav class="htasks" aria-label="Быстрые ответы"><a href="classes/#choose">Кем играть</a><a href="guides/leveling/">Прокачка</a><a href="guides/dungeons/">Подземелья</a><a href="guides/professions/">Профессии</a><a href="#camp">Найти группу</a></nav>
   </div>
   @@TOD_SW@@
-  <div class="hnews wrap"><div class="hh"><h2>Свежее</h2><a href="guides/news/">Все новости<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div><div class="row3" data-feed="@@ROOT@@assets/news.json">@@FRESH@@</div></div>
+  <div class="hnews wrap"><div class="hh"><h2>Свежее</h2><a href="guides/news/">Все новости<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div><div class="row3" data-feed="@@ROOT@@assets/news.json" data-off="@@ROOT@@data/official.json">@@FRESH@@</div></div>
 </section>
 <section class="wrap" id="myHome" aria-live="polite" hidden></section>
 
@@ -1562,13 +1562,21 @@ document.addEventListener('click', e => {
 (() => {
   const row = document.querySelector('.hnews .row3');
   if (!row || !row.dataset.feed) return;
-  fetch(row.dataset.feed).then(r => (r.ok ? r.json() : [])).then(feed => {
+  const get = u => (u ? fetch(u).then(r => (r.ok ? r.json() : [])).catch(() => []) : Promise.resolve([]));
+  /* official Blizzard notes first (data/official.json, level 1 of the news automation), then the Wowhead headlines */
+  Promise.all([get(row.dataset.feed), get(row.dataset.off)]).then(([feed, off]) => {
     const ours = [...row.querySelectorAll('.nc')].map(n => ({ d: n.querySelector('time').getAttribute('datetime'), html: n.outerHTML }));
-    const lang = document.documentElement.lang;
+    const lang = (document.documentElement.lang || 'en').slice(0, 2);
+    const pk = u => ((u || '').match(/\/t\/(?:[^/]+\/)?(\d+)\/(\d+)/) || []).slice(1).join('-') || u;   /* forum post: topic-post, any slug */
+    const seen = new Set([...row.querySelectorAll('.nc[data-u]')].map(n => pk(n.dataset.u)));   /* a post we already wrote up is not repeated */
+    const bz = (Array.isArray(off) ? off : []).filter(x => /^https:\/\//.test(x.url) && x.t && !seen.has(pk(x.url))).slice(0, 2).map(x => {
+      const t = x.t[lang] || x.t.en;
+      return { d: x.date, o: 1, html: `<a class="nc" href="${esc(x.url)}" target="_blank" rel="noopener"><time datetime="${esc(x.date)}">${x.date.slice(8, 10)}.${x.date.slice(5, 7)}</time><b${t.en ? ' lang="en"' : ''}>${esc(t.h)}</b><span>${esc(t.upd ? t.src + ' · ' + t.upd : t.src)}</span></a>` };
+    });
     const wh = feed.slice(0, 2).map(x => ({ d: x.date, html: `<a class="nc" href="${esc(x.url)}" target="_blank" rel="noopener"><time datetime="${esc(x.date)}">${x.date.slice(8, 10)}.${x.date.slice(5, 7)}</time><b lang="en">${esc(x.title)}</b><span>${'Wowhead, на английском'}</span></a>` }));
-    const all = ours.concat(wh).sort((a, b) => (a.d < b.d ? 1 : a.d > b.d ? -1 : 0)).slice(0, 3);
-    if (all.some(x => wh.includes(x))) row.innerHTML = all.map(x => x.html).join('');
-  }).catch(() => {});
+    const all = ours.concat(bz, wh).sort((a, b) => (a.d < b.d ? 1 : a.d > b.d ? -1 : (b.o || 0) - (a.o || 0))).slice(0, 3);
+    if (all.some(x => wh.includes(x) || bz.includes(x))) row.innerHTML = all.map(x => x.html).join('');
+  });
 })();
 function hashTab() { if (location.hash === '#peoples') { showTab(TABS[1]); document.getElementById('classes').scrollIntoView(); } }
 addEventListener('hashchange', hashTab);
