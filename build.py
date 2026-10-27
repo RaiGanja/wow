@@ -423,11 +423,25 @@ REVEAL_CSS = """<style>
 .rv { opacity: 0; transform: translateY(18px); }
 .rv.in { opacity: 1; transform: none; transition: opacity .6s var(--ease), transform .6s var(--ease); }
 @media print { .rv { opacity: 1; transform: none; } }
+.arrive body { visibility: hidden; }
 </style>
+<script>(function () {
+  if (!/^#[A-Za-z0-9_-]+$/.test(location.hash)) return;
+  var l = document.createElement('link'), d = document.documentElement;
+  l.rel = 'expect'; l.href = location.hash; l.setAttribute('blocking', 'render'); document.head.append(l);
+  d.classList.add('arrive'); setTimeout(function () { d.classList.remove('arrive'); }, 1500);
+})();</script>
 """
 REVEAL_JS = """<script>
 (function () {
+  // A page opened at #anchor (or by Back) lands mid-page. Its first frame is the anchor, not the top of the page flying by:
+  // <head> keeps the page unpainted (rel=expect, .arrive) until here, the bar is solid from that frame, nothing there fades in.
+  var d = document.documentElement, at = /^#[A-Za-z0-9_-]+$/.test(location.hash) && document.getElementById(location.hash.slice(1)), bar = document.getElementById('topbar');
+  if (at && bar && at.getBoundingClientRect().top > 24) bar.classList.add('solid');
+  if (at && scrollY < 25) at.scrollIntoView();
+  requestAnimationFrame(function () { d.classList.remove('arrive'); });
   if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (location.hash.length > 1 || (performance.getEntriesByType('navigation')[0] || {}).type === 'back_forward') return;
   var io = new IntersectionObserver(function (es) {
     es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
   }, { rootMargin: '0px 0px -6% 0px' });
