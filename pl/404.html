@@ -1287,6 +1287,48 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .dchk input:checked ~ label { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--gold); }
 .dgo { grid-column: 3; grid-row: 1 / span 2; align-self: center; color: var(--gold-2); font-size: var(--fs-14); white-space: nowrap; }
 @media (max-width: 719px) { .dchk li { grid-template-columns: 24px minmax(0, 1fr); padding: 12px 14px; } .dgo { grid-column: 2; grid-row: auto; margin-top: 4px; white-space: normal; } }
+/* Legacy counter (guides/legacy/): chips are real checkboxes (the input covers its chip), perks have − / + steppers, all targets 44 px */
+.lgc h3 { margin: 28px 0 4px; font-size: var(--fs-18); }
+.lgs { margin: 0 0 12px; color: var(--muted); font-size: var(--fs-14); line-height: 1.5; }
+.lgl { display: block; color: var(--muted); font-size: var(--fs-14); }
+.lgsum { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 28px; margin: 12px 0 8px; font-variant-numeric: lining-nums tabular-nums; }
+.lgsum b { font-family: var(--font-display); font-weight: var(--display-w); font-size: var(--fs-40); line-height: 1.1; color: var(--gold-2); }
+.lgsum .dmeter { display: block; margin-top: 6px; }
+.lgwarn { min-height: 1.5em; margin: 0 0 4px; color: var(--ink); font-size: var(--fs-14); }
+.lggrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+.lgg { padding: 14px 16px; border-radius: 6px; background: var(--panel-2); }
+.lgg h4 { display: flex; justify-content: space-between; gap: 12px; margin: 0 0 8px; font-size: var(--fs-16); }
+.lgcnt { color: var(--gold-2); font-variant-numeric: lining-nums tabular-nums; }
+.lgg .lgs { margin-bottom: 8px; }
+.lgr, .lgk { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 12px; padding: 4px 0; }
+.lgn { flex: 1 1 130px; min-width: 0; font-size: var(--fs-14); }
+.lgcs { display: flex; flex-wrap: wrap; gap: 6px; }
+.lgp { position: relative; display: inline-flex; }
+.lgp input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.lgp span { display: inline-flex; align-items: center; justify-content: center; gap: 4px; min-width: 44px; min-height: 44px; padding: 0 12px; border: 1.5px solid var(--pline); border-radius: 6px; font-size: var(--fs-14); font-variant-numeric: lining-nums tabular-nums; transition: background-color .15s, border-color .15s; }
+.lgp input:hover + span { border-color: var(--gold); }
+.lgp input:checked + span { background: var(--gold); border-color: var(--gold); color: #0a0b0d; font-weight: 600; }
+.lgp input:checked + span::before { content: "✓"; }
+.lgp input:focus-visible + span { outline: 2px solid var(--gold); outline-offset: 2px; }
+.lgst { display: flex; align-items: center; gap: 4px; }
+.lgv { min-width: 4.2ch; text-align: center; font-size: var(--fs-14); font-variant-numeric: lining-nums tabular-nums; }
+.lgb { width: 44px; height: 44px; border: 1.5px solid var(--pline); border-radius: 6px; background: transparent; color: var(--ink); font: inherit; font-size: var(--fs-18); cursor: pointer; }
+.lgb:hover { border-color: var(--gold); }
+.lgb:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.lgrw { list-style: none; margin: 0; padding: 0; display: grid; border-radius: 6px; overflow: hidden; background: var(--panel-2); }
+.lgrw li { display: grid; grid-template-columns: 3ch minmax(0, 1fr) auto; gap: 4px 14px; align-items: baseline; padding: 10px 16px; font-size: var(--fs-14); }
+.lgrw li:nth-child(odd) { background: var(--zebra); }
+.lgrw b { color: var(--gold-2); font-variant-numeric: lining-nums tabular-nums; }
+.lgrw em { font-style: normal; color: var(--muted); white-space: nowrap; }
+.lgrw li.got em { color: var(--gold-2); }
+.lgshare { margin-top: 24px; }
+.lgrow { display: flex; flex-wrap: wrap; gap: 8px; }
+.lgrow input { flex: 1 1 260px; min-width: 0; min-height: 44px; padding: 0 12px; border: 1px solid var(--pline); border-radius: 6px; background: var(--panel-2); color: var(--ink); font: inherit; font-size: var(--fs-14); }
+.lgrow input:focus { outline: 0; border-color: var(--gold); }
+.lgrow .btn { min-height: 44px; cursor: pointer; }
+.lgrow .btn[hidden] { display: none; }
+@media (max-width: 719px) { .lgg { padding: 12px; } .lggrid { grid-template-columns: minmax(0, 1fr); } .lgsum b { font-size: var(--fs-28); } }
+@media (prefers-reduced-motion: reduce) { .lgp span, .dmeter i { transition: none; } }
 /* one line for a guest: sign in to keep the level and characters */
 .pway { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; margin-top: 16px; padding: 14px 20px; }
 .pway[hidden] { display: none; }
@@ -1450,7 +1492,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../assets/radio/radio.css?v=ef0b5f769c" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=c7ec89deb4" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/search/search.css?v=5c4214c9fa" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../assets/me/me.css?v=b13be6705d" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../assets/hero/hero.css?v=0514d07246" media="print" onload="this.media='all'">
 </head>
@@ -1664,7 +1706,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../assets/radio/radio.js?v=ef0b5f769c" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=c7ec89deb4" data-root="../" defer></script>
+<script src="../assets/search/search.js?v=5c4214c9fa" data-root="../" defer></script>
 <script src="../assets/me/me.js?v=b13be6705d" data-root="../" data-home="./" data-lang="pl" data-ach="0" data-teaser="" data-close="Zamknij" data-page="404" data-look="2" defer></script>
 <script src="../assets/hero/hero.js?v=0514d07246" data-root="../" data-home="./" data-data="../assets/hero/pl.json?v=0514d07246" defer></script>
 </body>

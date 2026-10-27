@@ -316,7 +316,63 @@ def render_block(kind, data, lang, root, inner=False):
         return (f'<div class="lcd" id="lcd"><div class="lcu">{units}</div>'
                 f'<div class="lcw"><span id="lcL" data-out="{E(data["out"], lang)}">{E(data["left"], lang)}</span>'
                 f'<b id="lcWhen">04.11.2026, 23:00 UTC</b><span id="lcY" hidden>{E(data["your"], lang)}</span></div></div>')
+    if kind == 'lgcalc':                                          # Legacy counter: static markup, state and sums by JS['legacy']
+        return lgcalc(data, lang)
     raise ValueError(f'unknown block {kind!r}')
+
+
+def lgcalc(d, lang):
+    """The Legacy counter. Tick order = bit order of the share link (#l=): do not reorder. Perks: a stepper per perk."""
+    ui = {k: E(v, lang) for k, v in d['ui'].items()}
+    def chip(label, aria):
+        return (f'<label class="lgp"><input type="checkbox" aria-label="{escape(aria, quote=True)}"><span>'
+                + (escape(label) if label else '') + '</span></label>')
+    groups, total = '', 0
+    for g in d['groups']:
+        rows, n = '', 0
+        for r in g['rows']:
+            if 'classes' in r:
+                for c in build.CLASSES:
+                    nm = build.tr(c['n'], lang)
+                    rows += (f'<div class="lgr"><span class="lgn">{escape(nm)}</span><div class="lgcs">'
+                             + ''.join(chip(x, f'{nm} {x}') for x in r['classes']) + '</div></div>')
+                    n += len(r['classes'])
+                continue
+            lab = L(r['l'], lang) if r.get('l') else ''
+            name = f"{lab} {r['k']}" if r.get('k') else lab
+            cs = ''
+            for i, c in enumerate(r['chips'], 1):
+                txt = L(c, lang) if c else ''
+                cs += chip(txt, f'{name} {txt}'.strip() if txt else f'{name}, #{i}')
+            rows += f'<div class="lgr"><span class="lgn">{escape(name)}</span><div class="lgcs">{cs}</div></div>' if name else f'<div class="lgr"><div class="lgcs">{cs}</div></div>'
+            n += len(r['chips'])
+        total += n
+        note = f'<p class="lgs">{E(d["ui"][g["note"]], lang)}</p>' if g.get('note') else ''
+        groups += (f'<div class="lgg" data-g="{g["id"]}"><h4>{E(g["t"], lang)} <span class="lgcnt" data-n="{n}">0 / {n}</span></h4>{note}{rows}</div>')
+    trees = ''
+    for tr_ in d['trees']:
+        ps = ''.join(
+            f'<div class="lgk" data-max="{mx}"><span class="lgn">{escape(nm)}</span><div class="lgst">'
+            f'<button type="button" class="lgb" data-d="-1" aria-label="{escape(nm)}: {ui["less"]}">−</button>'
+            f'<output class="lgv">0 / {mx}</output>'
+            f'<button type="button" class="lgb" data-d="1" aria-label="{escape(nm)}: {ui["more"]}">+</button></div></div>'
+            for nm, mx in tr_['perks'])
+        trees += f'<div class="lgg lgt"><h4>{E(tr_["t"], lang)}</h4>{ps}</div>'
+    rw = ''.join(f'<li data-th="{th}"><b>{th}</b><span>{E(x, lang)}</span><em></em></li>' for th, x in d['rewards'])
+    return (f'<div class="lgc" id="lgc" data-total="{total}">'
+            f'<p>{ui["intro"]}</p>'
+            f'<div class="lgsum"><div><span class="lgl">{ui["earned"]}</span><b id="lgE">0</b> / {total}<span class="dmeter" aria-hidden="true"><i id="lgEF"></i></span></div>'
+            f'<div><span class="lgl">{ui["spent"]}</span><b id="lgS">0</b> / 16<span class="dmeter" aria-hidden="true"><i id="lgSF"></i></span></div></div>'
+            f'<p class="lgs">{ui["cap"]}</p><p class="lgwarn" id="lgW" role="status"></p>'
+            f'<h3>{ui["ch"]}</h3><p class="lgs">{ui["src"]}</p><div class="lggrid">{groups}</div>'
+            f'<h3>{ui["pk"]}</h3><p class="lgs">{ui["pksrc"]}</p><div class="lggrid">{trees}</div>'
+            f'<h3>{ui["rw"]}</h3><p class="lgs">{ui["rwsrc"]}</p><ul class="lgrw" id="lgRW">{rw}</ul>'
+            f'<div class="lgshare"><label for="lgLink" class="lgl">{ui["link"]}</label>'
+            f'<div class="lgrow"><input id="lgLink" readonly><button type="button" class="btn" id="lgCopy">{ui["copy"]}</button>'
+            f'<button type="button" class="btn ghost" id="lgReset">{ui["reset"]}</button>'
+            f'<button type="button" class="btn ghost" id="lgBack" hidden></button></div>'
+            f'<p class="lgs" id="lgMsg" role="status"></p></div></div>')
+
 
 
 PROF_HEAD = [{'ru': 'Профессия', 'en': 'Profession', 'uk': 'Професія'},
@@ -489,8 +545,74 @@ document.querySelectorAll('#dgBox .lvm, #dgBox .lvp').forEach(b => b.addEventLis
   dgLvl = Math.max(1, Math.min(60, (dgLvl || (up ? 0 : 2)) + (up ? 1 : -1))); dgMode = 'mine'; renderDg();
 }));
 renderDg();'''
+LG_TX = {
+    'ru': {'over': 'Потрачено больше, чем заработано: не хватает %n', 'full': 'Достигнут лимит 16 очков на персонажа.', 'copied': 'Ссылка скопирована.',
+           'fail': 'Не удалось скопировать: выделите ссылку и нажмите Ctrl+C.', 'fromLink': 'Открыт набор из ссылки. Ваши сохранённые отметки не тронуты.',
+           'back': 'Вернуть мои отметки', 'got': 'есть', 'left': 'ещё %n'},
+    'en': {'over': 'Spent more than earned: %n more needed', 'full': 'The limit of 16 points per character is reached.', 'copied': 'Link copied.',
+           'fail': 'Could not copy: select the link and press Ctrl+C.', 'fromLink': 'A set from a link is open. Your saved marks are untouched.',
+           'back': 'Back to my marks', 'got': 'unlocked', 'left': '%n to go'},
+    'uk': {'over': 'Витрачено більше, ніж зароблено: бракує %n', 'full': 'Досягнуто ліміт 16 очок на персонажа.', 'copied': 'Посилання скопійовано.',
+           'fail': 'Не вдалося скопіювати: виділіть посилання й натисніть Ctrl+C.', 'fromLink': 'Відкрито набір із посилання. Ваші збережені позначки не чіпали.',
+           'back': 'Повернути мої позначки', 'got': 'є', 'left': 'ще %n'},
+}
+LG_JS = r"""/* Legacy counter: ticks and perk ranks live in this browser ("gabella-legacy" = {c: hex of the ticks, p: digits of the ranks}),
+   the link carries the same as #l=hex.digits. The order of ticks and perks in the markup is the order in the link. */
+const TX = @@TX@@, LGK = 'gabella-legacy', CAP = 16;
+const box = $('#lgc'), cks = [...box.querySelectorAll('input[type=checkbox]')], pks = [...box.querySelectorAll('.lgk')];
+const maxs = pks.map(k => +k.dataset.max);
+let bits = cks.map(() => 0), ranks = pks.map(() => 0), fromLink = false;
+const toHex = a => { let o = ''; for (let i = 0; i < a.length; i += 4) o += (a[i] * 8 + (a[i + 1] || 0) * 4 + (a[i + 2] || 0) * 2 + (a[i + 3] || 0)).toString(16); return o; };
+const fromHex = h => cks.map((_, i) => (parseInt(h[i >> 2] || '0', 16) >> (3 - (i & 3))) & 1);
+const fromDig = p => { let left = CAP; return maxs.map((m, i) => { const v = Math.min(+(p[i] || 0) || 0, m, left); left -= v; return v; }); };
+const pack = () => ({ c: toHex(bits), p: ranks.join('') });
+const hashOf = o => '#l=' + o.c + '.' + o.p;
+function readLink() { const m = location.hash.match(/^#l=([0-9a-f]+)\.([0-9]+)$/); return m ? { c: m[1], p: m[2] } : null; }
+function readSaved() { try { const o = JSON.parse(localStorage.getItem(LGK)); return o && typeof o.c === 'string' && typeof o.p === 'string' ? o : null; } catch (e) { return null; } }
+function apply(o) { bits = fromHex(o.c); ranks = fromDig(o.p); }
+function save() { try { localStorage.setItem(LGK, JSON.stringify(pack())); } catch (e) {} }
+const sum = a => a.reduce((x, y) => x + y, 0), put = (id, v) => { $(id).textContent = v; };
+function paint() {
+  cks.forEach((c, i) => { c.checked = !!bits[i]; });
+  box.querySelectorAll('.lgg[data-g]').forEach(g => {
+    const n = g.querySelectorAll('input:checked').length, c = g.querySelector('.lgcnt'); c.textContent = n + ' / ' + c.dataset.n;
+  });
+  pks.forEach((k, i) => { k.querySelector('.lgv').textContent = ranks[i] + ' / ' + maxs[i]; });
+  const e = sum(bits), s = sum(ranks), tot = cks.length;
+  put('#lgE', e); put('#lgS', s);
+  $('#lgEF').style.width = e * 100 / tot + '%'; $('#lgSF').style.width = s * 100 / CAP + '%';
+  $('#lgW').textContent = s > e ? TX.over.replace('%n', s - e) : s >= CAP ? TX.full : '';
+  box.querySelectorAll('#lgRW li').forEach(li => {
+    const th = +li.dataset.th, ok = e >= th; li.classList.toggle('got', ok);
+    li.querySelector('em').textContent = ok ? TX.got : TX.left.replace('%n', th - e);
+  });
+  $('#lgLink').value = location.origin + location.pathname + location.search + hashOf(pack());
+  $('#lgBack').hidden = !fromLink;
+  $('#lgMsg').textContent = fromLink ? TX.fromLink : '';
+}
+cks.forEach((c, i) => c.addEventListener('change', () => { bits[i] = c.checked ? 1 : 0; fromLink = false; save(); paint(); }));
+pks.forEach((k, i) => k.addEventListener('click', ev => {
+  const b = ev.target.closest('.lgb'); if (!b) return;
+  const v = ranks[i] + +b.dataset.d;
+  if (v < 0 || v > maxs[i] || sum(ranks) - ranks[i] + v > CAP) return;   // a button at its end stays focusable and does nothing
+  ranks[i] = v; fromLink = false; save(); paint();
+}));
+$('#lgCopy').addEventListener('click', async () => {
+  const f = $('#lgLink'); let ok = true;
+  try { await navigator.clipboard.writeText(f.value); } catch (e) { ok = false; f.select(); }
+  $('#lgMsg').textContent = ok ? TX.copied : TX.fail;
+});
+$('#lgReset').addEventListener('click', () => { bits = cks.map(() => 0); ranks = pks.map(() => 0); fromLink = false; save(); paint(); });
+$('#lgBack').textContent = TX.back;
+$('#lgBack').addEventListener('click', () => { const o = readSaved(); if (o) apply(o); else { bits = cks.map(() => 0); ranks = pks.map(() => 0); } fromLink = false; paint(); });
+addEventListener('storage', e => { if (e.key === LGK && !fromLink) { const o = readSaved(); if (o) { apply(o); paint(); } } });
+const lk = readLink(), sv = readSaved();
+if (lk) { apply(lk); fromLink = true; } else if (sv) apply(sv);
+paint();
+if (lk) box.scrollIntoView({ block: 'start' });"""
 BETA_TX = {'ru': 'по данным беты', 'en': 'per beta data', 'uk': 'за даними бети'}   # {beta} in a guide text: the site's one beta mark (build.BETA_SPAN)
-langs.fill([BETA_TX, TIP, THIS_PAGE, MORE_H, MORE_SITE, SITE_TILES, PROF_HEAD, DG_TX, PLAY_TX, PLAY_MILESTONES])
+langs.fill([LG_TX, BETA_TX, TIP, THIS_PAGE, MORE_H, MORE_SITE, SITE_TILES, PROF_HEAD, DG_TX, PLAY_TX, PLAY_MILESTONES])
+JS['legacy'] = {l: LG_JS.replace('@@TX@@', json.dumps(LG_TX[l], ensure_ascii=False)) for l in LANGS}
 JS['dungeons'] = {l: DG_JS.replace('@@TX@@', json.dumps(DG_TX[l], ensure_ascii=False)) for l in LANGS}
 
 

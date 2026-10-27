@@ -1465,6 +1465,64 @@ GUIDES.append({
     ],
 })
 
+
+# ---------- Счётчик Legacy: данные блока 'lgcalc' (разметка в build_guides.render_block, логика в JS['legacy']) ----------
+# Порядок галочек = порядок битов в ссылке (#l=…): не менять, иначе старые ссылки покажут другое.
+LGC = {
+    'ui': {
+        'intro': t('Отметьте выполненные испытания и расставьте ранги перков. Отметки хранятся в этом браузере, набор можно отправить ссылкой.',
+                   'Tick the challenges you have done and set perk ranks. Your marks stay in this browser, and you can send the set as a link.',
+                   'Позначте виконані випробування й розставте ранги перків. Позначки зберігаються в цьому браузері, набір можна надіслати посиланням.'),
+        'earned': t('Очки за испытания', 'Points earned', 'Очки за випробування'),
+        'spent': t('Потрачено на перки', 'Spent on perks', 'Витрачено на перки'),
+        'cap': t('Лимит 16 очков на персонажа на старте: Blizzard.', 'The limit of 16 points per character at launch: Blizzard.', 'Ліміт 16 очок на персонажа на старті: Blizzard.'),
+        'ch': t('Испытания', 'Challenges', 'Випробування'),
+        'pk': t('Перки', 'Perks', 'Перки'),
+        'rw': t('Награды', 'Rewards', 'Нагороди'),
+        'src': t('Источник: Blizzard', 'Source: Blizzard', 'Джерело: Blizzard'),
+        'pksrc': t('Ранги: Warcraft Tavern, Blizzard их не публиковала. Описания перков ниже, в разделе «Перки».',
+                   'Ranks: Warcraft Tavern; Blizzard has not published them. Perk descriptions are in the Perks section below.',
+                   'Ранги: Warcraft Tavern, Blizzard їх не публікувала. Описи перків нижче, у розділі «Перки».'),
+        'rwsrc': t('Пороги очков: демо BlizzCon по сторонним сайтам, Blizzard их не публиковала. {beta}',
+                   'Point thresholds: BlizzCon demo data from third-party sites; Blizzard has not published them. {beta}',
+                   'Пороги очок: демо BlizzCon зі сторонніх сайтів, Blizzard їх не публікувала. {beta}'),
+        'plist': t('Шесть основных профессий, кроме сбора; Blizzard их список не называет.', 'Six main professions except gathering; Blizzard names no list.', 'Шість основних професій, крім збирання; Blizzard їх список не називає.'),
+        'link': t('Ссылка на набор', 'Link to this set', 'Посилання на набір'),
+        'copy': t('Скопировать ссылку', 'Copy link', 'Скопіювати посилання'),
+        'reset': t('Сбросить всё', 'Clear all', 'Скинути все'),
+        'less': t('меньше', 'less', 'менше'),
+        'more': t('больше', 'more', 'більше'),
+    },
+    'groups': [
+        {'id': 'cls', 't': t('Классы', 'Classes', 'Класи'), 'rows': [{'classes': ['25', '45', '60']}]},
+        {'id': 'prf', 't': t('Профессии', 'Professions', 'Професії'), 'note': 'plist', 'rows': [
+            {'l': t('Навык', 'Skill', 'Навичка'), 'k': '150', 'chips': [None] * 6},
+            {'l': t('Навык', 'Skill', 'Навичка'), 'k': '225', 'chips': [None] * 6},
+            {'l': t('Навык', 'Skill', 'Навичка'), 'k': '300', 'chips': [None] * 6}]},
+        {'id': 'pvp', 't': 'PvP', 'rows': [
+            {'l': t('Звание', 'Rank', 'Звання'), 'chips': ['3', '7', '10', '13', '14']},
+            {'l': t('Превознесение (Exalted) у полей боя', 'Exalted with battlegrounds', 'Exalted у полів бою'), 'chips': [None] * 4},
+            {'l': t('Field of Honor, неделя', 'Field of Honor, week', 'Field of Honor, тиждень'), 'chips': ['4', '7', '10']}]},
+        {'id': 'dng', 't': t('Подземелья', 'Dungeons', 'Підземелля'), 'rows': [
+            {'l': t('Последний босс всех подземелий уровней', 'Final boss of all dungeons of levels', 'Останній бос усіх підземель рівнів'), 'chips': ['15–25', '26–45', '46–60']}]},
+        {'id': 'rd', 't': t('Рейды', 'Raids', 'Рейди'), 'rows': [{'l': None, 'chips': ['Onyxia', 'Hyjal Summit', 'Barrow Deeps']}]},
+        {'id': 'adv', 't': t('Приключения', 'Adventures', 'Пригоди'), 'rows': [{'l': None, 'chips': [
+            t('Вся карта мира на одном персонаже', 'The whole world map on one character', 'Уся мапа світу на одному персонажі'),
+            t('Цепочка на комплект Lord Valthalak', 'Lord Valthalak dungeon set questline', 'Ланцюжок на комплект Lord Valthalak')]}]},
+    ],
+    'trees': [
+        {'id': 'pro', 't': t('Профессии', 'Professions', 'Професії'), 'perks': [('Working Overtime', 5), ('Bountiful Harvest', 5), ('Master Chef', 5), ('Luremaster', 2), ('Performance Bonus', 3), ('Bartering', 2), ('Dedicated Study', 1)]},
+        {'id': 'adv', 't': t('Приключения', 'Adventure', 'Пригоди'), 'perks': [('Well Rested', 5), ('Thrill of Adventure', 5), ('Talented', 5), ('Field Guide', 3), ('High Alert', 2), ('Field Medicine', 2), ('Frequent Flier', 1)]},
+        {'id': 'res', 't': t('Находчивость (Resourcefulness)', 'Resourcefulness', 'Винахідливість (Resourcefulness)'), 'perks': [('Gourmand', 3), ('Permanence', 2), ('Reagent Economy', 1), ('Reinforce', 5), ('Diplomat', 5), ('For Great Honor', 5), ('The Quick and the Dead', 2)]},
+    ],
+    'rewards': [
+        (15, t('игрушка Replica Ironforge Air Rifle: оглушает других игроков и ведёт счёт', 'Toy: Replica Ironforge Air Rifle, which stuns other players and keeps score', 'іграшка Replica Ironforge Air Rifle: приголомшує інших гравців і веде лік')),
+        (25, t('питомец Spectral Bear Cub', 'Pet: Spectral Bear Cub', 'улюбленець Spectral Bear Cub')),
+        (40, t('табард Spectral Bear Tabard', 'Tabard: Spectral Bear Tabard', 'табард Spectral Bear Tabard')),
+        (55, t('скакун Reins of the Spectral Bear', 'Mount: Reins of the Spectral Bear', 'скакун Reins of the Spectral Bear')),
+    ],
+}
+
 # ---------- legacy ----------
 
 GUIDES.append({
@@ -1477,7 +1535,11 @@ GUIDES.append({
         (t('Blizzard: система Legacy', 'Blizzard: Legacy system', 'Blizzard: система Legacy'), 'https://news.blizzard.com/en-gb/article/24307383'),
         ('Warcraft Tavern: Legacy', 'https://www.warcrafttavern.com/forever/guides/legacy/'),
     ],
+    'js': 'legacy',
     'sections': [
+        {'id': 'calc', 'title': t('Счётчик Legacy', 'Legacy counter', 'Лічильник Legacy'), 'blocks': [
+            ('lgcalc', LGC),
+        ]},
         {'id': 'start', 'title': t('Как открыть', 'How to unlock it', 'Як відкрити'), 'blocks': [
             ('steps', [
                 {'t': t('Первое очко', 'First point', 'Перше очко'),
