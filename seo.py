@@ -359,6 +359,7 @@ def json_ld(path, lang, desc, title='', image=''):
     if updated:
         art = {'@context': 'https://schema.org', '@type': 'Article', 'headline': title, 'description': desc,
                'inLanguage': HREFLANG[lang], 'url': SITE + page_dir(lang, path), 'dateModified': updated,
+               'mainEntityOfPage': {'@type': 'WebPage', '@id': SITE + page_dir(lang, path)},
                'author': ORG, 'publisher': ORG, 'isPartOf': {'@type': 'WebSite', 'url': SITE + page_dir(lang)}}
         if image:
             art['image'] = image
@@ -418,7 +419,9 @@ def sitemap(paths):
         ls = [l for l in LANGS if l in by_lang]
         alts = ''.join(f'<xhtml:link rel="alternate" hreflang="{HREFLANG[l]}" href="{SITE}{page_dir(l, p)}"/>' for l in ls)
         alts += f'<xhtml:link rel="alternate" hreflang="x-default" href="{SITE}{p if len(ls) > 1 else page_dir(ls[0], p)}"/>'
-        urls += [f'<url><loc>{SITE}{page_dir(l, p)}</loc>{alts}</url>' for l in ls]
+        upd = page_updated(p)
+        lm = f'<lastmod>{upd}</lastmod>' if upd else ''
+        urls += [f'<url><loc>{SITE}{page_dir(l, p)}</loc>{lm}{alts}</url>' for l in ls]
     return ('<?xml version="1.0" encoding="UTF-8"?>\n'
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
             + '\n'.join(urls) + '\n</urlset>\n')
