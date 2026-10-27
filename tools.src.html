@@ -971,6 +971,11 @@ const fromLink = /^#(team|t)=/.test(location.hash);
 if (!readShort()) readHash();
 renderRaid(fromLink); renderPick(); renderCmp();
 if (fromLink) $('#raid').scrollIntoView();
+addEventListener('hashchange', () => {   // a link pasted into an already open tab: load the group as on a fresh load
+  if (!/^#(team|t)=/.test(location.hash)) return;
+  if (!readShort()) readHash();
+  renderRaid(true); $('#raid').scrollIntoView();
+});
 $('.sopen').onclick = () => { const b = document.querySelector('.srchbtn'); if (b) b.click(); };   // the site search (assets/search/)
 const q0 = new URLSearchParams(location.search).get('q');   // tools/?q=... opens it with the query, once search.js (deferred) is in
 if (q0) addEventListener('DOMContentLoaded', () => {
