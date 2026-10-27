@@ -941,8 +941,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .hero::before { background:
     linear-gradient(180deg, rgb(var(--hero-fade) / .86) 0%, rgb(var(--hero-fade) / .7) 40%, rgb(var(--hero-fade) / .6) 72%, rgb(var(--hero-fade) / .94) 100%); }
   .hero-in { padding-top: calc(var(--top) + 28px); gap: 18px; }
-  .thero { --hh: max(580px, calc(100svh - 62px - env(safe-area-inset-bottom, 0px))); padding: max(calc(var(--top) + 28px), calc(var(--hh) * .5)) 0 calc(28px + var(--hfade)); }
-  .thero-art img { object-position: 90% 50%; }   /* make_images.CUTS: the party on the upper half, the text from the middle down */
+  .thero { --hh: 380px; padding: calc(var(--top) + 100px) 0 calc(28px + var(--hfade)); }   /* slim art band: ~160 px of scene above the text (was ~300) */
+  .thero-art img { object-position: 90% 0; }   /* make_images.CUTS: the party on the upper half, the text from the middle down */
   .thero::before { background: linear-gradient(180deg, rgba(5,5,5,.55) 0%, rgba(5,5,5,.08) 26%, rgba(5,5,5,.35) 52%, rgba(5,5,5,.9) 76%, #050505 100%); }
   .thero h1 { font-size: var(--fs-hero); hyphens: auto; }
 }
