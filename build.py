@@ -261,12 +261,12 @@ def social(html):
 TABS = (('', 'home', 'Главная'), ('classes/', 'users', 'Классы'), ('guides/leveling/', 'up', 'Прокачка'), ('guides/dungeons/', 'gate', 'Подземелья'))
 
 
-def tabbar(cur=None, home='@@HOME@@'):
-    """Tab bar markup; cur — path of the current tab (a TABS path); home '' — the home page itself."""
+def tabbar(cur=None, home='@@HOME@@', more=False):
+    """Tab bar markup; cur — path of the current tab (a TABS path); home '' — the home page itself; more — the page lives in «Ещё»."""
     on = ' aria-current="true"'
     tabs = ''.join(f'\n  <a href="{home + p if home or p else "#top"}"{on if p == cur else ""}>'
                    f'<svg class="ico" aria-hidden="true"><use href="#i-{i}"/></svg>{t}</a>' for p, i, t in TABS)
-    return (f'<nav class="tabbar" aria-label="Быстрые разделы">{tabs}\n  <button type="button" class="morebtn" aria-haspopup="dialog" aria-controls="moreDlg">'
+    return (f'<nav class="tabbar" aria-label="Быстрые разделы">{tabs}\n  <button type="button" class="morebtn"{on if more else ""} aria-haspopup="dialog" aria-controls="moreDlg">'
             '<svg class="ico" aria-hidden="true"><use href="#i-dots"/></svg>Ещё</button>\n</nav>')
 
 
@@ -301,21 +301,22 @@ def mainnav(cur=None, home='@@HOME@@'):
     return f'<nav class="mainnav" aria-label="Разделы">\n    {links}{discord_link("menu")}\n  </nav>'
 
 
-def more_groups(home='@@HOME@@'):
+def more_groups(home='@@HOME@@', cur=None):
     """Common groups of the sections sheet, after the page's own («Эта страница», list of classes or races)."""
     def a(p, t):
         if p == 'discord':
             return discord_link('menu', t)
         dup = ' class="tbd"' if p in TAB_DUP else ''
-        return f'<a{dup}{TL if p == TALENTS else ""} href="{home + p if home or (p and p[0] != "#") else (p or "#top")}">{t}</a>'
+        now = ' aria-current="true"' if p == cur else ''
+        return f'<a{dup}{TL if p == TALENTS else ""}{now} href="{home + p if home or (p and p[0] != "#") else (p or "#top")}">{t}</a>'
     return '\n    '.join(f'<div class="grp"><div class="gh">{g}</div>{"".join(a(p, t) for p, t in items)}</div>' for g, items in MORE)
 
 
 def chrome(html, nav=None, tab=None, home='@@HOME@@'):
     """Menu, sections sheet and phone tab bar of a page (@@MAINNAV@@, @@MORENAV@@, @@TABBAR@@), before translate."""
     return (html.replace('<a class="brand" href=', '<a class="brand" aria-label="Gabella" href=')   # логотип без текста на узком экране: ссылке нужно имя
-            .replace('@@MAINNAV@@', mainnav(nav, home)).replace('@@MORENAV@@', more_groups(home))
-            .replace('@@TABBAR@@', tabbar(tab, home)))
+            .replace('@@MAINNAV@@', mainnav(nav, home)).replace('@@MORENAV@@', more_groups(home, nav))
+            .replace('@@TABBAR@@', tabbar(tab, home, more=bool(nav) and tab is None)))   # a page the tab bar lacks marks «Ещё» and its item in the sheet
 
 
 _DIMS = {}
