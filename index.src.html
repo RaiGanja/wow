@@ -173,7 +173,7 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .topbar.solid .mainnav a[aria-current="true"], .topbar.solid .bt small { color: var(--gold-2); }
 .tools { margin-left: auto; display: flex; gap: 8px; align-items: center; }
 .langsel { position: relative; }
-.langbtn { min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; gap: 8px; padding: 0 12px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; font: inherit; font-weight: 600; font-size: var(--fs-13); letter-spacing: .04em; cursor: pointer; }
+.langbtn { min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0 12px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; font: inherit; font-weight: 600; font-size: var(--fs-13); letter-spacing: .04em; cursor: pointer; }
 .langbtn::after { content: ""; width: 6px; height: 6px; border-right: 1.5px solid; border-bottom: 1.5px solid; transform: translateY(-2px) rotate(45deg); opacity: .7; }
 .langbtn[aria-expanded="true"]::after { transform: translateY(2px) rotate(-135deg); }
 .langlist { position: absolute; right: 0; top: calc(100% + 8px); z-index: 60; min-width: 230px; margin: 0; padding: 6px; list-style: none; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); color: var(--fg); box-shadow: 0 18px 48px rgba(0,0,0,.35); }
@@ -969,6 +969,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .menubtn { display: none; }   /* the tab bar has the More sheet; the theme button stays in sight */
   .topbar .langbtn { padding: 0 10px; }
   .topbar .langbtn::after { display: none; }
+  .topbar .langbtn { text-indent: .04em; }   /* arrow hidden: trailing letter-spacing no longer pulls the letters left of centre */
   .topbar .langsel { order: 1; }
   .langhint { bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
   .brand b { font-size: var(--fs-18); }
