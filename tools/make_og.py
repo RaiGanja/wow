@@ -17,9 +17,9 @@ LANGS = langs.LANGS
 BRAND = 'Gabella'
 REF = {'ru': 'Справочник', 'uk': 'Довідник', 'en': 'Reference', 'de': 'Kompendium', 'pl': 'Kompendium', 'fr': 'Référence',
        'es': 'Referencia', 'it': 'Compendio', 'pt': 'Referência'}   # the word of the header («Справочник» decision 27.10)
-START = {'ru': 'Старт 5 ноября 2026', 'en': 'Launch November 4–5, 2026', 'uk': 'Старт 5 листопада 2026',
-         'de': 'Start am 5. November 2026', 'fr': 'Lancement le 5 novembre 2026', 'es': 'Lanzamiento: 4–5 de noviembre de 2026',
-         'pt': 'Lançamento em 4 de novembro de 2026', 'it': 'Uscita il 5 novembre 2026', 'pl': 'Start 5 listopada 2026'}
+START = {'ru': 'Старт 05.11, 01:00 по Киеву', 'en': 'Launch Nov 4, 23:00 UTC', 'uk': 'Старт 05.11, 01:00 за Києвом',
+         'de': 'Start 5. Nov., 00:00 MEZ', 'fr': 'Lancement 5 nov., 00 h 00 à Paris', 'es': 'Lanzamiento 5 nov., 00:00 en Madrid',
+         'pt': 'Lançamento 4 nov., 20:00 em Brasília', 'it': 'Uscita 5 nov., ore 00:00', 'pl': 'Start 04.11, 23:00 UTC'}   # the moment, not a bare date (04.11 23:00 UTC)
 EXACT = {'launch-day': {'ru': '04.11, 23:00 UTC · Киев 05.11, 01:00', 'en': 'Nov 4, 3:00 PM PST · 23:00 UTC',
                         'uk': 'Старт 04.11, 23:00 UTC · 15:00 PST', 'de': '5. November, 00:00 MEZ',
                         'fr': '5 novembre, minuit à Paris', 'es': '4 nov., 23:00 UTC · Madrid 00:00',
