@@ -28,6 +28,11 @@
 /* top bar: portrait or the login button (roster and profile pages only) */
 .mebtn, .mebtn:hover { padding: 0; overflow: visible; text-decoration: none; }   /* a link styled as a button: no underline */
 .mebtn .me-ring { width: 34px; height: 34px; }
+/* top bar: always a plain round portrait, the painted frame (wings, crowns) stays on the profile page and cards */
+.mebtn { overflow: hidden; }
+.mebtn .me-ring[class*="fr-"] { padding: 2px !important; background: #5d5a53; box-shadow: inset 0 0 0 1px rgba(0,0,0,.45); overflow: hidden; }
+.mebtn .me-ring[class*="fr-"] img { width: 100%; height: 100%; }
+.mebtn .me-ring[class*="fr-"]::before, .mebtn .me-ring[class*="fr-"]::after { display: none; }
 .mebtn.guest { padding: 0 14px; width: auto; white-space: nowrap; font-weight: 600; font-size: var(--fs-14); color: inherit; background: transparent; border-color: color-mix(in srgb, currentColor 30%, transparent); }   /* outline: one gold button per screen */
 .mebtn.guest:hover { border-color: var(--gold); }
 /* account menu under the portrait */
