@@ -10,7 +10,9 @@ on:
     branches: ['news/**']
 permissions:
   contents: write
-concurrency: { group: news-gate-${{ github.ref_name }}, cancel-in-progress: true }
+concurrency:
+  group: news-gate-${{ github.ref_name }}
+  cancel-in-progress: true
 jobs:
   gate:
     runs-on: ubuntu-latest
