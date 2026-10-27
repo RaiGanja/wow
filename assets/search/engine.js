@@ -44,9 +44,9 @@ globalThis.gabellaSearchEngine = (LANG, d) => {
         o += k === 'y' && LANG === 'ru' && /[aeiou]/.test(t[i - 1] || '') ? 'и' : v;   // "kakoy": й after a vowel (norm keeps й as и)
         i += k.length || 1;
       }
-      return o;
+      return o || t;
     }
-    return /^[а-яіє]+$/.test(t) ? [...t].map(c => CYR[c] ?? c).join('') : t;
+    return /^[а-яіє]+$/.test(t) ? [...t].map(c => CYR[c] ?? c).join('') || t : t;   // "ььь" has no latin form: an empty token would match everything
   }
 
   const items = d.i.map(([t, s, u, k, keys, x]) => ({ t, s, u, k, x, nt: norm(t), nk: norm(s + ' ' + keys), nx: norm(x) }));

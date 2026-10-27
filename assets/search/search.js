@@ -90,7 +90,7 @@
   function mark(text, ntext, toks) {
     const hits = [];
     const W = /[\p{L}\p{N}]/u;   // the mark covers the whole word ("магия" for "маг"), not a cut piece of it
-    for (const t of toks) for (let i = ntext.indexOf(t); i >= 0; i = ntext.indexOf(t, i + t.length)) {
+    for (const t of toks) if (t) for (let i = ntext.indexOf(t); i >= 0; i = ntext.indexOf(t, i + t.length)) {
       let a = i, b = i + t.length;
       while (a > 0 && W.test(ntext[a - 1])) a--;
       while (b < ntext.length && W.test(ntext[b])) b++;
