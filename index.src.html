@@ -257,6 +257,7 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .hero h1 span { display: block; color: var(--ink-gold); }
 .hero h1, .hero .lead { text-shadow: var(--hero-shadow); }  /* the castle and the sun sit behind the text */
 .hero .lead { max-width: 34rem; font-size: var(--fs-18); color: var(--ink-2); }
+.hdata { margin: -6px 0 0; font-size: var(--fs-14); color: #e8e2d4; text-shadow: var(--hero-shadow); font-variant-numeric: lining-nums tabular-nums; }   /* how fresh the data is, under the lead */
 /* Countdown: big figures straight on the art, captions under them, no tiles (Blizzard, D4) */
 .cd { display: flex; align-items: center; flex-wrap: wrap; gap: 14px 36px; margin-top: 6px; text-shadow: var(--hero-shadow); }
 .cd .units { display: flex; align-items: flex-start; gap: 26px; }
@@ -991,7 +992,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 @media (max-width: 719px) {
   .hero h1 { font-size: var(--fs-hero); }
   .cta { width: 100%; }
-  .cta .hdc, .hsrch kbd { display: none; }
+  .hsrch kbd { display: none; }
   .htasks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
   .htasks a { justify-content: center; padding: 0 10px; text-align: center; }
   .htasks a:last-child { grid-column: 1 / -1; }
@@ -1121,7 +1122,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </svg>
 
 <header class="topbar" id="topbar"><div class="in">
-  <a class="brand" href="#top"><img class="mark" src="@@ROOT@@assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Гид WoW Forever</small></span></a>
+  <a class="brand" href="#top"><img class="mark" src="@@ROOT@@assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Справочник WoW Forever</small></span></a>
   @@MAINNAV@@
   <div class="tools">
     @@LANGSEL@@
@@ -1135,12 +1136,13 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   @@TOD_HERO@@
   <div class="wrap hero-in">
     <h1>World of Warcraft <span>Forever</span></h1>
-    <p class="lead">Классы, расы, прокачка и сбор группы к старту 5 ноября. С источниками и датой.</p>
+    <p class="lead">Таланты и тир-лист по бете, Legacy, прокачка 1–60 и подземелья. У каждой цифры источник и дата.</p>
+    <p class="hdata">Данные: бета Forever · обновлено @@DATA_UPD@@</p>
     <div class="cd" id="cd" aria-live="polite"></div>
     <div class="cta">
-      <a class="btn lg" href="classes/#choose">Выбрать класс</a>
+      <a class="btn lg" href="guides/builds/" data-tl>Таланты</a>
+      <a class="btn lg ghost" href="guides/tier-list/">Тир-лист</a>
       <a class="btn lg ghost" href="tools/#raid">Собрать состав</a>
-      <a class="btn lg ghost hdc" href="@@DISCORD@@" target="_blank" rel="noopener">Найти игроков (Discord)</a>
     </div>
     <p class="hd-line"><span data-d="2026-10-27T17:00:00Z"><b>27.10</b> Резерв имён</span><span data-d="2026-11-04T23:00:00Z"><b>04.11</b> Релиз</span><span data-d="2026-12-09T00:00:00"><b>09.12</b> Рейды</span></p>
   </div>
@@ -1176,7 +1178,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <section class="block wrap" id="pickban">
   <div class="frame pickban">
     <span class="pb-art" aria-hidden="true"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/dwarf-360.avif 360w, @@ROOT@@assets/art/dwarf-600.avif 600w" sizes="(max-width: 719px) 100vw, 320px"><source type="image/webp" srcset="@@ROOT@@assets/art/dwarf-360.webp 360w, @@ROOT@@assets/art/dwarf-600.webp 600w" sizes="(max-width: 719px) 100vw, 320px"><img src="@@ROOT@@assets/art/dwarf-600.webp" width="600" height="804" alt="" loading="lazy" fetchpriority="low" decoding="async"></picture></span>
-    <span class="pb-t"><h2 id="mePlH">Мой персонаж</h2><span id="mePlD">Класс, спек и раса за минуту: гид покажет вашу сборку, профессии и подземелья.</span></span>
+    <span class="pb-t"><h2 id="mePlH">Мой персонаж</h2><span id="mePlD">Класс, спек и раса за минуту, а дальше ваша сборка, профессии и подземелья.</span></span>
     <span class="pb-a"><a class="btn" id="mePlGo" href="character/" data-hero-open>Собрать персонажа<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a><a class="more-l" id="mePlAlt" href="tools/#picker">Подборщик: раса и класс</a></span>
   </div>
 </section>

@@ -2351,9 +2351,9 @@ PAGES = [
      'pills': [t('Обновлено 26.10.2026', 'Updated 26.10.2026', 'Оновлено 26.10.2026')],
      'sections': [
          {'id': 'short', 'title': t('Коротко', 'In short', 'Коротко'), 'blocks': [
-             ('text', [t('Гид читается без входа: тогда сайт не ставит cookies и не знает, кто вы. Вход нужен только для профиля и «Состава». Рекламы и комментариев на сайте нет.',
+             ('text', [t('Сайт можно читать без входа: тогда он не ставит cookies и не знает, кто вы. Вход нужен только для профиля и «Состава». Рекламы и комментариев на сайте нет.',
                          'The guide works without signing in: then the site sets no cookies and does not know who you are. Signing in is only needed for a profile and the Roster. The site has no ads or comments.',
-                         'Гід читається без входу: тоді сайт не ставить cookies і не знає, хто ви. Вхід потрібен лише для профілю і «Складу». Реклами й коментарів на сайті немає.')])]},
+                         'Сайт можна читати без входу: тоді він не ставить cookies і не знає, хто ви. Вхід потрібен лише для профілю і «Складу». Реклами й коментарів на сайті немає.')])]},
          {'id': 'account', 'title': t('Профиль', 'Profile', 'Профіль'), 'blocks': [
              ('text', [t('Войти можно через Discord, Google, Battle.net, Telegram или по почте. Пароль мы не получаем, ключи доступа этих сервисов не храним. От каждого способа берём минимум:',
                          'You can sign in with Discord, Google, Battle.net, Telegram or by email. We never receive your password and do not keep these services’ access keys. From each way we take the minimum:',
@@ -2382,9 +2382,9 @@ PAGES = [
                        t('Ещё храним то, что вы указали сами: персонажей (имя, раса, класс, роль, уровень, профессии, время игры, облик: пол и фон портрета), рамку профиля, отметку «Ищу группу» и того, кто вас пригласил, если вы пришли по его ссылке.',
                          'We also keep what you entered yourself: your characters (name, race, class, role, level, professions, play time, look: gender and portrait background), your profile frame, the Looking for group mark and who invited you, if you came by their link.',
                          'Також зберігаємо те, що ви вказали самі: персонажів (ім’я, раса, клас, роль, рівень, професії, час гри, вигляд: стать і тло портрета), рамку профілю, позначку «Шукаю групу» і того, хто вас запросив, якщо ви прийшли за його посиланням.'),
-                       t('Для достижений сайт ведёт счётчики: какие разделы гида вы открывали, сколько слушали радио, в какие дни заходили. Счётчики идут только после входа.',
+                       t('Для достижений сайт ведёт счётчики: какие разделы сайта вы открывали, сколько слушали радио, в какие дни заходили. Счётчики идут только после входа.',
                          'For achievements the site keeps counters: which guide sections you opened, how long you listened to the radio, which days you visited. Counters run only after you sign in.',
-                         'Для досягнень сайт веде лічильники: які розділи гіда ви відкривали, скільки слухали радіо, в які дні заходили. Лічильники працюють лише після входу.'),
+                         'Для досягнень сайт веде лічильники: які розділи сайту ви відкривали, скільки слухали радіо, в які дні заходили. Лічильники працюють лише після входу.'),
                        t('В списке игроков и на вашей странице всем видны персонажи, достижения и рамка. Ник виден, только если вы включили его показ: у новых профилей он скрыт. Ник берётся у первого способа входа (ник Discord, BattleTag, @username в Telegram) и потом сам не меняется. В ссылке на вашу страницу — внутренний номер профиля вида u_…, он не связан с Discord ID.',
                          'In the player list and on your page everyone can see your characters, achievements and frame. Your nickname is shown only if you turned it on: new profiles keep it hidden. The nickname comes from your first way to sign in (Discord nickname, BattleTag, Telegram @username) and never changes by itself later. The link to your page carries an internal profile number like u_…, unrelated to your Discord ID.',
                          'У списку гравців і на вашій сторінці всім видно персонажів, досягнення й рамку. Нік видно, лише якщо ви ввімкнули його показ: у нових профілів він прихований. Нік береться з першого способу входу (нік Discord, BattleTag, @username у Telegram) і потім сам не змінюється. У посиланні на вашу сторінку — внутрішній номер профілю на кшталт u_…, він не пов’язаний із Discord ID.'),
@@ -2432,9 +2432,9 @@ PAGES = [
                        f'<p><a href="{_gh}" target="_blank" rel="noopener">GitHub privacy statement</a></p>',
                        f'<p><a href="{_gh}" target="_blank" rel="noopener">Політика конфіденційності GitHub</a></p>'))]},
          {'id': 'device', 'title': t('Что хранится у вас', 'Stored on your device', 'Що зберігається у вас'), 'blocks': [
-             ('text', [t('В памяти браузера (localStorage) сайт запоминает выбранную тему, вашего персонажа — расу, класс, уровень и профессии, если вы их указали, — и настройки радио: станцию, трек, очередь треков, громкость, таймер сна и звуки вокруг, а на странице «В игре» — ваши таймеры, фракцию и выбранного персонажа. Чтобы гид открывался без сети, браузер хранит копии страниц. После входа добавляются отметка о входе и выключатель звука достижений, а копия профиля для быстрой загрузки лежит в памяти вкладки (sessionStorage) и стирается с её закрытием. Ещё сайт помнит выбранный язык, кто вас пригласил, если вы пришли по ссылке, страницу, на которую вернуться после входа, и время начала входа через Telegram.',
+             ('text', [t('В памяти браузера (localStorage) сайт запоминает выбранную тему, вашего персонажа — расу, класс, уровень и профессии, если вы их указали, — и настройки радио: станцию, трек, очередь треков, громкость, таймер сна и звуки вокруг, а на странице «В игре» — ваши таймеры, фракцию и выбранного персонажа. Чтобы сайт открывался без сети, браузер хранит копии страниц. После входа добавляются отметка о входе и выключатель звука достижений, а копия профиля для быстрой загрузки лежит в памяти вкладки (sessionStorage) и стирается с её закрытием. Ещё сайт помнит выбранный язык, кто вас пригласил, если вы пришли по ссылке, страницу, на которую вернуться после входа, и время начала входа через Telegram.',
                          'In browser storage (localStorage) the site remembers your chosen theme, your character (race, class, level and professions) if you entered them, and the radio settings: station, track, the queue of tracks, volume, sleep timer and ambient sounds, and on the In game page your timers, faction and chosen character. To open the guide offline, the browser keeps copies of the pages. After you sign in, it also keeps a signed-in mark and the achievement sound switch, while a copy of your profile for faster loading lives in the tab’s memory (sessionStorage) and is erased when you close it. The site also remembers your chosen language, who invited you if you came by their link, the page to return to after signing in, and when a Telegram sign-in was started.',
-                         'У пам’яті браузера (localStorage) сайт запам’ятовує вибрану тему, вашого героя — расу, клас, рівень і професії, якщо ви їх вказали, — і налаштування радіо: станцію, трек, чергу треків, гучність, таймер сну і звуки довкола, а на сторінці «У грі» — ваші таймери, фракцію та вибраного персонажа. Щоб гід відкривався без мережі, браузер зберігає копії сторінок. Після входу додаються позначка входу й вимикач звуку досягнень, а копія профілю для швидкого завантаження лежить у пам’яті вкладки (sessionStorage) і стирається з її закриттям. Ще сайт пам’ятає вибрану мову, хто вас запросив, якщо ви прийшли за посиланням, сторінку, на яку повернутися після входу, і час початку входу через Telegram.'),
+                         'У пам’яті браузера (localStorage) сайт запам’ятовує вибрану тему, вашого героя — расу, клас, рівень і професії, якщо ви їх вказали, — і налаштування радіо: станцію, трек, чергу треків, гучність, таймер сну і звуки довкола, а на сторінці «У грі» — ваші таймери, фракцію та вибраного персонажа. Щоб сайт відкривався без мережі, браузер зберігає копії сторінок. Після входу додаються позначка входу й вимикач звуку досягнень, а копія профілю для швидкого завантаження лежить у пам’яті вкладки (sessionStorage) і стирається з її закриттям. Ще сайт пам’ятає вибрану мову, хто вас запросив, якщо ви прийшли за посиланням, сторінку, на яку повернутися після входу, і час початку входу через Telegram.'),
                        t('На странице «День 1» там же хранятся ваши отметки чек-листа.',
                          'On the Day 1 page, your checklist ticks are stored there too.',
                          'На сторінці «День 1» там само зберігаються ваші позначки чек-листа.'),
@@ -2449,9 +2449,9 @@ PAGES = [
                        f'<p>Radio music: Kevin MacLeod (incompetech.com) and other authors from opengameart.org, licensed under {_lic}. The audio is re-encoded and levelled in loudness. The author and license of every track are in the radio panel.</p>',
                        f'<p>Музика радіо: Kevin MacLeod (incompetech.com) та інші автори з opengameart.org, ліцензії {_lic}. Звук перекодовано й вирівняно за гучністю. Автор і ліцензія кожного треку — у панелі радіо.</p>'))]},
          {'id': 'contact', 'title': t('Связь', 'Contact', 'Зв’язок'), 'blocks': [
-             ('text', [t('С вопросами о данных, ошибками в гайде и претензиями правообладателей пишите на почту ниже. Если не можете войти, профиль удалим по письму: укажите имя основного персонажа и способ входа.',
+             ('text', [t('С вопросами о данных, ошибками на сайте и претензиями правообладателей пишите на почту ниже. Если не можете войти, профиль удалим по письму: укажите имя основного персонажа и способ входа.',
                          'For questions about data, mistakes in the guide or copyright concerns, write to the address below. If you cannot sign in, we will delete your profile on request: include your main character’s name and how you signed in.',
-                         'З питаннями про дані, помилками в гіді та претензіями правовласників пишіть на пошту нижче. Якщо не можете увійти, профіль видалимо за листом: вкажіть ім’я основного персонажа і спосіб входу.')]),
+                         'З питаннями про дані, помилками на сайті та претензіями правовласників пишіть на пошту нижче. Якщо не можете увійти, профіль видалимо за листом: вкажіть ім’я основного персонажа і спосіб входу.')]),
              ('raw', f'<p>{_mail}</p>'),
              ('text', [t('Если что-то изменится, например появится реклама, мы обновим эту страницу и дату вверху.',
                          'If anything changes, for example if ads appear, we will update this page and the date at the top.',
@@ -2477,9 +2477,9 @@ def NF_SEARCH(lang):
 NOT_FOUND = {
     'slug': '404', 'path': '', 'og': 'guides', 'art': 'hero_campfire', 'more': False,
     'title': t('Страница не найдена', 'Page not found', 'Сторінку не знайдено'),
-    'lead': t('Такой страницы нет: ссылка устарела или в адресе опечатка. Разделы гида ниже.',
-              'This page does not exist: the link is outdated or the address has a typo. The guide sections are below.',
-              'Такої сторінки немає: посилання застаріло або в адресі помилка. Розділи гіда нижче.'),
+    'lead': t('Такой страницы нет: ссылка устарела или в адресе опечатка. Разделы сайта ниже.',
+              'This page does not exist: the link is outdated or the address has a typo. The site sections are below.',
+              'Такої сторінки немає: посилання застаріло або в адресі помилка. Розділи сайту нижче.'),
     'sections': [{'id': 'where', 'title': t('Куда дальше', 'Where next', 'Куди далі'), 'blocks': [
         ('raw', {l: NF_SEARCH(l) for l in LANGS}),
         ('raw', '<p class="nf-langs">' + '<span aria-hidden="true"> · </span>'.join(   # the guide home in every language

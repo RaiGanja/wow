@@ -75,7 +75,7 @@ p.lfgme { display: block; }
     <img src="@@ROOT@@assets/art/hero_roster-1920.webp" width="1920" height="1072" alt="" fetchpriority="high" decoding="async">
   </picture>
   <div class="wrap thero-in">
-    <nav class="crumbs" aria-label="Навигация"><a href="@@HOME@@">Гид</a><span aria-hidden="true">/</span><span>Игроки</span></nav>
+    <nav class="crumbs" aria-label="Навигация"><a href="@@HOME@@">Главная</a><span aria-hidden="true">/</span><span>Игроки</span></nav>
     <h1>Игроки WoW Forever</h1>
     <p class="lead">Найдите группу, крафтера или компанию под своё время. Кнопка «Шёпот» копирует /w с именем — вставьте в чат игры. Написать можно только своей фракции.</p>
     <p class="rstat" id="stats" aria-live="polite"></p>
@@ -223,7 +223,7 @@ function draw() {
   const box = $('#roster');
   box.classList.toggle('list', F.v === 'list');
   if (failed) {
-    box.innerHTML = `<div class="frame state"><h2>Список игроков временно недоступен</h2><p>Сервер профилей не ответил. Остальной гид работает как обычно.</p><div class="row"><button type="button" class="btn ghost" id="retry">Повторить</button></div></div>`;
+    box.innerHTML = `<div class="frame state"><h2>Список игроков временно недоступен</h2><p>Сервер профилей не ответил. Остальной сайт работает как обычно.</p><div class="row"><button type="button" class="btn ghost" id="retry">Повторить</button></div></div>`;
     $('#retry').onclick = load;
     $('#count').textContent = '';
     return;

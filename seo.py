@@ -32,7 +32,7 @@ VERIFY = {
 
 BRAND = 'Gabella'
 HOME_NAME = {'ru': 'Главная', 'en': 'Home', 'uk': 'Головна'}
-SITE_NAME = {'ru': 'Гид WoW Forever', 'en': 'WoW Forever Guide', 'uk': 'Гід WoW Forever'}
+SITE_NAME = BRAND   # WebSite.name: the site name Google shows, the same on every language (the header says what the site is)
 TOOLS_NAME = {'ru': 'Инструменты', 'en': 'Tools', 'uk': 'Інструменти'}
 PRIVACY_NAME = {'ru': 'Конфиденциальность', 'en': 'Privacy', 'uk': 'Конфіденційність'}
 PLAY_NAME = {'ru': 'В игре', 'en': 'In game', 'uk': 'У грі'}
@@ -53,12 +53,12 @@ def t(ru, en, uk):
 # Под реальные запросы, по факту содержимого страницы. Длина: title до 60, description 120–155 символов (у переводов тоже: i18n/<lang>.json).
 
 META = {
-    '': (t('Гид WoW Forever: классы, расы, прокачка и подземелья',
-           'WoW Forever Guide: Classes, Races, Leveling and Dungeons',
-           'Гайд WoW Forever: класи, раси, прокачка та підземелля'),
-         t('Гид по WoW Forever (ВоВ Форевер): кем играть, подборщик расы и класса, сборка группы и гайды по прокачке, подземельям и профессиям.',
-           'WoW Forever guide: who to play, a race and class picker, a group builder and guides to leveling, dungeons and professions.',
-           'Гайд по WoW Forever (ВоВ Форевер) українською: старт 5 листопада о 01:00 за Києвом, який клас обрати, раси, прокачка, підземелля й професії.')),
+    '': (t('WoW Forever: таланты, тир-лист, Legacy, прокачка, подземелья',
+           'WoW Forever Guide: Talents, Tier List, Legacy and Dungeons',
+           'WoW Forever: таланти, тір-лист, Legacy, прокачка, підземелля'),
+         t('Гайды и справочник по WoW Forever (ВоВ Форевер): таланты и тир-лист по бете, Legacy, прокачка 1–60, подземелья и сбор группы. У каждой цифры источник.',
+           'WoW Forever guides and reference: talent builds and a tier list from beta data, Legacy, 1–60 leveling, dungeons and a group builder. Every number sourced.',
+           'Гайди й довідник WoW Forever (ВоВ Форевер): таланти й тір-лист за бетою, Legacy, прокачка 1–60, підземелля і збір групи. У кожної цифри джерело.')),
     'classes/': (t('Классы WoW Forever: какой класс выбрать, сравнение всех 9',
                    'WoW Forever Classes: Best Class to Play, All 9 Compared',
                    'Класи WoW Forever: який клас обрати, порівняння всіх 9'),
@@ -74,9 +74,9 @@ META = {
     'tools/': (t('Инструменты WoW Forever: сравнение классов и рас, группа',
                  'WoW Forever Tools: Class and Race Compare, Party Frames',
                  'Інструменти WoW Forever: порівняння класів і рас, група'),
-               t('Сравнение классов и рас WoW Forever бок о бок, рамки группы и рейдовая сетка как в игре, поиск по всему гиду.',
+               t('Сравнение классов и рас WoW Forever бок о бок, рамки группы и рейдовая сетка как в игре, поиск по всему сайту.',
                  'Compare WoW Forever classes and races side by side, in-game style party frames and raid grid, and search across the whole guide.',
-                 'Порівняння класів і рас WoW Forever пліч-о-пліч, рамки групи та рейдова сітка як у грі, пошук по всьому гіду.')),
+                 'Порівняння класів і рас WoW Forever пліч-о-пліч, рамки групи та рейдова сітка як у грі, пошук по всьому сайту.')),
     'guides/': (t('Гайды WoW Forever: прокачка, подземелья, профессии, FAQ',
                   'WoW Forever Guides: Leveling, Dungeons, Professions, FAQ',
                   'Гайди WoW Forever: прокачка, підземелля, професії, FAQ'),
@@ -207,24 +207,24 @@ META = {
                 t('Игроки WoW Forever: кто сейчас ищет группу, класс, роль, профессии и время игры. Нашли — напишите в игре через /w.',
                   'WoW Forever players: who is looking for a group now, class, role, professions and play time. Found someone? Whisper them in game with /w.',
                   'Гравці WoW Forever: хто зараз шукає групу, клас, роль, професії та час гри. Знайшли — напишіть у грі через /w.')),
-    'profile/': (t('Мой профиль — гид WoW Forever', 'My Profile — WoW Forever Guide', 'Мій профіль — гід WoW Forever'),
-                 t('Ваши персонажи, достижения, ранги и рамки портрета в гиде Gabella. Вход через Discord, Google, Battle.net, Telegram или почту.',
+    'profile/': (t('Мой профиль WoW Forever · Gabella', 'My Profile — WoW Forever Guide', 'Мій профіль WoW Forever · Gabella'),
+                 t('Ваши персонажи, достижения, ранги и рамки портрета на Gabella. Вход через Discord, Google, Battle.net, Telegram или почту.',
                    'Your characters, achievements, ranks and portrait frames in the Gabella guide. Log in with Discord, Google, Battle.net, Telegram or email.',
-                   'Ваші персонажі, досягнення, ранги й рамки портрета в гіді Gabella. Вхід через Discord, Google, Battle.net, Telegram або пошту.')),
-    'character/': (t('Мой персонаж — гид WoW Forever', 'My Character — WoW Forever Guide', 'Мій персонаж — гід WoW Forever'),
-                   t('Персонаж без входа: класс, спек и раса со звездой лучшей по источникам. Гид покажет сборку талантов, пары профессий, подземелья под уровень и сброс недели.',
+                   'Ваші персонажі, досягнення, ранги й рамки портрета на Gabella. Вхід через Discord, Google, Battle.net, Telegram або пошту.')),
+    'character/': (t('Мой персонаж WoW Forever · Gabella', 'My Character — WoW Forever Guide', 'Мій персонаж WoW Forever · Gabella'),
+                   t('Персонаж без входа: класс, спек и раса со звездой лучшей по источникам. Сайт покажет сборку талантов, пары профессий, подземелья под уровень и сброс недели.',
                      'A character without a login: class, spec and race with the best one starred by the sources. The guide shows your talent build, profession pairs, dungeons for your level and the weekly reset.',
-                     'Персонаж без входу: клас, спек і раса із зіркою найкращої за джерелами. Гід покаже збірку талантів, пари професій, підземелля під рівень і скидання тижня.')),
-    'u/': (t('Игрок — гид WoW Forever', 'Player — WoW Forever Guide', 'Гравець — гід WoW Forever'),
-           t('Карточка игрока в гиде Gabella: персонажи в WoW Forever, ранг, рамка и достижения.',
+                     'Персонаж без входу: клас, спек і раса із зіркою найкращої за джерелами. Сайт покаже збірку талантів, пари професій, підземелля під рівень і скидання тижня.')),
+    'u/': (t('Игрок WoW Forever · Gabella', 'Player — WoW Forever Guide', 'Гравець WoW Forever · Gabella'),
+           t('Карточка игрока на Gabella: персонажи в WoW Forever, ранг, рамка и достижения.',
              'Player card in the Gabella guide: WoW Forever characters, rank, frame and achievements.',
-             'Картка гравця в гіді Gabella: персонажі у WoW Forever, ранг, рамка й досягнення.')),
-    'privacy/': (t('Конфиденциальность — гид WoW Forever',
+             'Картка гравця на Gabella: персонажі у WoW Forever, ранг, рамка й досягнення.')),
+    'privacy/': (t('Конфиденциальность · Gabella',
                    'Privacy — WoW Forever Guide',
-                   'Конфіденційність — гід WoW Forever'),
-                 t('Какие данные собирает гид WoW Forever от Gabella: профиль после входа, статистика без cookies, что хранится в браузере, как скачать и удалить данные.',
+                   'Конфіденційність · Gabella'),
+                 t('Какие данные собирает Gabella, справочник WoW Forever: профиль после входа, статистика без cookies, что хранится в браузере, как скачать и удалить данные.',
                    'What data the Gabella WoW Forever guide collects: profile after sign-in, cookieless statistics, browser storage, and how to download and delete your data.',
-                   'Які дані збирає гід WoW Forever від Gabella: профіль після входу, статистика без cookies, що зберігається в браузері, як завантажити й видалити дані.')),
+                   'Які дані збирає Gabella, довідник WoW Forever: профіль після входу, статистика без cookies, що зберігається в браузері, як завантажити й видалити дані.')),
 }
 
 CLASS_T = t('{n} в WoW Forever: гайд, специализации и расы', 'WoW Forever {n} Guide: Specs, Abilities and Races', '{n} у WoW Forever: гайд, спеціалізації та раси')
@@ -247,7 +247,7 @@ OG = {
            'Legacy: 65 challenges and perks in three trees. Class tier list from beta data, group and raid builder, news. Launch Nov 4 at 23:00 UTC.',
            'Legacy: 65 випробувань і перки трьох дерев. Тір-лист класів за бетою, конструктор групи й рейду, новини. Старт 04.11 о 23:00 UTC (за Києвом 5.11, 01:00).')),
 }
-langs.fill([HOME_NAME, SITE_NAME, TOOLS_NAME, PRIVACY_NAME, PLAY_NAME, ROSTER_NAME, PROFILE_NAME, CHAR_NAME, PLAYER_NAME, META, CLASS_T, CLASS_T_SHORT, CLASS_D, RACE_T, RACE_T_SHORT, RACE_D, AND, OG])   # new languages: i18n/<lang>.json
+langs.fill([HOME_NAME, TOOLS_NAME, PRIVACY_NAME, PLAY_NAME, ROSTER_NAME, PROFILE_NAME, CHAR_NAME, PLAYER_NAME, META, CLASS_T, CLASS_T_SHORT, CLASS_D, RACE_T, RACE_T_SHORT, RACE_D, AND, OG])   # new languages: i18n/<lang>.json
 
 
 def listing(xs, lang):
@@ -350,8 +350,8 @@ def page_updated(path):
 def json_ld(path, lang, desc, title='', image=''):
     blocks = []
     if not path:
-        blocks.append({'@context': 'https://schema.org', '@type': 'WebSite', 'name': SITE_NAME[lang],
-                       'alternateName': BRAND, 'url': SITE + page_dir(lang), 'inLanguage': HREFLANG[lang], 'description': desc,
+        blocks.append({'@context': 'https://schema.org', '@type': 'WebSite', 'name': SITE_NAME,
+                       'alternateName': 'gabella.site', 'url': SITE + page_dir(lang), 'inLanguage': HREFLANG[lang], 'description': desc,
                        'publisher': ORG})
         blocks.append({'@context': 'https://schema.org'} | ORG)
     else:

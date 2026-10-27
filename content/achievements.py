@@ -4,7 +4,7 @@ kind: auto — выдаёт сервер по своим данным; progress 
 admin — выдаёт админ (события в игре, подтверждение в Discord). secret — скрыто до получения, видна подсказка.
 Очки только 5, 10, 25, 50. Avoid ' and " inside strings: they split translation segments."""
 
-CATS = [('community', 'Сообщество'), ('guide', 'Гид'), ('radio', 'Радио'), ('tools', 'Инструменты'),
+CATS = [('community', 'Сообщество'), ('guide', 'Справочник'), ('radio', 'Радио'), ('tools', 'Инструменты'),
         ('rhythm', 'Ритм'), ('wow', 'WoW'), ('secrets', 'Секреты')]
 
 # id, cat, pts, kind, rule, name, desc[, hint for secrets]
@@ -25,7 +25,7 @@ ACH = [
     ('guides_all', 'guide', 25, 'progress', {'key': 'guide', 'all': True}, 'Книжный червь', 'Открыть все гайды. Открывает рамку «Книжный червь».'),
     ('classes_all', 'guide', 10, 'progress', {'key': 'class', 'all': True}, 'Знаток классов', 'Открыть страницы всех девяти классов.'),
     ('races_all', 'guide', 10, 'progress', {'key': 'race', 'all': True}, 'Этнограф', 'Открыть страницы всех десяти рас.'),
-    ('polyglot', 'guide', 10, 'progress', {'key': 'lang', 'goal': 3, 'set': True}, 'Полиглот', 'Открыть гид на трёх языках.'),
+    ('polyglot', 'guide', 10, 'progress', {'key': 'lang', 'goal': 3, 'set': True}, 'Полиглот', 'Открыть сайт на трёх языках.'),
     ('play_page', 'guide', 5, 'progress', {'key': 'play_page', 'goal': 1}, 'Второй экран', 'Открыть страницу «В игре».'),
     # Радио
     ('radio_on', 'radio', 5, 'progress', {'key': 'radio_on', 'goal': 1}, 'Первая нота', 'Включить радио Gabella.'),
@@ -38,7 +38,7 @@ ACH = [
     ('raid40', 'tools', 25, 'progress', {'key': 'raid40', 'goal': 1}, 'Рейд-лидер', 'Собрать полный рейд на сорок.'),
     ('share_team', 'tools', 5, 'progress', {'key': 'share_team', 'goal': 1}, 'Глашатай', 'Скопировать ссылку на состав группы.'),
     ('compare3', 'tools', 5, 'progress', {'key': 'compare3', 'goal': 1}, 'Взвесить всё', 'Сравнить три класса или расы.'),
-    ('search25', 'tools', 10, 'progress', {'key': 'search', 'goal': 25}, 'Следопыт', 'Двадцать пять раз найти что-то поиском по гиду.'),
+    ('search25', 'tools', 10, 'progress', {'key': 'search', 'goal': 25}, 'Следопыт', 'Двадцать пять раз найти что-то поиском по сайту.'),
     # Ритм
     ('streak7', 'rhythm', 10, 'auto', {'streak': 7}, 'Завсегдатай', 'Заходить на сайт семь дней подряд.'),
     ('streak30', 'rhythm', 50, 'auto', {'streak': 30}, 'Свой за стойкой', 'Заходить на сайт тридцать дней подряд. Открывает рамку «Свой за стойкой».'),

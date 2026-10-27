@@ -79,11 +79,11 @@ DISCORD = 'https://discord.gg/ZGpznkX3Zw'   # постоянное пригла�
 DISCORD_AT = {place: DISCORD for place in ('menu', 'guide', 'home', 'faq', 'profile', 'footer')}
 TELEGRAM = 'https://t.me/gabella_wow'   # публичный канал новостей Gabella (создан 23.10)
 LEGAL = {
-    'ru': ('Фанатский гид Gabella. Сайт не связан с Blizzard Entertainment и не одобрен ею. World of Warcraft, Warcraft и Blizzard Entertainment — '
+    'ru': ('Фанатский сайт Gabella. Сайт не связан с Blizzard Entertainment и не одобрен ею. World of Warcraft, Warcraft и Blizzard Entertainment — '
            'товарные знаки или зарегистрированные товарные знаки Blizzard Entertainment, Inc. в США и/или других странах.', 'Конфиденциальность', 'Связь', 'Карта сайта'),
-    'en': ('Gabella fan guide. Not affiliated with or endorsed by Blizzard Entertainment. World of Warcraft, Warcraft and Blizzard Entertainment are '
+    'en': ('Gabella is a fan site. Not affiliated with or endorsed by Blizzard Entertainment. World of Warcraft, Warcraft and Blizzard Entertainment are '
            'trademarks or registered trademarks of Blizzard Entertainment, Inc. in the U.S. and/or other countries.', 'Privacy', 'Contact', 'Site map'),
-    'uk': ('Фанатський гід Gabella. Сайт не пов’язаний з Blizzard Entertainment і не схвалений нею. World of Warcraft, Warcraft і Blizzard Entertainment — '
+    'uk': ('Фанатський сайт Gabella. Сайт не пов’язаний з Blizzard Entertainment і не схвалений нею. World of Warcraft, Warcraft і Blizzard Entertainment — '
            'торгові марки або зареєстровані торгові марки Blizzard Entertainment, Inc. у США та/або інших країнах.', 'Конфіденційність', 'Зв’язок', 'Мапа сайту'),
 }
 
@@ -271,15 +271,16 @@ def tabbar(cur=None, home='@@HOME@@'):
 
 
 # Top menu: the same items in the same order on every page; anchors of the home page stay in its own «Ещё» group.
-NAV = (('classes/', 'Классы'), ('races/', 'Расы'), ('guides/leveling/', 'Прокачка'), ('guides/dungeons/', 'Подземелья'),
-       ('guides/builds/', 'Таланты'), ('guides/', 'Гайды'), ('tools/', 'Инструменты'), ('play/', 'В игре')) + ((('roster/', 'Игроки'),) if SOCIAL else ())
+# Races, all articles, «In game» and players live in «Ещё» (decision 27.10: the reference first, 8 places with Discord).
+NAV = (('classes/', 'Классы'), ('guides/builds/', 'Таланты'), ('guides/tier-list/', 'Тир-лист'), ('guides/legacy/', 'Legacy'),
+       ('guides/leveling/', 'Прокачка'), ('guides/dungeons/', 'Подземелья'), ('tools/', 'Инструменты'))
 # Sections sheet («Ещё»): (group, [(path from the language home, label)]); '#…' — a block of the home page.
 # TAB_DUP: pages the phone tab bar already has — the sheet hides them below 720 px (the sheet keeps them for 720–1210 px, no menu there).
 MORE = (
-    ('Справочник', (('guides/builds/', 'Таланты'), ('classes/', 'Классы'), ('classes/#choose', 'Какой класс выбрать'), ('races/', 'Расы'),
+    ('Справочник', (('guides/builds/', 'Таланты'), ('guides/tier-list/', 'Тир-лист'), ('guides/legacy/', 'Legacy'), ('classes/', 'Классы'), ('classes/#choose', 'Какой класс выбрать'), ('races/', 'Расы'),
                     ('guides/leveling/', 'Прокачка 1–60'), ('guides/dungeons/', 'Подземелья и рейды'), ('guides/professions/', 'Профессии'),
                     ('guides/server-status/', 'Статус серверов'),
-                    ('guides/faq/', 'FAQ и даты'), ('guides/news/', 'Новости'), ('guides/', 'Все гайды'))),
+                    ('guides/faq/', 'FAQ и даты'), ('guides/news/', 'Новости'), ('guides/', 'Все статьи'))),
     ('Инструменты', (('character/', 'Мой персонаж'), ('tools/#picker', 'Раса и класс'), ('tools/#raid', 'Состав группы и LFG'), ('play/', 'В игре'))),
     ('Сообщество', (('discord', 'Discord'),) + ((('roster/', 'Игроки'),) if SOCIAL else ()) + (('profile/', 'Мой профиль'),)),
 )
@@ -536,15 +537,15 @@ def late_fonts(html):
 # ---------- installable site (PWA): manifest, icons, service worker sw.js ----------
 
 APP = {
-    'ru': {'name': 'WoW Forever — гид Gabella', 'desc': 'Классы, расы, подземелья, прокачка и сборка группы для WoW Forever.',
-           'install': 'Установить', 'install_l': 'Установить гид как приложение',
-           'short': [('В игре', 'play/'), ('Гайды', 'guides/'), ('Подземелья', 'guides/dungeons/'), ('Инструменты', 'tools/'), ('Классы', 'classes/')]},
-    'en': {'name': 'WoW Forever — Gabella guide', 'desc': 'Classes, races, dungeons, leveling and party building for WoW Forever.',
-           'install': 'Install', 'install_l': 'Install the guide as an app',
-           'short': [('In game', 'play/'), ('Guides', 'guides/'), ('Dungeons', 'guides/dungeons/'), ('Tools', 'tools/'), ('Classes', 'classes/')]},
-    'uk': {'name': 'WoW Forever — гід Gabella', 'desc': 'Класи, раси, підземелля, прокачування та збір групи для WoW Forever.',
-           'install': 'Встановити', 'install_l': 'Встановити гід як застосунок',
-           'short': [('У грі', 'play/'), ('Гайди', 'guides/'), ('Підземелля', 'guides/dungeons/'), ('Інструменти', 'tools/'), ('Класи', 'classes/')]},
+    'ru': {'name': 'WoW Forever — справочник Gabella', 'desc': 'Классы, расы, подземелья, прокачка и сборка группы для WoW Forever.',
+           'install': 'Установить', 'install_l': 'Установить справочник как приложение',
+           'short': [('В игре', 'play/'), ('Таланты', 'guides/builds/'), ('Подземелья', 'guides/dungeons/'), ('Инструменты', 'tools/'), ('Классы', 'classes/')]},
+    'en': {'name': 'WoW Forever — Gabella reference', 'desc': 'Classes, races, dungeons, leveling and party building for WoW Forever.',
+           'install': 'Install', 'install_l': 'Install the reference as an app',
+           'short': [('In game', 'play/'), ('Talents', 'guides/builds/'), ('Dungeons', 'guides/dungeons/'), ('Tools', 'tools/'), ('Classes', 'classes/')]},
+    'uk': {'name': 'WoW Forever — довідник Gabella', 'desc': 'Класи, раси, підземелля, прокачування та збір групи для WoW Forever.',
+           'install': 'Встановити', 'install_l': 'Встановити довідник як застосунок',
+           'short': [('У грі', 'play/'), ('Таланти', 'guides/builds/'), ('Підземелля', 'guides/dungeons/'), ('Інструменти', 'tools/'), ('Класи', 'classes/')]},
 }
 langs.derive(APP)
 
@@ -1070,6 +1071,15 @@ def fresh(lang):
                    for d, t, u in items[:3])
 
 
+DATA_SRC = ('content', 'i18n/names.json')   # the game data of the site: its last commit dates the «Данные: … · обновлено» home line
+
+
+def data_updated():
+    """<time> of the last change to the game data (DATA_SRC), dd.mm on the page."""
+    d = src_date(DATA_SRC)
+    return f'<time datetime="{"-".join(reversed(d.split(".")))}">{d[:5]}</time>'
+
+
 SLEEP_ART = ('pickban', 'guides', 'camp')   # home blocks under the first screen
 
 
@@ -1091,7 +1101,7 @@ def build_home(lang, src):
     src = re.sub(r'/\* data:start .*?/\* data:end \*/\n', '', src, count=1, flags=re.S)   # read by the other builds, not used here
     src = chrome(src, tab='', home='')
     html, missing = translate(src, lang)
-    html = html.replace('@@FRESH@@', fresh(lang))
+    html = html.replace('@@FRESH@@', fresh(lang)).replace('@@DATA_UPD@@', data_updated())
     html = sleep_art(html).replace('<b>Gruppenplaner</b>', '<b>Gruppen&shy;planer</b>')   # 320 px tile: a hyphen, not «Gruppenplane / r»
     html = tod.apply(html, lang, amb=True)   # the hero in the reader's time of day (tod.py)
     here = page_dir(lang)
