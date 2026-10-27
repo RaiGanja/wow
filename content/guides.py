@@ -1915,7 +1915,7 @@ GUIDES.append({
 # ---------- День старта: время по часам читателя, очереди и слои, официальные каналы статуса. Чек-лист «День 1» не повторяет ----------
 
 GUIDES.append({
-    'slug': 'launch-day', 'art': 'hero_night', 'hero': 'hero_night', 'tile_art': 'hero_night', 'og': 'guides', 'js': 'launchday',
+    'slug': 'launch-day', 'art': 'hero_night', 'hero': 'hero_night', 'tile_art': 'hero_night', 'js': 'launchday',
     'title': t('День старта: время, очереди, статус', 'Launch Day: Time, Queues, Status', 'День старту: час, черги, статус'),
     'crumb': t('День старта', 'Launch day', 'День старту'),
     'lead': t('Когда открывается WoW Forever по вашему времени, чего ждать в первые часы и где Blizzard сообщает о сбоях.',
@@ -1926,6 +1926,11 @@ GUIDES.append({
               t('Статус — только каналы Blizzard', 'Status: Blizzard channels only', 'Статус — лише канали Blizzard')],
     'sources': [
         (t('Blizzard: дата и время старта', 'Blizzard: launch date and time', 'Blizzard: дата й час старту'), 'https://news.blizzard.com/en-us/article/24301508'),
+        (t('Blizzard: время старта по Парижу (фр.)', 'Blizzard: launch time in Paris (French)', 'Blizzard: час старту за Парижем (фр.)'), 'https://news.blizzard.com/fr-fr/article/24301508'),
+        (t('Blizzard: резерв имён и установка клиента', 'Blizzard: name reservation and client install', 'Blizzard: резерв імен і встановлення клієнта'), 'https://news.blizzard.com/en-us/article/24303866'),
+        (t('Blizzard: режимы, язык и Hardcore', 'Blizzard: rulesets, language and Hardcore', 'Blizzard: режими, мова й Hardcore'), 'https://news.blizzard.com/en-gb/article/24302070'),
+        (t('Правительство Британской Колумбии: постоянное летнее время', 'Government of British Columbia: permanent daylight time', 'Уряд Британської Колумбії: постійний літній час'),
+         'https://www2.gov.bc.ca/gov/content/governments/celebrating-british-columbia/daylight-saving-time'),
         (t('GameSpot: заявление Blizzard о слоях', 'GameSpot: Blizzard statement on layering', 'GameSpot: заява Blizzard про шари'),
          'https://www.gamespot.com/articles/wow-forevers-divisive-layering-will-see-major-improvements-for-launch-blizzard-says/'),
         (t('Bolverk Games: очереди и отключения в бете', 'Bolverk Games: beta queues and disconnects', 'Bolverk Games: черги й відключення в беті'),
@@ -1937,24 +1942,53 @@ GUIDES.append({
         {'id': 'time', 'title': t('Время старта', 'Launch time', 'Час старту'), 'blocks': [
             ('launch', {'left': t('до старта', 'until launch', 'до старту'), 'out': t('Игра вышла', 'The game is out', 'Гра вийшла'),
                         'your': t('по вашему времени', 'your time', 'за вашим часом'),
-                        'd': t('дн', 'd', 'дн'), 'h': t('ч', 'h', 'год'), 'm': t('мин', 'min', 'хв')}),
+                        'd': t('дн', 'd', 'дн'), 'h': t('ч', 'h', 'год'), 'm': t('мин', 'min', 'хв'),
+                        'cal': t('Добавить в календарь', 'Add to calendar', 'Додати в календар'),
+                        'gcal': t('Google Календарь', 'Google Calendar', 'Google Календар'),
+                        'ev': t('Старт WoW Forever', 'WoW Forever launch', 'Старт WoW Forever')}),
             ('text', [t('Blizzard: WoW Forever выходит во всём мире 04.11.2026 в 15:00 по тихоокеанскому времени (PST), это 23:00 UTC 04.11.',
                         'Blizzard: WoW Forever launches worldwide on 04.11.2026 at 15:00 Pacific time (PST), which is 23:00 UTC on 04.11.',
                         'Blizzard: WoW Forever виходить у всьому світі 04.11.2026 о 15:00 за тихоокеанським часом (PST), це 23:00 UTC 04.11.'),
                       t('В Европе это уже 5 ноября. Великобритания, Ирландия и Португалия встречают старт в 23:00 04.11.',
                         'In most of Europe it is already 5 November. The UK, Ireland and Portugal get the launch at 23:00 on 04.11.',
-                        'У Європі це вже 5 листопада. Велика Британія, Ірландія та Португалія зустрічають старт о 23:00 04.11.')]),
+                        'У Європі це вже 5 листопада. Велика Британія, Ірландія та Португалія зустрічають старт о 23:00 04.11.'),
+                      t('Время в таблице уже зимнее: Европа перевела часы 25.10, США и Канада — 01.11. Британская Колумбия с 01.11 часы не переводит и остаётся на UTC-7, поэтому в Ванкувере старт в 16:00, на час позже, чем в Лос-Анджелесе.',
+                        'The table already uses winter time: Europe changed its clocks on 25.10, the US and Canada on 01.11. British Columbia stops changing clocks on 01.11 and stays on UTC-7, so in Vancouver the launch is at 16:00, an hour later than in Los Angeles.',
+                        'Час у таблиці вже зимовий: Європа перевела годинники 25.10, США й Канада — 01.11. Британська Колумбія з 01.11 годинники не переводить і лишається на UTC-7, тому у Ванкувері старт о 16:00, на годину пізніше, ніж у Лос-Анджелесі.')]),
             ('table', {'head': [t('Город', 'City', 'Місто'), t('Часовой пояс', 'Time zone', 'Часовий пояс'), t('Старт по местному времени', 'Launch, local time', 'Старт за місцевим часом')], 'rows': [
-                [t('Лос-Анджелес, Ванкувер', 'Los Angeles, Vancouver', 'Лос-Анджелес, Ванкувер'), t('PT (тихоокеанское), UTC-8', 'PT (Pacific), UTC-8', 'PT (тихоокеанський), UTC-8'), '04.11, 15:00'],
+                [t('Лос-Анджелес, Сиэтл', 'Los Angeles, Seattle', 'Лос-Анджелес, Сіетл'), t('PT (тихоокеанское), UTC-8', 'PT (Pacific), UTC-8', 'PT (тихоокеанський), UTC-8'), '04.11, 15:00'],
+                [t('Денвер, Финикс, Ванкувер', 'Denver, Phoenix, Vancouver', 'Денвер, Фінікс, Ванкувер'), 'UTC-7', '04.11, 16:00'],
+                [t('Чикаго, Мехико', 'Chicago, Mexico City', 'Чикаго, Мехіко'), 'UTC-6', '04.11, 17:00'],
                 [t('Нью-Йорк, Торонто', 'New York, Toronto', 'Нью-Йорк, Торонто'), t('ET (восточное), UTC-5', 'ET (Eastern), UTC-5', 'ET (східний), UTC-5'), '04.11, 18:00'],
-                [t('Сан-Паулу', 'São Paulo', 'Сан-Паулу'), 'UTC-3', '04.11, 20:00'],
-                [t('Лондон, Лиссабон', 'London, Lisbon', 'Лондон, Лісабон'), 'UTC+0', '04.11, 23:00'],
-                [t('Берлин, Париж, Варшава', 'Berlin, Paris, Warsaw', 'Берлін, Париж, Варшава'), t('CET (центральноевропейское), UTC+1', 'CET (Central European), UTC+1', 'CET (центральноєвропейський), UTC+1'), '05.11, 00:00'],
+                [t('Сан-Паулу, Буэнос-Айрес', 'São Paulo, Buenos Aires', 'Сан-Паулу, Буенос-Айрес'), 'UTC-3', '04.11, 20:00'],
+                [t('Лондон, Дублин, Лиссабон', 'London, Dublin, Lisbon', 'Лондон, Дублін, Лісабон'), 'UTC+0', '04.11, 23:00'],
+                [t('Берлин, Париж, Мадрид, Рим, Варшава', 'Berlin, Paris, Madrid, Rome, Warsaw', 'Берлін, Париж, Мадрид, Рим, Варшава'), t('CET (центральноевропейское), UTC+1', 'CET (Central European), UTC+1', 'CET (центральноєвропейський), UTC+1'), '05.11, 00:00'],
                 [t('Киев', 'Kyiv', 'Київ'), t('Киев (EET), UTC+2', 'Kyiv (EET), UTC+2', 'Київ (EET), UTC+2'), '05.11, 01:00'],
                 [t('Тайбэй', 'Taipei', 'Тайбей'), 'UTC+8', '05.11, 07:00'],
                 [t('Сеул', 'Seoul', 'Сеул'), 'UTC+9', '05.11, 08:00'],
                 [t('Сидней', 'Sydney', 'Сідней'), 'UTC+11', '05.11, 10:00'],
+                [t('Окленд', 'Auckland', 'Окленд'), 'UTC+13', '05.11, 12:00'],
             ]}),
+        ]},
+        {'id': 'before', 'title': t('Перед стартом', 'Before launch', 'Перед стартом'), 'blocks': [
+            ('steps', [
+                {'t': t('Клиент заранее', 'Install the client early', 'Клієнт заздалегідь'),
+                 'd': t('Battle.net → World of Warcraft → меню версии над кнопкой «Играть» → World of Warcraft: Forever → «Установить». Так Blizzard описывает установку к резерву имён. Заодно обновите драйвер видеокарты.',
+                        'Battle.net → World of Warcraft → the version menu above the Play button → World of Warcraft: Forever → Install. This is how Blizzard describes the install for name reservation. Update your graphics driver too.',
+                        'Battle.net → World of Warcraft → меню версії над кнопкою «Грати» → World of Warcraft: Forever → Install. Так Blizzard описує встановлення до резерву імен. Заразом оновіть драйвер відеокарти.')},
+                {'t': t('Подписка или игровое время', 'Subscription or game time', 'Підписка або ігровий час'),
+                 'd': t('Forever входит в подписку WoW: без неё или игрового времени в момент старта не войти. Набор покупать не обязательно.',
+                        'Forever comes with a WoW subscription: without one or game time you cannot log in at launch. A pack is not required.',
+                        'Forever входить у підписку WoW: без неї або ігрового часу в момент старту не увійти. Набір купувати не обов’язково.')},
+                {'t': t('Резерв имён до 03.11', 'Name reservation until 03.11', 'Резерв імен до 03.11'),
+                 'd': t('Для владельцев наборов Heroic, Epic и Collection: до трёх персонажей на аккаунт во всех режимах вместе, кто первым пришёл, тот и занял. Режим выбирается при запуске клиента.',
+                        'For Heroic, Epic and Collection owners: up to three characters per account across all modes, first come, first served. You pick the mode when you start the client.',
+                        'Для власників наборів Heroic, Epic і Collection: до трьох персонажів на акаунт у всіх режимах разом, хто перший прийшов, той і зайняв. Режим обирають під час запуску клієнта.')},
+                {'t': t('Invite-A-Friend', 'Invite-A-Friend', 'Invite-A-Friend'),
+                 'd': t('Коды из наборов действуют в неделю старта: с 04.11 по 11.11 по тихоокеанскому времени, в Европе с 05.11 по 12.11.',
+                        'Codes from the packs work during launch week: 04.11 to 11.11 Pacific time, 05.11 to 12.11 in Europe.',
+                        'Коди з наборів діють у тиждень старту: з 04.11 по 11.11 за тихоокеанським часом, у Європі з 05.11 по 12.11.')},
+            ]),
         ]},
         {'id': 'mode', 'title': t('Режим и реалм', 'Mode and realm', 'Режим і реалм'), 'blocks': [
             ('table', {'head': [t('Что', 'What', 'Що'), t('Что известно', 'What is known', 'Що відомо')], 'rows': [
@@ -1970,6 +2004,14 @@ GUIDES.append({
                  t('Группироваться можно только внутри одного режима. В PvP при создании доступна одна фракция.',
                    'You can only group within one mode. In PvP only one faction is available at character creation.',
                    'Групуватися можна лише в межах одного режиму. У PvP під час створення доступна одна фракція.')],
+                [t('Язык', 'Language', 'Мова'),
+                 t('Языковая настройка на весь аккаунт сводит игроков одного языка. Сменить её можно раз в 24 часа.',
+                   'An account-wide language setting matches you with players of the same language. It can be changed once every 24 hours.',
+                   'Мовне налаштування на весь акаунт зводить гравців однієї мови. Змінити його можна раз на 24 години.')],
+                ['Hardcore',
+                 t('Не на старте: Blizzard обещает его после запуска, даты нет. Поля боя общие для всех режимов, кроме Hardcore.',
+                   'Not at launch: Blizzard promises it after release, with no date. Battlegrounds are shared by all modes except Hardcore.',
+                   'Не на старті: Blizzard обіцяє його після запуску, дати немає. Поля бою спільні для всіх режимів, крім Hardcore.')],
                 [(t('Режимы и серверы', 'Modes and servers', 'Режими та сервери'), 'guides/faq/#modes'),
                  t('Обычный, PvP, RP и RP-PvP, регионы и правила выше — подробно.', 'Normal, PvP, RP and RP-PvP, regions and the rules above, in full.', 'Звичайний, PvP, RP і RP-PvP, регіони та правила вище — докладно.')],
             ]}),
@@ -2057,8 +2099,34 @@ GUIDES.append({
                    'Офіційна сторінка статусу. На 26.10 Forever у ній немає: у Forever режими замість реалмів. Чи з’явиться — уточнимо на старті.')],
             ]}),
         ]},
-        {'id': 'wait', 'title': t('Пока ждёте', 'While you wait', 'Поки чекаєте'), 'blocks': [
+        {'id': 'wait', 'title': t('Пока стоите в очереди', 'While you are in the queue', 'Поки стоїте в черзі'), 'blocks': [
+            ('steps', [
+                {'t': t('Не выходите', 'Do not leave', 'Не виходьте'),
+                 'd': t('Повторный вход ставит в конец очереди. {beta}',
+                        'Logging in again puts you at the back of the queue. {beta}',
+                        'Повторний вхід ставить у кінець черги. {beta}')},
+                {'t': t('Соберите персонажа', 'Build your character', 'Зберіть персонажа'),
+                 'd': t('Класс, спек и раса в «Мой персонаж»: главная, таланты и чек-лист подстроятся под него, а на 10 уровне не придётся думать над первым очком.',
+                        'Class, spec and race in My character: the home page, talents and checklist adapt to it, and at level 10 your first point is already planned.',
+                        'Клас, спек і раса в «Мій персонаж»: головна, таланти й чек-лист підлаштуються під нього, а на 10 рівні перше очко вже сплановане.')},
+                {'t': t('Второй экран', 'Second screen', 'Другий екран'),
+                 'd': t('Откройте «В игре» на телефоне: маршрут прокачки вашей фракции, этапы и таймеры будут под рукой.',
+                        'Open In game on your phone: the leveling route for your faction, milestones and timers stay at hand.',
+                        'Відкрийте «У грі» на телефоні: маршрут прокачування вашої фракції, етапи й таймери будуть під рукою.')},
+                {'t': t('Группа', 'Group', 'Група'),
+                 'd': t('Соберите состав в конструкторе, отправьте ссылку друзьям и скопируйте текст для LFG заранее.',
+                        'Build the party in the group builder, send the link to friends and copy the LFG text in advance.',
+                        'Зберіть склад у конструкторі, надішліть посилання друзям і скопіюйте текст для LFG заздалегідь.')},
+                {'t': t('Если выбило', 'If you get disconnected', 'Якщо вибило'),
+                 'd': t('Сначала загляните в @BlizzardCS или @BlizzardCSEU_EN: об общем сбое Blizzard пишет там.',
+                        'Check @BlizzardCS or @BlizzardCSEU_EN first: Blizzard posts outages for everyone there.',
+                        'Спершу загляньте в @BlizzardCS або @BlizzardCSEU_EN: про загальний збій Blizzard пише там.')},
+            ]),
             ('table', {'head': [t('Страница', 'Page', 'Сторінка'), t('Зачем', 'What for', 'Навіщо')], 'rows': [
+                [(t('Мой персонаж', 'My character', 'Мій персонаж'), 'character/'),
+                 t('Класс, спек и раса: главная, таланты и чек-лист подстраиваются под персонажа.', 'Class, spec and race: the home page, talents and checklist adapt to your character.', 'Клас, спек і раса: головна, таланти й чек-лист підлаштовуються під персонажа.')],
+                [(t('В игре', 'In game', 'У грі'), 'play/'),
+                 t('Второй экран во время игры: маршрут, этапы, таймеры, радио.', 'A second screen while you play: route, milestones, timers, radio.', 'Другий екран під час гри: маршрут, етапи, таймери, радіо.')],
                 [(t('Чек-лист «День 1»', 'Day 1 checklist', 'Чек-лист «День 1»'), 'guides/launch-checklist/'),
                  t('Что сделать до старта, в первые часы и в первый вечер.', 'What to do before launch, in the first hours and on the first evening.', 'Що зробити до старту, у перші години та першого вечора.')],
                 [(t('Пинг и очередь', 'Ping and queue', 'Пінг і черга'), 'tools/#ping'),
@@ -2072,6 +2140,26 @@ GUIDES.append({
                 [(t('Тир-лист', 'Tier list', 'Тір-лист'), 'guides/tier-list/'),
                  t('Если класс ещё не выбран: классы и спеки по данным беты.', 'If you have not picked a class yet: classes and specs based on beta data.', 'Якщо клас ще не обрано: класи й спеціалізації за даними бети.')],
             ]}),
+        ]},
+        {'id': 'faq', 'title': t('Вопросы', 'Questions', 'Питання'), 'blocks': [
+            ('faq', [
+                {'id': 'when', 'q': t('Во сколько выходит WoW Forever?', 'What time does WoW Forever launch?', 'О котрій виходить WoW Forever?'),
+                 'a': [t('04.11.2026 в 15:00 PST, это 23:00 UTC. В Киеве — 05.11 в 01:00, в Берлине и Варшаве — 05.11 в 00:00, в Нью-Йорке — 04.11 в 18:00.',
+                         '04.11.2026 at 15:00 PST, which is 23:00 UTC. That is 23:00 on 04.11 in London, 00:00 on 05.11 in Berlin and Paris, and 18:00 on 04.11 in New York.',
+                         '04.11.2026 о 15:00 PST, це 23:00 UTC. У Києві — 05.11 о 01:00, у Варшаві та Берліні — 05.11 о 00:00, у Нью-Йорку — 04.11 о 18:00.')]},
+                {'id': 'regions', 'q': t('Европа и Америка стартуют в разное время?', 'Do Europe and the Americas launch at different times?', 'Європа й Америка стартують у різний час?'),
+                 'a': [t('Нет. Blizzard открывает все регионы в одну минуту, разница только в местном времени.',
+                         'No. Blizzard opens every region at the same minute; only the local time differs.',
+                         'Ні. Blizzard відкриває всі регіони в одну хвилину, різниця лише в місцевому часі.')]},
+                {'id': 'pst', 'q': t('Это PST или PDT?', 'Is it PST or PDT?', 'Це PST чи PDT?'),
+                 'a': [t('PST, UTC-8: летнее время в США кончается 01.11. В одной английской статье Blizzard стоит PDT, но французская статья Blizzard называет полночь по Парижу, а это тоже 23:00 UTC.',
+                         'PST, UTC-8: US daylight time ends on 01.11. One English Blizzard article says PDT, but the French Blizzard article gives midnight Paris time, which is also 23:00 UTC.',
+                         'PST, UTC-8: літній час у США закінчується 01.11. В одній англійській статті Blizzard стоїть PDT, але французька стаття Blizzard називає північ за Парижем, а це теж 23:00 UTC.')]},
+                {'id': 'early', 'q': t('Можно ли играть до старта?', 'Can I play before launch?', 'Чи можна грати до старту?'),
+                 'a': [t('Нет. Бета закончилась 23.10. До 03.11 владельцы наборов могут только создать до трёх персонажей и занять имена.',
+                         'No. The beta ended on 23.10. Until 03.11 pack owners can only create up to three characters and claim names.',
+                         'Ні. Бета закінчилася 23.10. До 03.11 власники наборів можуть лише створити до трьох персонажів і зайняти імена.')]},
+            ]),
         ]},
     ],
 })
@@ -2096,7 +2184,7 @@ GUIDES.append({
     'tile': t('Статус, очередь на вход, слои, техработы', 'Status, login queue, layers, maintenance', 'Статус, черга на вхід, шари, техроботи'),
     'pills': [t('Статус — только каналы Blizzard', 'Status: Blizzard channels only', 'Статус — лише канали Blizzard'),
               t('Время очереди не объявлено', 'No queue times announced', 'Час черги не оголошено')],
-    'sources': list(_ld['sources']),
+    'sources': [s for s in _ld['sources'] if not any(x in s[1] for x in ('gov.bc.ca', 'fr-fr', '24303866', '24302070'))],
     'sections': [
         dict(_ld_status, title=t('Статус серверов', 'Server status', 'Статус серверів')),
         {'id': 'queue', 'title': t('Очередь на вход и её время', 'Login queue and queue times', 'Черга на вхід і її час'), 'blocks': [
@@ -2130,8 +2218,12 @@ GUIDES.append({
 })
 
 # the Launch day page points to this one
-_tbl(_ld_wait)['rows'].append([(next(g for g in GUIDES if g['slug'] == 'server-status')['title'], 'guides/server-status/'),
-                              next(g for g in GUIDES if g['slug'] == 'server-status')['tile']])
+_ss = next(g for g in GUIDES if g['slug'] == 'server-status')
+_tbl(_ld_wait)['rows'].append([(_ss['title'], 'guides/server-status/'), _ss['tile']])
+# and its status section ends with the same link (a new list: server-status shares the old one)
+_ld_status['blocks'] = _ld_status['blocks'] + [('table', {'head': _tbl(_ld_wait)['head'], 'rows': [
+    [(_ss['title'], 'guides/server-status/'),
+     t('Очередь, слои и техработы подробно: что известно, а что нет.', 'The queue, layers and maintenance in full: what is known and what is not.', 'Черга, шари й техроботи докладно: що відомо, а що ні.')]]})]
 
 
 GUIDES.sort(key=lambda g: ORDER.index(g['slug']))

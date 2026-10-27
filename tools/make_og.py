@@ -18,6 +18,11 @@ BRAND = 'Gabella'
 START = {'ru': 'Старт 5 ноября 2026', 'en': 'Launch November 4–5, 2026', 'uk': 'Старт 5 листопада 2026',
          'de': 'Start am 5. November 2026', 'fr': 'Lancement le 5 novembre 2026', 'es': 'Lanzamiento: 4–5 de noviembre de 2026',
          'pt': 'Lançamento em 4 de novembro de 2026', 'it': 'Uscita il 5 novembre 2026', 'pl': 'Start 5 listopada 2026'}
+EXACT = {'launch-day': {'ru': '04.11, 23:00 UTC · Киев 05.11, 01:00', 'en': 'Nov 4, 3:00 PM PST · 23:00 UTC',
+                        'uk': 'Старт 04.11, 23:00 UTC · 15:00 PST', 'de': '5. November, 00:00 MEZ',
+                        'fr': '5 novembre, minuit à Paris', 'es': '4 nov., 23:00 UTC · Madrid 00:00',
+                        'pt': '4 de novembro, 20:00 em Brasília', 'it': '5 novembre, ore 00:00 in Italia',
+                        'pl': 'Start 04.11, 23:00 UTC · 15:00 PST'}}   # the launch card names the moment (uk, pl: the lead already gives local time)
 HOME = {'t': {l: 'WoW Forever' for l in langs.ALL},
         'd': {'ru': 'Legacy, тир-лист, конструктор группы, новости',
               'en': 'Legacy, tier list, group builder, news',
@@ -85,7 +90,7 @@ p{{font-size:30px;line-height:1.35;color:#c9c2b0;text-wrap:pretty;max-width:{"52
 </style><body>{pic}<div class="shade"></div>
 <div class="brand"><img src="{url('assets/logo.png')}" alt="">{BRAND}</div>
 <div class="txt"><h1>{title}</h1><p>{lead}</p></div>
-<div class="start">{'' if slug in NODATE else START[lang]}</div>
+<div class="start">{'' if slug in NODATE else EXACT.get(slug, START)[lang]}</div>
 <div id="res" hidden></div>
 <script>/* lay the text block out between the logo and the launch line: width first (Spectral is wide), then height */
 document.fonts.ready.then(()=>{{   /* measure in Spectral, not in the fallback that is there before the font arrives */

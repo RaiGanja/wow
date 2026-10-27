@@ -4,6 +4,7 @@
 Запуск: python build_guides.py [--list]  (--list печатает русские фрагменты обвязки без перевода)"""
 import json, os, re, sys
 from html import escape
+from urllib.parse import quote
 
 import build
 import talents
@@ -313,9 +314,20 @@ def render_block(kind, data, lang, root, inner=False):
             f'<p>{E(x["d"], lang)}</p><a class="dgo" href="{root}{x["href"]}">{E(x["go"], lang)}</a></li>' for x in items) + '</ul>'
     if kind == 'launch':                                          # Launch day: the countdown in the reader's time, filled by JS['launchday']
         units = ''.join(f'<div><b id="lc{k.upper()}">–</b><span>{E(data[k], lang)}</span></div>' for k in ('d', 'h', 'm'))
+        ev = L(data['ev'], lang)
+        ics = '\r\n'.join(('BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Gabella//WoW Forever//EN', 'BEGIN:VEVENT',
+                           'UID:wow-forever-launch-2026@gabella.site', 'DTSTAMP:20261027T000000Z',
+                           'DTSTART:20261104T230000Z', 'DTEND:20261105T000000Z', f'SUMMARY:{ev}',
+                           'URL:https://gabella.site/wow/guides/launch-day/',
+                           'BEGIN:VALARM', 'ACTION:DISPLAY', f'DESCRIPTION:{ev}', 'TRIGGER:-PT30M', 'END:VALARM',
+                           'END:VEVENT', 'END:VCALENDAR', ''))
+        gcal = ('https://calendar.google.com/calendar/render?action=TEMPLATE&dates=20261104T230000Z/20261105T000000Z&text='
+                + quote(ev) + '&details=' + quote('https://gabella.site/wow/guides/launch-day/'))
         return (f'<div class="lcd" id="lcd"><div class="lcu">{units}</div>'
                 f'<div class="lcw"><span id="lcL" data-out="{E(data["out"], lang)}">{E(data["left"], lang)}</span>'
-                f'<b id="lcWhen">04.11.2026, 23:00 UTC</b><span id="lcY" hidden>{E(data["your"], lang)}</span></div></div>')
+                f'<b id="lcWhen">04.11.2026, 23:00 UTC</b><span id="lcY" hidden>{E(data["your"], lang)}</span></div></div>'
+                f'<p class="gbtns lcal"><a class="btn ghost" href="data:text/calendar;charset=utf-8,{quote(ics)}" download="wow-forever-launch.ics">'
+                f'{E(data["cal"], lang)}</a><a class="btn ghost" href="{escape(gcal)}" target="_blank" rel="noopener">{E(data["gcal"], lang)} ↗</a></p>')
     if kind == 'lgcalc':                                          # Legacy counter: static markup, state and sums by JS['legacy']
         return lgcalc(data, lang)
     raise ValueError(f'unknown block {kind!r}')
@@ -710,7 +722,7 @@ JS['launchday'] = r'''/* Launch day: days, hours and minutes to 23:00 UTC 04.11 
 const lcAt = new Date('2026-11-04T23:00:00Z');
 function lcPaint() {
   const ms = lcAt - new Date(), p = x => String(x).padStart(2, '0');
-  $('#lcWhen').textContent = new Intl.DateTimeFormat(document.documentElement.lang, { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }).format(lcAt);
+  $('#lcWhen').textContent = new Intl.DateTimeFormat(document.documentElement.lang, { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit', timeZoneName: 'short' }).format(lcAt);
   $('#lcY').hidden = false;
   if (ms <= 0) { $('#lcd').classList.add('out'); $('#lcL').textContent = $('#lcL').dataset.out; return; }
   $('#lcD').textContent = Math.floor(ms / 864e5); $('#lcH').textContent = p(Math.floor(ms % 864e5 / 36e5)); $('#lcM').textContent = p(Math.floor(ms % 36e5 / 6e4));
