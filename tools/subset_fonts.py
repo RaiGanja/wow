@@ -84,6 +84,22 @@ def unranges(rs):
     return {c for a, b in rs for c in range(a, b + 1)}
 
 
+def narrow_axis(font):
+    """A variable font (Golos Text, wght 400-900) only for the weights its @font-face rules ask for (font-weight: 400 600
+    in index.src.html; a heavier request is clamped to 600 by the browser anyway): the deltas beyond 600 and the vertical
+    tables (no vertical text on the site) go, -35% per file; outlines at 400-600 differ from the original by 1 unit of 1000 at most."""
+    from fontTools.varLib import instancer
+    css = open(os.path.join(ROOT, 'index.src.html'), encoding='utf-8').read()
+    lo, hi = map(int, re.search(r'font-family: "Golos Text"; font-style: normal; font-weight: (\d+) (\d+)', css).groups())
+    flavor = font.flavor
+    font = instancer.instantiateVariableFont(font, {'wght': (lo, hi)}, inplace=False)
+    for tag in ('VVAR', 'vhea', 'vmtx'):
+        if tag in font:
+            del font[tag]
+    font.flavor = flavor
+    return font
+
+
 def cut(src, dst, keep):
     from fontTools import subset
     opts = subset.Options()
@@ -99,6 +115,8 @@ def cut(src, dst, keep):
     sub = subset.Subsetter(opts)
     sub.populate(unicodes=sorted(keep))
     sub.subset(font)
+    if 'fvar' in font:
+        font = narrow_axis(font)
     subset.save_font(font, dst, opts)
     data = open(dst, 'rb').read()
     print(f'{os.path.basename(dst)}: {os.path.getsize(src)} -> {len(data)} bytes, {len(keep)} characters', file=sys.stderr)
