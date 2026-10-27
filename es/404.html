@@ -99,7 +99,8 @@ html[data-tod="night"] { --hero-fade: 5 5 5;  --hero-shadow: 0 1px 2px rgb(0 0 0
   color-scheme: light;
 }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: calc(var(--top) + 12px); -webkit-text-size-adjust: 100%; }
+html { scroll-padding-top: calc(var(--top) + 12px); -webkit-text-size-adjust: 100%; }
+html:focus-within { scroll-behavior: smooth; }   /* only in-page jumps glide: a page opened at #anchor lands there at once, it does not fly past its top */
 /* Grain: a faint texture over the page and the art, so painting and interface meet without a plastic seam (D4).
    Sparse light specks on the dark theme, dark ones on the light; the average colour stays the same */
 body::after { content: ""; position: fixed; inset: 0; z-index: 100; pointer-events: none; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 2.4 -1.1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E") 0 0 / 180px 180px; opacity: .025; }
@@ -128,7 +129,7 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .skip:not(:focus) { width: 1px; height: 1px; padding: 0; border: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }   /* seen only from the keyboard */
 /* Top bar: transparent over the hero, solid after scrolling */
 .topbar { position: fixed; inset: 0 0 auto 0; z-index: 30; height: var(--top); color: var(--ink); background: linear-gradient(rgba(5,6,8,.62), rgba(5,6,8,0)); border-bottom: 1px solid transparent; transition: background-color .25s, border-color .25s, color .25s; }
-.topbar.solid { background: var(--rail); border-bottom-color: var(--line); color: var(--fg); }
+.topbar.solid { background: var(--rail); border-bottom-color: var(--line); color: var(--fg); transition: none; }   /* opaque at once: a fade lets the page show through the menu */
 .topbar .in { max-width: var(--wrap); height: 100%; margin: 0 auto; padding: 0 max(20px, env(safe-area-inset-left, 0px)); display: flex; align-items: center; gap: 14px; }
 .brand { flex: none; display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; min-height: 44px; }   /* never squeezed: the subtitle would run into the menu */
 .mark { width: 40px; height: 40px; flex: none; display: block; border-radius: 8px; box-shadow: 0 0 0 1px rgba(201,165,74,.35); }
@@ -1062,7 +1063,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 }
 @media (max-width: 374px) { .bt small { display: none; } }   /* 320–374: four buttons (44 px from 360); the subtitle gives way, «Gabella» and the mark stay */
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
+  html, html:focus-within { scroll-behavior: auto; }
   .hc, .hc img, .hc .info { transition: none; }
 }
 /* Guide pages: hero over art, sticky contents left, frames right; tables become cards on phones */
@@ -1491,7 +1492,14 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .rv { opacity: 0; transform: translateY(18px); }
 .rv.in { opacity: 1; transform: none; transition: opacity .6s var(--ease), transform .6s var(--ease); }
 @media print { .rv { opacity: 1; transform: none; } }
+.arrive body { visibility: hidden; }
 </style>
+<script>(function () {
+  if (!/^#[A-Za-z0-9_-]+$/.test(location.hash)) return;
+  var l = document.createElement('link'), d = document.documentElement;
+  l.rel = 'expect'; l.href = location.hash; l.setAttribute('blocking', 'render'); document.head.append(l);
+  d.classList.add('arrive'); setTimeout(function () { d.classList.remove('arrive'); }, 1500);
+})();</script>
 <link rel="manifest" href="../manifest-es.webmanifest">
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
@@ -1686,7 +1694,14 @@ if ('IntersectionObserver' in window && tocLinks.length) {
 </script>
 <script>
 (function () {
+  // A page opened at #anchor (or by Back) lands mid-page. Its first frame is the anchor, not the top of the page flying by:
+  // <head> keeps the page unpainted (rel=expect, .arrive) until here, the bar is solid from that frame, nothing there fades in.
+  var d = document.documentElement, at = /^#[A-Za-z0-9_-]+$/.test(location.hash) && document.getElementById(location.hash.slice(1)), bar = document.getElementById('topbar');
+  if (at && bar && at.getBoundingClientRect().top > 24) bar.classList.add('solid');
+  if (at && scrollY < 25) at.scrollIntoView();
+  requestAnimationFrame(function () { d.classList.remove('arrive'); });
   if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (location.hash.length > 1 || (performance.getEntriesByType('navigation')[0] || {}).type === 'back_forward') return;
   var io = new IntersectionObserver(function (es) {
     es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
   }, { rootMargin: '0px 0px -6% 0px' });
