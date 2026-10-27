@@ -251,6 +251,63 @@ with contextlib.redirect_stdout(buf):
     assert nn.notify('t', 'x', env={}) is None
 assert 'SECRET' not in buf.getvalue() and sent[0][1]['allowed_mentions'] == {'parse': []}
 
+# ---------- Discord (tools/news_discord.py): our text, Blizzard link, edits in place, hints without copying ----------
+import news_discord as nd      # noqa: E402
+DCFG = json.load(open(os.path.join(ROOT, 'tools', 'news_discord.json'), encoding='utf-8'))
+note = pb.item(dict(ents[0], detected_at='2026-10-26T20:40:00Z'))
+assert note['t']['ru']['sum'][0] == 'Человек · Ruthless: 2% → 1%' and note['t']['en']['more'] == '8 more changes'
+assert note['t']['de']['sum'][2].startswith('Tauren · Ebenenlaufen: 1% → 2%')              # localized ability name (names.json)
+NOWD = datetime(2026, 10, 26, 21, 0, tzinfo=timezone.utc)
+hints = [{'id': 'https://www.wowhead.com/news=1', 'title': 'Racial Ability Tuning Pass for WoW: Forever', 'url': 'https://www.wowhead.com/news=1', 'at': '2026-10-26T20:38:00+00:00'},
+         {'id': 'https://www.wowhead.com/news=2', 'title': 'WoW Forever Beta Development Notes Updated October 26', 'url': 'https://www.wowhead.com/news=2', 'at': '2026-10-26T20:39:00+00:00'}]
+ENV = {t['secret']: f'https://discord.example/api/webhooks/{i}/SECRET' for i, t in enumerate(DCFG['layouts']['current'])}
+calls = []
+
+
+def fake_send(url, body, thread_id=None, edit=None):
+    calls.append((url, body, thread_id, edit))
+    return (200 if not edit else 200), (edit or f'm{len(calls)}')
+
+
+st8 = {}
+assert nd.run([note], hints, st8, DCFG, 'current', True, ENV, fake_send, NOWD) == [] and not calls     # first run: only marks as seen
+st8 = {'posted': {}}
+buf = io.StringIO()
+with contextlib.redirect_stdout(buf):
+    sent = nd.run([note], hints, st8, DCFG, 'current', True, ENV, fake_send, NOWD)
+assert 'SECRET' not in buf.getvalue()                                                       # webhook addresses are never printed
+notes_sent = [c for c in calls if c[1]['embeds'][0]['url'] == note['url']]
+assert len(notes_sent) == 4                                                                  # en, uk, ru of the site + the Team server (ru)
+ru = next(c[1] for c in calls if c[0].endswith('/2/SECRET'))['embeds'][0]
+assert ru['title'] == '🛠 Заметки разработчиков от 26.10 (бета)' and 'Человек · Ruthless: 2% → 1%' in ru['description']
+assert ru['url'].startswith('https://us.example/') and 'https://gabella.site/wow/guides/news/' in ru['description']
+assert 'Ruthless now increases' not in json.dumps([c[1] for c in calls])                    # no sentence of Blizzard in Discord
+hint_calls = [c for c in calls if c[1]['embeds'][0]['footer']['text'] == 'Source: Wowhead']
+assert not hint_calls                                                                       # both Wowhead items repeat the official note
+other = {'id': 'w3', 'title': 'Blizzard Hints The WoW: Forever Podcast Will Continue', 'url': 'https://www.wowhead.com/news=3', 'at': '2026-10-26T15:00:00+00:00'}
+calls.clear()
+nd.run([note], [other], st8, DCFG, 'current', True, ENV, fake_send, NOWD)
+hint_calls = [c for c in calls if c[1]['embeds'][0]['footer']['text'] == 'Source: Wowhead']
+assert len(hint_calls) == 1 and hint_calls[0][0].endswith('/0/SECRET')                      # an unrelated hint: English channel only
+assert hint_calls[0][1]['embeds'][0]['title'] == other['title'] and 'description' not in hint_calls[0][1]['embeds'][0]   # their text is not copied
+calls.clear()
+assert nd.run([note], hints, st8, DCFG, 'current', True, ENV, fake_send, NOWD) == []          # nothing twice
+edited = dict(note, sha='ffffffff', t={k: dict(v, upd='upd') for k, v in note['t'].items()})
+nd.run([edited], [], st8, DCFG, 'current', True, ENV, fake_send, NOWD)
+assert len(calls) == 4 and all(c[3] for c in calls)                                          # an edit changes the messages in place
+calls.clear()
+DN = json.loads(json.dumps(DCFG)); DN['layouts']['new'][1]['thread_id'] = '777'
+stn = {'posted': {}}
+nd.run([note], [], stn, DN, 'new', True, {'SITE_WEBHOOK_EN_ANN': 'https://d.example/a', 'SITE_WEBHOOK_LANGUAGES': 'https://d.example/l'}, fake_send, NOWD)
+news_post = next(c for c in calls if c[0] == 'https://d.example/a')[1]['embeds'][0]
+assert '🇺🇦 [Нотатки розробників від 26.10 (бета)]' in news_post['description'] and '🇵🇱' in news_post['description']   # one post, other languages as lines
+pl = [c for c in calls if c[0] == 'https://d.example/l']
+assert len(pl) == 1 and pl[0][2] == '777' and pl[0][1]['embeds'][0]['title'].startswith('🛠 Notatki deweloperów')   # only threads that exist
+buf = io.StringIO()
+with contextlib.redirect_stdout(buf):
+    nd.run([dict(note, id='x-2', sha='12345678')], [], {'posted': {}}, DCFG, 'current', False, ENV, fake_send, NOWD)
+assert 'dry: site-en-news note x-2' in buf.getvalue() and 'SECRET' not in buf.getvalue()  # dry run sends nothing
+
 # ---------- full real topics, if the samples are on this computer ----------
 for base in (os.path.join(ROOT, '..', '..', '..', '..', 'docs', 'wow', 'news-auto', 'samples'),
              os.path.join(ROOT, '..', 'docs', 'wow', 'news-auto', 'samples')):

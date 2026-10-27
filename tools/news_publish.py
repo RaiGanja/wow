@@ -62,6 +62,73 @@ def texts(kind, beta, at, upd=None, title=None):
     return out
 
 
+# ---------- our own short account of the facts (Discord, the news page): names and numbers, never the sentences of the post ----------
+MORE = {'ru': 'Ещё изменений: {n}', 'en': '{n} more changes', 'uk': 'Ще змін: {n}', 'de': 'Weitere Änderungen: {n}', 'fr': 'Autres changements : {n}',
+        'es': 'Más cambios: {n}', 'pt': 'Mais mudanças: {n}', 'it': 'Altre modifiche: {n}', 'pl': 'Więcej zmian: {n}'}
+REMOVED = {'ru': 'убрано', 'en': 'removed', 'uk': 'прибрано', 'de': 'entfernt', 'fr': 'supprimé', 'es': 'eliminado', 'pt': 'removido',
+           'it': 'rimosso', 'pl': 'usunięte'}
+ADDED = {'ru': 'новое', 'en': 'new', 'uk': 'нове', 'de': 'neu', 'fr': 'nouveau', 'es': 'nuevo', 'pt': 'novo', 'it': 'nuovo', 'pl': 'nowe'}
+NOLONGER = {'ru': 'ограничено', 'en': 'narrowed', 'uk': 'обмежено', 'de': 'eingeschränkt', 'fr': 'restreint', 'es': 'limitado',
+            'pt': 'restrito', 'it': 'limitato', 'pl': 'ograniczone'}
+MORE_SITE = {'ru': 'Подробнее на сайте', 'en': 'More on the site', 'uk': 'Детальніше на сайті', 'de': 'Mehr auf der Seite', 'fr': 'Plus sur le site',
+             'es': 'Más en la web', 'pt': 'Mais no site', 'it': 'Di più sul sito', 'pl': 'Więcej na stronie'}
+UNIT = {'s': {'ru': 'с', 'uk': 'с', 'en': 'sec', 'de': 'Sek.'}, 'min': {'ru': 'мин', 'uk': 'хв', 'de': 'Min.'}, 'h': {'ru': 'ч', 'uk': 'год', 'de': 'Std.', 'pl': 'godz.'},
+        'yd': {'ru': 'м', 'uk': 'м', 'en': 'yd'}}
+SKYBORNE = {'ru': 'Скайборн', 'uk': 'Skyborne'}
+SITE_NEWS = 'https://gabella.site/wow/{p}guides/news/'
+LIMIT = 6
+_NAMES = {}
+
+
+def names(lang):
+    """Race and class names of the site (assets/hero/<lang>.json) and ability names (i18n/names.json)."""
+    if lang not in _NAMES:
+        hero = os.path.join(ROOT, 'assets', 'hero', f'{lang}.json')
+        h = json.load(open(hero, encoding='utf-8')) if os.path.exists(hero) else {}
+        _NAMES[lang] = {**h.get('rn', {}), **h.get('cn', {}), 'skyborne': SKYBORNE.get(lang, 'Skyborne')}
+        if 'abil' not in _NAMES:
+            _NAMES['abil'] = json.load(open(os.path.join(ROOT, 'i18n', 'names.json'), encoding='utf-8'))
+    return _NAMES[lang]
+
+
+def num(v, u, lang):
+    s = str(v)
+    if lang != 'en':
+        s = s.replace('.', ',')
+    if u == '%':
+        return s + '%'
+    if not u:
+        return s
+    return f"{s} {UNIT.get(u, {}).get(lang, u)}"
+
+
+def ability(name, lang):
+    loc = names(lang) and _NAMES['abil'].get(name, {}).get(lang)
+    if lang == 'ru' and loc and loc != name:
+        return f'{loc} ({name})'
+    return loc or name
+
+
+def summary(changes, lang):
+    """Up to LIMIT lines «Subject · Ability: 2% → 1%» from the facts, number changes first; the rest is a count."""
+    nm = names(lang)
+    rank = {'changed': 0, 'removed': 1, 'replaced': 1, 'added': 2, 'no_longer': 3}
+    useful = [c for c in changes if c.get('abilities') and c['kind'] in rank and (c['kind'] != 'changed' or c.get('pairs'))]
+    useful.sort(key=lambda c: rank[c['kind']])
+    lines = []
+    for c in useful[:LIMIT]:
+        subj = nm.get(c['subject'].get('id'), '') if c['subject'].get('type') in ('race', 'class') else ''
+        what = ability(c['abilities'][0], lang)
+        if c['kind'] == 'changed':
+            tail = ', '.join(f"{num(p['old'], p['old_unit'], lang)} → {num(p['new'], p['unit'], lang)}" for p in c['pairs'])
+        else:
+            tail = {'removed': REMOVED, 'replaced': REMOVED, 'added': ADDED, 'no_longer': NOLONGER}[c['kind']][lang]
+        lines.append(f"{subj + ' · ' if subj else ''}{what}: {tail}")
+    rest = len(changes) - len(lines)
+    return {'sum': lines, **({'more': MORE[lang].format(n=rest)} if rest > 0 and lines else {}),
+            'site': SITE_NEWS.format(p='' if lang == 'ru' else lang + '/'), 'site_t': MORE_SITE[lang]}
+
+
 def publishable(e):
     """A primary story (not the EU copy, not the first-run baseline) that players care about.
     Replies of developers inside topics go to the editor's issue only; posts and articles with a technical title are skipped."""
@@ -76,8 +143,12 @@ def publishable(e):
 def item(e, old=None):
     s = e['short_news']
     upd = e['detected_at'] if old and e['event'] == 'edit' else (old or {}).get('upd')
+    t = texts(s['kind'], s['beta'], s['at'], upd, s['title_en'])
+    changes = [c for c in e.get('changes', []) if c.get('kind') not in ('note', 'fix')]
+    for lang in LANGS:
+        t[lang].update(summary(changes, lang))
     return {'id': e['key'], 'sha': e['sha'][:8], 'date': s['date'], 'at': s['at'], 'url': s['url'], 'kind': s['kind'], 'beta': s['beta'],
-            'title_en': s['title_en'], **({'upd': upd} if upd else {}), 't': texts(s['kind'], s['beta'], s['at'], upd, s['title_en'])}
+            'title_en': s['title_en'], 'n': len(changes), **({'upd': upd} if upd else {}), 't': t}
 
 
 def apply(entries, current, ledger):
