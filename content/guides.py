@@ -1283,7 +1283,7 @@ GUIDES.append({
                 [t('Друид', 'Druid', 'Друїд'), 'A*', 'B', 'B*', t('Нет ведущего спека, многие ключевые умения открываются после 30 уровня.', 'No leading spec; many key abilities unlock after level 30.', 'Провідної спеціалізації немає, багато ключових умінь відкривається після 30 рівня.')],
             ]}),
         ]},
-        {'id': 'leveling', 'title': t('Прокачка', 'Leveling ', 'Прокачування'), 'blocks': [
+        {'id': 'leveling', 'title': t('Тир-лист прокачки', 'Leveling tier list', 'Тір-лист прокачування'), 'blocks': [
             ('text', [t('Источники оценивают прокачку по классу, поэтому здесь один спек на класс. Проценты темпа — оценка LFCarry по Classic, перепроверенная на бете.', 'Sources rate leveling per class, so this table has one spec per class. The pace percentages are LFCarry’s estimate based on Classic, rechecked on the beta.', 'Джерела оцінюють прокачування за класом, тому тут одна спеціалізація на клас. Відсотки темпу — оцінка LFCarry за Classic, перевірена на бета-версії.')]),
             ('table', {'head': [t('Тир', 'Tier', 'Тір'), t('Класс · спек', 'Class · spec', 'Клас · спеціалізація'), t('Почему', 'Why', 'Чому'), t('Где расходятся', 'Where sources differ', 'Де розходяться')], 'rows': [
                 ['S', (t('Охотник · Повелитель зверей', 'Hunter · Beast Mastery', 'Мисливець · Володіння звірами'), 'guides/leveling-hunter/'), t('Питомец танкует, примерно на 8% быстрее среднего.', 'The pet tanks; about 8% faster than average.', 'Улюбленець танкує, приблизно на 8% швидше за середнє.'), 'gamer-guides: A'],
@@ -1297,7 +1297,7 @@ GUIDES.append({
                 ['C', (t('Воин · Оружие или Неистовство', 'Warrior · Arms or Fury', 'Воїн · Зброя або Лють'), 'guides/leveling-warrior/'), t('Самый медленный, примерно на 12% дольше среднего.', 'The slowest, about 12% longer than average.', 'Найповільніший, приблизно на 12% довше за середнє.'), '—'],
             ]}),
         ]},
-        {'id': 'pve', 'title': t('PvE по ролям', 'PvE by role', 'PvE за ролями'), 'blocks': [
+        {'id': 'pve', 'title': t('Тир-лист PvE по ролям', 'PvE tier list by role', 'Тір-лист PvE за ролями'), 'blocks': [
             ('text', [t('Сравнение внутри роли: танк с танками, лекарь с лекарями. Рейдовых логов нет, рейды откроются 09.12.', 'Comparison within a role: tank with tanks, healer with healers. There are no raid logs; raids open on Dec 9.', 'Порівняння всередині ролі: танк з танками, цілитель з цілителями. Рейдових логів немає, рейди відкриються 9 грудня.')]),
             ('tabs', [
                 {'id': 'tank', 't': t('Танк', 'Tank', 'Танк'), 'blocks': [
@@ -1342,7 +1342,7 @@ GUIDES.append({
                 ]},
             ]),
         ]},
-        {'id': 'pvp', 'title': 'PvP', 'blocks': [
+        {'id': 'pvp', 'title': t('Тир-лист PvP', 'PvP tier list', 'Тір-лист PvP'), 'blocks': [
             ('text', [t('Полей боя и арен на бете не было: оценки по дуэлям, мировому PvP и турниру Forever Open (18.10, только Орда, бой 1 на 1, уровень 30).', 'There were no battlegrounds or arenas in the beta: ratings come from duels, world PvP and the Forever Open tournament (Oct 18, Horde only, 1v1, level 30).', 'Полів бою й арен у бета-версії не було: оцінки за дуелями, світовим PvP і турніром Forever Open (18 жовтня, лише Орда, бій 1 на 1, 30 рівень).')]),
             ('table', {'head': [t('Тир', 'Tier', 'Тір'), t('Спек', 'Spec', 'Спеціалізація'), t('Почему', 'Why', 'Чому'), t('Где расходятся', 'Where sources differ', 'Де розходяться')], 'rows': [
                 ['S', t('Разбойник · Ликвидация', 'Rogue · Assassination', 'Розбійник · Ліквідація'), t('Яды и контроль из скрытности.', 'Poisons and control from stealth.', 'Отрути й контроль із невидимості.'), '—'],

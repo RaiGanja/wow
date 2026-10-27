@@ -40,6 +40,7 @@ TOOLS = {'t': langs.derive({'ru': 'Инструменты', 'en': 'Tools', 'uk':
                'pl': 'Ramki drużyny, siatka raidu, porównanie klas i ras, wyszukiwarka'}}
 langs.fill([HUB, GUIDES, HUBS])
 FOCUS = {'hero_dawn': '70%', 'hero_campfire': '88%'}   # horizontal crop of a landscape scene; the default is the right edge
+NODATE = {'tier-list'}   # the beta snapshot is refreshed after launch: no launch date under the title
 SKIP = set()            # a card that waits for its new scene; named on the command line it is rendered anyway
 
 
@@ -56,7 +57,7 @@ def url(path):
     return 'file:///' + os.path.join(ROOT, path).replace('\\', '/')
 
 
-def html(art, title, lead, lang):
+def html(art, title, lead, lang, slug=''):
     wide = art.startswith('hero_')
     pic = (f'<img class="wide" src="{url(f"assets/art/{art}-1600.webp" if art == "hero_campfire" else f"assets/art/{art}-1440.webp")}">'
            if wide else
@@ -84,7 +85,7 @@ p{{font-size:30px;line-height:1.35;color:#c9c2b0;text-wrap:pretty;max-width:{"52
 </style><body>{pic}<div class="shade"></div>
 <div class="brand"><img src="{url('assets/logo.png')}" alt="">{BRAND}</div>
 <div class="txt"><h1>{title}</h1><p>{lead}</p></div>
-<div class="start">{START[lang]}</div>
+<div class="start">{'' if slug in NODATE else START[lang]}</div>
 <div id="res" hidden></div>
 <script>/* lay the text block out between the logo and the launch line: width first (Spectral is wide), then height */
 document.fonts.ready.then(()=>{{   /* measure in Spectral, not in the fallback that is there before the font arrives */
@@ -142,7 +143,7 @@ def main():
             continue
         for lang in (l for l in pick if l in title):        # a one-language guide has one card
             out = os.path.join(ROOT, 'assets', f'{name}-{lang}.jpg')
-            shoot(html(art, title[lang], lead[lang], lang), out)
+            shoot(html(art, title[lang], lead[lang], lang, slug), out)
         print(name, 'ok')
     if os.environ.get('OG_REPORT'):
         with open(os.environ['OG_REPORT'], 'w') as f:
