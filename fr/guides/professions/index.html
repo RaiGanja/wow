@@ -1040,6 +1040,16 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .brand b { font-size: 18px; }
   .bt small { font-size: 11px; letter-spacing: .01em; }   /* «Poradnik WoW Forever», «Guía de WoW Forever» pushed the language button off a 320 px screen */
 }
+@media (min-width: 375px) and (max-width: 479px) { .topbar .iconbtn, .topbar .langbtn { min-width: 44px; min-height: 44px; } .topbar .tools { gap: 4px; } }   /* 375+: header buttons reach 44 px */
+@media (max-width: 719px) {   /* phone tap targets: 44 px, the look stays */
+  .tabs2 [role="tab"], .tabs2 [role="radio"] { min-height: 44px; }
+  .crumbs a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 10px; margin: -11px -10px; }
+  .hq a, .qsa a, .tt-ext a, .st-src a { padding-block: 11px; }   /* inline links: a taller touch area, the line height stays */
+  .langhint button, .gamehint button { width: 44px; height: 44px; }
+  footer .fmap .fh { padding: 11px 6px; margin: 0 -6px; }
+  .clinks .clink { min-height: 36px; }
+  .clinks { gap: 0 14px; }
+}
 @media (max-width: 359px) { .bt small { display: none; } }   /* 320: four buttons; the subtitle gives way, «Gabella» and the mark stay */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -1073,6 +1083,14 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .glead { max-width: 46ch; color: var(--ink-2); font-size: var(--fs-18); text-shadow: 0 1px 10px rgba(0,0,0,.6); }
 .gfacts { max-width: 60ch; font-size: var(--fs-16); font-weight: 500; color: var(--ink-2); }
 .gfacts:empty { display: none; }
+.cpick { display: none; }
+@media (max-width: 719px) {   /* /classes/ on a phone: nine classes one tap from the first screen (build_guides.cpick) */
+  .cpick { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; width: 100%; }
+  .cpick a { display: grid; justify-items: center; align-content: center; gap: 4px; min-height: 62px; padding: 5px 4px; border-radius: 10px; background: rgb(5 5 5 / .58); border: 1px solid rgb(241 236 224 / .2); color: var(--cc); text-decoration: none; }
+  .cpick a:active { background: rgb(5 5 5 / .8); }
+  .cpick .av { --s: 30px; --ring-gap: transparent; box-shadow: 0 0 0 1.5px var(--cc); }
+  .cpick b { max-width: 100%; font-size: var(--fs-13); font-weight: 600; line-height: 1.15; text-align: center; overflow-wrap: anywhere; hyphens: auto; text-shadow: none; }
+}
 .gbody { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 28px; align-items: start; padding-top: 20px; }
 .gbody.solo { grid-template-columns: minmax(0, 1fr); }
 .gbody.solo .gtoc { display: none; }
@@ -1353,6 +1371,10 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .phead-art img { object-position: 80% 0; height: calc(var(--top) + 300px); }
   .phead::before { background: linear-gradient(180deg, rgb(5 5 5 / .5) 0%, rgb(5 5 5 / 0) 16%, rgb(5 5 5 / 0) calc(var(--top) + 150px), rgb(5 5 5 / .9) calc(var(--top) + 250px), rgb(5 5 5) calc(var(--top) + 300px)); } }
 @media (max-width: 719px) { .pway { padding: 12px 14px; gap: 10px 20px; } .pway .btn { margin-left: 0; } .psec { padding: 14px; } .pform { grid-template-columns: minmax(0, 1fr) 104px; } .pform .pill { grid-column: 1 / -1; justify-content: center; } }
+@media (max-width: 719px) {   /* phone: pills and small links are 44 px to tap */
+  .dbar .pill, .pfac .pill, .ppre .pill, .pform .pill, .pchars .pill { min-height: 44px; }
+  .pmore, .phero a { display: inline-flex; align-items: center; min-height: 44px; }
+}
 #more { margin-top: 56px; }
 #more .sec-head { margin-bottom: 14px; }
 @media (max-width: 1023px) {
@@ -1376,7 +1398,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   #more .ttile:nth-child(odd) { background: color-mix(in srgb, var(--fg) 3%, var(--panel-2)); }
   #more .ttile picture, #more .ttile::after { display: none; }
   #more .ttile b { font-size: var(--fs-16); text-shadow: none; }
-  #more .ttile span { color: var(--muted); font-size: var(--fs-13); }
+  #more .ttile span { color: var(--muted); font-size: var(--fs-14); }
   #more .ttile:hover b { color: var(--gold-2); }
   /* T1: a row is a compact card — the name, short cells with their labels in one line, the long ones under it */
   .tgrid li { grid-template-columns: 30px minmax(0, 1fr); gap: 10px; padding: 10px 12px; }
@@ -1415,7 +1437,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../../assets/radio/radio.css?v=f3d4c694a3">
-<link data-rel="stylesheet" href="../../../assets/search/search.css?v=508784c83a">
+<link data-rel="stylesheet" href="../../../assets/search/search.css?v=685b6c0abf">
 <link data-rel="stylesheet" href="../../../assets/me/me.css?v=b13be6705d">
 <link data-rel="stylesheet" href="../../../assets/hero/hero.css?v=cfb7f0ee0f">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://gabella.site/wow/fr/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://gabella.site/wow/fr/guides/"},{"@type":"ListItem","position":3,"name":"Métiers","item":"https://gabella.site/wow/fr/guides/professions/"}]}</script>
@@ -1656,7 +1678,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../../assets/radio/radio.js?v=f3d4c694a3" data-root="../../../"></script>
-<script data-src="../../../assets/search/search.js?v=508784c83a" data-root="../../../"></script>
+<script data-src="../../../assets/search/search.js?v=685b6c0abf" data-root="../../../"></script>
 <script data-src="../../../assets/me/me.js?v=b13be6705d" data-root="../../../" data-home="../../" data-lang="fr" data-ach="0" data-teaser="" data-close="Fermer" data-page="guides/professions/" data-look="2"></script>
 <script data-src="../../../assets/hero/hero.js?v=cfb7f0ee0f" data-root="../../../" data-home="../../" data-data="../../../assets/hero/fr.json?v=cfb7f0ee0f"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
