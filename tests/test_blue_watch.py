@@ -19,14 +19,21 @@ US = [post(1, 'Thank You For Testing the WoW Forever Beta', 347, '2026-10-23T17:
 EU = [post(91, 'Thank You For Testing the WoW Forever Beta', 360, '2026-10-23T17:01:40.000Z')]   # same story in EU
 
 found = bw.pick(US, 'us', NOW) + bw.pick(EU, 'eu', NOW)
-assert {x['key'] for x in found} == {'us-1', 'us-3', 'us-4', 'eu-91'}, found
+assert {x['key'] for x in found} == {'us-1', 'us-3', 'us-4-12', 'eu-91'}, found
 items = bw.merge(found)
-assert [x['key'] for x in items] == ['us-1', 'us-3', 'us-4'], items          # EU copy of the same title dropped
+assert [x['key'] for x in items] == ['us-1', 'us-3', 'us-4-12'], items       # EU copy of the same title dropped
 assert items[0]['url'] == 'https://us.forums.blizzard.com/en/wow/t/1/1' and items[0]['excerpt'] == 'Text here & more'
 assert items[1]['title'] == 'Dive Into WoW: Forever, the Gods of Zul’Aman' and items[2]['reply']
 body = bw.body(items[0])
 assert '2026-10-23 17:01 UTC' in body and '2026-10-23 20:01 UTC' in body and "'so': t(ru, en, uk)" in body
 assert bw.clean('a ' * 400).endswith('…') and len(bw.clean('a ' * 400)) <= 501
-# entries already written by hand are not new tasks
-assert 'eu-637228' in bw.known_urls()
+# Development Notes: every update is a new reply in the same topic, posted in US and EU -> one task per update
+NOTES = 'WoW Forever Beta Development Notes – Updated October 26'
+dev = bw.merge(bw.pick([post(2360696, NOTES, 349, '2026-10-23T20:35:27.000Z', n=7)], 'us', NOW)
+               + bw.pick([post(631316, NOTES.replace('October 26', '26 October'), 362, '2026-10-23T20:35:53.000Z', n=7)], 'eu', NOW))
+assert [x['key'] for x in dev] == ['us-2360696-7'], dev                    # EU copy of the same update dropped
+assert bw.pick([post(2360696, NOTES, 349, '2026-10-23T21:00:00.000Z', n=8)], 'us', NOW)[0]['key'] == 'us-2360696-8'
+# entries already written by hand are not new tasks (a reply link keeps its post number)
+known = bw.known_urls()
+assert 'eu-637228' in known and 'us-2360696-7' in known and 'us-2360696-6' in known and 'us-2360696' not in known
 print('OK')
