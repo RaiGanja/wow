@@ -55,7 +55,7 @@ YOUR = {'ru': 'по вашему времени', 'en': 'your time', 'uk': 'за
         'es': 'tu hora', 'pt': 'seu horário', 'it': 'ora locale', 'pl': 'twój czas'}
 LOCAL_JS = """<script>
 document.querySelectorAll('time.lt').forEach(t => {
-  const s = new Intl.DateTimeFormat(document.documentElement.lang, { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }).format(new Date(t.dateTime));
+  const s = new Intl.DateTimeFormat(document.documentElement.lang, { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).format(new Date(t.dateTime));
   t.after(` (@@YOUR@@: ${s})`);
 });
 </script>
@@ -741,7 +741,7 @@ JS['launchday'] = r'''/* Launch day: days, hours and minutes to 23:00 UTC 04.11 
 const lcAt = new Date('2026-11-04T23:00:00Z');
 function lcPaint() {
   const ms = lcAt - new Date(), p = x => String(x).padStart(2, '0');
-  $('#lcWhen').textContent = new Intl.DateTimeFormat(document.documentElement.lang, { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit', timeZoneName: 'short' }).format(lcAt);
+  $('#lcWhen').textContent = new Intl.DateTimeFormat(document.documentElement.lang, { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZoneName: 'short' }).format(lcAt);
   $('#lcY').hidden = false;
   if (ms <= 0) { $('#lcd').classList.add('out'); $('#lcL').textContent = $('#lcL').dataset.out; return; }
   $('#lcD').textContent = Math.floor(ms / 864e5); $('#lcH').textContent = p(Math.floor(ms % 864e5 / 36e5)); $('#lcM').textContent = p(Math.floor(ms % 36e5 / 6e4));
@@ -1462,7 +1462,7 @@ function out() {
   const nr = me.reg && nextReset(me.reg);
   h += `<section class="frame mbox" id="hReset"><h3>${esc(TX.resetH)}${me.reg && TX.regs[me.reg] ? ` · ${esc(TX.regs[me.reg])}` : ''}</h3>`
     + (!me.reg ? `<p class="m">${esc(TX.resetNoReg)}</p>` : !nr ? `<p class="m">${esc(TX.resetUnk)}</p>`
-      : `<p class="mreset" id="hResetIn">${esc(fill(TX.resetIn, { s: leftTxt(nr - new Date()) }))}</p><p>${esc(new Intl.DateTimeFormat(document.documentElement.lang, { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }).format(nr))}</p><p class="m">${esc(TX.resetNote)}</p>`)
+      : `<p class="mreset" id="hResetIn">${esc(fill(TX.resetIn, { s: leftTxt(nr - new Date()) }))}</p><p>${esc(new Intl.DateTimeFormat(document.documentElement.lang, { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).format(nr))}</p><p class="m">${esc(TX.resetNote)}</p>`)
     + `<p class="m">${esc(TX.resetWhy)}</p></section>`;
   h += `<section class="frame mbox"><h3>${esc(TX.lfg)}</h3><p class="m">${esc(TX.lfgD)}</p><div class="mcopy"><input id="hLfg" readonly value="${esc(lfgText())}" aria-label="${esc(TX.lfg)}">`
     + `<button type="button" class="btn" id="hLfgCopy">${esc(TX.copy)}</button></div><p class="m" id="hLfgMsg" role="status"></p></section>`;

@@ -1239,9 +1239,9 @@ function renderCountdown() {
   let target, what, sub, html;
   if (now < rel) {   /* launch 15:00 PT = 23:00 UTC, shown in the reader's time */
     const today = now.toDateString() === rel.toDateString(), lang = document.documentElement.lang;
-    const when = today ? rel.toLocaleTimeString(lang, { hour: '2-digit', minute: '2-digit' })
-                       : rel.toLocaleString(lang, { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' });
-    const rsv = d => d.toLocaleString(lang, { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+    const when = today ? rel.toLocaleTimeString(lang, { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })
+                       : rel.toLocaleString(lang, { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
+    const rsv = d => d.toLocaleString(lang, { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
     target = rel; what = (today ? 'Сегодня старт' : 'до старта') + ' · ' + when; sub = now < r1 ? 'Резерв имён' + ': ' + 'Европа' + ' — ' + rsv(r1) + ' · ' + 'Америка' + ' — ' + rsv(r2) : 'Резервация имён отложена, срок не объявлен';
   }
   else if (now < raid) {   /* the raid hour is not announced: date only, no countdown */

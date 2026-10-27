@@ -8,7 +8,7 @@ import langs
 
 R1, R2 = '2026-10-27T17:00:00Z', '2026-10-27T20:00:00Z'   # резерв имён: Европа 17:00 UTC, Америка 20:00 UTC
 REL = '2026-11-04T23:00:00Z'   # старт игры 15:00 PT = 23:00 UTC
-RSV = "{ day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }"
+RSV = "{ day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }"
 
 
 def home(lang):

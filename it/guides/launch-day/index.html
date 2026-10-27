@@ -224,7 +224,7 @@ if ('IntersectionObserver' in window && tocLinks.length) {
 const lcAt = new Date('2026-11-04T23:00:00Z');
 function lcPaint() {
   const ms = lcAt - new Date(), p = x => String(x).padStart(2, '0');
-  $('#lcWhen').textContent = new Intl.DateTimeFormat(document.documentElement.lang, { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit', timeZoneName: 'short' }).format(lcAt);
+  $('#lcWhen').textContent = new Intl.DateTimeFormat(document.documentElement.lang, { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZoneName: 'short' }).format(lcAt);
   $('#lcY').hidden = false;
   if (ms <= 0) { $('#lcd').classList.add('out'); $('#lcL').textContent = $('#lcL').dataset.out; return; }
   $('#lcD').textContent = Math.floor(ms / 864e5); $('#lcH').textContent = p(Math.floor(ms % 864e5 / 36e5)); $('#lcM').textContent = p(Math.floor(ms % 36e5 / 6e4));
@@ -234,7 +234,7 @@ setInterval(lcPaint, 30000);
 </script>
 <script>
 document.querySelectorAll('time.lt').forEach(t => {
-  const s = new Intl.DateTimeFormat(document.documentElement.lang, { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }).format(new Date(t.dateTime));
+  const s = new Intl.DateTimeFormat(document.documentElement.lang, { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).format(new Date(t.dateTime));
   t.after(` (ora locale: ${s})`);
 });
 </script>

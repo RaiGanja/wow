@@ -567,7 +567,7 @@ function out() {
   const nr = me.reg && nextReset(me.reg);
   h += `<section class="frame mbox" id="hReset"><h3>${esc(TX.resetH)}${me.reg && TX.regs[me.reg] ? ` · ${esc(TX.regs[me.reg])}` : ''}</h3>`
     + (!me.reg ? `<p class="m">${esc(TX.resetNoReg)}</p>` : !nr ? `<p class="m">${esc(TX.resetUnk)}</p>`
-      : `<p class="mreset" id="hResetIn">${esc(fill(TX.resetIn, { s: leftTxt(nr - new Date()) }))}</p><p>${esc(new Intl.DateTimeFormat(document.documentElement.lang, { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }).format(nr))}</p><p class="m">${esc(TX.resetNote)}</p>`)
+      : `<p class="mreset" id="hResetIn">${esc(fill(TX.resetIn, { s: leftTxt(nr - new Date()) }))}</p><p>${esc(new Intl.DateTimeFormat(document.documentElement.lang, { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).format(nr))}</p><p class="m">${esc(TX.resetNote)}</p>`)
     + `<p class="m">${esc(TX.resetWhy)}</p></section>`;
   h += `<section class="frame mbox"><h3>${esc(TX.lfg)}</h3><p class="m">${esc(TX.lfgD)}</p><div class="mcopy"><input id="hLfg" readonly value="${esc(lfgText())}" aria-label="${esc(TX.lfg)}">`
     + `<button type="button" class="btn" id="hLfgCopy">${esc(TX.copy)}</button></div><p class="m" id="hLfgMsg" role="status"></p></section>`;
