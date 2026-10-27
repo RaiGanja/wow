@@ -51,9 +51,9 @@
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../assets/radio/radio.css?v=ef0b5f769c">
-<link data-rel="stylesheet" href="../assets/search/search.css?v=8c167d5804">
+<link data-rel="stylesheet" href="../assets/search/search.css?v=eb2a531181">
 <link data-rel="stylesheet" href="../assets/me/me.css?v=297cf9b7d8">
-<link data-rel="stylesheet" href="../assets/hero/hero.css?v=34379ebcc7">
+<link data-rel="stylesheet" href="../assets/hero/hero.css?v=a61a50b837">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://gabella.site/wow/"},{"@type":"ListItem","position":2,"name":"Классы","item":"https://gabella.site/wow/classes/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Классы WoW Forever: какой класс выбрать, сравнение всех 9","description":"Какой класс выбрать в WoW Forever: девять классов по три специализации, роли танк/лекарь/урон, кто качается быстрее и чем каждый полезен рейду.","inLanguage":"ru","url":"https://gabella.site/wow/classes/","dateModified":"2026-10-27","mainEntityOfPage":{"@type":"WebPage","@id":"https://gabella.site/wow/classes/"},"author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/"},"image":"https://gabella.site/wow/assets/og/classes-ru.jpg?v=899ae6c8"}</script>
 </head>
@@ -273,11 +273,11 @@ const BUFF = { warrior:'Боевой крик', paladin:'Благословен�
 const RACES = [
   { id:'human', n:'Человек', f:'alliance',
     cls:['warrior','paladin','hunter*','rogue','priest','mage','warlock'],
-    rac:[['a','Воля к жизни','Снимает оглушение'],['a','Внимательность','Показывает невидимых врагов на 20 сек'],['p','Беспощадность','+2% шанс крита'],['p','Человеческий дух','+5% к духу']],
+    rac:[['a','Воля к жизни','Снимает оглушение'],['a','Внимательность','Показывает невидимых врагов на 20 сек'],['p','Беспощадность','+1% шанс крита'],['p','Человеческий дух','+10% к духу']],
     tip:'Дух идёт в лечение Жрецу Света, так что Человек-жрец хорош для лекаря.' },
   { id:'dwarf', n:'Дворф', f:'alliance',
     cls:['warrior','paladin','hunter','rogue','priest','shaman*'],
-    rac:[['a','Каменная форма','Иммунитет к кровотечениям, ядам и болезням на 8 сек и снижение физического урона'],['a','Поиск сокровища','Показывает сундуки рядом'],['p','Ярость земли','+2% к урону крита и силе лечения'],['p','Охотник на крупную дичь','+5% урона по зверям']],
+    rac:[['a','Каменная форма','Иммунитет к кровотечениям, ядам и болезням на 8 сек и снижение физического урона'],['a','Поиск сокровища','Показывает сундуки рядом и даёт шанс на лишние предметы в большинстве сундуков'],['p','Artisan’s Precision','+1% к меткости заклинаний и атак'],['p','Охотник на крупную дичь','+5% урона по зверям']],
     tip:'Каменная форма полезна танку и в PvP.' },
   { id:'nightelf', n:'Ночной эльф', f:'alliance',
     cls:['warrior','hunter','rogue','priest','druid'],
@@ -289,11 +289,11 @@ const RACES = [
     tip:'Пытливый ум особенно выручает классам на энергии.' },
   { id:'skyA', n:'Скайборн (Альянс)', f:'alliance', paid:true, name:'Высший скайборн',
     cls:['warrior','hunter','rogue','mage','druid'],
-    rac:[['a','Хождение по воздуху','Планирование вниз 10 сек, нет урона от падения'],['a','Чтение лей-линий','Восстановление здоровья и маны: +100% (Blizzard, Warcraft Tavern, Icy Veins)'],['p','Благословение ветра','+3% к скорости атаки и заклинаний'],['p','Прозрение стихий','+5% урона по элементалям']],
+    rac:[['a','Хождение по воздуху','Планирование вниз 10 сек, нет урона от падения'],['a','Чтение лей-линий','Восстановление здоровья и маны +50% на 15 сек. У лей-линии ещё Attuned на 1 час: +100%, не спадает после смерти'],['p','Благословение ветра','+2% к скорости атаки и заклинаний'],['p','Прозрение стихий','+5% урона по элементалям']],
     tip:'Платная раса: набор Heroic Pack от $29.99. Старт в локации Zephras Isle (1–12 уровни).' },
   { id:'orc', n:'Орк', f:'horde',
     cls:['warrior','hunter','rogue','shaman','warlock','mage*'],
-    rac:[['a','Кровавое неистовство','+10% к силе атаки и заклинаний на 15 сек'],['a','Разрушение проклятий','Снимает проклятия и порчи, магический урон по вам −5% на 8 сек'],['p','Дикость','+1% шанс крита'],['p','Твердость','Оглушения короче на 20%']],
+    rac:[['a','Кровавое неистовство','+10% к силе атаки и заклинаний на 15 сек'],['a','Разрушение проклятий','Снимает проклятия и порчи, магический урон по вам −5% на 8 сек'],['p','Властность','+5% к урону питомцев чернокнижника и охотника'],['p','Твердость','Оглушения короче на 20%']],
     tip:'Кровавое неистовство даёт мощное окно урона.' },
   { id:'undead', n:'Нежить', f:'horde',
     cls:['warrior','rogue','mage','priest','warlock','paladin*'],
@@ -301,7 +301,7 @@ const RACES = [
     tip:'Новая комбинация: паладин у Орды, где раньше этого класса не было.' },
   { id:'tauren', n:'Таурен', f:'horde',
     cls:['warrior','hunter','shaman','druid'],
-    rac:[['a','Громовая поступь','Оглушает врагов рядом на 2 сек'],['a','Проращивание','Выращивает травы, которые можно собрать без травничества'],['p','Бег по равнинам','Скорость растёт, пока вы бежите'],['p','Закалка','+5% здоровья и +2% к урону крита']],
+    rac:[['a','Громовая поступь','Оглушает врагов рядом на 2 сек, откат 90 сек'],['a','Проращивание','Выращивает травы, которые можно собрать без травничества, откат 15 мин'],['p','Бег по равнинам','Пока вы движетесь, скорость бега растёт на 2% за заряд, до +60%. На езду верхом не действует'],['p','Закалка','+5% здоровья']],
     tip:'Единственная раса Орды с друидом, если не брать Скайборн.' },
   { id:'troll', n:'Тролль', f:'horde',
     cls:['warrior','hunter','rogue','priest','shaman','mage','warlock*'],
@@ -309,7 +309,7 @@ const RACES = [
     tip:'Больше всего вариантов классов в Орде: семь.' },
   { id:'skyH', n:'Скайборн (Орда)', f:'horde', paid:true, name:'Скайборн-ветрорез',
     cls:['warrior','hunter','rogue','shaman','druid'],
-    rac:[['a','Хождение по воздуху','Планирование вниз 10 сек, нет урона от падения'],['a','Взгляд в небо','+10% к скорости бега'],['p','Благословение ветра','+3% к скорости атаки и заклинаний'],['p','Прозрение стихий','+5% урона по элементалям']],
+    rac:[['a','Хождение по воздуху','Планирование вниз 10 сек, нет урона от падения'],['a','Взгляд в небо','+15% к скорости бега на 15 сек. У Elemental Convergence ещё Charged на 1 час: +30%, не спадает после смерти'],['p','Благословение ветра','+2% к скорости атаки и заклинаний'],['p','Прозрение стихий','+5% урона по элементалям']],
     tip:'Платная раса: набор Heroic Pack от $29.99. Из скайборнов шаманом может быть только ветрорез (Орда), магом — только Высший орден (Альянс).' }
 ];
 RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
@@ -333,7 +333,7 @@ const EN = {
   'Свет Элуны':"Elune’s Light",'Слиться с тенью':'Shadowmeld','Расторопность':'Quickness','Дух огонька':'Wisp Spirit',
   'Мастер побега':'Escape Artist','Эврика!':'Eureka!','Пытливый ум':'Expansive Mind','Инженерное дело, специализация':'Engineering Specialization',
   'Хождение по воздуху':'Walk on Air','Чтение лей-линий':'Read Ley Line','Благословение ветра':'Wind Blessed','Прозрение стихий':'Elemental Insight','Взгляд в небо':'Skysight',
-  'Кровавое неистовство':'Blood Fury','Разрушение проклятий':'Shatter Curse','Дикость':'Savage','Твердость':'Hardiness',
+  'Кровавое неистовство':'Blood Fury','Разрушение проклятий':'Shatter Curse','Дикость':'Savage','Властность':'Command','Твердость':'Hardiness',
   'Воля Отрекшихся':'Will of the Forsaken','Каннибализм':'Cannibalize','Подводное дыхание':'Underwater Breathing','Могильное касание':'Touch of the Grave',
   'Громовая поступь':'War Stomp','Проращивание':'Cultivation','Бег по равнинам':'Plainsrunning','Закалка':'Endurance',
   'Боевое исступление':'Berserking','Быстрая регенерация':'Rapid Regeneration','Убийство животных':'Beast Slaying','Регенерация':'Regeneration'
@@ -447,9 +447,9 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../assets/radio/radio.js?v=ef0b5f769c" data-root="../"></script>
-<script data-src="../assets/search/search.js?v=8c167d5804" data-root="../"></script>
+<script data-src="../assets/search/search.js?v=eb2a531181" data-root="../"></script>
 <script data-src="../assets/me/me.js?v=297cf9b7d8" data-root="../" data-home="../" data-lang="ru" data-ach="0" data-teaser="" data-close="Закрыть" data-page="classes/" data-look="2"></script>
-<script data-src="../assets/hero/hero.js?v=34379ebcc7" data-root="../" data-home="../" data-data="../assets/hero/ru.json?v=34379ebcc7"></script>
+<script data-src="../assets/hero/hero.js?v=a61a50b837" data-root="../" data-home="../" data-data="../assets/hero/ru.json?v=a61a50b837"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
 (function () {

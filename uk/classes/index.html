@@ -51,9 +51,9 @@
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../assets/radio/radio.css?v=ef0b5f769c">
-<link data-rel="stylesheet" href="../../assets/search/search.css?v=8c167d5804">
+<link data-rel="stylesheet" href="../../assets/search/search.css?v=eb2a531181">
 <link data-rel="stylesheet" href="../../assets/me/me.css?v=297cf9b7d8">
-<link data-rel="stylesheet" href="../../assets/hero/hero.css?v=34379ebcc7">
+<link data-rel="stylesheet" href="../../assets/hero/hero.css?v=a61a50b837">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Головна","item":"https://gabella.site/wow/uk/"},{"@type":"ListItem","position":2,"name":"Класи","item":"https://gabella.site/wow/uk/classes/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Класи WoW Forever: який клас обрати, порівняння всіх 9","description":"Який клас обрати у WoW Forever: дев’ять класів по три спеціалізації, ролі танк/цілитель/шкода, хто качається швидше і чим кожен корисний рейду.","inLanguage":"uk","url":"https://gabella.site/wow/uk/classes/","dateModified":"2026-10-27","mainEntityOfPage":{"@type":"WebPage","@id":"https://gabella.site/wow/uk/classes/"},"author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/uk/"},"image":"https://gabella.site/wow/assets/og/classes-uk.jpg?v=8463d5ef"}</script>
 </head>
@@ -273,11 +273,11 @@ const BUFF = { warrior:'Бойовий клич', paladin:'Благослове�
 const RACES = [
   { id:'human', n:'Людина', f:'alliance',
     cls:['warrior','paladin','hunter*','rogue','priest','mage','warlock'],
-    rac:[['a','Воля до життя','Знімає приголомшення'],['a','Уважність','Показує невидимих ворогів на 20 сек'],['p','Безжальність','+2% шанс крита'],['p','Людський дух','+5% до духу']],
+    rac:[['a','Воля до життя','Знімає приголомшення'],['a','Уважність','Показує невидимих ворогів на 20 сек'],['p','Безжальність','+1% шанс крита'],['p','Людський дух','+10% до духу']],
     tip:'Дух іде в лікування Жрецю Світла, тож Людина-жрець добра для цілителя.' },
   { id:'dwarf', n:'Дворф', f:'alliance',
     cls:['warrior','paladin','hunter','rogue','priest','shaman*'],
-    rac:[['a','Кам’яна форма','Імунітет до кровотеч, отрут і хвороб на 8 сек і зниження фізичної шкоди'],['a','Пошук скарбів','Показує скрині поруч'],['p','Лють землі','+2% до шкоди крита та сили лікування'],['p','Мисливець на велику дичину','+5% шкоди по звірах']],
+    rac:[['a','Кам’яна форма','Імунітет до кровотеч, отрут і хвороб на 8 сек і зниження фізичної шкоди'],['a','Пошук скарбів','Показує скрині поруч і дає шанс на додаткові предмети в більшості скринь'],['p','Artisan’s Precision','+1% до влучності заклять і атак'],['p','Мисливець на велику дичину','+5% шкоди по звірах']],
     tip:'Кам’яна форма корисна танку й у PvP.' },
   { id:'nightelf', n:'Нічний ельф', f:'alliance',
     cls:['warrior','hunter','rogue','priest','druid'],
@@ -289,11 +289,11 @@ const RACES = [
     tip:'Допитливий розум особливо виручає класам на енергії.' },
   { id:'skyA', n:'Скайборн (Альянс)', f:'alliance', paid:true, name:'Високий скайборн',
     cls:['warrior','hunter','rogue','mage','druid'],
-    rac:[['a','Ходіння повітрям','Планування вниз 10 сек, немає шкоди від падіння'],['a','Читання лей-ліній','Відновлення здоров’я та мани: +100% (Blizzard, Warcraft Tavern, Icy Veins)'],['p','Благословення вітру','+3% до швидкості атаки та заклять'],['p','Прозріння стихій','+5% шкоди по елементалях']],
+    rac:[['a','Ходіння повітрям','Планування вниз 10 сек, немає шкоди від падіння'],['a','Читання лей-ліній','Відновлення здоров’я та мани +50% на 15 сек. Біля Ley Line ще Attuned на 1 годину: +100%, не спадає після смерті'],['p','Благословення вітру','+2% до швидкості атаки та заклять'],['p','Прозріння стихій','+5% шкоди по елементалях']],
     tip:'Платна раса: набір Heroic Pack від $29.99. Старт у локації Zephras Isle (1–12 рівні).' },
   { id:'orc', n:'Орк', f:'horde',
     cls:['warrior','hunter','rogue','shaman','warlock','mage*'],
-    rac:[['a','Кривава лють','+10% до сили атаки та заклять на 15 сек'],['a','Руйнування прокляттів','Знімає прокляття і псування, магічна шкода по вас −5% на 8 сек'],['p','Дикість','+1% шанс крита'],['p','Загартування','Приголомшення коротші на 20%']],
+    rac:[['a','Кривава лють','+10% до сили атаки та заклять на 15 сек'],['a','Руйнування прокляттів','Знімає прокляття і псування, магічна шкода по вас −5% на 8 сек'],['p','Command','+5% до шкоди улюбленців чорнокнижника й мисливця'],['p','Загартування','Приголомшення коротші на 20%']],
     tip:'Кривава лють дає потужне вікно шкоди.' },
   { id:'undead', n:'Нежить', f:'horde',
     cls:['warrior','rogue','mage','priest','warlock','paladin*'],
@@ -301,7 +301,7 @@ const RACES = [
     tip:'Нова комбінація: паладин в Орді, де раніше цього класу не було.' },
   { id:'tauren', n:'Таурен', f:'horde',
     cls:['warrior','hunter','shaman','druid'],
-    rac:[['a','Тупіт війни','Приголомшує ворогів поруч на 2 сек'],['a','Культивація','Вирощує трави, які можна зібрати без травництва'],['p','Біг рівнинами','Швидкість росте, поки ви біжите'],['p','Витривалість','+5% здоров’я та +2% до шкоди крита']],
+    rac:[['a','Тупіт війни','Приголомшує ворогів поруч на 2 сек, відкат 90 сек'],['a','Культивація','Вирощує трави, які можна зібрати без травництва, відкат 15 хв'],['p','Біг рівнинами','Поки ви рухаєтеся, швидкість бігу росте на 2% за заряд, до +60%. На їзду верхи не діє'],['p','Витривалість','+5% здоров’я']],
     tip:'Єдина раса Орди з друїдом, якщо не брати Скайборн.' },
   { id:'troll', n:'Троль', f:'horde',
     cls:['warrior','hunter','rogue','priest','shaman','mage','warlock*'],
@@ -309,7 +309,7 @@ const RACES = [
     tip:'Найбільше варіантів класів в Орді: сім.' },
   { id:'skyH', n:'Скайборн (Орда)', f:'horde', paid:true, name:'Скайборн-вітрорізь',
     cls:['warrior','hunter','rogue','shaman','druid'],
-    rac:[['a','Ходіння повітрям','Планування вниз 10 сек, немає шкоди від падіння'],['a','Погляд у небо','+10% до швидкості бігу'],['p','Благословення вітру','+3% до швидкості атаки та заклять'],['p','Прозріння стихій','+5% шкоди по елементалях']],
+    rac:[['a','Ходіння повітрям','Планування вниз 10 сек, немає шкоди від падіння'],['a','Погляд у небо','+15% до швидкості бігу на 15 сек. Біля Elemental Convergence ще Charged на 1 годину: +30%, не спадає після смерті'],['p','Благословення вітру','+2% до швидкості атаки та заклять'],['p','Прозріння стихій','+5% шкоди по елементалях']],
     tip:'Платна раса: набір Heroic Pack від $29.99. Шаманом може бути лише Орда, магом лише Альянс.' }
 ];
 RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
@@ -333,7 +333,7 @@ const EN = {
   'Світло Елуни':"Elune’s Light",'Злиття з тінню':'Shadowmeld','Спритність':'Quickness','Дух-вогник':'Wisp Spirit',
   'Майстер втечі':'Escape Artist','Еврика!':'Eureka!','Допитливий розум':'Expansive Mind','Спеціалізація: інженерія':'Engineering Specialization',
   'Ходіння повітрям':'Walk on Air','Читання лей-ліній':'Read Ley Line','Благословення вітру':'Wind Blessed','Прозріння стихій':'Elemental Insight','Погляд у небо':'Skysight',
-  'Кривава лють':'Blood Fury','Руйнування прокляттів':'Shatter Curse','Дикість':'Savage','Загартування':'Hardiness',
+  'Кривава лють':'Blood Fury','Руйнування прокляттів':'Shatter Curse','Дикість':'Savage','Command':'Command','Загартування':'Hardiness',
   'Воля Відрікшихся':'Will of the Forsaken','Канібалізм':'Cannibalize','Підводне дихання':'Underwater Breathing','Дотик могили':'Touch of the Grave',
   'Тупіт війни':'War Stomp','Культивація':'Cultivation','Біг рівнинами':'Plainsrunning','Витривалість':'Endurance',
   'Берсерк':'Berserking','Швидке відновлення':'Rapid Regeneration','Убивця звірів':'Beast Slaying','Регенерація':'Regeneration'
@@ -447,9 +447,9 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../assets/radio/radio.js?v=ef0b5f769c" data-root="../../"></script>
-<script data-src="../../assets/search/search.js?v=8c167d5804" data-root="../../"></script>
+<script data-src="../../assets/search/search.js?v=eb2a531181" data-root="../../"></script>
 <script data-src="../../assets/me/me.js?v=297cf9b7d8" data-root="../../" data-home="../" data-lang="uk" data-ach="0" data-teaser="" data-close="Закрити" data-page="classes/" data-look="2"></script>
-<script data-src="../../assets/hero/hero.js?v=34379ebcc7" data-root="../../" data-home="../" data-data="../../assets/hero/uk.json?v=34379ebcc7"></script>
+<script data-src="../../assets/hero/hero.js?v=a61a50b837" data-root="../../" data-home="../" data-data="../../assets/hero/uk.json?v=a61a50b837"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
 (function () {
