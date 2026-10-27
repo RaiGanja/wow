@@ -222,7 +222,7 @@
 .pday { margin-bottom: 14px; }
 /* the hero of this browser (character/): a gold line, no badge */
 .nmine { display: block; margin-top: 2px; color: var(--gold-2); font-size: var(--fs-13); font-weight: 600; }
-.nitem time ~ .nmine { grid-column: 2; }
+@media (min-width: 720px) { .nitem time ~ .nmine { grid-column: 2; } }   /* phone: one column, the pill stays in it */
 .dme { grid-column: 2; margin: 4px 0 0; font-size: var(--fs-14); }
 .dme a, .dmehead a { color: var(--gold-2); }
 .dmehead { margin: 0 0 12px; }
@@ -341,9 +341,9 @@
 .pnotify[hidden] { display: none; }
 .pnotify input { width: 18px; height: 18px; accent-color: #c9a54a; }
 @media (max-width: 719px) {   /* phone: the party on the road on top, the title below it on the dark */
-  .phead { min-height: 0; padding-top: calc(var(--top) + 170px); }
-  .phead-art img { object-position: 80% 0; height: calc(var(--top) + 300px); }
-  .phead::before { background: linear-gradient(180deg, rgb(5 5 5 / .5) 0%, rgb(5 5 5 / 0) 16%, rgb(5 5 5 / 0) calc(var(--top) + 150px), rgb(5 5 5 / .9) calc(var(--top) + 250px), rgb(5 5 5) calc(var(--top) + 300px)); } }
+  .phead { min-height: 0; padding-top: calc(var(--top) + 84px); }
+  .phead-art img { object-position: 80% 0; height: calc(var(--top) + 190px); }
+  .phead::before { background: linear-gradient(180deg, rgb(5 5 5 / .5) 0%, rgb(5 5 5 / 0) 16%, rgb(5 5 5 / 0) calc(var(--top) + 80px), rgb(5 5 5 / .9) calc(var(--top) + 150px), rgb(5 5 5) calc(var(--top) + 190px)); } }
 @media (max-width: 719px) { .pway { padding: 12px 14px; gap: 10px 20px; } .pway .btn { margin-left: 0; } .psec { padding: 14px; } .pform { grid-template-columns: minmax(0, 1fr) 104px; } .pform .pill { grid-column: 1 / -1; justify-content: center; } }
 @media (max-width: 719px) {   /* phone: pills and small links are 44 px to tap */
   .dbar .pill, .pfac .pill, .ppre .pill, .pform .pill, .pchars .pill { min-height: 44px; }
@@ -356,7 +356,8 @@
   .gtoc { display: none; }
 }
 @media (max-width: 719px) {
-  .thero, .ghero { --hh: min(560px, 74svh); padding: max(calc(var(--top) + 28px), calc(var(--hh) * .48)) 0 24px; min-height: var(--hh); }
+  .thero, .ghero { --hh: 380px; padding: calc(var(--top) + 100px) 0 24px; min-height: 0; }   /* slim art band: ~160 px of scene above the text (was ~300) */
+  .thero-art img { object-position: 90% 0; }
   .thero::before, .ghero::before { background: linear-gradient(180deg, rgba(5,5,5,.55) 0%, rgba(5,5,5,.08) 26%, rgba(5,5,5,.4) 50%, rgb(8 9 11 / .9) 74%, var(--bg) 100%); }
   /* light: the title and the lead run past the art on a phone, so the whole hero is the dark plate and the paper starts under it */
   :root[data-theme="light"] :is(.thero, .ghero) { background: rgb(8 9 11); }
@@ -407,7 +408,7 @@
 @@SPRITE@@
 
 <header class="topbar" id="topbar"><div class="in">
-  <a class="brand" href="@@HOME@@"><img class="mark" src="@@ROOT@@assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Гид WoW Forever</small></span></a>
+  <a class="brand" aria-label="Gabella" href="@@HOME@@"><img class="mark" src="@@ROOT@@assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Гид WoW Forever</small></span></a>
   @@MAINNAV@@
   <div class="tools">
     @@LANGSEL@@

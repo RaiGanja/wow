@@ -199,6 +199,22 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .iconbtn { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; grid-auto-flow: column; gap: 8px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; }
 .iconbtn:hover { border-color: var(--gold); }
 .srchbtn kbd, .radiobtn .rdo-eq { display: none; }
+.srchbtn .sl { display: none; }
+/* search field in the top bar (build.SEARCH_BTN, assets/search/): a phone and a tablet get the field in place of the icon, a wide screen too; 1261-1599 has no room (9 menu links) and keeps the icon */
+@media (min-width: 375px) and (max-width: 1260px) {
+  .topbar .tools { flex: 1; min-width: 0; }
+  .topbar .srchbtn { flex: 1 1 0; min-width: 0; max-width: 380px; margin-right: auto; display: flex; align-items: center; justify-content: flex-start; gap: 8px; padding: 0 12px; }
+  .topbar .srchbtn .ico { flex: none; }
+  .topbar .srchbtn .sl { display: block; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--fs-14); font-weight: 500; opacity: .82; }
+}
+@media (min-width: 375px) and (max-width: 1260px), (min-width: 1600px) { .topbar:not(.solid) .srchbtn { background: rgb(5 6 8 / .4); } }
+@media (min-width: 375px) and (max-width: 719px) { .topbar .bt { display: none; } }   /* the wordmark steps aside for the field; the logo stays, the link keeps its name */
+@media (min-width: 1600px) {
+  .topbar .srchbtn { width: 200px; display: flex; align-items: center; justify-content: flex-start; gap: 8px; padding: 0 10px 0 12px; }
+  .topbar .srchbtn .ico { flex: none; }
+  .topbar .srchbtn .sl { display: block; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--fs-14); font-weight: 500; text-align: left; opacity: .82; }
+  .topbar .srchbtn kbd { display: block; }
+}
 @media (max-width: 719px) { .topbar .themebtn { display: none; } }   /* phone: the top bar keeps My character (assets/hero/), the theme is in the sections sheet */   /* on the home page search.css and radio.css come after the first paint */
 .radiobtn { position: relative; }
 .menubtn { display: none; padding: 0 12px; font-weight: 500; font-size: var(--fs-16); }
@@ -904,6 +920,23 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .peoples { grid-template-columns: 1fr; gap: 28px; }
   .rr { padding: 0; scroll-padding: 0; }
 }
+@media (max-width: 1023px) {   /* classes: a 3x3 grid instead of the carousel, nine classes on one screen, a tap opens the class */
+  #roster { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; overflow: visible; scroll-snap-type: none; }
+  #roster .hc, #roster .hc.on { aspect-ratio: 1 / 1; border: 2px solid var(--cc); border-radius: 12px; box-shadow: none; --ts: var(--fs-22); --pad: 8px; }
+  #roster .hc .info, #roster .hc.on .info { padding: 8px; gap: 2px; justify-items: center; text-align: center; }
+  #roster .hc .roles { justify-content: center; font-size: var(--fs-13); gap: 2px 10px; }
+  #roster .hc .d, #roster .hc .more { display: none; }
+  #roster .hc::after { background: linear-gradient(180deg, rgba(5,5,5,0) 38%, rgba(5,5,5,.9) 100%); }
+  #roster .hc img { object-position: 50% 18%; }
+  #pCls .swipe { display: none; }
+}
+@media (max-width: 719px) {
+  #roster { gap: 6px; }
+  #roster .hc, #roster .hc.on { aspect-ratio: 3 / 4; border-radius: 10px; --ts: var(--fs-14); --pad: 4px; }
+  #roster .hc .info, #roster .hc.on .info { padding: 6px 4px 8px; }
+  #roster .hc .roles { display: none; }
+  #pCls .tp { display: none; }
+}
 @media (max-width: 980px) {
   .journey { grid-template-columns: 1fr; }
   .me { position: static; }
@@ -943,8 +976,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .hero::before { background:
     linear-gradient(180deg, rgb(var(--hero-fade) / .86) 0%, rgb(var(--hero-fade) / .7) 40%, rgb(var(--hero-fade) / .6) 72%, rgb(var(--hero-fade) / .94) 100%); }
   .hero-in { padding-top: calc(var(--top) + 28px); gap: 18px; }
-  .thero { --hh: max(580px, calc(100svh - 62px - env(safe-area-inset-bottom, 0px))); padding: max(calc(var(--top) + 28px), calc(var(--hh) * .5)) 0 calc(28px + var(--hfade)); }
-  .thero-art img { object-position: 90% 50%; }   /* make_images.CUTS: the party on the upper half, the text from the middle down */
+  .thero { --hh: 380px; padding: calc(var(--top) + 100px) 0 calc(28px + var(--hfade)); }   /* slim art band: ~160 px of scene above the text (was ~300) */
+  .thero-art img { object-position: 90% 0; }   /* make_images.CUTS: the party on the upper half, the text from the middle down */
   .thero::before { background: linear-gradient(180deg, rgba(5,5,5,.55) 0%, rgba(5,5,5,.08) 26%, rgba(5,5,5,.35) 52%, rgba(5,5,5,.9) 76%, #050505 100%); }
   .thero h1 { font-size: var(--fs-hero); hyphens: auto; }
 }
@@ -1087,7 +1120,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </svg>
 
 <header class="topbar" id="topbar"><div class="in">
-  <a class="brand" href="#top"><img class="mark" src="@@ROOT@@assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Гид WoW Forever</small></span></a>
+  <a class="brand" aria-label="Gabella" href="#top"><img class="mark" src="@@ROOT@@assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Гид WoW Forever</small></span></a>
   @@MAINNAV@@
   <div class="tools">
     @@LANGSEL@@
@@ -1434,8 +1467,9 @@ const DESC = {
 const artSet = (id, ext) => [360, 600, 896].map(w => `${ROOT}assets/art/${id}-${w}.${ext}${PV} ${w}w`).join(', ');
 /* A class portrait of the reader's side: the best race of that side (build.portraits), swapped by GabellaPor when the side changes */
 const porPic = id => { const P = window.GabellaPor, u = s => (P ? P.url(s) : s.replace(/[{}]/g, '')), t = `{${id}}`, img = `${ROOT}assets/art/${t}-600.webp${PV}`;
-  return `<picture>${['avif', 'webp'].map(e => `<source type="image/${e}" srcset="${u(artSet(t, e))}" data-por-srcset="${artSet(t, e)}" sizes="${ART_SIZES}">`).join('')}<img src="${u(img)}" data-por-src="${img}" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>`; };
+  return `<picture>${['avif', 'webp'].map(e => `<source type="image/${e}" srcset="${u(artSet(t, e))}" data-por-srcset="${artSet(t, e)}" sizes="${CLS_SIZES}">`).join('')}<img src="${u(img)}" data-por-src="${img}" width="896" height="1200" alt="" loading="lazy" decoding="async"></picture>`; };
 const ART_SIZES = '(max-width: 719px) 78vw, 440px';
+const CLS_SIZES = '(max-width: 1023px) 34vw, 440px';   // class portraits are grid cells on a phone and a tablet
 function renderRoster() {
   $('#roster').innerHTML = CLASSES.map((c, i) => `<a class="hc${i === 0 ? ' on' : ''}" href="classes/${c.id}/" style="--cc:${CCOL[c.id]}">
     ${porPic(c.id)}
