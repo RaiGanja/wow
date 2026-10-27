@@ -159,6 +159,14 @@ def face_img(cid):
             ' width="160" height="160" alt="" loading="lazy" decoding="async">')
 
 
+def cpick(lang, root, title):
+    """Phones, /classes/: the nine classes as one grid under the hero lead, so a class is one tap from the first screen
+    (css in guide.src.html .cpick; hidden from 720 px: the table below does this job on a wide screen)."""
+    items = ''.join(f'<a href="{root}classes/{c["id"]}/" style="--cc:{build.COLOR[c["id"]]}"><span class="av">{face_img(c["id"])}</span>'
+                    f'<b>{escape(build.tr(c["n"], lang))}</b></a>' for c in build.CLASSES)
+    return f'<nav class="cpick" aria-label="{escape(title, quote=True)}">{items}</nav>'
+
+
 CLS_ID = {c['n']: c['id'] for c in build.CLASSES}   # «Паладин» -> paladin
 TIERS = ('S', 'A', 'B', 'C')
 
@@ -1426,6 +1434,8 @@ def build_page(g, lang, tpl, base_css, sprite, src):
     }
     for k, v in rep.items():                                     # 2) тело
         html = html.replace(f'@@{k}@@', v)
+    if g.get('path') == 'classes/':                              # phones: the class grid in the hero (cpick)
+        html = html.replace('<p class="gfacts"></p>', '<p class="gfacts"></p>' + cpick(lang, root, E(g['title'], lang)), 1)
     if g.get('compact') is True:
         html = html.replace('</body>', jscript + '</body>', 1)
     html = build.set_updated(html, sub)

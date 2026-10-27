@@ -1041,6 +1041,16 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .brand b { font-size: 18px; }
   .bt small { font-size: 11px; letter-spacing: .01em; }   /* «Poradnik WoW Forever», «Guía de WoW Forever» pushed the language button off a 320 px screen */
 }
+@media (min-width: 375px) and (max-width: 479px) { .topbar .iconbtn, .topbar .langbtn { min-width: 44px; min-height: 44px; } .topbar .tools { gap: 4px; } }   /* 375+: header buttons reach 44 px */
+@media (max-width: 719px) {   /* phone tap targets: 44 px, the look stays */
+  .tabs2 [role="tab"], .tabs2 [role="radio"] { min-height: 44px; }
+  .crumbs a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 10px; margin: -11px -10px; }
+  .hq a, .qsa a, .tt-ext a, .st-src a { padding-block: 11px; }   /* inline links: a taller touch area, the line height stays */
+  .langhint button, .gamehint button { width: 44px; height: 44px; }
+  footer .fmap .fh { padding: 11px 6px; margin: 0 -6px; }
+  .clinks .clink { min-height: 36px; }
+  .clinks { gap: 0 14px; }
+}
 @media (max-width: 359px) { .bt small { display: none; } }   /* 320: four buttons; the subtitle gives way, «Gabella» and the mark stay */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
