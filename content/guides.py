@@ -32,7 +32,7 @@ NEWS = []     # записи «Новостей», шаблон и порядо�
 NEWS_SO = t('Для игрока', 'For you', 'Для гравця')   # подпись строки 'so'
 from build import DISCORD_AT  # noqa: E402  (у каждого места ссылки своё приглашение)
 
-ORDER = ['launch-checklist', 'launch-day', 'leveling', 'leveling-warrior', 'leveling-paladin', 'leveling-hunter', 'leveling-rogue', 'leveling-priest', 'leveling-shaman', 'leveling-mage', 'leveling-warlock', 'leveling-druid', 'builds', 'builds-warrior', 'builds-paladin', 'builds-hunter', 'builds-rogue', 'builds-priest', 'builds-shaman', 'builds-mage', 'builds-warlock', 'builds-druid', 'best-race', 'tier-list', 'legacy', 'dungeons', 'professions', 'addons', 'faq', 'requirements', 'news', 'ukrainian']   # порядок плиток на хабе и в «Другие гайды»
+ORDER = ['launch-checklist', 'launch-day', 'leveling', 'leveling-warrior', 'leveling-paladin', 'leveling-hunter', 'leveling-rogue', 'leveling-priest', 'leveling-shaman', 'leveling-mage', 'leveling-warlock', 'leveling-druid', 'builds', 'builds-warrior', 'builds-paladin', 'builds-hunter', 'builds-rogue', 'builds-priest', 'builds-shaman', 'builds-mage', 'builds-warlock', 'builds-druid', 'best-race', 'tier-list', 'legacy', 'dungeons', 'professions', 'addons', 'faq', 'requirements', 'server-status', 'news', 'ukrainian']   # порядок плиток на хабе и в «Другие гайды»
 
 
 # ---------- FAQ: даты и наборы, режимы, имена, отличия от Era (переехали с главной) + частые вопросы ----------
@@ -2013,6 +2013,63 @@ GUIDES.append({
         ]},
     ],
 })
+
+# ---------- server-status: where to check, the login queue, layering, maintenance (no invented numbers) ----------
+
+_ld = next(g for g in GUIDES if g['slug'] == 'launch-day')
+_ld_status = next(s for s in _ld['sections'] if s['id'] == 'status')
+_ld_expect = next(s for s in _ld['sections'] if s['id'] == 'expect')
+_ld_wait = next(s for s in _ld['sections'] if s['id'] == 'wait')
+_tbl = lambda sec: next(b for k, b in sec['blocks'] if k == 'table')
+_row = lambda sec, ru: next(r for r in _tbl(sec)['rows'] if (r[0][0] if isinstance(r[0], tuple) else r[0])['ru'] == ru)
+_ST_HEAD = _tbl(_ld_expect)['head']
+
+GUIDES.append({
+    'slug': 'server-status', 'hub': False, 'art': 'hero_night', 'hero': 'hero_night', 'tile_art': 'hero_night', 'og': 'guides',
+    'title': t('Статус серверов и очередь на вход', 'Server Status and Login Queue', 'Статус серверів і черга на вхід'),
+    'crumb': t('Статус серверов', 'Server status', 'Статус серверів'),
+    'lead': t('Где смотреть, работают ли серверы WoW Forever, как устроены очередь на вход и слои и что Blizzard об этом сообщила.',
+              'Where to check whether WoW Forever servers are up, how the login queue and layers work and what Blizzard has said about them.',
+              'Де дивитися, чи працюють сервери WoW Forever, як улаштовані черга на вхід і шари та що Blizzard про це повідомила.'),
+    'tile': t('Статус, очередь на вход, слои, техработы', 'Status, login queue, layers, maintenance', 'Статус, черга на вхід, шари, техроботи'),
+    'pills': [t('Статус — только каналы Blizzard', 'Status: Blizzard channels only', 'Статус — лише канали Blizzard'),
+              t('Время очереди не объявлено', 'No queue times announced', 'Час черги не оголошено')],
+    'sources': list(_ld['sources']),
+    'sections': [
+        dict(_ld_status, title=t('Статус серверов', 'Server status', 'Статус серверів')),
+        {'id': 'queue', 'title': t('Очередь на вход и её время', 'Login queue and queue times', 'Черга на вхід і її час'), 'blocks': [
+            ('text', [t('Очередь на вход появляется, когда зайти пытается больше игроков, чем сервер принимает сразу. Blizzard не называла ни вместимость серверов Forever, ни ожидаемое время, поэтому времени очереди мы не публикуем.',
+                        'A login queue appears when more players try to enter than the server accepts at once. Blizzard has not named the capacity of the Forever servers or the expected wait, so we publish no queue times.',
+                        'Черга на вхід з’являється, коли зайти намагається більше гравців, ніж сервер приймає одразу. Blizzard не називала ні місткість серверів Forever, ні очікуваний час, тому часу черги ми не публікуємо.')]),
+            ('table', {'head': _ST_HEAD, 'rows': [_row(_ld_expect, 'Очередь на вход'), _row(_ld_expect, 'Отключения')]}),
+            ('tip', t('Не выходите из очереди: повторный вход ставит в её конец. {beta}',
+                      'Do not leave the queue: logging in again puts you at the back. {beta}',
+                      'Не виходьте з черги: повторний вхід ставить у її кінець. {beta}')),
+        ]},
+        {'id': 'layers', 'title': t('Слои', 'Layering', 'Шари'), 'blocks': [
+            ('text', [t('Слои делят один сервер на несколько копий мира, и игроки из разных слоёв друг друга не видят. Blizzard заявила, что слои в Forever останутся и полностью их не уберут.',
+                        'Layering splits one server into several copies of the world, and players on different layers do not see each other. Blizzard has said layering stays in Forever and will not go away completely.',
+                        'Шари ділять один сервер на кілька копій світу, і гравці з різних шарів не бачать одне одного. Blizzard заявила, що шари у Forever залишаться й повністю їх не приберуть.')]),
+            ('table', {'head': _ST_HEAD, 'rows': [_row(_ld_expect, 'Слои'), _row(_ld_expect, 'Слои в бете')]}),
+        ]},
+        {'id': 'maintenance', 'title': t('Техработы и сбои', 'Maintenance and outages', 'Техроботи та збої'), 'blocks': [
+            ('text', [t('Расписание техработ Forever Blizzard не публиковала. О плановых работах и сбоях сообщают каналы выше. Если не можете зайти только вы, сначала проверьте соединение и пинг.',
+                        'Blizzard has not published a maintenance schedule for Forever. Planned work and outages are posted in the channels above. If only you cannot log in, check your connection and ping first.',
+                        'Розклад техробіт Forever Blizzard не публікувала. Про планові роботи та збої повідомляють канали вище. Якщо не можете зайти лише ви, спершу перевірте з’єднання й пінг.')]),
+        ]},
+        {'id': 'related', 'title': t('Смотрите также', 'See also', 'Дивіться також'), 'blocks': [
+            ('table', {'head': _tbl(_ld_wait)['head'], 'rows': [
+                [(_ld['title'], 'guides/launch-day/'), _ld['tile']],
+                _row(_ld_wait, 'Пинг и очередь'),
+                _row(_ld_wait, 'Чек-лист «День 1»'),
+            ]}),
+        ]},
+    ],
+})
+
+# the Launch day page points to this one
+_tbl(_ld_wait)['rows'].append([(next(g for g in GUIDES if g['slug'] == 'server-status')['title'], 'guides/server-status/'),
+                              next(g for g in GUIDES if g['slug'] == 'server-status')['tile']])
 
 
 GUIDES.sort(key=lambda g: ORDER.index(g['slug']))

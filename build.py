@@ -278,6 +278,7 @@ NAV = (('classes/', 'Классы'), ('races/', 'Расы'), ('guides/leveling/'
 MORE = (
     ('Справочник', (('guides/builds/', 'Таланты'), ('classes/', 'Классы'), ('classes/#choose', 'Какой класс выбрать'), ('races/', 'Расы'),
                     ('guides/leveling/', 'Прокачка 1–60'), ('guides/dungeons/', 'Подземелья и рейды'), ('guides/professions/', 'Профессии'),
+                    ('guides/server-status/', 'Статус серверов'),
                     ('guides/faq/', 'FAQ и даты'), ('guides/news/', 'Новости'), ('guides/', 'Все гайды'))),
     ('Инструменты', (('character/', 'Мой персонаж'), ('tools/#picker', 'Раса и класс'), ('tools/#raid', 'Состав группы и LFG'), ('play/', 'В игре'))),
     ('Сообщество', (('discord', 'Discord'),) + ((('roster/', 'Игроки'),) if SOCIAL else ()) + (('profile/', 'Мой профиль'),)),
