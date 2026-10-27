@@ -116,7 +116,7 @@
 .nitem p { grid-column: 2; margin: 0; color: var(--muted); font-size: var(--fs-16); }
 .nday { margin: 14px 0 2px; font-family: var(--font-body); font-size: var(--fs-14); font-weight: 600; letter-spacing: 0; color: var(--muted); font-variant-numeric: tabular-nums lining-nums; }
 .nday:first-child { margin-top: 0; }
-@media (max-width: 719px) { .nitem { grid-template-columns: minmax(0, 1fr); } .nitem p { grid-column: 1; } }
+@media (max-width: 719px) { .nitem { grid-template-columns: minmax(0, 1fr); min-height: 44px; align-content: center; } .nitem p { grid-column: 1; } .gtable td.k .clink, .gtable td.m .clink { padding-block: 11px; margin-block: -11px; } }
 .gtable .alt { display: block; margin-top: 4px; color: var(--muted); font-size: var(--fs-13); font-weight: 400; }
 .gtable .tag { margin-left: 6px; vertical-align: 1px; }
 #dgBox .filters { margin-bottom: 6px; }
@@ -155,7 +155,7 @@
 .gfaq details > :last-child:not(summary) { margin-bottom: 14px; }
 .gfaq details > p + p { margin-top: 10px; }
 .gsearch { display: flex; align-items: center; min-height: 52px; padding: 0 16px; border: 1px solid var(--pline); border-radius: 8px; background: var(--panel-2); }
-.gsearch:focus-within { border-color: var(--gold); }
+.gsearch:focus-within { border-color: var(--gold); outline: 2px solid var(--gold-2); outline-offset: 2px; }   /* the field draws no ring of its own */
 .gsearch input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; color: var(--fg); font: inherit; font-size: var(--fs-16); min-height: 48px; }
 .gsearch input::placeholder { color: var(--muted); }
 /* In game (/play/, build_guides.play_body): no art band, always solid bar; one column on phones, two from 960px */
@@ -450,7 +450,7 @@
 @@SPRITE@@
 
 <header class="topbar" id="topbar"><div class="in">
-  <a class="brand" aria-label="Gabella" href="@@HOME@@"><img class="mark" src="@@ROOT@@assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Гид WoW Forever</small></span></a>
+  <a class="brand" href="@@HOME@@"><img class="mark" src="@@ROOT@@assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Гид WoW Forever</small></span></a>
   @@MAINNAV@@
   <div class="tools">
     @@LANGSEL@@

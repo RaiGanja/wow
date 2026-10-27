@@ -1380,7 +1380,7 @@ GUIDES.append({
                 {'t': t('Охотник в PvE', 'Hunter in PvE', 'Мисливець у PvE'),
                  'd': t('Noobtoboss ставит S, RankedBoost — A.', 'Noobtoboss gives S, RankedBoost gives A.', 'Noobtoboss ставить S, RankedBoost — A.')},
                 {'t': t('Кто сильнее, Паладин или Охотник', 'Which is stronger, Paladin or Hunter', 'Хто сильніший, Паладин чи Мисливець'),
-                 'd': t('в одном списке S только у Паладина, в другом у обоих.', 'one list gives S only to Paladin, another to both.', 'в одному списку S лише в Паладина, в іншому в обох.')},
+                 'd': t('В одном списке S только у Паладина, в другом у обоих.', 'One list gives S only to Paladin, another to both.', 'В одному списку S лише в Паладина, в іншому в обох.')},
                 {'t': t('Жрец на прокачке', 'Priest while leveling', 'Жрець на прокачуванні'),
                  'd': t('Noobtoboss — C, gamer-guides — S для Послушания.', 'Noobtoboss says C, gamer-guides says S for Discipline.', 'Noobtoboss — C, gamer-guides — S для Послуху.')},
                 {'t': t('Жрец, Свет', 'Priest, Holy', 'Жрець, Світло'),

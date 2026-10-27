@@ -118,7 +118,7 @@ def tile_links(tiles, lang, root):
     out = []
     for s in tiles:
         avif, webp, img = art_sets(s['art'], '@@ROOT@@')
-        cls, sz = ('ttile wide', '(min-width: 1280px) 1240px, 100vw') if s.get('wide') else ('ttile', '320px')
+        cls, sz = ('ttile wide', '(min-width: 1280px) 1240px, 100vw') if s.get('wide') else ('ttile', '(min-width: 2200px) 560px, 320px')   # 4K: tiles grow to ~550 px
         out.append(f'<a class="{cls}" href="{root}{s["href"]}"><picture><source type="image/avif" srcset="{avif}" sizes="{sz}">'
                    f'<img src="{img}" srcset="{webp}" sizes="{sz}" alt="" loading="lazy" decoding="async"></picture>'
                    f'<b>{E(s["t"], lang)}</b><span>{E(s["d"], lang)}</span></a>')   # the update date is on the page itself

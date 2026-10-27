@@ -1069,7 +1069,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   /* 320–479px phones: brand + search, radio, theme, language must share one row («Poradnik WoW Forever» is the longest) */
   .topbar .in { gap: 6px; }
   .topbar .tools { gap: 3px; }
-  .topbar .iconbtn, .topbar .langbtn { min-width: 38px; min-height: 40px; }
+  .topbar .iconbtn, .topbar .langbtn { min-width: 38px; min-height: 44px; }   /* 360: 44 px tall; four 44 px widths do not fit next to «Poradnik WoW Forever» */
   .topbar .langbtn { padding: 0 8px; }
   .brand { gap: 7px; }
   .mark { width: 32px; height: 32px; }
@@ -1079,11 +1079,14 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 @media (min-width: 375px) and (max-width: 479px) { .topbar .iconbtn, .topbar .langbtn { min-width: 44px; min-height: 44px; } .topbar .tools { gap: 4px; } }   /* 375+: header buttons reach 44 px */
 @media (max-width: 719px) {   /* phone tap targets: 44 px, the look stays */
   .tabs2 [role="tab"], .tabs2 [role="radio"] { min-height: 44px; }
-  .crumbs a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 10px; margin: -11px -10px; }
+  .crumbs a { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: 0 10px; margin: -11px -10px; }
   .hq a, .qsa a, .tt-ext a, .st-src a { padding-block: 11px; }   /* inline links: a taller touch area, the line height stays */
   .langhint button, .gamehint button { width: 44px; height: 44px; }
   footer .fmap .fh { padding: 11px 6px; margin: 0 -6px; }
-  .clinks .clink { min-height: 36px; }
+  .clinks .clink { min-height: 44px; }
+  .cd .what a, .gamehint a, .langhint a { padding-block: 14px; }   /* inline links: a 44 px touch area, the line stays */
+  .hero > .todsw button:not([data-t]) { position: relative; }
+  .hero > .todsw button:not([data-t])::after { content: ""; position: absolute; inset: -6px 0; }   /* the 32 px pill takes taps 44 px tall */
   .clinks { gap: 0 14px; }
 }
 @media (max-width: 359px) { .bt small { display: none; } }   /* 320: four buttons; the subtitle gives way, «Gabella» and the mark stay */
@@ -1120,7 +1123,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </svg>
 
 <header class="topbar" id="topbar"><div class="in">
-  <a class="brand" aria-label="Gabella" href="#top"><img class="mark" src="@@ROOT@@assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Гид WoW Forever</small></span></a>
+  <a class="brand" href="#top"><img class="mark" src="@@ROOT@@assets/brand/mark.webp" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Гид WoW Forever</small></span></a>
   @@MAINNAV@@
   <div class="tools">
     @@LANGSEL@@
@@ -1134,7 +1137,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   @@TOD_HERO@@
   <div class="wrap hero-in">
     <h1>World of Warcraft <span>Forever</span></h1>
-    <p class="lead">Классы, расы, сбор группы и всё, что нужно знать к старту 5 ноября. С источниками и датой.</p>
+    <p class="lead">Классы, расы, прокачка и сбор группы к старту 5 ноября. С источниками и датой.</p>
     <div class="cd" id="cd" aria-live="polite"></div>
     <div class="cta">
       <a class="btn lg" href="classes/#choose">Выбрать класс</a>
@@ -1323,7 +1326,7 @@ const CLASSES = [
     specs:[['Тайная магия','Бурст, много маны',['dps']],['Огонь','Криты и поджоги',['dps']],['Лёд','Урон и контроль',['dps']]],
     lvl:'Самая быстрая прокачка, примерно на 8% быстрее среднего, около 12 часов экономии (оценка LFCarry)',
     lp:-8,
-    raid:'Порталы и еда с водой для всей компании',
+    raid:'Порталы, еда и вода для группы',
     forever:'Огонь получил Путь огня, Тайная магия — Чародейскую вспышку, Лёд — Ледяное копьё. Огненно-ледяная стрела доступна с 40 уровня.' },
   { id:'warlock', n:'Чернокнижник', roles:['dps'],
     specs:[['Колдовство','Урон от проклятий и порчи',['dps']],['Демонология','Урон через демонов',['dps']],['Разрушение','Прямой урон огнём и тьмой',['dps']]],
@@ -1388,7 +1391,8 @@ const RACES = [
 RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
 const CL = Object.fromEntries(CLASSES.map(c => [c.id, c]));
 const BETA = '<span class="beta-note">по данным беты</span>';
-const racx = s => esc(s).replace('{beta}', BETA);
+const BMARK = '{' + 'beta}';   // split so the guide build (which swaps the marker for the span everywhere) leaves it alone
+const racx = s => String(s).split(BETA).join(BMARK).split(BMARK).map(esc).join(BETA);
 const RC = Object.fromEntries(RACES.map(r => [r.id, r]));
 const RLEAD = @@RACE_LEAD@@; // race page leads and URL slugs, filled in by build.py
 const RSLUG = @@RACE_SLUG@@;
@@ -1460,7 +1464,7 @@ const DESC = {
   rogue: 'Яды, клинки и тень. Чистый урон из засады и контроль врагов.',
   priest: 'Свет и Тьма в одних руках. Главный лекарь группы или тёмный заклинатель.',
   shaman: 'Тотемы и стихии: лечит, бьёт молнией или оружием. Теперь есть и у Альянса.',
-  mage: 'Огонь, лёд и тайная магия. Порталы, еда и вода для всей компании.',
+  mage: 'Огонь, лёд и тайная магия. Порталы, еда и вода для группы.',
   warlock: 'Проклятия, демоны и огонь. Урон со временем и свой демон в помощь.',
   druid: 'Медведь, кошка, сова или лекарь: все три роли на одном персонаже.'
 };
