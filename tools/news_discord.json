@@ -1,0 +1,30 @@
+{
+ "_about": "Where tools/news_discord.py posts. Only NAMES of GitHub secrets (webhook URLs live in the secrets of the repo that runs it, gabella-bot). layout: current = the channels of today; new = 📣news + 🌍languages after the migration (docs drafts/discord/04-migration.md). thread_id of a forum thread is not a secret: it is set here after the threads exist; null = the language is skipped.",
+ "layout": "current",
+ "layouts": {
+  "current": [
+   {"name": "site-en-news", "secret": "SITE_WEBHOOK_EN_NEWS", "lang": "en", "hints": true},
+   {"name": "site-uk-news", "secret": "SITE_WEBHOOK_UK_NEWS", "lang": "uk"},
+   {"name": "site-ru-news", "secret": "SITE_WEBHOOK_RU_NEWS", "lang": "ru"},
+   {"name": "team-news", "secret": "DISCORD_WEBHOOK_NEWS", "lang": "ru", "username": "Gabella Team"}
+  ],
+  "new": [
+   {"name": "news", "secret": "SITE_WEBHOOK_EN_ANN", "lang": "en", "lines": ["uk", "ru", "pl"], "hints": true},
+   {"name": "lang-pl", "secret": "SITE_WEBHOOK_LANGUAGES", "lang": "pl", "thread_id": null},
+   {"name": "lang-de", "secret": "SITE_WEBHOOK_LANGUAGES", "lang": "de", "thread_id": null},
+   {"name": "lang-fr", "secret": "SITE_WEBHOOK_LANGUAGES", "lang": "fr", "thread_id": null},
+   {"name": "lang-es", "secret": "SITE_WEBHOOK_LANGUAGES", "lang": "es", "thread_id": null},
+   {"name": "lang-it", "secret": "SITE_WEBHOOK_LANGUAGES", "lang": "it", "thread_id": null},
+   {"name": "lang-pt", "secret": "SITE_WEBHOOK_LANGUAGES", "lang": "pt", "thread_id": null},
+   {"name": "team-news", "secret": "DISCORD_WEBHOOK_NEWS", "lang": "ru", "username": "Gabella Team"}
+  ]
+ },
+ "hints": {
+  "enabled": true,
+  "name": "Wowhead",
+  "rss": "https://www.wowhead.com/news/rss/all",
+  "match": "forever",
+  "per_run": 2,
+  "max_age_h": 24
+ }
+}
