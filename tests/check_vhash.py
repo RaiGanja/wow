@@ -30,6 +30,12 @@ def strip_comments(text, kind):
 def scan(text, kind, name):
     out = []
     text = strip_comments(text, kind)   # same length as the source: offsets and lines stay
+    # minified CSS has "}.ico{" where it had "} .ico {": the selector is not a file with the extension .ico
+    sel = lambda t: re.sub(r'\}\.([\w-]+)(?=[{,:>\[ +~.])', r'} .\1', t)
+    if kind == 'css':
+        text = sel(text)
+    elif kind == 'html':
+        text = re.sub(r'(<style[^>]*>)(.*?)(</style>)', lambda m: m[1] + sel(m[2]) + m[3], text, flags=re.S)
     for m in HIT.finditer(text):
         path, tail = m['path'] or m['bare'], m['tail'] or m['tail2']
         if tail.startswith('?v=') or re.match(RT_VER, tail) or re.match(r'''["']\s*(?::\s*["']\?v=|\])''', tail):   # or a key of the ARTV map (a literal key, or ARTV[f + '.webp'])

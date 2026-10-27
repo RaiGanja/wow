@@ -482,6 +482,28 @@ LATE_JS = """<script>
 LATE_FILES = r'assets/(?:radio|search|me|hero|tod|living)/|static\.cloudflareinsights\.com/'
 
 
+_CSS_TOK = re.compile(r'"(?:[^"\\\n]|\\.)*"|\'(?:[^\'\\\n]|\\.)*\'|url\([^)]*\)|/\*.*?\*/', re.S)
+
+
+def min_css(html):
+    """The inline <style> blocks without comments and the whitespace around { } ; , : (-20% of the style, -7 KB gzipped
+    on a guide page; the first bytes of every page). Strings and url(...) stay as they are. Runs last (seo.main)."""
+    def gap(g):
+        g = re.sub(r'\s+', ' ', g)
+        g = re.sub(r' ?([{};,]) ?', r'\1', g)
+        return g.replace(': ', ':')
+
+    def one(m):
+        css, out, pos = m[2], [], 0
+        for t in _CSS_TOK.finditer(css):
+            out.append(gap(css[pos:t.start()]))
+            out.append('' if t[0].startswith('/*') else t[0])
+            pos = t.end()
+        out.append(gap(css[pos:]))
+        return m[1] + ''.join(out).strip().replace(';}', '}') + m[3]
+    return re.sub(r'(<style[^>]*>)(.*?)(</style>)', one, html, flags=re.S)
+
+
 def late(html, hero='.hero-art img'):
     """Puts the files of LATE_FILES to sleep on a home page and adds LATE_JS (seo.apply calls it after the analytics tag).
     Inner pages (seo.LATE_INNER) do the same and wait for their own hero picture."""

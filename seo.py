@@ -441,6 +441,7 @@ def main():
             html = apply(html, path, lang, title, desc)
             if lang == 'en':                     # dates added after localize (cards, JSON-LD): «Nov 4», not 04.11
                 html = build.en_dates(html)
+            html = build.min_css(html)
             open(full, 'w', encoding='utf-8', newline='\n').write(html)
     with open(os.path.join(HERE, 'sitemap.xml'), 'w', encoding='utf-8', newline='\n') as f:
         f.write(sitemap({p: v for p, v in meta.items() if p not in NOINDEX}))
