@@ -27,7 +27,7 @@ HOME = {'t': {l: 'WoW Forever' for l in langs.ALL},
               'es': 'Legacy, tier list, creador de grupos, noticias',
               'pt': 'Legacy, tier list, montador de grupo, notícias',
               'it': 'Legacy, tier list, creatore di gruppi, notizie',
-              'pl': 'Legacy, tier lista, kreator drużyny, newsy'}}
+              'pl': 'Legacy, tier lista, kreator grupy, newsy'}}
 TOOLS = {'t': langs.derive({'ru': 'Инструменты', 'en': 'Tools', 'uk': 'Інструменти'}),
          'd': {'ru': 'Рамки группы, рейдовая сетка, сравнение классов и рас, поиск по гиду',
                'en': 'Party frames, raid grid, class and race comparison, guide search',
@@ -37,7 +37,7 @@ TOOLS = {'t': langs.derive({'ru': 'Инструменты', 'en': 'Tools', 'uk':
                'es': 'Marcos de grupo, cuadrícula de banda, comparación de clases y razas, búsqueda',
                'pt': 'Quadros de grupo, grade de raide, comparação de classes e raças, busca',
                'it': 'Riquadri del gruppo, griglia d’incursione, confronto classi e razze, ricerca',
-               'pl': 'Ramki drużyny, siatka raidu, porównanie klas i ras, wyszukiwarka'}}
+               'pl': 'Ramki grupy, siatka raidu, porównanie klas i ras, wyszukiwarka'}}
 langs.fill([HUB, GUIDES, HUBS])
 FOCUS = {'hero_dawn': '70%', 'hero_campfire': '88%'}   # horizontal crop of a landscape scene; the default is the right edge
 NODATE = {'tier-list'}   # the beta snapshot is refreshed after launch: no launch date under the title

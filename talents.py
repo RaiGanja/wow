@@ -94,7 +94,7 @@ UI = {
                'es': 'Los niveles 31–60 están cerrados en la beta: el orden viene de la guía de subida de la clase y lo revisaremos tras el lanzamiento.',
                'fr': 'Les niveaux 31–60 sont fermés en bêta : l’ordre vient du guide de progression de la classe, nous le vérifierons après le lancement.',
                'it': 'I livelli 31–60 sono chiusi nella beta: l’ordine viene dalla guida al livellamento della classe, lo verificheremo dopo il lancio.',
-               'pl': 'Poziomy 31–60 są w becie zamknięte: kolejność pochodzi z poradnika levelowania klasy, sprawdzimy ją po starcie.',
+               'pl': 'Levele 31–60 są w becie zamknięte: kolejność pochodzi z poradnika levelowania klasy, sprawdzimy ją po starcie.',
                'pt': 'Os níveis 31–60 estão fechados na beta: a ordem vem do guia de evolução da classe e vamos conferi-la após o lançamento.'},
     'lvg': {'ru': 'Гайд по прокачке класса', 'en': 'Class leveling guide', 'uk': 'Гайд із прокачування класу',
             'de': 'Level-Guide der Klasse', 'es': 'Guía de subida de la clase', 'fr': 'Guide de progression de la classe',

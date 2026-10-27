@@ -1454,7 +1454,7 @@ QS = {   # I3 «Quick start» plate on a class page: heading, then the four labe
     'es': ('Inicio rápido', 'Espec. para subir', 'Profesiones para subir', 'Raza de la Alianza', 'Raza de la Horda'),
     'it': ('Avvio rapido', 'Spec per livellare', 'Professioni per livellare', 'Razza dell’Alleanza', 'Razza dell’Orda'),
     'pt': ('Início rápido', 'Espec. para upar', 'Profissões para upar', 'Raça da Aliança', 'Raça da Horda'),
-    'pl': ('Szybki start', 'Spec do levelowania', 'Profesje do levelowania', 'Rasa Przymierza', 'Rasa Hordy'),
+    'pl': ('Szybki start', 'Spec do levelowania', 'Profesje do levelowania', 'Rasa Alliance', 'Rasa Horde'),
 }
 
 
