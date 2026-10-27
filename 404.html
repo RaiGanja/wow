@@ -1175,15 +1175,16 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .gtabs [role="tabpanel"][hidden] { display: none; }
 /* I2: tier grid — a big letter, the class portraits of that tier beside it */
 .tgrid { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
-.tgrid li { display: grid; grid-template-columns: 48px minmax(0, 1fr); align-items: center; gap: 16px; padding: 12px 16px; border-radius: 6px; background: var(--panel-2); }
-.tgl { font-family: var(--font-display); font-weight: var(--display-w); font-size: var(--fs-40); line-height: 1; text-align: center; color: var(--muted); }
+.tgrid li { display: grid; grid-template-columns: 48px minmax(0, 1fr); align-items: start; gap: 16px; padding: 12px 16px 10px; border-radius: 6px; background: var(--panel-2); }
+/* optical alignment: the letter's capitals sit on the centre of the portraits (box = one portrait tall; padding-top lowers the caps to the box centre). The row pads 2px less at the bottom: labels have no ascenders there, so the visible gaps match */
+.tgl { display: grid; place-items: center; box-sizing: border-box; height: 48px; padding-top: 5px; font-family: var(--font-display); font-weight: var(--display-w); font-size: var(--fs-40); line-height: 1; text-align: center; color: var(--muted); }
 .tgl.tS { color: var(--gold-2); }
 .tgl.tA { color: var(--fg); }
 .tgr { display: flex; flex-wrap: wrap; gap: 12px 18px; }
 .tgc { display: grid; justify-items: center; gap: 7px; min-width: 60px; color: var(--fg); text-decoration: none; font-size: var(--fs-13); font-weight: 600; line-height: 1.2; white-space: nowrap; }
 .tgc .av { --s: 48px; --ring-gap: var(--panel-2); }
 .tgc:hover .tgn, .tgc:focus-visible .tgn { color: var(--gold-2); }
-.tgn sup { margin-left: 1px; color: var(--gold-2); }
+.tgn sup { margin-left: 1px; color: var(--gold-2); line-height: 0; }   /* the star must not stretch the line: rows with it were 4px taller */
 /* FAQ: plain rows, no frame per question. A chevron on the right, a plate on hover, the open answer indented under it */
 .gfaq { display: grid; gap: 2px; margin: 0 -14px; }
 .gfaq details { scroll-margin-top: calc(var(--top) + 16px); }
@@ -1467,8 +1468,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   #more .ttile span { color: var(--muted); font-size: var(--fs-14); }
   #more .ttile:hover b { color: var(--gold-2); }
   /* T1: a row is a compact card — the name, short cells with their labels in one line, the long ones under it */
-  .tgrid li { grid-template-columns: 30px minmax(0, 1fr); gap: 10px; padding: 10px 12px; }
-  .tgl { font-size: var(--fs-28); }
+  .tgrid li { grid-template-columns: 30px minmax(0, 1fr); gap: 10px; padding: 10px 12px 8px; }
+  .tgl { height: 40px; padding-top: 3px; font-size: var(--fs-28); }
   .tgr { gap: 10px 12px; }
   .tgc { min-width: 52px; }
   .tgc .av { --s: 40px; }
