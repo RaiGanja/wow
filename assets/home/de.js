@@ -41,7 +41,7 @@ const CLASSES = [
     specs:[['Arkan','Burst, viel Mana',['dps']],['Feuer','Krits und Entzünden',['dps']],['Frost','Schaden und Kontrolle',['dps']]],
     lvl:'Schnellstes Leveln, etwa 8 % schneller als der Durchschnitt, rund 12 Stunden gespart (Schätzung von LFCarry)',
     lp:-8,
-    raid:'Portale sowie Essen und Wasser für die ganze Gruppe',
+    raid:'Portale, Essen und Wasser für die Gruppe',
     forever:'Feuer bekam Kampfeshitze, Arkan den Arkanschlag, Frost die Eislanze. Frostfeuerblitz ist ab Stufe 40 verfügbar.' },
   { id:'warlock', n:'Hexenmeister', roles:['dps'],
     specs:[['Gebrechen','Schaden durch Flüche und Verderbnis',['dps']],['Dämonologie','Schaden durch Dämonen',['dps']],['Zerstörung','Direkter Feuer- und Schattenschaden',['dps']]],
@@ -106,7 +106,8 @@ const RACES = [
 RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
 const CL = Object.fromEntries(CLASSES.map(c => [c.id, c]));
 const BETA = '<span class="beta-note">laut Beta-Daten</span>';
-const racx = s => esc(s).replace('{beta}', BETA);
+const BMARK = '{' + 'beta}';   // split so the guide build (which swaps the marker for the span everywhere) leaves it alone
+const racx = s => String(s).split(BETA).join(BMARK).split(BMARK).map(esc).join(BETA);
 const RC = Object.fromEntries(RACES.map(r => [r.id, r]));
 const RLEAD = {"human": "Das zahlreichste Volk der Allianz. Vielseitig und stark im PvP dank Überlebenswille.", "dwarf": "Robuste Bergleute und Schützen aus Eisenschmiede. Zum ersten Mal hat die Allianz Schamanen, und das sind Zwerge: In Classic gab es sie nicht.", "nightelf": "Ein uraltes Volk der Wälder. Schwer zu fassen: eigenes Verstecken, Ausweichen und schnelles Laufen.", "gnome": "Die Erfinder von Gnomeregan. Klein, gerissen und mit der besten Fluchtfähigkeit im Spiel.", "skyA": "Ein neues Volk in Forever. Der High Order: Windelfen auf der Suche nach der verlorenen Arkanmagie ihrer Vorfahren.", "orc": "Das Herz der Horde. Die stärksten Krieger und PvP-Meister dank Kochendem Blut und Zähigkeit.", "undead": "Die Verlassenen: ehemalige Menschen, die sich vom Lichkönig befreit haben. Immun gegen Furcht und Schlaf, wenn es darauf ankommt.", "tauren": "Friedliche Riesen der Ebenen. Die meiste Gesundheit und eine eigene Flächenbetäubung.", "troll": "Der Stamm der Dunkelspeere. Die meisten Klassen der Horde und ein starkes Berserker für Schaden.", "skyH": "Ein neues Volk in Forever. Die Windshapers: spirituelle Anführer der Skyborne, den Elementen nah."}; // race page leads and URL slugs, filled in by build.py
 const RSLUG = {"human": "human", "dwarf": "dwarf", "nightelf": "night-elf", "gnome": "gnome", "skyA": "skyborne-alliance", "orc": "orc", "undead": "undead", "tauren": "tauren", "troll": "troll", "skyH": "skyborne-horde"};
@@ -178,7 +179,7 @@ const DESC = {
   rogue: 'Gifte, Klingen und Schatten. Reiner Schaden aus dem Hinterhalt und Gruppenkontrolle.',
   priest: 'Licht und Schatten in einer Hand. Der Hauptheiler der Gruppe oder ein dunkler Zauberwirker.',
   shaman: 'Totems und Elemente: heilt, schlägt mit Blitzen oder Waffen zu. Jetzt auch bei der Allianz.',
-  mage: 'Feuer-, Frost- und Arkanmagie. Portale, Essen und Wasser für die ganze Truppe.',
+  mage: 'Feuer-, Frost- und Arkanmagie. Portale, Essen und Wasser für die Gruppe.',
   warlock: 'Flüche, Dämonen und Feuer. Schaden über Zeit und ein eigener Dämon als Helfer.',
   druid: 'Bär, Katze, Eule oder Heiler: alle drei Rollen auf einem Charakter.'
 };

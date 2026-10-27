@@ -41,7 +41,7 @@ const CLASSES = [
     specs:[['Arcano','Danni esplosivi, molto mana',['dps']],['Fuoco','Critici e incendi',['dps']],['Gelo','Danni e controllo',['dps']]],
     lvl:'Il livellamento più veloce, circa l’8% più rapido della media, circa 12 ore risparmiate (stima di LFCarry)',
     lp:-8,
-    raid:'Portali, cibo e acqua per tutto il gruppo',
+    raid:'Portali, cibo e acqua per il gruppo',
     forever:'Fuoco ha ottenuto Serie Bollente, Arcano Detonazione Arcana, Gelo Lancia di Ghiaccio. Palla di Fuocogelo è disponibile dal livello 40.' },
   { id:'warlock', n:'Stregone', roles:['dps'],
     specs:[['Afflizione','Danni da maledizioni e corruzione',['dps']],['Demonologia','Danni tramite demoni',['dps']],['Distruzione','Danni diretti da fuoco e ombra',['dps']]],
@@ -106,7 +106,8 @@ const RACES = [
 RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
 const CL = Object.fromEntries(CLASSES.map(c => [c.id, c]));
 const BETA = '<span class="beta-note">secondo i dati della beta</span>';
-const racx = s => esc(s).replace('{beta}', BETA);
+const BMARK = '{' + 'beta}';   // split so the guide build (which swaps the marker for the span everywhere) leaves it alone
+const racx = s => String(s).split(BETA).join(BMARK).split(BMARK).map(esc).join(BETA);
 const RC = Object.fromEntries(RACES.map(r => [r.id, r]));
 const RLEAD = {"human": "La razza più numerosa dell’Alleanza. Versatile e forte nel PvP grazie a Volontà di Sopravvivenza.", "dwarf": "Robusti minatori e fucilieri di Forgiardente. Per la prima volta l’Alleanza ha degli sciamani, e sono nani: in Classic non c’erano.", "nightelf": "Un antico popolo delle foreste. Sfuggenti: un modo tutto loro per nascondersi, schivate e corsa veloce.", "gnome": "Gli inventori di Gnomeregan. Piccoli, astuti e con la migliore abilità di fuga del gioco.", "skyA": "Una nuova razza di Forever. L’High Order: elfi del vento in cerca della magia arcana perduta dei loro antenati.", "orc": "Il cuore dell’Orda. I guerrieri più forti e maestri del PvP grazie a Furia Sanguinaria e Audacia.", "undead": "I Reietti: ex umani liberatisi dal Re dei Lich. Immuni a paura e sonno quando conta.", "tauren": "Pacifici giganti delle pianure. La salute più alta e uno stordimento ad area tutto loro.", "troll": "La tribù Lanciascura. Più classi di tutta l’Orda e un potente Berserker per i danni.", "skyH": "Una nuova razza di Forever. I Windshaper: guide spirituali degli Skyborne, vicini agli elementi."}; // race page leads and URL slugs, filled in by build.py
 const RSLUG = {"human": "human", "dwarf": "dwarf", "nightelf": "night-elf", "gnome": "gnome", "skyA": "skyborne-alliance", "orc": "orc", "undead": "undead", "tauren": "tauren", "troll": "troll", "skyH": "skyborne-horde"};
@@ -178,7 +179,7 @@ const DESC = {
   rogue: 'Veleni, lame e ombra. Danni puri dall’imboscata e controllo dei nemici.',
   priest: 'Luce e Ombra nelle stesse mani. Il guaritore principale del gruppo o un incantatore oscuro.',
   shaman: 'Totem ed elementi: cura, colpisce con fulmini o armi. Ora anche nell’Alleanza.',
-  mage: 'Magia del fuoco, del gelo e arcana. Portali, cibo e acqua per tutta la squadra.',
+  mage: 'Magia del fuoco, del gelo e arcana. Portali, cibo e acqua per il gruppo.',
   warlock: 'Maledizioni, demoni e fuoco. Danni nel tempo e un demone tutto tuo che ti aiuta.',
   druid: 'Orso, gatto, gufo o guaritore: tutti e tre i ruoli in un solo personaggio.'
 };

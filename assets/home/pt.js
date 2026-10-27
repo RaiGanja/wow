@@ -41,7 +41,7 @@ const CLASSES = [
     specs:[['Arcano','Explosão de dano, muita mana',['dps']],['Fogo','Críticos e ignições',['dps']],['Gélido','Dano e controle',['dps']]],
     lvl:'A evolução mais rápida, cerca de 8% mais rápida que a média, cerca de 12 horas economizadas (estimativa do LFCarry)',
     lp:-8,
-    raid:'Portais, comida e água para o grupo todo',
+    raid:'Portais, comida e água para o grupo',
     forever:'Fogo ganhou Embalo de Fogo, Arcano ganhou Impacto Arcano, Gélido ganhou Lança de Gelo. Seta de Fogofrio fica disponível a partir do nível 40.' },
   { id:'warlock', n:'Bruxo', roles:['dps'],
     specs:[['Suplício','Dano de maldições e corrupção',['dps']],['Demonologia','Dano por meio de demônios',['dps']],['Destruição','Dano direto de fogo e de sombra',['dps']]],
@@ -106,7 +106,8 @@ const RACES = [
 RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
 const CL = Object.fromEntries(CLASSES.map(c => [c.id, c]));
 const BETA = '<span class="beta-note">segundo os dados da beta</span>';
-const racx = s => esc(s).replace('{beta}', BETA);
+const BMARK = '{' + 'beta}';   // split so the guide build (which swaps the marker for the span everywhere) leaves it alone
+const racx = s => String(s).split(BETA).join(BMARK).split(BMARK).map(esc).join(BETA);
 const RC = Object.fromEntries(RACES.map(r => [r.id, r]));
 const RLEAD = {"human": "A raça mais numerosa da Aliança. Versátil e forte no PvP graças a Desejo de Sobreviver.", "dwarf": "Mineiros e fuzileiros robustos de Altoforno. Pela primeira vez a Aliança tem xamãs, e são anões: no Classic não havia.", "nightelf": "Um povo antigo das florestas. Esquivos: seu próprio jeito de se esconder, esquivar e correr rápido.", "gnome": "Os inventores de Gnomeregan. Pequenos, astutos e com a melhor habilidade de fuga do jogo.", "skyA": "Uma nova raça no Forever. A High Order: elfos do vento em busca da magia arcana perdida dos seus ancestrais.", "orc": "O coração da Horda. Os guerreiros mais fortes e mestres do PvP graças a Fúria Sangrenta e Robustez.", "undead": "Os Renegados: ex-humanos que se libertaram do Lich Rei. Imunes a medo e sono quando importa.", "tauren": "Gigantes pacíficos das planícies. A maior vida e seu próprio atordoamento em área.", "troll": "A tribo Lançanegra. O maior número de classes na Horda e um Berserk forte para dano.", "skyH": "Uma nova raça no Forever. Os Windshapers: líderes espirituais dos Skyborne, próximos aos elementos."}; // race page leads and URL slugs, filled in by build.py
 const RSLUG = {"human": "human", "dwarf": "dwarf", "nightelf": "night-elf", "gnome": "gnome", "skyA": "skyborne-alliance", "orc": "orc", "undead": "undead", "tauren": "tauren", "troll": "troll", "skyH": "skyborne-horde"};
@@ -178,7 +179,7 @@ const DESC = {
   rogue: 'Venenos, lâminas e sombras. Dano puro de emboscada e controle de grupo.',
   priest: 'Luz e Sombra num só par de mãos. O principal curador do grupo ou um conjurador sombrio.',
   shaman: 'Totens e elementos: cura, ataca com raios ou armas. Agora também na Aliança.',
-  mage: 'Magia de fogo, gelo e arcana. Portais, comida e água para a turma toda.',
+  mage: 'Magia de fogo, gelo e arcana. Portais, comida e água para o grupo.',
   warlock: 'Maldições, demônios e fogo. Dano ao longo do tempo e um demônio só seu para ajudar.',
   druid: 'Urso, gato, coruja ou curador: as três funções num só personagem.'
 };

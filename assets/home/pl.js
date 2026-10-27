@@ -41,7 +41,7 @@ const CLASSES = [
     specs:[['Arcane','Burst, dużo many',['dps']],['Fire','Kryty i ignite',['dps']],['Frost','Obrażenia i kontrola',['dps']]],
     lvl:'Najszybszy leveling, około 8% szybciej niż średnia, oszczędność około 12 godzin (szacunek LFCarry)',
     lp:-8,
-    raid:'Portale oraz jedzenie i woda dla całej drużyny',
+    raid:'Portale, jedzenie i woda dla grupy',
     forever:'Fire dostał Hotstreak, Arcane Arcane Blast, Frost Ice Lance. Frostfire Bolt jest dostępny od levelu 40.' },
   { id:'warlock', n:'Warlock', roles:['dps'],
     specs:[['Affliction','Obrażenia od klątw i korupcji',['dps']],['Demonology','Obrażenia przez demony',['dps']],['Destruction','Bezpośrednie obrażenia od ognia i cienia',['dps']]],
@@ -106,7 +106,8 @@ const RACES = [
 RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
 const CL = Object.fromEntries(CLASSES.map(c => [c.id, c]));
 const BETA = '<span class="beta-note">wg danych z bety</span>';
-const racx = s => esc(s).replace('{beta}', BETA);
+const BMARK = '{' + 'beta}';   // split so the guide build (which swaps the marker for the span everywhere) leaves it alone
+const racx = s => String(s).split(BETA).join(BMARK).split(BMARK).map(esc).join(BETA);
 const RC = Object.fromEntries(RACES.map(r => [r.id, r]));
 const RLEAD = {"human": "Najliczniejsza rasa Alliance. Wszechstronna i mocna w PvP dzięki Will to Survive.", "dwarf": "Twardzi górnicy i strzelcy z Ironforge. Po raz pierwszy Przymierze ma szamanów, i są to krasnoludy: w Classic ich nie było.", "nightelf": "Starożytny lud lasów. Nieuchwytni: własny sposób na ukrycie się, uniki i szybki bieg.", "gnome": "Wynalazcy z Gnomeregan. Mali, sprytni i z najlepszą zdolnością ucieczki w grze.", "skyA": "Nowa rasa w Forever. High Order: elfy wiatru szukające utraconej magii arkanów swoich przodków.", "orc": "Serce Horde. Najsilniejsi wojownicy i mistrzowie PvP dzięki Blood Fury i Hardiness.", "undead": "Forsaken: dawni ludzie, którzy wyrwali się spod władzy Lich Kinga. Odporni na fear i sen, kiedy to się liczy.", "tauren": "Pokojowe olbrzymy z równin. Najwięcej zdrowia i własne obszarowe ogłuszenie.", "troll": "Plemię Darkspear. Najwięcej klas w Horde i mocny Berserking na obrażenia.", "skyH": "Nowa rasa w Forever. Windshaper: duchowi przywódcy Skyborne, bliscy żywiołom."}; // race page leads and URL slugs, filled in by build.py
 const RSLUG = {"human": "human", "dwarf": "dwarf", "nightelf": "night-elf", "gnome": "gnome", "skyA": "skyborne-alliance", "orc": "orc", "undead": "undead", "tauren": "tauren", "troll": "troll", "skyH": "skyborne-horde"};
@@ -178,7 +179,7 @@ const DESC = {
   rogue: 'Trucizny, ostrza i cień. Czyste obrażenia z zasadzki i kontrola tłumu.',
   priest: 'Światło i Cień w jednych rękach. Główny healer drużyny albo mroczny caster.',
   shaman: 'Totemy i żywioły: leczy, uderza piorunami albo bronią. Teraz także w Alliance.',
-  mage: 'Magia ognia, mrozu i arkanów. Portale, jedzenie i woda dla całej ekipy.',
+  mage: 'Magia ognia, mrozu i arkanów. Portale, jedzenie i woda dla drużyny.',
   warlock: 'Klątwy, demony i ogień. Obrażenia w czasie i własny demon do pomocy.',
   druid: 'Miś, kot, sowa albo healer: wszystkie trzy role na jednej postaci.'
 };

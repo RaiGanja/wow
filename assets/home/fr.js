@@ -41,7 +41,7 @@ const CLASSES = [
     specs:[['Arcanes','Pics de dégâts, beaucoup de mana',['dps']],['Feu','Critiques et enflammer',['dps']],['Givre','Dégâts et contrôle',['dps']]],
     lvl:'La montée la plus rapide, environ 8 % plus vite que la moyenne, environ 12 heures gagnées (estimation de LFCarry)',
     lp:-8,
-    raid:'Portails, nourriture et eau pour tout le groupe',
+    raid:'Portails, nourriture et eau pour le groupe',
     forever:'Feu reçoit Chaleur continue, Arcanes Déflagration des arcanes, Givre Javelot de glace. Éclair de givrefeu est disponible dès le niveau 40.' },
   { id:'warlock', n:'Démoniste', roles:['dps'],
     specs:[['Affliction','Dégâts des malédictions et de la corruption',['dps']],['Démonologie','Dégâts par les démons',['dps']],['Destruction','Dégâts directs de feu et d’ombre',['dps']]],
@@ -106,7 +106,8 @@ const RACES = [
 RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
 const CL = Object.fromEntries(CLASSES.map(c => [c.id, c]));
 const BETA = '<span class="beta-note">d’après la bêta</span>';
-const racx = s => esc(s).replace('{beta}', BETA);
+const BMARK = '{' + 'beta}';   // split so the guide build (which swaps the marker for the span everywhere) leaves it alone
+const racx = s => String(s).split(BETA).join(BMARK).split(BMARK).map(esc).join(BETA);
 const RC = Object.fromEntries(RACES.map(r => [r.id, r]));
 const RLEAD = {"human": "La race la plus nombreuse de l’Alliance. Polyvalente et forte en JcJ grâce à Volonté de survie.", "dwarf": "Robustes mineurs et fusiliers de Forgefer. Pour la première fois, l’Alliance a des chamans, et ce sont des nains : Classic n’en avait pas.", "nightelf": "Un peuple ancien des forêts. Insaisissables : leur propre façon de se cacher, d’esquiver et de courir vite.", "gnome": "Les inventeurs de Gnomeregan. Petits, rusés et avec la meilleure capacité d’évasion du jeu.", "skyA": "Une nouvelle race dans Forever. Le High Order : des elfes du vent en quête de la magie des arcanes perdue de leurs ancêtres.", "orc": "Le cœur de la Horde. Les meilleurs guerriers et maîtres du JcJ grâce à Fureur sanguinaire et Solidité.", "undead": "Les Réprouvés : d’anciens humains libérés du roi-liche. Immunisés contre la peur et le sommeil quand ça compte.", "tauren": "Paisibles géants des plaines. Le plus de vie et leur propre étourdissement de zone.", "troll": "La tribu Sombrelance. Le plus de classes de la Horde et un puissant Berserker pour les dégâts.", "skyH": "Une nouvelle race dans Forever. Les Windshapers : guides spirituels des Skyborne, proches des éléments."}; // race page leads and URL slugs, filled in by build.py
 const RSLUG = {"human": "human", "dwarf": "dwarf", "nightelf": "night-elf", "gnome": "gnome", "skyA": "skyborne-alliance", "orc": "orc", "undead": "undead", "tauren": "tauren", "troll": "troll", "skyH": "skyborne-horde"};
@@ -178,7 +179,7 @@ const DESC = {
   rogue: 'Poisons, lames et ombre. Dégâts purs depuis l’embuscade et contrôle des foules.',
   priest: 'La Lumière et l’Ombre dans les mêmes mains. Le soigneur principal du groupe ou un lanceur de sorts obscur.',
   shaman: 'Totems et éléments : soigne, frappe avec la foudre ou les armes. Désormais aussi dans l’Alliance.',
-  mage: 'Magie du feu, du givre et des arcanes. Portails, nourriture et eau pour toute l’équipe.',
+  mage: 'Magie du feu, du givre et des arcanes. Portails, nourriture et eau pour le groupe.',
   warlock: 'Malédictions, démons et feu. Dégâts sur la durée et votre propre démon pour vous aider.',
   druid: 'Ours, félin, sélénien ou soigneur : les trois rôles sur un seul personnage.'
 };

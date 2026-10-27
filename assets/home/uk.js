@@ -41,7 +41,7 @@ const CLASSES = [
     specs:[['Тайна магія','Бурст, багато мани',['dps']],['Вогонь','Криті та підпали',['dps']],['Лід','Шкода і контроль',['dps']]],
     lvl:'Найшвидша прокачка, приблизно на 8% швидше за середню, близько 12 годин економії (оцінка LFCarry)',
     lp:-8,
-    raid:'Портали та їжа з водою для всієї компанії',
+    raid:'Портали, їжа й вода для групи',
     forever:'Вогонь отримав Hotstreak, Тайна магія — Arcane Blast, Лід — Крижаний спис. Вогняно-крижана стріла доступна з 40 рівня.' },
   { id:'warlock', n:'Чорнокнижник', roles:['dps'],
     specs:[['Прокляття','Шкода від прокляттів і псування',['dps']],['Демонологія','Шкода через демонів',['dps']],['Руйнування','Пряма шкода вогнем і темрявою',['dps']]],
@@ -106,7 +106,8 @@ const RACES = [
 RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
 const CL = Object.fromEntries(CLASSES.map(c => [c.id, c]));
 const BETA = '<span class="beta-note">за даними бети</span>';
-const racx = s => esc(s).replace('{beta}', BETA);
+const BMARK = '{' + 'beta}';   // split so the guide build (which swaps the marker for the span everywhere) leaves it alone
+const racx = s => String(s).split(BETA).join(BMARK).split(BMARK).map(esc).join(BETA);
 const RC = Object.fromEntries(RACES.map(r => [r.id, r]));
 const RLEAD = {"human": "Найчисленніша раса Альянсу. Універсальна й сильна в PvP завдяки Will to Survive.", "dwarf": "Міцні гірники та стрільці Ironforge. Уперше Альянс має шаманів, і це дворфи: у Classic такого не було.", "nightelf": "Давній народ лісів. Невловимі: власний спосіб сховатися, ухилення та швидкий біг.", "gnome": "Винахідники Gnomeregan. Маленькі, хитрі й з найкращою здібністю втечі в грі.", "skyA": "Нова раса Forever. Вищий орден: ельфи вітру, які шукають втрачену таємну магію предків.", "orc": "Серце Орди. Найсильніші воїни та майстри PvP завдяки Blood Fury і Hardiness.", "undead": "Відреклі: колишні люди, що вирвалися з-під влади Короля-ліча. Не бояться страху та сну.", "tauren": "Мирні велетні рівнин. Найбільше здоров’я та власний масовий оглушливий удар.", "troll": "Плем’я Darkspear. Найбільше класів в Орді та сильний Berserking для шкоди.", "skyH": "Нова раса Forever. Вітрорізи: духовні лідери скайборнів, близькі до стихій."}; // race page leads and URL slugs, filled in by build.py
 const RSLUG = {"human": "human", "dwarf": "dwarf", "nightelf": "night-elf", "gnome": "gnome", "skyA": "skyborne-alliance", "orc": "orc", "undead": "undead", "tauren": "tauren", "troll": "troll", "skyH": "skyborne-horde"};
@@ -178,7 +179,7 @@ const DESC = {
   rogue: 'Отрути, клинки й тінь. Чиста шкода із засідки та контроль ворогів.',
   priest: 'Світло й Темрява в одних руках. Головний цілитель групи або темний заклинач.',
   shaman: 'Тотеми й стихії: лікує, б’є блискавкою або зброєю. Тепер є й в Альянсу.',
-  mage: 'Вогонь, лід і таємна магія. Портали, їжа й вода для всієї компанії.',
+  mage: 'Вогонь, лід і таємна магія. Портали, їжа й вода для групи.',
   warlock: 'Прокляття, демони й вогонь. Шкода з часом і власний демон на допомогу.',
   druid: 'Ведмідь, кіт, сова або цілитель: усі три ролі на одному персонажі.'
 };

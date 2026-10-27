@@ -776,7 +776,7 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .cmp { display: grid; gap: 6px; container-type: inline-size; }
 .cmp-h, .cmp-row { display: grid; gap: 22px; align-items: center; }
 .cmp.cls .cmp-h, .cmp.cls .cmp-row { grid-template-columns: minmax(240px, 1.2fr) 122px 190px minmax(0, 1.9fr) 22px; }
-.cmp.rac .cmp-h, .cmp.rac .cmp-row { grid-template-columns: minmax(200px, .9fr) 314px minmax(0, 2.2fr) 22px; }
+.cmp.rac .cmp-h, .cmp.rac .cmp-row { grid-template-columns: minmax(200px, .9fr) 346px minmax(0, 2.2fr) 22px; }
 .cmp-h { padding: 0 22px 4px; font-size: var(--fs-13); font-weight: 600; color: var(--muted); }
 .cmp-h .rdots { color: var(--muted); }
 .cmp-h .rdots span { display: grid; place-items: center; }
@@ -814,8 +814,8 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .lvl .bar i { position: absolute; top: 0; bottom: 0; border-radius: 999px; background: var(--new); }
 .lvl .bar i.slow { background: var(--horde); }
 .lvl .scale { display: flex; justify-content: space-between; color: var(--muted); font-size: var(--fs-13); }
-.ccl { display: flex; gap: 7px; min-width: 0; }   /* nine classes in one row: the faces shrink on a narrow card instead of one dropping to a line of its own */
-.ccl .av { --s: 28px; flex: 0 1 var(--s); width: auto; height: auto; min-width: 0; aspect-ratio: 1; transition: opacity .2s, filter .2s; }
+.ccl { display: flex; gap: 9px; min-width: 0; }   /* nine classes in one row: the faces shrink on a narrow card instead of one dropping to a line of its own */
+.ccl .av { --s: 30px; flex: 0 1 var(--s); width: auto; height: auto; min-width: 0; aspect-ratio: 1; transition: opacity .2s, filter .2s; }
 .ccl .av.off { background: transparent; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--fg) 18%, transparent); }   /* a class the race cannot take: an empty ring, not a grey broken face */
 .ccl .av.off img { visibility: hidden; }
 .ccl .av.nw::after { content: ""; position: absolute; right: -3px; top: -3px; width: 9px; height: 9px; border-radius: 50%; background: var(--new); box-shadow: 0 0 0 2px var(--panel); }
@@ -1041,7 +1041,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   /* 320–479px phones: brand + search, radio, theme, language must share one row («Poradnik WoW Forever» is the longest) */
   .topbar .in { gap: 6px; }
   .topbar .tools { gap: 3px; }
-  .topbar .iconbtn, .topbar .langbtn { min-width: 38px; min-height: 40px; }
+  .topbar .iconbtn, .topbar .langbtn { min-width: 38px; min-height: 44px; }   /* 360: 44 px tall; four 44 px widths do not fit next to «Poradnik WoW Forever» */
   .topbar .langbtn { padding: 0 8px; }
   .brand { gap: 7px; }
   .mark { width: 32px; height: 32px; }
@@ -1051,11 +1051,14 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 @media (min-width: 375px) and (max-width: 479px) { .topbar .iconbtn, .topbar .langbtn { min-width: 44px; min-height: 44px; } .topbar .tools { gap: 4px; } }   /* 375+: header buttons reach 44 px */
 @media (max-width: 719px) {   /* phone tap targets: 44 px, the look stays */
   .tabs2 [role="tab"], .tabs2 [role="radio"] { min-height: 44px; }
-  .crumbs a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 10px; margin: -11px -10px; }
+  .crumbs a { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: 0 10px; margin: -11px -10px; }
   .hq a, .qsa a, .tt-ext a, .st-src a { padding-block: 11px; }   /* inline links: a taller touch area, the line height stays */
   .langhint button, .gamehint button { width: 44px; height: 44px; }
   footer .fmap .fh { padding: 11px 6px; margin: 0 -6px; }
-  .clinks .clink { min-height: 36px; }
+  .clinks .clink { min-height: 44px; }
+  .cd .what a, .gamehint a, .langhint a { padding-block: 14px; }   /* inline links: a 44 px touch area, the line stays */
+  .hero > .todsw button:not([data-t]) { position: relative; }
+  .hero > .todsw button:not([data-t])::after { content: ""; position: absolute; inset: -6px 0; }   /* the 32 px pill takes taps 44 px tall */
   .clinks { gap: 0 14px; }
 }
 @media (max-width: 359px) { .bt small { display: none; } }   /* 320: four buttons; the subtitle gives way, «Gabella» and the mark stay */
@@ -1154,7 +1157,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .nitem p { grid-column: 2; margin: 0; color: var(--muted); font-size: var(--fs-16); }
 .nday { margin: 14px 0 2px; font-family: var(--font-body); font-size: var(--fs-14); font-weight: 600; letter-spacing: 0; color: var(--muted); font-variant-numeric: tabular-nums lining-nums; }
 .nday:first-child { margin-top: 0; }
-@media (max-width: 719px) { .nitem { grid-template-columns: minmax(0, 1fr); } .nitem p { grid-column: 1; } }
+@media (max-width: 719px) { .nitem { grid-template-columns: minmax(0, 1fr); min-height: 44px; align-content: center; } .nitem p { grid-column: 1; } .gtable td.k .clink, .gtable td.m .clink { padding-block: 11px; margin-block: -11px; } }
 .gtable .alt { display: block; margin-top: 4px; color: var(--muted); font-size: var(--fs-13); font-weight: 400; }
 .gtable .tag { margin-left: 6px; vertical-align: 1px; }
 #dgBox .filters { margin-bottom: 6px; }
@@ -1193,7 +1196,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .gfaq details > :last-child:not(summary) { margin-bottom: 14px; }
 .gfaq details > p + p { margin-top: 10px; }
 .gsearch { display: flex; align-items: center; min-height: 52px; padding: 0 16px; border: 1px solid var(--pline); border-radius: 8px; background: var(--panel-2); }
-.gsearch:focus-within { border-color: var(--gold); }
+.gsearch:focus-within { border-color: var(--gold); outline: 2px solid var(--gold-2); outline-offset: 2px; }   /* the field draws no ring of its own */
 .gsearch input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; color: var(--fg); font: inherit; font-size: var(--fs-16); min-height: 48px; }
 .gsearch input::placeholder { color: var(--muted); }
 /* In game (/play/, build_guides.play_body): no art band, always solid bar; one column on phones, two from 960px */
@@ -1492,9 +1495,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../assets/radio/radio.css?v=ef0b5f769c" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=5c4214c9fa" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/search/search.css?v=d143d181a8" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../assets/me/me.css?v=b13be6705d" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/hero/hero.css?v=0514d07246" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/hero/hero.css?v=560253db91" media="print" onload="this.media='all'">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -1523,7 +1526,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </svg>
 
 <a class="skip" href="#main">Ir al contenido</a><header class="topbar" id="topbar"><div class="in">
-  <a class="brand" aria-label="Gabella" href="./"><img class="mark" src="../assets/brand/mark.webp?v=64e71bf9" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Guía de WoW Forever</small></span></a>
+  <a class="brand" href="./"><img class="mark" src="../assets/brand/mark.webp?v=64e71bf9" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Guía de WoW Forever</small></span></a>
   <nav class="mainnav" aria-label="Secciones">
     <a href="./classes/">Clases</a><a href="./races/">Razas</a><a href="./guides/leveling/">Subida de nivel</a><a href="./guides/dungeons/">Mazmorras</a><a href="./guides/builds/" data-tl>Talentos</a><a href="./guides/">Guías</a><a href="./tools/">Herramientas</a><a href="./play/">En el juego</a><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a>
   </nav>
@@ -1551,7 +1554,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <div class="wrap gbody solo">
   <nav class="gtoc frame" aria-label="Secciones de la guía"></nav>
   <div class="gmain">
-<section class="frame gsec" id="where"><h2>Adónde ir ahora</h2><form class="nf-find" role="search" action="tools/" method="get"><input type="search" name="q" autocomplete="off" aria-label="Buscar en el sitio" placeholder="Buscar en el sitio"><button class="btn" type="submit">Buscar</button></form><p class="nf-langs"><a href="/wow/" lang="ru">Русский</a><span aria-hidden="true"> · </span><a href="/wow/en/" lang="en">English</a><span aria-hidden="true"> · </span><a href="/wow/uk/" lang="uk">Українська</a><span aria-hidden="true"> · </span><a href="/wow/de/" lang="de">Deutsch</a><span aria-hidden="true"> · </span><a href="/wow/fr/" lang="fr">Français</a><span aria-hidden="true"> · </span><a href="/wow/es/" lang="es">Español</a><span aria-hidden="true"> · </span><a href="/wow/pt/" lang="pt-BR">Português (Brasil)</a><span aria-hidden="true"> · </span><a href="/wow/it/" lang="it">Italiano</a><span aria-hidden="true"> · </span><a href="/wow/pl/" lang="pl">Polski</a></p></section><section class="gsec bare" id="all"><div class="ttiles gtiles"><a class="ttile" href="./classes/"><picture><source type="image/avif" srcset="../assets/art/hero_classes-960.avif?v=f88f0964 960w, ../assets/art/hero_classes-1440.avif?v=feec14e4 1440w, ../assets/art/hero_classes-1920.avif?v=21888a0b 1920w, ../assets/art/hero_classes-2560.avif?v=491e7ebd 2560w" sizes="320px"><img width="960" height="536" src="../assets/art/hero_classes-960.webp?v=791e778c" srcset="../assets/art/hero_classes-960.webp?v=791e778c 960w, ../assets/art/hero_classes-1440.webp?v=55e2e71c 1440w, ../assets/art/hero_classes-1920.webp?v=88ad73e8 1920w, ../assets/art/hero_classes-2560.webp?v=e0fd53a2 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Clases</b><span>Qué clase elegir, comparativa</span></a><a class="ttile" href="./races/"><picture><source type="image/avif" srcset="../assets/art/hero_races-960.avif?v=1f408ccd 960w, ../assets/art/hero_races-1440.avif?v=e83af15e 1440w, ../assets/art/hero_races-1920.avif?v=58f9ffa7 1920w, ../assets/art/hero_races-2560.avif?v=38ebb27e 2560w" sizes="320px"><img width="960" height="536" src="../assets/art/hero_races-960.webp?v=f94f8ef9" srcset="../assets/art/hero_races-960.webp?v=f94f8ef9 960w, ../assets/art/hero_races-1440.webp?v=8217d4f9 1440w, ../assets/art/hero_races-1920.webp?v=dc0c39e8 1920w, ../assets/art/hero_races-2560.webp?v=727c920e 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Razas</b><span>Comparativa de todas las razas</span></a><a class="ttile" href="./guides/tier-list/"><picture><source type="image/avif" srcset="../assets/art/hero_tierlist-960.avif?v=0a2f8f5b 960w, ../assets/art/hero_tierlist-1440.avif?v=2c38d5e8 1440w, ../assets/art/hero_tierlist-1920.avif?v=976d2d81 1920w, ../assets/art/hero_tierlist-2560.avif?v=eadba0bc 2560w" sizes="320px"><img width="960" height="536" src="../assets/art/hero_tierlist-960.webp?v=46c12b29" srcset="../assets/art/hero_tierlist-960.webp?v=46c12b29 960w, ../assets/art/hero_tierlist-1440.webp?v=972cab1e 1440w, ../assets/art/hero_tierlist-1920.webp?v=dafb52ae 1920w, ../assets/art/hero_tierlist-2560.webp?v=05accec8 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Tier list de clases de WoW Forever</b><span>Clases y especializaciones fuertes según la beta</span></a><a class="ttile" href="./guides/launch-day/"><picture><source type="image/avif" srcset="../assets/art/hero_night-960.avif?v=3994e476 960w, ../assets/art/hero_night-1440.avif?v=6fc428f1 1440w, ../assets/art/hero_night-1920.avif?v=c0726a8f 1920w, ../assets/art/hero_night-2560.avif?v=6b3ec9ad 2560w" sizes="320px"><img width="960" height="536" src="../assets/art/hero_night-960.webp?v=4c09873e" srcset="../assets/art/hero_night-960.webp?v=4c09873e 960w, ../assets/art/hero_night-1440.webp?v=0ca93a7f 1440w, ../assets/art/hero_night-1920.webp?v=5839d493 1920w, ../assets/art/hero_night-2560.webp?v=e2c67759 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Día del lanzamiento: hora, colas, estado</b><span>Hora de lanzamiento, colas y dónde ver el estado de los servidores</span></a><a class="ttile" href="./guides/leveling/"><picture><source type="image/avif" srcset="../assets/art/hero_leveling-960.avif?v=f409a875 960w, ../assets/art/hero_leveling-1440.avif?v=a338f633 1440w, ../assets/art/hero_leveling-1920.avif?v=f0dbb11d 1920w, ../assets/art/hero_leveling-2560.avif?v=da274a3d 2560w" sizes="320px"><img width="960" height="536" src="../assets/art/hero_leveling-960.webp?v=c89b21c7" srcset="../assets/art/hero_leveling-960.webp?v=c89b21c7 960w, ../assets/art/hero_leveling-1440.webp?v=d24dee4a 1440w, ../assets/art/hero_leveling-1920.webp?v=4fa0ff24 1920w, ../assets/art/hero_leveling-2560.webp?v=3750e0e1 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Subir de nivel 1–60</b><span>Zonas por nivel, descanso, Legacy y campamento</span></a><a class="ttile" href="./guides/dungeons/"><picture><source type="image/avif" srcset="../assets/art/hero_dungeons-960.avif?v=daff685c 960w, ../assets/art/hero_dungeons-1440.avif?v=fa5d3bed 1440w, ../assets/art/hero_dungeons-1920.avif?v=855d7fd1 1920w, ../assets/art/hero_dungeons-2560.avif?v=40b00c65 2560w" sizes="320px"><img width="960" height="536" src="../assets/art/hero_dungeons-960.webp?v=a480a4e2" srcset="../assets/art/hero_dungeons-960.webp?v=a480a4e2 960w, ../assets/art/hero_dungeons-1440.webp?v=e780b32d 1440w, ../assets/art/hero_dungeons-1920.webp?v=b7a74f4d 1920w, ../assets/art/hero_dungeons-2560.webp?v=9add9f9b 2560w" sizes="320px" alt="" loading="lazy" decoding="async"></picture><b>Mazmorras y bandas</b><span>35 mazmorras por nivel, bandas, composición de grupo</span></a></div></section>
+<section class="frame gsec" id="where"><h2>Adónde ir ahora</h2><form class="nf-find" role="search" action="tools/" method="get"><input type="search" name="q" autocomplete="off" aria-label="Buscar en el sitio" placeholder="Buscar en el sitio"><button class="btn" type="submit">Buscar</button></form><p class="nf-langs"><a href="/wow/" lang="ru">Русский</a><span aria-hidden="true"> · </span><a href="/wow/en/" lang="en">English</a><span aria-hidden="true"> · </span><a href="/wow/uk/" lang="uk">Українська</a><span aria-hidden="true"> · </span><a href="/wow/de/" lang="de">Deutsch</a><span aria-hidden="true"> · </span><a href="/wow/fr/" lang="fr">Français</a><span aria-hidden="true"> · </span><a href="/wow/es/" lang="es">Español</a><span aria-hidden="true"> · </span><a href="/wow/pt/" lang="pt-BR">Português (Brasil)</a><span aria-hidden="true"> · </span><a href="/wow/it/" lang="it">Italiano</a><span aria-hidden="true"> · </span><a href="/wow/pl/" lang="pl">Polski</a></p></section><section class="gsec bare" id="all"><div class="ttiles gtiles"><a class="ttile" href="./classes/"><picture><source type="image/avif" srcset="../assets/art/hero_classes-960.avif?v=f88f0964 960w, ../assets/art/hero_classes-1440.avif?v=feec14e4 1440w, ../assets/art/hero_classes-1920.avif?v=21888a0b 1920w, ../assets/art/hero_classes-2560.avif?v=491e7ebd 2560w" sizes="(min-width: 2200px) 560px, 320px"><img width="960" height="536" src="../assets/art/hero_classes-960.webp?v=791e778c" srcset="../assets/art/hero_classes-960.webp?v=791e778c 960w, ../assets/art/hero_classes-1440.webp?v=55e2e71c 1440w, ../assets/art/hero_classes-1920.webp?v=88ad73e8 1920w, ../assets/art/hero_classes-2560.webp?v=e0fd53a2 2560w" sizes="(min-width: 2200px) 560px, 320px" alt="" loading="lazy" decoding="async"></picture><b>Clases</b><span>Qué clase elegir, comparativa</span></a><a class="ttile" href="./races/"><picture><source type="image/avif" srcset="../assets/art/hero_races-960.avif?v=1f408ccd 960w, ../assets/art/hero_races-1440.avif?v=e83af15e 1440w, ../assets/art/hero_races-1920.avif?v=58f9ffa7 1920w, ../assets/art/hero_races-2560.avif?v=38ebb27e 2560w" sizes="(min-width: 2200px) 560px, 320px"><img width="960" height="536" src="../assets/art/hero_races-960.webp?v=f94f8ef9" srcset="../assets/art/hero_races-960.webp?v=f94f8ef9 960w, ../assets/art/hero_races-1440.webp?v=8217d4f9 1440w, ../assets/art/hero_races-1920.webp?v=dc0c39e8 1920w, ../assets/art/hero_races-2560.webp?v=727c920e 2560w" sizes="(min-width: 2200px) 560px, 320px" alt="" loading="lazy" decoding="async"></picture><b>Razas</b><span>Comparativa de todas las razas</span></a><a class="ttile" href="./guides/tier-list/"><picture><source type="image/avif" srcset="../assets/art/hero_tierlist-960.avif?v=0a2f8f5b 960w, ../assets/art/hero_tierlist-1440.avif?v=2c38d5e8 1440w, ../assets/art/hero_tierlist-1920.avif?v=976d2d81 1920w, ../assets/art/hero_tierlist-2560.avif?v=eadba0bc 2560w" sizes="(min-width: 2200px) 560px, 320px"><img width="960" height="536" src="../assets/art/hero_tierlist-960.webp?v=46c12b29" srcset="../assets/art/hero_tierlist-960.webp?v=46c12b29 960w, ../assets/art/hero_tierlist-1440.webp?v=972cab1e 1440w, ../assets/art/hero_tierlist-1920.webp?v=dafb52ae 1920w, ../assets/art/hero_tierlist-2560.webp?v=05accec8 2560w" sizes="(min-width: 2200px) 560px, 320px" alt="" loading="lazy" decoding="async"></picture><b>Tier list de clases de WoW Forever</b><span>Clases y especializaciones fuertes según la beta</span></a><a class="ttile" href="./guides/launch-day/"><picture><source type="image/avif" srcset="../assets/art/hero_night-960.avif?v=3994e476 960w, ../assets/art/hero_night-1440.avif?v=6fc428f1 1440w, ../assets/art/hero_night-1920.avif?v=c0726a8f 1920w, ../assets/art/hero_night-2560.avif?v=6b3ec9ad 2560w" sizes="(min-width: 2200px) 560px, 320px"><img width="960" height="536" src="../assets/art/hero_night-960.webp?v=4c09873e" srcset="../assets/art/hero_night-960.webp?v=4c09873e 960w, ../assets/art/hero_night-1440.webp?v=0ca93a7f 1440w, ../assets/art/hero_night-1920.webp?v=5839d493 1920w, ../assets/art/hero_night-2560.webp?v=e2c67759 2560w" sizes="(min-width: 2200px) 560px, 320px" alt="" loading="lazy" decoding="async"></picture><b>Día del lanzamiento: hora, colas, estado</b><span>Hora de lanzamiento, colas y dónde ver el estado de los servidores</span></a><a class="ttile" href="./guides/leveling/"><picture><source type="image/avif" srcset="../assets/art/hero_leveling-960.avif?v=f409a875 960w, ../assets/art/hero_leveling-1440.avif?v=a338f633 1440w, ../assets/art/hero_leveling-1920.avif?v=f0dbb11d 1920w, ../assets/art/hero_leveling-2560.avif?v=da274a3d 2560w" sizes="(min-width: 2200px) 560px, 320px"><img width="960" height="536" src="../assets/art/hero_leveling-960.webp?v=c89b21c7" srcset="../assets/art/hero_leveling-960.webp?v=c89b21c7 960w, ../assets/art/hero_leveling-1440.webp?v=d24dee4a 1440w, ../assets/art/hero_leveling-1920.webp?v=4fa0ff24 1920w, ../assets/art/hero_leveling-2560.webp?v=3750e0e1 2560w" sizes="(min-width: 2200px) 560px, 320px" alt="" loading="lazy" decoding="async"></picture><b>Subir de nivel 1–60</b><span>Zonas por nivel, descanso, Legacy y campamento</span></a><a class="ttile" href="./guides/dungeons/"><picture><source type="image/avif" srcset="../assets/art/hero_dungeons-960.avif?v=daff685c 960w, ../assets/art/hero_dungeons-1440.avif?v=fa5d3bed 1440w, ../assets/art/hero_dungeons-1920.avif?v=855d7fd1 1920w, ../assets/art/hero_dungeons-2560.avif?v=40b00c65 2560w" sizes="(min-width: 2200px) 560px, 320px"><img width="960" height="536" src="../assets/art/hero_dungeons-960.webp?v=a480a4e2" srcset="../assets/art/hero_dungeons-960.webp?v=a480a4e2 960w, ../assets/art/hero_dungeons-1440.webp?v=e780b32d 1440w, ../assets/art/hero_dungeons-1920.webp?v=b7a74f4d 1920w, ../assets/art/hero_dungeons-2560.webp?v=9add9f9b 2560w" sizes="(min-width: 2200px) 560px, 320px" alt="" loading="lazy" decoding="async"></picture><b>Mazmorras y bandas</b><span>35 mazmorras por nivel, bandas, composición de grupo</span></a></div></section>
   </div>
 </div>
 
@@ -1706,8 +1709,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../assets/radio/radio.js?v=ef0b5f769c" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=5c4214c9fa" data-root="../" defer></script>
+<script src="../assets/search/search.js?v=d143d181a8" data-root="../" defer></script>
 <script src="../assets/me/me.js?v=b13be6705d" data-root="../" data-home="./" data-lang="es" data-ach="0" data-teaser="" data-close="Cerrar" data-page="404" data-look="2" defer></script>
-<script src="../assets/hero/hero.js?v=0514d07246" data-root="../" data-home="./" data-data="../assets/hero/es.json?v=0514d07246" defer></script>
+<script src="../assets/hero/hero.js?v=560253db91" data-root="../" data-home="./" data-data="../assets/hero/es.json?v=560253db91" defer></script>
 </body>
 </html>
