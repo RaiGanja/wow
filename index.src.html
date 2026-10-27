@@ -804,7 +804,7 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .cmp { display: grid; gap: 6px; container-type: inline-size; }
 .cmp-h, .cmp-row { display: grid; gap: 22px; align-items: center; }
 .cmp.cls .cmp-h, .cmp.cls .cmp-row { grid-template-columns: minmax(240px, 1.2fr) 122px 190px minmax(0, 1.9fr) 22px; }
-.cmp.rac .cmp-h, .cmp.rac .cmp-row { grid-template-columns: minmax(200px, .9fr) 314px minmax(0, 2.2fr) 22px; }
+.cmp.rac .cmp-h, .cmp.rac .cmp-row { grid-template-columns: minmax(200px, .9fr) 346px minmax(0, 2.2fr) 22px; }
 .cmp-h { padding: 0 22px 4px; font-size: var(--fs-13); font-weight: 600; color: var(--muted); }
 .cmp-h .rdots { color: var(--muted); }
 .cmp-h .rdots span { display: grid; place-items: center; }
@@ -842,8 +842,8 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .lvl .bar i { position: absolute; top: 0; bottom: 0; border-radius: 999px; background: var(--new); }
 .lvl .bar i.slow { background: var(--horde); }
 .lvl .scale { display: flex; justify-content: space-between; color: var(--muted); font-size: var(--fs-13); }
-.ccl { display: flex; gap: 7px; min-width: 0; }   /* nine classes in one row: the faces shrink on a narrow card instead of one dropping to a line of its own */
-.ccl .av { --s: 28px; flex: 0 1 var(--s); width: auto; height: auto; min-width: 0; aspect-ratio: 1; transition: opacity .2s, filter .2s; }
+.ccl { display: flex; gap: 9px; min-width: 0; }   /* nine classes in one row: the faces shrink on a narrow card instead of one dropping to a line of its own */
+.ccl .av { --s: 30px; flex: 0 1 var(--s); width: auto; height: auto; min-width: 0; aspect-ratio: 1; transition: opacity .2s, filter .2s; }
 .ccl .av.off { background: transparent; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--fg) 18%, transparent); }   /* a class the race cannot take: an empty ring, not a grey broken face */
 .ccl .av.off img { visibility: hidden; }
 .ccl .av.nw::after { content: ""; position: absolute; right: -3px; top: -3px; width: 9px; height: 9px; border-radius: 50%; background: var(--new); box-shadow: 0 0 0 2px var(--panel); }

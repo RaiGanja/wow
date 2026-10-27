@@ -1494,7 +1494,7 @@ def build_page(g, lang, tpl, base_css, sprite, src):
     sub = g['path'] if 'path' in g else (f'guides/{g["slug"]}/' if g['slug'] else 'guides/')   # path: classes/, races/, privacy/, '' (404)
     here = page_dir(lang, sub)
     html = tpl.replace('@@BASE_CSS@@', base_css).replace('@@SPRITE@@', sprite)
-    nav = (g['path'] if g['path'] in ('classes/', 'races/', 'play/') else None) if 'path' in g else         (sub if g['slug'] in ('leveling', 'dungeons') else 'guides/')   # privacy, 404: no current item
+    nav = (g['path'] if g['path'] in ('classes/', 'races/', 'play/') else None) if 'path' in g else         (sub if g['slug'] in ('leveling', 'dungeons') else 'guides/builds/' if g['slug'] == 'builds' or g['slug'].startswith('builds-') else 'guides/')   # privacy, 404: no current item
     tab = ('classes/' if g['slug'] == 'classes' else None) if 'path' in g else         'guides/leveling/' if g['slug'].startswith('leveling') else 'guides/dungeons/' if g['slug'] == 'dungeons' else None
     html = build.chrome(html, nav=nav, tab=tab)
     if g.get('hero'):                                             # own full-screen scene instead of the art band
