@@ -1,0 +1,41 @@
+# Official Blizzard posts about Forever -> hash, structured changes, check against the site (tools/news_watch.py).
+# State and log: branch news-data (ledger.json, log.jsonl, entries/). Pushing there does not rebuild Pages (Pages builds from main).
+# Switch: repository variable NEWS_AUTO=on (scheduled runs); off or missing = only manual runs.
+#   gh variable set NEWS_AUTO -b off -R RaiGanja/wow
+# Mode: NEWS_AUTO_MODE=dry (log only) | issues (+ an issue with label news-auto per story). Manual run: gh workflow run news-auto -f mode=dry
+# No secrets: only the automatic GITHUB_TOKEN. Logs are public: they hold titles, links and hashes only.
+name: news-auto
+on:
+  schedule: [{ cron: '1,11,21,31,41,51 * * * *' }]
+  workflow_dispatch:
+    inputs:
+      mode: { description: 'dry | issues', default: 'dry' }
+permissions:
+  contents: write
+  issues: write
+concurrency: { group: news-auto, cancel-in-progress: false }
+jobs:
+  watch:
+    if: vars.NEWS_AUTO == 'on' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: State branch news-data
+        run: |
+          if git fetch --depth=1 origin news-data; then git worktree add state FETCH_HEAD; git -C state switch -c news-data
+          else git worktree add --orphan -b news-data state; fi
+      - name: Watch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MODE: ${{ github.event.inputs.mode || vars.NEWS_AUTO_MODE || 'dry' }}
+        run: python tools/news_watch.py --state state $([ "$MODE" = issues ] && echo --issues)
+      - name: Save state
+        run: |
+          cd state
+          git add -A
+          git diff --cached --quiet && exit 0
+          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -q -m "news-data $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push origin HEAD:news-data
