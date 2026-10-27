@@ -51,9 +51,9 @@
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../assets/radio/radio.css?v=ef0b5f769c">
-<link data-rel="stylesheet" href="../../assets/search/search.css?v=78c0ba6291">
+<link data-rel="stylesheet" href="../../assets/search/search.css?v=e9ccc881c2">
 <link data-rel="stylesheet" href="../../assets/me/me.css?v=297cf9b7d8">
-<link data-rel="stylesheet" href="../../assets/hero/hero.css?v=34379ebcc7">
+<link data-rel="stylesheet" href="../../assets/hero/hero.css?v=a61a50b837">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/en/"},{"@type":"ListItem","position":2,"name":"Classes","item":"https://gabella.site/wow/en/classes/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"WoW Forever Classes: Best Class to Play, All 9 Compared","description":"Which class to pick in WoW Forever: nine classes with three specs each, tank/healer/DPS roles, which level fastest and what each brings to a raid.","inLanguage":"en","url":"https://gabella.site/wow/en/classes/","dateModified":"2026-10-27","mainEntityOfPage":{"@type":"WebPage","@id":"https://gabella.site/wow/en/classes/"},"author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/en/"},"image":"https://gabella.site/wow/assets/og/classes-en.jpg?v=305507aa"}</script>
 </head>
@@ -273,11 +273,11 @@ const BUFF = { warrior:'Battle Shout', paladin:'Blessing of Kings', hunter:'True
 const RACES = [
   { id:'human', n:'Human', f:'alliance',
     cls:['warrior','paladin','hunter*','rogue','priest','mage','warlock'],
-    rac:[['a','Will to Survive','Removes stun'],['a','Perception','Reveals invisible enemies for 20 sec'],['p','Ruthless','+2% crit chance'],['p','The Human Spirit','+5% spirit']],
+    rac:[['a','Will to Survive','Removes stun'],['a','Perception','Reveals invisible enemies for 20 sec'],['p','Ruthless','+1% crit chance'],['p','The Human Spirit','+10% spirit']],
     tip:'Spirit goes into healing for a Holy Priest, so a Human priest is good for healing.' },
   { id:'dwarf', n:'Dwarf', f:'alliance',
     cls:['warrior','paladin','hunter','rogue','priest','shaman*'],
-    rac:[['a','Stoneform','Immunity to bleeds, poisons and diseases for 8 sec and reduced physical damage'],['a','Find Treasure','Shows nearby chests'],['p','Earth Fury','+2% crit damage and healing power'],['p','Big Game Hunter','+5% damage to beasts']],
+    rac:[['a','Stoneform','Immunity to bleeds, poisons and diseases for 8 sec and reduced physical damage'],['a','Find Treasure','Shows nearby chests and gives a chance at extra items in most chests'],['p','Artisan’s Precision','+1% hit chance with spells and attacks'],['p','Big Game Hunter','+5% damage to beasts']],
     tip:'Stoneform is useful for tanks and in PvP.' },
   { id:'nightelf', n:'Night Elf', f:'alliance',
     cls:['warrior','hunter','rogue','priest','druid'],
@@ -289,11 +289,11 @@ const RACES = [
     tip:'Expansive Mind especially helps energy classes.' },
   { id:'skyA', n:'Skyborne (Alliance)', f:'alliance', paid:true, name:'High Order Skyborne',
     cls:['warrior','hunter','rogue','mage','druid'],
-    rac:[['a','Walk on Air','Glide down for 10 sec, no fall damage'],['a','Read Ley Line','Health and mana regeneration: +100% (Blizzard, Warcraft Tavern, Icy Veins)'],['p','Wind Blessed','+3% attack and spell speed'],['p','Elemental Insight','+5% damage to elementals']],
+    rac:[['a','Walk on Air','Glide down for 10 sec, no fall damage'],['a','Read Ley Line','Health and mana regeneration +50% for 15 sec. At a Ley Line you also get Attuned for 1 hour: +100%, kept through death'],['p','Wind Blessed','+2% attack and spell speed'],['p','Elemental Insight','+5% damage to elementals']],
     tip:'Paid race: Heroic Pack from $29.99. Starts in the Zephras Isle location (levels 1–12).' },
   { id:'orc', n:'Orc', f:'horde',
     cls:['warrior','hunter','rogue','shaman','warlock','mage*'],
-    rac:[['a','Blood Fury','+10% attack power and spell power for 15 sec'],['a','Shatter Curse','Removes curses and corruption, −5% magic damage taken for 8 sec'],['p','Savage','+1% crit chance'],['p','Hardiness','Stuns are 20% shorter']],
+    rac:[['a','Blood Fury','+10% attack power and spell power for 15 sec'],['a','Shatter Curse','Removes curses and corruption, −5% magic damage taken for 8 sec'],['p','Command','+5% Warlock and Hunter pet damage'],['p','Hardiness','Stuns are 20% shorter']],
     tip:'Blood Fury gives a powerful damage window.' },
   { id:'undead', n:'Undead', f:'horde',
     cls:['warrior','rogue','mage','priest','warlock','paladin*'],
@@ -301,7 +301,7 @@ const RACES = [
     tip:'New combination: a paladin for the Horde, where this class did not exist before.' },
   { id:'tauren', n:'Tauren', f:'horde',
     cls:['warrior','hunter','shaman','druid'],
-    rac:[['a','War Stomp','Stuns nearby enemies for 2 sec'],['a','Cultivation','Grows herbs that can be gathered without Herbalism'],['p','Plainsrunning','Speed increases while you run'],['p','Endurance','+5% health and +2% crit damage']],
+    rac:[['a','War Stomp','Stuns nearby enemies for 2 sec, 90 sec cooldown'],['a','Cultivation','Grows herbs that can be gathered without Herbalism, 15 min cooldown'],['p','Plainsrunning','While you keep moving, run speed grows by 2% per stack, up to +60%. Does not affect mounted speed'],['p','Endurance','+5% health']],
     tip:'The only Horde race with a druid, unless you take Skyborne.' },
   { id:'troll', n:'Troll', f:'horde',
     cls:['warrior','hunter','rogue','priest','shaman','mage','warlock*'],
@@ -309,7 +309,7 @@ const RACES = [
     tip:'The most class options in the Horde: seven.' },
   { id:'skyH', n:'Skyborne (Horde)', f:'horde', paid:true, name:'Windshaper Skyborne',
     cls:['warrior','hunter','rogue','shaman','druid'],
-    rac:[['a','Walk on Air','Glide down for 10 sec, no fall damage'],['a','Skysight','+10% run speed'],['p','Wind Blessed','+3% attack and spell speed'],['p','Elemental Insight','+5% damage to elementals']],
+    rac:[['a','Walk on Air','Glide down for 10 sec, no fall damage'],['a','Skysight','+15% run speed for 15 sec. At an Elemental Convergence you also get Charged for 1 hour: +30%, kept through death'],['p','Wind Blessed','+2% attack and spell speed'],['p','Elemental Insight','+5% damage to elementals']],
     tip:'Paid race: Heroic Pack from $29.99. Only the Horde can have a shaman, only the Alliance a mage.' }
 ];
 RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
@@ -333,7 +333,7 @@ const EN = {
   'Elune’s Light':"Elune’s Light",'Shadowmeld':'Shadowmeld','Quickness':'Quickness','Wisp Spirit':'Wisp Spirit',
   'Escape Artist':'Escape Artist','Eureka!':'Eureka!','Expansive Mind':'Expansive Mind','Engineering Specialization':'Engineering Specialization',
   'Walk on Air':'Walk on Air','Read Ley Line':'Read Ley Line','Wind Blessed':'Wind Blessed','Elemental Insight':'Elemental Insight','Skysight':'Skysight',
-  'Blood Fury':'Blood Fury','Shatter Curse':'Shatter Curse','Savage':'Savage','Hardiness':'Hardiness',
+  'Blood Fury':'Blood Fury','Shatter Curse':'Shatter Curse','Savage':'Savage','Command':'Command','Hardiness':'Hardiness',
   'Will of the Forsaken':'Will of the Forsaken','Cannibalize':'Cannibalize','Underwater Breathing':'Underwater Breathing','Touch of the Grave':'Touch of the Grave',
   'War Stomp':'War Stomp','Cultivation':'Cultivation','Plainsrunning':'Plainsrunning','Endurance':'Endurance',
   'Berserking':'Berserking','Rapid Regeneration':'Rapid Regeneration','Beast Slaying':'Beast Slaying','Regeneration':'Regeneration'
@@ -447,9 +447,9 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../assets/radio/radio.js?v=ef0b5f769c" data-root="../../"></script>
-<script data-src="../../assets/search/search.js?v=78c0ba6291" data-root="../../"></script>
+<script data-src="../../assets/search/search.js?v=e9ccc881c2" data-root="../../"></script>
 <script data-src="../../assets/me/me.js?v=297cf9b7d8" data-root="../../" data-home="../" data-lang="en" data-ach="0" data-teaser="" data-close="Close" data-page="classes/" data-look="2"></script>
-<script data-src="../../assets/hero/hero.js?v=34379ebcc7" data-root="../../" data-home="../" data-data="../../assets/hero/en.json?v=34379ebcc7"></script>
+<script data-src="../../assets/hero/hero.js?v=a61a50b837" data-root="../../" data-home="../" data-data="../../assets/hero/en.json?v=a61a50b837"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
 (function () {

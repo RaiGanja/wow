@@ -51,9 +51,9 @@
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link data-rel="stylesheet" href="../../assets/radio/radio.css?v=ef0b5f769c">
-<link data-rel="stylesheet" href="../../assets/search/search.css?v=78c0ba6291">
+<link data-rel="stylesheet" href="../../assets/search/search.css?v=e9ccc881c2">
 <link data-rel="stylesheet" href="../../assets/me/me.css?v=297cf9b7d8">
-<link data-rel="stylesheet" href="../../assets/hero/hero.css?v=34379ebcc7">
+<link data-rel="stylesheet" href="../../assets/hero/hero.css?v=a61a50b837">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Início","item":"https://gabella.site/wow/pt/"},{"@type":"ListItem","position":2,"name":"Classes","item":"https://gabella.site/wow/pt/classes/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Classes de WoW Forever: qual escolher? As 9 comparadas","description":"Qual classe escolher em WoW Forever: nove classes com três especializações, funções de tanque/curador/DPS, quais evoluem mais rápido e o que cada uma traz.","inLanguage":"pt-BR","url":"https://gabella.site/wow/pt/classes/","dateModified":"2026-10-27","mainEntityOfPage":{"@type":"WebPage","@id":"https://gabella.site/wow/pt/classes/"},"author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/pt/"},"image":"https://gabella.site/wow/assets/og/classes-pt.jpg?v=ca20c853"}</script>
 </head>
@@ -273,11 +273,11 @@ const BUFF = { warrior:'Brado de Batalha', paladin:'Bênção dos Reis', hunter:
 const RACES = [
   { id:'human', n:'Humano', f:'alliance',
     cls:['warrior','paladin','hunter*','rogue','priest','mage','warlock'],
-    rac:[['a','Desejo de Sobreviver','Remove atordoamento'],['a','Percepção','Revela inimigos invisíveis por 20 s'],['p','Ruthless','+2% de chance de crítico'],['p','O Espírito Humano','+5% de espírito']],
+    rac:[['a','Desejo de Sobreviver','Remove atordoamento'],['a','Percepção','Revela inimigos invisíveis por 20 s'],['p','Ruthless','+1% de chance de crítico'],['p','O Espírito Humano','+10% de espírito']],
     tip:'O espírito vira cura para um Sacerdote Sagrado, então um sacerdote humano é bom para curar.' },
   { id:'dwarf', n:'Anão', f:'alliance',
     cls:['warrior','paladin','hunter','rogue','priest','shaman*'],
-    rac:[['a','Forma de Pedra','Imunidade a sangramentos, venenos e doenças por 8 s e dano físico reduzido'],['a','Localizar Tesouros','Mostra baús por perto'],['p','Earth Fury','+2% de dano crítico e de poder de cura'],['p','Big Game Hunter','+5% de dano contra feras']],
+    rac:[['a','Forma de Pedra','Imunidade a sangramentos, venenos e doenças por 8 s e dano físico reduzido'],['a','Localizar Tesouros','Mostra baús por perto e dá chance de itens extras na maioria dos baús'],['p','Artisan’s Precision','+1% de chance de acerto com feitiços e ataques'],['p','Big Game Hunter','+5% de dano contra feras']],
     tip:'Forma de Pedra é útil para tanques e no PvP.' },
   { id:'nightelf', n:'Elfo Noturno', f:'alliance',
     cls:['warrior','hunter','rogue','priest','druid'],
@@ -289,11 +289,11 @@ const RACES = [
     tip:'Mente Expansiva ajuda especialmente as classes de energia.' },
   { id:'skyA', n:'Skyborne (Aliança)', f:'alliance', paid:true, name:'Skyborne da High Order',
     cls:['warrior','hunter','rogue','mage','druid'],
-    rac:[['a','Walk on Air','Plana para baixo por 10 s, sem dano de queda'],['a','Read Ley Line','Regeneração de vida e mana: +100% (Blizzard, Warcraft Tavern, Icy Veins)'],['p','Wind Blessed','+3% de velocidade de ataque e de feitiços'],['p','Elemental Insight','+5% de dano contra elementais']],
+    rac:[['a','Walk on Air','Plana para baixo por 10 s, sem dano de queda'],['a','Read Ley Line','Regeneração de vida e mana +50% por 15 s. Numa Ley Line, também Attuned por 1 hora: +100%, continua após a morte'],['p','Wind Blessed','+2% de velocidade de ataque e de feitiços'],['p','Elemental Insight','+5% de dano contra elementais']],
     tip:'Raça paga: Heroic Pack a partir de $29.99. Começa na região de Zephras Isle (níveis 1–12).' },
   { id:'orc', n:'Orc', f:'horde',
     cls:['warrior','hunter','rogue','shaman','warlock','mage*'],
-    rac:[['a','Fúria Sangrenta','+10% de poder de ataque e poder mágico por 15 s'],['a','Shatter Curse','Remove maldições e corrupção, −5% de dano mágico recebido por 8 s'],['p','Savage','+1% de chance de crítico'],['p','Robustez','Atordoamentos duram 20% menos']],
+    rac:[['a','Fúria Sangrenta','+10% de poder de ataque e poder mágico por 15 s'],['a','Shatter Curse','Remove maldições e corrupção, −5% de dano mágico recebido por 8 s'],['p','Comando','+5% de dano dos mascotes de bruxo e caçador'],['p','Robustez','Atordoamentos duram 20% menos']],
     tip:'Fúria Sangrenta dá uma janela de dano poderosa.' },
   { id:'undead', n:'Morto-vivo', f:'horde',
     cls:['warrior','rogue','mage','priest','warlock','paladin*'],
@@ -301,7 +301,7 @@ const RACES = [
     tip:'Nova combinação: um paladino para a Horda, onde essa classe não existia antes.' },
   { id:'tauren', n:'Taureno', f:'horde',
     cls:['warrior','hunter','shaman','druid'],
-    rac:[['a','Pisada de Guerra','Atordoa inimigos próximos por 2 s'],['a','Cultivo','Faz crescer ervas que podem ser colhidas sem Herborismo'],['p','Vencer Planícies','A velocidade aumenta enquanto você corre'],['p','Resistência','+5% de vida e +2% de dano crítico']],
+    rac:[['a','Pisada de Guerra','Atordoa inimigos próximos por 2 s, recarga de 90 s'],['a','Cultivo','Faz crescer ervas que podem ser colhidas sem Herborismo, recarga de 15 min'],['p','Vencer Planícies','Enquanto você se move, a velocidade de corrida sobe 2% por acúmulo, até +60%. Não afeta a velocidade montado'],['p','Resistência','+5% de vida']],
     tip:'A única raça da Horda com druida, a menos que você pegue Skyborne.' },
   { id:'troll', n:'Troll', f:'horde',
     cls:['warrior','hunter','rogue','priest','shaman','mage','warlock*'],
@@ -309,7 +309,7 @@ const RACES = [
     tip:'O maior número de classes na Horda: sete.' },
   { id:'skyH', n:'Skyborne (Horda)', f:'horde', paid:true, name:'Skyborne Windshaper',
     cls:['warrior','hunter','rogue','shaman','druid'],
-    rac:[['a','Walk on Air','Plana para baixo por 10 s, sem dano de queda'],['a','Skysight','+10% de velocidade'],['p','Wind Blessed','+3% de velocidade de ataque e de feitiços'],['p','Elemental Insight','+5% de dano contra elementais']],
+    rac:[['a','Walk on Air','Plana para baixo por 10 s, sem dano de queda'],['a','Skysight','+15% de velocidade por 15 s. Numa Elemental Convergence, também Charged por 1 hora: +30%, continua após a morte'],['p','Wind Blessed','+2% de velocidade de ataque e de feitiços'],['p','Elemental Insight','+5% de dano contra elementais']],
     tip:'Raça paga: Heroic Pack a partir de $29.99. Só a Horda pode ter xamã, só a Aliança, mago.' }
 ];
 RACES.forEach(r => { r.can = {}; r.cls.forEach(c => { const isNew = c.endsWith('*'); r.can[isNew ? c.slice(0,-1) : c] = isNew ? 'new' : 'ok'; }); });
@@ -333,7 +333,7 @@ const EN = {
   'Luz de Eluna':"Elune’s Light",'Fusão Sombria':'Shadowmeld','Rapidez':'Quickness','Espírito de Fogo-fátuo':'Wisp Spirit',
   'Artista da Fuga':'Escape Artist','Eureca!':'Eureka!','Mente Expansiva':'Expansive Mind','Especialização em Engenharia':'Engineering Specialization',
   'Walk on Air':'Walk on Air','Read Ley Line':'Read Ley Line','Wind Blessed':'Wind Blessed','Elemental Insight':'Elemental Insight','Skysight':'Skysight',
-  'Fúria Sangrenta':'Blood Fury','Shatter Curse':'Shatter Curse','Savage':'Savage','Robustez':'Hardiness',
+  'Fúria Sangrenta':'Blood Fury','Shatter Curse':'Shatter Curse','Savage':'Savage','Comando':'Command','Robustez':'Hardiness',
   'Determinação dos Renegados':'Will of the Forsaken','Canibalizar':'Cannibalize','Respiração Subaquática':'Underwater Breathing','Toque do Túmulo':'Touch of the Grave',
   'Pisada de Guerra':'War Stomp','Cultivo':'Cultivation','Vencer Planícies':'Plainsrunning','Resistência':'Endurance',
   'Berserk':'Berserking','Regeneração Rápida':'Rapid Regeneration','Matança de Feras':'Beast Slaying','Regeneração':'Regeneration'
@@ -447,9 +447,9 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script data-src="../../assets/radio/radio.js?v=ef0b5f769c" data-root="../../"></script>
-<script data-src="../../assets/search/search.js?v=78c0ba6291" data-root="../../"></script>
+<script data-src="../../assets/search/search.js?v=e9ccc881c2" data-root="../../"></script>
 <script data-src="../../assets/me/me.js?v=297cf9b7d8" data-root="../../" data-home="../" data-lang="pt" data-ach="0" data-teaser="" data-close="Fechar" data-page="classes/" data-look="2"></script>
-<script data-src="../../assets/hero/hero.js?v=34379ebcc7" data-root="../../" data-home="../" data-data="../../assets/hero/pt.json?v=34379ebcc7"></script>
+<script data-src="../../assets/hero/hero.js?v=a61a50b837" data-root="../../" data-home="../" data-data="../../assets/hero/pt.json?v=a61a50b837"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
 (function () {
