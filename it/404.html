@@ -8,8 +8,8 @@
 try { var p = sessionStorage.getItem('gabella-404'); if (p) { sessionStorage.removeItem('gabella-404'); history.replaceState(null, '', p); } } catch (e) {}
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Pagina non trovata · guida a WoW Forever</title>
-<meta name="description" content="Questa pagina non esiste: il link è vecchio o l’indirizzo contiene un errore. Le sezioni della guida sono qui sotto.">
+<title>Pagina non trovata · Gabella</title>
+<meta name="description" content="Questa pagina non esiste: il link è vecchio o l’indirizzo contiene un errore. Le sezioni del sito sono qui sotto.">
 <meta name="theme-color" content="#050505">
 <script>(function(){var t=null;try{t=localStorage.getItem('wf-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}document.documentElement.setAttribute('data-theme',t)})();</script>
 <meta name="twitter:card" content="summary_large_image">
@@ -229,6 +229,7 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .hero h1 span { display: block; color: var(--ink-gold); }
 .hero h1, .hero .lead { text-shadow: var(--hero-shadow); }  /* the castle and the sun sit behind the text */
 .hero .lead { max-width: 34rem; font-size: var(--fs-18); color: var(--ink-2); }
+.hdata { margin: -6px 0 0; font-size: var(--fs-14); color: #e8e2d4; text-shadow: var(--hero-shadow); font-variant-numeric: lining-nums tabular-nums; }   /* how fresh the data is, under the lead */
 /* Countdown: big figures straight on the art, captions under them, no tiles (Blizzard, D4) */
 .cd { display: flex; align-items: center; flex-wrap: wrap; gap: 14px 36px; margin-top: 6px; text-shadow: var(--hero-shadow); }
 .cd .units { display: flex; align-items: flex-start; gap: 26px; }
@@ -963,7 +964,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 @media (max-width: 719px) {
   .hero h1 { font-size: var(--fs-hero); }
   .cta { width: 100%; }
-  .cta .hdc, .hsrch kbd { display: none; }
+  .hsrch kbd { display: none; }
   .htasks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
   .htasks a { justify-content: center; padding: 0 10px; text-align: center; }
   .htasks a:last-child { grid-column: 1 / -1; }
@@ -1495,9 +1496,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../assets/radio/radio.css?v=ef0b5f769c" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=e9ccc881c2" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/me/me.css?v=297cf9b7d8" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/hero/hero.css?v=a61a50b837" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/search/search.css?v=01ae427e54" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/me/me.css?v=a7136151e3" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/hero/hero.css?v=57ee9de9b6" media="print" onload="this.media='all'">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -1526,9 +1527,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </svg>
 
 <a class="skip" href="#main">Vai al contenuto</a><header class="topbar" id="topbar"><div class="in">
-  <a class="brand" href="./"><img class="mark" src="../assets/brand/mark.webp?v=64e71bf9" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Guida a WoW Forever</small></span></a>
+  <a class="brand" href="./"><img class="mark" src="../assets/brand/mark.webp?v=64e71bf9" alt="" width="40" height="40"><span class="bt"><b>Gabella</b><small>Compendio di WoW Forever</small></span></a>
   <nav class="mainnav" aria-label="Sezioni">
-    <a href="./classes/">Classi</a><a href="./races/">Razze</a><a href="./guides/leveling/">Livellamento</a><a href="./guides/dungeons/">Spedizioni</a><a href="./guides/builds/" data-tl>Talenti</a><a href="./guides/">Guide</a><a href="./tools/">Strumenti</a><a href="./play/">In gioco</a><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a>
+    <a href="./classes/">Classi</a><a href="./guides/builds/" data-tl>Talenti</a><a href="./guides/tier-list/">Tier list</a><a href="./guides/legacy/">Legacy</a><a href="./guides/leveling/">Livellamento</a><a href="./guides/dungeons/">Spedizioni</a><a href="./tools/">Strumenti</a><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a>
   </nav>
   <div class="tools">
     <div class="langsel"><button type="button" class="langbtn" aria-haspopup="true" aria-expanded="false" >IT<span class="sr">, Lingua: Italiano</span></button><ul class="langlist" hidden><li><a href="../" data-lang="ru" hreflang="ru" lang="ru"><span>Русский</span><small>RU</small></a></li><li><a href="../en/" data-lang="en" hreflang="en" lang="en"><span>English</span><small>EN</small></a></li><li><a href="../uk/" data-lang="uk" hreflang="uk" lang="uk"><span>Українська</span><small>UK</small></a></li><li><a href="../de/" data-lang="de" hreflang="de" lang="de"><span>Deutsch</span><small>DE</small></a></li><li><a href="../fr/" data-lang="fr" hreflang="fr" lang="fr"><span>Français</span><small>FR</small></a></li><li><a href="../es/" data-lang="es" hreflang="es" lang="es"><span>Español</span><small>ES</small></a></li><li><a href="../pt/" data-lang="pt" hreflang="pt-BR" lang="pt-BR"><span>Português (Brasil)</span><small>PT</small></a></li><li><a href="./" data-lang="it" hreflang="it" lang="it" aria-current="page"><span>Italiano</span><small>IT</small></a></li><li><a href="../pl/" data-lang="pl" hreflang="pl" lang="pl"><span>Polski</span><small>PL</small></a></li></ul></div>
@@ -1544,9 +1545,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <section class="stband ghero" id="top">
   <img class="thero-amb" src="../assets/art/hero_campfire-960.webp?v=19281b11" width="960" height="536" alt="" aria-hidden="true" loading="lazy" decoding="async"><picture class="stband-art" aria-hidden="true"><source type="image/avif" srcset="../assets/art/hero_campfire-960.avif?v=c7a06e77 960w, ../assets/art/hero_campfire-1600.avif?v=d0ddafe0 1600w, ../assets/art/hero_campfire-2560.avif?v=d1a01838 2560w" sizes="100vw"><img width="2560" height="1429" src="../assets/art/hero_campfire-2560.webp?v=678c27f3" srcset="../assets/art/hero_campfire-960.webp?v=19281b11 960w, ../assets/art/hero_campfire-1600.webp?v=cdd67ead 1600w, ../assets/art/hero_campfire-2560.webp?v=678c27f3 2560w" sizes="100vw" alt="" decoding="async" fetchpriority="high"></picture>
   <div class="wrap">
-    <nav class="crumbs" aria-label="Percorso"><a href="./">Guida</a><span aria-hidden="true">/</span><span>Pagina non trovata</span></nav>
+    <nav class="crumbs" aria-label="Percorso"><a href="./">Home</a><span aria-hidden="true">/</span><span>Pagina non trovata</span></nav>
     <h1>Pagina non trovata</h1>
-    <p class="glead">Questa pagina non esiste: il link è vecchio o l’indirizzo contiene un errore. Le sezioni della guida sono qui sotto.</p>
+    <p class="glead">Questa pagina non esiste: il link è vecchio o l’indirizzo contiene un errore. Le sezioni del sito sono qui sotto.</p>
     <p class="gfacts"></p>
   </div>
 </section>
@@ -1559,7 +1560,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 </div>
 
 <div class="wrap">
-<p class="dcta"><span>Gruppi per il lancio, domande sulla guida e novità — sul Discord di Gabella.</span><a class="btn ghost" href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Apri Discord</a></p>
+<p class="dcta"><span>Gruppi per il lancio, domande e novità — sul Discord di Gabella.</span><a class="btn ghost" href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Apri Discord</a></p>
 <section id="more" hidden><div class="sec-head"><h2>Altro sul sito</h2></div><nav class="ttiles gtiles" aria-label="Altro sul sito"></nav></section>
 </div>
 </main>
@@ -1567,7 +1568,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <div class="wrap">
 <footer id="sources">
   
-  <nav class="fmap" aria-label="Mappa del sito"><div><a class="fh" href="../it/classes/">Classi</a><ul><li><a href="../it/classes/warrior/">Guerriero</a></li><li><a href="../it/classes/paladin/">Paladino</a></li><li><a href="../it/classes/hunter/">Cacciatore</a></li><li><a href="../it/classes/rogue/">Ladro</a></li><li><a href="../it/classes/priest/">Sacerdote</a></li><li><a href="../it/classes/shaman/">Sciamano</a></li><li><a href="../it/classes/mage/">Mago</a></li><li><a href="../it/classes/warlock/">Stregone</a></li><li><a href="../it/classes/druid/">Druido</a></li></ul></div><div><a class="fh" href="../it/races/">Razze</a><ul><li><a href="../it/races/human/">Umano</a></li><li><a href="../it/races/dwarf/">Nano</a></li><li><a href="../it/races/night-elf/">Elfo della Notte</a></li><li><a href="../it/races/gnome/">Gnomo</a></li><li><a href="../it/races/skyborne-alliance/">Skyborne dell’High Order</a></li><li><a href="../it/races/orc/">Orco</a></li><li><a href="../it/races/undead/">Non Morto</a></li><li><a href="../it/races/tauren/">Tauren</a></li><li><a href="../it/races/troll/">Troll</a></li><li><a href="../it/races/skyborne-horde/">Skyborne Windshaper</a></li></ul></div><div><a class="fh" href="../it/guides/">Guide</a><ul><li><a href="../it/guides/launch-checklist/">Giorno 1: checklist del lancio</a></li><li><a href="../it/guides/launch-day/">Giorno del lancio: orario, code, stato</a></li><li><a href="../it/guides/leveling/">Livellamento 1–60</a></li><li><a href="../it/guides/builds/">Build per classe</a></li><li><a href="../it/guides/best-race/">La razza migliore per ogni classe</a></li><li><a href="../it/guides/tier-list/">Tier list delle classi di WoW Forever</a></li><li><a href="../it/guides/legacy/">Il sistema Legacy</a></li><li><a href="../it/guides/dungeons/">Spedizioni e incursioni</a></li><li><a href="../it/guides/professions/">Professioni</a></li><li><a href="../it/guides/addons/">Addon e interfaccia</a></li><li><a href="../it/guides/faq/">FAQ e date</a></li><li><a href="../it/guides/requirements/">Requisiti di sistema</a></li><li><a href="../it/guides/news/">Notizie</a></li></ul></div><div><a class="fh" href="../it/tools/">Strumenti</a><ul><li><a href="../it/tools/">Strumenti</a></li><li><a href="../it/play/">In gioco</a></li></ul></div></nav><div class="legal"><p>Guida amatoriale di Gabella. Non affiliata né approvata da Blizzard Entertainment. World of Warcraft, Warcraft e Blizzard Entertainment sono marchi o marchi registrati di Blizzard Entertainment, Inc. negli Stati Uniti e/o in altri Paesi.</p><p>© 2026 Gabella<span aria-hidden="true"> · </span><a href="../it/privacy/">Privacy</a><span aria-hidden="true"> · </span><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><span aria-hidden="true"> · </span><a href="https://t.me/gabella_wow" target="_blank" rel="noopener">Telegram</a><span aria-hidden="true"> · </span>Contatti: <a href="mailto:contact@gabella.site">contact@gabella.site</a></p></div>
+  <nav class="fmap" aria-label="Mappa del sito"><div><a class="fh" href="../it/classes/">Classi</a><ul><li><a href="../it/classes/warrior/">Guerriero</a></li><li><a href="../it/classes/paladin/">Paladino</a></li><li><a href="../it/classes/hunter/">Cacciatore</a></li><li><a href="../it/classes/rogue/">Ladro</a></li><li><a href="../it/classes/priest/">Sacerdote</a></li><li><a href="../it/classes/shaman/">Sciamano</a></li><li><a href="../it/classes/mage/">Mago</a></li><li><a href="../it/classes/warlock/">Stregone</a></li><li><a href="../it/classes/druid/">Druido</a></li></ul></div><div><a class="fh" href="../it/races/">Razze</a><ul><li><a href="../it/races/human/">Umano</a></li><li><a href="../it/races/dwarf/">Nano</a></li><li><a href="../it/races/night-elf/">Elfo della Notte</a></li><li><a href="../it/races/gnome/">Gnomo</a></li><li><a href="../it/races/skyborne-alliance/">Skyborne dell’High Order</a></li><li><a href="../it/races/orc/">Orco</a></li><li><a href="../it/races/undead/">Non Morto</a></li><li><a href="../it/races/tauren/">Tauren</a></li><li><a href="../it/races/troll/">Troll</a></li><li><a href="../it/races/skyborne-horde/">Skyborne Windshaper</a></li></ul></div><div><a class="fh" href="../it/guides/">Guide</a><ul><li><a href="../it/guides/launch-checklist/">Giorno 1: checklist del lancio</a></li><li><a href="../it/guides/launch-day/">Giorno del lancio: orario, code, stato</a></li><li><a href="../it/guides/leveling/">Livellamento 1–60</a></li><li><a href="../it/guides/builds/">Build per classe</a></li><li><a href="../it/guides/best-race/">La razza migliore per ogni classe</a></li><li><a href="../it/guides/tier-list/">Tier list delle classi di WoW Forever</a></li><li><a href="../it/guides/legacy/">Il sistema Legacy</a></li><li><a href="../it/guides/dungeons/">Spedizioni e incursioni</a></li><li><a href="../it/guides/professions/">Professioni</a></li><li><a href="../it/guides/addons/">Addon e interfaccia</a></li><li><a href="../it/guides/faq/">FAQ e date</a></li><li><a href="../it/guides/requirements/">Requisiti di sistema</a></li><li><a href="../it/guides/news/">Notizie</a></li></ul></div><div><a class="fh" href="../it/tools/">Strumenti</a><ul><li><a href="../it/tools/">Strumenti</a></li><li><a href="../it/play/">In gioco</a></li></ul></div></nav><div class="legal"><p>Sito amatoriale di Gabella. Non affiliato né approvato da Blizzard Entertainment. World of Warcraft, Warcraft e Blizzard Entertainment sono marchi o marchi registrati di Blizzard Entertainment, Inc. negli Stati Uniti e/o in altri Paesi.</p><p>© 2026 Gabella<span aria-hidden="true"> · </span><a href="../it/privacy/">Privacy</a><span aria-hidden="true"> · </span><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><span aria-hidden="true"> · </span><a href="https://t.me/gabella_wow" target="_blank" rel="noopener">Telegram</a><span aria-hidden="true"> · </span>Contatti: <a href="mailto:contact@gabella.site">contact@gabella.site</a></p></div>
 </footer>
 </div>
 
@@ -1583,7 +1584,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <div class="dh"><b>Tutte le sezioni</b><button class="iconbtn" id="moreClose" type="button" aria-label="Chiudi"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Tutte le sezioni">
     
-    <div class="grp"><div class="gh">Riferimenti</div><a data-tl href="./guides/builds/">Talenti</a><a class="tbd" href="./classes/">Classi</a><a href="./classes/#choose">Quale classe scegliere</a><a href="./races/">Razze</a><a class="tbd" href="./guides/leveling/">Livellamento 1–60</a><a class="tbd" href="./guides/dungeons/">Spedizioni e incursioni</a><a href="./guides/professions/">Professioni</a><a href="./guides/server-status/">Stato dei server</a><a href="./guides/faq/">FAQ e date</a><a href="./guides/news/">Notizie</a><a href="./guides/">Tutte le guide</a></div>
+    <div class="grp"><div class="gh">Guida</div><a data-tl href="./guides/builds/">Talenti</a><a href="./guides/tier-list/">Tier list</a><a href="./guides/legacy/">Legacy</a><a class="tbd" href="./classes/">Classi</a><a href="./classes/#choose">Quale classe scegliere</a><a href="./races/">Razze</a><a class="tbd" href="./guides/leveling/">Livellamento 1–60</a><a class="tbd" href="./guides/dungeons/">Spedizioni e incursioni</a><a href="./guides/professions/">Professioni</a><a href="./guides/server-status/">Stato dei server</a><a href="./guides/faq/">FAQ e date</a><a href="./guides/news/">Notizie</a><a href="./guides/">Tutti gli articoli</a></div>
     <div class="grp"><div class="gh">Strumenti</div><a href="./character/">Il mio personaggio</a><a href="./tools/#picker">Razza e classe</a><a href="./tools/#raid">Gruppo e LFG</a><a href="./play/">In gioco</a></div>
     <div class="grp"><div class="gh">Comunità</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="./profile/">Il mio profilo</a></div>
   </nav>
@@ -1702,15 +1703,15 @@ addEventListener('beforeinstallprompt', e => {
   if (!opts || opts.querySelector('.installbtn')) return;
   const b = document.createElement('button');
   b.className = 'iconbtn installbtn'; b.type = 'button'; b.style.padding = '0 14px';
-  b.setAttribute('aria-label', 'Installa la guida come app');
+  b.setAttribute('aria-label', 'Installa il compendio come app');
   b.innerHTML = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></svg><span>Installa</span>';
   b.onclick = async () => { e.prompt(); await e.userChoice; b.remove(); };
   opts.append(b);
 });
 </script>
 <script src="../assets/radio/radio.js?v=ef0b5f769c" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=e9ccc881c2" data-root="../" defer></script>
-<script src="../assets/me/me.js?v=297cf9b7d8" data-root="../" data-home="./" data-lang="it" data-ach="0" data-teaser="" data-close="Chiudi" data-page="404" data-look="2" defer></script>
-<script src="../assets/hero/hero.js?v=a61a50b837" data-root="../" data-home="./" data-data="../assets/hero/it.json?v=a61a50b837" defer></script>
+<script src="../assets/search/search.js?v=01ae427e54" data-root="../" defer></script>
+<script src="../assets/me/me.js?v=a7136151e3" data-root="../" data-home="./" data-lang="it" data-ach="0" data-teaser="" data-close="Chiudi" data-page="404" data-look="2" defer></script>
+<script src="../assets/hero/hero.js?v=57ee9de9b6" data-root="../" data-home="./" data-data="../assets/hero/it.json?v=57ee9de9b6" defer></script>
 </body>
 </html>
