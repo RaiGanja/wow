@@ -985,6 +985,14 @@ GUIDES.append({
 # ---------- Новости: наши записи (новые сверху) + автолента Wowhead из assets/news.json ----------
 
 NEWS += [
+    {'date': '2026-10-22', 'url': 'https://us.forums.blizzard.com/en/wow/t/the-roleplay-pvp-ruleset-is-coming-to-wow-forever/2389502/1',
+     'title': t('Режим Roleplay-PvP придёт в WoW Forever', 'Roleplay-PvP ruleset is coming to WoW Forever', 'Режим Roleplay-PvP прийде в WoW Forever'),
+     'text': t('Blizzard объявила на форуме, что режим Roleplay-PvP появится в WoW Forever. Подробностей, которые мы могли бы проверить, в сообщении нет: правила смотрите в самом сообщении.',
+               'Blizzard announced on the forum that the Roleplay-PvP ruleset is coming to WoW Forever. The post gives no further details we could verify, so check the linked post for the rules.',
+               'Blizzard оголосила на форумі, що режим Roleplay-PvP з’явиться у WoW Forever. Подробиць, які ми могли б перевірити, у повідомленні немає: правила дивіться в самому повідомленні.'),
+     'so': t('Подробности режима — в сообщении Blizzard.',
+             'Details of the ruleset are in the Blizzard post.',
+             'Подробиці режиму — у повідомленні Blizzard.')},
     {'date': '2026-10-27', 'cls': 'all', 'url': 'https://news.blizzard.com/en-us/article/24303866',
      'title': t('Резерв имён отложен', 'Name reservation postponed', 'Резерв імен відкладено'),
      'text': t('Blizzard сообщила в лаунчере Battle.net: запуск резерва имён, назначенный на 27.10 (Европа, 18:00 CET), отложен из-за технических проблем. Нового срока нет, старт игры по-прежнему 04.11. По уведомлению в лаунчере Battle.net (передал Wowhead); статья Blizzard по ссылке пока с прежним графиком 27.10 – 03.11.',
