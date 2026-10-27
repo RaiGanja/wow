@@ -15,6 +15,8 @@ import langs  # noqa: E402
 CHROME = r'C:\Program Files\Google\Chrome\Application\chrome.exe'
 LANGS = langs.LANGS
 BRAND = 'Gabella'
+REF = {'ru': 'Справочник', 'uk': 'Довідник', 'en': 'Reference', 'de': 'Kompendium', 'pl': 'Kompendium', 'fr': 'Référence',
+       'es': 'Referencia', 'it': 'Compendio', 'pt': 'Referência'}   # the word of the header («Справочник» decision 27.10)
 START = {'ru': 'Старт 5 ноября 2026', 'en': 'Launch November 4–5, 2026', 'uk': 'Старт 5 листопада 2026',
          'de': 'Start am 5. November 2026', 'fr': 'Lancement le 5 novembre 2026', 'es': 'Lanzamiento: 4–5 de noviembre de 2026',
          'pt': 'Lançamento em 4 de novembro de 2026', 'it': 'Uscita il 5 novembre 2026', 'pl': 'Start 5 listopada 2026'}
@@ -83,12 +85,13 @@ img{{position:absolute;display:block}}
   linear-gradient(0deg,rgba(5,5,5,.85) 0%,rgba(5,5,5,0) 36%)}}
 .txt{{position:absolute;left:72px;top:0;bottom:0;width:640px;display:flex;flex-direction:column;justify-content:center;gap:24px}}
 .brand{{position:absolute;left:72px;top:56px;display:flex;align-items:center;gap:16px;font:600 30px/1 "Spectral SC";color:#efe9da;letter-spacing:.04em;font-variant-numeric:lining-nums}}
+.brand .ref{{color:#c9a54a;font-size:22px;letter-spacing:.06em;padding-left:16px;border-left:1px solid rgba(201,165,74,.45)}}
 .brand img{{position:static;width:56px;height:56px;border-radius:10px;box-shadow:0 0 0 1px rgba(201,165,74,.45)}}
 h1{{font:600 {'92' if len(title) <= 14 else '74'}px/1.02 "Spectral SC";letter-spacing:.02em;text-wrap:balance;font-variant-numeric:lining-nums}}
 p{{font-size:30px;line-height:1.35;color:#c9c2b0;text-wrap:pretty;max-width:{"520" if wide else "600"}px}}
 .start{{position:absolute;left:72px;bottom:56px;font:600 28px/1 "Spectral SC";letter-spacing:.03em;color:#c9a54a;font-variant-numeric:lining-nums}}
 </style><body>{pic}<div class="shade"></div>
-<div class="brand"><img src="{url('assets/logo.png')}" alt="">{BRAND}</div>
+<div class="brand"><img src="{url('assets/logo.png')}" alt="">{BRAND}<span class="ref">{REF[lang]}</span></div>
 <div class="txt"><h1>{title}</h1><p>{lead}</p></div>
 <div class="start">{'' if slug in NODATE else EXACT.get(slug, START)[lang]}</div>
 <div id="res" hidden></div>

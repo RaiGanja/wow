@@ -190,9 +190,9 @@ META = {
     'guides/news/': (t('Новости WoW Forever: бета, релиз и патчи',
                        'WoW Forever News: Beta, Launch and Patches',
                        'Новини WoW Forever: бета, реліз і патчі'),
-                     t('Новости WoW Forever перед релизом: закрытие беты и резерв имён с 27.10, изменения рас и классов в патчах беты, Даларан и свежая лента Wowhead.',
-                       'WoW Forever news before launch: the beta closing and name reservations from 27.10, race and class changes in beta patches, Dalaran and the latest Wowhead feed.',
-                       'Новини WoW Forever перед релізом: закриття бети й бронювання імен з 27.10, зміни рас і класів у патчах бети, Даларан і свіжа стрічка Wowhead.')),
+                     t('Новости WoW Forever перед релизом: закрытие беты, отложенный резерв имён, изменения рас и классов в патчах беты, Даларан и свежая лента Wowhead.',
+                       'WoW Forever news before launch: the beta closing, the postponed name reservation, race and class changes in beta patches, Dalaran and the latest Wowhead feed.',
+                       'Новини WoW Forever перед релізом: закриття бети, відкладене бронювання імен, зміни рас і класів у патчах бети, Даларан і свіжа стрічка Wowhead.')),
     'guides/ukrainian/': ({'uk': 'WoW Forever українською: аддони UA_Forever і UALL Forever'},   # only uk
                           {'uk': 'Української мови у WoW Forever немає. Який аддон перекладу обрати, як встановити його через CurseForge чи вручну і як побачити оригінал.'}),
     'play/': (t('WoW Forever: второй экран — радио, зоны по уровню, таймеры',
