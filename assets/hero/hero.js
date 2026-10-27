@@ -91,6 +91,7 @@
     }
     h += `<div class="hs-a"><a href="${HOME}character/">${esc(T.allSet)}</a><button type="button" class="btn" data-x${d.cls && d.spec ? '' : ' disabled'}>${esc(T.done)}</button></div>`;
     sheet.innerHTML = h;
+    sheet.setAttribute('aria-label', has ? T.change : T.collect);
     if (sheet.open) fitNames();
   }
   /* Class names fit their tile: the font shrinks to the longest word (measured in the real font), never below 10.5px; below that the word may break at a syllable */

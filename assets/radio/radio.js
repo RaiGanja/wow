@@ -455,7 +455,7 @@
   function close() { if (panel) panel.hidden = true; btn.setAttribute('aria-expanded', 'false'); }
   if (dock) {
     btn.setAttribute('aria-expanded', 'true');
-    btn.addEventListener('click', () => { dock.scrollIntoView({ behavior: 'smooth', block: 'center' }); if (panel) $('.rdo-play').focus({ preventScroll: true }); });
+    btn.addEventListener('click', () => { dock.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' }); if (panel) $('.rdo-play').focus({ preventScroll: true }); });
     getData().then(() => { if (!panel) build(); render(); });
   } else {
     btn.addEventListener('click', () => (panel && !panel.hidden ? close() : open()));
