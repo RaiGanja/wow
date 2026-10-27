@@ -75,6 +75,7 @@
   --panel: rgba(8,8,8,.94);
   --panel-2: #141414;
   --pline: rgba(255,255,255,.08);
+  --fline: #7a7a7a;   /* border of a form field: 3:1 against the panel (WCAG 1.4.11) */
   --zebra: rgba(255,255,255,.035);   /* every other row of a table or list on its plate */
   --seg-on: rgba(255,255,255,.09);   /* the active segment, tab or toggle: a plate and gold text, never a gold fill */
   --font-display: "Spectral SC", Georgia, "Times New Roman", serif;
@@ -119,6 +120,7 @@ html[data-tod="night"] { --hero-fade: 5 5 5;  --hero-shadow: 0 1px 2px rgb(0 0 0
   --panel: rgba(255,255,255,.95);
   --panel-2: #f6f4ef;
   --pline: #e2ddd2;
+  --fline: #857f72;
   --zebra: rgba(40,32,16,.045);
   --seg-on: rgba(40,32,16,.08);
   color-scheme: light;
@@ -620,7 +622,7 @@ ul.dots li::marker { color: var(--gold); }
 .seg button:hover { background: var(--zebra); }
 .seg button[aria-pressed="true"] { background: var(--seg-on); color: var(--gold-2); }
 .copyrow { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-.copyrow input { flex: 1 1 220px; min-width: 0; font: inherit; min-height: 44px; padding: 0 12px; border: 1px solid var(--pline); border-radius: 7px; background: var(--panel-2); color: var(--fg); }
+.copyrow input { flex: 1 1 220px; min-width: 0; font: inherit; min-height: 44px; padding: 0 12px; border: 1px solid var(--fline); border-radius: 7px; background: var(--panel-2); color: var(--fg); }
 .copyrow .small { flex-basis: 100%; min-height: 1.4em; }
 
 /* Picker */
@@ -1146,7 +1148,7 @@ ul.rbuffs li.off .cdot { background: transparent; box-shadow: inset 0 0 0 1.5px 
 .rshare .copyrow .btn { min-height: 44px; }
 .rshare + .rshare { margin-top: 16px; }
 .rshare .lead { margin: 0; color: var(--muted); font-size: var(--fs-16); max-width: 72ch; }
-.lfgbar select { font: inherit; font-size: var(--fs-16); font-weight: 500; min-height: 44px; min-width: 0; max-width: 100%; padding: 0 10px; border: 1px solid var(--pline); border-radius: 7px; background: var(--panel-2); color: var(--fg); }
+.lfgbar select { font: inherit; font-size: var(--fs-16); font-weight: 500; min-height: 44px; min-width: 0; max-width: 100%; padding: 0 10px; border: 1px solid var(--fline); border-radius: 7px; background: var(--panel-2); color: var(--fg); }
 .lfgbar .fgroup { max-width: 100%; }
 @media (max-width: 719px) { .lfgbar .fgroup, .lfgbar select { width: 100%; } }
 
@@ -1156,7 +1158,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 .edlg .dh b { font-family: var(--font-display); font-weight: var(--display-w); font-size: var(--fs-22); }
 .edf { padding: 18px 20px; display: grid; gap: 14px; }
 .edf label, .edf .fl { display: grid; gap: 6px; font-size: var(--fs-14); color: var(--muted); font-weight: 500; }
-.edf input, .edf select { font: inherit; font-size: var(--fs-16); color: var(--fg); min-height: 46px; padding: 0 12px; border: 1px solid var(--pline); border-radius: 7px; background: var(--panel-2); }
+.edf input, .edf select { font: inherit; font-size: var(--fs-16); color: var(--fg); min-height: 46px; padding: 0 12px; border: 1px solid var(--fline); border-radius: 7px; background: var(--panel-2); }
 .edf .seg { justify-self: start; }
 .eda { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 20px 20px; }
 .eda .btn { min-height: 44px; }
@@ -1165,7 +1167,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 
 /* Ping and queue advisor */
 .ptool { padding: 20px 24px; display: grid; gap: 16px; }
-.ptool select { font: inherit; font-size: var(--fs-16); font-weight: 500; min-height: 44px; max-width: 100%; padding: 0 10px; border: 1px solid var(--pline); border-radius: 7px; background: var(--panel-2); color: var(--fg); }
+.ptool select { font: inherit; font-size: var(--fs-16); font-weight: 500; min-height: 44px; max-width: 100%; padding: 0 10px; border: 1px solid var(--fline); border-radius: 7px; background: var(--panel-2); color: var(--fg); }
 .pres { display: grid; gap: 10px; }
 .pres .preg { margin: 0; font-family: var(--font-display); font-weight: var(--display-w); font-size: var(--fs-22); line-height: 1.2; color: var(--gold-2); font-variant-numeric: lining-nums; }
 .pgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
@@ -1274,12 +1276,12 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 <link rel="manifest" href="../../manifest-en.webmanifest">
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
-<link rel="stylesheet" href="../../assets/radio/radio.css?v=f3d4c694a3" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=685b6c0abf" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/radio/radio.css?v=ef0b5f769c" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=ee40f4761d" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/me/me.css?v=b13be6705d" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/hero/hero.css?v=cfb7f0ee0f" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/hero/hero.css?v=0514d07246" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gabella.site/wow/en/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://gabella.site/wow/en/tools/"}]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"WoW Forever Tools: Class and Race Compare, Party Frames","description":"Compare WoW Forever classes and races side by side, in-game style party frames and raid grid, and search across the whole guide.","inLanguage":"en","url":"https://gabella.site/wow/en/tools/","dateModified":"2026-10-26","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/en/"},"image":"https://gabella.site/wow/assets/og/tools-en.jpg?v=827093c3"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"WoW Forever Tools: Class and Race Compare, Party Frames","description":"Compare WoW Forever classes and races side by side, in-game style party frames and raid grid, and search across the whole guide.","inLanguage":"en","url":"https://gabella.site/wow/en/tools/","dateModified":"2026-10-27","mainEntityOfPage":{"@type":"WebPage","@id":"https://gabella.site/wow/en/tools/"},"author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/en/"},"image":"https://gabella.site/wow/assets/og/tools-en.jpg?v=827093c3"}</script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -1336,7 +1338,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
   <div class="wrap thero-in">
     <nav class="crumbs" aria-label="Breadcrumbs"><a href="../">Guide</a><span aria-hidden="true">/</span><span>Tools</span></nav>
     <h1>Tools</h1>
-    <p class="upd">Updated <time datetime="2026-10-26">Oct 26, 2026</time></p>
+    <p class="upd">Updated <time datetime="2026-10-27">Oct 27, 2026</time></p>
     <p class="lead">Search the whole guide, build party and raid frames like in the game and compare classes and races. The roster lives in the link, so you can drop it in Discord.</p>
     <div class="frame sbox" id="search" role="search">
       <button type="button" class="sfield sopen"><svg class="ico" aria-hidden="true"><use href="#i-search"/></svg><span class="sr">Guide search</span><span>Class, ability, race, dungeon or level</span><kbd aria-hidden="true">Ctrl K</kbd></button>
@@ -2253,10 +2255,10 @@ addEventListener('beforeinstallprompt', e => {
   opts.append(b);
 });
 </script>
-<script src="../../assets/radio/radio.js?v=f3d4c694a3" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=685b6c0abf" data-root="../../" defer></script>
+<script src="../../assets/radio/radio.js?v=ef0b5f769c" data-root="../../" defer></script>
+<script src="../../assets/search/search.js?v=ee40f4761d" data-root="../../" defer></script>
 <script src="../../assets/me/me.js?v=b13be6705d" data-root="../../" data-home="../" data-lang="en" data-ach="0" data-teaser="" data-close="Close" data-page="tools/" data-look="2" defer></script>
-<script src="../../assets/hero/hero.js?v=cfb7f0ee0f" data-root="../../" data-home="../" data-data="../../assets/hero/en.json?v=cfb7f0ee0f" defer></script>
+<script src="../../assets/hero/hero.js?v=0514d07246" data-root="../../" data-home="../" data-data="../../assets/hero/en.json?v=0514d07246" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

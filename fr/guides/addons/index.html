@@ -75,6 +75,7 @@
   --panel: rgba(8,8,8,.94);
   --panel-2: #141414;
   --pline: rgba(255,255,255,.08);
+  --fline: #7a7a7a;   /* border of a form field: 3:1 against the panel (WCAG 1.4.11) */
   --zebra: rgba(255,255,255,.035);   /* every other row of a table or list on its plate */
   --seg-on: rgba(255,255,255,.09);   /* the active segment, tab or toggle: a plate and gold text, never a gold fill */
   --font-display: "Spectral SC", Georgia, "Times New Roman", serif;
@@ -119,6 +120,7 @@ html[data-tod="night"] { --hero-fade: 5 5 5;  --hero-shadow: 0 1px 2px rgb(0 0 0
   --panel: rgba(255,255,255,.95);
   --panel-2: #f6f4ef;
   --pline: #e2ddd2;
+  --fline: #857f72;
   --zebra: rgba(40,32,16,.045);
   --seg-on: rgba(40,32,16,.08);
   color-scheme: light;
@@ -620,7 +622,7 @@ ul.dots li::marker { color: var(--gold); }
 .seg button:hover { background: var(--zebra); }
 .seg button[aria-pressed="true"] { background: var(--seg-on); color: var(--gold-2); }
 .copyrow { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-.copyrow input { flex: 1 1 220px; min-width: 0; font: inherit; min-height: 44px; padding: 0 12px; border: 1px solid var(--pline); border-radius: 7px; background: var(--panel-2); color: var(--fg); }
+.copyrow input { flex: 1 1 220px; min-width: 0; font: inherit; min-height: 44px; padding: 0 12px; border: 1px solid var(--fline); border-radius: 7px; background: var(--panel-2); color: var(--fg); }
 .copyrow .small { flex-basis: 100%; min-height: 1.4em; }
 
 /* Picker */
@@ -1173,6 +1175,10 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .gfaq details[hidden] { display: none; }
 .gfaq summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 48px; padding: 10px 14px; border-radius: 6px; font-weight: 600; transition: background-color .15s; }
 .gfaq summary::-webkit-details-marker { display: none; }
+/* 404: search box above the language links */
+.nf-find { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 16px; }
+.nf-find input { flex: 1 1 220px; min-width: 0; font: inherit; font-size: var(--fs-16); min-height: 44px; padding: 0 12px; border: 1px solid var(--fline); border-radius: 7px; background: var(--panel-2); color: var(--fg); }
+.nf-langs { line-height: 2; }
 .gfaq summary::after { content: ""; flex: none; width: 8px; height: 8px; border-right: 1.5px solid var(--muted); border-bottom: 1.5px solid var(--muted); transform: translateY(-2px) rotate(45deg); transition: transform .2s var(--ease), border-color .15s; }
 .gfaq summary:hover { background: var(--zebra); }
 .gfaq details[open] > summary::after { border-color: var(--gold-2); transform: translateY(2px) rotate(-135deg); }
@@ -1436,12 +1442,12 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="manifest" href="../../../manifest-fr.webmanifest">
 <link rel="apple-touch-icon" href="../../../assets/icons/apple-touch-icon.png?v=e9324028">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
-<link data-rel="stylesheet" href="../../../assets/radio/radio.css?v=f3d4c694a3">
-<link data-rel="stylesheet" href="../../../assets/search/search.css?v=685b6c0abf">
+<link data-rel="stylesheet" href="../../../assets/radio/radio.css?v=ef0b5f769c">
+<link data-rel="stylesheet" href="../../../assets/search/search.css?v=ee40f4761d">
 <link data-rel="stylesheet" href="../../../assets/me/me.css?v=b13be6705d">
-<link data-rel="stylesheet" href="../../../assets/hero/hero.css?v=cfb7f0ee0f">
+<link data-rel="stylesheet" href="../../../assets/hero/hero.css?v=0514d07246">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://gabella.site/wow/fr/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://gabella.site/wow/fr/guides/"},{"@type":"ListItem","position":3,"name":"Addons et interface","item":"https://gabella.site/wow/fr/guides/addons/"}]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Addons WoW Forever : lesquels marchent, comment installer","description":"Quels addons marchent dans WoW Forever : Questie, Details!, DBM, Auctionator, Baganator. Ce qui est intégré, l’installation, et un addon qui ne charge pas.","inLanguage":"fr","url":"https://gabella.site/wow/fr/guides/addons/","dateModified":"2026-10-26","author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/fr/"},"image":"https://gabella.site/wow/assets/og/addons-fr.jpg?v=cd580407"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Addons WoW Forever : lesquels marchent, comment installer","description":"Quels addons marchent dans WoW Forever : Questie, Details!, DBM, Auctionator, Baganator. Ce qui est intégré, l’installation, et un addon qui ne charge pas.","inLanguage":"fr","url":"https://gabella.site/wow/fr/guides/addons/","dateModified":"2026-10-27","mainEntityOfPage":{"@type":"WebPage","@id":"https://gabella.site/wow/fr/guides/addons/"},"author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=af4499cb","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/fr/"},"image":"https://gabella.site/wow/assets/og/addons-fr.jpg?v=cd580407"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"fr","mainEntity":[{"@type":"Question","name":"Les addons fonctionnent-ils dans WoW Forever ?","acceptedAnswer":{"@type":"Answer","text":"Oui. Forever utilise l’API du WoW moderne avec les limites de Midnight. Les addons Classic ne se chargent pas : il faut un fichier « WoW Forever » sur CurseForge."}},{"@type":"Question","name":"Questie fonctionne-t-il dans WoW Forever ?","acceptedAnswer":{"@type":"Answer","text":"Oui, Questie a une version pour Forever, mise à jour pour les nouvelles zones. Les objectifs de quête sont sur la carte même sans addon, dans le filtre de la carte du monde."}},{"@type":"Question","name":"WeakAuras existe-t-il dans WoW Forever ?","acceptedAnswer":{"@type":"Answer","text":"Non, WeakAuras n’a pas de version Forever. Vos temps de recharge et améliorations sont affichés par le Cooldown Manager intégré : Options → Gameplay Enhancement."}},{"@type":"Question","name":"Faut-il un compteur de dégâts dans WoW Forever ?","acceptedAnswer":{"@type":"Answer","text":"Il y en a un d’intégré. Details! ou Forever Meter ajoutent la menace et les détails. Les addons qui lisent le journal de combat (Skada, Recount) ne fonctionnent pas."}},{"@type":"Question","name":"Où installer les addons de WoW Forever ?","acceptedAnswer":{"@type":"Answer","text":"Dans Interface\\AddOns, dans le dossier de Forever. Le plus simple est de passer par CurseForge ou Wago App avec la version Forever choisie."}},{"@type":"Question","name":"Pourquoi l’addon n’apparaît-il pas dans le jeu ?","acceptedAnswer":{"@type":"Answer","text":"Il n’a pas de fichier Forever, le dossier n’est pas au bon endroit ou le jeu n’a pas été redémarré. Les nouveaux addons ne sont visibles qu’après un redémarrage complet."}}]}</script>
 </head>
 <body>
@@ -1498,7 +1504,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <div class="wrap thero-in">
     <nav class="crumbs" aria-label="Fil d’Ariane"><a href="../../">Guide</a><span aria-hidden="true">/</span><a href="../../guides/">Guides</a><span aria-hidden="true">/</span><span>Addons et interface</span></nav>
     <h1>Addons et interface</h1>
-    <p class="upd">Mis à jour le <time datetime="2026-10-26">26.10.2026</time></p>
+    <p class="upd">Mis à jour le <time datetime="2026-10-27">27.10.2026</time></p>
     <p class="lead">Les addons existent dans Forever, mais ils suivent les règles du WoW moderne, pas celles de Classic. Les anciens addons Classic ne se chargent pas : il faut un fichier pour Forever. Ci-dessous : ce qui est déjà intégré au jeu, ce qu’il faut installer pour monter en niveau et jouer en groupe, et comment l’installer.</p>
     <p class="gfacts">Version Forever requise · Journal de combat fermé · CurseForge et Wago</p>
   </div>
@@ -1669,10 +1675,10 @@ addEventListener('beforeinstallprompt', e => {
   opts.append(b);
 });
 </script>
-<script data-src="../../../assets/radio/radio.js?v=f3d4c694a3" data-root="../../../"></script>
-<script data-src="../../../assets/search/search.js?v=685b6c0abf" data-root="../../../"></script>
+<script data-src="../../../assets/radio/radio.js?v=ef0b5f769c" data-root="../../../"></script>
+<script data-src="../../../assets/search/search.js?v=ee40f4761d" data-root="../../../"></script>
 <script data-src="../../../assets/me/me.js?v=b13be6705d" data-root="../../../" data-home="../../" data-lang="fr" data-ach="0" data-teaser="" data-close="Fermer" data-page="guides/addons/" data-look="2"></script>
-<script data-src="../../../assets/hero/hero.js?v=cfb7f0ee0f" data-root="../../../" data-home="../../" data-data="../../../assets/hero/fr.json?v=cfb7f0ee0f"></script>
+<script data-src="../../../assets/hero/hero.js?v=0514d07246" data-root="../../../" data-home="../../" data-data="../../../assets/hero/fr.json?v=0514d07246"></script>
 <script type="module" data-src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 <script>
 (function () {
