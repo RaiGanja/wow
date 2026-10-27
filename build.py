@@ -313,7 +313,8 @@ def more_groups(home='@@HOME@@'):
 
 def chrome(html, nav=None, tab=None, home='@@HOME@@'):
     """Menu, sections sheet and phone tab bar of a page (@@MAINNAV@@, @@MORENAV@@, @@TABBAR@@), before translate."""
-    return (html.replace('@@MAINNAV@@', mainnav(nav, home)).replace('@@MORENAV@@', more_groups(home))
+    return (html.replace('<a class="brand" href=', '<a class="brand" aria-label="Gabella" href=')   # логотип без текста на узком экране: ссылке нужно имя
+            .replace('@@MAINNAV@@', mainnav(nav, home)).replace('@@MORENAV@@', more_groups(home))
             .replace('@@TABBAR@@', tabbar(tab, home)))
 
 
