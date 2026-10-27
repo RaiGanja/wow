@@ -172,7 +172,7 @@ def test_switcher_render():
         s, x = next((s, x) for s, x in tree_blocks('mage') if s['id'] == 'frost')
         html = talents.render('mage', 'frost', x['rows'], x['titles'], lang, '../../')
         assert html.count('role="tab" class="tt-b"') == 2 and 'id="frost-leveling"' in html and 'id="frost-general"' in html
-        assert html.count('<div class="tt-ow"') == 2 and html.count('hidden>') == 1 and '<section' not in html
+        assert html.count('<div class="tt-ow"') == 2 and html.count('data-b="leveling" hidden>') == 1 and '<section' not in html
         assert 'data-s="frost-' in html and '#talents' in html
         s2, x2 = next((s, x) for s, x in tree_blocks('mage') if s['id'] == 'fire')
         assert 'tt-bs' not in talents.render('mage', 'fire', x2['rows'], x2['titles'], lang, '')   # no data: no tab at all
@@ -191,6 +191,30 @@ def test_engine_extra_builds():
     finally:
         del talents.PROVIDERS['raid'], talents.PROVIDERS['pvp']
     assert html.count('role="tab" class="tt-b"') == 3 and 'id="frost-raid"' in html and 'frost-pvp' not in html
+
+
+def test_editor_render():
+    """The editor: its bar in every tree block (hidden until the script runs), the start build (data-w) in the calculator's format
+    and the rules it checks come from the data file (#ttData q/o/cap), every UI line in all 9 languages."""
+    import re
+    for cid in talents.TREES:
+        d = talents.load(cid)
+        if not d:
+            continue
+        for s, x in tree_blocks(cid):
+            html = talents.render(cid, s['id'], x['rows'], x['titles'], 'pl', '../../')
+            assert html.count('<template class="tt-edt"><div class="tt-ed">') == 1 and f'data-sp="{s["id"]}"' in html, (cid, s['id'])
+            assert html.count('class="tt-ow" data-b="general"') == 1, (cid, s['id'])
+            code = re.search(r'data-w="([0-9-]*)"', html).group(1)
+            assert code == re.search(r'/v2([0-9-]*)_t\d', talents.wowhead(cid, d, [(r[0], r[1]) for r in x['rows']], 'pl')).group(1)
+            assert html.count('data-s="') == html.count('class="tt-ar'), (cid, 'every line knows its ends')
+        pg = talents.PAGE[(cid, 'pl')]
+        assert pg['cap'] == 51 and pg['rp'] == talents.ROW_POINTS
+        assert [len(o) for o in pg['o']] == [len(tr['talents']) for tr in d['trees']]
+        assert all(pg['t'][q] for q in pg['q'].values())
+    for k in ('ed', 'ed_x', 'cnt', 'add', 'del', 'reset', 'share', 'copied', 'nocopy', 'eh', 'rank', 'e_cap', 'e_row', 'e_req', 'e_keep'):
+        assert all(talents.UI[k].get(l) for l in talents.UI['hint']), k
+    assert all(k in talents.PAGE[('mage', 'pl')]['u'] for k in ('ed', 'ed_x', 'cnt', 'rank', 'e_cap', 'e_row', 'e_req', 'e_keep', 'copied'))
 
 
 if __name__ == '__main__':

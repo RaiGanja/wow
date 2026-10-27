@@ -99,8 +99,70 @@ UI = {
     'lvg': {'ru': 'Гайд по прокачке класса', 'en': 'Class leveling guide', 'uk': 'Гайд із прокачування класу',
             'de': 'Level-Guide der Klasse', 'es': 'Guía de subida de la clase', 'fr': 'Guide de progression de la classe',
             'it': 'Guida al livellamento della classe', 'pl': 'Poradnik levelowania klasy', 'pt': 'Guia de evolução da classe'},
+    # The editor (your own build over the same tree): the bar under the switcher, the card lines, the reasons a point is refused
+    'ed': {'ru': 'Собрать свой билд', 'en': 'Make your own build', 'uk': 'Зібрати свій білд', 'de': 'Eigenen Build erstellen',
+           'es': 'Crear tu build', 'fr': 'Créer votre build', 'it': 'Crea la tua build', 'pl': 'Złóż własny build',
+           'pt': 'Montar sua build'},
+    'ed_x': {'ru': 'Вернуть нашу сборку', 'en': 'Back to our build', 'uk': 'Повернути нашу збірку', 'de': 'Zurück zu unserem Build',
+             'es': 'Volver a nuestra build', 'fr': 'Revenir à notre build', 'it': 'Torna alla nostra build',
+             'pl': 'Wróć do naszego buildu', 'pt': 'Voltar à nossa build'},
+    'cnt': {'ru': 'Очки: {p} из {m}', 'en': 'Points: {p} of {m}', 'uk': 'Очки: {p} з {m}', 'de': 'Punkte: {p} von {m}',
+            'es': 'Puntos: {p} de {m}', 'fr': 'Points : {p} sur {m}', 'it': 'Punti: {p} su {m}', 'pl': 'Punkty: {p} z {m}',
+            'pt': 'Pontos: {p} de {m}'},
+    'add': {'ru': 'Ставить', 'en': 'Add', 'uk': 'Ставити', 'de': 'Setzen', 'es': 'Añadir', 'fr': 'Ajouter', 'it': 'Aggiungi',
+            'pl': 'Dodaj', 'pt': 'Adicionar'},
+    'del': {'ru': 'Снимать', 'en': 'Remove', 'uk': 'Знімати', 'de': 'Entfernen', 'es': 'Quitar', 'fr': 'Retirer', 'it': 'Togli',
+            'pl': 'Usuń', 'pt': 'Remover'},
+    'reset': {'ru': 'Сброс', 'en': 'Reset', 'uk': 'Скинути', 'de': 'Zurücksetzen', 'es': 'Reiniciar', 'fr': 'Réinitialiser',
+              'it': 'Azzera', 'pl': 'Resetuj', 'pt': 'Zerar'},
+    'share': {'ru': 'Копировать ссылку', 'en': 'Copy link', 'uk': 'Копіювати посилання', 'de': 'Link kopieren', 'es': 'Copiar enlace',
+              'fr': 'Copier le lien', 'it': 'Copia link', 'pl': 'Kopiuj link', 'pt': 'Copiar link'},
+    'copied': {'ru': 'Ссылка скопирована', 'en': 'Link copied', 'uk': 'Посилання скопійовано', 'de': 'Link kopiert',
+               'es': 'Enlace copiado', 'fr': 'Lien copié', 'it': 'Link copiato', 'pl': 'Link skopiowany', 'pt': 'Link copiado'},
+    'nocopy': {'ru': 'Не удалось скопировать: ссылка в адресной строке', 'en': 'Could not copy: the link is in the address bar',
+               'uk': 'Не вдалося скопіювати: посилання в адресному рядку',
+               'de': 'Kopieren fehlgeschlagen: Der Link steht in der Adresszeile',
+               'es': 'No se pudo copiar: el enlace está en la barra de direcciones',
+               'fr': 'Copie impossible : le lien est dans la barre d’adresse',
+               'it': 'Copia non riuscita: il link è nella barra degli indirizzi',
+               'pl': 'Nie udało się skopiować: link jest w pasku adresu',
+               'pt': 'Não foi possível copiar: o link está na barra de endereço'},
+    'eh': {'ru': 'Нажатие ставит очко, правая кнопка мыши, Delete или «Снимать» убирают. Билд сохраняется в этом браузере.',
+           'en': 'A tap adds a point; right-click, Delete or Remove takes it back. The build is saved in this browser.',
+           'uk': 'Натискання ставить очко, права кнопка миші, Delete або «Знімати» прибирають. Білд зберігається в цьому браузері.',
+           'de': 'Tippen setzt einen Punkt, Rechtsklick, Entf oder „Entfernen“ nimmt ihn zurück. Der Build bleibt in diesem Browser gespeichert.',
+           'es': 'Un toque añade un punto; clic derecho, Supr o «Quitar» lo retira. La build se guarda en este navegador.',
+           'fr': 'Un appui ajoute un point ; clic droit, Suppr ou « Retirer » l’enlève. Le build est enregistré dans ce navigateur.',
+           'it': 'Un tocco aggiunge un punto; tasto destro, Canc o «Togli» lo rimuove. La build resta salvata in questo browser.',
+           'pl': 'Dotknięcie dodaje punkt, prawy przycisk, Delete lub „Usuń” go zabiera. Build zapisuje się w tej przeglądarce.',
+           'pt': 'Um toque adiciona um ponto; clique direito, Delete ou «Remover» o retira. A build fica salva neste navegador.'},
+    'rank': {'ru': 'Ранг {p} из {m}', 'en': 'Rank {p} of {m}', 'uk': 'Ранг {p} з {m}', 'de': 'Rang {p} von {m}',
+             'es': 'Rango {p} de {m}', 'fr': 'Rang {p} sur {m}', 'it': 'Grado {p} su {m}', 'pl': 'Ranga {p} z {m}',
+             'pt': 'Nível {p} de {m}'},
+    'e_cap': {'ru': 'Очки закончились: {m} из {m}', 'en': 'All {m} points are spent', 'uk': 'Очки закінчились: {m} з {m}',
+              'de': 'Alle {m} Punkte sind vergeben', 'es': 'Ya se usaron los {m} puntos', 'fr': 'Les {m} points sont tous placés',
+              'it': 'Tutti i {m} punti sono già spesi', 'pl': 'Punkty się skończyły: {m} z {m}',
+              'pt': 'Todos os {m} pontos já foram usados'},
+    'e_row': {'ru': 'Сначала {n} очков в ветке выше этого ряда', 'en': 'First {n} points in the rows above',
+              'uk': 'Спершу {n} очок у гілці вище цього ряду', 'de': 'Zuerst {n} Punkte in den Reihen darüber',
+              'es': 'Primero {n} puntos en las filas de arriba', 'fr': 'D’abord {n} points dans les rangées au-dessus',
+              'it': 'Prima {n} punti nelle file sopra', 'pl': 'Najpierw {n} punktów w rzędach powyżej',
+              'pt': 'Primeiro {n} pontos nas linhas acima'},
+    'e_req': {'ru': 'Сначала все ранги: {t}', 'en': 'First all ranks of {t}', 'uk': 'Спершу всі ранги: {t}',
+              'de': 'Zuerst alle Ränge von {t}', 'es': 'Primero todos los rangos de {t}', 'fr': 'D’abord tous les rangs de {t}',
+              'it': 'Prima tutti i gradi di {t}', 'pl': 'Najpierw wszystkie rangi: {t}', 'pt': 'Primeiro todos os níveis de {t}'},
+    'e_keep': {'ru': 'Нельзя снять: на это очко опираются таланты ниже', 'en': 'Can’t remove: talents below rely on this point',
+               'uk': 'Не можна зняти: на це очко спираються таланти нижче',
+               'de': 'Nicht entfernbar: Talente darunter brauchen diesen Punkt',
+               'es': 'No se puede quitar: los talentos de abajo dependen de este punto',
+               'fr': 'Impossible de retirer : des talents plus bas dépendent de ce point',
+               'it': 'Non si può togliere: i talenti sotto dipendono da questo punto',
+               'pl': 'Nie można zdjąć: talenty niżej opierają się na tym punkcie',
+               'pt': 'Não dá para remover: talentos abaixo dependem deste ponto'},
 }
-JS_SKIP = ('hint', 'beta', 'classic', 'wh', 'perk', 'bs', 'b_general', 'b_leveling', 'b_dungeons', 'b_raid', 'b_pvp', 'lvh', 'lvnote', 'lvg')
+JS_SKIP = ('hint', 'beta', 'classic', 'wh', 'perk', 'bs', 'b_general', 'b_leveling', 'b_dungeons', 'b_raid', 'b_pvp', 'lvh', 'lvnote', 'lvg',
+           'add', 'del', 'reset', 'share', 'eh')
+EDIT_CAP = 51                              # points at level 60: one per level from 10 (the leveling build above checks the same 51)
 EN_NAMES = ('en', 'uk', 'pl')              # the site keeps English talent names on these pages (content/spec_builds.py)
 WH_LANGS = ('ru', 'de', 'es', 'fr', 'it', 'pt')            # Wowhead's own interface languages (www.wowhead.com/forever/<lang>/…)
 
@@ -114,19 +176,31 @@ def day(iso, lang):
 
 def wowhead(cid, data, rows, lang):
     """A link to the spec in the Wowhead Forever calculator (see wowhead_ids); rows: (table cell, points) of the general build."""
+    return wowhead_ids(cid, data, table_picks(data, rows), lang, perk(data, rows))
+
+
+def table_picks(data, rows):
     picks = []
     for cell, n in rows:
         tree, t = match(data, cell)
         if t:
             picks.append((tree, t, int(n)))
-    return wowhead_ids(cid, data, picks, lang, perk(data, rows))
+    return picks
+
+
+def wh_base(cid, lang):
+    return f'https://www.wowhead.com/forever/{lang + "/" if lang in WH_LANGS else ""}talent-calc/{cid}/v2'
 
 
 def wowhead_ids(cid, data, picks, lang, pk):
-    """The calculator's own URL format: v2 + one digit per talent of each tree in row/column order, trees joined by '-', trailing
-    zeros cut, _t<n> = ranks of the Legacy perk. picks: (tree, talent, points). The calculator drops a talent whose row is not open
-    yet, so a gap our table leaves (points the sources do not agree on) is put into the first free talent of an open row of that
-    tree, the same «your pick» the order by level shows."""
+    return f'{wh_base(cid, lang)}{build_code(data, picks)}_t{pk}'
+
+
+def build_code(data, picks):
+    """The calculator's own build format (also our editor's #<spec>/<code>): one digit per talent of each tree in row/column
+    order, trees joined by '-', trailing zeros cut; the URL adds _t<n> = ranks of the Legacy perk. picks: (tree, talent, points).
+    The calculator drops a talent whose row is not open yet, so a gap our table leaves (points the sources do not agree on) is put
+    into the first free talent of an open row of that tree, the same «your pick» the order by level shows."""
     pts = {}
     spent = {}
     for tree, t, n in sorted(picks, key=lambda x: x[1]['r']):
@@ -146,8 +220,7 @@ def wowhead_ids(cid, data, picks, lang, pk):
             for tr in data['trees']]
     while code and not code[-1]:
         code.pop()
-    return (f'https://www.wowhead.com/forever/{lang + "/" if lang in WH_LANGS else ""}talent-calc/{cid}/v2{"-".join(code)}'
-            f'_t{pk}')
+    return '-'.join(code)
 
 _names = None
 
@@ -403,8 +476,13 @@ def render(cid, spec, rows, titles, lang, root):
         if t:
             why[t['id']] = _l(r[2], lang)
     titles = {k: _l(v, lang).split(':')[0].strip() for k, v in titles.items()}
+    # q / o / cap / f: the rules the editor checks, read from the same data file as the drawn tree (nothing about the layout is
+    # written into the script, so the client data that replaces the beta layout on 05.11 changes the editor with it)
     PAGE[(cid, lang)] = {'u': {k: v[lang] for k, v in UI.items() if k not in JS_SKIP},
-                         't': {t['id']: [tname(t, lang), t['m'], t['r'], desc(t, lang)] for tr in data['trees'] for t in tr['talents']}}
+                         't': {t['id']: [tname(t, lang), t['m'], t['r'], desc(t, lang)] for tr in data['trees'] for t in tr['talents']},
+                         'q': {t['id']: t['req'] for tr in data['trees'] for t in tr['talents'] if t.get('req')},
+                         'o': [[t['id'] for t in sorted(tr['talents'], key=lambda x: (x['r'], x['c']))] for tr in data['trees']],
+                         'cap': EDIT_CAP, 'f': FIRST_LEVEL, 'rp': ROW_POINTS}
     pts = {}
     for i, (t, n, a, b) in enumerate(steps):
         pts[t['id'] if t else f'f{i}'] = [n, a, b, why.get(t['id'], '')] if t else [n, a, b]
@@ -428,7 +506,7 @@ def render(cid, spec, rows, titles, lang, root):
         rows_n = max(t['r'] for t in tree['talents'])
         trees.append(f'<div class="tt-tree{" on" if on else ""}" data-t="{key}" role="group" aria-label="{title}">'
                      f'<h3>{title}<span{" class=on" if n else ""}>{n}</span></h3>'
-                     f'<div class="tt-grid" style="--rows:{rows_n}">{_arrows(tree, picked, bool(extra))}{"".join(cells)}</div></div>')
+                     f'<div class="tt-grid" style="--rows:{rows_n}">{_arrows(tree, picked, True)}{"".join(cells)}</div></div>')
     p_attr = escape(json.dumps(pts, ensure_ascii=False, separators=(',', ':')))
     pk_html = f' <span class="tt-pk">{UI["perk"][lang].format(n=pk)}</span>' if pk else ''
     basis = data.get('basis')                                     # before launch: one line over the tree says where it comes from
@@ -437,12 +515,22 @@ def render(cid, spec, rows, titles, lang, root):
             f'rel="noopener">{UI["wh"][lang]} ↗</a>')
     head = (f'<h3 class="tt-oh">{UI["order"][lang]}{"" if basis else " @@BETA@@"}'
             f'{pk_html}</h3>{_rib(steps, lang)}<p class="tt-ext">{link}</p>')
-    box = (f'<div class="tt" data-c="{cid}" data-l="{lang}" data-p="{p_attr}"@@B@@ '
-           f'style="--n:{max(data.get("sprite", 0), 2)};--sp:url(@@ROOT@@assets/talents/{cid}.webp{sprite_v(cid)})">')
+    code = build_code(data, table_picks(data, [(r[0], r[1]) for r in rows]))
+    box = (f'<div class="tt" data-c="{cid}" data-l="{lang}" data-sp="{spec}" data-w="{code}" data-wh="{escape(wh_base(cid, lang))}" '
+           f'data-p="{p_attr}"@@B@@ style="--n:{max(data.get("sprite", 0), 2)};--sp:url(@@ROOT@@assets/talents/{cid}.webp{sprite_v(cid)})">')
     tabs_html = f'<div class="tt-tabs" role="tablist">{"".join(tabs)}</div>'
     hint = f'<div class="tt-card" aria-live="polite"><p class="tt-hint">{UI["hint"][lang]}</p></div>'
+    # in a <template>: no dead buttons without the script, and search.py leaves the bar out of the page text
+    ed = (f'<template class="tt-edt"><div class="tt-ed"><button type="button" class="tt-eb" aria-expanded="false" aria-controls="tt-ec-{spec}">'
+          f'{UI["ed"][lang]}</button><div class="tt-ec" id="tt-ec-{spec}" hidden><p class="tt-cnt"></p>'
+          f'<div class="tt-md"><button type="button" class="tt-mb" data-m="1" aria-pressed="true">+ {UI["add"][lang]}</button>'
+          f'<button type="button" class="tt-mb" data-m="-1" aria-pressed="false">− {UI["del"][lang]}</button></div>'
+          f'<button type="button" class="tt-rs">{UI["reset"][lang]}</button><button type="button" class="tt-sh">{UI["share"][lang]}</button>'
+          f'<a class="tt-whl" href="{escape(wh_base(cid, lang))}_t0" target="_blank" rel="noopener">{UI["wh"][lang]} ↗</a>'
+          f'<p class="tt-st" role="status"></p><p class="tt-eh">{UI["eh"][lang]}</p></div></div></template>')
     if not extra:
-        return f'{box.replace("@@B@@", "")}{note}{tabs_html}<div class="tt-trees">{"".join(trees)}</div>{hint}{head}</div>'
+        return (f'{box.replace("@@B@@", "")}{note}{ed}{tabs_html}<div class="tt-trees">{"".join(trees)}</div>{hint}'
+                f'<div class="tt-ow" data-b="general">{head}</div></div>')
     # the switcher: a tablist (arrows, Home/End), the anchor of a tab is <spec>-<build id>, e.g. #protection-leveling
     ids = [('general', {'main': main})] + extra
     sw, ows, bdata = [], [f'<div class="tt-ow" data-b="general">{head}</div>'], {}
@@ -456,7 +544,7 @@ def render(cid, spec, rows, titles, lang, root):
         for i, (t, n, a, z) in enumerate(b['steps']):
             if t is None:
                 bp[f'f{bid}{i}'] = [n, a, z]
-        bdata[bid] = {'p': bp, 'm': b['main']}
+        bdata[bid] = {'p': bp, 'm': b['main'], 'w': build_code(data, b['picks'])}
         wh = wowhead_ids(cid, data, b['picks'], lang, b['pk'])
         ows.append(f'<div class="tt-ow" data-b="{bid}" hidden><p class="tt-note">{UI[b["note"]][lang]}</p>'
                    f'<h3 class="tt-oh">{UI[b["head"]][lang]}</h3>{_rib(b["steps"], lang, "f" + bid)}'
@@ -464,7 +552,7 @@ def render(cid, spec, rows, titles, lang, root):
                    f'<a href="{root}guides/leveling-{cid}/#talents">{UI[b["guide"]][lang]}</a></p></div>')
     b_attr = escape(json.dumps(bdata, ensure_ascii=False, separators=(',', ':')))
     return (f'{box.replace("@@B@@", " data-b=" + chr(34) + b_attr + chr(34))}'
-            f'<div class="tt-bs" role="tablist" aria-label="{UI["bs"][lang]}">{"".join(sw)}</div>{note}'
+            f'<div class="tt-bs" role="tablist" aria-label="{UI["bs"][lang]}">{"".join(sw)}</div>{note}{ed}'
             f'<div class="tt-pane" id="tt-{spec}" role="tabpanel" aria-labelledby="{spec}-general">'
             f'{tabs_html}<div class="tt-trees">{"".join(trees)}</div>{hint}{"".join(ows)}</div></div>')
 
@@ -527,6 +615,25 @@ CSS = """/* Talent trees (talents.py): three trees in a row when there is room, 
 .tt-rib span { grid-column: 1 / -1; font-size: var(--fs-13); color: var(--gold-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .tt-rib .tt-t { --s: 36px; }
 .tt-rib b { font-family: var(--font-body); font-size: var(--fs-14); font-weight: 600; line-height: 1; letter-spacing: 0; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tt-ed[hidden], .tt-ec[hidden], .tt.ed .tt-bs, .tt.ed .tt-ow { display: none; }
+.tt-ed { display: grid; gap: 10px; }
+.tt-ec { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.tt-eb, .tt-mb, .tt-rs, .tt-sh { min-height: 44px; padding: 0 16px; border: 1px solid var(--line-2); border-radius: 6px; background: transparent; color: var(--fg); cursor: pointer; font: inherit; font-weight: 600; }
+.tt-eb { justify-self: start; border-color: var(--gold); color: var(--gold-2); }
+.tt-eb:hover, .tt-mb:hover, .tt-rs:hover, .tt-sh:hover { background: var(--zebra); }
+.tt-eb:focus-visible, .tt-mb:focus-visible, .tt-rs:focus-visible, .tt-sh:focus-visible { outline: 2px solid var(--gold-2); outline-offset: 2px; }
+.tt-cnt { flex-basis: 100%; margin: 0; color: var(--fg); font-weight: 600; font-variant-numeric: tabular-nums; }
+.tt-md { display: flex; gap: 4px; padding: 4px; border: 1px solid var(--line); border-radius: 8px; }
+.tt-md .tt-mb { border: 0; color: var(--muted); }
+.tt-md .tt-mb[aria-pressed="true"] { background: var(--seg-on); color: var(--gold-2); }
+.tt-whl { font-size: var(--fs-14); }
+.tt-st:empty { display: none; }
+.tt-st, .tt-eh { flex-basis: 100%; margin: 0; color: var(--muted); font-size: var(--fs-13); }
+.tt.ed .tt-grid .tt-t.tt-op:not(.on) { border-color: var(--line-2); }
+.tt.ed .tt-grid .tt-t.tt-op:not(.on) .tt-ic { filter: none; }
+.tt.ed .tt-grid .tt-t { -webkit-touch-callout: none; user-select: none; touch-action: manipulation; }
+.tt-card .e { color: var(--muted); }
+@media (prefers-reduced-motion: no-preference) { .tt.ed .tt-t { transition: border-color .12s; } }
 @container (max-width: 759px) {
   .tt-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .tt-tab { padding: 4px 2px; font-size: min(var(--fs-14), 3.5vw); line-height: 1.2; hyphens: auto; overflow-wrap: anywhere; }
@@ -539,16 +646,56 @@ CSS = """/* Talent trees (talents.py): three trees in a row when there is room, 
 """
 
 JS = r"""<script>
-/* Talent trees: the card under the tree on tap (and on hover with a mouse), the tabs on narrow screens, the sprite near the screen.
-   #ttData: {u: texts, t: {id: [name, ranks, row, client text]}}; a block's data-p: {id: [points, from, to, our line]}. */
+/* Talent trees: the card under the tree on tap (and on hover with a mouse), the tabs on narrow screens, the sprite near the screen,
+   and the editor (your own build over the same tree). #ttData: {u: texts, t: {id: [name, ranks, row, client text]},
+   q: {id: prerequisite id}, o: [[ids of a tree in row/column order]], cap, f: first talent level, rp: points per row};
+   a block's data-p: {id: [points, from, to, our line]}. The editor keeps the build as #<spec>/<code> and in localStorage. */
 (function () {
-  var D = JSON.parse(document.getElementById('ttData').textContent), U = D.u;
+  var D = JSON.parse(document.getElementById('ttData').textContent), U = D.u, KEY = 'gabella-tc-';
   var hover = window.matchMedia && matchMedia('(hover: hover)').matches;
+  var trOf = {};
+  D.o.forEach(function (ids, i) { ids.forEach(function (k) { trOf[k] = i; }); });
   function f(s, o) { return s.replace(/\{(\w)\}/g, function (_, k) { return o[k]; }); }
   function lv(a, b) { return f(U.lv, { a: b > a ? a + '–' + b : a }); }
+  /* The rules of the tree, all read from #ttData: a talent opens with rp points per row spent in the rows above it in its tree,
+     its prerequisite must be at full rank, cap points in all. S: {id: points}. */
+  function above(S, i, row) { var n = 0; D.o[i].forEach(function (k) { if (D.t[k][2] < row) n += S[k] || 0; }); return n; }
+  function total(S) { var n = 0; for (var k in S) n += S[k]; return n; }
+  function why(S, k) {
+    var t = D.t[k], q = D.q[k];
+    if ((S[k] || 0) >= t[1]) return 'max';
+    if (total(S) >= D.cap) return f(U.e_cap, { m: D.cap });
+    if (above(S, trOf[k], t[2]) < D.rp * (t[2] - 1)) return f(U.e_row, { n: D.rp * (t[2] - 1) });
+    if (q && (S[q] || 0) < D.t[q][1]) return f(U.e_req, { t: D.t[q][0] });
+    return '';
+  }
+  function legal(S, i) {
+    return D.o[i].every(function (k) {
+      var q = D.q[k];
+      return !S[k] || (above(S, i, D.t[k][2]) >= D.rp * (D.t[k][2] - 1) && (!q || (S[q] || 0) >= D.t[q][1]));
+    });
+  }
+  function encode(S) {
+    var c = D.o.map(function (ids) { return ids.map(function (k) { return S[k] || 0; }).join('').replace(/0+$/, ''); });
+    while (c.length && !c[c.length - 1]) c.pop();
+    return c.join('-');
+  }
+  function decode(code) {
+    var S = {}, want = {};
+    String(code || '').split('-').forEach(function (s, i) {
+      if (D.o[i]) s.split('').forEach(function (d, j) { var k = D.o[i][j]; if (k && +d) want[k] = Math.min(+d, D.t[k][1]); });
+    });
+    for (var pass = 0; pass < 2; pass++) {             /* a prerequisite may stand to the right in the same row */
+      D.o.forEach(function (ids) { ids.forEach(function (k) { while ((S[k] || 0) < (want[k] || 0) && !why(S, k)) S[k] = (S[k] || 0) + 1; }); });
+    }
+    return S;
+  }
   document.querySelectorAll('.tt').forEach(function (w) {
     var card = w.querySelector('.tt-card'), P0 = JSON.parse(w.dataset.p), P = P0, cur = null, hint = card.innerHTML;
     var B = w.dataset.b ? JSON.parse(w.dataset.b) : null, bs = w.querySelector('.tt-bs');
+    var tp = w.querySelector('.tt-edt'), S = null, mode = 1;
+    tp.parentNode.replaceChild(tp.content.cloneNode(true), tp);
+    var ed = w.querySelector('.tt-ed');
     function line(cls, text) { var e = document.createElement(cls === 'h' ? 'b' : 'p'); e.className = cls; e.textContent = text; card.appendChild(e); }
     function show(b) {
       var k = b.dataset.k, p = P[k], t = D.t[k], meta = [];
@@ -556,35 +703,44 @@ JS = r"""<script>
       cur = b; b.setAttribute('aria-pressed', 'true');
       card.textContent = '';
       if (!t) { line('h', U.free); line('m', lv(p[1], p[2])); line('w', U.free_d); return; }
-      meta.push(p ? f(U.take, { p: p[0], m: t[1] }) : f(U.skip, { m: t[1] }));
-      if (p) meta.push(p[4] ? f(U.lv, { a: p[4] }) : lv(p[1], p[2]));
-      if (t[2] > 1) meta.push(f(U.row, { n: 5 * (t[2] - 1) }));
+      if (S) meta.push(f(U.rank, { p: S[k] || 0, m: t[1] }));
+      else {
+        meta.push(p ? f(U.take, { p: p[0], m: t[1] }) : f(U.skip, { m: t[1] }));
+        if (p) meta.push(p[4] ? f(U.lv, { a: p[4] }) : lv(p[1], p[2]));
+      }
+      if (t[2] > 1) meta.push(f(U.row, { n: D.rp * (t[2] - 1) }));
       line('h', t[0]); line('m', meta.join(' · '));
-      if ((p && p[3]) || t[3]) line('w', (p && p[3]) || t[3]);
+      var w2 = S ? t[3] : (p && p[3]) || t[3];
+      if (w2) line('w', w2);
     }
     function pickTree(key) {
       w.querySelectorAll('.tt-tab').forEach(function (x) { x.setAttribute('aria-selected', x.dataset.t === key ? 'true' : 'false'); });
       w.querySelectorAll('.tt-tree').forEach(function (x) { x.classList.toggle('on', x.dataset.t === key); });
     }
-    /* Build switcher: re-colour the one drawn tree for the chosen build (points, golden lines, counts), show that build's order */
-    function setBuild(id, focus) {
-      var tab = bs.querySelector('[data-b="' + id + '"]');
-      if (!tab) return;
-      P = id === 'general' ? P0 : B[id].p;
+    /* Colour the one drawn tree for a set of points (a build of ours or the editor's): points, golden lines, counts */
+    function paint() {
       var sum = {};
       Object.keys(P).forEach(function (k) { if (D.t[k]) { var tr = k.replace(/-\d+$/, ''); sum[tr] = (sum[tr] || 0) + P[k][0]; } });
       w.querySelectorAll('.tt-grid [data-k]').forEach(function (b) {
         var k = b.dataset.k, n = P[k] ? P[k][0] : 0, nb = b.querySelector('b');
         b.classList.toggle('on', n > 0);
-        b.setAttribute('aria-label', D.t[k][0] + (n ? ' ' + n + '/' + D.t[k][1] : ''));
+        b.setAttribute('aria-label', D.t[k][0] + (S ? ' ' + n + '/' + D.t[k][1] : n ? ' ' + n + '/' + D.t[k][1] : ''));
         if (n && !nb) { nb = document.createElement('b'); b.appendChild(nb); }
         if (nb) { if (n) nb.textContent = n; else nb.remove(); }
+        b.classList.toggle('tt-op', !!S && !why(S, k));
       });
       w.querySelectorAll('.tt-ar').forEach(function (a) { a.classList.toggle('on', !!(P[a.dataset.s] && P[a.dataset.d])); });
       w.querySelectorAll('.tt-tab').forEach(function (x) { x.querySelector('span').textContent = sum[x.dataset.t] || 0; });
       w.querySelectorAll('.tt-tree h3 span').forEach(function (x) {
         var n = sum[x.parentNode.parentNode.dataset.t] || 0; x.textContent = n; x.classList.toggle('on', n > 0);
       });
+    }
+    /* Build switcher: re-colour the tree for the chosen build of ours, show that build's order */
+    function setBuild(id, focus) {
+      var tab = bs.querySelector('[data-b="' + id + '"]');
+      if (!tab) return;
+      P = id === 'general' ? P0 : B[id].p;
+      paint();
       pickTree(tab.dataset.m);
       bs.querySelectorAll('.tt-b').forEach(function (x) {
         var on = x === tab; x.setAttribute('aria-selected', on ? 'true' : 'false'); x.tabIndex = on ? 0 : -1;
@@ -613,17 +769,88 @@ JS = r"""<script>
         if (t && t.getAttribute('aria-selected') !== 'true') setBuild(t.dataset.b);
       };
     }
+    /* Editor: starts from the build saved in this browser, else from the build of ours on screen */
+    var eb = ed.querySelector('.tt-eb'), ec = ed.querySelector('.tt-ec'), cnt = ed.querySelector('.tt-cnt');
+    var st = ed.querySelector('.tt-st'), whl = ed.querySelector('.tt-whl');
+    function saved() { try { return localStorage.getItem(KEY + w.dataset.c); } catch (x) { return null; } }
+    function update(keep) {
+      var n = total(S), code = encode(S);
+      st.textContent = '';
+      P = {};
+      for (var k in S) if (S[k]) P[k] = [S[k]];
+      paint();
+      cnt.textContent = f(U.cnt, { p: n, m: D.cap }) + (n ? ' · ' + f(U.lv, { a: D.f - 1 + n }) : '');
+      whl.href = w.dataset.wh + code + '_t0';
+      if (!keep) try { localStorage.setItem(KEY + w.dataset.c, code); } catch (x) {}
+      try { history.replaceState(null, '', '#' + w.dataset.sp + '/' + code); } catch (x) {}
+    }
+    function open(code) {
+      S = decode(code);
+      w.classList.add('ed'); ec.hidden = false; eb.textContent = U.ed_x; eb.setAttribute('aria-expanded', 'true');
+      cur = null; card.innerHTML = hint;
+      update(true);
+    }
+    function close() {
+      S = null;
+      w.classList.remove('ed'); ec.hidden = true; eb.textContent = U.ed; eb.setAttribute('aria-expanded', 'false');
+      var t = bs && bs.querySelector('.tt-b[aria-selected="true"]');
+      if (t) setBuild(t.dataset.b); else { P = P0; paint(); cur = null; card.innerHTML = hint; }
+      try { history.replaceState(null, '', '#' + w.dataset.sp); } catch (x) {}
+    }
+    function step(b, d) {
+      var k = b.dataset.k, r = '';
+      if (d > 0) { r = why(S, k); if (!r) S[k] = (S[k] || 0) + 1; }
+      else if (S[k]) { S[k]--; if (!legal(S, trOf[k])) { S[k]++; r = U.e_keep; } }
+      if (!r) update();
+      show(b);
+      if (r && r !== 'max') line('e', r);
+    }
+    eb.addEventListener('click', function () {
+      if (S) { close(); return; }
+      var t = bs && bs.querySelector('.tt-b[aria-selected="true"]'), s = saved();
+      open(s !== null ? s : t && t.dataset.b !== 'general' ? B[t.dataset.b].w : w.dataset.w);
+    });
+    ec.addEventListener('click', function (e) {
+      var m = e.target.closest('.tt-mb');
+      if (m) {
+        mode = +m.dataset.m;
+        ec.querySelectorAll('.tt-mb').forEach(function (x) { x.setAttribute('aria-pressed', x === m ? 'true' : 'false'); });
+      } else if (e.target.closest('.tt-rs')) { S = {}; update(); cur = null; card.innerHTML = hint; }
+      else if (e.target.closest('.tt-sh')) {
+        var ok = function () { st.textContent = U.copied; }, no = function () { st.textContent = U.nocopy; };
+        var url = location.href.split('#')[0] + '#' + w.dataset.sp + '/' + encode(S);   /* not location.href: replaceState can be throttled */
+        try { navigator.clipboard.writeText(url).then(ok, no); } catch (x) { no(); }
+      }
+    });
+    w.openByHash = function (code) { if (S) { S = decode(code); update(true); } else open(code); };
     w.addEventListener('click', function (e) {
       var tab = e.target.closest('.tt-tab');
       if (tab) { pickTree(tab.dataset.t); return; }
       var b = e.target.closest('[data-k]');
-      if (b) show(b);
+      if (b && S && b.closest('.tt-grid')) step(b, mode);
+      else if (b) show(b);
+    });
+    w.addEventListener('contextmenu', function (e) {
+      var b = S && e.target.closest('.tt-grid [data-k]');
+      if (b) { e.preventDefault(); step(b, -1); }
+    });
+    w.addEventListener('keydown', function (e) {
+      var b = S && e.target.closest && e.target.closest('.tt-grid [data-k]');
+      if (!b) return;
+      if (e.key === 'Delete' || e.key === 'Backspace' || e.key === '-') { e.preventDefault(); step(b, -1); }
+      else if (e.key === '+' || e.key === '=') { e.preventDefault(); step(b, 1); }
     });
     if (hover) w.addEventListener('mouseover', function (e) { var b = e.target.closest('[data-k]'); if (b && b !== cur) show(b); });
   });
   function fromHash() {
     var h = ''; try { h = decodeURIComponent(location.hash.slice(1)); } catch (x) {}
-    document.querySelectorAll('.tt').forEach(function (w) { if (w.setBuildByHash) w.setBuildByHash(h); });
+    var m = /^([a-z-]+)\/([0-9-]*)$/.exec(h);
+    document.querySelectorAll('.tt').forEach(function (w) {
+      if (!m) { if (w.setBuildByHash) w.setBuildByHash(h); return; }
+      if (w.dataset.sp !== m[1] || !w.openByHash) return;
+      w.openByHash(m[2]);
+      (document.getElementById(m[1]) || w).scrollIntoView();
+    });
   }
   fromHash();
   window.addEventListener('hashchange', fromHash);
