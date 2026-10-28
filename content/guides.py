@@ -985,6 +985,14 @@ GUIDES.append({
 # ---------- Новости: наши записи (новые сверху) + автолента Wowhead из assets/news.json ----------
 
 NEWS += [
+    {'date': '2026-10-01', 'url': 'https://us.forums.blizzard.com/en/wow/t/actions-taken-against-botting-and-rmt/2368705/1',
+     'title': t('Меры против ботов и RMT', 'Actions taken against botting and RMT', 'Заходи проти ботів і RMT'),
+     'text': t('Blizzard написала на форуме о мерах против ботов и RMT (продажи игровых ценностей за реальные деньги). Подробностей, которые мы могли бы проверить, в сообщении нет: детали смотрите в самом сообщении.',
+               'Blizzard posted on the forum about actions taken against botting and RMT (real-money trading). The post gives no further details we could verify, so check the linked post.',
+               'Blizzard написала на форумі про заходи проти ботів і RMT (продаж ігрових цінностей за реальні гроші). Подробиць, які ми могли б перевірити, у повідомленні немає: деталі дивіться в самому повідомленні.'),
+     'so': t('Подробности о мерах — в сообщении Blizzard.',
+             'Details of the actions are in the Blizzard post.',
+             'Подробиці про заходи — у повідомленні Blizzard.')},
     {'date': '2026-10-22', 'url': 'https://us.forums.blizzard.com/en/wow/t/the-roleplay-pvp-ruleset-is-coming-to-wow-forever/2389502/1',
      'title': t('Режим Roleplay-PvP придёт в WoW Forever', 'Roleplay-PvP ruleset is coming to WoW Forever', 'Режим Roleplay-PvP прийде в WoW Forever'),
      'text': t('Blizzard объявила на форуме, что режим Roleplay-PvP появится в WoW Forever. Подробностей, которые мы могли бы проверить, в сообщении нет: правила смотрите в самом сообщении.',
@@ -1053,6 +1061,7 @@ GUIDES.append({
         ('ClassicWoW.gg', 'https://classicwow.gg/forever'),
         (t('Blizzard: резерв имён по регионам', 'Blizzard: name reservation by region', 'Blizzard: резерв імен за регіонами'), 'https://worldofwarcraft.blizzard.com/en-us/news/24313106'),
         (t('Blizzard: бета закрыта', 'Blizzard: the beta is closed', 'Blizzard: бету закрито'), 'https://eu.forums.blizzard.com/en/wow/t/637228'),
+        (t('Blizzard: меры против ботов и RMT', 'Blizzard: actions against botting and RMT', 'Blizzard: заходи проти ботів і RMT'), 'https://us.forums.blizzard.com/en/wow/t/actions-taken-against-botting-and-rmt/2368705/1'),
     ],
     'sections': [
         {'id': 'ours', 'title': t('Наши записи', 'Our notes', 'Наші записи'), 'blocks': [('news', None)]},
