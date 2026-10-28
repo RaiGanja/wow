@@ -1019,6 +1019,7 @@ def pwa(html, lang, root):
 GIT_ROOT = os.path.dirname(HERE) if os.environ.get('WF_STAGED') else HERE   # the staged build runs in .build/, git is one level up
 UPD_SRC = {'guides/leveling-': ('content/class_guides.py',),   # the nine class guides: their own texts (the order is checked first)
            'guides/builds-': ('content/spec_builds.py',),
+           'guides/spec-': ('content/spec_cheats.py', 'content/spec_builds.py', 'content/class_guides.py'),
            'guides/': ('content/guides.py', 'i18n/guides.ru.txt', 'i18n/guides.en.txt', 'i18n/guides.uk.txt'),
            'classes/': ('content/classes.py',), 'races/': ('content/races.py',),
            'tools/': ('tools.src.html', 'i18n/tools.ru.txt', 'content/classes.py', 'content/races.py')}
@@ -1681,6 +1682,8 @@ def main():
     import build_cards  # share pages b/<race>-<class>-<spec>/ of built characters (noindex, outside sitemap.xml)
     build_cards.main()
     import seo  # last: titles/descriptions for search, JSON-LD, analytics, sitemap.xml over the built pages
+    from content import spec_cheats  # noqa: E402
+    seo.META.update(spec_cheats.SEO)   # the four spec cheat sheets: title and description for the search
     seo.main()
     report_new_langs()
     if not listing:

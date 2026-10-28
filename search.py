@@ -86,7 +86,7 @@ def dungeons(lang):
 
 def index(lang, meta):
     items = []
-    for path in (p for p in meta if lang in meta[p]):
+    for path in (p for p in meta if lang in meta[p] and not p.startswith('guides/spec-')):   # spec cheat sheets repeat the builds and leveling pages: search shows those
         html = open(os.path.join(HERE, page_dir(lang, path), 'index.html'), encoding='utf-8').read()
         cr = seo.crumbs(path, lang)
         items += page_entries(html, path, lang, cr[-2][0] if cr else '')

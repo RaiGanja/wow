@@ -32,7 +32,7 @@ NEWS = []     # записи «Новостей», шаблон и порядо�
 NEWS_SO = t('Для игрока', 'For you', 'Для гравця')   # подпись строки 'so'
 from build import DISCORD_AT  # noqa: E402  (у каждого места ссылки своё приглашение)
 
-ORDER = ['name-reservation', 'launch-checklist', 'launch-day', 'leveling', 'leveling-warrior', 'leveling-paladin', 'leveling-hunter', 'leveling-rogue', 'leveling-priest', 'leveling-shaman', 'leveling-mage', 'leveling-warlock', 'leveling-druid', 'builds', 'builds-warrior', 'builds-paladin', 'builds-hunter', 'builds-rogue', 'builds-priest', 'builds-shaman', 'builds-mage', 'builds-warlock', 'builds-druid', 'best-race', 'tier-list', 'legacy', 'dungeons', 'professions', 'addons', 'faq', 'requirements', 'server-status', 'news', 'ukrainian']   # порядок плиток на хабе и в «Другие гайды»
+ORDER = ['name-reservation', 'launch-checklist', 'launch-day', 'leveling', 'leveling-warrior', 'leveling-paladin', 'leveling-hunter', 'leveling-rogue', 'leveling-priest', 'leveling-shaman', 'leveling-mage', 'leveling-warlock', 'leveling-druid', 'builds', 'builds-warrior', 'builds-paladin', 'builds-hunter', 'builds-rogue', 'builds-priest', 'builds-shaman', 'builds-mage', 'builds-warlock', 'builds-druid', 'spec-hunter-beast-mastery', 'spec-mage-frost', 'spec-paladin-protection', 'spec-priest-discipline', 'best-race', 'tier-list', 'legacy', 'dungeons', 'professions', 'addons', 'faq', 'requirements', 'server-status', 'news', 'ukrainian']   # порядок плиток на хабе и в «Другие гайды»
 
 
 # ---------- FAQ: даты и наборы, режимы, имена, отличия от Era (переехали с главной) + частые вопросы ----------
@@ -1612,6 +1612,26 @@ GUIDES.append({
     ],
     'js': 'legacy',
     'sections': [
+        {'id': 'about', 'title': t('Что это за раздел', 'What this section is', 'Що це за розділ'), 'blocks': [
+            ('steps', [
+                {'t': t('Очки за испытания', 'Points for challenges', 'Очки за випробування'),
+                 'd': t('Испытание — задание вроде «достичь 25 уровня» или «победить Onyxia». Каждое даёт 1 очко Legacy, всего их 65. Очки общие для персонажей аккаунта, кроме Hardcore (на старте его нет).',
+                        'A challenge is a task such as “reach level 25” or “defeat Onyxia”. Each one gives 1 Legacy point, and there are 65 in all. Points are shared by the characters on your account, except Hardcore (not available at launch).',
+                        'Випробування — завдання на кшталт «досягти 25 рівня» або «перемогти Onyxia». Кожне дає 1 очко Legacy, усього їх 65. Очки спільні для персонажів облікового запису, крім Hardcore (на старті його немає).')},
+                {'t': t('Перки на персонаже', 'Perks on a character', 'Перки на персонажі'),
+                 'd': t('Перк — бонус, на который вы тратите очки: например, быстрее растут навыки ремёсел или выше потолок отдыха. Перки собраны в три дерева. На старте персонаж тратит до 16 очков, и каждый выбирает свои.',
+                        'A perk is a bonus you spend points on, for example faster tradeskill gains or a higher rested experience cap. Perks sit in three trees. At launch a character can spend up to 16 points, and each character picks its own.',
+                        'Перк — бонус, на який ви витрачаєте очки: наприклад, швидше зростають навички ремесел або вища стеля відпочинку. Перки зібрані в три дерева. На старті персонаж витрачає до 16 очок, і кожен обирає свої.')},
+                {'t': t('Награды', 'Rewards', 'Нагороди'),
+                 'd': t('Накопленные на аккаунте очки открывают награды: игрушку, питомца, табард и скакуна. Это косметика.',
+                        'The points collected on your account unlock rewards: a toy, a pet, a tabard and a mount. They are cosmetic.',
+                        'Накопичені на обліковому записі очки відкривають нагороди: іграшку, улюбленця, табард і скакуна. Це косметика.')},
+                {'t': t('С чего начать', 'Where to start', 'З чого почати'),
+                 'd': t('Альтов качать не нужно: один персонаж набирает до 29 очков, а потратить можно 16. Отметьте в разделе «Счётчик Legacy», что уже сделано. В игре окно Legacy открывается клавишей Y, когда появится первое очко, обычно на 25 уровне.',
+                        'You don’t need alts: a single character can earn up to 29 points, and you can spend 16. Tick what you have already done in the “Legacy counter” section. In the game, the Legacy window opens with the Y key once you have your first point, usually at level 25.',
+                        'Твінків качати не потрібно: один персонаж набирає до 29 очок, а витратити можна 16. Позначте в розділі «Лічильник Legacy», що вже зроблено. У грі вікно Legacy відкривається клавішею Y, коли з’явиться перше очко, зазвичай на 25 рівні.')},
+            ]),
+        ]},
         {'id': 'calc', 'title': t('Счётчик Legacy', 'Legacy counter', 'Лічильник Legacy'), 'blocks': [
             ('lgcalc', LGC),
         ]},
@@ -2752,6 +2772,9 @@ CLASS_HUB_TILE = class_guides.HUB_TILE   # на хабе гайдов вмест
 from content import spec_builds  # noqa: E402
 
 spec_builds.attach(GUIDES, HUBS, ORDER)
+from content import spec_cheats  # noqa: E402
+
+spec_cheats.attach(GUIDES, HUBS, ORDER)   # шпоры четырёх спеков из готовых разделов; названия на всех языках — spec_cheats.finish() в build_guides
 # /guides/builds/: девять плиток билдов на своей странице (хаб, «Ещё» и подвал ведут сюда, а не в середину тир-листа)
 _tl = next(g for g in GUIDES if g['slug'] == 'tier-list')['sections']
 GUIDES.append({

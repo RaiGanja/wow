@@ -718,11 +718,13 @@ function fitCp() {
   const m = document.createElement('span');
   m.style.cssText = 'position:absolute;left:-9999px;top:0;visibility:hidden;white-space:pre;line-height:1;font-size:100px';
   document.body.append(m);
+  let kmax = 0;   // the widest name sets the size of every card
   els.forEach(el => {
     const cs = getComputedStyle(el);
     m.style.fontFamily = cs.fontFamily; m.style.fontWeight = cs.fontWeight;
-    el.style.setProperty('--k', Math.max(...(el.textContent.match(/[^\s-]+-?/g) || ['']).map(t => (m.textContent = t, m.getBoundingClientRect().width / 100))).toFixed(3));
+    kmax = Math.max(kmax, ...(el.textContent.match(/[^\s-]+-?/g) || ['']).map(t => (m.textContent = t, m.getBoundingClientRect().width / 100)));
   });
+  els.forEach(el => el.style.setProperty('--k', kmax.toFixed(3)));
   m.remove();
 }
 if (document.fonts) document.fonts.addEventListener('loadingdone', fitCp);

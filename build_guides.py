@@ -12,6 +12,7 @@ import tod
 from build import LANGS, SITE, page_dir, rel, localize, translate
 import langs
 from content import hero as HERO, looks as LK
+from content import spec_cheats
 from content.guides import BUILDS_HUB_TILE, CLASS_HUB_TILE, GUIDES, HUB, HUBS, NEWS, NEWS_SO, NOT_FOUND, ORDER, PAGES, PLAY_MILESTONES, PLAY_TX
 
 HERE = build.HERE
@@ -140,15 +141,19 @@ def cell(c, lang, root):
     name, sep, rest = L(c[0], lang).partition(' · ')
     cid = CLS_HREF.search(c[1])
     if cid:
-        return clink(cid.group(1), escape(name, quote=True), f'{root}{c[1]}') + escape(sep + rest, quote=True)
+        return clink(cid.group(1), escape(name, quote=True), f'{root}{c[1]}', escape(rest, quote=True))
     return f'<a href="{root}{c[1]}">{escape(name, quote=True)}</a>{escape(sep + rest, quote=True)}'
 
 
 CLS_HREF = re.compile(r'(?:^|[/-])(' + '|'.join(build.COLOR) + r')/(?:#[\w-]*)?$')   # classes/mage/, guides/leveling-mage/
 
 
-def clink(cid, name, href):
-    """A class name in a table or a list: its game colour and a small portrait (index.src.html .clink)."""
+def clink(cid, name, href, spec=''):
+    """A class name in a table or a list: its game colour and a small portrait (index.src.html .clink).
+    With a spec it is a two-line chip: the name over the spec, one icon size, one baseline."""
+    if spec:
+        return (f'<a class="clink two" href="{href}" style="--cc:{build.COLOR[cid]}"><span class="av">{face_img(cid)}</span>'
+                f'<span class="cn"><b>{name}</b><small>{spec}</small></span></a>')
     return (f'<a class="clink" href="{href}" style="--cc:{build.COLOR[cid]}"><span class="av">{face_img(cid)}</span>{name}</a>')
 
 
@@ -669,6 +674,37 @@ JS['buildshare'] = r'''/* Builds of a class: «Share» under the heading of ever
       try { await navigator.clipboard.writeText(url); msg.textContent = HC.tx.linkCopied; } catch (e) { msg.textContent = url; }
     };
   });
+})();'''
+
+
+JS['cheat'] = r'''/* Spec cheat sheet: the «answer in 5 seconds» block (race strip, best races, buttons). #race=<race> comes from the card page b/<race>-<class>-<spec>/ (build_cards.py):
+   the strip names the race and the picker link carries it. «Share» gives the card link of the build: the race from the link,
+   else your hero's (same class), else the best Alliance race of the spec; phone: the share sheet, else the clipboard. */
+(function () {
+  const box = document.getElementById('cheat'); if (!box) return;
+  const cls = box.dataset.cls, spec = box.dataset.spec, i = HC.sid[cls].indexOf(spec), BS = { skyA: 'skyborne-a', skyH: 'skyborne-h' };
+  const hero = readHero(), mine = hero && hero.cls === cls && HC.rf[hero.race] ? hero : null;
+  const asked = (location.hash.match(/(?:^#|&)race=(\w+)/) || [])[1], fromLink = asked && HC.rf[asked] ? asked : '';
+  const pick = document.getElementById('cheatPick'), strip = document.getElementById('cheatRace');
+  if (fromLink) {
+    strip.textContent = box.dataset.from + ': ' + HC.rn[fromLink] + ' · ' + HC.fn[HC.rf[fromLink]]; strip.hidden = false;
+    pick.href = '../../tools/#pick=' + fromLink + '.' + cls + '.' + spec;
+  }
+  document.getElementById('cheatShare').onclick = async () => {
+    const msg = document.getElementById('cheatMsg'), fac = fromLink ? HC.rf[fromLink] : mine ? HC.rf[mine.race] : 'alliance';
+    const best = bestOf(cls, fac, spec) || bestOf(cls, fac === 'alliance' ? 'horde' : 'alliance', spec);
+    const race = fromLink || (mine ? mine.race : best && best[0][0]);
+    if (!race) return;
+    const url = new URL('../../b/' + (BS[race] || race) + '-' + cls + '-' + spec + '/', location.href).href;
+    const title = HC.rn[race] + ' · ' + HC.cn[cls] + ' · ' + HC.sn[cls][i];
+    if (navigator.share && matchMedia('(pointer: coarse)').matches) {
+      try { await navigator.share({ title, url }); return; } catch (e) { if (e && e.name === 'AbortError') return; }
+    }
+    try { await navigator.clipboard.writeText(url); msg.textContent = HC.tx.linkCopied; } catch (e) { msg.textContent = url; }
+  };
+  const best = document.getElementById('cheatBest'), b = HC.best[cls];   // best race of the spec for each faction, from the Best race guide
+  const names = ['alliance', 'horde'].map(f => { const x = bestOf(cls, f, spec); return x && x[0] ? HC.rn[x[0][0]] + ' (' + HC.fn[f] + ')' : ''; }).filter(Boolean);
+  if (b && names.length) best.textContent = best.dataset.l + ': ' + names.join(', ');
 })();'''
 
 
@@ -1526,7 +1562,7 @@ draw();
 addEventListener('storage', e => { if (e.key === MEKEY && !wiz) { me = load(); draw(); } });'''
 
 
-HERO_FOLLOW = ('news', 'checklist', 'play', 'buildshare')   # pages that follow the hero of this browser (hero_js before their script)
+HERO_FOLLOW = ('news', 'checklist', 'play', 'buildshare', 'cheat')   # pages that follow the hero of this browser (hero_js before their script)
 DATA = {'dungeons': dungeons_data, 'play': play_data}   # js key -> data blocks (from index.src.html and content)
 REF = ('classref', 'raceref')        # js keys fed by ref_js (language-specific)
 
@@ -1720,6 +1756,9 @@ def not_found_page(tpl, base_css, sprite, src, lang='ru'):
     html = html.replace('<head>', f'<head>\n<base href="/wow/{page_dir(lang)}">\n<meta name="robots" content="noindex">', 1)
     html = html.replace('data-page=""', 'data-page="404"', 1)   # me.js: the secret for getting lost
     return page_dir(lang, '404.html'), html, missing
+
+
+spec_cheats.finish(GUIDES, hero_core, langs)   # the four spec cheat sheets: names in every language
 
 
 def main():

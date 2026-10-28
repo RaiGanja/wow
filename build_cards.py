@@ -8,6 +8,7 @@ from html import escape
 import build
 from build import LANGS, SITE, page_dir
 import langs
+from content.spec_cheats import HAS_CHEAT
 
 HERE = build.HERE
 sys.path.insert(0, os.path.join(HERE, 'tools'))
@@ -18,6 +19,9 @@ MC.names = functools.cache(MC.names)   # the language data is read once per lang
 LOCALE = {'ru': 'ru_RU', 'uk': 'uk_UA', 'en': 'en_US', 'de': 'de_DE', 'fr': 'fr_FR', 'es': 'es_ES', 'it': 'it_IT', 'pt': 'pt_BR', 'pl': 'pl_PL'}
 OPEN = {'ru': 'Открыть в подборщике', 'uk': 'Відкрити в підбірнику', 'en': 'Open in the picker', 'de': 'Im Auswahltool öffnen',
         'fr': 'Ouvrir dans le sélecteur', 'es': 'Abrir en el selector', 'it': 'Apri nel selettore', 'pt': 'Abrir no seletor', 'pl': 'Otwórz w selektorze'}
+OPEN_SHEET = {'ru': 'Открыть шпору спека', 'uk': 'Відкрити шпору спека', 'en': 'Open the spec cheat sheet', 'de': 'Spickzettel der Skillung öffnen',
+              'fr': 'Ouvrir la fiche de la spécialisation', 'es': 'Abrir la guía rápida de la espec.', 'it': 'Apri la scheda della specializzazione',
+              'pt': 'Abrir o resumo da especialização', 'pl': 'Otwórz ściągę specjalizacji'}
 IMG_ALT = {'ru': 'Карточка: {t}', 'uk': 'Картка: {t}', 'en': 'Card: {t}', 'de': 'Karte: {t}', 'fr': 'Carte : {t}', 'es': 'Tarjeta: {t}',
            'it': 'Scheda: {t}', 'pt': 'Cartão: {t}', 'pl': 'Karta: {t}'}
 
@@ -97,6 +101,9 @@ def render(race, cls, spec, lang):
            'LOCALE': LOCALE[lang], 'IMG': f'{SITE}assets/og/b/{MC.slug(race, cls, spec)}-{lang}.jpg', 'ALTT': escape(IMG_ALT[lang].format(t=title)),
            'LD': ld.replace('</', '<\\/'), 'NAME': escape(name), 'SPEC': escape(spec_n), 'FAC': escape(fac), 'ROLE': escape(MC.role_line(cls, spec, lang)), 'OPEN': OPEN[lang],
            'PICK': f'{build.rel(here, page_dir(lang))}tools/#pick={race}.{cls}.{spec}'}
+    if f'{cls}-{spec}' in HAS_CHEAT:   # the four specs with a cheat sheet: the card leads there, the picker is one button away
+        rep['PICK'] = f'{build.rel(here, page_dir(lang))}guides/spec-{cls}-{spec}/#race={race}'
+        rep['OPEN'] = OPEN_SHEET[lang]
     html = PAGE
     for k, v in rep.items():
         html = html.replace(f'@@{k}@@', v)
