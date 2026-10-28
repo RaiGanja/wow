@@ -387,7 +387,9 @@ section.block { scroll-margin-top: -72px; }
 .tabs2 [role="tab"]:hover, .tabs2 [role="radio"]:hover { color: var(--fg); }
 .tabs2 [role="tab"][aria-selected="true"] { background: var(--seg-on); color: var(--gold-2); }
 .tabs2 [role="radio"][aria-checked="true"] { background: var(--seg-on); color: var(--gold-2); }
-.tabctl { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; }
+.tabctl { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 8px 12px; align-items: center; }   /* both switches one width */
+.tabctl .tabs2 { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; }   /* the segments of a switch one width, whatever the language */
+@media (max-width: 719px) { .tabctl { width: 100%; grid-auto-flow: row; grid-auto-columns: auto; grid-template-columns: minmax(0, 1fr); } }   /* phone: the two switches stacked, full width */
 .sidesw { visibility: hidden; }   /* the space is kept, so nothing moves when the script shows it; no script: no switch */
 .sidesw.on { visibility: visible; }
 .sidesw[hidden] { display: none; }
