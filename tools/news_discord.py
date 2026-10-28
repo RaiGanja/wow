@@ -49,7 +49,7 @@ def embed(note, lang, lines=()):
         desc.append(f"[{t.get('site_t', 'gabella.site')}]({t['site']})")
     foot = f"WoW Forever · {t.get('src', 'Blizzard')}" + (f" · {t['upd']}" if t.get('upd') else '') + ' · gabella.site'
     return {'title': f"{ICON.get(note.get('kind'), '📰')} {t['h']}"[:256], 'url': note['url'], 'description': '\n'.join(desc)[:4000],
-            'color': GOLD, 'footer': {'text': foot[:2048]}, 'timestamp': note['at'].replace('Z', '+00:00') if note.get('at') else None}
+            'color': GOLD, 'thumbnail': {'url': LOGO}, 'footer': {'text': foot[:2048]}, 'timestamp': note['at'].replace('Z', '+00:00') if note.get('at') else None}
 
 
 def hint_embed(h, name):
