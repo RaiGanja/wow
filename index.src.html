@@ -1247,7 +1247,7 @@ function renderCountdown() {
     const when = today ? rel.toLocaleTimeString(lang, { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })
                        : rel.toLocaleString(lang, { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
     const rsv = d => d.toLocaleString(lang, { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
-    target = rel; what = (today ? 'Сегодня старт' : 'до старта') + ' · ' + when; sub = now < r1 ? 'Резерв имён' + ': ' + 'Европа' + ' — ' + rsv(r1) + ' · ' + 'Америка' + ' — ' + rsv(r2) : 'Резервация имён отложена, срок не объявлен';
+    target = rel; what = (today ? 'Сегодня старт' : 'до старта') + ' · ' + when; sub = now < r1 ? 'Резерв имён' + ': ' + 'Европа' + ' — ' + rsv(r1) + ' · ' + 'Америка' + ' — ' + rsv(r2) : 'Резервация имён идёт до 03.11';
   }
   else if (now < raid) {   /* the raid hour is not announced: date only, no countdown */
     html = `<div class="what"><b>Рейды открываются 09.12.2026</b><span>точное время на старте уточним</span></div>`;
