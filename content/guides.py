@@ -32,7 +32,7 @@ NEWS = []     # записи «Новостей», шаблон и порядо�
 NEWS_SO = t('Для игрока', 'For you', 'Для гравця')   # подпись строки 'so'
 from build import DISCORD_AT  # noqa: E402  (у каждого места ссылки своё приглашение)
 
-ORDER = ['launch-checklist', 'launch-day', 'leveling', 'leveling-warrior', 'leveling-paladin', 'leveling-hunter', 'leveling-rogue', 'leveling-priest', 'leveling-shaman', 'leveling-mage', 'leveling-warlock', 'leveling-druid', 'builds', 'builds-warrior', 'builds-paladin', 'builds-hunter', 'builds-rogue', 'builds-priest', 'builds-shaman', 'builds-mage', 'builds-warlock', 'builds-druid', 'best-race', 'tier-list', 'legacy', 'dungeons', 'professions', 'addons', 'faq', 'requirements', 'server-status', 'news', 'ukrainian']   # порядок плиток на хабе и в «Другие гайды»
+ORDER = ['name-reservation', 'launch-checklist', 'launch-day', 'leveling', 'leveling-warrior', 'leveling-paladin', 'leveling-hunter', 'leveling-rogue', 'leveling-priest', 'leveling-shaman', 'leveling-mage', 'leveling-warlock', 'leveling-druid', 'builds', 'builds-warrior', 'builds-paladin', 'builds-hunter', 'builds-rogue', 'builds-priest', 'builds-shaman', 'builds-mage', 'builds-warlock', 'builds-druid', 'best-race', 'tier-list', 'legacy', 'dungeons', 'professions', 'addons', 'faq', 'requirements', 'server-status', 'news', 'ukrainian']   # порядок плиток на хабе и в «Другие гайды»
 
 
 # ---------- FAQ: даты и наборы, режимы, имена, отличия от Era (переехали с главной) + частые вопросы ----------
@@ -279,7 +279,8 @@ GUIDES.append({
                 {'id': 'reserve', 'q': t('Когда занимать имя?', 'When can I reserve a name?', 'Коли бронювати ім’я?'),
                  'a': [t('С 27.10 по 03.11, если у вас Heroic, Epic или Collection. До трёх персонажей на аккаунт, кто первым пришёл, тот и занял. Это не ранний доступ в игру.',
                          'From 27.10 to 03.11 if you own Heroic, Epic or Collection. Up to three characters per account, first come, first served. This is not early access to the game.',
-                         'З 27.10 по 03.11, якщо у вас Heroic, Epic або Collection. До трьох персонажів на акаунт, хто перший прийшов, той і зайняв. Це не ранній доступ до гри.')]},
+                         'З 27.10 по 03.11, якщо у вас Heroic, Epic або Collection. До трьох персонажів на акаунт, хто перший прийшов, той і зайняв. Це не ранній доступ до гри.')],
+                 'link': (t('Как занять имя', 'How to claim a name', 'Як зайняти ім’я'), '../name-reservation/')},
                 {'id': 'surname', 'q': t('Зачем фамилия и можно ли взять то же имя, что у друга?', 'Why a surname, and can two people share a name?', 'Навіщо прізвище і чи можна взяти те саме ім’я, що в друга?'),
                  'a': [t('Реалмов нет, поэтому уникальным должно быть полное имя во всём регионе. Одно имя у двоих возможно, если фамилии разные. Фамилию можно скрыть: Esc → Options → Nameplates → My Secondary Name.',
                          'There are no realms, so the full name must be unique across the whole region. Two players can share a first name if their surnames differ. You can hide the surname: Esc → Options → Nameplates → My Secondary Name.',
@@ -984,7 +985,17 @@ GUIDES.append({
 
 # ---------- Новости: наши записи (новые сверху) + автолента Wowhead из assets/news.json ----------
 
+NR_URL = 'https://news.blizzard.com/en-us/article/24303866/claim-your-world-of-warcraft-forever-character-names'   # name reservation 27.10 – 03.11
+
 NEWS += [
+    {'date': '2026-10-27', 'cls': 'all', 'url': NR_URL,
+     'title': t('Резерв имён открыт до 03.11', 'Name reservation is open until 03.11', 'Резерв імен відкрито до 03.11'),
+     'text': t('С 27.10 по 03.11 владельцы Skyborne Heroic Pack, Skyborne Epic Pack и Warcraft Forever Collection создают до трёх персонажей и занимают их имена. Лимит общий на все режимы. Резерв работает только на том аккаунте WoW, для которого куплен набор. Имена раздают по принципу «кто первый», нужное не гарантировано. Старт по Киеву: Европа 27.10 в 19:00, Америка 27.10 в 22:00, Корея 28.10 в 00:00, Тайвань 28.10 в 01:00. Источник: Blizzard.',
+               'From 27.10 to 03.11 owners of the Skyborne Heroic Pack, Skyborne Epic Pack and Warcraft Forever Collection can create up to three characters and claim their names. The limit covers all modes together. The reservation works only on the WoW account the pack was bought for. Names are first come, first served, and no name is guaranteed. Start in Kyiv time: Europe 27.10 at 19:00, the Americas 27.10 at 22:00, Korea 28.10 at 00:00, Taiwan 28.10 at 01:00. Source: Blizzard.',
+               'З 27.10 по 03.11 власники Skyborne Heroic Pack, Skyborne Epic Pack і Warcraft Forever Collection створюють до трьох персонажів і займають їхні імена. Ліміт спільний на всі режими. Резерв працює лише на тому акаунті WoW, для якого куплено набір. Імена роздають за принципом «хто перший», потрібне не гарантоване. Старт за Києвом: Європа 27.10 о 19:00, Америка 27.10 о 22:00, Корея 28.10 о 00:00, Тайвань 28.10 о 01:00. Джерело: Blizzard.'),
+     'so': t('Как занять имя по шагам и что делать, если не вышло, — в гиде «Как зарезервировать имя».',
+             'Step-by-step instructions and what to do if it fails are in our guide How to Reserve Your Name.',
+             'Як зайняти ім’я покроково і що робити, якщо не вийшло, — у гіді «Як зарезервувати ім’я».')},
     {'date': '2026-10-15', 'url': 'https://us.forums.blizzard.com/en/wow/t/beta-realm-maintenance-october-15/2383475/1',
      'title': t('Техработы на реалмах беты', 'Beta realm maintenance', 'Технічні роботи на реалмах бети'),
      'text': t('Blizzard написала на форуме о технических работах на реалмах беты. Подробностей, которые мы могли бы проверить, в сообщении нет: детали смотрите в самом сообщении.',
@@ -1075,6 +1086,7 @@ GUIDES.append({
         (t('Warcraft Tavern: изменения рас и классов', 'Warcraft Tavern: racial and class changes', 'Warcraft Tavern: зміни рас і класів'),
          'https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/'),
         ('ClassicWoW.gg', 'https://classicwow.gg/forever'),
+        ('Blizzard: Claim Your World of Warcraft: Forever Character Names', NR_URL),
         (t('Blizzard: резерв имён по регионам', 'Blizzard: name reservation by region', 'Blizzard: резерв імен за регіонами'), 'https://worldofwarcraft.blizzard.com/en-us/news/24313106'),
         (t('Blizzard: бета закрыта', 'Blizzard: the beta is closed', 'Blizzard: бету закрито'), 'https://eu.forums.blizzard.com/en/wow/t/637228'),
         (t('Blizzard: меры против ботов и RMT', 'Blizzard: actions against botting and RMT', 'Blizzard: заходи проти ботів і RMT'), 'https://us.forums.blizzard.com/en/wow/t/actions-taken-against-botting-and-rmt/2368705/1'),
@@ -1875,7 +1887,7 @@ GUIDES.append({
                     t('Полное имя уникально во всём регионе. Владельцы Heroic, Epic и Collection занимают до трёх имён с 27.10 по 03.11. Держите два-три запасных варианта.',
                       'The full name is unique across the whole region. Heroic, Epic and Collection owners can claim up to three names from 27.10 to 03.11. Keep two or three backups.',
                       'Повне ім’я унікальне в усьому регіоні. Власники Heroic, Epic і Collection займають до трьох імен з 27.10 по 03.11. Тримайте два-три запасні варіанти.'),
-                    'guides/faq/#names', t('Имена и фамилии', 'Names and surnames', 'Імена та прізвища')),
+                    'guides/name-reservation/', t('Резерв имён', 'Name reservation', 'Резерв імен')),
                 _ck('iaf', t('Код для друга', 'A code for a friend', 'Код для друга'),
                     t('С набором приходят коды Invite-A-Friend: по коду друг играет с 04.11 по 11.11 без подписки. Heroic даёт 1 код, Epic и Collection — 3. Коды приходят на почту.',
                       'Packs come with Invite-A-Friend codes: with one, a friend plays from 04.11 to 11.11 without a subscription. Heroic gives 1 code, Epic and Collection give 3. The codes arrive by email.',
@@ -2278,6 +2290,120 @@ _tbl(_ld_wait)['rows'].append([(_ss['title'], 'guides/server-status/'), _ss['til
 _ld_status['blocks'] = _ld_status['blocks'] + [('table', {'head': _tbl(_ld_wait)['head'], 'rows': [
     [(_ss['title'], 'guides/server-status/'),
      t('Очередь, слои и техработы подробно: что известно, а что нет.', 'The queue, layers and maintenance in full: what is known and what is not.', 'Черга, шари й техроботи докладно: що відомо, а що ні.')]]})]
+
+
+# ---------- Резерв имён 27.10 – 03.11: только факты статьи Blizzard (NR_URL) и её справки об именах; время по Киеву ----------
+# Киев после 25.10 = UTC+2: 18:00 CET = 19:00, 13:00 PDT = 22:00, 07:00 KST (28.10) = 00:00, 07:00 Тайвань (UTC+8) = 01:00.
+# Океания и час конца окна в статье не указаны — так и пишем.
+
+NR_HOW = t('Как занять имя', 'How to claim a name', 'Як зайняти ім’я')
+GUIDES.append({
+    'slug': 'name-reservation', 'art': 'hero_dusk', 'hero': 'hero_dusk', 'og': 'guides',
+    'title': t('Как зарезервировать имя в WoW Forever', 'How to Reserve Your Name in WoW Forever', 'Як зарезервувати ім’я у WoW Forever'),
+    'crumb': t('Резерв имён', 'Name reservation', 'Резерв імен'),
+    'lead': t('Ранний резерв имён идёт с 27.10 по 03.11. Кому он доступен, когда стартует по Киеву, как занять имя за пять шагов и что делать, если не вышло.',
+              'Early name reservation runs from 27.10 to 03.11. Who can use it, when it starts in Kyiv time, how to claim a name in five steps and what to do if it fails.',
+              'Ранній резерв імен триває з 27.10 по 03.11. Кому він доступний, коли стартує за Києвом, як зайняти ім’я за п’ять кроків і що робити, якщо не вийшло.'),
+    'tile': t('Сроки, условия, шаги и правила имён', 'Dates, conditions, steps and name rules', 'Строки, умови, кроки й правила імен'),
+    'pills': ['27.10 – 03.11', t('До трёх персонажей', 'Up to three characters', 'До трьох персонажів'),
+              t('Только с набором', 'Pack owners only', 'Лише з набором')],
+    'sources': [
+        ('Blizzard: Claim Your World of Warcraft: Forever Character Names', NR_URL),
+        ('Blizzard: Create a Name of Your Own in WoW: Forever', 'https://worldofwarcraft.blizzard.com/news/24304161'),
+        ('Battle.net: download', 'https://download.battle.net/desktop'),
+        (t('Blizzard: старт и коды Invite-A-Friend', 'Blizzard: launch and Invite-A-Friend codes', 'Blizzard: старт і коди Invite-A-Friend'),
+         'https://news.blizzard.com/en-us/article/24301508'),
+        ('Wowhead: Name Reservations for WoW: Forever Now Live in EU, NA', 'https://www.wowhead.com/forever/news/name-reservations-for-wow-forever-delayed-383608'),
+    ],
+    'sections': [
+        {'id': 'when', 'title': t('Когда и для кого', 'When and for whom', 'Коли й для кого'), 'blocks': [
+            ('text', [t('Резерв открыт с 27.10 по 03.11 для всех, кто оформил предзаказ Skyborne Heroic Pack, Skyborne Epic Pack или Warcraft Forever Collection — в виде Digital Upgrade или Collector’s Edition. Он работает только на том аккаунте WoW, для которого куплен набор.',
+                        'The reservation is open from 27.10 to 03.11 to anyone who pre-purchased the Skyborne Heroic Pack, Skyborne Epic Pack or Warcraft Forever Collection, as a Digital Upgrade or a Collector’s Edition. It works only on the WoW account the pack was bought for.',
+                        'Резерв відкрито з 27.10 по 03.11 для всіх, хто оформив передзамовлення Skyborne Heroic Pack, Skyborne Epic Pack або Warcraft Forever Collection — як Digital Upgrade або Collector’s Edition. Він працює лише на тому акаунті WoW, для якого куплено набір.'),
+                      t('Это не ранний доступ: сейчас вы только создаёте персонажей и занимаете имена. Играть можно со старта — 05.11 в 01:00 по Киеву.',
+                        'This is not early access: for now you only create characters and claim names. You can play from launch, 05.11 at 01:00 Kyiv time.',
+                        'Це не ранній доступ: зараз ви лише створюєте персонажів і займаєте імена. Грати можна від старту — 05.11 о 01:00 за Києвом.')]),
+            ('table', {'head': [t('Регион', 'Region', 'Регіон'), t('Старт по Киеву', 'Start, Kyiv time', 'Старт за Києвом')], 'rows': [
+                [t('Европа', 'Europe', 'Європа'), '27.10, 19:00'],
+                [t('Америка', 'Americas', 'Америка'), '27.10, 22:00'],
+                [t('Корея', 'Korea', 'Корея'), '28.10, 00:00'],
+                [t('Тайвань', 'Taiwan', 'Тайвань'), '28.10, 01:00'],
+                [t('Океания', 'Oceania', 'Океанія'), t('Время Blizzard не называла', 'Not given by Blizzard', 'Час Blizzard не називала')],
+                [t('Конец резерва', 'Reservation ends', 'Кінець резерву'), t('03.11, время не указано', '03.11, time not given', '03.11, час не вказано')],
+            ]}),
+        ]},
+        {'id': 'steps', 'title': NR_HOW, 'blocks': [
+            ('steps', [
+                {'t': t('Обновите драйверы', 'Update your drivers', 'Оновіть драйвери'),
+                 'd': t('Blizzard советует начать со свежих драйверов видеокарты.', 'Blizzard recommends starting with up-to-date graphics drivers.',
+                        'Blizzard радить почати зі свіжих драйверів відеокарти.')},
+                {'t': t('Установите Battle.net', 'Install Battle.net', 'Встановіть Battle.net'),
+                 'd': t('Скачайте приложение Battle.net на download.battle.net, откройте его и дайте обновиться.',
+                        'Download the Battle.net app from download.battle.net, open it and let it update.',
+                        'Завантажте застосунок Battle.net з download.battle.net, відкрийте його й дайте оновитися.')},
+                {'t': t('Установите Forever', 'Install Forever', 'Встановіть Forever'),
+                 'd': t('World of Warcraft в списке игр → меню Game Version → World of Warcraft: Forever → Install.',
+                        'World of Warcraft in the game list → the Game Version menu → World of Warcraft: Forever → Install.',
+                        'World of Warcraft у списку ігор → меню Game Version → World of Warcraft: Forever → Install.')},
+                {'t': t('Выберите режим', 'Choose a mode', 'Оберіть режим'),
+                 'd': t('Нажмите Play и выберите режим. Договоритесь с друзьями заранее: группа собирается только внутри одного режима.',
+                        'Press Play and choose a mode. Agree with your friends first: groups form only within one mode.',
+                        'Натисніть Play й оберіть режим. Домовтеся з друзями заздалегідь: група збирається лише в межах одного режиму.')},
+                {'t': t('Создайте персонажей', 'Create your characters', 'Створіть персонажів'),
+                 'd': t('До трёх персонажей с нужными именами. Созданный персонаж закрепляет имя за вами.',
+                        'Up to three characters with the names you want. A created character keeps the name for you.',
+                        'До трьох персонажів із потрібними іменами. Створений персонаж закріплює ім’я за вами.')},
+            ]),
+        ]},
+        {'id': 'rules', 'title': t('Правила имён', 'Name rules', 'Правила імен'), 'blocks': [
+            ('steps', [
+                {'t': t('Три персонажа на все режимы', 'Three characters across all modes', 'Три персонажі на всі режими'),
+                 'd': t('Лимит общий: два персонажа в PvP оставляют место только для одного в Normal или Role-Play. Лимит действует только на время раннего резерва.',
+                        'The limit is shared: two PvP characters leave room for just one in Normal or Role-Play. The limit applies only to early name reservation.',
+                        'Ліміт спільний: два персонажі в PvP залишають місце лише для одного в Normal або Role-Play. Ліміт діє лише на час раннього резерву.')},
+                {'t': t('Уникально полное имя', 'The full name is unique', 'Унікальне повне ім’я'),
+                 'd': t('У персонажа имя и фамилия. Сочетание должно быть свободно во всём регионе, а не на одном реалме. Имя может повторяться, если фамилия другая, а одну фамилию можно дать нескольким своим персонажам.',
+                        'A character has a first name and a surname. The pair must be free across the whole region, not just one realm. A first name can repeat with a different surname, and you can give one surname to several of your characters.',
+                        'Персонаж має ім’я та прізвище. Поєднання має бути вільним у всьому регіоні, а не на одному реалмі. Ім’я може повторюватися, якщо прізвище інше, а одне прізвище можна дати кільком своїм персонажам.')},
+                {'t': t('Имя проверяют целиком', 'The name is checked as a whole', 'Ім’я перевіряють цілком'),
+                 'd': t('Под запретом могут оказаться имена против правил поведения, похожие на Blizzard или команду WoW и с повторами символов. Запретное слово, разбитое на имя и фамилию, тоже не пройдёт.',
+                        'Names may be blocked if they break the code of conduct, pose as Blizzard or the WoW team, or repeat characters. A banned word split between first name and surname will not pass either.',
+                        'Під забороною можуть опинитися імена, що порушують правила поведінки, схожі на Blizzard чи команду WoW або з повторами символів. Заборонене слово, розбите на ім’я та прізвище, теж не пройде.')},
+                {'t': t('Кто первый, тот и занял', 'First come, first served', 'Хто перший, той і зайняв'),
+                 'd': t('Blizzard не гарантирует нужное имя. Редкое лучше занять сразу и держать запасную фамилию.',
+                        'Blizzard does not guarantee any name. Claim a rare one right away and keep a backup surname.',
+                        'Blizzard не гарантує потрібне ім’я. Рідкісне краще зайняти одразу й тримати запасне прізвище.')},
+            ]),
+        ]},
+        {'id': 'fail', 'title': t('Если не получилось', 'If it does not work', 'Якщо не вийшло'), 'blocks': [
+            ('table', {'head': [t('Что случилось', 'What happened', 'Що сталося'), t('Что делать', 'What to do', 'Що робити')], 'rows': [
+                [t('Имя занято', 'The name is taken', 'Ім’я зайняте'),
+                 t('Смените фамилию: уникальным должно быть только сочетание. Или возьмите запасной вариант.',
+                   'Change the surname: only the pair has to be unique. Or use a backup.',
+                   'Змініть прізвище: унікальним має бути лише поєднання. Або візьміть запасний варіант.')],
+                [t('Имя не принимают', 'The name is rejected', 'Ім’я не приймають'),
+                 t('Проверьте его по правилам выше: имя и фамилию оценивают вместе.',
+                   'Check it against the rules above: the first name and surname are judged together.',
+                   'Перевірте його за правилами вище: ім’я та прізвище оцінюють разом.')],
+                [t('Нет доступа к резерву', 'No access to the reservation', 'Немає доступу до резерву'),
+                 t('Убедитесь, что вошли в тот аккаунт WoW, для которого купили набор, и что в Battle.net выбран World of Warcraft: Forever. Без набора резерва нет: имя займёте на старте.',
+                   'Make sure you are on the WoW account the pack was bought for and that World of Warcraft: Forever is selected in Battle.net. Without a pack there is no reservation: you claim your name at launch.',
+                   'Переконайтеся, що ви в тому акаунті WoW, для якого купили набір, і що в Battle.net обрано World of Warcraft: Forever. Без набору резерву немає: ім’я займете на старті.')],
+                [t('Лимит исчерпан', 'Limit reached', 'Ліміт вичерпано'),
+                 t('Три персонажа на все режимы — это всё до 03.11. Остальные имена занимайте на старте.',
+                   'Three characters across all modes is all you get until 03.11. Claim other names at launch.',
+                   'Три персонажі на всі режими — це все до 03.11. Інші імена займайте на старті.')],
+                [t('Резерв не открывается', 'The reservation does not open', 'Резерв не відкривається'),
+                 t('27.10 старт в Европе задерживался из-за технических проблем, в тот же день резерв заработал. При новом сбое смотрите новости Blizzard и лаунчер Battle.net.',
+                   'On 27.10 the start in Europe was delayed by technical issues and went live later that day. If it happens again, check Blizzard news and the Battle.net launcher.',
+                   '27.10 старт у Європі затримувався через технічні проблеми, того ж дня резерв запрацював. Якщо збій повториться, дивіться новини Blizzard і лаунчер Battle.net.')],
+            ]}),
+            ('raw', t(f'<p><a class="more-l" href="{NR_URL}" target="_blank" rel="noopener">Статья Blizzard о резерве имён, на английском</a></p>',
+                      f'<p><a class="more-l" href="{NR_URL}" target="_blank" rel="noopener">The Blizzard article on name reservation</a></p>',
+                      f'<p><a class="more-l" href="{NR_URL}" target="_blank" rel="noopener">Стаття Blizzard про резерв імен, англійською</a></p>')),
+        ]},
+    ],
+})
 
 
 GUIDES.sort(key=lambda g: ORDER.index(g['slug']))

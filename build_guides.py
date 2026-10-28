@@ -43,7 +43,7 @@ FX = {'hero_dawn': 'dawn'}   # living art (assets/living/living.js) over these h
 THERO = {'hero_guides': 'guides', 'hero_dungeons': 'dungeons', 'hero_professions': 'professions', 'hero_faq': 'faq',
          'hero_news': 'news', 'hero_leveling': 'leveling', 'hero_classes': 'classes', 'hero_races': 'races',
          'hero_ukrainian': 'ukrainian', 'hero_requirements': None, 'hero_roster': 'roster',
-         'hero_bestrace': 'bestrace', 'hero_tierlist': 'tierlist', 'hero_night': None}   # hero_night: the home night scene (Launch day)
+         'hero_bestrace': 'bestrace', 'hero_tierlist': 'tierlist', 'hero_night': None, 'hero_dusk': None}   # hero_night: the home night scene (Launch day); hero_dusk: Name reservation
 THERO_CUT = {'hero_bestrace': '.5', 'hero_tierlist': '.65'}   # phone cut other than .9 (tools/make_images.CUTS)
 THERO_W = (960, 1440, 1920, 2560)
 THERO_BIG = THERO_W + (3840,)   # the hero picture itself: 3440 and 4K screens take the 3840
