@@ -988,6 +988,14 @@ GUIDES.append({
 NR_URL = 'https://news.blizzard.com/en-us/article/24303866/claim-your-world-of-warcraft-forever-character-names'   # name reservation 27.10 – 03.11
 
 NEWS += [
+    {'date': '2026-10-28', 'url': 'https://worldofwarcraft.blizzard.com/en-us/news/24315280/new-players-starter-guide-welcome-to-world-of-warcraft-forever',
+     'title': t('Стартовый гид Blizzard для новых игроков WoW Forever', 'New player\'s starter guide for WoW Forever', 'Стартовий гід Blizzard для нових гравців WoW Forever'),
+     'text': t('Blizzard опубликовала стартовый гид для новых игроков WoW Forever. В нём: выбор режима (Ruleset) до создания персонажа (при запуске Normal, PvP, Roleplay и Roleplay-PvP, Hardcore позже), правило, что группы, гильдии, подземелья и рейды доступны только игрокам с тем же режимом и фракцией, система из двух имён, сбор ресурсов, ремёсла и вторичные профессии, а также что делать после смерти. Подробности и сроки Hardcore пока не объявлены.',
+               'Blizzard published a starter guide for new WoW Forever players. It covers the choice of Ruleset before character creation (Normal, PvP, Roleplay and Roleplay-PvP at launch, Hardcore later), the rule that grouping, guilds, dungeons and raids work only with players of the same Ruleset and faction, the two-name system, gathering, crafting and secondary professions, and what to do after death. Hardcore details and timing are not yet announced.',
+               'Blizzard опублікувала стартовий гід для нових гравців WoW Forever. У ньому: вибір режиму (Ruleset) до створення персонажа (на запуску Normal, PvP, Roleplay і Roleplay-PvP, Hardcore пізніше), правило, що групи, гільдії, підземелля та рейди доступні лише гравцям із тим самим режимом і фракцією, система з двох імен, збір ресурсів, ремесла та другорядні професії, а також що робити після смерті. Подробиці й терміни Hardcore поки не оголошено.'),
+     'so': t('Подробности о режимах — в наших гидах, полный текст — в статье Blizzard.',
+             'Ruleset details are in our guides; the full text is in the Blizzard article.',
+             'Подробиці про режими — в наших гідах, повний текст — у статті Blizzard.')},
     {'date': '2026-10-27', 'cls': 'all', 'url': NR_URL,
      'title': t('Резерв имён открыт до 03.11', 'Name reservation is open until 03.11', 'Резерв імен відкрито до 03.11'),
      'text': t('С 27.10 по 03.11 владельцы Skyborne Heroic Pack, Skyborne Epic Pack и Warcraft Forever Collection создают до трёх персонажей и занимают их имена. Лимит общий на все режимы. Резерв работает только на том аккаунте WoW, для которого куплен набор. Имена раздают по принципу «кто первый», нужное не гарантировано. Старт по Киеву: Европа 27.10 в 19:00, Америка 27.10 в 22:00, Корея 28.10 в 00:00, Тайвань 28.10 в 01:00. Источник: Blizzard.',
@@ -1091,6 +1099,7 @@ GUIDES.append({
         (t('Blizzard: бета закрыта', 'Blizzard: the beta is closed', 'Blizzard: бету закрито'), 'https://eu.forums.blizzard.com/en/wow/t/637228'),
         (t('Blizzard: меры против ботов и RMT', 'Blizzard: actions against botting and RMT', 'Blizzard: заходи проти ботів і RMT'), 'https://us.forums.blizzard.com/en/wow/t/actions-taken-against-botting-and-rmt/2368705/1'),
         (t('Blizzard: техработы на реалмах беты', 'Blizzard: beta realm maintenance', 'Blizzard: технічні роботи на реалмах бети'), 'https://us.forums.blizzard.com/en/wow/t/beta-realm-maintenance-october-15/2383475/1'),
+        (t('Blizzard: стартовый гид для новичков', 'Blizzard: new player\'s starter guide', 'Blizzard: стартовий гід для новачків'), 'https://worldofwarcraft.blizzard.com/en-us/news/24315280/new-players-starter-guide-welcome-to-world-of-warcraft-forever'),
         (t('Blizzard: подкаст WoW Forever', 'Blizzard: WoW Forever Podcast', 'Blizzard: подкаст WoW Forever'), 'https://us.forums.blizzard.com/en/wow/t/what-insights-would-you-like-to-see-in-a-future-episode-of-the-wow-forever-podcast/2361993/1'),
     ],
     'sections': [
