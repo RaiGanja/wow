@@ -14,6 +14,7 @@ from html import escape
 import build
 from build import CLASSES, LANGS, RACES_PAGE, SITE, page_dir, tr
 import langs
+import live
 from langs import HREFLANG, LOCALE
 from content.guides import GUIDES, HUB, HUBS
 
@@ -244,6 +245,12 @@ RACE_D = t('{n} в WoW Forever: четыре расовые способност
 AND = {'ru': ' и ', 'en': ' and ', 'uk': ' і '}
 # Link previews (og:*, twitter:*) that differ from the search title and description: what a player sees in Discord and chats
 OG = {
+    'tools/': (t('Состав группы WoW Forever: пати и рейд по ролям',
+                 'WoW Forever Group Builder: Party and Raid by Roles',
+                 'Склад групи WoW Forever: паті й рейд за ролями'),
+               t('Соберите группу на 5, 10, 20 или 40 игроков: танки, лекари и урон по классам и расам, со ссылкой, которую можно отправить.',
+                 'Build a group of 5, 10, 20 or 40 players: tanks, healers and damage by class and race, with a link you can share.',
+                 'Зберіть групу на 5, 10, 20 чи 40 гравців: танки, цілителі та шкода за класами й расами, з посиланням, яке можна надіслати.')),   # a group link (#t=) carries no title: the card speaks about the group builder
     '': (t('WoW Forever: Legacy, тир-лист, конструктор группы',
            'WoW Forever: Legacy, Tier List, Group Builder',
            'WoW Forever: Legacy, тір-лист, конструктор групи'),
@@ -386,23 +393,31 @@ def set_attr(html, rx, value, path):
     return new
 
 
+def undated(d):
+    """After the launch night (live.py) the home description loses its last sentence when that one names the launch moment."""
+    parts = re.split(r'(?<=[^\d][.!?])\s+', d)  # not after a digit: «5. Nov.»
+    return ' '.join(parts[:-1]) if len(parts) > 1 and re.search(r'\d{1,2}[:.]\d{2}|UTC', parts[-1]) else d
+
+
 def apply(html, path, lang, title, desc):
     a = escape(title, quote=True)
     d = escape(desc, quote=True)
     html = set_attr(html, r'(<title>).*?(</title>)', a, path)
     html = set_attr(html, r'(<meta name="description" content=")[^"]*(">)', d, path)
     if path in OG and lang in OG[path][0]:
-        a, d = escape(OG[path][0][lang], quote=True), escape(OG[path][1][lang], quote=True)
+        a, d = escape(OG[path][0][lang], quote=True), escape(undated(OG[path][1][lang]) if live.LIVE else OG[path][1][lang], quote=True)
     html = set_attr(html, r'(<meta property="og:title" content=")[^"]*(">)', a, path)
     html = set_attr(html, r'(<meta property="og:description" content=")[^"]*(">)', d, path)
     if 'og:image:alt' in html:
         html = set_attr(html, r'(<meta property="og:image:alt" content=")[^"]*(">)', a, path)
     else:
         html = html.replace('<meta name="twitter:card"', f'<meta property="og:image:alt" content="{a}">\n<meta name="twitter:card"', 1)
+    if m := re.fullmatch(r'(?:classes|races)/([\w-]+)/', path):   # the card of a class or race is drawn per language (tools/make_og.py)
+        html = re.sub(r'(assets/og/%s)\.jpg' % re.escape(m[1]), rf'\1-{lang}.jpg', html)
     img = re.search(r'<meta property="og:image" content="([^"]+)"', html)
-    html = re.sub(r'<meta name="twitter:(?:title|description|image)" content="[^"]*">\n', '', html)
+    html = re.sub(r'<meta name="twitter:(?:title|description|image|image:alt)" content="[^"]*">\n', '', html)
     tw = f'<meta name="twitter:title" content="{a}">\n<meta name="twitter:description" content="{d}">\n'
-    tw += f'<meta name="twitter:image" content="{img[1]}">\n' if img else ''
+    tw += f'<meta name="twitter:image" content="{img[1]}">\n<meta name="twitter:image:alt" content="{a}">\n' if img else ''
     html = re.sub(r'(<meta name="twitter:card"[^>]*>\n)', lambda m: m[1] + tw, html, count=1)
     alt = ''.join(f'<meta property="og:locale:alternate" content="{LOCALE[l]}">\n' for l in LANGS if l != lang and not build.only_lang(path))
     html = re.sub(r'<meta property="og:locale:alternate"[^>]*>\n', '', html)

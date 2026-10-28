@@ -144,6 +144,36 @@ def test_fonts_preloaded_for_the_script():
         assert pre(want) and not pre(other), lang
 
 
+def painted_pairs():
+    import make_build_cards as MC
+    return [f'{c}-{r}' for c in MC.BG.HERO.SPEC_IDS for r in MC.GAME['races'] if os.path.isfile(os.path.join(ROOT, 'assets', 'art', f'{c}-{r}-360.webp'))]
+
+
+def test_portraits_match_the_race():
+    """What the player chose and forwards (build cards b/, the raid frame, the picker): a portrait stands next to a race name only if it
+    shows that race. Every race has its own portrait; every b/ card draws the race of its caption; the picker puts no class face
+    (another race's painting) beside a race and the raid frame never takes the best race of a side (guides keep that, 26.10)."""
+    sys.path[:0] = [os.path.join(ROOT, 'tools'), os.path.join(ROOT, 'content')]
+    import make_build_cards as MC
+    for rid, r in MC.GAME['races'].items():
+        for kind in ('face', '896', 'bg'):
+            assert os.path.isfile(os.path.join(ROOT, 'assets', 'art', f'{r["slug"]}-{kind}.webp')), (rid, kind)
+        assert MC.portrait_race(f'assets/art/{r["slug"]}-896.webp') == rid
+    for race, cls, spec in MC.combos():
+        por, bg = MC.portrait_for(race, cls)
+        assert MC.portrait_race(por) == race and MC.portrait_race(bg.replace('-bg', '-896')) == race, (race, cls, por)
+    # the checker sees the old rule (class x faction): a dwarf hunter got hunter-nightelf
+    assert MC.portrait_race('assets/art/hunter-nightelf-896.webp') == 'nightelf' != 'dwarf'
+    for lang in LANGS:
+        card = page(*lang_dir(lang), 'b', 'dwarf-hunter-beast-mastery')
+        assert 'assets/og/b/dwarf-hunter-beast-mastery-%s.jpg' % lang in card, lang
+    tools = open(os.path.join(ROOT, 'tools.src.html'), encoding='utf-8').read()
+    assert "face(c.id, CCOL[c.id], '', '', r.f)" not in tools
+    assert 'art(p.cls' not in tools and 'unitArt(p' in tools
+    painted = re.search(r'PAINTED\s*=\s*(\[[^\]]*\])', page('tools'))
+    assert painted and sorted(json.loads(painted[1])) == sorted(painted_pairs()), painted and painted[1]
+
+
 if __name__ == '__main__':
     for name, fn in list(globals().items()):
         if name.startswith('test_'):

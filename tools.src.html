@@ -428,6 +428,8 @@ function syncSeg(id, v) { document.querySelectorAll(`#${id} button`).forEach(b =
 const FAC = { alliance: 'Альянс', horde: 'Орда' };
 const BSLUG = { skyA: 'skyborne-a', skyH: 'skyborne-h' };   // race id -> url part of the share page (tools/make_build_cards.py SLUG)
 const RSLUG = { human: 'human', dwarf: 'dwarf', nightelf: 'night-elf', gnome: 'gnome', skyA: 'skyborne-alliance', orc: 'orc', undead: 'undead', tauren: 'tauren', troll: 'troll', skyH: 'skyborne-horde' };
+const PAINTED = @@PAINTED@@;   // class x race paintings that exist (build_tools.painted): the player's own race is drawn, never the best race of the side
+const unitArt = (p, ext) => `${ROOT}assets/art/${PAINTED.includes(p.cls + '-' + p.race) ? p.cls + '-' + p.race : RSLUG[p.race]}-360.${ext}${PV}`;
 const classUrl = id => `${HOME}classes/${id}/`, raceUrl = id => `${HOME}races/${RSLUG[id]}/`;
 const PV = /*PV*/'';   // ?v= of the class and race portraits (build.art_version)
 const porId = (id, f) => (window.GabellaPor ? GabellaPor.id(id, f) : id);   // a class: the portrait of side f, else of the reader's side (build.por_js)
@@ -558,7 +560,7 @@ function unitHTML(p, i) {
   if (!p) return `<button type="button" class="unit empty${cls}" data-i="${i}"><span class="up" aria-hidden="true">+</span><span class="ub"><b>Свободное место</b><span>Нажмите, чтобы добавить игрока</span></span></button>`;
   const c = CL[p.cls], r = RC[p.race];
   return `<button type="button" class="unit${cls}" data-i="${i}" draggable="true" style="--cc:${CCOL[p.cls]};--pc:${power(p)}" aria-label="${esc((p.name || `Игрок ${i + 1}`) + ', ' + raceName(r) + ' ' + c.n + ', ' + ROLE_RU[p.role])}">
-    <span class="up"><picture><source type="image/avif" srcset="${art(p.cls, 'avif', window.GabellaPor && GabellaPor.side[p.race])}"><img src="${art(p.cls, 'webp', window.GabellaPor && GabellaPor.side[p.race])}" width="360" height="482" alt="" loading="lazy" decoding="async"></picture></span>
+    <span class="up"><picture><source type="image/avif" srcset="${unitArt(p, 'avif')}"><img src="${unitArt(p, 'webp')}" width="360" height="482" alt="" loading="lazy" decoding="async"></picture></span>
     <span class="ub"><span class="un"><span class="ur" title="${ROLE_RU[p.role]}">${ri(p.role)}</span><b>${esc(p.name || c.n)}</b><small>${esc(raceName(r))} · ${esc(c.n)}</small></span><span class="hp"><i></i></span><span class="mp"></span></span></button>`;
 }
 function cellHTML(p, i) {
@@ -881,7 +883,7 @@ function renderDetail() {
   $('#detail').innerHTML = `
     <div class="d-head">
       <div class="d-art" aria-hidden="true"><picture><source type="image/avif" srcset="${ROOT}assets/art/${RSLUG[r.id]}-600.avif${PV}"><img src="${ROOT}assets/art/${RSLUG[r.id]}-600.webp${PV}" width="600" height="804" alt="" loading="lazy" decoding="async"></picture></div>
-      <div class="d-avs">${face(RSLUG[r.id], `var(--${r.f})`)}${face(c.id, CCOL[c.id], '', '', r.f)}</div>
+      <div class="d-avs">${face(RSLUG[r.id], `var(--${r.f})`)}</div>
       <div class="d-title"><h3>${esc(r.n)}${raceEn(r)} · ${esc(c.n)}</h3>
         <div class="chips"><span class="tag ${r.f}">${facName(r.f)}</span>${isNew ? '<span class="tag new">Новая комбинация</span>' : ''}${r.paid ? '<span class="tag paid">Платная раса</span>' : ''}${roleChips(c)}</div></div>
     </div>

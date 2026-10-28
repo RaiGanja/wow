@@ -1,5 +1,5 @@
 """Share pages of built characters: b/<race>-<class>-<spec>/ in every language (168 x 9 = 1512 light pages).
-A chat shows the link as a card: the picture is assets/og/b/<slug>.jpg (tools/make_build_cards.py, one English card per build),
+A chat shows the link as a card: the picture is assets/og/b/<slug>.jpg (tools/make_build_cards.py, one card per build and language),
 the words are the page's og:title / og:description in the reader's language. A visitor is sent on to tools/#pick=<race>.<class>.<spec>.
 The pages are noindex (1512 thin pages stay out of the search index and out of sitemap.xml). Run after build_guides, before seo/og_version."""
 import functools, json, os, sys
@@ -70,7 +70,7 @@ a { color: var(--gold); text-underline-offset: 3px; }
 <section>
 <h1>@@NAME@@</h1>
 <p>@@SPEC@@</p>
-<p class="m">@@FAC@@ · WoW Forever</p>
+<p class="m">@@ROLE@@ · @@FAC@@</p>
 <p><a id="go" href="@@PICK@@">@@OPEN@@</a></p>
 </section>
 </main>
@@ -94,8 +94,8 @@ def render(race, cls, spec, lang):
     ld = json.dumps({'@context': 'https://schema.org', '@type': 'WebPage', 'name': title, 'url': url, 'inLanguage': langs.HREFLANG[lang],
                      'isPartOf': {'@type': 'WebSite', 'name': 'Gabella', 'url': SITE}}, ensure_ascii=False)
     rep = {'HL': langs.HREFLANG[lang], 'LANG': lang, 'TITLE': escape(title), 'DESC': escape(desc), 'ALT': alt, 'URL': url, 'ROOT': root,
-           'LOCALE': LOCALE[lang], 'IMG': f'{SITE}assets/og/b/{MC.slug(race, cls, spec)}.jpg', 'ALTT': escape(IMG_ALT[lang].format(t=title)),
-           'LD': ld.replace('</', '<\\/'), 'NAME': escape(name), 'SPEC': escape(spec_n), 'FAC': escape(fac), 'OPEN': OPEN[lang],
+           'LOCALE': LOCALE[lang], 'IMG': f'{SITE}assets/og/b/{MC.slug(race, cls, spec)}-{lang}.jpg', 'ALTT': escape(IMG_ALT[lang].format(t=title)),
+           'LD': ld.replace('</', '<\\/'), 'NAME': escape(name), 'SPEC': escape(spec_n), 'FAC': escape(fac), 'ROLE': escape(MC.role_line(cls, spec, lang)), 'OPEN': OPEN[lang],
            'PICK': f'{build.rel(here, page_dir(lang))}tools/#pick={race}.{cls}.{spec}'}
     html = PAGE
     for k, v in rep.items():
@@ -108,8 +108,9 @@ def main():
     if '--list' in sys.argv:
         return
     todo = list(MC.combos())
-    for race, cls, spec in todo:
-        assert os.path.isfile(os.path.join(HERE, 'assets', 'og', 'b', MC.slug(race, cls, spec) + '.jpg')), (race, cls, spec, 'no card: python tools/make_build_cards.py --variant=A --langs=en')
+    for lang in LANGS:
+        for race, cls, spec in todo:
+            assert os.path.isfile(os.path.join(HERE, 'assets', 'og', 'b', f'{MC.slug(race, cls, spec)}-{lang}.jpg')), (race, cls, spec, lang, f'no card: python tools/make_build_cards.py --variant=A --langs={lang}')
     n = 0
     for lang in LANGS:
         for race, cls, spec in todo:

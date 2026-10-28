@@ -22,6 +22,8 @@ sys.path[:0] = [os.path.join(ROOT, 'content'), ROOT]
 import build_guides as BG  # noqa: E402
 import build  # noqa: E402
 import langs  # noqa: E402
+from classes import CLASSES  # noqa: E402
+import make_og  # noqa: E402
 
 CHROME = r'C:\Program Files\Google\Chrome\Application\chrome.exe'
 GAME = json.load(open(os.path.join(ROOT, 'assets', 'game.json'), encoding='utf-8'))
@@ -42,6 +44,29 @@ CHECKED = {'ru': 'Сочетание сверено с WoW Forever · 27.10.2026
 PTS_SRC = {'ru': 'Таланты из ссылки игрока', 'uk': 'Таланти з посилання гравця', 'en': 'Talents from the player link',
            'de': 'Talente aus dem Link', 'fr': 'Talents du lien', 'es': 'Talentos del enlace', 'it': 'Talenti dal link',
            'pt': 'Talentos do link', 'pl': 'Talenty z linku'}
+
+
+def spec_roles(cls, spec):
+    """roles of a spec from the class pages (a '?' role is a guess and stays off the card)"""
+    c = next(x for x in CLASSES if x['id'] == cls)
+    sp = next(x for x in c['specs'] if re.sub(r'\W+', '-', x['en'].lower()) == spec)
+    return [r for r in sp['roles'] if not r.endswith('?')]
+
+
+# og:description: what the player gets from the link (role, side, what is inside); no date
+DESC = {'ru': '{spec} · {role}. {fac}. Сочетание проверено по WoW Forever; таланты, прокачка и расы класса в подборщике Gabella.',
+        'uk': '{spec} · {role}. {fac}. Поєднання перевірено за WoW Forever; таланти, прокачування й раси класу в підбірнику Gabella.',
+        'en': '{spec} · {role}. {fac}. The combination is checked against WoW Forever; talents, leveling and the class races in the Gabella picker.',
+        'de': '{spec} · {role}. {fac}. Kombination mit WoW Forever abgeglichen; Talente, Leveln und Klassenvölker im Gabella-Auswahltool.',
+        'fr': '{spec} · {role}. {fac}. Combinaison vérifiée sur WoW Forever ; talents, leveling et races de la classe dans le sélecteur Gabella.',
+        'es': '{spec} · {role}. {fac}. Combinación comprobada en WoW Forever; talentos, nivelación y razas de la clase en el selector de Gabella.',
+        'it': '{spec} · {role}. {fac}. Combinazione verificata su WoW Forever; talenti, livellamento e razze della classe nel selettore Gabella.',
+        'pt': '{spec} · {role}. {fac}. Combinação conferida no WoW Forever; talentos, evolução e raças da classe no seletor da Gabella.',
+        'pl': '{spec} · {role}. {fac}. Zestaw sprawdzony w WoW Forever; talenty, levelowanie i rasy klasy w selektorze Gabella.'}
+
+
+def role_line(cls, spec, lang):
+    return make_og.JOIN.join(make_og.ROLES[lang][r] for r in spec_roles(cls, spec))
 
 
 def names(lang):
@@ -109,23 +134,23 @@ def pts_html(pts):
 def page_a(d):
     """A: text column left, portrait right."""
     pts = f'<div class="pts">{pts_html(d["pts"])}</div>' if d['pts'] else ''
-    src = PTS_SRC[d['lang']] if d['pts'] else CHECKED[d['lang']]
+    src = PTS_SRC[d['lang']] if d['pts'] else ''
     return f'''<!doctype html><meta charset="utf-8"><style>{BASE}
-.por{{position:absolute;right:0;top:0;height:630px;width:600px;object-fit:cover;object-position:50% 18%;
-  -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 38%)}}
+.por{{position:absolute;right:0;top:0;height:630px;width:720px;object-fit:cover;object-position:50% 18%;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 50%)}}
 .shade{{position:absolute;inset:0;background:linear-gradient(0deg,rgba(5,5,5,.9) 0%,rgba(5,5,5,0) 30%)}}
-.brand{{position:absolute;left:72px;top:52px;display:flex;align-items:center;gap:14px;font:600 26px/1 "Spectral SC";letter-spacing:.05em}}
-.brand img{{width:48px;height:48px}}
-.txt{{position:absolute;left:72px;top:150px;width:640px;display:flex;flex-direction:column;gap:22px}}
+.brand{{position:absolute;left:72px;top:52px;display:flex;align-items:center;gap:20px;font:600 44px/1 "Spectral SC";letter-spacing:.05em}}
+.brand img{{width:88px;height:88px;border-radius:50%}}
+.txt{{position:absolute;left:72px;top:190px;width:640px;display:flex;flex-direction:column;gap:22px}}
 h1{{font:600 76px/1.02 "Spectral SC";letter-spacing:.01em;text-wrap:balance}}
 .spec{{display:flex;align-items:center;gap:18px;font:600 40px/1 "Spectral SC";color:#c9a54a}}
-.fac{{font-size:24px;color:#a59d8c;letter-spacing:.02em}}
+.fac{{font-size:28px;color:#a59d8c;letter-spacing:.02em}}
 .rule{{width:84px;height:3px;background:var(--cc)}}
 .foot{{left:72px}}
 </style><body style="--cc:{d['cc']}"><img class="por" src="{url(d['por'])}"><div class="shade"></div>
 <div class="brand"><img src="{url('assets/logo.png')}" alt="">Gabella</div>
 <div class="txt"><div class="rule"></div><h1>{d['title']}</h1>
-<div class="spec">{slot(d['spec'], d['sn'], d['cc']) if ICON.get(d['spec']) else ''}{d['sn']}</div>{pts}<div class="fac">{d['fac']} · WoW Forever</div></div>
+<div class="spec">{slot(d['spec'], d['sn'], d['cc']) if ICON.get(d['spec']) else ''}{d['sn']}</div>{pts}<div class="fac">{d['role']} · {d['fac']}</div></div>
 <div class="foot"><b>gabella.site</b><span>{src}</span></div></body>'''
 
 
@@ -172,14 +197,34 @@ def page_c(d):
 PAGES = {'A': page_a, 'B': page_b, 'C': page_c}
 
 
+def portrait_for(race, cls):
+    """(portrait, backdrop) of a card: the race the caption names, never another one (a dwarf hunter drew a night elf, 28.10).
+    Only a painting named <class>-<race> with the same race may stand for the class; otherwise the portrait of the race itself.
+    A race without a portrait of its own stops the run. The best race of a side (build.portraits) is not used here."""
+    rs = GAME['races'][race]['slug']
+    both = f'assets/art/{cls}-{race}-896.webp'
+    por, bg = (both, both.replace('-896', '-bg')) if os.path.isfile(os.path.join(ROOT, both)) else (f'assets/art/{rs}-896.webp', f'assets/art/{rs}-bg.webp')
+    assert os.path.isfile(os.path.join(ROOT, por)) and os.path.isfile(os.path.join(ROOT, bg)), f'{race}: no portrait of its own ({por})'
+    return por, bg
+
+
+def portrait_race(path):
+    """The race a portrait file shows, from its name: 'dwarf-896.webp' -> 'dwarf', 'hunter-nightelf-896.webp' -> 'nightelf', a class alone -> None."""
+    n = os.path.basename(path).rsplit('-', 1)[0]
+    ids = {r['slug']: rid for rid, r in GAME['races'].items()}
+    if n in ids:
+        return ids[n]
+    r = n.partition('-')[2]
+    return r if r in GAME['races'] else None
+
+
 def data(race, cls, spec, lang, pts=None):
     N = names(lang)
     fac = GAME['races'][race]['f']
-    pr = POR[(cls, fac)]
     i = N['sid'][cls].index(spec)
+    por, bg = portrait_for(race, cls)
     return {'lang': lang, 'race': race, 'cls': cls, 'spec': spec, 'title': title(lang, race, cls, N), 'sn': N['sn'][cls][i],
-            'fac': N['fn'][fac], 'cc': COLOR[cls], 'pts': pts,
-            'por': f'assets/art/{cls}-{pr}-896.webp', 'bg': f'assets/art/{cls}-{pr}-bg.webp'}
+            'fac': N['fn'][fac], 'cc': COLOR[cls], 'pts': pts, 'role': role_line(cls, spec, lang), 'por': por, 'bg': bg}
 
 
 def og_text(race, cls, spec, lang):
@@ -187,7 +232,8 @@ def og_text(race, cls, spec, lang):
     N = names(lang)
     i = N['sid'][cls].index(spec)
     fac = N['fn'][GAME['races'][race]['f']]
-    return f'{title(lang, race, cls, N)} · {N["sn"][cls][i]}', f'{fac} · WoW Forever'
+    return (f'{title(lang, race, cls, N)} · {N["sn"][cls][i]}',
+            DESC[lang].format(spec=N['sn'][cls][i], role=role_line(cls, spec, lang), fac=fac))
 
 
 def chrome(src, *args):
@@ -295,8 +341,7 @@ def main():
         if only and s not in only:
             continue
         for lang in (['xx'] if v == 'C' else pick):      # C has no words: one file for all languages
-            one = v == 'C' or len(pick) == 1     # one file for every language: <slug>.jpg (the page text is localized in og:title)
-            out = os.path.join(ROOT, 'assets', 'og', 'b', f'{s}.jpg' if one else f'{s}-{lang}.jpg')
+            out = os.path.join(ROOT, 'assets', 'og', 'b', f'{s}.jpg' if v == 'C' else f'{s}-{lang}.jpg')   # A: one card per language
             if '--skip' in args and os.path.exists(out):
                 total += os.path.getsize(out)
                 continue

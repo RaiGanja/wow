@@ -56,6 +56,13 @@ def lfg_data(src, lang):
     return json.dumps({'d': d, 'r': {k: game_name(v, lang) for k, v in LFG_RAIDS.items()}}, ensure_ascii=False)
 
 
+def painted():
+    """class-race pairs that have their own painting assets/art/<class>-<race>-360.webp (tools.src.html PAINTED)"""
+    d = os.path.join(HERE, 'assets', 'art')
+    races = json.load(open(os.path.join(HERE, 'assets', 'game.json'), encoding='utf-8'))['races']
+    return sorted(f'{c["id"]}-{r}' for c in CLASSES for r in races if os.path.isfile(os.path.join(d, f'{c["id"]}-{r}-360.webp')))
+
+
 def build_tools(lang, src, tpl, base_css, sprite):
     here = page_dir(lang, 'tools/')
     html = build.chrome(tpl.replace('@@BASE_CSS@@', base_css).replace('@@SPRITE@@', sprite), nav='tools/')
@@ -66,6 +73,7 @@ def build_tools(lang, src, tpl, base_css, sprite):
     import build_guides   # the hero of this browser: names, best races, labels (after translate: it is in the page language already)
     html = html.replace('@@HERO@@', build_guides.hero_js(lang))
     html = html.replace('@@CPROF@@', json.dumps({c['id']: build.class_profs_short(c['id'], lang) for c in CLASSES}, ensure_ascii=False))
+    html = html.replace('@@PAINTED@@', json.dumps(painted()))
     html = html.replace('@@HOME@@', rel(here, page_dir(lang)))
     html = html.replace('@@CANON@@', SITE + here)
     html = html.replace('@@ALTERNATES@@', build.alternates('tools/'))
