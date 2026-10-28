@@ -634,8 +634,17 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 /* A class name in a table: game colour and a small portrait (build_guides.clink) */
 .clink { display: inline-flex; align-items: center; gap: 7px; vertical-align: top; white-space: nowrap; color: var(--class-ink); font-weight: 600; text-decoration: none; }
 :root .clink .av { --s: 22px; box-shadow: 0 0 0 1.5px var(--class-ink); }
-.clinks { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; }
+/* Class chips in a list: a strict grid, two to a row, one track width everywhere, left-aligned (full-width tracks on a phone) */
+.clinks { display: inline-grid; grid-template-columns: repeat(2, 9.5rem); justify-items: start; align-items: center; gap: 6px 14px; max-width: 100%; }
 .clinks .clink { vertical-align: baseline; }
+/* «Class · spec» chip: the same icon, the name over the spec, one baseline, the spec never wraps */
+.clink.two { gap: 9px; max-width: 100%; }
+:root .clink.two .av { --s: 28px; }
+.clink.two .cn { display: grid; min-width: 0; line-height: 1.25; }
+.clink.two b { font-weight: 600; }
+.clink.two small { white-space: nowrap; color: var(--muted); font-size: var(--fs-13); font-weight: 400; }
+.clink.two:hover, .clink.two:focus-visible { text-decoration: none; }
+.clink.two:hover b, .clink.two:focus-visible b { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 .clink:hover, .clink:focus-visible { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 #matrix { min-width: 860px; border-spacing: 0 2px; table-layout: fixed; }
 /* Equal class columns: the race column is fixed, the nine class columns share the rest */
@@ -777,7 +786,7 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 /* Comparison tables: classes and races, one row per entry, whole row opens its page */
 .cmp { display: grid; gap: 6px; container-type: inline-size; }
 .cmp-h, .cmp-row { display: grid; gap: 22px; align-items: center; }
-.cmp.cls .cmp-h, .cmp.cls .cmp-row { grid-template-columns: minmax(240px, 1.2fr) 122px 190px minmax(0, 1.9fr) 22px; }
+.cmp.cls .cmp-h, .cmp.cls .cmp-row { grid-template-columns: minmax(276px, 1.2fr) 122px 190px minmax(0, 1.9fr) 22px; }
 .cmp.rac .cmp-h, .cmp.rac .cmp-row { grid-template-columns: minmax(200px, .9fr) 346px minmax(0, 2.2fr) 22px; }
 .cmp-h { padding: 0 22px 4px; font-size: var(--fs-13); font-weight: 600; color: var(--muted); }
 .cmp-h .rdots { color: var(--muted); }
@@ -795,6 +804,7 @@ ul.verdict li.warn::before { content: "!"; color: var(--horde); left: 7px; }
 .cmp-id > div { min-width: 0; }
 .cmp-id .av { --s: 52px; }
 .cmp-id b { display: block; font-family: var(--font-display); font-weight: var(--display-w); font-size: var(--fs-22); line-height: 1.1; }
+.cmp.cls .cmp-id b { white-space: nowrap; hyphens: none; overflow-wrap: normal; }   /* a long name is never broken; the column is wide enough for it */
 .cmp-id small { display: block; margin-top: 3px; color: var(--muted); font-size: var(--fs-14); line-height: 1.4; }
 .cmp-id > span { min-width: 0; }
 .cmp-id .paid { display: block; margin: 3px 0 0; font-family: var(--font-body); line-height: 1.3; }   /* under the name: «Skyborn (Alliance) paid» ran into the class faces at 1920 */
@@ -1063,6 +1073,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .clinks .clink { min-height: 44px; }
   .cd .what a, .gamehint a, .langhint a { padding-block: 14px; }   /* inline links: a 44 px touch area, the line stays */
   .clinks { gap: 0 14px; }
+  .clink.two { min-height: 44px; }
+  .clinks { display: grid; width: 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 10px; }
+  .clink.two small { overflow: hidden; text-overflow: ellipsis; }
 }
 @media (max-width: 374px) { .bt small { display: none; } }   /* 320–374: four buttons (44 px from 360); the subtitle gives way, «Gabella» and the mark stay */
 @media (prefers-reduced-motion: reduce) {
@@ -1509,10 +1522,10 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="manifest" href="../manifest-es.webmanifest">
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png?v=00a6a7d9">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
-<link rel="stylesheet" href="../assets/radio/radio.css?v=bb92966691" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=9ab5b5d263" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/me/me.css?v=0977dfc0f1" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/hero/hero.css?v=b80e185097" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/radio/radio.css?v=9a73fa3532" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/search/search.css?v=e1beb9d537" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/me/me.css?v=89b8b06c6a" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/hero/hero.css?v=2b3fcb92a6" media="print" onload="this.media='all'">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -1730,9 +1743,9 @@ addEventListener('beforeinstallprompt', e => {
   opts.append(b);
 });
 </script>
-<script src="../assets/radio/radio.js?v=bb92966691" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=9ab5b5d263" data-root="../" defer></script>
-<script src="../assets/me/me.js?v=0977dfc0f1" data-root="../" data-home="./" data-lang="es" data-ach="0" data-teaser="" data-close="Cerrar" data-page="404" data-look="2" defer></script>
-<script src="../assets/hero/hero.js?v=b80e185097" data-root="../" data-home="./" data-data="../assets/hero/es.json?v=b80e185097" defer></script>
+<script src="../assets/radio/radio.js?v=9a73fa3532" data-root="../" defer></script>
+<script src="../assets/search/search.js?v=e1beb9d537" data-root="../" defer></script>
+<script src="../assets/me/me.js?v=89b8b06c6a" data-root="../" data-home="./" data-lang="es" data-ach="0" data-teaser="" data-close="Cerrar" data-page="404" data-look="2" defer></script>
+<script src="../assets/hero/hero.js?v=2b3fcb92a6" data-root="../" data-home="./" data-data="../assets/hero/es.json?v=2b3fcb92a6" defer></script>
 </body>
 </html>

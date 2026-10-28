@@ -134,7 +134,7 @@ const tipBox = h => `<div class="tipbox"><svg class="ico fi" aria-hidden="true">
 function bi(ru) { return EN[ru] && EN[ru] !== ru ? `${esc(ru)} <span class="en">(${esc(EN[ru])})</span>` : esc(ru); }
 function raceEn(r) { return r.en ? ` <span class="en">/ ${esc(r.en)}</span>` : ''; }
 function facName(f) { return f === 'alliance' ? 'Alleanza' : 'Orda'; }
-const PV = /*PV*/'?v=6bc67540';   // ?v= of the class and race portraits, filled in by build.art_version (redrawn under the same names)
+const PV = /*PV*/'?v=68e6d76f';   // ?v= of the class and race portraits, filled in by build.art_version (redrawn under the same names)
 /* Round face avatar: assets/art/<id>-face.webp, ring colour cc */
 /* A class face follows the reader's side (GabellaPor, build.por_js); f: a fixed side (the class faces of a race row) */
 function face(id, cc, cls = '', title = '', f = '') { const P = window.GabellaPor, t = `../assets/art/{${id}}-face.webp${PV}`, live = P && P.map[id] && !f;
@@ -214,13 +214,17 @@ function fitCards() {
   m.style.cssText = 'position:absolute;left:-9999px;top:0;visibility:hidden;white-space:pre;line-height:1;font-size:100px';
   document.body.append(m);
   const k = (t, v) => { m.textContent = t; m.style.writingMode = v ? 'vertical-rl' : 'horizontal-tb'; const r = m.getBoundingClientRect(); return (v ? r.height : r.width) / 100; };   // vertical labels are measured vertically: ’ and the like stand upright there
+  const ks = new Map();   // one --k per roster and kind of label: the widest name sets the size of all, so no name is set smaller than the rest
   document.querySelectorAll('.hc .info b, .hc .vn').forEach(el => {
     const cs = getComputedStyle(el), whole = el.classList.contains('vn');
     m.style.fontFamily = cs.fontFamily; m.style.fontWeight = cs.fontWeight;
     m.style.letterSpacing = (parseFloat(cs.letterSpacing) || 0) / parseFloat(cs.fontSize) * 100 + 'px';
     const parts = whole ? [el.textContent] : el.textContent.match(/[^\s-]+-?/g) || [''];
-    el.style.setProperty('--k', Math.max(...parts.map(t => k(t, whole))).toFixed(3));
+    const g = el.closest('.roster, .rr') || document.body, key = g.dataset.fk || (g.dataset.fk = 'r' + ks.size + Math.random().toString(36).slice(2, 6));
+    const id = key + whole; ks.set(id, Math.max(ks.get(id) || 0, ...parts.map(t => k(t, whole))));
+    el.dataset.fid = id;
   });
+  document.querySelectorAll('[data-fid]').forEach(el => el.style.setProperty('--k', ks.get(el.dataset.fid).toFixed(3)));
   m.remove();
 }
 fitCards();
