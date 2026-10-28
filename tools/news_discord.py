@@ -19,7 +19,7 @@ from xml.etree import ElementTree as ET
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONFIG = os.path.join(ROOT, 'tools', 'news_discord.json')
 UA = {'User-Agent': 'gabella-wow-guide (+https://gabella.site/wow/)', 'Content-Type': 'application/json'}
-LOGO = 'https://gabella.site/wow/assets/logo.png?v=55e98e8c'
+LOGO = 'https://gabella.site/wow/assets/logo.png?v=6443c40d'
 GOLD, GREY = 0xC9A54A, 0x2B2D31
 ICON = {'dev-notes': '🛠', 'patch-notes': '🛠', 'hotfixes': '🛠', 'article': '📰', 'post': '📰'}
 FLAG = {'ru': '🇷🇺', 'uk': '🇺🇦', 'en': '🇬🇧', 'pl': '🇵🇱', 'de': '🇩🇪', 'fr': '🇫🇷', 'es': '🇪🇸', 'it': '🇮🇹', 'pt': '🇵🇹'}
