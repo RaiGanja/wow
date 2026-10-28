@@ -985,6 +985,14 @@ GUIDES.append({
 # ---------- Новости: наши записи (новые сверху) + автолента Wowhead из assets/news.json ----------
 
 NEWS += [
+    {'date': '2026-10-28', 'url': 'https://us.forums.blizzard.com/en/wow/t/overly-restrictive-name-check-and-fix-incoming-october-27/2394467/1',
+     'title': t('Проверка имён: слишком строгие правила, исправление готовится', 'Name check too restrictive, fix incoming', 'Перевірка імен: надто суворі правила, виправлення готується'),
+     'text': t('Blizzard написала на форуме про слишком строгую проверку имён персонажей и скорое исправление. Подробностей, которые мы могли бы проверить, в сообщении нет: детали смотрите в самом сообщении.',
+               'Blizzard posted on the forum about an overly restrictive character name check and an incoming fix. The post gives no further details we could verify, so check the linked post.',
+               'Blizzard написала на форумі про надто суворну перевірку імен персонажів і найближче виправлення. Подробиць, які ми могли б перевірити, у повідомленні немає: деталі дивіться в самому повідомленні.'),
+     'so': t('Если имя не принимается, следите за сообщением Blizzard.',
+             'If a name is rejected, follow the Blizzard post.',
+             'Якщо ім’я не приймається, стежте за повідомленням Blizzard.')},
     {'date': '2026-10-22', 'url': 'https://us.forums.blizzard.com/en/wow/t/the-roleplay-pvp-ruleset-is-coming-to-wow-forever/2389502/1',
      'title': t('Режим Roleplay-PvP придёт в WoW Forever', 'Roleplay-PvP ruleset is coming to WoW Forever', 'Режим Roleplay-PvP прийде в WoW Forever'),
      'text': t('Blizzard объявила на форуме, что режим Roleplay-PvP появится в WoW Forever. Подробностей, которые мы могли бы проверить, в сообщении нет: правила смотрите в самом сообщении.',
@@ -1053,6 +1061,7 @@ GUIDES.append({
         ('ClassicWoW.gg', 'https://classicwow.gg/forever'),
         (t('Blizzard: резерв имён по регионам', 'Blizzard: name reservation by region', 'Blizzard: резерв імен за регіонами'), 'https://worldofwarcraft.blizzard.com/en-us/news/24313106'),
         (t('Blizzard: бета закрыта', 'Blizzard: the beta is closed', 'Blizzard: бету закрито'), 'https://eu.forums.blizzard.com/en/wow/t/637228'),
+        (t('Blizzard: проверка имён', 'Blizzard: name check', 'Blizzard: перевірка імен'), 'https://us.forums.blizzard.com/en/wow/t/overly-restrictive-name-check-and-fix-incoming-october-27/2394467/1'),
     ],
     'sections': [
         {'id': 'ours', 'title': t('Наши записи', 'Our notes', 'Наші записи'), 'blocks': [('news', None)]},
