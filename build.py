@@ -1082,7 +1082,7 @@ def fresh(lang):
     The site updates (updates.json) stay the Discord feed and the news page."""
     from content.guides import NEWS
     langs.fill(NEWS)
-    items = sorted(((n['date'], n['title'][lang], n['url']) for n in NEWS), reverse=True)
+    items = sorted(((n['date'], n['title'][lang], n['url']) for n in NEWS), key=lambda x: x[0], reverse=True)   # same day: the order of NEWS (newest first)
     host = lambda u: re.sub(r'^www\.', '', u.split('/')[2])   # the source of the note, like «Wowhead» on the feed cards
     return ''.join(f'<a class="nc" href="guides/news/#ours" data-u="{esc(u)}"><time datetime="{d}">{d[8:10]}.{d[5:7]}</time><b>{esc(RU_MARK.sub(r"\1", t))}</b><span>{host(u)}</span></a>'
                    for d, t, u in items[:3])
