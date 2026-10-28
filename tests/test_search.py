@@ -39,7 +39,8 @@ pages = [p for p in glob.glob(os.path.join(ROOT, '**', '*.html'), recursive=True
          if not p.endswith('.src.html') and not re.search(r'(^|[\\/])(\.|node_modules|mock-)', os.path.relpath(p, ROOT))]
 versions = set()
 for p in pages:
-    if p == os.path.join(ROOT, '404.html'):   # the root 404 is a light page without the site chrome
+    parts = os.path.relpath(p, ROOT).replace(os.sep, '/').split('/')
+    if p == os.path.join(ROOT, '404.html') or 'b' in parts[:2] and parts[-1] == 'index.html' and len(parts) in (3, 4) and parts[-3] == 'b':   # the root 404 and the share pages b/<build>/ are light pages without the site chrome
         continue
     html = open(p, encoding='utf-8').read()
     v = re.findall(r'assets/search/search\.(?:js|css)\?v=(\w+)', html)

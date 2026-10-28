@@ -925,7 +925,7 @@ def og_version():
             if f.endswith('.html') and not f.endswith('.src.html'):
                 p = os.path.join(root, f)
                 was = open(p, encoding='utf-8').read()
-                new = re.sub(r'(assets/og/([A-Za-z0-9_.-]+\.jpg))(?:\?v=\w+)?', tag, was)
+                new = re.sub(r'(assets/og/([A-Za-z0-9_./-]+\.jpg))(?:\?v=\w+)?', tag, was)
                 if new != was:
                     open(p, 'w', encoding='utf-8', newline='\n').write(new)
                     n += 1
@@ -1678,6 +1678,8 @@ def main():
     build_tools.main()
     import build_guides  # guides: own builder, texts already in three languages
     build_guides.main()
+    import build_cards  # share pages b/<race>-<class>-<spec>/ of built characters (noindex, outside sitemap.xml)
+    build_cards.main()
     import seo  # last: titles/descriptions for search, JSON-LD, analytics, sitemap.xml over the built pages
     seo.main()
     report_new_langs()

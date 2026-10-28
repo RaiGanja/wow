@@ -644,6 +644,34 @@ try {
 } catch (e) {}'''
 
 
+JS['buildshare'] = r'''/* Builds of a class: «Share» under the heading of every spec. The link is the card page b/<race>-<class>-<spec>/ (its preview shows the
+   name of the build). The race: your hero's when he is of this class, else the best Alliance race of the spec (the Best race guide).
+   Phone: the share sheet, otherwise the link goes to the clipboard. */
+(function () {
+  const cls = (location.pathname.match(/builds-(\w+)\/?$/) || [])[1];
+  if (!cls || !HC.sid[cls]) return;
+  const hero = readHero(), mine = hero && hero.cls === cls && HC.rf[hero.race] ? hero : null, BS = { skyA: 'skyborne-a', skyH: 'skyborne-h' };
+  HC.sid[cls].forEach((spec, i) => {
+    const h = (document.getElementById(spec) || {}).querySelector ? document.getElementById(spec).querySelector('h2') : null;
+    if (!h) return;
+    const wrap = document.createElement('p'), b = document.createElement('button'), msg = document.createElement('span');
+    wrap.className = 'bshare'; b.type = 'button'; b.className = 'btn ghost'; b.textContent = HC.tx.share;
+    msg.className = 'small'; msg.setAttribute('role', 'status'); wrap.append(b, ' ', msg); h.after(wrap);
+    b.onclick = async () => {
+      const fac = mine ? HC.rf[mine.race] : 'alliance', best = bestOf(cls, fac, spec) || bestOf(cls, fac === 'alliance' ? 'horde' : 'alliance', spec),
+        race = mine ? mine.race : best && best[0][0];
+      if (!race) return;
+      const url = new URL('../../b/' + (BS[race] || race) + '-' + cls + '-' + spec + '/', location.href).href;
+      const title = HC.rn[race] + ' · ' + HC.cn[cls] + ' · ' + HC.sn[cls][i];
+      if (navigator.share && matchMedia('(pointer: coarse)').matches) {
+        try { await navigator.share({ title, url }); return; } catch (e) { if (e && e.name === 'AbortError') return; }
+      }
+      try { await navigator.clipboard.writeText(url); msg.textContent = HC.tx.linkCopied; } catch (e) { msg.textContent = url; }
+    };
+  });
+})();'''
+
+
 JS['news'] = r'''/* News: official Blizzard notes from data/official.json (level 1 of the news automation) on top of our notes */
 fetch(ROOT + 'data/official.json').then(r => r.ok ? r.json() : []).then(items => {
   const list = document.querySelector('#ours .nlist');
@@ -1498,7 +1526,7 @@ draw();
 addEventListener('storage', e => { if (e.key === MEKEY && !wiz) { me = load(); draw(); } });'''
 
 
-HERO_FOLLOW = ('news', 'checklist', 'play')   # pages that follow the hero of this browser (hero_js before their script)
+HERO_FOLLOW = ('news', 'checklist', 'play', 'buildshare')   # pages that follow the hero of this browser (hero_js before their script)
 DATA = {'dungeons': dungeons_data, 'play': play_data}   # js key -> data blocks (from index.src.html and content)
 REF = ('classref', 'raceref')        # js keys fed by ref_js (language-specific)
 

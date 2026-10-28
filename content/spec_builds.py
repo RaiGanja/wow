@@ -1495,6 +1495,7 @@ def attach(guides, hubs, order):
     tiles = []
     for g in SPEC_BUILDS:
         cid = g['slug'].removeprefix('builds-')
+        g['js'] = 'buildshare'                              # «Поделиться» under every spec heading (build_guides.JS)
         g['tile_art'] = cid                                  # «Другие гайды»: the class art (build_guides keeps one picture once)
         sec = g['sections'][-1]
         assert sec['id'] == 'related'

@@ -426,6 +426,7 @@ function esc(s) { return String(s).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&l
 function raceName(r) { return r.name || r.n; }
 function syncSeg(id, v) { document.querySelectorAll(`#${id} button`).forEach(b => b.setAttribute('aria-pressed', b.dataset.v === String(v))); }
 const FAC = { alliance: 'Альянс', horde: 'Орда' };
+const BSLUG = { skyA: 'skyborne-a', skyH: 'skyborne-h' };   // race id -> url part of the share page (tools/make_build_cards.py SLUG)
 const RSLUG = { human: 'human', dwarf: 'dwarf', nightelf: 'night-elf', gnome: 'gnome', skyA: 'skyborne-alliance', orc: 'orc', undead: 'undead', tauren: 'tauren', troll: 'troll', skyH: 'skyborne-horde' };
 const classUrl = id => `${HOME}classes/${id}/`, raceUrl = id => `${HOME}races/${RSLUG[id]}/`;
 const PV = /*PV*/'';   // ?v= of the class and race portraits (build.art_version)
@@ -899,10 +900,18 @@ function renderDetail() {
       <div class="copyrow">
         <input id="pickText" readonly value="${esc(text)}" aria-label="Мой выбор">
         <button class="btn" id="copyBtn"><svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg>Скопировать мой выбор</button>
+        <button class="btn ghost" id="shareBtn">Поделиться</button>
         <span class="small" id="copyMsg" role="status"></span>
       </div>
     </div>`;
   $('#copyBtn').onclick = () => copyTo($('#pickText').value, $('#copyMsg'), 'Скопировано');
+  $('#shareBtn').onclick = () => shareBuild(r.id, c.id, state.spec, text);
+}
+/* Share: the link of the card page b/<race>-<class>-<spec>/ (its preview is the card with the name); on a phone the share sheet, else the clipboard */
+function shareBuild(race, cls, spec, text) {
+  const url = new URL(`${HOME}b/${BSLUG[race] || race}-${cls}-${spec}/`, location.href).href, msg = $('#copyMsg');
+  if (navigator.share && matchMedia('(pointer: coarse)').matches) navigator.share({ title: text, url }).catch(e => { if (e && e.name !== 'AbortError') copyTo(url, msg, 'Ссылка скопирована'); });
+  else copyTo(url, msg, 'Ссылка скопирована');
 }
 
 /* Three ways on from the chosen combination and «make it my character» (character/#set=, the hero of this browser) */
@@ -963,9 +972,9 @@ renderPing();
 
 /* Deep link from class pages: #pick=shaman or #pick=dwarf.shaman */
 (function () {
-  const m = location.hash.match(/^#pick=(?:(\w+)\.)?(\w+)$/);
+  const m = location.hash.match(/^#pick=(?:(\w+)\.)?(\w+)(?:\.([\w-]+))?$/);   // class, race.class, race.class.spec (the share page b/<race>-<class>-<spec>/ sends the last)
   if (!m || !CL[m[2]]) return;
-  if (m[1] && RC[m[1]] && RC[m[1]].can[m[2]]) { state.race = m[1]; state.cls = m[2]; } else pickClass(m[2]);
+  if (m[1] && RC[m[1]] && RC[m[1]].can[m[2]]) { state.race = m[1]; state.cls = m[2]; if (m[3] && HC.sid[m[2]].includes(m[3])) state.spec = m[3]; } else pickClass(m[2]);
   state.f = 'all'; state.r = 'all'; syncSeg('segF', 'all'); syncSeg('segR', 'all'); render();
   setTimeout(() => document.getElementById('picker').scrollIntoView(), 0);
 })();
