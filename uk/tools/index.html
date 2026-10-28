@@ -57,10 +57,10 @@
 <link rel="manifest" href="../../manifest-uk.webmanifest">
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=00a6a7d9">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
-<link rel="stylesheet" href="../../assets/radio/radio.css?v=b15f7ff1e1" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/radio/radio.css?v=bb92966691" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/search/search.css?v=bba92b3906" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/me/me.css?v=0570451033" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/hero/hero.css?v=4f22a8a147" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/me/me.css?v=0977dfc0f1" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/hero/hero.css?v=b80e185097" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Головна","item":"https://gabella.site/wow/uk/"},{"@type":"ListItem","position":2,"name":"Інструменти","item":"https://gabella.site/wow/uk/tools/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Інструменти WoW Forever: порівняння класів і рас, група","description":"Порівняння класів і рас WoW Forever пліч-о-пліч, рамки групи та рейдова сітка як у грі, пошук по всьому сайту.","inLanguage":"uk","url":"https://gabella.site/wow/uk/tools/","dateModified":"2026-10-28","mainEntityOfPage":{"@type":"WebPage","@id":"https://gabella.site/wow/uk/tools/"},"author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=48809128","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=48809128","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/uk/"},"image":"https://gabella.site/wow/assets/og/tools-uk.jpg?v=b2c806fe"}</script>
 </head>
@@ -439,7 +439,7 @@ const RSLUG = { human: 'human', dwarf: 'dwarf', nightelf: 'night-elf', gnome: 'g
 const PAINTED = ["druid-nightelf", "druid-tauren", "hunter-nightelf", "hunter-orc", "mage-gnome", "mage-orc", "paladin-human", "paladin-undead", "priest-gnome", "priest-undead", "rogue-nightelf", "rogue-orc", "shaman-dwarf", "shaman-orc", "warlock-gnome", "warlock-orc", "warrior-human", "warrior-orc"];   // class x race paintings that exist (build_tools.painted): the player's own race is drawn, never the best race of the side
 const unitArt = (p, ext) => `${ROOT}assets/art/${PAINTED.includes(p.cls + '-' + p.race) ? p.cls + '-' + p.race : RSLUG[p.race]}-360.${ext}${PV}`;
 const classUrl = id => `${HOME}classes/${id}/`, raceUrl = id => `${HOME}races/${RSLUG[id]}/`;
-const PV = /*PV*/'?v=a29ccccf';   // ?v= of the class and race portraits (build.art_version)
+const PV = /*PV*/'?v=6bc67540';   // ?v= of the class and race portraits (build.art_version)
 const porId = (id, f) => (window.GabellaPor ? GabellaPor.id(id, f) : id);   // a class: the portrait of side f, else of the reader's side (build.por_js)
 const art = (id, ext = 'webp', f) => `${ROOT}assets/art/${porId(id, f)}-360.${ext}${PV}`;
 async function copyTo(text, msgEl, ok) {
@@ -627,7 +627,7 @@ $('#rFill').onclick = () => {
   R.s.forEach(p => p && used[p.role]++);
   R.s = R.s.map((p, i) => p || newPlayer(i, used)); R.moving = -1; renderRaid();
 };
-function myHero() {   // the hero of this browser (assets/hero/hero.js?v=4f22a8a147, localStorage gabella-wf-me)
+function myHero() {   // the hero of this browser (assets/hero/hero.js?v=b80e185097, localStorage gabella-wf-me)
   let h = null; try { h = JSON.parse(localStorage.getItem('gabella-wf-me')); } catch (e) {}
   return h && RC[h.race] && CL[h.cls] && RC[h.race].can[h.cls] ? h : null;
 }
@@ -1081,10 +1081,10 @@ addEventListener('beforeinstallprompt', e => {
   opts.append(b);
 });
 </script>
-<script src="../../assets/radio/radio.js?v=b15f7ff1e1" data-root="../../" defer></script>
+<script src="../../assets/radio/radio.js?v=bb92966691" data-root="../../" defer></script>
 <script src="../../assets/search/search.js?v=bba92b3906" data-root="../../" defer></script>
-<script src="../../assets/me/me.js?v=0570451033" data-root="../../" data-home="../" data-lang="uk" data-ach="0" data-teaser="" data-close="Закрити" data-page="tools/" data-look="2" defer></script>
-<script src="../../assets/hero/hero.js?v=4f22a8a147" data-root="../../" data-home="../" data-data="../../assets/hero/uk.json?v=4f22a8a147" defer></script>
+<script src="../../assets/me/me.js?v=0977dfc0f1" data-root="../../" data-home="../" data-lang="uk" data-ach="0" data-teaser="" data-close="Закрити" data-page="tools/" data-look="2" defer></script>
+<script src="../../assets/hero/hero.js?v=b80e185097" data-root="../../" data-home="../" data-data="../../assets/hero/uk.json?v=b80e185097" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>
