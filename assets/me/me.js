@@ -165,7 +165,7 @@
   const FACE = { nightelf: 'night-elf', skyA: 'skyborne-alliance', skyH: 'skyborne-horde' };
   function face(m) {
     const c = m && m.characters && (m.characters.find(x => x.is_main) || m.characters[0]);
-    if (!c) return { src: ROOT + 'assets/brand/mark.webp?v=64e71bf9' };
+    if (!c) return { src: ROOT + 'assets/brand/mark.webp?v=0d4b1535' };
     const s = FACE[c.race] || c.race, l = c.look || { sex: 'm', bg: s }, v = '?v=' + (D.look || '1');
     return { src: `${ROOT}assets/me/look/base/${s}-${l.sex}.webp${v}`, bg: `${ROOT}assets/me/look/bg/${l.bg}.webp${v}`, old: `${ROOT}assets/art/${s}-face.webp${PV}` };
   }

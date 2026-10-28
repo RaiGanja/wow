@@ -86,7 +86,7 @@ img{{position:absolute;display:block}}
 .txt{{position:absolute;left:72px;top:0;bottom:0;width:640px;display:flex;flex-direction:column;justify-content:center;gap:24px}}
 .brand{{position:absolute;left:72px;top:56px;display:flex;align-items:center;gap:16px;font:600 30px/1 "Spectral SC";color:#efe9da;letter-spacing:.04em;font-variant-numeric:lining-nums}}
 .brand .ref{{color:#c9a54a;font-size:22px;letter-spacing:.06em;padding-left:16px;border-left:1px solid rgba(201,165,74,.45)}}
-.brand img{{position:static;width:56px;height:56px;border-radius:10px;box-shadow:0 0 0 1px rgba(201,165,74,.45)}}
+.brand img{{position:static;width:56px;height:56px;border-radius:50%}}
 h1{{font:600 {'92' if len(title) <= 14 else '74'}px/1.02 "Spectral SC";letter-spacing:.02em;text-wrap:balance;font-variant-numeric:lining-nums}}
 p{{font-size:30px;line-height:1.35;color:#c9c2b0;text-wrap:pretty;max-width:{"520" if wide else "600"}px}}
 .start{{position:absolute;left:72px;bottom:56px;font:600 28px/1 "Spectral SC";letter-spacing:.03em;color:#c9a54a;font-variant-numeric:lining-nums}}
