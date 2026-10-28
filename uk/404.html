@@ -603,7 +603,7 @@ ul.dots li::marker { color: var(--gold); }
 .flabel { font-size: var(--fs-14); color: var(--muted); font-weight: 500; }
 /* Segments: no frame around the group; the active one is a plate with gold text (Maxroll), one gold per screen stays the button's */
 .seg { display: inline-flex; flex-wrap: wrap; gap: 4px; }
-.seg button { border: 0; border-radius: 6px; background: transparent; padding: 0 14px; min-height: 44px; font-weight: 600; font-size: var(--fs-16); transition: background-color .15s, color .15s; }
+.seg button { border: 0; border-radius: 6px; background: transparent; padding: 0 14px; min-width: 44px; min-height: 44px; font-weight: 600; font-size: var(--fs-16); transition: background-color .15s, color .15s; }
 /* Level stepper next to a segment: same height and inner frame as .seg */
 .filters .stepper { padding: 4px; gap: 2px; }
 .filters .stepper button { min-width: 40px; border-radius: 7px; }
@@ -855,6 +855,8 @@ footer > :first-child { padding-top: 0; border-top: 0; }   /* profile pages: the
   footer .fmap { display: flex; flex-wrap: wrap; gap: 4px 20px; }
   footer .fmap ul { display: none; }
   footer .fmap .fh { margin: 0; padding: 8px 0; }
+  #sources > ul { gap: 0; }
+  #sources > ul a { display: inline-flex; align-items: center; min-height: 44px; }   /* source links: 44 px to tap */
 }
 
 /* Menu sheet (all sections, language, theme) */
@@ -1389,6 +1391,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .pfac .pill[aria-pressed="true"] { background: var(--seg-on); border-color: transparent; color: var(--gold-2); }
 .plv { display: flex; align-items: center; justify-content: center; gap: 22px; }
 .plvq { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; }
+@media (max-width: 359px) { .plvq { grid-template-columns: repeat(3, minmax(0, 1fr)); } }   /* 320: six 44 px buttons do not fit in one row */
 .plvq .pill { min-height: 44px; padding: 0; justify-content: center; cursor: pointer; font: inherit; font-size: var(--fs-16); font-variant-numeric: lining-nums tabular-nums; }
 .plvq .pill[aria-pressed="true"] { background: var(--seg-on); border-color: transparent; color: var(--gold-2); }
 .lvb { width: 56px; height: 56px; border-radius: 50%; border: 1px solid var(--pline); background: var(--panel-2); color: var(--fg); font: inherit; font-size: var(--fs-28); line-height: 1; cursor: pointer; }
@@ -1431,7 +1434,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .phead::before { background: linear-gradient(180deg, rgb(5 5 5 / .5) 0%, rgb(5 5 5 / 0) 16%, rgb(5 5 5 / 0) calc(var(--top) + 80px), rgb(5 5 5 / .9) calc(var(--top) + 150px), rgb(5 5 5) calc(var(--top) + 190px)); } }
 @media (max-width: 719px) { .pway { padding: 12px 14px; gap: 10px 20px; } .pway .btn { margin-left: 0; } .psec { padding: 14px; } .pform { grid-template-columns: minmax(0, 1fr) 104px; } .pform .pill { grid-column: 1 / -1; justify-content: center; } }
 @media (max-width: 719px) {   /* phone: pills and small links are 44 px to tap */
-  .dbar .pill, .pfac .pill, .ppre .pill, .pform .pill, .pchars .pill { min-height: 44px; }
+  .dbar .pill, .pfac .pill, .ppre .pill, .pform .pill, .pchars .pill, .pform input { min-height: 44px; }
+  .pnotify { min-height: 44px; }
   .pmore, .phero a { display: inline-flex; align-items: center; min-height: 44px; }
 }
 #more { margin-top: 56px; }
@@ -1503,8 +1507,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="manifest" href="../manifest-uk.webmanifest">
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png?v=00a6a7d9">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
-<link rel="stylesheet" href="../assets/radio/radio.css?v=ef0b5f769c" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=84ccd05216" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/radio/radio.css?v=b15f7ff1e1" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/search/search.css?v=a8b37a26f0" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../assets/me/me.css?v=0570451033" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../assets/hero/hero.css?v=57ee9de9b6" media="print" onload="this.media='all'">
 </head>
@@ -1724,8 +1728,8 @@ addEventListener('beforeinstallprompt', e => {
   opts.append(b);
 });
 </script>
-<script src="../assets/radio/radio.js?v=ef0b5f769c" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=84ccd05216" data-root="../" defer></script>
+<script src="../assets/radio/radio.js?v=b15f7ff1e1" data-root="../" defer></script>
+<script src="../assets/search/search.js?v=a8b37a26f0" data-root="../" defer></script>
 <script src="../assets/me/me.js?v=0570451033" data-root="../" data-home="./" data-lang="uk" data-ach="0" data-teaser="" data-close="Закрити" data-page="404" data-look="2" defer></script>
 <script src="../assets/hero/hero.js?v=57ee9de9b6" data-root="../" data-home="./" data-data="../assets/hero/uk.json?v=57ee9de9b6" defer></script>
 </body>
