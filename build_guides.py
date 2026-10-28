@@ -1178,7 +1178,7 @@ def hero_data(src, lang):
 HERO_CSS = '''<style>
 .mhead { padding: calc(var(--top) + 28px) 0 8px; }
 .mhead h1 { margin: 0; font-size: var(--fs-hero); line-height: 1.05; }
-.mhead .glead { margin: 10px 0 0; max-width: 60ch; }
+.mhead .glead { margin: 10px 0 0; max-width: 60ch; color: var(--muted); text-shadow: none; }   /* no hero art behind: the page colour, not the light ink over pictures (light theme) */
 .mch { display: grid; gap: 18px; margin-top: 18px; }
 .mcard { position: relative; isolation: isolate; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1fr); align-content: end; min-height: 300px; padding: 22px; color: #f3efe6; background: #0a0a0a; }
 .mcard > .bgi { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; }
@@ -1633,11 +1633,12 @@ NOT_FOUND_LIGHT = r"""<!doctype html>
 (function () {
   var L = '@@LANGS@@'.split(' '), m = location.pathname.match(/^\/wow\/([a-z]{2})\//), l = m && L.indexOf(m[1]) > -1 ? m[1] : '';
   for (var i = 0, n = navigator.languages || [navigator.language || '']; !l && i < n.length; i++) { var c = String(n[i]).toLowerCase().slice(0, 2); if (L.indexOf(c) > -1) l = c; }
-  if (l) document.documentElement.setAttribute('data-l', l);
+  var T = @@TITLES@@, d = document.documentElement;   // the chosen language: lang and title of the page follow it (screen readers, tabs)
+  if (l) { d.setAttribute('data-l', l); d.lang = T[l][0]; document.title = T[l][1] + ' · Gabella'; }
 })();
 </script>
 <style>
-:root { color-scheme: dark light; --bg: #0a0b0d; --fg: #ece6d8; --muted: #a8a294; --gold: #c9a54a; --line: #2a2820; }
+:root { color-scheme: dark light; --bg: #050505; --fg: #ece6d8; --muted: #a8a294; --gold: #c9a54a; --line: #2a2820; }
 @media (prefers-color-scheme: light) { :root { --bg: #f6f1e6; --fg: #1d1a14; --muted: #5f594b; --gold: #7a5a14; --line: #d8cfba; } }
 * { box-sizing: border-box; }
 body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 24px 16px; background: var(--bg); color: var(--fg); font: 1rem/1.5 Georgia, "Times New Roman", serif; }
@@ -1665,7 +1666,8 @@ def not_found_light():
     blocks = '\n'.join(
         f'<section lang="{langs.HREFLANG[l]}" data-k="{l}"><h1>{NOT_FOUND["title"][l]}</h1><p><a href="/wow/{"" if l == "ru" else l + "/"}">{langs.AUTONYM[l]} · gabella.site/wow/</a></p></section>'
         for l in LANGS)
-    html = NOT_FOUND_LIGHT.replace('@@TITLE@@', NOT_FOUND['title']['ru']).replace('@@LANGS@@', ' '.join(LANGS)).replace('@@BLOCKS@@', blocks)
+    titles = json.dumps({l: [langs.HREFLANG[l], NOT_FOUND['title'][l]] for l in LANGS}, ensure_ascii=False)
+    html = NOT_FOUND_LIGHT.replace('@@TITLE@@', NOT_FOUND['title']['ru']).replace('@@LANGS@@', ' '.join(LANGS)).replace('@@BLOCKS@@', blocks).replace('@@TITLES@@', titles)
     html = html.replace('@@SHOW@@', '\n'.join(f':root[data-l="{l}"] section[data-k="{l}"] {{ display: block; }}' for l in LANGS))
     return html
 

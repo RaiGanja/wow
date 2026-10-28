@@ -314,8 +314,9 @@ def more_groups(home='@@HOME@@', cur=None):
 
 def chrome(html, nav=None, tab=None, home='@@HOME@@'):
     """Menu, sections sheet and phone tab bar of a page (@@MAINNAV@@, @@MORENAV@@, @@TABBAR@@), before translate."""
-    return (html.replace('<a class="brand" href=', '<a class="brand" aria-label="Gabella" href=')   # логотип без текста на узком экране: ссылке нужно имя
-            .replace('@@MAINNAV@@', mainnav(nav, home)).replace('@@MORENAV@@', more_groups(home, nav))
+    # the link name is its own text «Gabella · subtitle»: on 375–719 px the wordmark is only visually hidden (index.src.html), so no aria-label
+    # that would differ from the visible text on wide screens (WCAG 2.5.3 label in name)
+    return (html.replace('@@MAINNAV@@', mainnav(nav, home)).replace('@@MORENAV@@', more_groups(home, nav))
             .replace('@@TABBAR@@', tabbar(tab, home, more=bool(nav) and tab is None)))   # a page the tab bar lacks marks «Ещё» and its item in the sheet
 
 
@@ -631,7 +632,7 @@ RADIO_BTN = ('<button class="iconbtn radiobtn" type="button" aria-label="@@L@@" 
              '<span class="rdo-eq" aria-hidden="true"><i></i><i></i><i></i></span></button>\n    ')
 
 
-SEARCH = {'ru': 'Поиск по сайту', 'en': 'Search the site', 'uk': 'Пошук по сайту', 'de': 'Seite durchsuchen', 'fr': 'Rechercher sur le site',
+SEARCH = {'ru': 'Поиск по сайту', 'en': 'Search the site', 'uk': 'Пошук по сайту', 'de': 'Suche auf der Website', 'fr': 'Rechercher sur le site',
           'es': 'Buscar en el sitio', 'pt': 'Pesquisar no site', 'it': 'Cerca nel sito', 'pl': 'Szukaj w serwisie'}
 SEARCH_SHORT = {'ru': 'Поиск', 'en': 'Search', 'uk': 'Пошук', 'de': 'Suche', 'fr': 'Recherche', 'es': 'Buscar', 'pt': 'Pesquisar', 'it': 'Cerca', 'pl': 'Szukaj'}
 SEARCH_BTN = ('<button class="iconbtn srchbtn" type="button" aria-label="@@L@@" aria-haspopup="dialog">'

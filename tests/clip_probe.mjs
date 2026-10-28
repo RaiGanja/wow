@@ -68,6 +68,9 @@ const PROBE = `(async () => {
       const el = n.parentElement; if (!el || /^(SCRIPT|STYLE|NOSCRIPT|TITLE)$/.test(el.tagName)) continue;
       const cs = getComputedStyle(el); if (cs.visibility === 'hidden' || cs.display === 'none') continue;
       if (+cs.opacity === 0 || el.closest('[hidden],[aria-hidden="true"]:not(.vn),.sr,.sr-only,.visually-hidden')) continue;
+      let sr = false;   // text hidden for the eye only (a 1 px box that clips, e.g. the header wordmark on 375–719 px): for screen readers, not a cut
+      for (let p = el; p && !sr; p = p.parentElement) { const q = p.getBoundingClientRect(); sr = q.width <= 1 && q.height <= 1 && /hidden|clip/.test(getComputedStyle(p).overflowX); }
+      if (sr) continue;
       const hc = el.closest('.hc'); if (hc && !hc.classList.contains('on') && !el.classList.contains('vn')) continue;   // подпись закрытой карточки — только .vn
       if (hc && hc.classList.contains('on') && el.classList.contains('vn')) continue;
       const r = document.createRange(); r.selectNodeContents(n);

@@ -1,6 +1,6 @@
 """Проверки собранных страниц: язык браузера на корне, ссылки на классы и расы без JS, время старта,
 404 на языке адреса, шрифты под письмо языка. Запуск после python build.py: python tests/test_audit.py"""
-import os, re, sys
+import json, os, re, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 from langs import LANGS  # noqa: E402
@@ -61,6 +61,10 @@ def test_not_found_per_language():
     for lang in LANGS:
         assert f':root[data-l="{lang}"] section[data-k="{lang}"]' in root, lang
         assert re.search(rf'data-k="{lang}"><h1>[^<]+</h1><p><a href="/wow/{"" if lang == "ru" else lang + "/"}">', root), lang
+    # the chosen language also sets <html lang> and the tab title (screen readers read the page in its language)
+    titles = json.loads(re.search(r'var T = (\{.*?\}), d = ', root).group(1))
+    assert list(titles) == list(LANGS) and all(len(v) == 2 and v[1] for v in titles.values()), titles
+    assert 'd.lang = T[l][0]' in root and 'document.title = T[l][1]' in root
     for lang in LANGS[1:]:
         nf = page(lang, '404.html')
         assert f'<base href="/wow/{lang}/">' in nf and 'noindex' in nf and 'location.replace(' not in nf, lang

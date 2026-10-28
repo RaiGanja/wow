@@ -117,7 +117,7 @@ html[data-tod="night"] { --hero-fade: 5 5 5;  --hero-shadow: 0 1px 2px rgb(0 0 0
   --sapphire: #24427a;
   --alliance: #2a5ba8;
   --horde: #b03a34;
-  --new: #2d7a45;
+  --new: #28703e;   /* 4.7:1 and more on the light panels (was #2d7a45, 4.4:1 on #edebe5) */
   --panel: rgba(255,255,255,.95);
   --panel-2: #f6f4ef;
   --pline: #e2ddd2;
@@ -210,7 +210,7 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
   .topbar .srchbtn .sl { display: block; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--fs-14); font-weight: 500; opacity: .82; }
 }
 @media (min-width: 375px) and (max-width: 1260px), (min-width: 1600px) { .topbar:not(.solid) .srchbtn { background: rgb(5 6 8 / .4); } }
-@media (min-width: 375px) and (max-width: 719px) { .topbar .bt { display: none; } .topbar .brand { padding: 0 6px; margin: 0 -6px; } }   /* the wordmark steps aside for the field; the logo stays, the link keeps its name and a 44 px tap box (padding offset by margin: the layout does not move) */
+@media (min-width: 375px) and (max-width: 719px) { .topbar .bt { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; } .topbar .brand { padding: 0 6px; margin: 0 -6px; } }   /* the wordmark steps aside for the field; the logo stays, the link keeps its name and a 44 px tap box (padding offset by margin: the layout does not move) */
 @media (min-width: 1600px) {
   .topbar .srchbtn { width: 200px; display: flex; align-items: center; justify-content: flex-start; gap: 8px; padding: 0 10px 0 12px; }
   .topbar .srchbtn .ico { flex: none; }
