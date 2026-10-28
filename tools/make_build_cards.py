@@ -11,6 +11,7 @@ The spec slot holds the first letter of the spec until the spec icons exist (ICO
 
 Run:
   python tools/make_build_cards.py --variants OUT_DIR        three looks on three samples, with and without points
+  python tools/make_build_cards.py --variant=A --langs=en [--skip]   one English card per build: assets/og/b/<slug>.jpg (168 files)
   python tools/make_build_cards.py --variant=A [--langs=ru,en] [--only=human-warrior-arms]   the cards into assets/og/b/
                                                              (all 168 x languages; nothing is drawn without --variant)"""
 import json, os, re, subprocess, sys, tempfile
@@ -124,7 +125,7 @@ h1{{font:600 76px/1.02 "Spectral SC";letter-spacing:.01em;text-wrap:balance}}
 </style><body style="--cc:{d['cc']}"><img class="por" src="{url(d['por'])}"><div class="shade"></div>
 <div class="brand"><img src="{url('assets/logo.png')}" alt="">Gabella</div>
 <div class="txt"><div class="rule"></div><h1>{d['title']}</h1>
-<div class="spec">{slot(d['spec'], d['sn'], d['cc'])}{d['sn']}</div>{pts}<div class="fac">{d['fac']} · WoW Forever</div></div>
+<div class="spec">{slot(d['spec'], d['sn'], d['cc']) if ICON.get(d['spec']) else ''}{d['sn']}</div>{pts}<div class="fac">{d['fac']} · WoW Forever</div></div>
 <div class="foot"><b>gabella.site</b><span>{src}</span></div></body>'''
 
 
@@ -294,7 +295,11 @@ def main():
         if only and s not in only:
             continue
         for lang in (['xx'] if v == 'C' else pick):      # C has no words: one file for all languages
-            out = os.path.join(ROOT, 'assets', 'og', 'b', f'{s}.jpg' if v == 'C' else f'{s}-{lang}.jpg')
+            one = v == 'C' or len(pick) == 1     # one file for every language: <slug>.jpg (the page text is localized in og:title)
+            out = os.path.join(ROOT, 'assets', 'og', 'b', f'{s}.jpg' if one else f'{s}-{lang}.jpg')
+            if '--skip' in args and os.path.exists(out):
+                total += os.path.getsize(out)
+                continue
             shoot(PAGES[v](data(race, cls, spec, 'en' if lang == 'xx' else lang)), out)
             total += os.path.getsize(out)
     print(f'{total / 1048576:.1f} MB')
