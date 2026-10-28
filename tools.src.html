@@ -34,6 +34,7 @@
 .sfield kbd { font: inherit; font-size: var(--fs-13); color: var(--muted); border: 1px solid var(--pline); border-radius: 5px; padding: 1px 8px; }
 
 .ttiles.t2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.d-art picture { display: contents; }
 /* the three tools on the first screen, under the search, in its column: the party on the art stays in view */
 .ttiles.ttop { width: min(100%, 680px); gap: 10px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .ttop .ttile { min-height: 172px; padding: 0 14px 12px; }
@@ -876,7 +877,7 @@ function renderDetail() {
   const text = `${r.name || r.n} ${c.n} (${facName(r.f)})${r.paid ? ', нужен набор Скайборн' : ''}`;
   $('#detail').innerHTML = `
     <div class="d-head">
-      <div class="d-art" aria-hidden="true"><img src="${ROOT}assets/art/${RSLUG[r.id]}-600.webp${PV}" width="600" height="804" alt="" loading="lazy" decoding="async"></div>
+      <div class="d-art" aria-hidden="true"><picture><source type="image/avif" srcset="${ROOT}assets/art/${RSLUG[r.id]}-600.avif${PV}"><img src="${ROOT}assets/art/${RSLUG[r.id]}-600.webp${PV}" width="600" height="804" alt="" loading="lazy" decoding="async"></picture></div>
       <div class="d-avs">${face(RSLUG[r.id], `var(--${r.f})`)}${face(c.id, CCOL[c.id], '', '', r.f)}</div>
       <div class="d-title"><h3>${esc(r.n)}${raceEn(r)} · ${esc(c.n)}</h3>
         <div class="chips"><span class="tag ${r.f}">${facName(r.f)}</span>${isNew ? '<span class="tag new">Новая комбинация</span>' : ''}${r.paid ? '<span class="tag paid">Платная раса</span>' : ''}${roleChips(c)}</div></div>
