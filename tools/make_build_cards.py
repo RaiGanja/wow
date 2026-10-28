@@ -12,9 +12,10 @@ The spec slot holds the first letter of the spec until the spec icons exist (ICO
 Run:
   python tools/make_build_cards.py --variants OUT_DIR        three looks on three samples, with and without points
   python tools/make_build_cards.py --variant=A --langs=en [--skip]   one English card per build: assets/og/b/<slug>.jpg (168 files)
-  python tools/make_build_cards.py --variant=A [--langs=ru,en] [--only=human-warrior-arms]   the cards into assets/og/b/
+  python tools/make_build_cards.py --variant=A [--langs=ru,en] [--only=human-warrior-arms] [--out=DIR]   the cards into assets/og/b/ (or DIR)
                                                              (all 168 x languages; nothing is drawn without --variant)"""
 import json, os, re, subprocess, sys, tempfile
+from concurrent.futures import ThreadPoolExecutor
 from PIL import Image
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -33,6 +34,8 @@ POR = {('warrior', 'alliance'): 'human', ('warrior', 'horde'): 'orc', ('paladin'
        ('priest', 'alliance'): 'gnome', ('priest', 'horde'): 'undead', ('shaman', 'alliance'): 'dwarf', ('shaman', 'horde'): 'orc',
        ('mage', 'alliance'): 'gnome', ('mage', 'horde'): 'orc', ('warlock', 'alliance'): 'gnome', ('warlock', 'horde'): 'orc',
        ('druid', 'alliance'): 'nightelf', ('druid', 'horde'): 'tauren'}   # the 18 class x faction portraits
+COL = 560         # width of the text column of look A; its right edge (72 + 560) stays left of the face
+RIGHT_MAX = 660   # no letter of the card text may reach past this x
 ICON = {}   # spec id -> assets path of its icon, filled after 05.11; empty = the letter
 SLUG = {'nightelf': 'nightelf', 'skyA': 'skyborne-a', 'skyH': 'skyborne-h'}   # url part of the race
 # the line under the name: what the combination was checked against (game.json, 27.10) / where the points come from
@@ -116,7 +119,7 @@ img{{display:block}}
 .slot img{{width:100%;height:100%;object-fit:cover}}
 .pts{{font:600 44px/1 "Golos Text";color:var(--cc);letter-spacing:.02em;font-variant-numeric:lining-nums tabular-nums}}
 .pts i{{font-style:normal;color:#6f6858;padding:0 .18em}}
-.foot{{position:absolute;bottom:44px;font-size:26px;color:#8f877a;display:flex;gap:18px;align-items:center}}
+.foot{{position:absolute;bottom:50px;font-size:26px;color:#8f877a;display:flex;gap:18px;align-items:center}}
 .foot b{{font:600 24px/1 "Spectral SC";color:#c9a54a;letter-spacing:.04em}}
 '''
 
@@ -132,7 +135,8 @@ def pts_html(pts):
 
 
 def page_a(d):
-    """A: text column left, portrait right."""
+    """A: text column left, portrait right. Race and class stand on two lines of their own; the column is laid out by the page:
+    the title shrinks until the block fits between the logo and the site line and stays left of the face (RIGHT_MAX)."""
     pts = f'<div class="pts">{pts_html(d["pts"])}</div>' if d['pts'] else ''
     src = PTS_SRC[d['lang']] if d['pts'] else ''
     return f'''<!doctype html><meta charset="utf-8"><style>{BASE}
@@ -141,17 +145,27 @@ def page_a(d):
 .shade{{position:absolute;inset:0;background:linear-gradient(0deg,rgba(5,5,5,.9) 0%,rgba(5,5,5,0) 30%)}}
 .brand{{position:absolute;left:72px;top:52px;display:flex;align-items:center;gap:20px;font:600 44px/1 "Spectral SC";letter-spacing:.05em}}
 .brand img{{width:88px;height:88px;border-radius:50%}}
-.txt{{position:absolute;left:72px;top:190px;width:640px;display:flex;flex-direction:column;gap:22px}}
-h1{{font:600 76px/1.02 "Spectral SC";letter-spacing:.01em;text-wrap:balance}}
-.spec{{display:flex;align-items:center;gap:18px;font:600 40px/1 "Spectral SC";color:#c9a54a}}
-.fac{{font-size:28px;color:#a59d8c;letter-spacing:.02em}}
+.txt{{position:absolute;left:72px;top:172px;width:{COL}px;display:flex;flex-direction:column;gap:20px}}
+h1{{font:600 76px/1.04 "Spectral SC";letter-spacing:.01em;overflow-wrap:normal;hyphens:manual}}
+h1 span{{display:block}}
+.spec{{display:flex;align-items:center;gap:18px;font:600 40px/1.1 "Spectral SC";color:#c9a54a}}
+.fac{{font-size:28px;line-height:1.25;color:#a59d8c;letter-spacing:.02em}}
 .rule{{width:84px;height:3px;background:var(--cc)}}
 .foot{{left:72px}}
 </style><body style="--cc:{d['cc']}"><img class="por" src="{url(d['por'])}"><div class="shade"></div>
 <div class="brand"><img src="{url('assets/logo.png')}" alt="">Gabella</div>
-<div class="txt"><div class="rule"></div><h1>{d['title']}</h1>
+<div class="txt"><div class="rule"></div><h1><span>{d['rn']}</span><span>{d['cn']}</span></h1>
 <div class="spec">{slot(d['spec'], d['sn'], d['cc']) if ICON.get(d['spec']) else ''}{d['sn']}</div>{pts}<div class="fac">{d['role']} · {d['fac']}</div></div>
-<div class="foot"><b>gabella.site</b><span>{src}</span></div></body>'''
+<div class="foot"><b>gabella.site</b><span>{src}</span></div><div id="res" hidden></div>
+<script>/* the title is the only thing that gives way: smaller until the column fits, never over the site line or the face */
+document.fonts.ready.then(()=>{{
+const R=e=>e.getBoundingClientRect(),$=s=>document.querySelector(s),h=$('h1'),br=$('.brand'),ft=$('.foot'),tx=$('.txt'),last=$('.fac');
+const px=()=>parseFloat(getComputedStyle(h).fontSize),over=()=>[...h.children,$('.spec'),last].some(e=>e.scrollWidth>e.clientWidth+1);
+const fits=()=>R(last).bottom<=R(ft).top-28&&!over();
+while(!fits()&&px()>40)h.style.fontSize=(px()-2)+'px';
+const box=e=>{{const r=R(e);return [r.left,r.top,r.right,r.bottom]}};
+let right=0;for(const e of [...h.children,$('.spec'),last]){{const r=document.createRange();r.selectNodeContents(e);right=Math.max(right,r.getBoundingClientRect().right)}}
+$('#res').textContent=JSON.stringify({{boxes:{{brand:box(br),title:box(h),block:box(tx),start:box(ft)}},right:right,font:px(),wide:over()}})}})</script></body>'''
 
 
 def page_b(d):
@@ -223,7 +237,7 @@ def data(race, cls, spec, lang, pts=None):
     fac = GAME['races'][race]['f']
     i = N['sid'][cls].index(spec)
     por, bg = portrait_for(race, cls)
-    return {'lang': lang, 'race': race, 'cls': cls, 'spec': spec, 'title': title(lang, race, cls, N), 'sn': N['sn'][cls][i],
+    return {'lang': lang, 'race': race, 'cls': cls, 'spec': spec, 'title': title(lang, race, cls, N), 'rn': N['rn'][race], 'cn': N['cn'][cls], 'sn': N['sn'][cls][i],
             'fac': N['fn'][fac], 'cc': COLOR[cls], 'pts': pts, 'role': role_line(cls, spec, lang), 'por': por, 'bg': bg}
 
 
@@ -242,12 +256,35 @@ def chrome(src, *args):
                            'file:///' + src.replace('\\', '/')], check=True, capture_output=True)
 
 
+def check(res, out):
+    """What the page laid out must stay inside the margins, keep 24 px between neighbours and leave the face alone."""
+    bx = res['boxes']
+    bad = [f'{n} leaves the 48 px margin' for n, b in bx.items() if b[0] < 48 or b[1] < 48 or b[2] > 1152 or b[3] > 582]
+    names = list(bx)
+    bad += [f'{a} and {b} are closer than 24 px' for i, a in enumerate(names) for b in names[i + 1:]
+            if bx[a][0] < bx[b][2] and bx[b][0] < bx[a][2] and bx[a][1] < bx[b][3] + 24 and bx[b][1] < bx[a][3] + 24 and {a, b} != {'title', 'block'}]
+    if res['right'] > RIGHT_MAX:
+        bad.append(f'text reaches x={res["right"]:.0f}, past the face line {RIGHT_MAX}')
+    if res['wide']:
+        bad.append('a word does not fit the column')
+    if res['font'] < 44:
+        bad.append(f'title shrank to {res["font"]:.0f} px')
+    return [f'{out}: {m}' for m in bad]
+
+
+FAILS = []
+
+
 def shoot(page, out, png=False, size=(1200, 630)):
     with tempfile.TemporaryDirectory() as tmp:
         src, shot = os.path.join(tmp, 'c.html'), os.path.join(tmp, 'c.png')
         with open(src, 'w', encoding='utf-8') as f:
             f.write(page)
         args = [] if size == (1200, 630) else [f'--window-size={size[0]},{size[1]}']
+        if '<div id="res"' in page:                      # the page measures itself: read it, then draw
+            dom = chrome(src, '--dump-dom').stdout.decode('utf-8')
+            res = json.loads(re.search(r'<div id="res"[^>]*>(.*?)</div>', dom, re.S).group(1))
+            FAILS.extend(check(res, os.path.relpath(out, ROOT).replace(os.sep, '/')))
         chrome(src, f'--screenshot={shot}', *args)
         im = Image.open(shot).convert('RGB')
         if png:
@@ -334,20 +371,24 @@ def main():
         raise SystemExit('name the look: --variant=A|B|C (or --variants OUT_DIR for the samples)')
     pick = next((a[8:].split(',') for a in args if a.startswith('--langs=')), langs.LANGS)
     only = next((set(a[7:].split(',')) for a in args if a.startswith('--only=')), None)
-    os.makedirs(os.path.join(ROOT, 'assets', 'og', 'b'), exist_ok=True)
-    total = 0
+    outdir = next((a[6:] for a in args if a.startswith('--out=')), os.path.join(ROOT, 'assets', 'og', 'b'))
+    os.makedirs(outdir, exist_ok=True)
+    jobs = []
     for race, cls, spec in combos():
         s = slug(race, cls, spec)
         if only and s not in only:
             continue
         for lang in (['xx'] if v == 'C' else pick):      # C has no words: one file for all languages
-            out = os.path.join(ROOT, 'assets', 'og', 'b', f'{s}.jpg' if v == 'C' else f'{s}-{lang}.jpg')   # A: one card per language
+            out = os.path.join(outdir, f'{s}.jpg' if v == 'C' else f'{s}-{lang}.jpg')   # A: one card per language
             if '--skip' in args and os.path.exists(out):
-                total += os.path.getsize(out)
                 continue
-            shoot(PAGES[v](data(race, cls, spec, 'en' if lang == 'xx' else lang)), out)
-            total += os.path.getsize(out)
-    print(f'{total / 1048576:.1f} MB')
+            jobs.append((out, race, cls, spec, 'en' if lang == 'xx' else lang))
+    with ThreadPoolExecutor(8) as ex:                    # one headless Chrome per card, eight at a time
+        list(ex.map(lambda j: shoot(PAGES[v](data(*j[1:])), j[0]), jobs))
+    print(f'{len(jobs)} cards, {sum(os.path.getsize(j[0]) for j in jobs) / 1048576:.1f} MB')
+    if FAILS:
+        print(chr(10).join(FAILS))
+        raise SystemExit(f'{len(FAILS)} problems')
 
 
 if __name__ == '__main__':

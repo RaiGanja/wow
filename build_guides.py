@@ -1648,7 +1648,8 @@ def build_page(g, lang, tpl, base_css, sprite, src):
 
 # 404.html at the root: GitHub Pages serves it for any bad address, in one language for everybody. A light page (no site chrome, no
 # redirect): every language holds its own block of text, a head script only picks the one for the path (/wow/<lang>/...) or the browser;
-# without JS all blocks show as a short list. The full localized pages stay at <lang>/404.html.
+# without JS all blocks show as a short list. The full localized pages stay at <lang>/404.html. The link preview is the same for every
+# language (assets/og/404.jpg: mark and name, no words of a language; tools/make_og.py), because one file answers every bad address.
 NOT_FOUND_LIGHT = r"""<!doctype html>
 <html lang="ru">
 <head>
@@ -1656,6 +1657,14 @@ NOT_FOUND_LIGHT = r"""<!doctype html>
 <meta name="robots" content="noindex">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>@@TITLE@@ · Gabella</title>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Gabella">
+<meta property="og:title" content="Gabella · WoW Forever">
+<meta property="og:description" content="gabella.site/wow/">
+<meta property="og:image" content="https://gabella.site/wow/assets/og/404.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" sizes="48x48" href="/wow/assets/icons/favicon-48.png">
 <script>
 (function () {

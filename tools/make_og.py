@@ -4,6 +4,7 @@ Class and race cards (og/<class|race>-<lang>.jpg) and the builds-/leveling- guid
 Run: python tools/make_og.py [slug ...] [--langs=de,fr] [--live] [--out=DIR]   (no args = all cards in every built language)
 --live draws the post-launch line instead of the launch moment (a preview; the switch for the site is live.py); --out=DIR writes there."""
 import json, os, re, subprocess, sys, tempfile
+from concurrent.futures import ThreadPoolExecutor
 from PIL import Image
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -30,7 +31,7 @@ ROLES = {'ru': {'tank': 'Танк', 'heal': 'Лекарь', 'dps': 'Урон'}, 
          'en': {'tank': 'Tank', 'heal': 'Healer', 'dps': 'Damage'}, 'de': {'tank': 'Tank', 'heal': 'Heiler', 'dps': 'Schaden'},
          'fr': {'tank': 'Tank', 'heal': 'Soigneur', 'dps': 'Dégâts'}, 'es': {'tank': 'Tanque', 'heal': 'Sanador', 'dps': 'Daño'},
          'pt': {'tank': 'Tanque', 'heal': 'Curandeiro', 'dps': 'Dano'}, 'it': {'tank': 'Tank', 'heal': 'Guaritore', 'dps': 'Danno'},
-         'pl': {'tank': 'Tank', 'heal': 'Uzdrowiciel', 'dps': 'Obrażenia'}}
+         'pl': {'tank': 'Tank', 'heal': 'Healer', 'dps': 'DPS'}}   # pl: the game terms the Polish pages use (Healer, class and race names stay English there)
 JOIN = ' · '   # a bullet stays at the end of its line, never opens the next one
 ROUTE = {'ru': 'Маршрут, сборка и темп прокачки', 'uk': 'Маршрут, збірка й темп прокачування', 'en': 'Route, build and leveling pace',
          'de': 'Route, Build und Leveltempo', 'fr': 'Parcours, build et rythme de leveling', 'es': 'Ruta, build y ritmo de nivelación',
@@ -89,6 +90,7 @@ def cards():
             lead = ({l: JOIN.join(N[l]['sn'][m[2]]) for l in LANGS} if m[1] == 'builds' else ROUTE)
         yield 'og/' + g['slug'], art, g['title'], lead, None
     yield 'og/tools', 'hero_tools', TOOLS['t'], TOOLS['d'], None
+    yield 'og/404', 'hero_dawn', {'xx': 'WoW Forever'}, {'xx': ''}, {'xx': 'gabella.site/wow'}   # one card for every language: the root 404.html is one page for all
     for c in CLASSES:
         roles = [r.rstrip('?') for r in c['roles']]
         yield ('og/' + c['id'], f'{c["id"]}-{SIDE_RACE[c["id"]]}', {l: N[l]['cn'][c['id']] for l in LANGS},
@@ -122,7 +124,7 @@ img{{position:absolute;display:block}}
 .por{{right:0;top:-16px;width:760px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 30%)}}
 .shade{{position:absolute;inset:0;background:linear-gradient(90deg,#050505 0%,rgba(5,5,5,.92) 34%,rgba(5,5,5,.35) 62%,rgba(5,5,5,0) 80%),
   linear-gradient(0deg,rgba(5,5,5,.85) 0%,rgba(5,5,5,0) 36%)}}
-.txt{{position:absolute;left:72px;top:0;bottom:0;width:640px;display:flex;flex-direction:column;justify-content:center;gap:24px}}
+.txt{{position:absolute;left:72px;top:0;bottom:0;width:620px;display:flex;flex-direction:column;justify-content:center;gap:24px}}
 .brand{{position:absolute;left:72px;top:52px;display:flex;align-items:center;gap:22px;font:600 48px/1 "Spectral SC";color:#efe9da;letter-spacing:.04em;font-variant-numeric:lining-nums}}
 .brand .ref{{color:#c9a54a;font-size:32px;letter-spacing:.06em;padding-left:22px;border-left:1px solid rgba(201,165,74,.45)}}
 .brand img{{position:static;width:96px;height:96px;border-radius:50%}}
@@ -130,7 +132,7 @@ h1{{font:600 {'92' if len(title) <= 14 else '74'}px/1.02 "Spectral SC";letter-sp
 p{{font-size:30px;line-height:1.35;color:#c9c2b0;text-wrap:pretty;max-width:{"520" if wide else "600"}px}}
 .start{{position:absolute;left:72px;bottom:56px;font:600 28px/1 "Spectral SC";letter-spacing:.03em;color:#c9a54a;font-variant-numeric:lining-nums}}
 </style><body>{pic}<div class="shade"></div>
-<div class="brand"><img src="{url('assets/logo.png')}" alt="">{BRAND}<span class="ref">{REF[lang]}</span></div>
+<div class="brand"><img src="{url('assets/logo.png')}" alt="">{BRAND}{f'<span class="ref">{REF[lang]}</span>' if lang != 'xx' else ''}</div>
 <div class="txt"><h1>{title}</h1><p>{lead}</p></div>
 <div class="start">{foot if foot is not None else '' if slug in NODATE else (LIVE_LINE[lang] if LIVE else EXACT.get(slug, START)[lang])}</div>
 <div id="res" hidden></div>
@@ -143,8 +145,9 @@ while(h.scrollWidth>h.clientWidth&&px()>40)h.style.fontSize=(px()-2)+'px';
 while(!fits()&&px()>48)h.style.fontSize=(px()-2)+'px';
 if(!fits()){{const sen=p.textContent.split(/(?<=[.!?])\\s+/);while(!fits()&&sen.length>1){{sen.pop();p.textContent=sen.join(' ')}}
  const w=p.textContent.split(' ');while(!fits()&&w.length>3){{w.pop();p.textContent=w.join(' ').replace(/[,;:\u2013-]$/,'')+'\u2026'}}}}
+let right=0;for(const e of [h,p]){{const r=document.createRange();r.selectNodeContents(e);right=Math.max(right,r.getBoundingClientRect().right)}}
 const box=e=>{{const r=R(e);return [r.left,r.top,r.right,r.bottom]}},bx={{brand:box(br),title:box(h),lead:box(p),start:box(st)}};
-$('#res').textContent=JSON.stringify({{boxes:bx,font:px(),wide:h.scrollWidth>h.clientWidth,lines:Math.round(R(p).height/LH),block:R(p).bottom-R(h).top}})}})</script></body>'''
+$('#res').textContent=JSON.stringify({{boxes:bx,right:right,font:px(),wide:h.scrollWidth>h.clientWidth,lines:Math.round(R(p).height/LH),block:R(p).bottom-R(h).top}})}})</script></body>'''
 
 
 def chrome(src, *args):
@@ -159,13 +162,17 @@ def check(res, out):
     bad = [f'{n} leaves the 48 px margin' for n in names if bx[n][0] < 48 or bx[n][1] < 48 or bx[n][2] > 1152 or bx[n][3] > 582]
     bad += [f'{a} and {b} are closer than 24 px' for i, a in enumerate(names) for b in names[i + 1:]
             if bx[a][0] < bx[b][2] and bx[b][0] < bx[a][2] and bx[a][1] < bx[b][3] + 24 and bx[b][1] < bx[a][3] + 24]
+    if res['right'] > RIGHT_MAX:
+        bad.append(f'text reaches x={res["right"]:.0f}, past the face line {RIGHT_MAX}')
     if res['wide']:
         bad.append('the longest word of the title does not fit the column')
     if bad:
-        raise SystemExit(f'{out}: ' + '; '.join(bad))
+        FAILS.append(f'{os.path.relpath(out, ROOT)}: ' + '; '.join(bad))
 
 
 METRICS = {}
+FAILS = []
+RIGHT_MAX = 700   # no letter of the title or the line may reach past this x: the portrait starts there
 LIVE, OUT = False, None
 
 
@@ -188,15 +195,21 @@ def main():
     OUT = next((a[6:] for a in sys.argv[1:] if a.startswith('--out=')), None)
     only = {a for a in sys.argv[1:] if not a.startswith('--')}
     pick = next((a[8:].split(',') for a in sys.argv[1:] if a.startswith('--langs=')), LANGS)   # --langs=de,fr: only these
+    jobs = []
     for name, art, title, lead, foot in cards():
         slug = name.split('/')[-1]
         if (only and slug not in only) or (not only and slug in SKIP):
             continue
-        for lang in (l for l in pick if l in title):        # a one-language guide has one card
-            out = os.path.join(OUT or os.path.join(ROOT, 'assets'), f'{name}-{lang}.jpg')
+        for lang in (l for l in (*pick, 'xx') if l in title):        # a one-language guide has one card
+            out = os.path.join(OUT or os.path.join(ROOT, 'assets'), f'{name}.jpg' if lang == 'xx' else f'{name}-{lang}.jpg')
             os.makedirs(os.path.dirname(out), exist_ok=True)
-            shoot(html(art, title[lang], lead[lang], lang, slug, foot and foot[lang]), out)
-        print(name, 'ok')
+            jobs.append((html(art, title[lang], lead[lang], lang, slug, foot and foot[lang]), out))
+    with ThreadPoolExecutor(8) as ex:                         # one headless Chrome per card, eight at a time
+        list(ex.map(lambda j: shoot(*j), jobs))
+    print(len(jobs), 'cards')
+    if FAILS:
+        print(chr(10).join(FAILS))
+        raise SystemExit(f'{len(FAILS)} cards do not fit')
     if os.environ.get('OG_REPORT'):
         with open(os.environ['OG_REPORT'], 'w') as f:
             json.dump(METRICS, f)
