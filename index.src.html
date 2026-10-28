@@ -634,7 +634,7 @@ ul.dots li::marker { color: var(--gold); }
 .flabel { font-size: var(--fs-14); color: var(--muted); font-weight: 500; }
 /* Segments: no frame around the group; the active one is a plate with gold text (Maxroll), one gold per screen stays the button's */
 .seg { display: inline-flex; flex-wrap: wrap; gap: 4px; }
-.seg button { border: 0; border-radius: 6px; background: transparent; padding: 0 14px; min-height: 44px; font-weight: 600; font-size: var(--fs-16); transition: background-color .15s, color .15s; }
+.seg button { border: 0; border-radius: 6px; background: transparent; padding: 0 14px; min-width: 44px; min-height: 44px; font-weight: 600; font-size: var(--fs-16); transition: background-color .15s, color .15s; }
 /* Level stepper next to a segment: same height and inner frame as .seg */
 .filters .stepper { padding: 4px; gap: 2px; }
 .filters .stepper button { min-width: 40px; border-radius: 7px; }
@@ -886,6 +886,8 @@ footer > :first-child { padding-top: 0; border-top: 0; }   /* profile pages: the
   footer .fmap { display: flex; flex-wrap: wrap; gap: 4px 20px; }
   footer .fmap ul { display: none; }
   footer .fmap .fh { margin: 0; padding: 8px 0; }
+  #sources > ul { gap: 0; }
+  #sources > ul a { display: inline-flex; align-items: center; min-height: 44px; }   /* source links: 44 px to tap */
 }
 
 /* Menu sheet (all sections, language, theme) */

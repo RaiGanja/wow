@@ -99,6 +99,15 @@
 @media (max-width: 719px) {
   .rdo { left: 8px; right: 8px; width: auto; max-height: calc(100dvh - var(--top, 64px) - 88px - env(safe-area-inset-bottom, 0px)); }
   .rdo-hero { height: 120px; }
+  .rdo-chip, .rdo-amb-t { min-height: 44px; }   /* phone: 44 px to tap */
+  .rdo-range { height: 44px; }
+  .rdo-more > summary, .rdo-cr summary { padding-block: 10px; }
+}
+@media (max-width: 359px) {   /* 320: the volume gets its own row, the sleep chips go three in a row (44 px wide each) */
+  .rdo-ctl { flex-wrap: wrap; }
+  .rdo-vol { flex: 1 1 100%; margin-left: 0; }
+  .rdo-chips { flex-wrap: wrap; }
+  .rdo-chip { flex: 0 1 calc((100% - 12px) / 3); }
 }
 
 /* Built into a page (#radioDock on /play/): in the flow, always open, compact; stations scroll sideways */
