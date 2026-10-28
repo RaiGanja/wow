@@ -988,6 +988,14 @@ GUIDES.append({
 NR_URL = 'https://news.blizzard.com/en-us/article/24303866/claim-your-world-of-warcraft-forever-character-names'   # name reservation 27.10 – 03.11
 
 NEWS += [
+    {'date': '2026-10-23', 'url': 'https://us.forums.blizzard.com/en/wow/t/thank-you-for-testing-the-wow-forever-beta/2390466/1',
+     'title': t('Спасибо за тест беты WoW Forever', 'Thank you for testing the WoW Forever beta', 'Дякуємо за тест бети WoW Forever'),
+     'text': t('Blizzard поблагодарила тестировщиков беты WoW Forever на форуме и перечислила пять выпусков подкаста «WoW: Forever Podcast»: Unpacking Beta Launch, Speed Running Classes, Dive Into Dungeons With Devs, The PvP Episode и End of Beta Special. Других подробностей, которые мы могли бы проверить, в сообщении нет. {beta}',
+               'Blizzard thanked WoW Forever beta testers on the forum and listed five episodes of the WoW: Forever Podcast: Unpacking Beta Launch, Speed Running Classes, Dive Into Dungeons With Devs, The PvP Episode and End of Beta Special. The post gives no further details we could verify. {beta}',
+               'Blizzard подякувала тестувальникам бети WoW Forever на форумі та перелічила п’ять випусків подкасту «WoW: Forever Podcast»: Unpacking Beta Launch, Speed Running Classes, Dive Into Dungeons With Devs, The PvP Episode і End of Beta Special. Інших подробиць, які ми могли б перевірити, у повідомленні немає. {beta}'),
+     'so': t('Подробности — в сообщении Blizzard.',
+             'Details are in the Blizzard post.',
+             'Подробиці — у повідомленні Blizzard.')},
     {'date': '2026-10-27', 'cls': 'all', 'url': NR_URL,
      'title': t('Резерв имён открыт до 03.11', 'Name reservation is open until 03.11', 'Резерв імен відкрито до 03.11'),
      'text': t('С 27.10 по 03.11 владельцы Skyborne Heroic Pack, Skyborne Epic Pack и Warcraft Forever Collection создают до трёх персонажей и занимают их имена. Лимит общий на все режимы. Резерв работает только на том аккаунте WoW, для которого куплен набор. Имена раздают по принципу «кто первый», нужное не гарантировано. Старт по Киеву: Европа 27.10 в 19:00, Америка 27.10 в 22:00, Корея 28.10 в 00:00, Тайвань 28.10 в 01:00. Источник: Blizzard.',
@@ -1091,6 +1099,7 @@ GUIDES.append({
         (t('Blizzard: бета закрыта', 'Blizzard: the beta is closed', 'Blizzard: бету закрито'), 'https://eu.forums.blizzard.com/en/wow/t/637228'),
         (t('Blizzard: меры против ботов и RMT', 'Blizzard: actions against botting and RMT', 'Blizzard: заходи проти ботів і RMT'), 'https://us.forums.blizzard.com/en/wow/t/actions-taken-against-botting-and-rmt/2368705/1'),
         (t('Blizzard: техработы на реалмах беты', 'Blizzard: beta realm maintenance', 'Blizzard: технічні роботи на реалмах бети'), 'https://us.forums.blizzard.com/en/wow/t/beta-realm-maintenance-october-15/2383475/1'),
+        (t('Blizzard: спасибо за тест беты', 'Blizzard: thank you for testing the beta', 'Blizzard: дякуємо за тест бети'), 'https://us.forums.blizzard.com/en/wow/t/thank-you-for-testing-the-wow-forever-beta/2390466/1'),
         (t('Blizzard: подкаст WoW Forever', 'Blizzard: WoW Forever Podcast', 'Blizzard: подкаст WoW Forever'), 'https://us.forums.blizzard.com/en/wow/t/what-insights-would-you-like-to-see-in-a-future-episode-of-the-wow-forever-podcast/2361993/1'),
     ],
     'sections': [
