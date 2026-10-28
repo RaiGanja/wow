@@ -985,6 +985,14 @@ GUIDES.append({
 # ---------- Новости: наши записи (новые сверху) + автолента Wowhead из assets/news.json ----------
 
 NEWS += [
+    {'date': '2026-10-15', 'url': 'https://us.forums.blizzard.com/en/wow/t/beta-realm-maintenance-october-15/2383475/1',
+     'title': t('Техработы на реалмах беты', 'Beta realm maintenance', 'Технічні роботи на реалмах бети'),
+     'text': t('Blizzard написала на форуме о технических работах на реалмах беты. Подробностей, которые мы могли бы проверить, в сообщении нет: детали смотрите в самом сообщении.',
+               'Blizzard posted on the forum about beta realm maintenance. The post gives no further details we could verify, so check the linked post.',
+               'Blizzard написала на форумі про технічні роботи на реалмах бети. Подробиць, які ми могли б перевірити, у повідомленні немає: деталі дивіться в самому повідомленні.'),
+     'so': t('Подробности — в сообщении Blizzard.',
+             'Details are in the Blizzard post.',
+             'Подробиці — у повідомленні Blizzard.')},
     {'date': '2026-10-01', 'url': 'https://us.forums.blizzard.com/en/wow/t/actions-taken-against-botting-and-rmt/2368705/1',
      'title': t('Меры против ботов и RMT', 'Actions taken against botting and RMT', 'Заходи проти ботів і RMT'),
      'text': t('Blizzard написала на форуме о мерах против ботов и RMT (продажи игровых ценностей за реальные деньги). Подробностей, которые мы могли бы проверить, в сообщении нет: детали смотрите в самом сообщении.',
@@ -1062,6 +1070,7 @@ GUIDES.append({
         (t('Blizzard: резерв имён по регионам', 'Blizzard: name reservation by region', 'Blizzard: резерв імен за регіонами'), 'https://worldofwarcraft.blizzard.com/en-us/news/24313106'),
         (t('Blizzard: бета закрыта', 'Blizzard: the beta is closed', 'Blizzard: бету закрито'), 'https://eu.forums.blizzard.com/en/wow/t/637228'),
         (t('Blizzard: меры против ботов и RMT', 'Blizzard: actions against botting and RMT', 'Blizzard: заходи проти ботів і RMT'), 'https://us.forums.blizzard.com/en/wow/t/actions-taken-against-botting-and-rmt/2368705/1'),
+        (t('Blizzard: техработы на реалмах беты', 'Blizzard: beta realm maintenance', 'Blizzard: технічні роботи на реалмах бети'), 'https://us.forums.blizzard.com/en/wow/t/beta-realm-maintenance-october-15/2383475/1'),
     ],
     'sections': [
         {'id': 'ours', 'title': t('Наши записи', 'Our notes', 'Наші записи'), 'blocks': [('news', None)]},
