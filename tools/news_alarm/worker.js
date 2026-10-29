@@ -1,17 +1,16 @@
-// Alarm of the news automation: every 10 minutes starts
-//   RaiGanja/wow          news-auto.yml  (watcher of Blizzard, short note on the site)
-//   RaiGanja/gabella-bot  news.yml       (the same notes to Discord)
+// Alarm of the news automation. Every 10 minutes starts
+//   RaiGanja/wow          news-auto.yml  (watcher of Blizzard, short note on the site; public repo, free minutes)
+// every 30 minutes starts
+//   RaiGanja/gabella-bot  news.yml       (the same notes to Discord; private repo, Actions minutes are limited)
 // GitHub's own cron is late by hours. The token lives only in the Worker secret GH_DISPATCH_TOKEN
 // (fine-grained, these two repositories only, Actions: read and write). The workflows decide by their switches
 // (variables NEWS_AUTO / NEWS_DISCORD): the alarm sends no mode.
-const TARGETS = [
-  'https://api.github.com/repos/RaiGanja/wow/actions/workflows/news-auto.yml/dispatches',
-  'https://api.github.com/repos/RaiGanja/gabella-bot/actions/workflows/news.yml/dispatches',
-];
+const SITE = 'https://api.github.com/repos/RaiGanja/wow/actions/workflows/news-auto.yml/dispatches';
+const BOT = 'https://api.github.com/repos/RaiGanja/gabella-bot/actions/workflows/news.yml/dispatches';
 
-async function dispatch(env) {
+async function dispatch(env, withBot) {
   const out = [];
-  for (const url of TARGETS) {
+  for (const url of withBot ? [SITE, BOT] : [SITE]) {
     const r = await fetch(url, {
       method: 'POST',
       headers: {
@@ -30,7 +29,8 @@ async function dispatch(env) {
 
 export default {
   async scheduled(event, env, ctx) {
-    ctx.waitUntil(dispatch(env));
+    const minute = new Date(event.scheduledTime).getUTCMinutes();
+    ctx.waitUntil(dispatch(env, minute < 10 || minute >= 30 && minute < 40));
   },
   async fetch() {                        // no workers.dev address (workers_dev = false); this only answers that it is alive
     return new Response('gabella news alarm\n', { headers: { 'content-type': 'text/plain' } });
