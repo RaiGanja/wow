@@ -604,7 +604,7 @@ const lvIn = $('#dgLvl');
 function renderDg() {
   let rows = DUNGEONS;
   if (dgMode === 'new') rows = rows.filter(d => d[4]);
-  if (dgMode === 'mine') rows = dgLvl ? rows.filter(d => nearLvl(d, dgLvl) && (!dgFac || !d[6] || d[6] === dgFac)) : [];
+  if (dgMode === 'mine') rows = dgLvl ? rows.filter(d => nearLvl(d, dgLvl) && (!dgFac || !d[6] || d[6] === dgFac || d[7])) : [];
   $('#dgBody').innerHTML = rows.length ? rows.map(d => {
     const mine = dgLvl && nearLvl(d, dgLvl);
     const alt = (d[5] || []).map(a => `${a[0]}: ${a[1]}`).join(', ');
