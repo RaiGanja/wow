@@ -124,6 +124,10 @@ NEW = [
 DIR = [  # провалы из проверки директора
     ('ru', 'как прокачать вара', LV('warrior')), ('ru', 'kak prokachat shamana', LV('shaman')),
     ('ru', 'алхемия', ['guides/professions/']), ('ru', 'что такое легаси', ['guides/legacy/']), ('uk', 'прокачка мисливця', LV('hunter')),
+    # PvP (подсказки поиска 29.10: «wow forever pvp», «pvp system», «pvp gear», «pvp ranking»)
+    ('en', 'wow forever pvp', ['guides/pvp/']), ('en', 'pvp gear', ['guides/pvp/']), ('en', 'pvp ranking', ['guides/pvp/']),
+    ('ru', 'пвп', ['guides/pvp/']), ('ru', 'звания pvp', ['guides/pvp/']), ('uk', 'честь pvp', ['guides/pvp/']),
+    ('de', 'pvp ehre', ['guides/pvp/']), ('pl', 'pvp honor', ['guides/pvp/']),
 ]
 # слепой набор: написан после всех правок и замерен один раз, под него не подгонялось
 BLIND = [
