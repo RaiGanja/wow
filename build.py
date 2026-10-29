@@ -1354,7 +1354,7 @@ def ru_rx():
     """[[форма|English]] markup (groups 1, 2) or a bare English name with a ruRU name (group 3), not inside a longer English phrase."""
     if not _ru_rx:
         names = sorted((en for en, v in langs.NAMES.items() if v.get('ru') and v['ru'] != en), key=len, reverse=True) or ['\0']
-        _ru_rx.append(re.compile(RU_MARK.pattern + r'|(?<![A-Za-z’\'-])(?<![A-Za-z] )(' + '|'.join(map(re.escape, names))
+        _ru_rx.append(re.compile(RU_MARK.pattern + r'|(?<![A-Za-z’\'-])(?<![A-Za-z] )(?<!Mr\. )(' +'|'.join(map(re.escape, names))
                                  + r')(?![A-Za-z’-])(?! [A-Za-z])'))
     return _ru_rx[0]
 
