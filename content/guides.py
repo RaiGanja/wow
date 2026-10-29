@@ -2010,8 +2010,8 @@ def _newbie():
     s2 = n9('Взять билд', 'Take a build', 'Взяти білд', 'Build nehmen', 'Prendre un build', 'Coger un build', 'Pegar uma build', 'Prendi una build', 'Weź build')
     s3 = n9('Прокачка 1–60', 'Leveling 1–60', 'Прокачування 1–60', 'Leveln 1–60', 'Progression 1–60', 'Subida 1–60', 'Evolução 1–60', 'Salita 1–60', 'Levelowanie 1–60')
     return {l: (f'<p>{escape(what[l])}</p><p class="small">{escape(nxt[l])}</p>'
-                f'<p class="nsteps"><a class="btn" href="../../classes/#choose">{escape(s1[l])}</a><span aria-hidden="true">→</span>'
-                f'<a href="../builds/">{escape(s2[l])}</a><span aria-hidden="true">→</span><a href="../leveling/">{escape(s3[l])}</a></p>')
+                f'<p class="nsteps"><a class="btn" href="../../classes/#choose">{escape(s1[l])}</a><span class="nr"><span aria-hidden="true">→</span>'
+                f'<a href="../builds/">{escape(s2[l])}</a><span aria-hidden="true">→</span><a href="../leveling/">{escape(s3[l])}</a></span></p>')
             for l in what}
 
 

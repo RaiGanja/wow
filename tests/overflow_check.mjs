@@ -77,7 +77,7 @@ const PROBE = `(scopeSel) => {
   const nm = e => { let s = '', n = e; for (let i = 0; n && n !== document.body && i < 3; i++, n = n.parentElement) s = (n.tagName.toLowerCase() + (n.id ? '#' + n.id : '') + (typeof n.className === 'string' && n.className.trim() ? '.' + n.className.trim().split(/\\s+/).slice(0, 2).join('.') : '')) + (s ? ' > ' + s : ''); return s; };
   const ownText = e => [...e.childNodes].filter(n => n.nodeType === 3 && n.textContent.trim());
   const scroller = e => { for (let p = e; p && p !== document.documentElement; p = p.parentElement) if (/auto|scroll/.test(getComputedStyle(p).overflowX)) return p; return null; };
-  const hidden = e => { const cs = getComputedStyle(e); if (cs.visibility === 'hidden' || cs.display === 'none' || +cs.opacity === 0) return true; const r = e.getBoundingClientRect(); return r.width <= 1 || r.height <= 1; };
+  const hidden = e => { const cs = getComputedStyle(e); if (cs.visibility === 'hidden' || cs.display === 'none' || +cs.opacity === 0) return true; const r = e.getBoundingClientRect(); if (r.width <= 1 || r.height <= 1) return true; for (let p = e.parentElement; p && p !== document.body; p = p.parentElement) { if (getComputedStyle(p).clipPath === 'none') continue; const b = p.getBoundingClientRect(); if (b.width <= 1 || b.height <= 1) return true; } return false; };   // clipped away on purpose (the wordmark at 375–719 px)
   const isCard = (p, cs) => cs.display !== 'inline' && (parseFloat(cs.borderLeftWidth) > 0 || parseFloat(cs.borderTopWidth) > 0 || (cs.backgroundColor !== 'rgba(0, 0, 0, 0)' && cs.backgroundColor !== 'transparent') || cs.backgroundImage !== 'none' || cs.boxShadow !== 'none') ;
   const els = [root, ...root.querySelectorAll('*')];
   for (const e of els) {
