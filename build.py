@@ -258,7 +258,7 @@ def social(html):
 
 
 # Bottom tab bar on phones: the same tabs in the same order on every page (the profile button of the top bar is hidden there).
-TABS = (('', 'home', 'Главная'), ('classes/', 'users', 'Классы'), ('guides/leveling/', 'up', 'Прокачка'), ('guides/dungeons/', 'gate', 'Подземелья'))
+TABS = (('', 'home', 'Главная'), ('classes/', 'users', 'Классы'), ('guides/builds/', 'book', 'Билды'), ('guides/leveling/', 'up', 'Прокачка'))   # builds: question no. 1 of the readers; dungeons live in «Ещё»
 
 
 def tabbar(cur=None, home='@@HOME@@', more=False):
@@ -272,12 +272,12 @@ def tabbar(cur=None, home='@@HOME@@', more=False):
 
 # Top menu: the same items in the same order on every page; anchors of the home page stay in its own «Ещё» group.
 # Races, all articles, «In game» and players live in «Ещё» (decision 27.10: the reference first, 8 places with Discord).
-NAV = (('classes/', 'Классы'), ('guides/builds/', 'Таланты'), ('guides/tier-list/', 'Тир-лист'), ('guides/legacy/', 'Legacy'),
+NAV = (('classes/', 'Классы'), ('guides/builds/', 'Билды и таланты'), ('guides/tier-list/', 'Тир-лист'), ('guides/legacy/', 'Legacy'),
        ('guides/leveling/', 'Прокачка'), ('guides/dungeons/', 'Подземелья'), ('tools/', 'Инструменты'))
 # Sections sheet («Ещё»): (group, [(path from the language home, label)]); '#…' — a block of the home page.
 # TAB_DUP: pages the phone tab bar already has — the sheet hides them below 720 px (the sheet keeps them for 720–1210 px, no menu there).
 MORE = (
-    ('Справочник', (('guides/builds/', 'Таланты'), ('guides/tier-list/', 'Тир-лист'), ('guides/legacy/', 'Legacy'), ('classes/', 'Классы'), ('classes/#choose', 'Какой класс выбрать'), ('races/', 'Расы'),
+    ('Справочник', (('guides/builds/', 'Билды и таланты'), ('guides/tier-list/', 'Тир-лист'), ('guides/legacy/', 'Legacy'), ('classes/', 'Классы'), ('classes/#choose', 'Какой класс выбрать'), ('races/', 'Расы'),
                     ('guides/leveling/', 'Прокачка 1–60'), ('guides/dungeons/', 'Подземелья и рейды'), ('guides/professions/', 'Профессии'),
                     ('guides/server-status/', 'Статус серверов'), ('guides/name-reservation/', 'Резерв имён'),
                     ('guides/faq/', 'FAQ и даты'), ('guides/news/', 'Новости'), ('guides/', 'Все статьи'))),
@@ -556,13 +556,13 @@ def late_fonts(html):
 APP = {
     'ru': {'name': 'WoW Forever — справочник Gabella', 'desc': 'Классы, расы, подземелья, прокачка и сборка группы для WoW Forever.',
            'install': 'Установить', 'install_l': 'Установить справочник как приложение',
-           'short': [('В игре', 'play/'), ('Таланты', 'guides/builds/'), ('Подземелья', 'guides/dungeons/'), ('Инструменты', 'tools/'), ('Классы', 'classes/')]},
+           'short': [('В игре', 'play/'), ('Билды', 'guides/builds/'), ('Подземелья', 'guides/dungeons/'), ('Инструменты', 'tools/'), ('Классы', 'classes/')]},
     'en': {'name': 'WoW Forever — Gabella reference', 'desc': 'Classes, races, dungeons, leveling and party building for WoW Forever.',
            'install': 'Install', 'install_l': 'Install the reference as an app',
-           'short': [('In game', 'play/'), ('Talents', 'guides/builds/'), ('Dungeons', 'guides/dungeons/'), ('Tools', 'tools/'), ('Classes', 'classes/')]},
+           'short': [('In game', 'play/'), ('Builds', 'guides/builds/'), ('Dungeons', 'guides/dungeons/'), ('Tools', 'tools/'), ('Classes', 'classes/')]},
     'uk': {'name': 'WoW Forever — довідник Gabella', 'desc': 'Класи, раси, підземелля, прокачування та збір групи для WoW Forever.',
            'install': 'Встановити', 'install_l': 'Встановити довідник як застосунок',
-           'short': [('У грі', 'play/'), ('Таланти', 'guides/builds/'), ('Підземелля', 'guides/dungeons/'), ('Інструменти', 'tools/'), ('Класи', 'classes/')]},
+           'short': [('У грі', 'play/'), ('Білди', 'guides/builds/'), ('Підземелля', 'guides/dungeons/'), ('Інструменти', 'tools/'), ('Класи', 'classes/')]},
 }
 langs.derive(APP)
 
@@ -1315,6 +1315,21 @@ def home_dungeons(html, lang):
     return html[:i] + js_names(html[i:j], lang) + html[j:]
 
 
+NEXT_H = langs.derive({'ru': 'Следующий шаг', 'en': 'Next step', 'uk': 'Наступний крок'})
+
+
+def next_block(items, lang, home, cls=''):
+    """«Next step» above «More on the site»: 1–3 descriptive links from the record's `next` field
+    [(path from the language home, label)]; no field, no block. A label is a Russian string (translated as the page is)
+    or a {'ru','en','uk'} dict. Class and race pages call it in Russian, before translate()."""
+    if not items:
+        return ''
+    lab = lambda t: esc(langs.derive(dict(t))[lang] if isinstance(t, dict) else tr(t, lang))
+    links = ''.join(f'<a href="{home}{h}"><span>{lab(t)}</span>{ico("arrow")}</a>' for h, t in items[:3])
+    return (f'<section class="gnext{cls}" id="next"><div class="sec-head"><h2>{NEXT_H[lang]}</h2></div>'
+            f'<nav class="nextl" aria-label="{NEXT_H[lang]}">{links}</nav></section>')
+
+
 def ico(name):
     return f'<svg class="ico" aria-hidden="true"><use href="#i-{name}"/></svg>'
 
@@ -1530,6 +1545,7 @@ def build_class(c, lang, tpl, base_css, sprite, races):
     links = [(n, s.format(id=c['id'])) for n, s in SOURCES]
     sources = ''.join(f'<li><a href="{u}" target="_blank" rel="noopener">{esc(n)}</a></li>' for n, u in links)
     html = html.replace('@@OTHERS@@', others).replace('@@PAGER@@', pager).replace('@@TOC_CLASSES@@', toc).replace('@@SOURCES@@', sources)
+    html = html.replace('@@NEXT@@', next_block(c.get('next'), 'ru', home, ' block wrap'))
 
     html, missing = translate(html, lang)
     html = set_updated(html, f'classes/{c["id"]}/')
@@ -1616,7 +1632,7 @@ def build_race(rp, lang, tpl, base_css, class_css, sprite, races, en):
         'DESC': esc(rp['lead']), 'FACTS': facts, 'BEST': rp['best'][0][0], 'RACIALS': ''.join(cards), 'PRIEST': priest,
         'NCLS': NCLS[len(r['can'])], 'CLASSES': ''.join(cls_cards), 'NOPE': nope_html, 'NEWS': news,
         'LORE': esc(rp['lore']), 'TIP': esc(r['tip']), 'BESTLIST': best, 'OTHERS': others, 'PAGER': pager,
-        'TOC_RACES': toc, 'SOURCES': sources,
+        'TOC_RACES': toc, 'SOURCES': sources, 'NEXT': next_block(rp.get('next'), 'ru', home, ' block wrap'),
     }
     html = tpl.replace('@@BASE_CSS@@', base_css).replace('@@CLASS_CSS@@', class_css).replace('@@SPRITE@@', sprite)
     html = chrome(html, nav='races/')

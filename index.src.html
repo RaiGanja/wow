@@ -298,9 +298,11 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .hq { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 14px; margin: -4px 0 0; font-size: var(--fs-14); color: var(--ink-2); text-shadow: var(--hero-shadow); }
 .hq a { min-height: 36px; display: inline-flex; align-items: center; color: var(--ink); text-decoration: underline; text-decoration-color: rgba(241,236,224,.4); text-underline-offset: 3px; }
 .hq a:hover { text-decoration-color: #e0c27a; }
-.htasks { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
-.htasks a { min-height: 44px; display: inline-flex; align-items: center; padding: 0 16px; border: 1px solid rgba(241,236,224,.3); border-radius: 7px; background: rgba(5,5,5,.45); color: var(--ink); font-weight: 600; font-size: var(--fs-16); text-decoration: none; transition: border-color .15s; }
+.htasks { display: grid; grid-template-columns: repeat(3, 236px); grid-auto-rows: 1fr; gap: 10px; margin-top: 4px; }   /* six goals of one size: the first screen answers «where do I start» */
+.htasks a { min-height: 52px; display: flex; align-items: center; justify-content: center; padding: 6px 14px; text-align: center; line-height: 1.2; border: 1px solid rgba(241,236,224,.3); border-radius: 7px; background: rgba(5,5,5,.45); color: var(--ink); font-weight: 600; font-size: var(--fs-16); text-decoration: none; transition: border-color .15s; }
 .htasks a:hover { border-color: #e0c27a; }
+.htasks a.on { border-color: var(--gold); background: var(--gold); color: var(--gold-ink); }
+.htasks a.on:hover { border-color: var(--gold-2); background: var(--gold-2); }
 .hnews { margin: 0 auto 34px; display: grid; gap: 10px; }
 .hnews .hh { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; text-shadow: var(--hero-shadow); }
 .hnews .hh h2 { font-size: var(--fs-22); line-height: 1; color: var(--ink); }
@@ -662,6 +664,14 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 .av { --s: 40px; position: relative; width: var(--s); height: var(--s); flex: none; display: inline-block; border-radius: 50%; background: #0a0a0a; box-shadow: 0 0 0 2px var(--ring-gap, var(--panel)), 0 0 0 3.5px var(--cc, var(--pline)); }
 :root[data-theme="light"] .av { box-shadow: 0 0 0 2px var(--ring-gap, var(--panel)), 0 0 0 3.5px var(--class-ink, var(--pline)); }
 .av img { display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+/* «Next step» (build.next_block): one to three goals after the page, rows of one height, the arrow on the right */
+.gnext .sec-head { margin-bottom: 12px; }
+.nextl { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); grid-auto-rows: 1fr; gap: 10px; }
+.nextl a { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; padding: 10px 16px; border: 1px solid var(--pline); border-radius: 8px; background: var(--panel-2); color: var(--fg); font-weight: 600; line-height: 1.3; text-decoration: none; transition: border-color .15s; }
+.nextl a:hover, .nextl a:focus-visible { border-color: var(--gold); }
+.nextl a:hover span { color: var(--gold-2); }
+.nextl .ico { flex: none; width: 18px; height: 18px; color: var(--gold-2); }
+section.gnext:not(.block) { margin-bottom: 36px; }
 /* A class name in a table: game colour and a small portrait (build_guides.clink) */
 .clink { display: inline-flex; align-items: center; gap: 7px; vertical-align: top; white-space: nowrap; color: var(--class-ink); font-weight: 600; text-decoration: none; }
 :root .clink .av { --s: 22px; box-shadow: 0 0 0 1.5px var(--class-ink); }
@@ -687,7 +697,7 @@ table { border-collapse: separate; border-spacing: 0; width: 100%; }
 #matrix thead th.hcol { color: var(--fg); }
 #matrix thead th.hcol .av { transform: translateY(-2px); }
 #matrix thead th.selc { color: var(--gold-2); }
-#matrix thead th.selc .av { box-shadow: 0 0 0 2px var(--panel), 0 0 0 4px var(--gold-2); }
+#matrix thead th.selc .av { box-shadow: 0 0 0 2px var(--panel), 0 0 0 3.5px var(--gold-2); }   /* the chosen class: the same ring, gold - one thickness for every portrait ring */
 #matrix thead th:first-child { position: sticky; left: 0; z-index: 2; text-align: left; padding-left: 12px; background: var(--panel); }
 #matrix tbody th { position: sticky; left: 0; z-index: 1; text-align: left; padding: 5px 16px 5px 8px; font-weight: 600; font-size: var(--fs-16); white-space: nowrap; background: var(--panel); border-radius: 10px 0 0 10px; transition: background-color .15s, color .15s; }
 #matrix tbody th .rn { display: inline-flex; align-items: center; gap: 12px; }
@@ -1010,9 +1020,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .hero h1 { font-size: var(--fs-hero); }
   .cta { width: 100%; }
   .hsrch kbd { display: none; }
-  .htasks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
-  .htasks a { justify-content: center; padding: 0 10px; text-align: center; }
-  .htasks a:last-child { grid-column: 1 / -1; }
+  .htasks { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; width: 100%; }
+  .htasks a { min-height: 48px; padding: 4px 10px; }
   .cta .btn { flex: 1 1 140px; padding: 0 12px; }
   .hnews { margin-bottom: 20px; gap: 6px; }
   .hnews .row3 { grid-template-columns: minmax(0, 1fr); gap: 8px; }
@@ -1156,20 +1165,15 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   @@TOD_HERO@@
   <div class="wrap hero-in">
     <h1>World of Warcraft <span>Forever</span></h1>
-    <p class="lead">Таланты и тир-лист по бете, Legacy, прокачка 1–60 и подземелья. У каждой цифры источник и дата.</p>
+    <p class="lead">Гид по WoW Forever на русском: выбрать класс, билд, куда качаться.</p>
     <p class="hdata">Данные: бета Forever · обновлено @@DATA_UPD@@</p>
+    <nav class="htasks" aria-label="С чего начать"><a class="on" href="guides/launch-checklist/">Я новичок</a><a href="classes/#choose">Выбрать класс и расу</a><a href="guides/builds/" data-tl>Билд моего класса</a><a href="guides/leveling/">Прокачка 1–60</a><a href="guides/tier-list/#pvp">PvP</a><a href="guides/dungeons/">Подземелья</a></nav>
     <div class="cd" id="cd" aria-live="polite"></div>
-    <div class="cta">
-      <a class="btn lg" href="guides/builds/" data-tl>Таланты</a>
-      <a class="btn lg ghost" href="guides/tier-list/">Тир-лист</a>
-      <a class="btn lg ghost" href="tools/#raid">Инструменты</a>
-    </div>
     <p class="hd-line"><span data-d="2026-10-27T17:00:00Z"><b>27.10</b> Резерв имён</span><span data-d="2026-11-04T23:00:00Z"><b>04.11</b> Релиз</span><span data-d="2026-12-09T00:00:00"><b>09.12</b> Рейды</span></p>
   </div>
   <div class="hask wrap">
     <a class="hsrch" href="tools/" data-q=""><svg class="ico" aria-hidden="true"><use href="#i-search"/></svg><span>Класс, раса, подземелье, вопрос</span><kbd>Ctrl K</kbd></a>
     <p class="hq">Например: <a href="tools/" data-q="таланты мага">таланты мага</a><a href="tools/" data-q="подземелья 30">подземелья 30</a><a href="tools/" data-q="профессии воина">профессии воина</a></p>
-    <nav class="htasks" aria-label="Быстрые ответы"><a href="classes/#choose">Кем играть</a><a href="guides/leveling/">Прокачка</a><a href="guides/dungeons/">Подземелья</a><a href="guides/professions/">Профессии</a><a href="#camp">Найти группу</a></nav>
   </div>
   @@TOD_SW@@
   <div class="hnews wrap"><div class="hh"><h2>Свежее</h2><a href="guides/news/">Все новости<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div><div class="row3" data-feed="@@ROOT@@assets/news.json" data-off="@@ROOT@@data/official.json">@@FRESH@@</div></div>
