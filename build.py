@@ -277,7 +277,7 @@ NAV = (('classes/', 'Классы'), ('guides/builds/', 'Билды и тала�
 # Sections sheet («Ещё»): (group, [(path from the language home, label)]); '#…' — a block of the home page.
 # TAB_DUP: pages the phone tab bar already has — the sheet hides them below 720 px (the sheet keeps them for 720–1210 px, no menu there).
 MORE = (
-    ('Справочник', (('guides/builds/', 'Билды и таланты'), ('guides/tier-list/', 'Тир-лист'), ('guides/legacy/', 'Legacy'), ('classes/', 'Классы'), ('classes/#choose', 'Какой класс выбрать'), ('races/', 'Расы'),
+    ('Справочник', (('guides/builds/', 'Билды и таланты'), ('guides/tier-list/', 'Тир-лист'), ('guides/legacy/', 'Legacy'), ('guides/pvp/', 'PvP'), ('classes/', 'Классы'), ('classes/#choose', 'Какой класс выбрать'), ('races/', 'Расы'),
                     ('guides/leveling/', 'Прокачка 1–60'), ('guides/dungeons/', 'Подземелья и рейды'), ('guides/professions/', 'Профессии'),
                     ('guides/server-status/', 'Статус серверов'), ('guides/name-reservation/', 'Резерв имён'),
                     ('guides/faq/', 'FAQ и даты'), ('guides/news/', 'Новости'), ('guides/', 'Все статьи'))),
