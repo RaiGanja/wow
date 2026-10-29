@@ -32,7 +32,7 @@ NEWS = []     # записи «Новостей», шаблон и порядо�
 NEWS_SO = t('Для игрока', 'For you', 'Для гравця')   # подпись строки 'so'
 from build import DISCORD_AT  # noqa: E402  (у каждого места ссылки своё приглашение)
 
-ORDER = ['name-reservation', 'launch-checklist', 'launch-day', 'leveling', 'leveling-warrior', 'leveling-paladin', 'leveling-hunter', 'leveling-rogue', 'leveling-priest', 'leveling-shaman', 'leveling-mage', 'leveling-warlock', 'leveling-druid', 'builds', 'builds-warrior', 'builds-paladin', 'builds-hunter', 'builds-rogue', 'builds-priest', 'builds-shaman', 'builds-mage', 'builds-warlock', 'builds-druid', 'spec-hunter-beast-mastery', 'spec-mage-frost', 'spec-paladin-protection', 'spec-priest-discipline', 'best-race', 'tier-list', 'legacy', 'dungeons', 'professions', 'addons', 'faq', 'requirements', 'server-status', 'news', 'ukrainian']   # порядок плиток на хабе и в «Другие гайды»
+ORDER = ['name-reservation', 'launch-checklist', 'launch-day', 'leveling', 'leveling-warrior', 'leveling-paladin', 'leveling-hunter', 'leveling-rogue', 'leveling-priest', 'leveling-shaman', 'leveling-mage', 'leveling-warlock', 'leveling-druid', 'builds', 'builds-warrior', 'builds-paladin', 'builds-hunter', 'builds-rogue', 'builds-priest', 'builds-shaman', 'builds-mage', 'builds-warlock', 'builds-druid', 'spec-hunter-beast-mastery', 'spec-mage-frost', 'spec-paladin-protection', 'spec-priest-discipline', 'best-race', 'tier-list', 'legacy', 'dungeons', 'professions', 'addons', 'faq', 'glossary', 'requirements', 'server-status', 'news', 'ukrainian']   # порядок плиток на хабе и в «Другие гайды»
 
 
 # ---------- FAQ: даты и наборы, режимы, имена, отличия от Era (переехали с главной) + частые вопросы ----------
@@ -684,9 +684,9 @@ KIT = {'id': 'kit', 'title': t('Что взять и сделать при пр�
 GUIDES.append({
     'slug': 'leveling', 'art': 'hero_leveling', 'hero': 'hero_leveling',
     'title': t('Прокачка 1–60', 'Leveling 1–60', 'Прокачування 1–60'),
-    'lead': t('Маршрут по зонам для Альянса и Орды, отдых и бонусы опыта, советы соло, вдвоём и группой, Legacy и лагерь.',
-              'A zone route for Alliance and Horde, rest and experience bonuses, tips for solo, duo and group play, Legacy and the camp.',
-              'Маршрут зонами для Альянсу та Орди, відпочинок і бонуси досвіду, поради соло, удвох і групою, Legacy та табір.'),
+    'lead': t('Как дойти с 1 до 60 уровня: куда идти на каждом отрезке за Альянс и Орду, как копить отдых и когда качаться группой. Плюс Legacy и лагерь.',
+              'How to get from level 1 to 60: where to go at each level range for Alliance and Horde, how to save up rest and when to level in a group. Plus Legacy and the camp.',
+              'Як дійти з 1 до 60 рівня: куди йти на кожному відрізку за Альянс і Орду, як накопичувати відпочинок і коли качатися групою. Плюс Legacy і табір.'),
     'tile': t('Зоны по уровням, отдых, Legacy и лагерь', 'Zones by level, rest, Legacy and the camp', 'Зони за рівнями, відпочинок, Legacy і табір'),
     'pills': [t('Альянс и Орда', 'Alliance and Horde', 'Альянс і Орда'), t('Ездовое с 40', 'Mount at 40', 'Їздова тварина з 40'),
               t('4 084 700 опыта до 60', '4,084,700 XP to 60', '4 084 700 досвіду до 60')],
@@ -1462,7 +1462,7 @@ GUIDES.append({
     'slug': 'tier-list', 'art': 'hero_tierlist', 'hero': 'hero_tierlist',
     'title': t('Тир-лист классов WoW Forever', 'WoW Forever Class Tier List', 'Тір-лист класів WoW Forever'),
     'crumb': t('Тир-лист', 'Tier list', 'Тір-лист'),
-    'lead': t('На бете сильнее всех Паладин в PvE, Охотник и Маг на прокачке, Чернокнижник и Разбойник в PvP. Это срез беты 30 уровня, обновим после старта 5 ноября.', 'In the beta the strongest picks are Paladin in PvE, Hunter and Mage for leveling, Warlock and Rogue in PvP. This is a level 30 beta snapshot; we’ll update it after the Nov 4–5 launch.', 'У бета-версії найсильніші Паладин у PvE, Мисливець і Маг на прокачуванні, Чорнокнижник і Розбійник у PvP. Це зріз бети на 30 рівні, оновимо його після старту 5 листопада.'),
+    'lead': t('Тир-лист — рейтинг классов и спеков по силе, от S до C. На бете сильнее всех Паладин в PvE, Охотник и Маг на прокачке, Чернокнижник и Разбойник в PvP. Это срез беты 30 уровня, обновим после старта 5 ноября.', 'A tier list ranks classes and specs by strength, from S to C. In the beta the strongest picks are Paladin in PvE, Hunter and Mage for leveling, Warlock and Rogue in PvP. This is a level 30 beta snapshot; we’ll update it after the Nov 4–5 launch.', 'Тир-лист — рейтинг класів і спеціалізацій за силою, від S до C. У бета-версії найсильніші Паладин у PvE, Мисливець і Маг на прокачуванні, Чорнокнижник і Розбійник у PvP. Це зріз бети на 30 рівні, оновимо його після старту 5 листопада.'),
     'tile': t('Сильные классы и спеки по данным беты', 'Strong classes and specs by beta data', 'Сильні класи й спеціалізації за даними бети'),
     'pills': [t('По бете', 'Beta data', 'За бетою'), t('27 спеков', '27 specs', '27 спеціалізацій'), t('Обновим после 05.11', 'Updated after Nov 4–5', 'Оновимо після 5 листопада')],
     'sources': [
@@ -2574,6 +2574,70 @@ GUIDES.append({
 GUIDES.sort(key=lambda g: ORDER.index(g['slug']))
 
 
+# ---------- glossary: короткий словарь терминов; термин поясняем там, где он встречается, и ссылаем сюда ----------
+
+GUIDES.append({
+    'slug': 'glossary', 'art': 'hero_guides', 'hero': 'hero_guides', 'og': 'guides',
+    'title': t('Словарь терминов', 'Glossary', 'Словник термінів'),
+    'lead': t('Что значат спек, билд, тир-лист, ротация, BiS, Legacy и перки: короткие определения, чтобы читать остальные гайды с первого раза.',
+              'What spec, build, tier list, rotation, BiS, Legacy and perks mean: short definitions so you can read the other guides on the first pass.',
+              'Що означають спек, білд, тир-лист, ротація, BiS, Legacy і перки: короткі визначення, щоб читати решту гайдів із першого разу.'),
+    'tile': t('Спек, билд, тир-лист, BiS, Legacy и перки', 'Spec, build, tier list, BiS, Legacy and perks', 'Спек, білд, тир-лист, BiS, Legacy і перки'),
+    'pills': [t('Игра и роли', 'Game and roles', 'Гра й ролі'), t('Билды', 'Builds', 'Білди'), t('Механики Forever', 'Forever mechanics', 'Механіки Forever')],
+    'sources': [
+        (t('Blizzard: система Legacy', 'Blizzard: Legacy system', 'Blizzard: система Legacy'), 'https://news.blizzard.com/en-gb/article/24307383'),
+        (t('Warcraft Tavern: лагерь', 'Warcraft Tavern: camping', 'Warcraft Tavern: табір'), 'https://www.warcrafttavern.com/forever/guides/camping/'),
+    ],
+    'sections': [
+        {'id': 'game', 'title': t('Игра, билд и силы классов', 'Game, builds and class strength', 'Гра, білд і сили класів'), 'blocks': [
+            ('table', {'head': [t('Термин', 'Term', 'Термін'), t('Что это', 'What it means', 'Що це')], 'rows': [
+                [t('Спек', 'Spec', 'Спек'), t('Ветка талантов, которую вы развиваете: у Мага это Тайная магия, Огонь или Лёд. От спека зависит роль в группе и то, какие умения вы нажимаете.', 'The talent tree you build up: for a Mage that is Arcane, Fire or Frost. The spec sets your role in a group and which abilities you press.', 'Гілка талантів, яку ви розвиваєте: у Мага це Тайна магія, Вогонь або Лід. Від спеку залежить роль у групі й те, які вміння ви натискаєте.')],
+                [t('Билд', 'Build', 'Білд'), t('Набор талантов и порядок, в котором вы их берёте. Билд привязан к спеку: на странице класса он расписан по уровням.', 'A set of talents and the order you take them in. A build belongs to a spec; each class page lists it level by level.', 'Набір талантів і порядок, у якому ви їх берете. Білд прив’язаний до спеку: на сторінці класу він розписаний за рівнями.')],
+                [t('Таланты', 'Talents', 'Таланти'), t('Очки, которые вы получаете с уровнем и вкладываете в дерево класса. Дерево открывает новые умения и усиливает старые.', 'Points you earn with levels and put into your class tree. The tree unlocks new abilities and strengthens old ones.', 'Очки, які ви отримуєте з рівнем і вкладаєте в дерево класу. Дерево відкриває нові вміння й підсилює старі.')],
+                [t('Тир-лист', 'Tier list', 'Тир-лист'), t('Рейтинг классов и спеков по силе: S сильнее всех, дальше A, B, C. Это сравнение для выбора, а не приговор: играть можно любым.', 'A ranking of classes and specs by strength: S is strongest, then A, B, C. It is a guide for choosing, not a verdict: any spec is playable.', 'Рейтинг класів і спеків за силою: S найсильніший, далі A, B, C. Це порівняння для вибору, а не вирок: грати можна будь-яким.')],
+                [t('PvE', 'PvE', 'PvE'), t('Игра против монстров: квесты, подземелья, рейды.', 'Playing against monsters: quests, dungeons, raids.', 'Гра проти монстрів: квести, підземелля, рейди.')],
+                [t('PvP', 'PvP', 'PvP'), t('Игра против других игроков: поля боя и бои в открытом мире.', 'Playing against other players: battlegrounds and open-world fights.', 'Гра проти інших гравців: поля бою та бої у відкритому світі.')],
+                [t('Прокачка', 'Leveling', 'Прокачування'), t('Путь от 1 до 60 уровня. После него начинается игра на максимальном уровне: подземелья, рейды, PvP.', 'The road from level 1 to 60. After it comes max-level play: dungeons, raids, PvP.', 'Шлях від 1 до 60 рівня. Після нього починається гра на максимальному рівні: підземелля, рейди, PvP.')],
+                [t('Профессия', 'Profession', 'Професія'), t('Ремесло или сбор: Кузнечное дело, Алхимия, Травничество и другие. Даёт предметы, золото и баффы лагеря.', 'A craft or gathering skill: Blacksmithing, Alchemy, Herbalism and others. Gives items, gold and camp buffs.', 'Ремесло або збір: Ковальство, Алхімія, Травництво та інші. Дає предмети, золото й баффи табору.')],
+                [t('Тренер', 'Trainer', 'Тренер'), t('NPC в городе, у которого за золото учат новым умениям класса и профессии. Заходите к нему каждые несколько уровней.', 'An NPC in town who teaches new class and profession abilities for gold. Visit one every few levels.', 'NPC у місті, який за золото навчає нових умінь класу й професії. Заходьте до нього кожні кілька рівнів.')],
+            ]}),
+        ]},
+        {'id': 'group', 'title': t('Группа и бой', 'Group and combat', 'Група й бій'), 'blocks': [
+            ('table', {'head': [t('Термин', 'Term', 'Термін'), t('Что это', 'What it means', 'Що це')], 'rows': [
+                [t('Танк', 'Tank', 'Танк'), t('Держит врагов на себе и принимает удар. Без него в подземелье не справиться.', 'Holds enemies’ attention and takes the hits. A dungeon is hard without one.', 'Тримає ворогів на собі й приймає удар. Без нього в підземеллі важко.')],
+                [t('Лекарь', 'Healer', 'Лікар'), t('Лечит группу. Работает на мане, поэтому следит за её запасом.', 'Heals the group. Runs on mana, so keeps an eye on it.', 'Лікує групу. Працює на мані, тому стежить за її запасом.')],
+                [t('Урон (ДД)', 'Damage (DPS)', 'Шкода (ДД)'), t('Бьёт врагов. Бывает в ближнем бою и на расстоянии.', 'Kills enemies. Melee or ranged.', 'Б’є ворогів. Буває в ближньому бою й на відстані.')],
+                [t('Агро', 'Aggro', 'Агро'), t('Чья очередь получать удары. Монстр бьёт того, кто создал больше угрозы. Урон не должен обгонять танка.', 'Whose turn it is to get hit. A monster attacks whoever built the most threat. Damage dealers must not outrun the tank.', 'Чия черга отримувати удари. Монстр б’є того, хто створив більше загрози. Шкода не повинна випереджати танка.')],
+                [t('Кайт', 'Kite', 'Кайт'), t('Отступать от врага, не давая ему себя догнать, и бить на ходу. Привычный приём Охотника и Мага.', 'Backing away from an enemy while keeping out of reach and still hitting it. A usual Hunter and Mage trick.', 'Відступати від ворога, не даючи себе наздогнати, і бити на ходу. Звичний прийом Мисливця й Мага.')],
+                [t('Бафф и дебафф', 'Buff and debuff', 'Бафф і дебафф'), t('Бафф усиливает вас или союзника на время, дебафф ослабляет врага или вас.', 'A buff strengthens you or an ally for a while, a debuff weakens an enemy or you.', 'Бафф посилює вас або союзника на час, дебафф послаблює ворога чи вас.')],
+                [t('LFG', 'LFG', 'LFG'), t('Looking for group: поиск группы. В чате или в списке пишут, куда и кого ищут.', 'Looking for group. People post in chat or in the finder what they want and who they need.', 'Looking for group: пошук групи. У чаті або в списку пишуть, куди й кого шукають.')],
+            ]}),
+        ]},
+        {'id': 'build', 'title': t('Как играть спеком', 'How to play a spec', 'Як грати спеком'), 'blocks': [
+            ('table', {'head': [t('Термин', 'Term', 'Термін'), t('Что это', 'What it means', 'Що це')], 'rows': [
+                [t('Ротация', 'Rotation', 'Ротація'), t('Порядок, в котором вы нажимаете умения, чтобы наносить максимум урона. Простая ротация — это 3–4 кнопки по очереди.', 'The order you press abilities in to deal the most damage. A simple rotation is 3–4 buttons in turn.', 'Порядок, у якому ви натискаєте вміння, щоб завдавати максимум шкоди. Проста ротація — це 3–4 кнопки по черзі.')],
+                [t('Приоритет', 'Priority', 'Пріоритет'), t('Список умений по важности: когда несколько готовы, нажимаете то, что выше в списке. Ротация без жёсткой очерёдности.', 'A list of abilities by importance: when several are ready, press the highest one. A rotation without a fixed order.', 'Список умінь за важливістю: коли кілька готові, натискаєте те, що вище в списку. Ротація без жорсткої черги.')],
+                [t('BiS', 'BiS', 'BiS'), t('Best in slot: лучший предмет для ячейки. Список BiS показывает, за какой экипировкой идти в подземелья и рейды.', 'Best in slot: the strongest item for a gear slot. A BiS list shows which gear to chase in dungeons and raids.', 'Best in slot: найкращий предмет для комірки. Список BiS показує, за яким екіпіруванням іти в підземелля та рейди.')],
+                [t('Статы', 'Stats', 'Стати'), t('Характеристики: сила, ловкость, интеллект, выносливость. Каждому классу нужны свои, и спек уточняет, какие важнее.', 'Strength, agility, intellect, stamina. Every class needs its own, and the spec decides which matter most.', 'Характеристики: сила, спритність, інтелект, витривалість. Кожному класу потрібні свої, а спек уточнює, які важливіші.')],
+                [t('Кулдаун', 'Cooldown', 'Кулдаун'), t('Время, пока умение нельзя применить снова. Сильные умения копят для сложных боёв.', 'The wait before an ability can be used again. Strong abilities are saved for hard fights.', 'Час, поки вміння не можна застосувати знову. Сильні вміння бережуть для складних боїв.')],
+            ]}),
+        ]},
+        {'id': 'forever', 'title': t('Что есть только в Forever', 'Only in Forever', 'Що є лише у Forever'), 'blocks': [
+            ('text', [t('Эти слова встречаются в Legacy, прокачке и профессиях. Подробности по каждому — в соответствующем гайде.',
+                        'These words come up in Legacy, leveling and professions. Each has its own guide for details.',
+                        'Ці слова трапляються в Legacy, прокачуванні та професіях. Подробиці щодо кожного — у відповідному гайді.')]),
+            ('table', {'head': [t('Термин', 'Term', 'Термін'), t('Что это', 'What it means', 'Що це')], 'rows': [
+                [t('Legacy', 'Legacy', 'Legacy'), t('Система наград на весь аккаунт Battle.net. Вы выполняете испытания, получаете очки и тратите их на перки персонажа.', 'A reward system for your whole Battle.net account. You complete challenges, earn points and spend them on character perks.', 'Система нагород на весь обліковий запис Battle.net. Ви виконуєте випробування, отримуєте очки й витрачаєте їх на перки персонажа.')],
+                [t('Испытание', 'Challenge', 'Випробування'), t('Задание Legacy вроде «достичь 25 уровня». Каждое выполненное даёт 1 очко Legacy.', 'A Legacy task such as “reach level 25”. Each completed one gives 1 Legacy point.', 'Завдання Legacy на кшталт «досягти 25 рівня». Кожне виконане дає 1 очко Legacy.')],
+                [t('Перк', 'Perk', 'Перк'), t('Бонус Legacy, на который вы тратите очки: например, быстрее растут навыки ремёсел. Перки у каждого персонажа свои.', 'A Legacy bonus you spend points on, for example faster tradeskill gains. Each character has its own perks.', 'Бонус Legacy, на який ви витрачаєте очки: наприклад, швидше зростають навички ремесел. Перки в кожного персонажа свої.')],
+                [t('Отдых', 'Rested XP', 'Відпочинок'), t('Запас бонусного опыта: копится, пока вы отдыхаете, и тратится, когда вы убиваете монстров.', 'A pool of bonus experience: it builds while you rest and is spent as you kill monsters.', 'Запас бонусного досвіду: накопичується, поки ви відпочиваєте, і витрачається, коли ви вбиваєте монстрів.')],
+                [t('Лагерь', 'Camp', 'Табір'), t('Общий костёр, который ставят с Кулинарией. Рядом отдыхают, получают баффы и ставят объекты своих профессий.', 'A shared campfire built with Cooking. Players rest nearby, get buffs and place their profession objects.', 'Спільне вогнище, яке ставлять із Кулінарією. Поруч відпочивають, отримують баффи й ставлять об’єкти своїх професій.')],
+            ]}),
+        ]},
+    ],
+    'next': [('guides/builds/', t('Выбрать билд своего класса', 'Pick a build for your class', 'Обрати білд свого класу')), ('guides/legacy/', t('Как работает Legacy', 'How Legacy works', 'Як працює Legacy')), ('guides/leveling/', t('Прокачка 1–60', 'Leveling 1–60', 'Прокачування 1–60'))],
+})
+
 # ---------- Разделы /classes/ и /races/: таблицы сравнения с главной (JS — из index.src.html, ref:start…ref:end) ----------
 
 HUBS = [
@@ -2932,3 +2996,53 @@ BUILDS_HUB_TILE = dict(spec_builds.HUB_TILE, href='guides/builds/')   # на х�
 from content import hero  # noqa: E402
 
 PAGES.append(hero.PAGE)
+
+
+# ---------- «Следующий шаг» (поле next): 1–3 ссылки по сценарию новичка класс → билд → прокачка → профессии → подземелья ----------
+
+NX = {
+    'builds': ('guides/builds/', t('Выбрать билд своего класса', 'Pick a build for your class', 'Обрати білд свого класу')),
+    'leveling': ('guides/leveling/', t('Прокачка 1–60 по зонам', 'Leveling 1–60 by zone', 'Прокачування 1–60 за зонами')),
+    'classes': ('classes/', t('Какой класс выбрать', 'Which class to pick', 'Який клас обрати')),
+    'professions': ('guides/professions/', t('Профессии под класс', 'Professions for your class', 'Професії під клас')),
+    'dungeons': ('guides/dungeons/', t('Подземелья по уровням', 'Dungeons by level', 'Підземелля за рівнями')),
+    'legacy': ('guides/legacy/', t('Как работает Legacy', 'How Legacy works', 'Як працює Legacy')),
+    'glossary': ('guides/glossary/', t('Словарь терминов', 'Glossary', 'Словник термінів')),
+    'tier-list': ('guides/tier-list/', t('Тир-лист: кто сильнее', 'Tier list: who is strongest', 'Тир-лист: хто сильніший')),
+    'best-race': ('guides/best-race/', t('Лучшая раса для класса', 'Best race for your class', 'Найкраща раса для класу')),
+    'launch-checklist': ('guides/launch-checklist/', t('Чек-лист к старту', 'Launch checklist', 'Чек-лист до старту')),
+    'faq': ('guides/faq/', t('Даты и частые вопросы', 'Dates and common questions', 'Дати й часті питання')),
+    'addons': ('guides/addons/', t('Аддоны для старта', 'Add-ons for launch', 'Аддони для старту')),
+}
+NX_BUILD = t('Билд и таланты по уровням', 'Build and talents level by level', 'Білд і таланти за рівнями')
+NX_LVL = t('Прокачка этим классом 1–60', 'Leveling this class 1–60', 'Прокачування цим класом 1–60')
+NEXT = {
+    'name-reservation': ['launch-checklist', 'classes', 'faq'],
+    'launch-checklist': ['leveling', 'classes', 'addons'],
+    'launch-day': ['leveling', 'launch-checklist', 'faq'],
+    'server-status': ['faq', 'launch-checklist', 'leveling'],
+    'faq': ['launch-checklist', 'classes', 'glossary'],
+    'requirements': ['launch-checklist', 'addons', 'faq'],
+    'news': ['faq', 'launch-checklist', 'leveling'],
+    'leveling': ['builds', 'professions', 'dungeons'],
+    'builds': ['tier-list', 'leveling', 'glossary'],
+    'best-race': ['classes', 'builds', 'leveling'],
+    'tier-list': ['builds', 'best-race', 'glossary'],
+    'legacy': ['leveling', 'professions', 'glossary'],
+    'dungeons': ['builds', 'professions', 'glossary'],
+    'professions': ['leveling', 'dungeons', 'legacy'],
+    'addons': ['launch-checklist', 'leveling', 'glossary'],
+    'classes': ['builds', 'best-race', 'leveling'],
+    'races': ['classes', 'best-race', 'leveling'],
+}
+for _g in GUIDES + PAGES:
+    _s = _g['slug']
+    if 'next' in _g or _g.get('only'):
+        continue
+    if _s in NEXT:
+        _g['next'] = [NX[k] for k in NEXT[_s]]
+    elif _s.startswith(('leveling-', 'builds-', 'spec-')):
+        _c = _s.split('-')[1]
+        _b, _l = (f'guides/builds-{_c}/', NX_BUILD), (f'guides/leveling-{_c}/', NX_LVL)
+        _g['next'] = [_l, NX['tier-list'], NX['professions']] if _s.startswith('builds-') else \
+                     [_b, NX['professions'], NX['dungeons']] if _s.startswith('leveling-') else [_b, _l, NX['dungeons']]

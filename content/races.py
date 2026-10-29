@@ -169,3 +169,7 @@ SOURCES = [
 # racial abilities that replaced old ones in Forever (Skyborne are new as a whole and get no tag)
 NEW_RACIALS = {'Воля к жизни', 'Беспощадность', 'Artisan’s Precision', 'Охотник на крупную дичь', 'Свет Элуны', 'Эврика!',
                'Разрушение проклятий', 'Могильное касание', 'Бег по равнинам', 'Быстрая регенерация'}
+
+for _r in RACES_PAGE:   # «Следующий шаг» внизу страницы расы: класс → лучшая пара → прокачка (подписи переводит i18n/*.txt)
+    _r['next'] = [('classes/', 'Какой класс выбрать'), ('guides/best-race/', 'Лучшая раса для класса'),
+                  ('guides/leveling/', 'Прокачка 1–60 по зонам')]
