@@ -206,6 +206,13 @@
 .gsec .gplay:hover { background: color-mix(in srgb, var(--fg) 6%, var(--panel-2)); }
 .gplay > span:first-child { flex: 1 1 320px; }
 .gplay b { color: var(--gold-2); }
+.cxrows { margin: 14px 0 18px; display: grid; gap: 10px; }
+.cxrows > div { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 4px 16px; padding-bottom: 10px; border-bottom: 1px solid var(--pline); }
+.cxrows dt { color: var(--muted); font-size: var(--fs-14); }
+.cxrows dd { margin: 0; font-size: var(--fs-16); line-height: 1.5; }
+.cxrows dd a { color: var(--gold-2); }
+.btn.cxnext { min-height: 52px; padding: 0 26px; font-size: var(--fs-16); }
+@media (max-width: 719px) { .cxrows > div { grid-template-columns: minmax(0, 1fr); } .btn.cxnext { width: 100%; justify-content: center; text-align: center; } }
 .gplay .btn { margin-left: auto; }
 .gbody.play { padding-top: 14px; }
 /* the beta mark after a fact Blizzard has not confirmed ({beta} in a guide text, as on the home page) */

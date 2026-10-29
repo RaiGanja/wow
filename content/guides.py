@@ -2825,7 +2825,7 @@ NOT_FOUND = {
 # Маршрут по зонам и совет про отдых страница берёт из гайда «Прокачка» (секции route и pace), тут только подписи и рубежи.
 PLAY = {
     'slug': 'play', 'path': 'play/', 'og': 'guides', 'art': 'hero_campfire', 'compact': True, 'more': False, 'js': 'play',
-    'title': t('В игре', 'In game', 'У грі'),
+    'title': t('Второй экран: таймеры и подземелья по уровню', 'Second screen: timers and dungeons for your level', 'Другий екран: таймери й підземелля за рівнем'),
     'lead': t('Второй экран на время игры: радио, зоны и подземелья под ваш уровень, таймеры. После входа — персонажи из профиля.',
               'A second screen while you play: radio, zones and dungeons for your level, timers. After you log in: characters from your profile.',
               'Другий екран під час гри: радіо, зони й підземелля під ваш рівень, таймери. Після входу — персонажі з профілю.'),

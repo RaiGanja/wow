@@ -1,13 +1,13 @@
 """Шпоры спеков: guides/spec-<класс>-<спек>/, вкладки Билд · Таланты · Прокачка 1→60 · С кем играть · БиС · Ротация.
 Страница не пишет новых фактов о игре: вкладки собираются из готовых разделов builds-<класс> и leveling-<класс>.
-«БиС» и «Ротация» до старта 05.11 пустые и говорят это честно (бета была открыта до 30 уровня).
+Вкладки БиС нет: пустая вкладка хуже отсутствия; строка «Экипировка» в ответе за 5 секунд говорит «ждёт данных», пока нет списка Forever.
 Ссылка на билд b/<раса>-<класс>-<спек>/ у этих спеков ведёт сюда (build_cards.py), «Поделиться» на странице делится той же ссылкой.
 Заготовка attach() кладёт страницы в GUIDES до langs.fill, finish() добавляет названия на всех языках (нужен hero_core из build_guides)."""
 from html import escape
 
 # (класс, спек): самые частые по данным сайта — оба прокачиваемых «быстрых» спека (Охотник S и Маг S в тир-листе прокачки),
 # лучший танк беты и лекарь (Послушание, S в PvE и PvP); роли: 2 урона, танк, лекарь. Выбор Вячеслава 28.10
-CHEATS = [('hunter', 'beast-mastery'), ('mage', 'frost'), ('paladin', 'protection'), ('priest', 'discipline')]
+CHEATS = [('hunter', 'beast-mastery'), ('mage', 'frost'), ('paladin', 'protection'), ('priest', 'discipline'), ('rogue', 'combat')]
 SLUGS = [f'spec-{c}-{s}' for c, s in CHEATS]
 HAS_CHEAT = {f'{c}-{s}' for c, s in CHEATS}
 
@@ -29,26 +29,12 @@ TAB = {
                    'Evolução 1→60', 'Salita 1→60', 'Levelowanie 1→60'),
     'group': n9('С кем играть', 'Who to group with', 'З ким грати', 'Mit wem spielen', 'Avec qui jouer', 'Con quién jugar',
                 'Com quem jogar', 'Con chi giocare', 'Z kim grać'),
-    'bis': n9('БиС · после старта', 'BiS · after launch', 'БіС · після старту', 'BiS · nach dem Start', 'BiS · après le lancement',
-              'BiS · tras el lanzamiento', 'BiS · após o lançamento', 'BiS · dopo il lancio', 'BiS · po starcie'),
-    'rotation': n9('Ротация · после старта', 'Rotation · after launch', 'Ротація · після старту', 'Rotation · nach dem Start',
-                   'Rotation · après le lancement', 'Rotación · tras el lanzamiento', 'Rotação · após o lançamento',
-                   'Rotazione · dopo il lancio', 'Rotacja · po starcie'),
+    'rotation': n9('Ротация', 'Rotation', 'Ротація', 'Rotation', 'Rotation', 'Rotación', 'Rotação', 'Rotazione', 'Rotacja'),
 }
 PICK = n9('Подобрать свою расу', 'Pick your race', 'Підібрати свою расу', 'Eigene Rasse wählen', 'Choisir ma race', 'Elegir mi raza',
           'Escolher minha raça', 'Scegli la tua razza', 'Wybierz swoją rasę')
 FROM_LINK = n9('Раса из ссылки', 'Race from the link', 'Раса з посилання', 'Rasse aus dem Link', 'Race du lien', 'Raza del enlace',
                'Raça do link', 'Razza dal link', 'Rasa z linku')
-BIS_NOTE = n9(
-    'Лучшее снаряжение 60 уровня появится после старта 5 ноября. На бете был открыт только 30 уровень, предметы 60 уровня Forever пока неизвестны. Список добавим по данным игры.',
-    'The best level 60 gear will appear after the Nov 5 launch. The beta only went up to level 30, and Forever’s level 60 items are not known yet. We will add the list from the game’s data.',
-    'Найкраще спорядження 60 рівня з’явиться після старту 5 листопада. У беті був відкритий лише 30 рівень, предмети 60 рівня Forever поки невідомі. Додамо список за даними гри.',
-    'Die beste Ausrüstung für Stufe 60 folgt nach dem Start am 5. November. Die Beta ging nur bis Stufe 30, die Gegenstände für Stufe 60 in Forever sind noch unbekannt. Wir ergänzen die Liste anhand der Spieldaten.',
-    'Le meilleur équipement du niveau 60 arrivera après le lancement du 5 novembre. La bêta n’allait que jusqu’au niveau 30, les objets du niveau 60 de Forever sont encore inconnus. Nous ajouterons la liste d’après les données du jeu.',
-    'El mejor equipo de nivel 60 llegará tras el lanzamiento del 5 de noviembre. La beta solo llegó al nivel 30 y los objetos de nivel 60 de Forever aún no se conocen. Añadiremos la lista con los datos del juego.',
-    'O melhor equipamento do nível 60 virá após o lançamento de 5 de novembro. A beta foi aberta só até o nível 30 e os itens do nível 60 do Forever ainda são desconhecidos. Vamos adicionar a lista com os dados do jogo.',
-    'Il miglior equipaggiamento di livello 60 arriverà dopo il lancio del 5 novembre. La beta arrivava solo al livello 30 e gli oggetti di livello 60 di Forever non sono ancora noti. Aggiungeremo la lista dai dati del gioco.',
-    'Najlepszy sprzęt na 60 level pojawi się po starcie 5 listopada. Beta sięgała tylko 30 levelu, a przedmioty 60 levelu w Forever nie są jeszcze znane. Dodamy listę na podstawie danych z gry.')
 ROT_NOTE = n9(
     'Ротация на 60 уровне будет после старта 5 ноября. Пока здесь порядок действий на 30 уровне по бете, как у Icy Veins и Wowhead.',
     'The level 60 rotation will come after the Nov 5 launch. For now this is the level 30 order of actions from the beta, as given by Icy Veins and Wowhead.',
@@ -87,6 +73,32 @@ LEAD_TAIL = n9('Билд, таланты, прокачка и группа на 
                'Build, talentos, evolução e grupo em uma só página.', 'Build, talenti, salita e gruppo in una sola pagina.',
                'Build, talenty, levelowanie i grupa na jednej stronie.')
 
+GOAL = n9('Цель', 'Goal', 'Мета', 'Ziel', 'Objectif', 'Objetivo', 'Objetivo', 'Obiettivo', 'Cel')
+GOAL_LV = n9('Прокачка', 'Leveling', 'Прокачування', 'Leveln', 'Progression', 'Subida', 'Evolução', 'Salita', 'Levelowanie')
+GOAL_DG = n9('Подземелья', 'Dungeons', 'Підземелля', 'Dungeons', 'Donjons', 'Mazmorras', 'Masmorras', 'Spedizioni', 'Lochy')
+KEYT = n9('Ключевые таланты', 'Key talents', 'Ключові таланти', 'Wichtige Talente', 'Talents clés', 'Talentos clave', 'Talentos-chave',
+          'Talenti chiave', 'Kluczowe talenty')
+ORDER_L = n9('Порядок взятия по уровням', 'Order of points by level', 'Порядок вибору за рівнями', 'Reihenfolge nach Stufe', 'Ordre par niveau',
+             'Orden por nivel', 'Ordem por nível', 'Ordine per livello', 'Kolejność wg poziomu')
+GEAR_T = n9('Экипировка, чары, камни, расходники', 'Gear, enchants, gems, consumables', 'Спорядження, чари, камені, витратні',
+            'Ausrüstung, Verzauberungen, Edelsteine, Verbrauchsgüter', 'Équipement, enchantements, gemmes, consommables',
+            'Equipo, encantamientos, gemas, consumibles', 'Equipamento, encantamentos, gemas, consumíveis',
+            'Equipaggiamento, incantamenti, gemme, consumabili', 'Ekwipunek, zaklęcia, kamienie, materiały eksploatacyjne')
+WAIT = n9('Ждёт данных: на бете был только 30 уровень, список Forever добавим после старта 5 ноября.',
+          'Waiting for data: the beta stopped at level 30, the Forever list comes after the Nov 5 launch.',
+          'Чекає на дані: у беті був лише 30 рівень, список Forever додамо після старту 5 листопада.',
+          'Wartet auf Daten: Die Beta ging nur bis Stufe 30, die Forever-Liste folgt nach dem Start am 5. November.',
+          'En attente de données : la bêta s’arrêtait au niveau 30, la liste Forever arrivera après le lancement du 5 novembre.',
+          'A la espera de datos: la beta llegó solo al nivel 30, la lista de Forever llegará tras el lanzamiento del 5 de noviembre.',
+          'Aguardando dados: a beta foi só até o nível 30, a lista do Forever vem após o lançamento de 5 de novembro.',
+          'In attesa di dati: la beta arrivava solo al livello 30, la lista di Forever arriverà dopo il lancio del 5 novembre.',
+          'Czeka na dane: beta sięgała tylko 30 levelu, listę Forever dodamy po starcie 5 listopada.')
+NEXT_PFX = n9('Дальше', 'Next', 'Далі', 'Weiter', 'Suite', 'Siguiente', 'Próximo', 'Avanti', 'Dalej')
+
+
+def _name(x, lang):
+    return x if isinstance(x, str) else (x.get(lang) or x['en'])
+
 
 def _h(text):
     return {l: f'<h3>{escape(text[l])}</h3>' for l in text if l in LANGS9}
@@ -118,7 +130,7 @@ def attach(guides, hubs, order):
         tab_level = [('h3', lvl('spec')['title'])] + lvl('spec')['blocks'] + [('h3', lvl('talents')['title'])] + lvl('talents')['blocks']
         tab_group = party['blocks'] + [('text', [GROUP_NOTE])]
         guide = {
-            'slug': slug, 'art': cid, 'hero': 'hero_leveling', 'hub': False, 'more': False, 'js': 'cheat', 'cheat': (cid, spec, row, roles['head'][2]),
+            'slug': slug, 'art': cid, 'hero': 'hero_leveling', 'hub': False, 'more': False, 'js': 'cheat', 'cheat': (cid, spec, row, roles['head'][2], table[1]['rows']),
             'title': bg['title'], 'lead': bg['lead'], 'tile': sec['title'], 'pills': list(bg['pills'][:1]),
             'sources': [s for s in bg['sources'] if spec.split('-')[0].title() in s[0] or 'Calculator' in s[0]] or bg['sources'],
             'sections': [
@@ -127,7 +139,6 @@ def attach(guides, hubs, order):
                 {'id': 'talents', 'title': TAB['talents'], 'blocks': tab_talents},
                 {'id': 'leveling', 'title': TAB['leveling'], 'blocks': tab_level},
                 {'id': 'group', 'title': TAB['group'], 'blocks': tab_group},
-                {'id': 'bis', 'title': TAB['bis'], 'blocks': [('text', [BIS_NOTE])]},
                 {'id': 'rotation', 'title': TAB['rotation'], 'blocks': [('text', [ROT_NOTE]), steps]},
                 {'id': 'related', 'title': SEE_ALSO, 'blocks': [('tiles', [
                     {'t': FULL_BUILDS, 'd': bg['tile'], 'href': f'guides/builds-{cid}/#{spec}', 'art': cid},
@@ -136,6 +147,9 @@ def attach(guides, hubs, order):
             ],
         }
         guides.append(guide)
+    for slug in SLUGS:
+        if slug not in order:
+            order.append(slug)
     guides.sort(key=lambda g: order.index(g['slug']))
 
 
@@ -144,19 +158,29 @@ def finish(guides, hero_core, langs_mod):
     for g in guides:
         if g['slug'] not in SLUGS:
             continue
-        cid, spec, row, tierh = g.pop('cheat')
+        cid, spec, row, tierh, trows = g.pop('cheat')
         title, lead, bar = {}, {}, {}
         for lang in LANGS9:
             if lang not in langs_mod.LANGS:
                 continue
             n = hero_core(lang)
             sn = n['sn'][cid][n['sid'][cid].index(spec)]
-            title[lang] = f'{n["cn"][cid]} · {sn}'
+            title[lang] = f'{n["cn"][cid]} · {sn}'   # the dot stays with the class on a wrapped heading
             lead[lang] = f'{row[1][lang]} · {tierh[lang]}: {row[2]}. {row[3][lang]}. {LEAD_TAIL[lang]}'
+            top = [trows[-1]] + sorted(trows[:-1], key=lambda r: -int(r[1]))[:4]   # the last row is the spec's main talent, then the most points
+            keys = ' · '.join(f'{escape(_name(r[0], lang))} ×{r[1]}' for r in top)
+            leveling_href = f'../leveling-{cid}/'
             bar[lang] = (f'<div id="cheat" data-cls="{cid}" data-spec="{spec}" data-from="{escape(FROM_LINK[lang])}">'
                          f'<p class="small" id="cheatRace" hidden></p>'
                          f'<p id="cheatBest" data-l="{escape(BEST[lang])}"></p>'
-                         f'<p class="gbtns"><a class="btn" id="cheatPick" href="../../tools/#pick={cid}">{escape(PICK[lang])}</a> '
+                         f'<dl class="cxrows">'
+                         f'<div><dt>{escape(GOAL[lang])}</dt><dd><a href="#leveling">{escape(GOAL_LV[lang])}</a> · '
+                         f'<a href="#group">{escape(GOAL_DG[lang])}: {escape(row[1][lang])}</a></dd></div>'
+                         f'<div><dt>{escape(KEYT[lang])}</dt><dd>{keys}. <a href="#talents">{escape(ORDER_L[lang])}</a></dd></div>'
+                         f'<div><dt>{escape(GEAR_T[lang])}</dt><dd>{escape(WAIT[lang])}</dd></div>'
+                         f'</dl>'
+                         f'<p class="gbtns"><a class="btn cxnext" href="{leveling_href}">{escape(NEXT_PFX[lang])}: {escape(TAB["leveling"][lang])} →</a> '
+                         f'<a class="btn ghost" id="cheatPick" href="../../tools/#pick={cid}">{escape(PICK[lang])}</a> '
                          f'<button type="button" class="btn ghost" id="cheatShare">{escape(n["tx"]["share"])}</button> '
                          f'<span class="small" role="status" id="cheatMsg"></span></p></div>')
         g['title'], g['lead'], g['crumb'] = title, lead, title

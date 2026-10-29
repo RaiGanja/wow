@@ -167,6 +167,9 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .mainnav { display: flex; margin-left: auto; }   /* auto on both this and .tools: the free space splits equally left and right of the menu */
 .mainnav a { min-height: 44px; display: grid; place-items: center; padding: 0 9px; color: inherit; opacity: .78; text-decoration: none; font-size: var(--fs-14); white-space: nowrap; font-weight: 500; box-shadow: inset 0 -2px 0 transparent; transition: opacity .2s, box-shadow .2s; }
 .mainnav a:hover { opacity: 1; }
+.mainnav a.nwide { display: none; }
+@media (min-width: 1440px) { .mainnav a.nwide { display: grid; } .mainnav a.nnarrow { display: none; } }
+:lang(es) .mainnav a.nwide { display: none !important; } :lang(es) .mainnav a.nnarrow { display: grid !important; }   /* «Segunda pantalla» runs 48 px off at 1440 */
 /* the top bar row is tight (9 links + language, search, radio, login, theme): measured to fit with room at every width */
 @media (max-width: 1280px) { .mainnav a { padding: 0 6px; } }
 .mainnav a[aria-current="true"] { opacity: 1; color: var(--ink-gold); }
@@ -299,10 +302,14 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .hq a { min-height: 36px; display: inline-flex; align-items: center; color: var(--ink); text-decoration: underline; text-decoration-color: rgba(241,236,224,.4); text-underline-offset: 3px; }
 .hq a:hover { text-decoration-color: #e0c27a; }
 .htasks { display: grid; grid-template-columns: repeat(3, 236px); grid-auto-rows: 1fr; gap: 10px; margin-top: 4px; }   /* six goals of one size: the first screen answers «where do I start» */
-.htasks a { min-height: 52px; display: flex; align-items: center; justify-content: center; padding: 6px 14px; text-align: center; line-height: 1.2; border: 1px solid rgba(241,236,224,.3); border-radius: 7px; background: rgba(5,5,5,.45); color: var(--ink); font-weight: 600; font-size: var(--fs-16); text-decoration: none; transition: border-color .15s; }
+.htasks a { min-height: 52px; display: flex; align-items: center; justify-content: center; padding: 6px 14px; text-align: center; line-height: 1.2; border: 1px solid rgba(241,236,224,.5); border-radius: 7px; background: rgba(14,14,16,.9); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); color: #f1ece0; font-weight: 600; font-size: var(--fs-16); text-decoration: none; transition: border-color .15s; }
 .htasks a:hover { border-color: #e0c27a; }
 .htasks a.on { border-color: var(--gold); background: var(--gold); color: var(--gold-ink); }
 .htasks a.on:hover { border-color: var(--gold-2); background: var(--gold-2); }
+.hplay { margin: 12px 0 0; font-size: var(--fs-16); }
+.hplay a { color: #f1ece0; text-decoration: underline; text-decoration-color: rgba(201,165,74,.7); text-underline-offset: 4px; }
+.hplay a:hover { color: #e0c27a; }
+.hplay a::after { content: " →"; }
 .hnews { margin: 0 auto 34px; display: grid; gap: 10px; }
 .hnews .hh { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; text-shadow: var(--hero-shadow); }
 .hnews .hh h2 { font-size: var(--fs-22); line-height: 1; color: var(--ink); }
@@ -1168,6 +1175,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
     <p class="lead">Гид по WoW Forever на русском: выбрать класс, билд, куда качаться.</p>
     <p class="hdata">Данные: бета Forever · обновлено @@DATA_UPD@@</p>
     <nav class="htasks" aria-label="С чего начать"><a class="on" href="guides/launch-checklist/">Я новичок</a><a href="classes/#choose">Выбрать класс и расу</a><a href="guides/builds/" data-tl>Билд моего класса</a><a href="guides/leveling/">Прокачка 1–60</a><a href="guides/tier-list/#pvp">PvP</a><a href="guides/dungeons/">Подземелья</a></nav>
+    <p class="hplay"><a href="play/">Второй экран: таймеры и подземелья по уровню</a></p>
     <div class="cd" id="cd" aria-live="polite"></div>
     <p class="hd-line"><span data-d="2026-10-27T17:00:00Z"><b>27.10</b> Резерв имён</span><span data-d="2026-11-04T23:00:00Z"><b>04.11</b> Релиз</span><span data-d="2026-12-09T00:00:00"><b>09.12</b> Рейды</span></p>
   </div>
