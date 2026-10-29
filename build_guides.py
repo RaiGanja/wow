@@ -30,8 +30,8 @@ MORE_SITE = {'ru': 'Ещё на сайте', 'en': 'More on the site', 'uk': 'Щ
 SITE_TILES = [
     {'t': HUB['title'], 'href': 'guides/', 'art': 'hero_guides',
      'd': {'ru': 'Прокачка, подземелья, профессии и ответы', 'en': 'Leveling, dungeons, professions and answers', 'uk': 'Прокачка, підземелля, професії та відповіді'}},
-    {'t': {'ru': 'Инструменты', 'en': 'Tools', 'uk': 'Інструменти'}, 'href': 'tools/', 'art': 'hero_tools',
-     'd': {'ru': 'Рамки, сравнение, поиск', 'en': 'Frames, compare, search', 'uk': 'Рамки, порівняння, пошук'}},
+    {'t': {'ru': 'Конструктор группы и подборщик', 'en': 'Group builder and picker', 'uk': 'Конструктор групи та підбірник'}, 'href': 'tools/', 'art': 'hero_tools',
+     'd': {'ru': 'Раса и класс под роль, рамки группы и рейда', 'en': 'Race and class for a role, party and raid frames', 'uk': 'Раса й клас під роль, рамки групи та рейду'}},
     {'t': {'ru': 'В игре', 'en': 'In game', 'uk': 'У грі'}, 'href': 'play/', 'art': 'hero_campfire',
      'd': {'ru': 'Второй экран: радио, уровень, таймеры', 'en': 'Second screen: radio, level, timers', 'uk': 'Другий екран: радіо, рівень, таймери'}},
 ]
@@ -1644,7 +1644,7 @@ def build_page(g, lang, tpl, base_css, sprite, src):
                  f'<img src="{img}" srcset="{webp}" sizes="100vw" alt="" decoding="async" fetchpriority="high"></picture>'),
         'TITLE': E(g['title'], lang), 'LEAD': E(g['lead'], lang), 'CRUMB': crumb,
         'PILLS': ' · '.join(E(p, lang) for p in g.get('pills', [])),   # one line of facts under the lead, no badges
-        'TOC': toc, 'TOC_GRP': toc_grp, 'BODY': body, 'MORE': more,
+        'TOC': toc, 'TOC_GRP': toc_grp, 'BODY': body, 'MORE': more, 'NEXT': build.next_block(g.get('next'), lang, root),
         'SOLO': '' if toc else ' solo', 'MORE_H': (MORE_SITE if section else MORE_H)[lang],
         'SOURCES': ''.join(f'<li><a href="{u}" target="_blank" rel="noopener">{E(n, lang)}</a></li>' for n, u in g.get('sources', [])),
         'JS': ((hero_js_data + '\n' if js == 'hero' else hero_js(lang) + (build.js_names(DATA[js](src, lang), lang) + '\n' if js in DATA else '') if js in HERO_FOLLOW else build.js_names(DATA[js](src, lang), lang) + '\n' if js in DATA else ref_js(src, lang) + '\n' if js in REF else '') + L(JS[js], lang)) if js else '',

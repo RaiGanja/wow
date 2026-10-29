@@ -135,6 +135,18 @@ def test_play_page_built():
         assert 'class="stband ghero"' not in html and 'wakeLock' not in html and 'wakeBtn' not in html
         assert 'assets/radio/radio.js' in html
 
+def test_next_block():
+    nb = bg.build.next_block
+    assert nb(None, 'en', '../') == '' and nb([], 'ru', '') == ''   # no field, no block
+    items = [('guides/builds/', T), ('guides/leveling/', T), ('guides/dungeons/', T), ('guides/faq/', T)]
+    html = nb(items, 'en', '../')
+    assert html.count('<a href="../guides/') == 3 and 'faq' not in html   # three links at most
+    assert '>Next step<' in html and '<span>Hello</span>' in html
+    assert '>Nächster Schritt<' in nb(items[:1], 'de', '')
+    for d in ('', 'en/', 'de/'):   # the placeholder never reaches a page
+        for p in ('guides/leveling/', 'classes/mage/', 'races/orc/'):
+            assert '@@NEXT@@' not in open(os.path.join(bg.HERE, d + p, 'index.html'), encoding='utf-8').read()
+
 if __name__ == '__main__':
     for name, fn in list(globals().items()):
         if name.startswith('test_'):

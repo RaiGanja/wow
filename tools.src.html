@@ -26,21 +26,17 @@
 <style>
 @@BASE_CSS@@
 /* Tools page: search in the hero, party and raid frames, side-by-side compare */
-.sbox { width: min(100%, 680px); margin-top: 10px; padding: 14px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
-.sfield { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 60px; padding: 0 16px; border: 1px solid var(--pline); border-radius: 8px; background: var(--panel-2); color: var(--muted); font: inherit; font-size: var(--fs-18); text-align: left; cursor: pointer; transition: border-color .2s; }
-.sfield:hover, .sfield:focus-visible { border-color: var(--gold); }
-.sfield .ico { width: 22px; height: 22px; color: var(--gold-2); }
-.sfield span { flex: 1; min-width: 0; }
-.sfield kbd { font: inherit; font-size: var(--fs-13); color: var(--muted); border: 1px solid var(--pline); border-radius: 5px; padding: 1px 8px; }
 
 .ttiles.t2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .d-art picture { display: contents; }
 /* the three tools on the first screen, under the search, in its column: the party on the art stays in view */
+.tcta { margin-top: 4px; }
+.tcta .btn { flex: 0 0 auto; }
 .ttiles.ttop { width: min(100%, 680px); gap: 10px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .ttop .ttile { min-height: 172px; padding: 0 14px 12px; }
 .ttop .ttile b { font-size: var(--fs-16); }
 .ttop .ttile span { font-size: var(--fs-13); }
-@media (max-width: 719px) { .ttiles.ttop { grid-template-columns: minmax(0, 1fr); } .ttop .ttile { min-height: 112px; } }
+@media (max-width: 719px) { .tcta .btn { flex: 1 1 100%; } .ttiles.ttop { grid-template-columns: minmax(0, 1fr); } .ttop .ttile { min-height: 112px; } }
 
 /* Frames */
 .rtool { padding: 18px; display: grid; gap: 18px; }
@@ -216,10 +212,6 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
   .cpick.races { display: grid; }
 }
 @media (max-width: 719px) {
-  .sfield kbd { display: none; }
-  .sfield { min-height: 52px; font-size: var(--fs-16); }
-  .sfield span:not(.sr) { line-height: 1.3; }   /* a long hint wraps to a second line, it is never cut */
-  .sfield { padding-top: 8px; padding-bottom: 8px; }
   .ttiles.t2 { grid-template-columns: 1fr; }
   .rtool { padding: 12px; }
   .rbar .act { margin-left: 0; }
@@ -267,12 +259,10 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
   </picture>
   <div class="wrap thero-in">
     <nav class="crumbs" aria-label="Навигация"><a href="@@HOME@@">Главная</a><span aria-hidden="true">/</span><span>Инструменты</span></nav>
-    <h1>Инструменты</h1>
+    <h1>Подборщик расы и класса, конструктор группы и рейда</h1>
     <p class="upd">Обновлено @@UPDATED@@</p>
-    <p class="lead">Поиск по всему сайту, рамки группы и рейда как в игре и сравнение классов и рас. Состав хранится в ссылке, её можно кинуть в Discord.</p>
-    <div class="frame sbox" id="search" role="search">
-      <button type="button" class="sfield sopen"><svg class="ico" aria-hidden="true"><use href="#i-search"/></svg><span class="sr">Поиск по сайту</span><span>Класс, способность, раса, подземелье или уровень</span><kbd aria-hidden="true">Ctrl K</kbd></button>
-    </div>
+    <p class="lead">Подберите расу и класс под свою роль или соберите группу и рейд как в игре. Состав хранится в ссылке, её можно кинуть в Discord.</p>
+    <div class="cta tcta"><a class="btn lg" href="#picker">Подобрать расу и класс</a><a class="btn lg ghost" href="#raid">Собрать группу или рейд</a></div>
     <nav class="ttiles t3 ttop" aria-label="Инструменты">
       <a class="ttile" href="#picker"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/druid-600.avif"><img src="@@ROOT@@assets/art/druid-600.webp" alt="" loading="lazy" decoding="async"></picture><b>Подборщик расы и класса</b><span>Все сочетания и что умеет каждое</span></a>
       <a class="ttile" href="#raid"><picture><source type="image/avif" srcset="@@ROOT@@assets/art/warrior-600.avif"><img src="@@ROOT@@assets/art/warrior-600.webp" alt="" loading="lazy" decoding="async"></picture><b>Рамки группы и рейда</b><span>Группа на 5, рейд на 10, 20 и 40, как в игре</span></a>
@@ -408,7 +398,7 @@ dialog.edlg::backdrop { background: rgba(0,0,0,.6); }
 <dialog class="sheet" id="moreDlg" aria-label="Все разделы">
   <div class="dh"><b>Все разделы</b><button class="iconbtn" id="moreClose" type="button" aria-label="Закрыть"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Все разделы">
-    <div class="grp"><div class="gh">Эта страница</div><a href="#search">Поиск по сайту</a><a href="#raid">Рамки группы и рейда</a><a href="#ping">Пинг и очередь</a><a href="#compare">Сравнение классов и рас</a></div>
+    <div class="grp"><div class="gh">Эта страница</div><a href="#raid">Рамки группы и рейда</a><a href="#ping">Пинг и очередь</a><a href="#compare">Сравнение классов и рас</a></div>
     @@MORENAV@@
   </nav>
   <div class="opts">
@@ -994,10 +984,10 @@ addEventListener('hashchange', () => {   // a link pasted into an already open t
   if (!readShort()) readHash();
   renderRaid(true); $('#raid').scrollIntoView();
 });
-$('.sopen').onclick = () => { const b = document.querySelector('.srchbtn'); if (b) b.click(); };   // the site search (assets/search/)
+const openSearch = () => { const b = document.querySelector('.srchbtn'); if (b) b.click(); };   // the site search (assets/search/)
 const q0 = new URLSearchParams(location.search).get('q');   // tools/?q=... opens it with the query, once search.js (deferred) is in
 if (q0) addEventListener('DOMContentLoaded', () => {
-  $('.sopen').click();
+  openSearch();
   const i = document.querySelector('dialog.srch input');
   if (i) { i.value = q0.slice(0, 60); i.dispatchEvent(new Event('input')); }
 });

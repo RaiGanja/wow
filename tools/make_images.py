@@ -98,12 +98,32 @@ FACE_Y = {'warrior': .23, 'paladin': .23, 'hunter': .21, 'rogue': .21, 'priest':
 FRAME_FACE_Y = .31
 
 
+# Class faces, fitted by hand: (scale of the crop, eyes' height in the frame, hand-measured on the 160 px faces of 26.10).
+# One standard for all 18 (<class>-<race>): the eyes on one line (47% of the circle), the head the same size -
+# beards, hoods and gnome heads no longer fill the ring while a human face floats in it. scale < 1 = closer, > 1 = further.
+FACE_FIT = {'warrior-human': (.93, .47), 'paladin-human': (.95, .47), 'hunter-nightelf': (.92, .42), 'rogue-nightelf': (1, .46),
+            'priest-gnome': (1.22, .525), 'shaman-dwarf': (1.15, .48), 'mage-gnome': (1.05, .475), 'warlock-gnome': (1.1, .46),
+            'druid-nightelf': (1, .47), 'warrior-orc': (1.1, .47), 'paladin-undead': (1, .46), 'hunter-orc': (1, .445),
+            'rogue-orc': (1, .475), 'priest-undead': (1, .475), 'shaman-orc': (1, .475), 'mage-orc': (1, .47),
+            'warlock-orc': (1, .47), 'druid-tauren': (1, .46)}
+FACE_EYES = .47
+
+
 def face(src, name):
     """Square head-and-shoulders crop for round avatars: <name>-face.webp, 160 px (pages use webp only)."""
     im = Image.open(src).convert('RGB')
     w, h = im.size
     side, cy = int(w * .44), int(h * FACE_Y.get(name, FRAME_FACE_Y))
-    im = im.crop((w // 2 - side // 2, cy - side // 2, w // 2 + side // 2, cy + side // 2)).resize((160, 160), Image.LANCZOS)
+    if name in FACE_FIT:
+        k, ey = FACE_FIT[name]
+        eye = cy - side / 2 + ey * side                       # the eyes in the master
+        side2 = int(side * k)
+        top = eye - FACE_EYES * side2
+        top = min(max(top, 0), h - side2)                     # never past the picture (pad-free)
+        cx = w // 2 - side2 // 2
+        im = im.crop((cx, int(top), cx + side2, int(top) + side2)).resize((160, 160), Image.LANCZOS)
+    else:
+        im = im.crop((w // 2 - side // 2, cy - side // 2, w // 2 + side // 2, cy + side // 2)).resize((160, 160), Image.LANCZOS)
     im.save(os.path.join(OUT, f'{name}-face.webp'), quality=82, method=6)
 
 
