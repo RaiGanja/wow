@@ -7,7 +7,12 @@ from html import escape
 
 # (класс, спек): самые частые по данным сайта — оба прокачиваемых «быстрых» спека (Охотник S и Маг S в тир-листе прокачки),
 # лучший танк беты и лекарь (Послушание, S в PvE и PvP); роли: 2 урона, танк, лекарь. Выбор Вячеслава 28.10
-CHEATS = [('hunter', 'beast-mastery'), ('mage', 'frost'), ('paladin', 'protection'), ('priest', 'discipline'), ('rogue', 'combat')]
+CHEATS = [('hunter', 'beast-mastery'), ('mage', 'frost'), ('paladin', 'protection'), ('priest', 'discipline'), ('rogue', 'combat'),
+          ('warrior', 'protection'), ('warrior', 'fury'), ('warrior', 'arms'), ('paladin', 'holy'), ('paladin', 'retribution'),
+          ('hunter', 'marksmanship'), ('hunter', 'survival'), ('rogue', 'assassination'), ('rogue', 'subtlety'),
+          ('priest', 'holy'), ('priest', 'shadow'), ('shaman', 'elemental'), ('shaman', 'enhancement'), ('shaman', 'restoration'),
+          ('mage', 'arcane'), ('mage', 'fire'), ('warlock', 'affliction'), ('warlock', 'demonology'), ('warlock', 'destruction'),
+          ('druid', 'balance'), ('druid', 'feral'), ('druid', 'restoration')]   # all 27 specs since 29.10; the first five came first
 SLUGS = [f'spec-{c}-{s}' for c, s in CHEATS]
 HAS_CHEAT = {f'{c}-{s}' for c, s in CHEATS}
 
@@ -115,7 +120,7 @@ def attach(guides, hubs, order):
         bg, lv = by[f'builds-{cid}'], by[f'leveling-{cid}']
         sec = next(s for s in bg['sections'] if s['id'] == spec)
         roles = next(s for s in bg['sections'] if s['id'] == 'roles')['blocks'][0][1]
-        row = next(r for r in roles['rows'] if sec['title']['ru'].startswith(r[0]['ru']))
+        rows = [r for r in roles['rows'] if sec['title']['ru'].startswith(r[0]['ru'].split(' (')[0])]   # Feral: cat and bear rows
         blocks = sec['blocks']
         texts = [d for k, d in blocks if k == 'text']
         tree = next(((k, d) for k, d in blocks if k == 'tree'), None)
@@ -124,13 +129,14 @@ def attach(guides, hubs, order):
         tip = next((k, d) for k, d in blocks if k == 'tip')
         lvl = lambda i: _section(lv, i)  # noqa: E731
         party = next(x for x in next(d for k, d in lvl('play')['blocks'] if k == 'tabs') if x['id'] == 'party')
-        answer_table = ('table', {'head': [roles['head'][1], roles['head'][2], roles['head'][3]], 'rows': [row[1:]]})
+        answer_table = (('table', {'head': roles['head'][1:4], 'rows': [rows[0][1:]]}) if len(rows) == 1 else
+                        ('table', {'head': roles['head'], 'rows': rows}))
         tab_build = [('text', texts[0]), tip]
         tab_talents = ([tree] if tree else []) + [table] + [('text', x) for x in texts[1:]]
         tab_level = [('h3', lvl('spec')['title'])] + lvl('spec')['blocks'] + [('h3', lvl('talents')['title'])] + lvl('talents')['blocks']
         tab_group = party['blocks'] + [('text', [GROUP_NOTE])]
         guide = {
-            'slug': slug, 'art': cid, 'hero': 'hero_leveling', 'hub': False, 'more': False, 'js': 'cheat', 'cheat': (cid, spec, row, roles['head'][2], table[1]['rows']),
+            'slug': slug, 'art': cid, 'hero': 'hero_leveling', 'hub': False, 'more': False, 'js': 'cheat', 'cheat': (cid, spec, rows, roles['head'][2], table[1]['rows']),
             'title': bg['title'], 'lead': bg['lead'], 'tile': sec['title'], 'pills': list(bg['pills'][:1]),
             'sources': [s for s in bg['sources'] if spec.split('-')[0].title() in s[0] or 'Calculator' in s[0]] or bg['sources'],
             'sections': [
@@ -158,7 +164,7 @@ def finish(guides, hero_core, langs_mod):
     for g in guides:
         if g['slug'] not in SLUGS:
             continue
-        cid, spec, row, tierh, trows = g.pop('cheat')
+        cid, spec, rows, tierh, trows = g.pop('cheat')
         title, lead, bar = {}, {}, {}
         for lang in LANGS9:
             if lang not in langs_mod.LANGS:
@@ -166,7 +172,8 @@ def finish(guides, hero_core, langs_mod):
             n = hero_core(lang)
             sn = n['sn'][cid][n['sid'][cid].index(spec)]
             title[lang] = f'{n["cn"][cid]} · {sn}'   # the dot stays with the class on a wrapped heading
-            lead[lang] = f'{row[1][lang]} · {tierh[lang]}: {row[2]}. {row[3][lang]}. {LEAD_TAIL[lang]}'
+            role = ' / '.join(r[1][lang] for r in rows)
+            lead[lang] = f'{role} · {tierh[lang]}: {" / ".join(dict.fromkeys(r[2] for r in rows))}. {rows[0][3][lang]}. {LEAD_TAIL[lang]}'
             top = [trows[-1]] + sorted(trows[:-1], key=lambda r: -int(r[1]))[:4]   # the last row is the spec's main talent, then the most points
             keys = ' · '.join(f'{escape(_name(r[0], lang))} ×{r[1]}' for r in top)
             leveling_href = f'../leveling-{cid}/'
@@ -175,7 +182,7 @@ def finish(guides, hero_core, langs_mod):
                          f'<p id="cheatBest" data-l="{escape(BEST[lang])}"></p>'
                          f'<dl class="cxrows">'
                          f'<div><dt>{escape(GOAL[lang])}</dt><dd><a href="#leveling">{escape(GOAL_LV[lang])}</a> · '
-                         f'<a href="#group">{escape(GOAL_DG[lang])}: {escape(row[1][lang])}</a></dd></div>'
+                         f'<a href="#group">{escape(GOAL_DG[lang])}: {escape(role)}</a></dd></div>'
                          f'<div><dt>{escape(KEYT[lang])}</dt><dd>{keys}. <a href="#talents">{escape(ORDER_L[lang])}</a></dd></div>'
                          f'<div><dt>{escape(GEAR_T[lang])}</dt><dd>{escape(WAIT[lang])}</dd></div>'
                          f'</dl>'
