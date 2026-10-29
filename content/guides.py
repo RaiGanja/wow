@@ -1991,6 +1991,33 @@ def _ck(id_, title, d, href, go, langs=None):
     return item
 
 
+def _newbie():
+    """Top of the Day 1 checklist for the «Я новичок» button of the home page: what this is and where to go next, with the main action."""
+    from html import escape
+    from content.spec_cheats import n9
+    what = n9('Что это: список дел на старт WoW Forever. Отметки остаются в вашем браузере.',
+              'What this is: a to-do list for the WoW Forever launch. Your ticks stay in this browser.',
+              'Що це: список справ на старт WoW Forever. Позначки лишаються у вашому браузері.',
+              'Was das ist: eine Aufgabenliste für den Start von WoW Forever. Deine Häkchen bleiben in diesem Browser.',
+              'De quoi s’agit-il : une liste de tâches pour le lancement de WoW Forever. Vos coches restent dans ce navigateur.',
+              'Qué es: una lista de tareas para el lanzamiento de WoW Forever. Tus marcas se quedan en este navegador.',
+              'O que é: uma lista de tarefas para o lançamento de WoW Forever. Suas marcações ficam neste navegador.',
+              'Che cos’è: una lista di cose da fare per il lancio di WoW Forever. Le tue spunte restano in questo browser.',
+              'Co to jest: lista rzeczy do zrobienia na start WoW Forever. Twoje odhaczenia zostają w tej przeglądarce.')
+    nxt = n9('Новичку, по порядку:', 'New player, in order:', 'Новачку, по порядку:', 'Als Neuling der Reihe nach:', 'Débutant, dans l’ordre :',
+             'Si eres nuevo, en orden:', 'Para iniciantes, em ordem:', 'Se sei nuovo, in ordine:', 'Dla nowych, po kolei:')
+    s1 = n9('Выбрать класс', 'Pick a class', 'Обрати клас', 'Klasse wählen', 'Choisir une classe', 'Elegir clase', 'Escolher classe', 'Scegli la classe', 'Wybierz klasę')
+    s2 = n9('Взять билд', 'Take a build', 'Взяти білд', 'Build nehmen', 'Prendre un build', 'Coger un build', 'Pegar uma build', 'Prendi una build', 'Weź build')
+    s3 = n9('Прокачка 1–60', 'Leveling 1–60', 'Прокачування 1–60', 'Leveln 1–60', 'Progression 1–60', 'Subida 1–60', 'Evolução 1–60', 'Salita 1–60', 'Levelowanie 1–60')
+    return {l: (f'<p>{escape(what[l])}</p><p class="small">{escape(nxt[l])}</p>'
+                f'<p class="nsteps"><a class="btn" href="../../classes/#choose">{escape(s1[l])}</a><span class="nr"><span aria-hidden="true">→</span>'
+                f'<a href="../builds/">{escape(s2[l])}</a><span aria-hidden="true">→</span><a href="../leveling/">{escape(s3[l])}</a></span></p>')
+            for l in what}
+
+
+_NEWBIE = _newbie()
+
+
 GUIDES.append({
     'slug': 'launch-checklist', 'art': 'hero_campfire', 'hero': 'hero_guides', 'tile_art': 'hero_campfire', 'og': 'guides', 'js': 'checklist',
     'title': t('День 1: чек-лист старта', 'Day 1: Launch Checklist', 'День 1: чек-лист старту'),
@@ -2013,6 +2040,7 @@ GUIDES.append({
     ],
     'sections': [
         {'id': 'before', 'title': t('До старта', 'Before launch', 'До старту'), 'blocks': [
+            ('raw', _NEWBIE),
             ('ckbar', {'done': t('Отмечено', 'Ticked', 'Відмічено'), 'reset': t('Снять отметки', 'Clear ticks', 'Зняти позначки')}),
             ('checks', [
                 _ck('time', t('Время старта', 'Launch time', 'Час старту'),

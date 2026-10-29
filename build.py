@@ -1114,7 +1114,18 @@ def sleep_art(html):
     return html
 
 
+def home_specs():
+    """Home «Билды и таланты»: nine classes, each with the chips of its three spec cheat sheets (Russian, translate() does the rest)."""
+    rows = ''
+    for c in CLASSES:
+        chips = ''.join(f'<li><a href="guides/spec-{c["id"]}-{sid}/"><b>{esc(s["n"])}</b><span>{" · ".join(ROLE[r] for r in s["roles"])}</span></a></li>'
+                        for s, sid in zip(c['specs'], SPEC_IDS[c['id']]))
+        rows += f'<div class="spcls"><a class="spn" href="guides/builds-{c["id"]}/">{esc(c["n"])}</a><ul class="spchips">{chips}</ul></div>'
+    return rows
+
+
 def build_home(lang, src):
+    src = src.replace('@@SPECS@@', home_specs())
     src = src.replace('@@RACE_LEAD@@', json.dumps({r['id']: r['lead'] for r in RACES_PAGE}, ensure_ascii=False))
     src = src.replace('@@RACE_SLUG@@', json.dumps({r['id']: r['slug'] for r in RACES_PAGE}))
     src = re.sub(r'/\* data:start .*?/\* data:end \*/\n', '', src, count=1, flags=re.S)   # read by the other builds, not used here
@@ -1457,7 +1468,8 @@ def render_class(c, races, lang):
         panels.append(f'<div class="spanel" role="tabpanel" id="spec-{k}" aria-labelledby="tab-{k}" tabindex="0"{"" if on else " hidden"}>'
                       f'<div class="about"><p class="what">{"".join(ri(r) for r in s["roles"])}{esc(s["what"])}</p><p class="style">{esc(s["style"])}</p>'
                       f'<div class="tipbox"><svg class="ico fi" aria-hidden="true"><use href="#i-fire"/></svg><p><span class="tl">Совет</span>{esc(s["tip"])}</p></div>'
-                      f'<a class="btn ghost ttree" href="@@HOME@@guides/builds-{c["id"]}/#{SPEC_IDS[c["id"]][k]}">Дерево талантов</a></div>'
+                      f'<div class="sbtns"><a class="btn ghost ttree" href="@@HOME@@guides/builds-{c["id"]}/#{SPEC_IDS[c["id"]][k]}">Дерево талантов</a>'
+                      f'<a class="btn ghost ttree" href="@@HOME@@guides/spec-{c["id"]}-{SPEC_IDS[c["id"]][k]}/">Шпора спека</a></div></div>'
                       f'<ul class="keys" aria-label="Ключевые способности">{keys}</ul></div>')
     news = ''.join(f'<li><span>{esc(x)}</span></li>' for x in c['news'])   # one grid cell next to the number
     side = []

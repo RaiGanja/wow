@@ -195,8 +195,16 @@ STATS_SPLIT = n9('Ждёт данных: источники расходятся
                  'Aguardando dados: as fontes divergem. Icy Veins põe acerto primeiro, Warcraft Tavern põe poder mágico.',
                  'In attesa di dati: le fonti non concordano. Icy Veins mette prima colpire, Warcraft Tavern il potere magico.',
                  'Czeka na dane: źródła się różnią. Icy Veins stawia najpierw trafienie, Warcraft Tavern moc zaklęć.')
+EXTRA = {
+    'sta': n9('Выносливость', 'Stamina', 'Витривалість', 'Ausdauer', 'Endurance', 'Aguante', 'Vigor', 'Resistenza', 'Wytrzymałość'),
+    'def': n9('Защита', 'Defense', 'Захист', 'Verteidigung', 'Défense', 'Defensa', 'Defesa', 'Difesa', 'Obrona'),
+    'thr': n9('угрозы', 'threat', 'загрози', 'Bedrohung', 'menace', 'amenaza', 'ameaça', 'minaccia', 'zagrożenia'),
+    'dodge': n9('уклонения', 'dodge', 'ухилення', 'Ausweichen', 'esquive', 'esquiva', 'esquiva', 'schivata', 'uniku')}
+
+
 def S(k, n):
-    return {l: f'+{n} {STAT[k][l]}' for l in LANGS9}
+    pct = '%' if k in ('thr', 'dodge') else ''
+    return {l: f'+{n}{pct} {(STAT.get(k) or EXTRA[k])[l]}' for l in LANGS9}
 
 
 def J(*ds):
@@ -302,6 +310,48 @@ ARCANE_ENCH = [(SLOT['w'], REV), (SLOT['kit'], KIT_SP), (SLOT['neck'], S('sp', 6
                (SLOT['l60'], J(S('sp', 30), {l: f'2H {S("sp", 55)[l]}' for l in LANGS9}))]
 HOLY_ENCH = [(SLOT['w'], REV), (SLOT['neck'], S('sp', 6)), (SLOT['chest'], S('int', 4)), (SLOT['legs'], KIT_SP), (SLOT['boots'], SPEED)]
 HEAL_NECK = [(SLOT['neck'], S('hp', 11))]
+DERIV = n9('Wowhead: база чар, подбор по статам', 'Wowhead: enchant database, picked by stats', 'Wowhead: база чарів, добір за характеристиками',
+           'Wowhead: Verzauberungsdatenbank, nach Werten gewählt', 'Wowhead : base d’enchantements, choix selon les caractéristiques',
+           'Wowhead: base de encantamientos, elegidos por estadísticas', 'Wowhead: base de encantamentos, escolha por atributos',
+           'Wowhead: database degli incantamenti, scelti per statistiche', 'Wowhead: baza zaklęć, dobór według statystyk')
+HEAL_ICY = n9('Icy Veins, Wowhead: подбор по статам', 'Icy Veins, Wowhead: picked by stats', 'Icy Veins, Wowhead: добір за характеристиками',
+              'Icy Veins, Wowhead: nach Werten gewählt', 'Icy Veins, Wowhead : choix selon les caractéristiques',
+              'Icy Veins, Wowhead: elegidos por estadísticas', 'Icy Veins, Wowhead: escolha por atributos',
+              'Icy Veins, Wowhead: scelti per statistiche', 'Icy Veins, Wowhead: dobór według statystyk')
+KIT_SLOTS = n9('Грудь, ноги, перчатки, сапоги', 'Chest, legs, hands, boots', 'Груди, ноги, рукавиці, чоботи', 'Brust, Beine, Hände, Stiefel',
+               'Torse, jambes, mains, bottes', 'Pecho, piernas, manos, botas', 'Peitoral, pernas, mãos, botas', 'Torace, gambe, mani, stivali',
+               'Tors, nogi, dłonie, buty')
+SHIELD = n9('Щит', 'Shield', 'Щит', 'Schild', 'Bouclier', 'Escudo', 'Escudo', 'Scudo', 'Tarcza')
+GLOVES = n9('Перчатки', 'Gloves', 'Рукавиці', 'Handschuhe', 'Handschuhe'.replace('Handschuhe', 'Gants'), 'Guantes', 'Luvas', 'Guanti', 'Rękawice')
+CLOAK = n9('Плащ', 'Cloak', 'Плащ', 'Umhang', 'Cape', 'Capa', 'Capa', 'Mantello', 'Płaszcz')
+KIT_ONLY_SP = J(NM(I_KIT), S('sp', 4))
+
+
+SLOT['l60w'] = n9('Оружие на 60 уровне', 'Weapon at level 60', 'Зброя на 60 рівні', 'Waffe auf Stufe 60', 'Arme au niveau 60', 'Arma en el nivel 60',
+                  'Arma no nível 60', 'Arma al livello 60', 'Broń na 60 poziomie')
+
+
+def L60(*ds):
+    return (SLOT['l60w'], J(*ds))
+
+
+def TWOH(d):
+    return {l: f'2H {d[l]}' for l in LANGS9}
+
+
+AGI_ENCH = [(SLOT['br'], S('agi', 5)), (GLOVES, S('agi', 7)), (SLOT['neck'], S('agi', 5)), (CLOAK, S('agi', 3)), (SLOT['boots'], S('agi', 4)),
+            L60(S('agi', 15), TWOH(S('agi', 25)))]
+STR_ENCH = [(SLOT['br'], S('str', 5)), (GLOVES, S('str', 7)), (SLOT['neck'], S('str', 5)), (CLOAK, S('agi', 3)), (SLOT['boots'], S('agi', 4)),
+            (SLOT['w'], TWOH(S('str', 15))), L60(S('str', 15), TWOH(S('str', 25)))]
+TANK_ENCH = [(SLOT['br'], S('sta', 5)), (SLOT['chest'], S('sta', 8)), (SLOT['boots'], S('sta', 5)), (SLOT['neck'], S('def', 5)),
+             (SHIELD, S('sta', 7)), (SLOT['l60'], J({l: f'{GLOVES[l]} {S("thr", 2)[l]}' for l in LANGS9}, {l: f'{CLOAK[l]} {S("dodge", 1)[l]}' for l in LANGS9}))]
+CASTER_ENCH = [(KIT_SLOTS, KIT_ONLY_SP), (SLOT['neck'], S('sp', 6)), (SLOT['br'], S('sp', 6)), L60(S('sp', 30), TWOH(S('sp', 55)))]
+HEAL_ENCH = [(SLOT['neck'], S('hp', 11)), (SLOT['br'], S('hp', 16)), (SLOT['chest'], S('int', 6)), (SLOT['legs'], KIT_ONLY_SP), (SLOT['boots'], SPEED),
+             L60(S('hp', 55), TWOH(S('hp', 100)))]
+MAGE_ENCH = [(SLOT['w'], REV), (SLOT['kit'], KIT_SP), (SLOT['neck'], S('sp', 6)), (SLOT['br'], S('sp', 6)), (SLOT['boots'], SPEED),
+             L60(S('sp', 30), TWOH(S('sp', 55)))]
+ELE_ENCH = [(SLOT['w'], REV), (KIT_SLOTS, KIT_ONLY_SP), (SLOT['br'], S('sp', 12)), (SLOT['l60'], {l: f'{SLOT["br"][l]} {S("sp", 16)[l]}' for l in LANGS9})]
+
 # (class-spec) -> row index (0 enchants, 1 consumables, 2 gems and materials) -> ([(label, effect)], source). No entry: the WAIT line of the row
 GEAR = {
     'rogue-combat': {1: (ROGUE, IVW)}, 'rogue-assassination': {1: (ROGUE, IVW)}, 'rogue-subtlety': {1: (ROGUE, IVW)},
@@ -319,7 +369,38 @@ GEAR = {
     'paladin-holy': {0: (HOLY_ENCH, WH), 1: ([(I_MANA, P_MANA)], WH)},
     'paladin-retribution': {1: ([GHP, (I_MANA, P_MANA), (I_LAE, P_LAE), (I_SPELLB, P_SPELLB)], IVW)},
 }
-ENCH_UNREAD = {'mage-fire', 'mage-frost', 'druid-balance', 'shaman-elemental', 'shaman-enhancement'}
+ENCH_ADD = {
+    'rogue-combat': (AGI_ENCH, DERIV),
+    'rogue-assassination': (AGI_ENCH, DERIV),
+    'rogue-subtlety': (AGI_ENCH, DERIV),
+    'druid-feral': (AGI_ENCH, DERIV),
+    'hunter-beast-mastery': (AGI_ENCH, DERIV),
+    'hunter-marksmanship': (AGI_ENCH, DERIV),
+    'hunter-survival': (AGI_ENCH, DERIV),
+    'warrior-arms': (STR_ENCH, DERIV),
+    'warrior-fury': (STR_ENCH, DERIV),
+    'paladin-retribution': (STR_ENCH, DERIV),
+    'warrior-protection': (TANK_ENCH, DERIV),
+    'paladin-protection': (TANK_ENCH, DERIV),
+    'warlock-affliction': (CASTER_ENCH, DERIV),
+    'warlock-demonology': (CASTER_ENCH, DERIV),
+    'warlock-destruction': (CASTER_ENCH, DERIV),
+    'priest-shadow': (CASTER_ENCH, DERIV),
+    'priest-discipline': (HEAL_ENCH, HEAL_ICY),
+    'priest-holy': (HEAL_ENCH, HEAL_ICY),
+    'shaman-restoration': (HEAL_ENCH, DERIV),
+    'druid-restoration': (HEAL_ENCH, DERIV),
+    'mage-fire': (MAGE_ENCH, WH),
+    'mage-frost': (MAGE_ENCH, WH),
+    'druid-balance': (MAGE_ENCH, WH),
+    'shaman-elemental': (ELE_ENCH, WH),
+    'shaman-enhancement': ([(SLOT['w'], REV)], WH),
+}
+for _k, (_lines, _src) in ENCH_ADD.items():
+    GEAR.setdefault(_k, {})[0] = (_lines, _src)
+GEAR['mage-arcane'][0] = (MAGE_ENCH, WH)
+GEAR['paladin-holy'][0] = (HOLY_ENCH, WH)
+ENCH_UNREAD = set()
 WAIT_UNREAD = n9('Ждёт данных: у Wowhead есть список чар для этого спека, на сайт он ещё не перенесён.',
                  'Waiting for data: Wowhead has an enchant list for this spec, not yet on the site.',
                  'Чекає на дані: у Wowhead є список чарів для цього спеку, на сайт його ще не перенесено.',
@@ -374,6 +455,15 @@ FAQ = [
      'link': (n9('Гайд Legacy', 'Legacy guide', 'Гайд Legacy', 'Legacy-Guide', 'Guide Legacy', 'Guía de Legacy', 'Guia de Legacy', 'Guida Legacy',
                  'Poradnik Legacy'), '../legacy/')},
 ]
+CHIPS_LEAD = n9('Шпора каждого спека: билд, таланты, прокачка и группа на одной странице.',
+                'A cheat sheet for every spec: build, talents, leveling and group on one page.',
+                'Шпора для кожного спека: білд, таланти, прокачування і група на одній сторінці.',
+                'Ein Spickzettel für jede Skillung: Build, Talente, Leveln und Gruppe auf einer Seite.',
+                'Une fiche pour chaque spécialisation : build, talents, progression et groupe sur une page.',
+                'Una guía rápida por especialización: build, talentos, subida y grupo en una página.',
+                'Um resumo para cada especialização: build, talentos, evolução e grupo em uma página.',
+                'Una scheda per ogni specializzazione: build, talenti, salita e gruppo in una pagina.',
+                'Ściąga dla każdej specjalizacji: build, talenty, levelowanie i grupa na jednej stronie.')
 NEXT_PFX = n9('Дальше', 'Next', 'Далі', 'Weiter', 'Suite', 'Siguiente', 'Próximo', 'Avanti', 'Dalej')
 
 
@@ -386,7 +476,7 @@ def _gear(key, i, lang):
     if not got:
         return escape((WAIT_UNREAD if i == 0 and key in ENCH_UNREAD else WAIT[i])[lang])
     items, src = got
-    return '<br>'.join(f'{escape(_name(n, lang))} — {escape(e[lang])}' for n, e in items) + f'<br><span class="small">{escape(src)}</span>'
+    return '<br>'.join(f'{escape(_name(n, lang))} — {escape(e[lang])}' for n, e in items) + f'<br><span class="small">{escape(_name(src, lang))}</span>'
 
 
 def _h(text):
@@ -446,10 +536,12 @@ def attach(guides, hubs, order):
 
 def finish(guides, hero_core, langs_mod):
     """Titles, leads and the bar with the buttons in every language, then langs.fill for what is still short."""
+    got = {}
     for g in guides:
         if g['slug'] not in SLUGS:
             continue
         cid, spec, rows, tierh, trows = g.pop('cheat')
+        got[(cid, spec)] = rows
         title, lead, bar = {}, {}, {}
         for lang in LANGS9:
             if lang not in langs_mod.LANGS:
@@ -485,4 +577,17 @@ def finish(guides, hero_core, langs_mod):
         for sec in g['sections']:                                  # the headings of the borrowed sections: raw html, built after fill
             sec['blocks'] = [('raw', _h(d)) if k == 'h3' else (k, d) for k, d in sec['blocks']]
         g['tile'] = title
+    by = {g['slug']: g for g in guides}
+    for cid in dict.fromkeys(c for c, _ in CHEATS):                # builds-<class>: the chips of the class' sheets under the roles table
+        html = {}
+        for lang in LANGS9:
+            if lang not in langs_mod.LANGS:
+                continue
+            n = hero_core(lang)
+            items = ''.join(
+                f'<li><a href="../spec-{cid}-{sp}/"><b>{escape(sn)}</b><span>{escape(" / ".join(r[1][lang] for r in got[(cid, sp)]))}</span></a></li>'
+                for sp, sn in zip(n['sid'][cid], n['sn'][cid]))
+            html[lang] = f'<p class="small">{escape(CHIPS_LEAD[lang])}</p><ul class="spchips">{items}</ul>'
+        roles = next(sec for sec in by[f'builds-{cid}']['sections'] if sec['id'] == 'roles')
+        roles['blocks'].insert(1, ('raw', html))
     langs_mod.fill([g for g in guides if g['slug'] in SLUGS])
