@@ -1115,6 +1115,14 @@ GUIDES.append({
 NR_URL = 'https://news.blizzard.com/en-us/article/24303866/claim-your-world-of-warcraft-forever-character-names'   # name reservation 27.10 – 03.11
 
 NEWS += [
+    {'date': '2026-10-29', 'url': 'https://worldofwarcraft.blizzard.com/en-us/news/24315819/watch-the-wow-forever-podcast-all-about-tech',
+     'title': t('Подкаст WoW Forever: страница выпуска на сайте Blizzard', 'WoW: Forever Podcast: episode page on Blizzard News', 'Подкаст WoW Forever: сторінка випуску на сайті Blizzard'),
+     'text': t('Blizzard News опубликовала страницу «Watch the WoW: Forever Podcast: All About Tech» для просмотра выпуска подкаста. Подробностей, которые мы могли бы проверить, на странице нет: детали смотрите в самой публикации.',
+               'Blizzard News published the page Watch the WoW: Forever Podcast: All About Tech for viewing the podcast episode. The page gives no further details we could verify, so check the linked article.',
+               'Blizzard News опублікувала сторінку «Watch the WoW: Forever Podcast: All About Tech» для перегляду випуску подкасту. Подробиць, які ми могли б перевірити, на сторінці немає: деталі дивіться в самій публікації.'),
+     'so': t('Выпуск можно посмотреть по ссылке Blizzard.',
+             'You can watch the episode via the Blizzard link.',
+             'Випуск можна переглянути за посиланням Blizzard.')},
     {'date': '2026-10-22', 'url': 'https://worldofwarcraft.blizzard.com/en-us/news/24302070/choose-your-ruleset-in-world-of-warcraft-forever',
      'title': t('Blizzard описала четыре режима', 'Blizzard describes the four rulesets', 'Blizzard описала чотири режими'),
      'text': t('В статье Choose Your Ruleset Blizzard описывает четыре режима. Normal: приключения и бои с монстрами, бои с другими игроками по вашему желанию. PvP: упор на бои игрок против игрока, почти всегда есть риск нападения вражеских игроков. Roleplay: строгие правила имён и поведения для игроков, которые хотят погрузиться в роль персонажа. Roleplay PvP: те же правила с упором на бои игрок против игрока.',
@@ -1237,6 +1245,7 @@ GUIDES.append({
         (t('Blizzard: стартовый гид для новичков', 'Blizzard: new player\'s starter guide', 'Blizzard: стартовий гід для новачків'), 'https://worldofwarcraft.blizzard.com/en-us/news/24315280/new-players-starter-guide-welcome-to-world-of-warcraft-forever'),
         (t('Blizzard: выбор режима', 'Blizzard: choose your ruleset', 'Blizzard: вибір режиму'), 'https://worldofwarcraft.blizzard.com/en-us/news/24302070/choose-your-ruleset-in-world-of-warcraft-forever'),
         (t('Blizzard: подкаст WoW Forever', 'Blizzard: WoW Forever Podcast', 'Blizzard: подкаст WoW Forever'), 'https://us.forums.blizzard.com/en/wow/t/what-insights-would-you-like-to-see-in-a-future-episode-of-the-wow-forever-podcast/2361993/1'),
+        (t('Blizzard: страница выпуска подкаста WoW Forever', 'Blizzard: WoW Forever Podcast episode page', 'Blizzard: сторінка випуску подкасту WoW Forever'), 'https://worldofwarcraft.blizzard.com/en-us/news/24315819/watch-the-wow-forever-podcast-all-about-tech'),
     ],
     'sections': [
         {'id': 'ours', 'title': t('Наши записи', 'Our notes', 'Наші записи'), 'blocks': [('news', None)]},
