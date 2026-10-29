@@ -42,6 +42,8 @@ ROLES = (t('Танк', 'Tank', 'Танк'), t('Лекарь', 'Healer', 'Ціл�
 SPLIT = t('По источникам расходится', 'Sources disagree', 'Джерела розходяться')
 OPT = t('по событию, можно пропустить', 'event boss, optional', 'за подією, можна пропустити')
 LAST = t('последний', 'final', 'останній')
+RARE = t('редкий, появляется не всегда', 'rare, not always there', 'рідкісний, з’являється не завжди')
+SKIP = t('можно пропустить', 'optional', 'можна пропустити')
 SRC_LINE = t('Источник: официальные материалы Blizzard и данные беты. Где сайты расходятся, это подписано.',
              'Source: official Blizzard materials and beta data. Where sites disagree, it is noted.',
              'Джерело: офіційні матеріали Blizzard і дані бети. Де сайти розходяться, це підписано.')
@@ -71,7 +73,8 @@ BLIZZ_NOTES = 'https://eu.forums.blizzard.com/en/wow/t/wow-forever-beta-developm
 
 # ---------- the dungeons: one record each ----------
 # name: the English name as in DUNGEONS · slug: guides/dungeons/<slug>/ · lv_note: where the level range comes from
-# needs: (need, from, how) · bosses: name, abil, tank, heal, dps, split (optional), opt (event boss), last (final boss)
+# needs: (need, from, how) · bosses: name, abil, tank, heal, dps, split (optional), opt (event boss), rare (rare spawn),
+#   skip (optional boss), last (final boss)
 # quests: (name, where, side) with side 'alliance' | 'horde' | 'both'
 
 DUNGEON_PAGES = [
@@ -372,6 +375,128 @@ DUNGEON_PAGES = [
          (t('Icy Veins: Ruins of Lordaeron (19.10)', 'Icy Veins: Ruins of Lordaeron (Oct 19)', 'Icy Veins: Ruins of Lordaeron (19.10)'), 'https://www.icy-veins.com/wow-forever/ruins-of-lordaeron-guide'),
          (t('Method: Ruins of Lordaeron (15.10)', 'Method: Ruins of Lordaeron (Oct 15)', 'Method: Ruins of Lordaeron (15.10)'), 'https://www.method.gg/wow-forever/dungeons/ruins-of-lordaeron'),
      ]},
+    {'name': 'Ragefire Chasm', 'slug': 'ragefire-chasm',
+     'seo_ru': 'Огненная пропасть', 'pill': t('4 босса', '4 bosses', '4 боси'),
+     'desc': t('Огненная пропасть (Ragefire Chasm, 13–18) в WoW Forever: вход в Оргриммаре, четыре босса с тактикой для танка, лекаря и урона, что снимать и сбивать, пять заданий Орды.',
+               'Ragefire Chasm (13–18) in WoW Forever: the entrance in Orgrimmar, four bosses with tank, healer and damage tactics, what to dispel and interrupt, five Horde quests.',
+               'Ragefire Chasm (13–18) у WoW Forever: вхід в Orgrimmar, чотири боси з тактикою для танка, цілителя й шкоди, що знімати й збивати, п’ять завдань Орди.'),
+     'lead': t('Первое подземелье Орды, прямо в [[Оргриммаре|Orgrimmar]]: четыре босса, тактика для танка, лекаря и урона, что снимать и сбивать, пять заданий.',
+               'The Horde’s first dungeon, right inside Orgrimmar: four bosses, tactics for the tank, healer and damage dealers, what to dispel and interrupt, five quests.',
+               'Перше підземелля Орди, просто в Orgrimmar: чотири боси, тактика для танка, цілителя й шкоди, що знімати й збивати, п’ять завдань.'),
+     'lv_note': t('Warcraft Tavern и Method дают одно и то же. Blizzard диапазон не публиковала.',
+                  'Warcraft Tavern and Method agree. Blizzard has not published a range.',
+                  'Warcraft Tavern і Method збігаються. Blizzard діапазон не публікувала.'),
+     'entrance': t('Orgrimmar, Cleft of Shadow в центре города, координаты 52.8, 49.6 (Warcraft Tavern). Внутри извилистая пещера с лавой и парой боковых проходов.',
+                   'Orgrimmar, the Cleft of Shadow in the middle of the city, coordinates 52.8, 49.6 (Warcraft Tavern). Inside is a winding lava cave with a couple of side passages.',
+                   'Orgrimmar, Cleft of Shadow у центрі міста, координати 52.8, 49.6 (Warcraft Tavern). Усередині звивиста печера з лавою й кількома бічними проходами.'),
+     'side': t('Орда. Все задания ордынские. Warcraft Tavern пишет, что Альянс войти может, но на этих уровнях почти не доберётся; Method называет подземелье только ордынским. У Альянса на тех же уровнях Hall of Thanes.',
+               'Horde. All quests are Horde quests. Warcraft Tavern says the Alliance can enter but can hardly get here at these levels; Method calls the dungeon Horde-only. The Alliance has Hall of Thanes at the same levels.',
+               'Орда. Усі завдання ординські. Warcraft Tavern пише, що Альянс увійти може, але на цих рівнях майже не дістанеться; Method називає підземелля лише ординським. В Альянсу на тих самих рівнях Hall of Thanes.'),
+     'boss_fact': t('4, порядок у Warcraft Tavern и Method один.', '4, Warcraft Tavern and Method give the same order.', '4, порядок у Warcraft Tavern і Method однаковий.'),
+     'boss_note': t('Порядок прохода у обоих сайтов один. Расходятся они в том, кого бить первым у Jergosh the Invoker и Bazzalan.',
+                    'Both sites give the same route. They disagree on who to kill first at Jergosh the Invoker and Bazzalan.',
+                    'Порядок проходу в обох сайтів однаковий. Розходяться вони в тому, кого бити першим у Jergosh the Invoker і Bazzalan.'),
+     'needs': [
+         (t('Сбить заклинание', 'Interrupt a cast', 'Збити заклинання'),
+          t('Ragefire Shaman: Healing Wave. Jergosh the Invoker: Immolate.', 'Ragefire Shamans: Healing Wave. Jergosh the Invoker: Immolate.',
+            'Ragefire Shaman: Healing Wave. Jergosh the Invoker: Immolate.'),
+          t('Шаманов прерывайте или оглушайте, иначе пак лечится. Immolate сбивайте, чтобы не горел танк.',
+            'Interrupt or stun the shamans, or the pack heals up. Interrupt Immolate so the tank does not burn.',
+            'Шаманів переривайте або оглушайте, інакше пак лікується. Immolate збивайте, щоб не горів танк.')),
+         (t('Снять яд', 'Cure a poison', 'Зняти отруту'),
+          t('Bazzalan: яд на цели угрозы.', 'Bazzalan: a poison on his threat target.', 'Bazzalan: отрута на цілі загрози.'),
+          t('Снимайте с танка, если есть чем.', 'Cure it on the tank if you can.', 'Знімайте з танка, якщо є чим.')),
+         (t('Снять проклятие', 'Remove a curse', 'Зняти прокляття'),
+          t('Jergosh the Invoker: Curse of Weakness. Searing Blade Cultist: Curse of Agony на танке (Method).',
+            'Jergosh the Invoker: Curse of Weakness. Searing Blade Cultists: Curse of Agony on the tank (Method).',
+            'Jergosh the Invoker: Curse of Weakness. Searing Blade Cultist: Curse of Agony на танку (Method).'),
+          t('Снимите, если в группе есть кому. Нет — лекарь просто лечит больше.', 'Remove it if someone in the group can. If not, the healer simply heals more.',
+            'Зніміть, якщо в групі є кому. Немає — цілитель просто лікує більше.')),
+         (t('Не упасть в лаву', 'Stay out of the lava', 'Не впасти в лаву'),
+          t('Taragaman the Hungerer: Uppercut подбрасывает танка и отбрасывает назад.', 'Taragaman the Hungerer: Uppercut throws the tank up and back.',
+            'Taragaman the Hungerer: Uppercut підкидає танка й відкидає назад.'),
+          t('Танк держит босса в середине площадки, спиной не к лаве.', 'The tank holds the boss in the middle of the platform, back away from the lava.',
+            'Танк тримає боса посередині майданчика, спиною не до лави.')),
+         (t('Брать по одному паку', 'One pack at a time', 'Брати по одному паку'),
+          t('Searing Blade Enforcer: Shield Slam оглушает танка на 2 секунды (Method).', 'Searing Blade Enforcers: Shield Slam stuns the tank for 2 seconds (Method).',
+            'Searing Blade Enforcer: Shield Slam оглушує танка на 2 секунди (Method).'),
+          t('Несколько сразу — и оглушения идут цепочкой. Паки здесь плотные.', 'Several at once and the stuns chain. The packs here are tight.',
+            'Кілька одразу — і оглушення йдуть ланцюжком. Паки тут щільні.')),
+     ],
+     'group_tip': t('Шаманы и Searing Blade Warlock бьют издалека. Тяните их из-за угла: они подойдут сами и не поднимут соседей.',
+                    'The shamans and Searing Blade Warlocks attack from range. Pull them around a corner: they come to you and do not wake their neighbours.',
+                    'Шамани й Searing Blade Warlock б’ють здалеку. Тягніть їх з-за рогу: вони підійдуть самі й не піднімуть сусідів.'),
+     'bosses': [
+         {'name': 'Oggleflint',
+          'abil': t('Вожак троггов, с ним два помощника. Cleave по тем, кто стоит перед ним (Method).',
+                    'The trogg chieftain with two adds. Cleave on whoever stands in front of him (Method).',
+                    'Ватажок троґів, із ним два помічники. Cleave по тих, хто стоїть перед ним (Method).'),
+          'tank': t('Отверните босса от группы. Помощников держите на себе, пока их убивают.',
+                    'Turn the boss away from the group. Hold the adds on yourself while they die.',
+                    'Відверніть боса від групи. Помічників тримайте на собі, поки їх убивають.'),
+          'heal': t('Лечите танка. Пока он собирает помощников, не перетяните их лечением.',
+                    'Heal the tank. While he gathers the adds, do not pull them with your healing.',
+                    'Лікуйте танка. Поки він збирає помічників, не перетягніть їх лікуванням.'),
+          'dps': t('Сначала два помощника, потом босс. Перед боссом не стойте.', 'The two adds first, then the boss. Do not stand in front of him.',
+                   'Спершу два помічники, потім бос. Перед босом не стійте.')},
+         {'name': 'Taragaman the Hungerer',
+          'abil': t('Демон на средней площадке, без помощников. Fire Nova по всем в ближнем бою, Uppercut подбрасывает танка (Method).',
+                    'A demon on the middle platform, no adds. Fire Nova hits everyone in melee range, Uppercut throws the tank (Method).',
+                    'Демон на середньому майданчику, без помічників. Fire Nova по всіх у ближньому бою, Uppercut підкидає танка (Method).'),
+          'tank': t('Держите его в середине площадки, чтобы Uppercut не скинул в лаву. Патрули возьмите до босса.',
+                    'Keep him in the middle of the platform so Uppercut does not throw you into the lava. Take the patrols before the boss.',
+                    'Тримайте його посередині майданчика, щоб Uppercut не скинув у лаву. Патрулі візьміть до боса.'),
+          'heal': t('Лечите танка и ближний бой после каждого [[Кольца огня|Fire Nova]].', 'Heal the tank, and the melee after each Fire Nova.',
+                    'Лікуйте танка й ближній бій після Fire Nova.'),
+          'dps': t('Простой бой: бейте босса и следите за угрозой. С него падает сердце для Slaying the Beast.',
+                   'A simple fight: hit the boss and watch your threat. He drops the heart for Slaying the Beast.',
+                   'Простий бій: бийте боса й стежте за загрозою. З нього падає серце для Slaying the Beast.')},
+         {'name': 'Jergosh the Invoker',
+          'abil': t('Чернокнижник Searing Blade, с ним два помощника. Immolate и Curse of Weakness.',
+                    'A Searing Blade warlock with two adds. Immolate and Curse of Weakness.',
+                    'Чорнокнижник Searing Blade, із ним два помічники. Immolate і Curse of Weakness.'),
+          'tank': t('Сначала зачистите охрану на подходе, потом берите босса и обоих помощников.',
+                    'Clear the guards on the way first, then pull the boss and both adds.',
+                    'Спершу зачистіть охорону на підході, потім беріть боса й обох помічників.'),
+          'heal': t('Урон по группе заметный: берегите ману.', 'The damage to the group adds up: save your mana.',
+                    'Шкода по групі помітна: бережіть ману.'),
+          'dps': t('Прерывайте Immolate, если класс умеет.', 'Interrupt Immolate if your class can.', 'Переривайте Immolate, якщо клас уміє.'),
+          'split': t('кого бить первым. Warcraft Tavern — сначала помощников, Method — сначала Jergosh, он сильнее их.',
+                     'who to kill first. Warcraft Tavern: the adds first; Method: Jergosh first, he is the strongest of the three.',
+                     'кого бити першим. Warcraft Tavern — спершу помічників, Method — спершу Jergosh, він сильніший за них.')},
+         {'name': 'Bazzalan', 'last': True,
+          'abil': t('Сатир в верхней части пещеры, в самом конце, с двумя помощниками. Яд на цели угрозы и Sinister Strike.',
+                    'A satyr in the upper part of the cave, at the very end, with two adds. A poison on his threat target and Sinister Strike.',
+                    'Сатир у верхній частині печери, у самому кінці, із двома помічниками. Отрута на цілі загрози й Sinister Strike.'),
+          'tank': t('Бьёт больно: начинайте бой, когда у лекаря полная мана.', 'He hits hard: start when the healer has full mana.',
+                    'Б’є боляче: починайте бій, коли в цілителя повна мана.'),
+          'heal': t('Снимайте яд с танка.', 'Cure the poison on the tank.', 'Знімайте отруту з танка.'),
+          'dps': t('Бейте одну цель вместе, по метке танка.', 'Hit one target together, the one the tank marks.',
+                   'Бийте одну ціль разом, за міткою танка.'),
+          'split': t('кого бить первым. Warcraft Tavern — сначала помощников, Method — сначала Bazzalan, потом помощников.',
+                     'who to kill first. Warcraft Tavern: the adds first; Method: Bazzalan first, then the adds.',
+                     'кого бити першим. Warcraft Tavern — спершу помічників, Method — спершу Bazzalan, потім помічників.')},
+     ],
+     'boss_tip': t('Тело Maur Grimtotem для Searching for the Lost Satchel лежит в боковом проходе: на первой развилке направо, к Oggleflint. Jergosh и Bazzalan нужны для последней части Hidden Enemies.',
+                   'Maur Grimtotem’s body for Searching for the Lost Satchel lies in a side passage: take the first right, towards Oggleflint. Jergosh and Bazzalan are needed for the last part of Hidden Enemies.',
+                   'Тіло Maur Grimtotem для Searching for the Lost Satchel лежить у бічному проході: на першому розгалуженні праворуч, до Oggleflint. Jergosh і Bazzalan потрібні для останньої частини Hidden Enemies.'),
+     'quests': [
+         ('Testing an Enemy’s Strength', t('Rahauro в [[Громовом Утесе|Thunder Bluff]]', 'Rahauro in Thunder Bluff', 'Rahauro у Thunder Bluff'), 'horde'),
+         ('Searching for the Lost Satchel', t('Rahauro в [[Громовом Утесе|Thunder Bluff]]', 'Rahauro in Thunder Bluff', 'Rahauro у Thunder Bluff'), 'horde'),
+         ('Slaying the Beast', t('Neeru Fireblade, Cleft of Shadow в [[Оргриммаре|Orgrimmar]]', 'Neeru Fireblade, the Cleft of Shadow in Orgrimmar',
+                                 'Neeru Fireblade, Cleft of Shadow в Orgrimmar'), 'horde'),
+         ('The Power to Destroy…', t('Varimathras в [[Подгороде|Undercity]]', 'Varimathras in the Undercity', 'Varimathras в Undercity'), 'horde'),
+         ('Hidden Enemies', t('Thrall в [[Оргриммаре|Orgrimmar]], цепочка', 'Thrall in Orgrimmar, a chain', 'Thrall в Orgrimmar, ланцюжок'), 'horde'),
+     ],
+     'quest_note': t('Уровень заданий 9 (Warcraft Tavern, Method). Hidden Enemies — цепочка от Thrall: знак Lieutenant’s Insignia с Burning Blade в Skull Rock, разговор с Neeru Fireblade, потом Jergosh и Bazzalan. Тело Maur Grimtotem даёт продолжение, Returning the Lost Satchel. По Warcraft Tavern, задания с классики почти не менялись.',
+                     'Quest level 9 (Warcraft Tavern, Method). Hidden Enemies is a chain from Thrall: a Lieutenant’s Insignia from the Burning Blade in Skull Rock, a talk with Neeru Fireblade, then Jergosh and Bazzalan. Maur Grimtotem’s body gives the follow-up, Returning the Lost Satchel. Per Warcraft Tavern, the quests are much as they were in Classic.',
+                     'Рівень завдань 9 (Warcraft Tavern, Method). Hidden Enemies — ланцюжок від Thrall: знак Lieutenant’s Insignia з Burning Blade у Skull Rock, розмова з Neeru Fireblade, потім Jergosh і Bazzalan. Тіло Maur Grimtotem дає продовження, Returning the Lost Satchel. За Warcraft Tavern, завдання з класики майже не змінилися.'),
+     'sources': [
+         ('Warcraft Tavern: Ragefire Chasm', 'https://www.warcrafttavern.com/forever/guides/ragefire-chasm/'),
+         (t('Warcraft Tavern: задания Ragefire Chasm', 'Warcraft Tavern: Ragefire Chasm quests', 'Warcraft Tavern: завдання Ragefire Chasm'),
+          'https://www.warcrafttavern.com/forever/guides/ragefire-chasm-quests/'),
+         (t('Method: Ragefire Chasm (12.10)', 'Method: Ragefire Chasm (Oct 12)', 'Method: Ragefire Chasm (12.10)'), 'https://www.method.gg/wow-forever/dungeons/ragefire-chasm'),
+     ]},
 ]
 BY_NAME = {d['name']: d for d in DUNGEON_PAGES}
 SEO = {}   # guides/dungeons/<slug>/ -> (title, description) by language: seo.py adds it to META
@@ -445,7 +570,7 @@ def _table(head, rows, lang):
 def _bosses(p, lang):
     out = []
     for n, b in enumerate(p['bosses'], 1):
-        mark = OPT if b.get('opt') else LAST if b.get('last') else None
+        mark = OPT if b.get('opt') else RARE if b.get('rare') else SKIP if b.get('skip') else LAST if b.get('last') else None
         roles = ''.join(f'<div><dt>{_x(r, lang)}</dt><dd>{_x(b[k], lang)}</dd></div>' for r, k in zip(ROLES, ('tank', 'heal', 'dps')))
         split = f'<p class="small">{_x(SPLIT, lang)}: {_x(b["split"], lang)}</p>' if b.get('split') else ''
         out.append(f'<li><h3>{n}. {en(b["name"])}' + (f' <span class="dgm">· {_x(mark, lang)}</span>' if mark else '') + '</h3>'
@@ -478,7 +603,7 @@ def _per_lang(fn):
 
 def attach(guides, order, gear=None):
     """The dungeon pages after 'dungeons' in ORDER, and their links on the dungeon list. gear: test data instead of data/gear30.json."""
-    langs.fill([DUNGEON_PAGES, SEC, FACT, GROUP5, ROLES, SPLIT, OPT, LAST, SRC_LINE, XP_LINE, LOOT_WAIT, LOOT_GO, LOOT_LEAD, LOOT_HEAD,
+    langs.fill([DUNGEON_PAGES, SEC, FACT, GROUP5, ROLES, SPLIT, OPT, LAST, RARE, SKIP, SRC_LINE, XP_LINE, LOOT_WAIT, LOOT_GO, LOOT_LEAD, LOOT_HEAD,
                 NEED_HEAD, QUEST_HEAD, SIDE, ALL_LINK, PAGES_LABEL, GROUP_NEXT, TILE, SEO_TAIL])
     reg, _ = registry()
     data = gear if gear is not None else load_gear30()
@@ -514,11 +639,13 @@ def attach(guides, order, gear=None):
         at += 1
         name_seo = {l: (p['seo_ru'] if l == 'ru' else langs.name(p['name'], l)) for l in langs.LANGS}
         SEO[f'guides/{slug}/'] = ({l: f'{name_seo[l]} WoW Forever: {SEO_TAIL[l]}' for l in langs.LANGS}, p['desc'])
-    for g, p in made:                                              # «Next step»: the list, another dungeon page, the group builder
-        other = next(((og, op) for og, op in made if op is not p), None)
+    _, names = registry()
+    made.sort(key=lambda gp: names.index(gp[1]['name']))           # table (level) order
+    for i, (g, p) in enumerate(made):                              # «Next step»: the list, the next dungeon page by level, the group builder
+        other = made[i + 1] if i + 1 < len(made) else made[i - 1] if i else None
         g['next'] = [('guides/dungeons/', ALL_LINK)] + ([(f'guides/{other[0]["slug"]}/', other[0]['title'])] if other else []) + [('tools/#raid', GROUP_NEXT)]
     dg = next(x for x in guides if x['slug'] == 'dungeons')
     lst = next(s for s in dg['sections'] if s['id'] == 'list')
     links = _per_lang(lambda l: f'<p class="small">{_x(PAGES_LABEL, l)} '
-                                + ' · '.join(f'<a href="{p["slug"]}/">{escape(langs.name(p["name"], l))}</a>' for p in DUNGEON_PAGES) + '</p>')
+                                + ' · '.join(f'<a href="{p["slug"]}/">{escape(langs.name(p["name"], l))}</a>' for p in sorted(DUNGEON_PAGES, key=lambda p: names.index(p['name']))) + '</p>')
     lst['blocks'].insert(next(i for i, (k, _) in enumerate(lst['blocks']) if k == 'raw') + 1, ('raw', links))
