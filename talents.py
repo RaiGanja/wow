@@ -452,7 +452,7 @@ def _rib(steps, lang, pre='f'):
     for i, (t, n, a, b) in enumerate(steps):
         if t is None:
             rib.append(f'<li><span>{_span(a, b)}</span><button type="button" class="tt-t free" data-k="{pre}{i}" aria-label="{UI["free"][lang]}" title="{UI["free"][lang]}">'
-                       f'<i class="tt-ic no">?</i></button><b>×{n}</b></li>')
+                       f'<i class="tt-ic no">?</i></button><b>×{n}</b><em class="tt-fr">{UI["free"][lang]}</em></li>')
             continue
         name = tname(t, lang)
         ic = f' style="--i:{t["icon"]}"' if t.get('icon') is not None else ''
@@ -615,10 +615,11 @@ CSS = """/* Talent trees (talents.py): three trees in a row when there is room, 
 .tt-card p { margin: 0; color: var(--fg); font-size: var(--fs-14); }
 .tt-card .tt-hint { color: var(--muted); }
 .tt-oh { margin: 6px 0 0; font-family: var(--font-body); font-size: var(--fs-14); font-weight: 600; line-height: 1.3; letter-spacing: 0; color: var(--fg); }
-.tt-rib { display: flex; flex-wrap: wrap; gap: 12px 18px; margin: 0; padding: 0; list-style: none; }
+.tt-rib { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 12px 18px; margin: 0; padding: 0; list-style: none; }
 .tt-rib li { display: grid; grid-template-columns: auto auto; grid-template-rows: auto auto; column-gap: 6px; align-items: center; }
 .tt-rib span { grid-column: 1 / -1; font-size: var(--fs-13); color: var(--gold-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .tt-rib .tt-t { --s: 36px; }
+.tt-rib .tt-fr { grid-column: 1 / -1; font-size: var(--fs-13); font-style: normal; color: var(--muted); white-space: nowrap; }
 .tt-rib b { font-family: var(--font-body); font-size: var(--fs-14); font-weight: 600; line-height: 1; letter-spacing: 0; color: var(--muted); font-variant-numeric: tabular-nums; }
 .tt-ed[hidden], .tt-ec[hidden], .tt.ed .tt-bs, .tt.ed .tt-ow { display: none; }
 .tt-ed { display: grid; gap: 10px; }

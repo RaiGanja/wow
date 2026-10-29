@@ -210,9 +210,29 @@ def _low(w, lang):
     return w if lang == 'de' else w[:1].lower() + w[1:]   # mid-line stat names: lower case as in «+14 силы заклинаний»; German nouns keep it
 
 
+# «+14 силы заклинаний», not «+14 сила заклинаний»: after a number ru, uk and pl take the genitive, es and pt a «de» (as in WELL_FED, E_AGI)
+GEN = {
+    'ru': {'sp': 'силы заклинаний', 'hp': 'силы лечения', 'int': 'интеллекта', 'agi': 'ловкости', 'str': 'силы', 'sta': 'выносливости',
+           'def': 'защиты', 'mp5': 'маны раз в 5 с', 'spi': 'духа', 'crit': 'крита', 'hit': 'меткости', 'armor': 'брони', 'wd': 'урона оружия',
+           'exp': 'мастерства', 'haste': 'скорости'},
+    'uk': {'sp': 'сили заклинань', 'hp': 'сили зцілення', 'int': 'інтелекту', 'agi': 'спритності', 'str': 'сили', 'sta': 'витривалості',
+           'def': 'захисту', 'mp5': 'мани раз на 5 с', 'spi': 'духу', 'crit': 'криту', 'hit': 'влучності', 'armor': 'броні', 'wd': 'шкоди зброї',
+           'exp': 'майстерності', 'haste': 'швидкості'},
+    'pl': {'sp': 'mocy zaklęć', 'hp': 'mocy leczenia', 'int': 'intelektu', 'agi': 'zręczności', 'str': 'siły', 'sta': 'wytrzymałości',
+           'def': 'obrony', 'mp5': 'many co 5 s', 'spi': 'ducha', 'crit': 'kryta', 'hit': 'trafienia', 'armor': 'pancerza', 'wd': 'obrażeń broni',
+           'exp': 'biegłości', 'haste': 'szybkości'}}
+
+
+def _num(k, l):
+    if k in GEN.get(l, {}):
+        return GEN[l][k]
+    w = _low((STAT.get(k) or EXTRA[k])[l], l)
+    return f'de {w}' if l in ('es', 'pt') else w
+
+
 def S(k, n):
     pct = '%' if k in ('thr', 'dodge') else ''
-    return {l: f'+{n}{pct} {_low((STAT.get(k) or EXTRA[k])[l], l)}' for l in LANGS9}
+    return {l: f'+{n}{pct} {_num(k, l)}' for l in LANGS9}
 
 
 def J(*ds):
@@ -332,7 +352,12 @@ I_RAGE = _it('Great Rage Potion', 'Сильнодействующее зелье
 X_GHP = n9('мгновенное лечение', 'instant healing', 'миттєве зцілення', 'Sofortheilung', 'soins instantanés', 'curación instantánea',
            'cura instantânea', 'cura istantanea', 'natychmiastowe leczenie')
 X_LHP = {l: f'{X_GHP[l]}: 140–180 {HP_W[l]}' for l in LANGS9}
+X_SHP = {l: f'{X_GHP[l]}: 700–900 {HP_W[l]}' for l in LANGS9}
 X_GHP = {l: f'{X_GHP[l]}: 455–585 {HP_W[l]}' for l in LANGS9}
+I_SHP = _it('Superior Healing Potion', 'Мощное лечебное зелье', 'Überragender Heiltrank', 'Potion de soins excellente', 'Poción de curación excelente',
+            'Poção Superior de Cura')   # requires level 35 (Wowhead Forever, item 3928)
+I_LMANA = _it('Lesser Mana Potion', 'Малое зелье маны', 'Geringer Manatrank', 'Potion de mana inférieure', 'Poción de maná inferior',
+              'Poção Inferior de Mana')   # requires level 14 (Wowhead Forever, item 3385)
 I_LHP = _it('Lesser Healing Potion', 'Простое лечебное зелье', 'Geringer Heiltrank', 'Potion de soins inférieure', 'Poción de Curación inferior',
             'Poção Inferior de Cura')
 I_MELON = _it('Melon Juice', 'Дынный сок', 'Melonensaft', 'Jus de melon', 'Zumo de melón', 'Suco de Melão')
@@ -345,6 +370,7 @@ P_MBLOOD = J(S('mp5', 6), U(30, 'min'))
 P_CLERIC = J(S('hp', 20), U(30, 'min'))
 P_MENDER = J(S('hp', 31), U(30, 's'))
 P_MANA = W(MANA_W, 455, 585)
+P_LMANA = W(MANA_W, 280, 360)
 P_AGI = J(S('agi', 15), U(1, 'h'))
 P_OGRE = J(S('str', 8), U(1, 'h'))
 P_RAGE = W(RAGE_W, 30, 60)
@@ -368,7 +394,11 @@ HEALER = [(I_CLERIC, P_CLERIC), (I_MANA, P_MANA), GHP, (I_STEW, WELL_FED)]
 KIT_SP = J(NM(I_KIT), S('sp', 4))
 ARCANE_ENCH = [(SLOT['w'], REV), (SLOT['kit'], KIT_SP), (SLOT['neck'], NECK_SP), (SLOT['br'], BR_SP),
                (SLOT['l60'], J(S('sp', 30), {l: f'2H {S("sp", 55)[l]}' for l in LANGS9}))]
-HOLY_ENCH = [(SLOT['w'], REV), (SLOT['neck'], NECK_SP), (SLOT['chest'], EN(E_CH_INT, S('int', 4))), (SLOT['legs'], KIT_SP), (SLOT['boots'], SPEED)]
+# Enchant Necklace - Spell Power: «spell damage and healing by up to 6» (Wowhead Forever, spell 1249057), the healer reads it as healing too
+SP_HEAL6 = n9('+6 к урону и лечению заклинаниями', '+6 spell damage and healing', '+6 до шкоди й зцілення заклинаннями',
+              '+6 Zauberschaden und Heilung', '+6 aux dégâts et aux soins des sorts', '+6 al daño y la sanación de hechizos',
+              '+6 de dano e cura mágicos', '+6 a danni e cure magici', '+6 do obrażeń i leczenia zaklęciami')
+HOLY_ENCH = [(SLOT['w'], REV), (SLOT['neck'], EN(E_NECK_SP, SP_HEAL6)), (SLOT['chest'], EN(E_CH_INT, S('int', 4))), (SLOT['legs'], KIT_SP), (SLOT['boots'], SPEED)]
 HEAL_NECK = [(SLOT['neck'], S('hp', 11))]
 DERIV = n9('Wowhead: база чар, подбор по статам', 'Wowhead: enchant database, picked by stats', 'Wowhead: база чарів, добір за характеристиками',
            'Wowhead: Verzauberungsdatenbank, nach Werten gewählt', 'Wowhead : base d’enchantements, choix selon les caractéristiques',
@@ -413,6 +443,18 @@ HEAL_ENCH = [(SLOT['neck'], S('hp', 11)), (SLOT['br'], EN(E_BR_LHP, S('hp', 16))
              L60(S('hp', 55), TWOH(S('hp', 100)))]
 MAGE_ENCH = [(SLOT['w'], REV), (SLOT['kit'], KIT_SP), (SLOT['neck'], NECK_SP), (SLOT['br'], BR_SP), (SLOT['boots'], SPEED),
              L60(S('sp', 30), TWOH(S('sp', 55)))]
+# Enhancement: Wowhead Forever's Enchants & Consumables page (29.10) names only the weapon, Revelation (procs from
+# non-periodic spells); the rest of the slots are the strength picks of the other melee specs, picked by stats
+ENH_ENCH = [(SLOT['w'], REV)] + STR_ENCH[:5]
+ENH_SRC = n9('Wowhead: оружие — список спека, остальное — база чар, подбор по статам',
+             'Wowhead: the weapon from the spec list, the rest from the enchant database, picked by stats',
+             'Wowhead: зброя — список спеку, решта — база чарів, добір за характеристиками',
+             'Wowhead: Waffe aus der Liste der Skillung, der Rest aus der Verzauberungsdatenbank, nach Werten gewählt',
+             'Wowhead : l’arme d’après la liste de la spécialisation, le reste d’après la base d’enchantements, selon les caractéristiques',
+             'Wowhead: el arma de la lista de la especialización, el resto de la base de encantamientos, elegidos por estadísticas',
+             'Wowhead: a arma da lista da especialização, o resto da base de encantamentos, escolha por atributos',
+             'Wowhead: l’arma dall’elenco della specializzazione, il resto dal database degli incantamenti, scelti per statistiche',
+             'Wowhead: broń z listy specjalizacji, reszta z bazy zaklęć, dobór według statystyk')
 ELE_ENCH = [(SLOT['w'], REV), (KIT_SLOTS, KIT_ONLY_SP), (SLOT['br'], S('sp', 12)), (SLOT['l60'], {l: f'{SLOT["br"][l]} {S("sp", 16)[l]}' for l in LANGS9})]
 
 # (class-spec) -> row index (0 enchants, 1 consumables, 2 gems and materials) -> ([(label, effect)], source). No entry: the WAIT line of the row
@@ -426,10 +468,10 @@ GEAR = {
     'warlock-affliction': {1: (LOCK, IVW)}, 'warlock-demonology': {1: (LOCK, IVW)}, 'warlock-destruction': {1: (LOCK, IVW)},
     'priest-shadow': {1: ([(I_WIZOIL, SP_WEAPON), (I_LAE, P_LAE), (I_STEW, WELL_FED), GHP], IVW)},
     'shaman-elemental': {1: ([(I_LAE, P_LAE), (I_SPELLB, P_SPELLB), (I_MANA, P_MANA), GHP], IVW)},
-    'shaman-enhancement': {1: ([GHP, (I_OGRE, P_OGRE), (I_MBLOOD, P_MBLOOD)], IVW)},
+    'shaman-enhancement': {1: ([GHP, (I_LMANA, P_LMANA), (I_OGRE, P_OGRE), (I_MBLOOD, P_MBLOOD)], IVW)},   # Icy Veins: healing and Lesser Mana Potions, Mageblood, Ogre Strength
     'shaman-restoration': {1: ([(I_CLERIC, P_CLERIC), (I_MENDER, P_MENDER), (I_MANA, P_MANA), GHP], IVW)},
     'priest-discipline': {0: (HEAL_NECK, IVW), 1: (HEALER, IVW)}, 'priest-holy': {0: (HEAL_NECK, IVW), 1: (HEALER, IVW)},
-    'paladin-holy': {0: (HOLY_ENCH, WH), 1: ([(I_MANA, P_MANA), (I_MMOIL, P_MMOIL), (I_BUZZ, P_BUZZ)], WH)},   # Wowhead's list, the picks for level 20–39
+    'paladin-holy': {0: (HOLY_ENCH, WH), 1: ([(I_MANA, P_MANA), (I_SHP, X_SHP), (I_MMOIL, P_MMOIL), (I_BUZZ, P_BUZZ)], WH)},   # Wowhead's list by type, the picks for level 20–39
     'druid-restoration': {1: ([(I_LAE, P_LAE), (I_LHP, X_LHP), (I_MANA, P_MANA), (I_MELON, P_MELON)], IV)},   # Icy Veins: Consumables
     'paladin-retribution': {1: ([GHP, (I_MANA, P_MANA), (I_LAE, P_LAE), (I_SPELLB, P_SPELLB)], IVW)},
 }
@@ -458,7 +500,7 @@ ENCH_ADD = {
     'mage-frost': (MAGE_ENCH, WH),
     'druid-balance': (MAGE_ENCH, WH),
     'shaman-elemental': (ELE_ENCH, WH),
-    'shaman-enhancement': ([(SLOT['w'], REV)], WH),
+    'shaman-enhancement': (ENH_ENCH, ENH_SRC),
 }
 for _k, (_lines, _src) in ENCH_ADD.items():
     GEAR.setdefault(_k, {})[0] = (_lines, _src)

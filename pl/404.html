@@ -1124,10 +1124,11 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   linear-gradient(90deg, rgba(5,5,5,.8) max(0%, 50% - 960px), rgba(5,5,5,.54) max(32%, 50% - 346px), rgba(5,5,5,.14) min(58%, 50% + 154px), rgba(5,5,5,0) min(78%, 50% + 538px)),
   linear-gradient(180deg, rgba(5,5,5,.62) 0%, rgba(5,5,5,0) 26%, rgba(5,5,5,0) 48%, rgb(8 9 11 / .88) 80%, var(--bg) 100%); }
 :root[data-theme="light"] :is(.thero, .ghero)::before { background:   /* the art goes into the night first, the paper comes under the frames */
-  linear-gradient(90deg, rgba(5,5,5,.8) max(0%, 50% - 960px), rgba(5,5,5,.54) max(32%, 50% - 346px), rgba(5,5,5,.14) min(58%, 50% + 154px), rgba(5,5,5,0) min(78%, 50% + 538px)),
+  /* the fade to the paper is the top layer: under it the side shade (dark at the edges) would end in a hard line at the bottom of the band */
   linear-gradient(180deg, rgba(5,5,5,.62) 0%, rgba(5,5,5,0) 26%, rgba(5,5,5,0) 48%, rgb(8 9 11 / .88) 74%, rgb(8 9 11) 82%,
     color-mix(in oklab, rgb(8 9 11), var(--bg) 6%) 85.6%, color-mix(in oklab, rgb(8 9 11), var(--bg) 22%) 89.2%,
-    color-mix(in oklab, rgb(8 9 11), var(--bg) 52%) 92.8%, color-mix(in oklab, rgb(8 9 11), var(--bg) 82%) 96.4%, var(--bg) 100%); }
+    color-mix(in oklab, rgb(8 9 11), var(--bg) 52%) 92.8%, color-mix(in oklab, rgb(8 9 11), var(--bg) 82%) 96.4%, var(--bg) 100%),
+  linear-gradient(90deg, rgba(5,5,5,.8) max(0%, 50% - 960px), rgba(5,5,5,.54) max(32%, 50% - 346px), rgba(5,5,5,.14) min(58%, 50% + 154px), rgba(5,5,5,0) min(78%, 50% + 538px)); }
 .ghero .wrap { width: 100%; gap: 18px; justify-items: start; }
 .ghero .crumbs { display: flex; flex-wrap: wrap; gap: 6px 10px; font-size: var(--fs-14); color: var(--ink-2); }
 .ghero .crumbs a { color: var(--ink-2); text-decoration: none; }
@@ -1583,7 +1584,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png?v=00a6a7d9">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../assets/radio/radio.css?v=556d7dc63f" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=b089e8d7e8" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/search/search.css?v=b685448775" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../assets/me/me.css?v=f19953bd21" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../assets/hero/hero.css?v=ef9324789f" media="print" onload="this.media='all'">
 </head>
@@ -1807,7 +1808,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../assets/radio/radio.js?v=556d7dc63f" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=b089e8d7e8" data-root="../" defer></script>
+<script src="../assets/search/search.js?v=b685448775" data-root="../" defer></script>
 <script src="../assets/me/me.js?v=f19953bd21" data-root="../" data-home="./" data-lang="pl" data-ach="0" data-teaser="" data-close="Zamknij" data-page="404" data-look="2" defer></script>
 <script src="../assets/hero/hero.js?v=ef9324789f" data-root="../" data-home="./" data-data="../assets/hero/pl.json?v=ef9324789f" defer></script>
 </body>
