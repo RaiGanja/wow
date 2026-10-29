@@ -1636,11 +1636,12 @@ function hashTab() { if (location.hash === '#peoples') { showTab(TABS[1]); docum
 addEventListener('hashchange', hashTab);
 hashTab();
 /* data:start — read by the other builds from this source (dungeons, camp objects); build_home leaves it off the home page */
-/* Dungeons: [name, min, max, entrance zone, new, other sites' ranges where they differ] */
+/* Dungeons: [name, min, max, entrance zone, new, other sites' ranges where they differ, side of the entrance, 1 = the other side can go too].
+   A side alone: the entrance is in that side's capital (Ragefire Chasm, The Stockade). Pages of single dungeons: content/dungeon_pages.py */
 const DUNGEONS = [
   ['Ragefire Chasm', 13, 18, 'Orgrimmar', 0, [], 'horde'],
-  ['Hall of Thanes', 13, 18, 'Ironforge', 1, [['Icy Veins', '13–20']]],
-  ['Ruins of Lordaeron', 15, 20, 'Tirisfal Glades', 1, [['Icy Veins', '15–22']]],
+  ['Hall of Thanes', 13, 18, 'Ironforge', 1, [['Method', '13–20']], 'alliance', 1],
+  ['Ruins of Lordaeron', 15, 20, 'Tirisfal Glades', 1, [['Method', '15–22']], 'horde', 1],
   ['The Deadmines', 15, 22, 'Westfall', 0, [['Icy Veins', '17–26']]],
   ['Wailing Caverns', 17, 24, 'The Barrens', 0, [['Icy Veins', '15–24']]],
   ['Shadowfang Keep', 20, 26, 'Silverpine Forest', 0, [['Icy Veins', '20–30']]],

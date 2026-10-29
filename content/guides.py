@@ -3229,6 +3229,9 @@ spec_builds.attach(GUIDES, HUBS, ORDER)
 from content import spec_cheats  # noqa: E402
 
 spec_cheats.attach(GUIDES, HUBS, ORDER)   # шпоры четырёх спеков из готовых разделов; названия на всех языках — spec_cheats.finish() в build_guides
+from content import dungeon_pages  # noqa: E402
+
+dungeon_pages.attach(GUIDES, ORDER)   # страницы подземелий guides/dungeons/<slug>/ после «Подземелий» и ссылки на них в таблице
 # /guides/builds/: девять плиток билдов на своей странице (хаб, «Ещё» и подвал ведут сюда, а не в середину тир-листа)
 _tl = next(g for g in GUIDES if g['slug'] == 'tier-list')['sections']
 GUIDES.append({

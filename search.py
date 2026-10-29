@@ -14,6 +14,7 @@ from html import unescape
 import build
 from build import LANGS, page_dir
 import seo
+from content.dungeon_pages import BY_NAME
 
 HERE = build.HERE
 OUT = os.path.join(HERE, 'assets', 'search')
@@ -91,11 +92,12 @@ def index(lang, meta):
         cr = seo.crumbs(path, lang)
         items += page_entries(html, path, lang, cr[-2][0] if cr else '')
     dg = next(i for i in items if i[3] == 0 and i[2] == page_dir(lang, 'guides/dungeons/'))
+    own = {n: page_dir(lang, f'guides/dungeons/{p["slug"]}/') for n, p in BY_NAME.items()}   # a dungeon with its own page: the result leads there
     for name, en, lv, zone in dungeons(lang):
         keys = ' '.join(filter(None, [en if en != name else '', ru_alias(en) if lang in ('ru', 'uk') else '']))
         if re.search("['’]", name + keys):   # Zul'Farrak -> ZulFarrak: the query without the apostrophe finds it too
             keys = f'{keys} {re.sub("['’]", "", f"{name} {keys}")}'.strip()
-        items.append([name, f'{dg[0]} · {lv} · {zone}', dg[2] + '#list', 3, keys, ''])
+        items.append([name, f'{dg[0]} · {lv} · {zone}', own.get(en, dg[2] + '#list'), 3, keys, ''])
     return items
 
 

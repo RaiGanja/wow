@@ -13,6 +13,7 @@ from build import LANGS, SITE, page_dir, rel, localize, translate
 import langs
 from content import hero as HERO, looks as LK
 from content import spec_cheats
+from content import dungeon_pages
 from content.guides import BUILDS_HUB_TILE, CLASS_HUB_TILE, GUIDES, HUB, HUBS, NEWS, NEWS_SO, NOT_FOUND, ORDER, PAGES, PLAY_MILESTONES, PLAY_TX
 
 HERE = build.HERE
@@ -583,13 +584,13 @@ addEventListener('hashchange', openHash); openHash();'''
 DG_TX = {
     'ru': {'h': ['Подземелье', 'Уровни', 'Где вход'], 'new': 'новое', 'shown': 'Показано', 'of': 'из',
            'none': 'Под этот уровень подземелий нет.', 'need': 'Укажите свой уровень, чтобы отфильтровать.',
-           'only': {'alliance': 'Только Альянс', 'horde': 'Только Орда'}},
+           'only': {'alliance': 'Только Альянс', 'horde': 'Только Орда'}, 'side': {'alliance': 'Альянс, Орде далеко', 'horde': 'Орда, Альянсу далеко'}},
     'en': {'h': ['Dungeon', 'Levels', 'Entrance'], 'new': 'new', 'shown': 'Showing', 'of': 'of',
            'none': 'No dungeons for this level.', 'need': 'Enter your level to filter.',
-           'only': {'alliance': 'Alliance only', 'horde': 'Horde only'}},
+           'only': {'alliance': 'Alliance only', 'horde': 'Horde only'}, 'side': {'alliance': 'Alliance; a long way for the Horde', 'horde': 'Horde; a long way for the Alliance'}},
     'uk': {'h': ['Підземелля', 'Рівні', 'Де вхід'], 'new': 'нове', 'shown': 'Показано', 'of': 'з',
            'none': 'Під цей рівень підземель немає.', 'need': 'Вкажіть свій рівень, щоб відфільтрувати.',
-           'only': {'alliance': 'Лише Альянс', 'horde': 'Лише Орда'}},
+           'only': {'alliance': 'Лише Альянс', 'horde': 'Лише Орда'}, 'side': {'alliance': 'Альянс, Орді далеко', 'horde': 'Орда, Альянсу далеко'}},
 }
 DG_JS = r'''/* Dungeons: level filter seeded from "My hero" (read only, the hero is edited on the home page) */
 const TX = @@TX@@;
@@ -607,9 +608,10 @@ function renderDg() {
   $('#dgBody').innerHTML = rows.length ? rows.map(d => {
     const mine = dgLvl && nearLvl(d, dgLvl);
     const alt = (d[5] || []).map(a => `${a[0]}: ${a[1]}`).join(', ');
-    return `<tr class="${mine ? 'mine' : ''}"><td data-l="${TX.h[0]}">${esc(d[0])}${d[4] ? ` <span class="tag new">${TX.new}</span>` : ''}</td>`
+    const pg = TX.pg[DUNGEONS.indexOf(d)], nm = pg ? `<a href="${pg}">${esc(d[0])}</a>` : esc(d[0]);   /* a dungeon with its own page links to it */
+    return `<tr class="${mine ? 'mine' : ''}"><td data-l="${TX.h[0]}">${nm}${d[4] ? ` <span class="tag new">${TX.new}</span>` : ''}</td>`
       + `<td data-l="${TX.h[1]}"><span class="lvl${mine ? ' gold' : ''}">${lvRange(d)}</span>${alt ? `<span class="alt">${esc(alt)}</span>` : ''}</td>`
-      + `<td data-l="${TX.h[2]}">${esc(d[3])}${d[6] ? `<span class="alt">${TX.only[d[6]]}</span>` : ''}</td></tr>`;
+      + `<td data-l="${TX.h[2]}">${esc(d[3])}${d[6] ? `<span class="alt">${(d[7] ? TX.side : TX.only)[d[6]]}</span>` : ''}</td></tr>`;
   }).join('') : `<tr><td colspan="3">${dgLvl ? TX.none : TX.need}</td></tr>`;
   $('#dgCount').textContent = `${TX.shown} ${rows.length} ${TX.of} ${DUNGEONS.length}`;
   document.querySelectorAll('#segD button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === dgMode));
@@ -690,7 +692,7 @@ if (lk) box.scrollIntoView({ block: 'start' });"""
 BETA_TX = {'ru': 'по данным беты', 'en': 'per beta data', 'uk': 'за даними бети'}   # {beta} in a guide text: the site's one beta mark (build.BETA_SPAN)
 langs.fill([LG_TX, BETA_TX, TIP, THIS_PAGE, MORE_H, MORE_SITE, SITE_TILES, PROF_HEAD, DG_TX, PLAY_TX, PLAY_MILESTONES])
 JS['legacy'] = {l: LG_JS.replace('@@TX@@', json.dumps(LG_TX[l], ensure_ascii=False)) for l in LANGS}
-JS['dungeons'] = {l: DG_JS.replace('@@TX@@', json.dumps(DG_TX[l], ensure_ascii=False)) for l in LANGS}
+JS['dungeons'] = {l: DG_JS.replace('@@TX@@', json.dumps(dict(DG_TX[l], pg=dungeon_pages.table_links()), ensure_ascii=False)) for l in LANGS}
 
 
 def dungeons_data(src, lang=None):
@@ -1649,8 +1651,8 @@ def build_page(g, lang, tpl, base_css, sprite, src):
     sub = g['path'] if 'path' in g else (f'guides/{g["slug"]}/' if g['slug'] else 'guides/')   # path: classes/, races/, privacy/, '' (404)
     here = page_dir(lang, sub)
     html = tpl.replace('@@BASE_CSS@@', base_css).replace('@@SPRITE@@', sprite)
-    nav = (g['path'] if g['path'] in ('classes/', 'races/', 'play/') else None) if 'path' in g else         (sub if g['slug'] in ('leveling', 'dungeons', 'tier-list', 'legacy') else 'guides/leveling/' if g['slug'].startswith('leveling-') else 'guides/builds/' if g['slug'] == 'builds' or g['slug'].startswith('builds-') else 'guides/')   # privacy, 404: no current item
-    tab = ('classes/' if g['slug'] == 'classes' else None) if 'path' in g else         'guides/leveling/' if g['slug'].startswith('leveling') else 'guides/dungeons/' if g['slug'] == 'dungeons' else None
+    nav = (g['path'] if g['path'] in ('classes/', 'races/', 'play/') else None) if 'path' in g else         (sub if g['slug'] in ('leveling', 'dungeons', 'tier-list', 'legacy') else 'guides/dungeons/' if g['slug'].startswith('dungeons/') else 'guides/leveling/' if g['slug'].startswith('leveling-') else 'guides/builds/' if g['slug'] == 'builds' or g['slug'].startswith('builds-') else 'guides/')   # privacy, 404: no current item
+    tab = ('classes/' if g['slug'] == 'classes' else None) if 'path' in g else         'guides/leveling/' if g['slug'].startswith('leveling') else 'guides/dungeons/' if g['slug'].split('/')[0] == 'dungeons' else None
     html = build.chrome(html, nav=nav, tab=tab)
     if g.get('hero'):                                             # own full-screen scene instead of the art band
         html = re.sub(r'<section class="stband ghero" id="top">.*?</section>', lambda mt: thero(mt.group(0), g['hero']), html, count=1, flags=re.S)
@@ -1682,7 +1684,7 @@ def build_page(g, lang, tpl, base_css, sprite, src):
         more = tile_links(others, lang, root)
     else:
         shown = inline_tiles(g.get('sections', []))                # one picture once on a page
-        others = [x for x in lang_guides(lang) if x['slug'] != g['slug'] and f'guides/{x["slug"]}/' not in shown] if g['slug'] else []
+        others = [x for x in lang_guides(lang) if x['slug'] != g['slug'] and f'guides/{x["slug"]}/' not in shown and x.get('others', True)] if g['slug'] else []   # others: False, a page of one dungeon: reached from the dungeon list
         seen = {g.get('hero'), g['art']} | inline_arts(g.get('sections', []))   # a class art once: leveling-mage and builds-mage share it
         tiles = [x for x in guide_tiles(more_order(others, g['slug'])) if not (x['art'] in seen or seen.add(x['art']))]
         more = tile_links(full_rows(tiles), lang, root)

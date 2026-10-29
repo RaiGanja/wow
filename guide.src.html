@@ -236,6 +236,15 @@
 .cxrows dd a { color: var(--gold-2); }
 .btn.cxnext { min-height: 52px; padding: 0 26px; font-size: var(--fs-16); }
 @media (max-width: 719px) { .cxrows > div { grid-template-columns: minmax(0, 1fr); } .btn.cxnext { width: 100%; justify-content: center; text-align: center; } }
+/* Pages of single dungeons: the bosses in order, one plate each, the three roles as rows (content/dungeon_pages.py) */
+.dgboss { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 10px; }
+.dgboss > li { padding: 16px 18px 8px; border-radius: 6px; background: var(--panel-2); }
+.dgboss h3 { margin: 0 0 6px; font-size: var(--fs-18); }
+.dgboss .dgm { color: var(--muted); font-family: var(--font-body); font-size: var(--fs-14); font-weight: 400; }
+.dgboss > li > p { margin: 0 0 8px; }
+.dgboss .cxrows { margin: 10px 0 8px; }
+.dgboss .cxrows > div:last-child { border-bottom: 0; padding-bottom: 0; }
+@media (min-width: 720px) { .dgboss .cxrows > div { grid-template-columns: 110px minmax(0, 1fr); } }
 .gplay .btn { margin-left: auto; }
 .gbody.play { padding-top: 14px; }
 /* the beta mark after a fact Blizzard has not confirmed ({beta} in a guide text, as on the home page) */

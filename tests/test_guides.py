@@ -147,6 +147,46 @@ def test_next_block():
         for p in ('guides/leveling/', 'classes/mage/', 'races/orc/'):
             assert '@@NEXT@@' not in open(os.path.join(bg.HERE, d + p, 'index.html'), encoding='utf-8').read()
 
+def test_dungeon_pages():
+    """guides/dungeons/<slug>/: every record matches DUNGEONS, the page carries the facts, roles and quests; loot only with data."""
+    from content import dungeon_pages as dp
+    reg, order = dp.registry()
+    links = dp.table_links()
+    for p in dp.DUNGEON_PAGES:
+        assert p['name'] in reg, p['name']
+        assert links[order.index(p['name'])] == p['slug'] + '/'
+        assert reg[p['name']][5] in ('alliance', 'horde'), p['name']                  # the side of the entrance is set
+        assert all(b.get(k) for b in p['bosses'] for k in ('name', 'abil', 'tank', 'heal', 'dps')), p['name']
+        assert sum(1 for b in p['bosses'] if b.get('last')) == 1, p['name']
+        assert all(s in ('alliance', 'horde', 'both') for _, _, s in p['quests']), p['name']
+        g = next(x for x in cg.GUIDES if x['slug'] == f'dungeons/{p["slug"]}')
+        assert g['hub'] is False and g['others'] is False and [s['id'] for s in g['sections']] == ['about', 'group', 'bosses', 'quests']
+        for d in ('', 'en/', 'pl/'):
+            html = open(os.path.join(bg.HERE, d + f'guides/dungeons/{p["slug"]}/', 'index.html'), encoding='utf-8').read()
+            assert 'class="dgboss"' in html and html.count('<li><h3>') == len(p['bosses']) and 'id="loot"' not in html
+            assert all(b['name'] in html for b in p['bosses'])
+    dg = open(os.path.join(bg.HERE, 'en/guides/dungeons/', 'index.html'), encoding='utf-8').read()
+    assert all(f'href="{p["slug"]}/"' in dg for p in dp.DUNGEON_PAGES)                 # the list links its pages
+
+
+def test_dungeon_loot_index():
+    """Loot by boss: the reverse index of the gear list (data/gear30.json schema), only drops of this dungeon."""
+    from content import dungeon_pages as dp
+    data = {'items': {'1': {'slot': 'neck', 'lvl': 17, 'q': 2, 'names': {'en': 'Test Choker'}, 'stats': {}},
+                      '2': {'slot': 'two', 'lvl': 18, 'q': 3, 'names': {'en': 'Test Stave', 'ru': 'Тестовый посох'}, 'stats': {}},
+                      '3': {'slot': 'feet', 'lvl': 20, 'q': 2, 'names': {'en': 'Elsewhere Boots'}, 'stats': {}}},
+            'specs': {'mage-frost': [{'id': 2, 'src': [{'kind': 'drop', 'boss': {'en': 'Plunder'}, 'dungeon': {'en': 'Hall of Thanes'}}]},
+                                     {'id': 1, 'src': [{'kind': 'drop', 'boss': {'en': 'Faldrim Anvilmar'}, 'dungeon': {'en': 'Hall of Thanes'}}]}],
+                      'priest-holy': [{'id': 2, 'src': [{'kind': 'drop', 'boss': {'en': 'Plunder'}, 'dungeon': {'en': 'Hall of Thanes'}}]},
+                                      {'id': 3, 'src': [{'kind': 'drop', 'boss': {'en': 'Witherfang'}, 'dungeon': {'en': 'Ruins of Lordaeron'}}]}]}}
+    idx = dp.loot_index('Hall of Thanes', data)
+    assert set(idx) == {'Plunder', 'Faldrim Anvilmar'}
+    assert idx['Plunder'][0][0] == '2' and idx['Plunder'][0][2] == ['mage-frost', 'priest-holy']
+    assert dp.loot_index('Hall of Thanes', {'items': {}, 'specs': {}}) == {}
+    html = dp._loot(dp.BY_NAME['Hall of Thanes'], idx, 'ru')
+    assert 'Тестовый посох' in html and 'Маг · Лёд' in html and 'Elsewhere' not in html
+
+
 if __name__ == '__main__':
     for name, fn in list(globals().items()):
         if name.startswith('test_'):

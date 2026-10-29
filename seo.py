@@ -266,6 +266,9 @@ OG = {
            'Legacy: 65 challenges and perks in three trees. Class tier list from beta data, group and raid builder, news. Launch Nov 4 at 23:00 UTC.',
            'Legacy: 65 випробувань і перки трьох дерев. Тір-лист класів за бетою, конструктор групи й рейду, новини. Старт 04.11 о 23:00 UTC (за Києвом 5.11, 01:00).')),
 }
+from content import dungeon_pages  # noqa: E402
+
+META.update(dungeon_pages.SEO)   # pages of single dungeons: guides/dungeons/<slug>/
 langs.fill([HOME_NAME, TOOLS_NAME, PRIVACY_NAME, PLAY_NAME, ROSTER_NAME, PROFILE_NAME, CHAR_NAME, PLAYER_NAME, META, CLASS_T, CLASS_T_SHORT, CLASS_D, RACE_T, RACE_T_SHORT, RACE_D, AND, OG])   # new languages: i18n/<lang>.json
 
 
@@ -335,6 +338,9 @@ def crumbs(path, lang):
         if top == 'guides/':
             g = next(x for x in GUIDES if x['slug'] == parts[1])
             name = g['title'][lang]
+            if len(parts) > 2:                                     # guides/dungeons/<slug>/: the dungeon list, then the page
+                items.append((name, base + top + parts[1] + '/'))
+                name = next(x for x in GUIDES if x['slug'] == '/'.join(parts[1:]))['crumb'][lang]
         elif top == 'classes/':
             name = tr(next(c['n'] for c in CLASSES if c['id'] == parts[1]), lang)
         else:
