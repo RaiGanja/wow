@@ -96,6 +96,7 @@ UI = {
                'it': 'L’ordine per i livelli 31–60 viene dalla guida al livellamento della classe; dopo il lancio lo confronteremo con i dati del gioco.',
                'pl': 'Kolejność na levele 31–60 pochodzi z poradnika levelowania klasy; po starcie porównamy ją z danymi z gry.',
                'pt': 'A ordem dos níveis 31–60 vem do guia de evolução da classe; após o lançamento, vamos compará-la com os dados do jogo.'},
+    'lvwait': {'ru': 'Порядок 31–60 ждёт данных: в гайде прокачки последние три очка (58–60) не названы. До выгрузки деревьев из клиента идите по гайду, а три последних очка ставьте на свой выбор.', 'en': 'The 31–60 order is waiting for data: the leveling guide does not name the last three points (58–60). Until the trees are exported from the client, follow the guide and spend the last three points as you like.', 'uk': 'Порядок 31–60 чекає на дані: у гайді прокачування останні три очка (58–60) не названо. До вивантаження дерев із клієнта йдіть за гайдом, а три останні очка ставте на свій вибір.', 'de': 'Die Reihenfolge 31–60 wartet auf Daten: Der Level-Guide nennt die letzten drei Punkte (58–60) nicht. Bis die Talentbäume aus dem Client ausgelesen sind, folge dem Guide und setze die letzten drei Punkte nach Wahl.', 'es': 'El orden 31–60 espera datos: la guía de subida no nombra los tres últimos puntos (58–60). Hasta exportar los árboles del cliente, sigue la guía y reparte los tres últimos puntos a tu gusto.', 'fr': 'L’ordre 31–60 attend des données : le guide de progression ne nomme pas les trois derniers points (58–60). Tant que les arbres ne sont pas extraits du client, suivez le guide et placez les trois derniers points à votre guise.', 'it': 'L’ordine 31–60 attende i dati: la guida al livellamento non indica gli ultimi tre punti (58–60). Finché gli alberi non vengono estratti dal client, segui la guida e spendi gli ultimi tre punti a scelta.', 'pl': 'Kolejność 31–60 czeka na dane: poradnik levelowania nie wymienia trzech ostatnich punktów (58–60). Do czasu pobrania drzew z klienta idź za poradnikiem, a trzy ostatnie punkty wydaj według uznania.', 'pt': 'A ordem 31–60 aguarda dados: o guia de evolução não nomeia os três últimos pontos (58–60). Até exportar as árvores do cliente, siga o guia e gaste os três últimos pontos como preferir.'},
     'lvg': {'ru': 'Гайд по прокачке класса', 'en': 'Class leveling guide', 'uk': 'Гайд із прокачування класу',
             'de': 'Level-Guide der Klasse', 'es': 'Guía de subida de la clase', 'fr': 'Guide de progression de la classe',
             'it': 'Guida al livellamento della classe', 'pl': 'Poradnik levelowania klasy', 'pt': 'Guia de evolução da classe'},
@@ -109,6 +110,8 @@ UI = {
     'cnt': {'ru': 'Очки: {p} из {m}', 'en': 'Points: {p} of {m}', 'uk': 'Очки: {p} з {m}', 'de': 'Punkte: {p} von {m}',
             'es': 'Puntos: {p} de {m}', 'fr': 'Points : {p} sur {m}', 'it': 'Punti: {p} su {m}', 'pl': 'Punkty: {p} z {m}',
             'pt': 'Pontos: {p} de {m}'},
+    'cm': {'ru': 'ЛКМ +, ПКМ −', 'en': 'Left-click +, right-click −', 'uk': 'ЛКМ +, ПКМ −', 'de': 'Linksklick +, Rechtsklick −', 'es': 'Clic izq. +, clic der. −', 'fr': 'Clic gauche +, clic droit −', 'it': 'Clic sinistro +, destro −', 'pl': 'LPM +, PPM −', 'pt': 'Clique esq. +, dir. −'},
+    'cmt': {'ru': 'Тап +, долгое нажатие −', 'en': 'Tap +, long-press −', 'uk': 'Тап +, довге натискання −', 'de': 'Tippen +, lang drücken −', 'es': 'Toque +, pulsación larga −', 'fr': 'Appui +, appui long −', 'it': 'Tocco +, tocco lungo −', 'pl': 'Dotyk +, przytrzymanie −', 'pt': 'Toque +, toque longo −'},
     'add': {'ru': 'Ставить', 'en': 'Add', 'uk': 'Ставити', 'de': 'Setzen', 'es': 'Añadir', 'fr': 'Ajouter', 'it': 'Aggiungi',
             'pl': 'Dodaj', 'pt': 'Adicionar'},
     'del': {'ru': 'Снимать', 'en': 'Remove', 'uk': 'Знімати', 'de': 'Entfernen', 'es': 'Quitar', 'fr': 'Retirer', 'it': 'Togli',
@@ -160,8 +163,8 @@ UI = {
                'pl': 'Nie można zdjąć: talenty niżej opierają się na tym punkcie',
                'pt': 'Não dá para remover: talentos abaixo dependem deste ponto'},
 }
-JS_SKIP = ('hint', 'beta', 'classic', 'wh', 'perk', 'bs', 'b_general', 'b_leveling', 'b_dungeons', 'b_raid', 'b_pvp', 'lvh', 'lvnote', 'lvg',
-           'add', 'del', 'reset', 'share', 'eh')
+JS_SKIP = ('hint', 'beta', 'classic', 'wh', 'perk', 'bs', 'b_general', 'b_leveling', 'b_dungeons', 'b_raid', 'b_pvp', 'lvh', 'lvnote', 'lvg', 'lvwait',
+           'add', 'del', 'reset', 'share', 'eh', 'cm', 'cmt')
 EDIT_CAP = 51                              # points at level 60: one per level from 10 (the leveling build above checks the same 51)
 EN_NAMES = ('en', 'uk', 'pl')              # the site keeps English talent names on these pages (content/spec_builds.py)
 WH_LANGS = ('ru', 'de', 'es', 'fr', 'it', 'pt')            # Wowhead's own interface languages (www.wowhead.com/forever/<lang>/…)
@@ -522,12 +525,14 @@ def render(cid, spec, rows, titles, lang, root):
     hint = f'<div class="tt-card" aria-live="polite"><p class="tt-hint">{UI["hint"][lang]}</p></div>'
     # in a <template>: no dead buttons without the script, and search.py leaves the bar out of the page text
     ed = (f'<template class="tt-edt"><div class="tt-ed"><button type="button" class="tt-eb" aria-expanded="false" aria-controls="tt-ec-{spec}">'
-          f'{UI["ed"][lang]}</button><div class="tt-ec" id="tt-ec-{spec}" hidden><p class="tt-cnt"></p>'
+          f'{UI["ed"][lang]}</button><div class="tt-ec" id="tt-ec-{spec}" hidden><p class="tt-cnt"><span class="tt-cn"></span><span class="tt-cm"> · {UI["cm"][lang]}</span><span class="tt-ct"> · {UI["cmt"][lang]}</span></p>'
           f'<div class="tt-md"><button type="button" class="tt-mb" data-m="1" aria-pressed="true">+ {UI["add"][lang]}</button>'
           f'<button type="button" class="tt-mb" data-m="-1" aria-pressed="false">− {UI["del"][lang]}</button></div>'
           f'<button type="button" class="tt-rs">{UI["reset"][lang]}</button><button type="button" class="tt-sh">{UI["share"][lang]}</button>'
           f'<a class="tt-whl" href="{escape(wh_base(cid, lang))}_t0" target="_blank" rel="noopener">{UI["wh"][lang]} ↗</a>'
           f'<p class="tt-st" role="status"></p><p class="tt-eh">{UI["eh"][lang]}</p></div></div></template>')
+    if not extra and LEVEL_SPEC.get(cid) == spec and _level_rows(cid):      # the leveling guide of the class has rows but they do not fit the tree
+        note += f'<p class="tt-note">{UI["lvwait"][lang]} <a href="{root}guides/leveling-{cid}/#talents">{UI["lvg"][lang]}</a></p>'
     if not extra:
         return (f'{box.replace("@@B@@", "")}{note}{ed}{tabs_html}<div class="tt-trees">{"".join(trees)}</div>{hint}'
                 f'<div class="tt-ow" data-b="general">{head}</div></div>')
@@ -623,6 +628,9 @@ CSS = """/* Talent trees (talents.py): three trees in a row when there is room, 
 .tt-eb:hover, .tt-mb:hover, .tt-rs:hover, .tt-sh:hover { background: var(--zebra); }
 .tt-eb:focus-visible, .tt-mb:focus-visible, .tt-rs:focus-visible, .tt-sh:focus-visible { outline: 2px solid var(--gold-2); outline-offset: 2px; }
 .tt-cnt { flex-basis: 100%; margin: 0; color: var(--fg); font-weight: 600; font-variant-numeric: tabular-nums; }
+.tt-ct { display: none; }
+@media (pointer: coarse) { .tt-cm { display: none; } .tt-ct { display: inline; } }
+.tt-cm, .tt-ct { color: var(--muted); font-weight: 400; }
 .tt-md { display: flex; gap: 4px; padding: 4px; border: 1px solid var(--line); border-radius: 8px; }
 .tt-md .tt-mb { border: 0; color: var(--muted); }
 .tt-md .tt-mb[aria-pressed="true"] { background: var(--seg-on); color: var(--gold-2); }
@@ -770,7 +778,7 @@ JS = r"""<script>
       };
     }
     /* Editor: starts from the build saved in this browser, else from the build of ours on screen */
-    var eb = ed.querySelector('.tt-eb'), ec = ed.querySelector('.tt-ec'), cnt = ed.querySelector('.tt-cnt');
+    var eb = ed.querySelector('.tt-eb'), ec = ed.querySelector('.tt-ec'), cnt = ed.querySelector('.tt-cn');
     var st = ed.querySelector('.tt-st'), whl = ed.querySelector('.tt-whl');
     function saved() { try { return localStorage.getItem(KEY + w.dataset.c); } catch (x) { return null; } }
     function update(keep) {
@@ -823,7 +831,16 @@ JS = r"""<script>
       }
     });
     w.openByHash = function (code) { if (S) { S = decode(code); update(true); } else open(code); };
+    /* Touch has no right button: a long press on a talent takes the point back */
+    var lpT = 0, lpDone = 0;
+    w.addEventListener('pointerdown', function (e) {
+      var b = S && e.pointerType !== 'mouse' && e.target.closest('.tt-grid [data-k]');
+      clearTimeout(lpT);
+      if (b) lpT = setTimeout(function () { lpDone = Date.now(); step(b, -1); }, 500);
+    });
+    ['pointerup', 'pointercancel', 'pointermove'].forEach(function (n) { w.addEventListener(n, function () { clearTimeout(lpT); }); });
     w.addEventListener('click', function (e) {
+      if (Date.now() - lpDone < 700) return;
       var tab = e.target.closest('.tt-tab');
       if (tab) { pickTree(tab.dataset.t); return; }
       var b = e.target.closest('[data-k]');
@@ -832,7 +849,7 @@ JS = r"""<script>
     });
     w.addEventListener('contextmenu', function (e) {
       var b = S && e.target.closest('.tt-grid [data-k]');
-      if (b) { e.preventDefault(); step(b, -1); }
+      if (b) { e.preventDefault(); if (Date.now() - lpDone > 700) step(b, -1); }
     });
     w.addEventListener('keydown', function (e) {
       var b = S && e.target.closest && e.target.closest('.tt-grid [data-k]');
