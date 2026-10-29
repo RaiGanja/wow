@@ -377,9 +377,9 @@ DUNGEON_PAGES = [
      ]},
     {'name': 'Ragefire Chasm', 'slug': 'ragefire-chasm',
      'seo_ru': 'Огненная пропасть', 'pill': t('4 босса', '4 bosses', '4 боси'),
-     'desc': t('Огненная пропасть (Ragefire Chasm, 13–18) в WoW Forever: вход в Оргриммаре, четыре босса с тактикой для танка, лекаря и урона, что снимать и сбивать, пять заданий Орды.',
-               'Ragefire Chasm (13–18) in WoW Forever: the entrance in Orgrimmar, four bosses with tank, healer and damage tactics, what to dispel and interrupt, five Horde quests.',
-               'Ragefire Chasm (13–18) у WoW Forever: вхід в Orgrimmar, чотири боси з тактикою для танка, цілителя й шкоди, що знімати й збивати, п’ять завдань Орди.'),
+     'desc': t('Огненная пропасть (Ragefire Chasm, 13–18) в WoW Forever: вход в Оргриммаре, четыре босса с тактикой по ролям, что снимать, задания Орды.',
+               'Ragefire Chasm (13–18) in WoW Forever: entrance in Orgrimmar, four bosses with tactics by role, what to dispel, Horde quests.',
+               'Ragefire Chasm (13–18) у WoW Forever: вхід в Orgrimmar, чотири боси з тактикою за ролями, що знімати, завдання Орди.'),
      'lead': t('Первое подземелье Орды, прямо в [[Оргриммаре|Orgrimmar]]: четыре босса, тактика для танка, лекаря и урона, что снимать и сбивать, пять заданий.',
                'The Horde’s first dungeon, right inside Orgrimmar: four bosses, tactics for the tank, healer and damage dealers, what to dispel and interrupt, five quests.',
                'Перше підземелля Орди, просто в Orgrimmar: чотири боси, тактика для танка, цілителя й шкоди, що знімати й збивати, п’ять завдань.'),
@@ -500,7 +500,7 @@ DUNGEON_PAGES = [
     {'name': 'The Deadmines', 'slug': 'the-deadmines',
      'seo_ru': 'Мертвые копи', 'pill': t('8 боссов', '8 bosses', '8 босів'),
      'desc': t('Мертвые копи (The Deadmines, 15–22) в WoW Forever: вход в Moonbrook, восемь боссов с тактикой для танка, лекаря и урона, кого бить первым, семь заданий Альянса.',
-               'The Deadmines (15–22) in WoW Forever: the entrance in Moonbrook, eight bosses with tank, healer and damage tactics, who to kill first, seven Alliance quests.',
+               'The Deadmines (15–22) in WoW Forever: entrance in Moonbrook, eight bosses with tactics by role, who to kill first, Alliance quests.',
                'The Deadmines (15–22) у WoW Forever: вхід у Moonbrook, вісім босів із тактикою для танка, цілителя й шкоди, кого бити першим, сім завдань Альянсу.'),
      'lead': t('Шахты братства Defias под [[Западным Краем|Westfall]]: восемь боссов до корабля VanCleef, тактика по ролям, кого бить первым, семь заданий Альянса.',
                'The Defias Brotherhood’s mines beneath Westfall: eight bosses up to VanCleef’s ship, tactics by role, who to kill first, seven Alliance quests.',
@@ -663,9 +663,9 @@ DUNGEON_PAGES = [
      ]},
     {'name': 'Wailing Caverns', 'slug': 'wailing-caverns',
      'seo_ru': 'Пещеры Стенаний', 'pill': t('9 боссов', '9 bosses', '9 босів'),
-     'desc': t('Пещеры Стенаний (Wailing Caverns, 17–24) в WoW Forever: вход в Степях, девять боссов с тактикой для танка, лекаря и урона, событие Naralex, что сбивать и снимать, семь заданий.',
-               'Wailing Caverns (17–24) in WoW Forever: the entrance in The Barrens, nine bosses with tank, healer and damage tactics, the Naralex event, what to interrupt and cure, seven quests.',
-               'Wailing Caverns (17–24) у WoW Forever: вхід у The Barrens, дев’ять босів із тактикою для танка, цілителя й шкоди, подія Naralex, що збивати й знімати, сім завдань.'),
+     'desc': t('Пещеры Стенаний (Wailing Caverns, 17–24) в WoW Forever: вход в Степях, девять боссов с тактикой по ролям, событие Naralex, задания.',
+               'Wailing Caverns (17–24) in WoW Forever: entrance in The Barrens, nine bosses with tactics by role, the Naralex event, quests.',
+               'Wailing Caverns (17–24) у WoW Forever: вхід у The Barrens, дев’ять босів із тактикою за ролями, подія Naralex, завдання.'),
      'lead': t('Пещеры друидов Клыка в [[Степях|The Barrens]]: девять боссов, тактика по ролям, событие с учеником Naralex, что сбивать и снимать, семь заданий.',
                'The Druids of the Fang’s caves in The Barrens: nine bosses, tactics by role, the Disciple of Naralex event, what to interrupt and cure, seven quests.',
                'Печери друїдів Ікла в The Barrens: дев’ять босів, тактика за ролями, подія з учнем Naralex, що збивати й знімати, сім завдань.'),
@@ -825,9 +825,9 @@ DUNGEON_PAGES = [
      ]},
     {'name': 'Shadowfang Keep', 'slug': 'shadowfang-keep',
      'seo_ru': 'Крепость Темного Клыка', 'pill': t('9 боссов', '9 bosses', '9 босів'),
-     'desc': t('Крепость Темного Клыка (Shadowfang Keep, 20–26) в WoW Forever: вход в Серебряном бору, девять боссов с тактикой для танка, лекаря и урона, что снимать и сбивать, задания Орды.',
-               'Shadowfang Keep (20–26) in WoW Forever: the entrance in Silverpine Forest, nine bosses with tank, healer and damage tactics, what to dispel and interrupt, Horde quests.',
-               'Shadowfang Keep (20–26) у WoW Forever: вхід у Silverpine Forest, дев’ять босів із тактикою для танка, цілителя й шкоди, що знімати й збивати, завдання Орди.'),
+     'desc': t('Крепость Темного Клыка (Shadowfang Keep, 20–26) в WoW Forever: вход в Серебряном бору, девять боссов с тактикой по ролям, что снимать, задания Орды.',
+               'Shadowfang Keep (20–26) in WoW Forever: entrance in Silverpine Forest, nine bosses with tactics by role, what to dispel, Horde quests.',
+               'Shadowfang Keep (20–26) у WoW Forever: вхід у Silverpine Forest, дев’ять босів із тактикою за ролями, що знімати, завдання Орди.'),
      'lead': t('Замок Arugal и его воргенов в [[Серебряном бору|Silverpine Forest]]: девять боссов, тактика по ролям, что снимать и сбивать, три задания Орды.',
                'The keep of Arugal and his worgen in Silverpine Forest: nine bosses, tactics by role, what to dispel and interrupt, three Horde quests.',
                'Замок Arugal і його воргенів у Silverpine Forest: дев’ять босів, тактика за ролями, що знімати й збивати, три завдання Орди.'),
@@ -1115,7 +1115,8 @@ def attach(guides, order, gear=None):
         order.insert(at, slug)
         at += 1
         name_seo = {l: (p['seo_ru'] if l == 'ru' else langs.name(p['name'], l)) for l in langs.LANGS}
-        SEO[f'guides/{slug}/'] = ({l: f'{name_seo[l]} WoW Forever: {SEO_TAIL[l]}' for l in langs.LANGS}, p['desc'])
+        full = {l: f'{name_seo[l]} WoW Forever: {SEO_TAIL[l]}' for l in langs.LANGS}   # a long local name: the name alone (60 chars max)
+        SEO[f'guides/{slug}/'] = ({l: v if len(v) <= 60 else f'{name_seo[l]} WoW Forever' for l, v in full.items()}, p['desc'])
     _, names = registry()
     made.sort(key=lambda gp: names.index(gp[1]['name']))           # table (level) order
     for i, (g, p) in enumerate(made):                              # «Next step»: the list, the next dungeon page by level, the group builder
