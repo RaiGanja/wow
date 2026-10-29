@@ -66,7 +66,6 @@ PAGES_LABEL = t('Отдельные страницы: боссы по ролям
 GROUP_NEXT = t('Собрать группу и текст для поиска', 'Build a group and an LFG line', 'Зібрати групу й текст для пошуку')
 TILE = t('Боссы по ролям, что нужно группе, задания', 'Bosses by role, what the group needs, quests', 'Боси за ролями, що потрібно групі, завдання')
 SEO_TAIL = t('боссы, тактика, задания', 'Bosses, Tactics, Quests', 'боси, тактика, завдання')
-TITLE_TAIL = t('боссы, тактика и задания', 'bosses, tactics and quests', 'боси, тактика й завдання')
 
 BLIZZ_NOTES = 'https://eu.forums.blizzard.com/en/wow/t/wow-forever-beta-development-notes-%E2%80%93-updated-26-october/631316'
 
@@ -480,7 +479,7 @@ def _per_lang(fn):
 def attach(guides, order, gear=None):
     """The dungeon pages after 'dungeons' in ORDER, and their links on the dungeon list. gear: test data instead of data/gear30.json."""
     langs.fill([DUNGEON_PAGES, SEC, FACT, GROUP5, ROLES, SPLIT, OPT, LAST, SRC_LINE, XP_LINE, LOOT_WAIT, LOOT_GO, LOOT_LEAD, LOOT_HEAD,
-                NEED_HEAD, QUEST_HEAD, SIDE, ALL_LINK, PAGES_LABEL, GROUP_NEXT, TILE, SEO_TAIL, TITLE_TAIL])
+                NEED_HEAD, QUEST_HEAD, SIDE, ALL_LINK, PAGES_LABEL, GROUP_NEXT, TILE, SEO_TAIL])
     reg, _ = registry()
     data = gear if gear is not None else load_gear30()
     at = order.index('dungeons') + 1
@@ -503,7 +502,7 @@ def attach(guides, order, gear=None):
             ('text', [p['quest_note']])]})
         slug = f'dungeons/{p["slug"]}'
         g = {'slug': slug, 'art': 'warlock', 'hero': 'hero_dungeons', 'og': 'dungeons', 'hub': False, 'others': False,
-             'title': {l: f'{title[l]}: {TITLE_TAIL[l]}' for l in langs.LANGS}, 'crumb': title, 'lead': p['lead'],
+             'title': title, 'crumb': title, 'lead': p['lead'],   # the h1 is the name alone: the search title (SEO) says the rest
              'tile': TILE, 'pills': [], 'sections': sections,
              'sources': [(t('Blizzard: заметки беты Forever', 'Blizzard: Forever beta development notes', 'Blizzard: нотатки бети Forever'), BLIZZ_NOTES)]
                         + [(s, u) for s, u in p['sources']]}

@@ -1320,6 +1320,15 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .cxrows dd a { color: var(--gold-2); }
 .btn.cxnext { min-height: 52px; padding: 0 26px; font-size: var(--fs-16); }
 @media (max-width: 719px) { .cxrows > div { grid-template-columns: minmax(0, 1fr); } .btn.cxnext { width: 100%; justify-content: center; text-align: center; } }
+/* Pages of single dungeons: the bosses in order, one plate each, the three roles as rows (content/dungeon_pages.py) */
+.dgboss { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 10px; }
+.dgboss > li { padding: 16px 18px 8px; border-radius: 6px; background: var(--panel-2); }
+.dgboss h3 { margin: 0 0 6px; font-size: var(--fs-18); }
+.dgboss .dgm { color: var(--muted); font-family: var(--font-body); font-size: var(--fs-14); font-weight: 400; }
+.dgboss > li > p { margin: 0 0 8px; }
+.dgboss .cxrows { margin: 10px 0 8px; }
+.dgboss .cxrows > div:last-child { border-bottom: 0; padding-bottom: 0; }
+@media (min-width: 720px) { .dgboss .cxrows > div { grid-template-columns: 110px minmax(0, 1fr); } }
 .gplay .btn { margin-left: auto; }
 .gbody.play { padding-top: 14px; }
 /* the beta mark after a fact Blizzard has not confirmed (<span class="beta-note">per beta data</span> in a guide text, as on the home page) */
@@ -1584,7 +1593,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png?v=00a6a7d9">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../assets/radio/radio.css?v=556d7dc63f" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=fe668704db" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/search/search.css?v=d6e551783e" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../assets/me/me.css?v=f19953bd21" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../assets/hero/hero.css?v=ef9324789f" media="print" onload="this.media='all'">
 </head>
@@ -1808,7 +1817,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../assets/radio/radio.js?v=556d7dc63f" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=fe668704db" data-root="../" defer></script>
+<script src="../assets/search/search.js?v=d6e551783e" data-root="../" defer></script>
 <script src="../assets/me/me.js?v=f19953bd21" data-root="../" data-home="./" data-lang="en" data-ach="0" data-teaser="" data-close="Close" data-page="404" data-look="2" defer></script>
 <script src="../assets/hero/hero.js?v=ef9324789f" data-root="../" data-home="./" data-data="../assets/hero/en.json?v=ef9324789f" defer></script>
 </body>
