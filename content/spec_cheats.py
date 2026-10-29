@@ -142,10 +142,6 @@ E_GHP = n9('лечение в бою: разбойник сам не лечит�
            'Heilung im Kampf: der Schurke kann sich nicht selbst heilen', 'soins en combat : le voleur ne peut pas se soigner seul',
            'curación en combate: el pícaro no se cura solo', 'cura em combate: o ladino não se cura sozinho',
            'cura in combattimento: il ladro non si cura da solo', 'leczenie w walce: łotrzyk sam się nie leczy')
-# (class-spec) -> row index (0 enchants, 1 consumables, 2 gems and materials) -> ([(item, effect)], source). No entry: the WAIT line of the row
-GEAR = {
-    'rogue-combat': {1: ([(I_POISON, E_POISON), (I_STONE, E_STONE), (I_AGI, E_AGI), (I_GHP, E_GHP)], 'Icy Veins, Wowhead')},
-}
 STATS_T = n9('Приоритет статов', 'Stat priority', 'Пріоритет характеристик', 'Wertepriorität', 'Priorité des caractéristiques',
              'Prioridad de estadísticas', 'Prioridade de atributos', 'Priorità delle statistiche', 'Priorytet statystyk')
 STAT = {
@@ -199,6 +195,141 @@ STATS_SPLIT = n9('Ждёт данных: источники расходятся
                  'Aguardando dados: as fontes divergem. Icy Veins põe acerto primeiro, Warcraft Tavern põe poder mágico.',
                  'In attesa di dati: le fonti non concordano. Icy Veins mette prima colpire, Warcraft Tavern il potere magico.',
                  'Czeka na dane: źródła się różnią. Icy Veins stawia najpierw trafienie, Warcraft Tavern moc zaklęć.')
+def S(k, n):
+    return {l: f'+{n} {STAT[k][l]}' for l in LANGS9}
+
+
+def J(*ds):
+    return {l: ', '.join(d[l] for d in ds) for l in LANGS9}
+
+
+def U(n, u):
+    return {l: f'{n} {UNIT[u][l]}' for l in LANGS9}
+
+
+def W(word, a, b=None):
+    return {l: f'{a}{"–" + str(b) if b else ""} {word[l]}' for l in LANGS9}
+
+
+def NM(item, extra=None):
+    d = {l: item.get(l) or item['en'] for l in LANGS9}
+    return J(d, extra) if extra else d
+
+
+UNIT = {'min': n9('мин', 'min', 'хв', 'Min.', 'min', 'min', 'min', 'min', 'min'), 's': n9('с', 's', 'с', 'Sek.', 's', 's', 's', 's', 's'),
+        'h': n9('ч', 'h', 'год', 'Std.', 'h', 'h', 'h', 'h', 'godz.')}
+MANA_W = n9('маны', 'mana', 'мани', 'Mana', 'de mana', 'de maná', 'de mana', 'di mana', 'many')
+RAGE_W = n9('ярости', 'rage', 'люті', 'Wut', 'de rage', 'de ira', 'de raiva', 'di rabbia', 'wściekłości')
+DMG_W = n9('урона', 'damage', 'шкоди', 'Schaden', 'de dégâts', 'de daño', 'de dano', 'di danno', 'obrażeń')
+HP_W = n9('здоровья', 'health', 'здоров’я', 'Gesundheit', 'de vie', 'de salud', 'de vida', 'di salute', 'zdrowia')
+SP_WEAPON = n9('сила заклинаний на оружие', 'spell power on the weapon', 'сила заклинань на зброю', 'Zaubermacht auf der Waffe',
+               'puissance des sorts sur l’arme', 'poder con hechizos en el arma', 'poder mágico na arma', 'potere magico sull’arma',
+               'moc zaklęć na broni')
+WELL_FED = n9('сытость: +14 силы заклинаний', 'well fed: +14 spell power', 'ситість: +14 сили заклинань', 'gut genährt: +14 Zaubermacht',
+              'bien nourri : +14 puissance des sorts', 'bien alimentado: +14 de poder con hechizos', 'bem alimentado: +14 de poder mágico',
+              'ben nutrito: +14 potere magico', 'najedzenie: +14 mocy zaklęć')
+SLOT = {
+    'w': n9('Оружие', 'Weapon', 'Зброя', 'Waffe', 'Arme', 'Arma', 'Arma', 'Arma', 'Broń'),
+    'neck': n9('Шея', 'Neck', 'Шия', 'Hals', 'Cou', 'Cuello', 'Pescoço', 'Collo', 'Szyja'),
+    'chest': n9('Грудь', 'Chest', 'Груди', 'Brust', 'Torse', 'Pecho', 'Peitoral', 'Torace', 'Tors'),
+    'legs': n9('Ноги', 'Legs', 'Ноги', 'Beine', 'Jambes', 'Piernas', 'Pernas', 'Gambe', 'Nogi'),
+    'br': n9('Наручи', 'Bracers', 'Наручі', 'Armschienen', 'Brassards', 'Brazales', 'Braçadeiras', 'Bracciali', 'Karwasze'),
+    'boots': n9('Сапоги', 'Boots', 'Чоботи', 'Stiefel', 'Bottes', 'Botas', 'Botas', 'Stivali', 'Buty'),
+    'kit': n9('Грудь, ноги, перчатки', 'Chest, legs, hands', 'Груди, ноги, рукавиці', 'Brust, Beine, Hände', 'Torse, jambes, mains',
+              'Pecho, piernas, manos', 'Peitoral, pernas, mãos', 'Torace, gambe, mani', 'Tors, nogi, dłonie'),
+    'l60': n9('На 60 уровне', 'At level 60', 'На 60 рівні', 'Auf Stufe 60', 'Au niveau 60', 'En el nivel 60', 'No nível 60', 'Al livello 60',
+              'Na 60 poziomie')}
+REV = n9('после заклинания без крита следующее получает +100% к криту', 'a spell that fails to crit gives the next one +100% crit',
+         'після заклинання без крита наступне отримує +100% до крита', 'nach einem Zauber ohne Krit hat der nächste +100 % Krit',
+         'après un sort sans critique, le suivant a +100 % de critique', 'tras un hechizo sin crítico, el siguiente tiene +100 % de crítico',
+         'após um feitiço sem crítico, o próximo tem +100% de crítico', 'dopo un incantesimo senza critico, il successivo ha +100% di critico',
+         'po zaklęciu bez krytyka następne ma +100% do krytyka')
+SPEED = n9('+8% скорости бега', '+8% run speed', '+8% швидкості бігу', '+8 % Lauftempo', '+8 % de vitesse de course', '+8 % de velocidad',
+           '+8% de velocidade', '+8% velocità di corsa', '+8% szybkości biegu')
+I_KIT = _it('Mystic Heavy Armor Kit', 'Мистические накладки из толстой кожи', 'Mystisches schweres Rüstungsset', 'Renfort d’armure lourd mystique',
+            'Complemento pesado para armadura místico', 'Kit de Armadura Pesada Mística')
+I_SPELLB = _it('Spellblasting Potion', 'Зелье взрывных чар', 'Trank des Zauberschlags', 'Potion d’explosion de sorts',
+               'Poción de explosión de hechizos', 'Poção de Impacto Mágico')
+I_MANA = _it('Mana Potion', 'Зелье маны', 'Manatrank', 'Potion de mana', 'Poción de maná', 'Poção de Mana')
+I_LAE = _it('Lesser Arcane Elixir', 'Малый чародейский эликсир', 'Geringes Arkanelixier', 'Élixir des arcanes inférieur', 'Elixir Arcano inferior',
+            'Elixir Arcano Inferior')
+I_MBLOOD = _it('Lesser Mageblood Elixir', 'Малый эликсир крови волшебника', 'Geringes Magierblutelixier', 'Élixir magesang inférieur',
+               'Elixir de sangre de mago inferior', 'Elixir Inferior de Sangue de Mago')
+I_WIZOIL = _it('Lesser Wizard Oil', 'Малое волшебное масло', 'Geringes Zauberöl', 'Huile de sorcier inférieure', 'Aceite de zahorí inferior',
+               'Óleo Inferior de Teurgo')
+I_STEW = _it('Briny Seafood Stew', 'Соленый суп из морепродуктов', 'Salziger Meeresfrüchteeintopf', 'Ragoût de fruits de mer saumâtre',
+             'Estofado de marisco salobre', 'Ensopado Salgado de Frutos do Mar')
+I_CLERIC = _it('Lesser Cleric’s Elixir', 'Малый эликсир священника', 'Geringes Klerikerelixier', 'Élixir des clercs inférieur',
+               'Elixir de clérigo inferior', 'Elixir Inferior do Clérigo')
+I_MENDER = _it('Mender’s Potion', 'Зелье целителя', 'Trank des Heilers', 'Potion de soigneur', 'Poción de ensalmador', 'Poção do Reparador')
+I_OGRE = _it('Elixir of Ogre Strength', 'Эликсир силы огра', 'Elixier der Ogerstärke', 'Élixir de force d’ogre', 'Elixir de fuerza de ogro',
+             'Elixir de Força de Ogro')
+I_COARSE = _it('Coarse Sharpening Stone', 'Зернистое точило', 'Grober Wetzstein', 'Pierre à aiguiser grossière', 'Piedra de afilar burda',
+               'Pedra de Afiar Grosseira')
+I_SOLID = _it('Solid Sharpening Stone', 'Твердое точило', 'Robuster Wetzstein', 'Pierre à aiguiser solide', 'Piedra de afilar sólida',
+              'Pedra de Afiar Maciça')
+I_WEIGHT = _it('Solid Weightstone', 'Твердое грузило', 'Robuster Gewichtsstein', 'Caillou solide', 'Piedrafuerte sólida', 'Contrapeso Maciço')
+I_RAGE = _it('Great Rage Potion', 'Сильнодействующее зелье ярости', 'Großer Wuttrank', 'Potion de Grande rage', 'Gran poción de ira',
+             'Poção Grandiosa de Raiva')
+X_GHP = n9('мгновенное лечение', 'instant healing', 'миттєве зцілення', 'Sofortheilung', 'soins instantanés', 'curación instantánea',
+           'cura instantânea', 'cura istantanea', 'natychmiastowe leczenie')
+X_GHP = {l: f'{X_GHP[l]}: 455–585 {HP_W[l]}' for l in LANGS9}
+P_SPELLB = J(S('sp', 16), U(30, 's'))
+P_LAE = J(S('sp', 15), U(30, 'min'))
+P_MBLOOD = J(S('mp5', 6), U(30, 'min'))
+P_CLERIC = J(S('hp', 20), U(30, 'min'))
+P_MENDER = J(S('hp', 31), U(30, 's'))
+P_MANA = W(MANA_W, 455, 585)
+P_AGI = J(S('agi', 15), U(1, 'h'))
+P_OGRE = J(S('str', 8), U(1, 'h'))
+P_RAGE = W(RAGE_W, 30, 60)
+
+
+def P_STONE(n):
+    return J(W(DMG_W, f'+{n}'), U(30, 'min'))
+
+
+GHP = (I_GHP, X_GHP)
+IV, WH, IVW = 'Icy Veins', 'Wowhead', 'Icy Veins, Wowhead'
+CASTER = [(I_SPELLB, P_SPELLB), (I_LAE, P_LAE), (I_WIZOIL, SP_WEAPON), (I_MANA, P_MANA), GHP, (I_STEW, WELL_FED)]
+WARRIOR = [GHP, (I_RAGE, P_RAGE), (I_OGRE, P_OGRE), (I_AGI, P_AGI), (I_SOLID, P_STONE(6)), (I_WEIGHT, P_STONE(6))]
+HUNTER = [(I_AGI, P_AGI), GHP]
+ROGUE = [(I_POISON, E_POISON), (I_STONE, E_STONE), (I_AGI, E_AGI), (I_GHP, E_GHP)]
+LOCK = [(I_LAE, P_LAE), (I_MBLOOD, P_MBLOOD), (I_SPELLB, P_SPELLB), GHP]
+HEALER = [(I_CLERIC, P_CLERIC), (I_MANA, P_MANA), GHP, (I_STEW, WELL_FED)]
+KIT_SP = J(NM(I_KIT), S('sp', 4))
+ARCANE_ENCH = [(SLOT['w'], REV), (SLOT['kit'], KIT_SP), (SLOT['neck'], S('sp', 6)), (SLOT['br'], S('sp', 6)),
+               (SLOT['l60'], J(S('sp', 30), {l: f'2H {S("sp", 55)[l]}' for l in LANGS9}))]
+HOLY_ENCH = [(SLOT['w'], REV), (SLOT['neck'], S('sp', 6)), (SLOT['chest'], S('int', 4)), (SLOT['legs'], KIT_SP), (SLOT['boots'], SPEED)]
+HEAL_NECK = [(SLOT['neck'], S('hp', 11))]
+# (class-spec) -> row index (0 enchants, 1 consumables, 2 gems and materials) -> ([(label, effect)], source). No entry: the WAIT line of the row
+GEAR = {
+    'rogue-combat': {1: (ROGUE, IVW)}, 'rogue-assassination': {1: (ROGUE, IVW)}, 'rogue-subtlety': {1: (ROGUE, IVW)},
+    'warrior-arms': {1: (WARRIOR, IVW)}, 'warrior-fury': {1: (WARRIOR, IVW)}, 'warrior-protection': {1: (WARRIOR, IVW)},
+    'hunter-beast-mastery': {1: (HUNTER, IVW)}, 'hunter-marksmanship': {1: (HUNTER, IVW)}, 'hunter-survival': {1: (HUNTER, IVW)},
+    'druid-feral': {1: ([GHP, (I_AGI, P_AGI), (I_OGRE, P_OGRE), (I_COARSE, P_STONE(3)), (I_WEIGHT, P_STONE(6))], IVW)},
+    'druid-balance': {1: ([(I_LAE, P_LAE), GHP], IVW)},
+    'mage-arcane': {0: (ARCANE_ENCH, WH), 1: (CASTER, IVW)}, 'mage-fire': {1: (CASTER, IVW)}, 'mage-frost': {1: (CASTER, IVW)},
+    'warlock-affliction': {1: (LOCK, IVW)}, 'warlock-demonology': {1: (LOCK, IVW)}, 'warlock-destruction': {1: (LOCK, IVW)},
+    'priest-shadow': {1: ([(I_WIZOIL, SP_WEAPON), (I_LAE, P_LAE), (I_STEW, WELL_FED), GHP], IVW)},
+    'shaman-elemental': {1: ([(I_LAE, P_LAE), (I_SPELLB, P_SPELLB), (I_MANA, P_MANA), GHP], IVW)},
+    'shaman-enhancement': {1: ([GHP, (I_OGRE, P_OGRE), (I_MBLOOD, P_MBLOOD)], IVW)},
+    'shaman-restoration': {1: ([(I_CLERIC, P_CLERIC), (I_MENDER, P_MENDER), (I_MANA, P_MANA), GHP], IVW)},
+    'priest-discipline': {0: (HEAL_NECK, IVW), 1: (HEALER, IVW)}, 'priest-holy': {0: (HEAL_NECK, IVW), 1: (HEALER, IVW)},
+    'paladin-holy': {0: (HOLY_ENCH, WH), 1: ([(I_MANA, P_MANA)], WH)},
+    'paladin-retribution': {1: ([GHP, (I_MANA, P_MANA), (I_LAE, P_LAE), (I_SPELLB, P_SPELLB)], IVW)},
+}
+ENCH_UNREAD = {'mage-fire', 'mage-frost', 'druid-balance', 'shaman-elemental', 'shaman-enhancement'}
+WAIT_UNREAD = n9('Ждёт данных: у Wowhead есть список чар для этого спека, на сайт он ещё не перенесён.',
+                 'Waiting for data: Wowhead has an enchant list for this spec, not yet on the site.',
+                 'Чекає на дані: у Wowhead є список чарів для цього спеку, на сайт його ще не перенесено.',
+                 'Wartet auf Daten: Wowhead hat eine Verzauberungsliste für diese Skillung, sie ist noch nicht auf der Seite.',
+                 'En attente de données : Wowhead a une liste d’enchantements pour cette spécialisation, pas encore sur le site.',
+                 'A la espera de datos: Wowhead tiene una lista de encantamientos para esta especialización, aún no está en el sitio.',
+                 'Aguardando dados: o Wowhead tem uma lista de encantamentos para esta especialização, ainda não está no site.',
+                 'In attesa di dati: Wowhead ha un elenco di incantamenti per questa specializzazione, non ancora sul sito.',
+                 'Czeka na dane: Wowhead ma listę zaklęć dla tej specjalizacji, nie ma jej jeszcze na stronie.')
+
 FAQ_T = n9('Вопросы', 'Questions', 'Питання', 'Fragen', 'Questions', 'Preguntas', 'Perguntas', 'Domande', 'Pytania')
 # Button and tab names as talents.py shows them (ed, share, b_general, b_leveling)
 FAQ = [
@@ -253,7 +384,7 @@ def _name(x, lang):
 def _gear(key, i, lang):
     got = GEAR.get(key, {}).get(i)
     if not got:
-        return escape(WAIT[i][lang])
+        return escape((WAIT_UNREAD if i == 0 and key in ENCH_UNREAD else WAIT[i])[lang])
     items, src = got
     return '<br>'.join(f'{escape(_name(n, lang))} — {escape(e[lang])}' for n, e in items) + f'<br><span class="small">{escape(src)}</span>'
 
