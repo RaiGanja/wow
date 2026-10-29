@@ -1115,6 +1115,14 @@ GUIDES.append({
 NR_URL = 'https://news.blizzard.com/en-us/article/24303866/claim-your-world-of-warcraft-forever-character-names'   # name reservation 27.10 – 03.11
 
 NEWS += [
+    {'date': '2026-10-22', 'url': 'https://worldofwarcraft.blizzard.com/en-us/news/24302070/choose-your-ruleset-in-world-of-warcraft-forever',
+     'title': t('Blizzard описала четыре режима', 'Blizzard describes the four rulesets', 'Blizzard описала чотири режими'),
+     'text': t('В статье Choose Your Ruleset Blizzard описывает четыре режима. Normal: приключения и бои с монстрами, бои с другими игроками по вашему желанию. PvP: упор на бои игрок против игрока, почти всегда есть риск нападения вражеских игроков. Roleplay: строгие правила имён и поведения для игроков, которые хотят погрузиться в роль персонажа. Roleplay PvP: те же правила с упором на бои игрок против игрока.',
+               'Blizzard\'s article Choose Your Ruleset describes four rulesets. Normal: adventuring and fighting monsters, with fights against other players at your own discretion. PvP: a focus on player versus player combat, and you are almost always at risk of being attacked by opposing players. Roleplay: strict naming conventions and behavior rules for players who want to immerse themselves as a character. Roleplay PvP: the same rules with a focus on player versus player combat.',
+               'У статті Choose Your Ruleset Blizzard описує чотири режими. Normal: пригоди та бої з монстрами, бої з іншими гравцями на ваш розсуд. PvP: акцент на боях гравець проти гравця, майже завжди є ризик нападу ворожих гравців. Roleplay: суворі правила імен і поведінки для гравців, які хочуть зануритися в роль персонажа. Roleplay PvP: ті самі правила з акцентом на боях гравець проти гравця.'),
+     'so': t('Полные правила каждого режима — в статье Blizzard.',
+             'The full rules of each ruleset are in the Blizzard article.',
+             'Повні правила кожного режиму — у статті Blizzard.')},
     {'date': '2026-10-28', 'url': 'https://worldofwarcraft.blizzard.com/en-us/news/24315280/new-players-starter-guide-welcome-to-world-of-warcraft-forever',
      'title': t('Стартовый гид Blizzard для новых игроков WoW Forever', 'New player\'s starter guide for WoW Forever', 'Стартовий гід Blizzard для нових гравців WoW Forever'),
      'text': t('Blizzard опубликовала стартовый гид для новых игроков WoW Forever. В нём: выбор режима (Ruleset) до создания персонажа (при запуске Normal, PvP, Roleplay и Roleplay-PvP, Hardcore позже), правило, что группы, гильдии, подземелья и рейды доступны только игрокам с тем же режимом и фракцией, система из двух имён, сбор ресурсов, ремёсла и вторичные профессии, а также что делать после смерти. Подробности и сроки Hardcore пока не объявлены.',
@@ -1227,6 +1235,7 @@ GUIDES.append({
         (t('Blizzard: меры против ботов и RMT', 'Blizzard: actions against botting and RMT', 'Blizzard: заходи проти ботів і RMT'), 'https://us.forums.blizzard.com/en/wow/t/actions-taken-against-botting-and-rmt/2368705/1'),
         (t('Blizzard: техработы на реалмах беты', 'Blizzard: beta realm maintenance', 'Blizzard: технічні роботи на реалмах бети'), 'https://us.forums.blizzard.com/en/wow/t/beta-realm-maintenance-october-15/2383475/1'),
         (t('Blizzard: стартовый гид для новичков', 'Blizzard: new player\'s starter guide', 'Blizzard: стартовий гід для новачків'), 'https://worldofwarcraft.blizzard.com/en-us/news/24315280/new-players-starter-guide-welcome-to-world-of-warcraft-forever'),
+        (t('Blizzard: выбор режима', 'Blizzard: choose your ruleset', 'Blizzard: вибір режиму'), 'https://worldofwarcraft.blizzard.com/en-us/news/24302070/choose-your-ruleset-in-world-of-warcraft-forever'),
         (t('Blizzard: подкаст WoW Forever', 'Blizzard: WoW Forever Podcast', 'Blizzard: подкаст WoW Forever'), 'https://us.forums.blizzard.com/en/wow/t/what-insights-would-you-like-to-see-in-a-future-episode-of-the-wow-forever-podcast/2361993/1'),
     ],
     'sections': [
