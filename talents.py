@@ -139,6 +139,15 @@ UI = {
            'it': 'Un tocco aggiunge un punto; tasto destro, Canc o «Togli» lo rimuove. La build resta salvata in questo browser.',
            'pl': 'Dotknięcie dodaje punkt, prawy przycisk, Delete lub „Usuń” go zabiera. Build zapisuje się w tej przeglądarce.',
            'pt': 'Um toque adiciona um ponto; clique direito, Delete ou «Remover» o retira. A build fica salva neste navegador.'},
+    'eht': {'ru': 'Нажатие ставит очко, долгое нажатие или «Снимать» убирают. Билд сохраняется в этом браузере.',
+            'en': 'A tap adds a point; a long press or Remove takes it back. The build is saved in this browser.',
+            'uk': 'Натискання ставить очко, довге натискання або «Знімати» прибирають. Білд зберігається в цьому браузері.',
+            'de': 'Tippen setzt einen Punkt, langes Drücken oder „Entfernen“ nimmt ihn zurück. Der Build bleibt in diesem Browser gespeichert.',
+            'es': 'Un toque añade un punto; una pulsación larga o «Quitar» lo retira. La build se guarda en este navegador.',
+            'fr': 'Un appui ajoute un point ; un appui long ou « Retirer » l’enlève. Le build est enregistré dans ce navigateur.',
+            'it': 'Un tocco aggiunge un punto; un tocco lungo o «Togli» lo rimuove. La build resta salvata in questo browser.',
+            'pl': 'Dotknięcie dodaje punkt, przytrzymanie lub „Usuń” go zabiera. Build zapisuje się w tej przeglądarce.',
+            'pt': 'Um toque adiciona um ponto; um toque longo ou «Remover» o retira. A build fica salva neste navegador.'},
     'rank': {'ru': 'Ранг {p} из {m}', 'en': 'Rank {p} of {m}', 'uk': 'Ранг {p} з {m}', 'de': 'Rang {p} von {m}',
              'es': 'Rango {p} de {m}', 'fr': 'Rang {p} sur {m}', 'it': 'Grado {p} su {m}', 'pl': 'Ranga {p} z {m}',
              'pt': 'Nível {p} de {m}'},
@@ -174,7 +183,7 @@ UI = {
            'it': 'Guide alle specializzazioni', 'pl': 'Poradniki specjalizacji'},
 }
 JS_SKIP = ('hint', 'beta', 'classic', 'wh', 'perk', 'bs', 'b_general', 'b_leveling', 'b_dungeons', 'b_raid', 'b_pvp', 'lvh', 'lvnote', 'lvg', 'lvwait',
-           'add', 'del', 'reset', 'share', 'eh', 'cm', 'cmt', 'calc', 'ours', 'gd')
+           'add', 'del', 'reset', 'share', 'eh', 'eht', 'cm', 'cmt', 'calc', 'ours', 'gd')
 EDIT_CAP = 51                              # points at level 60: one per level from 10 (the leveling build above checks the same 51)
 EN_NAMES = ('en', 'uk', 'pl')              # the site keeps English talent names on these pages (content/spec_builds.py)
 WH_LANGS = ('ru', 'de', 'es', 'fr', 'it', 'pt')            # Wowhead's own interface languages (www.wowhead.com/forever/<lang>/…)
@@ -556,7 +565,7 @@ def render(cid, spec, rows, titles, lang, root):
           f'<button type="button" class="tt-rs">{UI["reset"][lang]}</button><button type="button" class="tt-sh">{UI["share"][lang]}</button>'
           f'<a class="tt-whl" href="{escape(wh_base(cid, lang))}_t0" target="_blank" rel="noopener">{UI["wh"][lang]} ↗</a>'
           f'<a class="tt-cl" href="{root}talents/{cid}/">{UI["calc"][lang]}</a>'
-          f'<p class="tt-st" role="status"></p><p class="tt-eh">{UI["eh"][lang]}</p></div></div></template>')
+          f'<p class="tt-st" role="status"></p><p class="tt-eh"><span class="tt-cm">{UI["eh"][lang]}</span><span class="tt-ct">{UI["eht"][lang]}</span></p></div></div></template>')
     if not extra and LEVEL_SPEC.get(cid) == spec and _level_rows(cid):      # the leveling guide of the class has rows but they do not fit the tree
         note += f'<p class="tt-note">{UI["lvwait"][lang]} <a href="{root}guides/leveling-{cid}/#talents">{UI["lvg"][lang]}</a></p>'
     if not extra:
@@ -611,7 +620,6 @@ def render_calc(cid, specs, titles, lang, root):
           f'<div class="tt-md"><button type="button" class="tt-mb" data-m="1" aria-pressed="true">+ {UI["add"][lang]}</button>'
           f'<button type="button" class="tt-mb" data-m="-1" aria-pressed="false">− {UI["del"][lang]}</button></div>'
           f'<button type="button" class="tt-rs">{UI["reset"][lang]}</button><button type="button" class="tt-sh">{UI["share"][lang]}</button>'
-          f'<a class="tt-whl" href="{escape(wh_base(cid, lang))}_t0" target="_blank" rel="noopener">{UI["wh"][lang]} ↗</a>'
           f'<p class="tt-st" role="status"></p></div></div>')
     hint = f'<div class="tt-card" aria-live="polite"><p class="tt-hint">{UI["hint"][lang]}</p></div>'
     ours = []
@@ -619,11 +627,12 @@ def render_calc(cid, specs, titles, lang, root):
         code = build_code(data, table_picks(data, [(r[0], r[1]) for r in rows]))
         if code:
             ours.append(f'<a href="#{code}" data-t="{spec}">{escape(titles.get(spec, spec))}</a>')
-    guide = f'<a class="tt-gd" href="{root}guides/builds-{cid}/">{UI["gd"][lang]}</a>'
-    row = (f'<nav class="tt-ours" aria-label="{UI["ours"][lang]}"><span>{UI["ours"][lang]}</span>{"".join(ours)}{guide}</nav>'
-           if ours else f'<p class="tt-ours">{guide}</p>')
-    eh = f'<p class="tt-eh">{UI["eh"][lang]}</p>'
-    return f'{box}{note}{ed}{tabs_html}{trees_html}{hint}{row}{eh}</div>'
+    row = f'<nav class="tt-ours" aria-label="{UI["ours"][lang]}"><span>{UI["ours"][lang]}</span>{"".join(ours)}</nav>' if ours else ''
+    # the links and the data line under the tree, not over it: on a phone the tree starts on the first screen
+    ext = (f'<p class="tt-ext"><a href="{root}guides/builds-{cid}/">{UI["gd"][lang]}</a>'
+           f'<a class="tt-whl" href="{escape(wh_base(cid, lang))}_t0" target="_blank" rel="noopener">{UI["wh"][lang]} ↗</a></p>')
+    eh = f'<p class="tt-eh"><span class="tt-cm">{UI["eh"][lang]}</span><span class="tt-ct">{UI["eht"][lang]}</span></p>'
+    return f'{box}{ed}{tabs_html}{trees_html}{hint}{row}{ext}{eh}{note}</div>'
 
 
 CSS = """/* Talent trees (talents.py): three trees in a row when there is room, else the spec's tree and tabs; icons from one sprite */
@@ -692,7 +701,7 @@ CSS = """/* Talent trees (talents.py): three trees in a row when there is room, 
 .tt-eb { justify-self: start; border-color: var(--gold); color: var(--gold-2); }
 .tt-eb:hover, .tt-mb:hover, .tt-rs:hover, .tt-sh:hover { background: var(--zebra); }
 .tt-eb:focus-visible, .tt-mb:focus-visible, .tt-rs:focus-visible, .tt-sh:focus-visible { outline: 2px solid var(--gold-2); outline-offset: 2px; }
-.tt-cnt { flex-basis: 100%; max-width: none; margin: 0; color: var(--fg); font-weight: 600; font-variant-numeric: tabular-nums; }
+.tt .tt-cnt { flex-basis: 100%; max-width: none; margin: 0; color: var(--fg); font-weight: 600; font-variant-numeric: tabular-nums; }
 .tt-ct { display: none; }
 @media (pointer: coarse) { .tt-cm { display: none; } .tt-ct { display: inline; } }
 .tt-cm, .tt-ct { color: var(--muted); font-weight: 400; }
@@ -707,10 +716,9 @@ CSS = """/* Talent trees (talents.py): three trees in a row when there is room, 
 .tt-ours a[data-t] { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border: 1px solid var(--line-2); border-radius: 6px; color: var(--fg); font-weight: 600; text-decoration: none; }
 .tt-ours a[data-t]:hover { border-color: var(--gold); }
 .tt-ours a:focus-visible { outline: 2px solid var(--gold-2); outline-offset: 2px; }
-.tt-gd { margin-left: auto; font-size: var(--fs-14); }
-.tt.calc > .tt-eh { margin: 0; color: var(--muted); font-size: var(--fs-13); }
+.tt.calc > .tt-eh { max-width: 72ch; margin: 0; color: var(--muted); font-size: var(--fs-13); }
 .tt-st:empty { display: none; }
-.tt-st, .tt-eh { flex-basis: 100%; margin: 0; color: var(--muted); font-size: var(--fs-13); }
+.tt .tt-st, .tt .tt-eh { flex-basis: 100%; max-width: none; margin: 0; color: var(--muted); font-size: var(--fs-13); }
 .tt.ed .tt-grid .tt-t.tt-op:not(.on) { border-color: var(--line-2); }
 .tt.ed .tt-grid .tt-t.tt-op:not(.on) .tt-ic { filter: none; }
 .tt.ed .tt-grid .tt-t { -webkit-touch-callout: none; user-select: none; touch-action: manipulation; }
@@ -858,7 +866,7 @@ JS = r"""<script>
     }
     /* Editor: starts from the build saved in this browser, else from the build of ours on screen */
     var eb = ed.querySelector('.tt-eb'), ec = ed.querySelector('.tt-ec'), cnt = ed.querySelector('.tt-cn');
-    var st = ed.querySelector('.tt-st'), whl = ed.querySelector('.tt-whl'), cl = ed.querySelector('.tt-cl');
+    var st = ed.querySelector('.tt-st'), whl = w.querySelector('.tt-whl'), cl = ed.querySelector('.tt-cl');
     function saved() { try { return localStorage.getItem(KEY + w.dataset.c); } catch (x) { return null; } }
     /* the address of a build: #<spec>/<code> in a guide, #<code> on the calculator page (nothing for an empty build) */
     function addr(code) { return calc ? (code ? '#' + code : location.pathname + location.search) : '#' + w.dataset.sp + '/' + code; }

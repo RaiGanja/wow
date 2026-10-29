@@ -92,7 +92,9 @@ def main():
             u = urlsplit(t)
             if not u.path:
                 # a hash inside a script template is a route of that page (profile: #chars, #account), not an anchor
-                if u.fragment and u.fragment not in ids and t in static and not u.fragment.startswith(('pick=', 'team=', 'pairs=')):
+                # talents/<class>/: #<digits and dashes> is a build of the calculator (talents.render_calc), not an anchor
+                if (u.fragment and u.fragment not in ids and t in static and not u.fragment.startswith(('pick=', 'team=', 'pairs='))
+                        and not (re.match(r'(?:[a-z]{2}/)?talents/', rel) and re.fullmatch(r'[0-9-]+', u.fragment))):
                     problems.append(f'{rel}: нет якоря #{u.fragment}')
                 continue
             p = os.path.normpath(os.path.join(os.path.dirname(page), unquote(u.path)))

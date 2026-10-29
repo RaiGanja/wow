@@ -1342,11 +1342,12 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 :root .chead h1.long { font-size: min(var(--fs-40), calc((100vw - 64px) / (var(--lw, 12) * .74))); }
 .chead .upd { margin: 0; color: var(--muted); text-shadow: none; }
 .chead .glead { margin: 0; max-width: 72ch; font-size: var(--fs-16); color: var(--muted); }
+.chead :is(h1, .glead, .crumbs) { text-shadow: none; }   /* no picture under the heading: no shade for the text either */
 .gbody.calcp { padding-top: 16px; }
 .calcs { padding: 18px; }
 .calcl { margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr)); }
 .calcl a[aria-current] { border-color: var(--gold); }
-@media (max-width: 719px) { .chead { padding-top: calc(var(--top) + 18px); } .chead h1 { font-size: var(--fs-28); } :root .chead h1.long { font-size: min(var(--fs-28), calc((100vw - 32px) / (var(--lw, 12) * .74))); } .calcs { padding: 14px 12px; } }
+@media (max-width: 719px) { .chead { padding-top: calc(var(--top) + 16px); } .chead .wrap { gap: 8px; } .chead :is(.crumbs, .upd) { display: none; }   /* phones: the tree on the first screen; the tab bar is the way back */ .chead h1 { font-size: var(--fs-28); } :root .chead h1.long { font-size: min(var(--fs-28), calc((100vw - 32px) / (var(--lw, 12) * .74))); } .calcs { padding: 14px 12px; } }
 /* the beta mark after a fact Blizzard has not confirmed (<span class="beta-note">wg danych z bety</span> in a guide text, as on the home page) */
 .beta-note { color: var(--muted); font-size: var(--fs-13); font-weight: 400; font-style: normal; white-space: nowrap; }
 .beta-note::before { content: "("; } .beta-note::after { content: ")"; }
