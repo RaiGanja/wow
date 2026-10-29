@@ -1465,6 +1465,15 @@ GUIDES.append({
     'lead': t('Тир-лист — рейтинг классов и спеков по силе, от S до C. На бете сильнее всех Паладин в PvE, Охотник и Маг на прокачке, Чернокнижник и Разбойник в PvP. Это срез беты 30 уровня, обновим после старта 5 ноября.', 'A tier list ranks classes and specs by strength, from S to C. In the beta the strongest picks are Paladin in PvE, Hunter and Mage for leveling, Warlock and Rogue in PvP. This is a level 30 beta snapshot; we’ll update it after the Nov 4–5 launch.', 'Тир-лист — рейтинг класів і спеціалізацій за силою, від S до C. У бета-версії найсильніші Паладин у PvE, Мисливець і Маг на прокачуванні, Чорнокнижник і Розбійник у PvP. Це зріз бети на 30 рівні, оновимо його після старту 5 листопада.'),
     'tile': t('Сильные классы и спеки по данным беты', 'Strong classes and specs by beta data', 'Сильні класи й спеціалізації за даними бети'),
     'pills': [t('По бете', 'Beta data', 'За бетою'), t('27 спеков', '27 specs', '27 спеціалізацій'), t('Обновим после 05.11', 'Updated after Nov 4–5', 'Оновимо після 5 листопада')],
+    # one Alliance / Horde switch over the class grid (build_guides.side_switch): the site-wide side, races of that side in the table
+    'side': {'label': t('Фракция', 'Faction', 'Фракція'),
+             'alliance': t('Альянс', 'Alliance', 'Альянс'), 'horde': t('Орда', 'Horde', 'Орда'),
+             'races': t('Расы', 'Races', 'Раси'),
+             'note': t('Все 9 классов есть у обеих фракций, от фракции зависят расы.',
+                       'All 9 classes are open to both factions; the faction decides the races.',
+                       'Усі 9 класів є в обох фракцій, від фракції залежать раси.'),
+             'star': t('★ — лучшая раса в PvE по гайду', '★ — the best race for PvE per the guide', '★ — найкраща раса в PvE за гайдом'),
+             'guide': t('Лучшая раса для каждого класса', 'Best Race for Every Class', 'Найкраща раса для кожного класу')},
     'sources': [
         (t('RankedBoost: тир-лист Forever', 'RankedBoost: Forever tier list', 'RankedBoost: тір-лист Forever'), 'https://rankedboost.com/world-of-warcraft/forever/tier-list/'),
         (t('Noobtoboss: тир-лист', 'Noobtoboss: tier list', 'Noobtoboss: тір-лист'), 'https://noobtoboss.com/wowforever-tierlist/'),

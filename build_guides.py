@@ -132,8 +132,14 @@ def li_id(step):
     return f' id="{step["id"]}"' if 'id' in step else ''
 
 
+class Raw(str):
+    """A table cell that is ready HTML (the races of both sides in the tier list): cell() puts it in as is."""
+
+
 def cell(c, lang, root):
     """A table cell: text, or (text, href) when the class name of a «Class · spec» cell links to its guide."""
+    if isinstance(c, Raw):
+        return str(c)
     if not isinstance(c, tuple):
         return E(c, lang)
     if c[1].startswith('http'):                                   # an addon on CurseForge: a new tab, like the sources
@@ -216,6 +222,58 @@ def tier_grid(table, lang, root):
                  + ('' if first else ' tabindex="-1"') + f'>{head[col]}</button>')
         panels += f'<div role="tabpanel" data-tab="tg{col}"' + ('' if first else ' hidden') + f'><ol class="tgrid">{rows}</ol></div>'
     return f'<div class="gtabs tgbox"><div role="tablist" aria-label="{head[0]}">{btns}</div>{panels}</div>'
+
+
+SIDES = ('alliance', 'horde')
+_RACE_LIST = []
+
+
+def race_list():
+    if not _RACE_LIST:
+        _RACE_LIST.extend(build.parse_races(home_src()))
+    return _RACE_LIST
+
+
+def side_races(cid, lang):
+    """The races of a class on each side, the best for PvE first with a star (content/hero.BEST, the Best Race guide).
+    Both sides are in the page; html[data-side] (side_switch) shows one."""
+    out = ''
+    for f in SIDES:
+        best = HERO.BEST[cid][f]['*'][0]
+        ids = [r['id'] for r in race_list() if r['f'] == f and cid in r['can']]
+        ids = [r for r in best if r in ids] + [r for r in ids if r not in best]
+        name = {r['id']: escape(build.tr(r['n'], lang)) for r in race_list()}
+        out += (f'<span class="frc" data-f="{f}">'
+                + ', '.join(f'<b>{name[r]}<i aria-hidden="true">★</i></b>' if r in best else name[r] for r in ids) + '</span>')
+    return Raw(out)
+
+
+def side_switch(d, lang, root):
+    """Tier list: one Alliance / Horde switch for the whole page. The side is the site's one (build.por_js GabellaPor:
+    gabella-side, else the hero's race, else the time of day); a tap stores it with GabellaPor.set, which swaps every class
+    portrait on the page, and html[data-side] shows the races of that side. The script runs right after the markup, before
+    the table is painted, and follows the other places of the site (the gabella-side / gabella-me events, other tabs)."""
+    btns = ''.join(f'<button type="button" data-f="{f}" aria-pressed="false">{E(d[f], lang)}</button>' for f in SIDES)
+    return (f'<div class="fsw"><div class="fswb" id="fsw" role="group" aria-label="{E(d["label"], lang)}">'
+            f'<span class="fswl" aria-hidden="true">{E(d["label"], lang)}</span>{btns}</div>'
+            f'<p class="fswn">{E(d["note"], lang)} {E(d["star"], lang)} <a href="{root}guides/best-race/">{E(d["guide"], lang)}</a>.</p></div>'
+            '<script>(function(){var b=document.getElementById("fsw"),P=window.GabellaPor;if(!P)return;'
+            'var B=[].slice.call(b.querySelectorAll("[data-f]"));'
+            'function show(){var f=P.fac();document.documentElement.setAttribute("data-side",f);'
+            'B.forEach(function(x){x.setAttribute("aria-pressed",x.getAttribute("data-f")==f?"true":"false")})}'
+            'B.forEach(function(x){x.addEventListener("click",function(){if(x.getAttribute("aria-pressed")!="true")P.set(x.getAttribute("data-f"));show()})});'
+            'addEventListener("gabella-side",show);addEventListener("gabella-me",show);document.addEventListener("gabella:tod",show);show()})()</script>')
+
+
+def with_races(blocks, side, lang):
+    """The «Best classes» table of the tier list with the races of the chosen side as the last column."""
+    out = []
+    for kind, data in blocks:
+        if kind == 'table':
+            rows = [r + [side_races(CLS_ID[(r[0][0] if isinstance(r[0], tuple) else r[0])['ru']], lang)] for r in data['rows']]
+            data = dict(data, head=data['head'] + [side['races']], rows=rows)
+        out.append((kind, data))
+    return out
 
 
 def short(c, lang):
@@ -436,9 +494,11 @@ def render_guide(g, lang, root):
     tier = g['slug'] == 'tier-list'
     def blocks(s):
         bl = cls_cells(s['blocks']) if tier else s['blocks']
+        if tier and s['id'] == 'classes' and g.get('side'):
+            bl = with_races(bl, g['side'], lang)
         html = ''.join(render_block(k, d, lang, root) for k, d in bl)
-        if tier and s['id'] == 'classes':                       # the grid opens the section, the table with the reasons follows
-            html = tier_grid(next(d for k, d in s['blocks'] if k == 'table'), lang, root) + html
+        if tier and s['id'] == 'classes':                       # the switch and the grid open the section, the table with the reasons follows
+            html = (side_switch(g['side'], lang, root) if g.get('side') else '') + tier_grid(next(d for k, d in s['blocks'] if k == 'table'), lang, root) + html
         return html
     body = '\n'.join(f'<section class="frame gsec" id="{s["id"]}"><h2>{E(s["title"], lang)}</h2>' + blocks(s) + '</section>'
                       for s in sections)
