@@ -1331,8 +1331,18 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .geart .iq { text-decoration: none; font-weight: 600; color: var(--fg); }
 .geart .iq:hover { text-decoration: underline; }
 .geart .iq0 { color: var(--q0); } .geart .iq2 { color: var(--q2); } .geart .iq3 { color: var(--q3); } .geart .iq4 { color: var(--q4); } .geart .iq5 { color: var(--q5); }
+#gearProf[hidden] { display: none; }
 .gtest { color: var(--gold-2); font-weight: 600; }
-@media (max-width: 719px) { .geart tr.cont td.sl { display: none; } }
+/* phone: one compact card per item, «Head · Lvl 24» on top, then the item, then where to get it without a label */
+@media (max-width: 719px) {
+  .geart tr { gap: 2px 12px; }
+  .geart td.sl { order: 0; flex: none; }
+  .geart td.lv { order: 1; flex: none; color: var(--muted); }
+  .geart td.m { order: 2; }
+  .geart td:last-child { order: 3; }
+  .geart td:last-child::before { display: none; }
+  .geart tr.cont td.sl { display: none; }
+}
 .gplay .btn { margin-left: auto; }
 .gbody.play { padding-top: 14px; }
 /* the beta mark after a fact Blizzard has not confirmed (<span class="beta-note">wg danych z bety</span> in a guide text, as on the home page) */
