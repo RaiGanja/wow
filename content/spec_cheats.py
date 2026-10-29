@@ -163,7 +163,8 @@ STAT = {
     'haste': n9('Скорость', 'Haste', 'Швидкість', 'Tempo', 'Hâte', 'Celeridad', 'Aceleração', 'Celerità', 'Szybkość'),
 }
 # The order from the spec's tip in spec_builds.py (Icy Veins for the beta; Fury also Warcraft Tavern). No key: the sources give no order;
-# 'split': they disagree (Frost: Icy Veins hit first, Warcraft Tavern spell power).
+# 'split': they disagree (Frost: Icy Veins hit first, Warcraft Tavern spell power). Arms, Protection (warrior), Arcane and Fire: the stat pages
+# of the Icy Veins Forever guides, read 29.10 (Arcane is called a rough order there). Paladin Protection: Icy Veins has no order.
 IV, IVT = 'Icy Veins', 'Icy Veins, Warcraft Tavern'
 STATS = {
     'paladin-holy': ('hp int spi', IV), 'paladin-retribution': ('wd hit crit', IV), 'warrior-fury': ('hit crit str', IVT),
@@ -176,6 +177,8 @@ STATS = {
     'warlock-demonology': ('sp hit int crit spi', IV), 'warlock-destruction': ('sp hit haste crit', IV),
     'druid-balance': ('int sp spi mp5 crit', IV), 'druid-feral': ('wd hit exp crit str agi', IV),
     'druid-restoration': ('int hp spi mp5 crit', IV), 'mage-frost': 'split',
+    'warrior-arms': ('wd hit crit str agi sta', IV), 'warrior-protection': ('wd hit str agi armor sta crit', IV),
+    'mage-arcane': ('hit spi int sp crit sta mp5', IV), 'mage-fire': ('hit sp crit spi int sta mp5', IV),
 }
 STATS_NONE = n9('Ждёт данных: в гайдах Icy Veins и Wowhead по бете порядка статов нет.',
                 'Waiting for data: the Icy Veins and Wowhead beta guides give no stat order.',
@@ -198,13 +201,18 @@ STATS_SPLIT = n9('Ждёт данных: источники расходятся
 EXTRA = {
     'sta': n9('Выносливость', 'Stamina', 'Витривалість', 'Ausdauer', 'Endurance', 'Aguante', 'Vigor', 'Resistenza', 'Wytrzymałość'),
     'def': n9('Защита', 'Defense', 'Захист', 'Verteidigung', 'Défense', 'Defensa', 'Defesa', 'Difesa', 'Obrona'),
+    'armor': n9('Броня', 'Armor', 'Броня', 'Rüstung', 'Armure', 'Armadura', 'Armadura', 'Armatura', 'Pancerz'),
     'thr': n9('угрозы', 'threat', 'загрози', 'Bedrohung', 'menace', 'amenaza', 'ameaça', 'minaccia', 'zagrożenia'),
     'dodge': n9('уклонения', 'dodge', 'ухилення', 'Ausweichen', 'esquive', 'esquiva', 'esquiva', 'schivata', 'uniku')}
 
 
+def _low(w, lang):
+    return w if lang == 'de' else w[:1].lower() + w[1:]   # mid-line stat names: lower case as in «+14 силы заклинаний»; German nouns keep it
+
+
 def S(k, n):
     pct = '%' if k in ('thr', 'dodge') else ''
-    return {l: f'+{n}{pct} {(STAT.get(k) or EXTRA[k])[l]}' for l in LANGS9}
+    return {l: f'+{n}{pct} {_low((STAT.get(k) or EXTRA[k])[l], l)}' for l in LANGS9}
 
 
 def J(*ds):
@@ -254,6 +262,48 @@ REV = n9('после заклинания без крита следующее �
          'po zaklęciu bez krytyka następne ma +100% do krytyka')
 SPEED = n9('+8% скорости бега', '+8% run speed', '+8% швидкості бігу', '+8 % Lauftempo', '+8 % de vitesse de course', '+8 % de velocidad',
            '+8% de velocidade', '+8% velocità di corsa', '+8% szybkości biegu')
+# Enchant names as the client shows them (Wowhead Forever, the spell's own page in each language); the effect stays after a comma, like the kit
+E_REV = _it('Enchant Weapon - Revelation', 'Чары для оружия: откровение', 'Waffe - Offenbarung', 'Enchantement d’arme (Révélation)',
+            'Encantar arma: revelación', 'Encantamento de Revelação - Arma')
+E_NECK_SP = _it('Enchant Necklace - Spell Power', 'Чары для ожерелья: сила заклинаний', 'Halskette - Zaubermacht',
+                'Enchantement de collier (Puissance des sorts)', 'Encantar collar: poder con hechizos', 'Encantamento de Poder Mágico - Colar')
+E_BR_LHP = _it('Enchant Bracer - Lesser Healing Power', 'Чары для наручей: малая целительная сила', 'Armschiene - Geringere Heilkraft',
+               'Enchantement de brassards (Pouvoir de guérison inférieur)', 'Encantar brazal: poder de sanación inferior',
+               'Encantamento Inferior de Poder de Cura - Braçadeiras')
+E_CH_INT = _it('Enchant Chest - Intellect', 'Чары для нагрудника: интеллект', 'Brust - Intelligenz', 'Enchantement de plastron (Intelligence)',
+               'Encantar torso: intelecto', 'Encantamento de Intelecto - Torso')
+E_CH_GINT = _it('Enchant Chest - Greater Intellect', 'Чары для нагрудника: сильный интеллект', 'Brust - Große Intelligenz',
+                'Enchantement de plastron (Intelligence supérieure)', 'Encantar torso: intelecto superior', 'Encantamento Maior de Intelecto - Torso')
+E_SPEED = _it('Enchant Boots - Minor Speed', 'Чары для обуви: малая скорость', 'Stiefel - Schwaches Tempo', 'Ench. de bottes (Vitesse mineure)',
+              'Encantar botas: velocidad menor', 'Encantamento Menor de Velocidade - Botas')
+E_GL_AGI = _it('Enchant Gloves - Agility', 'Чары для перчаток: ловкость', 'Handschuhe - Beweglichkeit', 'Ench. de gants (Agilité)',
+               'Encantar guantes: agilidad', 'Encantamento de Agilidade – Luvas')
+E_CL_AGI = _it('Enchant Cloak - Lesser Agility', 'Чары для плаща: малая ловкость', 'Umhang - Geringe Beweglichkeit', 'Ench. de cape (Agilité inférieure)',
+               'Encantar capa: agilidad inferior', 'Encantamento Inferior de Agilidade - Manto')
+E_BO_AGI = _it('Enchant Boots - Lesser Agility', 'Чары для обуви: малая ловкость', 'Stiefel - Geringe Beweglichkeit', 'Ench. de bottes (Agilité inférieure)',
+               'Encantar botas: agilidad inferior', 'Encantamento Inferior de Agilidade - Botas')
+E_BR_STR = _it('Enchant Bracer - Strength', 'Чары для браслетов: сила III', 'Armschiene - Stärke', 'Ench. de bracelets (Force)', 'Encantar brazal: fuerza',
+               'Encantamento de Força - Braçadeiras')
+E_GL_STR = _it('Enchant Gloves - Strength', 'Чары для перчаток: сила', 'Handschuhe - Stärke', 'Ench. de gants (Force)', 'Encantar guantes: fuerza',
+               'Encantamento de Força - Luvas')
+E_BR_STA = _it('Enchant Bracer - Stamina', 'Чары для браслетов: выносливость III', 'Armschiene - Ausdauer', 'Ench. de bracelets (Endurance)',
+               'Encantar brazal: aguante', 'Encantamento de Vigor - Braçadeiras')
+E_CH_STA = _it('Enchant Chest - Superior Stamina', 'Чары для нагрудника: высшая выносливость', 'Brust - Überragende Ausdauer',
+               'Enchantement de plastron (Endurance excellente)', 'Encantar torso: aguante excelente', 'Encantamento Superior de Vigor – Torso')
+E_BO_STA = _it('Enchant Boots - Stamina', 'Чары для обуви: выносливость III', 'Stiefel - Ausdauer', 'Ench. de bottes (Endurance)', 'Encantar botas: aguante',
+               'Encantamento de Vigor - Botas')
+E_SH_STA = _it('Enchant Shield - Stamina', 'Чары для щита: выносливость', 'Schild - Ausdauer', 'Ench. de bouclier (Endurance)', 'Encantar escudo: aguante',
+               'Encantamento de Vigor - Escudo')
+
+
+def EN(name, eff):
+    return J(NM(name), eff)
+
+
+REV = EN(E_REV, REV)
+SPEED = EN(E_SPEED, SPEED)
+NECK_SP = EN(E_NECK_SP, S('sp', 6))
+BR_SP = EN(E_BR_LHP, S('sp', 6))       # the same enchant: +16 healing and +6 spell damage (Wowhead Forever)
 I_KIT = _it('Mystic Heavy Armor Kit', 'Мистические накладки из толстой кожи', 'Mystisches schweres Rüstungsset', 'Renfort d’armure lourd mystique',
             'Complemento pesado para armadura místico', 'Kit de Armadura Pesada Mística')
 I_SPELLB = _it('Spellblasting Potion', 'Зелье взрывных чар', 'Trank des Zauberschlags', 'Potion d’explosion de sorts',
@@ -281,7 +331,14 @@ I_RAGE = _it('Great Rage Potion', 'Сильнодействующее зелье
              'Poção Grandiosa de Raiva')
 X_GHP = n9('мгновенное лечение', 'instant healing', 'миттєве зцілення', 'Sofortheilung', 'soins instantanés', 'curación instantánea',
            'cura instantânea', 'cura istantanea', 'natychmiastowe leczenie')
+X_LHP = {l: f'{X_GHP[l]}: 140–180 {HP_W[l]}' for l in LANGS9}
 X_GHP = {l: f'{X_GHP[l]}: 455–585 {HP_W[l]}' for l in LANGS9}
+I_LHP = _it('Lesser Healing Potion', 'Простое лечебное зелье', 'Geringer Heiltrank', 'Potion de soins inférieure', 'Poción de Curación inferior',
+            'Poção Inferior de Cura')
+I_MELON = _it('Melon Juice', 'Дынный сок', 'Melonensaft', 'Jus de melon', 'Zumo de melón', 'Suco de Melão')
+I_MMOIL = _it('Minor Mana Oil', 'Слабое масло маны', 'Schwaches Manaöl', 'Huile de mana mineure', 'Aceite de maná menor', 'Óleo Menor de Mana')
+I_BUZZ = _it('Barbecued Buzzard Wing', 'Жареное крыло канюка', 'Gegrillter Bussardflügel', 'Aile de busard grillée', 'Ala de águila ratonera a la parrilla',
+             'Asa de Urubu Grelhada')
 P_SPELLB = J(S('sp', 16), U(30, 's'))
 P_LAE = J(S('sp', 15), U(30, 'min'))
 P_MBLOOD = J(S('mp5', 6), U(30, 'min'))
@@ -291,6 +348,9 @@ P_MANA = W(MANA_W, 455, 585)
 P_AGI = J(S('agi', 15), U(1, 'h'))
 P_OGRE = J(S('str', 8), U(1, 'h'))
 P_RAGE = W(RAGE_W, 30, 60)
+P_MELON = J(W(MANA_W, 835), U(24, 's'))
+P_MMOIL = J(S('hp', 10), S('mp5', 5), U(30, 'min'))
+P_BUZZ = J(S('int', 10), U(15, 'min'))
 
 
 def P_STONE(n):
@@ -306,9 +366,9 @@ ROGUE = [(I_POISON, E_POISON), (I_STONE, E_STONE), (I_AGI, E_AGI), (I_GHP, E_GHP
 LOCK = [(I_LAE, P_LAE), (I_MBLOOD, P_MBLOOD), (I_SPELLB, P_SPELLB), GHP]
 HEALER = [(I_CLERIC, P_CLERIC), (I_MANA, P_MANA), GHP, (I_STEW, WELL_FED)]
 KIT_SP = J(NM(I_KIT), S('sp', 4))
-ARCANE_ENCH = [(SLOT['w'], REV), (SLOT['kit'], KIT_SP), (SLOT['neck'], S('sp', 6)), (SLOT['br'], S('sp', 6)),
+ARCANE_ENCH = [(SLOT['w'], REV), (SLOT['kit'], KIT_SP), (SLOT['neck'], NECK_SP), (SLOT['br'], BR_SP),
                (SLOT['l60'], J(S('sp', 30), {l: f'2H {S("sp", 55)[l]}' for l in LANGS9}))]
-HOLY_ENCH = [(SLOT['w'], REV), (SLOT['neck'], S('sp', 6)), (SLOT['chest'], S('int', 4)), (SLOT['legs'], KIT_SP), (SLOT['boots'], SPEED)]
+HOLY_ENCH = [(SLOT['w'], REV), (SLOT['neck'], NECK_SP), (SLOT['chest'], EN(E_CH_INT, S('int', 4))), (SLOT['legs'], KIT_SP), (SLOT['boots'], SPEED)]
 HEAL_NECK = [(SLOT['neck'], S('hp', 11))]
 DERIV = n9('Wowhead: база чар, подбор по статам', 'Wowhead: enchant database, picked by stats', 'Wowhead: база чарів, добір за характеристиками',
            'Wowhead: Verzauberungsdatenbank, nach Werten gewählt', 'Wowhead : base d’enchantements, choix selon les caractéristiques',
@@ -339,16 +399,19 @@ def TWOH(d):
     return {l: f'2H {d[l]}' for l in LANGS9}
 
 
-AGI_ENCH = [(SLOT['br'], S('agi', 5)), (GLOVES, S('agi', 7)), (SLOT['neck'], S('agi', 5)), (CLOAK, S('agi', 3)), (SLOT['boots'], S('agi', 4)),
+CL_AGI, BO_AGI = EN(E_CL_AGI, S('agi', 3)), EN(E_BO_AGI, S('agi', 4))
+AGI_ENCH = [(SLOT['br'], S('agi', 5)), (GLOVES, EN(E_GL_AGI, S('agi', 7))), (SLOT['neck'], S('agi', 5)), (CLOAK, CL_AGI), (SLOT['boots'], BO_AGI),
             L60(S('agi', 15), TWOH(S('agi', 25)))]
-STR_ENCH = [(SLOT['br'], S('str', 5)), (GLOVES, S('str', 7)), (SLOT['neck'], S('str', 5)), (CLOAK, S('agi', 3)), (SLOT['boots'], S('agi', 4)),
+STR_ENCH = [(SLOT['br'], EN(E_BR_STR, S('str', 5))), (GLOVES, EN(E_GL_STR, S('str', 7))), (SLOT['neck'], S('str', 5)), (CLOAK, CL_AGI),
+            (SLOT['boots'], BO_AGI),
             (SLOT['w'], TWOH(S('str', 15))), L60(S('str', 15), TWOH(S('str', 25)))]
-TANK_ENCH = [(SLOT['br'], S('sta', 5)), (SLOT['chest'], S('sta', 8)), (SLOT['boots'], S('sta', 5)), (SLOT['neck'], S('def', 5)),
-             (SHIELD, S('sta', 7)), (SLOT['l60'], J({l: f'{GLOVES[l]} {S("thr", 2)[l]}' for l in LANGS9}, {l: f'{CLOAK[l]} {S("dodge", 1)[l]}' for l in LANGS9}))]
-CASTER_ENCH = [(KIT_SLOTS, KIT_ONLY_SP), (SLOT['neck'], S('sp', 6)), (SLOT['br'], S('sp', 6)), L60(S('sp', 30), TWOH(S('sp', 55)))]
-HEAL_ENCH = [(SLOT['neck'], S('hp', 11)), (SLOT['br'], S('hp', 16)), (SLOT['chest'], S('int', 6)), (SLOT['legs'], KIT_ONLY_SP), (SLOT['boots'], SPEED),
+TANK_ENCH = [(SLOT['br'], EN(E_BR_STA, S('sta', 5))), (SLOT['chest'], EN(E_CH_STA, S('sta', 8))), (SLOT['boots'], EN(E_BO_STA, S('sta', 5))),
+             (SLOT['neck'], S('def', 5)), (SHIELD, EN(E_SH_STA, S('sta', 7))),
+             (SLOT['l60'], J({l: f'{GLOVES[l]} {S("thr", 2)[l]}' for l in LANGS9}, {l: f'{CLOAK[l]} {S("dodge", 1)[l]}' for l in LANGS9}))]
+CASTER_ENCH = [(KIT_SLOTS, KIT_ONLY_SP), (SLOT['neck'], NECK_SP), (SLOT['br'], BR_SP), L60(S('sp', 30), TWOH(S('sp', 55)))]
+HEAL_ENCH = [(SLOT['neck'], S('hp', 11)), (SLOT['br'], EN(E_BR_LHP, S('hp', 16))), (SLOT['chest'], EN(E_CH_GINT, S('int', 6))), (SLOT['legs'], KIT_ONLY_SP), (SLOT['boots'], SPEED),
              L60(S('hp', 55), TWOH(S('hp', 100)))]
-MAGE_ENCH = [(SLOT['w'], REV), (SLOT['kit'], KIT_SP), (SLOT['neck'], S('sp', 6)), (SLOT['br'], S('sp', 6)), (SLOT['boots'], SPEED),
+MAGE_ENCH = [(SLOT['w'], REV), (SLOT['kit'], KIT_SP), (SLOT['neck'], NECK_SP), (SLOT['br'], BR_SP), (SLOT['boots'], SPEED),
              L60(S('sp', 30), TWOH(S('sp', 55)))]
 ELE_ENCH = [(SLOT['w'], REV), (KIT_SLOTS, KIT_ONLY_SP), (SLOT['br'], S('sp', 12)), (SLOT['l60'], {l: f'{SLOT["br"][l]} {S("sp", 16)[l]}' for l in LANGS9})]
 
@@ -366,7 +429,8 @@ GEAR = {
     'shaman-enhancement': {1: ([GHP, (I_OGRE, P_OGRE), (I_MBLOOD, P_MBLOOD)], IVW)},
     'shaman-restoration': {1: ([(I_CLERIC, P_CLERIC), (I_MENDER, P_MENDER), (I_MANA, P_MANA), GHP], IVW)},
     'priest-discipline': {0: (HEAL_NECK, IVW), 1: (HEALER, IVW)}, 'priest-holy': {0: (HEAL_NECK, IVW), 1: (HEALER, IVW)},
-    'paladin-holy': {0: (HOLY_ENCH, WH), 1: ([(I_MANA, P_MANA)], WH)},
+    'paladin-holy': {0: (HOLY_ENCH, WH), 1: ([(I_MANA, P_MANA), (I_MMOIL, P_MMOIL), (I_BUZZ, P_BUZZ)], WH)},   # Wowhead's list, the picks for level 20–39
+    'druid-restoration': {1: ([(I_LAE, P_LAE), (I_LHP, X_LHP), (I_MANA, P_MANA), (I_MELON, P_MELON)], IV)},   # Icy Veins: Consumables
     'paladin-retribution': {1: ([GHP, (I_MANA, P_MANA), (I_LAE, P_LAE), (I_SPELLB, P_SPELLB)], IVW)},
 }
 ENCH_ADD = {
@@ -467,6 +531,10 @@ CHIPS_LEAD = n9('Шпора каждого спека: билд, таланты,
 NEXT_PFX = n9('Дальше', 'Next', 'Далі', 'Weiter', 'Suite', 'Siguiente', 'Próximo', 'Avanti', 'Dalej')
 
 
+# A row no spec has data for (now: gems and materials, none at the level 30 cap) is left out instead of 27 equal waiting lines
+ROWS_ON = [i for i in range(len(GEAR_ROWS)) if any(i in g for g in GEAR.values())]
+
+
 def _name(x, lang):
     return x if isinstance(x, str) else (x.get(lang) or x['en'])
 
@@ -505,6 +573,9 @@ def attach(guides, hubs, order):
         party = next(x for x in next(d for k, d in lvl('play')['blocks'] if k == 'tabs') if x['id'] == 'party')
         answer_table = (('table', {'head': roles['head'][1:4], 'rows': [rows[0][1:]]}) if len(rows) == 1 else
                         ('table', {'head': roles['head'], 'rows': rows}))
+        roles_txt = [x for k, d in next(s for s in bg['sections'] if s['id'] == 'roles')['blocks'] if k == 'text' for x in d]
+        star = [x for x in roles_txt if '*' in x['ru']] if any('*' in r[2] for r in rows) else []   # what A*/B* means, from builds-<class>
+        answer = [('raw', {}), answer_table] + ([('text', star)] if star else [])
         tab_build = [('text', texts[0]), tip]
         tab_talents = ([tree] if tree else []) + [table] + [('text', x) for x in texts[1:]]
         tab_level = [('h3', lvl('spec')['title'])] + lvl('spec')['blocks'] + [('h3', lvl('talents')['title'])] + lvl('talents')['blocks']
@@ -514,7 +585,7 @@ def attach(guides, hubs, order):
             'title': bg['title'], 'lead': bg['lead'], 'tile': sec['title'], 'pills': list(bg['pills'][:1]),
             'sources': [s for s in bg['sources'] if spec.split('-')[0].title() in s[0] or 'Calculator' in s[0]] or bg['sources'],
             'sections': [
-                {'id': 'answer', 'title': ANSWER, 'blocks': [('raw', {}), answer_table]},
+                {'id': 'answer', 'title': ANSWER, 'blocks': answer},
                 {'id': 'build', 'title': TAB['build'], 'blocks': tab_build},
                 {'id': 'talents', 'title': TAB['talents'], 'blocks': tab_talents},
                 {'id': 'leveling', 'title': TAB['leveling'], 'blocks': tab_level},
@@ -556,7 +627,7 @@ def finish(guides, hero_core, langs_mod):
             leveling_href = f'../leveling-{cid}/'
             st = STATS.get(f'{cid}-{spec}')
             stats = (escape(STATS_SPLIT[lang]) if st == 'split' else escape(STATS_NONE[lang]) if st is None else
-                     ' › '.join(escape(STAT[k][lang]) for k in st[0].split()) + f' <span class="small">({st[1]})</span>')
+                     ' › '.join(escape((STAT.get(k) or EXTRA[k])[lang]) for k in st[0].split()) + f'<br><span class="small">{escape(st[1])}</span>')
             bar[lang] = (f'<div id="cheat" data-cls="{cid}" data-spec="{spec}" data-from="{escape(FROM_LINK[lang])}">'
                          f'<p class="small" id="cheatRace" hidden></p>'
                          f'<p id="cheatBest" data-l="{escape(BEST[lang])}"></p>'
@@ -565,7 +636,7 @@ def finish(guides, hero_core, langs_mod):
                          f'<a href="#group">{escape(GOAL_DG[lang])}: {escape(role)}</a></dd></div>'
                          f'<div><dt>{escape(KEYT[lang])}</dt><dd>{keys}. <a href="#talents">{escape(ORDER_L[lang])}</a></dd></div>'
                          f'<div><dt>{escape(STATS_T[lang])}</dt><dd>{stats}</dd></div>'
-                         + ''.join(f'<div><dt>{escape(r[lang])}</dt><dd>{_gear(f"{cid}-{spec}", i, lang)}</dd></div>' for i, r in enumerate(GEAR_ROWS)) +
+                         + ''.join(f'<div><dt>{escape(GEAR_ROWS[i][lang])}</dt><dd>{_gear(f"{cid}-{spec}", i, lang)}</dd></div>' for i in ROWS_ON) +
                          f'</dl>'
                          f'<p class="gbtns"><a class="btn cxnext" href="{leveling_href}">{escape(NEXT_PFX[lang])}: {escape(TAB["leveling"][lang])} →</a> '
                          f'<a class="btn ghost" id="cheatPick" href="../../tools/#pick={cid}">{escape(PICK[lang])}</a> '

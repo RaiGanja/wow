@@ -451,7 +451,7 @@ def _rib(steps, lang, pre='f'):
     rib = []
     for i, (t, n, a, b) in enumerate(steps):
         if t is None:
-            rib.append(f'<li><span>{_span(a, b)}</span><button type="button" class="tt-t free" data-k="{pre}{i}" aria-label="{UI["free"][lang]}">'
+            rib.append(f'<li><span>{_span(a, b)}</span><button type="button" class="tt-t free" data-k="{pre}{i}" aria-label="{UI["free"][lang]}" title="{UI["free"][lang]}">'
                        f'<i class="tt-ic no">?</i></button><b>×{n}</b></li>')
             continue
         name = tname(t, lang)
