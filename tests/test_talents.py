@@ -140,13 +140,13 @@ def test_wowhead_links():
 
 def test_leveling_build():
     """Leveling 10-60 (talents.leveling): 51 points, one per level, every step legal in the tree; a spec the source order does not
-    fit (warlock: Soul Siphon without its prerequisite) gets no tab; classes without data in the switcher show no switcher."""
+    fit (warlock: Soul Siphon without its prerequisite; mage: Arcane Focus is not in the tree) gets no tab; classes without data in the switcher show no switcher."""
     ok = []
     for cid, spec in talents.LEVEL_SPEC.items():
         d = talents.load(cid)
         b = talents.leveling(cid, spec, d)
         if b is None:
-            assert cid == 'warlock', cid                       # the only one known to break; a new None must be looked at
+            assert cid in ('warlock', 'mage'), cid             # known to break (mage: the guide's «Arcane Focus» is not in the Forever tree); a new None must be looked at
             continue
         ok.append(cid)
         assert sum(b['picked'].values()) == 51 == sum(b['spent'].values()), cid
@@ -161,36 +161,36 @@ def test_leveling_build():
             for t, n in zip(sorted(tr['talents'], key=lambda t: (t['r'], t['c'])), c):
                 pts[t['id']] = int(n)
         assert {k: v for k, v in pts.items() if v} == {k: v for k, v in b['picked'].items() if v}, cid          # the link carries exactly the order's points
-    assert len(ok) == 8, ok
-    assert talents.leveling('mage', 'fire', talents.load('mage')) is None        # only the leveling spec of the class
+    assert len(ok) == 7, ok               # 9 classes minus warlock and mage
+    assert talents.leveling('druid', 'balance', talents.load('druid')) is None        # only the leveling spec of the class
     for s, x in tree_blocks('warlock'):
         assert 'tt-bs' not in talents.render('warlock', s['id'], x['rows'], x['titles'], 'en', '')
 
 
 def test_switcher_render():
     for lang in ('ru', 'en', 'de'):
-        s, x = next((s, x) for s, x in tree_blocks('mage') if s['id'] == 'frost')
-        html = talents.render('mage', 'frost', x['rows'], x['titles'], lang, '../../')
-        assert html.count('role="tab" class="tt-b"') == 2 and 'id="frost-leveling"' in html and 'id="frost-general"' in html
+        s, x = next((s, x) for s, x in tree_blocks('druid') if s['id'] == 'feral')
+        html = talents.render('druid', 'feral', x['rows'], x['titles'], lang, '../../')
+        assert html.count('role="tab" class="tt-b"') == 2 and 'id="feral-leveling"' in html and 'id="feral-general"' in html
         assert html.count('<div class="tt-ow"') == 2 and html.count('data-b="leveling" hidden>') == 1 and '<section' not in html
-        assert 'data-s="frost-' in html and '#talents' in html
-        s2, x2 = next((s, x) for s, x in tree_blocks('mage') if s['id'] == 'fire')
-        assert 'tt-bs' not in talents.render('mage', 'fire', x2['rows'], x2['titles'], lang, '')   # no data: no tab at all
+        assert 'data-s="feral-' in html and '#talents' in html
+        s2, x2 = next((s, x) for s, x in tree_blocks('druid') if s['id'] == 'balance')
+        assert 'tt-bs' not in talents.render('druid', 'balance', x2['rows'], x2['titles'], lang, '')   # no data: no tab at all
     assert all(talents.UI['b_' + b][l] for b in ('leveling', 'dungeons', 'raid', 'pvp') for l in talents.UI['hint'])
 
 
 def test_engine_extra_builds():
     """Dungeons / raid / pvp appear when a provider returns data and stay out otherwise (empty tabs are never shown)."""
-    s, x = next((s, x) for s, x in tree_blocks('mage') if s['id'] == 'frost')
-    d = talents.load('mage')
-    base = talents.leveling('mage', 'frost', d)
+    s, x = next((s, x) for s, x in tree_blocks('druid') if s['id'] == 'feral')
+    d = talents.load('druid')
+    base = talents.leveling('druid', 'feral', d)
     talents.PROVIDERS['raid'] = lambda cid, spec, data: dict(base)
     talents.PROVIDERS['pvp'] = lambda cid, spec, data: None
     try:
-        html = talents.render('mage', 'frost', x['rows'], x['titles'], 'en', '../../')
+        html = talents.render('druid', 'feral', x['rows'], x['titles'], 'en', '../../')
     finally:
         del talents.PROVIDERS['raid'], talents.PROVIDERS['pvp']
-    assert html.count('role="tab" class="tt-b"') == 3 and 'id="frost-raid"' in html and 'frost-pvp' not in html
+    assert html.count('role="tab" class="tt-b"') == 3 and 'id="feral-raid"' in html and 'feral-pvp' not in html
 
 
 def test_editor_render():

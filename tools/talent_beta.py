@@ -140,13 +140,12 @@ LAYOUTS = {
     'mage': ('beta', [
         [  # Arcane
             (1, 1, 2, 'Wand Specialization', 0, None, 'inv_wand_01'),
-            (1, 2, 5, 'Arcane Focus', 0, None, 'spell_holy_devotion'),
-            (1, 3, 5, 'Improved Channeling', 11237, None, None),
-            (1, 4, 2, 'Missile Barrage', 0, None, None),
+            (1, 2, 5, 'Improved Channeling', 11237, None, None),
+            (1, 3, 2, 'Arcane Resilience', 0, None, 'spell_arcane_arcaneresilience'),
             (2, 1, 2, 'Arcane Subtlety', 0, None, 'spell_holy_dispelmagic'),
             (2, 2, 2, 'Magic Absorption', 0, None, 'spell_nature_astralrecalgroup'),
             (2, 3, 5, 'Arcane Concentration', 0, None, 'spell_shadow_manaburn'),
-            (2, 4, 2, 'Arcane Resilience', 0, None, 'spell_arcane_arcaneresilience'),
+            (2, 4, 2, 'Missile Barrage', 0, None, None),
             (3, 1, 2, 'Arcane Geometry', 0, None, None),
             (3, 2, 3, 'Arcane Impact', 0, None, 'spell_nature_wispsplode'),
             (3, 4, 1, 'Arcane Blast', 0, None, 'spell_arcane_blast'),
