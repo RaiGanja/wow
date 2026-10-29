@@ -426,3 +426,7 @@ SOURCES = [
     ('Warcraft Tavern: изменения беты', 'https://www.warcrafttavern.com/forever/news/racial-class-ability-changes-in-the-wow-forever-beta/'),
     ('LFCarry: изменения классов 15.10', 'https://lfcarry.com/guides/wow-forever-class-changes'),
 ]
+
+for _c in CLASSES:   # «Следующий шаг» внизу страницы класса: билд → профессии → подземелья (подписи переводит i18n/*.txt)
+    _c['next'] = [(f'guides/builds-{_c["id"]}/', 'Билд и таланты по уровням'), ('guides/professions/', 'Профессии под класс'),
+                  ('guides/dungeons/', 'Подземелья по уровням')]

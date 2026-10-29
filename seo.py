@@ -198,6 +198,10 @@ META = {
                      t('Новости WoW Forever перед релизом: закрытие беты, резерв имён до 03.11, изменения рас и классов в патчах беты, Даларан и свежая лента Wowhead.',
                        'WoW Forever news before launch: the beta closing, name reservation until 03.11, race and class changes in beta patches, Dalaran and the latest Wowhead feed.',
                        'Новини WoW Forever перед релізом: закриття бети, бронювання імен до 03.11, зміни рас і класів у патчах бети, Даларан і свіжа стрічка Wowhead.')),
+    'guides/glossary/': (t('Словарь терминов WoW Forever: спек, билд, BiS, Legacy', 'WoW Forever Glossary: Spec, Build, BiS, Legacy', 'Словник термінів WoW Forever: спек, білд, BiS, Legacy'),
+                         t('Что значат спек, билд, тир-лист, ротация, BiS, агро, Legacy, перки и лагерь в WoW Forever: короткие определения для новичка.',
+                           'What spec, build, tier list, rotation, BiS, aggro, Legacy, perks and the camp mean in WoW Forever: short definitions for new players.',
+                           'Що означають спек, білд, тир-лист, ротація, BiS, агро, Legacy, перки й табір у WoW Forever: короткі визначення для новачка.')),
     'guides/ukrainian/': ({'uk': 'WoW Forever українською: аддони UA_Forever і UALL Forever'},   # only uk
                           {'uk': 'Української мови у WoW Forever немає. Який аддон перекладу обрати, як встановити його через CurseForge чи вручну і як побачити оригінал.'}),
     'play/': (t('WoW Forever: второй экран — радио, зоны по уровню, таймеры',
