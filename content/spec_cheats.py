@@ -91,13 +91,61 @@ GEAR_ROWS = [
        'Materiały eksploatacyjne'),
     n9('Камни и материалы', 'Gems and materials', 'Камені й матеріали', 'Edelsteine und Materialien', 'Gemmes et matériaux',
        'Gemas y materiales', 'Gemas e materiais', 'Gemme e materiali', 'Kamienie i materiały')]
-WAIT = n9('Ждёт данных: список Forever после старта 5 ноября.', 'Waiting for data: the Forever list comes after the Nov 5 launch.',
-          'Чекає на дані: список Forever після старту 5 листопада.', 'Wartet auf Daten: Die Forever-Liste folgt nach dem Start am 5. November.',
-          'En attente de données : la liste Forever arrivera après le lancement du 5 novembre.',
-          'A la espera de datos: la lista de Forever llegará tras el lanzamiento del 5 de noviembre.',
-          'Aguardando dados: a lista do Forever vem após o lançamento de 5 de novembro.',
-          'In attesa di dati: la lista di Forever arriverà dopo il lancio del 5 novembre.',
-          'Czeka na dane: lista Forever po starcie 5 listopada.')
+# Waiting lines per row: the reason is what the sources really lack, not "after launch"
+WAIT = [
+    n9('Ждёт данных: у Icy Veins и Wowhead по этому спеку чар нет.', 'Waiting for data: Icy Veins and Wowhead list no enchants for this spec.',
+       'Чекає на дані: в Icy Veins і Wowhead для цього спеку чарів немає.', 'Wartet auf Daten: Icy Veins und Wowhead nennen für diese Skillung keine Verzauberungen.',
+       'En attente de données : Icy Veins et Wowhead ne listent aucun enchantement pour cette spécialisation.',
+       'A la espera de datos: Icy Veins y Wowhead no listan encantamientos para esta especialización.',
+       'Aguardando dados: Icy Veins e Wowhead não listam encantamentos para esta especialização.',
+       'In attesa di dati: Icy Veins e Wowhead non elencano incantamenti per questa specializzazione.',
+       'Czeka na dane: Icy Veins i Wowhead nie podają zaklęć dla tej specjalizacji.'),
+    n9('Ждёт данных: у Icy Veins и Wowhead по этому спеку расходников нет.', 'Waiting for data: Icy Veins and Wowhead list no consumables for this spec.',
+       'Чекає на дані: в Icy Veins і Wowhead для цього спеку витратних немає.', 'Wartet auf Daten: Icy Veins und Wowhead nennen für diese Skillung keine Verbrauchsgüter.',
+       'En attente de données : Icy Veins et Wowhead ne listent aucun consommable pour cette spécialisation.',
+       'A la espera de datos: Icy Veins y Wowhead no listan consumibles para esta especialización.',
+       'Aguardando dados: Icy Veins e Wowhead não listam consumíveis para esta especialização.',
+       'In attesa di dati: Icy Veins e Wowhead non elencano consumabili per questa specializzazione.',
+       'Czeka na dane: Icy Veins i Wowhead nie podają materiałów eksploatacyjnych dla tej specjalizacji.'),
+    n9('Ждёт данных: у Icy Veins и Wowhead по этому спеку камней и материалов нет.', 'Waiting for data: Icy Veins and Wowhead list no gems or materials for this spec.',
+       'Чекає на дані: в Icy Veins і Wowhead для цього спеку каменів і матеріалів немає.', 'Wartet auf Daten: Icy Veins und Wowhead nennen für diese Skillung keine Edelsteine oder Materialien.',
+       'En attente de données : Icy Veins et Wowhead ne listent ni gemmes ni matériaux pour cette spécialisation.',
+       'A la espera de datos: Icy Veins y Wowhead no listan gemas ni materiales para esta especialización.',
+       'Aguardando dados: Icy Veins e Wowhead não listam gemas nem materiais para esta especialização.',
+       'In attesa di dati: Icy Veins e Wowhead non elencano gemme né materiali per questa specializzazione.',
+       'Czeka na dane: Icy Veins i Wowhead nie podają kamieni ani materiałów dla tej specjalizacji.')]
+
+
+def _it(en, ru=None, de=None, fr=None, es=None, pt=None, it=None):
+    """Item name: the client name where Wowhead Forever has one; uk, pl and the rest fall back to English."""
+    return {'en': en, 'ru': ru or en, 'de': de or en, 'fr': fr or en, 'es': es or en, 'pt': pt or en, 'it': it or en}
+
+
+I_POISON = _it('Instant Poison', 'Быстродействующий яд', 'Sofort wirkendes Gift', 'Poison instantané', 'Veneno instantáneo', 'Veneno Instantâneo')
+I_STONE = _it('Rough Sharpening Stone', 'Грубое точило', 'Rauer Wetzstein', 'Pierre à aiguiser brute', 'Piedra de afilar férrea', 'Pedra de Afiar Rústica')
+I_AGI = _it('Elixir of Agility', 'Эликсир Ловкости', 'Elixier der Beweglichkeit', 'Elixir d’Agilité', 'Elixir de agilidad', 'Elixir de Agilidade')
+I_GHP = _it('Greater Healing Potion', 'Сильное лечебное зелье', 'Großer Heiltrank', 'Potion de soins supérieure', 'Poción de curación superior', 'Poção Maior de Cura')
+E_POISON = n9('на оба оружия, лишний урон с каждым ударом', 'on both weapons, extra damage with each hit',
+              'на обидві зброї, додаткова шкода з кожним ударом', 'auf beiden Waffen, zusätzlicher Schaden bei jedem Treffer',
+              'sur les deux armes, dégâts supplémentaires à chaque coup', 'en ambas armas, daño adicional con cada golpe',
+              'nas duas armas, dano extra a cada golpe', 'su entrambe le armi, danno extra a ogni colpo',
+              'na obu broniach, dodatkowe obrażenia przy każdym trafieniu')
+E_STONE = n9('ставится вместе с ядом: в Forever можно держать оба', 'goes on together with a poison: in Forever you can have both',
+             'ставиться разом з отрутою: у Forever можна тримати обидва', 'zusammen mit einem Gift: in Forever sind beide gleichzeitig möglich',
+             'avec un poison : dans Forever, les deux peuvent être actifs', 'junto con un veneno: en Forever puedes tener los dos',
+             'junto com um veneno: no Forever dá para ter os dois', 'insieme a un veleno: in Forever si possono avere entrambi',
+             'razem z trucizną: w Forever można mieć oba naraz')
+E_AGI = n9('+15 ловкости на 1 час', '+15 Agility for 1 hour', '+15 спритності на 1 годину', '+15 Beweglichkeit für 1 Stunde',
+           '+15 d’agilité pendant 1 heure', '+15 de agilidad durante 1 hora', '+15 de Agilidade por 1 hora', '+15 Agilità per 1 ora',
+           '+15 zręczności na 1 godzinę')
+E_GHP = n9('лечение в бою: разбойник сам не лечится', 'healing in combat: a Rogue has no self-heal', 'зцілення в бою: розбійник сам себе не лікує',
+           'Heilung im Kampf: der Schurke kann sich nicht selbst heilen', 'soins en combat : le voleur ne peut pas se soigner seul',
+           'curación en combate: el pícaro no se cura solo', 'cura em combate: o ladino não se cura sozinho',
+           'cura in combattimento: il ladro non si cura da solo', 'leczenie w walce: łotrzyk sam się nie leczy')
+# (class-spec) -> row index (0 enchants, 1 consumables, 2 gems and materials) -> ([(item, effect)], source). No entry: the WAIT line of the row
+GEAR = {
+    'rogue-combat': {1: ([(I_POISON, E_POISON), (I_STONE, E_STONE), (I_AGI, E_AGI), (I_GHP, E_GHP)], 'Icy Veins, Wowhead')},
+}
 STATS_T = n9('Приоритет статов', 'Stat priority', 'Пріоритет характеристик', 'Wertepriorität', 'Priorité des caractéristiques',
              'Prioridad de estadísticas', 'Prioridade de atributos', 'Priorità delle statistiche', 'Priorytet statystyk')
 STAT = {
@@ -202,6 +250,14 @@ def _name(x, lang):
     return x if isinstance(x, str) else (x.get(lang) or x['en'])
 
 
+def _gear(key, i, lang):
+    got = GEAR.get(key, {}).get(i)
+    if not got:
+        return escape(WAIT[i][lang])
+    items, src = got
+    return '<br>'.join(f'{escape(_name(n, lang))} — {escape(e[lang])}' for n, e in items) + f'<br><span class="small">{escape(src)}</span>'
+
+
 def _h(text):
     return {l: f'<h3>{escape(text[l])}</h3>' for l in text if l in LANGS9}
 
@@ -286,7 +342,7 @@ def finish(guides, hero_core, langs_mod):
                          f'<a href="#group">{escape(GOAL_DG[lang])}: {escape(role)}</a></dd></div>'
                          f'<div><dt>{escape(KEYT[lang])}</dt><dd>{keys}. <a href="#talents">{escape(ORDER_L[lang])}</a></dd></div>'
                          f'<div><dt>{escape(STATS_T[lang])}</dt><dd>{stats}</dd></div>'
-                         + ''.join(f'<div><dt>{escape(r[lang])}</dt><dd>{escape(WAIT[lang])}</dd></div>' for r in GEAR_ROWS) +
+                         + ''.join(f'<div><dt>{escape(r[lang])}</dt><dd>{_gear(f"{cid}-{spec}", i, lang)}</dd></div>' for i, r in enumerate(GEAR_ROWS)) +
                          f'</dl>'
                          f'<p class="gbtns"><a class="btn cxnext" href="{leveling_href}">{escape(NEXT_PFX[lang])}: {escape(TAB["leveling"][lang])} →</a> '
                          f'<a class="btn ghost" id="cheatPick" href="../../tools/#pick={cid}">{escape(PICK[lang])}</a> '
