@@ -32,15 +32,15 @@ ROLES_NOTE = t('Тиры — из тир-листа беты. В таблица�
 BUILDS_TITLE = tx('Билды по классам', 'Builds by class', 'Білди за класами',
                   de='Builds nach Klasse', es='Builds por clase', fr='Builds par classe',
                   it='Build per classe', pl='Buildy według klas', pt='Builds por classe')
-BUILDS_LEAD = tx('Таланты, приоритет и характеристики спеков всех девяти классов по бете 30 уровня. Раскладку к 60 добавим после старта.',
-                 'Talents, priorities and stats for every spec of all nine classes, based on the level 30 beta. The level 60 layout will follow after launch.',
-                 'Таланти, пріоритет і характеристики спеціалізацій усіх дев’яти класів за бетою 30 рівня. Розкладку до 60 додамо після старту.',
-                 de='Talente, Prioritäten und Werte für jede Skillung aller neun Klassen, nach der Beta bis Stufe 30. Die Verteilung für Stufe 60 folgt nach dem Start.',
-                 es='Talentos, prioridades y atributos de cada especialización de las nueve clases, según la beta de nivel 30. La distribución para nivel 60 llegará tras el lanzamiento.',
-                 fr='Talents, priorités et caractéristiques de chaque spécialisation des neuf classes, d’après la bêta niveau 30. La répartition pour le niveau 60 suivra après la sortie.',
-                 it='Talenti, priorità e statistiche di ogni specializzazione delle nove classi, in base alla beta di livello 30. La distribuzione per il livello 60 arriverà dopo l’uscita.',
-                 pl='Talenty, priorytety i statystyki każdej specjalizacji wszystkich dziewięciu klas, na podstawie bety do 30 levelu. Rozkład na 60 level dodamy po starcie.',
-                 pt='Talentos, prioridades e atributos de cada especialização das nove classes, com base na beta de nível 30. A distribuição para o nível 60 virá após o lançamento.')
+BUILDS_LEAD = tx('Таланты, приоритет и характеристики спеков всех девяти классов. Порядок на уровни 31–60 добавим после старта, по данным игры.',
+                 'Talents, priorities and stats for every spec of all nine classes. The order for levels 31–60 will follow after launch, from the game’s data.',
+                 'Таланти, пріоритет і характеристики спеціалізацій усіх дев’яти класів. Порядок для рівнів 31–60 додамо після старту, за даними гри.',
+                 de='Talente, Prioritäten und Werte für jede Skillung aller neun Klassen. Die Reihenfolge für die Stufen 31–60 folgt nach dem Start, aus den Spieldaten.',
+                 es='Talentos, prioridades y atributos de cada especialización de las nueve clases. El orden de los niveles 31–60 llegará tras el lanzamiento, con los datos del juego.',
+                 fr='Talents, priorités et caractéristiques de chaque spécialisation des neuf classes. L’ordre des niveaux 31–60 suivra après la sortie, d’après les données du jeu.',
+                 it='Talenti, priorità e statistiche di ogni specializzazione delle nove classi. L’ordine per i livelli 31–60 arriverà dopo l’uscita, dai dati del gioco.',
+                 pl='Talenty, priorytety i statystyki każdej specjalizacji wszystkich dziewięciu klas. Kolejność na levele 31–60 dodamy po starcie, na podstawie danych gry.',
+                 pt='Talentos, prioridades e atributos de cada especialização das nove classes. A ordem dos níveis 31–60 virá após o lançamento, com os dados do jogo.')
 BUILDS_TILE = tx('Таланты и приоритет спеков к 60', 'Spec talents and priorities for 60', 'Таланти й пріоритет спеціалізацій до 60',
                  de='Talente und Prioritäten der Skillungen für 60', es='Talentos y prioridades de especialización para 60',
                  fr='Talents et priorités des spécialisations pour le 60', it='Talenti e priorità delle specializzazioni per il 60',
@@ -61,9 +61,9 @@ def _related(cid, labels):
 SPEC_BUILDS.append({
     'slug': 'builds-paladin', 'art': 'paladin', 'hero': 'hero_leveling', 'hub': False,
     'title': t('Билды Паладина', 'Paladin Builds', 'Білди Паладина'),
-    'lead': t('Таланты, приоритет и характеристики Защиты, Света и Воздаяния. Бета была открыта до 30 уровня, поэтому здесь только то, в чём сходятся Icy Veins и Wowhead.',
-              'Talents, priorities and stats for Protection, Holy and Retribution. The beta only went up to level 30, so this page shows only what Icy Veins and Wowhead agree on.',
-              'Таланти, пріоритет і характеристики Захисту, Світла й Відплати. Бета була відкрита до 30 рівня, тож тут лише те, у чому сходяться Icy Veins і Wowhead.'),
+    'lead': t('Таланты, приоритет и характеристики Защиты, Света и Воздаяния. Здесь только то, в чём сходятся Icy Veins и Wowhead.',
+              'Talents, priorities and stats for Protection, Holy and Retribution. This page shows only what Icy Veins and Wowhead agree on.',
+              'Таланти, пріоритет і характеристики Захисту, Світла й Відплати. Тут лише те, у чому сходяться Icy Veins і Wowhead.'),
     'tile': t('Защита, Свет, Воздаяние: таланты и приоритет', 'Protection, Holy, Retribution: talents and priorities', 'Захист, Світло, Відплата: таланти й пріоритет'),
     'pills': [BETA, SPECS3, LATER],
     'sources': [
@@ -214,9 +214,9 @@ SPEC_BUILDS.append({
 SPEC_BUILDS.append({
     'slug': 'builds-warrior', 'art': 'warrior', 'hero': 'hero_leveling', 'hub': False,
     'title': t('Билды Воина', 'Warrior Builds', 'Білди Воїна'),
-    'lead': t('Таланты, приоритет и характеристики Защиты, Неистовства и Оружия. Бета была открыта до 30 уровня, поэтому здесь только то, в чём сходятся Icy Veins и Wowhead.',
-              'Talents, priorities and stats for Protection, Fury and Arms. The beta only went up to level 30, so this page shows only what Icy Veins and Wowhead agree on.',
-              'Таланти, пріоритет і характеристики Захисту, Люті та Зброї. Бета була відкрита до 30 рівня, тож тут лише те, у чому сходяться Icy Veins і Wowhead.'),
+    'lead': t('Таланты, приоритет и характеристики Защиты, Неистовства и Оружия. Здесь только то, в чём сходятся Icy Veins и Wowhead.',
+              'Talents, priorities and stats for Protection, Fury and Arms. This page shows only what Icy Veins and Wowhead agree on.',
+              'Таланти, пріоритет і характеристики Захисту, Люті та Зброї. Тут лише те, у чому сходяться Icy Veins і Wowhead.'),
     'tile': t('Защита, Неистовство, Оружие: таланты и приоритет', 'Protection, Fury, Arms: talents and priorities', 'Захист, Лють, Зброя: таланти й пріоритет'),
     'pills': [BETA, SPECS3, LATER],
     'sources': [
@@ -376,9 +376,9 @@ SPEC_BUILDS.append({
 SPEC_BUILDS.append({
     'slug': 'builds-mage', 'art': 'mage', 'hero': 'hero_leveling', 'hub': False,
     'title': t('Билды Мага', 'Mage Builds', 'Білди Мага'),
-    'lead': t('Таланты, приоритет и характеристики Тайной магии, Огня и Льда. Бета была открыта до 30 уровня, поэтому здесь только то, в чём сходятся Icy Veins и Wowhead.',
-              'Talents, priorities and stats for Arcane, Fire and Frost. The beta only went up to level 30, so this page shows only what Icy Veins and Wowhead agree on.',
-              'Таланти, пріоритет і характеристики Тайної магії, Вогню та Льоду. Бета була відкрита до 30 рівня, тож тут лише те, у чому сходяться Icy Veins і Wowhead.'),
+    'lead': t('Таланты, приоритет и характеристики Тайной магии, Огня и Льда. Здесь только то, в чём сходятся Icy Veins и Wowhead.',
+              'Talents, priorities and stats for Arcane, Fire and Frost. This page shows only what Icy Veins and Wowhead agree on.',
+              'Таланти, пріоритет і характеристики Тайної магії, Вогню та Льоду. Тут лише те, у чому сходяться Icy Veins і Wowhead.'),
     'tile': t('Тайная магия, Огонь, Лёд: таланты и приоритет', 'Arcane, Fire, Frost: talents and priorities', 'Тайна магія, Вогонь, Лід: таланти й пріоритет'),
     'pills': [BETA, SPECS3, LATER],
     'sources': [
@@ -518,9 +518,9 @@ SPEC_BUILDS.append({
 SPEC_BUILDS.append({
     'slug': 'builds-hunter', 'art': 'hunter', 'hero': 'hero_leveling', 'hub': False,
     'title': t('Билды Охотника', 'Hunter Builds', 'Білди Мисливця'),
-    'lead': t('Таланты, приоритет и характеристики Повелителя зверей, Стрельбы и Выживания. Бета была открыта до 30 уровня, поэтому здесь только то, в чём сходятся Icy Veins и Wowhead.',
-              'Talents, priorities and stats for Beast Mastery, Marksmanship and Survival. The beta only went up to level 30, so this page shows only what Icy Veins and Wowhead agree on.',
-              'Таланти, пріоритет і характеристики Володіння звірами, Стрільби та Виживання. Бета була відкрита до 30 рівня, тож тут лише те, у чому сходяться Icy Veins і Wowhead.'),
+    'lead': t('Таланты, приоритет и характеристики Повелителя зверей, Стрельбы и Выживания. Здесь только то, в чём сходятся Icy Veins и Wowhead.',
+              'Talents, priorities and stats for Beast Mastery, Marksmanship and Survival. This page shows only what Icy Veins and Wowhead agree on.',
+              'Таланти, пріоритет і характеристики Володіння звірами, Стрільби та Виживання. Тут лише те, у чому сходяться Icy Veins і Wowhead.'),
     'tile': t('Повелитель зверей, Стрельба, Выживание: таланты и приоритет', 'Beast Mastery, Marksmanship, Survival: talents and priorities', 'Володіння звірами, Стрільба, Виживання: таланти й пріоритет'),
     'pills': [BETA, SPECS3, LATER],
     'sources': [
@@ -672,9 +672,9 @@ SPEC_BUILDS.append({
 SPEC_BUILDS.append({
     'slug': 'builds-rogue', 'art': 'rogue', 'hero': 'hero_leveling', 'hub': False,
     'title': t('Билды Разбойника', 'Rogue Builds', 'Білди Розбійника'),
-    'lead': t('Таланты, приоритет и характеристики Ликвидации, Боя и Скрытности. Бета была открыта до 30 уровня, поэтому здесь только то, в чём сходятся Icy Veins и Wowhead.',
-              'Talents, priorities and stats for Assassination, Combat and Subtlety. The beta only went up to level 30, so this page shows only what Icy Veins and Wowhead agree on.',
-              'Таланти, пріоритет і характеристики Ліквідації, Бою та Непомітності. Бета була відкрита до 30 рівня, тож тут лише те, у чому сходяться Icy Veins і Wowhead.'),
+    'lead': t('Таланты, приоритет и характеристики Ликвидации, Боя и Скрытности. Здесь только то, в чём сходятся Icy Veins и Wowhead.',
+              'Talents, priorities and stats for Assassination, Combat and Subtlety. This page shows only what Icy Veins and Wowhead agree on.',
+              'Таланти, пріоритет і характеристики Ліквідації, Бою та Непомітності. Тут лише те, у чому сходяться Icy Veins і Wowhead.'),
     'tile': t('Ликвидация, Бой, Скрытность: таланты и приоритет', 'Assassination, Combat, Subtlety: talents and priorities', 'Ліквідація, Бій, Непомітність: таланти й пріоритет'),
     'pills': [BETA, SPECS3, LATER],
     'sources': [
@@ -836,9 +836,9 @@ SPEC_BUILDS.append({
 SPEC_BUILDS.append({
     'slug': 'builds-priest', 'art': 'priest', 'hero': 'hero_leveling', 'hub': False,
     'title': t('Билды Жреца', 'Priest Builds', 'Білди Жреця'),
-    'lead': t('Таланты, приоритет и характеристики Послушания, Света и Темной магии. Бета была открыта до 30 уровня, поэтому здесь только то, в чём сходятся Icy Veins и Wowhead.',
-              'Talents, priorities and stats for Discipline, Holy and Shadow. The beta only went up to level 30, so this page shows only what Icy Veins and Wowhead agree on.',
-              'Таланти, пріоритет і характеристики Послуху, Світла й Темряви. Бета була відкрита до 30 рівня, тож тут лише те, у чому сходяться Icy Veins і Wowhead.'),
+    'lead': t('Таланты, приоритет и характеристики Послушания, Света и Темной магии. Здесь только то, в чём сходятся Icy Veins и Wowhead.',
+              'Talents, priorities and stats for Discipline, Holy and Shadow. This page shows only what Icy Veins and Wowhead agree on.',
+              'Таланти, пріоритет і характеристики Послуху, Світла й Темряви. Тут лише те, у чому сходяться Icy Veins і Wowhead.'),
     'tile': t('Послушание, Свет, Темная магия: таланты и приоритет', 'Discipline, Holy, Shadow: talents and priorities', 'Послух, Світло, Темрява: таланти й пріоритет'),
     'pills': [BETA, SPECS3, LATER],
     'sources': [
@@ -991,9 +991,9 @@ SPEC_BUILDS.append({
 SPEC_BUILDS.append({
     'slug': 'builds-shaman', 'art': 'shaman', 'hero': 'hero_leveling', 'hub': False,
     'title': t('Билды Шамана', 'Shaman Builds', 'Білди Шамана'),
-    'lead': t('Таланты, приоритет и характеристики Стихий, Совершенствования и Исцеления. Бета была открыта до 30 уровня, поэтому здесь только то, в чём сходятся Icy Veins и Wowhead.',
-              'Talents, priorities and stats for Elemental, Enhancement and Restoration. The beta only went up to level 30, so this page shows only what Icy Veins and Wowhead agree on.',
-              'Таланти, пріоритет і характеристики Стихій, Вдосконалення та Зцілення. Бета була відкрита до 30 рівня, тож тут лише те, у чому сходяться Icy Veins і Wowhead.'),
+    'lead': t('Таланты, приоритет и характеристики Стихий, Совершенствования и Исцеления. Здесь только то, в чём сходятся Icy Veins и Wowhead.',
+              'Talents, priorities and stats for Elemental, Enhancement and Restoration. This page shows only what Icy Veins and Wowhead agree on.',
+              'Таланти, пріоритет і характеристики Стихій, Вдосконалення та Зцілення. Тут лише те, у чому сходяться Icy Veins і Wowhead.'),
     'tile': t('Стихии, Совершенствование, Исцеление: таланты и приоритет', 'Elemental, Enhancement, Restoration: talents and priorities', 'Стихії, Вдосконалення, Зцілення: таланти й пріоритет'),
     'pills': [BETA, SPECS3, LATER],
     'sources': [
@@ -1155,9 +1155,9 @@ SPEC_BUILDS.append({
 SPEC_BUILDS.append({
     'slug': 'builds-warlock', 'art': 'warlock', 'hero': 'hero_leveling', 'hub': False,
     'title': t('Билды Чернокнижника', 'Warlock Builds', 'Білди Чорнокнижника'),
-    'lead': t('Таланты, приоритет и характеристики Колдовства, Демонологии и Разрушения. Бета была открыта до 30 уровня, поэтому здесь только то, в чём сходятся Icy Veins и Wowhead.',
-              'Talents, priorities and stats for Affliction, Demonology and Destruction. The beta only went up to level 30, so this page shows only what Icy Veins and Wowhead agree on.',
-              'Таланти, пріоритет і характеристики Прокляття, Демонології та Руйнування. Бета була відкрита до 30 рівня, тож тут лише те, у чому сходяться Icy Veins і Wowhead.'),
+    'lead': t('Таланты, приоритет и характеристики Колдовства, Демонологии и Разрушения. Здесь только то, в чём сходятся Icy Veins и Wowhead.',
+              'Talents, priorities and stats for Affliction, Demonology and Destruction. This page shows only what Icy Veins and Wowhead agree on.',
+              'Таланти, пріоритет і характеристики Прокляття, Демонології та Руйнування. Тут лише те, у чому сходяться Icy Veins і Wowhead.'),
     'tile': t('Колдовство, Демонология, Разрушение: таланты и приоритет', 'Affliction, Demonology, Destruction: talents and priorities', 'Прокляття, Демонологія, Руйнування: таланти й пріоритет'),
     'pills': [BETA, SPECS3, LATER],
     'sources': [
@@ -1308,9 +1308,9 @@ SPEC_BUILDS.append({
 SPEC_BUILDS.append({
     'slug': 'builds-druid', 'art': 'druid', 'hero': 'hero_leveling', 'hub': False,
     'title': t('Билды Друида', 'Druid Builds', 'Білди Друїда'),
-    'lead': t('Таланты, приоритет и характеристики Баланса, Силы зверя и Исцеления. Бета была открыта до 30 уровня, поэтому здесь только то, в чём сходятся Icy Veins и Wowhead.',
-              'Talents, priorities and stats for Balance, Feral and Restoration. The beta only went up to level 30, so this page shows only what Icy Veins and Wowhead agree on.',
-              'Таланти, пріоритет і характеристики Балансу, Сили звіра та Зцілення. Бета була відкрита до 30 рівня, тож тут лише те, у чому сходяться Icy Veins і Wowhead.'),
+    'lead': t('Таланты, приоритет и характеристики Баланса, Силы зверя и Исцеления. Здесь только то, в чём сходятся Icy Veins и Wowhead.',
+              'Talents, priorities and stats for Balance, Feral and Restoration. This page shows only what Icy Veins and Wowhead agree on.',
+              'Таланти, пріоритет і характеристики Балансу, Сили звіра та Зцілення. Тут лише те, у чому сходяться Icy Veins і Wowhead.'),
     'tile': t('Баланс, Сила зверя, Исцеление: таланты и приоритет', 'Balance, Feral, Restoration: talents and priorities', 'Баланс, Сила звіра, Зцілення: таланти й пріоритет'),
     'pills': [BETA, SPECS3, LATER],
     'sources': [
