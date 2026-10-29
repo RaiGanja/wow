@@ -3252,6 +3252,23 @@ from content import dungeon_pages  # noqa: E402
 dungeon_pages.attach(GUIDES, ORDER)   # страницы подземелий guides/dungeons/<slug>/ после «Подземелий» и ссылки на них в таблице
 # /guides/builds/: девять плиток билдов на своей странице (хаб, «Ещё» и подвал ведут сюда, а не в середину тир-листа)
 _tl = next(g for g in GUIDES if g['slug'] == 'tier-list')['sections']
+# the talent calculator (talents/<class>/, build_guides.calc_*) above the nine builds; new strings, so all nine languages here
+CALC_PLATE = {
+    'h': {'ru': 'Калькулятор талантов', 'en': 'Talent calculator', 'uk': 'Калькулятор талантів', 'de': 'Talentrechner',
+          'fr': 'Calculateur de talents', 'es': 'Calculadora de talentos', 'pt': 'Calculadora de talentos', 'it': 'Calcolatore di talenti',
+          'pl': 'Kalkulator talentów'},
+    'd': {'ru': 'Свой билд для любого из девяти классов: три ветки, 51 очко, ссылка на билд.',
+          'en': 'Your own build for any of the nine classes: three trees, 51 points, a link to share.',
+          'uk': 'Свій білд для будь-якого з дев’яти класів: три гілки, 51 очко, посилання на білд.',
+          'de': 'Dein eigener Build für jede der neun Klassen: drei Bäume, 51 Punkte, Link zum Teilen.',
+          'fr': 'Votre propre build pour chacune des neuf classes : trois arbres, 51 points, un lien à partager.',
+          'es': 'Tu propia build para cualquiera de las nueve clases: tres árboles, 51 puntos y un enlace para compartir.',
+          'pt': 'Sua própria build para qualquer uma das nove classes: três árvores, 51 pontos e um link para compartilhar.',
+          'it': 'La tua build per ognuna delle nove classi: tre alberi, 51 punti e un link da condividere.',
+          'pl': 'Własny build dla każdej z dziewięciu klas: trzy drzewka, 51 punktów i link do udostępnienia.'},
+    'go': {'ru': 'Открыть', 'en': 'Open', 'uk': 'Відкрити', 'de': 'Öffnen', 'fr': 'Ouvrir', 'es': 'Abrir', 'pt': 'Abrir', 'it': 'Apri',
+           'pl': 'Otwórz'},
+}
 GUIDES.append({
     'slug': 'builds', 'art': 'paladin', 'hub': False, 'footer': True,
     'title': spec_builds.BUILDS_TITLE, 'lead': spec_builds.BUILDS_LEAD, 'tile': spec_builds.BUILDS_TILE,
@@ -3260,7 +3277,7 @@ GUIDES.append({
                 ('Wowhead: Forever Class Guides', 'https://www.wowhead.com/forever/guides/classes')]
                + [x for g in spec_builds.SPEC_BUILDS for x in g['sources'] if x[0].startswith('Icy Veins') and x[0].endswith('Talent Calculator')],
     'sections': [{'id': 'classes', 'title': t('Девять классов', 'Nine classes', 'Дев’ять класів'),
-                  'blocks': [next(s for s in _tl if s['id'] == 'builds')['blocks'][1]]}],
+                  'blocks': [('calc', CALC_PLATE), next(s for s in _tl if s['id'] == 'builds')['blocks'][1]]}],
 })
 GUIDES.sort(key=lambda g: ORDER.index(g['slug']))
 BUILDS_HUB_TILE = dict(spec_builds.HUB_TILE, href='guides/builds/')   # на хабе одна плитка «Билды по классам»

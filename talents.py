@@ -162,9 +162,19 @@ UI = {
                'it': 'Non si può togliere: i talenti sotto dipendono da questo punto',
                'pl': 'Nie można zdjąć: talenty niżej opierają się na tym punkcie',
                'pt': 'Não dá para remover: talentos abaixo dependem deste ponto'},
+    # The calculator pages talents/<class>/ (render_calc): the link from a guide, the row of our builds under the tree
+    'calc': {'ru': 'Калькулятор талантов', 'en': 'Talent calculator', 'uk': 'Калькулятор талантів', 'de': 'Talentrechner',
+             'fr': 'Calculateur de talents', 'es': 'Calculadora de talentos', 'pt': 'Calculadora de talentos',
+             'it': 'Calcolatore di talenti', 'pl': 'Kalkulator talentów'},
+    'ours': {'ru': 'Начать с нашей сборки', 'en': 'Start from our build', 'uk': 'Почати з нашої збірки',
+             'de': 'Mit unserem Build starten', 'fr': 'Partir de notre build', 'es': 'Empezar con nuestra build',
+             'pt': 'Começar pela nossa build', 'it': 'Parti dalla nostra build', 'pl': 'Zacznij od naszego buildu'},
+    'gd': {'ru': 'Разбор спеков', 'en': 'Spec guides', 'uk': 'Розбір спеків', 'de': 'Skillungen im Detail',
+           'fr': 'Guides des spécialisations', 'es': 'Guías de especialización', 'pt': 'Guias de especialização',
+           'it': 'Guide alle specializzazioni', 'pl': 'Poradniki specjalizacji'},
 }
 JS_SKIP = ('hint', 'beta', 'classic', 'wh', 'perk', 'bs', 'b_general', 'b_leveling', 'b_dungeons', 'b_raid', 'b_pvp', 'lvh', 'lvnote', 'lvg', 'lvwait',
-           'add', 'del', 'reset', 'share', 'eh', 'cm', 'cmt')
+           'add', 'del', 'reset', 'share', 'eh', 'cm', 'cmt', 'calc', 'ours', 'gd')
 EDIT_CAP = 51                              # points at level 60: one per level from 10 (the leveling build above checks the same 51)
 EN_NAMES = ('en', 'uk', 'pl')              # the site keeps English talent names on these pages (content/spec_builds.py)
 WH_LANGS = ('ru', 'de', 'es', 'fr', 'it', 'pt')            # Wowhead's own interface languages (www.wowhead.com/forever/<lang>/…)
@@ -461,36 +471,23 @@ def _rib(steps, lang, pre='f'):
     return f'<ol class="tt-rib">{"".join(rib)}</ol>'
 
 
-def render(cid, spec, rows, titles, lang, root):
-    """The tree block of one spec section. rows: the spec's talent table rows [name cell, points, why],
-    titles: {tree key: name, a t() dict}. '' when the class has no data yet. The card texts live in one JSON per page
-    (page()), the block carries only its points: data-p = {talent id: [points, first level, last level, our line]}.
-    When the spec has data for more builds (extra_builds), a switcher sits on top: the tree is drawn once for the general build and
-    the script re-colours it for the chosen build from data-b = {build id: {p: points, m: main tree}}; each build has its own order
-    by level in the page (hidden until chosen), so nothing needs the script but the switch itself."""
-    data = load(cid)
-    if not data:
-        return ''
-    pk = perk(data, [(r[0], r[1]) for r in rows])
-    picked, steps, spent, _ = plan(data, [(r[0], r[1]) for r in rows], FIRST_LEVEL - pk)
-    why = {}
-    for r in rows:
-        _, t = match(data, r[0])
-        if t:
-            why[t['id']] = _l(r[2], lang)
-    titles = {k: _l(v, lang).split(':')[0].strip() for k, v in titles.items()}
-    # q / o / cap / f: the rules the editor checks, read from the same data file as the drawn tree (nothing about the layout is
-    # written into the script, so the client data that replaces the beta layout on 05.11 changes the editor with it)
-    PAGE[(cid, lang)] = {'u': {k: v[lang] for k, v in UI.items() if k not in JS_SKIP},
-                         't': {t['id']: [tname(t, lang), t['m'], t['r'], desc(t, lang)] for tr in data['trees'] for t in tr['talents']},
-                         'q': {t['id']: t['req'] for tr in data['trees'] for t in tr['talents'] if t.get('req')},
-                         'o': [[t['id'] for t in sorted(tr['talents'], key=lambda x: (x['r'], x['c']))] for tr in data['trees']],
-                         'cap': EDIT_CAP, 'f': FIRST_LEVEL, 'rp': ROW_POINTS}
-    pts = {}
-    for i, (t, n, a, b) in enumerate(steps):
-        pts[t['id'] if t else f'f{i}'] = [n, a, b, why.get(t['id'], '')] if t else [n, a, b]
-    main = spec if spec in spent or not spent else max(spent, key=spent.get)
-    extra = extra_builds(cid, spec, data)
+def tree_titles(titles, lang):
+    """{tree key: name}: the spec sections are titled «Защита: танк», the tree is the part before the colon."""
+    return {k: _l(v, lang).split(':')[0].strip() for k, v in titles.items()}
+
+
+def page_data(data, lang):
+    """#ttData of a page. q / o / cap / f: the rules the editor checks, read from the same data file as the drawn tree (nothing
+    about the layout is written into the script, so the client data that replaces the beta layout on 05.11 changes the editor with it)."""
+    return {'u': {k: v[lang] for k, v in UI.items() if k not in JS_SKIP},
+            't': {t['id']: [tname(t, lang), t['m'], t['r'], desc(t, lang)] for tr in data['trees'] for t in tr['talents']},
+            'q': {t['id']: t['req'] for tr in data['trees'] for t in tr['talents'] if t.get('req')},
+            'o': [[t['id'] for t in sorted(tr['talents'], key=lambda x: (x['r'], x['c']))] for tr in data['trees']],
+            'cap': EDIT_CAP, 'f': FIRST_LEVEL, 'rp': ROW_POINTS}
+
+
+def _trees(data, titles, picked, main, lang):
+    """The tabs (narrow screens) and the three drawn trees with the points of `picked` {talent id: points}."""
     tabs, trees = [], []
     for tree in data['trees']:
         key = tree['key']
@@ -510,18 +507,46 @@ def render(cid, spec, rows, titles, lang, root):
         trees.append(f'<div class="tt-tree{" on" if on else ""}" data-t="{key}" role="group" aria-label="{title}">'
                      f'<h3>{title}<span{" class=on" if n else ""}>{n}</span></h3>'
                      f'<div class="tt-grid" style="--rows:{rows_n}">{_arrows(tree, picked, True)}{"".join(cells)}</div></div>')
+    return f'<div class="tt-tabs" role="tablist">{"".join(tabs)}</div>', f'<div class="tt-trees">{"".join(trees)}</div>'
+
+
+def render(cid, spec, rows, titles, lang, root):
+    """The tree block of one spec section. rows: the spec's talent table rows [name cell, points, why],
+    titles: {tree key: name, a t() dict}. '' when the class has no data yet. The card texts live in one JSON per page
+    (page()), the block carries only its points: data-p = {talent id: [points, first level, last level, our line]}.
+    When the spec has data for more builds (extra_builds), a switcher sits on top: the tree is drawn once for the general build and
+    the script re-colours it for the chosen build from data-b = {build id: {p: points, m: main tree}}; each build has its own order
+    by level in the page (hidden until chosen), so nothing needs the script but the switch itself."""
+    data = load(cid)
+    if not data:
+        return ''
+    pk = perk(data, [(r[0], r[1]) for r in rows])
+    picked, steps, spent, _ = plan(data, [(r[0], r[1]) for r in rows], FIRST_LEVEL - pk)
+    why = {}
+    for r in rows:
+        _, t = match(data, r[0])
+        if t:
+            why[t['id']] = _l(r[2], lang)
+    titles = tree_titles(titles, lang)
+    PAGE[(cid, lang)] = page_data(data, lang)
+    pts = {}
+    for i, (t, n, a, b) in enumerate(steps):
+        pts[t['id'] if t else f'f{i}'] = [n, a, b, why.get(t['id'], '')] if t else [n, a, b]
+    main = spec if spec in spent or not spent else max(spent, key=spent.get)
+    extra = extra_builds(cid, spec, data)
+    tabs_html, trees_html = _trees(data, titles, picked, main, lang)
     p_attr = escape(json.dumps(pts, ensure_ascii=False, separators=(',', ':')))
     pk_html = f' <span class="tt-pk">{UI["perk"][lang].format(n=pk)}</span>' if pk else ''
     basis = data.get('basis')                                     # before launch: one line over the tree says where it comes from
     note = f'<p class="tt-note">{UI[basis][lang]} · {day(data["date"], lang)}</p>' if basis in ('beta', 'classic') else ''
     link = (f'<a href="{escape(wowhead(cid, data, [(r[0], r[1]) for r in rows], lang))}" target="_blank" '
             f'rel="noopener">{UI["wh"][lang]} ↗</a>')
-    head = (f'<h3 class="tt-oh">{UI["order"][lang]}{"" if basis else " @@BETA@@"}'
-            f'{pk_html}</h3>{_rib(steps, lang)}<p class="tt-ext">{link}</p>')
     code = build_code(data, table_picks(data, [(r[0], r[1]) for r in rows]))
+    calc = f'<a href="{root}talents/{cid}/#{code}">{UI["calc"][lang]}</a>'      # the same build, opened on the calculator page
+    head = (f'<h3 class="tt-oh">{UI["order"][lang]}{"" if basis else " @@BETA@@"}'
+            f'{pk_html}</h3>{_rib(steps, lang)}<p class="tt-ext">{link}{calc}</p>')
     box = (f'<div class="tt" data-c="{cid}" data-l="{lang}" data-sp="{spec}" data-w="{code}" data-wh="{escape(wh_base(cid, lang))}" '
            f'data-p="{p_attr}"@@B@@ style="--n:{max(data.get("sprite", 0), 2)};--sp:url(@@ROOT@@assets/talents/{cid}.webp{sprite_v(cid)})">')
-    tabs_html = f'<div class="tt-tabs" role="tablist">{"".join(tabs)}</div>'
     hint = f'<div class="tt-card" aria-live="polite"><p class="tt-hint">{UI["hint"][lang]}</p></div>'
     # in a <template>: no dead buttons without the script, and search.py leaves the bar out of the page text
     ed = (f'<template class="tt-edt"><div class="tt-ed"><button type="button" class="tt-eb" aria-expanded="false" aria-controls="tt-ec-{spec}">'
@@ -530,11 +555,12 @@ def render(cid, spec, rows, titles, lang, root):
           f'<button type="button" class="tt-mb" data-m="-1" aria-pressed="false">− {UI["del"][lang]}</button></div>'
           f'<button type="button" class="tt-rs">{UI["reset"][lang]}</button><button type="button" class="tt-sh">{UI["share"][lang]}</button>'
           f'<a class="tt-whl" href="{escape(wh_base(cid, lang))}_t0" target="_blank" rel="noopener">{UI["wh"][lang]} ↗</a>'
+          f'<a class="tt-cl" href="{root}talents/{cid}/">{UI["calc"][lang]}</a>'
           f'<p class="tt-st" role="status"></p><p class="tt-eh">{UI["eh"][lang]}</p></div></div></template>')
     if not extra and LEVEL_SPEC.get(cid) == spec and _level_rows(cid):      # the leveling guide of the class has rows but they do not fit the tree
         note += f'<p class="tt-note">{UI["lvwait"][lang]} <a href="{root}guides/leveling-{cid}/#talents">{UI["lvg"][lang]}</a></p>'
     if not extra:
-        return (f'{box.replace("@@B@@", "")}{note}{ed}{tabs_html}<div class="tt-trees">{"".join(trees)}</div>{hint}'
+        return (f'{box.replace("@@B@@", "")}{note}{ed}{tabs_html}{trees_html}{hint}'
                 f'<div class="tt-ow" data-b="general">{head}</div></div>')
     # the switcher: a tablist (arrows, Home/End), the anchor of a tab is <spec>-<build id>, e.g. #protection-leveling
     ids = [('general', {'main': main})] + extra
@@ -554,12 +580,50 @@ def render(cid, spec, rows, titles, lang, root):
         ows.append(f'<div class="tt-ow" data-b="{bid}" hidden><p class="tt-note">{UI[b["note"]][lang]}</p>'
                    f'<h3 class="tt-oh">{UI[b["head"]][lang]}</h3>{_rib(b["steps"], lang, "f" + bid)}'
                    f'<p class="tt-ext"><a href="{escape(wh)}" target="_blank" rel="noopener">{UI["wh"][lang]} ↗</a>'
+                   f'<a href="{root}talents/{cid}/#{bdata[bid]["w"]}">{UI["calc"][lang]}</a>'
                    f'<a href="{root}guides/leveling-{cid}/#talents">{UI[b["guide"]][lang]}</a></p></div>')
     b_attr = escape(json.dumps(bdata, ensure_ascii=False, separators=(',', ':')))
     return (f'{box.replace("@@B@@", " data-b=" + chr(34) + b_attr + chr(34))}'
             f'<div class="tt-bs" role="tablist" aria-label="{UI["bs"][lang]}">{"".join(sw)}</div>{note}{ed}'
             f'<div class="tt-pane" id="tt-{spec}" role="tabpanel" aria-labelledby="{spec}-general">'
-            f'{tabs_html}<div class="tt-trees">{"".join(trees)}</div>{hint}{"".join(ows)}</div></div>')
+            f'{tabs_html}{trees_html}{hint}{"".join(ows)}</div></div>')
+
+
+def render_calc(cid, specs, titles, lang, root):
+    """The calculator page talents/<class>/: the same tree and editor as the guides, open from the start, no build of ours drawn.
+    specs: [(spec id, talent table rows)] of guides/builds-<class>/ for the row «start from our build». The bar is in the page
+    (not in a <template>), so the first frame already has it and nothing moves when the script comes; without the script it is
+    hidden (page()). The build lives in the hash as #<code> and in the same localStorage draft as the guide's editor."""
+    data = load(cid)
+    if not data:
+        return ''
+    titles = tree_titles(titles, lang)
+    PAGE[(cid, lang)] = page_data(data, lang)
+    tabs_html, trees_html = _trees(data, titles, {}, data['trees'][0]['key'], lang)
+    basis = data.get('basis')
+    note = f'<p class="tt-note">{UI[basis][lang]} · {day(data["date"], lang)}</p>' if basis in ('beta', 'classic') else ''
+    box = (f'<div class="tt calc ed" id="calc" data-c="{cid}" data-l="{lang}" data-sp="{cid}" data-calc="1" data-w="" '
+           f'data-wh="{escape(wh_base(cid, lang))}" data-p="{{}}" style="--n:{max(data.get("sprite", 0), 2)};'
+           f'--sp:url(@@ROOT@@assets/talents/{cid}.webp{sprite_v(cid)})">')
+    ed = (f'<div class="tt-ed"><button type="button" class="tt-eb" hidden>{UI["ed"][lang]}</button><div class="tt-ec">'
+          f'<p class="tt-cnt"><span class="tt-cn">{UI["cnt"][lang].format(p=0, m=EDIT_CAP)}</span><span class="tt-cm"> · {UI["cm"][lang]}</span>'
+          f'<span class="tt-ct"> · {UI["cmt"][lang]}</span></p>'
+          f'<div class="tt-md"><button type="button" class="tt-mb" data-m="1" aria-pressed="true">+ {UI["add"][lang]}</button>'
+          f'<button type="button" class="tt-mb" data-m="-1" aria-pressed="false">− {UI["del"][lang]}</button></div>'
+          f'<button type="button" class="tt-rs">{UI["reset"][lang]}</button><button type="button" class="tt-sh">{UI["share"][lang]}</button>'
+          f'<a class="tt-whl" href="{escape(wh_base(cid, lang))}_t0" target="_blank" rel="noopener">{UI["wh"][lang]} ↗</a>'
+          f'<p class="tt-st" role="status"></p></div></div>')
+    hint = f'<div class="tt-card" aria-live="polite"><p class="tt-hint">{UI["hint"][lang]}</p></div>'
+    ours = []
+    for spec, rows in specs:
+        code = build_code(data, table_picks(data, [(r[0], r[1]) for r in rows]))
+        if code:
+            ours.append(f'<a href="#{code}" data-t="{spec}">{escape(titles.get(spec, spec))}</a>')
+    guide = f'<a class="tt-gd" href="{root}guides/builds-{cid}/">{UI["gd"][lang]}</a>'
+    row = (f'<nav class="tt-ours" aria-label="{UI["ours"][lang]}"><span>{UI["ours"][lang]}</span>{"".join(ours)}{guide}</nav>'
+           if ours else f'<p class="tt-ours">{guide}</p>')
+    eh = f'<p class="tt-eh">{UI["eh"][lang]}</p>'
+    return f'{box}{note}{ed}{tabs_html}{trees_html}{hint}{row}{eh}</div>'
 
 
 CSS = """/* Talent trees (talents.py): three trees in a row when there is room, else the spec's tree and tabs; icons from one sprite */
@@ -628,14 +692,23 @@ CSS = """/* Talent trees (talents.py): three trees in a row when there is room, 
 .tt-eb { justify-self: start; border-color: var(--gold); color: var(--gold-2); }
 .tt-eb:hover, .tt-mb:hover, .tt-rs:hover, .tt-sh:hover { background: var(--zebra); }
 .tt-eb:focus-visible, .tt-mb:focus-visible, .tt-rs:focus-visible, .tt-sh:focus-visible { outline: 2px solid var(--gold-2); outline-offset: 2px; }
-.tt-cnt { flex-basis: 100%; margin: 0; color: var(--fg); font-weight: 600; font-variant-numeric: tabular-nums; }
+.tt-cnt { flex-basis: 100%; max-width: none; margin: 0; color: var(--fg); font-weight: 600; font-variant-numeric: tabular-nums; }
 .tt-ct { display: none; }
 @media (pointer: coarse) { .tt-cm { display: none; } .tt-ct { display: inline; } }
 .tt-cm, .tt-ct { color: var(--muted); font-weight: 400; }
 .tt-md { display: flex; gap: 4px; padding: 4px; border: 1px solid var(--line); border-radius: 8px; }
 .tt-md .tt-mb { border: 0; color: var(--muted); }
 .tt-md .tt-mb[aria-pressed="true"] { background: var(--seg-on); color: var(--gold-2); }
-.tt-whl { font-size: var(--fs-14); }
+.tt-whl, .tt-cl { font-size: var(--fs-14); }
+.tt-eb[hidden] { display: none; }
+/* The calculator page (render_calc): our builds of the class as a row of plain buttons under the tree, the spec guide at the end */
+.tt-ours { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin: 0; }
+.tt-ours span { flex-basis: 100%; color: var(--muted); font-size: var(--fs-13); }
+.tt-ours a[data-t] { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border: 1px solid var(--line-2); border-radius: 6px; color: var(--fg); font-weight: 600; text-decoration: none; }
+.tt-ours a[data-t]:hover { border-color: var(--gold); }
+.tt-ours a:focus-visible { outline: 2px solid var(--gold-2); outline-offset: 2px; }
+.tt-gd { margin-left: auto; font-size: var(--fs-14); }
+.tt.calc > .tt-eh { margin: 0; color: var(--muted); font-size: var(--fs-13); }
 .tt-st:empty { display: none; }
 .tt-st, .tt-eh { flex-basis: 100%; margin: 0; color: var(--muted); font-size: var(--fs-13); }
 .tt.ed .tt-grid .tt-t.tt-op:not(.on) { border-color: var(--line-2); }
@@ -662,6 +735,11 @@ JS = r"""<script>
 (function () {
   var D = JSON.parse(document.getElementById('ttData').textContent), U = D.u, KEY = 'gabella-tc-';
   var hover = window.matchMedia && matchMedia('(hover: hover)').matches;
+  function hashCode() {                          /* the build code of the address (#<code> or #<spec>/<code>), else null */
+    var h = ''; try { h = decodeURIComponent(location.hash.slice(1)); } catch (x) {}
+    var m = /^(?:[a-z-]+\/)?([0-9-]+)$/.exec(h);
+    return m ? m[1] : null;
+  }
   var trOf = {};
   D.o.forEach(function (ids, i) { ids.forEach(function (k) { trOf[k] = i; }); });
   function f(s, o) { return s.replace(/\{(\w)\}/g, function (_, k) { return o[k]; }); }
@@ -702,8 +780,8 @@ JS = r"""<script>
   document.querySelectorAll('.tt').forEach(function (w) {
     var card = w.querySelector('.tt-card'), P0 = JSON.parse(w.dataset.p), P = P0, cur = null, hint = card.innerHTML;
     var B = w.dataset.b ? JSON.parse(w.dataset.b) : null, bs = w.querySelector('.tt-bs');
-    var tp = w.querySelector('.tt-edt'), S = null, mode = 1;
-    tp.parentNode.replaceChild(tp.content.cloneNode(true), tp);
+    var tp = w.querySelector('.tt-edt'), S = null, mode = 1, calc = !!w.dataset.calc;
+    if (tp) tp.parentNode.replaceChild(tp.content.cloneNode(true), tp);   /* the calculator page has the bar in the page already */
     var ed = w.querySelector('.tt-ed');
     function line(cls, text) { var e = document.createElement(cls === 'h' ? 'b' : 'p'); e.className = cls; e.textContent = text; card.appendChild(e); }
     function show(b) {
@@ -780,8 +858,10 @@ JS = r"""<script>
     }
     /* Editor: starts from the build saved in this browser, else from the build of ours on screen */
     var eb = ed.querySelector('.tt-eb'), ec = ed.querySelector('.tt-ec'), cnt = ed.querySelector('.tt-cn');
-    var st = ed.querySelector('.tt-st'), whl = ed.querySelector('.tt-whl');
+    var st = ed.querySelector('.tt-st'), whl = ed.querySelector('.tt-whl'), cl = ed.querySelector('.tt-cl');
     function saved() { try { return localStorage.getItem(KEY + w.dataset.c); } catch (x) { return null; } }
+    /* the address of a build: #<spec>/<code> in a guide, #<code> on the calculator page (nothing for an empty build) */
+    function addr(code) { return calc ? (code ? '#' + code : location.pathname + location.search) : '#' + w.dataset.sp + '/' + code; }
     function update(keep) {
       var n = total(S), code = encode(S);
       st.textContent = '';
@@ -790,8 +870,9 @@ JS = r"""<script>
       paint();
       cnt.textContent = f(U.cnt, { p: n, m: D.cap }) + (n ? ' · ' + f(U.lv, { a: D.f - 1 + n }) : '');
       whl.href = w.dataset.wh + code + '_t0';
+      if (cl) cl.href = cl.href.split('#')[0] + (code ? '#' + code : '');
       if (!keep) try { localStorage.setItem(KEY + w.dataset.c, code); } catch (x) {}
-      try { history.replaceState(null, '', '#' + w.dataset.sp + '/' + code); } catch (x) {}
+      try { history.replaceState(null, '', addr(code)); } catch (x) {}
     }
     function open(code) {
       S = decode(code);
@@ -827,11 +908,19 @@ JS = r"""<script>
       } else if (e.target.closest('.tt-rs')) { S = {}; update(); cur = null; card.innerHTML = hint; }
       else if (e.target.closest('.tt-sh')) {
         var ok = function () { st.textContent = U.copied; }, no = function () { st.textContent = U.nocopy; };
-        var url = location.href.split('#')[0] + '#' + w.dataset.sp + '/' + encode(S);   /* not location.href: replaceState can be throttled */
+        var code = encode(S), url = location.href.split('#')[0] + (calc ? (code ? '#' + code : '') : '#' + w.dataset.sp + '/' + code);   /* not location.href: replaceState can be throttled */
         try { navigator.clipboard.writeText(url).then(ok, no); } catch (x) { no(); }
       }
     });
     w.openByHash = function (code) { if (S) { S = decode(code); update(true); } else open(code); };
+    w.pickTree = pickTree;
+    if (calc) {                        /* the calculator opens at once: a build from the address, else this browser's draft, else empty */
+      var hc = hashCode(), sv = saved();
+      open(hc !== null ? hc : sv !== null ? sv : '');
+      var best = 0, at = 0;                  /* phones show one tree: the one with most points */
+      D.o.forEach(function (ids, i) { var n = 0; ids.forEach(function (k) { n += S[k] || 0; }); if (n > best) { best = n; at = i; } });
+      if (best) pickTree(w.querySelectorAll('.tt-tree')[at].dataset.t);
+    }
     /* Touch has no right button: a long press on a talent takes the point back */
     var lpT = 0, lpDone = 0;
     w.addEventListener('pointerdown', function (e) {
@@ -844,6 +933,8 @@ JS = r"""<script>
       if (Date.now() - lpDone < 700) return;
       var tab = e.target.closest('.tt-tab');
       if (tab) { pickTree(tab.dataset.t); return; }
+      var our = e.target.closest('.tt-ours [data-t]');      /* «start from our build»: the hash opens it, the phone shows its tree */
+      if (our) { pickTree(our.dataset.t); return; }
       var b = e.target.closest('[data-k]');
       if (b && S && b.closest('.tt-grid')) step(b, mode);
       else if (b) show(b);
@@ -860,10 +951,15 @@ JS = r"""<script>
     });
     if (hover) w.addEventListener('mouseover', function (e) { var b = e.target.closest('[data-k]'); if (b && b !== cur) show(b); });
   });
-  function fromHash() {
+  function fromHash(e) {
     var h = ''; try { h = decodeURIComponent(location.hash.slice(1)); } catch (x) {}
     var m = /^([a-z-]+)\/([0-9-]*)$/.exec(h);
     document.querySelectorAll('.tt').forEach(function (w) {
+      if (w.dataset.calc) {                     /* the calculator page: #<code>, or a guide's #<spec>/<code> */
+        var c = hashCode();
+        if (e && c !== null) { w.openByHash(c); w.scrollIntoView(); }
+        return;
+      }
       if (!m) { if (w.setBuildByHash) w.setBuildByHash(h); return; }
       if (w.dataset.sp !== m[1] || !w.openByHash) return;
       w.openByHash(m[2]);
@@ -872,12 +968,23 @@ JS = r"""<script>
   }
   fromHash();
   window.addEventListener('hashchange', fromHash);
+  /* The sprite: near the screen, and only after the first frame is painted (on the calculator page the tree is on the first
+     screen: the picture of icons must not hold back the first paint of the heading) */
   var all = document.querySelectorAll('.tt');
-  if (!('IntersectionObserver' in window)) { all.forEach(function (w) { w.classList.add('ld'); }); return; }
-  var io = new IntersectionObserver(function (es) {
-    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('ld'); io.unobserve(e.target); } });
-  }, { rootMargin: '300px 0px' });
-  all.forEach(function (w) { io.observe(w); });
+  function wake() {
+    if (!('IntersectionObserver' in window)) { all.forEach(function (w) { w.classList.add('ld'); }); return; }
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('ld'); io.unobserve(e.target); } });
+    }, { rootMargin: '300px 0px' });
+    all.forEach(function (w) { io.observe(w); });
+  }
+  var woke = false;
+  function go() { if (!woke) { woke = true; wake(); } }
+  /* the browser reports a paint once the frame is on the screen; a tab in the background paints nothing: a timer then */
+  var PO = window.PerformanceObserver, types = PO && PO.supportedEntryTypes || [];
+  if (types.indexOf('paint') >= 0) new PO(function () { setTimeout(go, 0); }).observe({ type: 'paint', buffered: true });
+  else addEventListener('load', function () { requestAnimationFrame(function () { setTimeout(go, 0); }); }, { once: true });
+  setTimeout(go, 3000);
 })();
 </script>
 """
@@ -885,10 +992,10 @@ JS = r"""<script>
 
 def page(html):
     """Adds the styles, the talents of the page (card texts) and the script once to a built page that has a tree."""
-    m = re.search(r'<div class="tt" data-c="([a-z]+)" data-l="([a-z]+)"', html)
+    m = re.search(r'<div class="tt(?: [a-z ]+)?"(?: id="\w+")? data-c="([a-z]+)" data-l="([a-z]+)"', html)
     if not m:
         return html
     data = json.dumps(PAGE[(m.group(1), m.group(2))], ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')
     html = html.replace('</style>', CSS + '</style>', 1)
-    html = html.replace('</head>', '<noscript><style>.tt .tt-ic:not(.no){background-image:var(--sp)}.tt-bs{display:none}</style></noscript></head>', 1)
+    html = html.replace('</head>', '<noscript><style>.tt .tt-ic:not(.no){background-image:var(--sp)}.tt-bs,.tt.calc .tt-ed,.tt.calc .tt-ours{display:none}</style></noscript></head>', 1)
     return html.replace('</body>', f'<script type="application/json" id="ttData">{data}</script>\n' + JS + '</body>', 1)

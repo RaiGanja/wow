@@ -548,6 +548,7 @@ ul.dlist li.mine { background: var(--seg-on); }
 @media (max-width: 479px) { .spcls { grid-template-columns: minmax(0, 1fr); } .spn { padding-top: 0; } }
 .sbtns { display: flex; flex-wrap: wrap; gap: 10px; }
 .more-l { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-weight: 600; font-size: var(--fs-16); }
+.more-ls { display: flex; flex-wrap: wrap; gap: 0 28px; }
 .gtip { padding: 16px 18px; border-radius: 6px; background: var(--panel-2); }   /* black and grey plates; a tip is the gold word and the fire, not a gold-tinted plate */
 .st-src { color: var(--muted); font-size: var(--fs-14); display: flex; flex-wrap: wrap; gap: 4px 14px; }
 .st-src a { color: var(--muted); }
@@ -1331,6 +1332,21 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 @media (min-width: 720px) { .dgboss .cxrows > div { grid-template-columns: 110px minmax(0, 1fr); } }
 .gplay .btn { margin-left: auto; }
 .gbody.play { padding-top: 14px; }
+/* Talent calculator (talents/, build_guides.calc_*): a text heading, no picture, the tool right under it */
+.chead { padding: calc(var(--top) + 28px) 0 4px; }
+.chead .wrap { display: grid; gap: 10px; justify-items: start; }
+.chead .crumbs { display: flex; flex-wrap: wrap; gap: 6px 10px; font-size: var(--fs-14); color: var(--muted); }
+.chead .crumbs a { color: var(--muted); text-decoration: none; }
+.chead .crumbs a:hover { color: var(--fg); text-decoration: underline; }
+.chead h1 { font-size: var(--fs-40); line-height: 1.05; color: var(--fg); }
+:root .chead h1.long { font-size: min(var(--fs-40), calc((100vw - 64px) / (var(--lw, 12) * .74))); }
+.chead .upd { margin: 0; color: var(--muted); text-shadow: none; }
+.chead .glead { margin: 0; max-width: 72ch; font-size: var(--fs-16); color: var(--muted); }
+.gbody.calcp { padding-top: 16px; }
+.calcs { padding: 18px; }
+.calcl { margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr)); }
+.calcl a[aria-current] { border-color: var(--gold); }
+@media (max-width: 719px) { .chead { padding-top: calc(var(--top) + 18px); } .chead h1 { font-size: var(--fs-28); } :root .chead h1.long { font-size: min(var(--fs-28), calc((100vw - 32px) / (var(--lw, 12) * .74))); } .calcs { padding: 14px 12px; } }
 /* the beta mark after a fact Blizzard has not confirmed (<span class="beta-note">per beta data</span> in a guide text, as on the home page) */
 .beta-note { color: var(--muted); font-size: var(--fs-13); font-weight: 400; font-style: normal; white-space: nowrap; }
 .beta-note::before { content: "("; } .beta-note::after { content: ")"; }
@@ -1593,7 +1609,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png?v=00a6a7d9">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../assets/radio/radio.css?v=556d7dc63f" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=ea735bcdfd" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/search/search.css?v=6ba734ba98" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../assets/me/me.css?v=f19953bd21" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../assets/hero/hero.css?v=ef9324789f" media="print" onload="this.media='all'">
 </head>
@@ -1683,7 +1699,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <nav class="toc" aria-label="All sections">
     
     <div class="grp"><div class="gh">Guide</div><a class="tbd" data-tl href="./guides/builds/">Builds and talents</a><a href="./guides/tier-list/">Tier list</a><a href="./guides/legacy/">Legacy</a><a href="./guides/pvp/">PvP</a><a class="tbd" href="./classes/">Classes</a><a href="./classes/#choose">Which class to pick</a><a href="./races/">Races</a><a class="tbd" href="./guides/leveling/">Leveling 1–60</a><a href="./guides/dungeons/">Dungeons and raids</a><a href="./guides/professions/">Professions</a><a href="./guides/server-status/">Server status</a><a href="./guides/name-reservation/">Name reservation</a><a href="./guides/faq/">FAQ and dates</a><a href="./guides/news/">News</a><a href="./guides/">All articles</a></div>
-    <div class="grp"><div class="gh">Tools</div><a href="./character/">My character</a><a href="./tools/#picker">Race and class</a><a href="./tools/#raid">Group comp and LFG</a><a href="./play/">Second Screen</a></div>
+    <div class="grp"><div class="gh">Tools</div><a href="./talents/">Talent calculator</a><a href="./character/">My character</a><a href="./tools/#picker">Race and class</a><a href="./tools/#raid">Group comp and LFG</a><a href="./play/">Second Screen</a></div>
     <div class="grp"><div class="gh">Community</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="./profile/">My profile</a></div>
   </nav>
   <div class="opts">
@@ -1817,7 +1833,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../assets/radio/radio.js?v=556d7dc63f" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=ea735bcdfd" data-root="../" defer></script>
+<script src="../assets/search/search.js?v=6ba734ba98" data-root="../" defer></script>
 <script src="../assets/me/me.js?v=f19953bd21" data-root="../" data-home="./" data-lang="en" data-ach="0" data-teaser="" data-close="Close" data-page="404" data-look="2" defer></script>
 <script src="../assets/hero/hero.js?v=ef9324789f" data-root="../" data-home="./" data-data="../assets/hero/en.json?v=ef9324789f" defer></script>
 </body>
