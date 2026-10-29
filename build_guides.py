@@ -254,8 +254,8 @@ def side_switch(d, lang, root):
     portrait on the page, and html[data-side] shows the races of that side. The script runs right after the markup, before
     the table is painted, and follows the other places of the site (the gabella-side / gabella-me events, other tabs)."""
     btns = ''.join(f'<button type="button" data-f="{f}" aria-pressed="false">{E(d[f], lang)}</button>' for f in SIDES)
-    return (f'<div class="fsw"><div class="fswb" id="fsw" role="group" aria-label="{E(d["label"], lang)}">'
-            f'<span class="fswl" aria-hidden="true">{E(d["label"], lang)}</span>{btns}</div>'
+    return (f'<div class="fsw"><div class="fswb"><span class="fswl" aria-hidden="true">{E(d["label"], lang)}</span>'
+            f'<div class="fsws" id="fsw" role="group" aria-label="{E(d["label"], lang)}">{btns}</div></div>'
             f'<p class="fswn">{E(d["note"], lang)} {E(d["star"], lang)} <a href="{root}guides/best-race/">{E(d["guide"], lang)}</a>.</p></div>'
             '<script>(function(){var b=document.getElementById("fsw"),P=window.GabellaPor;if(!P)return;'
             'var B=[].slice.call(b.querySelectorAll("[data-f]"));'

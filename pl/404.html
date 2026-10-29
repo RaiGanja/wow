@@ -1223,6 +1223,20 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .tgc:hover .tgn, .tgc:focus-visible .tgn { color: var(--gold-2); }
 .tgn { position: relative; }
 .tgn sup { position: absolute; left: 100%; top: 0; margin-left: 1px; color: var(--gold-2); line-height: 0; }   /* the star hangs beside the name: it neither stretches the line nor shifts the name off the portrait's axis */
+/* Tier list: one Alliance / Horde switch for the page (build_guides.side_switch). A segment like the tabs under it; html[data-side] shows the races of that side */
+.fsw { display: grid; gap: 8px; margin-bottom: 18px; }
+.fswb { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; }
+.fswl { font-size: var(--fs-13); font-weight: 500; color: var(--muted); }
+.fsws { display: inline-flex; gap: 2px; padding: 3px; border: 1px solid var(--line); border-radius: 8px; }
+.fsws button { min-height: 44px; min-width: 112px; padding: 0 18px; border: 0; border-radius: 6px; background: transparent; color: var(--fg); cursor: pointer; font: inherit; font-weight: 600; transition: background-color .15s, color .15s; }
+.fsws button:hover { background: var(--zebra); }
+.fsws button[aria-pressed="true"] { background: var(--seg-on); color: var(--gold-2); }
+.fswn { margin: 0; max-width: 72ch; font-size: var(--fs-14); color: var(--muted); }
+.fswn a { color: var(--gold-2); }
+.frc b { font-weight: 600; color: var(--fg); }
+.frc i { margin-left: 2px; font-style: normal; color: var(--gold-2); }
+:root[data-side="horde"] .frc[data-f="alliance"], :root:not([data-side="horde"]) .frc[data-f="horde"] { display: none; }
+@media (max-width: 719px) { .fswl { flex-basis: 100%; } .fsws { flex: 1 1 100%; } .fsws button { flex: 1 1 0; min-width: 0; } }
 /* FAQ: plain rows, no frame per question. A chevron on the right, a plate on hover, the open answer indented under it */
 .gfaq { display: grid; gap: 2px; margin: 0 -14px; }
 .gfaq details { scroll-margin-top: calc(var(--top) + 16px); }
@@ -1569,7 +1583,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png?v=00a6a7d9">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../assets/radio/radio.css?v=556d7dc63f" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=7572282663" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/search/search.css?v=b089e8d7e8" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../assets/me/me.css?v=f19953bd21" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../assets/hero/hero.css?v=ef9324789f" media="print" onload="this.media='all'">
 </head>
@@ -1793,7 +1807,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../assets/radio/radio.js?v=556d7dc63f" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=7572282663" data-root="../" defer></script>
+<script src="../assets/search/search.js?v=b089e8d7e8" data-root="../" defer></script>
 <script src="../assets/me/me.js?v=f19953bd21" data-root="../" data-home="./" data-lang="pl" data-ach="0" data-teaser="" data-close="Zamknij" data-page="404" data-look="2" defer></script>
 <script src="../assets/hero/hero.js?v=ef9324789f" data-root="../" data-home="./" data-data="../assets/hero/pl.json?v=ef9324789f" defer></script>
 </body>
