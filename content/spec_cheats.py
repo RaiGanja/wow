@@ -195,6 +195,15 @@ FAQ = [
      'link': (n9('Гайд Legacy', 'Legacy guide', 'Гайд Legacy', 'Legacy-Guide', 'Guide Legacy', 'Guía de Legacy', 'Guia de Legacy', 'Guida Legacy',
                  'Poradnik Legacy'), '../legacy/')},
 ]
+CHIPS_LEAD = n9('Шпора каждого спека: билд, таланты, прокачка и группа на одной странице.',
+                'A cheat sheet for every spec: build, talents, leveling and group on one page.',
+                'Шпора для кожного спека: білд, таланти, прокачування і група на одній сторінці.',
+                'Ein Spickzettel für jede Skillung: Build, Talente, Leveln und Gruppe auf einer Seite.',
+                'Une fiche pour chaque spécialisation : build, talents, progression et groupe sur une page.',
+                'Una guía rápida por especialización: build, talentos, subida y grupo en una página.',
+                'Um resumo para cada especialização: build, talentos, evolução e grupo em uma página.',
+                'Una scheda per ogni specializzazione: build, talenti, salita e gruppo in una pagina.',
+                'Ściąga dla każdej specjalizacji: build, talenty, levelowanie i grupa na jednej stronie.')
 NEXT_PFX = n9('Дальше', 'Next', 'Далі', 'Weiter', 'Suite', 'Siguiente', 'Próximo', 'Avanti', 'Dalej')
 
 
@@ -259,10 +268,12 @@ def attach(guides, hubs, order):
 
 def finish(guides, hero_core, langs_mod):
     """Titles, leads and the bar with the buttons in every language, then langs.fill for what is still short."""
+    got = {}
     for g in guides:
         if g['slug'] not in SLUGS:
             continue
         cid, spec, rows, tierh, trows = g.pop('cheat')
+        got[(cid, spec)] = rows
         title, lead, bar = {}, {}, {}
         for lang in LANGS9:
             if lang not in langs_mod.LANGS:
@@ -298,4 +309,17 @@ def finish(guides, hero_core, langs_mod):
         for sec in g['sections']:                                  # the headings of the borrowed sections: raw html, built after fill
             sec['blocks'] = [('raw', _h(d)) if k == 'h3' else (k, d) for k, d in sec['blocks']]
         g['tile'] = title
+    by = {g['slug']: g for g in guides}
+    for cid in dict.fromkeys(c for c, _ in CHEATS):                # builds-<class>: the chips of the class' sheets under the roles table
+        html = {}
+        for lang in LANGS9:
+            if lang not in langs_mod.LANGS:
+                continue
+            n = hero_core(lang)
+            items = ''.join(
+                f'<li><a href="../spec-{cid}-{sp}/"><b>{escape(sn)}</b><span>{escape(" / ".join(r[1][lang] for r in got[(cid, sp)]))}</span></a></li>'
+                for sp, sn in zip(n['sid'][cid], n['sn'][cid]))
+            html[lang] = f'<p class="small">{escape(CHIPS_LEAD[lang])}</p><ul class="spchips">{items}</ul>'
+        roles = next(sec for sec in by[f'builds-{cid}']['sections'] if sec['id'] == 'roles')
+        roles['blocks'].insert(1, ('raw', html))
     langs_mod.fill([g for g in guides if g['slug'] in SLUGS])

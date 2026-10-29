@@ -7,7 +7,7 @@ Icy Veins и Wowhead (их билды 30 уровня, сверены по ка�
 без очков; если оба берут талант с разным числом очков, в таблице меньшее, а большее названо в тексте.
 Раскладку на 51 очко к 60 дадим после старта 05.11.
 Источник текстов: docs/wow/specs/texts-2026-10-25-spec-builds (не в репо). attach() подключает страницы к GUIDES,
-раздел «Билды по классам» в тир-листе, ссылки из тир-листа на разделы спеков и плитку хаба."""
+раздел «Билды и таланты» в тир-листе, ссылки из тир-листа на разделы спеков и плитку хаба."""
 from content.class_guides import t, tx, bt
 
 SPEC_BUILDS = []
@@ -29,9 +29,9 @@ ROLES_NOTE = t('Тиры — из тир-листа беты. В таблица�
                'Tiers come from the beta tier list. The talent tables show only what Icy Veins and Wowhead agree on; each spec says where they differ.',
                'Тіри — з тір-листа бети. У таблицях талантів лише те, у чому сходяться Icy Veins і Wowhead; для кожної спеціалізації сказано, де вони розходяться.')
 
-BUILDS_TITLE = tx('Билды по классам', 'Builds by class', 'Білди за класами',
-                  de='Builds nach Klasse', es='Builds por clase', fr='Builds par classe',
-                  it='Build per classe', pl='Buildy według klas', pt='Builds por classe')
+BUILDS_TITLE = tx('Билды и таланты', 'Builds and talents', 'Білди й таланти',   # the name of the menu item (build.py NAV)
+                  de='Builds und Talente', es='Builds y talentos', fr='Builds et talents',
+                  it='Build e talenti', pl='Buildy i talenty', pt='Builds e talentos')
 BUILDS_LEAD = tx('Билд — набор талантов под ваш спек и порядок, в котором их брать. Выберите класс: таланты по уровням, что нажимать и какие характеристики нужны каждому спеку.',
                  'A build is the set of talents for your spec and the order to take them in. Pick a class: talents by level, what to press and which stats each spec needs.',
                  'Білд — набір талантів під ваш спек і порядок, у якому їх брати. Оберіть клас: таланти за рівнями, що натискати й які характеристики потрібні кожному спеку.',
@@ -1488,7 +1488,7 @@ def _link_specs(blocks):
 
 
 def attach(guides, hubs, order):
-    """Connect the build pages: tile texts of the related links, GUIDES, the «Билды по классам» section and the spec links of the tier list."""
+    """Connect the build pages: tile texts of the related links, GUIDES, the «Билды и таланты» section and the spec links of the tier list."""
     by = {g['slug']: g for g in guides}
     desc = {'classes/': {h['slug']: h for h in hubs}['classes']['tile'], 'guides/best-race/': by['best-race']['tile'],
             'guides/tier-list/': by['tier-list']['tile']}
