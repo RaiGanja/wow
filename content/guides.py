@@ -1115,6 +1115,14 @@ GUIDES.append({
 NR_URL = 'https://news.blizzard.com/en-us/article/24303866/claim-your-world-of-warcraft-forever-character-names'   # name reservation 27.10 – 03.11
 
 NEWS += [
+    {'date': '2026-10-29', 'url': 'https://us.forums.blizzard.com/en/wow/t/the-wow-forever-podcast-episode-6-all-about-tech-ft-%E2%80%AAshobek/2395799/1',
+     'title': t('Подкаст WoW Forever: новый выпуск о технологиях', 'WoW: Forever Podcast: new episode on tech', 'Подкаст WoW Forever: новий випуск про технології'),
+     'text': t('Blizzard выпустила новый выпуск подкаста WoW: Forever «All About Tech» с гостем Shobek. Подробностей, которые мы могли бы проверить, в сообщении нет: детали смотрите в самом сообщении.',
+               'Blizzard released a new episode of the WoW: Forever Podcast, All About Tech, with guest Shobek. The post gives no further details we could verify, so check the linked post.',
+               'Blizzard випустила новий випуск подкасту WoW: Forever «All About Tech» з гостем Shobek. Подробиць, які ми могли б перевірити, у повідомленні немає: деталі дивіться в самому повідомленні.'),
+     'so': t('Выпуск можно послушать по ссылке Blizzard.',
+             'You can listen to the episode via the Blizzard link.',
+             'Випуск можна послухати за посиланням Blizzard.')},
     {'date': '2026-10-22', 'url': 'https://worldofwarcraft.blizzard.com/en-us/news/24302070/choose-your-ruleset-in-world-of-warcraft-forever',
      'title': t('Blizzard описала четыре режима', 'Blizzard describes the four rulesets', 'Blizzard описала чотири режими'),
      'text': t('В статье Choose Your Ruleset Blizzard описывает четыре режима. Normal: приключения и бои с монстрами, бои с другими игроками по вашему желанию. PvP: упор на бои игрок против игрока, почти всегда есть риск нападения вражеских игроков. Roleplay: строгие правила имён и поведения для игроков, которые хотят погрузиться в роль персонажа. Roleplay PvP: те же правила с упором на бои игрок против игрока.',
@@ -1237,6 +1245,7 @@ GUIDES.append({
         (t('Blizzard: стартовый гид для новичков', 'Blizzard: new player\'s starter guide', 'Blizzard: стартовий гід для новачків'), 'https://worldofwarcraft.blizzard.com/en-us/news/24315280/new-players-starter-guide-welcome-to-world-of-warcraft-forever'),
         (t('Blizzard: выбор режима', 'Blizzard: choose your ruleset', 'Blizzard: вибір режиму'), 'https://worldofwarcraft.blizzard.com/en-us/news/24302070/choose-your-ruleset-in-world-of-warcraft-forever'),
         (t('Blizzard: подкаст WoW Forever', 'Blizzard: WoW Forever Podcast', 'Blizzard: подкаст WoW Forever'), 'https://us.forums.blizzard.com/en/wow/t/what-insights-would-you-like-to-see-in-a-future-episode-of-the-wow-forever-podcast/2361993/1'),
+        (t('Blizzard: подкаст WoW Forever, новый выпуск', 'Blizzard: WoW Forever Podcast, new episode', 'Blizzard: подкаст WoW Forever, новий випуск'), 'https://us.forums.blizzard.com/en/wow/t/the-wow-forever-podcast-episode-6-all-about-tech-ft-%E2%80%AAshobek/2395799/1'),
     ],
     'sections': [
         {'id': 'ours', 'title': t('Наши записи', 'Our notes', 'Наші записи'), 'blocks': [('news', None)]},
