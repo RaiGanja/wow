@@ -1523,7 +1523,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png?v=00a6a7d9">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../assets/radio/radio.css?v=9a73fa3532" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=b943a0e5ed" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/search/search.css?v=0f3ee5a791" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../assets/me/me.css?v=89b8b06c6a" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../assets/hero/hero.css?v=2b3fcb92a6" media="print" onload="this.media='all'">
 </head>
@@ -1648,6 +1648,8 @@ document.querySelectorAll('.gtabs').forEach(box => {
     btns.forEach(x => { x.setAttribute('aria-selected', x === b); x.tabIndex = x === b ? 0 : -1; });
     panels.forEach(p => p.hidden = p.dataset.tab !== b.dataset.tab);
   };
+  const sideTab = window.GabellaPor && [...btns].find(x => x.dataset.tab === GabellaPor.fac());   // Alliance / Horde tabs open on the player's side
+  if (sideTab && [...btns].every(x => x.dataset.tab === 'alliance' || x.dataset.tab === 'horde')) pick(sideTab);
   btns.forEach((b, i) => {
     b.tabIndex = b.getAttribute('aria-selected') === 'true' ? 0 : -1;
     b.addEventListener('click', () => pick(b));
@@ -1744,7 +1746,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../assets/radio/radio.js?v=9a73fa3532" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=b943a0e5ed" data-root="../" defer></script>
+<script src="../assets/search/search.js?v=0f3ee5a791" data-root="../" defer></script>
 <script src="../assets/me/me.js?v=89b8b06c6a" data-root="../" data-home="./" data-lang="pl" data-ach="0" data-teaser="" data-close="Zamknij" data-page="404" data-look="2" defer></script>
 <script src="../assets/hero/hero.js?v=2b3fcb92a6" data-root="../" data-home="./" data-data="../assets/hero/pl.json?v=2b3fcb92a6" defer></script>
 </body>

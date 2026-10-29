@@ -445,7 +445,7 @@ const POOL = { tank: ['paladin', 'warrior', 'druid'], heal: ['priest', 'shaman',
 const RAIDS = [[10, 'Barrow Deeps'], [20, 'Hyjal Summit'], [40, 'Onyxia’s Lair']];
 const REC = { 5: [1, 1, 3], 10: [2, 3, 5], 20: [3, 5, 12], 40: [4, 10, 26] };
 const RAGE = '#c8443a', ENERGY = '#e3c54b', MANA = '#3f7fe0';
-const R = { f: 'alliance', size: 5, s: Array(5).fill(null), moving: -1 };
+const R = { f: window.GabellaPor ? GabellaPor.fac() : 'alliance', size: 5, s: Array(5).fill(null), moving: -1 };
 
 function roleOpts(c) { return RR.filter(x => c.roles.includes(x) || (x === 'tank' && c.roles.includes('tank?'))); }
 function power(p) { return p.cls === 'warrior' || (p.cls === 'druid' && p.role === 'tank') ? RAGE : p.cls === 'rogue' || (p.cls === 'druid' && p.role === 'dps') ? ENERGY : MANA; }
@@ -795,6 +795,7 @@ function lvlMeter(c) {
   return `<span class="lvl"><span>${label}</span><span class="bar" role="img" aria-label="${label}">${bar}</span><span class="scale" aria-hidden="true"><span>быстрее</span><span>медленнее</span></span></span>`;
 }
 const state = { f:'all', r:'all', race:'dwarf', cls:'shaman', spec:'elemental' };
+function mySide() { if (window.GabellaPor && GabellaPor.side[state.race])GabellaPor.set(GabellaPor.side[state.race]); }   // the race the reader picks is his side for the whole site (GabellaPor)
 
 function roleMatch(c, role) { return role === 'all' || c.roles.includes(role); }
 function raceVisible(r) { return state.f === 'all' || r.f === state.f; }
@@ -938,9 +939,9 @@ document.addEventListener('click', e => {
     render(); return;
   }
   const cell = e.target.closest('button.cell');
-  if (cell) { state.race = cell.dataset.r; state.cls = cell.dataset.c; render(); toPicker(); return; }
+  if (cell) { state.race = cell.dataset.r; state.cls = cell.dataset.c; mySide(); render(); toPicker(); return; }
   const pr = e.target.closest('[data-pr]');
-  if (pr) { state.race = pr.dataset.pr; render(); return; }
+  if (pr) { state.race = pr.dataset.pr; mySide(); render(); return; }
   const ps = e.target.closest('[data-ps]');
   if (ps) { state.spec = ps.dataset.ps; pickRace(); render(); return; }
   const pc = e.target.closest('[data-pc]');

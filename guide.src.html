@@ -539,6 +539,8 @@ document.querySelectorAll('.gtabs').forEach(box => {
     btns.forEach(x => { x.setAttribute('aria-selected', x === b); x.tabIndex = x === b ? 0 : -1; });
     panels.forEach(p => p.hidden = p.dataset.tab !== b.dataset.tab);
   };
+  const sideTab = window.GabellaPor && [...btns].find(x => x.dataset.tab === GabellaPor.fac());   // Alliance / Horde tabs open on the player's side
+  if (sideTab && [...btns].every(x => x.dataset.tab === 'alliance' || x.dataset.tab === 'horde')) pick(sideTab);
   btns.forEach((b, i) => {
     b.tabIndex = b.getAttribute('aria-selected') === 'true' ? 0 : -1;
     b.addEventListener('click', () => pick(b));

@@ -663,7 +663,7 @@ JS['buildshare'] = r'''/* Builds of a class: «Share» under the heading of ever
     wrap.className = 'bshare'; b.type = 'button'; b.className = 'btn ghost'; b.textContent = HC.tx.share;
     msg.className = 'small'; msg.setAttribute('role', 'status'); wrap.append(b, ' ', msg); h.after(wrap);
     b.onclick = async () => {
-      const fac = mine ? HC.rf[mine.race] : 'alliance', best = bestOf(cls, fac, spec) || bestOf(cls, fac === 'alliance' ? 'horde' : 'alliance', spec),
+      const fac = mine ? HC.rf[mine.race] : window.GabellaPor ? GabellaPor.fac() : 'alliance', best = bestOf(cls, fac, spec) || bestOf(cls, fac === 'alliance' ? 'horde' : 'alliance', spec),
         race = mine ? mine.race : best && best[0][0];
       if (!race) return;
       const url = new URL('../../b/' + (BS[race] || race) + '-' + cls + '-' + spec + '/', location.href).href;
@@ -691,7 +691,7 @@ JS['cheat'] = r'''/* Spec cheat sheet: the «answer in 5 seconds» block (race s
     pick.href = '../../tools/#pick=' + fromLink + '.' + cls + '.' + spec;
   }
   document.getElementById('cheatShare').onclick = async () => {
-    const msg = document.getElementById('cheatMsg'), fac = fromLink ? HC.rf[fromLink] : mine ? HC.rf[mine.race] : 'alliance';
+    const msg = document.getElementById('cheatMsg'), fac = fromLink ? HC.rf[fromLink] : mine ? HC.rf[mine.race] : window.GabellaPor ? GabellaPor.fac() : 'alliance';
     const best = bestOf(cls, fac, spec) || bestOf(cls, fac === 'alliance' ? 'horde' : 'alliance', spec);
     const race = fromLink || (mine ? mine.race : best && best[0][0]);
     if (!race) return;
@@ -916,7 +916,7 @@ JS['play'] = r'''/* In game: level -> zones and the next milestones (data from t
 const TX = P.tx, MEKEY = 'gabella-wf-me', PKEY = 'gabella-play';
 const rd = k => { try { return JSON.parse(localStorage.getItem(k)) || {}; } catch (e) { return {}; } };
 const wr = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} if (k === MEKEY) dispatchEvent(new CustomEvent('gabella-me', { detail: 'play' })); };
-const ps = Object.assign({ fac: 'alliance', timers: [], notify: false }, rd(PKEY));
+const ps = Object.assign({ fac: window.GabellaPor ? GabellaPor.fac() : 'alliance', timers: [], notify: false }, rd(PKEY));
 if (!Array.isArray(ps.timers)) ps.timers = [];
 const saveP = () => wr(PKEY, ps);
 const GM = () => window.GabellaMe;   // me.js: the profile client, there on every page once it has loaded
