@@ -166,7 +166,7 @@ META = {
                  t('Билды WoW Forever для всех девяти классов и 27 спеков: таланты, приоритет и характеристики по бете 30 уровня. Раскладку к 60 добавим после старта.',
                    'WoW Forever builds for all nine classes and 27 specs: talents, priorities and stats from the level 30 beta. The level 60 layout follows after launch.',
                    'Білди WoW Forever для всіх дев’яти класів і 27 спеціалізацій: таланти, пріоритет і характеристики за бетою 30 рівня. Розкладку до 60 додамо після старту.')),
-    'guides/tier-list/': (t('Тир-лист WoW Forever: лучшие классы для PvE, PvP и прокачки', 'WoW Forever Tier List: Best Classes for PvE, PvP, Leveling', 'Тір-лист WoW Forever: найкращі класи для PvE, PvP і прокачування'),
+    'guides/tier-list/': (t('Тир-лист WoW Forever: лучшие классы для PvE, PvP и прокачки', 'WoW Forever Tier List: Best Classes for PvE, PvP, Leveling', 'Тір-лист WoW Forever: кращі класи для PvE, PvP, прокачування'),
                  t('Тир-лист WoW Forever: лучшие классы и спеки для PvE, PvP и прокачки по бете 30 уровня. Обновим после старта.', 'WoW Forever tier list: best classes and specs for PvE, PvP and leveling from the level 30 beta. Updated after launch.', 'Тір-лист WoW Forever: найкращі класи й спеціалізації для PvE, PvP і прокачування за бетою 30 рівня. Оновимо після старту.')),
     'guides/pvp/': (t('PvP в WoW Forever: звания, Честь, награды и поля боя', 'WoW Forever PvP: Ranks, Honor, Rewards and Battlegrounds', 'PvP у WoW Forever: звання, Честь, нагороди й поля бою'),
                  t('Как устроено PvP в WoW Forever по данным Blizzard: Честь и очки звания, награды званий 1–14, наборы за Честь и Emboldened Seal, сезоны, Darkspear Islands.',
