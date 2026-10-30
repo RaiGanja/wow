@@ -29,7 +29,7 @@ Q = [
     ('ru', 'рога', ['classes/rogue/']), ('ru', 'лок', ['classes/warlock/']), ('ru', 'прист', ['classes/priest/']),
     ('ru', 'хант', ['classes/hunter/']), ('ru', 'шам', ['classes/shaman/']), ('ru', 'вар', ['classes/warrior/']),
     ('ru', 'данжи', ['guides/dungeons/']), ('ru', 'профы', ['guides/professions/']), ('ru', 'тирлист', ['guides/tier-list/']),
-    ('ru', 'sfk', ['guides/dungeons/']), ('en', 'brd', ['guides/dungeons/']), ('de', 'brd', ['guides/dungeons/']),
+    ('ru', 'sfk', ['guides/dungeons/shadowfang-keep/', 'guides/dungeons/']), ('en', 'brd', ['guides/dungeons/']), ('de', 'brd', ['guides/dungeons/']),
     ('en', 'маг', ['classes/mage/']), ('en', 'воин', ['classes/warrior/']), ('en', 'ночной эльф', ['races/night-elf/']),
     ('en', 'pally', ['classes/paladin/']), ('en', 'lock', ['classes/warlock/']), ('en', 'tierlist', ['guides/tier-list/']),
     ('en', 'healer', ['guides/tier-list/', '#classes', 'classes/priest/', 'classes/druid/', 'classes/shaman/', 'classes/paladin/']),
@@ -65,7 +65,7 @@ RAID = ['guides/dungeons/', 'guides/faq/#raids']
 SKY = ['races/skyborne-alliance/', 'races/skyborne-horde/', 'guides/faq/#skyborne']
 HOLD = [
     ('ru', 'жрец', ['classes/priest/']), ('ru', 'паладин танк', ['classes/paladin/']), ('ru', 'варлак', ['classes/warlock/']),
-    ('ru', 'охотнек', ['classes/hunter/']), ('ru', 'shadowfang keep', ['guides/dungeons/']), ('ru', 'крепость темного клыка', ['guides/dungeons/']),
+    ('ru', 'охотнек', ['classes/hunter/']), ('ru', 'shadowfang keep', ['guides/dungeons/shadowfang-keep/', 'guides/dungeons/']), ('ru', 'крепость темного клыка', ['guides/dungeons/shadowfang-keep/', 'guides/dungeons/']),
     ('ru', 'рейд', RAID), ('ru', 'аддоны', ['guides/addons/']), ('ru', 'тир лист', ['guides/tier-list/']),
     ('ru', 'русский язык', ['guides/faq/#language']), ('ru', 'скайборн', SKY), ('ru', 'skyborne', SKY), ('ru', 'hunter', ['classes/hunter/']),
     ('ru', 'undead', ['races/undead/']), ('ru', 'gnome', ['races/gnome/']), ('ru', 'нужна ли подписка', ['guides/faq/#subscription']),
@@ -77,7 +77,7 @@ HOLD = [
     ('en', 'druide', ['classes/druid/']), ('en', 'mage leveling', ['guides/leveling-mage/']), ('en', 'warrior build', ['guides/builds-warrior/']),
     ('en', 'addons', ['guides/addons/']), ('en', 'raid', RAID), ('en', 'subscription', ['guides/faq/#subscription']),
     ('en', 'free trial', ['guides/faq/#trial']), ('en', 'жрец', ['classes/priest/']), ('en', 'orc', ['races/orc/']),
-    ('en', 'undaed', ['races/undead/']), ('en', 'deadmines', ['guides/dungeons/']), ('en', 'skyborne', SKY),
+    ('en', 'undaed', ['races/undead/']), ('en', 'deadmines', ['guides/dungeons/the-deadmines/', 'guides/dungeons/']), ('en', 'skyborne', SKY),
     ('en', 'reserve name', ['guides/faq/#reserve']), ('en', 'tier list', ['guides/tier-list/']), ('en', 'professions', ['guides/professions/']),
     ('en', 'price', PRICE),
     ('uk', 'мисливець', ['classes/hunter/']), ('uk', 'охотник', ['classes/hunter/']), ('uk', 'розбійнік', ['classes/rogue/']),
@@ -124,6 +124,10 @@ NEW = [
 DIR = [  # провалы из проверки директора
     ('ru', 'как прокачать вара', LV('warrior')), ('ru', 'kak prokachat shamana', LV('shaman')),
     ('ru', 'алхемия', ['guides/professions/']), ('ru', 'что такое легаси', ['guides/legacy/']), ('uk', 'прокачка мисливця', LV('hunter')),
+    # PvP (подсказки поиска 29.10: «wow forever pvp», «pvp system», «pvp gear», «pvp ranking»)
+    ('en', 'wow forever pvp', ['guides/pvp/']), ('en', 'pvp gear', ['guides/pvp/']), ('en', 'pvp ranking', ['guides/pvp/']),
+    ('ru', 'пвп', ['guides/pvp/']), ('ru', 'звания pvp', ['guides/pvp/']), ('uk', 'честь pvp', ['guides/pvp/']),
+    ('de', 'pvp ehre', ['guides/pvp/']), ('pl', 'pvp honor', ['guides/pvp/']),
 ]
 # слепой набор: написан после всех правок и замерен один раз, под него не подгонялось
 BLIND = [

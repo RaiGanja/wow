@@ -14,6 +14,7 @@ from html import unescape
 import build
 from build import LANGS, page_dir
 import seo
+from content.dungeon_pages import BY_NAME
 
 HERE = build.HERE
 OUT = os.path.join(HERE, 'assets', 'search')
@@ -91,11 +92,12 @@ def index(lang, meta):
         cr = seo.crumbs(path, lang)
         items += page_entries(html, path, lang, cr[-2][0] if cr else '')
     dg = next(i for i in items if i[3] == 0 and i[2] == page_dir(lang, 'guides/dungeons/'))
+    own = {n: page_dir(lang, f'guides/dungeons/{p["slug"]}/') for n, p in BY_NAME.items()}   # a dungeon with its own page: the result leads there
     for name, en, lv, zone in dungeons(lang):
         keys = ' '.join(filter(None, [en if en != name else '', ru_alias(en) if lang in ('ru', 'uk') else '']))
         if re.search("['’]", name + keys):   # Zul'Farrak -> ZulFarrak: the query without the apostrophe finds it too
             keys = f'{keys} {re.sub("['’]", "", f"{name} {keys}")}'.strip()
-        items.append([name, f'{dg[0]} · {lv} · {zone}', dg[2] + '#list', 3, keys, ''])
+        items.append([name, f'{dg[0]} · {lv} · {zone}', own.get(en, dg[2] + '#list'), 3, keys, ''])
     return items
 
 
@@ -194,7 +196,7 @@ SLANG = {
 }
 # служебные слова: не обязаны совпадать (вопрос «какой класс выбрать» ищет «класс выбрать»)
 STOP = {
-    'ru': 'и в во на с со для по о об от до за из к у как какой какая какое какие каким какую ли есть не что такое такой такая это мне я а но же бы или где когда кто кем чем сколько можно нужно нужен нужна стоит лучше',
+    'ru': 'и в во на с со для по о об от до за из к у как какой какая какое какие каким какую ли есть не что такое такой такая это мне я а но же бы или где когда кто кем чем сколько скока можно нужно нужен нужна стоит лучше',
     'uk': 'і й та в у на з із зі для по про від до за як який яка яке які яким яку чи є не що це таке такий така мені я а але де коли хто ким чим скільки можна треба',
     'en': 'a an the of for to in on and or is are be do does did i my me we you it its what which who when where how should can there with vs',
     'de': 'der die das den dem des ein eine einen und oder ist sind für mit von zu im in am an auf ich du wie was welche welcher welches wann wo gibt es soll kann',
@@ -214,8 +216,9 @@ ASK = {
            ('guides/faq/#raids', ['когда рейд', 'когда откроют рейд']),
            ('guides/faq/#release', ['когда старт', 'когда выйд', 'когда выход', 'когда релиз', 'когда запуск', 'дата выход', 'дата релиз', 'дата старт', 'релиз']),
            ('guides/faq/#trial', ['бесплатн']),
-           ('guides/faq/#price', ['сколько стои', 'цена', 'цены', 'стоимост', 'платн']),
+           ('guides/faq/#price', ['сколько стои', 'скока стои', 'цена', 'цены', 'стоимост', 'платн']),
            ('guides/best-race/', ['лучшая раса', 'лучшую расу', 'какую расу', 'какая раса', 'раса для']),
+           ('guides/pvp/', ['pvp', 'пвп', 'звани', 'очки чести', 'поле боя', 'поля боя', 'хонор']),
            ('guides/leveling/', ['как качат', 'как прокач', 'быстро кач', 'быстро прокач']),
            ('guides/faq/#levels', ['максимальн уров', 'макс уров', 'до какого уровня', 'какой уровень']),
            ('guides/faq/#language', ['русский язык', 'на русском', 'русск локализ', 'русификац', 'есть ли русск']),
@@ -229,6 +232,7 @@ ASK = {
            ('guides/faq/#trial', ['безкоштовн']),
            ('guides/faq/#price', ['скільки кошт', 'ціна', 'ціни', 'вартіст']),
            ('guides/best-race/', ['найкраща раса', 'краща раса', 'яку расу', 'яка раса', 'раса для']),
+           ('guides/pvp/', ['pvp', 'пвп', 'звання', 'очки честі', 'поле бою', 'поля бою', 'хонор']),
            ('guides/leveling/', ['як качат', 'як прокач', 'швидко кач']),
            ('guides/faq/#levels', ['максимальн рів', 'який рівень']),
            ('guides/ukrainian/', ['українськ', 'локалізац', 'переклад гри']),
@@ -241,6 +245,7 @@ ASK = {
            ('guides/faq/#trial', ['free']),
            ('guides/faq/#price', ['how much', 'price', 'cost']),
            ('guides/best-race/', ['best race', 'which race', 'what race', 'race for']),
+           ('guides/pvp/', ['pvp', 'honor', 'honour', 'pvp rank', 'battleground', 'high warlord', 'grand marshal']),
            ('guides/leveling/', ['how level', 'level fast', 'leveling guide']),
            ('guides/faq/#levels', ['level cap', 'max level']),
            ('guides/faq/#servers', ['russian', 'language']),
@@ -253,6 +258,7 @@ ASK = {
            ('guides/faq/#trial', ['kostenlos', 'gratis']),
            ('guides/faq/#price', ['was kostet', 'kosten', 'preis', 'abo']),
            ('guides/best-race/', ['bestes volk', 'beste rasse', 'welches volk', 'welche rasse']),
+           ('guides/pvp/', ['pvp', 'ehre', 'pvp rang', 'schlachtfeld']),
            ('guides/leveling/', ['wie level', 'schnell level']),
            ('guides/faq/#levels', ['maximal level', 'max level', 'levelcap']),
            ('guides/faq/#servers', ['deutsch', 'sprache']),
@@ -265,6 +271,7 @@ ASK = {
            ('guides/faq/#trial', ['gratuit']),
            ('guides/faq/#price', ['prix', 'combien coute', 'cout']),
            ('guides/best-race/', ['meilleure race', 'quelle race']),
+           ('guides/pvp/', ['pvp', 'honneur', 'rang pvp', 'champ de bataille']),
            ('guides/leveling/', ['monter niveau', 'comment level']),
            ('guides/faq/#levels', ['niveau max']),
            ('guides/faq/#servers', ['francais', 'langue']),
@@ -277,6 +284,7 @@ ASK = {
            ('guides/faq/#trial', ['gratis']),
            ('guides/faq/#price', ['precio', 'cuanto cuesta', 'cuesta']),
            ('guides/best-race/', ['mejor raza', 'que raza', 'cual raza']),
+           ('guides/pvp/', ['pvp', 'honor', 'rango pvp', 'campo de batalla']),
            ('guides/leveling/', ['como subir', 'subir rapido']),
            ('guides/faq/#levels', ['nivel max']),
            ('guides/faq/#servers', ['espanol', 'idioma']),
@@ -289,6 +297,7 @@ ASK = {
            ('guides/faq/#trial', ['gratis', 'gratuito']),
            ('guides/faq/#price', ['preco', 'quanto custa', 'custa']),
            ('guides/best-race/', ['melhor raca', 'qual raca']),
+           ('guides/pvp/', ['pvp', 'honra', 'patente pvp', 'campo de batalha']),
            ('guides/leveling/', ['como upar', 'upar rapido']),
            ('guides/faq/#levels', ['nivel max']),
            ('guides/faq/#servers', ['portugues', 'idioma']),
@@ -301,6 +310,7 @@ ASK = {
            ('guides/faq/#trial', ['gratis', 'gratuito']),
            ('guides/faq/#price', ['prezzo', 'quanto costa', 'costa']),
            ('guides/best-race/', ['razza migliore', 'migliore razza', 'quale razza']),
+           ('guides/pvp/', ['pvp', 'onore', 'grado pvp', 'campo di battaglia']),
            ('guides/leveling/', ['come livell']),
            ('guides/faq/#levels', ['livello max']),
            ('guides/faq/#servers', ['italiano', 'lingua']),
@@ -313,6 +323,7 @@ ASK = {
            ('guides/faq/#trial', ['darmow', 'za darmo']),
            ('guides/faq/#price', ['cena', 'ile kosztuje', 'koszt']),
            ('guides/best-race/', ['najlepsza rasa', 'jaka rase', 'jaka rasa']),
+           ('guides/pvp/', ['pvp', 'honor', 'ranga pvp', 'battleground']),
            ('guides/leveling/', ['jak levelowac', 'jak expic']),
            ('guides/faq/#levels', ['maksymaln poziom', 'max poziom']),
            ('guides/faq/#servers', ['polsk', 'jezyk']),

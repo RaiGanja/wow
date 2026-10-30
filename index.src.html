@@ -579,6 +579,7 @@ ul.dlist li.mine { background: var(--seg-on); }
 @media (max-width: 479px) { .spcls { grid-template-columns: minmax(0, 1fr); } .spn { padding-top: 0; } }
 .sbtns { display: flex; flex-wrap: wrap; gap: 10px; }
 .more-l { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-weight: 600; font-size: var(--fs-16); }
+.more-ls { display: flex; flex-wrap: wrap; gap: 0 28px; }
 .gtip { padding: 16px 18px; border-radius: 6px; background: var(--panel-2); }   /* black and grey plates; a tip is the gold word and the fire, not a gold-tinted plate */
 .st-src { color: var(--muted); font-size: var(--fs-14); display: flex; flex-wrap: wrap; gap: 4px 14px; }
 .st-src a { color: var(--muted); }
@@ -1222,7 +1223,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <div class="sec-head"><h2 id="hSpecs">Билды и таланты</h2></div>
   <p class="tp">Выберите класс и спек: у каждого есть шпора — билд, таланты, прокачка и группа на одной странице.</p>
   <div class="spgrid">@@SPECS@@</div>
-  <p><a class="more-l" href="guides/builds/">Билды всех классов<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
+  <p class="more-ls"><a class="more-l" href="guides/builds/">Билды всех классов<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a><a class="more-l" href="talents/">Калькулятор талантов<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
 </section>
 
 <section class="block wrap" id="pickban">
@@ -1636,17 +1637,18 @@ function hashTab() { if (location.hash === '#peoples') { showTab(TABS[1]); docum
 addEventListener('hashchange', hashTab);
 hashTab();
 /* data:start — read by the other builds from this source (dungeons, camp objects); build_home leaves it off the home page */
-/* Dungeons: [name, min, max, entrance zone, new, other sites' ranges where they differ] */
+/* Dungeons: [name, min, max, entrance zone, new, other sites' ranges where they differ, side of the entrance, 1 = the other side can go too].
+   A side alone: the entrance is in that side's capital (Ragefire Chasm, The Stockade). Pages of single dungeons: content/dungeon_pages.py */
 const DUNGEONS = [
   ['Ragefire Chasm', 13, 18, 'Orgrimmar', 0, [], 'horde'],
-  ['Hall of Thanes', 13, 18, 'Ironforge', 1, [['Icy Veins', '13–20']]],
-  ['Ruins of Lordaeron', 15, 20, 'Tirisfal Glades', 1, [['Icy Veins', '15–22']]],
-  ['The Deadmines', 15, 22, 'Westfall', 0, [['Icy Veins', '17–26']]],
-  ['Wailing Caverns', 17, 24, 'The Barrens', 0, [['Icy Veins', '15–24']]],
-  ['Shadowfang Keep', 20, 26, 'Silverpine Forest', 0, [['Icy Veins', '20–30']]],
-  ['Blackfathom Deeps', 22, 28, 'Ashenvale', 0, [['Sportskeeda', '22–26'], ['Icy Veins', '24–32']]],
-  ['Excavation Site: Wetlands', 24, 29, 'Wetlands', 1, [['ClassicWoW.gg', '26–31'], ['Icy Veins', '26–33']]],
-  ['The Stockade', 25, 29, 'Stormwind City', 0, [['Icy Veins', '24–32']], 'alliance'],
+  ['Hall of Thanes', 13, 18, 'Ironforge', 1, [['Method', '13–20']], 'alliance', 1],
+  ['Ruins of Lordaeron', 15, 20, 'Tirisfal Glades', 1, [['Method', '15–22']], 'horde', 1],
+  ['The Deadmines', 15, 22, 'Westfall', 0, [['Method', '17–26'], ['Icy Veins', '17–26']], 'alliance', 1],
+  ['Wailing Caverns', 17, 24, 'The Barrens', 0, [['Method', '15–24'], ['Icy Veins', '15–24']], 'horde', 1],
+  ['Shadowfang Keep', 20, 26, 'Silverpine Forest', 0, [['Method', '20–30'], ['Icy Veins', '20–30']], 'horde', 1],
+  ['Blackfathom Deeps', 22, 28, 'Ashenvale', 0, [['Method', '24–32'], ['Icy Veins', '24–32'], ['Sportskeeda', '22–26']]],
+  ['The Stockade', 25, 29, 'Stormwind City', 0, [['Method', '24–32'], ['Icy Veins', '24–32']], 'alliance'],
+  ['Excavation Site: Wetlands', 26, 31, 'Wetlands', 1, [['Warcraft Tavern', '26–33'], ['Method', '26–33'], ['Icy Veins', '26–33']]],
   ['City of Dalaran', 28, 33, 'Alterac Mountains', 1, [['Icy Veins', '28–35']]],
   ['Gnomeregan', 29, 38, 'Dun Morogh', 0],
   ['Razorfen Kraul', 29, 38, 'The Barrens', 0],

@@ -548,6 +548,7 @@ ul.dlist li.mine { background: var(--seg-on); }
 @media (max-width: 479px) { .spcls { grid-template-columns: minmax(0, 1fr); } .spn { padding-top: 0; } }
 .sbtns { display: flex; flex-wrap: wrap; gap: 10px; }
 .more-l { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-weight: 600; font-size: var(--fs-16); }
+.more-ls { display: flex; flex-wrap: wrap; gap: 0 28px; }
 .gtip { padding: 16px 18px; border-radius: 6px; background: var(--panel-2); }   /* black and grey plates; a tip is the gold word and the fire, not a gold-tinted plate */
 .st-src { color: var(--muted); font-size: var(--fs-14); display: flex; flex-wrap: wrap; gap: 4px 14px; }
 .st-src a { color: var(--muted); }
@@ -1328,6 +1329,11 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .geart tr.cont td.sl { visibility: hidden; }
 .geart td.lv { white-space: nowrap; }
 .geart tr[hidden] { display: none; }
+/* the item icon: one sprite for the section (assets/gear/icons.webp, 36 px cells drawn at 18), a fixed box so nothing moves */
+.geart .gic { display: inline-block; width: 18px; height: 18px; margin: 0 7px -3px 0; border-radius: 3px; vertical-align: baseline;
+  background: #16181c var(--gsp) no-repeat; background-size: calc(var(--n) * 18px) 18px; background-position: calc(var(--i) * -18px) 0;
+  box-shadow: 0 0 0 1px rgba(0,0,0,.35); }
+.geart .gic.no { background-image: none; }
 .geart .iq { text-decoration: none; font-weight: 600; color: var(--fg); }
 .geart .iq:hover { text-decoration: underline; }
 .geart .iq0 { color: var(--q0); } .geart .iq2 { color: var(--q2); } .geart .iq3 { color: var(--q3); } .geart .iq4 { color: var(--q4); } .geart .iq5 { color: var(--q5); }
@@ -1607,9 +1613,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png?v=00a6a7d9">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../assets/radio/radio.css?v=556d7dc63f" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=033649fde9" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/search/search.css?v=902f2d8802" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../assets/me/me.css?v=f19953bd21" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/hero/hero.css?v=ef9324789f" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/hero/hero.css?v=6321409992" media="print" onload="this.media='all'">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -1680,7 +1686,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <div class="wrap">
 <footer id="sources">
   
-  <nav class="fmap" aria-label="Мапа сайту"><div><a class="fh" href="../uk/classes/">Класи</a><ul><li><a href="../uk/classes/warrior/">Воїн</a></li><li><a href="../uk/classes/paladin/">Паладин</a></li><li><a href="../uk/classes/hunter/">Мисливець</a></li><li><a href="../uk/classes/rogue/">Розбійник</a></li><li><a href="../uk/classes/priest/">Жрець</a></li><li><a href="../uk/classes/shaman/">Шаман</a></li><li><a href="../uk/classes/mage/">Маг</a></li><li><a href="../uk/classes/warlock/">Чорнокнижник</a></li><li><a href="../uk/classes/druid/">Друїд</a></li></ul></div><div><a class="fh" href="../uk/races/">Раси</a><ul><li><a href="../uk/races/human/">Людина</a></li><li><a href="../uk/races/dwarf/">Дворф</a></li><li><a href="../uk/races/night-elf/">Нічний ельф</a></li><li><a href="../uk/races/gnome/">Гном</a></li><li><a href="../uk/races/skyborne-alliance/">Високий скайборн</a></li><li><a href="../uk/races/orc/">Орк</a></li><li><a href="../uk/races/undead/">Нежить</a></li><li><a href="../uk/races/tauren/">Таурен</a></li><li><a href="../uk/races/troll/">Троль</a></li><li><a href="../uk/races/skyborne-horde/">Скайборн-вітрорізь</a></li></ul></div><div><a class="fh" href="../uk/guides/">Гайди</a><ul><li><a href="../uk/guides/name-reservation/">Як зарезервувати ім’я у WoW Forever</a></li><li><a href="../uk/guides/launch-checklist/">День 1: чек-лист старту</a></li><li><a href="../uk/guides/launch-day/">День старту: час, черги, статус</a></li><li><a href="../uk/guides/leveling/">Прокачування 1–60</a></li><li><a href="../uk/guides/builds/">Білди й таланти</a></li><li><a href="../uk/guides/best-race/">Найкраща раса для кожного класу</a></li><li><a href="../uk/guides/tier-list/">Тір-лист класів WoW Forever</a></li><li><a href="../uk/guides/legacy/">Система Legacy</a></li><li><a href="../uk/guides/dungeons/">Підземелля та рейди</a></li><li><a href="../uk/guides/professions/">Професії</a></li><li><a href="../uk/guides/addons/">Аддони та інтерфейс</a></li><li><a href="../uk/guides/faq/">FAQ і дати</a></li><li><a href="../uk/guides/glossary/">Словник термінів</a></li><li><a href="../uk/guides/requirements/">Системні вимоги</a></li><li><a href="../uk/guides/news/">Новини</a></li><li><a href="../uk/guides/ukrainian/">Як грати українською</a></li></ul></div><div><a class="fh" href="../uk/tools/">Інструменти</a><ul><li><a href="../uk/tools/">Інструменти</a></li><li><a href="../uk/play/">Другий екран: таймери й підземелля за рівнем</a></li></ul></div></nav><div class="legal"><p>Фанатський сайт Gabella. Сайт не пов’язаний з Blizzard Entertainment і не схвалений нею. World of Warcraft, Warcraft і Blizzard Entertainment — торгові марки або зареєстровані торгові марки Blizzard Entertainment, Inc. у США та/або інших країнах.</p><p>© 2026 Gabella<span aria-hidden="true"> · </span><a href="../uk/privacy/">Конфіденційність</a><span aria-hidden="true"> · </span><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><span aria-hidden="true"> · </span><a href="https://t.me/gabella_wow" target="_blank" rel="noopener">Telegram</a><span aria-hidden="true"> · </span>Зв’язок: <a href="mailto:contact@gabella.site">contact@gabella.site</a></p></div>
+  <nav class="fmap" aria-label="Мапа сайту"><div><a class="fh" href="../uk/classes/">Класи</a><ul><li><a href="../uk/classes/warrior/">Воїн</a></li><li><a href="../uk/classes/paladin/">Паладин</a></li><li><a href="../uk/classes/hunter/">Мисливець</a></li><li><a href="../uk/classes/rogue/">Розбійник</a></li><li><a href="../uk/classes/priest/">Жрець</a></li><li><a href="../uk/classes/shaman/">Шаман</a></li><li><a href="../uk/classes/mage/">Маг</a></li><li><a href="../uk/classes/warlock/">Чорнокнижник</a></li><li><a href="../uk/classes/druid/">Друїд</a></li></ul></div><div><a class="fh" href="../uk/races/">Раси</a><ul><li><a href="../uk/races/human/">Людина</a></li><li><a href="../uk/races/dwarf/">Дворф</a></li><li><a href="../uk/races/night-elf/">Нічний ельф</a></li><li><a href="../uk/races/gnome/">Гном</a></li><li><a href="../uk/races/skyborne-alliance/">Високий скайборн</a></li><li><a href="../uk/races/orc/">Орк</a></li><li><a href="../uk/races/undead/">Нежить</a></li><li><a href="../uk/races/tauren/">Таурен</a></li><li><a href="../uk/races/troll/">Троль</a></li><li><a href="../uk/races/skyborne-horde/">Скайборн-вітрорізь</a></li></ul></div><div><a class="fh" href="../uk/guides/">Гайди</a><ul><li><a href="../uk/guides/name-reservation/">Як зарезервувати ім’я у WoW Forever</a></li><li><a href="../uk/guides/launch-checklist/">День 1: чек-лист старту</a></li><li><a href="../uk/guides/launch-day/">День старту: час, черги, статус</a></li><li><a href="../uk/guides/leveling/">Прокачування 1–60</a></li><li><a href="../uk/guides/builds/">Білди й таланти</a></li><li><a href="../uk/guides/best-race/">Найкраща раса для кожного класу</a></li><li><a href="../uk/guides/tier-list/">Тір-лист класів WoW Forever</a></li><li><a href="../uk/guides/pvp/">PvP у WoW Forever</a></li><li><a href="../uk/guides/legacy/">Система Legacy</a></li><li><a href="../uk/guides/dungeons/">Підземелля та рейди</a></li><li><a href="../uk/guides/professions/">Професії</a></li><li><a href="../uk/guides/addons/">Аддони та інтерфейс</a></li><li><a href="../uk/guides/faq/">FAQ і дати</a></li><li><a href="../uk/guides/glossary/">Словник термінів</a></li><li><a href="../uk/guides/requirements/">Системні вимоги</a></li><li><a href="../uk/guides/news/">Новини</a></li><li><a href="../uk/guides/ukrainian/">Як грати українською</a></li></ul></div><div><a class="fh" href="../uk/tools/">Інструменти</a><ul><li><a href="../uk/tools/">Інструменти</a></li><li><a href="../uk/play/">Другий екран: таймери й підземелля за рівнем</a></li></ul></div></nav><div class="legal"><p>Фанатський сайт Gabella. Сайт не пов’язаний з Blizzard Entertainment і не схвалений нею. World of Warcraft, Warcraft і Blizzard Entertainment — торгові марки або зареєстровані торгові марки Blizzard Entertainment, Inc. у США та/або інших країнах.</p><p>© 2026 Gabella<span aria-hidden="true"> · </span><a href="../uk/privacy/">Конфіденційність</a><span aria-hidden="true"> · </span><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><span aria-hidden="true"> · </span><a href="https://t.me/gabella_wow" target="_blank" rel="noopener">Telegram</a><span aria-hidden="true"> · </span>Зв’язок: <a href="mailto:contact@gabella.site">contact@gabella.site</a></p></div>
 </footer>
 </div>
 
@@ -1696,8 +1702,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <div class="dh"><b>Усі розділи</b><button class="iconbtn" id="moreClose" type="button" aria-label="Закрити"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Усі розділи">
     
-    <div class="grp"><div class="gh">Довідник</div><a class="tbd" data-tl href="./guides/builds/">Білди й таланти</a><a href="./guides/tier-list/">Тір-лист</a><a href="./guides/legacy/">Legacy</a><a class="tbd" href="./classes/">Класи</a><a href="./classes/#choose">Який клас обрати</a><a href="./races/">Раси</a><a class="tbd" href="./guides/leveling/">Прокачування 1–60</a><a href="./guides/dungeons/">Підземелля та рейди</a><a href="./guides/professions/">Професії</a><a href="./guides/server-status/">Статус серверів</a><a href="./guides/name-reservation/">Резерв імен</a><a href="./guides/faq/">FAQ і дати</a><a href="./guides/news/">Новини</a><a href="./guides/">Усі статті</a></div>
-    <div class="grp"><div class="gh">Інструменти</div><a href="./character/">Мій персонаж</a><a href="./tools/#picker">Раса і клас</a><a href="./tools/#raid">Склад групи та LFG</a><a href="./play/">Другий екран</a></div>
+    <div class="grp"><div class="gh">Довідник</div><a class="tbd" data-tl href="./guides/builds/">Білди й таланти</a><a href="./guides/tier-list/">Тір-лист</a><a href="./guides/legacy/">Legacy</a><a href="./guides/pvp/">PvP</a><a class="tbd" href="./classes/">Класи</a><a href="./classes/#choose">Який клас обрати</a><a href="./races/">Раси</a><a class="tbd" href="./guides/leveling/">Прокачування 1–60</a><a href="./guides/dungeons/">Підземелля та рейди</a><a href="./guides/professions/">Професії</a><a href="./guides/server-status/">Статус серверів</a><a href="./guides/name-reservation/">Резерв імен</a><a href="./guides/faq/">FAQ і дати</a><a href="./guides/news/">Новини</a><a href="./guides/">Усі статті</a></div>
+    <div class="grp"><div class="gh">Інструменти</div><a href="./talents/">Калькулятор талантів</a><a href="./character/">Мій персонаж</a><a href="./tools/#picker">Раса і клас</a><a href="./tools/#raid">Склад групи та LFG</a><a href="./play/">Другий екран</a></div>
     <div class="grp"><div class="gh">Спільнота</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="./profile/">Мій профіль</a></div>
   </nav>
   <div class="opts">
@@ -1831,8 +1837,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../assets/radio/radio.js?v=556d7dc63f" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=033649fde9" data-root="../" defer></script>
+<script src="../assets/search/search.js?v=902f2d8802" data-root="../" defer></script>
 <script src="../assets/me/me.js?v=f19953bd21" data-root="../" data-home="./" data-lang="uk" data-ach="0" data-teaser="" data-close="Закрити" data-page="404" data-look="2" defer></script>
-<script src="../assets/hero/hero.js?v=ef9324789f" data-root="../" data-home="./" data-data="../assets/hero/uk.json?v=ef9324789f" defer></script>
+<script src="../assets/hero/hero.js?v=6321409992" data-root="../" data-home="./" data-data="../assets/hero/uk.json?v=6321409992" defer></script>
 </body>
 </html>

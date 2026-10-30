@@ -244,6 +244,11 @@
 .geart tr.cont td.sl { visibility: hidden; }
 .geart td.lv { white-space: nowrap; }
 .geart tr[hidden] { display: none; }
+/* the item icon: one sprite for the section (assets/gear/icons.webp, 36 px cells drawn at 18), a fixed box so nothing moves */
+.geart .gic { display: inline-block; width: 18px; height: 18px; margin: 0 7px -3px 0; border-radius: 3px; vertical-align: baseline;
+  background: #16181c var(--gsp) no-repeat; background-size: calc(var(--n) * 18px) 18px; background-position: calc(var(--i) * -18px) 0;
+  box-shadow: 0 0 0 1px rgba(0,0,0,.35); }
+.geart .gic.no { background-image: none; }
 .geart .iq { text-decoration: none; font-weight: 600; color: var(--fg); }
 .geart .iq:hover { text-decoration: underline; }
 .geart .iq0 { color: var(--q0); } .geart .iq2 { color: var(--q2); } .geart .iq3 { color: var(--q3); } .geart .iq4 { color: var(--q4); } .geart .iq5 { color: var(--q5); }

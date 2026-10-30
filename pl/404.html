@@ -548,6 +548,7 @@ ul.dlist li.mine { background: var(--seg-on); }
 @media (max-width: 479px) { .spcls { grid-template-columns: minmax(0, 1fr); } .spn { padding-top: 0; } }
 .sbtns { display: flex; flex-wrap: wrap; gap: 10px; }
 .more-l { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-weight: 600; font-size: var(--fs-16); }
+.more-ls { display: flex; flex-wrap: wrap; gap: 0 28px; }
 .gtip { padding: 16px 18px; border-radius: 6px; background: var(--panel-2); }   /* black and grey plates; a tip is the gold word and the fire, not a gold-tinted plate */
 .st-src { color: var(--muted); font-size: var(--fs-14); display: flex; flex-wrap: wrap; gap: 4px 14px; }
 .st-src a { color: var(--muted); }
@@ -1328,6 +1329,11 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .geart tr.cont td.sl { visibility: hidden; }
 .geart td.lv { white-space: nowrap; }
 .geart tr[hidden] { display: none; }
+/* the item icon: one sprite for the section (assets/gear/icons.webp, 36 px cells drawn at 18), a fixed box so nothing moves */
+.geart .gic { display: inline-block; width: 18px; height: 18px; margin: 0 7px -3px 0; border-radius: 3px; vertical-align: baseline;
+  background: #16181c var(--gsp) no-repeat; background-size: calc(var(--n) * 18px) 18px; background-position: calc(var(--i) * -18px) 0;
+  box-shadow: 0 0 0 1px rgba(0,0,0,.35); }
+.geart .gic.no { background-image: none; }
 .geart .iq { text-decoration: none; font-weight: 600; color: var(--fg); }
 .geart .iq:hover { text-decoration: underline; }
 .geart .iq0 { color: var(--q0); } .geart .iq2 { color: var(--q2); } .geart .iq3 { color: var(--q3); } .geart .iq4 { color: var(--q4); } .geart .iq5 { color: var(--q5); }
@@ -1607,9 +1613,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png?v=00a6a7d9">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../assets/radio/radio.css?v=556d7dc63f" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=033649fde9" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/search/search.css?v=902f2d8802" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../assets/me/me.css?v=f19953bd21" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/hero/hero.css?v=ef9324789f" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/hero/hero.css?v=6321409992" media="print" onload="this.media='all'">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -1680,7 +1686,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <div class="wrap">
 <footer id="sources">
   
-  <nav class="fmap" aria-label="Mapa strony"><div><a class="fh" href="../pl/classes/">Klasy</a><ul><li><a href="../pl/classes/warrior/">Warrior</a></li><li><a href="../pl/classes/paladin/">Paladin</a></li><li><a href="../pl/classes/hunter/">Hunter</a></li><li><a href="../pl/classes/rogue/">Rogue</a></li><li><a href="../pl/classes/priest/">Priest</a></li><li><a href="../pl/classes/shaman/">Shaman</a></li><li><a href="../pl/classes/mage/">Mage</a></li><li><a href="../pl/classes/warlock/">Warlock</a></li><li><a href="../pl/classes/druid/">Druid</a></li></ul></div><div><a class="fh" href="../pl/races/">Rasy</a><ul><li><a href="../pl/races/human/">Human</a></li><li><a href="../pl/races/dwarf/">Dwarf</a></li><li><a href="../pl/races/night-elf/">Night Elf</a></li><li><a href="../pl/races/gnome/">Gnome</a></li><li><a href="../pl/races/skyborne-alliance/">High Order Skyborne</a></li><li><a href="../pl/races/orc/">Orc</a></li><li><a href="../pl/races/undead/">Undead</a></li><li><a href="../pl/races/tauren/">Tauren</a></li><li><a href="../pl/races/troll/">Troll</a></li><li><a href="../pl/races/skyborne-horde/">Windshaper Skyborne</a></li></ul></div><div><a class="fh" href="../pl/guides/">Poradniki</a><ul><li><a href="../pl/guides/name-reservation/">Jak zarezerwować nick w WoW Forever</a></li><li><a href="../pl/guides/launch-checklist/">Dzień 1: checklista na start</a></li><li><a href="../pl/guides/launch-day/">Dzień premiery: godzina, kolejki, status</a></li><li><a href="../pl/guides/leveling/">Levelowanie 1–60</a></li><li><a href="../pl/guides/builds/">Buildy i talenty</a></li><li><a href="../pl/guides/best-race/">Najlepsza rasa dla każdej klasy</a></li><li><a href="../pl/guides/tier-list/">Tier list klas WoW Forever</a></li><li><a href="../pl/guides/legacy/">System Legacy</a></li><li><a href="../pl/guides/dungeons/">Dungeony i raidy</a></li><li><a href="../pl/guides/professions/">Profesje</a></li><li><a href="../pl/guides/addons/">Addony i interfejs</a></li><li><a href="../pl/guides/faq/">FAQ i daty</a></li><li><a href="../pl/guides/glossary/">Słowniczek</a></li><li><a href="../pl/guides/requirements/">Wymagania sprzętowe</a></li><li><a href="../pl/guides/news/">Newsy</a></li></ul></div><div><a class="fh" href="../pl/tools/">Narzędzia</a><ul><li><a href="../pl/tools/">Narzędzia</a></li><li><a href="../pl/play/">Drugi ekran: liczniki i lochy na twój poziom</a></li></ul></div></nav><div class="legal"><p>Fanowska strona Gabella. Niepowiązana z Blizzard Entertainment ani przez nią niepopierana. World of Warcraft, Warcraft i Blizzard Entertainment są znakami towarowymi lub zastrzeżonymi znakami towarowymi Blizzard Entertainment, Inc. w USA i/lub innych krajach.</p><p>© 2026 Gabella<span aria-hidden="true"> · </span><a href="../pl/privacy/">Prywatność</a><span aria-hidden="true"> · </span><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><span aria-hidden="true"> · </span><a href="https://t.me/gabella_wow" target="_blank" rel="noopener">Telegram</a><span aria-hidden="true"> · </span>Kontakt: <a href="mailto:contact@gabella.site">contact@gabella.site</a></p></div>
+  <nav class="fmap" aria-label="Mapa strony"><div><a class="fh" href="../pl/classes/">Klasy</a><ul><li><a href="../pl/classes/warrior/">Warrior</a></li><li><a href="../pl/classes/paladin/">Paladin</a></li><li><a href="../pl/classes/hunter/">Hunter</a></li><li><a href="../pl/classes/rogue/">Rogue</a></li><li><a href="../pl/classes/priest/">Priest</a></li><li><a href="../pl/classes/shaman/">Shaman</a></li><li><a href="../pl/classes/mage/">Mage</a></li><li><a href="../pl/classes/warlock/">Warlock</a></li><li><a href="../pl/classes/druid/">Druid</a></li></ul></div><div><a class="fh" href="../pl/races/">Rasy</a><ul><li><a href="../pl/races/human/">Human</a></li><li><a href="../pl/races/dwarf/">Dwarf</a></li><li><a href="../pl/races/night-elf/">Night Elf</a></li><li><a href="../pl/races/gnome/">Gnome</a></li><li><a href="../pl/races/skyborne-alliance/">High Order Skyborne</a></li><li><a href="../pl/races/orc/">Orc</a></li><li><a href="../pl/races/undead/">Undead</a></li><li><a href="../pl/races/tauren/">Tauren</a></li><li><a href="../pl/races/troll/">Troll</a></li><li><a href="../pl/races/skyborne-horde/">Windshaper Skyborne</a></li></ul></div><div><a class="fh" href="../pl/guides/">Poradniki</a><ul><li><a href="../pl/guides/name-reservation/">Jak zarezerwować nick w WoW Forever</a></li><li><a href="../pl/guides/launch-checklist/">Dzień 1: checklista na start</a></li><li><a href="../pl/guides/launch-day/">Dzień premiery: godzina, kolejki, status</a></li><li><a href="../pl/guides/leveling/">Levelowanie 1–60</a></li><li><a href="../pl/guides/builds/">Buildy i talenty</a></li><li><a href="../pl/guides/best-race/">Najlepsza rasa dla każdej klasy</a></li><li><a href="../pl/guides/tier-list/">Tier list klas WoW Forever</a></li><li><a href="../pl/guides/pvp/">PvP w WoW Forever</a></li><li><a href="../pl/guides/legacy/">System Legacy</a></li><li><a href="../pl/guides/dungeons/">Dungeony i raidy</a></li><li><a href="../pl/guides/professions/">Profesje</a></li><li><a href="../pl/guides/addons/">Addony i interfejs</a></li><li><a href="../pl/guides/faq/">FAQ i daty</a></li><li><a href="../pl/guides/glossary/">Słowniczek</a></li><li><a href="../pl/guides/requirements/">Wymagania sprzętowe</a></li><li><a href="../pl/guides/news/">Newsy</a></li></ul></div><div><a class="fh" href="../pl/tools/">Narzędzia</a><ul><li><a href="../pl/tools/">Narzędzia</a></li><li><a href="../pl/play/">Drugi ekran: liczniki i lochy na twój poziom</a></li></ul></div></nav><div class="legal"><p>Fanowska strona Gabella. Niepowiązana z Blizzard Entertainment ani przez nią niepopierana. World of Warcraft, Warcraft i Blizzard Entertainment są znakami towarowymi lub zastrzeżonymi znakami towarowymi Blizzard Entertainment, Inc. w USA i/lub innych krajach.</p><p>© 2026 Gabella<span aria-hidden="true"> · </span><a href="../pl/privacy/">Prywatność</a><span aria-hidden="true"> · </span><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><span aria-hidden="true"> · </span><a href="https://t.me/gabella_wow" target="_blank" rel="noopener">Telegram</a><span aria-hidden="true"> · </span>Kontakt: <a href="mailto:contact@gabella.site">contact@gabella.site</a></p></div>
 </footer>
 </div>
 
@@ -1696,8 +1702,8 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   <div class="dh"><b>Wszystkie sekcje</b><button class="iconbtn" id="moreClose" type="button" aria-label="Zamknij"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <nav class="toc" aria-label="Wszystkie sekcje">
     
-    <div class="grp"><div class="gh">Poradnik</div><a class="tbd" data-tl href="./guides/builds/">Buildy i talenty</a><a href="./guides/tier-list/">Tier lista</a><a href="./guides/legacy/">Legacy</a><a class="tbd" href="./classes/">Klasy</a><a href="./classes/#choose">Jaką klasę wybrać</a><a href="./races/">Rasy</a><a class="tbd" href="./guides/leveling/">Levelowanie 1–60</a><a href="./guides/dungeons/">Dungeony i raidy</a><a href="./guides/professions/">Profesje</a><a href="./guides/server-status/">Status serwerów</a><a href="./guides/name-reservation/">Rezerwacja nicków</a><a href="./guides/faq/">FAQ i daty</a><a href="./guides/news/">Newsy</a><a href="./guides/">Wszystkie artykuły</a></div>
-    <div class="grp"><div class="gh">Narzędzia</div><a href="./character/">Moja postać</a><a href="./tools/#picker">Rasa i klasa</a><a href="./tools/#raid">Skład grupy i LFG</a><a href="./play/">Drugi ekran</a></div>
+    <div class="grp"><div class="gh">Poradnik</div><a class="tbd" data-tl href="./guides/builds/">Buildy i talenty</a><a href="./guides/tier-list/">Tier lista</a><a href="./guides/legacy/">Legacy</a><a href="./guides/pvp/">PvP</a><a class="tbd" href="./classes/">Klasy</a><a href="./classes/#choose">Jaką klasę wybrać</a><a href="./races/">Rasy</a><a class="tbd" href="./guides/leveling/">Levelowanie 1–60</a><a href="./guides/dungeons/">Dungeony i raidy</a><a href="./guides/professions/">Profesje</a><a href="./guides/server-status/">Status serwerów</a><a href="./guides/name-reservation/">Rezerwacja nicków</a><a href="./guides/faq/">FAQ i daty</a><a href="./guides/news/">Newsy</a><a href="./guides/">Wszystkie artykuły</a></div>
+    <div class="grp"><div class="gh">Narzędzia</div><a href="./talents/">Kalkulator talentów</a><a href="./character/">Moja postać</a><a href="./tools/#picker">Rasa i klasa</a><a href="./tools/#raid">Skład grupy i LFG</a><a href="./play/">Drugi ekran</a></div>
     <div class="grp"><div class="gh">Społeczność</div><a href="https://discord.gg/ZGpznkX3Zw" target="_blank" rel="noopener">Discord</a><a href="./profile/">Mój profil</a></div>
   </nav>
   <div class="opts">
@@ -1831,8 +1837,8 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../assets/radio/radio.js?v=556d7dc63f" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=033649fde9" data-root="../" defer></script>
+<script src="../assets/search/search.js?v=902f2d8802" data-root="../" defer></script>
 <script src="../assets/me/me.js?v=f19953bd21" data-root="../" data-home="./" data-lang="pl" data-ach="0" data-teaser="" data-close="Zamknij" data-page="404" data-look="2" defer></script>
-<script src="../assets/hero/hero.js?v=ef9324789f" data-root="../" data-home="./" data-data="../assets/hero/pl.json?v=ef9324789f" defer></script>
+<script src="../assets/hero/hero.js?v=6321409992" data-root="../" data-home="./" data-data="../assets/hero/pl.json?v=6321409992" defer></script>
 </body>
 </html>

@@ -32,7 +32,7 @@ NEWS = []     # записи «Новостей», шаблон и порядо�
 NEWS_SO = t('Для игрока', 'For you', 'Для гравця')   # подпись строки 'so'
 from build import DISCORD_AT  # noqa: E402  (у каждого места ссылки своё приглашение)
 
-ORDER = ['name-reservation', 'launch-checklist', 'launch-day', 'leveling', 'leveling-warrior', 'leveling-paladin', 'leveling-hunter', 'leveling-rogue', 'leveling-priest', 'leveling-shaman', 'leveling-mage', 'leveling-warlock', 'leveling-druid', 'builds', 'builds-warrior', 'builds-paladin', 'builds-hunter', 'builds-rogue', 'builds-priest', 'builds-shaman', 'builds-mage', 'builds-warlock', 'builds-druid', 'spec-hunter-beast-mastery', 'spec-mage-frost', 'spec-paladin-protection', 'spec-priest-discipline', 'best-race', 'tier-list', 'legacy', 'dungeons', 'professions', 'addons', 'faq', 'glossary', 'requirements', 'server-status', 'news', 'ukrainian']   # порядок плиток на хабе и в «Другие гайды»
+ORDER = ['name-reservation', 'launch-checklist', 'launch-day', 'leveling', 'leveling-warrior', 'leveling-paladin', 'leveling-hunter', 'leveling-rogue', 'leveling-priest', 'leveling-shaman', 'leveling-mage', 'leveling-warlock', 'leveling-druid', 'builds', 'builds-warrior', 'builds-paladin', 'builds-hunter', 'builds-rogue', 'builds-priest', 'builds-shaman', 'builds-mage', 'builds-warlock', 'builds-druid', 'spec-hunter-beast-mastery', 'spec-mage-frost', 'spec-paladin-protection', 'spec-priest-discipline', 'best-race', 'tier-list', 'pvp', 'legacy', 'dungeons', 'professions', 'addons', 'faq', 'glossary', 'requirements', 'server-status', 'news', 'ukrainian']   # порядок плиток на хабе и в «Другие гайды»
 
 
 # ---------- FAQ: даты и наборы, режимы, имена, отличия от Era (переехали с главной) + частые вопросы ----------
@@ -468,9 +468,9 @@ GUIDES.append({
     ],
     'sections': [
         {'id': 'list', 'title': t('Подземелья по уровням', 'Dungeons by level', 'Підземелля за рівнями'), 'blocks': [
-            ('text', [t('Все 35 подземелий, из них 9 новых. Уровни по Warcraft Tavern, Sportskeeda даёт те же. Где другие сайты называют иной диапазон, он подписан мелко. Жёстких ограничений по уровню Blizzard не публиковала.',
-                        'All 35 dungeons, 9 of them new. Levels are from Warcraft Tavern, Sportskeeda gives the same. Where other sites list a different range, it is shown in small print. Blizzard has not published hard level limits.',
-                        'Усі 35 підземель, з них 9 нових. Рівні за Warcraft Tavern, Sportskeeda дає ті самі. Де інші сайти називають інший діапазон, він підписаний дрібно. Жорстких обмежень за рівнем Blizzard не публікувала.')]),
+            ('text', [t('Все 35 подземелий, из них 9 новых. Уровни по Warcraft Tavern, Sportskeeda даёт те же; у Excavation Site: Wetlands — по заметкам беты Blizzard. Где другие сайты называют иной диапазон, он подписан мелко. Жёстких ограничений по уровню Blizzard не публиковала.',
+                        'All 35 dungeons, 9 of them new. Levels are from Warcraft Tavern, Sportskeeda gives the same; for Excavation Site: Wetlands, from the Blizzard beta notes. Where other sites list a different range, it is shown in small print. Blizzard has not published hard level limits.',
+                        'Усі 35 підземель, з них 9 нових. Рівні за Warcraft Tavern, Sportskeeda дає ті самі; у Excavation Site: Wetlands — за нотатками бети Blizzard. Де інші сайти називають інший діапазон, він підписаний дрібно. Жорстких обмежень за рівнем Blizzard не публікувала.')]),
             ('raw', _dg_filter()),
             ('text', [t('Основной опыт за подземелье дают его цепочки заданий, повторные заходы приносят заметно меньше. Любая выпавшая вещь открывает свой облик всем в группе, кто может её надеть. Ещё по два подземелья Blizzard обещает весной и летом.',
                         'Most dungeon experience comes from its quest chains, repeat runs give noticeably less. Every item that drops unlocks its appearance for everyone in the group who can wear it. Blizzard promises two more dungeons in spring and two in summer.',
@@ -493,6 +493,9 @@ GUIDES.append({
                  'd': t('Звания с недельным лимитом, улучшение экипировки за Честь, сезонные цели Legacy.', 'Ranks with a weekly limit, gear upgrades for Honor, seasonal Legacy goals.',
                         'Звання з тижневим лімітом, покращення екіпірування за Честь, сезонні цілі Legacy.')},
             ]),
+            ('raw', t('<p><a class="more-l" href="../pvp/">PvP в WoW Forever: звания, награды и поля боя</a></p>',
+                      '<p><a class="more-l" href="../pvp/">PvP in WoW Forever: ranks, rewards and battlegrounds</a></p>',
+                      '<p><a class="more-l" href="../pvp/">PvP у WoW Forever: звання, нагороди й поля бою</a></p>')),
         ]},
         {'id': 'group', 'title': t('Состав группы', 'Group composition', 'Склад групи'), 'blocks': [
             ('steps', [
@@ -1115,6 +1118,22 @@ GUIDES.append({
 NR_URL = 'https://news.blizzard.com/en-us/article/24303866/claim-your-world-of-warcraft-forever-character-names'   # name reservation 27.10 – 03.11
 
 NEWS += [
+    {'date': '2026-10-29', 'url': 'https://worldofwarcraft.blizzard.com/en-us/news/24315820/world-of-warcraft-forever-goes-live-globally-november-4',
+     'title': t('WoW Forever выходит по всему миру в ноябре', 'WoW Forever goes live globally in November', 'WoW Forever виходить по всьому світу в листопаді'),
+     'text': t('Blizzard объявила, что World of Warcraft: Forever запускается по всему миру в ноябре. В анонсе перечислено главное: более тысячи новых заданий на пути с уровня 1 до 60, новые и переработанные зоны (Mount Hyjal, Shen\'dralas, Riverglades, Zephras Isle), новая раса Skyborne: Windshapers Орды могут стать Shaman, High-Order Skyborne Альянса — Mage, девять новых подземелий на пять игроков для уровней 13–60, система Legacy, поле боя Darkspear Islands (15 на 15) и четыре режима. 9 декабря игроки 60-го уровня смогут войти в три рейда: Barrow Deeps, Hyjal Summit и Onyxia\'s Lair.',
+               'Blizzard announced that World of Warcraft: Forever goes live globally in November. The announcement recaps the essentials: more than a thousand new quests across the level 1–60 journey, new and reimagined zones (Mount Hyjal, Shen\'dralas, the Riverglades, Zephras Isle), the new Skyborne race: Horde Windshapers can become Shaman, Alliance High-Order Skyborne can become Mages, nine new five-player dungeons for levels 13–60, the Legacy System, the Darkspear Islands battleground (15 versus 15) and four rulesets. On December 9, level 60 players can enter three raids: Barrow Deeps, Hyjal Summit and Onyxia\'s Lair.',
+               'Blizzard оголосила, що World of Warcraft: Forever запускається по всьому світу в листопаді. В анонсі перелічено головне: понад тисячу нових завдань на шляху з рівня 1 до 60, нові та перероблені зони (Mount Hyjal, Shen\'dralas, Riverglades, Zephras Isle), нова раса Skyborne: Windshapers Орди можуть стати Shaman, High-Order Skyborne Альянсу — Mage, дев\'ять нових підземель на п\'ятьох гравців для рівнів 13–60, система Legacy, поле бою Darkspear Islands (15 на 15) і чотири режими. 9 грудня гравці 60-го рівня зможуть увійти до трьох рейдів: Barrow Deeps, Hyjal Summit та Onyxia\'s Lair.'),
+     'so': t('Подробности — в наших гидах и в статье Blizzard.',
+             'Details are in our guides and the Blizzard article.',
+             'Подробиці — в наших гідах і в статті Blizzard.')},
+    {'date': '2026-10-29', 'url': 'https://worldofwarcraft.blizzard.com/en-us/news/24315643/return-to-azeroth-in-world-of-warcraft-forever',
+     'title': t('Blizzard подвела итоги WoW Forever перед запуском', 'Blizzard sums up WoW Forever ahead of launch', 'Blizzard підсумувала WoW Forever перед запуском'),
+     'text': t('В статье Return to Azeroth Blizzard собрала главное о WoW Forever. Игра начинается в раннем «Year 1» оригинального World of Warcraft и расширяет мир уровней 1–60 новыми и переработанными зонами (Mount Hyjal, Shen\'dralas, Riverglades, Zephras Isle). Девять новых подземелий на пять игроков охватывают уровни 13–60. Новая раса Skyborne доступна и Альянсу, и Орде, стартует на Zephras Isle (уровни 1–12) и требует Heroic Pack или выше. Также упомянуты аккаунтная система Legacy, поле боя Darkspear Islands (15 на 15, уровни 30–60) и четыре режима при запуске (Normal, PvP, Roleplay, Roleplay-PvP); Hardcore появится позже.',
+               'In Return to Azeroth Blizzard gathers the key points about WoW Forever. The game begins in the early "Year 1" period of original World of Warcraft and expands the level 1–60 world with new and reimagined zones (Mount Hyjal, Shen\'dralas, the Riverglades, Zephras Isle). Nine new five-player dungeons span levels 13–60. The new Skyborne race can join either the Alliance or the Horde, starts on Zephras Isle (levels 1–12) and requires the Heroic Pack or higher. The article also covers the account-wide Legacy System, the Darkspear Islands battleground (15 versus 15, levels 30–60) and four rulesets at launch (Normal, PvP, Roleplay, Roleplay-PvP); Hardcore comes later.',
+               'У статті Return to Azeroth Blizzard зібрала головне про WoW Forever. Гра починається в ранньому «Year 1» оригінального World of Warcraft і розширює світ рівнів 1–60 новими та переробленими зонами (Mount Hyjal, Shen\'dralas, Riverglades, Zephras Isle). Дев\'ять нових підземель на п\'ятьох гравців охоплюють рівні 13–60. Нова раса Skyborne доступна і Альянсу, і Орді, стартує на Zephras Isle (рівні 1–12) і потребує Heroic Pack або вище. Також згадано акаунтну систему Legacy, поле бою Darkspear Islands (15 на 15, рівні 30–60) і чотири режими на запуску (Normal, PvP, Roleplay, Roleplay-PvP); Hardcore з\'явиться пізніше.'),
+     'so': t('Подробности — в наших гидах и в статье Blizzard.',
+             'Details are in our guides and the Blizzard article.',
+             'Подробиці — в наших гідах і в статті Blizzard.')},
     {'date': '2026-10-22', 'url': 'https://worldofwarcraft.blizzard.com/en-us/news/24302070/choose-your-ruleset-in-world-of-warcraft-forever',
      'title': t('Blizzard описала четыре режима', 'Blizzard describes the four rulesets', 'Blizzard описала чотири режими'),
      'text': t('В статье Choose Your Ruleset Blizzard описывает четыре режима. Normal: приключения и бои с монстрами, бои с другими игроками по вашему желанию. PvP: упор на бои игрок против игрока, почти всегда есть риск нападения вражеских игроков. Roleplay: строгие правила имён и поведения для игроков, которые хотят погрузиться в роль персонажа. Roleplay PvP: те же правила с упором на бои игрок против игрока.',
@@ -1125,9 +1144,9 @@ NEWS += [
              'Повні правила кожного режиму — у статті Blizzard.')},
     {'date': '2026-10-28', 'url': 'https://worldofwarcraft.blizzard.com/en-us/news/24315280/new-players-starter-guide-welcome-to-world-of-warcraft-forever',
      'title': t('Стартовый гид Blizzard для новых игроков WoW Forever', 'New player\'s starter guide for WoW Forever', 'Стартовий гід Blizzard для нових гравців WoW Forever'),
-     'text': t('Blizzard опубликовала стартовый гид для новых игроков WoW Forever. В нём: выбор режима (Ruleset) до создания персонажа (при запуске Normal, PvP, Roleplay и Roleplay-PvP, Hardcore позже), правило, что группы, гильдии, подземелья и рейды доступны только игрокам с тем же режимом и фракцией, система из двух имён, сбор ресурсов, ремёсла и вторичные профессии, а также что делать после смерти. Подробности и сроки Hardcore пока не объявлены.',
-               'Blizzard published a starter guide for new WoW Forever players. It covers the choice of Ruleset before character creation (Normal, PvP, Roleplay and Roleplay-PvP at launch, Hardcore later), the rule that grouping, guilds, dungeons and raids work only with players of the same Ruleset and faction, the two-name system, gathering, crafting and secondary professions, and what to do after death. Hardcore details and timing are not yet announced.',
-               'Blizzard опублікувала стартовий гід для нових гравців WoW Forever. У ньому: вибір режиму (Ruleset) до створення персонажа (на запуску Normal, PvP, Roleplay і Roleplay-PvP, Hardcore пізніше), правило, що групи, гільдії, підземелля та рейди доступні лише гравцям із тим самим режимом і фракцією, система з двох імен, збір ресурсів, ремесла та другорядні професії, а також що робити після смерті. Подробиці й терміни Hardcore поки не оголошено.'),
+     'text': t('Blizzard опубликовала стартовый гид для новых игроков WoW Forever. В нём: выбор режима (Ruleset) до создания персонажа (при запуске Normal, PvP, Roleplay и Roleplay-PvP, Hardcore позже), правило, что группы, гильдии, подземелья и рейды доступны только игрокам с тем же режимом и фракцией, система из двух имён, сбор ресурсов, ремёсла и вторичные профессии, а также что делать после смерти. Подробности и сроки Hardcore пока не объявлены. Roleplay-PvP: строгие правила имён и поведения для тех, кто хочет погрузиться в роль персонажа в фэнтезийном мире с упором на бои игрок против игрока; нападения вражеских персонажей почти всегда возможны.',
+               'Blizzard published a starter guide for new WoW Forever players. It covers the choice of Ruleset before character creation (Normal, PvP, Roleplay and Roleplay-PvP at launch, Hardcore later), the rule that grouping, guilds, dungeons and raids work only with players of the same Ruleset and faction, the two-name system, gathering, crafting and secondary professions, and what to do after death. Hardcore details and timing are not yet announced. Roleplay-PvP has strict naming conventions and behavior rules for players who want to immerse themselves as a character in a fantasy world focused on player versus player combat; you are almost always at risk of being attacked by opposing characters.',
+               'Blizzard опублікувала стартовий гід для нових гравців WoW Forever. У ньому: вибір режиму (Ruleset) до створення персонажа (на запуску Normal, PvP, Roleplay і Roleplay-PvP, Hardcore пізніше), правило, що групи, гільдії, підземелля та рейди доступні лише гравцям із тим самим режимом і фракцією, система з двох імен, збір ресурсів, ремесла та другорядні професії, а також що робити після смерті. Подробиці й терміни Hardcore поки не оголошено. Roleplay-PvP: суворі правила імен і поведінки для тих, хто хоче зануритися в роль персонажа у фентезійному світі з акцентом на боях гравець проти гравця; напади ворожих персонажів майже завжди можливі.'),
      'so': t('Подробности о режимах — в наших гидах, полный текст — в статье Blizzard.',
              'Ruleset details are in our guides; the full text is in the Blizzard article.',
              'Подробиці про режими — в наших гідах, повний текст — у статті Blizzard.')},
@@ -1234,6 +1253,8 @@ GUIDES.append({
         (t('Blizzard: бета закрыта', 'Blizzard: the beta is closed', 'Blizzard: бету закрито'), 'https://eu.forums.blizzard.com/en/wow/t/637228'),
         (t('Blizzard: меры против ботов и RMT', 'Blizzard: actions against botting and RMT', 'Blizzard: заходи проти ботів і RMT'), 'https://us.forums.blizzard.com/en/wow/t/actions-taken-against-botting-and-rmt/2368705/1'),
         (t('Blizzard: техработы на реалмах беты', 'Blizzard: beta realm maintenance', 'Blizzard: технічні роботи на реалмах бети'), 'https://us.forums.blizzard.com/en/wow/t/beta-realm-maintenance-october-15/2383475/1'),
+        (t('Blizzard: Return to Azeroth', 'Blizzard: Return to Azeroth', 'Blizzard: Return to Azeroth'), 'https://worldofwarcraft.blizzard.com/en-us/news/24315643/return-to-azeroth-in-world-of-warcraft-forever'),
+        (t('Blizzard: WoW Forever Goes Live Globally', 'Blizzard: WoW Forever Goes Live Globally', 'Blizzard: WoW Forever Goes Live Globally'), 'https://worldofwarcraft.blizzard.com/en-us/news/24315820/world-of-warcraft-forever-goes-live-globally-november-4'),
         (t('Blizzard: стартовый гид для новичков', 'Blizzard: new player\'s starter guide', 'Blizzard: стартовий гід для новачків'), 'https://worldofwarcraft.blizzard.com/en-us/news/24315280/new-players-starter-guide-welcome-to-world-of-warcraft-forever'),
         (t('Blizzard: выбор режима', 'Blizzard: choose your ruleset', 'Blizzard: вибір режиму'), 'https://worldofwarcraft.blizzard.com/en-us/news/24302070/choose-your-ruleset-in-world-of-warcraft-forever'),
         (t('Blizzard: подкаст WoW Forever', 'Blizzard: WoW Forever Podcast', 'Blizzard: подкаст WoW Forever'), 'https://us.forums.blizzard.com/en/wow/t/what-insights-would-you-like-to-see-in-a-future-episode-of-the-wow-forever-podcast/2361993/1'),
@@ -1594,6 +1615,9 @@ GUIDES.append({
                 ['C*', t('Жрец · Свет', 'Priest · Holy', 'Жрець · Світло'), t('Без иммунитетов.', 'No immunities.', 'Без імунітетів.'), 'RankedBoost: D'],
             ]}),
             ('tip', t('Воин в дуэлях беты внизу, но турнир 1 на 1 — не поле боя. Kami-labs ждёт, что на полях боя воин поднимется.', 'Warrior sits at the bottom in beta duels, but a 1v1 tournament is not a battleground. Kami-labs expects warriors to rise in battlegrounds.', 'Воїн у дуелях бети внизу, але турнір 1 на 1 — не поле бою. Kami-labs чекає, що на полях бою воїн підніметься.')),
+            ('raw', t('<p><a class="more-l" href="../pvp/">PvP в WoW Forever: звания, награды и поля боя</a></p>',
+                      '<p><a class="more-l" href="../pvp/">PvP in WoW Forever: ranks, rewards and battlegrounds</a></p>',
+                      '<p><a class="more-l" href="../pvp/">PvP у WoW Forever: звання, нагороди й поля бою</a></p>')),
         ]},
         {'id': 'disputed', 'title': t('Где источники расходятся', 'Where sources disagree', 'Де джерела розходяться'), 'blocks': [
             ('steps', [
@@ -1681,6 +1705,217 @@ GUIDES.append({
         ]},
         {'id': 'related', 'title': t('Смотрите также', 'See also', 'Дивіться також'), 'blocks': [
             ('tiles', [{'t': t('Лучшая раса для каждого класса', 'Best Race for Every Class', 'Найкраща раса для кожного класу'), 'd': t('Какая раса сильнее для вашего класса', 'Which race is stronger for your class', 'Яка раса сильніша для вашого класу'), 'href': 'guides/best-race/', 'art': 'hero_bestrace'}, {'t': t('Классы', 'Classes', 'Класи'), 'd': t('Какой класс выбрать и сравнение', 'Which class to pick, compared', 'Який клас обрати й порівняння'), 'href': 'classes/', 'art': 'hero_classes'}]),
+        ]},
+    ],
+})
+
+
+# ---------- pvp: система PvP по официальным статьям Blizzard; спеки и расы — из тир-листа и «Лучшей расы» (одни данные) ----------
+
+PVP_NEWS = 'https://news.blizzard.com/en-us/article/24303316/how-pvp-progression-in-world-of-warcraft-forever-works'
+PVP_DSI = 'https://news.blizzard.com/en-us/article/24307308/battle-for-the-darkspear-islands-in-world-of-warcraft-forever'
+
+
+def _pvp_classes():
+    """PvP by class: the best-rated spec of each class in the tier list's PvP table (a tie goes to the letter without a star),
+    its build anchor, and the PvP races of the Best Race table. The same dicts as on those pages: one source of truth."""
+    def table(slug, sec):
+        g = next(x for x in GUIDES if x['slug'] == slug)
+        return next(d for k, d in next(s for s in g['sections'] if s['id'] == sec)['blocks'] if k == 'table')['rows']
+    rank = {'S': 0, 'A': 1, 'B': 2, 'C': 3}
+    tl, rows = table('tier-list', 'pvp'), []
+    for r in table('best-race', 'table'):
+        mine = [x for x in tl if x[1]['ru'].split(' · ')[0] == r[0]['ru'] and x[0].rstrip('*') in rank]
+        best = min(mine, key=lambda x: (rank[x[0].rstrip('*')], x[0].endswith('*')))
+        cid = r[0]['en'].lower()
+        sid = best[1]['en'].split(' · ')[1].lower().replace(' ', '-')
+        rows.append([(best[1], f'guides/builds-{cid}/#{sid}'), best[0], r[3], r[4]])
+    return rows
+
+
+GUIDES.append({
+    'slug': 'pvp', 'art': 'hero_dusk', 'hero': 'hero_dusk', 'og': 'guides',
+    'title': t('PvP в WoW Forever', 'PvP in WoW Forever', 'PvP у WoW Forever'),
+    'crumb': 'PvP',
+    'lead': t('PvP в Forever держится на Чести, очках звания и сезонах. Здесь всё, что Blizzard объявила официально: награды званий 1–14, наборы за Честь, новое поле боя Darkspear Islands. И честно о том, чего пока нет ни у кого: PvP-билдов по спекам на данных полей боя.',
+              'PvP in Forever runs on Honor, Rank Points and seasons. This page has everything Blizzard has officially announced: rewards for ranks 1–14, Honor gear sets, the new Darkspear Islands battleground. It is also clear about what nobody has yet: PvP builds per spec based on battleground data.',
+              'PvP у Forever тримається на Честі, очках звання та сезонах. Тут усе, що Blizzard оголосила офіційно: нагороди звань 1–14, набори за Честь, нове поле бою Darkspear Islands. І чесно про те, чого поки немає ні в кого: PvP-білдів за спеціалізаціями на даних полів бою.'),
+    'tile': t('Звания 1–14, Честь, наборы и поля боя', 'Ranks 1–14, Honor, gear and battlegrounds', 'Звання 1–14, Честь, набори й поля бою'),
+    'pills': [t('Звания 1–14', 'Ranks 1–14', 'Звання 1–14'), t('По данным Blizzard', 'Per Blizzard', 'За даними Blizzard'),
+              t('Билды — после первой недели', 'Builds after the first week', 'Білди — після першого тижня')],
+    'sources': [
+        (t('Blizzard: как работает PvP в Forever (07.10)', 'Blizzard: How PvP Progression in Forever Works (Oct 7)', 'Blizzard: як працює PvP у Forever (07.10)'), PVP_NEWS),
+        (t('Blizzard: поле боя Darkspear Islands', 'Blizzard: Battle for the Darkspear Islands', 'Blizzard: поле бою Darkspear Islands'), PVP_DSI),
+        (t('Blizzard: система Legacy', 'Blizzard: Legacy system', 'Blizzard: система Legacy'), 'https://news.blizzard.com/en-gb/article/24307383'),
+        (t('Blizzard: обзор панели Forever, 12.09', 'Blizzard: Forever panel recap, Sep 12', 'Blizzard: огляд панелі Forever, 12.09'), 'https://worldofwarcraft.blizzard.com/en-us/news/24303862'),
+    ],
+    'sections': [
+        {'id': 'how', 'title': t('Как устроено', 'How it works', 'Як це влаштовано'), 'blocks': [
+            ('steps', [
+                {'t': t('Честь (Honor)', 'Honor', 'Честь (Honor)'),
+                 'd': t('Валюта за PvP: победы над игроками, поля боя и PvP-задания. В праздничную неделю выделенное поле боя даёт больше Чести. Blizzard выровняла Честь между полями боя, чтобы не приходилось ходить только в Alterac Valley.',
+                        'The PvP currency: defeating players, battlegrounds and PvP quests. During its holiday week a highlighted battleground gives more Honor. Blizzard evened out Honor across battlegrounds so you don’t have to queue for Alterac Valley alone.',
+                        'Валюта за PvP: перемоги над гравцями, поля бою та PvP-завдання. У святковий тиждень виділене поле бою дає більше Честі. Blizzard вирівняла Честь між полями бою, щоб не доводилося ходити лише в Alterac Valley.')},
+                {'t': t('Очки звания (Rank Points)', 'Rank Points', 'Очки звання (Rank Points)'),
+                 'd': t('Даются за поля боя и PvP-задания, в праздничную неделю — с прибавкой. Ведут по званиям оригинальной игры к вершине: High Warlord у Орды, Grand Marshal у Альянса.',
+                        'Earned from battlegrounds and PvP quests, with a boost in holiday weeks. They take you through the ranks of the original game to the top titles: High Warlord for the Horde, Grand Marshal for the Alliance.',
+                        'Даються за поля бою та PvP-завдання, у святковий тиждень — із надбавкою. Ведуть званнями оригінальної гри до вершини: High Warlord в Орди, Grand Marshal в Альянсу.')},
+                {'t': t('Недельный лимит', 'Weekly cap', 'Тижневий ліміт'),
+                 'd': t('У званий есть недельный лимит, поэтому до 14 звания идут неделями, а не за один марафон. Само число Blizzard не назвала.',
+                        'Ranks have a weekly cap, so rank 14 takes weeks rather than one marathon. Blizzard has not given the number.',
+                        'Звання мають тижневий ліміт, тож до 14 звання йдуть тижнями, а не за один марафон. Саме число Blizzard не назвала.')},
+                {'t': t('Где смотреть', 'Where to check', 'Де дивитися'),
+                 'd': t('Окно персонажа (C), вкладка PvP справа: звание, очки звания и награды, которые уже можно купить.',
+                        'Character pane (C), the PvP tab on the right: your rank, Rank Points and the rewards you can already buy.',
+                        'Вікно персонажа (C), вкладка PvP праворуч: звання, очки звання й нагороди, які вже можна купити.')},
+            ]),
+            ('tip', t('Задачи сезонного пути дают и Честь, и очки звания, а три из них ещё и очко Legacy. Закрывайте их каждую неделю, пока не упёрлись в лимит.',
+                      'Seasonal journey tasks give both Honor and Rank Points, and three of them also give a Legacy point. Clear them every week before you hit the cap.',
+                      'Завдання сезонного шляху дають і Честь, і очки звання, а три з них ще й очко Legacy. Закривайте їх щотижня, доки не вперлися в ліміт.')),
+        ]},
+        {'id': 'ranks', 'title': t('Награды званий 1–14', 'Rank rewards 1–14', 'Нагороди звань 1–14'), 'blocks': [
+            ('text', [t('Список наград — из статьи Blizzard 07.10. Колонка Legacy — из статьи о Legacy: пять званий дают по очку. Названия званий 1–13 для Forever Blizzard не публиковала.',
+                        'The reward list is from Blizzard’s Oct 7 article. The Legacy column is from the Legacy article: five ranks give a point each. Blizzard has not published the names of ranks 1–13 for Forever.',
+                        'Список нагород — зі статті Blizzard 07.10. Колонка Legacy — зі статті про Legacy: п’ять звань дають по очку. Назви звань 1–13 для Forever Blizzard не публікувала.')]),
+            ('table', {'head': [t('Звание', 'Rank', 'Звання'), t('Награда', 'Reward', 'Нагорода'), 'Legacy'], 'rows': [
+                ['1', t('Табард', 'Tabard', 'Табард'), '—'],
+                ['2', t('PvP-аксессуар', 'PvP trinket', 'PvP-аксесуар'), '—'],
+                ['3', t('Плащи', 'Cloaks', 'Плащі'), '+1'],
+                ['4', t('Ожерелье', 'Necklace', 'Намисто'), '—'],
+                ['5', t('Боевые зелья', 'Combat potions', 'Бойові зілля'), '—'],
+                ['6', t('Табард', 'Tabard', 'Табард'), '—'],
+                ['7', t('Боевой штандарт', 'Battle standard', 'Бойовий штандарт'), '+1'],
+                ['8', t('Эпические наручи или пояс: жетон улучшения', 'Epic bracers or belt: upgrade token', 'Епічні наручі або пояс: жетон покращення'), '—'],
+                ['9', t('Эпические сапоги: жетон улучшения', 'Epic boots: upgrade token', 'Епічні чоботи: жетон покращення'), '—'],
+                ['10', t('Эпические перчатки: жетон улучшения', 'Epic gloves: upgrade token', 'Епічні рукавиці: жетон покращення'), '+1'],
+                ['11', t('Скакуны', 'Mounts', 'Скакуни'), '—'],
+                ['12', t('Эпические поножи или наплечники: жетон улучшения', 'Epic legs or shoulders: upgrade token', 'Епічні поножі або наплічники: жетон покращення'), '—'],
+                ['13', t('Эпический нагрудник или шлем: жетон улучшения', 'Epic chest or helm: upgrade token', 'Епічний нагрудник або шолом: жетон покращення'), '+1'],
+                ['14', t('Эпическое оружие', 'Epic weapons', 'Епічна зброя'), '+1'],
+            ]}),
+        ]},
+        {'id': 'gear', 'title': t('Снаряжение за Честь', 'Honor gear', 'Спорядження за Честь'), 'blocks': [
+            ('steps', [
+                {'t': t('Синий набор', 'Blue set', 'Синій набір'),
+                 'd': t('Покупается за Честь.', 'Bought with Honor.', 'Купується за Честь.')},
+                {'t': t('Эпический набор', 'Epic set', 'Епічний набір'),
+                 'd': t('Синяя вещь плюс Emboldened Seal превращаются в эпическую. Каждую печать можно купить только с нужным званием.',
+                        'A blue piece plus an Emboldened Seal upgrades to the epic one. Each seal can only be bought once you reach its rank.',
+                        'Синя річ плюс Emboldened Seal перетворюються на епічну. Кожну печатку можна купити лише з потрібним званням.')},
+                {'t': t('Наборы под спеки', 'Sets for specs', 'Набори під спеціалізації'),
+                 'd': t('Blizzard добавила и переделала вещи для спеков, которым раньше не было PvP-набора. Пример: у Шамана три набора — лекаря, ближнего боя и заклинателя.',
+                        'Blizzard added and reworked items for specs that used to have no PvP set. For example, the Shaman now has three sets: healer, melee and caster.',
+                        'Blizzard додала й переробила речі для спеціалізацій, у яких раніше не було PvP-набору. Приклад: у Шамана три набори — цілителя, ближнього бою та заклинача.')},
+            ]),
+            ('text', [t('Названия вещей, статы, цены в Чести и звания для печатей Blizzard не публиковала. Таблицу наборов по классам добавим, когда предметы появятся в игре.',
+                        'Blizzard has not published item names, stats, Honor prices or the ranks required for seals. We will add a table of sets by class once the items are in the game.',
+                        'Назви речей, стати, ціни в Честі та звання для печаток Blizzard не публікувала. Таблицю наборів за класами додамо, коли предмети з’являться в грі.')]),
+        ]},
+        {'id': 'seasons', 'title': t('Сезоны и Legacy', 'Seasons and Legacy', 'Сезони та Legacy'), 'blocks': [
+            ('steps', [
+                {'t': t('Сезонный путь', 'Seasonal journey', 'Сезонний шлях'),
+                 'd': t('В каждом сезоне есть путь с недельными задачами. За задачи дают Честь и очки звания.',
+                        'Each season has a journey of weekly tasks. Tasks give Honor and Rank Points.',
+                        'У кожному сезоні є шлях із тижневими завданнями. За завдання дають Честь і очки звання.')},
+                {'t': t('12 очков Legacy', '12 Legacy points', '12 очок Legacy'),
+                 'd': t('Звания 3, 7, 10, 13 и 14 (5 очков); «Превознесение» (Exalted) с репутацией каждого поля боя (4 очка); задачи 4, 7 и 10 недели пути Field of Honor (3 очка).',
+                        'Ranks 3, 7, 10, 13 and 14 (5 points); Exalted with each battleground reputation (4 points); the week 4, 7 and 10 tasks of the Field of Honor journey (3 points).',
+                        'Звання 3, 7, 10, 13 і 14 (5 очок); Exalted із репутацією кожного поля бою (4 очки); завдання 4, 7 і 10 тижня шляху Field of Honor (3 очки).')},
+                {'t': t('Не сгорают', 'They don’t expire', 'Не згорають'),
+                 'd': t('Задачи с очком Legacy привязаны к Legacy, поэтому их можно закрыть и в следующих сезонах.',
+                        'The tasks with a Legacy point are tied to Legacy, so you can still complete them in later seasons.',
+                        'Завдання з очком Legacy прив’язані до Legacy, тож їх можна закрити й у наступних сезонах.')},
+                {'t': t('Перк For Great Honor', 'For Great Honor perk', 'Перк For Great Honor'),
+                 'd': t('Перк Legacy в дереве Находчивость: больше Чести в PvP, до 5 рангов.',
+                        'A Legacy perk in the Resourcefulness tree: more Honor from PvP, up to 5 ranks.',
+                        'Перк Legacy в дереві Винахідливість: більше Честі в PvP, до 5 рангів.')},
+            ]),
+            ('text', [t('Длительность сезона, дату первого сезона и то, сбрасывается ли звание между сезонами, Blizzard не объявила. PvP-испытания Legacy в Hardcore выполнить нельзя.',
+                        'Blizzard has not announced the season length, the start of the first season or whether ranks reset between seasons. PvP Legacy challenges cannot be completed in Hardcore.',
+                        'Тривалість сезону, дату першого сезону і те, чи скидається звання між сезонами, Blizzard не оголосила. PvP-випробування Legacy в Hardcore виконати не можна.')]),
+        ]},
+        {'id': 'battlegrounds', 'title': t('Поля боя', 'Battlegrounds', 'Поля бою'), 'blocks': [
+            ('text', [t('Darkspear Islands — новое поле боя Forever. Полного списка полей боя на старте Blizzard не публиковала: Alterac Valley упомянута в статье о Чести, остальное сверим в игре 05.11.',
+                        'Darkspear Islands is Forever’s new battleground. Blizzard has not published the full list of battlegrounds at launch: Alterac Valley is mentioned in the Honor article, and we will check the rest in the game on Nov 5.',
+                        'Darkspear Islands — нове поле бою Forever. Повного списку полів бою на старті Blizzard не публікувала: Alterac Valley згадано в статті про Честь, решту звіримо в грі 05.11.')]),
+            ('table', {'head': ['Darkspear Islands', t('По данным Blizzard', 'Per Blizzard', 'За даними Blizzard')], 'rows': [
+                [t('Формат', 'Format', 'Формат'), t('15 на 15: захват точек и флаг', '15v15: capture points and a flag', '15 на 15: захоплення точок і прапор')],
+                [t('Где', 'Where', 'Де'), t('У побережья [[Пылевых топей|Dustwallow Marsh]]', 'Off the coast of Dustwallow Marsh', 'Біля узбережжя Dustwallow Marsh')],
+                [t('Уровни', 'Levels', 'Рівні'), '30–60'],
+                [t('Победа', 'Victory', 'Перемога'), t('Первая команда, набравшая 2000 очков', 'The first team to 2000 points', 'Перша команда, що набрала 2000 очок')],
+                [t('Как набирать очки', 'How to score', 'Як набирати очки'), t('Держать четыре точки: чем больше точек, тем быстрее идут очки. Флаг в центре карты отнести на базу, которую держит ваша команда.', 'Hold the four capture points: the more you hold, the faster points come. Take the flag in the middle of the map to a base your team controls.', 'Тримати чотири точки: що більше точок, то швидше йдуть очки. Прапор у центрі мапи віднести на базу, яку тримає ваша команда.')],
+                [t('Очередь', 'Queue', 'Черга'), t('У распорядителя боя в любой столице или в [[Степях|The Barrens]]: база Darkspear Raiders (Орда) на Merchant Coast и Theramore Expeditionary Force (Альянс) в Northwatch, оттуда портал на поле боя.', 'At a battlemaster in any capital city, or in the Barrens: the Darkspear Raiders base (Horde) on the Merchant Coast and the Theramore Expeditionary Force base (Alliance) at Northwatch, with a portal into the battle.', 'У розпорядника бою в будь-якій столиці або в The Barrens: база Darkspear Raiders (Орда) на Merchant Coast і Theramore Expeditionary Force (Альянс) у Northwatch, звідти портал на поле бою.')],
+                [t('Награды', 'Rewards', 'Нагороди'), t('Репутация своей стороны: аксессуары, кольца, плащи, оружие, броня и расходники у торговцев баз. Задания на репутацию сдаются за Marks of Honor, на «Превознесении» (Exalted) открывается короткая цепочка за табард.', 'Your side’s reputation: trinkets, rings, cloaks, weapons, armor and consumables from the base vendors. Reputation quests are turned in for Marks of Honor, and at Exalted a short questline unlocks the tabard.', 'Репутація своєї сторони: аксесуари, кільця, плащі, зброя, броня й витратні матеріали в торговців баз. Завдання на репутацію здаються за Marks of Honor, на Exalted відкривається короткий ланцюжок за табард.')],
+            ]}),
+        ]},
+        {'id': 'classes', 'title': t('PvP по классам', 'PvP by class', 'PvP за класами'), 'blocks': [
+            ('text', [t('PvP-билдов, снаряжения и расходников по спекам на данных полей боя пока нет ни у кого: бета шла на 30 уровне, а Darkspear Islands рассчитан на 30–60. Что есть сейчас: лучший спек класса в нашем тир-листе PvP (дуэли, мировое PvP и турнир Forever Open, 30 уровень) и раса для PvP из гайда «Лучшая раса». Спек ведёт на его билд, звёздочка (*) — источники расходятся.',
+                        'Nobody has PvP builds, gear or consumables per spec based on battleground data yet: the beta ran at level 30, and Darkspear Islands is for levels 30–60. What exists now: the best spec of each class in our PvP tier list (duels, world PvP and the Forever Open tournament, level 30) and the PvP race from the Best Race guide. The spec links to its build; an asterisk (*) means the sources disagree.',
+                        'PvP-білдів, спорядження й витратних матеріалів за спеціалізаціями на даних полів бою поки немає ні в кого: бета йшла на 30 рівні, а Darkspear Islands розраховане на 30–60. Що є зараз: найкраща спеціалізація класу в нашому тір-листі PvP (дуелі, світове PvP і турнір Forever Open, 30 рівень) і раса для PvP з гайду «Найкраща раса». Спеціалізація веде на свій білд, зірочка (*) — джерела розходяться.')]),
+            ('table', {'head': [t('Класс · спек', 'Class · spec', 'Клас · спеціалізація'), t('Тир', 'Tier', 'Тір'), t('Альянс, PvP', 'Alliance, PvP', 'Альянс, PvP'), t('Орда, PvP', 'Horde, PvP', 'Орда, PvP')],
+                       'rows': _pvp_classes()}),
+            ('tip', t('Для PvP почти все классы берут Инженерное дело: гранаты, бомбы и устройства дают контроль и подвижность, которых у класса нет.',
+                      'For PvP almost every class takes Engineering: grenades, bombs and devices give control and mobility the class lacks.',
+                      'Для PvP майже всі класи беруть Інженерію: гранати, бомби та пристрої дають контроль і рухливість, яких класу бракує.')),
+        ]},
+        {'id': 'unknown', 'title': t('Чего пока нет', 'Not known yet', 'Чого поки немає'), 'blocks': [
+            ('text', [t('Этого Blizzard не публиковала, а на бете проверить было нельзя. Каждую строку заполним по живым данным и подпишем дату.',
+                        'Blizzard has not published these, and the beta could not show them. We will fill in each line from live data and date it.',
+                        'Цього Blizzard не публікувала, а на беті перевірити було неможливо. Кожен рядок заповнимо за живими даними й підпишемо дату.')]),
+            ('table', {'head': [t('Что', 'What', 'Що'), t('Когда узнаем', 'When we’ll know', 'Коли дізнаємося')], 'rows': [
+                [t('Честь за бой и за победу над игроком', 'Honor per battleground and per kill', 'Честь за бій і за перемогу над гравцем'), t('В первые дни после старта', 'In the first days after launch', 'У перші дні після старту')],
+                [t('Очки на каждое звание и недельный лимит', 'Rank Points per rank and the weekly cap', 'Очки на кожне звання й тижневий ліміт'), t('После первого недельного сброса', 'After the first weekly reset', 'Після першого тижневого скидання')],
+                [t('Названия званий 1–13', 'Names of ranks 1–13', 'Назви звань 1–13'), t('В игре, во вкладке PvP', 'In the game, on the PvP tab', 'У грі, у вкладці PvP')],
+                [t('Звание для каждой Emboldened Seal, статы и цены наборов', 'The rank for each Emboldened Seal, set stats and prices', 'Звання для кожної Emboldened Seal, стати й ціни наборів'), t('В игре, у торговцев', 'In the game, at the vendors', 'У грі, у торговців')],
+                [t('Поля боя на старте, кроме Darkspear Islands', 'Battlegrounds at launch besides Darkspear Islands', 'Поля бою на старті, крім Darkspear Islands'), t('05.11, в окне очереди', 'Nov 5, in the queue window', '05.11, у вікні черги')],
+                [t('Праздничные недели и длительность сезона', 'Holiday weeks and season length', 'Святкові тижні й тривалість сезону'), t('Когда Blizzard объявит', 'When Blizzard announces it', 'Коли Blizzard оголосить')],
+                [t('PvP-билды, снаряжение и расы по спекам', 'PvP builds, gear and races per spec', 'PvP-білди, спорядження й раси за спеціалізаціями'), t('После первой недели полей боя', 'After the first week of battlegrounds', 'Після першого тижня полів бою')],
+            ]}),
+        ]},
+        {'id': 'faq', 'title': t('Частые вопросы', 'Common questions', 'Часті питання'), 'blocks': [
+            ('faq', [
+                {'id': 'q1', 'q': t('Как работает PvP в WoW Forever?', 'How does PvP work in WoW Forever?', 'Як працює PvP у WoW Forever?'),
+                 'a': [t('Вы получаете Честь и очки звания за поля боя, победы над игроками и PvP-задания. Очки поднимают звание до 14 с недельным лимитом, Честь тратится на наборы. Сезонный путь с недельными задачами даёт и то и другое.',
+                         'You earn Honor and Rank Points from battlegrounds, defeating players and PvP quests. Rank Points raise your rank up to 14 with a weekly cap, and Honor buys gear sets. The seasonal journey with weekly tasks gives both.',
+                         'Ви отримуєте Честь і очки звання за поля бою, перемоги над гравцями та PvP-завдання. Очки піднімають звання до 14 із тижневим лімітом, Честь витрачається на набори. Сезонний шлях із тижневими завданнями дає і те, і те.')]},
+                {'id': 'q2', 'q': t('Что дают звания?', 'What do the ranks give?', 'Що дають звання?'),
+                 'a': [t('С 1 по 7 звание — табарды, PvP-аксессуар, плащи, ожерелье, боевые зелья и штандарт. С 8 по 13 — жетоны улучшения эпических вещей и скакуны на 11. На 14 — эпическое оружие.',
+                         'Ranks 1 to 7 give tabards, a PvP trinket, cloaks, a necklace, combat potions and a battle standard. Ranks 8 to 13 give epic upgrade tokens, with mounts at 11. Rank 14 gives epic weapons.',
+                         'З 1 по 7 звання — табарди, PvP-аксесуар, плащі, намисто, бойові зілля й штандарт. З 8 по 13 — жетони покращення епічних речей і скакуни на 11. На 14 — епічна зброя.')]},
+                {'id': 'q3', 'q': t('Где взять PvP-снаряжение?', 'Where do I get PvP gear?', 'Де взяти PvP-спорядження?'),
+                 'a': [t('Синий набор — за Честь. Эпический — синяя вещь плюс Emboldened Seal, печать продают с нужного звания. Ещё вещи дают торговцы репутации Darkspear Islands и награды званий 8–14.',
+                         'The blue set costs Honor. The epic one is a blue piece plus an Emboldened Seal, sold from the required rank. More items come from the Darkspear Islands reputation vendors and the rank 8–14 rewards.',
+                         'Синій набір — за Честь. Епічний — синя річ плюс Emboldened Seal, печатку продають із потрібного звання. Ще речі дають торговці репутації Darkspear Islands і нагороди звань 8–14.')]},
+                {'id': 'q4', 'q': t('Какой класс лучший для PvP?', 'Which class is best for PvP?', 'Який клас найкращий для PvP?'),
+                 'a': [t('По бете в S — Разбойник (Ликвидация и Скрытность), Чернокнижник (Колдовство) и Жрец (Послушание). Это дуэли 30 уровня, на полях боя расклад может измениться.',
+                         'In the beta the S tier is Rogue (Assassination and Subtlety), Warlock (Affliction) and Priest (Discipline). These are level 30 duels; battlegrounds may change the picture.',
+                         'За бетою в S — Розбійник (Ліквідація й Непомітність), Чорнокнижник (Прокляття) і Жрець (Послух). Це дуелі 30 рівня, на полях бою розклад може змінитися.')],
+                 'link': (t('Тир-лист PvP', 'PvP tier list', 'Тір-лист PvP'), '../tier-list/#pvp')},
+                {'id': 'q5', 'q': t('Какая раса лучше для PvP?', 'Which race is best for PvP?', 'Яка раса найкраща для PvP?'),
+                 'a': [t('Чаще всего за Альянс — Человек, за Орду — Нежить: Воля к жизни снимает оглушения, Воля Отрекшихся — страх. Но ответ зависит от класса, разница — несколько процентов.',
+                         'Most often Human for the Alliance and Undead for the Horde: Will to Survive breaks stuns, Will of the Forsaken breaks fear. The answer depends on the class, and the gap is a few percent.',
+                         'Найчастіше за Альянс — Людина, за Орду — Нежить: Will to Survive знімає приголомшення, Will of the Forsaken — страх. Але відповідь залежить від класу, різниця — кілька відсотків.')],
+                 'link': (t('Лучшая раса для каждого класса', 'Best Race for Every Class', 'Найкраща раса для кожного класу'), '../best-race/')},
+                {'id': 'q6', 'q': t('Есть ли PvP-билды для Forever?', 'Are there PvP builds for Forever?', 'Чи є PvP-білди для Forever?'),
+                 'a': [t('На данных полей боя — пока нет ни у кого. Добавим PvP по спекам после первой недели боёв. Сейчас у нас билды спеков по бете 30 уровня.',
+                         'Not based on battleground data, from anyone yet. We will add PvP per spec after the first week of battles. For now we have spec builds from the level 30 beta.',
+                         'На даних полів бою — поки немає ні в кого. Додамо PvP за спеціалізаціями після першого тижня боїв. Зараз у нас білди спеціалізацій за бетою 30 рівня.')],
+                 'link': (t('Билды всех классов', 'Builds for all classes', 'Білди всіх класів'), '../builds/')},
+                {'id': 'q7', 'q': t('Какие профессии нужны для PvP?', 'Which professions are best for PvP?', 'Які професії потрібні для PvP?'),
+                 'a': [t('Инженерное дело: гранаты, бомбы и устройства дают контроль и подвижность. Вторую профессию берите под золото или свой класс.',
+                         'Engineering: grenades, bombs and devices give control and mobility. Pick the second profession for gold or for your class.',
+                         'Інженерія: гранати, бомби та пристрої дають контроль і рухливість. Другу професію беріть під золото або свій клас.')],
+                 'link': (t('Профессии под класс', 'Professions for your class', 'Професії під клас'), '../professions/')},
+                {'id': 'q8', 'q': t('PvP-сервер или обычный?', 'PvP server or Normal?', 'PvP-сервер чи звичайний?'),
+                 'a': [t('На PvP-сервере на вас почти всегда могут напасть игроки другой фракции, на обычном бой с игроками — по желанию. Режим выбирают до создания персонажа, группа собирается только внутри режима, в PvP на аккаунте одна фракция.',
+                         'On a PvP server players of the other faction can almost always attack you; on Normal, fighting players is your choice. You pick the mode before creating a character, groups form only within a mode, and in PvP an account has one faction.',
+                         'На PvP-сервері на вас майже завжди можуть напасти гравці іншої фракції, на звичайному бій із гравцями — за бажанням. Режим обирають до створення персонажа, група збирається лише в межах режиму, у PvP на акаунті одна фракція.')],
+                 'link': (t('Режимы и серверы', 'Modes and servers', 'Режими та сервери'), '../faq/#modes')},
+                {'id': 'q9', 'q': t('Был ли PvP-турнир по Forever?', 'Was there a Forever PvP tournament?', 'Чи був PvP-турнір із Forever?'),
+                 'a': [t('Да, Forever Open 18.10: бой 1 на 1, 30 уровень, только Орда. Первые два места заняли чернокнижники. Его итоги учтены в нашем тир-листе PvP.',
+                         'Yes, the Forever Open on Oct 18: 1v1, level 30, Horde only. Warlocks took the top two places. Its results are part of our PvP tier list.',
+                         'Так, Forever Open 18.10: бій 1 на 1, 30 рівень, лише Орда. Перші два місця посіли чорнокнижники. Його підсумки враховано в нашому тір-листі PvP.')]},
+            ]),
         ]},
     ],
 })
@@ -3012,8 +3247,28 @@ spec_builds.attach(GUIDES, HUBS, ORDER)
 from content import spec_cheats  # noqa: E402
 
 spec_cheats.attach(GUIDES, HUBS, ORDER)   # шпоры четырёх спеков из готовых разделов; названия на всех языках — spec_cheats.finish() в build_guides
+from content import dungeon_pages  # noqa: E402
+
+dungeon_pages.attach(GUIDES, ORDER)   # страницы подземелий guides/dungeons/<slug>/ после «Подземелий» и ссылки на них в таблице
 # /guides/builds/: девять плиток билдов на своей странице (хаб, «Ещё» и подвал ведут сюда, а не в середину тир-листа)
 _tl = next(g for g in GUIDES if g['slug'] == 'tier-list')['sections']
+# the talent calculator (talents/<class>/, build_guides.calc_*) above the nine builds; new strings, so all nine languages here
+CALC_PLATE = {
+    'h': {'ru': 'Калькулятор талантов', 'en': 'Talent calculator', 'uk': 'Калькулятор талантів', 'de': 'Talentrechner',
+          'fr': 'Calculateur de talents', 'es': 'Calculadora de talentos', 'pt': 'Calculadora de talentos', 'it': 'Calcolatore di talenti',
+          'pl': 'Kalkulator talentów'},
+    'd': {'ru': 'Свой билд для любого из девяти классов: три ветки, 51 очко, ссылка на билд.',
+          'en': 'Your own build for any of the nine classes: three trees, 51 points, a link to share.',
+          'uk': 'Свій білд для будь-якого з дев’яти класів: три гілки, 51 очко, посилання на білд.',
+          'de': 'Dein eigener Build für jede der neun Klassen: drei Bäume, 51 Punkte, Link zum Teilen.',
+          'fr': 'Votre propre build pour chacune des neuf classes : trois arbres, 51 points, un lien à partager.',
+          'es': 'Tu propia build para cualquiera de las nueve clases: tres árboles, 51 puntos y un enlace para compartir.',
+          'pt': 'Sua própria build para qualquer uma das nove classes: três árvores, 51 pontos e um link para compartilhar.',
+          'it': 'La tua build per ognuna delle nove classi: tre alberi, 51 punti e un link da condividere.',
+          'pl': 'Własny build dla każdej z dziewięciu klas: trzy drzewka, 51 punktów i link do udostępnienia.'},
+    'go': {'ru': 'Открыть', 'en': 'Open', 'uk': 'Відкрити', 'de': 'Öffnen', 'fr': 'Ouvrir', 'es': 'Abrir', 'pt': 'Abrir', 'it': 'Apri',
+           'pl': 'Otwórz'},
+}
 GUIDES.append({
     'slug': 'builds', 'art': 'paladin', 'hub': False, 'footer': True,
     'title': spec_builds.BUILDS_TITLE, 'lead': spec_builds.BUILDS_LEAD, 'tile': spec_builds.BUILDS_TILE,
@@ -3022,7 +3277,7 @@ GUIDES.append({
                 ('Wowhead: Forever Class Guides', 'https://www.wowhead.com/forever/guides/classes')]
                + [x for g in spec_builds.SPEC_BUILDS for x in g['sources'] if x[0].startswith('Icy Veins') and x[0].endswith('Talent Calculator')],
     'sections': [{'id': 'classes', 'title': t('Девять классов', 'Nine classes', 'Дев’ять класів'),
-                  'blocks': [next(s for s in _tl if s['id'] == 'builds')['blocks'][1]]}],
+                  'blocks': [('calc', CALC_PLATE), next(s for s in _tl if s['id'] == 'builds')['blocks'][1]]}],
 })
 GUIDES.sort(key=lambda g: ORDER.index(g['slug']))
 BUILDS_HUB_TILE = dict(spec_builds.HUB_TILE, href='guides/builds/')   # на хабе одна плитка «Билды по классам»
@@ -3047,6 +3302,7 @@ NX = {
     'glossary': ('guides/glossary/', t('Словарь терминов', 'Glossary', 'Словник термінів')),
     'tier-list': ('guides/tier-list/', t('Тир-лист: кто сильнее', 'Tier list: who is strongest', 'Тир-лист: хто сильніший')),
     'best-race': ('guides/best-race/', t('Лучшая раса для класса', 'Best race for your class', 'Найкраща раса для класу')),
+    'pvp': ('guides/pvp/', t('PvP: звания, Честь и награды', 'PvP: ranks, Honor and rewards', 'PvP: звання, Честь і нагороди')),
     'launch-checklist': ('guides/launch-checklist/', t('Чек-лист к старту', 'Launch checklist', 'Чек-лист до старту')),
     'faq': ('guides/faq/', t('Даты и частые вопросы', 'Dates and common questions', 'Дати й часті питання')),
     'addons': ('guides/addons/', t('Аддоны для старта', 'Add-ons for launch', 'Аддони для старту')),
@@ -3064,7 +3320,8 @@ NEXT = {
     'leveling': ['builds', 'professions', 'dungeons'],
     'builds': ['tier-list', 'leveling', 'glossary'],
     'best-race': ['classes', 'builds', 'leveling'],
-    'tier-list': ['builds', 'best-race', 'glossary'],
+    'tier-list': ['builds', 'best-race', 'pvp'],
+    'pvp': ['tier-list', 'best-race', 'builds'],
     'legacy': ['leveling', 'professions', 'glossary'],
     'dungeons': ['builds', 'professions', 'glossary'],
     'professions': ['leveling', 'dungeons', 'legacy'],

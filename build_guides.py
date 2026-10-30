@@ -7,12 +7,14 @@ from html import escape
 from urllib.parse import quote
 
 import build
+import seo
 import talents
 import tod
 from build import LANGS, SITE, page_dir, rel, localize, translate
 import langs
 from content import hero as HERO, looks as LK
 from content import spec_cheats
+from content import dungeon_pages
 from content.guides import BUILDS_HUB_TILE, CLASS_HUB_TILE, GUIDES, HUB, HUBS, NEWS, NEWS_SO, NOT_FOUND, ORDER, PAGES, PLAY_MILESTONES, PLAY_TX
 
 HERE = build.HERE
@@ -353,6 +355,9 @@ def render_block(kind, data, lang, root, inner=False):
     if kind == 'play':                                            # Leveling: the in-game page in one line
         return (f'<a class="gplay frame" href="{root}play/"><span><b>{E(data["h"], lang)}</b> {E(data["d"], lang)}</span>'
                 f'<span class="btn ghost">{E(data["go"], lang)}</span></a>')
+    if kind == 'calc':                                            # Builds: the talent calculator in one line
+        return (f'<a class="gplay frame" href="{root}talents/"><span><b>{E(data["h"], lang)}</b> {E(data["d"], lang)}</span>'
+                f'<span class="btn ghost">{E(data["go"], lang)}</span></a>')
     if kind == 'tree':                                            # spec guides: the talent tree with our path (talents.py)
         return talents.render(data['cls'], data['spec'], data['rows'], data['titles'], lang, root)
     if kind == 'raw':
@@ -583,13 +588,13 @@ addEventListener('hashchange', openHash); openHash();'''
 DG_TX = {
     'ru': {'h': ['Подземелье', 'Уровни', 'Где вход'], 'new': 'новое', 'shown': 'Показано', 'of': 'из',
            'none': 'Под этот уровень подземелий нет.', 'need': 'Укажите свой уровень, чтобы отфильтровать.',
-           'only': {'alliance': 'Только Альянс', 'horde': 'Только Орда'}},
+           'only': {'alliance': 'Только Альянс', 'horde': 'Только Орда'}, 'side': {'alliance': 'Альянс, Орде далеко', 'horde': 'Орда, Альянсу далеко'}},
     'en': {'h': ['Dungeon', 'Levels', 'Entrance'], 'new': 'new', 'shown': 'Showing', 'of': 'of',
            'none': 'No dungeons for this level.', 'need': 'Enter your level to filter.',
-           'only': {'alliance': 'Alliance only', 'horde': 'Horde only'}},
+           'only': {'alliance': 'Alliance only', 'horde': 'Horde only'}, 'side': {'alliance': 'Alliance; a long way for the Horde', 'horde': 'Horde; a long way for the Alliance'}},
     'uk': {'h': ['Підземелля', 'Рівні', 'Де вхід'], 'new': 'нове', 'shown': 'Показано', 'of': 'з',
            'none': 'Під цей рівень підземель немає.', 'need': 'Вкажіть свій рівень, щоб відфільтрувати.',
-           'only': {'alliance': 'Лише Альянс', 'horde': 'Лише Орда'}},
+           'only': {'alliance': 'Лише Альянс', 'horde': 'Лише Орда'}, 'side': {'alliance': 'Альянс, Орді далеко', 'horde': 'Орда, Альянсу далеко'}},
 }
 DG_JS = r'''/* Dungeons: level filter seeded from "My hero" (read only, the hero is edited on the home page) */
 const TX = @@TX@@;
@@ -603,13 +608,14 @@ const lvIn = $('#dgLvl');
 function renderDg() {
   let rows = DUNGEONS;
   if (dgMode === 'new') rows = rows.filter(d => d[4]);
-  if (dgMode === 'mine') rows = dgLvl ? rows.filter(d => nearLvl(d, dgLvl) && (!dgFac || !d[6] || d[6] === dgFac)) : [];
+  if (dgMode === 'mine') rows = dgLvl ? rows.filter(d => nearLvl(d, dgLvl) && (!dgFac || !d[6] || d[6] === dgFac || d[7])) : [];
   $('#dgBody').innerHTML = rows.length ? rows.map(d => {
     const mine = dgLvl && nearLvl(d, dgLvl);
     const alt = (d[5] || []).map(a => `${a[0]}: ${a[1]}`).join(', ');
-    return `<tr class="${mine ? 'mine' : ''}"><td data-l="${TX.h[0]}">${esc(d[0])}${d[4] ? ` <span class="tag new">${TX.new}</span>` : ''}</td>`
+    const pg = TX.pg[DUNGEONS.indexOf(d)], nm = pg ? `<a href="${pg}">${esc(d[0])}</a>` : esc(d[0]);   /* a dungeon with its own page links to it */
+    return `<tr class="${mine ? 'mine' : ''}"><td data-l="${TX.h[0]}">${nm}${d[4] ? ` <span class="tag new">${TX.new}</span>` : ''}</td>`
       + `<td data-l="${TX.h[1]}"><span class="lvl${mine ? ' gold' : ''}">${lvRange(d)}</span>${alt ? `<span class="alt">${esc(alt)}</span>` : ''}</td>`
-      + `<td data-l="${TX.h[2]}">${esc(d[3])}${d[6] ? `<span class="alt">${TX.only[d[6]]}</span>` : ''}</td></tr>`;
+      + `<td data-l="${TX.h[2]}">${esc(d[3])}${d[6] ? `<span class="alt">${(d[7] ? TX.side : TX.only)[d[6]]}</span>` : ''}</td></tr>`;
   }).join('') : `<tr><td colspan="3">${dgLvl ? TX.none : TX.need}</td></tr>`;
   $('#dgCount').textContent = `${TX.shown} ${rows.length} ${TX.of} ${DUNGEONS.length}`;
   document.querySelectorAll('#segD button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === dgMode));
@@ -690,7 +696,7 @@ if (lk) box.scrollIntoView({ block: 'start' });"""
 BETA_TX = {'ru': 'по данным беты', 'en': 'per beta data', 'uk': 'за даними бети'}   # {beta} in a guide text: the site's one beta mark (build.BETA_SPAN)
 langs.fill([LG_TX, BETA_TX, TIP, THIS_PAGE, MORE_H, MORE_SITE, SITE_TILES, PROF_HEAD, DG_TX, PLAY_TX, PLAY_MILESTONES])
 JS['legacy'] = {l: LG_JS.replace('@@TX@@', json.dumps(LG_TX[l], ensure_ascii=False)) for l in LANGS}
-JS['dungeons'] = {l: DG_JS.replace('@@TX@@', json.dumps(DG_TX[l], ensure_ascii=False)) for l in LANGS}
+JS['dungeons'] = {l: DG_JS.replace('@@TX@@', json.dumps(dict(DG_TX[l], pg=dungeon_pages.table_links()), ensure_ascii=False)) for l in LANGS}
 
 
 def dungeons_data(src, lang=None):
@@ -1654,6 +1660,72 @@ draw();
 addEventListener('storage', e => { if (e.key === MEKEY && !wiz) { me = load(); draw(); } });'''
 
 
+# ---------- Talent calculator: talents/ (the nine classes) and talents/<class>/ (talents.render_calc). Search texts: seo.CALC_* ----------
+# A light page: a text heading instead of the art band (the first screen is the calculator, LCP is text), the bar of the editor in the
+# page from the start, the class list under the tool.
+CALC_TX = {'all': {'ru': 'Все классы', 'en': 'All classes', 'uk': 'Усі класи', 'de': 'Alle Klassen', 'fr': 'Toutes les classes',
+                   'es': 'Todas las clases', 'pt': 'Todas as classes', 'it': 'Tutte le classi', 'pl': 'Wszystkie klasy'}}
+
+
+def _calc_trees(cid):
+    """(specs, titles) of guides/builds-<class>/: [(spec, talent table rows)] and {tree key: section title} for the calculator."""
+    g = next(x for x in GUIDES if x['slug'] == f'builds-{cid}')
+    blocks = [d for s in g['sections'] for k, d in s['blocks'] if k == 'tree']
+    return [(d['spec'], d['rows']) for d in blocks], (blocks[0]['titles'] if blocks else {s['id']: s['title'] for s in g['sections']})
+
+
+def calc_classes(lang, root, cur=None):
+    """The nine classes as a row of plates: the class and its three trees; the current one marked."""
+    out = []
+    for c in build.CLASSES:
+        data = talents.load(c['id'])
+        if not data:
+            continue
+        titles = talents.tree_titles(_calc_trees(c['id'])[1], lang)
+        trees = ' · '.join(escape(titles.get(t['key'], t['key'])) for t in data['trees'])
+        now = ' aria-current="page"' if c['id'] == cur else ''
+        out.append(f'<li><a href="{root}talents/{c["id"]}/"{now}><b>{escape(build.tr(c["n"], lang))}</b><span>{trees}</span></a></li>')
+    return f'<ul class="spchips calcl">{"".join(out)}</ul>'
+
+
+def calc_head(sec, g, lang):
+    """The text heading of a calculator page from the translated art band: its crumbs and «updated» line, no picture."""
+    crumbs = re.search(r'<nav class="crumbs".*?<span aria-hidden="true">/</span>', sec, re.S)[0]
+    upd = re.search(r'<p class="upd">.*?</p>', sec, re.S)
+    name = seo.CALC_NAME[lang]
+    tail = (f'<a href="@@HOME@@talents/">{escape(name)}</a><span aria-hidden="true">/</span><span>{escape(build.tr(next(c["n"] for c in build.CLASSES if c["id"] == g["cls"]), lang))}</span>'
+            if g['cls'] else f'<span>{escape(name)}</span>')
+    return (f'<section class="chead" id="top"><div class="wrap">{crumbs}{tail}</nav><h1>@@TITLE@@</h1>'
+            f'{upd[0] if upd else ""}<p class="glead">@@LEAD@@</p></div></section>')
+
+
+def calc_body(g, lang, root):
+    if not g['cls']:
+        return f'<div class="frame gsec calcs">{calc_classes(lang, root)}</div>'
+    specs, titles = _calc_trees(g['cls'])
+    return (f'<div class="frame gsec calcs">{talents.render_calc(g["cls"], specs, titles, lang, root)}</div>'
+            f'<section class="frame gsec" id="classes"><h2>{CALC_TX["all"][lang]}</h2>{calc_classes(lang, root, g["cls"])}</section>')
+
+
+def calc_pages():
+    """The ten calculator pages (PAGES records): titles, h1 and leads from seo.py."""
+    hub = {'slug': 'talents', 'path': 'talents/', 'og': 'builds', 'art': 'paladin', 'compact': 'calc', 'more': False, 'cls': None,
+           'title': {l: seo.CALC_HUB[l][1] for l in langs.ALL}, 'lead': {l: seo.CALC_HUB[l][3] for l in langs.ALL}, 'sections': [],
+           'next': [('guides/builds/', next(x for x in GUIDES if x['slug'] == 'builds')['title'])]}
+    out = [hub]
+    for c in build.CLASSES:
+        cid = c['id']
+        if not talents.load(cid):
+            continue
+        by = {x['slug']: x for x in GUIDES}
+        words = {l: seo.calc_words(cid, l) for l in LANGS}
+        out.append({'slug': f'talents-{cid}', 'path': f'talents/{cid}/', 'og': f'builds-{cid}', 'art': cid, 'compact': 'calc', 'more': False,
+                    'cls': cid, 'title': {l: seo.CALC_H1[l].format(**words[l]) for l in LANGS}, 'lead': {l: seo.CALC_LEAD[l] for l in LANGS},
+                    'sections': [], 'next': [(f'guides/builds-{cid}/', by[f'builds-{cid}']['title']),
+                                             (f'guides/leveling-{cid}/', by[f'leveling-{cid}']['title']), ('talents/', seo.CALC_NAME)]})
+    return out
+
+
 HERO_FOLLOW = ('news', 'checklist', 'play', 'buildshare', 'cheat')   # pages that follow the hero of this browser (hero_js before their script)
 DATA = {'dungeons': dungeons_data, 'play': play_data}   # js key -> data blocks (from index.src.html and content)
 REF = ('classref', 'raceref')        # js keys fed by ref_js (language-specific)
@@ -1681,8 +1753,8 @@ def build_page(g, lang, tpl, base_css, sprite, src):
     sub = g['path'] if 'path' in g else (f'guides/{g["slug"]}/' if g['slug'] else 'guides/')   # path: classes/, races/, privacy/, '' (404)
     here = page_dir(lang, sub)
     html = tpl.replace('@@BASE_CSS@@', base_css).replace('@@SPRITE@@', sprite)
-    nav = (g['path'] if g['path'] in ('classes/', 'races/', 'play/') else None) if 'path' in g else         (sub if g['slug'] in ('leveling', 'dungeons', 'tier-list', 'legacy') else 'guides/leveling/' if g['slug'].startswith('leveling-') else 'guides/builds/' if g['slug'] == 'builds' or g['slug'].startswith('builds-') else 'guides/')   # privacy, 404: no current item
-    tab = ('classes/' if g['slug'] == 'classes' else None) if 'path' in g else         'guides/leveling/' if g['slug'].startswith('leveling') else 'guides/dungeons/' if g['slug'] == 'dungeons' else None
+    nav = (g['path'] if g['path'] in ('classes/', 'races/', 'play/') else 'guides/builds/' if g.get('compact') == 'calc' else None) if 'path' in g else        (sub if g['slug'] in ('leveling', 'dungeons', 'tier-list', 'legacy') else 'guides/dungeons/' if g['slug'].startswith('dungeons/') else 'guides/leveling/' if g['slug'].startswith('leveling-') else 'guides/builds/' if g['slug'] == 'builds' or g['slug'].startswith('builds-') else 'guides/')   # privacy, 404: no current item
+    tab = ('classes/' if g['slug'] == 'classes' else 'guides/builds/' if g.get('compact') == 'calc' else None) if 'path' in g else        'guides/leveling/' if g['slug'].startswith('leveling') else 'guides/dungeons/' if g['slug'].split('/')[0] == 'dungeons' else None
     html = build.chrome(html, nav=nav, tab=tab)
     if g.get('hero'):                                             # own full-screen scene instead of the art band
         html = re.sub(r'<section class="stband ghero" id="top">.*?</section>', lambda mt: thero(mt.group(0), g['hero']), html, count=1, flags=re.S)
@@ -1694,6 +1766,10 @@ def build_page(g, lang, tpl, base_css, sprite, src):
         html = html.replace('<body>', '<body class="compact">', 1).replace('<div class="wrap gbody', '<div class="wrap gbody play', 1)
         body = hero_body(lang, root)
         html = html.replace('<head>', '<head>\n<meta name="robots" content="noindex">', 1)   # personal page, like profile/ (seo.NOINDEX)
+    elif g.get('compact') == 'calc':                              # talents/: a text heading, the calculator is the first screen
+        html = re.sub(r'<section class="stband ghero" id="top">.*?</section>', lambda mt: calc_head(mt.group(0), g, lang), html, count=1, flags=re.S)
+        html = html.replace('<body>', '<body class="compact">', 1).replace('<div class="wrap gbody', '<div class="wrap gbody calcp', 1)
+        body = calc_body(g, lang, root)
     elif g.get('compact'):                                        # /play/: small heading instead of the art band
         html = re.sub(r'<section class="stband ghero" id="top">.*?</section>', lambda _: play_head(lang), html, count=1, flags=re.S)
         html = html.replace('<body>', '<body class="compact">', 1).replace('<div class="wrap gbody', '<div class="wrap gbody play', 1)
@@ -1714,7 +1790,7 @@ def build_page(g, lang, tpl, base_css, sprite, src):
         more = tile_links(others, lang, root)
     else:
         shown = inline_tiles(g.get('sections', []))                # one picture once on a page
-        others = [x for x in lang_guides(lang) if x['slug'] != g['slug'] and f'guides/{x["slug"]}/' not in shown] if g['slug'] else []
+        others = [x for x in lang_guides(lang) if x['slug'] != g['slug'] and f'guides/{x["slug"]}/' not in shown and x.get('others', True)] if g['slug'] else []   # others: False, a page of one dungeon: reached from the dungeon list
         seen = {g.get('hero'), g['art']} | inline_arts(g.get('sections', []))   # a class art once: leveling-mage and builds-mage share it
         tiles = [x for x in guide_tiles(more_order(others, g['slug'])) if not (x['art'] in seen or seen.add(x['art']))]
         more = tile_links(full_rows(tiles), lang, root)
@@ -1851,6 +1927,7 @@ def not_found_page(tpl, base_css, sprite, src, lang='ru'):
 
 
 spec_cheats.finish(GUIDES, hero_core, langs)   # the four spec cheat sheets: names in every language
+CALC_PAGES = calc_pages()
 
 
 def main():
@@ -1867,7 +1944,7 @@ def main():
     pages, allmissing = [], []
     for lang in LANGS:
         pages.append((f'assets/hero/{lang}.json', hero_json(lang)))   # assets/hero/hero.js: the top-bar switch and the home block
-        for g in [HUB] + lang_guides(lang) + HUBS + PAGES:
+        for g in [HUB] + lang_guides(lang) + HUBS + PAGES + CALC_PAGES:
             path, html, missing = build_page(g, lang, tpl, base_css, sprite, src)
             assert '@@' not in html, (path, re.findall(r'@@\w+@@', html)[:5])
             pages.append((path, html))

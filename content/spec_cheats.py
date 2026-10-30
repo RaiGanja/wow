@@ -735,6 +735,13 @@ def _src_html(src, lang, tr, fn):
     return escape(tr(G_PROF[src['prof']], lang)) if src.get('prof') in G_PROF else ''
 
 
+def gear_sprite_v():
+    """?v=<hash> of the item icon sprite (tools/gear_api.py): one picture for the whole section, cached for days."""
+    import hashlib
+    f = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'assets', 'gear', 'icons.webp')
+    return '?v=' + hashlib.sha1(open(f, 'rb').read()).hexdigest()[:8] if os.path.isfile(f) else ''
+
+
 def gear_html(key, lang, tr, fn, data=None):
     """The section: lead, filters (faction, my level, my professions; JS['cheat'] reads the hero of this browser), the table, the source."""
     data = data or GEAR30
@@ -758,7 +765,9 @@ def gear_html(key, lang, tr, fn, data=None):
         last = it['slot']
         body += (f'<tr data-s="{it["slot"]}" data-lv="{lv}" data-f="{f}" data-p="{p}"{cont}>'
                  f'<td data-l="{head[0]}" class="k sl">{escape(GSLOT[it["slot"]][lang])}</td>'
-                 f'<td data-l="{head[1]}" class="m"><a class="iq iq{int(it.get("q", 1))}" href="{href}" target="_blank" rel="noopener"'
+                 f'<td data-l="{head[1]}" class="m">'
+                 + (f'<i class="gic" style="--i:{int(it["ic"])}" aria-hidden="true"></i>' if it.get('ic') is not None else '<i class="gic no" aria-hidden="true"></i>')
+                 + f'<a class="iq iq{int(it.get("q", 1))}" href="{href}" target="_blank" rel="noopener"'
                  + (f' title="{escape(it["names"]["en"])}"' if name != it['names'].get('en') else '') + f'>{escape(name)}</a>'
                  + (f'<span class="alt">{escape(stats)}</span>' if stats else '') + '</td>'
                  f'<td data-l="{head[2]}" class="s lv">{lv or "—"}</td>'
@@ -769,7 +778,8 @@ def gear_html(key, lang, tr, fn, data=None):
     btns = (f'<button type="button" data-v="all" aria-pressed="true">{escape(G_ALL[lang])}</button>'
             + ''.join(f'<button type="button" data-v="{x}" aria-pressed="false">{escape(fn[x])}</button>' for x in ('alliance', 'horde')))
     ths = ''.join(f'<th scope="col">{h}</th>' for h in head)
-    return (f'<div id="gearBox" data-shown="{escape(G_SHOWN[lang])}">'
+    sp = f' style="--n:{max(int(data.get("sprite") or 0), 1)};--gsp:url(@@ROOT@@assets/gear/icons.webp{gear_sprite_v()})"' if data.get('sprite') else ''
+    return (f'<div id="gearBox" data-shown="{escape(G_SHOWN[lang])}"{sp}>'
             + (f'<p class="gtest">{escape(G_TEST[lang])}</p>' if data.get('fixture') else '')
             + f'<p>{escape(G_LEAD[lang])}</p>'
             f'<div class="filters" role="group" aria-label="{escape(G_ROW[lang])}">'
