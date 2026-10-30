@@ -1279,7 +1279,7 @@ DUNGEON_PAGES = [
          ('Kami-Labs: The Stockade', 'https://kami-labs.fr/en/la-prison-de-hurlevent-wow-forever/'),
      ]},
     {'name': 'Excavation Site: Wetlands', 'slug': 'excavation-site-wetlands',
-     'seo_ru': 'Excavation Site: Wetlands', 'pill': t('4 босса', '4 bosses', '4 боси'),
+     'seo_ru': 'Раскопки в Болотине (Excavation Site)', 'pill': t('4 босса', '4 bosses', '4 боси'),
      'desc': t('Excavation Site: Wetlands (26–31) в WoW Forever: вход в Болотине, четыре босса с тактикой по ролям, что снимать группе, задания Альянса и Орды.',
                'Excavation Site: Wetlands (26–31) in WoW Forever: the entrance in the Wetlands, four bosses with tactics by role, what to cure, Alliance and Horde quests.',
                'Excavation Site: Wetlands (26–31) у WoW Forever: вхід у Wetlands, чотири боси з тактикою за ролями, що знімати групі, завдання Альянсу й Орди.'),

@@ -58,9 +58,9 @@
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=00a6a7d9">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css?v=556d7dc63f" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=6b325a1d14" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=faca952a5d" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/me/me.css?v=f19953bd21" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/hero/hero.css?v=fffc8a181c" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/hero/hero.css?v=56ce7b3540" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://gabella.site/wow/pl/"},{"@type":"ListItem","position":2,"name":"Narzędzia","item":"https://gabella.site/wow/pl/tools/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Narzędzia WoW Forever: porównanie klas i ras, ramki grupy","description":"Porównuj klasy i rasy WoW Forever obok siebie, ramki grupy i siatka raidu jak w grze oraz wyszukiwanie w całym poradniku.","inLanguage":"pl","url":"https://gabella.site/wow/pl/tools/","dateModified":"2026-10-29","mainEntityOfPage":{"@type":"WebPage","@id":"https://gabella.site/wow/pl/tools/"},"author":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=48809128","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"publisher":{"@type":"Organization","name":"Gabella","url":"https://gabella.site/","logo":"https://gabella.site/wow/assets/icons/icon-512.png?v=48809128","sameAs":["https://discord.gg/ZGpznkX3Zw","https://t.me/gabella_wow"]},"isPartOf":{"@type":"WebSite","url":"https://gabella.site/wow/pl/"},"image":"https://gabella.site/wow/assets/og/tools-pl.jpg?v=87f82d19"}</script>
 </head>
@@ -625,7 +625,7 @@ $('#rFill').onclick = () => {
   R.s.forEach(p => p && used[p.role]++);
   R.s = R.s.map((p, i) => p || newPlayer(i, used)); R.moving = -1; renderRaid();
 };
-function myHero() {   // the hero of this browser (assets/hero/hero.js?v=fffc8a181c, localStorage gabella-wf-me)
+function myHero() {   // the hero of this browser (assets/hero/hero.js?v=56ce7b3540, localStorage gabella-wf-me)
   let h = null; try { h = JSON.parse(localStorage.getItem('gabella-wf-me')); } catch (e) {}
   return h && RC[h.race] && CL[h.cls] && RC[h.race].can[h.cls] ? h : null;
 }
@@ -1083,9 +1083,9 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js?v=556d7dc63f" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=6b325a1d14" data-root="../../" defer></script>
+<script src="../../assets/search/search.js?v=faca952a5d" data-root="../../" defer></script>
 <script src="../../assets/me/me.js?v=f19953bd21" data-root="../../" data-home="../" data-lang="pl" data-ach="0" data-teaser="" data-close="Zamknij" data-page="tools/" data-look="2" defer></script>
-<script src="../../assets/hero/hero.js?v=fffc8a181c" data-root="../../" data-home="../" data-data="../../assets/hero/pl.json?v=fffc8a181c" defer></script>
+<script src="../../assets/hero/hero.js?v=56ce7b3540" data-root="../../" data-home="../" data-data="../../assets/hero/pl.json?v=56ce7b3540" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>
