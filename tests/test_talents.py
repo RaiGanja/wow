@@ -217,6 +217,33 @@ def test_editor_render():
     assert all(k in talents.PAGE[('mage', 'pl')]['u'] for k in ('ed', 'ed_x', 'cnt', 'rank', 'e_cap', 'e_row', 'e_req', 'e_keep', 'copied'))
 
 
+def test_calc_render():
+    """The calculator page talents/<class>/: the same tree and editor, open from the start (bar in the page, no template, no build
+    of ours drawn), one «start from our build» link per spec in the editor's own code, every new UI line in all 9 languages."""
+    import re
+    for cid in talents.TREES:
+        d = talents.load(cid)
+        if not d:
+            continue
+        blocks = list(tree_blocks(cid))
+        specs = [(s['id'], x['rows']) for s, x in blocks]
+        html = talents.render_calc(cid, specs, blocks[0][1]['titles'], 'de', '../../')
+        assert 'tt-edt' not in html and 'data-calc="1"' in html and 'class="tt calc ed"' in html, cid
+        assert html.count('role="group"') == 3 and 'class="tt-t on"' not in html and '<section' not in html, cid
+        assert 'class="tt-eb" hidden' in html and 'class="tt-ec"' in html and 'tt-ow' not in html, cid
+        assert re.search(r'class="tt-cn">Punkte: 0 von 51<', html), cid
+        codes = re.findall(r'<a href="#([0-9-]+)" data-t="([a-z-]+)">', html)
+        assert [t for _, t in codes] == [s for s, _ in specs], (cid, codes)
+        for (code, spec), (_, rows) in zip(codes, specs):
+            assert code == talents.build_code(d, talents.table_picks(d, [(r[0], r[1]) for r in rows])), (cid, spec)
+        assert 'href="../../guides/builds-' + cid + '/"' in html
+        g = talents.render(cid, specs[0][0], specs[0][1], blocks[0][1]['titles'], 'de', '../../')
+        assert f'href="../../talents/{cid}/#' in g and 'class="tt-cl"' in g, cid   # the guide links its build to the calculator
+    assert talents.page('<html><head><style></style></head><body><div class="tt calc ed" id="calc" data-c="mage" data-l="de"></div></body>').count('id="ttData"') == 1
+    for k in ('calc', 'ours', 'gd'):
+        assert all(talents.UI[k].get(l) for l in talents.UI['hint']), k
+
+
 if __name__ == '__main__':
     n = 0
     for name, fn in list(globals().items()):

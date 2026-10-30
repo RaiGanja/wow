@@ -42,7 +42,7 @@ PROFILE_NAME = {'ru': 'Мой профиль', 'en': 'My profile', 'uk': 'Мій
 CHAR_NAME = {'ru': 'Мой персонаж', 'en': 'My character', 'uk': 'Мій персонаж'}
 PLAYER_NAME = {'ru': 'Игрок WoW Forever', 'en': 'WoW Forever player', 'uk': 'Гравець WoW Forever'}
 # Inner pages whose radio, search, profile and analytics files wait for the hero picture like on the home (build.late)
-LATE_INNER = ('play/', 'guides/', 'classes/', 'races/')
+LATE_INNER = ('play/', 'guides/', 'classes/', 'races/', 'talents/')   # talents/: no picture, the files wake after the load
 NOINDEX = {'profile/', 'u/', 'character/'} | (set() if build.SOCIAL else {'roster/'})   # personal pages: noindex in the page (build_me.py), left out of sitemap.xml
 
 
@@ -266,6 +266,93 @@ OG = {
            'Legacy: 65 challenges and perks in three trees. Class tier list from beta data, group and raid builder, news. Launch Nov 4 at 23:00 UTC.',
            'Legacy: 65 випробувань і перки трьох дерев. Тір-лист класів за бетою, конструктор групи й рейду, новини. Старт 04.11 о 23:00 UTC (за Києвом 5.11, 01:00).')),
 }
+# ---------- Talent calculator: talents/ and talents/<class>/ (build_guides.calc_page, talents.render_calc) ----------
+# Every text of these pages that a search engine reads is here, in all nine languages: the title, the h1, the lead, the description.
+# Queries (suggestions 29.10): «WoW Forever <class> talent calculator», «<class> talents», «talent tree», «калькулятор талантов <класс>».
+# {n} the class as the site names it, {g} its genitive (ru, uk), {s} the three trees of the class.
+CALC_NAME = {'ru': 'Калькулятор талантов', 'en': 'Talent calculator', 'uk': 'Калькулятор талантів', 'de': 'Talentrechner',
+             'fr': 'Calculateur de talents', 'es': 'Calculadora de talentos', 'pt': 'Calculadora de talentos',
+             'it': 'Calcolatore di talenti', 'pl': 'Kalkulator talentów'}
+CALC_GEN = {'ru': {'warrior': 'Воина', 'paladin': 'Паладина', 'hunter': 'Охотника', 'rogue': 'Разбойника', 'priest': 'Жреца',
+                   'shaman': 'Шамана', 'mage': 'Мага', 'warlock': 'Чернокнижника', 'druid': 'Друида'},
+            'uk': {'warrior': 'Воїна', 'paladin': 'Паладина', 'hunter': 'Мисливця', 'rogue': 'Розбійника', 'priest': 'Жреця',
+                   'shaman': 'Шамана', 'mage': 'Мага', 'warlock': 'Чорнокнижника', 'druid': 'Друїда'}}
+CALC_T = {'ru': 'Калькулятор талантов {g} WoW Forever', 'en': 'WoW Forever {n} Talent Calculator and Build Planner',
+          'uk': 'Калькулятор талантів {g} у WoW Forever', 'de': 'WoW Forever Talentrechner: {n}, alle drei Bäume',
+          'fr': 'Calculateur de talents {n} pour WoW Forever', 'es': 'Calculadora de talentos de {n} en WoW Forever',
+          'pt': 'Calculadora de talentos de {n} no WoW Forever', 'it': '{n}: calcolatore di talenti per WoW Forever',
+          'pl': '{n}: kalkulator talentów WoW Forever'}
+CALC_H1 = {'ru': 'Калькулятор талантов {g}', 'en': '{n} Talent Calculator', 'uk': 'Калькулятор талантів {g}',
+           'de': 'Talentrechner: {n}', 'fr': 'Calculateur de talents {n}', 'es': 'Calculadora de talentos de {n}',
+           'pt': 'Calculadora de talentos de {n}', 'it': '{n}: calcolatore di talenti', 'pl': '{n}: kalkulator talentów'}
+CALC_D = {'ru': 'Калькулятор талантов {g} в WoW Forever: ветки {s}, 51 очко к 60 уровню, ссылка на свой билд. Раскладка по бете.',
+          'en': 'WoW Forever {n} talent calculator: {s} trees, 51 points by level 60, a shareable link to your build. Beta layout.',
+          'uk': 'Калькулятор талантів {g} у WoW Forever: гілки {s}, 51 очко до 60 рівня, посилання на свій білд. Розкладка за бетою.',
+          'de': 'Talentrechner {n} für WoW Forever: Bäume {s}, 51 Punkte bis Stufe 60, dein Build als Link. Stand der Beta.',
+          'fr': 'Calculateur de talents {n} pour WoW Forever : arbres {s}, 51 points au niveau 60, build à partager. Données bêta.',
+          'es': 'Calculadora de talentos de {n} en WoW Forever: árboles {s}, 51 puntos a nivel 60, build con enlace. Datos beta.',
+          'pt': 'Calculadora de talentos de {n} no WoW Forever: árvores {s}, 51 pontos no nível 60, build por link. Dados da beta.',
+          'it': 'Calcolatore di talenti {n} per WoW Forever: alberi {s}, 51 punti al livello 60, build in un link. Dati beta.',
+          'pl': 'Kalkulator talentów {n} w WoW Forever: drzewka {s}, 51 punktów na 60 poziomie, twój build w linku. Dane z bety.'}
+CALC_LEAD = {'ru': 'Три ветки, 51 очко к 60 уровню, ряды и требования как в игре. Билд сохраняется в браузере, ссылкой можно поделиться.',
+             'en': 'Three trees, 51 points by level 60, row and prerequisite rules as in the game. Your build is saved in this browser and shared as a link.',
+             'uk': 'Три гілки, 51 очко до 60 рівня, ряди й вимоги як у грі. Білд зберігається в браузері, посиланням можна поділитися.',
+             'de': 'Drei Bäume, 51 Punkte bis Stufe 60, Reihen und Voraussetzungen wie im Spiel. Dein Build bleibt im Browser gespeichert und lässt sich als Link teilen.',
+             'fr': 'Trois arbres, 51 points au niveau 60, rangées et prérequis comme en jeu. Votre build reste enregistré dans le navigateur et se partage par lien.',
+             'es': 'Tres árboles, 51 puntos a nivel 60, filas y requisitos como en el juego. Tu build se guarda en el navegador y se comparte con un enlace.',
+             'pt': 'Três árvores, 51 pontos no nível 60, linhas e pré-requisitos como no jogo. Sua build fica salva no navegador e pode ser compartilhada por link.',
+             'it': 'Tre alberi, 51 punti al livello 60, file e requisiti come nel gioco. La build resta salvata nel browser e si condivide con un link.',
+             'pl': 'Trzy drzewka, 51 punktów na 60 poziomie, rzędy i wymagania jak w grze. Build zapisuje się w przeglądarce, a linkiem można się podzielić.'}
+CALC_HUB = {   # talents/: (title, h1, description, lead)
+    'ru': ('Калькулятор талантов WoW Forever: все 9 классов', 'Калькулятор талантов WoW Forever',
+           'Калькулятор талантов WoW Forever (ВоВ Форевер) для девяти классов: три ветки, 51 очко к 60 уровню, ряды и требования как в игре, ссылка на билд. По бете.',
+           'Девять классов, у каждого три ветки и 51 очко к 60 уровню. Выберите класс.'),
+    'en': ('WoW Forever Talent Calculator: All 9 Classes', 'WoW Forever Talent Calculator',
+           'WoW Forever talent calculator for all nine classes: three trees each, 51 points by level 60, in-game row and prerequisite rules, a shareable build link.',
+           'Nine classes, three trees each, 51 points by level 60. Pick a class.'),
+    'uk': ('Калькулятор талантів WoW Forever: усі 9 класів', 'Калькулятор талантів WoW Forever',
+           'Калькулятор талантів WoW Forever (ВоВ Форевер) для дев’яти класів: три гілки, 51 очко до 60 рівня, ряди й вимоги як у грі, посилання на білд. За бетою.',
+           'Дев’ять класів, у кожного три гілки й 51 очко до 60 рівня. Оберіть клас.'),
+    'de': ('WoW Forever Talentrechner: alle 9 Klassen', 'WoW Forever Talentrechner',
+           'Talentrechner für WoW Forever, alle neun Klassen: je drei Bäume, 51 Punkte bis Stufe 60, Reihen und Voraussetzungen wie im Spiel, Build als Link.',
+           'Neun Klassen, je drei Bäume und 51 Punkte bis Stufe 60. Wähle eine Klasse.'),
+    'fr': ('Calculateur de talents WoW Forever : les 9 classes', 'Calculateur de talents WoW Forever',
+           'Calculateur de talents WoW Forever pour les neuf classes : trois arbres chacune, 51 points au niveau 60, rangées et prérequis du jeu, build à partager.',
+           'Neuf classes, trois arbres chacune, 51 points au niveau 60. Choisissez une classe.'),
+    'es': ('Calculadora de talentos WoW Forever: las 9 clases', 'Calculadora de talentos WoW Forever',
+           'Calculadora de talentos de WoW Forever para las nueve clases: tres árboles cada una, 51 puntos a nivel 60, filas y requisitos del juego, build con enlace.',
+           'Nueve clases, tres árboles cada una, 51 puntos a nivel 60. Elige una clase.'),
+    'pt': ('Calculadora de talentos WoW Forever: as 9 classes', 'Calculadora de talentos WoW Forever',
+           'Calculadora de talentos do WoW Forever para as nove classes: três árvores cada, 51 pontos no nível 60, linhas e requisitos do jogo, build por link.',
+           'Nove classes, três árvores cada, 51 pontos no nível 60. Escolha uma classe.'),
+    'it': ('Calcolatore di talenti WoW Forever: tutte le 9 classi', 'Calcolatore di talenti WoW Forever',
+           'Calcolatore di talenti di WoW Forever per tutte le nove classi: tre alberi ciascuna, 51 punti al livello 60, file e requisiti del gioco, build in un link.',
+           'Nove classi, tre alberi ciascuna, 51 punti al livello 60. Scegli una classe.'),
+    'pl': ('Kalkulator talentów WoW Forever: wszystkie 9 klas', 'Kalkulator talentów WoW Forever',
+           'Kalkulator talentów WoW Forever dla dziewięciu klas: po trzy drzewka, 51 punktów na 60 poziomie, rzędy i wymagania jak w grze, build w linku.',
+           'Dziewięć klas, każda ma trzy drzewka i 51 punktów na 60 poziomie. Wybierz klasę.'),
+}
+
+
+def calc_words(cid, lang):
+    """{n}, {g}, {s} of a class calculator page in a language."""
+    from content.guides import GUIDES as G
+    c = next(x for x in CLASSES if x['id'] == cid)
+    n = tr(c['n'], lang)
+    import talents
+    sec = {s['id']: s['title'] for s in next(x for x in G if x['slug'] == f'builds-{cid}')['sections']}
+    trees = [langs.derive(dict(sec[t['key']]))[lang].split(':')[0].strip() for t in talents.load(cid)['trees']]   # the client's tab order
+    return {'n': n, 'g': CALC_GEN.get(lang, {}).get(cid, n), 's': listing(trees, lang) if trees else ''}
+
+
+def calc_meta():
+    """talents/ and talents/<class>/ -> {lang: (title, description)}."""
+    out = {'talents/': {l: (CALC_HUB[l][0], CALC_HUB[l][2]) for l in LANGS}}
+    for c in CLASSES:
+        out[f'talents/{c["id"]}/'] = {l: (CALC_T[l].format(**calc_words(c['id'], l)), CALC_D[l].format(**calc_words(c['id'], l))) for l in LANGS}
+    return out
+
+
 from content import dungeon_pages  # noqa: E402
 
 META.update(dungeon_pages.SEO)   # pages of single dungeons: guides/dungeons/<slug>/
@@ -289,6 +376,7 @@ def page_meta():
             if len(title) > 60:
                 title = CLASS_T_SHORT[l].format(n=n, specs=sp)
             out[f'classes/{c["id"]}/'][l] = (title, CLASS_D[l].format(n=n, specs=listing(specs, l)))
+    out.update(calc_meta())
     names = race_names()
     for rp in RACES_PAGE:
         facts = dict(rp['facts'])
@@ -332,6 +420,11 @@ def crumbs(path, lang):
         return items
     if top in names:
         items.append((names[top][lang], base + top))
+        return items
+    if top == 'talents/':                                          # the calculator: its class list, then the class
+        items.append((CALC_NAME[lang], base + top))
+        if len(parts) > 1:
+            items.append((tr(next(c['n'] for c in CLASSES if c['id'] == parts[1]), lang), base + path))
         return items
     items.append((sec[top]['title'][lang], base + top))
     if len(parts) > 1:
@@ -447,6 +540,8 @@ def apply(html, path, lang, title, desc):
         html = html.replace('</body>', f'<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon=\'{beacon}\'></script>\n</body>', 1)
     if path == '':
         return build.late(build.late_fonts(html))
+    if path.startswith('talents/'):                                # the calculator: a text heading, the display face comes late as on the home page
+        return build.late(build.late_fonts(html), 'img[fetchpriority="high"]')
     return build.late(html, 'img[fetchpriority="high"]') if path.startswith(LATE_INNER) else html
 
 
@@ -478,6 +573,8 @@ def main():
             html = apply(html, path, lang, title, desc)
             if lang == 'en':                     # dates added after localize (cards, JSON-LD): «Nov 4», not 04.11
                 html = build.en_dates(html)
+            if path.startswith('talents/'):     # a light page: only the styles its elements can use (build.prune_css)
+                html = build.prune_css(html)
             html = build.min_css(html)
             open(full, 'w', encoding='utf-8', newline='\n').write(html)
     with open(os.path.join(HERE, 'sitemap.xml'), 'w', encoding='utf-8', newline='\n') as f:

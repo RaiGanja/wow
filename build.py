@@ -281,7 +281,7 @@ MORE = (
                     ('guides/leveling/', 'Прокачка 1–60'), ('guides/dungeons/', 'Подземелья и рейды'), ('guides/professions/', 'Профессии'),
                     ('guides/server-status/', 'Статус серверов'), ('guides/name-reservation/', 'Резерв имён'),
                     ('guides/faq/', 'FAQ и даты'), ('guides/news/', 'Новости'), ('guides/', 'Все статьи'))),
-    ('Инструменты', (('character/', 'Мой персонаж'), ('tools/#picker', 'Раса и класс'), ('tools/#raid', 'Состав группы и LFG'), ('play/', 'Второй экран'))),
+    ('Инструменты', (('talents/', 'Калькулятор талантов'), ('character/', 'Мой персонаж'),('tools/#picker', 'Раса и класс'), ('tools/#raid', 'Состав группы и LFG'), ('play/', 'Второй экран'))),
     ('Сообщество', (('discord', 'Discord'),) + ((('roster/', 'Игроки'),) if SOCIAL else ()) + (('profile/', 'Мой профиль'),)),
 )
 WIDE, NAV_WIDE = {'play/'}, ' class="nwide"'   # from 1440 px «Second screen» takes Discord's place (nine items do not fit); otherwise it is in «Ещё»
@@ -522,6 +522,91 @@ def min_css(html):
         out.append(gap(css[pos:]))
         return m[1] + ''.join(out).strip().replace(';}', '}') + m[3]
     return re.sub(r'(<style[^>]*>)(.*?)(</style>)', one, html, flags=re.S)
+
+
+PRUNE_JS = ('assets/me/me.js', 'assets/hero/hero.js', 'assets/search/search.js', 'assets/radio/radio.js', 'assets/living/living.js',
+            'assets/tod/tod.js')   # scripts that add markup to any page: their words count as used
+_PRUNE_WORDS = []
+
+
+def prune_css(html):
+    """The inline styles of a page without the rules no element of it can match: a selector is dropped only when a class or id it
+    needs (outside :not()/:is()/[...] and other brackets) is not a word anywhere in the page (markup, inline scripts) or in the
+    shared scripts of PRUNE_JS. Every page carries the whole home and guide stylesheet; a light page (the talent calculator) needs
+    a fifth of it, and the browser's style work before the first frame is what holds its first paint back on a phone."""
+    if not _PRUNE_WORDS:
+        words = set()
+        for f in PRUNE_JS:
+            p = os.path.join(HERE, f)
+            if os.path.isfile(p):
+                words |= set(re.findall(r'[A-Za-z_][\w-]*', open(p, encoding='utf-8').read()))
+        _PRUNE_WORDS.append(words)
+    words = _PRUNE_WORDS[0] | set(re.findall(r'[A-Za-z_][\w-]*', re.sub(r'<style[^>]*>.*?</style>', ' ', html, flags=re.S)))
+
+    def need(sel):
+        s = sel
+        while True:                                            # brackets out, innermost first: :not(.x) does not need .x
+            t = re.sub(r'\([^()]*\)|\[[^\[\]]*\]', ' ', s)
+            if t == s:
+                break
+            s = t
+        return all(w in words for w in re.findall(r'[.#]([A-Za-z_][\w-]*)', s))
+
+    def block(css, i):
+        """End of the {…} block that opens at css[i] (strings and comments skipped)."""
+        depth = 0
+        while i < len(css):
+            c = css[i]
+            if c in '"\'':
+                i = css.index(c, i + 1)
+            elif css.startswith('/*', i):
+                i = css.index('*/', i) + 1
+            elif c == '{':
+                depth += 1
+            elif c == '}':
+                depth -= 1
+                if not depth:
+                    return i
+            i += 1
+        raise ValueError('unbalanced css')
+
+    def walk(css):
+        out, i = [], 0
+        while i < len(css):
+            j = css.find('{', i)
+            k = css.find(';', i)
+            if j < 0:
+                out.append(css[i:])
+                break
+            if 0 <= k < j and css[i:k].strip().startswith('@'):   # @import, @charset
+                out.append(css[i:k + 1])
+                i = k + 1
+                continue
+            end = block(css, j)
+            pre, body = css[i:j], css[j + 1:end]
+            head = re.sub(r'/\*.*?\*/', '', pre, flags=re.S).strip()
+            if re.match(r'@(media|supports|container|layer)\b', head):
+                inner = walk(body)
+                if inner.strip():
+                    out.append(f'{pre}{{{inner}}}')
+            elif head.startswith('@') or not head:
+                out.append(css[i:end + 1])
+            else:
+                sels, depth, cur = [], 0, ''
+                for ch in head:                                # selector list, commas inside brackets kept
+                    depth += ch in '([' and 1 or (ch in ')]' and -1 or 0)
+                    if ch == ',' and not depth:
+                        sels.append(cur)
+                        cur = ''
+                    else:
+                        cur += ch
+                sels.append(cur)
+                keep = [x.strip() for x in sels if need(x)]
+                if keep:
+                    out.append(f'\n{", ".join(keep)} {{{body}}}')
+            i = end + 1
+        return ''.join(out)
+    return re.sub(r'(<style(?![^>]*media="print")[^>]*>)(.*?)(</style>)', lambda m: m[1] + walk(m[2]) + m[3], html, flags=re.S)
 
 
 def late(html, hero='.hero-art img'):
@@ -1024,6 +1109,7 @@ UPD_SRC = {'guides/leveling-': ('content/class_guides.py',),   # the nine class 
            'guides/dungeons/': ('content/dungeon_pages.py', 'content/guides.py'),   # the list and the pages of single dungeons
            'guides/': ('content/guides.py', 'i18n/guides.ru.txt', 'i18n/guides.en.txt', 'i18n/guides.uk.txt'),
            'classes/': ('content/classes.py',), 'races/': ('content/races.py',),
+           'talents/': ('talents.py', 'content/talents'),   # the calculator: the engine and the trees
            'tools/': ('tools.src.html', 'i18n/tools.ru.txt', 'content/classes.py', 'content/races.py')}
 NO_UPD = {'guides/news/'}   # the news feed refreshes itself
 _SRC_DATES = {}
