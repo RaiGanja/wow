@@ -28,7 +28,7 @@ CF_BEACON_TOKEN = 'ee1d216e690040389063e8d72384c2c7'
 # Та же метка — в хабе (gabella-hub, content.VERIFY): кабинеты проверяют корень домена gabella.site.
 # Bing Webmaster Tools подключён импортом из Search Console и метки не требует; msvalidate.01 — запасной путь.
 VERIFY = {
-    'msvalidate.01': '',         # Bing Webmaster Tools → Settings → Verification → HTML Meta Tag
+    'msvalidate.01': '73FA74F8B7D415104D305A58E9706FE7',   # Bing Webmaster Tools → Settings → Verification → HTML Meta Tag
 }
 
 BRAND = 'Gabella'
