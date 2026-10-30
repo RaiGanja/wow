@@ -5,7 +5,7 @@
     Article с датой обновления на гайдах, FAQPage на FAQ); метка подтверждения Bing (VERIFY);
   * сниппет Cloudflare Web Analytics, если задан CF_BEACON_TOKEN;
 и пишет sitemap.xml со всеми страницами и hreflang-альтернативами.
-robots.txt живёт в корне домена — репо RaiGanja/raiganja.github.io (gabella-hub), не здесь.
+robots.txt живёт в корне домена — репо gabella-wow/gabella-wow.github.io (gabella-hub), не здесь.
 Если запускаете build_tools.py или build_guides.py отдельно, потом запустите и python seo.py.
 Запуск: python seo.py"""
 import json, os, re, sys
