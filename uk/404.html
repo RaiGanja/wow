@@ -126,7 +126,7 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .skip:not(:focus) { width: 1px; height: 1px; padding: 0; border: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }   /* seen only from the keyboard */
 /* Top bar: transparent over the hero, solid after scrolling */
 .topbar { position: fixed; inset: 0 0 auto 0; z-index: 30; height: var(--top); color: var(--ink); background: linear-gradient(rgba(5,6,8,.62), rgba(5,6,8,0)); border-bottom: 1px solid transparent; transition: background-color .25s, border-color .25s, color .25s; }
-.topbar.solid { background: var(--rail); border-bottom-color: var(--line); color: var(--fg); transition: none; }   /* opaque at once: a fade lets the page show through the menu */
+.topbar.solid, .langon .topbar { background: var(--rail); border-bottom-color: var(--line); color: var(--fg); transition: none; }   /* opaque at once: a fade lets the page show through the menu */
 .topbar .in { max-width: var(--wrap); height: 100%; margin: 0 auto; padding: 0 max(20px, env(safe-area-inset-left, 0px)); display: flex; align-items: center; gap: 14px; }
 .brand { flex: none; display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; min-height: 44px; }   /* never squeezed: the subtitle would run into the menu */
 .mark { width: 40px; height: 40px; flex: none; display: block; border-radius: 8px; box-shadow: 0 0 0 1px rgba(201,165,74,.35); }
@@ -143,7 +143,7 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 @media (max-width: 1280px) { .mainnav a { padding: 0 6px; } }
 .mainnav a[aria-current="true"] { opacity: 1; color: var(--ink-gold); }
 .sheet .grp a[aria-current="true"], .tabbar .morebtn[aria-current="true"] { color: var(--gold-2); }  
-.topbar.solid .mainnav a[aria-current="true"], .topbar.solid .bt small { color: var(--gold-2); }
+.topbar.solid .mainnav a[aria-current="true"], .topbar.solid .bt small, .langon .topbar .mainnav a[aria-current="true"], .langon .topbar .bt small { color: var(--gold-2); }
 .tools { margin-left: auto; display: flex; gap: 8px; align-items: center; }
 .langsel { position: relative; }
 .langbtn { min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0 12px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; font: inherit; font-weight: 600; font-size: var(--fs-13); letter-spacing: .04em; cursor: pointer; }
@@ -157,12 +157,17 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .langgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; width: 100%; }
 .langgrid a { min-height: 44px; display: grid; place-items: center; padding: 4px 6px; text-align: center; line-height: 1.15; border: 1px solid var(--pline); border-radius: 8px; color: inherit; text-decoration: none; font-size: var(--fs-14); }
 .langgrid a[aria-current="page"] { background: var(--seg-on); color: var(--gold-2); border-color: transparent; font-weight: 600; }
-.langhint { position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); z-index: 70; display: flex; align-items: center; gap: 12px; width: max-content; max-width: calc(100% - 32px); padding: 6px 6px 6px 16px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); color: var(--fg); box-shadow: 0 18px 48px rgba(0,0,0,.35); font-size: var(--fs-14); }
+/* Browser-language hint: a strip in the page flow right under the top bar. The body makes room for it (--lh, set by LANG_JS),
+   so it never covers text or the header and scrolls away with the page; while it is up the top bar is solid. */
+.langhint { position: absolute; inset: var(--top) 0 auto 0; z-index: 29; background: var(--rail); border-bottom: 1px solid var(--line); color: var(--fg); font-size: var(--fs-14); line-height: 1.35; }
+.langhint .lhin { max-width: var(--wrap); min-height: 40px; margin: 0 auto; padding: 2px max(20px, env(safe-area-inset-left, 0px)); display: flex; align-items: center; gap: 4px 14px; }
+.langhint span { min-width: 0; color: var(--muted); }
 .langhint a { color: var(--gold-2); font-weight: 600; white-space: nowrap; }
-.langhint button { flex: none; width: 36px; height: 36px; display: grid; place-items: center; border: 0; border-radius: 7px; background: transparent; color: inherit; cursor: pointer; }
+.langhint button { flex: none; width: 36px; height: 36px; margin: 0 -8px 0 auto; display: grid; place-items: center; border: 0; border-radius: 7px; background: transparent; color: inherit; cursor: pointer; }
 .langhint button:hover { background: color-mix(in srgb, currentColor 10%, transparent); }
-@media print { .langhint { display: none; } }
-@media (max-width: 359px) { .langhint { gap: 6px; padding-left: 14px; } .langhint span { display: none; } }   /* 320: the link and the close button, one line */
+.langon body { padding-top: var(--lh, 0px); }
+@media print { .langhint { display: none; } .langon body { padding-top: 0; } }
+@media (max-width: 359px) { .langhint span { display: none; } }   /* 320: the link and the close button, one line */
 .gamehint { display: flex; align-items: center; gap: 12px; margin: 0 0 16px; padding: 6px 6px 6px 16px; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); font-size: var(--fs-14); }
 .gamehint[hidden] { display: none; }
 .gamehint span { flex: 1; min-width: 0; }
@@ -181,7 +186,7 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
   .topbar .srchbtn .ico { flex: none; }
   .topbar .srchbtn .sl { display: block; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--fs-14); font-weight: 500; opacity: .82; }
 }
-@media (min-width: 375px) and (max-width: 1260px), (min-width: 1600px) { .topbar:not(.solid) .srchbtn { background: rgb(5 6 8 / .4); } }
+@media (min-width: 375px) and (max-width: 1260px), (min-width: 1600px) { html:not(.langon) .topbar:not(.solid) .srchbtn { background: rgb(5 6 8 / .4); } }
 @media (min-width: 375px) and (max-width: 719px) { .topbar .bt { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; } .topbar .brand { padding: 0 6px; margin: 0 -6px; } }   /* the wordmark steps aside for the field; the logo stays, the link keeps its name and a 44 px tap box (padding offset by margin: the layout does not move) */
 @media (min-width: 1600px) {
   .topbar .srchbtn { width: 200px; display: flex; align-items: center; justify-content: flex-start; gap: 8px; padding: 0 10px 0 12px; }
@@ -984,7 +989,9 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .topbar .langbtn::after { display: none; }
   .topbar .langbtn { text-indent: .04em; }   /* arrow hidden: trailing letter-spacing no longer pulls the letters left of centre */
   .topbar .langsel { order: 1; }
-  .langhint { bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
+  .langhint { font-size: var(--fs-13); }
+  .langhint .lhin { padding-left: 16px; padding-right: 16px; gap: 4px 12px; }
+  .langhint span { flex: 1; }
   .brand b { font-size: var(--fs-18); }
   .hero { min-height: max(580px, calc(100svh - 62px - env(safe-area-inset-bottom, 0px))); }
   .hero-art img { object-position: 60% 50%; }
@@ -1610,7 +1617,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png?v=00a6a7d9">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../assets/radio/radio.css?v=556d7dc63f" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=cc6c9dc759" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/search/search.css?v=ac02ab8794" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../assets/me/me.css?v=f19953bd21" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../assets/hero/hero.css?v=6321409992" media="print" onload="this.media='all'">
 </head>
@@ -1794,11 +1801,19 @@ if ('IntersectionObserver' in window && tocLinks.length) {
   if (!to) return;
   const bar = document.createElement('div');
   bar.className = 'langhint'; bar.lang = want; bar.setAttribute('role', 'status');
-  bar.innerHTML = `<span>${H[want][0]}</span><a href="${to.getAttribute('href')}" hreflang="${to.hreflang}" data-lang="${want}">${H[want][1]}</a>`
-    + `<button type="button" aria-label="${H[want][2]}"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button>`;
+  bar.innerHTML = `<div class="lhin"><span>${H[want][0]}</span><a href="${to.getAttribute('href')}" hreflang="${to.hreflang}" data-lang="${want}">${H[want][1]}</a>`
+    + `<button type="button" aria-label="${H[want][2]}"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>`;
   keepHash(bar.querySelector('a'));
-  bar.querySelector('button').addEventListener('click', () => { store(); bar.remove(); });
-  document.body.append(bar);
+  // The strip sits in the page flow under the top bar: the body makes room for its height (--lh), nothing is covered.
+  const root = document.documentElement, head = document.getElementById('topbar');
+  const fit = () => { const h = bar.offsetHeight, was = parseFloat(root.style.getPropertyValue('--lh')) || 0; root.style.setProperty('--lh', h + 'px'); if (scrollY > 0) scrollBy(0, h - was); };
+  bar.querySelector('button').addEventListener('click', () => {
+    store(); bar.remove(); removeEventListener('resize', fit);
+    const h = parseFloat(root.style.getPropertyValue('--lh')) || 0;
+    root.classList.remove('langon'); root.style.removeProperty('--lh'); if (scrollY > 0) scrollBy(0, -h);
+  });
+  if (head) head.after(bar); else document.body.prepend(bar);
+  root.classList.add('langon'); fit(); addEventListener('resize', fit);
 })();
 </script>
 <script>
@@ -1834,7 +1849,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../assets/radio/radio.js?v=556d7dc63f" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=cc6c9dc759" data-root="../" defer></script>
+<script src="../assets/search/search.js?v=ac02ab8794" data-root="../" defer></script>
 <script src="../assets/me/me.js?v=f19953bd21" data-root="../" data-home="./" data-lang="uk" data-ach="0" data-teaser="" data-close="Закрити" data-page="404" data-look="2" defer></script>
 <script src="../assets/hero/hero.js?v=6321409992" data-root="../" data-home="./" data-data="../assets/hero/uk.json?v=6321409992" defer></script>
 </body>
