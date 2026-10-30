@@ -155,7 +155,7 @@ def test_dungeon_pages():
     for p in dp.DUNGEON_PAGES:
         assert p['name'] in reg, p['name']
         assert links[order.index(p['name'])] == p['slug'] + '/'
-        assert reg[p['name']][5] in ('alliance', 'horde'), p['name']                  # the side of the entrance is set
+        assert reg[p['name']][5] in ('alliance', 'horde', None), p['name']            # the side of the entrance; none = open to both ('both' breaks the filters)
         assert all(b.get(k) for b in p['bosses'] for k in ('name', 'abil', 'tank', 'heal', 'dps')), p['name']
         assert sum(1 for b in p['bosses'] if b.get('last')) == 1, p['name']
         assert all(s in ('alliance', 'horde', 'both') for _, _, s in p['quests']), p['name']
