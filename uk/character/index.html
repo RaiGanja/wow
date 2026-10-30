@@ -59,9 +59,9 @@
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=00a6a7d9">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css?v=556d7dc63f" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=ba2adbefa8" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=6b325a1d14" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/me/me.css?v=f19953bd21" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/hero/hero.css?v=ef9324789f" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/hero/hero.css?v=fffc8a181c" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Головна","item":"https://gabella.site/wow/uk/"},{"@type":"ListItem","position":2,"name":"Мій персонаж","item":"https://gabella.site/wow/uk/character/"}]}</script>
 </head>
 <body class="compact">
@@ -316,8 +316,8 @@ const DUNGEONS = [
   ['Wailing Caverns', 17, 24, 'The Barrens', 0, [['Method', '15–24'], ['Icy Veins', '15–24']], 'horde', 1],
   ['Shadowfang Keep', 20, 26, 'Silverpine Forest', 0, [['Method', '20–30'], ['Icy Veins', '20–30']], 'horde', 1],
   ['Blackfathom Deeps', 22, 28, 'Ashenvale', 0, [['Method', '24–32'], ['Icy Veins', '24–32'], ['Sportskeeda', '22–26']]],
-  ['Excavation Site: Wetlands', 24, 29, 'Wetlands', 1, [['ClassicWoW.gg', '26–31'], ['Icy Veins', '26–33']]],
-  ['The Stockade', 25, 29, 'Stormwind City', 0, [['Icy Veins', '24–32']], 'alliance'],
+  ['The Stockade', 25, 29, 'Stormwind City', 0, [['Method', '24–32'], ['Icy Veins', '24–32']], 'alliance'],
+  ['Excavation Site: Wetlands', 26, 31, 'Wetlands', 1, [['Warcraft Tavern', '26–33'], ['Method', '26–33'], ['Icy Veins', '26–33']]],
   ['City of Dalaran', 28, 33, 'Alterac Mountains', 1, [['Icy Veins', '28–35']]],
   ['Gnomeregan', 29, 38, 'Dun Morogh', 0],
   ['Razorfen Kraul', 29, 38, 'The Barrens', 0],
@@ -381,7 +381,7 @@ function leftTxt(ms) {
   const m = Math.max(1, Math.round(ms / 6e4)), d = Math.floor(m / 1440), h = Math.floor(m % 1440 / 60);
   return d ? `${u(d, 'day')} ${u(h, 'hour')}` : h ? `${u(h, 'hour')} ${u(m % 60, 'minute')}` : u(m, 'minute');
 }
-const H = {"slug":{"human":"human","dwarf":"dwarf","nightelf":"night-elf","gnome":"gnome","skyA":"skyborne-alliance","orc":"orc","undead":"undead","tauren":"tauren","troll":"troll","skyH":"skyborne-horde"},"paid":["skyA","skyH"],"look":{"v":"2","sexes":["m","f"],"races":{"human":{"sex":"m","bg":"human"},"dwarf":{"sex":"f","bg":"dwarf"},"nightelf":{"sex":"f","bg":"night-elf"},"gnome":{"sex":"m","bg":"gnome"},"skyA":{"sex":"m","bg":"skyborne-alliance"},"orc":{"sex":"m","bg":"orc"},"undead":{"sex":"m","bg":"undead"},"tauren":{"sex":"m","bg":"tauren"},"troll":{"sex":"m","bg":"troll"},"skyH":{"sex":"f","bg":"skyborne-horde"}},"bgs":[["human","Людина"],["dwarf","Дворф"],["night-elf","Нічний ельф"],["gnome","Гном"],["skyborne-alliance","Високий скайборн"],["orc","Орк"],["undead","Нежить"],["tauren","Таурен"],["troll","Троль"],["skyborne-horde","Скайборн-вітрорізь"],["hero_dawn","Світанок"],["hero_campfire","Привал"],["scene-tavern","Таверна"],["scene-pass","Перевал"],["scene-swamp","Болота"],["scene-desert","Пустеля"],["scene-nightwood","Нічний ліс"],["scene-harbor","Гавань"],["scene-ruins","Руїни"],["scene-peak","Вершина"]]},"lfg":{"d":[["Ragefire Chasm",13,18,"horde"],["Hall of Thanes",13,18,0],["Ruins of Lordaeron",15,20,0],["The Deadmines",15,22,0],["Wailing Caverns",17,24,0],["Shadowfang Keep",20,26,0],["Blackfathom Deeps",22,28,0],["Excavation Site: Wetlands",24,29,0],["The Stockade",25,29,"alliance"],["City of Dalaran",28,33,0],["Gnomeregan",29,38,0],["Razorfen Kraul",29,38,0],["Scarlet Monastery: Graveyard",30,38,0],["Scarlet Monastery: Library",33,41,0],["The Drowned City",35,40,0],["Scarlet Monastery: Armory",36,44,0],["Uldaman",36,45,0],["Razorfen Downs",37,46,0],["Scarlet Monastery: Cathedral",38,46,0],["Zul'Farrak",40,47,0],["Krol'dok Stronghold",40,45,0],["Maraudon",45,51,0],["Alcaz Island Prison",48,53,0],["Temple of Atal'Hakkar",50,55,0],["Blackrock Depths",52,60,0],["Blackmaw Hold",55,60,0],["Lower Blackrock Spire",57,60,0],["Dire Maul: East",58,60,0],["Shaper's Terrace",58,60,0],["Stratholme: Living",58,60,0],["Stratholme: Undead",58,60,0],["Scholomance",58,60,0],["Upper Blackrock Spire",60,60,0],["Dire Maul: West",60,60,0],["Dire Maul: North",60,60,0]],"r":{"10":"Barrow Deeps","20":"Hyjal Summit","40":"Onyxia’s Lair"}}};
+const H = {"slug":{"human":"human","dwarf":"dwarf","nightelf":"night-elf","gnome":"gnome","skyA":"skyborne-alliance","orc":"orc","undead":"undead","tauren":"tauren","troll":"troll","skyH":"skyborne-horde"},"paid":["skyA","skyH"],"look":{"v":"2","sexes":["m","f"],"races":{"human":{"sex":"m","bg":"human"},"dwarf":{"sex":"f","bg":"dwarf"},"nightelf":{"sex":"f","bg":"night-elf"},"gnome":{"sex":"m","bg":"gnome"},"skyA":{"sex":"m","bg":"skyborne-alliance"},"orc":{"sex":"m","bg":"orc"},"undead":{"sex":"m","bg":"undead"},"tauren":{"sex":"m","bg":"tauren"},"troll":{"sex":"m","bg":"troll"},"skyH":{"sex":"f","bg":"skyborne-horde"}},"bgs":[["human","Людина"],["dwarf","Дворф"],["night-elf","Нічний ельф"],["gnome","Гном"],["skyborne-alliance","Високий скайборн"],["orc","Орк"],["undead","Нежить"],["tauren","Таурен"],["troll","Троль"],["skyborne-horde","Скайборн-вітрорізь"],["hero_dawn","Світанок"],["hero_campfire","Привал"],["scene-tavern","Таверна"],["scene-pass","Перевал"],["scene-swamp","Болота"],["scene-desert","Пустеля"],["scene-nightwood","Нічний ліс"],["scene-harbor","Гавань"],["scene-ruins","Руїни"],["scene-peak","Вершина"]]},"lfg":{"d":[["Ragefire Chasm",13,18,"horde"],["Hall of Thanes",13,18,0],["Ruins of Lordaeron",15,20,0],["The Deadmines",15,22,0],["Wailing Caverns",17,24,0],["Shadowfang Keep",20,26,0],["Blackfathom Deeps",22,28,0],["The Stockade",25,29,"alliance"],["Excavation Site: Wetlands",26,31,0],["City of Dalaran",28,33,0],["Gnomeregan",29,38,0],["Razorfen Kraul",29,38,0],["Scarlet Monastery: Graveyard",30,38,0],["Scarlet Monastery: Library",33,41,0],["The Drowned City",35,40,0],["Scarlet Monastery: Armory",36,44,0],["Uldaman",36,45,0],["Razorfen Downs",37,46,0],["Scarlet Monastery: Cathedral",38,46,0],["Zul'Farrak",40,47,0],["Krol'dok Stronghold",40,45,0],["Maraudon",45,51,0],["Alcaz Island Prison",48,53,0],["Temple of Atal'Hakkar",50,55,0],["Blackrock Depths",52,60,0],["Blackmaw Hold",55,60,0],["Lower Blackrock Spire",57,60,0],["Dire Maul: East",58,60,0],["Shaper's Terrace",58,60,0],["Stratholme: Living",58,60,0],["Stratholme: Undead",58,60,0],["Scholomance",58,60,0],["Upper Blackrock Spire",60,60,0],["Dire Maul: West",60,60,0],["Dire Maul: North",60,60,0]],"r":{"10":"Barrow Deeps","20":"Hyjal Summit","40":"Onyxia’s Lair"}}};
 
 /* My character: the hero of this browser ("gabella-wf-me") made in a wizard without a login, and what the guide
    offers for it. The wizard: side -> class and spec -> race (the best one starred, from the Best race guide) -> look
@@ -681,9 +681,9 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js?v=556d7dc63f" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=ba2adbefa8" data-root="../../" defer></script>
+<script src="../../assets/search/search.js?v=6b325a1d14" data-root="../../" defer></script>
 <script src="../../assets/me/me.js?v=f19953bd21" data-root="../../" data-home="../" data-lang="uk" data-ach="0" data-teaser="" data-close="Закрити" data-page="character/" data-look="2" defer></script>
-<script src="../../assets/hero/hero.js?v=ef9324789f" data-root="../../" data-home="../" data-data="../../assets/hero/uk.json?v=ef9324789f" defer></script>
+<script src="../../assets/hero/hero.js?v=fffc8a181c" data-root="../../" data-home="../" data-data="../../assets/hero/uk.json?v=fffc8a181c" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>

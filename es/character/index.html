@@ -59,9 +59,9 @@
 <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png?v=00a6a7d9">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../../assets/radio/radio.css?v=556d7dc63f" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/search/search.css?v=ba2adbefa8" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/search/search.css?v=6b325a1d14" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../../assets/me/me.css?v=f19953bd21" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../../assets/hero/hero.css?v=ef9324789f" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../../assets/hero/hero.css?v=fffc8a181c" media="print" onload="this.media='all'">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://gabella.site/wow/es/"},{"@type":"ListItem","position":2,"name":"Mi personaje","item":"https://gabella.site/wow/es/character/"}]}</script>
 </head>
 <body class="compact">
@@ -316,8 +316,8 @@ const DUNGEONS = [
   ['Cuevas de los Lamentos', 17, 24, 'Los Baldíos', 0, [['Method', '15–24'], ['Icy Veins', '15–24']], 'horde', 1],
   ['Castillo de Colmillo Oscuro', 20, 26, 'Bosque de Argénteos', 0, [['Method', '20–30'], ['Icy Veins', '20–30']], 'horde', 1],
   ['Cavernas de Brazanegra', 22, 28, 'Vallefresno', 0, [['Method', '24–32'], ['Icy Veins', '24–32'], ['Sportskeeda', '22–26']]],
-  ['Excavation Site: Wetlands', 24, 29, 'Los Humedales', 1, [['ClassicWoW.gg', '26–31'], ['Icy Veins', '26–33']]],
-  ['Las Mazmorras', 25, 29, 'Ciudad de Ventormenta', 0, [['Icy Veins', '24–32']], 'alliance'],
+  ['Las Mazmorras', 25, 29, 'Ciudad de Ventormenta', 0, [['Method', '24–32'], ['Icy Veins', '24–32']], 'alliance'],
+  ['Excavation Site: Wetlands', 26, 31, 'Los Humedales', 1, [['Warcraft Tavern', '26–33'], ['Method', '26–33'], ['Icy Veins', '26–33']]],
   ['City of Dalaran', 28, 33, 'Montañas de Alterac', 1, [['Icy Veins', '28–35']]],
   ['Gnomeregan', 29, 38, 'Dun Morogh', 0],
   ['Horado Rajacieno', 29, 38, 'Los Baldíos', 0],
@@ -381,7 +381,7 @@ function leftTxt(ms) {
   const m = Math.max(1, Math.round(ms / 6e4)), d = Math.floor(m / 1440), h = Math.floor(m % 1440 / 60);
   return d ? `${u(d, 'day')} ${u(h, 'hour')}` : h ? `${u(h, 'hour')} ${u(m % 60, 'minute')}` : u(m, 'minute');
 }
-const H = {"slug":{"human":"human","dwarf":"dwarf","nightelf":"night-elf","gnome":"gnome","skyA":"skyborne-alliance","orc":"orc","undead":"undead","tauren":"tauren","troll":"troll","skyH":"skyborne-horde"},"paid":["skyA","skyH"],"look":{"v":"2","sexes":["m","f"],"races":{"human":{"sex":"m","bg":"human"},"dwarf":{"sex":"f","bg":"dwarf"},"nightelf":{"sex":"f","bg":"night-elf"},"gnome":{"sex":"m","bg":"gnome"},"skyA":{"sex":"m","bg":"skyborne-alliance"},"orc":{"sex":"m","bg":"orc"},"undead":{"sex":"m","bg":"undead"},"tauren":{"sex":"m","bg":"tauren"},"troll":{"sex":"m","bg":"troll"},"skyH":{"sex":"f","bg":"skyborne-horde"}},"bgs":[["human","Humano"],["dwarf","Enano"],["night-elf","Elfo de la noche"],["gnome","Gnomo"],["skyborne-alliance","Skyborne High Order"],["orc","Orco"],["undead","No-muerto"],["tauren","Tauren"],["troll","Trol"],["skyborne-horde","Skyborne Windshaper"],["hero_dawn","Amanecer"],["hero_campfire","Hoguera"],["scene-tavern","Taberna"],["scene-pass","Paso de montaña"],["scene-swamp","Pantanos"],["scene-desert","Desierto"],["scene-nightwood","Bosque nocturno"],["scene-harbor","Puerto"],["scene-ruins","Ruinas"],["scene-peak","Cima"]]},"lfg":{"d":[["Sima Ígnea",13,18,"horde"],["Hall of Thanes",13,18,0],["Ruinas de Lordaeron",15,20,0],["Las Minas de la Muerte",15,22,0],["Cuevas de los Lamentos",17,24,0],["Castillo de Colmillo Oscuro",20,26,0],["Cavernas de Brazanegra",22,28,0],["Excavation Site: Wetlands",24,29,0],["Las Mazmorras",25,29,"alliance"],["City of Dalaran",28,33,0],["Gnomeregan",29,38,0],["Horado Rajacieno",29,38,0],["Monasterio Escarlata: Cementerio",30,38,0],["Monasterio Escarlata: Biblioteca",33,41,0],["The Drowned City",35,40,0],["Monasterio Escarlata: Armería",36,44,0],["Uldaman",36,45,0],["Zahúrda Rojocieno",37,46,0],["Monasterio Escarlata: Catedral",38,46,0],["Zul’Farrak",40,47,0],["Krol’dok Stronghold",40,45,0],["Maraudon",45,51,0],["Alcaz Island Prison",48,53,0],["El Templo de Atal’Hakkar",50,55,0],["Profundidades de Roca Negra",52,60,0],["Blackmaw Hold",55,60,0],["Cumbre de Roca Negra Inferior",57,60,0],["La Masacre: Este",58,60,0],["Shaper’s Terrace",58,60,0],["Stratholme: vivos",58,60,0],["Stratholme: no-muertos",58,60,0],["Scholomance",58,60,0],["Cumbre de Roca Negra Superior",60,60,0],["La Masacre: Oeste",60,60,0],["La Masacre: Norte",60,60,0]],"r":{"10":"Barrow Deeps","20":"La Cima Hyjal","40":"Guarida de Onyxia"}}};
+const H = {"slug":{"human":"human","dwarf":"dwarf","nightelf":"night-elf","gnome":"gnome","skyA":"skyborne-alliance","orc":"orc","undead":"undead","tauren":"tauren","troll":"troll","skyH":"skyborne-horde"},"paid":["skyA","skyH"],"look":{"v":"2","sexes":["m","f"],"races":{"human":{"sex":"m","bg":"human"},"dwarf":{"sex":"f","bg":"dwarf"},"nightelf":{"sex":"f","bg":"night-elf"},"gnome":{"sex":"m","bg":"gnome"},"skyA":{"sex":"m","bg":"skyborne-alliance"},"orc":{"sex":"m","bg":"orc"},"undead":{"sex":"m","bg":"undead"},"tauren":{"sex":"m","bg":"tauren"},"troll":{"sex":"m","bg":"troll"},"skyH":{"sex":"f","bg":"skyborne-horde"}},"bgs":[["human","Humano"],["dwarf","Enano"],["night-elf","Elfo de la noche"],["gnome","Gnomo"],["skyborne-alliance","Skyborne High Order"],["orc","Orco"],["undead","No-muerto"],["tauren","Tauren"],["troll","Trol"],["skyborne-horde","Skyborne Windshaper"],["hero_dawn","Amanecer"],["hero_campfire","Hoguera"],["scene-tavern","Taberna"],["scene-pass","Paso de montaña"],["scene-swamp","Pantanos"],["scene-desert","Desierto"],["scene-nightwood","Bosque nocturno"],["scene-harbor","Puerto"],["scene-ruins","Ruinas"],["scene-peak","Cima"]]},"lfg":{"d":[["Sima Ígnea",13,18,"horde"],["Hall of Thanes",13,18,0],["Ruinas de Lordaeron",15,20,0],["Las Minas de la Muerte",15,22,0],["Cuevas de los Lamentos",17,24,0],["Castillo de Colmillo Oscuro",20,26,0],["Cavernas de Brazanegra",22,28,0],["Las Mazmorras",25,29,"alliance"],["Excavation Site: Wetlands",26,31,0],["City of Dalaran",28,33,0],["Gnomeregan",29,38,0],["Horado Rajacieno",29,38,0],["Monasterio Escarlata: Cementerio",30,38,0],["Monasterio Escarlata: Biblioteca",33,41,0],["The Drowned City",35,40,0],["Monasterio Escarlata: Armería",36,44,0],["Uldaman",36,45,0],["Zahúrda Rojocieno",37,46,0],["Monasterio Escarlata: Catedral",38,46,0],["Zul’Farrak",40,47,0],["Krol’dok Stronghold",40,45,0],["Maraudon",45,51,0],["Alcaz Island Prison",48,53,0],["El Templo de Atal’Hakkar",50,55,0],["Profundidades de Roca Negra",52,60,0],["Blackmaw Hold",55,60,0],["Cumbre de Roca Negra Inferior",57,60,0],["La Masacre: Este",58,60,0],["Shaper’s Terrace",58,60,0],["Stratholme: vivos",58,60,0],["Stratholme: no-muertos",58,60,0],["Scholomance",58,60,0],["Cumbre de Roca Negra Superior",60,60,0],["La Masacre: Oeste",60,60,0],["La Masacre: Norte",60,60,0]],"r":{"10":"Barrow Deeps","20":"La Cima Hyjal","40":"Guarida de Onyxia"}}};
 
 /* My character: the hero of this browser ("gabella-wf-me") made in a wizard without a login, and what the guide
    offers for it. The wizard: side -> class and spec -> race (the best one starred, from the Best race guide) -> look
@@ -681,9 +681,9 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../../assets/radio/radio.js?v=556d7dc63f" data-root="../../" defer></script>
-<script src="../../assets/search/search.js?v=ba2adbefa8" data-root="../../" defer></script>
+<script src="../../assets/search/search.js?v=6b325a1d14" data-root="../../" defer></script>
 <script src="../../assets/me/me.js?v=f19953bd21" data-root="../../" data-home="../" data-lang="es" data-ach="0" data-teaser="" data-close="Cerrar" data-page="character/" data-look="2" defer></script>
-<script src="../../assets/hero/hero.js?v=ef9324789f" data-root="../../" data-home="../" data-data="../../assets/hero/es.json?v=ef9324789f" defer></script>
+<script src="../../assets/hero/hero.js?v=fffc8a181c" data-root="../../" data-home="../" data-data="../../assets/hero/es.json?v=fffc8a181c" defer></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ee1d216e690040389063e8d72384c2c7"}'></script>
 </body>
 </html>
