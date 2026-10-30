@@ -3,6 +3,7 @@
 
     python tools/talent_icons.py [paladin ...]            # by the client's icon file id (from the addon), API as a fallback
     python tools/talent_icons.py paladin --map icons.json  # icon names from a file {talent id: icon name} (tests)
+    python tools/talent_icons.py --retail                  # before the dump: refresh tools/talent_icons_api.json first
 
 The CDN serves an icon by its file id as well as by name (render.worldofwarcraft.com/eu/icons/56/135972.jpg, checked 26.10),
 so the addon's file id is enough and needs no key. The Game Data API knows only retail spells (11 of the 147 talents of our
@@ -78,6 +79,83 @@ def from_api(data, tok):
     return out, miss
 
 
+RETAIL_MAP = os.path.join(HERE, 'tools', 'talent_icons_api.json')
+SHIP = ('same-id', 'class-tree', 'name-unique')     # sources of tools/talent_icons_api.json that are drawn
+CLASS_NAME = {'druid': 'Druid', 'hunter': 'Hunter', 'mage': 'Mage', 'paladin': 'Paladin', 'priest': 'Priest',
+              'rogue': 'Rogue', 'shaman': 'Shaman', 'warlock': 'Warlock', 'warrior': 'Warrior'}
+
+
+def api_json(path, tok):
+    b = get(f'{API}{path}{"&" if "?" in path else "?"}locale=en_US', tok)
+    return json.loads(b) if b else None
+
+
+def retail(cids, data_dir, tok):
+    """Before the addon dump, for talents with no icon name: the Game Data API's own icon (static-eu, the only namespace
+    with spells; static-classic*-eu have items but no spell or talent endpoints, checked 30.10). In order:
+      same-id      the talent's spell id exists in the API;
+      class-tree   a talent of the same class in the API's talent trees has the same English name;
+      name-unique  the spell search finds this exact English name and all hits share one icon. The search does not say
+                   whose spell it is, so only an icon of the original client (file id < 200000: the old art the classic
+                   clients share) is used; a modern icon is kept in the file as 'name-modern' and NOT drawn (a mage icon
+                   for a druid talent would be worse than the plate).
+    Writes tools/talent_icons_api.json {class:talent id: {file, src, spell}}; the CDN serves the picture by that file id.
+    Several icons for one name or no hit -> nothing (two letters on a plate)."""
+    norm = lambda s: s.replace('’', "'").strip().lower()
+    media = {}
+
+    def icon(sid):
+        if sid not in media:
+            j = api_json(f'/data/wow/media/spell/{sid}?namespace=static-eu', tok)
+            a = next((a for a in (j or {}).get('assets', []) if a['key'] == 'icon'), None)
+            media[sid] = a.get('file_data_id') if a else None
+        return media[sid]
+
+    def walk(o, names):
+        if isinstance(o, dict):
+            sp = (o.get('spell_tooltip') or {}).get('spell')
+            if sp:
+                names.setdefault(norm(sp['name']), sp['id'])
+            for v in o.values():
+                walk(v, names)
+        elif isinstance(o, list):
+            for v in o:
+                walk(v, names)
+
+    idx = api_json('/data/wow/talent-tree/index?namespace=static-eu', tok)
+    out = json.load(open(RETAIL_MAP, encoding='utf-8')) if os.path.isfile(RETAIL_MAP) else {}
+    for cid in cids:
+        names = {}
+        tree = next((c for c in idx['class_talent_trees'] if c['name'] == CLASS_NAME[cid]), None)
+        if tree:
+            tid = tree['key']['href'].split('talent-tree/')[1].split('?')[0]
+            for s in idx['spec_talent_trees']:
+                if f'talent-tree/{tid}/' in s['key']['href']:
+                    walk(api_json(s['key']['href'].split('eu.api.blizzard.com')[1].split('?')[0] + '?namespace=static-eu', tok), names)
+        data = json.load(open(os.path.join(data_dir, f'{cid}.json'), encoding='utf-8'))
+        for t in (t for tr in data['trees'] for t in tr['talents']):
+            out.pop(f'{cid}:{t["id"]}', None)
+            if t.get('iname0'):
+                continue
+            en = t['n']['en'].replace('’', "'")
+            hit = next(((f, 'same-id', s) for s in t.get('spells') or [] if (f := icon(s))), None)
+            if not hit and names.get(norm(en)) and icon(names[norm(en)]):
+                hit = (icon(names[norm(en)]), 'class-tree', names[norm(en)])
+            if not hit:
+                j = api_json('/data/wow/search/spell?namespace=static-eu&_pageSize=100&name.en_US=' + urllib.parse.quote(en), tok)
+                ids = [r['data']['id'] for r in (j or {}).get('results', []) if norm(r['data']['name'].get('en_US', '')) == norm(en)]
+                files = {icon(s): s for s in ids[:30] if icon(s)}
+                if len(files) == 1:
+                    f, s = next(iter(files.items()))
+                    hit = (f, 'name-unique' if f < 200000 else 'name-modern', s)
+                elif files:
+                    print(f'  {cid} {en}: {len(files)} icons for one name, left as a plate')
+            if hit:
+                out[f'{cid}:{t["id"]}'] = {'file': hit[0], 'src': hit[1], 'spell': hit[2], 'en': t['n']['en']}
+    json.dump(dict(sorted(out.items())), open(RETAIL_MAP, 'w', encoding='utf-8', newline='\n'), ensure_ascii=False, indent=1)
+    return out
+
+
 def picture(name):
     os.makedirs(CACHE, exist_ok=True)
     p = os.path.join(CACHE, f'{name}.jpg')
@@ -119,9 +197,14 @@ def main():
     ap.add_argument('--data', default=os.path.join(HERE, 'content', 'talents'))
     ap.add_argument('--assets', default=os.path.join(HERE, 'assets', 'talents'))
     ap.add_argument('--map')
+    ap.add_argument('--retail', action='store_true', help='refresh tools/talent_icons_api.json from the Game Data API first')
     a = ap.parse_args()
     cids = a.classes or sorted(f[:-5] for f in os.listdir(a.data) if f.endswith('.json'))
     tok = None
+    if a.retail:
+        tok = token()
+        retail(cids, a.data, tok)
+    api_map = json.load(open(RETAIL_MAP, encoding='utf-8')) if os.path.isfile(RETAIL_MAP) else {}
     for cid in cids:
         p = os.path.join(a.data, f'{cid}.json')
         data = json.load(open(p, encoding='utf-8'))
@@ -133,6 +216,9 @@ def main():
             for t in talents:
                 if t.get('iname0') and t['id'] not in icons:
                     print(f'  {cid}: CDN has no icon {t["iname0"]} ({t["n"]["en"]})')
+                x = api_map.get(f'{cid}:{t["id"]}')                # no name in the layout: the API's icon, if proven
+                if not t.get('iname0') and x and x['src'] in SHIP and picture(str(x['file'])):
+                    icons[t['id']] = str(x['file'])
         else:
             talents = [t for tr in data['trees'] for t in tr['talents']]
             icons = {t['id']: str(t['file']) for t in talents if t.get('file') and picture(str(t['file']))}

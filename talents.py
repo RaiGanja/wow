@@ -429,9 +429,18 @@ def _icon(t, letters):
     return '<i class="tt-ic"></i>' if t.get('icon') is not None else f'<i class="tt-ic no">{escape(letters)}</i>'
 
 
+_SMALL = {'and', 'the', 'of', 'for', 'with', 'und', 'der', 'die', 'das', 'des', 'von', 'et', 'de', 'la', 'le', 'du', 'les', 'del',
+          'el', 'los', 'las', 'do', 'da', 'dos', 'das', 'di', 'il', 'della', 'dei', 'na', 'ze', 'и', 'в', 'на', 'со', 'та', 'із'}
+
+
 def _letters(name):
+    """Two letters of the name the reader sees: the initials of the first two words that carry meaning ("Voice of Truth" -> VT,
+    "Глас правды" -> ГП), or the start of a single word ("Reverence" -> Re)."""
     w = re.findall(r'\w+', name)
-    return (w[0][:2] if len(w) < 2 else w[0][0] + w[1][0]).capitalize() if w else '?'
+    big = [x for x in w if x.lower() not in _SMALL and (len(x) > 2 or x[:1].isupper())] or w
+    if not big:
+        return '?'
+    return (big[0][0] + big[1][0]).upper() if len(big) > 1 else big[0][:2].capitalize()
 
 
 def _arrows(tree, picked, ends=False):
@@ -476,7 +485,7 @@ def _rib(steps, lang, pre='f'):
         name = tname(t, lang)
         ic = f' style="--i:{t["icon"]}"' if t.get('icon') is not None else ''
         rib.append(f'<li><span>{_span(a, b)}</span><button type="button" class="tt-t on"{ic} data-k="{t["id"]}" aria-label="{escape(name)}">'
-                   f'{_icon(t, _letters(t["n"].get("en") or name))}</button><b>×{n}</b></li>')
+                   f'{_icon(t, _letters(name))}</button><b>×{n}</b></li>')
     return f'<ol class="tt-rib">{"".join(rib)}</ol>'
 
 
@@ -511,7 +520,7 @@ def _trees(data, titles, picked, main, lang):
             p = picked.get(t['id'], 0)
             ic = f';--i:{t["icon"]}' if t.get('icon') is not None else ''
             cells.append(f'<button type="button" class="tt-t{" on" if p else ""}" style="--r:{t["r"]};--c:{t["c"]}{ic}" data-k="{t["id"]}" '
-                         f'aria-label="{escape(name)}{f" {p}/{t["m"]}" if p else ""}">{_icon(t, _letters(t["n"].get("en") or name))}{f"<b>{p}</b>" if p else ""}</button>')
+                         f'aria-label="{escape(name)}{f" {p}/{t["m"]}" if p else ""}">{_icon(t, _letters(name))}{f"<b>{p}</b>" if p else ""}</button>')
         rows_n = max(t['r'] for t in tree['talents'])
         trees.append(f'<div class="tt-tree{" on" if on else ""}" data-t="{key}" role="group" aria-label="{title}">'
                      f'<h3>{title}<span{" class=on" if n else ""}>{n}</span></h3>'
@@ -651,7 +660,8 @@ CSS = """/* Talent trees (talents.py): three trees in a row when there is room, 
 .tt-t { position: relative; grid-row: var(--r); grid-column: var(--c); width: var(--s); height: var(--s); padding: 0; border: 1px solid var(--line-2); border-radius: 6px; background: #101114; cursor: pointer; }
 .tt-ic { position: absolute; inset: 1px; border-radius: 4px; background: #16181c no-repeat 0 0 / calc(var(--n) * 100%) 100%; background-position-x: calc(var(--i) / (var(--n) - 1) * 100%); }
 .tt.ld .tt-ic:not(.no) { background-image: var(--sp); }
-.tt-ic.no { display: grid; place-items: center; font: 600 12px/1 var(--serif, Georgia), serif; color: #8d8a82; font-style: normal; }
+.tt-ic.no { display: grid; place-items: center; font: 600 12px/1 var(--serif, Georgia), serif; letter-spacing: .04em; color: #c9bfa8; font-style: normal;
+  background: radial-gradient(circle at 50% 35%, #2b2d33, #15171b 75%); box-shadow: inset 0 0 0 1px rgba(201, 168, 92, .28), inset 0 0 8px rgba(0, 0, 0, .6); }
 .tt-t:not(.on) { border-color: var(--line); }
 .tt-t:not(.on) .tt-ic { filter: grayscale(1) brightness(.62); }
 .tt-t.on { border-color: var(--gold); }
