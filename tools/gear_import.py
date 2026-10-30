@@ -233,6 +233,361 @@ def from_pages(folder):
     return specs, items
 
 
+# ---------- SingleFile saves of the Wowhead level-30 class guides (30.10.2026) ----------
+# These pages have no item data (scripts stripped): only the item id, the English name, the quality colour and the
+# tables of the three parts (dungeon drops, quest rewards, crafted gear) plus world drops on some. So slot (except the
+# Slot column of crafted tables), required level, item level, stats and ru names stay empty until the addon dump (05.11).
+# Only links and short table cells are read: the guide's own text (advice, notes in brackets) is never kept.
+
+SF_CLASSES = ('warrior', 'paladin', 'hunter', 'rogue', 'priest', 'shaman', 'mage', 'warlock', 'druid')
+SF_FILE = re.compile(r'^Level 30 (.+?) (' + '|'.join(c.title() for c in SF_CLASSES) + r')\b.*?\((\d\d)\.(\d\d)\.(\d{4}) (\d\d)\D(\d\d)\D')
+SF_PARTS = {'dungeon-drops': 'drop', 'quest-rewards': 'quest', 'crafted-items': 'craft', 'world-drop': 'world', 'reputation-items': 'rep'}
+SF_SLOT = {'head': 'head', 'neck': 'neck', 'shoulder': 'shoulder', 'shoulders': 'shoulder', 'back': 'back', 'cloak': 'back',
+           'chest': 'chest', 'wrist': 'wrist', 'hands': 'hands', 'waist': 'waist', 'legs': 'legs', 'feet': 'feet',
+           'finger': 'finger', 'ring': 'finger', 'trinket': 'trinket', 'off-hand': 'off', 'off hand': 'off', 'shield': 'off'}
+SF_SLOT_UNSURE = {'weapon', 'other'}                                  # a slot column that does not name one slot
+SF_NOT_GEAR_SLOT = {'enchants', 'enchant', 'oil', 'consumables', 'food'}
+SF_NOT_GEAR_PROF = {'cooking', 'alchemy'}
+SF_NOT_GEAR_NAME = re.compile(r'^(Formula|Pattern|Plans|Recipe|Schematic|Manual):|Armor Kit$|\bOil$|\bElixir$|\bPotion$')
+SF_DUNGEON = {'scarlet monastary': 'Scarlet Monastery', 'the stockades': 'The Stockade',
+              'scarlet monastery graveyard': 'Scarlet Monastery: Graveyard', 'scarlet monastery - graveyard': 'Scarlet Monastery: Graveyard',
+              'scarlet monastery (graveyard)': 'Scarlet Monastery: Graveyard'}
+SF_TRASH = {'trash', 'zone drop'}
+
+
+def _plain(s):
+    s = re.sub(r'(?is)<(script|style|svg)\b.*?</\1>', ' ', s)
+    return re.sub(r'\s+', ' ', H.unescape(re.sub(r'<[^>]+>', ' ', s))).strip()
+
+
+def _links(s, kind):
+    """[(id, text, quality)] of the links to /kind=<id> in an html piece."""
+    out = []
+    for m in re.finditer(r'(?is)<a\b([^>]*)href="?[^">]*?/' + kind + r'=(\d+)[^>]*>(.*?)</a>', s):
+        q = re.search(r'\bq(\d)\b', m.group(1))
+        out.append((int(m.group(2)), _plain(m.group(3)), int(q.group(1)) if q else None))
+    return out
+
+
+def _cell_lines(cell):
+    """One table cell -> its lines (split at <br>): {'items', 'quests', 'zones', 'skills', 'spells', 'rest'}; rest = text outside links."""
+    out = []
+    for part in re.split(r'(?i)<br\s*/?>', cell):
+        rest = re.sub(r'(?is)<a\b[^>]*>.*?</a>', ' \x00 ', part)
+        d = {k: _links(part, k) for k in ('item', 'quest', 'zone', 'skill', 'spell')}
+        d['rest'] = _plain(rest.replace('\x00', '|'))
+        d['broken'] = [int(x) for x in re.findall(r'(?<![=/\w])item=(\d+)\]', _plain(rest))]   # «item=6687]»: a tag the page failed to render
+        if any(d[k] for k in ('item', 'quest', 'zone', 'skill', 'spell', 'broken')) or d['rest'].strip(' |'):
+            out.append(d)
+    return out
+
+
+def _bits(rest):
+    """The text pieces around links: «| - Boss (note)» -> ['- Boss (note)']."""
+    return [x.strip() for x in rest.split('|') if x.strip()]
+
+
+def _strip_paren(s):
+    """«Scorn (rare elite)» -> ('Scorn', ['rare elite'])."""
+    notes = re.findall(r'\(([^)]*)\)', s)
+    return re.sub(r'\s*\([^)]*\)', '', s).strip(' -–:'), notes
+
+
+def _dungeon(name):
+    n = re.sub(r'\s+', ' ', (name or '').strip(' :'))
+    n = re.sub(r'\s+(Drops|Quests)$', '', n)
+    return SF_DUNGEON.get(n.lower(), n)
+
+
+def _faction(text):
+    low = text.lower()
+    if 'both factions' in low:
+        return 'both'
+    return 'alliance' if re.search(r'\balliance\b', low) and 'horde' not in low else 'horde' if re.search(r'\bhorde\b', low) and 'alliance' not in low else None
+
+
+def sf_tables(sec):
+    """A part of the page -> [(context, rows)] in order; context = the tab name or the text line ahead of the table
+    («Blackfathom Deeps Drops:»), rows = [(is_header, [(td attrs, cell html)])]."""
+    tabs = {m.group(1): _plain(m.group(2)) for m in re.finditer(r'(?is)<button\b[^>]*data-href="?#([\w-]+)[^>]*>(.*?)</button>', sec)}
+    out, ctx = [], None
+    pos = 0
+    for m in re.finditer(r'(?is)<div\b[^>]*\bid="?tab-([\w-]+)[^>]*role="?tabpanel[^>]*>|<table\b.*?</table>', sec):
+        between = sec[pos:m.start()]
+        pos = m.end()
+        lines = [x for x in (_plain(p) for p in re.split(r'(?i)<br\s*/?>|<div\b[^>]*>|</div>|<p\b[^>]*>', between)) if x]
+        for line in lines:
+            if re.search(r'(Drops|Quests|Quest Rewards):$', line):
+                ctx = None if line.startswith('Notable') else _dungeon(line[:-1])
+        if m.group(1) is not None:
+            ctx = _dungeon(tabs.get(m.group(1), '')) or None
+            continue
+        rows = []
+        for r in re.finditer(r'(?is)<tr\b([^>]*)>(.*?)(?=<tr\b|</tbody>|</table>)', m.group(0)):
+            cells = [(c.group(1), c.group(2)) for c in re.finditer(r'(?is)<td\b([^>]*)>(.*?)(?=<td\b|$)', r.group(2))]
+            head = 'data-background=black' in r.group(1).replace('"', '') and len(cells) > 1 and '<b>' in r.group(2) and '/item=' not in r.group(2)
+            rows.append((head, cells))
+        out.append((ctx, rows))
+    return out
+
+
+def sf_page(src):
+    """One saved page -> ({part: [(src, [(id, name, q, slot)])]}, issues). Facts only."""
+    issues, got = [], []
+    parts = {}
+    for m in re.finditer(r'(?i)<h2\b[^>]*\bid="?([\w-]+)', src):
+        parts[m.group(1)] = m.start()
+    order = sorted(parts.items(), key=lambda x: x[1])
+    for i, (pid, start) in enumerate(order):
+        kind = SF_PARTS.get(pid)
+        if not kind:
+            continue
+        sec = src[start:order[i + 1][1] if i + 1 < len(order) else len(src)]
+        for ctx, rows in sf_tables(sec):
+            cols, sub, fac = [], None, None
+            for head, cells in rows:
+                if head:
+                    cols = [_plain(c).lower() for _, c in cells]
+                    continue
+                if not cells:
+                    continue
+                lines = [_cell_lines(c) for _, c in cells]
+                flat = [ln for cl in lines for ln in cl]
+                if len(cells) == 1 or 'colspan' in cells[0][0]:            # a sub-heading row: dungeon, faction or profession
+                    if any(ln['item'] for ln in flat):
+                        issues.append(f'row without columns has items: {[x[0] for ln in flat for x in ln["item"]]}')
+                        continue
+                    text = _plain(cells[0][1])
+                    skill = [x[0] for ln in flat for x in ln['skill']]
+                    if kind == 'craft':
+                        p = SKILL_ID.get(skill[0]) if skill else prof_of(text) if len(text) < 30 else None
+                        if p or (skill and not p):
+                            sub = p or f'skill-{skill[0]}'
+                    elif kind == 'quest' and _faction(text) and len(text) < 20:
+                        fac = _faction(text)
+                    elif len(text) < 45:
+                        sub = _dungeon(text)
+                        if kind == 'quest':
+                            fac = None
+                    continue
+                ci = next((j for j, c in enumerate(cols) if c in ('item', 'reward')), len(cells) - 1)
+                if ci >= len(cells):
+                    issues.append(f'row shorter than header: {_plain(" ".join(c for _, c in cells))[:40]}')
+                    continue
+                role = {c: j for j, c in enumerate(cols) if j != ci and j < len(cells)}
+                item_lines = lines[ci]
+                entries = []                                                       # [(id, name, q, extra)] of the row
+                for ln in item_lines:
+                    for x in ln['spell']:
+                        issues.append(f'spell link instead of an item: spell {x[0]} {x[1]!r}')
+                    for b in ln['broken']:
+                        entries.append((b, None, None, {'broken_tag': True}))
+                    bits = _bits(ln['rest'])
+                    if not ln['item'] and not ln['broken'] and bits and not ln['spell']:
+                        issues.append(f'{kind}: a row names items without a link: {bits[0][:40]!r}')
+                    for j, (num, name, q) in enumerate(ln['item']):
+                        extra = {}
+                        if len(ln['item']) == 1 and bits:
+                            b = bits[-1]
+                            dash = re.match(r'^[-–]\s*(.+)$', b)
+                            if dash:
+                                extra['boss'] = _strip_paren(dash.group(1))[0]
+                            elif re.match(r'^of the [A-Z]\w+$', b):
+                                extra['suffix'] = b
+                            elif re.fullmatch(r'\(([^)]*)\)', b) and kind == 'drop' and 'dungeon' in role and 'boss' not in role:
+                                inner = b[1:-1]
+                                if all(p.strip()[:1].isupper() for p in inner.split(',')) and not re.search(r'only|rare|BoE|technically|requires|crafter', inner):
+                                    extra['bosses'] = [p.strip() for p in inner.split(',')]
+                        if re.fullmatch(r'\(Item #\d+\)', name or ''):
+                            issues.append(f'item {num}: no name on the page (shown as «Item #{num}»), left out')
+                            continue
+                        entries.append((num, name, q, extra))
+                if not entries:
+                    continue
+                srcs = []
+                if kind in ('drop', 'world'):
+                    dg = None
+                    if 'dungeon' in role:
+                        dl = lines[role['dungeon']]
+                        z = [x for ln in dl for x in ln['zone']]
+                        txt = _plain(cells[role['dungeon']][1])
+                        dg = (z[0][1], z[0][0]) if z else (txt, None)
+                        if z and _bits(dl[0]['rest']):                         # «[zone=796 Scarlet Monastery] Graveyard»
+                            dg = (f'{z[0][1]} {_bits(dl[0]["rest"])[0]}', z[0][0])
+                        dg = (_dungeon(_strip_paren(dg[0])[0] + (' Graveyard' if '(Graveyard)' in dg[0] else '')), dg[1])
+                    elif sub or ctx:
+                        dg = (sub or ctx, None)
+                    bosses = []
+                    for key in ('boss', 'encounter'):
+                        if key in role:
+                            b = _strip_paren(_plain(cells[role[key]][1]))[0]
+                            bosses = [x.strip() for x in re.split(r'\s+/\s*', b) if x.strip()]
+                    for num, name, q, extra in entries:
+                        bl = extra.get('bosses') or ([extra['boss']] if extra.get('boss') else bosses)
+                        base = {'kind': 'drop'}
+                        if kind == 'world':
+                            base.update(boss={}, dungeon={}, world=True)
+                            one = [dict(base)]
+                        else:
+                            d = {'en': dg[0]} if dg and dg[0] and dg[0].lower() != 'multiple' else {}
+                            if dg and dg[1]:
+                                d['zone'] = dg[1]
+                            if dg and dg[0] and dg[0].lower() == 'multiple':
+                                issues.append(f'item {num}: dungeon «Multiple», no dungeon kept')
+                            one = []
+                            for b in bl or [None]:
+                                s = dict(base, boss={'en': b} if b and b.lower() not in SF_TRASH else {}, dungeon=d)
+                                if b and b.lower() in SF_TRASH:
+                                    s['trash' if b.lower() == 'trash' else 'zone_drop'] = True
+                                one.append(s)
+                        if extra.get('suffix'):
+                            for s in one:
+                                s['suffix'] = extra['suffix']
+                        srcs.append(((num, name, q, None), one))
+                elif kind == 'quest':
+                    qcol = role.get('quest', 0 if ci else None)
+                    groups = []
+                    for ln in (lines[qcol] if qcol is not None else []):
+                        f = _faction(ln['rest'])
+                        qs = [{'id': x[0], 'en': x[1]} for x in ln['quest']]
+                        if not qs:
+                            nm = _strip_paren(' '.join(_bits(ln['rest'])))[0].strip(' /-')
+                            if nm and nm != '-':
+                                qs = [{'id': None, 'en': nm}]
+                        if qs:
+                            groups.append((qs, f if f in ('alliance', 'horde') else None))
+                    dg = None
+                    if 'dungeon' in role:
+                        dg = _dungeon(_plain(cells[role['dungeon']][1]))
+                    elif sub or ctx:
+                        dg = sub or ctx
+                    allq = [(qq, f) for qs, f in groups for qq in qs]
+                    unsure = len(groups) > 1 and len(item_lines) > 1        # several quests and several items in one row
+                    for e in entries:
+                        one = []
+                        for qq, f in allq or [({'id': None, 'en': None}, None)]:
+                            s = {'kind': 'quest', 'quest': {'en': qq['en']} if qq.get('en') else {},
+                                 'faction': f or (fac if fac in ('alliance', 'horde') else None)}
+                            if qq.get('id'):
+                                s['quest']['id'] = qq['id']
+                            if dg:
+                                s['dungeon'] = {'en': dg}
+                            if unsure:
+                                s['_unsure'] = True                            # from_singlefile keeps it only if another page pairs them
+                            one.append(s)
+                        srcs.append(((e[0], e[1], e[2], None), one))
+                elif kind == 'craft':
+                    label = _plain(cells[0][1]).lower() if ci else ''
+                    prof = sub
+                    slot = None
+                    if 'profession' in role:
+                        pl = lines[role['profession']]
+                        sk = [x[0] for ln in pl for x in ln['skill']]
+                        prof = SKILL_ID.get(sk[0]) if sk else prof_of(_plain(cells[role['profession']][1]))
+                        label = ''
+                    elif 'slot' in role:
+                        if label in SF_NOT_GEAR_SLOT:
+                            issues.append(f'not gear (slot «{label}»): items {[e[0] for e in entries]}')
+                            continue
+                        slot = SF_SLOT.get(label)
+                        if not slot:
+                            issues.append(f'slot «{label}» names no single slot: items {[e[0] for e in entries]}')
+                    if prof in SF_NOT_GEAR_PROF:
+                        issues.append(f'not gear ({prof}): items {[e[0] for e in entries]}')
+                        continue
+                    for num, name, q, extra in entries:
+                        if name and SF_NOT_GEAR_NAME.search(name):
+                            issues.append(f'not gear (name): item {num} {name!r}')
+                            continue
+                        srcs.append(((num, name, q, slot), [{'kind': 'craft', 'prof': prof if prof in PROFS else None}]))
+                        if prof not in PROFS:
+                            issues.append(f'item {num}: profession not recognised ({prof})')
+                else:                                                          # reputation: no source kind for it in the schema
+                    issues.append(f'reputation reward, left out (no such source kind): items {[e[0] for e in entries]}')
+                    continue
+                got += srcs
+    return got, issues
+
+
+def from_singlefile(folder):
+    """{spec: [entries]}, {id: item}, {spec: file info}, [issues] from the SingleFile saves of the folder."""
+    items, specs, files, issues = {}, {}, {}, []
+    seen_name = {}
+    for f in sorted(os.listdir(folder)):
+        m = SF_FILE.match(f)
+        if not m or not f.endswith(('.html', '.htm')):
+            if f.endswith(('.html', '.htm')):
+                issues.append(f'file not recognised: {f}')
+            continue
+        spec = f'{m.group(2).lower()}-{m.group(1).lower().replace(" ", "-")}'
+        if spec in files:
+            issues.append(f'{spec}: two files, kept {files[spec]["file"]}')
+            continue
+        files[spec] = {'file': f, 'saved': f'{m.group(5)}-{m.group(4)}-{m.group(3)} {m.group(6)}:{m.group(7)}'}
+        src = open(os.path.join(folder, f), encoding='utf-8', errors='replace').read()
+        rows, page_issues = sf_page(src)
+        issues += [f'{spec}: {x}' for x in page_issues]
+        got = {}
+        for (num, name, q, slot), srcs in rows:
+            if name is None:
+                name = seen_name.get(num)
+                issues.append(f'{spec}: item {num} written as plain text «item={num}]», name ' + (f'{name!r} from other pages' if name else 'unknown'))
+            it = items.get(num)
+            if it is None:
+                it = items[num] = {'slot': slot, 'lvl': None, 'il': None, 'q': q, 'names': {'en': name} if name else {},
+                                   'stats': {}, 'provenance': 'wowhead-forever-guide'}
+            else:
+                if slot and it['slot'] and slot != it['slot']:
+                    issues.append(f'item {num}: slot {it["slot"]} and {slot} on different pages')
+                it['slot'] = it['slot'] or slot
+                if q is not None and it['q'] is not None and q != it['q']:
+                    issues.append(f'item {num}: quality {it["q"]} and {q} on different pages')
+                it['q'] = it['q'] if it['q'] is not None else q
+                if name and it['names'].get('en') and name != it['names']['en']:
+                    issues.append(f'item {num}: names {it["names"]["en"]!r} and {name!r} on different pages')
+                if name and not it['names'].get('en'):
+                    it['names']['en'] = name
+            if name:
+                seen_name.setdefault(num, name)
+            e = got.setdefault(num, {'id': num, 'src': []})
+            for s in srcs:
+                if s not in e['src']:
+                    e['src'].append(s)
+        specs[spec] = list(got.values())
+    # a row with several quests and several items says nothing on which quest gives which item: keep a quest only when
+    # another page pairs that item with that quest in a row of its own; otherwise the source is «a quest» (dungeon kept)
+    sure = {}
+    for entries in specs.values():
+        for e in entries:
+            for s in e['src']:
+                if s['kind'] == 'quest' and not s.get('_unsure') and s['quest'].get('id'):
+                    sure.setdefault(e['id'], set()).add(s['quest']['id'])
+    for spec, entries in specs.items():
+        for e in entries:
+            if not any(s.get('_unsure') for s in e['src']):
+                continue
+            keep, cand = [], []
+            for s in e['src']:
+                if not s.get('_unsure'):
+                    keep.append(s)
+                    continue
+                cand.append(s['quest'].get('id'))
+                if s['quest'].get('id') in sure.get(e['id'], ()):
+                    keep.append({k: v for k, v in s.items() if k != '_unsure'})
+            if not any(s['kind'] == 'quest' for s in keep):
+                blank = {k: v for k, v in next(s for s in e['src'] if s.get('_unsure')).items() if k not in ('_unsure', 'quest')}
+                keep.append({'kind': 'quest', 'quest': {}, **{k: v for k, v in blank.items() if k != 'kind'}, 'faction': None})
+                issues.append(f'{spec}: item {e["id"]}: quest is one of {cand}, the page does not say which; kept as «a quest» without a name')
+            else:
+                issues.append(f'{spec}: item {e["id"]}: quest taken from another page that pairs them ({[s["quest"].get("id") for s in keep if s["kind"] == "quest"]} of {cand})')
+            dedup = []
+            for s in keep:
+                if s not in dedup:
+                    dedup.append(s)
+            e['src'] = dedup
+    return specs, items, files, list(dict.fromkeys(issues))
+
+
 # ---------- the addon dump ----------
 
 ARMOR_MAX = {'warrior': 3, 'paladin': 3, 'hunter': 2, 'shaman': 2, 'rogue': 2, 'druid': 2, 'mage': 1, 'priest': 1, 'warlock': 1}
@@ -359,19 +714,32 @@ def main():
     g = ap.add_mutually_exclusive_group(required=True)
     g.add_argument('--pages')
     g.add_argument('--addon')
+    g.add_argument('--singlefile', help='folder of the SingleFile saves of the Wowhead level-30 class guides')
     ap.add_argument('--out', default=OUT)
     ap.add_argument('--date', default=datetime.date.today().isoformat())
     ap.add_argument('--fixture', action='store_true')
+    ap.add_argument('--approve', action='store_true', help='Вячеслав accepted the data: the build shows the section')
     a = ap.parse_args()
-    specs, items = from_pages(a.pages) if a.pages else from_addon(a.addon)
-    data = {'schema': 1, 'date': a.date, 'fixture': bool(a.fixture),
+    extra = {}
+    if a.singlefile:
+        specs, items, files, issues = from_singlefile(a.singlefile)
+        extra = {'provenance': {'source': 'Wowhead Forever level-30 class guides (SingleFile saves, offline)', 'kind': 'wowhead-forever-guide',
+                                'saved': '2026-10-30', 'temporary': 'временно до дампа аддона 05.11 (tools/gear_dump)',
+                                'files': {k: files[k] for k in sorted(files)}},
+                 'missing': ['slot: only crafted items with a Slot column', 'lvl', 'il', 'stats', 'names.ru'],
+                 'issues': issues}
+    else:
+        specs, items = from_pages(a.pages) if a.pages else from_addon(a.addon)
+    data = {'schema': 1, 'date': a.date, 'fixture': bool(a.fixture), 'approved': bool(a.approve), **extra,
             'items': {str(k): items[k] for k in sorted(items)}, 'specs': {k: specs[k] for k in sorted(specs)}}
     os.makedirs(os.path.dirname(os.path.abspath(a.out)), exist_ok=True)
     with open(a.out, 'w', encoding='utf-8', newline='\n') as f:
         json.dump(data, f, ensure_ascii=False, indent=1)
     for k in sorted(specs):
-        slots = {items[e['id']]['slot'] for e in specs[k]}
+        slots = {items[e['id']]['slot'] for e in specs[k]} - {None}
         print(f'{k}: {len(specs[k])} items, {len(slots)} slots')
+    if extra.get('issues'):
+        print(f'{len(extra["issues"])} issues (see "issues" in the file)')
     print(f'{len(items)} items -> {a.out}')
 
 

@@ -595,7 +595,10 @@ def load_gear30(path=None):
         return {'items': {}, 'specs': {}}
 
 
-GEAR30 = load_gear30()
+GEAR30_FILE = load_gear30()
+# the build shows the section only for data Вячеслав accepted ("approved": true, tools/gear_import.py --approve);
+# imported but not accepted (the Wowhead level-30 import of 30.10, before the addon dump of 05.11): section and answer row stay hidden
+GEAR30 = GEAR30_FILE if GEAR30_FILE.get('approved') else {'items': {}, 'specs': {}}
 GSLOTS = ('head', 'neck', 'shoulder', 'back', 'chest', 'wrist', 'hands', 'waist', 'legs', 'feet', 'finger', 'trinket',
           'main', 'two', 'off', 'ranged')
 GSLOT = {
