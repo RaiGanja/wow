@@ -16,8 +16,11 @@
 <link rel="icon" type="image/png" sizes="48x48" href="/wow/assets/icons/favicon-48.png?v=f9ffdede">
 <script>
 (function () {
-  var L = 'ru en uk de fr es pt it pl'.split(' '), m = location.pathname.match(/^\/wow\/([a-z]{2})\//), l = m && L.indexOf(m[1]) > -1 ? m[1] : '';
-  for (var i = 0, n = navigator.languages || [navigator.language || '']; !l && i < n.length; i++) { var c = String(n[i]).toLowerCase().slice(0, 2); if (L.indexOf(c) > -1) l = c; }
+  // the same order as the guide root (build.AUTO_JS): the language of the address, the saved choice, the browser, else English
+  var L = 'ru en uk de fr es pt it pl'.split(' '), A = { be: 'ru', kk: 'ru' }, m = location.pathname.match(/^\/wow\/([a-z]{2})\//), l = m && L.indexOf(m[1]) > -1 ? m[1] : '';
+  if (!l) { try { var w = localStorage.getItem('gabella-lang'); if (L.indexOf(w) > -1) l = w; } catch (e) {} }
+  for (var i = 0, n = navigator.languages || [navigator.language || '']; !l && i < n.length; i++) { var c = String(n[i]).toLowerCase().split('-')[0]; c = A[c] || c; if (L.indexOf(c) > -1) l = c; }
+  l = l || 'en';
   var T = {"ru": ["ru", "Страница не найдена"], "en": ["en", "Page not found"], "uk": ["uk", "Сторінку не знайдено"], "de": ["de", "Seite nicht gefunden"], "fr": ["fr", "Page introuvable"], "es": ["es", "Página no encontrada"], "pt": ["pt-BR", "Página não encontrada"], "it": ["it", "Pagina non trovata"], "pl": ["pl", "Nie znaleziono strony"]}, d = document.documentElement;   // the chosen language: lang and title of the page follow it (screen readers, tabs)
   if (l) { d.setAttribute('data-l', l); d.lang = T[l][0]; document.title = T[l][1] + ' · Gabella'; }
 })();
@@ -30,7 +33,9 @@ body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding
 main { width: 100%; max-width: 520px; }
 .brand { margin: 0 0 20px; font-size: .85rem; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
 section { padding: 14px 0; border-top: 1px solid var(--line); }
-h1 { margin: 0 0 4px; font-size: 1.5rem; font-weight: 600; line-height: 1.2; }
+h1 { margin: 0 0 8px; font-size: 1.5rem; font-weight: 600; line-height: 1.2; }
+section p { margin: 0 0 8px; }
+.why { color: var(--muted); }
 a { color: var(--gold); text-underline-offset: 3px; }
 :root[data-l] section { display: none; border-top: 0; padding-top: 0; }
 :root[data-l="ru"] section[data-k="ru"] { display: block; }
@@ -47,15 +52,15 @@ a { color: var(--gold); text-underline-offset: 3px; }
 <body>
 <main>
 <p class="brand">Gabella · WoW Forever</p>
-<section lang="ru" data-k="ru"><h1>Страница не найдена</h1><p><a href="/wow/">Русский · gabella.site/wow/</a></p></section>
-<section lang="en" data-k="en"><h1>Page not found</h1><p><a href="/wow/en/">English · gabella.site/wow/</a></p></section>
-<section lang="uk" data-k="uk"><h1>Сторінку не знайдено</h1><p><a href="/wow/uk/">Українська · gabella.site/wow/</a></p></section>
-<section lang="de" data-k="de"><h1>Seite nicht gefunden</h1><p><a href="/wow/de/">Deutsch · gabella.site/wow/</a></p></section>
-<section lang="fr" data-k="fr"><h1>Page introuvable</h1><p><a href="/wow/fr/">Français · gabella.site/wow/</a></p></section>
-<section lang="es" data-k="es"><h1>Página no encontrada</h1><p><a href="/wow/es/">Español · gabella.site/wow/</a></p></section>
-<section lang="pt-BR" data-k="pt"><h1>Página não encontrada</h1><p><a href="/wow/pt/">Português (Brasil) · gabella.site/wow/</a></p></section>
-<section lang="it" data-k="it"><h1>Pagina non trovata</h1><p><a href="/wow/it/">Italiano · gabella.site/wow/</a></p></section>
-<section lang="pl" data-k="pl"><h1>Nie znaleziono strony</h1><p><a href="/wow/pl/">Polski · gabella.site/wow/</a></p></section>
+<section lang="ru" data-k="ru"><h1>Страница не найдена</h1><p class="why">Такой страницы нет: ссылка устарела или в адресе опечатка.</p><p><a href="/wow/">Русский · gabella.site/wow/</a></p></section>
+<section lang="en" data-k="en"><h1>Page not found</h1><p class="why">This page does not exist: the link is outdated or the address has a typo.</p><p><a href="/wow/en/">English · gabella.site/wow/</a></p></section>
+<section lang="uk" data-k="uk"><h1>Сторінку не знайдено</h1><p class="why">Такої сторінки немає: посилання застаріло або в адресі помилка.</p><p><a href="/wow/uk/">Українська · gabella.site/wow/</a></p></section>
+<section lang="de" data-k="de"><h1>Seite nicht gefunden</h1><p class="why">Diese Seite gibt es nicht: Der Link ist veraltet oder die Adresse hat einen Tippfehler.</p><p><a href="/wow/de/">Deutsch · gabella.site/wow/</a></p></section>
+<section lang="fr" data-k="fr"><h1>Page introuvable</h1><p class="why">Cette page n’existe pas : le lien est périmé ou l’adresse contient une faute.</p><p><a href="/wow/fr/">Français · gabella.site/wow/</a></p></section>
+<section lang="es" data-k="es"><h1>Página no encontrada</h1><p class="why">Esta página no existe: el enlace está desactualizado o la dirección tiene una errata.</p><p><a href="/wow/es/">Español · gabella.site/wow/</a></p></section>
+<section lang="pt-BR" data-k="pt"><h1>Página não encontrada</h1><p class="why">Esta página não existe: o link está desatualizado ou o endereço tem um erro de digitação.</p><p><a href="/wow/pt/">Português (Brasil) · gabella.site/wow/</a></p></section>
+<section lang="it" data-k="it"><h1>Pagina non trovata</h1><p class="why">Questa pagina non esiste: il link è vecchio o l’indirizzo contiene un errore.</p><p><a href="/wow/it/">Italiano · gabella.site/wow/</a></p></section>
+<section lang="pl" data-k="pl"><h1>Nie znaleziono strony</h1><p class="why">Ta strona nie istnieje: link jest nieaktualny albo w adresie jest literówka.</p><p><a href="/wow/pl/">Polski · gabella.site/wow/</a></p></section>
 </main>
 </body>
 </html>
