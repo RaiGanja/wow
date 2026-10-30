@@ -60,7 +60,8 @@ def test_not_found_per_language():
     assert re.findall(r'<section lang="[^"]+" data-k="(\w+)"', root) == list(LANGS)
     for lang in LANGS:
         assert f':root[data-l="{lang}"] section[data-k="{lang}"]' in root, lang
-        assert re.search(rf'data-k="{lang}"><h1>[^<]+</h1><p><a href="/wow/{"" if lang == "ru" else lang + "/"}">', root), lang
+        assert re.search(rf'data-k="{lang}"><h1>[^<]+</h1><p class="why">[^<]+\.</p><p><a href="/wow/{"" if lang == "ru" else lang + "/"}">', root), lang
+    assert "localStorage.getItem('gabella-lang')" in root and "l = l || 'en'" in root   # as the guide root: saved choice, else English
     # the chosen language also sets <html lang> and the tab title (screen readers read the page in its language)
     titles = json.loads(re.search(r'var T = (\{.*?\}), d = ', root).group(1))
     assert list(titles) == list(LANGS) and all(len(v) == 2 and v[1] for v in titles.values()), titles

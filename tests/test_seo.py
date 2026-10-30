@@ -55,6 +55,16 @@ def test_structured_data():
     assert any(b['@type'] == 'FAQPage' for b in blocks('guides/faq/', 'en'))
 
 
+def test_sitemap_lastmod_everywhere():
+    """Every sitemap URL has <lastmod>; the pages without an «Обновлено» line take the date of their sources (seo.SITEMAP_SRC)."""
+    sm = open(os.path.join(ROOT, 'sitemap.xml'), encoding='utf-8').read()
+    urls = re.findall(r'<url>(.*?)</url>', sm, re.S)
+    bare = [re.search(r'<loc>(.*?)</loc>', u).group(1) for u in urls if not re.search(r'<lastmod>\d{4}-\d\d-\d\d</lastmod>', u)]
+    assert urls and not bare, bare
+    for path in seo.SITEMAP_SRC:
+        assert seo.page_updated(path) is None and re.fullmatch(r'\d{4}-\d\d-\d\d', seo.sitemap_lastmod(path)), path
+
+
 def test_verify_meta_only_when_set():
     html = built('', 'en')
     for name, value in seo.VERIFY.items():

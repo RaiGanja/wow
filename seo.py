@@ -465,6 +465,22 @@ def page_updated(path):
     return '-'.join(reversed(d.split('.'))) if d else None
 
 
+# <lastmod> of the pages without an «Обновлено» line (home, news, play, privacy): the last change to their content sources,
+# the same rule as build.src_date (today only while a source has uncommitted changes). Sitemap only: the pages show no date.
+SITEMAP_SRC = {'': ('index.src.html', 'i18n/ru.txt', 'i18n/en.txt', 'i18n/uk.txt', 'content/guides.py'),   # «Свежее» = NEWS
+               'guides/news/': ('content/guides.py', 'assets/news.json'),   # our notes + the Wowhead feed the page loads
+               'play/': ('content/guides.py', 'journey.src.html'),   # PLAY texts and the game stages
+               'privacy/': ('content/guides.py',)}
+
+
+def sitemap_lastmod(path):
+    """'2026-10-24' for <lastmod>: the «Обновлено» date of the page, else the date of its SITEMAP_SRC sources, else None."""
+    upd = page_updated(path)
+    if upd or path not in SITEMAP_SRC:
+        return upd
+    return '-'.join(reversed(build.src_date(SITEMAP_SRC[path]).split('.')))
+
+
 def json_ld(path, lang, desc, title='', image=''):
     blocks = []
     if not path:
@@ -551,7 +567,7 @@ def sitemap(paths):
         ls = [l for l in LANGS if l in by_lang]
         alts = ''.join(f'<xhtml:link rel="alternate" hreflang="{HREFLANG[l]}" href="{SITE}{page_dir(l, p)}"/>' for l in ls)
         alts += f'<xhtml:link rel="alternate" hreflang="x-default" href="{SITE}{p if len(ls) > 1 else page_dir(ls[0], p)}"/>'
-        upd = page_updated(p)
+        upd = sitemap_lastmod(p)
         lm = f'<lastmod>{upd}</lastmod>' if upd else ''
         urls += [f'<url><loc>{SITE}{page_dir(l, p)}</loc>{lm}{alts}</url>' for l in ls]
     return ('<?xml version="1.0" encoding="UTF-8"?>\n'

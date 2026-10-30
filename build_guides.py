@@ -1819,7 +1819,7 @@ def build_page(g, lang, tpl, base_css, sprite, src):
 
 
 # 404.html at the root: GitHub Pages serves it for any bad address, in one language for everybody. A light page (no site chrome, no
-# redirect): every language holds its own block of text, a head script only picks the one for the path (/wow/<lang>/...) or the browser;
+# redirect): every language holds its own block of text, a head script only picks one (path /wow/<lang>/..., saved choice, browser, en);
 # without JS all blocks show as a short list. The full localized pages stay at <lang>/404.html. The link preview is the same for every
 # language (assets/og/404.jpg: mark and name, no words of a language; tools/make_og.py), because one file answers every bad address.
 NOT_FOUND_LIGHT = r"""<!doctype html>
@@ -1840,8 +1840,11 @@ NOT_FOUND_LIGHT = r"""<!doctype html>
 <link rel="icon" type="image/png" sizes="48x48" href="/wow/assets/icons/favicon-48.png">
 <script>
 (function () {
-  var L = '@@LANGS@@'.split(' '), m = location.pathname.match(/^\/wow\/([a-z]{2})\//), l = m && L.indexOf(m[1]) > -1 ? m[1] : '';
-  for (var i = 0, n = navigator.languages || [navigator.language || '']; !l && i < n.length; i++) { var c = String(n[i]).toLowerCase().slice(0, 2); if (L.indexOf(c) > -1) l = c; }
+  // the same order as the guide root (build.AUTO_JS): the language of the address, the saved choice, the browser, else English
+  var L = '@@LANGS@@'.split(' '), A = { be: 'ru', kk: 'ru' }, m = location.pathname.match(/^\/wow\/([a-z]{2})\//), l = m && L.indexOf(m[1]) > -1 ? m[1] : '';
+  if (!l) { try { var w = localStorage.getItem('gabella-lang'); if (L.indexOf(w) > -1) l = w; } catch (e) {} }
+  for (var i = 0, n = navigator.languages || [navigator.language || '']; !l && i < n.length; i++) { var c = String(n[i]).toLowerCase().split('-')[0]; c = A[c] || c; if (L.indexOf(c) > -1) l = c; }
+  l = l || 'en';
   var T = @@TITLES@@, d = document.documentElement;   // the chosen language: lang and title of the page follow it (screen readers, tabs)
   if (l) { d.setAttribute('data-l', l); d.lang = T[l][0]; document.title = T[l][1] + ' · Gabella'; }
 })();
@@ -1854,7 +1857,9 @@ body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding
 main { width: 100%; max-width: 520px; }
 .brand { margin: 0 0 20px; font-size: .85rem; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
 section { padding: 14px 0; border-top: 1px solid var(--line); }
-h1 { margin: 0 0 4px; font-size: 1.5rem; font-weight: 600; line-height: 1.2; }
+h1 { margin: 0 0 8px; font-size: 1.5rem; font-weight: 600; line-height: 1.2; }
+section p { margin: 0 0 8px; }
+.why { color: var(--muted); }
 a { color: var(--gold); text-underline-offset: 3px; }
 :root[data-l] section { display: none; border-top: 0; padding-top: 0; }
 @@SHOW@@
@@ -1871,9 +1876,11 @@ a { color: var(--gold); text-underline-offset: 3px; }
 
 
 def not_found_light():
-    """The root 404.html: one block per language (title and the way home), see NOT_FOUND_LIGHT."""
+    """The root 404.html: one block per language (title, why, the way home), see NOT_FOUND_LIGHT. The reason is the first
+    sentence of the full page's lead (the rest points at sections the light page does not have)."""
+    why = {l: re.split(r'(?<=\.)\s', NOT_FOUND['lead'][l], maxsplit=1)[0] for l in LANGS}
     blocks = '\n'.join(
-        f'<section lang="{langs.HREFLANG[l]}" data-k="{l}"><h1>{NOT_FOUND["title"][l]}</h1><p><a href="/wow/{"" if l == "ru" else l + "/"}">{langs.AUTONYM[l]} · gabella.site/wow/</a></p></section>'
+        f'<section lang="{langs.HREFLANG[l]}" data-k="{l}"><h1>{NOT_FOUND["title"][l]}</h1><p class="why">{why[l]}</p><p><a href="/wow/{"" if l == "ru" else l + "/"}">{langs.AUTONYM[l]} · gabella.site/wow/</a></p></section>'
         for l in LANGS)
     titles = json.dumps({l: [langs.HREFLANG[l], NOT_FOUND['title'][l]] for l in LANGS}, ensure_ascii=False)
     html = NOT_FOUND_LIGHT.replace('@@TITLE@@', NOT_FOUND['title']['ru']).replace('@@LANGS@@', ' '.join(LANGS)).replace('@@BLOCKS@@', blocks).replace('@@TITLES@@', titles)
