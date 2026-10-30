@@ -2,7 +2,7 @@
 # numbers against the facts of the post and the original (the runner can read the forum):
 #   green -> the commit goes to main as it is, with the tag news/<key>@<sha8> (rollback: git revert news/<key>@<sha8>);
 #   red   -> nothing goes to main; a notice to the closed 📝notes channel (SITE_WEBHOOK_NOTES) or by e-mail (RESEND_API_KEY),
-#            approve by hand: gh workflow run news-approve -R RaiGanja/wow -f branch=news/<key>@<sha8>
+#            approve by hand: gh workflow run news-approve -R gabella-wow/wow -f branch=news/<key>@<sha8>
 # Secret values are never printed; a missing secret only skips the notice.
 name: news-gate
 on:

@@ -1,11 +1,11 @@
 // Alarm of the news automation. Every 10 minutes starts
-//   RaiGanja/wow          news-auto.yml  (watcher of Blizzard, short note on the site; public repo, free minutes)
+//   gabella-wow/wow          news-auto.yml  (watcher of Blizzard, short note on the site; public repo, free minutes)
 // every 30 minutes starts
 //   RaiGanja/gabella-bot  news.yml       (the same notes to Discord; private repo, Actions minutes are limited)
 // GitHub's own cron is late by hours. The token lives only in the Worker secret GH_DISPATCH_TOKEN
 // (fine-grained, these two repositories only, Actions: read and write). The workflows decide by their switches
 // (variables NEWS_AUTO / NEWS_DISCORD): the alarm sends no mode.
-const SITE = 'https://api.github.com/repos/RaiGanja/wow/actions/workflows/news-auto.yml/dispatches';
+const SITE = 'https://api.github.com/repos/gabella-wow/wow/actions/workflows/news-auto.yml/dispatches';
 const BOT = 'https://api.github.com/repos/RaiGanja/gabella-bot/actions/workflows/news.yml/dispatches';
 
 async function dispatch(env, withBot) {

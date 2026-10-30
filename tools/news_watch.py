@@ -22,7 +22,7 @@ import news_parse as np    # noqa: E402
 import news_check as nc    # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-REPO = 'RaiGanja/wow'
+REPO = 'gabella-wow/wow'
 LABEL = 'news-auto'
 UA = {'User-Agent': 'gabella-wow-guide (+https://gabella.site/wow/)', 'Accept': 'application/json, text/html;q=0.9'}
 ARTICLE_RECHECK_H = 6
