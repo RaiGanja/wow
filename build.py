@@ -187,11 +187,19 @@ LANG_JS = """<script>
   if (!to) return;
   const bar = document.createElement('div');
   bar.className = 'langhint'; bar.lang = want; bar.setAttribute('role', 'status');
-  bar.innerHTML = `<span>${H[want][0]}</span><a href="${to.getAttribute('href')}" hreflang="${to.hreflang}" data-lang="${want}">${H[want][1]}</a>`
-    + `<button type="button" aria-label="${H[want][2]}"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button>`;
+  bar.innerHTML = `<div class="lhin"><span>${H[want][0]}</span><a href="${to.getAttribute('href')}" hreflang="${to.hreflang}" data-lang="${want}">${H[want][1]}</a>`
+    + `<button type="button" aria-label="${H[want][2]}"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button></div>`;
   keepHash(bar.querySelector('a'));
-  bar.querySelector('button').addEventListener('click', () => { store(); bar.remove(); });
-  document.body.append(bar);
+  // The strip sits in the page flow under the top bar: the body makes room for its height (--lh), nothing is covered.
+  const root = document.documentElement, head = document.getElementById('topbar');
+  const fit = () => { const h = bar.offsetHeight, was = parseFloat(root.style.getPropertyValue('--lh')) || 0; root.style.setProperty('--lh', h + 'px'); if (scrollY > 0) scrollBy(0, h - was); };
+  bar.querySelector('button').addEventListener('click', () => {
+    store(); bar.remove(); removeEventListener('resize', fit);
+    const h = parseFloat(root.style.getPropertyValue('--lh')) || 0;
+    root.classList.remove('langon'); root.style.removeProperty('--lh'); if (scrollY > 0) scrollBy(0, -h);
+  });
+  if (head) head.after(bar); else document.body.prepend(bar);
+  root.classList.add('langon'); fit(); addEventListener('resize', fit);
 })();
 </script>
 """
