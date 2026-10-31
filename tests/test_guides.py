@@ -1,5 +1,5 @@
 """Юнит-тесты сборки гайдов. Запуск: python tests/test_guides.py"""
-import os, sys
+import json, os, sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import build_guides as bg
 from content import guides as cg
@@ -146,6 +146,130 @@ def test_next_block():
     for d in ('', 'en/', 'de/'):   # the placeholder never reaches a page
         for p in ('guides/leveling/', 'classes/mage/', 'races/orc/'):
             assert '@@NEXT@@' not in open(os.path.join(bg.HERE, d + p, 'index.html'), encoding='utf-8').read()
+
+FIX = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fixtures')
+
+
+def gear_problems(data, min_slots, strict=True):
+    """The rules of data/gear30.json: names, slot, level up to 30, a provenance, sources of a known kind, no item twice in a spec.
+    strict=False for data not yet accepted (hidden in the build): an en name is enough, slot may be unknown, no slot minimum."""
+    from content import spec_cheats as sc
+    bad = []
+    for k, it in data.get('items', {}).items():
+        if not it.get('names', {}).get('en') or (strict and not it['names'].get('ru')):
+            bad.append(f'{k}: en and ru names')
+        if it.get('slot') not in sc.GSLOTS and (strict or it.get('slot') is not None):
+            bad.append(f'{k}: slot {it.get("slot")}')
+        if it.get('lvl') is not None and not 1 <= it['lvl'] <= 30:
+            bad.append(f'{k}: level {it["lvl"]}')
+        if it.get('provenance') not in ('wowhead-forever-guide', 'client-dump'):
+            bad.append(f'{k}: provenance {it.get("provenance")}')
+    for spec, entries in data.get('specs', {}).items():
+        if spec not in sc.HAS_CHEAT:
+            bad.append(f'{spec}: no such spec')
+        ids = [e['id'] for e in entries]
+        if len(ids) != len(set(ids)):
+            bad.append(f'{spec}: an item twice')
+        if strict and entries and len({data['items'][str(i)]['slot'] for i in ids if str(i) in data['items']}) < min_slots:
+            bad.append(f'{spec}: fewer than {min_slots} slots')
+        bad += [f'{spec} {e["id"]}: source {s.get("kind")}' for e in entries for s in e.get('src', []) if s.get('kind') not in ('drop', 'quest', 'craft')]
+        bad += [f'{spec} {e["id"]}: not in items' for e in entries if str(e['id']) not in data['items']]
+    return bad
+
+
+def test_gear30_data():
+    """The real file: never test data; accepted data: every spec on 6+ slots, en and ru names; not accepted: the loose rules,
+    and the build does not use it. No file or an empty one: fine (the section stays hidden)."""
+    from content import spec_cheats as sc
+    p = os.path.join(bg.HERE, 'data', 'gear30.json')
+    if os.path.isfile(p):
+        data = sc.load_gear30(p)
+        assert not data.get('fixture'), 'test data in data/gear30.json'
+        strict = bool(data.get('approved'))
+        assert gear_problems(data, 6, strict) == [], gear_problems(data, 6, strict)[:10]
+        if not strict:
+            assert sc.GEAR30 == {'items': {}, 'specs': {}} or os.path.abspath(sc.GEAR30_PATH) != os.path.abspath(p)
+            prov = data.get('provenance') or {}
+            if data.get('specs') and any(it.get('provenance') == 'wowhead-forever-guide' for it in data['items'].values()):
+                assert prov.get('saved') and prov.get('temporary') and set(prov.get('files', {})) == set(data['specs'])
+    fx = sc.load_gear30(os.path.join(FIX, 'gear30.json'))
+    assert fx['fixture'] and gear_problems(fx, 5) == [], gear_problems(fx, 5)
+
+
+def test_gear_import_pages():
+    """Saved guide pages -> items with names of both languages, required level up to 30, the three kinds of source."""
+    sys.path.insert(0, os.path.join(bg.HERE, 'tools'))
+    import gear_import as gi
+    specs, items = gi.from_pages(os.path.join(FIX, 'gear_pages'))
+    ids = [e['id'] for e in specs['mage-frost']]
+    assert len(ids) == 11 and 900022 not in ids and 900012 not in ids   # over level 30; a table after the three parts
+    assert items[900001]['names'] == {'en': 'Test Sorcerer Collar', 'ru': 'Тестовый воротник чародея'}
+    assert items[900001]['slot'] == 'neck' and items[900001]['lvl'] == 17 and items[900001]['stats'] == {'int': 2, 'spi': 2}
+    assert items[900004]['slot'] == 'two' and items[900004]['stats']['dps'] == 18.5 and items[900002]['stats']['sp'] == 6
+    src = {e['id']: e['src'][0] for e in specs['mage-frost']}
+    assert src[900002] == {'kind': 'drop', 'boss': {'en': 'Test Boss Glacius', 'ru': 'Тестовый босс Гласиус'}, 'dungeon': {'en': 'Test Hollow', 'ru': 'Тестовая пещера'}}
+    assert src[900001]['faction'] == 'alliance' and src[900007]['faction'] == 'horde'
+    assert src[900010] == {'kind': 'craft', 'prof': 'tailoring'} and src[900011]['prof'] == 'tailoring'   # by word and by [skill=]
+    assert {e['id']: e['src'][0] for e in specs['paladin-holy']}[900001]['faction'] is None              # «Both factions»
+    assert all(it['provenance'] == 'wowhead-forever-guide' for it in items.values())
+
+
+def test_gear_import_singlefile():
+    """SingleFile saves of the Wowhead level-30 guides: links and table cells only (no guide text), slot only from a Slot
+    column, not-gear rows and spell links left out, an unclear quest pairing kept as «a quest», the file per spec."""
+    sys.path.insert(0, os.path.join(bg.HERE, 'tools'))
+    import gear_import as gi
+    specs, items, files, issues = gi.from_singlefile(os.path.join(FIX, 'gear_singlefile'))
+    assert list(specs) == ['mage-frost'] and files['mage-frost']['saved'] == '2026-10-30 07:49'
+    src = {e['id']: e['src'] for e in specs['mage-frost']}
+    assert sorted(src) == [900201, 900202, 900203, 900204, 900205, 900206, 900207, 900209, 900210, 900212]   # no bread, no #900208, nothing after the parts
+    assert src[900201] == [{'kind': 'drop', 'boss': {'en': 'Test Boss Glacius'}, 'dungeon': {'en': 'Test Hollow'}}]
+    assert src[900202][0]['trash'] and src[900202][0]['boss'] == {}
+    assert [s['boss']['en'] for s in src[900203]] == ['Test Lich', 'Test Ghoul'] and src[900203][0]['dungeon'] == {'en': 'Test Crypt'}
+    assert src[900204] == [{'kind': 'quest', 'quest': {'en': 'Test Ashes', 'id': 900301}, 'faction': 'horde'}]
+    assert src[900205][0]['faction'] == 'alliance'
+    assert src[900206] == [{'kind': 'quest', 'quest': {}, 'faction': None}]                   # two quests, two items: not on the page which
+    assert src[900209] == [{'kind': 'craft', 'prof': 'tailoring'}] and items[900209]['slot'] == 'head'
+    assert items[900210]['slot'] is None and items[900201]['slot'] is None and items[900201]['lvl'] is None
+    assert src[900212][0]['world'] and src[900212][0]['suffix'] == 'of the Falcon'
+    assert items[900201] == {'slot': None, 'lvl': None, 'il': None, 'q': 3, 'names': {'en': 'Test Collar'}, 'stats': {},
+                             'provenance': 'wowhead-forever-guide'}
+    text = json.dumps([specs, items], ensure_ascii=False)
+    assert 'note of the guide' not in text and 'sentence of the guide' not in text and 'Talent text' not in text
+    assert any('spell 900401' in x for x in issues) and any('900208' in x for x in issues) and any('food' in x for x in issues)
+
+
+def test_gear_import_addon():
+    """The addon dump: no item over level 30, armor of the class only, sources kept, provenance client-dump."""
+    sys.path.insert(0, os.path.join(bg.HERE, 'tools'))
+    import gear_import as gi
+    specs, items = gi.from_addon(os.path.join(FIX, 'gear_dump.lua'))
+    assert 900105 not in items and 900102 not in items                       # level 35; plate before 40
+    war = [e['id'] for e in specs['warrior-protection']]
+    assert 900103 in war and 900102 not in war
+    holy = {e['id']: e['src'] for e in specs['priest-holy']}
+    assert 900103 not in holy and holy[900106] == [{'kind': 'craft', 'prof': 'tailoring'}]    # mail is not for a priest; a recipe in Russian
+    assert items[900101]['stats']['hp'] == 9 and items[900101]['provenance'] == 'client-dump'   # the «Equip:» line of the tooltip
+
+
+def test_gear_section():
+    """With data: the table by slot, one slot name per group, the faction of the quests, the source line, the answer row.
+    Without: no section and no answer row."""
+    from content import spec_cheats as sc
+    fx = sc.load_gear30(os.path.join(FIX, 'gear30.json'))
+    tr = lambda s, l: s   # noqa: E731
+    fn = {'alliance': 'Альянс', 'horde': 'Орда'}
+    html = sc.gear_html('mage-frost', 'ru', tr, fn, fx)
+    assert html.count('<tr data-s=') == 11 and 'class="gtest"' in html and 'Wowhead Forever, временно, до данных клиента' in html
+    assert 'data-f="horde"' in html and 'data-p="tailoring"' in html and 'Квест: Тестовый квест: прах к праху' in html
+    assert sc.gear_html('mage-frost', 'ru', tr, fn, {'items': {}, 'specs': {}}) == ''
+    assert sc.gear_html('rogue-combat', 'ru', tr, fn, fx) == ''
+    assert 'Предметов: 11 · ур. 17–28.' in sc.gear_answer('mage-frost', 'ru', fx)
+    empty = not sc.GEAR30.get('specs')
+    for d in ('', 'en/', 'uk/'):
+        page = os.path.join(bg.HERE, d + 'guides', 'spec-mage-frost', 'index.html')
+        if os.path.isfile(page) and empty:
+            assert 'id="gearBox"' not in open(page, encoding='utf-8').read()
 
 def test_dungeon_pages():
     """guides/dungeons/<slug>/: every record matches DUNGEONS, the page carries the facts, roles and quests; loot only with data."""

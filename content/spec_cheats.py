@@ -3,6 +3,7 @@
 Вкладки БиС нет: пустая вкладка хуже отсутствия; строка «Экипировка» в ответе за 5 секунд говорит «ждёт данных», пока нет списка Forever.
 Ссылка на билд b/<раса>-<класс>-<спек>/ у этих спеков ведёт сюда (build_cards.py), «Поделиться» на странице делится той же ссылкой.
 Заготовка attach() кладёт страницы в GUIDES до langs.fill, finish() добавляет названия на всех языках (нужен hero_core из build_guides)."""
+import json, os
 from html import escape
 
 # (класс, спек): самые частые по данным сайта — оба прокачиваемых «быстрых» спека (Охотник S и Маг S в тир-листе прокачки),
@@ -581,6 +582,227 @@ def _name(x, lang):
     return x if isinstance(x, str) else (x.get(lang) or x['en'])
 
 
+# ---------- Gear 13–30: data/gear30.json (tools/gear_import.py), one table by slot. No items for a spec: no section, no answer row ----------
+GEAR30_PATH = os.environ.get('GABELLA_GEAR30') or os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data', 'gear30.json')
+
+
+def load_gear30(path=None):
+    p = path or GEAR30_PATH
+    try:
+        with open(p, encoding='utf-8') as f:
+            return json.load(f)
+    except (OSError, ValueError):
+        return {'items': {}, 'specs': {}}
+
+
+GEAR30_FILE = load_gear30()
+# the build shows the section only for data Вячеслав accepted ("approved": true, tools/gear_import.py --approve);
+# imported but not accepted (the Wowhead level-30 import of 30.10, before the addon dump of 05.11): section and answer row stay hidden
+GEAR30 = GEAR30_FILE if GEAR30_FILE.get('approved') else {'items': {}, 'specs': {}}
+GSLOTS = ('head', 'neck', 'shoulder', 'back', 'chest', 'wrist', 'hands', 'waist', 'legs', 'feet', 'finger', 'trinket',
+          'main', 'two', 'off', 'ranged')
+GSLOT = {
+    'head': n9('Голова', 'Head', 'Голова', 'Kopf', 'Tête', 'Cabeza', 'Cabeça', 'Testa', 'Głowa'), 'neck': SLOT['neck'],
+    'shoulder': n9('Плечи', 'Shoulder', 'Плечі', 'Schultern', 'Épaules', 'Hombros', 'Ombros', 'Spalle', 'Ramiona'),
+    'back': n9('Спина', 'Back', 'Спина', 'Rücken', 'Dos', 'Espalda', 'Costas', 'Schiena', 'Plecy'), 'chest': SLOT['chest'],
+    'wrist': n9('Запястья', 'Wrist', 'Зап’ястя', 'Handgelenke', 'Poignets', 'Muñeca', 'Pulsos', 'Polsi', 'Nadgarstki'),
+    'hands': n9('Кисти рук', 'Hands', 'Кисті рук', 'Hände', 'Mains', 'Manos', 'Mãos', 'Mani', 'Dłonie'),
+    'waist': n9('Пояс', 'Waist', 'Пояс', 'Taille', 'Taille', 'Cintura', 'Cintura', 'Vita', 'Talia'), 'legs': SLOT['legs'],
+    'feet': n9('Ступни', 'Feet', 'Ступні', 'Füße', 'Pieds', 'Pies', 'Pés', 'Piedi', 'Stopy'),
+    'finger': n9('Палец', 'Finger', 'Палець', 'Finger', 'Doigt', 'Dedo', 'Dedo', 'Dito', 'Palec'),
+    'trinket': n9('Аксессуар', 'Trinket', 'Аксесуар', 'Schmuck', 'Bijou', 'Abalorio', 'Berloque', 'Monile', 'Błyskotka'),
+    'main': n9('Одноручное', 'One-hand', 'Одноручна', 'Einhändig', 'À une main', 'Una mano', 'Uma mão', 'Una mano', 'Jednoręczna'),
+    'two': n9('Двуручное', 'Two-hand', 'Дворучна', 'Zweihändig', 'Deux mains', 'Dos manos', 'Duas mãos', 'Due mani', 'Dwuręczna'),
+    'off': n9('Левая рука', 'Off hand', 'Ліва рука', 'Schildhand', 'Main gauche', 'Mano izquierda', 'Mão secundária', 'Mano secondaria',
+              'Druga ręka'),
+    'ranged': n9('Дальний бой', 'Ranged', 'Далекий бій', 'Distanz', 'À distance', 'A distancia', 'À distância', 'A distanza', 'Dystansowa')}
+G_TITLE = n9('Экипировка 13–30', 'Gear 13–30', 'Екіпірування 13–30', 'Ausrüstung 13–30', 'Équipement 13–30', 'Equipo 13–30',
+             'Equipamento 13–30', 'Equipaggiamento 13–30', 'Ekwipunek 13–30')
+G_ROW = n9('Экипировка', 'Gear', 'Екіпірування', 'Ausrüstung', 'Équipement', 'Equipo', 'Equipamento', 'Equipaggiamento', 'Ekwipunek')
+G_HEAD = [n9('Ячейка', 'Slot', 'Комірка', 'Platz', 'Emplacement', 'Ranura', 'Espaço', 'Slot', 'Miejsce'),
+          n9('Предмет', 'Item', 'Предмет', 'Gegenstand', 'Objet', 'Objeto', 'Item', 'Oggetto', 'Przedmiot'),
+          n9('Ур.', 'Lvl', 'Рів.', 'St.', 'Niv.', 'Nv.', 'Nv.', 'Liv.', 'Poz.'),
+          n9('Где взять', 'Source', 'Де взяти', 'Quelle', 'Source', 'Origen', 'Origem', 'Fonte', 'Źródło')]
+G_LEAD = n9('Предметы до 30 уровня по ячейкам экипировки и где их взять. В ячейке сверху предмет выше уровнем; «Мой уровень» скрывает то, что пока не надеть.',
+            'Items up to level 30 by equipment slot, and where to get them. The higher-level item of a slot is on top; “My level” hides what you cannot wear yet.',
+            'Предмети до 30 рівня за комірками екіпірування і де їх узяти. У комірці згори предмет вищого рівня; «Мій рівень» ховає те, що поки не вдягнути.',
+            'Gegenstände bis Stufe 30 nach Ausrüstungsplatz und woher sie kommen. Oben steht jeweils der höherstufige; „Meine Stufe“ blendet aus, was du noch nicht tragen kannst.',
+            'Objets jusqu’au niveau 30 par emplacement, et où les obtenir. L’objet de plus haut niveau est en haut ; « Mon niveau » masque ce que vous ne pouvez pas encore porter.',
+            'Objetos hasta el nivel 30 por ranura y dónde conseguirlos. Arriba va el de mayor nivel; «Mi nivel» oculta lo que aún no puedes llevar.',
+            'Itens até o nível 30 por espaço de equipamento e onde conseguir. O de nível mais alto fica em cima; “Meu nível” oculta o que você ainda não pode usar.',
+            'Oggetti fino al livello 30 per slot e dove trovarli. In alto c’è quello di livello più alto; «Il mio livello» nasconde ciò che non puoi ancora indossare.',
+            'Przedmioty do 30 poziomu według miejsca w ekwipunku i skąd je wziąć. Na górze jest przedmiot wyższego poziomu; „Mój poziom” ukrywa to, czego jeszcze nie założysz.')
+G_ALL = n9('Все', 'All', 'Усі', 'Alle', 'Tous', 'Todos', 'Todos', 'Tutti', 'Wszystkie')
+G_FAC = n9('Фракция', 'Faction', 'Фракція', 'Fraktion', 'Faction', 'Facción', 'Facção', 'Fazione', 'Frakcja')
+G_MYLVL = n9('Мой уровень', 'My level', 'Мій рівень', 'Meine Stufe', 'Mon niveau', 'Mi nivel', 'Meu nível', 'Il mio livello', 'Mój poziom')
+G_LO = n9('Уровень ниже', 'Lower level', 'Нижчий рівень', 'Niedrigere Stufe', 'Niveau inférieur', 'Nivel menor', 'Nível menor', 'Livello inferiore',
+          'Niższy poziom')
+G_HI = n9('Уровень выше', 'Higher level', 'Вищий рівень', 'Höhere Stufe', 'Niveau supérieur', 'Nivel mayor', 'Nível maior', 'Livello superiore',
+          'Wyższy poziom')
+G_MYPROF = n9('Только мои профессии', 'Only my professions', 'Лише мої професії', 'Nur meine Berufe', 'Mes métiers seulement',
+              'Solo mis profesiones', 'Só minhas profissões', 'Solo le mie professioni', 'Tylko moje profesje')
+G_SHOWN = n9('Показано %n из %t', 'Showing %n of %t', 'Показано %n з %t', '%n von %t angezeigt', '%n sur %t affichés', 'Se muestran %n de %t',
+             'Mostrando %n de %t', 'Mostrati %n di %t', 'Pokazano %n z %t')
+G_NONE = n9('Под этот уровень и фильтр предметов нет.', 'No items for this level and filter.', 'Під цей рівень і фільтр предметів немає.',
+            'Keine Gegenstände für diese Stufe und diesen Filter.', 'Aucun objet pour ce niveau et ce filtre.', 'No hay objetos para este nivel y filtro.',
+            'Nenhum item para este nível e filtro.', 'Nessun oggetto per questo livello e filtro.', 'Brak przedmiotów dla tego poziomu i filtra.')
+G_QUEST = n9('Квест', 'Quest', 'Квест', 'Quest', 'Quête', 'Misión', 'Missão', 'Missione', 'Zadanie')
+G_SRC = {
+    'wowhead-forever-guide': n9(
+        'Источник: Wowhead Forever, временно, до данных клиента. Данные беты на {d}.',
+        'Source: Wowhead Forever, for now, until the client data. Beta data as of {d}.',
+        'Джерело: Wowhead Forever, тимчасово, до даних клієнта. Дані бети на {d}.',
+        'Quelle: Wowhead Forever, vorläufig, bis die Client-Daten da sind. Beta-Daten vom {d}.',
+        'Source : Wowhead Forever, provisoirement, en attendant les données du client. Données de la bêta au {d}.',
+        'Fuente: Wowhead Forever, de forma provisional, hasta tener los datos del cliente. Datos de la beta a {d}.',
+        'Fonte: Wowhead Forever, provisoriamente, até os dados do cliente. Dados da beta de {d}.',
+        'Fonte: Wowhead Forever, in via provvisoria, fino ai dati del client. Dati della beta al {d}.',
+        'Źródło: Wowhead Forever, tymczasowo, do czasu danych klienta. Dane z bety na {d}.'),
+    'client-dump': n9(
+        'Источник: данные клиента Forever на {d}.', 'Source: Forever client data as of {d}.', 'Джерело: дані клієнта Forever на {d}.',
+        'Quelle: Client-Daten von Forever vom {d}.', 'Source : données du client Forever au {d}.', 'Fuente: datos del cliente de Forever a {d}.',
+        'Fonte: dados do cliente Forever de {d}.', 'Fonte: dati del client Forever al {d}.', 'Źródło: dane klienta Forever na {d}.')}
+G_L60 = n9('Предметы 31–60 ждут данных: на бете их статы и добыча боссов закрыты.',
+           'Items for levels 31–60 are waiting for data: their stats and boss loot were hidden in the beta.',
+           'Предмети 31–60 чекають на дані: на беті їхні характеристики й здобич босів закриті.',
+           'Gegenstände für Stufe 31–60 warten auf Daten: Werte und Bossbeute waren in der Beta verborgen.',
+           'Les objets des niveaux 31–60 attendent des données : leurs caractéristiques et le butin des boss étaient masqués dans la bêta.',
+           'Los objetos de nivel 31–60 esperan datos: sus estadísticas y el botín de jefes estaban ocultos en la beta.',
+           'Os itens dos níveis 31–60 aguardam dados: atributos e saque de chefes estavam ocultos na beta.',
+           'Gli oggetti dei livelli 31–60 attendono dati: statistiche e bottino dei boss erano nascosti nella beta.',
+           'Przedmioty na poziomy 31–60 czekają na dane: w becie ich statystyki i łupy bossów były ukryte.')
+G_TEST = n9('Тестовые данные: не для публикации.', 'Test data: not for publishing.', 'Тестові дані: не для публікації.',
+            'Testdaten: nicht zur Veröffentlichung.', 'Données de test : ne pas publier.', 'Datos de prueba: no publicar.',
+            'Dados de teste: não publicar.', 'Dati di prova: da non pubblicare.', 'Dane testowe: nie do publikacji.')
+G_N = n9('Предметов', 'Items', 'Предметів', 'Gegenstände', 'Objets', 'Objetos', 'Itens', 'Oggetti', 'Przedmiotów')
+G_LV = n9('ур.', 'lvl', 'рів.', 'St.', 'niv.', 'nv.', 'nv.', 'liv.', 'poz.')
+G_GO = n9('Таблица по ячейкам', 'Table by slot', 'Таблиця за комірками', 'Tabelle nach Platz', 'Tableau par emplacement', 'Tabla por ranura',
+          'Tabela por espaço', 'Tabella per slot', 'Tabela według miejsc')
+G_PROF = {'blacksmithing': 'Кузнечное дело', 'leatherworking': 'Кожевничество', 'tailoring': 'Портняжное дело', 'engineering': 'Инженерное дело',
+          'enchanting': 'Наложение чар', 'alchemy': 'Алхимия', 'firstaid': 'Первая помощь', 'cooking': 'Кулинария'}   # ru names of PROFS (index.src.html)
+EXTRA['ap'] = n9('Сила атаки', 'Attack power', 'Сила атаки', 'Angriffskraft', 'Puissance d’attaque', 'Poder de ataque', 'Poder de ataque',
+                 'Potere d’attacco', 'Moc ataku')
+for _l, _w in (('ru', 'силы атаки'), ('uk', 'сили атаки'), ('pl', 'mocy ataku')):
+    GEN[_l]['ap'] = _w
+G_DPS = n9('урона в секунду', 'damage per second', 'шкоди за секунду', 'Schaden pro Sekunde', 'dégâts par seconde', 'de daño por segundo',
+           'de dano por segundo', 'danni al secondo', 'obrażeń na sekundę')
+G_SPHP = n9('+{n} к урону и лечению заклинаниями', '+{n} spell damage and healing', '+{n} до шкоди й зцілення заклинаннями',
+            '+{n} Zauberschaden und Heilung', '+{n} aux dégâts et aux soins des sorts', '+{n} al daño y la sanación de hechizos',
+            '+{n} de dano e cura mágicos', '+{n} a danni e cure magici', '+{n} do obrażeń i leczenia zaklęciami')
+WH_LANG = {'ru': 'ru/', 'de': 'de/', 'fr': 'fr/', 'es': 'es/', 'pt': 'pt/', 'it': 'it/'}
+
+
+def _fmt(v, lang):
+    s = f'{v:g}'
+    return s if lang == 'en' else s.replace('.', ',')
+
+
+def gear_stats(st, lang):
+    """«18,5 урона в секунду, +10 интеллекта, +6 выносливости»: weapon damage first, then armor, then the stats in a fixed order."""
+    out = []
+    if st.get('dps'):
+        out.append(f'{_fmt(st["dps"], lang)} {G_DPS[lang]}')
+    if st.get('armor'):
+        out.append(f'{_fmt(st["armor"], lang)} {_num("armor", lang)}')
+    for k in ('str', 'agi', 'int', 'spi', 'sta'):
+        if st.get(k):
+            out.append(f'+{_fmt(st[k], lang)} {_num(k, lang)}')
+    if st.get('sp') and st.get('sp') == st.get('hp'):
+        out.append(G_SPHP[lang].replace('{n}', _fmt(st['sp'], lang)))
+    else:
+        out += [f'+{_fmt(st[k], lang)} {_num(k, lang)}' for k in ('sp', 'hp') if st.get(k)]
+    for k in ('mp5', 'hit', 'crit', 'def', 'ap'):
+        if st.get(k):
+            out.append(f'+{_fmt(st[k], lang)}{"%" if k in ("hit", "crit") else ""} {_num(k, lang)}')
+    return ', '.join(out)
+
+
+def gear_rows(key, data=None):
+    """The items of a spec in table order: slot, then the higher required level first. [(entry, item)]"""
+    data = data or GEAR30
+    items = data.get('items', {})
+    got = [(e, items[str(e['id'])]) for e in data.get('specs', {}).get(key, []) if str(e['id']) in items]
+    return sorted(got, key=lambda x: (GSLOTS.index(x[1]['slot']), -(x[1].get('lvl') or 0), _name(x[1]['names'], 'en')))
+
+
+def _src_html(src, lang, tr, fn):
+    if src['kind'] == 'drop':
+        boss, dg = (escape(_name(src[k], lang)) if src.get(k) else '' for k in ('boss', 'dungeon'))
+        return ' · '.join(x for x in (boss, dg) if x)
+    if src['kind'] == 'quest':
+        q = escape(_name(src['quest'], lang)) if src.get('quest') else ''
+        return f'{escape(G_QUEST[lang])}: {q}' + (f'<span class="alt">{escape(fn[src["faction"]])}</span>' if src.get('faction') else '')
+    return escape(tr(G_PROF[src['prof']], lang)) if src.get('prof') in G_PROF else ''
+
+
+def gear_sprite_v():
+    """?v=<hash> of the item icon sprite (tools/gear_api.py): one picture for the whole section, cached for days."""
+    import hashlib
+    f = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'assets', 'gear', 'icons.webp')
+    return '?v=' + hashlib.sha1(open(f, 'rb').read()).hexdigest()[:8] if os.path.isfile(f) else ''
+
+
+def gear_html(key, lang, tr, fn, data=None):
+    """The section: lead, filters (faction, my level, my professions; JS['cheat'] reads the hero of this browser), the table, the source."""
+    data = data or GEAR30
+    rows = gear_rows(key, data)
+    if not rows:
+        return ''
+    head = [escape(h[lang]) for h in G_HEAD]
+    body, last = '', ''
+    for e, it in rows:
+        srcs = e.get('src') or []
+        quests = [s for s in srcs if s['kind'] == 'quest']
+        f = (quests[0].get('faction') or '') if srcs and len(quests) == len(srcs) and len({s.get('faction') for s in quests}) == 1 else ''
+        crafts = [s.get('prof') for s in srcs if s['kind'] == 'craft' and s.get('prof')]
+        p = ' '.join(dict.fromkeys(crafts)) if srcs and len(crafts) == len(srcs) else ''
+        name = _name(it['names'], lang)
+        href = f'https://www.wowhead.com/forever/{WH_LANG.get(lang, "")}item={int(e["id"])}'
+        stats = gear_stats(it.get('stats') or {}, lang)
+        where = '<br>'.join(x for x in (_src_html(s, lang, tr, fn) for s in srcs) if x) or '—'
+        lv = it.get('lvl') or 0
+        cont = ' class="cont"' if it['slot'] == last else ''
+        last = it['slot']
+        body += (f'<tr data-s="{it["slot"]}" data-lv="{lv}" data-f="{f}" data-p="{p}"{cont}>'
+                 f'<td data-l="{head[0]}" class="k sl">{escape(GSLOT[it["slot"]][lang])}</td>'
+                 f'<td data-l="{head[1]}" class="m">'
+                 + (f'<i class="gic" style="--i:{int(it["ic"])}" aria-hidden="true"></i>' if it.get('ic') is not None else '<i class="gic no" aria-hidden="true"></i>')
+                 + f'<a class="iq iq{int(it.get("q", 1))}" href="{href}" target="_blank" rel="noopener"'
+                 + (f' title="{escape(it["names"]["en"])}"' if name != it['names'].get('en') else '') + f'>{escape(name)}</a>'
+                 + (f'<span class="alt">{escape(stats)}</span>' if stats else '') + '</td>'
+                 f'<td data-l="{head[2]}" class="s lv">{lv or "—"}</td>'
+                 f'<td data-l="{head[3]}">{where}</td></tr>')
+    prov = {it.get('provenance') for _, it in rows}
+    day = '.'.join(reversed((data.get('date') or '').split('-')))
+    src_line = ' '.join(G_SRC[p][lang].replace('{d}', day) for p in ('client-dump', 'wowhead-forever-guide') if p in prov)
+    btns = (f'<button type="button" data-v="all" aria-pressed="true">{escape(G_ALL[lang])}</button>'
+            + ''.join(f'<button type="button" data-v="{x}" aria-pressed="false">{escape(fn[x])}</button>' for x in ('alliance', 'horde')))
+    ths = ''.join(f'<th scope="col">{h}</th>' for h in head)
+    sp = f' style="--n:{max(int(data.get("sprite") or 0), 1)};--gsp:url(@@ROOT@@assets/gear/icons.webp{gear_sprite_v()})"' if data.get('sprite') else ''
+    return (f'<div id="gearBox" data-shown="{escape(G_SHOWN[lang])}"{sp}>'
+            + (f'<p class="gtest">{escape(G_TEST[lang])}</p>' if data.get('fixture') else '')
+            + f'<p>{escape(G_LEAD[lang])}</p>'
+            f'<div class="filters" role="group" aria-label="{escape(G_ROW[lang])}">'
+            f'<div class="seg" id="gearF" role="group" aria-label="{escape(G_FAC[lang])}">{btns}</div>'
+            f'<div class="fgroup"><span class="flabel" id="lgearLvl">{escape(G_MYLVL[lang])}</span><div class="stepper" role="group" aria-labelledby="lgearLvl">'
+            f'<button type="button" class="lvm" aria-label="{escape(G_LO[lang])}">−</button>'
+            f'<input class="lvin" id="gearLvl" type="number" min="1" max="60" inputmode="numeric" aria-labelledby="lgearLvl" placeholder="—">'
+            f'<button type="button" class="lvp" aria-label="{escape(G_HI[lang])}">+</button></div></div>'
+            f'<button type="button" class="pill" id="gearProf" aria-pressed="false" hidden>{escape(G_MYPROF[lang])}</button>'
+            f'<span class="small" id="gearCount" role="status"></span></div>'
+            f'<table class="gtable geart"><thead><tr>{ths}</tr></thead><tbody>{body}'
+            f'<tr id="gearNone" hidden><td colspan="4">{escape(G_NONE[lang])}</td></tr></tbody></table>'
+            f'<p class="small">{escape(src_line)} {escape(G_L60[lang])}</p></div>')
+
+
+def gear_answer(key, lang, data=None):
+    """The «Gear» line of the answer in 5 seconds: how many items, their levels, a link to the table."""
+    rows = gear_rows(key, data)
+    lv = [it['lvl'] for _, it in rows if it.get('lvl')]
+    span = f' · {G_LV[lang]} {min(lv)}–{max(lv)}' if lv else ''
+    return f'{escape(G_N[lang])}: {len(rows)}{span}. <a href="#gear">{escape(G_GO[lang])}</a>'
+
+
 def _gear(key, i, lang):
     got = GEAR.get(key, {}).get(i)
     if not got:
@@ -630,6 +852,7 @@ def attach(guides, hubs, order):
                 {'id': 'answer', 'title': ANSWER, 'blocks': answer},
                 {'id': 'build', 'title': TAB['build'], 'blocks': tab_build},
                 {'id': 'talents', 'title': TAB['talents'], 'blocks': tab_talents},
+            ] + ([{'id': 'gear', 'title': G_TITLE, 'blocks': [('raw', {})]}] if gear_rows(f'{cid}-{spec}') else []) + [   # html in finish()
                 {'id': 'leveling', 'title': TAB['leveling'], 'blocks': tab_level},
                 {'id': 'group', 'title': TAB['group'], 'blocks': tab_group},
                 {'id': 'rotation', 'title': TAB['rotation'], 'blocks': [('text', [ROT_NOTE]), steps]},
@@ -656,10 +879,15 @@ def finish(guides, hero_core, langs_mod):
         cid, spec, rows, tierh, trows = g.pop('cheat')
         got[(cid, spec)] = rows
         title, lead, bar = {}, {}, {}
+        key = f'{cid}-{spec}'
+        gear = next((s for s in g['sections'] if s['id'] == 'gear'), None)
         for lang in LANGS9:
             if lang not in langs_mod.LANGS:
                 continue
             n = hero_core(lang)
+            if gear:
+                import build   # noqa: E402  the profession names of the site in every language (build.tr)
+                gear['blocks'][0][1][lang] = gear_html(key, lang, build.tr, n['fn'])
             sn = n['sn'][cid][n['sid'][cid].index(spec)]
             title[lang] = f'{n["cn"][cid]} · {sn}'   # the dot stays with the class on a wrapped heading
             role = ' / '.join(r[1][lang] for r in rows)
@@ -678,6 +906,7 @@ def finish(guides, hero_core, langs_mod):
                          f'<a href="#group">{escape(GOAL_DG[lang])}: {escape(role)}</a></dd></div>'
                          f'<div><dt>{escape(KEYT[lang])}</dt><dd>{keys}. <a href="#talents">{escape(ORDER_L[lang])}</a></dd></div>'
                          f'<div><dt>{escape(STATS_T[lang])}</dt><dd>{stats}</dd></div>'
+                         + (f'<div><dt>{escape(G_ROW[lang])}</dt><dd>{gear_answer(key, lang)}</dd></div>' if gear else '')
                          + ''.join(f'<div><dt>{escape(GEAR_ROWS[i][lang])}</dt><dd>{_gear(f"{cid}-{spec}", i, lang)}</dd></div>' for i in ROWS_ON) +
                          f'</dl>'
                          f'<p class="gbtns"><a class="btn cxnext" href="{leveling_href}">{escape(NEXT_PFX[lang])}: {escape(TAB["leveling"][lang])} →</a> '

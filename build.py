@@ -1113,7 +1113,7 @@ def pwa(html, lang, root):
 GIT_ROOT = os.path.dirname(HERE) if os.environ.get('WF_STAGED') else HERE   # the staged build runs in .build/, git is one level up
 UPD_SRC = {'guides/leveling-': ('content/class_guides.py',),   # the nine class guides: their own texts (the order is checked first)
            'guides/builds-': ('content/spec_builds.py',),
-           'guides/spec-': ('content/spec_cheats.py', 'content/spec_builds.py', 'content/class_guides.py'),
+           'guides/spec-': ('content/spec_cheats.py', 'content/spec_builds.py', 'content/class_guides.py', 'data/gear30.json'),
            'guides/dungeons/': ('content/dungeon_pages.py', 'content/guides.py'),   # the list and the pages of single dungeons
            'guides/': ('content/guides.py', 'i18n/guides.ru.txt', 'i18n/guides.en.txt', 'i18n/guides.uk.txt'),
            'classes/': ('content/classes.py',), 'races/': ('content/races.py',),

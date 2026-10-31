@@ -1328,33 +1328,36 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 .cxrows dd a { color: var(--gold-2); }
 .btn.cxnext { min-height: 52px; padding: 0 26px; font-size: var(--fs-16); }
 @media (max-width: 719px) { .cxrows > div { grid-template-columns: minmax(0, 1fr); } .btn.cxnext { width: 100%; justify-content: center; text-align: center; } }
-/* Pages of single dungeons: the bosses in order, one plate each, the three roles as rows (content/dungeon_pages.py) */
-.dgboss { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 10px; }
-.dgboss > li { padding: 16px 18px 8px; border-radius: 6px; background: var(--panel-2); }
-.dgboss h3 { margin: 0 0 6px; font-size: var(--fs-18); }
-.dgboss .dgm { color: var(--muted); font-family: var(--font-body); font-size: var(--fs-14); font-weight: 400; }
-.dgboss > li > p { margin: 0 0 8px; }
-.dgboss .cxrows { margin: 10px 0 8px; }
-.dgboss .cxrows > div:last-child { border-bottom: 0; padding-bottom: 0; }
-@media (min-width: 720px) { .dgboss .cxrows > div { grid-template-columns: 110px minmax(0, 1fr); } }
+/* Spec cheat sheet, gear up to level 30: one table by slot, the slot named once, item names in the game's quality colours (toned for black and cream) */
+:root { --q0: #8f8f8f; --q2: #5cb84c; --q3: #4b97e3; --q4: #b07ce6; --q5: #e0913f; }
+:root[data-theme="light"] { --q0: #6e6e6e; --q2: #2c7a21; --q3: #1d5fae; --q4: #7a40b0; --q5: #a65a17; }
+#gearBox .filters { margin: 12px 0 10px; }
+.geart td.sl { color: var(--muted); font-weight: 500; white-space: nowrap; }
+.geart tr.cont td.sl { visibility: hidden; }
+.geart td.lv { white-space: nowrap; }
+.geart tr[hidden] { display: none; }
+/* the item icon: one sprite for the section (assets/gear/icons.webp, 36 px cells drawn at 18), a fixed box so nothing moves */
+.geart .gic { display: inline-block; width: 18px; height: 18px; margin: 0 7px -3px 0; border-radius: 3px; vertical-align: baseline;
+  background: #16181c var(--gsp) no-repeat; background-size: calc(var(--n) * 18px) 18px; background-position: calc(var(--i) * -18px) 0;
+  box-shadow: 0 0 0 1px rgba(0,0,0,.35); }
+.geart .gic.no { background-image: none; }
+.geart .iq { text-decoration: none; font-weight: 600; color: var(--fg); }
+.geart .iq:hover { text-decoration: underline; }
+.geart .iq0 { color: var(--q0); } .geart .iq2 { color: var(--q2); } .geart .iq3 { color: var(--q3); } .geart .iq4 { color: var(--q4); } .geart .iq5 { color: var(--q5); }
+#gearProf[hidden] { display: none; }
+.gtest { color: var(--gold-2); font-weight: 600; }
+/* phone: one compact card per item, «Head · Lvl 24» on top, then the item, then where to get it without a label */
+@media (max-width: 719px) {
+  .geart tr { gap: 2px 12px; }
+  .geart td.sl { order: 0; flex: none; }
+  .geart td.lv { order: 1; flex: none; color: var(--muted); }
+  .geart td.m { order: 2; }
+  .geart td:last-child { order: 3; }
+  .geart td:last-child::before { display: none; }
+  .geart tr.cont td.sl { display: none; }
+}
 .gplay .btn { margin-left: auto; }
 .gbody.play { padding-top: 14px; }
-/* Talent calculator (talents/, build_guides.calc_*): a text heading, no picture, the tool right under it */
-.chead { padding: calc(var(--top) + 28px) 0 4px; }
-.chead .wrap { display: grid; gap: 10px; justify-items: start; }
-.chead .crumbs { display: flex; flex-wrap: wrap; gap: 6px 10px; font-size: var(--fs-14); color: var(--muted); }
-.chead .crumbs a { color: var(--muted); text-decoration: none; }
-.chead .crumbs a:hover { color: var(--fg); text-decoration: underline; }
-.chead h1 { font-size: var(--fs-40); line-height: 1.05; color: var(--fg); }
-:root .chead h1.long { font-size: min(var(--fs-40), calc((100vw - 64px) / (var(--lw, 12) * .74))); }
-.chead .upd { margin: 0; color: var(--muted); text-shadow: none; }
-.chead .glead { margin: 0; max-width: 72ch; font-size: var(--fs-16); color: var(--muted); }
-.chead :is(h1, .glead, .crumbs) { text-shadow: none; }   /* no picture under the heading: no shade for the text either */
-.gbody.calcp { padding-top: 16px; }
-.calcs { padding: 18px; }
-.calcl { margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr)); }
-.calcl a[aria-current] { border-color: var(--gold); }
-@media (max-width: 719px) { .chead { padding-top: calc(var(--top) + 16px); } .chead .wrap { gap: 8px; } .chead :is(.crumbs, .upd) { display: none; }   /* phones: the tree on the first screen; the tab bar is the way back */ .chead h1 { font-size: var(--fs-28); } :root .chead h1.long { font-size: min(var(--fs-28), calc((100vw - 32px) / (var(--lw, 12) * .74))); } .calcs { padding: 14px 12px; } }
 /* the beta mark after a fact Blizzard has not confirmed (<span class="beta-note">wg danych z bety</span> in a guide text, as on the home page) */
 .beta-note { color: var(--muted); font-size: var(--fs-13); font-weight: 400; font-style: normal; white-space: nowrap; }
 .beta-note::before { content: "("; } .beta-note::after { content: ")"; }
@@ -1617,7 +1620,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png?v=00a6a7d9">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../assets/radio/radio.css?v=556d7dc63f" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=e477a9b728" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/search/search.css?v=048101f431" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../assets/me/me.css?v=f19953bd21" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../assets/hero/hero.css?v=6321409992" media="print" onload="this.media='all'">
 </head>
@@ -1849,7 +1852,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../assets/radio/radio.js?v=556d7dc63f" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=e477a9b728" data-root="../" defer></script>
+<script src="../assets/search/search.js?v=048101f431" data-root="../" defer></script>
 <script src="../assets/me/me.js?v=f19953bd21" data-root="../" data-home="./" data-lang="pl" data-ach="0" data-teaser="" data-close="Zamknij" data-page="404" data-look="2" defer></script>
 <script src="../assets/hero/hero.js?v=6321409992" data-root="../" data-home="./" data-data="../assets/hero/pl.json?v=6321409992" defer></script>
 </body>
