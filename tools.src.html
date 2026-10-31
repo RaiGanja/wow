@@ -76,8 +76,8 @@
 .unit.empty .up { display: grid; place-items: center; border: 2px dashed var(--pline); box-shadow: none; background: transparent; font-size: var(--fs-28); color: var(--muted); }
 .unit.empty .ub b { font-size: var(--fs-18); font-weight: 600; color: var(--fg); }
 .unit.empty .ub span { font-size: var(--fs-14); }
-.unit.src, .rc.src { border-color: var(--gold-2); box-shadow: inset 0 0 0 1px var(--gold-2); }
-.unit.over, .rc.over { border-color: var(--gold-2); border-style: solid; }
+.unit.src, button.rc.src { border-color: var(--gold-2); box-shadow: inset 0 0 0 1px var(--gold-2); }
+.unit.over, button.rc.over { border-color: var(--gold-2); border-style: solid; }
 
 /* raid grid: groups in columns. A cell is the game's raid frame: a dark slot, the health bar in a muted class colour,
    the name white with a dark outline, the role a small mark, a 2 px power bar at the bottom */
@@ -86,17 +86,17 @@
 .rg-h { display: flex; justify-content: space-between; align-items: baseline; gap: 6px; padding: 0 2px 2px; font-size: var(--fs-13); color: var(--muted); }
 .rg-h b { color: var(--fg); font-weight: 600; font-size: var(--fs-14); }
 .rg-h .warn { color: var(--horde); }
-.rc { --pc: #3f7fe0; position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-content: center; gap: 0 4px; height: 50px; padding: 3px 7px 5px; border: 1px solid #000; border-radius: 2px; overflow: hidden; isolation: isolate; color: #fff; text-align: left; font: inherit; cursor: pointer;
+button.rc { --pc: #3f7fe0; position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-content: center; gap: 0 4px; height: 50px; padding: 3px 7px 5px; border: 1px solid #000; border-radius: 2px; overflow: hidden; isolation: isolate; color: #fff; text-align: left; font: inherit; cursor: pointer;
   background: linear-gradient(180deg, color-mix(in srgb, var(--cc) 62%, #0f0f0f), color-mix(in srgb, var(--cc) 46%, #050505)); transition: filter .15s, box-shadow .15s; }
-.rc::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--pc); }
-.rc:hover { filter: brightness(1.12); box-shadow: 0 0 0 1px #e0c27a; }
-.rc b, .rc small { text-shadow: 0 0 2px #000, 0 1px 1px #000, 0 0 1px #000; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.rc b { font-weight: 600; font-size: var(--fs-14); line-height: 1.25; }
-.rc small { grid-column: 1; font-size: var(--fs-13); line-height: 1.2; color: rgba(255,255,255,.72); font-weight: 500; }
-.rc .ri { grid-column: 2; grid-row: 1; align-self: start; margin: 1px 0 0; width: 12px; height: 12px; stroke-width: 2.4; color: rgba(255,255,255,.85); filter: drop-shadow(0 0 1px #000); }
-.rc.empty { background: #0f0f0f; border: 1px dashed rgba(255,255,255,.14); color: rgba(243,239,230,.6); display: flex; align-items: center; justify-content: center; gap: 6px; font-size: var(--fs-14); }
-.rc.empty::after { display: none; }
-.rc.empty:hover { box-shadow: none; border-color: var(--gold); color: var(--fg); filter: none; }
+button.rc::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--pc); }
+button.rc:hover { filter: brightness(1.12); box-shadow: 0 0 0 1px #e0c27a; }
+button.rc b, button.rc small { text-shadow: 0 0 2px #000, 0 1px 1px #000, 0 0 1px #000; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+button.rc b { font-weight: 600; font-size: var(--fs-14); line-height: 1.25; }
+button.rc small { grid-column: 1; font-size: var(--fs-13); line-height: 1.2; color: rgba(255,255,255,.72); font-weight: 500; }
+button.rc .ri { grid-column: 2; grid-row: 1; align-self: start; margin: 1px 0 0; width: 12px; height: 12px; stroke-width: 2.4; color: rgba(255,255,255,.85); filter: drop-shadow(0 0 1px #000); }
+button.rc.empty { background: #0f0f0f; border: 1px dashed rgba(255,255,255,.14); color: rgba(243,239,230,.6); display: flex; align-items: center; justify-content: center; gap: 6px; font-size: var(--fs-14); }
+button.rc.empty::after { display: none; }
+button.rc.empty:hover { box-shadow: none; border-color: var(--gold); color: var(--fg); filter: none; }
 
 /* roles in one line of text: "Tanks 8 / 4  Healers 8 / 10", a shortfall in red */
 .rroles { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 24px; font-size: var(--fs-16); }

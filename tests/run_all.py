@@ -7,10 +7,12 @@ runs = [[f] for f in sorted(glob.glob(os.path.join(HERE, 'test_*.py')))] + [[os.
 failed = []
 # Overflow check in headless Chrome (key pages x 9 languages x 2 widths); the full run: node tests/overflow_check.mjs --full
 runs.append(['--node', os.path.join(HERE, 'overflow_check.mjs'), '--quick'])
+# Alignment check: the content of every button / chip / tab / badge in the middle of its frame, in pixels (full: --full)
+runs.append(['--node', os.path.join(HERE, 'align_check.mjs'), '--quick'])
 for args in runs:
     if args[0] == '--node':
         if not shutil.which('node'):
-            print('FAIL overflow_check.mjs: node not found'); failed.append(args[1]); continue
+            print(f'FAIL {os.path.basename(args[1])}: node not found'); failed.append(args[1]); continue
         r = subprocess.run(['node'] + args[1:], env=env, capture_output=True, text=True, encoding='utf-8')
         args = args[1:]
     else:
