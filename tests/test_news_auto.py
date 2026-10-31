@@ -167,6 +167,37 @@ lst = nw.article_list(art, 'https://worldofwarcraft.blizzard.com', 'forever')
 assert lst == [{'id': '24313105', 'title': 'Watch the WoW: Forever Short Story', 'created_at': '2026-10-26T17:00:00.000Z',
                 'url': 'https://worldofwarcraft.blizzard.com/en-us/news/24313105/watch-the-wow-forever'}], lst
 
+# an article page that differs between fetches outside its change lines (31.10: art-24315203 3b822bb2 -> ... -> 3b822bb2 every 6 h)
+ACFG = dict(json.loads(json.dumps(CFG)), forums={}, articles={'list': 'https://wow.example/en-us/news', 'base': 'https://wow.example', 'match': 'forever'})
+
+
+def art_pages(body, title='WoW Forever Development Notes'):
+    lst = ('<article class="NewsBlog"><div class="NewsBlog-date" data-props="{&quot;iso8601&quot;:&quot;' + created + '&quot;}"></div>'
+           f'<div class="NewsBlog-title">{title}</div><a href="/news/77/forever-notes"></a></article>')
+    return {'https://wow.example/en-us/news': lst,
+            'https://wow.example/en-us/news/77/forever-notes': f'<div class="detail">{body}</div></div><footer>x</footer>'}
+
+
+recheck, nw.ARTICLE_RECHECK_H = nw.ARTICLE_RECHECK_H, 0
+aled = {}
+assert [e['event'] for e in nw.run(ACFG, aled, 48, Fake(art_pages(P7 + '<p>3h ago</p>')))] == ['new']
+sha1 = aled['posts']['art-77']['sha']
+assert nw.run(ACFG, aled, 48, Fake(art_pages(P7 + '<p>9h ago</p>'))) == []          # no change line moved: quiet
+assert aled['posts']['art-77']['sha'] != sha1                                                               # the new hash is remembered
+assert nw.run(ACFG, aled, 48, Fake(art_pages(P7 + '<p>3h ago</p>'))) == []          # and back: still quiet
+ev = nw.run(ACFG, aled, 48, Fake(art_pages(P7.replace('by 1% (was 2%)', 'by 1.5% (was 2%)'))))
+assert [e['event'] for e in ev] == ['edit'] and len(ev[0]['res']['new_lines']) == 1 and len(ev[0]['res']['gone_lines']) == 1, ev
+ev = nw.run(ACFG, aled, 48, Fake(art_pages(P7.replace('by 1% (was 2%)', 'by 1.5% (was 2%)') + '<p>1h ago</p>', 'WoW Forever Notes (updated)')))
+assert [e['event'] for e in ev] == ['edit']                                                     # a new title with a new hash is an edit
+nw.ARTICLE_RECHECK_H = recheck
+# a post with no text (a video only) hashes to sha256('') = e3b0c442...: two such posts are not one story
+vid = lambda tid, title: topic(tid, '<p><a href="https://youtube.example/x"></a></p>', created, cat=346, title=title)   # noqa: E731
+vpages = {'https://us.example/en/wow/c/wow-forever/346.json': {'topic_list': {'topics': [
+              {'id': i, 'last_posted_at': created, 'highest_post_number': 1, 'posters': [{'primary_group_id': 62}]} for i in (30, 31)]}},
+          'https://us.example/en/wow/t/30.json': vid(30, 'Forever Podcast: Episode 3'), 'https://us.example/en/wow/t/31.json': vid(31, 'Forever Podcast: Episode 5')}
+ev = nw.run(json.loads(json.dumps(CFG)), {}, 48, Fake(vpages))
+assert [e['rec']['sha'] for e in ev] == [nw.EMPTY] * 2 and not any(e.get('twin_of') for e in ev), [(e['rec']['key'], e.get('twin_of')) for e in ev]
+
 # the tracker hint is off: no request to /groups/ (robots.txt of the forums disallows /en/wow/g)
 fake = Fake({})
 nw.run(json.loads(json.dumps(CFG)), {}, None, fake)
@@ -178,20 +209,21 @@ assert src['tracker']['enabled'] is False
 import news_publish as pb      # noqa: E402
 import news_gate as ng         # noqa: E402
 import news_notify as nn       # noqa: E402
-ev = nw.run(json.loads(json.dumps(CFG)), {}, 48, Fake(site_pages(P7, '2026-10-26T20:35:27.223Z')))
+ev = nw.run(json.loads(json.dumps(CFG)), {}, 24 * 3650, Fake(site_pages(P7, '2026-10-26T20:35:27.223Z')))
 ents = [nw.entry(e) for e in ev]
 led = {}
-notes, changed = pb.apply(ents, [], led)
+AT = datetime(2026, 10, 26, 21, 0, tzinfo=timezone.utc)       # 'now' of the publisher: the post is 25 min old
+notes, changed = pb.apply(ents, [], led, now=AT)
 assert len(notes) == 1 and changed[0][0] == 'us-10-1', changed                      # the EU copy is not a second note
 t = notes[0]['t']
 assert set(t) == set(pb.LANGS)
 assert t['ru']['h'] == 'Заметки разработчиков от 26.10 (бета)' and t['en']['h'] == 'Developer notes of Oct 26 (beta)'
 assert t['de']['h'] == 'Entwicklerhinweise vom 26.10 (Beta)' and t['pl']['h'] == 'Notatki deweloperów z 26.10 (beta)'
 assert notes[0]['url'].startswith('https://us.example/') and notes[0]['title_en'].startswith('WoW Forever Beta Development Notes')
-assert pb.apply(ents, notes, led)[1] == []                                          # the same post again: nothing
-assert pb.apply(ents, [], led)[1] == []                                             # reverted note: does not come back
+assert pb.apply(ents, notes, led, now=AT)[1] == []                                  # the same post again: nothing
+assert pb.apply(ents, [], led, now=AT)[1] == []                                     # reverted note: does not come back
 e2 = dict(ents[0], event='edit', sha='f' * 64, detected_at='2026-10-26T21:10:00Z')
-n2, ch2 = pb.apply([e2], notes, led)
+n2, ch2 = pb.apply([e2], notes, led, now=AT)
 assert ch2 and n2[0]['t']['ru']['upd'] == 'обновлено 26.10' and n2[0]['t']['en']['upd'] == 'updated Oct 26'
 tech = dict(ents[0], key='us-11-1', title='Beta Realm Restart Today At 2:00 p.m. PDT')
 assert not pb.publishable(tech)                                                     # technical posts are not news
@@ -200,6 +232,37 @@ assert not pb.publishable(reply)                                                
 assert pb.texts('hotfixes', False, '2026-11-06T18:00:00Z')['fr']['h'] == 'Correctifs du 06.11'
 art = pb.texts('article', False, '2026-10-26T17:00:00Z', title='Watch the WoW: Forever Short Story')
 assert art['ru'] == {'h': 'Watch the WoW: Forever Short Story', 'en': 1, 'src': 'Blizzard, на английском'}   # an article keeps its English title
+
+
+# the first live run (31.10): entries/ held every version of every story since 27.10 -> 33 notes in one run, the backlog
+def story(key, at, sha, event='new', detected=None, title=None, source='forum'):
+    return dict(ents[0], key=key, event=event, sha=sha * 64, source=source, title=title or f'Story {key}', twin_of=None,
+                detected_at=detected or at, short_news=dict(ents[0]['short_news'], at=at, kind='article' if source == 'article' else 'post',
+                                                            title_en=title or f'Story {key}'))
+
+
+NOW31 = datetime(2026, 10, 31, 14, 50, tzinfo=timezone.utc)
+backlog = [story(f'us-{i}-1', f'2026-10-{8 + i:02d}T12:00:00Z', 'a') for i in range(15)]                 # 08.10-22.10: history
+backlog += [story('art-1', '2026-10-29T21:00:00Z', s, 'edit' if i else 'new', f'2026-10-{29 + (i + 1) // 3}T{(21 + 6 * i) % 24:02d}:00:00Z',
+                  'Goes Live November 4', 'article') for i, s in enumerate('bcdef')]                     # 5 versions of one article
+backlog += [story('art-2', '2026-10-30T17:00:00Z', '7', title='WoW Weekly', source='article'),
+            story('art-2', '2026-10-30T17:00:00Z', '8', 'edit', '2026-10-30T23:20:00Z', 'WoW Weekly', 'article'),
+            story('art-3', '2026-10-29T19:00:00Z', '1', title='Return to Azeroth', source='article'),
+            story('us-99-1', '2026-10-29T19:05:00Z', '2', title='Return to Azeroth'),                     # the same story on the forum
+            story('us-98-1', '2026-10-30T10:00:00Z', '3')]
+led = {}
+n31, ch31 = pb.apply(backlog, [], led, now=NOW31)
+assert [c[0] for c in ch31] == ['art-1', 'us-98-1', 'art-2'] and [n['id'] for n in n31] == ['art-2', 'us-98-1', 'art-1'], ch31   # 3 newest
+assert dict((k, s) for k, s, _ in ch31) == {'us-98-1': '3' * 8, 'art-2': '8' * 8, 'art-1': 'f' * 8}    # one note per post, its last version
+assert not any(n.get('upd') for n in n31)                                           # a first note is not 'updated'
+n31b, ch31b = pb.apply(backlog, n31, led, now=NOW31 + timedelta(minutes=10))
+assert [c[0] for c in ch31b] == ['art-3'], ch31b                                    # next run: the rest of the fresh ones, the forum twin never
+assert pb.apply(backlog, n31b, led, now=NOW31 + timedelta(minutes=20))[1] == []
+assert {c[0] for c in pb.apply(backlog, [], {}, now=NOW31, limit=99)[1]} == {'art-1', 'art-2', 'art-3', 'us-98-1'}   # nothing older than 48 h
+late = story('art-1', '2026-10-29T21:00:00Z', 'g', 'edit', '2026-10-31T14:40:00Z', 'Goes Live November 4', 'article')
+assert [c[:2] for c in pb.apply([late], n31b, led, now=NOW31)[1]] == [('art-1', 'g' * 8)]                 # a fresh edit of a shown note
+old_edit = story('art-1', '2026-10-29T21:00:00Z', 'h', 'edit', '2026-10-28T00:00:00Z', 'Goes Live November 4', 'article')
+assert pb.apply([old_edit], n31b, dict(led), now=NOW31 + timedelta(days=3))[1] == []                      # an old edit: no
 
 # ---------- level 2: number gate on a real git commit (tools/news_gate.py) ----------
 import subprocess                                                                   # noqa: E402
@@ -320,4 +383,31 @@ for base in (os.path.join(ROOT, '..', '..', '..', '..', 'docs', 'wow', 'news-aut
         assert len(big) > 120 and by_name(big, 'Blood Fury')[0]['pairs'][0] == {'new': 3, 'old': 2, 'unit': 'min', 'old_unit': 'min'}
         print('samples: parsed', len(big) + 14, 'changes of 2 real posts')
         break
+# ---------- level 1 push (news-auto.yml): 31.10 every push failed with «cannot pull with rebase: You have unstaged changes» ----------
+# the run rewrote tracked tools/__pycache__/*.pyc (imports of news_watch.py): nothing generated may be tracked, the job writes no .pyc,
+# and the pull keeps any leftover change aside (--autostash)
+tracked = subprocess.run(['git', '-C', ROOT, 'ls-files'], capture_output=True, text=True, check=True).stdout.splitlines()
+assert not [f for f in tracked if f.endswith('.pyc') or '__pycache__/' in f], 'tracked .pyc'
+wf = open(os.path.join(ROOT, '.github', 'workflows', 'news-auto.yml'), encoding='utf-8').read()
+assert "PYTHONDONTWRITEBYTECODE: '1'" in wf and 'git pull -q --rebase --autostash origin main' in wf
+with tempfile.TemporaryDirectory() as d:
+    g = lambda *a, cwd=d: subprocess.run(['git', '-C', cwd, *a], capture_output=True, text=True)   # noqa: E731
+    who = ['-c', 'user.name=t', '-c', 'user.email=t@t']
+    up, me = os.path.join(d, 'up'), os.path.join(d, 'me')
+    g('init', '-q', '-b', 'main', up)
+    for f in ('official.json', 'cache.pyc', 'other.txt'):
+        open(os.path.join(up, f), 'w').write('0')
+    g('add', '-A', cwd=up); g(*who, 'commit', '-qm', 'base', cwd=up)
+    g('clone', '-q', up, me)
+    open(os.path.join(up, 'other.txt'), 'w').write('1')
+    g(*who, 'commit', '-qam', 'someone else pushed', cwd=up)                     # main moved on during the run
+    open(os.path.join(me, 'cache.pyc'), 'w').write('rewritten')                # a tracked file the run rewrote
+    open(os.path.join(me, 'official.json'), 'w').write('1')
+    g('add', 'official.json', cwd=me); g(*who, 'commit', '-qm', 'note', cwd=me)
+    bad = g('pull', '-q', '--rebase', 'origin', 'main', cwd=me)
+    assert bad.returncode and 'unstaged changes' in bad.stderr, bad.stderr        # the failure of 31.10
+    ok = g('pull', '-q', '--rebase', '--autostash', 'origin', 'main', cwd=me)
+    assert ok.returncode == 0, ok.stderr
+    assert g('log', '--format=%s', cwd=me).stdout.splitlines()[:2] == ['note', 'someone else pushed']
+
 print('OK')

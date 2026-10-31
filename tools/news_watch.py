@@ -26,6 +26,7 @@ REPO = 'gabella-wow/wow'
 LABEL = 'news-auto'
 UA = {'User-Agent': 'gabella-wow-guide (+https://gabella.site/wow/)', 'Accept': 'application/json, text/html;q=0.9'}
 ARTICLE_RECHECK_H = 6
+EMPTY = hashlib.sha256(b'').hexdigest()     # a post with no text (a video only): equal hashes do not make two such posts one story
 
 
 def now_utc():
@@ -206,8 +207,9 @@ def evaluate(rec, old=None):
     items = np.changes(rec['cooked'])
     st = np.structured(items)
     prev = set(old.get('lines', [])) if old else set()
-    new_lines = [c for c in items if c['h'] not in prev] if old else items
-    gone = sorted(prev - {c['h'] for c in items}) if old else []
+    cur = {c['h'] for c in st}       # the ledger keeps the hashes of the structured lines: compare like with like
+    new_lines = [c for c in items if c['h'] in cur and c['h'] not in prev] if old else items
+    gone = sorted(prev - cur) if old else []
     rep = nc.check(new_lines)
     out, chk = nc.outdated_pages(rep)
     return {'changes': st, 'new_lines': [c['h'] for c in new_lines], 'gone_lines': gone, 'check': rep,
@@ -220,7 +222,7 @@ def twins(events):
     for e in sorted(events, key=lambda e: (e['rec']['region'] != 'us', e['rec']['created_at'] or '')):
         lines = frozenset(c['h'] for c in e['res']['changes'])
         title = np.norm(e['rec']['title'])
-        twin = next((p for p in by.values() if p['rec']['sha'] == e['rec']['sha'] or
+        twin = next((p for p in by.values() if (p['rec']['sha'] == e['rec']['sha'] and e['rec']['sha'] != EMPTY) or
                      (lines and len(lines & p['lines']) >= 0.8 * max(len(lines), len(p['lines']))) or
                      (title == np.norm(p['rec']['title']) and p['rec']['source'] != e['rec']['source'])), None)
         if twin and (twin['rec']['region'] != e['rec']['region'] or twin['rec']['source'] != e['rec']['source']):
@@ -252,7 +254,11 @@ def run(cfg, ledger, since_h=None, fetcher=None):
         res = evaluate(r, old)
         if first and not fresh and not old:
             ev = 'baseline'
-        events.append({'event': ev, 'rec': r, 'res': res})
+        quiet = ev == 'edit' and r['source'] == 'article' and r['title'] == old.get('title') and not res['new_lines'] and not res['gone_lines']
+        # an article page differs between fetches outside its change lines (art-24315203 went 3b822bb2 -> ... -> 3b822bb2,
+        # 'edits' every 6 h): same title and no change line moved = no event, the new hash is only remembered
+        if not quiet:
+            events.append({'event': ev, 'rec': r, 'res': res})
         seen[r['key']] = {'sha': r['sha'], 'url': r['url'], 'title': r['title'], 'seen': (old or {}).get('seen', iso(t)), 'checked': iso(t),
                           'updated_at': r['updated_at'], 'version': r['version'], 'lines': [c['h'] for c in res['changes']]}
     ledger['last_run'] = iso(t)

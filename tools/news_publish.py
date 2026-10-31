@@ -7,12 +7,17 @@ A note once published is remembered in the ledger (published = sha): a reverted 
 
     python tools/news_publish.py --state DIR [--out data/official.json] [--dry-run]"""
 import argparse, json, os, re, sys
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from news_parse import norm     # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'data', 'official.json')
 LANGS = ['ru', 'en', 'uk', 'de', 'fr', 'es', 'pt', 'it', 'pl']
 KEEP = 40
+MAX_AGE_H = 48     # entries/ keeps every story since the first run: older ones are history, not news (the first live run had 33)
+PER_RUN = 3        # at most this many notes per run, the newest first; the rest of the fresh ones go in the next runs
 MONTHS_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
 # {d}: date of the post in the language format
@@ -151,21 +156,44 @@ def item(e, old=None):
             'title_en': s['title_en'], 'n': len(changes), **({'upd': upd} if upd else {}), 't': t}
 
 
-def apply(entries, current, ledger):
-    """New notes on top, edits update their note; returns (notes, [(key, sha8, title)] changed)."""
+def when(s):
+    return datetime.fromisoformat(s.replace('Z', '+00:00'))
+
+
+def apply(entries, current, ledger, now=None, max_age_h=MAX_AGE_H, limit=PER_RUN):
+    """New notes on top, edits update their note; returns (notes, [(key, sha8, title)] changed).
+    entries/ holds every version of every story ever seen: only the latest version of each post counts, a new note only for a post
+    of the last max_age_h hours, an edit only if found in that time, and at most limit notes per run."""
+    now = now or datetime.now(timezone.utc)
     by = {n['id']: n for n in current}
     pub = ledger.setdefault('published', {})
-    changed = []
-    for e in sorted(entries, key=lambda e: e['short_news']['at']):
-        if not publishable(e):
+    last = {}
+    for e in entries:
+        if publishable(e) and (e['key'] not in last or (e.get('detected_at') or '') >= (last[e['key']].get('detected_at') or '')):
+            last[e['key']] = e
+    todo = []
+    for k, e in last.items():
+        if pub.get(k) == e['sha'][:8]:
             continue
-        k = e['key']
-        if k in pub and pub[k] == e['sha'][:8]:
-            continue
-        if k in pub and k not in by and e['event'] != 'edit':
+        if k in by:
+            since = e.get('detected_at') or e['short_news']['at']      # an edit of a note on the site
+        elif k in pub:
             continue          # published before and removed by a revert: stays removed
-        if e['event'] == 'edit' and k not in by:
-            continue          # an edit of a post we never showed (or reverted): no note
+        else:
+            since = e['short_news']['at']                               # a new note: the post itself must be fresh
+        if now - when(since) <= timedelta(hours=max_age_h):
+            todo.append(e)
+    # the same story as a news article and a forum post, seen in different runs (twin_of links only one run): one note, the article
+    titles = {norm(n.get('title_en')): n['id'] for n in current}
+    one = {}
+    for e in sorted(todo, key=lambda e: (e.get('source') != 'article', e['short_news']['at'])):
+        t = norm(e['title'])
+        if titles.get(t, e['key']) == e['key'] and t not in one:
+            one[t] = e
+    todo = sorted(one.values(), key=lambda e: e['short_news']['at'], reverse=True)[:max(limit, 0)]
+    changed = []
+    for e in sorted(todo, key=lambda e: e['short_news']['at']):
+        k = e['key']
         by[k] = item(e, by.get(k))
         pub[k] = e['sha'][:8]
         changed.append((k, e['sha'][:8], e['title']))
@@ -177,8 +205,10 @@ def main(argv):
     ap = argparse.ArgumentParser()
     ap.add_argument('--state', required=True)
     ap.add_argument('--out', default=OUT)
-    ap.add_argument('--entries', help='JSON list of entries (default: entries/ of the state written in this run, see --since-log)')
+    ap.add_argument('--entries', help='JSON list of entries (default: all of entries/ in the state; apply() keeps the fresh latest versions)')
     ap.add_argument('--dry-run', action='store_true')
+    ap.add_argument('--max-age-h', type=float, default=MAX_AGE_H, help='only posts (and edits) of the last H hours')
+    ap.add_argument('--limit', type=int, default=PER_RUN, help='at most N notes per run')
     ap.add_argument('--unmark', action='store_true', help='the push failed: forget the notes of published.txt, the next run retries')
     a = ap.parse_args(argv)
     lp = os.path.join(a.state, 'ledger.json')
@@ -199,7 +229,7 @@ def main(argv):
         d = os.path.join(a.state, 'entries')
         entries = [json.load(open(os.path.join(d, f), encoding='utf-8')) for f in sorted(os.listdir(d))] if os.path.isdir(d) else []
     current = json.load(open(a.out, encoding='utf-8')) if os.path.exists(a.out) else []
-    notes, changed = apply(entries, current, ledger)
+    notes, changed = apply(entries, current, ledger, max_age_h=a.max_age_h, limit=a.limit)
     for k, sha, title in changed:
         print(f'note: {k}@{sha} {title}')
     print(f'{len(changed)} notes changed' + (' (dry run)' if a.dry_run else ''))
