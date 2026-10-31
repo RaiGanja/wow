@@ -118,8 +118,9 @@ UI = {
             'pl': 'Usuń', 'pt': 'Remover'},
     'reset': {'ru': 'Сброс', 'en': 'Reset', 'uk': 'Скинути', 'de': 'Zurücksetzen', 'es': 'Reiniciar', 'fr': 'Réinitialiser',
               'it': 'Azzera', 'pl': 'Resetuj', 'pt': 'Zerar'},
-    'share': {'ru': 'Копировать билд', 'en': 'Copy build', 'uk': 'Копіювати білд', 'de': 'Build kopieren', 'es': 'Copiar build',
-              'fr': 'Copier le build', 'it': 'Copia build', 'pl': 'Kopiuj build', 'pt': 'Copiar build'},
+    'share': {'ru': 'Скопировать ссылку на билд', 'en': 'Copy build link', 'uk': 'Скопіювати посилання на білд',
+              'de': 'Build-Link kopieren', 'es': 'Copiar enlace de la build', 'fr': 'Copier le lien du build',
+              'it': 'Copia il link della build', 'pl': 'Kopiuj link do buildu', 'pt': 'Copiar link da build'},
     'copied': {'ru': 'Ссылка скопирована', 'en': 'Link copied', 'uk': 'Посилання скопійовано', 'de': 'Link kopiert',
                'es': 'Enlace copiado', 'fr': 'Lien copié', 'it': 'Link copiato', 'pl': 'Link skopiowany', 'pt': 'Link copiado'},
     'nocopy': {'ru': 'Не удалось скопировать: ссылка в адресной строке', 'en': 'Could not copy: the link is in the address bar',
@@ -567,14 +568,15 @@ def render(cid, spec, rows, titles, lang, root):
            f'data-p="{p_attr}"@@B@@ style="--n:{max(data.get("sprite", 0), 2)};--sp:url(@@ROOT@@assets/talents/{cid}.webp{sprite_v(cid)})">')
     hint = f'<div class="tt-card" aria-live="polite"><p class="tt-hint">{UI["hint"][lang]}</p></div>'
     # in a <template>: no dead buttons without the script, and search.py leaves the bar out of the page text
-    ed = (f'<template class="tt-edt"><div class="tt-ed"><button type="button" class="tt-eb" aria-expanded="false" aria-controls="tt-ec-{spec}">'
-          f'{UI["ed"][lang]}</button><div class="tt-ec" id="tt-ec-{spec}" hidden><p class="tt-cnt"><span class="tt-cn"></span><span class="tt-cm"> · {UI["cm"][lang]}</span><span class="tt-ct"> · {UI["cmt"][lang]}</span></p>'
+    ed = (f'<template class="tt-edt"><div class="tt-ed"><div class="tt-er"><button type="button" class="btn tt-sh">{UI["share"][lang]}</button>'
+          f'<button type="button" class="tt-eb" aria-expanded="false" aria-controls="tt-ec-{spec}">{UI["ed"][lang]}</button></div>'
+          f'<p class="tt-st" role="status"></p><div class="tt-ec" id="tt-ec-{spec}" hidden><p class="tt-cnt"><span class="tt-cn"></span><span class="tt-cm"> · {UI["cm"][lang]}</span><span class="tt-ct"> · {UI["cmt"][lang]}</span></p>'
           f'<div class="tt-md"><button type="button" class="tt-mb" data-m="1" aria-pressed="true">+ {UI["add"][lang]}</button>'
           f'<button type="button" class="tt-mb" data-m="-1" aria-pressed="false">− {UI["del"][lang]}</button></div>'
-          f'<button type="button" class="tt-rs">{UI["reset"][lang]}</button><button type="button" class="tt-sh">{UI["share"][lang]}</button>'
+          f'<button type="button" class="tt-rs">{UI["reset"][lang]}</button>'
           f'<a class="tt-whl" href="{escape(wh_base(cid, lang))}_t0" target="_blank" rel="noopener">{UI["wh"][lang]} ↗</a>'
           f'<a class="tt-cl" href="{root}talents/{cid}/">{UI["calc"][lang]}</a>'
-          f'<p class="tt-st" role="status"></p><p class="tt-eh"><span class="tt-cm">{UI["eh"][lang]}</span><span class="tt-ct">{UI["eht"][lang]}</span></p></div></div></template>')
+          f'<p class="tt-eh"><span class="tt-cm">{UI["eh"][lang]}</span><span class="tt-ct">{UI["eht"][lang]}</span></p></div></div></template>')
     if not extra and LEVEL_SPEC.get(cid) == spec and _level_rows(cid):      # the leveling guide of the class has rows but they do not fit the tree
         note += f'<p class="tt-note">{UI["lvwait"][lang]} <a href="{root}guides/leveling-{cid}/#talents">{UI["lvg"][lang]}</a></p>'
     if not extra:
@@ -623,13 +625,13 @@ def render_calc(cid, specs, titles, lang, root):
     box = (f'<div class="tt calc ed" id="calc" data-c="{cid}" data-l="{lang}" data-sp="{cid}" data-calc="1" data-w="" '
            f'data-wh="{escape(wh_base(cid, lang))}" data-p="{{}}" style="--n:{max(data.get("sprite", 0), 2)};'
            f'--sp:url(@@ROOT@@assets/talents/{cid}.webp{sprite_v(cid)})">')
-    ed = (f'<div class="tt-ed"><button type="button" class="tt-eb" hidden>{UI["ed"][lang]}</button><div class="tt-ec">'
+    ed = (f'<div class="tt-ed"><div class="tt-er"><button type="button" class="btn tt-sh">{UI["share"][lang]}</button>'
+          f'<button type="button" class="tt-eb" hidden>{UI["ed"][lang]}</button></div><p class="tt-st" role="status"></p><div class="tt-ec">'
           f'<p class="tt-cnt"><span class="tt-cn">{UI["cnt"][lang].format(p=0, m=EDIT_CAP)}</span><span class="tt-cm"> · {UI["cm"][lang]}</span>'
           f'<span class="tt-ct"> · {UI["cmt"][lang]}</span></p>'
           f'<div class="tt-md"><button type="button" class="tt-mb" data-m="1" aria-pressed="true">+ {UI["add"][lang]}</button>'
           f'<button type="button" class="tt-mb" data-m="-1" aria-pressed="false">− {UI["del"][lang]}</button></div>'
-          f'<button type="button" class="tt-rs">{UI["reset"][lang]}</button><button type="button" class="tt-sh">{UI["share"][lang]}</button>'
-          f'<p class="tt-st" role="status"></p></div></div>')
+          f'<button type="button" class="tt-rs">{UI["reset"][lang]}</button></div></div>')
     hint = f'<div class="tt-card" aria-live="polite"><p class="tt-hint">{UI["hint"][lang]}</p></div>'
     ours = []
     for spec, rows in specs:
@@ -707,10 +709,13 @@ CSS = """/* Talent trees (talents.py): three trees in a row when there is room, 
 .tt-ed[hidden], .tt-ec[hidden], .tt.ed .tt-bs, .tt.ed .tt-ow { display: none; }
 .tt-ed { display: grid; gap: 10px; }
 .tt-ec { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
-.tt-eb, .tt-mb, .tt-rs, .tt-sh { min-height: 44px; padding: 0 16px; border: 1px solid var(--line-2); border-radius: 6px; background: transparent; color: var(--fg); cursor: pointer; font: inherit; font-weight: 600; }
-.tt-eb { justify-self: start; border-color: var(--gold); color: var(--gold-2); }
-.tt-eb:hover, .tt-mb:hover, .tt-rs:hover, .tt-sh:hover { background: var(--zebra); }
-.tt-eb:focus-visible, .tt-mb:focus-visible, .tt-rs:focus-visible, .tt-sh:focus-visible { outline: 2px solid var(--gold-2); outline-offset: 2px; }
+.tt-er { display: flex; flex-wrap: wrap; gap: 8px 12px; }
+.tt .tt-sh { min-height: 48px; padding: 0 22px; font: inherit; font-size: var(--fs-16); font-weight: 600; cursor: pointer; }
+.tt .tt-sh:focus-visible { outline: 2px solid var(--gold-2); outline-offset: 2px; }
+.tt-eb, .tt-mb, .tt-rs { min-height: 44px; padding: 0 16px; border: 1px solid var(--line-2); border-radius: 6px; background: transparent; color: var(--fg); cursor: pointer; font: inherit; font-weight: 600; }
+.tt-eb { min-height: 48px; border-color: var(--gold); color: var(--gold-2); }
+.tt-eb:hover, .tt-mb:hover, .tt-rs:hover { background: var(--zebra); }
+.tt-eb:focus-visible, .tt-mb:focus-visible, .tt-rs:focus-visible { outline: 2px solid var(--gold-2); outline-offset: 2px; }
 .tt .tt-cnt { flex-basis: 100%; max-width: none; margin: 0; color: var(--fg); font-weight: 600; font-variant-numeric: tabular-nums; }
 .tt-ct { display: none; }
 @media (pointer: coarse) { .tt-cm { display: none; } .tt-ct { display: inline; } }
@@ -735,6 +740,7 @@ CSS = """/* Talent trees (talents.py): three trees in a row when there is room, 
 .tt-card .e { color: var(--muted); }
 @media (prefers-reduced-motion: no-preference) { .tt.ed .tt-t { transition: border-color .12s; } }
 @container (max-width: 759px) {
+  .tt-er > * { flex: 1 1 100%; }
   .tt-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .tt-tab { padding: 4px 2px; font-size: min(var(--fs-14), 3.5vw); line-height: 1.2; hyphens: auto; overflow-wrap: anywhere; }
   .tt-tab span { display: block; margin: 2px 0 0; white-space: nowrap; }
@@ -924,11 +930,23 @@ JS = r"""<script>
         mode = +m.dataset.m;
         ec.querySelectorAll('.tt-mb').forEach(function (x) { x.setAttribute('aria-pressed', x === m ? 'true' : 'false'); });
       } else if (e.target.closest('.tt-rs')) { S = {}; update(); cur = null; card.innerHTML = hint; }
-      else if (e.target.closest('.tt-sh')) {
-        var ok = function () { st.textContent = U.copied; }, no = function () { st.textContent = U.nocopy; };
-        var code = encode(S), url = location.href.split('#')[0] + (calc ? (code ? '#' + code : '') : '#' + w.dataset.sp + '/' + code);   /* not location.href: replaceState can be throttled */
-        try { navigator.clipboard.writeText(url).then(ok, no); } catch (x) { no(); }
-      }
+    });
+    /* «Copy build link»: the build on screen (yours in the editor, else the build of ours chosen above the tree) as #<spec>/<code>
+       (#<code> on the calculator page); not location.href: replaceState can be throttled */
+    ed.querySelector('.tt-sh').addEventListener('click', function () {
+      var t = bs && bs.querySelector('.tt-b[aria-selected="true"]');
+      var code = S ? encode(S) : t && t.dataset.b !== 'general' ? B[t.dataset.b].w : w.dataset.w;
+      var url = location.href.split('#')[0] + (calc ? (code ? '#' + code : '') : '#' + w.dataset.sp + '/' + code);
+      var ok = function () { st.textContent = U.copied; };
+      var no = function () {                         /* old browsers and http: a hidden field and the copy command */
+        var a = document.createElement('textarea'), done = false;
+        a.value = url; a.setAttribute('readonly', ''); a.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+        document.body.appendChild(a); a.select();
+        try { done = document.execCommand('copy'); } catch (x) {}
+        a.remove();
+        if (done) ok(); else { st.textContent = U.nocopy; try { history.replaceState(null, '', url.slice(url.indexOf('#')) || location.pathname); } catch (x) {} }
+      };
+      try { navigator.clipboard.writeText(url).then(ok, no); } catch (x) { no(); }
     });
     w.openByHash = function (code) { if (S) { S = decode(code); update(true); } else open(code); };
     w.pickTree = pickTree;
