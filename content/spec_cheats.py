@@ -795,6 +795,7 @@ def gear_html(key, lang, tr, fn, data=None):
         stats = gear_stats(it.get('stats') or {}, lang)
         where = '<br>'.join(x for x in (_src_html(s, lang, tr, fn) for s in srcs) if x) or '—'
         lv = it.get('lvl') or 0
+        lv = lv if lv > 1 else 0   # «1» from the API means no required level (quest rewards, goggles): «—», never a made-up level
         cont = ' class="cont"' if it['slot'] == last else ''
         last = it['slot']
         body += (f'<tr data-s="{it["slot"]}" data-lv="{lv}" data-f="{f}" data-p="{p}"{cont}>'
@@ -837,8 +838,8 @@ def gear_html(key, lang, tr, fn, data=None):
 def gear_answer(key, lang, data=None):
     """The «Gear» line of the answer in 5 seconds: how many items, their levels, a link to the table."""
     rows = gear_rows(key, data)
-    lv = [it['lvl'] for _, it in rows if it.get('lvl')]
-    span = f' · {G_LV[lang]} {min(lv)}–{max(lv)}' if lv else ''
+    lv = [it['lvl'] for _, it in rows if (it.get('lvl') or 0) > 1]   # level 1 = no requirement: not the low end of the span
+    span = (f' · {G_LV[lang]} {min(lv)}–{max(lv)}' if min(lv) < max(lv) else f' · {G_LV[lang]} {lv[0]}') if lv else ''
     tags = ([G_TEMP_S[lang]] if gear_beta(rows) else []) + ([G_PART_S[lang]] if gear_partial(key, data) else [])
     tag = f' · {escape(", ".join(tags))}' if tags else ''
     return f'{escape(G_N[lang])}: {len(rows)}{span}{tag}. <a href="#gear">{escape(G_GO[lang])}</a>'

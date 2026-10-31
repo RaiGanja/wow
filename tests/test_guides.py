@@ -298,6 +298,11 @@ def test_gear_section():
     assert sc.gear_html('mage-frost', 'ru', tr, fn, {'items': {}, 'specs': {}}) == ''
     assert sc.gear_html('rogue-combat', 'ru', tr, fn, fx) == ''
     assert 'Предметов: 11 · ур. 17–28 · данные беты.' in sc.gear_answer('mage-frost', 'ru', fx)
+    one = json.loads(json.dumps(fx))                                  # level 1 = no required level: «—» in the table, not the low end of the span
+    k = str(next(e['id'] for e in one['specs']['mage-frost']))
+    one['items'][k]['lvl'] = 1
+    h1 = sc.gear_html('mage-frost', 'ru', tr, fn, one)
+    assert '>1</td>' not in h1 and f'data-lv="0"' in h1 and ' 1–' not in sc.gear_answer('mage-frost', 'ru', one)
     part = dict(fx, partial=['mage-frost'])
     html = sc.gear_html('mage-frost', 'ru', tr, fn, part)
     assert '<b>Неполно:</b> предметы есть только для' in html and 'данные беты, неполно.' in sc.gear_answer('mage-frost', 'ru', part)
