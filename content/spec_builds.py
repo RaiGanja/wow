@@ -624,9 +624,9 @@ SPEC_BUILDS.append({
         ]},
         {'id': 'survival', 'title': t('Выживание: урон', 'Survival: damage', 'Виживання: шкода'), 'blocks': [
             ('text', [
-                t('Выживание в Forever — охотник ближнего боя. До 30 уровня ему не хватает инструментов: Icy Veins не советует эту ветку для быстрой прокачки, Wowhead — играть гибридно, пока нет Strider Kick. Strider Kick бьёт на 100% урона оружия и даёт +30% к скорости бега на 3 секунды: можно отойти и выстрелить, пока удары на откате (Wowhead).',
-                  'In Forever, Survival is a melee Hunter. Until level 30 it lacks tools: Icy Veins advises against this tree for fast leveling, and Wowhead suggests a hybrid playstyle until you have Strider Kick. Strider Kick hits for 100% weapon damage and gives +30% movement speed for 3 seconds, so you can step out and shoot while your strikes are on cooldown (Wowhead).',
-                  'Виживання у Forever — мисливець ближнього бою. До 30 рівня йому бракує інструментів: Icy Veins не радить цю гілку для швидкого прокачування, Wowhead — грати гібридно, поки немає Strider Kick. Strider Kick б’є на 100% шкоди зброї й дає +30% до швидкості бігу на 3 секунди: можна відійти й вистрілити, поки удари на відкаті (Wowhead).'),
+                t('Выживание в Forever — охотник ближнего боя. В начале прокачки ему не хватает инструментов: Icy Veins не советует эту ветку для быстрой прокачки, Wowhead — играть гибридно, пока нет Strider Kick. Strider Kick бьёт на 100% урона оружия и даёт +30% к скорости бега на 3 секунды: можно отойти и выстрелить, пока удары на откате (Wowhead).',
+                  'In Forever, Survival is a melee Hunter. Early in leveling it lacks tools: Icy Veins advises against this tree for fast leveling, and Wowhead suggests a hybrid playstyle until you have Strider Kick. Strider Kick hits for 100% weapon damage and gives +30% movement speed for 3 seconds, so you can step out and shoot while your strikes are on cooldown (Wowhead).',
+                  'Виживання у Forever — мисливець ближнього бою. На початку прокачування йому бракує інструментів: Icy Veins не радить цю гілку для швидкого прокачування, Wowhead — грати гібридно, поки немає Strider Kick. Strider Kick б’є на 100% шкоди зброї й дає +30% до швидкості бігу на 3 секунди: можна відійти й вистрілити, поки удари на відкаті (Wowhead).'),
             ]),
             ('table', {'head': H_TAL, 'rows': [
                 ['Improved Tracking', '5', t('Урон по выслеживаемому типу существ', 'Damage to the tracked creature type', 'Шкода по типу істот, яких вистежуєте')],
@@ -1066,7 +1066,7 @@ SPEC_BUILDS.append({
             ('text', [
                 t('Совершенствование — основной спек шамана для прокачки: базовый урон заклинаний снижен, а урон держится на автоатаках и Оружии Камнедробителя (Wowhead). К 30 уровню есть Удар бури и Оружие неистовства ветра, но маны на них мало. Призрачный волк с талантом вызывается быстрее и работает в помещениях.',
                   'Enhancement is the Shaman’s main leveling spec: base spell damage is lower, and your damage rests on auto attacks and Rockbiter Weapon (Wowhead). By level 30 you have Stormstrike and Windfury Weapon, but little mana for them. With the talent, Ghost Wolf is faster to cast and works indoors.',
-                  'Вдосконалення — основна спеціалізація шамана для прокачування: базова шкода заклинань знижена, а шкода тримається на автоатаках і Rockbiter Weapon (Wowhead). До 30 рівня є Stormstrike і Windfury Weapon, але мани на них мало. Ghost Wolf із талантом викликається швидше й працює в приміщеннях.'),
+                  'Вдосконалення — основна спеціалізація шамана для прокачування: базова шкода заклинань знижена, а шкода тримається на автоатаках і Rockbiter Weapon (Wowhead). На 30 рівні вже є Stormstrike і Windfury Weapon, але мани на них мало. Ghost Wolf із талантом викликається швидше й працює в приміщеннях.'),
             ]),
             ('table', {'head': H_TAL, 'rows': [
                 [t('Грохочущие удары (Thundering Strikes)', 'Thundering Strikes', 'Thundering Strikes'), '5', t('Шанс крита заклинаний и атак', 'Crit chance with spells and attacks', 'Шанс криту заклинань і атак')],
