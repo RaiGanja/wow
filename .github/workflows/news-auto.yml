@@ -24,6 +24,8 @@ jobs:
     timeout-minutes: 12
     env:
       MODE: ${{ inputs.mode || vars.NEWS_AUTO_MODE || 'dry' }}
+      # no .pyc in the work tree: tracked tools/__pycache__ rewritten by the run made `git pull --rebase` refuse (31.10)
+      PYTHONDONTWRITEBYTECODE: '1'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -44,10 +46,11 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add data/official.json
           git diff --cached --quiet && exit 0
+          git status --porcelain --untracked-files=no | grep -v '^M  data/official.json$' || true   # anything else modified shows in the log
           git commit -q -m "Новости Blizzard: $(head -1 state/published.txt | cut -f2 | cut -c1-80)"
           tags=$(cut -f1 state/published.txt | sed 's|^|news/|')
           for i in 1 2 3; do
-            if git pull -q --rebase origin main; then
+            if git pull -q --rebase --autostash origin main; then
               for t in $tags; do git tag -f "$t"; done
               git push origin HEAD:main $(for t in $tags; do echo "refs/tags/$t"; done) && exit 0
             else git rebase --abort || true; fi
