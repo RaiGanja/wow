@@ -814,7 +814,9 @@ def gear_html(key, lang, tr, fn, data=None):
     btns = (f'<button type="button" data-v="all" aria-pressed="true">{escape(G_ALL[lang])}</button>'
             + ''.join(f'<button type="button" data-v="{x}" aria-pressed="false">{escape(fn[x])}</button>' for x in ('alliance', 'horde')))
     ths = ''.join(f'<th scope="col">{h}</th>' for h in head)
-    sp = f' style="--n:{max(int(data.get("sprite") or 0), 1)};--gsp:url(@@ROOT@@assets/gear/icons.webp{gear_sprite_v()})"' if data.get('sprite') else ''
+    # the sprite waits for the section (JS['cheat'] sets --gsp near the viewport): fetched at once it took bandwidth from the first screen (LCP +0,3 s)
+    sp = (f' style="--n:{max(int(data.get("sprite") or 0), 1)}" data-gsp="@@ROOT@@assets/gear/icons.webp{gear_sprite_v()}"'
+          if data.get('sprite') else '')
     return (f'<div id="gearBox" data-shown="{escape(G_SHOWN[lang])}"{sp}>'
             + (f'<p class="gtest">{escape(G_TEST[lang])}</p>' if data.get('fixture') else '')
             + (f'<div class="gnote" role="note">' + ''.join(f'<p>{m}</p>' for m in marks) + '</div>' if marks else '')

@@ -776,6 +776,10 @@ JS['cheat'] = r'''/* Spec cheat sheet: the «answer in 5 seconds» block (race s
    A row: data-s slot, data-lv required level, data-f the one faction of its quests, data-p the professions it is made by. */
 (function () {
   const box = document.getElementById('gearBox'); if (!box) return;
+  if (box.dataset.gsp) {   // the icon sprite only when the list comes near the screen
+    const go = () => box.style.setProperty('--gsp', 'url("' + box.dataset.gsp + '")');
+    if ('IntersectionObserver' in window) { const io = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { io.disconnect(); go(); } }, { rootMargin: '800px 0px' }); io.observe(box); } else go();
+  }
   const rows = [...box.querySelectorAll('tbody tr[data-s]')], seg = document.getElementById('gearF'), lvIn = document.getElementById('gearLvl');
   const pb = document.getElementById('gearProf'), hero = readHero();
   let fac = hero && hero.fac ? hero.fac : 'all', lv = hero && +hero.lvl > 0 && +hero.lvl < 60 ? +hero.lvl : 0, only = false;
