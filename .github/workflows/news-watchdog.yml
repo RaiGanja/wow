@@ -1,0 +1,17 @@
+# Alert if news-auto is silent for more than 25 minutes (tools/news_watchdog.py): one issue with label alert,
+# closed by a comment when the runs are back. Only the automatic GITHUB_TOKEN; independent of the Cloudflare Worker.
+name: news-watchdog
+on:
+  schedule: [{ cron: '5,20,35,50 * * * *' }]
+  workflow_dispatch:
+permissions:
+  issues: write
+  actions: read
+concurrency: { group: news-watchdog, cancel-in-progress: false }
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python tools/news_watchdog.py
+        env: { GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}' }
