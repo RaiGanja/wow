@@ -1553,7 +1553,8 @@ def profs_panel(cid, lang):
 
 def render_class(c, races, lang):
     i = next(k for k, x in enumerate(CLASSES) if x['id'] == c['id'])
-    roles = ''.join(f'<span class="{"q" if r.endswith("?") else ""}">{ri(r)}{ROLE[r]}</span>' for r in c['roles'])
+    roles = ''.join(f'<a href="@@HOME@@guides/spec-{c["id"]}-{sid}/">{ri(s["roles"][0])}<b>{esc(s["n"])}</b><small>{" · ".join(ROLE[r] for r in s["roles"] if not r.endswith("?"))}</small></a>'
+                    for s, sid in zip(c['specs'], SPEC_IDS[c['id']]))   # the hero: the three spec sheets (build, talents) one tap from the first screen
     facts = ''.join(f'<div><dt>{k}</dt><dd>{esc_b(v)}</dd></div>' for k, v in (('Броня', c['armor']), ('Вооружение', c['weapons']), ('Ресурс', c['resource']), ('Прокачка', c['lvl'])))
     tabs, panels = [], []
     for k, s in enumerate(c['specs']):
