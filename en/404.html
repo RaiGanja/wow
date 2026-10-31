@@ -1154,6 +1154,18 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .cpick .av { --s: 30px; --ring-gap: transparent; box-shadow: 0 0 0 1.5px var(--cc); }
   .cpick b { max-width: 100%; font-size: var(--fs-13); font-weight: 600; line-height: 1.15; text-align: center; overflow-wrap: anywhere; hyphens: auto; text-shadow: none; }
 }
+.gjump { display: flex; flex-wrap: wrap; gap: 8px; }   /* a spec sheet: its parts one tap away (build_guides.spec_jump); the contents column takes over from 1024 px */
+.gjump a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 6px; background: rgb(5 5 5 / .58); border: 1px solid rgb(241 236 224 / .2); color: #e8d6a6; font-size: var(--fs-16); font-weight: 500; text-decoration: none; }
+.gjump a:hover { border-color: var(--gold); }
+.gjump a:active { background: rgb(5 5 5 / .8); }
+@media (min-width: 1024px) { .gjump { display: none; } }
+/* /guides/builds/: every class with the links of its three spec sheets (content/spec_cheats.finish) */
+.spcls { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 4px 14px; align-items: start; padding: 12px 0; border-bottom: 1px solid var(--pline); }
+.spcls:last-child { border-bottom: 0; }
+.spn { text-decoration: none; font-weight: 600; font-size: var(--fs-16); color: var(--gold-2); padding-top: 12px; }
+.spn:hover { text-decoration: underline; }
+.spcls .spchips { margin: 0; }
+@media (max-width: 479px) { .spcls { grid-template-columns: minmax(0, 1fr); } .spn { padding-top: 0; display: inline-flex; align-items: center; min-height: 44px; } }
 .gbody { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 28px; align-items: start; padding-top: 20px; }
 .gbody.solo { grid-template-columns: minmax(0, 1fr); }
 .gbody.solo .gtoc { display: none; }
@@ -1620,7 +1632,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png?v=00a6a7d9">
 <meta name="apple-mobile-web-app-title" content="Gabella WoW">
 <link rel="stylesheet" href="../assets/radio/radio.css?v=556d7dc63f" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="../assets/search/search.css?v=08165a0325" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/search/search.css?v=8a1fb5a503" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../assets/me/me.css?v=f19953bd21" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../assets/hero/hero.css?v=6321409992" media="print" onload="this.media='all'">
 </head>
@@ -1852,7 +1864,7 @@ addEventListener('beforeinstallprompt', e => {
 });
 </script>
 <script src="../assets/radio/radio.js?v=556d7dc63f" data-root="../" defer></script>
-<script src="../assets/search/search.js?v=08165a0325" data-root="../" defer></script>
+<script src="../assets/search/search.js?v=8a1fb5a503" data-root="../" defer></script>
 <script src="../assets/me/me.js?v=f19953bd21" data-root="../" data-home="./" data-lang="en" data-ach="0" data-teaser="" data-close="Close" data-page="404" data-look="2" defer></script>
 <script src="../assets/hero/hero.js?v=6321409992" data-root="../" data-home="./" data-data="../assets/hero/en.json?v=6321409992" defer></script>
 </body>

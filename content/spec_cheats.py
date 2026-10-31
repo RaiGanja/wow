@@ -825,7 +825,7 @@ def attach(guides, hubs, order):
     for (cid, spec), slug in zip(CHEATS, SLUGS):
         bg, lv = by[f'builds-{cid}'], by[f'leveling-{cid}']
         sec = next(s for s in bg['sections'] if s['id'] == spec)
-        roles = next(s for s in bg['sections'] if s['id'] == 'roles')['blocks'][0][1]
+        roles = next(d for k, d in next(s for s in bg['sections'] if s['id'] == 'roles')['blocks'] if k == 'table')   # finish() puts the chips above it
         rows = [r for r in roles['rows'] if sec['title']['ru'].startswith(r[0]['ru'].split(' (')[0])]   # Feral: cat and bear rows
         blocks = sec['blocks']
         texts = [d for k, d in blocks if k == 'text']
@@ -920,16 +920,30 @@ def finish(guides, hero_core, langs_mod):
             sec['blocks'] = [('raw', _h(d)) if k == 'h3' else (k, d) for k, d in sec['blocks']]
         g['tile'] = title
     by = {g['slug']: g for g in guides}
-    for cid in dict.fromkeys(c for c, _ in CHEATS):                # builds-<class>: the chips of the class' sheets under the roles table
+    chips = {}                                                     # (class, lang) -> the <li> of its three sheets
+    for cid in dict.fromkeys(c for c, _ in CHEATS):                # builds-<class>: the chips of the class' sheets open the roles section
         html = {}
         for lang in LANGS9:
             if lang not in langs_mod.LANGS:
                 continue
             n = hero_core(lang)
-            items = ''.join(
+            chips[cid, lang] = ''.join(
                 f'<li><a href="../spec-{cid}-{sp}/"><b>{escape(sn)}</b><span>{escape(" / ".join(r[1][lang] for r in got[(cid, sp)]))}</span></a></li>'
                 for sp, sn in zip(n['sid'][cid], n['sn'][cid]))
-            html[lang] = f'<p class="small">{escape(CHIPS_LEAD[lang])}</p><ul class="spchips">{items}</ul>'
+            html[lang] = f'<p class="small">{escape(CHIPS_LEAD[lang])}</p><ul class="spchips">{chips[cid, lang]}</ul>'
         roles = next(sec for sec in by[f'builds-{cid}']['sections'] if sec['id'] == 'roles')
-        roles['blocks'].insert(1, ('raw', html))
+        roles['blocks'].insert(0, ('raw', html))                   # above the table: the next step is in the first screen of a phone
+    hub = by.get('builds')                                         # /guides/builds/: the 27 sheets by class first, the calculator under them
+    if hub:
+        import build   # noqa: E402  the class order of the site
+        html = {}
+        for lang in LANGS9:
+            if lang not in langs_mod.LANGS:
+                continue
+            n = hero_core(lang)
+            html[lang] = (f'<p class="small">{escape(CHIPS_LEAD[lang])}</p><div class="spmx">' + ''.join(
+                f'<div class="spcls"><a class="spn" href="../builds-{c["id"]}/">{escape(n["cn"][c["id"]])}</a><ul class="spchips">{chips[c["id"], lang]}</ul></div>'
+                for c in build.CLASSES if (c['id'], lang) in chips) + '</div>')
+        sec = hub['sections'][0]
+        sec['blocks'] = [('raw', html)] + [(k, d) for k, d in sec['blocks'] if k == 'calc']
     langs_mod.fill([g for g in guides if g['slug'] in SLUGS])

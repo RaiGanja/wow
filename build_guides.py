@@ -173,12 +173,20 @@ def face_img(cid):
             ' width="160" height="160" alt="" loading="lazy" decoding="async">')
 
 
-def cpick(lang, root, title):
-    """Phones, /classes/: the nine classes as one grid under the hero lead, so a class is one tap from the first screen
-    (css in guide.src.html .cpick; hidden from 720 px: the table below does this job on a wide screen)."""
-    items = ''.join(f'<a href="{root}classes/{c["id"]}/" style="--cc:{build.COLOR[c["id"]]}"><span class="av">{face_img(c["id"])}</span>'
+def cpick(lang, root, title, href='classes/{}/'):
+    """Phones, /classes/ and /guides/builds/: the nine classes as one grid under the hero lead, so a class is one tap from the
+    first screen (css in guide.src.html .cpick; hidden from 720 px: the table or the spec list below does this job on a wide screen)."""
+    items = ''.join(f'<a href="{root}{href.format(c["id"])}" style="--cc:{build.COLOR[c["id"]]}"><span class="av">{face_img(c["id"])}</span>'
                     f'<b>{escape(build.tr(c["n"], lang))}</b></a>' for c in build.CLASSES)
     return f'<nav class="cpick" aria-label="{escape(title, quote=True)}">{items}</nav>'
+
+
+def spec_jump(g, lang):
+    """Phones and tablets, a spec sheet: its sections (build, talents, leveling, group, rotation; gear once it is shown) as one row
+    of links in the hero, so the talents are one tap from the first screen (the contents column shows from 1024 px)."""
+    links = ''.join(f'<a href="#{s["id"]}">{E(s["title"], lang)}</a>' for s in g['sections']
+                    if s['id'] not in ('answer', 'faq', 'related') and lang in s.get('langs', (lang,)))
+    return f'<nav class="gjump" aria-label="{escape(THIS_PAGE[lang], quote=True)}">{links}</nav>'
 
 
 CLS_ID = {c['n']: c['id'] for c in build.CLASSES}   # «Паладин» -> paladin
@@ -1753,8 +1761,8 @@ def build_page(g, lang, tpl, base_css, sprite, src):
     sub = g['path'] if 'path' in g else (f'guides/{g["slug"]}/' if g['slug'] else 'guides/')   # path: classes/, races/, privacy/, '' (404)
     here = page_dir(lang, sub)
     html = tpl.replace('@@BASE_CSS@@', base_css).replace('@@SPRITE@@', sprite)
-    nav = (g['path'] if g['path'] in ('classes/', 'races/', 'play/') else 'guides/builds/' if g.get('compact') == 'calc' else None) if 'path' in g else        (sub if g['slug'] in ('leveling', 'dungeons', 'tier-list', 'legacy') else 'guides/dungeons/' if g['slug'].startswith('dungeons/') else 'guides/leveling/' if g['slug'].startswith('leveling-') else 'guides/builds/' if g['slug'] == 'builds' or g['slug'].startswith('builds-') else 'guides/')   # privacy, 404: no current item
-    tab = ('classes/' if g['slug'] == 'classes' else 'guides/builds/' if g.get('compact') == 'calc' else None) if 'path' in g else        'guides/leveling/' if g['slug'].startswith('leveling') else 'guides/dungeons/' if g['slug'].split('/')[0] == 'dungeons' else None
+    nav = (g['path'] if g['path'] in ('classes/', 'races/', 'play/') else 'guides/builds/' if g.get('compact') == 'calc' else None) if 'path' in g else        (sub if g['slug'] in ('leveling', 'dungeons', 'tier-list', 'legacy') else 'guides/dungeons/' if g['slug'].startswith('dungeons/') else 'guides/leveling/' if g['slug'].startswith('leveling-') else 'guides/builds/' if g['slug'] == 'builds' or g['slug'].startswith(('builds-', 'spec-')) else 'guides/')   # privacy, 404: no current item
+    tab = ('classes/' if g['slug'] == 'classes' else 'guides/builds/' if g.get('compact') == 'calc' else None) if 'path' in g else        'guides/leveling/' if g['slug'].startswith('leveling') else 'guides/builds/' if g['slug'] == 'builds' or g['slug'].startswith(('builds-', 'spec-')) else None   # builds, a class' builds, a spec sheet: the «Билды» tab
     html = build.chrome(html, nav=nav, tab=tab)
     if g.get('hero'):                                             # own full-screen scene instead of the art band
         html = re.sub(r'<section class="stband ghero" id="top">.*?</section>', lambda mt: thero(mt.group(0), g['hero']), html, count=1, flags=re.S)
@@ -1790,7 +1798,8 @@ def build_page(g, lang, tpl, base_css, sprite, src):
         more = tile_links(others, lang, root)
     else:
         shown = inline_tiles(g.get('sections', []))                # one picture once on a page
-        others = [x for x in lang_guides(lang) if x['slug'] != g['slug'] and f'guides/{x["slug"]}/' not in shown and x.get('others', True)] if g['slug'] else []   # others: False, a page of one dungeon: reached from the dungeon list
+        others = [x for x in lang_guides(lang) if x['slug'] != g['slug'] and f'guides/{x["slug"]}/' not in shown and x.get('others', True)
+                  and not (g['slug'] == 'builds' and x['slug'].startswith('builds-'))] if g['slug'] else []   # builds: the class list above links them   # others: False, a page of one dungeon: reached from the dungeon list
         seen = {g.get('hero'), g['art']} | inline_arts(g.get('sections', []))   # a class art once: leveling-mage and builds-mage share it
         tiles = [x for x in guide_tiles(more_order(others, g['slug'])) if not (x['art'] in seen or seen.add(x['art']))]
         more = tile_links(full_rows(tiles), lang, root)
@@ -1821,6 +1830,10 @@ def build_page(g, lang, tpl, base_css, sprite, src):
         html = html.replace(f'@@{k}@@', v)
     if g.get('path') == 'classes/':                              # phones: the class grid in the hero (cpick)
         html = html.replace('<p class="gfacts"></p>', '<p class="gfacts"></p>' + cpick(lang, root, E(g['title'], lang)), 1)
+    elif g['slug'] == 'builds':                                   # phones: class -> its builds page in one tap from the first screen
+        html = re.sub(r'(<p class="gfacts">.*?</p>)', lambda m: m[1] + cpick(lang, root, E(g['title'], lang), 'guides/builds-{}/'), html, count=1, flags=re.S)
+    elif g['slug'].startswith('spec-'):                           # phones: the parts of a spec sheet as one row under the lead (gjump)
+        html = re.sub(r'(<p class="gfacts">.*?</p>)', lambda m: m[1] + spec_jump(g, lang), html, count=1, flags=re.S)
     if g.get('compact') is True:
         html = html.replace('</body>', jscript + '</body>', 1)
     html = build.set_updated(html, sub)
