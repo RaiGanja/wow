@@ -1419,13 +1419,14 @@ def table_links():
 
 
 def load_gear30(path=None):
-    """Only data Вячеслав accepted ("approved": true), as the spec sheets: not accepted -> no loot section."""
+    """Only data Вячеслав accepted ("approved": true), as the spec sheets: not accepted -> no loot section.
+    "dungeon_loot": false keeps the loot by boss off while the spec sheets show the list (31.10: the beta import is for the specs only)."""
     try:
         with open(path or GEAR30_PATH, encoding='utf-8') as f:
             data = json.load(f)
     except (OSError, ValueError):
         return {'items': {}, 'specs': {}}
-    return data if data.get('approved') else {'items': {}, 'specs': {}}
+    return data if data.get('approved') and data.get('dungeon_loot') is not False else {'items': {}, 'specs': {}}
 
 
 def loot_index(name, data=None):

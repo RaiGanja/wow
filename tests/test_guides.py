@@ -152,7 +152,9 @@ FIX = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fixtures')
 
 def gear_problems(data, min_slots, strict=True):
     """The rules of data/gear30.json: names, slot, level up to 30, a provenance, sources of a known kind, no item twice in a spec.
-    strict=False for data not yet accepted (hidden in the build): an en name is enough, slot may be unknown, no slot minimum."""
+    strict=False for data not yet accepted (hidden in the build): an en name is enough, slot may be unknown, no slot minimum.
+    The slot minimum is waived on purpose for the specs listed in "partial" (31.10: shown with the mark «incomplete»);
+    a listed spec that has reached the minimum is an error too, so the mark never stays on a full list."""
     from content import spec_cheats as sc
     bad = []
     for k, it in data.get('items', {}).items():
@@ -164,14 +166,19 @@ def gear_problems(data, min_slots, strict=True):
             bad.append(f'{k}: level {it["lvl"]}')
         if it.get('provenance') not in ('wowhead-forever-guide', 'client-dump'):
             bad.append(f'{k}: provenance {it.get("provenance")}')
+    bad += [f'{spec}: partial, no items' for spec in data.get('partial', []) if not data.get('specs', {}).get(spec)]
     for spec, entries in data.get('specs', {}).items():
         if spec not in sc.HAS_CHEAT:
             bad.append(f'{spec}: no such spec')
         ids = [e['id'] for e in entries]
         if len(ids) != len(set(ids)):
             bad.append(f'{spec}: an item twice')
-        if strict and entries and len({data['items'][str(i)]['slot'] for i in ids if str(i) in data['items']}) < min_slots:
+        n = len({data['items'][str(i)]['slot'] for i in ids if str(i) in data['items']})
+        partial = spec in data.get('partial', [])
+        if strict and entries and n < min_slots and not partial:
             bad.append(f'{spec}: fewer than {min_slots} slots')
+        if partial and n >= min_slots:
+            bad.append(f'{spec}: listed as partial with {n} slots')
         bad += [f'{spec} {e["id"]}: source {s.get("kind")}' for e in entries for s in e.get('src', []) if s.get('kind') not in ('drop', 'quest', 'craft')]
         bad += [f'{spec} {e["id"]}: not in items' for e in entries if str(e['id']) not in data['items']]
     return bad
@@ -186,7 +193,9 @@ def test_gear30_data():
         data = sc.load_gear30(p)
         assert not data.get('fixture'), 'test data in data/gear30.json'
         strict = bool(data.get('approved'))
-        assert gear_problems(data, 6, strict) == [], gear_problems(data, 6, strict)[:10]
+        assert gear_problems(data, sc.GEAR_MIN_SLOTS, strict) == [], gear_problems(data, sc.GEAR_MIN_SLOTS, strict)[:10]
+        if strict and os.path.abspath(sc.GEAR30_PATH) == os.path.abspath(p):
+            gear_marks(sc, data)
         if not strict:
             assert sc.GEAR30 == {'items': {}, 'specs': {}} or os.path.abspath(sc.GEAR30_PATH) != os.path.abspath(p)
             prov = data.get('provenance') or {}
@@ -194,6 +203,29 @@ def test_gear30_data():
                 assert prov.get('saved') and prov.get('temporary') and set(prov.get('files', {})) == set(data['specs'])
     fx = sc.load_gear30(os.path.join(FIX, 'gear30.json'))
     assert fx['fixture'] and gear_problems(fx, 5) == [], gear_problems(fx, 5)
+
+
+def gear_marks(sc, data):
+    """Accepted data in the build: every spec with items shows the section with the beta mark in 9 languages (while the items come
+    from the Wowhead import); the «incomplete» mark exactly on the specs listed in "partial"; the built pages carry the same."""
+    from html import escape
+    tr = lambda s, l: s   # noqa: E731
+    fn = {'alliance': 'A', 'horde': 'H'}
+    beta = any(it.get('provenance') == 'wowhead-forever-guide' for it in data['items'].values())
+    for key in data['specs']:
+        part = key in data.get('partial', [])
+        for lang in sc.LANGS9:
+            html = sc.gear_html(key, lang, tr, fn)
+            temp, inc = sc.G_TEMP[lang].split(':')[0], sc.G_PART[lang].split(':')[0]
+            assert 'class="gnote"' in html and (f'<b>{temp}:</b>' in html) == beta, (key, lang)
+            assert (f'<b>{inc}:</b>' in html) == part, (key, lang)
+            assert (sc.G_PART_S[lang] in sc.gear_answer(key, lang)) == part, (key, lang)
+        for d in ('', 'en/', 'uk/', 'pl/'):
+            page = os.path.join(bg.HERE, d + 'guides', f'spec-{key}', 'index.html')
+            html = open(page, encoding='utf-8').read()
+            lang = d.strip('/') or 'ru'
+            assert 'id="gearBox"' in html and 'class="gnote"' in html, page
+            assert (escape(sc.G_PART[lang].split(':')[0]) + ':</b>' in html) == part, page
 
 
 def test_gear_import_pages():
@@ -260,11 +292,20 @@ def test_gear_section():
     tr = lambda s, l: s   # noqa: E731
     fn = {'alliance': 'Альянс', 'horde': 'Орда'}
     html = sc.gear_html('mage-frost', 'ru', tr, fn, fx)
-    assert html.count('<tr data-s=') == 11 and 'class="gtest"' in html and 'Wowhead Forever, временно, до данных клиента' in html
+    assert html.count('<tr data-s=') == 11 and 'class="gtest"' in html and 'гайды Wowhead Forever, данные беты на' in html
+    assert '<b>Временно:</b> данные беты, обновим после старта игры.' in html and 'Неполно' not in html
     assert 'data-f="horde"' in html and 'data-p="tailoring"' in html and 'Квест: Тестовый квест: прах к праху' in html
     assert sc.gear_html('mage-frost', 'ru', tr, fn, {'items': {}, 'specs': {}}) == ''
     assert sc.gear_html('rogue-combat', 'ru', tr, fn, fx) == ''
-    assert 'Предметов: 11 · ур. 17–28.' in sc.gear_answer('mage-frost', 'ru', fx)
+    assert 'Предметов: 11 · ур. 17–28 · данные беты.' in sc.gear_answer('mage-frost', 'ru', fx)
+    one = json.loads(json.dumps(fx))                                  # level 1 = no required level: «—» in the table, not the low end of the span
+    k = str(next(e['id'] for e in one['specs']['mage-frost']))
+    one['items'][k]['lvl'] = 1
+    h1 = sc.gear_html('mage-frost', 'ru', tr, fn, one)
+    assert '>1</td>' not in h1 and f'data-lv="0"' in h1 and ' 1–' not in sc.gear_answer('mage-frost', 'ru', one)
+    part = dict(fx, partial=['mage-frost'])
+    html = sc.gear_html('mage-frost', 'ru', tr, fn, part)
+    assert '<b>Неполно:</b> предметы есть только для' in html and 'данные беты, неполно.' in sc.gear_answer('mage-frost', 'ru', part)
     empty = not sc.GEAR30.get('specs')
     for d in ('', 'en/', 'uk/'):
         page = os.path.join(bg.HERE, d + 'guides', 'spec-mage-frost', 'index.html')
