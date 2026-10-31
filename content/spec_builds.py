@@ -22,9 +22,15 @@ H_ROLES = [tx('Спек', 'Spec', 'Спек', de='Skillung', es='Espec.', fr='Sp
 TANK, HEALER, DPS = t('Танк', 'Tank', 'Танк'), t('Лекарь', 'Healer', 'Цілитель'), t('Урон', 'Damage', 'Шкода')
 FAQ_T = t('Вопросы', 'Questions', 'Питання')
 WHEN_Q = t('Когда будет полный билд на 60?', 'When will the full level 60 build be out?', 'Коли буде повний білд на 60?')
-WHEN_A = t('После старта 5 ноября: на бете был открыт только 30 уровень, рейды откроются 09.12. Тогда добавим раскладку на все 51 очко.',
-           'After the Nov 4–5 launch: the beta only went up to level 30, and raids open on Dec 9. Then we will add the layout for all 51 points.',
-           'Після старту 5 листопада: у беті був відкритий лише 30 рівень, рейди відкриються 9 грудня. Тоді додамо розкладку на всі 51 очко.')
+WHEN_A = tx('Калькулятор уже полный: все 51 очко до 60 уровня, ряды и требования как в игре. Наши сборки — с беты, где был открыт только 30 уровень. Раскладку на 60 добавим после старта 5 ноября; рейды откроются 09.12.',
+            'The calculator is already complete: all 51 points up to level 60, with rows and requirements as in the game. Our builds come from the beta, which only opened level 30. We will add the level 60 layout after the Nov 4–5 launch; raids open on Dec 9.',
+            'Калькулятор уже повний: усі 51 очко до 60 рівня, ряди й вимоги як у грі. Наші збірки — з бети, де був відкритий лише 30 рівень. Розкладку на 60 додамо після старту 5 листопада; рейди відкриються 9 грудня.',
+            de='Der Rechner ist schon vollständig: alle 51 Punkte bis Stufe 60, Reihen und Voraussetzungen wie im Spiel. Unsere Builds stammen aus der Beta, in der nur Stufe 30 offen war. Die Verteilung für Stufe 60 ergänzen wir nach dem Start am 5. November; Schlachtzüge öffnen am 09.12.',
+            fr='Le calculateur est déjà complet : les 51 points jusqu’au niveau 60, rangées et prérequis comme en jeu. Nos builds viennent de la bêta, qui n’ouvrait que le niveau 30. Nous ajouterons la répartition pour le niveau 60 après le lancement du 5 novembre ; les raids ouvrent le 09/12.',
+            es='La calculadora ya está completa: los 51 puntos hasta el nivel 60, con filas y requisitos como en el juego. Nuestras builds vienen de la beta, que solo abrió el nivel 30. Añadiremos el reparto para el nivel 60 tras el lanzamiento del 5 de noviembre; las bandas abren el 09/12.',
+            pt='A calculadora já está completa: os 51 pontos até o nível 60, com linhas e requisitos como no jogo. Nossas builds vêm da beta, que só abriu o nível 30. Vamos adicionar a distribuição para o nível 60 após o lançamento de 5 de novembro; as raides abrem em 09/12.',
+            it='Il calcolatore è già completo: tutti i 51 punti fino al livello 60, con file e requisiti come nel gioco. Le nostre build vengono dalla beta, che apriva solo il livello 30. Aggiungeremo la distribuzione per il livello 60 dopo il lancio del 5 novembre; le incursioni aprono il 09/12.',
+            pl='Kalkulator jest już pełny: wszystkie 51 punktów do 60 poziomu, rzędy i wymagania jak w grze. Nasze buildy pochodzą z bety, w której był otwarty tylko 30 poziom. Rozkład na 60 dodamy po starcie 5 listopada; raidy otworzą się 09.12.')
 ROLES_NOTE = t('Тиры — из тир-листа беты. В таблицах талантов только то, в чём сходятся Icy Veins и Wowhead; у каждого спека сказано, где они расходятся.',
                'Tiers come from the beta tier list. The talent tables show only what Icy Veins and Wowhead agree on; each spec says where they differ.',
                'Тіри — з тір-листа бети. У таблицях талантів лише те, у чому сходяться Icy Veins і Wowhead; для кожної спеціалізації сказано, де вони розходяться.')
@@ -618,9 +624,9 @@ SPEC_BUILDS.append({
         ]},
         {'id': 'survival', 'title': t('Выживание: урон', 'Survival: damage', 'Виживання: шкода'), 'blocks': [
             ('text', [
-                t('Выживание в Forever — охотник ближнего боя. До 30 уровня ему не хватает инструментов: Icy Veins не советует эту ветку для быстрой прокачки, Wowhead — играть гибридно, пока нет Strider Kick. Strider Kick бьёт на 100% урона оружия и даёт +30% к скорости бега на 3 секунды: можно отойти и выстрелить, пока удары на откате (Wowhead).',
-                  'In Forever, Survival is a melee Hunter. Until level 30 it lacks tools: Icy Veins advises against this tree for fast leveling, and Wowhead suggests a hybrid playstyle until you have Strider Kick. Strider Kick hits for 100% weapon damage and gives +30% movement speed for 3 seconds, so you can step out and shoot while your strikes are on cooldown (Wowhead).',
-                  'Виживання у Forever — мисливець ближнього бою. До 30 рівня йому бракує інструментів: Icy Veins не радить цю гілку для швидкого прокачування, Wowhead — грати гібридно, поки немає Strider Kick. Strider Kick б’є на 100% шкоди зброї й дає +30% до швидкості бігу на 3 секунди: можна відійти й вистрілити, поки удари на відкаті (Wowhead).'),
+                t('Выживание в Forever — охотник ближнего боя. В начале прокачки ему не хватает инструментов: Icy Veins не советует эту ветку для быстрой прокачки, Wowhead — играть гибридно, пока нет Strider Kick. Strider Kick бьёт на 100% урона оружия и даёт +30% к скорости бега на 3 секунды: можно отойти и выстрелить, пока удары на откате (Wowhead).',
+                  'In Forever, Survival is a melee Hunter. Early in leveling it lacks tools: Icy Veins advises against this tree for fast leveling, and Wowhead suggests a hybrid playstyle until you have Strider Kick. Strider Kick hits for 100% weapon damage and gives +30% movement speed for 3 seconds, so you can step out and shoot while your strikes are on cooldown (Wowhead).',
+                  'Виживання у Forever — мисливець ближнього бою. На початку прокачування йому бракує інструментів: Icy Veins не радить цю гілку для швидкого прокачування, Wowhead — грати гібридно, поки немає Strider Kick. Strider Kick б’є на 100% шкоди зброї й дає +30% до швидкості бігу на 3 секунди: можна відійти й вистрілити, поки удари на відкаті (Wowhead).'),
             ]),
             ('table', {'head': H_TAL, 'rows': [
                 ['Improved Tracking', '5', t('Урон по выслеживаемому типу существ', 'Damage to the tracked creature type', 'Шкода по типу істот, яких вистежуєте')],
@@ -1060,7 +1066,7 @@ SPEC_BUILDS.append({
             ('text', [
                 t('Совершенствование — основной спек шамана для прокачки: базовый урон заклинаний снижен, а урон держится на автоатаках и Оружии Камнедробителя (Wowhead). К 30 уровню есть Удар бури и Оружие неистовства ветра, но маны на них мало. Призрачный волк с талантом вызывается быстрее и работает в помещениях.',
                   'Enhancement is the Shaman’s main leveling spec: base spell damage is lower, and your damage rests on auto attacks and Rockbiter Weapon (Wowhead). By level 30 you have Stormstrike and Windfury Weapon, but little mana for them. With the talent, Ghost Wolf is faster to cast and works indoors.',
-                  'Вдосконалення — основна спеціалізація шамана для прокачування: базова шкода заклинань знижена, а шкода тримається на автоатаках і Rockbiter Weapon (Wowhead). До 30 рівня є Stormstrike і Windfury Weapon, але мани на них мало. Ghost Wolf із талантом викликається швидше й працює в приміщеннях.'),
+                  'Вдосконалення — основна спеціалізація шамана для прокачування: базова шкода заклинань знижена, а шкода тримається на автоатаках і Rockbiter Weapon (Wowhead). На 30 рівні вже є Stormstrike і Windfury Weapon, але мани на них мало. Ghost Wolf із талантом викликається швидше й працює в приміщеннях.'),
             ]),
             ('table', {'head': H_TAL, 'rows': [
                 [t('Грохочущие удары (Thundering Strikes)', 'Thundering Strikes', 'Thundering Strikes'), '5', t('Шанс крита заклинаний и атак', 'Crit chance with spells and attacks', 'Шанс криту заклинань і атак')],
