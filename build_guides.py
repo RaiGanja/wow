@@ -771,6 +771,38 @@ JS['cheat'] = r'''/* Spec cheat sheet: the «answer in 5 seconds» block (race s
   const best = document.getElementById('cheatBest'), b = HC.best[cls];   // best race of the spec for each faction, from the Best race guide
   const names = ['alliance', 'horde'].map(f => { const x = bestOf(cls, f, spec); return x && x[0] ? HC.rn[x[0][0]] + ' (' + HC.fn[f] + ')' : ''; }).filter(Boolean);
   if (b && names.length) best.textContent = best.dataset.l + ': ' + names.join(', ');
+})();
+/* Gear 13–30 (content/spec_cheats.gear_html): faction, my level and my professions hide rows; the start is the hero of this browser.
+   A row: data-s slot, data-lv required level, data-f the one faction of its quests, data-p the professions it is made by. */
+(function () {
+  const box = document.getElementById('gearBox'); if (!box) return;
+  const rows = [...box.querySelectorAll('tbody tr[data-s]')], seg = document.getElementById('gearF'), lvIn = document.getElementById('gearLvl');
+  const pb = document.getElementById('gearProf'), hero = readHero();
+  let fac = hero && hero.fac ? hero.fac : 'all', lv = hero && +hero.lvl > 0 && +hero.lvl < 60 ? +hero.lvl : 0, only = false;
+  const mineP = hero ? [hero.p1, hero.p2].filter(Boolean) : [];
+  if (mineP.length && rows.some(r => r.dataset.p)) pb.hidden = false;
+  function draw() {
+    let n = 0, last = '';
+    rows.forEach(r => {
+      const p = r.dataset.p ? r.dataset.p.split(' ') : [];
+      const off = (fac !== 'all' && r.dataset.f && r.dataset.f !== fac) || (lv && +r.dataset.lv > lv) || (only && p.length && !p.some(x => mineP.includes(x)));
+      r.hidden = off;
+      if (!off) { n++; r.classList.toggle('cont', r.dataset.s === last); last = r.dataset.s; }
+    });
+    document.getElementById('gearNone').hidden = n > 0;
+    document.getElementById('gearCount').textContent = box.dataset.shown.replace('%n', n).replace('%t', rows.length);
+    seg.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === fac ? 'true' : 'false'));
+    pb.setAttribute('aria-pressed', only ? 'true' : 'false');
+    if (document.activeElement !== lvIn) lvIn.value = lv || '';
+  }
+  seg.addEventListener('click', e => { const b = e.target.closest('button'); if (b) { fac = b.dataset.v; draw(); } });
+  pb.addEventListener('click', () => { only = !only; draw(); });
+  lvIn.addEventListener('input', () => { const v = parseInt(lvIn.value, 10); lv = v >= 1 && v <= 60 ? v : 0; draw(); });
+  box.querySelectorAll('.lvm, .lvp').forEach(b => b.addEventListener('click', () => {
+    const up = b.classList.contains('lvp');
+    lv = Math.max(1, Math.min(60, (lv || (up ? 0 : 31)) + (up ? 1 : -1))); draw();
+  }));
+  draw();
 })();'''
 
 

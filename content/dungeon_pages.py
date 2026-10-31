@@ -1419,11 +1419,13 @@ def table_links():
 
 
 def load_gear30(path=None):
+    """Only data Вячеслав accepted ("approved": true), as the spec sheets: not accepted -> no loot section."""
     try:
         with open(path or GEAR30_PATH, encoding='utf-8') as f:
-            return json.load(f)
+            data = json.load(f)
     except (OSError, ValueError):
         return {'items': {}, 'specs': {}}
+    return data if data.get('approved') else {'items': {}, 'specs': {}}
 
 
 def loot_index(name, data=None):
