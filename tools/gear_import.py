@@ -730,7 +730,9 @@ def main():
                  'issues': issues}
     else:
         specs, items = from_pages(a.pages) if a.pages else from_addon(a.addon)
-    data = {'schema': 1, 'date': a.date, 'fixture': bool(a.fixture), 'approved': bool(a.approve), **extra,
+    # specs with fewer than 6 slots: shown as they are with the mark «incomplete» (content/spec_cheats.GEAR_MIN_SLOTS, tests/test_guides.py)
+    partial = sorted(k for k in specs if 0 < len({items[e['id']]['slot'] for e in specs[k]} - {None}) < 6)
+    data = {'schema': 1, 'date': a.date, 'fixture': bool(a.fixture), 'approved': bool(a.approve), 'partial': partial, **extra,
             'items': {str(k): items[k] for k in sorted(items)}, 'specs': {k: specs[k] for k in sorted(specs)}}
     os.makedirs(os.path.dirname(os.path.abspath(a.out)), exist_ok=True)
     with open(a.out, 'w', encoding='utf-8', newline='\n') as f:

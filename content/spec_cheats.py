@@ -597,8 +597,10 @@ def load_gear30(path=None):
 
 GEAR30_FILE = load_gear30()
 # the build shows the section only for data Вячеслав accepted ("approved": true, tools/gear_import.py --approve);
-# imported but not accepted (the Wowhead level-30 import of 30.10, before the addon dump of 05.11): section and answer row stay hidden
+# imported but not accepted: section and answer row stay hidden. The Wowhead level-30 import of 30.10 is accepted (31.10) for all 27 specs
+# with the mark «temporary, beta data» until the addon dump, and «incomplete» on the specs listed in "partial" (fewer than GEAR_MIN_SLOTS slots)
 GEAR30 = GEAR30_FILE if GEAR30_FILE.get('approved') else {'items': {}, 'specs': {}}
+GEAR_MIN_SLOTS = 6
 GSLOTS = ('head', 'neck', 'shoulder', 'back', 'chest', 'wrist', 'hands', 'waist', 'legs', 'feet', 'finger', 'trinket',
           'main', 'two', 'off', 'ranged')
 GSLOT = {
@@ -649,15 +651,11 @@ G_NONE = n9('Под этот уровень и фильтр предметов �
 G_QUEST = n9('Квест', 'Quest', 'Квест', 'Quest', 'Quête', 'Misión', 'Missão', 'Missione', 'Zadanie')
 G_SRC = {
     'wowhead-forever-guide': n9(
-        'Источник: Wowhead Forever, временно, до данных клиента. Данные беты на {d}.',
-        'Source: Wowhead Forever, for now, until the client data. Beta data as of {d}.',
-        'Джерело: Wowhead Forever, тимчасово, до даних клієнта. Дані бети на {d}.',
-        'Quelle: Wowhead Forever, vorläufig, bis die Client-Daten da sind. Beta-Daten vom {d}.',
-        'Source : Wowhead Forever, provisoirement, en attendant les données du client. Données de la bêta au {d}.',
-        'Fuente: Wowhead Forever, de forma provisional, hasta tener los datos del cliente. Datos de la beta a {d}.',
-        'Fonte: Wowhead Forever, provisoriamente, até os dados do cliente. Dados da beta de {d}.',
-        'Fonte: Wowhead Forever, in via provvisoria, fino ai dati del client. Dati della beta al {d}.',
-        'Źródło: Wowhead Forever, tymczasowo, do czasu danych klienta. Dane z bety na {d}.'),
+        'Источник: гайды Wowhead Forever, данные беты на {d}.', 'Source: Wowhead Forever guides, beta data as of {d}.',
+        'Джерело: гайди Wowhead Forever, дані бети на {d}.', 'Quelle: Wowhead-Forever-Guides, Beta-Daten vom {d}.',
+        'Source : guides Wowhead Forever, données de la bêta au {d}.', 'Fuente: guías de Wowhead Forever, datos de la beta a {d}.',
+        'Fonte: guias do Wowhead Forever, dados da beta de {d}.', 'Fonte: guide di Wowhead Forever, dati della beta al {d}.',
+        'Źródło: poradniki Wowhead Forever, dane z bety na {d}.'),
     'client-dump': n9(
         'Источник: данные клиента Forever на {d}.', 'Source: Forever client data as of {d}.', 'Джерело: дані клієнта Forever на {d}.',
         'Quelle: Client-Daten von Forever vom {d}.', 'Source : données du client Forever au {d}.', 'Fuente: datos del cliente de Forever a {d}.',
@@ -674,6 +672,26 @@ G_L60 = n9('Предметы 31–60 ждут данных: на бете их �
 G_TEST = n9('Тестовые данные: не для публикации.', 'Test data: not for publishing.', 'Тестові дані: не для публікації.',
             'Testdaten: nicht zur Veröffentlichung.', 'Données de test : ne pas publier.', 'Datos de prueba: no publicar.',
             'Dados de teste: não publicar.', 'Dati di prova: da non pubblicare.', 'Dane testowe: nie do publikacji.')
+# the marks on top of the section: beta data (until the client dump replaces it) and a spec with not all slots filled
+G_TEMP = n9('Временно: данные беты, обновим после старта игры.', 'Temporary: beta data, to be updated after the game launches.',
+            'Тимчасово: дані бети, оновимо після старту гри.', 'Vorläufig: Beta-Daten, wir aktualisieren sie nach dem Spielstart.',
+            'Provisoire : données de la bêta, mises à jour après le lancement du jeu.',
+            'Provisional: datos de la beta, los actualizaremos tras el lanzamiento del juego.',
+            'Provisório: dados da beta, atualizaremos após o lançamento do jogo.',
+            'Provvisorio: dati della beta, li aggiorneremo dopo il lancio del gioco.',
+            'Tymczasowo: dane z bety, zaktualizujemy je po starcie gry.')
+G_PART = n9('Неполно: предметы есть только для {n} ячеек, остальные пока не заполнены.',
+            'Incomplete: items for {n} slots only, the other slots are not filled yet.',
+            'Неповно: предмети є лише для {n} комірок, решта поки не заповнені.',
+            'Unvollständig: Gegenstände nur für {n} Plätze, die übrigen sind noch leer.',
+            'Incomplet : des objets pour {n} emplacements seulement, les autres ne sont pas encore remplis.',
+            'Incompleto: solo hay objetos para {n} ranuras, las demás aún están vacías.',
+            'Incompleto: há itens só para {n} espaços, os demais ainda não foram preenchidos.',
+            'Incompleto: oggetti solo per {n} slot, gli altri non sono ancora compilati.',
+            'Niepełne: przedmioty tylko dla {n} miejsc, pozostałe nie są jeszcze uzupełnione.')
+G_TEMP_S = n9('данные беты', 'beta data', 'дані бети', 'Beta-Daten', 'données de la bêta', 'datos de la beta', 'dados da beta', 'dati della beta',
+              'dane z bety')
+G_PART_S = n9('неполно', 'incomplete', 'неповно', 'unvollständig', 'incomplet', 'incompleto', 'incompleto', 'incompleto', 'niepełne')
 G_N = n9('Предметов', 'Items', 'Предметів', 'Gegenstände', 'Objets', 'Objetos', 'Itens', 'Oggetti', 'Przedmiotów')
 G_LV = n9('ур.', 'lvl', 'рів.', 'St.', 'niv.', 'nv.', 'nv.', 'liv.', 'poz.')
 G_GO = n9('Таблица по ячейкам', 'Table by slot', 'Таблиця за комірками', 'Tabelle nach Platz', 'Tableau par emplacement', 'Tabla por ranura',
@@ -735,6 +753,22 @@ def _src_html(src, lang, tr, fn):
     return escape(tr(G_PROF[src['prof']], lang)) if src.get('prof') in G_PROF else ''
 
 
+def gear_beta(rows):
+    """Beta data on the page: an item of the Wowhead import (not yet replaced by the client dump)."""
+    return any(it.get('provenance') == 'wowhead-forever-guide' for _, it in rows)
+
+
+def gear_partial(key, data=None):
+    """A spec with fewer than GEAR_MIN_SLOTS slots, accepted as is and listed in "partial": the section says so."""
+    return key in (data or GEAR30).get('partial', [])
+
+
+def _mark(text):
+    """«<b>Временно:</b> данные беты…»: the word before the first colon in bold."""
+    head, tail = text.split(':', 1)
+    return f'<b>{escape(head)}:</b>{escape(tail)}'
+
+
 def gear_sprite_v():
     """?v=<hash> of the item icon sprite (tools/gear_api.py): one picture for the whole section, cached for days."""
     import hashlib
@@ -773,6 +807,8 @@ def gear_html(key, lang, tr, fn, data=None):
                  f'<td data-l="{head[2]}" class="s lv">{lv or "—"}</td>'
                  f'<td data-l="{head[3]}">{where}</td></tr>')
     prov = {it.get('provenance') for _, it in rows}
+    slots = len({it['slot'] for _, it in rows})
+    marks = ([_mark(G_TEMP[lang])] if gear_beta(rows) else []) + ([_mark(G_PART[lang].replace('{n}', str(slots)))] if gear_partial(key, data) else [])
     day = '.'.join(reversed((data.get('date') or '').split('-')))
     src_line = ' '.join(G_SRC[p][lang].replace('{d}', day) for p in ('client-dump', 'wowhead-forever-guide') if p in prov)
     btns = (f'<button type="button" data-v="all" aria-pressed="true">{escape(G_ALL[lang])}</button>'
@@ -781,6 +817,7 @@ def gear_html(key, lang, tr, fn, data=None):
     sp = f' style="--n:{max(int(data.get("sprite") or 0), 1)};--gsp:url(@@ROOT@@assets/gear/icons.webp{gear_sprite_v()})"' if data.get('sprite') else ''
     return (f'<div id="gearBox" data-shown="{escape(G_SHOWN[lang])}"{sp}>'
             + (f'<p class="gtest">{escape(G_TEST[lang])}</p>' if data.get('fixture') else '')
+            + (f'<div class="gnote" role="note">' + ''.join(f'<p>{m}</p>' for m in marks) + '</div>' if marks else '')
             + f'<p>{escape(G_LEAD[lang])}</p>'
             f'<div class="filters" role="group" aria-label="{escape(G_ROW[lang])}">'
             f'<div class="seg" id="gearF" role="group" aria-label="{escape(G_FAC[lang])}">{btns}</div>'
@@ -800,7 +837,9 @@ def gear_answer(key, lang, data=None):
     rows = gear_rows(key, data)
     lv = [it['lvl'] for _, it in rows if it.get('lvl')]
     span = f' · {G_LV[lang]} {min(lv)}–{max(lv)}' if lv else ''
-    return f'{escape(G_N[lang])}: {len(rows)}{span}. <a href="#gear">{escape(G_GO[lang])}</a>'
+    tags = ([G_TEMP_S[lang]] if gear_beta(rows) else []) + ([G_PART_S[lang]] if gear_partial(key, data) else [])
+    tag = f' · {escape(", ".join(tags))}' if tags else ''
+    return f'{escape(G_N[lang])}: {len(rows)}{span}{tag}. <a href="#gear">{escape(G_GO[lang])}</a>'
 
 
 def _gear(key, i, lang):
