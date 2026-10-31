@@ -1097,6 +1097,29 @@ def home_js():
     print(f'home: {len(LANGS)} scripts', file=sys.stderr)
 
 
+def tools_js():
+    """The page script of the tools page (tools.src.html <script data-js="tools">) -> assets/tools/<lang>.js?v=<hash>:
+    the HTML is ~70 KB lighter and the script is kept by the browser and the worker between visits. Loaded with defer
+    from <head>: fetched from the first bytes, run after the whole page is parsed and before every other deferred file
+    (radio, search, me, hero, living), the order the inline script at the end of <body> had. Last of the page passes
+    with home_js (after art_version), so its texts and addresses are final."""
+    d = os.path.join(HERE, 'assets', 'tools')
+    os.makedirs(d, exist_ok=True)
+    for lang in LANGS:
+        here = page_dir(lang, 'tools/')
+        p = os.path.join(HERE, here, 'index.html')
+        html = open(p, encoding='utf-8').read()
+        m = re.search(r'<script data-js="tools">\n(.*?)</script>\n', html, re.S)
+        assert m, p
+        open(os.path.join(d, f'{lang}.js'), 'w', encoding='utf-8', newline='\n').write(m[1])
+        v = hashlib.sha1(m[1].encode('utf-8')).hexdigest()[:10]
+        html = html[:m.start()] + html[m.end():]
+        assert html.count('</head>') == 1, p
+        html = html.replace('</head>', f'<script src="{rel(here, "")}assets/tools/{lang}.js?v={v}" defer></script>\n</head>')
+        open(p, 'w', encoding='utf-8', newline='\n').write(html)
+    print(f'tools: {len(LANGS)} scripts', file=sys.stderr)
+
+
 def pwa(html, lang, root):
     a = APP[lang]
     head = (f'<link rel="manifest" href="{root}manifest-{lang}.webmanifest">\n'
@@ -1825,6 +1848,7 @@ def main():
         og_version()
         font_version()
         home_js()
+        tools_js()
         sw_version()
 
 

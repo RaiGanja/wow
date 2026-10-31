@@ -16,6 +16,10 @@ def home_js(lang):
     return open(os.path.join(ROOT, 'assets', 'home', f'{lang}.js'), encoding='utf-8').read()
 
 
+def tools_js(lang):
+    return open(os.path.join(ROOT, 'assets', 'tools', f'{lang}.js'), encoding='utf-8').read()
+
+
 def lang_dir(lang):
     return () if lang == 'ru' else (lang,)
 
@@ -171,8 +175,25 @@ def test_portraits_match_the_race():
     tools = open(os.path.join(ROOT, 'tools.src.html'), encoding='utf-8').read()
     assert "face(c.id, CCOL[c.id], '', '', r.f)" not in tools
     assert 'art(p.cls' not in tools and 'unitArt(p' in tools
-    painted = re.search(r'PAINTED\s*=\s*(\[[^\]]*\])', page('tools'))
+    painted = re.search(r'PAINTED\s*=\s*(\[[^\]]*\])', tools_js('ru'))
     assert painted and sorted(json.loads(painted[1])) == sorted(painted_pairs()), painted and painted[1]
+
+
+def test_tools_script_is_a_cached_file():
+    """The tools page script lives in assets/tools/<lang>.js?v=<hash of the file>, deferred from <head> (build.tools_js):
+    before every other deferred file, so it runs first after the parse, as the inline script at the end of <body> did."""
+    import hashlib
+    for lang in LANGS:
+        html = page(*lang_dir(lang), 'tools')
+        js = tools_js(lang)
+        v = hashlib.sha1(js.encode('utf-8')).hexdigest()[:10]
+        root = '../' if lang == 'ru' else '../../'
+        tag = f'<script src="{root}assets/tools/{lang}.js?v={v}" defer></script>'
+        assert tag in html, lang
+        assert html.index(tag) < html.index('</head>') and 'data-js="tools"' not in html and 'const CPROF' not in html, lang
+        assert not re.search(r'<script[^>]* src="[^"]*"[^>]*\bdefer\b', html[:html.index(tag)]), lang
+        assert 'const CPROF = {' in js and 'renderRaid(fromLink)' in js and '@@' not in js, lang
+        assert len(html.encode('utf-8')) < 170_000, (lang, len(html.encode('utf-8')))
 
 
 if __name__ == '__main__':
