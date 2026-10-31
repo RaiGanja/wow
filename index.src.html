@@ -178,7 +178,7 @@ code { font-size: .92em; background: var(--surface-2); padding: 1px 5px; border-
 .tools { margin-left: auto; display: flex; gap: 8px; align-items: center; }
 .langsel { position: relative; }
 .langbtn { min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0 12px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); border-radius: 8px; background: transparent; color: inherit; font: inherit; font-weight: 600; font-size: var(--fs-13); letter-spacing: .04em; cursor: pointer; }
-.langbtn::after { content: ""; width: 6px; height: 6px; border-right: 1.5px solid; border-bottom: 1.5px solid; transform: translateY(-2px) rotate(45deg); opacity: .7; }
+.langbtn::after { content: ""; flex: none; width: 6px; height: 6px; margin: 0 2.5px 0 1.5px; border-right: 1.5px solid; border-bottom: 1.5px solid; transform: translateY(-2px) rotate(45deg); opacity: .7; }   /* the turned chevron spills ~1.5 px past its box each side: the margin gives that back, plus ~1 px for the side bearing of the first letter, so the code and arrow sit in the middle of the frame (pixel check: docs audit 2026-10-31-switch-eq) */
 .langbtn[aria-expanded="true"]::after { transform: translateY(2px) rotate(-135deg); }
 .langlist { position: absolute; right: 0; top: calc(100% + 8px); z-index: 60; min-width: 230px; margin: 0; padding: 6px; list-style: none; border: 1px solid var(--pline); border-radius: 10px; background: var(--panel-2); color: var(--fg); box-shadow: 0 18px 48px rgba(0,0,0,.35); }
 .langlist a { display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 40px; padding: 0 12px; border-radius: 7px; color: inherit; text-decoration: none; font-size: var(--fs-16); }
@@ -397,13 +397,13 @@ section.block { scroll-margin-top: -72px; }
 #classes.block { padding-top: 72px; }
 #pickban.block { padding-top: 40px; }
 .tabs2 { display: inline-flex; gap: 4px; padding: 4px; border-radius: 10px; background: var(--panel-2); border: 1px solid var(--pline); }
-.tabs2 [role="tab"], .tabs2 [role="radio"] { min-height: 40px; padding: 0 18px; border: 0; border-radius: 7px; background: transparent; color: var(--muted); font: inherit; font-weight: 600; font-size: var(--fs-16); cursor: pointer; transition: color .15s, background-color .15s; }
+.tabs2 [role="tab"], .tabs2 [role="radio"] { display: flex; align-items: center; justify-content: center; min-width: 0; min-height: 40px; padding: 0 18px; border: 0; border-radius: 7px; background: transparent; color: var(--muted); font: inherit; font-weight: 600; font-size: var(--fs-16); line-height: 1.2; text-align: center; letter-spacing: 0; hyphens: auto; cursor: pointer; transition: color .15s, background-color .15s; }   /* the label in the middle of its half, also when it wraps */
 .tabs2 [role="tab"]:hover, .tabs2 [role="radio"]:hover { color: var(--fg); }
 .tabs2 [role="tab"][aria-selected="true"] { background: var(--seg-on); color: var(--gold-2); }
 .tabs2 [role="radio"][aria-checked="true"] { background: var(--seg-on); color: var(--gold-2); }
-.tabctl { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 8px 12px; align-items: center; }   /* both switches one width */
-.tabctl .tabs2 { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; }   /* the segments of a switch one width, whatever the language */
-@media (max-width: 719px) { .tabctl { width: 100%; grid-auto-flow: row; grid-auto-columns: auto; grid-template-columns: minmax(0, 1fr); } }   /* phone: the two switches stacked, full width */
+.tabctl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 12px; align-items: stretch; }   /* both switches one width and one height: equal tracks that a long label cannot widen (1fr alone has a min-content floor) */
+.tabctl .tabs2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }   /* the two halves of a switch one width, whatever the language */
+@media (max-width: 719px) { .tabctl { width: 100%; grid-template-columns: minmax(0, 1fr); } }   /* phone: the two switches stacked, full width */
 .sidesw { visibility: hidden; }   /* the space is kept, so nothing moves when the script shows it; no script: no switch */
 .sidesw.on { visibility: visible; }
 .sidesw[hidden] { display: none; }
@@ -1018,7 +1018,7 @@ dialog.sheet::backdrop { background: rgba(0,0,0,.6); }
   .menubtn { display: none; }   /* the tab bar has the More sheet; the theme button stays in sight */
   .topbar .langbtn { padding: 0 10px; }
   .topbar .langbtn::after { display: none; }
-  .topbar .langbtn { text-indent: .04em; }   /* arrow hidden: trailing letter-spacing no longer pulls the letters left of centre */
+  .topbar .langbtn { text-indent: .04em; }   /* arrow hidden: the indent balances the trailing letter-spacing, the code sits in the middle */
   .topbar .langsel { order: 1; }
   .langhint { font-size: var(--fs-13); }
   .langhint .lhin { padding-left: 16px; padding-right: 16px; gap: 4px 12px; }
