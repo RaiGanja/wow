@@ -316,7 +316,7 @@ for (const theme of themes) for (const lang of langs) for (const sub of subs) fo
 const total = queue.length;
 const workers = await Promise.all(Array.from({ length: Math.min(jobs, queue.length) }, newWorker));
 let done = 0;
-await Promise.all(workers.map(async w => { for (let j; (j = queue.shift());) { try { await checkPage(w, j); } catch (e) { errors.push(`/${j.sub} ${j.lang} ${j.width} ${j.theme}: ${String(e.message).slice(0, 160)}`); } if (++done % 50 === 0) process.stderr.write(`${done}/${total}\n`); } }));
+await Promise.all(workers.map(async w => { for (let j; (j = queue.shift());) { try { await checkPage(w, j); } catch (e) { errors.push(`/${j.sub} ${j.lang} ${j.width} ${j.theme}: ${String(e.message).slice(0, 160)}`); } if (++done % 50 === 0 && FULL) process.stderr.write(`${done}/${total}\n`); } }));
 chrome.kill(); server.close();
 if (jsonOut) writeFileSync(jsonOut, JSON.stringify({ rows, errors }, null, 1));
 const bad = rows.filter(r => r.bad);
